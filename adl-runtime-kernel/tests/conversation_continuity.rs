@@ -52,7 +52,9 @@ fn completed_attempt_is_idempotent_after_restart() {
     let continuity = store(&root);
 
     assert_eq!(
-        continuity.admit_attempt("idem-1").unwrap(),
+        continuity
+            .admit_attempt("conversation-a", "idem-1")
+            .unwrap(),
         AttemptAdmission::NewOrRetryable
     );
     continuity
@@ -67,7 +69,40 @@ fn completed_attempt_is_idempotent_after_restart() {
         .unwrap();
 
     assert_eq!(
-        store(&root).admit_attempt("idem-1").unwrap(),
+        store(&root)
+            .admit_attempt("conversation-a", "idem-1")
+            .unwrap(),
+        AttemptAdmission::DuplicateCompleted {
+            attempt_id: "attempt-1".to_string(),
+            receipt_id: "completed-receipt-1".to_string()
+        }
+    );
+}
+
+#[test]
+fn idempotency_is_scoped_by_conversation_after_restart() {
+    let root = tempfile::tempdir().unwrap();
+    store(&root)
+        .record_attempt(
+            "conversation-a",
+            "attempt-1",
+            "idem-shared",
+            AttemptOutcome::Completed,
+            "completed-receipt-1",
+            1,
+        )
+        .unwrap();
+
+    assert_eq!(
+        store(&root)
+            .admit_attempt("conversation-b", "idem-shared")
+            .unwrap(),
+        AttemptAdmission::NewOrRetryable
+    );
+    assert_eq!(
+        store(&root)
+            .admit_attempt("conversation-a", "idem-shared")
+            .unwrap(),
         AttemptAdmission::DuplicateCompleted {
             attempt_id: "attempt-1".to_string(),
             receipt_id: "completed-receipt-1".to_string()
@@ -90,7 +125,9 @@ fn ambiguous_dispatch_remains_ambiguous_after_restart() {
         .unwrap();
 
     assert_eq!(
-        store(&root).admit_attempt("idem-ambiguous").unwrap(),
+        store(&root)
+            .admit_attempt("conversation-a", "idem-ambiguous")
+            .unwrap(),
         AttemptAdmission::DuplicateAmbiguous {
             attempt_id: "attempt-ambiguous".to_string(),
             receipt_id: "ambiguous-receipt".to_string()
@@ -113,7 +150,9 @@ fn pre_dispatch_retryable_attempt_does_not_block_retry_after_restart() {
         .unwrap();
 
     assert_eq!(
-        store(&root).admit_attempt("idem-retry").unwrap(),
+        store(&root)
+            .admit_attempt("conversation-a", "idem-retry")
+            .unwrap(),
         AttemptAdmission::NewOrRetryable
     );
 }

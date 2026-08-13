@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-18C.04b][114.b] Persist conversation watermarks, idempotency, replay, and receipts",
     "slug": "v0-92-wp-18c-04b-114-b-conversation-watermarks-idempotency-replay-receipts",
     "version": "v0.92.0",
-    "generation": 7
+    "generation": 10
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Fresh design/readiness review before bind; later fresh exact-head implementation review before publication.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

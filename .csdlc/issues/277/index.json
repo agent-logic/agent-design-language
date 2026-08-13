@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8abf1e7d8e6479933fdb92fc4fd87d1f005691870061fffae4f35c021efdbe1f",
   "phase": "implemented",
-  "generation": 7,
-  "digest": "25cff433248f1bcb7d64e68a2379ecf93299b01a0c6f97c4bc394ea27b7c33c3",
+  "generation": 10,
+  "digest": "c899c18db80ccc87c8e9d68d3516f0baf826786c05c64daf171d6bc341833160",
   "branch": "codex/277-conversation-watermarks-idempotency-replay-receipts",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-277-conversation-watermarks-idempotency-replay-receipts",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4146918de05a2322923f3e89fa773c5872b11ce1ee59845ad3e3e636ea67c70f",
+      "values_digest": "8a2e368de496f099db33d20a9eb0d8c5861115594268fa089c46eb841aeea0ee",
       "rendered_digest": "38023301ecaa1651bc67c6c5fbf142718be945b719ed187a3ccac7796896b901",
       "ast_digest": "3b2671a967f9d3fdd4e4d2664f9c767836910c8f1b614ece194621286211af4c"
     },
     "stp": {
-      "values_digest": "2ad5992aecc410f3164d0db102ac845b1f79fd1463e5d198533e13ffd2b3e049",
+      "values_digest": "7e93009f5f55703820761df63c634201a99a76b408c20666fcc315fd615c73a1",
       "rendered_digest": "c40d00d7c319dc1338f81b05db12f8da597e1928f3c7a0dfd67169243ffbf5a6",
       "ast_digest": "ddf7524037bbbba1213c37b91ce4c513a92d119d242df78ff3098a3885abfbdc"
     },
     "spp": {
-      "values_digest": "fa2a91fde39493b1c00b54ab9a7d86a40a9920cddc51501bc03bb0ae0e9a478b",
+      "values_digest": "f25ed10f8128941faf36ef09713cbb7e7436a67ddfff90b4baff7c08f0ea6b37",
       "rendered_digest": "641ded53d7d7950487c12d19f76109158b7a4ce9d25394bbdaedd5070a2a1ac0",
       "ast_digest": "5af6aa5abe7369ae06a120ce08781939158e9e8c2e0f172427c87f81db15908d"
     },
     "vpp": {
-      "values_digest": "b23dbbc3052947f19218123e314fb99438611df33ac28196ec3bf6568052612e",
+      "values_digest": "976ecfdc2167c9a6d40a6b1fbfb3056ade9ba9ab5a7d7fd524a336e07fd7522e",
       "rendered_digest": "6f623f8f2345537604ad791ef90b6731516c51b6d0b11d873d39c8b21d724270",
       "ast_digest": "85dd24ac7b25a3c943825a51f6037804025e75f155a0d5fe5efd30fb18fa41f2"
     },
     "srp": {
-      "values_digest": "25ebf4edc5b1f4c082f98ef1503b904b13220178a402a2f3baf395019fd2f000",
-      "rendered_digest": "d4a550ff2044c64bcdef7d71ff335b2292a44914b3976481d7527bb4d968043a",
-      "ast_digest": "78f41627acbd8ad6a2cab11081f8147df187a5dd13af703863bec27af2e00c64"
+      "values_digest": "674ff1fb9d2f8654989b9168e8d5c7ed0912f7dc204cd5b1f94a21f328239438",
+      "rendered_digest": "185778300793cd486ea428cbc1cf3e34469042577b705c38b411b8d1b77640ea",
+      "ast_digest": "d3f8ac83b8cccde87eebd7f304ec88b1df09695c99b6e0d7902e3c8ddd5e004b"
     },
     "sor": {
-      "values_digest": "c6d16df897cfb99b87d55ffb8ef9ed7347f545ed77a6689889f8095bc111b7aa",
-      "rendered_digest": "c06537fa779fdf6c51ee91399e4fe6857faeacf2052f944875d0d34677dee1d0",
-      "ast_digest": "f946806853b86baf2dbaa441fb7f33944394054d120a33729cf1d4caf8769bf6"
+      "values_digest": "0a7b1e181bb295610231e9b0e310999b79898b66ac6e61a673054e79b005cb41",
+      "rendered_digest": "5e79a08e5f94840762ffd1ee0d10ef660c89546cad34a9ebe96915f1b28646fb",
+      "ast_digest": "25ddbceab0ccb723268a31102ba52f76c0cc62a36bf1c636c68c27563965ca65"
     }
   },
   "transitions": [
@@ -140,6 +140,34 @@
       "actor": "codex:/root",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Recover exact review assignment fresh-session:3299b72c-c7c0-49c7-a1a4-143b2df8e405 after actionable idempotency-namespace finding: attempt admission and snapshot indexing were keyed only by idempotency_key, allowing one conversation to suppress another conversation's attempt with the same key. Preserve finding truth before bounded #277 remediation and new fresh exact review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Record #277 post-review remediation for the idempotency namespace finding before a new exact review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented the #277 Runtime conversation continuity layer for durable watermarks, conversation-scoped attempt-local idempotency, replay decisions, ambiguous-dispatch outcomes, and receipts without absorbing #278, #114 parent, #115, or #270/#276 authority.\",\"changes\":[\"Added adl-runtime-kernel::conversation_continuity as a small continuity store layered on the #276 ConversationJournal foundation.\",\"Persisted sender watermarks and recipient acknowledgement watermarks as additive journal events while consuming, not redefining, #270 acknowledgement trust.\",\"Persisted attempt-local idempotency outcomes across restart with admission scoped by conversation_id plus idempotency_key, preventing one conversation from suppressing another conversation using the same key.\",\"Persisted duplicate completed suppression, duplicate ambiguous suppression, and retryable pre-dispatch outcomes across restart.\",\"Persisted delivery, response, acknowledgement receipt references and replay decisions with owner/high-watermark evidence.\",\"Added focused Runtime kernel tests for restart reconstruction, conversation-scoped idempotency, ambiguous dispatch, retryable pre-dispatch state, stale acknowledgement watermark refusal, replay ownership, receipt reconstruction, and deletion filtering.\"],\"artifacts\":[\"adl-runtime-kernel/src/conversation_continuity.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/conversation_continuity.rs\",\".csdlc/evidence/277\",\".csdlc/prepared/issues/277\",\".csdlc/issues/277\"]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Record refreshed #277 proof after post-review conversation-scoped idempotency remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3 .csdlc/prepared/issues/277/validate_preparation_bundle.py\",\"cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --check\",\"cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test conversation_continuity\",\"cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --test conversation_continuity -- -D warnings\",\"git diff --check\"],\"purpose\":\"Focused #277 post-review proof for bounded dependency/scope validation, formatting, 8-test conversation continuity behavior including scoped idempotency, strict Clippy, and diff whitespace hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/277/issue-277-preparation-validator.log; .csdlc/evidence/277/runtime-kernel-conversation-continuity-fmt.log; .csdlc/evidence/277/runtime-kernel-conversation-continuity-tests.log; .csdlc/evidence/277/runtime-kernel-conversation-continuity-clippy.log; git diff --check PASS\"}}"
     }
   ]
 }

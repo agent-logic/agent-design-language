@@ -105,9 +105,16 @@ pub struct ReplayDecisionState {
 pub struct ConversationContinuitySnapshot {
     pub sender_watermarks: BTreeMap<String, u64>,
     pub acknowledgement_watermarks: BTreeMap<String, u64>,
-    pub attempts_by_idempotency_key: BTreeMap<String, AttemptState>,
+    pub attempts_by_conversation_and_idempotency_key:
+        BTreeMap<AttemptIdempotencyScope, AttemptState>,
     pub delivery_receipts: BTreeMap<String, DeliveryReceiptState>,
     pub replay_decisions: BTreeMap<String, ReplayDecisionState>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
+pub struct AttemptIdempotencyScope {
+    pub conversation_id: String,
+    pub idempotency_key: String,
 }
 
 #[derive(Debug, thiserror::Error)]
@@ -165,13 +172,19 @@ impl ConversationContinuityStore {
 
     pub fn admit_attempt(
         &self,
+        conversation_id: &str,
         idempotency_key: &str,
     ) -> ConversationContinuityResult<AttemptAdmission> {
+        require_non_empty(conversation_id, "conversation_id")?;
         require_non_empty(idempotency_key, "idempotency_key")?;
+        let scope = AttemptIdempotencyScope {
+            conversation_id: conversation_id.to_string(),
+            idempotency_key: idempotency_key.to_string(),
+        };
         match self
             .snapshot()?
-            .attempts_by_idempotency_key
-            .get(idempotency_key)
+            .attempts_by_conversation_and_idempotency_key
+            .get(&scope)
         {
             Some(state) if state.outcome == AttemptOutcome::Completed => {
                 Ok(AttemptAdmission::DuplicateCompleted {
@@ -377,16 +390,21 @@ fn apply_continuity_event(
             outcome,
             receipt_id,
         } => {
-            snapshot.attempts_by_idempotency_key.insert(
-                idempotency_key.clone(),
-                AttemptState {
-                    conversation_id: event.conversation_id,
-                    attempt_id,
-                    idempotency_key,
-                    outcome,
-                    receipt_id,
-                },
-            );
+            snapshot
+                .attempts_by_conversation_and_idempotency_key
+                .insert(
+                    AttemptIdempotencyScope {
+                        conversation_id: event.conversation_id.clone(),
+                        idempotency_key: idempotency_key.clone(),
+                    },
+                    AttemptState {
+                        conversation_id: event.conversation_id,
+                        attempt_id,
+                        idempotency_key,
+                        outcome,
+                        receipt_id,
+                    },
+                );
         }
         ConversationContinuityEventKind::ReplayDecision {
             replay_id,
