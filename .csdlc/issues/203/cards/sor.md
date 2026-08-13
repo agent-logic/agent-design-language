@@ -69,7 +69,7 @@ Reconciled the preserved #203 monolithic candidate against terminal #258, #259, 
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

@@ -16,39 +16,39 @@ Keep #203 preparation-only while #202 remains under review and #199 remains prep
 
 ## Plan
 
-Revision 9
+Revision 10
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Remain preparation-only until #202 and then #199 are independently reviewed, merged, and ancestral; resync #203 to the resulting exact origin/main and rerun typed validation and doctor before any bind.",
+    "action": "Validate canonical terminal caches and merge ancestry for #258, #259, and #260, preserving the original dirty #203 candidate in a verified bundle and binary patch before reconciliation.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
-      "AC-3",
-      "AC-4"
+      "AC-3"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
-    "action": "After the serial gate passes, bind #203 and implement the sealed adapter registry, authority-bound handles, raw-bypass closure, deterministic lease state, local anchors, and exact ordered operations in owned paths; explicitly migrate adl-runtime/src/distributed/polis_runtime.rs and adl-runtime/tests/distributed_runtime_transport.rs off raw Arc<DistributedCertificateStore> ownership without changing #208, #205, or #204 authority.",
+    "action": "Merge exact current origin/main and resolve every production, test, and Cargo.lock overlap to terminal child authority, retaining zero product diff and no #202/#204/#205/#208 absorption.",
     "acceptance_ids": [
+      "AC-4",
       "AC-5",
       "AC-6",
       "AC-7"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
-    "action": "Prove exact forty-four-case behavior, every crash/retry/bounds window, strict Clippy, and merge-safe receipt truth; resolve fresh exact-head review, publish a ready PR closing #203, shepherd hosted CI, and wait for operator review and merge authorization.",
+    "action": "Replace the historical synthetic proof with immutable integration-closeout proof binding terminal child ancestry, zero product diff, current 4-test identity boundary, current 5-test caller guard, strict Clippy, and historical nonclaim; obtain fresh exact-head review and publish/finish.",
     "acceptance_ids": [
       "AC-8"
     ],
-    "status": "pending"
+    "status": "completed"
   }
 ]
 

@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "3241806f8faffb5e7ef1b57c174149814d412144759745599e303023dad9233a",
   "phase": "implemented",
-  "generation": 29,
-  "digest": "6947fd3ecb7096df5901ffa509a215a761d6fcca030f6035fe2ff95ebd0dc436",
+  "generation": 39,
+  "digest": "aee313a3c9ec75ba9b7cff20949a3d43c53777d8cc9615aa010c325f4b24f8c7",
   "branch": "codex/203-authority-serving-adapters-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-203-authority-serving-adapters",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0e8c0761c46349e1fa74db12edb841b22efec09e1f0cb8c60080df80de11cffa",
+      "values_digest": "432891040685834b6d083eda574238714930848a3a886ddc54da006fe3d27943",
       "rendered_digest": "079525186b170b21283c458c8076934c1c4e48b2aac29dfd6d6cfddcfba68e30",
       "ast_digest": "77fd95a3eb427c7a9b47e353b46456107d8167bd7cbdfa07114fb419d1fc99fa"
     },
     "stp": {
-      "values_digest": "3205cb51667b527a0f80a51f1f3484d06d7fc5f47638dd48665996f2cabd9be5",
+      "values_digest": "a2963c4aff92b76e49fb7145f9cfab2dada88a4a66934f6d7b0e3618600b8848",
       "rendered_digest": "95ed4d8f973edf87afd24417b1d6eddcb9ce964cf8d5c7e5a71613587d1ff916",
       "ast_digest": "90af51e55128247a385506b2b74374675dc25fb2952916eb1a174f89d0916aa3"
     },
     "spp": {
-      "values_digest": "79032373f96bcd1b961a295d1fa23692edd2ba21e4f9c767f01683c90e52f4e8",
-      "rendered_digest": "4a57458a8e009975e1de765d6a24a2b0a3a4b1960fec65c2ffe62b123b6b88bb",
-      "ast_digest": "2dd29753ae6ce2aac52559348c1ba342aa504e48deead982db9aef91ae2524f8"
+      "values_digest": "08a1fdef8eb21813b90463973aeead0e8c371996cbe07419447a0b850c848791",
+      "rendered_digest": "2ceead76f8a3a54af2fca8a910a0542c6f71f92ce926b711987c8d4fea54a0d7",
+      "ast_digest": "a1f903dc8dcf40514a2f5eec465c263df466e83484157a2032abdc510a5e49e0"
     },
     "vpp": {
-      "values_digest": "8dce3e4c2d7ee163a2244b598b1ea1303dbec6ae7f710fa4a1bf2fa326c719ec",
-      "rendered_digest": "7c8230e6c1c972122bf66c76e04b6440d9eaca0761eb71c6de988d3e3294e0a4",
-      "ast_digest": "fd4c3afb4c301fe3eb3db27c2bb2fee085a122061fbf60fa02dbb1d42027e819"
+      "values_digest": "2d0eaae64653c384d8efc27652f4fa6c57b4b905262e90c476db6cadfbd2dc14",
+      "rendered_digest": "6b3797b0651a09bf57c00e7f1103c2cff9e9a99190c6d44e7197105da1851d39",
+      "ast_digest": "96a3c1787b3fa4828ff86222dce5cd79e3696fa39331202feabd24a0e8177e15"
     },
     "srp": {
-      "values_digest": "fa7411d6d1df2d6f5be692dc45c6f0494a21f09cbb6ce95521cdc8b82cdc2a82",
-      "rendered_digest": "aa8709b6e97218c6101301df2ffa099271806f83e261178acb4a3e2d3cf32d7e",
-      "ast_digest": "3e13d49403a66b9c4e76fdc51bdf271435b14ee76cc11f55b83c9513f21da8ed"
+      "values_digest": "09757283b8ef50b23f41708cb9a6e01be8dea17dafde4dc804f4e5d7441016b9",
+      "rendered_digest": "bda7d64e76d36f0e936247dced00c17324e95607bc40ec26b7874acd578f38ba",
+      "ast_digest": "c469f4d1167217bb81730be082e916c53fe0e99673a80a189abeecd5a9748713"
     },
     "sor": {
-      "values_digest": "1f6eaf01558aa9b961eea62d62b2f360b22ac2e4028fe161a4dd66a796e8f715",
-      "rendered_digest": "0971f1edd96aa903e46522d4b8273dbac080eea0392ea95a9695477d74760ab5",
-      "ast_digest": "8c918b9a8c0e795fc2af14334641a7b6ded30024dcd22d75ef34d7536dbb810a"
+      "values_digest": "1b4069a5c0201afcd464505fc9629be2ba3752ee51f2814c00aa89571a9ba9bc",
+      "rendered_digest": "6ac9442dbc3bc663e4a9c599f89d6e7bb1ad100423fe0d5e796be9b017a9a59e",
+      "ast_digest": "4556f40ddd4e5dd9285c998048620ed1e3a157438359de8a6c6b9283559a0e9b"
     }
   },
   "transitions": [
@@ -295,6 +295,90 @@
       "actor": "codex-issue-203-reconciliation",
       "reason": "replace stale monolithic execution truth with terminal-child integration reconciliation truth",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Reconciled the preserved #203 monolithic candidate against terminal #258, #259, and #260. Current origin/main is the implementation authority for all production and test paths; #203 retains only lifecycle, design, decomposition provenance, and integration-closeout proof surfaces.\",\"changes\":[\"Preserved the complete pre-reconciliation candidate as commit cb3770d03 plus a verified Git-common branch bundle and binary patch.\",\"Merged exact origin/main 0b5aefd6 and resolved every child-owned source, test, and Cargo.lock path to terminal main.\",\"Verified zero product diff against origin/main and retained no #202, #204, #205, #208, #258, #259, or #260 implementation absorption.\",\"Classified the historical 44-case synthetic receipt as superseded because the terminal child test denominator is now authoritative and current.\"],\"artifacts\":[\".csdlc/evidence/203/ISSUE_203_DECOMPOSITION_PLAN.md\",\".csdlc/evidence/203/provider-reviews\",\".git/csdlc-v2/preservation/203-pre-main-reconciliation-20260813.md\",\".git/csdlc-v2/preservation/203-three-way-disposition-20260813.md\",\".git/csdlc-v2/quarantine/203-pre-main-reconciliation-20260813\"],\"validation\":[{\"command\":[\"git\",\"diff\",\"--exit-code\",\"origin/main\",\"--\",\"adl-runtime\",\"adl/Cargo.lock\"],\"purpose\":\"Prove the reconciled #203 branch carries zero product or dependency-lock delta beyond terminal child main.\",\"outcome\":\"passed\",\"evidence_ref\":\".git/csdlc-v2/preservation/203-three-way-disposition-20260813.md\"},{\"command\":[\"csdlc-finish\",\"--validate-cached-issue\",\"258|259|260\"],\"purpose\":\"Validate all three terminal child caches against their canonical records before parent reconciliation.\",\"outcome\":\"passed\",\"evidence_ref\":\".git/csdlc-v2/preservation/203-pre-main-reconciliation-20260813.md\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/203/produce-proof-receipt.rb\"],\"purpose\":\"Audit whether the retained historical monolithic proof denominator remains current after terminal child delivery.\",\"outcome\":\"failed\",\"evidence_ref\":\".csdlc/evidence/203/v2/identity-authority.stdout.log\"}]}"
+    },
+    {
+      "sequence": 32,
+      "generation": 29,
+      "actor": "codex-issue-203-reconciliation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 30,
+      "actor": "codex-issue-203-reconciliation",
+      "reason": "replace unused reviewer reservation with the root-coordinated fresh #203 integration reviewer before any material was sent",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 30,
+      "actor": "codex-issue-203-reconciliation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 31,
+      "actor": "codex-issue-203-reconciliation",
+      "reason": "recover failed exact-head review before repairing stale SPP VPP and SRP denominator truth",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 32,
+      "actor": "codex-issue-203-review-r1-repair",
+      "reason": "record completed prerequisite and preservation reconciliation",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 37,
+      "generation": 33,
+      "actor": "codex-issue-203-review-r1-repair",
+      "reason": "replace superseded monolithic plan with completed terminal-child integration reconciliation plan",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Validate canonical terminal caches and merge ancestry for #258, #259, and #260, preserving the original dirty #203 candidate in a verified bundle and binary patch before reconciliation.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Merge exact current origin/main and resolve every production, test, and Cargo.lock overlap to terminal child authority, retaining zero product diff and no #202/#204/#205/#208 absorption.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Replace the historical synthetic proof with immutable integration-closeout proof binding terminal child ancestry, zero product diff, current 4-test identity boundary, current 5-test caller guard, strict Clippy, and historical nonclaim; obtain fresh exact-head review and publish/finish.\",\"acceptance_ids\":[\"AC-8\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 38,
+      "generation": 34,
+      "actor": "codex-issue-203-review-r1-repair",
+      "reason": "record completed child terminal and preservation validation",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 39,
+      "generation": 35,
+      "actor": "codex-issue-203-review-r1-repair",
+      "reason": "record completed semantic merge reconciliation with zero product drift",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 40,
+      "generation": 36,
+      "actor": "codex-issue-203-review-r1-repair",
+      "reason": "record completed current integration proof and review preparation",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 41,
+      "generation": 37,
+      "actor": "codex-issue-203-review-r1-repair",
+      "reason": "replace superseded synthetic denominator with current integration-closeout validation lanes",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"terminal-child-authority\",\"proof_role\":\"Validate canonical caches and merge ancestry for #258, #259, and #260.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"csdlc-finish\",\"--validate-cached-issue\",\"258|259|260\"],\"parallel_group\":\"203-closeout\",\"defer_reason\":null},{\"lane\":\"zero-product-diff\",\"proof_role\":\"Prove #203 retains no product source, tests, dependency lock, #204 workflow, or #205 serving implementation beyond terminal main.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--exit-code\",\"origin/main...HEAD\",\"--\",\"adl-runtime\",\"adl/Cargo.lock\"],\"parallel_group\":\"203-closeout\",\"defer_reason\":null},{\"lane\":\"current-authority-tests\",\"proof_role\":\"Run the current terminal-child authority boundary denominator (4 tests) and caller guard denominator (5 tests), without resurrecting historical synthetic markers.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/203/produce-proof-receipt.rb\"],\"parallel_group\":\"203-runtime\",\"defer_reason\":null},{\"lane\":\"integration-receipt\",\"proof_role\":\"Validate immutable v3 command/log digests, current denominators, strict Clippy, exact main binding, zero product diff, and historical proof superseded_nonclaim.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/203/validate-proof-receipt.rb\"],\"parallel_group\":\"203-proof\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 42,
+      "generation": 38,
+      "actor": "codex-issue-203-review-r1-repair",
+      "reason": "replace superseded synthetic denominator with current integration-closeout validation lanes",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"integration-closeout-proof\",\"proof_role\":\"Validate canonical #258/#259/#260 merge ancestry, zero product diff, current 4-test identity boundary, current 5-test caller guard, strict Clippy, and historical superseded nonclaim.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":5000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/203/produce-proof-receipt.rb\"],\"parallel_group\":\"203-closeout\",\"defer_reason\":null},{\"lane\":\"integration-closeout-receipt\",\"proof_role\":\"Validate immutable v3 command/log digests, current denominators, strict Clippy, exact main binding, zero product diff, and historical proof superseded_nonclaim.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/203/validate-proof-receipt.rb\"],\"parallel_group\":\"203-proof\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 43,
+      "generation": 39,
+      "actor": "codex-issue-203-review-r1-repair",
+      "reason": "replace stale synthetic-proof review prompts with exact integration-closeout review contract",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Review every #203 acceptance criterion AC-1 through AC-8 against canonical terminal #258/#259/#260 cache and merge ancestry, zero adl-runtime and Cargo.lock diff versus exact origin/main, current 4-test identity-boundary proof, current 5-test authority-caller guard, strict Clippy, and immutable v3 receipt evidence.\",\"Report findings first as P0-P3 with repo-relative file and line evidence; verify typed generation, digest, reviewer identity, immutable git-blake3 revision, and assigned scope before reaching a verdict.\",\"Verify the historical 44-case/132-subassertion receipt is retained only as superseded historical evidence and is never used as current proof, and verify no #202, #204, #205, #208, #258, #259, or #260 implementation is absorbed by #203.\",\"State all validation limitations explicitly, remain read-only, and return PASS only when there are no actionable findings; otherwise return FAIL with exact remediation required.\"]}"
     }
   ]
 }
