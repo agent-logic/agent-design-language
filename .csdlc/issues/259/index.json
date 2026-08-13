@@ -4,64 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "5757d863164a5f2f3330a01f212d5f6558c25c177a44f06d9f585657ca692015",
-  "phase": "published",
-  "generation": 14,
-  "digest": "116efb3dd84087be79a3d911b436bb00b363f2278b77d41fab8286f7c1b2e2f3",
+  "phase": "implemented",
+  "generation": 15,
+  "digest": "e6f8104413963071968409b84b915985a558edfb59c9a28bad8b10e645d22657",
   "branch": "codex/259-governed-transport-authority-adapters",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-259-governed-transport-authority-adapters",
-  "review_assignment": {
-    "reviewer": "/root/review_pr119_canonical_r1",
-    "assigned_by": "codex:/root/issue_259_takeover",
-    "revision": "git-blake3:7f64d56d538e47b2659545ab6ddde2361a19034b:24f4ea2c511275e9147a0906a46571e580cfc4ed188f32d70c42bc8cf542f1af",
-    "scope": [
-      "adl-runtime/src/distributed/authority_protocol.rs",
-      "adl-runtime/src/distributed/authority_reconciliation.rs",
-      "adl-runtime/src/distributed/transport/core.rs",
-      "adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs",
-      "adl-runtime/src/distributed/transport/governed/polis_runtime.rs",
-      "adl-runtime/tests/distributed_discovery.rs",
-      "adl-runtime/tests/distributed_runtime_transport.rs",
-      "adl-runtime/tests/distributed_transport.rs",
-      ".csdlc/issues/259",
-      ".csdlc/prepared/issues/259",
-      ".csdlc/evidence/259"
-    ]
-  },
-  "review": {
-    "reviewer": "/root/review_pr119_canonical_r1",
-    "scope": [
-      "adl-runtime/src/distributed/authority_protocol.rs",
-      "adl-runtime/src/distributed/authority_reconciliation.rs",
-      "adl-runtime/src/distributed/transport/core.rs",
-      "adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs",
-      "adl-runtime/src/distributed/transport/governed/polis_runtime.rs",
-      "adl-runtime/tests/distributed_discovery.rs",
-      "adl-runtime/tests/distributed_runtime_transport.rs",
-      "adl-runtime/tests/distributed_transport.rs",
-      ".csdlc/issues/259",
-      ".csdlc/prepared/issues/259",
-      ".csdlc/evidence/259"
-    ],
-    "reviewed_revision": "git-blake3:7f64d56d538e47b2659545ab6ddde2361a19034b:24f4ea2c511275e9147a0906a46571e580cfc4ed188f32d70c42bc8cf542f1af",
-    "findings": [],
-    "residual_risks": [
-      "Focused local validation and immutable exact-revision review are complete; GitHub CI remains the remote integration proof after publication."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 259,
-    "pull_request": 326,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/326",
-    "base": "main",
-    "head": "codex/259-governed-transport-authority-adapters",
-    "revision": "git-blake3:2ab47b2f9e0e3c7839559d03d8e78c473512219a:caa0b2cf5d8f9e4fa228171454b69f5014c96e2a66c8b6d6b7b245c9ff75ce2c",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -75,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "16d56766cca0c3e0b1c340620eac6edf4ee0117cb5dccfdc724bc698eabc4211",
+      "values_digest": "09a64433e1e08c9c026fb04904b5f1522043debc308f330bf7a968e5812ffd0f",
       "rendered_digest": "7594d1c6a7de8ae71a823ecc12ba7e49e53cac287bae58e73ebbd5d6db9b77d3",
       "ast_digest": "6f6d940bc50b4c7e362ca5bb3922d26899d98c830176015c4c83c46d12b0795d"
     },
     "stp": {
-      "values_digest": "306e6835ac777371836e3e42068a177f837b97869ebe7ea7a460e866224ffa13",
+      "values_digest": "30e9a7d1769a26d02a86d1205b788ba22fadd935e43f069c86f6f318c1033f61",
       "rendered_digest": "42e69080f3411d71e60b8a2bb12848a40bab16a41dae13b6f6246c80be0566d0",
       "ast_digest": "17de52ff031e2b98805d6569bc40f4c83dcb736c19581340e94b09d100da5dd8"
     },
     "spp": {
-      "values_digest": "377969568fef0c091333d8aa5a66d852807fad1f52432df65a2718a07325be66",
+      "values_digest": "455352b40f571a554b2ef96d14873587e822a06770a170f39716963901f1dd00",
       "rendered_digest": "c1ca495fdcf0fcac01efeb67f982f9e400defb5c688a8b0f25d5bed931da0a8c",
       "ast_digest": "40788772bab1d16918320cd98d594c953a1a064980acbcec96432f8b6e703606"
     },
     "vpp": {
-      "values_digest": "da3fc8fc9a69f3425d900153f7d6befdcd6eef61a8ba677c8915c31c9bb724e3",
+      "values_digest": "67d3ae86655060ba7fa2fa6250cb696ab1ec2d96f7e602cd25aaa0e42a467809",
       "rendered_digest": "7013adf8d4ede398444821ee404a58835dd236a02440008d4389c233f9af7372",
       "ast_digest": "b352db0068ef3bc7eee400634e00670e48e8f8201aeeb4397228a9ca8b36d540"
     },
     "srp": {
-      "values_digest": "df0884670fa38c25e1ee017d33c430fdeeb668ff4e49063cfe0736f10b12c347",
-      "rendered_digest": "6461042b1cade665fc575f6784443bddf97f3f1bfa40d74a191dc05bee5d0653",
-      "ast_digest": "aad06c1595e0bce6250f411caa52074d704087a84799633bc220b697f1d33937"
+      "values_digest": "40b5a60eaddd3f988317c76961852b22ac3e9d93db84c345dd50ac347dd2400e",
+      "rendered_digest": "ac7c684a5d10345aef9f0a7b09183bfbad02f71ffd8bc2a6b764ad7a6d687c1c",
+      "ast_digest": "cf69e9ea254562112db2a7d3788434ec71feb49e98ad951744fbc75466051a57"
     },
     "sor": {
-      "values_digest": "14a3228c3b1735a5bda767bbe26e6b6fbea09215c8d05dbffe5eeb10fb6f8922",
-      "rendered_digest": "05f6e9e4b134f28e1f4b09a2dd76d2968cae23e69873d98610020e9db7b010c9",
-      "ast_digest": "d2e212dc26eeef02da98fa7a614352c7f4f65c30d542ac0473a053356a868a55"
+      "values_digest": "0b9e3ee3c40c610c7b82c17afb84a97e20e59f8bcec65df6b7b1a784f9a41993",
+      "rendered_digest": "f90dbaab2600d60c9c8e29c54047b8359ef717326d3ae2d513dee29ce34dc878",
+      "ast_digest": "e8bc7f9de803c552c266bbf874ae9cbae112c3110e8494f4f1140b23dcb47f6a"
     }
   },
   "transitions": [
@@ -140,6 +90,13 @@
       "to": "published",
       "actor": "codex:/root/issue_259_takeover",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/issue_259_takeover",
+      "reason": "Recover stale review and publication authority after terminal #327 repaired the required-CI baseline; resynchronize to exact origin/main, rerun proving validation, and require a new distinct exact-revision review before republishing PR #326."
     }
   ],
   "audit": [
@@ -275,6 +232,13 @@
       "actor": "codex:/root/issue_259_takeover",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:/root/issue_259_takeover",
+      "reason": "Recover stale review and publication authority after terminal #327 repaired the required-CI baseline; resynchronize to exact origin/main, rerun proving validation, and require a new distinct exact-revision review before republishing PR #326.",
+      "operation": "recover_review"
     }
   ]
 }

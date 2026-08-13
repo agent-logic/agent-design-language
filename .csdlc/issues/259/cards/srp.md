@@ -12,17 +12,7 @@ Status: draft
 
 ## Scope
 
-adl-runtime/src/distributed/authority_protocol.rs
-adl-runtime/src/distributed/authority_reconciliation.rs
-adl-runtime/src/distributed/transport/core.rs
-adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs
-adl-runtime/src/distributed/transport/governed/polis_runtime.rs
-adl-runtime/tests/distributed_discovery.rs
-adl-runtime/tests/distributed_runtime_transport.rs
-adl-runtime/tests/distributed_transport.rs
-.csdlc/issues/259
-.csdlc/prepared/issues/259
-.csdlc/evidence/259
+
 
 ## Prompts
 
@@ -42,12 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Focused local validation and immutable exact-revision review are complete; GitHub CI remains the remote integration proof after publication.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:7f64d56d538e47b2659545ab6ddde2361a19034b:24f4ea2c511275e9147a0906a46571e580cfc4ed188f32d70c42bc8cf542f1af")
+Revision: None
 
-Reviewer: Some("/root/review_pr119_canonical_r1")
+Reviewer: None
 
-Result: pass
+Result: pre_review
