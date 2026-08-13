@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "ba4ad0b09850192b19172ddfc16a2cb280a6b9c3430dfe1df59c493d7bd5a9d0",
   "phase": "bound",
-  "generation": 2,
-  "digest": "ea220d91dd76d0398c5b593f470de1482a003e478ad4c7fadbc78f5b2f959280",
+  "generation": 3,
+  "digest": "99053756c428bf10e6fb5b273f5c7badc5a7f979cee321606cb5d5b2d8353838",
   "branch": "codex/273-shepherd-serving-eligibility",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-273-shepherd-serving-eligibility",
   "review_assignment": null,
@@ -19,38 +19,38 @@
   "diagram_path": ".csdlc/prepared/issues/273/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "fresh-session:8f2c6c9a-23e1-4b76-a8db-9d7b4a1e5f30",
+      "reviewer": "fresh-session:12b8190b-d522-450f-b168-4112faf36ef7",
       "revision": "5a9aef0fc8b80d891d58f1e59183d044ca97794130cba410574d906629d08e40"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "e076c3c212e0222c886e107ce7e007db28658311b452212e0fec33c4c106696b",
+      "values_digest": "240b50d1e6ae6f6d9ceb9fd13179b4e93e6ecc21e25a707f09bf566af6de7688",
       "rendered_digest": "fde850d82a2c2a13c971d804d5d989ee796c4ad2705e336561eb4acc9e3adee2",
       "ast_digest": "d2f326bb27e14cbe6fe91df173e64cc1f78255fe33c8ab01168482ec034d3b2f"
     },
     "stp": {
-      "values_digest": "9a5315b7ac25cb35516a09ca3815aadd67a83303fd79cea39d38a5179163045d",
+      "values_digest": "96800c7a19f6b10bf9d0a567cf8c3d29df7a64c2e9c8ead3d536dfcf37cdb6d2",
       "rendered_digest": "b8a5809f2d2cba141fb56e3739d1444c7768eaf39ea60e8244bf7930d521f3c2",
       "ast_digest": "890dd17f1d76d7fcda68a57dff7d3b3fb2e5208fbc819021e5479b7a7e429e78"
     },
     "spp": {
-      "values_digest": "730706ca164bcd244a2675f2aef45bb8a99d8d4abdd19b3536393d05aeea7443",
-      "rendered_digest": "95e9fca981dbc594b2dbc6e359d9ae9aa838afe5ecb3f503dac9719a49b4c1ee",
-      "ast_digest": "e64d97117a1dd06f55b307e7027287c2f0c15d5a7cb9a42789aa3c0d13e5f147"
+      "values_digest": "b69e7b5cd32e9c66676ef807c74bfd98c9a58e20985c3cb532bc910a8be25757",
+      "rendered_digest": "51400db6a5b8e0548e6799856b1a657f2bf43400616c8eec00cd17984db8406c",
+      "ast_digest": "66047768e02ad804e109beaf5abee417c297304aecbbba9e00f9c3fb4e283b9e"
     },
     "vpp": {
-      "values_digest": "074e7ac55b51be6c6503a4e5f5bc98585fdf03229ce687f6adc74fc3d3ff3f60",
+      "values_digest": "52b2b69ad66414139b2139130f079af293379afb6667c31c5bbb6f823995c878",
       "rendered_digest": "c2e4c514afb0e3836ae33c330adeabc6497f0469f7a32679396816ddfb693f54",
       "ast_digest": "06c6b5fddd64e1b97e791059d272b4f6473f94983b328047009ab6c3d1112ccb"
     },
     "srp": {
-      "values_digest": "6ad531dfc84bc36cae986db5e925584df4ffea99cb5419ed70af61c879144c57",
+      "values_digest": "e764704edb077e241603e99ac7dddc99c384d423bf5bd066753942d89f375375",
       "rendered_digest": "67c102344fe33ca283c1c6b90daea82e83dc1edf8c54fa05cff9f19c89148c91",
       "ast_digest": "f95a38f88ebc975dbcb3dd7426205649d3f6a3e7c8435bae42febe508cf66fe6"
     },
     "sor": {
-      "values_digest": "1983f959d9dc9a4c5b16e2ec03b49912aa915a9a6994ca7aa5ac38e0bdbedf65",
+      "values_digest": "dfb0ba6ee0c036f4fd01a76df5255a7b40b5c92767e5e49f3125db2e7ed114e6",
       "rendered_digest": "daa45a801f5c310b46ffbbde5d6124b8d91b879c04c3bcdf5529d1d85896148e",
       "ast_digest": "12d44950c8b353e72447e98a0c2d646c792e830d3d45cdb8dc092a7a50b637c8"
     }
@@ -99,6 +99,13 @@
       "actor": "csdlc-bind",
       "reason": "record Git branch/worktree topology",
       "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "fresh-session:12b8190b-d522-450f-b168-4112faf36ef7",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
     }
   ]
 }

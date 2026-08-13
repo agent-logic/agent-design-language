@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.16b3.1b][205.b] Add Shepherd serving-eligibility authority",
     "slug": "shepherd-serving-eligibility",
     "version": "v0.92",
-    "generation": 2
+    "generation": 3
   },
   "status": "ready",
   "content": {
@@ -144,7 +144,7 @@
       "design_ref": ".csdlc/prepared/issues/273/design.md",
       "design_digest": "5a9aef0fc8b80d891d58f1e59183d044ca97794130cba410574d906629d08e40",
       "diagram_ref": ".csdlc/prepared/issues/273/diagram.mmd",
-      "diagram_digest": "d04c2e41f2c9113dcb4a58f6102a74839569d2fd2bc068c581df092a55d88bad"
+      "diagram_digest": "0445aa425312ed6389ea2990dd2dd521d8575e53c6f65a719eaffb043eb30c9e"
     }
   }
 }
