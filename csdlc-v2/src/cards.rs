@@ -2489,7 +2489,7 @@ pub(crate) fn execution_readiness_findings_for_cards(
         &vpp.lanes,
         &vpp.failure_policy,
         owned_paths_are_valid,
-        phase == LifecyclePhase::Initialized,
+        matches!(phase, LifecyclePhase::Initialized | LifecyclePhase::Ready),
     ))
 }
 
