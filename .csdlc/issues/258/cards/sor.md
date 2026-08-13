@@ -12,26 +12,27 @@ Status: pre_phase
 
 ## Summary
 
-Implemented #258 as the first #203 split slice: sealed raw certificate, lease, and fencing store access behind explicit authority/test access tokens; added authority-bound store adapter facade and expanded published receipt view; preserved the in-scope published-store mutation classifier/view fix; removed earlier over-scope transport authorization seams; made certificate, lease, and fencing access capability values non-ZST/private-field; and repaired the post-publication CI fallout where ordinary integration tests still compiled stale unsafe transmute(()) helpers. Production transport authorization calls remain authority-token-bound; this repair removes the stale compiled unit-transmute helper path from distributed_guardian.rs and distributed_runtime_transport.rs while preserving the dedicated external compile-fail proof in distributed_identity_lease_authority.rs.
+Implemented #258 as the first #203 split slice: sealed raw certificate, lease, and fencing store access behind explicit authority/test access tokens; added authority-bound store adapter facade and expanded published receipt view; preserved the in-scope published-store mutation classifier/view fix; removed earlier over-scope transport authorization seams; and repaired the post-publication stale helper regression correctly after candidate 986f6c01c still allowed ordinary integration tests to forge access with MaybeUninit. CertificateStoreAccess, LeaseStoreAccess, and FencingStoreAccess now carry private static seal identities that raw methods validate before opening, mutating, or authorizing. Ordinary integration tests no longer contain stale unsafe helper forgeries, and the focused external compile-fail proof covers both unit transmute and zeroed MaybeUninit attempts.
 
 ## Artifacts
 
-- .csdlc/evidence/258/postpub-stale-helper-repair/test-check-coverage-impact.log
-- .csdlc/evidence/258/postpub-stale-helper-repair/cargo-test-distributed-identity-lease-authority.log
-- .csdlc/evidence/258/postpub-stale-helper-repair/cargo-test-distributed-guardian-no-run.log
-- .csdlc/evidence/258/postpub-stale-helper-repair/cargo-test-distributed-runtime-transport-no-run.log
-- .csdlc/evidence/258/postpub-stale-helper-repair/cargo-check-adl-runtime.log
-- .csdlc/evidence/258/postpub-stale-helper-repair/cargo-clippy-distributed-identity-lease-authority.log
-- .csdlc/evidence/258/postpub-stale-helper-repair/cargo-clippy-distributed-guardian.log
-- .csdlc/evidence/258/postpub-stale-helper-repair/cargo-clippy-distributed-runtime-transport.log
-- .csdlc/evidence/258/postpub-stale-helper-repair/test-mechanical-coverage-fallout.log
-- .csdlc/evidence/258/postpub-stale-helper-repair/git-diff-check.log
+- .csdlc/evidence/258/postpub-stale-helper-repair-r2/test-check-coverage-impact.log
+- .csdlc/evidence/258/postpub-stale-helper-repair-r2/cargo-test-distributed-identity-lease-authority.log
+- .csdlc/evidence/258/postpub-stale-helper-repair-r2/cargo-test-distributed-guardian-no-run.log
+- .csdlc/evidence/258/postpub-stale-helper-repair-r2/cargo-test-distributed-runtime-transport-no-run.log
+- .csdlc/evidence/258/postpub-stale-helper-repair-r2/cargo-check-adl-runtime.log
+- .csdlc/evidence/258/postpub-stale-helper-repair-r2/cargo-clippy-distributed-identity-lease-authority.log
+- .csdlc/evidence/258/postpub-stale-helper-repair-r2/cargo-clippy-distributed-guardian.log
+- .csdlc/evidence/258/postpub-stale-helper-repair-r2/cargo-clippy-distributed-runtime-transport.log
+- .csdlc/evidence/258/postpub-stale-helper-repair-r2/test-mechanical-coverage-fallout.log
+- .csdlc/evidence/258/postpub-stale-helper-repair-r2/git-diff-check.log
 
 ## Execution
 
-- Removed the ordinary compiled unsafe transmute(()) helper path from distributed_guardian.rs for LeaseStoreAccess setup fallout.
-- Removed the ordinary compiled unsafe transmute(()) helper path from distributed_runtime_transport.rs for CertificateStoreAccess setup fallout.
-- Preserved the focused external compile-fail authority proof that ordinary external dev-profile non-test dependents cannot import fixture constants or forge certificate, lease, or fencing access with unsafe transmute(()).
+- Changed CertificateStoreAccess, LeaseStoreAccess, and FencingStoreAccess from byte-pattern capabilities to private-static-seal capabilities and added raw access validation to certificate open/activate/authorize/revoke, lease new/apply/authorize_mutation, and fencing create/open/commit/authorize_active_lease.
+- Removed the stale unsafe LeaseStoreAccess helper from distributed_guardian.rs by using a test-internal source fixture for the crate-private TEST_LEASE_STORE_ACCESS.
+- Removed the stale unsafe CertificateStoreAccess helper body from distributed_runtime_transport.rs so the large transport target remains compile-clean without a token-forging setup helper in ordinary integration code.
+- Extended the focused external rustc proof to deny TEST_* fixture imports, unsafe transmute(()) unit forging, and zeroed MaybeUninit forging for certificate, lease, and fencing access capability types.
 - Confirmed production transport/core authorization sites remain bound to AUTHORITY_BOUND_CERTIFICATE_ACCESS and did not reopen #259 transport scope.
 - Retained repo-local TMPDIR for hosted-equivalent preflight evidence and did not use /private/tmp.
 
@@ -43,9 +44,9 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
       "bash",
       "adl/tools/test_check_coverage_impact.sh"
     ],
-    "purpose": "Hosted-equivalent coverage-impact preflight contract that previously failed on stale compiled unsafe transmute(()) helpers.",
+    "purpose": "Hosted-equivalent coverage-impact preflight contract that previously failed on stale compiled unsafe helper fallout.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair/test-check-coverage-impact.log"
+    "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair-r2/test-check-coverage-impact.log"
   },
   {
     "command": [
@@ -59,9 +60,9 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
       "--nocapture",
       "--test-threads=1"
     ],
-    "purpose": "Exercise the focused #258 authority-store boundary and preserve the external compile-fail authority proof.",
+    "purpose": "Exercise the focused #258 authority-store boundary and external compile-fail authority proof, including zeroed MaybeUninit denial.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair/cargo-test-distributed-identity-lease-authority.log"
+    "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair-r2/cargo-test-distributed-identity-lease-authority.log"
   },
   {
     "command": [
@@ -75,7 +76,7 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
     ],
     "purpose": "Compile-only guard for the stale LeaseStoreAccess helper fallout in distributed_guardian.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair/cargo-test-distributed-guardian-no-run.log"
+    "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair-r2/cargo-test-distributed-guardian-no-run.log"
   },
   {
     "command": [
@@ -89,7 +90,7 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
     ],
     "purpose": "Compile-only guard for the stale CertificateStoreAccess helper fallout in distributed_runtime_transport.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair/cargo-test-distributed-runtime-transport-no-run.log"
+    "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair-r2/cargo-test-distributed-runtime-transport-no-run.log"
   },
   {
     "command": [
@@ -98,9 +99,9 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
       "--manifest-path",
       "adl-runtime/Cargo.toml"
     ],
-    "purpose": "Compile-check the runtime crate after the stale helper repair.",
+    "purpose": "Compile-check the runtime crate after the private-static-seal access repair.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair/cargo-check-adl-runtime.log"
+    "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair-r2/cargo-check-adl-runtime.log"
   },
   {
     "command": [
@@ -114,9 +115,9 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
       "-D",
       "warnings"
     ],
-    "purpose": "Strict-lint the focused #258 authority-store boundary test target after the stale helper repair.",
+    "purpose": "Strict-lint the focused #258 authority-store boundary test target after the r2 repair.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair/cargo-clippy-distributed-identity-lease-authority.log"
+    "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair-r2/cargo-clippy-distributed-identity-lease-authority.log"
   },
   {
     "command": [
@@ -132,7 +133,7 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
     ],
     "purpose": "Strict-lint the repaired distributed_guardian helper target.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair/cargo-clippy-distributed-guardian.log"
+    "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair-r2/cargo-clippy-distributed-guardian.log"
   },
   {
     "command": [
@@ -148,7 +149,7 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
     ],
     "purpose": "Strict-lint the repaired distributed_runtime_transport helper target.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair/cargo-clippy-distributed-runtime-transport.log"
+    "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair-r2/cargo-clippy-distributed-runtime-transport.log"
   },
   {
     "command": [
@@ -157,7 +158,7 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
     ],
     "purpose": "Retain the PR-fast deterministic mechanical coverage fallout proof for the #258 coverage classifier.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair/test-mechanical-coverage-fallout.log"
+    "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair-r2/test-mechanical-coverage-fallout.log"
   },
   {
     "command": [
@@ -165,9 +166,9 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
       "diff",
       "--check"
     ],
-    "purpose": "Reject whitespace and patch hygiene errors across the post-publication stale helper repair.",
+    "purpose": "Reject whitespace and patch hygiene errors across the r2 repair.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair/git-diff-check.log"
+    "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair-r2/git-diff-check.log"
   },
   {
     "command": [
@@ -178,9 +179,9 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
       "--issue",
       "258"
     ],
-    "purpose": "Validate typed #258 lifecycle truth after the post-publication stale integration-helper repair.",
+    "purpose": "Validate typed #258 lifecycle truth after the private-static-seal r2 SOR update.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair/csdlc-validate.log"
+    "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair-r2/csdlc-validate.log"
   }
 ]
 

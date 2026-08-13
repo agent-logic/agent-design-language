@@ -103,7 +103,13 @@ fn issue_258_authority_store_boundary_guardrails_are_bound() {
     );
 
     assert_contains(certificates, "pub struct CertificateStoreAccess");
-    assert_contains(certificates, "_seal: [u8; 1]");
+    assert_contains(certificates, "struct CertificateStoreAccessSeal");
+    assert_contains(certificates, "static AUTHORITY_BOUND_SEAL");
+    assert_contains(certificates, "seal: &'static CertificateStoreAccessSeal");
+    assert_contains(
+        certificates,
+        "fn validate_raw_access(access: &CertificateStoreAccess)",
+    );
     assert_contains(
         certificates,
         "pub(crate) use raw_access::AUTHORITY_BOUND as AUTHORITY_BOUND_CERTIFICATE_ACCESS",
@@ -114,24 +120,27 @@ fn issue_258_authority_store_boundary_guardrails_are_bound() {
     );
     assert_contains(
         certificates,
-        "pub fn open(\n        _access: &CertificateStoreAccess,",
+        "pub fn open(\n        access: &CertificateStoreAccess,",
     );
     assert_contains(
         certificates,
-        "pub fn activate(\n        &self,\n        _access: &CertificateStoreAccess,",
+        "pub fn activate(\n        &self,\n        access: &CertificateStoreAccess,",
     );
     assert_contains(
         certificates,
-        "pub fn authorize(\n        &self,\n        _access: &CertificateStoreAccess,",
+        "pub fn authorize(\n        &self,\n        access: &CertificateStoreAccess,",
     );
     assert_contains(
         certificates,
-        "pub fn revoke(\n        &self,\n        _access: &CertificateStoreAccess,",
+        "pub fn revoke(\n        &self,\n        access: &CertificateStoreAccess,",
     );
 
     assert_contains(lease, "pub struct LeaseState");
     assert_contains(lease, "pub struct LeaseStoreAccess");
-    assert_contains(lease, "_seal: [u8; 1]");
+    assert_contains(lease, "struct LeaseStoreAccessSeal");
+    assert_contains(lease, "static AUTHORITY_BOUND_SEAL");
+    assert_contains(lease, "seal: &'static LeaseStoreAccessSeal");
+    assert_contains(lease, "fn validate_raw_access(access: &LeaseStoreAccess)");
     assert_contains(
         lease,
         "pub(crate) use raw_access::AUTHORITY_BOUND as AUTHORITY_BOUND_LEASE_ACCESS",
@@ -142,38 +151,44 @@ fn issue_258_authority_store_boundary_guardrails_are_bound() {
     );
     assert_contains(
         lease,
-        "pub fn new(_access: &LeaseStoreAccess, policy: LeasePolicy)",
+        "pub fn new(access: &LeaseStoreAccess, policy: LeasePolicy)",
     );
     assert_contains(
         lease,
-        "pub fn apply(\n        &mut self,\n        _access: &LeaseStoreAccess,",
+        "pub fn apply(\n        &mut self,\n        access: &LeaseStoreAccess,",
     );
     assert_contains(
         lease,
-        "pub fn authorize_mutation(\n        &mut self,\n        _access: &LeaseStoreAccess,",
+        "pub fn authorize_mutation(\n        &mut self,\n        access: &LeaseStoreAccess,",
     );
     assert_contains(fencing, "pub safety_deadline_unix_millis: u64");
     assert_contains(fencing, "pub struct FencingStoreAccess");
-    assert_contains(fencing, "_seal: [u8; 1]");
+    assert_contains(fencing, "struct FencingStoreAccessSeal");
+    assert_contains(fencing, "static AUTHORITY_BOUND_SEAL");
+    assert_contains(fencing, "seal: &'static FencingStoreAccessSeal");
+    assert_contains(
+        fencing,
+        "fn validate_raw_access(access: &FencingStoreAccess)",
+    );
     assert_contains(
         fencing,
         "pub(crate) use raw_access::AUTHORITY_BOUND as AUTHORITY_BOUND_FENCING_ACCESS",
     );
     assert_contains(
         fencing,
-        "pub fn create(\n        _access: &FencingStoreAccess,",
+        "pub fn create(\n        access: &FencingStoreAccess,",
     );
     assert_contains(
         fencing,
-        "pub fn open(\n        _access: &FencingStoreAccess,",
+        "pub fn open(\n        access: &FencingStoreAccess,",
     );
     assert_contains(
         fencing,
-        "pub fn commit(\n        &mut self,\n        _access: &FencingStoreAccess,",
+        "pub fn commit(\n        &mut self,\n        access: &FencingStoreAccess,",
     );
     assert_contains(
         fencing,
-        "pub fn authorize_active_lease(\n        &self,\n        _access: &FencingStoreAccess,",
+        "pub fn authorize_active_lease(\n        &self,\n        access: &FencingStoreAccess,",
     );
     assert_not_contains(
         fencing,
@@ -293,6 +308,42 @@ fn external_dev_profile_caller_cannot_import_authority_store_test_access() {
         assert!(
             stderr.contains("cannot transmute between types of different sizes"),
             "unexpected compile failure for {module} unit transmute: {stderr}"
+        );
+
+        let zeroed_source = fixture
+            .path()
+            .join(format!("{module}_zeroed_forge_denied.rs"));
+        fs::write(
+            &zeroed_source,
+            format!(
+                "#![deny(invalid_value)]\n\
+                 use adl_runtime::distributed::{module}::{access_type};\n\
+                 pub unsafe fn forged_zeroed() -> {access_type} {{ std::mem::MaybeUninit::<{access_type}>::zeroed().assume_init() }}\n"
+            ),
+        )
+        .expect("write external zeroed-forge fixture source");
+        let output = Command::new("rustc")
+            .arg("--edition=2021")
+            .arg("--crate-type=lib")
+            .arg(&zeroed_source)
+            .arg("--extern")
+            .arg(format!("adl_runtime={}", adl_runtime_rlib.display()))
+            .arg("-L")
+            .arg(format!("dependency={}", deps_dir.display()))
+            .arg("--out-dir")
+            .arg(fixture.path())
+            .output()
+            .expect("run external zeroed-forge compile-fail fixture");
+        assert!(
+            !output.status.success(),
+            "external fixture unexpectedly forged {module} access token with zeroed MaybeUninit"
+        );
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        assert!(
+            stderr.contains("does not permit zero-initialization")
+                || stderr.contains("the type")
+                    && stderr.contains("does not permit being left uninitialized"),
+            "unexpected compile failure for {module} zeroed forge: {stderr}"
         );
     }
 }

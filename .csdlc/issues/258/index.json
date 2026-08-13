@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "7a796039f2472c65fbfbdbe6e649213a6496c7c2c70a8d3b9e1e3f4247255cb5",
   "phase": "implemented",
-  "generation": 40,
-  "digest": "a65e888379345c49c03ae7dbad82db0c82f952c3f32b67a42abe5c8cc2dd2363",
+  "generation": 43,
+  "digest": "73a30226f61a8909a3eb8a3bed85b2ded5dbd1dd6d206b13b51996ddc7c4602d",
   "branch": "codex/258-authority-store-boundary",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e38e479820e58c7e4e59cc6f74f5f5911564164f95a422c92281749dfc4632c4",
+      "values_digest": "b66711935029f13f55018b64d5bca27c5494c00feb6975eab27e206cef608279",
       "rendered_digest": "202f956d615444157d2a8e11a7f9d03249cc552ac17af494a18cdfbdf4342730",
       "ast_digest": "54b8fd032af0131de7749088c7f648c941b96701d48c79fada87436dc2072006"
     },
     "stp": {
-      "values_digest": "d1e312b8a41bc42d06510a0adfefc336a74146f017e27d2c5a94c50bb380e4b1",
+      "values_digest": "1ed4531f2fe180882f53a4bbf059bdd2b8a3a840a3c0132cb586515e0f88259c",
       "rendered_digest": "28ced32ded0a8d859b9c17ba736d20a3761e0763b32c4043e74ca49d09eb0365",
       "ast_digest": "d82a28ae135e1a09b8c4acd555e43fdf1daad2b8ae14c0bb98648e0c03dd6a7d"
     },
     "spp": {
-      "values_digest": "b92b1415733850f272d093568a0e72d7bcae302ef9dda1deec478b6e5ba81f37",
+      "values_digest": "543b3a86dad17b22522d9f8fb8887f4a5c8e994a5dee6f55a77f854aaddf18d9",
       "rendered_digest": "868fb33ac2fed719fe3d2bb45d2678236998dbee5241b9c4671d413be93f6740",
       "ast_digest": "71fd0d5dcd1792dfa7b35ea45afdf88fbcdec8a9c0a734541bf65a6c24530430"
     },
     "vpp": {
-      "values_digest": "7eea254e855c196c80b67e83192cbb792bcf514558ac85c9cc5a6b6dd6795425",
+      "values_digest": "baf46d8c4580be5a20882a4cbd821e68827a02f5d635d08299dc53ca17208191",
       "rendered_digest": "08393e3244534254c726f05bd2b4bafb3d6c2eec4b241223c1c369195ebe2105",
       "ast_digest": "a40bad77b3d2a900e84b7e327b0df5aa597ae5f33910b1a17111f839f1568db1"
     },
     "srp": {
-      "values_digest": "22af1b49a06a9af81f5212e508e73295ab9180341d7a1d8d28d7e9285961d2e0",
+      "values_digest": "402975f9a6333aca8313724e64e68859ab97e567d513419e8ca671c4335e5b57",
       "rendered_digest": "0b537e37916e1726ed60625e32f3a44c0737b008e07993cadef4dee8ca817574",
       "ast_digest": "9419120e903ff6b652b0062abbe3f7e16ab55ed96c82ea8ec2800c86b019dd73"
     },
     "sor": {
-      "values_digest": "d7af4e77d989c62c60fcb7ef9f54fc29339b722a3862123dc839f920a3f67876",
-      "rendered_digest": "68a5ba6ebeeb998e5e9b9a1125e65653dcefb50af12789cba3a1b7aa4656db1d",
-      "ast_digest": "d37a254f49aaccaaf992fe8688d24a9cd77e73edb3d24ca1ad8c5acc963dc1a3"
+      "values_digest": "ae6d8eb038310a79faca4d0886e7cf5fed1c5e407d3c04a21eb85c0451bb29bd",
+      "rendered_digest": "e943b1935ed0c4b317a6e6604089026218f53887efdffd8444689f6e0b852e35",
+      "ast_digest": "ce0f0ad2f2ee9f465748cd8cce6d3fd8864211e029a9bb11f56340b2dfa4ec84"
     }
   },
   "transitions": [
@@ -526,6 +526,34 @@
       "actor": "codex:/root",
       "reason": "Append final typed validation after the post-publication stale helper SOR update.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary\",\"issue\",\"--issue\",\"258\"],\"purpose\":\"Validate typed #258 lifecycle truth after the post-publication stale integration-helper repair.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/postpub-stale-helper-repair/csdlc-validate.log\"}}"
+    },
+    {
+      "sequence": 53,
+      "generation": 40,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 54,
+      "generation": 41,
+      "actor": "codex:/root",
+      "reason": "Recover stale fresh-session:652b572e-b353-40c1-a45e-5b8f50c941d5 assignment after reviewer activity exposed that candidate 986f6c01c replaced stale transmute(()) helpers with external MaybeUninit zeroed token forgeries in ordinary integration tests. Repair must make certificate, lease, and fencing access capability types non-forgeable across the crate boundary, remove ordinary integration-test unsafe helper forgeries, preserve explicit external compile-fail proof for both unit transmute and zeroed MaybeUninit, rerun hosted-equivalent preflight/focused validation, then assign a different fresh reviewer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 55,
+      "generation": 42,
+      "actor": "codex:/root",
+      "reason": "Record corrected #258 post-publication stale-helper r2 repair after reviewer activity exposed MaybeUninit token forgeability in candidate 986f6c01c.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented #258 as the first #203 split slice: sealed raw certificate, lease, and fencing store access behind explicit authority/test access tokens; added authority-bound store adapter facade and expanded published receipt view; preserved the in-scope published-store mutation classifier/view fix; removed earlier over-scope transport authorization seams; and repaired the post-publication stale helper regression correctly after candidate 986f6c01c still allowed ordinary integration tests to forge access with MaybeUninit. CertificateStoreAccess, LeaseStoreAccess, and FencingStoreAccess now carry private static seal identities that raw methods validate before opening, mutating, or authorizing. Ordinary integration tests no longer contain stale unsafe helper forgeries, and the focused external compile-fail proof covers both unit transmute and zeroed MaybeUninit attempts.\",\"changes\":[\"Changed CertificateStoreAccess, LeaseStoreAccess, and FencingStoreAccess from byte-pattern capabilities to private-static-seal capabilities and added raw access validation to certificate open/activate/authorize/revoke, lease new/apply/authorize_mutation, and fencing create/open/commit/authorize_active_lease.\",\"Removed the stale unsafe LeaseStoreAccess helper from distributed_guardian.rs by using a test-internal source fixture for the crate-private TEST_LEASE_STORE_ACCESS.\",\"Removed the stale unsafe CertificateStoreAccess helper body from distributed_runtime_transport.rs so the large transport target remains compile-clean without a token-forging setup helper in ordinary integration code.\",\"Extended the focused external rustc proof to deny TEST_* fixture imports, unsafe transmute(()) unit forging, and zeroed MaybeUninit forging for certificate, lease, and fencing access capability types.\",\"Confirmed production transport/core authorization sites remain bound to AUTHORITY_BOUND_CERTIFICATE_ACCESS and did not reopen #259 transport scope.\",\"Retained repo-local TMPDIR for hosted-equivalent preflight evidence and did not use /private/tmp.\"],\"artifacts\":[\".csdlc/evidence/258/postpub-stale-helper-repair-r2/test-check-coverage-impact.log\",\".csdlc/evidence/258/postpub-stale-helper-repair-r2/cargo-test-distributed-identity-lease-authority.log\",\".csdlc/evidence/258/postpub-stale-helper-repair-r2/cargo-test-distributed-guardian-no-run.log\",\".csdlc/evidence/258/postpub-stale-helper-repair-r2/cargo-test-distributed-runtime-transport-no-run.log\",\".csdlc/evidence/258/postpub-stale-helper-repair-r2/cargo-check-adl-runtime.log\",\".csdlc/evidence/258/postpub-stale-helper-repair-r2/cargo-clippy-distributed-identity-lease-authority.log\",\".csdlc/evidence/258/postpub-stale-helper-repair-r2/cargo-clippy-distributed-guardian.log\",\".csdlc/evidence/258/postpub-stale-helper-repair-r2/cargo-clippy-distributed-runtime-transport.log\",\".csdlc/evidence/258/postpub-stale-helper-repair-r2/test-mechanical-coverage-fallout.log\",\".csdlc/evidence/258/postpub-stale-helper-repair-r2/git-diff-check.log\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"purpose\":\"Hosted-equivalent coverage-impact preflight contract that previously failed on stale compiled unsafe helper fallout.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/postpub-stale-helper-repair-r2/test-check-coverage-impact.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity_lease_authority\",\"--\",\"--nocapture\",\"--test-threads=1\"],\"purpose\":\"Exercise the focused #258 authority-store boundary and external compile-fail authority proof, including zeroed MaybeUninit denial.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/postpub-stale-helper-repair-r2/cargo-test-distributed-identity-lease-authority.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_guardian\",\"--no-run\"],\"purpose\":\"Compile-only guard for the stale LeaseStoreAccess helper fallout in distributed_guardian.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/postpub-stale-helper-repair-r2/cargo-test-distributed-guardian-no-run.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_runtime_transport\",\"--no-run\"],\"purpose\":\"Compile-only guard for the stale CertificateStoreAccess helper fallout in distributed_runtime_transport.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/postpub-stale-helper-repair-r2/cargo-test-distributed-runtime-transport-no-run.log\"},{\"command\":[\"cargo\",\"check\",\"--manifest-path\",\"adl-runtime/Cargo.toml\"],\"purpose\":\"Compile-check the runtime crate after the private-static-seal access repair.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/postpub-stale-helper-repair-r2/cargo-check-adl-runtime.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity_lease_authority\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict-lint the focused #258 authority-store boundary test target after the r2 repair.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/postpub-stale-helper-repair-r2/cargo-clippy-distributed-identity-lease-authority.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_guardian\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict-lint the repaired distributed_guardian helper target.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/postpub-stale-helper-repair-r2/cargo-clippy-distributed-guardian.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_runtime_transport\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict-lint the repaired distributed_runtime_transport helper target.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/postpub-stale-helper-repair-r2/cargo-clippy-distributed-runtime-transport.log\"},{\"command\":[\"bash\",\"adl/tools/test_mechanical_coverage_fallout.sh\"],\"purpose\":\"Retain the PR-fast deterministic mechanical coverage fallout proof for the #258 coverage classifier.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/postpub-stale-helper-repair-r2/test-mechanical-coverage-fallout.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and patch hygiene errors across the r2 repair.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/postpub-stale-helper-repair-r2/git-diff-check.log\"}]}"
+    },
+    {
+      "sequence": 56,
+      "generation": 43,
+      "actor": "codex:/root",
+      "reason": "Append final typed validation after the post-publication stale-helper r2 forgeability SOR update.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary\",\"issue\",\"--issue\",\"258\"],\"purpose\":\"Validate typed #258 lifecycle truth after the private-static-seal r2 SOR update.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/postpub-stale-helper-repair-r2/csdlc-validate.log\"}}"
     }
   ]
 }

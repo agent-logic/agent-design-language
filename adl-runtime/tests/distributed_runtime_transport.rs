@@ -52,12 +52,9 @@ const DOMAIN: &str = "polis.secure.test";
 const POLIS: &str = "polis-alpha";
 
 fn test_certificate_store_access() -> CertificateStoreAccess {
-    // Integration tests compile adl-runtime as a normal dependency, so the
-    // crate-private cfg(test) fixture is intentionally unavailable. Keep the
-    // ordinary compiled test away from the reviewed unit-transmute
-    // forgeability path; that negative proof lives in
-    // distributed_identity_lease_authority.rs.
-    unsafe { std::mem::MaybeUninit::<CertificateStoreAccess>::zeroed().assume_init() }
+    panic!(
+        "raw certificate store access is sealed; this large transport integration test is compile-only for #258"
+    )
 }
 
 #[derive(Default)]
