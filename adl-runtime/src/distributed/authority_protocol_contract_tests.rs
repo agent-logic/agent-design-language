@@ -10,12 +10,12 @@ use std::{
 
 use crate::distributed::{
     authority_protocol::{
-        validate_continuity_transfer_binding, verify_finalization,
-        verify_legacy_test_finalization_with_sealed_basis, AuthorityNodeIdentity,
-        AuthorityOperationKind, AuthorityProtocolError, CanonicalAuthorityTime,
-        CommittedAuthorityArtifact, ContinuityTransferChunk, ContinuityTransferEntry,
-        ContinuityTransferGrantArtifact, DurableAuthorityProtocol, FinalizeAuthorityIntent,
-        PrepareAuthorityIntent, VoterEndorsementAuthority, CONTINUITY_TRANSFER_ADAPTER_210,
+        validate_continuity_transfer_binding, verify_finalization, verify_replicated_finalization,
+        AuthorityFinalizeProposal, AuthorityNodeIdentity, AuthorityOperationKind,
+        AuthorityProtocolError, CanonicalAuthorityTime, CommittedAuthorityArtifact,
+        ContinuityTransferChunk, ContinuityTransferEntry, ContinuityTransferGrantArtifact,
+        DurableAuthorityProtocol, FinalizeAuthorityIntent, PrepareAuthorityIntent,
+        VoterEndorsementAuthority, CONTINUITY_TRANSFER_ADAPTER_210,
     },
     identity::LocalNodeGuardianIdentity,
     lease::{AuthorityMembership, ControlCertificatePurpose, VoterAuthority},
@@ -303,29 +303,63 @@ impl Fixture {
     }
 
     fn verified(&self, intent: &PrepareAuthorityIntent) -> super::VerifiedAuthorityOperation {
-        let finalize = self.finalize_with(
-            intent,
-            &[0, 1],
-            CanonicalAuthorityTime {
-                unix_seconds: FINALIZE_SECONDS,
-                nanos: 0,
-                uncertainty_millis: 2,
-            },
-        );
+        let finalization_time = CanonicalAuthorityTime {
+            unix_seconds: FINALIZE_SECONDS,
+            nanos: 0,
+            uncertainty_millis: 2,
+        };
         let boot_generations = self
             .guardian_ids
             .iter()
             .map(|guardian| (guardian.clone(), 11))
+            .collect::<BTreeMap<_, _>>();
+        let endorsements = [0, 1]
+            .iter()
+            .map(|index| {
+                self.signers[*index]
+                    .endorse_committed_prepare(
+                        intent,
+                        &finalization_time,
+                        &self.membership,
+                        &self.authority,
+                        &boot_generations,
+                    )
+                    .unwrap()
+            })
             .collect();
-        verify_legacy_test_finalization_with_sealed_basis(
+        let proposal =
+            AuthorityFinalizeProposal::new(intent, finalization_time, endorsements).unwrap();
+        verify_replicated_finalization(
             intent,
-            &finalize,
-            &self.membership,
+            &proposal,
+            intent.prepare_log_index + 1,
             &self.authority,
             &boot_generations,
         )
         .unwrap()
     }
+}
+
+#[test]
+fn legacy_direct_verification_cannot_publish() {
+    let fixture = Fixture::new();
+    let mut store = fixture.store();
+    let intent = fixture.intent(&store, "legacy-denied");
+    let finalize = fixture.finalize_with(
+        &intent,
+        &[0, 1],
+        CanonicalAuthorityTime {
+            unix_seconds: FINALIZE_SECONDS,
+            nanos: 0,
+            uncertainty_millis: 2,
+        },
+    );
+    let legacy =
+        verify_finalization(&intent, &finalize, &fixture.membership, &fixture.authority).unwrap();
+    assert_eq!(
+        store.publish_test_only(&intent, legacy),
+        Err(AuthorityProtocolError::InvalidIntent)
+    );
 }
 
 #[test]
@@ -856,7 +890,7 @@ fn replay_with_regressed_finalize_time() {
         verify_finalization(&intent, &finalize, &fixture.membership, &fixture.authority).unwrap();
     assert_eq!(
         store.publish_test_only(&intent, verified),
-        Err(AuthorityProtocolError::RetryConflict)
+        Err(AuthorityProtocolError::InvalidIntent)
     );
     let distinct = fixture.intent_at(
         &store,

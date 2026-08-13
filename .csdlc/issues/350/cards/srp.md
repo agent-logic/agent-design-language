@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Exact #350 design/cards and authority_protocol/serving_authority contracts, durable schema compatibility, sealed construction boundary, cross-binding, quorum/deadline proof, redaction, and exact exclusions.
+
 
 ## Prompts
 

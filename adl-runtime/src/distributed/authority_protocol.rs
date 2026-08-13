@@ -1146,6 +1146,68 @@ pub fn test_observatory_published_authority(bytes: Vec<u8>) -> PublishedAuthorit
     )
 }
 
+#[cfg(feature = "internal-test-fixtures")]
+#[derive(Clone, Copy, Debug)]
+pub enum ObservatoryAuthorityMutation {
+    MissingQuorumBasis,
+    NonMajorityThreshold,
+    OversizedGuardianId,
+    EmptySigners,
+    SignerGeneration,
+    DeadlineBeforeFinalization,
+}
+
+#[cfg(feature = "internal-test-fixtures")]
+pub fn test_observatory_authority_mutation_rejected(
+    bytes: Vec<u8>,
+    mutation: ObservatoryAuthorityMutation,
+) -> bool {
+    let mut published = test_observatory_published_authority(bytes);
+    match mutation {
+        ObservatoryAuthorityMutation::MissingQuorumBasis => {
+            published.operation.quorum_basis = None;
+        }
+        ObservatoryAuthorityMutation::NonMajorityThreshold => {
+            let basis = published.operation.quorum_basis.as_mut().unwrap();
+            basis.configurations[0].threshold = basis.configurations[0].entries.len();
+            if basis.configurations[0].threshold == 1 {
+                basis.configurations[0].threshold = 2;
+            }
+            basis.configurations[0].digest = canonical_domain_digest(
+                QUORUM_CONFIG_DOMAIN,
+                &(
+                    basis.configurations[0].threshold,
+                    &basis.configurations[0].entries,
+                ),
+            )
+            .unwrap();
+        }
+        ObservatoryAuthorityMutation::OversizedGuardianId => {
+            let basis = published.operation.quorum_basis.as_mut().unwrap();
+            basis.configurations[0].entries[0].guardian_id = vec![b'x'; MAX_IDENTITY_BYTES + 1];
+            basis.configurations[0].digest = canonical_domain_digest(
+                QUORUM_CONFIG_DOMAIN,
+                &(
+                    basis.configurations[0].threshold,
+                    &basis.configurations[0].entries,
+                ),
+            )
+            .unwrap();
+        }
+        ObservatoryAuthorityMutation::EmptySigners => {
+            published.operation.signer_eligibility.clear();
+        }
+        ObservatoryAuthorityMutation::SignerGeneration => {
+            published.operation.signer_eligibility[0].boot_generation += 1;
+        }
+        ObservatoryAuthorityMutation::DeadlineBeforeFinalization => {
+            published.operation.inclusive_deadline.unix_seconds =
+                published.operation.finalization_time.unix_seconds - 1;
+        }
+    }
+    published.observatory_projection().is_err()
+}
+
 #[cfg(any(test, feature = "internal-test-fixtures"))]
 pub(crate) fn test_published_reconciliation_token(
     identity: AuthorityNodeIdentity,
@@ -1343,10 +1405,9 @@ impl DurableAuthorityProtocol {
     pub(crate) fn publish_test_only(
         &mut self,
         intent: &PrepareAuthorityIntent,
-        mut verified: VerifiedAuthorityOperation,
+        verified: VerifiedAuthorityOperation,
     ) -> AuthorityProtocolResult<PublishedAuthorityResult> {
-        verified.source = AuthorityVerificationSource::ReplicatedApply;
-        self.publish_verified(intent, verified)
+        self.publish(intent, verified)
     }
 
     fn publish_verified(
@@ -1578,29 +1639,6 @@ pub(crate) fn verify_finalization(
         quorum_basis: None,
         source: AuthorityVerificationSource::LegacyDirect,
     })
-}
-
-#[cfg(test)]
-pub(crate) fn verify_legacy_test_finalization_with_sealed_basis(
-    intent: &PrepareAuthorityIntent,
-    finalize: &FinalizeAuthorityIntent,
-    membership: &MembershipState,
-    authority: &AuthorityMembership,
-    authoritative_boot_generations: &BTreeMap<Vec<u8>, u64>,
-) -> AuthorityProtocolResult<VerifiedAuthorityOperation> {
-    let mut verified = verify_finalization(intent, finalize, membership, authority)?;
-    if finalize.endorsements.iter().any(|endorsement| {
-        authoritative_boot_generations.get(&endorsement.guardian_id)
-            != Some(&endorsement.boot_generation)
-    }) {
-        return Err(AuthorityProtocolError::StaleVoter);
-    }
-    verified.quorum_basis = Some(quorum_basis_snapshot(
-        authority,
-        authoritative_boot_generations,
-    )?);
-    verified.source = AuthorityVerificationSource::ReplicatedApply;
-    Ok(verified)
 }
 
 pub(crate) fn verify_replicated_finalization(
@@ -1838,14 +1876,14 @@ fn validate_quorum_basis(
     for config in &snapshot.configurations {
         if config.entries.is_empty()
             || config.entries.len() > 4096
-            || config.threshold == 0
-            || config.threshold > config.entries.len()
+            || config.threshold != config.entries.len() / 2 + 1
             || config
                 .entries
                 .windows(2)
                 .any(|pair| pair[0].guardian_id >= pair[1].guardian_id)
             || config.entries.iter().any(|entry| {
                 entry.guardian_id.is_empty()
+                    || entry.guardian_id.len() > MAX_IDENTITY_BYTES
                     || entry.certificate_generation == 0
                     || entry.boot_generation == 0
             })

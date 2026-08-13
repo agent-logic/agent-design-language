@@ -104,7 +104,7 @@ Seal replicated Observatory authority with durable quorum, deadline, exact servi
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

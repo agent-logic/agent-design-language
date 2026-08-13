@@ -17,6 +17,7 @@ use super::{
 };
 
 const OBSERVATORY_BINDING_DOMAIN: &str = "adl.observatory-serving-authority-binding.v1";
+const I_JSON_MAX_INTEGER: u64 = 9_007_199_254_740_991;
 
 const BINDING_SCHEMA: &str = "adl.serving-authority-foundation.binding.v1";
 const PROJECTION_SCHEMA: &str = "adl.serving-authority-foundation.projection.v1";
@@ -356,6 +357,7 @@ pub struct ServingAuthorityProjection {
 /// upgrading a redacted projection or naked digests into serving authority.
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct VerifiedServingAuthorityCut {
+    lineage_id: String,
     generation: u64,
     owner_commit_id: String,
     fencing_generation: u64,
@@ -367,7 +369,9 @@ pub struct VerifiedServingAuthorityCut {
 
 impl VerifiedServingAuthorityCut {
     #[cfg(feature = "internal-test-fixtures")]
+    #[allow(clippy::too_many_arguments)]
     pub fn fixture(
+        lineage_id: String,
         generation: u64,
         owner_commit_id: String,
         fencing_generation: u64,
@@ -377,6 +381,7 @@ impl VerifiedServingAuthorityCut {
         receipt_digest: String,
     ) -> Self {
         Self {
+            lineage_id,
             generation,
             owner_commit_id,
             fencing_generation,
@@ -388,6 +393,9 @@ impl VerifiedServingAuthorityCut {
     }
     pub fn generation(&self) -> u64 {
         self.generation
+    }
+    pub fn lineage_id(&self) -> &str {
+        &self.lineage_id
     }
     pub fn owner_commit_id(&self) -> &str {
         &self.owner_commit_id
@@ -467,6 +475,7 @@ pub fn verify_observatory_authority_projection(
         || binding.trust_domain != source.trust_domain
         || binding.polis_id != source.polis_id
         || binding.operation_id != source.operation_id
+        || binding.lineage_id != cut.lineage_id
         || binding.committed_log_index != source.committed_log_index
         || binding.foundation_generation != cut.generation
         || binding.owner_commit_id != cut.owner_commit_id
@@ -496,8 +505,11 @@ pub fn verify_observatory_authority_projection(
         validate_digest(digest)?;
     }
     if binding.committed_log_index == 0
+        || binding.committed_log_index > I_JSON_MAX_INTEGER
         || binding.foundation_generation == 0
+        || binding.foundation_generation > I_JSON_MAX_INTEGER
         || binding.fencing_generation == 0
+        || binding.fencing_generation > I_JSON_MAX_INTEGER
         || source.signer_count == 0
     {
         return Err(ServingAuthorityError::InvalidBinding);
@@ -535,6 +547,24 @@ fn validate_observatory_identifier(value: &str) -> ServingAuthorityResult<()> {
 pub struct ObservatoryBindingFixture(ObservatoryAuthorityBinding);
 
 #[cfg(feature = "internal-test-fixtures")]
+#[derive(Clone, Copy, Debug)]
+pub enum ObservatoryBindingMutation {
+    Domain,
+    TrustDomain,
+    PolisId,
+    LineageId,
+    OperationId,
+    CommittedLogIndex,
+    FoundationGeneration,
+    OwnerCommitId,
+    FencingGeneration,
+    LeaseId,
+    StateDigest,
+    ResultDigest,
+    ReceiptDigest,
+}
+
+#[cfg(feature = "internal-test-fixtures")]
 impl ObservatoryBindingFixture {
     pub fn new(suffix: &str) -> Self {
         let digest = hex::encode(Sha256::digest(suffix.as_bytes()));
@@ -557,6 +587,36 @@ impl ObservatoryBindingFixture {
     pub fn artifact_bytes(&self) -> Vec<u8> {
         serde_jcs::to_vec(&self.0).expect("fixture JCS")
     }
+
+    pub fn mutate(&mut self, mutation: ObservatoryBindingMutation) {
+        match mutation {
+            ObservatoryBindingMutation::Domain => self.0.domain.push_str(".wrong"),
+            ObservatoryBindingMutation::TrustDomain => self.0.trust_domain.push('x'),
+            ObservatoryBindingMutation::PolisId => self.0.polis_id.push('x'),
+            ObservatoryBindingMutation::LineageId => self.0.lineage_id.push('x'),
+            ObservatoryBindingMutation::OperationId => self.0.operation_id.push('x'),
+            ObservatoryBindingMutation::CommittedLogIndex => self.0.committed_log_index += 1,
+            ObservatoryBindingMutation::FoundationGeneration => self.0.foundation_generation += 1,
+            ObservatoryBindingMutation::OwnerCommitId => self.0.owner_commit_id.push('x'),
+            ObservatoryBindingMutation::FencingGeneration => self.0.fencing_generation += 1,
+            ObservatoryBindingMutation::LeaseId => self.0.lease_id.push('x'),
+            ObservatoryBindingMutation::StateDigest => {
+                self.0.foundation_state_sha256.replace_range(0..1, "f")
+            }
+            ObservatoryBindingMutation::ResultDigest => {
+                self.0.foundation_result_sha256.replace_range(0..1, "f")
+            }
+            ObservatoryBindingMutation::ReceiptDigest => {
+                self.0.foundation_receipt_sha256.replace_range(0..1, "f")
+            }
+        }
+    }
+
+    pub fn set_integers(&mut self, committed: u64, generation: u64, fencing: u64) {
+        self.0.committed_log_index = committed;
+        self.0.foundation_generation = generation;
+        self.0.fencing_generation = fencing;
+    }
 }
 
 #[cfg(feature = "internal-test-fixtures")]
@@ -564,6 +624,7 @@ impl VerifiedServingAuthorityCut {
     pub fn fixture_from_observatory(fixture: &ObservatoryBindingFixture) -> Self {
         let binding = &fixture.0;
         Self::fixture(
+            binding.lineage_id.clone(),
             binding.foundation_generation,
             binding.owner_commit_id.clone(),
             binding.fencing_generation,
@@ -636,6 +697,7 @@ impl ServingAuthorityStore {
     ) -> ServingAuthorityResult<(ServingAuthorityProjection, VerifiedServingAuthorityCut)> {
         let projection = self.apply(receipt, binding)?;
         let cut = VerifiedServingAuthorityCut {
+            lineage_id: binding.lineage_id.clone(),
             generation: binding.published_generation,
             owner_commit_id: binding.owner_commit_id.clone(),
             fencing_generation: binding.fencing_generation,

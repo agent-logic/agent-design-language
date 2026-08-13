@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-04.16b3.1b][defect] Expose sealed authenticated Observatory authority projection",
     "slug": "authenticated-observatory-authority-projection",
     "version": "v0.92",
-    "generation": 10
+    "generation": 12
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact #350 design/cards and authority_protocol/serving_authority contracts, durable schema compatibility, sealed construction boundary, cross-binding, quorum/deadline proof, redaction, and exact exclusions.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
