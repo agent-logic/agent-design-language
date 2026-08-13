@@ -157,6 +157,31 @@ impl ServingAuthorityBinding {
         Ok(framed)
     }
 
+    #[cfg(any(test, debug_assertions))]
+    pub fn from_canonical_preimage_fixture(bytes: &[u8]) -> ServingAuthorityResult<Self> {
+        if bytes.len() > MAX_PREIMAGE_BYTES
+            || !bytes.starts_with(DOMAIN)
+            || bytes.len() < DOMAIN.len() + 4
+        {
+            return Err(ServingAuthorityError::InvalidBinding);
+        }
+        let length = u32::from_be_bytes(
+            bytes[DOMAIN.len()..DOMAIN.len() + 4]
+                .try_into()
+                .map_err(|_| ServingAuthorityError::InvalidBinding)?,
+        ) as usize;
+        let jcs = &bytes[DOMAIN.len() + 4..];
+        if length != jcs.len() {
+            return Err(ServingAuthorityError::InvalidBinding);
+        }
+        let value: Self =
+            serde_json::from_slice(jcs).map_err(|_| ServingAuthorityError::InvalidBinding)?;
+        if value.canonical_preimage()?.as_slice() != bytes {
+            return Err(ServingAuthorityError::InvalidBinding);
+        }
+        Ok(value)
+    }
+
     fn validate(&self) -> ServingAuthorityResult<()> {
         if self.schema != BINDING_SCHEMA
             || self.adapter_version == 0
@@ -392,6 +417,11 @@ impl ServingAuthorityStore {
     ) -> ServingAuthorityResult<()> {
         self.apply_until(receipt, binding, Some(boundary))
             .map(|_| ())
+    }
+
+    #[cfg(any(test, debug_assertions))]
+    pub fn visible_projection_fixture(&self) -> Option<String> {
+        self.envelope.payload().published_operation.clone()
     }
 
     fn apply(

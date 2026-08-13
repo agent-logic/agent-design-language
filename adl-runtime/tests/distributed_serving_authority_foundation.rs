@@ -214,11 +214,142 @@ fn restart_from_pending_and_reconciled_resumes_before_publication() {
         store
             .persist_fixture_boundary(&sealed, &candidate, boundary)
             .unwrap();
+        assert_eq!(store.visible_projection_fixture(), None);
         drop(store);
         let mut reopened = ServingAuthorityStore::open(&root, identity(), authority, 1).unwrap();
         let projection = reopened
             .reconcile_and_publish_fixture(&sealed, &candidate)
             .unwrap();
         assert_eq!(projection.readiness, "published");
+    }
+}
+
+#[test]
+fn canonical_preimage_rejects_schema_fields_lengths_bounds_and_substitutions() {
+    let original = binding("operation-1", empty_state_sha256());
+    let bytes = original.canonical_preimage().unwrap();
+    assert_eq!(
+        ServingAuthorityBinding::from_canonical_preimage_fixture(&bytes).unwrap(),
+        original
+    );
+    let mut cases = Vec::new();
+    let mut bad_domain = bytes.clone();
+    bad_domain[0] ^= 1;
+    cases.push(bad_domain);
+    let mut bad_length = bytes.clone();
+    bad_length[47] ^= 1;
+    cases.push(bad_length);
+    let json: serde_json::Value = serde_json::from_slice(&bytes[48..]).unwrap();
+    for field in [
+        "schema",
+        "fencing_generation",
+        "prior_state_sha256",
+        "candidate_state_sha256",
+        "receipt_digest",
+    ] {
+        let mut value = json.clone();
+        value[field] = if field.ends_with("generation") {
+            serde_json::json!(0)
+        } else {
+            serde_json::json!("changed")
+        };
+        cases.push(frame_json(&bytes, &value));
+    }
+    let mut extra = json;
+    extra["unexpected"] = serde_json::json!(true);
+    cases.push(frame_json(&bytes, &extra));
+    cases.push(vec![b'x'; 4097]);
+    for candidate in cases {
+        assert_eq!(
+            ServingAuthorityBinding::from_canonical_preimage_fixture(&candidate),
+            Err(ServingAuthorityError::InvalidBinding)
+        );
+    }
+
+    let sealed = receipt(&original);
+    for field in [
+        "owner_commit_id",
+        "lease_id",
+        "prior_state_sha256",
+        "candidate_state_sha256",
+    ] {
+        let mut value: serde_json::Value = serde_json::from_slice(&bytes[48..]).unwrap();
+        value[field] = if field.ends_with("sha256") {
+            serde_json::json!("44".repeat(32))
+        } else {
+            serde_json::json!("single-byte-change")
+        };
+        let changed =
+            ServingAuthorityBinding::from_canonical_preimage_fixture(&frame_json(&bytes, &value))
+                .unwrap();
+        let dir = TempDir::new().unwrap();
+        let mut store = ServingAuthorityStore::open(
+            &root(&dir),
+            identity(),
+            Arc::new(MemoryAuthority::default()),
+            1,
+        )
+        .unwrap();
+        assert_eq!(
+            store.reconcile_and_publish_fixture(&sealed, &changed),
+            Err(ServingAuthorityError::ReceiptMismatch)
+        );
+    }
+}
+
+fn frame_json(original: &[u8], value: &serde_json::Value) -> Vec<u8> {
+    let payload = serde_jcs::to_vec(value).unwrap();
+    let mut framed = original[..44].to_vec();
+    framed.extend_from_slice(&(payload.len() as u32).to_be_bytes());
+    framed.extend_from_slice(&payload);
+    framed
+}
+
+#[test]
+fn conflicting_retry_and_capacity_denial_preserve_published_state() {
+    let dir = TempDir::new().unwrap();
+    let root = root(&dir);
+    let authority = Arc::new(MemoryAuthority::default());
+    let mut store = ServingAuthorityStore::open(&root, identity(), authority, 1).unwrap();
+    let first = binding("operation-1", empty_state_sha256());
+    let sealed = receipt(&first);
+    let published = store
+        .reconcile_and_publish_fixture(&sealed, &first)
+        .unwrap();
+    let conflicting = binding("operation-1", "aa".repeat(32));
+    let conflicting_receipt = receipt(&conflicting);
+    assert_eq!(
+        store.reconcile_and_publish_fixture(&conflicting_receipt, &conflicting),
+        Err(ServingAuthorityError::RetryConflict)
+    );
+    let second = binding("operation-2", "bb".repeat(32));
+    let mut second_receipt = receipt(&second);
+    second_receipt.operation_id = "operation-2".into();
+    second_receipt.result_sha256 = Sha256::digest(second.canonical_preimage().unwrap()).into();
+    assert_eq!(
+        store.reconcile_and_publish_fixture(&second_receipt, &second),
+        Err(ServingAuthorityError::CapacityExceeded)
+    );
+    assert_eq!(
+        store
+            .reconcile_and_publish_fixture(&sealed, &first)
+            .unwrap(),
+        published
+    );
+}
+
+#[test]
+fn malformed_noncanonical_and_oversized_durable_state_fail_closed() {
+    for content in [
+        br#"{"schema":"wrong"}"#.to_vec(),
+        vec![b'x'; 1024 * 1024 + 1],
+    ] {
+        let dir = TempDir::new().unwrap();
+        let root = root(&dir);
+        let authority = Arc::new(MemoryAuthority::default());
+        let store = ServingAuthorityStore::open(&root, identity(), authority.clone(), 1).unwrap();
+        drop(store);
+        fs::write(root.join("serving-authority.json"), content).unwrap();
+        assert!(ServingAuthorityStore::open(&root, identity(), authority, 1).is_err());
     }
 }

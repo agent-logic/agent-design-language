@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-04.16b3.1b][205.a] Build durable serving-authority foundation",
     "slug": "serving-authority-foundation",
     "version": "v0.92",
-    "generation": 2
+    "generation": 3
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact #272 foundation-only design, typed six-card identity, prerequisite terminal ancestry, durable Pending/Reconciled/Published state machine, exact authority bindings, retry/restart/corruption/capacity/path safety, redacted base projection, frozen ownership, validation budgets, and exclusion of parent #205, #203 registry, #273-#275, #204, Runtime-kernel, projection, UI, cloud, provider, and paid-runner work.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

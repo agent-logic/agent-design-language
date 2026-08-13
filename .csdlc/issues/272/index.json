@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "f93934d7effdf8514fffeaedd928b6f7b927df58bf1010f2ca0e8ee302fd5497",
   "phase": "implemented",
-  "generation": 2,
-  "digest": "ca54c7b3624263fd0ae97ae706b2e361015b30be811aa977f8ad8eb3d988a0f9",
+  "generation": 3,
+  "digest": "5b0a1c882b35b62e7bf4a2c02fe86b70cbbf40480e578a8518537ce7e323dcf8",
   "branch": "codex/272-serving-authority-foundation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-272-serving-authority-foundation",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "617d02a6c9ee01cf01e81a3b9c4ad0a5850b130b2b27c2b0969c02f4dec7024d",
+      "values_digest": "cd2275c729253239fce4e187ea674d7c325483fa2648bab1aa184925af9a1538",
       "rendered_digest": "1f19f3794fe2aae1774a4448d8d562eb89d7508813709c16c32d9a2f24d86a67",
       "ast_digest": "ca44581ccef27929e5fd033c948e375c2027c6e24ab3cd18f32163fb387accc7"
     },
     "stp": {
-      "values_digest": "e5d3c1eacb26f4000a16017922937e301fd1990d85c39b378e60bc2a293c28ca",
+      "values_digest": "6b7a6841b881656e29eccbbd186d68ec2f16c6bf2a3426b1215ff25258f18d88",
       "rendered_digest": "1a546f237b31932f6f52154a82bc69800cb744a3e9a6982a0f3b736d1b25616e",
       "ast_digest": "f0f01363a49c960987bc2671ea4a9e3c7da82f6acfe31ea2910d1b2c4c45319e"
     },
     "spp": {
-      "values_digest": "b0605a80a1be05077c5656eb9da734cbeec8910d050e37499d597bd1b667927b",
+      "values_digest": "6167ee072229c0ff86b5d268f5666ac9c077329df5844099a2913754facef383",
       "rendered_digest": "bda7bc1d368023c02931566b5017be3f3aa2a1409d6e260921ef30876ccfee0b",
       "ast_digest": "6cbdca12af675a6d398d07e0a08dc14bc0a0abad874310f363e7bdad50d61342"
     },
     "vpp": {
-      "values_digest": "260291f854005efb74722d63d80b81ba65358cf3047ee30bd8c8ef5c9b2d1d44",
+      "values_digest": "7af94cb9fa6ee0a4d8f692131e8222b63895782de3609fe8c3c3e1b1b9d13dfd",
       "rendered_digest": "90f504e37880ad273675fc5f2c598bd345ffd28415a7f636357de34f8870c01a",
       "ast_digest": "dde84048aa85a2f3e705b98ddd5349d6a8dd74d7be875597cdfae831061fda47"
     },
     "srp": {
-      "values_digest": "6d21efbe6a4d7282d57496ff3e26a43dd76e5382aa85beb69056483598d4b54a",
-      "rendered_digest": "2d866931228aa8e76770b9564229dc1eba53ea349d5629a7ee9cf62b5142bc24",
-      "ast_digest": "197c1b747c0cd5225f76018925d4b2b297cdcfa8dbced7696326b90c4d9753f3"
+      "values_digest": "b71068520c1953fbe89c28b2436a647ae817d271e6fa41eeca49a6f6c1a5b5d3",
+      "rendered_digest": "990ad0d0149f4438e6e32bc2910da18a006038657c3084662ca60c4a972c8610",
+      "ast_digest": "99ecb2d710e7c1b051ad0f5c0a188634eef64689a9404edd6490cc07ab9b1f7b"
     },
     "sor": {
-      "values_digest": "0b094c635c0b0c91091d392d5d0ba56a10729d3d464c7cf6d7c3e29f9aa6136f",
-      "rendered_digest": "998af22130d8b0f6bd17836dec82224b75b72a2a3c9df1652cec132f886419d6",
-      "ast_digest": "b929cf6a99b8cca774e59a1981f26c569d1a265aac5f27614c249a0aa601a5e0"
+      "values_digest": "256d09877da0e91cc30029b4fc99c809b4d844b1edc09428f67ef6a5e21f648c",
+      "rendered_digest": "067d4e95514db1bf9751bdc15eac82cdeeff6725e78427ec61bdeef2f2d27553",
+      "ast_digest": "df809d92b176e246cf202e945f9e972a938e2d57c1ad470beb8f6daf51f037ff"
     }
   },
   "transitions": [
@@ -106,6 +106,20 @@
       "actor": "codex:planning2-issue272-owner",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:planning2-issue272-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:planning2-issue272-owner",
+      "reason": "Recover failed fresh-session:80077170-5a85-4c91-815f-16372cff214b exact-head review at 48cd0e7b: add the missing explicit canonical/schema/bounds/embedded-binding substitution, retry conflict, malformed-state, capacity atomicity, and pre-publication visibility proof before a new immutable head and fresh assignment.",
+      "operation": "recover_review"
     }
   ]
 }

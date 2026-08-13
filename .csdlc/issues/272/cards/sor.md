@@ -90,7 +90,7 @@ Implemented the bounded durable serving-authority foundation with exact sealed #
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

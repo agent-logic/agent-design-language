@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Exact #272 foundation-only design, typed six-card identity, prerequisite terminal ancestry, durable Pending/Reconciled/Published state machine, exact authority bindings, retry/restart/corruption/capacity/path safety, redacted base projection, frozen ownership, validation budgets, and exclusion of parent #205, #203 registry, #273-#275, #204, Runtime-kernel, projection, UI, cloud, provider, and paid-runner work.
+
 
 ## Prompts
 
