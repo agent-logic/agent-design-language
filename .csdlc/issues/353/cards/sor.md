@@ -74,11 +74,11 @@ Anchor canonical review equality to the exact live publication metadata head whi
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

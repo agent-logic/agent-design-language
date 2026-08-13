@@ -13,8 +13,6 @@ Status: pre_phase
 ## Scope
 
 csdlc-v2/src/finish.rs
-csdlc-v2/src/publication.rs
-csdlc-v2/src/model.rs
 csdlc-v2/tests/gate_finish.rs
 .csdlc/issues/353
 .csdlc/evidence/353
@@ -40,8 +38,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:84256326d2a8967c599d0e8239ada8757f8f0d56:c6c98f23727699ae6b4b2e02db3bd228bab2bfc9e7b619864fe1249043b72e2b")
 
-Reviewer: None
+Reviewer: Some("fresh-session:fresh_353_impl_review")
 
-Result: pre_review
+Result: pass
