@@ -1,4 +1,6 @@
-use anyhow::Result;
+use anyhow::{Context, Result};
+use std::path::{Path, PathBuf};
+use std::process::Command;
 
 mod agent_cmd;
 mod artifact_cmd;
@@ -404,8 +406,7 @@ fn dispatch_review_args(args: &[String]) -> Result<()> {
     );
 
     match args.first().map(|s| s.as_str()) {
-        Some("code-review") => review_to_tooling_args("code-review", &args[1..])
-            .and_then(|mapped| real_tooling(&mapped)),
+        Some("code-review") => run_review_code_review(&args[1..]),
         Some("card-surface") => review_to_tooling_args("review-card-surface", &args[1..])
             .and_then(|mapped| real_tooling(&mapped)),
         Some("runtime-surface") => review_to_tooling_args("review-runtime-surface", &args[1..])
@@ -414,10 +415,7 @@ fn dispatch_review_args(args: &[String]) -> Result<()> {
             review_to_tooling_args("verify-review-output-provenance", &args[1..])
                 .and_then(|mapped| real_tooling(&mapped))
         }
-        Some("verify-repo-contract") => {
-            review_to_tooling_args("verify-repo-review-contract", &args[1..])
-                .and_then(|mapped| real_tooling(&mapped))
-        }
+        Some("verify-repo-contract") => run_review_verify_repo_contract(&args[1..]),
         Some("pr") | Some("issue") | Some("tooling") => Err(anyhow::anyhow!(
             "adl-review owns review tooling only. Resolve the final generation with csdlc-install, then use the independent typed v2 binaries for C-SDLC issue work."
         )),
@@ -448,6 +446,169 @@ fn review_to_tooling_args(subcommand: &str, args: &[String]) -> Result<Vec<Strin
     mapped.push(subcommand.to_string());
     mapped.extend(args.iter().cloned());
     Ok(mapped)
+}
+
+#[allow(dead_code)]
+fn run_review_verify_repo_contract(args: &[String]) -> Result<()> {
+    let review = option_value(args, "--review")?;
+    let text = std::fs::read_to_string(review)
+        .with_context(|| format!("failed to read review artifact '{}'", review.display()))?;
+    verify_repo_review_contract(&text)?;
+    println!("repo-review-contract: ok");
+    Ok(())
+}
+
+#[allow(dead_code)]
+fn verify_repo_review_contract(text: &str) -> Result<()> {
+    let required_sections = [
+        "## Metadata",
+        "## Scope",
+        "## Findings",
+        "## System-Level Assessment",
+        "## Recommended Action Plan",
+        "## Follow-ups / Deferred Work",
+        "## Final Assessment",
+    ];
+    let mut previous = 0;
+    for section in required_sections {
+        let Some(index) = text.find(section) else {
+            return Err(anyhow::anyhow!(
+                "repo review contract violation: missing section '{section}'"
+            ));
+        };
+        if index < previous {
+            return Err(anyhow::anyhow!(
+                "repo review contract violation: section '{section}' is out of order"
+            ));
+        }
+        previous = index;
+    }
+
+    if !text.contains("Review Type:")
+        || !text.contains("Reviewer:")
+        || !text.contains("Reviewed:")
+        || !text.contains("Not Reviewed:")
+        || !text.contains("Review Mode:")
+    {
+        return Err(anyhow::anyhow!(
+            "repo review contract violation: metadata/scope fields are incomplete"
+        ));
+    }
+
+    let findings = section_body(text, "## Findings", "## System-Level Assessment")?;
+    let has_severity = ["[P0]", "[P1]", "[P2]", "[P3]", "[P4]", "[P5]"]
+        .iter()
+        .any(|marker| findings.contains(marker));
+    let no_material_findings = findings.contains("No material findings.");
+    if !has_severity && !no_material_findings {
+        return Err(anyhow::anyhow!(
+            "repo review contract violation: findings must use severity markers or state 'No material findings.'"
+        ));
+    }
+
+    Ok(())
+}
+
+#[allow(dead_code)]
+fn section_body<'a>(text: &'a str, start: &str, end: &str) -> Result<&'a str> {
+    let start_index = text
+        .find(start)
+        .ok_or_else(|| anyhow::anyhow!("section '{start}' not found"))?;
+    let body_start = start_index + start.len();
+    let end_index = text[body_start..]
+        .find(end)
+        .map(|offset| body_start + offset)
+        .ok_or_else(|| anyhow::anyhow!("section '{end}' not found"))?;
+    Ok(&text[body_start..end_index])
+}
+
+#[allow(dead_code)]
+fn run_review_code_review(args: &[String]) -> Result<()> {
+    let out = option_value(args, "--out")?;
+    let backend = optional_value(args, "--backend")?.unwrap_or("fixture");
+    let visibility = optional_value(args, "--visibility")?.unwrap_or("read-only-repo");
+
+    if backend != "fixture" {
+        return Err(anyhow::anyhow!(
+            "adl-review code-review currently supports the deterministic fixture backend only; provider-backed review is outside this smoke route"
+        ));
+    }
+    if !matches!(visibility, "packet-only" | "read-only-repo") {
+        return Err(anyhow::anyhow!(
+            "unsupported review visibility '{visibility}'. Expected packet-only or read-only-repo"
+        ));
+    }
+
+    let root = find_repo_root()?;
+    let script = root.join("adl/tools/demo_v090_codebuddy_review_showcase.sh");
+    let validator = root.join("adl/tools/validate_codebuddy_review_showcase_demo.py");
+    let status = Command::new("bash")
+        .arg(&script)
+        .arg(out)
+        .status()
+        .with_context(|| format!("failed to run {}", script.display()))?;
+    if !status.success() {
+        return Err(anyhow::anyhow!(
+            "deterministic code-review fixture failed with status {status}"
+        ));
+    }
+    let status = Command::new("python3")
+        .arg(&validator)
+        .arg(out)
+        .status()
+        .with_context(|| format!("failed to run {}", validator.display()))?;
+    if !status.success() {
+        return Err(anyhow::anyhow!(
+            "deterministic code-review fixture validation failed with status {status}"
+        ));
+    }
+
+    println!("code-review fixture: ok");
+    println!("artifact_root: {}", out.display());
+    Ok(())
+}
+
+#[allow(dead_code)]
+fn option_value<'a>(args: &'a [String], name: &str) -> Result<&'a Path> {
+    let value = optional_value(args, name)?
+        .ok_or_else(|| anyhow::anyhow!("missing required option '{name}'"))?;
+    Ok(Path::new(value))
+}
+
+#[allow(dead_code)]
+fn optional_value<'a>(args: &'a [String], name: &str) -> Result<Option<&'a str>> {
+    let mut values = args.iter();
+    while let Some(arg) = values.next() {
+        if arg == name {
+            let Some(value) = values.next() else {
+                return Err(anyhow::anyhow!("option '{name}' requires a value"));
+            };
+            return Ok(Some(value.as_str()));
+        }
+        if let Some(value) = arg.strip_prefix(&format!("{name}=")) {
+            return Ok(Some(value));
+        }
+    }
+    Ok(None)
+}
+
+#[allow(dead_code)]
+fn find_repo_root() -> Result<PathBuf> {
+    let mut current = std::env::current_dir().context("failed to resolve current directory")?;
+    loop {
+        if current.join("adl/Cargo.toml").is_file()
+            && current
+                .join("adl/tools/demo_v090_codebuddy_review_showcase.sh")
+                .is_file()
+        {
+            return Ok(current);
+        }
+        if !current.pop() {
+            return Err(anyhow::anyhow!(
+                "could not locate agent-design-language repository root"
+            ));
+        }
+    }
 }
 
 #[allow(dead_code)]

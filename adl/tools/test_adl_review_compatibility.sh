@@ -5,7 +5,6 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 MANIFEST="$ROOT_DIR/adl/Cargo.toml"
 TMP_DIR="$(mktemp -d)"
 trap 'rm -rf "$TMP_DIR"' EXIT
-ADL_BIN="${ADL_BIN:-}"
 ADL_REVIEW_BIN="${ADL_REVIEW_BIN:-}"
 ADL_PACKAGE_VERSION="${ADL_PACKAGE_VERSION:-}"
 
@@ -25,14 +24,6 @@ assert_status_nonzero() {
     echo "assertion failed ($label): expected nonzero exit" >&2
     exit 1
   }
-}
-
-run_adl() {
-  if [[ -n "$ADL_BIN" ]]; then
-    "$ADL_BIN" "$@"
-    return
-  fi
-  cargo run --quiet --manifest-path "$MANIFEST" --bin adl -- "$@"
 }
 
 run_review() {
@@ -100,14 +91,39 @@ None.
 Pass.
 EOF
 
-legacy_out="$TMP_DIR/legacy-review-contract.txt"
 review_out="$TMP_DIR/review-contract.txt"
-run_adl tooling verify-repo-review-contract --review "$review_fixture" >"$legacy_out"
 run_review verify-repo-contract --review "$review_fixture" >"$review_out"
-cmp "$legacy_out" "$review_out" || {
-  echo "assertion failed: adl-review verify-repo-contract output drifted from legacy tooling command" >&2
-  exit 1
-}
+assert_contains "repo-review-contract: ok" "$(cat "$review_out")" "review contract success"
+
+bad_review="$TMP_DIR/bad-review.md"
+cat >"$bad_review" <<'EOF'
+## Metadata
+- Review Type: fixture
+- Reviewer: fixture
+
+## Scope
+- Reviewed: review compatibility surface
+- Not Reviewed: runtime behavior
+- Review Mode: fixture
+
+## Findings
+- vague issue with no severity
+
+## Final Assessment
+Looks okay.
+EOF
+
+set +e
+bad_output="$(run_review verify-repo-contract --review "$bad_review" 2>&1)"
+bad_status=$?
+set -e
+assert_status_nonzero "$bad_status" "bad review contract"
+assert_contains "repo review contract violation" "$bad_output" "bad review contract diagnostic"
+
+code_review_out="$TMP_DIR/code-review-smoke"
+code_review_output="$(run_review code-review --out "$code_review_out" --backend fixture --visibility read-only-repo)"
+assert_contains "code-review fixture: ok" "$code_review_output" "code-review fixture"
+python3 "$ROOT_DIR/adl/tools/validate_codebuddy_review_showcase_demo.py" "$code_review_out"
 
 set +e
 issue_output="$(run_review pr run 3599 2>&1)"

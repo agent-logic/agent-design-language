@@ -1,0 +1,125 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 5913,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "6a5a8a2f2350b7ffe3899f5dad5e5b39a2054da2f0c9138ac388b2c93b8ff5e7",
+  "phase": "implemented",
+  "generation": 4,
+  "digest": "7c8899fa1a724365294aebeed3fffe57e471f6ca9f300f537379b592231bf1e8",
+  "branch": "codex/5913-repair-adl-review-compatibility-routing",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5913-adl-review-routing",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/5913/design.md",
+  "diagram_path": ".csdlc/prepared/issues/5913/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:issue5913_fresh_design_review_6",
+      "revision": "61e3dce4250f315ea1afafe8a84d54e1433ca4bd1621a47e75e1c66c0fd85df3"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "3ea519478fc01f03b7f79dc70da06ebd9d3bb360b3c94fbe6546d1d2b5017b4a",
+      "rendered_digest": "34e93594d22d0195e945568476646f2084febad9f0f18b2232e969179fa51b19",
+      "ast_digest": "8a3784fb1584110103a35108a68d7e983f1c62444d54a010be1ad799cc5b96ee"
+    },
+    "stp": {
+      "values_digest": "e11c9fd0494cca5fa7217b99ecd9d5fa851d5104bf31dc3ae418fef3b67e3001",
+      "rendered_digest": "e61895bbba87ace15a7e53bb5136efc29bc2105ea06c81e503a14e471defed04",
+      "ast_digest": "52ae355f59153da999d724c2133a1aa190245ed3cae203677f9876be3df89695"
+    },
+    "spp": {
+      "values_digest": "272b36fc75168b77b1b6f3e9b9f5531f9774fd22cc19d344f97a67d70535f91f",
+      "rendered_digest": "5ea449b178e9fa4c571afac0d4731e45b73cd16ad467d4ee392615b957e0108c",
+      "ast_digest": "81b8b8e01ed790ee1cf2da35404bb201d22fcccc25fb2186107f8a1c9b629aa5"
+    },
+    "vpp": {
+      "values_digest": "ac7e36362b45ab00bf46080379a05d23676450688052f241c75671b4ca30e2c2",
+      "rendered_digest": "d07e6e27fd8972968faa8dc97c4aa23317033aef1913f1a4818c41e696c66117",
+      "ast_digest": "2220360798039c1e52115627c0868afe1bd7f8cd523c639bb8905c068c9c6b86"
+    },
+    "srp": {
+      "values_digest": "fd87aed5fd71cb8dc72aea82b501f1034a88788a2af059f1a9b421e534659ebc",
+      "rendered_digest": "41275f29ab6fd06bf0f21782ee1b2e53993036231a3ee4ec5f7faa509055381e",
+      "ast_digest": "e23ccbac2b1bcd669738bcc68fd058b35e9742df7a7508e977a683686f8b2d6e"
+    },
+    "sor": {
+      "values_digest": "b0c6ff23bf70da4160bb126ef6e80fbdde6bf6ccf1b6fcbedff09f4cf14ddc98",
+      "rendered_digest": "b6461ad8e4f7eec227830025b0f367f817153240cdfcac3f272db7a70feac740",
+      "ast_digest": "8637257e456c1546f653317cbf9698b3b9768d7453281ea42c5fec4c076dad30"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:worker-2-codefriend-tooling",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Refresh pre-bind design and diagram digests after replacing placeholder #5913 design packet with bounded implementation design; preserve the existing pending plan denominator.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/5913/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/5913/diagram.mmd\",\"new_design_digest\":\"61e3dce4250f315ea1afafe8a84d54e1433ca4bd1621a47e75e1c66c0fd85df3\",\"new_diagram_digest\":\"a67429101e30164192a2e66b9be496fe1f7cc3f07907e79241a4b2fcb270ce15\",\"old_design_digest\":\"54a9ab97a20b22f26745e1d8b0518184b4a7b6f54333c4542a35722def8ded0b\",\"old_diagram_digest\":\"9a5b47e34fe492eda5c0a57bba4aaefbfd6d29d1a5a9a8c8bd1f0c1c5e0ba696\"},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\"],\"action\":\"Bootstrap and approve the bounded routing-repair design.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\"],\"action\":\"Implement the smallest read-only adl-review compatibility routing repair.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-5\"],\"action\":\"Run focused compatibility validation and strict relevant Clippy.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-6\"],\"action\":\"Obtain fresh exact-head review and stop before publication.\",\"id\":\"S4\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Correct #5913 VPP lane mapping so strict Clippy proves AC-5 only; AC-6 remains the separate fresh exact-head review gate recorded through SRP/review truth.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"adl-review-compatibility\",\"proof_role\":\"Focused compatibility regression for adl-review help/dispatch and CodeFriend deterministic smoke routing\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"bash\",\"adl/tools/test_adl_review_compatibility.sh\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"strict-clippy-adl-review\",\"proof_role\":\"Strict relevant Rust lint for adl-review dispatch changes\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl-review\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"fresh-exact-head-review\",\"proof_role\":\"Typed fresh-session exact-head review gate before publication; not a Rust lint proof\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":5000,\"argv\":[\".adl/bin/csdlc-v2/csdlc-review\",\"--root\",\".\",\"assign\",\"--request\",\".git/csdlc-v2/requests/5913-review-assign.json\"],\"parallel_group\":\"review\",\"defer_reason\":\"Runs only after #5913 reaches implemented phase with a clean substantive exact head.\"}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "fresh-session:issue5913_fresh_design_review_6",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}

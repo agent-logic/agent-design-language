@@ -1,0 +1,60 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5913,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][Sprint 6][tools] Repair adl-review compatibility routing",
+    "slug": "repair-adl-review-compatibility-routing",
+    "version": "v0.92",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Repair #5913 adl-review read-only compatibility routing for verify-repo-contract and deterministic fixture code-review without provider credentials or v1 lifecycle resurrection.",
+      "actual_changes": [
+        "Route adl-review verify-repo-contract to a direct markdown repository-review contract verifier instead of the removed v1 tooling multiplexer.",
+        "Route adl-review code-review fixture mode to the deterministic CodeBuddy/CodeFriend showcase smoke path and validator, rejecting provider-backed backends for this bounded issue.",
+        "Update the focused compatibility regression so it no longer uses adl tooling as an oracle and covers good/bad contract packets plus deterministic fixture smoke."
+      ],
+      "artifacts": [
+        "adl/src/cli/mod.rs",
+        "adl/tools/test_adl_review_compatibility.sh"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "bash",
+            "adl/tools/test_adl_review_compatibility.sh"
+          ],
+          "purpose": "Prove the repaired adl-review read-only compatibility surface and fail-closed command boundaries",
+          "outcome": "passed",
+          "evidence_ref": "adl-review-compatibility.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "--bin",
+            "adl-review",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Prove the repaired adl-review Rust dispatch compiles cleanly under strict Clippy",
+          "outcome": "passed",
+          "evidence_ref": "strict-clippy-adl-review.log"
+        }
+      ],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

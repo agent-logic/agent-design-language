@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 5913,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][Sprint 6][tools] Repair adl-review compatibility routing",
+    "slug": "repair-adl-review-compatibility-routing",
+    "version": "v0.92",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue 5913 adl-review dispatch, focused compatibility test, and deterministic CodeFriend/CodeBuddy smoke routing only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the repaired adl-review help text match implemented behavior?",
+        "Does verify-repo-contract run through current supported code without removed v1 multiplexer dispatch?",
+        "Does the CodeFriend/CodeBuddy deterministic smoke route remain non-provider and read-only?",
+        "Are sunset lifecycle surfaces still rejected?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
