@@ -95,3 +95,4 @@
 {"sequence":95,"generation":67,"actor":"codex:issue-298-r25-publication","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":96,"generation":68,"actor":"codex:issue-298-r26-main-merge-reconciliation","reason":"Recover stale published review after owner-preserving merge of current origin/main into PR #305 at f4fa3e64a83a14fb10365fd40993464f4cdf753c to resolve merge conflict in csdlc-v2/src/store.rs. Require refreshed exact-head review, republication, and hosted CI before terminal finish.","operation":"recover_review"}
 {"sequence":97,"generation":68,"actor":"codex:issue-298-r26-main-merge-reconciliation","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":98,"generation":69,"actor":"fresh-session:aee63902-3a08-4f0b-8f9f-6676a5ef1352","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

@@ -39,12 +39,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Inspection-only review; reviewer did not rerun validation or recheck GitHub CI. Parent observed local validation at the unchanged source tree after merge reconciliation: cargo fmt --check, git diff --check, focused gate5 preserved_projection_recovery, cargo test --lib, and strict all-target Clippy all passed. Hosted CI remains deferred to republication.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:222abd504d99a3bedc224699c0b68d302aac25b7:84e0aadc005c93ddf4bf88ac30533059fc92a2038fae8d23f727d44885c3e4fd")
 
-Reviewer: None
+Reviewer: Some("fresh-session:aee63902-3a08-4f0b-8f9f-6676a5ef1352")
 
-Result: pre_review
+Result: pass
