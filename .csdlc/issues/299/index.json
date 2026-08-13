@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cc1c0d0bd318f0bbe41d3b610f2c6f17dff214cca5d5fc13b831f5d4c7ba3af8",
-  "phase": "implemented",
-  "generation": 21,
-  "digest": "cce8526288eb2366ac670f372ef9a4163f0a4a268f1948fded9d29afec386c7d",
+  "phase": "reviewed",
+  "generation": 22,
+  "digest": "7cfd8c6c25de31ca9836d358501385525fcbf59a48079728890f0df4d0ebf39d",
   "branch": "codex/299-exact-authority-archived-projection-cleanup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-299-exact-authority-archived-projection-cleanup",
   "review_assignment": {
@@ -21,7 +21,24 @@
       ".csdlc/evidence/299"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:2d97c7db-3bf8-4613-85ec-4428272d6ad3",
+    "scope": [
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/projection_cleanup.rs",
+      "csdlc-v2/tests/archived_projection_cleanup.rs",
+      ".csdlc/issues/299",
+      ".csdlc/evidence/299"
+    ],
+    "reviewed_revision": "git-blake3:203c5aa4b10abd00645a2f4c2b3250596c00c7ec:555a95f593bce60087da1ca698c742220a7e4f2370e07c17d6e536568dec1b57",
+    "findings": [],
+    "residual_risks": [
+      "Review was inspection-only and did not rerun validation; it verified the owner-recorded exact-head focused, strict Clippy, fmt, and diff evidence plus SOR truth.",
+      "Prior serial full-suite RED in gate_github_actions remains preserved and is not converted to PASS by focused #299 proof."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -36,32 +53,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "78b3e679fb447d6fd08b40bce5a5050eefc124a3d40bcf6e4fc5df6466e2c06c",
+      "values_digest": "dc665b134c78e961a700c269b4e23e8495f2eb056099460da734b5a989244463",
       "rendered_digest": "610615d8dedbdc86ee75bdd5a73f74f3bb2e8acb65e609092b57cea776d694e2",
       "ast_digest": "135c49ea4619e7241bb8a2a08658257e2494075146388ceec11a47ab4ad4989d"
     },
     "stp": {
-      "values_digest": "ed018db3ea5ac9d531f33867f6924cb9835e190bd2782e802e60c520f9f821a9",
+      "values_digest": "7cb2ef815ba8fa7c7c0de704379aaf19362412b15da052b129773de53d8fbaf4",
       "rendered_digest": "7cc0b6cd5b8da81081ec555b7020b7eeef657106b4422d2916d790b73fec7b03",
       "ast_digest": "120ff67e5c1f29f0c721ea66410ef5094714e20dd1540ff7453ab0d7be52bbaa"
     },
     "spp": {
-      "values_digest": "6b55b9c2e6dca7705c47afe4357c185967d7f709ec2475b3cc3e9769a925c4d6",
+      "values_digest": "ee37237c817e96970c60c33aa9a55bfd71dd1331af6cf003a385c0f13c961973",
       "rendered_digest": "6fa872bca304faebde588f7b2b08861e046f046fd6f8294031cf1e6480b2b64e",
       "ast_digest": "88ff4df3da3a68e0e67c31f116ce960629085890b415f2ae3f961796bf627f56"
     },
     "vpp": {
-      "values_digest": "2eebb64526397e902d43c4b40c0d3a566455c95bfe1976116226449c665b67d1",
+      "values_digest": "316d3ed58c9efa5d270d71baf3e3fd8db076a32d03806cb01455ef47ab464be4",
       "rendered_digest": "55f21566d759d3ea892f8db6c03520adac829dfcf1b9994547eaeebb64138c33",
       "ast_digest": "c385bd006ea6a8c00f53fc87c5194dcf6b447df3f63a96e4199bb3a59804f67c"
     },
     "srp": {
-      "values_digest": "f95ad0b7ce256d889b13b6c59bf3f0c81bdd5d612eff0c0ce4ce98e99366ea24",
-      "rendered_digest": "c4d7e611f2a61e0fe18da577cb3be323f3090814cc8ce0253516dcf88eed4386",
-      "ast_digest": "1790a2d2b809f4d1a3deb73dd52ebe35557a04f77a34bca8159d26f9cadd4f7e"
+      "values_digest": "ca8a539ea47be934443b231826663da62134081a2c8d954ce6c58c661ee2f3d0",
+      "rendered_digest": "dcef1b79ca9154721caa887332c9cb9a54c05ada6d6cc6e3cc585a0655119f62",
+      "ast_digest": "354645eaf62721682422cb7016397ad7f03c4adcf51ffdf27c36a5a974bba224"
     },
     "sor": {
-      "values_digest": "2668ffd82de9b708cfa333163c9f94447e33ca461cd85fe004404c8691bdac98",
+      "values_digest": "226b9e6faa8c327af437d9a44171598def5054d5e40f94324fd5098f0892700e",
       "rendered_digest": "7f4bde4605ae7db01d5e5635fe7228b15025dd5bde1937c280749b8a64b7d08b",
       "ast_digest": "c911fcc20915d4994c9eb9f7e36271d0a118faad881b3e7f80a26eb98f221823"
     }
@@ -87,6 +104,13 @@
       "to": "implemented",
       "actor": "codex:worker-5",
       "reason": "advance #299 after bounded execution and green local validation"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:2d97c7db-3bf8-4613-85ec-4428272d6ad3",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -292,6 +316,13 @@
       "actor": "codex:worker-5",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 22,
+      "actor": "fresh-session:2d97c7db-3bf8-4613-85ec-4428272d6ad3",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
