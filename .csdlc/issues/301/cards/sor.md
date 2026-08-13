@@ -112,11 +112,11 @@ Recovered stale #301 review after fresh-session:fbaa979a found first-page-only p
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
