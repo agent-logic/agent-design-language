@@ -37,3 +37,4 @@
 {"sequence":37,"generation":24,"actor":"codex:issue-301-janitor","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":38,"generation":25,"actor":"codex:issue-301-janitor","reason":"Fresh review assignment fresh-session:bfd51967-1af6-4ab9-938f-c60fe9f4ec12 produced no verdict after bounded wait and was interrupted. Preserve assignment truth as no-result and recover review authority before dispatching a different fresh no-context reviewer against unchanged pagination-remediation scope.","operation":"recover_review"}
 {"sequence":39,"generation":25,"actor":"codex:issue-301-janitor","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":40,"generation":26,"actor":"codex:issue-301-janitor","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
