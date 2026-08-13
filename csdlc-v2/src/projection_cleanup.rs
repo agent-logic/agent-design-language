@@ -12,7 +12,7 @@ use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 
-use csdlc_v2::{ErrorCode, Result, V2Error};
+use crate::{ErrorCode, Result, V2Error};
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize, JsonSchema)]
 #[serde(deny_unknown_fields)]
@@ -113,6 +113,10 @@ pub fn execute_archived_projection_cleanup(
     let archived_root =
         canonical_real_directory(Path::new(&request.archived_root), "archived root")?;
     validate_recovery_authority(request, &archived_root)?;
+    reject_cleanup_ledger_inside_archived_before_create(
+        Path::new(&request.cleanup_ledger_root),
+        &archived_root,
+    )?;
     let ledger_root =
         canonical_or_create_directory(Path::new(&request.cleanup_ledger_root), "cleanup ledger")?;
     if archived_root == ledger_root || ledger_root.starts_with(&archived_root) {
@@ -595,7 +599,9 @@ fn receipt(
         if existing.is_empty() {
             fs::remove_file(&tmp)?;
             sync_directory(dir)?;
-        } else if existing == bytes || temp_receipt_matches(&existing, seq, state, payload)? {
+        } else if existing == bytes
+            || temp_receipt_matches(&existing, seq, state, previous.as_ref(), payload)?
+        {
             fs::rename(&tmp, &path)?;
             sync_directory(dir)?;
             return Ok(blake3::hash(&existing).to_hex().to_string());
@@ -627,12 +633,20 @@ fn receipt(
     Ok(blake3::hash(&bytes).to_hex().to_string())
 }
 
-fn temp_receipt_matches(bytes: &[u8], seq: u32, state: &str, payload: &Value) -> Result<bool> {
+fn temp_receipt_matches(
+    bytes: &[u8],
+    seq: u32,
+    state: &str,
+    previous: Option<&String>,
+    payload: &Value,
+) -> Result<bool> {
     let value: Value = serde_json::from_slice(bytes)?;
+    let expected_previous = serde_json::to_value(previous)?;
     Ok(value.get("schema").and_then(Value::as_str)
         == Some("csdlc.archived_projection_cleanup_receipt.v1")
         && value.get("sequence").and_then(Value::as_u64) == Some(seq as u64)
         && value.get("state").and_then(Value::as_str) == Some(state)
+        && value.get("previous_receipt_digest") == Some(&expected_previous)
         && receipt_payload_matches(state, value.get("payload"), payload))
 }
 
@@ -647,6 +661,7 @@ fn receipt_payload_matches(state: &str, existing: Option<&Value>, expected: &Val
         "captured" => {
             existing.get("path") == expected.get("path")
                 && existing.get("expected_identity") == expected.get("expected_identity")
+                && existing.get("placeholder_identity") == expected.get("placeholder_identity")
         }
         "removed" => {
             existing.get("path") == expected.get("path")
@@ -909,6 +924,29 @@ fn canonical_real_directory(path: &Path, label: &str) -> Result<PathBuf> {
 fn canonical_or_create_directory(path: &Path, label: &str) -> Result<PathBuf> {
     fs::create_dir_all(path)?;
     canonical_real_directory(path, label)
+}
+
+fn reject_cleanup_ledger_inside_archived_before_create(
+    ledger_path: &Path,
+    archived_root: &Path,
+) -> Result<()> {
+    let mut existing = ledger_path;
+    while !existing.exists() {
+        existing = existing.parent().ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::InvalidInput,
+                "cleanup ledger path has no existing parent",
+            )
+        })?;
+    }
+    let existing = canonical_real_directory(existing, "cleanup ledger parent")?;
+    if existing == archived_root || existing.starts_with(archived_root) {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "cleanup ledger must be outside the archived projection tree",
+        ));
+    }
+    Ok(())
 }
 
 fn safe_child(root: &Path, relative: &str) -> Result<PathBuf> {

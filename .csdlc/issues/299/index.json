@@ -5,21 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cc1c0d0bd318f0bbe41d3b610f2c6f17dff214cca5d5fc13b831f5d4c7ba3af8",
   "phase": "implemented",
-  "generation": 15,
-  "digest": "058980efa3b255dc41b8ac0ed4ccfa5f9e42210a3ad911a54da32372acbc8f2c",
+  "generation": 16,
+  "digest": "e7713554318f2717689c7e01b53f36d15a199ea2322f58212edaf885c12859d4",
   "branch": "codex/299-exact-authority-archived-projection-cleanup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-299-exact-authority-archived-projection-cleanup",
-  "review_assignment": {
-    "reviewer": "fresh-session:7a5c597d-693a-48a4-952c-b6369a5d2d58",
-    "assigned_by": "codex:worker-5",
-    "revision": "git-blake3:b7195407760bb79b1bfe9f4f2ec2296e22928dd5:fc21536859152afdb20ffdbe5aa5589dd8fffb0eb06eb22a0f17a510795b9e9f",
-    "scope": [
-      "csdlc-v2/src/projection_cleanup.rs",
-      "csdlc-v2/tests/archived_projection_cleanup.rs",
-      ".csdlc/issues/299",
-      ".csdlc/evidence/299"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -35,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4b65586cbadc61c315642f0d64056181785c57fed02e70aafeae203aec8056fc",
+      "values_digest": "c4ba8849f5d1dbdd1730968e4cf4447c57e9a9ec13e1d74676ff78974cbdf663",
       "rendered_digest": "610615d8dedbdc86ee75bdd5a73f74f3bb2e8acb65e609092b57cea776d694e2",
       "ast_digest": "135c49ea4619e7241bb8a2a08658257e2494075146388ceec11a47ab4ad4989d"
     },
     "stp": {
-      "values_digest": "6b53c69a05c95a0e7e0187383fbfaff3a8a00752290c4000ff8f2abd99f79fcc",
+      "values_digest": "10eb67154de99e69e36b75d18b9377bc552ea29d4de388949cda9699448e20f3",
       "rendered_digest": "7cc0b6cd5b8da81081ec555b7020b7eeef657106b4422d2916d790b73fec7b03",
       "ast_digest": "120ff67e5c1f29f0c721ea66410ef5094714e20dd1540ff7453ab0d7be52bbaa"
     },
     "spp": {
-      "values_digest": "470a7aa16a23b0fc78cf16d145948290c1e8b5b8cf3c78cb4e72717cadb063eb",
+      "values_digest": "b51ed2acf23d47fcd85482ba7a84999d05024046167b90d474ec8dd154090b5c",
       "rendered_digest": "6fa872bca304faebde588f7b2b08861e046f046fd6f8294031cf1e6480b2b64e",
       "ast_digest": "88ff4df3da3a68e0e67c31f116ce960629085890b415f2ae3f961796bf627f56"
     },
     "vpp": {
-      "values_digest": "be8b29fe746cae616ee60cef49fda0e2cc874d29b4b506baf254438c0b843c16",
+      "values_digest": "8db30f106df205bc41a0e8a3a4e95df56707475839049abce87966b7272c9678",
       "rendered_digest": "55f21566d759d3ea892f8db6c03520adac829dfcf1b9994547eaeebb64138c33",
       "ast_digest": "c385bd006ea6a8c00f53fc87c5194dcf6b447df3f63a96e4199bb3a59804f67c"
     },
     "srp": {
-      "values_digest": "4efcf3096958f5c5646a0635a63dec72d941e496bfcfe52647bf6f5fe4454339",
-      "rendered_digest": "9931ccee70c3e0335852b8fd8c8caf1ff73f3dc05ae944e1468ebbbfbf9eae9a",
-      "ast_digest": "d49e369f68a95a5a6deb952a3940504871238520aeaa13ee9d89d01780512d00"
+      "values_digest": "ce73defa388f947de642d4b117ee300328cfeeb6bc97a9df5867000aaf712e7d",
+      "rendered_digest": "708684ae00ce6a56e1c3665c3abd6cd750ef28f3e409cec7f883b9e1d9dda135",
+      "ast_digest": "df87168b6d92ac454e83d542bb26c238298450f0a185b815117bef325c33c81a"
     },
     "sor": {
-      "values_digest": "02d20fe65c161604ad82758e00183f758d0c40231e53eb7f19aa7373880c80af",
+      "values_digest": "50436590187ec75300972667cef8177ba88219e4cd3926de5901c2c0e6d2642e",
       "rendered_digest": "a95bdfd886268dcd337b2be3609cf44f80f7f77f4cf4321cb1b9100eaf5c01ad",
       "ast_digest": "0b969ff8561da0aad6f73b59e628a2f4a74cec15b74a332d6e363f6d324d7b41"
     }
@@ -228,6 +218,13 @@
       "actor": "codex:worker-5",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "codex:worker-5",
+      "reason": "Recover failed exact review r5 at git-blake3:b7195407760bb79b1bfe9f4f2ec2296e22928dd5:fc21536859152afdb20ffdbe5aa5589dd8fffb0eb06eb22a0f17a510795b9e9f. Findings preserved: P1 csdlc-v2/src/projection_cleanup.rs is not wired into the production crate/API and is only used by the integration test path import; P1 temp cleanup receipt adoption validates schema/sequence/state/payload subsets but not previous_receipt_digest, and captured temp adoption omits placeholder_identity; P2 cleanup_ledger_root inside archived_root is created by canonical_or_create_directory before the unsafe descendant check rejects it.",
+      "operation": "recover_review"
     }
   ]
 }

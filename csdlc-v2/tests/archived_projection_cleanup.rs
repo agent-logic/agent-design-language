@@ -1,13 +1,10 @@
-#[path = "../src/projection_cleanup.rs"]
-mod projection_cleanup;
-
 use std::fs;
 use std::os::unix::fs::MetadataExt;
 use std::os::unix::fs::PermissionsExt;
 use std::path::{Path, PathBuf};
 use std::process::Command;
 
-use projection_cleanup::{
+use csdlc_v2::{
     execute_archived_projection_cleanup, ArchivedProjectionCleanupRequest,
     ArchivedProjectionCleanupStatus, ArchivedProjectionNode, CleanupNodeIdentity, CleanupNodeType,
 };
@@ -299,6 +296,41 @@ fn cleanup_rejects_coherent_caller_identity_forgery_without_manifest_binding() {
 }
 
 #[test]
+fn cleanup_rejects_ledger_inside_archive_before_namespace_mutation() {
+    let (_temp, root, merge_sha) = repo();
+    let archived = root.join("archived");
+    fs::create_dir(&archived).expect("archived");
+    let node = archived.join("stale.json");
+    fs::write(&node, "{}\n").expect("node");
+    let (terminal_path, terminal_digest) = terminal(&root, &merge_sha);
+    let mut req = request(
+        &root,
+        &merge_sha,
+        &terminal_path,
+        &terminal_digest,
+        vec![ArchivedProjectionNode {
+            relative_path: "stale.json".into(),
+            identity: identity(&node, CleanupNodeType::RegularFile),
+        }],
+    );
+    req.cleanup_ledger_root = archived
+        .join("cleanup-ledger")
+        .to_string_lossy()
+        .into_owned();
+    assert_eq!(
+        execute_archived_projection_cleanup(&req)
+            .expect_err("archive-local ledger rejected before create")
+            .code,
+        csdlc_v2::ErrorCode::UnsafeCheckout
+    );
+    assert!(node.exists());
+    assert!(
+        !archived.join("cleanup-ledger").exists(),
+        "unsafe cleanup ledger path must not be created inside archive"
+    );
+}
+
+#[test]
 fn cleanup_removes_only_exact_file_and_empty_directory_then_repeats_idempotently() {
     let (_temp, root, merge_sha) = repo();
     let archived = root.join("archived");
@@ -580,6 +612,53 @@ fn cleanup_restarts_across_intent_receipt_fsync_and_disposal_boundaries() {
         );
         assert!(!node.exists(), "node should be absent after {failpoint}");
     }
+}
+
+#[test]
+fn cleanup_rejects_temp_receipts_without_predecessor_and_placeholder_binding() {
+    let (_temp, root, mut req, node) = single_file_request();
+    req.fail_after = Some("receipt_captured_fsynced".into());
+    execute_archived_projection_cleanup(&req).expect_err("leave captured temp receipt");
+    let captured_tmp = root.join("cleanup-ledger/op-299/113-captured.json.tmp");
+    let mut receipt: serde_json::Value =
+        serde_json::from_slice(&fs::read(&captured_tmp).expect("read captured tmp"))
+            .expect("captured tmp json");
+    receipt["previous_receipt_digest"] = serde_json::Value::String("forged".into());
+    fs::write(
+        &captured_tmp,
+        serde_json::to_vec_pretty(&receipt).expect("rewrite captured tmp"),
+    )
+    .expect("write forged predecessor");
+    req.fail_after = None;
+    assert_eq!(
+        execute_archived_projection_cleanup(&req)
+            .expect_err("forged predecessor digest rejected")
+            .code,
+        csdlc_v2::ErrorCode::CorruptRecord
+    );
+    assert!(node.exists());
+
+    let (_temp, root, mut req, node) = single_file_request();
+    req.fail_after = Some("receipt_captured_fsynced".into());
+    execute_archived_projection_cleanup(&req).expect_err("leave captured temp receipt");
+    let captured_tmp = root.join("cleanup-ledger/op-299/113-captured.json.tmp");
+    let mut receipt: serde_json::Value =
+        serde_json::from_slice(&fs::read(&captured_tmp).expect("read captured tmp"))
+            .expect("captured tmp json");
+    receipt["payload"]["placeholder_identity"]["inode"] = serde_json::Value::from(0_u64);
+    fs::write(
+        &captured_tmp,
+        serde_json::to_vec_pretty(&receipt).expect("rewrite captured tmp"),
+    )
+    .expect("write forged placeholder");
+    req.fail_after = None;
+    assert_eq!(
+        execute_archived_projection_cleanup(&req)
+            .expect_err("forged placeholder identity rejected")
+            .code,
+        csdlc_v2::ErrorCode::CorruptRecord
+    );
+    assert!(node.exists());
 }
 
 #[test]

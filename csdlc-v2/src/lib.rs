@@ -16,6 +16,7 @@ pub mod migration;
 pub mod model;
 pub mod operator;
 pub mod output;
+pub mod projection_cleanup;
 pub mod projection_recovery;
 pub mod proof;
 pub mod publication;
@@ -88,6 +89,11 @@ pub use operator::{
     CoexistenceInventory, InstallReceipt, SkillManifest,
 };
 pub use output::write_json_stdout;
+pub use projection_cleanup::{
+    execute_archived_projection_cleanup, ArchivedProjectionCleanupRequest,
+    ArchivedProjectionCleanupResult, ArchivedProjectionCleanupStatus, ArchivedProjectionNode,
+    CleanupNodeIdentity, CleanupNodeType,
+};
 pub use projection_recovery::{
     classify_preserved_projection, recover_preserved_projection, CandidateObservation,
     FailedOperationLineage, ManifestEntry, NodeIdentity, ProjectionCasAnchor,
