@@ -7,15 +7,15 @@
     "title": "[v0.92][C-SDLC][defect] Restore strict Clippy after v1 tooling removal",
     "slug": "real-tooling-dead-code",
     "version": "v0.92",
-    "generation": 4
+    "generation": 5
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl/src/cli/mod.rs\nadl/tests/issue_327_removed_tooling.rs\n.csdlc/issues/327\n.csdlc/evidence/327",
-      "review_revision": "git-blake3:c319ed89ac391075c707d515cb6008be49350698:8b5daeb87aa5cf44a331d1615f855d67a43765462ef768ff0620fbae36012ddb",
-      "reviewer": "fresh-session:5fa416f3-1811-4126-b4bd-e3e37530cf1b",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Is removing real_tooling behavior-preserving given all current dispatch call sites?",
         "Does any v1 tooling route or authority return?",
@@ -23,10 +23,8 @@
         "Did the change avoid every #259 surface?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Inspection-only fresh review; the reviewer did not rerun local validation or hosted CI. Recorded evidence shows the focused issue_327_removed_tooling regression and strict all-target Clippy passed at the exact reviewed head; hosted required checks remain deferred to publication."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

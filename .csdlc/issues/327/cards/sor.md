@@ -60,11 +60,11 @@ Remove the unreachable sunset v1 tooling helper and prove extant ADL compatibili
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

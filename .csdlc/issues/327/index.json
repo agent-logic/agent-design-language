@@ -4,50 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "4c11af5db97bf747fda030cf8022c5c9a7dc1f107d60165655873661ac7c4288",
-  "phase": "published",
-  "generation": 4,
-  "digest": "5b2f2abe37ca20cf821b867d366fb6015a70552d1896f81786d678db586a9427",
+  "phase": "implemented",
+  "generation": 5,
+  "digest": "89b5e07dff78c2c829b15cf8ff66a83404ca6032addfd05ad79d9cf562e971db",
   "branch": "codex/327-real-tooling-dead-code",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-327-real-tooling-dead-code",
-  "review_assignment": {
-    "reviewer": "fresh-session:5fa416f3-1811-4126-b4bd-e3e37530cf1b",
-    "assigned_by": "codex:baseline-ci-real-tooling",
-    "revision": "git-blake3:c319ed89ac391075c707d515cb6008be49350698:8b5daeb87aa5cf44a331d1615f855d67a43765462ef768ff0620fbae36012ddb",
-    "scope": [
-      "adl/src/cli/mod.rs",
-      "adl/tests/issue_327_removed_tooling.rs",
-      ".csdlc/issues/327",
-      ".csdlc/evidence/327"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:5fa416f3-1811-4126-b4bd-e3e37530cf1b",
-    "scope": [
-      "adl/src/cli/mod.rs",
-      "adl/tests/issue_327_removed_tooling.rs",
-      ".csdlc/issues/327",
-      ".csdlc/evidence/327"
-    ],
-    "reviewed_revision": "git-blake3:c319ed89ac391075c707d515cb6008be49350698:8b5daeb87aa5cf44a331d1615f855d67a43765462ef768ff0620fbae36012ddb",
-    "findings": [],
-    "residual_risks": [
-      "Inspection-only fresh review; the reviewer did not rerun local validation or hosted CI. Recorded evidence shows the focused issue_327_removed_tooling regression and strict all-target Clippy passed at the exact reviewed head; hosted required checks remain deferred to publication."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 327,
-    "pull_request": 329,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/329",
-    "base": "main",
-    "head": "codex/327-real-tooling-dead-code",
-    "revision": "git-blake3:c319ed89ac391075c707d515cb6008be49350698:8b5daeb87aa5cf44a331d1615f855d67a43765462ef768ff0620fbae36012ddb",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -61,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d3504fcd90f9608650c37d1225e2e21e4276026f89abf5f422b18c5efec0beee",
+      "values_digest": "1b425072e2985f050b57b8346d5d6a8fdc96fb16e417aab792559a2254b30343",
       "rendered_digest": "ef2ee9824d3b8d60beb4a190cf8998ac20f261db07bd4c18fbf19c13d35e4876",
       "ast_digest": "8cb676f1f81a8affd4f502b321480e483abce4f7b9cb05e5b7e21d3c5b53279b"
     },
     "stp": {
-      "values_digest": "b285588cf8969e147fb31abe9823f34bdb0ab999aba046b325d37405e9f878fb",
+      "values_digest": "d020829acaa35afdb5f622b30bf6b2446531c27c003602cb83e3fd4c38646ed2",
       "rendered_digest": "e5b76088cfe0f672a2740c12357ae1d9e854c14419bba03fc0177fdc8fbbedba",
       "ast_digest": "bf2779cee99a603cf280881e64d1d3041a654e8ba20f717311e5034e98b8da87"
     },
     "spp": {
-      "values_digest": "d4c2abc8976ac3cea27798b4eb1029b8fc0ea6065ef6ce78e4350c91927d860c",
+      "values_digest": "07bb87a98f6a84fc0396e6709a9c8a817b5e63a11de0807e1a2d6b29d109fd49",
       "rendered_digest": "a98b1b8961764c6918e35b11fab5ef0f85fcbd16500f4d9f9e215fc2ca05c714",
       "ast_digest": "122fe482e3b2794279f5a2307a7598756860db18333f4003be6b398750b8fb81"
     },
     "vpp": {
-      "values_digest": "26ee56bd1480954599cb4e5129bdcd6ba05d6a15cc0461d6896804b57459b710",
+      "values_digest": "87eda90437fa2fa97ea11e76c45a0cded591eed6c1ecfc2d8315139f3b7598b9",
       "rendered_digest": "45c80d677c65ff1bb0a36ffad0aa7c717895562ec408e3957f30101b0051b466",
       "ast_digest": "b1e5b2e1351645dbf6408fc24bc57789e3a3c5cbb49262d95cd642e9c934ebea"
     },
     "srp": {
-      "values_digest": "4ac4e740f0214daba8e421af6a9852ca4649e335db99323e6a4247d30b51da53",
-      "rendered_digest": "e4b4ae4f42cf404cb380062f47bb231d3640c9a1d0472a7a0393562b43073f82",
-      "ast_digest": "f9b5e136f8fa80bac8789b972f034418517989e6574d5b234b9d56681a6b5349"
+      "values_digest": "12f6ed1ce2440e583161b6fb842e920fed5549008bf2debafb42dbaf0dbc27c8",
+      "rendered_digest": "07953f10d55d1b25ceb3b49a3122a900eddb2209af60e2ddc8e25f77db615823",
+      "ast_digest": "2e0120b5d50dcd6a7a709083fa1e7e77aab5c8831dd0f9b4b854d2308d832c34"
     },
     "sor": {
-      "values_digest": "5302f313ef7dddf6b10cefa7e52d6e3353dcad27dd3261e16a54da9daab8dc9f",
-      "rendered_digest": "3c61803668d30839aed29847107bf0c9437419a593919531133b36b02f292419",
-      "ast_digest": "bbae0a1e7b5ee469d07dadebd6bad9d42f71248a83d3f0b24b5ca0ee47fb6b84"
+      "values_digest": "fd2a61811f392d907f3aa023316b21e4ecf28df427b59d92e54dbf878a07d8c2",
+      "rendered_digest": "e6bc426a3e016ddc704db7a12092ab2a5ed277c3872e6bb85f170c66fe936029",
+      "ast_digest": "4e52757ace5aba472e110bdb42cf9410b323b4cab31b5a8c38ab5e09f7fe0f4e"
     }
   },
   "transitions": [
@@ -126,6 +90,13 @@
       "to": "published",
       "actor": "codex:baseline-ci-real-tooling",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:baseline-ci-real-tooling",
+      "reason": "Recover review authority onto the first publication metadata commit so terminal delivery can verify canonical review evidence from an ancestral commit containing the tracked issue index."
     }
   ],
   "audit": [
@@ -177,6 +148,13 @@
       "actor": "codex:baseline-ci-real-tooling",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:baseline-ci-real-tooling",
+      "reason": "Recover review authority onto the first publication metadata commit so terminal delivery can verify canonical review evidence from an ancestral commit containing the tracked issue index.",
+      "operation": "recover_review"
     }
   ]
 }

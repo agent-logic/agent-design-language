@@ -8,14 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-adl/src/cli/mod.rs
-adl/tests/issue_327_removed_tooling.rs
-.csdlc/issues/327
-.csdlc/evidence/327
+
 
 ## Prompts
 
@@ -34,12 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Inspection-only fresh review; the reviewer did not rerun local validation or hosted CI. Recorded evidence shows the focused issue_327_removed_tooling regression and strict all-target Clippy passed at the exact reviewed head; hosted required checks remain deferred to publication.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:c319ed89ac391075c707d515cb6008be49350698:8b5daeb87aa5cf44a331d1615f855d67a43765462ef768ff0620fbae36012ddb")
+Revision: None
 
-Reviewer: Some("fresh-session:5fa416f3-1811-4126-b4bd-e3e37530cf1b")
+Reviewer: None
 
-Result: pass
+Result: pre_review
