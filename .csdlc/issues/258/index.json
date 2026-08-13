@@ -4,13 +4,55 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "7a796039f2472c65fbfbdbe6e649213a6496c7c2c70a8d3b9e1e3f4247255cb5",
-  "phase": "implemented",
-  "generation": 35,
-  "digest": "8ff9ddeaa2fe7c7cb56513d9eea46d9e527d747be0d8bfcde39a1ab971104faa",
+  "phase": "reviewed",
+  "generation": 36,
+  "digest": "00a84efa1cc6d0a1d39c88801974b92b4ad1e2e20416c30d16288141ba1cb5da",
   "branch": "codex/258-authority-store-boundary",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:04321b5d-4737-4d72-8e44-fb47434efad4",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:ce825589c2d86943d13c43bc44943ebb55cfada1:ba61a63ea903ba0331931cc9e6d39907df4e91c237c0eec1c56df8d50ae2f94d",
+    "scope": [
+      "adl-runtime/src/distributed",
+      "adl-runtime/tests",
+      "adl/config/mechanical_coverage_fallout.v1.json",
+      "adl/tools/mechanical_coverage_fallout.py",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/run_pr_fast_coverage_lane.sh",
+      "adl/tools/test_mechanical_coverage_fallout.sh",
+      "adl/tools/test_check_coverage_impact.sh",
+      "adl/tools/test_run_pr_fast_coverage_lane.sh",
+      ".csdlc/issues/258",
+      ".csdlc/prepared/issues/258",
+      ".csdlc/evidence/258"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:04321b5d-4737-4d72-8e44-fb47434efad4",
+    "scope": [
+      "adl-runtime/src/distributed",
+      "adl-runtime/tests",
+      "adl/config/mechanical_coverage_fallout.v1.json",
+      "adl/tools/mechanical_coverage_fallout.py",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/run_pr_fast_coverage_lane.sh",
+      "adl/tools/test_mechanical_coverage_fallout.sh",
+      "adl/tools/test_check_coverage_impact.sh",
+      "adl/tools/test_run_pr_fast_coverage_lane.sh",
+      ".csdlc/issues/258",
+      ".csdlc/prepared/issues/258",
+      ".csdlc/evidence/258"
+    ],
+    "reviewed_revision": "git-blake3:ce825589c2d86943d13c43bc44943ebb55cfada1:ba61a63ea903ba0331931cc9e6d39907df4e91c237c0eec1c56df8d50ae2f94d",
+    "findings": [],
+    "residual_risks": [
+      "Review was read-only and did not run validation commands; it relied on immutable git object inspection plus retained local validation evidence.",
+      "PASS is limited to the reviewed transmute(()) denial and assigned #258 authority-store/coverage-classifier scope; it does not claim arbitrary unsafe/UB construction is impossible or that #203/#205 are complete."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +67,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "30a2adc29d4582a6f62e2376850f432f1ac9bd6f4de19a0be5791e0fc38d6a75",
+      "values_digest": "e2309d838fe42ef41f97de56d06c168e144d4e707730b77633e33e30e492d5e6",
       "rendered_digest": "202f956d615444157d2a8e11a7f9d03249cc552ac17af494a18cdfbdf4342730",
       "ast_digest": "54b8fd032af0131de7749088c7f648c941b96701d48c79fada87436dc2072006"
     },
     "stp": {
-      "values_digest": "8a76c8c40ded8601a04a21bdbff4e6c009d072b9e4ff9a95796cd4ae9f7f8925",
+      "values_digest": "183876d2b719b52002a8cd82bbea8764ed801a655cfc939fae2cb0016366d33f",
       "rendered_digest": "28ced32ded0a8d859b9c17ba736d20a3761e0763b32c4043e74ca49d09eb0365",
       "ast_digest": "d82a28ae135e1a09b8c4acd555e43fdf1daad2b8ae14c0bb98648e0c03dd6a7d"
     },
     "spp": {
-      "values_digest": "928d028d554a6fda5c9889158ebdccbc57d7b344598d67ca1e8971fe90515f92",
+      "values_digest": "587f32f07e15dc001703a54561728c93857f7655bc94cb1e60cce3877c7385fa",
       "rendered_digest": "868fb33ac2fed719fe3d2bb45d2678236998dbee5241b9c4671d413be93f6740",
       "ast_digest": "71fd0d5dcd1792dfa7b35ea45afdf88fbcdec8a9c0a734541bf65a6c24530430"
     },
     "vpp": {
-      "values_digest": "3b10dc44913e2bdf08e3a4d81bc6340f6ccf81d9a3b8090ea7ecadb1bd313bb8",
+      "values_digest": "fcb56615fd7c90b598f785a43afa18cb88048ad37af1da3fa8869092d20ef167",
       "rendered_digest": "08393e3244534254c726f05bd2b4bafb3d6c2eec4b241223c1c369195ebe2105",
       "ast_digest": "a40bad77b3d2a900e84b7e327b0df5aa597ae5f33910b1a17111f839f1568db1"
     },
     "srp": {
-      "values_digest": "356394a1936710acde1b71051048a3db482659bb74d8b0734c43cb82e3d777f9",
-      "rendered_digest": "0b537e37916e1726ed60625e32f3a44c0737b008e07993cadef4dee8ca817574",
-      "ast_digest": "9419120e903ff6b652b0062abbe3f7e16ab55ed96c82ea8ec2800c86b019dd73"
+      "values_digest": "4d57d5dacaaf7d076de07208b96b1cd3000b65ee6ea115da934dc00e0235d854",
+      "rendered_digest": "03e6062d579d092fd54d7e7e3811b4d77099a7185e669543c9e2068c437ddaa9",
+      "ast_digest": "1ea69b3c74e563285f23da3e4b8768ed97586bb0f419d9f561fee705252a5254"
     },
     "sor": {
-      "values_digest": "d26dcd795378a7c234faa7d7b5e75053b7c9d827a5bebda5710690b9a0872238",
+      "values_digest": "4d5d4953226b67035cf33aab3771ac11dbe0442a1fbbcf1651ef5524731d4813",
       "rendered_digest": "0abf1f7cf7927216f55f14ee988ba85b6f156e884a912ee395dc56c2f1ef7eb4",
       "ast_digest": "fe26e7a1026ea55f7e5b212ad86c2df8d56c593f88b1c9421e09b6020e443fbd"
     }
@@ -139,6 +181,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover PR #290 current publication/review to implemented after current-head run 31598860366 failed stable adl-coverage: hosted producers passed, aggregate changed-source coverage gate failed because #258 branch includes over-broad #259/#260 runtime-caller/transport contamination outside the slice1 authority-store boundary."
+    },
+    {
+      "sequence": 13,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -463,6 +512,20 @@
       "actor": "codex:/root",
       "reason": "Append final typed validation after the non-ZST authority-token SOR update.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary\",\"issue\",\"--issue\",\"258\"],\"purpose\":\"Validate typed #258 lifecycle truth after the non-ZST authority-token SOR update.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/csdlc-validate-non-zst-token-seal-final.log\"}}"
+    },
+    {
+      "sequence": 47,
+      "generation": 35,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 48,
+      "generation": 36,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
