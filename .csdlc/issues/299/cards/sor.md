@@ -12,30 +12,31 @@ Status: pre_phase
 
 ## Summary
 
-Implemented #299 exact-authority archived-projection cleanup, fixed the exact-review P1 that cleanup could start from terminal ancestry plus caller-supplied identities without a completed #298 recovery receipt and canonical/archive manifest binding, then resynced the branch with current main 379d9715 (#306) and recaptured clean-head validation evidence at adf20a1dda2529c7a3294117756f265153d0a647. The cleanup request requires a completed recovery receipt and canonical archive manifest, validates their content digests and terminal/root/node bindings before creating any cleanup ledger namespace or receipt, rejects caller-supplied coherent identity forgery, and keeps the cleanup engine bounded to the verified manifest entries.
+Implemented #299 exact-authority archived-projection cleanup, fixed the prior authority-binding P1, resynced to current main 379d9715, then recovered and remediated the exact review r5 findings. The cleanup API is now reachable through the production csdlc_v2 crate boundary, restart adoption of temporary receipts requires exact previous_receipt_digest plus placeholder identity binding, and an unsafe cleanup ledger path inside the archived projection is rejected before any descendant namespace is created. The focused matrix now runs through the crate-level API and proves 13/13 cleanup cases.
 
 ## Artifacts
 
+- csdlc-v2/src/lib.rs
 - csdlc-v2/src/projection_cleanup.rs
 - csdlc-v2/tests/archived_projection_cleanup.rs
-- .csdlc/evidence/299/archived-projection-cleanup-focused.log#sha256=fdba72a13c52a7b0071e27139c5b7fc6f18b7bd40e793539c27d797f0d615219
-- .csdlc/evidence/299/csdlc-v2-strict-clippy.log#sha256=68b9d7b111b3c2249c391911a90801b1730be20c90cf1cfb6278606d1c7a6290
-- .csdlc/evidence/299/fmt-diff-check.log#sha256=ee8d6e16b5f88e3ed2d2fb56b5ac609ac4be221ad899bb4b029c50216ba030ed
+- .csdlc/evidence/299/archived-projection-cleanup-focused.log#sha256=c1d9c9bcf85123f79b74b431772ab63444b3efd1a1b57555efdd2f318ec51cd1
+- .csdlc/evidence/299/csdlc-v2-strict-clippy.log#sha256=a5f70ead9e8a2f20bd360f7641998f6c5e93b4ed9af2b753c8815bd605f19c6a
+- .csdlc/evidence/299/fmt-diff-check.log#sha256=4ab17d666a69a29457ea33081a080b032983c69b8b27381bc2bc89b9bbf345e4
 - .csdlc/evidence/299/csdlc-v2-full-serial.log#sha256=cca12d5a364319d9baf25c251da5ab81812df855d8ec71b7b694e64e11854ce6
 - .csdlc/evidence/299/gate-github-actions-issue-read-isolated.log#sha256=c3ed508f285c8ad1512e74158f6d164df4bd9c2bdf0407b820fc9eda79fd599c
 - .csdlc/evidence/299/gate-github-actions-operation-marker-isolated.log#sha256=3b8cbe93e94b0f863d9eb406d9e295ba9bde4ce525a42a31330f53f6a3a4ddd6
 
 ## Execution
 
-- Merged current origin/main 379d9715 into the #299 branch with no overlap on #299-owned source/test/evidence surfaces; main-side changes were #306 lifecycle/publication surfaces.
-- Added completed_recovery_receipt, expected_recovery_receipt_digest, canonical_archive_manifest, and expected_archive_manifest_digest to the typed cleanup request.
-- Added completed recovery receipt validation before cleanup-ledger creation: schema csdlc.completed_recovery_receipt.v1, issue #298, state completed, terminal digest match, canonical archive manifest digest match, and BLAKE3 file digest match.
-- Added canonical archive manifest validation before cleanup-ledger creation: schema csdlc.canonical_archive_manifest.v1, issue #298, terminal digest match, canonical archived root match, safe relative paths, exact manifest node identity match to request nodes, duplicate rejection, and hardlink/link-count rejection before ledger mutation.
-- Preserved the acyclic authority chain terminal -> completed recovery receipt -> canonical archive manifest -> exact archived root/nodes to avoid circular digest authority.
-- Expanded focused tests to 11 cases, including missing completed receipt, bad canonical manifest, and coherent caller-supplied identity forgery that proves arbitrary same-device files cannot substitute for completed recovery receipt plus manifest authority and that no cleanup namespace/receipt is created before validation.
-- Preserved ownership boundaries: edited only csdlc-v2/src/projection_cleanup.rs and csdlc-v2/tests/archived_projection_cleanup.rs for source/test changes; did not edit projection_recovery.rs, store.rs, or gate5.rs.
-- Recovered the failed r3 review assignment with the reviewer P1 reason before remediation; no PASS was recorded for the failed review.
-- Recaptured exact post-resync clean-head evidence at adf20a1dda2529c7a3294117756f265153d0a647: focused fdba72a13c52a7b0071e27139c5b7fc6f18b7bd40e793539c27d797f0d615219; strict Clippy 68b9d7b111b3c2249c391911a90801b1730be20c90cf1cfb6278606d1c7a6290; fmt/diff ee8d6e16b5f88e3ed2d2fb56b5ac609ac4be221ad899bb4b029c50216ba030ed; full serial RED cca12d5a364319d9baf25c251da5ab81812df855d8ec71b7b694e64e11854ce6; isolated read c3ed508f285c8ad1512e74158f6d164df4bd9c2bdf0407b820fc9eda79fd599c; isolated marker 3b8cbe93e94b0f863d9eb406d9e295ba9bde4ce525a42a31330f53f6a3a4ddd6.
+- Recovered the failed r5 review assignment without recording PASS. Preserved reviewer findings exactly in audit/SRP: P1 production crate/API wiring missing, P1 temporary receipt adoption omitted previous_receipt_digest and captured placeholder_identity validation, and P2 archive-descendant cleanup ledger path was created before rejection.
+- Added production crate-level wiring inside the bounded API surface: csdlc-v2/src/lib.rs now declares pub mod projection_cleanup and re-exports execute_archived_projection_cleanup plus the request/result/status/node identity types.
+- Changed csdlc-v2/tests/archived_projection_cleanup.rs to import cleanup through csdlc_v2 instead of #[path = "../src/projection_cleanup.rs"], proving production API reachability in the focused integration test.
+- Hardened temp receipt adoption so resumed .json.tmp receipts must match schema, sequence, state, previous_receipt_digest, and expected payload; captured receipt adoption now also requires placeholder_identity, not only path and expected_identity.
+- Added focused negatives for forged temporary captured receipts with wrong previous_receipt_digest and forged placeholder_identity; both return CorruptRecord and preserve the archived node.
+- Moved archive-descendant cleanup ledger rejection before canonical_or_create_directory creates the requested ledger path. The pre-create check walks to an existing parent and rejects any parent equal to or under the canonical archived root.
+- Added a focused negative proving cleanup_ledger_root = archived_root/cleanup-ledger returns UnsafeCheckout before creating any cleanup-ledger descendant and preserves the archived node.
+- Preserved ownership boundaries: source/test edits are limited to csdlc-v2/src/lib.rs for crate API wiring, csdlc-v2/src/projection_cleanup.rs, and csdlc-v2/tests/archived_projection_cleanup.rs; did not edit projection_recovery.rs, store.rs, or gate5.rs.
+- Recaptured exact post-remediation clean-head evidence at f0cd06ff830ce744030535b5df2d980c5239bbf2: focused c1d9c9bcf85123f79b74b431772ab63444b3efd1a1b57555efdd2f318ec51cd1; strict Clippy a5f70ead9e8a2f20bd360f7641998f6c5e93b4ed9af2b753c8815bd605f19c6a; fmt/diff 4ab17d666a69a29457ea33081a080b032983c69b8b27381bc2bc89b9bbf345e4; full serial RED cca12d5a364319d9baf25c251da5ab81812df855d8ec71b7b694e64e11854ce6; isolated read c3ed508f285c8ad1512e74158f6d164df4bd9c2bdf0407b820fc9eda79fd599c; isolated marker 3b8cbe93e94b0f863d9eb406d9e295ba9bde4ce525a42a31330f53f6a3a4ddd6.
 - Preserved full-suite RED truth: the serial full suite remains failed in gate_github_actions outside the #299-owned cleanup surface; current focused proof and isolated gate reruns do not convert the broad suite result to PASS.
 
 ## Validation
@@ -54,7 +55,7 @@ Implemented #299 exact-authority archived-projection cleanup, fixed the exact-re
       "archived_projection_cleanup",
       "--no-tests=fail"
     ],
-    "purpose": "Focused #299 archived-projection cleanup matrix after P1 authority-binding remediation and base resync to main 379d9715; recaptured from clean committed head adf20a1dda2529c7a3294117756f265153d0a647 with explicit HEAD, argv, worktree status digest, and status; evidence sha256 fdba72a13c52a7b0071e27139c5b7fc6f18b7bd40e793539c27d797f0d615219.",
+    "purpose": "Focused #299 archived-projection cleanup matrix after r5 review remediation; recaptured from clean committed head f0cd06ff830ce744030535b5df2d980c5239bbf2 with explicit HEAD, argv, worktree status digest, and status. Proves 13/13 including crate-level API reachability, exact completed-recovery receipt plus canonical/archive manifest binding, coherent identity forgery rejection, no cleanup namespace before authority failure, previous_receipt_digest and placeholder_identity temp receipt adoption negatives, and zero descendant creation before unsafe archive-local ledger rejection. Evidence sha256 c1d9c9bcf85123f79b74b431772ab63444b3efd1a1b57555efdd2f318ec51cd1.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/299/archived-projection-cleanup-focused.log"
   },
@@ -71,7 +72,7 @@ Implemented #299 exact-authority archived-projection cleanup, fixed the exact-re
       "-D",
       "warnings"
     ],
-    "purpose": "Strict Rust lint proof for #299 source and tests after P1 remediation and base resync to main 379d9715; recaptured from clean committed head adf20a1dda2529c7a3294117756f265153d0a647 with explicit HEAD, argv, worktree status digest, and status; evidence sha256 68b9d7b111b3c2249c391911a90801b1730be20c90cf1cfb6278606d1c7a6290.",
+    "purpose": "Strict Rust lint proof for #299 source and tests after r5 review remediation; recaptured from clean committed head f0cd06ff830ce744030535b5df2d980c5239bbf2 with explicit HEAD, argv, worktree status digest, and status; evidence sha256 a5f70ead9e8a2f20bd360f7641998f6c5e93b4ed9af2b753c8815bd605f19c6a.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/299/csdlc-v2-strict-clippy.log"
   },
@@ -83,7 +84,7 @@ Implemented #299 exact-authority archived-projection cleanup, fixed the exact-re
       "csdlc-v2/Cargo.toml",
       "--check"
     ],
-    "purpose": "Formatting proof after P1 remediation and base resync to main 379d9715; recaptured from clean committed head adf20a1dda2529c7a3294117756f265153d0a647 with explicit HEAD, argv, worktree status digest, and status; evidence sha256 ee8d6e16b5f88e3ed2d2fb56b5ac609ac4be221ad899bb4b029c50216ba030ed.",
+    "purpose": "Formatting proof after r5 review remediation; recaptured from clean committed head f0cd06ff830ce744030535b5df2d980c5239bbf2 with explicit HEAD, argv, worktree status digest, and status; evidence sha256 4ab17d666a69a29457ea33081a080b032983c69b8b27381bc2bc89b9bbf345e4.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/299/fmt-diff-check.log"
   },
@@ -94,7 +95,7 @@ Implemented #299 exact-authority archived-projection cleanup, fixed the exact-re
       "--check",
       "origin/main...HEAD"
     ],
-    "purpose": "Committed-range whitespace hygiene after P1 remediation and base resync to main 379d9715; recaptured from clean committed head adf20a1dda2529c7a3294117756f265153d0a647 with explicit HEAD, argv, worktree status digest, and status; evidence sha256 ee8d6e16b5f88e3ed2d2fb56b5ac609ac4be221ad899bb4b029c50216ba030ed.",
+    "purpose": "Committed-range whitespace hygiene after r5 review remediation; recaptured from clean committed head f0cd06ff830ce744030535b5df2d980c5239bbf2 with explicit HEAD, argv, worktree status digest, and status; evidence sha256 4ab17d666a69a29457ea33081a080b032983c69b8b27381bc2bc89b9bbf345e4.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/299/fmt-diff-check.log"
   },
