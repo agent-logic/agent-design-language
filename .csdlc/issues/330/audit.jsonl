@@ -21,3 +21,4 @@
 {"sequence":21,"generation":17,"actor":"codex:worker-5","reason":"Recover the recorded r2 changes-required review after fixing r2-p2 private-delete residue validation and recording r3 evidence; prepare exact fresh r3 implementation review.","operation":"recover_review"}
 {"sequence":22,"generation":17,"actor":"codex:worker-5","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":23,"generation":18,"actor":"fresh-session:330-r3-exact-implementation-review","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":24,"generation":19,"actor":"codex:worker-5","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

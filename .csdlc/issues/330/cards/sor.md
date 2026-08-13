@@ -119,11 +119,11 @@ Remediated r2 review finding for #330. Recovery-side cleanup ledger authorizatio
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
