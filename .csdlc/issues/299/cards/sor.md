@@ -12,18 +12,18 @@ Status: pre_phase
 
 ## Summary
 
-Implemented #299 exact-authority archived-projection cleanup in a new isolated module, recovered the stale d655fb611 review assignment, normalized evidence hygiene, and recaptured review-readiness proof from clean committed base 299c5bb16577fc5ae462b09a5a011311204ae0bd. The cleanup engine validates cached #298 terminal merge authority and ancestry, requires ledger and archived tree atomicity, records operation and namespace intent/receipt checkpoints, captures receipt-owned regular files and empty directories through atomic exchange with operation-owned placeholders, rejects hardlinks, symlinks, non-empty directories, identity drift, mode/uid/gid/link-count drift, parent replacement, receipt corruption, and cross-device ledger placement, fsyncs receipt and parent boundaries, resumes safely across before/after intent, temp/write/fsync/rename, parent-fsync, unlink/rmdir, namespace creation, final receipt, and post-exchange/post-unlink crash boundaries, and preserves third-party public replacements.
+Implemented #299 exact-authority archived-projection cleanup in a new isolated module, recovered the stale d655fb611 review assignment, normalized evidence hygiene, and recaptured review-readiness proof from clean committed base 299c5bb16577fc5ae462b09a5a011311204ae0bd. The refreshed evidence is committed at 9bfb942eaa0b5060d82a2825b740ec2aac316b6b with exact evidence SHA256s recorded in this SOR. The cleanup engine validates cached #298 terminal merge authority and ancestry, requires ledger and archived tree atomicity, records operation and namespace intent/receipt checkpoints, captures receipt-owned regular files and empty directories through atomic exchange with operation-owned placeholders, rejects hardlinks, symlinks, non-empty directories, identity drift, mode/uid/gid/link-count drift, parent replacement, receipt corruption, and cross-device ledger placement, fsyncs receipt and parent boundaries, resumes safely across before/after intent, temp/write/fsync/rename, parent-fsync, unlink/rmdir, namespace creation, final receipt, and post-exchange/post-unlink crash boundaries, and preserves third-party public replacements.
 
 ## Artifacts
 
 - csdlc-v2/src/projection_cleanup.rs
 - csdlc-v2/tests/archived_projection_cleanup.rs
-- .csdlc/evidence/299/archived-projection-cleanup-focused.log
-- .csdlc/evidence/299/csdlc-v2-strict-clippy.log
-- .csdlc/evidence/299/fmt-diff-check.log
-- .csdlc/evidence/299/csdlc-v2-full-serial.log
-- .csdlc/evidence/299/gate-github-actions-issue-read-isolated.log
-- .csdlc/evidence/299/gate-github-actions-operation-marker-isolated.log
+- .csdlc/evidence/299/archived-projection-cleanup-focused.log#sha256=f1d67a1cf0f14f8f835d40aa1d277b7dde1769923763f75ad7e0f03efdbbc852
+- .csdlc/evidence/299/csdlc-v2-strict-clippy.log#sha256=4df65d4478d643815e8bd836b5b15afd6bbe8f7fce540d8d7da8986d88ceba32
+- .csdlc/evidence/299/fmt-diff-check.log#sha256=21727bb8021233b8bd4484d9b2ad061cadb6be8785341f29468466db553efcac
+- .csdlc/evidence/299/csdlc-v2-full-serial.log#sha256=cca12d5a364319d9baf25c251da5ab81812df855d8ec71b7b694e64e11854ce6
+- .csdlc/evidence/299/gate-github-actions-issue-read-isolated.log#sha256=c3ed508f285c8ad1512e74158f6d164df4bd9c2bdf0407b820fc9eda79fd599c
+- .csdlc/evidence/299/gate-github-actions-operation-marker-isolated.log#sha256=3b8cbe93e94b0f863d9eb406d9e295ba9bde4ce525a42a31330f53f6a3a4ddd6
 
 ## Execution
 
@@ -33,7 +33,8 @@ Implemented #299 exact-authority archived-projection cleanup in a new isolated m
 - Preserved ownership boundaries: edited only csdlc-v2/src/projection_cleanup.rs and csdlc-v2/tests/archived_projection_cleanup.rs for source/test changes; did not edit projection_recovery.rs, store.rs, or gate5.rs.
 - Recovered the stale d655fb611 review assignment before accepting any review result because pre-assignment evidence was bound to old HEAD e912bfc6 and committed range diff-check found evidence blank-line hygiene defects.
 - Normalized older full-suite/rerun evidence logs so git diff --check origin/main...HEAD is clean at committed base 299c5bb16577fc5ae462b09a5a011311204ae0bd.
-- Recaptured focused cleanup, strict Clippy, fmt, committed-range diff-check, and scoped gate_github_actions classification logs from clean committed base 299c5bb16577fc5ae462b09a5a011311204ae0bd with explicit HEAD, argv, worktree status digest, and command status.
+- Recaptured focused cleanup, strict Clippy, fmt, committed-range diff-check, and scoped gate_github_actions classification logs from clean committed base 299c5bb16577fc5ae462b09a5a011311204ae0bd with explicit HEAD, argv, worktree status digest, and command status; self-generated evidence dirt existed only after commands completed and is preserved by committed evidence at 9bfb942eaa0b5060d82a2825b740ec2aac316b6b.
+- Committed exact evidence hashes: focused f1d67a1cf0f14f8f835d40aa1d277b7dde1769923763f75ad7e0f03efdbbc852; strict Clippy 4df65d4478d643815e8bd836b5b15afd6bbe8f7fce540d8d7da8986d88ceba32; fmt/diff 21727bb8021233b8bd4484d9b2ad061cadb6be8785341f29468466db553efcac; full serial RED cca12d5a364319d9baf25c251da5ab81812df855d8ec71b7b694e64e11854ce6; isolated read c3ed508f285c8ad1512e74158f6d164df4bd9c2bdf0407b820fc9eda79fd599c; isolated marker 3b8cbe93e94b0f863d9eb406d9e295ba9bde4ce525a42a31330f53f6a3a4ddd6.
 - Preserved full-suite RED truth: the serial full suite remains failed in gate_github_actions outside the #299-owned cleanup surface; current clean isolated read and operation-marker reruns do not clear or convert the broad suite result to PASS.
 
 ## Validation
@@ -52,7 +53,7 @@ Implemented #299 exact-authority archived-projection cleanup in a new isolated m
       "archived_projection_cleanup",
       "--no-tests=fail"
     ],
-    "purpose": "Focused #299 archived-projection cleanup matrix after expanded restart, receipt, authority, drift, and corruption coverage; recaptured from clean committed base 299c5bb with explicit HEAD, argv, worktree status digest, and status.",
+    "purpose": "Focused #299 archived-projection cleanup matrix after expanded restart, receipt, authority, drift, and corruption coverage; recaptured from clean committed base 299c5bb with explicit HEAD, argv, worktree status digest, and status; evidence sha256 f1d67a1cf0f14f8f835d40aa1d277b7dde1769923763f75ad7e0f03efdbbc852.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/299/archived-projection-cleanup-focused.log"
   },
@@ -69,7 +70,7 @@ Implemented #299 exact-authority archived-projection cleanup in a new isolated m
       "-D",
       "warnings"
     ],
-    "purpose": "Strict Rust lint proof for #299 source and tests; recaptured from clean committed base 299c5bb with explicit HEAD, argv, worktree status digest, and status.",
+    "purpose": "Strict Rust lint proof for #299 source and tests; recaptured from clean committed base 299c5bb with explicit HEAD, argv, worktree status digest, and status; evidence sha256 4df65d4478d643815e8bd836b5b15afd6bbe8f7fce540d8d7da8986d88ceba32.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/299/csdlc-v2-strict-clippy.log"
   },
@@ -86,7 +87,7 @@ Implemented #299 exact-authority archived-projection cleanup in a new isolated m
       "--check",
       "origin/main...HEAD"
     ],
-    "purpose": "Formatting and committed-range whitespace hygiene from clean committed base 299c5bb; recaptured with explicit HEAD, argv, worktree status digest, and status.",
+    "purpose": "Formatting and committed-range whitespace hygiene from clean committed base 299c5bb; recaptured with explicit HEAD, argv, worktree status digest, and status; evidence sha256 21727bb8021233b8bd4484d9b2ad061cadb6be8785341f29468466db553efcac.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/299/fmt-diff-check.log"
   },
@@ -101,7 +102,7 @@ Implemented #299 exact-authority archived-projection cleanup in a new isolated m
       "csdlc-v2/Cargo.toml",
       "--workspace"
     ],
-    "purpose": "Serial full csdlc-v2 suite attempt before review readiness; remains RED in gate_github_actions and is not converted to PASS by focused #299 proof or isolated reruns.",
+    "purpose": "Serial full csdlc-v2 suite attempt before review readiness; remains RED in gate_github_actions and is not converted to PASS by focused #299 proof or isolated reruns; evidence sha256 cca12d5a364319d9baf25c251da5ab81812df855d8ec71b7b694e64e11854ce6.",
     "outcome": "failed",
     "evidence_ref": ".csdlc/evidence/299/csdlc-v2-full-serial.log"
   },
@@ -119,7 +120,7 @@ Implemented #299 exact-authority archived-projection cleanup in a new isolated m
       "--",
       "--test-threads=1"
     ],
-    "purpose": "Clean isolated rerun of the gate_github_actions read-failure case from the serial full-suite RED; current clean-base rerun passed, which does not clear the preserved serial full-suite RED.",
+    "purpose": "Clean isolated rerun of the gate_github_actions read-failure case from the serial full-suite RED; current clean-base rerun passed, which does not clear the preserved serial full-suite RED; evidence sha256 c3ed508f285c8ad1512e74158f6d164df4bd9c2bdf0407b820fc9eda79fd599c.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/299/gate-github-actions-issue-read-isolated.log"
   },
@@ -137,7 +138,7 @@ Implemented #299 exact-authority archived-projection cleanup in a new isolated m
       "--",
       "--test-threads=1"
     ],
-    "purpose": "Clean isolated rerun of the gate_github_actions operation-marker case from the serial full-suite RED; passed and does not clear the preserved serial full-suite RED.",
+    "purpose": "Clean isolated rerun of the gate_github_actions operation-marker case from the serial full-suite RED; passed and does not clear the preserved serial full-suite RED; evidence sha256 3b8cbe93e94b0f863d9eb406d9e295ba9bde4ce525a42a31330f53f6a3a4ddd6.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/299/gate-github-actions-operation-marker-isolated.log"
   }
