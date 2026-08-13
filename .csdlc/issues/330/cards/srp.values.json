@@ -7,24 +7,35 @@
     "title": "[C-SDLC][defect] Bridge-fed projection cleanup invalidates recovery validation and fails closed-race invariant",
     "slug": "bridge-fed-projection-cleanup-defect",
     "version": "v0.92",
-    "generation": 13
+    "generation": 14
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "csdlc-v2/src/projection_cleanup.rs\ncsdlc-v2/src/projection_recovery.rs\ncsdlc-v2/src/store.rs\ncsdlc-v2/tests/issue_330_bridge_cleanup_defect.rs\n.csdlc/issues/330\n.csdlc/evidence/330/r2",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:1bcb8159fd31d792fc7239b0f7c49b4b67f6b115:2aab98e56d8b85d4f3488c1347e4daac698b978a0c19ae6134530f037d64dd20",
+      "reviewer": "fresh-session:330-r2-exact-implementation-review",
       "review_prompts": [
         "Does the recovery validator accept post-cleanup retained attempts only under exact cleanup authority?",
         "Does the cleanup final-receipt race reject before mutation and preserve byte-exact state?",
         "Are #299 cleanup authority checks preserved or strengthened?",
         "Does the #300 bridge-fed target pass without synthetic authority?"
       ],
-      "findings": [],
+      "findings": [
+        {
+          "id": "r2-p2-private-delete-residue",
+          "severity": "p2",
+          "summary": "Recovery-side cleanup-ledger validation at csdlc-v2/src/projection_recovery.rs:3277 does not reject unexpected contents inside private-delete before authorizing store/recovery skip; mirror production final-validation emptiness predicate and add regression proof.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        }
+      ],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "changes_required"
     }
   }
 }
