@@ -26,14 +26,14 @@ const FENCES: TableDefinition<&str, &[u8]> =
 mod raw_access {
     #[derive(Clone, Copy, Debug)]
     pub struct CertificateStoreAccess {
-        _private: (),
+        _seal: [u8; 1],
     }
 
     pub(crate) const AUTHORITY_BOUND: CertificateStoreAccess =
-        CertificateStoreAccess { _private: () };
+        CertificateStoreAccess { _seal: [1] };
 
     #[cfg(test)]
-    pub(crate) const TEST_FIXTURE: CertificateStoreAccess = CertificateStoreAccess { _private: () };
+    pub(crate) const TEST_FIXTURE: CertificateStoreAccess = CertificateStoreAccess { _seal: [1] };
 }
 
 pub use raw_access::CertificateStoreAccess;

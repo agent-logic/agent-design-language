@@ -28,13 +28,13 @@ const SIGNATURE_BYTES: usize = 64;
 mod raw_access {
     #[derive(Clone, Copy, Debug)]
     pub struct LeaseStoreAccess {
-        _private: (),
+        _seal: [u8; 1],
     }
 
-    pub(crate) const AUTHORITY_BOUND: LeaseStoreAccess = LeaseStoreAccess { _private: () };
+    pub(crate) const AUTHORITY_BOUND: LeaseStoreAccess = LeaseStoreAccess { _seal: [1] };
 
     #[cfg(test)]
-    pub(crate) const TEST_FIXTURE: LeaseStoreAccess = LeaseStoreAccess { _private: () };
+    pub(crate) const TEST_FIXTURE: LeaseStoreAccess = LeaseStoreAccess { _seal: [1] };
 }
 
 pub use raw_access::LeaseStoreAccess;

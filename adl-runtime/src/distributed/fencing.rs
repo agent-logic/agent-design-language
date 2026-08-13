@@ -25,14 +25,14 @@ const MAX_REQUEST_ID_BYTES: usize = 128;
 mod raw_access {
     #[derive(Clone, Copy, Debug)]
     pub struct FencingStoreAccess {
-        _private: (),
+        _seal: [u8; 1],
     }
 
-    pub(crate) const AUTHORITY_BOUND: FencingStoreAccess = FencingStoreAccess { _private: () };
+    pub(crate) const AUTHORITY_BOUND: FencingStoreAccess = FencingStoreAccess { _seal: [1] };
 
     #[cfg(test)]
     #[doc(hidden)]
-    pub(crate) const TEST_FIXTURE: FencingStoreAccess = FencingStoreAccess { _private: () };
+    pub(crate) const TEST_FIXTURE: FencingStoreAccess = FencingStoreAccess { _seal: [1] };
 }
 
 pub use raw_access::FencingStoreAccess;

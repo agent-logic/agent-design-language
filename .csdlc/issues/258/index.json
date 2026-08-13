@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "7a796039f2472c65fbfbdbe6e649213a6496c7c2c70a8d3b9e1e3f4247255cb5",
   "phase": "implemented",
-  "generation": 32,
-  "digest": "204ffff90e676bd9fb5f5229d341821d0cf036c846f7c699710b7039f507d0ce",
+  "generation": 35,
+  "digest": "8ff9ddeaa2fe7c7cb56513d9eea46d9e527d747be0d8bfcde39a1ab971104faa",
   "branch": "codex/258-authority-store-boundary",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4f5eb83ad0decd164f6bf2d76da4207606672581617603921a7f1a5311981bd3",
+      "values_digest": "30a2adc29d4582a6f62e2376850f432f1ac9bd6f4de19a0be5791e0fc38d6a75",
       "rendered_digest": "202f956d615444157d2a8e11a7f9d03249cc552ac17af494a18cdfbdf4342730",
       "ast_digest": "54b8fd032af0131de7749088c7f648c941b96701d48c79fada87436dc2072006"
     },
     "stp": {
-      "values_digest": "f885b73f2710ca4e09629d695dc851b65c1e4657bab16c23d32f63cd1b4521f1",
+      "values_digest": "8a76c8c40ded8601a04a21bdbff4e6c009d072b9e4ff9a95796cd4ae9f7f8925",
       "rendered_digest": "28ced32ded0a8d859b9c17ba736d20a3761e0763b32c4043e74ca49d09eb0365",
       "ast_digest": "d82a28ae135e1a09b8c4acd555e43fdf1daad2b8ae14c0bb98648e0c03dd6a7d"
     },
     "spp": {
-      "values_digest": "b97b5a7168e00036c1b339150bea710e55a6ad4b4d0f8ceb2b2b275457400f33",
+      "values_digest": "928d028d554a6fda5c9889158ebdccbc57d7b344598d67ca1e8971fe90515f92",
       "rendered_digest": "868fb33ac2fed719fe3d2bb45d2678236998dbee5241b9c4671d413be93f6740",
       "ast_digest": "71fd0d5dcd1792dfa7b35ea45afdf88fbcdec8a9c0a734541bf65a6c24530430"
     },
     "vpp": {
-      "values_digest": "385371b1107b1cf18f0db44d323a93ae35a84b251d3d4bd092aadb866c7596d1",
+      "values_digest": "3b10dc44913e2bdf08e3a4d81bc6340f6ccf81d9a3b8090ea7ecadb1bd313bb8",
       "rendered_digest": "08393e3244534254c726f05bd2b4bafb3d6c2eec4b241223c1c369195ebe2105",
       "ast_digest": "a40bad77b3d2a900e84b7e327b0df5aa597ae5f33910b1a17111f839f1568db1"
     },
     "srp": {
-      "values_digest": "87bfb64952fd83a081c88931508a3e4698bc606f48b48667f3a04da9660fa21e",
+      "values_digest": "356394a1936710acde1b71051048a3db482659bb74d8b0734c43cb82e3d777f9",
       "rendered_digest": "0b537e37916e1726ed60625e32f3a44c0737b008e07993cadef4dee8ca817574",
       "ast_digest": "9419120e903ff6b652b0062abbe3f7e16ab55ed96c82ea8ec2800c86b019dd73"
     },
     "sor": {
-      "values_digest": "0994482c154e297130c16ac50f8709ca7158f9dbd961ae39b10f3514fea3e0f0",
-      "rendered_digest": "3d29125fa844e25faf3ee44dff284589146f02a28029fbc12ac32e3a5906781e",
-      "ast_digest": "aa2ec592486ad87fa14835d3be471ea911eb77fa4eeca5e9bb2dcb567d158950"
+      "values_digest": "d26dcd795378a7c234faa7d7b5e75053b7c9d827a5bebda5710690b9a0872238",
+      "rendered_digest": "0abf1f7cf7927216f55f14ee988ba85b6f156e884a912ee395dc56c2f1ef7eb4",
+      "ast_digest": "fe26e7a1026ea55f7e5b212ad86c2df8d56c593f88b1c9421e09b6020e443fbd"
     }
   },
   "transitions": [
@@ -435,6 +435,34 @@
       "actor": "codex:/root/issue_258_coverage_repair",
       "reason": "Fresh exact reviewer fresh-session:934ef955-9120-4c85-ae3f-258caf7c04d8 returned FAIL at fc8329f80: certificate and lease TEST_FIXTURE access tokens remain public under cfg(debug_assertions), allowing ordinary dev-profile non-test dependents to bypass the authority-bound adapters. Recover before sealing both tokens to cfg(test) pub(crate), extending external denial proof across all three store tokens, and assigning a different fresh reviewer.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 43,
+      "generation": 32,
+      "actor": "codex:/root/issue_258_coverage_repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 44,
+      "generation": 33,
+      "actor": "codex:/root",
+      "reason": "Recover failed fresh-session:5895796d-e853-4d83-963f-2c358b8fead1 review at 571925ccc: certificate, lease, and fencing access capability types remained zero-sized and externally forgeable via unsafe transmute(()). Repair requires non-ZST private-field capabilities plus focused external compile-fail proof for fixture import and unit-transmute denial.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 45,
+      "generation": 34,
+      "actor": "codex:/root",
+      "reason": "Record #258 r2 forgeability repair and focused validation after fresh exact-head review failed zero-sized authority-store access tokens.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented #258 as the first #203 split slice: sealed raw certificate, lease, and fencing store access behind explicit authority/test access tokens; added authority-bound store adapter facade and expanded published receipt view; preserved the in-scope published-store mutation classifier/view fix; removed the earlier over-scope transport authorization seam; and repaired the r2 review finding by making certificate, lease, and fencing access capability values non-ZST/private-field so an ordinary external dev-profile non-test dependent cannot import fixture constants or forge access with unsafe transmute(()). This does not claim a broader unsafe-language proof against arbitrary undefined-behavior construction; public production use remains through the governed adapters.\",\"changes\":[\"Changed CertificateStoreAccess, LeaseStoreAccess, and FencingStoreAccess from zero-sized private-field values to private-field one-byte sealed capabilities.\",\"Extended the focused external rustc compile-fail proof to separately deny TEST_* fixture imports and unsafe transmute(()) unit-forging for certificate, lease, and fencing capability types.\",\"Retained the focused mechanical coverage-fallout classifier proof for the current #258 coverage-tooling follow-up without running hosted or broad coverage jobs.\"],\"artifacts\":[\".csdlc/evidence/258/cargo-test-distributed-identity-lease-authority-non-zst-token-seal.log\",\".csdlc/evidence/258/cargo-check-adl-runtime-non-zst-token-seal.log\",\".csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority-non-zst-token-seal.log\",\".csdlc/evidence/258/test-mechanical-coverage-fallout-non-zst-token-seal.log\",\".csdlc/evidence/258/git-diff-check-non-zst-token-seal.log\",\".csdlc/evidence/258/csdlc-validate-non-zst-token-seal-pre-sor.log\"]}"
+    },
+    {
+      "sequence": 46,
+      "generation": 35,
+      "actor": "codex:/root",
+      "reason": "Append final typed validation after the non-ZST authority-token SOR update.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary\",\"issue\",\"--issue\",\"258\"],\"purpose\":\"Validate typed #258 lifecycle truth after the non-ZST authority-token SOR update.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/csdlc-validate-non-zst-token-seal-final.log\"}}"
     }
   ]
 }

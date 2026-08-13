@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented #258 as the first #203 split slice: sealed raw certificate, lease, and fencing store access behind explicit authority/test access tokens; added authority-bound store adapter facade and expanded published receipt view; preserved the in-scope published-store mutation classifier/view fix; removed the earlier over-scope transport authorization seam. The branch merged current origin/main with zero changed-path overlap and retained focused post-merge proof. Subsequent fresh reviews drove two fencing-boundary repairs: raw FencingStore::authorize_active_lease now requires FencingStoreAccess and the adapter passes AUTHORITY_BOUND_FENCING_ACCESS, and the raw fencing test token is no longer publicly exported in ordinary debug builds. Post-publication hosted runtime coverage then exposed a causal test-proof portability bug: the external rustc compile-fail proof assumed adl-runtime/target/debug/deps, which is false under the coverage target layout. The bounded fix derives the dependency directory from the current compiled test executable, preserving the negative raw-access proof across alternate target layouts. PR #290 remains held pending a new fresh-session review and republication.
+Implemented #258 as the first #203 split slice: sealed raw certificate, lease, and fencing store access behind explicit authority/test access tokens; added authority-bound store adapter facade and expanded published receipt view; preserved the in-scope published-store mutation classifier/view fix; removed the earlier over-scope transport authorization seam; and repaired the r2 review finding by making certificate, lease, and fencing access capability values non-ZST/private-field so an ordinary external dev-profile non-test dependent cannot import fixture constants or forge access with unsafe transmute(()). This does not claim a broader unsafe-language proof against arbitrary undefined-behavior construction; public production use remains through the governed adapters.
 
 ## Artifacts
 
@@ -40,6 +40,12 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
 - .csdlc/evidence/258/cargo-check-adl-runtime-target-layout-fix.log
 - .csdlc/evidence/258/git-diff-check-target-layout-fix.log
 - .csdlc/evidence/258/csdlc-validate-target-layout-fix-pre-sor.log
+- .csdlc/evidence/258/cargo-test-distributed-identity-lease-authority-non-zst-token-seal.log
+- .csdlc/evidence/258/cargo-check-adl-runtime-non-zst-token-seal.log
+- .csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority-non-zst-token-seal.log
+- .csdlc/evidence/258/test-mechanical-coverage-fallout-non-zst-token-seal.log
+- .csdlc/evidence/258/git-diff-check-non-zst-token-seal.log
+- .csdlc/evidence/258/csdlc-validate-non-zst-token-seal-pre-sor.log
 
 ## Execution
 
@@ -54,6 +60,9 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
 - Repaired that external compile-fail proof to derive its dependency directory from std::env::current_exe().parent() instead of assuming adl-runtime/target/debug/deps, making it portable across normal, repo-level, and coverage target layouts.
 - Kept migration, recovery, and snapshot catalog production paths on governed adapter calls and did not reopen transport scope.
 - Merged current origin/main after recording zero changed-path overlap with #258 and retained the post-merge validation evidence in this SOR.
+- Changed CertificateStoreAccess, LeaseStoreAccess, and FencingStoreAccess from zero-sized private-field values to private-field one-byte sealed capabilities.
+- Extended the focused external rustc compile-fail proof to separately deny TEST_* fixture imports and unsafe transmute(()) unit-forging for certificate, lease, and fencing capability types.
+- Retained the focused mechanical coverage-fallout classifier proof for the current #258 coverage-tooling follow-up without running hosted or broad coverage jobs.
 
 ## Validation
 
@@ -299,6 +308,19 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
     "purpose": "Validate typed #258 lifecycle truth after the target-layout SOR update.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/258/csdlc-validate-target-layout-fix-final.log"
+  },
+  {
+    "command": [
+      "csdlc-validate",
+      "--root",
+      "/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary",
+      "issue",
+      "--issue",
+      "258"
+    ],
+    "purpose": "Validate typed #258 lifecycle truth after the non-ZST authority-token SOR update.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/258/csdlc-validate-non-zst-token-seal-final.log"
   }
 ]
 

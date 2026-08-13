@@ -103,6 +103,7 @@ fn issue_258_authority_store_boundary_guardrails_are_bound() {
     );
 
     assert_contains(certificates, "pub struct CertificateStoreAccess");
+    assert_contains(certificates, "_seal: [u8; 1]");
     assert_contains(
         certificates,
         "pub(crate) use raw_access::AUTHORITY_BOUND as AUTHORITY_BOUND_CERTIFICATE_ACCESS",
@@ -130,6 +131,7 @@ fn issue_258_authority_store_boundary_guardrails_are_bound() {
 
     assert_contains(lease, "pub struct LeaseState");
     assert_contains(lease, "pub struct LeaseStoreAccess");
+    assert_contains(lease, "_seal: [u8; 1]");
     assert_contains(
         lease,
         "pub(crate) use raw_access::AUTHORITY_BOUND as AUTHORITY_BOUND_LEASE_ACCESS",
@@ -152,6 +154,7 @@ fn issue_258_authority_store_boundary_guardrails_are_bound() {
     );
     assert_contains(fencing, "pub safety_deadline_unix_millis: u64");
     assert_contains(fencing, "pub struct FencingStoreAccess");
+    assert_contains(fencing, "_seal: [u8; 1]");
     assert_contains(
         fencing,
         "pub(crate) use raw_access::AUTHORITY_BOUND as AUTHORITY_BOUND_FENCING_ACCESS",
@@ -213,26 +216,30 @@ fn external_dev_profile_caller_cannot_import_authority_store_test_access() {
                 .is_some_and(|name| name.starts_with("libadl_runtime-") && name.ends_with(".rlib"))
         })
         .expect("adl_runtime rlib must exist before external compile-fail fixture runs");
-    for (module, token) in [
-        ("certificates", "TEST_CERTIFICATE_STORE_ACCESS"),
-        ("lease", "TEST_LEASE_STORE_ACCESS"),
-        ("fencing", "TEST_FENCING_STORE_ACCESS"),
+    for (module, token, access_type) in [
+        (
+            "certificates",
+            "TEST_CERTIFICATE_STORE_ACCESS",
+            "CertificateStoreAccess",
+        ),
+        ("lease", "TEST_LEASE_STORE_ACCESS", "LeaseStoreAccess"),
+        ("fencing", "TEST_FENCING_STORE_ACCESS", "FencingStoreAccess"),
     ] {
-        let source = fixture
+        let token_source = fixture
             .path()
             .join(format!("{module}_token_import_denied.rs"));
         fs::write(
-            &source,
+            &token_source,
             format!(
                 "use adl_runtime::distributed::{module}::{token};\n\
-                 pub fn leaked() {{ let _ = {token}; }}\n"
+                 pub fn leaked_token() {{ let _ = {token}; }}\n"
             ),
         )
-        .expect("write external fixture source");
+        .expect("write external token fixture source");
         let output = Command::new("rustc")
             .arg("--edition=2021")
             .arg("--crate-type=lib")
-            .arg(&source)
+            .arg(&token_source)
             .arg("--extern")
             .arg(format!("adl_runtime={}", adl_runtime_rlib.display()))
             .arg("-L")
@@ -253,6 +260,39 @@ fn external_dev_profile_caller_cannot_import_authority_store_test_access() {
                 ))
                 || stderr.contains("private"),
             "unexpected compile failure for {module} token import: {stderr}"
+        );
+
+        let forge_source = fixture
+            .path()
+            .join(format!("{module}_unit_forge_denied.rs"));
+        fs::write(
+            &forge_source,
+            format!(
+                "use adl_runtime::distributed::{module}::{access_type};\n\
+                 pub unsafe fn forged_unit() -> {access_type} {{ std::mem::transmute(()) }}\n"
+            ),
+        )
+        .expect("write external unit-forge fixture source");
+        let output = Command::new("rustc")
+            .arg("--edition=2021")
+            .arg("--crate-type=lib")
+            .arg(&forge_source)
+            .arg("--extern")
+            .arg(format!("adl_runtime={}", adl_runtime_rlib.display()))
+            .arg("-L")
+            .arg(format!("dependency={}", deps_dir.display()))
+            .arg("--out-dir")
+            .arg(fixture.path())
+            .output()
+            .expect("run external unit-forge compile-fail fixture");
+        assert!(
+            !output.status.success(),
+            "external fixture unexpectedly forged {module} access token with unit transmute"
+        );
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        assert!(
+            stderr.contains("cannot transmute between types of different sizes"),
+            "unexpected compile failure for {module} unit transmute: {stderr}"
         );
     }
 }
