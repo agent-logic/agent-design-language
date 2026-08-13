@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "812e76425072c39de0d33f7240ac7901873d4a425f3b26e754bdda158d7c02ed",
-  "phase": "implemented",
-  "generation": 22,
-  "digest": "e052fbab4e2621153a5ff92a2ff17af71e5663922914c6aa684a66b82d698899",
+  "phase": "reviewed",
+  "generation": 23,
+  "digest": "2ec85bdae45a17f0c219f85310523772a460c3ded7459dbe64fb978c1612a815",
   "branch": "codex/300-projection-recovery-integration-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-300-projection-recovery-integration-proof",
   "review_assignment": {
@@ -19,7 +19,23 @@
       ".csdlc/requests/300/replace-sor-bridge-fed-r12.json"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:tesla-300-ci-portability-r12",
+    "scope": [
+      "csdlc-v2/tests/projection_recovery_integration.rs",
+      ".csdlc/evidence/300/bridge-fed-r12",
+      ".csdlc/requests/300/replace-sor-bridge-fed-r12.json"
+    ],
+    "reviewed_revision": "git-blake3:6a8c4c01fcd60f22f4092daf6665f8181be98076:9df605b26e6f1e9487d104687edd228223b7d595d0c144adcb18846da020f878",
+    "findings": [],
+    "residual_risks": [
+      "Reviewer did not mutate the target worktree and did not run lifecycle writes, publication, merge, or local test commands.",
+      "Reviewer verified recorded local evidence by inspecting logs and recomputing SHA-256 hashes, and verified the hosted CI failure with gh run view using a repo-local ignored cache path.",
+      "Reviewer did not independently recompute the assignment git-blake3 suffix because no b3sum/blake3 CLI was available in PATH."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -34,32 +50,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4a17f29e088c3509b4f0e86728ac8da036a7248dc13cd0adc62399b536399dae",
+      "values_digest": "4fabbf26ac676900f3521fc7d164d488fbe725aadadbe1107851968e91fb3a35",
       "rendered_digest": "b003b1d51dd3f4296ef4d8be0536d419fce23991df68d3ae3445937fdb901bfc",
       "ast_digest": "dea7ce3fd1e50f827b7a10dbc279ee19c71112032939c98b713d79c7acd4c982"
     },
     "stp": {
-      "values_digest": "e95302b128aeaa1d91c49671f668a478fa0a7aaef08a25319b56edcb7436739d",
+      "values_digest": "cf7a51bf768080f2be872c8542e810a4f1045c56cdbc404a35440937a3e90d7f",
       "rendered_digest": "9c318b641757d4bd27b306ec8864bae2f757a8eec46cbc9cd24384d545113499",
       "ast_digest": "f6bc49a3310d58c810276f43df1e69dc2d772d6083d6cfd61a0d2fe42614be8a"
     },
     "spp": {
-      "values_digest": "5dac9b59c65b5e586080d70014ea60d5b234846968442fb4ff07376308953627",
+      "values_digest": "5aede3ab208573bbc94e3c799cf7a14a406c8b2355c5736fea1c8c3a6178f0cd",
       "rendered_digest": "17e42670b0aa901f572e0d422b009f4ef9e5bd8463e2f2b61a45a149164f4db2",
       "ast_digest": "cf94d7413d244fdd54d34005a149163a5c22e668e99ef82213ae2d2058146948"
     },
     "vpp": {
-      "values_digest": "6e1153581dd0ae1367cc274271202c3ac0417e263ca0b37d3d130ad6d3933c3c",
+      "values_digest": "5bb8f05a7d1d0146e2ee1a82cb7b49e023b66835c717b7b55b62c3bb11b37123",
       "rendered_digest": "ffac1c06684198b62ee6b72a4bda262c0b08d3cd971b68b5dc435b3e77c2e38a",
       "ast_digest": "b4d732c61fe93217e1fa7e266913c6e871b739351895d1446deb4ee19ecdcc43"
     },
     "srp": {
-      "values_digest": "1bec46556d8ae835d029ec747f05d1a938d26aa94725fd9eaceb05e5493ad5c7",
-      "rendered_digest": "c8d7e6062aec470b62d4b0ddb24295b9695025b50dc6fb40eb56ba3426284c43",
-      "ast_digest": "52dffe46a018998774f6be43fb644fb9073c62b86d7460a58de146a37a43aaf9"
+      "values_digest": "55dd367b17fc6cf0da8d0c4fa0480928fc450bfa174e494928577f4fdb24f352",
+      "rendered_digest": "f4cf56ad18782442e4e876719952b9d802bea89610ad90647628efe26c0c49ed",
+      "ast_digest": "3cf8c519d1ca40d0c9399dbf3e86505c93148225790713f3cf7fd5013a555ad1"
     },
     "sor": {
-      "values_digest": "1addfa8ecdd453a87dffe8ff686cff43df9c476b22cb685928c3f7066182621d",
+      "values_digest": "ea4ef816dfff097301d6c2d11039b0ac3bcfa6c2f03653c20446c10f3e4abccc",
       "rendered_digest": "49c0f2c7295dc2fec6cb21f7f6535bd1530259193ca5f410ad6714144056a964",
       "ast_digest": "b4b9b25e6432068302cf75c700e7a564f2f54841182328c02d52e85e11b24f60"
     }
@@ -162,6 +178,13 @@
       "to": "implemented",
       "actor": "codex:worker-5",
       "reason": "Recover #300 after published PR #351 CI failed in csdlc-v2-standalone: projection_recovery_integration terminal prerequisite test read operator-local .git/csdlc-v2/derived-terminal cache files that are absent in clean GitHub CI checkouts. Repair remains test-only and must receive fresh validation/review/publication before merge."
+    },
+    {
+      "sequence": 15,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-5",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -388,6 +411,13 @@
       "actor": "codex:worker-5",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 23,
+      "actor": "codex:worker-5",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
