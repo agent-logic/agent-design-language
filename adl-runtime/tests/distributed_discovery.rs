@@ -27,7 +27,7 @@ use std::{
 
 use certificates::{
     AuthorityCertificate, CertificateBody, CertificatePolicy, CertificatePurpose,
-    CertificateValidity, DistributedCertificateStore,
+    CertificateValidity, DistributedCertificateStore, TEST_CERTIFICATE_STORE_ACCESS,
 };
 use discovery::{
     accept_proposal, discover, encode_proposal, encode_request, propose_join,
@@ -180,7 +180,12 @@ fn certificate_store() -> (Arc<DistributedCertificateStore>, SigningKey) {
         .canonicalize()
         .unwrap()
         .join("certificates.redb");
-    let store = DistributedCertificateStore::open(database, certificate_policy).unwrap();
+    let store = DistributedCertificateStore::open(
+        &TEST_CERTIFICATE_STORE_ACCESS,
+        database,
+        certificate_policy,
+    )
+    .unwrap();
     let _ = directory.keep();
     (Arc::new(store), root)
 }
@@ -199,13 +204,15 @@ fn transport_authorization(
         1,
         CertificateValidity {
             issued_at_unix_secs: issued_at,
-            expires_at_unix_secs: issued_at + 300,
+            expires_at_unix_secs: issued_at + 600,
         },
         subject_public_key,
         &root.verifying_key(),
     );
     let certificate = AuthorityCertificate::issue(body, root).unwrap();
-    store.activate(&certificate, now()).unwrap();
+    store
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &certificate, now())
+        .unwrap();
     TransportAuthorization::new(store.clone(), &certificate).unwrap()
 }
 

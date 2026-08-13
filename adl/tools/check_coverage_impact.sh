@@ -288,18 +288,53 @@ candidate_filter_for_path() {
       printf 'runtime_v3_guardian'
       ;;
     adl-runtime/src/distributed/transport.rs|adl-runtime/src/distributed/transport/*.rs)
-      if grep -Fx "adl-runtime/src/distributed/authority_protocol.rs" \
+      if grep -Fx "adl-runtime/src/distributed/authority_store_adapters.rs" \
+        <<<"$changed_source_paths" >/dev/null; then
+        printf 'runtime_v3_authority_store_boundary'
+      elif grep -Fx "adl-runtime/src/distributed/authority_protocol.rs" \
         <<<"$changed_source_paths" >/dev/null; then
         printf 'runtime_v3_authority_protocol'
       else
         printf 'runtime_v3_distributed_transport'
       fi
       ;;
-    adl-runtime/src/distributed/authority_protocol.rs|adl-runtime/src/distributed/identity.rs|adl-runtime/src/distributed/polis_runtime.rs)
+    adl-runtime/src/distributed/authority_protocol.rs)
+      if grep -Fx "adl-runtime/src/distributed/authority_store_adapters.rs" \
+        <<<"$changed_source_paths" >/dev/null; then
+        printf 'runtime_v3_authority_store_boundary'
+      else
+        printf 'runtime_v3_authority_protocol'
+      fi
+      ;;
+    adl-runtime/src/distributed/identity.rs|adl-runtime/src/distributed/polis_runtime.rs)
       printf 'runtime_v3_authority_protocol'
       ;;
+    adl-runtime/src/distributed/authority_store_adapters.rs)
+      printf 'runtime_v3_authority_store_boundary'
+      ;;
+    adl-runtime/src/distributed/authority_reconciliation.rs|\
+    adl-runtime/src/distributed/capability_advertisement.rs|\
+    adl-runtime/src/distributed/certificates.rs|\
+    adl-runtime/src/distributed/fencing.rs|\
+    adl-runtime/src/distributed/migration.rs|\
+    adl-runtime/src/distributed/placement.rs|\
+    adl-runtime/src/distributed/recovery.rs|\
+    adl-runtime/src/distributed/resource_weather.rs|\
+    adl-runtime/src/distributed/snapshot_catalog.rs)
+      if grep -Fx "adl-runtime/src/distributed/authority_store_adapters.rs" \
+        <<<"$changed_source_paths" >/dev/null; then
+        printf 'runtime_v3_authority_store_boundary'
+      else
+        return 1
+      fi
+      ;;
     adl-runtime/src/distributed/lease.rs)
-      printf 'runtime_v3_distributed_projection'
+      if grep -Fx "adl-runtime/src/distributed/authority_store_adapters.rs" \
+        <<<"$changed_source_paths" >/dev/null; then
+        printf 'runtime_v3_authority_store_boundary'
+      else
+        printf 'runtime_v3_distributed_projection'
+      fi
       ;;
     adl-runtime/src/runtime_api_auth.rs)
       printf 'runtime_v3_auth'
@@ -468,6 +503,9 @@ nextest_expression_for_filter() {
       ;;
     runtime_v3_authority_protocol)
       printf 'package(adl-runtime) and not (test(/^observability::/) or test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state))'
+      ;;
+    runtime_v3_authority_store_boundary)
+      printf 'package(adl-runtime) and ((binary_id(adl-runtime) and test(/^distributed::authority_store_adapters::/)) or binary_id(adl-runtime::distributed_authority_protocol) or binary_id(adl-runtime::distributed_authority_reconciliation) or binary_id(adl-runtime::distributed_authority_snapshots) or binary_id(adl-runtime::distributed_capability_advertisement) or binary_id(adl-runtime::distributed_certificates) or binary_id(adl-runtime::distributed_fencing) or binary_id(adl-runtime::distributed_identity_lease_authority) or binary_id(adl-runtime::distributed_lease) or binary_id(adl-runtime::distributed_migration) or binary_id(adl-runtime::distributed_placement) or binary_id(adl-runtime::distributed_recovery) or binary_id(adl-runtime::distributed_resource_weather) or binary_id(adl-runtime::distributed_snapshot_catalog) or (binary_id(adl-runtime::distributed_transport) and not test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state)))'
       ;;
     runtime_v3_auth)
       printf 'test(/^runtime_api_auth::tests::/)'

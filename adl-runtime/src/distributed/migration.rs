@@ -12,10 +12,10 @@ use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
 use super::{
-    fencing::{ActiveLeaseCheck, FenceCommit, FencingStore},
+    fencing::{ActiveLeaseCheck, FenceCommit, FencingStore, AUTHORITY_BOUND_FENCING_ACCESS},
     lease::{
         verify_certificate, AuthorityApplication, AuthorityLedger, AuthorityMembership, LeaseState,
-        OperationClass,
+        OperationClass, AUTHORITY_BOUND_LEASE_ACCESS,
     },
     placement::{PlacementClock, PlacementInputs, PlacementRequest, PlacementService},
     snapshot_catalog::SnapshotCatalogVerifier,
@@ -588,7 +588,10 @@ impl MigrationStore {
             .ok_or(MigrationError::ResourceExhausted)?;
         validate_source_request(&request, &source_check)?;
         fencing
-            .authorize_active_lease(copy_active_check(&source_check))
+            .authorize_active_lease(
+                &AUTHORITY_BOUND_FENCING_ACCESS,
+                copy_active_check(&source_check),
+            )
             .map_err(|_| MigrationError::SourceAuthorityRejected)?;
         let decision = placement
             .decide(placement_request, placement_inputs)
@@ -689,7 +692,10 @@ impl MigrationStore {
         let remaining_timeout_millis = self.ensure_live(&current)?;
         validate_source_record(&current, &source_check)?;
         fencing
-            .authorize_active_lease(copy_active_check(&source_check))
+            .authorize_active_lease(
+                &AUTHORITY_BOUND_FENCING_ACCESS,
+                copy_active_check(&source_check),
+            )
             .map_err(|_| MigrationError::SourceAuthorityRejected)?;
         let receipt = authority
             .quiesce(quiescence_request(&current, remaining_timeout_millis))
@@ -772,7 +778,10 @@ impl MigrationStore {
         if current.phase == MigrationPhase::Transferred {
             validate_source_record(&current, &source_check)?;
             fencing
-                .authorize_active_lease(copy_active_check(&source_check))
+                .authorize_active_lease(
+                    &AUTHORITY_BOUND_FENCING_ACCESS,
+                    copy_active_check(&source_check),
+                )
                 .map_err(|_| MigrationError::SourceAuthorityRejected)?;
             let manifest_sha256 = sha256(encoded_manifest);
             if current.transfer_manifest_sha256 != Some(manifest_sha256)
@@ -851,7 +860,10 @@ impl MigrationStore {
         }
         validate_source_record(&current, &source_check)?;
         fencing
-            .authorize_active_lease(copy_active_check(&source_check))
+            .authorize_active_lease(
+                &AUTHORITY_BOUND_FENCING_ACCESS,
+                copy_active_check(&source_check),
+            )
             .map_err(|_| MigrationError::SourceAuthorityRejected)?;
         let transfer_id = current
             .transfer_id
@@ -957,13 +969,16 @@ impl MigrationStore {
                 .ok_or(MigrationError::FenceRejected)?;
             validate_source_lease(&current, source)?;
             fencing
-                .commit(FenceCommit {
-                    request_id: fence_request_id,
-                    certificate_bytes,
-                    membership: Some(membership),
-                    current_lease: source,
-                    now_unix_seconds: application.now_unix_seconds,
-                })
+                .commit(
+                    &AUTHORITY_BOUND_FENCING_ACCESS,
+                    FenceCommit {
+                        request_id: fence_request_id,
+                        certificate_bytes,
+                        membership: Some(membership),
+                        current_lease: source,
+                        now_unix_seconds: application.now_unix_seconds,
+                    },
+                )
                 .map_err(|_| MigrationError::FenceRejected)?;
         }
         let floor = fencing
@@ -986,7 +1001,12 @@ impl MigrationStore {
         });
         if !already_applied {
             ledger
-                .apply(certificate_bytes, membership, application)
+                .apply(
+                    &AUTHORITY_BOUND_LEASE_ACCESS,
+                    certificate_bytes,
+                    membership,
+                    application,
+                )
                 .map_err(|_| MigrationError::FenceRejected)?;
         }
         let fenced = ledger
@@ -1090,7 +1110,10 @@ impl MigrationStore {
         };
         validate_source_record(&current, &source_check)?;
         fencing
-            .authorize_active_lease(copy_active_check(&source_check))
+            .authorize_active_lease(
+                &AUTHORITY_BOUND_FENCING_ACCESS,
+                copy_active_check(&source_check),
+            )
             .map_err(|_| MigrationError::SourceAuthorityRejected)?;
         authority
             .resume(quiescence_request(&current, remaining_timeout_millis))
@@ -1169,7 +1192,12 @@ impl MigrationStore {
         });
         if !already_applied {
             ledger
-                .apply(certificate_bytes, membership, application)
+                .apply(
+                    &AUTHORITY_BOUND_LEASE_ACCESS,
+                    certificate_bytes,
+                    membership,
+                    application,
+                )
                 .map_err(|_| error.clone())?;
         }
         let lease = ledger
@@ -1177,19 +1205,22 @@ impl MigrationStore {
             .ok_or_else(|| error.clone())?;
         if operation == OperationClass::Activate {
             fencing
-                .authorize_active_lease(ActiveLeaseCheck {
-                    membership: Some(membership),
-                    lease,
-                    applied_log_index: ledger.applied_log_index(),
-                    now_unix_seconds: application.now_unix_seconds,
-                    now_unix_millis: unix_millis(
-                        application.now_unix_seconds,
-                        application.now_unix_nanos,
-                    )
-                    .ok_or_else(|| error.clone())?,
-                    now_elapsed_millis: application.now_elapsed_millis,
-                    activation_proof: application.activation_proof,
-                })
+                .authorize_active_lease(
+                    &AUTHORITY_BOUND_FENCING_ACCESS,
+                    ActiveLeaseCheck {
+                        membership: Some(membership),
+                        lease,
+                        applied_log_index: ledger.applied_log_index(),
+                        now_unix_seconds: application.now_unix_seconds,
+                        now_unix_millis: unix_millis(
+                            application.now_unix_seconds,
+                            application.now_unix_nanos,
+                        )
+                        .ok_or_else(|| error.clone())?,
+                        now_elapsed_millis: application.now_elapsed_millis,
+                        activation_proof: application.activation_proof,
+                    },
+                )
                 .map_err(|_| error.clone())?;
         } else {
             let floor = fencing

@@ -6,6 +6,7 @@
 
 pub mod authority_protocol;
 pub mod authority_reconciliation;
+pub mod authority_store_adapters;
 pub mod capability_advertisement;
 pub mod certificates;
 pub mod discovery;

@@ -320,6 +320,44 @@ fi
 grep -F "adl-runtime/src/distributed/identity.rs (58/1028, 5.64% < 80%)" "$TMP/authority-identity-alone.out" >/dev/null
 grep -F "candidate filter: runtime_v3_authority_protocol" "$TMP/authority-identity-alone.out" >/dev/null
 
+authority_store_boundary_changed="$TMP/authority-store-boundary-changed.txt"
+cat >"$authority_store_boundary_changed" <<'EOF'
+A	adl-runtime/src/distributed/authority_store_adapters.rs	902
+M	adl-runtime/src/distributed/authority_protocol.rs	2
+M	adl-runtime/src/distributed/authority_reconciliation.rs	67
+M	adl-runtime/src/distributed/capability_advertisement.rs	6
+M	adl-runtime/src/distributed/certificates.rs	25
+M	adl-runtime/src/distributed/fencing.rs	34
+M	adl-runtime/src/distributed/lease.rs	24
+M	adl-runtime/src/distributed/migration.rs	89
+M	adl-runtime/src/distributed/placement.rs	5
+M	adl-runtime/src/distributed/recovery.rs	76
+M	adl-runtime/src/distributed/resource_weather.rs	6
+M	adl-runtime/src/distributed/snapshot_catalog.rs	10
+M	adl-runtime/src/distributed/transport/core.rs	9
+EOF
+authority_store_boundary_filters="$TMP/authority-store-boundary-filters.txt"
+bash "$SCRIPT" --changed-files "$authority_store_boundary_changed" --print-risk-filters >"$authority_store_boundary_filters"
+grep -Fx "runtime_v3_authority_store_boundary" "$authority_store_boundary_filters" >/dev/null
+[ "$(wc -l <"$authority_store_boundary_filters" | tr -d ' ')" -eq 1 ]
+authority_store_boundary_expression="$(bash "$SCRIPT" --changed-files "$authority_store_boundary_changed" --print-risk-nextest-expression)"
+grep -F "package(adl-runtime) and (" <<<"$authority_store_boundary_expression" >/dev/null
+grep -F "binary_id(adl-runtime::distributed_identity_lease_authority)" <<<"$authority_store_boundary_expression" >/dev/null
+grep -F "binary_id(adl-runtime) and test(/^distributed::authority_store_adapters::/)" <<<"$authority_store_boundary_expression" >/dev/null
+grep -F "binary_id(adl-runtime::distributed_transport) and not test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state)" <<<"$authority_store_boundary_expression" >/dev/null
+if grep -F "binary_id(adl-runtime::distributed_transport))" <<<"$authority_store_boundary_expression" >/dev/null; then
+  echo "authority-store boundary coverage must stay PR-fast and avoid the known long transport test" >&2
+  exit 1
+fi
+
+authority_store_without_adapter_changed="$TMP/authority-store-without-adapter-changed.txt"
+printf 'M\tadl-runtime/src/distributed/certificates.rs\t25\n' >"$authority_store_without_adapter_changed"
+if bash "$SCRIPT" --changed-files "$authority_store_without_adapter_changed" --print-risk-filters >"$TMP/authority-store-without-adapter.out" 2>"$TMP/authority-store-without-adapter.err"; then
+  echo "expected standalone certificate source change to remain unmapped without the #258 adapter boundary" >&2
+  exit 1
+fi
+grep -F "adl-runtime/src/distributed/certificates.rs" "$TMP/authority-store-without-adapter.err" >/dev/null
+
 authority_identity_combined="$TMP/authority-identity-combined.txt"
 cat >"$authority_identity_combined" <<'EOF'
 A	adl-runtime/src/distributed/authority_protocol.rs	1727
