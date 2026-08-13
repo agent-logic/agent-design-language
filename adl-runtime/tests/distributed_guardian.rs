@@ -1,10 +1,13 @@
 // PVF: lane=exact-child-tests; proof=production module registration plus bounded signed authority;
 // deterministic=true; resource_profile=medium; release_gate=true; nonzero selection required.
+#[allow(dead_code)]
+#[path = "../src/distributed/lease.rs"]
+mod lease;
 
 use std::collections::BTreeSet;
 
 use adl_runtime::distributed::{
-    capability_advertisement, certificates, discovery, failure_detection, fencing, identity, lease,
+    capability_advertisement, certificates, discovery, failure_detection, fencing, identity,
     membership, migration, placement, projection, recovery, resource_weather, snapshot_catalog,
     transport,
 };
@@ -13,7 +16,7 @@ use lease::{
     activation_signature, encode_certificate, endorse, AuthorityApplication,
     AuthorityCertificateBodyV1, AuthorityCertificateV1, AuthorityError, AuthorityLedger,
     AuthorityMembership, ControlCertificatePurpose, LeasePolicy, OperationClass, VoterAuthority,
-    AUTHORITY_CERTIFICATE_SCHEMA_VERSION, SIGNING_ALGORITHM_ED25519,
+    AUTHORITY_CERTIFICATE_SCHEMA_VERSION, SIGNING_ALGORITHM_ED25519, TEST_LEASE_STORE_ACCESS,
 };
 use sha2::{Digest, Sha256};
 use transport::{decode_frame, encode_frame, TransportEnvelope, TransportError, TransportLimits};
@@ -191,10 +194,11 @@ fn signed_quorum_authority_applies_once_and_rejects_replay_and_wrong_domain() {
     let body = grant_body(TRUST, &activation);
     let proof = activation_signature(&body, &activation);
     let certificate = fixture.certificate(body);
-    let mut ledger = AuthorityLedger::new(lease_policy()).unwrap();
+    let mut ledger = AuthorityLedger::new(&TEST_LEASE_STORE_ACCESS, lease_policy()).unwrap();
 
     let lease = ledger
         .apply(
+            &TEST_LEASE_STORE_ACCESS,
             &certificate,
             &fixture.membership,
             application(&activation, &proof),
@@ -207,6 +211,7 @@ fn signed_quorum_authority_applies_once_and_rejects_replay_and_wrong_domain() {
 
     assert_eq!(
         ledger.apply(
+            &TEST_LEASE_STORE_ACCESS,
             &certificate,
             &fixture.membership,
             application(&activation, &proof),
@@ -218,9 +223,10 @@ fn signed_quorum_authority_applies_once_and_rejects_replay_and_wrong_domain() {
     let wrong_body = grant_body(b"other.test", &activation);
     let wrong_proof = activation_signature(&wrong_body, &activation);
     let wrong_certificate = fixture.certificate(wrong_body);
-    let mut wrong_ledger = AuthorityLedger::new(lease_policy()).unwrap();
+    let mut wrong_ledger = AuthorityLedger::new(&TEST_LEASE_STORE_ACCESS, lease_policy()).unwrap();
     assert_eq!(
         wrong_ledger.apply(
+            &TEST_LEASE_STORE_ACCESS,
             &wrong_certificate,
             &fixture.membership,
             application(&activation, &wrong_proof),

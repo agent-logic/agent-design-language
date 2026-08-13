@@ -9,7 +9,10 @@ use ed25519_dalek::{Signature, Signer, SigningKey, VerifyingKey};
 use redb::{Database, Durability, ReadableTable, ReadableTableMetadata, TableDefinition};
 use serde::{Deserialize, Serialize};
 
-use super::certificates::{AuthorityCertificate, CertificatePurpose, DistributedCertificateStore};
+use super::certificates::{
+    AuthorityCertificate, CertificatePurpose, DistributedCertificateStore,
+    AUTHORITY_BOUND_CERTIFICATE_ACCESS,
+};
 
 pub const CAPABILITY_ADVERTISEMENT_SCHEMA: &str = "adl.distributed.capability_advertisement.v1";
 const SIGNING_DOMAIN: &[u8] = b"ADL-DISTRIBUTED-CAPABILITY-ADVERTISEMENT-V1\0";
@@ -343,6 +346,7 @@ impl CapabilityAdvertisementVerifier {
         let authorized = self
             .certificate_store
             .authorize(
+                &AUTHORITY_BOUND_CERTIFICATE_ACCESS,
                 &advertisement.body.issuer_id,
                 CertificatePurpose::AdvertisementSigning,
                 advertisement.body.certificate_generation,

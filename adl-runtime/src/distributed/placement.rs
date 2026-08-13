@@ -11,7 +11,9 @@ use sha2::{Digest, Sha256};
 
 use super::{
     capability_advertisement::{CapabilityAdvertisementVerifier, VerifiedCapabilityAdvertisement},
-    certificates::{CertificatePurpose, DistributedCertificateStore},
+    certificates::{
+        CertificatePurpose, DistributedCertificateStore, AUTHORITY_BOUND_CERTIFICATE_ACCESS,
+    },
     fencing::{FenceReceipt, FencingStore},
     lease::{
         decode_certificate, AuthorityLedger, LeaseState, OperationClass, AUTHORITY_SNAPSHOT_SCHEMA,
@@ -235,6 +237,7 @@ impl PlacementWeatherSnapshot {
             .map(|row| {
                 let authorized = certificates
                     .authorize(
+                        &AUTHORITY_BOUND_CERTIFICATE_ACCESS,
                         &row.holder_id,
                         CertificatePurpose::AdvertisementSigning,
                         row.certificate_generation,
