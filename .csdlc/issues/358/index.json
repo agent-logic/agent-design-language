@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "21fd626edd1cc7640193b8c78517845a185147f6a0de9e0a2c6873224bb85fe4",
   "phase": "implemented",
-  "generation": 8,
-  "digest": "d6433ce2fb1c4747ab24831f9287fda2794ee9bb1fd603f841d74ba395d6ffe2",
+  "generation": 11,
+  "digest": "be54b41d2308c345b32a4c37a223f197c5fc42d0743514736e64e5a7992d95c3",
   "branch": "codex/358-observatory-transition-intent-time",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-358-observatory-transition-intent-time",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8349d5099a2ad82b589a13506b681adcffa158629b5865018bcc4b996c8164fb",
+      "values_digest": "daf98dc178a81af9e01da69b5450c6d641f53eac54524e076b4b78b021b5849a",
       "rendered_digest": "fd9969c07b2387ca1dcbc96456bb44ab59cda1a8ac7c96685c824e2d17a0c032",
       "ast_digest": "3f82d329bbab8aebd4ee6fd123c462b1b10a717dc4231379059169388939470b"
     },
     "stp": {
-      "values_digest": "b394e6cb7ea5b108368024e5836eeffa200621868e2fb3289c9e0bebbc7ae99d",
+      "values_digest": "f16e5d0763399d7f4ff70b9d209e17e26aece839f493e5bf73198f21396b2668",
       "rendered_digest": "fada3c1182c7846c8aa9b50c11daefe51e7771b02f78ee1c5c4c9a1315422d80",
       "ast_digest": "b5465461beb09da10fa6a755637c90c219c629a057a444f30d5215fa3da2a21c"
     },
     "spp": {
-      "values_digest": "25076b6c1299b26b3b2038a5e7e1a0305d5bea4d12c54b1288ffd8bc9c322da9",
+      "values_digest": "3d02584eb03e2f86c066fe8be1f6544dc1b407d9cb781cd7a6a8ca12b83c0e32",
       "rendered_digest": "f8dc21a645d187a1a5b646ffcaf38613e1f4b37b5f41b203c8e59be66cd7f27b",
       "ast_digest": "93911bd28bd7eccb64b4e46df8ef527c216c2552664b3257e3d43d7291f12335"
     },
     "vpp": {
-      "values_digest": "92353fee7f4ed502d51f7d9fec6a2eaf7e762a306e9796a3d3a4c39e91ad980c",
+      "values_digest": "40f01f0a5de62fabf64c22fbf3665d1f47058baf702b8087bcc00e44b04c73fe",
       "rendered_digest": "5f1b70022cacf1cde7e71d61cc4afacf92ae4aa376e9d1ede16ba7cce66cd4b6",
       "ast_digest": "8c9173349475babf67ad150915eca3c30e4f5c1f03d02e98b07e006a31d3c1bb"
     },
     "srp": {
-      "values_digest": "60cadae2bea33043d53acf7b6f1fca4f3cf50dea1468a5d0511fc866ee5f4fe2",
+      "values_digest": "eb227198a94df80a6ebcdb1b9ab9b5e21126c8099231b7755c1dc844d4d25500",
       "rendered_digest": "209e85174d30111652fb463c5b0ca95934f7fe771cf0062c5b04aae9410d6db9",
       "ast_digest": "6655d0e288370d05699f688c4eb981070218445e88cf082e0901caa02f9b0cea"
     },
     "sor": {
-      "values_digest": "ea3eb5cb3a422bbd720991d8205be4ca5527660e50fab6f88177805d320eb5a7",
-      "rendered_digest": "b5ce8cb423281e636384cd46bcdbf4eab49620bc67d5170be903a1ac8f553db2",
-      "ast_digest": "b3be392e6e8c7d67d8adcce72a593a0e9d4da9ba646a39db3a64a133010d9edf"
+      "values_digest": "789e106e08814d8808a384d66ab98d9722513acf3863ac9bdafc6344ee957187",
+      "rendered_digest": "92cd4e1cdbd60d3287ee266fcf6cfd210cd4f3502399aea25617aa37568de66b",
+      "ast_digest": "c4e8212616e490a471606c35d7bb9bc6bffb1cc646f1ca7ba9c3c5f118cfe36c"
     }
   },
   "transitions": [
@@ -161,6 +161,34 @@
       "actor": "codex:issue-358-r2-remediation",
       "reason": "Record exact real durable-state reopen and nonzero nanos boundary proof.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_authority_projection\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"purpose\":\"Prove nonzero same-second nanos before/equal/after semantics and actual DurablePublishedAuthorityResult inside AuthorityProtocolState JCS reopen preserving action/predecessor and every deadline/finalization time component.\",\"outcome\":\"passed\",\"evidence_ref\":\"9 passed at source e758b46c3; durable state validation recomputes result/retry digests before reopen\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:issue-358-r2-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "fresh-session:321b05ec-11cc-47cf-8c51-f68fcfb7306e",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:issue-358-r3-record-repair",
+      "reason": "Repair exact SOR artifact inventory only.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:issue-358-r3-record-repair",
+      "reason": "Complete exact SOR artifact inventory without changing source or proof claims.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Seal Observatory transition action/predecessor and full canonical time.\",\"changes\":[\"Canonical action/predecessor artifact binding\",\"Private sealed projection accessors for action and full time\",\"Focused action/time/mismatch/redaction and durable reopen proof\"],\"artifacts\":[\"adl-runtime/src/distributed/authority_protocol.rs\",\"adl-runtime/src/distributed/serving_authority.rs\",\"adl-runtime/tests/distributed_observatory_authority_projection.rs\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_authority_projection\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"purpose\":\"Prove action shapes, exact nanos ordering, actual durable state reopen with full time retention, mismatch denial and redaction.\",\"outcome\":\"passed\",\"evidence_ref\":\"9 passed at source e758b46c3\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_authority_projection\",\"--features\",\"internal-test-fixtures\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict Clippy.\",\"outcome\":\"passed\",\"evidence_ref\":\"clippy.log\"}]}"
     }
   ]
 }
