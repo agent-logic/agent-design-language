@@ -6,10 +6,27 @@
   "initialization_digest": "5757d863164a5f2f3330a01f212d5f6558c25c177a44f06d9f585657ca692015",
   "phase": "implemented",
   "generation": 9,
-  "digest": "9bb2d535a98eb9e8315bd09444476ca56c5f7b9ddb3311873aca2aaab0128708",
+  "digest": "10c8fc9c8139b11a3af24c5be585ac957e0684904b00cd2372a246181f8c5b62",
   "branch": "codex/259-governed-transport-authority-adapters",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-259-governed-transport-authority-adapters",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/review_pr119_canonical_r3",
+    "assigned_by": "codex:/root/issue_259_takeover",
+    "revision": "git-blake3:84d445d2c9d8e228fc022afde156022ca2814a6b:e8da4569017512fc630d855c814c9aa9f0a9da224a454906d6b8df2b76c6848f",
+    "scope": [
+      "adl-runtime/src/distributed/authority_protocol.rs",
+      "adl-runtime/src/distributed/authority_reconciliation.rs",
+      "adl-runtime/src/distributed/transport/core.rs",
+      "adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs",
+      "adl-runtime/src/distributed/transport/governed/polis_runtime.rs",
+      "adl-runtime/tests/distributed_discovery.rs",
+      "adl-runtime/tests/distributed_runtime_transport.rs",
+      "adl-runtime/tests/distributed_transport.rs",
+      ".csdlc/issues/259",
+      ".csdlc/prepared/issues/259",
+      ".csdlc/evidence/259"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +62,9 @@
       "ast_digest": "b352db0068ef3bc7eee400634e00670e48e8f8201aeeb4397228a9ca8b36d540"
     },
     "srp": {
-      "values_digest": "2367b6eef0f005cf36e40f00d531db02f92d9266c86fb62e0aebde8479ccd5a0",
-      "rendered_digest": "6ff4b182413488ed486dfe42448f8bf63cddf303e1bee5a424fd76afc0eb40a2",
-      "ast_digest": "51b5522b3d51492766610f10f1a014f01bb67101f9a6a42ec363d16674fe56bb"
+      "values_digest": "4e5789c009a6b5a4d0b9db606448b6c9be5c26e8fc41bd134fc94e94b08c1e4b",
+      "rendered_digest": "a1a96efc899d961760316b265a57e38c224400f4b0dfd932be7b71a9bcff894d",
+      "ast_digest": "7f635e4711b3d02c817d281986dac8efebf7b4d593ee542f5b94faa3e0dd0773"
     },
     "sor": {
       "values_digest": "6002eeec8ddb7c782068a24b5f35a60638e4001539300f26da804e53251a9e1b",
@@ -162,6 +179,13 @@
       "actor": "codex:/root/issue_259_takeover",
       "reason": "Recover failed exact review r1 after typed normalization of SPP step S3 resolved 259-R1-P2-SPP-S3-TRUTH; require a new immutable revision and fresh independent review.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:/root/issue_259_takeover",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

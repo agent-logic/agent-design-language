@@ -10,3 +10,4 @@
 {"sequence":10,"generation":7,"actor":"/root/issue_259_takeover/review_259_exact_r1","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":11,"generation":8,"actor":"codex:/root/issue_259_takeover","reason":"Resolve 259-R1-P2-SPP-S3-TRUTH by aligning the operative plan with the already retained passing typed validation evidence.","operation":"{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"}
 {"sequence":12,"generation":9,"actor":"codex:/root/issue_259_takeover","reason":"Recover failed exact review r1 after typed normalization of SPP step S3 resolved 259-R1-P2-SPP-S3-TRUTH; require a new immutable revision and fresh independent review.","operation":"recover_review"}
+{"sequence":13,"generation":9,"actor":"codex:/root/issue_259_takeover","reason":"assign bounded exact-revision review","operation":"assign_review"}
