@@ -3,3 +3,5 @@
 {"sequence":3,"generation":2,"actor":"fresh-session:bf4c4bd7-b4ec-443c-a527-b570ab9bd039","reason":"approve completed issue design","operation":"approve_design"}
 {"sequence":4,"generation":2,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
 {"sequence":5,"generation":3,"actor":"codex:worker-5","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
+{"sequence":6,"generation":3,"actor":"codex:worker-5","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":7,"generation":4,"actor":"codex:worker-5","reason":"Recover r1 review assignment after Noether reported P1 findings: cleanup authority was synthetically authored instead of production recovery-fed, and the integration target did not cover the approved failpoint/adversarial matrix.","operation":"recover_review"}

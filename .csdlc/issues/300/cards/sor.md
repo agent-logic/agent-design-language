@@ -72,7 +72,7 @@ Implemented the issue-owned projection recovery integration proof target without
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

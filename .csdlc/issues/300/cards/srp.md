@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Exact #300 terminal/ancestry gate, production-backed failpoint state machine and authority inputs/outputs, complete adversarial matrix, evidence contract, one-file ownership boundary, and truthful validation deferrals.
+
 
 ## Prompts
 
@@ -32,7 +32,7 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Platform-specific mount/ownership cases may be deferred with explicit capability evidence and cannot count as local PASS.
+- none
 
 ## Review Result
 

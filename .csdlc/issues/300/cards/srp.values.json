@@ -7,13 +7,13 @@
     "title": "[v0.92][C-SDLC][297.c][test] Prove projection recovery crash, topology, race, and idempotency behavior",
     "slug": "projection-recovery-integration-proof",
     "version": "v0.92.0",
-    "generation": 3
+    "generation": 4
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact #300 terminal/ancestry gate, production-backed failpoint state machine and authority inputs/outputs, complete adversarial matrix, evidence contract, one-file ownership boundary, and truthful validation deferrals.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
@@ -24,9 +24,7 @@
         "Does scope remain one new integration test target plus issue-local records?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Platform-specific mount/ownership cases may be deferred with explicit capability evidence and cannot count as local PASS."
-      ],
+      "residual_risk": [],
       "review_result": "pre_review"
     }
   }
