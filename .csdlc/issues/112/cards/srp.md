@@ -12,7 +12,15 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime-kernel/src/layer8_authority/audit.rs
+adl-runtime-kernel/src/layer8_authority/exchange.rs
+adl-runtime-kernel/src/layer8_authority/identity.rs
+adl-runtime-kernel/src/layer8_authority/mod.rs
+adl-runtime-kernel/src/lib.rs
+adl-runtime-kernel/tests/layer8_authority.rs
+.csdlc/issues/112
+.csdlc/prepared/issues/112
+.csdlc/evidence/112
 
 ## Prompts
 
@@ -33,12 +41,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Inspection-only exact-head source review; reviewer did not rerun tests or broad proof. Implementation-session evidence records the focused Layer 8 authority test target, rustfmt check, strict Clippy, diff hygiene, and typed validation at the reviewed current-main-inclusive head.
+- PASS is limited to #112 / 112.a shared Layer 8 signed authority core and does not approve #265 kernel ingress enforcement, #270 served trusted acknowledgement Runtime API protocol, #271 Observatory UI, #114 durable history/integration, publication, merge, or closeout.
+- Durable history, Observatory UI, served API/ack protocol, and kernel ingress remain nonclaims for this #112 core review scope.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:ff5e131caf2ab5e7f1cded1d94715df6fe6ea292:166e9e0564835c1dca8cf0950f64d3f7c90c7bae142d319e33282ac2717875fc")
 
-Reviewer: None
+Reviewer: Some("fresh-session:3daea360-e36e-462b-9de9-d58f7e38ba58")
 
-Result: pre_review
+Result: pass
