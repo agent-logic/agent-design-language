@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 259,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1a][203.b] Bind governed transport to authority adapters",
+    "slug": "governed-transport-authority-adapters",
+    "version": "v0.92",
+    "generation": 6
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #259 governed transport authority binding, direct transport tests, #258 dependency consumption, and non-absorption of #260/#203 scope.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Review whether governed transport consumes the #258 authority-store boundary instead of raw-store bypasses.",
+        "Review whether changed paths stay within #259 and avoid #260 caller migration and #203 parent integration.",
+        "Review whether focused transport validation and strict Clippy evidence are sufficient for publication."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
