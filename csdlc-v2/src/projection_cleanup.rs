@@ -212,6 +212,7 @@ pub fn execute_archived_projection_cleanup(
         )?;
     }
 
+    validate_prefinal_receipt_chain(request, &operation_root, &archived_root)?;
     receipt(
         request,
         &operation_root,
@@ -776,7 +777,24 @@ fn validate_expected_receipt_chain(
     operation_root: &Path,
     archived_root: &Path,
 ) -> Result<String> {
-    reject_unexpected_operation_entries(request, operation_root)?;
+    validate_receipt_chain(request, operation_root, archived_root, false)
+}
+
+fn validate_prefinal_receipt_chain(
+    request: &ArchivedProjectionCleanupRequest,
+    operation_root: &Path,
+    archived_root: &Path,
+) -> Result<String> {
+    validate_receipt_chain(request, operation_root, archived_root, true)
+}
+
+fn validate_receipt_chain(
+    request: &ArchivedProjectionCleanupRequest,
+    operation_root: &Path,
+    archived_root: &Path,
+    allow_final_temp: bool,
+) -> Result<String> {
+    reject_unexpected_operation_entries(request, operation_root, allow_final_temp)?;
     let mut previous = validate_receipt_envelope(
         &receipt_path(operation_root, 1, "operation-created"),
         1,
@@ -907,6 +925,7 @@ fn validate_expected_receipt_chain(
 fn reject_unexpected_operation_entries(
     request: &ArchivedProjectionCleanupRequest,
     operation_root: &Path,
+    allow_final_temp: bool,
 ) -> Result<()> {
     let mut expected = BTreeSet::from([
         "001-operation-created.json".to_string(),
@@ -914,6 +933,9 @@ fn reject_unexpected_operation_entries(
         "900-cleanup-complete.json".to_string(),
         "private-delete".to_string(),
     ]);
+    if allow_final_temp {
+        expected.insert("900-cleanup-complete.json.tmp".to_string());
+    }
     for (index, _) in request.nodes.iter().enumerate() {
         let ordinal = index as u32 + 1;
         let base = 100 + ordinal * 10;

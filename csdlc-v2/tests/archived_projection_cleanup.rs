@@ -904,6 +904,48 @@ fn cleanup_rejects_rehashed_final_chain_forgery_without_mutation() {
 }
 
 #[test]
+fn cleanup_rejects_prefinal_extra_receipt_without_final_mutation() {
+    let (_temp, root, mut req, _node) = single_file_request();
+    req.fail_after = Some("receipt_placeholder_disposed_parent_fsynced".into());
+    execute_archived_projection_cleanup(&req).expect_err("stop before final receipt");
+    req.fail_after = None;
+
+    let extra = operation_receipt_path(&root, "777-removed.json");
+    let extra_receipt = serde_json::json!({
+        "schema": "csdlc.archived_projection_cleanup_receipt.v1",
+        "sequence": 777,
+        "state": "removed",
+        "previous_receipt_digest": null,
+        "payload": {
+            "path": "stale.json",
+            "removed_identity": req.nodes[0].identity,
+            "adopted_after_unlink": true
+        }
+    });
+    let mut bytes = serde_json::to_vec_pretty(&extra_receipt).expect("extra receipt bytes");
+    bytes.push(b'\n');
+    fs::write(extra, bytes).expect("write prefinal extra receipt");
+
+    let ledger_root = root.join("cleanup-ledger");
+    let before = ledger_snapshot(&ledger_root);
+    assert_eq!(
+        execute_archived_projection_cleanup(&req)
+            .expect_err("prefinal extra receipt rejected before finalization")
+            .code,
+        csdlc_v2::ErrorCode::CorruptRecord
+    );
+    assert!(
+        !operation_receipt_path(&root, "900-cleanup-complete.json").exists(),
+        "prefinal extra receipt must not be adopted as the final predecessor"
+    );
+    assert_eq!(
+        ledger_snapshot(&ledger_root),
+        before,
+        "prefinal extra receipt rejection must not create or rewrite final receipt, namespace, or ledger bytes"
+    );
+}
+
+#[test]
 fn cleanup_rejects_hardlink_and_mode_drift_before_mutation() {
     let (_temp, root, merge_sha) = repo();
     let archived = root.join("archived");
