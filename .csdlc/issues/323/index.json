@@ -4,13 +4,47 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "3949790af8703058a8e6bd057cd1d93ab700d8f4de8d902346bc07f007c89afb",
-  "phase": "implemented",
-  "generation": 11,
-  "digest": "cc624b0ae1e9ce6c51ce3bcaaad8a115de32e8762adb001d09d5e2952dd4a0b8",
+  "phase": "reviewed",
+  "generation": 12,
+  "digest": "8901c6409c288d5e1deee534cde470b9e0d180f92c391d1ad801bf95b79277b9",
   "branch": "codex/323-bound-issue-identity-migration",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-323-bound-identity-migration",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:93d2f508-e849-4528-a3ff-45aca09faa31",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:f0038c54e50b70dc1e16589e423fd6e5858427db:6fe0369bf428fe0cf3d945d11c7673e33c8057cd6f5321f3b919d2a27702e69b",
+    "scope": [
+      ".csdlc/issues/323",
+      ".csdlc/prepared/issues/323",
+      "csdlc-v2/src/migration.rs",
+      "csdlc-v2/src/bin/csdlc-issue.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/tests/topology_migration.rs",
+      "csdlc-v2/operator/skills/csdlc-v2-init/SKILL.md"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:93d2f508-e849-4528-a3ff-45aca09faa31",
+    "scope": [
+      ".csdlc/issues/323",
+      ".csdlc/prepared/issues/323",
+      "csdlc-v2/src/migration.rs",
+      "csdlc-v2/src/bin/csdlc-issue.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/tests/topology_migration.rs",
+      "csdlc-v2/operator/skills/csdlc-v2-init/SKILL.md"
+    ],
+    "reviewed_revision": "git-blake3:f0038c54e50b70dc1e16589e423fd6e5858427db:6fe0369bf428fe0cf3d945d11c7673e33c8057cd6f5321f3b919d2a27702e69b",
+    "findings": [],
+    "residual_risks": [
+      "The operation requires repo-local typed target issue evidence rather than performing a live GitHub lookup itself.",
+      "The #5913 PR #320 must be republished/relinked to canonical current issue #322 after this operation lands; this review does not merge #320."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +59,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "71fd4eb153def9f81813bc49216818c2fe371a15b47139462ccf5e6411ab9533",
+      "values_digest": "9352c28388ed44806f2de130e835ca38e81f6daaff3e2c982b86a9171876815a",
       "rendered_digest": "9db40b118494067e35710cdbc053149101c18938f368b404ecdd0d4cd4c79d78",
       "ast_digest": "c285d1c4c3f057e39b8fd22af671e5e2e70b5fc8bea199e65290478155cce5b4"
     },
     "stp": {
-      "values_digest": "94aa65475808d561bed98a8a924822f399ed1abb3384c24ebdc7cd45329bee98",
+      "values_digest": "ac784f9fea402a9f0378a9a5552b23f67e0aac46ba3d3e4c1e31cb6976fe902f",
       "rendered_digest": "35e4c54308904b58fbc48fb069c6afd00bca508b1b4a050bc236243de353b4c8",
       "ast_digest": "62e28c8f7fcef02b4e24bcfcce861fc2890f80613500fe863b9b0e4fb4c91439"
     },
     "spp": {
-      "values_digest": "dee18d5472290bb00d995dfac3452c6b542ec1c65c6c41214aefd131ad801857",
+      "values_digest": "86ebc83d7a9984c8b7f6c4157013473fb278c1392c30a0a44c717fd1af85955f",
       "rendered_digest": "c0af22a9de3efe59c5ad0187749133b9b92177391f3d65418b057951502fef6c",
       "ast_digest": "85fe88f88ac21ab15968456442143f4f6a7c4065e68e9dab04916a8c84580618"
     },
     "vpp": {
-      "values_digest": "88835bb8c62a696b3955619df8111d21f49978dcde3e64b0e0064edcb4c517ac",
+      "values_digest": "d0e1994392144d8c9e32b4ff82d6fd1915f1a96acb2fb0f86a3db9172641f775",
       "rendered_digest": "9da3b6e6e9c952f83946aeb55a21adbf93c3053445d031043bcc222c9978c7b7",
       "ast_digest": "198c846fb75e1bcb4b4e591df6b6aeb443bf08aea77e6cf6afee610ed14f3dfd"
     },
     "srp": {
-      "values_digest": "802422963e811df356c3918bb69f4301533a19b5254b5531b51c71643ebe900d",
-      "rendered_digest": "3e6105e35444245dd379c5efe5f94b2640c88a8b3d23ef2e16a61a4bb7fb6047",
-      "ast_digest": "c5b761082e563668cf851db749ea2581f351906e9b38cc6cc1ca0bccfb5454df"
+      "values_digest": "f4fbdcb18f0de4cfe226b46f7cccbf46d4afcfd16bf511702b61ffce2a30d1b3",
+      "rendered_digest": "0369ec95f4863032fab8946bab42ea38fe118c187797c0b0dd25ada80c43360f",
+      "ast_digest": "04437b5d75cf638c410da541fca0955c5e158517261f837f594c5fa401266bf4"
     },
     "sor": {
-      "values_digest": "817d06f7fc1fdb256438dd7e281cfeeed9ab48acec30e1f2a269b4c08c40bbc5",
+      "values_digest": "bcbd0bfe17f98f1bb3c1d15ec9be60b6e2db5e2c2e638d338569295db24e6e8c",
       "rendered_digest": "3fb5da4cfe170e7e8f117fc709687466d41f169b9b3a8a786d2adf2eefad3cf5",
       "ast_digest": "8aad914906989109713d3cd54237fcb68968dbe623b683b31dd0e0a3ccd1e58a"
     }
@@ -76,6 +110,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Advance #323 after bounded implementation record"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -169,6 +210,20 @@
       "actor": "codex:/root",
       "reason": "Record #323 CLI and schema exposure smoke validation",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"run\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--bin\",\"csdlc-issue\",\"--\",\"--help\",\"and\",\"cargo\",\"run\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--bin\",\"csdlc-edit\",\"--\",\"schema\"],\"purpose\":\"Smoke proof that csdlc-issue exposes migrate-bound-issue-identity and the public schema includes bound_issue_identity_migration_request/report.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:cli-schema-smoke:passed\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
