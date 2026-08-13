@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18C.02c][112.c] Define and serve trusted recipient-acknowledgement Runtime API protocol",
     "slug": "v0-92-wp-18c-02c-112-c-trusted-recipient-acknowledgement-runtime-api",
     "version": "v0.92.0",
-    "generation": 25
+    "generation": 26
   },
   "status": "pre_phase",
   "content": {
@@ -107,8 +107,8 @@
           "evidence_ref": ".csdlc/evidence/270/runtime-openapi-contract.log"
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

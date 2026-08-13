@@ -33,3 +33,4 @@
 {"sequence":33,"generation":24,"actor":"codex:/root","reason":"Repair #270 SPP lifecycle truth after R5 review: S4 validation/review/publication/CI/finish lane is in progress, not complete, because fresh review and publication/finish remain open.","operation":"{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"}
 {"sequence":34,"generation":24,"actor":"codex:root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":35,"generation":25,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":36,"generation":26,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

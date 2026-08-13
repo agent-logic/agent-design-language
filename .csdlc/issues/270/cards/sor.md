@@ -114,11 +114,11 @@ Implemented trusted Layer 8 recipient-acknowledgement Runtime API protocol, then
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
