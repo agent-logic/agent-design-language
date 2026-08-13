@@ -1,0 +1,16 @@
+
+running 9 tests
+test operation_marker_is_stable_and_idempotent ... ok
+test split_github_binaries_reject_the_wrong_surface_before_network ... ok
+test split_github_schema_commands_accept_early_stdout_close ... ok
+test title_only_issue_update_fails_closed_on_remote_body_drift ... ok
+test issue_read_failures_are_typed_redacted_and_action_scoped ... ok
+test title_only_issue_update_preserves_body_and_records_durable_provenance ... ok
+test issue_create_and_comment_reconcile_by_marker_with_exact_readback ... ok
+test title_only_retry_after_receipt_failure_does_not_repeat_patch ... ok
+test title_only_update_detects_every_declared_body_drift_boundary ... ok
+
+test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 3.82s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.12s
+     Running tests/gate_github_actions.rs (csdlc-v2/target/debug/deps/gate_github_actions-537c8fb8f6c47647)
