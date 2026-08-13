@@ -1,0 +1,7 @@
+{
+  "issue": 300,
+  "expected_generation": 10,
+  "expected_digest": "c840f3db76368a4cdd515c11d7b411377e693968fd5e83e19e22abd4211aefd6",
+  "actor": "codex:worker-5",
+  "reason": "Recover reviewed state after doctor reported review_publication_dead_end: the r4 review assignment scope included .csdlc/issues/300, which is necessarily mutated by record_review and cannot remain the clean current substantive revision for publication."
+}

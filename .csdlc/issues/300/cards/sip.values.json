@@ -1,0 +1,38 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 300,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][297.c][test] Prove projection recovery crash, topology, race, and idempotency behavior",
+    "slug": "projection-recovery-integration-proof",
+    "version": "v0.92.0",
+    "generation": 24
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Prove the exact integrated #298 and #299 projection-recovery subsystem deterministically after both prerequisites are terminal and ancestral.",
+      "required_outcome": "A production-backed integration target deterministically proves every declared interruption/restart boundary, topology and identity negative, race, idempotency, evidence-retention rule, cleanup safety rule, and later ordinary commit for the exact integrated recovery and cleanup revisions.",
+      "declared_scope": [
+        "csdlc-v2/tests/projection_recovery_integration.rs",
+        ".csdlc/issues/300",
+        ".csdlc/evidence/300"
+      ],
+      "authority_boundary": [
+        "#298 owns classification and canonical recovery production semantics",
+        "#299 owns archived-projection cleanup production semantics",
+        "#300 owns tests only and routes production deficiencies separately",
+        "Bind and execution require validated typed terminal authority and ancestry for #298 and #299"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Do not bind, implement, or execute tests until #299 is terminal and both prerequisite heads are ancestral",
+        "Do not edit projection_recovery.rs, projection_cleanup.rs, store.rs, schema.rs, owner binaries, gate5.rs, or other issue records",
+        "Use typed C-SDLC v2 lifecycle routes",
+        "Keep primary main tracked clean"
+      ]
+    }
+  }
+}

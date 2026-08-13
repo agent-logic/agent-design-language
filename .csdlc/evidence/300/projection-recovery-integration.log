@@ -1,0 +1,10 @@
+
+running 3 tests
+test terminal_prerequisites_are_current_and_ancestral_to_execution_base ... ok
+test raced_cleanup_final_receipt_after_recovery_fails_closed_without_mutation ... ok
+test recovery_receipt_authority_feeds_cleanup_and_later_typed_commit ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.24s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.10s
+     Running tests/projection_recovery_integration.rs (csdlc-v2/target/debug/deps/projection_recovery_integration-97289e1690359c10)
