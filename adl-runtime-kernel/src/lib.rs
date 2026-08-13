@@ -22,6 +22,7 @@ pub mod durable_state;
 pub mod governance;
 pub mod identity_memory;
 pub mod ingress;
+pub mod layer8_authority;
 pub mod live_continuity;
 pub mod memory_palace;
 pub mod operations;

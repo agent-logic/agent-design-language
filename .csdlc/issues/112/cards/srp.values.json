@@ -1,0 +1,36 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 112,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.02] Govern Layer 8 identity, authority, refusal, and audit",
+    "slug": "wp18c02-layer8-conversation-authority",
+    "version": "v0.92",
+    "generation": 85
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl-runtime-kernel/src/layer8_authority/audit.rs\nadl-runtime-kernel/src/layer8_authority/exchange.rs\nadl-runtime-kernel/src/layer8_authority/identity.rs\nadl-runtime-kernel/src/layer8_authority/mod.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/tests/layer8_authority.rs\n.csdlc/issues/112\n.csdlc/prepared/issues/112\n.csdlc/evidence/112",
+      "review_revision": "git-blake3:ff5e131caf2ab5e7f1cded1d94715df6fe6ea292:166e9e0564835c1dca8cf0950f64d3f7c90c7bae142d319e33282ac2717875fc",
+      "reviewer": "fresh-session:3daea360-e36e-462b-9de9-d58f7e38ba58",
+      "review_prompts": [
+        "Does the exact reviewed work identify canonical issue/title [v0.92][WP-18C.02a][112.a] Define shared Layer 8 signed authority core and avoid #265/#270/#271/#114 claims?",
+        "Can any grant bypass authenticated identity, credential generation, capability, agent policy, Polis policy, replay freshness, recipient validity, canonical signatures, or audit availability?",
+        "Can signed requests or acknowledgements be replayed, substituted, generated for unknown recipients, or accepted across stale identity/key generations?",
+        "Can recipient substitution, recipient-set widening, action or conversation scope escalation, implicit broadcast, or cross-Polis attempts produce a grant?",
+        "Can audit records or public refusals leak private keys, content, raw provider payloads, private policy, provider output, or private cognition?",
+        "Does the exact diff avoid absorbing #265 Runtime ingress, #270 acknowledgement/API protocol, #271 Observatory UI, durable history, rooms, roster, presence, or sibling issue work?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Inspection-only exact-head source review; reviewer did not rerun tests or broad proof. Implementation-session evidence records the focused Layer 8 authority test target, rustfmt check, strict Clippy, diff hygiene, and typed validation at the reviewed current-main-inclusive head.",
+        "PASS is limited to #112 / 112.a shared Layer 8 signed authority core and does not approve #265 kernel ingress enforcement, #270 served trusted acknowledgement Runtime API protocol, #271 Observatory UI, #114 durable history/integration, publication, merge, or closeout.",
+        "Durable history, Observatory UI, served API/ack protocol, and kernel ingress remain nonclaims for this #112 core review scope."
+      ],
+      "review_result": "pass"
+    }
+  }
+}
