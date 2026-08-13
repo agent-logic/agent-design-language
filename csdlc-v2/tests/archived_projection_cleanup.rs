@@ -1,3 +1,4 @@
+use std::collections::BTreeMap;
 use std::fs;
 use std::os::unix::fs::MetadataExt;
 use std::os::unix::fs::PermissionsExt;
@@ -149,6 +150,30 @@ fn request(
         nodes,
         fail_after: None,
     }
+}
+
+fn ledger_snapshot(path: &Path) -> BTreeMap<String, Option<Vec<u8>>> {
+    fn visit(root: &Path, path: &Path, out: &mut BTreeMap<String, Option<Vec<u8>>>) {
+        let relative = path
+            .strip_prefix(root)
+            .expect("strip root")
+            .to_string_lossy()
+            .into_owned();
+        if path.is_dir() {
+            out.insert(relative, None);
+            for entry in fs::read_dir(path).expect("read dir") {
+                visit(root, &entry.expect("entry").path(), out);
+            }
+        } else {
+            out.insert(relative, Some(fs::read(path).expect("read file")));
+        }
+    }
+
+    let mut out = BTreeMap::new();
+    if path.exists() {
+        visit(path, path, &mut out);
+    }
+    out
 }
 
 #[test]
@@ -664,8 +689,9 @@ fn cleanup_rejects_temp_receipts_without_predecessor_and_placeholder_binding() {
 #[test]
 fn cleanup_rejects_forged_final_receipt_before_already_completed_shortcut() {
     let (_temp, root, req, node) = single_file_request();
-    let operation_root = root.join("cleanup-ledger/op-299");
-    fs::create_dir_all(&operation_root).expect("operation root");
+    let ledger_root = root.join("cleanup-ledger");
+    let operation_root = ledger_root.join("op-299");
+    fs::create_dir_all(&operation_root).expect("preexisting operation root");
     let final_receipt = operation_root.join("900-cleanup-complete.json");
     let forged = serde_json::json!({
         "schema": "csdlc.archived_projection_cleanup_receipt.v1",
@@ -683,6 +709,7 @@ fn cleanup_rejects_forged_final_receipt_before_already_completed_shortcut() {
         serde_json::to_vec_pretty(&forged).expect("forged final json"),
     )
     .expect("write forged final");
+    let before = ledger_snapshot(&ledger_root);
     assert_eq!(
         execute_archived_projection_cleanup(&req)
             .expect_err("forged final receipt rejected")
@@ -692,6 +719,11 @@ fn cleanup_rejects_forged_final_receipt_before_already_completed_shortcut() {
     assert!(
         node.exists(),
         "forged final receipt must not skip cleanup while node remains"
+    );
+    assert_eq!(
+        ledger_snapshot(&ledger_root),
+        before,
+        "forged final receipt rejection must not create or rewrite ledger, namespace, or receipt bytes"
     );
 }
 

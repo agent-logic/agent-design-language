@@ -117,8 +117,35 @@ pub fn execute_archived_projection_cleanup(
         Path::new(&request.cleanup_ledger_root),
         &archived_root,
     )?;
-    let ledger_root =
-        canonical_or_create_directory(Path::new(&request.cleanup_ledger_root), "cleanup ledger")?;
+    let ledger_path = Path::new(&request.cleanup_ledger_root);
+    let existing_ledger_root = if ledger_path.exists() {
+        let ledger_root = canonical_real_directory(ledger_path, "cleanup ledger")?;
+        if archived_root == ledger_root || ledger_root.starts_with(&archived_root) {
+            return Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "cleanup ledger must be outside the archived projection tree",
+            ));
+        }
+        require_same_device(&archived_root, &ledger_root, "cleanup ledger")?;
+        let operation_root = ledger_root.join(&request.operation_id);
+        ensure_private_component(&request.operation_id, "operation id")?;
+        let final_path = receipt_path(&operation_root, 900, "cleanup-complete");
+        if final_path.is_file() {
+            let digest = validate_final_receipt(request, &operation_root, &final_path)?;
+            return Ok(result(
+                request,
+                ArchivedProjectionCleanupStatus::AlreadyCompleted,
+                digest,
+            ));
+        }
+        Some(ledger_root)
+    } else {
+        None
+    };
+
+    let ledger_root = existing_ledger_root
+        .map(Ok)
+        .unwrap_or_else(|| canonical_or_create_directory(ledger_path, "cleanup ledger"))?;
     if archived_root == ledger_root || ledger_root.starts_with(&archived_root) {
         return Err(V2Error::new(
             ErrorCode::UnsafeCheckout,
@@ -128,6 +155,7 @@ pub fn execute_archived_projection_cleanup(
     require_same_device(&archived_root, &ledger_root, "cleanup ledger")?;
     let operation_root = ledger_root.join(&request.operation_id);
     ensure_private_component(&request.operation_id, "operation id")?;
+
     failpoint(request, "operation_create_intent")?;
     fs::create_dir_all(&operation_root)?;
     sync_directory(&ledger_root)?;
@@ -164,16 +192,6 @@ pub fn execute_archived_projection_cleanup(
     )?;
     failpoint(request, "namespace_created")?;
 
-    let final_path = receipt_path(&operation_root, 900, "cleanup-complete");
-    if final_path.is_file() {
-        let digest = validate_final_receipt(request, &operation_root, &final_path)?;
-        return Ok(result(
-            request,
-            ArchivedProjectionCleanupStatus::AlreadyCompleted,
-            digest,
-        ));
-    }
-
     let mut seen = BTreeSet::new();
     for (index, node) in request.nodes.iter().enumerate() {
         if !seen.insert(node.relative_path.clone()) {
@@ -204,6 +222,7 @@ pub fn execute_archived_projection_cleanup(
         }),
     )?;
     failpoint(request, "cleanup_complete")?;
+    let final_path = receipt_path(&operation_root, 900, "cleanup-complete");
     let digest = blake3::hash(&read_regular_no_symlink(&final_path)?)
         .to_hex()
         .to_string();
