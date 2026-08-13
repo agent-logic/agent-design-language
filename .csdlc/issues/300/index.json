@@ -4,40 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "812e76425072c39de0d33f7240ac7901873d4a425f3b26e754bdda158d7c02ed",
-  "phase": "reviewed",
-  "generation": 10,
-  "digest": "c840f3db76368a4cdd515c11d7b411377e693968fd5e83e19e22abd4211aefd6",
+  "phase": "implemented",
+  "generation": 11,
+  "digest": "849b418217ae5a3853963d6ea7ee9a37b200ff73d6b092b24faa8086e79f38ee",
   "branch": "codex/300-projection-recovery-integration-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-300-projection-recovery-integration-proof",
-  "review_assignment": {
-    "reviewer": "fresh-session:lovelace-300-bridge-fed-r4",
-    "assigned_by": "codex:worker-5",
-    "revision": "git-blake3:b21078fd31e76ef6ba1e8b4a72be6bca3854f1a0:0099780c89d015c3b7b007ce9bb74ef22751bfa71dfb1bfa5c3c99f85f08a815",
-    "scope": [
-      "csdlc-v2/tests/projection_recovery_integration.rs",
-      ".csdlc/issues/300",
-      ".csdlc/evidence/300/bridge-fed-r4",
-      ".csdlc/requests/300/recover-review-curie-r3.json",
-      ".csdlc/requests/300/replace-sor-bridge-fed-r4.json"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:lovelace-300-bridge-fed-r4",
-    "scope": [
-      "csdlc-v2/tests/projection_recovery_integration.rs",
-      ".csdlc/issues/300",
-      ".csdlc/evidence/300/bridge-fed-r4",
-      ".csdlc/requests/300/recover-review-curie-r3.json",
-      ".csdlc/requests/300/replace-sor-bridge-fed-r4.json"
-    ],
-    "reviewed_revision": "git-blake3:b21078fd31e76ef6ba1e8b4a72be6bca3854f1a0:0099780c89d015c3b7b007ce9bb74ef22751bfa71dfb1bfa5c3c99f85f08a815",
-    "findings": [],
-    "residual_risks": [
-      "Reviewer did not rerun cargo, Clippy, fmt, or diff-check; PASS is based on inspection-only exact-head review of immutable commit b21078fd31e76ef6ba1e8b4a72be6bca3854f1a0 and recorded r4 evidence."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -52,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d6f0424a42c886febf64b8a7f110c39cc502e6e39126d7d67c651602c6134f4f",
+      "values_digest": "bd4c1575a5670233a908ba18d37b8185fb43d942902f18b415db5518f0b2aae9",
       "rendered_digest": "b003b1d51dd3f4296ef4d8be0536d419fce23991df68d3ae3445937fdb901bfc",
       "ast_digest": "dea7ce3fd1e50f827b7a10dbc279ee19c71112032939c98b713d79c7acd4c982"
     },
     "stp": {
-      "values_digest": "dfe9478b9b377af88c276daf63028c286f978cc45a03d0657d8fc92050b8a4b8",
+      "values_digest": "c966f0200a10ce9d6831014b147925ba35d415988ee473d5593acc7b489a5e15",
       "rendered_digest": "9c318b641757d4bd27b306ec8864bae2f757a8eec46cbc9cd24384d545113499",
       "ast_digest": "f6bc49a3310d58c810276f43df1e69dc2d772d6083d6cfd61a0d2fe42614be8a"
     },
     "spp": {
-      "values_digest": "14b2f93a54c4e19e1dd446a2f152d8d9985258ed00676689780337edb2c6617f",
+      "values_digest": "d6a4c673f2dce079a795510a4378501f3f966f23c20965b59d40b3558c8c731a",
       "rendered_digest": "17e42670b0aa901f572e0d422b009f4ef9e5bd8463e2f2b61a45a149164f4db2",
       "ast_digest": "cf94d7413d244fdd54d34005a149163a5c22e668e99ef82213ae2d2058146948"
     },
     "vpp": {
-      "values_digest": "c167391281a0c372d3f24bbb96254734b2cc6cae1b055dbd3075c7e214208b2c",
+      "values_digest": "dfd22a02a51f902e2bc95d8593c9922c3777fdb388c437c09de01790b1c30e59",
       "rendered_digest": "ffac1c06684198b62ee6b72a4bda262c0b08d3cd971b68b5dc435b3e77c2e38a",
       "ast_digest": "b4d732c61fe93217e1fa7e266913c6e871b739351895d1446deb4ee19ecdcc43"
     },
     "srp": {
-      "values_digest": "c18efa2c1895ae02cec1faa3e5eb8c74234925b5a843d79b297f54878365f0a6",
-      "rendered_digest": "fa79a5e54b56bdfa497fb6b0fbed52c52344643220a9489b7478e63012672756",
-      "ast_digest": "3787ddc3b4abd45af3a0c4e22672d59a522bcf3aa29923a23292a939e0f16c21"
+      "values_digest": "d7173b5081f6239c444a6f1dbb2a35f4b75621358d92a8ccee0ce2279de06af4",
+      "rendered_digest": "17ee06a51fc84fb2c9f9504502a33a4d57a53867d6187f5fbe11f01225a51f04",
+      "ast_digest": "7128a6374ca10bb80f0866eb6297f69fa19201e95fd798bfcf7cafa9d9bc2154"
     },
     "sor": {
-      "values_digest": "8ea0fc07501d6ac6f47f5a7b604e4d8f2832188d3f76ea68e1338a3b61eca11b",
+      "values_digest": "1d0020964d4bdfb4ebbd68aacfd6af10f4cea3c4e70aaa3d5beb141bb70bd5eb",
       "rendered_digest": "70ba0d5770050dc101f69e5bc67fef3f0d3ecc2869fdba14fa8418417e3e8a9c",
       "ast_digest": "ddd69795bbd406b4d556c0a6baa9ee471d549682409ee527c88ccd9415d59630"
     }
@@ -110,6 +83,13 @@
       "to": "reviewed",
       "actor": "codex:worker-5",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:worker-5",
+      "reason": "Recover reviewed state after doctor reported review_publication_dead_end: the r4 review assignment scope included .csdlc/issues/300, which is necessarily mutated by record_review and cannot remain the clean current substantive revision for publication."
     }
   ],
   "audit": [
@@ -217,6 +197,13 @@
       "actor": "codex:worker-5",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:worker-5",
+      "reason": "Recover reviewed state after doctor reported review_publication_dead_end: the r4 review assignment scope included .csdlc/issues/300, which is necessarily mutated by record_review and cannot remain the clean current substantive revision for publication.",
+      "operation": "recover_review"
     }
   ]
 }
