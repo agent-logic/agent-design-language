@@ -12,24 +12,25 @@ Status: pre_phase
 
 ## Summary
 
-Implemented the issue-owned projection recovery integration proof target without production edits, refreshed it after #330 terminal ancestry, and remediated the r3 P1 review finding by explicitly pinning #299 terminal digest truth in the prerequisite gate.
+Implemented the issue-owned projection recovery integration proof target without production edits, refreshed it after #330 terminal finish, and updated the #330 terminal digest pin to the typed derived-terminal digest. The branch was merged forward to current origin/main bfd811dbb204daae393b073a8dfac3df62e1ba53. Final proving evidence is r11 at immutable source head 84156f343a047c7c9207193c21515c3dccbe2ead. Earlier r8/r9/r10 logs are retained only as non-proving history: r8 predates the current-main/#330 terminal update, r9 failed on the stale #330 terminal digest assertion, and r10 was a dirty-tree confirmation before the digest update was committed.
 
 ## Artifacts
 
 - csdlc-v2/tests/projection_recovery_integration.rs
-- .csdlc/evidence/300/bridge-fed-r4/projection-recovery-integration.log sha256=27c3f27f2c490040e677f4e5b619ed0ee96a1107fbf922f13f01cf901d4bed6f
-- .csdlc/evidence/300/bridge-fed-r4/csdlc-v2-strict-clippy.log sha256=ac45156c29f6fdb7e6282c5adce970512ffe7974b220b8a97a543ca2e765132c
-- .csdlc/evidence/300/bridge-fed-r4/csdlc-v2-fmt-check.log sha256=e52ad16559a06b8b8cc526fa01a8dccc20ec5dc312be3281f34825544963a337
-- .csdlc/evidence/300/bridge-fed-r4/git-diff-check-head.log sha256=d10d0d73af2399c7189988724bbe8f9b0eb48c517f1941c678d083e84aa345eb
+- .csdlc/evidence/300/bridge-fed-r11/projection-recovery-integration.log sha256=c89b1a80ad7a48fb061feb743d365faffcca55dbfbe1c3bda8ed412ea197044d
+- .csdlc/evidence/300/bridge-fed-r11/csdlc-v2-strict-clippy.log sha256=7c7d98488150df902b76e488a242620249adefb1c65106875b5ab469ec307319
+- .csdlc/evidence/300/bridge-fed-r11/csdlc-v2-fmt-check.log sha256=797c05d94d8d04f43dc85c5a46024b26faedd171007eba2487264d47adf02c34
+- .csdlc/evidence/300/bridge-fed-r11/git-diff-check-head.log sha256=8a9a55ff6fc4d835f06fd8ce86607ad455eb9673a0beee6a8562fcf5e560f70c
+- .csdlc/evidence/300/bridge-fed-r9/projection-recovery-integration.log sha256=b8191fd19cc3590423b79c0b51d5a9446b73fba0eb8590024e807c904de1a6dc non_proving_stale_330_digest_failure
+- .csdlc/evidence/300/bridge-fed-r10/projection-recovery-integration.log sha256=98dfa4c1e84d0e5a0040fb96fc04f2659304cf190ca98bb5bc2c3244eaec9012 non_proving_dirty_tree_confirmation
 
 ## Execution
 
-- Added and repaired csdlc-v2/tests/projection_recovery_integration.rs to verify #298, #299, and #330 terminal ancestry before #300 execution.
-- Pinned terminal digest assertions for #298, #299, and #330, including #299 digest 8a108811e5ed40a3f643ac159fc6255081e0b4a2824db1a386aecd1015415179.
-- Proved production recovery-to-cleanup composition by deriving cleanup authority from recovered projection receipts, replaying archived cleanup, rejecting conflicting cleanup authority, and permitting a later ordinary typed commit.
-- Aligned the test fixture with production recovery-root cleanup ledger layout introduced by the #297/#330 bridge, without editing production files.
-- Retained fail-closed race coverage by injecting a forged final cleanup receipt after recovery-derived authority construction and before cleanup node mutation, asserting no new ledger, namespace, or receipt bytes are created or rewritten.
-- Kept the mechanical matrix proof in the #300 integration target so the existing gate5 recovery and archived cleanup suites remain invoked from the integration surface rather than merely cited.
+- Kept #300 scoped to csdlc-v2/tests/projection_recovery_integration.rs plus lifecycle/evidence artifacts; no production files were edited by #300.
+- Merged current origin/main bfd811dbb204daae393b073a8dfac3df62e1ba53 into the bound #300 worktree after typed #330 terminal cache validation and ancestry proof.
+- Updated the #330 terminal digest assertion from stale 0fd19c9694fe67a062c6cbd29b5adce3dee183faea6ddb2fef499101addc5817 to typed terminal digest 8faeb1d546ba22b89aa0c1cb73c6e7d6c7cc48780eade6aefa70a19ff0bf1778.
+- Retained terminal prerequisite checks for #298, #299, and #330; recovery-to-cleanup bridge replay/rejection; later ordinary typed commit; raced-final fail-closed no-mutation proof; and mechanical invocation of approved recovery and cleanup matrix tests.
+- Classified stale/non-proving evidence truthfully: bridge-fed-r8 was captured before the current main advance, bridge-fed-r9 failed due stale #330 digest, and bridge-fed-r10 passed before the digest update was committed and is therefore not claimed as immutable-head proof.
 
 ## Validation
 
@@ -47,7 +48,7 @@ Implemented the issue-owned projection recovery integration proof target without
     ],
     "purpose": "Run the issue-owned bridge-fed projection recovery integration target, including terminal prerequisite ancestry/digest pins for #298/#299/#330, recovery-to-cleanup bridge replay/rejection, later typed commit, raced-final fail-closed no-mutation proof, and mechanical invocation of approved recovery and cleanup matrix tests.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/300/bridge-fed-r4/projection-recovery-integration.log sha256=27c3f27f2c490040e677f4e5b619ed0ee96a1107fbf922f13f01cf901d4bed6f head=864bab0f149f8a86d7e3ea7df0ebf34b731aafb8 status=0"
+    "evidence_ref": ".csdlc/evidence/300/bridge-fed-r11/projection-recovery-integration.log sha256=c89b1a80ad7a48fb061feb743d365faffcca55dbfbe1c3bda8ed412ea197044d head=84156f343a047c7c9207193c21515c3dccbe2ead status=0"
   },
   {
     "command": [
@@ -62,7 +63,7 @@ Implemented the issue-owned projection recovery integration proof target without
     ],
     "purpose": "Run strict Clippy with warnings denied across the C-SDLC v2 crate and tests.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/300/bridge-fed-r4/csdlc-v2-strict-clippy.log sha256=ac45156c29f6fdb7e6282c5adce970512ffe7974b220b8a97a543ca2e765132c head=864bab0f149f8a86d7e3ea7df0ebf34b731aafb8 status=0"
+    "evidence_ref": ".csdlc/evidence/300/bridge-fed-r11/csdlc-v2-strict-clippy.log sha256=7c7d98488150df902b76e488a242620249adefb1c65106875b5ab469ec307319 head=84156f343a047c7c9207193c21515c3dccbe2ead status=0"
   },
   {
     "command": [
@@ -72,9 +73,9 @@ Implemented the issue-owned projection recovery integration proof target without
       "csdlc-v2/Cargo.toml",
       "--check"
     ],
-    "purpose": "Verify Rust formatting at the exact immutable remediation checkpoint.",
+    "purpose": "Verify Rust formatting at the exact immutable source checkpoint.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/300/bridge-fed-r4/csdlc-v2-fmt-check.log sha256=e52ad16559a06b8b8cc526fa01a8dccc20ec5dc312be3281f34825544963a337 head=864bab0f149f8a86d7e3ea7df0ebf34b731aafb8 status=0"
+    "evidence_ref": ".csdlc/evidence/300/bridge-fed-r11/csdlc-v2-fmt-check.log sha256=797c05d94d8d04f43dc85c5a46024b26faedd171007eba2487264d47adf02c34 head=84156f343a047c7c9207193c21515c3dccbe2ead status=0"
   },
   {
     "command": [
@@ -83,9 +84,9 @@ Implemented the issue-owned projection recovery integration proof target without
       "--check",
       "HEAD"
     ],
-    "purpose": "Verify whitespace hygiene for the exact remediation checkpoint plus evidence/card dirt before evidence commit.",
+    "purpose": "Verify whitespace hygiene for the exact source checkpoint plus evidence/card dirt before evidence commit.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/300/bridge-fed-r4/git-diff-check-head.log sha256=d10d0d73af2399c7189988724bbe8f9b0eb48c517f1941c678d083e84aa345eb head=864bab0f149f8a86d7e3ea7df0ebf34b731aafb8 status=0"
+    "evidence_ref": ".csdlc/evidence/300/bridge-fed-r11/git-diff-check-head.log sha256=8a9a55ff6fc4d835f06fd8ce86607ad455eb9673a0beee6a8562fcf5e560f70c head=84156f343a047c7c9207193c21515c3dccbe2ead status=0"
   }
 ]
 
