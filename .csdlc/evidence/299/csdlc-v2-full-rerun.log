@@ -78,79 +78,49 @@ test cutover::tests::failed_smoke_restores_v1 ... ok
 test cutover::tests::successful_transaction_proves_v2_v1_v2_and_keeps_override ... ok
 test cutover::tests::every_failed_smoke_restores_exact_original_selector_bytes ... ok
 test cutover::tests::every_selector_write_error_restores_exact_original_bytes ... ok
-
 test result: ok. 78 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.45s
 
-
 running 0 tests
-
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-
 running 0 tests
-
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-
 running 0 tests
-
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-
 running 0 tests
-
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-
 running 0 tests
-
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-
 running 0 tests
-
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-
 running 0 tests
-
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-
 running 0 tests
-
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-
 running 0 tests
-
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-
 running 0 tests
-
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-
 running 0 tests
-
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-
 running 0 tests
-
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-
 running 0 tests
-
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-
 running 0 tests
-
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
-
 
 running 7 tests
 test tests::exhaustive_pr_results_must_be_unique ... ok
@@ -162,39 +132,25 @@ test tests::existing_split_authority_pr_requires_qualified_issue_linkage ... ok
 Initialized empty Git repository in /private/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/.tmpdBXXWP/.git/
 [main (root-commit) 139a244] base
 test tests::substituted_pushurl_is_rejected_before_publication_push ... ok
-
 test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.07s
 
-
 running 0 tests
-
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-
 running 0 tests
-
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-
 running 0 tests
-
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-
 running 0 tests
-
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-
 running 0 tests
-
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
 
-
 running 0 tests
-
 test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
-
 
 running 6 tests
 test cleanup_requires_terminal_gate_before_mutation ... ok
@@ -203,17 +159,13 @@ test cleanup_rejects_symlink_and_non_empty_directory ... ok
 test cleanup_preserves_public_replacement_before_placeholder_disposal ... ok
 test cleanup_resumes_after_capture_receipt_before_removal ... ok
 test cleanup_removes_only_exact_file_and_empty_directory_then_repeats_idempotently ... ok
-
 test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.40s
-
 
 running 3 tests
 test identity_operation_updates_all_cards_without_content_drift ... ok
 test malformed_identity_update_is_rejected_before_mutation ... ok
 test pre_change_native_1_0_0_fixture_loads_but_legacy_relabel_is_rejected ... ok
-
 test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
-
 
 running 8 tests
 test schema_and_cli_expose_typed_migration_contract ... ok
@@ -224,9 +176,7 @@ test implemented_record_migrates_without_changing_phase ... ok
 test wrong_branch_missing_topology_and_unsupported_phase_fail_closed ... ok
 test reviewed_record_preserves_review_and_passes_split_publication_preflight ... ok
 test missing_non_github_and_divergent_fetch_origins_fail_closed ... ok
-
 test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.16s
-
 
 running 11 tests
 test retained_cycle_boundary_records_one_terminal_baseline_without_a_reduction_claim ... ok
@@ -240,9 +190,7 @@ test finish_records_available_actuals_even_when_the_estimate_is_deferred ... ok
 test cycle_comparison_derives_basis_gates_and_totals_from_verified_artifacts ... ok
 test session_adapter_emits_schema_drift_and_forces_static_fallback ... ok
 test verified_calibration_is_loader_only_reproducible_and_tamper_evident ... ok
-
 test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.41s
-
 
 running 20 tests
 test current_guidance_guard_rejects_exact_former_wrapper_command ... ok
@@ -265,9 +213,7 @@ test freshly_installed_stable_edit_binary_is_executable ... ok
 test retired_symlinked_binary_fails_coexistence ... ok
 test installer_records_provenance_without_replacing_other_files ... ok
 test freshly_installed_generation_runs_claim_free_lifecycle_without_migrate ... ok
-
 test result: ok. 20 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 39.87s
-
 
 running 5 tests
 test explicit_v2_rehearsal_rolls_back_to_unchanged_v1_default ... ok
@@ -275,9 +221,7 @@ test relabeled_arbitrary_commands_are_rejected ... ok
 test manifest_requires_v1_default_opt_in_and_exact_proofs ... ok
 test dirty_tree_is_refused_before_proof_attribution ... ok
 test tracked_post_command_mutation_is_refused ... ok
-
 test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
-
 
 running 7 tests
 test implemented_sip_scope_correction ... ok
@@ -287,9 +231,7 @@ test bind_topology_scan_uses_canonical_record_identity ... ok
 test prebind_contract_repair_is_exact_atomic_and_fail_closed ... ok
 test deferred_rust_path_harness_admission_fails_closed_for_each_missing_predicate ... ok
 test actual_binaries_create_validate_doctor_and_bind_without_claims ... ok
-
 test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 8.11s
-
 
 running 17 tests
 test scheduler_and_shepherd_are_read_only_classifiers ... ok
@@ -309,9 +251,7 @@ test cancellation_during_execution_terminates_process_group ... ok
 test routine_lifecycle_contract_measures_four_commands_and_two_artifacts ... ok
 test finalize_is_one_atomic_implemented_transition_and_failure_writes_no_state ... ok
 test deadline_timeout_is_typed_and_fails_aggregate ... ok
-
 test result: ok. 17 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.07s
-
 
 running 56 tests
 test guard_rejects_malformed_fixed_and_accepted_risk_evidence ... ok
@@ -371,9 +311,7 @@ test recovered_issue_can_correct_only_the_spp_plan_summary ... ok
 test preserved_projection_recovery_restarts_nonexchange_anchors_after_displacement ... ok
 test preserved_projection_recovery_resumes_every_recovery_boundary has been running for over 60 seconds
 test preserved_projection_recovery_resumes_every_recovery_boundary ... ok
-
 test result: ok. 56 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 111.54s
-
 
 running 11 tests
 test ambiguous_create_outage_is_reconciled_by_observation_before_retry ... ok
@@ -387,9 +325,7 @@ test omitted_request_linkage_mode_defaults_to_closing ... ok
 test remote_part_of_mode_is_retained_and_mixed_linkage_fails_closed ... ok
 test legacy_publication_evidence_omits_mode_without_digest_churn ... ok
 test public_schema_keeps_publication_and_drops_merged_reconciliation ... ok
-
 test result: ok. 11 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
-
 
 running 5 tests
 test requested_changes_remain_routed_and_block_readiness ... ok
@@ -397,9 +333,7 @@ test unknown_conflict_or_review_truth_never_becomes_green ... ok
 test green_required_truth_is_ready_without_promoting_optional_skips ... ok
 test pending_failed_and_unobserved_required_checks_are_distinct ... ok
 test public_schemas_keep_readiness_but_drop_terminal_mutation_contracts ... ok
-
 test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
-
 
 running 8 tests
 Initialized empty Git repository in /private/var/folders/rq/nnff0vs91jzfvmb8tjqxtjgc0000gn/T/.tmperXEHR/.git/
@@ -420,9 +354,7 @@ test compatibility_failure_resumes_and_fixed_view_cannot_overwrite_index ... ok
 test shadow_parity_compares_normalized_outcomes_not_markdown_bytes ... ok
 test one_way_ast_import_retains_every_authored_section_and_generates_view ... ok
 test changed_raw_source_cannot_replace_existing_migration_evidence ... ok
-
 test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.08s
-
 
 running 8 tests
 test evidence_input_rejects_wrong_schema_or_non_v1_default ... ok
@@ -433,9 +365,7 @@ test missing_or_waiting_evidence_incubates_but_hard_failure_stops ... ok
 test hard_budget_or_critical_parity_failure_stops_cutover ... ok
 test native_sample_authority_resolves_distinct_native_and_import_families ... ok
 test sample_generation_is_idempotent_and_builds_six_ast_validated_cards_each ... ok
-
 test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s
-
 
 running 9 tests
 test terminal_census_rejects_truncation_wrong_identity_and_set_drift ... ok
@@ -447,9 +377,7 @@ test clean_worktree_classifies_removes_and_repeats_idempotently ... ok
 test symlinked_projection_and_lock_ancestors_are_rejected_without_escape ... ok
 test dirty_tracked_and_untracked_paths_are_reported_without_removal ... ok
 test tracked_v0918_terminal_census_is_compatible_and_read_only ... ok
-
 test result: ok. 9 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 7.50s
-
 
 running 18 tests
 test historical_finish_rejects_open_or_mismatched_remote_identity ... ok
@@ -470,9 +398,7 @@ test concurrent_identical_finish_retention_converges ... ok
 test mutable_terminal_cache_is_replaceable_by_a_fresher_live_observation ... ok
 test finish_binary_validates_cached_terminal_without_remote_mutation ... ok
 test derived_terminal_accepts_publication_metadata_only_head_and_rejects_substantive_drift ... ok
-
 test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.53s
-
 
 running 5 tests
 test split_github_binaries_reject_the_wrong_surface_before_network ... ok
@@ -480,7 +406,6 @@ test split_github_schema_commands_accept_early_stdout_close ... ok
 test issue_read_failures_are_typed_redacted_and_action_scoped ... FAILED
 test operation_marker_is_stable_and_idempotent ... FAILED
 test issue_create_and_comment_reconcile_by_marker_with_exact_readback ... FAILED
-
 failures:
 
 ---- issue_read_failures_are_typed_redacted_and_action_scoped stdout ----
@@ -501,11 +426,8 @@ test env lock: PoisonError { .. }
 thread 'issue_create_and_comment_reconcile_by_marker_with_exact_readback' (82157457) panicked at tests/gate_github_actions.rs:671:49:
 test env lock: PoisonError { .. }
 
-
 failures:
     issue_create_and_comment_reconcile_by_marker_with_exact_readback
     issue_read_failures_are_typed_redacted_and_action_scoped
     operation_marker_is_stable_and_idempotent
-
 test result: FAILED. 2 passed; 3 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.73s
-
