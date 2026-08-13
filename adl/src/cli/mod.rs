@@ -510,27 +510,39 @@ fn verify_repo_review_contract(text: &str) -> Result<()> {
 #[allow(dead_code)]
 fn markdown_without_fenced_code_blocks(text: &str) -> String {
     let mut visible = String::with_capacity(text.len());
-    let mut fence_marker: Option<&'static str> = None;
+    let mut fence_marker: Option<(char, usize)> = None;
     for line in text.lines() {
         let trimmed = line.trim_start();
-        if fence_marker.is_none() {
-            if trimmed.starts_with("```") {
-                fence_marker = Some("```");
-                continue;
+        if let Some((marker, min_len)) = fence_marker {
+            if markdown_fence_closes(trimmed, marker, min_len) {
+                fence_marker = None;
             }
-            if trimmed.starts_with("~~~") {
-                fence_marker = Some("~~~");
-                continue;
-            }
-            visible.push_str(line);
-            visible.push('\n');
             continue;
         }
-        if fence_marker.is_some_and(|marker| trimmed.starts_with(marker)) {
-            fence_marker = None;
+        if let Some(marker) = markdown_fence_start(trimmed) {
+            fence_marker = Some(marker);
+            continue;
         }
+        visible.push_str(line);
+        visible.push('\n');
     }
     visible
+}
+
+#[allow(dead_code)]
+fn markdown_fence_start(trimmed: &str) -> Option<(char, usize)> {
+    let marker = trimmed.chars().next()?;
+    if marker != '`' && marker != '~' {
+        return None;
+    }
+    let marker_len = trimmed.chars().take_while(|&ch| ch == marker).count();
+    (marker_len >= 3).then_some((marker, marker_len))
+}
+
+#[allow(dead_code)]
+fn markdown_fence_closes(trimmed: &str, marker: char, min_len: usize) -> bool {
+    let marker_len = trimmed.chars().take_while(|&ch| ch == marker).count();
+    marker_len >= min_len && trimmed.chars().skip(marker_len).all(char::is_whitespace)
 }
 
 #[allow(dead_code)]

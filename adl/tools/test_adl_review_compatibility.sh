@@ -172,6 +172,48 @@ set -e
 assert_status_nonzero "$fenced_status" "fenced review contract"
 assert_contains "repo review contract violation" "$fenced_output" "fenced review contract diagnostic"
 
+long_fenced_review="$TMP_DIR/long-fenced-review.md"
+cat >"$long_fenced_review" <<'EOF'
+This is not a review packet; the required markers below are example text only.
+
+````markdown
+The shorter fence below is literal text inside the four-backtick block.
+
+```markdown
+## Metadata
+- Review Type: fixture
+- Reviewer: fixture
+
+## Scope
+- Reviewed: review compatibility surface
+- Not Reviewed: runtime behavior
+- Review Mode: fixture
+
+## Findings
+No material findings.
+
+## System-Level Assessment
+Example only.
+
+## Recommended Action Plan
+Example only.
+
+## Follow-ups / Deferred Work
+Example only.
+
+## Final Assessment
+Example only.
+```
+````
+EOF
+
+set +e
+long_fenced_output="$(run_review verify-repo-contract --review "$long_fenced_review" 2>&1)"
+long_fenced_status=$?
+set -e
+assert_status_nonzero "$long_fenced_status" "long fenced review contract"
+assert_contains "repo review contract violation" "$long_fenced_output" "long fenced review contract diagnostic"
+
 code_review_out="$TMP_DIR/code-review-smoke"
 code_review_output="$(run_review code-review --out "$code_review_out" --backend fixture --visibility read-only-repo)"
 assert_contains "code-review fixture: ok" "$code_review_output" "code-review fixture"

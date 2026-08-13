@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "6a5a8a2f2350b7ffe3899f5dad5e5b39a2054da2f0c9138ac388b2c93b8ff5e7",
   "phase": "implemented",
-  "generation": 21,
-  "digest": "923edf8cf96eb63d2990fd9317e62305ce092dabd4c249ad8cdfce9673fe074d",
+  "generation": 25,
+  "digest": "4cc104942545bd0969820499d8fb28b8309ddecd0b13e2241a014dc9a085c718",
   "branch": "codex/5913-repair-adl-review-compatibility-routing",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5913-adl-review-routing",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0e2d282dc323e29439617f4c15e8f847540786662eefb19a27c80747f15627a9",
+      "values_digest": "4ebf5988b3de57b5d26fd573792312f126d3b2b3fd4989f9177bd1831aefbd80",
       "rendered_digest": "34e93594d22d0195e945568476646f2084febad9f0f18b2232e969179fa51b19",
       "ast_digest": "8a3784fb1584110103a35108a68d7e983f1c62444d54a010be1ad799cc5b96ee"
     },
     "stp": {
-      "values_digest": "818c86c59c2e160555fa378823fe37b9e5bfdaa70f11bf5d4a0409b523d03f2c",
+      "values_digest": "1cd22858ee29ab6b0ef12363688bbd391cfa14989d32dca6956f41067ee28bd1",
       "rendered_digest": "e61895bbba87ace15a7e53bb5136efc29bc2105ea06c81e503a14e471defed04",
       "ast_digest": "52ae355f59153da999d724c2133a1aa190245ed3cae203677f9876be3df89695"
     },
     "spp": {
-      "values_digest": "8cfda38c7e61ab32fc34e33ec3949784cd4842916023746f0de88a8b736b79a5",
+      "values_digest": "ad37cf724976ef91c02e2f74f06a3a70fc013e73d1acae9c60bc7108ce219c57",
       "rendered_digest": "5ea449b178e9fa4c571afac0d4731e45b73cd16ad467d4ee392615b957e0108c",
       "ast_digest": "81b8b8e01ed790ee1cf2da35404bb201d22fcccc25fb2186107f8a1c9b629aa5"
     },
     "vpp": {
-      "values_digest": "0af6daea1439193abeb9fb17cb5e9c52e121e8bb6698a0119574bf0d81d51f23",
+      "values_digest": "b36244b1250e7d446d77819bdafde3b453a206523aae663179a7c58f1805c9c3",
       "rendered_digest": "d07e6e27fd8972968faa8dc97c4aa23317033aef1913f1a4818c41e696c66117",
       "ast_digest": "2220360798039c1e52115627c0868afe1bd7f8cd523c639bb8905c068c9c6b86"
     },
     "srp": {
-      "values_digest": "744cf40c1da685f0fd3e3e620b3c56a99813678fdcf20184fd745bd7a4502eb6",
+      "values_digest": "d276fe888414e998daf3b4627a3184d9d2a8976936a44de74e3728adaca40dd1",
       "rendered_digest": "d08570989652cbecbd0bf33fa1225afc1b96f91c800c8037cc16171f6185d7d9",
       "ast_digest": "ecf0737f581d2dbc15721bcd086c1a9367b52b4f6f9bb1ebc04179c93adbc831"
     },
     "sor": {
-      "values_digest": "500344b51981f83f00bdc69efdd017b1377a25d125ea8c6f86f5026ff306aa5e",
-      "rendered_digest": "c467bf9919781f94fbe4905672f816f03a7a14715505fe418132edc0e1f8ba79",
-      "ast_digest": "992a503ce3d2fd8db9e771515409eff512212b757e0c2d2a4a9fd7723c0a5dac"
+      "values_digest": "a6d615756eaa44637f2b4fe3216d4e9cdefea0fd52a797365e338f3eb896c2f5",
+      "rendered_digest": "096e18421b5fa84973a7010ca4b603c140757142042e7d4dcea8f64912f17d54",
+      "ast_digest": "0f0e141aa56d9259e6af6a1902b948788b910f3cef254b883bbaa2f3c04f82bb"
     }
   },
   "transitions": [
@@ -295,6 +295,41 @@
       "actor": "codex:/root",
       "reason": "Record focused validation for the fenced-code contract bypass fix.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl/Cargo.toml\",\"--\",\"--check\",\"+\",\"bash\",\"adl/tools/test_adl_review_compatibility.sh\",\"+\",\"bash\",\"adl/tools/test_run_pr_fast_test_lane.sh\",\"+\",\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl-review\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Focused validation for fenced-code-safe repo-review contract verification, preserved adl-review compatibility behavior, PR-fast selector contract, formatting, and strict relevant Rust lint.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5913/review-finding-fix-fenced-contract.log\"}}"
+    },
+    {
+      "sequence": 29,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "Recover #5913 after fresh-session c723 review found P2 long-fence contract bypass in fenced-code stripping; fix requires a new substantive commit and fresh exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 24,
+      "actor": "codex:/root",
+      "reason": "Record the fix for fresh-review P2 long-fence contract bypass.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Repair #5913 adl-review compatibility routing, PR-fast CI selector routing, fenced-code-safe review contract validation, and long-fence delimiter handling.\",\"changes\":[\"Track Markdown fence character and opening delimiter length when hiding fenced code blocks before repo-review contract validation.\",\"Require a closing fence to use the same marker character, at least the opening delimiter length, and only trailing whitespace.\",\"Add a long-fence negative fixture proving required review markers inside a four-backtick block do not satisfy the contract verifier.\"],\"artifacts\":[\"adl/src/cli/mod.rs\",\"adl/tools/test_adl_review_compatibility.sh\",\".csdlc/evidence/5913/review-finding-fix-long-fence-contract.log\"]}"
+    },
+    {
+      "sequence": 33,
+      "generation": 25,
+      "actor": "codex:/root",
+      "reason": "Record focused validation for the long-fence contract bypass fix.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl/Cargo.toml\",\"--\",\"--check\",\"+\",\"bash\",\"adl/tools/test_adl_review_compatibility.sh\",\"+\",\"bash\",\"adl/tools/test_run_pr_fast_test_lane.sh\",\"+\",\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl-review\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Focused validation for long-fence-safe repo-review contract verification, preserved adl-review compatibility behavior, PR-fast selector contract, formatting, and strict relevant Rust lint.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5913/review-finding-fix-long-fence-contract.log\"}}"
     }
   ]
 }

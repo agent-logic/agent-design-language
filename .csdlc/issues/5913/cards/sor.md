@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Repair #5913 adl-review compatibility routing, PR-fast CI selector routing, and fenced-code-safe review contract validation.
+Repair #5913 adl-review compatibility routing, PR-fast CI selector routing, fenced-code-safe review contract validation, and long-fence delimiter handling.
 
 ## Artifacts
 
@@ -24,6 +24,9 @@ Repair #5913 adl-review compatibility routing, PR-fast CI selector routing, and 
 - adl/src/cli/mod.rs
 - adl/tools/test_adl_review_compatibility.sh
 - .csdlc/evidence/5913/review-finding-fix-fenced-contract.log
+- adl/src/cli/mod.rs
+- adl/tools/test_adl_review_compatibility.sh
+- .csdlc/evidence/5913/review-finding-fix-long-fence-contract.log
 
 ## Execution
 
@@ -34,6 +37,9 @@ Repair #5913 adl-review compatibility routing, PR-fast CI selector routing, and 
 - Update the PR-fast selector contract test expectations so the generated focused filter matches the current declared CLI/process binary surface.
 - Strip fenced code blocks before verifying repository-review contract sections, fields, and finding markers.
 - Add a fenced-code-only negative fixture proving required review markers inside examples do not satisfy the contract verifier.
+- Track Markdown fence character and opening delimiter length when hiding fenced code blocks before repo-review contract validation.
+- Require a closing fence to use the same marker character, at least the opening delimiter length, and only trailing whitespace.
+- Add a long-fence negative fixture proving required review markers inside a four-backtick block do not satisfy the contract verifier.
 
 ## Validation
 
@@ -143,6 +149,35 @@ Repair #5913 adl-review compatibility routing, PR-fast CI selector routing, and 
     "purpose": "Focused validation for fenced-code-safe repo-review contract verification, preserved adl-review compatibility behavior, PR-fast selector contract, formatting, and strict relevant Rust lint.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/5913/review-finding-fix-fenced-contract.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "fmt",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--",
+      "--check",
+      "+",
+      "bash",
+      "adl/tools/test_adl_review_compatibility.sh",
+      "+",
+      "bash",
+      "adl/tools/test_run_pr_fast_test_lane.sh",
+      "+",
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--bin",
+      "adl-review",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Focused validation for long-fence-safe repo-review contract verification, preserved adl-review compatibility behavior, PR-fast selector contract, formatting, and strict relevant Rust lint.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5913/review-finding-fix-long-fence-contract.log"
   }
 ]
 
