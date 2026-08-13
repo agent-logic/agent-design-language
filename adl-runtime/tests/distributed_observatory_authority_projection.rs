@@ -3,7 +3,7 @@
 use adl_runtime::distributed::{
     authority_protocol::{
         test_observatory_authority_mutation_rejected,
-        test_observatory_durable_restore_mutation_rejected,
+        test_observatory_durable_restore_mutation_rejected, test_observatory_durable_round_trip,
         test_observatory_legacy_durable_state_rejected, test_observatory_published_authority,
         ObservatoryAuthorityMutation,
     },
@@ -64,8 +64,7 @@ fn sealed_transition_intent_and_full_canonical_time_are_authenticated() {
             assert!(projection.is_expired_at(seconds + 1, 0).unwrap());
         }
 
-        let restored_authority =
-            test_observatory_published_authority(fixture.round_trip_artifact_bytes());
+        let restored_authority = test_observatory_durable_round_trip(fixture.artifact_bytes());
         let restored = verify_observatory_authority_projection(&restored_authority, &cut).unwrap();
         assert_eq!(restored.transition_action(), action);
         assert_eq!(
@@ -73,8 +72,24 @@ fn sealed_transition_intent_and_full_canonical_time_are_authenticated() {
             projection.predecessor_operation_ref()
         );
         assert_eq!(
+            restored.inclusive_deadline_unix_seconds(),
+            projection.inclusive_deadline_unix_seconds()
+        );
+        assert_eq!(
             restored.inclusive_deadline_nanos(),
             projection.inclusive_deadline_nanos()
+        );
+        assert_eq!(
+            restored.finalization_unix_seconds(),
+            projection.finalization_unix_seconds()
+        );
+        assert_eq!(
+            restored.finalization_nanos(),
+            projection.finalization_nanos()
+        );
+        assert_eq!(
+            restored.finalization_uncertainty_millis(),
+            projection.finalization_uncertainty_millis()
         );
         assert_eq!(
             restored.inclusive_deadline_uncertainty_millis(),

@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "21fd626edd1cc7640193b8c78517845a185147f6a0de9e0a2c6873224bb85fe4",
   "phase": "implemented",
-  "generation": 5,
-  "digest": "fed388cc44d05a256b6d4d7dea9de275a90a9041b4248fe9e294f2e8972c2f86",
+  "generation": 7,
+  "digest": "66a7999bf4319160ae194813bc934da949148583308f3a59f4f45500d5333743",
   "branch": "codex/358-observatory-transition-intent-time",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-358-observatory-transition-intent-time",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6cbd0c22a203ecf60f01000f67c2d2461cb7653f623135e3f074e508d138db5c",
+      "values_digest": "67f4536a33bd2cc15c3289c0b3eeace2762880a446eab05232d0d2aefe183216",
       "rendered_digest": "fd9969c07b2387ca1dcbc96456bb44ab59cda1a8ac7c96685c824e2d17a0c032",
       "ast_digest": "3f82d329bbab8aebd4ee6fd123c462b1b10a717dc4231379059169388939470b"
     },
     "stp": {
-      "values_digest": "8571da7499586a9be399710acce0614af7a4df81ef5d9e06de38f7ba6f50a1e6",
+      "values_digest": "c005a17c9dac070d191f0441fc4c35c36c5b111e74f9dc6525021323da0832a4",
       "rendered_digest": "fada3c1182c7846c8aa9b50c11daefe51e7771b02f78ee1c5c4c9a1315422d80",
       "ast_digest": "b5465461beb09da10fa6a755637c90c219c629a057a444f30d5215fa3da2a21c"
     },
     "spp": {
-      "values_digest": "72641dafa8522735ed19ef5042fd332d90107bd95185c0e1f65d8522125ef49d",
+      "values_digest": "d3de11abf6ab041433317299c06bc44762d508557d49184f905dff4a67f656a2",
       "rendered_digest": "f8dc21a645d187a1a5b646ffcaf38613e1f4b37b5f41b203c8e59be66cd7f27b",
       "ast_digest": "93911bd28bd7eccb64b4e46df8ef527c216c2552664b3257e3d43d7291f12335"
     },
     "vpp": {
-      "values_digest": "ba83afc906e928be78ffe512df9f340e051c3b31c1ec40b9ced4031c20681199",
+      "values_digest": "f107017145b0c8550ea42284436855866bc19dc6444e2ea66135e31cdaaee4ff",
       "rendered_digest": "5f1b70022cacf1cde7e71d61cc4afacf92ae4aa376e9d1ede16ba7cce66cd4b6",
       "ast_digest": "8c9173349475babf67ad150915eca3c30e4f5c1f03d02e98b07e006a31d3c1bb"
     },
     "srp": {
-      "values_digest": "e292e11edd6adfef5fcdb9107c6134624aae661ce62f6571cebdd86f78acc995",
+      "values_digest": "07d7cccbfa2cbd4dc3c40dfe10508510a83dace9170bd9beb21fb504dc1ff738",
       "rendered_digest": "209e85174d30111652fb463c5b0ca95934f7fe771cf0062c5b04aae9410d6db9",
       "ast_digest": "6655d0e288370d05699f688c4eb981070218445e88cf082e0901caa02f9b0cea"
     },
     "sor": {
-      "values_digest": "45931d88cbfab39b7d8c4e855641756f92b8ea05df0cfbf0335945d2a34dd858",
+      "values_digest": "c3fee412a9d1b47e574c629148b4fb0eee2273a7ae855700f7a9078421e94060",
       "rendered_digest": "6ff6848eb38ada8af683e1603ec37ca2dc57468ae983d91fd7c52f4511390d0e",
       "ast_digest": "f8715f26d06da8ea2d15d0492401f5e500ecc21ad434b27b1056fac1b41fa00f"
     }
@@ -133,6 +133,27 @@
       "actor": "codex:issue-358-r1-remediation",
       "reason": "Record exact R1 nanos-order and durable reopen remediation proof.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_authority_projection\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"purpose\":\"Prove every action shape, exact same-second nanos before/equal/after expiry behavior, durable serialize/reopen retention of action/predecessor/full time, mismatch denial, and redaction.\",\"outcome\":\"passed\",\"evidence_ref\":\"9 passed, 0 failed/ignored at remediation source f7b10c1c9; explicit assertions aggregate every action and boundary\"}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex:issue-358-r1-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "fresh-session:95acf8d7-94a7-40fa-918a-5a4b95829cc3",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:issue-358-r2-remediation",
+      "reason": "Repair exact nonzero nanos vectors and actual durable authority-state reopen proof.",
+      "operation": "recover_review"
     }
   ]
 }

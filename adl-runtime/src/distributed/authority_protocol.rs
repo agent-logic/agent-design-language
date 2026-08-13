@@ -1140,10 +1140,43 @@ pub fn test_observatory_published_authority(bytes: Vec<u8>) -> PublishedAuthorit
         2,
         CanonicalAuthorityTime {
             unix_seconds: 1_700_000_000,
-            nanos: 0,
+            nanos: 123_456_789,
             uncertainty_millis: 1,
         },
     )
+}
+
+#[cfg(feature = "internal-test-fixtures")]
+pub fn test_observatory_durable_round_trip(bytes: Vec<u8>) -> PublishedAuthorityResult {
+    let published = test_observatory_published_authority(bytes);
+    let mut durable = DurablePublishedAuthorityResult {
+        operation_id: published.operation_id.clone(),
+        intent_sha256: published.intent_sha256,
+        result_sha256: published.result_sha256,
+        retry_sha256: published.retry_sha256,
+        committed_log_index: published.committed_log_index,
+        finalization_time: published.operation.finalization_time.clone(),
+        artifact: published.operation.artifact.clone(),
+        signer_guardian_ids: published.operation.signer_guardian_ids.clone(),
+        signer_eligibility: published.operation.signer_eligibility.clone(),
+        inclusive_deadline: published.operation.inclusive_deadline.clone(),
+        quorum_basis: published.operation.quorum_basis.clone().unwrap(),
+    };
+    durable.result_sha256 =
+        result_digest(&durable.verified_operation(), durable.committed_log_index).unwrap();
+    durable.retry_sha256 = retry_digest(&durable).unwrap();
+    let state = AuthorityProtocolState {
+        committed_log_index: durable.committed_log_index,
+        published: BTreeMap::from([(durable.operation_id.clone(), durable)]),
+    };
+    let reopened: AuthorityProtocolState =
+        serde_json::from_slice(&serde_jcs::to_vec(&state).unwrap()).unwrap();
+    validate_protocol_state(&reopened).unwrap();
+    reopened
+        .published
+        .get("operation")
+        .unwrap()
+        .public_result(&published.identity)
 }
 
 #[cfg(feature = "internal-test-fixtures")]
