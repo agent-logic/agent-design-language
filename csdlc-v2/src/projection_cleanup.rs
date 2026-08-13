@@ -213,8 +213,10 @@ pub fn execute_archived_projection_cleanup(
     }
 
     failpoint(request, "before_prefinal_receipt_chain_validation")?;
-    validate_prefinal_receipt_chain(request, &operation_root, &archived_root)?;
-    receipt(
+    let final_previous = validate_prefinal_receipt_chain(request, &operation_root, &archived_root)?;
+    inject_unexpected_receipt_after_prefinal_validation(request, &operation_root)?;
+    reject_unexpected_operation_entries(request, &operation_root, true)?;
+    receipt_with_previous(
         request,
         &operation_root,
         900,
@@ -224,6 +226,7 @@ pub fn execute_archived_projection_cleanup(
             "operation_id": request.operation_id,
             "nodes": request.nodes.iter().map(|node| node.relative_path.as_str()).collect::<Vec<_>>(),
         }),
+        Some(final_previous),
     )?;
     failpoint(request, "cleanup_complete")?;
     let final_path = receipt_path(&operation_root, 900, "cleanup-complete");
@@ -586,12 +589,23 @@ fn receipt(
     state: &str,
     payload: &Value,
 ) -> Result<String> {
-    let path = receipt_path(dir, seq, state);
     let previous = if seq == 1 {
         None
     } else {
         previous_receipt_digest(dir, seq)?
     };
+    receipt_with_previous(request, dir, seq, state, payload, previous)
+}
+
+fn receipt_with_previous(
+    request: &ArchivedProjectionCleanupRequest,
+    dir: &Path,
+    seq: u32,
+    state: &str,
+    payload: &Value,
+    previous: Option<String>,
+) -> Result<String> {
+    let path = receipt_path(dir, seq, state);
     let envelope = json!({
         "schema":"csdlc.archived_projection_cleanup_receipt.v1",
         "sequence":seq,
@@ -651,6 +665,29 @@ fn receipt(
         &format!("receipt_{failpoint_prefix}_parent_fsynced"),
     )?;
     Ok(blake3::hash(&bytes).to_hex().to_string())
+}
+
+fn inject_unexpected_receipt_after_prefinal_validation(
+    request: &ArchivedProjectionCleanupRequest,
+    operation_root: &Path,
+) -> Result<()> {
+    if request.fail_after.as_deref() == Some("inject_777_after_prefinal_receipt_chain_validation") {
+        let receipt = json!({
+            "schema": "csdlc.archived_projection_cleanup_receipt.v1",
+            "sequence": 777,
+            "state": "removed",
+            "previous_receipt_digest": null,
+            "payload": {
+                "path": "stale.json",
+                "adopted_after_prefinal_validation": true,
+            },
+        });
+        let mut bytes = serde_json::to_vec_pretty(&receipt)?;
+        bytes.push(b'\n');
+        fs::write(operation_root.join("777-removed.json"), bytes)?;
+        sync_directory(operation_root)?;
+    }
+    Ok(())
 }
 
 fn temp_receipt_matches(

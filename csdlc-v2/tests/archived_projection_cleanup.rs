@@ -987,6 +987,46 @@ fn cleanup_rejects_real_final_receipt_race_before_prefinal_validation() {
 }
 
 #[test]
+fn cleanup_rejects_extra_receipt_race_after_prefinal_validation_without_final_mutation() {
+    let (_temp, root, mut req, _node) = single_file_request();
+    req.fail_after = Some("before_prefinal_receipt_chain_validation".into());
+    execute_archived_projection_cleanup(&req).expect_err("stop at prefinal validation boundary");
+
+    let ledger_root = root.join("cleanup-ledger");
+    let mut expected = ledger_snapshot(&ledger_root);
+    let raced_receipt = serde_json::json!({
+        "schema": "csdlc.archived_projection_cleanup_receipt.v1",
+        "sequence": 777,
+        "state": "removed",
+        "previous_receipt_digest": null,
+        "payload": {
+            "path": "stale.json",
+            "adopted_after_prefinal_validation": true,
+        }
+    });
+    let mut raced_bytes = serde_json::to_vec_pretty(&raced_receipt).expect("raced receipt bytes");
+    raced_bytes.push(b'\n');
+    expected.insert("op-299/777-removed.json".into(), Some(raced_bytes));
+
+    req.fail_after = Some("inject_777_after_prefinal_receipt_chain_validation".into());
+    assert_eq!(
+        execute_archived_projection_cleanup(&req)
+            .expect_err("post-validation raced extra receipt rejected")
+            .code,
+        csdlc_v2::ErrorCode::CorruptRecord
+    );
+    assert!(
+        !operation_receipt_path(&root, "900-cleanup-complete.json").exists(),
+        "post-validation raced extra receipt must not become final predecessor"
+    );
+    assert_eq!(
+        ledger_snapshot(&ledger_root),
+        expected,
+        "post-validation raced extra receipt rejection must add only the injected raced receipt and must not create or rewrite final receipt, namespace, or other ledger bytes"
+    );
+}
+
+#[test]
 fn cleanup_rejects_hardlink_and_mode_drift_before_mutation() {
     let (_temp, root, merge_sha) = repo();
     let archived = root.join("archived");
