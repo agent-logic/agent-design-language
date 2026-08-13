@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "21fd626edd1cc7640193b8c78517845a185147f6a0de9e0a2c6873224bb85fe4",
   "phase": "implemented",
-  "generation": 7,
-  "digest": "66a7999bf4319160ae194813bc934da949148583308f3a59f4f45500d5333743",
+  "generation": 8,
+  "digest": "d6433ce2fb1c4747ab24831f9287fda2794ee9bb1fd603f841d74ba395d6ffe2",
   "branch": "codex/358-observatory-transition-intent-time",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-358-observatory-transition-intent-time",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "67f4536a33bd2cc15c3289c0b3eeace2762880a446eab05232d0d2aefe183216",
+      "values_digest": "8349d5099a2ad82b589a13506b681adcffa158629b5865018bcc4b996c8164fb",
       "rendered_digest": "fd9969c07b2387ca1dcbc96456bb44ab59cda1a8ac7c96685c824e2d17a0c032",
       "ast_digest": "3f82d329bbab8aebd4ee6fd123c462b1b10a717dc4231379059169388939470b"
     },
     "stp": {
-      "values_digest": "c005a17c9dac070d191f0441fc4c35c36c5b111e74f9dc6525021323da0832a4",
+      "values_digest": "b394e6cb7ea5b108368024e5836eeffa200621868e2fb3289c9e0bebbc7ae99d",
       "rendered_digest": "fada3c1182c7846c8aa9b50c11daefe51e7771b02f78ee1c5c4c9a1315422d80",
       "ast_digest": "b5465461beb09da10fa6a755637c90c219c629a057a444f30d5215fa3da2a21c"
     },
     "spp": {
-      "values_digest": "d3de11abf6ab041433317299c06bc44762d508557d49184f905dff4a67f656a2",
+      "values_digest": "25076b6c1299b26b3b2038a5e7e1a0305d5bea4d12c54b1288ffd8bc9c322da9",
       "rendered_digest": "f8dc21a645d187a1a5b646ffcaf38613e1f4b37b5f41b203c8e59be66cd7f27b",
       "ast_digest": "93911bd28bd7eccb64b4e46df8ef527c216c2552664b3257e3d43d7291f12335"
     },
     "vpp": {
-      "values_digest": "f107017145b0c8550ea42284436855866bc19dc6444e2ea66135e31cdaaee4ff",
+      "values_digest": "92353fee7f4ed502d51f7d9fec6a2eaf7e762a306e9796a3d3a4c39e91ad980c",
       "rendered_digest": "5f1b70022cacf1cde7e71d61cc4afacf92ae4aa376e9d1ede16ba7cce66cd4b6",
       "ast_digest": "8c9173349475babf67ad150915eca3c30e4f5c1f03d02e98b07e006a31d3c1bb"
     },
     "srp": {
-      "values_digest": "07d7cccbfa2cbd4dc3c40dfe10508510a83dace9170bd9beb21fb504dc1ff738",
+      "values_digest": "60cadae2bea33043d53acf7b6f1fca4f3cf50dea1468a5d0511fc866ee5f4fe2",
       "rendered_digest": "209e85174d30111652fb463c5b0ca95934f7fe771cf0062c5b04aae9410d6db9",
       "ast_digest": "6655d0e288370d05699f688c4eb981070218445e88cf082e0901caa02f9b0cea"
     },
     "sor": {
-      "values_digest": "c3fee412a9d1b47e574c629148b4fb0eee2273a7ae855700f7a9078421e94060",
-      "rendered_digest": "6ff6848eb38ada8af683e1603ec37ca2dc57468ae983d91fd7c52f4511390d0e",
-      "ast_digest": "f8715f26d06da8ea2d15d0492401f5e500ecc21ad434b27b1056fac1b41fa00f"
+      "values_digest": "ea3eb5cb3a422bbd720991d8205be4ca5527660e50fab6f88177805d320eb5a7",
+      "rendered_digest": "b5ce8cb423281e636384cd46bcdbf4eab49620bc67d5170be903a1ac8f553db2",
+      "ast_digest": "b3be392e6e8c7d67d8adcce72a593a0e9d4da9ba646a39db3a64a133010d9edf"
     }
   },
   "transitions": [
@@ -154,6 +154,13 @@
       "actor": "codex:issue-358-r2-remediation",
       "reason": "Repair exact nonzero nanos vectors and actual durable authority-state reopen proof.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:issue-358-r2-remediation",
+      "reason": "Record exact real durable-state reopen and nonzero nanos boundary proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_authority_projection\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"purpose\":\"Prove nonzero same-second nanos before/equal/after semantics and actual DurablePublishedAuthorityResult inside AuthorityProtocolState JCS reopen preserving action/predecessor and every deadline/finalization time component.\",\"outcome\":\"passed\",\"evidence_ref\":\"9 passed at source e758b46c3; durable state validation recomputes result/retry digests before reopen\"}}"
     }
   ]
 }

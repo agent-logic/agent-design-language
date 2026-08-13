@@ -82,6 +82,24 @@ Seal Observatory transition action/predecessor and full canonical time.
     "purpose": "Prove every action shape, exact same-second nanos before/equal/after expiry behavior, durable serialize/reopen retention of action/predecessor/full time, mismatch denial, and redaction.",
     "outcome": "passed",
     "evidence_ref": "9 passed, 0 failed/ignored at remediation source f7b10c1c9; explicit assertions aggregate every action and boundary"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_observatory_authority_projection",
+      "--features",
+      "internal-test-fixtures",
+      "--",
+      "--test-threads=1"
+    ],
+    "purpose": "Prove nonzero same-second nanos before/equal/after semantics and actual DurablePublishedAuthorityResult inside AuthorityProtocolState JCS reopen preserving action/predecessor and every deadline/finalization time component.",
+    "outcome": "passed",
+    "evidence_ref": "9 passed at source e758b46c3; durable state validation recomputes result/retry digests before reopen"
   }
 ]
 
