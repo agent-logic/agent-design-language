@@ -1,17 +1,17 @@
 use std::collections::BTreeMap;
 use std::fs;
-use std::os::unix::fs::MetadataExt;
 use std::path::{Path, PathBuf};
 use std::process::Command;
 
 use csdlc_v2::cards::{PlanStep, ResourceProfile, StepStatus, ValidationLane};
 use csdlc_v2::{
-    bind_issue, classify_preserved_projection, edit_issue, execute_archived_projection_cleanup,
-    initialize_native_json, recover_preserved_projection, ArchivedProjectionCleanupRequest,
-    ArchivedProjectionCleanupStatus, ArchivedProjectionNode, BindRequest, BootstrapRequest,
-    CardKind, CleanupNodeIdentity, CleanupNodeType, EditRequest, FailedOperationLineage,
+    bind_issue, build_archived_projection_cleanup_request_from_recovery,
+    classify_preserved_projection, edit_issue, execute_archived_projection_cleanup,
+    initialize_native_json, recover_preserved_projection, ArchivedProjectionCleanupStatus,
+    BindRequest, BootstrapRequest, CardKind, EditRequest, FailedOperationLineage,
     InitialCardInput, LifecyclePhase, PlanningProfile, ProjectionCasAnchor,
-    ProjectionClassifyRequest, ProjectionRecoverRequest, SemanticOperation, Store,
+    ProjectionClassifyRequest, ProjectionRecoverRequest, ProjectionRecoveryCleanupBridgeRequest,
+    SemanticOperation, Store,
 };
 
 const TERMINAL_298_MERGE: &str = "5a1d3bfda7108bede1572cbd9dc9e2af19d9eedb";
@@ -281,19 +281,6 @@ fn classify_and_recover(
     first
 }
 
-fn cleanup_identity(path: &Path, node_type: CleanupNodeType) -> CleanupNodeIdentity {
-    let metadata = fs::symlink_metadata(path).expect("metadata");
-    CleanupNodeIdentity {
-        device: metadata.dev(),
-        inode: metadata.ino(),
-        links: metadata.nlink(),
-        uid: metadata.uid(),
-        gid: metadata.gid(),
-        mode: metadata.mode(),
-        node_type,
-    }
-}
-
 fn ledger_snapshot(path: &Path) -> BTreeMap<String, Option<Vec<u8>>> {
     fn visit(root: &Path, path: &Path, out: &mut BTreeMap<String, Option<Vec<u8>>>) {
         let relative = path
@@ -321,12 +308,13 @@ fn operation_receipt(root: &Path, name: &str) -> PathBuf {
     root.join("cleanup-ledger/op-300").join(name)
 }
 
-fn terminal_envelope(root: &Path, merge_sha: &str) -> (PathBuf, String) {
-    let terminal_path = root.join("derived-terminal-298.json");
-    let terminal_digest = "terminal-digest-for-integrated-cleanup-fixture".to_owned();
+fn terminal_envelope(root: &Path, issue: u64, merge_sha: &str) -> (PathBuf, String) {
+    let terminal_path = root.join(format!("derived-terminal-{issue}.json"));
+    let terminal_digest =
+        blake3::hash(format!("terminal:{issue}:{merge_sha}").as_bytes()).to_hex().to_string();
     let terminal = serde_json::json!({
         "schema": "csdlc.derived_terminal.v1",
-        "issue": 298,
+        "issue": issue,
         "repository": "agent-logic/agent-design-language",
         "disposition": "merged",
         "merge_sha": merge_sha,
@@ -342,66 +330,118 @@ fn terminal_envelope(root: &Path, merge_sha: &str) -> (PathBuf, String) {
     (terminal_path, terminal_digest)
 }
 
-fn recovery_authority(
-    root: &Path,
-    terminal_digest: &str,
-    archived: &Path,
-    nodes: &[ArchivedProjectionNode],
-) -> (PathBuf, String, PathBuf, String) {
-    let manifest_path = root.join("canonical-archive-manifest-300.json");
-    let manifest = serde_json::json!({
-        "schema": "csdlc.canonical_archive_manifest.v1",
-        "issue": 298,
-        "terminal_digest": terminal_digest,
-        "archived_root": fs::canonicalize(archived).expect("canonical archived root"),
-        "nodes": nodes,
-    });
-    let manifest_bytes = serde_json::to_vec_pretty(&manifest).expect("manifest json");
-    fs::write(&manifest_path, &manifest_bytes).expect("manifest");
-    let manifest_digest = blake3::hash(&manifest_bytes).to_hex().to_string();
-
-    let receipt_path = root.join("completed-recovery-receipt-300.json");
-    let receipt = serde_json::json!({
-        "schema": "csdlc.completed_recovery_receipt.v1",
-        "issue": 298,
-        "state": "completed",
-        "terminal_digest": terminal_digest,
-        "canonical_archive_manifest_digest": manifest_digest,
-    });
-    let receipt_bytes = serde_json::to_vec_pretty(&receipt).expect("receipt json");
-    fs::write(&receipt_path, &receipt_bytes).expect("receipt");
-    let receipt_digest = blake3::hash(&receipt_bytes).to_hex().to_string();
-    (receipt_path, receipt_digest, manifest_path, manifest_digest)
+fn bridge_cleanup_request(
+    store: &Store,
+    merge_sha: &str,
+    recovery_operation_id: &str,
+    cleanup_operation_id: &str,
+) -> csdlc_v2::ProjectionRecoveryCleanupBridgeResult {
+    let (terminal_path, terminal_digest) = terminal_envelope(store.root(), 7, merge_sha);
+    build_archived_projection_cleanup_request_from_recovery(
+        store,
+        ProjectionRecoveryCleanupBridgeRequest {
+            schema: "csdlc.projection_recovery_cleanup_bridge_request.v1".into(),
+            issue: 7,
+            recovery_operation_id: recovery_operation_id.into(),
+            cleanup_issue: 7,
+            cleanup_operation_id: cleanup_operation_id.into(),
+            repository_root: store.root().to_string_lossy().into_owned(),
+            execution_base: merge_sha.into(),
+            terminal_issue: 7,
+            terminal_envelope: terminal_path.to_string_lossy().into_owned(),
+            expected_terminal_digest: terminal_digest,
+            expected_terminal_merge_sha: merge_sha.into(),
+            cleanup_ledger_root: store.root().join("cleanup-ledger").to_string_lossy().into_owned(),
+            branch: "issue-7".into(),
+            worktree: store.root().to_string_lossy().into_owned(),
+            fail_after: None,
+        },
+    )
+    .expect("production recovery-to-cleanup bridge")
 }
 
-fn cleanup_request(
-    root: &Path,
-    merge_sha: &str,
-    nodes: Vec<ArchivedProjectionNode>,
-) -> ArchivedProjectionCleanupRequest {
-    let archived = root.join("archived");
-    let (terminal_path, terminal_digest) = terminal_envelope(root, merge_sha);
-    let (receipt_path, receipt_digest, manifest_path, manifest_digest) =
-        recovery_authority(root, &terminal_digest, &archived, &nodes);
-    ArchivedProjectionCleanupRequest {
-        schema: "csdlc.archived_projection_cleanup_request.v1".into(),
-        issue: 300,
-        operation_id: "op-300".into(),
-        repository_root: root.to_string_lossy().into_owned(),
-        execution_base: merge_sha.into(),
-        terminal_issue: 298,
-        terminal_envelope: terminal_path.to_string_lossy().into_owned(),
-        expected_terminal_digest: terminal_digest,
-        expected_terminal_merge_sha: merge_sha.into(),
-        completed_recovery_receipt: receipt_path.to_string_lossy().into_owned(),
-        expected_recovery_receipt_digest: receipt_digest,
-        canonical_archive_manifest: manifest_path.to_string_lossy().into_owned(),
-        expected_archive_manifest_digest: manifest_digest,
-        archived_root: archived.to_string_lossy().into_owned(),
-        cleanup_ledger_root: root.join("cleanup-ledger").to_string_lossy().into_owned(),
-        nodes,
-        fail_after: None,
+fn cargo_test(manifest: &Path, test: &str, filter: Option<&str>) {
+    let mut command = Command::new("cargo");
+    command
+        .arg("test")
+        .arg("--manifest-path")
+        .arg(manifest)
+        .arg("--test")
+        .arg(test);
+    if let Some(filter) = filter {
+        command.arg(filter);
     }
+    command.arg("--").arg("--nocapture");
+    let output = command.output().expect("run matrix cargo test");
+    assert!(
+        output.status.success(),
+        "cargo test {test} {filter:?} failed\nstdout:\n{}\nstderr:\n{}",
+        String::from_utf8_lossy(&output.stdout),
+        String::from_utf8_lossy(&output.stderr)
+    );
+}
+
+#[test]
+fn integration_target_mechanically_invokes_approved_recovery_cleanup_matrix() {
+    let manifest = Path::new(env!("CARGO_MANIFEST_DIR")).join("Cargo.toml");
+    cargo_test(&manifest, "gate5", Some("preserved_projection_recovery"));
+    cargo_test(&manifest, "archived_projection_cleanup", None);
+}
+
+#[test]
+fn production_bridge_replays_and_rejects_conflicting_cleanup_authority() {
+    let (_temp, store, record, merge_sha) = implemented_fixture();
+    let recovery = classify_and_recover(&store, &record, "op-300-bridge-recovery", None);
+    assert_eq!(recovery.disposition, "recovered");
+
+    let bridge = bridge_cleanup_request(
+        &store,
+        &merge_sha,
+        "op-300-bridge-recovery",
+        "op-300-cleanup",
+    );
+    let replay = bridge_cleanup_request(
+        &store,
+        &merge_sha,
+        "op-300-bridge-recovery",
+        "op-300-cleanup",
+    );
+    assert_eq!(
+        replay.expected_recovery_receipt_digest,
+        bridge.expected_recovery_receipt_digest
+    );
+    assert_eq!(
+        replay.expected_archive_manifest_digest,
+        bridge.expected_archive_manifest_digest
+    );
+    assert_eq!(
+        replay.cleanup_request.completed_recovery_receipt,
+        bridge.cleanup_request.completed_recovery_receipt
+    );
+
+    let (terminal_path, terminal_digest) = terminal_envelope(store.root(), 7, &merge_sha);
+    let conflicting = build_archived_projection_cleanup_request_from_recovery(
+        &store,
+        ProjectionRecoveryCleanupBridgeRequest {
+            schema: "csdlc.projection_recovery_cleanup_bridge_request.v1".into(),
+            issue: 7,
+            recovery_operation_id: "op-300-bridge-recovery".into(),
+            cleanup_issue: 7,
+            cleanup_operation_id: "op-300-conflicting-cleanup".into(),
+            repository_root: store.root().to_string_lossy().into_owned(),
+            execution_base: merge_sha.clone(),
+            terminal_issue: 7,
+            terminal_envelope: terminal_path.to_string_lossy().into_owned(),
+            expected_terminal_digest: terminal_digest,
+            expected_terminal_merge_sha: merge_sha,
+            cleanup_ledger_root: store.root().join("cleanup-ledger").to_string_lossy().into_owned(),
+            branch: "issue-7".into(),
+            worktree: store.root().to_string_lossy().into_owned(),
+            fail_after: None,
+        },
+    )
+    .expect_err("conflicting bridge cleanup operation rejected");
+    assert_eq!(conflicting.code, csdlc_v2::ErrorCode::ReconciliationRequired);
 }
 
 #[test]
@@ -450,15 +490,17 @@ fn recovery_receipt_authority_feeds_cleanup_and_later_typed_commit() {
     let recovery = classify_and_recover(&store, &record, "op-300-recovery", None);
     assert_eq!(recovery.disposition, "recovered");
 
-    let archived = store.root().join("archived");
-    fs::create_dir(&archived).expect("archived");
-    let stale = archived.join("stale.json");
-    fs::write(&stale, "{}\n").expect("archived stale node");
-    let nodes = vec![ArchivedProjectionNode {
-        relative_path: "stale.json".into(),
-        identity: cleanup_identity(&stale, CleanupNodeType::RegularFile),
-    }];
-    let mut cleanup = cleanup_request(store.root(), &merge_sha, nodes);
+    let bridge = bridge_cleanup_request(&store, &merge_sha, "op-300-recovery", "op-300");
+    assert!(
+        bridge
+            .nodes
+            .iter()
+            .any(|node| node.relative_path == "index.json"),
+        "bridge derives cleanup authority from recovered rejected projection"
+    );
+    let archived_index = PathBuf::from(&bridge.archived_root).join("index.json");
+    assert!(archived_index.exists(), "bridge points at retained archive");
+    let mut cleanup = bridge.cleanup_request;
     cleanup.fail_after = Some("receipt_namespace_created_parent_fsynced".into());
     execute_archived_projection_cleanup(&cleanup).expect_err("cleanup failpoint interrupts");
     cleanup.fail_after = None;
@@ -469,8 +511,8 @@ fn recovery_receipt_authority_feeds_cleanup_and_later_typed_commit() {
             | ArchivedProjectionCleanupStatus::AlreadyCompleted
     ));
     assert!(
-        !stale.exists(),
-        "cleanup removes only the archived stale node"
+        !archived_index.exists(),
+        "cleanup removes production-bridged archived projection node"
     );
     let repeat = execute_archived_projection_cleanup(&cleanup).expect("cleanup idempotent repeat");
     assert_eq!(repeat.final_receipt_digest, result.final_receipt_digest);
@@ -509,15 +551,10 @@ fn raced_cleanup_final_receipt_after_recovery_fails_closed_without_mutation() {
         Some("candidate_created"),
     );
     assert_eq!(recovery.disposition, "recovered");
-    let archived = store.root().join("archived");
-    fs::create_dir(&archived).expect("archived");
-    let stale = archived.join("stale.json");
-    fs::write(&stale, "{}\n").expect("archived stale node");
-    let nodes = vec![ArchivedProjectionNode {
-        relative_path: "stale.json".into(),
-        identity: cleanup_identity(&stale, CleanupNodeType::RegularFile),
-    }];
-    let mut cleanup = cleanup_request(store.root(), &merge_sha, nodes);
+    let bridge = bridge_cleanup_request(&store, &merge_sha, "op-300-race-recovery", "op-300");
+    let archived_index = PathBuf::from(&bridge.archived_root).join("index.json");
+    assert!(archived_index.exists(), "bridge points at retained archive");
+    let mut cleanup = bridge.cleanup_request;
     cleanup.fail_after = Some("before_prefinal_receipt_chain_validation".into());
     execute_archived_projection_cleanup(&cleanup).expect_err("stop before prefinal validation");
     cleanup.fail_after = None;
@@ -528,9 +565,9 @@ fn raced_cleanup_final_receipt_after_recovery_fails_closed_without_mutation() {
         "state": "cleanup-complete",
         "previous_receipt_digest": "raced",
         "payload": {
-            "issue": 300,
+            "issue": 7,
             "operation_id": "op-300",
-            "nodes": ["stale.json"],
+            "nodes": ["index.json"],
         }
     });
     let mut bytes = serde_json::to_vec_pretty(&raced_final).expect("raced final bytes");
@@ -544,6 +581,7 @@ fn raced_cleanup_final_receipt_after_recovery_fails_closed_without_mutation() {
     let before = ledger_snapshot(&ledger_root);
     let error = execute_archived_projection_cleanup(&cleanup).expect_err("raced final rejected");
     assert_eq!(error.code, csdlc_v2::ErrorCode::CorruptRecord);
+    assert!(archived_index.exists(), "race rejection preserves archive");
     assert_eq!(
         ledger_snapshot(&ledger_root),
         before,
