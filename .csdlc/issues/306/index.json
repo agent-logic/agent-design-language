@@ -3,13 +3,41 @@
   "issue": 306,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8bb2ff2896c949a93ee1154957c6140e9893cbaa3f729b0f073ea70e7507a449",
-  "phase": "implemented",
-  "generation": 27,
-  "digest": "976a7ad7e8014d2cbd938f8fbcb35f066382564f67f9572877dbb1daea363c6e",
+  "phase": "reviewed",
+  "generation": 28,
+  "digest": "8ae7862a1c88f19f5924b3e750682ac60e25fce325aedaa0db87db1780dcaed4",
   "branch": "codex/306-publication-tail-exact-clean-finish",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-306-publication-tail-exact-clean-finish",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:3a77f416-cd8d-49f2-bbc7-22e7baae54f6",
+    "assigned_by": "codex:worker-4",
+    "revision": "git-blake3:e7a846174f5bd7fffbff3993d7bd7f1305c58bbf:9224484b4b2a0e44c61bc4067731f48b5e820394702edae35b6706ad25bd8802",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/tests/publication_tail.rs",
+      ".csdlc/issues/306",
+      ".csdlc/prepared/issues/306"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:3a77f416-cd8d-49f2-bbc7-22e7baae54f6",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/tests/publication_tail.rs",
+      ".csdlc/issues/306",
+      ".csdlc/prepared/issues/306"
+    ],
+    "reviewed_revision": "git-blake3:e7a846174f5bd7fffbff3993d7bd7f1305c58bbf:9224484b4b2a0e44c61bc4067731f48b5e820394702edae35b6706ad25bd8802",
+    "findings": [],
+    "residual_risks": [
+      "Focused exact-head review only; reviewer ran cargo test --manifest-path csdlc-v2/Cargo.toml --test publication_tail with 6 passed, but did not run the full Rust suite.",
+      "Reviewer did not perform GitHub writes, live PR mutation, or lifecycle writes; publication remains to be performed through typed csdlc-publish."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +52,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3bd7b40be18080f37faec91ee8eb6ba08d8282a05bb6a75c1a62809916d8c614",
+      "values_digest": "d0b4c918b31711c7a056211d14f529966617deacd361ef9230bfa9954ff9aa5d",
       "rendered_digest": "5e282111ad7af07bc3be9ea05d50610cf0f18d605edc14136763b56fe579e2a4",
       "ast_digest": "a477566ba17a0e2ca9d702e826008f60fbe771d9f531506f425399d0610cceb6"
     },
     "stp": {
-      "values_digest": "422101d01acd719d31802a50b0d24e9a5035da74b9529927e6a9cba189b88db7",
+      "values_digest": "d389d508d06db97767f3ab59a3cbf3a122ba775cfbb9eddcee15cd199143ada1",
       "rendered_digest": "d0e7b81f767703370ad04d61626800ffce4250fcb76d5374a8286571286d50c1",
       "ast_digest": "57880522df6be2e924cb4716ad672ca998cb05c78a81f21cde7ff7ab7cb4f097"
     },
     "spp": {
-      "values_digest": "10935972929f6a4c75cf807c0474919835fd39d475b0402eebd6ab988628ec6e",
+      "values_digest": "a3c830cc7071d52313f14cd73930726cd7e1107300f25f6afee4c57ce7ff60db",
       "rendered_digest": "acb89f97e1f5ae23f001f5f517372234ecfb99fe8c7e7b26dec5cdd56f77168f",
       "ast_digest": "8cf742e13d6da873db13d987281a349fcf924b92f1a787edf3823d29069a7dfb"
     },
     "vpp": {
-      "values_digest": "3984ee3c18ef7fd4026bc30c8f583582bd372613bd14985b29d3719115b4dd3f",
+      "values_digest": "26e5f3357685916e1431cd7a135d686aced61bcb5dd848370df5626acd3c5443",
       "rendered_digest": "c1a82830a1d964f39970fe5572b327eb1ce07dc9cc5f7ebb9a1679a8efee44f0",
       "ast_digest": "ff5f61cad263c8dd506ae1e3cc9d06ff43a367dcd86bf8200ec9df2c5ae751ee"
     },
     "srp": {
-      "values_digest": "1a3f6eb91988a7bade52164726357a7d56610e2c9ff19e064d4f1ba75e0b69b5",
-      "rendered_digest": "5b99bf3ed754ec68b728409d617ff029b982494b1c47e338a84249f36a17c6c3",
-      "ast_digest": "01734958f83d08dbebdbad4616c6b7bfd294e1693b7a75b994d98a2286d118f9"
+      "values_digest": "23ddf83b733c42c5080e29deebc2572b22d72c48b4f466477a3e7ac2ca15cf3d",
+      "rendered_digest": "b08d1e51687c1b1b688387a13b9de40e4ff05b574f888052434af385b58625c0",
+      "ast_digest": "6ec83e9424f53ca5d07e2633003855d4509d822a983438c81a73fb46d5ed335c"
     },
     "sor": {
-      "values_digest": "243c7aae5bcadc4d07195729112d9ebad3c781e7e648ffe41f4ace838b1ac8cb",
+      "values_digest": "4038d5ee18dfbae4443998e9c0530ef1835fa215407e9f0f8c075e80a220b358",
       "rendered_digest": "b288fc36095a0a783f36faec8f4c2956e7db7b37dfdcf3113a25ff0a6fbd4e3e",
       "ast_digest": "04abc5809b5644a67f7c207563dcf7adda2f138e632fe137175b41552c90f23e"
     }
@@ -75,6 +103,13 @@
       "to": "implemented",
       "actor": "codex:worker-4",
       "reason": "Advance #306 after implementation record and before validation/review"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:3a77f416-cd8d-49f2-bbc7-22e7baae54f6",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -294,6 +329,20 @@
       "actor": "codex:worker-4",
       "reason": "Record strict #306 clippy validation after non-governed issue-path staging fix",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"publication_tail\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict warning-free proof for touched publication code and #306 publication_tail test target after fail-closed issue-path staging fix.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:working-tree-after-r11-finding-fix:cargo-clippy-publication-tail:passed\"}}"
+    },
+    {
+      "sequence": 32,
+      "generation": 27,
+      "actor": "codex:worker-4",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 28,
+      "actor": "fresh-session:3a77f416-cd8d-49f2-bbc7-22e7baae54f6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
