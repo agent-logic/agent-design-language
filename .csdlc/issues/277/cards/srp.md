@@ -12,7 +12,12 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime-kernel/src/conversation_continuity.rs
+adl-runtime-kernel/src/lib.rs
+adl-runtime-kernel/tests/conversation_continuity.rs
+.csdlc/issues/277
+.csdlc/prepared/issues/277
+.csdlc/evidence/277
 
 ## Prompts
 
@@ -31,12 +36,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Reviewer inspected retained proof logs rather than rerunning validation; implementation session retained local preparation validator, fmt, focused 10-test conversation_continuity target, strict Clippy, doctor, validate, and diff hygiene proof.
+- This issue consumes #270 trusted acknowledgement protocol and #276 journal foundation; it does not implement #278 history restoration, #114 parent integration, #115 browser behavior, or #270 trust semantics.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:90b48719e787a3d8ce8f37032a79020c66832f62:3015d15f1dedcb03cb67be6d514f2d58146ede467875fe97f6a2bf3223f33853")
 
-Reviewer: None
+Reviewer: Some("fresh-session:c5fb85eb-5ca5-4311-9bc9-a588e8259455")
 
-Result: pre_review
+Result: pass
