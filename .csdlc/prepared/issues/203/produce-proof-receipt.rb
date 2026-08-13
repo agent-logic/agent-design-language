@@ -64,6 +64,8 @@ commands = {}
 COMMANDS.each do |name, argv|
   started = Time.now.utc.iso8601(6)
   stdout, stderr, status = Open3.capture3(*argv, chdir: ROOT.to_s)
+  stdout = stdout.rstrip + (stdout.empty? ? "" : "\n")
+  stderr = stderr.rstrip + (stderr.empty? ? "" : "\n")
   finished = Time.now.utc.iso8601(6)
   File.binwrite(OUT.join("#{name}.stdout.log"), stdout)
   File.binwrite(OUT.join("#{name}.stderr.log"), stderr)
