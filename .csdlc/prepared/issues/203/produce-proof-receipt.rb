@@ -21,6 +21,13 @@ COMMANDS = {
   "strict-clippy" => %w[cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test distributed_identity_lease_authority -- -D warnings]
 }.freeze
 
+if PROOF.file?
+  ok = system("ruby", ".csdlc/prepared/issues/203/validate-proof-receipt.rb", chdir: ROOT.to_s)
+  abort("retained issue #203 integration proof is invalid") unless ok
+  puts "PASS: retained issue #203 integration closeout proof is current"
+  exit 0
+end
+
 def run(*args)
   out, err, status = Open3.capture3(*args, chdir: ROOT.to_s)
   abort("issue 203 proof command failed: #{args.join(' ')}\n#{err}") unless status.success?

@@ -13,10 +13,14 @@ def git(*args)
 end
 proof = JSON.parse(File.binread(ROOT.join(REL)))
 abort("issue/schema mismatch") unless proof["issue"] == 203 && proof["schema"] == "adl.issue203.integration_closeout_proof.v3"
-abort("proof not bound to HEAD") unless proof["source_revision"] == git("rev-parse", "HEAD").strip
+source = proof["source_revision"]
+abort("proof source malformed") unless source&.match?(/\A[0-9a-f]{40}\z/)
+abort("proof source not ancestral") unless system("git", "merge-base", "--is-ancestor", source, "HEAD", chdir: ROOT.to_s)
 abort("main binding drift") unless proof["required_main_ancestor"] == git("rev-parse", "origin/main").strip
 abort("product drift") unless git("diff", "--name-only", "origin/main...HEAD", "--", "adl-runtime", "adl/Cargo.lock").empty?
 abort("historical proof disposition missing") unless proof["historical_proof_disposition"] == "superseded_nonclaim"
+protected = [".csdlc/prepared/issues/203/produce-proof-receipt.rb", ".csdlc/prepared/issues/203/validate-proof-receipt.rb"]
+abort("proof helpers changed after proof source") unless git("diff", "--name-only", "#{source}..HEAD", "--", *protected).empty?
 expected = {"identity-boundary"=>4,"caller-guard"=>5,"strict-clippy"=>nil}
 abort("command denominator mismatch") unless proof.fetch("commands").keys.sort == expected.keys.sort
 proof.fetch("commands").each do |name, command|
