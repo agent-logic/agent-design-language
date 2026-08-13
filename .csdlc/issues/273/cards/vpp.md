@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/273/diagram.mmd
 [
   {
     "lane": "preparation-contract",
-    "proof_role": "Prove typed identity, exact predecessor terminal ancestry, disjoint file ownership, serial registration order, and declared post-bind targets.",
+    "proof_role": "Prove typed identity, exact predecessor terminal ancestry, disjoint ownership, serial registration order, and declared post-bind targets.",
     "acceptance_ids": [
       "AC-6"
     ],
@@ -38,11 +38,11 @@ Diagram: .csdlc/prepared/issues/273/diagram.mmd
       ".csdlc/prepared/issues/273/validate_preparation_bundle.py"
     ],
     "parallel_group": "273-serial-01",
-    "defer_reason": "Runs after bootstrap; preparation proof only."
+    "defer_reason": "Preparation-only lane; initialized phase required and no post-bind claim."
   },
   {
     "lane": "shepherd-focused",
-    "proof_role": "Prove acquire/replace/revoke/expiry, retry/restart, rejection, capacity, receipt, and redaction behavior in the exact issue-owned target.",
+    "proof_role": "Prove acquire, replace, revoke, expiry, exact historical retry, restart, full binding rejection, capacity, receipt, and redaction under the explicit test-fixture feature.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -60,17 +60,19 @@ Diagram: .csdlc/prepared/issues/273/diagram.mmd
       "--locked",
       "--manifest-path",
       "adl-runtime/Cargo.toml",
+      "--features",
+      "internal-test-fixtures",
       "--test",
       "distributed_shepherd_serving_eligibility",
       "--",
       "--test-threads=1"
     ],
     "parallel_group": "273-serial-02",
-    "defer_reason": "Deferred until typed bind and target creation."
+    "defer_reason": null
   },
   {
     "lane": "shepherd-clippy",
-    "proof_role": "Reject warnings/API misuse in the exact library and integration target.",
+    "proof_role": "Reject warnings and API misuse in the exact feature-gated Shepherd integration target.",
     "acceptance_ids": [
       "AC-6"
     ],
@@ -84,6 +86,8 @@ Diagram: .csdlc/prepared/issues/273/diagram.mmd
       "--locked",
       "--manifest-path",
       "adl-runtime/Cargo.toml",
+      "--features",
+      "internal-test-fixtures",
       "--test",
       "distributed_shepherd_serving_eligibility",
       "--",
@@ -91,11 +95,32 @@ Diagram: .csdlc/prepared/issues/273/diagram.mmd
       "warnings"
     ],
     "parallel_group": "273-serial-03",
-    "defer_reason": "Deferred until focused proof target exists."
+    "defer_reason": null
+  },
+  {
+    "lane": "ordinary-build",
+    "proof_role": "Prove ordinary builds do not expose the internal fixture constructor.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "large",
+    "budget_seconds": 1200,
+    "budget_tokens": 6000,
+    "argv": [
+      "cargo",
+      "check",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml"
+    ],
+    "parallel_group": "273-serial-04",
+    "defer_reason": null
   },
   {
     "lane": "shepherd-scope",
-    "proof_role": "Require the exact four product paths and reject #274, parent, and unrelated changes.",
+    "proof_role": "Require the exact four product paths plus #273-local records and reject every unrelated, parent, or #274 path.",
     "acceptance_ids": [
       "AC-6"
     ],
@@ -107,12 +132,12 @@ Diagram: .csdlc/prepared/issues/273/diagram.mmd
       "python3",
       ".csdlc/prepared/issues/273/validate_scope.py"
     ],
-    "parallel_group": "273-serial-04",
-    "defer_reason": "Deferred until a committed implementation candidate exists."
+    "parallel_group": "273-serial-05",
+    "defer_reason": null
   },
   {
     "lane": "diff-hygiene",
-    "proof_role": "Reject whitespace, conflict marker, and patch hygiene defects before exact-head review.",
+    "proof_role": "Reject whitespace, conflict marker, and patch hygiene defects.",
     "acceptance_ids": [
       "AC-6"
     ],
@@ -123,14 +148,15 @@ Diagram: .csdlc/prepared/issues/273/diagram.mmd
     "argv": [
       "git",
       "diff",
-      "--check"
+      "--check",
+      "origin/main...HEAD"
     ],
-    "parallel_group": "273-serial-05",
-    "defer_reason": "Deferred to implementation and rerun after substantive repair."
+    "parallel_group": "273-serial-06",
+    "defer_reason": null
   },
   {
     "lane": "terminal-authority",
-    "proof_role": "Require canonical merged #273 terminal cache and merge ancestry before #274 shared registration.",
+    "proof_role": "Require canonical merged #273 terminal cache and ancestry before #274 shared registration.",
     "acceptance_ids": [
       "AC-7"
     ],
@@ -142,8 +168,8 @@ Diagram: .csdlc/prepared/issues/273/diagram.mmd
       "python3",
       ".csdlc/prepared/issues/273/validate_terminal.py"
     ],
-    "parallel_group": "273-serial-06",
-    "defer_reason": "Deferred until ordinary required CI is green and typed finish creates terminal authority; no optional or paid runner is authorized."
+    "parallel_group": "273-serial-07",
+    "defer_reason": "Deferred until required CI is green and typed finish creates terminal authority; no optional or paid runner authorized."
   }
 ]
 
@@ -160,10 +186,11 @@ Tokens: 50000
 ## Commands
 
 - `python3 .csdlc/prepared/issues/273/validate_preparation_bundle.py`
-- `cargo test --locked --manifest-path adl-runtime/Cargo.toml --test distributed_shepherd_serving_eligibility -- --test-threads=1`
-- `cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test distributed_shepherd_serving_eligibility -- -D warnings`
+- `cargo test --locked --manifest-path adl-runtime/Cargo.toml --features internal-test-fixtures --test distributed_shepherd_serving_eligibility -- --test-threads=1`
+- `cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --features internal-test-fixtures --test distributed_shepherd_serving_eligibility -- -D warnings`
+- `cargo check --locked --manifest-path adl-runtime/Cargo.toml`
 - `python3 .csdlc/prepared/issues/273/validate_scope.py`
-- `git diff --check`
+- `git diff --check origin/main...HEAD`
 - `python3 .csdlc/prepared/issues/273/validate_terminal.py`
 
 ## Failure Semantics
