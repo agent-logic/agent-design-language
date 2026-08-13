@@ -371,14 +371,12 @@ fn real_runtime_run(args: &[String]) -> Result<()> {
 pub(crate) fn review_usage() -> &'static str {
     "adl-review - ADL review tooling compatibility binary\n\n\
 Usage:\n\
-  adl-review code-review --out <dir> [--backend fixture|ollama] [--visibility packet-only|read-only-repo] ...\n\
-  adl-review card-surface --input <input.md> --output <output.md>\n\
-  adl-review runtime-surface --review-root <dir>\n\
-  adl-review verify-output-provenance --review <review-output.yaml>\n\
+  adl-review code-review --out <dir> [--backend fixture] [--visibility packet-only|read-only-repo]\n\
   adl-review verify-repo-contract --review <review.md>\n\
   adl-review --help\n\
   adl-review --version\n\n\
 Notes:\n\
+  Only the deterministic fixture code-review route and repository-review contract verifier are active in this compatibility binary.\n\
   Legacy review/tooling multiplexers are removed; use the current direct owner binaries.\n\
   C-SDLC issue work resolves through csdlc-install and the independent typed v2 binaries; runtime workflow YAML belongs to adl-runtime run <adl.yaml>."
 }
@@ -407,13 +405,11 @@ fn dispatch_review_args(args: &[String]) -> Result<()> {
 
     match args.first().map(|s| s.as_str()) {
         Some("code-review") => run_review_code_review(&args[1..]),
-        Some("card-surface") => review_to_tooling_args("review-card-surface", &args[1..])
-            .and_then(|mapped| real_tooling(&mapped)),
-        Some("runtime-surface") => review_to_tooling_args("review-runtime-surface", &args[1..])
-            .and_then(|mapped| real_tooling(&mapped)),
-        Some("verify-output-provenance") => {
-            review_to_tooling_args("verify-review-output-provenance", &args[1..])
-                .and_then(|mapped| real_tooling(&mapped))
+        Some("card-surface" | "runtime-surface" | "verify-output-provenance") => {
+            Err(anyhow::anyhow!(
+                "adl-review command '{}' is not implemented in this compatibility binary. Use the current direct owner binaries; the removed v1 tooling multiplexer is not available.",
+                args[0]
+            ))
         }
         Some("verify-repo-contract") => run_review_verify_repo_contract(&args[1..]),
         Some("pr") | Some("issue") | Some("tooling") => Err(anyhow::anyhow!(
@@ -426,7 +422,7 @@ fn dispatch_review_args(args: &[String]) -> Result<()> {
             "adl-review does not run ADL runtime commands. Use adl-runtime run <adl.yaml> for runtime workflows."
         )),
         Some(other) => Err(anyhow::anyhow!(
-            "unknown adl-review command '{other}'. Expected code-review, card-surface, runtime-surface, verify-output-provenance, verify-repo-contract, help, or --version."
+            "unknown adl-review command '{other}'. Expected code-review, verify-repo-contract, help, or --version."
         )),
         None => Err(anyhow::anyhow!(
             "adl-review requires a command. Run `adl-review --help` for usage."

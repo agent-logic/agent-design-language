@@ -7,13 +7,13 @@
     "title": "[v0.92][Sprint 6][tools] Repair adl-review compatibility routing",
     "slug": "repair-adl-review-compatibility-routing",
     "version": "v0.92",
-    "generation": 4
+    "generation": 7
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue 5913 adl-review dispatch, focused compatibility test, and deterministic CodeFriend/CodeBuddy smoke routing only.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

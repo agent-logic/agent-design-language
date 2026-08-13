@@ -18,6 +18,16 @@ assert_contains() {
   }
 }
 
+assert_not_contains() {
+  local pattern="$1" text="$2" label="$3"
+  if grep -Fq "$pattern" <<<"$text"; then
+    echo "assertion failed ($label): did not expect to find '$pattern'" >&2
+    echo "actual output:" >&2
+    echo "$text" >&2
+    exit 1
+  fi
+}
+
 assert_status_nonzero() {
   local status="$1" label="$2"
   [[ "$status" -ne 0 ]] || {
@@ -45,6 +55,10 @@ package_version() {
 help_output="$(run_review --help)"
 assert_contains "adl-review - ADL review tooling compatibility binary" "$help_output" "review help title"
 assert_contains "adl-review code-review --out <dir>" "$help_output" "review code-review help"
+assert_contains "adl-review verify-repo-contract --review <review.md>" "$help_output" "review contract help"
+assert_not_contains "adl-review card-surface" "$help_output" "stale card-surface help"
+assert_not_contains "adl-review runtime-surface" "$help_output" "stale runtime-surface help"
+assert_not_contains "adl-review verify-output-provenance" "$help_output" "stale provenance help"
 assert_contains "C-SDLC issue work resolves through csdlc-install and the independent typed v2 binaries" "$help_output" "csdlc handoff help"
 
 version_output="$(run_review --version)"
@@ -124,6 +138,14 @@ code_review_out="$TMP_DIR/code-review-smoke"
 code_review_output="$(run_review code-review --out "$code_review_out" --backend fixture --visibility read-only-repo)"
 assert_contains "code-review fixture: ok" "$code_review_output" "code-review fixture"
 python3 "$ROOT_DIR/adl/tools/validate_codebuddy_review_showcase_demo.py" "$code_review_out"
+
+set +e
+stale_output="$(run_review card-surface --help 2>&1)"
+stale_status=$?
+set -e
+assert_status_nonzero "$stale_status" "stale hidden review command"
+assert_contains "not implemented in this compatibility binary" "$stale_output" "stale hidden command diagnostic"
+assert_not_contains "v1 tooling multiplexer was removed" "$stale_output" "stale hidden command avoids removed multiplexer"
 
 set +e
 issue_output="$(run_review pr run 3599 2>&1)"

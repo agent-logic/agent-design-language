@@ -52,12 +52,37 @@ Repair #5913 adl-review read-only compatibility routing for verify-repo-contract
     "purpose": "Prove the repaired adl-review Rust dispatch compiles cleanly under strict Clippy",
     "outcome": "passed",
     "evidence_ref": "strict-clippy-adl-review.log"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_adl_review_compatibility.sh"
+    ],
+    "purpose": "Focused compatibility regression after stale-help finding fix",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5913/review-finding-fix-compatibility.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--bin",
+      "adl-review",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Strict relevant Rust lint after stale-help finding fix",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/5913/review-finding-fix-clippy.log"
   }
 ]
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

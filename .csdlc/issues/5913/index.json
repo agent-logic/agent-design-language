@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "6a5a8a2f2350b7ffe3899f5dad5e5b39a2054da2f0c9138ac388b2c93b8ff5e7",
   "phase": "implemented",
-  "generation": 4,
-  "digest": "7c8899fa1a724365294aebeed3fffe57e471f6ca9f300f537379b592231bf1e8",
+  "generation": 7,
+  "digest": "1dd258425885d34f1929f8e925e8bd6d2ef156169bb2b3c906763595358b5bce",
   "branch": "codex/5913-repair-adl-review-compatibility-routing",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5913-adl-review-routing",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3ea519478fc01f03b7f79dc70da06ebd9d3bb360b3c94fbe6546d1d2b5017b4a",
+      "values_digest": "7053b0ca8c54a68d2155c3ca19955f2682529e234593b3d7987096cfcbbdc272",
       "rendered_digest": "34e93594d22d0195e945568476646f2084febad9f0f18b2232e969179fa51b19",
       "ast_digest": "8a3784fb1584110103a35108a68d7e983f1c62444d54a010be1ad799cc5b96ee"
     },
     "stp": {
-      "values_digest": "e11c9fd0494cca5fa7217b99ecd9d5fa851d5104bf31dc3ae418fef3b67e3001",
+      "values_digest": "facb22b929a6238a16d424535a46125b192062ba6c63c4ed9b416ca0e6a01fd4",
       "rendered_digest": "e61895bbba87ace15a7e53bb5136efc29bc2105ea06c81e503a14e471defed04",
       "ast_digest": "52ae355f59153da999d724c2133a1aa190245ed3cae203677f9876be3df89695"
     },
     "spp": {
-      "values_digest": "272b36fc75168b77b1b6f3e9b9f5531f9774fd22cc19d344f97a67d70535f91f",
+      "values_digest": "c306914343556e532730f07d6354d94610961466a83c40962770535aab34c236",
       "rendered_digest": "5ea449b178e9fa4c571afac0d4731e45b73cd16ad467d4ee392615b957e0108c",
       "ast_digest": "81b8b8e01ed790ee1cf2da35404bb201d22fcccc25fb2186107f8a1c9b629aa5"
     },
     "vpp": {
-      "values_digest": "ac7e36362b45ab00bf46080379a05d23676450688052f241c75671b4ca30e2c2",
+      "values_digest": "c1d7693faa9dca59450fdbcaab877ac68fa97109942f99482b954045f03c38c4",
       "rendered_digest": "d07e6e27fd8972968faa8dc97c4aa23317033aef1913f1a4818c41e696c66117",
       "ast_digest": "2220360798039c1e52115627c0868afe1bd7f8cd523c639bb8905c068c9c6b86"
     },
     "srp": {
-      "values_digest": "fd87aed5fd71cb8dc72aea82b501f1034a88788a2af059f1a9b421e534659ebc",
-      "rendered_digest": "41275f29ab6fd06bf0f21782ee1b2e53993036231a3ee4ec5f7faa509055381e",
-      "ast_digest": "e23ccbac2b1bcd669738bcc68fd058b35e9742df7a7508e977a683686f8b2d6e"
+      "values_digest": "2a8ff5b3fd802f779f2a588d496e4db5e2ba64b6e01cf8e289b6467e8815fe6d",
+      "rendered_digest": "d08570989652cbecbd0bf33fa1225afc1b96f91c800c8037cc16171f6185d7d9",
+      "ast_digest": "ecf0737f581d2dbc15721bcd086c1a9367b52b4f6f9bb1ebc04179c93adbc831"
     },
     "sor": {
-      "values_digest": "b0c6ff23bf70da4160bb126ef6e80fbdde6bf6ccf1b6fcbedff09f4cf14ddc98",
-      "rendered_digest": "b6461ad8e4f7eec227830025b0f367f817153240cdfcac3f272db7a70feac740",
-      "ast_digest": "8637257e456c1546f653317cbf9698b3b9768d7453281ea42c5fec4c076dad30"
+      "values_digest": "ec1edd9eba66551a5f8aca5e15173ae2910549484b061b8cf8eb339441a342db",
+      "rendered_digest": "2d0da690a1ee121da3b77df00c7f13a4ed3b72367aa34df5573c4f763650a0f8",
+      "ast_digest": "5e8e2d4fbf9c361894a13d2b84a1d3cafe73bd54c4d27aa9c1707a1006ff6898"
     }
   },
   "transitions": [
@@ -120,6 +120,34 @@
       "actor": "codex:/root",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Recover #5913 after fresh exact-head review found actionable P2 stale adl-review help advertising; fix requires new substantive commit and fresh assignment.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Record focused compatibility rerun after resolving exact-review P2 stale help advertising finding.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_adl_review_compatibility.sh\"],\"purpose\":\"Focused compatibility regression after stale-help finding fix\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5913/review-finding-fix-compatibility.log\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Record strict Clippy rerun after resolving exact-review P2 stale help advertising finding.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl-review\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict relevant Rust lint after stale-help finding fix\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5913/review-finding-fix-clippy.log\"}}"
     }
   ]
 }

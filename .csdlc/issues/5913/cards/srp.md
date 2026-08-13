@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Issue 5913 adl-review dispatch, focused compatibility test, and deterministic CodeFriend/CodeBuddy smoke routing only.
+
 
 ## Prompts
 
