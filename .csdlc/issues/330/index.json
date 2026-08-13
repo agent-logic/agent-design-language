@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "c6c77e32c8a46d340a36b3123af9d9adb0adeafda19c3135b9d47c802997e158",
-  "phase": "bound",
-  "generation": 5,
-  "digest": "52ecbc35ee4eb3c1a2af2a2940b64b17413b7f7b13205fb63825a6bb7f9c0724",
+  "phase": "implemented",
+  "generation": 8,
+  "digest": "ae84bcccc2afbae701fca5e40384c80006d1079ab876bdcbcc9c7eb38d16b349",
   "branch": "codex/330-bridge-fed-projection-cleanup-defect",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-330-bridge-fed-projection-cleanup-defect",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "cf30f32a68b2868c0359560bab6987c0ebbb0f92e14644b61879d09269a14f83",
+      "values_digest": "afa3a0304a8d40757793f33e4d03435c014f8fa9f979e44778cce8538341427c",
       "rendered_digest": "70bb77a2b369facefd6ee61dd27831872f9e02008d5deb8778b9b75acb0d8d75",
       "ast_digest": "f7aa1e0edabaef2285c9558e3abc9c5ad236e494418164c26d9492deadcbab17"
     },
     "stp": {
-      "values_digest": "304eb9bf795d518dc29ce513250b5a4d6bf8f85bb50d7e210fcec380480e39ba",
+      "values_digest": "ab282ca7d8c382b941df98da3448b750d6967e72c06d55598e1d1d90225a41c6",
       "rendered_digest": "9e5854073d3f56cae3d0fa4f6a560563c62b837038b80bdc0ac9ac705e3983ea",
       "ast_digest": "137b8e001b8a1ce3a3a20d884695db83c8a54cca4d78c386160cb7c1968dd10e"
     },
     "spp": {
-      "values_digest": "f4971f1a25920ca4f70588b4ac1e9a70e41c0c1cd6e1e492ea2afdaced9478ab",
+      "values_digest": "b0f3439aae96dfa3f9b65d33dac2b8b3c8e741c6fd0cb7dbe3f0eac704dd5a58",
       "rendered_digest": "3bfafb809bb9b6ed27a8548d590eae93245ae6c15dd9fca552497af1b9b0f082",
       "ast_digest": "647c5244cc3c748635b3119f2a4a9acfb84dfd959e904e7099c404e1803db962"
     },
     "vpp": {
-      "values_digest": "3f88e4906dbc5be073c34db5f4eb5c7931c4c7cffb35d11cd54151b0d751f3aa",
+      "values_digest": "f08435b2739ef0784549aaaa0ebf2d45ed4f9d74d76eba752a47898f0c4e8703",
       "rendered_digest": "0f439002d1e55bf5aad069ac6f4d648bec3bac2aabec818f9918def1abc2d03d",
       "ast_digest": "8135e07afb687e53ca7797c556ceddcc8d99a36199956cf32e18c7cb8b693682"
     },
     "srp": {
-      "values_digest": "fbb45771950711a207a50c15ab5e96a5e5ae910b80f8a86b89c785c7987fe8a1",
+      "values_digest": "461a86838008700e286e1b57ae76de0d8595501d55fc88ad08e6c0390f2630a3",
       "rendered_digest": "bc2b5298548b289873e0c218588d12dbe3cd04ae10f4181565964b910f986dd1",
       "ast_digest": "791a8c5d4e9e07d8e2f865f72a6593da9f919807e8347c2ecd4d35bc8c4cf8d7"
     },
     "sor": {
-      "values_digest": "11b502e5ee4645622a232e2310c7838a46b4363cad7280bd0d51303f81959f68",
-      "rendered_digest": "83adbbe17d2d98f0f3d7845f65486dee966812c59b69a9ce0f3a4e6c9e52fa14",
-      "ast_digest": "299c97705ff651f9359465ae8a792c46dbcfdc55c96cfe36bdeb7134c0321552"
+      "values_digest": "f18343142c9ccfa8f72a1f308d664e8fd1e9931b15ff5f28647962da95ff88e0",
+      "rendered_digest": "95e577668eeb4bf165b30451783cb700e9bdcbdfb3ad06f0582bd72152c49b1c",
+      "ast_digest": "73caad0b1ff712ec00c210aee611400d5bf9ca58020fad8f9706384624679da5"
     }
   },
   "transitions": [
@@ -69,6 +69,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "worker-5",
+      "reason": "Implementation evidence recorded for bb7ab591de6354e03e7f59fc342e083c73aee892"
     }
   ],
   "audit": [
@@ -120,6 +127,27 @@
       "actor": "csdlc-bind",
       "reason": "record Git branch/worktree topology",
       "operation": "bind"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "worker-5",
+      "reason": "Record #330 implementation evidence before implemented phase transition",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented the bounded #330 production repair for bridge-fed projection cleanup: cleanup now rejects a raced final receipt before archive mutation using a new pre-mutation failpoint while preserving the existing prefinal-validation failpoint semantics, and recovery validation now accepts post-cleanup retained recovery attempts only when strict cleanup-authority, manifest, completed-recovery receipt, operation-created payload, and final cleanup receipt predicates all validate.\",\"changes\":[\"csdlc-v2/src/projection_cleanup.rs\",\"csdlc-v2/src/projection_recovery.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/issue_330_bridge_cleanup_defect.rs\"],\"artifacts\":[\".csdlc/evidence/330/r1/focused-issue-330.log sha256=fcfc8259877f11bef8fc4e0199fb89a81d073be61a3abd78cc83676e99ef8ba3\",\".csdlc/evidence/330/r1/adjacent-archived-projection-cleanup.log sha256=782db846d78102964f6fe5ebc9416cfaf56df6489a08b9b314a09ef372b9d2b3\",\".csdlc/evidence/330/r1/fmt-check.log sha256=1261237904e54b11c40f2123f36a4df20544f6804029973d71c1ca3436926b1b\",\".csdlc/evidence/330/r1/diff-check.log sha256=ca9a6c1c0875981c9d803678b7cf194b9bebf38cb20762aec37d79d20c0cb001\",\".csdlc/evidence/330/r1/strict-clippy.log sha256=828cdd35b042a8b9c9d66533a4dc0aac4a7b9dff4f5ba628a112a75e1b3238ae\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "worker-5",
+      "reason": "Implementation evidence recorded for bb7ab591de6354e03e7f59fc342e083c73aee892",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "worker-5",
+      "reason": "Record exact-head #330 validation evidence before implementation review",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the bounded #330 production repair for bridge-fed projection cleanup: cleanup rejects a raced final receipt before archive mutation using a new before_cleanup_node_mutation failpoint while preserving existing before_prefinal_receipt_chain_validation semantics, and recovery validation accepts post-cleanup retained recovery attempts only when strict cleanup-authority, manifest, completed-recovery receipt, operation-created payload, and final cleanup receipt predicates all validate. Publication and merge are not yet attempted.\",\"changes\":[\"csdlc-v2/src/projection_cleanup.rs: added pre-mutation raced final receipt rejection without moving the existing prefinal-validation failpoint\",\"csdlc-v2/src/projection_recovery.rs: validates exact cleanup authority before accepting a missing/cleaned retained rejected archive\",\"csdlc-v2/src/store.rs: skips cleanup ledger entries during ordinary recovery preflight only when the strict recovery cleanup-authority predicate validates\",\"csdlc-v2/tests/issue_330_bridge_cleanup_defect.rs: added focused bridge-fed regression tests for post-cleanup ordinary recovery validation and pre-mutation raced final zero-mutation behavior\"],\"artifacts\":[\".csdlc/evidence/330/r1/focused-issue-330.log sha256=fcfc8259877f11bef8fc4e0199fb89a81d073be61a3abd78cc83676e99ef8ba3\",\".csdlc/evidence/330/r1/adjacent-archived-projection-cleanup.log sha256=782db846d78102964f6fe5ebc9416cfaf56df6489a08b9b314a09ef372b9d2b3\",\".csdlc/evidence/330/r1/fmt-check.log sha256=1261237904e54b11c40f2123f36a4df20544f6804029973d71c1ca3436926b1b\",\".csdlc/evidence/330/r1/diff-check.log sha256=ca9a6c1c0875981c9d803678b7cf194b9bebf38cb20762aec37d79d20c0cb001\",\".csdlc/evidence/330/r1/strict-clippy.log sha256=828cdd35b042a8b9c9d66533a4dc0aac4a7b9dff4f5ba628a112a75e1b3238ae\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"issue_330_bridge_cleanup_defect\",\"--\",\"--nocapture\"],\"purpose\":\"Focused #330 regression proof for bridge cleanup recovery validation and pre-mutation raced final zero-mutation behavior\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/330/r1/focused-issue-330.log sha256=fcfc8259877f11bef8fc4e0199fb89a81d073be61a3abd78cc83676e99ef8ba3 head=bb7ab591de6354e03e7f59fc342e083c73aee892 status=0\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"archived_projection_cleanup\",\"--\",\"--nocapture\"],\"purpose\":\"Adjacent cleanup regression proof preserving existing cleanup failpoint and manifest-authority behavior\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/330/r1/adjacent-archived-projection-cleanup.log sha256=782db846d78102964f6fe5ebc9416cfaf56df6489a08b9b314a09ef372b9d2b3 head=bb7ab591de6354e03e7f59fc342e083c73aee892 status=0\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--check\"],\"purpose\":\"Rust formatting check\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/330/r1/fmt-check.log sha256=1261237904e54b11c40f2123f36a4df20544f6804029973d71c1ca3436926b1b head=bb7ab591de6354e03e7f59fc342e083c73aee892 status=0\"},{\"command\":[\"git\",\"diff\",\"--check\",\"HEAD\"],\"purpose\":\"Whitespace and patch hygiene check\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/330/r1/diff-check.log sha256=ca9a6c1c0875981c9d803678b7cf194b9bebf38cb20762aec37d79d20c0cb001 head=bb7ab591de6354e03e7f59fc342e083c73aee892 status=0\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict Clippy over all targets\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/330/r1/strict-clippy.log sha256=828cdd35b042a8b9c9d66533a4dc0aac4a7b9dff4f5ba628a112a75e1b3238ae head=bb7ab591de6354e03e7f59fc342e083c73aee892 status=0\"}]}"
     }
   ]
 }
