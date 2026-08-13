@@ -6,10 +6,21 @@
   "initialization_digest": "fac452b8127405cd253f1008a5858c5ee2a5c30be11ef5964720538e609b79d8",
   "phase": "implemented",
   "generation": 22,
-  "digest": "8d05972f3dcec479792a67e702deee11cfbc6e635e30a84599a2bb8218b77837",
+  "digest": "98333ab1a135ee3369e73e84c5b499736d328607c07d4665133bf8ad0f4824eb",
   "branch": "codex/301-title-only-operation-provenance",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-301-title-only-operation-provenance",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:77b44717-c8b2-4974-b603-b32677a88630",
+    "assigned_by": "codex:issue-301-janitor",
+    "revision": "git-blake3:07ec1e178cf821df8868f82ccb79b7cd791cdb42:09ae08beb14adc8c7c8c6873d7f65c7a33bd50893277e22074d7e35d0e9879de",
+    "scope": [
+      ".csdlc/issues/301",
+      ".csdlc/prepared/issues/301",
+      ".csdlc/evidence/301",
+      "csdlc-v2/src/github.rs",
+      "csdlc-v2/tests/gate_github_actions.rs"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +56,9 @@
       "ast_digest": "a643837775ef62d34b85f62c552b4571efb1ade678f67418ec46bd047fcdb45b"
     },
     "srp": {
-      "values_digest": "b880fa1785d72970c68155ba99c62ce038f2dba5b0c5f0d43eb2db3e1ad26abb",
-      "rendered_digest": "7cbe15aed7e484b25dbf57ca12c2050226860f294132192032d5109a82bcd9a4",
-      "ast_digest": "8923177b498751ced3d5aa7bca4cc2d01b420bbd668c4dbaf4292c8b2323a62b"
+      "values_digest": "5fa1daa8c25e8804b6e5eb56c4a037df90bba76999c3af205a5d9e647110fd74",
+      "rendered_digest": "e148a65cd58c9ec59c0c39072951d3bfbb72c1594133e75dc44a9146d3bf5c3e",
+      "ast_digest": "94355008e62da4e7fdeb529646aa2ba7763e6465879a10a8894493f856c60a11"
     },
     "sor": {
       "values_digest": "9923ec5fe575f70db34a7903b66f862aa44e0315f79bfc6fb183ab42cefc7db6",
@@ -344,6 +355,13 @@
       "actor": "codex:issue-301-janitor",
       "reason": "Fresh review assignment fresh-session:b2aaf414-4a5b-4a6c-8d23-f533ce91eddb produced no verdict after bounded waits and was interrupted. Preserve assignment truth as no-result and recover review authority before dispatching a different fresh no-context reviewer against unchanged pagination-remediation scope.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 22,
+      "actor": "codex:issue-301-janitor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
