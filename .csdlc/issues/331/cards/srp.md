@@ -18,7 +18,6 @@ csdlc-v2/src/bin/csdlc-issue.rs
 csdlc-v2/src/schema.rs
 csdlc-v2/src/lib.rs
 csdlc-v2/tests/code_repository_migration.rs
-.csdlc/issues/331
 .csdlc/evidence/331
 .csdlc/prepared/issues/331/design.md
 .csdlc/prepared/issues/331/diagram.mmd
@@ -43,13 +42,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Read-only review; validation commands were not re-run by this review session.
-- Working tree had lifecycle/index/SRP noise and an untracked lock/assignment file, so review was pinned to immutable HEAD objects.
+- Read-only exact-head review only; no mutation performed.
+- Worktree had dirty lifecycle/review metadata outside the assigned acceptance scope, so this PASS is limited to the assigned scoped paths at HEAD efb0183888b4bd3f5fac5d525da4564aca123a10.
 
 ## Review Result
 
-Revision: Some("git-blake3:a9c11f378b70949a887adc211781057d08c9af31:46f4f67ae0dddfb8df6c1fdc24ff7adae71d316399946a7644f8ebb77c906473")
+Revision: Some("git-blake3:efb0183888b4bd3f5fac5d525da4564aca123a10:db15387873e558955ca6c77b94261880a8c013dd84642c7670e84d6fd5f60a5d")
 
-Reviewer: Some("fresh-session:4589c316-ed35-4957-b82d-c9f6f5131fd5")
+Reviewer: Some("fresh-session:8cf72c63-c5f6-4615-84d2-086f56cad1ce")
 
 Result: pass

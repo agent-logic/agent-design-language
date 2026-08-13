@@ -4,14 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d10036bad298d32728c965e820139dbff4ce7a3cd93d8badbc46214d1fbc16b0",
   "phase": "reviewed",
-  "generation": 7,
-  "digest": "325db81cb3288aecbe448816a8f09c5bf87f69d21e96f82743cecc8faf5dca84",
+  "generation": 11,
+  "digest": "ced879f67c263c9a82bcfedfc275d7b08baee6a82c880eb8feea23672dd9fe92",
   "branch": "codex/331-initialized-code-repository-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-331-initialized-code-repository-recovery",
   "review_assignment": {
-    "reviewer": "fresh-session:4589c316-ed35-4957-b82d-c9f6f5131fd5",
+    "reviewer": "fresh-session:8cf72c63-c5f6-4615-84d2-086f56cad1ce",
     "assigned_by": "codex:/root",
-    "revision": "git-blake3:a9c11f378b70949a887adc211781057d08c9af31:46f4f67ae0dddfb8df6c1fdc24ff7adae71d316399946a7644f8ebb77c906473",
+    "revision": "git-blake3:efb0183888b4bd3f5fac5d525da4564aca123a10:db15387873e558955ca6c77b94261880a8c013dd84642c7670e84d6fd5f60a5d",
     "scope": [
       "csdlc-v2/src/migration.rs",
       "csdlc-v2/src/store.rs",
@@ -19,7 +19,6 @@
       "csdlc-v2/src/schema.rs",
       "csdlc-v2/src/lib.rs",
       "csdlc-v2/tests/code_repository_migration.rs",
-      ".csdlc/issues/331",
       ".csdlc/evidence/331",
       ".csdlc/prepared/issues/331/design.md",
       ".csdlc/prepared/issues/331/diagram.mmd",
@@ -29,7 +28,7 @@
     ]
   },
   "review": {
-    "reviewer": "fresh-session:4589c316-ed35-4957-b82d-c9f6f5131fd5",
+    "reviewer": "fresh-session:8cf72c63-c5f6-4615-84d2-086f56cad1ce",
     "scope": [
       "csdlc-v2/src/migration.rs",
       "csdlc-v2/src/store.rs",
@@ -37,7 +36,6 @@
       "csdlc-v2/src/schema.rs",
       "csdlc-v2/src/lib.rs",
       "csdlc-v2/tests/code_repository_migration.rs",
-      ".csdlc/issues/331",
       ".csdlc/evidence/331",
       ".csdlc/prepared/issues/331/design.md",
       ".csdlc/prepared/issues/331/diagram.mmd",
@@ -45,11 +43,11 @@
       ".csdlc/prepared/issues/331/validate_initialized_code_repository_migration.py",
       ".csdlc/prepared/issues/331/review-recover-after-main-merge.json"
     ],
-    "reviewed_revision": "git-blake3:a9c11f378b70949a887adc211781057d08c9af31:46f4f67ae0dddfb8df6c1fdc24ff7adae71d316399946a7644f8ebb77c906473",
+    "reviewed_revision": "git-blake3:efb0183888b4bd3f5fac5d525da4564aca123a10:db15387873e558955ca6c77b94261880a8c013dd84642c7670e84d6fd5f60a5d",
     "findings": [],
     "residual_risks": [
-      "Read-only review; validation commands were not re-run by this review session.",
-      "Working tree had lifecycle/index/SRP noise and an untracked lock/assignment file, so review was pinned to immutable HEAD objects."
+      "Read-only exact-head review only; no mutation performed.",
+      "Worktree had dirty lifecycle/review metadata outside the assigned acceptance scope, so this PASS is limited to the assigned scoped paths at HEAD efb0183888b4bd3f5fac5d525da4564aca123a10."
     ],
     "completed": true,
     "non_substantive_proof": null
@@ -68,32 +66,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ce8912ad73c6c5bc034021e09a8930b2dbfc5edbfe6af1f3a9a67c2287e1afcc",
+      "values_digest": "1b284f68ea30818e2ceb5517402dbf899f7889a50f08d6a2cb179118284bc325",
       "rendered_digest": "dd8d6e2fe53c084c79098ab820fc461459cedb17fbd97cc99825f89d63834a49",
       "ast_digest": "54863410c2ffea851545ccc80dc2783d2b5393dba9a76e5225668e423881f3dd"
     },
     "stp": {
-      "values_digest": "cec4c68cd9f100a957c0e8304462166c44ff91483ac8be6f546c705882159b6d",
+      "values_digest": "5c9171b18418cdabf4e6c42aa19a1e2d5f6d42e902964024a41201d55de8aaad",
       "rendered_digest": "dfb5209f7d7e9113440476b004636572ac9d611db2c85f8f4a21b3e399f8dc32",
       "ast_digest": "77cbe8b0872ea62c634921e8afb8821ab3694e9aee9698fe0c660c7bdedddf15"
     },
     "spp": {
-      "values_digest": "5b0fd8808e64f90bcf1a5ca8438dd6ac368f318549cb4015b621945a3921c3c8",
+      "values_digest": "3cff32e153044d8796b12926b593bc099f2a464f6a54292ed436567215c99b71",
       "rendered_digest": "59d56e5aedd317e7f2f30706f0c08488f6222c2f66e3c5d257bb7fe58ba4d5de",
       "ast_digest": "e7c94237b50ebfc827a047c5fdd6764548dbecc0046bdccc29f9034a1023a30c"
     },
     "vpp": {
-      "values_digest": "5ef695584e21758757061a81327e3bcb8d60cdde6db7619fa08b78139c26483e",
+      "values_digest": "1c2b9f6ae05ed8da8ebe95ca88f1f55f1222d38f61ee05eb0079661875da6d25",
       "rendered_digest": "c8cf269e07f89d5008b0b9b01744f95d3e50d8adfc219c6c859d03a68ecd9309",
       "ast_digest": "3257ce6fde5db8710c20706cade47a63fea5620ca3307e398157197d60576860"
     },
     "srp": {
-      "values_digest": "b905484b41edf5a9271d6e51c2fc5aadbffc2718f615086205060e6b2843bed0",
-      "rendered_digest": "91b98f4a3a16902b0bff0843aa07e9fe5241252c56a72906d2a8c0b55b3fc5c2",
-      "ast_digest": "3292f524f9077ce11003c0db8b137ffde0e833ec54345b4ede5caea9b81ebed4"
+      "values_digest": "b1b2ed729399886398e25f00660fd9d4378c256934e29e697f50583ff8d8488b",
+      "rendered_digest": "623d7670d59d0ddcbe59d70c7b64e22c56daca75eb47578551eaa3a6b2b56b28",
+      "ast_digest": "20404f8e5710248e3059dc26017f22e4345a6d135e6f585b4ec1ccc554e1f977"
     },
     "sor": {
-      "values_digest": "2fab6f50e103db64eb467947dbc93f4ee5b8676eaf4c969d9a17133a54148ff8",
+      "values_digest": "bda66da5e101080b0f45e26975bccd79f0ccdec34c8aaef84ff94889ad9ffc57",
       "rendered_digest": "0ad76492469e5719d9737f091b6dbd8ed57f80af805b19d1832c354e91651013",
       "ast_digest": "e0b8ece61375ab286ab5b911290d381c90ce009e1e1606d88fd2e056d128d2ea"
     }
@@ -136,6 +134,20 @@
     },
     {
       "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover review truth because the previous post-merge review scope included mutable .csdlc/issues/331 review projections, causing review_stale after recording PASS; reassign with stable substantive scope."
+    },
+    {
+      "sequence": 8,
       "from": "implemented",
       "to": "reviewed",
       "actor": "codex:/root",
@@ -216,6 +228,55 @@
     {
       "sequence": 11,
       "generation": 7,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Recover review truth because the previous post-merge review scope included mutable .csdlc/issues/331 review projections, causing review_stale after recording PASS; reassign with stable substantive scope.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Recover stalled fresh review assignment fresh-session:f67fa485-83d9-4f34-86c7-e5c578c7f12e after bounded waits and interruption; reassign stable scope to a different fresh reviewer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Recover stalled fresh review assignment fresh-session:468a4def-e0f5-4709-81c8-a687759ff58a after bounded wait and interruption; reassign stable scope to reserved fallback fresh-session:8cf72c63-c5f6-4615-84d2-086f56cad1ce.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 11,
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"

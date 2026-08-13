@@ -7,15 +7,15 @@
     "title": "[v0.92][C-SDLC][defect] Support initialized code-repository declaration for legacy issue authority",
     "slug": "initialized-code-repository-recovery",
     "version": "v0.92.0",
-    "generation": 7
+    "generation": 11
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "csdlc-v2/src/migration.rs\ncsdlc-v2/src/store.rs\ncsdlc-v2/src/bin/csdlc-issue.rs\ncsdlc-v2/src/schema.rs\ncsdlc-v2/src/lib.rs\ncsdlc-v2/tests/code_repository_migration.rs\n.csdlc/issues/331\n.csdlc/evidence/331\n.csdlc/prepared/issues/331/design.md\n.csdlc/prepared/issues/331/diagram.mmd\n.csdlc/prepared/issues/331/finalize-implementation.json\n.csdlc/prepared/issues/331/validate_initialized_code_repository_migration.py\n.csdlc/prepared/issues/331/review-recover-after-main-merge.json",
-      "review_revision": "git-blake3:a9c11f378b70949a887adc211781057d08c9af31:46f4f67ae0dddfb8df6c1fdc24ff7adae71d316399946a7644f8ebb77c906473",
-      "reviewer": "fresh-session:4589c316-ed35-4957-b82d-c9f6f5131fd5",
+      "review_scope": "csdlc-v2/src/migration.rs\ncsdlc-v2/src/store.rs\ncsdlc-v2/src/bin/csdlc-issue.rs\ncsdlc-v2/src/schema.rs\ncsdlc-v2/src/lib.rs\ncsdlc-v2/tests/code_repository_migration.rs\n.csdlc/evidence/331\n.csdlc/prepared/issues/331/design.md\n.csdlc/prepared/issues/331/diagram.mmd\n.csdlc/prepared/issues/331/finalize-implementation.json\n.csdlc/prepared/issues/331/validate_initialized_code_repository_migration.py\n.csdlc/prepared/issues/331/review-recover-after-main-merge.json",
+      "review_revision": "git-blake3:efb0183888b4bd3f5fac5d525da4564aca123a10:db15387873e558955ca6c77b94261880a8c013dd84642c7670e84d6fd5f60a5d",
+      "reviewer": "fresh-session:8cf72c63-c5f6-4615-84d2-086f56cad1ce",
       "review_prompts": [
         "Does the new route only allow initialized repository declaration without broad lifecycle identity rewrite?",
         "Are stale CAS, existing code_repository, branch/worktree, publication, terminal, and ambiguous repository cases fail-closed?",
@@ -24,8 +24,8 @@
       ],
       "findings": [],
       "residual_risk": [
-        "Read-only review; validation commands were not re-run by this review session.",
-        "Working tree had lifecycle/index/SRP noise and an untracked lock/assignment file, so review was pinned to immutable HEAD objects."
+        "Read-only exact-head review only; no mutation performed.",
+        "Worktree had dirty lifecycle/review metadata outside the assigned acceptance scope, so this PASS is limited to the assigned scoped paths at HEAD efb0183888b4bd3f5fac5d525da4564aca123a10."
       ],
       "review_result": "pass"
     }

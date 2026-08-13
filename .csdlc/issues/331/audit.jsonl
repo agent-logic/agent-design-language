@@ -9,3 +9,10 @@
 {"sequence":9,"generation":6,"actor":"codex:/root","reason":"Recover stale #331 review truth after merging current origin/main into the bound branch; no #331 source conflict resolution was required, but the reviewed revision no longer matches HEAD.","operation":"recover_review"}
 {"sequence":10,"generation":6,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":11,"generation":7,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":12,"generation":8,"actor":"codex:/root","reason":"Recover review truth because the previous post-merge review scope included mutable .csdlc/issues/331 review projections, causing review_stale after recording PASS; reassign with stable substantive scope.","operation":"recover_review"}
+{"sequence":13,"generation":8,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":14,"generation":9,"actor":"codex:/root","reason":"Recover stalled fresh review assignment fresh-session:f67fa485-83d9-4f34-86c7-e5c578c7f12e after bounded waits and interruption; reassign stable scope to a different fresh reviewer.","operation":"recover_review"}
+{"sequence":15,"generation":9,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":16,"generation":10,"actor":"codex:/root","reason":"Recover stalled fresh review assignment fresh-session:468a4def-e0f5-4709-81c8-a687759ff58a after bounded wait and interruption; reassign stable scope to reserved fallback fresh-session:8cf72c63-c5f6-4615-84d2-086f56cad1ce.","operation":"recover_review"}
+{"sequence":17,"generation":10,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":18,"generation":11,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

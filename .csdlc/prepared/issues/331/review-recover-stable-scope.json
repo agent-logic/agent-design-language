@@ -1,0 +1,7 @@
+{
+  "issue": 331,
+  "expected_generation": 7,
+  "expected_digest": "325db81cb3288aecbe448816a8f09c5bf87f69d21e96f82743cecc8faf5dca84",
+  "actor": "codex:/root",
+  "reason": "Recover review truth because the previous post-merge review scope included mutable .csdlc/issues/331 review projections, causing review_stale after recording PASS; reassign with stable substantive scope."
+}
