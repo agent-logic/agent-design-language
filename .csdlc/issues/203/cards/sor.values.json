@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.16b3.1a] Apply committed identity, lease, and fencing authority",
     "slug": "committed-identity-lease-fencing-authority",
     "version": "v0.92",
-    "generation": 42
+    "generation": 43
   },
   "status": "pre_phase",
   "content": {
@@ -122,8 +122,8 @@
           "evidence_ref": ".csdlc/evidence/203/v3/integration-closeout-proof.json"
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

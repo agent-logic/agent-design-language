@@ -129,11 +129,11 @@ Reconciled #203 as an integration-closeout issue over canonical terminal #258/#2
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
