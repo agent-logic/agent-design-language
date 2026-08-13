@@ -5,22 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cc1c0d0bd318f0bbe41d3b610f2c6f17dff214cca5d5fc13b831f5d4c7ba3af8",
   "phase": "implemented",
-  "generation": 29,
-  "digest": "6793bba38ea0a49500799bd5523de4ffd3aaf45333846ed13ef2d847e5619fd7",
+  "generation": 30,
+  "digest": "2b482e305254b2e35a46d760dc507071051b8ead31a0985e07f5670beaaed681",
   "branch": "codex/299-exact-authority-archived-projection-cleanup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-299-exact-authority-archived-projection-cleanup",
-  "review_assignment": {
-    "reviewer": "fresh-session:6a74d533-768e-4e1d-a67d-02c2cbeac6f4",
-    "assigned_by": "codex:worker-5",
-    "revision": "git-blake3:a13666d1be493e63a91318d36294526a6af812b1:3401b82eceab18d98e0842a5c06f9d58cc5f2eda9d5e09572af16998cdb11b5c",
-    "scope": [
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/projection_cleanup.rs",
-      "csdlc-v2/tests/archived_projection_cleanup.rs",
-      ".csdlc/issues/299",
-      ".csdlc/evidence/299"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -36,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0ad2c85c433131ebfcee06e82dc19e767290848553d6dd8482bcba08b0ab2863",
+      "values_digest": "15595e9c57ef0db78e6a0f6dc98b5ea9b6bd98f6591ea444c4b1306f289418f5",
       "rendered_digest": "610615d8dedbdc86ee75bdd5a73f74f3bb2e8acb65e609092b57cea776d694e2",
       "ast_digest": "135c49ea4619e7241bb8a2a08658257e2494075146388ceec11a47ab4ad4989d"
     },
     "stp": {
-      "values_digest": "669a5504ad553ffe2ab7f3f9b8b81bab41a17b6d2564169c1cfd0eda9f6d83f8",
+      "values_digest": "ead7f33ef28300fe1d0b8c9a57fb7c5476aea1474655822e26ecb26bbac123b4",
       "rendered_digest": "7cc0b6cd5b8da81081ec555b7020b7eeef657106b4422d2916d790b73fec7b03",
       "ast_digest": "120ff67e5c1f29f0c721ea66410ef5094714e20dd1540ff7453ab0d7be52bbaa"
     },
     "spp": {
-      "values_digest": "4e910237be4d7178b022cbbadc83bad5bde067fad5b4e123d1fc37267b473e5c",
+      "values_digest": "c1c3229e8af55fa6505de4614aee5aa2fa0275cb84239610c4d79b0f3b6f0af8",
       "rendered_digest": "6fa872bca304faebde588f7b2b08861e046f046fd6f8294031cf1e6480b2b64e",
       "ast_digest": "88ff4df3da3a68e0e67c31f116ce960629085890b415f2ae3f961796bf627f56"
     },
     "vpp": {
-      "values_digest": "6fcbacd24e26fad4184f6443bae890265ef7c7ef5d2de778efc4d184e2b68236",
+      "values_digest": "a16cb75e9cace974f13918a9f1a757c1c5af2e42dd126791aceff11c6ec81d3f",
       "rendered_digest": "55f21566d759d3ea892f8db6c03520adac829dfcf1b9994547eaeebb64138c33",
       "ast_digest": "c385bd006ea6a8c00f53fc87c5194dcf6b447df3f63a96e4199bb3a59804f67c"
     },
     "srp": {
-      "values_digest": "1827002486320cfc3affebd271542429e881bdc725c61bf24ddc1d02d9cb1133",
-      "rendered_digest": "c4d7e611f2a61e0fe18da577cb3be323f3090814cc8ce0253516dcf88eed4386",
-      "ast_digest": "1790a2d2b809f4d1a3deb73dd52ebe35557a04f77a34bca8159d26f9cadd4f7e"
+      "values_digest": "b055fb0f92f38d18565978b1736e16cae45c3b5dcb46b20e6e4bd6be0c71006a",
+      "rendered_digest": "708684ae00ce6a56e1c3665c3abd6cd750ef28f3e409cec7f883b9e1d9dda135",
+      "ast_digest": "df87168b6d92ac454e83d542bb26c238298450f0a185b815117bef325c33c81a"
     },
     "sor": {
-      "values_digest": "01f6f989f14cd74cd6f6be236057bf538e62de93c66d8dd154f1776005c87d0b",
+      "values_digest": "c699f14514402445c83b48ca958bfb7069d92100dc527568b4913ba082bf6283",
       "rendered_digest": "21203253b2644315aa2d9f7fbc7621d9636886f7182257e68f141d3511dd89ef",
       "ast_digest": "21e40bc5909aa0e989766d4c78ca356c66c02fbb7e8260205221d402d9cbbce6"
     }
@@ -390,6 +379,13 @@
       "actor": "codex:worker-5",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 30,
+      "actor": "codex:worker-5",
+      "reason": "Recover failed exact review r11 at git-blake3:a13666d1be493e63a91318d36294526a6af812b1:3401b82eceab18d98e0842a5c06f9d58cc5f2eda9d5e09572af16998cdb11b5c. Finding preserved: P2 pre-final validation still allows a real 900-cleanup-complete.json, not only 900-cleanup-complete.json.tmp, so a real final receipt appearing after the early completed-ledger shortcut but before pre-final validation can be adopted by receipt() if bytes match the deterministic final payload.",
+      "operation": "recover_review"
     }
   ]
 }
