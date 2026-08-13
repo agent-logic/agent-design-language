@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
-
 require "digest"
 require "fileutils"
 require "json"
@@ -9,176 +8,56 @@ require "pathname"
 require "time"
 
 ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
-PREFIX = ".csdlc/evidence/203/v2/"
-OUTPUT = ROOT.join(PREFIX)
-PROOF = OUTPUT.join("authority-store-proof.json")
-CASE_MARKER = "ADL_ISSUE_203_CASE_V1 "
-SUBASSERTION_MARKER = "ADL_ISSUE_203_SUBASSERTION_V1 "
-PROTECTED = %w[
-  adl-runtime/src/distributed/authority_store_adapters.rs
-  adl-runtime/src/distributed/certificates.rs
-  adl-runtime/src/distributed/lease.rs
-  adl-runtime/src/distributed/fencing.rs
-  adl-runtime/src/distributed/transport/core.rs
-  adl-runtime/src/distributed/transport/governed/polis_runtime.rs
-  adl-runtime/src/distributed/capability_advertisement.rs
-  adl-runtime/src/distributed/placement.rs
-  adl-runtime/src/distributed/projection.rs
-  adl-runtime/src/distributed/resource_weather.rs
-  adl-runtime/src/distributed/snapshot_catalog.rs
-  adl-runtime/src/distributed/migration.rs
-  adl-runtime/src/distributed/recovery.rs
-  adl-runtime/tests/distributed_identity_lease_authority.rs
-  adl-runtime/tests/distributed_runtime_transport.rs
-  .csdlc/prepared/issues/203/design.md
-  .csdlc/prepared/issues/203/produce-proof-receipt.rb
-  .csdlc/prepared/issues/203/validate-proof-receipt.rb
-].freeze
-EXPECTED_CASES = %w[
-  certificate_enroll
-  certificate_rotate_overlap
-  certificate_successor_post_overlap
-  certificate_revoke
-  certificate_compromise_identity_fence
-  lease_grant
-  lease_renewal
-  lease_revoke
-  fence_commit
-  activate_after_safety
-  owner_commit
-  exact_retry_published
-  restart_reanchor_safe
-  barrier_pending_blocks_all_reads
-  unsigned_certificate_rejected
-  wrong_issuer_rejected
-  wrong_certificate_purpose_rejected
-  wrong_certificate_domain_rejected
-  stale_certificate_generation_rejected
-  token_artifact_digest_mismatch
-  reconstructed_endorsements_rejected
-  wrong_authority_membership_rejected
-  stale_lease_index_rejected
-  stale_lease_epoch_rejected
-  wrong_activation_possession_rejected
-  activate_before_safety_rejected
-  floor_precedes_ledger_revocation
-  local_clock_unsafe_no_effect
-  local_clock_rollback_no_effect
-  crash_after_certificate_effect
-  crash_after_fence_floor
-  crash_after_ledger_effect
-  crash_after_local_anchor
-  crash_after_result
-  crash_before_checkpoint
-  crash_after_checkpoint
-  stale_read_permit_rejected
-  stale_mutation_permit_rejected
-  read_to_mutation_escalation_rejected
-  wrong_lineage_permit_rejected
-  coherent_rollback_rejected
-  corrupt_noncanonical_oversized_rejected
-  state_or_lock_symlink_rejected
-  capacity_n_plus_one_no_partial
-].freeze
-EXPECTED_SUBASSERTIONS = %w[
-  expected_outcome
-  canonical_store_state
-  publication_barrier_state
-].freeze
+OUT = ROOT.join(".csdlc/evidence/203/v3")
+PROOF = OUT.join("integration-closeout-proof.json")
+CHILDREN = {
+  "258" => ["9e206d1ea7ab1be4593fdb6dc435aa5ed1561a9e", "193f77d24a693f955a2fcf3bdfc759ad1db8aff4"],
+  "259" => ["4329d38fb870875a0f46969c82d3d0219a638e2b", "119bab39d4eb98cd4013c95633ff070908e4c59c"],
+  "260" => ["17eecaa9ba74e870a67a335a79f6394405615e87", "0b5aefd6e75e56ccac59e761a7037902f581c76d"]
+}.freeze
 COMMANDS = {
-  "identity_authority" => %w[cargo test --locked --manifest-path adl-runtime/Cargo.toml --test distributed_identity_lease_authority -- --nocapture --test-threads=1],
-  "identity_clippy" => %w[cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test distributed_identity_lease_authority -- -D warnings]
+  "identity-boundary" => %w[cargo test --locked --manifest-path adl-runtime/Cargo.toml --test distributed_identity_lease_authority -- --test-threads=1],
+  "caller-guard" => %w[cargo test --locked --manifest-path adl-runtime/Cargo.toml --test distributed_authority_adapter_callers_260 -- --test-threads=1],
+  "strict-clippy" => %w[cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test distributed_identity_lease_authority -- -D warnings]
 }.freeze
 
-def fail_proof(message)
-  abort("issue 203 producer: #{message}")
+def run(*args)
+  out, err, status = Open3.capture3(*args, chdir: ROOT.to_s)
+  abort("issue 203 proof command failed: #{args.join(' ')}\n#{err}") unless status.success?
+  out
 end
 
-def run_command(name, argv)
+abort("issue 203 proof requires an exactly clean worktree") unless run("git", "status", "--porcelain=v1", "--untracked-files=all").empty?
+source = run("git", "rev-parse", "HEAD").strip
+main = run("git", "rev-parse", "origin/main").strip
+abort("issue 203 proof requires current main ancestry") unless system("git", "merge-base", "--is-ancestor", main, source, chdir: ROOT.to_s)
+product_diff = run("git", "diff", "--name-only", "origin/main...HEAD", "--", "adl-runtime", "adl/Cargo.lock")
+abort("issue 203 proof forbids product or lock drift") unless product_diff.empty?
+CHILDREN.each do |issue, (head, merge)|
+  abort("child ##{issue} head is not ancestral") unless system("git", "merge-base", "--is-ancestor", head, main, chdir: ROOT.to_s)
+  abort("child ##{issue} merge is not ancestral") unless system("git", "merge-base", "--is-ancestor", merge, main, chdir: ROOT.to_s)
+end
+
+FileUtils.mkdir_p(OUT, mode: 0o700)
+commands = {}
+COMMANDS.each do |name, argv|
   started = Time.now.utc.iso8601(6)
-  stdout, stderr, status = Open3.capture3({ "NEXTEST_TEST_THREADS" => "1" }, *argv, chdir: ROOT.to_s)
+  stdout, stderr, status = Open3.capture3(*argv, chdir: ROOT.to_s)
   finished = Time.now.utc.iso8601(6)
-  stdout = stdout.rstrip + (stdout.empty? ? "" : "\n")
-  stderr = stderr.rstrip + (stderr.empty? ? "" : "\n")
-  File.binwrite(OUTPUT.join("#{name}.stdout.log"), stdout)
-  File.binwrite(OUTPUT.join("#{name}.stderr.log"), stderr)
-  {
-    "argv" => argv,
-    "exit_code" => status.exitstatus,
-    "started_at" => started,
-    "finished_at" => finished,
-    "stdout_path" => "#{PREFIX}#{name}.stdout.log",
-    "stdout_sha256" => Digest::SHA256.hexdigest(stdout),
-    "stderr_path" => "#{PREFIX}#{name}.stderr.log",
-    "stderr_sha256" => Digest::SHA256.hexdigest(stderr)
-  }
+  File.binwrite(OUT.join("#{name}.stdout.log"), stdout)
+  File.binwrite(OUT.join("#{name}.stderr.log"), stderr)
+  abort("issue 203 proof lane failed: #{name}") unless status.success?
+  commands[name] = {"argv"=>argv,"exit_code"=>0,"started_at"=>started,"finished_at"=>finished,
+    "stdout_sha256"=>Digest::SHA256.hexdigest(stdout),"stderr_sha256"=>Digest::SHA256.hexdigest(stderr)}
 end
+identity = File.binread(OUT.join("identity-boundary.stdout.log"))
+guard = File.binread(OUT.join("caller-guard.stdout.log"))
+abort("identity boundary denominator mismatch") unless identity.include?("test result: ok. 4 passed; 0 failed;")
+abort("caller guard denominator mismatch") unless guard.include?("test result: ok. 5 passed; 0 failed;")
 
-if PROOF.file?
-  _out, status = Open3.capture2("ruby", ".csdlc/prepared/issues/203/validate-proof-receipt.rb", chdir: ROOT.to_s)
-  fail_proof("retained immutable proof is invalid") unless status.success?
-  puts "PASS: retained immutable issue #203 proof is current"
-  exit 0
-end
-
-source, status = Open3.capture2("git", "rev-parse", "HEAD", chdir: ROOT.to_s)
-fail_proof("cannot resolve source") unless status.success? && source.strip.match?(/\A[0-9a-f]{40}\z/)
-source = source.strip
-origin_main, status = Open3.capture2("git", "rev-parse", "refs/remotes/origin/main", chdir: ROOT.to_s)
-fail_proof("cannot resolve current origin/main") unless status.success? && origin_main.strip.match?(/\A[0-9a-f]{40}\z/)
-origin_main = origin_main.strip
-fail_proof("current origin/main is not ancestral to source") unless system("git", "merge-base", "--is-ancestor", origin_main, source, chdir: ROOT.to_s)
-dirty, status = Open3.capture2("git", "status", "--porcelain=v1", "--untracked-files=all", chdir: ROOT.to_s)
-fail_proof("source worktree must be exactly clean") unless status.success? && dirty.empty?
-PROTECTED.each do |relative|
-  path = ROOT.join(relative)
-  fail_proof("missing or unsafe protected path #{relative}") unless path.file? && !path.symlink?
-  committed, committed_status = Open3.capture2("git", "show", "#{source}:#{relative}", chdir: ROOT.to_s)
-  fail_proof("protected path absent or dirty #{relative}") unless committed_status.success? && Digest::SHA256.hexdigest(committed) == Digest::SHA256.file(path).hexdigest
-end
-
-FileUtils.mkdir_p(OUTPUT, mode: 0o700)
-commands = COMMANDS.to_h { |name, argv| [name, run_command(name.tr("_", "-"), argv)] }
-fail_proof("command failed") unless commands.values.all? { |command| command["exit_code"] == 0 }
-identity_output = %w[stdout stderr].map { |stream| File.binread(ROOT.join(commands.fetch("identity_authority").fetch("#{stream}_path"))) }.join
-running = identity_output.scan(/^running (\d+) tests?$/).flatten.map(&:to_i)
-summary = identity_output.scan(/^test result: ok\. (\d+) passed; (\d+) failed;/).map { |passed, failed| [passed.to_i, failed.to_i] }
-fail_proof("identity test denominator mismatch") unless running == [3] && summary == [[3, 0]]
-observed_cases = identity_output.lines.map do |line|
-  next unless line.include?(CASE_MARKER)
-  match = line.split(CASE_MARKER, 2).fetch(1).strip.match(/\Acase=([^ ]+) result=pass\z/)
-  fail_proof("malformed case marker") unless match
-  match[1]
-end.compact
-fail_proof("case denominator or substitution mismatch") unless observed_cases == EXPECTED_CASES
-observed_subassertions = identity_output.lines.map do |line|
-  next unless line.include?(SUBASSERTION_MARKER)
-  match = line.split(SUBASSERTION_MARKER, 2).fetch(1).strip.match(/\Acase=([^ ]+) subassertion=([^ ]+) result=pass\z/)
-  fail_proof("malformed subassertion marker") unless match
-  [match[1], match[2]]
-end.compact
-expected_subassertions = EXPECTED_CASES.flat_map { |case_name| EXPECTED_SUBASSERTIONS.map { |subassertion| [case_name, subassertion] } }
-fail_proof("subassertion denominator or substitution mismatch") unless observed_subassertions == expected_subassertions
-tree, status = Open3.capture2("git", "rev-parse", "#{source}^{tree}", chdir: ROOT.to_s)
-fail_proof("source tree unavailable") unless status.success?
-proof = {
-  "schema" => "adl.issue203.authority_store_adapter_proof.v2",
-  "issue" => 203,
-  "source_revision" => source,
-  "source_tree" => tree.strip,
-  "required_main_ancestor" => origin_main,
-  "protected_files" => PROTECTED.map { |path| { "path" => path, "sha256" => Digest::SHA256.file(ROOT.join(path)).hexdigest } },
-  "commands" => commands,
-  "test_summary" => {
-    "identity_tests" => 3,
-    "identity_passed" => 3,
-    "cases" => EXPECTED_CASES.length,
-    "subassertions" => expected_subassertions.length,
-    "source_assertions" => 59,
-    "clippy_targets" => 1
-  },
-  "cases" => EXPECTED_CASES.map { |name| { "case" => name, "result" => "pass", "subassertions" => EXPECTED_SUBASSERTIONS } },
-  "subassertions" => expected_subassertions.map { |case_name, subassertion| { "case" => case_name, "subassertion" => subassertion, "result" => "pass" } }
-}
-File.binwrite(PROOF, JSON.generate(proof) + "\n")
-puts "PASS: produced issue #203 exact 44-case, 132-subassertion authority-store proof at #{source}"
+proof = {"schema"=>"adl.issue203.integration_closeout_proof.v3","issue"=>203,"source_revision"=>source,
+  "required_main_ancestor"=>main,"product_diff_paths"=>[],"terminal_children"=>CHILDREN,
+  "commands"=>commands,"historical_proof_disposition"=>"superseded_nonclaim",
+  "nonclaims"=>["No #205 serving eligibility implementation.","No #204 migration/recovery workflow implementation.","No resurrection of the historical synthetic 44-case marker denominator."]}
+File.binwrite(PROOF, JSON.generate(proof)+"\n")
+puts "PASS: issue #203 integration closeout proof binds terminal children, zero product diff, current focused tests, and strict Clippy"
