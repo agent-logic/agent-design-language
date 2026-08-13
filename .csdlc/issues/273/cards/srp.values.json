@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-04.16b3.1b][205.b] Add Shepherd serving-eligibility authority",
     "slug": "shepherd-serving-eligibility",
     "version": "v0.92",
-    "generation": 14
+    "generation": 17
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime/src/distributed/serving_authority.rs\nadl-runtime/src/distributed/shepherd_serving_eligibility.rs\nadl-runtime/src/distributed/mod.rs\nadl-runtime/tests/distributed_shepherd_serving_eligibility.rs\n.csdlc/issues/273\n.csdlc/prepared/issues/273\n.csdlc/evidence/273",
-      "review_revision": "git-blake3:759aa09b39eeb1551c8410962277583204c4aa94:3c4191820541f3616ae9ad73cc2346da503476eaf58a4193621b18acc581a348",
-      "reviewer": "fresh-session:9d45c45a-e58f-47f7-bf02-2630c152e6c4",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Are #273 and #274 production modules/tests disjoint, with only one explicitly serialized registration line?",
         "Can any caller become eligible without the exact current published #272 binding?",
@@ -24,11 +24,8 @@
         "Are all predecessor cache/ancestry, validation, review, CI, and terminal gates explicit?"
       ],
       "findings": [],
-      "residual_risk": [
-        "The internal VerifiedServingAuthorityCut fixture remains available only with internal-test-fixtures; ordinary builds omit the issue-owned integration target.",
-        "#274 remains unbound and serialized behind terminal and ancestral #273 before consuming the verified cut or touching shared registration."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

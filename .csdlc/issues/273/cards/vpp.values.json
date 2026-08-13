@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.16b3.1b][205.b] Add Shepherd serving-eligibility authority",
     "slug": "shepherd-serving-eligibility",
     "version": "v0.92",
-    "generation": 14
+    "generation": 17
   },
   "status": "ready",
   "content": {
@@ -45,7 +45,7 @@
           "deterministic": true,
           "resource_profile": "large",
           "budget_seconds": 1800,
-          "budget_tokens": 16000,
+          "budget_tokens": 12000,
           "argv": [
             "cargo",
             "test",
@@ -71,7 +71,7 @@
           "deterministic": true,
           "resource_profile": "large",
           "budget_seconds": 1200,
-          "budget_tokens": 8000,
+          "budget_tokens": 6000,
           "argv": [
             "cargo",
             "clippy",
@@ -99,7 +99,7 @@
           "deterministic": true,
           "resource_profile": "large",
           "budget_seconds": 1200,
-          "budget_tokens": 6000,
+          "budget_tokens": 4000,
           "argv": [
             "cargo",
             "check",
@@ -111,8 +111,87 @@
           "defer_reason": null
         },
         {
+          "lane": "coverage-map-contract",
+          "proof_role": "Prove the new Shepherd module maps exactly once to its dedicated coverage token and expression.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 3000,
+          "argv": [
+            "bash",
+            "adl/tools/test_check_coverage_impact.sh"
+          ],
+          "parallel_group": "273-serial-05",
+          "defer_reason": null
+        },
+        {
+          "lane": "coverage-runner-contract",
+          "proof_role": "Prove the dedicated filter routes only to the runtime companion with internal-test-fixtures enabled.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "bash",
+            "adl/tools/test_run_pr_fast_coverage_lane.sh"
+          ],
+          "parallel_group": "273-serial-06",
+          "defer_reason": null
+        },
+        {
+          "lane": "focused-module-coverage",
+          "proof_role": "Execute the exact mapped Shepherd integration target and emit the production module coverage summary.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 1800,
+          "budget_tokens": 8000,
+          "argv": [
+            "bash",
+            "adl/tools/run_pr_fast_coverage_lane.sh",
+            "--filter-expression",
+            "binary_id(adl-runtime::distributed_shepherd_serving_eligibility)"
+          ],
+          "parallel_group": "273-serial-07",
+          "defer_reason": null
+        },
+        {
+          "lane": "coverage-impact-preflight",
+          "proof_role": "Require the focused summary to satisfy the changed production module impact denominator before publication.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "bash",
+            "adl/tools/check_coverage_impact.sh",
+            "--changed-files",
+            ".csdlc/evidence/273/coverage-impact-changed-files.txt",
+            "--summary",
+            "adl/target/coverage-impact-summary.json"
+          ],
+          "parallel_group": "273-serial-08",
+          "defer_reason": null
+        },
+        {
           "lane": "shepherd-scope",
-          "proof_role": "Require the exact four product paths plus #273-local records and reject every unrelated, parent, or #274 path.",
+          "proof_role": "Require the exact four product paths, four coverage-policy paths, and #273-local records while rejecting unrelated, parent, or #274 paths.",
           "acceptance_ids": [
             "AC-6"
           ],
@@ -124,7 +203,7 @@
             "python3",
             ".csdlc/prepared/issues/273/validate_scope.py"
           ],
-          "parallel_group": "273-serial-05",
+          "parallel_group": "273-serial-09",
           "defer_reason": null
         },
         {
@@ -143,7 +222,7 @@
             "--check",
             "origin/main...HEAD"
           ],
-          "parallel_group": "273-serial-06",
+          "parallel_group": "273-serial-10",
           "defer_reason": null
         },
         {
@@ -160,7 +239,7 @@
             "python3",
             ".csdlc/prepared/issues/273/validate_terminal.py"
           ],
-          "parallel_group": "273-serial-07",
+          "parallel_group": "273-serial-11",
           "defer_reason": "Deferred until required CI is green and typed finish creates terminal authority; no optional or paid runner authorized."
         }
       ],

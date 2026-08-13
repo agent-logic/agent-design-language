@@ -12,13 +12,7 @@ Status: draft
 
 ## Scope
 
-adl-runtime/src/distributed/serving_authority.rs
-adl-runtime/src/distributed/shepherd_serving_eligibility.rs
-adl-runtime/src/distributed/mod.rs
-adl-runtime/tests/distributed_shepherd_serving_eligibility.rs
-.csdlc/issues/273
-.csdlc/prepared/issues/273
-.csdlc/evidence/273
+
 
 ## Prompts
 
@@ -38,13 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The internal VerifiedServingAuthorityCut fixture remains available only with internal-test-fixtures; ordinary builds omit the issue-owned integration target.
-- #274 remains unbound and serialized behind terminal and ancestral #273 before consuming the verified cut or touching shared registration.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:759aa09b39eeb1551c8410962277583204c4aa94:3c4191820541f3616ae9ad73cc2346da503476eaf58a4193621b18acc581a348")
+Revision: None
 
-Reviewer: Some("fresh-session:9d45c45a-e58f-47f7-bf02-2630c152e6c4")
+Reviewer: None
 
-Result: pass
+Result: pre_review

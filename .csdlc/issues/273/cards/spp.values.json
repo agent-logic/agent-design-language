@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-04.16b3.1b][205.b] Add Shepherd serving-eligibility authority",
     "slug": "shepherd-serving-eligibility",
     "version": "v0.92",
-    "generation": 14
+    "generation": 17
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 2,
+      "plan_revision": 3,
       "summary": "Bootstrap and freshly review the disjoint design, approve/doctor/bind only after PASS, implement the Shepherd-only module/test and serialized registration, prove deterministic fenced lifecycle behavior, review exact head, publish, shepherd required CI, and finish terminally before releasing #274 shared registration.",
       "steps": [
         {
@@ -64,6 +64,10 @@
         "adl-runtime/tests/distributed_shepherd_serving_eligibility.rs",
         "adl-runtime/src/distributed/mod.rs",
         "adl-runtime/src/distributed/serving_authority.rs",
+        "adl/tools/check_coverage_impact.sh",
+        "adl/tools/run_pr_fast_coverage_lane.sh",
+        "adl/tools/test_check_coverage_impact.sh",
+        "adl/tools/test_run_pr_fast_coverage_lane.sh",
         ".csdlc/prepared/issues/273/design.md",
         ".csdlc/prepared/issues/273/diagram.mmd",
         ".csdlc/prepared/issues/273/validate_preparation_bundle.py",
