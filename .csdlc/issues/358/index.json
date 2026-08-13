@@ -4,23 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "21fd626edd1cc7640193b8c78517845a185147f6a0de9e0a2c6873224bb85fe4",
   "phase": "implemented",
-  "generation": 13,
-  "digest": "abed0c5e4e0e141f79278a6777fb38985c978930bd8fb60ccfa54eba2398ec87",
+  "generation": 14,
+  "digest": "bc615d14026386383a6947c9d30e06ef20dfc72d13f53c110d3b721e3c8a9417",
   "branch": "codex/358-observatory-transition-intent-time",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-358-observatory-transition-intent-time",
-  "review_assignment": {
-    "reviewer": "fresh-session:de4efec3-b6d7-4d8b-92c4-7cf1cbddc3ce",
-    "assigned_by": "codex:issue-358-srp-scope-anchor",
-    "revision": "git-blake3:fe802db4c11774a2c9449d744c75200ca7b8d38c:44d0ef77b81c1ace24c5c6b124c58f4a81d1fcfef8d2f46833d0aaa2f20171b9",
-    "scope": [
-      ".csdlc/issues/358",
-      ".csdlc/prepared/issues/358",
-      ".csdlc/evidence/358",
-      "adl-runtime/src/distributed/authority_protocol.rs",
-      "adl-runtime/src/distributed/serving_authority.rs",
-      "adl-runtime/tests/distributed_observatory_authority_projection.rs"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -36,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7bf4c759f320f3eee43179e4d346a4aae037de8f701c017ce7601c0d08d3608d",
+      "values_digest": "9a4a1750b4df6a015dc557736f19148b50b9330c748afa9b02eb4703a95e8647",
       "rendered_digest": "fd9969c07b2387ca1dcbc96456bb44ab59cda1a8ac7c96685c824e2d17a0c032",
       "ast_digest": "3f82d329bbab8aebd4ee6fd123c462b1b10a717dc4231379059169388939470b"
     },
     "stp": {
-      "values_digest": "7da74589b388c640eb6f0bf0271aa64bd0e39c33d4f4086a78a3675d03e1ebe5",
+      "values_digest": "4444be9ce8940d0d832d16e681b997a25a821d4e4396f10a6423aaaf156d8407",
       "rendered_digest": "fada3c1182c7846c8aa9b50c11daefe51e7771b02f78ee1c5c4c9a1315422d80",
       "ast_digest": "b5465461beb09da10fa6a755637c90c219c629a057a444f30d5215fa3da2a21c"
     },
     "spp": {
-      "values_digest": "b96de4e623493de6eaef8b04f2c7b66ebea7232614e37a251835489adbc881c5",
+      "values_digest": "4e6120c58a96090abbcd55ab0b63bcf9320c8a274d09a42bd018de7b7cfafb51",
       "rendered_digest": "f8dc21a645d187a1a5b646ffcaf38613e1f4b37b5f41b203c8e59be66cd7f27b",
       "ast_digest": "93911bd28bd7eccb64b4e46df8ef527c216c2552664b3257e3d43d7291f12335"
     },
     "vpp": {
-      "values_digest": "751080f6232b86856fae9aa32773686c11918bac2f610460f120b43378610634",
+      "values_digest": "cac713fc3c580bcabe7a806ba978e0ee1e1a26b5a2ec9c8243942d75e3a181c6",
       "rendered_digest": "5f1b70022cacf1cde7e71d61cc4afacf92ae4aa376e9d1ede16ba7cce66cd4b6",
       "ast_digest": "8c9173349475babf67ad150915eca3c30e4f5c1f03d02e98b07e006a31d3c1bb"
     },
     "srp": {
-      "values_digest": "13f5100ac85bfa272ee68971c92b604ad90586238cf806bfb3518f5003ee0e8a",
-      "rendered_digest": "823841cccdd914f30e03e80ae839e3cfb0e642dfd850c08c57a52b01154312b3",
-      "ast_digest": "5f7a7c0d4a043c981c01fc6af50035ff6cee9ee1c3d3335d5b190d9296ff91b8"
+      "values_digest": "35b734216d89d6b0b8638df83081c5afe521b3ea2213d27d61fde23ba0a89ae1",
+      "rendered_digest": "209e85174d30111652fb463c5b0ca95934f7fe771cf0062c5b04aae9410d6db9",
+      "ast_digest": "6655d0e288370d05699f688c4eb981070218445e88cf082e0901caa02f9b0cea"
     },
     "sor": {
-      "values_digest": "6da5b12ab8178f80509db16a5d956eaf97498a7b6e46471ff32616706e68569f",
+      "values_digest": "7200c18d489254dde58e08d15336f7ee01a8911717f4f46142949dcfd885ec1c",
       "rendered_digest": "92cd4e1cdbd60d3287ee266fcf6cfd210cd4f3502399aea25617aa37568de66b",
       "ast_digest": "c4e8212616e490a471606c35d7bb9bc6bffb1cc646f1ca7ba9c3c5f118cfe36c"
     }
@@ -229,6 +217,13 @@
       "actor": "codex:issue-358-srp-scope-anchor",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 14,
+      "actor": "codex:issue-358-srp-scope-anchor",
+      "reason": "Clear staging-only assignment after committing exact rendered SRP scope; no review performed.",
+      "operation": "recover_review"
     }
   ]
 }

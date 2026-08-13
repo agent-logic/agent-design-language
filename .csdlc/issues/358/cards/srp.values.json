@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-04.16b3.1b][defect] Seal Observatory transition intent and full canonical time",
     "slug": "observatory-transition-intent-time",
     "version": "v0.92",
-    "generation": 13
+    "generation": 14
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/358\n.csdlc/prepared/issues/358\n.csdlc/evidence/358\nadl-runtime/src/distributed/authority_protocol.rs\nadl-runtime/src/distributed/serving_authority.rs\nadl-runtime/tests/distributed_observatory_authority_projection.rs",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

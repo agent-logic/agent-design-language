@@ -12,12 +12,7 @@ Status: draft
 
 ## Scope
 
-.csdlc/issues/358
-.csdlc/prepared/issues/358
-.csdlc/evidence/358
-adl-runtime/src/distributed/authority_protocol.rs
-adl-runtime/src/distributed/serving_authority.rs
-adl-runtime/tests/distributed_observatory_authority_projection.rs
+
 
 ## Prompts
 
