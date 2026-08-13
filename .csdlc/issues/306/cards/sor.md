@@ -122,11 +122,11 @@ Implemented ordered publication metadata tail handling: intent cache is stored u
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
