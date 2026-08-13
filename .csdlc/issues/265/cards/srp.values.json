@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-18C.02b][112.b] Enforce Layer 8 authority at Runtime kernel conversation ingress",
     "slug": "v0-92-wp-18c-02b-112-b-layer8-authority-runtime-kernel-ingress",
     "version": "v0.92.0",
-    "generation": 9
+    "generation": 10
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/control.rs\n.csdlc/issues/265\n.csdlc/prepared/issues/265\n.csdlc/evidence/265",
+      "review_revision": "git-blake3:5c6e8e109b053e1ca548257204fc5d4c29231969:8eb9e94e4205b101d944fcecfbae85ae1101fb42f751e97ea4125761cbf18a43",
+      "reviewer": "fresh-session:5d74c8b9-45ab-42b6-9e4f-0763ff6e416f",
       "review_prompts": [
         "Does #265 remain the earliest #112 child and only own Runtime kernel conversation-ingress enforcement?",
         "Do cards correctly block bind/implementation until #112 is terminal and ancestral?",
@@ -23,8 +23,12 @@
         "Is the validation plan sufficient for bootstrap/design readiness without claiming product proof?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Inspection-only exact-head review; reviewer did not rerun tests, CI, or lifecycle commands. Implementation-session evidence records the issue-owned preparation validator, focused 4-test layer8_ingress target, rustfmt check, strict Clippy, diff hygiene, and typed validation.",
+        "PASS is limited to #265 Runtime kernel conversation ingress enforcement and production-profile wiring. It does not approve #270 served trusted acknowledgement API/protocol, #271 Observatory UI, #114 durable history, #115 room/UI, cloud exposure, or served public API work.",
+        "Worktree had post-commit review metadata and an operational lock, so reviewer treated the assigned immutable git-blake3 revision as content authority."
+      ],
+      "review_result": "pass"
     }
   }
 }

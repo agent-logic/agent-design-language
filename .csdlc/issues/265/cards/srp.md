@@ -12,7 +12,11 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
+adl-runtime-kernel/src/control.rs
+.csdlc/issues/265
+.csdlc/prepared/issues/265
+.csdlc/evidence/265
 
 ## Prompts
 
@@ -31,12 +35,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Inspection-only exact-head review; reviewer did not rerun tests, CI, or lifecycle commands. Implementation-session evidence records the issue-owned preparation validator, focused 4-test layer8_ingress target, rustfmt check, strict Clippy, diff hygiene, and typed validation.
+- PASS is limited to #265 Runtime kernel conversation ingress enforcement and production-profile wiring. It does not approve #270 served trusted acknowledgement API/protocol, #271 Observatory UI, #114 durable history, #115 room/UI, cloud exposure, or served public API work.
+- Worktree had post-commit review metadata and an operational lock, so reviewer treated the assigned immutable git-blake3 revision as content authority.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:5c6e8e109b053e1ca548257204fc5d4c29231969:8eb9e94e4205b101d944fcecfbae85ae1101fb42f751e97ea4125761cbf18a43")
 
-Reviewer: None
+Reviewer: Some("fresh-session:5d74c8b9-45ab-42b6-9e4f-0763ff6e416f")
 
-Result: pre_review
+Result: pass
