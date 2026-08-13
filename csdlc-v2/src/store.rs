@@ -305,13 +305,24 @@ impl Store {
         };
         if let Some(recovery_root) = recovery_root {
             for name in recovery_root.names()? {
-                let attempt = recovery_root.open_child(&name, "recovery attempt")?;
+                let operation = name.to_str().unwrap_or_default();
+                let attempt = match recovery_root.open_child(&name, "recovery attempt") {
+                    Ok(attempt) => attempt,
+                    Err(error) => {
+                        if crate::projection_recovery::is_authorized_cleanup_ledger_entry(
+                            self,
+                            issue,
+                            &recovery_root,
+                            operation,
+                        )? {
+                            continue;
+                        }
+                        return Err(error);
+                    }
+                };
                 if let Err(error) =
                     crate::projection_recovery::validate_completed_recovery_attempt_from_dir(
-                        self,
-                        issue,
-                        &attempt,
-                        name.to_str().unwrap_or_default(),
+                        self, issue, &attempt, operation,
                     )
                 {
                     return Err(V2Error::new(
