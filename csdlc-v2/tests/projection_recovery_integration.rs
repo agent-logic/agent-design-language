@@ -18,6 +18,8 @@ const TERMINAL_299_MERGE: &str = "649a20bf32d07e3aae221ab4b2352c2d1a9f80c5";
 const TERMINAL_330_MERGE: &str = "879683620e2a3b86b49580910aedb9eb8d312bef";
 const TERMINAL_298_DIGEST: &str =
     "d1f780991343708beacfab8aa6648a83ed3117b422158085e5a0825945af87cb";
+const TERMINAL_299_DIGEST: &str =
+    "8a108811e5ed40a3f643ac159fc6255081e0b4a2824db1a386aecd1015415179";
 const TERMINAL_330_DIGEST: &str =
     "0fd19c9694fe67a062c6cbd29b5adce3dee183faea6ddb2fef499101addc5817";
 
@@ -494,6 +496,12 @@ fn terminal_prerequisites_are_current_and_ancestral_to_execution_base() {
             assert_eq!(
                 envelope["digest"], TERMINAL_298_DIGEST,
                 "#298 terminal digest"
+            );
+        }
+        if issue == 299 {
+            assert_eq!(
+                envelope["digest"], TERMINAL_299_DIGEST,
+                "#299 terminal digest"
             );
         }
         if issue == 330 {

@@ -5,21 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "812e76425072c39de0d33f7240ac7901873d4a425f3b26e754bdda158d7c02ed",
   "phase": "implemented",
-  "generation": 7,
-  "digest": "02f34b6fc9fcee9f281d785aa26fde1363b25338625f704492f7f882f6d20c55",
+  "generation": 8,
+  "digest": "44309f3a9a273da4697c6b64edfbcd78537913942ed4650b50b1b9c18c53b115",
   "branch": "codex/300-projection-recovery-integration-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-300-projection-recovery-integration-proof",
-  "review_assignment": {
-    "reviewer": "fresh-session:curie-300-bridge-fed-r3",
-    "assigned_by": "codex:worker-5",
-    "revision": "git-blake3:d0aea2bc8fb317691c6b03b1420db175e5b84035:6c0692b769aedf761ee3f08975c0e9db8db1e97ac7ba1c2e5f03dcdde2e6282f",
-    "scope": [
-      "csdlc-v2/tests/projection_recovery_integration.rs",
-      ".csdlc/issues/300",
-      ".csdlc/evidence/300/bridge-fed-r3",
-      ".csdlc/requests/300/replace-sor-bridge-fed-r3.json"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -35,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3380768159d4746d2e72012ff394b837e1da2882290c76651276a70e39377eba",
+      "values_digest": "33452026e18857a135fe38e1b5013933f746e867d8498d1ccd52e68b7795d676",
       "rendered_digest": "b003b1d51dd3f4296ef4d8be0536d419fce23991df68d3ae3445937fdb901bfc",
       "ast_digest": "dea7ce3fd1e50f827b7a10dbc279ee19c71112032939c98b713d79c7acd4c982"
     },
     "stp": {
-      "values_digest": "c25d7e29324459df5b2221875f6228180fe35449f58db8bc576be5a0ed88ebb3",
+      "values_digest": "8cfa908446f4434e015d9150eebfb1ea0b761afd92bf62ee3e85115dafb6d6b2",
       "rendered_digest": "9c318b641757d4bd27b306ec8864bae2f757a8eec46cbc9cd24384d545113499",
       "ast_digest": "f6bc49a3310d58c810276f43df1e69dc2d772d6083d6cfd61a0d2fe42614be8a"
     },
     "spp": {
-      "values_digest": "e669fe4e6fc70e20549f21ac32b18cce552cc846056d3b9850b5110d1871770b",
+      "values_digest": "125c3a16e3ce987498dcb962ceaa10eef02036719b6489e347f0e9650d537f8b",
       "rendered_digest": "17e42670b0aa901f572e0d422b009f4ef9e5bd8463e2f2b61a45a149164f4db2",
       "ast_digest": "cf94d7413d244fdd54d34005a149163a5c22e668e99ef82213ae2d2058146948"
     },
     "vpp": {
-      "values_digest": "961a1e7c20bef47c3e2d0bf657176830e4f6813896a3c3478ace8a8683c372c3",
+      "values_digest": "fefdbc881e46b15b74aa9f1606ceb98f37843a0a317e94ce5989a23f973c97fe",
       "rendered_digest": "ffac1c06684198b62ee6b72a4bda262c0b08d3cd971b68b5dc435b3e77c2e38a",
       "ast_digest": "b4d732c61fe93217e1fa7e266913c6e871b739351895d1446deb4ee19ecdcc43"
     },
     "srp": {
-      "values_digest": "dc66eb760ef87164f407d5317b6d77fc342b1d9db18a01eab58a6fa394db37f7",
-      "rendered_digest": "6e4822542986baf9ec262b9f8bf67a3a84d074eb3b5c3cee4481cd60c38f9d2b",
-      "ast_digest": "e21bdf2ad076292eef2669c1b7f38069868debfb20a619090d61eb521d364aab"
+      "values_digest": "1720c53f85b8b425a8697c15044623fa2aa735fa729d2ea962ad207dd1722250",
+      "rendered_digest": "17ee06a51fc84fb2c9f9504502a33a4d57a53867d6187f5fbe11f01225a51f04",
+      "ast_digest": "7128a6374ca10bb80f0866eb6297f69fa19201e95fd798bfcf7cafa9d9bc2154"
     },
     "sor": {
-      "values_digest": "f643f670d3280fa5f0e81866b1ccd802b86fed47ba1f3c1df8e95a76a0672091",
+      "values_digest": "32047e7ebf90b88b6fa45fe17daa35510b77fcc636b2d7a1d3f15dae9d0a50a7",
       "rendered_digest": "1f1f13c575bfaa101784369fc0d4555c197ddef98f51ffb7438d5843cbe1cfe9",
       "ast_digest": "dcb0ca17ae8fe0285b281b49fbde1a54a52a30b2baa5ed6aefd6251b04411904"
     }
@@ -165,6 +155,13 @@
       "actor": "codex:worker-5",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:worker-5",
+      "reason": "Recover fresh-session:curie-300-bridge-fed-r3 review assignment after P1 finding: #299 terminal digest was not explicitly asserted in the #300 terminal prerequisite gate.",
+      "operation": "recover_review"
     }
   ]
 }
