@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "e6a6b6dce878d10beb21242dc5267e088f9ed5064d967b82e267f0a99ff2be35",
   "phase": "implemented",
-  "generation": 20,
-  "digest": "e9b7052966beec969b8cdfbb1420785c2fb012f836967ecd1ed382a825534c19",
+  "generation": 21,
+  "digest": "fff675a8088a8d98bb91d5a5a6480a227a7967682c34bc8e42fc862161cfd647",
   "branch": "codex/297-preserved-failed-projection-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-297-preserved-failed-projection-recovery",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "624c27c4118ec55b9d8a8078de6e8fbd9d9e8afe810c48dc24d0a9f10215a528",
+      "values_digest": "5591eb0516225fcf48740f8903d4ec1e0e2e6b9e0e6b81b3612fd21e4a3dcbaf",
       "rendered_digest": "df823d86637cd9489e801629df7a5212ac8097bc372257554eaec7c9a9d0660e",
       "ast_digest": "1bc768342db5a416f8bb25942901fb3f59ba10dc488a47dea6f0ef806aabb7e0"
     },
     "stp": {
-      "values_digest": "d57347c1c2e9b8f913f3dcd1b28b5292262ee1e32a7420bbdf23461db1914c7c",
+      "values_digest": "b151ed1f2484f3e519b0b8865f798b5b01ec9e67e018f11413d1a81b98d0c373",
       "rendered_digest": "97ad2e897d196aba11055627fae7c5e07537626d42ad815337c564dffb664688",
       "ast_digest": "9a54ff529a22712e2dcb9f5efb93efb1ca9fd290304b932f98ab76803bc6ae26"
     },
     "spp": {
-      "values_digest": "6c2149169c369be2b7f80198e0279493747474f3f0364b91e8c9773aaed20300",
+      "values_digest": "306c900c0d76e1d65d672881bbaf9b5b7f53cefdcfc231f003e877c45268aa5c",
       "rendered_digest": "e3b65c0055739979fc4ca41f0994e1ec2b50cbc3769189d2d9716089249db0bc",
       "ast_digest": "146f8c8308fc4b01d8049188b9ebf3bc7b41c3e59cac6fc8a3ec8a3957c157bd"
     },
     "vpp": {
-      "values_digest": "d679c7cf804efa4da61a91bcb3c220df854bfccb1b532419a81dc21232e87e32",
+      "values_digest": "877785efc8cc4ff46e7d5908ff041163001056bf47952e8d946e9014ff6e8266",
       "rendered_digest": "13f04d3e97db4d4fcba16b1a60538f791ca635def45dd6a5ceda8dcd9c807f58",
       "ast_digest": "f1c7789048ef56244afbbe53bd36196d5d4296a699769383a2e2b10c96b5eee3"
     },
     "srp": {
-      "values_digest": "b86b5492ec9663d03b74c813d7c335005c18d3c3e17daf41883ec309d483ac41",
+      "values_digest": "3b4a650d14d98f7b992b6dd48dd8b73755e54439e07920c12b4bd3996eedc75c",
       "rendered_digest": "ef04c3dfd5e0eadb2913a6706f7e9e8dd54eeade7e1edb43bc97e1f3204379be",
       "ast_digest": "4a9b0580c70bbd10c0feac72bda62f208af9285f0f199aaaad3dc38c20ae79ae"
     },
     "sor": {
-      "values_digest": "4eaee186a1faf70ae4c3441410d9e8f505a286f9b099f18cc5711baaae3079ff",
-      "rendered_digest": "f1d649dad2877d1e2b99c5cd1ebc46cd2b6a88c1c23baf5c91f0c7a145d43d99",
-      "ast_digest": "8b343e25a7a498f5489a160fcbe0134f86d21787cfe0cd23b76f720fefe016f5"
+      "values_digest": "59630c62208501f3fa6c40e76824c15e3ac332ff3a9c84a30e3e58c74155569e",
+      "rendered_digest": "f3ebd4a3dd97fe76a02faf9e16e093f12f0af3f45fadcc65dec717449fb5b29f",
+      "ast_digest": "ecad0c30567184bdae78d77fb42cd4f3eefc0acae9df3fcb3002ad04a312424b"
     }
   },
   "transitions": [
@@ -238,6 +238,13 @@
       "actor": "codex:worker-5",
       "reason": "Record the implemented #297 bridge proof command: production recovery now builds cleanup authority and gate5 contains the bridge-fed cleanup regression.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"parent-recovery-cleanup-bridge\",\"proof_role\":\"Prove production recovery validates a completed recovery attempt, emits cleanup-consumable completed recovery receipt and canonical archive manifest authority, and feeds cleanup without test-authored authority.\",\"acceptance_ids\":[\"AC-2\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":7000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"recovery_bridge_emits_cleanup_authority_consumed_by_cleanup\",\"--\",\"--nocapture\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"recovery-regression-matrix\",\"proof_role\":\"Retain full preserved projection recovery regression coverage after adding the bridge API.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":7000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"--\",\"--nocapture\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"cleanup-authority-regression\",\"proof_role\":\"Retain cleanup authority regressions after allowing directory link-count drift only for the same directory identity during child removal.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":7000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_cleanup\",\"--\",\"--nocapture\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"child-300-integrated-matrix-dependency\",\"proof_role\":\"#300 must separately prove the integrated recovery/cleanup matrix using its own target after #297 is terminal and ancestral; this parent card records the dependency and does not claim #300 proof.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":7000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"recovery_bridge_emits_cleanup_authority_consumed_by_cleanup\",\"--\",\"--nocapture\"],\"parallel_group\":\"local\",\"defer_reason\":\"Dependency record only: #300 remains review-failed/unpublished until it consumes the terminal #297 bridge and mechanically invokes or explicitly enumerates the matrix.\"}]}"
+    },
+    {
+      "sequence": 24,
+      "generation": 21,
+      "actor": "codex:worker-5",
+      "reason": "record the minimal production recovery-to-cleanup bridge implementation and exact-head validation evidence after #300 Noether P1 routing",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the minimal #297 production recovery-to-cleanup authority bridge required to unblock #300. The bridge validates a completed projection recovery attempt, derives cleanup node authority from the recovery-retained archived projection, writes production-generated completed recovery receipt and canonical archive manifest artifacts into the recovery attempt, and returns an ArchivedProjectionCleanupRequest that cleanup consumes without test-authored receipt or manifest JSON.\",\"changes\":[\"Added ProjectionRecoveryCleanupBridgeRequest and ProjectionRecoveryCleanupBridgeResult plus build_archived_projection_cleanup_request_from_recovery in csdlc-v2/src/projection_recovery.rs.\",\"The bridge validates the completed recovery receipt chain and canonical recovery audit before deriving cleanup authority, binds terminal issue/digest/merge inputs, writes no-follow/exclusive bridge authority artifacts in the recovery attempt, and returns exact receipt/manifest paths plus BLAKE3 digests.\",\"Exported the bridge API from csdlc-v2/src/lib.rs for #300 to consume after #297 is terminal and ancestral.\",\"Added gate5 regression recovery_bridge_emits_cleanup_authority_consumed_by_cleanup proving a real recovery attempt feeds execute_archived_projection_cleanup through bridge-produced authority files, with no synthetic cleanup authority created by the test harness.\",\"Adjusted cleanup identity comparison so directory link-count drift caused by already-removed children does not invalidate the same directory identity; regular-file link count and all other identity fields remain strict.\"],\"artifacts\":[\"csdlc-v2/src/projection_recovery.rs\",\"csdlc-v2/src/projection_cleanup.rs\",\"csdlc-v2/src/lib.rs\",\"csdlc-v2/tests/gate5.rs\",\".csdlc/evidence/297/bridge-r2/gate5-bridge.log#sha256=c988023ec28d73ed6632b4f26187eb4b69382b0bad47b3d945cf0f3251fca724\",\".csdlc/evidence/297/bridge-r2/gate5-full.log#sha256=53e763ee3cd41324930337b3bc43509f21603497e784ada5b3875de4d0b6fcfa\",\".csdlc/evidence/297/bridge-r2/gate-cleanup.log#sha256=fe15fe7f510e18850dafae8668314f43857366f58d24c546cef15365879511d4\",\".csdlc/evidence/297/bridge-r2/strict-clippy.log#sha256=bd014e8b6cfdd4e7e194f8128edbcd166503d422118840703b5e9315debf5242\",\".csdlc/evidence/297/bridge-r2/fmt-check.log#sha256=c43948e2856e8a2045911d85d52b244776d72eb5d283a766016970c946a33b49\",\".csdlc/evidence/297/bridge-r2/diff-check.log#sha256=fcc88a21e54dfc032455002171ca7ea66e05ed7ab5e3bc920a7892c1525703cc\",\".csdlc/evidence/297/bridge-r2/csdlc-validate.log#sha256=b706e59dbb4670d9f15794263facc0a83a37a236d505e4e4f20999eb4023eefd\",\".csdlc/evidence/297/bridge-r2/csdlc-doctor.log#sha256=912967014ea3de09f04a7234f0672d5877d81f56ad64833abf8470ea683fd0d1\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"recovery_bridge_emits_cleanup_authority_consumed_by_cleanup\",\"--\",\"--nocapture\"],\"purpose\":\"Focused production recovery-to-cleanup bridge proof at source/card head 3f38a135e939264e5b4f66ed4477d32c56abce61.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/297/bridge-r2/gate5-bridge.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"--\",\"--nocapture\"],\"purpose\":\"Full gate5 recovery/review regression lane after adding bridge API, at source/card head 3f38a135e939264e5b4f66ed4477d32c56abce61.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/297/bridge-r2/gate5-full.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_cleanup\",\"--\",\"--nocapture\"],\"purpose\":\"Cleanup authority regression lane after directory identity comparison adjustment, at source/card head 3f38a135e939264e5b4f66ed4477d32c56abce61.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/297/bridge-r2/gate-cleanup.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict Clippy over all csdlc-v2 targets at source/card head 3f38a135e939264e5b4f66ed4477d32c56abce61.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/297/bridge-r2/strict-clippy.log\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--check\"],\"purpose\":\"Rust formatting check at source/card head 3f38a135e939264e5b4f66ed4477d32c56abce61.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/297/bridge-r2/fmt-check.log\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\",\"&&\",\"git\",\"diff\",\"--check\"],\"purpose\":\"Committed-range and worktree diff hygiene at source/card head 3f38a135e939264e5b4f66ed4477d32c56abce61.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/297/bridge-r2/diff-check.log\"},{\"command\":[\"csdlc-validate\",\"issue\",\"--issue\",\"297\"],\"purpose\":\"Typed issue validation after VPP cycle-break and bridge validation-plan edits at source/card head 3f38a135e939264e5b4f66ed4477d32c56abce61.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/297/bridge-r2/csdlc-validate.log\"},{\"command\":[\"csdlc-doctor\",\"--issue\",\"297\"],\"purpose\":\"Typed doctor check after VPP cycle-break and bridge validation-plan edits at source/card head 3f38a135e939264e5b4f66ed4477d32c56abce61.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/297/bridge-r2/csdlc-doctor.log\"}]}"
     }
   ]
 }

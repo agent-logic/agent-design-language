@@ -7,31 +7,33 @@
     "title": "[v0.92][C-SDLC][defect] Recover and classify preserved failed issue projections",
     "slug": "preserved-failed-projection-recovery",
     "version": "v0.92",
-    "generation": 20
+    "generation": 21
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Implement typed evidence-preserving recovery for rollback-preserved issue projections.",
+      "summary": "Implemented the minimal #297 production recovery-to-cleanup authority bridge required to unblock #300. The bridge validates a completed projection recovery attempt, derives cleanup node authority from the recovery-retained archived projection, writes production-generated completed recovery receipt and canonical archive manifest artifacts into the recovery attempt, and returns an ArchivedProjectionCleanupRequest that cleanup consumes without test-authored receipt or manifest JSON.",
       "actual_changes": [
-        "Added tagged-CAS projection classification and candidate manifests",
-        "Added typed recover and cleanup routes with private receipt namespaces",
-        "Blocked ordinary commits while rollback-preserved evidence exists",
-        "Added CLI/schema/public exports and focused gate5 tests",
-        "Typed tagged-CAS classify/recover/cleanup contracts",
-        "No-follow tree manifest and namespace ownership checks",
-        "Commit blocking and immutable recovery/cleanup receipts",
-        "CLI/schema exports and regression tests"
+        "Added ProjectionRecoveryCleanupBridgeRequest and ProjectionRecoveryCleanupBridgeResult plus build_archived_projection_cleanup_request_from_recovery in csdlc-v2/src/projection_recovery.rs.",
+        "The bridge validates the completed recovery receipt chain and canonical recovery audit before deriving cleanup authority, binds terminal issue/digest/merge inputs, writes no-follow/exclusive bridge authority artifacts in the recovery attempt, and returns exact receipt/manifest paths plus BLAKE3 digests.",
+        "Exported the bridge API from csdlc-v2/src/lib.rs for #300 to consume after #297 is terminal and ancestral.",
+        "Added gate5 regression recovery_bridge_emits_cleanup_authority_consumed_by_cleanup proving a real recovery attempt feeds execute_archived_projection_cleanup through bridge-produced authority files, with no synthetic cleanup authority created by the test harness.",
+        "Adjusted cleanup identity comparison so directory link-count drift caused by already-removed children does not invalidate the same directory identity; regular-file link count and all other identity fields remain strict."
       ],
       "artifacts": [
         "csdlc-v2/src/projection_recovery.rs",
+        "csdlc-v2/src/projection_cleanup.rs",
+        "csdlc-v2/src/lib.rs",
         "csdlc-v2/tests/gate5.rs",
-        "csdlc-v2/src/projection_recovery.rs",
-        "csdlc-v2/src/store.rs",
-        "csdlc-v2/src/schema.rs",
-        "csdlc-v2/src/bin/csdlc-issue.rs",
-        "csdlc-v2/tests/gate5.rs"
+        ".csdlc/evidence/297/bridge-r2/gate5-bridge.log#sha256=c988023ec28d73ed6632b4f26187eb4b69382b0bad47b3d945cf0f3251fca724",
+        ".csdlc/evidence/297/bridge-r2/gate5-full.log#sha256=53e763ee3cd41324930337b3bc43509f21603497e784ada5b3875de4d0b6fcfa",
+        ".csdlc/evidence/297/bridge-r2/gate-cleanup.log#sha256=fe15fe7f510e18850dafae8668314f43857366f58d24c546cef15365879511d4",
+        ".csdlc/evidence/297/bridge-r2/strict-clippy.log#sha256=bd014e8b6cfdd4e7e194f8128edbcd166503d422118840703b5e9315debf5242",
+        ".csdlc/evidence/297/bridge-r2/fmt-check.log#sha256=c43948e2856e8a2045911d85d52b244776d72eb5d283a766016970c946a33b49",
+        ".csdlc/evidence/297/bridge-r2/diff-check.log#sha256=fcc88a21e54dfc032455002171ca7ea66e05ed7ab5e3bc920a7892c1525703cc",
+        ".csdlc/evidence/297/bridge-r2/csdlc-validate.log#sha256=b706e59dbb4670d9f15794263facc0a83a37a236d505e4e4f20999eb4023eefd",
+        ".csdlc/evidence/297/bridge-r2/csdlc-doctor.log#sha256=912967014ea3de09f04a7234f0672d5877d81f56ad64833abf8470ea683fd0d1"
       ],
       "actual_validation": [
         {
@@ -40,11 +42,45 @@
             "test",
             "--manifest-path",
             "csdlc-v2/Cargo.toml",
-            "--lib"
+            "--test",
+            "gate5",
+            "recovery_bridge_emits_cleanup_authority_consumed_by_cleanup",
+            "--",
+            "--nocapture"
           ],
-          "purpose": "Run complete library unit suite.",
+          "purpose": "Focused production recovery-to-cleanup bridge proof at source/card head 3f38a135e939264e5b4f66ed4477d32c56abce61.",
           "outcome": "passed",
-          "evidence_ref": "csdlc-v2-lib.log"
+          "evidence_ref": ".csdlc/evidence/297/bridge-r2/gate5-bridge.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate5",
+            "--",
+            "--nocapture"
+          ],
+          "purpose": "Full gate5 recovery/review regression lane after adding bridge API, at source/card head 3f38a135e939264e5b4f66ed4477d32c56abce61.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/297/bridge-r2/gate5-full.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate_cleanup",
+            "--",
+            "--nocapture"
+          ],
+          "purpose": "Cleanup authority regression lane after directory identity comparison adjustment, at source/card head 3f38a135e939264e5b4f66ed4477d32c56abce61.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/297/bridge-r2/gate-cleanup.log"
         },
         {
           "command": [
@@ -57,23 +93,57 @@
             "-D",
             "warnings"
           ],
-          "purpose": "Run strict all-target Clippy.",
+          "purpose": "Strict Clippy over all csdlc-v2 targets at source/card head 3f38a135e939264e5b4f66ed4477d32c56abce61.",
           "outcome": "passed",
-          "evidence_ref": "csdlc-v2-strict-clippy.log"
+          "evidence_ref": ".csdlc/evidence/297/bridge-r2/strict-clippy.log"
         },
         {
           "command": [
             "cargo",
-            "test",
+            "fmt",
             "--manifest-path",
             "csdlc-v2/Cargo.toml",
-            "--test",
-            "gate5",
-            "preserved_projection_recovery"
+            "--check"
           ],
-          "purpose": "Run focused gate5 recovery tests.",
+          "purpose": "Rust formatting check at source/card head 3f38a135e939264e5b4f66ed4477d32c56abce61.",
           "outcome": "passed",
-          "evidence_ref": "preserved-projection-recovery.log"
+          "evidence_ref": ".csdlc/evidence/297/bridge-r2/fmt-check.log"
+        },
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check",
+            "origin/main...HEAD",
+            "&&",
+            "git",
+            "diff",
+            "--check"
+          ],
+          "purpose": "Committed-range and worktree diff hygiene at source/card head 3f38a135e939264e5b4f66ed4477d32c56abce61.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/297/bridge-r2/diff-check.log"
+        },
+        {
+          "command": [
+            "csdlc-validate",
+            "issue",
+            "--issue",
+            "297"
+          ],
+          "purpose": "Typed issue validation after VPP cycle-break and bridge validation-plan edits at source/card head 3f38a135e939264e5b4f66ed4477d32c56abce61.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/297/bridge-r2/csdlc-validate.log"
+        },
+        {
+          "command": [
+            "csdlc-doctor",
+            "--issue",
+            "297"
+          ],
+          "purpose": "Typed doctor check after VPP cycle-break and bridge validation-plan edits at source/card head 3f38a135e939264e5b4f66ed4477d32c56abce61.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/297/bridge-r2/csdlc-doctor.log"
         }
       ],
       "integration_state": "worktree_only",
