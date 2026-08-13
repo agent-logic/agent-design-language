@@ -1,0 +1,40 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 327,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Restore strict Clippy after v1 tooling removal",
+    "slug": "real-tooling-dead-code",
+    "version": "v0.92",
+    "generation": 7
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Restore strict Clippy on current main by removing the obsolete unreachable v1 tooling helper introduced by PR #320.",
+      "required_outcome": "The affected ADL crate passes focused CLI tests and strict all-target Clippy while preserving the completed v1 tooling sunset and leaving #259 untouched.",
+      "declared_scope": [
+        "adl/src/cli/mod.rs",
+        "adl/tests/issue_327_removed_tooling.rs",
+        ".csdlc/prepared/issues/327/validate_preparation_bundle.py",
+        ".csdlc/prepared/issues/327/validate_changed_paths.py",
+        ".csdlc/issues/327",
+        ".csdlc/evidence/327"
+      ],
+      "authority_boundary": [
+        "#327 owns only the dead helper correction and issue-local proof",
+        "#259 owns Runtime serving eligibility and is not modified",
+        "Independent C-SDLC v2 binaries remain sole lifecycle authority"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Never patch #259 or tracked primary main",
+        "Bind beneath /Volumes/FastWork/adl-worktrees before source edits",
+        "Preserve all unrelated root staging",
+        "No optional or paid CI"
+      ]
+    }
+  }
+}

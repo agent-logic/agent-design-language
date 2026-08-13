@@ -1,0 +1,236 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 327,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "4c11af5db97bf747fda030cf8022c5c9a7dc1f107d60165655873661ac7c4288",
+  "phase": "published",
+  "generation": 7,
+  "digest": "5895656ff015c7c7e1eaa137064eab9b88173b5e9ede8bf53f50c1d42beda421",
+  "branch": "codex/327-real-tooling-dead-code",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-327-real-tooling-dead-code",
+  "review_assignment": {
+    "reviewer": "fresh-session:7a81c032-1c4d-4e2f-a6b9-93d8e75f2041",
+    "assigned_by": "codex:baseline-ci-real-tooling",
+    "revision": "git-blake3:4cd334aedd52473bcde6d32759a83647958744b8:0d6532f6b5d18758f9350a7ed577cf8fef61ac5c6cd7c3fcff5d214ef171720b",
+    "scope": [
+      "adl/src/cli/mod.rs",
+      "adl/tests/issue_327_removed_tooling.rs",
+      ".csdlc/issues/327"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:7a81c032-1c4d-4e2f-a6b9-93d8e75f2041",
+    "scope": [
+      "adl/src/cli/mod.rs",
+      "adl/tests/issue_327_removed_tooling.rs",
+      ".csdlc/issues/327"
+    ],
+    "reviewed_revision": "git-blake3:4cd334aedd52473bcde6d32759a83647958744b8:0d6532f6b5d18758f9350a7ed577cf8fef61ac5c6cd7c3fcff5d214ef171720b",
+    "findings": [],
+    "residual_risks": [
+      "Inspection-only review; local tests were not rerun. Prior focused regression, strict Clippy, and hosted required CI were green before metadata-only review recovery."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 327,
+    "pull_request": 329,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/329",
+    "base": "main",
+    "head": "codex/327-real-tooling-dead-code",
+    "revision": "git-blake3:9c411af9877b6657576e37d7b4b3f4eb523fe9d9:093ea1cb70bdd151c24166a666efcf56c3d3e87409b6b1dc039bd288d52f6930",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/327/design.md",
+  "diagram_path": ".csdlc/prepared/issues/327/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:17B993D6-F43B-4D12-B96B-AF42D28524CF",
+      "revision": "6e02af29cf146f3e06f54a0c50c81a2520efcbdd8e97fcc7cde145c840654fdf"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "203ad0743bb5dae381921da701545b20ae59002a635cfbf24bd1ce02d6afc79f",
+      "rendered_digest": "ef2ee9824d3b8d60beb4a190cf8998ac20f261db07bd4c18fbf19c13d35e4876",
+      "ast_digest": "8cb676f1f81a8affd4f502b321480e483abce4f7b9cb05e5b7e21d3c5b53279b"
+    },
+    "stp": {
+      "values_digest": "eb40102234690000d49a49ae1877306427553304a6f3cbea5481c2879ace1200",
+      "rendered_digest": "e5b76088cfe0f672a2740c12357ae1d9e854c14419bba03fc0177fdc8fbbedba",
+      "ast_digest": "bf2779cee99a603cf280881e64d1d3041a654e8ba20f717311e5034e98b8da87"
+    },
+    "spp": {
+      "values_digest": "2cce6acbe5ff852e3968a940d22a1172367d189271bcfb356d7e3a96b2b81ad0",
+      "rendered_digest": "a98b1b8961764c6918e35b11fab5ef0f85fcbd16500f4d9f9e215fc2ca05c714",
+      "ast_digest": "122fe482e3b2794279f5a2307a7598756860db18333f4003be6b398750b8fb81"
+    },
+    "vpp": {
+      "values_digest": "66994258bac21e6971f6cdebb7b9f8d8731f81338478fadbe1a3b7c391c24d5c",
+      "rendered_digest": "45c80d677c65ff1bb0a36ffad0aa7c717895562ec408e3957f30101b0051b466",
+      "ast_digest": "b1e5b2e1351645dbf6408fc24bc57789e3a3c5cbb49262d95cd642e9c934ebea"
+    },
+    "srp": {
+      "values_digest": "9bf31b9d44a1df6eb645268348aecfb0c0014ba073d212678cf3d9c6cfb8d44a",
+      "rendered_digest": "a08828ebb02ff539fbe4b73bb5944c8e0a2c5e8f0729ab9d80a68039b614a43b",
+      "ast_digest": "6d4b254f82fd836b790b4f3c5fb96d719e28962b975a9815b0d1eedfa8ce567c"
+    },
+    "sor": {
+      "values_digest": "9aa16a9f5265322fe52fc1b09c6b270e1ce84712372a51401e0841f7697dc589",
+      "rendered_digest": "3c61803668d30839aed29847107bf0c9437419a593919531133b36b02f292419",
+      "ast_digest": "bbae0a1e7b5ee469d07dadebd6bad9d42f71248a83d3f0b24b5ca0ee47fb6b84"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:baseline-ci-real-tooling",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:5fa416f3-1811-4126-b4bd-e3e37530cf1b",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:baseline-ci-real-tooling",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:baseline-ci-real-tooling",
+      "reason": "Recover review authority onto the first publication metadata commit so terminal delivery can verify canonical review evidence from an ancestral commit containing the tracked issue index."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:7a81c032-1c4d-4e2f-a6b9-93d8e75f2041",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:baseline-ci-real-tooling",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:baseline-ci-real-tooling",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:17B993D6-F43B-4D12-B96B-AF42D28524CF",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:baseline-ci-real-tooling",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:baseline-ci-real-tooling",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "fresh-session:5fa416f3-1811-4126-b4bd-e3e37530cf1b",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:baseline-ci-real-tooling",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:baseline-ci-real-tooling",
+      "reason": "Recover review authority onto the first publication metadata commit so terminal delivery can verify canonical review evidence from an ancestral commit containing the tracked issue index.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex:baseline-ci-real-tooling",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 5,
+      "actor": "codex:baseline-ci-real-tooling",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 6,
+      "actor": "fresh-session:7a81c032-1c4d-4e2f-a6b9-93d8e75f2041",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 7,
+      "actor": "codex:baseline-ci-real-tooling",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

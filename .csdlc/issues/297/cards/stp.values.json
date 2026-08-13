@@ -1,0 +1,56 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 297,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Recover and classify preserved failed issue projections",
+    "slug": "preserved-failed-projection-recovery",
+    "version": "v0.92",
+    "generation": 26
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Issue #297 recovery subsystem and proving tests only; no #296/#294/#291 product mutation, merge, or closeout.",
+      "deliverables": [
+        "Typed read-only classification inventory with exact candidate identities, manifests, and disposition",
+        "Typed immutable-ledger recovery that restores a verified canonical projection and archives rejected evidence",
+        "Separate exact-identity cleanup operation with evidence-preserving receipts",
+        "Crash/restart, collision, symlink, race, CAS, topology, corruption, ambiguity, idempotency, and subsequent-commit proof"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Classify inventories canonical, backup, preserved, and active attempts without mutation and emits exact identities, manifests, validity, and disposition",
+        "AC-2: Recover restores exactly one verified prior projection while preserving rejected evidence and append-only recovery provenance",
+        "AC-3: Collisions, dangling symlinks, hardlink aliases, and post-preflight races cannot install or delete an unauthorized inode",
+        "AC-4: Recovery is restart-idempotent across every rename and parent-directory fsync boundary",
+        "AC-5: A complete recovery permits a later ordinary typed commit; incomplete or ambiguous attempts still fail closed",
+        "AC-6: Cleanup is separate, exact receipt/identity/manifest/CAS/topology guarded, and never removes unclassified or unrelated content",
+        "AC-7: Corruption, namespace mismatch, stale CAS, wrong worktree/branch, and multiple plausible candidates fail closed without partial mutation",
+        "AC-8: Existing initialized/ready recovery and issue #291 semantics remain unchanged",
+        "AC-9: Issue #296 remains blocked until #297 is terminal and ancestral"
+      ],
+      "dependencies": [
+        "#296 blocked on terminal ancestral #297",
+        "#294 remains blocked through #296"
+      ],
+      "repo_inputs": [
+        "csdlc-v2/src/store.rs",
+        "csdlc-v2/src/schema.rs",
+        "csdlc-v2/src/lib.rs",
+        "csdlc-v2/src/bin/csdlc-edit.rs",
+        "csdlc-v2/tests/gate5.rs",
+        "csdlc-v2/tests/card_identity.rs",
+        "docs/tooling/INDEPENDENT_EXACT_HEAD_REVIEW.md"
+      ],
+      "non_goals": [
+        "Issue #296, #294, or #291 implementation/card changes",
+        "Automatic evidence deletion or general recursive cleanup",
+        "Lifecycle rollback, phase rewriting, or audit rewriting",
+        "Raw filesystem/manual .csdlc repair",
+        "Merge or closeout"
+      ]
+    }
+  }
+}
