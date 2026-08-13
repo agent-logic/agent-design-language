@@ -4,54 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "fac452b8127405cd253f1008a5858c5ee2a5c30be11ef5964720538e609b79d8",
-  "phase": "published",
-  "generation": 16,
-  "digest": "75cb3748c4aa38c7eec91b413031fac14266d412974bcaee8312db9c92e45d04",
+  "phase": "implemented",
+  "generation": 17,
+  "digest": "f0dec40cb79c4ed5916e7cf1a532dda608d7b3080377b0e1c01ccbb2f0971378",
   "branch": "codex/301-title-only-operation-provenance",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-301-title-only-operation-provenance",
-  "review_assignment": {
-    "reviewer": "fresh-session:5905b3b9-4ad3-4311-ad06-4426f171f438",
-    "assigned_by": "codex:issue-301-janitor",
-    "revision": "git-blake3:1e5d65a5bdc29345397fed47a2a3ee64794d6254:9a00c166234e5e49b0b02ca9942564651926eb3c0f9a3f6079b8272a0a4957d0",
-    "scope": [
-      ".csdlc/issues/301",
-      ".csdlc/prepared/issues/301",
-      ".csdlc/evidence/301",
-      "csdlc-v2/src/github.rs",
-      "csdlc-v2/tests/gate_github_actions.rs"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:5905b3b9-4ad3-4311-ad06-4426f171f438",
-    "scope": [
-      ".csdlc/issues/301",
-      ".csdlc/prepared/issues/301",
-      ".csdlc/evidence/301",
-      "csdlc-v2/src/github.rs",
-      "csdlc-v2/tests/gate_github_actions.rs"
-    ],
-    "reviewed_revision": "git-blake3:1e5d65a5bdc29345397fed47a2a3ee64794d6254:9a00c166234e5e49b0b02ca9942564651926eb3c0f9a3f6079b8272a0a4957d0",
-    "findings": [],
-    "residual_risks": [
-      "Review was read-only and did not rerun cargo, csdlc-validate, CI, lifecycle, or GitHub state checks.",
-      "Retained .csdlc/evidence/301/title-only-github-issue-update.log is older 9-test evidence; generation-14 SOR records post-merge validation as local-command evidence for 10 passing tests.",
-      "Untracked operational files .csdlc/locks/301.lock and .csdlc/publication/301.intent.json were present outside assigned review scope and were preserved."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 301,
-    "pull_request": 304,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/304",
-    "base": "main",
-    "head": "codex/301-title-only-operation-provenance",
-    "revision": "git-blake3:d09a79a5c6e06c1fbe91e34c5317d6a7f3854080:c45f35601123023231148c575a393148f0e7886bc1255b6a256240b136c8ea9d",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -65,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2b2c9e879b05db662632003d5f0e00cdb402cc8c5c596d1d9d090f6d676f1e18",
+      "values_digest": "ce14155dd725684622db788a57c58a6dec629b164f23a02373e6194508f28143",
       "rendered_digest": "1f602d55abfde140b71a7cdd01db213d96b4e5da322e26363d45f7fde7749164",
       "ast_digest": "dd6e1f4ed857ac2203d39182ca287b0e7a6cb9b24ca5f57bf858eb994e976e6d"
     },
     "stp": {
-      "values_digest": "83a4eb4bfee0c0a5df0f73839a18b687a3e6f3e232c4867bdf736bfa94e7f4b4",
+      "values_digest": "06201230c9e8267b69e754ba4b50e09d024db149f85ce273e65c74da48158818",
       "rendered_digest": "e6a832def0573767be1fad1b65f7745f1277478e67daca8f569ead5a5ddfbbb1",
       "ast_digest": "b57938e52b725b7ba654620cd7afc3cd854bd01a38e08c1f4cf3175bf509490f"
     },
     "spp": {
-      "values_digest": "605059d3b1c483511a15e3db0084ae75b9538611693a59ba61d843c505cacae4",
+      "values_digest": "f7fefa2bc7e1b2f93b6cb8a0f733282ae369a470fd512673b61b26b228a907dd",
       "rendered_digest": "cfe63ad0859216ac10f3217783f8024247bbf7c0bc8ed373fa58e0a50b5b4f0a",
       "ast_digest": "580e50826ca988c2d4e57d3adb21c05509ce8e82651820a1cb58146525c63451"
     },
     "vpp": {
-      "values_digest": "5ca7e946162f2da0b6e87f56ff89142b7db181a3481858a74f4f1e24a5a261b9",
+      "values_digest": "1ed0f8cac351a6399d2908d09af98d54d18feedbc6505284cfa81443b6dd18f2",
       "rendered_digest": "4ef60e2e9967dfbcb0f5394ace805d298cc2a813aecf357f6a480cc32c9fddd8",
       "ast_digest": "a643837775ef62d34b85f62c552b4571efb1ade678f67418ec46bd047fcdb45b"
     },
     "srp": {
-      "values_digest": "16bae7afebb6ae7ba8cca68f1c03a1e9d7e28e18246f3911a7b9d3d4391a51f8",
-      "rendered_digest": "fe632b2522e7111d7f62a7cce97bc8672e9e8d76066eaa19ce6d48ee52bef33c",
-      "ast_digest": "347473dd8f3538bc40bf1745b26ea1f78ac4b6482506f2b9eae459fe623ffc0b"
+      "values_digest": "bb7c4fab6f97163d2f60aab24df24d620a2e42792e5c220a21933c212a5a5847",
+      "rendered_digest": "7cbe15aed7e484b25dbf57ca12c2050226860f294132192032d5109a82bcd9a4",
+      "ast_digest": "8923177b498751ced3d5aa7bca4cc2d01b420bbd668c4dbaf4292c8b2323a62b"
     },
     "sor": {
-      "values_digest": "54c118b247a5bd5794ba62cf18cb2a79931a662987fe0593df80e4118b2394f4",
-      "rendered_digest": "e4ff30ae3d04016a3f814a53d1d033283c181a628975f2b1e322fbcbd8d4bc52",
-      "ast_digest": "568602f27ce6eb7e4f57085e591588be4c19bc9228803079c1aabb0b6f68adf3"
+      "values_digest": "0e1a019ab05f24dba021041672a612b7e447841a2ce7cbb516e69d69353c0c5f",
+      "rendered_digest": "5aaf7bcb2fc89b67ef8248a2932f5ccaf30add7cfa7cd43d0a9dc0f28f9541fc",
+      "ast_digest": "b6b6555c6bbe0400ad5254bcc76d83c6b931e0d71423b25de2abeccdb397ee98"
     }
   },
   "transitions": [
@@ -151,6 +111,13 @@
       "to": "published",
       "actor": "codex:issue-301-janitor",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-301-janitor",
+      "reason": "origin/main advanced to 193f77d24a693f955a2fcf3bdfc759ad1db8aff4 after #258; PR #304 remains based on da7994f189002f27c79b6fb5e13926a8093dd9ac with overlapping csdlc-v2/src/github.rs and csdlc-v2/tests/gate_github_actions.rs changes, so recover stale review/publication truth before resync and fresh exact-head review."
     }
   ],
   "audit": [
@@ -314,6 +281,13 @@
       "actor": "codex:issue-301-janitor",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 24,
+      "generation": 17,
+      "actor": "codex:issue-301-janitor",
+      "reason": "origin/main advanced to 193f77d24a693f955a2fcf3bdfc759ad1db8aff4 after #258; PR #304 remains based on da7994f189002f27c79b6fb5e13926a8093dd9ac with overlapping csdlc-v2/src/github.rs and csdlc-v2/tests/gate_github_actions.rs changes, so recover stale review/publication truth before resync and fresh exact-head review.",
+      "operation": "recover_review"
     }
   ]
 }

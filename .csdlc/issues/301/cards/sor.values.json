@@ -7,7 +7,7 @@
     "title": "[v0.92][C-SDLC][defect] Persist provenance for title-only issue updates",
     "slug": "title-only-issue-update-operation-provenance",
     "version": "v0.92",
-    "generation": 16
+    "generation": 17
   },
   "status": "pre_phase",
   "content": {
@@ -81,8 +81,8 @@
           "evidence_ref": "local-command:365d61ae9003bd8ae11d6c83fb4929a9b2115269:clippy-gate-github-actions:passed"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
