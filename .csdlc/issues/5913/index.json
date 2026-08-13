@@ -4,13 +4,41 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "6a5a8a2f2350b7ffe3899f5dad5e5b39a2054da2f0c9138ac388b2c93b8ff5e7",
-  "phase": "implemented",
-  "generation": 12,
-  "digest": "907da5a2ea2907d29d7f7d9278e02a90d5fc25ec10fdbccb5defa457b7641f9a",
+  "phase": "reviewed",
+  "generation": 13,
+  "digest": "4aeb10873fc027674198eb09f290be1b2ac3ad7940d392cedf2cfb06e8036d5a",
   "branch": "codex/5913-repair-adl-review-compatibility-routing",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5913-adl-review-routing",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:a5fd39fb-3d08-4635-805e-3abc9669e784",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:ba2132fceb5a5edfc12501e2557a8b64af6607dc:c91c4d65b9cd32650efb18604426a4276e9794bba3e1fd698e21a0f4a8958678",
+    "scope": [
+      ".csdlc/evidence/5913",
+      ".csdlc/issues/5913",
+      ".csdlc/prepared/issues/5913",
+      "adl/src/cli/mod.rs",
+      "adl/tools/test_adl_review_compatibility.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:a5fd39fb-3d08-4635-805e-3abc9669e784",
+    "scope": [
+      ".csdlc/evidence/5913",
+      ".csdlc/issues/5913",
+      ".csdlc/prepared/issues/5913",
+      "adl/src/cli/mod.rs",
+      "adl/tools/test_adl_review_compatibility.sh"
+    ],
+    "reviewed_revision": "git-blake3:ba2132fceb5a5edfc12501e2557a8b64af6607dc:c91c4d65b9cd32650efb18604426a4276e9794bba3e1fd698e21a0f4a8958678",
+    "findings": [],
+    "residual_risks": [
+      "Review was bounded to #5913 assigned scope and focused local validation; full workspace tests, CI, publication guard, GitHub state checks, provider-backed review execution, and terminal closeout were not run.",
+      "code-review remains deterministic fixture mode only; provider-backed CodeFriend execution is intentionally outside this issue."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +53,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "743948bacc6d481bf2fd770d38138983861587b81ed148c9c0e798705414dc4d",
+      "values_digest": "515b5f9c5f17df0f39b4fc51e9ff29eeea7ba0fb06b738efced4fa22a18ccd57",
       "rendered_digest": "34e93594d22d0195e945568476646f2084febad9f0f18b2232e969179fa51b19",
       "ast_digest": "8a3784fb1584110103a35108a68d7e983f1c62444d54a010be1ad799cc5b96ee"
     },
     "stp": {
-      "values_digest": "b5de20233b525bb2478b6126c554a7b6391c47f664ec07b79e06d2ad11878907",
+      "values_digest": "00ab745c19970323e3eda0e48cc0d78c1de4208f17a7049ea2d526a6c7f152e2",
       "rendered_digest": "e61895bbba87ace15a7e53bb5136efc29bc2105ea06c81e503a14e471defed04",
       "ast_digest": "52ae355f59153da999d724c2133a1aa190245ed3cae203677f9876be3df89695"
     },
     "spp": {
-      "values_digest": "cbf453e98511f78b9ee2c72d53f42605b83efcdc3187bdc053f7b34e291c60b4",
+      "values_digest": "34345cbd39a9d5e90f846df1f9be3c76e840360f8c09818b18439e391242d011",
       "rendered_digest": "5ea449b178e9fa4c571afac0d4731e45b73cd16ad467d4ee392615b957e0108c",
       "ast_digest": "81b8b8e01ed790ee1cf2da35404bb201d22fcccc25fb2186107f8a1c9b629aa5"
     },
     "vpp": {
-      "values_digest": "83d43632ea7efb9560e3cc384b0d54ad0c71c4cd54f070eb24fa537e037fe236",
+      "values_digest": "2d35212584b6b48dd923300254af448e8599c96c4645cd1eb72da210b6990dd4",
       "rendered_digest": "d07e6e27fd8972968faa8dc97c4aa23317033aef1913f1a4818c41e696c66117",
       "ast_digest": "2220360798039c1e52115627c0868afe1bd7f8cd523c639bb8905c068c9c6b86"
     },
     "srp": {
-      "values_digest": "4f82493fefd8a257b9e0223d7e85e9bc944db1c1ff719eb47e9ac291eeecb1dd",
-      "rendered_digest": "d08570989652cbecbd0bf33fa1225afc1b96f91c800c8037cc16171f6185d7d9",
-      "ast_digest": "ecf0737f581d2dbc15721bcd086c1a9367b52b4f6f9bb1ebc04179c93adbc831"
+      "values_digest": "466487599cce11819c454d6bb69651841c06c2d1f07d92e92ef3942401bada5c",
+      "rendered_digest": "94fddc7d5a3aed0e9d9b2d7178ecb837a14fbb998f09b9e2072da10667f6e8af",
+      "ast_digest": "e56d6551657789d7b72e489a33721fbb51df80408054628b71e15831c4087f63"
     },
     "sor": {
-      "values_digest": "c8db32280d08afedf4e69f9245a00305ba0cee8b752b9d16d467c29014b0f7f8",
+      "values_digest": "6e4f8189cff9602c7e6185201fb80974dfd8096e7c8f2ef160cddb9afc3809b0",
       "rendered_digest": "22e5d28a3d599e8b9fd60e5ef0c4305b3e9e6e1a8c0df334c7631bd77805eea3",
       "ast_digest": "425ff51caa597cc84250ec6aeac9c5bf200566f5d3396901a6279cd2568ac39b"
     }
@@ -76,6 +104,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -197,6 +232,20 @@
       "actor": "codex:/root",
       "reason": "Correct #5913 SOR validation purpose truth after hidden-command diagnostic review finding; dedupe repeated stale-help validation entries.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Repair #5913 adl-review read-only compatibility routing for verify-repo-contract and deterministic fixture code-review without provider credentials or v1 lifecycle resurrection.\",\"changes\":[\"Route adl-review verify-repo-contract to a direct markdown repository-review contract verifier instead of the removed v1 tooling multiplexer.\",\"Route adl-review code-review fixture mode to the deterministic CodeBuddy/CodeFriend showcase smoke path and validator, rejecting provider-backed backends for this bounded issue.\",\"Update the focused compatibility regression so it no longer uses adl tooling as an oracle and covers good/bad contract packets, deterministic fixture smoke, narrowed help output, and hidden stale command diagnostics without v1/multiplexer wording.\"],\"artifacts\":[\"adl/src/cli/mod.rs\",\"adl/tools/test_adl_review_compatibility.sh\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_adl_review_compatibility.sh\"],\"purpose\":\"Initial focused compatibility regression for repaired adl-review read-only compatibility surface and fail-closed command boundaries\",\"outcome\":\"passed\",\"evidence_ref\":\"adl-review-compatibility.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl-review\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Initial strict relevant Rust lint for repaired adl-review dispatch changes\",\"outcome\":\"passed\",\"evidence_ref\":\"strict-clippy-adl-review.log\"},{\"command\":[\"bash\",\"adl/tools/test_adl_review_compatibility.sh\"],\"purpose\":\"Focused compatibility regression after hidden stale-command diagnostic wording fix\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5913/review-finding-fix-compatibility.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl-review\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict relevant Rust lint after hidden stale-command diagnostic wording fix\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5913/review-finding-fix-clippy.log\"}]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
