@@ -180,11 +180,11 @@ Seal replicated Observatory authority with durable quorum, deadline, exact servi
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
