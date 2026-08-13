@@ -1,22 +1,24 @@
-HEAD 299c5bb16577fc5ae462b09a5a011311204ae0bd
+HEAD f620b0aaa433ba8f1527e475bccb241c7f797dc0
 WORKTREE_STATUS_DIGEST sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
 WORKTREE_STATUS_BEGIN
 CLEAN
 WORKTREE_STATUS_END
 ARGV env CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/299/csdlc-v2 cargo nextest run --manifest-path csdlc-v2/Cargo.toml --test archived_projection_cleanup --no-tests=fail
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.08s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.10s
 ────────────
- Nextest run ID d27b758e-e676-446b-931e-b58d41194fbb with nextest profile: default
-    Starting 9 tests across 1 binary
-        PASS [   0.404s] (1/9) csdlc-v2::archived_projection_cleanup cleanup_requires_terminal_gate_before_mutation
-        PASS [   0.476s] (2/9) csdlc-v2::archived_projection_cleanup cleanup_rejects_replacement_inode_before_capture
-        PASS [   0.486s] (3/9) csdlc-v2::archived_projection_cleanup cleanup_rejects_hardlink_and_mode_drift_before_mutation
-        PASS [   0.493s] (4/9) csdlc-v2::archived_projection_cleanup cleanup_rejects_symlink_and_non_empty_directory
-        PASS [   0.526s] (5/9) csdlc-v2::archived_projection_cleanup cleanup_preserves_public_replacement_before_placeholder_disposal
-        PASS [   0.526s] (6/9) csdlc-v2::archived_projection_cleanup cleanup_resumes_after_capture_receipt_before_removal
-        PASS [   0.547s] (7/9) csdlc-v2::archived_projection_cleanup cleanup_removes_only_exact_file_and_empty_directory_then_repeats_idempotently
-        PASS [   0.808s] (8/9) csdlc-v2::archived_projection_cleanup cleanup_rejects_parent_replacement_and_corrupt_receipt
-        PASS [   8.002s] (9/9) csdlc-v2::archived_projection_cleanup cleanup_restarts_across_intent_receipt_fsync_and_disposal_boundaries
+ Nextest run ID 99c4273a-d5fd-4693-be05-a54888f04d71 with nextest profile: default
+    Starting 11 tests across 1 binary
+        PASS [   0.164s] ( 1/11) csdlc-v2::archived_projection_cleanup cleanup_requires_terminal_gate_before_mutation
+        PASS [   0.400s] ( 2/11) csdlc-v2::archived_projection_cleanup cleanup_requires_completed_recovery_and_manifest_before_mutation
+        PASS [   0.404s] ( 3/11) csdlc-v2::archived_projection_cleanup cleanup_rejects_coherent_caller_identity_forgery_without_manifest_binding
+        PASS [   0.477s] ( 4/11) csdlc-v2::archived_projection_cleanup cleanup_rejects_replacement_inode_before_capture
+        PASS [   0.492s] ( 5/11) csdlc-v2::archived_projection_cleanup cleanup_rejects_symlink_and_non_empty_directory
+        PASS [   0.505s] ( 6/11) csdlc-v2::archived_projection_cleanup cleanup_rejects_hardlink_and_mode_drift_before_mutation
+        PASS [   0.510s] ( 7/11) csdlc-v2::archived_projection_cleanup cleanup_preserves_public_replacement_before_placeholder_disposal
+        PASS [   0.511s] ( 8/11) csdlc-v2::archived_projection_cleanup cleanup_resumes_after_capture_receipt_before_removal
+        PASS [   0.535s] ( 9/11) csdlc-v2::archived_projection_cleanup cleanup_removes_only_exact_file_and_empty_directory_then_repeats_idempotently
+        PASS [   0.791s] (10/11) csdlc-v2::archived_projection_cleanup cleanup_rejects_parent_replacement_and_corrupt_receipt
+        PASS [   8.269s] (11/11) csdlc-v2::archived_projection_cleanup cleanup_restarts_across_intent_receipt_fsync_and_disposal_boundaries
 ────────────
-     Summary [   8.002s] 9 tests run: 9 passed, 0 skipped
+     Summary [   8.270s] 11 tests run: 11 passed, 0 skipped
 STATUS 0

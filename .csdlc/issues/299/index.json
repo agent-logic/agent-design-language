@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cc1c0d0bd318f0bbe41d3b610f2c6f17dff214cca5d5fc13b831f5d4c7ba3af8",
   "phase": "implemented",
-  "generation": 13,
-  "digest": "dabcda1be7829a4632085dfdf55beb5b75656b890c047b03a852ee62557c2756",
+  "generation": 14,
+  "digest": "fe3a3dcd38aa0272486201173767db905ea333bdfbc22ede57424cecf4a14690",
   "branch": "codex/299-exact-authority-archived-projection-cleanup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-299-exact-authority-archived-projection-cleanup",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7a940cb9908fce1f09906ae9bd21b07e84134e1fa9ba8c343ffb354423c87ae3",
+      "values_digest": "8fa2957c989a370ef8b624d12f4752d3cd784e1226ae2e8f7154e40f996d016d",
       "rendered_digest": "610615d8dedbdc86ee75bdd5a73f74f3bb2e8acb65e609092b57cea776d694e2",
       "ast_digest": "135c49ea4619e7241bb8a2a08658257e2494075146388ceec11a47ab4ad4989d"
     },
     "stp": {
-      "values_digest": "e2ad3b55590a9e85d9e95cbb1516d8be797b2a9ddf0d1dc1d22e2bfd9b605722",
+      "values_digest": "40da5b10c5ab2180916525f5c340fd5e2372ef5b15078f781d8a6b92d8319192",
       "rendered_digest": "7cc0b6cd5b8da81081ec555b7020b7eeef657106b4422d2916d790b73fec7b03",
       "ast_digest": "120ff67e5c1f29f0c721ea66410ef5094714e20dd1540ff7453ab0d7be52bbaa"
     },
     "spp": {
-      "values_digest": "120df922bd7813de3f9e71c6d04040f760a3d7a5cedf141ceed83b9cdf02a0e2",
+      "values_digest": "3312bfb495b347e8800e9aa47357ac4540f834d1e7bb7784cfe254bc96936fea",
       "rendered_digest": "6fa872bca304faebde588f7b2b08861e046f046fd6f8294031cf1e6480b2b64e",
       "ast_digest": "88ff4df3da3a68e0e67c31f116ce960629085890b415f2ae3f961796bf627f56"
     },
     "vpp": {
-      "values_digest": "30d3d8fc71b99b81b12acd3dc274f163a2f8c5ff19414976301139ca9b1e78e4",
+      "values_digest": "713c817763d4246e81c04af2103a1e312b280656e9375dc8f0cc1dc89f60e41c",
       "rendered_digest": "55f21566d759d3ea892f8db6c03520adac829dfcf1b9994547eaeebb64138c33",
       "ast_digest": "c385bd006ea6a8c00f53fc87c5194dcf6b447df3f63a96e4199bb3a59804f67c"
     },
     "srp": {
-      "values_digest": "c8e9c05deeaea44b85567ea3ce5ad8822fe31c8a9e88ac61a5eb308d3e094ef8",
+      "values_digest": "653219034c17e476eeca75609c6982d5dc953e583ee554c542a0f5c3452bd677",
       "rendered_digest": "708684ae00ce6a56e1c3665c3abd6cd750ef28f3e409cec7f883b9e1d9dda135",
       "ast_digest": "df87168b6d92ac454e83d542bb26c238298450f0a185b815117bef325c33c81a"
     },
     "sor": {
-      "values_digest": "a486f1fcc33c1f59b2ba52bfe4a27435f8305e3137b0b04ad0da398fdaabe58c",
-      "rendered_digest": "70b9cb88c94b5be3580e422c77514cb1bb37acd51f70a55fbdde59b2c47bc6f8",
-      "ast_digest": "17bbab1090d7cf0b8e8f5cd5688a6a44d83e307f7bbc59191c99b806e8bb96e3"
+      "values_digest": "5c7d32739858ed6694322208fdfe6f2c103467417f1d04f86d277919785abd01",
+      "rendered_digest": "e06a441f8c81c9f65d4a9d867156a0e65102a6597e802c705fc26028f02af7cd",
+      "ast_digest": "54c74105249b3fd72d7f6073f16355c304c97c3391bbd84c6ef5923dae17c5d6"
     }
   },
   "transitions": [
@@ -197,6 +197,13 @@
       "actor": "codex:worker-5",
       "reason": "Recover failed exact review r3: cleanup validated terminal ancestry but did not require a completed #298 recovery receipt and canonical/archive manifest binding before mutation, so arbitrary same-device archived roots with caller-supplied identities could be cleaned.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:worker-5",
+      "reason": "record fix for review P1 requiring completed recovery receipt plus canonical archive manifest authority before cleanup mutation",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented #299 exact-authority archived-projection cleanup and fixed the exact-review P1 that cleanup could start from terminal ancestry plus caller-supplied identities without a completed #298 recovery receipt and canonical/archive manifest binding. The cleanup request now requires a completed recovery receipt and canonical archive manifest, validates their content digests and terminal/root/node bindings before creating any cleanup ledger namespace or receipt, rejects caller-supplied coherent identity forgery, and keeps the cleanup engine bounded to the verified manifest entries.\",\"changes\":[\"Added completed_recovery_receipt, expected_recovery_receipt_digest, canonical_archive_manifest, and expected_archive_manifest_digest to the typed cleanup request.\",\"Added completed recovery receipt validation before cleanup-ledger creation: schema csdlc.completed_recovery_receipt.v1, issue #298, state completed, terminal digest match, canonical archive manifest digest match, and BLAKE3 file digest match.\",\"Added canonical archive manifest validation before cleanup-ledger creation: schema csdlc.canonical_archive_manifest.v1, issue #298, terminal digest match, canonical archived root match, safe relative paths, exact manifest node identity match to request nodes, duplicate rejection, and hardlink/link-count rejection before ledger mutation.\",\"Preserved the acyclic authority chain terminal -> completed recovery receipt -> canonical archive manifest -> exact archived root/nodes to avoid circular digest authority.\",\"Expanded focused tests to 11 cases, including missing completed receipt, bad canonical manifest, and coherent caller-supplied identity forgery that proves arbitrary same-device files cannot substitute for completed recovery receipt plus manifest authority and that no cleanup namespace/receipt is created before validation.\",\"Preserved ownership boundaries: edited only csdlc-v2/src/projection_cleanup.rs and csdlc-v2/tests/archived_projection_cleanup.rs for source/test changes; did not edit projection_recovery.rs, store.rs, or gate5.rs.\",\"Recovered the failed r3 review assignment with the reviewer P1 reason before remediation; no PASS was recorded for the failed review.\",\"Committed exact refreshed evidence hashes after the authority-binding fix: focused eaa37953b161fb935129f6bcc242187e8fdcc7aabc690792012988984bf93f4b; strict Clippy c7afc5c0f82ed189010e530ca1ffef20901b01abeae6599cf8ecb645fcc1d9ba; fmt/diff 988cb9384e1cf6665ca81ae423d31828836fa59b0295e12e7db060f90f3e0c1c; full serial RED cca12d5a364319d9baf25c251da5ab81812df855d8ec71b7b694e64e11854ce6; isolated read c3ed508f285c8ad1512e74158f6d164df4bd9c2bdf0407b820fc9eda79fd599c; isolated marker 3b8cbe93e94b0f863d9eb406d9e295ba9bde4ce525a42a31330f53f6a3a4ddd6.\",\"Preserved full-suite RED truth: the serial full suite remains failed in gate_github_actions outside the #299-owned cleanup surface; current focused proof and isolated gate reruns do not convert the broad suite result to PASS.\"],\"artifacts\":[\"csdlc-v2/src/projection_cleanup.rs\",\"csdlc-v2/tests/archived_projection_cleanup.rs\",\".csdlc/evidence/299/archived-projection-cleanup-focused.log#sha256=eaa37953b161fb935129f6bcc242187e8fdcc7aabc690792012988984bf93f4b\",\".csdlc/evidence/299/csdlc-v2-strict-clippy.log#sha256=c7afc5c0f82ed189010e530ca1ffef20901b01abeae6599cf8ecb645fcc1d9ba\",\".csdlc/evidence/299/fmt-diff-check.log#sha256=988cb9384e1cf6665ca81ae423d31828836fa59b0295e12e7db060f90f3e0c1c\",\".csdlc/evidence/299/csdlc-v2-full-serial.log#sha256=cca12d5a364319d9baf25c251da5ab81812df855d8ec71b7b694e64e11854ce6\",\".csdlc/evidence/299/gate-github-actions-issue-read-isolated.log#sha256=c3ed508f285c8ad1512e74158f6d164df4bd9c2bdf0407b820fc9eda79fd599c\",\".csdlc/evidence/299/gate-github-actions-operation-marker-isolated.log#sha256=3b8cbe93e94b0f863d9eb406d9e295ba9bde4ce525a42a31330f53f6a3a4ddd6\"],\"validation\":[{\"command\":[\"env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/299/csdlc-v2\",\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"archived_projection_cleanup\",\"--no-tests=fail\"],\"purpose\":\"Focused #299 archived-projection cleanup matrix after P1 authority-binding remediation; recaptured from clean committed base f620b0aaa with explicit HEAD, argv, worktree status digest, and status; evidence sha256 eaa37953b161fb935129f6bcc242187e8fdcc7aabc690792012988984bf93f4b.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/299/archived-projection-cleanup-focused.log\"},{\"command\":[\"env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/299/csdlc-v2\",\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict Rust lint proof for #299 source and tests after P1 remediation; recaptured from clean committed base f620b0aaa with explicit HEAD, argv, worktree status digest, and status; evidence sha256 c7afc5c0f82ed189010e530ca1ffef20901b01abeae6599cf8ecb645fcc1d9ba.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/299/csdlc-v2-strict-clippy.log\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--check\",\"&&\",\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Formatting and committed-range whitespace hygiene from clean committed base f620b0aaa; recaptured with explicit HEAD, argv, worktree status digest, and status; evidence sha256 988cb9384e1cf6665ca81ae423d31828836fa59b0295e12e7db060f90f3e0c1c.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/299/fmt-diff-check.log\"},{\"command\":[\"env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/299/csdlc-v2\",\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--workspace\"],\"purpose\":\"Prior serial full csdlc-v2 suite attempt before review readiness; remains RED in gate_github_actions and was not rerun or converted to PASS by focused #299 remediation proof; evidence sha256 cca12d5a364319d9baf25c251da5ab81812df855d8ec71b7b694e64e11854ce6.\",\"outcome\":\"failed\",\"evidence_ref\":\".csdlc/evidence/299/csdlc-v2-full-serial.log\"},{\"command\":[\"env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/299/csdlc-v2-github-actions-isolated-read\",\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\",\"issue_read_failures_are_typed_redacted_and_action_scoped\",\"--\",\"--test-threads=1\"],\"purpose\":\"Prior clean isolated rerun of the gate_github_actions read-failure case from the serial full-suite RED; passed but does not clear the preserved serial full-suite RED; evidence sha256 c3ed508f285c8ad1512e74158f6d164df4bd9c2bdf0407b820fc9eda79fd599c.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/299/gate-github-actions-issue-read-isolated.log\"},{\"command\":[\"env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/299/csdlc-v2-github-actions-isolated-marker\",\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\",\"operation_marker_is_stable_and_idempotent\",\"--\",\"--test-threads=1\"],\"purpose\":\"Prior clean isolated rerun of the gate_github_actions operation-marker case from the serial full-suite RED; passed and does not clear the preserved serial full-suite RED; evidence sha256 3b8cbe93e94b0f863d9eb406d9e295ba9bde4ce525a42a31330f53f6a3a4ddd6.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/299/gate-github-actions-operation-marker-isolated.log\"}]}"
     }
   ]
 }
