@@ -662,6 +662,40 @@ fn cleanup_rejects_temp_receipts_without_predecessor_and_placeholder_binding() {
 }
 
 #[test]
+fn cleanup_rejects_forged_final_receipt_before_already_completed_shortcut() {
+    let (_temp, root, req, node) = single_file_request();
+    let operation_root = root.join("cleanup-ledger/op-299");
+    fs::create_dir_all(&operation_root).expect("operation root");
+    let final_receipt = operation_root.join("900-cleanup-complete.json");
+    let forged = serde_json::json!({
+        "schema": "csdlc.archived_projection_cleanup_receipt.v1",
+        "sequence": 900,
+        "state": "cleanup-complete",
+        "previous_receipt_digest": "forged",
+        "payload": {
+            "issue": 299,
+            "operation_id": "op-299",
+            "nodes": ["stale.json"],
+        }
+    });
+    fs::write(
+        &final_receipt,
+        serde_json::to_vec_pretty(&forged).expect("forged final json"),
+    )
+    .expect("write forged final");
+    assert_eq!(
+        execute_archived_projection_cleanup(&req)
+            .expect_err("forged final receipt rejected")
+            .code,
+        csdlc_v2::ErrorCode::CorruptRecord
+    );
+    assert!(
+        node.exists(),
+        "forged final receipt must not skip cleanup while node remains"
+    );
+}
+
+#[test]
 fn cleanup_rejects_hardlink_and_mode_drift_before_mutation() {
     let (_temp, root, merge_sha) = repo();
     let archived = root.join("archived");

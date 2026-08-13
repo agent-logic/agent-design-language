@@ -5,22 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cc1c0d0bd318f0bbe41d3b610f2c6f17dff214cca5d5fc13b831f5d4c7ba3af8",
   "phase": "implemented",
-  "generation": 17,
-  "digest": "e57fa312ce56bf53524ec6fd8b55db696e732e967c1a2c7a739d4ac9813a6d43",
+  "generation": 18,
+  "digest": "bf196bc1fdac0a25ed2df365b3756cadc9d351b48f42778204c6c6d1e9064903",
   "branch": "codex/299-exact-authority-archived-projection-cleanup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-299-exact-authority-archived-projection-cleanup",
-  "review_assignment": {
-    "reviewer": "fresh-session:6ca20437-5bff-4f27-983a-5f6c97eb3bdf",
-    "assigned_by": "codex:worker-5",
-    "revision": "git-blake3:eece2dc2ce5588786ad676fc2d48acb2d58ac5c3:602b2f3eea653e15b621dd8883960b4408b50fe63585ba64b53a23b0aaa27266",
-    "scope": [
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/projection_cleanup.rs",
-      "csdlc-v2/tests/archived_projection_cleanup.rs",
-      ".csdlc/issues/299",
-      ".csdlc/evidence/299"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -36,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "fb41a218da4775a05ad7c4b165b971f57c75ceb66e67198672e3e00ca1ddc360",
+      "values_digest": "8f3edfeb4d543e6a9a9c46940f9936e494c200fc3d1f9c2c14d6043cdef21bd8",
       "rendered_digest": "610615d8dedbdc86ee75bdd5a73f74f3bb2e8acb65e609092b57cea776d694e2",
       "ast_digest": "135c49ea4619e7241bb8a2a08658257e2494075146388ceec11a47ab4ad4989d"
     },
     "stp": {
-      "values_digest": "2fd0f080b0d715b7a611551aaf9b662cc023fea670b30358f5c4278f84f3c7ea",
+      "values_digest": "c5f45f9a113dc41fe3208b0c4f7bf0f5c31b535cb1213a93054f11597c5cfa80",
       "rendered_digest": "7cc0b6cd5b8da81081ec555b7020b7eeef657106b4422d2916d790b73fec7b03",
       "ast_digest": "120ff67e5c1f29f0c721ea66410ef5094714e20dd1540ff7453ab0d7be52bbaa"
     },
     "spp": {
-      "values_digest": "efb9f3697cbd7f06e3a65e00b58526eb6fd9e17ea0831cb612d6cc4d2d23884c",
+      "values_digest": "7571dfc0157ac9cae1d6c13c2e590929fb2e2e02eaf065388279e78b14d93012",
       "rendered_digest": "6fa872bca304faebde588f7b2b08861e046f046fd6f8294031cf1e6480b2b64e",
       "ast_digest": "88ff4df3da3a68e0e67c31f116ce960629085890b415f2ae3f961796bf627f56"
     },
     "vpp": {
-      "values_digest": "395e6d991e4d9aafae507c1be242b1938a4920256f6723677bc834edcd8f7ce3",
+      "values_digest": "b17688ef1e2207008435e242026c5c5c72601fc91e2b2e5e51b068f59553a59c",
       "rendered_digest": "55f21566d759d3ea892f8db6c03520adac829dfcf1b9994547eaeebb64138c33",
       "ast_digest": "c385bd006ea6a8c00f53fc87c5194dcf6b447df3f63a96e4199bb3a59804f67c"
     },
     "srp": {
-      "values_digest": "1cfe91e54fb3bb4b904b880400f0a94a13cca620c5f0c7d6bc77368e8650d29e",
-      "rendered_digest": "c4d7e611f2a61e0fe18da577cb3be323f3090814cc8ce0253516dcf88eed4386",
-      "ast_digest": "1790a2d2b809f4d1a3deb73dd52ebe35557a04f77a34bca8159d26f9cadd4f7e"
+      "values_digest": "d02b2b9509711b9d9e40b378d2dc4c51c800ab6f1de968b950f15c32bee28b48",
+      "rendered_digest": "708684ae00ce6a56e1c3665c3abd6cd750ef28f3e409cec7f883b9e1d9dda135",
+      "ast_digest": "df87168b6d92ac454e83d542bb26c238298450f0a185b815117bef325c33c81a"
     },
     "sor": {
-      "values_digest": "7fd1085dce38b2327bbb0c13c9d19e76fd78456c9423cb64364840e2bc168bf7",
+      "values_digest": "efbb563a1e9d2e7dfe3ae7f84e7c002a0d90fe4ae1ae1401a87341abb178c753",
       "rendered_digest": "420c71541f460404f3f0953a0ea8eb5265cc605d7c727ebf61f545bb80ba652d",
       "ast_digest": "5fc8ef3e0266cc00a7a62baa8d0cf83eb26d8518368b271b2014fe8bd9bb9234"
     }
@@ -250,6 +239,13 @@
       "actor": "codex:worker-5",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 18,
+      "actor": "codex:worker-5",
+      "reason": "Recover failed exact review r6 at git-blake3:eece2dc2ce5588786ad676fc2d48acb2d58ac5c3:602b2f3eea653e15b621dd8883960b4408b50fe63585ba64b53a23b0aaa27266. Finding preserved: P1 existing 900-cleanup-complete.json can falsely short-circuit cleanup because the AlreadyCompleted path only parses generic receipt payload and does not validate sequence == 900, state == cleanup-complete, previous_receipt_digest, or current request issue/operation_id/nodes.",
+      "operation": "recover_review"
     }
   ]
 }

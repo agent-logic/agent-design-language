@@ -166,10 +166,7 @@ pub fn execute_archived_projection_cleanup(
 
     let final_path = receipt_path(&operation_root, 900, "cleanup-complete");
     if final_path.is_file() {
-        let _: Value = receipt_payload(&final_path)?;
-        let digest = blake3::hash(&read_regular_no_symlink(&final_path)?)
-            .to_hex()
-            .to_string();
+        let digest = validate_final_receipt(request, &operation_root, &final_path)?;
         return Ok(result(
             request,
             ArchivedProjectionCleanupStatus::AlreadyCompleted,
@@ -718,6 +715,34 @@ fn receipt_payload<T: serde::de::DeserializeOwned>(path: &Path) -> Result<T> {
         )
     })?)
     .map_err(Into::into)
+}
+
+fn validate_final_receipt(
+    request: &ArchivedProjectionCleanupRequest,
+    operation_root: &Path,
+    path: &Path,
+) -> Result<String> {
+    let bytes = read_regular_no_symlink(path)?;
+    let value: Value = serde_json::from_slice(&bytes)?;
+    let expected_previous = serde_json::to_value(previous_receipt_digest(operation_root, 900)?)?;
+    let expected_payload = json!({
+        "issue": request.issue,
+        "operation_id": request.operation_id,
+        "nodes": request.nodes.iter().map(|node| node.relative_path.as_str()).collect::<Vec<_>>(),
+    });
+    if value.get("schema").and_then(Value::as_str)
+        != Some("csdlc.archived_projection_cleanup_receipt.v1")
+        || value.get("sequence").and_then(Value::as_u64) != Some(900)
+        || value.get("state").and_then(Value::as_str) != Some("cleanup-complete")
+        || value.get("previous_receipt_digest") != Some(&expected_previous)
+        || value.get("payload") != Some(&expected_payload)
+    {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "cleanup completion receipt does not match current request authority",
+        ));
+    }
+    Ok(blake3::hash(&bytes).to_hex().to_string())
 }
 
 fn receipt_path(dir: &Path, seq: u32, state: &str) -> PathBuf {
