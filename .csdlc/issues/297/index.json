@@ -3,9 +3,9 @@
   "issue": 297,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "e6a6b6dce878d10beb21242dc5267e088f9ed5064d967b82e267f0a99ff2be35",
-  "phase": "implemented",
-  "generation": 24,
-  "digest": "e180652e40db70ceffb99d5a72e815b8ccc551d8425b000a43aa9af1104c1cbd",
+  "phase": "reviewed",
+  "generation": 25,
+  "digest": "27c8a902a9c451c4cd88578df53652634aa9c7e7c4abd16dfe25b29fde9865ed",
   "branch": "codex/297-preserved-failed-projection-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-297-preserved-failed-projection-recovery",
   "review_assignment": {
@@ -23,7 +23,27 @@
       ".csdlc/evidence/297/noether-300-routing-bridge-gap.md"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:0d7a9b8e-bc56-45ab-a650-45d0668a5dc8",
+    "scope": [
+      "csdlc-v2/src/projection_recovery.rs",
+      "csdlc-v2/src/projection_cleanup.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/tests/gate5.rs",
+      "csdlc-v2/tests/archived_projection_cleanup.rs",
+      ".csdlc/issues/297",
+      ".csdlc/evidence/297/bridge-r3",
+      ".csdlc/evidence/297/noether-300-routing-bridge-gap.md"
+    ],
+    "reviewed_revision": "git-blake3:3b8bc5a8afc777730edb0a29919a2292df427079:a683ff42ffde9edce06af5110963d049b7bf6bea55457835465abb30f86c1b40",
+    "findings": [],
+    "residual_risks": [
+      "Reviewer inspection was limited to the assigned #297 bridge r3 scope; #300 remains responsible for bridge-fed integration matrix proof after #297 is terminal and ancestral.",
+      "Reviewer independently ran the focused bridge test from csdlc-v2 and the full archived_projection_cleanup test; two initial command-shape attempts were non-proving and classified as invocation limits."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -38,32 +58,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d6427f070e9d51bd4dae53c5d8cb8c278491a42b1268bf30cd159a70906678b6",
+      "values_digest": "d488d0811f5b2f08b9820bbc1747d77f1cd784320685cdb098d9e62d97cc5478",
       "rendered_digest": "df823d86637cd9489e801629df7a5212ac8097bc372257554eaec7c9a9d0660e",
       "ast_digest": "1bc768342db5a416f8bb25942901fb3f59ba10dc488a47dea6f0ef806aabb7e0"
     },
     "stp": {
-      "values_digest": "c1787c4c64f35eb4739a17276bf96800f2e08f0a9a8ca87043b11b6134cc3df4",
+      "values_digest": "4a6b3925ab37cd13fe628e8f21b9530fe1735cacec654cd4062da7d81a34c53b",
       "rendered_digest": "97ad2e897d196aba11055627fae7c5e07537626d42ad815337c564dffb664688",
       "ast_digest": "9a54ff529a22712e2dcb9f5efb93efb1ca9fd290304b932f98ab76803bc6ae26"
     },
     "spp": {
-      "values_digest": "c9e426ed8ba19ee7a380bf422d57f06b791e91437d459ff8751540f2343b1916",
+      "values_digest": "9b9979efa20605112d1349ba7bd44ec2369a70d08936b0532913d1461417db8c",
       "rendered_digest": "e3b65c0055739979fc4ca41f0994e1ec2b50cbc3769189d2d9716089249db0bc",
       "ast_digest": "146f8c8308fc4b01d8049188b9ebf3bc7b41c3e59cac6fc8a3ec8a3957c157bd"
     },
     "vpp": {
-      "values_digest": "4a8ce010510523a2f2364096ee2e1a8e21bcbd47527182c7725644662a2e1b9d",
+      "values_digest": "ba9ba97d5ccf90b6aff14a197924d065b803cffcad2c01f56092e6bd1ace539b",
       "rendered_digest": "13f04d3e97db4d4fcba16b1a60538f791ca635def45dd6a5ceda8dcd9c807f58",
       "ast_digest": "f1c7789048ef56244afbbe53bd36196d5d4296a699769383a2e2b10c96b5eee3"
     },
     "srp": {
-      "values_digest": "db25fb885fd4b392c1e58ab03abea319ba82c5f8c6b841c672b25abb4a8a419f",
-      "rendered_digest": "2160741ff4852b0252e9cb5987b20db2e758d072c6b92a6c4f2aabb6da7cc3b6",
-      "ast_digest": "d001adf789098238ef70873056da417f11418d594a60d9ac2da8198f01bf2c2b"
+      "values_digest": "8913dcf71ed4713c9c3403691d86317136407ccf9fa7dfb6c40a9312dc77a57c",
+      "rendered_digest": "b3e7aed73b7b443293f1c4ccb2ca931b719e66d27a332e7aeb24d3ed4a6d4251",
+      "ast_digest": "db57831902f6c3b51c4229f9133fd969670604446085660ac19733d651312432"
     },
     "sor": {
-      "values_digest": "2e69444ef86b12c8ad0ac4895022b6665a1cb5741befee492fb6325be001c91c",
+      "values_digest": "fc82cf7f63c35930c1c8215e1deca59036fcd26ab7ed32200b67bbae95e9604c",
       "rendered_digest": "ca6da7dda95462a7e607ebf55be91bdf17c4baab7d20cbe096827a3e528e80b1",
       "ast_digest": "81513a0b98f6827739d46761ccb3a6fa3a99e9d8af3b1ea0a9dbc6f8351ac605"
     }
@@ -89,6 +109,13 @@
       "to": "implemented",
       "actor": "codex:issue-297",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:0d7a9b8e-bc56-45ab-a650-45d0668a5dc8",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -294,6 +321,13 @@
       "actor": "codex:worker-5",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 25,
+      "actor": "fresh-session:0d7a9b8e-bc56-45ab-a650-45d0668a5dc8",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

@@ -35,12 +35,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Reviewer inspection was limited to the assigned #297 bridge r3 scope; #300 remains responsible for bridge-fed integration matrix proof after #297 is terminal and ancestral.
+- Reviewer independently ran the focused bridge test from csdlc-v2 and the full archived_projection_cleanup test; two initial command-shape attempts were non-proving and classified as invocation limits.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:3b8bc5a8afc777730edb0a29919a2292df427079:a683ff42ffde9edce06af5110963d049b7bf6bea55457835465abb30f86c1b40")
 
-Reviewer: None
+Reviewer: Some("fresh-session:0d7a9b8e-bc56-45ab-a650-45d0668a5dc8")
 
-Result: pre_review
+Result: pass
