@@ -1,0 +1,111 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 272,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "f93934d7effdf8514fffeaedd928b6f7b927df58bf1010f2ca0e8ee302fd5497",
+  "phase": "implemented",
+  "generation": 2,
+  "digest": "ca54c7b3624263fd0ae97ae706b2e361015b30be811aa977f8ad8eb3d988a0f9",
+  "branch": "codex/272-serving-authority-foundation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-272-serving-authority-foundation",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/272/design.md",
+  "diagram_path": ".csdlc/prepared/issues/272/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:4f090c4c-63e0-4d6d-b49e-839ba7a2b489",
+      "revision": "e7310ec3111d2ce4ad6f6fceb408e34460a03b40cc1846a1f3b7e1caf063e627"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "617d02a6c9ee01cf01e81a3b9c4ad0a5850b130b2b27c2b0969c02f4dec7024d",
+      "rendered_digest": "1f19f3794fe2aae1774a4448d8d562eb89d7508813709c16c32d9a2f24d86a67",
+      "ast_digest": "ca44581ccef27929e5fd033c948e375c2027c6e24ab3cd18f32163fb387accc7"
+    },
+    "stp": {
+      "values_digest": "e5d3c1eacb26f4000a16017922937e301fd1990d85c39b378e60bc2a293c28ca",
+      "rendered_digest": "1a546f237b31932f6f52154a82bc69800cb744a3e9a6982a0f3b736d1b25616e",
+      "ast_digest": "f0f01363a49c960987bc2671ea4a9e3c7da82f6acfe31ea2910d1b2c4c45319e"
+    },
+    "spp": {
+      "values_digest": "b0605a80a1be05077c5656eb9da734cbeec8910d050e37499d597bd1b667927b",
+      "rendered_digest": "bda7bc1d368023c02931566b5017be3f3aa2a1409d6e260921ef30876ccfee0b",
+      "ast_digest": "6cbdca12af675a6d398d07e0a08dc14bc0a0abad874310f363e7bdad50d61342"
+    },
+    "vpp": {
+      "values_digest": "260291f854005efb74722d63d80b81ba65358cf3047ee30bd8c8ef5c9b2d1d44",
+      "rendered_digest": "90f504e37880ad273675fc5f2c598bd345ffd28415a7f636357de34f8870c01a",
+      "ast_digest": "dde84048aa85a2f3e705b98ddd5349d6a8dd74d7be875597cdfae831061fda47"
+    },
+    "srp": {
+      "values_digest": "6d21efbe6a4d7282d57496ff3e26a43dd76e5382aa85beb69056483598d4b54a",
+      "rendered_digest": "2d866931228aa8e76770b9564229dc1eba53ea349d5629a7ee9cf62b5142bc24",
+      "ast_digest": "197c1b747c0cd5225f76018925d4b2b297cdcfa8dbced7696326b90c4d9753f3"
+    },
+    "sor": {
+      "values_digest": "0b094c635c0b0c91091d392d5d0ba56a10729d3d464c7cf6d7c3e29f9aa6136f",
+      "rendered_digest": "998af22130d8b0f6bd17836dec82224b75b72a2a3c9df1652cec132f886419d6",
+      "ast_digest": "b929cf6a99b8cca774e59a1981f26c569d1a265aac5f27614c249a0aa601a5e0"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:planning2-issue272-owner",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:planning2-issue272-owner",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:4f090c4c-63e0-4d6d-b49e-839ba7a2b489",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:planning2-issue272-owner",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}

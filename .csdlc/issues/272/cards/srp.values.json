@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 272,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1b][205.a] Build durable serving-authority foundation",
+    "slug": "serving-authority-foundation",
+    "version": "v0.92",
+    "generation": 2
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact #272 foundation-only design, typed six-card identity, prerequisite terminal ancestry, durable Pending/Reconciled/Published state machine, exact authority bindings, retry/restart/corruption/capacity/path safety, redacted base projection, frozen ownership, validation budgets, and exclusion of parent #205, #203 registry, #273-#275, #204, Runtime-kernel, projection, UI, cloud, provider, and paid-runner work.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any caller publish foundation state without the exact sealed #200 authority cut and terminal #203 PublishedStoreAuthorityReceiptView?",
+        "Does #272 avoid all #203 registry edits and every #273/#274 eligibility lifecycle?",
+        "Can Pending, restart, retry, corruption, rollback, capacity, or unsafe path expose a new or contradictory published view?",
+        "Are every lineage, operation, action, version, generation, receipt/result, OwnerCommit, fence, lease, and prior-state binding exact and replay-safe?",
+        "Does the base projection reveal only bounded redacted values and make no eligibility decision?",
+        "Are the product/test allowlist, validation lanes, fresh-session review, publication, CI, and terminal gates exact and truthful?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
