@@ -164,11 +164,11 @@ Repaired #258 with concrete private non-zero-sized certificate, lease, and fenci
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
