@@ -12,7 +12,10 @@ Status: draft
 
 ## Scope
 
-
+csdlc-v2/src/cards.rs
+csdlc-v2/tests/gate2.rs
+.csdlc/issues/349
+.csdlc/evidence/349
 
 ## Prompts
 
@@ -32,12 +35,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Fresh metadata-head review confirmed substantive code/test identity with the prior PASS and retained exact local proof. Hosted CI remains deferred to publication.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:54ffa5c4d30069c6ad70f25d55a5e59585d6f564:a01d00dc29653c29e3222900e4fe95d99d1aaf4cd4d9ad82e63e5695816e7e53")
 
-Reviewer: None
+Reviewer: Some("/root/issue_349_prepare/fresh_metadata_review")
 
-Result: pre_review
+Result: pass

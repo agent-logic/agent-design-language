@@ -101,11 +101,11 @@ Keep exact deferred validator admission coherent across the doctor-advertised re
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
