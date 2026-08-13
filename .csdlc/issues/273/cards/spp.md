@@ -16,14 +16,14 @@ Bootstrap and freshly review the disjoint design, approve/doctor/bind only after
 
 ## Plan
 
-Revision 3
+Revision 4
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Validate live issue, exact prerequisite terminal caches/ancestry, typed cards, disjoint ownership, and obtain fresh design review before approval/doctor/bind.",
+    "action": "Validate live issue, exact prerequisite terminal caches and ancestry, typed cards, disjoint ownership, and obtain fresh design review before approval, doctor, and bind.",
     "acceptance_ids": [
       "AC-6"
     ],
@@ -31,7 +31,7 @@ Revision 3
   },
   {
     "id": "S2",
-    "action": "Implement only the Shepherd state machine, redacted receipt/projection, bounded persistence behavior, focused test, and additive registration.",
+    "action": "Implement only the Shepherd state machine, redacted receipt and projection, bounded persistence behavior, feature-gated focused test, and additive registration.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -43,7 +43,7 @@ Revision 3
   },
   {
     "id": "S3",
-    "action": "Run focused test, strict Clippy, exact scope/diff proof, typed lifecycle validation, and immutable evidence.",
+    "action": "Run feature-enabled focused test and strict Clippy, ordinary build, exact scope and diff proof, and record immutable evidence.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -56,7 +56,20 @@ Revision 3
   },
   {
     "id": "S4",
-    "action": "Finalize, obtain a new fresh-session exact-head review, repair findings, publish, shepherd required CI, finish, and validate terminal ancestry.",
+    "action": "After required coverage aggregate exposes the unmapped new module, add only the exact coverage-impact classifier, runtime-only internal-test-fixtures route, classifier and runner regressions, focused 97.01 percent coverage, and impact preflight.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S5",
+    "action": "Obtain a distinct fresh exact-head review of the repaired mapping and lifecycle truth, repair findings, republish PR #339, shepherd renewed required CI, finish, and validate terminal ancestry before releasing #274.",
     "acceptance_ids": [
       "AC-6",
       "AC-7"
