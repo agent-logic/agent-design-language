@@ -7,59 +7,119 @@
     "title": "[v0.92][WP-04.16b3.1a] Apply committed identity, lease, and fencing authority",
     "slug": "committed-identity-lease-fencing-authority",
     "version": "v0.92",
-    "generation": 40
+    "generation": 41
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Reconciled the preserved #203 monolithic candidate against terminal #258, #259, and #260. Current origin/main is the implementation authority for all production and test paths; #203 retains only lifecycle, design, decomposition provenance, and integration-closeout proof surfaces.",
+      "summary": "Reconciled #203 as an integration-closeout issue over canonical terminal #258/#259/#260 authority, with zero product or Cargo.lock delta and no #204/#205 absorption.",
       "actual_changes": [
-        "Preserved the complete pre-reconciliation candidate as commit cb3770d03 plus a verified Git-common branch bundle and binary patch.",
-        "Merged exact origin/main 0b5aefd6 and resolved every child-owned source, test, and Cargo.lock path to terminal main.",
-        "Verified zero product diff against origin/main and retained no #202, #204, #205, #208, #258, #259, or #260 implementation absorption.",
-        "Classified the historical 44-case synthetic receipt as superseded because the terminal child test denominator is now authoritative and current."
+        "Preserved the original dirty candidate in verified Git-common bundle and binary patch.",
+        "Merged current origin/main and retained terminal child source/tests exactly.",
+        "Replaced historical synthetic 44/132 proof with explicit superseded_nonclaim and current v3 cache-bound integration proof."
       ],
       "artifacts": [
-        ".csdlc/evidence/203/ISSUE_203_DECOMPOSITION_PLAN.md",
-        ".csdlc/evidence/203/provider-reviews",
-        ".git/csdlc-v2/preservation/203-pre-main-reconciliation-20260813.md",
-        ".git/csdlc-v2/preservation/203-three-way-disposition-20260813.md",
-        ".git/csdlc-v2/quarantine/203-pre-main-reconciliation-20260813"
+        ".csdlc/evidence/203/v3/integration-closeout-proof.json",
+        ".csdlc/evidence/203/v3/identity-boundary.stdout.log",
+        ".csdlc/evidence/203/v3/caller-guard.stdout.log",
+        ".csdlc/evidence/203/v3/strict-clippy.stderr.log",
+        ".csdlc/evidence/203/ISSUE_203_DECOMPOSITION_PLAN.md"
       ],
       "actual_validation": [
-        {
-          "command": [
-            "git",
-            "diff",
-            "--exit-code",
-            "origin/main",
-            "--",
-            "adl-runtime",
-            "adl/Cargo.lock"
-          ],
-          "purpose": "Prove the reconciled #203 branch carries zero product or dependency-lock delta beyond terminal child main.",
-          "outcome": "passed",
-          "evidence_ref": ".git/csdlc-v2/preservation/203-three-way-disposition-20260813.md"
-        },
         {
           "command": [
             "csdlc-finish",
             "--validate-cached-issue",
             "258|259|260"
           ],
-          "purpose": "Validate all three terminal child caches against their canonical records before parent reconciliation.",
+          "purpose": "Validate canonical terminal cache/state and exact merge authority for all three delivered children.",
           "outcome": "passed",
-          "evidence_ref": ".git/csdlc-v2/preservation/203-pre-main-reconciliation-20260813.md"
+          "evidence_ref": ".csdlc/evidence/203/v3/integration-closeout-proof.json"
+        },
+        {
+          "command": [
+            "git",
+            "diff",
+            "--exit-code",
+            "origin/main...HEAD",
+            "--",
+            "adl-runtime",
+            "adl/Cargo.lock"
+          ],
+          "purpose": "Prove zero product and lockfile delta and no #204/#205 implementation absorption.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/203/v3/integration-closeout-proof.json"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_identity_lease_authority",
+            "--",
+            "--test-threads=1"
+          ],
+          "purpose": "Run current terminal authority-boundary denominator.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/203/v3/identity-boundary.stdout.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_authority_adapter_callers_260",
+            "--",
+            "--test-threads=1"
+          ],
+          "purpose": "Run current terminal caller-guard denominator.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/203/v3/caller-guard.stdout.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_identity_lease_authority",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Prove strict focused Clippy.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/203/v3/strict-clippy.stderr.log"
         },
         {
           "command": [
             "ruby",
-            ".csdlc/prepared/issues/203/produce-proof-receipt.rb"
+            ".csdlc/prepared/issues/203/validate-proof-receipt.rb"
           ],
-          "purpose": "Audit whether the retained historical monolithic proof denominator remains current after terminal child delivery.",
-          "outcome": "failed",
-          "evidence_ref": ".csdlc/evidence/203/v2/identity-authority.stdout.log"
+          "purpose": "Validate cache-bound v3 receipt digests, denominators, main binding, historical nonclaim, and clean worktree.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/203/v3/integration-closeout-proof.json"
+        },
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check",
+            "origin/main",
+            "HEAD"
+          ],
+          "purpose": "Prove exact diff hygiene.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/203/v3/integration-closeout-proof.json"
         }
       ],
       "integration_state": "worktree_only",

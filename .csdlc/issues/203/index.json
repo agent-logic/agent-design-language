@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "3241806f8faffb5e7ef1b57c174149814d412144759745599e303023dad9233a",
   "phase": "implemented",
-  "generation": 40,
-  "digest": "1e35a6cfc7b01ada3b8999cc5fe2366cf72da0000f6f0db26a1dd32e887a4728",
+  "generation": 41,
+  "digest": "790bd15966add7706f6b74f3642374d86ad08e7410fd8178b41a95f538994546",
   "branch": "codex/203-authority-serving-adapters-preparation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-203-authority-serving-adapters",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "90febb663850546ab7d98c160b64280883ee8062996faa530345b0ed13fa00c9",
+      "values_digest": "e7a29ce27d0b887ef8685fcfa7c49a6a879068f068c19510d672a94f8d7e141d",
       "rendered_digest": "079525186b170b21283c458c8076934c1c4e48b2aac29dfd6d6cfddcfba68e30",
       "ast_digest": "77fd95a3eb427c7a9b47e353b46456107d8167bd7cbdfa07114fb419d1fc99fa"
     },
     "stp": {
-      "values_digest": "d3b65a4bd65d18ab4903f2d279966e4fa7b8eae929d85ac9626457b99b82e213",
+      "values_digest": "fc23cf0a53ef5f6a7211eca390dcd20db3f98138c79cff259532312283266dbf",
       "rendered_digest": "95ed4d8f973edf87afd24417b1d6eddcb9ce964cf8d5c7e5a71613587d1ff916",
       "ast_digest": "90af51e55128247a385506b2b74374675dc25fb2952916eb1a174f89d0916aa3"
     },
     "spp": {
-      "values_digest": "07a25c33f7ada6c76dbafbc6a3797ebc1c8c35ffa3bed6f630bf643987fa432b",
+      "values_digest": "a175a3d69700a7e64a8c5a460db71a080e655edd4de7b0c86ceae7272f274d55",
       "rendered_digest": "2ceead76f8a3a54af2fca8a910a0542c6f71f92ce926b711987c8d4fea54a0d7",
       "ast_digest": "a1f903dc8dcf40514a2f5eec465c263df466e83484157a2032abdc510a5e49e0"
     },
     "vpp": {
-      "values_digest": "c58d998cdc82ecc2175780eea856ae04516433894a4b84bbeda88c893fe4eb80",
+      "values_digest": "8d8cc831f900b80eba15d1bb584bcd2725f8b14af1387a23058a3e70de9389ba",
       "rendered_digest": "6b3797b0651a09bf57c00e7f1103c2cff9e9a99190c6d44e7197105da1851d39",
       "ast_digest": "96a3c1787b3fa4828ff86222dce5cd79e3696fa39331202feabd24a0e8177e15"
     },
     "srp": {
-      "values_digest": "8c96fa0656279612347eae8dbe552856898c1efa2243d355678f2c8543864412",
+      "values_digest": "51a4a0a41737a5c24bd94d0eacd22830d1a8886cdaf7b79e71d31b0ecfb25bf0",
       "rendered_digest": "bda7d64e76d36f0e936247dced00c17324e95607bc40ec26b7874acd578f38ba",
       "ast_digest": "c469f4d1167217bb81730be082e916c53fe0e99673a80a189abeecd5a9748713"
     },
     "sor": {
-      "values_digest": "412672e2a745f3dfc07be16e0d61f3bd2ad527eb05b66684af4a9d981646f919",
-      "rendered_digest": "6ac9442dbc3bc663e4a9c599f89d6e7bb1ad100423fe0d5e796be9b017a9a59e",
-      "ast_digest": "4556f40ddd4e5dd9285c998048620ed1e3a157438359de8a6c6b9283559a0e9b"
+      "values_digest": "8bb34fae4f590809f54db9ab21b6f00ba6a700636883693cef1dbc4a89715d95",
+      "rendered_digest": "ca4ced9e6bff4fca51bcb4d7e4d6831c53b65f9e5b0c7e7d066668daafa3b514",
+      "ast_digest": "2200010dea643764939dc3e9a7a8ae8d04b4a718d355e8b8ab1dc9ff60fac3d8"
     }
   },
   "transitions": [
@@ -393,6 +393,13 @@
       "actor": "codex-issue-203-reconciliation",
       "reason": "recover failed R2 review before terminal-cache SOR and diff-hygiene repairs",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 46,
+      "generation": 41,
+      "actor": "codex-issue-203-review-r2-repair",
+      "reason": "replace obsolete v2 failure with current cache-bound v3 execution and validation truth",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Reconciled #203 as an integration-closeout issue over canonical terminal #258/#259/#260 authority, with zero product or Cargo.lock delta and no #204/#205 absorption.\",\"changes\":[\"Preserved the original dirty candidate in verified Git-common bundle and binary patch.\",\"Merged current origin/main and retained terminal child source/tests exactly.\",\"Replaced historical synthetic 44/132 proof with explicit superseded_nonclaim and current v3 cache-bound integration proof.\"],\"artifacts\":[\".csdlc/evidence/203/v3/integration-closeout-proof.json\",\".csdlc/evidence/203/v3/identity-boundary.stdout.log\",\".csdlc/evidence/203/v3/caller-guard.stdout.log\",\".csdlc/evidence/203/v3/strict-clippy.stderr.log\",\".csdlc/evidence/203/ISSUE_203_DECOMPOSITION_PLAN.md\"],\"validation\":[{\"command\":[\"csdlc-finish\",\"--validate-cached-issue\",\"258|259|260\"],\"purpose\":\"Validate canonical terminal cache/state and exact merge authority for all three delivered children.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/203/v3/integration-closeout-proof.json\"},{\"command\":[\"git\",\"diff\",\"--exit-code\",\"origin/main...HEAD\",\"--\",\"adl-runtime\",\"adl/Cargo.lock\"],\"purpose\":\"Prove zero product and lockfile delta and no #204/#205 implementation absorption.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/203/v3/integration-closeout-proof.json\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity_lease_authority\",\"--\",\"--test-threads=1\"],\"purpose\":\"Run current terminal authority-boundary denominator.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/203/v3/identity-boundary.stdout.log\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_authority_adapter_callers_260\",\"--\",\"--test-threads=1\"],\"purpose\":\"Run current terminal caller-guard denominator.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/203/v3/caller-guard.stdout.log\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity_lease_authority\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove strict focused Clippy.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/203/v3/strict-clippy.stderr.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/203/validate-proof-receipt.rb\"],\"purpose\":\"Validate cache-bound v3 receipt digests, denominators, main binding, historical nonclaim, and clean worktree.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/203/v3/integration-closeout-proof.json\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main\",\"HEAD\"],\"purpose\":\"Prove exact diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/203/v3/integration-closeout-proof.json\"}]}"
     }
   ]
 }
