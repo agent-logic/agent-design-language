@@ -313,6 +313,93 @@ fn cleanup_requires_completed_recovery_and_manifest_before_mutation() {
 }
 
 #[test]
+fn cleanup_rejects_leaf_directory_link_count_drift() {
+    let (_temp, root, merge_sha) = repo();
+    let archived = root.join("archived");
+    fs::create_dir(&archived).expect("archived");
+    let leaf = archived.join("leaf");
+    fs::create_dir(&leaf).expect("leaf dir");
+    let (terminal_path, terminal_digest) = terminal(&root, &merge_sha);
+    let mut identity = identity(&leaf, CleanupNodeType::Directory);
+    identity.links += 1;
+    let req = request(
+        &root,
+        &merge_sha,
+        &terminal_path,
+        &terminal_digest,
+        vec![ArchivedProjectionNode {
+            relative_path: "leaf".into(),
+            identity,
+        }],
+    );
+    let error = execute_archived_projection_cleanup(&req)
+        .expect_err("leaf directory link-count drift rejected");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::ReconciliationRequired);
+    assert!(leaf.exists());
+    assert!(!operation_receipt_path(&root, "113-captured.json").exists());
+    assert!(!operation_receipt_path(&root, "116-removed.json").exists());
+}
+
+#[test]
+fn cleanup_accepts_parent_directory_link_count_drift_after_authorized_child_cleanup() {
+    let (_temp, root, merge_sha) = repo();
+    let archived = root.join("archived");
+    fs::create_dir(&archived).expect("archived");
+    let parent = archived.join("parent");
+    let child = parent.join("child");
+    fs::create_dir_all(&child).expect("child dir");
+    let (terminal_path, terminal_digest) = terminal(&root, &merge_sha);
+    let req = request(
+        &root,
+        &merge_sha,
+        &terminal_path,
+        &terminal_digest,
+        vec![
+            ArchivedProjectionNode {
+                relative_path: "parent/child".into(),
+                identity: identity(&child, CleanupNodeType::Directory),
+            },
+            ArchivedProjectionNode {
+                relative_path: "parent".into(),
+                identity: identity(&parent, CleanupNodeType::Directory),
+            },
+        ],
+    );
+    let cleanup =
+        execute_archived_projection_cleanup(&req).expect("authorized child cleanup permits parent");
+    assert_eq!(cleanup.status, ArchivedProjectionCleanupStatus::Completed);
+    assert!(!parent.exists());
+}
+
+#[test]
+fn cleanup_rejects_regular_file_link_count_drift() {
+    let (_temp, root, merge_sha) = repo();
+    let archived = root.join("archived");
+    fs::create_dir(&archived).expect("archived");
+    let node = archived.join("stale.json");
+    fs::write(&node, "{}\n").expect("node");
+    let (terminal_path, terminal_digest) = terminal(&root, &merge_sha);
+    let mut identity = identity(&node, CleanupNodeType::RegularFile);
+    identity.links += 1;
+    let req = request(
+        &root,
+        &merge_sha,
+        &terminal_path,
+        &terminal_digest,
+        vec![ArchivedProjectionNode {
+            relative_path: "stale.json".into(),
+            identity,
+        }],
+    );
+    let error = execute_archived_projection_cleanup(&req)
+        .expect_err("regular-file link-count drift rejected");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::UnsafeCheckout);
+    assert!(node.exists());
+    assert!(!operation_receipt_path(&root, "113-captured.json").exists());
+    assert!(!operation_receipt_path(&root, "116-removed.json").exists());
+}
+
+#[test]
 fn cleanup_rejects_coherent_caller_identity_forgery_without_manifest_binding() {
     let (_temp, root, merge_sha) = repo();
     let archived = root.join("archived");
