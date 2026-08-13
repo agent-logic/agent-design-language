@@ -87,11 +87,11 @@ Recovered after fresh-session:e05b2801-0ba6-4c49-a30b-d8e0f3f5c0b6 found a P1 em
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
