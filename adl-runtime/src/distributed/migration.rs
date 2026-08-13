@@ -1537,7 +1537,12 @@ fn migration_apply(
     error: MigrationError,
 ) -> MigrationResult<LeaseState> {
     ledger
-        .apply(certificate_bytes, membership, application)
+        .apply(
+            &super::lease::TEST_LEASE_STORE_ACCESS,
+            certificate_bytes,
+            membership,
+            application,
+        )
         .cloned()
         .map_err(|_| error)
 }
@@ -1575,7 +1580,9 @@ fn migration_commit(
     request: FenceCommit<'_>,
     error: MigrationError,
 ) -> MigrationResult<super::fencing::FenceReceipt> {
-    fencing.commit(request).map_err(|_| error)
+    fencing
+        .commit(&super::fencing::TEST_FENCING_STORE_ACCESS, request)
+        .map_err(|_| error)
 }
 
 fn migration_authorize_active(

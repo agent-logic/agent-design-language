@@ -6,7 +6,7 @@ use std::{
 use adl_runtime::distributed::{
     authority_reconciliation::{AuthorityReconciliationBarrier, AuthorityReconciliationIdentity},
     authority_store_adapters::{AuthorityStoreAdapterError, AuthorityStoreAdapterRegistry},
-    certificates::{CertificatePolicy, DistributedCertificateStore},
+    certificates::{CertificatePolicy, DistributedCertificateStore, TEST_CERTIFICATE_STORE_ACCESS},
     polis_runtime::{ConsensusCheckpoint, ConsensusCheckpointAuthority, PolisRuntimeError},
 };
 use ed25519_dalek::SigningKey;
@@ -126,6 +126,7 @@ fn assert_not_contains(source: &str, needle: &str) {
 #[test]
 fn exact_issue_203_denominator_and_guardrails_are_bound() {
     let adapters = include_str!("../src/distributed/authority_store_adapters.rs");
+    let certificates = include_str!("../src/distributed/certificates.rs");
     let lease = include_str!("../src/distributed/lease.rs");
     let fencing = include_str!("../src/distributed/fencing.rs");
     let transport = include_str!("../src/distributed/transport/core.rs");
@@ -151,6 +152,16 @@ fn exact_issue_203_denominator_and_guardrails_are_bound() {
     assert_contains(adapters, "pub struct AuthorityBoundCertificateStore");
     assert_contains(adapters, "pub struct AuthorityBoundLeaseLedger");
     assert_contains(adapters, "pub struct AuthorityBoundFencingStore");
+    assert_contains(adapters, "action_class: String");
+    assert_contains(adapters, "adapter_kind: String");
+    assert_contains(adapters, "adapter_version: u32");
+    assert_contains(adapters, "receipt_sha256: [u8; 32]");
+    assert_contains(
+        adapters,
+        "published_view_action_class(result.mutation_kind())",
+    );
+    assert_contains(adapters, "PUBLISHED_VIEW_ACTION_OWNER_COMMIT");
+    assert_contains(adapters, "receipt_sha256: result.receipts_sha256()");
     assert_contains(
         adapters,
         "validate_permit(&permit, &AuthorityPermitAction::Read)",
@@ -165,7 +176,46 @@ fn exact_issue_203_denominator_and_guardrails_are_bound() {
         "authority_bound_certificate_store_for_test_fixture",
     );
 
+    assert_contains(certificates, "pub struct CertificateStoreAccess");
+    assert_contains(
+        certificates,
+        "pub(crate) use raw_access::AUTHORITY_BOUND as AUTHORITY_BOUND_CERTIFICATE_ACCESS",
+    );
+    assert_contains(
+        certificates,
+        "pub fn open(\n        _access: &CertificateStoreAccess,",
+    );
+    assert_contains(
+        certificates,
+        "pub fn activate(\n        &self,\n        _access: &CertificateStoreAccess,",
+    );
+    assert_contains(
+        certificates,
+        "pub fn authorize(\n        &self,\n        _access: &CertificateStoreAccess,",
+    );
+    assert_contains(
+        certificates,
+        "pub fn revoke(\n        &self,\n        _access: &CertificateStoreAccess,",
+    );
+
     assert_contains(lease, "pub struct LeaseState");
+    assert_contains(lease, "pub struct LeaseStoreAccess");
+    assert_contains(
+        lease,
+        "pub(crate) use raw_access::AUTHORITY_BOUND as AUTHORITY_BOUND_LEASE_ACCESS",
+    );
+    assert_contains(
+        lease,
+        "pub fn new(_access: &LeaseStoreAccess, policy: LeasePolicy)",
+    );
+    assert_contains(
+        lease,
+        "pub fn apply(\n        &mut self,\n        _access: &LeaseStoreAccess,",
+    );
+    assert_contains(
+        lease,
+        "pub fn authorize_mutation(\n        &mut self,\n        _access: &LeaseStoreAccess,",
+    );
     assert_not_contains(lease, "pub activated_elapsed_millis");
     assert_not_contains(lease, "pub deadline_elapsed_millis");
     assert_contains(lease, "pub deadline_unix_millis");
@@ -175,6 +225,23 @@ fn exact_issue_203_denominator_and_guardrails_are_bound() {
     assert_contains(lease, "restart_safety_deadline_unix_millis");
 
     assert_contains(fencing, "pub safety_deadline_unix_millis: u64");
+    assert_contains(fencing, "pub struct FencingStoreAccess");
+    assert_contains(
+        fencing,
+        "pub(crate) use raw_access::AUTHORITY_BOUND as AUTHORITY_BOUND_FENCING_ACCESS",
+    );
+    assert_contains(
+        fencing,
+        "pub fn create(\n        _access: &FencingStoreAccess,",
+    );
+    assert_contains(
+        fencing,
+        "pub fn open(\n        _access: &FencingStoreAccess,",
+    );
+    assert_contains(
+        fencing,
+        "pub fn commit(\n        &mut self,\n        _access: &FencingStoreAccess,",
+    );
     assert_contains(
         fencing,
         "if check.now_unix_millis < floor.safety_deadline_unix_millis",
@@ -279,7 +346,12 @@ fn authority_store_adapter_refuses_certificate_handle_without_publication() {
     let signing_root = SigningKey::from_bytes(&[41; 32]);
     let policy = CertificatePolicy::new("runtime-prod", [signing_root.verifying_key()]).unwrap();
     let store = Arc::new(
-        DistributedCertificateStore::open(root.path().join("certificates.redb"), policy).unwrap(),
+        DistributedCertificateStore::open(
+            &TEST_CERTIFICATE_STORE_ACCESS,
+            root.path().join("certificates.redb"),
+            policy,
+        )
+        .unwrap(),
     );
 
     assert!(matches!(

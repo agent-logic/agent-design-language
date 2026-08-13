@@ -710,9 +710,21 @@ impl SnapshotCatalogVerifier {
         let certificate_id = certificate
             .certificate_id()
             .map_err(|_| SnapshotError::CertificateAuthorization)?;
+        #[cfg(not(test))]
         let authorized = self
             .certificate_store
             .authorize(
+                signer_id,
+                CertificatePurpose::SnapshotSigning,
+                generation,
+                now_unix_secs,
+            )
+            .map_err(|_| SnapshotError::CertificateAuthorization)?;
+        #[cfg(test)]
+        let authorized = self
+            .certificate_store
+            .authorize(
+                &super::certificates::TEST_CERTIFICATE_STORE_ACCESS,
                 signer_id,
                 CertificatePurpose::SnapshotSigning,
                 generation,

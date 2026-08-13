@@ -1887,7 +1887,12 @@ fn recovery_apply(
     error: RecoveryError,
 ) -> RecoveryResult<super::lease::LeaseState> {
     ledger
-        .apply(certificate_bytes, membership, application)
+        .apply(
+            &super::lease::TEST_LEASE_STORE_ACCESS,
+            certificate_bytes,
+            membership,
+            application,
+        )
         .cloned()
         .map_err(|_| error)
 }
@@ -1912,7 +1917,12 @@ fn recovery_apply_authority(
     application: AuthorityApplication<'_>,
 ) -> RecoveryResult<super::lease::LeaseState> {
     ledger
-        .apply(certificate_bytes, membership, application)
+        .apply(
+            &super::lease::TEST_LEASE_STORE_ACCESS,
+            certificate_bytes,
+            membership,
+            application,
+        )
         .cloned()
         .map_err(map_authority_error)
 }
@@ -1950,7 +1960,9 @@ fn recovery_commit(
     request: FenceCommit<'_>,
     error: RecoveryError,
 ) -> RecoveryResult<super::fencing::FenceReceipt> {
-    fencing.commit(request).map_err(|_| error)
+    fencing
+        .commit(&super::fencing::TEST_FENCING_STORE_ACCESS, request)
+        .map_err(|_| error)
 }
 
 fn recovery_authorize_active_as(

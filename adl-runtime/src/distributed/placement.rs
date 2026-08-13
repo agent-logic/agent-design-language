@@ -246,8 +246,19 @@ impl PlacementWeatherSnapshot {
         let rows = projected
             .into_iter()
             .map(|row| {
+                #[cfg(not(test))]
                 let authorized = certificates
                     .authorize(
+                        &row.holder_id,
+                        CertificatePurpose::AdvertisementSigning,
+                        row.certificate_generation,
+                        now_unix_secs,
+                    )
+                    .map_err(|_| PlacementError::InconsistentEvidence)?;
+                #[cfg(test)]
+                let authorized = certificates
+                    .authorize(
+                        &super::certificates::TEST_CERTIFICATE_STORE_ACCESS,
                         &row.holder_id,
                         CertificatePurpose::AdvertisementSigning,
                         row.certificate_generation,

@@ -23,7 +23,7 @@ use adl_runtime::distributed::{
     authority_store_adapters::authority_bound_certificate_store_for_test_fixture,
     certificates::{
         AuthorityCertificate, CertificateBody, CertificatePolicy, CertificatePurpose,
-        CertificateValidity, DistributedCertificateStore,
+        CertificateValidity, DistributedCertificateStore, TEST_CERTIFICATE_STORE_ACCESS,
     },
     learner_transport::ProductionLearnerAuthority,
     lease::{AuthorityMembership, ControlCertificatePurpose, VoterAuthority},
@@ -192,6 +192,7 @@ fn certificate_store() -> (
         .unwrap();
     let directory = repo_tempdir();
     let store = DistributedCertificateStore::open(
+        &TEST_CERTIFICATE_STORE_ACCESS,
         directory
             .path()
             .canonicalize()
@@ -219,13 +220,15 @@ fn transport_authorization(
         generation,
         CertificateValidity {
             issued_at_unix_secs: issued,
-            expires_at_unix_secs: issued + 300,
+            expires_at_unix_secs: issued + 600,
         },
         key,
         &root.verifying_key(),
     );
     let certificate = AuthorityCertificate::issue(body, root).unwrap();
-    store.activate(&certificate, now()).unwrap();
+    store
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &certificate, now())
+        .unwrap();
     let bound_store = authority_bound_certificate_store_for_test_fixture(
         authority_root,
         AuthorityReconciliationIdentity {
@@ -733,6 +736,7 @@ fn runtime_authority_initializer(
     let directory = repo_tempdir();
     let store = Arc::new(
         DistributedCertificateStore::open(
+            &TEST_CERTIFICATE_STORE_ACCESS,
             directory
                 .path()
                 .canonicalize()
@@ -763,7 +767,9 @@ fn runtime_authority_initializer(
                 &signing_root,
             )
             .unwrap();
-            store.activate(&certificate, 100).unwrap();
+            store
+                .activate(&TEST_CERTIFICATE_STORE_ACCESS, &certificate, 100)
+                .unwrap();
             (guardian.clone(), certificate)
         })
         .collect::<BTreeMap<_, _>>();
@@ -1636,6 +1642,7 @@ fn authority_approved_certificate_overlap_is_valid_then_expires_closed() {
         .unwrap();
     let directory = repo_tempdir();
     let store = DistributedCertificateStore::open(
+        &TEST_CERTIFICATE_STORE_ACCESS,
         directory
             .path()
             .canonicalize()
@@ -1664,16 +1671,38 @@ fn authority_approved_certificate_overlap_is_valid_then_expires_closed() {
     };
     let first = make(1, 41);
     let second = make(2, 42);
-    store.activate(&first, 100).unwrap();
-    store.activate(&second, 100).unwrap();
+    store
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &first, 100)
+        .unwrap();
+    store
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &second, 100)
+        .unwrap();
     assert!(store
-        .authorize("overlap-node", CertificatePurpose::Transport, 1, 159)
+        .authorize(
+            &TEST_CERTIFICATE_STORE_ACCESS,
+            "overlap-node",
+            CertificatePurpose::Transport,
+            1,
+            159
+        )
         .is_ok());
     assert!(store
-        .authorize("overlap-node", CertificatePurpose::Transport, 1, 160)
+        .authorize(
+            &TEST_CERTIFICATE_STORE_ACCESS,
+            "overlap-node",
+            CertificatePurpose::Transport,
+            1,
+            160
+        )
         .is_err());
     assert!(store
-        .authorize("overlap-node", CertificatePurpose::Transport, 2, 160)
+        .authorize(
+            &TEST_CERTIFICATE_STORE_ACCESS,
+            "overlap-node",
+            CertificatePurpose::Transport,
+            2,
+            160
+        )
         .is_ok());
     eprintln!("ADL_ISSUE_191_CASE certificate_overlap_boundary=passed");
 }

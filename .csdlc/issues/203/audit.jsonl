@@ -27,3 +27,4 @@
 {"sequence":27,"generation":26,"actor":"codex:/root/review_202_impl_final","reason":"approve completed issue design","operation":"approve_design"}
 {"sequence":28,"generation":27,"actor":"codex:/root","reason":"advance initialized #203 package to ready after current-main resync and clean validation","operation":"{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"}
 {"sequence":29,"generation":27,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
+{"sequence":30,"generation":28,"actor":"codex:/root","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}

@@ -258,8 +258,12 @@ pub enum AuthorityReconciliationPhase {
 pub struct PublishedReconciliationResult {
     operation_id: String,
     lineage_id: String,
+    adapter_kind: String,
+    adapter_version: u32,
+    mutation_kind: String,
     generation: u64,
     result: Vec<u8>,
+    receipts_sha256: [u8; 32],
     result_sha256: [u8; 32],
 }
 
@@ -272,6 +276,18 @@ impl PublishedReconciliationResult {
         &self.lineage_id
     }
 
+    pub fn adapter_kind(&self) -> &str {
+        &self.adapter_kind
+    }
+
+    pub fn adapter_version(&self) -> u32 {
+        self.adapter_version
+    }
+
+    pub fn mutation_kind(&self) -> &str {
+        &self.mutation_kind
+    }
+
     pub fn generation(&self) -> u64 {
         self.generation
     }
@@ -282,6 +298,10 @@ impl PublishedReconciliationResult {
 
     pub fn result_sha256(&self) -> [u8; 32] {
         self.result_sha256
+    }
+
+    pub fn receipts_sha256(&self) -> [u8; 32] {
+        self.receipts_sha256
     }
 }
 
@@ -963,11 +983,20 @@ fn exact_view(
 }
 
 fn published_result(operation: &DurableReconciliationOperation) -> PublishedReconciliationResult {
+    let receipts_sha256 = domain_digest(
+        b"ADL-AUTHORITY-RECONCILIATION-RECEIPTS-V1\0",
+        &operation.receipts,
+    )
+    .unwrap_or([0; 32]);
     PublishedReconciliationResult {
         operation_id: operation.operation_id.clone(),
         lineage_id: operation.lineage_id.clone(),
+        adapter_kind: operation.adapter_kind.clone(),
+        adapter_version: operation.adapter_version,
+        mutation_kind: operation.mutation_kind.clone(),
         generation: operation.target_generation,
         result: operation.result.clone(),
+        receipts_sha256,
         result_sha256: operation.result_sha256,
     }
 }

@@ -9,7 +9,7 @@ require "pathname"
 require "time"
 
 ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
-PREFIX = ".csdlc/evidence/203/v1/"
+PREFIX = ".csdlc/evidence/203/v2/"
 OUTPUT = ROOT.join(PREFIX)
 PROOF = OUTPUT.join("authority-store-proof.json")
 CASE_MARKER = "ADL_ISSUE_203_CASE_V1 "
@@ -162,7 +162,7 @@ fail_proof("subassertion denominator or substitution mismatch") unless observed_
 tree, status = Open3.capture2("git", "rev-parse", "#{source}^{tree}", chdir: ROOT.to_s)
 fail_proof("source tree unavailable") unless status.success?
 proof = {
-  "schema" => "adl.issue203.authority_store_adapter_proof.v1",
+  "schema" => "adl.issue203.authority_store_adapter_proof.v2",
   "issue" => 203,
   "source_revision" => source,
   "source_tree" => tree.strip,
@@ -174,7 +174,7 @@ proof = {
     "identity_passed" => 3,
     "cases" => EXPECTED_CASES.length,
     "subassertions" => expected_subassertions.length,
-    "source_assertions" => 18,
+    "source_assertions" => 59,
     "clippy_targets" => 1
   },
   "cases" => EXPECTED_CASES.map { |name| { "case" => name, "result" => "pass", "subassertions" => EXPECTED_SUBASSERTIONS } },

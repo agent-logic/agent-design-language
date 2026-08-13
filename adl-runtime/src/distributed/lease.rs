@@ -25,6 +25,24 @@ const MAX_CERTIFICATE_BYTES: usize = 1024 * 1024;
 const SHA256_BYTES: usize = 32;
 const SIGNATURE_BYTES: usize = 64;
 
+mod raw_access {
+    #[derive(Clone, Copy, Debug)]
+    pub struct LeaseStoreAccess {
+        _private: (),
+    }
+
+    pub(crate) const AUTHORITY_BOUND: LeaseStoreAccess = LeaseStoreAccess { _private: () };
+
+    #[cfg(debug_assertions)]
+    #[doc(hidden)]
+    pub const TEST_FIXTURE: LeaseStoreAccess = LeaseStoreAccess { _private: () };
+}
+
+pub use raw_access::LeaseStoreAccess;
+pub(crate) use raw_access::AUTHORITY_BOUND as AUTHORITY_BOUND_LEASE_ACCESS;
+#[cfg(debug_assertions)]
+pub use raw_access::TEST_FIXTURE as TEST_LEASE_STORE_ACCESS;
+
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 #[repr(u32)]
 pub enum OperationClass {
@@ -782,7 +800,7 @@ impl RedactedLeaseSnapshot {
 }
 
 impl AuthorityLedger {
-    pub fn new(policy: LeasePolicy) -> AuthorityResult<Self> {
+    pub fn new(_access: &LeaseStoreAccess, policy: LeasePolicy) -> AuthorityResult<Self> {
         policy.validate()?;
         Ok(Self {
             policy,
@@ -892,6 +910,7 @@ impl AuthorityLedger {
 
     pub fn apply(
         &mut self,
+        _access: &LeaseStoreAccess,
         certificate_bytes: &[u8],
         membership: &AuthorityMembership,
         application: AuthorityApplication<'_>,
@@ -1147,6 +1166,7 @@ impl AuthorityLedger {
 
     pub fn authorize_mutation(
         &mut self,
+        _access: &LeaseStoreAccess,
         authorization: MutationAuthorization<'_>,
     ) -> AuthorityResult<()> {
         let lease = self

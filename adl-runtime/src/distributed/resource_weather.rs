@@ -609,8 +609,19 @@ impl ResourceWeatherStore {
         {
             return Err(WeatherError::InvalidLifetime);
         }
+        #[cfg(not(test))]
         let authorized = certificates
             .authorize(
+                &claims.holder_id,
+                CertificatePurpose::AdvertisementSigning,
+                claims.certificate_generation,
+                now_unix_secs,
+            )
+            .map_err(|_| WeatherError::CertificateRejected)?;
+        #[cfg(test)]
+        let authorized = certificates
+            .authorize(
+                &super::certificates::TEST_CERTIFICATE_STORE_ACCESS,
                 &claims.holder_id,
                 CertificatePurpose::AdvertisementSigning,
                 claims.certificate_generation,

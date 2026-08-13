@@ -349,9 +349,21 @@ impl CapabilityAdvertisementVerifier {
             .authority_certificate
             .certificate_id()
             .map_err(|_| AdvertisementError::CertificateAuthorization)?;
+        #[cfg(not(test))]
         let authorized = self
             .certificate_store
             .authorize(
+                &advertisement.body.issuer_id,
+                CertificatePurpose::AdvertisementSigning,
+                advertisement.body.certificate_generation,
+                now_unix_secs,
+            )
+            .map_err(|_| AdvertisementError::CertificateAuthorization)?;
+        #[cfg(test)]
+        let authorized = self
+            .certificate_store
+            .authorize(
+                &super::certificates::TEST_CERTIFICATE_STORE_ACCESS,
                 &advertisement.body.issuer_id,
                 CertificatePurpose::AdvertisementSigning,
                 advertisement.body.certificate_generation,

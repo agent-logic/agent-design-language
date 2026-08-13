@@ -8,7 +8,7 @@ require "pathname"
 require "time"
 
 ROOT = Pathname.new(__dir__).join("../../../..").cleanpath.expand_path
-PREFIX = ".csdlc/evidence/203/v1/"
+PREFIX = ".csdlc/evidence/203/v2/"
 PROOF_RELATIVE = "#{PREFIX}authority-store-proof.json"
 EXPECTED_PROTECTED = %w[
   adl-runtime/src/distributed/authority_store_adapters.rs
@@ -90,7 +90,7 @@ EXPECTED_SUMMARY = {
   "identity_passed" => 3,
   "cases" => 44,
   "subassertions" => 132,
-  "source_assertions" => 18,
+  "source_assertions" => 59,
   "clippy_targets" => 1
 }.freeze
 
@@ -123,7 +123,7 @@ end
 
 proof = JSON.parse(File.binread(ordinary(PROOF_RELATIVE)))
 fail_receipt("top-level key mismatch") unless proof.keys.sort == %w[cases commands issue protected_files required_main_ancestor schema source_revision source_tree subassertions test_summary]
-fail_receipt("schema/issue mismatch") unless proof.fetch("schema") == "adl.issue203.authority_store_adapter_proof.v1" && proof.fetch("issue") == 203
+fail_receipt("schema/issue mismatch") unless proof.fetch("schema") == "adl.issue203.authority_store_adapter_proof.v2" && proof.fetch("issue") == 203
 source = proof.fetch("source_revision")
 source_tree = proof.fetch("source_tree")
 main = proof.fetch("required_main_ancestor")

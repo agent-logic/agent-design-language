@@ -22,7 +22,7 @@ use tokio_util::sync::CancellationToken;
 #[cfg(test)]
 use super::lease::VoterAuthority;
 #[cfg(test)]
-use super::certificates::DistributedCertificateStore;
+use super::certificates::{DistributedCertificateStore, TEST_CERTIFICATE_STORE_ACCESS};
 use super::{
     certificates::{AuthorityCertificate, CertificatePurpose, VerifiedCertificate},
     lease::{AuthorityMembership, ControlCertificatePurpose},
@@ -877,7 +877,13 @@ impl CertificateAuthorityHandle {
         match self {
             #[cfg(test)]
             Self::Raw(store) => store
-                .authorize(holder_id, purpose, generation, now_unix_seconds)
+                .authorize(
+                    &TEST_CERTIFICATE_STORE_ACCESS,
+                    holder_id,
+                    purpose,
+                    generation,
+                    now_unix_seconds,
+                )
                 .map_err(|_| ()),
             Self::Bound(store) => store
                 .authorize_runtime_certificate(holder_id, purpose, generation, now_unix_seconds),

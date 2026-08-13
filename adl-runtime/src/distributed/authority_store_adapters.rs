@@ -28,15 +28,16 @@ use super::{
     certificates::{
         ActivationOutcome, AuthorityCertificate, CertificateAuthorityRevision, CertificateError,
         CertificatePurpose, DistributedCertificateStore, RedactedCertificateSnapshot,
-        RevocationReason, VerifiedCertificate,
+        RevocationReason, VerifiedCertificate, AUTHORITY_BOUND_CERTIFICATE_ACCESS,
     },
     fencing::{
         ActiveLeaseCheck, FenceCommit, FenceReceipt, FencingAuthorityRevision, FencingError,
-        FencingStore, RedactedFencingSnapshot,
+        FencingStore, RedactedFencingSnapshot, AUTHORITY_BOUND_FENCING_ACCESS,
     },
     lease::{
         AuthorityApplication, AuthorityError, AuthorityLedger, AuthorityMembership,
         LeaseAuthorityRevision, LeaseState, MutationAuthorization, RedactedLeaseSnapshot,
+        AUTHORITY_BOUND_LEASE_ACCESS,
     },
     transport::{RuntimeCertificateAuthority, TransportAuthorization, TransportError},
 };
@@ -47,6 +48,8 @@ const LEASE_APPLY: &str = "lease_apply";
 const LEASE_MUTATION: &str = "lease_mutation";
 const FENCING_COMMIT: &str = "fencing_commit";
 const FENCING_ACTIVE_LEASE: &str = "fencing_active_lease";
+const PUBLISHED_VIEW_ACTION_FENCE: &str = "fence";
+const PUBLISHED_VIEW_ACTION_OWNER_COMMIT: &str = "owner_commit";
 #[cfg(debug_assertions)]
 const TEST_ADAPTER_KIND: &str = "adl.test.deterministic-authority";
 #[cfg(debug_assertions)]
@@ -91,7 +94,11 @@ impl From<FencingError> for AuthorityStoreAdapterError {
 pub struct PublishedStoreAuthorityReceiptView {
     lineage_id: String,
     operation_id: String,
+    action_class: String,
+    adapter_kind: String,
+    adapter_version: u32,
     generation: u64,
+    receipt_sha256: [u8; 32],
     result_sha256: [u8; 32],
 }
 
@@ -104,8 +111,24 @@ impl PublishedStoreAuthorityReceiptView {
         &self.operation_id
     }
 
+    pub fn action_class(&self) -> &str {
+        &self.action_class
+    }
+
+    pub fn adapter_kind(&self) -> &str {
+        &self.adapter_kind
+    }
+
+    pub fn adapter_version(&self) -> u32 {
+        self.adapter_version
+    }
+
     pub fn generation(&self) -> u64 {
         self.generation
+    }
+
+    pub fn receipt_sha256(&self) -> [u8; 32] {
+        self.receipt_sha256
     }
 
     pub fn result_sha256(&self) -> [u8; 32] {
@@ -134,10 +157,16 @@ impl AuthorityStoreAdapterRegistry {
             .barrier
             .published_result(lineage_id)
             .ok_or(AuthorityReconciliationError::ReconciliationRequired)?;
+        let action_class = published_view_action_class(result.mutation_kind())
+            .ok_or(AuthorityReconciliationError::ReconciliationRequired)?;
         Ok(PublishedStoreAuthorityReceiptView {
             lineage_id: result.lineage_id().to_owned(),
             operation_id: result.operation_id().to_owned(),
+            action_class: action_class.to_owned(),
+            adapter_kind: result.adapter_kind().to_owned(),
+            adapter_version: result.adapter_version(),
             generation: result.generation(),
+            receipt_sha256: result.receipts_sha256(),
             result_sha256: result.result_sha256(),
         })
     }
@@ -189,6 +218,14 @@ impl AuthorityStoreAdapterRegistry {
         self.barrier
             .validate_permit(&permit, &AuthorityPermitAction::Read)?;
         Ok(())
+    }
+}
+
+fn published_view_action_class(mutation_kind: &str) -> Option<&'static str> {
+    match mutation_kind {
+        FENCING_COMMIT => Some(PUBLISHED_VIEW_ACTION_FENCE),
+        LEASE_MUTATION => Some(PUBLISHED_VIEW_ACTION_OWNER_COMMIT),
+        _ => None,
     }
 }
 
@@ -287,7 +324,13 @@ impl AuthorityBoundCertificateStore {
     ) -> AuthorityStoreAdapterResult<VerifiedCertificate> {
         self.require_read()?;
         self.store
-            .authorize(holder_id, purpose, generation, now_unix_secs)
+            .authorize(
+                &AUTHORITY_BOUND_CERTIFICATE_ACCESS,
+                holder_id,
+                purpose,
+                generation,
+                now_unix_secs,
+            )
             .map_err(Into::into)
     }
 
@@ -298,7 +341,11 @@ impl AuthorityBoundCertificateStore {
     ) -> AuthorityStoreAdapterResult<ActivationOutcome> {
         self.require_mutation(CERTIFICATE_ACTIVATE)?;
         self.store
-            .activate(certificate, now_unix_secs)
+            .activate(
+                &AUTHORITY_BOUND_CERTIFICATE_ACCESS,
+                certificate,
+                now_unix_secs,
+            )
             .map_err(Into::into)
     }
 
@@ -310,7 +357,12 @@ impl AuthorityBoundCertificateStore {
     ) -> AuthorityStoreAdapterResult<()> {
         self.require_mutation(CERTIFICATE_REVOKE)?;
         self.store
-            .revoke(certificate_id, now_unix_secs, reason)
+            .revoke(
+                &AUTHORITY_BOUND_CERTIFICATE_ACCESS,
+                certificate_id,
+                now_unix_secs,
+                reason,
+            )
             .map_err(Into::into)
     }
 
@@ -416,7 +468,12 @@ impl AuthorityBoundLeaseLedger {
             .ledger
             .lock()
             .map_err(|_| AuthorityStoreAdapterError::LockPoisoned)?
-            .apply(certificate_bytes, membership, application)?
+            .apply(
+                &AUTHORITY_BOUND_LEASE_ACCESS,
+                certificate_bytes,
+                membership,
+                application,
+            )?
             .clone();
         Ok(lease)
     }
@@ -429,7 +486,7 @@ impl AuthorityBoundLeaseLedger {
         self.ledger
             .lock()
             .map_err(|_| AuthorityStoreAdapterError::LockPoisoned)?
-            .authorize_mutation(authorization)
+            .authorize_mutation(&AUTHORITY_BOUND_LEASE_ACCESS, authorization)
             .map_err(Into::into)
     }
 
@@ -484,7 +541,7 @@ impl AuthorityBoundFencingStore {
         self.store
             .lock()
             .map_err(|_| AuthorityStoreAdapterError::LockPoisoned)?
-            .commit(request)
+            .commit(&AUTHORITY_BOUND_FENCING_ACCESS, request)
             .map_err(Into::into)
     }
 
@@ -550,9 +607,13 @@ mod tests {
         authority_reconciliation::{
             AuthorityReconciliationArtifact, AuthorityReconciliationIdentity,
         },
-        certificates::{CertificateBody, CertificatePolicy, CertificateValidity},
-        fencing::{FencingCheckpoint, FencingCheckpointAuthority, FencingPolicy},
-        lease::LeasePolicy,
+        certificates::{
+            CertificateBody, CertificatePolicy, CertificateValidity, TEST_CERTIFICATE_STORE_ACCESS,
+        },
+        fencing::{
+            FencingCheckpoint, FencingCheckpointAuthority, FencingPolicy, TEST_FENCING_STORE_ACCESS,
+        },
+        lease::{LeasePolicy, TEST_LEASE_STORE_ACCESS},
         polis_runtime::{ConsensusCheckpoint, ConsensusCheckpointAuthority, PolisRuntimeError},
     };
 
@@ -697,7 +758,7 @@ mod tests {
                 generation,
                 CertificateValidity {
                     issued_at_unix_secs: NOW - 10,
-                    expires_at_unix_secs: NOW + 300,
+                    expires_at_unix_secs: NOW + 600,
                 },
                 subject.verifying_key(),
                 &root.verifying_key(),
@@ -717,8 +778,12 @@ mod tests {
         let subject = SigningKey::from_bytes(&[42; 32]);
         let policy = CertificatePolicy::new(DOMAIN, [signing_root.verifying_key()]).unwrap();
         let raw = Arc::new(
-            DistributedCertificateStore::open(temp.path().join("certificates.redb"), policy)
-                .unwrap(),
+            DistributedCertificateStore::open(
+                &TEST_CERTIFICATE_STORE_ACCESS,
+                temp.path().join("certificates.redb"),
+                policy,
+            )
+            .unwrap(),
         );
         let certificate = certificate(
             &signing_root,
@@ -727,7 +792,8 @@ mod tests {
             1,
             &subject,
         );
-        raw.activate(&certificate, NOW).unwrap();
+        raw.activate(&TEST_CERTIFICATE_STORE_ACCESS, &certificate, NOW)
+            .unwrap();
 
         let registry = AuthorityStoreAdapterRegistry::new(publish_lineage(
             temp.path(),
@@ -759,11 +825,14 @@ mod tests {
             )
             .unwrap(),
         ));
-        let ledger = Arc::new(Mutex::new(AuthorityLedger::new(lease_policy()).unwrap()));
+        let ledger = Arc::new(Mutex::new(
+            AuthorityLedger::new(&TEST_LEASE_STORE_ACCESS, lease_policy()).unwrap(),
+        ));
         let fencing_root = unpublished_temp.path().join("fencing");
         std::fs::create_dir(&fencing_root).unwrap();
         let fencing = Arc::new(Mutex::new(
             FencingStore::create(
+                &TEST_FENCING_STORE_ACCESS,
                 &fencing_root,
                 fencing_policy(),
                 Arc::new(MemoryFencingCheckpoint::default()),
