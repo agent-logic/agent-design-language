@@ -1104,22 +1104,34 @@ async fn find_marked_comment_values(
     number: u64,
     marker: &str,
 ) -> crate::Result<Vec<MarkedComment>> {
-    let value: Vec<Value> = crab
-        .get(
-            format!("/repos/{owner}/{repo}/issues/{number}/comments"),
-            Some(&[("per_page", "100")]),
-        )
-        .await
-        .map_err(remote)?;
-    Ok(value
-        .into_iter()
-        .filter_map(|comment| {
+    let mut matches = Vec::new();
+    let mut page = 1_u32;
+    loop {
+        let value: Vec<Value> = crab
+            .get(
+                format!("/repos/{owner}/{repo}/issues/{number}/comments"),
+                Some(&[("per_page", "100".to_owned()), ("page", page.to_string())]),
+            )
+            .await
+            .map_err(remote)?;
+        let value_len = value.len();
+        matches.extend(value.into_iter().filter_map(|comment| {
             let id = comment.get("id").and_then(Value::as_u64)?;
             let body = comment.get("body").and_then(Value::as_str)?.to_owned();
             body.contains(&marker_line(marker))
                 .then_some(MarkedComment { id, body })
-        })
-        .collect())
+        }));
+        if value_len < 100 {
+            break;
+        }
+        page = page.checked_add(1).ok_or_else(|| {
+            crate::V2Error::new(
+                crate::ErrorCode::ReconciliationRequired,
+                "issue comment pagination exceeded supported range",
+            )
+        })?;
+    }
+    Ok(matches)
 }
 
 fn split_repository(repository: &str) -> crate::Result<(&str, &str)> {

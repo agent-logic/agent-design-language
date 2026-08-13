@@ -449,6 +449,47 @@ async fn title_only_issue_update_preserves_body_and_records_durable_provenance()
 }
 
 #[tokio::test]
+async fn title_only_issue_update_finds_provenance_receipts_across_comment_pages() {
+    let env = LocalGithubEnv::start();
+    let mut create = base_request(GithubAction::IssueCreate);
+    create.token_file = Some(env.token_file());
+    create.title = Some("Original title".into());
+    create.body = Some("Body must remain byte-identical".into());
+    execute_github_action(&create)
+        .await
+        .expect("create fixture");
+
+    env.server.put_receipt_after_filler_comments(100);
+
+    let mut update = base_request(GithubAction::IssueUpdate);
+    update.token_file = Some(env.token_file());
+    update.operation_key = Some("issue-301.paginated-title-only-v1".into());
+    update.issue = Some(77);
+    update.title = Some("Canonical paginated title".into());
+    let first = execute_github_action(&update)
+        .await
+        .expect("title update with page-2 receipt readback");
+    assert_eq!(
+        first.issue.as_ref().unwrap().title,
+        "Canonical paginated title"
+    );
+    assert_eq!(first.comment_id, Some(9001));
+    assert_eq!(env.server.count("PATCH", "/repos/owner/repo/issues/77"), 1);
+
+    let retry = execute_github_action(&update)
+        .await
+        .expect("same-key retry finds page-2 receipt");
+    assert_eq!(retry.comment_id, Some(9001));
+    assert_eq!(env.server.count("PATCH", "/repos/owner/repo/issues/77"), 1);
+    assert!(
+        env.server
+            .count("GET", "/repos/owner/repo/issues/77/comments")
+            >= 4
+    );
+    env.server.assert_clean();
+}
+
+#[tokio::test]
 async fn title_only_issue_update_fails_closed_on_remote_body_drift() {
     let env = LocalGithubEnv::start();
     let mut create = base_request(GithubAction::IssueCreate);
@@ -592,6 +633,7 @@ async fn title_only_update_detects_every_declared_body_drift_boundary() {
 struct LocalGithubState {
     issue: Option<Value>,
     comment: Option<Value>,
+    filler_comments_before_receipt: usize,
     stale_patch_readback: bool,
     extra_patch_readback: bool,
     noisy_issue_search: bool,
@@ -751,6 +793,10 @@ impl LocalGithub {
         self.state.lock().unwrap().fail_receipt_creation_once = true;
     }
 
+    fn put_receipt_after_filler_comments(&self, count: usize) {
+        self.state.lock().unwrap().filler_comments_before_receipt = count;
+    }
+
     fn replace_issue_body(&self, body: &str) {
         self.state
             .lock()
@@ -823,6 +869,39 @@ impl MockRequest {
             .unwrap_or(&self.target)
             .to_owned()
     }
+
+    fn query_usize(&self, key: &str) -> Option<usize> {
+        let (_, query) = self.target.split_once('?')?;
+        query.split('&').find_map(|pair| {
+            let (name, value) = pair.split_once('=')?;
+            (name == key).then(|| value.parse().ok()).flatten()
+        })
+    }
+}
+
+fn paginated_issue_comments(
+    filler_count: usize,
+    receipt: Option<&Value>,
+    per_page: usize,
+    page: usize,
+) -> Vec<Value> {
+    let per_page = per_page.max(1);
+    let page = page.max(1);
+    let start = (page - 1).saturating_mul(per_page);
+    let total = filler_count + usize::from(receipt.is_some());
+    let end = total.min(start.saturating_add(per_page));
+    (start..end)
+        .map(|index| {
+            if index < filler_count {
+                json!({
+                    "id": 8000 + index as u64,
+                    "body": format!("ordinary issue discussion comment {index}")
+                })
+            } else {
+                receipt.expect("receipt exists").clone()
+            }
+        })
+        .collect()
 }
 
 fn read_request(stream: &mut TcpStream) -> Option<MockRequest> {
@@ -1029,13 +1108,12 @@ fn respond(state: &Arc<Mutex<LocalGithubState>>, request: MockRequest) -> Value 
             state.issue = Some(issue.clone());
             issue
         }
-        ("GET", "/repos/owner/repo/issues/77/comments") => Value::Array(
-            state
-                .comment
-                .as_ref()
-                .map(|v| vec![v.clone()])
-                .unwrap_or_default(),
-        ),
+        ("GET", "/repos/owner/repo/issues/77/comments") => Value::Array(paginated_issue_comments(
+            state.filler_comments_before_receipt,
+            state.comment.as_ref(),
+            request.query_usize("per_page").unwrap_or(30),
+            request.query_usize("page").unwrap_or(1),
+        )),
         ("POST", "/repos/owner/repo/issues/77/comments") => {
             if state.fail_receipt_creation_once {
                 state.fail_receipt_creation_once = false;
