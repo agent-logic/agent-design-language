@@ -1,0 +1,24 @@
+flowchart TD
+  T["Opaque finalized #201 token with exact signed artifact"] --> P["#200 Pending plan and live denial barrier"]
+  P --> R["Sealed #203 adapter registry"]
+  R --> C["Certificate effect and exact receipt"]
+  R --> F["Fencing floor effect and exact receipt"]
+  R --> L["Canonical lease effect and exact receipt"]
+  R --> A["Node-local safety anchor checkpoint and audit only"]
+  C --> X["Reconcile exact ordered receipt set"]
+  F --> X
+  L --> X
+  A -. "never enters canonical receipt or result digest" .-> D
+  X --> Q["#200 result cache and node-local checkpoint CAS"]
+  Q --> V["Atomic published generation"]
+  V --> G["Live action-scoped read or mutation grant"]
+  V --> Y["Opaque PublishedStoreAuthorityReceiptView for #205"]
+  G --> B["Authority-bound store handle revalidates every use"]
+  B --> PR["Production Polis runtime bootstrap"]
+  B --> RT["Runtime transport integration fixture"]
+  PR -. "raw Arc store bootstrap attempt" .-> D
+  RT -. "raw Arc store shortcut attempt" .-> D
+  N["Newer Pending generation"] -->|"invalidates prior grants"| B
+  B -->|"current exact grant"| O["Authorized certificate, lease, or fencing result"]
+  B -->|"stale, wrong action, partial, or unsafe"| D["Fail closed"]
+  U["Local NotReady or Unsafe"] -->|"no effect, receipt, result, or phase advance"| D

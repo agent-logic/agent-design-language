@@ -1,0 +1,475 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 203,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "3241806f8faffb5e7ef1b57c174149814d412144759745599e303023dad9233a",
+  "phase": "published",
+  "generation": 43,
+  "digest": "347006212bdd0e6fc0b40fb01b790e64f3ec564a1258319bfcb17fdd5db8c4ad",
+  "branch": "codex/203-authority-serving-adapters-preparation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-203-authority-serving-adapters",
+  "review_assignment": {
+    "reviewer": "fresh-session:64ce444e-ef62-40e9-9b21-cf396db07f0b",
+    "assigned_by": "codex-issue-203-reconciliation",
+    "revision": "git-blake3:50c566fd7968eb86ce12ffe7dd0eac16be29b92b:280850b2594d0048c6517a404c43d076214d4b19dc65428950667315882287fe",
+    "scope": [
+      ".csdlc/issues/203",
+      ".csdlc/prepared/issues/203",
+      ".csdlc/evidence/203"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:64ce444e-ef62-40e9-9b21-cf396db07f0b",
+    "scope": [
+      ".csdlc/issues/203",
+      ".csdlc/prepared/issues/203",
+      ".csdlc/evidence/203"
+    ],
+    "reviewed_revision": "git-blake3:50c566fd7968eb86ce12ffe7dd0eac16be29b92b:280850b2594d0048c6517a404c43d076214d4b19dc65428950667315882287fe",
+    "findings": [],
+    "residual_risks": [
+      "Retained Cargo and Clippy logs were digest-verified rather than independently rerun by reviewer.",
+      "Broad workspace and hosted CI remain publication gates."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 203,
+    "pull_request": 335,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/335",
+    "base": "main",
+    "head": "codex/203-authority-serving-adapters-preparation",
+    "revision": "git-blake3:76edd018266bcdcc5fca6c465ead4d1a45644ce5:a86c82cfd0d5bbb11bcaa83b0d2a509a72165b789c56c1e468c0bae46a5dc65a",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/203/design.md",
+  "diagram_path": ".csdlc/prepared/issues/203/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex:/root/review_202_impl_final",
+      "revision": "821593327fcf90839f9ed455ae467af9a234eba05f58564de36b029c73349b49"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "33740fbde388d37d9ed05ab0c8d2276ebed7169045fe439ebdebbfefbbe6ed3b",
+      "rendered_digest": "079525186b170b21283c458c8076934c1c4e48b2aac29dfd6d6cfddcfba68e30",
+      "ast_digest": "77fd95a3eb427c7a9b47e353b46456107d8167bd7cbdfa07114fb419d1fc99fa"
+    },
+    "stp": {
+      "values_digest": "f05edd8b0e72839a9c299b8f97d4d32feef5cc91ede3c16fe880f22a899109c4",
+      "rendered_digest": "95ed4d8f973edf87afd24417b1d6eddcb9ce964cf8d5c7e5a71613587d1ff916",
+      "ast_digest": "90af51e55128247a385506b2b74374675dc25fb2952916eb1a174f89d0916aa3"
+    },
+    "spp": {
+      "values_digest": "de75d68ac8627bf1b91e4d3972d84eb9d24c4fcaf80f22557851f34464cc8be1",
+      "rendered_digest": "2ceead76f8a3a54af2fca8a910a0542c6f71f92ce926b711987c8d4fea54a0d7",
+      "ast_digest": "a1f903dc8dcf40514a2f5eec465c263df466e83484157a2032abdc510a5e49e0"
+    },
+    "vpp": {
+      "values_digest": "c1939fa998db1c1f1baff9af6bb2d8d02c705399b037c0c866032a580b472111",
+      "rendered_digest": "6b3797b0651a09bf57c00e7f1103c2cff9e9a99190c6d44e7197105da1851d39",
+      "ast_digest": "96a3c1787b3fa4828ff86222dce5cd79e3696fa39331202feabd24a0e8177e15"
+    },
+    "srp": {
+      "values_digest": "884b6c0c5d96aefbc2a518e2f58a300574b333b04473251198c925343d8e10fb",
+      "rendered_digest": "09796e8a8e357e4fde256b4a385816311e8d8b2fc026e22cf34398ab91e8f76f",
+      "ast_digest": "2f3eb5c7817901a0cb31335c0b836e6d49c20fb7280f1e27f1481c07976c339f"
+    },
+    "sor": {
+      "values_digest": "c9de1f07caa15be8171712263c13b0fc2d1eed580b180120b4e7f9a0541f33fa",
+      "rendered_digest": "b326171449061329ae7aa1ec50ec993c3aa6c97be122176e61aa4747b844f676",
+      "ast_digest": "a33a32140cd22fa4969df90eb17ec603399478f3321c402d40effe3b544d486b"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "advance initialized #203 package to ready after current-main resync and clean validation"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-issue-203-reconciliation",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex-issue-203-reconciliation",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:203-authority-store-adapters-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:203-review-resolution",
+      "reason": "Remove node-local safety-anchor identity from canonical authority results and make the exact consumer-migration boundary explicit.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"required_outcome\",\"value\":\"All authority-restoring store reads and mutations revalidate a live lineage/action/generation-scoped #200 grant; sealed adapters consume the exact private #201 store-native signed artifact view; canonical lease state, step receipts, results, and result digests contain no node-local safety-anchor bytes or digest; the anchor is bound only by a node-local checkpoint/audit record; every enumerated normal-build source consumer and integration fixture migrates off raw store access; and partial progress remains fail-safe until publication.\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:203-review-resolution",
+      "reason": "Pin canonical/local anchor separation and compatibility-only migration of every existing raw-store consumer.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"task_boundary\",\"value\":\"Implement and publish only sealed existing-store adapters, store-bound live grant enforcement, deterministic canonical lease-time state whose receipts/results exclude every node-local safety-anchor byte and digest, node-local checkpoint/audit-only conservative safety anchors, read-only PublishedStoreAuthorityReceiptView projection for #205, exact compatibility migration of all enumerated normal-build certificate/lease/fencing consumers and integration fixtures off raw access, and focused proof surfaces; migration/recovery workflow semantics remain #204.\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:203-review-resolution",
+      "reason": "Enumerate every normal-build store consumer and integration fixture that must migrate to close the raw certificate/lease/fencing bypass without taking over #204 workflow semantics.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime/src/distributed/authority_store_adapters.rs\",\"adl-runtime/src/distributed/certificates.rs\",\"adl-runtime/src/distributed/lease.rs\",\"adl-runtime/src/distributed/fencing.rs\",\"adl-runtime/src/distributed/mod.rs\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/src/distributed/capability_advertisement.rs\",\"adl-runtime/src/distributed/placement.rs\",\"adl-runtime/src/distributed/projection.rs\",\"adl-runtime/src/distributed/resource_weather.rs\",\"adl-runtime/src/distributed/snapshot_catalog.rs\",\"adl-runtime/src/distributed/migration.rs\",\"adl-runtime/src/distributed/recovery.rs\",\"adl-runtime/tests/distributed_identity_lease_authority.rs\",\"adl-runtime/tests/distributed_authority_snapshots.rs\",\"adl-runtime/tests/distributed_capability_advertisement.rs\",\"adl-runtime/tests/distributed_certificates.rs\",\"adl-runtime/tests/distributed_discovery.rs\",\"adl-runtime/tests/distributed_fencing.rs\",\"adl-runtime/tests/distributed_guardian.rs\",\"adl-runtime/tests/distributed_lease.rs\",\"adl-runtime/tests/distributed_migration.rs\",\"adl-runtime/tests/distributed_placement.rs\",\"adl-runtime/tests/distributed_projection.rs\",\"adl-runtime/tests/distributed_recovery.rs\",\"adl-runtime/tests/distributed_resource_weather.rs\",\"adl-runtime/tests/distributed_snapshot_catalog.rs\",\"adl-runtime/tests/distributed_transport.rs\",\".csdlc/prepared/issues/203/produce-proof-receipt.rb\",\".csdlc/prepared/issues/203/validate-proof-receipt.rb\",\".csdlc/evidence/203\",\".csdlc/issues/203\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:203-review-resolution",
+      "reason": "Align the operative plan with prerequisite artifact truth, canonical/local separation, and exact consumer compatibility migration.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"plan_summary\",\"value\":\"After every dependency merges with #201's fresh independently reapproved private exact-artifact interface, bind #203, close all enumerated raw store bypasses, implement sealed deterministic adapters and node-local checkpoint/audit-only safety anchoring, mechanically migrate existing consumers without changing #204 workflow semantics, prove exactly forty-four cases and 132 generated canonical subassertion IDs, independently review, and publish a ready unmerged PR before #205/#204.\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:203-review-resolution",
+      "reason": "Make the exact normal-build and integration-test compatibility surface executable rather than relying on an undeclared ripple assumption.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/distributed/authority_store_adapters.rs\",\"adl-runtime/src/distributed/certificates.rs\",\"adl-runtime/src/distributed/lease.rs\",\"adl-runtime/src/distributed/fencing.rs\",\"adl-runtime/src/distributed/mod.rs\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/src/distributed/capability_advertisement.rs\",\"adl-runtime/src/distributed/placement.rs\",\"adl-runtime/src/distributed/projection.rs\",\"adl-runtime/src/distributed/resource_weather.rs\",\"adl-runtime/src/distributed/snapshot_catalog.rs\",\"adl-runtime/src/distributed/migration.rs\",\"adl-runtime/src/distributed/recovery.rs\",\"adl-runtime/tests/distributed_identity_lease_authority.rs\",\"adl-runtime/tests/distributed_authority_snapshots.rs\",\"adl-runtime/tests/distributed_capability_advertisement.rs\",\"adl-runtime/tests/distributed_certificates.rs\",\"adl-runtime/tests/distributed_discovery.rs\",\"adl-runtime/tests/distributed_fencing.rs\",\"adl-runtime/tests/distributed_guardian.rs\",\"adl-runtime/tests/distributed_lease.rs\",\"adl-runtime/tests/distributed_migration.rs\",\"adl-runtime/tests/distributed_placement.rs\",\"adl-runtime/tests/distributed_projection.rs\",\"adl-runtime/tests/distributed_recovery.rs\",\"adl-runtime/tests/distributed_resource_weather.rs\",\"adl-runtime/tests/distributed_snapshot_catalog.rs\",\"adl-runtime/tests/distributed_transport.rs\",\".csdlc/prepared/issues/203/produce-proof-receipt.rb\",\".csdlc/prepared/issues/203/validate-proof-receipt.rb\",\".csdlc/evidence/203\",\".csdlc/issues/203\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:203-review-resolution",
+      "reason": "Exclude node-local anchor identity from canonical results and pin the #203/#205 receipt-projection boundary.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"No normal-build raw store constructor, mutation, authorization, grant, receipt, or local history creates authority\",\"Every store use observes the live #200 barrier and a newer Pending generation invalidates retained grants\",\"Exact private #201 signed artifact bytes and store-native verification remain the sole concrete authority inputs\",\"Canonical replicated store state, step receipts, results, result digests, and published receipt views contain no node-local wall time, monotonic time, boot-local safety-anchor bytes, or safety-anchor digest\",\"Each local safety anchor is bound only by a node-local checkpoint and audit record; local NotReady or Unsafe cannot create canonical progress\",\"AuthorityStoreAdapterRegistry exposes #205 only a read-only opaque PublishedStoreAuthorityReceiptView for an exactly Published OwnerCommit or Fence result and exposes no raw handle or serving decision\",\"Partial multi-store progress remains denied and is never described as atomic\",\"Migration and recovery source edits in #203 are signature/handle compatibility only; #204 retains workflow, failure-policy, and execution ownership\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 7,
+      "actor": "codex:203-review-resolution",
+      "reason": "Declare a complete exact machine-derived 132-subassertion denominator and bind canonical/local safety separation plus consumer migration proof.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"identity-lease-fencing-authority\",\"proof_role\":\"Prove exactly 44 canonical cases: certificate_enroll, certificate_rotate_overlap, certificate_successor_post_overlap, certificate_revoke, certificate_compromise_identity_fence, lease_grant, lease_renewal, lease_revoke, fence_commit, activate_after_safety, owner_commit, exact_retry_published, restart_reanchor_safe, barrier_pending_blocks_all_reads, unsigned_certificate_rejected, wrong_issuer_rejected, wrong_certificate_purpose_rejected, wrong_certificate_domain_rejected, stale_certificate_generation_rejected, token_artifact_digest_mismatch, reconstructed_endorsements_rejected, wrong_authority_membership_rejected, stale_lease_index_rejected, stale_lease_epoch_rejected, wrong_activation_possession_rejected, activate_before_safety_rejected, floor_precedes_ledger_revocation, local_clock_unsafe_no_effect, local_clock_rollback_no_effect, crash_after_certificate_effect, crash_after_fence_floor, crash_after_ledger_effect, crash_after_local_anchor, crash_after_result, crash_before_checkpoint, crash_after_checkpoint, stale_read_permit_rejected, stale_mutation_permit_rejected, read_to_mutation_escalation_rejected, wrong_lineage_permit_rejected, coherent_rollback_rejected, corrupt_noncanonical_oversized_rejected, state_or_lock_symlink_rejected, capacity_n_plus_one_no_partial. For each case C the exact ordered machine subassertions are C::expected_outcome, C::canonical_store_state, C::publication_barrier_state; therefore the complete denominator is exactly 132 unique IDs. No extra, missing, duplicate, reordered, or differently named case/subassertion is accepted. canonical_store_state must prove canonical receipts/results exclude local safety-anchor bytes and digest; publication_barrier_state must prove local anchors exist only in node-local checkpoint/audit and partial state remains denied. The target also compiles every enumerated normal-build consumer and integration fixture against authority-bound handles, with migration/recovery changes limited to compatibility.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":24000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity_lease_authority\",\"--no-tests=fail\"],\"parallel_group\":\"203-runtime\",\"defer_reason\":\"Deferred until all five dependencies merge and the exact targets exist; fail closed on missing targets, zero tests, any case count other than 44, any subassertion count other than 132, any missing/extra/duplicate/reordered name/result/marker/subassertion, canonical anchor leakage, or an uncompiled enumerated consumer.\"},{\"lane\":\"identity-lease-fencing-clippy\",\"proof_role\":\"Reject warnings and API misuse across the concrete authority target plus every enumerated normal-build consumer compatibility path.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity_lease_authority\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"203-runtime\",\"defer_reason\":\"Deferred until the owned focused target exists; fail closed on warnings, missing target, missing source, or any raw-access compatibility escape.\"},{\"lane\":\"identity-lease-fencing-producer\",\"proof_role\":\"Produce exact Git/source/command/stream/timing/protected-digest evidence for all 44 case names and the exact generated 132 IDs C::expected_outcome, C::canonical_store_state, C::publication_barrier_state, including canonical anchor exclusion and enumerated consumer compilation.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":10000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/203/produce-proof-receipt.rb\"],\"parallel_group\":\"203-proof\",\"defer_reason\":\"Deferred until the exact producer exists; fail closed on dirty protected source, wrong case or subassertion count, missing/extra/duplicate/reordered name or result, canonical anchor leakage, consumer omission, or nonzero status.\"},{\"lane\":\"identity-lease-fencing-receipt\",\"proof_role\":\"Bind exact protected source, commands, all 44 names/results/markers, the exact 132 generated subassertion IDs, enumerated consumer paths, strict Clippy, immutable evidence introduction, review, and squash-merge-safe validation.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":5000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/203/validate-proof-receipt.rb\"],\"parallel_group\":\"203-proof\",\"defer_reason\":\"Deferred until validator and immutable evidence exist; fail closed until exact reviewed source, all 44 cases, all 132 generated IDs, protected consumer coverage, and canonical/local separation are bound.\"}]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 8,
+      "actor": "codex:/root/rereview_203_design",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 10,
+      "generation": 9,
+      "actor": "codex:/root/prepare_203_parallel",
+      "reason": "Replace stale all-dependencies gate with merged baseline truth and the explicit serial #202 then #199 stop before bind or product edits.",
+      "operation": "{\"new_values\":[\"Merged fixed baseline already ancestral at origin/main 2afa820c4aaa8528ef4cd252de4ee9078b8a882a: issue #191 / PR #197, issue #201 / PR #229, issue #200 / PR #231, and issue #208 / PR #230; do not treat them as remaining scheduling gates\",\"Serial stop: do not bind #203 or edit product source until issue #202 is independently reviewed, merged, and ancestral and then issue #199 is independently reviewed, merged, and ancestral\",\"After #202 and #199 are both merged and ancestral, resync #203 onto the resulting exact origin/main and rerun typed csdlc-validate issue plus csdlc-doctor before any bind\",\"Keep #203 limited to existing certificate, lease, and fencing stores; preserve #208 Guardian-kernel continuity effects, #205 serving eligibility, and #204 migration/recovery as separate authorities\",\"Do not preserve a production raw-store escape hatch for compatibility\",\"Run fresh independent exact-head review before publication\",\"Open a ready PR for visibility but never merge before operator review and authorization\",\"No AWS use and no lifecycle closeout\"],\"operation\":\"correct_operator_constraints_before_bind\",\"previous_values\":[\"Do not bind or edit product source until #191, #201, #202, #199, and #200 are externally reviewed, merged, and ancestral\",\"Keep #203 limited to existing certificate, lease, and fencing stores; serving eligibility is #205 and migration/recovery is #204\",\"Do not preserve a production raw-store escape hatch for compatibility\",\"Run fresh independent exact-head review before publication\",\"Open a ready PR for visibility but never merge before operator review and authorization\",\"No AWS use and no lifecycle closeout\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 10,
+      "actor": "codex:/root/prepare_203_parallel",
+      "reason": "Record merged #201/#200/#208 ancestry and narrow the remaining serial dependency gate to reviewed, merged, ancestral #202 followed by #199.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"Merged fixed ancestor: issue #191 / PR #197 at 8bd475cf18eb77cc7402220f69282f64a4a1a1e5\",\"Merged fixed ancestor: issue #201 / PR #229 at 3ffc4c402c57e167fb9943221c9dac24f96f8895\",\"Merged fixed ancestor: issue #200 / PR #231 at 507d9a1e3a74c2c9c6cce14259b095139aa3bdfa\",\"Merged fixed boundary: issue #208 / PR #230 at 5e25dcceb; #203 must preserve its Guardian-kernel continuity effect and receipt ownership\",\"Serial stop: issue #202 learner transport and exclusion must be independently reviewed, merged, and ancestral, followed by issue #199 governed membership being independently reviewed, merged, and ancestral; #203 may not bind or edit product source before both conditions hold\",\"After #202 and #199 merge, resync #203 onto the resulting exact origin/main and rerun typed csdlc-validate issue and csdlc-doctor before bind\",\"Issue #205 and #204 remain blocked until this issue merges\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 11,
+      "actor": "codex:/root/prepare_203_parallel",
+      "reason": "Replace the stale all-dependencies summary with the exact remaining serial gate and post-merge resync requirement.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"plan_summary\",\"value\":\"Keep #203 preparation-only while #202 remains under review and #199 remains prepared behind it. After #202 and then #199 are independently reviewed, merged, and ancestral, resync to the resulting exact origin/main, rerun typed validation and doctor, and only then bind #203 to close all enumerated raw store bypasses using the already merged #201 artifact interface and #200 barrier while preserving #208, #205, and #204 authority boundaries.\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 12,
+      "actor": "codex:/root/prepare_203_parallel",
+      "reason": "Make the first executable plan step the exact #202 then #199 serial stop, resync, and typed revalidation gate.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/203/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/203/diagram.mmd\",\"new_design_digest\":\"829d5bcbbfd58cd46ec1302e6e38540170f3d4595df5a581cfe727b86551e0ce\",\"new_diagram_digest\":\"09e8e2b43712edb59afb5a017542f4d2b38f2aa9cd364d429d5a419236c25e06\",\"old_design_digest\":\"829d5bcbbfd58cd46ec1302e6e38540170f3d4595df5a581cfe727b86551e0ce\",\"old_diagram_digest\":\"09e8e2b43712edb59afb5a017542f4d2b38f2aa9cd364d429d5a419236c25e06\"},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"action\":\"Remain preparation-only until #202 and then #199 are independently reviewed, merged, and ancestral; resync #203 to the resulting exact origin/main and rerun typed validation and doctor before any bind.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-7\"],\"action\":\"After the serial gate passes, bind #203 and implement the sealed adapter registry, authority-bound handles, raw-bypass closure, deterministic lease state, local anchors, and exact ordered operations in owned paths without changing #208, #205, or #204 authority.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-8\"],\"action\":\"Prove exact forty-four-case behavior, every crash/retry/bounds window, strict Clippy, and merge-safe receipt truth; resolve fresh exact-head review, publish a ready PR closing #203, shepherd hosted CI, and wait for operator review and merge authorization.\",\"id\":\"S3\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 13,
+      "actor": "codex:/root/prepare_203_parallel",
+      "reason": "Make the two remaining serial prerequisites, mandatory post-merge resync/revalidation, and merged #208 authority boundary fail-closed stop conditions.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"Issue #202 is not independently reviewed, merged, and ancestral\",\"Issue #199 is not independently reviewed, merged, and ancestral after #202\",\"After both prerequisite merges, #203 has not been resynchronized onto the resulting exact origin/main and passed typed csdlc-validate issue plus csdlc-doctor\",\"Merged #201 lacks the exact sealed store-native artifact view or merged #200 lacks live per-use grant validation expected by the approved #203 design\",\"Closing raw bypasses requires undeclared production consumer edits that cannot be handled by store-bound validation\",\"A local-clock refusal would create a durable canonical effect or result\",\"Implementation expands into #208 Guardian-kernel continuity effects, #205 serving authority, #204 migration/recovery policy, Guardian/API/WSS, models, AWS, or live qualification\",\"Any focused proof or independent review has an unresolved actionable finding\"]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 14,
+      "actor": "codex:/root/prepare_203_parallel",
+      "reason": "Replace the stale five-dependency defer condition with the exact #202 then #199 serial gate and mandatory post-merge typed resync validation.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"identity-lease-fencing-authority\",\"proof_role\":\"Prove exactly 44 canonical cases: certificate_enroll, certificate_rotate_overlap, certificate_successor_post_overlap, certificate_revoke, certificate_compromise_identity_fence, lease_grant, lease_renewal, lease_revoke, fence_commit, activate_after_safety, owner_commit, exact_retry_published, restart_reanchor_safe, barrier_pending_blocks_all_reads, unsigned_certificate_rejected, wrong_issuer_rejected, wrong_certificate_purpose_rejected, wrong_certificate_domain_rejected, stale_certificate_generation_rejected, token_artifact_digest_mismatch, reconstructed_endorsements_rejected, wrong_authority_membership_rejected, stale_lease_index_rejected, stale_lease_epoch_rejected, wrong_activation_possession_rejected, activate_before_safety_rejected, floor_precedes_ledger_revocation, local_clock_unsafe_no_effect, local_clock_rollback_no_effect, crash_after_certificate_effect, crash_after_fence_floor, crash_after_ledger_effect, crash_after_local_anchor, crash_after_result, crash_before_checkpoint, crash_after_checkpoint, stale_read_permit_rejected, stale_mutation_permit_rejected, read_to_mutation_escalation_rejected, wrong_lineage_permit_rejected, coherent_rollback_rejected, corrupt_noncanonical_oversized_rejected, state_or_lock_symlink_rejected, capacity_n_plus_one_no_partial. For each case C the exact ordered machine subassertions are C::expected_outcome, C::canonical_store_state, C::publication_barrier_state; therefore the complete denominator is exactly 132 unique IDs. No extra, missing, duplicate, reordered, or differently named case/subassertion is accepted. canonical_store_state must prove canonical receipts/results exclude local safety-anchor bytes and digest; publication_barrier_state must prove local anchors exist only in node-local checkpoint/audit and partial state remains denied. The target also compiles every enumerated normal-build consumer and integration fixture against authority-bound handles, with migration/recovery changes limited to compatibility.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":24000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity_lease_authority\",\"--no-tests=fail\"],\"parallel_group\":\"203-runtime\",\"defer_reason\":\"Deferred until #202 is independently reviewed, merged, and ancestral and then #199 is independently reviewed, merged, and ancestral; after both merges #203 must resync to the resulting exact origin/main and pass typed csdlc-validate issue plus csdlc-doctor before bind. Fail closed on missing targets, zero tests, any case count other than 44, any subassertion count other than 132, any missing/extra/duplicate/reordered name/result/marker/subassertion, canonical anchor leakage, or an uncompiled enumerated consumer.\"},{\"lane\":\"identity-lease-fencing-clippy\",\"proof_role\":\"Reject warnings and API misuse across the concrete authority target plus every enumerated normal-build consumer compatibility path.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity_lease_authority\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"203-runtime\",\"defer_reason\":\"Deferred until the owned focused target exists; fail closed on warnings, missing target, missing source, or any raw-access compatibility escape.\"},{\"lane\":\"identity-lease-fencing-producer\",\"proof_role\":\"Produce exact Git/source/command/stream/timing/protected-digest evidence for all 44 case names and the exact generated 132 IDs C::expected_outcome, C::canonical_store_state, C::publication_barrier_state, including canonical anchor exclusion and enumerated consumer compilation.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":10000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/203/produce-proof-receipt.rb\"],\"parallel_group\":\"203-proof\",\"defer_reason\":\"Deferred until the exact producer exists; fail closed on dirty protected source, wrong case or subassertion count, missing/extra/duplicate/reordered name or result, canonical anchor leakage, consumer omission, or nonzero status.\"},{\"lane\":\"identity-lease-fencing-receipt\",\"proof_role\":\"Bind exact protected source, commands, all 44 names/results/markers, the exact 132 generated subassertion IDs, enumerated consumer paths, strict Clippy, immutable evidence introduction, review, and squash-merge-safe validation.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":5000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/203/validate-proof-receipt.rb\"],\"parallel_group\":\"203-proof\",\"defer_reason\":\"Deferred until validator and immutable evidence exist; fail closed until exact reviewed source, all 44 cases, all 132 generated IDs, protected consumer coverage, and canonical/local separation are bound.\"}]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 15,
+      "actor": "codex:/root/prepare_203_parallel",
+      "reason": "Pin the merged #208 boundary to its complete ancestral commit identity without changing the serial stop.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"Merged fixed ancestor: issue #191 / PR #197 at 8bd475cf18eb77cc7402220f69282f64a4a1a1e5\",\"Merged fixed ancestor: issue #201 / PR #229 at 3ffc4c402c57e167fb9943221c9dac24f96f8895\",\"Merged fixed ancestor: issue #200 / PR #231 at 507d9a1e3a74c2c9c6cce14259b095139aa3bdfa\",\"Merged fixed boundary: issue #208 / PR #230 at 5e25dccebde3bdd608e3ecb80d3d60a0c40e3a90; #203 must preserve its Guardian-kernel continuity effect and receipt ownership\",\"Serial stop: issue #202 learner transport and exclusion must be independently reviewed, merged, and ancestral, followed by issue #199 governed membership being independently reviewed, merged, and ancestral; #203 may not bind or edit product source before both conditions hold\",\"After #202 and #199 merge, resync #203 onto the resulting exact origin/main and rerun typed csdlc-validate issue and csdlc-doctor before bind\",\"Issue #205 and #204 remain blocked until this issue merges\"]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 16,
+      "actor": "codex:/root/prepare_203_parallel",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 18,
+      "generation": 17,
+      "actor": "codex:/root/resolve_208_final_review",
+      "reason": "Resolve independent #203 preparation review: bind the exact production Polis and runtime-transport raw-store consumers into AC-1 and refresh authored design bindings while superseding self-approval",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/203/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/203/diagram.mmd\",\"new_design_digest\":\"821593327fcf90839f9ed455ae467af9a234eba05f58564de36b029c73349b49\",\"new_diagram_digest\":\"5123132ebb8df7d455bd8e26404568a32994573fa54107ff7b22956916e0b76e\",\"old_design_digest\":\"829d5bcbbfd58cd46ec1302e6e38540170f3d4595df5a581cfe727b86551e0ce\",\"old_diagram_digest\":\"09e8e2b43712edb59afb5a017542f4d2b38f2aa9cd364d429d5a419236c25e06\"},\"operation\":{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: Normal-build callers cannot open ungated stores, construct a raw grant, or mutate/authorize certificates, leases, or fencing without current #200 lineage/action/adapter/generation validation on every use. This includes migrating adl-runtime/src/distributed/polis_runtime.rs and adl-runtime/tests/distributed_runtime_transport.rs from raw Arc<DistributedCertificateStore> bootstrap/fixture ownership to sealed authority-bound handles.\",\"AC-2: Each sealed plan consumes the exact private #201 artifact view, byte-compares its digest and operation binding, and verifies it through the existing store-native signature/quorum path without signing, endorsing, or reconstruction.\",\"AC-3: Canonical lease state and receipts bind only committed deterministic time; local monotonic safety anchors are separate and NotReady/Unsafe produces no concrete or barrier progress.\",\"AC-4: Certificate enroll/rotate/revoke/compromise and LeaseGrant/Renewal/Revoke/Fence/Activate/OwnerCommit execute only the fixed fail-safe order, with floor before ledger revocation and exact floor/safety/possession checks before activation.\",\"AC-5: Every concrete effect has an opaque digest-bound receipt; partial progress remains denied, and cache-first exact retry reconciles rather than duplicating effects and returns only from Published.\",\"AC-6: Initialization, dual open, every effect/receipt/anchor/result/checkpoint/marker/view boundary, rollback, corrupt/noncanonical/oversized or replaced state, unsafe paths, and N+1 capacity fail closed without partial publication.\",\"AC-7: Existing path-included low-level tests may use cfg(test) raw helpers, but the normal library exposes only authority-bound handles and compile-time proof rejects a production bypass.\",\"AC-8: Exact forty-four-case focused proof, strict Clippy, merge-safe immutable receipt validation, diff hygiene, and fresh independent exact-head review pass before a ready unmerged PR opens.\"]}}"
+    },
+    {
+      "sequence": 19,
+      "generation": 18,
+      "actor": "codex:/root/resolve_208_final_review",
+      "reason": "Enumerate the production Polis bootstrap and runtime-transport fixture in the exact #203 implementation write set",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime/src/distributed/authority_store_adapters.rs\",\"adl-runtime/src/distributed/certificates.rs\",\"adl-runtime/src/distributed/lease.rs\",\"adl-runtime/src/distributed/fencing.rs\",\"adl-runtime/src/distributed/mod.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/src/distributed/capability_advertisement.rs\",\"adl-runtime/src/distributed/placement.rs\",\"adl-runtime/src/distributed/projection.rs\",\"adl-runtime/src/distributed/resource_weather.rs\",\"adl-runtime/src/distributed/snapshot_catalog.rs\",\"adl-runtime/src/distributed/migration.rs\",\"adl-runtime/src/distributed/recovery.rs\",\"adl-runtime/tests/distributed_identity_lease_authority.rs\",\"adl-runtime/tests/distributed_authority_snapshots.rs\",\"adl-runtime/tests/distributed_capability_advertisement.rs\",\"adl-runtime/tests/distributed_certificates.rs\",\"adl-runtime/tests/distributed_discovery.rs\",\"adl-runtime/tests/distributed_fencing.rs\",\"adl-runtime/tests/distributed_guardian.rs\",\"adl-runtime/tests/distributed_lease.rs\",\"adl-runtime/tests/distributed_migration.rs\",\"adl-runtime/tests/distributed_placement.rs\",\"adl-runtime/tests/distributed_projection.rs\",\"adl-runtime/tests/distributed_recovery.rs\",\"adl-runtime/tests/distributed_resource_weather.rs\",\"adl-runtime/tests/distributed_snapshot_catalog.rs\",\"adl-runtime/tests/distributed_transport.rs\",\".csdlc/prepared/issues/203/produce-proof-receipt.rb\",\"adl-runtime/tests/distributed_runtime_transport.rs\",\".csdlc/prepared/issues/203/validate-proof-receipt.rb\",\".csdlc/evidence/203\",\".csdlc/issues/203\"]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 19,
+      "actor": "codex:/root/resolve_208_final_review",
+      "reason": "Keep the exact #203 runtime transport fixture write set grouped with integration consumers",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime/src/distributed/authority_store_adapters.rs\",\"adl-runtime/src/distributed/certificates.rs\",\"adl-runtime/src/distributed/lease.rs\",\"adl-runtime/src/distributed/fencing.rs\",\"adl-runtime/src/distributed/mod.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/src/distributed/capability_advertisement.rs\",\"adl-runtime/src/distributed/placement.rs\",\"adl-runtime/src/distributed/projection.rs\",\"adl-runtime/src/distributed/resource_weather.rs\",\"adl-runtime/src/distributed/snapshot_catalog.rs\",\"adl-runtime/src/distributed/migration.rs\",\"adl-runtime/src/distributed/recovery.rs\",\"adl-runtime/tests/distributed_identity_lease_authority.rs\",\"adl-runtime/tests/distributed_authority_snapshots.rs\",\"adl-runtime/tests/distributed_capability_advertisement.rs\",\"adl-runtime/tests/distributed_certificates.rs\",\"adl-runtime/tests/distributed_discovery.rs\",\"adl-runtime/tests/distributed_fencing.rs\",\"adl-runtime/tests/distributed_guardian.rs\",\"adl-runtime/tests/distributed_lease.rs\",\"adl-runtime/tests/distributed_migration.rs\",\"adl-runtime/tests/distributed_placement.rs\",\"adl-runtime/tests/distributed_projection.rs\",\"adl-runtime/tests/distributed_recovery.rs\",\"adl-runtime/tests/distributed_resource_weather.rs\",\"adl-runtime/tests/distributed_snapshot_catalog.rs\",\"adl-runtime/tests/distributed_runtime_transport.rs\",\"adl-runtime/tests/distributed_transport.rs\",\".csdlc/prepared/issues/203/produce-proof-receipt.rb\",\".csdlc/prepared/issues/203/validate-proof-receipt.rb\",\".csdlc/evidence/203\",\".csdlc/issues/203\"]}"
+    },
+    {
+      "sequence": 21,
+      "generation": 20,
+      "actor": "codex:/root/resolve_208_final_review",
+      "reason": "State the reviewed #203 compatibility boundary directly in the task contract",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"task_boundary\",\"value\":\"Implement and publish only sealed existing-store adapters, store-bound live grant enforcement, deterministic canonical lease-time state whose receipts/results exclude every node-local safety-anchor byte and digest, node-local checkpoint/audit-only conservative safety anchors, read-only PublishedStoreAuthorityReceiptView projection for #205, exact compatibility migration of all enumerated normal-build certificate/lease/fencing consumers and integration fixtures off raw access, and focused proof surfaces; migration/recovery workflow semantics remain #204. The exact compatibility write set includes adl-runtime/src/distributed/polis_runtime.rs and adl-runtime/tests/distributed_runtime_transport.rs so neither production bootstrap nor its integration fixture retains raw Arc<DistributedCertificateStore> ownership.\"}"
+    },
+    {
+      "sequence": 22,
+      "generation": 21,
+      "actor": "codex:/root/resolve_208_final_review",
+      "reason": "Make the exact production and fixture raw-store closure part of #203 required outcome",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"required_outcome\",\"value\":\"All authority-restoring store reads and mutations revalidate a live lineage/action/generation-scoped #200 grant; sealed adapters consume the exact private #201 store-native signed artifact view; canonical lease state, step receipts, results, and result digests contain no node-local safety-anchor bytes or digest; the anchor is bound only by a node-local checkpoint/audit record; every enumerated normal-build source consumer and integration fixture migrates off raw store access; and partial progress remains fail-safe until publication. Specifically, adl-runtime/src/distributed/polis_runtime.rs and adl-runtime/tests/distributed_runtime_transport.rs must construct and carry the sealed authority-bound handle rather than raw Arc<DistributedCertificateStore>.\"}"
+    },
+    {
+      "sequence": 23,
+      "generation": 22,
+      "actor": "codex:/root/resolve_208_final_review",
+      "reason": "Enumerate the reviewed production Polis and runtime-transport compatibility consumers in the operative #203 plan",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/distributed/authority_store_adapters.rs\",\"adl-runtime/src/distributed/certificates.rs\",\"adl-runtime/src/distributed/lease.rs\",\"adl-runtime/src/distributed/fencing.rs\",\"adl-runtime/src/distributed/mod.rs\",\"adl-runtime/src/distributed/polis_runtime.rs\",\"adl-runtime/src/distributed/transport.rs\",\"adl-runtime/src/distributed/capability_advertisement.rs\",\"adl-runtime/src/distributed/placement.rs\",\"adl-runtime/src/distributed/projection.rs\",\"adl-runtime/src/distributed/resource_weather.rs\",\"adl-runtime/src/distributed/snapshot_catalog.rs\",\"adl-runtime/src/distributed/migration.rs\",\"adl-runtime/src/distributed/recovery.rs\",\"adl-runtime/tests/distributed_identity_lease_authority.rs\",\"adl-runtime/tests/distributed_authority_snapshots.rs\",\"adl-runtime/tests/distributed_capability_advertisement.rs\",\"adl-runtime/tests/distributed_certificates.rs\",\"adl-runtime/tests/distributed_discovery.rs\",\"adl-runtime/tests/distributed_fencing.rs\",\"adl-runtime/tests/distributed_guardian.rs\",\"adl-runtime/tests/distributed_lease.rs\",\"adl-runtime/tests/distributed_migration.rs\",\"adl-runtime/tests/distributed_placement.rs\",\"adl-runtime/tests/distributed_projection.rs\",\"adl-runtime/tests/distributed_recovery.rs\",\"adl-runtime/tests/distributed_resource_weather.rs\",\"adl-runtime/tests/distributed_snapshot_catalog.rs\",\"adl-runtime/tests/distributed_runtime_transport.rs\",\"adl-runtime/tests/distributed_transport.rs\",\".csdlc/prepared/issues/203/produce-proof-receipt.rb\",\".csdlc/prepared/issues/203/validate-proof-receipt.rb\",\".csdlc/evidence/203\",\".csdlc/issues/203\"]}"
+    },
+    {
+      "sequence": 24,
+      "generation": 23,
+      "actor": "codex:/root/resolve_208_final_review",
+      "reason": "Bind both reviewed raw-store consumers into focused compile, Clippy, producer, and validator proof truth without changing the exact 44-case and 132-subassertion denominators",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"identity-lease-fencing-authority\",\"proof_role\":\"Prove exactly 44 canonical cases: certificate_enroll, certificate_rotate_overlap, certificate_successor_post_overlap, certificate_revoke, certificate_compromise_identity_fence, lease_grant, lease_renewal, lease_revoke, fence_commit, activate_after_safety, owner_commit, exact_retry_published, restart_reanchor_safe, barrier_pending_blocks_all_reads, unsigned_certificate_rejected, wrong_issuer_rejected, wrong_certificate_purpose_rejected, wrong_certificate_domain_rejected, stale_certificate_generation_rejected, token_artifact_digest_mismatch, reconstructed_endorsements_rejected, wrong_authority_membership_rejected, stale_lease_index_rejected, stale_lease_epoch_rejected, wrong_activation_possession_rejected, activate_before_safety_rejected, floor_precedes_ledger_revocation, local_clock_unsafe_no_effect, local_clock_rollback_no_effect, crash_after_certificate_effect, crash_after_fence_floor, crash_after_ledger_effect, crash_after_local_anchor, crash_after_result, crash_before_checkpoint, crash_after_checkpoint, stale_read_permit_rejected, stale_mutation_permit_rejected, read_to_mutation_escalation_rejected, wrong_lineage_permit_rejected, coherent_rollback_rejected, corrupt_noncanonical_oversized_rejected, state_or_lock_symlink_rejected, capacity_n_plus_one_no_partial. For each case C the exact ordered machine subassertions are C::expected_outcome, C::canonical_store_state, C::publication_barrier_state; therefore the complete denominator is exactly 132 unique IDs. No extra, missing, duplicate, reordered, or differently named case/subassertion is accepted. canonical_store_state must prove canonical receipts/results exclude local safety-anchor bytes and digest; publication_barrier_state must prove local anchors exist only in node-local checkpoint/audit and partial state remains denied. The target also compiles every enumerated normal-build consumer and integration fixture against authority-bound handles, with migration/recovery changes limited to compatibility. Compatibility compilation must explicitly include adl-runtime/src/distributed/polis_runtime.rs and adl-runtime/tests/distributed_runtime_transport.rs and prove both use sealed authority-bound handles instead of raw Arc<DistributedCertificateStore>.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":24000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity_lease_authority\",\"--no-tests=fail\"],\"parallel_group\":\"203-runtime\",\"defer_reason\":\"Deferred until #202 is independently reviewed, merged, and ancestral and then #199 is independently reviewed, merged, and ancestral; after both merges #203 must resync to the resulting exact origin/main and pass typed csdlc-validate issue plus csdlc-doctor before bind. Fail closed on missing targets, zero tests, any case count other than 44, any subassertion count other than 132, any missing/extra/duplicate/reordered name/result/marker/subassertion, canonical anchor leakage, or an uncompiled enumerated consumer. The lane is non-proving if either named consumer is absent from compilation.\"},{\"lane\":\"identity-lease-fencing-clippy\",\"proof_role\":\"Reject warnings and API misuse across the concrete authority target plus every enumerated normal-build consumer compatibility path. This explicitly includes adl-runtime/src/distributed/polis_runtime.rs and adl-runtime/tests/distributed_runtime_transport.rs.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity_lease_authority\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"203-runtime\",\"defer_reason\":\"Deferred until the owned focused target exists; fail closed on warnings, missing target, missing source, or any raw-access compatibility escape.\"},{\"lane\":\"identity-lease-fencing-producer\",\"proof_role\":\"Produce exact Git/source/command/stream/timing/protected-digest evidence for all 44 case names and the exact generated 132 IDs C::expected_outcome, C::canonical_store_state, C::publication_barrier_state, including canonical anchor exclusion and enumerated consumer compilation. The protected write-set and compile evidence must explicitly bind adl-runtime/src/distributed/polis_runtime.rs and adl-runtime/tests/distributed_runtime_transport.rs.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1800,\"budget_tokens\":10000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/203/produce-proof-receipt.rb\"],\"parallel_group\":\"203-proof\",\"defer_reason\":\"Deferred until the exact producer exists; fail closed on dirty protected source, wrong case or subassertion count, missing/extra/duplicate/reordered name or result, canonical anchor leakage, consumer omission, or nonzero status.\"},{\"lane\":\"identity-lease-fencing-receipt\",\"proof_role\":\"Bind exact protected source, commands, all 44 names/results/markers, the exact 132 generated subassertion IDs, enumerated consumer paths, strict Clippy, immutable evidence introduction, review, and squash-merge-safe validation. Validation must reject any receipt that omits adl-runtime/src/distributed/polis_runtime.rs or adl-runtime/tests/distributed_runtime_transport.rs from the protected compatibility set.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":5000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/203/validate-proof-receipt.rb\"],\"parallel_group\":\"203-proof\",\"defer_reason\":\"Deferred until validator and immutable evidence exist; fail closed until exact reviewed source, all 44 cases, all 132 generated IDs, protected consumer coverage, and canonical/local separation are bound.\"}]}"
+    },
+    {
+      "sequence": 25,
+      "generation": 24,
+      "actor": "codex:/root/resolve_208_final_review",
+      "reason": "Require the next independent #203 reviewer to inspect both exact raw-store compatibility consumers and their proof binding",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Can any normal-build caller open an ungated store or reach a raw certificate, ledger, or fencing authorization/mutation path?\",\"Does every concrete operation consume and store-verify the exact signed artifact bound by the private #201 token without synthesizing authority?\",\"Are canonical lease state and receipts replica-deterministic while local safety anchors only delay restoration?\",\"Do Fence/Revoke, Activate, and OwnerCommit preserve exact floor, ledger, safety, possession, and barrier ordering across every crash window?\",\"Do retained handles, permits, receipts, retries, rollback, bounds, or unsafe paths ever expose partial authority?\",\"Does the exact proof bind all forty-four cases without claiming #205/#204 or operational serving?\",\"Do adl-runtime/src/distributed/polis_runtime.rs and adl-runtime/tests/distributed_runtime_transport.rs both construct and retain only the sealed authority-bound certificate handle, with no raw Arc<DistributedCertificateStore> bootstrap or fixture bypass, and are both paths named in protected compile/receipt evidence?\"]}"
+    },
+    {
+      "sequence": 26,
+      "generation": 25,
+      "actor": "codex:/root/resolve_208_final_review",
+      "reason": "Finalize the exact #203 compatibility action and refresh the corrected fail-closed diagram binding while retaining the serial gate",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/203/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/203/diagram.mmd\",\"new_design_digest\":\"821593327fcf90839f9ed455ae467af9a234eba05f58564de36b029c73349b49\",\"new_diagram_digest\":\"dc93d5b1073997215f11c82fa195a1207ac78d6aae8378a5f09dddd163389ebc\",\"old_design_digest\":\"821593327fcf90839f9ed455ae467af9a234eba05f58564de36b029c73349b49\",\"old_diagram_digest\":\"5123132ebb8df7d455bd8e26404568a32994573fa54107ff7b22956916e0b76e\"},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"action\":\"Remain preparation-only until #202 and then #199 are independently reviewed, merged, and ancestral; resync #203 to the resulting exact origin/main and rerun typed validation and doctor before any bind.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-5\",\"AC-6\",\"AC-7\"],\"action\":\"After the serial gate passes, bind #203 and implement the sealed adapter registry, authority-bound handles, raw-bypass closure, deterministic lease state, local anchors, and exact ordered operations in owned paths; explicitly migrate adl-runtime/src/distributed/polis_runtime.rs and adl-runtime/tests/distributed_runtime_transport.rs off raw Arc<DistributedCertificateStore> ownership without changing #208, #205, or #204 authority.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-8\"],\"action\":\"Prove exact forty-four-case behavior, every crash/retry/bounds window, strict Clippy, and merge-safe receipt truth; resolve fresh exact-head review, publish a ready PR closing #203, shepherd hosted CI, and wait for operator review and merge authorization.\",\"id\":\"S3\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 27,
+      "generation": 26,
+      "actor": "codex:/root/review_202_impl_final",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 28,
+      "generation": 27,
+      "actor": "codex:/root",
+      "reason": "advance initialized #203 package to ready after current-main resync and clean validation",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 29,
+      "generation": 27,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 30,
+      "generation": 28,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 31,
+      "generation": 29,
+      "actor": "codex-issue-203-reconciliation",
+      "reason": "replace stale monolithic execution truth with terminal-child integration reconciliation truth",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Reconciled the preserved #203 monolithic candidate against terminal #258, #259, and #260. Current origin/main is the implementation authority for all production and test paths; #203 retains only lifecycle, design, decomposition provenance, and integration-closeout proof surfaces.\",\"changes\":[\"Preserved the complete pre-reconciliation candidate as commit cb3770d03 plus a verified Git-common branch bundle and binary patch.\",\"Merged exact origin/main 0b5aefd6 and resolved every child-owned source, test, and Cargo.lock path to terminal main.\",\"Verified zero product diff against origin/main and retained no #202, #204, #205, #208, #258, #259, or #260 implementation absorption.\",\"Classified the historical 44-case synthetic receipt as superseded because the terminal child test denominator is now authoritative and current.\"],\"artifacts\":[\".csdlc/evidence/203/ISSUE_203_DECOMPOSITION_PLAN.md\",\".csdlc/evidence/203/provider-reviews\",\".git/csdlc-v2/preservation/203-pre-main-reconciliation-20260813.md\",\".git/csdlc-v2/preservation/203-three-way-disposition-20260813.md\",\".git/csdlc-v2/quarantine/203-pre-main-reconciliation-20260813\"],\"validation\":[{\"command\":[\"git\",\"diff\",\"--exit-code\",\"origin/main\",\"--\",\"adl-runtime\",\"adl/Cargo.lock\"],\"purpose\":\"Prove the reconciled #203 branch carries zero product or dependency-lock delta beyond terminal child main.\",\"outcome\":\"passed\",\"evidence_ref\":\".git/csdlc-v2/preservation/203-three-way-disposition-20260813.md\"},{\"command\":[\"csdlc-finish\",\"--validate-cached-issue\",\"258|259|260\"],\"purpose\":\"Validate all three terminal child caches against their canonical records before parent reconciliation.\",\"outcome\":\"passed\",\"evidence_ref\":\".git/csdlc-v2/preservation/203-pre-main-reconciliation-20260813.md\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/203/produce-proof-receipt.rb\"],\"purpose\":\"Audit whether the retained historical monolithic proof denominator remains current after terminal child delivery.\",\"outcome\":\"failed\",\"evidence_ref\":\".csdlc/evidence/203/v2/identity-authority.stdout.log\"}]}"
+    },
+    {
+      "sequence": 32,
+      "generation": 29,
+      "actor": "codex-issue-203-reconciliation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 30,
+      "actor": "codex-issue-203-reconciliation",
+      "reason": "replace unused reviewer reservation with the root-coordinated fresh #203 integration reviewer before any material was sent",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 30,
+      "actor": "codex-issue-203-reconciliation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 31,
+      "actor": "codex-issue-203-reconciliation",
+      "reason": "recover failed exact-head review before repairing stale SPP VPP and SRP denominator truth",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 32,
+      "actor": "codex-issue-203-review-r1-repair",
+      "reason": "record completed prerequisite and preservation reconciliation",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 37,
+      "generation": 33,
+      "actor": "codex-issue-203-review-r1-repair",
+      "reason": "replace superseded monolithic plan with completed terminal-child integration reconciliation plan",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Validate canonical terminal caches and merge ancestry for #258, #259, and #260, preserving the original dirty #203 candidate in a verified bundle and binary patch before reconciliation.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Merge exact current origin/main and resolve every production, test, and Cargo.lock overlap to terminal child authority, retaining zero product diff and no #202/#204/#205/#208 absorption.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Replace the historical synthetic proof with immutable integration-closeout proof binding terminal child ancestry, zero product diff, current 4-test identity boundary, current 5-test caller guard, strict Clippy, and historical nonclaim; obtain fresh exact-head review and publish/finish.\",\"acceptance_ids\":[\"AC-8\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 38,
+      "generation": 34,
+      "actor": "codex-issue-203-review-r1-repair",
+      "reason": "record completed child terminal and preservation validation",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 39,
+      "generation": 35,
+      "actor": "codex-issue-203-review-r1-repair",
+      "reason": "record completed semantic merge reconciliation with zero product drift",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 40,
+      "generation": 36,
+      "actor": "codex-issue-203-review-r1-repair",
+      "reason": "record completed current integration proof and review preparation",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 41,
+      "generation": 37,
+      "actor": "codex-issue-203-review-r1-repair",
+      "reason": "replace superseded synthetic denominator with current integration-closeout validation lanes",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"terminal-child-authority\",\"proof_role\":\"Validate canonical caches and merge ancestry for #258, #259, and #260.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"csdlc-finish\",\"--validate-cached-issue\",\"258|259|260\"],\"parallel_group\":\"203-closeout\",\"defer_reason\":null},{\"lane\":\"zero-product-diff\",\"proof_role\":\"Prove #203 retains no product source, tests, dependency lock, #204 workflow, or #205 serving implementation beyond terminal main.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--exit-code\",\"origin/main...HEAD\",\"--\",\"adl-runtime\",\"adl/Cargo.lock\"],\"parallel_group\":\"203-closeout\",\"defer_reason\":null},{\"lane\":\"current-authority-tests\",\"proof_role\":\"Run the current terminal-child authority boundary denominator (4 tests) and caller guard denominator (5 tests), without resurrecting historical synthetic markers.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/203/produce-proof-receipt.rb\"],\"parallel_group\":\"203-runtime\",\"defer_reason\":null},{\"lane\":\"integration-receipt\",\"proof_role\":\"Validate immutable v3 command/log digests, current denominators, strict Clippy, exact main binding, zero product diff, and historical proof superseded_nonclaim.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/203/validate-proof-receipt.rb\"],\"parallel_group\":\"203-proof\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 42,
+      "generation": 38,
+      "actor": "codex-issue-203-review-r1-repair",
+      "reason": "replace superseded synthetic denominator with current integration-closeout validation lanes",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"integration-closeout-proof\",\"proof_role\":\"Validate canonical #258/#259/#260 merge ancestry, zero product diff, current 4-test identity boundary, current 5-test caller guard, strict Clippy, and historical superseded nonclaim.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":5000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/203/produce-proof-receipt.rb\"],\"parallel_group\":\"203-closeout\",\"defer_reason\":null},{\"lane\":\"integration-closeout-receipt\",\"proof_role\":\"Validate immutable v3 command/log digests, current denominators, strict Clippy, exact main binding, zero product diff, and historical proof superseded_nonclaim.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/203/validate-proof-receipt.rb\"],\"parallel_group\":\"203-proof\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 43,
+      "generation": 39,
+      "actor": "codex-issue-203-review-r1-repair",
+      "reason": "replace stale synthetic-proof review prompts with exact integration-closeout review contract",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Review every #203 acceptance criterion AC-1 through AC-8 against canonical terminal #258/#259/#260 cache and merge ancestry, zero adl-runtime and Cargo.lock diff versus exact origin/main, current 4-test identity-boundary proof, current 5-test authority-caller guard, strict Clippy, and immutable v3 receipt evidence.\",\"Report findings first as P0-P3 with repo-relative file and line evidence; verify typed generation, digest, reviewer identity, immutable git-blake3 revision, and assigned scope before reaching a verdict.\",\"Verify the historical 44-case/132-subassertion receipt is retained only as superseded historical evidence and is never used as current proof, and verify no #202, #204, #205, #208, #258, #259, or #260 implementation is absorbed by #203.\",\"State all validation limitations explicitly, remain read-only, and return PASS only when there are no actionable findings; otherwise return FAIL with exact remediation required.\"]}"
+    },
+    {
+      "sequence": 44,
+      "generation": 39,
+      "actor": "codex-issue-203-reconciliation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 45,
+      "generation": 40,
+      "actor": "codex-issue-203-reconciliation",
+      "reason": "recover failed R2 review before terminal-cache SOR and diff-hygiene repairs",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 46,
+      "generation": 41,
+      "actor": "codex-issue-203-review-r2-repair",
+      "reason": "replace obsolete v2 failure with current cache-bound v3 execution and validation truth",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Reconciled #203 as an integration-closeout issue over canonical terminal #258/#259/#260 authority, with zero product or Cargo.lock delta and no #204/#205 absorption.\",\"changes\":[\"Preserved the original dirty candidate in verified Git-common bundle and binary patch.\",\"Merged current origin/main and retained terminal child source/tests exactly.\",\"Replaced historical synthetic 44/132 proof with explicit superseded_nonclaim and current v3 cache-bound integration proof.\"],\"artifacts\":[\".csdlc/evidence/203/v3/integration-closeout-proof.json\",\".csdlc/evidence/203/v3/identity-boundary.stdout.log\",\".csdlc/evidence/203/v3/caller-guard.stdout.log\",\".csdlc/evidence/203/v3/strict-clippy.stderr.log\",\".csdlc/evidence/203/ISSUE_203_DECOMPOSITION_PLAN.md\"],\"validation\":[{\"command\":[\"csdlc-finish\",\"--validate-cached-issue\",\"258|259|260\"],\"purpose\":\"Validate canonical terminal cache/state and exact merge authority for all three delivered children.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/203/v3/integration-closeout-proof.json\"},{\"command\":[\"git\",\"diff\",\"--exit-code\",\"origin/main...HEAD\",\"--\",\"adl-runtime\",\"adl/Cargo.lock\"],\"purpose\":\"Prove zero product and lockfile delta and no #204/#205 implementation absorption.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/203/v3/integration-closeout-proof.json\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity_lease_authority\",\"--\",\"--test-threads=1\"],\"purpose\":\"Run current terminal authority-boundary denominator.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/203/v3/identity-boundary.stdout.log\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_authority_adapter_callers_260\",\"--\",\"--test-threads=1\"],\"purpose\":\"Run current terminal caller-guard denominator.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/203/v3/caller-guard.stdout.log\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity_lease_authority\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove strict focused Clippy.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/203/v3/strict-clippy.stderr.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/203/validate-proof-receipt.rb\"],\"purpose\":\"Validate cache-bound v3 receipt digests, denominators, main binding, historical nonclaim, and clean worktree.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/203/v3/integration-closeout-proof.json\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main\",\"HEAD\"],\"purpose\":\"Prove exact diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/203/v3/integration-closeout-proof.json\"}]}"
+    },
+    {
+      "sequence": 47,
+      "generation": 41,
+      "actor": "codex-issue-203-reconciliation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 48,
+      "generation": 42,
+      "actor": "codex-issue-203-reconciliation",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 49,
+      "generation": 43,
+      "actor": "codex-issue-203-reconciliation",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

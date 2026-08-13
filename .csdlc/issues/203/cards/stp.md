@@ -1,0 +1,90 @@
+# Structured Task Prompt
+
+Template: 1.0.0
+
+Issue: 203
+
+Repository: agent-logic/agent-design-language
+
+Card: stp
+
+Status: ready
+
+## Task
+
+Implement and publish only sealed existing-store adapters, store-bound live grant enforcement, deterministic canonical lease-time state whose receipts/results exclude every node-local safety-anchor byte and digest, node-local checkpoint/audit-only conservative safety anchors, read-only PublishedStoreAuthorityReceiptView projection for #205, exact compatibility migration of all enumerated normal-build certificate/lease/fencing consumers and integration fixtures off raw access, and focused proof surfaces; migration/recovery workflow semantics remain #204. The exact compatibility write set includes adl-runtime/src/distributed/polis_runtime.rs and adl-runtime/tests/distributed_runtime_transport.rs so neither production bootstrap nor its integration fixture retains raw Arc<DistributedCertificateStore> ownership.
+
+## Deliverables
+
+- adl-runtime/src/distributed/authority_store_adapters.rs
+- adl-runtime/src/distributed/certificates.rs
+- adl-runtime/src/distributed/lease.rs
+- adl-runtime/src/distributed/fencing.rs
+- adl-runtime/src/distributed/mod.rs
+- adl-runtime/src/distributed/polis_runtime.rs
+- adl-runtime/src/distributed/transport.rs
+- adl-runtime/src/distributed/capability_advertisement.rs
+- adl-runtime/src/distributed/placement.rs
+- adl-runtime/src/distributed/projection.rs
+- adl-runtime/src/distributed/resource_weather.rs
+- adl-runtime/src/distributed/snapshot_catalog.rs
+- adl-runtime/src/distributed/migration.rs
+- adl-runtime/src/distributed/recovery.rs
+- adl-runtime/tests/distributed_identity_lease_authority.rs
+- adl-runtime/tests/distributed_authority_snapshots.rs
+- adl-runtime/tests/distributed_capability_advertisement.rs
+- adl-runtime/tests/distributed_certificates.rs
+- adl-runtime/tests/distributed_discovery.rs
+- adl-runtime/tests/distributed_fencing.rs
+- adl-runtime/tests/distributed_guardian.rs
+- adl-runtime/tests/distributed_lease.rs
+- adl-runtime/tests/distributed_migration.rs
+- adl-runtime/tests/distributed_placement.rs
+- adl-runtime/tests/distributed_projection.rs
+- adl-runtime/tests/distributed_recovery.rs
+- adl-runtime/tests/distributed_resource_weather.rs
+- adl-runtime/tests/distributed_snapshot_catalog.rs
+- adl-runtime/tests/distributed_runtime_transport.rs
+- adl-runtime/tests/distributed_transport.rs
+- .csdlc/prepared/issues/203/produce-proof-receipt.rb
+- .csdlc/prepared/issues/203/validate-proof-receipt.rb
+- .csdlc/evidence/203
+- .csdlc/issues/203
+
+## Acceptance
+
+1. AC-1: Normal-build callers cannot open ungated stores, construct a raw grant, or mutate/authorize certificates, leases, or fencing without current #200 lineage/action/adapter/generation validation on every use. This includes migrating adl-runtime/src/distributed/polis_runtime.rs and adl-runtime/tests/distributed_runtime_transport.rs from raw Arc<DistributedCertificateStore> bootstrap/fixture ownership to sealed authority-bound handles.
+2. AC-2: Each sealed plan consumes the exact private #201 artifact view, byte-compares its digest and operation binding, and verifies it through the existing store-native signature/quorum path without signing, endorsing, or reconstruction.
+3. AC-3: Canonical lease state and receipts bind only committed deterministic time; local monotonic safety anchors are separate and NotReady/Unsafe produces no concrete or barrier progress.
+4. AC-4: Certificate enroll/rotate/revoke/compromise and LeaseGrant/Renewal/Revoke/Fence/Activate/OwnerCommit execute only the fixed fail-safe order, with floor before ledger revocation and exact floor/safety/possession checks before activation.
+5. AC-5: Every concrete effect has an opaque digest-bound receipt; partial progress remains denied, and cache-first exact retry reconciles rather than duplicating effects and returns only from Published.
+6. AC-6: Initialization, dual open, every effect/receipt/anchor/result/checkpoint/marker/view boundary, rollback, corrupt/noncanonical/oversized or replaced state, unsafe paths, and N+1 capacity fail closed without partial publication.
+7. AC-7: Existing path-included low-level tests may use cfg(test) raw helpers, but the normal library exposes only authority-bound handles and compile-time proof rejects a production bypass.
+8. AC-8: Exact forty-four-case focused proof, strict Clippy, merge-safe immutable receipt validation, diff hygiene, and fresh independent exact-head review pass before a ready unmerged PR opens.
+
+## Dependencies
+
+- Merged fixed ancestor: issue #191 / PR #197 at 8bd475cf18eb77cc7402220f69282f64a4a1a1e5
+- Merged fixed ancestor: issue #201 / PR #229 at 3ffc4c402c57e167fb9943221c9dac24f96f8895
+- Merged fixed ancestor: issue #200 / PR #231 at 507d9a1e3a74c2c9c6cce14259b095139aa3bdfa
+- Merged fixed boundary: issue #208 / PR #230 at 5e25dccebde3bdd608e3ecb80d3d60a0c40e3a90; #203 must preserve its Guardian-kernel continuity effect and receipt ownership
+- Serial stop: issue #202 learner transport and exclusion must be independently reviewed, merged, and ancestral, followed by issue #199 governed membership being independently reviewed, merged, and ancestral; #203 may not bind or edit product source before both conditions hold
+- After #202 and #199 merge, resync #203 onto the resulting exact origin/main and rerun typed csdlc-validate issue and csdlc-doctor before bind
+- Issue #205 and #204 remain blocked until this issue merges
+
+## Inputs
+
+- agent-logic/agent-design-language#203
+- adl-runtime/src/distributed/authority_protocol.rs from merged #201
+- adl-runtime/src/distributed/authority_reconciliation.rs from merged #200
+- adl-runtime/src/distributed/certificates.rs
+- adl-runtime/src/distributed/lease.rs
+- adl-runtime/src/distributed/fencing.rs
+- .csdlc/issues/142 operational design as read-only umbrella truth
+
+## Non Goals
+
+- Shepherd or Observatory serving eligibility (#205)
+- Migration or recovery workflow execution (#204)
+- OpenRaft membership (#199) or learner transport/exclusion (#202)
+- Guardian/kernel/API/WSS, models, AWS, live qualification, final #142 delivery, merge without operator authorization, or lifecycle closeout
