@@ -1,0 +1,57 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 298,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][297.a][defect] Implement anchored classification and resumable recovery ledger",
+    "slug": "297a-anchored-classification-resumable-recovery-ledger",
+    "version": "v0.92",
+    "generation": 70
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "preserved-projection-recovery",
+          "proof_role": "Production classify/recover; every recovery-only failpoint including operation-owned temporary-node create/identity, exact-prefix write continuation, completed-write adoption, repeated node/parent fsync, and no-replace node publish; identity/topology/CAS/collision/idempotency; subsequent ordinary commit; initialized/ready/#291 regression; and exact-head support hygiene. AC-8 completion still requires the separate #119 exact-head review lifecycle gate.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 900,
+          "budget_tokens": 7000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate5",
+            "preserved_projection_recovery"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed without deletion on unsafe node type, alias, identity/mount/owner/mode drift, corrupt or mismatched projection, ambiguous lineage, stale tagged CAS/topology, incomplete receipt chain, collision/replacement, validation failure, or stale review; preserve every candidate and attempt.",
+      "design_ref": ".csdlc/prepared/issues/298/design.md",
+      "design_digest": "9ebdd2014ce91ab9a9b1946756ee715f245b9128aece8b1dc58c11afe0bfc52d",
+      "diagram_ref": ".csdlc/prepared/issues/298/diagram.mmd",
+      "diagram_digest": "4fae9c334fb78962302b7b255acfacc5582d98fd6b3809fde73115634da114fa"
+    }
+  }
+}

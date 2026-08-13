@@ -469,7 +469,7 @@ impl Fixture {
             )
             .unwrap();
         let snapshot_policy = snapshot_policy();
-        let snapshot_verifier = SnapshotCatalogVerifier::open(
+        let snapshot_verifier = SnapshotCatalogVerifier::open_for_test(
             certificate_store,
             snapshot_policy.clone(),
             root.join("snapshot-replay.redb"),

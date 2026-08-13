@@ -1,10 +1,13 @@
 // PVF: lane=exact-child-tests; proof=production module registration plus bounded signed authority;
 // deterministic=true; resource_profile=medium; release_gate=true; nonzero selection required.
+#[allow(dead_code)]
+#[path = "../src/distributed/lease.rs"]
+mod lease;
 
 use std::collections::BTreeSet;
 
 use adl_runtime::distributed::{
-    capability_advertisement, certificates, discovery, failure_detection, fencing, identity, lease,
+    capability_advertisement, certificates, discovery, failure_detection, fencing, identity,
     membership, migration, placement, projection, recovery, resource_weather, snapshot_catalog,
     transport,
 };

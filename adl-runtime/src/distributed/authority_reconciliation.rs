@@ -469,6 +469,39 @@ impl AuthorityReconciliationBarrier {
         .then(|| published_result(operation))
     }
 
+    /// Publishes deterministic reconciliation authority for integration tests.
+    ///
+    /// This does not expose a raw store or manufacture an authority-bound store;
+    /// callers must still pass through the authority store adapter registry after
+    /// publishing the same reconciliation artifact used by production.
+    #[cfg(feature = "internal-test-fixtures")]
+    #[doc(hidden)]
+    pub fn publish_internal_test_fixture(
+        &mut self,
+        operation_id: &str,
+        artifact: AuthorityReconciliationArtifact,
+        committed_log_index: u64,
+        finalization_time: CanonicalAuthorityTime,
+    ) -> AuthorityReconciliationResult<PublishedReconciliationResult> {
+        use super::authority_protocol::test_published_reconciliation_token;
+
+        let identity = AuthorityNodeIdentity {
+            trust_domain: self.identity.trust_domain.clone(),
+            polis_id: self.identity.polis_id.clone(),
+            node_id: self.identity.node_id.clone(),
+            guardian_id: self.identity.guardian_id.clone(),
+            boot_generation: self.identity.boot_generation,
+        };
+        let token = test_published_reconciliation_token(
+            identity,
+            operation_id,
+            artifact.committed_artifact()?,
+            committed_log_index,
+            finalization_time,
+        );
+        self.reconcile(&token)
+    }
+
     /// Denial-only compatibility surface. Raw bytes can never be promoted to
     /// reconciliation authority; callers must supply the opaque #201 result.
     pub fn reject_untrusted_reconciliation(

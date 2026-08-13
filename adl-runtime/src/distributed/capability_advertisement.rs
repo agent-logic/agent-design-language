@@ -2,7 +2,6 @@ use std::{
     collections::BTreeMap,
     fmt, fs,
     path::{Component, Path, PathBuf},
-    sync::Arc,
 };
 
 use ed25519_dalek::{Signature, Signer, SigningKey, VerifyingKey};
@@ -11,14 +10,11 @@ use serde::{Deserialize, Serialize};
 
 #[cfg(not(test))]
 use super::authority_store_adapters::AuthorityBoundCertificateStore;
-#[cfg(test)]
-use super::certificates::DistributedCertificateStore;
 use super::certificates::{AuthorityCertificate, CertificatePurpose};
-
-#[cfg(not(test))]
-pub type CapabilityCertificateStore = AuthorityBoundCertificateStore;
 #[cfg(test)]
-pub type CapabilityCertificateStore = DistributedCertificateStore;
+use super::certificates::{DistributedCertificateStore, AUTHORITY_BOUND_CERTIFICATE_ACCESS};
+#[cfg(test)]
+use std::sync::Arc;
 
 pub const CAPABILITY_ADVERTISEMENT_SCHEMA: &str = "adl.distributed.capability_advertisement.v1";
 const SIGNING_DOMAIN: &[u8] = b"ADL-DISTRIBUTED-CAPABILITY-ADVERTISEMENT-V1\0";
@@ -277,9 +273,43 @@ impl CapabilityAdvertisementPolicy {
 }
 
 pub struct CapabilityAdvertisementVerifier {
-    certificate_store: Arc<CapabilityCertificateStore>,
+    certificate_store: CapabilityCertificateAuthority,
     policy: CapabilityAdvertisementPolicy,
     replay_database: Database,
+}
+
+enum CapabilityCertificateAuthority {
+    #[cfg(not(test))]
+    Bound(AuthorityBoundCertificateStore),
+    #[cfg(test)]
+    TestRaw(Arc<DistributedCertificateStore>),
+}
+
+impl CapabilityCertificateAuthority {
+    fn authorize(
+        &self,
+        holder_id: &str,
+        purpose: CertificatePurpose,
+        generation: u64,
+        now_unix_secs: u64,
+    ) -> Result<super::certificates::VerifiedCertificate, ()> {
+        match self {
+            #[cfg(not(test))]
+            Self::Bound(store) => store
+                .authorize(holder_id, purpose, generation, now_unix_secs)
+                .map_err(|_| ()),
+            #[cfg(test)]
+            Self::TestRaw(store) => store
+                .authorize(
+                    &AUTHORITY_BOUND_CERTIFICATE_ACCESS,
+                    holder_id,
+                    purpose,
+                    generation,
+                    now_unix_secs,
+                )
+                .map_err(|_| ()),
+        }
+    }
 }
 
 #[derive(Clone, Copy, Serialize, Deserialize)]
@@ -289,8 +319,9 @@ struct ReplayState {
 }
 
 impl CapabilityAdvertisementVerifier {
+    #[cfg(not(test))]
     pub fn open(
-        certificate_store: Arc<CapabilityCertificateStore>,
+        certificate_store: AuthorityBoundCertificateStore,
         policy: CapabilityAdvertisementPolicy,
         replay_database_path: impl AsRef<Path>,
     ) -> AdvertisementResult<Self> {
@@ -310,7 +341,35 @@ impl CapabilityAdvertisementVerifier {
             .commit()
             .map_err(|_| AdvertisementError::StateUnavailable)?;
         Ok(Self {
-            certificate_store,
+            certificate_store: CapabilityCertificateAuthority::Bound(certificate_store),
+            policy,
+            replay_database,
+        })
+    }
+
+    #[cfg(test)]
+    pub fn open_for_test(
+        certificate_store: Arc<DistributedCertificateStore>,
+        policy: CapabilityAdvertisementPolicy,
+        replay_database_path: impl AsRef<Path>,
+    ) -> AdvertisementResult<Self> {
+        let replay_database_path = validate_replay_database_path(replay_database_path.as_ref())?;
+        let replay_database = Database::create(replay_database_path)
+            .map_err(|_| AdvertisementError::StateUnavailable)?;
+        let mut write = replay_database
+            .begin_write()
+            .map_err(|_| AdvertisementError::StateUnavailable)?;
+        write
+            .set_durability(Durability::Immediate)
+            .map_err(|_| AdvertisementError::StateUnavailable)?;
+        write
+            .open_table(REPLAY_HIGH_WATER)
+            .map_err(|_| AdvertisementError::StateUnavailable)?;
+        write
+            .commit()
+            .map_err(|_| AdvertisementError::StateUnavailable)?;
+        Ok(Self {
+            certificate_store: CapabilityCertificateAuthority::TestRaw(certificate_store),
             policy,
             replay_database,
         })
@@ -349,21 +408,9 @@ impl CapabilityAdvertisementVerifier {
             .authority_certificate
             .certificate_id()
             .map_err(|_| AdvertisementError::CertificateAuthorization)?;
-        #[cfg(not(test))]
         let authorized = self
             .certificate_store
             .authorize(
-                &advertisement.body.issuer_id,
-                CertificatePurpose::AdvertisementSigning,
-                advertisement.body.certificate_generation,
-                now_unix_secs,
-            )
-            .map_err(|_| AdvertisementError::CertificateAuthorization)?;
-        #[cfg(test)]
-        let authorized = self
-            .certificate_store
-            .authorize(
-                &super::certificates::TEST_CERTIFICATE_STORE_ACCESS,
                 &advertisement.body.issuer_id,
                 CertificatePurpose::AdvertisementSigning,
                 advertisement.body.certificate_generation,

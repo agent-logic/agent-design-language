@@ -1,0 +1,20 @@
+{
+  "issue": 331,
+  "expected_generation": 12,
+  "expected_digest": "62585c563f3ac537c9b1cd83ac4092294e22b66a072d2f615c8b569606cddb17",
+  "reviewer": "fresh-session:59cee9b5-b473-4c4e-999f-be886f8751ad",
+  "assigned_by": "codex:/root",
+  "scope": [
+    "csdlc-v2/src/migration.rs",
+    "csdlc-v2/src/store.rs",
+    "csdlc-v2/src/bin/csdlc-issue.rs",
+    "csdlc-v2/src/schema.rs",
+    "csdlc-v2/src/lib.rs",
+    "csdlc-v2/tests/code_repository_migration.rs",
+    ".csdlc/evidence/331",
+    ".csdlc/prepared/issues/331/design.md",
+    ".csdlc/prepared/issues/331/diagram.mmd",
+    ".csdlc/prepared/issues/331/finalize-implementation.json",
+    ".csdlc/prepared/issues/331/validate_initialized_code_repository_migration.py"
+  ]
+}

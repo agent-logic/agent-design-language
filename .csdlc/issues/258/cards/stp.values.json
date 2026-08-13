@@ -1,0 +1,43 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 258,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][runtime][authority] Seal #203 authority store boundary",
+    "slug": "issue-203-authority-store-boundary-slice1",
+    "version": "v0.92",
+    "generation": 57
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Authority store boundary slice only; transport and peripheral runtime migration are split into follow-on issues #259 and #260.",
+      "deliverables": [
+        "Sealed raw certificate, lease, and fencing store APIs.",
+        "Authority store adapter facade and expanded published receipt view.",
+        "Focused authority-boundary test and test-fixture token updates."
+      ],
+      "acceptance_criteria": [
+        "AC-1: No raw certificate/lease/fencing store mutation path compiles without explicit authority or test fixture access token.",
+        "AC-2: Published receipt view exposes lineage, action class, adapter kind/version, published generation, result digest, and receipt digest.",
+        "AC-3: Focused authority boundary validation passes.",
+        "AC-4: Reviewer finds no actionable P1/P2 findings before publication."
+      ],
+      "dependencies": [
+        "#203 split decision",
+        "#142 runtime remediation sprint"
+      ],
+      "repo_inputs": [
+        ".csdlc/evidence/203/provider-reviews/gemini-adapter-decomposition-result.json",
+        ".csdlc/evidence/203/ISSUE_203_DECOMPOSITION_PLAN.md"
+      ],
+      "non_goals": [
+        "Governed transport integration",
+        "Migration/recovery/peripheral caller migration",
+        "Closeout/background lifecycle bookkeeping"
+      ]
+    }
+  }
+}

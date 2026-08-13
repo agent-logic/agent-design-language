@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 258,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][runtime][authority] Seal #203 authority store boundary",
+    "slug": "issue-203-authority-store-boundary-slice1",
+    "version": "v0.92",
+    "generation": 57
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl-runtime/Cargo.toml\nadl-runtime/src/distributed/certificates.rs\nadl-runtime/src/distributed/fencing.rs\nadl-runtime/src/distributed/lease.rs\nadl-runtime/tests/distributed_identity_lease_authority.rs\nadl-runtime/tests/distributed_runtime_transport.rs\n.csdlc/issues/258\n.csdlc/prepared/issues/258\n.csdlc/evidence/258/postpub-stale-helper-repair-r4",
+      "review_revision": "git-blake3:707fdca541faa65da7fa4340ad3803f83cfca9a3:348499fe649b7cd19a0ecb2684f1e5d87a95ce4e996ef1cf6a6cab2147bb06ed",
+      "reviewer": "fresh-session:9beade3c-58ad-451d-b6b6-e1883766f61c",
+      "review_prompts": [
+        "Review whether raw store access is sealed and whether published receipt view is sufficient for the authority-serving boundary."
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Inspection-only review relied on retained proving logs and immutable source inspection; hosted CI remains required after republication.",
+        "The access boundary rejects defined copied-magic and representation attacks but does not claim safety against arbitrary undefined behavior."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "issue": 331,
+  "expected_generation": 8,
+  "expected_digest": "01d8ad268d50cdc2871cd0699f14ca7aa388c2709224f990aa88d0a9443f3c12",
+  "actor": "codex:/root",
+  "reason": "Recover stalled fresh review assignment fresh-session:f67fa485-83d9-4f34-86c7-e5c578c7f12e after bounded waits and interruption; reassign stable scope to a different fresh reviewer."
+}

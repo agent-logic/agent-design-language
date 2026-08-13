@@ -1,0 +1,35 @@
+   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl-runtime)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 6.99s
+     Running tests/distributed_runtime_transport.rs (adl-runtime/target/debug/deps/distributed_runtime_transport-fdba6062feba61e2)
+
+running 14 tests
+test authenticated_quinn_binds_signed_authority_session_and_returns_bounded_response ... ADL_ISSUE_191_CASE signed_mtls_polis_session=passed
+ok
+test authority_approved_certificate_overlap_is_valid_then_expires_closed ... ADL_ISSUE_191_CASE certificate_overlap_boundary=passed
+ok
+test boot_generation_is_externally_monotonic_and_rejects_coherent_disk_rollback ... ADL_ISSUE_191_CASE boot_generation_rollback=passed
+ok
+test durable_retry_cache_replays_exact_response_and_rejects_conflict_and_rollback ... ADL_ISSUE_191_CASE retry_cache_conflict_and_rollback=passed
+ok
+test durable_store_rejects_symlinked_ancestors_and_oversized_state ... ADL_ISSUE_191_CASE path_and_state_bounds=passed
+ok
+test fresh_store_initialization_rolls_back_an_ambiguous_checkpoint_failure ... ADL_ISSUE_191_CASE journaled_initial_checkpoint=passed
+ok
+test log_store_does_not_publish_vote_before_external_checkpoint_commit ... ADL_ISSUE_191_CASE durable_vote_restart=passed
+ok
+test polis_frames_reject_unproved_polis_and_oversized_payload_before_dispatch ... ADL_ISSUE_191_CASE unproved_polis_and_oversized_frame=passed
+ok
+test route_replacement_retries_exact_sequence_after_peer_restart_and_certificate_rotation ... ADL_ISSUE_191_CASE exact_retry_after_boot_and_cert_rotation=passed
+ok
+test snapshot_install_rejects_noncanonical_bytes_and_preserves_exact_identity ... ADL_ISSUE_191_CASE canonical_snapshot_identity=passed
+ok
+test stalled_rpc_stream_is_bounded_by_the_transport_idle_deadline ... ADL_ISSUE_191_CASE stalled_rpc_idle_timeout=passed
+ok
+test three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state ... ADL_ISSUE_191_CASE secure_three_two_one_real_restart=passed
+ok
+test topology_and_polis_identity_require_exact_runtime_control_and_quorum_parity ... ADL_ISSUE_191_CASE authority_cut_and_polis_quorum=passed
+ok
+test transport_frames_reject_truncated_and_noncanonical_trailing_bytes ... ADL_ISSUE_191_CASE canonical_transport_frame=passed
+ok
+
+test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 10.91s

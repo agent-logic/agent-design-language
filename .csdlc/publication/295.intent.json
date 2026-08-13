@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 295,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/295-mechanical-compile-fallout-coverage",
+  "title": "[v0.92][CI][coverage][defect] Classify mechanical compile-fallout without weakening changed-source coverage",
+  "body": "Closes #295\n\n## Summary\n\n- Implements fail-closed mechanical compile-fallout classification for import-only and governed argument-pass-through coverage cases.\n- Preserves the 80% changed-source coverage gate and keeps PR-fast evidence non-authoritative.\n- Records exact review PASS/no findings from `fresh-session:0c36550e-6341-498e-94f2-7df482fc6e35` for reviewed substantive `ed21f61961aaac49a7b0d886b44b4dd69b9b2864` / BLAKE3 `460e12fb22f5d605f8e37dc0e3f17e005adea0e96edad92a47d7a2b3202beeed`.\n\n## Validation\n\n- `csdlc-validate --root /Volumes/FastWork/adl-worktrees/adl-issue-295-mechanical-compile-fallout-coverage issue --issue 295` — pass\n- `csdlc-doctor --repo /Volumes/FastWork/adl-worktrees/adl-issue-295-mechanical-compile-fallout-coverage --issue 295` — pass\n\n## Boundary\n\n- No #258 product mutation.\n- Stop before merge.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:726709cfd8c33647ae9454218bce95750c4e0139:18345b5864007ae86893d235ff61f95d11e99e64040e9789423d0b6de1aff703",
+  "commit_sha": "726709cfd8c33647ae9454218bce95750c4e0139"
+}

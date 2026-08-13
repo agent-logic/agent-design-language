@@ -248,6 +248,8 @@ fn active_lease(
             committed_log_index: body.committed_log_index,
             epoch: body.epoch,
             certificate_generation: body.voter_set_generation,
+            activated_elapsed_millis: 100,
+            deadline_elapsed_millis: 2_100,
             deadline_unix_millis: ((NOW + 3) as u64) * 1_000 + 2_000,
             certificate_bytes,
             revoked: false,
@@ -432,29 +434,35 @@ fn quorum_fence_revoke_epoch_and_replay_contract() {
     let (same_epoch, same_epoch_body) = active_lease(&fixture, 102, 1);
     let same_epoch_proof = activation_signature(&same_epoch_body, &fixture.activation);
     assert_eq!(
-        revoke_store.authorize_active_lease(ActiveLeaseCheck {
-            membership: Some(&post_revoke_membership),
-            lease: &same_epoch,
-            applied_log_index: 102,
-            now_unix_seconds: NOW + 3,
-            now_unix_millis: ((NOW + 3) as u64) * 1_000,
-            now_elapsed_millis: 21,
-            activation_proof: &same_epoch_proof,
-        }),
+        revoke_store.authorize_active_lease(
+            &TEST_FENCING_STORE_ACCESS,
+            ActiveLeaseCheck {
+                membership: Some(&post_revoke_membership),
+                lease: &same_epoch,
+                applied_log_index: 102,
+                now_unix_seconds: NOW + 3,
+                now_unix_millis: ((NOW + 3) as u64) * 1_000,
+                now_elapsed_millis: 21,
+                activation_proof: &same_epoch_proof,
+            }
+        ),
         Err(FencingError::Fenced)
     );
     let (next_epoch, next_epoch_body) = active_lease(&fixture, 102, 2);
     let next_epoch_proof = activation_signature(&next_epoch_body, &fixture.activation);
     revoke_store
-        .authorize_active_lease(ActiveLeaseCheck {
-            membership: Some(&post_revoke_membership),
-            lease: &next_epoch,
-            applied_log_index: 102,
-            now_unix_seconds: NOW + 3,
-            now_unix_millis: ((NOW + 3) as u64) * 1_000,
-            now_elapsed_millis: 21,
-            activation_proof: &next_epoch_proof,
-        })
+        .authorize_active_lease(
+            &TEST_FENCING_STORE_ACCESS,
+            ActiveLeaseCheck {
+                membership: Some(&post_revoke_membership),
+                lease: &next_epoch,
+                applied_log_index: 102,
+                now_unix_seconds: NOW + 3,
+                now_unix_millis: ((NOW + 3) as u64) * 1_000,
+                now_elapsed_millis: 21,
+                activation_proof: &next_epoch_proof,
+            },
+        )
         .unwrap();
     marker("revoke_without_old_holder_activation_proof", "fenced");
 }
@@ -488,29 +496,43 @@ fn durable_floor_fences_restart_rollback_and_failed_commit() {
     let mut active_membership = fixture.membership.clone();
     active_membership.committed_log_index = 100;
     assert_eq!(
-        store.authorize_active_lease(ActiveLeaseCheck {
-            membership: Some(&active_membership),
-            lease: &lease,
-            applied_log_index: 100,
-            now_unix_seconds: NOW,
-            now_unix_millis: (NOW as u64) * 1_000,
-            now_elapsed_millis: 20,
-            activation_proof: &[],
-        }),
+        store.authorize_active_lease(
+            &TEST_FENCING_STORE_ACCESS,
+            ActiveLeaseCheck {
+                membership: Some(&active_membership),
+                lease: &lease,
+                applied_log_index: 100,
+                now_unix_seconds: NOW,
+                now_unix_millis: (NOW as u64) * 1_000,
+                now_elapsed_millis: 20,
+                activation_proof: &[],
+            }
+        ),
         Err(FencingError::Fenced)
     );
     marker("fenced_mutation", "denied");
 
     fs::write(directory.path().join("fencing-state.json"), &old_state).unwrap();
     assert_eq!(
-        FencingStore::open(directory.path(), fencing_policy(), authority.clone()).unwrap_err(),
+        FencingStore::open(
+            &TEST_FENCING_STORE_ACCESS,
+            directory.path(),
+            fencing_policy(),
+            authority.clone()
+        )
+        .unwrap_err(),
         FencingError::Rollback
     );
     marker("rollback_below_floor", "denied");
     fs::write(directory.path().join("fencing-state.json"), current_state).unwrap();
 
-    let reopened =
-        FencingStore::open(directory.path(), fencing_policy(), authority.clone()).unwrap();
+    let reopened = FencingStore::open(
+        &TEST_FENCING_STORE_ACCESS,
+        directory.path(),
+        fencing_policy(),
+        authority.clone(),
+    )
+    .unwrap();
     assert_eq!(reopened.floor(LINEAGE).unwrap().epoch, 2);
     marker("restart_floor_retained", "fenced");
 
@@ -524,38 +546,47 @@ fn durable_floor_fences_restart_rollback_and_failed_commit() {
     .unwrap();
     let proof = activation_proof(&fixture, &lease);
     active_store
-        .authorize_active_lease(ActiveLeaseCheck {
-            membership: Some(&active_membership),
-            lease: &lease,
-            applied_log_index: 100,
-            now_unix_seconds: NOW,
-            now_unix_millis: lease.deadline_unix_millis - 1,
-            now_elapsed_millis: 2_019,
-            activation_proof: &proof,
-        })
+        .authorize_active_lease(
+            &TEST_FENCING_STORE_ACCESS,
+            ActiveLeaseCheck {
+                membership: Some(&active_membership),
+                lease: &lease,
+                applied_log_index: 100,
+                now_unix_seconds: NOW,
+                now_unix_millis: lease.deadline_unix_millis - 1,
+                now_elapsed_millis: 2_009,
+                activation_proof: &proof,
+            },
+        )
         .unwrap();
     assert_eq!(
-        active_store.authorize_active_lease(ActiveLeaseCheck {
-            membership: Some(&active_membership),
-            lease: &lease,
-            applied_log_index: 100,
-            now_unix_seconds: NOW,
-            now_unix_millis: lease.deadline_unix_millis - 1,
-            now_elapsed_millis: 2_019,
-            activation_proof: &[0; 64],
-        }),
+        active_store.authorize_active_lease(
+            &TEST_FENCING_STORE_ACCESS,
+            ActiveLeaseCheck {
+                membership: Some(&active_membership),
+                lease: &lease,
+                applied_log_index: 100,
+                now_unix_seconds: NOW,
+                now_unix_millis: lease.deadline_unix_millis - 1,
+                now_elapsed_millis: 2_009,
+                activation_proof: &[0; 64],
+            }
+        ),
         Err(FencingError::ActivationPossession)
     );
     assert_eq!(
-        active_store.authorize_active_lease(ActiveLeaseCheck {
-            membership: Some(&active_membership),
-            lease: &lease,
-            applied_log_index: 100,
-            now_unix_seconds: NOW,
-            now_unix_millis: lease.deadline_unix_millis,
-            now_elapsed_millis: 2_020,
-            activation_proof: &proof,
-        }),
+        active_store.authorize_active_lease(
+            &TEST_FENCING_STORE_ACCESS,
+            ActiveLeaseCheck {
+                membership: Some(&active_membership),
+                lease: &lease,
+                applied_log_index: 100,
+                now_unix_seconds: NOW,
+                now_unix_millis: lease.deadline_unix_millis,
+                now_elapsed_millis: 2_020,
+                activation_proof: &proof,
+            }
+        ),
         Err(FencingError::LeaseExpired)
     );
 
@@ -568,8 +599,13 @@ fn durable_floor_fences_restart_rollback_and_failed_commit() {
         stale_authority.clone(),
     )
     .unwrap();
-    let mut stale =
-        FencingStore::open(stale_dir.path(), fencing_policy(), stale_authority.clone()).unwrap();
+    let mut stale = FencingStore::open(
+        &TEST_FENCING_STORE_ACCESS,
+        stale_dir.path(),
+        fencing_policy(),
+        stale_authority.clone(),
+    )
+    .unwrap();
     commit(
         &mut writer,
         &fixture,
@@ -581,15 +617,18 @@ fn durable_floor_fences_restart_rollback_and_failed_commit() {
     )
     .unwrap();
     assert_eq!(
-        stale.authorize_active_lease(ActiveLeaseCheck {
-            membership: Some(&active_membership),
-            lease: &lease,
-            applied_log_index: 100,
-            now_unix_seconds: NOW,
-            now_unix_millis: lease.deadline_unix_millis - 1,
-            now_elapsed_millis: 2_019,
-            activation_proof: &proof,
-        }),
+        stale.authorize_active_lease(
+            &TEST_FENCING_STORE_ACCESS,
+            ActiveLeaseCheck {
+                membership: Some(&active_membership),
+                lease: &lease,
+                applied_log_index: 100,
+                now_unix_seconds: NOW,
+                now_unix_millis: lease.deadline_unix_millis - 1,
+                now_elapsed_millis: 2_009,
+                activation_proof: &proof,
+            }
+        ),
         Err(FencingError::Rollback)
     );
     assert_eq!(
@@ -661,15 +700,18 @@ fn durable_floor_fences_restart_rollback_and_failed_commit() {
         cleanup_authority.current().unwrap().unwrap()
     );
     assert_eq!(
-        cleanup.authorize_active_lease(ActiveLeaseCheck {
-            membership: Some(&active_membership),
-            lease: &lease,
-            applied_log_index: 100,
-            now_unix_seconds: NOW,
-            now_unix_millis: lease.deadline_unix_millis - 1,
-            now_elapsed_millis: 2_019,
-            activation_proof: &proof,
-        }),
+        cleanup.authorize_active_lease(
+            &TEST_FENCING_STORE_ACCESS,
+            ActiveLeaseCheck {
+                membership: Some(&active_membership),
+                lease: &lease,
+                applied_log_index: 100,
+                now_unix_seconds: NOW,
+                now_unix_millis: lease.deadline_unix_millis - 1,
+                now_elapsed_millis: 2_009,
+                activation_proof: &proof,
+            }
+        ),
         Err(FencingError::DurabilityFailure)
     );
 }

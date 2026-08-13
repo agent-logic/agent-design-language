@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 291,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/291-initialized-decomposition-recovery",
+  "title": "[v0.92][C-SDLC] Fix initialized decomposition duplicate-edge recovery (#291)",
+  "body": "## Summary\n\nFixes initialized decomposition recovery graph validation so duplicate directed edges fail closed before recovery mutates issue/card state.\n\n## Changes\n\n- Reject duplicate `(from, to, relation)` graph edges in `validate_decomposition_graph`.\n- Add a focused negative regression for duplicate `child-a -> child-b` recovery input.\n- Preserve typed #291 lifecycle truth through recovery, canonical fresh review assignment, and PASS review record.\n\n## Validation\n\n- `cargo fmt --manifest-path csdlc-v2/Cargo.toml --check`\n- `git diff --check`\n- `cargo test --manifest-path csdlc-v2/Cargo.toml --test initialized_decomposition_recovery` (2 passed)\n- `env CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/291/csdlc-v2 cargo clippy --manifest-path csdlc-v2/Cargo.toml --workspace --all-targets -- -D warnings`\n- `env CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/291/csdlc-v2 cargo test --manifest-path csdlc-v2/Cargo.toml --workspace` reached unrelated local `gate_github_actions` fixture instability; this is recorded as residual validation risk, not claimed as a clean full-suite pass.\n- Fresh exact-head review PASS: `fresh-session:a730ec10-229b-43a7-99ba-e87c10abdbc5` for `git-blake3:e0f7210a9f86af43e56b80100cc9071c0649eb20:9ece3673fd7b967c91eac9eb38349475d6a69d707247f1a6b46afdd112bcb7a6`.\n\nCloses #291",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:446a61c680bcd228eb061c32b02fa9a0d897bdfb:cbfda80759fa9d51cf737e1911e5f2b45e86c1d7f1e6d3bf1657aa5fe01f9e48",
+  "commit_sha": "446a61c680bcd228eb061c32b02fa9a0d897bdfb"
+}

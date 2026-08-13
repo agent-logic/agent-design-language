@@ -1,0 +1,27 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 295,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][CI][coverage][defect] Classify mechanical compile-fallout without weakening changed-source coverage",
+    "slug": "mechanical-compile-fallout-coverage",
+    "version": "v0.92",
+    "generation": 24
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl/config/mechanical_coverage_fallout.v1.json\nadl/config/validation_lane_selector.v0.91.6.json\nadl/tools/check_coverage_impact.sh\nadl/tools/mechanical_coverage_fallout.py\nadl/tools/test_mechanical_coverage_fallout.sh\ndocs/tooling/COVERAGE_AUTHORITY_AND_RELEASE_PROOF.md\n.csdlc/evidence/295\n.csdlc/issues/295\n.csdlc/prepared/issues/295",
+      "review_revision": "git-blake3:ed21f61961aaac49a7b0d886b44b4dd69b9b2864:460e12fb22f5d605f8e37dc0e3f17e005adea0e96edad92a47d7a2b3202beeed",
+      "reviewer": "fresh-session:0c36550e-6341-498e-94f2-7df482fc6e35",
+      "review_prompts": [
+        "Review every acceptance criterion with code, security, test, and evidence coverage, emphasizing parser over-acceptance, proof completeness, receipt truth, threshold preservation, and PR-fast non-authority."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pass"
+    }
+  }
+}

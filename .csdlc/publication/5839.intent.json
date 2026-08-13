@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 5839,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "danielbaustin/agent-design-language",
+  "base": "main",
+  "head": "codex/5839-birthday-governance-handoff",
+  "title": "Docs: map v0.92 birthday evidence to v0.93 governance handoff",
+  "body": "Closes danielbaustin/agent-design-language#5839\n\n## Summary\n- add the v0.92-to-v0.93 governance evidence map with row-level allowed-use, forbidden-inference, redaction, unresolved-decision, and accepting-consumer fields\n- update the v0.92 next-milestone handoff and ADR 0068 planning row while keeping ADR 0068 proposed, not accepted\n- add the WP-19 validator for map completeness and forbidden governance-claim checks\n\n## Validation\n- `ruby .csdlc/evidence/5839/validate-governance-handoff.rb` — PASS\n- `ruby .csdlc/evidence/5839/validate-governance-handoff.rb --negative` — PASS\n- `git diff --check` — PASS\n- fresh exact-head review by `subagent:/root/review_5839_final_clean` — PASS\n\n## Non-claims\n- #5836 remains `blocked_with_evidence` and is not consumed as terminal birthday-demo evidence.\n- The v0.93 issue wave remains candidate; this PR names the accepted v0.93 planning package as consumer, not an opened implementation owner.\n- This does not grant citizenship, standing, rights, duties, legal personhood, polis authority, or completed v0.93 governance.\n- No #112, #203, #122, #256, #84, AWS, decomposition, closeout, or merge work is included.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:d5915b818f3a1dfb8454358569435406ad5aa663:b640d97f81985a02cb58d3887eb5040304894364f47a03e8dd2a6dc15162ebb1",
+  "commit_sha": "d5915b818f3a1dfb8454358569435406ad5aa663"
+}

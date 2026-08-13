@@ -1,0 +1,466 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 301,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "fac452b8127405cd253f1008a5858c5ee2a5c30be11ef5964720538e609b79d8",
+  "phase": "published",
+  "generation": 27,
+  "digest": "c63ee494fcc83b373d809ae1f8e69277f88feb91523ba38ea81e55786d40c4d7",
+  "branch": "codex/301-title-only-operation-provenance",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-301-title-only-operation-provenance",
+  "review_assignment": {
+    "reviewer": "fresh-session:6eb51c7c-f750-4572-8dbe-c3a6b651cc4a",
+    "assigned_by": "codex:issue-301-janitor",
+    "revision": "git-blake3:ff721a1da16fa64e04fef9c3aca1246a41ffd433:a83e545e0958852ba878a31c99a5002eb06f9c2cea11b83ca3916570a3f4e0f7",
+    "scope": [
+      ".csdlc/issues/301",
+      ".csdlc/prepared/issues/301",
+      ".csdlc/evidence/301",
+      "csdlc-v2/src/github.rs",
+      "csdlc-v2/tests/gate_github_actions.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:6eb51c7c-f750-4572-8dbe-c3a6b651cc4a",
+    "scope": [
+      ".csdlc/issues/301",
+      ".csdlc/prepared/issues/301",
+      ".csdlc/evidence/301",
+      "csdlc-v2/src/github.rs",
+      "csdlc-v2/tests/gate_github_actions.rs"
+    ],
+    "reviewed_revision": "git-blake3:ff721a1da16fa64e04fef9c3aca1246a41ffd433:a83e545e0958852ba878a31c99a5002eb06f9c2cea11b83ca3916570a3f4e0f7",
+    "findings": [],
+    "residual_risks": [
+      "Review was read-only from an inline exact evidence packet and did not rerun cargo, csdlc-validate, lifecycle, GitHub state checks, publication, or CI.",
+      "Several prior fresh review assignments after pagination remediation produced no verdict and were typed-recovered as no-result before this fresh-session PASS.",
+      "Operational zero-byte .csdlc/locks/301.lock recurred during typed owner commands and was preserved recoverably in Git-common quarantine outside tracked source."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 301,
+    "pull_request": 304,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/304",
+    "base": "main",
+    "head": "codex/301-title-only-operation-provenance",
+    "revision": "git-blake3:49a61554640cac8989aba5f6bfd3fa5c1b06c4b4:3d9437524fcc2ddf474cd8a9a36dbff375ac6d9d160e85c758471e4902204834",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/301/design.md",
+  "diagram_path": ".csdlc/prepared/issues/301/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:b1ead642-26d7-4a52-a7a2-934848c29bf4",
+      "revision": "131c08ddd36d3441808326298bd5b342cf347da248c85000c38e1e28c5a7c254"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "5317a71b2ca5255f413f1ba68010ad266483b6e6035729f06f9d5b65487d7aaa",
+      "rendered_digest": "1f602d55abfde140b71a7cdd01db213d96b4e5da322e26363d45f7fde7749164",
+      "ast_digest": "dd6e1f4ed857ac2203d39182ca287b0e7a6cb9b24ca5f57bf858eb994e976e6d"
+    },
+    "stp": {
+      "values_digest": "5ae4c37a09a13f0d16dca2156094cd24d8a64ef2931e0f9bbf05ec57e47402cc",
+      "rendered_digest": "e6a832def0573767be1fad1b65f7745f1277478e67daca8f569ead5a5ddfbbb1",
+      "ast_digest": "b57938e52b725b7ba654620cd7afc3cd854bd01a38e08c1f4cf3175bf509490f"
+    },
+    "spp": {
+      "values_digest": "b1bb97108cdca3d92be5a4b03be4de8c1c9c3f06ab51a69bd9315c807ae9631e",
+      "rendered_digest": "cfe63ad0859216ac10f3217783f8024247bbf7c0bc8ed373fa58e0a50b5b4f0a",
+      "ast_digest": "580e50826ca988c2d4e57d3adb21c05509ce8e82651820a1cb58146525c63451"
+    },
+    "vpp": {
+      "values_digest": "644576d2771bf6fa317ebf5bc2cd9d2ae0b2a12a3d65439df31f7886ed39b151",
+      "rendered_digest": "4ef60e2e9967dfbcb0f5394ace805d298cc2a813aecf357f6a480cc32c9fddd8",
+      "ast_digest": "a643837775ef62d34b85f62c552b4571efb1ade678f67418ec46bd047fcdb45b"
+    },
+    "srp": {
+      "values_digest": "957ab935aa08513e71fb1c51907af438ba4c4e9ebb98baf828c749bb7b208778",
+      "rendered_digest": "b223cb06c216ad786b4b3b73a1f75cb1a60b34dbd06882dcc505b8d5711ce39c",
+      "ast_digest": "2e94e3eecc89d016073213ee4ece7221ca2170f1f8a2bd1803aa217ffd3cf438"
+    },
+    "sor": {
+      "values_digest": "e1335e6268ce02913b91f538847b654498c9d4999ce5229c591d4d98ceea85c5",
+      "rendered_digest": "19fda375b7e206d6e74f51a44cd239810677b79cac96ccfd0fb49f402e7a806d",
+      "ast_digest": "6bb170d7ff13ea1d3ee0fc7f78552415e1ef85937249f59b310b0af8380b074c"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:issue-301-design-remediation",
+      "reason": "Doctor reports #301 design and card packet ready after fresh design approval; enter ready phase before binding."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-301",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-301",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-301",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-301-janitor",
+      "reason": "PR #304 is published against stale base 7f88697c and now conflicts with current main da7994f189002f27c79b6fb5e13926a8093dd9ac; recover stale review/publication truth before bounded merge-conflict remediation and fresh exact-head review."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-301-janitor",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-301-janitor",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-301-janitor",
+      "reason": "origin/main advanced to 193f77d24a693f955a2fcf3bdfc759ad1db8aff4 after #258; PR #304 remains based on da7994f189002f27c79b6fb5e13926a8093dd9ac with overlapping csdlc-v2/src/github.rs and csdlc-v2/tests/gate_github_actions.rs changes, so recover stale review/publication truth before resync and fresh exact-head review."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-301-janitor",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 11,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-301-janitor",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:tooling-gap-audit",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:issue-301-design-remediation",
+      "reason": "remediate r1 design review findings in the initialized plan and refresh paired design and diagram bindings last",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/301/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/301/diagram.mmd\",\"new_design_digest\":\"131c08ddd36d3441808326298bd5b342cf347da248c85000c38e1e28c5a7c254\",\"new_diagram_digest\":\"e8858a02167e85c90e9486d328827bc4a7fc697684efbe785d2e10600a4f5f41\",\"old_design_digest\":\"291cb611a2e26983469adb15876201936b6b337eeea181687d9e3ebfe8c38d8e\",\"old_diagram_digest\":\"20658b11df1f4c0da275b947b985f07d7af4512113c3335c504c843cb68a9201\"},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"action\":\"Finalize the title-only provenance contract: durable operation-key-to-request fingerprint receipts, same-key idempotent retry, conflicting key reuse fail-closed, and compatibility with legacy body-bearing markers.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-5\"],\"action\":\"Implement only csdlc-v2/src/github.rs plus focused gate_github_actions coverage for body preservation, provenance readback, retry, conflicting reuse, partial-operation recovery, and deterministic concurrent body drift boundaries.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-6\"],\"action\":\"Run focused validation and strict Clippy, obtain fresh exact-head review with no unresolved findings, publish ready, and stop before merge.\",\"id\":\"S3\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:issue-301-design-remediation",
+      "reason": "remediate fresh design review finding by adding the strict Clippy validation lane required by the design and acceptance criteria",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"title-only-github-issue-update\",\"proof_role\":\"Focused owner regression for title-only body preservation, durable operation provenance, same-key retry, conflicting reuse, concurrent body drift, and body-bearing compatibility.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"strict-clippy-github-owner\",\"proof_role\":\"Strict warning-free proof for the csdlc-v2 GitHub issue owner crate after the title-only provenance change.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "fresh-session:b1ead642-26d7-4a52-a7a2-934848c29bf4",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:issue-301-design-remediation",
+      "reason": "Doctor reports #301 design and card packet ready after fresh design approval; enter ready phase before binding.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:issue-301",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:issue-301",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:issue-301",
+      "reason": "Exact review r1 failed: title-only retry can repeat PATCH after successful mutation when provenance receipt creation/readback fails; deterministic before/during/after-PATCH and after-receipt drift claims lack complete injected proof. Recover review authority before bounded protocol and test remediation; require a different fresh reviewer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:issue-301",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:issue-301",
+      "reason": "Recover immediately because assignment revision omitted later committed causal fixture stabilization; no review authority issued. Reconcile exact final implementation head before assigning a different fresh reviewer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:issue-301",
+      "reason": "Record exact r1 remediation and current validation truth before reassignment.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented durable title-only issue-update provenance with partial-operation recovery and deterministic remote-drift proof.\",\"changes\":[\"Bind each operation key to a canonical mutation fingerprint in a durable comment receipt.\",\"Preserve the issue body byte-for-byte through one governed title PATCH.\",\"Recover a successful PATCH with missing receipt without repeating PATCH.\",\"Fail closed at before-PATCH, during-PATCH, before-receipt, and after-receipt body drift boundaries.\",\"Preserve body-bearing marker compatibility and isolate status classification from retrying transport fixtures.\"],\"artifacts\":[\"csdlc-v2/src/github.rs\",\"csdlc-v2/tests/gate_github_actions.rs\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\"],\"purpose\":\"Focused GitHub issue owner proof.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/301/title-only-github-issue-update.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict warning-free owner and fixture proof.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/301/strict-clippy-github-owner.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\"],\"purpose\":\"Full library regression proof.\",\"outcome\":\"passed\",\"evidence_ref\":\"local output: 75 passed\"}]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:issue-301",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:issue-301-provenance-remediation",
+      "reason": "Fresh exact review found actionable P1: title equality without a matching durable receipt can launder an unrelated title mutation or intervening body drift into reconciled provenance. Recover the assignment before implementing fail-closed ambiguity handling and deterministic regression proof; require a different fresh reviewer for the new head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:issue-301-provenance-remediation",
+      "reason": "Replace stale execution claims after P1 remediation so the SOR truthfully records fail-closed ambiguity handling and current validation.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented durable title-only issue-update provenance with fail-closed partial-operation ambiguity and deterministic remote-drift proof.\",\"changes\":[\"Bind each operation key to a canonical mutation fingerprint in a durable comment receipt.\",\"Preserve the issue body byte-for-byte through one governed title PATCH.\",\"Fail closed without repeating PATCH when the requested title is already present but no matching durable receipt exists.\",\"Reject intervening body drift after PATCH-success and receipt failure instead of minting provenance from the new body baseline.\",\"Reject an unrelated actor pre-setting the requested title instead of treating title equality alone as operation proof.\",\"Fail closed at before-PATCH, during-PATCH, before-receipt, and after-receipt body drift boundaries.\",\"Preserve body-bearing marker compatibility and isolate status classification from retrying transport fixtures.\"],\"artifacts\":[\"csdlc-v2/src/github.rs\",\"csdlc-v2/tests/gate_github_actions.rs\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\"],\"purpose\":\"Focused GitHub issue owner proof including ambiguous partial-operation and unrelated-title regressions.\",\"outcome\":\"passed\",\"evidence_ref\":\"local output: 10 passed\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict warning-free owner and fixture proof.\",\"outcome\":\"passed\",\"evidence_ref\":\"local output: finished dev profile\"}]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "codex:issue-301",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "codex:issue-301",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "codex:issue-301",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex:issue-301-janitor",
+      "reason": "PR #304 is published against stale base 7f88697c and now conflicts with current main da7994f189002f27c79b6fb5e13926a8093dd9ac; recover stale review/publication truth before bounded merge-conflict remediation and fresh exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex:issue-301-janitor",
+      "reason": "Record current-main merge conflict remediation and post-merge validation truth before fresh exact-head review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Recovered stale #301 publication after PR #304 conflicted with current main, merged da7994f189002f27c79b6fb5e13926a8093dd9ac, and preserved title-only GitHub issue update provenance behavior.\",\"changes\":[\"Recovered stale review/publication truth through typed csdlc-review recover before branch remediation.\",\"Merged current origin/main into codex/301-title-only-operation-provenance.\",\"Resolved the sole merge conflict in csdlc-v2/tests/gate_github_actions.rs by preserving current main's explicit scripted-response write and flush behavior.\",\"Preserved #301's durable title-only operation provenance implementation and focused regression coverage.\"],\"artifacts\":[\"csdlc-v2/src/github.rs\",\"csdlc-v2/tests/gate_github_actions.rs\",\".csdlc/issues/301\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--check\"],\"purpose\":\"Formatter check for the merged #301 branch.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:365d61ae9003bd8ae11d6c83fb4929a9b2115269:cargo-fmt-csdlc-v2-check:passed\"},{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"301\"],\"purpose\":\"Typed C-SDLC issue validation after stale-publication recovery and current-main merge.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:365d61ae9003bd8ae11d6c83fb4929a9b2115269:csdlc-validate-issue-301:passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\"],\"purpose\":\"Focused GitHub issue owner proof including #301 title-only provenance regressions and merged main's action-scoped redaction coverage.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:365d61ae9003bd8ae11d6c83fb4929a9b2115269:gate-github-actions:10-passed\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict warning-free proof for the touched GitHub owner test target after conflict resolution.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:365d61ae9003bd8ae11d6c83fb4929a9b2115269:clippy-gate-github-actions:passed\"}]}"
+    },
+    {
+      "sequence": 21,
+      "generation": 14,
+      "actor": "codex:issue-301-janitor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 15,
+      "actor": "codex:issue-301-janitor",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 16,
+      "actor": "codex:issue-301-janitor",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 24,
+      "generation": 17,
+      "actor": "codex:issue-301-janitor",
+      "reason": "origin/main advanced to 193f77d24a693f955a2fcf3bdfc759ad1db8aff4 after #258; PR #304 remains based on da7994f189002f27c79b6fb5e13926a8093dd9ac with overlapping csdlc-v2/src/github.rs and csdlc-v2/tests/gate_github_actions.rs changes, so recover stale review/publication truth before resync and fresh exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 18,
+      "actor": "codex:issue-301-janitor",
+      "reason": "Record post-#258 origin/main 193f77d24 resync and focused validation truth before fresh exact-head review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Recovered stale #301 publication after origin/main advanced to 193f77d24a693f955a2fcf3bdfc759ad1db8aff4, merged current main into codex/301-title-only-operation-provenance without manual conflicts, and preserved title-only GitHub issue update provenance behavior.\",\"changes\":[\"Recovered stale review/publication truth through typed csdlc-review recover after PR #304 was observed behind current origin/main with overlapping #258/#301 paths.\",\"Merged origin/main 193f77d24a693f955a2fcf3bdfc759ad1db8aff4 into codex/301-title-only-operation-provenance.\",\"Observed the merge completed cleanly with no manual conflict resolution.\",\"Preserved #301's durable title-only operation provenance implementation and focused regression coverage.\"],\"artifacts\":[\"csdlc-v2/src/github.rs\",\"csdlc-v2/tests/gate_github_actions.rs\",\".csdlc/issues/301\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--check\"],\"purpose\":\"Formatter check for the #301 branch after merging origin/main 193f77d24.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:18323f4c4d5456fe3f19023203665e932d8ec356:cargo-fmt-csdlc-v2-check:passed\"},{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"301\"],\"purpose\":\"Typed C-SDLC issue validation after stale-publication recovery and current-main resync.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:18323f4c4d5456fe3f19023203665e932d8ec356:csdlc-validate-issue-301:passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\"],\"purpose\":\"Focused GitHub issue owner proof including #301 title-only provenance regressions and current main's action-scoped redaction coverage.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:18323f4c4d5456fe3f19023203665e932d8ec356:gate-github-actions:10-passed\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict warning-free proof for the touched GitHub owner test target after current-main resync.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:18323f4c4d5456fe3f19023203665e932d8ec356:clippy-gate-github-actions:passed\"}]}"
+    },
+    {
+      "sequence": 26,
+      "generation": 18,
+      "actor": "codex:issue-301-janitor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 19,
+      "actor": "codex:issue-301-janitor",
+      "reason": "Fresh exact review fresh-session:fbaa979a-f3ae-4622-85dc-f38d822c0b51 found actionable P2: title-only provenance receipt lookup inspects only the first 100 issue comments, so valid same-key retries can fail when the durable receipt is on a later GitHub comments page. Recover review authority before bounded pagination remediation and different fresh reviewer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 20,
+      "actor": "codex:issue-301-janitor",
+      "reason": "Record remediation for fresh review P2 on paginated title-only provenance receipt lookup before reassignment.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Recovered stale #301 review after fresh-session:fbaa979a found first-page-only provenance receipt lookup, paginated title-only issue comment receipt discovery, and added a page-2 receipt regression while preserving post-#258 resync behavior.\",\"changes\":[\"Recovered failed fresh review truth through typed csdlc-review recover at generation 19.\",\"Updated title-only provenance receipt lookup to scan GitHub issue comment pages with per_page=100 until the final short page.\",\"Added a focused regression where 100 filler comments push the durable receipt to page 2, proving initial receipt readback and same-key retry both reconcile without a second PATCH.\",\"Preserved #301 durable title-only operation provenance semantics and post-193f77d24 main ancestry.\"],\"artifacts\":[\"csdlc-v2/src/github.rs\",\"csdlc-v2/tests/gate_github_actions.rs\",\".csdlc/issues/301\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\",\"title_only_issue_update_finds_provenance_receipts_across_comment_pages\"],\"purpose\":\"Focused regression for the fresh-review pagination finding.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:f1f7756cf2113b1a8f50fd407086245831ea78d9:paginated-title-only-receipt-test:1-passed\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--check\"],\"purpose\":\"Formatter check after pagination remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:f1f7756cf2113b1a8f50fd407086245831ea78d9:cargo-fmt-csdlc-v2:formatted\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\"],\"purpose\":\"Focused GitHub issue owner proof including #301 title-only provenance pagination, drift, ambiguity, and current main redaction coverage.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:f1f7756cf2113b1a8f50fd407086245831ea78d9:gate-github-actions:11-passed\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict warning-free proof for the touched GitHub owner test target after pagination remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:f1f7756cf2113b1a8f50fd407086245831ea78d9:clippy-gate-github-actions:passed\"},{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"301\"],\"purpose\":\"Typed C-SDLC issue validation after pagination remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:f1f7756cf2113b1a8f50fd407086245831ea78d9:csdlc-validate-issue-301:passed\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Whitespace and conflict-marker hygiene for the pagination remediation diff.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:f1f7756cf2113b1a8f50fd407086245831ea78d9:git-diff-check:passed\"}]}"
+    },
+    {
+      "sequence": 29,
+      "generation": 20,
+      "actor": "codex:issue-301-janitor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 21,
+      "actor": "codex:issue-301-janitor",
+      "reason": "Fresh review assignment fresh-session:e4b36ed1-056b-4000-8433-52236fd9d083 produced no verdict after bounded waits and was interrupted. Preserve assignment truth as no-result and recover review authority before dispatching a different fresh no-context reviewer against unchanged pagination-remediation scope.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 21,
+      "actor": "codex:issue-301-janitor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 22,
+      "actor": "codex:issue-301-janitor",
+      "reason": "Fresh review assignment fresh-session:b2aaf414-4a5b-4a6c-8d23-f533ce91eddb produced no verdict after bounded waits and was interrupted. Preserve assignment truth as no-result and recover review authority before dispatching a different fresh no-context reviewer against unchanged pagination-remediation scope.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 22,
+      "actor": "codex:issue-301-janitor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 23,
+      "actor": "codex:issue-301-janitor",
+      "reason": "Fresh review assignment fresh-session:77b44717-c8b2-4974-b603-b32677a88630 produced no verdict after bounded waits and was interrupted. Preserve assignment truth as no-result and recover review authority before dispatching a different fresh no-context reviewer against unchanged pagination-remediation scope.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 23,
+      "actor": "codex:issue-301-janitor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 24,
+      "actor": "codex:issue-301-janitor",
+      "reason": "Fresh review assignment fresh-session:8c11a5b1-8553-4874-bada-07ba30fd01d4 produced no verdict after bounded wait and was interrupted. Preserve assignment truth as no-result and recover review authority before dispatching a different fresh no-context reviewer against unchanged pagination-remediation scope.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 24,
+      "actor": "codex:issue-301-janitor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 25,
+      "actor": "codex:issue-301-janitor",
+      "reason": "Fresh review assignment fresh-session:bfd51967-1af6-4ab9-938f-c60fe9f4ec12 produced no verdict after bounded wait and was interrupted. Preserve assignment truth as no-result and recover review authority before dispatching a different fresh no-context reviewer against unchanged pagination-remediation scope.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 25,
+      "actor": "codex:issue-301-janitor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 26,
+      "actor": "codex:issue-301-janitor",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 27,
+      "actor": "codex:issue-301-janitor",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

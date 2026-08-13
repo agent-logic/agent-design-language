@@ -580,9 +580,8 @@ pub struct PolisRuntimeAuthorityBootstrap {
 }
 
 impl PolisRuntimeAuthorityBootstrap {
-    #[cfg(test)]
-    pub(crate) fn restore_configured(
-        certificate_store: Arc<DistributedCertificateStore>,
+    pub fn restore_configured(
+        certificate_store: AuthorityBoundCertificateStore,
         membership_policy: MembershipPolicy,
         membership_snapshot: &[u8],
         trusted_membership_commitment: [u8; 32],
@@ -597,15 +596,17 @@ impl PolisRuntimeAuthorityBootstrap {
         })
     }
 
-    pub fn restore_authority_bound(
-        certificate_store: AuthorityBoundCertificateStore,
+    #[cfg(test)]
+    #[allow(dead_code)]
+    pub(crate) fn restore_configured_for_test(
+        certificate_store: Arc<DistributedCertificateStore>,
         membership_policy: MembershipPolicy,
         membership_snapshot: &[u8],
         trusted_membership_commitment: [u8; 32],
     ) -> TransportResult<Self> {
         Ok(Self {
-            initializer: RuntimeAuthorityInitializer::restore_bound(
-                Arc::new(certificate_store),
+            initializer: RuntimeAuthorityInitializer::restore_for_test(
+                certificate_store,
                 membership_policy,
                 membership_snapshot,
                 trusted_membership_commitment,
