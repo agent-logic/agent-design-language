@@ -1,0 +1,158 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 259,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1a][203.b] Bind governed transport to authority adapters",
+    "slug": "governed-transport-authority-adapters",
+    "version": "v0.92",
+    "generation": 17
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "governed-transport-authority",
+          "proof_role": "Prove positive transport authorization, negative identity/purpose/revocation paths, and the cfg(test) crate-private raw-store constructor contract.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 300,
+          "budget_tokens": 2000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_transport",
+            "--",
+            "--nocapture",
+            "--test-threads=1"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "dependent-runtime-transport-authority",
+          "proof_role": "Prove the dependent integration crate cannot use the private raw-store constructor and exercises transport only through a real published #258 adapter handle.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 600,
+          "budget_tokens": 3000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--features",
+            "internal-test-fixtures",
+            "--test",
+            "distributed_runtime_transport",
+            "--",
+            "--test-threads=1"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "transport-coupled-discovery",
+          "proof_role": "Prove the directly coupled discovery transport harness still compiles and preserves its fail-closed authorization behavior.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 300,
+          "budget_tokens": 1500,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_discovery",
+            "--",
+            "--test-threads=1"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "runtime-transport-strict-clippy",
+          "proof_role": "Reject warnings in the production library and every changed transport-coupled test target without absorbing unrelated repository-wide all-target lint debt.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 2000,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--features",
+            "internal-test-fixtures",
+            "--test",
+            "distributed_transport",
+            "--test",
+            "distributed_discovery",
+            "--test",
+            "distributed_runtime_transport",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "exact-diff-hygiene",
+          "proof_role": "Reject whitespace and conflict-marker drift across the exact issue worktree diff.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on stale dependency ancestry, scope collision with #260/#203, validation failure, stale review, or typed publication mismatch.",
+      "design_ref": ".csdlc/prepared/issues/259/design.md",
+      "design_digest": "aa9f512a7624c4d0f21418012831fb40b1f052cc431222bcf7f101c1de39d67c",
+      "diagram_ref": ".csdlc/prepared/issues/259/diagram.mmd",
+      "diagram_digest": "a0b0d56fbebcd8825ba181d20a910a356e0eda1b91e274f25c5bea2f8bb1a0fd"
+    }
+  }
+}
