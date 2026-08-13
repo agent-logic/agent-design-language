@@ -90,11 +90,11 @@ Implemented the bounded durable serving-authority foundation with exact sealed #
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
