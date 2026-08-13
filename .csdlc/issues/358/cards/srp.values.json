@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": ".csdlc/issues/358\n.csdlc/prepared/issues/358\n.csdlc/evidence/358\nadl-runtime/src/distributed/authority_protocol.rs\nadl-runtime/src/distributed/serving_authority.rs\nadl-runtime/tests/distributed_observatory_authority_projection.rs",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

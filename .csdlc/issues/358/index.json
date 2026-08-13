@@ -5,10 +5,22 @@
   "initialization_digest": "21fd626edd1cc7640193b8c78517845a185147f6a0de9e0a2c6873224bb85fe4",
   "phase": "implemented",
   "generation": 13,
-  "digest": "483953ad922732dea9317a7ea94c72efd038799a159675a7787b9f748951ef4c",
+  "digest": "abed0c5e4e0e141f79278a6777fb38985c978930bd8fb60ccfa54eba2398ec87",
   "branch": "codex/358-observatory-transition-intent-time",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-358-observatory-transition-intent-time",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:de4efec3-b6d7-4d8b-92c4-7cf1cbddc3ce",
+    "assigned_by": "codex:issue-358-srp-scope-anchor",
+    "revision": "git-blake3:fe802db4c11774a2c9449d744c75200ca7b8d38c:44d0ef77b81c1ace24c5c6b124c58f4a81d1fcfef8d2f46833d0aaa2f20171b9",
+    "scope": [
+      ".csdlc/issues/358",
+      ".csdlc/prepared/issues/358",
+      ".csdlc/evidence/358",
+      "adl-runtime/src/distributed/authority_protocol.rs",
+      "adl-runtime/src/distributed/serving_authority.rs",
+      "adl-runtime/tests/distributed_observatory_authority_projection.rs"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +56,9 @@
       "ast_digest": "8c9173349475babf67ad150915eca3c30e4f5c1f03d02e98b07e006a31d3c1bb"
     },
     "srp": {
-      "values_digest": "fa93f6fddaf958dc50303b7b70bc01a1fdf9417c1169bdb9926f3b6bd51492d8",
-      "rendered_digest": "209e85174d30111652fb463c5b0ca95934f7fe771cf0062c5b04aae9410d6db9",
-      "ast_digest": "6655d0e288370d05699f688c4eb981070218445e88cf082e0901caa02f9b0cea"
+      "values_digest": "13f5100ac85bfa272ee68971c92b604ad90586238cf806bfb3518f5003ee0e8a",
+      "rendered_digest": "823841cccdd914f30e03e80ae839e3cfb0e642dfd850c08c57a52b01154312b3",
+      "ast_digest": "5f7a7c0d4a043c981c01fc6af50035ff6cee9ee1c3d3335d5b190d9296ff91b8"
     },
     "sor": {
       "values_digest": "6da5b12ab8178f80509db16a5d956eaf97498a7b6e46471ff32616706e68569f",
@@ -210,6 +222,13 @@
       "actor": "codex:issue-358-r4-srp-repair",
       "reason": "Render exact six-surface SRP scope before final review.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 13,
+      "actor": "codex:issue-358-srp-scope-anchor",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
