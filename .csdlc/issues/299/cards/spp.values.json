@@ -7,13 +7,13 @@
     "title": "[v0.92][C-SDLC][297.b][defect] Implement exact-authority archived-projection cleanup",
     "slug": "exact-authority-archived-projection-cleanup",
     "version": "v0.92",
-    "generation": 4
+    "generation": 5
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
+      "plan_revision": 2,
       "summary": "After #298 is terminal and ancestral, bootstrap and bind #299, implement an exact-authority cleanup command that consumes completed recovery receipts, captures archived projection nodes through exact exchanges, removes only receipt-owned inodes with type-correct operations, persists immutable cleanup receipts, proves restart/idempotence/sentinel preservation, obtains exact-head review, and stops before merge.",
       "steps": [
         {
@@ -78,10 +78,10 @@
         "A completed cleanup is idempotent"
       ],
       "risks": [
-        "#298 PR #305 is currently open/conflicting and not terminal",
-        "Cleanup may require integration with surfaces frozen by #298 ownership",
-        "Filesystem exchange and mount identity behavior must remain portable across macOS/Linux",
-        "Over-broad cleanup could delete unrelated state unless every operation is exact receipt-bound"
+        "#298 PR #305 is terminal at merge 5a1d3bfda7108bede1572cbd9dc9e2af19d9eedb; #299 must continue to verify cached terminal evidence and ancestry before destructive cleanup.",
+        "Cleanup may require integration with nearby lifecycle/store surfaces, so #299 must preserve unrelated root staging and non-#299 owners.",
+        "Filesystem exchange and mount identity behavior must remain portable across macOS/Linux.",
+        "Over-broad cleanup could delete unrelated state unless every operation is exact receipt-bound."
       ],
       "execution_estimates": {
         "elapsed_seconds": 43200,

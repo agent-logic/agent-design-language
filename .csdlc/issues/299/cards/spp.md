@@ -16,7 +16,7 @@ After #298 is terminal and ancestral, bootstrap and bind #299, implement an exac
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 
@@ -80,10 +80,10 @@ Revision 1
 
 ## Risks
 
-- #298 PR #305 is currently open/conflicting and not terminal
-- Cleanup may require integration with surfaces frozen by #298 ownership
-- Filesystem exchange and mount identity behavior must remain portable across macOS/Linux
-- Over-broad cleanup could delete unrelated state unless every operation is exact receipt-bound
+- #298 PR #305 is terminal at merge 5a1d3bfda7108bede1572cbd9dc9e2af19d9eedb; #299 must continue to verify cached terminal evidence and ancestry before destructive cleanup.
+- Cleanup may require integration with nearby lifecycle/store surfaces, so #299 must preserve unrelated root staging and non-#299 owners.
+- Filesystem exchange and mount identity behavior must remain portable across macOS/Linux.
+- Over-broad cleanup could delete unrelated state unless every operation is exact receipt-bound.
 
 ## Estimates
 

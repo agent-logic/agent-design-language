@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "cc1c0d0bd318f0bbe41d3b610f2c6f17dff214cca5d5fc13b831f5d4c7ba3af8",
   "phase": "initialized",
-  "generation": 4,
-  "digest": "7a5fc287e42fc66f8ae7cdcfd959625d4bb0f469a3413c783f7ecb2c6d18f25b",
+  "generation": 5,
+  "digest": "0e5395419b4a87e039361a81e44ef979a2ddeccf0f7c37fa2d88fc862eb709ad",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -19,32 +19,32 @@
   "design_review": "pending",
   "cards": {
     "sip": {
-      "values_digest": "7c6e5bec7c9f6dac9c897de2694ffa8d8ba468731f540bb94fee2e0e320002b7",
+      "values_digest": "80e545ddea3b69d79b2afb1a6426d326c0be0bc5bfc959743e2efa4ebdcaaf4d",
       "rendered_digest": "610615d8dedbdc86ee75bdd5a73f74f3bb2e8acb65e609092b57cea776d694e2",
       "ast_digest": "135c49ea4619e7241bb8a2a08658257e2494075146388ceec11a47ab4ad4989d"
     },
     "stp": {
-      "values_digest": "694261f2bcce4db250ebcef9e9f0f5cbacb050eede12e6519286fb32fe3af888",
+      "values_digest": "ab1f2f0e08d15e184dcb2c740f0180ec56ef6396c0151dbc2ec55a20be6cefff",
       "rendered_digest": "7cc0b6cd5b8da81081ec555b7020b7eeef657106b4422d2916d790b73fec7b03",
       "ast_digest": "120ff67e5c1f29f0c721ea66410ef5094714e20dd1540ff7453ab0d7be52bbaa"
     },
     "spp": {
-      "values_digest": "c3b983018121f463fb44fc816a4a1941ab9a63a4eebb690d52ec02ddbb05778a",
-      "rendered_digest": "e7b64726406c5664b87eac7bb3193fce6134bc69d92d729324502b46c49be020",
-      "ast_digest": "16f3d3fb95117840815175419a94817c32f2bb99b01492486f4b4a3e111e9d67"
+      "values_digest": "a69d13f539e4b114f443e9d1ee94bdfd343e4f11535a38ed5780368c8560ad06",
+      "rendered_digest": "6fa872bca304faebde588f7b2b08861e046f046fd6f8294031cf1e6480b2b64e",
+      "ast_digest": "88ff4df3da3a68e0e67c31f116ce960629085890b415f2ae3f961796bf627f56"
     },
     "vpp": {
-      "values_digest": "fd9a964c137c935b9aeae6080c1bcf3efffa25874a22e7e0a2fd2b37b10c04ca",
+      "values_digest": "79797ae72237654228c8c175ce3c72fc2a03f04e3c7ae863f9998966f0f38316",
       "rendered_digest": "55f21566d759d3ea892f8db6c03520adac829dfcf1b9994547eaeebb64138c33",
       "ast_digest": "c385bd006ea6a8c00f53fc87c5194dcf6b447df3f63a96e4199bb3a59804f67c"
     },
     "srp": {
-      "values_digest": "6bec7f1576c47aa470f301d9131a00e66c9dd12c84e1aaf73b378038e5c7c487",
+      "values_digest": "803f7c018c9d72320a31fbb91f5d1b44e8be3eca1c97f6185e14790f2fc21b87",
       "rendered_digest": "74e60556ac876c4c67f4005aeab09f087c0cb546a4dec35e81506dd41180dd67",
       "ast_digest": "32f61b8bd1e3279de7d7b5c27b12bb49ec20f0ae37f61e9d71efec0072eaefd4"
     },
     "sor": {
-      "values_digest": "db7db90ad9244fc69ff1ecd332acea7f9fc049995e30aac082f73308e1fb64da",
+      "values_digest": "fcc60820b6deb40f4f2571af37edc35976d5126f7ff4fe4b54b8cd0924ba69a5",
       "rendered_digest": "9d5429f5ff903079a067ccfadeaeecbf2f7c4292171fb0a9dc6436050eba2344",
       "ast_digest": "1386ea60422c194068901441785ae26bcb5268eb68d9f704089ea8470bceae2b"
     }
@@ -85,6 +85,13 @@
       "actor": "codex:worker-5",
       "reason": "make #299 owned implementation and deferred focused validator deliverables exact path strings required by doctor",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"csdlc-v2/src/projection_cleanup.rs\",\"csdlc-v2/tests/archived_projection_cleanup.rs\",\"csdlc-v2/src/schema.rs\",\"csdlc-v2/src/bin/csdlc-edit.rs\",\".csdlc/evidence/299\",\"Exact-head #119 review and publication-ready PR after gates\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:worker-5",
+      "reason": "repair stale #298 PR305 risk truth after fresh #299 design review",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"risks\",\"values\":[\"#298 PR #305 is terminal at merge 5a1d3bfda7108bede1572cbd9dc9e2af19d9eedb; #299 must continue to verify cached terminal evidence and ancestry before destructive cleanup.\",\"Cleanup may require integration with nearby lifecycle/store surfaces, so #299 must preserve unrelated root staging and non-#299 owners.\",\"Filesystem exchange and mount identity behavior must remain portable across macOS/Linux.\",\"Over-broad cleanup could delete unrelated state unless every operation is exact receipt-bound.\"]}"
     }
   ]
 }
