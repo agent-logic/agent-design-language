@@ -201,6 +201,73 @@ fn core_authority(root: &Path) -> (Layer8ConversationAuthority, CommunicationVer
     core_authority_with(root, |_| {}, |_| {}, |_| {})
 }
 
+fn assert_empty_recipients_refused_for_action(
+    name: &str,
+    action: Layer8Action,
+    attachment_id: Option<&str>,
+) {
+    let root = TestRoot::new(name);
+    let audit_path = root.path().join("audit.jsonl");
+    let attachment = attachment_id.map(str::to_string);
+    let (authority, sender) = core_authority_with(
+        root.path(),
+        |capability| {
+            capability.scope.action = action.clone();
+            capability.scope.attachment_id = attachment.clone();
+        },
+        |agent_policy| {
+            agent_policy.scope.action = action.clone();
+            agent_policy.scope.attachment_id = attachment.clone();
+        },
+        |polis_policy| {
+            polis_policy.scope.action = action.clone();
+            polis_policy.scope.attachment_id = attachment.clone();
+        },
+    );
+
+    assert!(matches!(
+        authority.authorize_scoped(
+            &sender,
+            action,
+            Some("conversation-1".to_string()),
+            BTreeSet::new(),
+            attachment,
+            format!("replay-empty-{name}"),
+            format!("correlation-empty-{name}"),
+            NOW,
+        ),
+        AuthorityDecision::Refused(PublicRefusal {
+            reason: RefusalReason::ScopeDenied,
+            ..
+        })
+    ));
+    assert_eq!(audit_lines(&audit_path), 1);
+}
+
+#[test]
+fn layer8_authority_core_rejects_empty_recipient_non_address_scopes() {
+    assert_empty_recipients_refused_for_action(
+        "empty-recipient-discover",
+        Layer8Action::Discover,
+        None,
+    );
+    assert_empty_recipients_refused_for_action(
+        "empty-recipient-contact",
+        Layer8Action::Contact,
+        None,
+    );
+    assert_empty_recipients_refused_for_action(
+        "empty-recipient-continue",
+        Layer8Action::Continue,
+        None,
+    );
+    assert_empty_recipients_refused_for_action(
+        "empty-recipient-attach",
+        Layer8Action::Attach,
+        Some("attachment-1"),
+    );
+}
+
 #[test]
 fn layer8_authority_core_rejects_replay_and_requires_known_recipient() {
     let root = TestRoot::new("integration");

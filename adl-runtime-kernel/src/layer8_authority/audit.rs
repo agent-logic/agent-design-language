@@ -263,7 +263,8 @@ pub(super) fn scope_matches(
     principal: &Layer8Principal,
     scope: &AuthorityScope,
 ) -> bool {
-    scope.polis_id == principal.polis_id
+    !request.recipients.is_empty()
+        && scope.polis_id == principal.polis_id
         && scope.action == request.action
         && scope
             .conversation_id
@@ -275,7 +276,6 @@ pub(super) fn scope_matches(
             request.recipients.is_subset(&scope.recipients)
         }
         && scope.attachment_id == request.attachment_id
-        && !(request.action == Layer8Action::AddressRecipients && request.recipients.is_empty())
         && !(request.action == Layer8Action::Attach && request.attachment_id.is_none())
 }
 

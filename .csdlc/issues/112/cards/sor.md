@@ -12,28 +12,21 @@ Status: pre_phase
 
 ## Summary
 
-Forward-recovered the authoritative bound #112 branch to the decomposed Layer 8 signed authority core and remediated fresh exact-head findings: all audited attempts now consume replay identities, refused replay survives restart and cannot later authorize, expanded core tests prove that case, and current SOR artifacts no longer claim the removed stale preparation validator.
+Recovered after fresh-session:e05b2801-0ba6-4c49-a30b-d8e0f3f5c0b6 found a P1 empty-recipient grant path, fixed the Layer 8 authority core so every recipient-scoped action refuses empty recipient sets before scope matching, and expanded focused tests to cover all non-AddressRecipients action variants.
 
 ## Artifacts
 
 - adl-runtime-kernel/src/layer8_authority/audit.rs
-- adl-runtime-kernel/src/layer8_authority/mod.rs
 - adl-runtime-kernel/tests/layer8_authority.rs
 - .csdlc/issues/112
-- .csdlc/evidence/112/layer8-authority-core-tests-forward.log
-- .csdlc/evidence/112/layer8-authority-core-fmt-forward.log
-- .csdlc/evidence/112/layer8-authority-core-clippy-forward.log
-- .csdlc/evidence/112/layer8-authority-core-diff-check-forward.log
 
 ## Execution
 
-- Cleared stale review assignment through typed csdlc-review recover after the 5742c1c46 exact-head review findings.
-- Changed audit replay restoration to retain replay hashes from every valid audit record, authorized or refused.
-- Changed current authorization to insert replay hashes after every appended audit record, authorized or refused.
-- Added focused proof that a scope-denied refused request consumes its replay identity, a restarted authority reloads that replay from the audit chain, and an otherwise valid request with the same replay is refused.
-- Revalidated the four-test core matrix covering replay, audited identity precheck refusals, capability/policy/audit failures, canonical signed-message behavior, request tamper, and acknowledgement substitution.
-- Confirmed .csdlc/prepared/issues/112/validate-preparation.rb is removed from current artifacts; older API/UI/cumulative evidence remains historical only and is not current product/proof truth.
-- Attempted typed STP task_boundary correction; v2 owner rejected implemented-phase STP mutation, so current publication title/body must use the narrowed SIP declared scope, STP deliverables/ACs, VPP, SRP, and SOR rather than stale pre-decomposition task_boundary prose.
+- Recovered the failed e05b review assignment through typed csdlc-review recover before mutating source.
+- Changed Layer 8 authority scope matching to reject empty request recipient sets before exact or subset recipient checks for all actions.
+- Added focused regression coverage for empty-recipient Discover, Contact, Continue, and Attach requests; Attach carries an attachment id so the refusal proves recipient validation rather than missing attachment validation.
+- Preserved exact AddressRecipients matching and the existing Attach missing-attachment refusal.
+- Kept #265 Runtime ingress, #270 served acknowledgement/API protocol, #271 Observatory UI, #114 durable history/integration, and sibling work outside the #112 core diff.
 
 ## Validation
 
@@ -49,9 +42,9 @@ Forward-recovered the authoritative bound #112 branch to the decomposed Layer 8 
       "--",
       "--nocapture"
     ],
-    "purpose": "Run the focused Layer 8 authority core integration target covering replay persistence across refused attempts and restart, audited precheck refusals, capability/policy/audit failure, signature/payload tamper, acknowledgement substitution, and known-recipient behavior.",
+    "purpose": "Focused Layer 8 signed authority core regression target, including empty-recipient refusal for all non-AddressRecipients variants.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/112/layer8-authority-core-tests-forward.log (4 passed)"
+    "evidence_ref": "local-command:5 tests passed; layer8_authority_core_rejects_empty_recipient_non_address_scopes included"
   },
   {
     "command": [
@@ -61,9 +54,9 @@ Forward-recovered the authoritative bound #112 branch to the decomposed Layer 8 
       "adl-runtime-kernel/Cargo.toml",
       "--check"
     ],
-    "purpose": "Verify runtime-kernel Rust formatting for the replay review-fix diff.",
+    "purpose": "Verify runtime-kernel Rust formatting after the empty-recipient fix.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/112/layer8-authority-core-fmt-forward.log (empty output; exit 0)"
+    "evidence_ref": "local-command:exit 0"
   },
   {
     "command": [
@@ -76,9 +69,9 @@ Forward-recovered the authoritative bound #112 branch to the decomposed Layer 8 
       "-D",
       "warnings"
     ],
-    "purpose": "Enforce strict warning-free clippy for the runtime-kernel crate and tests.",
+    "purpose": "Strict warning-free proof for runtime-kernel crate and tests after the empty-recipient fix.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/112/layer8-authority-core-clippy-forward.log (exit 0)"
+    "evidence_ref": "local-command:exit 0"
   },
   {
     "command": [
@@ -86,9 +79,9 @@ Forward-recovered the authoritative bound #112 branch to the decomposed Layer 8 
       "diff",
       "--check"
     ],
-    "purpose": "Verify whitespace and conflict-marker hygiene for the replay review-fix diff.",
+    "purpose": "Verify whitespace and conflict-marker hygiene for the empty-recipient fix diff.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/112/layer8-authority-core-diff-check-forward.log (empty output; exit 0)"
+    "evidence_ref": "local-command:exit 0"
   }
 ]
 
