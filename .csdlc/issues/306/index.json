@@ -3,9 +3,9 @@
   "issue": 306,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8bb2ff2896c949a93ee1154957c6140e9893cbaa3f729b0f073ea70e7507a449",
-  "phase": "bound",
-  "generation": 17,
-  "digest": "fe0b66cc45cb186cc536c63d8f0cd6bd895539a8e32cddb0128061def550a664",
+  "phase": "implemented",
+  "generation": 21,
+  "digest": "f87966d3bd4c5dc2909a79babe43c2f4a32f7062cf96d0984c149b19f01c0db9",
   "branch": "codex/306-publication-tail-exact-clean-finish",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-306-publication-tail-exact-clean-finish",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e9e10e6aba695889a73d9fa1648f3920175774f43b54ac3959bfb8b83b02beea",
+      "values_digest": "a11e6db49776996ae0625576edc38ae32fa2e3cd85eea2edf87427bcc11821f8",
       "rendered_digest": "5e282111ad7af07bc3be9ea05d50610cf0f18d605edc14136763b56fe579e2a4",
       "ast_digest": "a477566ba17a0e2ca9d702e826008f60fbe771d9f531506f425399d0610cceb6"
     },
     "stp": {
-      "values_digest": "29066ddea1893ffaeacea9e0df00e2af7e2928c6f5c263cce775e077f83fe0cf",
+      "values_digest": "2a0a2502c9de567ca6f865bd036d63d1fcbc15c0579d03d0a984e9c82f5c30f4",
       "rendered_digest": "d0e7b81f767703370ad04d61626800ffce4250fcb76d5374a8286571286d50c1",
       "ast_digest": "57880522df6be2e924cb4716ad672ca998cb05c78a81f21cde7ff7ab7cb4f097"
     },
     "spp": {
-      "values_digest": "57a7b237da61ce9285852cdf6348d4159c3dd422d6ddddc4fd5f32870b330453",
+      "values_digest": "624159fdbe1d5de35d5be6091f854d8561c4977dafebda6cd36427d9c800e2dc",
       "rendered_digest": "acb89f97e1f5ae23f001f5f517372234ecfb99fe8c7e7b26dec5cdd56f77168f",
       "ast_digest": "8cf742e13d6da873db13d987281a349fcf924b92f1a787edf3823d29069a7dfb"
     },
     "vpp": {
-      "values_digest": "0b6e83c181d411a699c50804fddb635f38d67eb0016672d50b2c760cf68c0530",
+      "values_digest": "8b4a72f3591e60848881a75e297b4df9a9cb10e22605d96157610898f02335d4",
       "rendered_digest": "c1a82830a1d964f39970fe5572b327eb1ce07dc9cc5f7ebb9a1679a8efee44f0",
       "ast_digest": "ff5f61cad263c8dd506ae1e3cc9d06ff43a367dcd86bf8200ec9df2c5ae751ee"
     },
     "srp": {
-      "values_digest": "0dff6e8583e1e9d302650de0b809c9a2f287cc1ec6ef31230afa302c6e7e1a69",
+      "values_digest": "787c5f56b0b969603b4fce3fda02b9e0226197c5ff4ace313cc3bdd43bb786cb",
       "rendered_digest": "e9990af40fe8ef82df86fdefc6aa7554bf5fc5ff9e07cea4f12bae2f37e1a6f2",
       "ast_digest": "b1f612da7467eef0bc36e443368e5482e588014f979365b4393a19f5e1b3ecbf"
     },
     "sor": {
-      "values_digest": "2a4e69f53a63d0058c3be01bc877972bb037efe8b2cfec653e4b7783abdde7bb",
-      "rendered_digest": "fa1234daff40d2cdbbb50def2abef09373ed3c631f1ec702a0bd80410cb46b90",
-      "ast_digest": "ffa185b3e0f6a03d9ccf2efc2cd364acc92d9aec1943fc62e5262784a09fbd7e"
+      "values_digest": "e9040ca9a2aecb60138bef88f91953f7e686aa6eb5648e08978abe45afba070e",
+      "rendered_digest": "794eaae521c8d118ee3e0f34cd735fd42f8701986e7597a0fcf541b92f50dc3b",
+      "ast_digest": "49a64aa03af71ebe3f7bd58941cbfb2cf5ae640e50986459d6273bc9b464c2b8"
     }
   },
   "transitions": [
@@ -68,6 +68,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:worker-4",
+      "reason": "Advance #306 after implementation record and before validation/review"
     }
   ],
   "audit": [
@@ -203,6 +210,34 @@
       "actor": "csdlc-bind",
       "reason": "record Git branch/worktree topology",
       "operation": "bind"
+    },
+    {
+      "sequence": 20,
+      "generation": 18,
+      "actor": "codex:worker-4",
+      "reason": "Record #306 implementation for publication metadata tail repair",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented ordered publication metadata tail handling: intent cache is stored under Git common-dir, record_publication metadata is committed as a governed metadata-only follow-up head, pushed, and reobserved before publication result.\",\"changes\":[\"Moved publication intent persistence behind csdlc_v2::publication::persist_publication_intent using Git common-dir storage.\",\"Added commit_publication_metadata_tail to fail closed on pre-staged non-governed paths, commit only .csdlc/issues/<issue> metadata with an explicit pathspec, and verify the follow-up commit is metadata-only.\",\"Updated csdlc-publish to push the reviewed head, record publication metadata, commit/push the metadata-only follow-up head, and reobserve the PR at that exact head.\",\"Added publication_tail integration coverage for linked worktrees, create/update/noop action classes, interruption/retry cleanliness, finish-readiness, and non-governed pre-staged path rejection.\"],\"artifacts\":[\"csdlc-v2/src/bin/csdlc-publish.rs\",\"csdlc-v2/src/publication.rs\",\"csdlc-v2/tests/publication_tail.rs\",\"exact-head-review:43fc25089593cbcb84221ea3207ae7fd598a92ef\"]}"
+    },
+    {
+      "sequence": 21,
+      "generation": 19,
+      "actor": "codex:worker-4",
+      "reason": "Advance #306 after implementation record and before validation/review",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 22,
+      "generation": 20,
+      "actor": "codex:worker-4",
+      "reason": "Record focused #306 publication_tail validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"publication_tail\"],\"purpose\":\"Focused Rust integration proof for #306 publication metadata tail ordering, retry determinism, and finish-readiness.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:43fc25089593cbcb84221ea3207ae7fd598a92ef:cargo-test-publication-tail:4-passed\"}}"
+    },
+    {
+      "sequence": 23,
+      "generation": 21,
+      "actor": "codex:worker-4",
+      "reason": "Record strict #306 clippy validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"publication_tail\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict warning-free proof for touched publication code and #306 publication_tail test target.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:43fc25089593cbcb84221ea3207ae7fd598a92ef:cargo-clippy-publication-tail:passed\"}}"
     }
   ]
 }
