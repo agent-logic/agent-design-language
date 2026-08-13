@@ -3,13 +3,40 @@
   "issue": 274,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "48064f99d9aa8a79c297f4f9370d05d6eeea655c719b05fc554949a2468b4297",
-  "phase": "implemented",
-  "generation": 11,
-  "digest": "69fe64aa26b10ddc3072c2f3be6a6253221f91705aa105e7738a5eba2bb1e38c",
+  "phase": "reviewed",
+  "generation": 12,
+  "digest": "772d8f543031976a624f27531c2b67aeab9e568e938b017928fbefa49b3c847c",
   "branch": "codex/274-observatory-serving-eligibility",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-274-observatory-serving-eligibility",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:3cbcf5dd-913a-4fa3-a0d9-943ab07d7863",
+    "assigned_by": "codex:issue-274-r3-final-review",
+    "revision": "git-blake3:742c1858f98a9141c279ba19ce0b4238695ce6a0:ecb5ce0e3494ebe31443eec52ec242581b8984de6fb1322a370fa1df65a48f5f",
+    "scope": [
+      ".csdlc/issues/274",
+      ".csdlc/prepared/issues/274",
+      ".csdlc/evidence/274",
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/src/distributed/observatory_serving_eligibility.rs",
+      "adl-runtime/tests/distributed_observatory_serving_eligibility.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:3cbcf5dd-913a-4fa3-a0d9-943ab07d7863",
+    "scope": [
+      ".csdlc/issues/274",
+      ".csdlc/prepared/issues/274",
+      ".csdlc/evidence/274",
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/src/distributed/observatory_serving_eligibility.rs",
+      "adl-runtime/tests/distributed_observatory_serving_eligibility.rs"
+    ],
+    "reviewed_revision": "git-blake3:742c1858f98a9141c279ba19ce0b4238695ce6a0:ecb5ce0e3494ebe31443eec52ec242581b8984de6fb1322a370fa1df65a48f5f",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +51,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "cc7407d78f92088ccc15b329baf4f76da1194da0039475ac10c28afadc710835",
+      "values_digest": "599a60ccb3a14e4eff1c73c8a546935432f9a7b742516ac84dd4cc396d4a8d2f",
       "rendered_digest": "6f7c35bb003a878dc6be81b6d711ac832a77e7cdbc7b8b097aabb1f75e211d87",
       "ast_digest": "7e395891bbd5ab0cba2ffcff2ffc27bf44552469af4fd1629f9cefb46a51c31b"
     },
     "stp": {
-      "values_digest": "50edfd658ed78df8e8e92989c0ebfaafb194393d6bd43a4d08f5dc62c2560732",
+      "values_digest": "53e89a5da591f1dc83d1b54d0c2fd5e2d608eac0e50bc18df6d9dd9aac3b4f4b",
       "rendered_digest": "b11e528ad56c0c99b39537d06e06f8b450fde857a543b2d111a73210be95a370",
       "ast_digest": "e16c28cd4fe468f4e5ac30958fae42d0444329d1b133a3e11bf1cefe285c8156"
     },
     "spp": {
-      "values_digest": "6486c06c7c8c63a7276013be1b6f4e01656200085275ff761e9a2e3b508a1937",
+      "values_digest": "10625f44f2d94e4e951c2bb5dfdc4e7b833982fa8d085a10818856dcbd081a29",
       "rendered_digest": "1c3fe6e8bdc41ddb2bcca4f14158accda83e38337387dff78d4ab07629aa0289",
       "ast_digest": "dd77aca88f7bae10c8cb6e9e1e05003afcf54e181bc879f61a548f3259b1da84"
     },
     "vpp": {
-      "values_digest": "4b441c7722a6c53253c43ac0040c354540113e3da2bd4ae425f730ac3c82bf6e",
+      "values_digest": "c46cf6ddee7fb54739e11671a0cc108cb2ee82a4032a257d73ebfd4fff8f322a",
       "rendered_digest": "b8b208c2ce2ba1660eb2741f31852f1f7ae99ff7ef06a21fb640956748eab744",
       "ast_digest": "48f570f96f2c772ad79ea681fab43358ede759864bdbda1835ce87aee693136a"
     },
     "srp": {
-      "values_digest": "e9c3ad915d9d11a0a764d1451544b1d28236f4e2285fc76000750b8797aded42",
-      "rendered_digest": "57d6a13dab290c545f0e4daf9965cc07a7b1621f4a6ba944a5db73fc01d61211",
-      "ast_digest": "5e3b7ddaa05859fbf62003b235bfeed68e2c13e0be2e5c571c769cf5d975c9c6"
+      "values_digest": "bfbe42e7c6b17ffd0b5f3a4f46bf98489a54b4ca4bc3fcc95543c20ac92ff7c8",
+      "rendered_digest": "8206f08eb06a19195fbe5ed3e2656d8825b303e8fdd02a7749a4d69fdf145806",
+      "ast_digest": "7f7a725dd7534e2e53628f94e27b7859b5a27cc4dc3d48ae7d601147bb4ce4e8"
     },
     "sor": {
-      "values_digest": "6bdfc09c8f4bfb33feeeba1ca331adba3a9f5c81e2efe8098a52f866c2b56a97",
+      "values_digest": "7ad3d17fe6b27903773d0baad9c4876c9bea05666bdc974503aba0a65fc017fe",
       "rendered_digest": "c8d54466a7b473eeee1c7eb6f849aee21054e9393e049224d81c55b942a88c45",
       "ast_digest": "f9783659f8b6ee2f2fdf3f8a9c2083672165264025becd6818a5a6b625318505"
     }
@@ -75,6 +102,13 @@
       "to": "implemented",
       "actor": "codex:issue-274-implementation",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:3cbcf5dd-913a-4fa3-a0d9-943ab07d7863",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -182,6 +216,20 @@
       "actor": "codex:issue-274-r2-remediation",
       "reason": "Record truthful final R2 remediation artifacts, authentic proof denominators, and close both R2 findings before fresh review.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implement sealed Observatory serving eligibility using terminal #360 authentic transition fixtures.\",\"changes\":[\"Authentic sealed Acquire/Renew/Transfer/Revoke lifecycle with fail-closed overlap, stale, superseded, revival, replay and substitution behavior\",\"Named normalized final-state digest over the committed receipt state with recomputation and tamper sensitivity\",\"Exact three-path implementation against terminal #360 merge base\"],\"artifacts\":[\"adl-runtime/src/distributed/observatory_serving_eligibility.rs\",\"adl-runtime/src/distributed/mod.rs\",\"adl-runtime/tests/distributed_observatory_serving_eligibility.rs\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"purpose\":\"Prove state-machine guard plus normalized final-state digest recomputation and tamper sensitivity; closes R2 digest-convention finding.\",\"outcome\":\"passed\",\"evidence_ref\":\"2 passed at source 9a27e5987\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"purpose\":\"Prove authentic sealed A/R/T/R, restart/replay, overlap, stale/superseded predecessor, revoked revival, nanos expiry, A/B mismatch and redaction through terminal #360 fixtures; closes R2 mapping-boundary finding.\",\"outcome\":\"passed\",\"evidence_ref\":\"4 passed at source 9a27e5987\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict feature-bearing Clippy.\",\"outcome\":\"passed\",\"evidence_ref\":\"clippy PASS at source 9a27e5987\"},{\"command\":[\"python3\",\".csdlc/prepared/issues/274/validate_scope.py\"],\"purpose\":\"Prove exact issue scope and one additive mod.rs registration against immutable #360 merge.\",\"outcome\":\"passed\",\"evidence_ref\":\"scope PASS base dae957c435b73d87af1f36d4e15fb088f6fd055b\"},{\"command\":[\"git\",\"diff\",\"--check\",\"dae957c435b73d87af1f36d4e15fb088f6fd055b...HEAD\"],\"purpose\":\"Reject diff hygiene errors.\",\"outcome\":\"passed\",\"evidence_ref\":\"no output at source 9a27e5987\"}]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:issue-274-r3-final-review",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "fresh-session:3cbcf5dd-913a-4fa3-a0d9-943ab07d7863",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

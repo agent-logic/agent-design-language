@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-04.16b3.1b][205.c] Add Observatory quorum serving authority",
     "slug": "observatory-quorum-serving-authority",
     "version": "v0.92",
-    "generation": 11
+    "generation": 12
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/274\n.csdlc/prepared/issues/274\n.csdlc/evidence/274\nadl-runtime/src/distributed/mod.rs\nadl-runtime/src/distributed/observatory_serving_eligibility.rs\nadl-runtime/tests/distributed_observatory_serving_eligibility.rs",
+      "review_revision": "git-blake3:742c1858f98a9141c279ba19ce0b4238695ce6a0:ecb5ce0e3494ebe31443eec52ec242581b8984de6fb1322a370fa1df65a48f5f",
+      "reviewer": "fresh-session:3cbcf5dd-913a-4fa3-a0d9-943ab07d7863",
       "review_prompts": [
         "Does #274 own only the Observatory-specific module/test and explicitly exclude serving_authority.rs, Shepherd paths, #203, and #205?",
         "Is distributed/mod.rs treated as a shared serialized registration surface gated after terminal+ancestral #273 unless proven unnecessary?",
@@ -26,7 +26,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }
