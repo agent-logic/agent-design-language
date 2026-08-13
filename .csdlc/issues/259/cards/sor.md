@@ -119,11 +119,11 @@ Bound governed Runtime transport authorization to the terminal #258 authority-st
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

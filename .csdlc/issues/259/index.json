@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "5757d863164a5f2f3330a01f212d5f6558c25c177a44f06d9f585657ca692015",
-  "phase": "reviewed",
-  "generation": 13,
-  "digest": "78a622977d1d02a7f4536f4bff8b8e19240e9a1376ec290ee503bb5c841e1553",
+  "phase": "published",
+  "generation": 14,
+  "digest": "116efb3dd84087be79a3d911b436bb00b363f2278b77d41fab8286f7c1b2e2f3",
   "branch": "codex/259-governed-transport-authority-adapters",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-259-governed-transport-authority-adapters",
   "review_assignment": {
@@ -50,7 +50,18 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 259,
+    "pull_request": 326,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/326",
+    "base": "main",
+    "head": "codex/259-governed-transport-authority-adapters",
+    "revision": "git-blake3:2ab47b2f9e0e3c7839559d03d8e78c473512219a:caa0b2cf5d8f9e4fa228171454b69f5014c96e2a66c8b6d6b7b245c9ff75ce2c",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -64,34 +75,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "22c64cb7a63db622aea03d65dea45637b350d1db0669285be4cee13838514df7",
+      "values_digest": "16d56766cca0c3e0b1c340620eac6edf4ee0117cb5dccfdc724bc698eabc4211",
       "rendered_digest": "7594d1c6a7de8ae71a823ecc12ba7e49e53cac287bae58e73ebbd5d6db9b77d3",
       "ast_digest": "6f6d940bc50b4c7e362ca5bb3922d26899d98c830176015c4c83c46d12b0795d"
     },
     "stp": {
-      "values_digest": "83aaed2722ee30134ebe3e0764ec58ba3468fda5b7808a270cb397ed75387941",
+      "values_digest": "306e6835ac777371836e3e42068a177f837b97869ebe7ea7a460e866224ffa13",
       "rendered_digest": "42e69080f3411d71e60b8a2bb12848a40bab16a41dae13b6f6246c80be0566d0",
       "ast_digest": "17de52ff031e2b98805d6569bc40f4c83dcb736c19581340e94b09d100da5dd8"
     },
     "spp": {
-      "values_digest": "78e503d617521060cd71f70822b7e33592504ac5551a9f4f7bf73a9f61edf17f",
+      "values_digest": "377969568fef0c091333d8aa5a66d852807fad1f52432df65a2718a07325be66",
       "rendered_digest": "c1ca495fdcf0fcac01efeb67f982f9e400defb5c688a8b0f25d5bed931da0a8c",
       "ast_digest": "40788772bab1d16918320cd98d594c953a1a064980acbcec96432f8b6e703606"
     },
     "vpp": {
-      "values_digest": "7e13e0ee466b7565d559c40e2920795dfd14b48179077f5cde0475f8bbd3e4e2",
+      "values_digest": "da3fc8fc9a69f3425d900153f7d6befdcd6eef61a8ba677c8915c31c9bb724e3",
       "rendered_digest": "7013adf8d4ede398444821ee404a58835dd236a02440008d4389c233f9af7372",
       "ast_digest": "b352db0068ef3bc7eee400634e00670e48e8f8201aeeb4397228a9ca8b36d540"
     },
     "srp": {
-      "values_digest": "dec180997ef4fe631cf72996aeb2c9675d2908aa0b82bd25fdd4a085adba5ae9",
+      "values_digest": "df0884670fa38c25e1ee017d33c430fdeeb668ff4e49063cfe0736f10b12c347",
       "rendered_digest": "6461042b1cade665fc575f6784443bddf97f3f1bfa40d74a191dc05bee5d0653",
       "ast_digest": "aad06c1595e0bce6250f411caa52074d704087a84799633bc220b697f1d33937"
     },
     "sor": {
-      "values_digest": "2ecdeccfafdc964fc0f372a5b89f8f206aed39ebe2d3c0594e9294c51abf4820",
-      "rendered_digest": "f90dbaab2600d60c9c8e29c54047b8359ef717326d3ae2d513dee29ce34dc878",
-      "ast_digest": "e8bc7f9de803c552c266bbf874ae9cbae112c3110e8494f4f1140b23dcb47f6a"
+      "values_digest": "14a3228c3b1735a5bda767bbe26e6b6fbea09215c8d05dbffe5eeb10fb6f8922",
+      "rendered_digest": "05f6e9e4b134f28e1f4b09a2dd76d2968cae23e69873d98610020e9db7b010c9",
+      "ast_digest": "d2e212dc26eeef02da98fa7a614352c7f4f65c30d542ac0473a053356a868a55"
     }
   },
   "transitions": [
@@ -122,6 +133,13 @@
       "to": "reviewed",
       "actor": "codex:/root/issue_259_takeover",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root/issue_259_takeover",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -250,6 +268,13 @@
       "actor": "codex:/root/issue_259_takeover",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex:/root/issue_259_takeover",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
