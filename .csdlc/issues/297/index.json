@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "e6a6b6dce878d10beb21242dc5267e088f9ed5064d967b82e267f0a99ff2be35",
   "phase": "implemented",
-  "generation": 21,
-  "digest": "8a620f9733f68917a7e44cadd9345019080d24249fc65e049cda4073b1d98bfd",
+  "generation": 22,
+  "digest": "660c8fbd931fc937e2dae82027a2178b77169064b96c83fbcabace917b1c19d1",
   "branch": "codex/297-preserved-failed-projection-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-297-preserved-failed-projection-recovery",
   "review_assignment": {
@@ -22,7 +22,47 @@
       ".csdlc/evidence/297/noether-300-routing-bridge-gap.md"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:564aca81-5882-4af7-8bbd-3958a9caa14a",
+    "scope": [
+      "csdlc-v2/src/projection_recovery.rs",
+      "csdlc-v2/src/projection_cleanup.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/297",
+      ".csdlc/evidence/297/bridge-r2",
+      ".csdlc/evidence/297/noether-300-routing-bridge-gap.md"
+    ],
+    "reviewed_revision": "git-blake3:2320074475180ed1f52a42f9104236dad6896c8a:a289cbfe49163ddfb7f0e757fd09fb1c751e5167bd060263c6b79779c42256d1",
+    "findings": [
+      {
+        "id": "297-bridge-r2-p1-replay-poisons-recovery-validator",
+        "severity": "p1",
+        "summary": "The bridge writes cleanup authority JSON directly into the completed recovery attempt root, so a same-operation replay causes the completed-recovery validator to see extra receipt-shaped JSON before the bridge can exercise idempotent artifact handling.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": "Keep bridge authority in a validator-recognized namespace, preserve same-operation replay, reject conflicting cleanup authority, and add focused replay/conflict proof."
+      },
+      {
+        "id": "297-bridge-r2-p2-directory-link-count-relaxation-too-broad",
+        "severity": "p2",
+        "summary": "Cleanup identity comparison ignores directory link count for every directory comparison, including initial source capture and leaf-directory removal, instead of only allowing drift caused by previously authorized child-directory cleanup.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": "Constrain directory link-count drift to directories with authorized child nodes after child cleanup, keep leaf and file identity strict, and add regression proof."
+      }
+    ],
+    "residual_risks": [
+      "Review was inspection-only and did not run dynamic validation.",
+      "Publication, hosted CI, and #300 bridge-fed integration proof remain deferred until remediation and fresh exact-head review."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -37,32 +77,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5591eb0516225fcf48740f8903d4ec1e0e2e6b9e0e6b81b3612fd21e4a3dcbaf",
+      "values_digest": "2930cd7cb67bfed503268322ff898ca70961ab65db18885eaf0ef3aacc1367a0",
       "rendered_digest": "df823d86637cd9489e801629df7a5212ac8097bc372257554eaec7c9a9d0660e",
       "ast_digest": "1bc768342db5a416f8bb25942901fb3f59ba10dc488a47dea6f0ef806aabb7e0"
     },
     "stp": {
-      "values_digest": "b151ed1f2484f3e519b0b8865f798b5b01ec9e67e018f11413d1a81b98d0c373",
+      "values_digest": "c2b3b58de6dad77ff9159afddcf23208686b6e996d5ac68c4a97f85940af8712",
       "rendered_digest": "97ad2e897d196aba11055627fae7c5e07537626d42ad815337c564dffb664688",
       "ast_digest": "9a54ff529a22712e2dcb9f5efb93efb1ca9fd290304b932f98ab76803bc6ae26"
     },
     "spp": {
-      "values_digest": "306c900c0d76e1d65d672881bbaf9b5b7f53cefdcfc231f003e877c45268aa5c",
+      "values_digest": "c80d8b3b58fa618a202312abe5aa02788588c8f825689692f80c61d3e8893626",
       "rendered_digest": "e3b65c0055739979fc4ca41f0994e1ec2b50cbc3769189d2d9716089249db0bc",
       "ast_digest": "146f8c8308fc4b01d8049188b9ebf3bc7b41c3e59cac6fc8a3ec8a3957c157bd"
     },
     "vpp": {
-      "values_digest": "877785efc8cc4ff46e7d5908ff041163001056bf47952e8d946e9014ff6e8266",
+      "values_digest": "4a23eb4c1ec3c1c981c08ba8abd986d35463d4b64aa72e728d3e6942ab2fda0e",
       "rendered_digest": "13f04d3e97db4d4fcba16b1a60538f791ca635def45dd6a5ceda8dcd9c807f58",
       "ast_digest": "f1c7789048ef56244afbbe53bd36196d5d4296a699769383a2e2b10c96b5eee3"
     },
     "srp": {
-      "values_digest": "c1f4d62e54209b49addc213279f338ff62bf4f63c6dc63d372fd4fcc0341d236",
-      "rendered_digest": "2e1a6292fff4b3b684db1f9ce67df2e12bd83b283be92451b91d60a2fe745ed7",
-      "ast_digest": "c9b330f7fb57e31afbe045e99078c295019922d81b5d0603343081b74455892c"
+      "values_digest": "284f42faefa041c5d5715b13684d2607b4f685aa4580ce0c772db92911236a2a",
+      "rendered_digest": "c7e2b3d054d384a093736de7303442fb982311a64940946256299466dc649bee",
+      "ast_digest": "263072dc25e16b0aa5775ec98c5e65bafde218caa179fd95ff6fec97b48814f5"
     },
     "sor": {
-      "values_digest": "59630c62208501f3fa6c40e76824c15e3ac332ff3a9c84a30e3e58c74155569e",
+      "values_digest": "e6d61bb64d073912c8511f79f5e2b43277ef92ea7f7ffb21233fb1db5e0153a0",
       "rendered_digest": "f3ebd4a3dd97fe76a02faf9e16e093f12f0af3f45fadcc65dec717449fb5b29f",
       "ast_digest": "ecad0c30567184bdae78d77fb42cd4f3eefc0acae9df3fcb3002ad04a312424b"
     }
@@ -265,6 +305,13 @@
       "actor": "codex:worker-5",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 22,
+      "actor": "fresh-session:564aca81-5882-4af7-8bbd-3958a9caa14a",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
