@@ -25,6 +25,68 @@ const MAX_CERTIFICATE_BYTES: usize = 1024 * 1024;
 const SHA256_BYTES: usize = 32;
 const SIGNATURE_BYTES: usize = 64;
 
+mod raw_access {
+    const LEASE_STORE_ACCESS_MAGIC: [u8; 32] = [
+        0x41, 0x44, 0x4c, 0x2d, 0x4c, 0x45, 0x41, 0x53, 0x45, 0x2d, 0x53, 0x54, 0x4f, 0x52, 0x45,
+        0x2d, 0x41, 0x43, 0x43, 0x45, 0x53, 0x53, 0x2d, 0x56, 0x31, 0x2d, 0x53, 0x45, 0x41, 0x4c,
+        0x03, 0x59,
+    ];
+
+    #[derive(Debug)]
+    struct LeaseStoreAccessSeal {
+        magic: [u8; 32],
+    }
+
+    static AUTHORITY_BOUND_SEAL: LeaseStoreAccessSeal = LeaseStoreAccessSeal {
+        magic: LEASE_STORE_ACCESS_MAGIC,
+    };
+
+    #[cfg(any(test, feature = "internal-test-fixtures"))]
+    static TEST_FIXTURE_SEAL: LeaseStoreAccessSeal = LeaseStoreAccessSeal {
+        magic: LEASE_STORE_ACCESS_MAGIC,
+    };
+
+    #[derive(Clone, Copy, Debug)]
+    pub struct LeaseStoreAccess {
+        seal: &'static LeaseStoreAccessSeal,
+    }
+
+    pub(crate) const AUTHORITY_BOUND: LeaseStoreAccess = LeaseStoreAccess {
+        seal: &AUTHORITY_BOUND_SEAL,
+    };
+
+    #[cfg(test)]
+    pub(crate) const TEST_FIXTURE: LeaseStoreAccess = LeaseStoreAccess {
+        seal: &TEST_FIXTURE_SEAL,
+    };
+
+    #[cfg(all(not(test), feature = "internal-test-fixtures"))]
+    #[doc(hidden)]
+    pub const TEST_FIXTURE: LeaseStoreAccess = LeaseStoreAccess {
+        seal: &TEST_FIXTURE_SEAL,
+    };
+
+    pub(super) fn validate(access: &LeaseStoreAccess) -> bool {
+        #[cfg(any(test, feature = "internal-test-fixtures"))]
+        let known_seal = std::ptr::eq(access.seal, &AUTHORITY_BOUND_SEAL)
+            || std::ptr::eq(access.seal, &TEST_FIXTURE_SEAL);
+        #[cfg(not(any(test, feature = "internal-test-fixtures")))]
+        let known_seal = std::ptr::eq(access.seal, &AUTHORITY_BOUND_SEAL);
+        known_seal && access.seal.magic == LEASE_STORE_ACCESS_MAGIC
+    }
+}
+
+pub use raw_access::LeaseStoreAccess;
+#[allow(unused_imports)]
+pub(crate) use raw_access::AUTHORITY_BOUND as AUTHORITY_BOUND_LEASE_ACCESS;
+#[cfg(test)]
+#[allow(unused_imports)]
+pub(crate) use raw_access::TEST_FIXTURE as TEST_LEASE_STORE_ACCESS;
+#[cfg(all(not(test), feature = "internal-test-fixtures"))]
+#[doc(hidden)]
+#[allow(unused_imports)]
+pub use raw_access::TEST_FIXTURE as TEST_LEASE_STORE_ACCESS;
+
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 #[repr(u32)]
 pub enum OperationClass {
@@ -478,6 +540,12 @@ impl fmt::Display for AuthorityError {
 impl std::error::Error for AuthorityError {}
 pub type AuthorityResult<T> = Result<T, AuthorityError>;
 
+fn validate_raw_access(access: &LeaseStoreAccess) -> AuthorityResult<()> {
+    raw_access::validate(access)
+        .then_some(())
+        .ok_or(AuthorityError::CertificateUnauthorized)
+}
+
 pub fn encode_certificate(certificate: &AuthorityCertificateV1) -> AuthorityResult<Vec<u8>> {
     let bytes = certificate.encode_to_vec();
     if bytes.len() > MAX_CERTIFICATE_BYTES {
@@ -770,7 +838,8 @@ impl RedactedLeaseSnapshot {
 }
 
 impl AuthorityLedger {
-    pub fn new(policy: LeasePolicy) -> AuthorityResult<Self> {
+    pub fn new(access: &LeaseStoreAccess, policy: LeasePolicy) -> AuthorityResult<Self> {
+        validate_raw_access(access)?;
         policy.validate()?;
         Ok(Self {
             policy,
@@ -880,10 +949,12 @@ impl AuthorityLedger {
 
     pub fn apply(
         &mut self,
+        access: &LeaseStoreAccess,
         certificate_bytes: &[u8],
         membership: &AuthorityMembership,
         application: AuthorityApplication<'_>,
     ) -> AuthorityResult<&LeaseState> {
+        validate_raw_access(access)?;
         if application.clock_uncertainty_millis > self.policy.max_clock_uncertainty_millis {
             return Err(AuthorityError::ClockUncertain);
         }
@@ -1148,8 +1219,10 @@ impl AuthorityLedger {
 
     pub fn authorize_mutation(
         &mut self,
+        access: &LeaseStoreAccess,
         authorization: MutationAuthorization<'_>,
     ) -> AuthorityResult<()> {
+        validate_raw_access(access)?;
         let lease = self
             .leases
             .get(authorization.lineage_id)

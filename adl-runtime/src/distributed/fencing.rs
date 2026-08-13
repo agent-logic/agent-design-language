@@ -22,6 +22,69 @@ const STATE_LOCK_FILE: &str = ".fencing-state.lock";
 const MAX_IDENTITY_BYTES: usize = 128;
 const MAX_REQUEST_ID_BYTES: usize = 128;
 
+mod raw_access {
+    const FENCING_STORE_ACCESS_MAGIC: [u8; 32] = [
+        0x41, 0x44, 0x4c, 0x2d, 0x46, 0x45, 0x4e, 0x43, 0x49, 0x4e, 0x47, 0x2d, 0x53, 0x54, 0x4f,
+        0x52, 0x45, 0x2d, 0x41, 0x43, 0x43, 0x45, 0x53, 0x53, 0x2d, 0x56, 0x31, 0x2d, 0x53, 0x45,
+        0x04, 0x5a,
+    ];
+
+    #[derive(Debug)]
+    struct FencingStoreAccessSeal {
+        magic: [u8; 32],
+    }
+
+    static AUTHORITY_BOUND_SEAL: FencingStoreAccessSeal = FencingStoreAccessSeal {
+        magic: FENCING_STORE_ACCESS_MAGIC,
+    };
+
+    #[cfg(any(test, feature = "internal-test-fixtures"))]
+    static TEST_FIXTURE_SEAL: FencingStoreAccessSeal = FencingStoreAccessSeal {
+        magic: FENCING_STORE_ACCESS_MAGIC,
+    };
+
+    #[derive(Clone, Copy, Debug)]
+    pub struct FencingStoreAccess {
+        seal: &'static FencingStoreAccessSeal,
+    }
+
+    pub(crate) const AUTHORITY_BOUND: FencingStoreAccess = FencingStoreAccess {
+        seal: &AUTHORITY_BOUND_SEAL,
+    };
+
+    #[cfg(test)]
+    #[doc(hidden)]
+    pub(crate) const TEST_FIXTURE: FencingStoreAccess = FencingStoreAccess {
+        seal: &TEST_FIXTURE_SEAL,
+    };
+
+    #[cfg(all(not(test), feature = "internal-test-fixtures"))]
+    #[doc(hidden)]
+    pub const TEST_FIXTURE: FencingStoreAccess = FencingStoreAccess {
+        seal: &TEST_FIXTURE_SEAL,
+    };
+
+    pub(super) fn validate(access: &FencingStoreAccess) -> bool {
+        #[cfg(any(test, feature = "internal-test-fixtures"))]
+        let known_seal = std::ptr::eq(access.seal, &AUTHORITY_BOUND_SEAL)
+            || std::ptr::eq(access.seal, &TEST_FIXTURE_SEAL);
+        #[cfg(not(any(test, feature = "internal-test-fixtures")))]
+        let known_seal = std::ptr::eq(access.seal, &AUTHORITY_BOUND_SEAL);
+        known_seal && access.seal.magic == FENCING_STORE_ACCESS_MAGIC
+    }
+}
+
+pub use raw_access::FencingStoreAccess;
+#[allow(unused_imports)]
+pub(crate) use raw_access::AUTHORITY_BOUND as AUTHORITY_BOUND_FENCING_ACCESS;
+#[cfg(test)]
+#[allow(unused_imports)]
+pub(crate) use raw_access::TEST_FIXTURE as TEST_FENCING_STORE_ACCESS;
+#[cfg(all(not(test), feature = "internal-test-fixtures"))]
+#[doc(hidden)]
+#[allow(unused_imports)]
+pub use raw_access::TEST_FIXTURE as TEST_FENCING_STORE_ACCESS;
+
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum FencingError {
     InvalidPolicy,
@@ -83,6 +146,12 @@ impl fmt::Display for FencingError {
 
 impl std::error::Error for FencingError {}
 pub type FencingResult<T> = Result<T, FencingError>;
+
+fn validate_raw_access(access: &FencingStoreAccess) -> FencingResult<()> {
+    raw_access::validate(access)
+        .then_some(())
+        .ok_or(FencingError::UnauthorizedOperation)
+}
 
 #[derive(Clone, Debug)]
 pub struct FencingPolicy {
@@ -264,10 +333,12 @@ struct PersistOutcome {
 
 impl FencingStore {
     pub fn create(
+        access: &FencingStoreAccess,
         root: impl AsRef<Path>,
         policy: FencingPolicy,
         checkpoint_authority: Arc<dyn FencingCheckpointAuthority>,
     ) -> FencingResult<Self> {
+        validate_raw_access(access)?;
         policy.validate()?;
         let root = validate_root(root.as_ref())?;
         let path = root.join(STATE_FILE);
@@ -293,10 +364,12 @@ impl FencingStore {
     }
 
     pub fn open(
+        access: &FencingStoreAccess,
         root: impl AsRef<Path>,
         policy: FencingPolicy,
         checkpoint_authority: Arc<dyn FencingCheckpointAuthority>,
     ) -> FencingResult<Self> {
+        validate_raw_access(access)?;
         policy.validate()?;
         let root = validate_root(root.as_ref())?;
         let path = root.join(STATE_FILE);
@@ -439,7 +512,12 @@ impl FencingStore {
         outcome.post_commit_error.map_or(Ok(()), Err)
     }
 
-    pub fn commit(&mut self, request: FenceCommit<'_>) -> FencingResult<FenceReceipt> {
+    pub fn commit(
+        &mut self,
+        access: &FencingStoreAccess,
+        request: FenceCommit<'_>,
+    ) -> FencingResult<FenceReceipt> {
+        validate_raw_access(access)?;
         if request.request_id.is_empty()
             || request.request_id.len() > MAX_REQUEST_ID_BYTES
             || !valid_identity(&request.current_lease.lineage_id)
@@ -557,7 +635,12 @@ impl FencingStore {
         Ok(receipt)
     }
 
-    pub fn authorize_active_lease(&self, check: ActiveLeaseCheck<'_>) -> FencingResult<()> {
+    pub fn authorize_active_lease(
+        &self,
+        access: &FencingStoreAccess,
+        check: ActiveLeaseCheck<'_>,
+    ) -> FencingResult<()> {
+        validate_raw_access(access)?;
         let lock_path = self.acquire_state_lock()?;
         let result = self
             .verify_current_state()

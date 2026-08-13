@@ -21,6 +21,7 @@ use tokio_util::sync::CancellationToken;
 
 #[cfg(test)]
 use super::lease::VoterAuthority;
+use super::certificates::AUTHORITY_BOUND_CERTIFICATE_ACCESS;
 use super::{
     certificates::{AuthorityCertificate, CertificatePurpose, DistributedCertificateStore},
     lease::{AuthorityMembership, ControlCertificatePurpose},
@@ -963,6 +964,7 @@ impl EstablishedRuntimeAuthority {
             }
             let verified = certificate_store
                 .authorize(
+                    &AUTHORITY_BOUND_CERTIFICATE_ACCESS,
                     &member.guardian_id,
                     CertificatePurpose::GuardianControl,
                     member.identity_generation,
@@ -1010,6 +1012,7 @@ impl EstablishedRuntimeAuthority {
             let verified = self
                 .certificate_store
                 .authorize(
+                    &AUTHORITY_BOUND_CERTIFICATE_ACCESS,
                     holder,
                     CertificatePurpose::GuardianControl,
                     voter.certificate_generation,
@@ -1646,6 +1649,7 @@ impl TransportAuthorization {
         let body = &certificate.body;
         let verified = store
             .authorize(
+                &AUTHORITY_BOUND_CERTIFICATE_ACCESS,
                 &body.holder_id,
                 CertificatePurpose::Transport,
                 body.generation,
@@ -1674,6 +1678,7 @@ impl TransportAuthorization {
         let verified = self
             .store
             .authorize(
+                &AUTHORITY_BOUND_CERTIFICATE_ACCESS,
                 &self.holder_id,
                 CertificatePurpose::Transport,
                 self.generation,
