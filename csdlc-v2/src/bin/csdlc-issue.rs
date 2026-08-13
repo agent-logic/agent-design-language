@@ -1,7 +1,8 @@
 use clap::{Parser, Subcommand};
 use csdlc_v2::{
-    initialize_native_json, migrate_bound_topology, migrate_code_repository,
-    BoundTopologyMigrationRequest, CodeRepositoryMigrationRequest, Store,
+    classify_preserved_projection, initialize_native_json, migrate_bound_topology,
+    migrate_code_repository, recover_preserved_projection, BoundTopologyMigrationRequest,
+    CodeRepositoryMigrationRequest, ProjectionClassifyRequest, ProjectionRecoverRequest, Store,
 };
 use std::{fs, path::PathBuf};
 
@@ -24,6 +25,14 @@ enum Command {
         request: PathBuf,
     },
     MigrateCodeRepository {
+        #[arg(long)]
+        request: PathBuf,
+    },
+    ClassifyPreservedProjection {
+        #[arg(long)]
+        request: PathBuf,
+    },
+    RecoverPreservedProjection {
         #[arg(long)]
         request: PathBuf,
     },
@@ -52,6 +61,16 @@ fn main() {
             })
             .and_then(|request| migrate_code_repository(&Store::new(cli.root), request))
             .and_then(|report| serde_json::to_value(report).map_err(csdlc_v2::V2Error::from)),
+        Command::ClassifyPreservedProjection { request } => {
+            read::<ProjectionClassifyRequest>(&request)
+                .and_then(|request| classify_preserved_projection(&Store::new(cli.root), request))
+                .and_then(|value| serde_json::to_value(value).map_err(csdlc_v2::V2Error::from))
+        }
+        Command::RecoverPreservedProjection { request } => {
+            read::<ProjectionRecoverRequest>(&request)
+                .and_then(|request| recover_preserved_projection(&Store::new(cli.root), request))
+                .and_then(|value| serde_json::to_value(value).map_err(csdlc_v2::V2Error::from))
+        }
     };
     match result {
         Ok(value) => println!("{}", serde_json::to_string(&value).expect("JSON")),
@@ -64,4 +83,8 @@ fn main() {
             std::process::exit(error.code.exit_code());
         }
     }
+}
+
+fn read<T: serde::de::DeserializeOwned>(path: &PathBuf) -> csdlc_v2::Result<T> {
+    Ok(serde_json::from_slice(&fs::read(path)?)?)
 }

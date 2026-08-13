@@ -66,6 +66,12 @@ impl Store {
             .join(format!(".{issue}.backup"))
     }
 
+    pub fn rollback_preserved(&self, issue: u64) -> PathBuf {
+        self.root
+            .join(".csdlc/issues")
+            .join(format!(".{issue}.rollback-preserved"))
+    }
+
     fn staging_dir(&self, issue: u64) -> PathBuf {
         self.root
             .join(".csdlc/issues")
@@ -288,21 +294,29 @@ impl Store {
             .root
             .join(".csdlc/issues")
             .join(format!(".{issue}.recovery"));
-        if recovery_root.is_dir() {
-            for entry in fs::read_dir(&recovery_root)? {
-                let entry = entry?;
-                if entry.file_type()?.is_dir()
-                    && !fs::read_dir(entry.path())?.any(|item| {
-                        item.ok().is_some_and(|item| {
-                            item.file_name()
-                                .to_string_lossy()
-                                .ends_with("-recovered.json")
-                        })
-                    })
+        let recovery_root = match recovery_root.symlink_metadata() {
+            Ok(_) => Some(crate::projection_recovery::open_private_recovery_dir(
+                &recovery_root,
+                "recovery root",
+                None,
+            )?),
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => None,
+            Err(error) => return Err(error.into()),
+        };
+        if let Some(recovery_root) = recovery_root {
+            for name in recovery_root.names()? {
+                let attempt = recovery_root.open_child(&name, "recovery attempt")?;
+                if let Err(error) =
+                    crate::projection_recovery::validate_completed_recovery_attempt_from_dir(
+                        self,
+                        issue,
+                        &attempt,
+                        name.to_str().unwrap_or_default(),
+                    )
                 {
                     return Err(V2Error::new(
                         ErrorCode::ReconciliationRequired,
-                        "incomplete typed projection recovery must reach verified RECOVERED before ordinary commit",
+                        format!("incomplete typed projection recovery must reach verified RECOVERED before ordinary commit: {}", error.message),
                     ));
                 }
             }
@@ -368,6 +382,12 @@ impl Store {
         let current = self.issue_dir(issue);
         let staging = self.staging_dir(issue);
         let backup = self.interrupted_backup(issue);
+        if self.rollback_preserved(issue).symlink_metadata().is_ok() {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "preserved failed projection requires typed classification and recovery",
+            ));
+        }
         if staging.exists() {
             fs::remove_dir_all(&staging)?;
         }
@@ -478,6 +498,216 @@ impl Store {
         let cards = self.load_cards(issue)?;
         verify_cards(self, &current, &cards)?;
         self.commit(issue, record, &cards, false)
+    }
+
+    #[allow(dead_code)] // Retained compatibility wrapper; live recovery uses descriptor-read bytes.
+    pub(crate) fn projection_recovery_candidate_files_locked(
+        &self,
+        issue: u64,
+        source: &Path,
+        expected_digest: &str,
+        actor: String,
+        reason: String,
+        operation: String,
+    ) -> Result<(IssueRecord, BTreeMap<String, Vec<u8>>)> {
+        let mut record: IssueRecord = read_json(&source.join("index.json"))?;
+        if record.issue != issue {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "recovery source projection namespace mismatch",
+            ));
+        }
+        if record.digest != expected_digest {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "record changed before recovery audit commit",
+            ));
+        }
+        let mut cards = BTreeMap::new();
+        for kind in enum_iterator() {
+            cards.insert(
+                kind,
+                read_json(&source.join("cards").join(format!("{kind}.values.json")))?,
+            );
+        }
+        verify_record(&record)?;
+        for (kind, values) in &cards {
+            let rendered = render(values)?;
+            let projection = record.cards.get(kind).ok_or_else(|| {
+                V2Error::new(
+                    ErrorCode::CorruptRecord,
+                    format!("missing {kind} projection"),
+                )
+            })?;
+            if values.kind() != *kind
+                || values.identity.issue != record.issue
+                || values.identity.repository != record.repository
+                || values.identity.generation != record.generation
+                || projection.values_digest != rendered.values_digest
+                || projection.rendered_digest != rendered.rendered_digest
+                || projection.ast_digest != rendered.ast_digest
+                || digest(&fs::read(source.join("cards").join(format!("{kind}.md")))?)
+                    != rendered.rendered_digest
+            {
+                return Err(V2Error::new(
+                    ErrorCode::CorruptRecord,
+                    format!("recovery source {kind} projection drift"),
+                ));
+            }
+        }
+        let mut expected_audit = Vec::new();
+        for event in &record.audit {
+            serde_json::to_writer(&mut expected_audit, event)?;
+            expected_audit.push(b'\n');
+        }
+        if fs::read(source.join("audit.jsonl"))? != expected_audit {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "recovery source audit projection drift",
+            ));
+        }
+        validate_updated_cards(self, &record, &cards)?;
+        record.generation += 1;
+        for values in cards.values_mut() {
+            values.identity.generation = record.generation;
+        }
+        record.audit.push(AuditEvent {
+            sequence: record.audit.len() as u64 + 1,
+            generation: record.generation,
+            actor,
+            reason,
+            operation,
+        });
+        hydrate_projections(&mut record, &cards)?;
+        record.digest = record_digest(&record)?;
+        let mut files = BTreeMap::new();
+        let mut index = serde_json::to_vec_pretty(&record)?;
+        index.push(b'\n');
+        files.insert("index.json".into(), index);
+        let mut audit = Vec::new();
+        for event in &record.audit {
+            serde_json::to_writer(&mut audit, event)?;
+            audit.push(b'\n');
+        }
+        files.insert("audit.jsonl".into(), audit);
+        for (kind, values) in &cards {
+            let mut value_bytes = serde_json::to_vec_pretty(values)?;
+            value_bytes.push(b'\n');
+            files.insert(format!("cards/{kind}.values.json"), value_bytes);
+            files.insert(
+                format!("cards/{kind}.md"),
+                render(values)?.markdown.into_bytes(),
+            );
+        }
+        Ok((record, files))
+    }
+
+    pub(crate) fn projection_recovery_candidate_files_from_bytes_locked(
+        &self,
+        issue: u64,
+        source: &BTreeMap<String, Vec<u8>>,
+        expected_digest: &str,
+        actor: String,
+        reason: String,
+        operation: String,
+    ) -> Result<(IssueRecord, BTreeMap<String, Vec<u8>>)> {
+        let mut record: IssueRecord =
+            serde_json::from_slice(source.get("index.json").ok_or_else(|| {
+                V2Error::new(ErrorCode::CorruptRecord, "recovery source index missing")
+            })?)?;
+        if record.issue != issue || record.digest != expected_digest {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "recovery source identity or digest changed",
+            ));
+        }
+        let mut cards = BTreeMap::new();
+        for kind in enum_iterator() {
+            let key = format!("cards/{kind}.values.json");
+            cards.insert(
+                kind,
+                serde_json::from_slice(source.get(&key).ok_or_else(|| {
+                    V2Error::new(
+                        ErrorCode::CorruptRecord,
+                        format!("recovery source {kind} missing"),
+                    )
+                })?)?,
+            );
+        }
+        verify_record(&record)?;
+        for (kind, values) in &cards {
+            let rendered = render(values)?;
+            let projection = record.cards.get(kind).ok_or_else(|| {
+                V2Error::new(
+                    ErrorCode::CorruptRecord,
+                    format!("missing {kind} projection"),
+                )
+            })?;
+            if values.kind() != *kind
+                || values.identity.issue != record.issue
+                || values.identity.repository != record.repository
+                || values.identity.generation != record.generation
+                || projection.values_digest != rendered.values_digest
+                || projection.rendered_digest != rendered.rendered_digest
+                || projection.ast_digest != rendered.ast_digest
+                || digest(source.get(&format!("cards/{kind}.md")).ok_or_else(|| {
+                    V2Error::new(
+                        ErrorCode::CorruptRecord,
+                        format!("recovery source {kind} markdown missing"),
+                    )
+                })?) != rendered.rendered_digest
+            {
+                return Err(V2Error::new(
+                    ErrorCode::CorruptRecord,
+                    format!("recovery source {kind} projection drift"),
+                ));
+            }
+        }
+        let mut expected_audit = Vec::new();
+        for event in &record.audit {
+            serde_json::to_writer(&mut expected_audit, event)?;
+            expected_audit.push(b'\n');
+        }
+        if source.get("audit.jsonl") != Some(&expected_audit) {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "recovery source audit projection drift",
+            ));
+        }
+        validate_updated_cards(self, &record, &cards)?;
+        record.generation += 1;
+        for values in cards.values_mut() {
+            values.identity.generation = record.generation;
+        }
+        record.audit.push(AuditEvent {
+            sequence: record.audit.len() as u64 + 1,
+            generation: record.generation,
+            actor,
+            reason,
+            operation,
+        });
+        hydrate_projections(&mut record, &cards)?;
+        record.digest = record_digest(&record)?;
+        let mut files = BTreeMap::new();
+        let mut index = serde_json::to_vec_pretty(&record)?;
+        index.push(b'\n');
+        files.insert("index.json".into(), index);
+        let mut audit = Vec::new();
+        for event in &record.audit {
+            serde_json::to_writer(&mut audit, event)?;
+            audit.push(b'\n');
+        }
+        files.insert("audit.jsonl".into(), audit);
+        for (kind, values) in &cards {
+            let mut value_bytes = serde_json::to_vec_pretty(values)?;
+            value_bytes.push(b'\n');
+            files.insert(format!("cards/{kind}.values.json"), value_bytes);
+            files.insert(
+                format!("cards/{kind}.md"),
+                render(values)?.markdown.into_bytes(),
+            );
+        }
+        Ok((record, files))
     }
 
     pub(crate) fn replace_pre_topology_record_locked(

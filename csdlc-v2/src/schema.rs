@@ -21,6 +21,10 @@ use crate::migration::{
 };
 use crate::model::IssueRecord;
 use crate::model::TerminalReceipt;
+use crate::projection_recovery::{
+    ProjectionClassification, ProjectionClassifyRequest, ProjectionRecoverRequest,
+    ProjectionRecoveryResult,
+};
 use crate::publication::{PublicationIntent, PublicationRequest, RemotePullRequest};
 use crate::pvf::{
     ExecutionReport, ExecutionRequest, FinalizeRequest, PvfManifest, ScheduleReport, ShepherdReport,
@@ -41,6 +45,10 @@ pub fn public_schema_bundle() -> Value {
         "schema": "csdlc.public_schema_bundle.v1",
         "cleanup_request": schemars::schema_for!(CleanupRequest),
         "cleanup_result": schemars::schema_for!(CleanupResult),
+        "projection_classify_request": schemars::schema_for!(ProjectionClassifyRequest),
+        "projection_classification": schemars::schema_for!(ProjectionClassification),
+        "projection_recover_request": schemars::schema_for!(ProjectionRecoverRequest),
+        "projection_recovery_result": schemars::schema_for!(ProjectionRecoveryResult),
         "legacy_terminal_index_request": schemars::schema_for!(LegacyTerminalIndexRequest),
         "legacy_terminal_index": schemars::schema_for!(LegacyTerminalIndex),
         "terminal_census_report": schemars::schema_for!(TerminalCensusReport),
