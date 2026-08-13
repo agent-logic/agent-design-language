@@ -12,7 +12,17 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime/src/distributed/authority_protocol.rs
+adl-runtime/src/distributed/authority_reconciliation.rs
+adl-runtime/src/distributed/transport/core.rs
+adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs
+adl-runtime/src/distributed/transport/governed/polis_runtime.rs
+adl-runtime/tests/distributed_discovery.rs
+adl-runtime/tests/distributed_runtime_transport.rs
+adl-runtime/tests/distributed_transport.rs
+.csdlc/issues/259
+.csdlc/prepared/issues/259
+.csdlc/evidence/259
 
 ## Prompts
 

@@ -18,3 +18,4 @@
 {"sequence":18,"generation":13,"actor":"codex:/root/issue_259_takeover","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":19,"generation":14,"actor":"codex:/root/issue_259_takeover","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":20,"generation":15,"actor":"codex:/root/issue_259_takeover","reason":"Recover stale review and publication authority after terminal #327 repaired the required-CI baseline; resynchronize to exact origin/main, rerun proving validation, and require a new distinct exact-revision review before republishing PR #326.","operation":"recover_review"}
+{"sequence":21,"generation":15,"actor":"codex:/root/issue_259_takeover","reason":"assign bounded exact-revision review","operation":"assign_review"}
