@@ -4,36 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "7a796039f2472c65fbfbdbe6e649213a6496c7c2c70a8d3b9e1e3f4247255cb5",
-  "phase": "reviewed",
-  "generation": 29,
-  "digest": "a90da5ae0260ac01e5137b3a9e7cc7b96c4b36423919860a30fd12b357b53d03",
+  "phase": "implemented",
+  "generation": 31,
+  "digest": "2ff1a7ba8ef0b3dc5e53623b656d41cb123b993fc0fb7cee29f160c1f9f6dc68",
   "branch": "codex/258-authority-store-boundary",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary",
-  "review_assignment": {
-    "reviewer": "fresh-session:97eaa7bd-b9ce-46bc-8bce-b5b55c56993c",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:9a56d573099d905c6782e623b6e284649d9926a3:d24dda0a21ccb40e10975cccd56b2fce783e7f0126987e4a1f8be2b12418446e",
-    "scope": [
-      "adl-runtime/tests/distributed_identity_lease_authority.rs",
-      ".csdlc/issues/258",
-      ".csdlc/evidence/258"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:97eaa7bd-b9ce-46bc-8bce-b5b55c56993c",
-    "scope": [
-      "adl-runtime/tests/distributed_identity_lease_authority.rs",
-      ".csdlc/issues/258",
-      ".csdlc/evidence/258"
-    ],
-    "reviewed_revision": "git-blake3:9a56d573099d905c6782e623b6e284649d9926a3:d24dda0a21ccb40e10975cccd56b2fce783e7f0126987e4a1f8be2b12418446e",
-    "findings": [],
-    "residual_risks": [
-      "Required ordinary GitHub checks adl-path-policy, adl-ci, and adl-coverage must be observed after republication before merge authorization."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -48,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "948721031ab34b746b7e4ad8d6d90073f4dbbf5f051f071661affe7665009db1",
+      "values_digest": "d7bb8dbb39239ef065d7da8809c0c23900452f7e3d057c19a06e978ab4d49b11",
       "rendered_digest": "202f956d615444157d2a8e11a7f9d03249cc552ac17af494a18cdfbdf4342730",
       "ast_digest": "54b8fd032af0131de7749088c7f648c941b96701d48c79fada87436dc2072006"
     },
     "stp": {
-      "values_digest": "fad55d6f86b6b224db5a37a7608acad0aa662ec7b6ccc0b81f76271012d1a290",
+      "values_digest": "781fd3e723a0970b0f2148eb0b7b29ec21c6c6067e0f6446a63ceb509a820384",
       "rendered_digest": "28ced32ded0a8d859b9c17ba736d20a3761e0763b32c4043e74ca49d09eb0365",
       "ast_digest": "d82a28ae135e1a09b8c4acd555e43fdf1daad2b8ae14c0bb98648e0c03dd6a7d"
     },
     "spp": {
-      "values_digest": "748602f0d4c8f03d3f167ca8bd433b29b7e82b85148cb738684f69b0b3d4d5d8",
+      "values_digest": "d2e1ac48e889fb947103eccc3a7523c18e52ac73e6011edec7cbd1ad7d4899ad",
       "rendered_digest": "868fb33ac2fed719fe3d2bb45d2678236998dbee5241b9c4671d413be93f6740",
       "ast_digest": "71fd0d5dcd1792dfa7b35ea45afdf88fbcdec8a9c0a734541bf65a6c24530430"
     },
     "vpp": {
-      "values_digest": "9632cd070e395acffd8e2c1ff8d226f987099847acf807ae7e4fb643b1e48356",
+      "values_digest": "0fc2cab2c62b5cde74d7987c295468567271c9274b9d583f2b033e2cd90e0a24",
       "rendered_digest": "08393e3244534254c726f05bd2b4bafb3d6c2eec4b241223c1c369195ebe2105",
       "ast_digest": "a40bad77b3d2a900e84b7e327b0df5aa597ae5f33910b1a17111f839f1568db1"
     },
     "srp": {
-      "values_digest": "96d4d0784b3bb3fafbd3f059713122efeb288055f6337d927b67fec6897d85e4",
-      "rendered_digest": "5ae7822f704e5de6db93e13d2aae4f5362a0389e005f64473c90efb17e599386",
-      "ast_digest": "ec7332b5752bf7c3d8007e84a032eaa68ff9c488995829a9d1bcb76f4efb3334"
+      "values_digest": "792b5b29721f0ddd7b1e16465cf5ddd684f545ccf8ac5cbf0b85367ad50c5059",
+      "rendered_digest": "0b537e37916e1726ed60625e32f3a44c0737b008e07993cadef4dee8ca817574",
+      "ast_digest": "9419120e903ff6b652b0062abbe3f7e16ab55ed96c82ea8ec2800c86b019dd73"
     },
     "sor": {
-      "values_digest": "33e10626a50516ea376e103272d0311fa874c90158ce51fc997215a2b96e330c",
+      "values_digest": "e742f9c93b36844c75dc0a4afcf164f742211730471cdeac5d4c54273a484202",
       "rendered_digest": "3d29125fa844e25faf3ee44dff284589146f02a28029fbc12ac32e3a5906781e",
       "ast_digest": "aa2ec592486ad87fa14835d3be471ea911eb77fa4eeca5e9bb2dcb567d158950"
     }
@@ -148,6 +125,20 @@
       "to": "reviewed",
       "actor": "codex:/root",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 11,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 12,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover PR #290 current publication/review to implemented after current-head run 31598860366 failed stable adl-coverage: hosted producers passed, aggregate changed-source coverage gate failed because #258 branch includes over-broad #259/#260 runtime-caller/transport contamination outside the slice1 authority-store boundary."
     }
   ],
   "audit": [
@@ -416,6 +407,20 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 30,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 40,
+      "generation": 31,
+      "actor": "codex:/root",
+      "reason": "Recover PR #290 current publication/review to implemented after current-head run 31598860366 failed stable adl-coverage: hosted producers passed, aggregate changed-source coverage gate failed because #258 branch includes over-broad #259/#260 runtime-caller/transport contamination outside the slice1 authority-store boundary.",
+      "operation": "recover_review"
     }
   ]
 }
