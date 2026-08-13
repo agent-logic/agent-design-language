@@ -29,23 +29,37 @@ mod raw_access {
         0x04, 0x5a,
     ];
 
-    #[derive(Debug)]
-    struct FencingStoreAccessSeal {
-        magic: [u8; 32],
+    trait FencingStoreAccessSeal: std::fmt::Debug + Sync {
+        fn magic(&self) -> [u8; 32];
     }
 
-    static AUTHORITY_BOUND_SEAL: FencingStoreAccessSeal = FencingStoreAccessSeal {
-        magic: FENCING_STORE_ACCESS_MAGIC,
-    };
+    #[derive(Debug)]
+    struct AuthorityBoundFencingStoreAccessSeal;
 
-    #[cfg(test)]
-    static TEST_FIXTURE_SEAL: FencingStoreAccessSeal = FencingStoreAccessSeal {
-        magic: FENCING_STORE_ACCESS_MAGIC,
-    };
+    impl FencingStoreAccessSeal for AuthorityBoundFencingStoreAccessSeal {
+        fn magic(&self) -> [u8; 32] {
+            FENCING_STORE_ACCESS_MAGIC
+        }
+    }
 
-    #[derive(Clone, Copy, Debug)]
+    static AUTHORITY_BOUND_SEAL: AuthorityBoundFencingStoreAccessSeal =
+        AuthorityBoundFencingStoreAccessSeal;
+
+    #[cfg(any(test, feature = "internal-test-fixtures"))]
+    static TEST_FIXTURE_SEAL: AuthorityBoundFencingStoreAccessSeal =
+        AuthorityBoundFencingStoreAccessSeal;
+
+    #[derive(Clone, Copy)]
     pub struct FencingStoreAccess {
-        seal: &'static FencingStoreAccessSeal,
+        seal: &'static dyn FencingStoreAccessSeal,
+    }
+
+    impl std::fmt::Debug for FencingStoreAccess {
+        fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            formatter
+                .debug_struct("FencingStoreAccess")
+                .finish_non_exhaustive()
+        }
     }
 
     pub(crate) const AUTHORITY_BOUND: FencingStoreAccess = FencingStoreAccess {
@@ -58,8 +72,14 @@ mod raw_access {
         seal: &TEST_FIXTURE_SEAL,
     };
 
+    #[cfg(all(not(test), feature = "internal-test-fixtures"))]
+    #[doc(hidden)]
+    pub const TEST_FIXTURE: FencingStoreAccess = FencingStoreAccess {
+        seal: &TEST_FIXTURE_SEAL,
+    };
+
     pub(super) fn validate(access: &FencingStoreAccess) -> bool {
-        access.seal.magic == FENCING_STORE_ACCESS_MAGIC
+        access.seal.magic() == FENCING_STORE_ACCESS_MAGIC
     }
 }
 
@@ -69,6 +89,10 @@ pub(crate) use raw_access::AUTHORITY_BOUND as AUTHORITY_BOUND_FENCING_ACCESS;
 #[cfg(test)]
 #[allow(unused_imports)]
 pub(crate) use raw_access::TEST_FIXTURE as TEST_FENCING_STORE_ACCESS;
+#[cfg(all(not(test), feature = "internal-test-fixtures"))]
+#[doc(hidden)]
+#[allow(unused_imports)]
+pub use raw_access::TEST_FIXTURE as TEST_FENCING_STORE_ACCESS;
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum FencingError {

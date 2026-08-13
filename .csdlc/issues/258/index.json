@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "7a796039f2472c65fbfbdbe6e649213a6496c7c2c70a8d3b9e1e3f4247255cb5",
   "phase": "implemented",
-  "generation": 46,
-  "digest": "ed21431bf7eb89fe4ffb552ddbb44dfa5340c5f22389d96645550ae54bc82961",
+  "generation": 49,
+  "digest": "1dd3d37d392c82932fe0b10f395040860ad6a1b26da13aef2cc084327e2d0bbe",
   "branch": "codex/258-authority-store-boundary",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ce12697b97d06dd90a4e65d2731e6cee78e91c6ce94a3687cf84d3ccd0b54ebb",
+      "values_digest": "206bdcec4b018f8d564a0106ea6d60f762a88db18484d7b6ce07729c73a7194a",
       "rendered_digest": "202f956d615444157d2a8e11a7f9d03249cc552ac17af494a18cdfbdf4342730",
       "ast_digest": "54b8fd032af0131de7749088c7f648c941b96701d48c79fada87436dc2072006"
     },
     "stp": {
-      "values_digest": "6e250df90f79902c699b7e0e1b9f889a57aa5ed7b9463a9995e39046959618c5",
+      "values_digest": "5291b1e4e10e6f05db2b2d6b1132cc125636ab04a608a4ef6fc9d7d3d2e9ae6d",
       "rendered_digest": "28ced32ded0a8d859b9c17ba736d20a3761e0763b32c4043e74ca49d09eb0365",
       "ast_digest": "d82a28ae135e1a09b8c4acd555e43fdf1daad2b8ae14c0bb98648e0c03dd6a7d"
     },
     "spp": {
-      "values_digest": "6e5f01c356960ee22e32c48658ac2cc028c57ac482c444fa99012f50eeaad64f",
+      "values_digest": "9aa4bf09b12fb4b194b1ee50be6df47414ff24cf5118d80040d901147094fff7",
       "rendered_digest": "868fb33ac2fed719fe3d2bb45d2678236998dbee5241b9c4671d413be93f6740",
       "ast_digest": "71fd0d5dcd1792dfa7b35ea45afdf88fbcdec8a9c0a734541bf65a6c24530430"
     },
     "vpp": {
-      "values_digest": "b6f5131b98eebb11eb898c8c7d1f23c064a5a5a0abfe806bee88fc470f68808b",
+      "values_digest": "750ff5c1f387d936850f900a47a53bdde68d4860c8ac04751c9a2bbc37d9cd44",
       "rendered_digest": "08393e3244534254c726f05bd2b4bafb3d6c2eec4b241223c1c369195ebe2105",
       "ast_digest": "a40bad77b3d2a900e84b7e327b0df5aa597ae5f33910b1a17111f839f1568db1"
     },
     "srp": {
-      "values_digest": "cb96a785e899458caf528dfd4d105c6ed3a5049e2af7ee552b26e27c8a1cccfd",
+      "values_digest": "7baff5f16c92d953d60d1f14917e704034016f33cfdcdd0e68fb0479f48cfc6c",
       "rendered_digest": "0b537e37916e1726ed60625e32f3a44c0737b008e07993cadef4dee8ca817574",
       "ast_digest": "9419120e903ff6b652b0062abbe3f7e16ab55ed96c82ea8ec2800c86b019dd73"
     },
     "sor": {
-      "values_digest": "a95e137faf47ef611ab2daf5fcf4d10e324321c8a7af1546875465a3f5056171",
-      "rendered_digest": "47351cea1ef66ef86f0e107b6fbeaff77713235c717b915e0b878abcbb08f9ed",
-      "ast_digest": "c5e69854a172a92b138b76cc0c085f7a8379ef0cc154050f917b7fee0f80f880"
+      "values_digest": "848b5540def0fa7b5010e76553c556fcfa68f586182d7b06215885b80e90052c",
+      "rendered_digest": "ac21ad1b6853d5908377a3987306f56f05556c30b94e624fa408596a4bba8f31",
+      "ast_digest": "86ffdd139e716c8da1584c1cd2041338e53a76abf847db55743217ef08cdc08c"
     }
   },
   "transitions": [
@@ -582,6 +582,34 @@
       "actor": "codex:/root",
       "reason": "Append final typed validation after the post-publication stale-helper r3 executable runtime transport SOR update.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary\",\"issue\",\"--issue\",\"258\"],\"purpose\":\"Validate typed #258 lifecycle truth after restoring executable runtime transport tests with the test-internal source fixture.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/postpub-stale-helper-repair-r3/csdlc-validate.log\"}}"
+    },
+    {
+      "sequence": 61,
+      "generation": 46,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 62,
+      "generation": 47,
+      "actor": "codex:/root",
+      "reason": "Recover interrupted fresh-session:2f0b4bd8-c2d0-4cdf-babe-029e35d632a0 review after implementation self-audit found the r3 sealed-magic fixture repair was still source-visible enough to require a stronger private trait-object capability seal. Review activity occurred, so a new different fresh reviewer is required after the substantive trait-object seal repair, validation, SOR truth, and commit.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 63,
+      "generation": 48,
+      "actor": "codex:/root/issue_258_takeover_r4",
+      "reason": "Record the final r4 authority-capability repair and current proving evidence without overstating publication or merge state.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Repaired #258 after the prior source-inclusion fixture could forge authority access by giving the production capability a private trait-object seal and exposing the legitimate integration-test token only behind the non-default internal-test-fixtures feature. The ordinary no-feature external surface cannot import or construct the token, while the feature-gated runtime transport target executes all 14 tests. Cargo metadata now explicitly requires the fixture feature for that integration target, keeping default all-target and coverage discovery valid.\",\"changes\":[\"Replaced structurally reproducible store-access seals with private trait-object seals for certificate, lease, and fencing capabilities.\",\"Exposed TEST_* access tokens only under cfg(test) or the non-default internal-test-fixtures feature; the ordinary dependency surface remains denied.\",\"Reworked the external denial proof to invoke rustc against the Cargo fingerprint-proven no-feature adl_runtime rlib, avoiding nested Cargo cache authority and proving import, construction, unit-transmute, and zeroed-forgery denial.\",\"Restored distributed_runtime_transport to the production crate surface under internal-test-fixtures and executed all 14 tests with zero ignored.\",\"Declared distributed_runtime_transport as a required-features integration target so default all-target and coverage discovery do not compile a feature-only harness.\",\"Preserved #203 as frozen and did not absorb #203/#259 transport architecture scope.\"],\"artifacts\":[\".csdlc/evidence/258/postpub-stale-helper-repair-r4/cargo-test-distributed-identity-lease-authority.log\",\".csdlc/evidence/258/postpub-stale-helper-repair-r4/cargo-test-distributed-runtime-transport.log\",\".csdlc/evidence/258/postpub-stale-helper-repair-r4/cargo-check-adl-runtime-all-targets.log\",\".csdlc/evidence/258/postpub-stale-helper-repair-r4/cargo-clippy-distributed-identity-lease-authority.log\",\".csdlc/evidence/258/postpub-stale-helper-repair-r4/cargo-clippy-distributed-runtime-transport.log\",\".csdlc/evidence/258/postpub-stale-helper-repair-r4/test-check-coverage-impact.log\",\".csdlc/evidence/258/postpub-stale-helper-repair-r4/test-mechanical-coverage-fallout.log\",\".csdlc/evidence/258/postpub-stale-helper-repair-r4/git-diff-check.log\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity_lease_authority\",\"--\",\"--nocapture\",\"--test-threads=1\"],\"purpose\":\"Prove the focused authority boundary and no-feature external import/construction/forgery denial.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/postpub-stale-helper-repair-r4/cargo-test-distributed-identity-lease-authority.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--features\",\"internal-test-fixtures\",\"--test\",\"distributed_runtime_transport\",\"--\",\"--nocapture\",\"--test-threads=1\"],\"purpose\":\"Execute the complete feature-gated runtime transport integration target.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/postpub-stale-helper-repair-r4/cargo-test-distributed-runtime-transport.log\"},{\"command\":[\"cargo\",\"check\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--all-targets\",\"--features\",\"internal-test-fixtures\"],\"purpose\":\"Compile-check every runtime target with the internal fixture feature enabled.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/postpub-stale-helper-repair-r4/cargo-check-adl-runtime-all-targets.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_identity_lease_authority\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict-lint the focused authority and external denial proof.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/postpub-stale-helper-repair-r4/cargo-clippy-distributed-identity-lease-authority.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--features\",\"internal-test-fixtures\",\"--test\",\"distributed_runtime_transport\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict-lint the complete feature-gated runtime transport target.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/postpub-stale-helper-repair-r4/cargo-clippy-distributed-runtime-transport.log\"},{\"command\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"purpose\":\"Exercise the hosted coverage-impact contract, including default all-target discovery.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/postpub-stale-helper-repair-r4/test-check-coverage-impact.log\"},{\"command\":[\"bash\",\"adl/tools/test_mechanical_coverage_fallout.sh\"],\"purpose\":\"Exercise the deterministic mechanical coverage fallout classifier.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/postpub-stale-helper-repair-r4/test-mechanical-coverage-fallout.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and patch-hygiene defects.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/postpub-stale-helper-repair-r4/git-diff-check.log\"}]}"
+    },
+    {
+      "sequence": 64,
+      "generation": 49,
+      "actor": "codex:/root/issue_258_takeover_r4",
+      "reason": "Append current typed validation after the r4 trait-seal and feature-gated integration-target repair.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary\",\"issue\",\"--issue\",\"258\"],\"purpose\":\"Validate canonical #258 lifecycle and card truth after the r4 repair.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/258/postpub-stale-helper-repair-r4/csdlc-validate.log\"}}"
     }
   ]
 }

@@ -1,10 +1,6 @@
 // PVF: lane=focused-secure-raft-runtime; proof=real mTLS Quinn transport, authority-derived
 // three-voter topology, durable retry/rollback and OpenRaft quorum behavior;
 // deterministic=true; resource_profile=large; release_gate=true; nonzero selection required.
-#[allow(dead_code)]
-#[path = "../src/distributed/certificates.rs"]
-mod certificate_fixture;
-
 use std::{
     collections::{BTreeMap, BTreeSet},
     net::{Ipv4Addr, SocketAddr},
@@ -25,6 +21,7 @@ use adl_runtime::distributed::{
     certificates::{
         AuthorityCertificate, CertificateBody, CertificatePolicy, CertificatePurpose,
         CertificateStoreAccess, CertificateValidity, DistributedCertificateStore,
+        TEST_CERTIFICATE_STORE_ACCESS,
     },
     learner_transport::ProductionLearnerAuthority,
     lease::{AuthorityMembership, ControlCertificatePurpose, VoterAuthority},
@@ -56,17 +53,7 @@ const DOMAIN: &str = "polis.secure.test";
 const POLIS: &str = "polis-alpha";
 
 fn test_certificate_store_access() -> CertificateStoreAccess {
-    // Integration tests compile `adl_runtime` as an external crate, so the
-    // crate-private cfg(test) fixture token is intentionally unavailable here.
-    // Include the certificate-store source as a test-internal fixture and move
-    // its fixture capability across the identical source layout. The raw store
-    // still validates the sealed magic; ordinary unit/zeroed forgeries are
-    // covered by distributed_identity_lease_authority.
-    unsafe {
-        std::mem::transmute::<certificate_fixture::CertificateStoreAccess, CertificateStoreAccess>(
-            certificate_fixture::TEST_CERTIFICATE_STORE_ACCESS,
-        )
-    }
+    TEST_CERTIFICATE_STORE_ACCESS
 }
 
 #[derive(Default)]
@@ -1616,22 +1603,13 @@ async fn topology_and_polis_identity_require_exact_runtime_control_and_quorum_pa
 }
 #[test]
 fn authority_approved_certificate_overlap_is_valid_then_expires_closed() {
-    use certificate_fixture::{
-        AuthorityCertificate as FixtureAuthorityCertificate,
-        CertificateBody as FixtureCertificateBody, CertificatePolicy as FixtureCertificatePolicy,
-        CertificatePurpose as FixtureCertificatePurpose,
-        CertificateValidity as FixtureCertificateValidity,
-        DistributedCertificateStore as FixtureDistributedCertificateStore,
-        TEST_CERTIFICATE_STORE_ACCESS,
-    };
-
     let signing_root = SigningKey::from_bytes(&[92; 32]);
-    let policy = FixtureCertificatePolicy::new(DOMAIN, [signing_root.verifying_key()])
+    let policy = CertificatePolicy::new(DOMAIN, [signing_root.verifying_key()])
         .unwrap()
         .with_bounds(3600, 60, 60, 16, 16)
         .unwrap();
     let directory = repo_tempdir();
-    let store = FixtureDistributedCertificateStore::open(
+    let store = DistributedCertificateStore::open(
         &TEST_CERTIFICATE_STORE_ACCESS,
         directory
             .path()
@@ -1642,13 +1620,13 @@ fn authority_approved_certificate_overlap_is_valid_then_expires_closed() {
     )
     .unwrap();
     let make = |generation, seed| {
-        FixtureAuthorityCertificate::issue(
-            FixtureCertificateBody::new(
+        AuthorityCertificate::issue(
+            CertificateBody::new(
                 DOMAIN,
                 "overlap-node",
-                FixtureCertificatePurpose::Transport,
+                CertificatePurpose::Transport,
                 generation,
-                FixtureCertificateValidity {
+                CertificateValidity {
                     issued_at_unix_secs: 90,
                     expires_at_unix_secs: 1000,
                 },
@@ -1671,7 +1649,7 @@ fn authority_approved_certificate_overlap_is_valid_then_expires_closed() {
         .authorize(
             &TEST_CERTIFICATE_STORE_ACCESS,
             "overlap-node",
-            FixtureCertificatePurpose::Transport,
+            CertificatePurpose::Transport,
             1,
             159
         )
@@ -1680,7 +1658,7 @@ fn authority_approved_certificate_overlap_is_valid_then_expires_closed() {
         .authorize(
             &TEST_CERTIFICATE_STORE_ACCESS,
             "overlap-node",
-            FixtureCertificatePurpose::Transport,
+            CertificatePurpose::Transport,
             1,
             160
         )
@@ -1689,7 +1667,7 @@ fn authority_approved_certificate_overlap_is_valid_then_expires_closed() {
         .authorize(
             &TEST_CERTIFICATE_STORE_ACCESS,
             "overlap-node",
-            FixtureCertificatePurpose::Transport,
+            CertificatePurpose::Transport,
             2,
             160
         )

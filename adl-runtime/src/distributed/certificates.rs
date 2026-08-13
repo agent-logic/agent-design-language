@@ -30,23 +30,37 @@ mod raw_access {
         0x02, 0x58,
     ];
 
-    #[derive(Debug)]
-    struct CertificateStoreAccessSeal {
-        magic: [u8; 32],
+    trait CertificateStoreAccessSeal: std::fmt::Debug + Sync {
+        fn magic(&self) -> [u8; 32];
     }
 
-    static AUTHORITY_BOUND_SEAL: CertificateStoreAccessSeal = CertificateStoreAccessSeal {
-        magic: CERTIFICATE_STORE_ACCESS_MAGIC,
-    };
+    #[derive(Debug)]
+    struct AuthorityBoundCertificateStoreAccessSeal;
 
-    #[cfg(test)]
-    static TEST_FIXTURE_SEAL: CertificateStoreAccessSeal = CertificateStoreAccessSeal {
-        magic: CERTIFICATE_STORE_ACCESS_MAGIC,
-    };
+    impl CertificateStoreAccessSeal for AuthorityBoundCertificateStoreAccessSeal {
+        fn magic(&self) -> [u8; 32] {
+            CERTIFICATE_STORE_ACCESS_MAGIC
+        }
+    }
 
-    #[derive(Clone, Copy, Debug)]
+    static AUTHORITY_BOUND_SEAL: AuthorityBoundCertificateStoreAccessSeal =
+        AuthorityBoundCertificateStoreAccessSeal;
+
+    #[cfg(any(test, feature = "internal-test-fixtures"))]
+    static TEST_FIXTURE_SEAL: AuthorityBoundCertificateStoreAccessSeal =
+        AuthorityBoundCertificateStoreAccessSeal;
+
+    #[derive(Clone, Copy)]
     pub struct CertificateStoreAccess {
-        seal: &'static CertificateStoreAccessSeal,
+        seal: &'static dyn CertificateStoreAccessSeal,
+    }
+
+    impl std::fmt::Debug for CertificateStoreAccess {
+        fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            formatter
+                .debug_struct("CertificateStoreAccess")
+                .finish_non_exhaustive()
+        }
     }
 
     pub(crate) const AUTHORITY_BOUND: CertificateStoreAccess = CertificateStoreAccess {
@@ -58,8 +72,14 @@ mod raw_access {
         seal: &TEST_FIXTURE_SEAL,
     };
 
+    #[cfg(all(not(test), feature = "internal-test-fixtures"))]
+    #[doc(hidden)]
+    pub const TEST_FIXTURE: CertificateStoreAccess = CertificateStoreAccess {
+        seal: &TEST_FIXTURE_SEAL,
+    };
+
     pub(super) fn validate(access: &CertificateStoreAccess) -> bool {
-        access.seal.magic == CERTIFICATE_STORE_ACCESS_MAGIC
+        access.seal.magic() == CERTIFICATE_STORE_ACCESS_MAGIC
     }
 }
 
@@ -69,6 +89,10 @@ pub(crate) use raw_access::AUTHORITY_BOUND as AUTHORITY_BOUND_CERTIFICATE_ACCESS
 #[cfg(test)]
 #[allow(unused_imports)]
 pub(crate) use raw_access::TEST_FIXTURE as TEST_CERTIFICATE_STORE_ACCESS;
+#[cfg(all(not(test), feature = "internal-test-fixtures"))]
+#[doc(hidden)]
+#[allow(unused_imports)]
+pub use raw_access::TEST_FIXTURE as TEST_CERTIFICATE_STORE_ACCESS;
 
 #[derive(Clone, Copy, Debug, Eq, Ord, PartialEq, PartialOrd, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]

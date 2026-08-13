@@ -32,23 +32,37 @@ mod raw_access {
         0x03, 0x59,
     ];
 
-    #[derive(Debug)]
-    struct LeaseStoreAccessSeal {
-        magic: [u8; 32],
+    trait LeaseStoreAccessSeal: std::fmt::Debug + Sync {
+        fn magic(&self) -> [u8; 32];
     }
 
-    static AUTHORITY_BOUND_SEAL: LeaseStoreAccessSeal = LeaseStoreAccessSeal {
-        magic: LEASE_STORE_ACCESS_MAGIC,
-    };
+    #[derive(Debug)]
+    struct AuthorityBoundLeaseStoreAccessSeal;
 
-    #[cfg(test)]
-    static TEST_FIXTURE_SEAL: LeaseStoreAccessSeal = LeaseStoreAccessSeal {
-        magic: LEASE_STORE_ACCESS_MAGIC,
-    };
+    impl LeaseStoreAccessSeal for AuthorityBoundLeaseStoreAccessSeal {
+        fn magic(&self) -> [u8; 32] {
+            LEASE_STORE_ACCESS_MAGIC
+        }
+    }
 
-    #[derive(Clone, Copy, Debug)]
+    static AUTHORITY_BOUND_SEAL: AuthorityBoundLeaseStoreAccessSeal =
+        AuthorityBoundLeaseStoreAccessSeal;
+
+    #[cfg(any(test, feature = "internal-test-fixtures"))]
+    static TEST_FIXTURE_SEAL: AuthorityBoundLeaseStoreAccessSeal =
+        AuthorityBoundLeaseStoreAccessSeal;
+
+    #[derive(Clone, Copy)]
     pub struct LeaseStoreAccess {
-        seal: &'static LeaseStoreAccessSeal,
+        seal: &'static dyn LeaseStoreAccessSeal,
+    }
+
+    impl std::fmt::Debug for LeaseStoreAccess {
+        fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+            formatter
+                .debug_struct("LeaseStoreAccess")
+                .finish_non_exhaustive()
+        }
     }
 
     pub(crate) const AUTHORITY_BOUND: LeaseStoreAccess = LeaseStoreAccess {
@@ -60,8 +74,14 @@ mod raw_access {
         seal: &TEST_FIXTURE_SEAL,
     };
 
+    #[cfg(all(not(test), feature = "internal-test-fixtures"))]
+    #[doc(hidden)]
+    pub const TEST_FIXTURE: LeaseStoreAccess = LeaseStoreAccess {
+        seal: &TEST_FIXTURE_SEAL,
+    };
+
     pub(super) fn validate(access: &LeaseStoreAccess) -> bool {
-        access.seal.magic == LEASE_STORE_ACCESS_MAGIC
+        access.seal.magic() == LEASE_STORE_ACCESS_MAGIC
     }
 }
 
@@ -71,6 +91,10 @@ pub(crate) use raw_access::AUTHORITY_BOUND as AUTHORITY_BOUND_LEASE_ACCESS;
 #[cfg(test)]
 #[allow(unused_imports)]
 pub(crate) use raw_access::TEST_FIXTURE as TEST_LEASE_STORE_ACCESS;
+#[cfg(all(not(test), feature = "internal-test-fixtures"))]
+#[doc(hidden)]
+#[allow(unused_imports)]
+pub use raw_access::TEST_FIXTURE as TEST_LEASE_STORE_ACCESS;
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 #[repr(u32)]
