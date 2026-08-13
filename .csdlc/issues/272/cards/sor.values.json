@@ -1,0 +1,93 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 272,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1b][205.a] Build durable serving-authority foundation",
+    "slug": "serving-authority-foundation",
+    "version": "v0.92",
+    "generation": 6
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Implemented the bounded durable serving-authority foundation with exact sealed #203 receipt bindings, byte-exact canonical preimage validation, checkpointed Pending-to-Reconciled-to-Published recovery, bounded retry/capacity rules, and deterministic redacted projection. Focused product proof and exact-target strict Clippy are green; broad all-target strict Clippy remains baseline-red only in unrelated pre-existing Runtime test surfaces and is not claimed green.",
+      "actual_changes": [
+        "Registered the new serving_authority module without changing #203 or parent #205 behavior.",
+        "Added exact direct adapter/receipt binding plus DOMAIN-NUL, u32 big-endian length, RFC8785 JCS, fixed-field, size, digest, identity, and prior-state validation.",
+        "Added checkpointed durable Pending, Reconciled, and Published transitions with restart continuation, exact retry, conflict, corruption, capacity, and path-safety denial.",
+        "Added deterministic redacted projection and focused integration proof covering five behavioral tests."
+      ],
+      "artifacts": [
+        "adl-runtime/src/distributed/serving_authority.rs",
+        "adl-runtime/src/distributed/mod.rs",
+        "adl-runtime/tests/distributed_serving_authority_foundation.rs",
+        ".csdlc/evidence/272"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--lib",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Run strict Clippy for the changed production library.",
+          "outcome": "passed",
+          "evidence_ref": "issue272-clippy-lib.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_serving_authority_foundation",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Run strict Clippy for the focused test target.",
+          "outcome": "passed",
+          "evidence_ref": "issue272-clippy-test.log"
+        },
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check",
+            "origin/main...HEAD"
+          ],
+          "purpose": "Reject malformed diff content before review.",
+          "outcome": "passed",
+          "evidence_ref": "issue272-diff.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_serving_authority_foundation"
+          ],
+          "purpose": "Run the issue-owned serving-authority foundation integration target.",
+          "outcome": "passed",
+          "evidence_ref": "issue272-focused.log"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}
