@@ -1,3 +1,5 @@
+#![cfg(feature = "internal-test-fixtures")]
+
 use adl_runtime::distributed::{
     polis_runtime::{ConsensusCheckpoint, ConsensusCheckpointAuthority, PolisRuntimeError},
     serving_authority::VerifiedServingAuthorityCut,

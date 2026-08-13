@@ -16,3 +16,4 @@
 {"sequence":16,"generation":9,"actor":"codex:planning2-issue273-owner","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":17,"generation":10,"actor":"codex:planning2-issue273-owner","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":18,"generation":11,"actor":"codex:planning2-issue273-owner","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":19,"generation":12,"actor":"codex:planning2-issue273-owner","reason":"recover published review after required tooling-contract CI proved the issue-owned fixture test must be omitted from ordinary no-feature builds","operation":"recover_review"}

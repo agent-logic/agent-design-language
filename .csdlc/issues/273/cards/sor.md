@@ -88,11 +88,11 @@ Implemented the bounded Shepherd serving-eligibility authority over a non-forgea
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

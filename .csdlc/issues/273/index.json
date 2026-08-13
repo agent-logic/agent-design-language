@@ -4,57 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "ba4ad0b09850192b19172ddfc16a2cb280a6b9c3430dfe1df59c493d7bd5a9d0",
-  "phase": "published",
-  "generation": 11,
-  "digest": "52ff868f839ff792107449de7b69269f53cd5424b9c2893d3f2608989d0113f2",
+  "phase": "implemented",
+  "generation": 12,
+  "digest": "fb374b1a730a11903cd5aae872c6036c24c8f3f5b223b5a9d969b958d2bb43b1",
   "branch": "codex/273-shepherd-serving-eligibility",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-273-shepherd-serving-eligibility",
-  "review_assignment": {
-    "reviewer": "fresh-session:7d983aa4-6a35-4d57-a3d1-c5237861633a",
-    "assigned_by": "codex:planning2-issue273-owner",
-    "revision": "git-blake3:a264a5d433009cd0f13a72f0df377bd79da13125:567c4237d0aef4d8fe27a1da3a4cbb7cf249e6476e7dafa1723452e6b4953b29",
-    "scope": [
-      "adl-runtime/src/distributed/serving_authority.rs",
-      "adl-runtime/src/distributed/shepherd_serving_eligibility.rs",
-      "adl-runtime/src/distributed/mod.rs",
-      "adl-runtime/tests/distributed_shepherd_serving_eligibility.rs",
-      ".csdlc/issues/273",
-      ".csdlc/prepared/issues/273",
-      ".csdlc/evidence/273"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:7d983aa4-6a35-4d57-a3d1-c5237861633a",
-    "scope": [
-      "adl-runtime/src/distributed/serving_authority.rs",
-      "adl-runtime/src/distributed/shepherd_serving_eligibility.rs",
-      "adl-runtime/src/distributed/mod.rs",
-      "adl-runtime/tests/distributed_shepherd_serving_eligibility.rs",
-      ".csdlc/issues/273",
-      ".csdlc/prepared/issues/273",
-      ".csdlc/evidence/273"
-    ],
-    "reviewed_revision": "git-blake3:a264a5d433009cd0f13a72f0df377bd79da13125:567c4237d0aef4d8fe27a1da3a4cbb7cf249e6476e7dafa1723452e6b4953b29",
-    "findings": [],
-    "residual_risks": [
-      "The internal fixture constructor is available only when the explicit internal-test-fixtures feature is enabled; ordinary builds exclude it.",
-      "#274 remains unbound and serialized behind terminal and ancestral #273 before consuming the verified cut or touching shared registration."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 273,
-    "pull_request": 339,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/339",
-    "base": "main",
-    "head": "codex/273-shepherd-serving-eligibility",
-    "revision": "git-blake3:762c8eec1d3989233880ae86f87e72f8e0d4c817:8ba7c640f46a1d9428d0c296c8045b45957dffa3005d0796f22cbe40459a393f",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -68,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d4fbd5e4b585e91bf1662028eb1bc2d4c55039bca2ca6d80d227a8440ea2f39f",
+      "values_digest": "cc18d04d16fe8d20195bb30af85300a84d5912fcab5823f9814da685e8c70abd",
       "rendered_digest": "fde850d82a2c2a13c971d804d5d989ee796c4ad2705e336561eb4acc9e3adee2",
       "ast_digest": "d2f326bb27e14cbe6fe91df173e64cc1f78255fe33c8ab01168482ec034d3b2f"
     },
     "stp": {
-      "values_digest": "b193a5b56b16213a9a47ae62bb4a43639ab1662285536d85b0ff00c6963db16f",
+      "values_digest": "694a88e870e418d86db5bb3cabaa6d9366c4d2a18c109822482ce4c8a0430e5c",
       "rendered_digest": "b8a5809f2d2cba141fb56e3739d1444c7768eaf39ea60e8244bf7930d521f3c2",
       "ast_digest": "890dd17f1d76d7fcda68a57dff7d3b3fb2e5208fbc819021e5479b7a7e429e78"
     },
     "spp": {
-      "values_digest": "16551a93547ad15a4bbd753720add1f9e93f7fb03a3982fa013f3d7c7a0872f4",
+      "values_digest": "73825f18f168984eb20ac6c34381ec620982feec9ad1b5f973e5e159de84589a",
       "rendered_digest": "51400db6a5b8e0548e6799856b1a657f2bf43400616c8eec00cd17984db8406c",
       "ast_digest": "66047768e02ad804e109beaf5abee417c297304aecbbba9e00f9c3fb4e283b9e"
     },
     "vpp": {
-      "values_digest": "e4113ac9520d40dc2763ef645e89d9aa24e5cff2e587ceb8986615f9696baaee",
+      "values_digest": "8cf06ae97343ebd6ed8c78d6b38ee300c7b1eec742011afb22e8ce991df1ed82",
       "rendered_digest": "b9cc764bb98df311360b7bfa94b9f56e10b7435bb4b83323d6c2f5e418c2e6cc",
       "ast_digest": "d8454a45c0e4ea5e7d97c0fc36bd14e512c052047ca723cea6d2dfb541449813"
     },
     "srp": {
-      "values_digest": "00d7a40fc3a9c4dd5e7093f4be0ca7acecad3523c7852be4c310cdd2e0b10b15",
-      "rendered_digest": "b09e795904ff6c5bf63268ab5cb0fb3b7ddbbae746b8862086fa34c2e1ac8a99",
-      "ast_digest": "6c50f46f72d0424bdf14c8222acc294c3239cf0abc44715ae1c569ccc6426fc7"
+      "values_digest": "cb18a7dde34a3c7ec937d9ea24bf4ed5be16c65e1e37ededbc0263bafb40f154",
+      "rendered_digest": "d26b500a7142a7e623ed6f6e33adde1d4ce3f0d8dec0dd51422d5dd76d42a6a0",
+      "ast_digest": "8d0a111f496337c7f6f343bea02cfce00130254195f68943add4449e218d8c65"
     },
     "sor": {
-      "values_digest": "8f17bf9f8c7e71fcd041a05be1f86b75cbae87f7731c5f56b1a305fc3176d3cd",
-      "rendered_digest": "dd159cc498573464366aac836ca3c3106e26a152cf806efd6d1e82b8adc4fd14",
-      "ast_digest": "3ffecdb5f04037fb64ed8f84473edfe59346361f32f3388c8a12aa2d61105d50"
+      "values_digest": "01fde2822299d93156ce661808935cf856475d7ffffc0975a6360eba6c0ec2f8",
+      "rendered_digest": "859f25c5ad368147a5e643d5986da7df663585a539355d01c3add0dae2ba9896",
+      "ast_digest": "7f4af193d55ee88b9188703598c41ffde28210db7546c77acfaf1f6ac7678ce8"
     }
   },
   "transitions": [
@@ -133,6 +90,13 @@
       "to": "published",
       "actor": "codex:planning2-issue273-owner",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:planning2-issue273-owner",
+      "reason": "recover published review after required tooling-contract CI proved the issue-owned fixture test must be omitted from ordinary no-feature builds"
     }
   ],
   "audit": [
@@ -261,6 +225,13 @@
       "actor": "codex:planning2-issue273-owner",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 19,
+      "generation": 12,
+      "actor": "codex:planning2-issue273-owner",
+      "reason": "recover published review after required tooling-contract CI proved the issue-owned fixture test must be omitted from ordinary no-feature builds",
+      "operation": "recover_review"
     }
   ]
 }
