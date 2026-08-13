@@ -12,7 +12,12 @@ Status: draft
 
 ## Scope
 
-
+csdlc-v2/src/projection_cleanup.rs
+csdlc-v2/src/projection_recovery.rs
+csdlc-v2/src/store.rs
+csdlc-v2/tests/issue_330_bridge_cleanup_defect.rs
+.csdlc/issues/330
+.csdlc/evidence/330/r3
 
 ## Prompts
 

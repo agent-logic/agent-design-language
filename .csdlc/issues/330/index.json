@@ -6,10 +6,22 @@
   "initialization_digest": "c6c77e32c8a46d340a36b3123af9d9adb0adeafda19c3135b9d47c802997e158",
   "phase": "implemented",
   "generation": 17,
-  "digest": "ed795d8edd3b2c4cac5b0fab0aa0bab6fbd26e49ce27657d7d45a6ab9c9a0880",
+  "digest": "fc2718d12f26688084cf88f60af35a450379b5d480746cc9c932fb53700a96cb",
   "branch": "codex/330-bridge-fed-projection-cleanup-defect",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-330-bridge-fed-projection-cleanup-defect",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:330-r3-exact-implementation-review",
+    "assigned_by": "codex:worker-5",
+    "revision": "git-blake3:399b3103340a33c4d5c8a243b73556118a8a3c94:62602bab709fcc192ed27adcbb7f4a882f7fe8ad7a7b528b4a02a06d4ec9a518",
+    "scope": [
+      "csdlc-v2/src/projection_cleanup.rs",
+      "csdlc-v2/src/projection_recovery.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/issue_330_bridge_cleanup_defect.rs",
+      ".csdlc/issues/330",
+      ".csdlc/evidence/330/r3"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +57,9 @@
       "ast_digest": "8135e07afb687e53ca7797c556ceddcc8d99a36199956cf32e18c7cb8b693682"
     },
     "srp": {
-      "values_digest": "a687e8fe2678c09f7f4e29e44c094a5f97e6e753e5ff945010f8401ab7c13c27",
-      "rendered_digest": "85cb07304172b93be89b1111204b1b09b624dd047a9a1fea9775d656d68af2ae",
-      "ast_digest": "d7fd1d0385655c7d381c94a8de716a3dbf671a496417ffe6a5f1574d8327599c"
+      "values_digest": "7a32c4730280dad9ccda3537f0f54924c5b6ebc1e1cf7b5aa87b80806ea58b1a",
+      "rendered_digest": "d35ca565280b23b66760370c866a4d0788e1802d04f9020250fe867e1d16a27c",
+      "ast_digest": "a3d6e1d70a8ca4b5cca5d8159c1281a136743362b6c744e3757a34452dcb1236"
     },
     "sor": {
       "values_digest": "7dbc1a2349fdbc9fd4e16a98488ee664af45a78884a3fe0a4e847982d74eed61",
@@ -225,6 +237,13 @@
       "actor": "codex:worker-5",
       "reason": "Recover the recorded r2 changes-required review after fixing r2-p2 private-delete residue validation and recording r3 evidence; prepare exact fresh r3 implementation review.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 17,
+      "actor": "codex:worker-5",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
