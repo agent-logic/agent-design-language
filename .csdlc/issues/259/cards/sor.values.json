@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.16b3.1a][203.b] Bind governed transport to authority adapters",
     "slug": "governed-transport-authority-adapters",
     "version": "v0.92",
-    "generation": 6
+    "generation": 9
   },
   "status": "pre_phase",
   "content": {
@@ -112,7 +112,7 @@
           "evidence_ref": "transport-coupled-discovery.log"
         }
       ],
-      "integration_state": "not_started",
+      "integration_state": "worktree_only",
       "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",

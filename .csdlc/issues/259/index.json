@@ -5,28 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "5757d863164a5f2f3330a01f212d5f6558c25c177a44f06d9f585657ca692015",
   "phase": "implemented",
-  "generation": 6,
-  "digest": "8b724a97bee778305f0f1996a46a178d869ca0778ef0cc45106b7aecf10e615f",
+  "generation": 9,
+  "digest": "9bb2d535a98eb9e8315bd09444476ca56c5f7b9ddb3311873aca2aaab0128708",
   "branch": "codex/259-governed-transport-authority-adapters",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-259-governed-transport-authority-adapters",
-  "review_assignment": {
-    "reviewer": "/root/issue_259_takeover/review_259_exact_r1",
-    "assigned_by": "codex:/root/issue_259_takeover",
-    "revision": "git-blake3:ff450597f3b6324888c587456d087ca3228af03f:75dc60933e77220c0ac24e82c3de0aa596ae4c195e10edfacb46561f5517619a",
-    "scope": [
-      "adl-runtime/src/distributed/authority_protocol.rs",
-      "adl-runtime/src/distributed/authority_reconciliation.rs",
-      "adl-runtime/src/distributed/transport/core.rs",
-      "adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs",
-      "adl-runtime/src/distributed/transport/governed/polis_runtime.rs",
-      "adl-runtime/tests/distributed_discovery.rs",
-      "adl-runtime/tests/distributed_runtime_transport.rs",
-      "adl-runtime/tests/distributed_transport.rs",
-      ".csdlc/issues/259",
-      ".csdlc/prepared/issues/259",
-      ".csdlc/evidence/259"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -42,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "133d033840cb52a9bf121550a027f6ab3fe56b634e583dcd9dbe8bacfbf52fa9",
+      "values_digest": "6007c494d29b71c0f62e95b08c06b29dc5c21bf7cf11ed82747a8c65994e4f82",
       "rendered_digest": "7594d1c6a7de8ae71a823ecc12ba7e49e53cac287bae58e73ebbd5d6db9b77d3",
       "ast_digest": "6f6d940bc50b4c7e362ca5bb3922d26899d98c830176015c4c83c46d12b0795d"
     },
     "stp": {
-      "values_digest": "6692faf33523303827efa2fedc79e9b9c07f5fa3b864aecf6053ca9e90ed134c",
+      "values_digest": "6f6dff7de816360f4bb982050ef80f6739f6256e4ddbb6c0b6585a545257f766",
       "rendered_digest": "42e69080f3411d71e60b8a2bb12848a40bab16a41dae13b6f6246c80be0566d0",
       "ast_digest": "17de52ff031e2b98805d6569bc40f4c83dcb736c19581340e94b09d100da5dd8"
     },
     "spp": {
-      "values_digest": "7a6faf9a1fe663979b99df6cac4857b06e8e5c9373c9e9176f77dc71d594c2c5",
-      "rendered_digest": "564f4a54e37aa8d3fb1f2cb48f359750bb1d0d67756eb8e07c0420f69cc93f06",
-      "ast_digest": "5971199f7ace1df712529b207bc4767af081b8b1c858c162fffc9e095c335dfb"
+      "values_digest": "48ae256c4703a0c6895c048df14d01668c44318b31ed894ac928d0826e4958f3",
+      "rendered_digest": "c1ca495fdcf0fcac01efeb67f982f9e400defb5c688a8b0f25d5bed931da0a8c",
+      "ast_digest": "40788772bab1d16918320cd98d594c953a1a064980acbcec96432f8b6e703606"
     },
     "vpp": {
-      "values_digest": "dda8250acc7da55927006005bc1bd3e889ca3e4a61e138e3cb45fc2aa54d7362",
+      "values_digest": "968903d92b533b5c3a95fbb247fbba74bbb1d0885eb828cbd0fabc4a0689d949",
       "rendered_digest": "7013adf8d4ede398444821ee404a58835dd236a02440008d4389c233f9af7372",
       "ast_digest": "b352db0068ef3bc7eee400634e00670e48e8f8201aeeb4397228a9ca8b36d540"
     },
     "srp": {
-      "values_digest": "e97c80dc7dadcd57559707d3f116435a9bcba28f3927b2bf7c88bb2d5270d7cd",
-      "rendered_digest": "cd7f5ac1f2a4d6df2f983b9f614eb8dbe022d6748420f005aee72c274c913ff5",
-      "ast_digest": "74030fd1ebd58a6bd4b642cc5967ed6704255e9e399cc82d2c379f08cab05884"
+      "values_digest": "2367b6eef0f005cf36e40f00d531db02f92d9266c86fb62e0aebde8479ccd5a0",
+      "rendered_digest": "6ff4b182413488ed486dfe42448f8bf63cddf303e1bee5a424fd76afc0eb40a2",
+      "ast_digest": "51b5522b3d51492766610f10f1a014f01bb67101f9a6a42ec363d16674fe56bb"
     },
     "sor": {
-      "values_digest": "a30529f1fc8888a3ea84e6e1439c18b3412a7838982f85846543f437618b4903",
-      "rendered_digest": "2229cf10ef8b82c0509b457547d2e24d023b939d55ea23e6e92c756aa7574cea",
-      "ast_digest": "d7fc7e94b94a55157bc2ed0f5ffcca833ad20aed401b72b3a910f382a89d6631"
+      "values_digest": "6002eeec8ddb7c782068a24b5f35a60638e4001539300f26da804e53251a9e1b",
+      "rendered_digest": "f90dbaab2600d60c9c8e29c54047b8359ef717326d3ae2d513dee29ce34dc878",
+      "ast_digest": "e8bc7f9de803c552c266bbf874ae9cbae112c3110e8494f4f1140b23dcb47f6a"
     }
   },
   "transitions": [
@@ -158,6 +141,27 @@
       "actor": "codex:/root/issue_259_takeover",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "/root/issue_259_takeover/review_259_exact_r1",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root/issue_259_takeover",
+      "reason": "Resolve 259-R1-P2-SPP-S3-TRUTH by aligning the operative plan with the already retained passing typed validation evidence.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root/issue_259_takeover",
+      "reason": "Recover failed exact review r1 after typed normalization of SPP step S3 resolved 259-R1-P2-SPP-S3-TRUTH; require a new immutable revision and fresh independent review.",
+      "operation": "recover_review"
     }
   ]
 }

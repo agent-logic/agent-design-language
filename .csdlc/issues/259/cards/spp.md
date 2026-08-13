@@ -47,7 +47,7 @@ Revision 2
     "acceptance_ids": [
       "AC-4"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S4",
