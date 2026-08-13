@@ -16,14 +16,14 @@ Independently approve the crash/restart protocol, bind #297, implement typed cla
 
 ## Plan
 
-Revision 10
+Revision 11
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Preserve the old #297 broad candidate as historical non-authoritative evidence and keep #300 review-failed/unpublished while Noether P1s are open.",
+    "action": "Preserve the old #297 broad source candidate as historical non-authoritative evidence; resync with current main and keep #300 review-failed/unpublished while Noether P1s are open.",
     "acceptance_ids": [
       "AC-8",
       "AC-9"
@@ -32,7 +32,7 @@ Revision 10
   },
   {
     "id": "S2",
-    "action": "Define and implement or explicitly split the production recovery-to-cleanup authority bridge: recovery must emit cleanup-consumable completed recovery receipt and canonical archive manifest authority without test-authored JSON.",
+    "action": "Implement only the minimum production recovery-to-cleanup authority bridge in #297: recovery must emit or expose cleanup-consumable completed recovery receipt and canonical archive manifest authority without test-authored JSON.",
     "acceptance_ids": [
       "AC-2",
       "AC-5",
@@ -42,21 +42,21 @@ Revision 10
   },
   {
     "id": "S3",
-    "action": "Update #300 after the bridge lands so its integration target consumes production-generated bridge artifacts and mechanically invokes or enumerates the approved recovery/cleanup failpoint and adversarial matrix.",
+    "action": "Validate, independently exact-head review, publish, shepherd CI, and finish #297 so the bridge is terminal and ancestral before #300 resumes.",
+    "acceptance_ids": [
+      "AC-9"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S4",
+    "action": "After #297 is terminal and ancestral, update #300 so its integration target consumes production-generated bridge artifacts and mechanically invokes or enumerates the approved recovery/cleanup failpoint and adversarial matrix.",
     "acceptance_ids": [
       "AC-1",
       "AC-3",
       "AC-4",
       "AC-7",
       "AC-8"
-    ],
-    "status": "pending"
-  },
-  {
-    "id": "S4",
-    "action": "Only after #300 passes fresh review and terminal/ancestral checks, complete parent #297 integrated reconciliation, exact review, publication, CI, and terminal closeout before releasing #296.",
-    "acceptance_ids": [
-      "AC-9"
     ],
     "status": "pending"
   }

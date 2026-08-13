@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "e6a6b6dce878d10beb21242dc5267e088f9ed5064d967b82e267f0a99ff2be35",
   "phase": "implemented",
-  "generation": 18,
-  "digest": "d84998d84f263c06c8d5e8f303150fb1d418082e89250a8fb02dac0017e2a528",
+  "generation": 19,
+  "digest": "ee1e1b3bbfd65bc362f4dd56ac175320e93fcba49b1ba6bc54b5676338deef89",
   "branch": "codex/297-preserved-failed-projection-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-297-preserved-failed-projection-recovery",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "70ef252d59a405df1c439a488055bbb388ae1d659d09adb2922b44400c411cbd",
+      "values_digest": "f21cc06be94d79a07ec13e8eb46e927dcff70b11ef5ef1489c89cb98a61861b6",
       "rendered_digest": "df823d86637cd9489e801629df7a5212ac8097bc372257554eaec7c9a9d0660e",
       "ast_digest": "1bc768342db5a416f8bb25942901fb3f59ba10dc488a47dea6f0ef806aabb7e0"
     },
     "stp": {
-      "values_digest": "08f523029b3beac9c3dc6d0b3bb630faa4133121b782a95f01e70e9e79906e32",
+      "values_digest": "f2a4dbd7afaf1ed14af5944db982cf5d21eddc741994400ed8ef0506f5b3411b",
       "rendered_digest": "97ad2e897d196aba11055627fae7c5e07537626d42ad815337c564dffb664688",
       "ast_digest": "9a54ff529a22712e2dcb9f5efb93efb1ca9fd290304b932f98ab76803bc6ae26"
     },
     "spp": {
-      "values_digest": "be49c36d109ab625a6b1c20098f3898c2b66fc814b3475e4ad47a1f54b7d786d",
-      "rendered_digest": "fa63db138c67e3b6f0dcc7b043441a904bc1b204caba77a341487ee29044ee85",
-      "ast_digest": "54f9f595bf82e5ffdc39b757b258613f1b63921c05d8a99da88effc26aa1acbc"
+      "values_digest": "a44ab733e088f875bde8c5295e9233273b46a82e0265e74fe3f9508f6e2f391c",
+      "rendered_digest": "e3b65c0055739979fc4ca41f0994e1ec2b50cbc3769189d2d9716089249db0bc",
+      "ast_digest": "146f8c8308fc4b01d8049188b9ebf3bc7b41c3e59cac6fc8a3ec8a3957c157bd"
     },
     "vpp": {
-      "values_digest": "e6dd0006bcf69ed79727f3b17b682ab490b951e565bf0954c7e9e0c16eb050d1",
+      "values_digest": "57c698f16574615f3f62a4bd9f803f83a98907bb9fc0256401efb18bfcc4b313",
       "rendered_digest": "2fd595dda46cb9061a242db516e4f7cdb94af25c3585e4d95cf98947bf95d0a7",
       "ast_digest": "0bb6d8f472ad7f48699346992ec546eaa8a77cfca874500c37eeeae66c0f7a83"
     },
     "srp": {
-      "values_digest": "5e1d51cba6da1f0f72b2a1dea6b9a7f465c97e14e85ba91ce68e166486bff2d2",
+      "values_digest": "50cc2b4f78ae98abacdde22004a83fb0e00e2f96a819fb9e9404239ed5b8de23",
       "rendered_digest": "ef04c3dfd5e0eadb2913a6706f7e9e8dd54eeade7e1edb43bc97e1f3204379be",
       "ast_digest": "4a9b0580c70bbd10c0feac72bda62f208af9285f0f199aaaad3dc38c20ae79ae"
     },
     "sor": {
-      "values_digest": "27953f470391fb50b7a6b4bbd1bbe21cd694f3593d8fb19b3350ece1ab057402",
+      "values_digest": "553635df67e450f4ce50b889caf003e8a62e44a7480bf9a3b9c29a205be14c93",
       "rendered_digest": "f1d649dad2877d1e2b99c5cd1ebc46cd2b6a88c1c23baf5c91f0c7a145d43d99",
       "ast_digest": "8b343e25a7a498f5489a160fcbe0134f86d21787cfe0cd23b76f720fefe016f5"
     }
@@ -224,6 +224,13 @@
       "actor": "codex:worker-5",
       "reason": "Repair #297 validation truth after Noether routing: do not name #300-only test targets inside the #297 worktree; record #300 matrix as an external dependency until the bridge lands.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"parent-recovery-cleanup-bridge\",\"proof_role\":\"Prove the parent integration bridge with targets available in this #297 worktree: production recovery authority must connect to cleanup-consumable completed recovery receipt and canonical archive manifest authority, with terminal/canonical/archive binding and no test-authored authority.\",\"acceptance_ids\":[\"AC-2\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":7000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"preserved_projection_recovery\"],\"parallel_group\":\"local\",\"defer_reason\":\"Deferred until #297 bridge implementation or an explicitly split child lands; current #300 Noether r1 found no production bridge for cleanup to consume.\"},{\"lane\":\"cleanup-authority-regression\",\"proof_role\":\"Retain cleanup authority regressions available in this #297 worktree while making clear they do not substitute for #300's later integrated matrix unless #300 mechanically invokes or enumerates them.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":7000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_cleanup\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"child-300-integrated-matrix-dependency\",\"proof_role\":\"#300 must separately prove the integrated recovery/cleanup matrix using its own target after the bridge lands; this parent card records the dependency and does not claim local proof from a missing #300 test file.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":7000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"preserved_projection_recovery\"],\"parallel_group\":\"local\",\"defer_reason\":\"Dependency record only: #300 remains review-failed/unpublished until it proves the bridge-fed integration target and either mechanically invokes or explicitly enumerates the matrix.\"}]}"
+    },
+    {
+      "sequence": 22,
+      "generation": 19,
+      "actor": "codex:worker-5",
+      "reason": "Break the #297/#300 dependency cycle after Noether r1: #297 must land the production recovery-to-cleanup bridge before #300 can prove bridge-fed integration.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Preserve the old #297 broad source candidate as historical non-authoritative evidence; resync with current main and keep #300 review-failed/unpublished while Noether P1s are open.\",\"acceptance_ids\":[\"AC-8\",\"AC-9\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Implement only the minimum production recovery-to-cleanup authority bridge in #297: recovery must emit or expose cleanup-consumable completed recovery receipt and canonical archive manifest authority without test-authored JSON.\",\"acceptance_ids\":[\"AC-2\",\"AC-5\",\"AC-6\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Validate, independently exact-head review, publish, shepherd CI, and finish #297 so the bridge is terminal and ancestral before #300 resumes.\",\"acceptance_ids\":[\"AC-9\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"After #297 is terminal and ancestral, update #300 so its integration target consumes production-generated bridge artifacts and mechanically invokes or enumerates the approved recovery/cleanup failpoint and adversarial matrix.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\",\"AC-7\",\"AC-8\"],\"status\":\"pending\"}]}"
     }
   ]
 }
