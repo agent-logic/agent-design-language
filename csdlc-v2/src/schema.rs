@@ -15,6 +15,7 @@ use crate::github::{
 };
 use crate::lifecycle::{BindRequest, BindResult};
 use crate::migration::{
+    BoundIssueIdentityMigrationReport, BoundIssueIdentityMigrationRequest,
     BoundTopologyMigrationReport, BoundTopologyMigrationRequest, CodeRepositoryMigrationReport,
     CodeRepositoryMigrationRequest, ImportReport, LegacyImportRequest, NormalizedOutcome,
     ShadowComparison,
@@ -93,6 +94,8 @@ pub fn public_schema_bundle() -> Value {
         "legacy_import_report": schemars::schema_for!(ImportReport),
         "bound_topology_migration_request": schemars::schema_for!(BoundTopologyMigrationRequest),
         "bound_topology_migration_report": schemars::schema_for!(BoundTopologyMigrationReport),
+        "bound_issue_identity_migration_request": schemars::schema_for!(BoundIssueIdentityMigrationRequest),
+        "bound_issue_identity_migration_report": schemars::schema_for!(BoundIssueIdentityMigrationReport),
         "code_repository_migration_request": schemars::schema_for!(CodeRepositoryMigrationRequest),
         "code_repository_migration_report": schemars::schema_for!(CodeRepositoryMigrationReport),
         "normalized_outcome": schemars::schema_for!(NormalizedOutcome),
