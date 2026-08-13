@@ -4,13 +4,45 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "ba4ad0b09850192b19172ddfc16a2cb280a6b9c3430dfe1df59c493d7bd5a9d0",
-  "phase": "implemented",
-  "generation": 12,
-  "digest": "fb374b1a730a11903cd5aae872c6036c24c8f3f5b223b5a9d969b958d2bb43b1",
+  "phase": "reviewed",
+  "generation": 13,
+  "digest": "1d64283284e5e1c5b875084880b8f3f460078dded0865db91d22fc0a5f9088aa",
   "branch": "codex/273-shepherd-serving-eligibility",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-273-shepherd-serving-eligibility",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:9d45c45a-e58f-47f7-bf02-2630c152e6c4",
+    "assigned_by": "codex:planning2-issue273-owner",
+    "revision": "git-blake3:759aa09b39eeb1551c8410962277583204c4aa94:3c4191820541f3616ae9ad73cc2346da503476eaf58a4193621b18acc581a348",
+    "scope": [
+      "adl-runtime/src/distributed/serving_authority.rs",
+      "adl-runtime/src/distributed/shepherd_serving_eligibility.rs",
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/tests/distributed_shepherd_serving_eligibility.rs",
+      ".csdlc/issues/273",
+      ".csdlc/prepared/issues/273",
+      ".csdlc/evidence/273"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:9d45c45a-e58f-47f7-bf02-2630c152e6c4",
+    "scope": [
+      "adl-runtime/src/distributed/serving_authority.rs",
+      "adl-runtime/src/distributed/shepherd_serving_eligibility.rs",
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/tests/distributed_shepherd_serving_eligibility.rs",
+      ".csdlc/issues/273",
+      ".csdlc/prepared/issues/273",
+      ".csdlc/evidence/273"
+    ],
+    "reviewed_revision": "git-blake3:759aa09b39eeb1551c8410962277583204c4aa94:3c4191820541f3616ae9ad73cc2346da503476eaf58a4193621b18acc581a348",
+    "findings": [],
+    "residual_risks": [
+      "The internal VerifiedServingAuthorityCut fixture remains available only with internal-test-fixtures; ordinary builds omit the issue-owned integration target.",
+      "#274 remains unbound and serialized behind terminal and ancestral #273 before consuming the verified cut or touching shared registration."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +57,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "cc18d04d16fe8d20195bb30af85300a84d5912fcab5823f9814da685e8c70abd",
+      "values_digest": "7dd8f31e5377fcaf302f86b3c5c0fd8546651c730c3dd40da07fe20e0eef916f",
       "rendered_digest": "fde850d82a2c2a13c971d804d5d989ee796c4ad2705e336561eb4acc9e3adee2",
       "ast_digest": "d2f326bb27e14cbe6fe91df173e64cc1f78255fe33c8ab01168482ec034d3b2f"
     },
     "stp": {
-      "values_digest": "694a88e870e418d86db5bb3cabaa6d9366c4d2a18c109822482ce4c8a0430e5c",
+      "values_digest": "6c49a48790b1686e1678fd309988601e12e7beb409964577499b71af51ca54d2",
       "rendered_digest": "b8a5809f2d2cba141fb56e3739d1444c7768eaf39ea60e8244bf7930d521f3c2",
       "ast_digest": "890dd17f1d76d7fcda68a57dff7d3b3fb2e5208fbc819021e5479b7a7e429e78"
     },
     "spp": {
-      "values_digest": "73825f18f168984eb20ac6c34381ec620982feec9ad1b5f973e5e159de84589a",
+      "values_digest": "2ef7f922b36fe1b38a262f81f2a31b9152393ed03b016ceeb14ba4a9ed16ce94",
       "rendered_digest": "51400db6a5b8e0548e6799856b1a657f2bf43400616c8eec00cd17984db8406c",
       "ast_digest": "66047768e02ad804e109beaf5abee417c297304aecbbba9e00f9c3fb4e283b9e"
     },
     "vpp": {
-      "values_digest": "8cf06ae97343ebd6ed8c78d6b38ee300c7b1eec742011afb22e8ce991df1ed82",
+      "values_digest": "ef68e5836a40f53df5e724529de90018707d13aef1e92de2e7220a6848330e2d",
       "rendered_digest": "b9cc764bb98df311360b7bfa94b9f56e10b7435bb4b83323d6c2f5e418c2e6cc",
       "ast_digest": "d8454a45c0e4ea5e7d97c0fc36bd14e512c052047ca723cea6d2dfb541449813"
     },
     "srp": {
-      "values_digest": "cb18a7dde34a3c7ec937d9ea24bf4ed5be16c65e1e37ededbc0263bafb40f154",
-      "rendered_digest": "d26b500a7142a7e623ed6f6e33adde1d4ce3f0d8dec0dd51422d5dd76d42a6a0",
-      "ast_digest": "8d0a111f496337c7f6f343bea02cfce00130254195f68943add4449e218d8c65"
+      "values_digest": "614dc1b9c2bbcb66f8978db1420eb91c7d5def1d71956916e9b3a2b30be73195",
+      "rendered_digest": "2410450b08b0b43dc3f80bd579a70d376df38c54211945d5e2f337cb910d4363",
+      "ast_digest": "65c601e3077711774a7b05539ca9d182b2ead99f41a206f234f5db257be30fdf"
     },
     "sor": {
-      "values_digest": "01fde2822299d93156ce661808935cf856475d7ffffc0975a6360eba6c0ec2f8",
+      "values_digest": "5f42d37a987f824fab31dd15d1c98b0663fcb56e158945ba276f75ef385926d2",
       "rendered_digest": "859f25c5ad368147a5e643d5986da7df663585a539355d01c3add0dae2ba9896",
       "ast_digest": "7f4af193d55ee88b9188703598c41ffde28210db7546c77acfaf1f6ac7678ce8"
     }
@@ -97,6 +129,13 @@
       "to": "implemented",
       "actor": "codex:planning2-issue273-owner",
       "reason": "recover published review after required tooling-contract CI proved the issue-owned fixture test must be omitted from ordinary no-feature builds"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:planning2-issue273-owner",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -232,6 +271,20 @@
       "actor": "codex:planning2-issue273-owner",
       "reason": "recover published review after required tooling-contract CI proved the issue-owned fixture test must be omitted from ordinary no-feature builds",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 12,
+      "actor": "codex:planning2-issue273-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 13,
+      "actor": "codex:planning2-issue273-owner",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
