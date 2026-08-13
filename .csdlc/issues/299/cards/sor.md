@@ -141,7 +141,7 @@ Implemented #299 exact-authority archived-projection cleanup in a new isolated m
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
