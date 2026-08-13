@@ -5,9 +5,10 @@ use std::collections::BTreeMap;
 
 use csdlc_v2::finish::validate_publication_head_in_repo;
 use csdlc_v2::publication::{
-    commit_publication_metadata_tail, governed_publication_metadata_followup_paths,
-    persist_publication_intent, publication_intent_dir, reconcile_action,
-    resume_recorded_publication_intent, PublicationAction,
+    commit_publication_metadata_tail, current_head_sha,
+    governed_publication_metadata_followup_paths, persist_publication_intent,
+    publication_intent_dir, reconcile_action, resume_recorded_publication_intent,
+    PublicationAction,
 };
 use csdlc_v2::{
     DesignReview, FinishRequest, IssueRecord, LifecyclePhase, MergeMethod, PublicationEvidence,
@@ -378,6 +379,22 @@ fn interrupted_after_record_publication_retry_can_commit_metadata_tail() {
     request.expected_head_sha = Some(metadata_head);
     validate_publication_head_in_repo(temp.path(), &recorded, &request)
         .expect("resumed metadata tail is finish-ready");
+}
+
+#[test]
+fn clean_resume_uses_normalized_current_head_for_metadata_convergence() {
+    let temp = tempfile::tempdir().expect("temp repo");
+    init_repo(temp.path());
+    let raw_head = csdlc_v2::git::run(temp.path(), &["rev-parse", "HEAD"])
+        .expect("raw head")
+        .stdout;
+    let normalized = current_head_sha(temp.path()).expect("normalized head");
+    assert_eq!(normalized, raw_head.trim());
+    assert_eq!(
+        normalized.trim(),
+        normalized,
+        "clean resume fallback must be safe for strict remote SHA equality"
+    );
 }
 
 fn intent(issue: u64) -> PublicationIntent {

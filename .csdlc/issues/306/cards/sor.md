@@ -204,6 +204,35 @@ Implemented ordered publication metadata tail handling: intent cache is stored u
     "purpose": "Strict warning-free proof after normalizing metadata follow-up head SHA for strict remote convergence.",
     "outcome": "passed",
     "evidence_ref": "local-command:working-tree-after-r15-head-trim-fix:cargo-clippy-publication-tail:passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "publication_tail"
+    ],
+    "purpose": "Focused Rust integration proof for #306 publication metadata tail ordering, idempotent resume, governed follow-up validation, exact-clean finish-readiness, normalized clean-resume head comparison, and bounded metadata-head reobserve behavior.",
+    "outcome": "passed",
+    "evidence_ref": "local-command:working-tree-after-r16-reobserve-fix:cargo-test-publication-tail:8-passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "publication_tail",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Strict warning-free proof after bounded metadata-head reobserve and normalized clean-resume head repair.",
+    "outcome": "passed",
+    "evidence_ref": "local-command:working-tree-after-r16-reobserve-fix:cargo-clippy-publication-tail:passed"
   }
 ]
 

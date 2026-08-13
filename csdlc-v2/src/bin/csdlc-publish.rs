@@ -9,6 +9,7 @@ use csdlc_v2::{
 };
 use octocrab::models::IssueState;
 use octocrab::params::State;
+use tokio::time::{sleep, Duration};
 
 #[derive(Parser)]
 struct Cli {
@@ -69,14 +70,16 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
             push(&cli.root, &request.remote, &request.head)?;
             metadata_head
         } else {
-            csdlc_v2::git::run(&cli.root, &["rev-parse", "HEAD"])?.stdout
+            csdlc_v2::publication::current_head_sha(&cli.root)?
         };
-        let observed = find_pr(&crab, &intent).await?.ok_or_else(|| {
-            V2Error::new(
-                ErrorCode::ReconciliationRequired,
-                "resumed metadata publication head could not be reconciled",
-            )
-        })?;
+        let observed = reobserve_pr_at_head(&crab, &intent, &metadata_head)
+            .await?
+            .ok_or_else(|| {
+                V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "resumed metadata publication head could not be reconciled",
+                )
+            })?;
         let publication = normalize(&intent, &observed)?;
         if metadata_head == intent.commit_sha {
             csdlc_v2::publication::validate_remote(&intent, &publication)?;
@@ -158,12 +161,14 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
         csdlc_v2::publication::commit_publication_metadata_tail(&cli.root, request.issue)?
     {
         push(&cli.root, &request.remote, &request.head)?;
-        let observed = find_pr(&crab, &intent).await?.ok_or_else(|| {
-            V2Error::new(
-                ErrorCode::ReconciliationRequired,
-                "metadata publication head could not be reconciled",
-            )
-        })?;
+        let observed = reobserve_pr_at_head(&crab, &intent, &metadata_head)
+            .await?
+            .ok_or_else(|| {
+                V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "metadata publication head could not be reconciled",
+                )
+            })?;
         publication = normalize(&intent, &observed)?;
         validate_metadata_followup_remote(&cli.root, &intent, &publication, &metadata_head)?;
     }
@@ -301,6 +306,28 @@ async fn find_pr(
         .await
         .map_err(|e| remote(e.to_string()))?;
     select_unique(items)
+}
+
+async fn reobserve_pr_at_head(
+    crab: &octocrab::Octocrab,
+    intent: &PublicationIntent,
+    expected_head: &str,
+) -> csdlc_v2::Result<Option<octocrab::models::pulls::PullRequest>> {
+    let mut observed = None;
+    for attempt in 0..5 {
+        observed = find_pr(crab, intent).await?;
+        if observed
+            .as_ref()
+            .and_then(|pr| pr.head.as_ref())
+            .is_some_and(|head| head.sha == expected_head)
+        {
+            return Ok(observed);
+        }
+        if attempt < 4 {
+            sleep(Duration::from_secs(2)).await;
+        }
+    }
+    Ok(observed)
 }
 
 fn select_unique<T>(mut items: Vec<T>) -> csdlc_v2::Result<Option<T>> {

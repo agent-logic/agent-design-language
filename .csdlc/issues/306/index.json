@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8bb2ff2896c949a93ee1154957c6140e9893cbaa3f729b0f073ea70e7507a449",
   "phase": "implemented",
-  "generation": 40,
-  "digest": "0502eaca323bba548348f984fc3b02f683dae3230cbf5de62d5f68e02495da89",
+  "generation": 43,
+  "digest": "c089efc11dde7e23aca07f2451049daf9f78c42135d1680f188d94f508ce7355",
   "branch": "codex/306-publication-tail-exact-clean-finish",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-306-publication-tail-exact-clean-finish",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "759e9e5968c097e79149440eda91c9938b6ae169b2493095a082ce41d0af5009",
+      "values_digest": "63c845093ad0043cb62a293acd6da25cf815f29a73fff6d3bd432163bec86d6e",
       "rendered_digest": "5e282111ad7af07bc3be9ea05d50610cf0f18d605edc14136763b56fe579e2a4",
       "ast_digest": "a477566ba17a0e2ca9d702e826008f60fbe771d9f531506f425399d0610cceb6"
     },
     "stp": {
-      "values_digest": "ea492c659b703f62d1182f3ce0b692828b6c0caa6f260d4d111842c239257083",
+      "values_digest": "1b9a3734786194e0304d47a8a43c37a01073c4af2cda9d50aeba23000561975d",
       "rendered_digest": "d0e7b81f767703370ad04d61626800ffce4250fcb76d5374a8286571286d50c1",
       "ast_digest": "57880522df6be2e924cb4716ad672ca998cb05c78a81f21cde7ff7ab7cb4f097"
     },
     "spp": {
-      "values_digest": "2d2ca81b66d58338922045b2fb9656c4ea6f958561dc8caeb12544afcf570caa",
+      "values_digest": "c15c8d9b73ac27498f447da1ca63a393b8fb4b45c3b6991e34a260a19f466fac",
       "rendered_digest": "acb89f97e1f5ae23f001f5f517372234ecfb99fe8c7e7b26dec5cdd56f77168f",
       "ast_digest": "8cf742e13d6da873db13d987281a349fcf924b92f1a787edf3823d29069a7dfb"
     },
     "vpp": {
-      "values_digest": "aaab68bf4ea09072a254a61cce1c8ea7ecf611810d2e98a4eb64657544407561",
+      "values_digest": "973844cb9b83c00c8877fea80ffe70b5a75de821317f54d32b90438a20c69fce",
       "rendered_digest": "c1a82830a1d964f39970fe5572b327eb1ce07dc9cc5f7ebb9a1679a8efee44f0",
       "ast_digest": "ff5f61cad263c8dd506ae1e3cc9d06ff43a367dcd86bf8200ec9df2c5ae751ee"
     },
     "srp": {
-      "values_digest": "affc4f928a62fd3b5bb7089b884285de7f5aec2b3ff20bf28385c516977d2f4d",
+      "values_digest": "e1153c3d7d52a00c1f4476a241ffb3b422ad5765fb08d17a8808e6100a38632e",
       "rendered_digest": "5b99bf3ed754ec68b728409d617ff029b982494b1c47e338a84249f36a17c6c3",
       "ast_digest": "01734958f83d08dbebdbad4616c6b7bfd294e1693b7a75b994d98a2286d118f9"
     },
     "sor": {
-      "values_digest": "c5693e499bc99efe0efe088e83e32e32e45e21fda210742fbd73fb5dfb075faa",
-      "rendered_digest": "c386315df1017b18d0b1e92813f9d05ddf29912c69e0b5777195eecd4c68d2dc",
-      "ast_digest": "be4ea95c00438b95b596e99471660a9f0c9e7c37d882464152c7faa78be2404b"
+      "values_digest": "cfbdee50abc7a3bc8878f840cf17a7a3cdb519c132372c5202504b06588ea342",
+      "rendered_digest": "35c13dd2513d590a277b30fa35068cb79fdfa2e99a84b16881f4fc8606320265",
+      "ast_digest": "2fe0b8ba075babc3d53de0692b2d29fb4ba7d4e8f2c886f973b452febc04b9df"
     }
   },
   "transitions": [
@@ -448,6 +448,34 @@
       "actor": "codex:worker-4",
       "reason": "Record strict #306 clippy validation after normalizing metadata follow-up head SHA",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"publication_tail\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict warning-free proof after normalizing metadata follow-up head SHA for strict remote convergence.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:working-tree-after-r15-head-trim-fix:cargo-clippy-publication-tail:passed\"}}"
+    },
+    {
+      "sequence": 48,
+      "generation": 40,
+      "actor": "codex:worker-4",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 49,
+      "generation": 41,
+      "actor": "codex:worker-4",
+      "reason": "Recover stale #306 r15 review assignment after reviewer found unnormalized no-new-tail resume metadata head fallback and implementation changed",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 50,
+      "generation": 42,
+      "actor": "codex:worker-4",
+      "reason": "Record focused #306 validation after bounded PR reobserve and normalized clean-resume head repair",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"publication_tail\"],\"purpose\":\"Focused Rust integration proof for #306 publication metadata tail ordering, idempotent resume, governed follow-up validation, exact-clean finish-readiness, normalized clean-resume head comparison, and bounded metadata-head reobserve behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:working-tree-after-r16-reobserve-fix:cargo-test-publication-tail:8-passed\"}}"
+    },
+    {
+      "sequence": 51,
+      "generation": 43,
+      "actor": "codex:worker-4",
+      "reason": "Record strict #306 clippy validation after bounded PR reobserve and clean-resume head repair",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"publication_tail\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict warning-free proof after bounded metadata-head reobserve and normalized clean-resume head repair.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:working-tree-after-r16-reobserve-fix:cargo-clippy-publication-tail:passed\"}}"
     }
   ]
 }
