@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8bb2ff2896c949a93ee1154957c6140e9893cbaa3f729b0f073ea70e7507a449",
   "phase": "published",
-  "generation": 29,
-  "digest": "343576dcfa3e48b56d0aad18cc856a2a0f336c1e1081e86c13cc0ed182dae73e",
+  "generation": 31,
+  "digest": "f23dd956527071b33518374c801abd79242521e32e61a2579d652275ffca3761",
   "branch": "codex/306-publication-tail-exact-clean-finish",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-306-publication-tail-exact-clean-finish",
   "review_assignment": {
@@ -63,34 +63,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "df5e9e99f0e38186a4869e5ad2f9d37cbfd1c203ef1c58a88205f8bee723364e",
+      "values_digest": "8499bacd0f238d29cab3fda03582c55593d55ecb315b9dd267249798809faceb",
       "rendered_digest": "5e282111ad7af07bc3be9ea05d50610cf0f18d605edc14136763b56fe579e2a4",
       "ast_digest": "a477566ba17a0e2ca9d702e826008f60fbe771d9f531506f425399d0610cceb6"
     },
     "stp": {
-      "values_digest": "1d551aac483e813d1140639665677c5bfb7a85a27fa868610ed4f7fee816d9ef",
+      "values_digest": "7faaee7396e888743c10ce3e4ee19f2d3597df88d7f827748868596bf35f24fd",
       "rendered_digest": "d0e7b81f767703370ad04d61626800ffce4250fcb76d5374a8286571286d50c1",
       "ast_digest": "57880522df6be2e924cb4716ad672ca998cb05c78a81f21cde7ff7ab7cb4f097"
     },
     "spp": {
-      "values_digest": "a891f3c1afb3b05300cace6725b364b4fe3ae6c6a37b751886e31737b3e0adbd",
+      "values_digest": "773fa702272ef8aa032b87183c69ac0788efa5a66ec3e7088f585b6ad9550f88",
       "rendered_digest": "acb89f97e1f5ae23f001f5f517372234ecfb99fe8c7e7b26dec5cdd56f77168f",
       "ast_digest": "8cf742e13d6da873db13d987281a349fcf924b92f1a787edf3823d29069a7dfb"
     },
     "vpp": {
-      "values_digest": "f24a9c73d71d644f77be253df5ad52925864abd38dfcd021a4194bd9b96934f9",
+      "values_digest": "58ff3a153382d9131b889c088826ad297723d2274500838ad1f3902616ff563a",
       "rendered_digest": "c1a82830a1d964f39970fe5572b327eb1ce07dc9cc5f7ebb9a1679a8efee44f0",
       "ast_digest": "ff5f61cad263c8dd506ae1e3cc9d06ff43a367dcd86bf8200ec9df2c5ae751ee"
     },
     "srp": {
-      "values_digest": "3e8962a42eb183bc474df9557a382550815004236bae15b594dbc27a4aa14c85",
+      "values_digest": "d14c062e3f1d93c120b381492b6770e75252a28887540163f9dd00f98cc49662",
       "rendered_digest": "b08d1e51687c1b1b688387a13b9de40e4ff05b574f888052434af385b58625c0",
       "ast_digest": "6ec83e9424f53ca5d07e2633003855d4509d822a983438c81a73fb46d5ed335c"
     },
     "sor": {
-      "values_digest": "15aea6d7e8657bf5fc76e9529addfbf1112eb7d9a7a83f2a83efa8a45fcf50dd",
-      "rendered_digest": "04606d76c0eb82329a3843de5ae4c6c893c6b087db6b16a30d6e2c5510ea702a",
-      "ast_digest": "47e44940dc45bcd9bda407073117567fbd02675b1ae97369b49ca3cdd088890e"
+      "values_digest": "e0c11dc85b08dd2d598f8080cc66d453c9ba9843b165ddb0178891ae47ead219",
+      "rendered_digest": "3b9a8ec7ef0c81445243a969d0d36f33d9acb2b79804179347cf000286dc6b26",
+      "ast_digest": "4563e8d8644ee67bb44204020541700cdbb28b4883f22dd075eab4bb39090f2e"
     }
   },
   "transitions": [
@@ -368,6 +368,20 @@
       "actor": "codex:worker-4",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 35,
+      "generation": 30,
+      "actor": "codex:worker-4",
+      "reason": "Record #306 validation after post-metadata publish resume fix",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"publication_tail\"],\"purpose\":\"Focused Rust integration proof after making already-recorded publication resume idempotent once the metadata follow-up head is already pushed.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:b313d0c0d642fc9f60f86c488262cf652e9ae15a:cargo-test-publication-tail:6-passed\"}}"
+    },
+    {
+      "sequence": 36,
+      "generation": 31,
+      "actor": "codex:worker-4",
+      "reason": "Record strict #306 clippy validation after post-metadata publish resume fix",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"publication_tail\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict warning-free proof after making already-recorded publication resume idempotent once the metadata follow-up head is already pushed.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:b313d0c0d642fc9f60f86c488262cf652e9ae15a:cargo-clippy-publication-tail:passed\"}}"
     }
   ]
 }

@@ -117,6 +117,35 @@ Implemented ordered publication metadata tail handling: intent cache is stored u
     "purpose": "Strict warning-free proof for touched publication code and #306 publication_tail test target after fail-closed issue-path staging fix.",
     "outcome": "passed",
     "evidence_ref": "local-command:working-tree-after-r11-finding-fix:cargo-clippy-publication-tail:passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "publication_tail"
+    ],
+    "purpose": "Focused Rust integration proof after making already-recorded publication resume idempotent once the metadata follow-up head is already pushed.",
+    "outcome": "passed",
+    "evidence_ref": "local-command:b313d0c0d642fc9f60f86c488262cf652e9ae15a:cargo-test-publication-tail:6-passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "publication_tail",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Strict warning-free proof after making already-recorded publication resume idempotent once the metadata follow-up head is already pushed.",
+    "outcome": "passed",
+    "evidence_ref": "local-command:b313d0c0d642fc9f60f86c488262cf652e9ae15a:cargo-clippy-publication-tail:passed"
   }
 ]
 
