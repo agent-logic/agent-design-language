@@ -1,0 +1,138 @@
+
+running 4 tests
+test migration_orders_authority_and_survives_restart ... ok
+test mismatched_replay_corrupt_restart_and_bounds_fail_closed ... ok
+test pre_fence_abort_resumes_source_and_post_fence_skip_is_denied ... ok
+test timeout_and_interrupted_commit_recovery_fail_closed ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.28s
+
+
+running 12 tests
+test recovery_begin_and_committed_prefix_survive_restart_without_trusting_local_owner_claims ... ok
+test recovery_create_recovers_after_initial_checkpoint_failure ... ok
+test recovery_is_bounded_and_times_out_fail_closed ... ok
+test recovery_open_rejects_a_symlinked_journal_file ... ok
+test recovery_open_rejects_a_symlinked_state_file ... ok
+test recovery_pre_fence_rollback_requires_live_source_authority ... ok
+test recovery_quorum_fence_safety_window_activation_commit_and_restart ... ok
+test recovery_refences_a_real_activated_migration_before_owner_commit ... ok
+test recovery_rejects_oversized_state_and_journal_before_reading_them ... ok
+test recovery_requires_one_committed_prefix_and_cleans_incomplete_target_before_rollback ... ok
+test recovery_restored_prefix_activates_and_commits_without_an_explicit_fencing_floor ... ok
+test recovery_side_effect_crossing_the_bounded_recovery_deadline_requires_operator ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 4.66s
+
+warning: variant `RevisionDrift` is never constructed
+   --> tests/../src/distributed/migration.rs:154:5
+    |
+131 | pub enum MigrationError {
+    |          -------------- variant in this enum
+...
+154 |     RevisionDrift,
+    |     ^^^^^^^^^^^^^
+    |
+    = note: `MigrationError` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: struct `MigrationAuthorityRevision` is never constructed
+   --> tests/../src/distributed/migration.rs:356:12
+    |
+356 | pub struct MigrationAuthorityRevision {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `checkpoint_generation` and `state_sha256` are never used
+   --> tests/../src/distributed/migration.rs:362:12
+    |
+361 | impl MigrationAuthorityRevision {
+    | ------------------------------- methods in this implementation
+362 |     pub fn checkpoint_generation(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^^^
+...
+366 |     pub fn state_sha256(&self) -> [u8; 32] {
+    |            ^^^^^^^^^^^^
+
+warning: struct `RedactedMigrationRow` is never constructed
+   --> tests/../src/distributed/migration.rs:372:12
+    |
+372 | pub struct RedactedMigrationRow {
+    |            ^^^^^^^^^^^^^^^^^^^^
+
+warning: multiple methods are never used
+   --> tests/../src/distributed/migration.rs:385:12
+    |
+384 | impl RedactedMigrationRow {
+    | ------------------------- methods in this implementation
+385 |     pub fn migration_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^^
+...
+389 |     pub fn lineage_ref(&self) -> &str {
+    |            ^^^^^^^^^^^
+...
+393 |     pub fn source_node_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^^^^
+...
+397 |     pub fn source_guardian_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+401 |     pub fn target_node_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^^^^
+...
+405 |     pub fn target_guardian_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+409 |     pub fn phase(&self) -> MigrationPhase {
+    |            ^^^^^
+...
+413 |     pub fn source_authoritative(&self) -> bool {
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+417 |     pub fn target_authoritative(&self) -> bool {
+    |            ^^^^^^^^^^^^^^^^^^^^
+
+warning: struct `RedactedMigrationSnapshot` is never constructed
+   --> tests/../src/distributed/migration.rs:423:12
+    |
+423 | pub struct RedactedMigrationSnapshot {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `trust_domain`, `revision`, and `rows` are never used
+   --> tests/../src/distributed/migration.rs:430:12
+    |
+429 | impl RedactedMigrationSnapshot {
+    | ------------------------------ methods in this implementation
+430 |     pub fn trust_domain(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+434 |     pub fn revision(&self) -> MigrationAuthorityRevision {
+    |            ^^^^^^^^
+...
+438 |     pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedMigrationRow> {
+    |            ^^^^
+
+warning: methods `authority_revision`, `redacted_snapshot_at`, and `seed_record_for_snapshot_test` are never used
+   --> tests/../src/distributed/migration.rs:612:12
+    |
+520 | impl MigrationStore {
+    | ------------------- methods in this implementation
+...
+612 |     pub fn authority_revision(&self) -> MigrationResult<MigrationAuthorityRevision> {
+    |            ^^^^^^^^^^^^^^^^^^
+...
+620 |     pub fn redacted_snapshot_at(
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+658 |     pub(crate) fn seed_record_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `projection_ref` is never used
+    --> tests/../src/distributed/migration.rs:1519:4
+     |
+1519 | fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+     |    ^^^^^^^^^^^^^^
+
+warning: `adl-runtime` (test "distributed_migration") generated 9 warnings
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+     Running tests/distributed_migration.rs (adl-runtime/target/debug/deps/distributed_migration-38f24a7d055e438b)
+     Running tests/distributed_recovery.rs (adl-runtime/target/debug/deps/distributed_recovery-5a8b163ed50c1e5d)

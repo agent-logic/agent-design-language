@@ -1,0 +1,36 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 260,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1a][203.c] Migrate distributed Runtime callers to authority adapters",
+    "slug": "issue-260-distributed-runtime-authority-adapters",
+    "version": "v0.92",
+    "generation": 14
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl-runtime/src/distributed/capability_advertisement.rs\nadl-runtime/src/distributed/migration.rs\nadl-runtime/src/distributed/placement.rs\nadl-runtime/src/distributed/projection.rs\nadl-runtime/src/distributed/recovery.rs\nadl-runtime/src/distributed/resource_weather.rs\nadl-runtime/src/distributed/snapshot_catalog.rs\nadl-runtime/tests/distributed_capability_advertisement.rs\nadl-runtime/tests/distributed_migration.rs\nadl-runtime/tests/distributed_placement.rs\nadl-runtime/tests/distributed_recovery.rs\nadl-runtime/tests/distributed_snapshot_catalog.rs\nadl-runtime/tests/distributed_authority_adapter_callers_260.rs\n.csdlc/issues/260\n.csdlc/prepared/issues/260\n.csdlc/evidence/260",
+      "review_revision": "git-blake3:f6055539dfca07db8c930f1962527522fa642d6a:02b5b5a2ba238c475fb407fe58f0c6262fee496b02ebaf98623891f4899c59dc",
+      "reviewer": "fresh-session:84c1e627-9f55-4ea8-8b43-d20f6a731e0c",
+      "review_prompts": [
+        "Review every acceptance criterion AC-1 through AC-5 against the exact assigned immutable revision and typed scope; identify missing, contradicted, or unsupported criteria.",
+        "Report findings first, ordered P0 through P3, with repository-relative file and line evidence for every actionable finding.",
+        "Review code, security/authority boundaries, tests, and lifecycle/evidence integrity, including governed production adapters, cfg(test)-only raw seams, fail-closed errors, deterministic retry semantics, and no #258/#259/#203/#205 scope absorption.",
+        "Verify the R1 placement and SPP/VPP repairs and R2 distinct command-bound evidence logs, commands, results, references, and hashes.",
+        "State explicit validation limitations, including commands not independently rerun, broad suites or CI not inspected, and live GitHub/dependency state not verified.",
+        "Operate read-only: do not edit worktree, lifecycle, Git, PR, or GitHub state.",
+        "Return PASS only when no actionable P0-P3 finding remains; otherwise FAIL with exact revisions and findings."
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Broad workspace suite and live CI were not part of the independent local review; publication CI remains required.",
+        "Parent #203 integration and #205 remain explicitly out of scope."
+      ],
+      "review_result": "pass"
+    }
+  }
+}
