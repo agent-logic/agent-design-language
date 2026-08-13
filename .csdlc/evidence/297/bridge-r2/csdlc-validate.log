@@ -1,0 +1,4 @@
+sha=3f38a135e939264e5b4f66ed4477d32c56abce61
+argv=csdlc-validate issue --issue 297
+{"findings":[],"generation":20,"issue":297,"next_operation":"inspect_phase","phase":"implemented","ready":false,"schema":"csdlc.doctor.report.v1","status":"pass"}
+status=0
