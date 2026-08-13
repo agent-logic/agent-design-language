@@ -5,22 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "fac452b8127405cd253f1008a5858c5ee2a5c30be11ef5964720538e609b79d8",
   "phase": "implemented",
-  "generation": 24,
-  "digest": "0d3626fea66a959b308f035c29ce101308f943a3b991e91833f2527a986f0dc2",
+  "generation": 25,
+  "digest": "025ba5c6816a20b719beaf2df8252e985119bc64b782456573f221a3ea056e70",
   "branch": "codex/301-title-only-operation-provenance",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-301-title-only-operation-provenance",
-  "review_assignment": {
-    "reviewer": "fresh-session:bfd51967-1af6-4ab9-938f-c60fe9f4ec12",
-    "assigned_by": "codex:issue-301-janitor",
-    "revision": "git-blake3:fdcb5e0bb3db7085f5a0b47bdec2b695877eb242:e0434d06330093797fc194986ebf94e59def1fd018a3adde2ee407b5e220482d",
-    "scope": [
-      ".csdlc/issues/301",
-      ".csdlc/prepared/issues/301",
-      ".csdlc/evidence/301",
-      "csdlc-v2/src/github.rs",
-      "csdlc-v2/tests/gate_github_actions.rs"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -36,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7dbae043b3d98b0b30257ea13b89253c87b921e74d78d96cff53154cb6c5ad42",
+      "values_digest": "9acd9746485cbda3b70c7f9d1619abde55dd8ae1534cae14f6a2565320a0f448",
       "rendered_digest": "1f602d55abfde140b71a7cdd01db213d96b4e5da322e26363d45f7fde7749164",
       "ast_digest": "dd6e1f4ed857ac2203d39182ca287b0e7a6cb9b24ca5f57bf858eb994e976e6d"
     },
     "stp": {
-      "values_digest": "21537ab0b352087c90253560c036a154345b306a9a00ad6d0341fce96614b972",
+      "values_digest": "cef6debc88caa51e949c0b1b690ee5ba6c67228b02ae6b31e863d81677659745",
       "rendered_digest": "e6a832def0573767be1fad1b65f7745f1277478e67daca8f569ead5a5ddfbbb1",
       "ast_digest": "b57938e52b725b7ba654620cd7afc3cd854bd01a38e08c1f4cf3175bf509490f"
     },
     "spp": {
-      "values_digest": "5b32cb1bf5b86bb066fa5f5dc8159f251f1001cf74382368e7c28793c96a1a10",
+      "values_digest": "da01fbef2023e0689ac3223139c569967c822eee79a7ffcac115e4e492c2cc05",
       "rendered_digest": "cfe63ad0859216ac10f3217783f8024247bbf7c0bc8ed373fa58e0a50b5b4f0a",
       "ast_digest": "580e50826ca988c2d4e57d3adb21c05509ce8e82651820a1cb58146525c63451"
     },
     "vpp": {
-      "values_digest": "0e15547e4e6fc8e98b004e02ed2785277c37742fcbdb9ec189ac5ee0b6f7661d",
+      "values_digest": "6a71b8f41cfc53e8c6d36aa1039671b16c7f64b35c71f090c10d3295b09978c8",
       "rendered_digest": "4ef60e2e9967dfbcb0f5394ace805d298cc2a813aecf357f6a480cc32c9fddd8",
       "ast_digest": "a643837775ef62d34b85f62c552b4571efb1ade678f67418ec46bd047fcdb45b"
     },
     "srp": {
-      "values_digest": "675d8d78576a6ab411cf2b96c69721081b2014fefa44399e28842002dd578d82",
-      "rendered_digest": "e148a65cd58c9ec59c0c39072951d3bfbb72c1594133e75dc44a9146d3bf5c3e",
-      "ast_digest": "94355008e62da4e7fdeb529646aa2ba7763e6465879a10a8894493f856c60a11"
+      "values_digest": "93bc16d1d45290e9d7a676c0689d8b4514a2b5fe75d72bc83a1c65eeaa45ef23",
+      "rendered_digest": "7cbe15aed7e484b25dbf57ca12c2050226860f294132192032d5109a82bcd9a4",
+      "ast_digest": "8923177b498751ced3d5aa7bca4cc2d01b420bbd668c4dbaf4292c8b2323a62b"
     },
     "sor": {
-      "values_digest": "aa3f87dcc99e6bc89563aa871a4a96901170083f2e0a001972342fd09d3783f5",
+      "values_digest": "174a63387034a0b622b9ee6845de52c7c3dd79f1c257f5c2b018f8e6b2fd665e",
       "rendered_digest": "f5059c4ee24d914853b4f968eee0926b628bceec16cd6b1dcc825e8a8a7fa1ef",
       "ast_digest": "256bbe164163a926187cd975872b7be7cc9b4e1eb01b6102e70090d590bdd323"
     }
@@ -390,6 +379,13 @@
       "actor": "codex:issue-301-janitor",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 25,
+      "actor": "codex:issue-301-janitor",
+      "reason": "Fresh review assignment fresh-session:bfd51967-1af6-4ab9-938f-c60fe9f4ec12 produced no verdict after bounded wait and was interrupted. Preserve assignment truth as no-result and recover review authority before dispatching a different fresh no-context reviewer against unchanged pagination-remediation scope.",
+      "operation": "recover_review"
     }
   ]
 }
