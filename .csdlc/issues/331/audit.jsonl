@@ -31,3 +31,4 @@
 {"sequence":31,"generation":20,"actor":"codex:/root","reason":"Recover post-publication #331 truth after csdlc-finish proved review evidence changed after the publication commit; normalize exact review/publication evidence through supported lifecycle recovery before new review and republication.","operation":"recover_review"}
 {"sequence":32,"generation":20,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":33,"generation":21,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":34,"generation":22,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
