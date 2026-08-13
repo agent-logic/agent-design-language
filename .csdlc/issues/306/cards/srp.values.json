@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 306,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Prevent publication metadata tail from blocking exact-clean finish",
+    "slug": "publication-metadata-tail-exact-clean-finish",
+    "version": "v0.92",
+    "generation": 17
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #306 publication-tail tooling and focused tests only; no active issue worktree fixture mutation.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "publication ordering and metadata tail safety",
+        "exact-clean finish preservation",
+        "retry and interruption determinism, including interrupted-after-intent, interrupted-after-push, and interrupted-after-record",
+        "no broad untracked metadata allowlist",
+        "Sprint 6 finish-blocking map"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

@@ -83,7 +83,7 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
         }
     }
     let action = reconcile_action(&intent, before.as_ref())?;
-    persist_intent(&cli.root, &intent)?;
+    csdlc_v2::publication::persist_publication_intent(&cli.root, &intent)?;
     if before
         .as_ref()
         .is_none_or(|value| value.head_sha != intent.commit_sha)
@@ -124,8 +124,22 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
     let normalized = normalize(&intent, &remote)?;
     csdlc_v2::publication::validate_remote(&intent, &normalized)?;
     let record = record_publication(&store, &request, &intent, normalized.clone())?;
+    let mut publication = normalized;
+    if let Some(metadata_head) =
+        csdlc_v2::publication::commit_publication_metadata_tail(&cli.root, request.issue)?
+    {
+        push(&cli.root, &request.remote, &request.head)?;
+        let observed = find_pr(&crab, &intent).await?.ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "metadata publication head could not be reconciled",
+            )
+        })?;
+        publication = normalize(&intent, &observed)?;
+        validate_metadata_followup_remote(&cli.root, &intent, &publication, &metadata_head)?;
+    }
     Ok(
-        serde_json::json!({"schema":"csdlc.publication_result.v1","publication":normalized,"generation":record.generation,"digest":record.digest}),
+        serde_json::json!({"schema":"csdlc.publication_result.v1","publication":publication,"generation":record.generation,"digest":record.digest}),
     )
 }
 
@@ -146,13 +160,36 @@ fn resolve_token(request: &PublicationRequest) -> csdlc_v2::Result<String> {
     csdlc_v2::github_token::resolve(request.token_file.as_deref())
 }
 
-fn persist_intent(root: &Path, intent: &PublicationIntent) -> csdlc_v2::Result<()> {
-    let dir = root.join(".csdlc/publication");
-    fs::create_dir_all(&dir)?;
-    let target = dir.join(format!("{}.intent.json", intent.issue));
-    let temporary = dir.join(format!(".{}.intent.tmp", intent.issue));
-    fs::write(&temporary, serde_json::to_vec_pretty(intent)?)?;
-    fs::rename(temporary, target)?;
+fn validate_metadata_followup_remote(
+    root: &Path,
+    intent: &PublicationIntent,
+    remote: &RemotePullRequest,
+    metadata_head: &str,
+) -> csdlc_v2::Result<()> {
+    if remote.repository != intent.repository
+        || remote.base != intent.base
+        || remote.head != intent.head
+        || remote.title != intent.title
+        || remote.body != intent.body
+        || remote.linkage_mode != intent.linkage_mode
+        || remote.draft != intent.draft
+        || remote.head_sha != metadata_head
+        || !existing_pr_matches_governed_mode(intent, remote)
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "metadata publication PR did not converge to the exact governed follow-up head",
+        ));
+    }
+    if !matches!(
+        csdlc_v2::git::metadata_only_changed_paths(root, &intent.commit_sha, metadata_head),
+        Ok(paths) if !paths.is_empty()
+    ) {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "metadata publication head is not a governed metadata-only follow-up",
+        ));
+    }
     Ok(())
 }
 
