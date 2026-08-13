@@ -212,6 +212,20 @@ if [ ! -s "$ROOT_DIR/adl/target/coverage-impact-summary.json" ]; then
   exit 1
 fi
 
+shepherd_eligibility_cargo_log="$temp_root/cargo-shepherd-eligibility.log"
+shepherd_eligibility_expression='binary_id(adl-runtime::distributed_shepherd_serving_eligibility)'
+PATH="$bin_dir:$PATH" \
+PR_FAST_COVERAGE_CARGO_LOG="$shepherd_eligibility_cargo_log" \
+ADL_RUST_WARM_CACHE=0 \
+ADL_PR_FAST_COVERAGE_BUILD_ROOT="$scratch_root-shepherd-eligibility" \
+  bash "$SCRIPT" --filter-expression "$shepherd_eligibility_expression" >"$temp_root/pr-fast-coverage-shepherd-eligibility-run.out"
+if grep -Fq "cmd=llvm-cov nextest --workspace" "$shepherd_eligibility_cargo_log"; then
+  echo "Shepherd eligibility coverage must not send an adl-runtime selector to the adl workspace" >&2
+  exit 1
+fi
+grep -F "PR-fast coverage companion: adl-runtime Shepherd serving-eligibility tests" "$temp_root/pr-fast-coverage-shepherd-eligibility-run.out" >/dev/null
+grep -F "cmd=llvm-cov nextest --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --status-level all --final-status-level slow --no-clean -E $shepherd_eligibility_expression --features internal-test-fixtures" "$shepherd_eligibility_cargo_log" >/dev/null
+
 runtime_auth_only_cargo_log="$temp_root/cargo-runtime-auth-only.log"
 runtime_auth_only_expression='test(/^runtime_api_auth::tests::/)'
 PATH="$bin_dir:$PATH" \

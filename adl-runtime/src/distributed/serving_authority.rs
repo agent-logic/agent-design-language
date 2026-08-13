@@ -157,7 +157,7 @@ impl ServingAuthorityBinding {
         Ok(framed)
     }
 
-    #[cfg(any(test, debug_assertions))]
+    #[cfg(any(test, debug_assertions, feature = "internal-test-fixtures"))]
     pub fn from_canonical_preimage_fixture(bytes: &[u8]) -> ServingAuthorityResult<Self> {
         if bytes.len() > MAX_PREIMAGE_BYTES
             || !bytes.starts_with(DOMAIN)
@@ -347,6 +347,65 @@ pub struct ServingAuthorityProjection {
     pub readiness: String,
 }
 
+/// An authenticated, durably published foundation cut.
+///
+/// The private fields and absence of a public constructor prevent callers from
+/// upgrading a redacted projection or naked digests into serving authority.
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct VerifiedServingAuthorityCut {
+    generation: u64,
+    owner_commit_id: String,
+    fencing_generation: u64,
+    lease_id: String,
+    state_sha256: String,
+    result_sha256: String,
+    receipt_digest: String,
+}
+
+impl VerifiedServingAuthorityCut {
+    #[cfg(feature = "internal-test-fixtures")]
+    pub fn fixture(
+        generation: u64,
+        owner_commit_id: String,
+        fencing_generation: u64,
+        lease_id: String,
+        state_sha256: String,
+        result_sha256: String,
+        receipt_digest: String,
+    ) -> Self {
+        Self {
+            generation,
+            owner_commit_id,
+            fencing_generation,
+            lease_id,
+            state_sha256,
+            result_sha256,
+            receipt_digest,
+        }
+    }
+    pub fn generation(&self) -> u64 {
+        self.generation
+    }
+    pub fn owner_commit_id(&self) -> &str {
+        &self.owner_commit_id
+    }
+    pub fn fencing_generation(&self) -> u64 {
+        self.fencing_generation
+    }
+    pub fn lease_id(&self) -> &str {
+        &self.lease_id
+    }
+    pub fn state_sha256(&self) -> &str {
+        &self.state_sha256
+    }
+    pub fn result_sha256(&self) -> &str {
+        &self.result_sha256
+    }
+    pub fn receipt_digest(&self) -> &str {
+        &self.receipt_digest
+    }
+}
+
 pub struct ServingAuthorityStore {
     store: CheckpointedJson<State>,
     envelope: DurableEnvelope<State>,
@@ -397,6 +456,26 @@ impl ServingAuthorityStore {
         binding: &ServingAuthorityBinding,
     ) -> ServingAuthorityResult<ServingAuthorityProjection> {
         self.apply(receipt, binding)
+    }
+
+    /// Reconciles the sealed receipt and binding through the existing durable
+    /// publication path, then returns the non-policy authenticated cut.
+    pub fn reconcile_and_verify_cut(
+        &mut self,
+        receipt: &PublishedStoreAuthorityReceiptView,
+        binding: &ServingAuthorityBinding,
+    ) -> ServingAuthorityResult<(ServingAuthorityProjection, VerifiedServingAuthorityCut)> {
+        let projection = self.apply(receipt, binding)?;
+        let cut = VerifiedServingAuthorityCut {
+            generation: binding.published_generation,
+            owner_commit_id: binding.owner_commit_id.clone(),
+            fencing_generation: binding.fencing_generation,
+            lease_id: binding.lease_id.clone(),
+            state_sha256: binding.candidate_state_sha256.clone(),
+            result_sha256: hex::encode(receipt.result_sha256()),
+            receipt_digest: binding.receipt_digest.clone(),
+        };
+        Ok((projection, cut))
     }
 
     #[cfg(any(test, debug_assertions))]

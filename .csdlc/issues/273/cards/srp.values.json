@@ -1,0 +1,34 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 273,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1b][205.b] Add Shepherd serving-eligibility authority",
+    "slug": "shepherd-serving-eligibility",
+    "version": "v0.92",
+    "generation": 27
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl-runtime/src/distributed/serving_authority.rs\nadl-runtime/src/distributed/shepherd_serving_eligibility.rs\nadl-runtime/src/distributed/mod.rs\nadl-runtime/tests/distributed_shepherd_serving_eligibility.rs\nadl/tools/check_coverage_impact.sh\nadl/tools/run_pr_fast_coverage_lane.sh\nadl/tools/test_check_coverage_impact.sh\nadl/tools/test_run_pr_fast_coverage_lane.sh\n.csdlc/issues/273\n.csdlc/prepared/issues/273\n.csdlc/evidence/273",
+      "review_revision": "git-blake3:eca7071874c9e93914ac4c142cd667dcac9a3929:54c7c21be952c812f3040ceead21cb8ded3da4b9f3de9371396b3e9a3f217c3b",
+      "reviewer": "fresh-session:51bfaaca-42c2-4aa0-85a4-e6e9d44d9d53",
+      "review_prompts": [
+        "Are #273 and #274 production modules/tests disjoint, with only one explicitly serialized registration line?",
+        "Can any caller become eligible without the exact current published #272 binding?",
+        "Can replacement, retry, restart, revoke, or expiry expose two owners or revive stale authority?",
+        "Do receipts and projection remain exact and redacted?",
+        "Are all predecessor cache/ancestry, validation, review, CI, and terminal gates explicit?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "The focused coverage route intentionally enables internal-test-fixtures only for the exact Shepherd eligibility selector; ordinary builds exclude the fixture constructor.",
+        "#274 remains unbound and serialized behind terminal and ancestral #273 before consuming the verified cut or touching shared registration."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

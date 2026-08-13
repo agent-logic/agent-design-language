@@ -358,6 +358,15 @@ if bash "$SCRIPT" --changed-files "$authority_store_without_adapter_changed" --p
 fi
 grep -F "adl-runtime/src/distributed/certificates.rs" "$TMP/authority-store-without-adapter.err" >/dev/null
 
+shepherd_serving_eligibility_changed="$TMP/shepherd-serving-eligibility-changed.txt"
+printf 'A\tadl-runtime/src/distributed/shepherd_serving_eligibility.rs\t334\n' >"$shepherd_serving_eligibility_changed"
+shepherd_serving_eligibility_filters="$TMP/shepherd-serving-eligibility-filters.txt"
+bash "$SCRIPT" --changed-files "$shepherd_serving_eligibility_changed" --print-risk-filters >"$shepherd_serving_eligibility_filters"
+grep -Fx "runtime_v3_shepherd_serving_eligibility" "$shepherd_serving_eligibility_filters" >/dev/null
+[ "$(wc -l <"$shepherd_serving_eligibility_filters" | tr -d ' ')" -eq 1 ]
+shepherd_serving_eligibility_expression="$(bash "$SCRIPT" --changed-files "$shepherd_serving_eligibility_changed" --print-risk-nextest-expression)"
+grep -Fx "binary_id(adl-runtime::distributed_shepherd_serving_eligibility)" <<<"$shepherd_serving_eligibility_expression" >/dev/null
+
 authority_identity_combined="$TMP/authority-identity-combined.txt"
 cat >"$authority_identity_combined" <<'EOF'
 A	adl-runtime/src/distributed/authority_protocol.rs	1727
