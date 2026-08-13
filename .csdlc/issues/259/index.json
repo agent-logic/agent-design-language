@@ -6,10 +6,27 @@
   "initialization_digest": "5757d863164a5f2f3330a01f212d5f6558c25c177a44f06d9f585657ca692015",
   "phase": "implemented",
   "generation": 12,
-  "digest": "14ba8c5077165235c8bab8634e2fe800d8a5b18d3e70db19720bd0bb35c41331",
+  "digest": "cd76948798744a5b3d728ff42138f2c3dfbfad07abba1f44d7e61b15f1f71c75",
   "branch": "codex/259-governed-transport-authority-adapters",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-259-governed-transport-authority-adapters",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "/root/review_pr119_canonical_r1",
+    "assigned_by": "codex:/root/issue_259_takeover",
+    "revision": "git-blake3:7f64d56d538e47b2659545ab6ddde2361a19034b:24f4ea2c511275e9147a0906a46571e580cfc4ed188f32d70c42bc8cf542f1af",
+    "scope": [
+      "adl-runtime/src/distributed/authority_protocol.rs",
+      "adl-runtime/src/distributed/authority_reconciliation.rs",
+      "adl-runtime/src/distributed/transport/core.rs",
+      "adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs",
+      "adl-runtime/src/distributed/transport/governed/polis_runtime.rs",
+      "adl-runtime/tests/distributed_discovery.rs",
+      "adl-runtime/tests/distributed_runtime_transport.rs",
+      "adl-runtime/tests/distributed_transport.rs",
+      ".csdlc/issues/259",
+      ".csdlc/prepared/issues/259",
+      ".csdlc/evidence/259"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +62,9 @@
       "ast_digest": "b352db0068ef3bc7eee400634e00670e48e8f8201aeeb4397228a9ca8b36d540"
     },
     "srp": {
-      "values_digest": "64faf65fb288ee7dfd9ca5f277bfe6d55831edc6dd39370ea8352d8f7797b479",
-      "rendered_digest": "ac7c684a5d10345aef9f0a7b09183bfbad02f71ffd8bc2a6b764ad7a6d687c1c",
-      "ast_digest": "cf69e9ea254562112db2a7d3788434ec71feb49e98ad951744fbc75466051a57"
+      "values_digest": "d750b742a82b11312101680fbd9da2ec959c956491e2c2abc933b54c43a1aec0",
+      "rendered_digest": "1d653af16b365767a05149ae38e1613945bf856fed0c4cda3cbcd5ae067eb0fa",
+      "ast_digest": "eaab22461532721ae45155a79e019228124af276c2f7f1fdd909e748e11c7cf5"
     },
     "sor": {
       "values_digest": "0b39dab36b9b22bf43158e3704878fedf984b3011a29c439277b1838c44450f5",
@@ -190,6 +207,13 @@
       "actor": "codex:/root/issue_259_takeover",
       "reason": "Resolve 259-R2-P2-SRP-CONTRACT by restoring the mandatory independent exact-head review contract in the standard SRP.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Review every acceptance criterion AC-1 through AC-5 against the assigned immutable revision, approved design, exact changed scope, and retained typed validation evidence.\",\"Review code correctness and authorization security: production TransportAuthorization and PolisRuntimeAuthorityBootstrap must consume #258 AuthorityBoundCertificateStore; any direct raw-store transport seam must be cfg(test), crate-private, and unavailable to dependent crates; all adapter errors must fail closed.\",\"Review test and evidence sufficiency: dependent integration proof must publish reconciliation authority and obtain its handle through AuthorityStoreAdapterRegistry, focused positive and negative transport behavior must be covered, and retained SOR/VPP evidence must truthfully match execution.\",\"Review scope boundaries: #259 must not absorb #260 non-transport caller migration, #203 parent integration, #205 serving eligibility, or mutate preserved #203 worktrees.\",\"Report findings first in P0 through P3 order with repository-relative file and line evidence, explicitly state review and validation limitations, remain read-only without editing Git, lifecycle, PR, or GitHub state, and return PASS only when no actionable finding remains.\"]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:/root/issue_259_takeover",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
