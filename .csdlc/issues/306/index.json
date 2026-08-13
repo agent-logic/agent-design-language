@@ -3,13 +3,41 @@
   "issue": 306,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8bb2ff2896c949a93ee1154957c6140e9893cbaa3f729b0f073ea70e7507a449",
-  "phase": "implemented",
-  "generation": 35,
-  "digest": "f4032634fce78f7199d5b19f675e857b47d7f1b2b90546fbaa9a873f83ffcd51",
+  "phase": "reviewed",
+  "generation": 36,
+  "digest": "2818d57ff3ed2756e228194c8c5230f66f2090878d3c082046c90ba49c839bcf",
   "branch": "codex/306-publication-tail-exact-clean-finish",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-306-publication-tail-exact-clean-finish",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:3d7416dd-bcc2-4f71-ad12-c1323f85cbc0",
+    "assigned_by": "codex:worker-4",
+    "revision": "git-blake3:dd1ff74299d542a12ee99c2de49fa57bba6230f7:0a3cc0dc827c52484959c1ce440b1d2bfde1f039856c3b4515232fec3a9fc215",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/tests/publication_tail.rs",
+      ".csdlc/issues/306",
+      ".csdlc/prepared/issues/306"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:3d7416dd-bcc2-4f71-ad12-c1323f85cbc0",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-publish.rs",
+      "csdlc-v2/src/publication.rs",
+      "csdlc-v2/tests/publication_tail.rs",
+      ".csdlc/issues/306",
+      ".csdlc/prepared/issues/306"
+    ],
+    "reviewed_revision": "git-blake3:dd1ff74299d542a12ee99c2de49fa57bba6230f7:0a3cc0dc827c52484959c1ce440b1d2bfde1f039856c3b4515232fec3a9fc215",
+    "findings": [],
+    "residual_risks": [
+      "Focused exact-head review only; reviewer ran cargo test --manifest-path csdlc-v2/Cargo.toml --test publication_tail with 7 passed, but did not run the full Rust suite.",
+      "Reviewer did not perform GitHub writes, live PR mutation, lifecycle writes, or merge; publication remains to be performed through typed csdlc-publish."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +52,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5ed99eb0c4ae60cdc375573cee02e3249e57d8c9eaa603ea5b0cdbf557a7eefb",
+      "values_digest": "761af13e8d3858a2b9f3b7a6c589e79825e06607a22253f32e18228934dd6d6e",
       "rendered_digest": "5e282111ad7af07bc3be9ea05d50610cf0f18d605edc14136763b56fe579e2a4",
       "ast_digest": "a477566ba17a0e2ca9d702e826008f60fbe771d9f531506f425399d0610cceb6"
     },
     "stp": {
-      "values_digest": "17db3f87be92bc80b1b36d0af7bc30afdeececec3c78c40afeeb9bd90076e49d",
+      "values_digest": "c8b25a74f1ab3789b2e971aa92c3458199cc011d79fb61f76ea667348c7483ed",
       "rendered_digest": "d0e7b81f767703370ad04d61626800ffce4250fcb76d5374a8286571286d50c1",
       "ast_digest": "57880522df6be2e924cb4716ad672ca998cb05c78a81f21cde7ff7ab7cb4f097"
     },
     "spp": {
-      "values_digest": "ab5397dcc524e75bfb2d8ab0837b986ff4401f24f9b8c16a4e8d9f9d878348b7",
+      "values_digest": "890f064a5fc0c1df8a9d915f3336fbc725626eccec8942e07a497ef97aecc29d",
       "rendered_digest": "acb89f97e1f5ae23f001f5f517372234ecfb99fe8c7e7b26dec5cdd56f77168f",
       "ast_digest": "8cf742e13d6da873db13d987281a349fcf924b92f1a787edf3823d29069a7dfb"
     },
     "vpp": {
-      "values_digest": "96de4259d685e6c6a9bc4ed5e03d7c829b62191cf5141edf65fa6e7f969a26ea",
+      "values_digest": "782a9cabfcf96b4f3db425b3f54200cb5eea3730040e0b71b9af7e7b3d5e1a56",
       "rendered_digest": "c1a82830a1d964f39970fe5572b327eb1ce07dc9cc5f7ebb9a1679a8efee44f0",
       "ast_digest": "ff5f61cad263c8dd506ae1e3cc9d06ff43a367dcd86bf8200ec9df2c5ae751ee"
     },
     "srp": {
-      "values_digest": "b0897c9e416b8eb0e697989d1b9b1243662560922d00feefca9e5559fb180f28",
-      "rendered_digest": "5b99bf3ed754ec68b728409d617ff029b982494b1c47e338a84249f36a17c6c3",
-      "ast_digest": "01734958f83d08dbebdbad4616c6b7bfd294e1693b7a75b994d98a2286d118f9"
+      "values_digest": "4f1bc02f7eb6b5433020ca81db813a4410b93d4da951359dbfb8590657270550",
+      "rendered_digest": "0cf767344a3080a15ea02063f126412e67f8ed9f05f24a3678adb9350ff211dd",
+      "ast_digest": "9e3d0677cb71507e97f4e0e20fb2b224f1a041f21e60eb80ca84a499d8aa2e4b"
     },
     "sor": {
-      "values_digest": "ec11f10644c0cfd6e9fa8116b2c5123292a2306aa77c764cd45c828ea20fb48a",
+      "values_digest": "360cb4c0c6285a69b51fbbc80d107fbab7fab1e5be892be5bdb9064ad2ea972c",
       "rendered_digest": "f4e253b325f437b9359741157781f00a1fe5e1eb943a8c06720b8ed2891ff4ad",
       "ast_digest": "5e4b8b99a692cdee26b99d782cafb98fbddc3c77f108ff804d539d0cb18ed7a6"
     }
@@ -96,6 +124,13 @@
       "to": "implemented",
       "actor": "codex:worker-4",
       "reason": "Recover #306 from published back to implemented after post-publication resume-idempotence source fix changed the reviewed/published head"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:3d7416dd-bcc2-4f71-ad12-c1323f85cbc0",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -385,6 +420,20 @@
       "actor": "codex:worker-4",
       "reason": "Record strict #306 clippy validation after narrowing publication follow-up metadata paths",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"publication_tail\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict warning-free proof after narrowing publication follow-up validation to issue-scoped governed metadata paths.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:working-tree-after-r13-p1-fix:cargo-clippy-publication-tail:passed\"}}"
+    },
+    {
+      "sequence": 42,
+      "generation": 35,
+      "actor": "codex:worker-4",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 43,
+      "generation": 36,
+      "actor": "fresh-session:3d7416dd-bcc2-4f71-ad12-c1323f85cbc0",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

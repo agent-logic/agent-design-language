@@ -7,15 +7,15 @@
     "title": "[v0.92][C-SDLC][defect] Prevent publication metadata tail from blocking exact-clean finish",
     "slug": "publication-metadata-tail-exact-clean-finish",
     "version": "v0.92",
-    "generation": 35
+    "generation": 36
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "csdlc-v2/src/bin/csdlc-publish.rs\ncsdlc-v2/src/publication.rs\ncsdlc-v2/tests/publication_tail.rs\n.csdlc/issues/306\n.csdlc/prepared/issues/306",
+      "review_revision": "git-blake3:dd1ff74299d542a12ee99c2de49fa57bba6230f7:0a3cc0dc827c52484959c1ce440b1d2bfde1f039856c3b4515232fec3a9fc215",
+      "reviewer": "fresh-session:3d7416dd-bcc2-4f71-ad12-c1323f85cbc0",
       "review_prompts": [
         "publication ordering and metadata tail safety",
         "exact-clean finish preservation",
@@ -24,8 +24,11 @@
         "Sprint 6 finish-blocking map"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Focused exact-head review only; reviewer ran cargo test --manifest-path csdlc-v2/Cargo.toml --test publication_tail with 7 passed, but did not run the full Rust suite.",
+        "Reviewer did not perform GitHub writes, live PR mutation, lifecycle writes, or merge; publication remains to be performed through typed csdlc-publish."
+      ],
+      "review_result": "pass"
     }
   }
 }
