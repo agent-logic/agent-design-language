@@ -12,19 +12,61 @@ Status: pre_phase
 
 ## Summary
 
-Pre-execution output record.
+Implement sealed Observatory serving eligibility.
 
 ## Artifacts
 
-- none
+- adl-runtime/src/distributed/observatory_serving_eligibility.rs
+- adl-runtime/src/distributed/mod.rs
+- adl-runtime/tests/distributed_observatory_serving_eligibility.rs
 
 ## Execution
 
-- none
+- Authenticated action-driven eligibility lifecycle
+- Durable replay-safe redacted state and receipts
+- Exact focused proof and one-line module registration
 
 ## Validation
 
-[]
+[
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_observatory_serving_eligibility",
+      "--features",
+      "internal-test-fixtures",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Strict Clippy.",
+    "outcome": "passed",
+    "evidence_ref": "clippy.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_observatory_serving_eligibility",
+      "--features",
+      "internal-test-fixtures",
+      "--",
+      "--test-threads=1"
+    ],
+    "purpose": "Run exact focused target.",
+    "outcome": "passed",
+    "evidence_ref": "focused.log"
+  }
+]
 
 ## Integration
 
