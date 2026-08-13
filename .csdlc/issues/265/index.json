@@ -4,13 +4,42 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e22c0e4d480dd4033be54d636a9a42309d6effd0bb2cbb54cb459ddd484dce70",
-  "phase": "implemented",
-  "generation": 12,
-  "digest": "dd184acf2df12ce6225e5dec2a04b36d86d41191c13ad0815ca2c65bd3e53ea3",
+  "phase": "reviewed",
+  "generation": 13,
+  "digest": "d30db087d2f7955cd7085198e61fe46a154d9cdb7f4d5b7488bd1edb7ab172ac",
   "branch": "codex/265-layer8-authority-runtime-kernel-ingress",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-265-layer8-authority-runtime-kernel-ingress",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:da079b92-3b6d-4ce3-86b8-1b8fc4f9378e",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:cbff26a836966580071500164558472d5762abad:a67d66b1f0c671e5c52ec0b5e875f47ab02c8c30168a888e46de566cd2ec07d4",
+    "scope": [
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/control.rs",
+      ".csdlc/issues/265",
+      ".csdlc/prepared/issues/265",
+      ".csdlc/evidence/265"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:da079b92-3b6d-4ce3-86b8-1b8fc4f9378e",
+    "scope": [
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/control.rs",
+      ".csdlc/issues/265",
+      ".csdlc/prepared/issues/265",
+      ".csdlc/evidence/265"
+    ],
+    "reviewed_revision": "git-blake3:cbff26a836966580071500164558472d5762abad:a67d66b1f0c671e5c52ec0b5e875f47ab02c8c30168a888e46de566cd2ec07d4",
+    "findings": [],
+    "residual_risks": [
+      "Inspection-only exact-head review; reviewer did not rerun tests, CI, or lifecycle commands. Implementation-session evidence records the issue-owned preparation validator, focused 4-test layer8_ingress target, rustfmt check, strict Clippy, diff hygiene, and typed validation after merging current origin/main a0d7b2bb.",
+      "PASS is limited to #265 Runtime kernel conversation ingress enforcement and production-profile wiring. It does not approve #270 served trusted acknowledgement API/protocol, #271 Observatory UI, #114 durable history, #115 room/UI, cloud exposure, or served public API work.",
+      "Worktree had post-assignment review/card metadata and an operational lock, so reviewer treated the assigned immutable git-blake3 revision as content authority."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +54,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c049d9e7ec219373103690c3a429b1d3aeaed172ecc89688e979b35699b110f1",
+      "values_digest": "39fa2ce09e5e5310282d34ff1bb9a5d564051a7b4486dea6e0126bd1d9ff6182",
       "rendered_digest": "b4eef5b02d8df51b903ad11bb281b274d2870914f3a98cace7534fcf5d0c880e",
       "ast_digest": "a95d3c1c41e55446729bb7ff25831e8e33ecddb56c236605e5b3184284b232cf"
     },
     "stp": {
-      "values_digest": "cb2dab06b4dc09b6c11e46bcd854915d87dbf8f68efc1d82ef336a780bcbdbd9",
+      "values_digest": "244ebc3ddc72422d4423ad4853d8b1c0e996fabef5ba8bff865140de7b5e947e",
       "rendered_digest": "211810adbdec22ba0047d396689c432dd149b1e278cf976d55834ce93d5096e0",
       "ast_digest": "af7eb44b42d4b41057a016105fec3733c1c0bf3bde8a3a0aa667bce4003d9983"
     },
     "spp": {
-      "values_digest": "1485967081daf71aefe3c87f252e630f5d75aa77de83d8269cabb49d1c324e8f",
+      "values_digest": "b84eb01925cf937d762b3a4397c7a27257d0fb389d89baa6044245df9fa2e947",
       "rendered_digest": "74b8a46b994111be6ee3d74c9a8160b34283ecb1ff5fa4a0bb2df4d2b728fa04",
       "ast_digest": "e3a2e8bbeee331558b61fe6b3362c3195dd514df96a9c0f3bade8ec6c5b5377f"
     },
     "vpp": {
-      "values_digest": "9ca0fe0ffd2d078664fa6eb7c197470378b74a8ae0d7d8374687edb87fce9f33",
+      "values_digest": "1992941460bc9da80eb5defdc900f30e4360a55895891319df1bce7cb7e22072",
       "rendered_digest": "a208e2653f4aa2586314737ad3841bd9fcaadc23cd91e4623a54eebcb9a0eebc",
       "ast_digest": "c9335c59565ae913345ce26c760c37db4d666cb79368cfa35311df38aa53e45c"
     },
     "srp": {
-      "values_digest": "47ef1984582b46bc514d3e426ac59d50aac3fc241f7487246569c425df8e70fe",
-      "rendered_digest": "ce4c6829724d15c150f209667486db46875c9bee69f10155a70fb472b780e58d",
-      "ast_digest": "7265c9f0bfa1e6eacd5a1e071f445f17193f7c37a96f9994c3a42e9c1aadd0d8"
+      "values_digest": "f757a2ea66f02fe0820dd6624919173eeec7efae8ffb30bee9d5f5666deeeebf",
+      "rendered_digest": "16b7b285d8abed1c8568330a4ec16c15a777603cc33f794c50884c0b8c4ee012",
+      "ast_digest": "ecbb45ee564461308c8f30e79795670943d4497cad52114c35347568be071a93"
     },
     "sor": {
-      "values_digest": "4898e130af21a374f0df06e2317e2333fae6cc1068941147bcfd8dbad3613063",
+      "values_digest": "a97b8a003f5567e1a2292cb295b3108e69d3c0e076ebd3ee8a8c9a86613c45e3",
       "rendered_digest": "89ad3edeba38339119fa94fe5742c81fbc482f38c7a62e22d63875dfaef0390c",
       "ast_digest": "fb9a5472fc3dd3254978f0ef23b33cbdf2a9b5c2172d552469b47981183f769b"
     }
@@ -90,6 +119,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover #265 reviewed state after origin/main advanced to a0d7b2bb and was merged into the issue worktree; exact reviewed revision must be refreshed before publication."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -204,6 +240,20 @@
       "actor": "codex:/root",
       "reason": "Record #265 post-main-merge proof after origin/main a0d7b2bb was merged and reviewed state was recovered before fresh review.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented Layer 8 authority enforcement at Runtime kernel conversation ingress, refreshed onto current origin/main a0d7b2bb before publication, and retained focused Contact plus Continue pre-side-effect refusal/authorization proof. Publication, CI, and terminal closeout remain pending fresh exact review.\",\"changes\":[\"Merged current origin/main a0d7b2bb into the #265 issue worktree after read-only collision checks found only #203 path changes on main and no overlap with #265 touched paths.\",\"Kept the #265 Runtime kernel ingress implementation unchanged across the base refresh: ControlService signs/verifies ingress requests, authorizes Contact and Continue, and refuses unauthorized requests before conversation session or turn side effects.\",\"Updated the issue-owned preparation validator to accept reviewed/published post-execution phases during base-refresh validation while preserving #112 terminal-cache and child-scope checks.\",\"Retained production runtime startup wiring for optional Layer 8 authority/signing profiles, including sender key-byte identity binding, recipient Polis validation, and fail-closed incomplete or invalid configuration.\",\"Retained focused runtime-kernel regressions proving refused Contact leaves no conversation session, authorized Contact proceeds to dispatch, refused Continue leaves no continuation turn, and authorized Continue proceeds to dispatch.\"],\"artifacts\":[\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\".csdlc/prepared/issues/265/validate_preparation_bundle.py\",\".csdlc/prepared/issues/265/readiness-packet.md\",\".csdlc/evidence/265/runtime-kernel-layer8-ingress-focused.log\",\".csdlc/evidence/265/runtime-kernel-fmt.log\",\".csdlc/evidence/265/runtime-kernel-strict-clippy.log\",\".csdlc/evidence/265/diff-hygiene.log\",\".csdlc/evidence/265/issue-265-preparation-validator.log\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/265/validate_preparation_bundle.py\"],\"purpose\":\"Verify the refreshed #265 preparation packet recognizes #112 terminal ancestry and preserves child-scope boundaries after the main merge.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/265/issue-265-preparation-validator.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"layer8_ingress\",\"--\",\"--nocapture\"],\"purpose\":\"Prove Contact and Continue Layer 8 ingress authorization/refusal before session or turn side effects after the main merge.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/265/runtime-kernel-layer8-ingress-focused.log; 4 passed, 0 failed\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--check\"],\"purpose\":\"Reject Rust formatting drift in the touched runtime kernel crate after the main merge.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/265/runtime-kernel-fmt.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warning regressions across runtime kernel targets after production startup wiring and the main merge.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/265/runtime-kernel-strict-clippy.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and conflict-marker residue in the issue diff after the main merge.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/265/diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
