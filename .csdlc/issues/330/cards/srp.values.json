@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": "csdlc-v2/src/projection_cleanup.rs\ncsdlc-v2/src/projection_recovery.rs\ncsdlc-v2/src/store.rs\ncsdlc-v2/tests/issue_330_bridge_cleanup_defect.rs\n.csdlc/issues/330\n.csdlc/evidence/330/r2",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

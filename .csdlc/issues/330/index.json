@@ -6,10 +6,22 @@
   "initialization_digest": "c6c77e32c8a46d340a36b3123af9d9adb0adeafda19c3135b9d47c802997e158",
   "phase": "implemented",
   "generation": 13,
-  "digest": "7767b160948aa9b3f05abfab20fde416d66cb0c19d51d1459ac86e7b8a9bbe5a",
+  "digest": "f477b472aa51c7f3c1153284070bbe252eae128cab60d6cd7f1a57d23682c564",
   "branch": "codex/330-bridge-fed-projection-cleanup-defect",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-330-bridge-fed-projection-cleanup-defect",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:330-r2-exact-implementation-review",
+    "assigned_by": "codex:worker-5",
+    "revision": "git-blake3:1bcb8159fd31d792fc7239b0f7c49b4b67f6b115:2aab98e56d8b85d4f3488c1347e4daac698b978a0c19ae6134530f037d64dd20",
+    "scope": [
+      "csdlc-v2/src/projection_cleanup.rs",
+      "csdlc-v2/src/projection_recovery.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/issue_330_bridge_cleanup_defect.rs",
+      ".csdlc/issues/330",
+      ".csdlc/evidence/330/r2"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +57,9 @@
       "ast_digest": "8135e07afb687e53ca7797c556ceddcc8d99a36199956cf32e18c7cb8b693682"
     },
     "srp": {
-      "values_digest": "4ac863bc7e0e79b6e82c02cc9e74c00d67424da2d9b368faee8a2cf6d2269303",
-      "rendered_digest": "85cb07304172b93be89b1111204b1b09b624dd047a9a1fea9775d656d68af2ae",
-      "ast_digest": "d7fd1d0385655c7d381c94a8de716a3dbf671a496417ffe6a5f1574d8327599c"
+      "values_digest": "aded19b79da92d7cca00fb5d1dde4ce3d40d17aabbd1ebeb03aa50d118b4913f",
+      "rendered_digest": "57ed6e5e873a5997e24c2b003e902e513a0e3509e39fc60498d6b2ff77c42de5",
+      "ast_digest": "8da2a38292a54fa3dc66742baeeb80ce37d942af537f1ca222182a7ada55d5f7"
     },
     "sor": {
       "values_digest": "f5616a202870e3ba7379aeff367aeeb5c9566042a5133e453af212895f4628fb",
@@ -190,6 +202,13 @@
       "actor": "codex:worker-5",
       "reason": "Recover the recorded r1 changes-required review after fixing r1-p1 cleanup final-chain validation and r1-p2 stale evidence truth; prepare exact fresh r2 implementation review.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:worker-5",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
