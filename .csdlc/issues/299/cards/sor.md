@@ -119,11 +119,11 @@ Recovered failed exact review r13 without recording PASS, remediated the P2 fina
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
