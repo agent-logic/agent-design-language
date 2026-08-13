@@ -12,7 +12,11 @@ Status: pre_phase
 
 ## Scope
 
-Exact #356 design, terminal #350 source seams, two owned paths, accessor privacy, A/B mismatch denial, redaction, and exclusions.
+.csdlc/issues/356
+.csdlc/prepared/issues/356
+.csdlc/evidence/356
+adl-runtime/src/distributed/serving_authority.rs
+adl-runtime/tests/distributed_observatory_authority_projection.rs
 
 ## Prompts
 
@@ -35,8 +39,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:af47ab86ceb4e9825d249d61088c193db5a6a392:ed855e6ec1e0f3ebd50319a637a7e2299d1bfcce053a5f111fe6e4dbc5a5c1a7")
 
-Reviewer: None
+Reviewer: Some("fresh-session:a3906df1-8868-45ab-ad84-150b72c66b95")
 
-Result: pre_review
+Result: pass

@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-04.16b3.1b][defect] Expose minimal sealed Observatory projection accessors",
     "slug": "sealed-observatory-projection-accessors",
     "version": "v0.92",
-    "generation": 5
+    "generation": 6
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact #356 design, terminal #350 source seams, two owned paths, accessor privacy, A/B mismatch denial, redaction, and exclusions.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/356\n.csdlc/prepared/issues/356\n.csdlc/evidence/356\nadl-runtime/src/distributed/serving_authority.rs\nadl-runtime/tests/distributed_observatory_authority_projection.rs",
+      "review_revision": "git-blake3:af47ab86ceb4e9825d249d61088c193db5a6a392:ed855e6ec1e0f3ebd50319a637a7e2299d1bfcce053a5f111fe6e4dbc5a5c1a7",
+      "reviewer": "fresh-session:a3906df1-8868-45ab-ad84-150b72c66b95",
       "review_prompts": [
         "Are all accessors read-only and limited to existing redacted fields?",
         "Can any caller mint or mutate a projection or recover raw quorum/OwnerCommit/lease/artifact authority?",
@@ -24,7 +24,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }
