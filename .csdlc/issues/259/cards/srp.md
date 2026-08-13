@@ -42,12 +42,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Focused local validation and immutable exact-revision review are complete; GitHub CI remains the remote integration proof after publication.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:7f64d56d538e47b2659545ab6ddde2361a19034b:24f4ea2c511275e9147a0906a46571e580cfc4ed188f32d70c42bc8cf542f1af")
 
-Reviewer: None
+Reviewer: Some("/root/review_pr119_canonical_r1")
 
-Result: pre_review
+Result: pass
