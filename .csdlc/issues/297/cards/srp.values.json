@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 297,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Recover and classify preserved failed issue projections",
+    "slug": "preserved-failed-projection-recovery",
+    "version": "v0.92",
+    "generation": 26
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "csdlc-v2/src/projection_recovery.rs\ncsdlc-v2/src/projection_cleanup.rs\ncsdlc-v2/src/lib.rs\ncsdlc-v2/tests/gate5.rs\ncsdlc-v2/tests/archived_projection_cleanup.rs\n.csdlc/issues/297\n.csdlc/evidence/297/bridge-r3\n.csdlc/evidence/297/noether-300-routing-bridge-gap.md",
+      "review_revision": "git-blake3:3b8bc5a8afc777730edb0a29919a2292df427079:a683ff42ffde9edce06af5110963d049b7bf6bea55457835465abb30f86c1b40",
+      "reviewer": "fresh-session:0d7a9b8e-bc56-45ab-a650-45d0668a5dc8",
+      "review_prompts": [
+        "Review every acceptance criterion with code, security, test, and evidence coverage, emphasizing crash consistency, immutable receipt ordering, inode ownership, symlink/hardlink and rename races, exact cleanup authority, topology/CAS enforcement, no evidence loss, and subsequent ordinary-commit behavior."
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Reviewer inspection was limited to the assigned #297 bridge r3 scope; #300 remains responsible for bridge-fed integration matrix proof after #297 is terminal and ancestral.",
+        "Reviewer independently ran the focused bridge test from csdlc-v2 and the full archived_projection_cleanup test; two initial command-shape attempts were non-proving and classified as invocation limits."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

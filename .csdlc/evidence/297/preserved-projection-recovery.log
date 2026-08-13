@@ -1,0 +1,10 @@
+
+running 2 tests
+test preserved_projection_recovery_classifies_without_mutation_and_rejects_symlink ... ok
+test preserved_projection_recovery_blocks_ordinary_commit_until_typed_recovery ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 19 filtered out; finished in 1.13s
+
+   Compiling csdlc-v2 v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-297-preserved-failed-projection-recovery/csdlc-v2)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 4.04s
+     Running tests/gate5.rs (csdlc-v2/target/debug/deps/gate5-5b4c36b520b537e5)

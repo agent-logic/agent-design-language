@@ -11,8 +11,11 @@ use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
 use super::{
-    certificates::{AuthorityCertificate, CertificatePurpose, DistributedCertificateStore},
-    fencing::{ActiveLeaseCheck, FencingStore},
+    certificates::{
+        AuthorityCertificate, CertificatePurpose, DistributedCertificateStore,
+        AUTHORITY_BOUND_CERTIFICATE_ACCESS,
+    },
+    fencing::{ActiveLeaseCheck, FencingStore, AUTHORITY_BOUND_FENCING_ACCESS},
 };
 
 pub const SNAPSHOT_CATALOG_SCHEMA: &str = "adl.distributed.snapshot_catalog_entry.v1";
@@ -700,6 +703,7 @@ impl SnapshotCatalogVerifier {
         let authorized = self
             .certificate_store
             .authorize(
+                &AUTHORITY_BOUND_CERTIFICATE_ACCESS,
                 signer_id,
                 CertificatePurpose::SnapshotSigning,
                 generation,
@@ -884,7 +888,7 @@ fn verify_live_authority(
         return Err(SnapshotError::AuthorityMismatch);
     }
     fencing
-        .authorize_active_lease(check)
+        .authorize_active_lease(&AUTHORITY_BOUND_FENCING_ACCESS, check)
         .map_err(|_| SnapshotError::FencedAuthority)
 }
 

@@ -1,0 +1,44 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 301,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Persist provenance for title-only issue updates",
+    "slug": "title-only-issue-update-operation-provenance",
+    "version": "v0.92",
+    "generation": 27
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Issue 301 only; github.rs and focused owner tests, with no store, card, recovery, or coverage changes.",
+      "deliverables": [
+        "Durable title-only operation provenance",
+        "Exact reconciliation semantics",
+        "Focused regression tests"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Title-only update preserves prior body content while durably recording the operation key",
+        "AC-2: Immediate readback verifies title, body preservation, and operation provenance before reconciled=true",
+        "AC-3: Same-key retry is idempotent and conflicting reuse fails closed",
+        "AC-4: Body-bearing updates retain compatibility",
+        "AC-5: Focused tests and strict Clippy pass",
+        "AC-6: Fresh exact-head review has no unresolved finding"
+      ],
+      "dependencies": [
+        "Independent of #291, #295, and #297/#298"
+      ],
+      "repo_inputs": [
+        "csdlc-v2/src/github.rs",
+        "csdlc-v2/tests/gate_github_actions.rs"
+      ],
+      "non_goals": [
+        "Lifecycle redesign",
+        "Bulk issue title repair",
+        "Publication, merge, or closeout"
+      ]
+    }
+  }
+}

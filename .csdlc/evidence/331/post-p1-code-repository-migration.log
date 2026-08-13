@@ -1,0 +1,19 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.09s
+     Running tests/code_repository_migration.rs (csdlc-v2/target/debug/deps/code_repository_migration-80936b045f854e8b)
+
+running 12 tests
+test schema_and_cli_expose_typed_migration_contract ... ok
+test initialized_code_repository_migration_requires_digest_bound_collision_evidence ... ok
+test initialized_code_repository_migration_emits_v1_initialized_unbound_evidence ... ok
+test initialized_code_repository_migration_clears_doctor_and_validate_issue ... ok
+test wrong_identity_dirty_tree_and_divergent_push_fail_without_mutation ... ok
+test bound_code_repository_migration_report_schema_remains_unchanged ... ok
+test credential_bearing_origin_is_normalized_before_audit ... ok
+test bound_record_adopts_exact_origin_and_retry_is_stale_digest ... ok
+test implemented_record_migrates_without_changing_phase ... ok
+test wrong_branch_missing_topology_and_unsupported_phase_fail_closed ... ok
+test reviewed_record_preserves_review_and_passes_split_publication_preflight ... ok
+test missing_non_github_and_divergent_fetch_origins_fail_closed ... ok
+
+test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.05s
+

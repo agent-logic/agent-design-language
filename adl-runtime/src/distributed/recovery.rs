@@ -12,10 +12,10 @@ use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
 use super::{
-    fencing::{ActiveLeaseCheck, FenceCommit, FencingStore},
+    fencing::{ActiveLeaseCheck, FenceCommit, FencingStore, AUTHORITY_BOUND_FENCING_ACCESS},
     lease::{
         verify_certificate, AuthorityApplication, AuthorityLedger, AuthorityMembership,
-        LeasePolicy, OperationClass,
+        LeasePolicy, OperationClass, AUTHORITY_BOUND_LEASE_ACCESS,
     },
     migration::{MigrationPhase, MigrationStore, SourceQuiescenceAuthority},
 };
@@ -933,7 +933,10 @@ impl RecoveryStore {
         validate_selected_lease(&current, source_check.lease, source_check.applied_log_index)?;
         self.validate_active_check_time(&source_check)?;
         fencing
-            .authorize_active_lease(copy_active_check(&source_check))
+            .authorize_active_lease(
+                &AUTHORITY_BOUND_FENCING_ACCESS,
+                copy_active_check(&source_check),
+            )
             .map_err(|_| RecoveryError::AuthorityRejected)?;
         let intent = sha256_many(&[
             b"ADL-RECOVERY-ROLLBACK-INTENT-V1\0",
@@ -1062,13 +1065,16 @@ impl RecoveryStore {
                 validate_selected_lease(&current, lease, ledger.applied_log_index())?;
             }
             fencing
-                .commit(FenceCommit {
-                    request_id: fence_request_id,
-                    certificate_bytes,
-                    membership: Some(membership),
-                    current_lease: lease,
-                    now_unix_seconds: application.now_unix_seconds,
-                })
+                .commit(
+                    &AUTHORITY_BOUND_FENCING_ACCESS,
+                    FenceCommit {
+                        request_id: fence_request_id,
+                        certificate_bytes,
+                        membership: Some(membership),
+                        current_lease: lease,
+                        now_unix_seconds: application.now_unix_seconds,
+                    },
+                )
                 .map_err(|_| RecoveryError::FenceRejected)?;
         }
         let floor = fencing
@@ -1094,7 +1100,12 @@ impl RecoveryStore {
                 .ok_or(RecoveryError::AuthorityRejected)?;
             validate_selected_lease(&current, prior, ledger.applied_log_index())?;
             ledger
-                .apply(certificate_bytes, membership, application)
+                .apply(
+                    &AUTHORITY_BOUND_LEASE_ACCESS,
+                    certificate_bytes,
+                    membership,
+                    application,
+                )
                 .map_err(|_| RecoveryError::FenceRejected)?;
         }
         let lease = ledger
@@ -1186,26 +1197,34 @@ impl RecoveryStore {
                 .ok_or(RecoveryError::AuthorityRejected)?;
             validate_activation_predecessor(&current, prior, ledger.applied_log_index())?;
             ledger
-                .apply(certificate_bytes, membership, application)
+                .apply(
+                    &AUTHORITY_BOUND_LEASE_ACCESS,
+                    certificate_bytes,
+                    membership,
+                    application,
+                )
                 .map_err(map_authority_error)?;
         }
         let lease = ledger
             .lease(&current.lineage_id)
             .ok_or(RecoveryError::AuthorityRejected)?;
         fencing
-            .authorize_active_lease(ActiveLeaseCheck {
-                membership: Some(membership),
-                lease,
-                applied_log_index: ledger.applied_log_index(),
-                now_unix_seconds: application.now_unix_seconds,
-                now_unix_millis: unix_millis(
-                    application.now_unix_seconds,
-                    application.now_unix_nanos,
-                )
-                .ok_or(RecoveryError::AuthorityRejected)?,
-                now_elapsed_millis: application.now_elapsed_millis,
-                activation_proof: application.activation_proof,
-            })
+            .authorize_active_lease(
+                &AUTHORITY_BOUND_FENCING_ACCESS,
+                ActiveLeaseCheck {
+                    membership: Some(membership),
+                    lease,
+                    applied_log_index: ledger.applied_log_index(),
+                    now_unix_seconds: application.now_unix_seconds,
+                    now_unix_millis: unix_millis(
+                        application.now_unix_seconds,
+                        application.now_unix_nanos,
+                    )
+                    .ok_or(RecoveryError::AuthorityRejected)?,
+                    now_elapsed_millis: application.now_elapsed_millis,
+                    activation_proof: application.activation_proof,
+                },
+            )
             .map_err(|error| match error.code() {
                 "safety_window" => RecoveryError::SafetyWindow,
                 _ => RecoveryError::AuthorityRejected,
@@ -1280,7 +1299,12 @@ impl RecoveryStore {
         });
         if !applied {
             ledger
-                .apply(certificate_bytes, membership, application)
+                .apply(
+                    &AUTHORITY_BOUND_LEASE_ACCESS,
+                    certificate_bytes,
+                    membership,
+                    application,
+                )
                 .map_err(map_authority_error)?;
         }
         let lease = ledger

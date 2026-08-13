@@ -1,0 +1,7 @@
+{
+  "issue": 331,
+  "expected_generation": 11,
+  "expected_digest": "ced879f67c263c9a82bcfedfc275d7b08baee6a82c880eb8feea23672dd9fe92",
+  "actor": "codex:/root",
+  "reason": "Recover review truth after committed review request packets advanced HEAD and invalidated the previous reviewed revision; reassign against current HEAD and leave the final record uncommitted for publication guard."
+}
