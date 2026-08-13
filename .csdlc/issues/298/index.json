@@ -3,48 +3,14 @@
   "issue": 298,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d72af94eeee09384cf447f5c4c81c6eafe87e37a56384e1e222658fec63cb674",
-  "phase": "published",
-  "generation": 67,
-  "digest": "6848543bc8577709645b5082982275056b83eb336c163918872723fd17a7e89f",
+  "phase": "implemented",
+  "generation": 68,
+  "digest": "0556c12d9b36b776a6fc770093463303e96af9085c7f19882064c84d68a5660c",
   "branch": "codex/298-anchored-classification-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-298-anchored-classification-recovery",
-  "review_assignment": {
-    "reviewer": "fresh-session:a406a2fd-622c-4698-9d47-09580b436742",
-    "assigned_by": "codex:issue-298-r24-ci-remediation",
-    "revision": "git-blake3:c4d330b2244f82dd7325fdef0565d0554a474033:6810958269637258862c5405e607f750077118a8187397d082bf6b14e919d35d",
-    "scope": [
-      "csdlc-v2/src/projection_recovery.rs",
-      ".csdlc/issues/298",
-      ".csdlc/evidence/298"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:a406a2fd-622c-4698-9d47-09580b436742",
-    "scope": [
-      "csdlc-v2/src/projection_recovery.rs",
-      ".csdlc/issues/298",
-      ".csdlc/evidence/298"
-    ],
-    "reviewed_revision": "git-blake3:c4d330b2244f82dd7325fdef0565d0554a474033:6810958269637258862c5405e607f750077118a8187397d082bf6b14e919d35d",
-    "findings": [],
-    "residual_risks": [
-      "Inspection-only review; live hosted Linux CI remained deferred to republication."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 298,
-    "pull_request": 305,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/305",
-    "base": "main",
-    "head": "codex/298-anchored-classification-recovery",
-    "revision": "git-blake3:65108de8210779d6bdf2f234d01c14485f7dd360:a27d18aa1a3d3d3b6ac8115c1de48778a040cc783ff8acf728fcd6b7a5beb807",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -58,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b819e9882609a56008f5ad1f9876fdb8d47ec6ef365dfcdfa5c12c74d942888f",
+      "values_digest": "16e0db3017eb27e63c9062ad676f9708cb34f89d2ebeec4584c0183bb5260f65",
       "rendered_digest": "f87c048d6759b985fd3bb8cba8b70a28979326dac82abdff1a56181bf4f674cc",
       "ast_digest": "e7c23d3e8ca0a39d19c7a4c4981bb8a5b3969afdbfb015f4377d76bcbf83cce2"
     },
     "stp": {
-      "values_digest": "8f9fa988313897fd5d46a72f4c23ff4cb19635d464deff4f8624935044b2ea75",
+      "values_digest": "f584a5cd7e9aee9ffdfcb99f214fa51cfbfaa5978228c70d19c81e9173c85354",
       "rendered_digest": "c41ed00d4d66cf4bcc195caa4b5270dede61210e43ae49113ae6b05b3b7ebf9e",
       "ast_digest": "0b3a7d87c6c6a82bf7f64508cb94936940354c98b9be419ad8c87c377eef506b"
     },
     "spp": {
-      "values_digest": "0d064380f8c9d95180b692ea2ee375159faf95e636d0ef46941fc894069b66f8",
+      "values_digest": "cf0620a6bfa8c896b2842b8e53f74214120f231ccbdbf8dbe023508f37b3a75c",
       "rendered_digest": "e27dd13362abe4566c2273dcba55f66e39657f14a1b030d5eb8c595f819e6df2",
       "ast_digest": "ad43d180c5c27189925f5ace0da03b7bcbe655150c6e49693187c29c1c54bea8"
     },
     "vpp": {
-      "values_digest": "42051d4b057d3de8f0db5531711a9edcc0da96b34ca5c167621cb32f9d05619d",
+      "values_digest": "3c14b7abb15531dbd53b4047022d9b732137c436a2363ae4d57c989296a74f30",
       "rendered_digest": "d74d86c0e7ae5ae96b4c1fbe017f0e62486f65d7c90e0753a691441cd7166c9c",
       "ast_digest": "b44662fb063c283b659902d53f0ed563463d98edae06a95b36da0ec397e42b7e"
     },
     "srp": {
-      "values_digest": "003a54028f0eed691552a614d53480176f0b5691d7b3e2a4ab01d582cb813031",
-      "rendered_digest": "186fc51f8cdf2c9cc0721f033e45c26c80bbbcb560d5ac53e8d47bbe1a8e9bf3",
-      "ast_digest": "9b2c8ec97fb909456cb102003935c3b796ec2f01b85e70167c6f47a90af7b12f"
+      "values_digest": "e574027f0b7a711f8827063b58bff9dd34b616c4a98117e1e0b3343f92a2c4eb",
+      "rendered_digest": "389499db48512f728c2566edf054838aa2bfc48cd16740aeff92746f6466569b",
+      "ast_digest": "34e8d90b94d4a3c9c8fa73da39f0b0d0ad6fa93f3208b93be75368c0c1576b45"
     },
     "sor": {
-      "values_digest": "380773952d97411ff67291e14ad0574d9a5d8b47252082117c3f0e1f304b559a",
-      "rendered_digest": "26ede68f94730011506453aa55ba8ecb6905f5d76261e9fb47679f19df6d6625",
-      "ast_digest": "de05fc5987e9cd80f6476cad39045bc98faeecbed215cfc7309b244fdc8aef66"
+      "values_digest": "6e582812a4cd711aeed96076f84f1eda7e9af02d3aaa0fe9e2fb7491caab0155",
+      "rendered_digest": "da8c9df38f5edf73ee9d0b277b4081b88c17f84c09d07752da102a426a7d728b",
+      "ast_digest": "da2c155137c3c0642fd41db3c11fae4d5891e936e560d88f12bddc16e765659d"
     }
   },
   "transitions": [
@@ -186,6 +152,13 @@
       "to": "published",
       "actor": "codex:issue-298-r25-publication",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 15,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-298-r26-main-merge-reconciliation",
+      "reason": "Recover stale published review after owner-preserving merge of current origin/main into PR #305 at f4fa3e64a83a14fb10365fd40993464f4cdf753c to resolve merge conflict in csdlc-v2/src/store.rs. Require refreshed exact-head review, republication, and hosted CI before terminal finish."
     }
   ],
   "audit": [
@@ -853,6 +826,13 @@
       "actor": "codex:issue-298-r25-publication",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 96,
+      "generation": 68,
+      "actor": "codex:issue-298-r26-main-merge-reconciliation",
+      "reason": "Recover stale published review after owner-preserving merge of current origin/main into PR #305 at f4fa3e64a83a14fb10365fd40993464f4cdf753c to resolve merge conflict in csdlc-v2/src/store.rs. Require refreshed exact-head review, republication, and hosted CI before terminal finish.",
+      "operation": "recover_review"
     }
   ]
 }

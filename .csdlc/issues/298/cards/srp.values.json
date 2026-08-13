@@ -7,15 +7,15 @@
     "title": "[v0.92][C-SDLC][297.a][defect] Implement anchored classification and resumable recovery ledger",
     "slug": "297a-anchored-classification-resumable-recovery-ledger",
     "version": "v0.92",
-    "generation": 67
+    "generation": 68
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "csdlc-v2/src/projection_recovery.rs\n.csdlc/issues/298\n.csdlc/evidence/298",
-      "review_revision": "git-blake3:c4d330b2244f82dd7325fdef0565d0554a474033:6810958269637258862c5405e607f750077118a8187397d082bf6b14e919d35d",
-      "reviewer": "fresh-session:a406a2fd-622c-4698-9d47-09580b436742",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "no-follow retained-handle identity and mount authority",
         "tagged CAS and failed-operation lineage permissions",
@@ -25,10 +25,8 @@
         "scope exclusion of #299 cleanup and #300 integrated proof"
       ],
       "findings": [],
-      "residual_risk": [
-        "Inspection-only review; live hosted Linux CI remained deferred to republication."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
