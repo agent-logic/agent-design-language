@@ -30,37 +30,23 @@ mod raw_access {
         0x02, 0x58,
     ];
 
-    trait CertificateStoreAccessSeal: std::fmt::Debug + Sync {
-        fn magic(&self) -> [u8; 32];
-    }
-
     #[derive(Debug)]
-    struct AuthorityBoundCertificateStoreAccessSeal;
-
-    impl CertificateStoreAccessSeal for AuthorityBoundCertificateStoreAccessSeal {
-        fn magic(&self) -> [u8; 32] {
-            CERTIFICATE_STORE_ACCESS_MAGIC
-        }
+    struct CertificateStoreAccessSeal {
+        magic: [u8; 32],
     }
 
-    static AUTHORITY_BOUND_SEAL: AuthorityBoundCertificateStoreAccessSeal =
-        AuthorityBoundCertificateStoreAccessSeal;
+    static AUTHORITY_BOUND_SEAL: CertificateStoreAccessSeal = CertificateStoreAccessSeal {
+        magic: CERTIFICATE_STORE_ACCESS_MAGIC,
+    };
 
     #[cfg(any(test, feature = "internal-test-fixtures"))]
-    static TEST_FIXTURE_SEAL: AuthorityBoundCertificateStoreAccessSeal =
-        AuthorityBoundCertificateStoreAccessSeal;
+    static TEST_FIXTURE_SEAL: CertificateStoreAccessSeal = CertificateStoreAccessSeal {
+        magic: CERTIFICATE_STORE_ACCESS_MAGIC,
+    };
 
-    #[derive(Clone, Copy)]
+    #[derive(Clone, Copy, Debug)]
     pub struct CertificateStoreAccess {
-        seal: &'static dyn CertificateStoreAccessSeal,
-    }
-
-    impl std::fmt::Debug for CertificateStoreAccess {
-        fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-            formatter
-                .debug_struct("CertificateStoreAccess")
-                .finish_non_exhaustive()
-        }
+        seal: &'static CertificateStoreAccessSeal,
     }
 
     pub(crate) const AUTHORITY_BOUND: CertificateStoreAccess = CertificateStoreAccess {
@@ -79,7 +65,12 @@ mod raw_access {
     };
 
     pub(super) fn validate(access: &CertificateStoreAccess) -> bool {
-        access.seal.magic() == CERTIFICATE_STORE_ACCESS_MAGIC
+        #[cfg(any(test, feature = "internal-test-fixtures"))]
+        let known_seal = std::ptr::eq(access.seal, &AUTHORITY_BOUND_SEAL)
+            || std::ptr::eq(access.seal, &TEST_FIXTURE_SEAL);
+        #[cfg(not(any(test, feature = "internal-test-fixtures")))]
+        let known_seal = std::ptr::eq(access.seal, &AUTHORITY_BOUND_SEAL);
+        known_seal && access.seal.magic == CERTIFICATE_STORE_ACCESS_MAGIC
     }
 }
 

@@ -1,4 +1,5 @@
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.13s
+   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl-runtime)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 9.20s
      Running tests/distributed_runtime_transport.rs (adl-runtime/target/debug/deps/distributed_runtime_transport-cec50c7e2a91b302)
 
 running 14 tests
@@ -31,4 +32,4 @@ ok
 test transport_frames_reject_truncated_and_noncanonical_trailing_bytes ... ADL_ISSUE_191_CASE canonical_transport_frame=passed
 ok
 
-test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 10.64s
+test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 12.37s

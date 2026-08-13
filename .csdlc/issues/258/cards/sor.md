@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Repaired #258 after the prior source-inclusion fixture could forge authority access by giving the production capability a private trait-object seal and exposing the legitimate integration-test token only behind the non-default internal-test-fixtures feature. The ordinary no-feature external surface cannot import or construct the token, while the feature-gated runtime transport target executes all 14 tests. Cargo metadata now explicitly requires the fixture feature for that integration target, keeping default all-target and coverage discovery valid.
+Repaired #258 with concrete private non-zero-sized certificate, lease, and fencing access seals validated by exact static pointer identity plus private magic. The legitimate runtime transport integration token remains available only under the non-default internal-test-fixtures feature, whose target is explicitly feature-gated. The no-feature external denial proof now rejects the prior fat-trait-pointer attack and selects only the newest no-feature rlib, failing if that artifact predates current Cargo.toml or source inputs.
 
 ## Artifacts
 
@@ -27,12 +27,11 @@ Repaired #258 after the prior source-inclusion fixture could forge authority acc
 
 ## Execution
 
-- Replaced structurally reproducible store-access seals with private trait-object seals for certificate, lease, and fencing capabilities.
-- Exposed TEST_* access tokens only under cfg(test) or the non-default internal-test-fixtures feature; the ordinary dependency surface remains denied.
-- Reworked the external denial proof to invoke rustc against the Cargo fingerprint-proven no-feature adl_runtime rlib, avoiding nested Cargo cache authority and proving import, construction, unit-transmute, and zeroed-forgery denial.
-- Restored distributed_runtime_transport to the production crate surface under internal-test-fixtures and executed all 14 tests with zero ignored.
-- Declared distributed_runtime_transport as a required-features integration target so default all-target and coverage discovery do not compile a feature-only harness.
-- Preserved #203 as frozen and did not absorb #203/#259 transport architecture scope.
+- Replaced forgeable trait-object seals with private 32-byte concrete seals and exact known-static pointer identity checks.
+- Added external compile denial for the exact compatible fat-trait-pointer transmute attack reported by review.
+- Made no-feature artifact selection deterministic by newest modification time and rejected artifacts older than any current manifest/source input.
+- Retained non-default internal-test-fixtures and required-features gating for the 14-test runtime transport integration target.
+- Preserved frozen #203 and did not absorb #203/#259 transport architecture scope.
 
 ## Validation
 
@@ -49,7 +48,7 @@ Repaired #258 after the prior source-inclusion fixture could forge authority acc
       "--nocapture",
       "--test-threads=1"
     ],
-    "purpose": "Prove the focused authority boundary and no-feature external import/construction/forgery denial.",
+    "purpose": "Prove focused authority boundaries and current no-feature external denial, including the reported fat-pointer attack.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair-r4/cargo-test-distributed-identity-lease-authority.log"
   },
@@ -67,7 +66,7 @@ Repaired #258 after the prior source-inclusion fixture could forge authority acc
       "--nocapture",
       "--test-threads=1"
     ],
-    "purpose": "Execute the complete feature-gated runtime transport integration target.",
+    "purpose": "Execute the full gated runtime transport integration target.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair-r4/cargo-test-distributed-runtime-transport.log"
   },
@@ -81,7 +80,7 @@ Repaired #258 after the prior source-inclusion fixture could forge authority acc
       "--features",
       "internal-test-fixtures"
     ],
-    "purpose": "Compile-check every runtime target with the internal fixture feature enabled.",
+    "purpose": "Compile-check all runtime targets with the internal fixture feature.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair-r4/cargo-check-adl-runtime-all-targets.log"
   },
@@ -97,7 +96,7 @@ Repaired #258 after the prior source-inclusion fixture could forge authority acc
       "-D",
       "warnings"
     ],
-    "purpose": "Strict-lint the focused authority and external denial proof.",
+    "purpose": "Strict-lint the focused authority proof.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair-r4/cargo-clippy-distributed-identity-lease-authority.log"
   },
@@ -115,7 +114,7 @@ Repaired #258 after the prior source-inclusion fixture could forge authority acc
       "-D",
       "warnings"
     ],
-    "purpose": "Strict-lint the complete feature-gated runtime transport target.",
+    "purpose": "Strict-lint the gated runtime transport target.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair-r4/cargo-clippy-distributed-runtime-transport.log"
   },
@@ -124,7 +123,7 @@ Repaired #258 after the prior source-inclusion fixture could forge authority acc
       "bash",
       "adl/tools/test_check_coverage_impact.sh"
     ],
-    "purpose": "Exercise the hosted coverage-impact contract, including default all-target discovery.",
+    "purpose": "Exercise hosted coverage-impact contract and default all-target discovery.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair-r4/test-check-coverage-impact.log"
   },
@@ -133,7 +132,7 @@ Repaired #258 after the prior source-inclusion fixture could forge authority acc
       "bash",
       "adl/tools/test_mechanical_coverage_fallout.sh"
     ],
-    "purpose": "Exercise the deterministic mechanical coverage fallout classifier.",
+    "purpose": "Exercise mechanical coverage fallout policy.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair-r4/test-mechanical-coverage-fallout.log"
   },
@@ -143,7 +142,7 @@ Repaired #258 after the prior source-inclusion fixture could forge authority acc
       "diff",
       "--check"
     ],
-    "purpose": "Reject whitespace and patch-hygiene defects.",
+    "purpose": "Reject patch hygiene defects.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair-r4/git-diff-check.log"
   },
@@ -156,7 +155,7 @@ Repaired #258 after the prior source-inclusion fixture could forge authority acc
       "--issue",
       "258"
     ],
-    "purpose": "Validate canonical #258 lifecycle and card truth after the r4 repair.",
+    "purpose": "Validate canonical lifecycle truth after r5 repair.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair-r4/csdlc-validate.log"
   }

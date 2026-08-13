@@ -29,37 +29,23 @@ mod raw_access {
         0x04, 0x5a,
     ];
 
-    trait FencingStoreAccessSeal: std::fmt::Debug + Sync {
-        fn magic(&self) -> [u8; 32];
-    }
-
     #[derive(Debug)]
-    struct AuthorityBoundFencingStoreAccessSeal;
-
-    impl FencingStoreAccessSeal for AuthorityBoundFencingStoreAccessSeal {
-        fn magic(&self) -> [u8; 32] {
-            FENCING_STORE_ACCESS_MAGIC
-        }
+    struct FencingStoreAccessSeal {
+        magic: [u8; 32],
     }
 
-    static AUTHORITY_BOUND_SEAL: AuthorityBoundFencingStoreAccessSeal =
-        AuthorityBoundFencingStoreAccessSeal;
+    static AUTHORITY_BOUND_SEAL: FencingStoreAccessSeal = FencingStoreAccessSeal {
+        magic: FENCING_STORE_ACCESS_MAGIC,
+    };
 
     #[cfg(any(test, feature = "internal-test-fixtures"))]
-    static TEST_FIXTURE_SEAL: AuthorityBoundFencingStoreAccessSeal =
-        AuthorityBoundFencingStoreAccessSeal;
+    static TEST_FIXTURE_SEAL: FencingStoreAccessSeal = FencingStoreAccessSeal {
+        magic: FENCING_STORE_ACCESS_MAGIC,
+    };
 
-    #[derive(Clone, Copy)]
+    #[derive(Clone, Copy, Debug)]
     pub struct FencingStoreAccess {
-        seal: &'static dyn FencingStoreAccessSeal,
-    }
-
-    impl std::fmt::Debug for FencingStoreAccess {
-        fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-            formatter
-                .debug_struct("FencingStoreAccess")
-                .finish_non_exhaustive()
-        }
+        seal: &'static FencingStoreAccessSeal,
     }
 
     pub(crate) const AUTHORITY_BOUND: FencingStoreAccess = FencingStoreAccess {
@@ -79,7 +65,12 @@ mod raw_access {
     };
 
     pub(super) fn validate(access: &FencingStoreAccess) -> bool {
-        access.seal.magic() == FENCING_STORE_ACCESS_MAGIC
+        #[cfg(any(test, feature = "internal-test-fixtures"))]
+        let known_seal = std::ptr::eq(access.seal, &AUTHORITY_BOUND_SEAL)
+            || std::ptr::eq(access.seal, &TEST_FIXTURE_SEAL);
+        #[cfg(not(any(test, feature = "internal-test-fixtures")))]
+        let known_seal = std::ptr::eq(access.seal, &AUTHORITY_BOUND_SEAL);
+        known_seal && access.seal.magic == FENCING_STORE_ACCESS_MAGIC
     }
 }
 

@@ -32,37 +32,23 @@ mod raw_access {
         0x03, 0x59,
     ];
 
-    trait LeaseStoreAccessSeal: std::fmt::Debug + Sync {
-        fn magic(&self) -> [u8; 32];
-    }
-
     #[derive(Debug)]
-    struct AuthorityBoundLeaseStoreAccessSeal;
-
-    impl LeaseStoreAccessSeal for AuthorityBoundLeaseStoreAccessSeal {
-        fn magic(&self) -> [u8; 32] {
-            LEASE_STORE_ACCESS_MAGIC
-        }
+    struct LeaseStoreAccessSeal {
+        magic: [u8; 32],
     }
 
-    static AUTHORITY_BOUND_SEAL: AuthorityBoundLeaseStoreAccessSeal =
-        AuthorityBoundLeaseStoreAccessSeal;
+    static AUTHORITY_BOUND_SEAL: LeaseStoreAccessSeal = LeaseStoreAccessSeal {
+        magic: LEASE_STORE_ACCESS_MAGIC,
+    };
 
     #[cfg(any(test, feature = "internal-test-fixtures"))]
-    static TEST_FIXTURE_SEAL: AuthorityBoundLeaseStoreAccessSeal =
-        AuthorityBoundLeaseStoreAccessSeal;
+    static TEST_FIXTURE_SEAL: LeaseStoreAccessSeal = LeaseStoreAccessSeal {
+        magic: LEASE_STORE_ACCESS_MAGIC,
+    };
 
-    #[derive(Clone, Copy)]
+    #[derive(Clone, Copy, Debug)]
     pub struct LeaseStoreAccess {
-        seal: &'static dyn LeaseStoreAccessSeal,
-    }
-
-    impl std::fmt::Debug for LeaseStoreAccess {
-        fn fmt(&self, formatter: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-            formatter
-                .debug_struct("LeaseStoreAccess")
-                .finish_non_exhaustive()
-        }
+        seal: &'static LeaseStoreAccessSeal,
     }
 
     pub(crate) const AUTHORITY_BOUND: LeaseStoreAccess = LeaseStoreAccess {
@@ -81,7 +67,12 @@ mod raw_access {
     };
 
     pub(super) fn validate(access: &LeaseStoreAccess) -> bool {
-        access.seal.magic() == LEASE_STORE_ACCESS_MAGIC
+        #[cfg(any(test, feature = "internal-test-fixtures"))]
+        let known_seal = std::ptr::eq(access.seal, &AUTHORITY_BOUND_SEAL)
+            || std::ptr::eq(access.seal, &TEST_FIXTURE_SEAL);
+        #[cfg(not(any(test, feature = "internal-test-fixtures")))]
+        let known_seal = std::ptr::eq(access.seal, &AUTHORITY_BOUND_SEAL);
+        known_seal && access.seal.magic == LEASE_STORE_ACCESS_MAGIC
     }
 }
 

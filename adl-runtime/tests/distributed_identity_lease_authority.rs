@@ -57,6 +57,25 @@ fn repo_local_root() -> tempfile::TempDir {
     tempfile::TempDir::new_in(root).expect("portable repository-local test root")
 }
 
+fn newest_file_modification(root: &std::path::Path) -> std::time::SystemTime {
+    fs::read_dir(root)
+        .expect("read current crate source tree")
+        .filter_map(Result::ok)
+        .map(|entry| entry.path())
+        .map(|path| {
+            if path.is_dir() {
+                newest_file_modification(&path)
+            } else {
+                path.metadata()
+                    .expect("read current crate input metadata")
+                    .modified()
+                    .expect("read current crate input modification time")
+            }
+        })
+        .max()
+        .expect("current crate source tree must not be empty")
+}
+
 fn run_external_no_feature_fixture(
     fixture: &tempfile::TempDir,
     name: &str,
@@ -74,7 +93,7 @@ fn run_external_no_feature_fixture(
     let no_feature_rlib = fs::read_dir(&fingerprint_root)
         .expect("read Cargo fingerprints for external compile-fail fixture")
         .filter_map(Result::ok)
-        .find_map(|entry| {
+        .filter_map(|entry| {
             let metadata_path = entry.path().join("lib-adl_runtime.json");
             let metadata = fs::read_to_string(metadata_path).ok()?;
             if !metadata.contains("\"features\":\"[]\"")
@@ -85,9 +104,29 @@ fn run_external_no_feature_fixture(
             let fingerprint = entry.file_name();
             let fingerprint = fingerprint.to_str()?.strip_prefix("adl-runtime-")?;
             let rlib = deps_dir.join(format!("libadl_runtime-{fingerprint}.rlib"));
-            rlib.is_file().then_some(rlib)
+            let modified = rlib.metadata().ok()?.modified().ok()?;
+            Some((modified, rlib))
         })
+        .max_by_key(|(modified, _)| *modified)
+        .map(|(_, rlib)| rlib)
         .expect("a current no-feature adl_runtime rlib must exist");
+    let rlib_modified = no_feature_rlib
+        .metadata()
+        .expect("read no-feature rlib metadata")
+        .modified()
+        .expect("read no-feature rlib modification time");
+    let manifest_dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR"));
+    let newest_input = manifest_dir
+        .join("Cargo.toml")
+        .metadata()
+        .expect("read current manifest metadata")
+        .modified()
+        .expect("read current manifest modification time")
+        .max(newest_file_modification(&manifest_dir.join("src")));
+    assert!(
+        rlib_modified >= newest_input,
+        "selected no-feature adl_runtime rlib predates current crate inputs"
+    );
     let source_path = fixture.path().join(format!("{name}.rs"));
     fs::write(&source_path, source).expect("write external fixture source");
     Command::new("rustc")
@@ -150,19 +189,12 @@ fn issue_258_authority_store_boundary_guardrails_are_bound() {
     );
 
     assert_contains(certificates, "pub struct CertificateStoreAccess");
-    assert_contains(certificates, "trait CertificateStoreAccessSeal");
-    assert_contains(
-        certificates,
-        "struct AuthorityBoundCertificateStoreAccessSeal",
-    );
+    assert_contains(certificates, "struct CertificateStoreAccessSeal");
     assert_contains(certificates, "static AUTHORITY_BOUND_SEAL");
+    assert_contains(certificates, "seal: &'static CertificateStoreAccessSeal");
     assert_contains(
         certificates,
-        "seal: &'static dyn CertificateStoreAccessSeal",
-    );
-    assert_contains(
-        certificates,
-        "access.seal.magic() == CERTIFICATE_STORE_ACCESS_MAGIC",
+        "std::ptr::eq(access.seal, &AUTHORITY_BOUND_SEAL)",
     );
     assert_contains(
         certificates,
@@ -199,11 +231,10 @@ fn issue_258_authority_store_boundary_guardrails_are_bound() {
 
     assert_contains(lease, "pub struct LeaseState");
     assert_contains(lease, "pub struct LeaseStoreAccess");
-    assert_contains(lease, "trait LeaseStoreAccessSeal");
-    assert_contains(lease, "struct AuthorityBoundLeaseStoreAccessSeal");
+    assert_contains(lease, "struct LeaseStoreAccessSeal");
     assert_contains(lease, "static AUTHORITY_BOUND_SEAL");
-    assert_contains(lease, "seal: &'static dyn LeaseStoreAccessSeal");
-    assert_contains(lease, "access.seal.magic() == LEASE_STORE_ACCESS_MAGIC");
+    assert_contains(lease, "seal: &'static LeaseStoreAccessSeal");
+    assert_contains(lease, "std::ptr::eq(access.seal, &AUTHORITY_BOUND_SEAL)");
     assert_contains(lease, "fn validate_raw_access(access: &LeaseStoreAccess)");
     assert_contains(
         lease,
@@ -231,11 +262,10 @@ fn issue_258_authority_store_boundary_guardrails_are_bound() {
     );
     assert_contains(fencing, "pub safety_deadline_unix_millis: u64");
     assert_contains(fencing, "pub struct FencingStoreAccess");
-    assert_contains(fencing, "trait FencingStoreAccessSeal");
-    assert_contains(fencing, "struct AuthorityBoundFencingStoreAccessSeal");
+    assert_contains(fencing, "struct FencingStoreAccessSeal");
     assert_contains(fencing, "static AUTHORITY_BOUND_SEAL");
-    assert_contains(fencing, "seal: &'static dyn FencingStoreAccessSeal");
-    assert_contains(fencing, "access.seal.magic() == FENCING_STORE_ACCESS_MAGIC");
+    assert_contains(fencing, "seal: &'static FencingStoreAccessSeal");
+    assert_contains(fencing, "std::ptr::eq(access.seal, &AUTHORITY_BOUND_SEAL)");
     assert_contains(
         fencing,
         "fn validate_raw_access(access: &FencingStoreAccess)",
@@ -337,6 +367,31 @@ fn external_dev_profile_caller_cannot_import_authority_store_test_access() {
             stderr.contains("field `seal`")
                 && (stderr.contains("private") || stderr.contains("is private")),
             "unexpected compile failure for {module} external construction: {stderr}"
+        );
+
+        let output = run_external_no_feature_fixture(
+            &fixture,
+            &format!("{module}_fat_trait_forge_denied"),
+            format!(
+                "use adl_runtime::distributed::{module}::{access_type};\n\
+                 trait ForgedSeal {{ fn magic(&self) -> [u8; 32]; }}\n\
+                 struct Forgery;\n\
+                 impl ForgedSeal for Forgery {{ fn magic(&self) -> [u8; 32] {{ [0; 32] }} }}\n\
+                 static FORGERY: Forgery = Forgery;\n\
+                 pub unsafe fn forged_fat_pointer() -> {access_type} {{\n\
+                     let forged: &'static dyn ForgedSeal = &FORGERY;\n\
+                     std::mem::transmute(forged)\n\
+                 }}\n"
+            ),
+        );
+        assert!(
+            !output.status.success(),
+            "external fixture unexpectedly forged {module} access token with a fat trait pointer"
+        );
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        assert!(
+            stderr.contains("different sizes") || stderr.contains("cannot transmute"),
+            "unexpected compile failure for {module} fat-pointer forgery: {stderr}"
         );
 
         let output = run_external_no_feature_fixture(
