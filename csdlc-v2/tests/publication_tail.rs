@@ -200,6 +200,48 @@ fn publication_metadata_tail_rejects_pre_staged_non_governed_paths() {
 }
 
 #[test]
+fn publication_metadata_tail_rejects_unstaged_non_governed_issue_paths_without_staging_them() {
+    let temp = tempfile::tempdir().expect("temp repo");
+    init_repo(temp.path());
+
+    let mut published = record(LifecyclePhase::Published, None);
+    published.publication = Some(PublicationEvidence {
+        repository: "agent-logic/agent-design-language".into(),
+        issue: 306,
+        pull_request: 306,
+        url: "https://github.com/agent-logic/agent-design-language/pull/306".into(),
+        base: "main".into(),
+        head: "codex/306-publication-tail-exact-clean-finish".into(),
+        revision: csdlc_v2::git::clean_commit_revision(&git_out(
+            temp.path(),
+            &["rev-parse", "HEAD"],
+        )),
+        linkage_mode: Some(PublicationLinkageMode::Closing),
+        draft: false,
+        observed_state: "open".into(),
+    });
+    write_issue_record(temp.path(), &published);
+    let non_governed = temp.path().join(".csdlc/issues/306/debug.txt");
+    std::fs::write(&non_governed, "scratch must not be staged\n").expect("scratch file");
+
+    let before = git_out(temp.path(), &["rev-parse", "HEAD"]);
+    let error = commit_publication_metadata_tail(temp.path(), 306)
+        .expect_err("unstaged non-governed issue path must fail closed");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::UnsafeCheckout);
+    assert_eq!(git_out(temp.path(), &["rev-parse", "HEAD"]), before);
+    assert_eq!(
+        git_out(temp.path(), &["diff", "--cached", "--name-only"]),
+        ""
+    );
+    assert!(git_out(
+        temp.path(),
+        &["status", "--porcelain", "--untracked-files=all"]
+    )
+    .lines()
+    .any(|line| line == "?? .csdlc/issues/306/debug.txt"));
+}
+
+#[test]
 fn interrupted_after_record_publication_retry_can_commit_metadata_tail() {
     let temp = tempfile::tempdir().expect("temp repo");
     init_repo(temp.path());

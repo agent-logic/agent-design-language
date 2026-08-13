@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8bb2ff2896c949a93ee1154957c6140e9893cbaa3f729b0f073ea70e7507a449",
   "phase": "implemented",
-  "generation": 24,
-  "digest": "d42e62d4550457be6576ddb8b0482b1e53309c2a85740da1788cd5a89f38dee8",
+  "generation": 27,
+  "digest": "976a7ad7e8014d2cbd938f8fbcb35f066382564f67f9572877dbb1daea363c6e",
   "branch": "codex/306-publication-tail-exact-clean-finish",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-306-publication-tail-exact-clean-finish",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "baa047839430d9a65e9fe4db42853ee125b4831d1e8dc7db0d869fd9a38cefe2",
+      "values_digest": "3bd7b40be18080f37faec91ee8eb6ba08d8282a05bb6a75c1a62809916d8c614",
       "rendered_digest": "5e282111ad7af07bc3be9ea05d50610cf0f18d605edc14136763b56fe579e2a4",
       "ast_digest": "a477566ba17a0e2ca9d702e826008f60fbe771d9f531506f425399d0610cceb6"
     },
     "stp": {
-      "values_digest": "3741f88b008a644a7e0a6ec3025f298982ce3011726127f27c98cb1e6ab66aee",
+      "values_digest": "422101d01acd719d31802a50b0d24e9a5035da74b9529927e6a9cba189b88db7",
       "rendered_digest": "d0e7b81f767703370ad04d61626800ffce4250fcb76d5374a8286571286d50c1",
       "ast_digest": "57880522df6be2e924cb4716ad672ca998cb05c78a81f21cde7ff7ab7cb4f097"
     },
     "spp": {
-      "values_digest": "1c1c33cf78aa67d8fb9f4f251d6118ad15438b4fba7244a98521564b40313edb",
+      "values_digest": "10935972929f6a4c75cf807c0474919835fd39d475b0402eebd6ab988628ec6e",
       "rendered_digest": "acb89f97e1f5ae23f001f5f517372234ecfb99fe8c7e7b26dec5cdd56f77168f",
       "ast_digest": "8cf742e13d6da873db13d987281a349fcf924b92f1a787edf3823d29069a7dfb"
     },
     "vpp": {
-      "values_digest": "8736a96bd6f530c68909c98384e9f1ce755fc523675ff60c3355f01131071c15",
+      "values_digest": "3984ee3c18ef7fd4026bc30c8f583582bd372613bd14985b29d3719115b4dd3f",
       "rendered_digest": "c1a82830a1d964f39970fe5572b327eb1ce07dc9cc5f7ebb9a1679a8efee44f0",
       "ast_digest": "ff5f61cad263c8dd506ae1e3cc9d06ff43a367dcd86bf8200ec9df2c5ae751ee"
     },
     "srp": {
-      "values_digest": "0cefef7c9f918efb3b5f95ae94ac76d9f2df380c80101ce25a6be4eac8873c1c",
+      "values_digest": "1a3f6eb91988a7bade52164726357a7d56610e2c9ff19e064d4f1ba75e0b69b5",
       "rendered_digest": "5b99bf3ed754ec68b728409d617ff029b982494b1c47e338a84249f36a17c6c3",
       "ast_digest": "01734958f83d08dbebdbad4616c6b7bfd294e1693b7a75b994d98a2286d118f9"
     },
     "sor": {
-      "values_digest": "bd2d8ed79634ac2f730973f269d2af41c062b4b1e1d44f0d897ff0a2f21ba951",
-      "rendered_digest": "fce043eb04ae1949d12f458cbd4a783297e090904b745a9644ba0f3cb535d8f7",
-      "ast_digest": "d4c1db4be0289d2d7b84c7973395f2ec6c98ba10894c54c075412c8610418266"
+      "values_digest": "243c7aae5bcadc4d07195729112d9ebad3c781e7e648ffe41f4ace838b1ac8cb",
+      "rendered_digest": "b288fc36095a0a783f36faec8f4c2956e7db7b37dfdcf3113a25ff0a6fbd4e3e",
+      "ast_digest": "04abc5809b5644a67f7c207563dcf7adda2f138e632fe137175b41552c90f23e"
     }
   },
   "transitions": [
@@ -266,6 +266,34 @@
       "actor": "codex:worker-4",
       "reason": "Record fresh #306 clippy validation after interrupted-after-record retry fix",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"publication_tail\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict warning-free proof for touched publication code and #306 publication_tail test target after retry recovery fix.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:4a2c66086f883f6feb7ead1661fd1acad043acd4:cargo-clippy-publication-tail:passed\"}}"
+    },
+    {
+      "sequence": 28,
+      "generation": 24,
+      "actor": "codex:worker-4",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 25,
+      "actor": "codex:worker-4",
+      "reason": "Recover stale #306 r11 review assignment after reviewer found non-governed issue-path staging failure and implementation changed",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 26,
+      "actor": "codex:worker-4",
+      "reason": "Record focused #306 publication_tail validation after non-governed issue-path staging fix",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"publication_tail\"],\"purpose\":\"Focused Rust integration proof for #306 publication metadata tail ordering, interrupted-after-record retry recovery, finish-readiness, and fail-closed unstaged non-governed issue-path preservation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:working-tree-after-r11-finding-fix:cargo-test-publication-tail:6-passed\"}}"
+    },
+    {
+      "sequence": 31,
+      "generation": 27,
+      "actor": "codex:worker-4",
+      "reason": "Record strict #306 clippy validation after non-governed issue-path staging fix",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"publication_tail\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict warning-free proof for touched publication code and #306 publication_tail test target after fail-closed issue-path staging fix.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:working-tree-after-r11-finding-fix:cargo-clippy-publication-tail:passed\"}}"
     }
   ]
 }

@@ -426,6 +426,28 @@ pub fn commit_publication_metadata_tail(root: &Path, issue: u64) -> Result<Optio
     if status.is_empty() {
         return Ok(None);
     }
+    let dirty_issue_paths = crate::git::run(
+        root,
+        &[
+            "ls-files",
+            "--others",
+            "--modified",
+            "--deleted",
+            "--exclude-standard",
+            "--",
+            &issue_dir,
+        ],
+    )?
+    .stdout;
+    if dirty_issue_paths
+        .lines()
+        .any(|path| !publication_metadata_path(issue, path))
+    {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "publication metadata tail contains non-governed paths",
+        ));
+    }
 
     let before = crate::git::run(root, &["rev-parse", "HEAD"])?.stdout;
     crate::git::run(root, &["add", &issue_dir])?;
