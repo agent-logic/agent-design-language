@@ -21,11 +21,9 @@ use tokio_util::sync::CancellationToken;
 
 #[cfg(test)]
 use super::lease::VoterAuthority;
+use super::certificates::AUTHORITY_BOUND_CERTIFICATE_ACCESS;
 use super::{
-    certificates::{
-        AuthorityCertificate, CertificatePurpose, DistributedCertificateStore,
-        AUTHORITY_BOUND_CERTIFICATE_ACCESS,
-    },
+    certificates::{AuthorityCertificate, CertificatePurpose, DistributedCertificateStore},
     lease::{AuthorityMembership, ControlCertificatePurpose},
     membership::{MemberRole, MembershipPolicy, MembershipState},
 };
@@ -846,6 +844,10 @@ struct VerifiedRouteAuthority {
     boot_generation: u64,
 }
 
+/// Opaque authority accepted by the configured Runtime trust roots.
+///
+/// Route and polis verification consume this handle rather than accepting a
+/// caller-nominated `AuthorityMembership` at the authorization boundary.
 #[derive(Clone)]
 pub struct EstablishedRuntimeAuthority {
     membership: MembershipState,

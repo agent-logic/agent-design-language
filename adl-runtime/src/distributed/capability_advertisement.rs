@@ -9,16 +9,10 @@ use ed25519_dalek::{Signature, Signer, SigningKey, VerifyingKey};
 use redb::{Database, Durability, ReadableTable, ReadableTableMetadata, TableDefinition};
 use serde::{Deserialize, Serialize};
 
-#[cfg(not(test))]
-use super::authority_store_adapters::AuthorityBoundCertificateStore;
-#[cfg(test)]
-use super::certificates::DistributedCertificateStore;
-use super::certificates::{AuthorityCertificate, CertificatePurpose};
-
-#[cfg(not(test))]
-pub type CapabilityCertificateStore = AuthorityBoundCertificateStore;
-#[cfg(test)]
-pub type CapabilityCertificateStore = DistributedCertificateStore;
+use super::certificates::{
+    AuthorityCertificate, CertificatePurpose, DistributedCertificateStore,
+    AUTHORITY_BOUND_CERTIFICATE_ACCESS,
+};
 
 pub const CAPABILITY_ADVERTISEMENT_SCHEMA: &str = "adl.distributed.capability_advertisement.v1";
 const SIGNING_DOMAIN: &[u8] = b"ADL-DISTRIBUTED-CAPABILITY-ADVERTISEMENT-V1\0";
@@ -277,7 +271,7 @@ impl CapabilityAdvertisementPolicy {
 }
 
 pub struct CapabilityAdvertisementVerifier {
-    certificate_store: Arc<CapabilityCertificateStore>,
+    certificate_store: Arc<DistributedCertificateStore>,
     policy: CapabilityAdvertisementPolicy,
     replay_database: Database,
 }
@@ -290,7 +284,7 @@ struct ReplayState {
 
 impl CapabilityAdvertisementVerifier {
     pub fn open(
-        certificate_store: Arc<CapabilityCertificateStore>,
+        certificate_store: Arc<DistributedCertificateStore>,
         policy: CapabilityAdvertisementPolicy,
         replay_database_path: impl AsRef<Path>,
     ) -> AdvertisementResult<Self> {
@@ -349,21 +343,10 @@ impl CapabilityAdvertisementVerifier {
             .authority_certificate
             .certificate_id()
             .map_err(|_| AdvertisementError::CertificateAuthorization)?;
-        #[cfg(not(test))]
         let authorized = self
             .certificate_store
             .authorize(
-                &advertisement.body.issuer_id,
-                CertificatePurpose::AdvertisementSigning,
-                advertisement.body.certificate_generation,
-                now_unix_secs,
-            )
-            .map_err(|_| AdvertisementError::CertificateAuthorization)?;
-        #[cfg(test)]
-        let authorized = self
-            .certificate_store
-            .authorize(
-                &super::certificates::TEST_CERTIFICATE_STORE_ACCESS,
+                &AUTHORITY_BOUND_CERTIFICATE_ACCESS,
                 &advertisement.body.issuer_id,
                 CertificatePurpose::AdvertisementSigning,
                 advertisement.body.certificate_generation,

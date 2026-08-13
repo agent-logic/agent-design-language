@@ -9,29 +9,18 @@ use std::{cmp::Ordering, collections::BTreeMap, fmt, sync::Mutex, time::SystemTi
 use serde::Deserialize;
 use sha2::{Digest, Sha256};
 
-#[cfg(not(test))]
-use super::authority_store_adapters::{AuthorityBoundFencingStore, AuthorityBoundLeaseLedger};
 use super::{
     capability_advertisement::{CapabilityAdvertisementVerifier, VerifiedCapabilityAdvertisement},
-    certificates::CertificatePurpose,
-    fencing::FenceReceipt,
-    lease::{decode_certificate, LeaseState, OperationClass, AUTHORITY_SNAPSHOT_SCHEMA},
-    membership::{Member, MemberRole, MembershipState},
-    resource_weather::{
-        PlacementWeather, ResourceWeatherStore, WeatherAvailability, WeatherCertificateStore,
+    certificates::{
+        CertificatePurpose, DistributedCertificateStore, AUTHORITY_BOUND_CERTIFICATE_ACCESS,
     },
+    fencing::{FenceReceipt, FencingStore},
+    lease::{
+        decode_certificate, AuthorityLedger, LeaseState, OperationClass, AUTHORITY_SNAPSHOT_SCHEMA,
+    },
+    membership::{Member, MemberRole, MembershipState},
+    resource_weather::{PlacementWeather, ResourceWeatherStore, WeatherAvailability},
 };
-#[cfg(test)]
-use super::{fencing::FencingStore, lease::AuthorityLedger};
-
-#[cfg(not(test))]
-pub type PlacementLeaseLedger = AuthorityBoundLeaseLedger;
-#[cfg(test)]
-pub type PlacementLeaseLedger = AuthorityLedger;
-#[cfg(not(test))]
-pub type PlacementFenceStore = AuthorityBoundFencingStore;
-#[cfg(test)]
-pub type PlacementFenceStore = FencingStore;
 
 const MAX_TEXT_BYTES: usize = 128;
 const ABSOLUTE_MAX_INPUTS: usize = 4096;
@@ -237,7 +226,7 @@ impl std::ops::Deref for BoundWeather {
 impl PlacementWeatherSnapshot {
     pub fn capture(
         store: &ResourceWeatherStore,
-        certificates: &WeatherCertificateStore,
+        certificates: &DistributedCertificateStore,
         now_unix_secs: u64,
     ) -> PlacementResult<Self> {
         let projected = store
@@ -246,19 +235,9 @@ impl PlacementWeatherSnapshot {
         let rows = projected
             .into_iter()
             .map(|row| {
-                #[cfg(not(test))]
                 let authorized = certificates
                     .authorize(
-                        &row.holder_id,
-                        CertificatePurpose::AdvertisementSigning,
-                        row.certificate_generation,
-                        now_unix_secs,
-                    )
-                    .map_err(|_| PlacementError::InconsistentEvidence)?;
-                #[cfg(test)]
-                let authorized = certificates
-                    .authorize(
-                        &super::certificates::TEST_CERTIFICATE_STORE_ACCESS,
+                        &AUTHORITY_BOUND_CERTIFICATE_ACCESS,
                         &row.holder_id,
                         CertificatePurpose::AdvertisementSigning,
                         row.certificate_generation,
@@ -308,8 +287,8 @@ impl PlacementFencingSnapshot {
     pub fn capture(
         policy: &PlacementPolicy,
         membership: &MembershipState,
-        ledger: &PlacementLeaseLedger,
-        store: &PlacementFenceStore,
+        ledger: &AuthorityLedger,
+        store: &FencingStore,
     ) -> PlacementResult<Self> {
         let bytes = ledger
             .snapshot()
@@ -327,12 +306,15 @@ impl PlacementFencingSnapshot {
             .into_iter()
             .map(PlacementLineageBinding::try_from)
             .collect::<PlacementResult<Vec<_>>>()?;
-        let mut receipts = BTreeMap::new();
-        for lineage in &lineages {
-            if let Some(receipt) = placement_floor(store, lineage.lineage_id.as_bytes())? {
-                receipts.insert(lineage.lineage_id.clone(), receipt);
-            }
-        }
+        let receipts = lineages
+            .iter()
+            .filter_map(|lineage| {
+                store
+                    .floor(lineage.lineage_id.as_bytes())
+                    .cloned()
+                    .map(|receipt| (lineage.lineage_id.clone(), receipt))
+            })
+            .collect();
         build_fencing_snapshot(policy, membership, lineages, receipts)
     }
 
@@ -419,24 +401,6 @@ impl PlacementFencingSnapshot {
             BTreeMap::from([(lineage_id, receipt)]),
         )
     }
-}
-
-#[cfg(not(test))]
-fn placement_floor(
-    store: &PlacementFenceStore,
-    lineage_id: &[u8],
-) -> PlacementResult<Option<FenceReceipt>> {
-    store
-        .floor(lineage_id)
-        .map_err(|_| PlacementError::InconsistentEvidence)
-}
-
-#[cfg(test)]
-fn placement_floor(
-    store: &PlacementFenceStore,
-    lineage_id: &[u8],
-) -> PlacementResult<Option<FenceReceipt>> {
-    Ok(store.floor(lineage_id).cloned())
 }
 
 pub trait PlacementClock: fmt::Debug + Send + Sync {

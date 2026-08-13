@@ -10,23 +10,13 @@ use redb::{Database, Durability, ReadableTable, ReadableTableMetadata, TableDefi
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
-#[cfg(not(test))]
-use super::authority_store_adapters::{AuthorityBoundCertificateStore, AuthorityBoundFencingStore};
-#[cfg(test)]
-use super::certificates::DistributedCertificateStore;
-use super::certificates::{AuthorityCertificate, CertificatePurpose};
-use super::fencing::ActiveLeaseCheck;
-#[cfg(test)]
-use super::fencing::FencingStore;
-
-#[cfg(not(test))]
-pub type SnapshotCertificateStore = AuthorityBoundCertificateStore;
-#[cfg(test)]
-pub type SnapshotCertificateStore = DistributedCertificateStore;
-#[cfg(not(test))]
-pub type SnapshotFencingStore = AuthorityBoundFencingStore;
-#[cfg(test)]
-pub type SnapshotFencingStore = FencingStore;
+use super::{
+    certificates::{
+        AuthorityCertificate, CertificatePurpose, DistributedCertificateStore,
+        AUTHORITY_BOUND_CERTIFICATE_ACCESS,
+    },
+    fencing::{ActiveLeaseCheck, FencingStore, AUTHORITY_BOUND_FENCING_ACCESS},
+};
 
 pub const SNAPSHOT_CATALOG_SCHEMA: &str = "adl.distributed.snapshot_catalog_entry.v1";
 pub const TRANSFER_MANIFEST_SCHEMA: &str = "adl.distributed.snapshot_transfer_manifest.v1";
@@ -504,14 +494,14 @@ struct ReplayRecord {
 }
 
 pub struct SnapshotCatalogVerifier {
-    certificate_store: Arc<SnapshotCertificateStore>,
+    certificate_store: Arc<DistributedCertificateStore>,
     policy: SnapshotCatalogPolicy,
     replay_database: Database,
 }
 
 impl SnapshotCatalogVerifier {
     pub fn open(
-        certificate_store: Arc<SnapshotCertificateStore>,
+        certificate_store: Arc<DistributedCertificateStore>,
         policy: SnapshotCatalogPolicy,
         replay_database_path: impl AsRef<Path>,
     ) -> SnapshotResult<Self> {
@@ -540,7 +530,7 @@ impl SnapshotCatalogVerifier {
     pub fn decode_catalog_and_verify(
         &self,
         bytes: &[u8],
-        fencing: &SnapshotFencingStore,
+        fencing: &FencingStore,
         active_lease: ActiveLeaseCheck<'_>,
     ) -> SnapshotResult<VerifiedSnapshotCatalogEntry> {
         if bytes.is_empty() || bytes.len() > self.policy.max_encoded_bytes {
@@ -556,7 +546,7 @@ impl SnapshotCatalogVerifier {
     pub fn verify_catalog(
         &self,
         entry: &SignedSnapshotCatalogEntry,
-        fencing: &SnapshotFencingStore,
+        fencing: &FencingStore,
         active_lease: ActiveLeaseCheck<'_>,
     ) -> SnapshotResult<VerifiedSnapshotCatalogEntry> {
         if catalog_bytes(entry)?.len() > self.policy.max_encoded_bytes {
@@ -592,7 +582,7 @@ impl SnapshotCatalogVerifier {
         encoded_catalog: &[u8],
         chunks: &[Vec<u8>],
         expected_target_id: &[u8],
-        fencing: &SnapshotFencingStore,
+        fencing: &FencingStore,
         active_lease: ActiveLeaseCheck<'_>,
     ) -> SnapshotResult<VerifiedSnapshotTransfer> {
         if encoded_manifest.is_empty()
@@ -625,7 +615,7 @@ impl SnapshotCatalogVerifier {
         catalog: &SignedSnapshotCatalogEntry,
         chunks: &[Vec<u8>],
         expected_target_id: &[u8],
-        fencing: &SnapshotFencingStore,
+        fencing: &FencingStore,
         active_lease: ActiveLeaseCheck<'_>,
     ) -> SnapshotResult<VerifiedSnapshotTransfer> {
         if manifest_bytes(manifest)?.len() > self.policy.max_encoded_bytes
@@ -710,21 +700,10 @@ impl SnapshotCatalogVerifier {
         let certificate_id = certificate
             .certificate_id()
             .map_err(|_| SnapshotError::CertificateAuthorization)?;
-        #[cfg(not(test))]
         let authorized = self
             .certificate_store
             .authorize(
-                signer_id,
-                CertificatePurpose::SnapshotSigning,
-                generation,
-                now_unix_secs,
-            )
-            .map_err(|_| SnapshotError::CertificateAuthorization)?;
-        #[cfg(test)]
-        let authorized = self
-            .certificate_store
-            .authorize(
-                &super::certificates::TEST_CERTIFICATE_STORE_ACCESS,
+                &AUTHORITY_BOUND_CERTIFICATE_ACCESS,
                 signer_id,
                 CertificatePurpose::SnapshotSigning,
                 generation,
@@ -892,7 +871,7 @@ fn active_time(check: &ActiveLeaseCheck<'_>) -> SnapshotResult<u64> {
 
 fn verify_live_authority(
     snapshot: &SnapshotDescriptor,
-    fencing: &SnapshotFencingStore,
+    fencing: &FencingStore,
     check: ActiveLeaseCheck<'_>,
 ) -> SnapshotResult<()> {
     let lease = check.lease;
@@ -908,7 +887,9 @@ fn verify_live_authority(
     {
         return Err(SnapshotError::AuthorityMismatch);
     }
-    snapshot_authorize_active_lease(fencing, check)
+    fencing
+        .authorize_active_lease(&AUTHORITY_BOUND_FENCING_ACCESS, check)
+        .map_err(|_| SnapshotError::FencedAuthority)
 }
 
 fn verify_content(snapshot: &SnapshotDescriptor, chunks: &[Vec<u8>]) -> SnapshotResult<()> {
@@ -938,26 +919,6 @@ fn verify_content(snapshot: &SnapshotDescriptor, chunks: &[Vec<u8>]) -> Snapshot
         return Err(SnapshotError::ContentDigestMismatch);
     }
     Ok(())
-}
-
-#[cfg(not(test))]
-fn snapshot_authorize_active_lease(
-    fencing: &SnapshotFencingStore,
-    check: ActiveLeaseCheck<'_>,
-) -> SnapshotResult<()> {
-    fencing
-        .authorize_active_lease(check)
-        .map_err(|_| SnapshotError::FencedAuthority)
-}
-
-#[cfg(test)]
-fn snapshot_authorize_active_lease(
-    fencing: &SnapshotFencingStore,
-    check: ActiveLeaseCheck<'_>,
-) -> SnapshotResult<()> {
-    fencing
-        .authorize_active_lease(&super::fencing::TEST_FENCING_STORE_ACCESS, check)
-        .map_err(|_| SnapshotError::FencedAuthority)
 }
 
 fn validate_certificate_binding(

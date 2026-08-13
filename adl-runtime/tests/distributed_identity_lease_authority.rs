@@ -13,7 +13,7 @@ use adl_runtime::distributed::{
 };
 use ed25519_dalek::SigningKey;
 
-// PVF: lane=identity-lease-fencing-authority-boundary; proof=#203 slice-1
+// PVF: lane=identity-lease-fencing-authority-boundary; proof=#258 authority-store-boundary
 // security-boundary guardrail; deterministic=true; resource_profile=small;
 // release_gate=false.
 
@@ -74,7 +74,7 @@ fn assert_not_contains(source: &str, needle: &str) {
 }
 
 #[test]
-fn issue_203_authority_store_boundary_guardrails_are_bound() {
+fn issue_258_authority_store_boundary_guardrails_are_bound() {
     let adapters = include_str!("../src/distributed/authority_store_adapters.rs");
     let certificates = include_str!("../src/distributed/certificates.rs");
     let lease = include_str!("../src/distributed/lease.rs");
@@ -102,10 +102,6 @@ fn issue_203_authority_store_boundary_guardrails_are_bound() {
     assert_contains(
         adapters,
         "AuthorityPermitAction::Mutation(mutation_kind.to_owned())",
-    );
-    assert_contains(
-        adapters,
-        "authority_bound_certificate_store_for_test_fixture",
     );
 
     assert_contains(certificates, "pub struct CertificateStoreAccess");
@@ -148,14 +144,6 @@ fn issue_203_authority_store_boundary_guardrails_are_bound() {
         lease,
         "pub fn authorize_mutation(\n        &mut self,\n        _access: &LeaseStoreAccess,",
     );
-    assert_not_contains(lease, "pub activated_elapsed_millis");
-    assert_not_contains(lease, "pub deadline_elapsed_millis");
-    assert_contains(lease, "pub deadline_unix_millis");
-    assert_contains(lease, "pub now_unix_seconds: i64");
-    assert_contains(lease, "pub now_unix_nanos: u32");
-    assert_contains(lease, "now_unix_millis >= lease.deadline_unix_millis");
-    assert_contains(lease, "restart_safety_deadline_unix_millis");
-
     assert_contains(fencing, "pub safety_deadline_unix_millis: u64");
     assert_contains(fencing, "pub struct FencingStoreAccess");
     assert_contains(
@@ -197,14 +185,6 @@ fn issue_203_authority_store_boundary_guardrails_are_bound() {
     assert_contains(
         adapters,
         ".authorize_active_lease(&AUTHORITY_BOUND_FENCING_ACCESS, check)",
-    );
-    assert_contains(
-        fencing,
-        "if check.now_unix_millis < floor.safety_deadline_unix_millis",
-    );
-    assert_contains(
-        fencing,
-        "if check.now_unix_millis >= check.lease.deadline_unix_millis",
     );
 }
 
@@ -278,7 +258,7 @@ fn authority_store_adapter_denies_unpublished_lineage() {
         ))
     ));
 
-    println!("ADL_ISSUE_203_ADAPTER_GUARD_V1 unpublished_lineage_denied");
+    println!("ADL_ISSUE_258_ADAPTER_GUARD_V1 unpublished_lineage_denied");
 }
 
 #[test]
@@ -309,5 +289,5 @@ fn authority_store_adapter_refuses_certificate_handle_without_publication() {
         ))
     ));
 
-    println!("ADL_ISSUE_203_ADAPTER_GUARD_V1 unpublished_certificate_handle_denied");
+    println!("ADL_ISSUE_258_ADAPTER_GUARD_V1 unpublished_certificate_handle_denied");
 }

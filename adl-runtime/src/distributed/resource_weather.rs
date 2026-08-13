@@ -16,16 +16,10 @@ use redb::{
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
-#[cfg(not(test))]
-use super::authority_store_adapters::AuthorityBoundCertificateStore;
-#[cfg(test)]
-use super::certificates::DistributedCertificateStore;
-use super::certificates::{AuthorityCertificate, CertificatePurpose};
-
-#[cfg(not(test))]
-pub type WeatherCertificateStore = AuthorityBoundCertificateStore;
-#[cfg(test)]
-pub type WeatherCertificateStore = DistributedCertificateStore;
+use super::certificates::{
+    AuthorityCertificate, CertificatePurpose, DistributedCertificateStore,
+    AUTHORITY_BOUND_CERTIFICATE_ACCESS,
+};
 
 pub const RESOURCE_WEATHER_SCHEMA: &str = "adl.distributed.resource_weather.v1";
 const SIGNING_DOMAIN: &[u8] = b"ADL-DISTRIBUTED-RESOURCE-WEATHER-V1\0";
@@ -438,7 +432,7 @@ impl ResourceWeatherStore {
     pub fn admit(
         &self,
         advertisement: SignedResourceWeather,
-        certificates: &WeatherCertificateStore,
+        certificates: &DistributedCertificateStore,
         now_unix_secs: u64,
     ) -> WeatherResult<PlacementWeather> {
         let authorization_deadline = self.verify(&advertisement, certificates, now_unix_secs)?;
@@ -490,7 +484,7 @@ impl ResourceWeatherStore {
     pub fn weather_for(
         &self,
         holder_id: &str,
-        certificates: &WeatherCertificateStore,
+        certificates: &DistributedCertificateStore,
         now_unix_secs: u64,
     ) -> WeatherResult<PlacementWeather> {
         validate_text(holder_id, WeatherError::InvalidHolder)?;
@@ -518,7 +512,7 @@ impl ResourceWeatherStore {
 
     pub fn snapshot(
         &self,
-        certificates: &WeatherCertificateStore,
+        certificates: &DistributedCertificateStore,
         now_unix_secs: u64,
     ) -> WeatherResult<Vec<PlacementWeather>> {
         let read = self.database.begin_read().map_err(storage_error)?;
@@ -548,7 +542,7 @@ impl ResourceWeatherStore {
     fn verify(
         &self,
         advertisement: &SignedResourceWeather,
-        certificates: &WeatherCertificateStore,
+        certificates: &DistributedCertificateStore,
         now_unix_secs: u64,
     ) -> WeatherResult<u64> {
         let encoded = serde_jcs::to_vec(advertisement).map_err(encoding_error)?;
@@ -609,19 +603,9 @@ impl ResourceWeatherStore {
         {
             return Err(WeatherError::InvalidLifetime);
         }
-        #[cfg(not(test))]
         let authorized = certificates
             .authorize(
-                &claims.holder_id,
-                CertificatePurpose::AdvertisementSigning,
-                claims.certificate_generation,
-                now_unix_secs,
-            )
-            .map_err(|_| WeatherError::CertificateRejected)?;
-        #[cfg(test)]
-        let authorized = certificates
-            .authorize(
-                &super::certificates::TEST_CERTIFICATE_STORE_ACCESS,
+                &AUTHORITY_BOUND_CERTIFICATE_ACCESS,
                 &claims.holder_id,
                 CertificatePurpose::AdvertisementSigning,
                 claims.certificate_generation,

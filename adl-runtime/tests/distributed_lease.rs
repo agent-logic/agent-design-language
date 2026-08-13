@@ -222,8 +222,6 @@ fn authorization<'a>(
         lineage_id: LINEAGE,
         holder_guardian_id,
         epoch,
-        now_unix_seconds: NOW_UNIX_SECONDS,
-        now_unix_nanos: 0,
         now_elapsed_millis,
         applied_log_index,
         sequence,
@@ -675,7 +673,7 @@ fn activation_possession_epoch_safety_and_clock_bounds_fail_closed() {
             &TEST_LEASE_STORE_ACCESS,
             &epoch_two_certificate,
             &fixture.membership,
-            application(&clone, &epoch_two_proof, 215, 5),
+            application(&clone, &epoch_two_proof, 600_116, 5),
         )
         .unwrap();
 
@@ -848,7 +846,7 @@ fn mutation_sink_enforces_holder_epoch_deadline_and_applied_index() {
     let mutation = Sha256::digest(b"mutation-one").into();
     let lease = ledger.lease(LINEAGE).unwrap().clone();
     let clone = activation(15);
-    let clone_proof = mutation_signature(&lease, NOW_UNIX_SECONDS, 0, 90, 1, mutation, &clone);
+    let clone_proof = mutation_signature(&lease, 90, 1, mutation, &clone);
     assert_eq!(
         ledger.authorize_mutation(
             &TEST_LEASE_STORE_ACCESS,
@@ -856,15 +854,7 @@ fn mutation_sink_enforces_holder_epoch_deadline_and_applied_index() {
         ),
         Err(AuthorityError::ActivationPossession)
     );
-    let future_index_proof = mutation_signature(
-        &lease,
-        NOW_UNIX_SECONDS,
-        0,
-        91,
-        1,
-        mutation,
-        &owner_activation,
-    );
+    let future_index_proof = mutation_signature(&lease, 91, 1, mutation, &owner_activation);
     assert_eq!(
         ledger.authorize_mutation(
             &TEST_LEASE_STORE_ACCESS,
@@ -873,15 +863,7 @@ fn mutation_sink_enforces_holder_epoch_deadline_and_applied_index() {
         Err(AuthorityError::StaleAppliedIndex)
     );
     assert_eq!(ledger.lease(LINEAGE).unwrap().last_mutation_sequence, 0);
-    let proof = mutation_signature(
-        &lease,
-        NOW_UNIX_SECONDS,
-        0,
-        90,
-        1,
-        mutation,
-        &owner_activation,
-    );
+    let proof = mutation_signature(&lease, 90, 1, mutation, &owner_activation);
     assert_eq!(
         ledger.authorize_mutation(
             &TEST_LEASE_STORE_ACCESS,
@@ -910,16 +892,7 @@ fn mutation_sink_enforces_holder_epoch_deadline_and_applied_index() {
         ),
         Err(AuthorityError::StaleAppliedIndex)
     );
-    let expired_unix_seconds = NOW_UNIX_SECONDS + 601;
-    let expired_proof = mutation_signature(
-        &lease,
-        expired_unix_seconds,
-        0,
-        90,
-        2,
-        [2; 32],
-        &owner_activation,
-    );
+    let expired_proof = mutation_signature(&lease, 90, 2, [2; 32], &owner_activation);
     assert_eq!(
         ledger.authorize_mutation(
             &TEST_LEASE_STORE_ACCESS,
@@ -927,9 +900,7 @@ fn mutation_sink_enforces_holder_epoch_deadline_and_applied_index() {
                 lineage_id: LINEAGE,
                 holder_guardian_id: HOLDER,
                 epoch: 1,
-                now_unix_seconds: expired_unix_seconds,
-                now_unix_nanos: 0,
-                now_elapsed_millis: 200,
+                now_elapsed_millis: 600_101,
                 applied_log_index: 90,
                 sequence: 2,
                 mutation_sha256: [2; 32],
@@ -989,7 +960,7 @@ fn lease_grant_and_activate_have_distinct_authority_transitions() {
             &TEST_LEASE_STORE_ACCESS,
             &fixture.certificate(activate, &[0, 1]),
             &fixture.membership,
-            application(&replacement, &proof, 215, 5),
+            application(&replacement, &proof, 600_116, 5),
         )
         .unwrap();
     assert_eq!(ledger.applied_log_index(), 142);
@@ -1357,7 +1328,7 @@ fn machine_derived_negative_case_evidence() {
     let lease = ledger.lease(LINEAGE).unwrap().clone();
     let mutation = Sha256::digest(b"machine-negative-mutation").into();
 
-    let future = mutation_signature(&lease, NOW_UNIX_SECONDS, 0, 171, 1, mutation, &owner);
+    let future = mutation_signature(&lease, 171, 1, mutation, &owner);
     assert_eq!(
         ledger.authorize_mutation(
             &TEST_LEASE_STORE_ACCESS,
@@ -1367,7 +1338,7 @@ fn machine_derived_negative_case_evidence() {
     );
     emit_negative_case("future_applied_index", "rejected");
 
-    let stale = mutation_signature(&lease, NOW_UNIX_SECONDS, 0, 169, 1, mutation, &owner);
+    let stale = mutation_signature(&lease, 169, 1, mutation, &owner);
     assert_eq!(
         ledger.authorize_mutation(
             &TEST_LEASE_STORE_ACCESS,
@@ -1377,7 +1348,7 @@ fn machine_derived_negative_case_evidence() {
     );
     emit_negative_case("stale_applied_index", "rejected");
 
-    let proof = mutation_signature(&lease, NOW_UNIX_SECONDS, 0, 170, 1, mutation, &owner);
+    let proof = mutation_signature(&lease, 170, 1, mutation, &owner);
     ledger
         .authorize_mutation(
             &TEST_LEASE_STORE_ACCESS,
@@ -1615,8 +1586,6 @@ fn canonical_snapshot_restores_exact_state_and_rejects_tamper_and_bounds() {
     let mutation = Sha256::digest(b"post-recovery-mutation").into();
     let proof = mutation_signature(
         restored.lease(LINEAGE).unwrap(),
-        NOW_UNIX_SECONDS,
-        0,
         101,
         1,
         mutation,
