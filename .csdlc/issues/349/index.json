@@ -4,50 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "340e5118c1f57c82d2f683cb6401f377a5a472c61b57fbe107d6f2df2fc599a1",
-  "phase": "published",
-  "generation": 9,
-  "digest": "6b3d87f87ca9a4e18b0c7323749be8a12506bb5f7b338b09a05328bb9d05a5d8",
+  "phase": "implemented",
+  "generation": 10,
+  "digest": "98a7d0c1d22e913fd27e3ed2530079cb9c87beedb1c751ccd69218fd9e6fe49c",
   "branch": "codex/349-ready-deferred-validator-admission",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-349-ready-deferred-validator-admission",
-  "review_assignment": {
-    "reviewer": "/root/issue_349_prepare/fresh_metadata_review",
-    "assigned_by": "codex:issue-349-review-recovery",
-    "revision": "git-blake3:54ffa5c4d30069c6ad70f25d55a5e59585d6f564:a01d00dc29653c29e3222900e4fe95d99d1aaf4cd4d9ad82e63e5695816e7e53",
-    "scope": [
-      "csdlc-v2/src/cards.rs",
-      "csdlc-v2/tests/gate2.rs",
-      ".csdlc/issues/349",
-      ".csdlc/evidence/349"
-    ]
-  },
-  "review": {
-    "reviewer": "/root/issue_349_prepare/fresh_metadata_review",
-    "scope": [
-      "csdlc-v2/src/cards.rs",
-      "csdlc-v2/tests/gate2.rs",
-      ".csdlc/issues/349",
-      ".csdlc/evidence/349"
-    ],
-    "reviewed_revision": "git-blake3:54ffa5c4d30069c6ad70f25d55a5e59585d6f564:a01d00dc29653c29e3222900e4fe95d99d1aaf4cd4d9ad82e63e5695816e7e53",
-    "findings": [],
-    "residual_risks": [
-      "Fresh metadata-head review confirmed substantive code/test identity with the prior PASS and retained exact local proof. Hosted CI remains deferred to publication."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 349,
-    "pull_request": 352,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/352",
-    "base": "main",
-    "head": "codex/349-ready-deferred-validator-admission",
-    "revision": "git-blake3:54ffa5c4d30069c6ad70f25d55a5e59585d6f564:a01d00dc29653c29e3222900e4fe95d99d1aaf4cd4d9ad82e63e5695816e7e53",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -61,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5279e7e0b05512938ee4bdfd7bf22a5ca7f69f54e2696c405cceb37602591f51",
+      "values_digest": "1e7380bdae08fdf141578890e942e99dd829c2942129c02f69bc85eb072d9e42",
       "rendered_digest": "d7d13b0f0c69af7f44bee9483e5d7f15873120847bb563ca3feebf4e19afcc41",
       "ast_digest": "fc6a4f87f994cfdcb23677d2985bdce92cba57716c7e081e740b96e78db50bcf"
     },
     "stp": {
-      "values_digest": "f95f7125c50e402b35debabebc5f9a7146ab108bcd7aeb2ecd95d63b5c8103c2",
+      "values_digest": "d126b59b611edc5ae53ae048c0af099430e8b4ccea77ae9b23165457d5d7fffa",
       "rendered_digest": "c53c38ff0b6341444e176ae0bf18d489acd4d57ceddc9c93cee1c5036a9f3e89",
       "ast_digest": "992911b92358c2253b931bf546e2173a9ff49ab492abf3ec77eacf6930bc4d2b"
     },
     "spp": {
-      "values_digest": "4176aa821822a9f06da7bd31020085cea4e19aa7b57e56307cc2e65719338eef",
+      "values_digest": "e1bd46bf4b28f33ee57053d031f5ff9004714b265640953b1690566ee3120e64",
       "rendered_digest": "132818788dec9eaa690605be61d446b6a23d7c67e2cff8caf935c78873d9180c",
       "ast_digest": "8328735149e2966a6755567c96dbb4e3b6f2a9f3f123f91bae00fe490a91f32e"
     },
     "vpp": {
-      "values_digest": "83a94c0d17edde64322740ed097930f66a16bcb87e65f09dae442f7c01e7d7a1",
+      "values_digest": "99c6bb94d99714f13931d84135d8abf0fd0daa8b0b392744105e977b95a2940b",
       "rendered_digest": "e8270b935f196259307fff008e652ed59fbb4f17b2f60b53adb76b979abe4977",
       "ast_digest": "98bc2b3c8c496edc9b161278bb6febe6c34e629d49a9363f7b451404f4e67ce0"
     },
     "srp": {
-      "values_digest": "3bcd6e5ca40d6198fe1115d09d6e37b27ab0d239fe5987fcf06bcfa22398ceb2",
-      "rendered_digest": "0e766a4e15ca8e41b85986e410fe2b0b3dfa8cf53f27963149edb1f2fe8b2cb8",
-      "ast_digest": "4835b69fc8a020e607d1506838d8cbe5d4d356ecaf344d4228f0cf0514523186"
+      "values_digest": "1d381786af44328f9c96c5a2dfcca6ffe78d6c23dcf36a57610f52cac39addca",
+      "rendered_digest": "030d6150e7fe655603e59f6430507bc0fc87e5166b39deeca90fd15755eb4b18",
+      "ast_digest": "c28c68f712afe31b6fac582cbd2a6b2895e267cbd9e3436cf83d57b7aa9b1be5"
     },
     "sor": {
-      "values_digest": "5e560144e1bb6e3bb1a2d668b2044143ff1ec39c29718633bbf4ad49b2f35ccd",
-      "rendered_digest": "c12f791096f0b51e892e4e162c648b392492744a6314325d7dfb3a152c124771",
-      "ast_digest": "84a0ba57130208c89d4deecbfc0d3e47bd692ffc69b27e47365a513724c74b92"
+      "values_digest": "f7f89743747ffbbab7e570baf591d9908c4f58aa78066a71f5c84f30cbd6a19a",
+      "rendered_digest": "3b6e1ac251ab21fc7baf2a5fc545d2e8e195e1b4ef7e8a308f2a0d216bca95ea",
+      "ast_digest": "0df484e22f755b458819bcd2949d19a7a59e3c8e35e3a1819e52eb6ec43846e2"
     }
   },
   "transitions": [
@@ -140,6 +104,13 @@
       "to": "published",
       "actor": "codex:issue-349-implementation",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-349-postpublication-recovery",
+      "reason": "Clear stale publication and review authority after finish proved the publication commit retained the earlier review identity; preserve immutable implementation and green PR #352 CI as historical evidence before fresh exact-head review and republish."
     }
   ],
   "audit": [
@@ -233,6 +204,13 @@
       "actor": "codex:issue-349-implementation",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:issue-349-postpublication-recovery",
+      "reason": "Clear stale publication and review authority after finish proved the publication commit retained the earlier review identity; preserve immutable implementation and green PR #352 CI as historical evidence before fresh exact-head review and republish.",
+      "operation": "recover_review"
     }
   ]
 }
