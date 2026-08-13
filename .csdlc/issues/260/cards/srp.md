@@ -12,7 +12,22 @@ Status: draft
 
 ## Scope
 
-
+adl-runtime/src/distributed/capability_advertisement.rs
+adl-runtime/src/distributed/migration.rs
+adl-runtime/src/distributed/placement.rs
+adl-runtime/src/distributed/projection.rs
+adl-runtime/src/distributed/recovery.rs
+adl-runtime/src/distributed/resource_weather.rs
+adl-runtime/src/distributed/snapshot_catalog.rs
+adl-runtime/tests/distributed_capability_advertisement.rs
+adl-runtime/tests/distributed_migration.rs
+adl-runtime/tests/distributed_placement.rs
+adl-runtime/tests/distributed_recovery.rs
+adl-runtime/tests/distributed_snapshot_catalog.rs
+adl-runtime/tests/distributed_authority_adapter_callers_260.rs
+.csdlc/issues/260
+.csdlc/prepared/issues/260
+.csdlc/evidence/260
 
 ## Prompts
 
@@ -34,12 +49,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Broad workspace suite and live CI were not part of the independent local review; publication CI remains required.
+- Parent #203 integration and #205 remain explicitly out of scope.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:f6055539dfca07db8c930f1962527522fa642d6a:02b5b5a2ba238c475fb407fe58f0c6262fee496b02ebaf98623891f4899c59dc")
 
-Reviewer: None
+Reviewer: Some("fresh-session:84c1e627-9f55-4ea8-8b43-d20f6a731e0c")
 
-Result: pre_review
+Result: pass
