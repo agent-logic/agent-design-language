@@ -1146,7 +1146,10 @@ fn validate_publication_head_lineage_in_repo(
                 "metadata-only publication drift requires completed review evidence",
             )
         })?;
-    let historical_path = format!("{published_head}:.csdlc/issues/{}/index.json", record.issue);
+    // The publication revision remains the lower bound for governed metadata-only
+    // drift. Canonical review authority, however, must be retained by the exact
+    // live PR head supplied to finish after a supported recover/review/republish.
+    let historical_path = format!("{expected_head}:.csdlc/issues/{}/index.json", record.issue);
     let historical: IssueRecord = serde_json::from_str(
         &git::run(root, &["show", &historical_path])?.stdout,
     )

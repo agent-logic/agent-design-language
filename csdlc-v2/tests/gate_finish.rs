@@ -704,8 +704,8 @@ fn derived_terminal_accepts_publication_metadata_only_head_and_rejects_substanti
     let reviewed = csdlc_v2::git::substantive_revision(temp.path(), &["src".into()]).unwrap();
     assert_eq!(reviewed, csdlc_v2::git::clean_commit_revision(&source));
 
-    let mut historical = record(LifecyclePhase::Reviewed, None);
-    historical.review = Some(ReviewEvidence {
+    let historical = record(LifecyclePhase::Reviewed, None);
+    let completed_review = ReviewEvidence {
         reviewer: "reviewer".into(),
         scope: vec!["src".into()],
         reviewed_revision: reviewed,
@@ -713,7 +713,7 @@ fn derived_terminal_accepts_publication_metadata_only_head_and_rejects_substanti
         residual_risks: vec![],
         completed: true,
         non_substantive_proof: None,
-    });
+    };
     std::fs::create_dir_all(temp.path().join(".csdlc/issues/5778")).unwrap();
     std::fs::write(
         temp.path().join(".csdlc/issues/5778/index.json"),
@@ -721,10 +721,15 @@ fn derived_terminal_accepts_publication_metadata_only_head_and_rejects_substanti
     )
     .unwrap();
     git(&["add", ".csdlc/issues/5778/index.json"]);
-    git(&["commit", "-qm", "review metadata"]);
+    git(&[
+        "commit",
+        "-qm",
+        "publication anchor without review metadata",
+    ]);
     let published = git(&["rev-parse", "HEAD"]);
 
     let mut record = historical;
+    record.review = Some(completed_review);
     record.phase = LifecyclePhase::Published;
     record.publication = Some(PublicationEvidence {
         repository: "owner/repo".into(),
