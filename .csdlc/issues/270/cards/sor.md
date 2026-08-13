@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented trusted Layer 8 recipient-acknowledgement Runtime API protocol.
+Implemented trusted Layer 8 recipient-acknowledgement Runtime API protocol, then remediated the P1 exact-review finding by validating recipient acknowledgement payload semantics before reporting delivery.
 
 ## Artifacts
 
@@ -27,7 +27,8 @@ Implemented trusted Layer 8 recipient-acknowledgement Runtime API protocol.
 
 - Added the served Runtime Core recipient-acknowledgement route that verifies sender-signed requests and recipient-signed acknowledgements before returning delivery status.
 - Bound acknowledgement responses to signed credential generations and redacted correlation by returning only a BLAKE3 correlation hash.
-- Added focused regressions for verified delivery, tampered credential-generation refusal before side effects, and served-route response redaction.
+- Validated the recipient acknowledgement payload itself after signature verification: accepted delivery is required, refused delivery remains refused, and unrelated or recipient-mismatched payloads fail before delivered state.
+- Added focused regressions for verified delivery, tampered credential-generation refusal before side effects, served-route response redaction, recipient-signed delivery refusal, and unrelated signed acknowledgement payload refusal.
 - Updated Runtime Core OpenAPI contract and route-inventory proof for the new acknowledgement endpoint.
 
 ## Validation
@@ -39,18 +40,18 @@ Implemented trusted Layer 8 recipient-acknowledgement Runtime API protocol.
       "diff",
       "--check"
     ],
-    "purpose": "Run git diff hygiene check.",
+    "purpose": "Run git diff hygiene check after #270 P1 acknowledgement-payload remediation.",
     "outcome": "passed",
-    "evidence_ref": "diff-hygiene.log"
+    "evidence_ref": ".csdlc/evidence/270/diff-hygiene.log"
   },
   {
     "command": [
       "python3",
       ".csdlc/prepared/issues/270/validate_preparation_bundle.py"
     ],
-    "purpose": "Run the issue-owned preparation validator after #112 and #265 terminal caches are present.",
+    "purpose": "Run the issue-owned preparation validator after #112 and #265 terminal caches are present and the validator accepts bound/implemented phases.",
     "outcome": "passed",
-    "evidence_ref": "issue-270-preparation-validator.log"
+    "evidence_ref": ".csdlc/evidence/270/issue-270-preparation-validator.log"
   },
   {
     "command": [
@@ -63,9 +64,9 @@ Implemented trusted Layer 8 recipient-acknowledgement Runtime API protocol.
       "--",
       "--nocapture"
     ],
-    "purpose": "Run the focused #270 Runtime recipient acknowledgement regressions.",
+    "purpose": "Run the focused #270 Runtime recipient acknowledgement regressions including the P1 fix cases for recipient-signed refusal and unrelated signed acknowledgement payload refusal.",
     "outcome": "passed",
-    "evidence_ref": "runtime-ack-api-focused.log"
+    "evidence_ref": ".csdlc/evidence/270/runtime-ack-api-focused.log"
   },
   {
     "command": [
@@ -75,9 +76,9 @@ Implemented trusted Layer 8 recipient-acknowledgement Runtime API protocol.
       "adl-runtime-kernel/Cargo.toml",
       "--check"
     ],
-    "purpose": "Run rustfmt check for adl-runtime-kernel.",
+    "purpose": "Run rustfmt check for adl-runtime-kernel after #270 P1 remediation.",
     "outcome": "passed",
-    "evidence_ref": "runtime-kernel-fmt.log"
+    "evidence_ref": ".csdlc/evidence/270/runtime-kernel-fmt.log"
   },
   {
     "command": [
@@ -90,9 +91,9 @@ Implemented trusted Layer 8 recipient-acknowledgement Runtime API protocol.
       "-D",
       "warnings"
     ],
-    "purpose": "Run strict Clippy for adl-runtime-kernel.",
+    "purpose": "Run strict Clippy for adl-runtime-kernel after #270 P1 remediation.",
     "outcome": "passed",
-    "evidence_ref": "runtime-kernel-strict-clippy.log"
+    "evidence_ref": ".csdlc/evidence/270/runtime-kernel-strict-clippy.log"
   },
   {
     "command": [
@@ -105,15 +106,15 @@ Implemented trusted Layer 8 recipient-acknowledgement Runtime API protocol.
       "--",
       "--nocapture"
     ],
-    "purpose": "Run the Runtime Core OpenAPI route-inventory contract tests.",
+    "purpose": "Run the Runtime Core OpenAPI route-inventory contract tests after #270 API route integration.",
     "outcome": "passed",
-    "evidence_ref": "runtime-openapi-contract.log"
+    "evidence_ref": ".csdlc/evidence/270/runtime-openapi-contract.log"
   }
 ]
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

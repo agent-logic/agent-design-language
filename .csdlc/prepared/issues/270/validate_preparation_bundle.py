@@ -2,8 +2,9 @@
 """Validate the #270 design/bind-readiness packet.
 
 This validator proves lifecycle/card readiness and dependency-terminal gates
-for #270. It is not Runtime product proof; product proof belongs to the bound
-implementation worktree after #270 binds.
+for #270. It is not a substitute for Runtime product proof; product proof runs
+from the bound implementation worktree after #270 binds and remains valid after
+the issue reaches implemented phase.
 """
 
 from __future__ import annotations
@@ -156,16 +157,16 @@ def main() -> None:
         fail("index is not an object")
     if index.get("issue") != 270:
         fail("index issue is not 270")
-    if index.get("phase") not in {"initialized", "ready", "bound"}:
-        fail("issue is not initialized, ready, or bound")
-    if index.get("phase") == "bound":
+    if index.get("phase") not in {"initialized", "ready", "bound", "implemented"}:
+        fail("issue is not initialized, ready, bound, or implemented")
+    if index.get("phase") in {"bound", "implemented"}:
         if index.get("branch") != "codex/270-trusted-recipient-ack-runtime-api":
-            fail("bound branch is not the canonical #270 branch")
+            fail("branch is not the canonical #270 branch")
         if (
             index.get("worktree")
             != "/Volumes/FastWork/adl-worktrees/adl-issue-270-trusted-recipient-ack-runtime-api"
         ):
-            fail("bound worktree is not the canonical #270 FastWork worktree")
+            fail("worktree is not the canonical #270 FastWork worktree")
     elif index.get("branch") is not None or index.get("worktree") is not None:
         fail("issue has branch/worktree before bound phase")
     design_review = index.get("design_review")

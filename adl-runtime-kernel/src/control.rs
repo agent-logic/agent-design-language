@@ -917,11 +917,25 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             &request.acknowledgement,
             now_epoch_secs,
         ) {
-            Ok(()) => RuntimeRecipientAcknowledgementResponse::delivered(
-                projection,
-                request.signed_request.credential_generation,
-                request.acknowledgement.credential_generation,
-            ),
+            Ok(()) => match recipient_acknowledgement_delivery(
+                &request.signed_request,
+                &request.acknowledgement,
+            ) {
+                Ok(RecipientAcknowledgementDelivery::Accepted) => {
+                    RuntimeRecipientAcknowledgementResponse::delivered(
+                        projection,
+                        request.signed_request.credential_generation,
+                        request.acknowledgement.credential_generation,
+                    )
+                }
+                Ok(RecipientAcknowledgementDelivery::Refused) => {
+                    RuntimeRecipientAcknowledgementResponse::refused(
+                        projection,
+                        "recipient_refused_delivery",
+                    )
+                }
+                Err(reason) => refused(layer8_refusal_code(reason)),
+            },
             Err(reason) => refused(layer8_refusal_code(reason)),
         }
     }
@@ -2721,6 +2735,33 @@ struct RuntimeRecipientAcknowledgementRequest {
     acknowledgement: SignedIdentityMessage,
 }
 
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Deserialize)]
+#[serde(rename_all = "snake_case")]
+enum RecipientAcknowledgementDelivery {
+    Accepted,
+    Refused,
+}
+
+#[derive(Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct RecipientAcknowledgementPayload {
+    delivery: RecipientAcknowledgementDelivery,
+    recipient_id: String,
+}
+
+fn recipient_acknowledgement_delivery(
+    request: &SignedIdentityMessage,
+    acknowledgement: &SignedIdentityMessage,
+) -> Result<RecipientAcknowledgementDelivery, RefusalReason> {
+    let payload: RecipientAcknowledgementPayload =
+        serde_json::from_str(&acknowledgement.payload_json)
+            .map_err(|_| RefusalReason::InvalidRequest)?;
+    if payload.recipient_id != request.recipient_id {
+        return Err(RefusalReason::InvalidRequest);
+    }
+    Ok(payload.delivery)
+}
+
 #[derive(Clone, Debug)]
 struct RuntimeRecipientAcknowledgementProjection {
     conversation_id: Option<String>,
@@ -3676,9 +3717,10 @@ mod layer8_conversation_ingress_tests {
         }
     }
 
-    fn recipient_ack_request(
+    fn recipient_ack_request_with_payload(
         exchange: &Layer8SignedExchange,
         recipient_descriptor: &CommunicationKeyDescriptor,
+        acknowledgement_payload: serde_json::Value,
     ) -> RuntimeRecipientAcknowledgementRequest {
         let now = now_unix_millis() / 1_000;
         let payload_json = serde_jcs::to_string(&serde_json::json!({
@@ -3697,11 +3739,8 @@ mod layer8_conversation_ingress_tests {
                 now,
             )
             .expect("signed request");
-        let acknowledgement_payload = serde_jcs::to_string(&serde_json::json!({
-            "delivery": "accepted",
-            "recipient_id": "shepherd",
-        }))
-        .expect("acknowledgement payload is canonical");
+        let acknowledgement_payload =
+            serde_jcs::to_string(&acknowledgement_payload).expect("ack payload is canonical");
         let acknowledgement = sign_recipient_acknowledgement(
             &signed_request,
             recipient_descriptor,
@@ -3714,6 +3753,20 @@ mod layer8_conversation_ingress_tests {
             signed_request,
             acknowledgement,
         }
+    }
+
+    fn recipient_ack_request(
+        exchange: &Layer8SignedExchange,
+        recipient_descriptor: &CommunicationKeyDescriptor,
+    ) -> RuntimeRecipientAcknowledgementRequest {
+        recipient_ack_request_with_payload(
+            exchange,
+            recipient_descriptor,
+            serde_json::json!({
+                "delivery": "accepted",
+                "recipient_id": "shepherd",
+            }),
+        )
     }
 
     #[test]
@@ -3897,6 +3950,74 @@ mod layer8_conversation_ingress_tests {
                 .sessions
                 .is_empty(),
             "invalid acknowledgement must be refused before session mutation"
+        );
+    }
+
+    #[test]
+    fn recipient_acknowledgement_api_refuses_recipient_signed_delivery_refusal() {
+        let fixture = layer8_fixture("shepherd", "shepherd");
+        let request = recipient_ack_request_with_payload(
+            &fixture.exchange,
+            &fixture.recipient_descriptor,
+            serde_json::json!({
+                "delivery": "refused",
+                "recipient_id": "shepherd",
+            }),
+        );
+        let Layer8Fixture {
+            root: _root,
+            authority,
+            exchange,
+            recipient_descriptor: _,
+        } = fixture;
+        let service = service_from_layer8_parts(authority, exchange);
+        let response = service.accept_recipient_acknowledgement(request);
+
+        assert_eq!(response.status, "refused");
+        assert_eq!(response.error, Some("recipient_refused_delivery"));
+        assert_eq!(response.sender_credential_generation, None);
+        assert_eq!(response.recipient_credential_generation, None);
+        assert!(
+            service
+                .conversation_sessions
+                .lock()
+                .expect("conversation sessions mutex poisoned")
+                .sessions
+                .is_empty(),
+            "recipient refusal must not create conversation history"
+        );
+    }
+
+    #[test]
+    fn recipient_acknowledgement_api_refuses_unrelated_signed_payload() {
+        let fixture = layer8_fixture("shepherd", "shepherd");
+        let request = recipient_ack_request_with_payload(
+            &fixture.exchange,
+            &fixture.recipient_descriptor,
+            serde_json::json!({
+                "delivery": "accepted",
+                "recipient_id": "agent-other",
+            }),
+        );
+        let Layer8Fixture {
+            root: _root,
+            authority,
+            exchange,
+            recipient_descriptor: _,
+        } = fixture;
+        let service = service_from_layer8_parts(authority, exchange);
+        let response = service.accept_recipient_acknowledgement(request);
+
+        assert_eq!(response.status, "refused");
+        assert_eq!(response.error, Some("invalid_acknowledgement"));
+        assert!(
+            service
+                .conversation_sessions
+                .lock()
+                .expect("conversation sessions mutex poisoned")
+                .sessions
+                .is_empty(),
+            "malformed acknowledgement payload must not create conversation history"
         );
     }
 
