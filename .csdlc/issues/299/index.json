@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cc1c0d0bd318f0bbe41d3b610f2c6f17dff214cca5d5fc13b831f5d4c7ba3af8",
   "phase": "implemented",
-  "generation": 10,
-  "digest": "acfa540c53d001002b01fbf8ac11eab1a628f8dddbe5f5e40058703aa9441356",
+  "generation": 11,
+  "digest": "2f63b7c077d51809b76c675dea0b3f0aabeb997bab38ecaea8070f4094affdb7",
   "branch": "codex/299-exact-authority-archived-projection-cleanup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-299-exact-authority-archived-projection-cleanup",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7933b0ef73c47ec6753d3239d946b5f4ca22c2a08c07382cad660b50c9911e44",
+      "values_digest": "7ff2886931c044af5fc38df172a6f636053f2bfe4c14453852f5ce93ff0f9081",
       "rendered_digest": "610615d8dedbdc86ee75bdd5a73f74f3bb2e8acb65e609092b57cea776d694e2",
       "ast_digest": "135c49ea4619e7241bb8a2a08658257e2494075146388ceec11a47ab4ad4989d"
     },
     "stp": {
-      "values_digest": "542d2f2a2426ae1da0cae765457c04e36c8511c434e31371940dc470847d0ab2",
+      "values_digest": "bd049ae276adcac47ebf6005714b54755bd28664d8d7140fd08a012232aba3f6",
       "rendered_digest": "7cc0b6cd5b8da81081ec555b7020b7eeef657106b4422d2916d790b73fec7b03",
       "ast_digest": "120ff67e5c1f29f0c721ea66410ef5094714e20dd1540ff7453ab0d7be52bbaa"
     },
     "spp": {
-      "values_digest": "cc7411ec028b2f24eb7dee55c52fb718ff564e4cf4a4885edb9066fa0544dcdc",
+      "values_digest": "bb56a065fb20ecbab7e443f76548f1b09b61c46dc8e2738e56d333dd1149685a",
       "rendered_digest": "6fa872bca304faebde588f7b2b08861e046f046fd6f8294031cf1e6480b2b64e",
       "ast_digest": "88ff4df3da3a68e0e67c31f116ce960629085890b415f2ae3f961796bf627f56"
     },
     "vpp": {
-      "values_digest": "197e240d9c008b71d709fdce13af9409940d3974c364ead7f3489d43b78d74ed",
+      "values_digest": "e72b186b32277c9b8ec53f6e7ae2165cd3fd57fe4e5e0dffa1cdce6b16709699",
       "rendered_digest": "55f21566d759d3ea892f8db6c03520adac829dfcf1b9994547eaeebb64138c33",
       "ast_digest": "c385bd006ea6a8c00f53fc87c5194dcf6b447df3f63a96e4199bb3a59804f67c"
     },
     "srp": {
-      "values_digest": "5368c4bcde0cc7c07d431ee1ba9b24829130acde8f2a10b131fd8298a5deffc1",
+      "values_digest": "3d25114612a18f6d41701e51540a2536793a4e961bff9e48787531f16da33a9d",
       "rendered_digest": "708684ae00ce6a56e1c3665c3abd6cd750ef28f3e409cec7f883b9e1d9dda135",
       "ast_digest": "df87168b6d92ac454e83d542bb26c238298450f0a185b815117bef325c33c81a"
     },
     "sor": {
-      "values_digest": "11a8af683cff673608d94dcff2a685c7538c08170f9e53341d9fd144774b96eb",
-      "rendered_digest": "718b96984e1b639df5f849741b93f1d03628dca46b27b7606fe4929e01fd6ea2",
-      "ast_digest": "2da630e084d539b5a6c9c718ededf4c29616c1fe24e7466e71db4718b07955bc"
+      "values_digest": "3002998e247de45c0aec0b8151b3f86aa2f765c187c342764d1de65964e32263",
+      "rendered_digest": "f2d54ebd1295fbb624f73660c14b27dc3f128d60a55b932ef29633b9d2ac1e6e",
+      "ast_digest": "da24deed140473f860ea706cbd322d8e2f1f443f8170bd7cc36046206e46d80a"
     }
   },
   "transitions": [
@@ -169,6 +169,13 @@
       "actor": "codex:worker-5",
       "reason": "Recover stale #299 review assignment for d655fb611: the assigned revision was interrupted before review and must not be accepted because pre-assignment evidence logs bound old HEAD e912bfc6 while the remediation was uncommitted, lacked a working-tree digest, and diff hygiene against origin/main found blank EOF lines in evidence logs.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:worker-5",
+      "reason": "replace issue 299 execution truth after stale review recovery and clean-base evidence recapture",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented #299 exact-authority archived-projection cleanup in a new isolated module, recovered the stale d655fb611 review assignment, normalized evidence hygiene, and recaptured review-readiness proof from clean committed base 299c5bb16577fc5ae462b09a5a011311204ae0bd. The cleanup engine validates cached #298 terminal merge authority and ancestry, requires ledger and archived tree atomicity, records operation and namespace intent/receipt checkpoints, captures receipt-owned regular files and empty directories through atomic exchange with operation-owned placeholders, rejects hardlinks, symlinks, non-empty directories, identity drift, mode/uid/gid/link-count drift, parent replacement, receipt corruption, and cross-device ledger placement, fsyncs receipt and parent boundaries, resumes safely across before/after intent, temp/write/fsync/rename, parent-fsync, unlink/rmdir, namespace creation, final receipt, and post-exchange/post-unlink crash boundaries, and preserves third-party public replacements.\",\"changes\":[\"Added csdlc-v2/src/projection_cleanup.rs with typed cleanup request/result structures, terminal envelope and ancestry gate, same-device cleanup ledger guard, immutable receipt ledger, safe relative path checks, exact node identity including link count, atomic exchange, type-correct unlink/rmdir, parent fsync, receipt temp/write/fsync/rename/parent-fsync recovery, and idempotent replay.\",\"Added csdlc-v2/tests/archived_projection_cleanup.rs as the focused owned harness required by the pre-bind validator and expanded it from the initial 6 tests to 9 tests covering the issue/design restart and authority matrix.\",\"Expanded focused tests for before/after operation and namespace intent, receipt temp/write/fsync/rename/parent-fsync boundaries, exchange and unlink/rmdir restart adoption, final receipt restart, hardlink/link-count rejection, mode drift, parent replacement, and corrupt final receipt rejection.\",\"Preserved ownership boundaries: edited only csdlc-v2/src/projection_cleanup.rs and csdlc-v2/tests/archived_projection_cleanup.rs for source/test changes; did not edit projection_recovery.rs, store.rs, or gate5.rs.\",\"Recovered the stale d655fb611 review assignment before accepting any review result because pre-assignment evidence was bound to old HEAD e912bfc6 and committed range diff-check found evidence blank-line hygiene defects.\",\"Normalized older full-suite/rerun evidence logs so git diff --check origin/main...HEAD is clean at committed base 299c5bb16577fc5ae462b09a5a011311204ae0bd.\",\"Recaptured focused cleanup, strict Clippy, fmt, committed-range diff-check, and scoped gate_github_actions classification logs from clean committed base 299c5bb16577fc5ae462b09a5a011311204ae0bd with explicit HEAD, argv, worktree status digest, and command status.\",\"Preserved full-suite RED truth: the serial full suite remains failed in gate_github_actions outside the #299-owned cleanup surface; current clean isolated read and operation-marker reruns do not clear or convert the broad suite result to PASS.\"],\"artifacts\":[\"csdlc-v2/src/projection_cleanup.rs\",\"csdlc-v2/tests/archived_projection_cleanup.rs\",\".csdlc/evidence/299/archived-projection-cleanup-focused.log\",\".csdlc/evidence/299/csdlc-v2-strict-clippy.log\",\".csdlc/evidence/299/fmt-diff-check.log\",\".csdlc/evidence/299/csdlc-v2-full-serial.log\",\".csdlc/evidence/299/gate-github-actions-issue-read-isolated.log\",\".csdlc/evidence/299/gate-github-actions-operation-marker-isolated.log\"],\"validation\":[{\"command\":[\"env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/299/csdlc-v2\",\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"archived_projection_cleanup\",\"--no-tests=fail\"],\"purpose\":\"Focused #299 archived-projection cleanup matrix after expanded restart, receipt, authority, drift, and corruption coverage; recaptured from clean committed base 299c5bb with explicit HEAD, argv, worktree status digest, and status.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/299/archived-projection-cleanup-focused.log\"},{\"command\":[\"env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/299/csdlc-v2\",\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict Rust lint proof for #299 source and tests; recaptured from clean committed base 299c5bb with explicit HEAD, argv, worktree status digest, and status.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/299/csdlc-v2-strict-clippy.log\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--check\",\"&&\",\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Formatting and committed-range whitespace hygiene from clean committed base 299c5bb; recaptured with explicit HEAD, argv, worktree status digest, and status.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/299/fmt-diff-check.log\"},{\"command\":[\"env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/299/csdlc-v2\",\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--workspace\"],\"purpose\":\"Serial full csdlc-v2 suite attempt before review readiness; remains RED in gate_github_actions and is not converted to PASS by focused #299 proof or isolated reruns.\",\"outcome\":\"failed\",\"evidence_ref\":\".csdlc/evidence/299/csdlc-v2-full-serial.log\"},{\"command\":[\"env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/299/csdlc-v2-github-actions-isolated-read\",\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\",\"issue_read_failures_are_typed_redacted_and_action_scoped\",\"--\",\"--test-threads=1\"],\"purpose\":\"Clean isolated rerun of the gate_github_actions read-failure case from the serial full-suite RED; current clean-base rerun passed, which does not clear the preserved serial full-suite RED.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/299/gate-github-actions-issue-read-isolated.log\"},{\"command\":[\"env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/299/csdlc-v2-github-actions-isolated-marker\",\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\",\"operation_marker_is_stable_and_idempotent\",\"--\",\"--test-threads=1\"],\"purpose\":\"Clean isolated rerun of the gate_github_actions operation-marker case from the serial full-suite RED; passed and does not clear the preserved serial full-suite RED.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/299/gate-github-actions-operation-marker-isolated.log\"}]}"
     }
   ]
 }

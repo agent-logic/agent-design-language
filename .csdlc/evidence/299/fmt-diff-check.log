@@ -1,5 +1,11 @@
-HEAD e912bfc63761d03524ac0a4986df10ed03dfbd88
+HEAD 299c5bb16577fc5ae462b09a5a011311204ae0bd
+WORKTREE_STATUS_DIGEST sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+WORKTREE_STATUS_BEGIN
+CLEAN
+WORKTREE_STATUS_END
 ARGV cargo fmt --manifest-path csdlc-v2/Cargo.toml --check
+
 STATUS cargo-fmt 0
-ARGV git diff --check
+ARGV git diff --check origin/main...HEAD
+
 STATUS git-diff-check 0
