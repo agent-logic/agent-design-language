@@ -4,50 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "fac452b8127405cd253f1008a5858c5ee2a5c30be11ef5964720538e609b79d8",
-  "phase": "published",
-  "generation": 12,
-  "digest": "f2b5fc312194dd77e90f1a53d87adbf23e894842743b8d7f7f2319974a9b51ba",
+  "phase": "implemented",
+  "generation": 13,
+  "digest": "5772672582febc502dc090c1304f88be2b4107f77a89e969603c44944ecb88bd",
   "branch": "codex/301-title-only-operation-provenance",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-301-title-only-operation-provenance",
-  "review_assignment": {
-    "reviewer": "fresh-session:f5d182de-a0b3-4c84-8267-294e4b5d859b",
-    "assigned_by": "codex:issue-301",
-    "revision": "git-blake3:ccbcb2ccd4376bf49cbf56be38d14f443129cc17:c93bfb515a5fa235be439cce6e6c9293cdcdcac7db279481d8a09a2d0bfc4004",
-    "scope": [
-      ".csdlc/issues/301",
-      ".csdlc/prepared/issues/301",
-      ".csdlc/evidence/301",
-      "csdlc-v2/src/github.rs",
-      "csdlc-v2/tests/gate_github_actions.rs"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:f5d182de-a0b3-4c84-8267-294e4b5d859b",
-    "scope": [
-      ".csdlc/issues/301",
-      ".csdlc/prepared/issues/301",
-      ".csdlc/evidence/301",
-      "csdlc-v2/src/github.rs",
-      "csdlc-v2/tests/gate_github_actions.rs"
-    ],
-    "reviewed_revision": "git-blake3:ccbcb2ccd4376bf49cbf56be38d14f443129cc17:c93bfb515a5fa235be439cce6e6c9293cdcdcac7db279481d8a09a2d0bfc4004",
-    "findings": [],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 301,
-    "pull_request": 304,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/304",
-    "base": "main",
-    "head": "codex/301-title-only-operation-provenance",
-    "revision": "git-blake3:60ffae1afb950b7300604d2e61b4426c2fd8f10d:7d8b4184af6eadf347fe4b50e4ab233f24db4d4c74c11b0819be3b88f936d624",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -61,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "efeeabc6f43877abda186edccf850987356bc9b19fd39e7ec3e6a9df5c06436f",
+      "values_digest": "d6e6e95d5e010cbbc4b7ddccb2be08611e1cd8cfdf69f5a5b916a2ca45b2ca81",
       "rendered_digest": "1f602d55abfde140b71a7cdd01db213d96b4e5da322e26363d45f7fde7749164",
       "ast_digest": "dd6e1f4ed857ac2203d39182ca287b0e7a6cb9b24ca5f57bf858eb994e976e6d"
     },
     "stp": {
-      "values_digest": "719a0c1097d7e10023a7a5d33409d5b0c3fd7892a519988031bb681c37018600",
+      "values_digest": "be1f7fc3c3bab45cd225989c4f5294a9d4f0049a43ccd9c5138b8cc7c9b41dbc",
       "rendered_digest": "e6a832def0573767be1fad1b65f7745f1277478e67daca8f569ead5a5ddfbbb1",
       "ast_digest": "b57938e52b725b7ba654620cd7afc3cd854bd01a38e08c1f4cf3175bf509490f"
     },
     "spp": {
-      "values_digest": "1faf7e5f1e197741660baa40bdf6404d3ec100abd70582a2a538d848dfde2509",
+      "values_digest": "c8dcf9953a66346e9e9c489fce975dc37ffbbf0dc6a9cf0d91f5e66a5a201d56",
       "rendered_digest": "cfe63ad0859216ac10f3217783f8024247bbf7c0bc8ed373fa58e0a50b5b4f0a",
       "ast_digest": "580e50826ca988c2d4e57d3adb21c05509ce8e82651820a1cb58146525c63451"
     },
     "vpp": {
-      "values_digest": "5666b614a088304259e65f6fed0970a467cc0751b4071d902a0aeb29e66a85ae",
+      "values_digest": "44224f4ff9d8eaa41e7c7c4d80a26a8b8e36e0a5d39b12a701e2b839def7f6e3",
       "rendered_digest": "4ef60e2e9967dfbcb0f5394ace805d298cc2a813aecf357f6a480cc32c9fddd8",
       "ast_digest": "a643837775ef62d34b85f62c552b4571efb1ade678f67418ec46bd047fcdb45b"
     },
     "srp": {
-      "values_digest": "b8cc33b05532056dd697eeca66e36ebb22c0f2ac496b3aa0a9674c4ed95be444",
-      "rendered_digest": "b5615aa8b9f8dbaf299eb138c8bd1059dfebd612a274e95cb376ffebffb79eb2",
-      "ast_digest": "cb68255a44904e7169dace23ca1dedc25b85ab6e926b090245ee62cd21890b49"
+      "values_digest": "aedc836266a7a42e8485e4bcc8cfb0009797ccdde82f2f0ee59fdaf4540c7797",
+      "rendered_digest": "7cbe15aed7e484b25dbf57ca12c2050226860f294132192032d5109a82bcd9a4",
+      "ast_digest": "8923177b498751ced3d5aa7bca4cc2d01b420bbd668c4dbaf4292c8b2323a62b"
     },
     "sor": {
-      "values_digest": "9e39e832eeb6c3b119323a413732b2f34f8a05c8d79eeafb0821d58343702d03",
-      "rendered_digest": "db9545fe460a756217a40025b404b94ce247cfccf86e8dc5dc05d13b082b131c",
-      "ast_digest": "2d551f14f92ea2151ac500011a6d00fa2fff509b2be5382ea2cb7cec97c06618"
+      "values_digest": "65712793af4764c074345ebe0dbae48827914fc0f45f58a11af309cd18b4f514",
+      "rendered_digest": "22ada54b7300476b1f0310ce584a1b125cdcbba772ff1a19c99613bf5200c9d9",
+      "ast_digest": "380d9724464c904e653e036090d32510171e683596a6055e371ae5b567c8e383"
     }
   },
   "transitions": [
@@ -126,6 +90,13 @@
       "to": "published",
       "actor": "codex:issue-301",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-301-janitor",
+      "reason": "PR #304 is published against stale base 7f88697c and now conflicts with current main da7994f189002f27c79b6fb5e13926a8093dd9ac; recover stale review/publication truth before bounded merge-conflict remediation and fresh exact-head review."
     }
   ],
   "audit": [
@@ -254,6 +225,13 @@
       "actor": "codex:issue-301",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex:issue-301-janitor",
+      "reason": "PR #304 is published against stale base 7f88697c and now conflicts with current main da7994f189002f27c79b6fb5e13926a8093dd9ac; recover stale review/publication truth before bounded merge-conflict remediation and fresh exact-head review.",
+      "operation": "recover_review"
     }
   ]
 }

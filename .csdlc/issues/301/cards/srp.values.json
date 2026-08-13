@@ -7,15 +7,15 @@
     "title": "[v0.92][C-SDLC][defect] Persist provenance for title-only issue updates",
     "slug": "title-only-issue-update-operation-provenance",
     "version": "v0.92",
-    "generation": 12
+    "generation": 13
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/301\n.csdlc/prepared/issues/301\n.csdlc/evidence/301\ncsdlc-v2/src/github.rs\ncsdlc-v2/tests/gate_github_actions.rs",
-      "review_revision": "git-blake3:ccbcb2ccd4376bf49cbf56be38d14f443129cc17:c93bfb515a5fa235be439cce6e6c9293cdcdcac7db279481d8a09a2d0bfc4004",
-      "reviewer": "fresh-session:f5d182de-a0b3-4c84-8267-294e4b5d859b",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "body byte preservation",
         "operation marker durability",
@@ -24,7 +24,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pass"
+      "review_result": "pre_review"
     }
   }
 }

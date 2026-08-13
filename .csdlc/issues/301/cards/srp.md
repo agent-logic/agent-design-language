@@ -12,11 +12,7 @@ Status: draft
 
 ## Scope
 
-.csdlc/issues/301
-.csdlc/prepared/issues/301
-.csdlc/evidence/301
-csdlc-v2/src/github.rs
-csdlc-v2/tests/gate_github_actions.rs
+
 
 ## Prompts
 
@@ -39,8 +35,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:ccbcb2ccd4376bf49cbf56be38d14f443129cc17:c93bfb515a5fa235be439cce6e6c9293cdcdcac7db279481d8a09a2d0bfc4004")
+Revision: None
 
-Reviewer: Some("fresh-session:f5d182de-a0b3-4c84-8267-294e4b5d859b")
+Reviewer: None
 
-Result: pass
+Result: pre_review

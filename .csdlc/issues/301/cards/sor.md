@@ -65,11 +65,11 @@ Implemented durable title-only issue-update provenance with fail-closed partial-
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
