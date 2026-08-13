@@ -2,7 +2,7 @@
 
 Template: 1.0.0
 
-Issue: 5913
+Issue: 322
 
 Repository: agent-logic/agent-design-language
 

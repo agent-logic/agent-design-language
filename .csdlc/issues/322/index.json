@@ -1,12 +1,12 @@
 {
   "schema": "csdlc.issue.index.v1",
-  "issue": 5913,
+  "issue": 322,
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "6a5a8a2f2350b7ffe3899f5dad5e5b39a2054da2f0c9138ac388b2c93b8ff5e7",
   "phase": "published",
-  "generation": 28,
-  "digest": "71793d70dc38f4397e583b52ec1c576a1c7fbe22f1681deb54aebe0061b16715",
+  "generation": 29,
+  "digest": "75a4c89b50cc4fa25e070fbc28216a14a82b948d2640af4574936bad110eb1bc",
   "branch": "codex/5913-repair-adl-review-compatibility-routing",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5913-adl-review-routing",
   "review_assignment": {
@@ -43,18 +43,7 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 5913,
-    "pull_request": 320,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/320",
-    "base": "main",
-    "head": "codex/5913-repair-adl-review-compatibility-routing",
-    "revision": "git-blake3:83ded4a0ede36582cd129e345b0c48decb4ae3f1:f6e5864c83055f101f4a2f4dfe8eec032794bff8f79cb197554fefab26c05662",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -68,34 +57,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "758e190fad4a503a8263b1d57ba20d1aa5cb2b4e3cf089c0251c4b3d1d638924",
-      "rendered_digest": "34e93594d22d0195e945568476646f2084febad9f0f18b2232e969179fa51b19",
-      "ast_digest": "8a3784fb1584110103a35108a68d7e983f1c62444d54a010be1ad799cc5b96ee"
+      "values_digest": "4d838be9b8edaea6d4adb1b2b8b0f00704f59bfcb82e6585d234d0248d873ac2",
+      "rendered_digest": "4d63d43ddbbd90aad214ab855f64f778df1cc7a11b055f491c9ef3777be097a9",
+      "ast_digest": "3a88693e286a176940ff7c96c90a04efaf9b19091d5d23cdb8b991e306a89a37"
     },
     "stp": {
-      "values_digest": "7de8485579de517ce7834b23e1b8307579dac6aa62542523181b1c89b31f4754",
-      "rendered_digest": "e61895bbba87ace15a7e53bb5136efc29bc2105ea06c81e503a14e471defed04",
-      "ast_digest": "52ae355f59153da999d724c2133a1aa190245ed3cae203677f9876be3df89695"
+      "values_digest": "ebf3552afd5fe8937001fd2a05efcdac4be9b50631d396f842b89a3fc776c335",
+      "rendered_digest": "ce3d185088ea504b3197e08213342e0112163db263360a8627f4689fedd4ba8c",
+      "ast_digest": "7f42c7141ba8c695f468532923c3df2b24325e8c1a1c0b44d2ea275e8855ff45"
     },
     "spp": {
-      "values_digest": "a2e4a01aa9eb1c722652d68ed8e17d4dcc05c7b17090e01978e29da6fb75f834",
-      "rendered_digest": "5ea449b178e9fa4c571afac0d4731e45b73cd16ad467d4ee392615b957e0108c",
-      "ast_digest": "81b8b8e01ed790ee1cf2da35404bb201d22fcccc25fb2186107f8a1c9b629aa5"
+      "values_digest": "90ec7402db094cf98e59e830fdabbbfc9b97b8bf7c80f79e1ca19f970dc895eb",
+      "rendered_digest": "006ced42b97a3e0bfa1a6950c4a2c80bff976bb96d15a3679926d78ae0e0a151",
+      "ast_digest": "9fb3bf9163c768fc903844432f3fc40be85303ab65a29a6f03afc77925677074"
     },
     "vpp": {
-      "values_digest": "abe661878ab802ce8a14d4004061b6f9b2ef765a7aaf9f99730b619a3b5c9b8b",
-      "rendered_digest": "d07e6e27fd8972968faa8dc97c4aa23317033aef1913f1a4818c41e696c66117",
-      "ast_digest": "2220360798039c1e52115627c0868afe1bd7f8cd523c639bb8905c068c9c6b86"
+      "values_digest": "06ec811dff5e1136e759952c9f5c0e6c5e602ed93923c4571a1941a92344fe39",
+      "rendered_digest": "0c2581d8b9d5d97aeefad4f7ed5da8b8b2f34d27eba7acf93af98c7eaea67c6b",
+      "ast_digest": "31390f2b07d03e16b28de5febafdd589d589e285e7e4a42ad4030c9890dedac6"
     },
     "srp": {
-      "values_digest": "d8a0ae12172403b639ec848d6b4a82b85ccb15ba9067d9b742744c13388e32bc",
-      "rendered_digest": "c482b035b24833789475636c85007b95394808707be9d0fab7bc0d9978ad64df",
-      "ast_digest": "5acd3e4fd5abe3fa8b87a69f81f2207491654bd31962086a8618d4a257f47fd1"
+      "values_digest": "74b4a181111232643ae442afe9a985d3895e66950c206f9b8a7639f64dff41f8",
+      "rendered_digest": "6243010e02ce86468e3eceaff7694df1873e46b70ca47d2bc3a9999811cc8769",
+      "ast_digest": "04066221e63cd6305aa96f2cd9f58b7f236b132f5303222154c1fad9d8636259"
     },
     "sor": {
-      "values_digest": "3adbe1126024d0d5595f3a7870bd0682417204f2e5fa6210959902046f01c956",
-      "rendered_digest": "1b2af5679b9f394764bba5e1966ee9936da31e8cd6c2f3e555acc58619ebb22b",
-      "ast_digest": "251bd0e1d5b679c1c226ecfb1bdb9f376e2503c287c4398e996404c3914d4850"
+      "values_digest": "0c4c243ed67618b1c4c1055f0766ec2240a8ceb3c8cd413badc16fd0291cacd3",
+      "rendered_digest": "b8e629e0aee20b87b5c43f1f5ad92c3cf8f70a46887e7f4ad164ba27073f265f",
+      "ast_digest": "f1b8bd3e8b47f207ecaf2ab554e636cb166488277f3e318561e60a2b187a9f83"
     }
   },
   "transitions": [
@@ -422,6 +411,13 @@
       "actor": "codex:/root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 39,
+      "generation": 29,
+      "actor": "codex:/root",
+      "reason": "Recover the published #5913 lifecycle record from legacy/current issue identity mismatch to canonical current-repo issue #322 before merging PR #320.",
+      "operation": "{\"cleared_publication\":true,\"cleared_readiness\":false,\"operation\":\"migrate_bound_issue_identity\",\"source_issue\":5913,\"source_repository\":\"agent-logic/agent-design-language\",\"target_issue\":322,\"target_issue_evidence\":\".csdlc/locks/5913-target-issue-322-evidence.lock\",\"target_issue_evidence_digest\":\"4555c8cee6944538b1771862847ebef646b8f3a2a6b718cb11de2827fbc934f4\",\"target_repository\":\"agent-logic/agent-design-language\"}"
     }
   ]
 }

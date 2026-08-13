@@ -2,12 +2,12 @@
   "identity": {
     "schema_version": "1.0.0",
     "template_version": "1.0.0",
-    "issue": 5913,
+    "issue": 322,
     "repository": "agent-logic/agent-design-language",
     "title": "[v0.92][Sprint 6][tools] Repair adl-review compatibility routing",
     "slug": "repair-adl-review-compatibility-routing",
     "version": "v0.92",
-    "generation": 28
+    "generation": 29
   },
   "status": "draft",
   "content": {
