@@ -40,8 +40,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:399b3103340a33c4d5c8a243b73556118a8a3c94:62602bab709fcc192ed27adcbb7f4a882f7fe8ad7a7b528b4a02a06d4ec9a518")
 
-Reviewer: None
+Reviewer: Some("fresh-session:330-r3-exact-implementation-review")
 
-Result: pre_review
+Result: pass

@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "c6c77e32c8a46d340a36b3123af9d9adb0adeafda19c3135b9d47c802997e158",
-  "phase": "implemented",
-  "generation": 17,
-  "digest": "fc2718d12f26688084cf88f60af35a450379b5d480746cc9c932fb53700a96cb",
+  "phase": "reviewed",
+  "generation": 18,
+  "digest": "a37695aba2612fcea8081c9a0156f1d1bba1b17268740d9a9f3571d85a0c4728",
   "branch": "codex/330-bridge-fed-projection-cleanup-defect",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-330-bridge-fed-projection-cleanup-defect",
   "review_assignment": {
@@ -22,7 +22,22 @@
       ".csdlc/evidence/330/r3"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:330-r3-exact-implementation-review",
+    "scope": [
+      "csdlc-v2/src/projection_cleanup.rs",
+      "csdlc-v2/src/projection_recovery.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/issue_330_bridge_cleanup_defect.rs",
+      ".csdlc/issues/330",
+      ".csdlc/evidence/330/r3"
+    ],
+    "reviewed_revision": "git-blake3:399b3103340a33c4d5c8a243b73556118a8a3c94:62602bab709fcc192ed27adcbb7f4a882f7fe8ad7a7b528b4a02a06d4ec9a518",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -37,32 +52,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ed05f523d7c21b9d00faae43e88c4745210baaafb71f4ffc0f47125df86d601d",
+      "values_digest": "a8d6092eb3fb44101616139d5fde0f23e67b870101816db884689b7c97d0b543",
       "rendered_digest": "70bb77a2b369facefd6ee61dd27831872f9e02008d5deb8778b9b75acb0d8d75",
       "ast_digest": "f7aa1e0edabaef2285c9558e3abc9c5ad236e494418164c26d9492deadcbab17"
     },
     "stp": {
-      "values_digest": "dc2895bc6973ffe10373b496e6dd9acfe74c5bb77c28a5fa54f53934852965b0",
+      "values_digest": "21ba1ac0fcb87e3772fda69983e8be575c35c1ffae5761d3ea97cb957d0f6004",
       "rendered_digest": "9e5854073d3f56cae3d0fa4f6a560563c62b837038b80bdc0ac9ac705e3983ea",
       "ast_digest": "137b8e001b8a1ce3a3a20d884695db83c8a54cca4d78c386160cb7c1968dd10e"
     },
     "spp": {
-      "values_digest": "96b569ad931f6b29aff295f6d9394d9253502fd34698735db006ef9d51984a4a",
+      "values_digest": "136420cffe0110a923ee4545416ee2fb265c02f785049f278398ece983faeb3f",
       "rendered_digest": "3bfafb809bb9b6ed27a8548d590eae93245ae6c15dd9fca552497af1b9b0f082",
       "ast_digest": "647c5244cc3c748635b3119f2a4a9acfb84dfd959e904e7099c404e1803db962"
     },
     "vpp": {
-      "values_digest": "287aa92053a46b188817df8e72b5c69f6192ed11c445544ca75e76997df9f4b7",
+      "values_digest": "306bde13a6a6088be1a3f2fdf1eb983c759293f8ea7e4b555f7466bbb4f77200",
       "rendered_digest": "0f439002d1e55bf5aad069ac6f4d648bec3bac2aabec818f9918def1abc2d03d",
       "ast_digest": "8135e07afb687e53ca7797c556ceddcc8d99a36199956cf32e18c7cb8b693682"
     },
     "srp": {
-      "values_digest": "7a32c4730280dad9ccda3537f0f54924c5b6ebc1e1cf7b5aa87b80806ea58b1a",
-      "rendered_digest": "d35ca565280b23b66760370c866a4d0788e1802d04f9020250fe867e1d16a27c",
-      "ast_digest": "a3d6e1d70a8ca4b5cca5d8159c1281a136743362b6c744e3757a34452dcb1236"
+      "values_digest": "a843cb117efa3342d633668d3b907a0cf301b113b1cdaee1a48647799e8c06be",
+      "rendered_digest": "e0f07e2bf3f180020c0e11f6da8ef06525a6f89bbeb7ab2681dc3ae832c027f0",
+      "ast_digest": "5ff06ee70a4b76fafc59d8b0c5efc5adadee5b4df650396e73f0ceff03f529d4"
     },
     "sor": {
-      "values_digest": "7dbc1a2349fdbc9fd4e16a98488ee664af45a78884a3fe0a4e847982d74eed61",
+      "values_digest": "9c99a0bf845293c3e2857b7040bc8970f7066b717b6fc1eba890325694ef152e",
       "rendered_digest": "b0cfde19061d77fba865ed0281730846a277e0a13eb2d25608c40a2cb5e758f1",
       "ast_digest": "7bb2ab8cc50da7299a2cfc6f7c077bb9c20352eed2d95e7d33bc0f5fd7174a51"
     }
@@ -88,6 +103,13 @@
       "to": "implemented",
       "actor": "worker-5",
       "reason": "Implementation evidence recorded for bb7ab591de6354e03e7f59fc342e083c73aee892"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:330-r3-exact-implementation-review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -244,6 +266,13 @@
       "actor": "codex:worker-5",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 18,
+      "actor": "fresh-session:330-r3-exact-implementation-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

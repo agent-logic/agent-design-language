@@ -7,7 +7,7 @@
     "title": "[C-SDLC][defect] Bridge-fed projection cleanup invalidates recovery validation and fails closed-race invariant",
     "slug": "bridge-fed-projection-cleanup-defect",
     "version": "v0.92",
-    "generation": 17
+    "generation": 18
   },
   "status": "ready",
   "content": {
