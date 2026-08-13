@@ -1,0 +1,8 @@
+
+running 4 tests
+test authority_store_adapter_denies_unpublished_lineage ... ok
+test copied_magic_thin_pointer_cannot_authorize_raw_store_entrypoints ... ok
+test external_dev_profile_caller_cannot_import_authority_store_test_access ... ok
+test issue_258_authority_store_boundary_guardrails_are_bound ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 2.29s
