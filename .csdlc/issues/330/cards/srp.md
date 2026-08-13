@@ -35,7 +35,7 @@ csdlc-v2/tests/issue_330_bridge_cleanup_defect.rs
     "summary": "Recovery-side cleanup-ledger validation at csdlc-v2/src/projection_recovery.rs:3277 does not reject unexpected contents inside private-delete before authorizing store/recovery skip; mirror production final-validation emptiness predicate and add regression proof.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
+    "disposition": "fixed",
     "fix_revision": null,
     "route": null
   }

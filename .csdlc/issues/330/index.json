@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "c6c77e32c8a46d340a36b3123af9d9adb0adeafda19c3135b9d47c802997e158",
   "phase": "implemented",
-  "generation": 14,
-  "digest": "519573bd88b5339ad366494d00dd2b5f3e71deba8fcbbaef877ed8f7ea9f255e",
+  "generation": 16,
+  "digest": "14ce3f2ebcf669e7e5d09f1f6ddead2e92d7de2d3bbde5a942f8849fc0863f85",
   "branch": "codex/330-bridge-fed-projection-cleanup-defect",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-330-bridge-fed-projection-cleanup-defect",
   "review_assignment": {
@@ -63,34 +63,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0d650549f649b9e902c62044ea519ddde5e6a1edcfe5bbde09a9953b22f813a4",
+      "values_digest": "d8ab6ff19d676cf97449d2e773a60e2edc9eda55d3ffc5cfc7a12d238aad4c9e",
       "rendered_digest": "70bb77a2b369facefd6ee61dd27831872f9e02008d5deb8778b9b75acb0d8d75",
       "ast_digest": "f7aa1e0edabaef2285c9558e3abc9c5ad236e494418164c26d9492deadcbab17"
     },
     "stp": {
-      "values_digest": "c344b3f6d224de1645811250a5e292c343d317cf39a6842f87e93dba6ea02a46",
+      "values_digest": "ecf7a6ed6048b516e986337c694c641ab436aa074af01e02425c7776aaf0bf8e",
       "rendered_digest": "9e5854073d3f56cae3d0fa4f6a560563c62b837038b80bdc0ac9ac705e3983ea",
       "ast_digest": "137b8e001b8a1ce3a3a20d884695db83c8a54cca4d78c386160cb7c1968dd10e"
     },
     "spp": {
-      "values_digest": "586de04a7cc1c2f996bd1006c4c1c1b2541c3d1286e8a9dbc930d16ff1be0a04",
+      "values_digest": "265c7ffc4599eb91de4aaba122b25fd2942e5ddcb63fc2938652f5f81a8354ab",
       "rendered_digest": "3bfafb809bb9b6ed27a8548d590eae93245ae6c15dd9fca552497af1b9b0f082",
       "ast_digest": "647c5244cc3c748635b3119f2a4a9acfb84dfd959e904e7099c404e1803db962"
     },
     "vpp": {
-      "values_digest": "ce9a5def1d3457da6ff8b38581bbbad0e941ad78827a49472b671ac0709a6c7b",
+      "values_digest": "0fc55dbfe969d610e9d6246785478bb89a71174f8581fdfbc8e4ab7e6b38e9ee",
       "rendered_digest": "0f439002d1e55bf5aad069ac6f4d648bec3bac2aabec818f9918def1abc2d03d",
       "ast_digest": "8135e07afb687e53ca7797c556ceddcc8d99a36199956cf32e18c7cb8b693682"
     },
     "srp": {
-      "values_digest": "6af0772f00ac433fe9902c05a0641023e05dec3e1238a5a276448a7db199b38d",
-      "rendered_digest": "c82b75dbb001d5a76cfd49660bc8afff8796f4884efaee7c31b9b748698ed0e6",
-      "ast_digest": "d80165d1a7fb7a7132b6c215ab998260800bfe806d00fac2b8db47c68c1dad7c"
+      "values_digest": "74790a082ef995ad1c475b44f685df20595249a3042cff3ac8a46e8336b326d7",
+      "rendered_digest": "e70efba1de7b95796ad3de3d51ad051517031584dcf1838dc0a3702ebe45ba81",
+      "ast_digest": "2edcf5fef8224386a4f8bfd1c8ece5abb11f1f5d2dee2263ffb56538f9cfd75d"
     },
     "sor": {
-      "values_digest": "de1ea9d26fce81204f1acf0d8bb7a736cc0e060669f716a79c179e08795cd792",
-      "rendered_digest": "62af292caeaf992d9771d68ad8666731990970ecf7ef35a3864439ec80c6c9a9",
-      "ast_digest": "b7a57a5eec5d847c5fd85200857dc459781bdab8b7b9c24d8ffdb92abe503364"
+      "values_digest": "891214db054b1fa021ae673fb470f845c6fc4b0079fbbc5adc81e8aeca6d35c3",
+      "rendered_digest": "b0cfde19061d77fba865ed0281730846a277e0a13eb2d25608c40a2cb5e758f1",
+      "ast_digest": "7bb2ab8cc50da7299a2cfc6f7c077bb9c20352eed2d95e7d33bc0f5fd7174a51"
     }
   },
   "transitions": [
@@ -242,6 +242,20 @@
       "actor": "fresh-session:330-r2-exact-implementation-review",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "worker-5",
+      "reason": "Refresh #330 SOR with exact r3 evidence after r2 private-delete residue remediation",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Remediated r2 review finding for #330. Recovery-side cleanup ledger authorization now rejects non-directory or non-empty private-delete cleanup namespaces before store/classification can skip cleanup ledger entries. Evidence was recaptured at immutable remediation head 63e3782a1d46dc86161eb81e9eb2fd43f1f7e562. Publication and merge are not yet attempted.\",\"changes\":[\"csdlc-v2/src/projection_recovery.rs: recovery-side cleanup ledger validation now requires private-delete to be a directory and empty before authorizing recovery/store skip\",\"csdlc-v2/tests/issue_330_bridge_cleanup_defect.rs: added cleanup_private_namespace_residue_does_not_authorize_recovery_skip regression proving CorruptRecord and byte-for-byte no mutation\"],\"artifacts\":[\".csdlc/evidence/330/r3/focused-issue-330.log sha256=fa156d64aff998152b60b7e17f83508453a594d2529eef850b836dc89d2fddc8\",\".csdlc/evidence/330/r3/adjacent-archived-projection-cleanup.log sha256=c03d1b12d66d2892ae6cb922e27e96bae6b9001247ae2e3a5dafddf3e78db73b\",\".csdlc/evidence/330/r3/recovery-authority-gate5.log sha256=6365bc84c7f232e853760edab2bdd23d62977b17ad345358e396da3503a857cd\",\".csdlc/evidence/330/r3/fmt-check.log sha256=72a12c267a914e78bde929382b3e4ac16f012fa102b3be6731f6cbd526e66c34\",\".csdlc/evidence/330/r3/diff-check.log sha256=2b456c34a8e87292cba593625b94027b15e9463f5ca4dd850d7105db81d14fad\",\".csdlc/evidence/330/r3/strict-clippy.log sha256=83db1c16aacf0a7d2285bbf65b36b01acb9aa63ee5423c8a994acdab01df96e2\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"issue_330_bridge_cleanup_defect\",\"--\",\"--nocapture\"],\"purpose\":\"Focused #330 regression proof including private-delete residue rejection, bridge cleanup recovery validation, forged cleanup final chain rejection, and pre-mutation raced final zero-mutation behavior\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/330/r3/focused-issue-330.log sha256=fa156d64aff998152b60b7e17f83508453a594d2529eef850b836dc89d2fddc8 head=63e3782a1d46dc86161eb81e9eb2fd43f1f7e562 status=0\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"archived_projection_cleanup\",\"--\",\"--nocapture\"],\"purpose\":\"Adjacent cleanup regression proof preserving cleanup authority and failpoint behavior\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/330/r3/adjacent-archived-projection-cleanup.log sha256=c03d1b12d66d2892ae6cb922e27e96bae6b9001247ae2e3a5dafddf3e78db73b head=63e3782a1d46dc86161eb81e9eb2fd43f1f7e562 status=0\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"preserved_projection_recovery\",\"--\",\"--nocapture\"],\"purpose\":\"Existing recovery authority regression lane declared by #330 VPP\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/330/r3/recovery-authority-gate5.log sha256=6365bc84c7f232e853760edab2bdd23d62977b17ad345358e396da3503a857cd head=63e3782a1d46dc86161eb81e9eb2fd43f1f7e562 status=0\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--check\"],\"purpose\":\"Rust formatting check\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/330/r3/fmt-check.log sha256=72a12c267a914e78bde929382b3e4ac16f012fa102b3be6731f6cbd526e66c34 head=63e3782a1d46dc86161eb81e9eb2fd43f1f7e562 status=0\"},{\"command\":[\"git\",\"diff\",\"--check\",\"HEAD\"],\"purpose\":\"Whitespace and patch hygiene check\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/330/r3/diff-check.log sha256=2b456c34a8e87292cba593625b94027b15e9463f5ca4dd850d7105db81d14fad head=63e3782a1d46dc86161eb81e9eb2fd43f1f7e562 status=0\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict Clippy over all targets\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/330/r3/strict-clippy.log sha256=83db1c16aacf0a7d2285bbf65b36b01acb9aa63ee5423c8a994acdab01df96e2 head=63e3782a1d46dc86161eb81e9eb2fd43f1f7e562 status=0\"}]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "worker-5",
+      "reason": "P2 fixed at 63e3782a1d46dc86161eb81e9eb2fd43f1f7e562 by rejecting non-empty cleanup private namespace before recovery/store skip and adding residue zero-mutation regression",
+      "operation": "{\"operation\":\"dispose_finding\",\"finding_id\":\"r2-p2-private-delete-residue\",\"disposition\":\"fixed\"}"
     }
   ]
 }

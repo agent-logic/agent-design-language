@@ -7,7 +7,7 @@
     "title": "[C-SDLC][defect] Bridge-fed projection cleanup invalidates recovery validation and fails closed-race invariant",
     "slug": "bridge-fed-projection-cleanup-defect",
     "version": "v0.92",
-    "generation": 14
+    "generation": 16
   },
   "status": "draft",
   "content": {
@@ -29,7 +29,7 @@
           "summary": "Recovery-side cleanup-ledger validation at csdlc-v2/src/projection_recovery.rs:3277 does not reject unexpected contents inside private-delete before authorizing store/recovery skip; mirror production final-validation emptiness predicate and add regression proof.",
           "actionable": true,
           "in_scope": true,
-          "disposition": "open",
+          "disposition": "fixed",
           "fix_revision": null,
           "route": null
         }
