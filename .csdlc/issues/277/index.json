@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "8abf1e7d8e6479933fdb92fc4fd87d1f005691870061fffae4f35c021efdbe1f",
   "phase": "implemented",
-  "generation": 13,
-  "digest": "e8843e2e328b57d02f8cef4793b3b6b2d2c26d5c97833522beadaecc1e825c42",
+  "generation": 16,
+  "digest": "1b49969ccf196588a46e1d06105bd1442210f592400fae25c066356936770051",
   "branch": "codex/277-conversation-watermarks-idempotency-replay-receipts",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-277-conversation-watermarks-idempotency-replay-receipts",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "75c1224882bc377fd3fa6d365dca264ce941beeb2991a59d16b2d08040adcb37",
+      "values_digest": "24dafc08fdbd2b7f1cfaa7bed2fb4c20595476cbac39de920db4012927dbb372",
       "rendered_digest": "38023301ecaa1651bc67c6c5fbf142718be945b719ed187a3ccac7796896b901",
       "ast_digest": "3b2671a967f9d3fdd4e4d2664f9c767836910c8f1b614ece194621286211af4c"
     },
     "stp": {
-      "values_digest": "ff44e3894a79e34b6860df95e4e724df991938ce4c710f3ba7e42d9a15a1c51a",
+      "values_digest": "669c0c278221df46b1b6d43ff5575170ff762a45a885cc596511d422448ec36e",
       "rendered_digest": "c40d00d7c319dc1338f81b05db12f8da597e1928f3c7a0dfd67169243ffbf5a6",
       "ast_digest": "ddf7524037bbbba1213c37b91ce4c513a92d119d242df78ff3098a3885abfbdc"
     },
     "spp": {
-      "values_digest": "d0dd9f19018d814305e1716809cf8a02e12e842bcd025feb8fc582a48496b67b",
+      "values_digest": "9cc62ae323816034b5197c17059ba204b62c10ae2ba50eb4bb4d7cf8ab7b5a8a",
       "rendered_digest": "641ded53d7d7950487c12d19f76109158b7a4ce9d25394bbdaedd5070a2a1ac0",
       "ast_digest": "5af6aa5abe7369ae06a120ce08781939158e9e8c2e0f172427c87f81db15908d"
     },
     "vpp": {
-      "values_digest": "e725363d0b98348dd233aae63f9b38e3c75971ada7c0c6cb6f92c368be2b50ff",
+      "values_digest": "204abbf51db340d56c1b43d14c8d3bbe6c80f0a3fccb186363f6440b3ef1655f",
       "rendered_digest": "6f623f8f2345537604ad791ef90b6731516c51b6d0b11d873d39c8b21d724270",
       "ast_digest": "85dd24ac7b25a3c943825a51f6037804025e75f155a0d5fe5efd30fb18fa41f2"
     },
     "srp": {
-      "values_digest": "fccb007348d36e205efd101c817d7d99a6f169a1a0731bb882007bf5079b76aa",
+      "values_digest": "1c77d2cfc8b8db0037bf8f007945fad815b89706c47af71bead2500aae1048b4",
       "rendered_digest": "185778300793cd486ea428cbc1cf3e34469042577b705c38b411b8d1b77640ea",
       "ast_digest": "d3f8ac83b8cccde87eebd7f304ec88b1df09695c99b6e0d7902e3c8ddd5e004b"
     },
     "sor": {
-      "values_digest": "21022dc99a45d0fa598778668aba79bc3259b9221e3051a44ffcfc9607b9bdef",
-      "rendered_digest": "e76dbe9ff77fe573b5c1f7e15c8adcfc5a38de78925101052c2d9717c6488929",
-      "ast_digest": "c771cbf27f9357ff2d427a029664f4c90279d07bf22ec991b80044b0b3d6093a"
+      "values_digest": "53c5ec486dfdf4dc5478e9ecb596a41a001db25862de8cf0082c6b5d522187a6",
+      "rendered_digest": "9f77b82e523c5932d2c714e26a08109f04c6ccfa4f122dfd50deacf4679b3279",
+      "ast_digest": "6a18117a502f0529d2d7036753731eb399f50b5379254ff027308f43a4a0e145"
     }
   },
   "transitions": [
@@ -210,6 +210,34 @@
       "actor": "codex:/root",
       "reason": "Record refreshed #277 proof after no-overlap merge of current origin/main before assigning a new exact review.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3 .csdlc/prepared/issues/277/validate_preparation_bundle.py\",\"cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --check\",\"cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test conversation_continuity\",\"cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --test conversation_continuity -- -D warnings\",\"git diff --check\"],\"purpose\":\"Post-base-refresh #277 proof after merging current origin/main with no touched-path collision; reprove dependency/scope validation, formatting, 8-test conversation continuity behavior, strict Clippy, and diff whitespace hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/277/issue-277-preparation-validator.log; .csdlc/evidence/277/runtime-kernel-conversation-continuity-fmt.log; .csdlc/evidence/277/runtime-kernel-conversation-continuity-tests.log; .csdlc/evidence/277/runtime-kernel-conversation-continuity-clippy.log; git diff --check PASS\"}}"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Recover exact review assignment fresh-session:5a0fa290-69bf-4271-be2a-9e2c34949ecf after actionable P2 finding: attempt snapshot reconstruction unconditionally overwrote prior Completed or DispatchedAmbiguous state with later PreDispatchRetryable for the same conversation_id plus idempotency_key, making duplicate completed/ambiguous attempts retryable after restart. Preserve finding truth before bounded #277 remediation and new fresh exact review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "Record #277 remediation for fresh exact review P2: make attempt snapshot replay monotonic so stale retryable attempts cannot downgrade completed or ambiguous outcomes.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented the #277 Runtime conversation continuity layer for durable watermarks, conversation-scoped monotonic attempt-local idempotency, replay decisions, ambiguous-dispatch outcomes, and receipts without absorbing #278, #114 parent, #115, or #270/#276 authority.\",\"changes\":[\"Added adl-runtime-kernel::conversation_continuity as a small continuity store layered on the #276 ConversationJournal foundation.\",\"Persisted sender watermarks and recipient acknowledgement watermarks as additive journal events while consuming, not redefining, #270 acknowledgement trust.\",\"Persisted attempt-local idempotency outcomes across restart with admission scoped by conversation_id plus idempotency_key, preventing one conversation from suppressing another conversation using the same key.\",\"Made attempt snapshot replay monotonic so stale PreDispatchRetryable records cannot downgrade prior Completed or DispatchedAmbiguous outcomes for the same conversation-scoped idempotency key.\",\"Persisted duplicate completed suppression, duplicate ambiguous suppression, and retryable pre-dispatch outcomes across restart.\",\"Persisted delivery, response, acknowledgement receipt references and replay decisions with owner/high-watermark evidence.\",\"Added focused Runtime kernel tests for restart reconstruction, conversation-scoped idempotency, monotonic attempt replay, ambiguous dispatch, retryable pre-dispatch state, stale acknowledgement watermark refusal, replay ownership, receipt reconstruction, and deletion filtering.\"],\"artifacts\":[\"adl-runtime-kernel/src/conversation_continuity.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/conversation_continuity.rs\",\".csdlc/evidence/277\",\".csdlc/prepared/issues/277\",\".csdlc/issues/277\"]}"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "Record refreshed #277 proof after monotonic attempt replay remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3 .csdlc/prepared/issues/277/validate_preparation_bundle.py\",\"cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --check\",\"cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test conversation_continuity\",\"cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --test conversation_continuity -- -D warnings\",\"git diff --check\"],\"purpose\":\"Focused #277 proof after monotonic attempt replay remediation: dependency/scope validation, formatting, 10-test conversation continuity behavior including scoped idempotency and downgrade refusal, strict Clippy, and diff whitespace hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/277/issue-277-preparation-validator.log; .csdlc/evidence/277/runtime-kernel-conversation-continuity-fmt.log; .csdlc/evidence/277/runtime-kernel-conversation-continuity-tests.log; .csdlc/evidence/277/runtime-kernel-conversation-continuity-clippy.log; git diff --check PASS\"}}"
     }
   ]
 }

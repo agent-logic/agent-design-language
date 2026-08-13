@@ -1,5 +1,5 @@
 use std::{
-    collections::{BTreeMap, BTreeSet},
+    collections::{btree_map::Entry, BTreeMap, BTreeSet},
     path::Path,
 };
 
@@ -390,21 +390,32 @@ fn apply_continuity_event(
             outcome,
             receipt_id,
         } => {
-            snapshot
+            let scope = AttemptIdempotencyScope {
+                conversation_id: event.conversation_id.clone(),
+                idempotency_key: idempotency_key.clone(),
+            };
+            let state = AttemptState {
+                conversation_id: event.conversation_id,
+                attempt_id,
+                idempotency_key,
+                outcome,
+                receipt_id,
+            };
+            match snapshot
                 .attempts_by_conversation_and_idempotency_key
-                .insert(
-                    AttemptIdempotencyScope {
-                        conversation_id: event.conversation_id.clone(),
-                        idempotency_key: idempotency_key.clone(),
-                    },
-                    AttemptState {
-                        conversation_id: event.conversation_id,
-                        attempt_id,
-                        idempotency_key,
-                        outcome,
-                        receipt_id,
-                    },
-                );
+                .entry(scope)
+            {
+                Entry::Occupied(mut existing)
+                    if attempt_outcome_priority(outcome)
+                        >= attempt_outcome_priority(existing.get().outcome) =>
+                {
+                    existing.insert(state);
+                }
+                Entry::Occupied(_) => {}
+                Entry::Vacant(vacant) => {
+                    vacant.insert(state);
+                }
+            }
         }
         ConversationContinuityEventKind::ReplayDecision {
             replay_id,
@@ -442,6 +453,14 @@ fn apply_continuity_event(
         }
     }
     Ok(())
+}
+
+fn attempt_outcome_priority(outcome: AttemptOutcome) -> u8 {
+    match outcome {
+        AttemptOutcome::PreDispatchRetryable => 0,
+        AttemptOutcome::DispatchedAmbiguous => 1,
+        AttemptOutcome::Completed => 2,
+    }
 }
 
 fn continuity_event_id(

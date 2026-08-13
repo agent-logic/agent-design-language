@@ -136,6 +136,78 @@ fn ambiguous_dispatch_remains_ambiguous_after_restart() {
 }
 
 #[test]
+fn retryable_attempt_cannot_downgrade_completed_attempt_after_restart() {
+    let root = tempfile::tempdir().unwrap();
+    let continuity = store(&root);
+    continuity
+        .record_attempt(
+            "conversation-a",
+            "attempt-completed",
+            "idem-downgrade-completed",
+            AttemptOutcome::Completed,
+            "completed-receipt",
+            1,
+        )
+        .unwrap();
+    continuity
+        .record_attempt(
+            "conversation-a",
+            "attempt-stale-retry",
+            "idem-downgrade-completed",
+            AttemptOutcome::PreDispatchRetryable,
+            "stale-retry-receipt",
+            2,
+        )
+        .unwrap();
+
+    assert_eq!(
+        store(&root)
+            .admit_attempt("conversation-a", "idem-downgrade-completed")
+            .unwrap(),
+        AttemptAdmission::DuplicateCompleted {
+            attempt_id: "attempt-completed".to_string(),
+            receipt_id: "completed-receipt".to_string()
+        }
+    );
+}
+
+#[test]
+fn retryable_attempt_cannot_downgrade_ambiguous_attempt_after_restart() {
+    let root = tempfile::tempdir().unwrap();
+    let continuity = store(&root);
+    continuity
+        .record_attempt(
+            "conversation-a",
+            "attempt-ambiguous",
+            "idem-downgrade-ambiguous",
+            AttemptOutcome::DispatchedAmbiguous,
+            "ambiguous-receipt",
+            1,
+        )
+        .unwrap();
+    continuity
+        .record_attempt(
+            "conversation-a",
+            "attempt-stale-retry",
+            "idem-downgrade-ambiguous",
+            AttemptOutcome::PreDispatchRetryable,
+            "stale-retry-receipt",
+            2,
+        )
+        .unwrap();
+
+    assert_eq!(
+        store(&root)
+            .admit_attempt("conversation-a", "idem-downgrade-ambiguous")
+            .unwrap(),
+        AttemptAdmission::DuplicateAmbiguous {
+            attempt_id: "attempt-ambiguous".to_string(),
+            receipt_id: "ambiguous-receipt".to_string()
+        }
+    );
+}
+
+#[test]
 fn pre_dispatch_retryable_attempt_does_not_block_retry_after_restart() {
     let root = tempfile::tempdir().unwrap();
     store(&root)
