@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "e6a6b6dce878d10beb21242dc5267e088f9ed5064d967b82e267f0a99ff2be35",
   "phase": "implemented",
-  "generation": 23,
-  "digest": "6c9f1714341b6015ae3ccc1cc4eda5bcd92ebe033728c38490d25dd22df888e1",
+  "generation": 24,
+  "digest": "e53ea755c4c712a6492693b906dcb3002729ad588ebbf026dde5e5c0f58048b1",
   "branch": "codex/297-preserved-failed-projection-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-297-preserved-failed-projection-recovery",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0b5e79cab4bf7efc9f5d6137598528da7871cf0b83f3b246b900ee63b46bd807",
+      "values_digest": "d6427f070e9d51bd4dae53c5d8cb8c278491a42b1268bf30cd159a70906678b6",
       "rendered_digest": "df823d86637cd9489e801629df7a5212ac8097bc372257554eaec7c9a9d0660e",
       "ast_digest": "1bc768342db5a416f8bb25942901fb3f59ba10dc488a47dea6f0ef806aabb7e0"
     },
     "stp": {
-      "values_digest": "3558008b8de7fc46e809dac9b3475d5383ff40f0c6279677d104007d3513e692",
+      "values_digest": "c1787c4c64f35eb4739a17276bf96800f2e08f0a9a8ca87043b11b6134cc3df4",
       "rendered_digest": "97ad2e897d196aba11055627fae7c5e07537626d42ad815337c564dffb664688",
       "ast_digest": "9a54ff529a22712e2dcb9f5efb93efb1ca9fd290304b932f98ab76803bc6ae26"
     },
     "spp": {
-      "values_digest": "14f446cd7d72dcae40b7e6679a714d5e496508939d29335415f54b4bac488179",
+      "values_digest": "c9e426ed8ba19ee7a380bf422d57f06b791e91437d459ff8751540f2343b1916",
       "rendered_digest": "e3b65c0055739979fc4ca41f0994e1ec2b50cbc3769189d2d9716089249db0bc",
       "ast_digest": "146f8c8308fc4b01d8049188b9ebf3bc7b41c3e59cac6fc8a3ec8a3957c157bd"
     },
     "vpp": {
-      "values_digest": "f22cc98a4ca565d925b420953c3daeeaa55e65f75d767974c5c2ddf80596c2a7",
+      "values_digest": "4a8ce010510523a2f2364096ee2e1a8e21bcbd47527182c7725644662a2e1b9d",
       "rendered_digest": "13f04d3e97db4d4fcba16b1a60538f791ca635def45dd6a5ceda8dcd9c807f58",
       "ast_digest": "f1c7789048ef56244afbbe53bd36196d5d4296a699769383a2e2b10c96b5eee3"
     },
     "srp": {
-      "values_digest": "fed89bfa19df2d7a265c510e9028b1295d49cc8ab148c501023d29e9b423f6a7",
+      "values_digest": "8db5fbcc92704799dea8743e391fe9604b6d9dd16646fe1e59868963ce369a38",
       "rendered_digest": "ef04c3dfd5e0eadb2913a6706f7e9e8dd54eeade7e1edb43bc97e1f3204379be",
       "ast_digest": "4a9b0580c70bbd10c0feac72bda62f208af9285f0f199aaaad3dc38c20ae79ae"
     },
     "sor": {
-      "values_digest": "698412e0825e1d95a5327fad9d69a61e72c3ec160af7c3dc48a59047fa888945",
-      "rendered_digest": "f3ebd4a3dd97fe76a02faf9e16e093f12f0af3f45fadcc65dec717449fb5b29f",
-      "ast_digest": "ecad0c30567184bdae78d77fb42cd4f3eefc0acae9df3fcb3002ad04a312424b"
+      "values_digest": "2e69444ef86b12c8ad0ac4895022b6665a1cb5741befee492fb6325be001c91c",
+      "rendered_digest": "ca6da7dda95462a7e607ebf55be91bdf17c4baab7d20cbe096827a3e528e80b1",
+      "ast_digest": "81513a0b98f6827739d46761ccb3a6fa3a99e9d8af3b1ea0a9dbc6f8351ac605"
     }
   },
   "transitions": [
@@ -266,6 +266,13 @@
       "actor": "codex:worker-5",
       "reason": "Recover failed #297 bridge r2 review after remediating P1 bridge replay poisoning and P2 over-broad directory link-count relaxation with a new source/test commit; require exact-head evidence and a different fresh reviewer before publication.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 24,
+      "actor": "codex:worker-5",
+      "reason": "record #297 bridge r2 review remediation and exact-head r3 validation evidence before fresh review",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Remediated the #297 bridge r2 review findings and revalidated the minimal production recovery-to-cleanup authority bridge. The bridge now stores cleanup authority under a validator-recognized cleanup-authority namespace so same-operation replay remains idempotent while conflicting cleanup-operation authority is rejected. Cleanup directory link-count relaxation is now limited to directories with authorized child nodes; leaf directories and regular files remain strict.\",\"changes\":[\"Recorded the r2 exact-head FAIL findings in typed review truth, then recovered review authority before source remediation.\",\"Moved bridge-produced canonical archive manifest and completed recovery receipt artifacts from the recovery attempt root into cleanup-authority/<cleanup-operation>/ so completed-recovery validation is not poisoned by bridge replay artifacts.\",\"Added cleanup-authority namespace validation that accepts only the two expected JSON artifacts per operation and rejects any unexpected artifact shape during completed-recovery validation.\",\"Added same-operation bridge replay proof and conflicting cleanup-operation rejection in gate5.\",\"Constrained cleanup identity matching so directory link-count drift is accepted only when the cleanup request owns descendants under that directory; leaf-directory and regular-file link-count drift are rejected.\",\"Added cleanup regressions for leaf directory link-count rejection, parent directory link-count drift after authorized child cleanup, and regular-file link-count rejection.\"],\"artifacts\":[\"csdlc-v2/src/projection_recovery.rs\",\"csdlc-v2/src/projection_cleanup.rs\",\"csdlc-v2/src/lib.rs\",\"csdlc-v2/tests/gate5.rs\",\"csdlc-v2/tests/archived_projection_cleanup.rs\",\".csdlc/evidence/297/bridge-r3/gate5-bridge-replay.log#sha256=affcd237422a569bbe4bfdc30ae6e75201a967455ea0abdee7a9dd57041083dc\",\".csdlc/evidence/297/bridge-r3/archived-cleanup-link-count.log#sha256=b32116712aa072c9d0556531e3c5e7485a147166a13fc905a39721b8e54732c6\",\".csdlc/evidence/297/bridge-r3/gate5-full.log#sha256=0647f14cd74ae955d3d88afea3e405ac986cd19c05d935093129f68c675cc79c\",\".csdlc/evidence/297/bridge-r3/gate-cleanup.log#sha256=e27f1067433eb2ae2b6f62e69a9ffd705b5858b72e4b038bfb6d3a1487499813\",\".csdlc/evidence/297/bridge-r3/archived-cleanup-full.log#sha256=a5a7a630256f414b5d3d162d8b0c57d534432e257987f47cb9c435635748a571\",\".csdlc/evidence/297/bridge-r3/strict-clippy.log#sha256=6368e7bc35f7e819b7c811817b1e927f336218a1f654c547cbadd8bd282515b8\",\".csdlc/evidence/297/bridge-r3/fmt-check.log#sha256=d0c2216b26f44372de830b598d1177ff18843f3d495c101d0cdde608cbf606f3\",\".csdlc/evidence/297/bridge-r3/diff-check.log#sha256=eb953affdeb057570a957c927cd19169e10f9e3ccad21ea7e9ded94b18ebb643\",\".csdlc/evidence/297/bridge-r3/csdlc-validate.log#sha256=fdb367749e7d34428889f63afe3ad277da0de706ebb57061a9055726d9608bc6\",\".csdlc/evidence/297/bridge-r3/csdlc-doctor.log#sha256=7269b6a31e73136b1cf0c9180a954ec1277ae098e3fa437a568c558a41518d2a\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"recovery_bridge_emits_cleanup_authority_consumed_by_cleanup\",\"--\",\"--nocapture\"],\"purpose\":\"Focused bridge proof at exact head 9aecbb18872036912a14d199c72a484c7ba08107: production bridge artifacts replay idempotently, conflicting cleanup operation is rejected, and cleanup consumes bridge authority.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/297/bridge-r3/gate5-bridge-replay.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"archived_projection_cleanup\",\"link_count\",\"--\",\"--nocapture\"],\"purpose\":\"Focused cleanup link-count proof at exact head 9aecbb18872036912a14d199c72a484c7ba08107: leaf directory drift rejected, parent drift after authorized child cleanup accepted, regular-file drift rejected.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/297/bridge-r3/archived-cleanup-link-count.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"--\",\"--nocapture\"],\"purpose\":\"Full gate5 recovery regression lane at exact head 9aecbb18872036912a14d199c72a484c7ba08107.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/297/bridge-r3/gate5-full.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_cleanup\",\"--\",\"--nocapture\"],\"purpose\":\"Existing cleanup authority regression lane at exact head 9aecbb18872036912a14d199c72a484c7ba08107.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/297/bridge-r3/gate-cleanup.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"archived_projection_cleanup\",\"--\",\"--nocapture\"],\"purpose\":\"Full archived projection cleanup regression lane including new link-count boundary tests at exact head 9aecbb18872036912a14d199c72a484c7ba08107.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/297/bridge-r3/archived-cleanup-full.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict Clippy over all csdlc-v2 targets at exact head 9aecbb18872036912a14d199c72a484c7ba08107.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/297/bridge-r3/strict-clippy.log\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--check\"],\"purpose\":\"Rust formatting check at exact head 9aecbb18872036912a14d199c72a484c7ba08107.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/297/bridge-r3/fmt-check.log\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\",\"&&\",\"git\",\"diff\",\"--check\"],\"purpose\":\"Committed-range and worktree diff hygiene at exact head 9aecbb18872036912a14d199c72a484c7ba08107.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/297/bridge-r3/diff-check.log\"},{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"297\"],\"purpose\":\"Typed issue validation after review recovery and bridge r3 evidence at exact head 9aecbb18872036912a14d199c72a484c7ba08107.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/297/bridge-r3/csdlc-validate.log\"},{\"command\":[\"csdlc-doctor\",\"--issue\",\"297\"],\"purpose\":\"Typed doctor check after review recovery and bridge r3 evidence at exact head 9aecbb18872036912a14d199c72a484c7ba08107.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/297/bridge-r3/csdlc-doctor.log\"}]}"
     }
   ]
 }

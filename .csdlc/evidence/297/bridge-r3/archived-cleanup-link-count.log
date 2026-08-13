@@ -1,0 +1,13 @@
+sha: 9aecbb18872036912a14d199c72a484c7ba08107
+argv: cargo test --manifest-path csdlc-v2/Cargo.toml --test archived_projection_cleanup link_count -- --nocapture
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.09s
+     Running tests/archived_projection_cleanup.rs (csdlc-v2/target/debug/deps/archived_projection_cleanup-e1c21167aa5c0c5f)
+
+running 3 tests
+test cleanup_rejects_regular_file_link_count_drift ... ok
+test cleanup_rejects_leaf_directory_link_count_drift ... ok
+test cleanup_accepts_parent_directory_link_count_drift_after_authorized_child_cleanup ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 18 filtered out; finished in 0.27s
+
+status: 0
