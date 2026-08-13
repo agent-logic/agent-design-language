@@ -27,6 +27,10 @@ fn remaining_read_callers_are_governed_in_production() {
         "#[cfg(test)]\nimpl ResourceWeatherCertificateAuthority for DistributedCertificateStore"
     ));
     assert!(PLACEMENT.contains("pub fn capture<C: ResourceWeatherCertificateAuthority>"));
+    assert!(PLACEMENT.contains("type PlacementLeaseAuthority = AuthorityBoundLeaseLedger"));
+    assert!(PLACEMENT.contains("type PlacementFencingAuthority = AuthorityBoundFencingStore"));
+    assert!(PLACEMENT.contains("placement_lease_snapshot(ledger)?"));
+    assert!(PLACEMENT.contains("placement_fencing_floor(store, lineage.lineage_id.as_bytes())"));
     assert!(
         PROJECTION.contains("type ProjectionCertificateSource = AuthorityBoundCertificateStore")
     );

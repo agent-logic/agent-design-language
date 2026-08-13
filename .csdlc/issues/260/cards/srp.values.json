@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-04.16b3.1a][203.c] Migrate distributed Runtime callers to authority adapters",
     "slug": "issue-260-distributed-runtime-authority-adapters",
     "version": "v0.92",
-    "generation": 1
+    "generation": 8
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Pre-bind #260 C-SDLC cards, design, diagram, and post-#259 bind handoff boundaries only.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "0c28036a780a39b9334f8e8edbcb3fb77bbb5fee9837205819e506f062661190",
   "phase": "implemented",
-  "generation": 1,
-  "digest": "0d5138b9e83f77bf1e01d9c75c95a89bff63f90907055060d2d63faa67adc964",
+  "generation": 8,
+  "digest": "13f8c74fc270c5878fdcc6106f81f98881faeace97dea52effd6595458c6aba9",
   "branch": "codex/260-distributed-runtime-authority-adapters",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-260-distributed-runtime-authority-adapters",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0d815a593bdd526d8d2a5707f73dbe21fddd22e5322f35337645e905cefe9dc7",
+      "values_digest": "08a8b301edeca8fb3716e5354fe49c51904d96fc0fa06768eb6795c52bbd8584",
       "rendered_digest": "33984f8c9f80ee11574380fa1b34fddc51d1568f1311ac467a4dfe12c83bea75",
       "ast_digest": "f73089f4c9ce52621370bbf0554b70d46c63d2c1b57c9e9ee24d2b71d51e843e"
     },
     "stp": {
-      "values_digest": "6ac8aac7fa6558ae3abc172065129032ec7728d563aa96ed041dba9e154f9528",
+      "values_digest": "13f31ce498e94afc726742c5b0dd019b9bfdb2db047dc83fafb2a1b114ba2c19",
       "rendered_digest": "b37f47083962235d13094d90a09da4050393c4a426d53b2c0918045658ef8267",
       "ast_digest": "b6fb6a120e7a266cd0883b33ca37a775af831d9ee100ee79f2904818fed6e829"
     },
     "spp": {
-      "values_digest": "d78041f07aa383c1e64dd908ebc341b7b15de8561ca5812054c08d5e33337ed7",
-      "rendered_digest": "14cb9d0f46c66aedd504a2403d4343ae23615a14ea2eff9e24de37c190528fed",
-      "ast_digest": "80792139b11cb247cf855f385e318637640fe35fcd526651d5b8240633ba1994"
+      "values_digest": "b9995c046d898869e52cf3dc7be789a208669a137b06044e736a0863de8f85af",
+      "rendered_digest": "1c2054c34a8fd73d0e1fdc24231406cc7e0e6455a7f817416a65e99f2c1ba97f",
+      "ast_digest": "d21820178822664b54366e0e1044a26e4387ba85c9bf8763af9888dc5a0e9529"
     },
     "vpp": {
-      "values_digest": "bcf6ad1050143ab56e5a1ee8328fe48ccf23281ef9d0615d9e409f72085161ef",
-      "rendered_digest": "5c19b98d70bb2d05000c01680fc4df44c694bf02281d37cbcc2b528d2355aac8",
-      "ast_digest": "22833e4f63023d6a03d2ee9f4c69c6cf46f7c62b4848500083ce447c5871c6d9"
+      "values_digest": "4b9a1b90717d69971e2afa53de5242d876a0ad883c33d4c13aad77ccb6226361",
+      "rendered_digest": "658b37bec7b761957e48fd7363eab448cbb24680461128935cd4a2bf405003c1",
+      "ast_digest": "05651ee06f2655c8c133e8790d02458384fed73409a4d105882601ac0cb43a72"
     },
     "srp": {
-      "values_digest": "c1c5dd16ee7bef1cf6d63708439dfe10b06aa7ea0961f771a74ac37565979355",
-      "rendered_digest": "6eb65b1439f0a61f3bc9205abdcc1ce8083603290db15f7a2c362c07252f3402",
-      "ast_digest": "fc297f67027d63d66d2b00de3ae2285f45b1f79021c8c37f6ef6c72eda5f7055"
+      "values_digest": "e347ffa14b7f83786a63f7780c623ae8932d326b1ccd248d8be8801ecb19d6c8",
+      "rendered_digest": "3dfa5857e17ab9ceb62db96c65dd2294799020f6c58050a8141205ab77819361",
+      "ast_digest": "d4c829d946b7b19c1be8c045d77d13379e966dcf880e974045cc5f6353f162ec"
     },
     "sor": {
-      "values_digest": "41d10908ffd7975eb8bdaebe23996dc313150a3e1631c50cf20becfaf18dd164",
-      "rendered_digest": "39021d94e710aa7364af6d15a32a3a2c2824a4cbebec9b11b8f42c8fa2687dcb",
-      "ast_digest": "98e38a7313a7965cb098761a4b7f469576f0621b3acfd1afb16e73b62697c991"
+      "values_digest": "d2a1f824813719d26f55af773d220af428bdcbdaf68415f9b727f7ddc106a243",
+      "rendered_digest": "14375d7f5e2bf77d42b7fa8af3db66bd1ca06cd8be751349eb9d710af0c2d20e",
+      "ast_digest": "2e1d060e28093e0d643b4b4f1e2a4401c5e76764517e02a0fe912ff5e51fbc40"
     }
   },
   "transitions": [
@@ -99,6 +99,62 @@
       "actor": "codex:issue-260",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 4,
+      "generation": 1,
+      "actor": "codex:issue-260",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:issue-260-r1-remediation",
+      "reason": "Recover failed exact R1: migrate PlacementFencingSnapshot raw lease/fencing seam and normalize stale SPP/VPP execution truth before a new exact review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:issue-260-r1-remediation",
+      "reason": "Reconcile the operative plan with completed implementation and validation truth after exact review.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:issue-260-r1-remediation",
+      "reason": "Reconcile completed caller inventory with execution truth.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:issue-260-r1-remediation",
+      "reason": "Reconcile completed governed caller migration with execution truth.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:issue-260-r1-remediation",
+      "reason": "Reconcile completed focused validation with execution truth.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:issue-260-r1-remediation",
+      "reason": "Replace stale pre-bind validation plan with the exact proving lanes executed for the implemented caller migration.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-distributed-authority-adapter-callers-260\",\"proof_role\":\"Prove governed production caller boundaries and cfg(test)-only raw seams.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":360,\"budget_tokens\":1800,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_authority_adapter_callers_260\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"runtime-migration\",\"proof_role\":\"Prove deterministic governed migration transitions and retry behavior.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_migration\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"runtime-recovery\",\"proof_role\":\"Prove deterministic governed recovery transitions and fail-closed retry behavior.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_recovery\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"runtime-lib-strict-clippy\",\"proof_role\":\"Reject production warning and lint regressions.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:issue-260-r1-remediation",
+      "reason": "Record exact R1 placement boundary remediation and refreshed focused proof.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Migrated the remaining PlacementFencingSnapshot lease/fencing seam to governed adapters, extended the issue guard, and reconciled SPP/VPP execution truth.\",\"changes\":[\"Production PlacementFencingSnapshot capture now consumes AuthorityBoundLeaseLedger and AuthorityBoundFencingStore.\",\"Adapter failures map fail-closed to inconsistent evidence; raw placement stores remain cfg(test)-only.\",\"Issue guard covers placement lease/fencing type aliases and helper routing.\",\"SPP steps and VPP lanes now agree with actual implemented validation.\"],\"artifacts\":[\"adl-runtime/src/distributed/placement.rs\",\"adl-runtime/tests/distributed_authority_adapter_callers_260.rs\",\".csdlc/issues/260/cards/spp.values.json\",\".csdlc/issues/260/cards/vpp.values.json\"],\"validation\":[{\"command\":[\"cargo\",\"check\",\"--manifest-path\",\"adl-runtime/Cargo.toml\"],\"purpose\":\"Compile production Runtime caller migrations.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/260/runtime-lib-clippy.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_authority_adapter_callers_260\",\"--\",\"--test-threads=1\"],\"purpose\":\"Prove governed caller boundaries.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/260/authority-adapter-callers-260.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_placement\",\"--\",\"--test-threads=1\"],\"purpose\":\"Prove placement behavior after governed capture migration.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/260/authority-adapter-callers-260.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_migration\",\"--\",\"--test-threads=1\"],\"purpose\":\"Prove migration retry and transition behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/260/migration-recovery.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_recovery\",\"--\",\"--test-threads=1\"],\"purpose\":\"Prove recovery retry and fail-closed behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/260/migration-recovery.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject production lint regressions.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/260/runtime-lib-clippy.log\"}]}"
     }
   ]
 }

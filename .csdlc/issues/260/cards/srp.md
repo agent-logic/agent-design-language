@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Pre-bind #260 C-SDLC cards, design, diagram, and post-#259 bind handoff boundaries only.
+
 
 ## Prompts
 

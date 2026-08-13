@@ -12,29 +12,36 @@ Status: pre_phase
 
 ## Summary
 
-Migrate non-transport distributed Runtime callers to governed authority-store adapters
+Migrated the remaining PlacementFencingSnapshot lease/fencing seam to governed adapters, extended the issue guard, and reconciled SPP/VPP execution truth.
 
 ## Artifacts
 
-- adl-runtime/src/distributed/capability_advertisement.rs
-- adl-runtime/src/distributed/migration.rs
 - adl-runtime/src/distributed/placement.rs
-- adl-runtime/src/distributed/projection.rs
-- adl-runtime/src/distributed/recovery.rs
-- adl-runtime/src/distributed/resource_weather.rs
-- adl-runtime/src/distributed/snapshot_catalog.rs
 - adl-runtime/tests/distributed_authority_adapter_callers_260.rs
+- .csdlc/issues/260/cards/spp.values.json
+- .csdlc/issues/260/cards/vpp.values.json
 
 ## Execution
 
-- Require governed certificate adapters for capability-advertisement and snapshot-catalog production verification.
-- Require governed certificate authority for resource-weather and placement production reads.
-- Require governed certificate, lease, and fencing adapters for production projection reads.
-- Route migration and recovery lease/fencing transitions through fail-closed governed adapter helpers while keeping raw seams cfg(test)-only.
+- Production PlacementFencingSnapshot capture now consumes AuthorityBoundLeaseLedger and AuthorityBoundFencingStore.
+- Adapter failures map fail-closed to inconsistent evidence; raw placement stores remain cfg(test)-only.
+- Issue guard covers placement lease/fencing type aliases and helper routing.
+- SPP steps and VPP lanes now agree with actual implemented validation.
 
 ## Validation
 
 [
+  {
+    "command": [
+      "cargo",
+      "check",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml"
+    ],
+    "purpose": "Compile production Runtime caller migrations.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/260/runtime-lib-clippy.log"
+  },
   {
     "command": [
       "cargo",
@@ -46,9 +53,24 @@ Migrate non-transport distributed Runtime callers to governed authority-store ad
       "--",
       "--test-threads=1"
     ],
-    "purpose": "Run the issue-owned exact caller boundary guard.",
+    "purpose": "Prove governed caller boundaries.",
     "outcome": "passed",
-    "evidence_ref": "authority-adapter-callers-260.log"
+    "evidence_ref": ".csdlc/evidence/260/authority-adapter-callers-260.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_placement",
+      "--",
+      "--test-threads=1"
+    ],
+    "purpose": "Prove placement behavior after governed capture migration.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/260/authority-adapter-callers-260.log"
   },
   {
     "command": [
@@ -58,14 +80,27 @@ Migrate non-transport distributed Runtime callers to governed authority-store ad
       "adl-runtime/Cargo.toml",
       "--test",
       "distributed_migration",
+      "--",
+      "--test-threads=1"
+    ],
+    "purpose": "Prove migration retry and transition behavior.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/260/migration-recovery.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
       "--test",
       "distributed_recovery",
       "--",
       "--test-threads=1"
     ],
-    "purpose": "Run focused migration and recovery integration tests.",
+    "purpose": "Prove recovery retry and fail-closed behavior.",
     "outcome": "passed",
-    "evidence_ref": "migration-recovery.log"
+    "evidence_ref": ".csdlc/evidence/260/migration-recovery.log"
   },
   {
     "command": [
@@ -78,15 +113,15 @@ Migrate non-transport distributed Runtime callers to governed authority-store ad
       "-D",
       "warnings"
     ],
-    "purpose": "Run strict library Clippy.",
+    "purpose": "Reject production lint regressions.",
     "outcome": "passed",
-    "evidence_ref": "runtime-lib-clippy.log"
+    "evidence_ref": ".csdlc/evidence/260/runtime-lib-clippy.log"
   }
 ]
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

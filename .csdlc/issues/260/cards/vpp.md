@@ -24,31 +24,8 @@ Diagram: .csdlc/prepared/issues/260/diagram.mmd
 
 [
   {
-    "lane": "runtime-distributed-caller-compile",
-    "proof_role": "Compile proof for migrated distributed Runtime callers",
-    "acceptance_ids": [
-      "AC-1",
-      "AC-2",
-      "AC-3",
-      "AC-4",
-      "AC-5"
-    ],
-    "deterministic": true,
-    "resource_profile": "small",
-    "budget_seconds": 180,
-    "budget_tokens": 1200,
-    "argv": [
-      "cargo",
-      "check",
-      "--manifest-path",
-      "adl-runtime/Cargo.toml"
-    ],
-    "parallel_group": "local",
-    "defer_reason": null
-  },
-  {
     "lane": "runtime-distributed-authority-adapter-callers-260",
-    "proof_role": "Issue-owned focused harness for #260 distributed Runtime caller migration after #259 terminal",
+    "proof_role": "Prove governed production caller boundaries and cfg(test)-only raw seams.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -67,10 +44,85 @@ Diagram: .csdlc/prepared/issues/260/diagram.mmd
       "adl-runtime/Cargo.toml",
       "--test",
       "distributed_authority_adapter_callers_260",
-      "--no-tests=fail"
+      "--",
+      "--test-threads=1"
     ],
     "parallel_group": "local",
-    "defer_reason": "The issue-owned post-#259 harness adl-runtime/tests/distributed_authority_adapter_callers_260.rs must be created in the #260 bound worktree after #259 is terminal and ancestral; pre-bind preparation records this denominator without creating source/test files on main."
+    "defer_reason": null
+  },
+  {
+    "lane": "runtime-migration",
+    "proof_role": "Prove deterministic governed migration transitions and retry behavior.",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-3",
+      "AC-4"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 600,
+    "budget_tokens": 2000,
+    "argv": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_migration",
+      "--",
+      "--test-threads=1"
+    ],
+    "parallel_group": "local",
+    "defer_reason": null
+  },
+  {
+    "lane": "runtime-recovery",
+    "proof_role": "Prove deterministic governed recovery transitions and fail-closed retry behavior.",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-3",
+      "AC-4"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 600,
+    "budget_tokens": 2000,
+    "argv": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_recovery",
+      "--",
+      "--test-threads=1"
+    ],
+    "parallel_group": "local",
+    "defer_reason": null
+  },
+  {
+    "lane": "runtime-lib-strict-clippy",
+    "proof_role": "Reject production warning and lint regressions.",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-4"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 600,
+    "budget_tokens": 3000,
+    "argv": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--lib",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "parallel_group": "local",
+    "defer_reason": null
   }
 ]
 
@@ -86,8 +138,10 @@ Tokens: 25000
 
 ## Commands
 
-- `cargo check --manifest-path adl-runtime/Cargo.toml`
-- `cargo test --manifest-path adl-runtime/Cargo.toml --test distributed_authority_adapter_callers_260 --no-tests=fail`
+- `cargo test --manifest-path adl-runtime/Cargo.toml --test distributed_authority_adapter_callers_260 -- --test-threads=1`
+- `cargo test --manifest-path adl-runtime/Cargo.toml --test distributed_migration -- --test-threads=1`
+- `cargo test --manifest-path adl-runtime/Cargo.toml --test distributed_recovery -- --test-threads=1`
+- `cargo clippy --manifest-path adl-runtime/Cargo.toml --lib -- -D warnings`
 
 ## Failure Semantics
 
