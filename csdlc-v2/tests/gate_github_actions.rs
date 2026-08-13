@@ -110,6 +110,7 @@ fn split_github_schema_commands_accept_early_stdout_close() {
 
 #[test]
 fn issue_read_failures_are_typed_redacted_and_action_scoped() {
+    let _guard = TEST_GITHUB_ENV_LOCK.lock().expect("test env lock");
     let temp = tempfile::tempdir().expect("tempdir");
     let token_path = temp.path().join("github.token");
     let token = "secret-token-issue-41";
@@ -378,6 +379,7 @@ fn write_status_response(stream: &mut TcpStream, status: u16, body: Value) {
     stream
         .write_all(response.as_bytes())
         .expect("write scripted response");
+    stream.flush().expect("flush scripted response");
 }
 
 #[tokio::test]

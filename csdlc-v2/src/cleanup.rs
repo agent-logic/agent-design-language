@@ -378,11 +378,9 @@ pub fn build_legacy_terminal_index(
     for issue in unique {
         validate_projection_layout(root, issue)?;
         let record = store.load_record(issue)?;
-        let cards = store.load_cards(issue)?;
-        let receipt = store.load_terminal_receipt(issue)?;
-        let receipt_matches_projection = receipt
-            .as_ref()
-            .map(|value| value.record == record && value.cards == cards);
+        let receipt_matches_projection =
+            store.load_legacy_terminal_receipt_projection_match(issue)?;
+        let receipt_present = receipt_matches_projection.is_some();
         let derived = load_cached_terminal(root, issue)?;
         let derived_terminal_matches_projection = match derived.as_ref() {
             Some(value) => {
@@ -417,7 +415,7 @@ pub fn build_legacy_terminal_index(
             phase: record.phase,
             generation: record.generation,
             digest: record.digest,
-            receipt_present: receipt.is_some(),
+            receipt_present,
             receipt_matches_projection,
             derived_terminal_present: derived.is_some(),
             derived_terminal_matches_projection,
