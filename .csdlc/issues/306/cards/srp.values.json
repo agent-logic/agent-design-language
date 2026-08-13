@@ -7,13 +7,13 @@
     "title": "[v0.92][C-SDLC][defect] Prevent publication metadata tail from blocking exact-clean finish",
     "slug": "publication-metadata-tail-exact-clean-finish",
     "version": "v0.92",
-    "generation": 21
+    "generation": 22
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #306 publication-tail tooling and focused tests only; no active issue worktree fixture mutation.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

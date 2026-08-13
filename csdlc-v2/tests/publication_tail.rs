@@ -6,11 +6,12 @@ use std::collections::BTreeMap;
 use csdlc_v2::finish::validate_publication_head_in_repo;
 use csdlc_v2::publication::{
     commit_publication_metadata_tail, persist_publication_intent, publication_intent_dir,
-    reconcile_action, PublicationAction,
+    reconcile_action, resume_recorded_publication_intent, PublicationAction,
 };
 use csdlc_v2::{
     DesignReview, FinishRequest, IssueRecord, LifecyclePhase, MergeMethod, PublicationEvidence,
-    PublicationIntent, PublicationLinkageMode, RemotePullRequest, ReviewEvidence,
+    PublicationIntent, PublicationLinkageMode, PublicationRequest, RemotePullRequest,
+    ReviewEvidence, Store,
 };
 
 #[test]
@@ -198,6 +199,73 @@ fn publication_metadata_tail_rejects_pre_staged_non_governed_paths() {
     );
 }
 
+#[test]
+fn interrupted_after_record_publication_retry_can_commit_metadata_tail() {
+    let temp = tempfile::tempdir().expect("temp repo");
+    init_repo(temp.path());
+    std::fs::create_dir_all(temp.path().join("src")).expect("src");
+    std::fs::write(temp.path().join("src/lib.rs"), "pub fn stable() {}\n").expect("source");
+    git(temp.path(), &["add", "src/lib.rs"]);
+    git(temp.path(), &["commit", "-q", "-m", "reviewed source"]);
+
+    let mut reviewed = record(LifecyclePhase::Reviewed, None);
+    reviewed.digest = "pre-publication-digest".into();
+    reviewed.review = Some(ReviewEvidence {
+        reviewer: "reviewer".into(),
+        scope: vec!["src".into()],
+        reviewed_revision: csdlc_v2::git::substantive_revision(temp.path(), &["src".into()])
+            .expect("reviewed revision"),
+        findings: vec![],
+        residual_risks: vec![],
+        completed: true,
+        non_substantive_proof: None,
+    });
+    write_issue_record(temp.path(), &reviewed);
+    git(temp.path(), &["add", ".csdlc/issues/306/index.json"]);
+    git(
+        temp.path(),
+        &["commit", "-q", "-m", "published reviewed head"],
+    );
+    let published_head = git_out(temp.path(), &["rev-parse", "HEAD"]);
+
+    let mut recorded = reviewed.clone();
+    recorded.phase = LifecyclePhase::Published;
+    recorded.generation += 1;
+    recorded.digest = "post-publication-digest".into();
+    recorded.publication = Some(PublicationEvidence {
+        repository: "agent-logic/agent-design-language".into(),
+        issue: 306,
+        pull_request: 306,
+        url: "https://github.com/agent-logic/agent-design-language/pull/306".into(),
+        base: "main".into(),
+        head: "codex/306-publication-tail-exact-clean-finish".into(),
+        revision: csdlc_v2::git::clean_commit_revision(&published_head),
+        linkage_mode: Some(PublicationLinkageMode::Closing),
+        draft: false,
+        observed_state: "open".into(),
+    });
+    write_issue_record(temp.path(), &recorded);
+
+    let original_request = publication_request(reviewed.generation, &reviewed.digest);
+    let resumed = resume_recorded_publication_intent(&Store::new(temp.path()), &original_request)
+        .expect("resume lookup")
+        .expect("recorded publication can resume");
+    assert_eq!(resumed.commit_sha, published_head);
+
+    let metadata_head = commit_publication_metadata_tail(temp.path(), 306)
+        .expect("commit metadata")
+        .expect("metadata commit");
+    assert_ne!(metadata_head, published_head);
+    assert!(csdlc_v2::git::worktree_is_clean(temp.path()).expect("worktree clean"));
+
+    let mut request = finish_request();
+    request.expected_generation = recorded.generation;
+    request.expected_digest = recorded.digest.clone();
+    request.expected_head_sha = Some(metadata_head);
+    validate_publication_head_in_repo(temp.path(), &recorded, &request)
+        .expect("resumed metadata tail is finish-ready");
+}
+
 fn intent(issue: u64) -> PublicationIntent {
     PublicationIntent {
         schema: "csdlc.publication_intent.v1".into(),
@@ -286,6 +354,26 @@ fn finish_request() -> FinishRequest {
         required_checks: Vec::new(),
         require_review: false,
         approved_no_pr_reason: None,
+        token_file: None,
+    }
+}
+
+fn publication_request(expected_generation: u64, expected_digest: &str) -> PublicationRequest {
+    PublicationRequest {
+        schema: "csdlc.publication_request.v1".into(),
+        issue: 306,
+        expected_generation,
+        expected_digest: expected_digest.into(),
+        actor: "publisher".into(),
+        repository: "agent-logic/agent-design-language".into(),
+        code_repository: None,
+        base: "main".into(),
+        head: "codex/306-publication-tail-exact-clean-finish".into(),
+        title: "[v0.92][C-SDLC][defect] Prevent publication metadata tail from blocking exact-clean finish".into(),
+        body: "Closes #306".into(),
+        linkage_mode: PublicationLinkageMode::Closing,
+        draft: false,
+        remote: "origin".into(),
         token_file: None,
     }
 }

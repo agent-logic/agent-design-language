@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Issue #306 publication-tail tooling and focused tests only; no active issue worktree fixture mutation.
+
 
 ## Prompts
 

@@ -340,6 +340,66 @@ pub fn publication_intent_dir(root: &Path) -> Result<PathBuf> {
     .join("publication"))
 }
 
+pub fn resume_recorded_publication_intent(
+    store: &Store,
+    request: &PublicationRequest,
+) -> Result<Option<PublicationIntent>> {
+    let record = store.load_record(request.issue)?;
+    let Some(publication) = record.publication.as_ref() else {
+        return Ok(None);
+    };
+    let record_code_repository = record
+        .code_repository
+        .as_deref()
+        .unwrap_or(&record.repository);
+    let request_code_repository = request
+        .code_repository
+        .as_deref()
+        .unwrap_or(&request.repository);
+    if record.issue != request.issue
+        || record.repository != request.repository
+        || !record_code_repository.eq_ignore_ascii_case(request_code_repository)
+        || publication.repository != request_code_repository
+        || publication.base != request.base
+        || publication.head != request.head
+        || publication.draft != request.draft
+        || publication.linkage_mode.unwrap_or_default() != request.linkage_mode
+    {
+        return Ok(None);
+    }
+    let Some(commit_sha) = parse_publication_clean_commit(&publication.revision) else {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "recorded publication revision cannot prove exact clean commit authority",
+        ));
+    };
+    Ok(Some(PublicationIntent {
+        schema: "csdlc.publication_intent.v1".into(),
+        issue: request.issue,
+        repository: request_code_repository.to_owned(),
+        issue_repository: request.repository.clone(),
+        base: request.base.clone(),
+        head: request.head.clone(),
+        title: request.title.clone(),
+        body: request.body.clone(),
+        linkage_mode: request.linkage_mode,
+        draft: request.draft,
+        revision: publication.revision.clone(),
+        commit_sha,
+    }))
+}
+
+fn parse_publication_clean_commit(revision: &str) -> Option<String> {
+    let commit = revision
+        .strip_prefix("git-blake3:")
+        .and_then(|value| value.split_once(':'))
+        .map(|(commit, _)| commit)
+        .filter(|commit| {
+            commit.len() == 40 && commit.bytes().all(|byte| byte.is_ascii_hexdigit())
+        })?;
+    (revision == crate::git::clean_commit_revision(commit)).then(|| commit.to_owned())
+}
+
 pub fn commit_publication_metadata_tail(root: &Path, issue: u64) -> Result<Option<String>> {
     let issue_dir = format!(".csdlc/issues/{issue}");
     let already_staged = crate::git::run(root, &["diff", "--cached", "--name-only"])?.stdout;

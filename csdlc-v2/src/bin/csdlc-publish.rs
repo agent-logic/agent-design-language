@@ -56,10 +56,32 @@ async fn run(cli: &Cli) -> csdlc_v2::Result<serde_json::Value> {
         Command::Schema => unreachable!(),
     };
     let request: PublicationRequest = serde_json::from_slice(&fs::read(request_path)?)?;
-    let store = Store::new(&cli.root);
-    let intent = prepare_publication(&store, &request)?;
     let token = resolve_token(&request)?;
     let crab = github_client(token)?;
+    let store = Store::new(&cli.root);
+    if let Some(intent) =
+        csdlc_v2::publication::resume_recorded_publication_intent(&store, &request)?
+    {
+        verify_git_remote(&cli.root, &request.remote, &intent)?;
+        if let Some(metadata_head) =
+            csdlc_v2::publication::commit_publication_metadata_tail(&cli.root, request.issue)?
+        {
+            push(&cli.root, &request.remote, &request.head)?;
+            let observed = find_pr(&crab, &intent).await?.ok_or_else(|| {
+                V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "resumed metadata publication head could not be reconciled",
+                )
+            })?;
+            let publication = normalize(&intent, &observed)?;
+            validate_metadata_followup_remote(&cli.root, &intent, &publication, &metadata_head)?;
+            let record = store.load_record(request.issue)?;
+            return Ok(
+                serde_json::json!({"schema":"csdlc.publication_result.v1","publication":publication,"generation":record.generation,"digest":record.digest}),
+            );
+        }
+    }
+    let intent = prepare_publication(&store, &request)?;
     let observed = find_pr(&crab, &intent).await?;
     if matches!(cli.command, Command::Status { .. }) {
         let observed = observed.ok_or_else(|| {
