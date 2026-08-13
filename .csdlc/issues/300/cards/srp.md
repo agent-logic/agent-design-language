@@ -12,7 +12,11 @@ Status: draft
 
 ## Scope
 
-
+csdlc-v2/tests/projection_recovery_integration.rs
+.csdlc/evidence/300/bridge-fed-r4
+.csdlc/requests/300/recover-review-curie-r3.json
+.csdlc/requests/300/recover-review-lovelace-scope-dead-end.json
+.csdlc/requests/300/replace-sor-bridge-fed-r4.json
 
 ## Prompts
 
