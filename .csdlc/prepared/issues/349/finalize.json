@@ -1,0 +1,119 @@
+{
+  "schema": "csdlc.finalize_request.v1",
+  "issue": 349,
+  "expected_generation": 4,
+  "expected_digest": "c639909f979d852d1e3a10f713f90f215c59265a52af3997482dc4081f223499",
+  "actor": "codex:issue-349-implementation",
+  "summary": "Keep exact deferred validator admission coherent across the doctor-advertised ready transition while preserving fail-closed bound execution proof.",
+  "changes": [
+    "Admit the existing exact #79 deferred-target predicate in initialized and ready pre-bind phases only.",
+    "Exercise initialized doctor PASS, advertised advance_ready, unchanged ready doctor PASS and bind, bound missing-target failure, and materialized-target PASS.",
+    "Preserve the existing negative predicate matrix and leave #342 untouched."
+  ],
+  "artifacts": [
+    "csdlc-v2/src/cards.rs",
+    "csdlc-v2/tests/gate2.rs",
+    ".csdlc/evidence/349"
+  ],
+  "execution": {
+    "manifest": {
+      "schema": "csdlc.pvf.manifest.v1",
+      "lanes": [
+        {
+          "id": "issue349-ready-sequence",
+          "proof_role": "Prove the advertised initialized-to-ready sequence remains bindable and bound state still fails closed before target materialization.",
+          "purpose": "Run the exact positive Gate 2 protocol regression.",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 2, "memory_mib": 4096, "tokens": 0},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "349-serial-01",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 900,
+          "executable": "cargo",
+          "argv": ["test", "--manifest-path", "csdlc-v2/Cargo.toml", "--test", "gate2", "initialized_deferred_distributed_targets_bind_only_through_exact_path_harnesses"],
+          "evidence": {"max_log_bytes": 262144, "redact_values": [], "require_relative_paths": true}
+        },
+        {
+          "id": "issue349-negative-matrix",
+          "proof_role": "Prove every missing #79 admission predicate remains fail closed.",
+          "purpose": "Run the exact negative Gate 2 predicate matrix.",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 2, "memory_mib": 4096, "tokens": 0},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": ["issue349-ready-sequence"],
+          "parallel_group": "349-serial-02",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 900,
+          "executable": "cargo",
+          "argv": ["test", "--manifest-path", "csdlc-v2/Cargo.toml", "--test", "gate2", "deferred_rust_path_harness_admission_fails_closed_for_each_missing_predicate"],
+          "evidence": {"max_log_bytes": 262144, "redact_values": [], "require_relative_paths": true}
+        },
+        {
+          "id": "issue349-format",
+          "proof_role": "Prove canonical Rust formatting.",
+          "purpose": "Run exact C-SDLC v2 format check.",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 1, "memory_mib": 1024, "tokens": 0},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": ["issue349-negative-matrix"],
+          "parallel_group": "349-serial-03",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 120,
+          "executable": "cargo",
+          "argv": ["fmt", "--manifest-path", "csdlc-v2/Cargo.toml", "--all", "--", "--check"],
+          "evidence": {"max_log_bytes": 65536, "redact_values": [], "require_relative_paths": true}
+        },
+        {
+          "id": "issue349-clippy",
+          "proof_role": "Reject warnings across all C-SDLC v2 targets.",
+          "purpose": "Run strict all-target Clippy.",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 2, "memory_mib": 4096, "tokens": 0},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": ["issue349-format"],
+          "parallel_group": "349-serial-04",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 900,
+          "executable": "cargo",
+          "argv": ["clippy", "--manifest-path", "csdlc-v2/Cargo.toml", "--all-targets", "--", "-D", "warnings"],
+          "evidence": {"max_log_bytes": 262144, "redact_values": [], "require_relative_paths": true}
+        },
+        {
+          "id": "issue349-diff",
+          "proof_role": "Reject patch hygiene defects and prove candidate cleanliness.",
+          "purpose": "Run exact diff hygiene.",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 1, "memory_mib": 256, "tokens": 0},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": ["issue349-clippy"],
+          "parallel_group": "349-serial-05",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 120,
+          "executable": "git",
+          "argv": ["diff", "--check", "origin/main...HEAD"],
+          "evidence": {"max_log_bytes": 65536, "redact_values": [], "require_relative_paths": true}
+        }
+      ]
+    },
+    "selection": {
+      "requested_lanes": ["issue349-ready-sequence", "issue349-negative-matrix", "issue349-format", "issue349-clippy", "issue349-diff"],
+      "allow_network": false,
+      "available_credentials": []
+    },
+    "budget": {"max_parallel": 1, "cpu_units": 2, "memory_mib": 4096, "tokens": 0},
+    "root": ".",
+    "evidence_dir": "./.csdlc/evidence/349",
+    "cancellation_file": null
+  }
+}
