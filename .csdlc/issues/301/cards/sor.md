@@ -12,26 +12,49 @@ Status: pre_phase
 
 ## Summary
 
-Implemented durable title-only issue-update provenance with fail-closed partial-operation ambiguity and deterministic remote-drift proof.
+Recovered stale #301 publication after PR #304 conflicted with current main, merged da7994f189002f27c79b6fb5e13926a8093dd9ac, and preserved title-only GitHub issue update provenance behavior.
 
 ## Artifacts
 
 - csdlc-v2/src/github.rs
 - csdlc-v2/tests/gate_github_actions.rs
+- .csdlc/issues/301
 
 ## Execution
 
-- Bind each operation key to a canonical mutation fingerprint in a durable comment receipt.
-- Preserve the issue body byte-for-byte through one governed title PATCH.
-- Fail closed without repeating PATCH when the requested title is already present but no matching durable receipt exists.
-- Reject intervening body drift after PATCH-success and receipt failure instead of minting provenance from the new body baseline.
-- Reject an unrelated actor pre-setting the requested title instead of treating title equality alone as operation proof.
-- Fail closed at before-PATCH, during-PATCH, before-receipt, and after-receipt body drift boundaries.
-- Preserve body-bearing marker compatibility and isolate status classification from retrying transport fixtures.
+- Recovered stale review/publication truth through typed csdlc-review recover before branch remediation.
+- Merged current origin/main into codex/301-title-only-operation-provenance.
+- Resolved the sole merge conflict in csdlc-v2/tests/gate_github_actions.rs by preserving current main's explicit scripted-response write and flush behavior.
+- Preserved #301's durable title-only operation provenance implementation and focused regression coverage.
 
 ## Validation
 
 [
+  {
+    "command": [
+      "cargo",
+      "fmt",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--check"
+    ],
+    "purpose": "Formatter check for the merged #301 branch.",
+    "outcome": "passed",
+    "evidence_ref": "local-command:365d61ae9003bd8ae11d6c83fb4929a9b2115269:cargo-fmt-csdlc-v2-check:passed"
+  },
+  {
+    "command": [
+      "csdlc-validate",
+      "--root",
+      ".",
+      "issue",
+      "--issue",
+      "301"
+    ],
+    "purpose": "Typed C-SDLC issue validation after stale-publication recovery and current-main merge.",
+    "outcome": "passed",
+    "evidence_ref": "local-command:365d61ae9003bd8ae11d6c83fb4929a9b2115269:csdlc-validate-issue-301:passed"
+  },
   {
     "command": [
       "cargo",
@@ -41,9 +64,9 @@ Implemented durable title-only issue-update provenance with fail-closed partial-
       "--test",
       "gate_github_actions"
     ],
-    "purpose": "Focused GitHub issue owner proof including ambiguous partial-operation and unrelated-title regressions.",
+    "purpose": "Focused GitHub issue owner proof including #301 title-only provenance regressions and merged main's action-scoped redaction coverage.",
     "outcome": "passed",
-    "evidence_ref": "local output: 10 passed"
+    "evidence_ref": "local-command:365d61ae9003bd8ae11d6c83fb4929a9b2115269:gate-github-actions:10-passed"
   },
   {
     "command": [
@@ -57,9 +80,9 @@ Implemented durable title-only issue-update provenance with fail-closed partial-
       "-D",
       "warnings"
     ],
-    "purpose": "Strict warning-free owner and fixture proof.",
+    "purpose": "Strict warning-free proof for the touched GitHub owner test target after conflict resolution.",
     "outcome": "passed",
-    "evidence_ref": "local output: finished dev profile"
+    "evidence_ref": "local-command:365d61ae9003bd8ae11d6c83fb4929a9b2115269:clippy-gate-github-actions:passed"
   }
 ]
 

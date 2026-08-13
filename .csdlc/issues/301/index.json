@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "fac452b8127405cd253f1008a5858c5ee2a5c30be11ef5964720538e609b79d8",
   "phase": "implemented",
-  "generation": 13,
-  "digest": "5772672582febc502dc090c1304f88be2b4107f77a89e969603c44944ecb88bd",
+  "generation": 14,
+  "digest": "af6ff03f861b7efae68269fd56f5da365e5af288600f3436f8deafa72557fc25",
   "branch": "codex/301-title-only-operation-provenance",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-301-title-only-operation-provenance",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d6e6e95d5e010cbbc4b7ddccb2be08611e1cd8cfdf69f5a5b916a2ca45b2ca81",
+      "values_digest": "8f28bb39ba9fa436e88c89b9d1f36294c500c7e4e38d54521dc5915a891f860d",
       "rendered_digest": "1f602d55abfde140b71a7cdd01db213d96b4e5da322e26363d45f7fde7749164",
       "ast_digest": "dd6e1f4ed857ac2203d39182ca287b0e7a6cb9b24ca5f57bf858eb994e976e6d"
     },
     "stp": {
-      "values_digest": "be1f7fc3c3bab45cd225989c4f5294a9d4f0049a43ccd9c5138b8cc7c9b41dbc",
+      "values_digest": "c98cccb5e95d8bb0fc5109823b375a894a33968c092847d53b89927e2b948e77",
       "rendered_digest": "e6a832def0573767be1fad1b65f7745f1277478e67daca8f569ead5a5ddfbbb1",
       "ast_digest": "b57938e52b725b7ba654620cd7afc3cd854bd01a38e08c1f4cf3175bf509490f"
     },
     "spp": {
-      "values_digest": "c8dcf9953a66346e9e9c489fce975dc37ffbbf0dc6a9cf0d91f5e66a5a201d56",
+      "values_digest": "3a4eedd2abbb2e82a2ce806d317c06937873e7d6bcd1d5cbdff9a8242dd0fa87",
       "rendered_digest": "cfe63ad0859216ac10f3217783f8024247bbf7c0bc8ed373fa58e0a50b5b4f0a",
       "ast_digest": "580e50826ca988c2d4e57d3adb21c05509ce8e82651820a1cb58146525c63451"
     },
     "vpp": {
-      "values_digest": "44224f4ff9d8eaa41e7c7c4d80a26a8b8e36e0a5d39b12a701e2b839def7f6e3",
+      "values_digest": "0c493ffb5002fb2e18ab186143c96beafe70e9a200f24b5b44f31fad69790737",
       "rendered_digest": "4ef60e2e9967dfbcb0f5394ace805d298cc2a813aecf357f6a480cc32c9fddd8",
       "ast_digest": "a643837775ef62d34b85f62c552b4571efb1ade678f67418ec46bd047fcdb45b"
     },
     "srp": {
-      "values_digest": "aedc836266a7a42e8485e4bcc8cfb0009797ccdde82f2f0ee59fdaf4540c7797",
+      "values_digest": "045aa6cbef3ae5fbd32c5bce863b11e9818c276b9aff3c963c2a05d7dc972265",
       "rendered_digest": "7cbe15aed7e484b25dbf57ca12c2050226860f294132192032d5109a82bcd9a4",
       "ast_digest": "8923177b498751ced3d5aa7bca4cc2d01b420bbd668c4dbaf4292c8b2323a62b"
     },
     "sor": {
-      "values_digest": "65712793af4764c074345ebe0dbae48827914fc0f45f58a11af309cd18b4f514",
-      "rendered_digest": "22ada54b7300476b1f0310ce584a1b125cdcbba772ff1a19c99613bf5200c9d9",
-      "ast_digest": "380d9724464c904e653e036090d32510171e683596a6055e371ae5b567c8e383"
+      "values_digest": "2801db4148133817c97c7d78e13d0afd0c99a1554412c93f21610d215f1c8a20",
+      "rendered_digest": "5aaf7bcb2fc89b67ef8248a2932f5ccaf30add7cfa7cd43d0a9dc0f28f9541fc",
+      "ast_digest": "b6b6555c6bbe0400ad5254bcc76d83c6b931e0d71423b25de2abeccdb397ee98"
     }
   },
   "transitions": [
@@ -232,6 +232,13 @@
       "actor": "codex:issue-301-janitor",
       "reason": "PR #304 is published against stale base 7f88697c and now conflicts with current main da7994f189002f27c79b6fb5e13926a8093dd9ac; recover stale review/publication truth before bounded merge-conflict remediation and fresh exact-head review.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex:issue-301-janitor",
+      "reason": "Record current-main merge conflict remediation and post-merge validation truth before fresh exact-head review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Recovered stale #301 publication after PR #304 conflicted with current main, merged da7994f189002f27c79b6fb5e13926a8093dd9ac, and preserved title-only GitHub issue update provenance behavior.\",\"changes\":[\"Recovered stale review/publication truth through typed csdlc-review recover before branch remediation.\",\"Merged current origin/main into codex/301-title-only-operation-provenance.\",\"Resolved the sole merge conflict in csdlc-v2/tests/gate_github_actions.rs by preserving current main's explicit scripted-response write and flush behavior.\",\"Preserved #301's durable title-only operation provenance implementation and focused regression coverage.\"],\"artifacts\":[\"csdlc-v2/src/github.rs\",\"csdlc-v2/tests/gate_github_actions.rs\",\".csdlc/issues/301\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--check\"],\"purpose\":\"Formatter check for the merged #301 branch.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:365d61ae9003bd8ae11d6c83fb4929a9b2115269:cargo-fmt-csdlc-v2-check:passed\"},{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"301\"],\"purpose\":\"Typed C-SDLC issue validation after stale-publication recovery and current-main merge.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:365d61ae9003bd8ae11d6c83fb4929a9b2115269:csdlc-validate-issue-301:passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\"],\"purpose\":\"Focused GitHub issue owner proof including #301 title-only provenance regressions and merged main's action-scoped redaction coverage.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:365d61ae9003bd8ae11d6c83fb4929a9b2115269:gate-github-actions:10-passed\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict warning-free proof for the touched GitHub owner test target after conflict resolution.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:365d61ae9003bd8ae11d6c83fb4929a9b2115269:clippy-gate-github-actions:passed\"}]}"
     }
   ]
 }
