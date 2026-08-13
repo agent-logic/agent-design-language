@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "812e76425072c39de0d33f7240ac7901873d4a425f3b26e754bdda158d7c02ed",
-  "phase": "implemented",
-  "generation": 18,
-  "digest": "a33a44edcaab1e3cc72a57c8531515776e8b24653ea5a48a628b5deb887bc027",
+  "phase": "reviewed",
+  "generation": 19,
+  "digest": "091e1560e2dd07d4f48374d04281d094c282cecc8b0d8d93feaf7261b2346aec",
   "branch": "codex/300-projection-recovery-integration-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-300-projection-recovery-integration-proof",
   "review_assignment": {
@@ -21,7 +21,24 @@
       ".csdlc/requests/300/replace-sor-bridge-fed-r11.json"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:franklin-300-bridge-fed-r11",
+    "scope": [
+      "csdlc-v2/tests/projection_recovery_integration.rs",
+      ".csdlc/evidence/300/bridge-fed-r11",
+      ".csdlc/evidence/300/bridge-fed-r9/projection-recovery-integration.log",
+      ".csdlc/evidence/300/bridge-fed-r10/projection-recovery-integration.log",
+      ".csdlc/requests/300/replace-sor-bridge-fed-r11.json"
+    ],
+    "reviewed_revision": "git-blake3:d1ba6ce6e90ca5660d85bca6887475fdb453f563:0276331fce2eaba9d330e7f2cbf29cfede28b79c76a3015fbce94c10f4857627",
+    "findings": [],
+    "residual_risks": [
+      "Reviewer did not mutate, publish, merge, record review, or rerun Cargo. PASS is inspection-only against exact scoped source/evidence, commit relationship checks, hash checks of logged artifacts, and current typed terminal cache inspection.",
+      "r8, r9, and r10 are retained as non-proving evidence history only; final proving validation is r11 at immutable source head 84156f343a047c7c9207193c21515c3dccbe2ead."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -36,32 +53,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e93f1d56304413ec922be41427460b48e2cf97cd63502ee47d08a716509bdf6a",
+      "values_digest": "5635a971197fd6ebf1a77bd803b5aeaed0fbaf865a88feffa36ea4c5d3efa351",
       "rendered_digest": "b003b1d51dd3f4296ef4d8be0536d419fce23991df68d3ae3445937fdb901bfc",
       "ast_digest": "dea7ce3fd1e50f827b7a10dbc279ee19c71112032939c98b713d79c7acd4c982"
     },
     "stp": {
-      "values_digest": "199d05959dd08edff4709d488d1d1c06b56a328ae850e8cb4cc7684ee802a7e2",
+      "values_digest": "8c54b1f52dd9c4715923b68a5e0a7f38cb0de4b64eccb057d0bf882192eec045",
       "rendered_digest": "9c318b641757d4bd27b306ec8864bae2f757a8eec46cbc9cd24384d545113499",
       "ast_digest": "f6bc49a3310d58c810276f43df1e69dc2d772d6083d6cfd61a0d2fe42614be8a"
     },
     "spp": {
-      "values_digest": "0faf0c2ed193c885705e9b99d41983a549bf5894439675a53ae0c5b4426e6449",
+      "values_digest": "a4d69b78c072a5ca09bb99bd86eb8aa66ba3441054834eac3d3bcbb97b478748",
       "rendered_digest": "17e42670b0aa901f572e0d422b009f4ef9e5bd8463e2f2b61a45a149164f4db2",
       "ast_digest": "cf94d7413d244fdd54d34005a149163a5c22e668e99ef82213ae2d2058146948"
     },
     "vpp": {
-      "values_digest": "e7f014f27cf47d18e6d2d5eda7024dde8f29ac22306982286e2edb2fd9216f23",
+      "values_digest": "96571f3154fd19a1749fa1fd8bcf5bc090ffe21285eef13398da83c409b5ca48",
       "rendered_digest": "ffac1c06684198b62ee6b72a4bda262c0b08d3cd971b68b5dc435b3e77c2e38a",
       "ast_digest": "b4d732c61fe93217e1fa7e266913c6e871b739351895d1446deb4ee19ecdcc43"
     },
     "srp": {
-      "values_digest": "4865995bfac5ab3b446e61095744c7d921da767e2f43b398d57f1f62d4eb4923",
-      "rendered_digest": "a7da7e984ad017185340a9b83d9b03f8c9eb336eeb3930cb6edfcccb89c6689b",
-      "ast_digest": "4189e833906df88710bc3543521ca4f1c5b3ce1b71aa0c42240e735290e16745"
+      "values_digest": "4e879f9bb7cf2f60247c731f55e1a193b4fffd4aeba0805c2f19f034e687f011",
+      "rendered_digest": "99c2026bf3e62faf9c304605a5f47b6da516735af230b04ac4f153ce72fb8dbb",
+      "ast_digest": "f7f13c2cfe0ae6039ce3b9cf8bbf61e3842dd66b909753aa4de4267be7f32edb"
     },
     "sor": {
-      "values_digest": "9d5d2d8095393a1e2b46a10a57e255a10004b23269a04feb291d5a3f97e648ec",
+      "values_digest": "b9c7c6ede22e002ee3b5ac5a9140c6085ed8d112ac017df6dbde2ebb10a00b36",
       "rendered_digest": "05a2cecbc9b2d7c4def5911780effc53e5e5bfd1d75b4b48ec448519b0e79408",
       "ast_digest": "4cbe0e3870d353da1e630666b06bf40f5d1a022ae5e8cc1c6ef1583a5af08f9e"
     }
@@ -143,6 +160,13 @@
       "to": "implemented",
       "actor": "codex:worker-5",
       "reason": "Recover reviewed state after merging current origin/main 3160fb8be575ba9a27748b05ea5dd911e4375deb into #300; review evidence must be refreshed at merged head e100f200c5351b906df56dfbbf0f0604cf32c594 before publication."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-5",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -334,6 +358,13 @@
       "actor": "codex:worker-5",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 19,
+      "actor": "codex:worker-5",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
