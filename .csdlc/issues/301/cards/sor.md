@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Recovered stale #301 publication after PR #304 conflicted with current main, merged da7994f189002f27c79b6fb5e13926a8093dd9ac, and preserved title-only GitHub issue update provenance behavior.
+Recovered stale #301 publication after origin/main advanced to 193f77d24a693f955a2fcf3bdfc759ad1db8aff4, merged current main into codex/301-title-only-operation-provenance without manual conflicts, and preserved title-only GitHub issue update provenance behavior.
 
 ## Artifacts
 
@@ -22,9 +22,9 @@ Recovered stale #301 publication after PR #304 conflicted with current main, mer
 
 ## Execution
 
-- Recovered stale review/publication truth through typed csdlc-review recover before branch remediation.
-- Merged current origin/main into codex/301-title-only-operation-provenance.
-- Resolved the sole merge conflict in csdlc-v2/tests/gate_github_actions.rs by preserving current main's explicit scripted-response write and flush behavior.
+- Recovered stale review/publication truth through typed csdlc-review recover after PR #304 was observed behind current origin/main with overlapping #258/#301 paths.
+- Merged origin/main 193f77d24a693f955a2fcf3bdfc759ad1db8aff4 into codex/301-title-only-operation-provenance.
+- Observed the merge completed cleanly with no manual conflict resolution.
 - Preserved #301's durable title-only operation provenance implementation and focused regression coverage.
 
 ## Validation
@@ -38,9 +38,9 @@ Recovered stale #301 publication after PR #304 conflicted with current main, mer
       "csdlc-v2/Cargo.toml",
       "--check"
     ],
-    "purpose": "Formatter check for the merged #301 branch.",
+    "purpose": "Formatter check for the #301 branch after merging origin/main 193f77d24.",
     "outcome": "passed",
-    "evidence_ref": "local-command:365d61ae9003bd8ae11d6c83fb4929a9b2115269:cargo-fmt-csdlc-v2-check:passed"
+    "evidence_ref": "local-command:18323f4c4d5456fe3f19023203665e932d8ec356:cargo-fmt-csdlc-v2-check:passed"
   },
   {
     "command": [
@@ -51,9 +51,9 @@ Recovered stale #301 publication after PR #304 conflicted with current main, mer
       "--issue",
       "301"
     ],
-    "purpose": "Typed C-SDLC issue validation after stale-publication recovery and current-main merge.",
+    "purpose": "Typed C-SDLC issue validation after stale-publication recovery and current-main resync.",
     "outcome": "passed",
-    "evidence_ref": "local-command:365d61ae9003bd8ae11d6c83fb4929a9b2115269:csdlc-validate-issue-301:passed"
+    "evidence_ref": "local-command:18323f4c4d5456fe3f19023203665e932d8ec356:csdlc-validate-issue-301:passed"
   },
   {
     "command": [
@@ -64,9 +64,9 @@ Recovered stale #301 publication after PR #304 conflicted with current main, mer
       "--test",
       "gate_github_actions"
     ],
-    "purpose": "Focused GitHub issue owner proof including #301 title-only provenance regressions and merged main's action-scoped redaction coverage.",
+    "purpose": "Focused GitHub issue owner proof including #301 title-only provenance regressions and current main's action-scoped redaction coverage.",
     "outcome": "passed",
-    "evidence_ref": "local-command:365d61ae9003bd8ae11d6c83fb4929a9b2115269:gate-github-actions:10-passed"
+    "evidence_ref": "local-command:18323f4c4d5456fe3f19023203665e932d8ec356:gate-github-actions:10-passed"
   },
   {
     "command": [
@@ -80,9 +80,9 @@ Recovered stale #301 publication after PR #304 conflicted with current main, mer
       "-D",
       "warnings"
     ],
-    "purpose": "Strict warning-free proof for the touched GitHub owner test target after conflict resolution.",
+    "purpose": "Strict warning-free proof for the touched GitHub owner test target after current-main resync.",
     "outcome": "passed",
-    "evidence_ref": "local-command:365d61ae9003bd8ae11d6c83fb4929a9b2115269:clippy-gate-github-actions:passed"
+    "evidence_ref": "local-command:18323f4c4d5456fe3f19023203665e932d8ec356:clippy-gate-github-actions:passed"
   }
 ]
 

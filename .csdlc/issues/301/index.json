@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "fac452b8127405cd253f1008a5858c5ee2a5c30be11ef5964720538e609b79d8",
   "phase": "implemented",
-  "generation": 17,
-  "digest": "f0dec40cb79c4ed5916e7cf1a532dda608d7b3080377b0e1c01ccbb2f0971378",
+  "generation": 18,
+  "digest": "66c22e49174d385bed6a60899c988738881a40d1562ffb444da66985ef80ed5b",
   "branch": "codex/301-title-only-operation-provenance",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-301-title-only-operation-provenance",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ce14155dd725684622db788a57c58a6dec629b164f23a02373e6194508f28143",
+      "values_digest": "38dafa3cfd9372aa4aea6cb851412f8ed824b9e2d026e582a07942ea7e86159b",
       "rendered_digest": "1f602d55abfde140b71a7cdd01db213d96b4e5da322e26363d45f7fde7749164",
       "ast_digest": "dd6e1f4ed857ac2203d39182ca287b0e7a6cb9b24ca5f57bf858eb994e976e6d"
     },
     "stp": {
-      "values_digest": "06201230c9e8267b69e754ba4b50e09d024db149f85ce273e65c74da48158818",
+      "values_digest": "30f53783312020f7daf5e99bb636f0657247b3314a34f5e350a4164df58b55a6",
       "rendered_digest": "e6a832def0573767be1fad1b65f7745f1277478e67daca8f569ead5a5ddfbbb1",
       "ast_digest": "b57938e52b725b7ba654620cd7afc3cd854bd01a38e08c1f4cf3175bf509490f"
     },
     "spp": {
-      "values_digest": "f7fefa2bc7e1b2f93b6cb8a0f733282ae369a470fd512673b61b26b228a907dd",
+      "values_digest": "715f1804070569b7e0b4dc10f462022037ff1749168d41f4f1fed9fdcc67aa9c",
       "rendered_digest": "cfe63ad0859216ac10f3217783f8024247bbf7c0bc8ed373fa58e0a50b5b4f0a",
       "ast_digest": "580e50826ca988c2d4e57d3adb21c05509ce8e82651820a1cb58146525c63451"
     },
     "vpp": {
-      "values_digest": "1ed0f8cac351a6399d2908d09af98d54d18feedbc6505284cfa81443b6dd18f2",
+      "values_digest": "b5c497392f9c5c9dd4c28cf36872488e389836d5ea22d45a73721c97b4cf618c",
       "rendered_digest": "4ef60e2e9967dfbcb0f5394ace805d298cc2a813aecf357f6a480cc32c9fddd8",
       "ast_digest": "a643837775ef62d34b85f62c552b4571efb1ade678f67418ec46bd047fcdb45b"
     },
     "srp": {
-      "values_digest": "bb7c4fab6f97163d2f60aab24df24d620a2e42792e5c220a21933c212a5a5847",
+      "values_digest": "7878c8eb1748d875eaf54cfa574e8635c73d450e480344ff7833a612f9685e81",
       "rendered_digest": "7cbe15aed7e484b25dbf57ca12c2050226860f294132192032d5109a82bcd9a4",
       "ast_digest": "8923177b498751ced3d5aa7bca4cc2d01b420bbd668c4dbaf4292c8b2323a62b"
     },
     "sor": {
-      "values_digest": "0e1a019ab05f24dba021041672a612b7e447841a2ce7cbb516e69d69353c0c5f",
-      "rendered_digest": "5aaf7bcb2fc89b67ef8248a2932f5ccaf30add7cfa7cd43d0a9dc0f28f9541fc",
-      "ast_digest": "b6b6555c6bbe0400ad5254bcc76d83c6b931e0d71423b25de2abeccdb397ee98"
+      "values_digest": "77797bd3c08a44b232416a9d67256b6d281ebd3556519e2f215aff6c639a407e",
+      "rendered_digest": "73261ca3e696de9c913b566adfe5a124661a9bc69e4f34e60c2bb4eb5d60b4f6",
+      "ast_digest": "077ea3a03d4e69aa6ca9577975ef5715be7d4a8083eabf565ef437d5549e720c"
     }
   },
   "transitions": [
@@ -288,6 +288,13 @@
       "actor": "codex:issue-301-janitor",
       "reason": "origin/main advanced to 193f77d24a693f955a2fcf3bdfc759ad1db8aff4 after #258; PR #304 remains based on da7994f189002f27c79b6fb5e13926a8093dd9ac with overlapping csdlc-v2/src/github.rs and csdlc-v2/tests/gate_github_actions.rs changes, so recover stale review/publication truth before resync and fresh exact-head review.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 18,
+      "actor": "codex:issue-301-janitor",
+      "reason": "Record post-#258 origin/main 193f77d24 resync and focused validation truth before fresh exact-head review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Recovered stale #301 publication after origin/main advanced to 193f77d24a693f955a2fcf3bdfc759ad1db8aff4, merged current main into codex/301-title-only-operation-provenance without manual conflicts, and preserved title-only GitHub issue update provenance behavior.\",\"changes\":[\"Recovered stale review/publication truth through typed csdlc-review recover after PR #304 was observed behind current origin/main with overlapping #258/#301 paths.\",\"Merged origin/main 193f77d24a693f955a2fcf3bdfc759ad1db8aff4 into codex/301-title-only-operation-provenance.\",\"Observed the merge completed cleanly with no manual conflict resolution.\",\"Preserved #301's durable title-only operation provenance implementation and focused regression coverage.\"],\"artifacts\":[\"csdlc-v2/src/github.rs\",\"csdlc-v2/tests/gate_github_actions.rs\",\".csdlc/issues/301\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--check\"],\"purpose\":\"Formatter check for the #301 branch after merging origin/main 193f77d24.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:18323f4c4d5456fe3f19023203665e932d8ec356:cargo-fmt-csdlc-v2-check:passed\"},{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"301\"],\"purpose\":\"Typed C-SDLC issue validation after stale-publication recovery and current-main resync.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:18323f4c4d5456fe3f19023203665e932d8ec356:csdlc-validate-issue-301:passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\"],\"purpose\":\"Focused GitHub issue owner proof including #301 title-only provenance regressions and current main's action-scoped redaction coverage.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:18323f4c4d5456fe3f19023203665e932d8ec356:gate-github-actions:10-passed\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict warning-free proof for the touched GitHub owner test target after current-main resync.\",\"outcome\":\"passed\",\"evidence_ref\":\"local-command:18323f4c4d5456fe3f19023203665e932d8ec356:clippy-gate-github-actions:passed\"}]}"
     }
   ]
 }
