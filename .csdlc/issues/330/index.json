@@ -5,50 +5,12 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "c6c77e32c8a46d340a36b3123af9d9adb0adeafda19c3135b9d47c802997e158",
   "phase": "implemented",
-  "generation": 16,
-  "digest": "14ce3f2ebcf669e7e5d09f1f6ddead2e92d7de2d3bbde5a942f8849fc0863f85",
+  "generation": 17,
+  "digest": "ed795d8edd3b2c4cac5b0fab0aa0bab6fbd26e49ce27657d7d45a6ab9c9a0880",
   "branch": "codex/330-bridge-fed-projection-cleanup-defect",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-330-bridge-fed-projection-cleanup-defect",
-  "review_assignment": {
-    "reviewer": "fresh-session:330-r2-exact-implementation-review",
-    "assigned_by": "codex:worker-5",
-    "revision": "git-blake3:1bcb8159fd31d792fc7239b0f7c49b4b67f6b115:2aab98e56d8b85d4f3488c1347e4daac698b978a0c19ae6134530f037d64dd20",
-    "scope": [
-      "csdlc-v2/src/projection_cleanup.rs",
-      "csdlc-v2/src/projection_recovery.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/tests/issue_330_bridge_cleanup_defect.rs",
-      ".csdlc/issues/330",
-      ".csdlc/evidence/330/r2"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:330-r2-exact-implementation-review",
-    "scope": [
-      "csdlc-v2/src/projection_cleanup.rs",
-      "csdlc-v2/src/projection_recovery.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/tests/issue_330_bridge_cleanup_defect.rs",
-      ".csdlc/issues/330",
-      ".csdlc/evidence/330/r2"
-    ],
-    "reviewed_revision": "git-blake3:1bcb8159fd31d792fc7239b0f7c49b4b67f6b115:2aab98e56d8b85d4f3488c1347e4daac698b978a0c19ae6134530f037d64dd20",
-    "findings": [
-      {
-        "id": "r2-p2-private-delete-residue",
-        "severity": "p2",
-        "summary": "Recovery-side cleanup-ledger validation at csdlc-v2/src/projection_recovery.rs:3277 does not reject unexpected contents inside private-delete before authorizing store/recovery skip; mirror production final-validation emptiness predicate and add regression proof.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -63,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d8ab6ff19d676cf97449d2e773a60e2edc9eda55d3ffc5cfc7a12d238aad4c9e",
+      "values_digest": "ed05f523d7c21b9d00faae43e88c4745210baaafb71f4ffc0f47125df86d601d",
       "rendered_digest": "70bb77a2b369facefd6ee61dd27831872f9e02008d5deb8778b9b75acb0d8d75",
       "ast_digest": "f7aa1e0edabaef2285c9558e3abc9c5ad236e494418164c26d9492deadcbab17"
     },
     "stp": {
-      "values_digest": "ecf7a6ed6048b516e986337c694c641ab436aa074af01e02425c7776aaf0bf8e",
+      "values_digest": "dc2895bc6973ffe10373b496e6dd9acfe74c5bb77c28a5fa54f53934852965b0",
       "rendered_digest": "9e5854073d3f56cae3d0fa4f6a560563c62b837038b80bdc0ac9ac705e3983ea",
       "ast_digest": "137b8e001b8a1ce3a3a20d884695db83c8a54cca4d78c386160cb7c1968dd10e"
     },
     "spp": {
-      "values_digest": "265c7ffc4599eb91de4aaba122b25fd2942e5ddcb63fc2938652f5f81a8354ab",
+      "values_digest": "96b569ad931f6b29aff295f6d9394d9253502fd34698735db006ef9d51984a4a",
       "rendered_digest": "3bfafb809bb9b6ed27a8548d590eae93245ae6c15dd9fca552497af1b9b0f082",
       "ast_digest": "647c5244cc3c748635b3119f2a4a9acfb84dfd959e904e7099c404e1803db962"
     },
     "vpp": {
-      "values_digest": "0fc55dbfe969d610e9d6246785478bb89a71174f8581fdfbc8e4ab7e6b38e9ee",
+      "values_digest": "287aa92053a46b188817df8e72b5c69f6192ed11c445544ca75e76997df9f4b7",
       "rendered_digest": "0f439002d1e55bf5aad069ac6f4d648bec3bac2aabec818f9918def1abc2d03d",
       "ast_digest": "8135e07afb687e53ca7797c556ceddcc8d99a36199956cf32e18c7cb8b693682"
     },
     "srp": {
-      "values_digest": "74790a082ef995ad1c475b44f685df20595249a3042cff3ac8a46e8336b326d7",
-      "rendered_digest": "e70efba1de7b95796ad3de3d51ad051517031584dcf1838dc0a3702ebe45ba81",
-      "ast_digest": "2edcf5fef8224386a4f8bfd1c8ece5abb11f1f5d2dee2263ffb56538f9cfd75d"
+      "values_digest": "a687e8fe2678c09f7f4e29e44c094a5f97e6e753e5ff945010f8401ab7c13c27",
+      "rendered_digest": "85cb07304172b93be89b1111204b1b09b624dd047a9a1fea9775d656d68af2ae",
+      "ast_digest": "d7fd1d0385655c7d381c94a8de716a3dbf671a496417ffe6a5f1574d8327599c"
     },
     "sor": {
-      "values_digest": "891214db054b1fa021ae673fb470f845c6fc4b0079fbbc5adc81e8aeca6d35c3",
+      "values_digest": "7dbc1a2349fdbc9fd4e16a98488ee664af45a78884a3fe0a4e847982d74eed61",
       "rendered_digest": "b0cfde19061d77fba865ed0281730846a277e0a13eb2d25608c40a2cb5e758f1",
       "ast_digest": "7bb2ab8cc50da7299a2cfc6f7c077bb9c20352eed2d95e7d33bc0f5fd7174a51"
     }
@@ -256,6 +218,13 @@
       "actor": "worker-5",
       "reason": "P2 fixed at 63e3782a1d46dc86161eb81e9eb2fd43f1f7e562 by rejecting non-empty cleanup private namespace before recovery/store skip and adding residue zero-mutation regression",
       "operation": "{\"operation\":\"dispose_finding\",\"finding_id\":\"r2-p2-private-delete-residue\",\"disposition\":\"fixed\"}"
+    },
+    {
+      "sequence": 21,
+      "generation": 17,
+      "actor": "codex:worker-5",
+      "reason": "Recover the recorded r2 changes-required review after fixing r2-p2 private-delete residue validation and recording r3 evidence; prepare exact fresh r3 implementation review.",
+      "operation": "recover_review"
     }
   ]
 }
