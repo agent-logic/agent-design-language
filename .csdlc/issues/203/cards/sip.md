@@ -1,0 +1,51 @@
+# Structured Intent Prompt
+
+Template: 1.0.0
+
+Issue: 203
+
+Repository: agent-logic/agent-design-language
+
+Card: sip
+
+Status: ready
+
+## Goal
+
+Apply opaque quorum-approved #201 tokens through the #200 barrier to existing certificate, lease, and fencing stores without leaving a raw authority bypass.
+
+## Required Outcome
+
+All authority-restoring store reads and mutations revalidate a live lineage/action/generation-scoped #200 grant; sealed adapters consume the exact private #201 store-native signed artifact view; canonical lease state, step receipts, results, and result digests contain no node-local safety-anchor bytes or digest; the anchor is bound only by a node-local checkpoint/audit record; every enumerated normal-build source consumer and integration fixture migrates off raw store access; and partial progress remains fail-safe until publication. Specifically, adl-runtime/src/distributed/polis_runtime.rs and adl-runtime/tests/distributed_runtime_transport.rs must construct and carry the sealed authority-bound handle rather than raw Arc<DistributedCertificateStore>.
+
+## Scope
+
+- Sealed certificate enroll, rotate, revoke, and compromise adapters
+- Sealed LeaseGrant, Renewal, Revoke, Fence, Activate, and OwnerCommit adapters
+- Fencing floor and active-lease reconciliation with exact ordering
+- Store-bound live #200 grant validation closing former raw bypasses
+- Canonical committed lease time separated from node-local monotonic safety anchors
+- Exact retry, crash, restart, rollback, corruption, capacity, and path-safety proof
+
+## Authority
+
+- Only opaque finalized #201 tokens and the private #200 sealed registry can select a concrete plan
+- The exact issuer-signed or quorum-endorsed store-native artifact is byte-bound and verified; #203 never signs or reconstructs authority
+- Every normal-build store authorization and mutation boundary revalidates the current #200 published view
+- Local NotReady or Unsafe clock results perform no effect, receipt, canonical failure, result, or phase advance
+- No Shepherd, Observatory, migration, recovery, Guardian, API, WSS, model, or cloud authority is created
+
+## Assumptions
+
+- none
+
+## Operator Constraints
+
+- Merged fixed baseline already ancestral at origin/main 2afa820c4aaa8528ef4cd252de4ee9078b8a882a: issue #191 / PR #197, issue #201 / PR #229, issue #200 / PR #231, and issue #208 / PR #230; do not treat them as remaining scheduling gates
+- Serial stop: do not bind #203 or edit product source until issue #202 is independently reviewed, merged, and ancestral and then issue #199 is independently reviewed, merged, and ancestral
+- After #202 and #199 are both merged and ancestral, resync #203 onto the resulting exact origin/main and rerun typed csdlc-validate issue plus csdlc-doctor before any bind
+- Keep #203 limited to existing certificate, lease, and fencing stores; preserve #208 Guardian-kernel continuity effects, #205 serving eligibility, and #204 migration/recovery as separate authorities
+- Do not preserve a production raw-store escape hatch for compatibility
+- Run fresh independent exact-head review before publication
+- Open a ready PR for visibility but never merge before operator review and authorization
+- No AWS use and no lifecycle closeout

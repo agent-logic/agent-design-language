@@ -1,0 +1,69 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 203,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1a] Apply committed identity, lease, and fencing authority",
+    "slug": "committed-identity-lease-fencing-authority",
+    "version": "v0.92",
+    "generation": 43
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "integration-closeout-proof",
+          "proof_role": "Validate canonical #258/#259/#260 merge ancestry, zero product diff, current 4-test identity boundary, current 5-test caller guard, strict Clippy, and historical superseded nonclaim.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 5000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/203/produce-proof-receipt.rb"
+          ],
+          "parallel_group": "203-closeout",
+          "defer_reason": null
+        },
+        {
+          "lane": "integration-closeout-receipt",
+          "proof_role": "Validate immutable v3 command/log digests, current denominators, strict Clippy, exact main binding, zero product diff, and historical proof superseded_nonclaim.",
+          "acceptance_ids": [
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 1000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/203/validate-proof-receipt.rb"
+          ],
+          "parallel_group": "203-proof",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed on missing/invalid token, artifact mismatch, raw-store access, stale or escalated grant, wrong authority/time/membership/floor binding, local-clock canonical drift, partial publication, conflicting retry, rollback, corruption, capacity, unsafe path, zero-test proof, source drift, or unresolved review findings.",
+      "design_ref": ".csdlc/prepared/issues/203/design.md",
+      "design_digest": "821593327fcf90839f9ed455ae467af9a234eba05f58564de36b029c73349b49",
+      "diagram_ref": ".csdlc/prepared/issues/203/diagram.mmd",
+      "diagram_digest": "dc93d5b1073997215f11c82fa195a1207ac78d6aae8378a5f09dddd163389ebc"
+    }
+  }
+}

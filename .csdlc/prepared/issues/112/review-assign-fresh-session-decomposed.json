@@ -1,0 +1,22 @@
+{
+  "schema": "csdlc.review_assignment_request.v1",
+  "issue": 112,
+  "expected_generation": 47,
+  "expected_digest": "c4d38ab1191215df99865599e89f4581f35369ad6a19d24b4b841cd33ed6fab3",
+  "reviewer": "codex-fresh-session:issue-112-final-layer8-authority-decomposed",
+  "assigned_by": "codex-session-112",
+  "scope": [
+    "adl-runtime-kernel/src",
+    "adl-runtime/src",
+    "adl-runtime/tests/layer8_authority.rs",
+    "adl/Cargo.lock",
+    "adl/src/csm_runtime_api.rs",
+    "adl/tests/layer8_authority_runtime_api.rs",
+    "adl/tools/validate_layer8_authority_observatory_ui.sh",
+    "demos/html-observatory",
+    "docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md",
+    ".csdlc/evidence/112",
+    ".csdlc/issues/112",
+    ".csdlc/prepared/issues/112"
+  ]
+}

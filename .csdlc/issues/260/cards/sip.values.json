@@ -1,0 +1,44 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 260,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1a][203.c] Migrate distributed Runtime callers to authority adapters",
+    "slug": "issue-260-distributed-runtime-authority-adapters",
+    "version": "v0.92",
+    "generation": 14
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Prepare the #260 execution packet for migrating non-transport distributed Runtime callers to the governed authority adapter facade after #259 is terminal.",
+      "required_outcome": "After #259 terminal, the #260 owner can bind immediately to migrate migration, recovery, placement, projection, resource-weather, snapshot-catalog, capability-advertisement, and related distributed Runtime callers without absorbing #258, #259, or #203 ownership.",
+      "declared_scope": [
+        "adl-runtime/src/distributed migration callers outside #259 transport ownership",
+        "adl-runtime/src/distributed recovery callers outside #259 transport ownership",
+        "adl-runtime/src/distributed placement callers outside #259 transport ownership",
+        "adl-runtime/src/distributed projection callers outside #259 transport ownership",
+        "adl-runtime/src/distributed resource-weather callers outside #259 transport ownership",
+        "adl-runtime/src/distributed snapshot-catalog callers outside #259 transport ownership",
+        "adl-runtime/src/distributed capability-advertisement callers outside #259 transport ownership",
+        "focused Runtime tests for the touched caller surfaces"
+      ],
+      "authority_boundary": [
+        "#260 preparation may complete before #259 terminal only as initialized/ready design-card state; bind and source implementation remain gated.",
+        "#260 must consume the #258 authority-store boundary and #259 governed transport binding; it must not redefine either.",
+        "Parent #203 owns only final integration after #258/#259/#260 are terminal, reconciled, and ancestral."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2 lifecycle and card routes only.",
+        "Do not bind or create the #260 worktree until #259 is terminal, reconciled, and ancestral.",
+        "Do not touch #203 or #258 worktrees during #260 preparation.",
+        "Do not implement #258 authority-store boundary changes.",
+        "Do not implement #259 governed transport changes.",
+        "Keep primary main tracked clean outside authorized initialized #260 staging."
+      ]
+    }
+  }
+}

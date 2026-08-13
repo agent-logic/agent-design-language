@@ -1,0 +1,141 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 265,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.02b][112.b] Enforce Layer 8 authority at Runtime kernel conversation ingress",
+    "slug": "v0-92-wp-18c-02b-112-b-layer8-authority-runtime-kernel-ingress",
+    "version": "v0.92.0",
+    "generation": 14
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "issue-265-preparation-validator",
+          "proof_role": "Verify the refreshed #265 preparation packet recognizes #112 terminal ancestry and preserves child-scope boundaries.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "python3",
+            ".csdlc/prepared/issues/265/validate_preparation_bundle.py"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "runtime-kernel-layer8-ingress-focused",
+          "proof_role": "Prove configured Layer 8 conversation ingress refuses unauthorized requests before session/turn mutation and still authorizes allowed requests before dispatch.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--lib",
+            "layer8_ingress",
+            "--",
+            "--nocapture"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "runtime-kernel-fmt",
+          "proof_role": "Verify Rust formatting for the #265 Runtime kernel ingress diff.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "cargo",
+            "fmt",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--check"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "runtime-kernel-strict-clippy",
+          "proof_role": "Verify strict warning-free Runtime kernel crate and tests after the #265 ingress gate.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 3000,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Verify no conflict markers or whitespace errors in the #265 diff.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 300,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed: bootstrap/design may be repaired through typed v2, but bind/implementation stays blocked while #112 is not terminal and ancestral.",
+      "design_ref": ".csdlc/prepared/issues/265/design.md",
+      "design_digest": "925e7f2fe0de327dd74034bc371600c3f926ecd044f9f9c3591221eb18524911",
+      "diagram_ref": ".csdlc/prepared/issues/265/diagram.mmd",
+      "diagram_digest": "255a4d126c38ea07b47a1204dfd3d779c537a063c0b3fd7923016c630fad44a1"
+    }
+  }
+}

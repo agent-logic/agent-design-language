@@ -1,0 +1,14 @@
+
+running 5 tests
+test unsafe_symlink_store_root_is_rejected ... ok
+test publishes_only_after_exact_sealed_reconciliation_and_retries_exactly ... ok
+test fails_closed_for_prior_state_conflict_capacity_and_corruption ... ok
+test restart_from_pending_and_reconciled_resumes_before_publication ... ok
+test rejects_every_direct_binding_mismatch_without_publication ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.46s
+
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-272-serving-authority-foundation/adl-runtime-kernel)
+   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-272-serving-authority-foundation/adl-runtime)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 4.46s
+     Running tests/distributed_serving_authority_foundation.rs (adl-runtime/target/debug/deps/distributed_serving_authority_foundation-47083e777935fb73)

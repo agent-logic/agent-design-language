@@ -193,6 +193,80 @@ pub struct CodeRepositoryMigrationReport {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum InitializedCanonicalCollisionDisposition {
+    SameNumberAbsent,
+    SameNumberNonAuthoritative,
+    SameNumberSuccessor,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct InitializedCodeRepositoryCollisionEvidence {
+    pub schema: String,
+    pub source_issue_repository: String,
+    pub source_issue: u64,
+    pub target_code_repository: String,
+    pub target_same_number_issue: Option<u64>,
+    pub disposition: InitializedCanonicalCollisionDisposition,
+    pub observed_state: String,
+    pub operation_key: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct InitializedCodeRepositoryMigrationRequest {
+    pub schema: String,
+    pub issue: u64,
+    pub source_issue_repository: String,
+    pub code_repository: String,
+    pub expected_generation: u64,
+    pub expected_digest: String,
+    pub actor: String,
+    pub reason: String,
+    pub canonical_issue_collision_evidence_ref: String,
+    pub canonical_issue_collision_evidence_digest: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct InitializedCodeRepositoryMigrationEvidence {
+    pub schema: String,
+    pub issue: u64,
+    pub actor: String,
+    pub reason: String,
+    pub pre_generation: u64,
+    pub pre_digest: String,
+    pub previous_code_repository: Option<String>,
+    pub source_issue_repository: String,
+    pub requested_repository: String,
+    pub canonical_issue_collision_evidence_ref: String,
+    pub canonical_issue_collision_evidence_digest: String,
+    pub canonical_issue_collision_disposition: InitializedCanonicalCollisionDisposition,
+    pub cross_repository_authority_disposition: String,
+    pub topology_state: String,
+    pub phase: LifecyclePhase,
+    pub branch: Option<String>,
+    pub worktree: Option<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct InitializedCodeRepositoryMigrationReport {
+    pub schema: String,
+    pub issue: u64,
+    pub changed: bool,
+    pub phase: LifecyclePhase,
+    pub topology_state: String,
+    pub branch: Option<String>,
+    pub worktree: Option<String>,
+    pub code_repository: String,
+    pub resulting_generation: u64,
+    pub resulting_digest: String,
+    pub evidence: InitializedCodeRepositoryMigrationEvidence,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
 #[serde(deny_unknown_fields)]
 pub struct BoundIssueIdentityMigrationRequest {
     pub schema: String,
@@ -278,6 +352,48 @@ pub fn migrate_code_repository(
         phase: record.phase,
         branch: evidence.branch.clone(),
         worktree: evidence.worktree.clone(),
+        code_repository: record
+            .code_repository
+            .clone()
+            .expect("migration commits repository identity"),
+        resulting_generation: record.generation,
+        resulting_digest: record.digest.clone(),
+        evidence,
+    })
+}
+
+pub fn migrate_initialized_code_repository(
+    store: &Store,
+    request: InitializedCodeRepositoryMigrationRequest,
+) -> Result<InitializedCodeRepositoryMigrationReport> {
+    if request.schema != "csdlc.initialized_code_repository_migration_request.v1"
+        || request.issue == 0
+        || !valid_repository_identity(&request.source_issue_repository)
+        || !valid_repository_identity(&request.code_repository)
+        || request.expected_digest.trim().is_empty()
+        || request.actor.trim().is_empty()
+        || request.reason.trim().is_empty()
+        || !clean_relative_path(&request.canonical_issue_collision_evidence_ref)
+        || request
+            .canonical_issue_collision_evidence_digest
+            .trim()
+            .is_empty()
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "initialized code repository migration request is incomplete",
+        ));
+    }
+    let _binding_lock = store.binding_lock()?;
+    let (record, evidence) = store.commit_initialized_code_repository_migration(&request)?;
+    Ok(InitializedCodeRepositoryMigrationReport {
+        schema: "csdlc.initialized_code_repository_migration_report.v1".into(),
+        issue: record.issue,
+        changed: true,
+        phase: record.phase,
+        topology_state: "initialized_unbound".into(),
+        branch: None,
+        worktree: None,
         code_repository: record
             .code_repository
             .clone()

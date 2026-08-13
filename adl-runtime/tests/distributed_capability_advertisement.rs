@@ -80,7 +80,7 @@ impl Fixture {
     }
 
     fn verifier(&self) -> CapabilityAdvertisementVerifier {
-        CapabilityAdvertisementVerifier::open(
+        CapabilityAdvertisementVerifier::open_for_test(
             self.store.clone(),
             self.policy.clone(),
             &self.replay_path,

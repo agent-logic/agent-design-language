@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 276,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.04a][114.a] Implement durable conversation journal foundation",
+    "slug": "v0-92-wp-18c-04a-114-a-durable-conversation-journal-foundation",
+    "version": "v0.92.0",
+    "generation": 10
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl-runtime-kernel/src/conversation_journal.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/tests/conversation_journal.rs\n.csdlc/issues/276\n.csdlc/prepared/issues/276\n.csdlc/evidence/276",
+      "review_revision": "git-blake3:f09bfcedbed742954499618f09c0541951213a23:43a097aa1c487f143169d59e69711386b1c4ff1ebb46fcc28b6e69ce9ce067f2",
+      "reviewer": "fresh-session:72acb0cd-e22f-489d-ae9f-29083e08ea9e",
+      "review_prompts": [
+        "Does #276 remain the first #114 child and only own durable journal foundation scope?",
+        "Do cards and validator correctly consume canonical terminal caches for #112, #265, and #270?",
+        "Do non-goals prevent absorption of #277 replay/watermark/receipt semantics, #278 history/API/Observatory work, #114 parent integration proof, and #270 acknowledgement trust?",
+        "Is it safe to approve design and bind only the dedicated #276 FastWork worktree?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Reviewer did not rerun cargo/validator commands during the immediate verdict; implementation session retained local fmt, focused test, strict Clippy, doctor, and validate proof."
+      ],
+      "review_result": "pass"
+    }
+  }
+}
