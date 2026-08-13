@@ -52,6 +52,34 @@ fn sealed_transition_intent_and_full_canonical_time_are_authenticated() {
         assert!(projection.finalization_nanos() < 1_000_000_000);
         assert!(projection.inclusive_deadline_uncertainty_millis() > 0);
         assert!(projection.finalization_uncertainty_millis() > 0);
+        let seconds = projection.inclusive_deadline_unix_seconds();
+        let nanos = projection.inclusive_deadline_nanos();
+        assert!(!projection
+            .is_expired_at(seconds, nanos.saturating_sub(1))
+            .unwrap());
+        assert!(!projection.is_expired_at(seconds, nanos).unwrap());
+        if nanos < 999_999_999 {
+            assert!(projection.is_expired_at(seconds, nanos + 1).unwrap());
+        } else {
+            assert!(projection.is_expired_at(seconds + 1, 0).unwrap());
+        }
+
+        let restored_authority =
+            test_observatory_published_authority(fixture.round_trip_artifact_bytes());
+        let restored = verify_observatory_authority_projection(&restored_authority, &cut).unwrap();
+        assert_eq!(restored.transition_action(), action);
+        assert_eq!(
+            restored.predecessor_operation_ref(),
+            projection.predecessor_operation_ref()
+        );
+        assert_eq!(
+            restored.inclusive_deadline_nanos(),
+            projection.inclusive_deadline_nanos()
+        );
+        assert_eq!(
+            restored.inclusive_deadline_uncertainty_millis(),
+            projection.inclusive_deadline_uncertainty_millis()
+        );
     }
 
     for (action, predecessor) in [

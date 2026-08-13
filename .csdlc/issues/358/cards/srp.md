@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Exact #358 packet and terminal #350/#356 seams, action/predecessor rules, full time, tests, redaction and exclusions.
+
 
 ## Prompts
 

@@ -470,6 +470,16 @@ pub struct VerifiedObservatoryAuthorityProjection {
 }
 
 impl VerifiedObservatoryAuthorityProjection {
+    pub fn is_expired_at(&self, unix_seconds: i64, nanos: u32) -> ServingAuthorityResult<bool> {
+        if unix_seconds <= 0 || nanos >= 1_000_000_000 {
+            return Err(ServingAuthorityError::InvalidBinding);
+        }
+        Ok((unix_seconds, nanos)
+            > (
+                self.inclusive_deadline_unix_seconds,
+                self.inclusive_deadline_nanos,
+            ))
+    }
     pub fn trust_domain_ref(&self) -> &str {
         &self.trust_domain_ref
     }
@@ -716,6 +726,13 @@ impl ObservatoryBindingFixture {
     ) {
         self.0.transition_action = action;
         self.0.predecessor_operation_ref = predecessor.map(str::to_owned);
+    }
+
+    pub fn round_trip_artifact_bytes(&self) -> Vec<u8> {
+        let durable = serde_json::to_vec(&self.0).expect("fixture durable serialize");
+        let restored: ObservatoryAuthorityBinding =
+            serde_json::from_slice(&durable).expect("fixture durable reopen");
+        serde_jcs::to_vec(&restored).expect("fixture restored JCS")
     }
 
     pub fn mutate(&mut self, mutation: ObservatoryBindingMutation) {

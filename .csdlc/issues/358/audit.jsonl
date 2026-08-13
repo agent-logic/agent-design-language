@@ -2,3 +2,6 @@
 {"sequence":2,"generation":1,"actor":"fresh-session:559d6f3c-f06e-4751-b5c4-89621ae14703","reason":"approve completed issue design","operation":"approve_design"}
 {"sequence":3,"generation":1,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
 {"sequence":4,"generation":2,"actor":"codex:issue-358-implementation","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
+{"sequence":5,"generation":2,"actor":"codex:issue-358-implementation","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":6,"generation":3,"actor":"fresh-session:f128d53a-04e9-4567-8e8f-6218e36ce772","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":7,"generation":4,"actor":"codex:issue-358-r1-remediation","reason":"Remediate recorded R1 nanos-ordering/durable-reopen proof and SOR truth findings.","operation":"recover_review"}

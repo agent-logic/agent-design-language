@@ -69,7 +69,7 @@ Seal Observatory transition action/predecessor and full canonical time.
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
