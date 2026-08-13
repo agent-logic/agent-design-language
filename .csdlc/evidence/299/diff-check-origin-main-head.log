@@ -1,3 +1,3 @@
-sha=bb2e6fdd992f98b2816d4690f655ef9f8842385f
+sha=39453c4d3ac2d754e5ee2ace6b46c5c251bfa783
 argv=git diff --check origin/main...HEAD
 status=0
