@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cc1c0d0bd318f0bbe41d3b610f2c6f17dff214cca5d5fc13b831f5d4c7ba3af8",
   "phase": "implemented",
-  "generation": 18,
-  "digest": "bf196bc1fdac0a25ed2df365b3756cadc9d351b48f42778204c6c6d1e9064903",
+  "generation": 19,
+  "digest": "ed75b1f733a84537c7b09a5428bb558ae68873b1efa1ada66785b0840b5151b8",
   "branch": "codex/299-exact-authority-archived-projection-cleanup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-299-exact-authority-archived-projection-cleanup",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8f3edfeb4d543e6a9a9c46940f9936e494c200fc3d1f9c2c14d6043cdef21bd8",
+      "values_digest": "6bdc8cff17d9830404b4e97cb6745eab4433e2c2db2b2eb66bf0d177f1f7119d",
       "rendered_digest": "610615d8dedbdc86ee75bdd5a73f74f3bb2e8acb65e609092b57cea776d694e2",
       "ast_digest": "135c49ea4619e7241bb8a2a08658257e2494075146388ceec11a47ab4ad4989d"
     },
     "stp": {
-      "values_digest": "c5f45f9a113dc41fe3208b0c4f7bf0f5c31b535cb1213a93054f11597c5cfa80",
+      "values_digest": "8b756288f1272e0eab004e619dfcdb919d58485a7ca952d596e57e20ab667f77",
       "rendered_digest": "7cc0b6cd5b8da81081ec555b7020b7eeef657106b4422d2916d790b73fec7b03",
       "ast_digest": "120ff67e5c1f29f0c721ea66410ef5094714e20dd1540ff7453ab0d7be52bbaa"
     },
     "spp": {
-      "values_digest": "7571dfc0157ac9cae1d6c13c2e590929fb2e2e02eaf065388279e78b14d93012",
+      "values_digest": "de3b50fde6724555c8d172d8fb66844570bbb4087f78d3fe27dab928e0c86bbf",
       "rendered_digest": "6fa872bca304faebde588f7b2b08861e046f046fd6f8294031cf1e6480b2b64e",
       "ast_digest": "88ff4df3da3a68e0e67c31f116ce960629085890b415f2ae3f961796bf627f56"
     },
     "vpp": {
-      "values_digest": "b17688ef1e2207008435e242026c5c5c72601fc91e2b2e5e51b068f59553a59c",
+      "values_digest": "bd9f3443dcb54b4389864bc4dfb677b53a3dd155b44c5222953a0faaef029bb0",
       "rendered_digest": "55f21566d759d3ea892f8db6c03520adac829dfcf1b9994547eaeebb64138c33",
       "ast_digest": "c385bd006ea6a8c00f53fc87c5194dcf6b447df3f63a96e4199bb3a59804f67c"
     },
     "srp": {
-      "values_digest": "d02b2b9509711b9d9e40b378d2dc4c51c800ab6f1de968b950f15c32bee28b48",
+      "values_digest": "f3d28002182d46f316c684bd7720e6af73bc8a7ffc52f574988bedc762cc0a76",
       "rendered_digest": "708684ae00ce6a56e1c3665c3abd6cd750ef28f3e409cec7f883b9e1d9dda135",
       "ast_digest": "df87168b6d92ac454e83d542bb26c238298450f0a185b815117bef325c33c81a"
     },
     "sor": {
-      "values_digest": "efbb563a1e9d2e7dfe3ae7f84e7c002a0d90fe4ae1ae1401a87341abb178c753",
-      "rendered_digest": "420c71541f460404f3f0953a0ea8eb5265cc605d7c727ebf61f545bb80ba652d",
-      "ast_digest": "5fc8ef3e0266cc00a7a62baa8d0cf83eb26d8518368b271b2014fe8bd9bb9234"
+      "values_digest": "dbed0374dc654e3b7ee40c9d53b7a3226173dc04cbaf9a9455e2bda3e87d494f",
+      "rendered_digest": "23770f9fda55df1d65e436720fb334443b2a708942c96f8916882183fea2a443",
+      "ast_digest": "ea94eb307ffd5aff680062ac531abbd8f17eb615c39e269736cc1c69bfacdfb9"
     }
   },
   "transitions": [
@@ -246,6 +246,13 @@
       "actor": "codex:worker-5",
       "reason": "Recover failed exact review r6 at git-blake3:eece2dc2ce5588786ad676fc2d48acb2d58ac5c3:602b2f3eea653e15b621dd8883960b4408b50fe63585ba64b53a23b0aaa27266. Finding preserved: P1 existing 900-cleanup-complete.json can falsely short-circuit cleanup because the AlreadyCompleted path only parses generic receipt payload and does not validate sequence == 900, state == cleanup-complete, previous_receipt_digest, or current request issue/operation_id/nodes.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 19,
+      "actor": "codex:worker-5",
+      "reason": "record #299 final receipt shortcut remediation with zero-mutation proof and refreshed clean-head evidence at 938190766208ca7898dc14acfaaad587ca55e223",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented #299 exact-authority archived-projection cleanup, remediated prior review findings, and corrected final cleanup receipt shortcut handling. Existing final receipt detection now happens read-only immediately after deriving the operation root from an existing ledger and before creating operation directories, namespaces, or receipts. A forged final receipt is rejected after exact envelope validation and the focused regression snapshots the ledger tree bytes to prove no new ledger, namespace, or receipt bytes are created.\",\"changes\":[\"Recovered the failed r6 review assignment without recording PASS. Preserved reviewer finding exactly in audit/SRP: P1 existing 900-cleanup-complete.json could falsely short-circuit cleanup because AlreadyCompleted only parsed a generic payload and did not validate sequence, state, previous_receipt_digest, or current request issue/operation_id/nodes.\",\"Moved existing final cleanup receipt detection to the earliest read-only point after an existing cleanup ledger is canonicalized and operation_root is derived. If 900-cleanup-complete.json exists, validation runs before operation root creation, operation-created receipt creation, private-delete namespace creation, or namespace receipt creation.\",\"Final receipt validation now checks schema, sequence == 900, state == cleanup-complete, exact previous_receipt_digest from the existing predecessor receipt chain, and exact current issue, operation_id, and node list payload.\",\"Added a coherent forged-final-envelope regression that preinstalls a forged final receipt and snapshots the entire ledger tree including file bytes; rejection must leave the snapshot unchanged, proving no new ledger, namespace, or receipt bytes are created.\",\"Preserved prior remediations: production crate API wiring through csdlc_v2, completed recovery receipt plus canonical archive manifest authority before cleanup mutation, coherent caller identity forgery rejection, temp receipt previous_receipt_digest and placeholder_identity validation, and archive-local ledger rejection before descendant creation.\",\"Preserved ownership boundaries: source/test edits are limited to csdlc-v2/src/lib.rs, csdlc-v2/src/projection_cleanup.rs, and csdlc-v2/tests/archived_projection_cleanup.rs; did not edit projection_recovery.rs, store.rs, or gate5.rs.\",\"Recaptured exact clean-head evidence at 938190766208ca7898dc14acfaaad587ca55e223: focused b4ce772bd55bbd5884ac799474cfec0eaeb5733cf237e4e25783a764c53d8463; strict Clippy 60fdbdf9e56caf7092c72dd0e3b1e76545de25d0621a79596cdbb9714803fc06; fmt/diff 64d664ac62044a3f1b759ab13e67cd485dde07d657120968c66a6328897eca8d; full serial RED cca12d5a364319d9baf25c251da5ab81812df855d8ec71b7b694e64e11854ce6; isolated read c3ed508f285c8ad1512e74158f6d164df4bd9c2bdf0407b820fc9eda79fd599c; isolated marker 3b8cbe93e94b0f863d9eb406d9e295ba9bde4ce525a42a31330f53f6a3a4ddd6.\",\"Preserved full-suite RED truth: the serial full suite remains failed in gate_github_actions outside the #299-owned cleanup surface; current focused proof and isolated gate reruns do not convert the broad suite result to PASS.\"],\"artifacts\":[\"csdlc-v2/src/lib.rs\",\"csdlc-v2/src/projection_cleanup.rs\",\"csdlc-v2/tests/archived_projection_cleanup.rs\",\".csdlc/evidence/299/archived-projection-cleanup-focused.log#sha256=b4ce772bd55bbd5884ac799474cfec0eaeb5733cf237e4e25783a764c53d8463\",\".csdlc/evidence/299/csdlc-v2-strict-clippy.log#sha256=60fdbdf9e56caf7092c72dd0e3b1e76545de25d0621a79596cdbb9714803fc06\",\".csdlc/evidence/299/fmt-diff-check.log#sha256=64d664ac62044a3f1b759ab13e67cd485dde07d657120968c66a6328897eca8d\",\".csdlc/evidence/299/csdlc-v2-full-serial.log#sha256=cca12d5a364319d9baf25c251da5ab81812df855d8ec71b7b694e64e11854ce6\",\".csdlc/evidence/299/gate-github-actions-issue-read-isolated.log#sha256=c3ed508f285c8ad1512e74158f6d164df4bd9c2bdf0407b820fc9eda79fd599c\",\".csdlc/evidence/299/gate-github-actions-operation-marker-isolated.log#sha256=3b8cbe93e94b0f863d9eb406d9e295ba9bde4ce525a42a31330f53f6a3a4ddd6\"],\"validation\":[{\"command\":[\"env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/299/csdlc-v2\",\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"archived_projection_cleanup\",\"--no-tests=fail\"],\"purpose\":\"Focused #299 archived-projection cleanup matrix after final receipt zero-mutation remediation; recaptured from clean committed head 938190766208ca7898dc14acfaaad587ca55e223 with explicit HEAD, argv, worktree status digest, and status. Proves 14/14 including crate-level API reachability, completed-recovery receipt plus canonical/archive manifest binding, coherent identity forgery rejection, no cleanup namespace before authority failure, temp receipt predecessor/placeholder negatives, archive-local ledger zero descendant creation, and forged final receipt rejection with exact ledger byte snapshot unchanged. Evidence sha256 b4ce772bd55bbd5884ac799474cfec0eaeb5733cf237e4e25783a764c53d8463.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/299/archived-projection-cleanup-focused.log\"},{\"command\":[\"env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/299/csdlc-v2\",\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict Rust lint proof for #299 source and tests after final receipt zero-mutation remediation; recaptured from clean committed head 938190766208ca7898dc14acfaaad587ca55e223 with explicit HEAD, argv, worktree status digest, and status; evidence sha256 60fdbdf9e56caf7092c72dd0e3b1e76545de25d0621a79596cdbb9714803fc06.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/299/csdlc-v2-strict-clippy.log\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--check\"],\"purpose\":\"Formatting proof after final receipt zero-mutation remediation; recaptured from clean committed head 938190766208ca7898dc14acfaaad587ca55e223 with explicit HEAD, argv, worktree status digest, and status; evidence sha256 64d664ac62044a3f1b759ab13e67cd485dde07d657120968c66a6328897eca8d.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/299/fmt-diff-check.log\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Committed-range whitespace hygiene after final receipt zero-mutation remediation; recaptured from clean committed head 938190766208ca7898dc14acfaaad587ca55e223 with explicit HEAD, argv, worktree status digest, and status; evidence sha256 64d664ac62044a3f1b759ab13e67cd485dde07d657120968c66a6328897eca8d.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/299/fmt-diff-check.log\"},{\"command\":[\"env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/299/csdlc-v2\",\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--workspace\"],\"purpose\":\"Prior serial full csdlc-v2 suite attempt before review readiness; remains RED in gate_github_actions and was not rerun or converted to PASS by focused #299 remediation proof; evidence sha256 cca12d5a364319d9baf25c251da5ab81812df855d8ec71b7b694e64e11854ce6.\",\"outcome\":\"failed\",\"evidence_ref\":\".csdlc/evidence/299/csdlc-v2-full-serial.log\"},{\"command\":[\"env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/299/csdlc-v2-github-actions-isolated-read\",\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\",\"issue_read_failures_are_typed_redacted_and_action_scoped\",\"--\",\"--test-threads=1\"],\"purpose\":\"Prior clean isolated rerun of the gate_github_actions read-failure case from the serial full-suite RED; passed but does not clear the preserved serial full-suite RED; evidence sha256 c3ed508f285c8ad1512e74158f6d164df4bd9c2bdf0407b820fc9eda79fd599c.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/299/gate-github-actions-issue-read-isolated.log\"},{\"command\":[\"env\",\"CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/299/csdlc-v2-github-actions-isolated-marker\",\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate_github_actions\",\"operation_marker_is_stable_and_idempotent\",\"--\",\"--test-threads=1\"],\"purpose\":\"Prior clean isolated rerun of the gate_github_actions operation-marker case from the serial full-suite RED; passed and does not clear the preserved serial full-suite RED; evidence sha256 3b8cbe93e94b0f863d9eb406d9e295ba9bde4ce525a42a31330f53f6a3a4ddd6.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/299/gate-github-actions-operation-marker-isolated.log\"}]}"
     }
   ]
 }
