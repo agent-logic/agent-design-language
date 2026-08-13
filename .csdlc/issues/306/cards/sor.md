@@ -64,7 +64,7 @@ Implemented ordered publication metadata tail handling: intent cache is stored u
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
