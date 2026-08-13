@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 356,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1b][defect] Expose minimal sealed Observatory projection accessors",
+    "slug": "sealed-observatory-projection-accessors",
+    "version": "v0.92",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact #356 design, terminal #350 source seams, two owned paths, accessor privacy, A/B mismatch denial, redaction, and exclusions.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Are all accessors read-only and limited to existing redacted fields?",
+        "Can any caller mint or mutate a projection or recover raw quorum/OwnerCommit/lease/artifact authority?",
+        "Do focused tests prove A/A values, A/B denial, and redaction?",
+        "Is scope limited to the two terminal #350 product/test paths?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

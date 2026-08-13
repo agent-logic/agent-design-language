@@ -1,0 +1,96 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 356,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "f28ef2531dd3c0896858b6fc22cd67e3bd9c43ed2c8deead0f9f650135932e20",
+  "phase": "bound",
+  "generation": 1,
+  "digest": "4ed5baa50755a4b8a0682ef404b783e1c1e32544b419237c9b59a4dc0d0fdb40",
+  "branch": "codex/356-sealed-observatory-projection-accessors",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-356-sealed-observatory-projection-accessors-implementation",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/356/design.md",
+  "diagram_path": ".csdlc/prepared/issues/356/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:0c6c275f-d129-4f89-9d1c-c590b741f7ec",
+      "revision": "c1f9d45a2937ad2bb69f2a8e1fa8c5dd6bc0d399e84886fc801f196f5919e626"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "bb16d1dc44cae42e90c6debc84db8bba66f9edbc52e858db64329432c27b7e6b",
+      "rendered_digest": "a5deafb4a917e034a1492c5d49ba5910644f8ad3518de81ebb9fcabd5d8807dd",
+      "ast_digest": "8e200870beb7670be281efa1bcb60c455b434759ab914f9c8df0713c60329e0d"
+    },
+    "stp": {
+      "values_digest": "731576322a7dffe62393b8fe327aaf33a70ea6817dad775f461360d7f6492382",
+      "rendered_digest": "7e301b9621eec2aff0b2bfd3ffaf20227fd19af0d3267f5a164029c4d7cab06c",
+      "ast_digest": "2e80251d61a7bbb6b2b125b09ea1728f420b71de2c22be72fd4a74f2c274440d"
+    },
+    "spp": {
+      "values_digest": "54fb10450e00a43d8b75f27da899a3e56558550a24be8d95391acb2e6d87e9ff",
+      "rendered_digest": "c69848b5732c48a4880c631b16758517c01e4062d3f61541c5f33410edc34d87",
+      "ast_digest": "d2efa3595435ba2daa02175f7fbe7e2b57dd973945f817f31d7f9edec3bcb08e"
+    },
+    "vpp": {
+      "values_digest": "8796f101a4df4049f0a4a10d15615ce3c8142656999d371251929b89cf75c723",
+      "rendered_digest": "2e869ca54777670b4637d26e8bb13601103a88ae85a65a24aec6832824f8b17d",
+      "ast_digest": "39a9725e580b49085f137891778c9d916db7f44e2523c6bc8e511036052c2235"
+    },
+    "srp": {
+      "values_digest": "a09f10b433e31010561ef84cf201684dc36742553899b4bfcb50e1a5f3beffce",
+      "rendered_digest": "28729fc3b7e65e5df611abe6bfcf0a106ebada137f5e511e0091f646142a3697",
+      "ast_digest": "57fac1d918ac376eb9e3bff890681314ca5c1c3afaef5c5b94aec24a80334ef3"
+    },
+    "sor": {
+      "values_digest": "d1af2c81757f47aae6ecfc95b5762c0efe05e6c765f7a518ab4c15a70a05fc1e",
+      "rendered_digest": "25d45c00eed1da1bf98f14620cd4df8a8d3601daa2de00df303a09bb4d86d08b",
+      "ast_digest": "9a3c6c9965dca260f32e0a22ae210cce6dc3066801fc3d6b9f1f04202e0a8cae"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-356-accessor-foundation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:0c6c275f-d129-4f89-9d1c-c590b741f7ec",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    }
+  ]
+}

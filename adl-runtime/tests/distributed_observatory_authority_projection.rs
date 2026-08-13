@@ -236,3 +236,57 @@ fn projection_is_redacted_and_deadline_is_committed() {
     }
     assert!(projection.inclusive_deadline_unix_seconds() > 0);
 }
+
+#[test]
+fn sealed_projection_accessors_match_verified_redacted_values() {
+    let (_, authority_a, cut_a) = pair("accessor-a");
+    let (_, authority_b, cut_b) = pair("accessor-b");
+    assert!(verify_observatory_authority_projection(&authority_a, &cut_b).is_err());
+    assert!(verify_observatory_authority_projection(&authority_b, &cut_a).is_err());
+
+    let projection = verify_observatory_authority_projection(&authority_a, &cut_a).unwrap();
+    let value = serde_json::to_value(&projection).unwrap();
+    assert_eq!(projection.trust_domain_ref(), value["trust_domain_ref"]);
+    assert_eq!(projection.polis_ref(), value["polis_ref"]);
+    assert_eq!(projection.lineage_ref(), value["lineage_ref"]);
+    assert_eq!(projection.operation_ref(), value["operation_ref"]);
+    assert_eq!(projection.committed_log_index(), 2);
+    assert_eq!(
+        projection.committed_log_index(),
+        value["committed_log_index"]
+    );
+    assert_eq!(projection.foundation_generation(), 1);
+    assert_eq!(
+        projection.foundation_generation(),
+        value["foundation_generation"]
+    );
+    assert_eq!(projection.fencing_generation(), 1);
+    assert_eq!(projection.fencing_generation(), value["fencing_generation"]);
+    assert_eq!(
+        projection.authority_result_sha256(),
+        value["authority_result_sha256"]
+    );
+    assert_eq!(projection.signer_set_sha256(), value["signer_set_sha256"]);
+    assert_eq!(projection.signer_count(), value["signer_count"]);
+    assert_eq!(
+        projection.inclusive_deadline_unix_seconds(),
+        value["inclusive_deadline_unix_seconds"]
+    );
+    assert_eq!(
+        projection.finalization_unix_seconds(),
+        value["finalization_unix_seconds"]
+    );
+    assert!(projection.inclusive_deadline_unix_seconds() >= projection.finalization_unix_seconds());
+
+    let debug = format!("{projection:?}");
+    let json = serde_json::to_string(&projection).unwrap();
+    for forbidden in [
+        "owner-accessor-a",
+        "lease-accessor-a",
+        "lineage-accessor-a",
+        "guardian-a",
+    ] {
+        assert!(!debug.contains(forbidden));
+        assert!(!json.contains(forbidden));
+    }
+}
