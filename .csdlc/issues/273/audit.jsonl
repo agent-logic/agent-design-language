@@ -3,3 +3,4 @@
 {"sequence":3,"generation":2,"actor":"fresh-session:8f2c6c9a-23e1-4b76-a8db-9d7b4a1e5f30","reason":"approve completed issue design","operation":"approve_design"}
 {"sequence":4,"generation":2,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
 {"sequence":5,"generation":3,"actor":"fresh-session:12b8190b-d522-450f-b168-4112faf36ef7","reason":"reapprove changed issue design","operation":"approve_design"}
+{"sequence":6,"generation":4,"actor":"codex:planning2-issue273-owner","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
