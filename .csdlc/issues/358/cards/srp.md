@@ -12,7 +12,12 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/issues/358
+.csdlc/prepared/issues/358
+.csdlc/evidence/358
+adl-runtime/src/distributed/authority_protocol.rs
+adl-runtime/src/distributed/serving_authority.rs
+adl-runtime/tests/distributed_observatory_authority_projection.rs
 
 ## Prompts
 
@@ -35,8 +40,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:5fb8bf755806aee0d26379d142e8020f45707a4a:a13840ff89835c2d6adf392998f11e9af67c090bb1dd711369274e6a0cc8ab3b")
 
-Reviewer: None
+Reviewer: Some("fresh-session:af576042-7be9-4d1e-82de-3abf046dad91")
 
-Result: pre_review
+Result: pass
