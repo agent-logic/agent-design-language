@@ -1,0 +1,7 @@
+{
+  "issue": 112,
+  "base_branch": "main",
+  "branch": "codex/112-layer8-authority-preparation-v2",
+  "worktree": ".",
+  "code_repository": "agent-logic/agent-design-language"
+}

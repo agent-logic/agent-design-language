@@ -1,0 +1,47 @@
+# Structured Intent Prompt
+
+Template: 1.0.0
+
+Issue: 112
+
+Repository: agent-logic/agent-design-language
+
+Card: sip
+
+Status: ready
+
+## Goal
+
+Bind every governed human-agent conversation action to authenticated Layer 8 identity, least-privilege capability, current agent and Polis policy, revocation, replay defense, and redacted tamper-evident audit before Runtime delivery.
+
+## Required Outcome
+
+The Runtime alone decides whether an authenticated human may discover, contact, continue, attach content to, or address an exact set of agents, and exposes only bounded authorization, refusal, correlation, and outcome fields.
+
+## Scope
+
+- Canonical issue identity/title: [v0.92][WP-18C.02a][112.a] Define shared Layer 8 signed authority core
+- adl-runtime-kernel/src/layer8_authority/audit.rs
+- adl-runtime-kernel/src/layer8_authority/exchange.rs
+- adl-runtime-kernel/src/layer8_authority/identity.rs
+- adl-runtime-kernel/src/layer8_authority/mod.rs
+- adl-runtime-kernel/src/lib.rs
+- adl-runtime-kernel/tests/layer8_authority.rs
+- issue #112 lifecycle truth for the decomposed Layer 8 authority core
+
+## Authority
+
+- Runtime-kernel authority primitives decide only local pre-delivery grant/refusal outcomes for this core issue.
+- A grant requires authenticated current identity evidence, credential generation, capability, agent policy, Polis policy, replay freshness, recipient validity, canonical signatures, and audit availability.
+- Browser state, caller claims, message content, provider output, and agent self-report never grant authority.
+- This core issue does not own Runtime ingress enforcement, served acknowledgement API protocol, Observatory UI, durable history, rooms, roster, presence, or final WP-18C integration.
+
+## Assumptions
+
+- none
+
+## Operator Constraints
+
+- Use only typed C-SDLC v2 lifecycle owners and active templates for canonical issue state and cards
+- Preserve /Volumes/FastWork/adl-worktrees/adl-issue-112-layer8-authority-preparation unchanged as non-authoritative historical evidence
+- Stop before execution while the sole #111 serial gate is open, unmerged, non-ancestral, or ownership-colliding

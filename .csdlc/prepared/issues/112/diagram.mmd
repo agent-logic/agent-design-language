@@ -1,0 +1,11 @@
+flowchart TD
+  A["Authenticated runtime identity evidence"] --> B["Layer 8 capability"]
+  A --> C["Signed ACIP identity message"]
+  B --> D["Capability, agent policy, and Polis policy intersection"]
+  E["Recipient verifying identity"] --> C
+  C --> F["Recipient-signed acknowledgement"]
+  D --> G{"Authorize?"}
+  G -->|"grant"| H["AuthorizationGrant with audit hash"]
+  G -->|"refuse"| I["PublicRefusal"]
+  H --> J["Redacted hash-chained audit record"]
+  I --> J

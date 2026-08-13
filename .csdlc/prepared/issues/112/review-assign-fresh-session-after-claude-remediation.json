@@ -1,0 +1,22 @@
+{
+  "schema": "csdlc.review_assignment_request.v1",
+  "issue": 112,
+  "expected_generation": 48,
+  "expected_digest": "6e13bef320ffbb1540df4bfb0fa777c3c992744a88144018f8e421db3d079464",
+  "reviewer": "codex-fresh-session:issue-112-final-layer8-authority-after-claude-remediation",
+  "assigned_by": "codex-session-112",
+  "scope": [
+    "adl-runtime-kernel/src",
+    "adl-runtime/src",
+    "adl-runtime/tests/layer8_authority.rs",
+    "adl/Cargo.lock",
+    "adl/src/csm_runtime_api.rs",
+    "adl/tests/layer8_authority_runtime_api.rs",
+    "adl/tools/validate_layer8_authority_observatory_ui.sh",
+    "demos/html-observatory",
+    "docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md",
+    ".csdlc/evidence/112",
+    ".csdlc/issues/112",
+    ".csdlc/prepared/issues/112"
+  ]
+}
