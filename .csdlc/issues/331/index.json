@@ -3,13 +3,57 @@
   "issue": 331,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d10036bad298d32728c965e820139dbff4ce7a3cd93d8badbc46214d1fbc16b0",
-  "phase": "implemented",
-  "generation": 20,
-  "digest": "c90f8be3549700582001aa487ff5cff6b48efdae761ebdf108667a1636247e40",
+  "phase": "reviewed",
+  "generation": 21,
+  "digest": "afea182ed3b2bf12881a4f24a07ce696016ee03da34c5009ddcaa511ec874699",
   "branch": "codex/331-initialized-code-repository-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-331-initialized-code-repository-recovery",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:4f6d4dcc-c379-4544-9c8a-bb34eaeb80f9",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:c4848ee3d3fd040d65dc67f6e247f4fa2870156d:8f3e2afda1d8c3640af279612899fffca2de1e64d58de2085d9c183b705c8920",
+    "scope": [
+      "csdlc-v2/src/migration.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/bin/csdlc-issue.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/tests/code_repository_migration.rs",
+      ".csdlc/evidence/331",
+      ".csdlc/prepared/issues/331/design.md",
+      ".csdlc/prepared/issues/331/diagram.mmd",
+      ".csdlc/prepared/issues/331/finalize-implementation.json",
+      ".csdlc/prepared/issues/331/validate_initialized_code_repository_migration.py",
+      ".csdlc/prepared/issues/331/sor-record-post-p1-remediation.json",
+      ".csdlc/prepared/issues/331/review-recover-after-publication-evidence-drift.json"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:4f6d4dcc-c379-4544-9c8a-bb34eaeb80f9",
+    "scope": [
+      "csdlc-v2/src/migration.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/bin/csdlc-issue.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/tests/code_repository_migration.rs",
+      ".csdlc/evidence/331",
+      ".csdlc/prepared/issues/331/design.md",
+      ".csdlc/prepared/issues/331/diagram.mmd",
+      ".csdlc/prepared/issues/331/finalize-implementation.json",
+      ".csdlc/prepared/issues/331/validate_initialized_code_repository_migration.py",
+      ".csdlc/prepared/issues/331/sor-record-post-p1-remediation.json",
+      ".csdlc/prepared/issues/331/review-recover-after-publication-evidence-drift.json"
+    ],
+    "reviewed_revision": "git-blake3:c4848ee3d3fd040d65dc67f6e247f4fa2870156d:8f3e2afda1d8c3640af279612899fffca2de1e64d58de2085d9c183b705c8920",
+    "findings": [],
+    "residual_risks": [
+      "Review was read-only and bounded to assigned paths at immutable commit c4848ee3d3fd040d65dc67f6e247f4fa2870156d.",
+      "Validation logs were inspected as evidence, but tests were not rerun by this reviewer."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +68,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "60d32a27cdcf778db5c03a2ea431ca5d4d2db3fbc8fb0c850c415883aa36311f",
+      "values_digest": "cab95c0ce114deb3df632dc64d7f37da72c43cad684bd179fb1af8d602835204",
       "rendered_digest": "dd8d6e2fe53c084c79098ab820fc461459cedb17fbd97cc99825f89d63834a49",
       "ast_digest": "54863410c2ffea851545ccc80dc2783d2b5393dba9a76e5225668e423881f3dd"
     },
     "stp": {
-      "values_digest": "f34d171baa8c035a11234a309fcb78492c702bd4d459f4294e56d0480353bbb6",
+      "values_digest": "0f1ead30b9fae5cc53ee290f027d9a2213ef5eb143084491fa2ab882f67d18e6",
       "rendered_digest": "dfb5209f7d7e9113440476b004636572ac9d611db2c85f8f4a21b3e399f8dc32",
       "ast_digest": "77cbe8b0872ea62c634921e8afb8821ab3694e9aee9698fe0c660c7bdedddf15"
     },
     "spp": {
-      "values_digest": "e452f722c569cd178a2e875977527ec4b54857f92d5a0c743c016752980fc0aa",
+      "values_digest": "86f72a32847058a4bcb34552e9c318197dc77c5a3bd0f00aae3539243b145eec",
       "rendered_digest": "59d56e5aedd317e7f2f30706f0c08488f6222c2f66e3c5d257bb7fe58ba4d5de",
       "ast_digest": "e7c94237b50ebfc827a047c5fdd6764548dbecc0046bdccc29f9034a1023a30c"
     },
     "vpp": {
-      "values_digest": "7dc3b0f97f66311cfe33e55a294e9e0daec22f60745791821a79927ce4e5e2ca",
+      "values_digest": "a4a2441fd53be75f9bc3b6912063ee85b19c011a9fe3b58914a120d0160a5069",
       "rendered_digest": "c8cf269e07f89d5008b0b9b01744f95d3e50d8adfc219c6c859d03a68ecd9309",
       "ast_digest": "3257ce6fde5db8710c20706cade47a63fea5620ca3307e398157197d60576860"
     },
     "srp": {
-      "values_digest": "995e184bec1869d308464d6b5b89c706469c4c06ab9815bb568fff1a08e9b04f",
-      "rendered_digest": "bbaeaaf7a844c786b89263e3f1903361b7d5f9b1411e2cc978be6a1d2c34f188",
-      "ast_digest": "312fb9b2e3f5dc4d1558c2b56b5b06cb4fa892ee4b86b6c6e3865f3218e03b6e"
+      "values_digest": "66f36ee16134d212d8bd7a1146995c3f800ea6a4ec5d9b3d306bd1ac05b28b0d",
+      "rendered_digest": "70d0e982c149103ed44454892f4073797e242e767f72e3c706781bf39624b19f",
+      "ast_digest": "cb6bec54ef66939bb7e1a5849d50bad300711eaa25939d5bd73a675451f5432f"
     },
     "sor": {
-      "values_digest": "25120edbb9edc2f8679f66b1407a04bc93662a9ca53b4b5ec18dcf1b3ccfc94e",
+      "values_digest": "130c3ee91c4b275950b258a3698cf183e55c9f94ce363b206f3339859bab7cca",
       "rendered_digest": "35f3daf72244850e461b5a2ec06fe597d82df97d201115b3fbf0d42e0812cd16",
       "ast_digest": "869e13d53b90ee4abb465fa52781efc16f0e7018642dc01491f46c86089cf48a"
     }
@@ -152,6 +196,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover post-publication #331 truth after csdlc-finish proved review evidence changed after the publication commit; normalize exact review/publication evidence through supported lifecycle recovery before new review and republication."
+    },
+    {
+      "sequence": 15,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -371,6 +422,20 @@
       "actor": "codex:/root",
       "reason": "Recover post-publication #331 truth after csdlc-finish proved review evidence changed after the publication commit; normalize exact review/publication evidence through supported lifecycle recovery before new review and republication.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
