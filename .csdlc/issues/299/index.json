@@ -5,22 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "cc1c0d0bd318f0bbe41d3b610f2c6f17dff214cca5d5fc13b831f5d4c7ba3af8",
   "phase": "implemented",
-  "generation": 32,
-  "digest": "4f5b8440e12b7935c7637b08322f7c8d5c68d3a02bf65501f10c7e3b3b2c09fd",
+  "generation": 33,
+  "digest": "f8538127f75b60f123904ad81350ac560df7d1afaf8108e24d17368e221f0b72",
   "branch": "codex/299-exact-authority-archived-projection-cleanup",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-299-exact-authority-archived-projection-cleanup",
-  "review_assignment": {
-    "reviewer": "fresh-session:0df18b4d-0fb5-486f-9f1f-8049dd9f25cd",
-    "assigned_by": "codex:worker-5",
-    "revision": "git-blake3:6f25eb7ed9616c0a9bd5f3d0288ffbaedb95d205:353542f238b864bd2ee059c15dc1764033d4ffc5594d47ce04a2a1021374e31b",
-    "scope": [
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/src/projection_cleanup.rs",
-      "csdlc-v2/tests/archived_projection_cleanup.rs",
-      ".csdlc/issues/299",
-      ".csdlc/evidence/299"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -36,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b9ea291cf781ef7c027187d78c2abbed9db262a1600ee165d96721da751bb3ec",
+      "values_digest": "6a3c66b968dc12ce5d1935a46587e1021d4e25c6fa1f276cfcdb3e55ed70c9f2",
       "rendered_digest": "610615d8dedbdc86ee75bdd5a73f74f3bb2e8acb65e609092b57cea776d694e2",
       "ast_digest": "135c49ea4619e7241bb8a2a08658257e2494075146388ceec11a47ab4ad4989d"
     },
     "stp": {
-      "values_digest": "8e56a5d638febc5c640ba0fe3aba76d4642db1cd2e96aa335e47e43defb619fb",
+      "values_digest": "a16db73772877e8246c1d41500afbb31ba06c0b69baced4cd2a4236002fcc586",
       "rendered_digest": "7cc0b6cd5b8da81081ec555b7020b7eeef657106b4422d2916d790b73fec7b03",
       "ast_digest": "120ff67e5c1f29f0c721ea66410ef5094714e20dd1540ff7453ab0d7be52bbaa"
     },
     "spp": {
-      "values_digest": "a45c8402ff50badd208b0de3b2789b9bc6a9054204ba46fc6f0947557b6e0cb9",
+      "values_digest": "0e4911eaf7b79f4c74814e18ddc541d0a0921c7f715a1019eaee12164253a9c8",
       "rendered_digest": "6fa872bca304faebde588f7b2b08861e046f046fd6f8294031cf1e6480b2b64e",
       "ast_digest": "88ff4df3da3a68e0e67c31f116ce960629085890b415f2ae3f961796bf627f56"
     },
     "vpp": {
-      "values_digest": "58e03edb0914111d0dfb78f0837aa4d25079ce4becb6dddef32f1dd9d66b7d67",
+      "values_digest": "62a162da5efc364fb224aa8e32bf76d6b57c0dedd4ddf1d3305e7260acb24a46",
       "rendered_digest": "55f21566d759d3ea892f8db6c03520adac829dfcf1b9994547eaeebb64138c33",
       "ast_digest": "c385bd006ea6a8c00f53fc87c5194dcf6b447df3f63a96e4199bb3a59804f67c"
     },
     "srp": {
-      "values_digest": "09bd4af12454659911ece0419821b14c4ceb9dfc6154176bd6081ebafc3cb5c3",
-      "rendered_digest": "c4d7e611f2a61e0fe18da577cb3be323f3090814cc8ce0253516dcf88eed4386",
-      "ast_digest": "1790a2d2b809f4d1a3deb73dd52ebe35557a04f77a34bca8159d26f9cadd4f7e"
+      "values_digest": "50b00187914301e698643866770515946dcdd373af8de9d36a3b77df81e82794",
+      "rendered_digest": "708684ae00ce6a56e1c3665c3abd6cd750ef28f3e409cec7f883b9e1d9dda135",
+      "ast_digest": "df87168b6d92ac454e83d542bb26c238298450f0a185b815117bef325c33c81a"
     },
     "sor": {
-      "values_digest": "fd1b70814aa20eb0f52fc0b19c12d7114b9c228b1d9618a72a64e378b2d608c5",
+      "values_digest": "e2e701e82389e73eac6f6d1ecc680316b36749fd218714afeabdceb7c7821f27",
       "rendered_digest": "37abdcd5e5c42bd0aba94d81101ce507846f0832c6707ad43554471e3f7d8628",
       "ast_digest": "54b46e65cb88b856b9526a176cb09bf917fb77e093655d818ad2beda328426f8"
     }
@@ -425,6 +414,13 @@
       "actor": "codex:worker-5",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 46,
+      "generation": 33,
+      "actor": "codex:worker-5",
+      "reason": "Recover failed exact review r13 at git-blake3:6f25eb7ed9616c0a9bd5f3d0288ffbaedb95d205:353542f238b864bd2ee059c15dc1764033d4ffc5594d47ce04a2a1021374e31b. Finding preserved: P2 pre-final chain validation returns a trusted predecessor digest, but final receipt creation discards it and receipt() recomputes previous_receipt_digest from the live directory, allowing an unexpected 777 receipt inserted after validation and before final predecessor selection to become the final predecessor.",
+      "operation": "recover_review"
     }
   ]
 }

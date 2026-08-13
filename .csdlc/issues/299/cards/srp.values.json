@@ -7,13 +7,13 @@
     "title": "[v0.92][C-SDLC][297.b][defect] Implement exact-authority archived-projection cleanup",
     "slug": "exact-authority-archived-projection-cleanup",
     "version": "v0.92",
-    "generation": 32
+    "generation": 33
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "csdlc-v2/src/lib.rs\ncsdlc-v2/src/projection_cleanup.rs\ncsdlc-v2/tests/archived_projection_cleanup.rs\n.csdlc/issues/299\n.csdlc/evidence/299",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
