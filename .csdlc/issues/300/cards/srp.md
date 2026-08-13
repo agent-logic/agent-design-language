@@ -36,12 +36,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Reviewer did not rerun cargo, Clippy, fmt, or diff-check; PASS is based on inspection-only exact-head review of immutable commit 17a33ed44a074ad8105edef574721a366ec771bc and recorded r4 evidence.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:17a33ed44a074ad8105edef574721a366ec771bc:9a89e884794cdcb94f5d8d6b6adc2ede2d9f1599963f24dc2eded1522dc23ce0")
 
-Reviewer: None
+Reviewer: Some("fresh-session:hopper-300-bridge-fed-r5")
 
-Result: pre_review
+Result: pass

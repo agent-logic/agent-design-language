@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "812e76425072c39de0d33f7240ac7901873d4a425f3b26e754bdda158d7c02ed",
-  "phase": "implemented",
-  "generation": 11,
-  "digest": "f64db666ab251997b2a0bb176855cc33391d27ba23134bbe59816a9a245c923d",
+  "phase": "reviewed",
+  "generation": 12,
+  "digest": "a2164f2d53352ff2a8845d3d92989408541136d272c778fd2cb18bb7431a9b4e",
   "branch": "codex/300-projection-recovery-integration-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-300-projection-recovery-integration-proof",
   "review_assignment": {
@@ -21,7 +21,23 @@
       ".csdlc/requests/300/replace-sor-bridge-fed-r4.json"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:hopper-300-bridge-fed-r5",
+    "scope": [
+      "csdlc-v2/tests/projection_recovery_integration.rs",
+      ".csdlc/evidence/300/bridge-fed-r4",
+      ".csdlc/requests/300/recover-review-curie-r3.json",
+      ".csdlc/requests/300/recover-review-lovelace-scope-dead-end.json",
+      ".csdlc/requests/300/replace-sor-bridge-fed-r4.json"
+    ],
+    "reviewed_revision": "git-blake3:17a33ed44a074ad8105edef574721a366ec771bc:9a89e884794cdcb94f5d8d6b6adc2ede2d9f1599963f24dc2eded1522dc23ce0",
+    "findings": [],
+    "residual_risks": [
+      "Reviewer did not rerun cargo, Clippy, fmt, or diff-check; PASS is based on inspection-only exact-head review of immutable commit 17a33ed44a074ad8105edef574721a366ec771bc and recorded r4 evidence."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -36,32 +52,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "bd4c1575a5670233a908ba18d37b8185fb43d942902f18b415db5518f0b2aae9",
+      "values_digest": "6afc9949fe55407b9cb1a73b5ff8bf13fffebf4735ecd3a5986cff1a3fb42b8a",
       "rendered_digest": "b003b1d51dd3f4296ef4d8be0536d419fce23991df68d3ae3445937fdb901bfc",
       "ast_digest": "dea7ce3fd1e50f827b7a10dbc279ee19c71112032939c98b713d79c7acd4c982"
     },
     "stp": {
-      "values_digest": "c966f0200a10ce9d6831014b147925ba35d415988ee473d5593acc7b489a5e15",
+      "values_digest": "c01bbcd60d0ec473dd3a996dc17f0ad0c3f60158dba3a1e5c9080e1946b1415b",
       "rendered_digest": "9c318b641757d4bd27b306ec8864bae2f757a8eec46cbc9cd24384d545113499",
       "ast_digest": "f6bc49a3310d58c810276f43df1e69dc2d772d6083d6cfd61a0d2fe42614be8a"
     },
     "spp": {
-      "values_digest": "d6a4c673f2dce079a795510a4378501f3f966f23c20965b59d40b3558c8c731a",
+      "values_digest": "58f081c1582a17c6ac06cdbf803b0d8ddf802344d9dc5f38e90bf7caa7de2e0c",
       "rendered_digest": "17e42670b0aa901f572e0d422b009f4ef9e5bd8463e2f2b61a45a149164f4db2",
       "ast_digest": "cf94d7413d244fdd54d34005a149163a5c22e668e99ef82213ae2d2058146948"
     },
     "vpp": {
-      "values_digest": "dfd22a02a51f902e2bc95d8593c9922c3777fdb388c437c09de01790b1c30e59",
+      "values_digest": "1c3dea3a2f8b020535cc5234302c2d4270cb04c78d89320d8057a719e6ef3d9b",
       "rendered_digest": "ffac1c06684198b62ee6b72a4bda262c0b08d3cd971b68b5dc435b3e77c2e38a",
       "ast_digest": "b4d732c61fe93217e1fa7e266913c6e871b739351895d1446deb4ee19ecdcc43"
     },
     "srp": {
-      "values_digest": "bb4d750eb571468ad0a08123e3aaece66ac18bbb7a86bbbdd03bdc8ff14c830f",
-      "rendered_digest": "f5955e4c0b83b7a45b06bc30c4e30d779bae6423a52f15e70c7321f40370d40f",
-      "ast_digest": "eb671d35dbd7d980592ee77f969a0a577bb0dfff4bd0d72b04c0dca0e1c46294"
+      "values_digest": "d3c891bcd4c9169ba9f7ae8de0ec7dacdef2aa146bc55e7d94da15cb1f8c24f0",
+      "rendered_digest": "66452abfe3767c276dec026735ce3a97b21f99cd033c6e4849dff905f610f3e0",
+      "ast_digest": "c8fb765e61f26e0ce2834b02f8975d5e8e53b9663edb711966819f6aad68bf42"
     },
     "sor": {
-      "values_digest": "1d0020964d4bdfb4ebbd68aacfd6af10f4cea3c4e70aaa3d5beb141bb70bd5eb",
+      "values_digest": "006ea43f1211afff5cd557d914a947d00eae42f76e50ca2b2a325c24ca503911",
       "rendered_digest": "70ba0d5770050dc101f69e5bc67fef3f0d3ecc2869fdba14fa8418417e3e8a9c",
       "ast_digest": "ddd69795bbd406b4d556c0a6baa9ee471d549682409ee527c88ccd9415d59630"
     }
@@ -101,6 +117,13 @@
       "to": "implemented",
       "actor": "codex:worker-5",
       "reason": "Recover reviewed state after doctor reported review_publication_dead_end: the r4 review assignment scope included .csdlc/issues/300, which is necessarily mutated by record_review and cannot remain the clean current substantive revision for publication."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-5",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -222,6 +245,13 @@
       "actor": "codex:worker-5",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "codex:worker-5",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
