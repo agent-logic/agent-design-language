@@ -111,6 +111,23 @@ fn acquire_retry_replace_never_exposes_two_shepherds() {
             .unwrap(),
         p1
     );
+    let historical_replace = p2.clone();
+    store
+        .revoke("revoke-after-replace", &cut(10, "12"))
+        .unwrap();
+    assert_eq!(
+        store
+            .replace(
+                "replace-1",
+                "shepherd-b",
+                b"permit-b",
+                &cut(10, "12"),
+                100,
+                1,
+            )
+            .unwrap(),
+        historical_replace
+    );
 }
 
 #[test]
@@ -128,6 +145,10 @@ fn conflicting_retry_and_stale_fence_fail_closed() {
     assert_eq!(
         store.replace("replace", "shepherd-b", b"permit", &cut(4, "12"), 10, 1),
         Err(ShepherdEligibilityError::StaleAuthority)
+    );
+    assert_eq!(
+        store.replace("op", "shepherd-a", b"permit", &cut(4, "11"), 10, 1),
+        Err(ShepherdEligibilityError::RetryConflict)
     );
 }
 

@@ -189,6 +189,13 @@ impl ShepherdEligibilityStore {
         expires_at: u64,
         logical_now: u64,
     ) -> Result<ShepherdEligibilityProjection, ShepherdEligibilityError> {
+        if let Some(old) = self.envelope.payload().operations.get(operation_id) {
+            let input = grant_input_sha256(subject, permit, cut, expires_at)?;
+            if old.transition != "replace" || old.input_sha256 != input {
+                return Err(ShepherdEligibilityError::RetryConflict);
+            }
+            return projection_from_receipt(old);
+        }
         if self
             .envelope
             .payload()
@@ -327,7 +334,7 @@ impl ShepherdEligibilityStore {
             serde_jcs::to_vec(&grant).map_err(|_| ShepherdEligibilityError::Serialization)?,
         ));
         if let Some(old) = self.envelope.payload().operations.get(operation_id) {
-            if old.input_sha256 != input {
+            if old.input_sha256 != input || old.transition != transition {
                 return Err(ShepherdEligibilityError::RetryConflict);
             }
             return projection_from_receipt(old);
@@ -419,6 +426,30 @@ fn keyed(domain: &str, value: &str) -> String {
     hex::encode(Sha256::digest(format!(
         "ADL-SHEPHERD-ELIGIBILITY-REF-V1\0{domain}\0{value}"
     )))
+}
+fn grant_input_sha256(
+    subject: &str,
+    permit: &[u8],
+    cut: &VerifiedServingAuthorityCut,
+    expires_at: u64,
+) -> Result<String, ShepherdEligibilityError> {
+    validate_id(subject)?;
+    let grant = Grant {
+        subject_ref: keyed("subject", subject),
+        permit_sha256: hex::encode(Sha256::digest(permit)),
+        owner_commit_sha256: keyed("owner", cut.owner_commit_id()),
+        lease_sha256: keyed("lease", cut.lease_id()),
+        foundation_state_sha256: cut.state_sha256().into(),
+        foundation_result_sha256: cut.result_sha256().into(),
+        foundation_generation: cut.generation(),
+        foundation_receipt_sha256: cut.receipt_digest().into(),
+        fencing_generation: cut.fencing_generation(),
+        expires_at,
+        status: Status::Eligible,
+    };
+    serde_jcs::to_vec(&grant)
+        .map(|bytes| hex::encode(Sha256::digest(bytes)))
+        .map_err(|_| ShepherdEligibilityError::Serialization)
 }
 fn validate_id(v: &str) -> Result<(), ShepherdEligibilityError> {
     if v.is_empty()

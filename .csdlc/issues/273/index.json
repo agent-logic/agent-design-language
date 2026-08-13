@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "ba4ad0b09850192b19172ddfc16a2cb280a6b9c3430dfe1df59c493d7bd5a9d0",
   "phase": "implemented",
-  "generation": 5,
-  "digest": "6542f607868965d7b6ea7d4181a0c3bfeda8b017151405c11fcd4742433c05de",
+  "generation": 6,
+  "digest": "4a63238800d6b3e989c79cace5d1d1a9d70d00914d459a4a848ced881c6d2d5b",
   "branch": "codex/273-shepherd-serving-eligibility",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-273-shepherd-serving-eligibility",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5ab4e84f4a8b35c79285c4ae2ff23e31b5767cc9287ad158b5e2821eeb0b8f0c",
+      "values_digest": "9a2f4e0eaf0f45635bde15bb2c4849de2cf4b6b6a36e2f2c2bdbe9761ec6b77a",
       "rendered_digest": "fde850d82a2c2a13c971d804d5d989ee796c4ad2705e336561eb4acc9e3adee2",
       "ast_digest": "d2f326bb27e14cbe6fe91df173e64cc1f78255fe33c8ab01168482ec034d3b2f"
     },
     "stp": {
-      "values_digest": "62269ec1d8e27ff56d92bfe99af18d7d84ecad52976daa0f515bb1827997da05",
+      "values_digest": "8cffa11fa75834edd0a70fdfae2eaa19d40bf21f4f22b9ffcb7fc6dd494f4eb9",
       "rendered_digest": "b8a5809f2d2cba141fb56e3739d1444c7768eaf39ea60e8244bf7930d521f3c2",
       "ast_digest": "890dd17f1d76d7fcda68a57dff7d3b3fb2e5208fbc819021e5479b7a7e429e78"
     },
     "spp": {
-      "values_digest": "02fe7478f9a98ad234918eae49ebc210c8bf940343d9fd44afd9e9a5d8e58db1",
+      "values_digest": "8a5241b33c40c13cdf86a13ca4af032287b4efd1128d43dfdc41c56933a3df43",
       "rendered_digest": "51400db6a5b8e0548e6799856b1a657f2bf43400616c8eec00cd17984db8406c",
       "ast_digest": "66047768e02ad804e109beaf5abee417c297304aecbbba9e00f9c3fb4e283b9e"
     },
     "vpp": {
-      "values_digest": "5b5ee9773016ed7aa58d619755bd8a88b33e3cfda364183dc2ef928851e79f6a",
+      "values_digest": "4086ae6d88354b4ad70d979dfb3f54aac6ea1f769f10ab7132f3043c21757f03",
       "rendered_digest": "c2e4c514afb0e3836ae33c330adeabc6497f0469f7a32679396816ddfb693f54",
       "ast_digest": "06c6b5fddd64e1b97e791059d272b4f6473f94983b328047009ab6c3d1112ccb"
     },
     "srp": {
-      "values_digest": "84b99341f8b735d4fcf9d2112911fa7094e24cf9d7f67d17d6ffdc7319bcedab",
+      "values_digest": "973d5ed020757b0296c97cbe7c3d33e3dd6f4e7ea3d228bd9b2f8e8fb0110839",
       "rendered_digest": "d26b500a7142a7e623ed6f6e33adde1d4ce3f0d8dec0dd51422d5dd76d42a6a0",
       "ast_digest": "8d0a111f496337c7f6f343bea02cfce00130254195f68943add4449e218d8c65"
     },
     "sor": {
-      "values_digest": "5ced0acca465c6ad0df1f01178016ea36d8a46e3748b899933b0572185cc9acd",
+      "values_digest": "f23e3876d7fbbbf866b713c0f79f9386e432ef5d453523cd0542053aefe8d790",
       "rendered_digest": "859f25c5ad368147a5e643d5986da7df663585a539355d01c3add0dae2ba9896",
       "ast_digest": "7f4af193d55ee88b9188703598c41ffde28210db7546c77acfaf1f6ac7678ce8"
     }
@@ -133,6 +133,20 @@
       "generation": 5,
       "actor": "codex:planning2-issue273-owner",
       "reason": "Recover failed fresh-session:8f36bd2e-522c-4ef8-91c9-c134d66cc5e3 exact-head review: remove debug cut forgery, persist exact historical replay results, validate every cut binding on terminal operations, and bind receipts/projection fields before a new fresh assignment.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex:planning2-issue273-owner",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:planning2-issue273-owner",
+      "reason": "Recover failed fresh-session:2b45d4f8-661a-4ce6-a818-40da02c76f44 exact-head review: make historical replacement retry precede current-state rejection and bind acquire/replace transition kind into retry identity, with regressions.",
       "operation": "recover_review"
     }
   ]
