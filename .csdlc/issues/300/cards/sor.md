@@ -92,11 +92,11 @@ Implemented the issue-owned projection recovery integration proof target without
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
