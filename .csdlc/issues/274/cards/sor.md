@@ -108,11 +108,11 @@ Implement sealed Observatory serving eligibility using terminal #360 authentic t
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
