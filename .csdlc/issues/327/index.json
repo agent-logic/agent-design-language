@@ -4,22 +4,36 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "4c11af5db97bf747fda030cf8022c5c9a7dc1f107d60165655873661ac7c4288",
-  "phase": "implemented",
-  "generation": 5,
-  "digest": "0a0f86dda695342bdd2d68e27bcdfa18253a39ac528a158e3d4c32ba1a31f1fc",
+  "phase": "reviewed",
+  "generation": 6,
+  "digest": "8d422a3709705d7ef70e9c22c8a8846c5e687abd54758535e0b261cda7774b45",
   "branch": "codex/327-real-tooling-dead-code",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-327-real-tooling-dead-code",
   "review_assignment": {
-    "reviewer": "fresh-session:80c733e0-3450-4efd-ac29-f82fbd99205c",
+    "reviewer": "fresh-session:7a81c032-1c4d-4e2f-a6b9-93d8e75f2041",
     "assigned_by": "codex:baseline-ci-real-tooling",
-    "revision": "git-blake3:ab46fff7544ef8353838454363cb9789cadf6067:a95e79ea0157542ab5c8411689efb83cc902dfe1cd54b79f789082eb29817714",
+    "revision": "git-blake3:4cd334aedd52473bcde6d32759a83647958744b8:0d6532f6b5d18758f9350a7ed577cf8fef61ac5c6cd7c3fcff5d214ef171720b",
     "scope": [
       "adl/src/cli/mod.rs",
       "adl/tests/issue_327_removed_tooling.rs",
       ".csdlc/issues/327"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:7a81c032-1c4d-4e2f-a6b9-93d8e75f2041",
+    "scope": [
+      "adl/src/cli/mod.rs",
+      "adl/tests/issue_327_removed_tooling.rs",
+      ".csdlc/issues/327"
+    ],
+    "reviewed_revision": "git-blake3:4cd334aedd52473bcde6d32759a83647958744b8:0d6532f6b5d18758f9350a7ed577cf8fef61ac5c6cd7c3fcff5d214ef171720b",
+    "findings": [],
+    "residual_risks": [
+      "Inspection-only review; local tests were not rerun. Prior focused regression, strict Clippy, and hosted required CI were green before metadata-only review recovery."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -34,32 +48,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1b425072e2985f050b57b8346d5d6a8fdc96fb16e417aab792559a2254b30343",
+      "values_digest": "fd644a0634b9067d981d46bedb811791758a91dbc94009ed7658628f79689f40",
       "rendered_digest": "ef2ee9824d3b8d60beb4a190cf8998ac20f261db07bd4c18fbf19c13d35e4876",
       "ast_digest": "8cb676f1f81a8affd4f502b321480e483abce4f7b9cb05e5b7e21d3c5b53279b"
     },
     "stp": {
-      "values_digest": "d020829acaa35afdb5f622b30bf6b2446531c27c003602cb83e3fd4c38646ed2",
+      "values_digest": "c4292508d3b0eaffb77453519e3d922cec2f45b6b72c5b9549d7edc52462db4f",
       "rendered_digest": "e5b76088cfe0f672a2740c12357ae1d9e854c14419bba03fc0177fdc8fbbedba",
       "ast_digest": "bf2779cee99a603cf280881e64d1d3041a654e8ba20f717311e5034e98b8da87"
     },
     "spp": {
-      "values_digest": "07bb87a98f6a84fc0396e6709a9c8a817b5e63a11de0807e1a2d6b29d109fd49",
+      "values_digest": "754ebf784834b8b64f17ceb7c854b06b574509939a1e4735d734079ba1ba9cef",
       "rendered_digest": "a98b1b8961764c6918e35b11fab5ef0f85fcbd16500f4d9f9e215fc2ca05c714",
       "ast_digest": "122fe482e3b2794279f5a2307a7598756860db18333f4003be6b398750b8fb81"
     },
     "vpp": {
-      "values_digest": "87eda90437fa2fa97ea11e76c45a0cded591eed6c1ecfc2d8315139f3b7598b9",
+      "values_digest": "7375a16e3703f137705b4d9558d568eaacf5458f4ced22b80b9d9a3d958a4a1e",
       "rendered_digest": "45c80d677c65ff1bb0a36ffad0aa7c717895562ec408e3957f30101b0051b466",
       "ast_digest": "b1e5b2e1351645dbf6408fc24bc57789e3a3c5cbb49262d95cd642e9c934ebea"
     },
     "srp": {
-      "values_digest": "d08549926bb6628faca0dcbec074e4e4d85a6a2b6faa4a0a73f3bd3ae722827a",
-      "rendered_digest": "7fe0bb92344f10541c277ca5c92e11ca59d9009f89bfb8154dbbb9bc2f243fb9",
-      "ast_digest": "9af46caa4a4a53d0ec46f67a6aaad83a3e2aaed9f3275617b9d1b2d989128338"
+      "values_digest": "f6b3e3ff1b7f7e3bc579f6aa0730b4e8f31dfc49ee370bab010a6bc3eb02214a",
+      "rendered_digest": "a08828ebb02ff539fbe4b73bb5944c8e0a2c5e8f0729ab9d80a68039b614a43b",
+      "ast_digest": "6d4b254f82fd836b790b4f3c5fb96d719e28962b975a9815b0d1eedfa8ce567c"
     },
     "sor": {
-      "values_digest": "fd2a61811f392d907f3aa023316b21e4ecf28df427b59d92e54dbf878a07d8c2",
+      "values_digest": "e88f6dca34143ad9d245b1ccb513b26c41be2c5432adabba017539ac04df7a42",
       "rendered_digest": "e6bc426a3e016ddc704db7a12092ab2a5ed277c3872e6bb85f170c66fe936029",
       "ast_digest": "4e52757ace5aba472e110bdb42cf9410b323b4cab31b5a8c38ab5e09f7fe0f4e"
     }
@@ -106,6 +120,13 @@
       "to": "implemented",
       "actor": "codex:baseline-ci-real-tooling",
       "reason": "Recover review authority onto the first publication metadata commit so terminal delivery can verify canonical review evidence from an ancestral commit containing the tracked issue index."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:7a81c032-1c4d-4e2f-a6b9-93d8e75f2041",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -171,6 +192,20 @@
       "actor": "codex:baseline-ci-real-tooling",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 5,
+      "actor": "codex:baseline-ci-real-tooling",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 6,
+      "actor": "fresh-session:7a81c032-1c4d-4e2f-a6b9-93d8e75f2041",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
