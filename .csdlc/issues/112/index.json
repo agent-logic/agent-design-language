@@ -4,62 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e5dd2b61815dcd974591a508de1512efe622f095bbcde98e7753ec98bde7c182",
-  "phase": "published",
-  "generation": 80,
-  "digest": "f914761ac899511831eed43ecb45e9221a2c4d39df5c41c34a64ebf57c671d4a",
+  "phase": "implemented",
+  "generation": 81,
+  "digest": "1f25d3d1b29945c2132abd85cc4ab470bd8eb1e22c6e86dca16c2a96a9f0f402",
   "branch": "codex/112-layer8-authority-preparation-v2",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-112-layer8-authority-preparation-v2",
-  "review_assignment": {
-    "reviewer": "fresh-session:aebfc5af-b68c-49d9-a077-ea7689af2180",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:173f87ccc0ab9d2d99b39431deaf80df01c1a527:211cc1447728c0c034ce5e3f808af8b32d92389e78b290bdad6eeadc8ea1c709",
-    "scope": [
-      "adl-runtime-kernel/src/layer8_authority/audit.rs",
-      "adl-runtime-kernel/src/layer8_authority/exchange.rs",
-      "adl-runtime-kernel/src/layer8_authority/identity.rs",
-      "adl-runtime-kernel/src/layer8_authority/mod.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/tests/layer8_authority.rs",
-      ".csdlc/issues/112",
-      ".csdlc/prepared/issues/112",
-      ".csdlc/evidence/112"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:aebfc5af-b68c-49d9-a077-ea7689af2180",
-    "scope": [
-      "adl-runtime-kernel/src/layer8_authority/audit.rs",
-      "adl-runtime-kernel/src/layer8_authority/exchange.rs",
-      "adl-runtime-kernel/src/layer8_authority/identity.rs",
-      "adl-runtime-kernel/src/layer8_authority/mod.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/tests/layer8_authority.rs",
-      ".csdlc/issues/112",
-      ".csdlc/prepared/issues/112",
-      ".csdlc/evidence/112"
-    ],
-    "reviewed_revision": "git-blake3:173f87ccc0ab9d2d99b39431deaf80df01c1a527:211cc1447728c0c034ce5e3f808af8b32d92389e78b290bdad6eeadc8ea1c709",
-    "findings": [],
-    "residual_risks": [
-      "Inspection-only exact-head review; the reviewer did not rerun tests or broad proof. Implementation-session evidence records the focused Layer 8 authority tests, rustfmt check, strict Clippy, and diff hygiene at the reviewed post-main-merge head.",
-      "PASS is limited to #112 / 112.a shared Layer 8 signed authority core and does not approve #265 kernel ingress enforcement, #270 served trusted acknowledgement Runtime API protocol, #271 Observatory UI, #114 durable history/integration, publication, merge, or closeout.",
-      "Retained historical evidence may mention downstream Runtime/API/Observatory surfaces; current issue title, non-goals, and review scope constrain this review to core authority paths."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 112,
-    "pull_request": 334,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/334",
-    "base": "main",
-    "head": "codex/112-layer8-authority-preparation-v2",
-    "revision": "git-blake3:173f87ccc0ab9d2d99b39431deaf80df01c1a527:211cc1447728c0c034ce5e3f808af8b32d92389e78b290bdad6eeadc8ea1c709",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -73,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ac0ef21c5ab0ace2e262d0a81f343bc3d184878e94352f6411be94c7e792ccf9",
+      "values_digest": "0261db1f96b106784cb7bb88e14474e9c16e6c3cec7cfc11c29295b037bce182",
       "rendered_digest": "29522648a94639954dfd3e46bbdf7391eec88d9c65eb37c78c071ddb62f72a95",
       "ast_digest": "b4273aa4e2b5135286cc7d93538f559603309d6b4a88932fbee2b1131e8e2fd1"
     },
     "stp": {
-      "values_digest": "35a1a07b5d84d118b82a8ca7afdbe15d4044406be5a8189a3726c7873a42f387",
+      "values_digest": "e9539dfc849e33015d084d5ed24f8b37c2039c20cb3ffb563e5a1c6daa62928a",
       "rendered_digest": "3563cf3a872eb5ba22491f5d792ca77070a71d6143dbe44aa882a2cb4f624a77",
       "ast_digest": "f4658bafa2919374e52cbebfd72f3e7f7564f92a26a237e669523defa39e02b6"
     },
     "spp": {
-      "values_digest": "56e215599a2ac07ba0951ad8fdb05171d2717c4560949b2d9d6c2626af5ff8af",
+      "values_digest": "342a6eeca2a2713eabe57f8c42a6b05c2c37a3df13467479a307375795148410",
       "rendered_digest": "1feeb01e80193f7d4c898467dcdb788e26b981cd63d118418bff958e383c74f1",
       "ast_digest": "9f8151c4466ffdb6024b2ebb459b2ebbd1c9c3dca126113267527ec109006b14"
     },
     "vpp": {
-      "values_digest": "2477391aa15d572f672b258ce1e92b276bee7848a65adaece58e80c47bf73f71",
+      "values_digest": "51875b24b6a6cda1f7319ecc52e350ae2193f68e19dafa5f53f75c397174b2fb",
       "rendered_digest": "f958b2a97bf3fe647bcb71a2182d49b0410700c6d5f32de5c41795fc1bb8a18d",
       "ast_digest": "2aaa83f4c7517a477ad4df28797069476a90610bea53d15d8d8b565978c70783"
     },
     "srp": {
-      "values_digest": "90c50fabf6ca701f0860c2f1285ea7f2b90c4735ce5cca71f5686577968b8906",
-      "rendered_digest": "6dae1fb9c600b626318ef01b45a135d62f689d685c19c5b45f9170019f4c1e17",
-      "ast_digest": "f19932e9d3c84750467f4be7899d62425cb44018090a57777480942a888c6e56"
+      "values_digest": "9a3226ddddd8894e6b40dff30095e48fa54f6239b1528b69c4d1aa68a4af7cc5",
+      "rendered_digest": "4bfbd89ed61680248b5b32fab4bbe96df1d72d7df384d562080b81540cff09ab",
+      "ast_digest": "dcfc44b366119e0effca087d0b6072242a2b93f3bfa09f5f668bc6f55122b41d"
     },
     "sor": {
-      "values_digest": "5cf03b616984f10d3c81f36165a0e994ededdde5ab2aa43040fd3e4ec5ae6fd9",
-      "rendered_digest": "f1363202e8b3323672ba105ba8e2207d205b728416a817acca49ab577c52559d",
-      "ast_digest": "fe407aa7328ee2a6dcdba4e961bf2a7bc3e01e6ab2805b6de00bf0dfcc077db4"
+      "values_digest": "908f2940c28fb9a9f152332f9da940c3bd3f76cbd2fb242a91ead6fda3ce6306",
+      "rendered_digest": "623f0c93677ffee6289402fecfc7c9478a04abdf7fd775e6498514d54150fea6",
+      "ast_digest": "b659281484e5f44f2468a158138513edc450c0ad5227f292c929cf5bcc070f5b"
     }
   },
   "transitions": [
@@ -152,6 +104,13 @@
       "to": "published",
       "actor": "codex:/root",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover after typed finish blocked with reconciliation_required because review evidence changed after the governed publication metadata commit; require a clean recovery commit, fresh exact review, republication, renewed CI, and guarded finish."
     }
   ],
   "audit": [
@@ -868,6 +827,13 @@
       "actor": "codex:/root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 103,
+      "generation": 81,
+      "actor": "codex:/root",
+      "reason": "Recover after typed finish blocked with reconciliation_required because review evidence changed after the governed publication metadata commit; require a clean recovery commit, fresh exact review, republication, renewed CI, and guarded finish.",
+      "operation": "recover_review"
     }
   ]
 }
