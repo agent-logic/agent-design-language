@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "812e76425072c39de0d33f7240ac7901873d4a425f3b26e754bdda158d7c02ed",
-  "phase": "implemented",
-  "generation": 9,
-  "digest": "f7aecb0b1d827c453e83cfe5a61921eccb4e2443183b71310003f8a5f24b19f0",
+  "phase": "reviewed",
+  "generation": 10,
+  "digest": "c840f3db76368a4cdd515c11d7b411377e693968fd5e83e19e22abd4211aefd6",
   "branch": "codex/300-projection-recovery-integration-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-300-projection-recovery-integration-proof",
   "review_assignment": {
@@ -21,7 +21,23 @@
       ".csdlc/requests/300/replace-sor-bridge-fed-r4.json"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:lovelace-300-bridge-fed-r4",
+    "scope": [
+      "csdlc-v2/tests/projection_recovery_integration.rs",
+      ".csdlc/issues/300",
+      ".csdlc/evidence/300/bridge-fed-r4",
+      ".csdlc/requests/300/recover-review-curie-r3.json",
+      ".csdlc/requests/300/replace-sor-bridge-fed-r4.json"
+    ],
+    "reviewed_revision": "git-blake3:b21078fd31e76ef6ba1e8b4a72be6bca3854f1a0:0099780c89d015c3b7b007ce9bb74ef22751bfa71dfb1bfa5c3c99f85f08a815",
+    "findings": [],
+    "residual_risks": [
+      "Reviewer did not rerun cargo, Clippy, fmt, or diff-check; PASS is based on inspection-only exact-head review of immutable commit b21078fd31e76ef6ba1e8b4a72be6bca3854f1a0 and recorded r4 evidence."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -36,32 +52,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c0cb4ec4aef8a946f1600455de329706cd2e7cfedffe63138b0f418d15c84d41",
+      "values_digest": "d6f0424a42c886febf64b8a7f110c39cc502e6e39126d7d67c651602c6134f4f",
       "rendered_digest": "b003b1d51dd3f4296ef4d8be0536d419fce23991df68d3ae3445937fdb901bfc",
       "ast_digest": "dea7ce3fd1e50f827b7a10dbc279ee19c71112032939c98b713d79c7acd4c982"
     },
     "stp": {
-      "values_digest": "9412d66afea4d33be05de964484078e521d1e4ad7d62f16900149301baf7c112",
+      "values_digest": "dfe9478b9b377af88c276daf63028c286f978cc45a03d0657d8fc92050b8a4b8",
       "rendered_digest": "9c318b641757d4bd27b306ec8864bae2f757a8eec46cbc9cd24384d545113499",
       "ast_digest": "f6bc49a3310d58c810276f43df1e69dc2d772d6083d6cfd61a0d2fe42614be8a"
     },
     "spp": {
-      "values_digest": "eb8bae6bc8f64d1d71568c36cb2fa9aab170c09979ace55446a13d2e018936a4",
+      "values_digest": "14b2f93a54c4e19e1dd446a2f152d8d9985258ed00676689780337edb2c6617f",
       "rendered_digest": "17e42670b0aa901f572e0d422b009f4ef9e5bd8463e2f2b61a45a149164f4db2",
       "ast_digest": "cf94d7413d244fdd54d34005a149163a5c22e668e99ef82213ae2d2058146948"
     },
     "vpp": {
-      "values_digest": "f83277be7b437950a30aeb8dd47ef5d36b887a5b080388f50e856cfbb0c57f2e",
+      "values_digest": "c167391281a0c372d3f24bbb96254734b2cc6cae1b055dbd3075c7e214208b2c",
       "rendered_digest": "ffac1c06684198b62ee6b72a4bda262c0b08d3cd971b68b5dc435b3e77c2e38a",
       "ast_digest": "b4d732c61fe93217e1fa7e266913c6e871b739351895d1446deb4ee19ecdcc43"
     },
     "srp": {
-      "values_digest": "7ed908ea9424b2fe154ac5eff16cb7e979ef0939769504a1e9a09b6638e40858",
-      "rendered_digest": "ee8398862dfc91c4c59909eaef46d6ef91b5ed53b128fe58ad297391582357de",
-      "ast_digest": "af374a8d4c81ba0f856bf6bd0890a37d2881d4f9da452cabe6c3c8c522e6e5fa"
+      "values_digest": "c18efa2c1895ae02cec1faa3e5eb8c74234925b5a843d79b297f54878365f0a6",
+      "rendered_digest": "fa79a5e54b56bdfa497fb6b0fbed52c52344643220a9489b7478e63012672756",
+      "ast_digest": "3787ddc3b4abd45af3a0c4e22672d59a522bcf3aa29923a23292a939e0f16c21"
     },
     "sor": {
-      "values_digest": "ae016f04464cc14c201446cc3e816be366baabfda12e152ad989f160d8c59a74",
+      "values_digest": "8ea0fc07501d6ac6f47f5a7b604e4d8f2832188d3f76ea68e1338a3b61eca11b",
       "rendered_digest": "70ba0d5770050dc101f69e5bc67fef3f0d3ecc2869fdba14fa8418417e3e8a9c",
       "ast_digest": "ddd69795bbd406b4d556c0a6baa9ee471d549682409ee527c88ccd9415d59630"
     }
@@ -87,6 +103,13 @@
       "to": "implemented",
       "actor": "codex:worker-5",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:worker-5",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -187,6 +210,13 @@
       "actor": "codex:worker-5",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:worker-5",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

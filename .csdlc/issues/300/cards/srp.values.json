@@ -7,15 +7,15 @@
     "title": "[v0.92][C-SDLC][297.c][test] Prove projection recovery crash, topology, race, and idempotency behavior",
     "slug": "projection-recovery-integration-proof",
     "version": "v0.92.0",
-    "generation": 9
+    "generation": 10
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "csdlc-v2/tests/projection_recovery_integration.rs\n.csdlc/issues/300\n.csdlc/evidence/300/bridge-fed-r4\n.csdlc/requests/300/recover-review-curie-r3.json\n.csdlc/requests/300/replace-sor-bridge-fed-r4.json",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:b21078fd31e76ef6ba1e8b4a72be6bca3854f1a0:0099780c89d015c3b7b007ce9bb74ef22751bfa71dfb1bfa5c3c99f85f08a815",
+      "reviewer": "fresh-session:lovelace-300-bridge-fed-r4",
       "review_prompts": [
         "Are both prerequisite terminal and ancestry gates exact and fail closed before bind?",
         "Does every production mutation and durability boundary have before/after restart proof?",
@@ -24,8 +24,10 @@
         "Does scope remain one new integration test target plus issue-local records?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Reviewer did not rerun cargo, Clippy, fmt, or diff-check; PASS is based on inspection-only exact-head review of immutable commit b21078fd31e76ef6ba1e8b4a72be6bca3854f1a0 and recorded r4 evidence."
+      ],
+      "review_result": "pass"
     }
   }
 }
