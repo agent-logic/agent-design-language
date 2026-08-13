@@ -5,28 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "5757d863164a5f2f3330a01f212d5f6558c25c177a44f06d9f585657ca692015",
   "phase": "implemented",
-  "generation": 9,
-  "digest": "10c8fc9c8139b11a3af24c5be585ac957e0684904b00cd2372a246181f8c5b62",
+  "generation": 12,
+  "digest": "14ba8c5077165235c8bab8634e2fe800d8a5b18d3e70db19720bd0bb35c41331",
   "branch": "codex/259-governed-transport-authority-adapters",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-259-governed-transport-authority-adapters",
-  "review_assignment": {
-    "reviewer": "/root/review_pr119_canonical_r3",
-    "assigned_by": "codex:/root/issue_259_takeover",
-    "revision": "git-blake3:84d445d2c9d8e228fc022afde156022ca2814a6b:e8da4569017512fc630d855c814c9aa9f0a9da224a454906d6b8df2b76c6848f",
-    "scope": [
-      "adl-runtime/src/distributed/authority_protocol.rs",
-      "adl-runtime/src/distributed/authority_reconciliation.rs",
-      "adl-runtime/src/distributed/transport/core.rs",
-      "adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs",
-      "adl-runtime/src/distributed/transport/governed/polis_runtime.rs",
-      "adl-runtime/tests/distributed_discovery.rs",
-      "adl-runtime/tests/distributed_runtime_transport.rs",
-      "adl-runtime/tests/distributed_transport.rs",
-      ".csdlc/issues/259",
-      ".csdlc/prepared/issues/259",
-      ".csdlc/evidence/259"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -42,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6007c494d29b71c0f62e95b08c06b29dc5c21bf7cf11ed82747a8c65994e4f82",
+      "values_digest": "a44a105aaac49a29ddd55f46d4066e3e630f608d465b82c15f6b9eae6587da97",
       "rendered_digest": "7594d1c6a7de8ae71a823ecc12ba7e49e53cac287bae58e73ebbd5d6db9b77d3",
       "ast_digest": "6f6d940bc50b4c7e362ca5bb3922d26899d98c830176015c4c83c46d12b0795d"
     },
     "stp": {
-      "values_digest": "6f6dff7de816360f4bb982050ef80f6739f6256e4ddbb6c0b6585a545257f766",
+      "values_digest": "98a71a8a85149c6ccaf2bef14bc7cc50c4806db04a556cd4879bdee3eb8a2a77",
       "rendered_digest": "42e69080f3411d71e60b8a2bb12848a40bab16a41dae13b6f6246c80be0566d0",
       "ast_digest": "17de52ff031e2b98805d6569bc40f4c83dcb736c19581340e94b09d100da5dd8"
     },
     "spp": {
-      "values_digest": "48ae256c4703a0c6895c048df14d01668c44318b31ed894ac928d0826e4958f3",
+      "values_digest": "99823a820ff0ddaee837958eef342d9b5f0f929154f8b4cd0f3bde9411aee304",
       "rendered_digest": "c1ca495fdcf0fcac01efeb67f982f9e400defb5c688a8b0f25d5bed931da0a8c",
       "ast_digest": "40788772bab1d16918320cd98d594c953a1a064980acbcec96432f8b6e703606"
     },
     "vpp": {
-      "values_digest": "968903d92b533b5c3a95fbb247fbba74bbb1d0885eb828cbd0fabc4a0689d949",
+      "values_digest": "571e4f5e9a8a576a060d5f79a328e477d3e4f0eeae9c186c761f0f276180c8eb",
       "rendered_digest": "7013adf8d4ede398444821ee404a58835dd236a02440008d4389c233f9af7372",
       "ast_digest": "b352db0068ef3bc7eee400634e00670e48e8f8201aeeb4397228a9ca8b36d540"
     },
     "srp": {
-      "values_digest": "4e5789c009a6b5a4d0b9db606448b6c9be5c26e8fc41bd134fc94e94b08c1e4b",
-      "rendered_digest": "a1a96efc899d961760316b265a57e38c224400f4b0dfd932be7b71a9bcff894d",
-      "ast_digest": "7f635e4711b3d02c817d281986dac8efebf7b4d593ee542f5b94faa3e0dd0773"
+      "values_digest": "64faf65fb288ee7dfd9ca5f277bfe6d55831edc6dd39370ea8352d8f7797b479",
+      "rendered_digest": "ac7c684a5d10345aef9f0a7b09183bfbad02f71ffd8bc2a6b764ad7a6d687c1c",
+      "ast_digest": "cf69e9ea254562112db2a7d3788434ec71feb49e98ad951744fbc75466051a57"
     },
     "sor": {
-      "values_digest": "6002eeec8ddb7c782068a24b5f35a60638e4001539300f26da804e53251a9e1b",
+      "values_digest": "0b39dab36b9b22bf43158e3704878fedf984b3011a29c439277b1838c44450f5",
       "rendered_digest": "f90dbaab2600d60c9c8e29c54047b8359ef717326d3ae2d513dee29ce34dc878",
       "ast_digest": "e8bc7f9de803c552c266bbf874ae9cbae112c3110e8494f4f1140b23dcb47f6a"
     }
@@ -186,6 +169,27 @@
       "actor": "codex:/root/issue_259_takeover",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "/root/review_pr119_canonical_r3",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:/root/issue_259_takeover",
+      "reason": "Recover failed exact review r2 after 259-R2-P2-SRP-CONTRACT; clear stale review truth before typed SRP prompt correction and require a different fresh exact-revision reviewer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:/root/issue_259_takeover",
+      "reason": "Resolve 259-R2-P2-SRP-CONTRACT by restoring the mandatory independent exact-head review contract in the standard SRP.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Review every acceptance criterion AC-1 through AC-5 against the assigned immutable revision, approved design, exact changed scope, and retained typed validation evidence.\",\"Review code correctness and authorization security: production TransportAuthorization and PolisRuntimeAuthorityBootstrap must consume #258 AuthorityBoundCertificateStore; any direct raw-store transport seam must be cfg(test), crate-private, and unavailable to dependent crates; all adapter errors must fail closed.\",\"Review test and evidence sufficiency: dependent integration proof must publish reconciliation authority and obtain its handle through AuthorityStoreAdapterRegistry, focused positive and negative transport behavior must be covered, and retained SOR/VPP evidence must truthfully match execution.\",\"Review scope boundaries: #259 must not absorb #260 non-transport caller migration, #203 parent integration, #205 serving eligibility, or mutate preserved #203 worktrees.\",\"Report findings first in P0 through P3 order with repository-relative file and line evidence, explicitly state review and validation limitations, remain read-only without editing Git, lifecycle, PR, or GitHub state, and return PASS only when no actionable finding remains.\"]}"
     }
   ]
 }
