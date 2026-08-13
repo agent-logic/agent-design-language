@@ -407,7 +407,7 @@ fn dispatch_review_args(args: &[String]) -> Result<()> {
         Some("code-review") => run_review_code_review(&args[1..]),
         Some("card-surface" | "runtime-surface" | "verify-output-provenance") => {
             Err(anyhow::anyhow!(
-                "adl-review command '{}' is not implemented in this compatibility binary. Use the current direct owner binaries; the removed v1 tooling multiplexer is not available.",
+                "adl-review command '{}' is not implemented in this compatibility binary. Use the current direct owner binaries for that review surface.",
                 args[0]
             ))
         }

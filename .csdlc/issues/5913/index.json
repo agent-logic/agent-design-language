@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "6a5a8a2f2350b7ffe3899f5dad5e5b39a2054da2f0c9138ac388b2c93b8ff5e7",
   "phase": "implemented",
-  "generation": 7,
-  "digest": "1dd258425885d34f1929f8e925e8bd6d2ef156169bb2b3c906763595358b5bce",
+  "generation": 10,
+  "digest": "43590f19786734d282711b448ab3f2e926a32ab63db0e00cce32757a2bb2b7ae",
   "branch": "codex/5913-repair-adl-review-compatibility-routing",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5913-adl-review-routing",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7053b0ca8c54a68d2155c3ca19955f2682529e234593b3d7987096cfcbbdc272",
+      "values_digest": "c4dba982703528a260e49d28eb2ee9fb34db2a2b3943a32f2c63a232f26b7de0",
       "rendered_digest": "34e93594d22d0195e945568476646f2084febad9f0f18b2232e969179fa51b19",
       "ast_digest": "8a3784fb1584110103a35108a68d7e983f1c62444d54a010be1ad799cc5b96ee"
     },
     "stp": {
-      "values_digest": "facb22b929a6238a16d424535a46125b192062ba6c63c4ed9b416ca0e6a01fd4",
+      "values_digest": "1264b9f1dcab34683cda15fccbe2f932eeae5aaac8b43a814c871f4d8d85cbe4",
       "rendered_digest": "e61895bbba87ace15a7e53bb5136efc29bc2105ea06c81e503a14e471defed04",
       "ast_digest": "52ae355f59153da999d724c2133a1aa190245ed3cae203677f9876be3df89695"
     },
     "spp": {
-      "values_digest": "c306914343556e532730f07d6354d94610961466a83c40962770535aab34c236",
+      "values_digest": "08fd154f463086ed13268a117306b62c58534caabc1a9eb23e331b68e49ae798",
       "rendered_digest": "5ea449b178e9fa4c571afac0d4731e45b73cd16ad467d4ee392615b957e0108c",
       "ast_digest": "81b8b8e01ed790ee1cf2da35404bb201d22fcccc25fb2186107f8a1c9b629aa5"
     },
     "vpp": {
-      "values_digest": "c1d7693faa9dca59450fdbcaab877ac68fa97109942f99482b954045f03c38c4",
+      "values_digest": "9cf0cb16513f433e92b952ee5a20e0feccb3e8914c50189a8decf55d1e2bc7a1",
       "rendered_digest": "d07e6e27fd8972968faa8dc97c4aa23317033aef1913f1a4818c41e696c66117",
       "ast_digest": "2220360798039c1e52115627c0868afe1bd7f8cd523c639bb8905c068c9c6b86"
     },
     "srp": {
-      "values_digest": "2a8ff5b3fd802f779f2a588d496e4db5e2ba64b6e01cf8e289b6467e8815fe6d",
+      "values_digest": "73f610ca1e5adc676ec97467a307eff29a232e039d264759bd3e1e4057fbd284",
       "rendered_digest": "d08570989652cbecbd0bf33fa1225afc1b96f91c800c8037cc16171f6185d7d9",
       "ast_digest": "ecf0737f581d2dbc15721bcd086c1a9367b52b4f6f9bb1ebc04179c93adbc831"
     },
     "sor": {
-      "values_digest": "ec1edd9eba66551a5f8aca5e15173ae2910549484b061b8cf8eb339441a342db",
-      "rendered_digest": "2d0da690a1ee121da3b77df00c7f13a4ed3b72367aa34df5573c4f763650a0f8",
-      "ast_digest": "5e8e2d4fbf9c361894a13d2b84a1d3cafe73bd54c4d27aa9c1707a1006ff6898"
+      "values_digest": "ecc4e05b9dc89d5805893e2c922c33c2a61ede55f173bcfa27bf425fe7dafe9a",
+      "rendered_digest": "df1c1dd1958fecb3e0d470566e665e23f52e3117ec6c9a2c0420fdc4a34a10d5",
+      "ast_digest": "3f938e4b3986e01f881a406f07a36d4236af98394c8624f8c8460f2ebf99f376"
     }
   },
   "transitions": [
@@ -145,6 +145,34 @@
     {
       "sequence": 10,
       "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Record strict Clippy rerun after resolving exact-review P2 stale help advertising finding.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl-review\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict relevant Rust lint after stale-help finding fix\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5913/review-finding-fix-clippy.log\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Recover #5913 after fresh exact-head review found actionable P2 hidden stale commands still mention removed v1 tooling multiplexer wording.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Record focused compatibility rerun after resolving exact-review P2 stale help advertising finding.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_adl_review_compatibility.sh\"],\"purpose\":\"Focused compatibility regression after stale-help finding fix\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5913/review-finding-fix-compatibility.log\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
       "actor": "codex:/root",
       "reason": "Record strict Clippy rerun after resolving exact-review P2 stale help advertising finding.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl-review\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict relevant Rust lint after stale-help finding fix\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5913/review-finding-fix-clippy.log\"}}"

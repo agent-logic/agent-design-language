@@ -139,13 +139,16 @@ code_review_output="$(run_review code-review --out "$code_review_out" --backend 
 assert_contains "code-review fixture: ok" "$code_review_output" "code-review fixture"
 python3 "$ROOT_DIR/adl/tools/validate_codebuddy_review_showcase_demo.py" "$code_review_out"
 
-set +e
-stale_output="$(run_review card-surface --help 2>&1)"
-stale_status=$?
-set -e
-assert_status_nonzero "$stale_status" "stale hidden review command"
-assert_contains "not implemented in this compatibility binary" "$stale_output" "stale hidden command diagnostic"
-assert_not_contains "v1 tooling multiplexer was removed" "$stale_output" "stale hidden command avoids removed multiplexer"
+for stale_command in card-surface runtime-surface verify-output-provenance; do
+  set +e
+  stale_output="$(run_review "$stale_command" --help 2>&1)"
+  stale_status=$?
+  set -e
+  assert_status_nonzero "$stale_status" "stale hidden review command: $stale_command"
+  assert_contains "not implemented in this compatibility binary" "$stale_output" "stale hidden command diagnostic: $stale_command"
+  assert_not_contains "v1 tooling" "$stale_output" "stale hidden command avoids v1 wording: $stale_command"
+  assert_not_contains "multiplexer" "$stale_output" "stale hidden command avoids multiplexer wording: $stale_command"
+done
 
 set +e
 issue_output="$(run_review pr run 3599 2>&1)"
