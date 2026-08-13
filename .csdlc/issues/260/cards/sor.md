@@ -12,21 +12,20 @@ Status: pre_phase
 
 ## Summary
 
-Migrated the remaining PlacementFencingSnapshot lease/fencing seam to governed adapters, extended the issue guard, and reconciled SPP/VPP execution truth.
+Migrated all declared non-transport Runtime authority callers to governed adapters and retained unambiguous command-bound proof, including the final placement seam.
 
 ## Artifacts
 
-- adl-runtime/src/distributed/placement.rs
+- adl-runtime/src/distributed
 - adl-runtime/tests/distributed_authority_adapter_callers_260.rs
-- .csdlc/issues/260/cards/spp.values.json
-- .csdlc/issues/260/cards/vpp.values.json
+- .csdlc/evidence/260
 
 ## Execution
 
-- Production PlacementFencingSnapshot capture now consumes AuthorityBoundLeaseLedger and AuthorityBoundFencingStore.
-- Adapter failures map fail-closed to inconsistent evidence; raw placement stores remain cfg(test)-only.
-- Issue guard covers placement lease/fencing type aliases and helper routing.
-- SPP steps and VPP lanes now agree with actual implemented validation.
+- Production callers use AuthorityBound certificate, lease, and fencing adapters.
+- Raw store/token seams are cfg(test)-only.
+- Placement capture adapter failures deny closed.
+- SPP/VPP and retained evidence agree with implemented truth.
 
 ## Validation
 
@@ -38,9 +37,9 @@ Migrated the remaining PlacementFencingSnapshot lease/fencing seam to governed a
       "--manifest-path",
       "adl-runtime/Cargo.toml"
     ],
-    "purpose": "Compile production Runtime caller migrations.",
+    "purpose": "Compile production Runtime caller migrations; SHA256 02fd4914b45cb8a562d4256938704a3729cbdb794ff85e216ac2a0d13ed06d82.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/260/runtime-lib-clippy.log"
+    "evidence_ref": ".csdlc/evidence/260/cargo-check-r2.log"
   },
   {
     "command": [
@@ -68,9 +67,9 @@ Migrated the remaining PlacementFencingSnapshot lease/fencing seam to governed a
       "--",
       "--test-threads=1"
     ],
-    "purpose": "Prove placement behavior after governed capture migration.",
+    "purpose": "Prove placement behavior; SHA256 3aec3a55871f8f01acbd38706e32a678289716c0375ed251701739bb3177e601.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/260/authority-adapter-callers-260.log"
+    "evidence_ref": ".csdlc/evidence/260/distributed-placement-r2.log"
   },
   {
     "command": [
@@ -83,7 +82,7 @@ Migrated the remaining PlacementFencingSnapshot lease/fencing seam to governed a
       "--",
       "--test-threads=1"
     ],
-    "purpose": "Prove migration retry and transition behavior.",
+    "purpose": "Prove migration transitions.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/260/migration-recovery.log"
   },
@@ -98,7 +97,7 @@ Migrated the remaining PlacementFencingSnapshot lease/fencing seam to governed a
       "--",
       "--test-threads=1"
     ],
-    "purpose": "Prove recovery retry and fail-closed behavior.",
+    "purpose": "Prove recovery transitions.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/260/migration-recovery.log"
   },
