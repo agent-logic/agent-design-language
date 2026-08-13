@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented Layer 8 authority enforcement at Runtime kernel conversation ingress.
+Implemented Layer 8 authority enforcement at Runtime kernel conversation ingress, including production startup profile loading and focused Contact plus Continue pre-side-effect refusal/authorization proof. Publication, CI, and terminal closeout remain pending fresh exact review.
 
 ## Artifacts
 
@@ -20,47 +20,29 @@ Implemented Layer 8 authority enforcement at Runtime kernel conversation ingress
 - adl-runtime-kernel/src/bin/adl-runtime-kernel.rs
 - .csdlc/prepared/issues/265/validate_preparation_bundle.py
 - .csdlc/prepared/issues/265/readiness-packet.md
-- .csdlc/evidence/265
+- .csdlc/evidence/265/runtime-kernel-layer8-ingress-focused.log
+- .csdlc/evidence/265/runtime-kernel-fmt.log
+- .csdlc/evidence/265/runtime-kernel-strict-clippy.log
+- .csdlc/evidence/265/diff-hygiene.log
+- .csdlc/evidence/265/issue-265-preparation-validator.log
 
 ## Execution
 
 - Added a ControlService Layer 8 authority gate that signs and verifies ingress requests, authorizes Contact and Continue actions, and refuses unauthorized requests before conversation session or turn side effects.
 - Added production runtime startup wiring for optional Layer 8 authority/signing profiles, including sender key-byte identity binding, recipient Polis validation, and fail-closed incomplete or invalid configuration.
-- Added focused runtime-kernel regressions proving refused ingress leaves no conversation session and authorized ingress proceeds to dispatch.
+- Added focused runtime-kernel regressions proving refused Contact leaves no conversation session, authorized Contact proceeds to dispatch, refused Continue leaves no continuation turn, and authorized Continue proceeds to dispatch.
 
 ## Validation
 
 [
   {
     "command": [
-      "git",
-      "diff",
-      "--check"
-    ],
-    "purpose": "Run git diff hygiene check.",
-    "outcome": "passed",
-    "evidence_ref": "diff-hygiene.log"
-  },
-  {
-    "command": [
       "python3",
       ".csdlc/prepared/issues/265/validate_preparation_bundle.py"
     ],
-    "purpose": "Run the issue-owned preparation validator after #112 terminal cache is present.",
+    "purpose": "Verify the refreshed #265 preparation packet recognizes #112 terminal ancestry and preserves child-scope boundaries.",
     "outcome": "passed",
-    "evidence_ref": "issue-265-preparation-validator.log"
-  },
-  {
-    "command": [
-      "cargo",
-      "fmt",
-      "--manifest-path",
-      "adl-runtime-kernel/Cargo.toml",
-      "--check"
-    ],
-    "purpose": "Run rustfmt check for adl-runtime-kernel.",
-    "outcome": "passed",
-    "evidence_ref": "runtime-kernel-fmt.log"
+    "evidence_ref": ".csdlc/evidence/265/issue-265-preparation-validator.log"
   },
   {
     "command": [
@@ -73,9 +55,21 @@ Implemented Layer 8 authority enforcement at Runtime kernel conversation ingress
       "--",
       "--nocapture"
     ],
-    "purpose": "Run the focused #265 runtime kernel ingress regressions.",
+    "purpose": "Prove Contact and Continue Layer 8 ingress authorization/refusal before session or turn side effects.",
     "outcome": "passed",
-    "evidence_ref": "runtime-kernel-layer8-ingress-focused.log"
+    "evidence_ref": ".csdlc/evidence/265/runtime-kernel-layer8-ingress-focused.log; 4 passed, 0 failed"
+  },
+  {
+    "command": [
+      "cargo",
+      "fmt",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--check"
+    ],
+    "purpose": "Reject Rust formatting drift in the touched runtime kernel crate.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/265/runtime-kernel-fmt.log"
   },
   {
     "command": [
@@ -88,15 +82,25 @@ Implemented Layer 8 authority enforcement at Runtime kernel conversation ingress
       "-D",
       "warnings"
     ],
-    "purpose": "Run strict Clippy for adl-runtime-kernel.",
+    "purpose": "Reject warning regressions across runtime kernel targets after production startup wiring.",
     "outcome": "passed",
-    "evidence_ref": "runtime-kernel-strict-clippy.log"
+    "evidence_ref": ".csdlc/evidence/265/runtime-kernel-strict-clippy.log"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Reject whitespace and conflict-marker residue in the issue diff.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/265/diff-hygiene.log"
   }
 ]
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

@@ -3259,7 +3259,7 @@ mod layer8_conversation_ingress_tests {
         exchange: Layer8SignedExchange,
     }
 
-    fn layer8_fixture(allowed_recipient: &str) -> Layer8Fixture {
+    fn layer8_fixture(contact_recipient: &str, continue_recipient: &str) -> Layer8Fixture {
         let temp_root = Path::new(env!("CARGO_MANIFEST_DIR"))
             .join(".adl")
             .join("tmp");
@@ -3281,37 +3281,60 @@ mod layer8_conversation_ingress_tests {
             revoked: false,
             authenticated: true,
         };
-        let scope = AuthorityScope {
+        let scope = |action, recipient: &str| AuthorityScope {
             polis_id: "conversation-runtime".to_owned(),
-            action: Layer8Action::Contact,
+            action,
             conversation_id: None,
-            recipients: BTreeSet::from([allowed_recipient.to_owned()]),
+            recipients: BTreeSet::from([recipient.to_owned()]),
             attachment_id: None,
         };
+        let contact_scope = scope(Layer8Action::Contact, contact_recipient);
+        let continue_scope = scope(Layer8Action::Continue, continue_recipient);
+        let capabilities = [
+            ("contact-capability", contact_scope.clone()),
+            ("continue-capability", continue_scope.clone()),
+        ]
+        .into_iter()
+        .map(|(capability_id, scope)| Layer8Capability {
+            capability_id: capability_id.to_owned(),
+            principal_id: evidence.principal_id.clone(),
+            scope,
+            epoch: 1,
+            expires_at_epoch_secs: u64::MAX,
+            revoked: false,
+        })
+        .collect();
+        let agent_policies = [
+            ("agent-contact-policy", contact_scope.clone()),
+            ("agent-continue-policy", continue_scope.clone()),
+        ]
+        .into_iter()
+        .map(|(policy_id, scope)| Layer8Policy {
+            policy_id: policy_id.to_owned(),
+            available: true,
+            scope,
+            epoch: 1,
+        })
+        .collect();
+        let polis_policies = [
+            ("polis-contact-policy", contact_scope),
+            ("polis-continue-policy", continue_scope),
+        ]
+        .into_iter()
+        .map(|(policy_id, scope)| Layer8Policy {
+            policy_id: policy_id.to_owned(),
+            available: true,
+            scope,
+            epoch: 1,
+        })
+        .collect();
         let authority = Layer8ConversationAuthority::new(
             Layer8AuthorityStore::open(root.path().join("audit.jsonl")).expect("open audit"),
             ConversationAuthorityProfile {
                 evidence: evidence.clone(),
-                capabilities: vec![Layer8Capability {
-                    capability_id: "contact-capability".to_owned(),
-                    principal_id: evidence.principal_id.clone(),
-                    scope: scope.clone(),
-                    epoch: 1,
-                    expires_at_epoch_secs: u64::MAX,
-                    revoked: false,
-                }],
-                agent_policies: vec![Layer8Policy {
-                    policy_id: "agent-contact-policy".to_owned(),
-                    available: true,
-                    scope: scope.clone(),
-                    epoch: 1,
-                }],
-                polis_policies: vec![Layer8Policy {
-                    policy_id: "polis-contact-policy".to_owned(),
-                    available: true,
-                    scope,
-                    epoch: 1,
-                }],
+                capabilities,
+                agent_policies,
+                polis_policies,
             },
         )
         .expect("authority profile is valid");
@@ -3345,7 +3368,8 @@ mod layer8_conversation_ingress_tests {
     }
 
     fn service_with_layer8(
-        allowed_recipient: &str,
+        contact_recipient: &str,
+        continue_recipient: &str,
     ) -> (ControlService<FakeLifecycle>, tempfile::TempDir) {
         let recorder = RuntimeRecorder::new(16);
         let now = now_unix_millis();
@@ -3357,7 +3381,7 @@ mod layer8_conversation_ingress_tests {
             "1111111111111111111111111111111111111111",
         ));
         let ingress = CanonicalIngress::new(4, recorder.clone(), BTreeMap::new());
-        let fixture = layer8_fixture(allowed_recipient);
+        let fixture = layer8_fixture(contact_recipient, continue_recipient);
         let service = ControlService::new_with_observatory_config_and_agents(
             "conversation-runtime",
             recorder,
@@ -3384,9 +3408,17 @@ mod layer8_conversation_ingress_tests {
         }
     }
 
+    fn continue_intent(turn_id: &str) -> ObservatoryConversationIntent {
+        ObservatoryConversationIntent {
+            turn_id: turn_id.to_owned(),
+            message: format!("Continue with {turn_id}"),
+            ..intent()
+        }
+    }
+
     #[test]
     fn layer8_ingress_refuses_before_conversation_side_effects() {
-        let (service, _root) = service_with_layer8("agent-other");
+        let (service, _root) = service_with_layer8("agent-other", "agent-other");
         let response = match service.accept_conversation_intent(&intent()) {
             ConversationAcceptance::Response(response) => response,
             ConversationAcceptance::Dispatch { .. } => {
@@ -3408,7 +3440,7 @@ mod layer8_conversation_ingress_tests {
 
     #[test]
     fn layer8_ingress_authorizes_before_dispatch() {
-        let (service, _root) = service_with_layer8("shepherd");
+        let (service, _root) = service_with_layer8("shepherd", "shepherd");
         let accepted = match service.accept_conversation_intent(&intent()) {
             ConversationAcceptance::Dispatch { accepted, .. } => accepted,
             ConversationAcceptance::Response(response) => {
@@ -3427,6 +3459,73 @@ mod layer8_conversation_ingress_tests {
             1,
             "authorized ingress may create the session after authority grants"
         );
+    }
+
+    #[test]
+    fn layer8_ingress_continue_refuses_before_turn_side_effects() {
+        let (service, _root) = service_with_layer8("shepherd", "agent-other");
+        match service.accept_conversation_intent(&intent()) {
+            ConversationAcceptance::Dispatch { .. } => {}
+            ConversationAcceptance::Response(response) => {
+                panic!("initial contact was refused: {:?}", response.error)
+            }
+        }
+
+        let response = match service.accept_conversation_intent(&continue_intent("turn-continue")) {
+            ConversationAcceptance::Response(response) => response,
+            ConversationAcceptance::Dispatch { .. } => {
+                panic!("unauthorized continue dispatched")
+            }
+        };
+        assert_eq!(response.status, "refused");
+        assert_eq!(response.error, Some("conversation_authority_refused"));
+        let sessions = service
+            .conversation_sessions
+            .lock()
+            .expect("conversation sessions mutex poisoned");
+        let session = sessions
+            .sessions
+            .get("conversation-layer8")
+            .expect("initial authorized contact created a session");
+        assert_eq!(session.turns.len(), 1);
+        assert!(
+            !session.turns.contains_key("turn-continue"),
+            "authority refusal must happen before adding a continuation turn"
+        );
+    }
+
+    #[test]
+    fn layer8_ingress_continue_authorizes_before_dispatch() {
+        let (service, _root) = service_with_layer8("shepherd", "shepherd");
+        match service.accept_conversation_intent(&intent()) {
+            ConversationAcceptance::Dispatch { .. } => {}
+            ConversationAcceptance::Response(response) => {
+                panic!("initial contact was refused: {:?}", response.error)
+            }
+        }
+
+        let accepted = match service.accept_conversation_intent(&continue_intent("turn-continue")) {
+            ConversationAcceptance::Dispatch { accepted, .. } => accepted,
+            ConversationAcceptance::Response(response) => {
+                panic!("authorized continue was refused: {:?}", response.error)
+            }
+        };
+        assert_eq!(accepted.status, "accepted");
+        assert_eq!(accepted.error, None);
+        let sessions = service
+            .conversation_sessions
+            .lock()
+            .expect("conversation sessions mutex poisoned");
+        let session = sessions
+            .sessions
+            .get("conversation-layer8")
+            .expect("initial authorized contact created a session");
+        assert_eq!(
+            session.turns.len(),
+            2,
+            "authorized continuation may add the turn after authority grants"
+        );
+        assert!(session.turns.contains_key("turn-continue"));
     }
 }
 

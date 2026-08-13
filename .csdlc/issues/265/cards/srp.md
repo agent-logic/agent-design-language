@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Fresh design/card review of #265 bootstrap packet only; no implementation review.
+
 
 ## Prompts
 

@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e22c0e4d480dd4033be54d636a9a42309d6effd0bb2cbb54cb459ddd484dce70",
   "phase": "implemented",
-  "generation": 7,
-  "digest": "0183dce86ad53109c89a2daa81a268e3b024caafebfb62ac4bf2b7283286d3b4",
+  "generation": 9,
+  "digest": "f30b751ba70a2617d7f3925669cd00dbbb413391639412ae832736477aaced3f",
   "branch": "codex/265-layer8-authority-runtime-kernel-ingress",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-265-layer8-authority-runtime-kernel-ingress",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4afc01eb8a047c544255fb3a7781d22dbc00782273c056a9ec72f5280d206769",
+      "values_digest": "cb3f7d861f6f9a162c4fd7bb31c6c918ff481684d864a7d4b1fd74c1203bd380",
       "rendered_digest": "b4eef5b02d8df51b903ad11bb281b274d2870914f3a98cace7534fcf5d0c880e",
       "ast_digest": "a95d3c1c41e55446729bb7ff25831e8e33ecddb56c236605e5b3184284b232cf"
     },
     "stp": {
-      "values_digest": "464536397fd01ba4e898cc735c694949e528310e3dad07cbabf9afd2273a6172",
+      "values_digest": "e8be2972e5351d907a76005a69e1b6d3c00c17d60489db7062b5e5408623fc2c",
       "rendered_digest": "211810adbdec22ba0047d396689c432dd149b1e278cf976d55834ce93d5096e0",
       "ast_digest": "af7eb44b42d4b41057a016105fec3733c1c0bf3bde8a3a0aa667bce4003d9983"
     },
     "spp": {
-      "values_digest": "b0d2a616d4ab6774fb331c2feb6eb6e419d425218ec7df5109774131367aa672",
+      "values_digest": "aa1f2be6fbd843e888783fdd95f2c96fbc10ff6d03c90e254f2626c0e0efe5de",
       "rendered_digest": "74b8a46b994111be6ee3d74c9a8160b34283ecb1ff5fa4a0bb2df4d2b728fa04",
       "ast_digest": "e3a2e8bbeee331558b61fe6b3362c3195dd514df96a9c0f3bade8ec6c5b5377f"
     },
     "vpp": {
-      "values_digest": "80ff5c3cd5002b422bbbf4b5c3cf7830019aae837030c06e4f93c1ce33b4db9e",
+      "values_digest": "3d8e7e1dcaae589bad5753bdb51a6cae6d4f0918527a8c3a383f08d7c12e4cdd",
       "rendered_digest": "a208e2653f4aa2586314737ad3841bd9fcaadc23cd91e4623a54eebcb9a0eebc",
       "ast_digest": "c9335c59565ae913345ce26c760c37db4d666cb79368cfa35311df38aa53e45c"
     },
     "srp": {
-      "values_digest": "12fa23b2bfa646f37d7df32c72ba6d5e783f733328ea951a3e50f1b965b66b67",
-      "rendered_digest": "33f3876bd7b639e361cbd2d70467fc562cd9833e0c5d272eea69964c9e3c04be",
-      "ast_digest": "dc2210f06f5aa39916a9eda5f9afa20b08667dd5d4fe0de84f477f4cde92c38c"
+      "values_digest": "29004e3dac0b3ba4ee13fa2e28b399a45730e6f5711316932208244b572b606f",
+      "rendered_digest": "ce4c6829724d15c150f209667486db46875c9bee69f10155a70fb472b780e58d",
+      "ast_digest": "7265c9f0bfa1e6eacd5a1e071f445f17193f7c37a96f9994c3a42e9c1aadd0d8"
     },
     "sor": {
-      "values_digest": "abe25235fa0f5fda837635c9de4559fc89c9575a59538c0840e7357976dd263b",
-      "rendered_digest": "ed3314455b8b3e3672111e771db09be248e2ffeaf51d23f1c2623a1dbbb062e8",
-      "ast_digest": "7bd25285aa773f046fe923fb44f3f4388938c32842fd37fe606d739378e04a4c"
+      "values_digest": "b1faccce08b11492d39ef357a32a77d47c1db96e5cd36cb8e9ae188572492996",
+      "rendered_digest": "6beba88d4335051da4ea0c3c6b147a843147c52740057d21186dc444728fdf82",
+      "ast_digest": "9104d7c521fcbae0e0119893d93531118620392aaad7bae4835574f9a0fb4c27"
     }
   },
   "transitions": [
@@ -141,6 +141,27 @@
       "actor": "codex:/root",
       "reason": "Restore the issue-owned preparation validator as an executable #265 VPP lane so implemented-phase doctor has a concrete issue-specific denominator.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-265-preparation-validator\",\"proof_role\":\"Verify the refreshed #265 preparation packet recognizes #112 terminal ancestry and preserves child-scope boundaries.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"python3\",\".csdlc/prepared/issues/265/validate_preparation_bundle.py\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"runtime-kernel-layer8-ingress-focused\",\"proof_role\":\"Prove configured Layer 8 conversation ingress refuses unauthorized requests before session/turn mutation and still authorizes allowed requests before dispatch.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"layer8_ingress\",\"--\",\"--nocapture\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"runtime-kernel-fmt\",\"proof_role\":\"Verify Rust formatting for the #265 Runtime kernel ingress diff.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"runtime-kernel-strict-clippy\",\"proof_role\":\"Verify strict warning-free Runtime kernel crate and tests after the #265 ingress gate.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Verify no conflict markers or whitespace errors in the #265 diff.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":300,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Recover #265 after fresh exact review FAIL from fresh-session:db047b00-eebc-4d8d-852f-41f2d95ee6c5; remediate missing Continue ingress proof before reassignment.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Record #265 post-review remediation proof for Continue ingress enforcement after fresh-session:db047b00 P2.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented Layer 8 authority enforcement at Runtime kernel conversation ingress, including production startup profile loading and focused Contact plus Continue pre-side-effect refusal/authorization proof. Publication, CI, and terminal closeout remain pending fresh exact review.\",\"changes\":[\"Added a ControlService Layer 8 authority gate that signs and verifies ingress requests, authorizes Contact and Continue actions, and refuses unauthorized requests before conversation session or turn side effects.\",\"Added production runtime startup wiring for optional Layer 8 authority/signing profiles, including sender key-byte identity binding, recipient Polis validation, and fail-closed incomplete or invalid configuration.\",\"Added focused runtime-kernel regressions proving refused Contact leaves no conversation session, authorized Contact proceeds to dispatch, refused Continue leaves no continuation turn, and authorized Continue proceeds to dispatch.\"],\"artifacts\":[\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/bin/adl-runtime-kernel.rs\",\".csdlc/prepared/issues/265/validate_preparation_bundle.py\",\".csdlc/prepared/issues/265/readiness-packet.md\",\".csdlc/evidence/265/runtime-kernel-layer8-ingress-focused.log\",\".csdlc/evidence/265/runtime-kernel-fmt.log\",\".csdlc/evidence/265/runtime-kernel-strict-clippy.log\",\".csdlc/evidence/265/diff-hygiene.log\",\".csdlc/evidence/265/issue-265-preparation-validator.log\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/265/validate_preparation_bundle.py\"],\"purpose\":\"Verify the refreshed #265 preparation packet recognizes #112 terminal ancestry and preserves child-scope boundaries.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/265/issue-265-preparation-validator.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"layer8_ingress\",\"--\",\"--nocapture\"],\"purpose\":\"Prove Contact and Continue Layer 8 ingress authorization/refusal before session or turn side effects.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/265/runtime-kernel-layer8-ingress-focused.log; 4 passed, 0 failed\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--check\"],\"purpose\":\"Reject Rust formatting drift in the touched runtime kernel crate.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/265/runtime-kernel-fmt.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warning regressions across runtime kernel targets after production startup wiring.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/265/runtime-kernel-strict-clippy.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and conflict-marker residue in the issue diff.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/265/diff-hygiene.log\"}]}"
     }
   ]
 }
