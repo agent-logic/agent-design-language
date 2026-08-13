@@ -1,0 +1,8 @@
+flowchart LR
+  A["Committed quorum intent"] --> B["Replicated verified operation"]
+  B --> C["Durable published authority with deadline"]
+  D["Verified #272 serving cut"] --> E["Sealed cross-binding validator"]
+  C --> E
+  E --> F["Unconstructible Observatory authority projection"]
+  F --> G["Future #274 consumer"]
+  X["Caller fields or mismatched authority"] --> Y["Fail closed"]

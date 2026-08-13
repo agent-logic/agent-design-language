@@ -29,6 +29,7 @@ const INTENT_DOMAIN: &[u8] = b"ADL-COMMITTED-AUTHORITY-INTENT-V1\0";
 const ENDORSEMENT_DOMAIN: &[u8] = b"ADL-COMMITTED-AUTHORITY-ENDORSEMENT-V1\0";
 const REPLICATED_ENDORSEMENT_DOMAIN: &[u8] = b"ADL-COMMITTED-AUTHORITY-REPLICATED-ENDORSEMENT-V1\0";
 const CONFIGURATION_DOMAIN: &[u8] = b"ADL-COMMITTED-AUTHORITY-CONFIGURATION-V1\0";
+const QUORUM_CONFIG_DOMAIN: &[u8] = b"ADL-SEALED-QUORUM-CONFIG-V1\0";
 const MAX_IDENTITY_BYTES: usize = 128;
 const MAX_ARTIFACT_BYTES: usize = 1024 * 1024;
 const MAX_PUBLISHED_OPERATIONS: usize = 4096;
@@ -108,6 +109,7 @@ pub enum AuthorityOperationKind {
     Reconciliation,
     ExistingStore,
     ContinuityTransfer,
+    ObservatoryServing,
 }
 
 impl AuthorityOperationKind {
@@ -117,6 +119,7 @@ impl AuthorityOperationKind {
             Self::Reconciliation => "adl.authority-artifact.reconciliation.v1",
             Self::ExistingStore => "adl.authority-artifact.existing-store.v1",
             Self::ContinuityTransfer => "adl.authority-artifact.continuity-transfer.v1",
+            Self::ObservatoryServing => "adl.observatory-serving-authority-binding.v1",
         }
     }
 
@@ -126,6 +129,7 @@ impl AuthorityOperationKind {
             Self::Reconciliation,
             Self::ExistingStore,
             Self::ContinuityTransfer,
+            Self::ObservatoryServing,
         ]
         .into_iter()
         .find(|kind| kind.artifact_domain() == domain)
@@ -193,6 +197,11 @@ impl CommittedAuthorityArtifact {
             AuthorityOperationKind::ContinuityTransfer,
             serde_jcs::to_vec(grant).map_err(|_| AuthorityProtocolError::Serialization)?,
         )
+    }
+
+    #[cfg(feature = "internal-test-fixtures")]
+    pub fn observatory_serving_fixture(bytes: Vec<u8>) -> AuthorityProtocolResult<Self> {
+        Self::new(AuthorityOperationKind::ObservatoryServing, bytes)
     }
 }
 
@@ -594,7 +603,7 @@ impl FinalizeAuthorityIntent {
             operation_id: intent.operation_id.clone(),
             intent_sha256: intent.digest()?,
             finalize_log_index,
-            finalization_time,
+            finalization_time: finalization_time.clone(),
             endorsements,
         })
     }
@@ -869,7 +878,35 @@ pub struct VerifiedAuthorityOperation {
     finalization_time: CanonicalAuthorityTime,
     artifact: CommittedAuthorityArtifact,
     signer_guardian_ids: BTreeSet<Vec<u8>>,
+    signer_eligibility: Vec<QuorumEligibilityEntry>,
+    inclusive_deadline: CanonicalAuthorityTime,
+    quorum_basis: Option<QuorumBasisSnapshot>,
     source: AuthorityVerificationSource,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct QuorumEligibilityEntry {
+    guardian_id: Vec<u8>,
+    certificate_generation: u64,
+    boot_generation: u64,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct QuorumConfigurationSnapshot {
+    entries: Vec<QuorumEligibilityEntry>,
+    threshold: usize,
+    digest: [u8; 32],
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct QuorumBasisSnapshot {
+    configuration_sha256: [u8; 32],
+    voter_set_generation: u64,
+    committed_membership_log_index: u64,
+    configurations: Vec<QuorumConfigurationSnapshot>,
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -937,6 +974,20 @@ pub(crate) struct ReconciliationTokenProjection {
     pub(crate) signer_count: usize,
 }
 
+pub(crate) struct ObservatoryAuthoritySourceProjection<'a> {
+    pub(crate) trust_domain: &'a str,
+    pub(crate) polis_id: &'a str,
+    pub(crate) operation_id: &'a str,
+    pub(crate) committed_log_index: u64,
+    pub(crate) result_sha256: [u8; 32],
+    pub(crate) artifact_bytes: &'a [u8],
+    pub(crate) artifact_sha256: [u8; 32],
+    pub(crate) signer_set_sha256: [u8; 32],
+    pub(crate) signer_count: usize,
+    pub(crate) inclusive_deadline: &'a CanonicalAuthorityTime,
+    pub(crate) finalization_time: &'a CanonicalAuthorityTime,
+}
+
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 struct DurablePublishedAuthorityResult {
@@ -948,6 +999,9 @@ struct DurablePublishedAuthorityResult {
     finalization_time: CanonicalAuthorityTime,
     artifact: CommittedAuthorityArtifact,
     signer_guardian_ids: BTreeSet<Vec<u8>>,
+    signer_eligibility: Vec<QuorumEligibilityEntry>,
+    inclusive_deadline: CanonicalAuthorityTime,
+    quorum_basis: QuorumBasisSnapshot,
 }
 
 impl DurablePublishedAuthorityResult {
@@ -959,6 +1013,9 @@ impl DurablePublishedAuthorityResult {
             finalization_time: self.finalization_time.clone(),
             artifact: self.artifact.clone(),
             signer_guardian_ids: self.signer_guardian_ids.clone(),
+            signer_eligibility: self.signer_eligibility.clone(),
+            inclusive_deadline: self.inclusive_deadline.clone(),
+            quorum_basis: Some(self.quorum_basis.clone()),
             source: AuthorityVerificationSource::ReplicatedApply,
         }
     }
@@ -1025,6 +1082,68 @@ impl PublishedAuthorityResult {
             signer_count: self.operation.signer_guardian_ids.len(),
         })
     }
+
+    pub(crate) fn observatory_projection(
+        &self,
+    ) -> AuthorityProtocolResult<ObservatoryAuthoritySourceProjection<'_>> {
+        if self.operation.source != AuthorityVerificationSource::ReplicatedApply
+            || self.operation.artifact.domain
+                != AuthorityOperationKind::ObservatoryServing.artifact_domain()
+        {
+            return Err(AuthorityProtocolError::InvalidIntent);
+        }
+        validate_quorum_basis(
+            self.operation
+                .quorum_basis
+                .as_ref()
+                .ok_or(AuthorityProtocolError::InvalidMembership)?,
+            &self.operation.signer_eligibility,
+            true,
+        )?;
+        if self.operation.finalization_time.order_key()
+            > self.operation.inclusive_deadline.order_key()
+        {
+            return Err(AuthorityProtocolError::InvalidIntent);
+        }
+        Ok(ObservatoryAuthoritySourceProjection {
+            trust_domain: &self.identity.trust_domain,
+            polis_id: &self.identity.polis_id,
+            operation_id: &self.operation_id,
+            committed_log_index: self.committed_log_index,
+            result_sha256: self.result_sha256,
+            artifact_bytes: &self.operation.artifact.bytes,
+            artifact_sha256: self.operation.artifact.sha256,
+            signer_set_sha256: canonical_domain_digest(
+                b"ADL-COMMITTED-AUTHORITY-SIGNER-SET-V1\0",
+                &self.operation.signer_eligibility,
+            )?,
+            signer_count: self.operation.signer_eligibility.len(),
+            inclusive_deadline: &self.operation.inclusive_deadline,
+            finalization_time: &self.operation.finalization_time,
+        })
+    }
+}
+
+#[cfg(feature = "internal-test-fixtures")]
+pub fn test_observatory_published_authority(bytes: Vec<u8>) -> PublishedAuthorityResult {
+    test_published_reconciliation_token(
+        AuthorityNodeIdentity {
+            trust_domain: "trust-domain".into(),
+            polis_id: "polis".into(),
+            node_id: "node".into(),
+            guardian_id: "guardian".into(),
+            boot_generation: 1,
+        },
+        "operation",
+        CommittedAuthorityArtifact::observatory_serving_fixture(bytes)
+            .expect("observatory fixture artifact"),
+        2,
+        CanonicalAuthorityTime {
+            unix_seconds: 1_700_000_000,
+            nanos: 0,
+            uncertainty_millis: 1,
+        },
+    )
 }
 
 #[cfg(any(test, feature = "internal-test-fixtures"))]
@@ -1035,6 +1154,26 @@ pub(crate) fn test_published_reconciliation_token(
     committed_log_index: u64,
     finalization_time: CanonicalAuthorityTime,
 ) -> PublishedAuthorityResult {
+    let signer_eligibility = vec![QuorumEligibilityEntry {
+        guardian_id: b"test-guardian-a".to_vec(),
+        certificate_generation: 1,
+        boot_generation: 1,
+    }];
+    let entries = signer_eligibility.clone();
+    let threshold = 1;
+    let configuration_entries = vec![vec![b"test-guardian-a".to_vec()]];
+    let quorum_basis = QuorumBasisSnapshot {
+        configuration_sha256: canonical_domain_digest(CONFIGURATION_DOMAIN, &configuration_entries)
+            .expect("fixture configuration digest"),
+        voter_set_generation: 1,
+        committed_membership_log_index: 1,
+        configurations: vec![QuorumConfigurationSnapshot {
+            digest: canonical_domain_digest(QUORUM_CONFIG_DOMAIN, &(threshold, &entries))
+                .expect("fixture digest"),
+            entries,
+            threshold,
+        }],
+    };
     let intent_sha256: [u8; 32] = Sha256::digest(
         [
             b"ADL-TEST-PUBLISHED-RECONCILIATION-TOKEN-V1\0".as_slice(),
@@ -1059,9 +1198,16 @@ pub(crate) fn test_published_reconciliation_token(
             operation_id: operation_id.to_owned(),
             intent_sha256,
             committed_log_index,
-            finalization_time,
+            finalization_time: finalization_time.clone(),
             artifact,
             signer_guardian_ids: BTreeSet::from([b"test-guardian-a".to_vec()]),
+            signer_eligibility,
+            inclusive_deadline: CanonicalAuthorityTime {
+                unix_seconds: finalization_time.unix_seconds + 60,
+                nanos: finalization_time.nanos,
+                uncertainty_millis: finalization_time.uncertainty_millis,
+            },
+            quorum_basis: Some(quorum_basis),
             source: AuthorityVerificationSource::ReplicatedApply,
         },
         identity,
@@ -1241,6 +1387,10 @@ impl DurableAuthorityProtocol {
         if self.envelope.payload().published.len() >= self.capacity {
             return Err(AuthorityProtocolError::CapacityExceeded);
         }
+        let quorum_basis = verified
+            .quorum_basis
+            .clone()
+            .ok_or(AuthorityProtocolError::InvalidMembership)?;
         let result_sha256 = result_digest(&verified, verified.committed_log_index)?;
         let mut result = DurablePublishedAuthorityResult {
             operation_id: intent.operation_id.clone(),
@@ -1251,6 +1401,9 @@ impl DurableAuthorityProtocol {
             finalization_time: verified.finalization_time.clone(),
             artifact: verified.artifact.clone(),
             signer_guardian_ids: verified.signer_guardian_ids.clone(),
+            signer_eligibility: verified.signer_eligibility.clone(),
+            inclusive_deadline: verified.inclusive_deadline.clone(),
+            quorum_basis,
         };
         result.retry_sha256 = retry_digest(&result)?;
         let mut next = self.envelope.payload().clone();
@@ -1280,6 +1433,18 @@ fn validate_protocol_state(state: &AuthorityProtocolState) -> AuthorityProtocolR
             .validate(AuthorityOperationKind::from_artifact_domain(
                 &durable.artifact.domain,
             )?)?;
+        durable.inclusive_deadline.validate()?;
+        if durable.finalization_time.order_key() > durable.inclusive_deadline.order_key()
+            || durable.signer_guardian_ids
+                != durable
+                    .signer_eligibility
+                    .iter()
+                    .map(|entry| entry.guardian_id.clone())
+                    .collect()
+        {
+            return Err(AuthorityProtocolError::StateRegression);
+        }
+        validate_quorum_basis(&durable.quorum_basis, &durable.signer_eligibility, true)?;
         if durable.result_sha256
             != result_digest(&durable.verified_operation(), durable.committed_log_index)?
             || durable.retry_sha256 != retry_digest(durable)?
@@ -1408,8 +1573,34 @@ pub(crate) fn verify_finalization(
         finalization_time: finalize.finalization_time.clone(),
         artifact: intent.artifact.clone(),
         signer_guardian_ids: signers,
+        signer_eligibility: signer_eligibility(&finalize.endorsements),
+        inclusive_deadline: intent.inclusive_deadline.clone(),
+        quorum_basis: None,
         source: AuthorityVerificationSource::LegacyDirect,
     })
+}
+
+#[cfg(test)]
+pub(crate) fn verify_legacy_test_finalization_with_sealed_basis(
+    intent: &PrepareAuthorityIntent,
+    finalize: &FinalizeAuthorityIntent,
+    membership: &MembershipState,
+    authority: &AuthorityMembership,
+    authoritative_boot_generations: &BTreeMap<Vec<u8>, u64>,
+) -> AuthorityProtocolResult<VerifiedAuthorityOperation> {
+    let mut verified = verify_finalization(intent, finalize, membership, authority)?;
+    if finalize.endorsements.iter().any(|endorsement| {
+        authoritative_boot_generations.get(&endorsement.guardian_id)
+            != Some(&endorsement.boot_generation)
+    }) {
+        return Err(AuthorityProtocolError::StaleVoter);
+    }
+    verified.quorum_basis = Some(quorum_basis_snapshot(
+        authority,
+        authoritative_boot_generations,
+    )?);
+    verified.source = AuthorityVerificationSource::ReplicatedApply;
+    Ok(verified)
 }
 
 pub(crate) fn verify_replicated_finalization(
@@ -1477,6 +1668,12 @@ pub(crate) fn verify_replicated_finalization(
         finalization_time: finalize.finalization_time.clone(),
         artifact: intent.artifact.clone(),
         signer_guardian_ids: signers,
+        signer_eligibility: signer_eligibility(&finalize.endorsements),
+        inclusive_deadline: intent.inclusive_deadline.clone(),
+        quorum_basis: Some(quorum_basis_snapshot(
+            authority,
+            authoritative_boot_generations,
+        )?),
         source: AuthorityVerificationSource::ReplicatedApply,
     })
 }
@@ -1537,6 +1734,145 @@ fn configuration_digest(authority: &AuthorityMembership) -> AuthorityProtocolRes
         })
         .collect::<AuthorityProtocolResult<Vec<_>>>()?;
     canonical_domain_digest(CONFIGURATION_DOMAIN, &configs)
+}
+
+fn quorum_basis_snapshot(
+    authority: &AuthorityMembership,
+    boot_generations: &BTreeMap<Vec<u8>, u64>,
+) -> AuthorityProtocolResult<QuorumBasisSnapshot> {
+    let guardian_by_raft = authority
+        .raft_ids
+        .iter()
+        .map(|(guardian, raft_id)| (*raft_id, guardian.clone()))
+        .collect::<BTreeMap<_, _>>();
+    let configurations = authority
+        .raft_membership
+        .get_joint_config()
+        .iter()
+        .map(|config| {
+            let mut entries = config
+                .iter()
+                .map(|raft_id| {
+                    let guardian_id = guardian_by_raft
+                        .get(raft_id)
+                        .ok_or(AuthorityProtocolError::InvalidMembership)?;
+                    let voter = authority
+                        .voters
+                        .get(guardian_id)
+                        .ok_or(AuthorityProtocolError::InvalidMembership)?;
+                    let boot_generation = *boot_generations
+                        .get(guardian_id)
+                        .ok_or(AuthorityProtocolError::StaleVoter)?;
+                    if voter.certificate_generation == 0 || boot_generation == 0 {
+                        return Err(AuthorityProtocolError::StaleVoter);
+                    }
+                    Ok(QuorumEligibilityEntry {
+                        guardian_id: guardian_id.clone(),
+                        certificate_generation: voter.certificate_generation,
+                        boot_generation,
+                    })
+                })
+                .collect::<AuthorityProtocolResult<Vec<_>>>()?;
+            entries.sort_by(|left, right| left.guardian_id.cmp(&right.guardian_id));
+            let threshold = entries.len() / 2 + 1;
+            let digest = canonical_domain_digest(QUORUM_CONFIG_DOMAIN, &(threshold, &entries))?;
+            Ok(QuorumConfigurationSnapshot {
+                entries,
+                threshold,
+                digest,
+            })
+        })
+        .collect::<AuthorityProtocolResult<Vec<_>>>()?;
+    let snapshot = QuorumBasisSnapshot {
+        configuration_sha256: configuration_digest(authority)?,
+        voter_set_generation: authority.voter_set_generation,
+        committed_membership_log_index: authority.committed_log_index,
+        configurations,
+    };
+    validate_quorum_basis(&snapshot, &[], false)?;
+    Ok(snapshot)
+}
+
+fn signer_eligibility(endorsements: &[AuthorityIntentEndorsement]) -> Vec<QuorumEligibilityEntry> {
+    let mut entries = endorsements
+        .iter()
+        .map(|entry| QuorumEligibilityEntry {
+            guardian_id: entry.guardian_id.clone(),
+            certificate_generation: entry.certificate_generation,
+            boot_generation: entry.boot_generation,
+        })
+        .collect::<Vec<_>>();
+    entries.sort_by(|left, right| left.guardian_id.cmp(&right.guardian_id));
+    entries
+}
+
+fn validate_quorum_basis(
+    snapshot: &QuorumBasisSnapshot,
+    signers: &[QuorumEligibilityEntry],
+    require_quorum: bool,
+) -> AuthorityProtocolResult<()> {
+    if snapshot.configuration_sha256 == [0; 32]
+        || snapshot.voter_set_generation == 0
+        || snapshot.committed_membership_log_index == 0
+        || snapshot.configurations.is_empty()
+        || snapshot.configurations.len() > 2
+    {
+        return Err(AuthorityProtocolError::InvalidMembership);
+    }
+    let configuration_entries = snapshot
+        .configurations
+        .iter()
+        .map(|config| {
+            config
+                .entries
+                .iter()
+                .map(|entry| entry.guardian_id.clone())
+                .collect::<Vec<_>>()
+        })
+        .collect::<Vec<_>>();
+    if snapshot.configuration_sha256
+        != canonical_domain_digest(CONFIGURATION_DOMAIN, &configuration_entries)?
+    {
+        return Err(AuthorityProtocolError::InvalidMembership);
+    }
+    for config in &snapshot.configurations {
+        if config.entries.is_empty()
+            || config.entries.len() > 4096
+            || config.threshold == 0
+            || config.threshold > config.entries.len()
+            || config
+                .entries
+                .windows(2)
+                .any(|pair| pair[0].guardian_id >= pair[1].guardian_id)
+            || config.entries.iter().any(|entry| {
+                entry.guardian_id.is_empty()
+                    || entry.certificate_generation == 0
+                    || entry.boot_generation == 0
+            })
+            || config.digest
+                != canonical_domain_digest(
+                    QUORUM_CONFIG_DOMAIN,
+                    &(config.threshold, &config.entries),
+                )?
+            || (require_quorum
+                && signers
+                    .iter()
+                    .filter(|signer| config.entries.contains(signer))
+                    .count()
+                    < config.threshold)
+        {
+            return Err(AuthorityProtocolError::MissingQuorum);
+        }
+    }
+    if require_quorum
+        && (signers.is_empty()
+            || signers
+                .windows(2)
+                .any(|pair| pair[0].guardian_id >= pair[1].guardian_id))
+    {
+        return Err(AuthorityProtocolError::MissingQuorum);
+    }
+    Ok(())
 }
 
 fn has_joint_quorum(authority: &AuthorityMembership, signers: &BTreeSet<Vec<u8>>) -> bool {
@@ -1635,6 +1971,9 @@ fn result_digest(
             &operation.finalization_time,
             &operation.artifact,
             &operation.signer_guardian_ids,
+            &operation.signer_eligibility,
+            &operation.inclusive_deadline,
+            &operation.quorum_basis,
         ),
     )
 }
@@ -1650,6 +1989,9 @@ fn retry_digest(result: &DurablePublishedAuthorityResult) -> AuthorityProtocolRe
             &result.finalization_time,
             &result.artifact,
             &result.signer_guardian_ids,
+            &result.signer_eligibility,
+            &result.inclusive_deadline,
+            &result.quorum_basis,
         ),
     )
 }
@@ -1727,6 +2069,24 @@ mod tests {
     }
 
     fn operation() -> VerifiedAuthorityOperation {
+        let signer_eligibility = vec![
+            QuorumEligibilityEntry {
+                guardian_id: b"guardian-a".to_vec(),
+                certificate_generation: 1,
+                boot_generation: 1,
+            },
+            QuorumEligibilityEntry {
+                guardian_id: b"guardian-b".to_vec(),
+                certificate_generation: 1,
+                boot_generation: 1,
+            },
+        ];
+        let threshold = 2;
+        let configuration_sha256 = canonical_domain_digest(
+            CONFIGURATION_DOMAIN,
+            &vec![vec![b"guardian-a".to_vec(), b"guardian-b".to_vec()]],
+        )
+        .unwrap();
         VerifiedAuthorityOperation {
             operation_id: "continuity-a".into(),
             intent_sha256: [7; 32],
@@ -1740,6 +2100,22 @@ mod tests {
             signer_guardian_ids: [b"guardian-a".to_vec(), b"guardian-b".to_vec()]
                 .into_iter()
                 .collect(),
+            signer_eligibility: signer_eligibility.clone(),
+            inclusive_deadline: grant().inclusive_deadline,
+            quorum_basis: Some(QuorumBasisSnapshot {
+                configuration_sha256,
+                voter_set_generation: 1,
+                committed_membership_log_index: 1,
+                configurations: vec![QuorumConfigurationSnapshot {
+                    digest: canonical_domain_digest(
+                        QUORUM_CONFIG_DOMAIN,
+                        &(threshold, &signer_eligibility),
+                    )
+                    .unwrap(),
+                    entries: signer_eligibility,
+                    threshold,
+                }],
+            }),
             source: AuthorityVerificationSource::ReplicatedApply,
         }
     }

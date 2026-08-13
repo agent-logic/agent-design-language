@@ -10,7 +10,8 @@ use std::{
 
 use crate::distributed::{
     authority_protocol::{
-        validate_continuity_transfer_binding, verify_finalization, AuthorityNodeIdentity,
+        validate_continuity_transfer_binding, verify_finalization,
+        verify_legacy_test_finalization_with_sealed_basis, AuthorityNodeIdentity,
         AuthorityOperationKind, AuthorityProtocolError, CanonicalAuthorityTime,
         CommittedAuthorityArtifact, ContinuityTransferChunk, ContinuityTransferEntry,
         ContinuityTransferGrantArtifact, DurableAuthorityProtocol, FinalizeAuthorityIntent,
@@ -311,7 +312,19 @@ impl Fixture {
                 uncertainty_millis: 2,
             },
         );
-        verify_finalization(intent, &finalize, &self.membership, &self.authority).unwrap()
+        let boot_generations = self
+            .guardian_ids
+            .iter()
+            .map(|guardian| (guardian.clone(), 11))
+            .collect();
+        verify_legacy_test_finalization_with_sealed_basis(
+            intent,
+            &finalize,
+            &self.membership,
+            &self.authority,
+            &boot_generations,
+        )
+        .unwrap()
     }
 }
 

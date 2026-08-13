@@ -1,0 +1,146 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 350,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "431657c3fcc04d4171d624dc5d980f8244793a2e408fa5093e97149b3fe9f95d",
+  "phase": "bound",
+  "generation": 8,
+  "digest": "0208742018e1f0ac371b867694c05de701cebf238e9b0d0e39862e2f4c517872",
+  "branch": "codex/350-sealed-observatory-authority-projection",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-350-sealed-observatory-authority-projection",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/350/design.md",
+  "diagram_path": ".csdlc/prepared/issues/350/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:541e80e6-955f-4610-b39f-7b004afb09d0",
+      "revision": "30c79e11c4d8659d20e6f443a5f6c72ebff57093d3f25e06b58f4a620a44d9ee"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "6092b1cd29c6701d402ab83677d0ca4a361d982b2121c24cd4f3c15e54b385d8",
+      "rendered_digest": "7f0e44a1dfac8578dc36c52e3e53a5a046b08c66bc50d2fba4ba935f3a098812",
+      "ast_digest": "5a7bf7b0ca0c8c6f6943b188693b906ec4342f7d0489043dd450952e5e2cc159"
+    },
+    "stp": {
+      "values_digest": "860c9431e5cde3a93afda7e37971f3b6388f9feeaa880224c5199d12f93279b6",
+      "rendered_digest": "ee155302e4f2a69054630725ea7223c7cce431f9561fa1d903e5398d94d27029",
+      "ast_digest": "cd0c0ed37217622d30931fee31559c5692b42a65b79a3c47f70a01a57fa5e853"
+    },
+    "spp": {
+      "values_digest": "9da7e67e3612b7af01b7371e072875854b69fef3a242cdfd0ee3d8ce4592af6a",
+      "rendered_digest": "8dfc9ca7bf568d4ac0ce602eaf350621f99c6e2805662ee327b0de4356eff925",
+      "ast_digest": "b20845f025226ce3024e8a04cad86735311924d744a72767b6a48cc664a009f2"
+    },
+    "vpp": {
+      "values_digest": "e0baf7b9557db40f9967eec43a90611c40ee63f914838c3a20e24a594e8d4359",
+      "rendered_digest": "ee8c6d6ff4a6d72081e4166b84a039da1c7cee2432bd2daa291b16f426bede8e",
+      "ast_digest": "a6e4535fff1652ced679751f7e686c768d8e35fae0c328879320aa5975bd3a80"
+    },
+    "srp": {
+      "values_digest": "75a9488e2338cd773b045ff3bd16dffa8f85a83267a48548c84dd0fd304f0e81",
+      "rendered_digest": "db4b9db965c22ac28d410709ee37c72c2f87e32432dd657c023e9789d1444ad3",
+      "ast_digest": "7e6d1a542b3009ce34a21d326c396490f4894417bb8e8397fae92a1dec702a18"
+    },
+    "sor": {
+      "values_digest": "5958612ec20ddb58e24195b878a081c27876dc2f020c669609d700c11b4771ed",
+      "rendered_digest": "65a9d0b17130d1e4f686031d2e385ee3f1fcdeb012208b59adc5e8d4de568aa0",
+      "ast_digest": "f11d992f40d75b7b709bc9d651deccac8bbb71573f081f088ae70dc87792dc89"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue350-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:issue350_fresh_design_review_r5",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "fresh-session:746437dd-9ae9-456d-949a-298b48e07ff6",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "fresh-session:6dddd4d8-b1a7-4ca6-93b1-054fcd89617b",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "fresh-session:79253e38-ef9f-4209-97f7-c4900dd3241f",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:350-sealed-projection-scope-replan",
+      "reason": "Declare the existing authority-protocol contract suite needed to prove replicated sealed-publication compatibility without synthetic legacy quorum truth.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/distributed/authority_protocol.rs\",\"adl-runtime/src/distributed/authority_protocol_contract_tests.rs\",\"adl-runtime/src/distributed/serving_authority.rs\",\"adl-runtime/tests/distributed_observatory_authority_projection.rs\",\"adl-runtime/Cargo.toml\",\".csdlc/prepared/issues/350\",\".csdlc/evidence/350\",\".csdlc/issues/350\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:350-sealed-projection-scope-replan",
+      "reason": "Declare the existing replicated sealed-publication compatibility denominator as an exact test deliverable.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime/src/distributed/authority_protocol.rs\",\"adl-runtime/src/distributed/authority_protocol_contract_tests.rs\",\"adl-runtime/src/distributed/serving_authority.rs\",\"adl-runtime/tests/distributed_observatory_authority_projection.rs\",\"adl-runtime/Cargo.toml\",\".csdlc/prepared/issues/350/design.md\",\".csdlc/prepared/issues/350/diagram.mmd\",\".csdlc/evidence/350\",\".csdlc/issues/350\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:350-sealed-projection-scope-replan",
+      "reason": "Declare the exact existing 52-case replicated sealed-publication compatibility proof and correct feature-bearing focused commands.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"projection-focused\",\"proof_role\":\"Prove exact sealed projection; canonical and noncanonical encoding vectors; A/B by A/B cross-pair matrix; signer, configuration, threshold, and joint-quorum restore mutation; deadline/restart/legacy-state handling; and redaction.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":16000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--features\",\"internal-test-fixtures\",\"--test\",\"distributed_observatory_authority_projection\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"350-serial-01\",\"defer_reason\":null},{\"lane\":\"authority-protocol-compatibility\",\"proof_role\":\"Keep the existing 52-case authority-protocol denominator green while fixtures exercise replicated sealed publication; legacy direct verification may not synthesize durable quorum authority.\",\"acceptance_ids\":[\"AC-4\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":16000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--features\",\"internal-test-fixtures\",\"--lib\",\"authority_protocol\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"350-serial-02\",\"defer_reason\":null},{\"lane\":\"projection-clippy\",\"proof_role\":\"Reject warnings and API misuse for the exact focused target.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--features\",\"internal-test-fixtures\",\"--test\",\"distributed_observatory_authority_projection\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"350-serial-03\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject patch hygiene defects before exact-head review.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"350-serial-04\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "fresh-session:541e80e6-955f-4610-b39f-7b004afb09d0",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    }
+  ]
+}

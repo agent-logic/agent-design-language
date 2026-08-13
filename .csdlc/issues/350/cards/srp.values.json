@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 350,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1b][defect] Expose sealed authenticated Observatory authority projection",
+    "slug": "authenticated-observatory-authority-projection",
+    "version": "v0.92",
+    "generation": 8
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact #350 design/cards and authority_protocol/serving_authority contracts, durable schema compatibility, sealed construction boundary, cross-binding, quorum/deadline proof, redaction, and exact exclusions.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any caller construct, substitute, or combine authority fields?",
+        "Is the committed deadline durable and validated against canonical finalization?",
+        "Are every cut/operation/identity/quorum/lineage binding and legacy-state behavior exact?",
+        "Are output and errors redacted and #274/#273/#203/#205/#275 excluded?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
