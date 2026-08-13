@@ -3,7 +3,7 @@
 import json, pathlib, subprocess
 
 root = pathlib.Path(__file__).resolve().parents[4]
-implementation_base = "cd0feef31240b95d344c5ae9b774325506586a5d"
+implementation_base = "dae957c435b73d87af1f36d4e15fb088f6fd055b"
 allowed = {
     "adl-runtime/src/distributed/observatory_serving_eligibility.rs",
     "adl-runtime/src/distributed/mod.rs",

@@ -156,6 +156,18 @@ impl ObservatoryEligibilityStore {
         if envelope.payload().operations.len() > capacity {
             return Err(ObservatoryEligibilityError::CapacityExceeded);
         }
+        if let Some(current) = envelope.payload().current.as_ref() {
+            let receipt = envelope
+                .payload()
+                .operations
+                .get(&current.result)
+                .ok_or(ObservatoryEligibilityError::Serialization)?;
+            if receipt.result_state
+                != normalized_final_state_digest(envelope.payload(), &current.result)?
+            {
+                return Err(ObservatoryEligibilityError::Serialization);
+            }
+        }
         Ok(Self {
             store,
             envelope,
@@ -218,9 +230,9 @@ impl ObservatoryEligibilityStore {
         };
         next.operations
             .insert(command.grant.result.clone(), receipt.clone());
-        // Hash the complete durable state with only this self-referential digest
-        // field cleared; this canonical convention avoids recursive hashing.
-        receipt.result_state = digest(&next)?;
+        // Hash the final committed state with only this receipt's recursive
+        // result-state field normalized empty.
+        receipt.result_state = normalized_final_state_digest(&next, &command.grant.result)?;
         next.operations
             .insert(command.grant.result, receipt.clone());
         self.envelope = self.store.commit(&self.envelope, next)?;
@@ -327,6 +339,18 @@ fn digest(s: &State) -> Result<String, ObservatoryEligibilityError> {
     serde_jcs::to_vec(s)
         .map(|b| hex::encode(Sha256::digest(b)))
         .map_err(|_| ObservatoryEligibilityError::Serialization)
+}
+fn normalized_final_state_digest(
+    state: &State,
+    operation_result: &str,
+) -> Result<String, ObservatoryEligibilityError> {
+    let mut normalized = state.clone();
+    let receipt = normalized
+        .operations
+        .get_mut(operation_result)
+        .ok_or(ObservatoryEligibilityError::Serialization)?;
+    receipt.result_state.clear();
+    digest(&normalized)
 }
 fn input_digest(
     p: &VerifiedObservatoryAuthorityProjection,
@@ -463,6 +487,39 @@ mod tests {
                 false
             ),
             Err(ObservatoryEligibilityError::StaleAuthority)
+        );
+    }
+
+    #[test]
+    fn normalized_final_state_digest_recomputes_and_rejects_tamper() {
+        let result = "result-acquire".to_owned();
+        let mut state = State {
+            revision: 1,
+            current: Some(grant("acquire", 1, Status::Eligible)),
+            operations: BTreeMap::new(),
+        };
+        state.operations.insert(
+            result.clone(),
+            Receipt {
+                operation: "acquire".into(),
+                input: "input".into(),
+                prior: "prior".into(),
+                result_state: String::new(),
+                action: ObservatoryTransitionAction::Acquire,
+                predecessor: None,
+                projection: stored(&state),
+            },
+        );
+        let expected = normalized_final_state_digest(&state, &result).unwrap();
+        state.operations.get_mut(&result).unwrap().result_state = expected.clone();
+        assert_eq!(
+            normalized_final_state_digest(&state, &result).unwrap(),
+            expected
+        );
+        state.current.as_mut().unwrap().fence += 1;
+        assert_ne!(
+            normalized_final_state_digest(&state, &result).unwrap(),
+            expected
         );
     }
 }

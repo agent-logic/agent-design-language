@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/274/diagram.mmd
 [
   {
     "lane": "preparation-contract",
-    "proof_role": "Prove packet identity and terminal ancestry for #191/#199/#200/#201/#202/#203/#272/#273/#350/#356/#358.",
+    "proof_role": "Pre-bind packet identity and terminal ancestry through #358; #360 terminal ancestry is separately proven by the immutable implementation base.",
     "acceptance_ids": [
       "AC-6",
       "AC-7"
@@ -39,13 +39,12 @@ Diagram: .csdlc/prepared/issues/274/diagram.mmd
       ".csdlc/prepared/issues/274/validate_preparation_bundle.py"
     ],
     "parallel_group": "274-serial-01",
-    "defer_reason": null
+    "defer_reason": "Pre-bind-only evidence; not rerun after bind."
   },
   {
     "lane": "observatory-transition-unit",
-    "proof_role": "Prove the private post-verification command guard with genuinely distinct acquire, renew, transfer, revoke, stale predecessor, overlap, and terminal-revival cases.",
+    "proof_role": "Prove the private state guard and named normalized final-state digest recomputation/tamper denial.",
     "acceptance_ids": [
-      "AC-1",
       "AC-2",
       "AC-3",
       "AC-4"
@@ -72,9 +71,11 @@ Diagram: .csdlc/prepared/issues/274/diagram.mmd
   },
   {
     "lane": "observatory-focused",
-    "proof_role": "Prove authentic verifier acquire/restart, nanos expiry, replay, sealed-authority mismatch, and redaction.",
+    "proof_role": "Through terminal #360 fixtures, prove authentic sealed Acquire/Renew/Transfer/Revoke, restart, overlap, stale/superseded predecessor, revoked revival, nanos expiry, replay, A/B mismatch, and redaction.",
     "acceptance_ids": [
       "AC-1",
+      "AC-2",
+      "AC-3",
       "AC-4",
       "AC-5"
     ],
@@ -100,7 +101,7 @@ Diagram: .csdlc/prepared/issues/274/diagram.mmd
   },
   {
     "lane": "observatory-clippy",
-    "proof_role": "Reject warnings in the exact focused target.",
+    "proof_role": "Reject warnings in the exact feature-bearing target.",
     "acceptance_ids": [
       "AC-6",
       "AC-8"
@@ -124,11 +125,11 @@ Diagram: .csdlc/prepared/issues/274/diagram.mmd
       "warnings"
     ],
     "parallel_group": "274-serial-03",
-    "defer_reason": "Deferred until approved bind creates the target."
+    "defer_reason": null
   },
   {
     "lane": "exact-scope",
-    "proof_role": "Prove exact two new product paths and the single additive distributed/mod.rs declaration against immutable #358 merge base.",
+    "proof_role": "Prove exact two new product paths and one additive mod.rs declaration against immutable #360 merge base.",
     "acceptance_ids": [
       "AC-6",
       "AC-8"
@@ -142,11 +143,11 @@ Diagram: .csdlc/prepared/issues/274/diagram.mmd
       ".csdlc/prepared/issues/274/validate_scope.py"
     ],
     "parallel_group": "274-serial-04",
-    "defer_reason": "Deferred until the bound implementation exists."
+    "defer_reason": null
   },
   {
     "lane": "diff-hygiene",
-    "proof_role": "Reject whitespace errors across the exact immutable implementation-base diff.",
+    "proof_role": "Reject whitespace errors across the immutable #360 implementation-base diff.",
     "acceptance_ids": [
       "AC-6",
       "AC-8"
@@ -159,10 +160,10 @@ Diagram: .csdlc/prepared/issues/274/diagram.mmd
       "git",
       "diff",
       "--check",
-      "cd0feef31240b95d344c5ae9b774325506586a5d...HEAD"
+      "dae957c435b73d87af1f36d4e15fb088f6fd055b...HEAD"
     ],
     "parallel_group": "274-serial-05",
-    "defer_reason": "Deferred until the bound implementation exists."
+    "defer_reason": null
   },
   {
     "lane": "terminal-ancestry",
@@ -200,7 +201,7 @@ Tokens: 50000
 - `cargo test --locked --manifest-path adl-runtime/Cargo.toml --test distributed_observatory_serving_eligibility --features internal-test-fixtures -- --test-threads=1`
 - `cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test distributed_observatory_serving_eligibility --features internal-test-fixtures -- -D warnings`
 - `python3 .csdlc/prepared/issues/274/validate_scope.py`
-- `git diff --check cd0feef31240b95d344c5ae9b774325506586a5d...HEAD`
+- `git diff --check dae957c435b73d87af1f36d4e15fb088f6fd055b...HEAD`
 - `python3 .csdlc/prepared/issues/274/validate_terminal.py`
 
 ## Failure Semantics

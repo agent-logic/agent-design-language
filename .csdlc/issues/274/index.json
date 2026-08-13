@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "48064f99d9aa8a79c297f4f9370d05d6eeea655c719b05fc554949a2468b4297",
   "phase": "implemented",
-  "generation": 9,
-  "digest": "24bc6f86635cb1c97b0f3c96aa57409761acd4e45ff9936a5cb4030320211251",
+  "generation": 10,
+  "digest": "1d0bee4cbf145950dc811f3149dab2b04d666189231969488b7b88388ab57110",
   "branch": "codex/274-observatory-serving-eligibility",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-274-observatory-serving-eligibility",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c3b6184398b57435be27b91eef9223ff8f4a324a5acfda81b3f1b92d5edfa712",
+      "values_digest": "e4e655eed48b1f80a2e295b80274d097c8c329520a314012dd9706dc8b73b38d",
       "rendered_digest": "6f7c35bb003a878dc6be81b6d711ac832a77e7cdbc7b8b097aabb1f75e211d87",
       "ast_digest": "7e395891bbd5ab0cba2ffcff2ffc27bf44552469af4fd1629f9cefb46a51c31b"
     },
     "stp": {
-      "values_digest": "476e04c029ec15d899a79a833d3a9d3010d5aa3d28e861d0b61fc441be8bfb53",
+      "values_digest": "6d5f637cf694c2fa9c81cb0e41847999b607f274fbe6a66e201a1bb30395e2f2",
       "rendered_digest": "b11e528ad56c0c99b39537d06e06f8b450fde857a543b2d111a73210be95a370",
       "ast_digest": "e16c28cd4fe468f4e5ac30958fae42d0444329d1b133a3e11bf1cefe285c8156"
     },
     "spp": {
-      "values_digest": "fe8392e68735ebc77d917beae2c0980ec1b5bc0db268a03954a49c6585ec27fc",
+      "values_digest": "636a93849b4a46bf90ee62f5f70f5fa631000872d1e9d2306ec02f233e70c7cc",
       "rendered_digest": "1c3fe6e8bdc41ddb2bcca4f14158accda83e38337387dff78d4ab07629aa0289",
       "ast_digest": "dd77aca88f7bae10c8cb6e9e1e05003afcf54e181bc879f61a548f3259b1da84"
     },
     "vpp": {
-      "values_digest": "45eeaba4e77d0f6a64342661f8e8b1ffa685fbf5fe77ead11d913046ea49f4e4",
-      "rendered_digest": "47383b1a14c102437ee3f0ffc9bbaa2bc4ed2d8b98dcc51c4376ce2f56e88a6a",
-      "ast_digest": "a1a4adcf4e8271da4a553b11700c12c02616037c2748788c30be3903d266eedb"
+      "values_digest": "e3b5f2604fa2686b4d6afccbb88a972dde1c284f8f8c7cee17f24182ce2240b4",
+      "rendered_digest": "b8b208c2ce2ba1660eb2741f31852f1f7ae99ff7ef06a21fb640956748eab744",
+      "ast_digest": "48f570f96f2c772ad79ea681fab43358ede759864bdbda1835ce87aee693136a"
     },
     "srp": {
-      "values_digest": "00f3236f880d0602948a1bd3eefafd58eac6a9edbedc535428636a57d1639f2f",
+      "values_digest": "fe424ebbd0afb297d7512fd62b132cd6a135c66d368fa07f8d908290bd53c53e",
       "rendered_digest": "57d6a13dab290c545f0e4daf9965cc07a7b1621f4a6ba944a5db73fc01d61211",
       "ast_digest": "5e3b7ddaa05859fbf62003b235bfeed68e2c13e0be2e5c571c769cf5d975c9c6"
     },
     "sor": {
-      "values_digest": "cef3ca4eedde5231ad28ec5c29685292b64254de4d398a1c641a0177ff93441e",
+      "values_digest": "511a5e1fec522bdf9492227b198f10383821cd848740d74c337209eb1ea573f5",
       "rendered_digest": "73c1b012e4d28ee23a3326a503b469e4f9412cb40fa3b1bc7db64016d6729918",
       "ast_digest": "054bad935a1165697fb1c351f40a303e72e180a22b39ebcc0b0a67e21c3376fd"
     }
@@ -168,6 +168,13 @@
       "actor": "codex:issue-274-r2-remediation",
       "reason": "Repair normalized state digest while routing authentic transition fixture dependency.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:issue-274-r2-remediation",
+      "reason": "Route the final proof through terminal #360 authentic sealed transition fixtures and the immutable #360 merge base.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preparation-contract\",\"proof_role\":\"Pre-bind packet identity and terminal ancestry through #358; #360 terminal ancestry is separately proven by the immutable implementation base.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":2000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_preparation_bundle.py\"],\"parallel_group\":\"274-serial-01\",\"defer_reason\":\"Pre-bind-only evidence; not rerun after bind.\"},{\"lane\":\"observatory-transition-unit\",\"proof_role\":\"Prove the private state guard and named normalized final-state digest recomputation/tamper denial.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"observatory_serving_eligibility::tests\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"274-serial-02a\",\"defer_reason\":null},{\"lane\":\"observatory-focused\",\"proof_role\":\"Through terminal #360 fixtures, prove authentic sealed Acquire/Renew/Transfer/Revoke, restart, overlap, stale/superseded predecessor, revoked revival, nanos expiry, replay, A/B mismatch, and redaction.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":18000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"274-serial-02\",\"defer_reason\":null},{\"lane\":\"observatory-clippy\",\"proof_role\":\"Reject warnings in the exact feature-bearing target.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"274-serial-03\",\"defer_reason\":null},{\"lane\":\"exact-scope\",\"proof_role\":\"Prove exact two new product paths and one additive mod.rs declaration against immutable #360 merge base.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":2000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_scope.py\"],\"parallel_group\":\"274-serial-04\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace errors across the immutable #360 implementation-base diff.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\",\"dae957c435b73d87af1f36d4e15fb088f6fd055b...HEAD\"],\"parallel_group\":\"274-serial-05\",\"defer_reason\":null},{\"lane\":\"terminal-ancestry\",\"proof_role\":\"After typed finish, prove canonical merged terminal cache and merge ancestry to origin/main.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_terminal.py\"],\"parallel_group\":\"274-serial-06\",\"defer_reason\":\"Deferred until typed finish creates terminal authority.\"}]}"
     }
   ]
 }
