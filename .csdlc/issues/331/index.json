@@ -3,55 +3,13 @@
   "issue": 331,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d10036bad298d32728c965e820139dbff4ce7a3cd93d8badbc46214d1fbc16b0",
-  "phase": "reviewed",
-  "generation": 5,
-  "digest": "e265c22934ffdef123e08c0c295faad7bc1e42e3d6026576cbb3345fa7baf4f1",
+  "phase": "implemented",
+  "generation": 6,
+  "digest": "54e6c9934e858767de872394ae976f14040777e1250bf4c132111af1de09b801",
   "branch": "codex/331-initialized-code-repository-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-331-initialized-code-repository-recovery",
-  "review_assignment": {
-    "reviewer": "fresh-session:f74e271b-ec76-4ab6-bfcb-2f81865f8327",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:24e99238dd88daa437a6adf973baf4a1741e2de8:4e283a5a997f1e74d13dbedcb1b6e8d8d02f45a8c51dcb0eba96a2133df6bfb7",
-    "scope": [
-      "csdlc-v2/src/migration.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/src/bin/csdlc-issue.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/tests/code_repository_migration.rs",
-      ".csdlc/issues/331",
-      ".csdlc/evidence/331",
-      ".csdlc/prepared/issues/331/design.md",
-      ".csdlc/prepared/issues/331/diagram.mmd",
-      ".csdlc/prepared/issues/331/finalize-implementation.json",
-      ".csdlc/prepared/issues/331/validate_initialized_code_repository_migration.py"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:f74e271b-ec76-4ab6-bfcb-2f81865f8327",
-    "scope": [
-      "csdlc-v2/src/migration.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/src/bin/csdlc-issue.rs",
-      "csdlc-v2/src/schema.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/tests/code_repository_migration.rs",
-      ".csdlc/issues/331",
-      ".csdlc/evidence/331",
-      ".csdlc/prepared/issues/331/design.md",
-      ".csdlc/prepared/issues/331/diagram.mmd",
-      ".csdlc/prepared/issues/331/finalize-implementation.json",
-      ".csdlc/prepared/issues/331/validate_initialized_code_repository_migration.py"
-    ],
-    "reviewed_revision": "git-blake3:24e99238dd88daa437a6adf973baf4a1741e2de8:4e283a5a997f1e74d13dbedcb1b6e8d8d02f45a8c51dcb0eba96a2133df6bfb7",
-    "findings": [],
-    "residual_risks": [
-      "Review was read-only; validation evidence was inspected from retained logs rather than re-executed.",
-      "GitHub/PR state and hosted CI were outside this exact-head implementation review."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -66,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2ad47d346202cb4dce8db8da5af51e27b35222f092b541872fcf9a2e487787ba",
+      "values_digest": "03f65e6b0036fa7a4add4e5dd3f77175554e7f20cd34f36ceb48b21724708354",
       "rendered_digest": "dd8d6e2fe53c084c79098ab820fc461459cedb17fbd97cc99825f89d63834a49",
       "ast_digest": "54863410c2ffea851545ccc80dc2783d2b5393dba9a76e5225668e423881f3dd"
     },
     "stp": {
-      "values_digest": "ff6059b41935c77b1de054a4a93329a3dcf97bdd6c11b41a62c13599fbd6e634",
+      "values_digest": "127c56acbf4717b59fbf0aa50a0c587c50c92d591097abd98c036836f0aff02e",
       "rendered_digest": "dfb5209f7d7e9113440476b004636572ac9d611db2c85f8f4a21b3e399f8dc32",
       "ast_digest": "77cbe8b0872ea62c634921e8afb8821ab3694e9aee9698fe0c660c7bdedddf15"
     },
     "spp": {
-      "values_digest": "c2ba290f7dd4da91795add2903d4261f721b3b2ec2ae2d6a9480b5f208d731d4",
+      "values_digest": "524c039a1d44f289f64afbf384d6dcdc25782d4d847ef9bdd8a4e7e2779e234d",
       "rendered_digest": "59d56e5aedd317e7f2f30706f0c08488f6222c2f66e3c5d257bb7fe58ba4d5de",
       "ast_digest": "e7c94237b50ebfc827a047c5fdd6764548dbecc0046bdccc29f9034a1023a30c"
     },
     "vpp": {
-      "values_digest": "f0c82b233b091c27ba9bd042815c6830aa6ce5defc998680287564948eaf540e",
+      "values_digest": "860c9016057bd468332d6a3c22479f8efd227bef04c8654a17e31f5f609c0381",
       "rendered_digest": "c8cf269e07f89d5008b0b9b01744f95d3e50d8adfc219c6c859d03a68ecd9309",
       "ast_digest": "3257ce6fde5db8710c20706cade47a63fea5620ca3307e398157197d60576860"
     },
     "srp": {
-      "values_digest": "97e7ca16b971256ea35b9bd7951688947d2a7eb3131d37197cb5e3bbb4236d7b",
-      "rendered_digest": "ede5efcd550ac8649977162b69e0cc50457b272229ea20458747d944c0495573",
-      "ast_digest": "f7ddf2e936e85949d90c2ff5049dd7ae634f173679f663d913b1f36e75aa0420"
+      "values_digest": "89cca904721b808fa0c4843b4254c64c9ecafe40b4649522bfb21e236eeccd4e",
+      "rendered_digest": "bbaeaaf7a844c786b89263e3f1903361b7d5f9b1411e2cc978be6a1d2c34f188",
+      "ast_digest": "312fb9b2e3f5dc4d1558c2b56b5b06cb4fa892ee4b86b6c6e3865f3218e03b6e"
     },
     "sor": {
-      "values_digest": "b7369d33b4bb6fd5e9c07439407d1a043935deec1af8641552b373a3bd99cb16",
-      "rendered_digest": "dbfc3d8f048c3837b1aaa3fafcb008e2f46e2178d3582f8316c6089a2929012f",
-      "ast_digest": "15243083809d3efc3dbad3d447242a1255586e9597c67db7cbc35fbd66d05e58"
+      "values_digest": "f64a343d630a97fec01cbfc8cd4710c461042311bb8fb00c7f53c81792e6ca24",
+      "rendered_digest": "0ad76492469e5719d9737f091b6dbd8ed57f80af805b19d1832c354e91651013",
+      "ast_digest": "e0b8ece61375ab286ab5b911290d381c90ce009e1e1606d88fd2e056d128d2ea"
     }
   },
   "transitions": [
@@ -124,6 +82,13 @@
       "to": "reviewed",
       "actor": "codex:/root",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover stale #331 review truth after merging current origin/main into the bound branch; no #331 source conflict resolution was required, but the reviewed revision no longer matches HEAD."
     }
   ],
   "audit": [
@@ -182,6 +147,13 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Recover stale #331 review truth after merging current origin/main into the bound branch; no #331 source conflict resolution was required, but the reviewed revision no longer matches HEAD.",
+      "operation": "recover_review"
     }
   ]
 }

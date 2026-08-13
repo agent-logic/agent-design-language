@@ -101,7 +101,7 @@ Implemented initialized/unbound code_repository migration authority for legacy i
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
