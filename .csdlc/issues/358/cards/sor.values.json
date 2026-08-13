@@ -7,16 +7,61 @@
     "title": "[v0.92][WP-04.16b3.1b][defect] Seal Observatory transition intent and full canonical time",
     "slug": "observatory-transition-intent-time",
     "version": "v0.92",
-    "generation": 1
+    "generation": 2
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Pre-execution output record.",
-      "actual_changes": [],
-      "artifacts": [],
-      "actual_validation": [],
+      "summary": "Seal Observatory transition action/predecessor and full canonical time.",
+      "actual_changes": [
+        "Canonical action/predecessor artifact binding",
+        "Private sealed projection accessors for action and full time",
+        "Focused action/time/mismatch/redaction proof"
+      ],
+      "artifacts": [
+        "adl-runtime/src/distributed/serving_authority.rs",
+        "adl-runtime/tests/distributed_observatory_authority_projection.rs"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_observatory_authority_projection",
+            "--features",
+            "internal-test-fixtures",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Strict Clippy.",
+          "outcome": "passed",
+          "evidence_ref": "clippy.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_observatory_authority_projection",
+            "--features",
+            "internal-test-fixtures",
+            "--",
+            "--test-threads=1"
+          ],
+          "purpose": "Run projection target.",
+          "outcome": "passed",
+          "evidence_ref": "focused.log"
+        }
+      ],
       "integration_state": "not_started",
       "publication_state": "not_published",
       "merge_state": "not_merged",
