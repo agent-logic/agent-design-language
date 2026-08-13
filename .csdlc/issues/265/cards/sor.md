@@ -102,11 +102,11 @@ Implemented Layer 8 authority enforcement at Runtime kernel conversation ingress
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
