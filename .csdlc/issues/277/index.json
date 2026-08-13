@@ -1,0 +1,145 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 277,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "8abf1e7d8e6479933fdb92fc4fd87d1f005691870061fffae4f35c021efdbe1f",
+  "phase": "implemented",
+  "generation": 7,
+  "digest": "25cff433248f1bcb7d64e68a2379ecf93299b01a0c6f97c4bc394ea27b7c33c3",
+  "branch": "codex/277-conversation-watermarks-idempotency-replay-receipts",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-277-conversation-watermarks-idempotency-replay-receipts",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/277/design.md",
+  "diagram_path": ".csdlc/prepared/issues/277/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "subagent:/root/issue277_fresh_design_review_gen2",
+      "revision": "21c173f854c1a447865801b8992fed4658993f12c7f19ef68953d81317161b2e"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "4146918de05a2322923f3e89fa773c5872b11ce1ee59845ad3e3e636ea67c70f",
+      "rendered_digest": "38023301ecaa1651bc67c6c5fbf142718be945b719ed187a3ccac7796896b901",
+      "ast_digest": "3b2671a967f9d3fdd4e4d2664f9c767836910c8f1b614ece194621286211af4c"
+    },
+    "stp": {
+      "values_digest": "2ad5992aecc410f3164d0db102ac845b1f79fd1463e5d198533e13ffd2b3e049",
+      "rendered_digest": "c40d00d7c319dc1338f81b05db12f8da597e1928f3c7a0dfd67169243ffbf5a6",
+      "ast_digest": "ddf7524037bbbba1213c37b91ce4c513a92d119d242df78ff3098a3885abfbdc"
+    },
+    "spp": {
+      "values_digest": "fa2a91fde39493b1c00b54ab9a7d86a40a9920cddc51501bc03bb0ae0e9a478b",
+      "rendered_digest": "641ded53d7d7950487c12d19f76109158b7a4ce9d25394bbdaedd5070a2a1ac0",
+      "ast_digest": "5af6aa5abe7369ae06a120ce08781939158e9e8c2e0f172427c87f81db15908d"
+    },
+    "vpp": {
+      "values_digest": "b23dbbc3052947f19218123e314fb99438611df33ac28196ec3bf6568052612e",
+      "rendered_digest": "6f623f8f2345537604ad791ef90b6731516c51b6d0b11d873d39c8b21d724270",
+      "ast_digest": "85dd24ac7b25a3c943825a51f6037804025e75f155a0d5fe5efd30fb18fa41f2"
+    },
+    "srp": {
+      "values_digest": "25ebf4edc5b1f4c082f98ef1503b904b13220178a402a2f3baf395019fd2f000",
+      "rendered_digest": "d4a550ff2044c64bcdef7d71ff335b2292a44914b3976481d7527bb4d968043a",
+      "ast_digest": "78f41627acbd8ad6a2cab11081f8147df187a5dd13af703863bec27af2e00c64"
+    },
+    "sor": {
+      "values_digest": "c6d16df897cfb99b87d55ffb8ef9ed7347f545ed77a6689889f8095bc111b7aa",
+      "rendered_digest": "c06537fa779fdf6c51ee91399e4fe6857faeacf2052f944875d0d34677dee1d0",
+      "ast_digest": "f946806853b86baf2dbaa441fb7f33944394054d120a33729cf1d4caf8769bf6"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Advance #277 to ready/unbound after #276/#270 terminal cache proof, preparation validator PASS, fresh design/readiness review PASS, and typed design approval."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Keep initialized/pre-bind #277 validation executable by selecting preparation, doctor, and card validation lanes; implementation Rust test and Clippy lanes will be recorded after bind when the target exists.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-277-preparation-validator\",\"proof_role\":\"Prove #277 consumes canonical #276/#270 terminal caches and remains bounded to watermarks/idempotency/replay/receipts.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"python3\",\".csdlc/prepared/issues/277/validate_preparation_bundle.py\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"csdlc-doctor-277\",\"proof_role\":\"Prove bootstrapped #277 lifecycle/card packet is mechanically coherent and unbound before design approval.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\".adl/bin/csdlc-v2/csdlc-doctor\",\"--repo\",\".\",\"--issue\",\"277\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"csdlc-validate-277\",\"proof_role\":\"Prove rendered #277 card structure is valid before bind.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\".adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"277\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "List the issue-owned preparation validator as an exact affected area so doctor can recognize the design-readiness denominator.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/prepared/issues/277\",\".csdlc/prepared/issues/277/validate_preparation_bundle.py\",\".csdlc/issues/277\",\"adl-runtime-kernel/src\",\"adl-runtime-kernel/tests\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "subagent:/root/issue277_fresh_design_review_gen2",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Advance #277 to ready/unbound after #276/#270 terminal cache proof, preparation validator PASS, fresh design/readiness review PASS, and typed design approval.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Normalize bound-phase #277 validation to the issue-owned preparation validator before source implementation; implementation Rust lanes will be recorded after the test target exists.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-277-preparation-validator\",\"proof_role\":\"Prove #277 consumes canonical #276/#270 terminal caches and remains bounded to watermarks/idempotency/replay/receipts in the bound FastWork topology.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"python3\",\".csdlc/prepared/issues/277/validate_preparation_bundle.py\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Replace pre-implementation validator-only VPP with the actual #277 focused implementation proof lanes.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-277-preparation-validator\",\"proof_role\":\"Prove #277 consumes canonical #276/#270 terminal caches and remains bounded to watermarks/idempotency/replay/receipts in the bound FastWork topology.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-8\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"python3\",\".csdlc/prepared/issues/277/validate_preparation_bundle.py\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"runtime-kernel-conversation-continuity-fmt\",\"proof_role\":\"Reject Rust formatting drift for the #277 continuity module and focused test.\",\"acceptance_ids\":[\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"runtime-kernel-conversation-continuity-tests\",\"proof_role\":\"Prove restart, idempotency, replay, ambiguous dispatch, receipt, deletion, and acknowledgement-watermark behavior against the #276 journal foundation.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"conversation_continuity\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"runtime-kernel-conversation-continuity-clippy\",\"proof_role\":\"Reject warning regressions in the #277 focused Runtime kernel target.\",\"acceptance_ids\":[\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"conversation_continuity\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}
