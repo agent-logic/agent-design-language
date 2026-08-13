@@ -453,8 +453,52 @@ pub struct VerifiedObservatoryAuthorityProjection {
 }
 
 impl VerifiedObservatoryAuthorityProjection {
+    pub fn trust_domain_ref(&self) -> &str {
+        &self.trust_domain_ref
+    }
+
+    pub fn polis_ref(&self) -> &str {
+        &self.polis_ref
+    }
+
+    pub fn lineage_ref(&self) -> &str {
+        &self.lineage_ref
+    }
+
+    pub fn operation_ref(&self) -> &str {
+        &self.operation_ref
+    }
+
+    pub fn committed_log_index(&self) -> u64 {
+        self.committed_log_index
+    }
+
+    pub fn foundation_generation(&self) -> u64 {
+        self.foundation_generation
+    }
+
+    pub fn fencing_generation(&self) -> u64 {
+        self.fencing_generation
+    }
+
+    pub fn authority_result_sha256(&self) -> &str {
+        &self.authority_result_sha256
+    }
+
+    pub fn signer_set_sha256(&self) -> &str {
+        &self.signer_set_sha256
+    }
+
+    pub fn signer_count(&self) -> usize {
+        self.signer_count
+    }
+
     pub fn inclusive_deadline_unix_seconds(&self) -> i64 {
         self.inclusive_deadline_unix_seconds
+    }
+
+    pub fn finalization_unix_seconds(&self) -> i64 {
+        self.finalization_unix_seconds
     }
 }
 
