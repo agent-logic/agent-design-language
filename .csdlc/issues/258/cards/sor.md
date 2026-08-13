@@ -12,83 +12,40 @@ Status: pre_phase
 
 ## Summary
 
-Implemented #258 as the first #203 split slice: sealed raw certificate, lease, and fencing store access behind explicit authority/test access tokens; added authority-bound store adapter facade and expanded published receipt view; preserved the in-scope published-store mutation classifier/view fix; removed the earlier over-scope transport authorization seam; and repaired the r2 review finding by making certificate, lease, and fencing access capability values non-ZST/private-field so an ordinary external dev-profile non-test dependent cannot import fixture constants or forge access with unsafe transmute(()). This does not claim a broader unsafe-language proof against arbitrary undefined-behavior construction; public production use remains through the governed adapters.
+Implemented #258 as the first #203 split slice: sealed raw certificate, lease, and fencing store access behind explicit authority/test access tokens; added authority-bound store adapter facade and expanded published receipt view; preserved the in-scope published-store mutation classifier/view fix; removed earlier over-scope transport authorization seams; made certificate, lease, and fencing access capability values non-ZST/private-field; and repaired the post-publication CI fallout where ordinary integration tests still compiled stale unsafe transmute(()) helpers. Production transport authorization calls remain authority-token-bound; this repair removes the stale compiled unit-transmute helper path from distributed_guardian.rs and distributed_runtime_transport.rs while preserving the dedicated external compile-fail proof in distributed_identity_lease_authority.rs.
 
 ## Artifacts
 
-- .csdlc/evidence/258/current-main-ancestry-after-dac45ca.log
-- .csdlc/evidence/258/current-main-path-overlap-after-f3f6a79c.txt
-- .csdlc/evidence/258/main-changed-paths-since-5fd55acd.txt
-- .csdlc/evidence/258/issue-258-changed-paths-since-5fd55acd.txt
-- .csdlc/evidence/258/cargo-check-adl-runtime-post-main-merge.log
-- .csdlc/evidence/258/cargo-test-distributed-identity-lease-authority-post-main-merge.log
-- .csdlc/evidence/258/cargo-test-published-view-authority-kinds-post-main-merge.log
-- .csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority-post-main-merge.log
-- .csdlc/evidence/258/git-diff-check-post-main-merge.log
-- .csdlc/evidence/258/csdlc-validate-post-main-merge.log
-- .csdlc/evidence/258/cargo-check-adl-runtime-test-token-seal.log
-- .csdlc/evidence/258/cargo-test-distributed-identity-lease-authority-test-token-seal.log
-- .csdlc/evidence/258/cargo-test-published-view-authority-kinds-test-token-seal.log
-- .csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority-test-token-seal.log
-- .csdlc/evidence/258/rg-fencing-test-token-seal.log
-- .csdlc/evidence/258/git-diff-check-test-token-seal.log
-- .csdlc/evidence/258/csdlc-validate-final-test-token-seal.log
-- .csdlc/evidence/258/ci-artifacts/31596511465/runtime-coverage-artifact-summary.json
-- .csdlc/evidence/258/cargo-test-fencing-external-current-exe-target-layout.log
-- .csdlc/evidence/258/cargo-test-distributed-identity-lease-authority-target-layout-fix.log
-- .csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority-target-layout-fix.log
-- .csdlc/evidence/258/cargo-check-adl-runtime-target-layout-fix.log
-- .csdlc/evidence/258/git-diff-check-target-layout-fix.log
-- .csdlc/evidence/258/csdlc-validate-target-layout-fix-pre-sor.log
-- .csdlc/evidence/258/cargo-test-distributed-identity-lease-authority-non-zst-token-seal.log
-- .csdlc/evidence/258/cargo-check-adl-runtime-non-zst-token-seal.log
-- .csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority-non-zst-token-seal.log
-- .csdlc/evidence/258/test-mechanical-coverage-fallout-non-zst-token-seal.log
-- .csdlc/evidence/258/git-diff-check-non-zst-token-seal.log
-- .csdlc/evidence/258/csdlc-validate-non-zst-token-seal-pre-sor.log
+- .csdlc/evidence/258/postpub-stale-helper-repair/test-check-coverage-impact.log
+- .csdlc/evidence/258/postpub-stale-helper-repair/cargo-test-distributed-identity-lease-authority.log
+- .csdlc/evidence/258/postpub-stale-helper-repair/cargo-test-distributed-guardian-no-run.log
+- .csdlc/evidence/258/postpub-stale-helper-repair/cargo-test-distributed-runtime-transport-no-run.log
+- .csdlc/evidence/258/postpub-stale-helper-repair/cargo-check-adl-runtime.log
+- .csdlc/evidence/258/postpub-stale-helper-repair/cargo-clippy-distributed-identity-lease-authority.log
+- .csdlc/evidence/258/postpub-stale-helper-repair/cargo-clippy-distributed-guardian.log
+- .csdlc/evidence/258/postpub-stale-helper-repair/cargo-clippy-distributed-runtime-transport.log
+- .csdlc/evidence/258/postpub-stale-helper-repair/test-mechanical-coverage-fallout.log
+- .csdlc/evidence/258/postpub-stale-helper-repair/git-diff-check.log
 
 ## Execution
 
-- Preserved authority store access-token gates for certificate, lease, and fencing raw store APIs.
-- Preserved the authority-bound store adapter facade and published receipt view metadata for the #258 boundary slice.
-- Preserved published view classification for certificate_activate, certificate_revoke, lease_apply, lease_mutation, fencing_commit, and fencing_active_lease.
-- Removed the over-scope authority-bound transport authorization helper and fixture seam from the prior repair while keeping only compile-required certificate access-token reads.
-- Required FencingStoreAccess on raw FencingStore::authorize_active_lease and passed AUTHORITY_BOUND_FENCING_ACCESS from AuthorityBoundFencingStore.
-- Changed the raw fencing test fixture token from public debug_assertions export to cfg(test) pub(crate) internal fixture exposure.
-- Added static guard assertions rejecting public debug_assertions fencing token export and preserving positive adapter-token proof.
-- Added an external rustc compile-fail proof that a non-test dependent crate cannot import adl_runtime::distributed::fencing::TEST_FENCING_STORE_ACCESS.
-- Repaired that external compile-fail proof to derive its dependency directory from std::env::current_exe().parent() instead of assuming adl-runtime/target/debug/deps, making it portable across normal, repo-level, and coverage target layouts.
-- Kept migration, recovery, and snapshot catalog production paths on governed adapter calls and did not reopen transport scope.
-- Merged current origin/main after recording zero changed-path overlap with #258 and retained the post-merge validation evidence in this SOR.
-- Changed CertificateStoreAccess, LeaseStoreAccess, and FencingStoreAccess from zero-sized private-field values to private-field one-byte sealed capabilities.
-- Extended the focused external rustc compile-fail proof to separately deny TEST_* fixture imports and unsafe transmute(()) unit-forging for certificate, lease, and fencing capability types.
-- Retained the focused mechanical coverage-fallout classifier proof for the current #258 coverage-tooling follow-up without running hosted or broad coverage jobs.
+- Removed the ordinary compiled unsafe transmute(()) helper path from distributed_guardian.rs for LeaseStoreAccess setup fallout.
+- Removed the ordinary compiled unsafe transmute(()) helper path from distributed_runtime_transport.rs for CertificateStoreAccess setup fallout.
+- Preserved the focused external compile-fail authority proof that ordinary external dev-profile non-test dependents cannot import fixture constants or forge certificate, lease, or fencing access with unsafe transmute(()).
+- Confirmed production transport/core authorization sites remain bound to AUTHORITY_BOUND_CERTIFICATE_ACCESS and did not reopen #259 transport scope.
+- Retained repo-local TMPDIR for hosted-equivalent preflight evidence and did not use /private/tmp.
 
 ## Validation
 
 [
   {
     "command": [
-      "git",
-      "merge-base",
-      "--is-ancestor",
-      "origin/main",
-      "HEAD"
+      "bash",
+      "adl/tools/test_check_coverage_impact.sh"
     ],
-    "purpose": "Confirm current origin/main is ancestral to the #258 branch after the explicit current-main merge.",
+    "purpose": "Hosted-equivalent coverage-impact preflight contract that previously failed on stale compiled unsafe transmute(()) helpers.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/current-main-ancestry-after-dac45ca.log"
-  },
-  {
-    "command": [
-      "cargo",
-      "check",
-      "--manifest-path",
-      "adl-runtime/Cargo.toml"
-    ],
-    "purpose": "Compile-check the runtime crate at the current-main-merged branch head after the active-lease token repair.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/cargo-check-adl-runtime-post-main-merge.log"
+    "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair/test-check-coverage-impact.log"
   },
   {
     "command": [
@@ -102,9 +59,9 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
       "--nocapture",
       "--test-threads=1"
     ],
-    "purpose": "Exercise focused #258 authority-store boundary guardrails at the current-main-merged branch head, including direct raw active-lease signature denial and positive adapter-token proof.",
+    "purpose": "Exercise the focused #258 authority-store boundary and preserve the external compile-fail authority proof.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/cargo-test-distributed-identity-lease-authority-post-main-merge.log"
+    "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair/cargo-test-distributed-identity-lease-authority.log"
   },
   {
     "command": [
@@ -112,29 +69,27 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
       "test",
       "--manifest-path",
       "adl-runtime/Cargo.toml",
-      "distributed::authority_store_adapters::tests::published_view_exposes_all_store_authority_kinds",
-      "--",
-      "--nocapture"
+      "--test",
+      "distributed_guardian",
+      "--no-run"
     ],
-    "purpose": "Re-prove the preserved published view accepts and exposes all in-scope published store operation kinds at the current-main-merged branch head.",
+    "purpose": "Compile-only guard for the stale LeaseStoreAccess helper fallout in distributed_guardian.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/cargo-test-published-view-authority-kinds-post-main-merge.log"
+    "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair/cargo-test-distributed-guardian-no-run.log"
   },
   {
     "command": [
       "cargo",
-      "clippy",
+      "test",
       "--manifest-path",
       "adl-runtime/Cargo.toml",
       "--test",
-      "distributed_identity_lease_authority",
-      "--",
-      "-D",
-      "warnings"
+      "distributed_runtime_transport",
+      "--no-run"
     ],
-    "purpose": "Strict-lint the focused #258 authority-store boundary test target at the current-main-merged branch head.",
+    "purpose": "Compile-only guard for the stale CertificateStoreAccess helper fallout in distributed_runtime_transport.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority-post-main-merge.log"
+    "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair/cargo-test-distributed-runtime-transport-no-run.log"
   },
   {
     "command": [
@@ -143,39 +98,9 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
       "--manifest-path",
       "adl-runtime/Cargo.toml"
     ],
-    "purpose": "Compile-check the runtime crate after removing public debug-profile fencing test-token exposure.",
+    "purpose": "Compile-check the runtime crate after the stale helper repair.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/cargo-check-adl-runtime-test-token-seal.log"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "adl-runtime/Cargo.toml",
-      "--test",
-      "distributed_identity_lease_authority",
-      "--",
-      "--nocapture",
-      "--test-threads=1"
-    ],
-    "purpose": "Exercise focused #258 authority-store guardrails, including external rustc compile-fail proof that non-test dependents cannot import TEST_FENCING_STORE_ACCESS and positive adapter-token proof.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/cargo-test-distributed-identity-lease-authority-test-token-seal.log"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "adl-runtime/Cargo.toml",
-      "distributed::authority_store_adapters::tests::published_view_exposes_all_store_authority_kinds",
-      "--",
-      "--nocapture"
-    ],
-    "purpose": "Re-prove the preserved published view accepts and exposes all in-scope published store operation kinds after the fencing fixture visibility repair.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/cargo-test-published-view-authority-kinds-test-token-seal.log"
+    "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair/cargo-check-adl-runtime.log"
   },
   {
     "command": [
@@ -189,62 +114,9 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
       "-D",
       "warnings"
     ],
-    "purpose": "Strict-lint the focused #258 authority-store boundary test target after the fencing fixture visibility repair.",
+    "purpose": "Strict-lint the focused #258 authority-store boundary test target after the stale helper repair.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority-test-token-seal.log"
-  },
-  {
-    "command": [
-      "rg",
-      "-n",
-      "TEST_FENCING_STORE_ACCESS|TEST_FIXTURE|debug_assertions",
-      "adl-runtime/src/distributed/fencing.rs",
-      "adl-runtime/tests/distributed_identity_lease_authority.rs"
-    ],
-    "purpose": "Show the production fencing source exposes only cfg(test) pub(crate) fixture access and no public debug_assertions test token.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/rg-fencing-test-token-seal.log"
-  },
-  {
-    "command": [
-      "python3",
-      "download-readonly-actions-artifact"
-    ],
-    "purpose": "Diagnose the hosted runtime coverage producer without GitHub mutation; identify the exact failing test and confirm artifact provenance matched PR head 1e69ec6e52d9bcd0201f4efcb603f2ad6b27c4dc.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/ci-artifacts/31596511465/runtime-coverage-artifact-summary.json"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "adl-runtime/Cargo.toml",
-      "--test",
-      "distributed_identity_lease_authority",
-      "external_dev_profile_caller_cannot_import_fencing_test_access",
-      "--",
-      "--nocapture"
-    ],
-    "purpose": "Prove the repaired external compile-fail fixture derives its dependency directory from the current compiled test executable and passes under the local target layout.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/cargo-test-fencing-external-current-exe-target-layout.log"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "adl-runtime/Cargo.toml",
-      "--test",
-      "distributed_identity_lease_authority",
-      "--",
-      "--nocapture",
-      "--test-threads=1"
-    ],
-    "purpose": "Exercise the full focused #258 authority-store boundary test target after the target-layout fix.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/cargo-test-distributed-identity-lease-authority-target-layout-fix.log"
+    "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair/cargo-clippy-distributed-identity-lease-authority.log"
   },
   {
     "command": [
@@ -253,25 +125,39 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
       "--manifest-path",
       "adl-runtime/Cargo.toml",
       "--test",
-      "distributed_identity_lease_authority",
+      "distributed_guardian",
       "--",
       "-D",
       "warnings"
     ],
-    "purpose": "Strict-lint the focused #258 authority-store boundary test target after the target-layout fix.",
+    "purpose": "Strict-lint the repaired distributed_guardian helper target.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/cargo-clippy-distributed-identity-lease-authority-target-layout-fix.log"
+    "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair/cargo-clippy-distributed-guardian.log"
   },
   {
     "command": [
       "cargo",
-      "check",
+      "clippy",
       "--manifest-path",
-      "adl-runtime/Cargo.toml"
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_runtime_transport",
+      "--",
+      "-D",
+      "warnings"
     ],
-    "purpose": "Compile-check the runtime crate after the target-layout fix.",
+    "purpose": "Strict-lint the repaired distributed_runtime_transport helper target.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/cargo-check-adl-runtime-target-layout-fix.log"
+    "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair/cargo-clippy-distributed-runtime-transport.log"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_mechanical_coverage_fallout.sh"
+    ],
+    "purpose": "Retain the PR-fast deterministic mechanical coverage fallout proof for the #258 coverage classifier.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair/test-mechanical-coverage-fallout.log"
   },
   {
     "command": [
@@ -279,9 +165,9 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
       "diff",
       "--check"
     ],
-    "purpose": "Reject whitespace and patch hygiene errors across the target-layout fix.",
+    "purpose": "Reject whitespace and patch hygiene errors across the post-publication stale helper repair.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/git-diff-check-target-layout-fix.log"
+    "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair/git-diff-check.log"
   },
   {
     "command": [
@@ -292,45 +178,19 @@ Implemented #258 as the first #203 split slice: sealed raw certificate, lease, a
       "--issue",
       "258"
     ],
-    "purpose": "Validate typed #258 lifecycle truth after recovery and before the target-layout SOR update.",
+    "purpose": "Validate typed #258 lifecycle truth after the post-publication stale integration-helper repair.",
     "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/csdlc-validate-target-layout-fix-pre-sor.log"
-  },
-  {
-    "command": [
-      "csdlc-validate",
-      "--root",
-      "/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary",
-      "issue",
-      "--issue",
-      "258"
-    ],
-    "purpose": "Validate typed #258 lifecycle truth after the target-layout SOR update.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/csdlc-validate-target-layout-fix-final.log"
-  },
-  {
-    "command": [
-      "csdlc-validate",
-      "--root",
-      "/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary",
-      "issue",
-      "--issue",
-      "258"
-    ],
-    "purpose": "Validate typed #258 lifecycle truth after the non-ZST authority-token SOR update.",
-    "outcome": "passed",
-    "evidence_ref": ".csdlc/evidence/258/csdlc-validate-non-zst-token-seal-final.log"
+    "evidence_ref": ".csdlc/evidence/258/postpub-stale-helper-repair/csdlc-validate.log"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

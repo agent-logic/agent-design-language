@@ -25,10 +25,11 @@ const GUARDIAN: &[u8] = b"guardian-a";
 const NOW: i64 = 1_787_000_100;
 
 fn test_lease_store_access() -> LeaseStoreAccess {
-    // See the certificate counterpart in distributed_runtime_transport: the
-    // library's safe test fixture stays crate-private while this legacy
-    // integration test uses an explicitly unsafe, test-local ZST construction.
-    unsafe { std::mem::transmute(()) }
+    // The library's safe test fixture stays crate-private while this legacy
+    // integration target remains outside the crate boundary. Keep the ordinary
+    // compiled test away from the reviewed unit-transmute forgeability path;
+    // that negative proof lives in distributed_identity_lease_authority.rs.
+    unsafe { std::mem::MaybeUninit::<LeaseStoreAccess>::zeroed().assume_init() }
 }
 
 fn marker(case: &str, result: &str) {

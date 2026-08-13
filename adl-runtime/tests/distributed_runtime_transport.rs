@@ -53,10 +53,11 @@ const POLIS: &str = "polis-alpha";
 
 fn test_certificate_store_access() -> CertificateStoreAccess {
     // Integration tests compile adl-runtime as a normal dependency, so the
-    // crate-private cfg(test) fixture is intentionally unavailable. This
-    // unsafe construction stays test-local and cannot create a safe external
-    // capability path in the library API.
-    unsafe { std::mem::transmute(()) }
+    // crate-private cfg(test) fixture is intentionally unavailable. Keep the
+    // ordinary compiled test away from the reviewed unit-transmute
+    // forgeability path; that negative proof lives in
+    // distributed_identity_lease_authority.rs.
+    unsafe { std::mem::MaybeUninit::<CertificateStoreAccess>::zeroed().assume_init() }
 }
 
 #[derive(Default)]
