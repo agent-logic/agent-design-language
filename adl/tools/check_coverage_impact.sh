@@ -17,6 +17,7 @@ CSM_RUNTIME_CLI_COMPANION_DELTA_LIMIT="${COVERAGE_IMPACT_CSM_RUNTIME_CLI_COMPANI
 REQUIRE_SUMMARY_FOR_RISK=false
 PRINT_RISK_FILTERS=false
 PRINT_RISK_NEXTEST_EXPRESSION=false
+MECHANICAL_RECEIPT_DIR=""
 
 usage() {
   cat <<'USAGE'
@@ -36,6 +37,7 @@ Options:
                                   may need summary evidence and exit.
   --print-risk-nextest-expression Print one combined nextest filter expression for risky
                                   changed Rust files and exit.
+  --mechanical-receipt-dir <dir>  Run governed compile/behavior commands and write receipts.
   -h, --help                      Show this help.
 
 This is a fast authoring-time guard. It does not replace the full GitHub
@@ -81,6 +83,10 @@ while [ "$#" -gt 0 ]; do
     --print-risk-nextest-expression)
       PRINT_RISK_NEXTEST_EXPRESSION=true
       shift
+      ;;
+    --mechanical-receipt-dir)
+      MECHANICAL_RECEIPT_DIR="${2:-}"
+      shift 2
       ;;
     -h|--help)
       usage
@@ -617,6 +623,96 @@ rerun_preflight_command() {
   printf ' --summary adl/target/coverage-impact-summary.json'
 }
 
+cleanup_mechanical_fallout_attempt() {
+  local proof_root="$1"
+  local result_dir="$2"
+  local diff_file="$3"
+  local post_diff_file="$4"
+  local receipt_file="$5"
+  rm -rf "$proof_root" "$result_dir"
+  rm -f "$diff_file" "$post_diff_file" "$receipt_file"
+}
+
+mechanical_fallout_receipt_for_path() {
+  local path="$1"
+  [ -n "$MECHANICAL_RECEIPT_DIR" ] || return 1
+  local classifier_rel="adl/tools/mechanical_coverage_fallout.py"
+  local mapping_rel="adl/config/mechanical_coverage_fallout.v1.json"
+  local diff_file post_diff_file receipt_file result_dir path_digest base_revision head_revision diff_digest proof_root proof_revision
+  diff_file="$(mktemp)"
+  post_diff_file="$(mktemp)"
+  proof_root="$(mktemp -d)"
+  path_digest="$(printf '%s' "$path" | shasum -a 256 | awk '{print $1}')"
+  receipt_file="$MECHANICAL_RECEIPT_DIR/mechanical-${path_digest}.json"
+  result_dir="$MECHANICAL_RECEIPT_DIR/results/${path_digest}"
+  # A rerun for the same path replaces its complete evidence set. Remove stale
+  # success artifacts before attempting classification, and leave no receipt or
+  # results behind if any later step rejects or fails.
+  rm -f "$receipt_file"
+  rm -rf "$result_dir"
+  if [ "$INCLUDE_WORKTREE" = true ]; then
+    git -C "$ROOT" diff "$BASE" -- "$path" >"$diff_file"
+    base_revision="$(git -C "$ROOT" rev-parse "$BASE")" || {
+      cleanup_mechanical_fallout_attempt "$proof_root" "$result_dir" "$diff_file" "$post_diff_file" "$receipt_file"
+      return 1
+    }
+    diff_digest="$(shasum -a 256 "$diff_file" | awk '{print $1}')"
+    head_revision="worktree:${diff_digest}"
+    proof_revision="$base_revision"
+  else
+    git -C "$ROOT" diff "$BASE...$HEAD" -- "$path" >"$diff_file" 2>/dev/null ||
+      git -C "$ROOT" diff "$BASE" "$HEAD" -- "$path" >"$diff_file"
+    base_revision="$(git -C "$ROOT" merge-base "$BASE" "$HEAD")" || {
+      cleanup_mechanical_fallout_attempt "$proof_root" "$result_dir" "$diff_file" "$post_diff_file" "$receipt_file"
+      return 1
+    }
+    head_revision="$(git -C "$ROOT" rev-parse "$HEAD")" || {
+      cleanup_mechanical_fallout_attempt "$proof_root" "$result_dir" "$diff_file" "$post_diff_file" "$receipt_file"
+      return 1
+    }
+    proof_revision="$head_revision"
+  fi
+  # Proof commands never consume the mutable caller worktree. Build a clean,
+  # untracked-file-free snapshot from the exact Git object and overlay only the
+  # classified worktree diff when authoring against an uncommitted candidate.
+  if ! git -C "$ROOT" archive "$proof_revision" | tar -x -C "$proof_root"; then
+    cleanup_mechanical_fallout_attempt "$proof_root" "$result_dir" "$diff_file" "$post_diff_file" "$receipt_file"; return 1
+  fi
+  if [ "$INCLUDE_WORKTREE" = true ] && ! patch -s -d "$proof_root" -p1 <"$diff_file"; then
+    cleanup_mechanical_fallout_attempt "$proof_root" "$result_dir" "$diff_file" "$post_diff_file" "$receipt_file"; return 1
+  fi
+  local classifier="$proof_root/$classifier_rel"
+  local mapping="$proof_root/$mapping_rel"
+  [ -f "$classifier" ] && [ -f "$mapping" ] || { cleanup_mechanical_fallout_attempt "$proof_root" "$result_dir" "$diff_file" "$post_diff_file" "$receipt_file"; return 1; }
+  local classifier_digest mapping_digest
+  classifier_digest="$(shasum -a 256 "$classifier" | awk '{print $1}')"
+  mapping_digest="$(shasum -a 256 "$mapping" | awk '{print $1}')"
+  if python3 "$classifier" --diff "$diff_file" --mapping "$mapping" \
+      --receipt "$receipt_file" --repo-root "$proof_root" \
+      --evidence-dir "$result_dir" \
+      --base-revision "$base_revision" --head-revision "$head_revision" >/dev/null; then
+    [ "$(shasum -a 256 "$classifier" | awk '{print $1}')" = "$classifier_digest" ] &&
+      [ "$(shasum -a 256 "$mapping" | awk '{print $1}')" = "$mapping_digest" ] || { cleanup_mechanical_fallout_attempt "$proof_root" "$result_dir" "$diff_file" "$post_diff_file" "$receipt_file"; return 1; }
+    if [ "$INCLUDE_WORKTREE" = true ]; then
+      git -C "$ROOT" diff "$BASE" -- "$path" >"$post_diff_file"
+      [ "$(git -C "$ROOT" rev-parse "$BASE")" = "$base_revision" ] || { cleanup_mechanical_fallout_attempt "$proof_root" "$result_dir" "$diff_file" "$post_diff_file" "$receipt_file"; return 1; }
+    else
+      git -C "$ROOT" diff "$BASE...$HEAD" -- "$path" >"$post_diff_file" 2>/dev/null ||
+        git -C "$ROOT" diff "$BASE" "$HEAD" -- "$path" >"$post_diff_file"
+      [ "$(git -C "$ROOT" merge-base "$BASE" "$HEAD")" = "$base_revision" ] &&
+        [ "$(git -C "$ROOT" rev-parse "$HEAD")" = "$head_revision" ] || { cleanup_mechanical_fallout_attempt "$proof_root" "$result_dir" "$diff_file" "$post_diff_file" "$receipt_file"; return 1; }
+    fi
+    cmp -s "$diff_file" "$post_diff_file" || { cleanup_mechanical_fallout_attempt "$proof_root" "$result_dir" "$diff_file" "$post_diff_file" "$receipt_file"; return 1; }
+    rm -rf "$proof_root"
+    rm -f "$diff_file"
+    rm -f "$post_diff_file"
+    echo "coverage-impact: accepted exact mechanical compile fallout for ${path}; receipt ${receipt_file}"
+    return 0
+  fi
+  cleanup_mechanical_fallout_attempt "$proof_root" "$result_dir" "$diff_file" "$post_diff_file" "$receipt_file"
+  return 1
+}
+
 print_next_actions_for_path() {
   local path="$1"
   local context="$2"
@@ -836,6 +932,9 @@ if [ -n "$SUMMARY" ] && [ -s "$SUMMARY" ]; then
       continue
     fi
     if ! awk -v pct="$pct" -v threshold="$THRESHOLD" 'BEGIN { exit ((pct + 0) < (threshold + 0)) ? 0 : 1 }'; then
+      continue
+    fi
+    if mechanical_fallout_receipt_for_path "$path"; then
       continue
     fi
     failures="${failures}  - ${path} (${covered_count}, ${pct}% < ${THRESHOLD}%)"$'\n'

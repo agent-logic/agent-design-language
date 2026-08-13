@@ -125,5 +125,9 @@ pub use soak::{
     SoakScenario,
 };
 pub use store::{
-    approve_design, edit_issue, ApproveDesignRequest, BootstrapRequest, EditRequest, Store,
+    approve_design, edit_issue, recover_initialized_decomposition, ApproveDesignRequest,
+    BootstrapRequest, DecompositionGraphEdge, DecompositionGraphInput, DecompositionGraphNode,
+    DesignReviewRecoveryTruth, EditRequest, InitializedDecompositionRecoveryReplacement,
+    InitializedDecompositionRecoveryRequest, InitializedDecompositionRecoveryResult,
+    InitializedRecoveryFailurePoint, PreservedAuthoredArtifact, Store,
 };
