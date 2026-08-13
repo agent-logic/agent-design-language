@@ -1,0 +1,26 @@
+flowchart TD
+  A["#298 terminal + ancestral gate"] --> B["Load completed #298 recovery receipt"]
+  A --> A0["Fail closed: missing terminal, stale ancestry, or wrong head"]
+  B --> C["Verify canonical/archive manifest binding"]
+  B --> B0["Fail closed: receipt/canonical/archive mismatch"]
+  C --> D["Create immutable cleanup operation receipt"]
+  D --> D0["Restart adopts only exact operation id and namespace receipt"]
+  D --> E["Create private deletion namespace"]
+  E --> E0["Restart rejects owner, mode, mount, or placeholder type drift"]
+  E --> F["Capture public archived nodes by exact identity/type exchange"]
+  F --> F0["Restart adopts exact post-exchange inode or fails closed"]
+  F --> G["Remove captured exact inodes with unlink/rmdir"]
+  G --> G0["Restart blocks removal without durable capture receipt"]
+  G --> H["Fsync parents and record completion receipts"]
+  H --> H0["Restart requires parent-fsync receipt before completion"]
+  H --> I["Dispose type-matched placeholders"]
+  I --> I0["Restart preserves third-party replacements during disposal"]
+  I --> J["Final immutable cleanup receipt"]
+  J --> J0["Completed repeat is idempotent; receipts retained"]
+  J --> K["Idempotent repeat returns completed"]
+
+  C --> X["Fail closed and preserve all state"]
+  E --> X
+  F --> X
+  G --> X
+  H --> X

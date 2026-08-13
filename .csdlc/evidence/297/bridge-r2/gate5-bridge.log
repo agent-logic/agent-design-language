@@ -1,0 +1,11 @@
+sha=3f38a135e939264e5b4f66ed4477d32c56abce61
+argv=cargo test --manifest-path csdlc-v2/Cargo.toml --test gate5 recovery_bridge_emits_cleanup_authority_consumed_by_cleanup -- --nocapture
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.08s
+     Running tests/gate5.rs (csdlc-v2/target/debug/deps/gate5-5b4c36b520b537e5)
+
+running 1 test
+test recovery_bridge_emits_cleanup_authority_consumed_by_cleanup ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 56 filtered out; finished in 5.42s
+
+status=0
