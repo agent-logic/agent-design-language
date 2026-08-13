@@ -1,0 +1,75 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 300,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][297.c][test] Prove projection recovery crash, topology, race, and idempotency behavior",
+    "slug": "projection-recovery-integration-proof",
+    "version": "v0.92.0",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Implemented the issue-owned projection recovery integration proof target without production edits.",
+      "actual_changes": [
+        "Added csdlc-v2/tests/projection_recovery_integration.rs to verify #298/#299 terminal ancestry, production recovery-to-cleanup composition, idempotent repeats, cleanup race fail-closed behavior, and a later ordinary typed commit."
+      ],
+      "artifacts": [
+        "csdlc-v2/tests/projection_recovery_integration.rs",
+        ".csdlc/evidence/300"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--workspace",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Run strict Clippy with warnings denied.",
+          "outcome": "passed",
+          "evidence_ref": "csdlc-v2-strict-clippy.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "projection_recovery_integration"
+          ],
+          "purpose": "Run the issue-owned integration target.",
+          "outcome": "passed",
+          "evidence_ref": "projection-recovery-integration.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate5"
+          ],
+          "purpose": "Run existing gate5 regression target read-only.",
+          "outcome": "passed",
+          "evidence_ref": "projection-recovery-regression.log"
+        }
+      ],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}
