@@ -57,12 +57,6 @@ fn version_text() -> &'static str {
     env!("CARGO_PKG_VERSION")
 }
 
-fn real_tooling(_args: &[String]) -> Result<()> {
-    Err(anyhow::anyhow!(
-        "the v1 tooling multiplexer was removed; use the independent C-SDLC v2 binaries"
-    ))
-}
-
 fn print_error_chain(err: &anyhow::Error) {
     eprintln!("Error: {err}");
 
