@@ -90,8 +90,7 @@ fn identity(path: &Path, node_type: CleanupNodeType) -> CleanupNodeIdentity {
 
 fn write_distinct_replacement(path: &Path, contents: &str) {
     fs::write(path, contents).expect("replacement");
-    fs::set_permissions(path, fs::Permissions::from_mode(0o600))
-        .expect("replacement mode drift");
+    fs::set_permissions(path, fs::Permissions::from_mode(0o600)).expect("replacement mode drift");
 }
 
 fn authority(
