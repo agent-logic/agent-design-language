@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.16b3.1b][defect] Expose sealed authenticated Observatory authority projection",
     "slug": "authenticated-observatory-authority-projection",
     "version": "v0.92",
-    "generation": 15
+    "generation": 17
   },
   "status": "pre_phase",
   "content": {
@@ -150,6 +150,17 @@
           "purpose": "Reject warning and API regressions after R1 remediation.",
           "outcome": "passed",
           "evidence_ref": "exact remediation run at a2024a186: finished dev profile with no warnings/errors"
+        },
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check",
+            "origin/main...HEAD"
+          ],
+          "purpose": "Reject patch whitespace and conflict-marker hygiene defects across the complete candidate.",
+          "outcome": "passed",
+          "evidence_ref": "exact remediation candidate 7ba526f2 against origin/main: exit 0, no output"
         }
       ],
       "integration_state": "worktree_only",

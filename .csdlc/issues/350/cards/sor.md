@@ -154,6 +154,17 @@ Seal replicated Observatory authority with durable quorum, deadline, exact servi
     "purpose": "Reject warning and API regressions after R1 remediation.",
     "outcome": "passed",
     "evidence_ref": "exact remediation run at a2024a186: finished dev profile with no warnings/errors"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "origin/main...HEAD"
+    ],
+    "purpose": "Reject patch whitespace and conflict-marker hygiene defects across the complete candidate.",
+    "outcome": "passed",
+    "evidence_ref": "exact remediation candidate 7ba526f2 against origin/main: exit 0, no output"
   }
 ]
 
