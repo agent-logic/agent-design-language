@@ -20,7 +20,8 @@ abort("main binding drift") unless proof["required_main_ancestor"] == git("rev-p
 abort("product drift") unless git("diff", "--name-only", "origin/main...HEAD", "--", "adl-runtime", "adl/Cargo.lock").empty?
 abort("historical proof disposition missing") unless proof["historical_proof_disposition"] == "superseded_nonclaim"
 expected_merges = {"258"=>"193f77d24a693f955a2fcf3bdfc759ad1db8aff4","259"=>"119bab39d4eb98cd4013c95633ff070908e4c59c","260"=>"0b5aefd6e75e56ccac59e761a7037902f581c76d"}
-finish = ROOT.join(".adl/bin/csdlc-v2/csdlc-finish").to_s
+common = Pathname.new(git("rev-parse", "--git-common-dir").strip).expand_path(ROOT)
+finish = common.parent.join(".adl/bin/csdlc-v2/csdlc-finish").to_s
 expected_merges.each do |issue, expected_merge|
   raw, err, status = Open3.capture3(finish, "--root", ROOT.to_s, "--validate-cached-issue", issue, chdir: ROOT.to_s)
   abort("terminal cache validation failed ##{issue}: #{err}") unless status.success?

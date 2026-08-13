@@ -20,7 +20,8 @@ COMMANDS = {
   "caller-guard" => %w[cargo test --locked --manifest-path adl-runtime/Cargo.toml --test distributed_authority_adapter_callers_260 -- --test-threads=1],
   "strict-clippy" => %w[cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test distributed_identity_lease_authority -- -D warnings]
 }.freeze
-FINISH = ROOT.join(".adl/bin/csdlc-v2/csdlc-finish").to_s
+COMMON = Pathname.new(Open3.capture2("git", "rev-parse", "--git-common-dir", chdir: ROOT.to_s).first.strip).expand_path(ROOT)
+FINISH = COMMON.parent.join(".adl/bin/csdlc-v2/csdlc-finish").to_s
 
 if PROOF.file?
   ok = system("ruby", ".csdlc/prepared/issues/203/validate-proof-receipt.rb", chdir: ROOT.to_s)
