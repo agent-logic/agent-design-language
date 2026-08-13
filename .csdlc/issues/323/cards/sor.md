@@ -88,11 +88,11 @@ Implemented a typed C-SDLC v2 bound issue identity migration operation that reta
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
