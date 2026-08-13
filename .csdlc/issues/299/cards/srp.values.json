@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 299,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][297.b][defect] Implement exact-authority archived-projection cleanup",
+    "slug": "exact-authority-archived-projection-cleanup",
+    "version": "v0.92",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "csdlc-v2/src/projection_cleanup.rs\ncsdlc-v2/tests/archived_projection_cleanup.rs\ncsdlc-v2/src/schema.rs\ncsdlc-v2/src/bin/csdlc-edit.rs\n.csdlc/issues/299\n.csdlc/evidence/299",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can cleanup start without exact terminal+ancestral #298 recovery authority or a matching completed recovery/canonical/archive binding?",
+        "Can any path, digest, symlink, recursive walk, or unrecorded inode authorize deletion?",
+        "Do regular files, empty directories, root placeholder, tombstones, and disposal counterparts have explicit type-correct pre/post exchange and removal receipts?",
+        "Does every restart boundary adopt only exact receipt-owned identities and preserve ambiguous, replaced, unsupported, non-empty, or third states?",
+        "Do immutable cleanup receipts and #298 recovery evidence survive successful cleanup?",
+        "Do unrelated sentinels and replacement inodes survive all success, failure, and race cases?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

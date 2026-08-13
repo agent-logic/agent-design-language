@@ -1,0 +1,17 @@
+flowchart TD
+  A["#298 terminal + ancestral gate"] --> B["Load completed #298 recovery receipt"]
+  B --> C["Verify canonical/archive manifest binding"]
+  C --> D["Create immutable cleanup operation receipt"]
+  D --> E["Create private deletion namespace"]
+  E --> F["Capture public archived nodes by exact identity/type exchange"]
+  F --> G["Remove captured exact inodes with unlink/rmdir"]
+  G --> H["Fsync parents and record completion receipts"]
+  H --> I["Dispose type-matched placeholders"]
+  I --> J["Final immutable cleanup receipt"]
+  J --> K["Idempotent repeat returns completed"]
+
+  C --> X["Fail closed and preserve all state"]
+  E --> X
+  F --> X
+  G --> X
+  H --> X
