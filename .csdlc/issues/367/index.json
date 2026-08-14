@@ -1,0 +1,180 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 367,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "ff3f0446136c2768eaa3ea5b90b66938d045b495adca6ffd10d27279ef775549",
+  "phase": "bound",
+  "generation": 13,
+  "digest": "2a1f8d3631040d17d8ba6154fc661fe33032f78f29c8dc7ab37ab18b90279dfc",
+  "branch": "codex/367-sealed-child-pairing-lineage",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-367-sealed-child-pairing-lineage",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/367/design.md",
+  "diagram_path": ".csdlc/prepared/issues/367/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:d3d25cc8-eeb3-4103-9091-9a326b9d87ee",
+      "revision": "ddca0a5ce38a8dfed01754222b7b1e790d8c3faba374a6db1e0e6ad3b2475d4b"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "7d4da34c6af59c5cc67a3c126f59d9b0d62eb603aa98f0f23a748e78d0816360",
+      "rendered_digest": "b85a8b4b90a26f870b0923a6dd122ef485201433dd8c95912e73f6b333878715",
+      "ast_digest": "f44c9a8559e1c918639e9da58056bd21c0af8d32298ccc2d7399827a860ec766"
+    },
+    "stp": {
+      "values_digest": "de30165eb3f2fcd8384235ff514396730ced0cca82d6d84666c264a509fc053b",
+      "rendered_digest": "b465c619c9b8dd6f044d7cd34aaf66eefd0428d9d2a2bb7e91dfe0a6c0888898",
+      "ast_digest": "8e6f8be9698bee11b84b575c3ba151e5858043aecc6ce7c7333a76463764451f"
+    },
+    "spp": {
+      "values_digest": "bef07428f5355b0923030b272c5f10177756afe7de41af3ff63971e0b0b06bef",
+      "rendered_digest": "aff78074038147ab8a5f0c4644a8f3a2e1d1d350efd9b4e3b8bef9bec6d407b9",
+      "ast_digest": "d3379993cde15df2cc0aa776441950cb30d2e35f849ec93d5e1a800928b00b76"
+    },
+    "vpp": {
+      "values_digest": "75399e5c13ed8c78cc841500cf0ab020dc8883fe53f8e8f5b69049f77bfb24a9",
+      "rendered_digest": "4fade6f53f8d3e5297443c96836b816ec8f584eeaeb7a57c9b61e8c87655bde8",
+      "ast_digest": "3090958d548aec82a986654b2422162b916139f10ac8c25f720170eec90abecb"
+    },
+    "srp": {
+      "values_digest": "327056c3c1035ae3d851dd32469c88dc967c468e795e8ac48a05b45fdc5e5bf8",
+      "rendered_digest": "4389d051f1673d0ed4378412f073898aa96d4b40b49b4e170a7d1dc68fe9cc70",
+      "ast_digest": "ab5ad7771bf23bbb988b68e260cf6b31d2229a3488578ef93850a17aa9d39cf5"
+    },
+    "sor": {
+      "values_digest": "fb805ace794b8873561895489db3d52303892775cc6762b2ee046962d1acc833",
+      "rendered_digest": "f06058ec692811a2a46176e21227736176bcdf691f8e58a8f0f7c5f88360e32c",
+      "ast_digest": "0c1186c0fdf9f91c6b01f60ebcd8f5ad3d399367f03cb2305f6d2cf68b0c4ef5"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-367-bootstrap",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:1951b417-a5ac-4f14-99e5-f59e5006205a",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:issue-367-domain-parity",
+      "reason": "Align STP acceptance truth with the exact existing ADL-SERVING-REF-V1 lineage domain after authored design review.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/367/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/367/diagram.mmd\",\"new_design_digest\":\"a5aad350bf0be445caf0370630a746b33b541d566789e5ea7372ab0ccfd713f3\",\"new_diagram_digest\":\"43f7f1c44c3d8e8fd8969ffbab8421b8721f65fc61fbca84bd0c58398709c463\",\"old_design_digest\":\"a5aad350bf0be445caf0370630a746b33b541d566789e5ea7372ab0ccfd713f3\",\"old_diagram_digest\":\"43f7f1c44c3d8e8fd8969ffbab8421b8721f65fc61fbca84bd0c58398709c463\"},\"operation\":{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: lineage_ref is derived only from the opaque verified serving-authority cut using the exact existing ADL-SERVING-REF-V1 lineage domain/preimage and no new raw getter is added.\",\"AC-2: Shepherd grant public projection receipt normalized state and sealed preimage bind and preserve the redacted lineage across authenticated transitions and restart.\",\"AC-3: The pair verifier accepts only opaque #365 sealed child inputs with fixed child kinds and equal required lineage references.\",\"AC-4: Authentic same-lineage stores pass while two genuine A/B stores deny before first integration and after reopen.\",\"AC-5: Legacy missing lineage fabricated DTOs mutation corruption stale provenance and raw caller pairing input fail closed without synthetic migration.\",\"AC-6: Existing Shepherd and Observatory policy behavior and redaction remain unchanged.\",\"AC-7: Exact four-path scope focused tests strict Clippy exact review hosted CI typed finish cache and ancestry pass before #275 resumes.\"]}}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:issue-367-domain-parity",
+      "reason": "Align STP repository inputs with the exact existing ADL-SERVING-REF-V1 keyed lineage domain after authored review.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\"agent-logic/agent-design-language#367\",\"terminal #365 sealed Shepherd and Observatory projection APIs\",\"VerifiedServingAuthorityCut and exact existing ADL-SERVING-REF-V1 keyed lineage domain\",\"terminal #273/#274 focused durable store tests\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "fresh-session:aeac8d06-d553-4caa-ac86-cc27a57468df",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "fresh-session:3faf3d28-6c0b-4fc9-9973-4aa8547a60a6",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:issue-367-pair-adapter-parity",
+      "reason": "Require verifier-only construction of the borrowed opaque pair adapter in operative acceptance truth.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: lineage_ref is derived only from the opaque verified serving-authority cut using the exact existing ADL-SERVING-REF-V1 lineage domain/preimage and no new raw getter is added.\",\"AC-2: Shepherd grant public projection receipt normalized state and sealed preimage bind and preserve the redacted lineage across authenticated transitions and restart.\",\"AC-3: The pair verifier accepts only opaque #365 sealed child inputs with fixed child kinds and equal required lineage references, then returns a privately constructed borrowed VerifiedCommittedChildLineagePair with no raw-lineage, boolean-success, constructor, or deserializer seam.\",\"AC-4: Authentic same-lineage stores pass while two genuine A/B stores deny before first integration and after reopen.\",\"AC-5: Legacy missing lineage fabricated DTOs mutation corruption stale provenance raw caller pairing input and pair-adapter struct construction fail closed without synthetic migration.\",\"AC-6: Existing Shepherd and Observatory policy behavior and redaction remain unchanged.\",\"AC-7: Exact four-path scope focused tests strict Clippy exact review hosted CI typed finish cache and ancestry pass before #275 resumes.\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:issue-367-pair-adapter-parity",
+      "reason": "Align the operative plan with the verifier-returned opaque borrowed pair adapter.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Validate exact terminal ancestry and obtain fresh design review approval for verifier-derived lineage and the opaque pair adapter.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-6\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"In the bound exact four paths, implement Shepherd lineage binding and verifier-only construction of a borrowed VerifiedCommittedChildLineagePair over the exact sealed children.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Run focused matrices strict Clippy diff review CI finish cache and ancestry before #275 consumes the opaque adapter.\",\"acceptance_ids\":[\"AC-7\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:issue-367-pair-adapter-parity",
+      "reason": "Record the non-substitutable opaque pair adapter as an operative planning invariant.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Only a verified cut derives the redacted lineage reference\",\"Only store-owned sealed values enter pair verification\",\"Only the verifier constructs the borrowed pair adapter over the exact two sealed inputs\",\"The pair adapter exposes no raw lineage boolean constructor deserializer or mutable state\",\"Authentic different-lineage stores fail on first use and restart\",\"Legacy missing lineage is never synthesized\",\"Existing eligibility policy is unchanged\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:issue-367-pair-adapter-parity",
+      "reason": "Direct exact review to pair-adapter private construction and substitution resistance.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Is lineage_ref derived from the verified cut with the exact existing keyed lineage domain and no new raw exposure?\",\"Do Shepherd grant receipt normalized state and sealed preimage all bind the same required lineage?\",\"Can only the two opaque #365 sealed types enter pair verification, and can only the verifier construct the borrowed pair adapter?\",\"Does the adapter borrow the exact verified children while exposing no raw lineage boolean constructor deserializer or mutable state?\",\"Do real A/A and A/B stores prove first-use and restart behavior?\",\"Does legacy missing lineage fail closed without synthetic migration and does policy remain unchanged?\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:issue-367-pair-adapter-parity",
+      "reason": "Add executable normal-build API denial and opaque adapter proof to the exact validation DAG.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"shepherd-private-unit\",\"proof_role\":\"Run the exact source-unit filter proving missing lineage denial, sealed preimage tamper rejection, and private pair-adapter construction/accessor invariants.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"shepherd_serving_eligibility::tests::sealed_committed_projection_private_provenance\",\"--features\",\"internal-test-fixtures\"],\"parallel_group\":\"367-serial-01\",\"defer_reason\":\"Deferred until adapter implementation; zero tests fail closed.\"},{\"lane\":\"normal-build-api-denial\",\"proof_role\":\"Run normal-build rustdoc compile-fail examples proving sealed DTO/raw lineage and pair-adapter struct construction are unavailable.\",\"acceptance_ids\":[\"AC-3\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--doc\"],\"parallel_group\":\"367-serial-02\",\"defer_reason\":\"Deferred until adapter compile-fail docs exist; zero tests fail closed.\"},{\"lane\":\"shepherd-focused\",\"proof_role\":\"Run the exact feature-bearing Shepherd target proving verifier-derived lineage persistence, replacement/end preservation, legacy denial, redaction, and unchanged lifecycle behavior.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_shepherd_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"367-serial-04\",\"defer_reason\":\"Deferred until implementation; missing or zero tests fail closed.\"},{\"lane\":\"observatory-focused\",\"proof_role\":\"Run the exact feature-bearing Observatory target proving opaque adapter A/A success, authentic A/B first-use/restart denial, exact-child borrows, and redaction.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"367-serial-05\",\"defer_reason\":\"Deferred until implementation; missing or zero tests fail closed.\"},{\"lane\":\"library-clippy\",\"proof_role\":\"Reject warnings and hidden API drift across the feature-bearing library and private verifier/adapter surfaces.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--features\",\"internal-test-fixtures\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"367-serial-06\",\"defer_reason\":\"Deferred until implementation.\"},{\"lane\":\"shepherd-clippy\",\"proof_role\":\"Reject warnings in the exact feature-bearing Shepherd target.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_shepherd_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"367-serial-07\",\"defer_reason\":\"Deferred until implementation.\"},{\"lane\":\"observatory-clippy\",\"proof_role\":\"Reject warnings in the exact feature-bearing Observatory target.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":900,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"367-serial-08\",\"defer_reason\":\"Deferred until implementation.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject patch hygiene outside the immutable #365 terminal base.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\",\"a4801fbb3a58bed27ba53367cbda8b31a1f56083...HEAD\"],\"parallel_group\":\"367-serial-09\",\"defer_reason\":\"Deferred until implementation revision.\"}]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:issue-367-pair-adapter-parity",
+      "reason": "Remove the preparation-only validator target from the bound implementation affected-area denominator; its pre-bind PASS remains historical evidence.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/distributed/serving_authority.rs\",\"adl-runtime/src/distributed/shepherd_serving_eligibility.rs\",\"adl-runtime/tests/distributed_shepherd_serving_eligibility.rs\",\"adl-runtime/tests/distributed_observatory_serving_eligibility.rs\",\".csdlc/prepared/issues/367\",\".csdlc/issues/367\",\".csdlc/evidence/367\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:issue-367-pair-adapter-parity",
+      "reason": "Remove the unavailable preparation-only validator from bound implementation deliverables while retaining design/diagram and typed lifecycle evidence.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime/src/distributed/serving_authority.rs\",\"adl-runtime/src/distributed/shepherd_serving_eligibility.rs\",\"adl-runtime/tests/distributed_shepherd_serving_eligibility.rs\",\"adl-runtime/tests/distributed_observatory_serving_eligibility.rs\",\".csdlc/prepared/issues/367/design.md\",\".csdlc/prepared/issues/367/diagram.mmd\",\".csdlc/issues/367\",\".csdlc/evidence/367\"]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "fresh-session:d3d25cc8-eeb3-4103-9091-9a326b9d87ee",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    }
+  ]
+}

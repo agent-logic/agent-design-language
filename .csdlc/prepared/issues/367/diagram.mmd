@@ -1,0 +1,9 @@
+flowchart LR
+  C["VerifiedServingAuthorityCut private lineage_id"] --> K["serving_authority keyed lineage_ref"]
+  K --> S["Shepherd committed Grant and sealed projection"]
+  K --> O["Observatory verified binding and sealed projection"]
+  S --> P["opaque same-lineage pair verifier"]
+  O --> P
+  A["authentic unrelated A/B stores"] -. mismatch denied .-> P
+  X["raw lineage, DTOs, caller pairing booleans"] -. unavailable .-> P
+  P --> I["#275 may consume only after PASS"]

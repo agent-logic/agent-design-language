@@ -397,6 +397,9 @@ impl VerifiedServingAuthorityCut {
     pub fn lineage_id(&self) -> &str {
         &self.lineage_id
     }
+    pub fn lineage_ref(&self) -> String {
+        keyed_ref("lineage", &self.lineage_id)
+    }
     pub fn owner_commit_id(&self) -> &str {
         &self.owner_commit_id
     }

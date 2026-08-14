@@ -9,6 +9,9 @@ use adl_runtime::distributed::{
         ObservatoryBindingFixture, ObservatoryIdentifierField, ObservatoryTransitionAction,
         VerifiedServingAuthorityCut,
     },
+    shepherd_serving_eligibility::{
+        verify_committed_child_lineage_pair, ShepherdEligibilityError, ShepherdEligibilityStore,
+    },
 };
 use std::{
     collections::BTreeMap,
@@ -65,6 +68,93 @@ fn pair(
 }
 fn open(d: &TempDir, a: Arc<MemoryAuthority>) -> ObservatoryEligibilityStore {
     ObservatoryEligibilityStore::open(&d.path().canonicalize().unwrap(), a, 64).unwrap()
+}
+fn open_shepherd(d: &TempDir, a: Arc<MemoryAuthority>) -> ShepherdEligibilityStore {
+    ShepherdEligibilityStore::open(&d.path().canonicalize().unwrap(), a, 8).unwrap()
+}
+fn shepherd_cut(lineage: &str) -> VerifiedServingAuthorityCut {
+    VerifiedServingAuthorityCut::fixture(
+        lineage.into(),
+        7,
+        "owner-commit".into(),
+        9,
+        "lease-1".into(),
+        "11".repeat(32),
+        "22".repeat(32),
+        "33".repeat(32),
+    )
+}
+
+#[test]
+fn authentic_child_lineage_pairing_survives_restart_and_rejects_real_ab_stores() {
+    let shepherd_dir = TempDir::new().unwrap();
+    let observatory_dir = TempDir::new().unwrap();
+    let authority = Arc::new(MemoryAuthority::default());
+    {
+        let mut shepherd = open_shepherd(&shepherd_dir, authority.clone());
+        shepherd
+            .acquire(
+                "shepherd-a",
+                "shepherd-a",
+                b"permit",
+                &shepherd_cut("lineage-shared"),
+                100,
+                1,
+            )
+            .unwrap();
+        let mut observatory = open(&observatory_dir, authority.clone());
+        let (published, cut, _) = pair(
+            "paired",
+            "paired",
+            2,
+            ObservatoryTransitionAction::Acquire,
+            None,
+        );
+        observatory
+            .apply(&published, &cut, 1_700_000_000, 123_456_789)
+            .unwrap();
+        let shepherd_sealed = shepherd.committed_projection().unwrap().unwrap();
+        let observatory_sealed = observatory.committed_projection().unwrap().unwrap();
+        let pair =
+            verify_committed_child_lineage_pair(&shepherd_sealed, &observatory_sealed).unwrap();
+        assert!(std::ptr::eq(pair.shepherd(), &shepherd_sealed));
+        assert!(std::ptr::eq(pair.observatory(), &observatory_sealed));
+    }
+    let shepherd = open_shepherd(&shepherd_dir, authority.clone());
+    let observatory = open(&observatory_dir, authority.clone());
+    let shepherd_sealed = shepherd.committed_projection().unwrap().unwrap();
+    let observatory_sealed = observatory.committed_projection().unwrap().unwrap();
+    let pair = verify_committed_child_lineage_pair(&shepherd_sealed, &observatory_sealed).unwrap();
+    assert!(std::ptr::eq(pair.shepherd(), &shepherd_sealed));
+    assert!(std::ptr::eq(pair.observatory(), &observatory_sealed));
+
+    let other_dir = TempDir::new().unwrap();
+    let other_authority = Arc::new(MemoryAuthority::default());
+    let mut other = open_shepherd(&other_dir, other_authority.clone());
+    other
+        .acquire(
+            "shepherd-b",
+            "shepherd-b",
+            b"permit",
+            &shepherd_cut("lineage-other"),
+            100,
+            1,
+        )
+        .unwrap();
+    let other_sealed = other.committed_projection().unwrap().unwrap();
+    assert!(matches!(
+        verify_committed_child_lineage_pair(&other_sealed, &observatory_sealed),
+        Err(ShepherdEligibilityError::StaleAuthority)
+    ));
+    drop(other);
+    let reopened_other = open_shepherd(&other_dir, other_authority);
+    assert!(matches!(
+        verify_committed_child_lineage_pair(
+            &reopened_other.committed_projection().unwrap().unwrap(),
+            &observatory_sealed,
+        ),
+        Err(ShepherdEligibilityError::StaleAuthority)
+    ));
 }
 #[test]
 fn authenticated_lifecycle_and_restart_are_monotone() {
