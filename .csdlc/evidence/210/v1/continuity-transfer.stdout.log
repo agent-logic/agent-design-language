@@ -1,0 +1,64 @@
+
+running 14 tests
+test abort_is_idempotent_redacted_and_stops_later_frames ... pass:CASE-030:cancellation_before_effect
+pass:CASE-031:cancellation_midstream
+pass:CASE-044:zero_residue_abort
+ok
+test authorized_transfer_accepts_ordered_frames_and_redacted_receipt ... pass:CASE-001:authorized_transfer
+pass:CASE-018:frame_n_accepted
+pass:CASE-045:evidence_redaction
+ok
+test completion_retry_and_completion_journal_are_cached_without_payload ... pass:CASE-006:exact_retry_cached
+pass:CASE-037:crash_after_completion_result
+pass:CASE-039:crash_after_checkpoint
+ok
+test corrupt_or_rollback_journal_is_denied ... pass:CASE-042:coherent_rollback_denied
+pass:CASE-041:disk_full_no_false_success
+ok
+test deadline_and_chunk_overrun_are_denied_before_prefix_advances ... pass:CASE-019:frame_n_plus_one_denied
+pass:CASE-028:deadline_before_first_byte
+pass:CASE-029:deadline_midstream
+ok
+test exact_duplicate_frame_is_cached_without_advancing_prefix ... pass:CASE-021:exact_duplicate_frame_cached
+ok
+test gaps_conflicts_wrong_predecessor_and_wrong_digest_are_denied ... pass:CASE-020:reordered_frame_denied
+pass:CASE-022:conflicting_duplicate_denied
+pass:CASE-023:wrong_predecessor_denied
+pass:CASE-024:wrong_chunk_digest_denied
+ok
+test generic_or_confused_authority_binding_is_denied ... pass:CASE-015:generic_send_denied
+pass:CASE-016:raft_rpc_confusion_denied
+ok
+test journal_restore_resumes_exact_prefix_without_raw_payload ... pass:CASE-005:resume_after_partition
+pass:CASE-032:source_restart_resume
+pass:CASE-033:target_restart_resume
+pass:CASE-034:crash_after_admission
+pass:CASE-035:crash_after_frame_write
+pass:CASE-036:crash_after_prefix_receipt
+pass:CASE-038:crash_before_checkpoint
+pass:CASE-040:reply_loss_retry
+ok
+test policy_bounds_reject_oversized_frame_and_total_before_effect ... pass:CASE-026:oversized_frame_denied
+pass:CASE-027:oversized_total_denied
+ok
+test real_source_and_target_stage_handles_are_exact_and_pathless ... pass:CASE-002:real_bundle_source
+pass:CASE-003:exact_target_stage
+pass:CASE-043:unsafe_path_denied
+ok
+test signed_catalog_manifest_and_incremental_ranges_are_verified ... pass:CASE-004:incremental_catalog_verify
+ok
+test wrong_source_target_route_and_cut_are_denied_before_bytes_move ... pass:CASE-007:wrong_source_denied
+pass:CASE-008:wrong_target_denied
+pass:CASE-009:wrong_polis_denied
+pass:CASE-010:wrong_domain_denied
+pass:CASE-011:wrong_lineage_denied
+pass:CASE-012:wrong_membership_cut_denied
+pass:CASE-013:stale_certificate_denied
+pass:CASE-014:wrong_boot_generation_denied
+ok
+test wrong_transfer_and_incomplete_finish_are_denied ... pass:CASE-017:unknown_kind_denied
+pass:CASE-025:wrong_manifest_denied
+ok
+
+test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
