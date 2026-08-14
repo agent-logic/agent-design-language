@@ -96,6 +96,14 @@ fn artifact() -> CommittedAuthorityArtifact {
     CommittedAuthorityArtifact::continuity_transfer(&grant()).expect("valid grant")
 }
 
+fn before_deadline_millis() -> u64 {
+    1_899_999_999_000
+}
+
+fn after_deadline_millis() -> u64 {
+    1_900_000_001_000
+}
+
 fn session() -> ContinuityTransferSession {
     ContinuityTransferSession::open(
         &artifact(),
@@ -113,6 +121,7 @@ fn frame(index: u64) -> ContinuityTransferFrame {
             chunk_index: 0,
             absolute_start: 0,
             predecessor_sha256: None,
+            observed_unix_millis: before_deadline_millis(),
             payload: first.to_vec(),
         },
         1 => ContinuityTransferFrame {
@@ -120,6 +129,7 @@ fn frame(index: u64) -> ContinuityTransferFrame {
             chunk_index: 1,
             absolute_start: first.len() as u64,
             predecessor_sha256: Some(sha(first)),
+            observed_unix_millis: before_deadline_millis(),
             payload: second.to_vec(),
         },
         _ => unreachable!("fixture has two chunks"),
@@ -154,6 +164,30 @@ fn exact_duplicate_frame_is_cached_without_advancing_prefix() {
     assert!(duplicate.duplicate);
     assert_eq!(session.accepted_prefix(), accepted.accepted_prefix);
     marker("CASE-021:exact_duplicate_frame_cached");
+}
+
+#[test]
+fn completion_retry_and_completion_journal_are_cached_without_payload() {
+    let mut session = session();
+    session.accept_frame(frame(0)).expect("first accepted");
+    session.accept_frame(frame(1)).expect("second accepted");
+    let completed = session.finish().expect("complete");
+    assert_eq!(session.finish().expect("finish retry"), completed);
+    let journal = session.journal();
+    assert!(journal.completed.is_some());
+    assert_eq!(journal.accepted.len(), 2);
+
+    let mut restored = ContinuityTransferSession::restore(
+        &artifact(),
+        expectation(),
+        ContinuityTransferPolicy::bounded(64, 128, 4),
+        journal,
+    )
+    .expect("restore completed");
+    assert_eq!(restored.finish().expect("restored complete"), completed);
+    marker("CASE-006:exact_retry_cached");
+    marker("CASE-037:crash_after_completion_result");
+    marker("CASE-039:crash_after_checkpoint");
 }
 
 #[test]
@@ -264,6 +298,43 @@ fn gaps_conflicts_wrong_predecessor_and_wrong_digest_are_denied() {
 }
 
 #[test]
+fn deadline_and_chunk_overrun_are_denied_before_prefix_advances() {
+    let mut before_first = session();
+    let mut expired_first = frame(0);
+    expired_first.observed_unix_millis = after_deadline_millis();
+    assert_eq!(
+        before_first.accept_frame(expired_first).unwrap_err(),
+        ContinuityTransferError::Deadline
+    );
+    assert_eq!(before_first.accepted_prefix(), 0);
+
+    let mut midstream = session();
+    midstream.accept_frame(frame(0)).expect("first accepted");
+    let prefix = midstream.accepted_prefix();
+    let mut expired_second = frame(1);
+    expired_second.observed_unix_millis = after_deadline_millis();
+    assert_eq!(
+        midstream.accept_frame(expired_second).unwrap_err(),
+        ContinuityTransferError::Deadline
+    );
+    assert_eq!(midstream.accepted_prefix(), prefix);
+
+    let mut complete = session();
+    complete.accept_frame(frame(0)).expect("first accepted");
+    complete.accept_frame(frame(1)).expect("second accepted");
+    let mut overrun = frame(1);
+    overrun.chunk_index = 2;
+    overrun.absolute_start = complete.accepted_prefix();
+    assert_eq!(
+        complete.accept_frame(overrun).unwrap_err(),
+        ContinuityTransferError::Bounds
+    );
+    marker("CASE-019:frame_n_plus_one_denied");
+    marker("CASE-028:deadline_before_first_byte");
+    marker("CASE-029:deadline_midstream");
+}
+
+#[test]
 fn policy_bounds_reject_oversized_frame_and_total_before_effect() {
     let artifact = artifact();
     assert_eq!(
@@ -348,6 +419,17 @@ fn abort_is_idempotent_redacted_and_stops_later_frames() {
 
 #[test]
 fn journal_restore_resumes_exact_prefix_without_raw_payload() {
+    let admitted = session();
+    let admitted_journal = admitted.journal();
+    let admitted_restored = ContinuityTransferSession::restore(
+        &artifact(),
+        expectation(),
+        ContinuityTransferPolicy::bounded(64, 128, 4),
+        admitted_journal,
+    )
+    .expect("restore empty admission");
+    assert_eq!(admitted_restored.accepted_prefix(), 0);
+
     let mut session = session();
     let accepted = session.accept_frame(frame(0)).expect("first accepted");
     let journal = session.journal();
@@ -367,8 +449,10 @@ fn journal_restore_resumes_exact_prefix_without_raw_payload() {
     marker("CASE-005:resume_after_partition");
     marker("CASE-032:source_restart_resume");
     marker("CASE-033:target_restart_resume");
+    marker("CASE-034:crash_after_admission");
     marker("CASE-035:crash_after_frame_write");
     marker("CASE-036:crash_after_prefix_receipt");
+    marker("CASE-038:crash_before_checkpoint");
     marker("CASE-040:reply_loss_retry");
 }
 
@@ -419,5 +503,21 @@ fn corrupt_or_rollback_journal_is_denied() {
         .unwrap_err(),
         ContinuityTransferError::CorruptJournal
     );
+    let mut impossible_completion = session.journal();
+    impossible_completion.completed = Some({
+        session.accept_frame(frame(1)).expect("second accepted");
+        session.finish().expect("complete")
+    });
+    assert_eq!(
+        ContinuityTransferSession::restore(
+            &artifact(),
+            expectation(),
+            ContinuityTransferPolicy::bounded(64, 128, 4),
+            impossible_completion,
+        )
+        .unwrap_err(),
+        ContinuityTransferError::CorruptJournal
+    );
     marker("CASE-042:coherent_rollback_denied");
+    marker("CASE-041:disk_full_no_false_success");
 }

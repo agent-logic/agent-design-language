@@ -41,6 +41,7 @@ pub enum ContinuityTransferError {
     Aborted,
     CleanupAuthority,
     CorruptJournal,
+    Deadline,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -92,6 +93,7 @@ pub struct ContinuityTransferFrame {
     pub chunk_index: u64,
     pub absolute_start: u64,
     pub predecessor_sha256: Option<[u8; 32]>,
+    pub observed_unix_millis: u64,
     pub payload: Vec<u8>,
 }
 
@@ -141,6 +143,7 @@ pub struct ContinuityTransferJournalState {
     pub predecessor_sha256: Option<[u8; 32]>,
     pub accepted: BTreeMap<u64, ContinuityTransferFrameReceipt>,
     pub aborted: Option<ContinuityTransferAbortReceipt>,
+    pub completed: Option<VerifiedContinuityTransferReceipt>,
 }
 
 #[derive(Clone, Debug)]
@@ -152,6 +155,7 @@ pub struct ContinuityTransferSession {
     predecessor_sha256: Option<[u8; 32]>,
     accepted: BTreeMap<u64, ContinuityTransferFrameReceipt>,
     aborted: Option<ContinuityTransferAbortReceipt>,
+    completed: Option<VerifiedContinuityTransferReceipt>,
 }
 
 impl ContinuityTransferSession {
@@ -180,6 +184,7 @@ impl ContinuityTransferSession {
             predecessor_sha256: None,
             accepted: BTreeMap::new(),
             aborted: None,
+            completed: None,
         })
     }
 
@@ -207,6 +212,7 @@ impl ContinuityTransferSession {
             predecessor_sha256: self.predecessor_sha256,
             accepted: self.accepted.clone(),
             aborted: self.aborted.clone(),
+            completed: self.completed.clone(),
         }
     }
 
@@ -217,6 +223,7 @@ impl ContinuityTransferSession {
         if self.aborted.is_some() {
             return Err(ContinuityTransferError::Aborted);
         }
+        validate_observed_deadline(frame.observed_unix_millis, &self.grant.inclusive_deadline)?;
         if frame.transfer_id != self.grant.transfer_id {
             return Err(ContinuityTransferError::WrongAuthority);
         }
@@ -291,32 +298,29 @@ impl ContinuityTransferSession {
             .checked_add(1)
             .ok_or(ContinuityTransferError::Bounds)?;
         self.predecessor_sha256 = Some(payload_sha256);
+        self.completed = None;
         Ok(receipt)
     }
 
-    pub fn finish(&self) -> Result<VerifiedContinuityTransferReceipt, ContinuityTransferError> {
+    pub fn finish(&mut self) -> Result<VerifiedContinuityTransferReceipt, ContinuityTransferError> {
         if self.aborted.is_some() {
             return Err(ContinuityTransferError::Aborted);
+        }
+        if let Some(existing) = &self.completed {
+            return Ok(existing.clone());
         }
         if self.accepted_prefix != self.grant.total_bytes
             || self.accepted.len() != self.grant.chunks.len()
         {
             return Err(ContinuityTransferError::Incomplete);
         }
-        Ok(VerifiedContinuityTransferReceipt {
-            transfer_id_sha256: sha256_array(self.grant.transfer_id.as_bytes()),
-            source_guardian_sha256: sha256_array(self.grant.source_guardian_id.as_bytes()),
-            target_guardian_sha256: sha256_array(self.grant.target_guardian_id.as_bytes()),
-            route_sha256: sha256_array(self.grant.route_id.as_bytes()),
-            lineage_sha256: sha256_array(&self.grant.lineage_id),
-            signed_manifest_sha256: self.grant.signed_manifest_sha256,
-            signed_catalog_sha256: self.grant.signed_catalog_sha256,
-            chunk_count: self.grant.chunks.len() as u64,
-            total_bytes: self.grant.total_bytes,
-            final_payload_sha256: self
-                .predecessor_sha256
+        let receipt = completion_receipt(
+            &self.grant,
+            self.predecessor_sha256
                 .ok_or(ContinuityTransferError::Incomplete)?,
-        })
+        );
+        self.completed = Some(receipt.clone());
+        Ok(receipt)
     }
 
     pub fn abort(
@@ -393,6 +397,19 @@ impl ContinuityTransferSession {
                     != sha256_array(self.grant.cleanup_identity.as_bytes())
                 || abort.accepted_prefix != journal.accepted_prefix
                 || !abort.zero_residue_attested
+                || journal.completed.is_some()
+            {
+                return Err(ContinuityTransferError::CorruptJournal);
+            }
+        }
+        if let Some(completed) = &journal.completed {
+            let final_payload_sha256 = journal
+                .predecessor_sha256
+                .ok_or(ContinuityTransferError::CorruptJournal)?;
+            if journal.aborted.is_some()
+                || journal.accepted_prefix != self.grant.total_bytes
+                || journal.accepted.len() != self.grant.chunks.len()
+                || completed != &completion_receipt(&self.grant, final_payload_sha256)
             {
                 return Err(ContinuityTransferError::CorruptJournal);
             }
@@ -402,6 +419,7 @@ impl ContinuityTransferSession {
         self.predecessor_sha256 = journal.predecessor_sha256;
         self.accepted = journal.accepted;
         self.aborted = journal.aborted;
+        self.completed = journal.completed;
         Ok(())
     }
 }
@@ -452,6 +470,50 @@ fn validate_bounds(
         return Err(ContinuityTransferError::Bounds);
     }
     Ok(())
+}
+
+fn validate_observed_deadline(
+    observed_unix_millis: u64,
+    deadline: &crate::distributed::authority_protocol::CanonicalAuthorityTime,
+) -> Result<(), ContinuityTransferError> {
+    let deadline_millis = canonical_time_unix_millis(deadline)?;
+    if observed_unix_millis == 0 || observed_unix_millis > deadline_millis {
+        return Err(ContinuityTransferError::Deadline);
+    }
+    Ok(())
+}
+
+fn canonical_time_unix_millis(
+    time: &crate::distributed::authority_protocol::CanonicalAuthorityTime,
+) -> Result<u64, ContinuityTransferError> {
+    if time.unix_seconds <= 0 || time.nanos >= 1_000_000_000 {
+        return Err(ContinuityTransferError::Deadline);
+    }
+    let seconds =
+        u64::try_from(time.unix_seconds).map_err(|_| ContinuityTransferError::Deadline)?;
+    let nanos_millis = u64::from(time.nanos / 1_000_000);
+    seconds
+        .checked_mul(1_000)
+        .and_then(|millis| millis.checked_add(nanos_millis))
+        .ok_or(ContinuityTransferError::Deadline)
+}
+
+fn completion_receipt(
+    grant: &ContinuityTransferGrantArtifact,
+    final_payload_sha256: [u8; 32],
+) -> VerifiedContinuityTransferReceipt {
+    VerifiedContinuityTransferReceipt {
+        transfer_id_sha256: sha256_array(grant.transfer_id.as_bytes()),
+        source_guardian_sha256: sha256_array(grant.source_guardian_id.as_bytes()),
+        target_guardian_sha256: sha256_array(grant.target_guardian_id.as_bytes()),
+        route_sha256: sha256_array(grant.route_id.as_bytes()),
+        lineage_sha256: sha256_array(&grant.lineage_id),
+        signed_manifest_sha256: grant.signed_manifest_sha256,
+        signed_catalog_sha256: grant.signed_catalog_sha256,
+        chunk_count: grant.chunks.len() as u64,
+        total_bytes: grant.total_bytes,
+        final_payload_sha256,
+    }
 }
 
 fn sha256_array(bytes: &[u8]) -> [u8; 32] {
