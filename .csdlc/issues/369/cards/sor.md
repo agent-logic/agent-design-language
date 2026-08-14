@@ -71,11 +71,11 @@ Add exact CAS-guarded recovery for falsely recorded design approval on bound or 
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
