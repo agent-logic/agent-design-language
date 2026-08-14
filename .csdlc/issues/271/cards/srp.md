@@ -1,0 +1,44 @@
+# Structured Review Prompt
+
+Template: 1.0.0
+
+Issue: 271
+
+Repository: agent-logic/agent-design-language
+
+Card: srp
+
+Status: pre_phase
+
+## Scope
+
+Exact #271 issue/prepared/evidence plus app.js, styles.css, validate_layer8_authority_observatory_ui.sh, existing real recipient_ack runtime proof evidence, authentic handler-output artifact handoff, and post-bind exact three-path scope validator.
+
+## Prompts
+
+- Does the browser forward only Runtime-provided signed artifacts ephemerally to the actual #270 route without originating, verifying, rendering, logging, caching, or persisting them?
+- Does proof require the real existing adl-runtime-kernel recipient_ack handler target with a parsed nonzero denominator and authentic issue-local handler-output artifact handoff rather than mocked conversation frames?
+- Do exactly eight nonzero browser cases prove delivered, refusal, malformed failure, unavailable recovery, revoked demotion, action release, accessibility, and non-disclosure, with unknown/ignored/zero/skipped/missing/duplicated cases failing closed?
+- Can any raw signed material, raw correlation ID, private key, proof hash, provider payload, or policy detail render, log, cache, or persist?
+- Does post-bind scope validation compare execution base to current main and restrict product/test changes to exactly app.js, styles.css, and validate_layer8_authority_observatory_ui.sh without requiring any fourth non-issue-local proof script?
+
+## Findings
+
+[]
+
+## Dispositions
+
+Every actionable finding requires a terminal disposition.
+
+## Residual Risk
+
+- Product implementation has not started; runtime/browser/scope wrappers are deferred until bind.
+- Fresh design review is still required before bind.
+
+## Review Result
+
+Revision: None
+
+Reviewer: None
+
+Result: pre_review

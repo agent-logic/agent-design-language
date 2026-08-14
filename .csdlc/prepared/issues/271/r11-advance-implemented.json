@@ -1,0 +1,12 @@
+{
+  "issue": 271,
+  "card": "sip",
+  "expected_generation": 10,
+  "expected_digest": "896f36cd2dd21deedd5625b25376b9e6956517c1fbf93bb0ecf2e3221e0260d6",
+  "actor": "codex:sprint5-271-implementation",
+  "reason": "Advance #271 to implemented after bounded implementation and retained validation proof",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "implemented"
+  }
+}

@@ -430,6 +430,192 @@ function escapeHtml(value) {
     .replaceAll("'", "&#39;");
 }
 
+const LAYER8_RECIPIENT_ACK_ENDPOINT = "/v1/layer8/recipient-acknowledgement";
+const LAYER8_RECIPIENT_ACK_RESPONSE_SCHEMA =
+  "adl.runtime_v3.layer8.recipient_acknowledgement_response.v1";
+const LAYER8_FORBIDDEN_DISCLOSURE_FIELDS = new Set([
+  "acknowledgement",
+  "correlation_id",
+  "ed25519",
+  "policy",
+  "private_key",
+  "proof_hash",
+  "provider_payload",
+  "raw_correlation_id",
+  "signed_request",
+  "signature"
+]);
+
+function hasForbiddenLayer8Disclosure(value) {
+  if (value == null || typeof value !== "object") {
+    return false;
+  }
+  return Object.entries(value).some(([key, nested]) =>
+    LAYER8_FORBIDDEN_DISCLOSURE_FIELDS.has(String(key).toLowerCase()) ||
+    hasForbiddenLayer8Disclosure(nested)
+  );
+}
+
+function safeLayer8Value(value, fallback = "not disclosed") {
+  const text = String(value ?? "").trim();
+  return /^[a-zA-Z0-9._:-]{1,160}$/.test(text) ? text : fallback;
+}
+
+function normalizeLayer8DeliveryState(input = {}) {
+  const response = input && typeof input === "object" ? input : {};
+  const schemaOk = response.schema === LAYER8_RECIPIENT_ACK_RESPONSE_SCHEMA;
+  const status = String(response.status || response.delivery || "").toLowerCase();
+  const error = String(response.error || response.reason || "");
+  const correlationHash = safeLayer8Value(response.correlation_hash, "hash unavailable");
+  const recipientId = safeLayer8Value(response.recipient_id, "recipient hidden");
+  const generation = Number.isSafeInteger(response.recipient_credential_generation)
+    ? response.recipient_credential_generation
+    : null;
+  const disclosureBlocked = hasForbiddenLayer8Disclosure(response);
+
+  if (response.runtime_unavailable === true || status === "unavailable" || error === "runtime_unavailable") {
+    return {
+      state: "recovery",
+      terminal: false,
+      actionEnabled: false,
+      label: "Runtime unavailable",
+      detail: "No terminal delivery claim is rendered until Runtime serves a valid acknowledgement response.",
+      recipientId,
+      correlationHash,
+      generation: null
+    };
+  }
+  if (!schemaOk || disclosureBlocked) {
+    return {
+      state: "failed",
+      terminal: true,
+      actionEnabled: false,
+      label: "Malformed response",
+      detail: disclosureBlocked
+        ? "Runtime response contained private or raw authority material and was blocked."
+        : "Runtime response did not match the recipient-acknowledgement schema.",
+      recipientId,
+      correlationHash: "not disclosed",
+      generation: null
+    };
+  }
+  if (error === "credential_revoked" || status === "revoked") {
+    return {
+      state: "revoked",
+      terminal: true,
+      actionEnabled: false,
+      label: "Credential revoked",
+      detail: "Runtime demoted the action after credential revocation.",
+      recipientId,
+      correlationHash,
+      generation: null
+    };
+  }
+  if (status === "delivered") {
+    return {
+      state: "delivered",
+      terminal: true,
+      actionEnabled: Boolean(response.action_released),
+      label: response.action_released ? "Delivered / action released" : "Delivered",
+      detail: response.action_released
+        ? "Runtime verified delivery and released the operator action."
+        : "Runtime verified delivery; no release flag was present.",
+      recipientId,
+      correlationHash,
+      generation
+    };
+  }
+  if (status === "refused") {
+    return {
+      state: "refused",
+      terminal: true,
+      actionEnabled: false,
+      label: "Signed refusal",
+      detail: `Runtime verified a signed refusal${error ? `: ${safeLayer8Value(error, "redacted")}` : "."}`,
+      recipientId,
+      correlationHash,
+      generation: null
+    };
+  }
+  if (status === "failed") {
+    return {
+      state: "failed",
+      terminal: true,
+      actionEnabled: false,
+      label: "Verification failed",
+      detail: `Runtime failed the acknowledgement${error ? `: ${safeLayer8Value(error, "redacted")}` : "."}`,
+      recipientId,
+      correlationHash,
+      generation: null
+    };
+  }
+  return {
+    state: "recovery",
+    terminal: false,
+    actionEnabled: false,
+    label: "Runtime unavailable",
+    detail: "No terminal delivery claim is rendered until Runtime serves a valid acknowledgement response.",
+    recipientId,
+    correlationHash,
+    generation: null
+  };
+}
+
+function layer8DeliveryRows(responses = []) {
+  return asArray(responses).map((response) => normalizeLayer8DeliveryState(response));
+}
+
+function renderLayer8DeliveryPanel(responses = []) {
+  if (typeof document === "undefined") {
+    return layer8DeliveryRows(responses);
+  }
+  const root = document.querySelector(".ops-command");
+  if (!root) {
+    return [];
+  }
+  let panel = document.getElementById("layer8-delivery-panel");
+  if (!panel) {
+    panel = document.createElement("section");
+    panel.className = "layer8-delivery-panel";
+    panel.id = "layer8-delivery-panel";
+    panel.setAttribute("aria-labelledby", "layer8-delivery-title");
+    panel.innerHTML = `
+      <div class="panel-head">
+        <div>
+          <p class="eyebrow">Layer 8 / recipient acknowledgement</p>
+          <h2 id="layer8-delivery-title">Delivery state</h2>
+        </div>
+        <span class="mini-badge" id="layer8-delivery-count">0 states</span>
+      </div>
+      <ol class="layer8-delivery-list" id="layer8-delivery-list" aria-live="polite"></ol>
+    `;
+    root.append(panel);
+  }
+  const rows = layer8DeliveryRows(responses);
+  setText("layer8-delivery-count", `${rows.length} states`);
+  renderRows("layer8-delivery-list", rows.map((row) => `
+    <li class="layer8-delivery-row" data-state="${escapeHtml(row.state)}">
+      <span class="mini-badge" data-tone="${escapeHtml(row.state === "delivered" ? "ok" : row.state === "recovery" ? "warn" : "blocked")}">${escapeHtml(row.label)}</span>
+      <span><strong>${escapeHtml(row.recipientId)}</strong><br><span class="row-detail">${escapeHtml(row.detail)}</span></span>
+      <span class="row-detail">correlation hash: ${escapeHtml(row.correlationHash)}</span>
+    </li>
+  `));
+  return rows;
+}
+
+async function submitLayer8RecipientAcknowledgement(apiBase, signedPair) {
+  const base = normalizeApiBase(apiBase);
+  if (!base) {
+    throw new Error("Runtime API base is required.");
+  }
+  const response = await fetch(`${base}${LAYER8_RECIPIENT_ACK_ENDPOINT}`, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(signedPair)
+  });
+  return normalizeLayer8DeliveryState(await response.json());
+}
+
 function buildOperatorEnvelope({ channel = "events", message = "", packetId = "", acipSnsSummary = {}, snsResourceSummary = {} } = {}) {
   const acipProjection = acipSnsSummary.acip_projection || {};
   const acipSns = acipSnsSummary.sns || {};
@@ -2572,12 +2758,14 @@ async function bootObservatory() {
     ]);
     renderObservatory(packet, reportText, "ok");
     renderIntegrations({ serviceManifest, apiText, cloudwatchSummary, cloudwatchEvents, acipSnsSummary, snsResourceSummary });
+    renderLayer8DeliveryPanel(packet.layer8_delivery_states || packet.layer8_acknowledgements || []);
     bindDashboardNavigation(packet);
     bindCommunication(packet, acipSnsSummary, snsResourceSummary);
     bindLivePanopticon(packet);
   } catch (_error) {
     renderObservatory(FALLBACK_PACKET, "", "fallback");
     renderIntegrations();
+    renderLayer8DeliveryPanel([]);
     bindDashboardNavigation(FALLBACK_PACKET);
     bindCommunication(FALLBACK_PACKET);
     bindLivePanopticon(FALLBACK_PACKET);
@@ -2611,6 +2799,12 @@ globalThis.AdlHtmlObservatory = {
   conversationFrameProvesAcceptance,
   conversationReconnectIntent,
   conversationReplyFromFrame,
+  LAYER8_RECIPIENT_ACK_ENDPOINT,
+  normalizeLayer8DeliveryState,
+  layer8DeliveryRows,
+  renderLayer8DeliveryPanel,
+  submitLayer8RecipientAcknowledgement,
+  hasForbiddenLayer8Disclosure,
   fetchRetainedRuntimeSnapshot,
   requestedRuntimeSelection,
   getRuntimeV3Config,

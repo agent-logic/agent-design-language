@@ -1,0 +1,24 @@
+{
+  "issue": 271,
+  "card": "sor",
+  "expected_generation": 4,
+  "expected_digest": "319a77ed633232ee51045dcfa44faed1cf7ff4be1452db41488b48856f29796f",
+  "actor": "codex:sprint5-271-implementation",
+  "reason": "Record #271 Layer 8 Observatory implementation execution",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Implemented Layer 8 recipient-acknowledgement delivery-state presentation in the HTML Observatory, preserving Runtime-only authority and browser non-disclosure boundaries.",
+    "changes": [
+      "Added Layer 8 delivery-state normalization and rendering for delivered, refused, failed, revoked, recovery, and action-release states in demos/html-observatory/app.js.",
+      "Styled the Layer 8 delivery panel without changing index.html or Runtime/OpenAPI surfaces.",
+      "Added issue-owned browser exact-eight validator, authentic handler-output handoff evidence, and exact post-bind scope validator."
+    ],
+    "artifacts": [
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/styles.css",
+      "adl/tools/validate_layer8_authority_observatory_ui.sh",
+      ".csdlc/evidence/271/authentic-handler-output.json",
+      ".csdlc/evidence/271/validate_exact_three_path_scope.py"
+    ]
+  }
+}
