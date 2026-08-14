@@ -2356,22 +2356,28 @@ fn master_log_highest_sequence_for_soak(master_log: &Path) -> Result<u64, String
 }
 
 fn master_log_has_vector_recovery_after(master_log: &Path, baseline: u64) -> Result<bool, String> {
-    let mut restarting = false;
-    let mut recovered = false;
+    let mut restarting_sequence = None;
     for record in master_log_records(master_log)? {
-        if record["sequence"].as_u64().unwrap_or(0) <= baseline {
+        let sequence = record["sequence"].as_u64().unwrap_or(0);
+        if sequence <= baseline {
             continue;
         }
         match record["operation"].as_str() {
             Some("vector_pipeline_restarting") => {
                 let reason = record["reason"].as_str().unwrap_or_default();
-                restarting |= reason.contains("vector_child_exited");
+                if reason.contains("vector_child_exited") {
+                    restarting_sequence = Some(sequence);
+                }
             }
-            Some("vector_pipeline_recovered") => recovered = true,
+            Some("vector_pipeline_recovered")
+                if restarting_sequence.is_some_and(|restarting| sequence > restarting) =>
+            {
+                return Ok(true);
+            }
             _ => {}
         }
     }
-    Ok(restarting && recovered)
+    Ok(false)
 }
 
 fn master_log_records(master_log: &Path) -> Result<Vec<serde_json::Value>, String> {
@@ -3960,6 +3966,17 @@ mod tests {
         std::fs::write(&log, text).expect("extended master log");
 
         assert!(master_log_has_vector_recovery_after(&log, 3).unwrap());
+
+        let reversed = temp.path().join("reversed-master.log.jsonl");
+        std::fs::write(
+            &reversed,
+            concat!(
+                "{\"sequence\":1,\"operation\":\"vector_pipeline_recovered\"}\n",
+                "{\"sequence\":2,\"operation\":\"vector_pipeline_restarting\",\"reason\":\"vector_child_exited\"}\n",
+            ),
+        )
+        .expect("reversed master log");
+        assert!(!master_log_has_vector_recovery_after(&reversed, 0).unwrap());
     }
 
     fn write_sample_report(
