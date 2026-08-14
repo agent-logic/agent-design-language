@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "c4dbe43c62a974f1a18b33d9b8c6603e5dc3ce0f301be1448117d0e6e7c4d93c",
   "phase": "implemented",
-  "generation": 14,
-  "digest": "b54c28f6eec7a49d88082c2ef7065d91caadcbb62512c5213212c7611af8b1d3",
+  "generation": 15,
+  "digest": "6441f8aa8b7d8082c7f65843f9e3ca27377221ad9c71d14778a1b41c61eea657",
   "branch": "codex/271-layer8-authority-observatory",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-271-layer8-authority-observatory",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "fe84c0bf671346672eb92fb9f40601ac7fac1faab79e9fda26248e20f077ea69",
+      "values_digest": "b5b084dbf57e9dbccd4e529d7deca7a5db611ca15a04d8a5488ab8c64fd35dbb",
       "rendered_digest": "2a66fbe49be5e2a60d2e9bd329ff1f536f15d58add41689e83f3f6d3545e5a62",
       "ast_digest": "6eb9087ee12927519d91ec1489c93b8451381ce9ab6fdb3db3936ce984b22da0"
     },
     "stp": {
-      "values_digest": "0a8b8581c61bda88993744293f2b5877366e3e1b355fdce5e66dfbae1cac810e",
+      "values_digest": "246a42f0c53ab70852e23941fc6339e8bc6d73a31dcf321962c9e0f27d1397dd",
       "rendered_digest": "d695d037165b3920de98d1366aadb37caa52567b61399728ed589cd9abb30eab",
       "ast_digest": "d9bb7c1efa0a9feb3c2c6a7b73c9f13a99dcc51862633471513e196133d297f4"
     },
     "spp": {
-      "values_digest": "c9f66c04a2057a0744c0d728b2d2b23d8f922fc40b27acb4026dd302a3af6416",
+      "values_digest": "3c90dcd71d908b76dd3d6a19fa7c4733c268aefa0c155d2db9ebfd95c0abd892",
       "rendered_digest": "90c41c9107c8bd5ac759409880d5af190e30e6eb0034a6b77b0c2d929a0ae6d2",
       "ast_digest": "7cb01588005200e258a742df413d0a4cb2829a5bb45a34a01a5ec1cb947fb9ba"
     },
     "vpp": {
-      "values_digest": "3fef69fa1a304504edbaf1d502d2ba18622e1f14b6c00fb1c3b44c885b315677",
+      "values_digest": "444264c6003e3dc26ae72560a6ee380768f3ab54f10054e1da4ca4c9cb4412fd",
       "rendered_digest": "56142605424a0febd9e4bb6b91a1e4382384caf4294f4557fafc81afd679c5d0",
       "ast_digest": "eb59ce5611c4a71d34aba3c023c85ae276f66e4baa810b096df9ff97bf400580"
     },
     "srp": {
-      "values_digest": "367f88a5bc4ab25c27ec92ae26b39858b2e9790998e133cb6875754b12bb06fd",
+      "values_digest": "0fedec12e623cf38ba4e949d8402a5250b64c6c3da8acb14868893a12085706b",
       "rendered_digest": "d31275d3911924ab8f07a4ccab465103013c62509f4ffc19a538eba1692b2768",
       "ast_digest": "53ad64d0f7a9b3be237ed5cd08a2718213fd832f910caebb98cd894731cbe20a"
     },
     "sor": {
-      "values_digest": "223fba329b347ec54acb7755a7330cb84bfb39dd6e73c72311adc3d40eb51a1e",
+      "values_digest": "d688736792f79da67044821e10dbee05139d619a83de559bab943b41b0172332",
       "rendered_digest": "bdf662a0e8195222661cfb85e10df14352a796d91bc270ea34c39210158e85b1",
       "ast_digest": "f79ef991ea5d380ce7a9f45026d296d3631187e48afe54b14c7bd003072bd449"
     }
@@ -197,6 +197,20 @@
       "actor": "codex:sprint5-271-r1-remediation",
       "reason": "Record supported SOR correction that prior follow-up bullets are completed/superseded after bind, implementation proof, review recovery, and R1 remediation; implemented-phase typed owner does not expose follow-up replacement.",
       "operation": "{\"operation\":\"append_reference\",\"value\":\"R1 remediation note: the prior design-review and proof-before-review follow-up bullets are completed/superseded by generation 13 typed state; remaining gate is fresh exact-head implementation rereview and publication.\"}"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:sprint5-271-review-recovery",
+      "reason": "Recover #271 implementation review after fresh reviewer R2 returned changes required; clear assignment before substantive validator repair.",
+      "operation": "recover_review"
     }
   ]
 }
