@@ -3,14 +3,56 @@
   "issue": 367,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "ff3f0446136c2768eaa3ea5b90b66938d045b495adca6ffd10d27279ef775549",
-  "phase": "implemented",
-  "generation": 14,
-  "digest": "db4c7cc2a7402e900057bc07168f076c0ba79f8d48c1ba48338faec46ca9651b",
+  "phase": "published",
+  "generation": 16,
+  "digest": "0f17a7dbc2ea7a18809da46915aa685b2570b5db4b02fb22164e71e9fc4edf76",
   "branch": "codex/367-sealed-child-pairing-lineage",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-367-sealed-child-pairing-lineage",
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:386c7622-d777-4012-bce1-48a9b71e2b71",
+    "assigned_by": "codex:issue-367-implementation-review",
+    "revision": "git-blake3:c0662efafc04eaf6ab0719b28424e00cc411fd71:9ef534437fc486d506af6dcab69fbd862aebe7e62933291dc63fb2fd538b6262",
+    "scope": [
+      ".csdlc/issues/367",
+      ".csdlc/prepared/issues/367",
+      ".csdlc/evidence/367",
+      "adl-runtime/src/distributed/serving_authority.rs",
+      "adl-runtime/src/distributed/shepherd_serving_eligibility.rs",
+      "adl-runtime/tests/distributed_shepherd_serving_eligibility.rs",
+      "adl-runtime/tests/distributed_observatory_serving_eligibility.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:386c7622-d777-4012-bce1-48a9b71e2b71",
+    "scope": [
+      ".csdlc/issues/367",
+      ".csdlc/prepared/issues/367",
+      ".csdlc/evidence/367",
+      "adl-runtime/src/distributed/serving_authority.rs",
+      "adl-runtime/src/distributed/shepherd_serving_eligibility.rs",
+      "adl-runtime/tests/distributed_shepherd_serving_eligibility.rs",
+      "adl-runtime/tests/distributed_observatory_serving_eligibility.rs"
+    ],
+    "reviewed_revision": "git-blake3:c0662efafc04eaf6ab0719b28424e00cc411fd71:9ef534437fc486d506af6dcab69fbd862aebe7e62933291dc63fb2fd538b6262",
+    "findings": [],
+    "residual_risks": [
+      "Hosted CI, publication, merge, typed finish, terminal cache, and ancestry remain later gates."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 367,
+    "pull_request": 368,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/368",
+    "base": "main",
+    "head": "codex/367-sealed-child-pairing-lineage",
+    "revision": "git-blake3:c0662efafc04eaf6ab0719b28424e00cc411fd71:9ef534437fc486d506af6dcab69fbd862aebe7e62933291dc63fb2fd538b6262",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -24,34 +66,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1a7aa12f1a9fe4eba71be125122fa5f8ece7227fb9e491068a5fd76fb7670c6c",
+      "values_digest": "93d48e6b9f4f82345cd27db1f2835e50528c7799554345839951ada4a9f9b07f",
       "rendered_digest": "b85a8b4b90a26f870b0923a6dd122ef485201433dd8c95912e73f6b333878715",
       "ast_digest": "f44c9a8559e1c918639e9da58056bd21c0af8d32298ccc2d7399827a860ec766"
     },
     "stp": {
-      "values_digest": "ce6cf97c7a446ecd988c6cf5c65017555f2aba92e9bb16c11b6cd6ad15ff4b09",
+      "values_digest": "1299ece0ffe922892239ce05bd664469acb71ccd7ab3ab518db3b3544380ee3f",
       "rendered_digest": "b465c619c9b8dd6f044d7cd34aaf66eefd0428d9d2a2bb7e91dfe0a6c0888898",
       "ast_digest": "8e6f8be9698bee11b84b575c3ba151e5858043aecc6ce7c7333a76463764451f"
     },
     "spp": {
-      "values_digest": "4b01af0632c29706e116b82976f8bd26182dab1b2c90787562fa01c70cb4bbf9",
+      "values_digest": "b6a29fd43e7754cc54e55cf6ac32d5f9dd1b7925393901b376030b40f1744dc2",
       "rendered_digest": "aff78074038147ab8a5f0c4644a8f3a2e1d1d350efd9b4e3b8bef9bec6d407b9",
       "ast_digest": "d3379993cde15df2cc0aa776441950cb30d2e35f849ec93d5e1a800928b00b76"
     },
     "vpp": {
-      "values_digest": "58b2c7636114e6e9be095f89f596a389a5f33c22f6b7910c7c4155446e7771cd",
+      "values_digest": "71a837f6808cf17ea0b503aa00a4c0d7e197a48a89ec68fa42e3e750fb397274",
       "rendered_digest": "4fade6f53f8d3e5297443c96836b816ec8f584eeaeb7a57c9b61e8c87655bde8",
       "ast_digest": "3090958d548aec82a986654b2422162b916139f10ac8c25f720170eec90abecb"
     },
     "srp": {
-      "values_digest": "8dbdce9ab912f350dcf6c9e1f4d63dd486923c6e556fb4510b7faf0ea3ca7419",
-      "rendered_digest": "4389d051f1673d0ed4378412f073898aa96d4b40b49b4e170a7d1dc68fe9cc70",
-      "ast_digest": "ab5ad7771bf23bbb988b68e260cf6b31d2229a3488578ef93850a17aa9d39cf5"
+      "values_digest": "7335a3c58f3fb547641474c88b3ca28a7f689807a382f4383c72821e0fa871f2",
+      "rendered_digest": "e9083152214a525b4683d67db77c3d74a6a3674e075d120b7d95d822c585e751",
+      "ast_digest": "250ea89d421daa333027282f908b27a27bc22fad169c58277251ccecee37c432"
     },
     "sor": {
-      "values_digest": "c0afabc5f4f0f2bab23b60df78dca00f000bd0bd9692066be7ffa7377842edb3",
-      "rendered_digest": "2851354ec2bfba28e41386a8937b1a57cde62ed54c97d7628605acbc205cb010",
-      "ast_digest": "bd1a96f6c2030a3658ff1370cc69b7cf058fb273b01fd7c1612b192878534c7f"
+      "values_digest": "3d041a7813fe9d57e7561cf8b40e4af53d0471783de1dbe6575736bb3586e953",
+      "rendered_digest": "af720b0872dc971370ea2632234b4fc3d437b89cfc3296d105af3288b59335e3",
+      "ast_digest": "f1182794ae47c67e8a1764f5ff791c6baae89e53cc93d18e1f35d0317c1d2dd2"
     }
   },
   "transitions": [
@@ -75,6 +117,20 @@
       "to": "implemented",
       "actor": "codex:issue-367-implementation",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:386c7622-d777-4012-bce1-48a9b71e2b71",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-367-publication",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -189,6 +245,27 @@
       "actor": "codex:issue-367-implementation",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex:issue-367-implementation-review",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "fresh-session:386c7622-d777-4012-bce1-48a9b71e2b71",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex:issue-367-publication",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

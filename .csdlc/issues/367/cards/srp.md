@@ -12,7 +12,13 @@ Status: pre_phase
 
 ## Scope
 
-Exact #367 design/card packet at base a4801fbb; terminal #272/#273/#274/#365 ancestry; serving_authority and Shepherd modules plus two focused tests; redacted verifier-derived lineage binding; opaque pair verification; authentic A/A and A/B first-use/restart; legacy/corrupt/redaction proof; exclusion of new raw lineage caller pairing policy changes #275 #205 and unrelated paths.
+.csdlc/issues/367
+.csdlc/prepared/issues/367
+.csdlc/evidence/367
+adl-runtime/src/distributed/serving_authority.rs
+adl-runtime/src/distributed/shepherd_serving_eligibility.rs
+adl-runtime/tests/distributed_shepherd_serving_eligibility.rs
+adl-runtime/tests/distributed_observatory_serving_eligibility.rs
 
 ## Prompts
 
@@ -33,12 +39,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted CI, publication, merge, typed finish, terminal cache, and ancestry remain later gates.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:c0662efafc04eaf6ab0719b28424e00cc411fd71:9ef534437fc486d506af6dcab69fbd862aebe7e62933291dc63fb2fd538b6262")
 
-Reviewer: None
+Reviewer: Some("fresh-session:386c7622-d777-4012-bce1-48a9b71e2b71")
 
-Result: pre_review
+Result: pass
