@@ -7,10 +7,15 @@ use adl_runtime::distributed::continuity_transfer::{
     ContinuityTransferError, ContinuityTransferExpectation, ContinuityTransferFrame,
     ContinuityTransferPolicy, ContinuityTransferSession,
 };
+use adl_runtime_kernel::{SourceCheckpointHandle, TargetStageHandle};
 use sha2::{Digest, Sha256};
 
 fn sha(bytes: &[u8]) -> [u8; 32] {
     <[u8; 32]>::from(Sha256::digest(bytes))
+}
+
+fn canonical_identity<T: serde::Serialize>(value: &T) -> Vec<u8> {
+    sha(&serde_jcs::to_vec(value).expect("canonical identity")).to_vec()
 }
 
 fn marker(name: &str) {
@@ -19,6 +24,25 @@ fn marker(name: &str) {
 
 fn payloads() -> [&'static [u8]; 2] {
     [b"first-continuity-chunk", b"second-continuity-chunk"]
+}
+
+fn source_handle() -> SourceCheckpointHandle {
+    serde_json::from_value(serde_json::json!({
+        "generation": 5,
+        "root_generation": 5,
+        "catalog_sha256": "11".repeat(32),
+        "bundle_sha256": "22".repeat(32),
+    }))
+    .expect("source handle fixture")
+}
+
+fn target_stage() -> TargetStageHandle {
+    serde_json::from_value(serde_json::json!({
+        "stage_id": "target-stage-210",
+        "root_generation": 6,
+        "catalog_sha256": "11".repeat(32),
+    }))
+    .expect("target stage fixture")
 }
 
 fn grant() -> ContinuityTransferGrantArtifact {
@@ -39,8 +63,8 @@ fn grant() -> ContinuityTransferGrantArtifact {
         target_boot_generation: 6,
         transfer_id: "transfer-210".to_owned(),
         lineage_id: b"lineage".to_vec(),
-        source_checkpoint_handle_identity: b"source-checkpoint".to_vec(),
-        bundle_handle_identity: b"bundle-handle".to_vec(),
+        source_checkpoint_handle_identity: canonical_identity(&source_handle()),
+        bundle_handle_identity: canonical_identity(&target_stage()),
         signed_manifest_bytes: b"signed-manifest".to_vec(),
         signed_manifest_sha256: sha(b"signed-manifest"),
         signed_catalog_bytes: b"signed-catalog".to_vec(),
@@ -92,8 +116,8 @@ fn expectation() -> ContinuityTransferExpectation {
         source_boot_generation: 5,
         target_boot_generation: 6,
         lineage_id: b"lineage".to_vec(),
-        source_checkpoint_handle_identity: b"source-checkpoint".to_vec(),
-        bundle_handle_identity: b"bundle-handle".to_vec(),
+        source_checkpoint_handle_identity: canonical_identity(&source_handle()),
+        bundle_handle_identity: canonical_identity(&target_stage()),
     }
 }
 
@@ -157,6 +181,62 @@ fn authorized_transfer_accepts_ordered_frames_and_redacted_receipt() {
     marker("CASE-001:authorized_transfer");
     marker("CASE-018:frame_n_accepted");
     marker("CASE-045:evidence_redaction");
+}
+
+#[test]
+fn real_source_and_target_stage_handles_are_exact_and_pathless() {
+    let session = session();
+    let receipt = session
+        .bind_real_endpoints(&source_handle(), &target_stage())
+        .expect("real endpoints bind");
+    assert_ne!(receipt.source_checkpoint_handle_sha256, [0; 32]);
+    assert_ne!(receipt.target_stage_handle_sha256, [0; 32]);
+
+    let wrong_source: SourceCheckpointHandle = serde_json::from_value(serde_json::json!({
+        "generation": 5,
+        "root_generation": 5,
+        "catalog_sha256": "33".repeat(32),
+        "bundle_sha256": "22".repeat(32),
+    }))
+    .expect("wrong source fixture");
+    assert_eq!(
+        session
+            .bind_real_endpoints(&wrong_source, &target_stage())
+            .unwrap_err(),
+        ContinuityTransferError::WrongSource
+    );
+
+    let wrong_target: TargetStageHandle = serde_json::from_value(serde_json::json!({
+        "stage_id": "target-stage-210-other",
+        "root_generation": 6,
+        "catalog_sha256": "11".repeat(32),
+    }))
+    .expect("wrong target fixture");
+    assert_eq!(
+        session
+            .bind_real_endpoints(&source_handle(), &wrong_target)
+            .unwrap_err(),
+        ContinuityTransferError::WrongTarget
+    );
+
+    let unsafe_source = serde_json::from_value::<SourceCheckpointHandle>(serde_json::json!({
+        "generation": 5,
+        "root_generation": 5,
+        "catalog_sha256": "11".repeat(32),
+        "bundle_sha256": "22".repeat(32),
+        "path": "../escape",
+    }));
+    assert!(unsafe_source.is_err());
+    let unsafe_stage = serde_json::from_value::<TargetStageHandle>(serde_json::json!({
+        "stage_id": "target-stage-210",
+        "root_generation": 6,
+        "catalog_sha256": "11".repeat(32),
+        "path": "../escape",
+    }));
+    assert!(unsafe_stage.is_err());
+    marker("CASE-002:real_bundle_source");
+    marker("CASE-003:exact_target_stage");
+    marker("CASE-043:unsafe_path_denied");
 }
 
 #[test]

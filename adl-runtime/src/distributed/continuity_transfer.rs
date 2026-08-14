@@ -12,6 +12,8 @@ use std::collections::BTreeMap;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
+use adl_runtime_kernel::{SourceCheckpointHandle, TargetStageHandle};
+
 use crate::distributed::authority_protocol::{
     validate_continuity_transfer_binding, CommittedAuthorityArtifact,
     ContinuityTransferGrantArtifact, CONTINUITY_TRANSFER_ADAPTER_210,
@@ -130,6 +132,15 @@ pub struct VerifiedContinuityTransferReceipt {
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
+pub struct ContinuityTransferEndpointReceipt {
+    pub transfer_id_sha256: [u8; 32],
+    pub source_checkpoint_handle_sha256: [u8; 32],
+    pub target_stage_handle_sha256: [u8; 32],
+    pub accepted_prefix: u64,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct ContinuityTransferAbortReceipt {
     pub transfer_id_sha256: [u8; 32],
     pub cleanup_identity_sha256: [u8; 32],
@@ -194,6 +205,32 @@ impl ContinuityTransferSession {
 
     pub fn accepted_prefix(&self) -> u64 {
         self.accepted_prefix
+    }
+
+    pub fn bind_real_endpoints(
+        &self,
+        source: &SourceCheckpointHandle,
+        target: &TargetStageHandle,
+    ) -> Result<ContinuityTransferEndpointReceipt, ContinuityTransferError> {
+        let source_identity = canonical_identity(source)?;
+        if source_identity != self.grant.source_checkpoint_handle_identity {
+            return Err(ContinuityTransferError::WrongSource);
+        }
+        let target_identity = canonical_identity(target)?;
+        if target_identity != self.grant.bundle_handle_identity {
+            return Err(ContinuityTransferError::WrongTarget);
+        }
+        if source.generation() != self.grant.source_boot_generation
+            || target.root_generation() != self.grant.target_boot_generation
+        {
+            return Err(ContinuityTransferError::WrongBootGeneration);
+        }
+        Ok(ContinuityTransferEndpointReceipt {
+            transfer_id_sha256: sha256_array(self.grant.transfer_id.as_bytes()),
+            source_checkpoint_handle_sha256: sha256_array(&source_identity),
+            target_stage_handle_sha256: sha256_array(&target_identity),
+            accepted_prefix: self.accepted_prefix,
+        })
     }
 
     pub fn restore(
@@ -524,6 +561,13 @@ fn completion_receipt(
         total_bytes: grant.total_bytes,
         final_payload_sha256,
     }
+}
+
+fn canonical_identity<T: Serialize>(value: &T) -> Result<Vec<u8>, ContinuityTransferError> {
+    Ok(
+        sha256_array(&serde_jcs::to_vec(value).map_err(|_| ContinuityTransferError::Encoding)?)
+            .to_vec(),
+    )
 }
 
 fn sha256_array(bytes: &[u8]) -> [u8; 32] {
