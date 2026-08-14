@@ -1,0 +1,117 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 363,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "45dae3c4af76973578c70a9d7e6cff4b2cdeb019280517a4625c27b7fcea4ff4",
+  "phase": "bound",
+  "generation": 4,
+  "digest": "c41ff37daede2e912b426ef6b6a1a3cc8f4089f0ed60b4ad0f5666a4b99ff104",
+  "branch": "codex/363-implemented-plan-summary-recovery-epoch",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-363-implemented-plan-summary-recovery-epoch",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/363/design.md",
+  "diagram_path": ".csdlc/prepared/issues/363/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:eee15d33-cab2-424a-8c35-8310ac08ffa1",
+      "revision": "ffc518fee91e4d11bfa2a64f647f2016a56576f23eec9e1543cb05239831b399"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "fbc443c23e55b03470020e516f2c919318abf4bcf315133df792aee9c7607069",
+      "rendered_digest": "92983499bdc30f420b0c4517fd77cb53e86bfa26bde3a022d26b84e56fac42ee",
+      "ast_digest": "1ffeab73eb9d39109e8e8424900806180a802e932548b96b6365c279b8a44317"
+    },
+    "stp": {
+      "values_digest": "c17ef1321f177fc636e6b19c4550249fe63572498af6029166d4ff5f04e75acd",
+      "rendered_digest": "c974583675741dfa225d5c7d0c0d16d2ccc8efee728df08578d280abf2a14d31",
+      "ast_digest": "d26ee49797f0cd8d02ba568cb9d9f31abaeb51f710b9b6578801bdb354a227eb"
+    },
+    "spp": {
+      "values_digest": "e467d1b0cd48616f0ba9c52da4f25bbca627a6eb434ff0e26cefb8da1d9bccba",
+      "rendered_digest": "c15292be999924c36798291b721f24d01d8de3df566b7fc7b61f4b11c507c9ab",
+      "ast_digest": "a705039b9e265cf23ccded75e3a534a1a09964b7fb3dc481b0ef294696d1afb7"
+    },
+    "vpp": {
+      "values_digest": "212ce86b5079c2af6a45b686a69c2c8053a7cbd7530438c55ca4338c27ca153b",
+      "rendered_digest": "c2d652f128a41e30df9d608a47615c101c10460cc10629e450884439c07b5f9b",
+      "ast_digest": "ea319e02b27f43824b4ffc064d802422ea2eeb3a3bc097dd479fc99533243c98"
+    },
+    "srp": {
+      "values_digest": "cdd88b3410b29491af83b99caf3d9341525536183b05d4536ba0b422034b0d72",
+      "rendered_digest": "e8415a77faa2f4accde35397c182841d5fee30caec490e7f13a7c2ba8f1ae835",
+      "ast_digest": "2448ad31211eb26eebb85f24ece03f6e93c1b4af5794dafdac65aa1449ad5b8c"
+    },
+    "sor": {
+      "values_digest": "0811d7632789e5be22d111bf91ee9f0a2b3acc3f2f2c7a1f8c542f0554e932b4",
+      "rendered_digest": "e5e5092f598f4cd1fe980c62a9d1e2e66b2fc78d9e4acdeb753125c8c8e3e402",
+      "ast_digest": "3555fdc975dbb81a451c6437646da649f7ee76fea7b687eebb54c8334dd529ed"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-363-bootstrap",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:issue-363-bootstrap",
+      "reason": "Separate executable current recovery feasibility from the future issue-owned regression target.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"existing-recovery-feasibility\",\"proof_role\":\"Run the closest existing gate proving immediate recovered Implemented SPP summary correction and refusal behavior; this establishes feasibility only, not #363 completion.\",\"acceptance_ids\":[\"AC-2\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"recovered_issue_can_correct_only_the_spp_plan_summary\"],\"parallel_group\":\"363-01\",\"defer_reason\":null},{\"lane\":\"sequenced-recovery-regression\",\"proof_role\":\"After bind, prove the exact #274 intervening-operation recovery epoch and complete refusal matrix.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":12000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"implemented_plan_summary_recovery_survives_allowed_intervening_repairs\"],\"parallel_group\":\"363-02\",\"defer_reason\":\"Deferred until approved bind creates the issue-owned regression.\"},{\"lane\":\"clippy\",\"proof_role\":\"Reject warnings after implementation.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"363-03\",\"defer_reason\":\"Deferred until implementation.\"},{\"lane\":\"diff\",\"proof_role\":\"Reject diff hygiene errors.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\",\"dae957c435b73d87af1f36d4e15fb088f6fd055b...HEAD\"],\"parallel_group\":\"363-04\",\"defer_reason\":\"Deferred until implementation.\"}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:issue-363-bootstrap",
+      "reason": "Separate executable current recovery feasibility from the future issue-owned regression target.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-363-preparation\",\"proof_role\":\"Prove exact issue packet and recovery-epoch markers before bind.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/363/validate_preparation.py\"],\"parallel_group\":\"363-00\",\"defer_reason\":null},{\"lane\":\"existing-recovery-feasibility\",\"proof_role\":\"Run the closest existing gate proving immediate recovered Implemented SPP summary correction and refusal behavior; this establishes feasibility only, not #363 completion.\",\"acceptance_ids\":[\"AC-2\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"recovered_issue_can_correct_only_the_spp_plan_summary\"],\"parallel_group\":\"363-01\",\"defer_reason\":null},{\"lane\":\"sequenced-recovery-regression\",\"proof_role\":\"After bind, prove the exact #274 intervening-operation recovery epoch and complete refusal matrix.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":12000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"implemented_plan_summary_recovery_survives_allowed_intervening_repairs\"],\"parallel_group\":\"363-02\",\"defer_reason\":\"Deferred until approved bind creates the issue-owned regression.\"},{\"lane\":\"clippy\",\"proof_role\":\"Reject warnings after implementation.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"363-03\",\"defer_reason\":\"Deferred until implementation.\"},{\"lane\":\"diff\",\"proof_role\":\"Reject diff hygiene errors.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\",\"dae957c435b73d87af1f36d4e15fb088f6fd055b...HEAD\"],\"parallel_group\":\"363-04\",\"defer_reason\":\"Deferred until implementation.\"}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "fresh-session:eee15d33-cab2-424a-8c35-8310ac08ffa1",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:issue-363-bootstrap",
+      "reason": "Declare the exact executable preparation validator path for readiness classification.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate5.rs\",\".csdlc/prepared/issues/363/validate_preparation.py\",\".csdlc/issues/363\",\".csdlc/prepared/issues/363\",\".csdlc/evidence/363\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    }
+  ]
+}

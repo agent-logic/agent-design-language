@@ -3128,6 +3128,8 @@ fn recovered_issue_can_correct_only_the_spp_plan_summary() {
             serde_json::from_str(&corrected.audit.last().expect("correction audit").operation)
                 .expect("structured summary audit");
         assert_eq!(audit["operation"], "correct_plan_summary_after_recovery");
+        assert!(audit["recovery_sequence"].as_u64().is_some());
+        assert!(audit["recovery_generation"].as_u64().is_some());
         let csdlc_v2::cards::CardContent::Spp(before_spp) = &before_cards[&CardKind::Spp].content
         else {
             panic!("SPP")
@@ -3278,6 +3280,127 @@ fn recovered_issue_can_correct_only_the_spp_plan_summary() {
             before
         );
     }
+}
+
+#[test]
+fn implemented_plan_summary_recovery_survives_allowed_intervening_repairs() {
+    let (_temp, store, implemented) = implemented_fixture();
+    let revision = csdlc_v2::git::substantive_revision(store.root(), &["src".into()])
+        .expect("review revision");
+    let reviewed = record_review(
+        &store,
+        ReviewRecordRequest {
+            issue: 7,
+            expected_generation: implemented.generation,
+            expected_digest: implemented.digest,
+            actor: "reviewer".into(),
+            evidence: ReviewEvidence {
+                reviewer: "reviewer".into(),
+                scope: vec!["src".into()],
+                reviewed_revision: revision,
+                findings: vec![],
+                residual_risks: vec![],
+                completed: true,
+                non_substantive_proof: None,
+            },
+        },
+    )
+    .expect("review");
+    let recovered = csdlc_v2::recover_review(
+        &store,
+        ReviewRecoveryRequest {
+            issue: 7,
+            expected_generation: reviewed.generation,
+            expected_digest: reviewed.digest,
+            actor: "operator".into(),
+            reason: "repair review finding".into(),
+        },
+    )
+    .expect("recover");
+    let repaired = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Spp,
+            expected_generation: recovered.generation,
+            expected_digest: recovered.digest,
+            actor: "operator".into(),
+            reason: "repair affected areas".into(),
+            operation: SemanticOperation::ReplacePlanningCollection {
+                field: csdlc_v2::cards::PlanningCollectionField::AffectedAreas,
+                values: vec!["src".into(), "tests".into()],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("allowed intervening repair");
+    let corrected = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Spp,
+            expected_generation: repaired.generation,
+            expected_digest: repaired.digest.clone(),
+            actor: "operator".into(),
+            reason: "align recovered summary".into(),
+            operation: SemanticOperation::CorrectPlanSummaryAfterRecovery {
+                value: "post-recovery plan".into(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("summary correction after allowed repair");
+    assert_eq!(corrected.audit.last().unwrap().actor, "operator");
+    assert!(matches!(
+        edit_issue(
+            &store,
+            EditRequest {
+                issue: 7,
+                card: CardKind::Spp,
+                expected_generation: corrected.generation,
+                expected_digest: corrected.digest,
+                actor: "operator".into(),
+                reason: "reject second correction".into(),
+                operation: SemanticOperation::CorrectPlanSummaryAfterRecovery {
+                    value: "second correction".into(),
+                },
+                fail_after_backup: false,
+            }
+        )
+        .expect_err("second correction must end epoch")
+        .code,
+        ErrorCode::InvalidTransition
+    ));
+
+    let mut forged = repaired;
+    forged.audit.push(csdlc_v2::model::AuditEvent {
+        sequence: forged.audit.len() as u64 + 1,
+        generation: forged.generation,
+        actor: "forger".into(),
+        reason: "unknown".into(),
+        operation: "unknown_recovery_operation".into(),
+    });
+    write_consistent_record(store.root(), &mut forged);
+    assert!(matches!(
+        edit_issue(
+            &store,
+            EditRequest {
+                issue: 7,
+                card: CardKind::Spp,
+                expected_generation: forged.generation,
+                expected_digest: forged.digest,
+                actor: "operator".into(),
+                reason: "reject unknown".into(),
+                operation: SemanticOperation::CorrectPlanSummaryAfterRecovery {
+                    value: "blocked".into()
+                },
+                fail_after_backup: false,
+            }
+        )
+        .expect_err("unknown operation must end epoch")
+        .code,
+        ErrorCode::InvalidTransition | ErrorCode::CorruptRecord
+    ));
 }
 
 #[test]

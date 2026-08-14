@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 363,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[C-SDLC v2][defect] Permit sequenced implemented plan-summary repair after review recovery",
+    "slug": "implemented-plan-summary-recovery-epoch",
+    "version": "v0.92",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact store recovery predicate tests audit provenance and no #274 or generic field mutation.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Is recovery ancestry bounded to one issue epoch?",
+        "Does every authority-changing operation end the epoch?",
+        "Are review publication readiness terminal guards preserved?",
+        "Does the regression reproduce #274 sequencing?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

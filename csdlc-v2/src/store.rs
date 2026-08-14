@@ -2474,7 +2474,6 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
         }
         let current_recovery = latest_review_operation.is_some_and(|event| {
             event.operation == "recover_review"
-                && event.generation == record.generation
                 && latest_transition.is_some_and(|transition| {
                     transition.to == LifecyclePhase::Implemented
                         && matches!(
@@ -2486,6 +2485,11 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
                         && transition.actor == event.actor
                         && transition.reason == event.reason
                 })
+                && record
+                    .audit
+                    .iter()
+                    .skip_while(|candidate| candidate.sequence <= event.sequence)
+                    .all(|candidate| recovery_epoch_operation_is_allowed(&candidate.operation))
         });
         if !current_recovery
             || record.review_assignment.is_some()
@@ -2598,6 +2602,8 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
             "operation": "correct_plan_summary_after_recovery",
             "previous_value": plan_summary_before.expect("SPP summary correction snapshot"),
             "new_value": value,
+            "recovery_sequence": record.audit.iter().rev().find(|event| event.operation == "recover_review").map(|event| event.sequence),
+            "recovery_generation": record.audit.iter().rev().find(|event| event.operation == "recover_review").map(|event| event.generation),
         })
         .to_string(),
         (SemanticOperation::CorrectRequiredOutcomeAfterRecovery { value }, _) => {
@@ -4080,6 +4086,31 @@ fn authorize_card_operation(
             format!("{card} mutation is not allowed during {phase}"),
         ))
     }
+}
+
+fn recovery_epoch_operation_is_allowed(operation: &str) -> bool {
+    if matches!(operation, "approve_design") {
+        return true;
+    }
+    let Ok(value) = serde_json::from_str::<serde_json::Value>(operation) else {
+        return false;
+    };
+    matches!(
+        value.get("operation").and_then(serde_json::Value::as_str),
+        Some(
+            "replace_planning_collection"
+                | "replace_plan_steps"
+                | "replace_validation_lanes"
+                | "replace_acceptance_criteria"
+                | "correct_stp_deliverables_after_recovery"
+                | "correct_required_outcome_after_recovery"
+                | "correct_declared_scope_before_publication"
+                | "replace_operator_constraints"
+                | "correct_review_prompts_after_recovery"
+                | "replace_execution"
+                | "record_advisory_estimate"
+        )
+    )
 }
 
 fn hydrate_projections(
