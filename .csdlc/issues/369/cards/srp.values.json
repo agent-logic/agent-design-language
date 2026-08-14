@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 369,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Recover false design approval on bound issues",
+    "slug": "bound-false-design-review-recovery",
+    "version": "v0.92",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact typed request/store/CLI/schema and gate2 regression; no Runtime or #275 mutation.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does recovery require exact false approval identity?",
+        "Does it preserve audit/topology and set pending only?",
+        "Are later authority and repeats rejected?",
+        "Does #275 recover without replacement authority?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
