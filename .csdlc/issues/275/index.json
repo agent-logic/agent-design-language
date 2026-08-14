@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "20dbea588ff0ef623d711459f35c48a2d38c2fdd4d95cc7e96ee48bf3cd3ea30",
   "phase": "implemented",
-  "generation": 22,
-  "digest": "9fd9b169ee0c884ec9458192d77316a77a7bbc635e70328265cf348fd28af9df",
+  "generation": 24,
+  "digest": "748baeff8efce69a905c7e04fbe3a4b63660d28e30891e5eb457b7b2c2c1b9ed",
   "branch": "codex/275-integrated-serving-authority-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-275-integrated-serving-authority-proof",
   "review_assignment": null,
@@ -16,37 +16,42 @@
   "migration": null,
   "design_path": ".csdlc/prepared/issues/275/design.md",
   "diagram_path": ".csdlc/prepared/issues/275/diagram.mmd",
-  "design_review": "pending",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:review_issue_275_design_r3",
+      "revision": "045fdad3de9038b7dfee9561f5bdb770e82627c0cb930d97d90a61f2b64a283e"
+    }
+  },
   "cards": {
     "sip": {
-      "values_digest": "0c0fc9f390c56cb352e2b471b6776b692b353e3ffa07d24755526f203ce92df0",
+      "values_digest": "75b6f0a58ae1336f6a462759f440688107676020ad8e6cdca4189ec9a2717212",
       "rendered_digest": "00ace9f727dea3e11e412621064bb937898b1fbf1f119810cddc73e37051d10b",
       "ast_digest": "9f619677574a710b4ce089e080fb8fc55fb672404720324de7027e3a487e9970"
     },
     "stp": {
-      "values_digest": "b8f4722e310576315484e3043e676471f382ea4809e413e815679ded6cf1ee08",
+      "values_digest": "4d8b5bb376e87fcf9d6b0bb360adc3a8e38dfb60d9b81f869a460c7a8978cbb8",
       "rendered_digest": "0cc9ce89406b0ce4caf31ee7735848c563c5fdf072bf461a1541deb0b0a2ee11",
       "ast_digest": "73004cf1b84bdda99e5cd1aa1ec1a2f65588905787ce8bf524438f8c1848a1d1"
     },
     "spp": {
-      "values_digest": "51b9ed1f3cbbe8db755335eaa4279b1102fcc72717490e8aa3b7d34c908cd0cf",
+      "values_digest": "56c6192d4fc44281e175aa32daeae202ebc75d32359ac8b146a21df8238bddb0",
       "rendered_digest": "002d0032d50df5ed54ba03e5af80463b31c486c8a34ac487bc51a04703f8b69a",
       "ast_digest": "093e5aecccc9bc963efeab6117178b6ceb84291240252d1f2ecc4064d11583a4"
     },
     "vpp": {
-      "values_digest": "93a07f3c5f44e18853c7ec4e470fdddc9d0b28adb75d3de24d90ac61abcbf51a",
+      "values_digest": "21a1e640a0ab4760fb2a0ffa518feedfed3ff8d3b30035ce1402dbcb37dfc08a",
       "rendered_digest": "790fab9f72e65ecfc0e9db84c997d0f7fb07bd6c0f3fd4bfd9cbb00c7690589c",
       "ast_digest": "0be2310c955a79210201505a049051da5230e6168ece9a164c59bbd1f3bd5422"
     },
     "srp": {
-      "values_digest": "0fb42bf74d8462168ddf2a59537c6aa2fa9d135d3a9d92a2a2212b4ff4c09a53",
+      "values_digest": "e6236120a9cc34f4d3e6e7da48b018a08951d87483b4956dc89eb756290ea44d",
       "rendered_digest": "2a95d53ba9ac5251a4630c8b842da20e85fe4bfba082114685b8432c2800b245",
       "ast_digest": "08fdce6f58bbc14d82bc91575e54ecc3fcaac5967ec38de7482cfd6f1c661447"
     },
     "sor": {
-      "values_digest": "b1c972e4ddd987418cb0498677184442b653ff4daf3a31c478d24884d357a922",
-      "rendered_digest": "924bce6d1e8d95c0f4e7e88ceb3232028cc21b0696579cab9a499cba47ca1888",
-      "ast_digest": "0fc46cdb2f10d771c422882e5a0dd7f0bc3f3b225f52cde796a70539fbb1f048"
+      "values_digest": "5e760cd8b8544792c009aa973e7880c3814c2b959b87f609f300416ab78d81a3",
+      "rendered_digest": "34179f02f0ec45a99ccfb7e78d2b5bfb5db825f50d3af9cec9375088f23181a1",
+      "ast_digest": "d9df65729cb6975672a94893c81d9cc33ded1b54ab1958a97e2f54043512e28a"
     }
   },
   "transitions": [
@@ -240,6 +245,20 @@
       "actor": "codex:/root/issue-275-false-review-recovery",
       "reason": "{\"disposition\":\"current_self_review_and_prior_false_fresh_review_preserved_pending_fresh_design_review\",\"false_reviewer\":\"codex:/root/issue-275-implementation\",\"previous_approval\":{\"reviewer\":\"codex:/root/issue-275-implementation\",\"revision\":\"045fdad3de9038b7dfee9561f5bdb770e82627c0cb930d97d90a61f2b64a283e\"},\"reason\":\"Clear current noncanonical self-review approval after terminal #369 recovery while preserving prior false approval events and product worktree state.\"}",
       "operation": "recover_design_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 23,
+      "actor": "fresh-session:review_issue_275_design_r3",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 26,
+      "generation": 24,
+      "actor": "codex:/root/issue-275-implementation",
+      "reason": "Record #275 post-recovery implementation repair, fresh design review PASS, and focused validation after resolving design-review findings.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and repaired the bounded #275 integrated serving-authority snapshot store from terminal borrowed #367 child-lineage pairs. The repaired store denies caller-minted recovery receipts, permits recovery only from reopened committed state, hashes state through the domain-tagged revision-ordered prefix required by design, enforces same-lineage strictly newer fencing/generation for replacement and transfer observations, and keeps exact product scope to the integrated store module, one module registration, and the focused integration target.\",\"changes\":[\"Added `adl-runtime/src/distributed/integrated_serving_authority_snapshot.rs` with a store API accepting only borrowed `VerifiedCommittedChildLineagePair` inputs from #367.\",\"Registered the new integrated serving-authority snapshot module from `adl-runtime/src/distributed/mod.rs`.\",\"Added `adl-runtime/tests/distributed_integrated_serving_authority.rs` with the exact eight-case matrix for authentic pairs, immutable prefix validation, caller-outcome/reopen-derived recovery separation, retry/reopen, capacity, CAS rollback, corruption, terminal child evidence, A/B denial, redaction, and tamper denial.\",\"Repaired review findings by blocking `observe(..., Recovery)`, making `recover()` require a non-empty reopened committed state with no intervening live append, implementing the `ADL-INTEGRATED-SERVING-AUTHORITY-STATE-PREFIX-V1` revision/ordered-receipts digest, and adding renew/transfer/revoke/expiry coverage inside the existing exact denominator.\",\"Re-anchored `.csdlc/prepared/issues/275/validate_exact_scope.py` to the current `origin/main` merge-base so the exact scope proof no longer flags already-merged #369 lifecycle records as #275 drift.\"],\"artifacts\":[\"adl-runtime/src/distributed/integrated_serving_authority_snapshot.rs\",\"adl-runtime/tests/distributed_integrated_serving_authority.rs\",\"adl-runtime/src/distributed/mod.rs\",\".csdlc/prepared/issues/275/run_exact_focused_matrix.py\",\".csdlc/prepared/issues/275/validate_exact_scope.py\",\".csdlc/issues/275\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/275/run_exact_focused_matrix.py\"],\"purpose\":\"Prove the exact eight-case #275 focused integration denominator after recovery/non-overlap repairs.\",\"outcome\":\"passed\",\"evidence_ref\":\"PASS: exact #275 focused matrix 8 passed, 0 failed, 0 ignored at HEAD 86a59bde2d85d8a6ed78c542e6cace0a4fc8a459.\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--features\",\"internal-test-fixtures\",\"distributed::integrated_serving_authority_snapshot::tests::normalized_receipt_rejects_tamper\",\"--\",\"--exact\"],\"purpose\":\"Prove private normalized receipt tamper denial.\",\"outcome\":\"passed\",\"evidence_ref\":\"1 passed; 0 failed; 0 ignored.\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--doc\",\"integrated_serving_authority_snapshot\"],\"purpose\":\"Prove the three compile-fail API denial examples.\",\"outcome\":\"passed\",\"evidence_ref\":\"3 passed; 0 failed; 0 ignored selected doctests.\"},{\"command\":[\"python3\",\".csdlc/prepared/issues/275/validate_exact_scope.py\"],\"purpose\":\"Prove exact #275 product scope and sole additive registration hunk against current main.\",\"outcome\":\"passed\",\"evidence_ref\":\"PASS: exact #275 scope and sole additive registration hunk.\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--features\",\"internal-test-fixtures\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings and hidden API drift in the feature-bearing library.\",\"outcome\":\"passed\",\"evidence_ref\":\"Finished dev profile with -D warnings.\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_integrated_serving_authority\",\"--features\",\"internal-test-fixtures\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings in the exact focused integration target.\",\"outcome\":\"passed\",\"evidence_ref\":\"Finished dev profile with -D warnings.\"},{\"command\":[\"fresh\",\"design-review\",\"review_issue_275_design_r3\"],\"purpose\":\"Verify the post-repair design boundary after false design-review recovery.\",\"outcome\":\"passed\",\"evidence_ref\":\"Fresh read-only design review PASS at exact HEAD 86a59bde2d85d8a6ed78c542e6cace0a4fc8a459.\"}]}"
     }
   ]
 }
