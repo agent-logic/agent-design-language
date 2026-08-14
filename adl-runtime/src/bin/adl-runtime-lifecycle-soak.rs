@@ -3150,6 +3150,7 @@ fn short_qualification_fault_contracts(
             kind: match record.name.as_str() {
                 "restart" => FaultKind::GuardianRestart,
                 "dependency-degradation" => FaultKind::ResourcePressure,
+                "vector-liveness" | "log-stagnation" => FaultKind::ObservabilityStall,
                 "delayed-progress" | "shutdown" => FaultKind::RecoveryReplay,
                 _ => FaultKind::RecoveryReplay,
             },
@@ -3677,6 +3678,16 @@ mod tests {
                 .len(),
             short_qualification_fault_names().len()
         );
+        let config_faults = value["runtime_v3_soak"]["config"]["faults"]
+            .as_array()
+            .expect("config fault contracts");
+        for name in ["vector-liveness", "log-stagnation"] {
+            let fault = config_faults
+                .iter()
+                .find(|fault| fault["name"] == name)
+                .expect("observability fault contract");
+            assert_eq!(fault["kind"], "observability_stall");
+        }
     }
 
     #[test]
@@ -3776,6 +3787,7 @@ mod tests {
                     kind: match name.as_str() {
                         "restart" => FaultKind::GuardianRestart,
                         "dependency-degradation" => FaultKind::ResourcePressure,
+                        "vector-liveness" | "log-stagnation" => FaultKind::ObservabilityStall,
                         _ => FaultKind::RecoveryReplay,
                     },
                     name,
