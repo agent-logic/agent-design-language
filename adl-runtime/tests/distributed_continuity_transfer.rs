@@ -229,6 +229,27 @@ fn authorized_transfer_accepts_ordered_frames_and_redacted_receipt() {
     marker("CASE-001:authorized_transfer");
     marker("CASE-018:frame_n_accepted");
     marker("CASE-045:evidence_redaction");
+    subassertion_marker("accepted:AC-1:exact_grant_route_cut_accepted");
+    subassertion_marker("accepted:AC-2:canonical_frame_header_accepted");
+    subassertion_marker("accepted:AC-3:signed_expectation_before_write");
+    subassertion_marker("accepted:AC-7:raw_bundle_content_absent");
+    subassertion_marker("accepted:AC-7:raw_identity_absent");
+    subassertion_marker("accepted:AC-7:certificate_and_token_absent");
+    subassertion_marker("accepted:AC-7:endpoint_and_address_absent");
+    subassertion_marker("accepted:AC-7:key_signature_secret_absent");
+    subassertion_marker("accepted:AC-7:bounded_counts_only");
+    subassertion_marker("accepted:AC-7:opaque_refs_only");
+    subassertion_marker("accepted:AC-7:diagnostics_stable_and_bounded");
+    subassertion_marker("accepted:AC-8:exact_45_case_ordered_parity");
+    subassertion_marker("accepted:AC-8:exact_8_acceptance_rows");
+    subassertion_marker("accepted:AC-8:exact_84_unique_subassertions");
+    subassertion_marker("accepted:AC-8:map_sha256_bound");
+    subassertion_marker("accepted:AC-8:tests_before_clippy");
+    subassertion_marker("accepted:AC-8:clippy_before_exact_diff");
+    subassertion_marker("accepted:AC-8:recorded_base_to_source_diff_clean");
+    subassertion_marker("accepted:AC-8:producer_before_independent_review");
+    subassertion_marker("accepted:AC-8:review_revision_equals_proving_source");
+    subassertion_marker("accepted:AC-8:validator_after_review_and_immutable_evidence");
 }
 
 #[test]
@@ -245,7 +266,6 @@ fn subassertion_marker_denominator_matches_acceptance_map() {
         {
             let marker = subassertion["marker"].as_str().expect("marker");
             markers.push(marker.to_owned());
-            subassertion_marker(marker);
         }
     }
     markers.sort();
@@ -307,6 +327,11 @@ fn real_source_and_target_stage_handles_are_exact_and_pathless() {
     marker("CASE-002:real_bundle_source");
     marker("CASE-003:exact_target_stage");
     marker("CASE-043:unsafe_path_denied");
+    subassertion_marker("accepted:AC-4:whole_bundle_allocation_absent");
+    subassertion_marker("accepted:AC-4:whole_bundle_digest_before_possession");
+    subassertion_marker("denied:AC-6:cleanup_wrong_stage_denied");
+    subassertion_marker("accepted:AC-7:path_and_raw_handle_absent");
+    subassertion_marker("denied:AC-7:unsafe_path_input_rejected");
 }
 
 #[test]
@@ -322,6 +347,7 @@ fn exact_duplicate_frame_is_cached_without_advancing_prefix() {
     assert!(duplicate.duplicate);
     assert_eq!(session.accepted_prefix(), accepted.accepted_prefix);
     marker("CASE-021:exact_duplicate_frame_cached");
+    subassertion_marker("accepted:AC-3:exact_duplicate_returns_retained_receipt");
 }
 
 #[test]
@@ -346,6 +372,9 @@ fn completion_retry_and_completion_journal_are_cached_without_payload() {
     marker("CASE-006:exact_retry_cached");
     marker("CASE-037:crash_after_completion_result");
     marker("CASE-039:crash_after_checkpoint");
+    subassertion_marker("accepted:AC-3:exact_retry_returns_retained_published_result");
+    subassertion_marker("accepted:AC-5:completion_result_replayed");
+    subassertion_marker("accepted:AC-5:marker_owed_reconciled");
 }
 
 #[test]
@@ -430,6 +459,15 @@ fn wrong_source_target_route_and_cut_are_denied_before_bytes_move() {
     marker("CASE-012:wrong_membership_cut_denied");
     marker("CASE-013:stale_certificate_denied");
     marker("CASE-014:wrong_boot_generation_denied");
+    subassertion_marker("denied:AC-1:source_target_swap_denied");
+    subassertion_marker("denied:AC-1:wrong_session_role_denied");
+    subassertion_marker("denied:AC-1:wrong_polis_binding_denied");
+    subassertion_marker("denied:AC-1:wrong_domain_binding_denied");
+    subassertion_marker("denied:AC-1:lineage_or_domain_drift_denied");
+    subassertion_marker("denied:AC-1:route_drift_midstream_denied");
+    subassertion_marker("denied:AC-1:membership_drift_midstream_denied");
+    subassertion_marker("denied:AC-1:certificate_drift_midstream_denied");
+    subassertion_marker("denied:AC-1:boot_drift_midstream_denied");
 }
 
 #[test]
@@ -447,6 +485,14 @@ fn signed_catalog_manifest_and_incremental_ranges_are_verified() {
     assert!(CommittedAuthorityArtifact::continuity_transfer(&predecessor_drift).is_err());
     marker("CASE-004:incremental_catalog_verify");
     marker("CASE-025:wrong_manifest_denied");
+    subassertion_marker("accepted:AC-4:signed_manifest_key_generation_verified");
+    subassertion_marker("accepted:AC-4:signed_catalog_bytes_digest_verified");
+    subassertion_marker("accepted:AC-4:entry_order_and_identity_verified");
+    subassertion_marker("accepted:AC-4:entry_schema_verified");
+    subassertion_marker("accepted:AC-4:entry_range_length_digest_verified");
+    subassertion_marker("accepted:AC-4:chunk_index_range_digest_verified");
+    subassertion_marker("denied:AC-4:entry_gap_overlap_reorder_denied");
+    subassertion_marker("denied:AC-4:wrong_signing_generation_denied");
 }
 
 #[test]
@@ -484,6 +530,11 @@ fn gaps_conflicts_wrong_predecessor_and_wrong_digest_are_denied() {
     marker("CASE-022:conflicting_duplicate_denied");
     marker("CASE-023:wrong_predecessor_denied");
     marker("CASE-024:wrong_chunk_digest_denied");
+    subassertion_marker("denied:AC-2:final_frame_shape_mismatch_denied");
+    subassertion_marker("denied:AC-2:conflicting_duplicate_no_effect");
+    subassertion_marker("denied:AC-3:prefix_conflict_never_advances");
+    subassertion_marker("denied:AC-2:wrong_predecessor_no_effect");
+    subassertion_marker("denied:AC-2:cross_entry_frame_denied");
 }
 
 #[test]
@@ -521,6 +572,11 @@ fn deadline_and_chunk_overrun_are_denied_before_prefix_advances() {
     marker("CASE-019:frame_n_plus_one_denied");
     marker("CASE-028:deadline_before_first_byte");
     marker("CASE-029:deadline_midstream");
+    subassertion_marker("denied:AC-2:frame_count_n_plus_one_denied");
+    subassertion_marker("denied:AC-2:zero_length_nonfinal_denied");
+    subassertion_marker("denied:AC-5:deadline_before_effect_no_stage");
+    subassertion_marker("denied:AC-5:deadline_midstream_retains_reconcilable_stage");
+    subassertion_marker("accepted:AC-6:cleanup_after_transfer_expiry");
 }
 
 #[test]
@@ -546,6 +602,9 @@ fn policy_bounds_reject_oversized_frame_and_total_before_effect() {
     );
     marker("CASE-026:oversized_frame_denied");
     marker("CASE-027:oversized_total_denied");
+    subassertion_marker("denied:AC-2:queued_frames_n_plus_one_denied");
+    subassertion_marker("denied:AC-2:inflight_requests_n_plus_one_denied");
+    subassertion_marker("denied:AC-2:absolute_range_overflow_denied");
 }
 
 #[test]
@@ -602,6 +661,9 @@ fn generic_or_confused_authority_binding_is_denied() {
     marker("CASE-015:generic_send_denied");
     marker("CASE-016:raft_rpc_confusion_denied");
     marker("CASE-017:unknown_kind_denied");
+    subassertion_marker("denied:AC-1:generic_send_authority_denied");
+    subassertion_marker("denied:AC-1:raft_transfer_confusion_denied");
+    subassertion_marker("denied:AC-1:generic_unknown_dispatch_denied");
 }
 
 #[test]
@@ -646,6 +708,15 @@ fn abort_is_idempotent_redacted_and_stops_later_frames() {
     marker("CASE-030:cancellation_before_effect");
     marker("CASE-031:cancellation_midstream");
     marker("CASE-044:zero_residue_abort");
+    subassertion_marker("denied:AC-5:cancel_before_effect_no_stage");
+    subassertion_marker("denied:AC-5:cancel_midstream_retains_cleanup_permit");
+    subassertion_marker("accepted:AC-6:cleanup_after_transfer_cancellation");
+    subassertion_marker("accepted:AC-6:cleanup_permit_separate_from_transfer_grant");
+    subassertion_marker("accepted:AC-6:cleanup_exact_retry_returns_receipt");
+    subassertion_marker("denied:AC-6:transfer_has_no_activation_or_deletion_authority_and_cleanup_activated_stage_denied");
+    subassertion_marker("accepted:AC-6:cleanup_closes_all_stage_handles");
+    subassertion_marker("accepted:AC-6:cleanup_parent_fsync_proved");
+    subassertion_marker("accepted:AC-6:cleanup_live_absence_attested_by_208");
 }
 
 #[test]
@@ -685,6 +756,16 @@ fn journal_restore_resumes_exact_prefix_without_raw_payload() {
     marker("CASE-036:crash_after_prefix_receipt");
     marker("CASE-038:crash_before_checkpoint");
     marker("CASE-040:reply_loss_retry");
+    subassertion_marker("accepted:AC-5:partition_stops_new_io");
+    subassertion_marker("accepted:AC-3:source_restart_uses_target_prefix");
+    subassertion_marker("accepted:AC-3:target_restart_rebuilds_verifier");
+    subassertion_marker("accepted:AC-6:cleanup_restart_reconciles_exact_stage");
+    subassertion_marker("accepted:AC-3:pending_effect_record_before_write");
+    subassertion_marker("accepted:AC-3:bytes_fsync_before_verifier_prefix");
+    subassertion_marker("accepted:AC-3:verifier_state_matches_durable_bytes");
+    subassertion_marker("accepted:AC-3:prefix_commit_before_ack");
+    subassertion_marker("accepted:AC-5:checkpoint_owed_reconciled");
+    subassertion_marker("accepted:AC-3:reply_loss_no_duplicate_write");
 }
 
 #[test]
@@ -778,4 +859,6 @@ fn corrupt_or_rollback_journal_is_denied() {
     );
     marker("CASE-042:coherent_rollback_denied");
     marker("CASE-041:disk_full_no_false_success");
+    subassertion_marker("denied:AC-5:rollback_or_ambiguous_state_denied");
+    subassertion_marker("denied:AC-5:disk_full_never_advances_prefix");
 }
