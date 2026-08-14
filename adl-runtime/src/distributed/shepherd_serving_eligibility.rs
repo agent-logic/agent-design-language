@@ -12,6 +12,8 @@ use sha2::{Digest, Sha256};
 use std::{collections::BTreeMap, path::Path, sync::Arc};
 
 const MAX_OPERATIONS: usize = 4096;
+const IJSON_MAX_INTEGER: u64 = 9_007_199_254_740_991;
+const SEALED_SHEPHERD_DOMAIN: &str = "ADL-SEALED-SHEPHERD-COMMITTED-PROJECTION-V1";
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum ShepherdEligibilityError {
@@ -99,7 +101,7 @@ impl CheckpointMetadataSource for State {
     }
 }
 
-#[derive(Clone, Debug, Eq, PartialEq, Serialize)]
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub struct ShepherdEligibilityProjection {
     pub schema: String,
     pub status: String,
@@ -111,6 +113,82 @@ pub struct ShepherdEligibilityProjection {
     pub foundation_result_sha256: Option<String>,
     pub state_sha256: String,
     pub receipt_sha256: String,
+}
+
+/// Store-derived committed Shepherd eligibility evidence.
+///
+/// Its fields and constructor are private. Caller-created projections cannot be
+/// promoted into committed evidence.
+///
+/// ```compile_fail
+/// use adl_runtime::distributed::shepherd_serving_eligibility::SealedShepherdCommittedProjection;
+/// let _ = SealedShepherdCommittedProjection { provenance_sha256: String::new() };
+/// ```
+#[derive(Clone, Debug, Eq, PartialEq, Serialize)]
+pub struct SealedShepherdCommittedProjection {
+    preimage: ShepherdCommittedPreimage,
+    provenance_sha256: String,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct ShepherdCommittedPreimage {
+    domain: String,
+    child_kind: String,
+    envelope_generation: u64,
+    committed_revision: u64,
+    payload_sha256: String,
+    receipt_sha256: String,
+    state_sha256: String,
+    projection: ShepherdEligibilityProjection,
+}
+
+impl SealedShepherdCommittedProjection {
+    pub fn child_kind(&self) -> &str {
+        &self.preimage.child_kind
+    }
+    pub fn envelope_generation(&self) -> u64 {
+        self.preimage.envelope_generation
+    }
+    pub fn committed_revision(&self) -> u64 {
+        self.preimage.committed_revision
+    }
+    pub fn payload_sha256(&self) -> &str {
+        &self.preimage.payload_sha256
+    }
+    pub fn receipt_sha256(&self) -> &str {
+        &self.preimage.receipt_sha256
+    }
+    pub fn state_sha256(&self) -> &str {
+        &self.preimage.state_sha256
+    }
+    pub fn provenance_sha256(&self) -> &str {
+        &self.provenance_sha256
+    }
+    pub fn status(&self) -> &str {
+        &self.preimage.projection.status
+    }
+    pub fn subject_ref(&self) -> Option<&str> {
+        self.preimage.projection.subject_ref.as_deref()
+    }
+    pub fn fencing_generation(&self) -> u64 {
+        self.preimage.projection.fencing_generation
+    }
+    pub fn expiry_class(&self) -> &str {
+        &self.preimage.projection.expiry_class
+    }
+    pub fn foundation_state_sha256(&self) -> Option<&str> {
+        self.preimage.projection.foundation_state_sha256.as_deref()
+    }
+    pub fn foundation_generation(&self) -> Option<u64> {
+        self.preimage.projection.foundation_generation
+    }
+    pub fn foundation_result_sha256(&self) -> Option<&str> {
+        self.preimage.projection.foundation_result_sha256.as_deref()
+    }
+    pub fn canonical_bytes(&self) -> Result<Vec<u8>, ShepherdEligibilityError> {
+        serde_jcs::to_vec(self).map_err(|_| ShepherdEligibilityError::Serialization)
+    }
 }
 
 pub struct ShepherdEligibilityStore {
@@ -142,6 +220,43 @@ impl ShepherdEligibilityStore {
             envelope,
             capacity,
         })
+    }
+
+    pub fn committed_projection(
+        &self,
+    ) -> Result<Option<SealedShepherdCommittedProjection>, ShepherdEligibilityError> {
+        let state = self.envelope.payload();
+        if state.current.is_none() {
+            return Ok(None);
+        }
+        let current_projection = stored_projection(state);
+        let mut matches = state.operations.values().filter(|receipt| {
+            receipt.result == current_projection
+                && normalized_state_digest_for_receipt(state, &receipt.operation_id)
+                    .is_ok_and(|digest| digest == receipt.candidate_state_sha256)
+        });
+        let receipt = matches
+            .next()
+            .ok_or(ShepherdEligibilityError::Serialization)?;
+        if matches.next().is_some() {
+            return Err(ShepherdEligibilityError::Serialization);
+        }
+        let projection = projection_from_receipt(receipt)?;
+        let payload_sha256 = state_digest(state)?;
+        if payload_sha256 != self.envelope.payload_sha256() {
+            return Err(ShepherdEligibilityError::Serialization);
+        }
+        seal_shepherd_projection(ShepherdCommittedPreimage {
+            domain: SEALED_SHEPHERD_DOMAIN.into(),
+            child_kind: "shepherd".into(),
+            envelope_generation: self.envelope.generation(),
+            committed_revision: state.revision,
+            payload_sha256,
+            receipt_sha256: projection.receipt_sha256.clone(),
+            state_sha256: projection.state_sha256.clone(),
+            projection,
+        })
+        .map(Some)
     }
 
     #[allow(clippy::too_many_arguments)]
@@ -364,6 +479,71 @@ impl ShepherdEligibilityStore {
         projection(self.envelope.payload(), &receipt)
     }
 }
+
+fn seal_shepherd_projection(
+    preimage: ShepherdCommittedPreimage,
+) -> Result<SealedShepherdCommittedProjection, ShepherdEligibilityError> {
+    validate_shepherd_preimage(&preimage)?;
+    let provenance_sha256 = hex::encode(Sha256::digest(
+        serde_jcs::to_vec(&preimage).map_err(|_| ShepherdEligibilityError::Serialization)?,
+    ));
+    Ok(SealedShepherdCommittedProjection {
+        preimage,
+        provenance_sha256,
+    })
+}
+
+#[cfg(test)]
+fn verify_sealed_shepherd_projection(
+    sealed: &SealedShepherdCommittedProjection,
+) -> Result<(), ShepherdEligibilityError> {
+    validate_shepherd_preimage(&sealed.preimage)?;
+    let expected = hex::encode(Sha256::digest(
+        serde_jcs::to_vec(&sealed.preimage).map_err(|_| ShepherdEligibilityError::Serialization)?,
+    ));
+    if expected != sealed.provenance_sha256 {
+        return Err(ShepherdEligibilityError::Serialization);
+    }
+    Ok(())
+}
+
+fn validate_shepherd_preimage(
+    p: &ShepherdCommittedPreimage,
+) -> Result<(), ShepherdEligibilityError> {
+    if p.domain != SEALED_SHEPHERD_DOMAIN
+        || p.child_kind != "shepherd"
+        || p.envelope_generation > IJSON_MAX_INTEGER
+        || p.committed_revision == 0
+        || p.committed_revision > IJSON_MAX_INTEGER
+        || p.projection.schema != "adl.shepherd-serving-eligibility.projection.v1"
+        || p.receipt_sha256 != p.projection.receipt_sha256
+        || p.state_sha256 != p.projection.state_sha256
+        || !is_sha256(&p.payload_sha256)
+        || !is_sha256(&p.receipt_sha256)
+        || !is_sha256(&p.state_sha256)
+    {
+        return Err(ShepherdEligibilityError::Serialization);
+    }
+    Ok(())
+}
+
+fn normalized_state_digest_for_receipt(
+    state: &State,
+    operation_id: &str,
+) -> Result<String, ShepherdEligibilityError> {
+    let mut normalized = state.clone();
+    if normalized.operations.remove(operation_id).is_none() {
+        return Err(ShepherdEligibilityError::Serialization);
+    }
+    state_digest(&normalized)
+}
+
+fn is_sha256(value: &str) -> bool {
+    value.len() == 64
+        && value
+            .bytes()
+            .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
+}
 fn projection(
     state: &State,
     receipt: &Receipt,
@@ -461,5 +641,64 @@ fn validate_id(v: &str) -> Result<(), ShepherdEligibilityError> {
         Err(ShepherdEligibilityError::InvalidInput)
     } else {
         Ok(())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn valid_preimage() -> ShepherdCommittedPreimage {
+        ShepherdCommittedPreimage {
+            domain: SEALED_SHEPHERD_DOMAIN.into(),
+            child_kind: "shepherd".into(),
+            envelope_generation: 2,
+            committed_revision: 1,
+            payload_sha256: "11".repeat(32),
+            receipt_sha256: "22".repeat(32),
+            state_sha256: "33".repeat(32),
+            projection: ShepherdEligibilityProjection {
+                schema: "adl.shepherd-serving-eligibility.projection.v1".into(),
+                status: "eligible".into(),
+                subject_ref: Some("44".repeat(32)),
+                fencing_generation: 7,
+                expiry_class: "bounded".into(),
+                foundation_state_sha256: Some("55".repeat(32)),
+                foundation_generation: Some(3),
+                foundation_result_sha256: Some("66".repeat(32)),
+                state_sha256: "33".repeat(32),
+                receipt_sha256: "22".repeat(32),
+            },
+        }
+    }
+
+    #[test]
+    fn sealed_committed_projection_private_provenance() {
+        let sealed = seal_shepherd_projection(valid_preimage()).unwrap();
+        verify_sealed_shepherd_projection(&sealed).unwrap();
+        let bytes = serde_jcs::to_vec(&sealed.preimage).unwrap();
+        let reopened: ShepherdCommittedPreimage = serde_json::from_slice(&bytes).unwrap();
+        assert_eq!(reopened, sealed.preimage);
+
+        for mutation in 0..5 {
+            let mut changed = sealed.clone();
+            match mutation {
+                0 => changed.preimage.child_kind = "observatory".into(),
+                1 => changed.preimage.envelope_generation += 1,
+                2 => changed.preimage.committed_revision += 1,
+                3 => changed.preimage.receipt_sha256 = "77".repeat(32),
+                _ => changed.preimage.projection.subject_ref = Some("88".repeat(32)),
+            }
+            assert_eq!(
+                verify_sealed_shepherd_projection(&changed),
+                Err(ShepherdEligibilityError::Serialization)
+            );
+        }
+        let mut unknown = serde_json::to_value(&sealed.preimage).unwrap();
+        unknown
+            .as_object_mut()
+            .unwrap()
+            .insert("unknown".into(), true.into());
+        assert!(serde_json::from_value::<ShepherdCommittedPreimage>(unknown).is_err());
     }
 }

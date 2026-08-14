@@ -7,6 +7,7 @@ use adl_runtime::distributed::{
 };
 use std::{
     collections::BTreeMap,
+    fs,
     sync::{Arc, Mutex},
 };
 use tempfile::TempDir;
@@ -32,6 +33,7 @@ impl ConsensusCheckpointAuthority for MemoryAuthority {
 }
 fn cut(fence: u64, state: &str) -> VerifiedServingAuthorityCut {
     VerifiedServingAuthorityCut::fixture(
+        "lineage-1".into(),
         7,
         "owner-commit".into(),
         fence,
@@ -192,18 +194,63 @@ fn revoke_and_expiry_are_terminal_for_old_cut() {
 fn restart_recovers_exact_committed_projection() {
     let dir = TempDir::new().unwrap();
     let auth = Arc::new(MemoryAuthority::default());
-    let first = {
+    let (first, sealed) = {
         let mut store = open(&dir, auth.clone(), 8);
-        store
+        let projection = store
             .acquire("a", "shepherd-a", b"permit", &cut(5, "11"), 10, 1)
-            .unwrap()
+            .unwrap();
+        let sealed = store.committed_projection().unwrap().unwrap();
+        (projection, sealed)
     };
     let mut reopened = open(&dir, auth, 8);
+    let reopened_sealed = reopened.committed_projection().unwrap().unwrap();
+    assert_eq!(
+        reopened_sealed.canonical_bytes().unwrap(),
+        sealed.canonical_bytes().unwrap()
+    );
+    assert_eq!(
+        reopened_sealed.provenance_sha256(),
+        sealed.provenance_sha256()
+    );
+    assert_eq!(sealed.child_kind(), "shepherd");
+    assert_eq!(sealed.committed_revision(), 1);
+    assert_eq!(sealed.status(), "eligible");
+    assert_eq!(sealed.receipt_sha256(), first.receipt_sha256);
+    let sealed_text = String::from_utf8(sealed.canonical_bytes().unwrap()).unwrap();
+    assert!(!sealed_text.contains("shepherd-a"));
+    assert!(!sealed_text.contains("permit"));
     let retry = reopened
         .acquire("a", "shepherd-a", b"permit", &cut(5, "11"), 10, 1)
         .unwrap();
     assert_eq!(retry.receipt_sha256, first.receipt_sha256);
     assert_eq!(retry.state_sha256, first.state_sha256);
+}
+
+#[test]
+fn empty_store_has_no_committed_projection() {
+    let dir = TempDir::new().unwrap();
+    let store = open(&dir, Arc::new(MemoryAuthority::default()), 8);
+    assert!(store.committed_projection().unwrap().is_none());
+}
+
+#[test]
+fn corrupt_durable_payload_cannot_yield_committed_projection() {
+    let dir = TempDir::new().unwrap();
+    let auth = Arc::new(MemoryAuthority::default());
+    {
+        let mut store = open(&dir, auth.clone(), 8);
+        store
+            .acquire("a", "shepherd-a", b"permit", &cut(5, "11"), 10, 1)
+            .unwrap();
+    }
+    let path = dir.path().join("shepherd-serving-eligibility.json");
+    let mut value: serde_json::Value = serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+    value["payload"]["revision"] = 99.into();
+    fs::write(&path, serde_json::to_vec(&value).unwrap()).unwrap();
+    assert!(matches!(
+        ShepherdEligibilityStore::open(&dir.path().canonicalize().unwrap(), auth, 8),
+        Err(ShepherdEligibilityError::Storage)
+    ));
 }
 
 #[test]
