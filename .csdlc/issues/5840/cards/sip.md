@@ -47,4 +47,4 @@ The demo matrix, feature coverage table, activation ledger, and AEE artifact ind
 - Accepted proof requires an exact revision and independently usable artifact
 - Planned, blocked, failed, synthetic, or receipt-only evidence cannot satisfy coverage
 - WP-21 and WP-21A retain repository-reduction ownership
-- Release the preparation claim before implementation handoff
+- Use typed C-SDLC v2 binding to establish the issue branch and worktree before implementation

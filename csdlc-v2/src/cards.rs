@@ -583,6 +583,9 @@ pub enum SemanticOperation {
     CorrectPlanSummaryAfterRecovery {
         value: String,
     },
+    CorrectRequiredOutcomeAfterRecovery {
+        value: String,
+    },
     CorrectOperatorConstraintsBeforeBind {
         values: Vec<String>,
     },
@@ -959,6 +962,19 @@ pub fn apply(
             match &mut values.content {
                 CardContent::Spp(v) => v.summary = value.clone(),
                 _ => return ownership(values.kind(), "correct_plan_summary_after_recovery"),
+            }
+            Ok(None)
+        }
+        SemanticOperation::CorrectRequiredOutcomeAfterRecovery { value } => {
+            if value.trim().is_empty() {
+                return Err(V2Error::new(
+                    ErrorCode::CardInvalid,
+                    "required outcome cannot be empty",
+                ));
+            }
+            match &mut values.content {
+                CardContent::Sip(v) => v.required_outcome = value.clone(),
+                _ => return ownership(values.kind(), "correct_required_outcome_after_recovery"),
             }
             Ok(None)
         }
@@ -2473,7 +2489,7 @@ pub(crate) fn execution_readiness_findings_for_cards(
         &vpp.lanes,
         &vpp.failure_policy,
         owned_paths_are_valid,
-        phase == LifecyclePhase::Initialized,
+        matches!(phase, LifecyclePhase::Initialized | LifecyclePhase::Ready),
     ))
 }
 

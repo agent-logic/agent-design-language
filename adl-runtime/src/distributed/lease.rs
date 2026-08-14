@@ -25,6 +25,68 @@ const MAX_CERTIFICATE_BYTES: usize = 1024 * 1024;
 const SHA256_BYTES: usize = 32;
 const SIGNATURE_BYTES: usize = 64;
 
+mod raw_access {
+    const LEASE_STORE_ACCESS_MAGIC: [u8; 32] = [
+        0x41, 0x44, 0x4c, 0x2d, 0x4c, 0x45, 0x41, 0x53, 0x45, 0x2d, 0x53, 0x54, 0x4f, 0x52, 0x45,
+        0x2d, 0x41, 0x43, 0x43, 0x45, 0x53, 0x53, 0x2d, 0x56, 0x31, 0x2d, 0x53, 0x45, 0x41, 0x4c,
+        0x03, 0x59,
+    ];
+
+    #[derive(Debug)]
+    struct LeaseStoreAccessSeal {
+        magic: [u8; 32],
+    }
+
+    static AUTHORITY_BOUND_SEAL: LeaseStoreAccessSeal = LeaseStoreAccessSeal {
+        magic: LEASE_STORE_ACCESS_MAGIC,
+    };
+
+    #[cfg(any(test, feature = "internal-test-fixtures"))]
+    static TEST_FIXTURE_SEAL: LeaseStoreAccessSeal = LeaseStoreAccessSeal {
+        magic: LEASE_STORE_ACCESS_MAGIC,
+    };
+
+    #[derive(Clone, Copy, Debug)]
+    pub struct LeaseStoreAccess {
+        seal: &'static LeaseStoreAccessSeal,
+    }
+
+    pub(crate) const AUTHORITY_BOUND: LeaseStoreAccess = LeaseStoreAccess {
+        seal: &AUTHORITY_BOUND_SEAL,
+    };
+
+    #[cfg(test)]
+    pub(crate) const TEST_FIXTURE: LeaseStoreAccess = LeaseStoreAccess {
+        seal: &TEST_FIXTURE_SEAL,
+    };
+
+    #[cfg(all(not(test), feature = "internal-test-fixtures"))]
+    #[doc(hidden)]
+    pub const TEST_FIXTURE: LeaseStoreAccess = LeaseStoreAccess {
+        seal: &TEST_FIXTURE_SEAL,
+    };
+
+    pub(super) fn validate(access: &LeaseStoreAccess) -> bool {
+        #[cfg(any(test, feature = "internal-test-fixtures"))]
+        let known_seal = std::ptr::eq(access.seal, &AUTHORITY_BOUND_SEAL)
+            || std::ptr::eq(access.seal, &TEST_FIXTURE_SEAL);
+        #[cfg(not(any(test, feature = "internal-test-fixtures")))]
+        let known_seal = std::ptr::eq(access.seal, &AUTHORITY_BOUND_SEAL);
+        known_seal && access.seal.magic == LEASE_STORE_ACCESS_MAGIC
+    }
+}
+
+pub use raw_access::LeaseStoreAccess;
+#[allow(unused_imports)]
+pub(crate) use raw_access::AUTHORITY_BOUND as AUTHORITY_BOUND_LEASE_ACCESS;
+#[cfg(test)]
+#[allow(unused_imports)]
+pub(crate) use raw_access::TEST_FIXTURE as TEST_LEASE_STORE_ACCESS;
+#[cfg(all(not(test), feature = "internal-test-fixtures"))]
+#[doc(hidden)]
+#[allow(unused_imports)]
+pub use raw_access::TEST_FIXTURE as TEST_LEASE_STORE_ACCESS;
+
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 #[repr(u32)]
 pub enum OperationClass {
@@ -221,6 +283,65 @@ impl AuthorityMembership {
             .enumerate()
             .map(|(index, id)| (id.clone(), index as u64 + 1))
             .collect::<BTreeMap<_, _>>();
+        Self::new_with_stable_ids(
+            trust_domain_id,
+            voter_set_generation,
+            committed_log_index,
+            configs,
+            voters.into_values().collect(),
+            raft_ids,
+        )
+    }
+
+    pub fn new_with_stable_ids(
+        trust_domain_id: Vec<u8>,
+        voter_set_generation: u64,
+        committed_log_index: u64,
+        configs: Vec<BTreeSet<Vec<u8>>>,
+        voters: Vec<VoterAuthority>,
+        raft_ids: BTreeMap<Vec<u8>, u64>,
+    ) -> AuthorityResult<Self> {
+        if !valid_identity(&trust_domain_id)
+            || voter_set_generation == 0
+            || committed_log_index == 0
+            || configs.is_empty()
+            || configs.len() > 2
+            || configs
+                .iter()
+                .any(|config| config.len() < 3 || config.len() > MAX_VOTERS)
+        {
+            return Err(AuthorityError::InvalidMembership);
+        }
+        let voters = voters
+            .into_iter()
+            .map(|voter| (voter.guardian_id.clone(), voter))
+            .collect::<BTreeMap<_, _>>();
+        let all_ids = configs.iter().flatten().cloned().collect::<BTreeSet<_>>();
+        if voters.len() != all_ids.len()
+            || voters.keys().any(|id| !all_ids.contains(id))
+            || raft_ids.len() != all_ids.len()
+            || raft_ids.keys().any(|id| !all_ids.contains(id))
+            || raft_ids.values().any(|id| *id == 0)
+            || raft_ids.values().copied().collect::<BTreeSet<_>>().len() != raft_ids.len()
+            || voters.values().any(|voter| {
+                !valid_identity(&voter.guardian_id)
+                    || voter.trust_domain_id != trust_domain_id
+                    || voter.certificate_generation == 0
+                    || voter.not_before_unix_seconds <= 0
+                    || voter.not_after_unix_seconds <= voter.not_before_unix_seconds
+                    || voter.control_public_key == [0; 32]
+                    || VerifyingKey::from_bytes(&voter.control_public_key).is_err()
+            })
+        {
+            return Err(AuthorityError::InvalidMembership);
+        }
+        let unique_keys = voters
+            .values()
+            .map(|voter| voter.control_public_key)
+            .collect::<BTreeSet<_>>();
+        if unique_keys.len() != voters.len() {
+            return Err(AuthorityError::DuplicateControlKey);
+        }
         let raft_configs = configs
             .iter()
             .map(|config| {
@@ -418,6 +539,12 @@ impl fmt::Display for AuthorityError {
 
 impl std::error::Error for AuthorityError {}
 pub type AuthorityResult<T> = Result<T, AuthorityError>;
+
+fn validate_raw_access(access: &LeaseStoreAccess) -> AuthorityResult<()> {
+    raw_access::validate(access)
+        .then_some(())
+        .ok_or(AuthorityError::CertificateUnauthorized)
+}
 
 pub fn encode_certificate(certificate: &AuthorityCertificateV1) -> AuthorityResult<Vec<u8>> {
     let bytes = certificate.encode_to_vec();
@@ -711,7 +838,8 @@ impl RedactedLeaseSnapshot {
 }
 
 impl AuthorityLedger {
-    pub fn new(policy: LeasePolicy) -> AuthorityResult<Self> {
+    pub fn new(access: &LeaseStoreAccess, policy: LeasePolicy) -> AuthorityResult<Self> {
+        validate_raw_access(access)?;
         policy.validate()?;
         Ok(Self {
             policy,
@@ -821,10 +949,12 @@ impl AuthorityLedger {
 
     pub fn apply(
         &mut self,
+        access: &LeaseStoreAccess,
         certificate_bytes: &[u8],
         membership: &AuthorityMembership,
         application: AuthorityApplication<'_>,
     ) -> AuthorityResult<&LeaseState> {
+        validate_raw_access(access)?;
         if application.clock_uncertainty_millis > self.policy.max_clock_uncertainty_millis {
             return Err(AuthorityError::ClockUncertain);
         }
@@ -1089,8 +1219,10 @@ impl AuthorityLedger {
 
     pub fn authorize_mutation(
         &mut self,
+        access: &LeaseStoreAccess,
         authorization: MutationAuthorization<'_>,
     ) -> AuthorityResult<()> {
+        validate_raw_access(access)?;
         let lease = self
             .leases
             .get(authorization.lineage_id)

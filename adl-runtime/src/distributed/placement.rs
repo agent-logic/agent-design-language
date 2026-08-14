@@ -9,16 +9,48 @@ use std::{cmp::Ordering, collections::BTreeMap, fmt, sync::Mutex, time::SystemTi
 use serde::Deserialize;
 use sha2::{Digest, Sha256};
 
+#[cfg(not(test))]
+use super::authority_store_adapters::{AuthorityBoundFencingStore, AuthorityBoundLeaseLedger};
 use super::{
     capability_advertisement::{CapabilityAdvertisementVerifier, VerifiedCapabilityAdvertisement},
-    certificates::{CertificatePurpose, DistributedCertificateStore},
-    fencing::{FenceReceipt, FencingStore},
-    lease::{
-        decode_certificate, AuthorityLedger, LeaseState, OperationClass, AUTHORITY_SNAPSHOT_SCHEMA,
-    },
+    certificates::CertificatePurpose,
+    fencing::FenceReceipt,
+    lease::{decode_certificate, LeaseState, OperationClass, AUTHORITY_SNAPSHOT_SCHEMA},
     membership::{Member, MemberRole, MembershipState},
-    resource_weather::{PlacementWeather, ResourceWeatherStore, WeatherAvailability},
+    resource_weather::{
+        PlacementWeather, ResourceWeatherCertificateAuthority, ResourceWeatherStore,
+        WeatherAvailability,
+    },
 };
+#[cfg(test)]
+use super::{fencing::FencingStore, lease::AuthorityLedger};
+
+#[cfg(not(test))]
+type PlacementLeaseAuthority = AuthorityBoundLeaseLedger;
+#[cfg(test)]
+type PlacementLeaseAuthority = AuthorityLedger;
+#[cfg(not(test))]
+type PlacementFencingAuthority = AuthorityBoundFencingStore;
+#[cfg(test)]
+type PlacementFencingAuthority = FencingStore;
+
+fn placement_lease_snapshot(ledger: &PlacementLeaseAuthority) -> PlacementResult<Vec<u8>> {
+    ledger
+        .snapshot()
+        .map_err(|_| PlacementError::InconsistentEvidence)
+}
+
+fn placement_fencing_floor(
+    store: &PlacementFencingAuthority,
+    lineage_id: &[u8],
+) -> PlacementResult<Option<FenceReceipt>> {
+    #[cfg(not(test))]
+    return store
+        .floor(lineage_id)
+        .map_err(|_| PlacementError::InconsistentEvidence);
+    #[cfg(test)]
+    return Ok(store.floor(lineage_id).cloned());
+}
 
 const MAX_TEXT_BYTES: usize = 128;
 const ABSOLUTE_MAX_INPUTS: usize = 4096;
@@ -222,9 +254,9 @@ impl std::ops::Deref for BoundWeather {
 }
 
 impl PlacementWeatherSnapshot {
-    pub fn capture(
+    pub fn capture<C: ResourceWeatherCertificateAuthority>(
         store: &ResourceWeatherStore,
-        certificates: &DistributedCertificateStore,
+        certificates: &C,
         now_unix_secs: u64,
     ) -> PlacementResult<Self> {
         let projected = store
@@ -234,7 +266,7 @@ impl PlacementWeatherSnapshot {
             .into_iter()
             .map(|row| {
                 let authorized = certificates
-                    .authorize(
+                    .authorize_weather(
                         &row.holder_id,
                         CertificatePurpose::AdvertisementSigning,
                         row.certificate_generation,
@@ -270,7 +302,7 @@ impl PlacementWeatherSnapshot {
 
 /// A complete, opaque projection of fencing floors for one exact membership revision.
 ///
-/// Production callers can construct this only by querying the authoritative `FencingStore` for
+/// Production callers can construct this only through governed lease and fencing adapters for
 /// every committed member identity. This prevents a caller from making a fenced node eligible by
 /// merely omitting its receipt from a caller-selected slice.
 #[derive(Clone, Debug)]
@@ -284,12 +316,10 @@ impl PlacementFencingSnapshot {
     pub fn capture(
         policy: &PlacementPolicy,
         membership: &MembershipState,
-        ledger: &AuthorityLedger,
-        store: &FencingStore,
+        ledger: &PlacementLeaseAuthority,
+        store: &PlacementFencingAuthority,
     ) -> PlacementResult<Self> {
-        let bytes = ledger
-            .snapshot()
-            .map_err(|_| PlacementError::InconsistentEvidence)?;
+        let bytes = placement_lease_snapshot(ledger)?;
         let snapshot: AuthoritySnapshotEnvelopeView =
             serde_json::from_slice(&bytes).map_err(|_| PlacementError::InconsistentEvidence)?;
         if snapshot.body.schema != AUTHORITY_SNAPSHOT_SCHEMA
@@ -305,12 +335,13 @@ impl PlacementFencingSnapshot {
             .collect::<PlacementResult<Vec<_>>>()?;
         let receipts = lineages
             .iter()
-            .filter_map(|lineage| {
-                store
-                    .floor(lineage.lineage_id.as_bytes())
-                    .cloned()
-                    .map(|receipt| (lineage.lineage_id.clone(), receipt))
+            .map(|lineage| {
+                placement_fencing_floor(store, lineage.lineage_id.as_bytes())
+                    .map(|receipt| receipt.map(|receipt| (lineage.lineage_id.clone(), receipt)))
             })
+            .collect::<PlacementResult<Vec<_>>>()?
+            .into_iter()
+            .flatten()
             .collect();
         build_fencing_snapshot(policy, membership, lineages, receipts)
     }

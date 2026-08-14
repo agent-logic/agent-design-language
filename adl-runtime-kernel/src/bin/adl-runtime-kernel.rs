@@ -10,18 +10,23 @@ use std::{
 #[path = "../observability.rs"]
 mod observability;
 
+use adl_runtime_kernel::layer8_authority::{
+    ConversationAuthorityProfile, ConversationSigningProfile, Layer8AuthorityStore,
+    Layer8ConversationAuthority, Layer8SignedExchange,
+};
 use adl_runtime_kernel::{
     bootstrap_reasoning_services, build_live_assembly, build_live_continuity_registry,
     build_mutual_tls_server_config, build_production_operation_executors_with_recorder,
-    generate_runtime_instance_id, load_control_tls, load_identity, load_trust_roots,
+    load_control_tls, load_identity, load_or_create_runtime_instance_id, load_trust_roots,
     monitor_until_stop, serve_control_listener_until_ready, serve_private_continuity_listener,
-    validate_production_operation_executors, verifying_key_from_hex, AgentPopulationFeed,
-    CatalogSigningAuthority, CheckpointShutdownRequest, CheckpointingControl,
+    validate_production_operation_executors, verifying_key_from_hex, AdapterKind,
+    AgentPopulationFeed, CatalogSigningAuthority, CheckpointShutdownRequest, CheckpointingControl,
     ContinuityControlService, ControlApiPolicy, ControlAuthority, ControlCapability,
     ControlService, DurableContinuityJournal, Kernel, KernelExit, LiveBindings, LiveContinuity,
-    LiveKernelSnapshot, RsntpTimeSampleSource, RuntimeInitConfig, RuntimeRecorder,
-    SysinfoWeatherObserver, TargetContinuityCoordinator, TimeQualificationBounds, TimeSampleSource,
-    TlsIdentityPaths, TrustedControlKey, PRIVATE_ALPN,
+    LiveKernelSnapshot, OperationRequest, RecorderTrustedTime, RsntpTimeSampleSource, RunningState,
+    RuntimeInitConfig, RuntimeRecorder, SysinfoWeatherObserver, TargetContinuityCoordinator,
+    TimeQualificationBounds, TimeSampleSource, TlsIdentityPaths, TrustedControlKey, TrustedTime,
+    AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS, OPERATION_REQUEST_SCHEMA, PRIVATE_ALPN,
 };
 use observability::{RuntimeVectorConfig, RuntimeVectorPipeline};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
@@ -58,6 +63,13 @@ async fn main() -> ExitCode {
                 Ok(config) => config,
                 Err(error) => {
                     eprintln!("runtime init invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
+            let _birth_witness_owner = match init.birth_witness_owner() {
+                Ok(owner) => owner,
+                Err(error) => {
+                    eprintln!("runtime birth-witness trust invalid: {error}");
                     return ExitCode::from(78);
                 }
             };
@@ -199,8 +211,15 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
-            let instance_id = generate_runtime_instance_id();
+            let instance_id = match load_or_create_runtime_instance_id(&operation_state_identity) {
+                Ok(instance_id) => instance_id,
+                Err(error) => {
+                    eprintln!("runtime instance identity invalid: {error}");
+                    return ExitCode::from(78);
+                }
+            };
             let recorder = RuntimeRecorder::new(init.kernel.recorder_capacity);
+            let roster_trusted_time = RecorderTrustedTime::new(recorder.clone());
             let reasoning = match bootstrap_reasoning_services(recorder.clone()) {
                 Ok(reasoning) => reasoning,
                 Err(error) => {
@@ -223,6 +242,10 @@ async fn main() -> ExitCode {
                 eprintln!("runtime live operation adapters unavailable: {error}");
                 return ExitCode::from(78);
             }
+            let resident_shepherd_executor = operation_executors
+                .get(&AdapterKind::Shepherd)
+                .cloned()
+                .expect("validated production assembly contains Shepherd adapter");
             let operation_key_text = match read_trimmed_config_file(
                 &init.credentials.operation_public_key_path,
                 "runtime operation permit key",
@@ -488,18 +511,91 @@ async fn main() -> ExitCode {
             )]));
             let (lifecycle, mut shutdown_requests) =
                 CheckpointingControl::channel(init.kernel.checkpoint_channel_capacity);
-            let service = Arc::new(
-                ControlService::new_with_observatory_config_and_agents(
-                    instance_id.clone(),
-                    recorder.clone(),
-                    lifecycle,
-                    authority,
-                    init.kernel.control_history_capacity,
-                    init.observatory_allowed_origins(),
-                    AgentPopulationFeed::single(),
-                )
-                .with_canonical_ingress(assembly.canonical_ingress.clone()),
-            );
+            let layer8 = match (
+                std::env::var_os("ADL_LAYER8_AUTHORITY_PROFILE"),
+                std::env::var_os("ADL_LAYER8_SIGNING_PROFILE"),
+            ) {
+                (None, None) => None,
+                (Some(profile_path), Some(signing_profile_path)) => {
+                    let profile = std::fs::read(profile_path).ok().and_then(|bytes| {
+                        serde_json::from_slice::<ConversationAuthorityProfile>(&bytes).ok()
+                    });
+                    let signing_profile =
+                        std::fs::read(signing_profile_path).ok().and_then(|bytes| {
+                            serde_json::from_slice::<ConversationSigningProfile>(&bytes).ok()
+                        });
+                    let loaded = profile.zip(signing_profile).and_then(
+                        |(authority_profile, signing_profile)| {
+                            let sender = &signing_profile.sender;
+                            if authority_profile.evidence.polis_id != instance_id
+                                || sender.principal_id != authority_profile.evidence.principal_id
+                                || sender.polis_id != authority_profile.evidence.polis_id
+                                || sender.signing_key_id
+                                    != authority_profile.evidence.signing_key_id
+                                || std::fs::read_to_string(&sender.private_key_file)
+                                    .ok()
+                                    .and_then(|encoded| hex::decode(encoded.trim()).ok())
+                                    .and_then(|secret| <[u8; 32]>::try_from(secret).ok())
+                                    .map(|secret| {
+                                        hex::encode(
+                                            ed25519_dalek::SigningKey::from_bytes(&secret)
+                                                .verifying_key()
+                                                .to_bytes(),
+                                        )
+                                    })
+                                    .as_deref()
+                                    != Some(&authority_profile.evidence.verifying_key_hex)
+                                || signing_profile
+                                    .recipients
+                                    .iter()
+                                    .any(|recipient| recipient.polis_id != instance_id)
+                            {
+                                return None;
+                            }
+                            let store = Layer8AuthorityStore::open(
+                                operation_state_identity
+                                    .join("authority/layer8-conversation-audit.jsonl"),
+                            )
+                            .ok()?;
+                            Some((
+                                Layer8ConversationAuthority::new(store, authority_profile).ok()?,
+                                Layer8SignedExchange::load(signing_profile).ok()?,
+                            ))
+                        },
+                    );
+                    match loaded {
+                        Some(value) => Some(value),
+                        None => {
+                            eprintln!("runtime Layer 8 authority configuration invalid");
+                            return ExitCode::from(78);
+                        }
+                    }
+                }
+                _ => {
+                    eprintln!("runtime Layer 8 authority configuration incomplete");
+                    return ExitCode::from(78);
+                }
+            };
+            let mut service = ControlService::new_with_observatory_config_and_agents(
+                instance_id.clone(),
+                recorder.clone(),
+                lifecycle,
+                authority,
+                init.kernel.control_history_capacity,
+                init.observatory_allowed_origins(),
+                AgentPopulationFeed::resident_shepherd(),
+            )
+            .with_canonical_ingress(assembly.canonical_ingress.clone());
+            if let Some((authority, exchange)) = layer8 {
+                service = service
+                    .with_layer8_authority(authority)
+                    .with_layer8_signed_exchange(exchange);
+            }
+            let service = Arc::new(service);
+            service.set_agent_roster_token_key(blake3::derive_key(
+                "adl.runtime_v3.agent_roster.page_token.continuity.v1",
+                &continuity_secret,
+            ));
             let api_policy = ControlApiPolicy::new(
                 api_drain_timeout,
                 std::time::Duration::from_millis(init.api.websocket_auth_timeout_millis),
@@ -613,6 +709,24 @@ async fn main() -> ExitCode {
                     return ExitCode::from(70);
                 }
             };
+            let shepherd_admission = OperationRequest {
+                schema: OPERATION_REQUEST_SCHEMA.to_owned(),
+                request_id: format!("{instance_id}:resident-shepherd-admission"),
+                idempotency_key: "resident-shepherd-admission".to_owned(),
+                principal: "runtime-bootstrap".to_owned(),
+                payload: br#"{"schema":"adl.runtime.local_shepherd_admission.v1","admit":true}"#
+                    .to_vec(),
+                permit: None,
+            };
+            if let Err(error) = resident_shepherd_executor
+                .execute(&shepherd_admission)
+                .await
+            {
+                eprintln!("runtime resident Shepherd admission failed: {error}");
+                let _ = handle.shutdown(kernel_shutdown_grace).await;
+                let _ = observability.shutdown().await;
+                return ExitCode::from(70);
+            }
             let mut private_api = tokio::spawn(serve_private_continuity_listener(
                 private_listener,
                 private_tls,
@@ -650,6 +764,9 @@ async fn main() -> ExitCode {
             let mut pressure_retry_at = None;
             let mut observability_tick = tokio::time::interval(observability_poll);
             observability_tick.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
+            let mut shepherd_heartbeat =
+                tokio::time::interval(std::time::Duration::from_millis(1_000));
+            shepherd_heartbeat.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
             let serve_result = 'serve: loop {
                 if let Err(error) = observability.poll_health() {
                     recorder.set_observability_pipeline(observability.snapshot());
@@ -683,6 +800,24 @@ async fn main() -> ExitCode {
                             eprintln!("runtime observability pipeline failed: {error}");
                         }
                         recorder.set_observability_pipeline(observability.snapshot());
+                    },
+                    _ = shepherd_heartbeat.tick() => {
+                        let snapshot = recorder.snapshot();
+                        if snapshot.components.get(&adl_runtime_kernel::ComponentId::new("shepherd"))
+                            == Some(&RunningState::Running)
+                        {
+                            let observed_at = roster_trusted_time.now_unix_millis();
+                            if let Some(deadline) = observed_at
+                                .checked_add(AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS)
+                                .filter(|_| observed_at > 0)
+                            {
+                                let _ = recorder.record_agent_heartbeat(
+                                    "shepherd",
+                                    observed_at,
+                                    deadline,
+                                );
+                            }
+                        }
                     },
                     signal = shutdown_signal.recv() => {
                         if let Err(error) = signal {
@@ -808,12 +943,17 @@ async fn main() -> ExitCode {
 
                 api_shutdown.cancel();
                 let shutdown = handle.shutdown(grace).await;
+                let restart_requested = request.as_ref().is_some_and(|request| request.restart);
                 let terminal = match shutdown {
                     Ok(exit) => {
                         if let Some(request) = request.take() {
                             request.respond(Ok(exit.clone()));
                         }
-                        process_exit(exit)
+                        if restart_requested {
+                            ExitCode::from(75)
+                        } else {
+                            process_exit(exit)
+                        }
                     }
                     Err(error) => {
                         eprintln!("runtime {label} shutdown failed: {error}");

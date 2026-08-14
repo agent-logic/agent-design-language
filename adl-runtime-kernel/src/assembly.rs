@@ -70,6 +70,18 @@ pub struct LiveAssembly {
     pub config_hash: String,
     pub canonical_ingress: CanonicalIngress,
     pub(crate) operation_continuity: crate::LiveOperationContinuity,
+    capability_provisioner: crate::RuntimeCapabilityProvisioner,
+}
+
+impl LiveAssembly {
+    /// Explicit Runtime-owned reauthorization boundary for capability policy.
+    pub fn provision_capability_authority(
+        &self,
+        policy: &crate::CapabilityEnvelopePolicy,
+        continuity: &crate::VerifiedBirthdayContinuity,
+    ) -> Result<crate::CapabilityAuthorityPolicy, Vec<crate::CapabilityEnvelopeRejection>> {
+        self.capability_provisioner.provision(policy, continuity)
+    }
 }
 
 /// Construct the continuity registry from the same live handles and durable
@@ -308,6 +320,7 @@ pub fn build_live_assembly(bindings: LiveBindings) -> Result<LiveAssembly, Assem
         canonical_ingress,
         operation_continuity: crate::LiveOperationContinuity::from_factories(continuity_factories)
             .map_err(|error| AssemblyError::Encoding(error.to_string()))?,
+        capability_provisioner: crate::RuntimeCapabilityProvisioner::new(),
     })
 }
 
@@ -334,6 +347,80 @@ fn enforce_chronosense_foundation(
                 optional: false,
             });
         }
+    }
+}
+
+#[cfg(test)]
+mod capability_authority_tests {
+    use super::*;
+    use ed25519_dalek::SigningKey;
+    use std::{collections::BTreeMap, sync::Arc, time::Duration};
+
+    struct FixedTime;
+
+    #[async_trait::async_trait]
+    impl TimeSampleSource for FixedTime {
+        async fn sample(&self) -> Result<crate::TimeSample, crate::TimeSampleError> {
+            Ok(crate::TimeSample {
+                source: "assembly-authority-test".to_owned(),
+                unix_millis: 1_720_000_000_000,
+                offset_millis: 0,
+                round_trip: Duration::from_millis(1),
+            })
+        }
+    }
+
+    #[tokio::test]
+    async fn live_assembly_is_the_capability_authority_provisioning_boundary() {
+        let root = tempfile::tempdir().unwrap();
+        let recorder = RuntimeRecorder::new(16);
+        let key = SigningKey::from_bytes(&[31; 32]);
+        let assembly = build_live_assembly(LiveBindings {
+            recorder: recorder.clone(),
+            canonical_ingress_capacity: 64,
+            operation_executors: crate::build_production_operation_executors_with_recorder(
+                root.path().join("production"),
+                recorder.clone(),
+            )
+            .unwrap(),
+            permit_keys: BTreeMap::from([("operator".to_owned(), key.verifying_key())]),
+            reasoning: crate::bootstrap_reasoning_services(recorder).unwrap(),
+            time_source: Arc::new(FixedTime),
+            time_bounds: TimeQualificationBounds {
+                timeout: Duration::from_secs(1),
+                max_offset: Duration::from_millis(100),
+                max_round_trip: Duration::from_millis(100),
+                retry_delay: Duration::from_millis(10),
+                refresh_interval: Duration::from_secs(60),
+            },
+        })
+        .unwrap();
+
+        let (identity, continuity_policy, manifests) =
+            crate::birthday_continuity::authority_tests::real_live_material().await;
+        let cycles = crate::birthday_continuity::authority_tests::verify(
+            &continuity_policy,
+            &identity,
+            &manifests,
+        )
+        .unwrap();
+        let record = crate::build_birthday_continuity(&identity, &cycles).unwrap();
+        let continuity =
+            crate::verify_birthday_continuity_record(&record, &identity, &cycles).unwrap();
+        let mut birthday =
+            crate::cognitive_profile::authority_tests::birthday(&identity.identity_root);
+        birthday.stable_name = identity.stable_name.clone();
+        birthday.continuity_head = continuity.identity_checkpoint_head().to_owned();
+        for cycle in &mut birthday.bounded_cycles {
+            cycle.continuity_head = birthday.continuity_head.clone();
+        }
+        birthday.packet_sha256 = crate::candidate_digest(&birthday).unwrap();
+        let (_, policy) =
+            crate::cognitive_profile::authority_tests::capability(&birthday, &identity);
+
+        assembly
+            .provision_capability_authority(&policy, &continuity)
+            .unwrap();
     }
 }
 
@@ -559,7 +646,8 @@ impl InProcessOperationExecutor {
             kind,
             state: Arc::new(LocalRuntimeState::new_in(
                 state_dir.into(),
-                Arc::new(RecorderTrustedTime::new(recorder)),
+                Arc::new(RecorderTrustedTime::new(recorder.clone())),
+                recorder,
             )?),
         })
     }
@@ -578,6 +666,7 @@ struct LocalRuntimeState {
     writer_pid: u32,
     writer_lock_path: PathBuf,
     trusted_time: Arc<dyn TrustedTime>,
+    recorder: RuntimeRecorder,
 }
 
 #[derive(Debug, Deserialize, Eq, PartialEq, Serialize)]
@@ -588,7 +677,11 @@ struct WriterLockOwner {
 }
 
 impl LocalRuntimeState {
-    fn new_in(state_dir: PathBuf, trusted_time: Arc<dyn TrustedTime>) -> std::io::Result<Self> {
+    fn new_in(
+        state_dir: PathBuf,
+        trusted_time: Arc<dyn TrustedTime>,
+        recorder: RuntimeRecorder,
+    ) -> std::io::Result<Self> {
         if state_dir.as_os_str().is_empty() || !state_dir.is_absolute() {
             return Err(io::Error::new(
                 io::ErrorKind::InvalidInput,
@@ -616,6 +709,7 @@ impl LocalRuntimeState {
             writer_pid,
             writer_lock_path: lock_path,
             trusted_time,
+            recorder,
         })
     }
 
@@ -807,7 +901,8 @@ pub fn build_production_operation_executors_with_recorder(
 ) -> io::Result<BTreeMap<AdapterKind, Arc<dyn OperationExecutor>>> {
     let state = Arc::new(LocalRuntimeState::new_in(
         state_dir.into(),
-        Arc::new(RecorderTrustedTime::new(recorder)),
+        Arc::new(RecorderTrustedTime::new(recorder.clone())),
+        recorder,
     )?);
     Ok(REQUIRED_OPERATIONAL_ADAPTERS
         .into_iter()
@@ -903,16 +998,18 @@ impl InProcessOperationExecutor {
                 .as_str()
                 .ok_or_else(|| adapter_error(FailureClass::Fatal, "agent_work_malformed"))?;
             let output = match op {
-                "blake3" => blake3::hash(
-                    task["input"]
-                        .as_str()
-                        .ok_or_else(|| {
-                            adapter_error(FailureClass::Fatal, "agent_blake3_malformed")
-                        })?
-                        .as_bytes(),
-                )
-                .to_hex()
-                .to_string(),
+                "blake3" => serde_json::Value::String(
+                    blake3::hash(
+                        task["input"]
+                            .as_str()
+                            .ok_or_else(|| {
+                                adapter_error(FailureClass::Fatal, "agent_blake3_malformed")
+                            })?
+                            .as_bytes(),
+                    )
+                    .to_hex()
+                    .to_string(),
+                ),
                 "sleep_millis" => {
                     let millis = task["millis"].as_u64().ok_or_else(|| {
                         adapter_error(FailureClass::Fatal, "agent_sleep_malformed")
@@ -922,8 +1019,27 @@ impl InProcessOperationExecutor {
                     }
                     tokio::select! {
                         _ = cancellation.cancelled() => return Err(adapter_error(FailureClass::Fatal, "operation cancelled")),
-                        _ = tokio::time::sleep(std::time::Duration::from_millis(millis)) => "slept".to_owned(),
+                        _ = tokio::time::sleep(std::time::Duration::from_millis(millis)) => serde_json::Value::String("slept".to_owned()),
                     }
+                }
+                "conversation_message" => {
+                    let input = task["input"].as_str().ok_or_else(|| {
+                        adapter_error(FailureClass::Fatal, "agent_conversation_malformed")
+                    })?;
+                    let recipient_id = task["recipient_id"].as_str().ok_or_else(|| {
+                        adapter_error(FailureClass::Fatal, "agent_conversation_malformed")
+                    })?;
+                    if input.trim().is_empty()
+                        || input.len() > 4_096
+                        || recipient_id.is_empty()
+                        || recipient_id.len() > 128
+                    {
+                        return Err(adapter_error(
+                            FailureClass::Fatal,
+                            "agent_conversation_bound",
+                        ));
+                    }
+                    return_output(recipient_id)
                 }
                 _ => return Err(adapter_error(FailureClass::Fatal, "agent_work_unknown")),
             };
@@ -974,7 +1090,29 @@ impl InProcessOperationExecutor {
             .admitted
             .lock()
             .expect("local shepherd state poisoned")
-            .insert(request.idempotency_key.clone());
+            .insert("shepherd".to_owned());
+        let admitted_at = self.state.trusted_time.now_unix_millis();
+        let freshness_deadline = admitted_at
+            .checked_add(crate::AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS)
+            .unwrap_or(0);
+        if admitted
+            && !self.state.recorder.record_agent_admission(
+                "shepherd",
+                admitted_at,
+                freshness_deadline,
+                env!("ADL_RUNTIME_SOURCE_REVISION"),
+            )
+        {
+            self.state
+                .admitted
+                .lock()
+                .expect("local shepherd state poisoned")
+                .remove("shepherd");
+            return Err(adapter_error(
+                FailureClass::Retryable,
+                "shepherd admission evidence unavailable",
+            ));
+        }
         let mut value = self.result(request, if admitted { "admitted" } else { "duplicate" });
         value["admitted"] = admitted.into();
         Ok(value)
@@ -1127,6 +1265,13 @@ impl InProcessOperationExecutor {
             )
             .map_err(|error| local_io("lifelog_unavailable", error))
     }
+}
+
+fn return_output(recipient_id: &str) -> serde_json::Value {
+    serde_json::json!({
+        "recipient_id": recipient_id,
+        "message": format!("{recipient_id} received your message."),
+    })
 }
 
 fn adapter_error(class: FailureClass, message: impl Into<String>) -> ExecutorError {

@@ -1,0 +1,86 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 358,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1b][defect] Seal Observatory transition intent and full canonical time",
+    "slug": "observatory-transition-intent-time",
+    "version": "v0.92",
+    "generation": 16
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Review, approve, bind, implement the minimal sealed extension, validate, review, publish and finish.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Approve exact sealed extension design.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Bind and implement with focused proof.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Review, publish, CI and finish.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "adl-runtime/src/distributed/authority_protocol.rs",
+        "adl-runtime/src/distributed/serving_authority.rs",
+        "adl-runtime/tests/distributed_observatory_authority_projection.rs",
+        ".csdlc/prepared/issues/358",
+        ".csdlc/issues/358",
+        ".csdlc/evidence/358"
+      ],
+      "invariants": [
+        "Action is committed artifact truth",
+        "Time components are durable authority truth",
+        "Projection construction stays private"
+      ],
+      "risks": [
+        "Ambiguous predecessor semantics",
+        "Lossy time accessor",
+        "Raw authority exposure"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 43200,
+        "total_tokens": 140000,
+        "validation_seconds": 7200
+      },
+      "stop_conditions": [
+        "Scope requires another product path",
+        "Caller authority is introduced",
+        "Validation/review/CI fails"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/358/design.md",
+      "design_digest": "bf1a795e6581e7c079ed386859855d528e190192a013a7f19b614392d0132930",
+      "diagram_ref": ".csdlc/prepared/issues/358/diagram.mmd",
+      "diagram_digest": "ee0c235d6034c0957fc4963b74a87db7cadd46c5cbe628fea00053d9c47d93b2"
+    }
+  }
+}

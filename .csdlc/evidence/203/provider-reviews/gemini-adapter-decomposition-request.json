@@ -1,0 +1,30 @@
+{
+  "request_id": "issue-203-gemini-decomposition-f7d81e9b-dirty",
+  "run_id": "issue-203-gemini-decomposition-f7d81e9b-dirty",
+  "route": {
+    "provider_kind": "hosted",
+    "provider": "gemini",
+    "provider_model_id": "gemini-3.1-pro-preview",
+    "runtime_surface": "hosted_api",
+    "credential_ref": "env:GEMINI_API_KEY"
+  },
+  "model_identity": {
+    "provider_kind": "hosted",
+    "provider": "gemini",
+    "model_ref": "gemini-3.1-pro-preview",
+    "provider_model_id": "gemini-3.1-pro-preview",
+    "runtime_surface": "hosted_api",
+    "identity_strength": "provider_asserted",
+    "observed_at": "unix:1"
+  },
+  "prompt_contract_ref": "csdlc.review.decomposition.v1",
+  "lane_ref": "gemini:gemini-3.1-pro-preview__issue-203-decomposition-architecture",
+  "attempt_policy": {
+    "timeout_ms": 120000,
+    "max_attempts": 1,
+    "retry_backoff_ms": 1000
+  },
+  "max_output_tokens": 12000,
+  "governance_surface": "advisory_findings_only_not_lifecycle_authority",
+  "input_text": "Findings first. You are Gemini acting as an external architecture/refactoring advisor for ADL issue #203. Do not approve publication, merge, or closeout. Provide decomposition and architecture advice only.\n\nReturn strict JSON only with keys: verdict, reason, proposed_slices, architecture_advice, must_fix_before_publication, notes. Use verdict one of: split_required, split_recommended, keep_single_pr. For proposed_slices, include name, purpose, paths, depends_on, validation, risk.\n\nCurrent issue/worktree state: branch codex/203-authority-serving-adapters-preparation, HEAD f7d81e9b74e96ff586bce4bec225b1c433e10ad4, dirty working tree with uncommitted remediation. This is decomposition evidence against current working state, not a final exact-head publication review. git diff --check is clean.\n\nCurrent LoC against origin/main including uncommitted work: 56 files changed, +5157 -477, net +4680. Code-only excluding docs/json/md/locks/logs: +2988 -477, net +2511. Non-code lifecycle/proof: +2169 -0.\n\nPre-PR review found P1 concerns: raw-store bypass risk via DistributedCertificateStore::open/activate/authorize/revoke, AuthorityLedger::new/apply/authorize_mutation, and FencingStore::create/open/commit; and a too-thin PublishedStoreAuthorityReceiptView exposing only lineage_id, operation_id, generation, result_sha256 instead of only published OwnerCommit/Fence results with lineage, action class, adapter version, published generation, canonical result digest, and receipt digest.\n\nCurrent uncommitted remediation adds authority access token types for certificate/lease/fencing stores and extends the published view. Relevant path clusters: adl-runtime/src/distributed/certificates.rs, fencing.rs, lease.rs, authority_protocol.rs, authority_store_adapters.rs, authority_reconciliation.rs, migration.rs, recovery.rs, transport/core.rs, transport/governed/*, placement.rs, projection.rs, resource_weather.rs, snapshot_catalog.rs, capability_advertisement.rs, adl-runtime/tests/distributed_identity_lease_authority.rs, distributed_certificates.rs, distributed_fencing.rs, distributed_lease.rs, distributed_migration.rs, distributed_recovery.rs, distributed_runtime_transport.rs, distributed_transport.rs, and .csdlc issue/proof artifacts.\n\nAssess whether this should remain a single PR or be split. If split, propose the smallest reviewable module decomposition and dependency order. Focus especially on architecture boundaries among sealed raw certificate/lease/fencing stores, governed authority-serving adapter facade, migration/recovery integration, transport/projection/peripheral runtime caller migration, and proof/lifecycle evidence. Identify must-fix architectural risks before any PR publication."
+}

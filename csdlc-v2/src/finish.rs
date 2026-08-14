@@ -823,7 +823,7 @@ fn validate_remote_merge(
     if packet.repository != pr_repository
         || Some(packet.pull_request) != request.pull_request
         || packet.draft
-        || packet.merge_state != "clean"
+        || !matches!(packet.merge_state.as_str(), "clean" | "unstable")
         || packet.base_ref.as_deref() != request.base.as_deref()
         || Some(packet.head_sha.as_str()) != request.expected_head_sha.as_deref()
         || packet.classification != "ready"
@@ -1127,35 +1127,13 @@ fn validate_publication_head_lineage_in_repo(
     if published_head == expected_head {
         return Ok(());
     }
-    if git::run(
-        root,
-        &["merge-base", "--is-ancestor", published_head, expected_head],
-    )
-    .is_err()
-    {
+    if !matches!(
+        git::metadata_only_changed_paths(root, published_head, expected_head),
+        Ok(paths) if !paths.is_empty()
+    ) {
         return Err(V2Error::new(
             ErrorCode::ReconciliationRequired,
-            "finish head is not a forward descendant of publication",
-        ));
-    }
-    let changed = git::run(
-        root,
-        &[
-            "diff",
-            "--name-only",
-            "--no-renames",
-            published_head,
-            expected_head,
-        ],
-    )?;
-    if changed
-        .stdout
-        .lines()
-        .any(|path| !path.starts_with(".csdlc/"))
-    {
-        return Err(V2Error::new(
-            ErrorCode::ReconciliationRequired,
-            "forward publication drift contains non-C-SDLC changes",
+            "forward publication drift is not governed metadata-only change",
         ));
     }
     let review = record
@@ -1168,7 +1146,10 @@ fn validate_publication_head_lineage_in_repo(
                 "metadata-only publication drift requires completed review evidence",
             )
         })?;
-    let historical_path = format!("{published_head}:.csdlc/issues/{}/index.json", record.issue);
+    // The publication revision remains the lower bound for governed metadata-only
+    // drift. Canonical review authority, however, must be retained by the exact
+    // live PR head supplied to finish after a supported recover/review/republish.
+    let historical_path = format!("{expected_head}:.csdlc/issues/{}/index.json", record.issue);
     let historical: IssueRecord = serde_json::from_str(
         &git::run(root, &["show", &historical_path])?.stdout,
     )
@@ -1476,6 +1457,25 @@ pub fn envelope_matches_record(
                 }),
                 None => true,
             }))
+}
+
+pub fn envelope_matches_record_in_repo(
+    root: &Path,
+    envelope: &DerivedTerminalEnvelope,
+    record: &IssueRecord,
+) -> Result<bool> {
+    validate_envelope(envelope)?;
+    if !envelope_matches_record_identity(envelope, record) {
+        return Ok(false);
+    }
+    if envelope.source == "live_github_historical_reconciliation" || envelope.pull_request.is_none()
+    {
+        return Ok(true);
+    }
+    let Some(head) = envelope.head_sha.as_deref() else {
+        return Ok(false);
+    };
+    Ok(validate_publication_head_lineage_in_repo(root, record, head).is_ok())
 }
 
 fn envelope_matches_record_identity(
@@ -1845,5 +1845,36 @@ mod tests {
                 .unwrap()
                 .is_none()
         );
+    }
+
+    #[test]
+    fn finish_accepts_unstable_when_declared_required_checks_are_green() {
+        let mut packet = packet();
+        packet.state = "open".into();
+        packet.merged = false;
+        packet.merge_commit_sha = None;
+        packet.merge_state = "unstable".into();
+        packet.classification = "ready".into();
+        validate_remote_merge(&packet, &request(), "owner/repo").expect("ready target");
+    }
+
+    #[test]
+    fn finish_rejects_conflicts_and_exact_target_drift() {
+        let mut conflicted = packet();
+        conflicted.merge_state = "dirty".into();
+        conflicted.classification = "conflicted".into();
+        assert!(validate_remote_merge(&conflicted, &request(), "owner/repo").is_err());
+
+        let mut draft = packet();
+        draft.draft = true;
+        draft.merge_state = "unstable".into();
+        draft.classification = "waiting".into();
+        assert!(validate_remote_merge(&draft, &request(), "owner/repo").is_err());
+
+        let mut drifted = packet();
+        drifted.head_sha = "different".into();
+        drifted.merge_state = "unstable".into();
+        drifted.classification = "ready".into();
+        assert!(validate_remote_merge(&drifted, &request(), "owner/repo").is_err());
     }
 }

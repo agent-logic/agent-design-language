@@ -131,6 +131,7 @@ pub fn write_with_certificate_for_state_and_ingress_capacity(
     let continuity_signing_key = credentials_root.join("continuity-signing-key.hex");
     let observatory_token = credentials_root.join("observatory-token.txt");
     let acip_write_token = credentials_root.join("acip-write-token.txt");
+    let birth_witness_trust = credentials_root.join("birth-witness-trust.json");
     std::fs::write(
         &control_public_key,
         hex::encode(
@@ -161,6 +162,38 @@ pub fn write_with_certificate_for_state_and_ingress_capacity(
     std::fs::write(&continuity_signing_key, hex::encode([23_u8; 32])).unwrap();
     std::fs::write(&observatory_token, "guardian-observatory-token-00000001").unwrap();
     std::fs::write(&acip_write_token, "guardian-acip-write-token-000000001").unwrap();
+    let authorities = [
+        "identity_continuity",
+        "memory_capability",
+        "negative_case_guard",
+        "handoff_consumer",
+    ]
+    .into_iter()
+    .enumerate()
+    .map(|(index, role)| {
+        let seed = u8::try_from(index + 1).unwrap();
+        serde_json::json!({
+            "witness_id": format!("witness-{}", index + 1),
+            "role": role,
+            "signing_key_id": format!("witness-key-{}", index + 1),
+            "verifying_key": hex::encode(
+                ed25519_dalek::SigningKey::from_bytes(&[seed; 32])
+                    .verifying_key()
+                    .as_bytes()
+            ),
+        })
+    })
+    .collect::<Vec<_>>();
+    std::fs::write(
+        &birth_witness_trust,
+        serde_json::to_vec(&serde_json::json!({
+            "schema": "adl.runtime.birth_witness_trust.v1",
+            "authority_context": "runtime-v3-birth-witness-authority",
+            "authorities": authorities,
+        }))
+        .unwrap(),
+    )
+    .unwrap();
     let vector = repo_vector_binary();
     let kernel = std::env::current_exe().unwrap();
     let init = directory.join("runtime-init.toml");
@@ -247,6 +280,7 @@ continuity_signing_key_path = "{}"
 continuity_key_id = "runtime-continuity"
 observatory_token_path = "{}"
 acip_write_token_path = "{}"
+birth_witness_trust_manifest_path = "{}"
 continuity_min_generation = 0
 sntp_server = "time.cloudflare.com"
 [shutdown]
@@ -333,6 +367,7 @@ snapshot_concurrency = 4
             toml_path(&continuity_signing_key),
             toml_path(&observatory_token),
             toml_path(&acip_write_token),
+            toml_path(&birth_witness_trust),
             toml_path(&vector),
         ),
     )

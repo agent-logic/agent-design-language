@@ -1,0 +1,26 @@
+flowchart LR
+  M["Published #201 Membership operation plus sealed exact artifact"] --> A["Governed adapter validates exact EnrollNonVoting or RemoveVoter"]
+  V["Exact unchanged voter cut"] --> F["SecurePolisNetworkFactory sole mutation owner"]
+  A --> F
+  I["Durable random local instance id plus canonical exact peer pins"] --> F
+  B["Durable boot generation custody plus nonextractable Guardian signer"] --> F
+  F --> C["Private dependency-free transport core"]
+  C --> H["Opaque signed ordinary or learner handshake permit"]
+  H --> S["Opaque session bound to instance peer pin cut admission and exclusion"]
+  S --> R["AppendEntries and InstallSnapshot only"]
+  S -. "vote raw send mutation endorsement renewal serving" .-> D["Deny before governed data stream or effect"]
+  R --> E["One shared lease spans stream OpenRaft effect and response"]
+  X["Flip expiry exclusion or cut replacement"] --> W["Transition lock then route locks then exclusive fence"]
+  W --> P["Current view plus durable commit"]
+  P --> Q["Close and remove mismatching routes"]
+  E -. "writer waits" .-> W
+  P -. "retained session" .-> D
+  B -. "advance N to N plus 1" .-> D
+  I -. "alternate root or changed peer" .-> D
+  P --> J["Crash exact retry and restart reconstruction"]
+  J -. "rollback corruption ambiguity" .-> D
+  G["Private transport governed subtree"] --> F
+  G --> A
+  G --> R
+  U["Public distributed learner_transport and polis_runtime reexports"] --> G
+  T["42 private runner tests equals 36 semantic cases plus 6 supplemental tests; separately 13 public tests; separately 29 named subassertions"] --> E

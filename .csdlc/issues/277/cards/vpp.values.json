@@ -1,0 +1,120 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 277,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.04b][114.b] Persist conversation watermarks, idempotency, replay, and receipts",
+    "slug": "v0-92-wp-18c-04b-114-b-conversation-watermarks-idempotency-replay-receipts",
+    "version": "v0.92.0",
+    "generation": 18
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "issue-277-preparation-validator",
+          "proof_role": "Prove #277 consumes canonical #276/#270 terminal caches and remains bounded to watermarks/idempotency/replay/receipts in the bound FastWork topology.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-8",
+            "AC-9"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "python3",
+            ".csdlc/prepared/issues/277/validate_preparation_bundle.py"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "runtime-kernel-conversation-continuity-fmt",
+          "proof_role": "Reject Rust formatting drift for the #277 continuity module and focused test.",
+          "acceptance_ids": [
+            "AC-10"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 500,
+          "argv": [
+            "cargo",
+            "fmt",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--check"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "runtime-kernel-conversation-continuity-tests",
+          "proof_role": "Prove restart, idempotency, replay, ambiguous dispatch, receipt, deletion, and acknowledgement-watermark behavior against the #276 journal foundation.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8",
+            "AC-9",
+            "AC-10"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 600,
+          "budget_tokens": 4000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--test",
+            "conversation_continuity"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "runtime-kernel-conversation-continuity-clippy",
+          "proof_role": "Reject warning regressions in the #277 focused Runtime kernel target.",
+          "acceptance_ids": [
+            "AC-10"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 600,
+          "budget_tokens": 4000,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--test",
+            "conversation_continuity",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on terminal dependency mismatch, non-ancestral merge SHA, scope absorption, stale acknowledgement trust, duplicate execution, ambiguous-outcome misclassification, invalid bind target, failed proof, or unresolved review finding.",
+      "design_ref": ".csdlc/prepared/issues/277/design.md",
+      "design_digest": "21c173f854c1a447865801b8992fed4658993f12c7f19ef68953d81317161b2e",
+      "diagram_ref": ".csdlc/prepared/issues/277/diagram.mmd",
+      "diagram_digest": "54db214860da4ea91991631e5167956fd9f70b3c40649c44229d80b356424f4b"
+    }
+  }
+}

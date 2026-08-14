@@ -1,0 +1,65 @@
+# Structured Task Prompt
+
+Template: 1.0.0
+
+Issue: 277
+
+Repository: agent-logic/agent-design-language
+
+Card: stp
+
+Status: ready
+
+## Task
+
+Bootstrap, design-review, approve, bind, implement, validate, exact-review, publish, and finish only #277 continuity state scope.
+
+## Deliverables
+
+- .csdlc/prepared/issues/277/design.md
+- .csdlc/prepared/issues/277/diagram.mmd
+- .csdlc/prepared/issues/277/readiness-packet.md
+- .csdlc/prepared/issues/277/validate_preparation_bundle.py
+- Runtime kernel continuity source/tests for watermarks, idempotency, replay, ambiguous dispatch, and receipts
+- Typed #277 lifecycle cards, validation evidence, fresh exact review, publication, CI, and terminal cache
+
+## Acceptance
+
+1. AC-1: #277 records live issue identity and #114/#110 child role without binding parent issues.
+2. AC-2: Preparation proves #276 and #270 canonical terminal caches and ancestry before bind.
+3. AC-3: Runtime persists sender watermarks and recipient acknowledgement watermarks using the #276 journal foundation.
+4. AC-4: Runtime persists attempt-local idempotency and duplicate-attempt outcomes across restart.
+5. AC-5: Runtime distinguishes ambiguous dispatch from definite pre-dispatch retryable state and does not lie about outcome.
+6. AC-6: Runtime persists delivery, response, and acknowledgement receipts and reconstructs them after restart.
+7. AC-7: Replay ownership and restart reconciliation are focused Runtime kernel primitives only.
+8. AC-8: Implementation does not redefine #270 acknowledgement trust or #276 journal foundation.
+9. AC-9: Implementation does not absorb #278, #114 parent, #115, API/UI/Observatory, browser, cloud, or provider-transcript work.
+10. AC-10: Focused proof, strict relevant Clippy/fmt, doctor, validate, exact fresh review, publication, required CI, and finish all pass before terminal claim.
+
+## Dependencies
+
+- #276 terminal and ancestral to execution base
+- #270 terminal and ancestral to execution base
+- #114 parent remains coordination-only and unbound
+- #115 remains ready/unbound and untouched
+- #278 follows #277 and must not be absorbed
+
+## Inputs
+
+- agent-logic/agent-design-language#277
+- agent-logic/agent-design-language#276
+- agent-logic/agent-design-language#270
+- agent-logic/agent-design-language#114
+- agent-logic/agent-design-language#110
+- .git/csdlc-v2/derived-terminal/276.json
+- .git/csdlc-v2/derived-terminal/270.json
+- adl-runtime-kernel/src/conversation_journal.rs
+- adl-runtime-kernel/tests/conversation_journal.rs
+
+## Non Goals
+
+- Redefining #270 acknowledgement trust, provenance, signatures, served routes, or API semantics
+- Changing #276 journal schema/storage/corruption/migration foundation beyond additive #277 event payload usage
+- Implementing #278 durable history API, transcript restoration, browser UI, or Observatory behavior
+- Binding or implementing #114 parent or #115 room/UI behavior
+- Cloud/public exposure, provider transcript scraping, or global private-memory search

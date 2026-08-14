@@ -1,0 +1,96 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 252,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Runtime: eliminate hosted Guardian executable spawn flake",
+    "slug": "guardian-hosted-spawn-flake",
+    "version": "v0.92",
+    "generation": 8
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "guardian-parity-focused",
+          "proof_role": "Prove the exact parity_b_live_kernel target containing both observed Guardian regressions and genuine SpawnFailed coverage.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 2000,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--test",
+            "parity_b_live_kernel"
+          ],
+          "parallel_group": "runtime-local",
+          "defer_reason": null
+        },
+        {
+          "lane": "runtime-required-local",
+          "proof_role": "Run the same complete Runtime-kernel Cargo test boundary used by the hosted Runtime v3 focused-tests step.",
+          "acceptance_ids": [
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 1800,
+          "budget_tokens": 3000,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml"
+          ],
+          "parallel_group": "runtime-local",
+          "defer_reason": null
+        },
+        {
+          "lane": "runtime-strict-clippy",
+          "proof_role": "Prove warning-free Runtime kernel production and test targets before exact-head review.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 1200,
+          "budget_tokens": 2000,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "runtime-local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on unresolved executable identity, genuine spawn failure, flaky repeated proof, required-lane failure, Clippy warning, review finding, or scope expansion.",
+      "design_ref": ".csdlc/prepared/issues/252/design.md",
+      "design_digest": "618969e8355ffa07062849f5120390f7edf94bfea4a1d54cf91b4eb31edb3461",
+      "diagram_ref": ".csdlc/prepared/issues/252/diagram.mmd",
+      "diagram_digest": "6c861470477b12cd4b89e38e26798ea7861d1877a7f7026115bfc50f7a6fd007"
+    }
+  }
+}

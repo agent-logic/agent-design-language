@@ -1,0 +1,15 @@
+
+running 7 tests
+test authentic_child_lineage_pairing_survives_restart_and_rejects_real_ab_stores ... ok
+test authenticated_lifecycle_and_restart_are_monotone ... ok
+test corrupt_durable_payload_cannot_yield_committed_projection ... ok
+test empty_store_has_no_committed_projection ... ok
+test inclusive_nanos_expiry_and_pair_mismatch_fail_closed ... ok
+test projection_is_redacted ... ok
+test stale_predecessor_overlap_and_conflicting_retry_fail_closed ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.62s
+
+   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-367-sealed-child-pairing-lineage/adl-runtime)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.41s
+     Running tests/distributed_observatory_serving_eligibility.rs (adl-runtime/target/debug/deps/distributed_observatory_serving_eligibility-e4fcc083e3913234)

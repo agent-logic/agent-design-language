@@ -6,6 +6,7 @@ mod certificates;
 use certificates::{
     ActivationOutcome, AuthorityCertificate, CertificateBody, CertificateError, CertificatePolicy,
     CertificatePurpose, CertificateValidity, DistributedCertificateStore, RevocationReason,
+    TEST_CERTIFICATE_STORE_ACCESS,
 };
 use ed25519_dalek::SigningKey;
 use tempfile::TempDir;
@@ -26,6 +27,7 @@ fn policy(root: &SigningKey) -> CertificatePolicy {
 
 fn open_store(temp: &TempDir, root: &SigningKey) -> DistributedCertificateStore {
     DistributedCertificateStore::open(
+        &TEST_CERTIFICATE_STORE_ACCESS,
         temp.path()
             .canonicalize()
             .unwrap()
@@ -75,12 +77,20 @@ fn all_certificate_purposes_are_distinct_and_keys_are_not_interchangeable() {
     for (index, purpose) in purposes.into_iter().enumerate() {
         let cert = certificate(&root, "guardian-a", purpose, 1, &key(index as u8 + 10));
         assert!(matches!(
-            store.activate(&cert, NOW).unwrap(),
+            store
+                .activate(&TEST_CERTIFICATE_STORE_ACCESS, &cert, NOW)
+                .unwrap(),
             ActivationOutcome::Activated(_)
         ));
         assert_eq!(
             store
-                .authorize("guardian-a", purpose, 1, NOW + 1)
+                .authorize(
+                    &TEST_CERTIFICATE_STORE_ACCESS,
+                    "guardian-a",
+                    purpose,
+                    1,
+                    NOW + 1
+                )
                 .unwrap()
                 .purpose,
             purpose
@@ -95,12 +105,19 @@ fn all_certificate_purposes_are_distinct_and_keys_are_not_interchangeable() {
         &key(12),
     );
     assert_eq!(
-        store.activate(&reused_transport_key, NOW + 1).unwrap_err(),
+        store
+            .activate(
+                &TEST_CERTIFICATE_STORE_ACCESS,
+                &reused_transport_key,
+                NOW + 1
+            )
+            .unwrap_err(),
         CertificateError::KeyPurposeConflict
     );
     assert_eq!(
         store
             .authorize(
+                &TEST_CERTIFICATE_STORE_ACCESS,
                 "guardian-a",
                 CertificatePurpose::SnapshotSigning,
                 2,
@@ -125,14 +142,18 @@ fn issuer_chain_is_root_bound_and_tampering_fails_closed() {
         &key(20),
     );
     assert_eq!(
-        store.activate(&unknown, NOW).unwrap_err(),
+        store
+            .activate(&TEST_CERTIFICATE_STORE_ACCESS, &unknown, NOW)
+            .unwrap_err(),
         CertificateError::IssuerNotApproved
     );
 
     let mut tampered = certificate(&root, "node-a", CertificatePurpose::Transport, 1, &key(21));
     tampered.body.holder_id = "node-b".to_owned();
     assert_eq!(
-        store.activate(&tampered, NOW).unwrap_err(),
+        store
+            .activate(&TEST_CERTIFICATE_STORE_ACCESS, &tampered, NOW)
+            .unwrap_err(),
         CertificateError::InvalidIssuerSignature
     );
 }
@@ -156,17 +177,24 @@ fn rotation_overlap_is_bounded_and_one_identity_remains_one_quorum_vote() {
         2,
         &key(31),
     );
-    store.activate(&first, NOW).unwrap();
-    store.activate(&second, NOW + 5).unwrap();
+    store
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &first, NOW)
+        .unwrap();
+    store
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &second, NOW + 5)
+        .unwrap();
 
     assert_eq!(
-        store.activate(&first, NOW + 6).unwrap_err(),
+        store
+            .activate(&TEST_CERTIFICATE_STORE_ACCESS, &first, NOW + 6)
+            .unwrap_err(),
         CertificateError::GenerationNotMonotonic
     );
 
     assert_eq!(store.quorum_voter_count(NOW + 6).unwrap(), 1);
     store
         .authorize(
+            &TEST_CERTIFICATE_STORE_ACCESS,
             "guardian-a",
             CertificatePurpose::GuardianControl,
             1,
@@ -176,6 +204,7 @@ fn rotation_overlap_is_bounded_and_one_identity_remains_one_quorum_vote() {
     assert_eq!(
         store
             .authorize(
+                &TEST_CERTIFICATE_STORE_ACCESS,
                 "guardian-a",
                 CertificatePurpose::GuardianControl,
                 1,
@@ -186,6 +215,7 @@ fn rotation_overlap_is_bounded_and_one_identity_remains_one_quorum_vote() {
     );
     store
         .authorize(
+            &TEST_CERTIFICATE_STORE_ACCESS,
             "guardian-a",
             CertificatePurpose::GuardianControl,
             2,
@@ -203,6 +233,7 @@ fn one_guardian_control_key_cannot_represent_two_voters() {
     let shared = key(40);
     store
         .activate(
+            &TEST_CERTIFICATE_STORE_ACCESS,
             &certificate(
                 &root,
                 "guardian-a",
@@ -216,6 +247,7 @@ fn one_guardian_control_key_cannot_represent_two_voters() {
     assert_eq!(
         store
             .activate(
+                &TEST_CERTIFICATE_STORE_ACCESS,
                 &certificate(
                     &root,
                     "guardian-b",
@@ -237,13 +269,22 @@ fn revocation_is_immediate_and_authorization_is_refresh_bounded() {
     let root = key(6);
     let store = open_store(&temp, &root);
     let cert = certificate(&root, "node-a", CertificatePurpose::Transport, 1, &key(50));
-    store.activate(&cert, NOW).unwrap();
+    store
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &cert, NOW)
+        .unwrap();
     let verified = store
-        .authorize("node-a", CertificatePurpose::Transport, 1, NOW + 1)
+        .authorize(
+            &TEST_CERTIFICATE_STORE_ACCESS,
+            "node-a",
+            CertificatePurpose::Transport,
+            1,
+            NOW + 1,
+        )
         .unwrap();
     assert_eq!(verified.authorization_deadline_unix_secs, NOW + 11);
     store
         .revoke(
+            &TEST_CERTIFICATE_STORE_ACCESS,
             &verified.certificate_id,
             NOW + 2,
             RevocationReason::OperatorRevoked,
@@ -251,7 +292,13 @@ fn revocation_is_immediate_and_authorization_is_refresh_bounded() {
         .unwrap();
     assert_eq!(
         store
-            .authorize("node-a", CertificatePurpose::Transport, 1, NOW + 2)
+            .authorize(
+                &TEST_CERTIFICATE_STORE_ACCESS,
+                "node-a",
+                CertificatePurpose::Transport,
+                1,
+                NOW + 2
+            )
             .unwrap_err(),
         CertificateError::Revoked
     );
@@ -279,13 +326,23 @@ fn expiry_and_not_yet_valid_are_enforced_before_authority() {
     )
     .unwrap();
     assert_eq!(
-        store.activate(&future, NOW).unwrap_err(),
+        store
+            .activate(&TEST_CERTIFICATE_STORE_ACCESS, &future, NOW)
+            .unwrap_err(),
         CertificateError::NotYetValid
     );
-    store.activate(&future, NOW + 10).unwrap();
+    store
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &future, NOW + 10)
+        .unwrap();
     assert_eq!(
         store
-            .authorize("node-a", CertificatePurpose::Transport, 1, NOW + 20)
+            .authorize(
+                &TEST_CERTIFICATE_STORE_ACCESS,
+                "node-a",
+                CertificatePurpose::Transport,
+                1,
+                NOW + 20
+            )
             .unwrap_err(),
         CertificateError::Expired
     );
@@ -310,10 +367,15 @@ fn compromised_certificate_fences_all_identity_purposes_and_reenrollment() {
         1,
         &key(71),
     );
-    store.activate(&transport, NOW).unwrap();
-    store.activate(&advertisement, NOW).unwrap();
+    store
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &transport, NOW)
+        .unwrap();
+    store
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &advertisement, NOW)
+        .unwrap();
     store
         .revoke(
+            &TEST_CERTIFICATE_STORE_ACCESS,
             &transport.certificate_id().unwrap(),
             NOW + 1,
             RevocationReason::KeyCompromise,
@@ -325,7 +387,13 @@ fn compromised_certificate_fences_all_identity_purposes_and_reenrollment() {
     ] {
         assert_eq!(
             store
-                .authorize("guardian-a", purpose, 1, NOW + 1)
+                .authorize(
+                    &TEST_CERTIFICATE_STORE_ACCESS,
+                    "guardian-a",
+                    purpose,
+                    1,
+                    NOW + 1
+                )
                 .unwrap_err(),
             CertificateError::IdentityFenced
         );
@@ -338,7 +406,9 @@ fn compromised_certificate_fences_all_identity_purposes_and_reenrollment() {
         &key(72),
     );
     assert_eq!(
-        store.activate(&replacement, NOW + 2).unwrap_err(),
+        store
+            .activate(&TEST_CERTIFICATE_STORE_ACCESS, &replacement, NOW + 2)
+            .unwrap_err(),
         CertificateError::IdentityFenced
     );
 }
@@ -357,10 +427,15 @@ fn rotation_revocation_and_compromise_survive_restart() {
     );
     {
         let store = open_store(&temp, &root);
-        store.activate(&transport, NOW).unwrap();
-        store.activate(&snapshot, NOW).unwrap();
+        store
+            .activate(&TEST_CERTIFICATE_STORE_ACCESS, &transport, NOW)
+            .unwrap();
+        store
+            .activate(&TEST_CERTIFICATE_STORE_ACCESS, &snapshot, NOW)
+            .unwrap();
         store
             .revoke(
+                &TEST_CERTIFICATE_STORE_ACCESS,
                 &transport.certificate_id().unwrap(),
                 NOW + 1,
                 RevocationReason::OperatorRevoked,
@@ -374,13 +449,25 @@ fn rotation_revocation_and_compromise_survive_restart() {
     let restarted = open_store(&temp, &root);
     assert_eq!(
         restarted
-            .authorize("node-a", CertificatePurpose::Transport, 1, NOW + 2)
+            .authorize(
+                &TEST_CERTIFICATE_STORE_ACCESS,
+                "node-a",
+                CertificatePurpose::Transport,
+                1,
+                NOW + 2
+            )
             .unwrap_err(),
         CertificateError::Revoked
     );
     assert_eq!(
         restarted
-            .authorize("node-b", CertificatePurpose::SnapshotSigning, 1, NOW + 2,)
+            .authorize(
+                &TEST_CERTIFICATE_STORE_ACCESS,
+                "node-b",
+                CertificatePurpose::SnapshotSigning,
+                1,
+                NOW + 2,
+            )
             .unwrap_err(),
         CertificateError::IdentityFenced
     );
@@ -400,13 +487,16 @@ fn corrupt_durable_certificate_state_fails_closed_on_restart() {
     {
         let store = open_store(&temp, &root);
         let cert = certificate(&root, "node-a", CertificatePurpose::Transport, 1, &key(82));
-        store.activate(&cert, NOW).unwrap();
+        store
+            .activate(&TEST_CERTIFICATE_STORE_ACCESS, &cert, NOW)
+            .unwrap();
         store
             .corrupt_certificate_for_test("node-a", CertificatePurpose::Transport, 1)
             .unwrap();
     }
 
     let error = DistributedCertificateStore::open(
+        &TEST_CERTIFICATE_STORE_ACCESS,
         temp.path()
             .canonicalize()
             .unwrap()
@@ -427,6 +517,7 @@ fn certificate_count_is_bounded_before_persisting_more_authority() {
         .with_bounds(3_600, 30, 10, 1, 1)
         .unwrap();
     let store = DistributedCertificateStore::open(
+        &TEST_CERTIFICATE_STORE_ACCESS,
         temp.path()
             .canonicalize()
             .unwrap()
@@ -436,6 +527,7 @@ fn certificate_count_is_bounded_before_persisting_more_authority() {
     .unwrap();
     store
         .activate(
+            &TEST_CERTIFICATE_STORE_ACCESS,
             &certificate(&root, "node-a", CertificatePurpose::Transport, 1, &key(83)),
             NOW,
         )
@@ -443,6 +535,7 @@ fn certificate_count_is_bounded_before_persisting_more_authority() {
     assert_eq!(
         store
             .activate(
+                &TEST_CERTIFICATE_STORE_ACCESS,
                 &certificate(&root, "node-b", CertificatePurpose::Transport, 1, &key(84),),
                 NOW,
             )

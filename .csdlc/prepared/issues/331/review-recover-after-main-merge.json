@@ -1,0 +1,7 @@
+{
+  "issue": 331,
+  "expected_generation": 5,
+  "expected_digest": "e265c22934ffdef123e08c0c295faad7bc1e42e3d6026576cbb3345fa7baf4f1",
+  "actor": "codex:/root",
+  "reason": "Recover stale #331 review truth after merging current origin/main into the bound branch; no #331 source conflict resolution was required, but the reviewed revision no longer matches HEAD."
+}

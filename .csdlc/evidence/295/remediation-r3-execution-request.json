@@ -1,0 +1,24 @@
+{
+  "actor": "codex:issue-295",
+  "card": "sor",
+  "expected_digest": "d12d47a4b0f1a3bc96d55e94eaf16a7236cbb5964449e9a0ffb53ae03960a6a5",
+  "expected_generation": 12,
+  "issue": 295,
+  "operation": {
+    "operation": "replace_execution",
+    "summary": "Remediated the third exact-review findings with a constrained Rust callsite grammar and clean Git-object proof snapshots.",
+    "changes": [
+      "Reject comment, string, macro, operator, and unrelated-call callee decoys with a fail-closed callsite grammar.",
+      "Execute governed commands in a clean archive of the exact commit, overlaying only the classified diff for worktree authoring mode.",
+      "Exclude all unrelated mutable and untracked source or test files from proof inputs.",
+      "Add decoy and dirty unrelated proof-command negatives while preserving the 80 percent and nightly/full authority gates."
+    ],
+    "artifacts": ["adl/tools/mechanical_coverage_fallout.py", "adl/tools/check_coverage_impact.sh", "adl/tools/test_mechanical_coverage_fallout.sh", "docs/tooling/COVERAGE_AUTHORITY_AND_RELEASE_PROOF.md", ".csdlc/evidence/295"],
+    "validation": [
+      {"command":["bash","adl/tools/test_mechanical_coverage_fallout.sh"],"purpose":"Prove syntax-constrained callee binding and immutable proof execution, including decoy and dirty unrelated input negatives.","outcome":"passed","evidence_ref":".csdlc/evidence/295/mechanical-compile-fallout-classifier.log"},
+      {"command":["bash","adl/tools/test_check_coverage_impact.sh"],"purpose":"Prove the existing changed-source 80 percent and authoritative coverage routing remain intact.","outcome":"passed","evidence_ref":".csdlc/evidence/295/coverage-impact-regression.log"},
+      {"command":["bash","adl/tools/test_select_validation_lanes.sh"],"purpose":"Prove PVF selector inventory and PR-fast non-authoritative routing.","outcome":"passed","evidence_ref":".csdlc/evidence/295/validation-selector-pvf.log"}
+    ]
+  },
+  "reason": "Record bounded third-review remediation and fresh passing proof before a new exact review assignment."
+}

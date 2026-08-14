@@ -3,8 +3,8 @@ use std::path::PathBuf;
 
 use clap::Parser;
 use csdlc_v2::finish::{
-    envelope_matches_record, execute_finish, execute_historical_finish, load_cached_terminal,
-    FinishRequest, HistoricalFinishRequest,
+    envelope_matches_record_in_repo, execute_finish, execute_historical_finish,
+    load_cached_terminal, FinishRequest, HistoricalFinishRequest,
 };
 use csdlc_v2::{ErrorCode, Store, V2Error};
 
@@ -58,7 +58,7 @@ async fn run(cli: Cli) -> csdlc_v2::Result<serde_json::Value> {
                 "derived terminal cache is missing",
             )
         })?;
-        if !envelope_matches_record(&terminal, &record)? {
+        if !envelope_matches_record_in_repo(&cli.root, &terminal, &record)? {
             return Err(V2Error::new(
                 ErrorCode::ReconciliationRequired,
                 "derived terminal envelope does not match canonical issue truth",

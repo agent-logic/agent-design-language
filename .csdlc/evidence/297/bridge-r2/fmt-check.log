@@ -1,0 +1,3 @@
+sha=3f38a135e939264e5b4f66ed4477d32c56abce61
+argv=cargo fmt --manifest-path csdlc-v2/Cargo.toml --check
+status=0

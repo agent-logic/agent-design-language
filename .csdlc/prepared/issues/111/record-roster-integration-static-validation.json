@@ -1,0 +1,18 @@
+{
+  "issue": 111,
+  "card": "sor",
+  "expected_generation": 48,
+  "expected_digest": "c78904ea863eed664e2f197fc400260404b84065d8289345e440c2cab37ca67b",
+  "actor": "codex:wp18c01-execution",
+  "reason": "Record exact integrated static and diff hygiene proof.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["cargo", "clippy", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--lib", "--", "-D", "warnings", "&&", "cargo", "fmt", "--manifest-path", "adl-runtime-kernel/Cargo.toml", "--all", "--", "--check", "&&", "git", "diff", "--check"],
+      "purpose": "Reject production-library warnings, Rust formatting drift, malformed whitespace, and unresolved merge artifacts at the integrated candidate.",
+      "outcome": "passed",
+      "evidence_ref": "git:322c1a3ecd309d6fce04023e41dc4d14b5f0f689; strict library Clippy, cargo fmt check, and diff hygiene PASS"
+    }
+  },
+  "fail_after_backup": false
+}

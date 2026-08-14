@@ -1,0 +1,45 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 270,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.02c][112.c] Define and serve trusted recipient-acknowledgement Runtime API protocol",
+    "slug": "v0-92-wp-18c-02c-112-c-trusted-recipient-acknowledgement-runtime-api",
+    "version": "v0.92.0",
+    "generation": 26
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Design and later implement the trusted recipient-acknowledgement Runtime API protocol after #112 and #265 are terminal and ancestral.",
+      "required_outcome": "Runtime exposes a production served route for recipient acknowledgements that verifies acknowledgement provenance before side effects, binds credential-generation signatures to message and authority context, redacts correlation safely, and distinguishes delivery from refusal.",
+      "declared_scope": [
+        "Versioned trusted recipient-acknowledgement Runtime API protocol",
+        "Production Runtime served route for acknowledgements",
+        "Verify acknowledgement provenance before side effects",
+        "Credential-generation signature binding to message and authority context",
+        "Refusal-versus-delivery distinction and correlation redaction proof after dependencies clear"
+      ],
+      "authority_boundary": [
+        "#112 owns shared Layer 8 signed authority primitives and identity-message contract",
+        "#265 owns Runtime kernel conversation ingress enforcement before #270 served route behavior",
+        "#270 owns recipient acknowledgement Runtime API/protocol only",
+        "#270 does not own #115 room/UI behavior, Observatory/UI, durable transcript storage, acknowledgement-watermark persistence, or cloud exposure"
+      ],
+      "initial_assumptions": [
+        "#112 is terminal and ancestral to current main through merge SHA 6172bfb067bd45ec231fbc2635e7efbb718ef415.",
+        "#265 is terminal and ancestral to current main through merge SHA 301080a40c91c6882f34fead3c742524467c056d.",
+        "#270 remains open, ready, unbound, and scoped to trusted recipient-acknowledgement Runtime API/protocol work."
+      ],
+      "operator_constraints": [
+        "Bind and implement #270 only after validating #112 and #265 terminal caches and ancestry against current main.",
+        "Use the typed v2 lifecycle route and a FastWork worktree; no raw GitHub lifecycle writes.",
+        "Do not mutate #112 parent/prep, #265, #271, #115, #114, #276, #277, or #278.",
+        "Do not absorb Observatory/UI, durable transcript storage, acknowledgement-watermark persistence, multi-agent room/UI behavior, cloud/public exposure, or Runtime kernel ingress enforcement.",
+        "Runtime product/test/docs changes must remain limited to the trusted recipient-acknowledgement Runtime API/protocol scope."
+      ]
+    }
+  }
+}

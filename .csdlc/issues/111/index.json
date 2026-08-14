@@ -1,0 +1,1040 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 111,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "4f31ea7c3dae525c91b0d74adaab06c6060d69949ff2227e3dc6ce18c2bbe988",
+  "phase": "published",
+  "generation": 91,
+  "digest": "ec5ee7b70acc6866cd22196d9a930f2d3359a49b59d068545abb32a128579817",
+  "branch": "codex/111-wp18c01-conversation-session-preparation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-111-conversation-session-preparation",
+  "review_assignment": {
+    "reviewer": "subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c",
+    "assigned_by": "codex:issue-111-minimum-required-validation",
+    "revision": "git-blake3:46acdca3492198987ecc509a2895eecc3b052a2b:68b243a0e843a188ed13cd128c41401fed1aa660d7723ad1ea9cc58d3e5b6a1b",
+    "scope": [
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/operations.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/conversation_sessions.rs",
+      "adl-runtime-kernel/tests/parity_b_live_kernel.rs",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      ".csdlc/issues/111"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c",
+    "scope": [
+      "adl-runtime-kernel/src/agent_roster.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/operations.rs",
+      "adl-runtime-kernel/tests/agent_roster.rs",
+      "adl-runtime-kernel/tests/conversation_sessions.rs",
+      "adl-runtime-kernel/tests/parity_b_live_kernel.rs",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      ".csdlc/issues/111"
+    ],
+    "reviewed_revision": "git-blake3:46acdca3492198987ecc509a2895eecc3b052a2b:68b243a0e843a188ed13cd128c41401fed1aa660d7723ad1ea9cc58d3e5b6a1b",
+    "findings": [],
+    "residual_risks": [
+      "Only required GitHub validation remains to be observed; optional, hosted, soak, slow, coverage, and long jobs are not authorized."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 111,
+    "pull_request": 228,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/228",
+    "base": "main",
+    "head": "codex/111-wp18c01-conversation-session-preparation",
+    "revision": "git-blake3:03d5658d412c46e495b9659c03130bdb08c60940:c5bbe9633cdb4f3b95eba288c19102967ef867af4eec57129021dd07cd0e64f7",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": "design/issue-111.md",
+  "diagram_path": "design/issue-111.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "codex-issue-111-readiness-repair",
+      "revision": "807112016269e5b923102d52fcaa63f235d53e71174c271b5e256bcfbe01fe67"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "460220108daaa940d44724b4e5f84b7f1422b4f0eb7405f95f993c1fdbe27a5d",
+      "rendered_digest": "fa08ec64826f95799bd6548670f8bb66e8cc7d452a42c20e7c6c7b6edfbe5428",
+      "ast_digest": "900d6f031497413cf929f458132aa4e3060bf0fa5582fc717f868db669d6d186"
+    },
+    "stp": {
+      "values_digest": "e0be0165952ccde7d23ab507d63cfe23e3ff8ee65c991a27d2f7db62e2d03217",
+      "rendered_digest": "1c866850d7af354f6b906d56cff4552dbe1825f0f4d715aebe63be2373891f50",
+      "ast_digest": "bd6fedd2f7ec562073b9b72cfb2a2b377a97cd39c99e9c9e09ab6f8c257c8904"
+    },
+    "spp": {
+      "values_digest": "0661c89e2bf5e39987f82c9c427cc0ca7dc2eb5d82770e9b2ac14c72d351a119",
+      "rendered_digest": "3ea05e85ba70f0977a1fdb863c1ad17f290e6936da52582e2cbd80ddf8aec071",
+      "ast_digest": "dd2f5c3ac096eb5fba369f17fae6367a915d56beee9fa2e125f4571bdbe26a8b"
+    },
+    "vpp": {
+      "values_digest": "a630c808d89d45a4037bd85e90f42609889b93dd8cd005475d8192da13e16dc2",
+      "rendered_digest": "aa1160a64760319dd4a431911eee67ae8d7e98d59fc77d35f1256daf532120a3",
+      "ast_digest": "d28438641285cb63fd3e8387b2ed861362077490290590cfe473786631712c9b"
+    },
+    "srp": {
+      "values_digest": "b5be34169c2876638ae23005aebe3b3da1843e2fbf52a8023c26b4b9f26487a4",
+      "rendered_digest": "4aac728ad0100c7fae8f8c1ec626f531f71ed00e0960046ce4602fa596c31d94",
+      "ast_digest": "7b725c42310c113471b37f398ee2d908615be4eeeba773fb50b4193896e8895d"
+    },
+    "sor": {
+      "values_digest": "a6867ef9f14e3b9bc3b818bd83ba9d7c3aa2065451114fc854f8252f5380414e",
+      "rendered_digest": "d7fb84f91a97c2b2d8a38ccf3dd24c34d60e63dfcd0d192067ccce3f97bc12fe",
+      "ast_digest": "7bb9bb7a8c606e61a6734f0bc5e3259b0803100384c28c625be91f4560863826"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:111-readiness-repair",
+      "reason": "Advance the validated preparation packet from initialized to ready without binding."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:111-review-remediation",
+      "reason": "Focused product, contract, browser, cancellation, ordering, timeout, typed-card, lint, and diff validation is complete at the independently approved implementation revision."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:019fef02-f7cd-7c11-bea0-4d1bf0ddb133",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:wp18c01-execution",
+      "reason": "Refresh exact-head execution and review truth after integrating the published #113 roster branch and aligning conversation admission with live communication eligibility."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:019fef4f-e98a-7a13-a0dd-e401692cee98",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:wp18c01-execution",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:wp18c01-fresh-session-review",
+      "reason": "Recover stale review and publication truth after integrating the updated stacked base; require a fresh independently assigned exact-head review before merge."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:019fefef-69e2-7f00-ae8f-7adbe14978e4",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:wp18c01-fresh-review-remediation",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 11,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:wp18c-stack-collapse",
+      "reason": "Refresh exact-head review and publication truth after the reviewed dependency stack is collapsed onto main; product code is unchanged and long-running validation remains out of band under #226."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:019fefef-69e2-7f00-ae8f-7adbe14978e4",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 13,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:wp18c-stack-collapse",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 14,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-111-conflict-reconciliation",
+      "reason": "Record fresh independent exact-head review after reconciling current main into the issue branch."
+    },
+    {
+      "sequence": 15,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:019ff1cf-1716-7183-979c-0ffb35f8b6e4",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 16,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-111-conflict-reconciliation",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 17,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-111-focused-routing-repair",
+      "reason": "Recover published lifecycle truth after reviewed focused validation routing repair at fd77ccd5c520568694972d169ad3975d3d3a1cdc."
+    },
+    {
+      "sequence": 18,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:019ff1ee-694b-7b62-b86d-ebe05224810c",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 19,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-111-focused-routing-repair",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 20,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-111-required-runtime-compile-repair",
+      "reason": "Recover review and publication truth after the required Runtime-fast lane exposed a test-only Guardian parity fixture compile break fixed at 7186c3051."
+    },
+    {
+      "sequence": 21,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 22,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-111-required-runtime-compile-repair",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 23,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-111-minimum-required-validation",
+      "reason": "Remove issue #226 validation-routing changes from issue #111 so only the product-scoped Runtime-fast proof remains required."
+    },
+    {
+      "sequence": 24,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 25,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-111-minimum-required-validation",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex-issue-111-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex-issue-111-preparation",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex-issue-111-preparation",
+      "reason": "reapprove stale initialized issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex-issue-111-preparation",
+      "reason": "align dependencies with reconciled live #110 and deferred non-gating #122 truth",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"#83 must be terminal, independently validated, and ancestral before #111 execution binding\",\"#110 is the umbrella and explicitly records #122 as deferred and non-gating for #111\",\"#92 is closed and supplies the TLS baseline\",\"#122 is open and deferred beyond v0.92; it owns future public exposure and is not a #111 execution gate\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex-issue-111-preparation",
+      "reason": "remove resolved #122 graph ambiguity from the execution plan",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"plan_summary\",\"value\":\"After #83 is terminal and ancestral, rebase onto its exact dependency head, implement Runtime-owned contracts/session ordering and provider-neutral execution, integrate authenticated Observatory ingress/egress, run focused PVF lanes, and complete exact-head review before any publication.\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex-issue-111-preparation",
+      "reason": "remove resolved #122 graph ambiguity from current execution risks",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"risks\",\"values\":[\"#83 owns overlapping unmerged ingress/control/Observatory changes, so pre-terminal implementation would create stale or conflicting architecture\",\"Cancellation, timeout, disconnect, and late provider completion can race unless terminal outcome commitment is atomic\",\"In-memory restart semantics may be mistaken for durable continuity unless the unavailable boundary is explicit\",\"A browser may accidentally render an ingress acknowledgement or result hash as conversational content\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex-issue-111-preparation",
+      "reason": "leave #83 as the sole live serial bind gate after #110 reconciliation",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"#83 is not terminal, independently validated, and ancestral to the candidate base\",\"Exact post-#83 affected paths differ materially from this SPP without a typed replan\",\"Any implementation requires identity/policy semantics owned by #112, durable history owned by #114, or multi-agent routing owned by #115\",\"A proving validator target is unavailable without an explicit initialized-phase defer and issue ownership\",\"Any path would require product edits on root main or mutation of #83\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 7,
+      "actor": "codex:111-readiness-correction",
+      "reason": "Remove circular reachability authority and record the serial #83 -> #111 -> #112 order.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"Runtime is the sole authority for sessions, ordering, outcomes, and public response correlation\",\"#83 is the sole terminal ancestral dependency for #111; #111 preserves its inherited authenticated reachability boundary without widening authority, and #112 consumes #111 later\",\"The browser is a non-authoritative client and never synthesizes delivery or agent responses\",\"Provider payloads, credentials, private cognition, and private agent state remain outside public contracts\",\"No product implementation, binding, publication, push, PR, merge, close, or #83/#110 mutation is authorized during preparation\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 8,
+      "actor": "codex:111-readiness-correction",
+      "reason": "Declare the exact issue-owned deferred behavioral browser validator target.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Versioned canonical Runtime conversation/turn/delivery/response schemas\",\"Runtime session engine with ordered processing, idempotency, cancellation, timeout, reconnect, and explicit restart behavior\",\"Provider-neutral adapter boundary with deterministic fake proof\",\"Observatory integration that renders only Runtime-authoritative outcomes and correlated responses\",\"adl-runtime-kernel/tests/conversation_sessions.rs\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\",\"Focused Observatory WSS, OpenAPI, browser behavior, JavaScript syntax, and diff-hygiene validation evidence\",\"Exact-head review with all actionable findings resolved before publication\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 9,
+      "actor": "codex-issue-111-readiness-repair",
+      "reason": "reapprove stale initialized issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 11,
+      "generation": 10,
+      "actor": "codex:111-readiness-correction",
+      "reason": "Add the exact deferred browser validator to issue-owned affected paths.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/conversation.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/src/ingress.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/operations.rs\",\"adl-runtime-kernel/tests/conversation_sessions.rs\",\"adl-runtime-kernel/tests/observatory.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\"demos/html-observatory/app.js\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 11,
+      "actor": "codex:111-readiness-correction",
+      "reason": "Replace syntax-only browser acceptance coverage with an exact deferred nonzero behavioral validator.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime_conversation_contract\",\"proof_role\":\"Deterministic issue-specific proof of schemas, ordering, idempotency, failure outcomes, reconnect, and restart boundaries\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"conversation_sessions\"],\"parallel_group\":\"runtime_core\",\"defer_reason\":\"Issue-owned integration target is intentionally authored during execution after terminal #83 topology is available.\"},{\"lane\":\"observatory_wss_integration\",\"proof_role\":\"Deterministic authenticated WSS ingress, delivery/response correlation, reconnect, and negative-path proof\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"observatory\"],\"parallel_group\":\"runtime_integration\",\"defer_reason\":null},{\"lane\":\"observatory_openapi_contract\",\"proof_role\":\"Deterministic public schema and checked-in OpenAPI parity proof\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"openapi_contract\"],\"parallel_group\":\"runtime_integration\",\"defer_reason\":null},{\"lane\":\"observatory_browser_conversation_behavior\",\"proof_role\":\"Deterministic browser-client behavior proof that transport acknowledgements and result hashes never render as agent replies and reconnect resumes without duplicate rendering or submission\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"node\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\"],\"parallel_group\":\"client_behavior\",\"defer_reason\":\"The issue-owned nonzero behavioral validator is authored with implementation; it must fail on zero assertions and prove ACK/hash rejection plus reconnect without duplicate rendering or submission before validation can pass.\"},{\"lane\":\"observatory_javascript_syntax\",\"proof_role\":\"Fast deterministic syntax support guard for the non-authoritative browser client integration\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"node\",\"--check\",\"demos/html-observatory/app.js\"],\"parallel_group\":\"client_static\",\"defer_reason\":null},{\"lane\":\"exact_diff_hygiene\",\"proof_role\":\"Fast exact-worktree whitespace and conflict-marker hygiene before independent review\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"client_static\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 12,
+      "actor": "codex:111-readiness-repair",
+      "reason": "Own the exact issue 111 behavioral browser validator target.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/conversation.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/src/ingress.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/operations.rs\",\"adl-runtime-kernel/tests/conversation_sessions.rs\",\"adl-runtime-kernel/tests/observatory.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\"demos/html-observatory/app.js\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 13,
+      "actor": "codex:111-readiness-repair",
+      "reason": "Remove circular authority wording and preserve the serial issue order.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Runtime alone owns canonical session state, sequence allocation, idempotency, and outcome truth\",\"One session binds exactly one authenticated operator principal and one policy-reachable agent\",\"At most one provider dispatch and one correlated public response occur per accepted submission key\",\"Browser reconnect cannot create turns or replay dispatch, and browser state cannot resume a lost Runtime session\",\"No provider-specific payload, credential, private cognition, or private agent state crosses the public projection\",\"#111 consumes only the authenticated reachability boundary inherited from #83; downstream #112 depends on #111 and supplies no authority or gate to this issue\"]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 14,
+      "actor": "codex:111-readiness-repair",
+      "reason": "Remove downstream issue 112 as an execution authority or dependency.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"#83 is not terminal, independently validated, and ancestral to the candidate base\",\"Exact post-#83 affected paths differ materially from this SPP without a typed replan\",\"Any implementation would need to define broader Layer 8 identity or policy semantics outside the inherited #83 boundary; route that downstream scope to #112\",\"Any implementation requires durable history owned by #114 or multi-agent routing owned by #115\",\"A proving validator target is unavailable without an explicit initialized-phase defer and issue ownership\",\"Any path would require product edits on root main or mutation of #83\"]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 15,
+      "actor": "codex:111-readiness-repair",
+      "reason": "Review the true upstream authority boundary without treating downstream issue 112 as inherited authority.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Verify Runtime is the only session/order/outcome authority and the browser cannot synthesize turns, delivery, or replies.\",\"Probe duplicate submission, sequence gaps, reconnect replay, cancellation/timeout races, late adapter output, saturation, shutdown, and restart behavior.\",\"Verify recipient eligibility and operator authority consume only the authenticated reachability boundary inherited from #83; #112 remains downstream of #111 and supplies no authority or dependency.\",\"Verify provider-neutral contracts and public responses cannot expose raw provider payloads, credentials, private cognition, or private agent state.\",\"Verify every product path in the diff is issue-owned, PVF-classified, and supported by exact-revision proof.\"]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 16,
+      "actor": "codex:111-readiness-repair",
+      "reason": "Replace syntax-only browser checking with exact nonzero behavioral proof and retain a nonempty Rust target.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime_conversation_contract\",\"proof_role\":\"Deterministic issue-specific proof of schemas, ordering, idempotency, failure outcomes, reconnect, and restart boundaries with a required nonzero test count.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"conversation_sessions\",\"--no-tests=fail\"],\"parallel_group\":\"runtime_core\",\"defer_reason\":\"The exact issue-owned conversation_sessions integration target is authored during execution after terminal #83 topology is available; --no-tests=fail forbids an empty proof.\"},{\"lane\":\"observatory_wss_integration\",\"proof_role\":\"Deterministic authenticated WSS ingress, delivery/response correlation, reconnect, and negative-path proof.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"observatory\"],\"parallel_group\":\"runtime_integration\",\"defer_reason\":null},{\"lane\":\"observatory_openapi_contract\",\"proof_role\":\"Deterministic public schema and checked-in OpenAPI parity proof.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"openapi_contract\"],\"parallel_group\":\"runtime_integration\",\"defer_reason\":null},{\"lane\":\"observatory_browser_conversation_behavior\",\"proof_role\":\"Run the exact issue-owned browser validator and exit nonzero unless agent ACK/hash metadata is never rendered as an agent reply and reconnect does not duplicate transcript entries.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"node\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\"],\"parallel_group\":\"client_behavior\",\"defer_reason\":\"The exact issue-owned behavioral validator is an issue #111 execution deliverable and remains deferred until the post-#83 client contract is implemented; missing, skipped, zero-assertion, ACK/hash-as-reply, or duplicated-reconnect output cannot pass.\"},{\"lane\":\"exact_diff_hygiene\",\"proof_role\":\"Fast exact-worktree whitespace and conflict-marker hygiene before independent review.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"client_behavior\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 17,
+      "actor": "codex:111-readiness-repair",
+      "reason": "Advance the validated preparation packet from initialized to ready without binding.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 18,
+      "actor": "codex:111-final-bind-readiness",
+      "reason": "Separate exact-head review authority from ordinary product and diff lanes while retaining fail-closed issue-owned proof targets.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime_conversation_contract\",\"proof_role\":\"Deterministic issue-specific proof of schemas, ordering, idempotency, failure outcomes, reconnect, and restart boundaries with a required nonzero test count.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"nextest\",\"run\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"conversation_sessions\",\"--no-tests=fail\"],\"parallel_group\":\"runtime_core\",\"defer_reason\":\"The sentinel target is intentionally nonzero and failing until WP-18C.01 implements the complete conversation-session denominator.\"},{\"lane\":\"observatory_wss_integration\",\"proof_role\":\"Deterministic authenticated WSS ingress, delivery/response correlation, reconnect, and negative-path proof.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"observatory\"],\"parallel_group\":\"runtime_integration\",\"defer_reason\":null},{\"lane\":\"observatory_openapi_contract\",\"proof_role\":\"Deterministic public schema and checked-in OpenAPI parity proof.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"openapi_contract\"],\"parallel_group\":\"runtime_integration\",\"defer_reason\":null},{\"lane\":\"observatory_browser_conversation_behavior\",\"proof_role\":\"Run the exact issue-owned browser validator and exit nonzero unless agent ACK/hash metadata is never rendered as an agent reply and reconnect does not duplicate transcript entries.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":3000,\"argv\":[\"node\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\"],\"parallel_group\":\"client_behavior\",\"defer_reason\":\"The sentinel exits nonzero until the exact behavioral assertions are implemented.\"},{\"lane\":\"conversation_exact_head_review_receipts\",\"proof_role\":\"Validate that all required product and hygiene receipts cover the exact candidate revision and that independent SRP review resolved every actionable finding without widening scope.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"node\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\",\"--review-only\"],\"parallel_group\":\"review\",\"defer_reason\":\"The issue-owned validator must fail closed until exact-head receipts and independent SRP review evidence exist.\"},{\"lane\":\"exact_diff_hygiene\",\"proof_role\":\"Fast exact-worktree whitespace and conflict-marker hygiene; this lane does not substitute for independent review.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"client_behavior\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 18,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 21,
+      "generation": 19,
+      "actor": "codex:111-execution",
+      "reason": "Record the exact bounded Runtime adapter, public projection, Observatory UI, style, browser proof, and OpenAPI paths used by the selected-agent conversation implementation.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/ingress.rs\",\"adl-runtime-kernel/tests/conversation_sessions.rs\",\"adl-runtime-kernel/tests/observatory.rs\",\"adl-runtime-kernel/tests/openapi_contract.rs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\",\"demos/html-observatory/app.js\",\"demos/html-observatory/index.html\",\"demos/html-observatory/styles.css\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\"]}"
+    },
+    {
+      "sequence": 22,
+      "generation": 20,
+      "actor": "codex:111-execution",
+      "reason": "Replace the superseded oversized issue 83 serial gate with live umbrella 110 decomposition authority and the bounded issue 111 execution route.",
+      "operation": "{\"field\":\"plan_summary\",\"new_value\":\"Under live #110 decomposition authority, implement a bounded authenticated selected-agent conversation intent through canonical Runtime ingress, expose only a typed public reply, render it safely in the Observatory, run focused PVF lanes, and complete exact-head independent review before publication. #83 remains a separate asynchronous decomposition reconciliation and is not an execution gate.\",\"operation\":\"replan\",\"previous_value\":\"After #83 is terminal and ancestral, rebase onto its exact dependency head, implement Runtime-owned contracts/session ordering and provider-neutral execution, integrate authenticated Observatory ingress/egress, run focused PVF lanes, and complete exact-head review before any publication.\"}"
+    },
+    {
+      "sequence": 23,
+      "generation": 21,
+      "actor": "codex:111-execution",
+      "reason": "Align stop conditions with live umbrella 110 decomposition and preserve downstream scope boundaries during bound execution.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"stop_conditions\",\"values\":[\"Live #110 decomposition authority is revoked or the bounded #111 selected-agent conversation scope is reassigned\",\"The implementation requires broader Layer 8 identity or policy hardening owned by downstream #112\",\"The implementation requires durable history owned by #114 or multi-agent rooms and routing owned by #115 and #116\",\"The implementation would expose provider payloads, private cognition, credentials, or browser-held signing keys\",\"A proving validator target becomes unavailable or the exact changed paths diverge materially without another typed replan\",\"Any path would require product edits on root main or mutation of #83, #110, #122, or #213\"]}"
+    },
+    {
+      "sequence": 24,
+      "generation": 22,
+      "actor": "codex:111-execution",
+      "reason": "Align execution dependencies with live umbrella 110 decomposition authority.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"dependencies\",\"values\":[\"#110 is the live WP-18C umbrella and authorizes #111 and #113 as separate initial execution slices\",\"#92 is closed and supplies the trusted TLS baseline\",\"#83 remains asynchronous decomposition reconciliation and is not an execution gate\",\"#122 is deferred beyond v0.92 and is not a #111 execution gate\",\"#112 consumes #111 later and supplies no authority or dependency to this issue\"]}"
+    },
+    {
+      "sequence": 25,
+      "generation": 23,
+      "actor": "codex:111-execution",
+      "reason": "Replace superseded terminal-83 wording while preserving the bounded selected-agent conversation slice.",
+      "operation": "{\"field\":\"task_boundary\",\"new_value\":\"Implement only the canonical one-operator-to-one-visible-agent bounded conversation slice authorized by live #110: authenticated Observatory intent, Runtime recipient eligibility, canonical ingress dispatch, explicit delivery/refusal/failure outcomes, and typed public reply rendering. Exclude durable history, rooms, attention workflows, public deployment, and broader identity or policy hardening.\",\"operation\":\"replan\",\"previous_value\":\"Implement only the canonical one-operator-to-one-agent bounded conversation session layer that extends the terminal #83 vertical slice; exclude durable history, rooms, attention workflows, public deployment, and new authority semantics.\"}"
+    },
+    {
+      "sequence": 26,
+      "generation": 24,
+      "actor": "codex:111-execution",
+      "reason": "Record live umbrella 110 as execution authority and retain the issue 83 no-mutation boundary without treating it as a gate.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"Runtime is the sole authority for sessions, ordering, outcomes, recipient eligibility, and public response correlation\",\"Live #110 authorizes the bounded #111 execution slice; #83 remains asynchronous decomposition reconciliation and is not an execution gate\",\"The browser is a non-authoritative authenticated client and never signs agent work or synthesizes delivery or agent responses\",\"Provider payloads, credentials, private cognition, and private agent state remain outside public contracts\",\"Downstream #112 consumes #111 later and supplies no authority or dependency to this issue\",\"Issue #83, umbrella #110, deferred #122, and tooling issue #213 must not be mutated by this execution\"]}"
+    },
+    {
+      "sequence": 27,
+      "generation": 25,
+      "actor": "codex:111-execution",
+      "reason": "Replace the superseded issue 83 ancestry step with live umbrella 110 decomposition validation while preserving the execution sequence.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"P1\",\"action\":\"Revalidate live #110 decomposition authority, inspect the existing Runtime ingress and Observatory contract, bind #111, and record any topology divergence through a typed replan.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\"],\"status\":\"pending\"},{\"id\":\"P2\",\"action\":\"Implement canonical conversation contracts and the Runtime-owned bounded session engine with ordering, idempotency, explicit negative outcomes, and a fail-closed unavailable boundary.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"status\":\"pending\"},{\"id\":\"P3\",\"action\":\"Integrate the provider-neutral adapter and authenticated Runtime ingress/egress without widening existing identity or policy authority.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\"],\"status\":\"pending\"},{\"id\":\"P4\",\"action\":\"Integrate the Observatory client using Runtime conversation identity and correlation while prohibiting acknowledgement, result hash, or arbitrary adapter output from appearing as an agent response.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\"],\"status\":\"pending\"},{\"id\":\"P5\",\"action\":\"Run the declared focused PVF lanes and fix all failures at the exact implementation revision.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"status\":\"pending\"},{\"id\":\"P6\",\"action\":\"Run bounded exact-head review, fix every actionable finding, and record truthful residual risk before publication handoff.\",\"acceptance_ids\":[\"AC-6\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 28,
+      "generation": 26,
+      "actor": "codex:111-execution",
+      "reason": "Replace the superseded issue 83 merge risk with current bounded conversation execution risks.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"risks\",\"values\":[\"Concurrent #113 roster work overlaps Runtime control and Observatory paths, so integration must preserve both issue-owned commits and rerun exact focused proof\",\"A public helper or browser-held key could bypass authenticated WSS authority unless the conversation entrypoint remains private and session-gated\",\"Duplicate turn identifiers, disconnects, and late adapter completion can confuse visible outcome truth unless canonical ingress remains the sole idempotency authority\",\"An adapter could return arbitrary fields or a mismatched recipient unless the public projection is strict and fail closed\",\"A browser may accidentally render an acknowledgement, result hash, stale replay, or arbitrary adapter output as conversational content\",\"Durable history, rooms, and broader identity hardening must remain routed to #114, #115/#116, and #112\"]}"
+    },
+    {
+      "sequence": 29,
+      "generation": 27,
+      "actor": "codex:111-execution",
+      "reason": "Align the authority invariant with live umbrella 110 decomposition and the existing authenticated Runtime reachability boundary.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"invariants\",\"values\":[\"Runtime alone owns canonical session state, sequence allocation, idempotency, recipient eligibility, and outcome truth\",\"One conversation binds exactly one authenticated operator session and one visible running agent\",\"At most one adapter dispatch and one correlated typed public response occur per accepted turn identifier\",\"Browser reconnect cannot create turns or replay dispatch, and a replayed result without a pending turn cannot render\",\"No provider-specific payload, credential, private cognition, private agent state, acknowledgement, or result hash crosses the public reply projection\",\"#111 uses the existing authenticated Runtime reachability boundary under live #110 authority; #83 is asynchronous reconciliation and downstream #112 supplies no authority or gate\"]}"
+    },
+    {
+      "sequence": 30,
+      "generation": 28,
+      "actor": "codex:111-execution",
+      "reason": "Live authority, binding, source inspection, and typed replanning are complete.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"P1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 31,
+      "generation": 29,
+      "actor": "codex:111-execution",
+      "reason": "Canonical conversation contracts, bounded Runtime execution, idempotent turn handling, and explicit outcomes are implemented.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"P2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 32,
+      "generation": 30,
+      "actor": "codex:111-execution",
+      "reason": "The provider-neutral agent adapter and private authenticated WSS conversation entrypoint are integrated without adding browser or public helper authority.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"P3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 33,
+      "generation": 31,
+      "actor": "codex:111-execution",
+      "reason": "The Observatory selected-agent UI renders only correlated typed reply text and rejects stale, mismatched, refused, empty, and metadata-only frames.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"P4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 34,
+      "generation": 32,
+      "actor": "codex:111-execution",
+      "reason": "Conversation WSS, Observatory integration, OpenAPI, browser behavior, JavaScript syntax, Clippy, card validation, and diff hygiene lanes passed.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"P5\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 35,
+      "generation": 33,
+      "actor": "codex:111-review-remediation",
+      "reason": "Align the task deliverables with live issue 111 timeout, cancellation, disconnect, and bounded reconnect requirements without claiming Runtime restart history.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Versioned canonical Runtime conversation intent, cancellation, turn, delivery, refusal, timeout, and response schemas\",\"Runtime-owned bounded conversation state with per-conversation recipient binding, per-turn sequencing, exact duplicate idempotency, timeout, cancellation, disconnect survival, and bounded reconnect retrieval\",\"Provider-neutral adapter boundary with deterministic fake proof and at-most-one dispatch per accepted turn\",\"Observatory integration that renders operator turns and agent replies only after fully correlated Runtime-authoritative outcomes\",\"adl-runtime-kernel/tests/conversation_sessions.rs\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\",\"Focused Observatory WSS, OpenAPI, browser behavior, JavaScript syntax, strict Clippy, and diff-hygiene validation evidence\",\"Exact-head review with all actionable findings resolved before publication\"]}"
+    },
+    {
+      "sequence": 36,
+      "generation": 34,
+      "actor": "codex:111-review-remediation",
+      "reason": "Align acceptance with the live bounded conversation issue and the exact remediation proof surface.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: Conversation identity, recipient binding, per-turn sequence, exact duplicate state, and terminal outcome are Runtime-owned; disconnect and bounded reconnect retrieve the same turn without duplicate dispatch or transcript entries\",\"AC-2: Every accepted turn has stable conversation, turn, recipient, sequence, correlation, submission, and outcome identity under versioned provider-neutral schemas\",\"AC-3: Unknown or unavailable recipients, malformed input, conflicting duplicates, cancellation, timeout, saturation, shutdown, and adapter failure fail closed with deterministic typed outcomes\",\"AC-4: The Observatory submits through canonical authenticated ingress and renders operator text or an agent reply only after a fully correlated Runtime result; acknowledgements, hashes, browser-generated acceptance, and arbitrary adapter fields are never replies\",\"AC-5: Focused deterministic conversation, Observatory WSS, OpenAPI, browser behavior, JavaScript syntax, strict Clippy, card, and diff-hygiene validation passes at the exact implementation revision\",\"AC-6: Exact-head independent review resolves all actionable findings and records residual risks without claiming durable history, multi-agent routing, or broader Layer 8 authority\"]}"
+    },
+    {
+      "sequence": 37,
+      "generation": 35,
+      "actor": "codex:111-review-remediation",
+      "reason": "Record the bounded implementation and focused proof before entering exact-revision review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented the bounded selected-agent Observatory conversation path with Runtime-owned conversation identity, recipient binding, deterministic turn sequencing, authenticated WSS intent and cancellation, canonical ingress dispatch, propagated executor cancellation, one absolute timeout budget, bounded reconnect retrieval, and Runtime-authoritative browser rendering.\",\"changes\":[\"Added Runtime-owned bounded conversation and turn state with explicit sequence-gated dispatch and exact duplicate handling.\",\"Propagated cancellation through canonical ingress and the queued operational factory into the existing adapter executor cancellation boundary.\",\"Added correlated accepted, delivered, refused, failed, timed_out, and cancelled WSS outcomes plus OpenAPI contracts.\",\"Updated the Observatory to render only fully correlated Runtime-authoritative turns and to recover exact pending intents once after reconnect.\",\"Added focused ordering, timeout, cancellation, reconnect, capacity, forgery, OpenAPI, and browser regressions.\"],\"artifacts\":[\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/ingress.rs\",\"adl-runtime-kernel/src/operations.rs\",\"adl-runtime-kernel/tests/conversation_sessions.rs\",\"demos/html-observatory/app.js\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\",\"docs/api/runtime-v3/v1/observatory.openapi.json\"]}"
+    },
+    {
+      "sequence": 38,
+      "generation": 36,
+      "actor": "codex:111-review-remediation",
+      "reason": "Focused product, contract, browser, cancellation, ordering, timeout, typed-card, lint, and diff validation is complete at the independently approved implementation revision.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 39,
+      "generation": 37,
+      "actor": "codex:111-execution",
+      "reason": "Record the focused production conversation-session integration proof run against product revision 058635d7db00cde88714e84c158a5c70bc59411d.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"conversation_sessions\"],\"purpose\":\"Prove Runtime-owned session identity, ordered dispatch, duplicate handling, one absolute timeout budget, cancellation, reconnect retrieval, and bounded capacity behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:058635d7db00cde88714e84c158a5c70bc59411d; independent-review:019fef02-f7cd-7c11-bea0-4d1bf0ddb133\"}}"
+    },
+    {
+      "sequence": 40,
+      "generation": 38,
+      "actor": "codex:111-execution",
+      "reason": "Record focused Observatory WSS integration validation at product revision 058635d7db00cde88714e84c158a5c70bc59411d.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"observatory\"],\"purpose\":\"Prove authenticated Observatory WSS conversation routing and correlated Runtime-authoritative outcomes.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:058635d7db00cde88714e84c158a5c70bc59411d; 7 passed\"}}"
+    },
+    {
+      "sequence": 41,
+      "generation": 39,
+      "actor": "codex:111-execution",
+      "reason": "Record focused public contract validation at product revision 058635d7db00cde88714e84c158a5c70bc59411d.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"openapi_contract\"],\"purpose\":\"Prove checked-in conversation and cancellation OpenAPI parity.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:058635d7db00cde88714e84c158a5c70bc59411d; independent exact-head review confirmed pass\"}}"
+    },
+    {
+      "sequence": 42,
+      "generation": 40,
+      "actor": "codex:111-execution",
+      "reason": "Record focused browser conversation behavior validation at product revision 058635d7db00cde88714e84c158a5c70bc59411d.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"node\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\"],\"purpose\":\"Prove Runtime-authoritative rendering, correlation checks, cancellation state, and bounded reconnect replay without browser-synthesized delivery truth.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:058635d7db00cde88714e84c158a5c70bc59411d; browser contract PASS\"}}"
+    },
+    {
+      "sequence": 43,
+      "generation": 41,
+      "actor": "codex:111-execution",
+      "reason": "Record strict Rust lint validation at product revision 058635d7db00cde88714e84c158a5c70bc59411d.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject production-library warnings on the bounded conversation implementation.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:058635d7db00cde88714e84c158a5c70bc59411d; strict lib Clippy PASS\"}}"
+    },
+    {
+      "sequence": 44,
+      "generation": 42,
+      "actor": "codex:111-execution",
+      "reason": "Record typed six-card validation after execution evidence at product revision 058635d7db00cde88714e84c158a5c70bc59411d.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"111\"],\"purpose\":\"Validate the complete typed issue-111 lifecycle card set and projections.\",\"outcome\":\"passed\",\"evidence_ref\":\"typed-validation:issue-111:generation-36:passed\"}}"
+    },
+    {
+      "sequence": 45,
+      "generation": 43,
+      "actor": "codex:111-execution",
+      "reason": "Record exact product-head diff hygiene validation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\",\"058635d7db00cde88714e84c158a5c70bc59411d^\",\"058635d7db00cde88714e84c158a5c70bc59411d\"],\"purpose\":\"Reject malformed whitespace in the independently approved implementation revision.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:058635d7db00cde88714e84c158a5c70bc59411d; diff hygiene PASS\"}}"
+    },
+    {
+      "sequence": 46,
+      "generation": 43,
+      "actor": "codex:111-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 47,
+      "generation": 44,
+      "actor": "subagent:019fef02-f7cd-7c11-bea0-4d1bf0ddb133",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 48,
+      "generation": 45,
+      "actor": "codex:wp18c01-execution",
+      "reason": "Refresh exact-head execution and review truth after integrating the published #113 roster branch and aligning conversation admission with live communication eligibility.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 49,
+      "generation": 46,
+      "actor": "codex:wp18c01-execution",
+      "reason": "Record exact #111 integration over the published #113 live roster branch.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Integrated the canonical conversation session path over WP-18C.03 live roster and presence authority at exact product revision 322c1a3ecd309d6fce04023e41dc4d14b5f0f689.\",\"changes\":[\"Merged the complete #113 Runtime roster, presence, navigation, OpenAPI, and signed Guardian restart surface beneath #111.\",\"Changed conversation recipient admission to use the same live Runtime-projected roster and fail-closed communication eligibility authority exposed to the Observatory.\",\"Changed the browser recipient selector to use communication_eligible instead of the obsolete literal running state.\",\"Added integrated Shepherd admission proof while preserving ordering, idempotency, timeout, cancellation, reconnect, and bounded rendering behavior.\"],\"artifacts\":[\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/tests/conversation_sessions.rs\",\"demos/html-observatory/app.js\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\",\"exact product revision 322c1a3ecd309d6fce04023e41dc4d14b5f0f689\"]}"
+    },
+    {
+      "sequence": 50,
+      "generation": 47,
+      "actor": "codex:wp18c01-execution",
+      "reason": "Record exact integrated Runtime and contract proof at product revision 322c1a3ecd309d6fce04023e41dc4d14b5f0f689.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"conversation_sessions\",\"--test\",\"agent_roster\",\"--test\",\"control\",\"--test\",\"openapi_contract\"],\"purpose\":\"Prove canonical conversations and the live roster/presence authority compose across Runtime admission, control, ordering, cancellation, reconnect, pagination, and OpenAPI boundaries.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:322c1a3ecd309d6fce04023e41dc4d14b5f0f689; conversation_sessions 1/1, agent_roster 10/10, control 24/24, openapi_contract 6/6 PASS\"}}"
+    },
+    {
+      "sequence": 51,
+      "generation": 48,
+      "actor": "codex:wp18c01-execution",
+      "reason": "Record exact integrated Observatory WSS and browser behavior proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"observatory\",\"&&\",\"node\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\",\"&&\",\"bash\",\"adl/tools/test_html_observatory.sh\"],\"purpose\":\"Prove authenticated WSS authority, token rotation, reconnect, Runtime-correlated rendering, live roster eligibility selection, and the combined Observatory static contract.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:322c1a3ecd309d6fce04023e41dc4d14b5f0f689; observatory 7/7, conversation browser contract PASS, combined HTML Observatory contract PASS\"}}"
+    },
+    {
+      "sequence": 52,
+      "generation": 49,
+      "actor": "codex:wp18c01-execution",
+      "reason": "Record exact integrated static and diff hygiene proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\",\"&&\",\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all\",\"--\",\"--check\",\"&&\",\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject production-library warnings, Rust formatting drift, malformed whitespace, and unresolved merge artifacts at the integrated candidate.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:322c1a3ecd309d6fce04023e41dc4d14b5f0f689; strict library Clippy, cargo fmt check, and diff hygiene PASS\"}}"
+    },
+    {
+      "sequence": 53,
+      "generation": 50,
+      "actor": "codex:wp18c01-execution",
+      "reason": "Record typed card and lifecycle validation after integrated evidence reconciliation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"111\"],\"purpose\":\"Prove all six issue cards and implemented lifecycle truth are structurally current after roster integration.\",\"outcome\":\"passed\",\"evidence_ref\":\"issue 111 generation 49: status pass, zero findings\"}}"
+    },
+    {
+      "sequence": 54,
+      "generation": 50,
+      "actor": "codex:wp18c01-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 55,
+      "generation": 51,
+      "actor": "subagent:019fef4f-e98a-7a13-a0dd-e401692cee98",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 56,
+      "generation": 52,
+      "actor": "codex:wp18c01-execution",
+      "reason": "Remediate the exact-head review findings by rechecking recipient eligibility immediately before dispatch and permitting one idempotent pending-turn replay after every actual disconnect.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 57,
+      "generation": 53,
+      "actor": "codex:wp18c01-execution",
+      "reason": "Record remediation of both actionable integrated exact-head review findings.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Closed the integrated review findings by rechecking live recipient eligibility at the dispatch boundary and making pending-turn replay repeatable once per actual disconnect.\",\"changes\":[\"Refused a queued conversation turn with recipient_unavailable when its recipient loses communication eligibility before canonical dispatch.\",\"Reused one shared live roster eligibility helper at acceptance and immediately before dispatch.\",\"Allowed one idempotent pending-turn retrieval after each distinct disconnect while preventing duplicate replay within one connection cycle.\",\"Added focused regressions for recipient degradation behind an ordered turn and two separate reconnect cycles.\"],\"artifacts\":[\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/tests/conversation_sessions.rs\",\"demos/html-observatory/app.js\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\"]}"
+    },
+    {
+      "sequence": 58,
+      "generation": 54,
+      "actor": "codex:wp18c01-execution",
+      "reason": "Record focused proof for the integrated review remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"focused WP-18C.01 Runtime, browser, static, lint, format, and diff gates\"],\"purpose\":\"Prove recipient eligibility is fail-closed at dispatch, reconnect replay is bounded per disconnect, and the complete integrated issue surface remains green.\",\"outcome\":\"passed\",\"evidence_ref\":\"conversation_sessions 1/1; agent_roster 10/10; control 24/24; openapi_contract 6/6; observatory 7/7; browser conversation PASS; HTML static PASS; strict lib Clippy PASS; cargo fmt PASS; git diff --check PASS\"}}"
+    },
+    {
+      "sequence": 59,
+      "generation": 54,
+      "actor": "codex:wp18c01-execution",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 60,
+      "generation": 55,
+      "actor": "subagent:019fef4f-e98a-7a13-a0dd-e401692cee98",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 61,
+      "generation": 56,
+      "actor": "codex:wp18c01-execution",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 62,
+      "generation": 57,
+      "actor": "codex:wp18c01-fresh-session-review",
+      "reason": "Recover stale review and publication truth after integrating the updated stacked base; require a fresh independently assigned exact-head review before merge.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 63,
+      "generation": 57,
+      "actor": "codex:wp18c01-fresh-session-review",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 64,
+      "generation": 58,
+      "actor": "subagent:019fef8b-4eb1-71e1-80ff-3b34f9b94dc5",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 65,
+      "generation": 59,
+      "actor": "codex:wp18c01-fresh-review-remediation",
+      "reason": "Record remediation of every actionable finding from the fresh-session review of PR #223.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Closed both fresh-session review findings at exact product revision fb4003c15a1eefd9daf780bf5c397dd887185b75.\",\"changes\":[\"Bound every asynchronous conversation terminal result to the digest of the exact Observatory credential that accepted it, revalidated current authorization immediately before delivery, and discarded results when the session credential changed.\",\"Traversed the Runtime roster through revision-bound continuation pages with a finite population-derived bound so eligible recipients beyond the first 100 entries are resolved without bypassing policy projection.\",\"Added authenticated production-WSS regressions for in-flight credential rotation across reauthentication and successful conversation delivery to agent-0100 on the second roster page.\"],\"artifacts\":[\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/tests/conversation_sessions.rs\",\"fb4003c15a1eefd9daf780bf5c397dd887185b75\"]}"
+    },
+    {
+      "sequence": 66,
+      "generation": 60,
+      "actor": "codex:wp18c01-fresh-review-remediation",
+      "reason": "Record the complete focused proof for both fresh-session review fixes.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"focused issue-111 Runtime, WSS, roster, control, OpenAPI, browser, static, lint, format, and diff gates\"],\"purpose\":\"Prove exact-credential terminal-result binding, immediate pre-send revocation enforcement, bounded continuation-page recipient resolution, and preservation of the complete conversation and roster contract.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:fb4003c15a1eefd9daf780bf5c397dd887185b75; conversation_sessions 1/1; agent_roster 10/10; control 24/24; observatory 7/7; openapi_contract 6/6; browser conversation PASS; HTML Observatory PASS; strict lib Clippy PASS; cargo fmt PASS; git diff --check PASS\"}}"
+    },
+    {
+      "sequence": 67,
+      "generation": 61,
+      "actor": "codex:wp18c01-fresh-review-remediation",
+      "reason": "Clear the failed review assignment after substantive remediation and exact focused proof so a different fresh session can review the repaired head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 68,
+      "generation": 61,
+      "actor": "codex:wp18c01-fresh-review-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 69,
+      "generation": 62,
+      "actor": "subagent:019fef9d-f81f-7d52-860a-86b07b79ec9c",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 70,
+      "generation": 63,
+      "actor": "codex:wp18c01-fresh-review-remediation",
+      "reason": "Record the complete remediation of the assigned fresh-session findings and final roster-stack integration.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Closed the authentication-generation and duplicate-waiter findings, then integrated the final policy-safe WP-18C.03 roster authority at exact product revision 17044db84.\",\"changes\":[\"Bound every asynchronous conversation result to a monotonically increasing authentication generation as well as credential digest, preventing same-token reauthentication and rotate-away/rotate-back from reviving an earlier session.\",\"Replaced the unbounded result channel with a bounded 32-frame channel and retained at most one terminal attachment per authentication generation, conversation, and turn.\",\"Made stale completion cleanup generation-aware so an old result cannot remove a newer attachment.\",\"Integrated the final Runtime-authenticated roster cursor and exact detail contract; conversation eligibility now resolves the exact policy-visible recipient rather than reconstructing or bypassing paginated public state.\",\"Added focused production-WSS regressions for same-token reauthentication, credential rotation back to old bytes, a 64-request duplicate flood, and a visible recipient beyond the first roster page.\"],\"artifacts\":[\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/tests/conversation_sessions.rs\",\"demos/html-observatory/app.js\",\"17044db84\"]}"
+    },
+    {
+      "sequence": 71,
+      "generation": 64,
+      "actor": "codex:wp18c01-fresh-review-remediation",
+      "reason": "Record focused exact-head validation and issue-owned coverage after final roster-stack integration.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"focused WP-18C.01 Runtime, WSS, browser, OpenAPI, lint, format, diff, and issue-owned coverage gates\"],\"purpose\":\"Prove generation-bound result authorization, bounded duplicate handling, exact policy-visible recipient resolution, and preservation of the integrated conversation and roster contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\"git:17044db84; conversation_sessions 1/1, control 25/25, observatory 7/7, openapi_contract 6/6 PASS; conversation browser contract PASS; combined HTML Observatory contract PASS; strict lib+binary Clippy PASS; cargo fmt and diff hygiene PASS; exact conversation_sessions llvm-cov PASS with control.rs 42.94%, ingress.rs 76.66%, operations.rs 48.44%, telemetry.rs 65.06%. Long-running validation remains out of band under #226.\"}}"
+    },
+    {
+      "sequence": 72,
+      "generation": 64,
+      "actor": "codex:wp18c01-fresh-review-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 73,
+      "generation": 65,
+      "actor": "subagent:019fefef-69e2-7f00-ae8f-7adbe14978e4",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 74,
+      "generation": 66,
+      "actor": "codex:wp18c01-fresh-review-remediation",
+      "reason": "Remediate the final review proof gap with a deterministic barrier-controlled stale-completion cleanup regression.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 75,
+      "generation": 67,
+      "actor": "codex:wp18c01-fresh-review-remediation",
+      "reason": "Record the deterministic remediation of the final stale-completion cleanup proof finding.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Closed the final P2 review finding with a scheduler-independent authentication-generation cleanup race regression.\",\"changes\":[\"Added an executor barrier that proves the old-generation operation has started but cannot complete until explicitly released.\",\"Reauthenticated with the same credential and attached the same conversation turn under the newer generation before releasing the old completion.\",\"Proved the old completion cannot remove the newer attachment and exactly one current-generation delivered result is emitted.\"],\"artifacts\":[\"adl-runtime-kernel/tests/conversation_sessions.rs\"]}"
+    },
+    {
+      "sequence": 76,
+      "generation": 68,
+      "actor": "codex:wp18c01-fresh-review-remediation",
+      "reason": "Record focused proof for the deterministic stale-completion cleanup race remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"conversation_sessions\"],\"purpose\":\"Prove the newer authentication-generation attachment exists before the old completion is released and remains the only deliverable terminal result.\",\"outcome\":\"passed\",\"evidence_ref\":\"conversation_sessions 1/1 PASS with barrier-controlled stale cleanup race; cargo fmt check PASS; git diff --check PASS\"}}"
+    },
+    {
+      "sequence": 77,
+      "generation": 68,
+      "actor": "codex:wp18c01-fresh-review-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 78,
+      "generation": 69,
+      "actor": "subagent:019fefef-69e2-7f00-ae8f-7adbe14978e4",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 79,
+      "generation": 70,
+      "actor": "codex:wp18c01-fresh-review-remediation",
+      "reason": "Move generation-scoped attachment reservation before the accepted response so the protocol exposes a deterministic attachment-before-release boundary.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 80,
+      "generation": 71,
+      "actor": "codex:wp18c01-fresh-review-remediation",
+      "reason": "Record the deterministic attachment reservation ordering fix.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Closed the attachment-before-release ordering finding in the production WSS path.\",\"changes\":[\"Reserve a generation-scoped dispatch or in-flight attachment before sending its accepted response.\",\"Keep executor and waiter task spawning after the response, preserving accepted-before-terminal frame ordering.\",\"Make receipt of conversation_in_flight a deterministic proof that the newer attachment already exists before the test releases the old completion.\"],\"artifacts\":[\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/tests/conversation_sessions.rs\"]}"
+    },
+    {
+      "sequence": 81,
+      "generation": 72,
+      "actor": "codex:wp18c01-fresh-review-remediation",
+      "reason": "Record complete focused proof for deterministic attachment reservation ordering.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"focused conversation, Observatory, control, browser, static, Clippy, format, and diff gates\"],\"purpose\":\"Prove attachment-before-ack ordering and preserve all prior conversation authorization, boundedness, and UI contracts.\",\"outcome\":\"passed\",\"evidence_ref\":\"conversation_sessions 1/1, observatory 7/7, control 25/25 PASS; browser conversation PASS; combined HTML Observatory PASS; strict lib+binary Clippy PASS; cargo fmt and git diff hygiene PASS\"}}"
+    },
+    {
+      "sequence": 82,
+      "generation": 72,
+      "actor": "codex:wp18c01-fresh-review-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 83,
+      "generation": 73,
+      "actor": "subagent:019fefef-69e2-7f00-ae8f-7adbe14978e4",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 84,
+      "generation": 74,
+      "actor": "codex:wp18c01-fresh-review-remediation",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 85,
+      "generation": 75,
+      "actor": "codex:wp18c-stack-collapse",
+      "reason": "Refresh exact-head review and publication truth after the reviewed dependency stack is collapsed onto main; product code is unchanged and long-running validation remains out of band under #226.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 86,
+      "generation": 75,
+      "actor": "codex:wp18c-stack-collapse",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 87,
+      "generation": 76,
+      "actor": "subagent:019fefef-69e2-7f00-ae8f-7adbe14978e4",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 88,
+      "generation": 77,
+      "actor": "codex:wp18c-stack-collapse",
+      "reason": "Remove the stale stacked publication intent before re-review; the replacement publication will target main, close #111 and #113, describe both reviewed slices, and mark PR #222 superseded for unmerged closure.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 89,
+      "generation": 77,
+      "actor": "codex:wp18c-stack-collapse",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 90,
+      "generation": 78,
+      "actor": "subagent:019fefef-69e2-7f00-ae8f-7adbe14978e4",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 91,
+      "generation": 79,
+      "actor": "codex:wp18c-stack-collapse",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 92,
+      "generation": 80,
+      "actor": "codex:issue-111-conflict-reconciliation",
+      "reason": "Record fresh independent exact-head review after reconciling current main into the issue branch.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 93,
+      "generation": 80,
+      "actor": "codex:issue-111-conflict-reconciliation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 94,
+      "generation": 81,
+      "actor": "subagent:019ff1cf-1716-7183-979c-0ffb35f8b6e4",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 95,
+      "generation": 82,
+      "actor": "codex:issue-111-conflict-reconciliation",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 96,
+      "generation": 83,
+      "actor": "codex:issue-111-focused-routing-repair",
+      "reason": "Recover published lifecycle truth after reviewed focused validation routing repair at fd77ccd5c520568694972d169ad3975d3d3a1cdc.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 97,
+      "generation": 83,
+      "actor": "codex:issue-111-focused-routing-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 98,
+      "generation": 84,
+      "actor": "subagent:019ff1ee-694b-7b62-b86d-ebe05224810c",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 99,
+      "generation": 85,
+      "actor": "codex:issue-111-focused-routing-repair",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 100,
+      "generation": 86,
+      "actor": "codex:issue-111-required-runtime-compile-repair",
+      "reason": "Recover review and publication truth after the required Runtime-fast lane exposed a test-only Guardian parity fixture compile break fixed at 7186c3051.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 101,
+      "generation": 86,
+      "actor": "codex:issue-111-required-runtime-compile-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 102,
+      "generation": 87,
+      "actor": "subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 103,
+      "generation": 88,
+      "actor": "codex:issue-111-required-runtime-compile-repair",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 104,
+      "generation": 89,
+      "actor": "codex:issue-111-minimum-required-validation",
+      "reason": "Remove issue #226 validation-routing changes from issue #111 so only the product-scoped Runtime-fast proof remains required.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 105,
+      "generation": 89,
+      "actor": "codex:issue-111-minimum-required-validation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 106,
+      "generation": 90,
+      "actor": "subagent:019ff210-ff6d-76e0-af5b-bd6bd6cb162c",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 107,
+      "generation": 91,
+      "actor": "codex:issue-111-minimum-required-validation",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

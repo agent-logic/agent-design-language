@@ -1,0 +1,82 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 244,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Stabilize Runtime conversation cleanup-race admission and deadline semantics",
+    "slug": "conversation-cleanup-race-deadline",
+    "version": "1.0.0",
+    "generation": 45
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 4,
+      "summary": "Separate admission acknowledgement from bounded execution timing, prove the cleanup race repeatedly, run the required Runtime lane, and obtain exact-head review before publication.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Diagnose and correct the admission versus execution deadline boundary.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Strengthen and repeatedly run the cleanup-race regression proof.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Run the required Runtime lane and exact-head review.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "adl-runtime-kernel/src/control.rs cfg(test)-only instrumentation",
+        "adl-runtime-kernel/src/conversation_sessions_tests.rs",
+        "adl-runtime-kernel/src/lib.rs cfg(test) module registration",
+        ".csdlc/evidence/244"
+      ],
+      "invariants": [
+        "Authentication remains required and server frame order is preserved.",
+        "Production admission and execution deadline behavior is unchanged.",
+        "Each active turn produces at most one terminal result.",
+        "Active turns are not evicted to admit new work.",
+        "Explicit cancellation and timeout remain fail-closed."
+      ],
+      "risks": [
+        "Moving acknowledgement could overstate execution success.",
+        "Resetting deadlines incorrectly could weaken bounded execution.",
+        "A timing-only test change could conceal a production defect."
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 7200,
+        "total_tokens": 40000,
+        "validation_seconds": 1200
+      },
+      "stop_conditions": [
+        "The repair requires any #237 or PR #242 change.",
+        "The focused proof contradicts established cancellation or timeout semantics.",
+        "The required Runtime lane exposes a distinct unrelated blocker."
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/244/design.md",
+      "design_digest": "032b8441dc168cd6953d93b0bffc43e4089a2b70ea2bf92b6263bbd8e96a326d",
+      "diagram_ref": ".csdlc/prepared/issues/244/diagram.mmd",
+      "diagram_digest": "aa4841f6144e20ef15b0769c04e9af3008e48c1cff066c57d4f8aa14acd3b2e3"
+    }
+  }
+}

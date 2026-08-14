@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 202,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/202-authorized-learner-transport-preparation",
+  "title": "[v0.92][WP-04.16b1.5] Extend authenticated Raft transport to governed learners",
+  "body": "Closes #202\n\n## Summary\n\n- add factory-owned authenticated learner transport with distinct durable voter and learner authority instances\n- enforce boot custody, peer pins, pending exclusion, recovery identity, target membership, deadlines, and cache-first exact retry\n- preserve the exact three-voter cut while a real fourth PolisRaft receives snapshot and append traffic over governed Quinn\n- repair hosted coverage routing for the transport subtree and reinstall rotated routes after intentional authority-cut drain\n\n## Validation\n\n- immutable v9 receipt: 36 semantic cases, 42 private runner tests, 13 public tests, 31 named assertions\n- three integration compile lanes, exact route-rotation regression, coverage-impact contract, strict library and public Clippy\n- fresh independent exact-head review PASS with no P0-P3 findings\n\n## CI boundary\n\nUse the standard hosted required checks with one large runner allocation for this issue; optional jobs remain disabled.",
+  "linkage_mode": "closing",
+  "draft": false,
+  "revision": "git-blake3:8cf5ac9fac23dc29076a16c00bcebb66b03a8e84:8e55070981cb7c35605e3c8a924cb013f0e904db67fdd545bb8ca092365f408d",
+  "commit_sha": "8cf5ac9fac23dc29076a16c00bcebb66b03a8e84"
+}

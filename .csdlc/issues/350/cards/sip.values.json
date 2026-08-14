@@ -1,0 +1,38 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 350,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1b][defect] Expose sealed authenticated Observatory authority projection",
+    "slug": "authenticated-observatory-authority-projection",
+    "version": "v0.92",
+    "generation": 22
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Expose one sealed authenticated projection that supplies #274 with quorum, identity, lineage, operation, and committed deadline truth cross-bound to the exact #272 serving cut.",
+      "required_outcome": "Only replicated published quorum authority cross-bound to the exact verified #272 cut can yield the unconstructible redacted Observatory authority projection; mismatch, caller substitution, stale state, corrupt restore, and deadline ambiguity fail closed.",
+      "declared_scope": [
+        "Persist and restore the committed inclusive authority deadline",
+        "Add a sealed Observatory-specific authenticated projection and cross-binding validator",
+        "Focused canonical/noncanonical encoding, 2x2 cross-pair, quorum snapshot mutation, deadline, replay, restart, legacy-state, and redaction proof"
+      ],
+      "authority_boundary": [
+        "Projection is returned only from replicated published authority and exact VerifiedServingAuthorityCut",
+        "No caller-provided identity, quorum, lineage, operation, deadline, clock, or cut field is authority",
+        "#274 state-machine behavior remains out of scope and unbound",
+        "#273 Shepherd behavior and #203/#205/#275 surfaces remain unchanged"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Base is exact origin/main 24c049c4e3ea71d0ad0633fc90ef35bfd57c2c4a",
+        "Use only typed v2 lifecycle operations and FastWork worktrees",
+        "No #274 bind or product edit until #350 is terminal and ancestral",
+        "No optional or paid runner"
+      ]
+    }
+  }
+}

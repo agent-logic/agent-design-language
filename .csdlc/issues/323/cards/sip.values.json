@@ -1,0 +1,39 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 323,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][tools] Add typed bound issue identity/repository migration for split-authority recovery",
+    "slug": "typed-bound-issue-identity-migration",
+    "version": "v0.92",
+    "generation": 13
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Add a bounded typed C-SDLC v2 recovery operation for active bound issue identity/repository migration so split-authority lifecycle defects can be repaired without hand-editing records.",
+      "required_outcome": "C-SDLC v2 exposes a fail-closed owner operation that can migrate an active bound lifecycle record from an incorrect issue identity to a canonical current-repo issue identity while preserving provenance and finish invariants.",
+      "declared_scope": [
+        "C-SDLC v2 issue owner command surface",
+        "Bound issue identity/repository migration request schema",
+        "Record/card projection migration and provenance",
+        "Regression coverage for the live #5913 -> #322 recovery shape"
+      ],
+      "authority_boundary": [
+        "Typed C-SDLC v2 remains lifecycle authority",
+        "No raw .csdlc state edits",
+        "No weakening of csdlc-finish canonical identity checks",
+        "No merge of PR #320 until the new recovery route lands and is used"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2 lifecycle routes",
+        "Bind beneath /Volumes/FastWork/adl-worktrees before tracked implementation edits",
+        "Keep #5913 PR #320 green state preserved",
+        "Do not touch #112, #298, projection_recovery.rs, store.rs, or gate5.rs"
+      ]
+    }
+  }
+}

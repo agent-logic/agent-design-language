@@ -1,0 +1,18 @@
+{
+  "issue": 111,
+  "card": "sor",
+  "expected_generation": 53,
+  "expected_digest": "e2b57a934f5a8a4b743fee19ce3485fd2b4c6ec9da9b532b15636e7a2c86a347",
+  "actor": "codex:wp18c01-execution",
+  "reason": "Record focused proof for the integrated review remediation.",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["focused WP-18C.01 Runtime, browser, static, lint, format, and diff gates"],
+      "purpose": "Prove recipient eligibility is fail-closed at dispatch, reconnect replay is bounded per disconnect, and the complete integrated issue surface remains green.",
+      "outcome": "passed",
+      "evidence_ref": "conversation_sessions 1/1; agent_roster 10/10; control 24/24; openapi_contract 6/6; observatory 7/7; browser conversation PASS; HTML static PASS; strict lib Clippy PASS; cargo fmt PASS; git diff --check PASS"
+    }
+  },
+  "fail_after_backup": false
+}

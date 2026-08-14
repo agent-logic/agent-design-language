@@ -1,0 +1,144 @@
+# Validation Planning Prompt
+
+Template: 1.0.0
+
+Issue: 331
+
+Repository: agent-logic/agent-design-language
+
+Card: vpp
+
+Status: ready
+
+## Summary
+
+Execute the smallest proving validation DAG.
+
+## Lane Inputs
+
+Design: .csdlc/prepared/issues/331/design.md
+
+Diagram: .csdlc/prepared/issues/331/diagram.mmd
+
+## Selected Lanes
+
+[
+  {
+    "lane": "code-repository-migration-initialized-nonzero-proof",
+    "proof_role": "Run the issue-owned initialized migration validator at .csdlc/prepared/issues/331/validate_initialized_code_repository_migration.py with SHA-256 b2b8a3792ee7e3bc374044c24443d8730a64c5fd35efe0c400299172b368b47f. The validator must execute exact named regressions for digest-bound collision evidence, initialized/unbound evidence schema, and doctor plus csdlc-validate issue readiness; it must fail closed if its bytes drift, any exact test is missing, Cargo reports running 0 tests, or doctor/validate proof is absent.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-7"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 600,
+    "budget_tokens": 2500,
+    "argv": [
+      "python3",
+      ".csdlc/prepared/issues/331/validate_initialized_code_repository_migration.py",
+      "--mode",
+      "initialized-nonzero"
+    ],
+    "parallel_group": "local",
+    "defer_reason": "Runs after #331 implementation with the materialized validator digest b2b8a3792ee7e3bc374044c24443d8730a64c5fd35efe0c400299172b368b47f; fail closed on missing validator, digest drift, missing exact tests, zero tests, or missing doctor/validate subproof."
+  },
+  {
+    "lane": "code-repository-migration-compatibility-regression",
+    "proof_role": "Prove existing bound/implemented/reviewed code-repository migration report/evidence compatibility remains unchanged with an exact named regression.",
+    "acceptance_ids": [
+      "AC-6"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 600,
+    "budget_tokens": 2500,
+    "argv": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "code_repository_migration",
+      "bound_code_repository_migration_report_schema_remains_unchanged",
+      "--",
+      "--exact"
+    ],
+    "parallel_group": "local",
+    "defer_reason": "Runs after #331 implementation; the issue-owned initialized validator separately guards zero-test behavior for AC-5."
+  },
+  {
+    "lane": "csdlc-v2-fmt",
+    "proof_role": "Reject formatting drift in the changed C-SDLC v2 crate.",
+    "acceptance_ids": [
+      "AC-6",
+      "AC-7"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 500,
+    "argv": [
+      "cargo",
+      "fmt",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--check"
+    ],
+    "parallel_group": "local",
+    "defer_reason": null
+  },
+  {
+    "lane": "csdlc-v2-strict-clippy",
+    "proof_role": "Reject warning regressions in the changed C-SDLC v2 crate.",
+    "acceptance_ids": [
+      "AC-6",
+      "AC-7"
+    ],
+    "deterministic": true,
+    "resource_profile": "medium",
+    "budget_seconds": 900,
+    "budget_tokens": 1500,
+    "argv": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "parallel_group": "local",
+    "defer_reason": null
+  }
+]
+
+## Parallelization
+
+Only declared parallel groups may overlap.
+
+## Budgets
+
+Seconds: 3600
+
+Tokens: 25000
+
+## Commands
+
+- `python3 .csdlc/prepared/issues/331/validate_initialized_code_repository_migration.py --mode initialized-nonzero`
+- `cargo test --manifest-path csdlc-v2/Cargo.toml --test code_repository_migration bound_code_repository_migration_report_schema_remains_unchanged -- --exact`
+- `cargo fmt --manifest-path csdlc-v2/Cargo.toml --check`
+- `cargo clippy --manifest-path csdlc-v2/Cargo.toml --all-targets -- -D warnings`
+
+## Failure Semantics
+
+Fail closed on stale topology, root staging collision, validation failure, stale review, or any need to widen beyond initialized code_repository declaration.
+
+## Handoff
+
+Retain typed evidence before convergence.

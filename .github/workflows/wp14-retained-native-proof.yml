@@ -1,33 +1,6 @@
 name: wp14-retained-native-proof
 
 on:
-  pull_request:
-    paths:
-      - ".github/workflows/wp14-retained-native-proof.yml"
-      - ".csdlc/prepared/issues/217/historical-c640-denominator.json"
-      - ".csdlc/prepared/issues/217/protected-source-denominator.json"
-      - ".csdlc/prepared/issues/217/proof-contract-paths.json"
-      - ".csdlc/prepared/issues/217/h2-retention-allowlist.json"
-      - ".csdlc/prepared/issues/217/verify-historical-c640-packet.rb"
-      - ".csdlc/prepared/issues/217/produce-native-receipt.rb"
-      - ".csdlc/prepared/issues/217/validate-retained-native-proof.rb"
-      - "adl-runtime-kernel/Cargo.toml"
-      - "adl-runtime-kernel/src/assembly.rs"
-      - "adl-runtime-kernel/src/acip.rs"
-      - "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs"
-      - "adl-runtime-kernel/src/config.rs"
-      - "adl-runtime-kernel/src/control.rs"
-      - "adl-runtime-kernel/src/governed_operations.rs"
-      - "adl-runtime-kernel/src/lib.rs"
-      - "adl-runtime-kernel/tests/assembly.rs"
-      - "adl-runtime-kernel/tests/openapi_contract.rs"
-      - "adl-runtime-kernel/tests/production_acip_wss.rs"
-      - "adl-runtime-kernel/tests/support/runtime_init.rs"
-      - "adl-runtime/Cargo.toml"
-      - "adl-runtime/src/runtime_api_auth.rs"
-      - "adl/tools/install_vector_component.sh"
-      - "docs/api/runtime-v3/v1/openapi.json"
-      - "docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md"
   workflow_dispatch:
 
 permissions:

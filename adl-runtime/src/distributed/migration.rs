@@ -11,15 +11,113 @@ use fs2::FileExt;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
+#[cfg(not(test))]
+use super::authority_store_adapters::{AuthorityBoundFencingStore, AuthorityBoundLeaseLedger};
 use super::{
-    fencing::{ActiveLeaseCheck, FenceCommit, FencingStore},
+    fencing::{ActiveLeaseCheck, FenceCommit},
     lease::{
-        verify_certificate, AuthorityApplication, AuthorityLedger, AuthorityMembership, LeaseState,
-        OperationClass,
+        verify_certificate, AuthorityApplication, AuthorityMembership, LeaseState, OperationClass,
     },
     placement::{PlacementClock, PlacementInputs, PlacementRequest, PlacementService},
     snapshot_catalog::SnapshotCatalogVerifier,
 };
+#[cfg(test)]
+use super::{
+    fencing::{FencingStore, AUTHORITY_BOUND_FENCING_ACCESS},
+    lease::{AuthorityLedger, AUTHORITY_BOUND_LEASE_ACCESS},
+};
+
+#[cfg(not(test))]
+type MigrationLeaseAuthority = AuthorityBoundLeaseLedger;
+#[cfg(test)]
+type MigrationLeaseAuthority = AuthorityLedger;
+#[cfg(not(test))]
+type MigrationFencingAuthority = AuthorityBoundFencingStore;
+#[cfg(test)]
+type MigrationFencingAuthority = FencingStore;
+
+fn migration_lease(
+    ledger: &MigrationLeaseAuthority,
+    lineage_id: &[u8],
+) -> MigrationResult<Option<LeaseState>> {
+    #[cfg(not(test))]
+    return ledger
+        .lease(lineage_id)
+        .map_err(|_| MigrationError::SourceAuthorityRejected);
+    #[cfg(test)]
+    return Ok(ledger.lease(lineage_id).cloned());
+}
+
+fn migration_applied_log_index(ledger: &MigrationLeaseAuthority) -> MigrationResult<u64> {
+    #[cfg(not(test))]
+    return ledger
+        .applied_log_index()
+        .map_err(|_| MigrationError::SourceAuthorityRejected);
+    #[cfg(test)]
+    return Ok(ledger.applied_log_index());
+}
+
+fn migration_apply(
+    ledger: &mut MigrationLeaseAuthority,
+    certificate_bytes: &[u8],
+    membership: &AuthorityMembership,
+    application: AuthorityApplication<'_>,
+) -> MigrationResult<LeaseState> {
+    #[cfg(not(test))]
+    return ledger
+        .apply(certificate_bytes, membership, application)
+        .map_err(|_| MigrationError::SourceAuthorityRejected);
+    #[cfg(test)]
+    return ledger
+        .apply(
+            &AUTHORITY_BOUND_LEASE_ACCESS,
+            certificate_bytes,
+            membership,
+            application,
+        )
+        .cloned()
+        .map_err(|_| MigrationError::SourceAuthorityRejected);
+}
+
+fn migration_floor(
+    fencing: &MigrationFencingAuthority,
+    lineage_id: &[u8],
+) -> MigrationResult<Option<super::fencing::FenceReceipt>> {
+    #[cfg(not(test))]
+    return fencing
+        .floor(lineage_id)
+        .map_err(|_| MigrationError::SourceAuthorityRejected);
+    #[cfg(test)]
+    return Ok(fencing.floor(lineage_id).cloned());
+}
+
+fn migration_fence_commit(
+    fencing: &mut MigrationFencingAuthority,
+    request: FenceCommit<'_>,
+) -> MigrationResult<super::fencing::FenceReceipt> {
+    #[cfg(not(test))]
+    return fencing
+        .commit(request)
+        .map_err(|_| MigrationError::FenceRejected);
+    #[cfg(test)]
+    return fencing
+        .commit(&AUTHORITY_BOUND_FENCING_ACCESS, request)
+        .map_err(|_| MigrationError::FenceRejected);
+}
+
+fn migration_authorize_active(
+    fencing: &MigrationFencingAuthority,
+    check: ActiveLeaseCheck<'_>,
+) -> MigrationResult<()> {
+    #[cfg(not(test))]
+    return fencing
+        .authorize_active_lease(check)
+        .map_err(|_| MigrationError::SourceAuthorityRejected);
+    #[cfg(test)]
+    return fencing
+        .authorize_active_lease(&AUTHORITY_BOUND_FENCING_ACCESS, check)
+        .map_err(|_| MigrationError::SourceAuthorityRejected);
+}
 
 pub const MIGRATION_STATE_SCHEMA: &str = "adl.distributed.migration_state.v1";
 const STATE_FILE: &str = "migration-state.json";
@@ -578,7 +676,7 @@ impl MigrationStore {
         placement: &PlacementService<C>,
         placement_request: &PlacementRequest,
         placement_inputs: PlacementInputs<'_>,
-        fencing: &FencingStore,
+        fencing: &MigrationFencingAuthority,
         source_check: ActiveLeaseCheck<'_>,
     ) -> MigrationResult<MigrationRecord> {
         validate_request(&self.policy, &request)?;
@@ -587,9 +685,7 @@ impl MigrationStore {
             .checked_add(request.timeout_millis)
             .ok_or(MigrationError::ResourceExhausted)?;
         validate_source_request(&request, &source_check)?;
-        fencing
-            .authorize_active_lease(copy_active_check(&source_check))
-            .map_err(|_| MigrationError::SourceAuthorityRejected)?;
+        migration_authorize_active(fencing, copy_active_check(&source_check))?;
         let decision = placement
             .decide(placement_request, placement_inputs)
             .map_err(|_| MigrationError::PlacementRejected)?;
@@ -682,15 +778,13 @@ impl MigrationStore {
         &mut self,
         migration_id: &[u8],
         authority: &dyn SourceQuiescenceAuthority,
-        fencing: &FencingStore,
+        fencing: &MigrationFencingAuthority,
         source_check: ActiveLeaseCheck<'_>,
     ) -> MigrationResult<MigrationRecord> {
         let current = self.required_record(migration_id)?.clone();
         let remaining_timeout_millis = self.ensure_live(&current)?;
         validate_source_record(&current, &source_check)?;
-        fencing
-            .authorize_active_lease(copy_active_check(&source_check))
-            .map_err(|_| MigrationError::SourceAuthorityRejected)?;
+        migration_authorize_active(fencing, copy_active_check(&source_check))?;
         let receipt = authority
             .quiesce(quiescence_request(&current, remaining_timeout_millis))
             .map_err(|_| MigrationError::QuiescenceRejected)?;
@@ -719,7 +813,7 @@ impl MigrationStore {
         migration_id: &[u8],
         encoded_catalog: &[u8],
         verifier: &SnapshotCatalogVerifier,
-        fencing: &FencingStore,
+        fencing: &MigrationFencingAuthority,
         source_check: ActiveLeaseCheck<'_>,
     ) -> MigrationResult<MigrationRecord> {
         let current = self.required_record(migration_id)?.clone();
@@ -764,16 +858,14 @@ impl MigrationStore {
         encoded_catalog: &[u8],
         chunks: &[Vec<u8>],
         verifier: &SnapshotCatalogVerifier,
-        fencing: &FencingStore,
+        fencing: &MigrationFencingAuthority,
         source_check: ActiveLeaseCheck<'_>,
     ) -> MigrationResult<MigrationRecord> {
         let current = self.required_record(migration_id)?.clone();
         self.ensure_live(&current)?;
         if current.phase == MigrationPhase::Transferred {
             validate_source_record(&current, &source_check)?;
-            fencing
-                .authorize_active_lease(copy_active_check(&source_check))
-                .map_err(|_| MigrationError::SourceAuthorityRejected)?;
+            migration_authorize_active(fencing, copy_active_check(&source_check))?;
             let manifest_sha256 = sha256(encoded_manifest);
             if current.transfer_manifest_sha256 != Some(manifest_sha256)
                 || current.catalog_entry_sha256 != Some(sha256(encoded_catalog))
@@ -839,7 +931,7 @@ impl MigrationStore {
         &mut self,
         migration_id: &[u8],
         authority: &dyn IsolatedRestoreAuthority,
-        fencing: &FencingStore,
+        fencing: &MigrationFencingAuthority,
         source_check: ActiveLeaseCheck<'_>,
     ) -> MigrationResult<MigrationRecord> {
         let current = self.required_record(migration_id)?.clone();
@@ -850,9 +942,7 @@ impl MigrationStore {
             return Err(MigrationError::InvalidTransition);
         }
         validate_source_record(&current, &source_check)?;
-        fencing
-            .authorize_active_lease(copy_active_check(&source_check))
-            .map_err(|_| MigrationError::SourceAuthorityRejected)?;
+        migration_authorize_active(fencing, copy_active_check(&source_check))?;
         let transfer_id = current
             .transfer_id
             .as_deref()
@@ -912,8 +1002,8 @@ impl MigrationStore {
         fence_request_id: &[u8],
         certificate_bytes: &[u8],
         membership: &AuthorityMembership,
-        ledger: &mut AuthorityLedger,
-        fencing: &mut FencingStore,
+        ledger: &mut MigrationLeaseAuthority,
+        fencing: &mut MigrationFencingAuthority,
         application: AuthorityApplication<'_>,
     ) -> MigrationResult<MigrationRecord> {
         let current = self.required_record(migration_id)?.clone();
@@ -948,28 +1038,27 @@ impl MigrationStore {
             &body.epoch.to_be_bytes(),
             &body.committed_log_index.to_be_bytes(),
         ]);
-        let existing_floor = fencing.floor(&current.lineage_id).cloned();
-        let ledger_state = ledger.lease(&current.lineage_id).cloned();
+        let existing_floor = migration_floor(fencing, &current.lineage_id)?;
+        let ledger_state = migration_lease(ledger, &current.lineage_id)?;
         if existing_floor.is_none() {
             let source = ledger_state
                 .as_ref()
                 .filter(|lease| !lease.revoked)
                 .ok_or(MigrationError::FenceRejected)?;
             validate_source_lease(&current, source)?;
-            fencing
-                .commit(FenceCommit {
+            migration_fence_commit(
+                fencing,
+                FenceCommit {
                     request_id: fence_request_id,
                     certificate_bytes,
                     membership: Some(membership),
                     current_lease: source,
                     now_unix_seconds: application.now_unix_seconds,
-                })
-                .map_err(|_| MigrationError::FenceRejected)?;
+                },
+            )?;
         }
-        let floor = fencing
-            .floor(&current.lineage_id)
-            .cloned()
-            .ok_or(MigrationError::FenceRejected)?;
+        let floor =
+            migration_floor(fencing, &current.lineage_id)?.ok_or(MigrationError::FenceRejected)?;
         if floor.request_id != fence_request_id
             || floor.epoch != body.epoch
             || floor.committed_log_index != body.committed_log_index
@@ -978,20 +1067,18 @@ impl MigrationStore {
         {
             return Err(MigrationError::ReplayMismatch);
         }
-        let already_applied = ledger.lease(&current.lineage_id).is_some_and(|lease| {
+        let already_applied = migration_lease(ledger, &current.lineage_id)?.is_some_and(|lease| {
             lease.revoked
                 && lease.epoch == body.epoch
                 && lease.committed_log_index == body.committed_log_index
                 && lease.certificate_bytes == certificate_bytes
         });
         if !already_applied {
-            ledger
-                .apply(certificate_bytes, membership, application)
+            migration_apply(ledger, certificate_bytes, membership, application)
                 .map_err(|_| MigrationError::FenceRejected)?;
         }
-        let fenced = ledger
-            .lease(&current.lineage_id)
-            .ok_or(MigrationError::FenceRejected)?;
+        let fenced =
+            migration_lease(ledger, &current.lineage_id)?.ok_or(MigrationError::FenceRejected)?;
         if !fenced.revoked
             || fenced.epoch != floor.epoch
             || fenced.committed_log_index != floor.committed_log_index
@@ -1022,8 +1109,8 @@ impl MigrationStore {
         migration_id: &[u8],
         certificate_bytes: &[u8],
         membership: &AuthorityMembership,
-        ledger: &mut AuthorityLedger,
-        fencing: &FencingStore,
+        ledger: &mut MigrationLeaseAuthority,
+        fencing: &MigrationFencingAuthority,
         application: AuthorityApplication<'_>,
     ) -> MigrationResult<MigrationRecord> {
         self.apply_target_authority(
@@ -1043,8 +1130,8 @@ impl MigrationStore {
         migration_id: &[u8],
         certificate_bytes: &[u8],
         membership: &AuthorityMembership,
-        ledger: &mut AuthorityLedger,
-        fencing: &FencingStore,
+        ledger: &mut MigrationLeaseAuthority,
+        fencing: &MigrationFencingAuthority,
         application: AuthorityApplication<'_>,
     ) -> MigrationResult<MigrationRecord> {
         self.apply_target_authority(
@@ -1062,7 +1149,7 @@ impl MigrationStore {
         &mut self,
         migration_id: &[u8],
         authority: &dyn SourceQuiescenceAuthority,
-        fencing: &FencingStore,
+        fencing: &MigrationFencingAuthority,
         source_check: ActiveLeaseCheck<'_>,
     ) -> MigrationResult<MigrationRecord> {
         let current = self.required_record(migration_id)?.clone();
@@ -1089,9 +1176,7 @@ impl MigrationStore {
             Err(error) => return Err(error),
         };
         validate_source_record(&current, &source_check)?;
-        fencing
-            .authorize_active_lease(copy_active_check(&source_check))
-            .map_err(|_| MigrationError::SourceAuthorityRejected)?;
+        migration_authorize_active(fencing, copy_active_check(&source_check))?;
         authority
             .resume(quiescence_request(&current, remaining_timeout_millis))
             .map_err(|_| MigrationError::QuiescenceRejected)?;
@@ -1115,8 +1200,8 @@ impl MigrationStore {
         migration_id: &[u8],
         certificate_bytes: &[u8],
         membership: &AuthorityMembership,
-        ledger: &mut AuthorityLedger,
-        fencing: &FencingStore,
+        ledger: &mut MigrationLeaseAuthority,
+        fencing: &MigrationFencingAuthority,
         application: AuthorityApplication<'_>,
         operation: OperationClass,
     ) -> MigrationResult<MigrationRecord> {
@@ -1159,7 +1244,7 @@ impl MigrationStore {
             &body.committed_log_index.to_be_bytes(),
             &[operation as u8],
         ]);
-        let already_applied = ledger.lease(&current.lineage_id).is_some_and(|lease| {
+        let already_applied = migration_lease(ledger, &current.lineage_id)?.is_some_and(|lease| {
             !lease.revoked
                 && lease.epoch == body.epoch
                 && lease.holder_node_id == current.target_node_id
@@ -1168,19 +1253,17 @@ impl MigrationStore {
                 && lease.certificate_bytes == certificate_bytes
         });
         if !already_applied {
-            ledger
-                .apply(certificate_bytes, membership, application)
+            migration_apply(ledger, certificate_bytes, membership, application)
                 .map_err(|_| error.clone())?;
         }
-        let lease = ledger
-            .lease(&current.lineage_id)
-            .ok_or_else(|| error.clone())?;
+        let lease = migration_lease(ledger, &current.lineage_id)?.ok_or_else(|| error.clone())?;
         if operation == OperationClass::Activate {
-            fencing
-                .authorize_active_lease(ActiveLeaseCheck {
+            migration_authorize_active(
+                fencing,
+                ActiveLeaseCheck {
                     membership: Some(membership),
-                    lease,
-                    applied_log_index: ledger.applied_log_index(),
+                    lease: &lease,
+                    applied_log_index: migration_applied_log_index(ledger)?,
                     now_unix_seconds: application.now_unix_seconds,
                     now_unix_millis: unix_millis(
                         application.now_unix_seconds,
@@ -1189,12 +1272,12 @@ impl MigrationStore {
                     .ok_or_else(|| error.clone())?,
                     now_elapsed_millis: application.now_elapsed_millis,
                     activation_proof: application.activation_proof,
-                })
-                .map_err(|_| error.clone())?;
+                },
+            )
+            .map_err(|_| error.clone())?;
         } else {
-            let floor = fencing
-                .floor(&current.lineage_id)
-                .ok_or_else(|| error.clone())?;
+            let floor =
+                migration_floor(fencing, &current.lineage_id)?.ok_or_else(|| error.clone())?;
             if floor.operation_class != OperationClass::Fence as u32
                 || floor.epoch != lease.epoch
                 || floor.committed_log_index >= lease.committed_log_index

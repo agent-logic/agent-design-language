@@ -1,0 +1,7 @@
+command: ADL_RUST_WARM_CACHE=0 bash adl/tools/run_pr_fast_coverage_lane.sh --filter-expression binary_id(adl-runtime::distributed_shepherd_serving_eligibility)
+result: PASS
+tests: 6 passed, 0 failed
+module: adl-runtime/src/distributed/shepherd_serving_eligibility.rs
+lines: 325/335 (97.01%)
+regions: 94.63%
+functions: 96.30%

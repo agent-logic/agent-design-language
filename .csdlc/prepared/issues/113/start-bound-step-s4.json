@@ -1,0 +1,13 @@
+{
+  "issue": 113,
+  "card": "spp",
+  "expected_generation": 19,
+  "expected_digest": "2afd335633d041766deaca186e73d3f9c40a513e7b8622bd570912aa7d002354",
+  "actor": "codex:113-local-roster-execution",
+  "reason": "Begin exact-candidate focused validation for the local roster product and browser selection surface.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S4",
+    "status": "in_progress"
+  }
+}

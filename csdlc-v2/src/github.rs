@@ -212,6 +212,22 @@ pub async fn execute_github_action(
         GithubAction::IssueCreate => reconcile_issue_create(&crab, owner, repo, request).await?,
         GithubAction::IssueUpdate => {
             let number = required_issue(request)?;
+            if is_title_only_issue_update(request) {
+                let (packet, comment_id) =
+                    reconcile_bodyless_issue_update(&crab, owner, repo, number, request).await?;
+                return GithubActionResult {
+                    schema: "csdlc.github_action_result.v1".into(),
+                    repository: request.repository.clone(),
+                    action: request.action.clone(),
+                    operation_key: request.operation_key.clone(),
+                    issue: Some(packet),
+                    comment_id: Some(comment_id),
+                    pr_state: None,
+                    reconciled: true,
+                    producer_digest: None,
+                }
+                .seal_producer();
+            }
             update_issue(&crab, owner, repo, number, request).await?;
             let packet =
                 read_issue_packet(&crab, owner, repo, number, request.operation_key.as_deref())
@@ -315,6 +331,229 @@ pub async fn execute_github_action(
         producer_digest: None,
     }
     .seal_producer()
+}
+
+fn is_title_only_issue_update(request: &GithubActionRequest) -> bool {
+    request.title.is_some()
+        && request.body.is_none()
+        && request.state.is_none()
+        && request.labels.is_empty()
+        && request.assignees.is_empty()
+        && request.milestone.is_none()
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+struct IssueUpdateReceipt {
+    schema: String,
+    operation_key: String,
+    request_fingerprint: String,
+    pre_body_digest: String,
+    post_body_digest: String,
+    pre_updated_at: Option<String>,
+    post_updated_at: Option<String>,
+}
+
+#[derive(Debug, Clone)]
+struct MarkedComment {
+    id: u64,
+    body: String,
+}
+
+async fn reconcile_bodyless_issue_update(
+    crab: &octocrab::Octocrab,
+    owner: &str,
+    repo: &str,
+    number: u64,
+    request: &GithubActionRequest,
+) -> crate::Result<(GithubIssuePacket, u64)> {
+    let operation_key = required_marker(request)?;
+    let fingerprint = issue_update_fingerprint(request)?;
+    let existing = find_marked_comment_values(crab, owner, repo, number, operation_key).await?;
+    if existing.len() > 1 {
+        return Err(crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            "multiple provenance receipts match operation key",
+        ));
+    }
+    if let Some(comment) = existing.first() {
+        let receipt = parse_issue_update_receipt(&comment.body, operation_key)?;
+        if receipt.request_fingerprint != fingerprint {
+            return Err(crate::V2Error::new(
+                crate::ErrorCode::ReconciliationRequired,
+                "operation key is already bound to a different issue update fingerprint",
+            ));
+        }
+        let value = fetch_issue_value(crab, owner, repo, number)
+            .await
+            .map_err(remote)?;
+        let packet = normalize_issue(&request.repository, &value, None)?;
+        verify_issue_update_readback(&packet, request)?;
+        let body_digest = digest_text(&packet.body);
+        if receipt.pre_body_digest != receipt.post_body_digest
+            || receipt.post_body_digest != body_digest
+        {
+            return Err(crate::V2Error::new(
+                crate::ErrorCode::ReconciliationRequired,
+                "issue body no longer agrees with the recorded update provenance",
+            ));
+        }
+        return Ok((packet, comment.id));
+    }
+
+    let before_value = fetch_issue_value(crab, owner, repo, number)
+        .await
+        .map_err(remote)?;
+    let before = normalize_issue(&request.repository, &before_value, None)?;
+    let pre_updated_at = issue_updated_at(&before_value);
+    let confirmed_value = fetch_issue_value(crab, owner, repo, number)
+        .await
+        .map_err(remote)?;
+    let confirmed = normalize_issue(&request.repository, &confirmed_value, None)?;
+    if confirmed.body != before.body || issue_updated_at(&confirmed_value) != pre_updated_at {
+        return Err(crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            "issue drifted before body-preserving update",
+        ));
+    }
+    let mutation_already_observed = request
+        .title
+        .as_ref()
+        .is_some_and(|title| &confirmed.title == title);
+    if mutation_already_observed {
+        return Err(crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            "requested issue title is already present without a matching durable provenance receipt",
+        ));
+    }
+    update_issue(crab, owner, repo, number, request).await?;
+
+    let after_value = fetch_issue_value(crab, owner, repo, number)
+        .await
+        .map_err(remote)?;
+    let after = normalize_issue(&request.repository, &after_value, None)?;
+    verify_issue_update_readback(&after, request)?;
+    if after.body != before.body {
+        return Err(crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            "issue body drifted during body-preserving update",
+        ));
+    }
+    let receipt = IssueUpdateReceipt {
+        schema: "csdlc.github_issue_update_receipt.v1".into(),
+        operation_key: operation_key.into(),
+        request_fingerprint: fingerprint,
+        pre_body_digest: digest_text(&before.body),
+        post_body_digest: digest_text(&after.body),
+        pre_updated_at: issue_updated_at(&confirmed_value),
+        post_updated_at: issue_updated_at(&after_value),
+    };
+    let receipt_body = format!(
+        "{}\n```json\n{}\n```\n",
+        marker_line(operation_key),
+        serde_json::to_string(&receipt)?
+    );
+    let created: Value = crab
+        .post(
+            format!("/repos/{owner}/{repo}/issues/{number}/comments"),
+            Some(&json!({ "body": receipt_body })),
+        )
+        .await
+        .map_err(remote)?;
+    let comment_id = created.get("id").and_then(Value::as_u64).ok_or_else(|| {
+        crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            "created provenance receipt has no id",
+        )
+    })?;
+
+    let comments = find_marked_comment_values(crab, owner, repo, number, operation_key).await?;
+    if comments.len() != 1 || comments[0].id != comment_id {
+        return Err(crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            "provenance receipt readback is ambiguous",
+        ));
+    }
+    let observed_receipt = parse_issue_update_receipt(&comments[0].body, operation_key)?;
+    if observed_receipt != receipt {
+        return Err(crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            "provenance receipt readback differs from governed receipt",
+        ));
+    }
+    let final_value = fetch_issue_value(crab, owner, repo, number)
+        .await
+        .map_err(remote)?;
+    let final_packet = normalize_issue(&request.repository, &final_value, None)?;
+    verify_issue_update_readback(&final_packet, request)?;
+    if final_packet.body != before.body {
+        return Err(crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            "issue body drifted before final provenance reconciliation",
+        ));
+    }
+    Ok((final_packet, comment_id))
+}
+
+fn issue_update_fingerprint(request: &GithubActionRequest) -> crate::Result<String> {
+    let bytes = serde_json::to_vec(&(
+        &request.repository,
+        request.issue,
+        &request.operation_key,
+        &request.title,
+        &request.body,
+        &request.labels,
+        &request.assignees,
+        request.milestone,
+        &request.state,
+    ))?;
+    Ok(blake3::hash(&bytes).to_hex().to_string())
+}
+
+fn digest_text(value: &str) -> String {
+    blake3::hash(value.as_bytes()).to_hex().to_string()
+}
+
+fn issue_updated_at(value: &Value) -> Option<String> {
+    value
+        .get("updated_at")
+        .and_then(Value::as_str)
+        .map(str::to_owned)
+}
+
+fn parse_issue_update_receipt(
+    body: &str,
+    operation_key: &str,
+) -> crate::Result<IssueUpdateReceipt> {
+    if !body.contains(&marker_line(operation_key)) {
+        return Err(crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            "provenance receipt marker is missing",
+        ));
+    }
+    let json = body
+        .split_once("```json\n")
+        .and_then(|(_, tail)| tail.split_once("\n```").map(|(json, _)| json))
+        .ok_or_else(|| {
+            crate::V2Error::new(
+                crate::ErrorCode::ReconciliationRequired,
+                "provenance receipt payload is malformed",
+            )
+        })?;
+    let receipt: IssueUpdateReceipt = serde_json::from_str(json).map_err(|_| {
+        crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            "provenance receipt payload is invalid",
+        )
+    })?;
+    if receipt.schema != "csdlc.github_issue_update_receipt.v1"
+        || receipt.operation_key != operation_key
+    {
+        return Err(crate::V2Error::new(
+            crate::ErrorCode::ReconciliationRequired,
+            "provenance receipt identity is invalid",
+        ));
+    }
+    Ok(receipt)
 }
 
 fn validate_request(request: &GithubActionRequest) -> crate::Result<()> {
@@ -574,38 +813,15 @@ fn classify_issue_read_error(
     use crate::ErrorCode;
 
     let (code, message) = match error {
-        octocrab::Error::GitHub { source, .. } => match source.status_code.as_u16() {
-            404 => (
-                ErrorCode::RemoteNotFound,
-                format!(
-                    "GitHub issue {repository}#{number} was not found or is inaccessible; verify the repository, issue number, and token access"
-                ),
-            ),
-            401 => (
-                ErrorCode::RemoteAuthentication,
-                format!("Authentication failed while reading {repository}#{number}"),
-            ),
-            403 if github_error_is_rate_limited(&source) => (
-                ErrorCode::RemoteRateLimited,
-                format!("GitHub rate limit prevented reading {repository}#{number}"),
-            ),
-            403 => (
-                ErrorCode::RemoteAuthorization,
-                format!("Authorization failed while reading {repository}#{number}"),
-            ),
-            429 => (
-                ErrorCode::RemoteRateLimited,
-                format!("GitHub rate limit prevented reading {repository}#{number}"),
-            ),
-            500..=599 => (
-                ErrorCode::RemoteServer,
-                format!("GitHub server failure prevented reading {repository}#{number}"),
-            ),
-            _ => (
-                ErrorCode::RemoteFailure,
-                format!("GitHub observation failed while reading {repository}#{number}"),
-            ),
-        },
+        octocrab::Error::GitHub { source, .. } => {
+            return classify_github_issue_read_status(
+                source.status_code.as_u16(),
+                &source.message,
+                source.documentation_url.as_deref(),
+                repository,
+                number,
+            );
+        }
         octocrab::Error::Http { .. }
         | octocrab::Error::Hyper { .. }
         | octocrab::Error::Service { .. }
@@ -622,15 +838,56 @@ fn classify_issue_read_error(
     crate::V2Error::new(code, message)
 }
 
-fn github_error_is_rate_limited(error: &octocrab::GitHubError) -> bool {
-    let message = error.message.trim().to_ascii_lowercase();
+fn classify_github_issue_read_status(
+    status: u16,
+    remote_message: &str,
+    documentation_url: Option<&str>,
+    repository: &str,
+    number: u64,
+) -> crate::V2Error {
+    use crate::ErrorCode;
+    let (code, message) = match status {
+        404 => (
+            ErrorCode::RemoteNotFound,
+            format!("GitHub issue {repository}#{number} was not found or is inaccessible; verify the repository, issue number, and token access"),
+        ),
+        401 => (
+            ErrorCode::RemoteAuthentication,
+            format!("Authentication failed while reading {repository}#{number}"),
+        ),
+        403 if github_rate_limit_signal(remote_message, documentation_url) => (
+            ErrorCode::RemoteRateLimited,
+            format!("GitHub rate limit prevented reading {repository}#{number}"),
+        ),
+        403 => (
+            ErrorCode::RemoteAuthorization,
+            format!("Authorization failed while reading {repository}#{number}"),
+        ),
+        429 => (
+            ErrorCode::RemoteRateLimited,
+            format!("GitHub rate limit prevented reading {repository}#{number}"),
+        ),
+        500..=599 => (
+            ErrorCode::RemoteServer,
+            format!("GitHub server failure prevented reading {repository}#{number}"),
+        ),
+        _ => (
+            ErrorCode::RemoteFailure,
+            format!("GitHub observation failed while reading {repository}#{number}"),
+        ),
+    };
+    crate::V2Error::new(code, message)
+}
+
+fn github_rate_limit_signal(message: &str, documentation_url: Option<&str>) -> bool {
+    let message = message.trim().to_ascii_lowercase();
     if message.starts_with("api rate limit exceeded")
         || message
             == "you have exceeded a secondary rate limit. please wait a few minutes before you try again."
     {
         return true;
     }
-    let Some(documentation_url) = error.documentation_url.as_deref() else {
+    let Some(documentation_url) = documentation_url else {
         return false;
     };
     let Ok(url) = url::Url::parse(documentation_url) else {
@@ -831,23 +1088,50 @@ async fn find_marked_comments(
     number: u64,
     marker: &str,
 ) -> crate::Result<Vec<u64>> {
-    let value: Vec<Value> = crab
-        .get(
-            format!("/repos/{owner}/{repo}/issues/{number}/comments"),
-            Some(&[("per_page", "100")]),
-        )
-        .await
-        .map_err(remote)?;
-    Ok(value
-        .iter()
-        .filter(|comment| {
-            comment
-                .get("body")
-                .and_then(Value::as_str)
-                .is_some_and(|body| body.contains(&marker_line(marker)))
-        })
-        .filter_map(|comment| comment.get("id").and_then(Value::as_u64))
-        .collect())
+    Ok(
+        find_marked_comment_values(crab, owner, repo, number, marker)
+            .await?
+            .into_iter()
+            .map(|comment| comment.id)
+            .collect(),
+    )
+}
+
+async fn find_marked_comment_values(
+    crab: &octocrab::Octocrab,
+    owner: &str,
+    repo: &str,
+    number: u64,
+    marker: &str,
+) -> crate::Result<Vec<MarkedComment>> {
+    let mut matches = Vec::new();
+    let mut page = 1_u32;
+    loop {
+        let value: Vec<Value> = crab
+            .get(
+                format!("/repos/{owner}/{repo}/issues/{number}/comments"),
+                Some(&[("per_page", "100".to_owned()), ("page", page.to_string())]),
+            )
+            .await
+            .map_err(remote)?;
+        let value_len = value.len();
+        matches.extend(value.into_iter().filter_map(|comment| {
+            let id = comment.get("id").and_then(Value::as_u64)?;
+            let body = comment.get("body").and_then(Value::as_str)?.to_owned();
+            body.contains(&marker_line(marker))
+                .then_some(MarkedComment { id, body })
+        }));
+        if value_len < 100 {
+            break;
+        }
+        page = page.checked_add(1).ok_or_else(|| {
+            crate::V2Error::new(
+                crate::ErrorCode::ReconciliationRequired,
+                "issue comment pagination exceeded supported range",
+            )
+        })?;
+    }
+    Ok(matches)
 }
 
 fn split_repository(repository: &str) -> crate::Result<(&str, &str)> {
@@ -918,41 +1202,27 @@ pub fn classify_pr_state(packet: &PrStatePacket, require_review: bool) -> &'stat
     if packet.draft {
         return "waiting";
     }
-    if packet
-        .checks
-        .iter()
-        .any(|c| c.required && matches!(c.conclusion.as_str(), "failure" | "cancelled"))
-    {
-        return "failed";
-    }
     if packet.merge_state == "behind" {
         return "stale_base";
     }
     if packet.merge_state == "dirty" {
         return "conflicted";
     }
-    if matches!(
-        packet.merge_state.as_str(),
-        "blocked" | "unstable" | "draft" | "unknown"
-    ) {
+    if matches!(packet.merge_state.as_str(), "blocked" | "draft" | "unknown") {
         return "waiting";
     }
-    if packet
-        .required_check_names
-        .iter()
-        .any(|name| !packet.checks.iter().any(|c| &c.name == name))
-    {
+    if packet.merge_state == "unstable" && packet.required_check_names.is_empty() {
         return "waiting";
     }
-    if packet.checks.iter().any(|c| c.conclusion == "unknown") {
-        return "waiting";
-    }
-    if packet
-        .checks
-        .iter()
-        .any(|c| c.required && c.conclusion == "pending")
-    {
-        return "waiting";
+    for name in &packet.required_check_names {
+        let Some(check) = packet.checks.iter().find(|check| &check.name == name) else {
+            return "waiting";
+        };
+        match check.conclusion.as_str() {
+            "success" => {}
+            "failure" | "cancelled" => return "failed",
+            _ => return "waiting",
+        }
     }
     if require_review && packet.review_decision != "approved" {
         return "operator_review";
@@ -1354,6 +1624,51 @@ fn remote(error: octocrab::Error) -> crate::V2Error {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn rate_limit_signals_are_classified_without_network_retry_behavior() {
+        assert!(github_rate_limit_signal(
+            "API rate limit exceeded for fixture",
+            None
+        ));
+        assert!(github_rate_limit_signal(
+            "You have exceeded a secondary rate limit. Please wait a few minutes before you try again.",
+            None
+        ));
+        assert!(github_rate_limit_signal(
+            "ordinary message",
+            Some("https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api")
+        ));
+        assert!(github_rate_limit_signal(
+            "ordinary message",
+            Some("https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits")
+        ));
+        assert!(!github_rate_limit_signal(
+            "rate limit almost matched",
+            Some("https://docs.github.com/rest/using-the-rest-api/rate-limits-for-the-rest-api/extra")
+        ));
+        for (status, expected) in [
+            (404, crate::ErrorCode::RemoteNotFound),
+            (401, crate::ErrorCode::RemoteAuthentication),
+            (403, crate::ErrorCode::RemoteAuthorization),
+            (429, crate::ErrorCode::RemoteRateLimited),
+            (500, crate::ErrorCode::RemoteServer),
+            (418, crate::ErrorCode::RemoteFailure),
+        ] {
+            assert_eq!(
+                classify_github_issue_read_status(
+                    status,
+                    "ordinary message",
+                    None,
+                    "owner/repo",
+                    77,
+                )
+                .code,
+                expected
+            );
+        }
+    }
+
     fn packet(state: &str) -> PrStatePacket {
         PrStatePacket {
             schema: "x".into(),
@@ -1556,7 +1871,7 @@ mod tests {
 
     #[test]
     fn classifies_mergeability_states_without_treating_pending_as_stale() {
-        for state in ["blocked", "unstable", "draft", "unknown"] {
+        for state in ["blocked", "draft", "unknown"] {
             let mut value = packet("success");
             value.merge_state = state.into();
             assert_eq!(classify_pr_state(&value, true), "waiting", "{state}");
@@ -1569,6 +1884,47 @@ mod tests {
         let mut dirty = packet("success");
         dirty.merge_state = "dirty".into();
         assert_eq!(classify_pr_state(&dirty, false), "conflicted");
+    }
+
+    #[test]
+    fn unstable_merge_state_ignores_optional_cancelled_and_unknown_checks() {
+        let mut value = packet("success");
+        value.merge_state = "unstable".into();
+        value.checks.extend([
+            PrCheck {
+                name: "optional-cancelled".into(),
+                required: false,
+                conclusion: "cancelled".into(),
+                details_url: None,
+            },
+            PrCheck {
+                name: "optional-unknown".into(),
+                required: false,
+                conclusion: "unknown".into(),
+                details_url: None,
+            },
+        ]);
+        assert_eq!(classify_pr_state(&value, true), "ready");
+    }
+
+    #[test]
+    fn unstable_merge_state_still_fails_closed_on_declared_required_checks() {
+        let mut failed = packet("failure");
+        failed.merge_state = "unstable".into();
+        assert_eq!(classify_pr_state(&failed, false), "failed");
+
+        let mut missing = packet("success");
+        missing.merge_state = "unstable".into();
+        missing.required_check_names.push("coverage".into());
+        assert_eq!(classify_pr_state(&missing, false), "waiting");
+    }
+
+    #[test]
+    fn unstable_merge_state_requires_at_least_one_declared_required_check() {
+        let mut value = packet("success");
+        value.merge_state = "unstable".into();
+        value.required_check_names.clear();
+        assert_eq!(classify_pr_state(&value, false), "waiting");
     }
 
     #[test]

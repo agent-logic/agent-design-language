@@ -1,0 +1,7 @@
+{
+  "issue": 300,
+  "expected_generation": 7,
+  "expected_digest": "02f34b6fc9fcee9f281d785aa26fde1363b25338625f704492f7f882f6d20c55",
+  "actor": "codex:worker-5",
+  "reason": "Recover fresh-session:curie-300-bridge-fed-r3 review assignment after P1 finding: #299 terminal digest was not explicitly asserted in the #300 terminal prerequisite gate."
+}

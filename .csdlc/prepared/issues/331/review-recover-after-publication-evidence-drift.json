@@ -1,0 +1,7 @@
+{
+  "issue": 331,
+  "expected_generation": 19,
+  "expected_digest": "aba84ea0edab952c4721d9df92b0a9948e19d45805b33e0364fb43807eb6700b",
+  "actor": "codex:/root",
+  "reason": "Recover post-publication #331 truth after csdlc-finish proved review evidence changed after the publication commit; normalize exact review/publication evidence through supported lifecycle recovery before new review and republication."
+}

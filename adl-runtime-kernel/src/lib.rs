@@ -2,6 +2,7 @@
 
 pub mod acip;
 pub mod adaptive_learning;
+pub mod agent_roster;
 pub mod assembly;
 pub mod birth_witness;
 pub mod birthday;
@@ -17,10 +18,13 @@ pub mod continuity;
 pub mod continuity_control;
 pub mod contract;
 pub mod control;
+pub mod conversation_continuity;
+pub mod conversation_journal;
 pub mod durable_state;
 pub mod governance;
 pub mod identity_memory;
 pub mod ingress;
+pub mod layer8_authority;
 pub mod live_continuity;
 pub mod memory_palace;
 pub mod operations;
@@ -38,8 +42,12 @@ pub mod tls;
 pub mod topology;
 pub mod weather;
 
+#[cfg(test)]
+mod conversation_sessions_tests;
+
 pub use acip::*;
 pub use adaptive_learning::*;
+pub use agent_roster::*;
 pub use assembly::*;
 pub use birth_witness::*;
 pub use birthday::*;
@@ -58,6 +66,8 @@ pub use continuity::*;
 pub use continuity_control::*;
 pub use contract::*;
 pub use control::*;
+pub use conversation_continuity::*;
+pub use conversation_journal::*;
 pub use durable_state::*;
 pub use governance::*;
 pub use identity_memory::*;

@@ -204,14 +204,12 @@ a {
 }
 
 .hero,
-.panopticon-shell,
 .runtime-grid,
 .evidence-band {
   max-width: none;
   margin: 0 auto;
 }
 
-.panopticon-shell,
 .runtime-grid,
 .evidence-band {
   display: none;
@@ -1076,8 +1074,56 @@ dd {
 }
 
 .panopticon-shell {
+  display: none;
+  height: 100%;
+  min-height: 0;
+  overflow: auto;
   padding: 1rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0;
+}
+
+.observatory[data-dashboard-surface="agents"] > .hero {
+  display: none;
+}
+
+.observatory[data-dashboard-surface="agents"] > .panopticon-shell {
+  display: block;
+}
+
+.surface-nav {
+  position: sticky;
+  top: 0;
+  z-index: 4;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: -1rem -1rem 1rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.surface-nav a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 2.5rem;
+  padding: 0.45rem 0.7rem;
+  color: var(--muted);
+  text-decoration: none;
+}
+
+.surface-nav a:hover,
+.surface-nav a:focus-visible,
+.surface-nav a[aria-current="page"] {
+  color: var(--text);
+  background: var(--panel-strong);
+  outline-offset: 2px;
+}
+
+.surface-nav svg {
+  width: 1rem;
+  height: 1rem;
 }
 
 .live-control-strip {
@@ -1203,6 +1249,76 @@ dd {
   display: grid;
   gap: 0.65rem;
   margin-top: 1rem;
+}
+
+.roster-controls {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(8rem, 0.7fr) minmax(7rem, 0.55fr);
+  gap: 0.65rem;
+  margin-top: 1rem;
+}
+
+.roster-controls .field span {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+}
+
+.roster-row {
+  width: 100%;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.roster-row[aria-pressed="true"] {
+  border-color: var(--cyan);
+  box-shadow: inset 3px 0 0 var(--cyan);
+}
+
+.roster-row:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+}
+
+.roster-detail {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  border-top: 1px solid var(--line);
+  padding-top: 0.85rem;
+}
+
+.roster-load-more {
+  margin-top: 0.75rem;
+}
+
+.roster-facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
+  margin: 0;
+}
+
+.roster-facts div {
+  min-width: 0;
+}
+
+.roster-facts dt {
+  color: var(--muted);
+  font-size: 0.72rem;
+}
+
+.roster-facts dd {
+  margin: 0.15rem 0 0;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 720px) {
+  .roster-controls,
+  .roster-facts {
+    grid-template-columns: 1fr;
+  }
 }
 
 .agent-row,
@@ -1346,6 +1462,90 @@ textarea,
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
+}
+
+.conversation-surface {
+  display: grid;
+  gap: 0.85rem;
+  border-block: 1px solid var(--line);
+  padding-block: 1rem;
+}
+
+.conversation-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.conversation-heading h3 {
+  margin: 0.25rem 0 0;
+  font-size: 1.05rem;
+  letter-spacing: 0;
+}
+
+.conversation-transcript {
+  display: grid;
+  gap: 0.55rem;
+  min-height: 7rem;
+  max-height: 20rem;
+  margin: 0;
+  padding: 0.75rem;
+  overflow: auto;
+  list-style: none;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.16);
+}
+
+.conversation-turn {
+  max-width: min(86%, 48rem);
+  padding: 0.65rem 0.75rem;
+  border-left: 3px solid var(--cyan);
+  background: rgba(72, 211, 255, 0.07);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.conversation-turn[data-speaker="operator"] {
+  justify-self: end;
+  border-left: 0;
+  border-right: 3px solid var(--mint);
+  background: rgba(113, 247, 164, 0.07);
+}
+
+.conversation-turn-content {
+  display: block;
+}
+
+.conversation-turn-status {
+  display: inline-block;
+  margin-top: 0.4rem;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+}
+
+.conversation-turn-cancel {
+  margin-left: 0.65rem;
+  border: 0;
+  padding: 0;
+  color: var(--cyan);
+  background: transparent;
+  font: inherit;
+  cursor: pointer;
+}
+
+.conversation-turn-cancel:disabled {
+  color: var(--muted);
+  cursor: default;
+}
+
+.conversation-empty {
+  align-self: center;
+  justify-self: center;
+  color: var(--muted);
 }
 
 .communication-proof-list {
@@ -1650,7 +1850,6 @@ textarea,
   }
 }
 
-.observatory > .panopticon-shell,
 .observatory > .runtime-grid,
 .observatory > .evidence-band {
   display: none !important;

@@ -1,0 +1,13 @@
+{
+  "issue": 113,
+  "card": "spp",
+  "expected_generation": 24,
+  "expected_digest": "a30498ba53fc469897182157da373d357e853ab9dc085e0dd4d5f94aa0d52799",
+  "actor": "codex:113-roster-presence-execution",
+  "reason": "Leave the exact clean ef1238cd9 candidate unpushed and unpublished for separately assigned final independent review.",
+  "operation": {
+    "operation": "update_plan_step",
+    "step_id": "S5",
+    "status": "completed"
+  }
+}

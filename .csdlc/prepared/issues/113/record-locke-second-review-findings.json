@@ -1,0 +1,19 @@
+{
+  "issue": 113,
+  "expected_generation": 53,
+  "expected_digest": "21deec0837967e243690737d30fd254311e2a3e9a0d2e3fe02925009852350a6",
+  "actor": "subagent:019fefbc-1619-7a21-b27c-8edb01692b23",
+  "evidence": {
+    "reviewer": "subagent:019fefbc-1619-7a21-b27c-8edb01692b23",
+    "scope": ["adl-runtime-kernel/src/agent_roster.rs","adl-runtime-kernel/src/control.rs","adl-runtime-kernel/tests/agent_roster.rs","adl-runtime-kernel/tests/control.rs","adl-runtime-kernel/tests/openapi_contract.rs","docs/api/runtime-v3/v1/observatory.openapi.json","demos/html-observatory/app.js","adl/tools/test_html_observatory.sh",".csdlc/evidence/113/roster-live-proof-2118c05b3",".csdlc/issues/113"],
+    "reviewed_revision": "git-blake3:9457042079bd49fba8cf36f7d097f0fe77173ef9:170c820be235401b5e5c892c36b82a2e604d171a4eed1ee99a0ad7714d2e77ed",
+    "findings": [
+      {"id":"LOCKE-113-4","severity":"p1","summary":"Use exact policy-visible IDs for detail lookup rather than bounded search-filter semantics.","actionable":true,"in_scope":true,"disposition":"open","fix_revision":null,"route":null},
+      {"id":"LOCKE-113-5","severity":"p1","summary":"Return the authenticated event cursor to Runtime before accepting exact-successor browser updates.","actionable":true,"in_scope":true,"disposition":"open","fix_revision":null,"route":null},
+      {"id":"LOCKE-113-6","severity":"p2","summary":"Do not clone the population-sized visibility policy into each serialized page result.","actionable":true,"in_scope":true,"disposition":"open","fix_revision":null,"route":null}
+    ],
+    "residual_risks": ["Distributed roster authority remains outside #113 under #142.","Long-running validation routing remains out of band under #226."],
+    "completed": false,
+    "non_substantive_proof": null
+  }
+}

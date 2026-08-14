@@ -105,6 +105,7 @@ continuity_signing_key_path = "{}"
 continuity_key_id = "runtime-continuity"
 observatory_token_path = "{}"
 acip_write_token_path = "{}"
+birth_witness_trust_manifest_path = "{}"
 continuity_min_generation = 0
 sntp_server = "time.cloudflare.com"
 
@@ -175,6 +176,7 @@ snapshot_concurrency = 4
         toml_path(&credentials.join("continuity-signing-key.hex")),
         toml_path(&credentials.join("observatory-token.txt")),
         toml_path(&credentials.join("acip-write-token.txt")),
+        toml_path(&credentials.join("birth-witness-trust.json")),
         toml_path(&vector),
         "config/runtime-v3-vector.json",
         "spool/runtime-v3.current.jsonl",

@@ -1,0 +1,14 @@
+{
+  "schema": "csdlc.publication_intent.v1",
+  "issue": 226,
+  "repository": "agent-logic/agent-design-language",
+  "issue_repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/226-focused-runtime-validation-routing",
+  "title": "[v0.92][tooling] Route focused Observatory validation without optional jobs",
+  "body": "Part of #226\n\nRoutes WP-18C Observatory tooling changes through tiny, fail-closed syntax lanes while preserving integrated proof for product changes. Unknown paths remain fail-closed. The long-test diagnosis tracked by #226 remains open and out of band; no optional hosted coverage, soak, slow, or long jobs were run for this routing-only repair.",
+  "linkage_mode": "part_of",
+  "draft": false,
+  "revision": "git-blake3:4782a2cf982285dfbd250ff254f03f56af25e9a4:5258daab6596005863eb03d229583274c32e3b0af21b691cdccc1493b5a9a7b2",
+  "commit_sha": "4782a2cf982285dfbd250ff254f03f56af25e9a4"
+}

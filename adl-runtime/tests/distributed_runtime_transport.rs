@@ -18,10 +18,18 @@ use adl_runtime::distributed::polis_runtime::{
     PolisRuntimeError, PolisStateMachineStore, SecurePolisNetworkFactory,
 };
 use adl_runtime::distributed::{
+    authority_protocol::{AuthorityNodeIdentity, CanonicalAuthorityTime},
+    authority_reconciliation::{
+        AuthorityReconciliationArtifact, AuthorityReconciliationBarrier,
+        AuthorityReconciliationIdentity,
+    },
+    authority_store_adapters::{AuthorityBoundCertificateStore, AuthorityStoreAdapterRegistry},
     certificates::{
         AuthorityCertificate, CertificateBody, CertificatePolicy, CertificatePurpose,
-        CertificateValidity, DistributedCertificateStore,
+        CertificateStoreAccess, CertificateValidity, DistributedCertificateStore,
+        TEST_CERTIFICATE_STORE_ACCESS,
     },
+    learner_transport::ProductionLearnerAuthority,
     lease::{AuthorityMembership, ControlCertificatePurpose, VoterAuthority},
     membership::{
         CommittedMembershipEvent, Member, MemberRole, MembershipOperation, MembershipPolicy,
@@ -49,6 +57,10 @@ use tokio_util::sync::CancellationToken;
 
 const DOMAIN: &str = "polis.secure.test";
 const POLIS: &str = "polis-alpha";
+
+fn test_certificate_store_access() -> CertificateStoreAccess {
+    TEST_CERTIFICATE_STORE_ACCESS
+}
 
 #[derive(Default)]
 struct MemoryCheckpointAuthority {
@@ -102,6 +114,12 @@ impl ConsensusCheckpointAuthority for MemoryCheckpointAuthority {
     }
 }
 
+fn test_learner_authority() -> ProductionLearnerAuthority {
+    let root = tempfile::tempdir_in(std::env::current_dir().unwrap()).unwrap();
+    ProductionLearnerAuthority::open(root.path(), Arc::new(MemoryCheckpointAuthority::default()))
+        .unwrap()
+}
+
 struct EndpointMaterial {
     certificate: CertificateDer<'static>,
     private_key_der: Vec<u8>,
@@ -153,6 +171,13 @@ fn now() -> u64 {
         .as_secs()
 }
 
+fn repo_tempdir() -> tempfile::TempDir {
+    let root = std::env::current_dir()
+        .and_then(std::fs::canonicalize)
+        .unwrap();
+    tempfile::TempDir::new_in(root).unwrap()
+}
+
 fn limits() -> TransportLimits {
     TransportLimits::bounded(
         256 * 1024,
@@ -165,6 +190,7 @@ fn limits() -> TransportLimits {
 
 fn certificate_store() -> (
     Arc<DistributedCertificateStore>,
+    AuthorityBoundCertificateStore,
     SigningKey,
     tempfile::TempDir,
 ) {
@@ -173,8 +199,9 @@ fn certificate_store() -> (
         .unwrap()
         .with_bounds(3600, 60, 60, 128, 128)
         .unwrap();
-    let directory = tempfile::tempdir().unwrap();
+    let directory = repo_tempdir();
     let store = DistributedCertificateStore::open(
+        &test_certificate_store_access(),
         directory
             .path()
             .canonicalize()
@@ -183,11 +210,63 @@ fn certificate_store() -> (
         policy,
     )
     .unwrap();
-    (Arc::new(store), root, directory)
+    let store = Arc::new(store);
+    let bound = bound_certificate_store(&store, &directory, "transport-lineage");
+    (store, bound, root, directory)
+}
+
+fn bound_certificate_store(
+    store: &Arc<DistributedCertificateStore>,
+    directory: &tempfile::TempDir,
+    lineage_id: &str,
+) -> AuthorityBoundCertificateStore {
+    let authority_identity = AuthorityNodeIdentity {
+        trust_domain: DOMAIN.to_owned(),
+        polis_id: POLIS.to_owned(),
+        node_id: "test-node".to_owned(),
+        guardian_id: "test-guardian-a".to_owned(),
+        boot_generation: 1,
+    };
+    let barrier_root = directory
+        .path()
+        .join(format!("reconciliation-{lineage_id}"));
+    std::fs::create_dir_all(&barrier_root).unwrap();
+    let mut barrier = AuthorityReconciliationBarrier::open(
+        &barrier_root,
+        AuthorityReconciliationIdentity::from_authority_node(&authority_identity),
+        Arc::new(MemoryCheckpointAuthority::default()),
+    )
+    .unwrap();
+    let artifact = AuthorityReconciliationArtifact::new(
+        lineage_id.to_owned(),
+        "adl.test.deterministic-authority".to_owned(),
+        1,
+        "certificate_activate".to_owned(),
+        vec![b"transport-authority-boundary".to_vec()],
+        b"published-transport-authority".to_vec(),
+        2_000_000_000,
+    )
+    .unwrap();
+    barrier
+        .publish_internal_test_fixture(
+            &format!("issue-259-{lineage_id}"),
+            artifact,
+            259,
+            CanonicalAuthorityTime {
+                unix_seconds: 100,
+                nanos: 0,
+                uncertainty_millis: 0,
+            },
+        )
+        .unwrap();
+    AuthorityStoreAdapterRegistry::new(Arc::new(barrier))
+        .certificate_store(lineage_id, Arc::clone(store))
+        .unwrap()
 }
 
 fn transport_authorization(
     store: &Arc<DistributedCertificateStore>,
+    bound_store: &AuthorityBoundCertificateStore,
     root: &SigningKey,
     node: &str,
     key: VerifyingKey,
@@ -201,14 +280,16 @@ fn transport_authorization(
         generation,
         CertificateValidity {
             issued_at_unix_secs: issued,
-            expires_at_unix_secs: issued + 300,
+            expires_at_unix_secs: issued + 600,
         },
         key,
         &root.verifying_key(),
     );
     let certificate = AuthorityCertificate::issue(body, root).unwrap();
-    store.activate(&certificate, now()).unwrap();
-    TransportAuthorization::new(Arc::clone(store), &certificate).unwrap()
+    store
+        .activate(&test_certificate_store_access(), &certificate, now())
+        .unwrap();
+    TransportAuthorization::new(bound_store.clone(), &certificate).unwrap()
 }
 
 async fn connected_pair() -> (
@@ -270,9 +351,10 @@ async fn connected_pair_with_generations(
     let root = issuer.der().clone();
     let left_material = leaf(&issuer, "node-1");
     let right_material = leaf(&issuer, "node-2");
-    let (store, signing_root, store_dir) = certificate_store();
+    let (store, bound_store, signing_root, store_dir) = certificate_store();
     let left_authorization = transport_authorization(
         &store,
+        &bound_store,
         &signing_root,
         "node-1",
         left_material.subject_public_key,
@@ -280,6 +362,7 @@ async fn connected_pair_with_generations(
     );
     let right_authorization = transport_authorization(
         &store,
+        &bound_store,
         &signing_root,
         "node-2",
         right_material.subject_public_key,
@@ -371,7 +454,7 @@ async fn three_node_mesh() -> ThreeNodeMesh {
     let materials = (1..=3)
         .map(|node| (node, leaf(&issuer, &format!("node-{node}"))))
         .collect::<BTreeMap<_, _>>();
-    let (store, signing_root, store_dir) = certificate_store();
+    let (store, bound_store, signing_root, store_dir) = certificate_store();
     let authorizations = materials
         .iter()
         .map(|(node, material)| {
@@ -379,6 +462,7 @@ async fn three_node_mesh() -> ThreeNodeMesh {
                 *node,
                 transport_authorization(
                     &store,
+                    &bound_store,
                     &signing_root,
                     &format!("node-{node}"),
                     material.subject_public_key,
@@ -694,9 +778,10 @@ fn runtime_authority_initializer(
         .unwrap()
         .with_bounds(3600, 60, 60, 16, 16)
         .unwrap();
-    let directory = tempfile::tempdir().unwrap();
+    let directory = repo_tempdir();
     let store = Arc::new(
         DistributedCertificateStore::open(
+            &test_certificate_store_access(),
             directory
                 .path()
                 .canonicalize()
@@ -727,13 +812,16 @@ fn runtime_authority_initializer(
                 &signing_root,
             )
             .unwrap();
-            store.activate(&certificate, 100).unwrap();
+            store
+                .activate(&test_certificate_store_access(), &certificate, 100)
+                .unwrap();
             (guardian.clone(), certificate)
         })
         .collect::<BTreeMap<_, _>>();
     let snapshot = membership.snapshot().unwrap();
+    let bound_store = bound_certificate_store(&store, &directory, "runtime-authority-lineage");
     let initializer = PolisRuntimeAuthorityBootstrap::restore_configured(
-        Arc::clone(&store),
+        bound_store,
         MembershipPolicy::new(DOMAIN, 8, 16).unwrap(),
         &snapshot,
         membership_commitment(&snapshot),
@@ -877,8 +965,11 @@ async fn authenticated_quinn_binds_signed_authority_session_and_returns_bounded_
         connected_pair().await;
     let boots = [(1, 7), (2, 8), (3, 9)].into_iter().collect();
     let (cut, keys, _routes) = verified_cut(&boots);
-    let left_factory = SecurePolisNetworkFactory::from_authority_cut(1, cut.clone()).unwrap();
-    let right_factory = SecurePolisNetworkFactory::from_authority_cut(2, cut).unwrap();
+    let left_factory =
+        SecurePolisNetworkFactory::from_authority_cut(1, cut.clone(), test_learner_authority())
+            .unwrap();
+    let right_factory =
+        SecurePolisNetworkFactory::from_authority_cut(2, cut, test_learner_authority()).unwrap();
     let left_pending = left_factory.pending_session(2, &left).await.unwrap();
     let right_pending = right_factory.pending_session(1, &right).await.unwrap();
     let (left_session, right_session) = tokio::join!(
@@ -949,8 +1040,11 @@ async fn stalled_rpc_stream_is_bounded_by_the_transport_idle_deadline() {
         connected_pair_with(1, short_limits).await;
     let boots = [(1, 1), (2, 1), (3, 1)].into_iter().collect();
     let (cut, keys, _) = verified_cut(&boots);
-    let left_factory = SecurePolisNetworkFactory::from_authority_cut(1, cut.clone()).unwrap();
-    let right_factory = SecurePolisNetworkFactory::from_authority_cut(2, cut).unwrap();
+    let left_factory =
+        SecurePolisNetworkFactory::from_authority_cut(1, cut.clone(), test_learner_authority())
+            .unwrap();
+    let right_factory =
+        SecurePolisNetworkFactory::from_authority_cut(2, cut, test_learner_authority()).unwrap();
     let left_pending = left_factory.pending_session(2, &left).await.unwrap();
     let right_pending = right_factory.pending_session(1, &right).await.unwrap();
     let (left_session, right_session) = tokio::join!(
@@ -984,8 +1078,11 @@ async fn stalled_rpc_stream_is_bounded_by_the_transport_idle_deadline() {
         connected_pair_with(1, response_stall_limits.clone()).await;
     let boots = [(1, 1), (2, 1), (3, 1)].into_iter().collect();
     let (cut, keys, _) = verified_cut(&boots);
-    let left_factory = SecurePolisNetworkFactory::from_authority_cut(1, cut.clone()).unwrap();
-    let right_factory = SecurePolisNetworkFactory::from_authority_cut(2, cut).unwrap();
+    let left_factory =
+        SecurePolisNetworkFactory::from_authority_cut(1, cut.clone(), test_learner_authority())
+            .unwrap();
+    let right_factory =
+        SecurePolisNetworkFactory::from_authority_cut(2, cut, test_learner_authority()).unwrap();
     let left_pending = left_factory.pending_session(2, &left).await.unwrap();
     let right_pending = right_factory.pending_session(1, &right).await.unwrap();
     let (left_session, right_session) = tokio::join!(
@@ -1014,8 +1111,11 @@ async fn stalled_rpc_stream_is_bounded_by_the_transport_idle_deadline() {
 async fn route_replacement_retries_exact_sequence_after_peer_restart_and_certificate_rotation() {
     let boots = [(1, 1), (2, 1), (3, 1)].into_iter().collect();
     let (cut, keys, _) = verified_cut(&boots);
-    let left_factory = SecurePolisNetworkFactory::from_authority_cut(1, cut.clone()).unwrap();
-    let right_factory = SecurePolisNetworkFactory::from_authority_cut(2, cut).unwrap();
+    let left_factory =
+        SecurePolisNetworkFactory::from_authority_cut(1, cut.clone(), test_learner_authority())
+            .unwrap();
+    let right_factory =
+        SecurePolisNetworkFactory::from_authority_cut(2, cut, test_learner_authority()).unwrap();
     let (old_left, old_right, _, old_left_endpoint, old_right_endpoint, old_store) =
         connected_pair_at(1).await;
     let old_left_pending = left_factory.pending_session(2, &old_left).await.unwrap();
@@ -1120,7 +1220,7 @@ async fn route_replacement_retries_exact_sequence_after_peer_restart_and_certifi
         rotated_right.initiate_polis_session(rotated_right_pending, &restarted_keys[&2]),
     );
     left_factory
-        .replace_route(2, rotated_left, rotated_left_session.unwrap())
+        .install_route(2, rotated_left, rotated_left_session.unwrap())
         .await
         .unwrap();
     let rotated_responder = tokio::spawn(async move {
@@ -1164,8 +1264,11 @@ async fn durable_retry_cache_replays_exact_response_and_rejects_conflict_and_rol
     let authority = Arc::new(MemoryCheckpointAuthority::default());
     let boots = [(1, 1), (2, 3), (3, 1)].into_iter().collect();
     let (cut, keys, _) = verified_cut(&boots);
-    let left_factory = SecurePolisNetworkFactory::from_authority_cut(1, cut.clone()).unwrap();
-    let right_factory = SecurePolisNetworkFactory::from_authority_cut(2, cut).unwrap();
+    let left_factory =
+        SecurePolisNetworkFactory::from_authority_cut(1, cut.clone(), test_learner_authority())
+            .unwrap();
+    let right_factory =
+        SecurePolisNetworkFactory::from_authority_cut(2, cut, test_learner_authority()).unwrap();
     let (left, right, _, _left_endpoint, _right_endpoint, _store) = connected_pair().await;
     let left_pending = left_factory.pending_session(2, &left).await.unwrap();
     let right_pending = right_factory.pending_session(1, &right).await.unwrap();
@@ -1256,10 +1359,15 @@ async fn durable_retry_cache_replays_exact_response_and_rejects_conflict_and_rol
     drop(rotated_right_session.unwrap());
 
     let (advanced_cut, advanced_keys) = verified_cut_after_membership_advance(&boots);
-    let advanced_left_factory =
-        SecurePolisNetworkFactory::from_authority_cut(1, advanced_cut.clone()).unwrap();
+    let advanced_left_factory = SecurePolisNetworkFactory::from_authority_cut(
+        1,
+        advanced_cut.clone(),
+        test_learner_authority(),
+    )
+    .unwrap();
     let advanced_right_factory =
-        SecurePolisNetworkFactory::from_authority_cut(2, advanced_cut).unwrap();
+        SecurePolisNetworkFactory::from_authority_cut(2, advanced_cut, test_learner_authority())
+            .unwrap();
     let (advanced_left, advanced_right, _, _advanced_left_endpoint, _advanced_right_endpoint, _) =
         connected_pair().await;
     let advanced_left_pending = advanced_left_factory
@@ -1287,10 +1395,15 @@ async fn durable_retry_cache_replays_exact_response_and_rejects_conflict_and_rol
     drop(advanced_right_session.unwrap());
 
     let (other_polis_cut, other_polis_keys) = verified_cut_for_polis("other-polis", &boots);
-    let other_left_factory =
-        SecurePolisNetworkFactory::from_authority_cut(1, other_polis_cut.clone()).unwrap();
+    let other_left_factory = SecurePolisNetworkFactory::from_authority_cut(
+        1,
+        other_polis_cut.clone(),
+        test_learner_authority(),
+    )
+    .unwrap();
     let other_right_factory =
-        SecurePolisNetworkFactory::from_authority_cut(2, other_polis_cut).unwrap();
+        SecurePolisNetworkFactory::from_authority_cut(2, other_polis_cut, test_learner_authority())
+            .unwrap();
     let (other_left, other_right, _, _other_left_endpoint, _other_right_endpoint, _) =
         connected_pair().await;
     let other_left_pending = other_left_factory
@@ -1452,7 +1565,9 @@ async fn topology_and_polis_identity_require_exact_runtime_control_and_quorum_pa
         cut.routes()[&1],
         SocketAddr::from((Ipv4Addr::LOCALHOST, 4101))
     );
-    let factory = SecurePolisNetworkFactory::from_authority_cut(1, cut.clone()).unwrap();
+    let factory =
+        SecurePolisNetworkFactory::from_authority_cut(1, cut.clone(), test_learner_authority())
+            .unwrap();
     let independently_configured_same_index = verified_cut_with_key_seeds([21, 22, 23], &boots);
     assert_eq!(
         factory
@@ -1556,8 +1671,9 @@ fn authority_approved_certificate_overlap_is_valid_then_expires_closed() {
         .unwrap()
         .with_bounds(3600, 60, 60, 16, 16)
         .unwrap();
-    let directory = tempfile::tempdir().unwrap();
+    let directory = repo_tempdir();
     let store = DistributedCertificateStore::open(
+        &TEST_CERTIFICATE_STORE_ACCESS,
         directory
             .path()
             .canonicalize()
@@ -1586,16 +1702,38 @@ fn authority_approved_certificate_overlap_is_valid_then_expires_closed() {
     };
     let first = make(1, 41);
     let second = make(2, 42);
-    store.activate(&first, 100).unwrap();
-    store.activate(&second, 100).unwrap();
+    store
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &first, 100)
+        .unwrap();
+    store
+        .activate(&TEST_CERTIFICATE_STORE_ACCESS, &second, 100)
+        .unwrap();
     assert!(store
-        .authorize("overlap-node", CertificatePurpose::Transport, 1, 159)
+        .authorize(
+            &TEST_CERTIFICATE_STORE_ACCESS,
+            "overlap-node",
+            CertificatePurpose::Transport,
+            1,
+            159
+        )
         .is_ok());
     assert!(store
-        .authorize("overlap-node", CertificatePurpose::Transport, 1, 160)
+        .authorize(
+            &TEST_CERTIFICATE_STORE_ACCESS,
+            "overlap-node",
+            CertificatePurpose::Transport,
+            1,
+            160
+        )
         .is_err());
     assert!(store
-        .authorize("overlap-node", CertificatePurpose::Transport, 2, 160)
+        .authorize(
+            &TEST_CERTIFICATE_STORE_ACCESS,
+            "overlap-node",
+            CertificatePurpose::Transport,
+            2,
+            160
+        )
         .is_ok());
     eprintln!("ADL_ISSUE_191_CASE certificate_overlap_boundary=passed");
 }
@@ -1606,8 +1744,11 @@ async fn polis_frames_reject_unproved_polis_and_oversized_payload_before_dispatc
         connected_pair().await;
     let boots = [(1, 1), (2, 1), (3, 1)].into_iter().collect();
     let (cut, keys, _routes) = verified_cut(&boots);
-    let left_factory = SecurePolisNetworkFactory::from_authority_cut(1, cut.clone()).unwrap();
-    let right_factory = SecurePolisNetworkFactory::from_authority_cut(2, cut).unwrap();
+    let left_factory =
+        SecurePolisNetworkFactory::from_authority_cut(1, cut.clone(), test_learner_authority())
+            .unwrap();
+    let right_factory =
+        SecurePolisNetworkFactory::from_authority_cut(2, cut, test_learner_authority()).unwrap();
     let left_pending = left_factory.pending_session(2, &left).await.unwrap();
     let right_pending = right_factory.pending_session(1, &right).await.unwrap();
     let (left_session, right_session) = tokio::join!(
@@ -1715,7 +1856,7 @@ fn durable_store_rejects_symlinked_ancestors_and_oversized_state() {
 
 #[tokio::test(flavor = "multi_thread", worker_threads = 6)]
 async fn three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state() {
-    let root = tempfile::tempdir().unwrap();
+    let root = repo_tempdir();
     let root_path = root.path().canonicalize().unwrap();
     let authority = Arc::new(MemoryCheckpointAuthority::default());
     let mesh = three_node_mesh().await;
@@ -1735,7 +1876,12 @@ async fn three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_
         .map(|node| {
             (
                 node,
-                SecurePolisNetworkFactory::from_authority_cut(node, cut.clone()).unwrap(),
+                SecurePolisNetworkFactory::from_authority_cut(
+                    node,
+                    cut.clone(),
+                    test_learner_authority(),
+                )
+                .unwrap(),
             )
         })
         .collect::<BTreeMap<_, _>>();
@@ -1882,7 +2028,12 @@ async fn three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_
         .map(|node| {
             (
                 node,
-                SecurePolisNetworkFactory::from_authority_cut(node, restarted_cut.clone()).unwrap(),
+                SecurePolisNetworkFactory::from_authority_cut(
+                    node,
+                    restarted_cut.clone(),
+                    test_learner_authority(),
+                )
+                .unwrap(),
             )
         })
         .collect::<BTreeMap<_, _>>();

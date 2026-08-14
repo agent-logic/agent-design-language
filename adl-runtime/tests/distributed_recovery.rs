@@ -41,18 +41,18 @@ use std::{
 use capability_advertisement::{CapabilityEvidence, VerifiedCapabilityAdvertisement};
 use certificates::{
     AuthorityCertificate, CertificateBody, CertificatePolicy, CertificatePurpose,
-    CertificateValidity, DistributedCertificateStore,
+    CertificateValidity, DistributedCertificateStore, TEST_CERTIFICATE_STORE_ACCESS,
 };
 use ed25519_dalek::SigningKey;
 use fencing::{
     ActiveLeaseCheck, FencingCheckpoint, FencingCheckpointAuthority, FencingError, FencingPolicy,
-    FencingStore,
+    FencingStore, TEST_FENCING_STORE_ACCESS,
 };
 use lease::{
     activation_signature, encode_certificate, endorse, AuthorityApplication,
     AuthorityCertificateBodyV1, AuthorityCertificateV1, AuthorityLedger, AuthorityMembership,
     ControlCertificatePurpose, LeasePolicy, LeaseState, OperationClass, VoterAuthority,
-    AUTHORITY_CERTIFICATE_SCHEMA_VERSION, SIGNING_ALGORITHM_ED25519,
+    AUTHORITY_CERTIFICATE_SCHEMA_VERSION, SIGNING_ALGORITHM_ED25519, TEST_LEASE_STORE_ACCESS,
 };
 use membership::{
     CommittedMembershipEvent, Member, MemberRole, MembershipOperation, MembershipPolicy,
@@ -395,6 +395,7 @@ impl Fixture {
         let migration_authority = Arc::new(MigrationAuthority::default());
         let migration_clock = Arc::new(TestClock(Mutex::new(NOW * 1_000)));
         let fencing = FencingStore::create(
+            &TEST_FENCING_STORE_ACCESS,
             &fencing_root,
             fencing_policy(),
             Arc::new(FenceCheckpointAuthority::default()),
@@ -414,9 +415,10 @@ impl Fixture {
         );
         let source_signature = activation_signature(&grant_body, &authority.source_activation);
         let grant = authority.certificate(grant_body);
-        let mut ledger = AuthorityLedger::new(lease_policy()).unwrap();
+        let mut ledger = AuthorityLedger::new(&TEST_LEASE_STORE_ACCESS, lease_policy()).unwrap();
         ledger
             .apply(
+                &TEST_LEASE_STORE_ACCESS,
                 &grant,
                 &membership,
                 AuthorityApplication {
@@ -434,6 +436,7 @@ impl Fixture {
         let snapshot_signer = key(41);
         let certificate_store = Arc::new(
             DistributedCertificateStore::open(
+                &TEST_CERTIFICATE_STORE_ACCESS,
                 root.join("certificates.redb"),
                 CertificatePolicy::new(DOMAIN, [issuer.verifying_key()])
                     .unwrap()
@@ -459,10 +462,14 @@ impl Fixture {
         )
         .unwrap();
         certificate_store
-            .activate(&snapshot_certificate, NOW - 10)
+            .activate(
+                &TEST_CERTIFICATE_STORE_ACCESS,
+                &snapshot_certificate,
+                NOW - 10,
+            )
             .unwrap();
         let snapshot_policy = snapshot_policy();
-        let snapshot_verifier = SnapshotCatalogVerifier::open(
+        let snapshot_verifier = SnapshotCatalogVerifier::open_for_test(
             certificate_store,
             snapshot_policy.clone(),
             root.join("snapshot-replay.redb"),
@@ -1752,7 +1759,7 @@ fn recovery_requires_one_committed_prefix_and_cleans_incomplete_target_before_ro
         .unwrap();
     let source_snapshot = fixture.ledger.snapshot().unwrap();
     let membership11 = fixture.authority.membership(11);
-    let mut target_ledger = AuthorityLedger::new(lease_policy()).unwrap();
+    let mut target_ledger = AuthorityLedger::new(&TEST_LEASE_STORE_ACCESS, lease_policy()).unwrap();
     let target_grant_body = fixture.authority.body(
         11,
         1,
@@ -1766,6 +1773,7 @@ fn recovery_requires_one_committed_prefix_and_cleans_incomplete_target_before_ro
         activation_signature(&target_grant_body, &fixture.authority.target_activation);
     target_ledger
         .apply(
+            &TEST_LEASE_STORE_ACCESS,
             &fixture.authority.certificate(target_grant_body),
             &membership11,
             AuthorityApplication {

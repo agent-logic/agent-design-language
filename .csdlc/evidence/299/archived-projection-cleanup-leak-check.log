@@ -1,0 +1,7 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.08s
+────────────
+ Nextest run ID 2dc99c9f-2f2f-4547-b42b-d36b4e1ae15d with nextest profile: default
+    Starting 1 test across 1 binary (8 tests skipped)
+        PASS [   0.086s] (1/1) csdlc-v2::archived_projection_cleanup cleanup_rejects_replacement_inode_before_capture
+────────────
+     Summary [   0.086s] 1 test run: 1 passed, 8 skipped

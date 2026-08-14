@@ -1,0 +1,95 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 323,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][tools] Add typed bound issue identity/repository migration for split-authority recovery",
+    "slug": "typed-bound-issue-identity-migration",
+    "version": "v0.92",
+    "generation": 13
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 3,
+      "summary": "Bootstrap and bind #323, add the smallest typed migration command/schema/store path for active bound issue identity recovery, cover it with focused tests, validate the owner tooling, obtain review, and then use it later to recover #5913.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Add typed request/report schema and csdlc-issue subcommand for bound issue identity migration.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Implement fail-closed namespace/record/card migration with provenance and publication truth handling.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Add focused regression coverage for #5913 -> #322 and unchanged finish invariants.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Run focused validation and exact-head review.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-5"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "csdlc-v2/src/bin/csdlc-issue.rs",
+        "csdlc-v2/src/migration.rs",
+        "csdlc-v2/src/schema.rs",
+        "csdlc-v2/src/lib.rs",
+        "csdlc-v2/operator/skills/csdlc-v2-init/SKILL.md",
+        "csdlc-v2/tests/topology_migration.rs"
+      ],
+      "invariants": [
+        "Finish keeps exact issue/repository identity checks",
+        "Migration is request-driven and idempotent only for the exact source/target/provenance",
+        "Existing terminal records cannot be rewritten",
+        "Existing target lifecycle truth cannot be overwritten silently",
+        "Generated locks remain excluded from substantive proof"
+      ],
+      "risks": [
+        "Identity migration can become a dangerous generic state editor if underconstrained",
+        "Published-phase recovery may need to clear publication truth and require republish",
+        "Namespace move must avoid losing append-only audit/provenance"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "Implementation would require hand-editing live #5913 records",
+        "Implementation would weaken finish canonical identity validation",
+        "Implementation collides with active #112 or #298 paths",
+        "Focused tests or exact-head review fail"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/323/design.md",
+      "design_digest": "35d6b4863cc00f61360b746971834a36d46e41df57f7729a41a6cc466306b270",
+      "diagram_ref": ".csdlc/prepared/issues/323/diagram.mmd",
+      "diagram_digest": "46c5608ffec4e90eb969e119d97fb5f733be2c4e17cc9995de004a89f1d903c7"
+    }
+  }
+}

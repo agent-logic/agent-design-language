@@ -2,15 +2,56 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 5835,
   "repository": "danielbaustin/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "214155e897000ad4b833bad3f333909588f03629f193b672e5967e62750e2c3f",
-  "phase": "initialized",
-  "generation": 34,
-  "digest": "15c1eabf5f3eab3c5143a03538a7082e9f7e264faaa862be6e89992bcedfa00b",
-  "branch": null,
-  "worktree": null,
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "phase": "published",
+  "generation": 58,
+  "digest": "5ab9ed5c23b8e022b94f421fb0a150205adb1723c45b059112c7cfdc55fcb75d",
+  "branch": "codex/5835-wp17-continuity-migration",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-5835-wp17-continuity-migration",
+  "review_assignment": {
+    "reviewer": "/root/sprint5_5835/review_5835_remediation_exact_head",
+    "assigned_by": "/root/sprint5_5835",
+    "revision": "git-blake3:1d765ecfd61fcd7bccd50b37d0dc660a8ccf9f43:9680eda0b55c2b0565ad3798dda9dfa225f4bf9866492f2e534d953e83476cd6",
+    "scope": [
+      ".csdlc/issues/5835",
+      ".csdlc/prepared/issues/5835",
+      ".csdlc/evidence/5835",
+      "docs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md",
+      "docs/milestones/v0.92/design/CROSS_POLIS_CONTINUITY_TRANSFER_DESIGN_v0.92.md",
+      "docs/milestones/v0.92/NEXT_MILESTONE_HANDOFF_v0.92.md"
+    ]
+  },
+  "review": {
+    "reviewer": "/root/sprint5_5835/review_5835_remediation_exact_head",
+    "scope": [
+      ".csdlc/issues/5835",
+      ".csdlc/prepared/issues/5835",
+      ".csdlc/evidence/5835",
+      "docs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md",
+      "docs/milestones/v0.92/design/CROSS_POLIS_CONTINUITY_TRANSFER_DESIGN_v0.92.md",
+      "docs/milestones/v0.92/NEXT_MILESTONE_HANDOFF_v0.92.md"
+    ],
+    "reviewed_revision": "git-blake3:1d765ecfd61fcd7bccd50b37d0dc660a8ccf9f43:9680eda0b55c2b0565ad3798dda9dfa225f4bf9866492f2e534d953e83476cd6",
+    "findings": [],
+    "residual_risks": [
+      "The legacy STP task-boundary phrase mentions v0.93 handoff inputs, but typed declared scope, deliverables, AC-3, SPP S3, prepared ownership, empty branch diff, and executable validation all make the handoff byte-identical and read-only."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 5835,
+    "pull_request": 238,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/238",
+    "base": "main",
+    "head": "codex/5835-wp17-continuity-migration",
+    "revision": "git-blake3:62d773836d06b8e7a7aea9adb76b25cad9062e7c:ac9d772aa30993577280a292ff494d520bbccd63f7e3e362d901fdfd48a69226",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -24,34 +65,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c7d4f19adf9be70f35cfd17ffa5531ff99258557e11058c802718754f4b3b137",
-      "rendered_digest": "98b91e73cbc55145e52d5996b6a1dff499805e23a39be6827e4d14bb01ae0f59",
-      "ast_digest": "f5a8d8b3f95bdf6ad727783faa7e2a36f70c322317e400ed605c3031df82710a"
+      "values_digest": "a00e45539849fe2c42c1793a01d39b79198c56a99d01807cbca882989c2ec8ab",
+      "rendered_digest": "9605354fcbd162d5fd125aeedad0de87bb8a9ed4b1f2f4061de7d493d49f8ffe",
+      "ast_digest": "0032ff448cc12086e74c98c91407110d1501ef3ae301623d8a232660a93779e6"
     },
     "stp": {
-      "values_digest": "d2d78f5fe044cfadda47ca051d1c1a537f2692b197d7d003a81da38c9b01026a",
-      "rendered_digest": "2baed4c263203eb2e7785025590b0aa94cf8064218eec14f4dfecd9792f1d6a6",
-      "ast_digest": "a72a66ab38532060b526774a11801e0ebe6defc280d10f227ae7cafc06862341"
+      "values_digest": "05ecd60687350193d277efbc4b818f45ce34c95c7834c2fa0c38a0336598a761",
+      "rendered_digest": "8f1d8dd23691d5e0fc549a75178bedf5e10b89fa6449cd98f72f83ad947f1014",
+      "ast_digest": "06ee4c6d9d11dc2509af0b9a189f75937a4d8269432ae2eba89206f8f0249ad6"
     },
     "spp": {
-      "values_digest": "9f4fc4e2bcbcf9a814c69b5bf798478932fde906edb8430e6b9355bca6b293cd",
-      "rendered_digest": "65a79cc4e1ae75dec47380dedf2849fa4aca3a9878c4f484463d63cda10afe72",
-      "ast_digest": "b519c1b85c7b34f4a829ef7d3fa222af8ec79b1f0174b74971d053601165d334"
+      "values_digest": "c848ecafb8d40a5535dffe6f8b08fe5327270701c7820c9a8f2169996147ed69",
+      "rendered_digest": "12ca73c4da42cb6d42c9f8898fb1a59802e54bb5d3c84a333cdb2bd4999790ee",
+      "ast_digest": "069dfb2086711713c133330ffd5de5bc0184c9cfa95604cee5ae49fab060ecd0"
     },
     "vpp": {
-      "values_digest": "5a086f4c9f28a2860e0f4efeb941125fc5a4e27f5015d1abd4560116026f9829",
-      "rendered_digest": "7f4bb34fc4719f658233595ea4e950a22281cc29fac1e19f8d60b3d431e51922",
-      "ast_digest": "d848349e5dae1707a9bbcfa56572e4d99ebe25b4ca2c7d26931ad359d4993081"
+      "values_digest": "d05bc60250de153630c87809e9a8780e412a4e8d442782b0bee251ae339f9f7f",
+      "rendered_digest": "dcf5fa300522d7f5456f6fff5261cd402539f9dd43696288df2604d0f82559ac",
+      "ast_digest": "e3156e7f3ab4a49bca087fbb7c4d8fe09a1386c9e2b7c4610ec3ae10c37768a5"
     },
     "srp": {
-      "values_digest": "785074aabe54b1e4999de866dc13c62e94f105a4d280716c8f220e63a595a085",
-      "rendered_digest": "1e6d53b2e231ae2f279f48d790af5e861b2807fbb318f4b9a19cc0bd380a722b",
-      "ast_digest": "91b972a8c1f18ad574dd5032aacc36b7082d8968e8dc8f3447db572cb244e415"
+      "values_digest": "6cfa76e78805923f750d768903dbb4ae19ad6e6de95332f7c084046a615fb733",
+      "rendered_digest": "baf7b1186e13a3d8e8e484c55f14f24d3b8dd43cc8a8297f8ec8278f8df373e8",
+      "ast_digest": "0e39aeac8f201a4eecaa8f2c96d5c8e8f6cdce3c48fb9d8ebf94beffa5456af1"
     },
     "sor": {
-      "values_digest": "67ca7744c8755dee87df597f261702590a0245fc19a2027a6866834ff15e4edb",
-      "rendered_digest": "c886fa8cc0dc871153357eeadecb0ec0b390f00b0f9f25ca704f77b11809c88d",
-      "ast_digest": "6aea77a4c7a369e4f16374211b9c606951de5f21c57053c28d811be4a2ffe185"
+      "values_digest": "e0c02439e49d7c60d78a396713d138a32e49a581725262334fbea2394670e3f3",
+      "rendered_digest": "944265f089b3323f868d636e836dcf124dd7ce63ab890550f91667c9430167e7",
+      "ast_digest": "2a82e6c9f316e9528b996576ee1cb2748548633c1358b0f7838e9e686188a533"
     }
   },
   "transitions": [
@@ -75,6 +116,41 @@
       "to": "initialized",
       "actor": "csdlc-topology-migrate",
       "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 5,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 6,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "/root/sprint5_5835",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "/root/sprint5_5835",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "/root/sprint5_5835",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -413,6 +489,202 @@
       "actor": "codex:5854-sprint5-readiness",
       "reason": "Replace sunset claim language with current typed C-SDLC v2 Git topology authority.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"authority_boundary\",\"values\":[\"WP-17 owns documentation-only movement semantics and explicit non-goals\",\"WP-04 retains Runtime, storage, networking, and distributed polis infrastructure\",\"v0.93 retains citizenship, standing, rights, and governance decisions\",\"Lifecycle authority is the issue-bound Git branch and worktree recorded by typed C-SDLC v2.\",\"Historical claim, lease, heartbeat, and protected-path language is compatibility evidence only and must not control execution.\"]}"
+    },
+    {
+      "sequence": 49,
+      "generation": 34,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 50,
+      "generation": 35,
+      "actor": "/root/sprint5_5835",
+      "reason": "Record the bounded WP-17 documentation implementation and its reproducible positive and negative proof surfaces.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented the WP-17 documentation-only continuity-transfer contract over landed v0.92 Birthday evidence without claiming operational migration or governance authority.\",\"changes\":[\"Replaced the planning placeholder with an eleven-row field-level transfer matrix covering portability, locality, governance, transport, lineage, redaction, and fail-closed dispositions.\",\"Added a deterministic design for verification order, copy rejection, ambiguity quarantine, privacy, WP-04 mechanics, and v0.93 governance boundaries.\",\"Updated the v0.93 handoff only with concrete WP-17 candidate-reference and non-admission semantics.\",\"Added digest-bound dependency authority plus positive and mutation-based negative validation.\"],\"artifacts\":[\"docs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md\",\"docs/milestones/v0.92/design/CROSS_POLIS_CONTINUITY_TRANSFER_DESIGN_v0.92.md\",\"docs/milestones/v0.92/NEXT_MILESTONE_HANDOFF_v0.92.md\",\".csdlc/evidence/5835/dependency-authority.json\",\".csdlc/evidence/5835/validate-continuity-transfer.rb\"]}"
+    },
+    {
+      "sequence": 51,
+      "generation": 36,
+      "actor": "/root/sprint5_5835",
+      "reason": "Activate the issue-owned validators now that the bounded implementation has created and passed them.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"wp17-doc-contract\",\"proof_role\":\"Prove all transfer rows, source paths, and WP-04/v0.93 boundaries are complete.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"ruby\",\".csdlc/evidence/5835/validate-continuity-transfer.rb\"],\"parallel_group\":\"docs\",\"defer_reason\":null},{\"lane\":\"wp17-negative-semantics\",\"proof_role\":\"Reject copied/conflicting state, raw-memory transfer, and production/governance overclaim.\",\"acceptance_ids\":[\"AC-2\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2500,\"argv\":[\"ruby\",\".csdlc/evidence/5835/validate-continuity-transfer.rb\",\"--negative\"],\"parallel_group\":\"docs\",\"defer_reason\":null},{\"lane\":\"wp17-diff-review\",\"proof_role\":\"Prove clean patch structure before exact-head review.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 52,
+      "generation": 37,
+      "actor": "/root/sprint5_5835",
+      "reason": "Dependency truth and landed schema verification completed.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 53,
+      "generation": 38,
+      "actor": "/root/sprint5_5835",
+      "reason": "Field-level transfer matrix and detailed continuity-transfer design completed.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 54,
+      "generation": 39,
+      "actor": "/root/sprint5_5835",
+      "reason": "Concrete v0.93 candidate-reference and non-admission handoff inputs completed.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 55,
+      "generation": 40,
+      "actor": "/root/sprint5_5835",
+      "reason": "Positive and mutation-based negative continuity-transfer validation completed.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 56,
+      "generation": 41,
+      "actor": "/root/sprint5_5835",
+      "reason": "Documentation rollback is explicit and preserves rejected evidence and upstream authority.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S6\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 57,
+      "generation": 42,
+      "actor": "/root/sprint5_5835",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 58,
+      "generation": 42,
+      "actor": "/root/sprint5_5835",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 59,
+      "generation": 43,
+      "actor": "/root/sprint5_5835",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 60,
+      "generation": 44,
+      "actor": "/root/sprint5_5835",
+      "reason": "Correct execution truth while resolving the first exact-head review findings.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the WP-17 documentation-only continuity-transfer contract over landed v0.92 Birthday evidence; first-review authority, scope, ACIP, and rollback findings are under bounded remediation.\",\"changes\":[\"Added an eleven-row field-level transfer matrix covering portability, locality, governance, transport, lineage, redaction, and fail-closed dispositions.\",\"Added trusted repository, revision, authority-context, and redaction-policy anchor requirements that reject caller-established authority.\",\"Bound ACIP transfer-readiness to replacement issue #209, PR #215, exact merge ancestry, and digest-pinned local/native manifests.\",\"Retained a six-case rejected transfer matrix and explicit rollback proof while leaving the v0.93 handoff read-only.\"],\"artifacts\":[\"docs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md\",\"docs/milestones/v0.92/design/CROSS_POLIS_CONTINUITY_TRANSFER_DESIGN_v0.92.md\",\".csdlc/evidence/5835/dependency-authority.json\",\".csdlc/evidence/5835/rejected-transfer-matrix.json\",\".csdlc/evidence/5835/rollback-proof.json\",\".csdlc/evidence/5835/validate-continuity-transfer.rb\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/evidence/5835/validate-continuity-transfer.rb\"],\"purpose\":\"Validate the anchored field-level continuity-transfer, ACIP authority, and rollback contract.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5835/wp17-doc-contract.log\"},{\"command\":[\"ruby\",\".csdlc/evidence/5835/validate-continuity-transfer.rb\",\"--negative\"],\"purpose\":\"Prove copied/conflicting/private/self-authorized/superseded/overclaim mutations fail closed.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5835/wp17-negative-semantics.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and patch formatting defects.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/5835/wp17-diff-review.log\"}]}"
+    },
+    {
+      "sequence": 61,
+      "generation": 45,
+      "actor": "/root/sprint5_5835",
+      "reason": "Recover after fixing all four findings from the exact-head review of 9a438d9ca893e6afebb1d2505748feffe95f62df. The remediation at 10e5bdbc490d29d1f9ee155347e96d0e9589db1c removes the out-of-scope handoff edit, adds immutable trusted anchors, binds replacement ACIP proof, and retains negative and rollback evidence for fresh exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 62,
+      "generation": 45,
+      "actor": "/root/sprint5_5835",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 63,
+      "generation": 46,
+      "actor": "/root/sprint5_5835",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 64,
+      "generation": 47,
+      "actor": "/root/sprint5_5835",
+      "reason": "Recover after the fresh exact-head review found two remaining P2 issues: asserted-only rollback evidence and stale handoff authorization in lifecycle cards.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 65,
+      "generation": 48,
+      "actor": "/root/sprint5_5835",
+      "reason": "Remove the read-only v0.93 handoff from declared write scope after exact-head review.",
+      "operation": "{\"new_values\":[\"docs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md\",\"docs/milestones/v0.92/design/CROSS_POLIS_CONTINUITY_TRANSFER_DESIGN_v0.92.md\",\".csdlc/evidence/5835/\"],\"operation\":\"correct_declared_scope_before_publication\",\"previous_values\":[\"docs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md\",\"docs/milestones/v0.92/design/CROSS_POLIS_CONTINUITY_TRANSFER_DESIGN_v0.92.md\",\"docs/milestones/v0.92/NEXT_MILESTONE_HANDOFF_v0.92.md\",\".csdlc/evidence/5835/\"]}"
+    },
+    {
+      "sequence": 66,
+      "generation": 49,
+      "actor": "/root/sprint5_5835",
+      "reason": "Remove the read-only v0.93 handoff from required deliverables after exact-head review.",
+      "operation": "{\"new_values\":[\"Field-level continuity-transfer matrix\",\"Cross-polis continuity design note with WP-04 boundary\",\"Copied-state, ambiguity, redaction, and forbidden-claim validation evidence\",\".csdlc/evidence/5835/validate-continuity-transfer.rb\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"Field-level continuity-transfer matrix\",\"Cross-polis continuity design note with WP-04 boundary\",\"Updated v0.93 handoff inputs\",\"Copied-state, ambiguity, redaction, and forbidden-claim validation evidence\",\".csdlc/evidence/5835/validate-continuity-transfer.rb\"]}"
+    },
+    {
+      "sequence": 67,
+      "generation": 50,
+      "actor": "/root/sprint5_5835",
+      "reason": "Replace the stale handoff-edit plan step with a read-only verification and make rollback simulation explicit.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Verify #5826, #5827, and #5834 exact dependency truth and landed schemas\",\"acceptance_ids\":[\"AC-1\",\"AC-3\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Author the transfer matrix and continuity-transfer design note\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Verify the v0.93 handoff remains unchanged and consume it only as a read-only boundary input\",\"acceptance_ids\":[\"AC-3\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Run path, redaction, copied-state, ambiguity, and forbidden-claim validation\",\"acceptance_ids\":[\"AC-2\",\"AC-4\"],\"status\":\"pending\"},{\"id\":\"S5\",\"action\":\"Resolve exact-head review and retain proof\",\"acceptance_ids\":[\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S6\",\"action\":\"Verify rollback by digest: restore the owned feature bytes to the exact base revision, remove the issue-added design, retain rejected evidence, and prove read-only and upstream authority bytes remain unchanged\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 68,
+      "generation": 51,
+      "actor": "/root/sprint5_5835",
+      "reason": "Reconfirm dependency verification after correcting the recovered plan.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 69,
+      "generation": 52,
+      "actor": "/root/sprint5_5835",
+      "reason": "Reconfirm the owned transfer matrix and design after correcting the recovered plan.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 70,
+      "generation": 53,
+      "actor": "/root/sprint5_5835",
+      "reason": "Confirm the v0.93 handoff remains unchanged and read-only.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 71,
+      "generation": 54,
+      "actor": "/root/sprint5_5835",
+      "reason": "Reconfirm exact positive and negative validation after correcting the recovered plan.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 72,
+      "generation": 55,
+      "actor": "/root/sprint5_5835",
+      "reason": "Record completion of the digest-bound restore simulation and preservation proof.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S6\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 73,
+      "generation": 56,
+      "actor": "/root/sprint5_5835",
+      "reason": "Make the reviewed read-only handoff boundary explicit in acceptance truth.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: The transfer matrix covers every declared birthday artifact with portability, locality, governance, transport, lineage, and redaction dispositions.\",\"AC-2: Copied, conflicting, ambiguous, and raw-private-state cases fail closed or quarantine explicitly.\",\"AC-3: Only the owned feature/design notes may change; the v0.93 handoff remains byte-identical and read-only while WP-04 and v0.93 authority stay downstream.\",\"AC-4: Every cited path resolves and forbidden production/governance claims are absent.\",\"AC-5: Exact-head review has no unresolved actionable finding.\"]}"
+    },
+    {
+      "sequence": 74,
+      "generation": 56,
+      "actor": "/root/sprint5_5835",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 75,
+      "generation": 57,
+      "actor": "/root/sprint5_5835",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 76,
+      "generation": 58,
+      "actor": "/root/sprint5_5835",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

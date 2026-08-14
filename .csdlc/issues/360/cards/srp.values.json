@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 360,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1b][defect] Add authentic distinct Observatory transition fixture builder",
+    "slug": "observatory-authentic-transition-fixture",
+    "version": "v0.92",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/360\n.csdlc/prepared/issues/360\n.csdlc/evidence/360\nadl-runtime/src/distributed/authority_protocol.rs\nadl-runtime/src/distributed/serving_authority.rs\nadl-runtime/tests/distributed_observatory_authority_projection.rs",
+      "review_revision": "git-blake3:ca9655df3e895a0f1c7e749d1422ec85fc9f06ae:4e53104b83253ac825674373929c90eee4623fa3e38e207b874955816cbf7a6d",
+      "reviewer": "fresh-session:c748b2c0-db46-46ae-803a-c30ac374087e",
+      "review_prompts": [
+        "Are all helpers cfg-gated?",
+        "Do published result artifact and cut bind identical distinct values?",
+        "Are positive A/R/T/R and negative mismatch cases authentic?",
+        "Is production behavior unchanged?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pass"
+    }
+  }
+}

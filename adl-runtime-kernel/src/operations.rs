@@ -267,6 +267,7 @@ impl Drop for InFlightOwnerGuard<'_> {
 
 struct OperationEnvelope {
     request: OperationRequest,
+    cancellation: CancellationToken,
     reply: oneshot::Sender<OperationOutcome>,
 }
 
@@ -364,13 +365,26 @@ impl OperationalFactory {
         &self,
         request: OperationRequest,
     ) -> Result<OperationResult, OperationError> {
+        self.submit_with_cancellation(request, CancellationToken::new())
+            .await
+    }
+
+    pub async fn submit_with_cancellation(
+        &self,
+        request: OperationRequest,
+        cancellation: CancellationToken,
+    ) -> Result<OperationResult, OperationError> {
         let accepting = self.accepting.read().await;
         if !*accepting {
             return Err(OperationError::AdmissionClosed);
         }
         let (reply, result) = oneshot::channel();
         self.sender
-            .send(OperationEnvelope { request, reply })
+            .send(OperationEnvelope {
+                request,
+                cancellation,
+                reply,
+            })
             .await
             .map_err(|error| match error {
                 SendError::Full => OperationError::Saturated,
@@ -448,11 +462,19 @@ impl Component for OperationalComponent {
                 envelope = async { self.receiver.lock().await.recv().await }, if tasks.len() < max_in_flight => {
                     let Some(envelope) = envelope else { return Ok(()); };
                     let adapter = self.adapter.clone();
-                    let cancellation = context.cancellation.child_token();
+                    let lifecycle_cancellation = context.cancellation.child_token();
                     tasks.spawn(async move {
-                        let result = adapter
-                            .invoke_with_cancellation(envelope.request, cancellation)
-                            .await;
+                        let cancellation = lifecycle_cancellation.clone();
+                        let invocation = adapter
+                            .invoke_with_cancellation(envelope.request, cancellation.clone());
+                        tokio::pin!(invocation);
+                        let result = tokio::select! {
+                            result = &mut invocation => result,
+                            _ = envelope.cancellation.cancelled() => {
+                                cancellation.cancel();
+                                invocation.await
+                            }
+                        };
                         let _ = envelope.reply.send(result);
                     });
                 }

@@ -40,7 +40,7 @@ Diagram: .csdlc/prepared/issues/5835/diagram.mmd
       ".csdlc/evidence/5835/validate-continuity-transfer.rb"
     ],
     "parallel_group": "docs",
-    "defer_reason": "Implementation must create this issue-owned validator before proof execution; this bind-readiness deferral is not validation evidence."
+    "defer_reason": null
   },
   {
     "lane": "wp17-negative-semantics",
@@ -59,7 +59,7 @@ Diagram: .csdlc/prepared/issues/5835/diagram.mmd
       "--negative"
     ],
     "parallel_group": "docs",
-    "defer_reason": "Implementation must create this issue-owned validator before proof execution; this bind-readiness deferral is not validation evidence."
+    "defer_reason": null
   },
   {
     "lane": "wp17-diff-review",

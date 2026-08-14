@@ -1,0 +1,329 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 259,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "5757d863164a5f2f3330a01f212d5f6558c25c177a44f06d9f585657ca692015",
+  "phase": "published",
+  "generation": 17,
+  "digest": "b289daed29b8910926d0b111ba2d36a506f4f006cec953fdfc636b17e381365f",
+  "branch": "codex/259-governed-transport-authority-adapters",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-259-governed-transport-authority-adapters",
+  "review_assignment": {
+    "reviewer": "fresh-session:8c75e3e0-50b7-4e58-b0dc-fec5d9f1b493",
+    "assigned_by": "codex:/root/issue_259_takeover",
+    "revision": "git-blake3:375a149b567bb3b87958d9305624a495e3cc4ee7:dd570abc64883edbca3be8c448be9933202cf467c2eb46916eaee01c99d814f4",
+    "scope": [
+      "adl-runtime/src/distributed/authority_protocol.rs",
+      "adl-runtime/src/distributed/authority_reconciliation.rs",
+      "adl-runtime/src/distributed/transport/core.rs",
+      "adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs",
+      "adl-runtime/src/distributed/transport/governed/polis_runtime.rs",
+      "adl-runtime/tests/distributed_discovery.rs",
+      "adl-runtime/tests/distributed_runtime_transport.rs",
+      "adl-runtime/tests/distributed_transport.rs",
+      ".csdlc/issues/259",
+      ".csdlc/prepared/issues/259",
+      ".csdlc/evidence/259"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:8c75e3e0-50b7-4e58-b0dc-fec5d9f1b493",
+    "scope": [
+      "adl-runtime/src/distributed/authority_protocol.rs",
+      "adl-runtime/src/distributed/authority_reconciliation.rs",
+      "adl-runtime/src/distributed/transport/core.rs",
+      "adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs",
+      "adl-runtime/src/distributed/transport/governed/polis_runtime.rs",
+      "adl-runtime/tests/distributed_discovery.rs",
+      "adl-runtime/tests/distributed_runtime_transport.rs",
+      "adl-runtime/tests/distributed_transport.rs",
+      ".csdlc/issues/259",
+      ".csdlc/prepared/issues/259",
+      ".csdlc/evidence/259"
+    ],
+    "reviewed_revision": "git-blake3:375a149b567bb3b87958d9305624a495e3cc4ee7:dd570abc64883edbca3be8c448be9933202cf467c2eb46916eaee01c99d814f4",
+    "findings": [],
+    "residual_risks": [
+      "Reviewer independently reran distributed_runtime_transport 14/14; retained exact-head evidence and owner reruns prove distributed_transport 15/15, distributed_discovery 13/13, focused strict Clippy, and diff-check, while GitHub CI remains the remote integration authority."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 259,
+    "pull_request": 326,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/326",
+    "base": "main",
+    "head": "codex/259-governed-transport-authority-adapters",
+    "revision": "git-blake3:b388183640ccf89be89a501c52a66a9187c717e5:35f912f9aea42be5464d1ae362c1765e9226c28773cbaa16e010477729b14aac",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/259/design.md",
+  "diagram_path": ".csdlc/prepared/issues/259/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:/root/review_259_design_prebind",
+      "revision": "aa9f512a7624c4d0f21418012831fb40b1f052cc431222bcf7f101c1de39d67c"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "06fb886cbac548c7465c162a3a9e8f8c39baa1676013d37a38f00192b75407d0",
+      "rendered_digest": "7594d1c6a7de8ae71a823ecc12ba7e49e53cac287bae58e73ebbd5d6db9b77d3",
+      "ast_digest": "6f6d940bc50b4c7e362ca5bb3922d26899d98c830176015c4c83c46d12b0795d"
+    },
+    "stp": {
+      "values_digest": "c0f10a3fdec5e9596d7702bcb23c744fb490aa94febc4344d2408973a42a4c60",
+      "rendered_digest": "42e69080f3411d71e60b8a2bb12848a40bab16a41dae13b6f6246c80be0566d0",
+      "ast_digest": "17de52ff031e2b98805d6569bc40f4c83dcb736c19581340e94b09d100da5dd8"
+    },
+    "spp": {
+      "values_digest": "fbc46b2e56f7ce4179dc96983a438e2792fbced6aad4d1a38ed429dcc9a2e73a",
+      "rendered_digest": "c1ca495fdcf0fcac01efeb67f982f9e400defb5c688a8b0f25d5bed931da0a8c",
+      "ast_digest": "40788772bab1d16918320cd98d594c953a1a064980acbcec96432f8b6e703606"
+    },
+    "vpp": {
+      "values_digest": "61c47d801802d87a04ff8e3957597a7c3509c1fefa8c8d4f7129bc0a8b0da0a0",
+      "rendered_digest": "7013adf8d4ede398444821ee404a58835dd236a02440008d4389c233f9af7372",
+      "ast_digest": "b352db0068ef3bc7eee400634e00670e48e8f8201aeeb4397228a9ca8b36d540"
+    },
+    "srp": {
+      "values_digest": "20061599c1e02e273c9a87ad2f4fc7b6917a42f130c74ad37817ba2482ec7857",
+      "rendered_digest": "63c43988f7010de9316216008303969d31fc64e4683e2ef27d63ac714c48765f",
+      "ast_digest": "39e8a3846835345221e248e01179d08d8df1a2315f808e3350fb9c3805e68f53"
+    },
+    "sor": {
+      "values_digest": "9fdf437d4c72841b8c9d842f0265a3937cc25b78af6d170c9850464c14bff4f3",
+      "rendered_digest": "05f6e9e4b134f28e1f4b09a2dd76d2968cae23e69873d98610020e9db7b010c9",
+      "ast_digest": "d2e212dc26eeef02da98fa7a614352c7f4f65c30d542ac0473a053356a868a55"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root/issue_259_takeover",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/issue_259_takeover",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root/issue_259_takeover",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root/issue_259_takeover",
+      "reason": "Recover stale review and publication authority after terminal #327 repaired the required-CI baseline; resynchronize to exact origin/main, rerun proving validation, and require a new distinct exact-revision review before republishing PR #326."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root/issue_259_takeover",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root/issue_259_takeover",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:/root/review_259_design_prebind",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:/root/issue_259_takeover",
+      "reason": "Reconcile the approved plan with the exact governed transport implementation and its directly coupled published-authority integration fixture and proof targets.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/distributed/authority_protocol.rs\",\"adl-runtime/src/distributed/authority_reconciliation.rs\",\"adl-runtime/src/distributed/transport/core.rs\",\"adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs\",\"adl-runtime/src/distributed/transport/governed/polis_runtime.rs\",\"adl-runtime/tests/distributed_discovery.rs\",\"adl-runtime/tests/distributed_runtime_transport.rs\",\"adl-runtime/tests/distributed_transport.rs\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:/root/issue_259_takeover",
+      "reason": "Replace the over-broad baseline-red all-targets Clippy lane with exact proving transport targets, dependent-crate authority-bound integration proof, and strict changed-target Clippy.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"governed-transport-authority\",\"proof_role\":\"Prove positive transport authorization, negative identity/purpose/revocation paths, and the cfg(test) crate-private raw-store constructor contract.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_transport\",\"--\",\"--nocapture\",\"--test-threads=1\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"dependent-runtime-transport-authority\",\"proof_role\":\"Prove the dependent integration crate cannot use the private raw-store constructor and exercises transport only through a real published #258 adapter handle.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":600,\"budget_tokens\":3000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--features\",\"internal-test-fixtures\",\"--test\",\"distributed_runtime_transport\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"transport-coupled-discovery\",\"proof_role\":\"Prove the directly coupled discovery transport harness still compiles and preserves its fail-closed authorization behavior.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":1500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_discovery\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"runtime-transport-strict-clippy\",\"proof_role\":\"Reject warnings in the production library and every changed transport-coupled test target without absorbing unrelated repository-wide all-target lint debt.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--features\",\"internal-test-fixtures\",\"--test\",\"distributed_transport\",\"--test\",\"distributed_discovery\",\"--test\",\"distributed_runtime_transport\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"exact-diff-hygiene\",\"proof_role\":\"Reject whitespace and conflict-marker drift across the exact issue worktree diff.\",\"acceptance_ids\":[\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root/issue_259_takeover",
+      "reason": "Record completed source-flow and #258 adapter API inspection before final validation.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root/issue_259_takeover",
+      "reason": "Record completed governed transport binding with no public or dependent-crate raw-store constructor.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root/issue_259_takeover",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root/issue_259_takeover",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "/root/issue_259_takeover/review_259_exact_r1",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root/issue_259_takeover",
+      "reason": "Resolve 259-R1-P2-SPP-S3-TRUTH by aligning the operative plan with the already retained passing typed validation evidence.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root/issue_259_takeover",
+      "reason": "Recover failed exact review r1 after typed normalization of SPP step S3 resolved 259-R1-P2-SPP-S3-TRUTH; require a new immutable revision and fresh independent review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:/root/issue_259_takeover",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "/root/review_pr119_canonical_r3",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:/root/issue_259_takeover",
+      "reason": "Recover failed exact review r2 after 259-R2-P2-SRP-CONTRACT; clear stale review truth before typed SRP prompt correction and require a different fresh exact-revision reviewer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:/root/issue_259_takeover",
+      "reason": "Resolve 259-R2-P2-SRP-CONTRACT by restoring the mandatory independent exact-head review contract in the standard SRP.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Review every acceptance criterion AC-1 through AC-5 against the assigned immutable revision, approved design, exact changed scope, and retained typed validation evidence.\",\"Review code correctness and authorization security: production TransportAuthorization and PolisRuntimeAuthorityBootstrap must consume #258 AuthorityBoundCertificateStore; any direct raw-store transport seam must be cfg(test), crate-private, and unavailable to dependent crates; all adapter errors must fail closed.\",\"Review test and evidence sufficiency: dependent integration proof must publish reconciliation authority and obtain its handle through AuthorityStoreAdapterRegistry, focused positive and negative transport behavior must be covered, and retained SOR/VPP evidence must truthfully match execution.\",\"Review scope boundaries: #259 must not absorb #260 non-transport caller migration, #203 parent integration, #205 serving eligibility, or mutate preserved #203 worktrees.\",\"Report findings first in P0 through P3 order with repository-relative file and line evidence, explicitly state review and validation limitations, remain read-only without editing Git, lifecycle, PR, or GitHub state, and return PASS only when no actionable finding remains.\"]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:/root/issue_259_takeover",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:/root/issue_259_takeover",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex:/root/issue_259_takeover",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:/root/issue_259_takeover",
+      "reason": "Recover stale review and publication authority after terminal #327 repaired the required-CI baseline; resynchronize to exact origin/main, rerun proving validation, and require a new distinct exact-revision review before republishing PR #326.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 15,
+      "actor": "codex:/root/issue_259_takeover",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 16,
+      "actor": "codex:/root/issue_259_takeover",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 17,
+      "actor": "codex:/root/issue_259_takeover",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

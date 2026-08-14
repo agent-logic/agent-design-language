@@ -1,0 +1,50 @@
+{
+  "issue": 111,
+  "expected_generation": 50,
+  "expected_digest": "34796bbf4c8115ce89cf4ffbcaceaed5ff295b8b24e8c13f279d8a6aa4f1c565",
+  "actor": "subagent:019fef4f-e98a-7a13-a0dd-e401692cee98",
+  "evidence": {
+    "reviewer": "subagent:019fef4f-e98a-7a13-a0dd-e401692cee98",
+    "scope": [
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/ingress.rs",
+      "adl-runtime-kernel/src/operations.rs",
+      "adl-runtime-kernel/tests/conversation_sessions.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "adl-runtime-kernel/tests/openapi_contract.rs",
+      "docs/api/runtime-v3/v1/observatory.openapi.json",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      ".csdlc/issues/111"
+    ],
+    "reviewed_revision": "git-blake3:aa0234353cf10a8aa41b983a0cb56f0f376907a5:640bdc40ba53e2a99bb47109350db23290bf382776c660f9956bd6812d193610",
+    "findings": [
+      {
+        "id": "recipient-eligibility-not-rechecked-before-dispatch",
+        "severity": "p1",
+        "summary": "A queued turn could dispatch after the recipient lost live communication eligibility.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "pending-turn-replay-limited-to-page-lifetime",
+        "severity": "p2",
+        "summary": "A second disconnect could strand a pending turn because replay was limited to once per page lifetime.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

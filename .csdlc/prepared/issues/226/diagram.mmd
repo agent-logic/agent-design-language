@@ -1,0 +1,10 @@
+flowchart LR
+  C[Changed paths] --> S[Validation selector]
+  S --> O[Observatory focused lane]
+  S --> D[Docs diff lane]
+  S --> R[Runtime kernel lane]
+  S --> U[Unknown path fail closed]
+  O --> P[Focused PR proof]
+  D --> P
+  R --> P
+  U --> E[Explicit escalation]

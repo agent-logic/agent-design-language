@@ -1,0 +1,7 @@
+{
+  "issue": 226,
+  "expected_generation": 22,
+  "expected_digest": "4d4ff026294d2ad396b1ce3ad49a0f1c9ab5cd38e16feeeec1de7299149aa163",
+  "actor": "codex:226-focused-runtime-validation-routing",
+  "reason": "Recover review truth after making the JavaScript deletion regression unconditional on branches where the real validator already exists."
+}

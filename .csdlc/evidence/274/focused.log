@@ -1,0 +1,13 @@
+
+running 4 tests
+test authenticated_lifecycle_and_restart_are_monotone ... ok
+test inclusive_nanos_expiry_and_pair_mismatch_fail_closed ... ok
+test projection_is_redacted ... ok
+test stale_predecessor_overlap_and_conflicting_retry_fail_closed ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.28s
+
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-274-observatory-serving-eligibility/adl-runtime-kernel)
+   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-274-observatory-serving-eligibility/adl-runtime)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 5.69s
+     Running tests/distributed_observatory_serving_eligibility.rs (adl-runtime/target/debug/deps/distributed_observatory_serving_eligibility-624cc2fe4289e970)
