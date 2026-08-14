@@ -13,6 +13,7 @@ use adl_runtime::distributed::continuity_transfer::{
 };
 use adl_runtime_kernel::{SourceCheckpointHandle, TargetStageHandle};
 use sha2::{Digest, Sha256};
+use std::collections::BTreeMap;
 
 fn sha(bytes: &[u8]) -> [u8; 32] {
     <[u8; 32]>::from(Sha256::digest(bytes))
@@ -33,6 +34,7 @@ fn subassertion_marker(name: &str) {
 #[derive(Default)]
 struct MemoryJournal {
     writes: usize,
+    last: Option<ContinuityTransferJournalState>,
 }
 
 impl ContinuityTransferJournalWriter for MemoryJournal {
@@ -41,7 +43,29 @@ impl ContinuityTransferJournalWriter for MemoryJournal {
         _journal: &ContinuityTransferJournalState,
     ) -> Result<(), ContinuityTransferError> {
         self.writes += 1;
+        self.last = Some(_journal.clone());
         Ok(())
+    }
+}
+
+#[derive(Default)]
+struct FailSecondJournal {
+    writes: usize,
+    first: Option<ContinuityTransferJournalState>,
+}
+
+impl ContinuityTransferJournalWriter for FailSecondJournal {
+    fn write_journal(
+        &mut self,
+        journal: &ContinuityTransferJournalState,
+    ) -> Result<(), ContinuityTransferError> {
+        self.writes += 1;
+        if self.writes == 1 {
+            self.first = Some(journal.clone());
+            Ok(())
+        } else {
+            Err(ContinuityTransferError::Storage)
+        }
     }
 }
 
@@ -65,6 +89,7 @@ fn finish(
 #[derive(Default)]
 struct MemoryTargetEffect {
     writes: Vec<TargetContinuityFrameEffect>,
+    receipts: BTreeMap<Vec<u8>, TargetContinuityFrameEffectReceipt>,
 }
 
 impl TargetContinuityEffectPort for MemoryTargetEffect {
@@ -74,15 +99,21 @@ impl TargetContinuityEffectPort for MemoryTargetEffect {
         payload: &[u8],
     ) -> Result<TargetContinuityFrameEffectReceipt, ContinuityTransferError> {
         assert_eq!(effect.payload_sha256, sha(payload));
+        let key = serde_jcs::to_vec(effect).expect("effect key");
+        if let Some(existing) = self.receipts.get(&key) {
+            return Ok(existing.clone());
+        }
         self.writes.push(effect.clone());
-        Ok(TargetContinuityFrameEffectReceipt {
+        let receipt = TargetContinuityFrameEffectReceipt {
             transfer_id_sha256: effect.transfer_id_sha256,
             chunk_index: effect.chunk_index,
             accepted_prefix: effect.accepted_prefix,
             payload_sha256: effect.payload_sha256,
             verifier_prefix_sha256: sha(&serde_jcs::to_vec(effect).expect("effect identity")),
             fsync_attested: true,
-        })
+        };
+        self.receipts.insert(key, receipt.clone());
+        Ok(receipt)
     }
 
     fn verify_possession(
@@ -113,6 +144,7 @@ impl TargetContinuityEffectPort for MemoryTargetEffect {
 #[derive(Default)]
 struct CleanupFixture {
     calls: usize,
+    receipts: BTreeMap<Vec<u8>, ContinuityTransferAbortReceipt>,
 }
 
 impl ContinuityTransferCleanupAuthority for CleanupFixture {
@@ -120,13 +152,19 @@ impl ContinuityTransferCleanupAuthority for CleanupFixture {
         &mut self,
         request: ContinuityTransferCleanupRequest,
     ) -> Result<ContinuityTransferAbortReceipt, ContinuityTransferError> {
+        let key = serde_jcs::to_vec(&request).expect("cleanup key");
+        if let Some(existing) = self.receipts.get(&key) {
+            return Ok(existing.clone());
+        }
         self.calls += 1;
-        Ok(ContinuityTransferAbortReceipt {
+        let receipt = ContinuityTransferAbortReceipt {
             transfer_id_sha256: request.transfer_id_sha256,
             cleanup_identity_sha256: request.cleanup_identity_sha256,
             accepted_prefix: request.accepted_prefix,
             zero_residue_attested: true,
-        })
+        };
+        self.receipts.insert(key, receipt.clone());
+        Ok(receipt)
     }
 }
 
@@ -728,6 +766,44 @@ fn generic_or_confused_authority_binding_is_denied() {
 
 #[test]
 fn abort_is_idempotent_redacted_and_stops_later_frames() {
+    let mut interrupted_abort = session();
+    accept_frame(&mut interrupted_abort, frame(0))
+        .expect("first accepted before interrupted abort");
+    let mut interrupted_cleanup = CleanupFixture::default();
+    let mut fail_commit = FailSecondJournal::default();
+    assert_eq!(
+        interrupted_abort
+            .abort(
+                "transfer-210",
+                "cleanup-stage",
+                &mut interrupted_cleanup,
+                &mut fail_commit,
+            )
+            .unwrap_err(),
+        ContinuityTransferError::Storage
+    );
+    assert_eq!(interrupted_cleanup.calls, 1);
+    let pending_abort_journal = fail_commit.first.expect("pending abort journal");
+    assert!(pending_abort_journal.pending_abort.is_some());
+    assert!(pending_abort_journal.aborted.is_none());
+    let mut restored_pending_abort = ContinuityTransferSession::restore(
+        &artifact(),
+        expectation(),
+        ContinuityTransferPolicy::bounded(64, 128, 4),
+        pending_abort_journal,
+    )
+    .expect("restore pending abort");
+    let mut retry_abort_journal = MemoryJournal::default();
+    restored_pending_abort
+        .abort(
+            "transfer-210",
+            "cleanup-stage",
+            &mut interrupted_cleanup,
+            &mut retry_abort_journal,
+        )
+        .expect("retry pending abort");
+    assert_eq!(interrupted_cleanup.calls, 1);
+
     let mut abort_session = session();
     accept_frame(&mut abort_session, frame(0)).expect("first accepted");
     let mut cleanup = CleanupFixture::default();
@@ -741,7 +817,13 @@ fn abort_is_idempotent_redacted_and_stops_later_frames() {
         )
         .expect("abort accepted");
     assert_eq!(cleanup.calls, 1);
-    assert_eq!(abort_journal.writes, 1);
+    assert_eq!(abort_journal.writes, 2);
+    assert!(abort_journal
+        .last
+        .as_ref()
+        .expect("committed abort journal")
+        .aborted
+        .is_some());
     assert_eq!(receipt.accepted_prefix, payloads()[0].len() as u64);
     assert!(receipt.zero_residue_attested);
     assert_ne!(receipt.cleanup_identity_sha256, sha(b"cleanup-stage-wrong"));
@@ -816,9 +898,9 @@ fn journal_restore_resumes_exact_prefix_without_raw_payload() {
     .expect("restore empty admission");
     assert_eq!(admitted_restored.accepted_prefix(), 0);
 
-    let mut session = session();
-    let accepted = accept_frame(&mut session, frame(0)).expect("first accepted");
-    let journal = session.journal();
+    let mut active_session = session();
+    let accepted = accept_frame(&mut active_session, frame(0)).expect("first accepted");
+    let journal = active_session.journal();
     assert_eq!(journal.accepted_prefix, accepted.accepted_prefix);
     assert_eq!(journal.accepted.len(), 1);
 
@@ -832,6 +914,38 @@ fn journal_restore_resumes_exact_prefix_without_raw_payload() {
     assert_eq!(restored.accepted_prefix(), accepted.accepted_prefix);
     accept_frame(&mut restored, frame(1)).expect("resume second");
     assert_eq!(finish(&mut restored).expect("complete").chunk_count, 2);
+
+    let mut interrupted = session();
+    let mut target = MemoryTargetEffect::default();
+    let mut fail_commit = FailSecondJournal::default();
+    assert_eq!(
+        interrupted
+            .accept_frame(frame(0), &mut target, &mut fail_commit)
+            .unwrap_err(),
+        ContinuityTransferError::Storage
+    );
+    assert_eq!(target.writes.len(), 1);
+    assert_eq!(interrupted.accepted_prefix(), 0);
+    let pending_effect_journal = fail_commit.first.expect("pending effect journal");
+    assert!(pending_effect_journal.pending_effect.is_some());
+    assert_eq!(pending_effect_journal.accepted_prefix, 0);
+    let mut restored_pending = ContinuityTransferSession::restore(
+        &artifact(),
+        expectation(),
+        ContinuityTransferPolicy::bounded(64, 128, 4),
+        pending_effect_journal,
+    )
+    .expect("restore pending frame");
+    let mut retry_journal = MemoryJournal::default();
+    restored_pending
+        .accept_frame(frame(0), &mut target, &mut retry_journal)
+        .expect("retry exact pending effect");
+    assert_eq!(target.writes.len(), 1);
+    assert_eq!(
+        restored_pending.accepted_prefix(),
+        payloads()[0].len() as u64
+    );
+
     marker("CASE-005:resume_after_partition");
     marker("CASE-032:source_restart_resume");
     marker("CASE-033:target_restart_resume");

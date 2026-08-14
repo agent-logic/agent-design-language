@@ -201,6 +201,8 @@ pub struct ContinuityTransferJournalState {
     pub accepted_prefix: u64,
     pub next_chunk_index: u64,
     pub predecessor_sha256: Option<[u8; 32]>,
+    pub pending_effect: Option<TargetContinuityFrameEffect>,
+    pub pending_abort: Option<ContinuityTransferCleanupRequest>,
     pub accepted: BTreeMap<u64, ContinuityTransferFrameReceipt>,
     pub aborted: Option<ContinuityTransferAbortReceipt>,
     pub completed: Option<VerifiedContinuityTransferReceipt>,
@@ -327,6 +329,8 @@ impl ContinuityTransferSession {
             accepted_prefix: self.accepted_prefix,
             next_chunk_index: self.next_chunk_index,
             predecessor_sha256: self.predecessor_sha256,
+            pending_effect: None,
+            pending_abort: None,
             accepted: self.accepted.clone(),
             aborted: self.aborted.clone(),
             completed: self.completed.clone(),
@@ -352,7 +356,11 @@ impl ContinuityTransferSession {
         let payload = frame.payload.clone();
         let receipt = staged.accept_frame_unpersisted(frame)?;
         if !receipt.duplicate {
-            staged.write_target_effect(&receipt, &payload, target)?;
+            let effect = staged.target_effect(&receipt);
+            let mut pending_journal = self.journal();
+            pending_journal.pending_effect = Some(effect.clone());
+            writer.write_journal(&pending_journal)?;
+            Self::write_target_effect(&effect, &payload, target)?;
             writer.write_journal(&staged.journal())?;
             *self = staged;
         }
@@ -502,6 +510,9 @@ impl ContinuityTransferSession {
             cleanup_identity_sha256: sha256_array(self.grant.cleanup_identity.as_bytes()),
             accepted_prefix: self.accepted_prefix,
         };
+        let mut pending_journal = self.journal();
+        pending_journal.pending_abort = Some(request.clone());
+        writer.write_journal(&pending_journal)?;
         let receipt = cleanup.discard(request.clone())?;
         if receipt.transfer_id_sha256 != request.transfer_id_sha256
             || receipt.cleanup_identity_sha256 != request.cleanup_identity_sha256
@@ -517,13 +528,11 @@ impl ContinuityTransferSession {
         Ok(receipt)
     }
 
-    fn write_target_effect(
+    fn target_effect(
         &self,
         receipt: &ContinuityTransferFrameReceipt,
-        payload: &[u8],
-        target: &mut dyn TargetContinuityEffectPort,
-    ) -> Result<(), ContinuityTransferError> {
-        let effect = TargetContinuityFrameEffect {
+    ) -> TargetContinuityFrameEffect {
+        TargetContinuityFrameEffect {
             transfer_id_sha256: sha256_array(self.grant.transfer_id.as_bytes()),
             target_stage_handle_sha256: sha256_array(&self.grant.bundle_handle_identity),
             chunk_index: receipt.chunk_index,
@@ -536,8 +545,15 @@ impl ContinuityTransferSession {
                 .get(receipt.chunk_index as usize)
                 .and_then(|chunk| chunk.predecessor_sha256),
             accepted_prefix: receipt.accepted_prefix,
-        };
-        let target_receipt = target.write_frame(&effect, payload)?;
+        }
+    }
+
+    fn write_target_effect(
+        effect: &TargetContinuityFrameEffect,
+        payload: &[u8],
+        target: &mut dyn TargetContinuityEffectPort,
+    ) -> Result<(), ContinuityTransferError> {
+        let target_receipt = target.write_frame(effect, payload)?;
         if target_receipt.transfer_id_sha256 != effect.transfer_id_sha256
             || target_receipt.chunk_index != effect.chunk_index
             || target_receipt.accepted_prefix != effect.accepted_prefix
@@ -610,6 +626,45 @@ impl ContinuityTransferSession {
             predecessor = Some(receipt.payload_sha256);
         }
         if journal.accepted_prefix != expected_prefix || journal.predecessor_sha256 != predecessor {
+            return Err(ContinuityTransferError::CorruptJournal);
+        }
+        if let Some(pending) = &journal.pending_effect {
+            let chunk = self
+                .grant
+                .chunks
+                .get(journal.next_chunk_index as usize)
+                .ok_or(ContinuityTransferError::CorruptJournal)?;
+            let pending_prefix = journal
+                .accepted_prefix
+                .checked_add(chunk.length)
+                .ok_or(ContinuityTransferError::CorruptJournal)?;
+            if pending.transfer_id_sha256 != journal.transfer_id_sha256
+                || pending.target_stage_handle_sha256
+                    != sha256_array(&self.grant.bundle_handle_identity)
+                || pending.chunk_index != journal.next_chunk_index
+                || pending.absolute_start != journal.accepted_prefix
+                || pending.length != chunk.length
+                || pending.payload_sha256 != chunk.sha256
+                || pending.predecessor_sha256 != chunk.predecessor_sha256
+                || pending.accepted_prefix != pending_prefix
+                || journal.aborted.is_some()
+                || journal.completed.is_some()
+            {
+                return Err(ContinuityTransferError::CorruptJournal);
+            }
+        }
+        if let Some(pending_abort) = &journal.pending_abort {
+            if pending_abort.transfer_id_sha256 != journal.transfer_id_sha256
+                || pending_abort.cleanup_identity_sha256
+                    != sha256_array(self.grant.cleanup_identity.as_bytes())
+                || pending_abort.accepted_prefix != journal.accepted_prefix
+                || journal.aborted.is_some()
+                || journal.completed.is_some()
+            {
+                return Err(ContinuityTransferError::CorruptJournal);
+            }
+        }
+        if journal.pending_effect.is_some() && journal.pending_abort.is_some() {
             return Err(ContinuityTransferError::CorruptJournal);
         }
         if let Some(abort) = &journal.aborted {
