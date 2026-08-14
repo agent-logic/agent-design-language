@@ -25,6 +25,8 @@ const JOURNAL_SCHEMA: &str = "adl.runtime.continuity-transfer.journal.v1";
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum ContinuityTransferError {
     WrongAuthority,
+    WrongTrustDomain,
+    WrongPolis,
     WrongRoute,
     WrongSource,
     WrongTarget,
@@ -73,6 +75,8 @@ impl ContinuityTransferPolicy {
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct ContinuityTransferExpectation {
+    pub trust_domain: String,
+    pub polis_id: String,
     pub source_guardian_id: String,
     pub target_guardian_id: String,
     pub route_id: String,
@@ -428,6 +432,12 @@ fn validate_expected(
     grant: &ContinuityTransferGrantArtifact,
     expected: &ContinuityTransferExpectation,
 ) -> Result<(), ContinuityTransferError> {
+    if grant.trust_domain != expected.trust_domain {
+        return Err(ContinuityTransferError::WrongTrustDomain);
+    }
+    if grant.polis_id != expected.polis_id {
+        return Err(ContinuityTransferError::WrongPolis);
+    }
     if grant.source_guardian_id != expected.source_guardian_id {
         return Err(ContinuityTransferError::WrongSource);
     }

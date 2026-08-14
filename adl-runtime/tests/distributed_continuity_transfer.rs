@@ -26,6 +26,8 @@ fn grant() -> ContinuityTransferGrantArtifact {
     let first_sha = sha(first);
     let second_sha = sha(second);
     ContinuityTransferGrantArtifact {
+        trust_domain: "trust-domain".to_owned(),
+        polis_id: "polis-a".to_owned(),
         source_guardian_id: "guardian-source".to_owned(),
         target_guardian_id: "guardian-target".to_owned(),
         route_id: "route-current".to_owned(),
@@ -78,6 +80,8 @@ fn grant() -> ContinuityTransferGrantArtifact {
 
 fn expectation() -> ContinuityTransferExpectation {
     ContinuityTransferExpectation {
+        trust_domain: "trust-domain".to_owned(),
+        polis_id: "polis-a".to_owned(),
         source_guardian_id: "guardian-source".to_owned(),
         target_guardian_id: "guardian-target".to_owned(),
         route_id: "route-current".to_owned(),
@@ -195,6 +199,22 @@ fn completion_retry_and_completion_journal_are_cached_without_payload() {
 fn wrong_source_target_route_and_cut_are_denied_before_bytes_move() {
     let artifact = artifact();
     let mut expected = expectation();
+    expected.trust_domain = "other-domain".to_owned();
+    assert_eq!(
+        ContinuityTransferSession::open(&artifact, expected, ContinuityTransferPolicy::default())
+            .unwrap_err(),
+        ContinuityTransferError::WrongTrustDomain
+    );
+
+    let mut expected = expectation();
+    expected.polis_id = "other-polis".to_owned();
+    assert_eq!(
+        ContinuityTransferSession::open(&artifact, expected, ContinuityTransferPolicy::default())
+            .unwrap_err(),
+        ContinuityTransferError::WrongPolis
+    );
+
+    let mut expected = expectation();
     expected.source_guardian_id = "other-source".to_owned();
     assert_eq!(
         ContinuityTransferSession::open(&artifact, expected, ContinuityTransferPolicy::default())
@@ -251,10 +271,28 @@ fn wrong_source_target_route_and_cut_are_denied_before_bytes_move() {
     );
     marker("CASE-007:wrong_source_denied");
     marker("CASE-008:wrong_target_denied");
+    marker("CASE-009:wrong_polis_denied");
+    marker("CASE-010:wrong_domain_denied");
     marker("CASE-011:wrong_lineage_denied");
     marker("CASE-012:wrong_membership_cut_denied");
     marker("CASE-013:stale_certificate_denied");
     marker("CASE-014:wrong_boot_generation_denied");
+}
+
+#[test]
+fn signed_catalog_manifest_and_incremental_ranges_are_verified() {
+    let mut bad_manifest = grant();
+    bad_manifest.signed_manifest_sha256 = sha(b"wrong-manifest");
+    assert!(CommittedAuthorityArtifact::continuity_transfer(&bad_manifest).is_err());
+
+    let mut entry_gap = grant();
+    entry_gap.entries[0].absolute_start = 1;
+    assert!(CommittedAuthorityArtifact::continuity_transfer(&entry_gap).is_err());
+
+    let mut predecessor_drift = grant();
+    predecessor_drift.chunks[1].predecessor_sha256 = Some(sha(b"wrong-predecessor"));
+    assert!(CommittedAuthorityArtifact::continuity_transfer(&predecessor_drift).is_err());
+    marker("CASE-004:incremental_catalog_verify");
 }
 
 #[test]

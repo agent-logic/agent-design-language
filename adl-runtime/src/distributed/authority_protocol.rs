@@ -229,6 +229,8 @@ pub struct ContinuityTransferChunk {
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ContinuityTransferGrantArtifact {
+    pub trust_domain: String,
+    pub polis_id: String,
     pub source_guardian_id: String,
     pub target_guardian_id: String,
     pub route_id: String,
@@ -257,6 +259,8 @@ pub struct ContinuityTransferGrantArtifact {
 impl ContinuityTransferGrantArtifact {
     fn validate(&self) -> AuthorityProtocolResult<()> {
         for value in [
+            &self.trust_domain,
+            &self.polis_id,
             &self.source_guardian_id,
             &self.target_guardian_id,
             &self.route_id,
@@ -2214,6 +2218,8 @@ mod tests {
         let manifest = b"signed-manifest".to_vec();
         let catalog = b"signed-catalog".to_vec();
         ContinuityTransferGrantArtifact {
+            trust_domain: "trust-domain".into(),
+            polis_id: "polis-a".into(),
             source_guardian_id: "guardian-a".into(),
             target_guardian_id: "guardian-b".into(),
             route_id: "route-a".into(),
