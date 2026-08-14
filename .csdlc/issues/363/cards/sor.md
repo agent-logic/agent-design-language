@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Permit one sequenced Implemented SPP summary correction within a bounded review-recovery epoch.
+Narrow Implemented SPP summary recovery to the exact approved typed repair epoch.
 
 ## Artifacts
 
@@ -21,13 +21,27 @@ Permit one sequenced Implemented SPP summary correction within a bounded review-
 
 ## Execution
 
-- Explicit parsed allowlist for typed intervening repair operations
-- Second correction unknown operation and current review/publication fail closed
-- Correction audit binds recovery sequence and generation
+- Split SPP summary epoch authorization from immediate-only SIP required-outcome recovery
+- Allow only approve_design affected_areas plan_steps and validation_lanes
+- Prove exact #274 chain exact recovery provenance second correction unknown operation and SIP denial
 
 ## Validation
 
 [
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate5"
+    ],
+    "purpose": "Prove full recovery and review gate matrix including all R1 closures.",
+    "outcome": "passed",
+    "evidence_ref": "58 passed at source aabed8b81"
+  },
   {
     "command": [
       "cargo",
@@ -40,39 +54,20 @@ Permit one sequenced Implemented SPP summary correction within a bounded review-
       "-D",
       "warnings"
     ],
-    "purpose": "Strict csdlc-v2 Clippy.",
+    "purpose": "Strict warnings proof.",
     "outcome": "passed",
-    "evidence_ref": "clippy.log"
+    "evidence_ref": "PASS at source aabed8b81"
   },
   {
     "command": [
-      "cargo",
-      "test",
-      "--locked",
-      "--manifest-path",
-      "csdlc-v2/Cargo.toml",
-      "--test",
-      "gate5",
-      "recovered_issue_can_correct_only_the_spp_plan_summary"
+      "git",
+      "diff",
+      "--check",
+      "dae957c435b73d87af1f36d4e15fb088f6fd055b...HEAD"
     ],
-    "purpose": "Run existing gate5 regression.",
+    "purpose": "Diff hygiene.",
     "outcome": "passed",
-    "evidence_ref": "focused-existing.log"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--locked",
-      "--manifest-path",
-      "csdlc-v2/Cargo.toml",
-      "--test",
-      "gate5",
-      "implemented_plan_summary_recovery_survives_allowed_intervening_repairs"
-    ],
-    "purpose": "Run new gate5 regression.",
-    "outcome": "passed",
-    "evidence_ref": "focused-new.log"
+    "evidence_ref": "no output at source aabed8b81"
   }
 ]
 
