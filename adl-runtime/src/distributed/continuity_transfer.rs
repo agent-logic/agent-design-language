@@ -46,6 +46,7 @@ pub enum ContinuityTransferError {
     CleanupAuthority,
     CorruptJournal,
     Deadline,
+    Storage,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -161,6 +162,13 @@ pub struct ContinuityTransferJournalState {
     pub completed: Option<VerifiedContinuityTransferReceipt>,
 }
 
+pub trait ContinuityTransferJournalWriter {
+    fn write_journal(
+        &mut self,
+        journal: &ContinuityTransferJournalState,
+    ) -> Result<(), ContinuityTransferError>;
+}
+
 #[derive(Clone, Debug)]
 pub struct ContinuityTransferSession {
     grant: ContinuityTransferGrantArtifact,
@@ -255,6 +263,15 @@ impl ContinuityTransferSession {
             aborted: self.aborted.clone(),
             completed: self.completed.clone(),
         }
+    }
+
+    pub fn checkpoint_journal(
+        &self,
+        writer: &mut dyn ContinuityTransferJournalWriter,
+    ) -> Result<ContinuityTransferJournalState, ContinuityTransferError> {
+        let journal = self.journal();
+        writer.write_journal(&journal)?;
+        Ok(journal)
     }
 
     pub fn accept_frame(

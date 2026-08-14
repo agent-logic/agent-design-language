@@ -5,7 +5,8 @@ use adl_runtime::distributed::authority_protocol::{
 };
 use adl_runtime::distributed::continuity_transfer::{
     ContinuityTransferError, ContinuityTransferExpectation, ContinuityTransferFrame,
-    ContinuityTransferPolicy, ContinuityTransferSession,
+    ContinuityTransferJournalState, ContinuityTransferJournalWriter, ContinuityTransferPolicy,
+    ContinuityTransferSession,
 };
 use adl_runtime_kernel::{SourceCheckpointHandle, TargetStageHandle};
 use sha2::{Digest, Sha256};
@@ -20,6 +21,10 @@ fn canonical_identity<T: serde::Serialize>(value: &T) -> Vec<u8> {
 
 fn marker(name: &str) {
     println!("pass:{name}");
+}
+
+fn subassertion_marker(name: &str) {
+    println!("{name}");
 }
 
 fn payloads() -> [&'static [u8]; 2] {
@@ -181,6 +186,28 @@ fn authorized_transfer_accepts_ordered_frames_and_redacted_receipt() {
     marker("CASE-001:authorized_transfer");
     marker("CASE-018:frame_n_accepted");
     marker("CASE-045:evidence_redaction");
+}
+
+#[test]
+fn subassertion_marker_denominator_matches_acceptance_map() {
+    let map: serde_json::Value = serde_json::from_str(include_str!(
+        "../../.csdlc/prepared/issues/210/continuity-transfer-acceptance-map.json"
+    ))
+    .expect("acceptance map parses");
+    let mut markers = Vec::new();
+    for acceptance in map["acceptances"].as_array().expect("acceptances") {
+        for subassertion in acceptance["subassertions"]
+            .as_array()
+            .expect("subassertions")
+        {
+            let marker = subassertion["marker"].as_str().expect("marker");
+            markers.push(marker.to_owned());
+            subassertion_marker(marker);
+        }
+    }
+    markers.sort();
+    markers.dedup();
+    assert_eq!(markers.len(), 84);
 }
 
 #[test]
@@ -672,6 +699,21 @@ fn corrupt_or_rollback_journal_is_denied() {
         .unwrap_err(),
         ContinuityTransferError::CorruptJournal
     );
+    struct FullDisk;
+    impl ContinuityTransferJournalWriter for FullDisk {
+        fn write_journal(
+            &mut self,
+            _journal: &ContinuityTransferJournalState,
+        ) -> Result<(), ContinuityTransferError> {
+            Err(ContinuityTransferError::Storage)
+        }
+    }
+    let prefix_before_failed_write = session.accepted_prefix();
+    assert_eq!(
+        session.checkpoint_journal(&mut FullDisk).unwrap_err(),
+        ContinuityTransferError::Storage
+    );
+    assert_eq!(session.accepted_prefix(), prefix_before_failed_write);
     let mut impossible_completion = session.journal();
     impossible_completion.completed = Some({
         session.accept_frame(frame(1)).expect("second accepted");

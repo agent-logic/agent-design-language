@@ -15,9 +15,9 @@ MAP = ROOT.join(".csdlc/prepared/issues/210/continuity-transfer-acceptance-map.j
 TEST = ROOT.join("adl-runtime/tests/distributed_continuity_transfer.rs")
 
 COMMANDS = {
-  "continuity-transfer-diff-hygiene" => %w[ruby .csdlc/prepared/issues/210/verify-diff-hygiene.rb],
   "continuity-transfer" => %w[cargo test --locked --manifest-path adl-runtime/Cargo.toml --test distributed_continuity_transfer -- --test-threads=1 --nocapture],
-  "continuity-transfer-clippy" => %w[cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test distributed_continuity_transfer -- -D warnings]
+  "continuity-transfer-clippy" => %w[cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test distributed_continuity_transfer -- -D warnings],
+  "continuity-transfer-diff-hygiene" => %w[ruby .csdlc/prepared/issues/210/verify-diff-hygiene.rb]
 }.freeze
 
 def git(*args)
@@ -51,6 +51,10 @@ base = git("merge-base", "origin/main", "HEAD").strip
 map = JSON.parse(File.binread(MAP))
 abort("issue 210 map schema/count mismatch") unless map["issue"] == 210 && map["case_count"] == 45 && map["acceptance_count"] == 8 && map["subassertion_count"] == 84
 expected_markers = map.fetch("case_manifest").map { |entry| entry.fetch("marker") }
+expected_subassertions = map.fetch("acceptances").flat_map { |acceptance|
+  acceptance.fetch("subassertions").map { |subassertion| subassertion.fetch("marker") }
+}
+abort("issue 210 subassertion marker denominator mismatch") unless expected_subassertions.uniq.length == 84
 source_markers = File.binread(TEST)
   .scan(/marker\("(CASE-\d{3}:[a-z0-9_]+)"\)/)
   .flatten
@@ -61,9 +65,12 @@ abort("issue 210 duplicate source markers") unless source_markers.uniq.length ==
 FileUtils.mkdir_p(OUT, mode: 0o700)
 commands = COMMANDS.transform_values.with_index { |argv, index| run_command(COMMANDS.keys[index], argv) }
 test_stdout = File.binread(OUT.join("continuity-transfer.stdout.log"))
-abort("issue 210 test denominator mismatch") unless test_stdout.include?("test result: ok. 14 passed; 0 failed;")
+abort("issue 210 test denominator mismatch") unless test_stdout.include?("test result: ok. 15 passed; 0 failed;")
 expected_markers.each do |marker|
   abort("issue 210 missing runtime marker #{marker}") unless test_stdout.include?(marker)
+end
+expected_subassertions.each do |marker|
+  abort("issue 210 missing subassertion marker #{marker}") unless test_stdout.include?(marker)
 end
 
 proof = {
@@ -76,6 +83,7 @@ proof = {
   "acceptance_count" => map.fetch("acceptance_count"),
   "subassertion_count" => map.fetch("subassertion_count"),
   "case_markers" => expected_markers,
+  "subassertion_markers" => expected_subassertions,
   "commands" => commands,
   "nonclaims" => [
     "No #204 migration decision, activation, ownership, serving, or cloud authority.",
