@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "48064f99d9aa8a79c297f4f9370d05d6eeea655c719b05fc554949a2468b4297",
   "phase": "implemented",
-  "generation": 22,
-  "digest": "c0f3390257b5e80d7d565316073704e7f64a9180f071e158fe3b414560b4c6dd",
+  "generation": 28,
+  "digest": "5aaa1544eda1cb7282e334ba94e6efeb08e649fde270ff99e0b652fa32387d95",
   "branch": "codex/274-observatory-serving-eligibility",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-274-observatory-serving-eligibility",
   "review_assignment": null,
@@ -18,38 +18,38 @@
   "diagram_path": ".csdlc/prepared/issues/274/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "fresh-session:1824a353-87ab-495a-9bd6-eafae73f0f85",
-      "revision": "3e866ee145b34c9e0b03763e531c95923fe199a3d7268347f3fddfd53a1ff313"
+      "reviewer": "fresh-session:faa109bd-fe47-46a3-8a2e-7c65ef2aac8f",
+      "revision": "e967c5eedc2e256a624abe3b8087fc4233e05f15b69bc7b8407109b88a5d2d65"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "ad46ea9f5b34764bb864cb24fe93a4cf2879a57af2c76a632c66733bd6d9d719",
+      "values_digest": "530edc29a60cb7b5920cb3a2377eb0851052920a0ce01839fd7a11ee4f708173",
       "rendered_digest": "6f7c35bb003a878dc6be81b6d711ac832a77e7cdbc7b8b097aabb1f75e211d87",
       "ast_digest": "7e395891bbd5ab0cba2ffcff2ffc27bf44552469af4fd1629f9cefb46a51c31b"
     },
     "stp": {
-      "values_digest": "e5b8bf603cb6b94b286e90589e21791742dce1c2a7204978f310497d9af45988",
+      "values_digest": "0b54997143b98188b69f4bda13d9165387909d296b48d5c507c15b65b9dee2df",
       "rendered_digest": "b11e528ad56c0c99b39537d06e06f8b450fde857a543b2d111a73210be95a370",
       "ast_digest": "e16c28cd4fe468f4e5ac30958fae42d0444329d1b133a3e11bf1cefe285c8156"
     },
     "spp": {
-      "values_digest": "50eac02b6ec212f22f87ee846cdffd4b9dbe0876433b85b29196a458dd917afc",
-      "rendered_digest": "8c8a33eec77daa014d5d4b16ba5e40ee4d1d3f1b041fc345b161d7b78ce62f11",
-      "ast_digest": "a1cfcce1c43984918cb12f94e71d7e63654a4482ccddfb5b730c6d3fea6e33f6"
+      "values_digest": "611bac5048cfd25b552c4c78855a9803a1746b8bfce255d0efb76b14e3535030",
+      "rendered_digest": "cae4a424b7efdffc6d2d28e9322e04249581c5ba9935bc8d28007d39aa93a928",
+      "ast_digest": "9fc990f9307ac53c4af502c2c6d2cafb67ccfe6c8891fd8a93a6f4e07c92affc"
     },
     "vpp": {
-      "values_digest": "5bed205e367e8b1c310a8305b6b5a3da70045deb56ed05d81a9b9a8a32b8f1b4",
-      "rendered_digest": "9958e25c415ea3ce2bd2b7f14af05abe1a3633e402b91ada90de1b6dbd925478",
-      "ast_digest": "d2f7030db7dbedfc768d376de2446c424babbcdbeb4cc9bd975680936a351bcd"
+      "values_digest": "c37d14b5dc391d77de6103675f51e590f84c92b7537de7c40de77489dcbfe002",
+      "rendered_digest": "a6b4b5831c78af9a1675ad0efbbdadd312b007e71994b1f18c84c539e5a3ea20",
+      "ast_digest": "08af92e1ca7f85c211be55bc61b1de4ce6615082dc360f97124c443b5e1b6b20"
     },
     "srp": {
-      "values_digest": "abc8c7511950e977c3a9b2457cc4554b8dc63000cd2799ba5176428d90a3a492",
+      "values_digest": "e9882ffa0c35b1772e6a9d874c3a9e00ea34307da11eba385beb1969a15347a9",
       "rendered_digest": "57d6a13dab290c545f0e4daf9965cc07a7b1621f4a6ba944a5db73fc01d61211",
       "ast_digest": "5e3b7ddaa05859fbf62003b235bfeed68e2c13e0be2e5c571c769cf5d975c9c6"
     },
     "sor": {
-      "values_digest": "241e430113bf36793b6128c9739cc36aeea3d45204d6835e96d576a0fb744625",
+      "values_digest": "9b4e442664caa7ee2e9c017aa05bf007a18bd83e06befa6345f6ebc71caabeef",
       "rendered_digest": "c8d54466a7b473eeee1c7eb6f849aee21054e9393e049224d81c55b942a88c45",
       "ast_digest": "f9783659f8b6ee2f2fdf3f8a9c2083672165264025becd6818a5a6b625318505"
     }
@@ -287,6 +287,48 @@
       "actor": "codex:issue-274-coverage-remediation",
       "reason": "Correct stale pre-bind plan summary after typed post-publication review recovery.",
       "operation": "{\"new_value\":\"Remediate PR362's exact coverage-impact failure after typed publication/review recovery: preserve historical STP product scope, authorize only four coverage mapping/runner contract paths, add meaningful Observatory behavioral coverage to the unchanged 80 percent floor, then revalidate, freshly review, republish, and terminally finish before #275.\",\"operation\":\"correct_plan_summary_after_recovery\",\"previous_value\":\"Bootstrap and validate the exact initialized #274 packet on current origin/main; obtain a separate fresh design review later; keep approval/bind blocked. A future implementation owns only the Observatory module/test and serializes any unavoidable distributed/mod.rs registration after terminal+ancestral #273.\",\"recovery_generation\":14,\"recovery_sequence\":19}"
+    },
+    {
+      "sequence": 28,
+      "generation": 23,
+      "actor": "fresh-session:2e5fa6ba-4300-4ae7-bb9c-6c7c02c0c792",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 29,
+      "generation": 24,
+      "actor": "codex:issue-274-coverage-remediation",
+      "reason": "Declare exact mapping, feature-bearing runner, focused coverage, and unchanged-threshold preflight proof.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preparation-contract\",\"proof_role\":\"Pre-bind packet identity only; not rerun post-bind.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_preparation_bundle.py\"],\"parallel_group\":\"274-01\",\"defer_reason\":\"Pre-bind-only evidence.\"},{\"lane\":\"observatory-transition-unit\",\"proof_role\":\"Prove state guard and normalized final-state digest recomputation/tamper denial.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"observatory_serving_eligibility::tests\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"274-02a\",\"defer_reason\":null},{\"lane\":\"observatory-focused\",\"proof_role\":\"Prove authentic sealed lifecycle and meaningful uncovered branches through terminal #360 fixtures.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":16000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"274-02\",\"defer_reason\":null},{\"lane\":\"observatory-clippy\",\"proof_role\":\"Reject warnings in exact feature-bearing target.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"274-03\",\"defer_reason\":null},{\"lane\":\"coverage-map-contract\",\"proof_role\":\"Prove the exact integration-plus-unit union mapping and unrelated-unmapped fail-closed behavior.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":540,\"budget_tokens\":2000,\"argv\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"parallel_group\":\"274-04\",\"defer_reason\":null},{\"lane\":\"coverage-runner-contract\",\"proof_role\":\"Prove the exact union activates bounded --lib plus integration targets with internal-test-fixtures and no other route drift.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/test_run_pr_fast_coverage_lane.sh\"],\"parallel_group\":\"274-05\",\"defer_reason\":null},{\"lane\":\"focused-module-coverage\",\"proof_role\":\"Execute the exact mapped Observatory integration-plus-unit union and emit a nonzero focused summary.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"bash\",\"adl/tools/run_pr_fast_coverage_lane.sh\",\"--filter-expression\",\"binary_id(adl-runtime::distributed_observatory_serving_eligibility) or (binary_id(adl-runtime) and test(/^distributed::observatory_serving_eligibility::tests::/))\"],\"parallel_group\":\"274-06\",\"defer_reason\":null},{\"lane\":\"coverage-impact-preflight\",\"proof_role\":\"Require focused summary to satisfy unchanged 80 percent module denominator.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/check_coverage_impact.sh\",\"--changed-files\",\".csdlc/evidence/274/coverage-impact-changed-files.txt\",\"--summary\",\"adl/target/coverage-impact-summary.json\"],\"parallel_group\":\"274-07\",\"defer_reason\":null},{\"lane\":\"exact-scope\",\"proof_role\":\"Prove exact product paths, one mod.rs line, and only four coverage tooling paths.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":2000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_scope.py\"],\"parallel_group\":\"274-08\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace errors against immutable #360 base.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\",\"dae957c435b73d87af1f36d4e15fb088f6fd055b...HEAD\"],\"parallel_group\":\"274-09\",\"defer_reason\":null},{\"lane\":\"terminal-ancestry\",\"proof_role\":\"After finish prove canonical terminal cache and ancestry.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_terminal.py\"],\"parallel_group\":\"274-10\",\"defer_reason\":\"Deferred until typed finish.\"}]}"
+    },
+    {
+      "sequence": 30,
+      "generation": 25,
+      "actor": "fresh-session:9ec902cf-688c-4c5d-8802-d134974de49a",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 31,
+      "generation": 26,
+      "actor": "codex:issue-274-coverage-remediation",
+      "reason": "Declare exact mapping, feature-bearing runner, focused coverage, and unchanged-threshold preflight proof.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preparation-contract\",\"proof_role\":\"Pre-bind packet identity only; not rerun post-bind.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_preparation_bundle.py\"],\"parallel_group\":\"274-01\",\"defer_reason\":\"Pre-bind-only evidence.\"},{\"lane\":\"observatory-transition-unit\",\"proof_role\":\"Prove state guard and normalized final-state digest recomputation/tamper denial.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"observatory_serving_eligibility::tests\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"274-02a\",\"defer_reason\":null},{\"lane\":\"observatory-focused\",\"proof_role\":\"Prove authentic sealed lifecycle and meaningful uncovered branches through terminal #360 fixtures.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":16000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"274-02\",\"defer_reason\":null},{\"lane\":\"observatory-clippy\",\"proof_role\":\"Reject warnings in exact feature-bearing target.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"274-03\",\"defer_reason\":null},{\"lane\":\"coverage-map-contract\",\"proof_role\":\"Prove the exact integration-plus-unit union mapping and unrelated-unmapped fail-closed behavior.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":540,\"budget_tokens\":2000,\"argv\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"parallel_group\":\"274-04\",\"defer_reason\":null},{\"lane\":\"coverage-runner-contract\",\"proof_role\":\"Prove the exact union activates bounded --lib plus integration targets with internal-test-fixtures and no other route drift.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/test_run_pr_fast_coverage_lane.sh\"],\"parallel_group\":\"274-05\",\"defer_reason\":null},{\"lane\":\"focused-module-coverage\",\"proof_role\":\"Execute the exact mapped Observatory integration-plus-unit union and emit a nonzero focused summary.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"bash\",\"adl/tools/run_pr_fast_coverage_lane.sh\",\"--filter-expression\",\"binary_id(adl-runtime::distributed_observatory_serving_eligibility) or (binary_id(adl-runtime) and test(/^distributed::observatory_serving_eligibility::tests::/))\"],\"parallel_group\":\"274-06\",\"defer_reason\":null},{\"lane\":\"coverage-impact-preflight\",\"proof_role\":\"Require focused summary to satisfy unchanged 80 percent module denominator.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/check_coverage_impact.sh\",\"--changed-files\",\".csdlc/evidence/274/coverage-impact-changed-files.txt\",\"--summary\",\"adl/target/coverage-impact-summary.json\"],\"parallel_group\":\"274-07\",\"defer_reason\":null},{\"lane\":\"exact-scope\",\"proof_role\":\"Prove exact product paths, one mod.rs line, and only four coverage tooling paths.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":2000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_scope.py\"],\"parallel_group\":\"274-08\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace errors against immutable #360 base.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\",\"4db4c2b9a5d622fb7af6ffa1346b4d5406d4a699...HEAD\"],\"parallel_group\":\"274-09\",\"defer_reason\":null},{\"lane\":\"terminal-ancestry\",\"proof_role\":\"After finish prove canonical terminal cache and ancestry.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_terminal.py\"],\"parallel_group\":\"274-10\",\"defer_reason\":\"Deferred until typed finish.\"}]}"
+    },
+    {
+      "sequence": 32,
+      "generation": 27,
+      "actor": "codex:issue-274-coverage-remediation",
+      "reason": "Declare exact mapping, feature-bearing runner, focused coverage, and unchanged-threshold preflight proof.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preparation-contract\",\"proof_role\":\"Pre-bind packet identity only; not rerun post-bind.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_preparation_bundle.py\"],\"parallel_group\":\"274-01\",\"defer_reason\":\"Pre-bind-only evidence.\"},{\"lane\":\"observatory-transition-unit\",\"proof_role\":\"Prove state guard and normalized final-state digest recomputation/tamper denial.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"observatory_serving_eligibility::tests\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"274-02a\",\"defer_reason\":null},{\"lane\":\"observatory-focused\",\"proof_role\":\"Prove authentic sealed lifecycle and meaningful uncovered branches through terminal #360 fixtures.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":16000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"274-02\",\"defer_reason\":null},{\"lane\":\"observatory-clippy\",\"proof_role\":\"Reject warnings in exact feature-bearing target.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"274-03\",\"defer_reason\":null},{\"lane\":\"coverage-map-contract\",\"proof_role\":\"Prove the exact integration-plus-unit union mapping and unrelated-unmapped fail-closed behavior.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":540,\"budget_tokens\":2000,\"argv\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"parallel_group\":\"274-04\",\"defer_reason\":null},{\"lane\":\"coverage-runner-contract\",\"proof_role\":\"Prove the exact union activates bounded --lib plus integration targets with internal-test-fixtures and no other route drift.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/test_run_pr_fast_coverage_lane.sh\"],\"parallel_group\":\"274-05\",\"defer_reason\":null},{\"lane\":\"focused-module-coverage\",\"proof_role\":\"Execute the exact mapped Observatory integration-plus-unit union and emit a nonzero focused summary.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"bash\",\"adl/tools/run_pr_fast_coverage_lane.sh\",\"--filter-expression\",\"binary_id(adl-runtime::distributed_observatory_serving_eligibility) or (binary_id(adl-runtime) and test(/^distributed::observatory_serving_eligibility::tests::/))\"],\"parallel_group\":\"274-06\",\"defer_reason\":null},{\"lane\":\"coverage-impact-preflight\",\"proof_role\":\"Require focused summary to satisfy unchanged 80 percent module denominator.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/check_coverage_impact.sh\",\"--changed-files\",\".csdlc/evidence/274/coverage-impact-changed-files.txt\",\"--summary\",\"adl/target/coverage-impact-summary.json\"],\"parallel_group\":\"274-07\",\"defer_reason\":null},{\"lane\":\"exact-scope\",\"proof_role\":\"Prove exact product paths, one mod.rs line, and only four coverage tooling paths.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":2000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_scope.py\"],\"parallel_group\":\"274-08\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace errors against immutable #363 merge base.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\",\"4db4c2b9a5d622fb7af6ffa1346b4d5406d4a699...HEAD\"],\"parallel_group\":\"274-09\",\"defer_reason\":null},{\"lane\":\"terminal-ancestry\",\"proof_role\":\"After finish prove canonical terminal cache and ancestry.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_terminal.py\"],\"parallel_group\":\"274-10\",\"defer_reason\":\"Deferred until typed finish.\"}]}"
+    },
+    {
+      "sequence": 33,
+      "generation": 28,
+      "actor": "fresh-session:faa109bd-fe47-46a3-8a2e-7c65ef2aac8f",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
     }
   ]
 }

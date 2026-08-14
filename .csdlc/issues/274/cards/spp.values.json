@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.16b3.1b][205.c] Add Observatory quorum serving authority",
     "slug": "observatory-quorum-serving-authority",
     "version": "v0.92",
-    "generation": 22
+    "generation": 28
   },
   "status": "ready",
   "content": {
@@ -104,7 +104,7 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/274/design.md",
-      "design_digest": "3e866ee145b34c9e0b03763e531c95923fe199a3d7268347f3fddfd53a1ff313",
+      "design_digest": "e967c5eedc2e256a624abe3b8087fc4233e05f15b69bc7b8407109b88a5d2d65",
       "diagram_ref": ".csdlc/prepared/issues/274/diagram.mmd",
       "diagram_digest": "c03f4ac687b7786ea70f3a825d876658e65b564cddd1634eb9d37ed688141d84"
     }

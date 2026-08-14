@@ -315,6 +315,9 @@ candidate_filter_for_path() {
     adl-runtime/src/distributed/shepherd_serving_eligibility.rs)
       printf 'runtime_v3_shepherd_serving_eligibility'
       ;;
+    adl-runtime/src/distributed/observatory_serving_eligibility.rs)
+      printf 'runtime_v3_observatory_serving_eligibility'
+      ;;
     adl-runtime/src/distributed/authority_reconciliation.rs|\
     adl-runtime/src/distributed/capability_advertisement.rs|\
     adl-runtime/src/distributed/certificates.rs|\
@@ -512,6 +515,9 @@ nextest_expression_for_filter() {
       ;;
     runtime_v3_shepherd_serving_eligibility)
       printf 'binary_id(adl-runtime::distributed_shepherd_serving_eligibility)'
+      ;;
+    runtime_v3_observatory_serving_eligibility)
+      printf 'binary_id(adl-runtime::distributed_observatory_serving_eligibility) or (binary_id(adl-runtime) and test(/^distributed::observatory_serving_eligibility::tests::/))'
       ;;
     runtime_v3_auth)
       printf 'test(/^runtime_api_auth::tests::/)'

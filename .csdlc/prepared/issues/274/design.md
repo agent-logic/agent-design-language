@@ -128,15 +128,22 @@ non-proving.
 
 The repository coverage-impact gate is also part of the repaired acceptance
 surface. `adl/tools/check_coverage_impact.sh` must map only
-`adl-runtime/src/distributed/observatory_serving_eligibility.rs` to the existing
-`distributed_observatory_serving_eligibility` focused binary; it must not add a
+`adl-runtime/src/distributed/observatory_serving_eligibility.rs` to the exact
+union `binary_id(adl-runtime::distributed_observatory_serving_eligibility) or
+(binary_id(adl-runtime) and
+test(/^distributed::observatory_serving_eligibility::tests::/))`, covering the
+authentic integration binary and its meaningful module unit tests; it must not add a
 basename fallback, broaden another source mapping, or weaken the 80 percent
 threshold. `adl/tools/test_check_coverage_impact.sh` must prove the exact mapping
 and preserve fail-closed behavior for an unrelated unmapped production Rust
-source. Because the target is feature-gated, `run_pr_fast_coverage_lane.sh` may
-add only the exact Observatory expression to the existing
-`internal-test-fixtures` routing, and its contract test must prove that exact
-command without changing other filters. Meaningful focused cases must raise this module's measured line coverage
+source. The observed integration-only selector ran 4/4 tests but measured only
+230/360 lines (63.89 percent) because it could not execute the meaningful module
+unit tests. Because both targets are feature-gated, `run_pr_fast_coverage_lane.sh`
+may route only the exact union to the existing `internal-test-fixtures` path and
+may constrain Cargo to `--lib --test distributed_observatory_serving_eligibility`;
+its contract test must prove that exact command without changing other filters.
+The mapping and runner must use the same union without hidden rewriting.
+Meaningful focused cases must raise this module's measured line coverage
 to at least 80 percent; test-only padding, ignored tests, or a broad package
 filter are non-proving.
 

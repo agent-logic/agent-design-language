@@ -226,6 +226,20 @@ fi
 grep -F "PR-fast coverage companion: adl-runtime Shepherd serving-eligibility tests" "$temp_root/pr-fast-coverage-shepherd-eligibility-run.out" >/dev/null
 grep -F "cmd=llvm-cov nextest --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --status-level all --final-status-level slow --no-clean -E $shepherd_eligibility_expression --features internal-test-fixtures" "$shepherd_eligibility_cargo_log" >/dev/null
 
+observatory_eligibility_cargo_log="$temp_root/cargo-observatory-eligibility.log"
+observatory_eligibility_expression='binary_id(adl-runtime::distributed_observatory_serving_eligibility) or (binary_id(adl-runtime) and test(/^distributed::observatory_serving_eligibility::tests::/))'
+PATH="$bin_dir:$PATH" \
+PR_FAST_COVERAGE_CARGO_LOG="$observatory_eligibility_cargo_log" \
+ADL_RUST_WARM_CACHE=0 \
+ADL_PR_FAST_COVERAGE_BUILD_ROOT="$scratch_root-observatory-eligibility" \
+  bash "$SCRIPT" --filter-expression "$observatory_eligibility_expression" >"$temp_root/pr-fast-coverage-observatory-eligibility-run.out"
+if grep -Fq "cmd=llvm-cov nextest --workspace" "$observatory_eligibility_cargo_log"; then
+  echo "Observatory eligibility coverage must not send an adl-runtime selector to the adl workspace" >&2
+  exit 1
+fi
+grep -F "PR-fast coverage companion: adl-runtime Observatory serving-eligibility integration and unit tests" "$temp_root/pr-fast-coverage-observatory-eligibility-run.out" >/dev/null
+grep -F "cmd=llvm-cov nextest --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml --status-level all --final-status-level slow --no-clean -E $observatory_eligibility_expression --lib --test distributed_observatory_serving_eligibility --features internal-test-fixtures" "$observatory_eligibility_cargo_log" >/dev/null
+
 runtime_auth_only_cargo_log="$temp_root/cargo-runtime-auth-only.log"
 runtime_auth_only_expression='test(/^runtime_api_auth::tests::/)'
 PATH="$bin_dir:$PATH" \

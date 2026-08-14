@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.16b3.1b][205.c] Add Observatory quorum serving authority",
     "slug": "observatory-quorum-serving-authority",
     "version": "v0.92",
-    "generation": 22
+    "generation": 28
   },
   "status": "ready",
   "content": {
@@ -121,7 +121,7 @@
         },
         {
           "lane": "coverage-map-contract",
-          "proof_role": "Prove exact source mapping and unrelated-unmapped fail-closed behavior.",
+          "proof_role": "Prove the exact integration-plus-unit union mapping and unrelated-unmapped fail-closed behavior.",
           "acceptance_ids": [
             "AC-6",
             "AC-8"
@@ -139,7 +139,7 @@
         },
         {
           "lane": "coverage-runner-contract",
-          "proof_role": "Prove exact Observatory expression activates internal-test-fixtures without other route drift.",
+          "proof_role": "Prove the exact union activates bounded --lib plus integration targets with internal-test-fixtures and no other route drift.",
           "acceptance_ids": [
             "AC-6",
             "AC-8"
@@ -157,7 +157,7 @@
         },
         {
           "lane": "focused-module-coverage",
-          "proof_role": "Execute exact mapped Observatory integration target and emit focused summary.",
+          "proof_role": "Execute the exact mapped Observatory integration-plus-unit union and emit a nonzero focused summary.",
           "acceptance_ids": [
             "AC-1",
             "AC-2",
@@ -175,7 +175,7 @@
             "bash",
             "adl/tools/run_pr_fast_coverage_lane.sh",
             "--filter-expression",
-            "binary_id(adl-runtime::distributed_observatory_serving_eligibility)"
+            "binary_id(adl-runtime::distributed_observatory_serving_eligibility) or (binary_id(adl-runtime) and test(/^distributed::observatory_serving_eligibility::tests::/))"
           ],
           "parallel_group": "274-06",
           "defer_reason": null
@@ -222,7 +222,7 @@
         },
         {
           "lane": "diff-hygiene",
-          "proof_role": "Reject whitespace errors against immutable #360 base.",
+          "proof_role": "Reject whitespace errors against immutable #363 merge base.",
           "acceptance_ids": [
             "AC-6",
             "AC-8"
@@ -235,7 +235,7 @@
             "git",
             "diff",
             "--check",
-            "dae957c435b73d87af1f36d4e15fb088f6fd055b...HEAD"
+            "4db4c2b9a5d622fb7af6ffa1346b4d5406d4a699...HEAD"
           ],
           "parallel_group": "274-09",
           "defer_reason": null
@@ -262,7 +262,7 @@
       "planned_validation_tokens": 50000,
       "failure_policy": "Fail closed on stale or nonancestral authority, wrong quorum/lease/OwnerCommit/fence/generation/receipt, overlapping transfer, replay conflict, restart ambiguity, revoked or expired revival, redaction leak, scope drift, premature bind, review finding, CI failure, or noncanonical terminal ancestry.",
       "design_ref": ".csdlc/prepared/issues/274/design.md",
-      "design_digest": "3e866ee145b34c9e0b03763e531c95923fe199a3d7268347f3fddfd53a1ff313",
+      "design_digest": "e967c5eedc2e256a624abe3b8087fc4233e05f15b69bc7b8407109b88a5d2d65",
       "diagram_ref": ".csdlc/prepared/issues/274/diagram.mmd",
       "diagram_digest": "c03f4ac687b7786ea70f3a825d876658e65b564cddd1634eb9d37ed688141d84"
     }

@@ -129,7 +129,7 @@ Diagram: .csdlc/prepared/issues/274/diagram.mmd
   },
   {
     "lane": "coverage-map-contract",
-    "proof_role": "Prove exact source mapping and unrelated-unmapped fail-closed behavior.",
+    "proof_role": "Prove the exact integration-plus-unit union mapping and unrelated-unmapped fail-closed behavior.",
     "acceptance_ids": [
       "AC-6",
       "AC-8"
@@ -147,7 +147,7 @@ Diagram: .csdlc/prepared/issues/274/diagram.mmd
   },
   {
     "lane": "coverage-runner-contract",
-    "proof_role": "Prove exact Observatory expression activates internal-test-fixtures without other route drift.",
+    "proof_role": "Prove the exact union activates bounded --lib plus integration targets with internal-test-fixtures and no other route drift.",
     "acceptance_ids": [
       "AC-6",
       "AC-8"
@@ -165,7 +165,7 @@ Diagram: .csdlc/prepared/issues/274/diagram.mmd
   },
   {
     "lane": "focused-module-coverage",
-    "proof_role": "Execute exact mapped Observatory integration target and emit focused summary.",
+    "proof_role": "Execute the exact mapped Observatory integration-plus-unit union and emit a nonzero focused summary.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -183,7 +183,7 @@ Diagram: .csdlc/prepared/issues/274/diagram.mmd
       "bash",
       "adl/tools/run_pr_fast_coverage_lane.sh",
       "--filter-expression",
-      "binary_id(adl-runtime::distributed_observatory_serving_eligibility)"
+      "binary_id(adl-runtime::distributed_observatory_serving_eligibility) or (binary_id(adl-runtime) and test(/^distributed::observatory_serving_eligibility::tests::/))"
     ],
     "parallel_group": "274-06",
     "defer_reason": null
@@ -230,7 +230,7 @@ Diagram: .csdlc/prepared/issues/274/diagram.mmd
   },
   {
     "lane": "diff-hygiene",
-    "proof_role": "Reject whitespace errors against immutable #360 base.",
+    "proof_role": "Reject whitespace errors against immutable #363 merge base.",
     "acceptance_ids": [
       "AC-6",
       "AC-8"
@@ -243,7 +243,7 @@ Diagram: .csdlc/prepared/issues/274/diagram.mmd
       "git",
       "diff",
       "--check",
-      "dae957c435b73d87af1f36d4e15fb088f6fd055b...HEAD"
+      "4db4c2b9a5d622fb7af6ffa1346b4d5406d4a699...HEAD"
     ],
     "parallel_group": "274-09",
     "defer_reason": null
@@ -285,10 +285,10 @@ Tokens: 50000
 - `cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test distributed_observatory_serving_eligibility --features internal-test-fixtures -- -D warnings`
 - `bash adl/tools/test_check_coverage_impact.sh`
 - `bash adl/tools/test_run_pr_fast_coverage_lane.sh`
-- `bash adl/tools/run_pr_fast_coverage_lane.sh --filter-expression binary_id(adl-runtime::distributed_observatory_serving_eligibility)`
+- `bash adl/tools/run_pr_fast_coverage_lane.sh --filter-expression binary_id(adl-runtime::distributed_observatory_serving_eligibility) or (binary_id(adl-runtime) and test(/^distributed::observatory_serving_eligibility::tests::/))`
 - `bash adl/tools/check_coverage_impact.sh --changed-files .csdlc/evidence/274/coverage-impact-changed-files.txt --summary adl/target/coverage-impact-summary.json`
 - `python3 .csdlc/prepared/issues/274/validate_scope.py`
-- `git diff --check dae957c435b73d87af1f36d4e15fb088f6fd055b...HEAD`
+- `git diff --check 4db4c2b9a5d622fb7af6ffa1346b4d5406d4a699...HEAD`
 - `python3 .csdlc/prepared/issues/274/validate_terminal.py`
 
 ## Failure Semantics
