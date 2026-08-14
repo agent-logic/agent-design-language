@@ -19,6 +19,7 @@ PREFIXES = (
     ".csdlc/issues/369/",
     ".csdlc/prepared/issues/369/",
     ".csdlc/evidence/369/",
+    ".csdlc/evidence/.csdlc-finalize-",
 )
 EXACT_AUX = {".csdlc/locks/369.lock"}
 

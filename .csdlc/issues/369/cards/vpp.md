@@ -42,7 +42,7 @@ Diagram: .csdlc/prepared/issues/369/diagram.mmd
       ".csdlc/prepared/issues/369/run_exact_focused_matrix.py"
     ],
     "parallel_group": "369-01",
-    "defer_reason": "Deferred until implementation; pre-implementation 0/4 is expected and non-proving."
+    "defer_reason": null
   },
   {
     "lane": "clippy",
@@ -66,7 +66,7 @@ Diagram: .csdlc/prepared/issues/369/diagram.mmd
       "warnings"
     ],
     "parallel_group": "369-02",
-    "defer_reason": "Deferred until implementation."
+    "defer_reason": null
   },
   {
     "lane": "scope-exact",

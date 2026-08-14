@@ -3,9 +3,9 @@
   "issue": 369,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "21e4269b65dfa9141c322f71c65c8792b2615b58497f14b14eeb724c43c21a15",
-  "phase": "bound",
-  "generation": 1,
-  "digest": "2b29a9d36d646688ae68aa9ecd4e28b6ac59b7da27db2e172c99cb5df07b35b5",
+  "phase": "implemented",
+  "generation": 3,
+  "digest": "7f012583b406f7c2c5719c14e97e055790ecc3962c7882fa00afcd0e304d1e01",
   "branch": "codex/369-bound-false-design-review-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-369-bound-false-design-review-recovery",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2ae7907b607f6036cbd949f997d08a22f0a6cc375aa588766020c86b333bfcc1",
+      "values_digest": "295618d58751c542e72a40ae8fb1a33ecd232831abca9c59e57b57f3dbf20824",
       "rendered_digest": "0ae671d465a1ebb13358295348efe6342a2fa5701082a95277c271c7461e34cb",
       "ast_digest": "19e83ca4d04b72858675ecced4c5dd18daa3344a71a68d4c32e9d7f96d9be0c7"
     },
     "stp": {
-      "values_digest": "fc9430d9d1ae1d5547de581dde290505ebd22db5f89192181e060684f26201ee",
+      "values_digest": "2fb72e146ceeef30c56dd5891d51319885133433a0e9382f27415f959be2f189",
       "rendered_digest": "9d27e5b6452376263777a6c51ef511e61673002cecdd46f40c588a240152f956",
       "ast_digest": "6dc7fb71b5e35df59f8e5f339cf9a2751c391e4c8cfa08dcf4a85179f78cc79d"
     },
     "spp": {
-      "values_digest": "d5e6ab427d7d213d5d33803bc78a6c6f251a05fe851b683988ff5e435e900728",
+      "values_digest": "88db2442944f8c6d9fc41372172364eebe378aa4517514ff3f7869e2d617e7f1",
       "rendered_digest": "91848df8339b8523f662fa7a12d374eca808a32ec70c5b48f27d27dbfee37dfc",
       "ast_digest": "6a5f3158a639bf81c1d422f001ca53ba54e9029faafc65c38ea1fbb92cf81486"
     },
     "vpp": {
-      "values_digest": "2a80f8dfa49b78f42d2a5c3fdcd52b6a4aec0143331e7b85bffc0542fbcd7557",
-      "rendered_digest": "f99cc64a6f49d5029b621781d371dd3c6d4558f53fb7e802d04f1f86335805f3",
-      "ast_digest": "f2ad793e00fffe68452ffd39de3c47360968a5c497cd1ed9dca7e861981a65a4"
+      "values_digest": "da2bc8b887d2224fe6f9d73824c1d6b6f517f78edcc6f84a5fd22fadb2494710",
+      "rendered_digest": "500bd64eaa0f20185752a4cc33a01dea5dc082b9fb2d6fedf94b6dcbf7c9b3ca",
+      "ast_digest": "2f3a79239c7e56723179cbbc976408e68acceafc09c8bc555a33ffc36cee282f"
     },
     "srp": {
-      "values_digest": "26c18cef751615bbfbad25eb74cb80e37609179a4bdffff1bd26d786f8278356",
+      "values_digest": "982443abd99b7d603179eca923d92a155658fa9ca5fc6d46f8fe61056e0f9454",
       "rendered_digest": "81d1f63094792e893c863369639aa8458ce799cae6f1188b710ad6cee35b4b96",
       "ast_digest": "294680854cdcda748f6cda6b178ffa984ce60e935f115ca5930781ae1309af5b"
     },
     "sor": {
-      "values_digest": "79dd6071729c880c8f4f3bb4c449f785fbe0c281edd480121a84774b89c98870",
-      "rendered_digest": "ebc27f41d558aa0e489ce8fa52312703c346a4f1c15ed64cd8f0633d2e885f81",
-      "ast_digest": "eeef11550ae12db2f8b3f35d91306b41a7c9492d8b97d8dfac2befe27d399a50"
+      "values_digest": "d43195f51fb359de677f44f3490eac1cea2694438a3c5b6a845515158043eef9",
+      "rendered_digest": "b9dd742881c35c34fda042c3dc76ab6c7edc330f212fcd88d29f8f03f6f23a58",
+      "ast_digest": "23ce0852a9363d6c75981950b8cfbbe6367d3bee1c44757bd338cc60181b6a7d"
     }
   },
   "transitions": [
@@ -68,6 +68,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-369-implementation",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -91,6 +98,20 @@
       "actor": "csdlc-bind",
       "reason": "record Git branch/worktree topology",
       "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex:issue-369-implementation",
+      "reason": "Activate the exact reviewed focused and Clippy lanes after their implementation targets exist; commands, proof roles, ownership, and budgets remain unchanged.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"focused-exact\",\"proof_role\":\"Prove exactly four named bound implemented refusal and issue-275 recovery cases with nonzero per-case denominators.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":12000,\"argv\":[\"python3\",\".csdlc/prepared/issues/369/run_exact_focused_matrix.py\"],\"parallel_group\":\"369-01\",\"defer_reason\":null},{\"lane\":\"clippy\",\"proof_role\":\"Reject warnings across the changed owner binary and library.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"369-02\",\"defer_reason\":null},{\"lane\":\"scope-exact\",\"proof_role\":\"Reject any committed staged unstaged or untracked path outside five tooling files and exact issue-owned surfaces; enforce diff hygiene.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/369/validate_exact_scope.py\"],\"parallel_group\":\"369-03\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:issue-369-implementation",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
     }
   ]
 }
