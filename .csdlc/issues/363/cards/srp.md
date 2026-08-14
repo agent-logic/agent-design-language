@@ -12,7 +12,11 @@ Status: draft
 
 ## Scope
 
-
+csdlc-v2/src/store.rs
+csdlc-v2/tests/gate5.rs
+.csdlc/issues/363
+.csdlc/prepared/issues/363
+.csdlc/evidence/363
 
 ## Prompts
 
@@ -35,8 +39,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:1765d9eaf7c6da7ef80b28d052c8d2a06d3f3bef:4563de7d1436ba72888f21863583369f28c1a5636ab36e8f7170720352ffbfa3")
 
-Reviewer: None
+Reviewer: Some("fresh-session:2e9ad15d-ff0a-4c15-8bac-ac28674348d4")
 
-Result: pre_review
+Result: pass
