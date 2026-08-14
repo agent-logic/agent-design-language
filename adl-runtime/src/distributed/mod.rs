@@ -14,6 +14,7 @@ pub mod discovery;
 pub mod failure_detection;
 pub mod fencing;
 pub mod identity;
+pub mod integrated_serving_authority_snapshot;
 pub mod lease;
 pub mod membership;
 pub mod membership_coordinator;

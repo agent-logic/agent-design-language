@@ -312,6 +312,9 @@ candidate_filter_for_path() {
     adl-runtime/src/distributed/authority_store_adapters.rs)
       printf 'runtime_v3_authority_store_boundary'
       ;;
+    adl-runtime/src/distributed/integrated_serving_authority_snapshot.rs)
+      printf 'runtime_v3_integrated_serving_authority'
+      ;;
     adl-runtime/src/distributed/shepherd_serving_eligibility.rs)
       printf 'runtime_v3_shepherd_serving_eligibility'
       ;;
@@ -513,6 +516,9 @@ nextest_expression_for_filter() {
     runtime_v3_authority_store_boundary)
       printf 'package(adl-runtime) and ((binary_id(adl-runtime) and test(/^distributed::authority_store_adapters::/)) or binary_id(adl-runtime::distributed_authority_protocol) or binary_id(adl-runtime::distributed_authority_reconciliation) or binary_id(adl-runtime::distributed_authority_snapshots) or binary_id(adl-runtime::distributed_capability_advertisement) or binary_id(adl-runtime::distributed_certificates) or binary_id(adl-runtime::distributed_fencing) or binary_id(adl-runtime::distributed_identity_lease_authority) or binary_id(adl-runtime::distributed_lease) or binary_id(adl-runtime::distributed_migration) or binary_id(adl-runtime::distributed_placement) or binary_id(adl-runtime::distributed_recovery) or binary_id(adl-runtime::distributed_resource_weather) or binary_id(adl-runtime::distributed_snapshot_catalog) or (binary_id(adl-runtime::distributed_transport) and not test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state)))'
       ;;
+    runtime_v3_integrated_serving_authority)
+      printf 'binary_id(adl-runtime::distributed_integrated_serving_authority) or (binary_id(adl-runtime) and test(/^distributed::integrated_serving_authority_snapshot::tests::/))'
+      ;;
     runtime_v3_shepherd_serving_eligibility)
       printf 'binary_id(adl-runtime::distributed_shepherd_serving_eligibility)'
       ;;
@@ -658,6 +664,10 @@ focused_summary_command_for_filter() {
   local filter="$1"
   local expression
   expression="$(nextest_expression_for_filter "$filter")"
+  if [ "$filter" = "runtime_v3_integrated_serving_authority" ]; then
+    printf "bash adl/tools/run_pr_fast_coverage_lane.sh --filter-expression '%s'" "$expression"
+    return 0
+  fi
   printf "cd adl && CARGO_INCREMENTAL=0 cargo llvm-cov nextest --workspace --status-level all --final-status-level slow --no-report -E '%s' && cargo llvm-cov report --json --summary-only --output-path target/coverage-impact-summary.json" "$expression"
 }
 
