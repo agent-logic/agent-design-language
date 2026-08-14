@@ -53,6 +53,8 @@ const ENDURANCE_SECONDS: u64 = 600;
 const PLATFORM_PROOF_SCHEMA: &str = "adl.wp12.platform_proof.v1";
 const SHORT_QUALIFICATION_CONNECTIONS: u64 = 50;
 const SHORT_QUALIFICATION_SAMPLE_INTERVAL_SECONDS: u64 = 1;
+const SHORT_QUALIFICATION_WEATHER_STALE_AFTER_MILLIS: u64 = 5;
+const SHORT_QUALIFICATION_WEATHER_SAMPLE_MILLIS: u64 = 50;
 
 #[tokio::main]
 async fn main() -> ExitCode {
@@ -453,6 +455,16 @@ impl ProductionFixture {
                 value.to_owned(),
             )?;
         }
+        set_toml_integer(
+            &mut init_document,
+            &["kernel", "weather_stale_after_millis"],
+            SHORT_QUALIFICATION_WEATHER_STALE_AFTER_MILLIS,
+        )?;
+        set_toml_integer(
+            &mut init_document,
+            &["weather", "sample_millis"],
+            SHORT_QUALIFICATION_WEATHER_SAMPLE_MILLIS,
+        )?;
         let init = state_root.join("runtime-init.toml");
         std::fs::write(
             &init,
@@ -1989,7 +2001,7 @@ where
 
 async fn observe_short_qualification_workload(
     fixture: &ProductionFixture,
-    _observation_clock: &mut u64,
+    observation_clock: &mut u64,
 ) -> Result<WorkloadProof, String> {
     let https =
         join_all((0..SHORT_QUALIFICATION_CONNECTIONS).map(|_| authenticated_observatory(fixture)))
@@ -2004,11 +2016,12 @@ async fn observe_short_qualification_workload(
     if let Some(error) = wss.into_iter().find_map(Result::err) {
         return Err(format!("authenticated WSS fanout failed: {error}"));
     }
+    let dependency_degradation = observe_dependency_degradation(fixture, observation_clock).await?;
     Ok(WorkloadProof {
         authenticated_https_connections: SHORT_QUALIFICATION_CONNECTIONS,
         authenticated_wss_connections: SHORT_QUALIFICATION_CONNECTIONS,
         websocket_full_duplex_observed: true,
-        observed_phases: Vec::new(),
+        observed_phases: vec![dependency_degradation],
     })
 }
 
@@ -2021,6 +2034,93 @@ async fn next_observation_second(last: &mut u64) -> u64 {
         }
         tokio::time::sleep(Duration::from_millis(250)).await;
     }
+}
+
+async fn observe_dependency_degradation(
+    fixture: &ProductionFixture,
+    observation_clock: &mut u64,
+) -> Result<ObservedPhase, String> {
+    let deadline = Instant::now() + fixture.readiness_timeout;
+    let injected_unix_seconds = loop {
+        let readiness = runtime_readiness_report(fixture).await?;
+        if readiness["ready"] == false
+            && readiness["degraded_reasons"]
+                .as_array()
+                .is_some_and(|reasons| reasons.iter().any(|reason| reason == "weather_stale"))
+        {
+            break next_observation_second(observation_clock).await;
+        }
+        if Instant::now() >= deadline {
+            return Err(
+                "dependency degradation injection did not produce weather_stale readiness"
+                    .to_owned(),
+            );
+        }
+        tokio::time::sleep(fixture.readiness_poll).await;
+    };
+    let recovered_unix_seconds = loop {
+        let readiness = runtime_readiness_report(fixture).await?;
+        if readiness["ready"] == true
+            && readiness["degraded_reasons"]
+                .as_array()
+                .is_some_and(|reasons| reasons.is_empty())
+        {
+            break next_observation_second(observation_clock).await;
+        }
+        if Instant::now() >= deadline {
+            return Err("dependency degradation did not recover readiness".to_owned());
+        }
+        tokio::time::sleep(fixture.readiness_poll).await;
+    };
+    Ok(ObservedPhase {
+        name: "dependency-degradation".to_owned(),
+        kind: FaultKind::ResourcePressure,
+        injected_unix_seconds,
+        recovered_unix_seconds,
+        resource_growth_percent: 1,
+        backoff_seconds: recovered_unix_seconds.saturating_sub(injected_unix_seconds),
+        transport_error_count: 0,
+        recovery_seconds: recovered_unix_seconds.saturating_sub(injected_unix_seconds),
+    })
+}
+
+async fn runtime_readiness_report(
+    fixture: &ProductionFixture,
+) -> Result<serde_json::Value, String> {
+    let stream = tokio::net::TcpStream::connect(fixture.address)
+        .await
+        .map_err(|error| error.to_string())?;
+    let server_name =
+        ServerName::try_from(fixture.tls_server_name.clone()).map_err(|error| error.to_string())?;
+    let mut stream = fixture
+        .tls_connector
+        .connect(server_name, stream)
+        .await
+        .map_err(|error| error.to_string())?;
+    let request = format!(
+        "GET /v1/ready HTTP/1.1\r\nHost: {}\r\nConnection: close\r\n\r\n",
+        fixture.tls_server_name
+    );
+    stream
+        .write_all(request.as_bytes())
+        .await
+        .map_err(|error| error.to_string())?;
+    let mut response = Vec::new();
+    stream
+        .read_to_end(&mut response)
+        .await
+        .map_err(|error| error.to_string())?;
+    let response = String::from_utf8(response).map_err(|error| error.to_string())?;
+    if !response.starts_with("HTTP/1.1 200 OK")
+        && !response.starts_with("HTTP/1.1 503 Service Unavailable")
+    {
+        return Err("Runtime v3 readiness request did not return HTTP 200 or 503".to_owned());
+    }
+    let body = response
+        .split_once("\r\n\r\n")
+        .map(|(_, body)| body)
+        .ok_or_else(|| "Runtime v3 readiness response had no body".to_owned())?;
+    serde_json::from_str(body).map_err(|error| error.to_string())
 }
 
 fn validate_observatory(observatory: &serde_json::Value) -> Result<(), String> {
@@ -2843,6 +2943,7 @@ fn short_qualification_soak_config(
     let mut operation_mix = BTreeMap::new();
     operation_mix.insert("authenticated_observatory_https".to_owned(), 50);
     operation_mix.insert("authenticated_observatory_wss".to_owned(), 50);
+    operation_mix.insert("dependency_degradation_ready_recovery".to_owned(), 1);
     operation_mix.insert("guardian_kernel_restart".to_owned(), 1);
     SoakConfig {
         schema: SOAK_CONTRACT_SCHEMA.to_owned(),
@@ -2939,6 +3040,7 @@ fn short_qualification_fault_contracts(
             name: record.name.clone(),
             kind: match record.name.as_str() {
                 "restart" => FaultKind::GuardianRestart,
+                "dependency-degradation" => FaultKind::ResourcePressure,
                 "delayed-progress" | "shutdown" => FaultKind::RecoveryReplay,
                 _ => FaultKind::RecoveryReplay,
             },
@@ -2957,6 +3059,7 @@ fn short_qualification_fault_names() -> Vec<String> {
     vec![
         "restart".to_owned(),
         "delayed-progress".to_owned(),
+        "dependency-degradation".to_owned(),
         "shutdown".to_owned(),
     ]
 }
@@ -3461,8 +3564,54 @@ mod tests {
                 .as_array()
                 .expect("fault records")
                 .len(),
-            3
+            4
         );
+    }
+
+    #[test]
+    fn short_qualification_fails_closed_without_dependency_degradation_receipt() {
+        let args = Args::parse(arguments(&["--suite", "preflight_1x"]).into_iter())
+            .expect("one-cycle preflight");
+        let mut execution = Execution::new(1, 1, 1);
+        execution.completed_cycles = 1;
+        execution.restart_budget_exercised = true;
+        execution.total_restarts = 1;
+        execution.log_checked_cycles = 1;
+        execution.log_proof = Some(LogProof {
+            master_log_ref: ".csdlc/evidence/373/work/master.jsonl".to_owned(),
+            master_log_sha256: "b".repeat(64),
+            master_log_records: 2,
+            log_audit_ref: ".csdlc/evidence/373/work/audit.json".to_owned(),
+            log_audit_sha256: "c".repeat(64),
+        });
+        let observed_phases = test_observed_phases()
+            .into_iter()
+            .filter(|phase| phase.name != "dependency-degradation")
+            .collect();
+        execution.workload_proof = Some(WorkloadProof {
+            authenticated_https_connections: SHORT_QUALIFICATION_CONNECTIONS,
+            authenticated_wss_connections: SHORT_QUALIFICATION_CONNECTIONS,
+            websocket_full_duplex_observed: true,
+            observed_phases,
+        });
+
+        let value = report(
+            &args,
+            &"a".repeat(64),
+            Instant::now(),
+            "pass",
+            &execution,
+            None,
+        );
+
+        assert_eq!(value["runtime_v3_soak"]["status"], "fail_closed");
+        assert!(value["runtime_v3_soak"]["violations"]
+            .as_array()
+            .expect("violations")
+            .iter()
+            .any(
+                |violation| violation["detail"] == "dependency-degradation phase was not observed"
+            ));
     }
 
     #[test]
@@ -3515,6 +3664,7 @@ mod tests {
                 ObservedPhase {
                     kind: match name.as_str() {
                         "restart" => FaultKind::GuardianRestart,
+                        "dependency-degradation" => FaultKind::ResourcePressure,
                         _ => FaultKind::RecoveryReplay,
                     },
                     name,
