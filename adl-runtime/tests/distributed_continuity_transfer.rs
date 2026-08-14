@@ -373,6 +373,7 @@ fn signed_catalog_manifest_and_incremental_ranges_are_verified() {
     predecessor_drift.chunks[1].predecessor_sha256 = Some(sha(b"wrong-predecessor"));
     assert!(CommittedAuthorityArtifact::continuity_transfer(&predecessor_drift).is_err());
     marker("CASE-004:incremental_catalog_verify");
+    marker("CASE-025:wrong_manifest_denied");
 }
 
 #[test]
@@ -385,10 +386,10 @@ fn gaps_conflicts_wrong_predecessor_and_wrong_digest_are_denied() {
 
     let mut digest_session = session();
     let mut wrong_digest = frame(0);
-    wrong_digest.payload.push(b'!');
+    wrong_digest.payload[0] ^= 0x01;
     assert_eq!(
         digest_session.accept_frame(wrong_digest).unwrap_err(),
-        ContinuityTransferError::Bounds
+        ContinuityTransferError::Digest
     );
 
     let mut accepted_session = session();
@@ -493,16 +494,14 @@ fn wrong_transfer_and_incomplete_finish_are_denied() {
         partial.finish().unwrap_err(),
         ContinuityTransferError::Incomplete
     );
-    marker("CASE-017:unknown_kind_denied");
-    marker("CASE-025:wrong_manifest_denied");
 }
 
 #[test]
 fn generic_or_confused_authority_binding_is_denied() {
-    let artifact = artifact();
+    let valid_artifact = artifact();
     let expected = expectation();
     assert!(validate_continuity_transfer_binding(
-        &artifact,
+        &valid_artifact,
         "generic-send",
         &expected.lineage_id,
         &expected.source_checkpoint_handle_identity,
@@ -510,7 +509,7 @@ fn generic_or_confused_authority_binding_is_denied() {
     )
     .is_err());
 
-    let mut confused_artifact = artifact;
+    let mut confused_artifact = valid_artifact.clone();
     confused_artifact.domain = "adl.authority-artifact.membership.v1".to_owned();
     assert!(validate_continuity_transfer_binding(
         &confused_artifact,
@@ -520,8 +519,20 @@ fn generic_or_confused_authority_binding_is_denied() {
         &expected.bundle_handle_identity,
     )
     .is_err());
+
+    let mut unknown_artifact = valid_artifact;
+    unknown_artifact.domain = "adl.authority-artifact.unknown-transfer.v1".to_owned();
+    assert!(validate_continuity_transfer_binding(
+        &unknown_artifact,
+        CONTINUITY_TRANSFER_ADAPTER_210,
+        &expected.lineage_id,
+        &expected.source_checkpoint_handle_identity,
+        &expected.bundle_handle_identity,
+    )
+    .is_err());
     marker("CASE-015:generic_send_denied");
     marker("CASE-016:raft_rpc_confusion_denied");
+    marker("CASE-017:unknown_kind_denied");
 }
 
 #[test]
@@ -645,6 +656,18 @@ fn corrupt_or_rollback_journal_is_denied() {
             expectation(),
             ContinuityTransferPolicy::bounded(64, 128, 4),
             duplicate_receipt,
+        )
+        .unwrap_err(),
+        ContinuityTransferError::CorruptJournal
+    );
+    let mut torn_write = session.journal();
+    torn_write.accepted.clear();
+    assert_eq!(
+        ContinuityTransferSession::restore(
+            &artifact(),
+            expectation(),
+            ContinuityTransferPolicy::bounded(64, 128, 4),
+            torn_write,
         )
         .unwrap_err(),
         ContinuityTransferError::CorruptJournal
