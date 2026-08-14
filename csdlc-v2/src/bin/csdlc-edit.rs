@@ -4,8 +4,8 @@ use std::path::PathBuf;
 use clap::{Parser, Subcommand};
 use csdlc_v2::{
     approve_design, edit_issue, initialize_native_json, public_schema_bundle,
-    recover_initialized_decomposition, ApproveDesignRequest, EditRequest, ErrorCode,
-    InitializedDecompositionRecoveryRequest, Store,
+    recover_design_review, recover_initialized_decomposition, ApproveDesignRequest, EditRequest,
+    ErrorCode, InitializedDecompositionRecoveryRequest, RecoverDesignReviewRequest, Store,
 };
 use serde::Serialize;
 
@@ -29,6 +29,10 @@ enum Command {
         request: PathBuf,
     },
     ApproveDesign {
+        #[arg(long)]
+        request: PathBuf,
+    },
+    RecoverDesignReview {
         #[arg(long)]
         request: PathBuf,
     },
@@ -66,6 +70,9 @@ fn main() {
             .and_then(json_value),
         Command::ApproveDesign { request } => read::<ApproveDesignRequest>(&request)
             .and_then(|request| approve_design(&store, request))
+            .and_then(json_value),
+        Command::RecoverDesignReview { request } => read::<RecoverDesignReviewRequest>(&request)
+            .and_then(|request| recover_design_review(&store, request))
             .and_then(json_value),
         Command::RecoverInitializedDecomposition { request } => {
             read::<InitializedDecompositionRecoveryRequest>(&request)
