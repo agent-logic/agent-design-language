@@ -5,7 +5,6 @@ import pathlib
 import subprocess
 
 ROOT = pathlib.Path(__file__).resolve().parents[4]
-BASE = "c46b7cd8265a7e81566cdf82153c387595a6cccf"
 PRODUCT = {
     "adl-runtime/src/distributed/integrated_serving_authority_snapshot.rs",
     "adl-runtime/tests/distributed_integrated_serving_authority.rs",
@@ -15,6 +14,7 @@ PRODUCT = {
 def run(*args: str) -> str:
     return subprocess.run(args, cwd=ROOT, text=True, capture_output=True, check=True).stdout
 
+BASE = run("git", "merge-base", "origin/main", "HEAD").strip()
 tracked = set(filter(None, run("git", "diff", "--name-only", BASE, "--").splitlines()))
 untracked = set(filter(None, run("git", "ls-files", "--others", "--exclude-standard").splitlines()))
 changed = tracked | untracked

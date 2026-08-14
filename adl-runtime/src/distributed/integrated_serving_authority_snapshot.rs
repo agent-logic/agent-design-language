@@ -156,6 +156,9 @@ impl IntegratedServingAuthoritySnapshotStore {
         pair: &VerifiedCommittedChildLineagePair<'_>,
         outcome: IntegratedOutcome,
     ) -> Result<IntegratedSnapshotReceipt, IntegratedSnapshotError> {
+        if outcome == IntegratedOutcome::Recovery {
+            return Err(IntegratedSnapshotError::InvalidInput);
+        }
         validate_identifier(operation_ref)?;
         let shepherd = pair.shepherd();
         let observatory = pair.observatory();
@@ -205,6 +208,31 @@ impl IntegratedServingAuthoritySnapshotStore {
         };
         validate_child(&shepherd, "shepherd")?;
         validate_child(&observatory, "observatory")?;
+        self.append_observation(operation_ref, shepherd, observatory, outcome)
+    }
+
+    pub fn recover(
+        &mut self,
+        operation_ref: &str,
+    ) -> Result<IntegratedSnapshotReceipt, IntegratedSnapshotError> {
+        validate_identifier(operation_ref)?;
+        let latest = latest_receipt(self.envelope.payload())?
+            .ok_or(IntegratedSnapshotError::InvalidInput)?;
+        self.append_observation(
+            operation_ref,
+            latest.shepherd,
+            latest.observatory,
+            IntegratedOutcome::Recovery,
+        )
+    }
+
+    fn append_observation(
+        &mut self,
+        operation_ref: &str,
+        shepherd: RedactedChildProjection,
+        observatory: RedactedChildProjection,
+        outcome: IntegratedOutcome,
+    ) -> Result<IntegratedSnapshotReceipt, IntegratedSnapshotError> {
         let input_sha256 = digest_jcs(&(DOMAIN, operation_ref, outcome, &shepherd, &observatory))?;
         if let Some(existing) = self.envelope.payload().operations.get(operation_ref) {
             return if existing.input_sha256 == input_sha256 {
@@ -216,6 +244,12 @@ impl IntegratedServingAuthoritySnapshotStore {
         if self.envelope.payload().operations.len() >= self.capacity {
             return Err(IntegratedSnapshotError::CapacityExceeded);
         }
+        enforce_non_overlapping_transition(
+            self.envelope.payload(),
+            &shepherd,
+            &observatory,
+            outcome,
+        )?;
         let prior_state_sha256 = state_digest(self.envelope.payload())?;
         let mut next = self.envelope.payload().clone();
         next.revision = next
@@ -315,6 +349,81 @@ fn validate_receipt(
         return Err(IntegratedSnapshotError::Serialization);
     }
     Ok(())
+}
+
+fn latest_receipt(
+    state: &State,
+) -> Result<Option<IntegratedSnapshotReceipt>, IntegratedSnapshotError> {
+    let mut prefix = State::default();
+    let mut remaining: BTreeMap<&str, &IntegratedSnapshotReceipt> = state
+        .operations
+        .iter()
+        .map(|(operation, receipt)| (operation.as_str(), receipt))
+        .collect();
+    let mut latest = None;
+    while !remaining.is_empty() {
+        let prior_state_sha256 = state_digest(&prefix)?;
+        let (operation, receipt) = remaining
+            .iter()
+            .find(|(_, receipt)| receipt.prior_state_sha256 == prior_state_sha256)
+            .map(|(operation, receipt)| (*operation, (**receipt).clone()))
+            .ok_or(IntegratedSnapshotError::Serialization)?;
+        let mut candidate = prefix.clone();
+        candidate.revision = candidate
+            .revision
+            .checked_add(1)
+            .filter(|value| *value <= IJSON_MAX_INTEGER)
+            .ok_or(IntegratedSnapshotError::Serialization)?;
+        candidate
+            .operations
+            .insert(operation.to_owned(), receipt.clone());
+        if normalized_result_digest(&candidate, operation)? != receipt.result_state_sha256 {
+            return Err(IntegratedSnapshotError::Serialization);
+        }
+        latest = Some(receipt);
+        prefix = candidate;
+        remaining.remove(operation);
+    }
+    Ok(latest)
+}
+
+fn enforce_non_overlapping_transition(
+    state: &State,
+    shepherd: &RedactedChildProjection,
+    observatory: &RedactedChildProjection,
+    outcome: IntegratedOutcome,
+) -> Result<(), IntegratedSnapshotError> {
+    let Some(previous) = latest_receipt(state)? else {
+        return Ok(());
+    };
+    if previous.shepherd.lineage_ref != shepherd.lineage_ref
+        || previous.observatory.lineage_ref != observatory.lineage_ref
+    {
+        return Err(IntegratedSnapshotError::InvalidInput);
+    }
+    if outcome == IntegratedOutcome::Recovery {
+        return if previous.shepherd == *shepherd && previous.observatory == *observatory {
+            Ok(())
+        } else {
+            Err(IntegratedSnapshotError::InvalidInput)
+        };
+    }
+    if !strictly_newer_child(&previous.shepherd, shepherd)
+        || !strictly_newer_child(&previous.observatory, observatory)
+    {
+        return Err(IntegratedSnapshotError::InvalidInput);
+    }
+    Ok(())
+}
+
+fn strictly_newer_child(
+    previous: &RedactedChildProjection,
+    next: &RedactedChildProjection,
+) -> bool {
+    previous.child_kind == next.child_kind
+        && previous.lineage_ref == next.lineage_ref
+        && next.generation > previous.generation
+        && next.fencing_generation > previous.fencing_generation
 }
 
 fn validate_child(

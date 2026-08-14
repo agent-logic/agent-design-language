@@ -121,6 +121,34 @@ fn committed_pair(
     adl_runtime::distributed::shepherd_serving_eligibility::SealedShepherdCommittedProjection,
     adl_runtime::distributed::observatory_serving_eligibility::SealedObservatoryCommittedProjection,
 ) {
+    committed_pair_with_versions(
+        lineage,
+        7,
+        9,
+        100,
+        2,
+        1,
+        1,
+        shepherd_terminal,
+        observatory_terminal,
+    )
+}
+
+#[allow(clippy::too_many_arguments)]
+fn committed_pair_with_versions(
+    lineage: &str,
+    shepherd_generation: u64,
+    shepherd_fence: u64,
+    shepherd_committed: u64,
+    observatory_committed: u64,
+    observatory_generation: u64,
+    observatory_fence: u64,
+    shepherd_terminal: Option<&str>,
+    observatory_terminal: Option<ObservatoryTransitionAction>,
+) -> (
+    adl_runtime::distributed::shepherd_serving_eligibility::SealedShepherdCommittedProjection,
+    adl_runtime::distributed::observatory_serving_eligibility::SealedObservatoryCommittedProjection,
+) {
     let shepherd_dir = TempDir::new().unwrap();
     let observatory_dir = TempDir::new().unwrap();
     let authority = Arc::new(MemoryAuthority::default());
@@ -130,14 +158,14 @@ fn committed_pair(
         8,
     )
     .unwrap();
-    let shepherd_cut = shepherd_cut_for(lineage, 7, 9);
+    let shepherd_cut = shepherd_cut_for(lineage, shepherd_generation, shepherd_fence);
     shepherd
         .acquire(
             "shepherd-acquire",
             "shepherd-a",
             b"raw-secret-permit",
             &shepherd_cut,
-            100,
+            shepherd_committed,
             1,
         )
         .unwrap();
@@ -165,9 +193,9 @@ fn committed_pair(
         lineage,
         ObservatoryTransitionAction::Acquire,
         None,
-        2,
-        1,
-        1,
+        observatory_committed,
+        observatory_generation,
+        observatory_fence,
     );
     observatory
         .apply(&published, &cut, 1_700_000_000, 123_456_789)
@@ -276,35 +304,94 @@ fn authentic_pair_snapshot_retry_restart_and_redaction() {
 fn immutable_multi_operation_prefix_and_four_outcomes() {
     let integrated_dir = TempDir::new().unwrap();
     let authority = Arc::new(MemoryAuthority::default());
-    let (shepherd_sealed, observatory_sealed) = verified_pair_for("lineage-prefix");
-    let pair = verify_committed_child_lineage_pair(&shepherd_sealed, &observatory_sealed).unwrap();
     let mut store = IntegratedServingAuthoritySnapshotStore::open(
         &integrated_dir.path().canonicalize().unwrap(),
-        authority,
+        authority.clone(),
         8,
     )
     .unwrap();
-    let outcomes = [
-        ("prefix-success", IntegratedOutcome::Success),
-        ("prefix-noop", IntegratedOutcome::NoOp),
-        ("prefix-rejection", IntegratedOutcome::Rejection),
-        ("prefix-recovery", IntegratedOutcome::Recovery),
+    let versions = [
+        (
+            "prefix-success",
+            IntegratedOutcome::Success,
+            7,
+            9,
+            100,
+            2,
+            1,
+            1,
+        ),
+        ("prefix-noop", IntegratedOutcome::NoOp, 8, 10, 101, 3, 2, 2),
+        (
+            "prefix-rejection",
+            IntegratedOutcome::Rejection,
+            9,
+            11,
+            102,
+            4,
+            3,
+            3,
+        ),
     ];
-    let mut observed_digests = vec![
-        store
-            .observe(outcomes[0].0, &pair, outcomes[0].1)
-            .unwrap()
-            .result_state_sha256,
-    ];
-    for (operation, outcome) in outcomes.into_iter().skip(1) {
+    let mut observed_digests = Vec::new();
+    for (
+        operation,
+        outcome,
+        shepherd_generation,
+        shepherd_fence,
+        shepherd_committed,
+        observatory_committed,
+        observatory_generation,
+        observatory_fence,
+    ) in versions
+    {
+        let (shepherd_sealed, observatory_sealed) = committed_pair_with_versions(
+            "lineage-prefix",
+            shepherd_generation,
+            shepherd_fence,
+            shepherd_committed,
+            observatory_committed,
+            observatory_generation,
+            observatory_fence,
+            None,
+            None,
+        );
+        let pair =
+            verify_committed_child_lineage_pair(&shepherd_sealed, &observatory_sealed).unwrap();
         let receipt = store.observe(operation, &pair, outcome).unwrap();
         assert_eq!(receipt.outcome, outcome);
         assert_ne!(receipt.prior_state_sha256, receipt.result_state_sha256);
         assert!(!observed_digests.contains(&receipt.result_state_sha256));
         observed_digests.push(receipt.result_state_sha256);
     }
+    let (stale_shepherd, stale_observatory) =
+        committed_pair_with_versions("lineage-prefix", 9, 11, 102, 4, 3, 3, None, None);
+    let stale_pair =
+        verify_committed_child_lineage_pair(&stale_shepherd, &stale_observatory).unwrap();
     assert_eq!(
-        store.receipt("prefix-success").unwrap().outcome,
+        store.observe("prefix-stale", &stale_pair, IntegratedOutcome::Success),
+        Err(IntegratedSnapshotError::InvalidInput)
+    );
+    assert_eq!(
+        store.observe(
+            "prefix-forged-recovery",
+            &stale_pair,
+            IntegratedOutcome::Recovery
+        ),
+        Err(IntegratedSnapshotError::InvalidInput)
+    );
+    drop(store);
+    let mut reopened = IntegratedServingAuthoritySnapshotStore::open(
+        &integrated_dir.path().canonicalize().unwrap(),
+        authority,
+        8,
+    )
+    .unwrap();
+    let recovery = reopened.recover("prefix-recovery").unwrap();
+    assert_eq!(recovery.outcome, IntegratedOutcome::Recovery);
+    assert!(!observed_digests.contains(&recovery.result_state_sha256));
+    assert_eq!(
+        reopened.receipt("prefix-success").unwrap().outcome,
         IntegratedOutcome::Success
     );
 }
@@ -359,7 +446,7 @@ fn checkpoint_cas_failure_preserves_last_commit() {
         .unwrap();
     authority.reject_next_compare_and_swap();
     assert_eq!(
-        store.observe("cas-after", &pair, IntegratedOutcome::Recovery),
+        store.recover("cas-after"),
         Err(IntegratedSnapshotError::Storage)
     );
     drop(store);
