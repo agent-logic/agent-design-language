@@ -7,24 +7,71 @@
     "title": "[v0.92][WP-04.16b3.1b][205.c] Add Observatory quorum serving authority",
     "slug": "observatory-quorum-serving-authority",
     "version": "v0.92",
-    "generation": 28
+    "generation": 29
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Implement sealed Observatory serving eligibility using terminal #360 authentic transition fixtures.",
+      "summary": "Remediate PR362 coverage-impact failure with an exact Observatory integration-plus-unit mapping and unchanged 80 percent threshold.",
       "actual_changes": [
-        "Authentic sealed Acquire/Renew/Transfer/Revoke lifecycle with fail-closed overlap, stale, superseded, revival, replay and substitution behavior",
-        "Named normalized final-state digest over the committed receipt state with recomputation and tamper sensitivity",
-        "Exact three-path implementation against terminal #360 merge base"
+        "Map only observatory_serving_eligibility.rs to the exact integration-plus-unit nextest union",
+        "Route only that exact union through internal-test-fixtures and bounded --lib plus integration-test Cargo targets",
+        "Preserve unrelated-unmapped fail-closed behavior and all existing routes",
+        "Refresh immutable scope and diff base to terminal #363 merge"
       ],
       "artifacts": [
         "adl-runtime/src/distributed/observatory_serving_eligibility.rs",
         "adl-runtime/src/distributed/mod.rs",
-        "adl-runtime/tests/distributed_observatory_serving_eligibility.rs"
+        "adl-runtime/tests/distributed_observatory_serving_eligibility.rs",
+        "adl/tools/check_coverage_impact.sh",
+        "adl/tools/test_check_coverage_impact.sh",
+        "adl/tools/run_pr_fast_coverage_lane.sh",
+        "adl/tools/test_run_pr_fast_coverage_lane.sh"
       ],
       "actual_validation": [
+        {
+          "command": [
+            "bash",
+            "adl/tools/test_check_coverage_impact.sh"
+          ],
+          "purpose": "Exact mapping and unrelated-unmapped fail-closed contract.",
+          "outcome": "passed",
+          "evidence_ref": "PASS at source 02ed85c37"
+        },
+        {
+          "command": [
+            "bash",
+            "adl/tools/test_run_pr_fast_coverage_lane.sh"
+          ],
+          "purpose": "Exact union runner target and no-route-drift contract.",
+          "outcome": "passed",
+          "evidence_ref": "PASS at source 02ed85c37"
+        },
+        {
+          "command": [
+            "bash",
+            "adl/tools/run_pr_fast_coverage_lane.sh",
+            "--filter-expression",
+            "binary_id(adl-runtime::distributed_observatory_serving_eligibility) or (binary_id(adl-runtime) and test(/^distributed::observatory_serving_eligibility::tests::/))"
+          ],
+          "purpose": "Feature-bearing focused union coverage.",
+          "outcome": "passed",
+          "evidence_ref": "6 tests across 2 binaries; module 350/360 lines 97.22 percent at source 02ed85c37"
+        },
+        {
+          "command": [
+            "bash",
+            "adl/tools/check_coverage_impact.sh",
+            "--changed-files",
+            ".csdlc/evidence/274/coverage-impact-changed-files.txt",
+            "--summary",
+            "adl/target/coverage-impact-summary.json"
+          ],
+          "purpose": "Unchanged 80 percent module preflight.",
+          "outcome": "passed",
+          "evidence_ref": "350/360 97.22 percent exceeds unchanged 80 percent"
+        },
         {
           "command": [
             "cargo",
@@ -33,15 +80,13 @@
             "--manifest-path",
             "adl-runtime/Cargo.toml",
             "--lib",
-            "observatory_serving_eligibility",
+            "observatory_serving_eligibility::tests",
             "--features",
-            "internal-test-fixtures",
-            "--",
-            "--test-threads=1"
+            "internal-test-fixtures"
           ],
-          "purpose": "Prove state-machine guard plus normalized final-state digest recomputation and tamper sensitivity; closes R2 digest-convention finding.",
+          "purpose": "Meaningful state and normalized-digest unit behavior.",
           "outcome": "passed",
-          "evidence_ref": "2 passed at source 9a27e5987"
+          "evidence_ref": "2 passed"
         },
         {
           "command": [
@@ -53,13 +98,11 @@
             "--test",
             "distributed_observatory_serving_eligibility",
             "--features",
-            "internal-test-fixtures",
-            "--",
-            "--test-threads=1"
+            "internal-test-fixtures"
           ],
-          "purpose": "Prove authentic sealed A/R/T/R, restart/replay, overlap, stale/superseded predecessor, revoked revival, nanos expiry, A/B mismatch and redaction through terminal #360 fixtures; closes R2 mapping-boundary finding.",
+          "purpose": "Authentic sealed lifecycle behavior.",
           "outcome": "passed",
-          "evidence_ref": "4 passed at source 9a27e5987"
+          "evidence_ref": "4 passed"
         },
         {
           "command": [
@@ -76,29 +119,29 @@
             "-D",
             "warnings"
           ],
-          "purpose": "Strict feature-bearing Clippy.",
+          "purpose": "Strict focused Clippy.",
           "outcome": "passed",
-          "evidence_ref": "clippy PASS at source 9a27e5987"
+          "evidence_ref": "PASS"
         },
         {
           "command": [
             "python3",
             ".csdlc/prepared/issues/274/validate_scope.py"
           ],
-          "purpose": "Prove exact issue scope and one additive mod.rs registration against immutable #360 merge.",
+          "purpose": "Exact seven-path and one-line registration scope.",
           "outcome": "passed",
-          "evidence_ref": "scope PASS base dae957c435b73d87af1f36d4e15fb088f6fd055b"
+          "evidence_ref": "PASS at source 02ed85c37"
         },
         {
           "command": [
             "git",
             "diff",
             "--check",
-            "dae957c435b73d87af1f36d4e15fb088f6fd055b...HEAD"
+            "4db4c2b9a5d622fb7af6ffa1346b4d5406d4a699...HEAD"
           ],
-          "purpose": "Reject diff hygiene errors.",
+          "purpose": "Immutable #363-base diff hygiene.",
           "outcome": "passed",
-          "evidence_ref": "no output at source 9a27e5987"
+          "evidence_ref": "no output at source 02ed85c37"
         }
       ],
       "integration_state": "worktree_only",
