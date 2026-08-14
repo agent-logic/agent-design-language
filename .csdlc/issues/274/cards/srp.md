@@ -12,7 +12,16 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/issues/274
+.csdlc/prepared/issues/274
+.csdlc/evidence/274
+adl-runtime/src/distributed/mod.rs
+adl-runtime/src/distributed/observatory_serving_eligibility.rs
+adl-runtime/tests/distributed_observatory_serving_eligibility.rs
+adl/tools/check_coverage_impact.sh
+adl/tools/test_check_coverage_impact.sh
+adl/tools/run_pr_fast_coverage_lane.sh
+adl/tools/test_run_pr_fast_coverage_lane.sh
 
 ## Prompts
 
@@ -37,8 +46,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:a1a79ae14a94eb181f3b1d781eef54c703919f1d:d0e6f562874e2fbacae0a76cca8bf15fdb4f6b716bb7ac41574987c2a26f9c64")
 
-Reviewer: None
+Reviewer: Some("fresh-session:89ff2555-eb86-4a61-a214-7c584945eaac")
 
-Result: pre_review
+Result: pass
