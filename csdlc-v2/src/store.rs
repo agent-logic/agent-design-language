@@ -2457,7 +2457,6 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     if matches!(
         request.operation,
         SemanticOperation::CorrectPlanSummaryAfterRecovery { .. }
-            | SemanticOperation::CorrectRequiredOutcomeAfterRecovery { .. }
     ) {
         let latest_review_operation = record.audit.iter().rev().find(|event| {
             matches!(
@@ -2472,6 +2471,49 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
                 "post-recovery text correction requires actor and reason",
             ));
         }
+        let current_recovery = latest_review_operation.is_some_and(|event| {
+            event.operation == "recover_review"
+                && latest_transition.is_some_and(|transition| {
+                    transition.to == LifecyclePhase::Implemented
+                        && matches!(
+                            transition.from,
+                            LifecyclePhase::Reviewed
+                                | LifecyclePhase::Published
+                                | LifecyclePhase::MergeReady
+                        )
+                        && transition.actor == event.actor
+                        && transition.reason == event.reason
+                })
+                && record
+                    .audit
+                    .iter()
+                    .skip_while(|candidate| candidate.sequence <= event.sequence)
+                    .all(|candidate| recovery_epoch_operation_is_allowed(&candidate.operation))
+        });
+        if !current_recovery
+            || record.review_assignment.is_some()
+            || record.review.is_some()
+            || record.publication.is_some()
+            || record.readiness.is_some()
+            || record.terminal.is_some()
+        {
+            return Err(V2Error::new(
+                ErrorCode::InvalidTransition,
+                "post-recovery text correction requires current typed recovery provenance and cleared review, publication, readiness, and terminal truth",
+            ));
+        }
+    }
+    if matches!(
+        request.operation,
+        SemanticOperation::CorrectRequiredOutcomeAfterRecovery { .. }
+    ) {
+        let latest_review_operation = record.audit.iter().rev().find(|event| {
+            matches!(
+                event.operation.as_str(),
+                "assign_review" | "record_review" | "recover_review"
+            )
+        });
+        let latest_transition = record.transitions.last();
         let current_recovery = latest_review_operation.is_some_and(|event| {
             event.operation == "recover_review"
                 && event.generation == record.generation
@@ -2598,6 +2640,8 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
             "operation": "correct_plan_summary_after_recovery",
             "previous_value": plan_summary_before.expect("SPP summary correction snapshot"),
             "new_value": value,
+            "recovery_sequence": record.audit.iter().rev().find(|event| event.operation == "recover_review").map(|event| event.sequence),
+            "recovery_generation": record.audit.iter().rev().find(|event| event.operation == "recover_review").map(|event| event.generation),
         })
         .to_string(),
         (SemanticOperation::CorrectRequiredOutcomeAfterRecovery { value }, _) => {
@@ -4079,6 +4123,22 @@ fn authorize_card_operation(
             ErrorCode::InvalidTransition,
             format!("{card} mutation is not allowed during {phase}"),
         ))
+    }
+}
+
+fn recovery_epoch_operation_is_allowed(operation: &str) -> bool {
+    if matches!(operation, "approve_design") {
+        return true;
+    }
+    let Ok(value) = serde_json::from_str::<serde_json::Value>(operation) else {
+        return false;
+    };
+    match value.get("operation").and_then(serde_json::Value::as_str) {
+        Some("replace_planning_collection") => {
+            value.get("field").and_then(serde_json::Value::as_str) == Some("affected_areas")
+        }
+        Some("replace_plan_steps" | "replace_validation_lanes") => true,
+        _ => false,
     }
 }
 
