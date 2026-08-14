@@ -1046,7 +1046,7 @@ async fn finish_guardian(
         Ok(result) => result.map_err(|error| format!("Guardian process wait failed: {error}"))?,
         Err(_) => {
             if let Some(pid) = runtime_process_id {
-                let _ = force_runtime_exit(pid);
+                let _ = force_process_exit(pid, "kernel");
             }
             let _ = guardian.start_kill();
             let _ = tokio::time::timeout(shutdown_wait, guardian.wait()).await;
@@ -1321,7 +1321,7 @@ async fn execute_cycle(
             });
         }
         let restart_started = next_observation_second(&mut observation_clock).await;
-        if let Err(error) = force_runtime_exit(first_runtime_process_id) {
+        if let Err(error) = force_process_exit(first_runtime_process_id, "kernel") {
             let _ = request_native_shutdown(&mut guardian).await;
             let _ = finish_guardian(
                 &mut guardian,
@@ -1684,6 +1684,14 @@ fn runtime_process_id(observatory: &serde_json::Value) -> Result<u32, String> {
         .ok_or_else(|| "Runtime v3 Observatory did not expose runtime_process_id".to_owned())
 }
 
+fn vector_process_id(observatory: &serde_json::Value) -> Result<u32, String> {
+    observatory["health"]["snapshot"]["observability_pipeline"]["vector_pid"]
+        .as_u64()
+        .and_then(|value| u32::try_from(value).ok())
+        .filter(|value| *value > 0)
+        .ok_or_else(|| "Runtime v3 Observatory did not expose vector_pid".to_owned())
+}
+
 async fn request_native_shutdown(guardian: &mut Child) -> Result<(), String> {
     let pid = guardian
         .id()
@@ -1692,19 +1700,19 @@ async fn request_native_shutdown(guardian: &mut Child) -> Result<(), String> {
 }
 
 #[cfg(unix)]
-fn force_runtime_exit(pid: u32) -> Result<(), String> {
+fn force_process_exit(pid: u32, label: &str) -> Result<(), String> {
     if unsafe { libc::kill(pid as i32, libc::SIGKILL) } == 0 {
         Ok(())
     } else {
         Err(format!(
-            "external kernel SIGKILL fault failed: {}",
+            "external {label} SIGKILL fault failed: {}",
             std::io::Error::last_os_error()
         ))
     }
 }
 
 #[cfg(windows)]
-fn force_runtime_exit(pid: u32) -> Result<(), String> {
+fn force_process_exit(pid: u32, label: &str) -> Result<(), String> {
     struct Handle(HANDLE);
     impl Drop for Handle {
         fn drop(&mut self) {
@@ -1724,13 +1732,13 @@ fn force_runtime_exit(pid: u32) -> Result<(), String> {
     });
     if handle.0.is_null() {
         return Err(format!(
-            "external kernel process open failed: {}",
+            "external {label} process open failed: {}",
             std::io::Error::last_os_error()
         ));
     }
     if unsafe { TerminateProcess(handle.0, 86) } == 0 {
         return Err(format!(
-            "external kernel termination failed: {}",
+            "external {label} termination failed: {}",
             std::io::Error::last_os_error()
         ));
     }
@@ -1738,8 +1746,10 @@ fn force_runtime_exit(pid: u32) -> Result<(), String> {
 }
 
 #[cfg(not(any(unix, windows)))]
-fn force_runtime_exit(_pid: u32) -> Result<(), String> {
-    Err("external kernel termination is unsupported on this platform".to_owned())
+fn force_process_exit(_pid: u32, label: &str) -> Result<(), String> {
+    Err(format!(
+        "external {label} termination is unsupported on this platform"
+    ))
 }
 
 fn reject_fatal_process_output(stdout: &[u8], stderr: &[u8]) -> Result<(), String> {
@@ -2017,11 +2027,13 @@ async fn observe_short_qualification_workload(
         return Err(format!("authenticated WSS fanout failed: {error}"));
     }
     let dependency_degradation = observe_dependency_degradation(fixture, observation_clock).await?;
+    let mut observed_phases = vec![dependency_degradation];
+    observed_phases.extend(observe_vector_liveness_recovery(fixture, observation_clock).await?);
     Ok(WorkloadProof {
         authenticated_https_connections: SHORT_QUALIFICATION_CONNECTIONS,
         authenticated_wss_connections: SHORT_QUALIFICATION_CONNECTIONS,
         websocket_full_duplex_observed: true,
-        observed_phases: vec![dependency_degradation],
+        observed_phases,
     })
 }
 
@@ -2082,6 +2094,63 @@ async fn observe_dependency_degradation(
         transport_error_count: 0,
         recovery_seconds: recovered_unix_seconds.saturating_sub(injected_unix_seconds),
     })
+}
+
+async fn observe_vector_liveness_recovery(
+    fixture: &ProductionFixture,
+    observation_clock: &mut u64,
+) -> Result<Vec<ObservedPhase>, String> {
+    let before = authenticated_observatory(fixture).await?;
+    validate_observatory(&before)?;
+    let vector_pid = vector_process_id(&before)?;
+    let baseline_sequence = master_log_highest_sequence_for_soak(&fixture.master_log)?;
+    let injected_unix_seconds = next_observation_second(observation_clock).await;
+    force_process_exit(vector_pid, "Vector child")?;
+    let deadline = Instant::now() + fixture.readiness_timeout;
+    loop {
+        let observatory_ready = authenticated_observatory(fixture)
+            .await
+            .and_then(|observatory| {
+                validate_observatory(&observatory)?;
+                vector_process_id(&observatory).map(|pid| pid != vector_pid)
+            })
+            .unwrap_or(false);
+        let log_recovered =
+            master_log_has_vector_recovery_after(&fixture.master_log, baseline_sequence)?;
+        if observatory_ready && log_recovered {
+            let recovered_unix_seconds = next_observation_second(observation_clock).await;
+            let recovery_seconds = recovered_unix_seconds.saturating_sub(injected_unix_seconds);
+            return Ok(vec![
+                ObservedPhase {
+                    name: "vector-liveness".to_owned(),
+                    kind: FaultKind::ObservabilityStall,
+                    injected_unix_seconds,
+                    recovered_unix_seconds,
+                    resource_growth_percent: 1,
+                    backoff_seconds: recovery_seconds,
+                    transport_error_count: 0,
+                    recovery_seconds,
+                },
+                ObservedPhase {
+                    name: "log-stagnation".to_owned(),
+                    kind: FaultKind::ObservabilityStall,
+                    injected_unix_seconds,
+                    recovered_unix_seconds,
+                    resource_growth_percent: 1,
+                    backoff_seconds: recovery_seconds,
+                    transport_error_count: 0,
+                    recovery_seconds,
+                },
+            ]);
+        }
+        if Instant::now() >= deadline {
+            return Err(
+                "Vector liveness injection did not produce observed restart/recovery records"
+                    .to_owned(),
+            );
+        }
+        tokio::time::sleep(fixture.readiness_poll).await;
+    }
 }
 
 async fn runtime_readiness_report(
@@ -2276,6 +2345,46 @@ fn verify_master_log(
         log_audit_sha256: file_sha256(audit)
             .map_err(|error| format!("master log audit hash failed: {error}"))?,
     })
+}
+
+fn master_log_highest_sequence_for_soak(master_log: &Path) -> Result<u64, String> {
+    Ok(master_log_records(master_log)?
+        .into_iter()
+        .filter_map(|record| record["sequence"].as_u64())
+        .max()
+        .unwrap_or(0))
+}
+
+fn master_log_has_vector_recovery_after(master_log: &Path, baseline: u64) -> Result<bool, String> {
+    let mut restarting = false;
+    let mut recovered = false;
+    for record in master_log_records(master_log)? {
+        if record["sequence"].as_u64().unwrap_or(0) <= baseline {
+            continue;
+        }
+        match record["operation"].as_str() {
+            Some("vector_pipeline_restarting") => {
+                let reason = record["reason"].as_str().unwrap_or_default();
+                restarting |= reason.contains("vector_child_exited");
+            }
+            Some("vector_pipeline_recovered") => recovered = true,
+            _ => {}
+        }
+    }
+    Ok(restarting && recovered)
+}
+
+fn master_log_records(master_log: &Path) -> Result<Vec<serde_json::Value>, String> {
+    let text = std::fs::read_to_string(master_log)
+        .map_err(|error| format!("master log unavailable: {error}"))?;
+    text.lines()
+        .filter(|line| !line.trim().is_empty())
+        .enumerate()
+        .map(|(index, line)| {
+            serde_json::from_str(line)
+                .map_err(|error| format!("master log record {} is invalid: {error}", index + 1))
+        })
+        .collect()
 }
 
 fn aggregate_platform(args: &AggregateArgs) -> ExitCode {
@@ -3060,6 +3169,8 @@ fn short_qualification_fault_names() -> Vec<String> {
         "restart".to_owned(),
         "delayed-progress".to_owned(),
         "dependency-degradation".to_owned(),
+        "vector-liveness".to_owned(),
+        "log-stagnation".to_owned(),
         "shutdown".to_owned(),
     ]
 }
@@ -3564,7 +3675,7 @@ mod tests {
                 .as_array()
                 .expect("fault records")
                 .len(),
-            4
+            short_qualification_fault_names().len()
         );
     }
 
@@ -3809,6 +3920,34 @@ mod tests {
             written["lifecycle_acceptance"]["stress_100x10s"]["master_log_records"],
             3
         );
+    }
+
+    #[test]
+    fn vector_recovery_receipt_requires_restart_and_recovered_master_log_records_after_baseline() {
+        let root = std::env::current_dir().expect("current directory");
+        let temp = tempfile::tempdir_in(&root).expect("repo-local temp evidence");
+        let log = temp.path().join("master.log.jsonl");
+        std::fs::write(
+            &log,
+            concat!(
+                "{\"sequence\":1,\"operation\":\"vector_pipeline_restarting\",\"reason\":\"vector_child_exited\"}\n",
+                "{\"sequence\":2,\"operation\":\"vector_pipeline_recovered\"}\n",
+                "{\"sequence\":3,\"operation\":\"vector_pipeline_restarting\",\"reason\":\"operator_restart\"}\n",
+            ),
+        )
+        .expect("baseline master log");
+
+        assert_eq!(master_log_highest_sequence_for_soak(&log).unwrap(), 3);
+        assert!(!master_log_has_vector_recovery_after(&log, 3).unwrap());
+
+        let mut text = std::fs::read_to_string(&log).expect("master log text");
+        text.push_str(concat!(
+            "{\"sequence\":4,\"operation\":\"vector_pipeline_restarting\",\"reason\":\"vector_child_exited\"}\n",
+            "{\"sequence\":5,\"operation\":\"vector_pipeline_recovered\"}\n",
+        ));
+        std::fs::write(&log, text).expect("extended master log");
+
+        assert!(master_log_has_vector_recovery_after(&log, 3).unwrap());
     }
 
     fn write_sample_report(
