@@ -49,7 +49,10 @@ base = git("merge-base", "origin/main", "HEAD").strip
 map = JSON.parse(File.binread(MAP))
 abort("issue 210 map schema/count mismatch") unless map["issue"] == 210 && map["case_count"] == 45 && map["acceptance_count"] == 8 && map["subassertion_count"] == 84
 expected_markers = map.fetch("case_manifest").map { |entry| entry.fetch("marker") }
-source_markers = File.binread(TEST).scan(/pass:CASE-\d{3}:[a-z0-9_]+/)
+source_markers = File.binread(TEST)
+  .scan(/marker\("(CASE-\d{3}:[a-z0-9_]+)"\)/)
+  .flatten
+  .map { |marker| "pass:#{marker}" }
 abort("issue 210 source marker set mismatch") unless source_markers.sort == expected_markers.sort
 abort("issue 210 duplicate source markers") unless source_markers.uniq.length == source_markers.length
 
