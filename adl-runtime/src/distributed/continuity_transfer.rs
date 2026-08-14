@@ -37,6 +37,8 @@ pub enum ContinuityTransferError {
     Predecessor,
     Incomplete,
     Encoding,
+    Aborted,
+    CleanupAuthority,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -118,6 +120,15 @@ pub struct VerifiedContinuityTransferReceipt {
     pub final_payload_sha256: [u8; 32],
 }
 
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ContinuityTransferAbortReceipt {
+    pub transfer_id_sha256: [u8; 32],
+    pub cleanup_identity_sha256: [u8; 32],
+    pub accepted_prefix: u64,
+    pub zero_residue_attested: bool,
+}
+
 #[derive(Clone, Debug)]
 pub struct ContinuityTransferSession {
     grant: ContinuityTransferGrantArtifact,
@@ -126,6 +137,7 @@ pub struct ContinuityTransferSession {
     next_chunk_index: u64,
     predecessor_sha256: Option<[u8; 32]>,
     accepted: BTreeMap<u64, ContinuityTransferFrameReceipt>,
+    aborted: Option<ContinuityTransferAbortReceipt>,
 }
 
 impl ContinuityTransferSession {
@@ -153,6 +165,7 @@ impl ContinuityTransferSession {
             next_chunk_index: 0,
             predecessor_sha256: None,
             accepted: BTreeMap::new(),
+            aborted: None,
         })
     }
 
@@ -164,6 +177,9 @@ impl ContinuityTransferSession {
         &mut self,
         frame: ContinuityTransferFrame,
     ) -> Result<ContinuityTransferFrameReceipt, ContinuityTransferError> {
+        if self.aborted.is_some() {
+            return Err(ContinuityTransferError::Aborted);
+        }
         if frame.transfer_id != self.grant.transfer_id {
             return Err(ContinuityTransferError::WrongAuthority);
         }
@@ -242,6 +258,9 @@ impl ContinuityTransferSession {
     }
 
     pub fn finish(&self) -> Result<VerifiedContinuityTransferReceipt, ContinuityTransferError> {
+        if self.aborted.is_some() {
+            return Err(ContinuityTransferError::Aborted);
+        }
         if self.accepted_prefix != self.grant.total_bytes
             || self.accepted.len() != self.grant.chunks.len()
         {
@@ -261,6 +280,30 @@ impl ContinuityTransferSession {
                 .predecessor_sha256
                 .ok_or(ContinuityTransferError::Incomplete)?,
         })
+    }
+
+    pub fn abort(
+        &mut self,
+        transfer_id: &str,
+        cleanup_identity: &str,
+    ) -> Result<ContinuityTransferAbortReceipt, ContinuityTransferError> {
+        if transfer_id != self.grant.transfer_id {
+            return Err(ContinuityTransferError::WrongAuthority);
+        }
+        if cleanup_identity != self.grant.cleanup_identity {
+            return Err(ContinuityTransferError::CleanupAuthority);
+        }
+        if let Some(existing) = &self.aborted {
+            return Ok(existing.clone());
+        }
+        let receipt = ContinuityTransferAbortReceipt {
+            transfer_id_sha256: sha256_array(self.grant.transfer_id.as_bytes()),
+            cleanup_identity_sha256: sha256_array(self.grant.cleanup_identity.as_bytes()),
+            accepted_prefix: self.accepted_prefix,
+            zero_residue_attested: true,
+        };
+        self.aborted = Some(receipt.clone());
+        Ok(receipt)
     }
 }
 

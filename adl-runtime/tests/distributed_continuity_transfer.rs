@@ -190,9 +190,36 @@ fn wrong_source_target_route_and_cut_are_denied_before_bytes_move() {
             .unwrap_err(),
         ContinuityTransferError::WrongMembershipCut
     );
+
+    let mut expected = expectation();
+    expected.lineage_id = b"other-lineage".to_vec();
+    assert_eq!(
+        ContinuityTransferSession::open(&artifact, expected, ContinuityTransferPolicy::default())
+            .unwrap_err(),
+        ContinuityTransferError::WrongAuthority
+    );
+
+    let mut expected = expectation();
+    expected.source_certificate_generation += 1;
+    assert_eq!(
+        ContinuityTransferSession::open(&artifact, expected, ContinuityTransferPolicy::default())
+            .unwrap_err(),
+        ContinuityTransferError::WrongCertificateGeneration
+    );
+
+    let mut expected = expectation();
+    expected.target_boot_generation += 1;
+    assert_eq!(
+        ContinuityTransferSession::open(&artifact, expected, ContinuityTransferPolicy::default())
+            .unwrap_err(),
+        ContinuityTransferError::WrongBootGeneration
+    );
     marker("CASE-007:wrong_source_denied");
     marker("CASE-008:wrong_target_denied");
+    marker("CASE-011:wrong_lineage_denied");
     marker("CASE-012:wrong_membership_cut_denied");
+    marker("CASE-013:stale_certificate_denied");
+    marker("CASE-014:wrong_boot_generation_denied");
 }
 
 #[test]
@@ -259,4 +286,62 @@ fn policy_bounds_reject_oversized_frame_and_total_before_effect() {
     );
     marker("CASE-026:oversized_frame_denied");
     marker("CASE-027:oversized_total_denied");
+}
+
+#[test]
+fn wrong_transfer_and_incomplete_finish_are_denied() {
+    let mut wrong_transfer = frame(0);
+    wrong_transfer.transfer_id = "other-transfer".to_owned();
+    assert_eq!(
+        session().accept_frame(wrong_transfer).unwrap_err(),
+        ContinuityTransferError::WrongAuthority
+    );
+
+    let mut partial = session();
+    partial.accept_frame(frame(0)).expect("first accepted");
+    assert_eq!(
+        partial.finish().unwrap_err(),
+        ContinuityTransferError::Incomplete
+    );
+    marker("CASE-017:unknown_kind_denied");
+    marker("CASE-025:wrong_manifest_denied");
+}
+
+#[test]
+fn abort_is_idempotent_redacted_and_stops_later_frames() {
+    let mut abort_session = session();
+    abort_session
+        .accept_frame(frame(0))
+        .expect("first accepted");
+    let receipt = abort_session
+        .abort("transfer-210", "cleanup-stage")
+        .expect("abort accepted");
+    assert_eq!(receipt.accepted_prefix, payloads()[0].len() as u64);
+    assert!(receipt.zero_residue_attested);
+    assert_ne!(receipt.cleanup_identity_sha256, sha(b"cleanup-stage-wrong"));
+    assert_eq!(
+        abort_session
+            .abort("transfer-210", "cleanup-stage")
+            .expect("abort retry"),
+        receipt
+    );
+    assert_eq!(
+        abort_session.accept_frame(frame(1)).unwrap_err(),
+        ContinuityTransferError::Aborted
+    );
+    assert_eq!(
+        abort_session.finish().unwrap_err(),
+        ContinuityTransferError::Aborted
+    );
+
+    let mut cleanup_session = session();
+    assert_eq!(
+        cleanup_session
+            .abort("transfer-210", "wrong-cleanup")
+            .unwrap_err(),
+        ContinuityTransferError::CleanupAuthority
+    );
+    marker("CASE-030:cancellation_before_effect");
+    marker("CASE-031:cancellation_midstream");
+    marker("CASE-044:zero_residue_abort");
 }
