@@ -20,7 +20,10 @@ proof = JSON.parse(File.binread(PROOF))
 abort("issue 210 receipt schema mismatch") unless proof["schema"] == "adl.issue210.continuity_transfer_proof.v1" && proof["issue"] == 210
 source = proof.fetch("source_revision")
 abort("issue 210 source revision malformed") unless source.match?(/\A[0-9a-f]{40}\z/)
-abort("issue 210 proof source must equal HEAD") unless source == git("rev-parse", "HEAD").strip
+abort("issue 210 proof source is not ancestral to HEAD") unless system("git", "merge-base", "--is-ancestor", source, "HEAD", chdir: ROOT.to_s)
+post_source_paths = git("diff", "--name-only", "#{source}..HEAD").lines.map(&:strip).reject(&:empty?)
+post_source_non_evidence = post_source_paths.reject { |path| path.start_with?(".csdlc/evidence/210/v1/") }
+abort("issue 210 proof source drift outside retained evidence: #{post_source_non_evidence.join(", ")}") unless post_source_non_evidence.empty?
 abort("issue 210 acceptance map digest drift") unless proof["acceptance_map_sha256"] == Digest::SHA256.file(MAP).hexdigest
 map = JSON.parse(File.binread(MAP))
 expected_markers = map.fetch("case_manifest").map { |entry| entry.fetch("marker") }
