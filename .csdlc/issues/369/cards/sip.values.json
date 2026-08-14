@@ -1,0 +1,36 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 369,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Recover false design approval on bound issues",
+    "slug": "bound-false-design-review-recovery",
+    "version": "v0.92",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Add a typed fail-closed recovery that clears falsely recorded design approval on bound or implemented issues.",
+      "required_outcome": "An exact CAS-guarded operation preserves audit/topology, sets current design review pending, and grants no replacement lifecycle authority.",
+      "declared_scope": [
+        "Typed recovery request and schema",
+        "Store transition and csdlc-edit CLI dispatch",
+        "Focused bound/implemented success and refusal regressions"
+      ],
+      "authority_boundary": [
+        "Exact prior approval identity and revision",
+        "Bound or implemented only with no later review/publication authority",
+        "No generic audit or card mutation"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Blocks #275 and #205",
+        "No Runtime product paths",
+        "Preserve false audit event and append explicit correction"
+      ]
+    }
+  }
+}
