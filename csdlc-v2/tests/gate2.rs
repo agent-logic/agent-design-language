@@ -4200,20 +4200,19 @@ fn assert_recovery_result(before: &csdlc_v2::IssueRecord, after: &csdlc_v2::Issu
         after.audit.last().unwrap().operation,
         "recover_design_review"
     );
-    assert!(
-        after
-            .audit
-            .last()
-            .unwrap()
-            .reason
-            .contains("false_review_recorded_before_reviewer_returned")
-            || after
-                .audit
-                .last()
-                .unwrap()
-                .reason
-                .contains("reviewer_returned_fail_not_approval")
-    );
+    assert!(after
+        .audit
+        .last()
+        .unwrap()
+        .reason
+        .contains("previous_approval"));
+    assert!(after
+        .audit
+        .last()
+        .unwrap()
+        .reason
+        .contains("false_reviewer"));
+    assert!(after.audit.last().unwrap().reason.contains("disposition"));
 }
 
 #[test]
@@ -4303,13 +4302,48 @@ fn design_review_recovery_rejects_invalid_authority_and_repeat() {
 
 #[test]
 fn design_review_recovery_matches_issue_275_shape() {
-    let (_temp, _worktree, store, record) = design_review_recovery_fixture(275, false);
+    let (_temp, worktree, store, mut record) = design_review_recovery_fixture(275, true);
+    record.audit.push(csdlc_v2::model::AuditEvent {
+        sequence: record.audit.len() as u64 + 1,
+        generation: record.generation,
+        actor: "fresh-session:97817988-0208-4c4f-b721-aa1dc24fdfda".into(),
+        reason: "historical false approval preserved for correction provenance".into(),
+        operation: "approve_design".into(),
+    });
+    record.design_review = csdlc_v2::DesignReview::Approved {
+        reviewer: "codex:/root/issue-275-implementation".into(),
+        revision: "045fdad3f60a30c16c6a5b27f2a2a55f7dc2a38d3bc75b83197a1d576c9c1f66".into(),
+    };
+    write_consistent_record(&worktree, &mut record);
+    let audit = record
+        .audit
+        .iter()
+        .map(|event| serde_json::to_string(event).expect("serialize audit event"))
+        .collect::<Vec<_>>()
+        .join("\n")
+        + "\n";
+    fs::write(worktree.join(".csdlc/issues/275/audit.jsonl"), audit)
+        .expect("write preserved issue 275 audit history");
+    record = store
+        .load_record(275)
+        .expect("current issue 275 corruption shape");
     let mut request = recovery_request(&record);
     request.actor = "codex:issue-275-false-review-recovery".into();
-    request.reason = "clear false R5 approval before any product continuation".into();
-    request.disposition = "reviewer_returned_fail_not_approval".into();
+    request.reason = "clear current noncanonical self-review approval while preserving both false approval events".into();
+    request.disposition = "current_self_review_and_prior_false_fresh_review_preserved".into();
     let corrected =
         csdlc_v2::recover_design_review(&store, request).expect("recover exact issue 275 shape");
     assert_recovery_result(&record, &corrected);
     assert_eq!(corrected.issue, 275);
+    assert_eq!(corrected.phase, LifecyclePhase::Implemented);
+    assert!(corrected
+        .audit
+        .iter()
+        .any(|event| event.actor == "fresh-session:97817988-0208-4c4f-b721-aa1dc24fdfda"));
+    assert!(corrected
+        .audit
+        .last()
+        .unwrap()
+        .reason
+        .contains("codex:/root/issue-275-implementation"));
 }
