@@ -129,6 +129,7 @@ pub struct VerifiedContinuityTransferReceipt {
     pub chunk_count: u64,
     pub total_bytes: u64,
     pub final_payload_sha256: [u8; 32],
+    pub possession_evidence_sha256: [u8; 32],
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -159,6 +160,41 @@ pub struct ContinuityTransferCleanupRequest {
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
+pub struct TargetContinuityFrameEffect {
+    pub transfer_id_sha256: [u8; 32],
+    pub target_stage_handle_sha256: [u8; 32],
+    pub chunk_index: u64,
+    pub absolute_start: u64,
+    pub length: u64,
+    pub payload_sha256: [u8; 32],
+    pub predecessor_sha256: Option<[u8; 32]>,
+    pub accepted_prefix: u64,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct TargetContinuityFrameEffectReceipt {
+    pub transfer_id_sha256: [u8; 32],
+    pub chunk_index: u64,
+    pub accepted_prefix: u64,
+    pub payload_sha256: [u8; 32],
+    pub verifier_prefix_sha256: [u8; 32],
+    pub fsync_attested: bool,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct TargetContinuityPossessionEvidence {
+    pub transfer_id_sha256: [u8; 32],
+    pub target_stage_handle_sha256: [u8; 32],
+    pub accepted_prefix: u64,
+    pub total_bytes: u64,
+    pub final_payload_sha256: [u8; 32],
+    pub possession_evidence_sha256: [u8; 32],
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct ContinuityTransferJournalState {
     pub schema: String,
     pub transfer_id_sha256: [u8; 32],
@@ -182,6 +218,23 @@ pub trait ContinuityTransferCleanupAuthority {
         &mut self,
         request: ContinuityTransferCleanupRequest,
     ) -> Result<ContinuityTransferAbortReceipt, ContinuityTransferError>;
+}
+
+pub trait TargetContinuityEffectPort {
+    fn write_frame(
+        &mut self,
+        effect: &TargetContinuityFrameEffect,
+        payload: &[u8],
+    ) -> Result<TargetContinuityFrameEffectReceipt, ContinuityTransferError>;
+
+    fn verify_possession(
+        &mut self,
+        transfer_id_sha256: [u8; 32],
+        target_stage_handle_sha256: [u8; 32],
+        accepted_prefix: u64,
+        total_bytes: u64,
+        final_payload_sha256: [u8; 32],
+    ) -> Result<TargetContinuityPossessionEvidence, ContinuityTransferError>;
 }
 
 #[derive(Clone, Debug)]
@@ -292,11 +345,14 @@ impl ContinuityTransferSession {
     pub fn accept_frame(
         &mut self,
         frame: ContinuityTransferFrame,
+        target: &mut dyn TargetContinuityEffectPort,
         writer: &mut dyn ContinuityTransferJournalWriter,
     ) -> Result<ContinuityTransferFrameReceipt, ContinuityTransferError> {
         let mut staged = self.clone();
+        let payload = frame.payload.clone();
         let receipt = staged.accept_frame_unpersisted(frame)?;
         if !receipt.duplicate {
+            staged.write_target_effect(&receipt, &payload, target)?;
             writer.write_journal(&staged.journal())?;
             *self = staged;
         }
@@ -389,7 +445,10 @@ impl ContinuityTransferSession {
         Ok(receipt)
     }
 
-    pub fn finish(&mut self) -> Result<VerifiedContinuityTransferReceipt, ContinuityTransferError> {
+    pub fn finish(
+        &mut self,
+        target: &mut dyn TargetContinuityEffectPort,
+    ) -> Result<VerifiedContinuityTransferReceipt, ContinuityTransferError> {
         if self.aborted.is_some() {
             return Err(ContinuityTransferError::Aborted);
         }
@@ -401,10 +460,21 @@ impl ContinuityTransferSession {
         {
             return Err(ContinuityTransferError::Incomplete);
         }
+        let final_payload_sha256 = self
+            .predecessor_sha256
+            .ok_or(ContinuityTransferError::Incomplete)?;
+        let possession = target.verify_possession(
+            sha256_array(self.grant.transfer_id.as_bytes()),
+            sha256_array(&self.grant.bundle_handle_identity),
+            self.accepted_prefix,
+            self.grant.total_bytes,
+            final_payload_sha256,
+        )?;
+        self.validate_possession(&possession, final_payload_sha256)?;
         let receipt = completion_receipt(
             &self.grant,
-            self.predecessor_sha256
-                .ok_or(ContinuityTransferError::Incomplete)?,
+            final_payload_sha256,
+            possession.possession_evidence_sha256,
         );
         self.completed = Some(receipt.clone());
         Ok(receipt)
@@ -415,6 +485,7 @@ impl ContinuityTransferSession {
         transfer_id: &str,
         cleanup_identity: &str,
         cleanup: &mut dyn ContinuityTransferCleanupAuthority,
+        writer: &mut dyn ContinuityTransferJournalWriter,
     ) -> Result<ContinuityTransferAbortReceipt, ContinuityTransferError> {
         if transfer_id != self.grant.transfer_id {
             return Err(ContinuityTransferError::WrongAuthority);
@@ -425,6 +496,7 @@ impl ContinuityTransferSession {
         if let Some(existing) = &self.aborted {
             return Ok(existing.clone());
         }
+        let mut staged = self.clone();
         let request = ContinuityTransferCleanupRequest {
             transfer_id_sha256: sha256_array(self.grant.transfer_id.as_bytes()),
             cleanup_identity_sha256: sha256_array(self.grant.cleanup_identity.as_bytes()),
@@ -438,8 +510,62 @@ impl ContinuityTransferSession {
         {
             return Err(ContinuityTransferError::CleanupAuthority);
         }
-        self.aborted = Some(receipt.clone());
+        staged.aborted = Some(receipt.clone());
+        staged.completed = None;
+        writer.write_journal(&staged.journal())?;
+        *self = staged;
         Ok(receipt)
+    }
+
+    fn write_target_effect(
+        &self,
+        receipt: &ContinuityTransferFrameReceipt,
+        payload: &[u8],
+        target: &mut dyn TargetContinuityEffectPort,
+    ) -> Result<(), ContinuityTransferError> {
+        let effect = TargetContinuityFrameEffect {
+            transfer_id_sha256: sha256_array(self.grant.transfer_id.as_bytes()),
+            target_stage_handle_sha256: sha256_array(&self.grant.bundle_handle_identity),
+            chunk_index: receipt.chunk_index,
+            absolute_start: receipt.absolute_start,
+            length: receipt.length,
+            payload_sha256: receipt.payload_sha256,
+            predecessor_sha256: self
+                .grant
+                .chunks
+                .get(receipt.chunk_index as usize)
+                .and_then(|chunk| chunk.predecessor_sha256),
+            accepted_prefix: receipt.accepted_prefix,
+        };
+        let target_receipt = target.write_frame(&effect, payload)?;
+        if target_receipt.transfer_id_sha256 != effect.transfer_id_sha256
+            || target_receipt.chunk_index != effect.chunk_index
+            || target_receipt.accepted_prefix != effect.accepted_prefix
+            || target_receipt.payload_sha256 != effect.payload_sha256
+            || target_receipt.verifier_prefix_sha256 == [0; 32]
+            || !target_receipt.fsync_attested
+        {
+            return Err(ContinuityTransferError::Storage);
+        }
+        Ok(())
+    }
+
+    fn validate_possession(
+        &self,
+        possession: &TargetContinuityPossessionEvidence,
+        final_payload_sha256: [u8; 32],
+    ) -> Result<(), ContinuityTransferError> {
+        if possession.transfer_id_sha256 != sha256_array(self.grant.transfer_id.as_bytes())
+            || possession.target_stage_handle_sha256
+                != sha256_array(&self.grant.bundle_handle_identity)
+            || possession.accepted_prefix != self.accepted_prefix
+            || possession.total_bytes != self.grant.total_bytes
+            || possession.final_payload_sha256 != final_payload_sha256
+            || possession.possession_evidence_sha256 == [0; 32]
+        {
+            return Err(ContinuityTransferError::Storage);
+        }
+        Ok(())
     }
 
     fn apply_journal(
@@ -504,7 +630,13 @@ impl ContinuityTransferSession {
             if journal.aborted.is_some()
                 || journal.accepted_prefix != self.grant.total_bytes
                 || journal.accepted.len() != self.grant.chunks.len()
-                || completed != &completion_receipt(&self.grant, final_payload_sha256)
+                || completed.possession_evidence_sha256 == [0; 32]
+                || completed
+                    != &completion_receipt(
+                        &self.grant,
+                        final_payload_sha256,
+                        completed.possession_evidence_sha256,
+                    )
             {
                 return Err(ContinuityTransferError::CorruptJournal);
             }
@@ -602,6 +734,7 @@ fn canonical_time_unix_millis(
 fn completion_receipt(
     grant: &ContinuityTransferGrantArtifact,
     final_payload_sha256: [u8; 32],
+    possession_evidence_sha256: [u8; 32],
 ) -> VerifiedContinuityTransferReceipt {
     VerifiedContinuityTransferReceipt {
         transfer_id_sha256: sha256_array(grant.transfer_id.as_bytes()),
@@ -614,6 +747,7 @@ fn completion_receipt(
         chunk_count: grant.chunks.len() as u64,
         total_bytes: grant.total_bytes,
         final_payload_sha256,
+        possession_evidence_sha256,
     }
 }
 

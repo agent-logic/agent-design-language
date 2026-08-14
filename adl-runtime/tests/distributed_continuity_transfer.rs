@@ -8,6 +8,8 @@ use adl_runtime::distributed::continuity_transfer::{
     ContinuityTransferCleanupRequest, ContinuityTransferError, ContinuityTransferExpectation,
     ContinuityTransferFrame, ContinuityTransferFrameReceipt, ContinuityTransferJournalState,
     ContinuityTransferJournalWriter, ContinuityTransferPolicy, ContinuityTransferSession,
+    TargetContinuityEffectPort, TargetContinuityFrameEffect, TargetContinuityFrameEffectReceipt,
+    TargetContinuityPossessionEvidence, VerifiedContinuityTransferReceipt,
 };
 use adl_runtime_kernel::{SourceCheckpointHandle, TargetStageHandle};
 use sha2::{Digest, Sha256};
@@ -47,7 +49,65 @@ fn accept_frame(
     session: &mut ContinuityTransferSession,
     frame: ContinuityTransferFrame,
 ) -> Result<ContinuityTransferFrameReceipt, ContinuityTransferError> {
-    session.accept_frame(frame, &mut MemoryJournal::default())
+    session.accept_frame(
+        frame,
+        &mut MemoryTargetEffect::default(),
+        &mut MemoryJournal::default(),
+    )
+}
+
+fn finish(
+    session: &mut ContinuityTransferSession,
+) -> Result<VerifiedContinuityTransferReceipt, ContinuityTransferError> {
+    session.finish(&mut MemoryTargetEffect::default())
+}
+
+#[derive(Default)]
+struct MemoryTargetEffect {
+    writes: Vec<TargetContinuityFrameEffect>,
+}
+
+impl TargetContinuityEffectPort for MemoryTargetEffect {
+    fn write_frame(
+        &mut self,
+        effect: &TargetContinuityFrameEffect,
+        payload: &[u8],
+    ) -> Result<TargetContinuityFrameEffectReceipt, ContinuityTransferError> {
+        assert_eq!(effect.payload_sha256, sha(payload));
+        self.writes.push(effect.clone());
+        Ok(TargetContinuityFrameEffectReceipt {
+            transfer_id_sha256: effect.transfer_id_sha256,
+            chunk_index: effect.chunk_index,
+            accepted_prefix: effect.accepted_prefix,
+            payload_sha256: effect.payload_sha256,
+            verifier_prefix_sha256: sha(&serde_jcs::to_vec(effect).expect("effect identity")),
+            fsync_attested: true,
+        })
+    }
+
+    fn verify_possession(
+        &mut self,
+        transfer_id_sha256: [u8; 32],
+        target_stage_handle_sha256: [u8; 32],
+        accepted_prefix: u64,
+        total_bytes: u64,
+        final_payload_sha256: [u8; 32],
+    ) -> Result<TargetContinuityPossessionEvidence, ContinuityTransferError> {
+        assert_eq!(accepted_prefix, total_bytes);
+        Ok(TargetContinuityPossessionEvidence {
+            transfer_id_sha256,
+            target_stage_handle_sha256,
+            accepted_prefix,
+            total_bytes,
+            final_payload_sha256,
+            possession_evidence_sha256: sha(&[
+                transfer_id_sha256.as_slice(),
+                target_stage_handle_sha256.as_slice(),
+                final_payload_sha256.as_slice(),
+            ]
+            .concat()),
+        })
+    }
 }
 
 #[derive(Default)]
@@ -221,7 +281,7 @@ fn authorized_transfer_accepts_ordered_frames_and_redacted_receipt() {
     let second = accept_frame(&mut session, frame(1)).expect("second accepted");
     assert_eq!(second.accepted_prefix, grant().total_bytes);
 
-    let receipt = session.finish().expect("complete");
+    let receipt = finish(&mut session).expect("complete");
     assert_eq!(receipt.chunk_count, 2);
     assert_eq!(receipt.total_bytes, grant().total_bytes);
     assert_ne!(receipt.transfer_id_sha256, [0; 32]);
@@ -355,8 +415,8 @@ fn completion_retry_and_completion_journal_are_cached_without_payload() {
     let mut session = session();
     accept_frame(&mut session, frame(0)).expect("first accepted");
     accept_frame(&mut session, frame(1)).expect("second accepted");
-    let completed = session.finish().expect("complete");
-    assert_eq!(session.finish().expect("finish retry"), completed);
+    let completed = finish(&mut session).expect("complete");
+    assert_eq!(finish(&mut session).expect("finish retry"), completed);
     let journal = session.journal();
     assert!(journal.completed.is_some());
     assert_eq!(journal.accepted.len(), 2);
@@ -368,7 +428,7 @@ fn completion_retry_and_completion_journal_are_cached_without_payload() {
         journal,
     )
     .expect("restore completed");
-    assert_eq!(restored.finish().expect("restored complete"), completed);
+    assert_eq!(finish(&mut restored).expect("restored complete"), completed);
     marker("CASE-006:exact_retry_cached");
     marker("CASE-037:crash_after_completion_result");
     marker("CASE-039:crash_after_checkpoint");
@@ -619,7 +679,7 @@ fn wrong_transfer_and_incomplete_finish_are_denied() {
     let mut partial = session();
     accept_frame(&mut partial, frame(0)).expect("first accepted");
     assert_eq!(
-        partial.finish().unwrap_err(),
+        finish(&mut partial).unwrap_err(),
         ContinuityTransferError::Incomplete
     );
 }
@@ -671,26 +731,49 @@ fn abort_is_idempotent_redacted_and_stops_later_frames() {
     let mut abort_session = session();
     accept_frame(&mut abort_session, frame(0)).expect("first accepted");
     let mut cleanup = CleanupFixture::default();
+    let mut abort_journal = MemoryJournal::default();
     let receipt = abort_session
-        .abort("transfer-210", "cleanup-stage", &mut cleanup)
+        .abort(
+            "transfer-210",
+            "cleanup-stage",
+            &mut cleanup,
+            &mut abort_journal,
+        )
         .expect("abort accepted");
     assert_eq!(cleanup.calls, 1);
+    assert_eq!(abort_journal.writes, 1);
     assert_eq!(receipt.accepted_prefix, payloads()[0].len() as u64);
     assert!(receipt.zero_residue_attested);
     assert_ne!(receipt.cleanup_identity_sha256, sha(b"cleanup-stage-wrong"));
     assert_eq!(
         abort_session
-            .abort("transfer-210", "cleanup-stage", &mut cleanup)
+            .abort(
+                "transfer-210",
+                "cleanup-stage",
+                &mut cleanup,
+                &mut MemoryJournal::default()
+            )
             .expect("abort retry"),
         receipt
     );
     assert_eq!(cleanup.calls, 1);
+    let mut restored_aborted = ContinuityTransferSession::restore(
+        &artifact(),
+        expectation(),
+        ContinuityTransferPolicy::bounded(64, 128, 4),
+        abort_session.journal(),
+    )
+    .expect("restore aborted journal");
+    assert_eq!(
+        accept_frame(&mut restored_aborted, frame(1)).unwrap_err(),
+        ContinuityTransferError::Aborted
+    );
     assert_eq!(
         accept_frame(&mut abort_session, frame(1)).unwrap_err(),
         ContinuityTransferError::Aborted
     );
     assert_eq!(
-        abort_session.finish().unwrap_err(),
+        finish(&mut abort_session).unwrap_err(),
         ContinuityTransferError::Aborted
     );
 
@@ -700,7 +783,8 @@ fn abort_is_idempotent_redacted_and_stops_later_frames() {
             .abort(
                 "transfer-210",
                 "wrong-cleanup",
-                &mut CleanupFixture::default()
+                &mut CleanupFixture::default(),
+                &mut MemoryJournal::default()
             )
             .unwrap_err(),
         ContinuityTransferError::CleanupAuthority
@@ -747,7 +831,7 @@ fn journal_restore_resumes_exact_prefix_without_raw_payload() {
     .expect("restore accepted prefix");
     assert_eq!(restored.accepted_prefix(), accepted.accepted_prefix);
     accept_frame(&mut restored, frame(1)).expect("resume second");
-    assert_eq!(restored.finish().expect("complete").chunk_count, 2);
+    assert_eq!(finish(&mut restored).expect("complete").chunk_count, 2);
     marker("CASE-005:resume_after_partition");
     marker("CASE-032:source_restart_resume");
     marker("CASE-033:target_restart_resume");
@@ -845,7 +929,7 @@ fn corrupt_or_rollback_journal_is_denied() {
     let mut impossible_completion = session.journal();
     impossible_completion.completed = Some({
         accept_frame(&mut session, frame(1)).expect("second accepted");
-        session.finish().expect("complete")
+        finish(&mut session).expect("complete")
     });
     assert_eq!(
         ContinuityTransferSession::restore(
