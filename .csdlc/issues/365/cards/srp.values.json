@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 365,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1b][defect] Seal committed child eligibility projections for integrated proof",
+    "slug": "sealed-child-eligibility-provenance",
+    "version": "v0.92",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact #365 design/card packet at base 26de2a; terminal #272/#273/#274 ancestry; two existing child modules/tests; opaque private store construction; canonical provenance binding; restart corruption A/B fabrication and redaction matrix; exclusion of policy changes constructors raw authority #275 #205 and all unrelated paths.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any caller fabricate or convert a public projection into the opaque type?",
+        "Does private construction recompute receipt state payload generation/index and child-kind binding from store-owned truth?",
+        "Do reopen corruption rollback and A/B tests use real persistence boundaries?",
+        "Are getters/canonical bytes fully redacted?",
+        "Are existing transition policies and exact four-path ownership unchanged?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
