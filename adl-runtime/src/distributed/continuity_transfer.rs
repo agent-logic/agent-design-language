@@ -151,6 +151,14 @@ pub struct ContinuityTransferAbortReceipt {
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
+pub struct ContinuityTransferCleanupRequest {
+    pub transfer_id_sha256: [u8; 32],
+    pub cleanup_identity_sha256: [u8; 32],
+    pub accepted_prefix: u64,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
 pub struct ContinuityTransferJournalState {
     pub schema: String,
     pub transfer_id_sha256: [u8; 32],
@@ -167,6 +175,13 @@ pub trait ContinuityTransferJournalWriter {
         &mut self,
         journal: &ContinuityTransferJournalState,
     ) -> Result<(), ContinuityTransferError>;
+}
+
+pub trait ContinuityTransferCleanupAuthority {
+    fn discard(
+        &mut self,
+        request: ContinuityTransferCleanupRequest,
+    ) -> Result<ContinuityTransferAbortReceipt, ContinuityTransferError>;
 }
 
 #[derive(Clone, Debug)]
@@ -277,6 +292,20 @@ impl ContinuityTransferSession {
     pub fn accept_frame(
         &mut self,
         frame: ContinuityTransferFrame,
+        writer: &mut dyn ContinuityTransferJournalWriter,
+    ) -> Result<ContinuityTransferFrameReceipt, ContinuityTransferError> {
+        let mut staged = self.clone();
+        let receipt = staged.accept_frame_unpersisted(frame)?;
+        if !receipt.duplicate {
+            writer.write_journal(&staged.journal())?;
+            *self = staged;
+        }
+        Ok(receipt)
+    }
+
+    fn accept_frame_unpersisted(
+        &mut self,
+        frame: ContinuityTransferFrame,
     ) -> Result<ContinuityTransferFrameReceipt, ContinuityTransferError> {
         if self.aborted.is_some() {
             return Err(ContinuityTransferError::Aborted);
@@ -385,6 +414,7 @@ impl ContinuityTransferSession {
         &mut self,
         transfer_id: &str,
         cleanup_identity: &str,
+        cleanup: &mut dyn ContinuityTransferCleanupAuthority,
     ) -> Result<ContinuityTransferAbortReceipt, ContinuityTransferError> {
         if transfer_id != self.grant.transfer_id {
             return Err(ContinuityTransferError::WrongAuthority);
@@ -395,12 +425,19 @@ impl ContinuityTransferSession {
         if let Some(existing) = &self.aborted {
             return Ok(existing.clone());
         }
-        let receipt = ContinuityTransferAbortReceipt {
+        let request = ContinuityTransferCleanupRequest {
             transfer_id_sha256: sha256_array(self.grant.transfer_id.as_bytes()),
             cleanup_identity_sha256: sha256_array(self.grant.cleanup_identity.as_bytes()),
             accepted_prefix: self.accepted_prefix,
-            zero_residue_attested: true,
         };
+        let receipt = cleanup.discard(request.clone())?;
+        if receipt.transfer_id_sha256 != request.transfer_id_sha256
+            || receipt.cleanup_identity_sha256 != request.cleanup_identity_sha256
+            || receipt.accepted_prefix != request.accepted_prefix
+            || !receipt.zero_residue_attested
+        {
+            return Err(ContinuityTransferError::CleanupAuthority);
+        }
         self.aborted = Some(receipt.clone());
         Ok(receipt)
     }

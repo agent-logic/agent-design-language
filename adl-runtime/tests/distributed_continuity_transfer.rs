@@ -4,9 +4,10 @@ use adl_runtime::distributed::authority_protocol::{
     CONTINUITY_TRANSFER_ADAPTER_210,
 };
 use adl_runtime::distributed::continuity_transfer::{
-    ContinuityTransferError, ContinuityTransferExpectation, ContinuityTransferFrame,
-    ContinuityTransferJournalState, ContinuityTransferJournalWriter, ContinuityTransferPolicy,
-    ContinuityTransferSession,
+    ContinuityTransferAbortReceipt, ContinuityTransferCleanupAuthority,
+    ContinuityTransferCleanupRequest, ContinuityTransferError, ContinuityTransferExpectation,
+    ContinuityTransferFrame, ContinuityTransferFrameReceipt, ContinuityTransferJournalState,
+    ContinuityTransferJournalWriter, ContinuityTransferPolicy, ContinuityTransferSession,
 };
 use adl_runtime_kernel::{SourceCheckpointHandle, TargetStageHandle};
 use sha2::{Digest, Sha256};
@@ -25,6 +26,48 @@ fn marker(name: &str) {
 
 fn subassertion_marker(name: &str) {
     println!("{name}");
+}
+
+#[derive(Default)]
+struct MemoryJournal {
+    writes: usize,
+}
+
+impl ContinuityTransferJournalWriter for MemoryJournal {
+    fn write_journal(
+        &mut self,
+        _journal: &ContinuityTransferJournalState,
+    ) -> Result<(), ContinuityTransferError> {
+        self.writes += 1;
+        Ok(())
+    }
+}
+
+fn accept_frame(
+    session: &mut ContinuityTransferSession,
+    frame: ContinuityTransferFrame,
+) -> Result<ContinuityTransferFrameReceipt, ContinuityTransferError> {
+    session.accept_frame(frame, &mut MemoryJournal::default())
+}
+
+#[derive(Default)]
+struct CleanupFixture {
+    calls: usize,
+}
+
+impl ContinuityTransferCleanupAuthority for CleanupFixture {
+    fn discard(
+        &mut self,
+        request: ContinuityTransferCleanupRequest,
+    ) -> Result<ContinuityTransferAbortReceipt, ContinuityTransferError> {
+        self.calls += 1;
+        Ok(ContinuityTransferAbortReceipt {
+            transfer_id_sha256: request.transfer_id_sha256,
+            cleanup_identity_sha256: request.cleanup_identity_sha256,
+            accepted_prefix: request.accepted_prefix,
+            zero_residue_attested: true,
+        })
+    }
 }
 
 fn payloads() -> [&'static [u8]; 2] {
@@ -173,9 +216,9 @@ fn frame(index: u64) -> ContinuityTransferFrame {
 #[test]
 fn authorized_transfer_accepts_ordered_frames_and_redacted_receipt() {
     let mut session = session();
-    let first = session.accept_frame(frame(0)).expect("first accepted");
+    let first = accept_frame(&mut session, frame(0)).expect("first accepted");
     assert_eq!(first.accepted_prefix, payloads()[0].len() as u64);
-    let second = session.accept_frame(frame(1)).expect("second accepted");
+    let second = accept_frame(&mut session, frame(1)).expect("second accepted");
     assert_eq!(second.accepted_prefix, grant().total_bytes);
 
     let receipt = session.finish().expect("complete");
@@ -270,8 +313,8 @@ fn real_source_and_target_stage_handles_are_exact_and_pathless() {
 fn exact_duplicate_frame_is_cached_without_advancing_prefix() {
     let mut session = session();
     let first = frame(0);
-    let accepted = session.accept_frame(first.clone()).expect("first accepted");
-    let duplicate = session.accept_frame(first).expect("duplicate cached");
+    let accepted = accept_frame(&mut session, first.clone()).expect("first accepted");
+    let duplicate = accept_frame(&mut session, first).expect("duplicate cached");
     assert_eq!(duplicate.accepted_prefix, accepted.accepted_prefix);
     assert!(duplicate.duplicate);
     assert_eq!(session.accepted_prefix(), accepted.accepted_prefix);
@@ -281,8 +324,8 @@ fn exact_duplicate_frame_is_cached_without_advancing_prefix() {
 #[test]
 fn completion_retry_and_completion_journal_are_cached_without_payload() {
     let mut session = session();
-    session.accept_frame(frame(0)).expect("first accepted");
-    session.accept_frame(frame(1)).expect("second accepted");
+    accept_frame(&mut session, frame(0)).expect("first accepted");
+    accept_frame(&mut session, frame(1)).expect("second accepted");
     let completed = session.finish().expect("complete");
     assert_eq!(session.finish().expect("finish retry"), completed);
     let journal = session.journal();
@@ -407,7 +450,7 @@ fn signed_catalog_manifest_and_incremental_ranges_are_verified() {
 fn gaps_conflicts_wrong_predecessor_and_wrong_digest_are_denied() {
     let mut gap_session = session();
     assert_eq!(
-        gap_session.accept_frame(frame(1)).unwrap_err(),
+        accept_frame(&mut gap_session, frame(1)).unwrap_err(),
         ContinuityTransferError::Gap
     );
 
@@ -415,27 +458,23 @@ fn gaps_conflicts_wrong_predecessor_and_wrong_digest_are_denied() {
     let mut wrong_digest = frame(0);
     wrong_digest.payload[0] ^= 0x01;
     assert_eq!(
-        digest_session.accept_frame(wrong_digest).unwrap_err(),
+        accept_frame(&mut digest_session, wrong_digest).unwrap_err(),
         ContinuityTransferError::Digest
     );
 
     let mut accepted_session = session();
-    accepted_session
-        .accept_frame(frame(0))
-        .expect("first accepted");
+    accept_frame(&mut accepted_session, frame(0)).expect("first accepted");
     let mut conflicting = frame(0);
     conflicting.payload = b"same-length-wrong-data".to_vec();
     assert_eq!(
-        accepted_session.accept_frame(conflicting).unwrap_err(),
+        accept_frame(&mut accepted_session, conflicting).unwrap_err(),
         ContinuityTransferError::Conflict
     );
 
     let mut wrong_predecessor = frame(1);
     wrong_predecessor.predecessor_sha256 = Some(sha(b"wrong predecessor"));
     assert_eq!(
-        accepted_session
-            .accept_frame(wrong_predecessor)
-            .unwrap_err(),
+        accept_frame(&mut accepted_session, wrong_predecessor).unwrap_err(),
         ContinuityTransferError::Predecessor
     );
     marker("CASE-020:reordered_frame_denied");
@@ -450,30 +489,30 @@ fn deadline_and_chunk_overrun_are_denied_before_prefix_advances() {
     let mut expired_first = frame(0);
     expired_first.observed_unix_millis = after_deadline_millis();
     assert_eq!(
-        before_first.accept_frame(expired_first).unwrap_err(),
+        accept_frame(&mut before_first, expired_first).unwrap_err(),
         ContinuityTransferError::Deadline
     );
     assert_eq!(before_first.accepted_prefix(), 0);
 
     let mut midstream = session();
-    midstream.accept_frame(frame(0)).expect("first accepted");
+    accept_frame(&mut midstream, frame(0)).expect("first accepted");
     let prefix = midstream.accepted_prefix();
     let mut expired_second = frame(1);
     expired_second.observed_unix_millis = after_deadline_millis();
     assert_eq!(
-        midstream.accept_frame(expired_second).unwrap_err(),
+        accept_frame(&mut midstream, expired_second).unwrap_err(),
         ContinuityTransferError::Deadline
     );
     assert_eq!(midstream.accepted_prefix(), prefix);
 
     let mut complete = session();
-    complete.accept_frame(frame(0)).expect("first accepted");
-    complete.accept_frame(frame(1)).expect("second accepted");
+    accept_frame(&mut complete, frame(0)).expect("first accepted");
+    accept_frame(&mut complete, frame(1)).expect("second accepted");
     let mut overrun = frame(1);
     overrun.chunk_index = 2;
     overrun.absolute_start = complete.accepted_prefix();
     assert_eq!(
-        complete.accept_frame(overrun).unwrap_err(),
+        accept_frame(&mut complete, overrun).unwrap_err(),
         ContinuityTransferError::Bounds
     );
     marker("CASE-019:frame_n_plus_one_denied");
@@ -511,12 +550,12 @@ fn wrong_transfer_and_incomplete_finish_are_denied() {
     let mut wrong_transfer = frame(0);
     wrong_transfer.transfer_id = "other-transfer".to_owned();
     assert_eq!(
-        session().accept_frame(wrong_transfer).unwrap_err(),
+        accept_frame(&mut session(), wrong_transfer).unwrap_err(),
         ContinuityTransferError::WrongAuthority
     );
 
     let mut partial = session();
-    partial.accept_frame(frame(0)).expect("first accepted");
+    accept_frame(&mut partial, frame(0)).expect("first accepted");
     assert_eq!(
         partial.finish().unwrap_err(),
         ContinuityTransferError::Incomplete
@@ -565,23 +604,24 @@ fn generic_or_confused_authority_binding_is_denied() {
 #[test]
 fn abort_is_idempotent_redacted_and_stops_later_frames() {
     let mut abort_session = session();
-    abort_session
-        .accept_frame(frame(0))
-        .expect("first accepted");
+    accept_frame(&mut abort_session, frame(0)).expect("first accepted");
+    let mut cleanup = CleanupFixture::default();
     let receipt = abort_session
-        .abort("transfer-210", "cleanup-stage")
+        .abort("transfer-210", "cleanup-stage", &mut cleanup)
         .expect("abort accepted");
+    assert_eq!(cleanup.calls, 1);
     assert_eq!(receipt.accepted_prefix, payloads()[0].len() as u64);
     assert!(receipt.zero_residue_attested);
     assert_ne!(receipt.cleanup_identity_sha256, sha(b"cleanup-stage-wrong"));
     assert_eq!(
         abort_session
-            .abort("transfer-210", "cleanup-stage")
+            .abort("transfer-210", "cleanup-stage", &mut cleanup)
             .expect("abort retry"),
         receipt
     );
+    assert_eq!(cleanup.calls, 1);
     assert_eq!(
-        abort_session.accept_frame(frame(1)).unwrap_err(),
+        accept_frame(&mut abort_session, frame(1)).unwrap_err(),
         ContinuityTransferError::Aborted
     );
     assert_eq!(
@@ -592,7 +632,11 @@ fn abort_is_idempotent_redacted_and_stops_later_frames() {
     let mut cleanup_session = session();
     assert_eq!(
         cleanup_session
-            .abort("transfer-210", "wrong-cleanup")
+            .abort(
+                "transfer-210",
+                "wrong-cleanup",
+                &mut CleanupFixture::default()
+            )
             .unwrap_err(),
         ContinuityTransferError::CleanupAuthority
     );
@@ -615,7 +659,7 @@ fn journal_restore_resumes_exact_prefix_without_raw_payload() {
     assert_eq!(admitted_restored.accepted_prefix(), 0);
 
     let mut session = session();
-    let accepted = session.accept_frame(frame(0)).expect("first accepted");
+    let accepted = accept_frame(&mut session, frame(0)).expect("first accepted");
     let journal = session.journal();
     assert_eq!(journal.accepted_prefix, accepted.accepted_prefix);
     assert_eq!(journal.accepted.len(), 1);
@@ -628,7 +672,7 @@ fn journal_restore_resumes_exact_prefix_without_raw_payload() {
     )
     .expect("restore accepted prefix");
     assert_eq!(restored.accepted_prefix(), accepted.accepted_prefix);
-    restored.accept_frame(frame(1)).expect("resume second");
+    accept_frame(&mut restored, frame(1)).expect("resume second");
     assert_eq!(restored.finish().expect("complete").chunk_count, 2);
     marker("CASE-005:resume_after_partition");
     marker("CASE-032:source_restart_resume");
@@ -643,7 +687,7 @@ fn journal_restore_resumes_exact_prefix_without_raw_payload() {
 #[test]
 fn corrupt_or_rollback_journal_is_denied() {
     let mut session = session();
-    session.accept_frame(frame(0)).expect("first accepted");
+    accept_frame(&mut session, frame(0)).expect("first accepted");
 
     let mut wrong_transfer = session.journal();
     wrong_transfer.transfer_id_sha256 = sha(b"wrong-transfer");
@@ -716,7 +760,7 @@ fn corrupt_or_rollback_journal_is_denied() {
     assert_eq!(session.accepted_prefix(), prefix_before_failed_write);
     let mut impossible_completion = session.journal();
     impossible_completion.completed = Some({
-        session.accept_frame(frame(1)).expect("second accepted");
+        accept_frame(&mut session, frame(1)).expect("second accepted");
         session.finish().expect("complete")
     });
     assert_eq!(
