@@ -9,6 +9,7 @@ pub mod authority_reconciliation;
 pub mod authority_store_adapters;
 pub mod capability_advertisement;
 pub mod certificates;
+pub mod continuity_transfer;
 pub mod discovery;
 pub mod failure_detection;
 pub mod fencing;
