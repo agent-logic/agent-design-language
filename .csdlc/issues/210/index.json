@@ -3,9 +3,9 @@
   "issue": 210,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "dfba2bc7d217926871774238898f8f4e00907bb6a6cf8afc0db1d6b12db39cc0",
-  "phase": "initialized",
-  "generation": 25,
-  "digest": "6c3af720034787b7f99448cf0302c69c1942eb3fe8710bc5666d4235ad8497ce",
+  "phase": "ready",
+  "generation": 26,
+  "digest": "354a5e189532134ce7a5215a961f723d513964c900e9f91906a86704cae2d968",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,37 +24,45 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "56be235c0579ac8d8b56e22db35dee64a4b7aa2dddd1be06496c5b0eaa242eea",
+      "values_digest": "142893e944541179687f1c939f889734ae07fdcdf9782cead6330189df175c87",
       "rendered_digest": "aaa175185df657cdebf2f15c677e3a1c052952278a5ddb470ed993e54f8b39ba",
       "ast_digest": "ba2482c5a445c744a229516d10c88b404bbb841f61d0f0f1c9950462e9e8bbe8"
     },
     "stp": {
-      "values_digest": "b05113d244ae2c1f63e41c0b7a0db0db1bfc8043dfe69618022d9b3e654d8ab8",
+      "values_digest": "ed42978aef03c4fea52154af73365de8808dc4bc47511ba4b978b9241e50c901",
       "rendered_digest": "8b7aee823b924c1428796012ef88e4b66b6d5424a4ae21a696b44dce80ceeb85",
       "ast_digest": "21afcf5eacbd88e405e23016a1234c32a09dab50eb27d653ba18a657eb6e2d8c"
     },
     "spp": {
-      "values_digest": "d75ec1353063b049433b2a2d6cfa3bde07b41220877a6aa6deff0dda4e1782cc",
+      "values_digest": "900c583136beed896a16c298c2a14dd46239c4ad8ab71325635b715d8a13c874",
       "rendered_digest": "2a93cac0a7c0d26b0b20bec5e0f644bf11504289941b053a3d7a595551a3d7bf",
       "ast_digest": "5394d817c2d3d5c725f0d231ef1aa43402563e603669b71ba4b717b054ecad70"
     },
     "vpp": {
-      "values_digest": "a82364b654f8296911cf3906a329b9e1549f01fdf4c5e41667e0c1959ff7d7fe",
+      "values_digest": "8118242f11cc4b86bab64948b221cf342929873f826f06e9dd7d6b57f62f2c34",
       "rendered_digest": "03963fd742e09b9148b09303fb2bff81e0155889e05dc7d5d42798cc52542348",
       "ast_digest": "92e8ba86f24b71437dd48fcb82ffda3e3374ac16a0e93d45eae1e8436e402c2e"
     },
     "srp": {
-      "values_digest": "8ef2ea318e9673ca5adf8365ce4d8c5b2b0345fa95074f998370653cc11291c4",
+      "values_digest": "5bba54bcf258884e95a1ece6ee5498827fd5464c602cfb9c1bd848f2649a7518",
       "rendered_digest": "c432f11b266ce918924c9acbe68c6ad414e6ef1097132ffdef4303528dee32d4",
       "ast_digest": "9773e53b77d4e312cc4ec4407004f3bfa503b3eaa054c10ee8ca5b7860fea075"
     },
     "sor": {
-      "values_digest": "0f79c334cca700f9eacb5a623d2c58fc73d5dd6a8094b98a09ba745930b55125",
+      "values_digest": "b1a332eefc686a4f4c309337a1570dd6da3d17852490abb4b23296bf99c6640b",
       "rendered_digest": "d506c23a8534049e1773e9e4a613070289b6163708bf41fedd90aa90ea36c465",
       "ast_digest": "f378ae262baafdb4672c0a7194033bfb996d5f4be6c321edbc028619cc2b9b23"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root/runtime-authority-sprint",
+      "reason": "Advance #210 to ready after typed validation reports initialized gen25 ready=true and all declared prerequisites #191/#201/#203/#208 are live closed."
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -237,6 +245,13 @@
       "actor": "codex:/root/prepare_203_parallel",
       "reason": "approve completed issue design",
       "operation": "approve_design"
+    },
+    {
+      "sequence": 27,
+      "generation": 26,
+      "actor": "codex:/root/runtime-authority-sprint",
+      "reason": "Advance #210 to ready after typed validation reports initialized gen25 ready=true and all declared prerequisites #191/#201/#203/#208 are live closed.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
     }
   ]
 }
