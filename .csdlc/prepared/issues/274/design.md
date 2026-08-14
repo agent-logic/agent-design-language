@@ -17,6 +17,10 @@ Production ownership is intentionally disjoint from #273:
 - `.csdlc/issues/274`
 - `.csdlc/prepared/issues/274`
 - `.csdlc/evidence/274`
+- `adl/tools/check_coverage_impact.sh` (one explicit source-to-focused-test mapping only)
+- `adl/tools/test_check_coverage_impact.sh` (mapping contract regression only)
+- `adl/tools/run_pr_fast_coverage_lane.sh` (exact focused expression feature routing only)
+- `adl/tools/test_run_pr_fast_coverage_lane.sh` (exact runner regression only)
 
 #274 does not own or modify `serving_authority.rs`, the future Shepherd-specific
 module or test, `authority_store_adapters.rs`, or any #205 parent surface.
@@ -121,6 +125,20 @@ Tests must demonstrate that no public #274 API accepts quorum, membership,
 deadline, OwnerCommit, lease, or naked digest fields. Zero tests, ignored tests,
 or missing negative cases are
 non-proving.
+
+The repository coverage-impact gate is also part of the repaired acceptance
+surface. `adl/tools/check_coverage_impact.sh` must map only
+`adl-runtime/src/distributed/observatory_serving_eligibility.rs` to the existing
+`distributed_observatory_serving_eligibility` focused binary; it must not add a
+basename fallback, broaden another source mapping, or weaken the 80 percent
+threshold. `adl/tools/test_check_coverage_impact.sh` must prove the exact mapping
+and preserve fail-closed behavior for an unrelated unmapped production Rust
+source. Because the target is feature-gated, `run_pr_fast_coverage_lane.sh` may
+add only the exact Observatory expression to the existing
+`internal-test-fixtures` routing, and its contract test must prove that exact
+command without changing other filters. Meaningful focused cases must raise this module's measured line coverage
+to at least 80 percent; test-only padding, ignored tests, or a broad package
+filter are non-proving.
 
 The pre-bind validator proves packet identity, exact terminal-cache ancestry,
 the disjoint allowlist, forbidden-path exclusions, and the serial registration

@@ -12,49 +12,51 @@ Status: ready
 
 ## Summary
 
-Bootstrap and validate the exact initialized #274 packet on current origin/main; obtain a separate fresh design review later; keep approval/bind blocked. A future implementation owns only the Observatory module/test and serializes any unavoidable distributed/mod.rs registration after terminal+ancestral #273.
+Remediate PR362's exact coverage-impact failure after typed publication/review recovery: preserve historical STP product scope, authorize only four coverage mapping/runner contract paths, add meaningful Observatory behavioral coverage to the unchanged 80 percent floor, then revalidate, freshly review, republish, and terminally finish before #275.
 
 ## Plan
 
-Revision 2
+Revision 5
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Bootstrap the six cards from stable issue-owned design/diagram files and run preparation validation against exact terminal #191/#199/#200/#201/#202/#203/#272/#273/#350/#356/#358 ancestry.",
+    "action": "Preserve PR362 producer evidence, recover publication/review through typed authority, and retain the exact 186/360 (51.67%) unmapped coverage finding.",
     "acceptance_ids": [
       "AC-6",
-      "AC-7"
+      "AC-8"
     ],
     "status": "pending"
   },
   {
     "id": "S2",
-    "action": "Obtain a new #119-compliant fresh-session design review of the exact initialized generation/digest and artifacts, emphasizing disjoint ownership and the shared registration gate.",
+    "action": "Obtain fresh design authority for the exact four coverage mapping/runner contract paths and typed SPP/VPP parity while preserving historical STP product scope.",
     "acceptance_ids": [
       "AC-6",
-      "AC-7"
+      "AC-7",
+      "AC-8"
     ],
     "status": "pending"
   },
   {
     "id": "S3",
-    "action": "After separate authorization and PASS, approve/doctor and bind only from a base satisfying the #273 registration gate, then implement the Observatory module and test without widening scope.",
+    "action": "Add only the exact Observatory mapping and feature-bearing runner route, their contract regressions, and meaningful behavior tests until measured module coverage is at least 80 percent.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
       "AC-3",
       "AC-4",
       "AC-5",
-      "AC-6"
+      "AC-6",
+      "AC-8"
     ],
     "status": "pending"
   },
   {
     "id": "S4",
-    "action": "Run focused product proof, strict Clippy, exact scope/diff proof, fresh exact-head review, ordinary CI, and typed finish before releasing #275.",
+    "action": "Run focused/unit/Clippy/mapping/runner/coverage/preflight/scope/diff proof, record truthful evidence, obtain a fresh immutable review, republish PR362, require all CI green, and typed-finish before releasing #275.",
     "acceptance_ids": [
       "AC-8"
     ],
@@ -91,7 +93,7 @@ Revision 2
 
 .csdlc/prepared/issues/274/design.md
 
-Digest: 9ac0d31a9ba3ab3940f7bc80a6546fb67980d5484ce9b34d66b04e90bfee1645
+Digest: 3e866ee145b34c9e0b03763e531c95923fe199a3d7268347f3fddfd53a1ff313
 
 ## Diagram
 

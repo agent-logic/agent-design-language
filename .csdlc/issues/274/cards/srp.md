@@ -12,12 +12,7 @@ Status: draft
 
 ## Scope
 
-.csdlc/issues/274
-.csdlc/prepared/issues/274
-.csdlc/evidence/274
-adl-runtime/src/distributed/mod.rs
-adl-runtime/src/distributed/observatory_serving_eligibility.rs
-adl-runtime/tests/distributed_observatory_serving_eligibility.rs
+
 
 ## Prompts
 
@@ -42,8 +37,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:742c1858f98a9141c279ba19ce0b4238695ce6a0:ecb5ce0e3494ebe31443eec52ec242581b8984de6fb1322a370fa1df65a48f5f")
+Revision: None
 
-Reviewer: Some("fresh-session:3cbcf5dd-913a-4fa3-a0d9-943ab07d7863")
+Reviewer: None
 
-Result: pass
+Result: pre_review

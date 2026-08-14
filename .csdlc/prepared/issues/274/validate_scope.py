@@ -8,6 +8,10 @@ allowed = {
     "adl-runtime/src/distributed/observatory_serving_eligibility.rs",
     "adl-runtime/src/distributed/mod.rs",
     "adl-runtime/tests/distributed_observatory_serving_eligibility.rs",
+    "adl/tools/check_coverage_impact.sh",
+    "adl/tools/test_check_coverage_impact.sh",
+    "adl/tools/run_pr_fast_coverage_lane.sh",
+    "adl/tools/test_run_pr_fast_coverage_lane.sh",
 }
 result = subprocess.run(
     ["git", "diff", "--name-only", f"{implementation_base}...HEAD"],

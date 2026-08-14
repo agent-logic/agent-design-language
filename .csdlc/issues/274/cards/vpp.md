@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/274/diagram.mmd
 [
   {
     "lane": "preparation-contract",
-    "proof_role": "Pre-bind packet identity and terminal ancestry through #358; #360 terminal ancestry is separately proven by the immutable implementation base.",
+    "proof_role": "Pre-bind packet identity only; not rerun post-bind.",
     "acceptance_ids": [
       "AC-6",
       "AC-7"
@@ -33,17 +33,17 @@ Diagram: .csdlc/prepared/issues/274/diagram.mmd
     "deterministic": true,
     "resource_profile": "small",
     "budget_seconds": 60,
-    "budget_tokens": 2000,
+    "budget_tokens": 1000,
     "argv": [
       "python3",
       ".csdlc/prepared/issues/274/validate_preparation_bundle.py"
     ],
-    "parallel_group": "274-serial-01",
-    "defer_reason": "Pre-bind-only evidence; not rerun after bind."
+    "parallel_group": "274-01",
+    "defer_reason": "Pre-bind-only evidence."
   },
   {
     "lane": "observatory-transition-unit",
-    "proof_role": "Prove the private state guard and named normalized final-state digest recomputation/tamper denial.",
+    "proof_role": "Prove state guard and normalized final-state digest recomputation/tamper denial.",
     "acceptance_ids": [
       "AC-2",
       "AC-3",
@@ -52,7 +52,7 @@ Diagram: .csdlc/prepared/issues/274/diagram.mmd
     "deterministic": true,
     "resource_profile": "large",
     "budget_seconds": 1200,
-    "budget_tokens": 10000,
+    "budget_tokens": 8000,
     "argv": [
       "cargo",
       "test",
@@ -66,12 +66,12 @@ Diagram: .csdlc/prepared/issues/274/diagram.mmd
       "--",
       "--test-threads=1"
     ],
-    "parallel_group": "274-serial-02a",
+    "parallel_group": "274-02a",
     "defer_reason": null
   },
   {
     "lane": "observatory-focused",
-    "proof_role": "Through terminal #360 fixtures, prove authentic sealed Acquire/Renew/Transfer/Revoke, restart, overlap, stale/superseded predecessor, revoked revival, nanos expiry, replay, A/B mismatch, and redaction.",
+    "proof_role": "Prove authentic sealed lifecycle and meaningful uncovered branches through terminal #360 fixtures.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -82,7 +82,7 @@ Diagram: .csdlc/prepared/issues/274/diagram.mmd
     "deterministic": true,
     "resource_profile": "large",
     "budget_seconds": 1800,
-    "budget_tokens": 18000,
+    "budget_tokens": 16000,
     "argv": [
       "cargo",
       "test",
@@ -96,12 +96,12 @@ Diagram: .csdlc/prepared/issues/274/diagram.mmd
       "--",
       "--test-threads=1"
     ],
-    "parallel_group": "274-serial-02",
+    "parallel_group": "274-02",
     "defer_reason": null
   },
   {
     "lane": "observatory-clippy",
-    "proof_role": "Reject warnings in the exact feature-bearing target.",
+    "proof_role": "Reject warnings in exact feature-bearing target.",
     "acceptance_ids": [
       "AC-6",
       "AC-8"
@@ -109,7 +109,7 @@ Diagram: .csdlc/prepared/issues/274/diagram.mmd
     "deterministic": true,
     "resource_profile": "large",
     "budget_seconds": 1200,
-    "budget_tokens": 10000,
+    "budget_tokens": 8000,
     "argv": [
       "cargo",
       "clippy",
@@ -124,12 +124,95 @@ Diagram: .csdlc/prepared/issues/274/diagram.mmd
       "-D",
       "warnings"
     ],
-    "parallel_group": "274-serial-03",
+    "parallel_group": "274-03",
+    "defer_reason": null
+  },
+  {
+    "lane": "coverage-map-contract",
+    "proof_role": "Prove exact source mapping and unrelated-unmapped fail-closed behavior.",
+    "acceptance_ids": [
+      "AC-6",
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 540,
+    "budget_tokens": 2000,
+    "argv": [
+      "bash",
+      "adl/tools/test_check_coverage_impact.sh"
+    ],
+    "parallel_group": "274-04",
+    "defer_reason": null
+  },
+  {
+    "lane": "coverage-runner-contract",
+    "proof_role": "Prove exact Observatory expression activates internal-test-fixtures without other route drift.",
+    "acceptance_ids": [
+      "AC-6",
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 300,
+    "budget_tokens": 1000,
+    "argv": [
+      "bash",
+      "adl/tools/test_run_pr_fast_coverage_lane.sh"
+    ],
+    "parallel_group": "274-05",
+    "defer_reason": null
+  },
+  {
+    "lane": "focused-module-coverage",
+    "proof_role": "Execute exact mapped Observatory integration target and emit focused summary.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6",
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "large",
+    "budget_seconds": 1800,
+    "budget_tokens": 8000,
+    "argv": [
+      "bash",
+      "adl/tools/run_pr_fast_coverage_lane.sh",
+      "--filter-expression",
+      "binary_id(adl-runtime::distributed_observatory_serving_eligibility)"
+    ],
+    "parallel_group": "274-06",
+    "defer_reason": null
+  },
+  {
+    "lane": "coverage-impact-preflight",
+    "proof_role": "Require focused summary to satisfy unchanged 80 percent module denominator.",
+    "acceptance_ids": [
+      "AC-6",
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 1000,
+    "argv": [
+      "bash",
+      "adl/tools/check_coverage_impact.sh",
+      "--changed-files",
+      ".csdlc/evidence/274/coverage-impact-changed-files.txt",
+      "--summary",
+      "adl/target/coverage-impact-summary.json"
+    ],
+    "parallel_group": "274-07",
     "defer_reason": null
   },
   {
     "lane": "exact-scope",
-    "proof_role": "Prove exact two new product paths and one additive mod.rs declaration against immutable #360 merge base.",
+    "proof_role": "Prove exact product paths, one mod.rs line, and only four coverage tooling paths.",
     "acceptance_ids": [
       "AC-6",
       "AC-8"
@@ -142,12 +225,12 @@ Diagram: .csdlc/prepared/issues/274/diagram.mmd
       "python3",
       ".csdlc/prepared/issues/274/validate_scope.py"
     ],
-    "parallel_group": "274-serial-04",
+    "parallel_group": "274-08",
     "defer_reason": null
   },
   {
     "lane": "diff-hygiene",
-    "proof_role": "Reject whitespace errors across the immutable #360 implementation-base diff.",
+    "proof_role": "Reject whitespace errors against immutable #360 base.",
     "acceptance_ids": [
       "AC-6",
       "AC-8"
@@ -162,12 +245,12 @@ Diagram: .csdlc/prepared/issues/274/diagram.mmd
       "--check",
       "dae957c435b73d87af1f36d4e15fb088f6fd055b...HEAD"
     ],
-    "parallel_group": "274-serial-05",
+    "parallel_group": "274-09",
     "defer_reason": null
   },
   {
     "lane": "terminal-ancestry",
-    "proof_role": "After typed finish, prove canonical merged terminal cache and merge ancestry to origin/main.",
+    "proof_role": "After finish prove canonical terminal cache and ancestry.",
     "acceptance_ids": [
       "AC-8"
     ],
@@ -179,8 +262,8 @@ Diagram: .csdlc/prepared/issues/274/diagram.mmd
       "python3",
       ".csdlc/prepared/issues/274/validate_terminal.py"
     ],
-    "parallel_group": "274-serial-06",
-    "defer_reason": "Deferred until typed finish creates terminal authority."
+    "parallel_group": "274-10",
+    "defer_reason": "Deferred until typed finish."
   }
 ]
 
@@ -200,6 +283,10 @@ Tokens: 50000
 - `cargo test --locked --manifest-path adl-runtime/Cargo.toml --lib observatory_serving_eligibility::tests --features internal-test-fixtures -- --test-threads=1`
 - `cargo test --locked --manifest-path adl-runtime/Cargo.toml --test distributed_observatory_serving_eligibility --features internal-test-fixtures -- --test-threads=1`
 - `cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test distributed_observatory_serving_eligibility --features internal-test-fixtures -- -D warnings`
+- `bash adl/tools/test_check_coverage_impact.sh`
+- `bash adl/tools/test_run_pr_fast_coverage_lane.sh`
+- `bash adl/tools/run_pr_fast_coverage_lane.sh --filter-expression binary_id(adl-runtime::distributed_observatory_serving_eligibility)`
+- `bash adl/tools/check_coverage_impact.sh --changed-files .csdlc/evidence/274/coverage-impact-changed-files.txt --summary adl/target/coverage-impact-summary.json`
 - `python3 .csdlc/prepared/issues/274/validate_scope.py`
 - `git diff --check dae957c435b73d87af1f36d4e15fb088f6fd055b...HEAD`
 - `python3 .csdlc/prepared/issues/274/validate_terminal.py`
