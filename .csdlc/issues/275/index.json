@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "20dbea588ff0ef623d711459f35c48a2d38c2fdd4d95cc7e96ee48bf3cd3ea30",
   "phase": "implemented",
-  "generation": 21,
-  "digest": "b8855df6e6ba2ab8bd70a7ba0252953091cbbd6890b1f5b93d203342aad6025d",
+  "generation": 22,
+  "digest": "9fd9b169ee0c884ec9458192d77316a77a7bbc635e70328265cf348fd28af9df",
   "branch": "codex/275-integrated-serving-authority-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-275-integrated-serving-authority-proof",
   "review_assignment": null,
@@ -16,40 +16,35 @@
   "migration": null,
   "design_path": ".csdlc/prepared/issues/275/design.md",
   "diagram_path": ".csdlc/prepared/issues/275/diagram.mmd",
-  "design_review": {
-    "approved": {
-      "reviewer": "codex:/root/issue-275-implementation",
-      "revision": "045fdad3de9038b7dfee9561f5bdb770e82627c0cb930d97d90a61f2b64a283e"
-    }
-  },
+  "design_review": "pending",
   "cards": {
     "sip": {
-      "values_digest": "4ab305cd2d0e6994ea7e26daf744589fa891f8305d94520ee575f69a371183b0",
+      "values_digest": "0c0fc9f390c56cb352e2b471b6776b692b353e3ffa07d24755526f203ce92df0",
       "rendered_digest": "00ace9f727dea3e11e412621064bb937898b1fbf1f119810cddc73e37051d10b",
       "ast_digest": "9f619677574a710b4ce089e080fb8fc55fb672404720324de7027e3a487e9970"
     },
     "stp": {
-      "values_digest": "632e17de992149f5e081c823341b125c857b4988670fc026ebdf5f1b2219ebe1",
+      "values_digest": "b8f4722e310576315484e3043e676471f382ea4809e413e815679ded6cf1ee08",
       "rendered_digest": "0cc9ce89406b0ce4caf31ee7735848c563c5fdf072bf461a1541deb0b0a2ee11",
       "ast_digest": "73004cf1b84bdda99e5cd1aa1ec1a2f65588905787ce8bf524438f8c1848a1d1"
     },
     "spp": {
-      "values_digest": "a7a5e8dc0d4768062de905e3239965701ace2e07587f50c91ad4333caf380b7c",
+      "values_digest": "51b9ed1f3cbbe8db755335eaa4279b1102fcc72717490e8aa3b7d34c908cd0cf",
       "rendered_digest": "002d0032d50df5ed54ba03e5af80463b31c486c8a34ac487bc51a04703f8b69a",
       "ast_digest": "093e5aecccc9bc963efeab6117178b6ceb84291240252d1f2ecc4064d11583a4"
     },
     "vpp": {
-      "values_digest": "28485e2562299ee59ff83ad3fc63ab928da9d033b2b41c7a15f03122259cc142",
+      "values_digest": "93a07f3c5f44e18853c7ec4e470fdddc9d0b28adb75d3de24d90ac61abcbf51a",
       "rendered_digest": "790fab9f72e65ecfc0e9db84c997d0f7fb07bd6c0f3fd4bfd9cbb00c7690589c",
       "ast_digest": "0be2310c955a79210201505a049051da5230e6168ece9a164c59bbd1f3bd5422"
     },
     "srp": {
-      "values_digest": "98399e02c24643b751c53f6a2550f3a64adbddccb5a4a4fa2f12d72a45f47122",
+      "values_digest": "0fb42bf74d8462168ddf2a59537c6aa2fa9d135d3a9d92a2a2212b4ff4c09a53",
       "rendered_digest": "2a95d53ba9ac5251a4630c8b842da20e85fe4bfba082114685b8432c2800b245",
       "ast_digest": "08fdce6f58bbc14d82bc91575e54ecc3fcaac5967ec38de7482cfd6f1c661447"
     },
     "sor": {
-      "values_digest": "33a4ee203b8ec3873794249278d3d43f368c2954764e6155119fb8f799991158",
+      "values_digest": "b1c972e4ddd987418cb0498677184442b653ff4daf3a31c478d24884d357a922",
       "rendered_digest": "924bce6d1e8d95c0f4e7e88ceb3232028cc21b0696579cab9a499cba47ca1888",
       "ast_digest": "0fc46cdb2f10d771c422882e5a0dd7f0bc3f3b225f52cde796a70539fbb1f048"
     }
@@ -238,6 +233,13 @@
       "actor": "codex:/root/issue-275-implementation",
       "reason": "Product implementation and focused local validation are complete; enter implemented phase for SOR truth and independent review.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 24,
+      "generation": 22,
+      "actor": "codex:/root/issue-275-false-review-recovery",
+      "reason": "{\"disposition\":\"current_self_review_and_prior_false_fresh_review_preserved_pending_fresh_design_review\",\"false_reviewer\":\"codex:/root/issue-275-implementation\",\"previous_approval\":{\"reviewer\":\"codex:/root/issue-275-implementation\",\"revision\":\"045fdad3de9038b7dfee9561f5bdb770e82627c0cb930d97d90a61f2b64a283e\"},\"reason\":\"Clear current noncanonical self-review approval after terminal #369 recovery while preserving prior false approval events and product worktree state.\"}",
+      "operation": "recover_design_review"
     }
   ]
 }
