@@ -5,10 +5,25 @@
   "initialization_digest": "21e4269b65dfa9141c322f71c65c8792b2615b58497f14b14eeb724c43c21a15",
   "phase": "implemented",
   "generation": 3,
-  "digest": "7f012583b406f7c2c5719c14e97e055790ecc3962c7882fa00afcd0e304d1e01",
+  "digest": "a81d5e9271b0191da84e4b8d030c2a92166d8d52ab41ebc92b8b9bef97fe6b27",
   "branch": "codex/369-bound-false-design-review-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-369-bound-false-design-review-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:9d46fb13-62d3-4d44-a760-4b6d6af4e1b5",
+    "assigned_by": "codex:issue-369-implementation",
+    "revision": "git-blake3:633b94770e2dc667ec3719cd8d9c64bd312f388c:39a4de521456cf6a3b98db532281ed9aeea835094e952dcca1d39f3cf5bf4927",
+    "scope": [
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/src/schema.rs",
+      "csdlc-v2/src/bin/csdlc-edit.rs",
+      "csdlc-v2/tests/gate2.rs",
+      ".csdlc/prepared/issues/369/run_exact_focused_matrix.py",
+      ".csdlc/prepared/issues/369/validate_exact_scope.py",
+      ".csdlc/issues/369",
+      ".csdlc/evidence/369"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +59,9 @@
       "ast_digest": "2f3a79239c7e56723179cbbc976408e68acceafc09c8bc555a33ffc36cee282f"
     },
     "srp": {
-      "values_digest": "982443abd99b7d603179eca923d92a155658fa9ca5fc6d46f8fe61056e0f9454",
-      "rendered_digest": "81d1f63094792e893c863369639aa8458ce799cae6f1188b710ad6cee35b4b96",
-      "ast_digest": "294680854cdcda748f6cda6b178ffa984ce60e935f115ca5930781ae1309af5b"
+      "values_digest": "c0de75d918d8689f3ed9879574854b66a66a3a76890dc8c46d45a2e6c07cb9db",
+      "rendered_digest": "8639160692742b3be3bfcf80c5fcb7fa3688f29829868d8fa5e17e00e4d6c60d",
+      "ast_digest": "6c884933424ad00cd70f4642166a54112e4ecfbd5a496b55f384c4dd8c545c00"
     },
     "sor": {
       "values_digest": "d43195f51fb359de677f44f3490eac1cea2694438a3c5b6a845515158043eef9",
@@ -112,6 +127,13 @@
       "actor": "codex:issue-369-implementation",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:issue-369-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

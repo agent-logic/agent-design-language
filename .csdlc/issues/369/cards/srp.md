@@ -12,7 +12,15 @@ Status: pre_phase
 
 ## Scope
 
-Exact typed request/store/CLI/schema and gate2 regression; no Runtime or #275 mutation.
+csdlc-v2/src/store.rs
+csdlc-v2/src/lib.rs
+csdlc-v2/src/schema.rs
+csdlc-v2/src/bin/csdlc-edit.rs
+csdlc-v2/tests/gate2.rs
+.csdlc/prepared/issues/369/run_exact_focused_matrix.py
+.csdlc/prepared/issues/369/validate_exact_scope.py
+.csdlc/issues/369
+.csdlc/evidence/369
 
 ## Prompts
 
