@@ -367,6 +367,15 @@ grep -Fx "runtime_v3_shepherd_serving_eligibility" "$shepherd_serving_eligibilit
 shepherd_serving_eligibility_expression="$(bash "$SCRIPT" --changed-files "$shepherd_serving_eligibility_changed" --print-risk-nextest-expression)"
 grep -Fx "binary_id(adl-runtime::distributed_shepherd_serving_eligibility)" <<<"$shepherd_serving_eligibility_expression" >/dev/null
 
+observatory_serving_eligibility_changed="$TMP/observatory-serving-eligibility-changed.txt"
+printf 'A\tadl-runtime/src/distributed/observatory_serving_eligibility.rs\t520\n' >"$observatory_serving_eligibility_changed"
+observatory_serving_eligibility_filters="$TMP/observatory-serving-eligibility-filters.txt"
+bash "$SCRIPT" --changed-files "$observatory_serving_eligibility_changed" --print-risk-filters >"$observatory_serving_eligibility_filters"
+grep -Fx "runtime_v3_observatory_serving_eligibility" "$observatory_serving_eligibility_filters" >/dev/null
+[ "$(wc -l <"$observatory_serving_eligibility_filters" | tr -d ' ')" -eq 1 ]
+observatory_serving_eligibility_expression="$(bash "$SCRIPT" --changed-files "$observatory_serving_eligibility_changed" --print-risk-nextest-expression)"
+grep -Fx "binary_id(adl-runtime::distributed_observatory_serving_eligibility) or (binary_id(adl-runtime) and test(/^distributed::observatory_serving_eligibility::tests::/))" <<<"$observatory_serving_eligibility_expression" >/dev/null
+
 authority_identity_combined="$TMP/authority-identity-combined.txt"
 cat >"$authority_identity_combined" <<'EOF'
 A	adl-runtime/src/distributed/authority_protocol.rs	1727

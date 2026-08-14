@@ -1,0 +1,9 @@
+unit: 2 passed; 0 failed; 320 filtered
+authentic integration: 4 passed; 0 failed; 0 filtered
+strict focused Clippy -D warnings: PASS
+validate_scope.py: PASS; exact seven product/tool paths; one additive pub mod observatory_serving_eligibility declaration
+git diff --check 4db4c2b9a5d622fb7af6ffa1346b4d5406d4a699...HEAD: PASS; no output
+git diff --check origin/main...HEAD: PASS; no output
+typed csdlc-validate issue 274: PASS; gen28; findings empty
+typed csdlc-doctor issue 274: PASS; gen28; findings empty
+source commit: 02ed85c37

@@ -1,0 +1,422 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 274,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "48064f99d9aa8a79c297f4f9370d05d6eeea655c719b05fc554949a2468b4297",
+  "phase": "published",
+  "generation": 31,
+  "digest": "8b54685c2672aa7e6c54cb8298a2b15999560a9f2fc9e5ade6faf8c9b3723a90",
+  "branch": "codex/274-observatory-serving-eligibility",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-274-observatory-serving-eligibility",
+  "review_assignment": {
+    "reviewer": "fresh-session:89ff2555-eb86-4a61-a214-7c584945eaac",
+    "assigned_by": "codex:issue-274-coverage-final-review",
+    "revision": "git-blake3:a1a79ae14a94eb181f3b1d781eef54c703919f1d:d0e6f562874e2fbacae0a76cca8bf15fdb4f6b716bb7ac41574987c2a26f9c64",
+    "scope": [
+      ".csdlc/issues/274",
+      ".csdlc/prepared/issues/274",
+      ".csdlc/evidence/274",
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/src/distributed/observatory_serving_eligibility.rs",
+      "adl-runtime/tests/distributed_observatory_serving_eligibility.rs",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/test_check_coverage_impact.sh",
+      "adl/tools/run_pr_fast_coverage_lane.sh",
+      "adl/tools/test_run_pr_fast_coverage_lane.sh"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:89ff2555-eb86-4a61-a214-7c584945eaac",
+    "scope": [
+      ".csdlc/issues/274",
+      ".csdlc/prepared/issues/274",
+      ".csdlc/evidence/274",
+      "adl-runtime/src/distributed/mod.rs",
+      "adl-runtime/src/distributed/observatory_serving_eligibility.rs",
+      "adl-runtime/tests/distributed_observatory_serving_eligibility.rs",
+      "adl/tools/check_coverage_impact.sh",
+      "adl/tools/test_check_coverage_impact.sh",
+      "adl/tools/run_pr_fast_coverage_lane.sh",
+      "adl/tools/test_run_pr_fast_coverage_lane.sh"
+    ],
+    "reviewed_revision": "git-blake3:a1a79ae14a94eb181f3b1d781eef54c703919f1d:d0e6f562874e2fbacae0a76cca8bf15fdb4f6b716bb7ac41574987c2a26f9c64",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 274,
+    "pull_request": 362,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/362",
+    "base": "main",
+    "head": "codex/274-observatory-serving-eligibility",
+    "revision": "git-blake3:65de5d3aa9ac5d675e8fd3a3a568dfbac1e9fc7e:3d492ca7a4124ab14495962444563ded35c4df074ad6dd8d035347586ee55692",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/274/design.md",
+  "diagram_path": ".csdlc/prepared/issues/274/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:faa109bd-fe47-46a3-8a2e-7c65ef2aac8f",
+      "revision": "e967c5eedc2e256a624abe3b8087fc4233e05f15b69bc7b8407109b88a5d2d65"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "67c4a97524018746642f4fdc911796725cbc45511f150be781d66e013742758b",
+      "rendered_digest": "6f7c35bb003a878dc6be81b6d711ac832a77e7cdbc7b8b097aabb1f75e211d87",
+      "ast_digest": "7e395891bbd5ab0cba2ffcff2ffc27bf44552469af4fd1629f9cefb46a51c31b"
+    },
+    "stp": {
+      "values_digest": "b9b2747ec7e22aa3891edcd10d3505459f4b255ef452706e776b0019046137ec",
+      "rendered_digest": "b11e528ad56c0c99b39537d06e06f8b450fde857a543b2d111a73210be95a370",
+      "ast_digest": "e16c28cd4fe468f4e5ac30958fae42d0444329d1b133a3e11bf1cefe285c8156"
+    },
+    "spp": {
+      "values_digest": "bd95e89ca9404561bc2de767228d667b54b4c63865a7057bb3fc1ffe05a10280",
+      "rendered_digest": "cae4a424b7efdffc6d2d28e9322e04249581c5ba9935bc8d28007d39aa93a928",
+      "ast_digest": "9fc990f9307ac53c4af502c2c6d2cafb67ccfe6c8891fd8a93a6f4e07c92affc"
+    },
+    "vpp": {
+      "values_digest": "ec0f1d5eb02bacc217f42186aaf53a573be2857622535a8cebcfc682ba4259fc",
+      "rendered_digest": "a6b4b5831c78af9a1675ad0efbbdadd312b007e71994b1f18c84c539e5a3ea20",
+      "ast_digest": "08af92e1ca7f85c211be55bc61b1de4ce6615082dc360f97124c443b5e1b6b20"
+    },
+    "srp": {
+      "values_digest": "3abda3a0f15f9a05c0fb41001d00b8309f3beddd5b7be5f1baf3d8bf9eefdd79",
+      "rendered_digest": "521c43dfad27dc251712486146d4767a841a228d7dfd584eaf627184af600b03",
+      "ast_digest": "d02899cbea125b856ee65157f1cc8f0cd16c5556a070138e24dde1f829cef12f"
+    },
+    "sor": {
+      "values_digest": "62d55646bdae9ab984262ed15e4e87aa77a11c6de812f26204eb88bfdd57a381",
+      "rendered_digest": "7a7bccd94c2dceea6dc6d92343f3d6850bc8037891f6f61e687e4dec028f9676",
+      "ast_digest": "bf89652418b56ef13235c520c1b2cf5c5d1e446be42e24a4d3b048e89aef2d76"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-274-implementation",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:3cbcf5dd-913a-4fa3-a0d9-943ab07d7863",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-274-final",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-274-terminal-gate-prep",
+      "reason": "Recover #274 after published PR #362 CI failed in adl-coverage-hosted: the new production Observatory serving eligibility module is unmapped and measured 186/360 lines (51.67%) below the required 80 percent. Preserve the exact CI finding and prior review truth while widening only the explicit coverage-impact mapping contract and meaningful focused behavioral coverage before fresh review and republication."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:89ff2555-eb86-4a61-a214-7c584945eaac",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-274-coverage-final",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:planning2-issue274-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:issue-274-post-358-release",
+      "reason": "Declare the one-line additive Rust module route and all issue-owned validators.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/distributed/observatory_serving_eligibility.rs\",\"adl-runtime/src/distributed/mod.rs\",\"adl-runtime/tests/distributed_observatory_serving_eligibility.rs\",\".csdlc/prepared/issues/274/design.md\",\".csdlc/prepared/issues/274/diagram.mmd\",\".csdlc/prepared/issues/274/validate_preparation_bundle.py\",\".csdlc/prepared/issues/274/validate_scope.py\",\".csdlc/prepared/issues/274/validate_terminal.py\",\".csdlc/evidence/274\",\".csdlc/issues/274\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:issue-274-r1-repair",
+      "reason": "Declare every executable proving denominator and keep lifecycle review and hosted observation outside PVF lanes.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preparation-contract\",\"proof_role\":\"Prove packet identity and terminal ancestry for #191/#199/#200/#201/#202/#203/#272/#273/#350/#356/#358.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":2000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_preparation_bundle.py\"],\"parallel_group\":\"274-serial-01\",\"defer_reason\":null},{\"lane\":\"observatory-focused\",\"proof_role\":\"Prove authenticated acquire, renew, transfer, revoke, nanos expiry, replay/restart, overlap denial, sealed-authority mismatch, and redaction.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":18000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"274-serial-02\",\"defer_reason\":\"Deferred until approved bind creates the exact module and test target.\"},{\"lane\":\"observatory-clippy\",\"proof_role\":\"Reject warnings in the exact focused target.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"274-serial-03\",\"defer_reason\":\"Deferred until approved bind creates the target.\"},{\"lane\":\"exact-scope\",\"proof_role\":\"Prove exact two new product paths and the single additive distributed/mod.rs declaration against immutable #358 merge base.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":2000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_scope.py\"],\"parallel_group\":\"274-serial-04\",\"defer_reason\":\"Deferred until the bound implementation exists.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace errors across the exact immutable implementation-base diff.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\",\"cd0feef31240b95d344c5ae9b774325506586a5d...HEAD\"],\"parallel_group\":\"274-serial-05\",\"defer_reason\":\"Deferred until the bound implementation exists.\"},{\"lane\":\"terminal-ancestry\",\"proof_role\":\"After typed finish, prove canonical merged terminal cache and merge ancestry to origin/main.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_terminal.py\"],\"parallel_group\":\"274-serial-06\",\"defer_reason\":\"Deferred until typed finish creates terminal authority.\"}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "fresh-session:c09111df-abeb-4bb2-89c6-b95b841cac7d",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:issue-274-implementation",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:issue-274-implementation-review",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "fresh-session:46987162-91d7-4731-bcde-97c7c9da6b22",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:issue-274-r1-remediation",
+      "reason": "Remediate all exact-head R1 findings before a distinct fresh review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:issue-274-r1-repair",
+      "reason": "Declare every executable proving denominator and keep lifecycle review and hosted observation outside PVF lanes.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preparation-contract\",\"proof_role\":\"Prove packet identity and terminal ancestry for #191/#199/#200/#201/#202/#203/#272/#273/#350/#356/#358.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":2000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_preparation_bundle.py\"],\"parallel_group\":\"274-serial-01\",\"defer_reason\":null},{\"lane\":\"observatory-transition-unit\",\"proof_role\":\"Prove the private post-verification command guard with genuinely distinct acquire, renew, transfer, revoke, stale predecessor, overlap, and terminal-revival cases.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"observatory_serving_eligibility::tests\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"274-serial-02a\",\"defer_reason\":null},{\"lane\":\"observatory-focused\",\"proof_role\":\"Prove authentic verifier acquire/restart, nanos expiry, replay, sealed-authority mismatch, and redaction.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":18000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"274-serial-02\",\"defer_reason\":null},{\"lane\":\"observatory-clippy\",\"proof_role\":\"Reject warnings in the exact focused target.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"274-serial-03\",\"defer_reason\":\"Deferred until approved bind creates the target.\"},{\"lane\":\"exact-scope\",\"proof_role\":\"Prove exact two new product paths and the single additive distributed/mod.rs declaration against immutable #358 merge base.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":2000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_scope.py\"],\"parallel_group\":\"274-serial-04\",\"defer_reason\":\"Deferred until the bound implementation exists.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace errors across the exact immutable implementation-base diff.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\",\"cd0feef31240b95d344c5ae9b774325506586a5d...HEAD\"],\"parallel_group\":\"274-serial-05\",\"defer_reason\":\"Deferred until the bound implementation exists.\"},{\"lane\":\"terminal-ancestry\",\"proof_role\":\"After typed finish, prove canonical merged terminal cache and merge ancestry to origin/main.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_terminal.py\"],\"parallel_group\":\"274-serial-06\",\"defer_reason\":\"Deferred until typed finish creates terminal authority.\"}]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:issue-274-r2-review",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "fresh-session:befcc4bb-8b1a-40de-b4e3-7ad5a26d3eb4",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:issue-274-r2-remediation",
+      "reason": "Repair normalized state digest while routing authentic transition fixture dependency.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:issue-274-r2-remediation",
+      "reason": "Route the final proof through terminal #360 authentic sealed transition fixtures and the immutable #360 merge base.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preparation-contract\",\"proof_role\":\"Pre-bind packet identity and terminal ancestry through #358; #360 terminal ancestry is separately proven by the immutable implementation base.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":2000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_preparation_bundle.py\"],\"parallel_group\":\"274-serial-01\",\"defer_reason\":\"Pre-bind-only evidence; not rerun after bind.\"},{\"lane\":\"observatory-transition-unit\",\"proof_role\":\"Prove the private state guard and named normalized final-state digest recomputation/tamper denial.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"observatory_serving_eligibility::tests\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"274-serial-02a\",\"defer_reason\":null},{\"lane\":\"observatory-focused\",\"proof_role\":\"Through terminal #360 fixtures, prove authentic sealed Acquire/Renew/Transfer/Revoke, restart, overlap, stale/superseded predecessor, revoked revival, nanos expiry, replay, A/B mismatch, and redaction.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":18000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"274-serial-02\",\"defer_reason\":null},{\"lane\":\"observatory-clippy\",\"proof_role\":\"Reject warnings in the exact feature-bearing target.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"274-serial-03\",\"defer_reason\":null},{\"lane\":\"exact-scope\",\"proof_role\":\"Prove exact two new product paths and one additive mod.rs declaration against immutable #360 merge base.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":2000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_scope.py\"],\"parallel_group\":\"274-serial-04\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace errors across the immutable #360 implementation-base diff.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\",\"dae957c435b73d87af1f36d4e15fb088f6fd055b...HEAD\"],\"parallel_group\":\"274-serial-05\",\"defer_reason\":null},{\"lane\":\"terminal-ancestry\",\"proof_role\":\"After typed finish, prove canonical merged terminal cache and merge ancestry to origin/main.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_terminal.py\"],\"parallel_group\":\"274-serial-06\",\"defer_reason\":\"Deferred until typed finish creates terminal authority.\"}]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:issue-274-r2-remediation",
+      "reason": "Record truthful final R2 remediation artifacts, authentic proof denominators, and close both R2 findings before fresh review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implement sealed Observatory serving eligibility using terminal #360 authentic transition fixtures.\",\"changes\":[\"Authentic sealed Acquire/Renew/Transfer/Revoke lifecycle with fail-closed overlap, stale, superseded, revival, replay and substitution behavior\",\"Named normalized final-state digest over the committed receipt state with recomputation and tamper sensitivity\",\"Exact three-path implementation against terminal #360 merge base\"],\"artifacts\":[\"adl-runtime/src/distributed/observatory_serving_eligibility.rs\",\"adl-runtime/src/distributed/mod.rs\",\"adl-runtime/tests/distributed_observatory_serving_eligibility.rs\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"purpose\":\"Prove state-machine guard plus normalized final-state digest recomputation and tamper sensitivity; closes R2 digest-convention finding.\",\"outcome\":\"passed\",\"evidence_ref\":\"2 passed at source 9a27e5987\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"purpose\":\"Prove authentic sealed A/R/T/R, restart/replay, overlap, stale/superseded predecessor, revoked revival, nanos expiry, A/B mismatch and redaction through terminal #360 fixtures; closes R2 mapping-boundary finding.\",\"outcome\":\"passed\",\"evidence_ref\":\"4 passed at source 9a27e5987\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict feature-bearing Clippy.\",\"outcome\":\"passed\",\"evidence_ref\":\"clippy PASS at source 9a27e5987\"},{\"command\":[\"python3\",\".csdlc/prepared/issues/274/validate_scope.py\"],\"purpose\":\"Prove exact issue scope and one additive mod.rs registration against immutable #360 merge.\",\"outcome\":\"passed\",\"evidence_ref\":\"scope PASS base dae957c435b73d87af1f36d4e15fb088f6fd055b\"},{\"command\":[\"git\",\"diff\",\"--check\",\"dae957c435b73d87af1f36d4e15fb088f6fd055b...HEAD\"],\"purpose\":\"Reject diff hygiene errors.\",\"outcome\":\"passed\",\"evidence_ref\":\"no output at source 9a27e5987\"}]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:issue-274-r3-final-review",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "fresh-session:3cbcf5dd-913a-4fa3-a0d9-943ab07d7863",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:issue-274-final",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex:issue-274-terminal-gate-prep",
+      "reason": "Recover #274 after published PR #362 CI failed in adl-coverage-hosted: the new production Observatory serving eligibility module is unmapped and measured 186/360 lines (51.67%) below the required 80 percent. Preserve the exact CI finding and prior review truth while widening only the explicit coverage-impact mapping contract and meaningful focused behavioral coverage before fresh review and republication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "fresh-session:c3caacf4-f272-4bee-8558-15bed411a1ae",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "codex:issue-274-coverage-remediation",
+      "reason": "Bound coverage remediation to the exact mapping owner, its contract regression, and meaningful Observatory tests without widening routing policy.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/distributed/observatory_serving_eligibility.rs\",\"adl-runtime/src/distributed/mod.rs\",\"adl-runtime/tests/distributed_observatory_serving_eligibility.rs\",\"adl/tools/check_coverage_impact.sh\",\"adl/tools/test_check_coverage_impact.sh\",\".csdlc/prepared/issues/274/design.md\",\".csdlc/prepared/issues/274/diagram.mmd\",\".csdlc/prepared/issues/274/validate_preparation_bundle.py\",\".csdlc/prepared/issues/274/validate_scope.py\",\".csdlc/prepared/issues/274/validate_terminal.py\",\".csdlc/evidence/274\",\".csdlc/issues/274\"]}"
+    },
+    {
+      "sequence": 22,
+      "generation": 17,
+      "actor": "codex:issue-274-coverage-remediation",
+      "reason": "Add exact mapping-contract and unchanged-threshold local coverage lanes after the observed PR362 coverage-impact failure.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preparation-contract\",\"proof_role\":\"Pre-bind packet identity and terminal ancestry through #358; #360 terminal ancestry is separately proven by the immutable implementation base.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":2000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_preparation_bundle.py\"],\"parallel_group\":\"274-serial-01\",\"defer_reason\":\"Pre-bind-only evidence; not rerun after bind.\"},{\"lane\":\"observatory-transition-unit\",\"proof_role\":\"Prove the private state guard and named normalized final-state digest recomputation/tamper denial.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"observatory_serving_eligibility::tests\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"274-serial-02a\",\"defer_reason\":null},{\"lane\":\"observatory-focused\",\"proof_role\":\"Through terminal #360 fixtures, prove authentic sealed Acquire/Renew/Transfer/Revoke, restart, overlap, stale/superseded predecessor, revoked revival, nanos expiry, replay, A/B mismatch, redaction, and meaningful uncovered error branches.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":18000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"274-serial-02\",\"defer_reason\":null},{\"lane\":\"observatory-clippy\",\"proof_role\":\"Reject warnings in the exact feature-bearing target.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":10000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"274-serial-03\",\"defer_reason\":null},{\"lane\":\"coverage-mapping-contract\",\"proof_role\":\"Prove the exact Observatory source-to-focused-binary mapping and preserve fail-closed behavior for unrelated unmapped Rust source.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"parallel_group\":\"274-serial-03b\",\"defer_reason\":null},{\"lane\":\"observatory-coverage-impact\",\"proof_role\":\"Measure the exact mapped focused denominator and require at least 80 percent line coverage for the changed Observatory production module.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":4000,\"argv\":[\"bash\",\"adl/tools/run_pr_fast_coverage_lane.sh\",\"--filter-expression\",\"binary_id(adl-runtime::distributed_observatory_serving_eligibility)\"],\"parallel_group\":\"274-serial-03c\",\"defer_reason\":null},{\"lane\":\"exact-scope\",\"proof_role\":\"Prove the two new product paths, one additive mod.rs declaration, and only the exact coverage mapping script plus its contract test against immutable #360 merge base.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":2000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_scope.py\"],\"parallel_group\":\"274-serial-04\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace errors across the immutable #360 implementation-base diff.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\",\"dae957c435b73d87af1f36d4e15fb088f6fd055b...HEAD\"],\"parallel_group\":\"274-serial-05\",\"defer_reason\":null},{\"lane\":\"terminal-ancestry\",\"proof_role\":\"After typed finish, prove canonical merged terminal cache and merge ancestry to origin/main.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_terminal.py\"],\"parallel_group\":\"274-serial-06\",\"defer_reason\":\"Deferred until typed finish creates terminal authority.\"}]}"
+    },
+    {
+      "sequence": 23,
+      "generation": 18,
+      "actor": "fresh-session:1824a353-87ab-495a-9bd6-eafae73f0f85",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 24,
+      "generation": 19,
+      "actor": "codex:issue-274-coverage-remediation",
+      "reason": "Authorize only the exact four coverage mapping and runner contract paths required by the PR362 failure.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime/src/distributed/observatory_serving_eligibility.rs\",\"adl-runtime/src/distributed/mod.rs\",\"adl-runtime/tests/distributed_observatory_serving_eligibility.rs\",\"adl/tools/check_coverage_impact.sh\",\"adl/tools/test_check_coverage_impact.sh\",\"adl/tools/run_pr_fast_coverage_lane.sh\",\"adl/tools/test_run_pr_fast_coverage_lane.sh\",\".csdlc/prepared/issues/274/design.md\",\".csdlc/prepared/issues/274/diagram.mmd\",\".csdlc/prepared/issues/274/validate_preparation_bundle.py\",\".csdlc/prepared/issues/274/validate_scope.py\",\".csdlc/prepared/issues/274/validate_terminal.py\",\".csdlc/evidence/274\",\".csdlc/issues/274\"]}"
+    },
+    {
+      "sequence": 25,
+      "generation": 20,
+      "actor": "codex:issue-274-coverage-remediation",
+      "reason": "Replace stale pre-bind steps with the exact post-publication coverage-impact remediation sequence while preserving planning-only pending status.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Preserve PR362 producer evidence, recover publication/review through typed authority, and retain the exact 186/360 (51.67%) unmapped coverage finding.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Obtain fresh design authority for the exact four coverage mapping/runner contract paths and typed SPP/VPP parity while preserving historical STP product scope.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Add only the exact Observatory mapping and feature-bearing runner route, their contract regressions, and meaningful behavior tests until measured module coverage is at least 80 percent.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Run focused/unit/Clippy/mapping/runner/coverage/preflight/scope/diff proof, record truthful evidence, obtain a fresh immutable review, republish PR362, require all CI green, and typed-finish before releasing #275.\",\"acceptance_ids\":[\"AC-8\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 26,
+      "generation": 21,
+      "actor": "codex:issue-274-coverage-remediation",
+      "reason": "Declare exact mapping, feature-bearing runner, focused coverage, and unchanged-threshold preflight proof.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preparation-contract\",\"proof_role\":\"Pre-bind packet identity only; not rerun post-bind.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_preparation_bundle.py\"],\"parallel_group\":\"274-01\",\"defer_reason\":\"Pre-bind-only evidence.\"},{\"lane\":\"observatory-transition-unit\",\"proof_role\":\"Prove state guard and normalized final-state digest recomputation/tamper denial.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"observatory_serving_eligibility::tests\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"274-02a\",\"defer_reason\":null},{\"lane\":\"observatory-focused\",\"proof_role\":\"Prove authentic sealed lifecycle and meaningful uncovered branches through terminal #360 fixtures.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":16000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"274-02\",\"defer_reason\":null},{\"lane\":\"observatory-clippy\",\"proof_role\":\"Reject warnings in exact feature-bearing target.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"274-03\",\"defer_reason\":null},{\"lane\":\"coverage-map-contract\",\"proof_role\":\"Prove exact source mapping and unrelated-unmapped fail-closed behavior.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":540,\"budget_tokens\":2000,\"argv\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"parallel_group\":\"274-04\",\"defer_reason\":null},{\"lane\":\"coverage-runner-contract\",\"proof_role\":\"Prove exact Observatory expression activates internal-test-fixtures without other route drift.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/test_run_pr_fast_coverage_lane.sh\"],\"parallel_group\":\"274-05\",\"defer_reason\":null},{\"lane\":\"focused-module-coverage\",\"proof_role\":\"Execute exact mapped Observatory integration target and emit focused summary.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"bash\",\"adl/tools/run_pr_fast_coverage_lane.sh\",\"--filter-expression\",\"binary_id(adl-runtime::distributed_observatory_serving_eligibility)\"],\"parallel_group\":\"274-06\",\"defer_reason\":null},{\"lane\":\"coverage-impact-preflight\",\"proof_role\":\"Require focused summary to satisfy unchanged 80 percent module denominator.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/check_coverage_impact.sh\",\"--changed-files\",\".csdlc/evidence/274/coverage-impact-changed-files.txt\",\"--summary\",\"adl/target/coverage-impact-summary.json\"],\"parallel_group\":\"274-07\",\"defer_reason\":null},{\"lane\":\"exact-scope\",\"proof_role\":\"Prove exact product paths, one mod.rs line, and only four coverage tooling paths.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":2000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_scope.py\"],\"parallel_group\":\"274-08\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace errors against immutable #360 base.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\",\"dae957c435b73d87af1f36d4e15fb088f6fd055b...HEAD\"],\"parallel_group\":\"274-09\",\"defer_reason\":null},{\"lane\":\"terminal-ancestry\",\"proof_role\":\"After finish prove canonical terminal cache and ancestry.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_terminal.py\"],\"parallel_group\":\"274-10\",\"defer_reason\":\"Deferred until typed finish.\"}]}"
+    },
+    {
+      "sequence": 27,
+      "generation": 22,
+      "actor": "codex:issue-274-coverage-remediation",
+      "reason": "Correct stale pre-bind plan summary after typed post-publication review recovery.",
+      "operation": "{\"new_value\":\"Remediate PR362's exact coverage-impact failure after typed publication/review recovery: preserve historical STP product scope, authorize only four coverage mapping/runner contract paths, add meaningful Observatory behavioral coverage to the unchanged 80 percent floor, then revalidate, freshly review, republish, and terminally finish before #275.\",\"operation\":\"correct_plan_summary_after_recovery\",\"previous_value\":\"Bootstrap and validate the exact initialized #274 packet on current origin/main; obtain a separate fresh design review later; keep approval/bind blocked. A future implementation owns only the Observatory module/test and serializes any unavoidable distributed/mod.rs registration after terminal+ancestral #273.\",\"recovery_generation\":14,\"recovery_sequence\":19}"
+    },
+    {
+      "sequence": 28,
+      "generation": 23,
+      "actor": "fresh-session:2e5fa6ba-4300-4ae7-bb9c-6c7c02c0c792",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 29,
+      "generation": 24,
+      "actor": "codex:issue-274-coverage-remediation",
+      "reason": "Declare exact mapping, feature-bearing runner, focused coverage, and unchanged-threshold preflight proof.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preparation-contract\",\"proof_role\":\"Pre-bind packet identity only; not rerun post-bind.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_preparation_bundle.py\"],\"parallel_group\":\"274-01\",\"defer_reason\":\"Pre-bind-only evidence.\"},{\"lane\":\"observatory-transition-unit\",\"proof_role\":\"Prove state guard and normalized final-state digest recomputation/tamper denial.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"observatory_serving_eligibility::tests\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"274-02a\",\"defer_reason\":null},{\"lane\":\"observatory-focused\",\"proof_role\":\"Prove authentic sealed lifecycle and meaningful uncovered branches through terminal #360 fixtures.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":16000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"274-02\",\"defer_reason\":null},{\"lane\":\"observatory-clippy\",\"proof_role\":\"Reject warnings in exact feature-bearing target.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"274-03\",\"defer_reason\":null},{\"lane\":\"coverage-map-contract\",\"proof_role\":\"Prove the exact integration-plus-unit union mapping and unrelated-unmapped fail-closed behavior.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":540,\"budget_tokens\":2000,\"argv\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"parallel_group\":\"274-04\",\"defer_reason\":null},{\"lane\":\"coverage-runner-contract\",\"proof_role\":\"Prove the exact union activates bounded --lib plus integration targets with internal-test-fixtures and no other route drift.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/test_run_pr_fast_coverage_lane.sh\"],\"parallel_group\":\"274-05\",\"defer_reason\":null},{\"lane\":\"focused-module-coverage\",\"proof_role\":\"Execute the exact mapped Observatory integration-plus-unit union and emit a nonzero focused summary.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"bash\",\"adl/tools/run_pr_fast_coverage_lane.sh\",\"--filter-expression\",\"binary_id(adl-runtime::distributed_observatory_serving_eligibility) or (binary_id(adl-runtime) and test(/^distributed::observatory_serving_eligibility::tests::/))\"],\"parallel_group\":\"274-06\",\"defer_reason\":null},{\"lane\":\"coverage-impact-preflight\",\"proof_role\":\"Require focused summary to satisfy unchanged 80 percent module denominator.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/check_coverage_impact.sh\",\"--changed-files\",\".csdlc/evidence/274/coverage-impact-changed-files.txt\",\"--summary\",\"adl/target/coverage-impact-summary.json\"],\"parallel_group\":\"274-07\",\"defer_reason\":null},{\"lane\":\"exact-scope\",\"proof_role\":\"Prove exact product paths, one mod.rs line, and only four coverage tooling paths.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":2000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_scope.py\"],\"parallel_group\":\"274-08\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace errors against immutable #360 base.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\",\"dae957c435b73d87af1f36d4e15fb088f6fd055b...HEAD\"],\"parallel_group\":\"274-09\",\"defer_reason\":null},{\"lane\":\"terminal-ancestry\",\"proof_role\":\"After finish prove canonical terminal cache and ancestry.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_terminal.py\"],\"parallel_group\":\"274-10\",\"defer_reason\":\"Deferred until typed finish.\"}]}"
+    },
+    {
+      "sequence": 30,
+      "generation": 25,
+      "actor": "fresh-session:9ec902cf-688c-4c5d-8802-d134974de49a",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 31,
+      "generation": 26,
+      "actor": "codex:issue-274-coverage-remediation",
+      "reason": "Declare exact mapping, feature-bearing runner, focused coverage, and unchanged-threshold preflight proof.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preparation-contract\",\"proof_role\":\"Pre-bind packet identity only; not rerun post-bind.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_preparation_bundle.py\"],\"parallel_group\":\"274-01\",\"defer_reason\":\"Pre-bind-only evidence.\"},{\"lane\":\"observatory-transition-unit\",\"proof_role\":\"Prove state guard and normalized final-state digest recomputation/tamper denial.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"observatory_serving_eligibility::tests\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"274-02a\",\"defer_reason\":null},{\"lane\":\"observatory-focused\",\"proof_role\":\"Prove authentic sealed lifecycle and meaningful uncovered branches through terminal #360 fixtures.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":16000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"274-02\",\"defer_reason\":null},{\"lane\":\"observatory-clippy\",\"proof_role\":\"Reject warnings in exact feature-bearing target.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"274-03\",\"defer_reason\":null},{\"lane\":\"coverage-map-contract\",\"proof_role\":\"Prove the exact integration-plus-unit union mapping and unrelated-unmapped fail-closed behavior.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":540,\"budget_tokens\":2000,\"argv\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"parallel_group\":\"274-04\",\"defer_reason\":null},{\"lane\":\"coverage-runner-contract\",\"proof_role\":\"Prove the exact union activates bounded --lib plus integration targets with internal-test-fixtures and no other route drift.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/test_run_pr_fast_coverage_lane.sh\"],\"parallel_group\":\"274-05\",\"defer_reason\":null},{\"lane\":\"focused-module-coverage\",\"proof_role\":\"Execute the exact mapped Observatory integration-plus-unit union and emit a nonzero focused summary.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"bash\",\"adl/tools/run_pr_fast_coverage_lane.sh\",\"--filter-expression\",\"binary_id(adl-runtime::distributed_observatory_serving_eligibility) or (binary_id(adl-runtime) and test(/^distributed::observatory_serving_eligibility::tests::/))\"],\"parallel_group\":\"274-06\",\"defer_reason\":null},{\"lane\":\"coverage-impact-preflight\",\"proof_role\":\"Require focused summary to satisfy unchanged 80 percent module denominator.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/check_coverage_impact.sh\",\"--changed-files\",\".csdlc/evidence/274/coverage-impact-changed-files.txt\",\"--summary\",\"adl/target/coverage-impact-summary.json\"],\"parallel_group\":\"274-07\",\"defer_reason\":null},{\"lane\":\"exact-scope\",\"proof_role\":\"Prove exact product paths, one mod.rs line, and only four coverage tooling paths.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":2000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_scope.py\"],\"parallel_group\":\"274-08\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace errors against immutable #360 base.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\",\"4db4c2b9a5d622fb7af6ffa1346b4d5406d4a699...HEAD\"],\"parallel_group\":\"274-09\",\"defer_reason\":null},{\"lane\":\"terminal-ancestry\",\"proof_role\":\"After finish prove canonical terminal cache and ancestry.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_terminal.py\"],\"parallel_group\":\"274-10\",\"defer_reason\":\"Deferred until typed finish.\"}]}"
+    },
+    {
+      "sequence": 32,
+      "generation": 27,
+      "actor": "codex:issue-274-coverage-remediation",
+      "reason": "Declare exact mapping, feature-bearing runner, focused coverage, and unchanged-threshold preflight proof.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preparation-contract\",\"proof_role\":\"Pre-bind packet identity only; not rerun post-bind.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_preparation_bundle.py\"],\"parallel_group\":\"274-01\",\"defer_reason\":\"Pre-bind-only evidence.\"},{\"lane\":\"observatory-transition-unit\",\"proof_role\":\"Prove state guard and normalized final-state digest recomputation/tamper denial.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"observatory_serving_eligibility::tests\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"274-02a\",\"defer_reason\":null},{\"lane\":\"observatory-focused\",\"proof_role\":\"Prove authentic sealed lifecycle and meaningful uncovered branches through terminal #360 fixtures.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":16000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"--test-threads=1\"],\"parallel_group\":\"274-02\",\"defer_reason\":null},{\"lane\":\"observatory-clippy\",\"proof_role\":\"Reject warnings in exact feature-bearing target.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"274-03\",\"defer_reason\":null},{\"lane\":\"coverage-map-contract\",\"proof_role\":\"Prove the exact integration-plus-unit union mapping and unrelated-unmapped fail-closed behavior.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":540,\"budget_tokens\":2000,\"argv\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"parallel_group\":\"274-04\",\"defer_reason\":null},{\"lane\":\"coverage-runner-contract\",\"proof_role\":\"Prove the exact union activates bounded --lib plus integration targets with internal-test-fixtures and no other route drift.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/test_run_pr_fast_coverage_lane.sh\"],\"parallel_group\":\"274-05\",\"defer_reason\":null},{\"lane\":\"focused-module-coverage\",\"proof_role\":\"Execute the exact mapped Observatory integration-plus-unit union and emit a nonzero focused summary.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"bash\",\"adl/tools/run_pr_fast_coverage_lane.sh\",\"--filter-expression\",\"binary_id(adl-runtime::distributed_observatory_serving_eligibility) or (binary_id(adl-runtime) and test(/^distributed::observatory_serving_eligibility::tests::/))\"],\"parallel_group\":\"274-06\",\"defer_reason\":null},{\"lane\":\"coverage-impact-preflight\",\"proof_role\":\"Require focused summary to satisfy unchanged 80 percent module denominator.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/check_coverage_impact.sh\",\"--changed-files\",\".csdlc/evidence/274/coverage-impact-changed-files.txt\",\"--summary\",\"adl/target/coverage-impact-summary.json\"],\"parallel_group\":\"274-07\",\"defer_reason\":null},{\"lane\":\"exact-scope\",\"proof_role\":\"Prove exact product paths, one mod.rs line, and only four coverage tooling paths.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":2000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_scope.py\"],\"parallel_group\":\"274-08\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace errors against immutable #363 merge base.\",\"acceptance_ids\":[\"AC-6\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\",\"4db4c2b9a5d622fb7af6ffa1346b4d5406d4a699...HEAD\"],\"parallel_group\":\"274-09\",\"defer_reason\":null},{\"lane\":\"terminal-ancestry\",\"proof_role\":\"After finish prove canonical terminal cache and ancestry.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/274/validate_terminal.py\"],\"parallel_group\":\"274-10\",\"defer_reason\":\"Deferred until typed finish.\"}]}"
+    },
+    {
+      "sequence": 33,
+      "generation": 28,
+      "actor": "fresh-session:faa109bd-fe47-46a3-8a2e-7c65ef2aac8f",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 34,
+      "generation": 29,
+      "actor": "codex:issue-274-coverage-remediation",
+      "reason": "Record truthful PR362 coverage-failure remediation and exact proving denominators before fresh implementation review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Remediate PR362 coverage-impact failure with an exact Observatory integration-plus-unit mapping and unchanged 80 percent threshold.\",\"changes\":[\"Map only observatory_serving_eligibility.rs to the exact integration-plus-unit nextest union\",\"Route only that exact union through internal-test-fixtures and bounded --lib plus integration-test Cargo targets\",\"Preserve unrelated-unmapped fail-closed behavior and all existing routes\",\"Refresh immutable scope and diff base to terminal #363 merge\"],\"artifacts\":[\"adl-runtime/src/distributed/observatory_serving_eligibility.rs\",\"adl-runtime/src/distributed/mod.rs\",\"adl-runtime/tests/distributed_observatory_serving_eligibility.rs\",\"adl/tools/check_coverage_impact.sh\",\"adl/tools/test_check_coverage_impact.sh\",\"adl/tools/run_pr_fast_coverage_lane.sh\",\"adl/tools/test_run_pr_fast_coverage_lane.sh\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"purpose\":\"Exact mapping and unrelated-unmapped fail-closed contract.\",\"outcome\":\"passed\",\"evidence_ref\":\"PASS at source 02ed85c37\"},{\"command\":[\"bash\",\"adl/tools/test_run_pr_fast_coverage_lane.sh\"],\"purpose\":\"Exact union runner target and no-route-drift contract.\",\"outcome\":\"passed\",\"evidence_ref\":\"PASS at source 02ed85c37\"},{\"command\":[\"bash\",\"adl/tools/run_pr_fast_coverage_lane.sh\",\"--filter-expression\",\"binary_id(adl-runtime::distributed_observatory_serving_eligibility) or (binary_id(adl-runtime) and test(/^distributed::observatory_serving_eligibility::tests::/))\"],\"purpose\":\"Feature-bearing focused union coverage.\",\"outcome\":\"passed\",\"evidence_ref\":\"6 tests across 2 binaries; module 350/360 lines 97.22 percent at source 02ed85c37\"},{\"command\":[\"bash\",\"adl/tools/check_coverage_impact.sh\",\"--changed-files\",\".csdlc/evidence/274/coverage-impact-changed-files.txt\",\"--summary\",\"adl/target/coverage-impact-summary.json\"],\"purpose\":\"Unchanged 80 percent module preflight.\",\"outcome\":\"passed\",\"evidence_ref\":\"350/360 97.22 percent exceeds unchanged 80 percent\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"observatory_serving_eligibility::tests\",\"--features\",\"internal-test-fixtures\"],\"purpose\":\"Meaningful state and normalized-digest unit behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"2 passed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\"],\"purpose\":\"Authentic sealed lifecycle behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"4 passed\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_observatory_serving_eligibility\",\"--features\",\"internal-test-fixtures\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict focused Clippy.\",\"outcome\":\"passed\",\"evidence_ref\":\"PASS\"},{\"command\":[\"python3\",\".csdlc/prepared/issues/274/validate_scope.py\"],\"purpose\":\"Exact seven-path and one-line registration scope.\",\"outcome\":\"passed\",\"evidence_ref\":\"PASS at source 02ed85c37\"},{\"command\":[\"git\",\"diff\",\"--check\",\"4db4c2b9a5d622fb7af6ffa1346b4d5406d4a699...HEAD\"],\"purpose\":\"Immutable #363-base diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"no output at source 02ed85c37\"}]}"
+    },
+    {
+      "sequence": 35,
+      "generation": 29,
+      "actor": "codex:issue-274-coverage-final-review",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 30,
+      "actor": "fresh-session:89ff2555-eb86-4a61-a214-7c584945eaac",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 31,
+      "actor": "codex:issue-274-coverage-final",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

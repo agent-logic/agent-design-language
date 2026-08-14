@@ -22,6 +22,7 @@ pub mod projection;
 // The recovery store retains a private compatibility persistence helper for
 // restart-format parity. Registration makes the module production-visible,
 // while that helper intentionally remains unused by the public path.
+pub mod observatory_serving_eligibility;
 #[allow(dead_code)]
 pub mod recovery;
 pub mod resource_weather;

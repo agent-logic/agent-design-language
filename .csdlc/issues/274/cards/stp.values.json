@@ -1,0 +1,69 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 274,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1b][205.c] Add Observatory quorum serving authority",
+    "slug": "observatory-quorum-serving-authority",
+    "version": "v0.92",
+    "generation": 31
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Prepare the typed six-card #274 design packet only. Product work is limited to a future Observatory-specific module and focused test; shared module registration is gated after terminal+ancestral #273 unless fresh review proves it unnecessary.",
+      "deliverables": [
+        "adl-runtime/src/distributed/observatory_serving_eligibility.rs",
+        "adl-runtime/tests/distributed_observatory_serving_eligibility.rs",
+        ".csdlc/prepared/issues/274/design.md",
+        ".csdlc/prepared/issues/274/diagram.mmd",
+        ".csdlc/prepared/issues/274/validate_preparation_bundle.py",
+        ".csdlc/evidence/274",
+        ".csdlc/issues/274"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Acquire makes Observatory serving eligible only when terminal #350 verifies the exact authority/cut pair and terminal #358 authenticates Acquire with no predecessor; #274 accepts no caller action or parallel authority fields.",
+        "AC-2: Renew dispatches only from terminal #358's authenticated Renew action, requires its authenticated predecessor to equal the current operation, and accepts only matching lineage with strictly newer committed index/fence; stale, mismatched, expired, revoked, or superseded authority fails closed.",
+        "AC-3: Transfer dispatches only from terminal #358's authenticated Transfer action and exact predecessor; it atomically denies that predecessor before or at the same committed transition that makes the successor eligible, so incompatible Observatory quorums never overlap.",
+        "AC-4: Revoke and expiry are deterministic and monotone for the affected lease; replay is exact and conflicting replay or attempted revival fails closed across retry and restart.",
+        "AC-5: Transition receipts bind authenticated action/predecessor, prior/result state, and only #350/#356/#358 redacted projection values; output exposes no raw authority, membership, OwnerCommit, lease, endpoint, secret, or raw deadline.",
+        "AC-6: Product ownership is exactly the Observatory module and focused test. serving_authority.rs, all Shepherd paths, authority_store_adapters.rs, and #205 remain untouched; distributed/mod.rs is a separately serialized registration-only exception after terminal+ancestral #273 unless proven unnecessary by fresh review.",
+        "AC-7: Preparation remains initialized and unbound until a new #119-compliant fresh design review proves exact file/module disjointness, terminal #272 cache/ancestry, validation sufficiency, and truthful deferrals with no actionable P0-P3 findings.",
+        "AC-8: After a future authorized bind, focused tests and strict Clippy pass, exact-head review is current, ordinary required CI is green, and typed finish derives terminal authority before #275 integration begins."
+      ],
+      "dependencies": [
+        "#191 terminal cache canonical and merge ancestral",
+        "#199 terminal cache canonical and merge ancestral",
+        "#200 terminal cache canonical and merge ancestral",
+        "#201 terminal cache canonical and merge ancestral",
+        "#202 terminal cache canonical and merge ancestral",
+        "#203 terminal cache canonical and merge ancestral",
+        "#272 terminal cache canonical and merge ancestral",
+        "#350 terminal sealed projection cache canonical and merge ancestral",
+        "#356 terminal projection accessor cache canonical and merge ancestral",
+        "#358 terminal action/predecessor/full-time accessor cache canonical and merge ancestral",
+        "If distributed/mod.rs registration is required, #273 must be terminal and ancestral before #274 implementation",
+        "#275 remains blocked until both #273 and #274 are terminal and ancestral"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#274",
+        "agent-logic/agent-design-language#205 coordination graph",
+        "adl-runtime/src/distributed/serving_authority.rs from terminal #350/#356/#358 as read-only consumed contract",
+        "adl-runtime/src/distributed/authority_protocol.rs from terminal #201",
+        "adl-runtime/src/distributed/authority_reconciliation.rs from terminal #200",
+        "adl-runtime/src/distributed/authority_store_adapters.rs from terminal #203 as read-only consumed contract",
+        "adl-runtime/src/distributed/membership.rs from terminal #199"
+      ],
+      "non_goals": [
+        "Parent #205 implementation, lifecycle mutation, or closeout",
+        "Durable serving-authority foundation changes or serving_authority.rs edits (#272)",
+        "Shepherd acquire, replace, revoke, expiry, module, or test (#273)",
+        "AuthorityStoreAdapterRegistry or authority_store_adapters.rs changes (#203)",
+        "Integrated cross-child proof (#275)",
+        "Migration #204, UI, process launch, listener enforcement, HTTP/WSS, transport wiring, Runtime kernel ingress, projection v1, cloud deployment, cloud qualification, provider action, or paid runners"
+      ]
+    }
+  }
+}
