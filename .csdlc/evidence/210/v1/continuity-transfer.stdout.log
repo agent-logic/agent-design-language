@@ -28,6 +28,7 @@ pass:CASE-024:wrong_chunk_digest_denied
 ok
 test generic_or_confused_authority_binding_is_denied ... pass:CASE-015:generic_send_denied
 pass:CASE-016:raft_rpc_confusion_denied
+pass:CASE-017:unknown_kind_denied
 ok
 test journal_restore_resumes_exact_prefix_without_raw_payload ... pass:CASE-005:resume_after_partition
 pass:CASE-032:source_restart_resume
@@ -46,6 +47,7 @@ pass:CASE-003:exact_target_stage
 pass:CASE-043:unsafe_path_denied
 ok
 test signed_catalog_manifest_and_incremental_ranges_are_verified ... pass:CASE-004:incremental_catalog_verify
+pass:CASE-025:wrong_manifest_denied
 ok
 test wrong_source_target_route_and_cut_are_denied_before_bytes_move ... pass:CASE-007:wrong_source_denied
 pass:CASE-008:wrong_target_denied
@@ -56,9 +58,7 @@ pass:CASE-012:wrong_membership_cut_denied
 pass:CASE-013:stale_certificate_denied
 pass:CASE-014:wrong_boot_generation_denied
 ok
-test wrong_transfer_and_incomplete_finish_are_denied ... pass:CASE-017:unknown_kind_denied
-pass:CASE-025:wrong_manifest_denied
-ok
+test wrong_transfer_and_incomplete_finish_are_denied ... ok
 
 test result: ok. 14 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
 
