@@ -42,6 +42,7 @@ use sha2::{Digest, Sha256};
 use std::{collections::BTreeMap, path::Path, sync::Arc};
 
 const DOMAIN: &str = "ADL-INTEGRATED-SERVING-AUTHORITY-SNAPSHOT-V1";
+const STATE_PREFIX_DOMAIN: &str = "ADL-INTEGRATED-SERVING-AUTHORITY-STATE-PREFIX-V1";
 const SCHEMA: &str = "adl.integrated-serving-authority-snapshot.v1";
 const MAX_OPERATIONS: usize = 4096;
 const IJSON_MAX_INTEGER: u64 = 9_007_199_254_740_991;
@@ -109,6 +110,13 @@ struct State {
     operations: BTreeMap<String, IntegratedSnapshotReceipt>,
 }
 
+#[derive(Serialize)]
+struct StatePrefix<'a> {
+    domain: &'static str,
+    revision: u64,
+    receipts: &'a [IntegratedSnapshotReceipt],
+}
+
 impl CheckpointMetadataSource for State {
     fn checkpoint_metadata(&self) -> Result<CheckpointMetadata, PolisRuntimeError> {
         Ok(CheckpointMetadata {
@@ -124,6 +132,7 @@ pub struct IntegratedServingAuthoritySnapshotStore {
     store: CheckpointedJson<State>,
     envelope: DurableEnvelope<State>,
     capacity: usize,
+    recovery_source_revision: Option<u64>,
 }
 
 impl IntegratedServingAuthoritySnapshotStore {
@@ -143,10 +152,13 @@ impl IntegratedServingAuthoritySnapshotStore {
             authority,
         )?;
         validate_state(envelope.payload(), capacity)?;
+        let recovery_source_revision =
+            (envelope.payload().revision > 0).then_some(envelope.payload().revision);
         Ok(Self {
             store,
             envelope,
             capacity,
+            recovery_source_revision,
         })
     }
 
@@ -216,6 +228,9 @@ impl IntegratedServingAuthoritySnapshotStore {
         operation_ref: &str,
     ) -> Result<IntegratedSnapshotReceipt, IntegratedSnapshotError> {
         validate_identifier(operation_ref)?;
+        if self.recovery_source_revision != Some(self.envelope.payload().revision) {
+            return Err(IntegratedSnapshotError::InvalidInput);
+        }
         let latest = latest_receipt(self.envelope.payload())?
             .ok_or(IntegratedSnapshotError::InvalidInput)?;
         self.append_observation(
@@ -278,6 +293,7 @@ impl IntegratedServingAuthoritySnapshotStore {
             .insert(operation_ref.into(), receipt.clone());
         validate_state(&next, self.capacity)?;
         self.envelope = self.store.commit(&self.envelope, next)?;
+        self.recovery_source_revision = None;
         Ok(receipt)
     }
 
@@ -293,22 +309,12 @@ fn validate_state(state: &State, capacity: usize) -> Result<(), IntegratedSnapsh
     {
         return Err(IntegratedSnapshotError::CapacityExceeded);
     }
+    let ordered = ordered_receipts(state)?;
     let mut prefix = State::default();
-    let mut remaining: BTreeMap<&str, &IntegratedSnapshotReceipt> = state
-        .operations
-        .iter()
-        .map(|(operation, receipt)| (operation.as_str(), receipt))
-        .collect();
-    while !remaining.is_empty() {
+    for receipt in ordered {
+        let operation = receipt.operation_ref.as_str();
         let prior_state_sha256 = state_digest(&prefix)?;
-        let mut matches = remaining
-            .iter()
-            .filter(|(_, receipt)| receipt.prior_state_sha256 == prior_state_sha256);
-        let (operation, receipt) = matches
-            .next()
-            .map(|(operation, receipt)| (*operation, (**receipt).clone()))
-            .ok_or(IntegratedSnapshotError::Serialization)?;
-        if matches.next().is_some() {
+        if receipt.prior_state_sha256 != prior_state_sha256 {
             return Err(IntegratedSnapshotError::Serialization);
         }
         validate_receipt(operation, &receipt)?;
@@ -325,7 +331,6 @@ fn validate_state(state: &State, capacity: usize) -> Result<(), IntegratedSnapsh
             return Err(IntegratedSnapshotError::Serialization);
         }
         prefix = candidate;
-        remaining.remove(operation);
     }
     if &prefix != state {
         return Err(IntegratedSnapshotError::Serialization);
@@ -354,37 +359,37 @@ fn validate_receipt(
 fn latest_receipt(
     state: &State,
 ) -> Result<Option<IntegratedSnapshotReceipt>, IntegratedSnapshotError> {
-    let mut prefix = State::default();
+    Ok(ordered_receipts(state)?.pop())
+}
+
+fn ordered_receipts(
+    state: &State,
+) -> Result<Vec<IntegratedSnapshotReceipt>, IntegratedSnapshotError> {
+    if state.revision != state.operations.len() as u64 {
+        return Err(IntegratedSnapshotError::Serialization);
+    }
+    let mut ordered = Vec::new();
     let mut remaining: BTreeMap<&str, &IntegratedSnapshotReceipt> = state
         .operations
         .iter()
         .map(|(operation, receipt)| (operation.as_str(), receipt))
         .collect();
-    let mut latest = None;
     while !remaining.is_empty() {
-        let prior_state_sha256 = state_digest(&prefix)?;
-        let (operation, receipt) = remaining
+        let prior_state_sha256 = state_prefix_digest(ordered.len() as u64, &ordered)?;
+        let mut matches = remaining
             .iter()
-            .find(|(_, receipt)| receipt.prior_state_sha256 == prior_state_sha256)
+            .filter(|(_, receipt)| receipt.prior_state_sha256 == prior_state_sha256);
+        let (operation, receipt) = matches
+            .next()
             .map(|(operation, receipt)| (*operation, (**receipt).clone()))
             .ok_or(IntegratedSnapshotError::Serialization)?;
-        let mut candidate = prefix.clone();
-        candidate.revision = candidate
-            .revision
-            .checked_add(1)
-            .filter(|value| *value <= IJSON_MAX_INTEGER)
-            .ok_or(IntegratedSnapshotError::Serialization)?;
-        candidate
-            .operations
-            .insert(operation.to_owned(), receipt.clone());
-        if normalized_result_digest(&candidate, operation)? != receipt.result_state_sha256 {
+        if matches.next().is_some() {
             return Err(IntegratedSnapshotError::Serialization);
         }
-        latest = Some(receipt);
-        prefix = candidate;
+        ordered.push(receipt);
         remaining.remove(operation);
     }
-    Ok(latest)
+    Ok(ordered)
 }
 
 fn enforce_non_overlapping_transition(
@@ -479,7 +484,19 @@ fn normalized_receipt_digest(
 }
 
 fn state_digest(state: &State) -> Result<String, IntegratedSnapshotError> {
-    digest_jcs(state)
+    let receipts = ordered_receipts(state)?;
+    state_prefix_digest(state.revision, &receipts)
+}
+
+fn state_prefix_digest(
+    revision: u64,
+    receipts: &[IntegratedSnapshotReceipt],
+) -> Result<String, IntegratedSnapshotError> {
+    digest_jcs(&StatePrefix {
+        domain: STATE_PREFIX_DOMAIN,
+        revision,
+        receipts,
+    })
 }
 fn digest_jcs(value: &impl Serialize) -> Result<String, IntegratedSnapshotError> {
     serde_jcs::to_vec(value)

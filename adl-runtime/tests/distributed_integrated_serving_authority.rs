@@ -206,9 +206,9 @@ fn committed_pair_with_versions(
             lineage,
             action,
             Some("observatory-acquire"),
-            3,
-            1,
-            2,
+            observatory_committed + 1,
+            observatory_generation + 1,
+            observatory_fence + 1,
         );
         observatory
             .apply(&published, &cut, 1_700_000_001, 123_456_789)
@@ -373,6 +373,10 @@ fn immutable_multi_operation_prefix_and_four_outcomes() {
         Err(IntegratedSnapshotError::InvalidInput)
     );
     assert_eq!(
+        store.recover("prefix-live-recovery"),
+        Err(IntegratedSnapshotError::InvalidInput)
+    );
+    assert_eq!(
         store.observe(
             "prefix-forged-recovery",
             &stale_pair,
@@ -444,6 +448,13 @@ fn checkpoint_cas_failure_preserves_last_commit() {
     let first = store
         .observe("cas-before", &pair, IntegratedOutcome::Success)
         .unwrap();
+    drop(store);
+    let mut store = IntegratedServingAuthoritySnapshotStore::open(
+        &dir.path().canonicalize().unwrap(),
+        authority.clone(),
+        8,
+    )
+    .unwrap();
     authority.reject_next_compare_and_swap();
     assert_eq!(
         store.recover("cas-after"),
@@ -526,24 +537,98 @@ fn corrupt_truncated_and_unknown_state_fail_closed() {
 fn terminal_child_combinations_remain_evidence_only() {
     let dir = TempDir::new().unwrap();
     let authority = Arc::new(MemoryAuthority::default());
-    let (shepherd_sealed, observatory_sealed) = committed_pair(
-        "lineage-terminal",
-        Some("revoke"),
-        Some(ObservatoryTransitionAction::Revoke),
-    );
-    let pair = verify_committed_child_lineage_pair(&shepherd_sealed, &observatory_sealed).unwrap();
     let mut store = IntegratedServingAuthoritySnapshotStore::open(
         &dir.path().canonicalize().unwrap(),
         authority,
         8,
     )
     .unwrap();
-    let receipt = store
-        .observe("terminal-combo", &pair, IntegratedOutcome::NoOp)
-        .unwrap();
-    assert_eq!(receipt.shepherd.status, "revoked");
-    assert_eq!(receipt.observatory.status, "revoked");
-    assert_eq!(receipt.outcome, IntegratedOutcome::NoOp);
+    for (
+        operation,
+        shepherd_terminal,
+        observatory_terminal,
+        shepherd_generation,
+        shepherd_fence,
+        shepherd_committed,
+        observatory_committed,
+        observatory_generation,
+        observatory_fence,
+        expected_shepherd_status,
+        expected_observatory_status,
+    ) in [
+        (
+            "terminal-active",
+            None,
+            None,
+            7,
+            9,
+            100,
+            2,
+            1,
+            1,
+            "eligible",
+            "eligible",
+        ),
+        (
+            "terminal-renew-expire",
+            Some("expire"),
+            Some(ObservatoryTransitionAction::Renew),
+            8,
+            10,
+            101,
+            4,
+            2,
+            2,
+            "expired",
+            "eligible",
+        ),
+        (
+            "terminal-transfer-revoke",
+            Some("revoke"),
+            Some(ObservatoryTransitionAction::Transfer),
+            9,
+            11,
+            102,
+            6,
+            3,
+            3,
+            "revoked",
+            "eligible",
+        ),
+        (
+            "terminal-revoke",
+            Some("revoke"),
+            Some(ObservatoryTransitionAction::Revoke),
+            10,
+            12,
+            103,
+            8,
+            4,
+            4,
+            "revoked",
+            "revoked",
+        ),
+    ] {
+        let (shepherd_sealed, observatory_sealed) = committed_pair_with_versions(
+            "lineage-terminal",
+            shepherd_generation,
+            shepherd_fence,
+            shepherd_committed,
+            observatory_committed,
+            observatory_generation,
+            observatory_fence,
+            shepherd_terminal,
+            observatory_terminal,
+        );
+        let pair =
+            verify_committed_child_lineage_pair(&shepherd_sealed, &observatory_sealed).unwrap();
+        let receipt = store
+            .observe(operation, &pair, IntegratedOutcome::NoOp)
+            .unwrap();
+        assert_eq!(receipt.shepherd.status, expected_shepherd_status);
+        assert_eq!(receipt.observatory.status, expected_observatory_status);
+        assert_eq!(receipt.outcome, IntegratedOutcome::NoOp);
+    }
 }
 
 #[test]
