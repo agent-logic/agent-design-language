@@ -32,8 +32,11 @@ impl ConsensusCheckpointAuthority for MemoryAuthority {
     }
 }
 fn cut(fence: u64, state: &str) -> VerifiedServingAuthorityCut {
+    cut_with_lineage("lineage-1", fence, state)
+}
+fn cut_with_lineage(lineage: &str, fence: u64, state: &str) -> VerifiedServingAuthorityCut {
     VerifiedServingAuthorityCut::fixture(
-        "lineage-1".into(),
+        lineage.into(),
         7,
         "owner-commit".into(),
         fence,
@@ -215,6 +218,10 @@ fn restart_recovers_exact_committed_projection() {
     assert_eq!(sealed.child_kind(), "shepherd");
     assert_eq!(sealed.committed_revision(), 1);
     assert_eq!(sealed.status(), "eligible");
+    assert_eq!(
+        sealed.lineage_ref(),
+        Some(cut(5, "11").lineage_ref().as_str())
+    );
     assert_eq!(sealed.receipt_sha256(), first.receipt_sha256);
     let sealed_text = String::from_utf8(sealed.canonical_bytes().unwrap()).unwrap();
     assert!(!sealed_text.contains("shepherd-a"));
@@ -224,6 +231,34 @@ fn restart_recovers_exact_committed_projection() {
         .unwrap();
     assert_eq!(retry.receipt_sha256, first.receipt_sha256);
     assert_eq!(retry.state_sha256, first.state_sha256);
+}
+
+#[test]
+fn authenticated_lineage_is_replaced_and_terminal_transitions_preserve_it() {
+    let dir = TempDir::new().unwrap();
+    let auth = Arc::new(MemoryAuthority::default());
+    let mut store = open(&dir, auth, 8);
+    let first = cut_with_lineage("lineage-a", 5, "11");
+    store
+        .acquire("a", "shepherd-a", b"permit", &first, 10, 1)
+        .unwrap();
+    assert_eq!(
+        store.committed_projection().unwrap().unwrap().lineage_ref(),
+        Some(first.lineage_ref().as_str())
+    );
+    let second = cut_with_lineage("lineage-b", 6, "12");
+    store
+        .replace("replace", "shepherd-b", b"permit2", &second, 20, 2)
+        .unwrap();
+    assert_eq!(
+        store.committed_projection().unwrap().unwrap().lineage_ref(),
+        Some(second.lineage_ref().as_str())
+    );
+    store.revoke("revoke", &second).unwrap();
+    assert_eq!(
+        store.committed_projection().unwrap().unwrap().lineage_ref(),
+        Some(second.lineage_ref().as_str())
+    );
 }
 
 #[test]

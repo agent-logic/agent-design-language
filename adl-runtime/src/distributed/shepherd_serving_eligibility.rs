@@ -1,6 +1,7 @@
 //! Deterministic single-Shepherd serving-eligibility authority.
 
 use super::{
+    observatory_serving_eligibility::SealedObservatoryCommittedProjection,
     polis_runtime::{
         CheckpointMetadata, CheckpointMetadataSource, CheckpointedJson,
         ConsensusCheckpointAuthority, DurableEnvelope, PolisRuntimeError,
@@ -42,6 +43,8 @@ enum Status {
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 struct Grant {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    lineage_ref: Option<String>,
     subject_ref: String,
     permit_sha256: String,
     owner_commit_sha256: String,
@@ -72,6 +75,8 @@ struct Receipt {
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 struct StoredProjection {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    lineage_ref: Option<String>,
     status: String,
     subject_ref: Option<String>,
     fencing_generation: u64,
@@ -106,6 +111,8 @@ pub struct ShepherdEligibilityProjection {
     pub schema: String,
     pub status: String,
     pub subject_ref: Option<String>,
+    #[serde(default)]
+    pub lineage_ref: Option<String>,
     pub fencing_generation: u64,
     pub expiry_class: String,
     pub foundation_state_sha256: Option<String>,
@@ -171,6 +178,9 @@ impl SealedShepherdCommittedProjection {
     pub fn subject_ref(&self) -> Option<&str> {
         self.preimage.projection.subject_ref.as_deref()
     }
+    pub fn lineage_ref(&self) -> Option<&str> {
+        self.preimage.projection.lineage_ref.as_deref()
+    }
     pub fn fencing_generation(&self) -> u64 {
         self.preimage.projection.fencing_generation
     }
@@ -189,6 +199,56 @@ impl SealedShepherdCommittedProjection {
     pub fn canonical_bytes(&self) -> Result<Vec<u8>, ShepherdEligibilityError> {
         serde_jcs::to_vec(self).map_err(|_| ShepherdEligibilityError::Serialization)
     }
+}
+
+/// A verifier-returned pair of exact store-derived child projections.
+///
+/// Its fields are private and it cannot be deserialized or constructed by callers.
+///
+/// ```compile_fail
+/// use adl_runtime::distributed::shepherd_serving_eligibility::VerifiedCommittedChildLineagePair;
+/// let _ = VerifiedCommittedChildLineagePair { shepherd: todo!(), observatory: todo!() };
+/// ```
+pub struct VerifiedCommittedChildLineagePair<'a> {
+    shepherd: &'a SealedShepherdCommittedProjection,
+    observatory: &'a SealedObservatoryCommittedProjection,
+}
+
+impl<'a> VerifiedCommittedChildLineagePair<'a> {
+    pub fn shepherd(&self) -> &'a SealedShepherdCommittedProjection {
+        self.shepherd
+    }
+
+    pub fn observatory(&self) -> &'a SealedObservatoryCommittedProjection {
+        self.observatory
+    }
+}
+
+/// Verifies that two store-derived child projections belong to one authority lineage.
+///
+/// Public projection DTOs and raw lineage strings cannot enter this boundary.
+pub fn verify_committed_child_lineage_pair<'a>(
+    shepherd: &'a SealedShepherdCommittedProjection,
+    observatory: &'a SealedObservatoryCommittedProjection,
+) -> Result<VerifiedCommittedChildLineagePair<'a>, ShepherdEligibilityError> {
+    if shepherd.child_kind() != "shepherd"
+        || observatory.child_kind() != "observatory"
+        || shepherd
+            .lineage_ref()
+            .filter(|value| is_sha256(value))
+            .is_none()
+        || observatory
+            .lineage_ref()
+            .filter(|value| is_sha256(value))
+            .is_none()
+        || shepherd.lineage_ref() != observatory.lineage_ref()
+    {
+        return Err(ShepherdEligibilityError::StaleAuthority);
+    }
+    Ok(VerifiedCommittedChildLineagePair {
+        shepherd,
+        observatory,
+    })
 }
 
 pub struct ShepherdEligibilityStore {
@@ -372,6 +432,7 @@ impl ShepherdEligibilityStore {
             return Err(ShepherdEligibilityError::StaleAuthority);
         }
         let grant = Grant {
+            lineage_ref: Some(cut.lineage_ref()),
             subject_ref: keyed("subject", subject),
             permit_sha256: hex::encode(Sha256::digest(permit)),
             owner_commit_sha256: keyed("owner", cut.owner_commit_id()),
@@ -394,6 +455,7 @@ impl ShepherdEligibilityStore {
         now: u64,
     ) -> Result<ShepherdEligibilityProjection, ShepherdEligibilityError> {
         validate_id(operation_id)?;
+        let lineage_ref = cut.lineage_ref();
         if let Some(old) = self.envelope.payload().operations.get(operation_id) {
             if old.transition
                 != if status == Status::Expired {
@@ -405,6 +467,7 @@ impl ShepherdEligibilityStore {
                 || old.result.foundation_generation != Some(cut.generation())
                 || old.result.foundation_state_sha256.as_deref() != Some(cut.state_sha256())
                 || old.result.foundation_result_sha256.as_deref() != Some(cut.result_sha256())
+                || old.result.lineage_ref.as_deref() != Some(lineage_ref.as_str())
                 || old.owner_commit_sha256 != keyed("owner", cut.owner_commit_id())
                 || old.lease_sha256 != keyed("lease", cut.lease_id())
                 || old.foundation_receipt_sha256 != cut.receipt_digest()
@@ -424,6 +487,7 @@ impl ShepherdEligibilityStore {
             || grant.foundation_result_sha256 != cut.result_sha256()
             || grant.foundation_generation != cut.generation()
             || grant.foundation_receipt_sha256 != cut.receipt_digest()
+            || grant.lineage_ref.as_deref() != Some(lineage_ref.as_str())
             || grant.owner_commit_sha256 != keyed("owner", cut.owner_commit_id())
             || grant.lease_sha256 != keyed("lease", cut.lease_id())
             || (status == Status::Expired && now < grant.expires_at)
@@ -518,6 +582,10 @@ fn validate_shepherd_preimage(
         || p.projection.schema != "adl.shepherd-serving-eligibility.projection.v1"
         || p.receipt_sha256 != p.projection.receipt_sha256
         || p.state_sha256 != p.projection.state_sha256
+        || p.projection
+            .lineage_ref
+            .as_deref()
+            .is_none_or(|value| !is_sha256(value))
         || !is_sha256(&p.payload_sha256)
         || !is_sha256(&p.receipt_sha256)
         || !is_sha256(&p.state_sha256)
@@ -554,6 +622,7 @@ fn projection(
 fn stored_projection(state: &State) -> StoredProjection {
     let grant = state.current.as_ref();
     StoredProjection {
+        lineage_ref: grant.and_then(|g| g.lineage_ref.clone()),
         status: grant
             .map_or("vacant", |g| match g.status {
                 Status::Eligible => "eligible",
@@ -586,6 +655,7 @@ fn projection_from_receipt(
         schema: "adl.shepherd-serving-eligibility.projection.v1".into(),
         status: result.status.clone(),
         subject_ref: result.subject_ref.clone(),
+        lineage_ref: result.lineage_ref.clone(),
         fencing_generation: result.fencing_generation,
         expiry_class: result.expiry_class.clone(),
         foundation_state_sha256: result.foundation_state_sha256.clone(),
@@ -615,6 +685,7 @@ fn grant_input_sha256(
 ) -> Result<String, ShepherdEligibilityError> {
     validate_id(subject)?;
     let grant = Grant {
+        lineage_ref: Some(cut.lineage_ref()),
         subject_ref: keyed("subject", subject),
         permit_sha256: hex::encode(Sha256::digest(permit)),
         owner_commit_sha256: keyed("owner", cut.owner_commit_id()),
@@ -658,6 +729,7 @@ mod tests {
             receipt_sha256: "22".repeat(32),
             state_sha256: "33".repeat(32),
             projection: ShepherdEligibilityProjection {
+                lineage_ref: Some("99".repeat(32)),
                 schema: "adl.shepherd-serving-eligibility.projection.v1".into(),
                 status: "eligible".into(),
                 subject_ref: Some("44".repeat(32)),
@@ -700,5 +772,28 @@ mod tests {
             .unwrap()
             .insert("unknown".into(), true.into());
         assert!(serde_json::from_value::<ShepherdCommittedPreimage>(unknown).is_err());
+
+        let mut missing = valid_preimage();
+        missing.projection.lineage_ref = None;
+        assert_eq!(
+            seal_shepherd_projection(missing),
+            Err(ShepherdEligibilityError::Serialization)
+        );
+
+        let legacy_json = serde_json::json!({
+            "subject_ref": "44".repeat(32),
+            "permit_sha256": "55".repeat(32),
+            "owner_commit_sha256": "66".repeat(32),
+            "lease_sha256": "77".repeat(32),
+            "foundation_state_sha256": "88".repeat(32),
+            "foundation_result_sha256": "99".repeat(32),
+            "foundation_generation": 3,
+            "foundation_receipt_sha256": "aa".repeat(32),
+            "fencing_generation": 7,
+            "expires_at": 10,
+            "status": "eligible"
+        });
+        let legacy: Grant = serde_json::from_value(legacy_json).unwrap();
+        assert_eq!(legacy.lineage_ref, None);
     }
 }
