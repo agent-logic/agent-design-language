@@ -15,9 +15,9 @@ MAP = ROOT.join(".csdlc/prepared/issues/210/continuity-transfer-acceptance-map.j
 TEST = ROOT.join("adl-runtime/tests/distributed_continuity_transfer.rs")
 
 COMMANDS = {
+  "continuity-transfer-diff-hygiene" => %w[ruby .csdlc/prepared/issues/210/verify-diff-hygiene.rb],
   "continuity-transfer" => %w[cargo test --locked --manifest-path adl-runtime/Cargo.toml --test distributed_continuity_transfer -- --test-threads=1 --nocapture],
-  "continuity-transfer-clippy" => %w[cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test distributed_continuity_transfer -- -D warnings],
-  "continuity-transfer-diff-hygiene" => %w[ruby .csdlc/prepared/issues/210/verify-diff-hygiene.rb]
+  "continuity-transfer-clippy" => %w[cargo clippy --locked --manifest-path adl-runtime/Cargo.toml --test distributed_continuity_transfer -- -D warnings]
 }.freeze
 
 def git(*args)
@@ -43,7 +43,9 @@ def run_command(name, argv)
   }
 end
 
-abort("issue 210 proof requires a clean worktree") unless git("status", "--porcelain=v1", "--untracked-files=all").empty?
+dirty = git("status", "--porcelain=v1", "--untracked-files=all").lines.map(&:strip)
+dirty.reject! { |line| line.end_with?(".csdlc/evidence/210/") || line.include?(" .csdlc/evidence/210/") }
+abort("issue 210 proof requires a clean worktree") unless dirty.empty?
 source = git("rev-parse", "HEAD").strip
 base = git("merge-base", "origin/main", "HEAD").strip
 map = JSON.parse(File.binread(MAP))

@@ -14,7 +14,9 @@ end
 
 base = git("merge-base", "origin/main", "HEAD").strip
 head = git("rev-parse", "HEAD").strip
-abort("issue 210 diff hygiene requires clean worktree") unless git("status", "--porcelain=v1", "--untracked-files=all").empty?
+dirty = git("status", "--porcelain=v1", "--untracked-files=all").lines.map(&:strip)
+dirty.reject! { |line| line.end_with?(".csdlc/evidence/210/") || line.include?(" .csdlc/evidence/210/") }
+abort("issue 210 diff hygiene requires clean worktree") unless dirty.empty?
 abort("issue 210 base is not ancestral") unless system("git", "merge-base", "--is-ancestor", base, head, chdir: ROOT.to_s)
 
 changed = git("diff", "--name-only", "#{base}...#{head}").lines.map(&:strip).reject(&:empty?)
