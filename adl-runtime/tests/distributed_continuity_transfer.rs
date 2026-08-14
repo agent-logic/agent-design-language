@@ -314,7 +314,10 @@ fn exact_duplicate_frame_is_cached_without_advancing_prefix() {
     let mut session = session();
     let first = frame(0);
     let accepted = accept_frame(&mut session, first.clone()).expect("first accepted");
-    let duplicate = accept_frame(&mut session, first).expect("duplicate cached");
+    let mut retry_after_deadline = first;
+    retry_after_deadline.observed_unix_millis = after_deadline_millis();
+    let duplicate =
+        accept_frame(&mut session, retry_after_deadline).expect("duplicate cached after deadline");
     assert_eq!(duplicate.accepted_prefix, accepted.accepted_prefix);
     assert!(duplicate.duplicate);
     assert_eq!(session.accepted_prefix(), accepted.accepted_prefix);

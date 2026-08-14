@@ -310,7 +310,6 @@ impl ContinuityTransferSession {
         if self.aborted.is_some() {
             return Err(ContinuityTransferError::Aborted);
         }
-        validate_observed_deadline(frame.observed_unix_millis, &self.grant.inclusive_deadline)?;
         if frame.transfer_id != self.grant.transfer_id {
             return Err(ContinuityTransferError::WrongAuthority);
         }
@@ -337,6 +336,7 @@ impl ContinuityTransferSession {
             }
             return Err(ContinuityTransferError::Conflict);
         }
+        validate_observed_deadline(frame.observed_unix_millis, &self.grant.inclusive_deadline)?;
         if frame.chunk_index != self.next_chunk_index
             || frame.absolute_start != self.accepted_prefix
         {
