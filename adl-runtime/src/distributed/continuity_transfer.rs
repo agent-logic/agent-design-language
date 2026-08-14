@@ -20,6 +20,7 @@ use crate::distributed::authority_protocol::{
 const DEFAULT_MAX_FRAME_BYTES: u64 = 1024 * 1024;
 const DEFAULT_MAX_TOTAL_BYTES: u64 = 256 * 1024 * 1024;
 const DEFAULT_MAX_CHUNKS: usize = 65_536;
+const JOURNAL_SCHEMA: &str = "adl.runtime.continuity-transfer.journal.v1";
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum ContinuityTransferError {
@@ -39,6 +40,7 @@ pub enum ContinuityTransferError {
     Encoding,
     Aborted,
     CleanupAuthority,
+    CorruptJournal,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -129,6 +131,18 @@ pub struct ContinuityTransferAbortReceipt {
     pub zero_residue_attested: bool,
 }
 
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ContinuityTransferJournalState {
+    pub schema: String,
+    pub transfer_id_sha256: [u8; 32],
+    pub accepted_prefix: u64,
+    pub next_chunk_index: u64,
+    pub predecessor_sha256: Option<[u8; 32]>,
+    pub accepted: BTreeMap<u64, ContinuityTransferFrameReceipt>,
+    pub aborted: Option<ContinuityTransferAbortReceipt>,
+}
+
 #[derive(Clone, Debug)]
 pub struct ContinuityTransferSession {
     grant: ContinuityTransferGrantArtifact,
@@ -171,6 +185,29 @@ impl ContinuityTransferSession {
 
     pub fn accepted_prefix(&self) -> u64 {
         self.accepted_prefix
+    }
+
+    pub fn restore(
+        artifact: &CommittedAuthorityArtifact,
+        expected: ContinuityTransferExpectation,
+        policy: ContinuityTransferPolicy,
+        journal: ContinuityTransferJournalState,
+    ) -> Result<Self, ContinuityTransferError> {
+        let mut session = Self::open(artifact, expected, policy)?;
+        session.apply_journal(journal)?;
+        Ok(session)
+    }
+
+    pub fn journal(&self) -> ContinuityTransferJournalState {
+        ContinuityTransferJournalState {
+            schema: JOURNAL_SCHEMA.to_owned(),
+            transfer_id_sha256: sha256_array(self.grant.transfer_id.as_bytes()),
+            accepted_prefix: self.accepted_prefix,
+            next_chunk_index: self.next_chunk_index,
+            predecessor_sha256: self.predecessor_sha256,
+            accepted: self.accepted.clone(),
+            aborted: self.aborted.clone(),
+        }
     }
 
     pub fn accept_frame(
@@ -304,6 +341,68 @@ impl ContinuityTransferSession {
         };
         self.aborted = Some(receipt.clone());
         Ok(receipt)
+    }
+
+    fn apply_journal(
+        &mut self,
+        journal: ContinuityTransferJournalState,
+    ) -> Result<(), ContinuityTransferError> {
+        if journal.schema != JOURNAL_SCHEMA
+            || journal.transfer_id_sha256 != sha256_array(self.grant.transfer_id.as_bytes())
+            || journal.accepted.len() > self.grant.chunks.len()
+            || journal.next_chunk_index as usize != journal.accepted.len()
+            || journal.next_chunk_index > self.grant.chunks.len() as u64
+        {
+            return Err(ContinuityTransferError::CorruptJournal);
+        }
+        let mut expected_prefix = 0_u64;
+        let mut predecessor = None;
+        for index in 0..journal.next_chunk_index {
+            let receipt = journal
+                .accepted
+                .get(&index)
+                .ok_or(ContinuityTransferError::CorruptJournal)?;
+            let chunk = self
+                .grant
+                .chunks
+                .get(index as usize)
+                .ok_or(ContinuityTransferError::CorruptJournal)?;
+            if receipt.duplicate
+                || receipt.transfer_id_sha256 != journal.transfer_id_sha256
+                || receipt.chunk_index != index
+                || receipt.absolute_start != expected_prefix
+                || receipt.length != chunk.length
+                || receipt.payload_sha256 != chunk.sha256
+                || receipt.accepted_prefix
+                    != expected_prefix
+                        .checked_add(chunk.length)
+                        .ok_or(ContinuityTransferError::CorruptJournal)?
+                || chunk.predecessor_sha256 != predecessor
+            {
+                return Err(ContinuityTransferError::CorruptJournal);
+            }
+            expected_prefix = receipt.accepted_prefix;
+            predecessor = Some(receipt.payload_sha256);
+        }
+        if journal.accepted_prefix != expected_prefix || journal.predecessor_sha256 != predecessor {
+            return Err(ContinuityTransferError::CorruptJournal);
+        }
+        if let Some(abort) = &journal.aborted {
+            if abort.transfer_id_sha256 != journal.transfer_id_sha256
+                || abort.cleanup_identity_sha256
+                    != sha256_array(self.grant.cleanup_identity.as_bytes())
+                || abort.accepted_prefix != journal.accepted_prefix
+                || !abort.zero_residue_attested
+            {
+                return Err(ContinuityTransferError::CorruptJournal);
+            }
+        }
+        self.accepted_prefix = journal.accepted_prefix;
+        self.next_chunk_index = journal.next_chunk_index;
+        self.predecessor_sha256 = journal.predecessor_sha256;
+        self.accepted = journal.accepted;
+        self.aborted = journal.aborted;
+        Ok(())
     }
 }
 

@@ -345,3 +345,79 @@ fn abort_is_idempotent_redacted_and_stops_later_frames() {
     marker("CASE-031:cancellation_midstream");
     marker("CASE-044:zero_residue_abort");
 }
+
+#[test]
+fn journal_restore_resumes_exact_prefix_without_raw_payload() {
+    let mut session = session();
+    let accepted = session.accept_frame(frame(0)).expect("first accepted");
+    let journal = session.journal();
+    assert_eq!(journal.accepted_prefix, accepted.accepted_prefix);
+    assert_eq!(journal.accepted.len(), 1);
+
+    let mut restored = ContinuityTransferSession::restore(
+        &artifact(),
+        expectation(),
+        ContinuityTransferPolicy::bounded(64, 128, 4),
+        journal,
+    )
+    .expect("restore accepted prefix");
+    assert_eq!(restored.accepted_prefix(), accepted.accepted_prefix);
+    restored.accept_frame(frame(1)).expect("resume second");
+    assert_eq!(restored.finish().expect("complete").chunk_count, 2);
+    marker("CASE-005:resume_after_partition");
+    marker("CASE-032:source_restart_resume");
+    marker("CASE-033:target_restart_resume");
+    marker("CASE-035:crash_after_frame_write");
+    marker("CASE-036:crash_after_prefix_receipt");
+    marker("CASE-040:reply_loss_retry");
+}
+
+#[test]
+fn corrupt_or_rollback_journal_is_denied() {
+    let mut session = session();
+    session.accept_frame(frame(0)).expect("first accepted");
+
+    let mut wrong_transfer = session.journal();
+    wrong_transfer.transfer_id_sha256 = sha(b"wrong-transfer");
+    assert_eq!(
+        ContinuityTransferSession::restore(
+            &artifact(),
+            expectation(),
+            ContinuityTransferPolicy::bounded(64, 128, 4),
+            wrong_transfer,
+        )
+        .unwrap_err(),
+        ContinuityTransferError::CorruptJournal
+    );
+
+    let mut rollback = session.journal();
+    rollback.accepted_prefix = 0;
+    assert_eq!(
+        ContinuityTransferSession::restore(
+            &artifact(),
+            expectation(),
+            ContinuityTransferPolicy::bounded(64, 128, 4),
+            rollback,
+        )
+        .unwrap_err(),
+        ContinuityTransferError::CorruptJournal
+    );
+
+    let mut duplicate_receipt = session.journal();
+    duplicate_receipt
+        .accepted
+        .get_mut(&0)
+        .expect("receipt")
+        .duplicate = true;
+    assert_eq!(
+        ContinuityTransferSession::restore(
+            &artifact(),
+            expectation(),
+            ContinuityTransferPolicy::bounded(64, 128, 4),
+            duplicate_receipt,
+        )
+        .unwrap_err(),
+        ContinuityTransferError::CorruptJournal
+    );
+    marker("CASE-042:coherent_rollback_denied");
+}
