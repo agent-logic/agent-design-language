@@ -73,11 +73,11 @@ Narrow Implemented SPP summary recovery to the exact approved typed repair epoch
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
