@@ -7,16 +7,70 @@
     "title": "[C-SDLC v2][defect] Permit sequenced implemented plan-summary repair after review recovery",
     "slug": "implemented-plan-summary-recovery-epoch",
     "version": "v0.92",
-    "generation": 4
+    "generation": 5
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Pre-execution output record.",
-      "actual_changes": [],
-      "artifacts": [],
-      "actual_validation": [],
+      "summary": "Permit one sequenced Implemented SPP summary correction within a bounded review-recovery epoch.",
+      "actual_changes": [
+        "Explicit parsed allowlist for typed intervening repair operations",
+        "Second correction unknown operation and current review/publication fail closed",
+        "Correction audit binds recovery sequence and generation"
+      ],
+      "artifacts": [
+        "csdlc-v2/src/store.rs",
+        "csdlc-v2/tests/gate5.rs"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Strict csdlc-v2 Clippy.",
+          "outcome": "passed",
+          "evidence_ref": "clippy.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate5",
+            "recovered_issue_can_correct_only_the_spp_plan_summary"
+          ],
+          "purpose": "Run existing gate5 regression.",
+          "outcome": "passed",
+          "evidence_ref": "focused-existing.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate5",
+            "implemented_plan_summary_recovery_survives_allowed_intervening_repairs"
+          ],
+          "purpose": "Run new gate5 regression.",
+          "outcome": "passed",
+          "evidence_ref": "focused-new.log"
+        }
+      ],
       "integration_state": "not_started",
       "publication_state": "not_published",
       "merge_state": "not_merged",

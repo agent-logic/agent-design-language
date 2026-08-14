@@ -4,3 +4,4 @@
 {"sequence":4,"generation":3,"actor":"fresh-session:eee15d33-cab2-424a-8c35-8310ac08ffa1","reason":"approve completed issue design","operation":"approve_design"}
 {"sequence":5,"generation":4,"actor":"codex:issue-363-bootstrap","reason":"Declare the exact executable preparation validator path for readiness classification.","operation":"{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate5.rs\",\".csdlc/prepared/issues/363/validate_preparation.py\",\".csdlc/issues/363\",\".csdlc/prepared/issues/363\",\".csdlc/evidence/363\"]}"}
 {"sequence":6,"generation":4,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
+{"sequence":7,"generation":5,"actor":"codex:issue-363-implementation","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
