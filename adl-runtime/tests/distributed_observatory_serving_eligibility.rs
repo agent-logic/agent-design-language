@@ -12,6 +12,7 @@ use adl_runtime::distributed::{
 };
 use std::{
     collections::BTreeMap,
+    fs,
     sync::{Arc, Mutex},
 };
 use tempfile::TempDir;
@@ -118,6 +119,10 @@ fn authenticated_lifecycle_and_restart_are_monotone() {
     );
     let revoked = s.apply(&v, &vc, deadline, 123_456_789).unwrap();
     assert_eq!(revoked.status, "revoked");
+    let sealed = s.committed_projection().unwrap().unwrap();
+    assert_eq!(sealed.child_kind(), "observatory");
+    assert_eq!(sealed.status(), "revoked");
+    assert_eq!(sealed.receipt_sha256(), revoked.receipt_sha256);
     let (revive, revive_cut, _) = pair(
         "revive",
         "revive",
@@ -132,7 +137,48 @@ fn authenticated_lifecycle_and_restart_are_monotone() {
     assert_eq!(s.apply(&v, &vc, deadline, 123_456_789).unwrap(), revoked);
     drop(s);
     let mut s = open(&d, auth);
+    let reopened = s.committed_projection().unwrap().unwrap();
+    assert_eq!(
+        reopened.canonical_bytes().unwrap(),
+        sealed.canonical_bytes().unwrap()
+    );
+    assert_eq!(reopened.provenance_sha256(), sealed.provenance_sha256());
+    let sealed_text = String::from_utf8(sealed.canonical_bytes().unwrap()).unwrap();
+    assert!(!sealed_text.contains("trust-v"));
+    assert!(!sealed_text.contains("polis-v"));
     assert_eq!(s.apply(&v, &vc, deadline, 123_456_789).unwrap(), revoked);
+}
+
+#[test]
+fn empty_store_has_no_committed_projection() {
+    let d = TempDir::new().unwrap();
+    let s = open(&d, Arc::new(MemoryAuthority::default()));
+    assert!(s.committed_projection().unwrap().is_none());
+}
+
+#[test]
+fn corrupt_durable_payload_cannot_yield_committed_projection() {
+    let d = TempDir::new().unwrap();
+    let auth = Arc::new(MemoryAuthority::default());
+    {
+        let mut s = open(&d, auth.clone());
+        let (a, c, _) = pair(
+            "corrupt",
+            "corrupt",
+            2,
+            ObservatoryTransitionAction::Acquire,
+            None,
+        );
+        s.apply(&a, &c, 1_700_000_000, 123_456_789).unwrap();
+    }
+    let path = d.path().join("observatory-serving-eligibility.json");
+    let mut value: serde_json::Value = serde_json::from_slice(&fs::read(&path).unwrap()).unwrap();
+    value["payload"]["revision"] = 99.into();
+    fs::write(&path, serde_json::to_vec(&value).unwrap()).unwrap();
+    assert!(matches!(
+        ObservatoryEligibilityStore::open(&d.path().canonicalize().unwrap(), auth, 64),
+        Err(ObservatoryEligibilityError::Storage)
+    ));
 }
 #[test]
 fn stale_predecessor_overlap_and_conflicting_retry_fail_closed() {

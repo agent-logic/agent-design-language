@@ -14,6 +14,8 @@ use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::{collections::BTreeMap, path::Path, sync::Arc};
 const MAX: usize = 4096;
+const IJSON_MAX_INTEGER: u64 = 9_007_199_254_740_991;
+const SEALED_OBSERVATORY_DOMAIN: &str = "ADL-SEALED-OBSERVATORY-COMMITTED-PROJECTION-V1";
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub enum ObservatoryEligibilityError {
     InvalidAuthority,
@@ -115,7 +117,7 @@ impl CheckpointMetadataSource for State {
         })
     }
 }
-#[derive(Clone, Debug, Eq, PartialEq, Serialize)]
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub struct ObservatoryEligibilityProjection {
     pub schema: String,
     pub status: String,
@@ -131,6 +133,88 @@ pub struct ObservatoryEligibilityProjection {
     pub signer_count: usize,
     pub state_sha256: String,
     pub receipt_sha256: String,
+}
+/// Store-derived committed Observatory eligibility evidence.
+///
+/// ```compile_fail
+/// use adl_runtime::distributed::observatory_serving_eligibility::SealedObservatoryCommittedProjection;
+/// let _ = SealedObservatoryCommittedProjection { provenance_sha256: String::new() };
+/// ```
+#[derive(Clone, Debug, Eq, PartialEq, Serialize)]
+pub struct SealedObservatoryCommittedProjection {
+    preimage: ObservatoryCommittedPreimage,
+    provenance_sha256: String,
+}
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+struct ObservatoryCommittedPreimage {
+    domain: String,
+    child_kind: String,
+    envelope_generation: u64,
+    committed_revision: u64,
+    payload_sha256: String,
+    receipt_sha256: String,
+    state_sha256: String,
+    projection: ObservatoryEligibilityProjection,
+}
+impl SealedObservatoryCommittedProjection {
+    pub fn child_kind(&self) -> &str {
+        &self.preimage.child_kind
+    }
+    pub fn envelope_generation(&self) -> u64 {
+        self.preimage.envelope_generation
+    }
+    pub fn committed_revision(&self) -> u64 {
+        self.preimage.committed_revision
+    }
+    pub fn payload_sha256(&self) -> &str {
+        &self.preimage.payload_sha256
+    }
+    pub fn receipt_sha256(&self) -> &str {
+        &self.preimage.receipt_sha256
+    }
+    pub fn state_sha256(&self) -> &str {
+        &self.preimage.state_sha256
+    }
+    pub fn provenance_sha256(&self) -> &str {
+        &self.provenance_sha256
+    }
+    pub fn status(&self) -> &str {
+        &self.preimage.projection.status
+    }
+    pub fn trust_domain_ref(&self) -> Option<&str> {
+        self.preimage.projection.trust_domain_ref.as_deref()
+    }
+    pub fn polis_ref(&self) -> Option<&str> {
+        self.preimage.projection.polis_ref.as_deref()
+    }
+    pub fn lineage_ref(&self) -> Option<&str> {
+        self.preimage.projection.lineage_ref.as_deref()
+    }
+    pub fn operation_ref(&self) -> Option<&str> {
+        self.preimage.projection.operation_ref.as_deref()
+    }
+    pub fn committed_log_index(&self) -> u64 {
+        self.preimage.projection.committed_log_index
+    }
+    pub fn foundation_generation(&self) -> u64 {
+        self.preimage.projection.foundation_generation
+    }
+    pub fn fencing_generation(&self) -> u64 {
+        self.preimage.projection.fencing_generation
+    }
+    pub fn authority_result_sha256(&self) -> Option<&str> {
+        self.preimage.projection.authority_result_sha256.as_deref()
+    }
+    pub fn signer_set_sha256(&self) -> Option<&str> {
+        self.preimage.projection.signer_set_sha256.as_deref()
+    }
+    pub fn signer_count(&self) -> usize {
+        self.preimage.projection.signer_count
+    }
+    pub fn canonical_bytes(&self) -> Result<Vec<u8>, ObservatoryEligibilityError> {
+        serde_jcs::to_vec(self).map_err(|_| ObservatoryEligibilityError::Serialization)
+    }
 }
 pub struct ObservatoryEligibilityStore {
     store: CheckpointedJson<State>,
@@ -173,6 +257,37 @@ impl ObservatoryEligibilityStore {
             envelope,
             capacity,
         })
+    }
+    pub fn committed_projection(
+        &self,
+    ) -> Result<Option<SealedObservatoryCommittedProjection>, ObservatoryEligibilityError> {
+        let state = self.envelope.payload();
+        let Some(current) = state.current.as_ref() else {
+            return Ok(None);
+        };
+        let receipt = state
+            .operations
+            .get(&current.result)
+            .ok_or(ObservatoryEligibilityError::Serialization)?;
+        if receipt.result_state != normalized_final_state_digest(state, &current.result)? {
+            return Err(ObservatoryEligibilityError::Serialization);
+        }
+        let projection = output(receipt)?;
+        let payload_sha256 = digest(state)?;
+        if payload_sha256 != self.envelope.payload_sha256() {
+            return Err(ObservatoryEligibilityError::Serialization);
+        }
+        seal_observatory_projection(ObservatoryCommittedPreimage {
+            domain: SEALED_OBSERVATORY_DOMAIN.into(),
+            child_kind: "observatory".into(),
+            envelope_generation: self.envelope.generation(),
+            committed_revision: state.revision,
+            payload_sha256,
+            receipt_sha256: projection.receipt_sha256.clone(),
+            state_sha256: projection.state_sha256.clone(),
+            projection,
+        })
+        .map(Some)
     }
     pub fn apply(
         &mut self,
@@ -238,6 +353,57 @@ impl ObservatoryEligibilityStore {
         self.envelope = self.store.commit(&self.envelope, next)?;
         output(&receipt)
     }
+}
+fn seal_observatory_projection(
+    preimage: ObservatoryCommittedPreimage,
+) -> Result<SealedObservatoryCommittedProjection, ObservatoryEligibilityError> {
+    validate_observatory_preimage(&preimage)?;
+    let provenance_sha256 = hex::encode(Sha256::digest(
+        serde_jcs::to_vec(&preimage).map_err(|_| ObservatoryEligibilityError::Serialization)?,
+    ));
+    Ok(SealedObservatoryCommittedProjection {
+        preimage,
+        provenance_sha256,
+    })
+}
+#[cfg(test)]
+fn verify_sealed_observatory_projection(
+    sealed: &SealedObservatoryCommittedProjection,
+) -> Result<(), ObservatoryEligibilityError> {
+    validate_observatory_preimage(&sealed.preimage)?;
+    let expected = hex::encode(Sha256::digest(
+        serde_jcs::to_vec(&sealed.preimage)
+            .map_err(|_| ObservatoryEligibilityError::Serialization)?,
+    ));
+    if expected != sealed.provenance_sha256 {
+        return Err(ObservatoryEligibilityError::Serialization);
+    }
+    Ok(())
+}
+fn validate_observatory_preimage(
+    p: &ObservatoryCommittedPreimage,
+) -> Result<(), ObservatoryEligibilityError> {
+    if p.domain != SEALED_OBSERVATORY_DOMAIN
+        || p.child_kind != "observatory"
+        || p.envelope_generation > IJSON_MAX_INTEGER
+        || p.committed_revision == 0
+        || p.committed_revision > IJSON_MAX_INTEGER
+        || p.projection.schema != "adl.observatory-serving-eligibility.projection.v1"
+        || p.receipt_sha256 != p.projection.receipt_sha256
+        || p.state_sha256 != p.projection.state_sha256
+        || !is_sha256(&p.payload_sha256)
+        || !is_sha256(&p.receipt_sha256)
+        || !is_sha256(&p.state_sha256)
+    {
+        return Err(ObservatoryEligibilityError::Serialization);
+    }
+    Ok(())
+}
+fn is_sha256(value: &str) -> bool {
+    value.len() == 64
+        && value
+            .bytes()
+            .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
 }
 fn validate_transition(
     current: Option<&Grant>,
@@ -521,5 +687,62 @@ mod tests {
             normalized_final_state_digest(&state, &result).unwrap(),
             expected
         );
+    }
+
+    #[test]
+    fn sealed_committed_projection_private_provenance() {
+        let projection = ObservatoryEligibilityProjection {
+            schema: "adl.observatory-serving-eligibility.projection.v1".into(),
+            status: "eligible".into(),
+            trust_domain_ref: Some("11".repeat(32)),
+            polis_ref: Some("22".repeat(32)),
+            lineage_ref: Some("33".repeat(32)),
+            operation_ref: Some("44".repeat(32)),
+            committed_log_index: 2,
+            foundation_generation: 1,
+            fencing_generation: 1,
+            authority_result_sha256: Some("55".repeat(32)),
+            signer_set_sha256: Some("66".repeat(32)),
+            signer_count: 3,
+            state_sha256: "77".repeat(32),
+            receipt_sha256: "88".repeat(32),
+        };
+        let preimage = ObservatoryCommittedPreimage {
+            domain: SEALED_OBSERVATORY_DOMAIN.into(),
+            child_kind: "observatory".into(),
+            envelope_generation: 2,
+            committed_revision: 1,
+            payload_sha256: "99".repeat(32),
+            receipt_sha256: projection.receipt_sha256.clone(),
+            state_sha256: projection.state_sha256.clone(),
+            projection,
+        };
+        let sealed = seal_observatory_projection(preimage).unwrap();
+        verify_sealed_observatory_projection(&sealed).unwrap();
+        let bytes = serde_jcs::to_vec(&sealed.preimage).unwrap();
+        let reopened: ObservatoryCommittedPreimage = serde_json::from_slice(&bytes).unwrap();
+        assert_eq!(reopened, sealed.preimage);
+
+        for mutation in 0..6 {
+            let mut changed = sealed.clone();
+            match mutation {
+                0 => changed.preimage.child_kind = "shepherd".into(),
+                1 => changed.preimage.envelope_generation += 1,
+                2 => changed.preimage.committed_revision += 1,
+                3 => changed.preimage.receipt_sha256 = "aa".repeat(32),
+                4 => changed.preimage.projection.operation_ref = Some("bb".repeat(32)),
+                _ => changed.preimage.projection.committed_log_index += 1,
+            }
+            assert_eq!(
+                verify_sealed_observatory_projection(&changed),
+                Err(ObservatoryEligibilityError::Serialization)
+            );
+        }
+        let mut unknown = serde_json::to_value(&sealed.preimage).unwrap();
+        unknown
+            .as_object_mut()
+            .unwrap()
+            .insert("unknown".into(), true.into());
+        assert!(serde_json::from_value::<ObservatoryCommittedPreimage>(unknown).is_err());
     }
 }

@@ -1,0 +1,207 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 365
+
+Repository: agent-logic/agent-design-language
+
+Card: sor
+
+Status: pre_phase
+
+## Summary
+
+Seal committed Shepherd and Observatory eligibility projections behind store-derived opaque provenance.
+
+## Artifacts
+
+- adl-runtime/src/distributed/shepherd_serving_eligibility.rs
+- adl-runtime/src/distributed/observatory_serving_eligibility.rs
+- adl-runtime/tests/distributed_shepherd_serving_eligibility.rs
+- adl-runtime/tests/distributed_observatory_serving_eligibility.rs
+
+## Execution
+
+- Add opaque read-only committed projection types with private JCS provenance bindings
+- Derive sealed values only from authenticated durable envelopes and exact current receipts
+- Prove private substitution denial, normal-build construction denial, restart, corruption, and redaction
+
+## Validation
+
+[
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check",
+      "26de2a048cea436e5140a8ab5afa7524324b3b39...HEAD"
+    ],
+    "purpose": "Check whitespace at immutable base.",
+    "outcome": "passed",
+    "evidence_ref": "diff.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--lib",
+      "--features",
+      "internal-test-fixtures",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Strict feature-bearing library Clippy.",
+    "outcome": "passed",
+    "evidence_ref": "lib-clippy.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_observatory_serving_eligibility",
+      "--features",
+      "internal-test-fixtures",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Strict target Clippy.",
+    "outcome": "passed",
+    "evidence_ref": "observatory-clippy.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_observatory_serving_eligibility",
+      "--features",
+      "internal-test-fixtures",
+      "--",
+      "--test-threads=1"
+    ],
+    "purpose": "Run full exact integration target.",
+    "outcome": "passed",
+    "evidence_ref": "observatory-integration.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--lib",
+      "--features",
+      "internal-test-fixtures",
+      "distributed::observatory_serving_eligibility::tests::sealed_committed_projection_private_provenance",
+      "--",
+      "--exact",
+      "--test-threads=1"
+    ],
+    "purpose": "Exact nonzero private unit matrix.",
+    "outcome": "passed",
+    "evidence_ref": "observatory-unit.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--doc",
+      "--features",
+      "internal-test-fixtures"
+    ],
+    "purpose": "Run both compile-fail examples.",
+    "outcome": "passed",
+    "evidence_ref": "rustdoc.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_shepherd_serving_eligibility",
+      "--features",
+      "internal-test-fixtures",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Strict target Clippy.",
+    "outcome": "passed",
+    "evidence_ref": "shepherd-clippy.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "distributed_shepherd_serving_eligibility",
+      "--features",
+      "internal-test-fixtures",
+      "--",
+      "--test-threads=1"
+    ],
+    "purpose": "Run full exact integration target.",
+    "outcome": "passed",
+    "evidence_ref": "shepherd-integration.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--lib",
+      "--features",
+      "internal-test-fixtures",
+      "distributed::shepherd_serving_eligibility::tests::sealed_committed_projection_private_provenance",
+      "--",
+      "--exact",
+      "--test-threads=1"
+    ],
+    "purpose": "Exact nonzero private unit matrix.",
+    "outcome": "passed",
+    "evidence_ref": "shepherd-unit.log"
+  }
+]
+
+## Integration
+
+pr_open
+
+## Publication
+
+Publication: ready
+
+Merge: not_merged
+
+## Closeout
+
+not_started
+
+## Follow Ups
+
+- none
