@@ -1,6 +1,7 @@
 use adl_runtime::distributed::authority_protocol::{
-    CanonicalAuthorityTime, CommittedAuthorityArtifact, ContinuityTransferChunk,
-    ContinuityTransferEntry, ContinuityTransferGrantArtifact,
+    validate_continuity_transfer_binding, CanonicalAuthorityTime, CommittedAuthorityArtifact,
+    ContinuityTransferChunk, ContinuityTransferEntry, ContinuityTransferGrantArtifact,
+    CONTINUITY_TRANSFER_ADAPTER_210,
 };
 use adl_runtime::distributed::continuity_transfer::{
     ContinuityTransferError, ContinuityTransferExpectation, ContinuityTransferFrame,
@@ -376,6 +377,33 @@ fn wrong_transfer_and_incomplete_finish_are_denied() {
     );
     marker("CASE-017:unknown_kind_denied");
     marker("CASE-025:wrong_manifest_denied");
+}
+
+#[test]
+fn generic_or_confused_authority_binding_is_denied() {
+    let artifact = artifact();
+    let expected = expectation();
+    assert!(validate_continuity_transfer_binding(
+        &artifact,
+        "generic-send",
+        &expected.lineage_id,
+        &expected.source_checkpoint_handle_identity,
+        &expected.bundle_handle_identity,
+    )
+    .is_err());
+
+    let mut confused_artifact = artifact;
+    confused_artifact.domain = "adl.authority-artifact.membership.v1".to_owned();
+    assert!(validate_continuity_transfer_binding(
+        &confused_artifact,
+        CONTINUITY_TRANSFER_ADAPTER_210,
+        &expected.lineage_id,
+        &expected.source_checkpoint_handle_identity,
+        &expected.bundle_handle_identity,
+    )
+    .is_err());
+    marker("CASE-015:generic_send_denied");
+    marker("CASE-016:raft_rpc_confusion_denied");
 }
 
 #[test]
