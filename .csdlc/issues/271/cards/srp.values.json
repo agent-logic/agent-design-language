@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-18C.02d][112.d] Integrate Layer 8 authority and delivery states into Observatory",
     "slug": "layer8-authority-observatory",
     "version": "v0.92.0",
-    "generation": 11
+    "generation": 14
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact #271 issue/prepared/evidence plus app.js, styles.css, validate_layer8_authority_observatory_ui.sh, existing real recipient_ack runtime proof evidence, authentic handler-output artifact handoff, and post-bind exact three-path scope validator.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
@@ -24,10 +24,7 @@
         "Does post-bind scope validation compare execution base to current main and restrict product/test changes to exactly app.js, styles.css, and validate_layer8_authority_observatory_ui.sh without requiring any fourth non-issue-local proof script?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Product implementation has not started; runtime/browser/scope wrappers are deferred until bind.",
-        "Fresh design review is still required before bind."
-      ],
+      "residual_risk": [],
       "review_result": "pre_review"
     }
   }

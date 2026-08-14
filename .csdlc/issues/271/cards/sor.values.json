@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18C.02d][112.d] Integrate Layer 8 authority and delivery states into Observatory",
     "slug": "layer8-authority-observatory",
     "version": "v0.92.0",
-    "generation": 11
+    "generation": 14
   },
   "status": "pre_phase",
   "content": {
@@ -82,13 +82,14 @@
           "evidence_ref": ".csdlc/evidence/271/diff-check.log; clean"
         }
       ],
-      "integration_state": "not_started",
+      "integration_state": "worktree_only",
       "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": [
         "Run fresh design review before bind.",
-        "After bind, create the exact browser/scope proof and issue-local authentic handler-output evidence before implementation review."
+        "After bind, create the exact browser/scope proof and issue-local authentic handler-output evidence before implementation review.",
+        "R1 remediation note: the prior design-review and proof-before-review follow-up bullets are completed/superseded by generation 13 typed state; remaining gate is fresh exact-head implementation rereview and publication."
       ]
     }
   }

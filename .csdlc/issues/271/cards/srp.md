@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Exact #271 issue/prepared/evidence plus app.js, styles.css, validate_layer8_authority_observatory_ui.sh, existing real recipient_ack runtime proof evidence, authentic handler-output artifact handoff, and post-bind exact three-path scope validator.
+
 
 ## Prompts
 
@@ -32,8 +32,7 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Product implementation has not started; runtime/browser/scope wrappers are deferred until bind.
-- Fresh design review is still required before bind.
+- none
 
 ## Review Result
 

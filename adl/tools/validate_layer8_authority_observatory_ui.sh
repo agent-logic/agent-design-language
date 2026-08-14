@@ -87,23 +87,31 @@ if (!outcomes.some((item) => item.name === "action_release" && item.actionEnable
 const elements = new Map();
 function element(id = "") {
   if (!elements.has(id)) {
-    elements.set(id, {
+    const item = {
       id,
       dataset: {},
       attributes: {},
       children: [],
       textContent: "",
-      innerHTML: "",
+      _innerHTML: "",
       setAttribute(name, value) { this.attributes[name] = String(value); },
       append(child) { this.children.push(child); }
+    };
+    Object.defineProperty(item, "innerHTML", {
+      get() { return this._innerHTML; },
+      set(value) {
+        this._innerHTML = String(value);
+        if (this._innerHTML.includes('id="layer8-delivery-count"')) element("layer8-delivery-count");
+        if (this._innerHTML.includes('id="layer8-delivery-list"')) {
+          element("layer8-delivery-list").attributes["aria-live"] = "polite";
+        }
+      }
     });
+    elements.set(id, item);
   }
   return elements.get(id);
 }
 element("root");
-element("layer8-delivery-panel");
-element("layer8-delivery-count");
-element("layer8-delivery-list").attributes["aria-live"] = "polite";
 context.document = {
   querySelector(selector) { return selector === ".ops-command" ? element("root") : null; },
   getElementById(id) { return elements.get(id) || null; },
@@ -113,6 +121,9 @@ context.document = {
 const renderedRows = api.renderLayer8DeliveryPanel(cases.map(([, input]) => input));
 if (renderedRows.length !== 8) throw new Error(`rendered ${renderedRows.length} rows instead of eight`);
 const list = element("layer8-delivery-list");
+if (list.attributes["aria-live"] !== "polite") {
+  throw new Error("app-created Layer 8 list is missing aria-live=polite");
+}
 if (!list.innerHTML.includes("Delivered") || !list.innerHTML.includes("Signed refusal")) {
   throw new Error("rendered Layer 8 panel is missing visible delivery/refusal states");
 }

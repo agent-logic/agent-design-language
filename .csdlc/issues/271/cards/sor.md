@@ -89,7 +89,7 @@ Implemented Layer 8 recipient-acknowledgement delivery-state presentation in the
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
@@ -105,3 +105,4 @@ not_started
 
 - Run fresh design review before bind.
 - After bind, create the exact browser/scope proof and issue-local authentic handler-output evidence before implementation review.
+- R1 remediation note: the prior design-review and proof-before-review follow-up bullets are completed/superseded by generation 13 typed state; remaining gate is fresh exact-head implementation rereview and publication.
