@@ -78,7 +78,7 @@ Permit one sequenced Implemented SPP summary correction within a bounded review-
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

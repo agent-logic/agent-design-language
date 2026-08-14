@@ -2457,7 +2457,6 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     if matches!(
         request.operation,
         SemanticOperation::CorrectPlanSummaryAfterRecovery { .. }
-            | SemanticOperation::CorrectRequiredOutcomeAfterRecovery { .. }
     ) {
         let latest_review_operation = record.audit.iter().rev().find(|event| {
             matches!(
@@ -2490,6 +2489,45 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
                     .iter()
                     .skip_while(|candidate| candidate.sequence <= event.sequence)
                     .all(|candidate| recovery_epoch_operation_is_allowed(&candidate.operation))
+        });
+        if !current_recovery
+            || record.review_assignment.is_some()
+            || record.review.is_some()
+            || record.publication.is_some()
+            || record.readiness.is_some()
+            || record.terminal.is_some()
+        {
+            return Err(V2Error::new(
+                ErrorCode::InvalidTransition,
+                "post-recovery text correction requires current typed recovery provenance and cleared review, publication, readiness, and terminal truth",
+            ));
+        }
+    }
+    if matches!(
+        request.operation,
+        SemanticOperation::CorrectRequiredOutcomeAfterRecovery { .. }
+    ) {
+        let latest_review_operation = record.audit.iter().rev().find(|event| {
+            matches!(
+                event.operation.as_str(),
+                "assign_review" | "record_review" | "recover_review"
+            )
+        });
+        let latest_transition = record.transitions.last();
+        let current_recovery = latest_review_operation.is_some_and(|event| {
+            event.operation == "recover_review"
+                && event.generation == record.generation
+                && latest_transition.is_some_and(|transition| {
+                    transition.to == LifecyclePhase::Implemented
+                        && matches!(
+                            transition.from,
+                            LifecyclePhase::Reviewed
+                                | LifecyclePhase::Published
+                                | LifecyclePhase::MergeReady
+                        )
+                        && transition.actor == event.actor
+                        && transition.reason == event.reason
+                })
         });
         if !current_recovery
             || record.review_assignment.is_some()
@@ -4095,22 +4133,13 @@ fn recovery_epoch_operation_is_allowed(operation: &str) -> bool {
     let Ok(value) = serde_json::from_str::<serde_json::Value>(operation) else {
         return false;
     };
-    matches!(
-        value.get("operation").and_then(serde_json::Value::as_str),
-        Some(
-            "replace_planning_collection"
-                | "replace_plan_steps"
-                | "replace_validation_lanes"
-                | "replace_acceptance_criteria"
-                | "correct_stp_deliverables_after_recovery"
-                | "correct_required_outcome_after_recovery"
-                | "correct_declared_scope_before_publication"
-                | "replace_operator_constraints"
-                | "correct_review_prompts_after_recovery"
-                | "replace_execution"
-                | "record_advisory_estimate"
-        )
-    )
+    match value.get("operation").and_then(serde_json::Value::as_str) {
+        Some("replace_planning_collection") => {
+            value.get("field").and_then(serde_json::Value::as_str) == Some("affected_areas")
+        }
+        Some("replace_plan_steps" | "replace_validation_lanes") => true,
+        _ => false,
+    }
 }
 
 fn hydrate_projections(

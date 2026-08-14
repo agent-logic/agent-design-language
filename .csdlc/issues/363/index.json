@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "45dae3c4af76973578c70a9d7e6cff4b2cdeb019280517a4625c27b7fcea4ff4",
   "phase": "implemented",
-  "generation": 5,
-  "digest": "e5d11d8da491fdd56d01428f4701be8fa632e32131c429e15033b36cda529282",
+  "generation": 7,
+  "digest": "74b62fb5e4b81fe8cfff50f4ad9739a2b7b14d9e787ac047200f2c483cc9d078",
   "branch": "codex/363-implemented-plan-summary-recovery-epoch",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-363-implemented-plan-summary-recovery-epoch",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0d62a0366190a3be35ead61af84674d9133037ab4839aba5eee62d3dce0d8279",
+      "values_digest": "ce16593fdf08fae94d3804a303654cb806e221c802bda00c50fe7639fc86c8e8",
       "rendered_digest": "92983499bdc30f420b0c4517fd77cb53e86bfa26bde3a022d26b84e56fac42ee",
       "ast_digest": "1ffeab73eb9d39109e8e8424900806180a802e932548b96b6365c279b8a44317"
     },
     "stp": {
-      "values_digest": "3cb3d0e266f110bbd9b6f8d9a0327636f8e28bf30c079f6a38f5985c7fa05324",
+      "values_digest": "f818927a24f50a90a34bbfc295fc51c02d32f18bd4cc0c53d39d9617c6536e84",
       "rendered_digest": "c974583675741dfa225d5c7d0c0d16d2ccc8efee728df08578d280abf2a14d31",
       "ast_digest": "d26ee49797f0cd8d02ba568cb9d9f31abaeb51f710b9b6578801bdb354a227eb"
     },
     "spp": {
-      "values_digest": "6bf3a11f2c74d200839a8eb568f1797c391949c399fc1b9161646dcd7c378cb0",
+      "values_digest": "049ed56ab91e6014c631dc3100dc39a305f2bc2a32d6ac86a7314b6904bb8f00",
       "rendered_digest": "c15292be999924c36798291b721f24d01d8de3df566b7fc7b61f4b11c507c9ab",
       "ast_digest": "a705039b9e265cf23ccded75e3a534a1a09964b7fb3dc481b0ef294696d1afb7"
     },
     "vpp": {
-      "values_digest": "394655da59d0de359428befc1531ec5fc629028b9aee8611919930426b056b7c",
+      "values_digest": "968e9c792c9317b60ee94005d0bf8c25d446c147ca000543b0276e3a21f76e04",
       "rendered_digest": "c2d652f128a41e30df9d608a47615c101c10460cc10629e450884439c07b5f9b",
       "ast_digest": "ea319e02b27f43824b4ffc064d802422ea2eeb3a3bc097dd479fc99533243c98"
     },
     "srp": {
-      "values_digest": "e40e85f18a382aefdf846594d237078e54c1b6f75246ea4f1e54830cfe8fc5c9",
-      "rendered_digest": "e8415a77faa2f4accde35397c182841d5fee30caec490e7f13a7c2ba8f1ae835",
-      "ast_digest": "2448ad31211eb26eebb85f24ece03f6e93c1b4af5794dafdac65aa1449ad5b8c"
+      "values_digest": "18866cacff9f71973cf8a72c0e0d1b1138f16f8249c8ee06454f058f4ee75785",
+      "rendered_digest": "5b63c210a99bb1670ad081ddeb63627e59ec676cf0b76c865a4ecc9341dfa4b8",
+      "ast_digest": "8285c8eb900fbfd95d283062528015cf321c299fe37d2aed01c715bd18b390ee"
     },
     "sor": {
-      "values_digest": "c5e4819d23c1737b5df7b445033873c4d9b092084b3f9fefc5f7c6b57139a16b",
-      "rendered_digest": "2cd4271fc8afccc5bd805eac9b800a2cf9ba9980de6d7b4f15a08083279cb59b",
-      "ast_digest": "08c4b7d26047f6a25755ded49f148355769415e2ffded0466e49d950da31d9d7"
+      "values_digest": "40f57071708a542a7fd8434d10e8fa63bde2e8bdc087cba20e337d78347952a3",
+      "rendered_digest": "035edbfd1368cba1d6074d8614d6a203a2a3a492d68b7398f7b5ef9bde5bb3b9",
+      "ast_digest": "21330beb88a89bc8bfe543b5bf687f4c8c5a9076ec80c8063e50666881c9eef0"
     }
   },
   "transitions": [
@@ -126,6 +126,27 @@
       "actor": "codex:issue-363-implementation",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:issue-363-review",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "fresh-session:4e980f11-a366-4c81-be6c-0c39cfd87a30",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:issue-363-r1-remediation",
+      "reason": "Recover canonical R1 review before splitting summary/SIP guards, narrowing the allowlist, and proving the exact #274 chain.",
+      "operation": "recover_review"
     }
   ]
 }

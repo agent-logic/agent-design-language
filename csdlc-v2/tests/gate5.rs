@@ -1,15 +1,15 @@
 use csdlc_v2::cards::{FindingDisposition, FindingSeverity, PublicationState};
 use csdlc_v2::model::TransitionEvent;
 use csdlc_v2::{
-    assign_review, bind_issue, build_archived_projection_cleanup_request_from_recovery,
-    classify_preserved_projection, edit_issue, evaluate_publication_review,
-    evaluate_publication_review_in_repo, execute_archived_projection_cleanup, record_review,
-    ArchivedProjectionCleanupStatus, BindRequest, BootstrapRequest, CardKind, CleanupNodeIdentity,
-    CleanupNodeType, EditRequest, ErrorCode, FailedOperationLineage, InitialCardInput,
-    LifecyclePhase, NonSubstantiveProof, PlanningProfile, ProjectionCasAnchor,
-    ProjectionClassifyRequest, ProjectionRecoverRequest, ProjectionRecoveryCleanupBridgeRequest,
-    ReviewAssignmentRequest, ReviewEvidence, ReviewFindingEvidence, ReviewRecordRequest,
-    ReviewRecoveryRequest, SemanticOperation, Store,
+    approve_design, assign_review, bind_issue,
+    build_archived_projection_cleanup_request_from_recovery, classify_preserved_projection,
+    edit_issue, evaluate_publication_review, evaluate_publication_review_in_repo,
+    execute_archived_projection_cleanup, record_review, ArchivedProjectionCleanupStatus,
+    BindRequest, BootstrapRequest, CardKind, CleanupNodeIdentity, CleanupNodeType, EditRequest,
+    ErrorCode, FailedOperationLineage, InitialCardInput, LifecyclePhase, NonSubstantiveProof,
+    PlanningProfile, ProjectionCasAnchor, ProjectionClassifyRequest, ProjectionRecoverRequest,
+    ProjectionRecoveryCleanupBridgeRequest, ReviewAssignmentRequest, ReviewEvidence,
+    ReviewFindingEvidence, ReviewRecordRequest, ReviewRecoveryRequest, SemanticOperation, Store,
 };
 use std::os::unix::fs::{MetadataExt, PermissionsExt};
 
@@ -3317,7 +3317,8 @@ fn implemented_plan_summary_recovery_survives_allowed_intervening_repairs() {
         },
     )
     .expect("recover");
-    let repaired = edit_issue(
+    let recovery_event = recovered.audit.last().expect("recovery event").clone();
+    let mut repaired = edit_issue(
         &store,
         EditRequest {
             issue: 7,
@@ -3334,6 +3335,76 @@ fn implemented_plan_summary_recovery_survives_allowed_intervening_repairs() {
         },
     )
     .expect("allowed intervening repair");
+    assert_eq!(
+        edit_issue(
+            &store,
+            EditRequest {
+                issue: 7,
+                card: CardKind::Sip,
+                expected_generation: repaired.generation,
+                expected_digest: repaired.digest.clone(),
+                actor: "operator".into(),
+                reason: "required outcome must remain immediate-only".into(),
+                operation: SemanticOperation::CorrectRequiredOutcomeAfterRecovery {
+                    value: "must remain blocked".into(),
+                },
+                fail_after_backup: false,
+            }
+        )
+        .expect_err("intervening repairs must not widen SIP recovery")
+        .code,
+        ErrorCode::InvalidTransition
+    );
+    repaired = approve_design(
+        &store,
+        csdlc_v2::store::ApproveDesignRequest {
+            issue: 7,
+            expected_generation: repaired.generation,
+            expected_digest: repaired.digest,
+            reviewer: "fresh-session:11111111-1111-4111-8111-111111111111".into(),
+        },
+    )
+    .expect("approve repaired design");
+    let cards = store.load_cards(7).expect("cards for exact repair chain");
+    let csdlc_v2::cards::CardContent::Spp(spp) = &cards[&CardKind::Spp].content else {
+        panic!("SPP")
+    };
+    repaired = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Spp,
+            expected_generation: repaired.generation,
+            expected_digest: repaired.digest,
+            actor: "operator".into(),
+            reason: "replace plan steps".into(),
+            operation: SemanticOperation::ReplacePlanSteps {
+                steps: spp.steps.clone(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("replace plan steps");
+    let cards = store.load_cards(7).expect("cards for VPP repair");
+    let csdlc_v2::cards::CardContent::Vpp(vpp) = &cards[&CardKind::Vpp].content else {
+        panic!("VPP")
+    };
+    repaired = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Vpp,
+            expected_generation: repaired.generation,
+            expected_digest: repaired.digest,
+            actor: "operator".into(),
+            reason: "replace validation lanes".into(),
+            operation: SemanticOperation::ReplaceValidationLanes {
+                lanes: vpp.lanes.clone(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("replace validation lanes");
     let corrected = edit_issue(
         &store,
         EditRequest {
@@ -3351,6 +3422,11 @@ fn implemented_plan_summary_recovery_survives_allowed_intervening_repairs() {
     )
     .expect("summary correction after allowed repair");
     assert_eq!(corrected.audit.last().unwrap().actor, "operator");
+    let correction: serde_json::Value =
+        serde_json::from_str(&corrected.audit.last().expect("correction audit").operation)
+            .expect("structured correction audit");
+    assert_eq!(correction["recovery_sequence"], recovery_event.sequence);
+    assert_eq!(correction["recovery_generation"], recovery_event.generation);
     assert!(matches!(
         edit_issue(
             &store,

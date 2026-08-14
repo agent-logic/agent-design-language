@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Exact store recovery predicate tests audit provenance and no #274 or generic field mutation.
+
 
 ## Prompts
 
