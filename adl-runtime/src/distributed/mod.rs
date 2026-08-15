@@ -28,6 +28,7 @@ pub mod observatory_serving_eligibility;
 #[allow(dead_code)]
 pub mod recovery;
 pub mod resource_weather;
+pub mod runtime_continuity_bridge;
 pub mod serving_authority;
 pub mod shepherd_serving_eligibility;
 pub mod snapshot_catalog;
