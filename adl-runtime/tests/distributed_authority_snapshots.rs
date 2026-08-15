@@ -585,6 +585,10 @@ fn recovery_record() -> RecoveryRecord {
         owner_epoch: None,
         committed_log_index: None,
         authority_certificate_sha256: None,
+        serving_operation_ref: None,
+        serving_input_sha256: None,
+        serving_result_state_sha256: None,
+        serving_receipt_sha256: None,
         history: vec![RecoveryEvidence {
             phase: RecoveryPhase::Assessing,
             evidence_sha256: [6; 32],
