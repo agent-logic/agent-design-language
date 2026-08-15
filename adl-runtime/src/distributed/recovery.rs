@@ -15,6 +15,9 @@ use sha2::{Digest, Sha256};
 use super::authority_store_adapters::{AuthorityBoundFencingStore, AuthorityBoundLeaseLedger};
 use super::{
     fencing::{ActiveLeaseCheck, FenceCommit},
+    integrated_serving_authority_snapshot::{
+        IntegratedOutcome, IntegratedServingAuthoritySnapshotStore, IntegratedSnapshotReceipt,
+    },
     lease::{
         verify_certificate, AuthorityApplication, AuthorityLedger, AuthorityMembership,
         LeasePolicy, OperationClass,
@@ -150,6 +153,7 @@ pub enum RecoveryError {
     TimedOut,
     OperatorRequired,
     RevisionDrift,
+    ServingTransferRejected,
 }
 
 impl RecoveryError {
@@ -174,6 +178,7 @@ impl RecoveryError {
             Self::TimedOut => "timed_out",
             Self::OperatorRequired => "operator_required",
             Self::RevisionDrift => "revision_drift",
+            Self::ServingTransferRejected => "serving_transfer_rejected",
         }
     }
 }
@@ -272,6 +277,8 @@ pub enum RecoveryPhase {
     Restored,
     CommitPending,
     Committed,
+    ServingTransferPending,
+    ServingTransferred,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -347,6 +354,14 @@ pub struct RecoveryRecord {
     pub owner_epoch: Option<u64>,
     pub committed_log_index: Option<u64>,
     pub authority_certificate_sha256: Option<[u8; 32]>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub serving_operation_ref: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub serving_input_sha256: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub serving_result_state_sha256: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub serving_receipt_sha256: Option<String>,
     pub history: Vec<RecoveryEvidence>,
 }
 
@@ -386,6 +401,8 @@ pub enum RecoverySnapshotReason {
     Restored,
     CommitRequired,
     Committed,
+    ServingTransferRequired,
+    ServingTransferred,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -782,6 +799,10 @@ impl RecoveryStore {
             owner_epoch: None,
             committed_log_index: None,
             authority_certificate_sha256: None,
+            serving_operation_ref: None,
+            serving_input_sha256: None,
+            serving_result_state_sha256: None,
+            serving_receipt_sha256: None,
             history: vec![RecoveryEvidence {
                 phase: RecoveryPhase::Assessing,
                 evidence_sha256: request_sha256,
@@ -1406,6 +1427,86 @@ impl RecoveryStore {
         )
     }
 
+    pub fn transfer_serving_authority(
+        &mut self,
+        recovery_id: &[u8],
+        serving_authority: &mut IntegratedServingAuthoritySnapshotStore,
+    ) -> RecoveryResult<RecoveryRecord> {
+        let mut current = self.required_record(recovery_id)?.clone();
+        self.ensure_operation_live(&current, RecoveryPhase::ServingTransferPending)?;
+        if current.phase == RecoveryPhase::ServingTransferred {
+            validate_recovery_serving_record(&current, serving_authority)?;
+            let evidence = recovery_serving_transfer_evidence(&current)?;
+            return exact_retry(&current, RecoveryPhase::ServingTransferred, evidence);
+        }
+        if current.phase != RecoveryPhase::Committed
+            && current.phase != RecoveryPhase::ServingTransferPending
+        {
+            return Err(RecoveryError::InvalidTransition);
+        }
+        let intent = sha256_many(&[
+            b"ADL-RECOVERY-SERVING-TRANSFER-INTENT-V1\0",
+            recovery_id,
+            &current.migration_id,
+            &current.migration_record_sha256,
+            &current.authority_certificate_sha256.unwrap_or([0; 32]),
+        ]);
+        if current.phase == RecoveryPhase::Committed {
+            self.advance(
+                recovery_id,
+                &[RecoveryPhase::Committed],
+                RecoveryPhase::ServingTransferPending,
+                intent,
+                |_| {},
+            )?;
+            current = self.required_record(recovery_id)?.clone();
+        } else {
+            ensure_last_evidence(&current, RecoveryPhase::ServingTransferPending, intent)?;
+        }
+        let operation_ref = recovery_serving_operation_ref(recovery_id);
+        let expected_lineage_ref = serving_lineage_ref(&current.lineage_id)?;
+        let source_receipt = serving_authority
+            .recoverable_latest_receipt()
+            .map_err(|_| RecoveryError::ServingTransferRejected)?
+            .ok_or(RecoveryError::ServingTransferRejected)?;
+        validate_serving_source_lineage(&expected_lineage_ref, &source_receipt)?;
+        let receipt = serving_authority
+            .recover(&operation_ref)
+            .map_err(|_| RecoveryError::ServingTransferRejected)?;
+        let input_sha256 = receipt.input_sha256.clone();
+        let result_state_sha256 = receipt.result_state_sha256.clone();
+        let receipt_sha256 = receipt.receipt_sha256.clone();
+        validate_serving_receipt_fields(
+            &operation_ref,
+            &input_sha256,
+            &result_state_sha256,
+            &receipt_sha256,
+            &expected_lineage_ref,
+            &receipt,
+        )?;
+        self.ensure_post_action_live(recovery_id, RecoveryPhase::ServingTransferPending)?;
+        let evidence = recovery_serving_transfer_values_evidence(
+            recovery_id,
+            &current.migration_id,
+            &operation_ref,
+            &input_sha256,
+            &result_state_sha256,
+            &receipt_sha256,
+        );
+        self.advance(
+            recovery_id,
+            &[RecoveryPhase::ServingTransferPending],
+            RecoveryPhase::ServingTransferred,
+            evidence,
+            |record| {
+                record.serving_operation_ref = Some(operation_ref);
+                record.serving_input_sha256 = Some(input_sha256);
+                record.serving_result_state_sha256 = Some(result_state_sha256);
+                record.serving_receipt_sha256 = Some(receipt_sha256);
+            },
+        )
+    }
+
     #[allow(clippy::too_many_arguments)]
     fn restore_record(
         &mut self,
@@ -1710,6 +1811,8 @@ fn recovery_snapshot_reason(phase: RecoveryPhase) -> RecoverySnapshotReason {
         RecoveryPhase::Restored => RecoverySnapshotReason::Restored,
         RecoveryPhase::CommitPending => RecoverySnapshotReason::CommitRequired,
         RecoveryPhase::Committed => RecoverySnapshotReason::Committed,
+        RecoveryPhase::ServingTransferPending => RecoverySnapshotReason::ServingTransferRequired,
+        RecoveryPhase::ServingTransferred => RecoverySnapshotReason::ServingTransferred,
     }
 }
 
@@ -1925,6 +2028,136 @@ fn clear_owner(record: &mut RecoveryRecord) {
     record.authority_certificate_sha256 = None;
 }
 
+fn validate_serving_receipt_fields(
+    operation_ref: &str,
+    input_sha256: &str,
+    result_state_sha256: &str,
+    receipt_sha256: &str,
+    expected_lineage_ref: &str,
+    receipt: &IntegratedSnapshotReceipt,
+) -> RecoveryResult<()> {
+    if receipt.operation_ref != operation_ref
+        || receipt.outcome != IntegratedOutcome::Recovery
+        || receipt.shepherd.lineage_ref != expected_lineage_ref
+        || receipt.observatory.lineage_ref != expected_lineage_ref
+        || receipt.input_sha256 != input_sha256
+        || receipt.result_state_sha256 != result_state_sha256
+        || receipt.receipt_sha256 != receipt_sha256
+        || !is_sha256_text(input_sha256)
+        || !is_sha256_text(result_state_sha256)
+        || !is_sha256_text(receipt_sha256)
+    {
+        return Err(RecoveryError::ServingTransferRejected);
+    }
+    Ok(())
+}
+
+fn validate_serving_source_lineage(
+    expected_lineage_ref: &str,
+    receipt: &IntegratedSnapshotReceipt,
+) -> RecoveryResult<()> {
+    if receipt.shepherd.lineage_ref != expected_lineage_ref
+        || receipt.observatory.lineage_ref != expected_lineage_ref
+    {
+        return Err(RecoveryError::ServingTransferRejected);
+    }
+    Ok(())
+}
+
+fn validate_recovery_serving_record(
+    record: &RecoveryRecord,
+    serving_authority: &IntegratedServingAuthoritySnapshotStore,
+) -> RecoveryResult<()> {
+    let operation_ref = record
+        .serving_operation_ref
+        .as_deref()
+        .ok_or(RecoveryError::ServingTransferRejected)?;
+    let input_sha256 = record
+        .serving_input_sha256
+        .as_deref()
+        .ok_or(RecoveryError::ServingTransferRejected)?;
+    let result_state_sha256 = record
+        .serving_result_state_sha256
+        .as_deref()
+        .ok_or(RecoveryError::ServingTransferRejected)?;
+    let receipt_sha256 = record
+        .serving_receipt_sha256
+        .as_deref()
+        .ok_or(RecoveryError::ServingTransferRejected)?;
+    let receipt = serving_authority
+        .receipt(operation_ref)
+        .ok_or(RecoveryError::ServingTransferRejected)?;
+    let expected_lineage_ref = serving_lineage_ref(&record.lineage_id)?;
+    validate_serving_receipt_fields(
+        operation_ref,
+        input_sha256,
+        result_state_sha256,
+        receipt_sha256,
+        &expected_lineage_ref,
+        receipt,
+    )
+}
+
+fn recovery_serving_operation_ref(recovery_id: &[u8]) -> String {
+    format!("recovery:{}", projection_ref(b"recovery", recovery_id))
+}
+
+fn serving_lineage_ref(lineage_id: &[u8]) -> RecoveryResult<String> {
+    let lineage = std::str::from_utf8(lineage_id).map_err(|_| RecoveryError::MigrationMismatch)?;
+    Ok(hex::encode(Sha256::digest(format!(
+        "ADL-SERVING-REF-V1\0lineage\0{lineage}"
+    ))))
+}
+
+fn recovery_serving_transfer_values_evidence(
+    recovery_id: &[u8],
+    migration_id: &[u8],
+    operation_ref: &str,
+    input_sha256: &str,
+    result_state_sha256: &str,
+    receipt_sha256: &str,
+) -> [u8; 32] {
+    sha256_many(&[
+        b"ADL-RECOVERY-SERVING-TRANSFER-V1\0",
+        recovery_id,
+        migration_id,
+        operation_ref.as_bytes(),
+        input_sha256.as_bytes(),
+        result_state_sha256.as_bytes(),
+        receipt_sha256.as_bytes(),
+    ])
+}
+
+fn recovery_serving_transfer_evidence(record: &RecoveryRecord) -> RecoveryResult<[u8; 32]> {
+    Ok(recovery_serving_transfer_values_evidence(
+        &record.recovery_id,
+        &record.migration_id,
+        record
+            .serving_operation_ref
+            .as_deref()
+            .ok_or(RecoveryError::ServingTransferRejected)?,
+        record
+            .serving_input_sha256
+            .as_deref()
+            .ok_or(RecoveryError::ServingTransferRejected)?,
+        record
+            .serving_result_state_sha256
+            .as_deref()
+            .ok_or(RecoveryError::ServingTransferRejected)?,
+        record
+            .serving_receipt_sha256
+            .as_deref()
+            .ok_or(RecoveryError::ServingTransferRejected)?,
+    ))
+}
+
+fn is_sha256_text(value: &str) -> bool {
+    value.len() == 64
+        && value
+            .bytes()
+            .all(|byte| byte.is_ascii_digit() || (b'a'..=b'f').contains(&byte))
+}
+
 fn collect_records(
     policy: &RecoveryPolicy,
     records: Vec<RecoveryRecord>,
@@ -1945,7 +2178,11 @@ fn collect_records(
 fn validate_record(policy: &RecoveryPolicy, record: &RecoveryRecord) -> RecoveryResult<()> {
     let owner_required = matches!(
         record.phase,
-        RecoveryPhase::Restored | RecoveryPhase::CommitPending | RecoveryPhase::Committed
+        RecoveryPhase::Restored
+            | RecoveryPhase::CommitPending
+            | RecoveryPhase::Committed
+            | RecoveryPhase::ServingTransferPending
+            | RecoveryPhase::ServingTransferred
     );
     let prefix_required = record
         .history
@@ -1976,6 +2213,16 @@ fn validate_record(policy: &RecoveryPolicy, record: &RecoveryRecord) -> Recovery
             RecoveryPhase::FencePending | RecoveryPhase::Fenced
         )
     });
+    let serving_field_count = [
+        record.serving_operation_ref.is_some(),
+        record.serving_input_sha256.is_some(),
+        record.serving_result_state_sha256.is_some(),
+        record.serving_receipt_sha256.is_some(),
+    ]
+    .into_iter()
+    .filter(|present| *present)
+    .count();
+    let serving_transferred = record.phase == RecoveryPhase::ServingTransferred;
     let transitions_valid = record.history.windows(2).all(|pair| {
         matches!(
             (pair[0].phase, pair[1].phase),
@@ -2025,6 +2272,18 @@ fn validate_record(policy: &RecoveryPolicy, record: &RecoveryRecord) -> Recovery
                     RecoveryPhase::CommitPending,
                     RecoveryPhase::OperatorRequired
                 )
+                | (
+                    RecoveryPhase::Committed,
+                    RecoveryPhase::ServingTransferPending
+                )
+                | (
+                    RecoveryPhase::ServingTransferPending,
+                    RecoveryPhase::ServingTransferred
+                )
+                | (
+                    RecoveryPhase::ServingTransferPending,
+                    RecoveryPhase::OperatorRequired
+                )
         )
     });
     if !valid_bytes(&record.recovery_id, policy.max_identity_bytes)
@@ -2045,6 +2304,9 @@ fn validate_record(policy: &RecoveryPolicy, record: &RecoveryRecord) -> Recovery
         || (prefix_required && !prefix_present)
         || !matches!(fence_field_count, 0 | 3)
         || (fence_required && fence_field_count != 3)
+        || !matches!(serving_field_count, 0 | 4)
+        || (serving_transferred && serving_field_count != 4)
+        || (!serving_transferred && serving_field_count != 0)
         || record.target_cleanup_required
             != matches!(
                 record.observed_migration_phase,
@@ -2060,6 +2322,8 @@ fn validate_record(policy: &RecoveryPolicy, record: &RecoveryRecord) -> Recovery
                 | RecoveryPhase::Restored
                 | RecoveryPhase::CommitPending
                 | RecoveryPhase::Committed
+                | RecoveryPhase::ServingTransferPending
+                | RecoveryPhase::ServingTransferred
         ) && record.target_cleanup_required
             && record.target_cleanup_receipt_sha256.is_none()
         || record.target_cleanup_receipt_sha256.is_some() && !record.target_cleanup_required
