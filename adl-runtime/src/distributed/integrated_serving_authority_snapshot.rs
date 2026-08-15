@@ -241,6 +241,15 @@ impl IntegratedServingAuthoritySnapshotStore {
         )
     }
 
+    pub fn recoverable_latest_receipt(
+        &self,
+    ) -> Result<Option<IntegratedSnapshotReceipt>, IntegratedSnapshotError> {
+        if self.recovery_source_revision != Some(self.envelope.payload().revision) {
+            return Err(IntegratedSnapshotError::InvalidInput);
+        }
+        latest_receipt(self.envelope.payload())
+    }
+
     fn append_observation(
         &mut self,
         operation_ref: &str,
