@@ -18,6 +18,19 @@ mod membership;
 #[allow(dead_code)]
 #[path = "../src/distributed/migration.rs"]
 mod migration;
+mod integrated_serving_authority_snapshot {
+    pub use adl_runtime::distributed::integrated_serving_authority_snapshot::*;
+}
+mod shepherd_serving_eligibility {
+    pub use adl_runtime::distributed::shepherd_serving_eligibility::*;
+}
+#[cfg(feature = "internal-test-fixtures")]
+mod distributed {
+    pub use adl_runtime::distributed::{
+        authority_protocol, observatory_serving_eligibility, polis_runtime, serving_authority,
+        shepherd_serving_eligibility,
+    };
+}
 #[allow(dead_code)]
 #[path = "../src/distributed/placement.rs"]
 mod placement;
