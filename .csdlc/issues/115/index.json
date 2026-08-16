@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "6b431e21b2b0a61991853e1f3f4a1bf51241907edaac9389f1c22998ae3334e7",
   "phase": "bound",
-  "generation": 15,
-  "digest": "71ce13516044e7eec2337cda43cb3c9aed6ede65564a627505f29a61eb6f8054",
+  "generation": 17,
+  "digest": "05f9937ced7ba6d471174bfa3ac323cb5c087031843fbec179e43f79605e1c86",
   "branch": "codex/115-governed-multi-agent-rooms",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-115-governed-multi-agent-rooms",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f093093ffb438234b66f9c907b8f6a759a5149e83c88c84e508723197ac3970a",
+      "values_digest": "38f4e6a44a1a056a7ab789608f1fb741f0138c028cd2a6df85198d20b372eb30",
       "rendered_digest": "ecadc343231ebf27f6cc2251766828eff504b8338d3bf9054daa17b13a178c93",
       "ast_digest": "e02db63fa0459d5bd0d779d49185ce9f2d0c99a6a3378a81fa7d5dcbda279605"
     },
     "stp": {
-      "values_digest": "3b10387ab4013ca92631edc72b9e009f364febd7e8d16405064fc70f817b6a30",
+      "values_digest": "1b36946674ff47dc3865a752953094ae99aa6ca302049b13ad5f14b42b6b2885",
       "rendered_digest": "52b7561d3147cf35a9d9e3e9c250bb2a4b29d24f74d72f0affff7e08a712c0df",
       "ast_digest": "35ee5ba28500c070fbcfd0489da6659b6a5043c0516503d3d603efd4c71b847c"
     },
     "spp": {
-      "values_digest": "1710066e47ef96f4dda6c4102c55e86b5a6a054c6382c04012a4558812160764",
+      "values_digest": "c982fb01f86cbf9e95011538ff11d1a79562f945985492fffb74e87cec374a6a",
       "rendered_digest": "e26bfe2140a9e173c825afa8ca0bc232861990e642e27fc8b62b7598d87bc095",
       "ast_digest": "16b4224ccc9852138207e7ea7650ab8597dacc0572143c308eaa3f9f51cc30f0"
     },
     "vpp": {
-      "values_digest": "5733cf8bb3ef9d5f612ec69379e38a16de855b131b232a3ea74996ee35b341e1",
+      "values_digest": "3c8ecf64df215956ddbadcfb95efe8dd2c0e7fc477b1849c0807e07e01d093e2",
       "rendered_digest": "5ba45045d2fec22c237ee9ef6da6228d1bde2612277d4955b7a8652ba1e41e62",
       "ast_digest": "eb8f2cb0c493fbb437ed0edfd5922ffea6758fd0731841881c2e8acdae1eb7b9"
     },
     "srp": {
-      "values_digest": "aeb4f7daa09584a86ebd98d36cc0eef81e5160c0626aa5880c1b858ac7104ac1",
+      "values_digest": "90f8aa280bf67319efbbc103dc842fb422ae7f1e83bb19acc33b6e7e33b40f51",
       "rendered_digest": "7773977e7456ba0297c9b92ae7413161c871cb4e7467ac90a241b7f5b5e529d7",
       "ast_digest": "d4d362c5933f3441a30ea40375adbc01c52aeaef43e90a8c49ad67dd81d9d057"
     },
     "sor": {
-      "values_digest": "047b53a859e727b12aa5117c173cc6507870d62488f5918a78c57cd09f6ff489",
-      "rendered_digest": "9f84fc66732d7841e80d95e11b96cfc7b1b3c7642aea6cfe3b36a0bbf2ae131a",
-      "ast_digest": "416aa078fe9d5b1c67a0ec92de27d7d051d0fca5ef264678dc3114fdda4e2546"
+      "values_digest": "48062ea98fb8960d58fb2d5e48390bf75e6594ccce8ae6fe8bee1146799b3254",
+      "rendered_digest": "146f03d00dd7a758b58a8b0fbf3cbc85063cb840364d6083bfeee5c2be1f8e60",
+      "ast_digest": "1ab5ff04f64c9b2f6e1e54dde8871b75145a87d2b6f84813499d99d5c2ed8e40"
     }
   },
   "transitions": [
@@ -190,6 +190,20 @@
       "actor": "codex:root",
       "reason": "Record #115 HTML Observatory smoke proof",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_html_observatory.sh\"],\"purpose\":\"Existing HTML Observatory Runtime v3, signed command, and roster projection contract smoke after adding governed room UI\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/115/html-observatory-smoke.log\"}}"
+    },
+    {
+      "sequence": 18,
+      "generation": 16,
+      "actor": "codex:root",
+      "reason": "Record #115 bounded governed room hardening",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Hardened the #115 governed room UI against accidental broad room sends by enforcing an explicit 1-8 recipient bound and removing a fragile CSS.escape selector dependency.\",\"changes\":[\"Rejected room turns with more than eight explicit recipients before send.\",\"Updated the UI help text to disclose the bounded 1-8 recipient contract.\",\"Rendered prepared room delivery labels from selected options without relying on CSS.escape availability.\"],\"artifacts\":[\"demos/html-observatory/app.js\",\"demos/html-observatory/index.html\",\"adl/tools/validate_v092_governed_room_observatory.mjs\",\".csdlc/evidence/115/governed-room-observatory-validation.json\"]}"
+    },
+    {
+      "sequence": 19,
+      "generation": 17,
+      "actor": "codex:root",
+      "reason": "Record #115 bounded governed room validator proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"node\",\"adl/tools/validate_v092_governed_room_observatory.mjs\"],\"purpose\":\"Focused #115 Observatory room proof after enforcing 1-8 explicit recipient bound\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/115/governed-room-observatory-validation.json\"}}"
     }
   ]
 }

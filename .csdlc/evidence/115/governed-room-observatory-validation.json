@@ -5,6 +5,7 @@
     "participants_filtered_and_state_mapped",
     "explicit_recipient_intent_sorted",
     "implicit_broadcast_denied",
+    "room_recipient_limit_enforced",
     "partial_delivery_rows_attributed",
     "static_room_dom_anchors_present"
   ]

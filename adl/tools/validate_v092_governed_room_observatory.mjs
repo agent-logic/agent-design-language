@@ -50,6 +50,19 @@ for (const recipients of [[], ["all"], ["*"], ["scribe", "scribe"], ["bad recipi
     `recipient set ${JSON.stringify(recipients)} must fail closed`
   );
 }
+assert.throws(
+  () => observatory.buildGovernedRoomTurnIntent({
+    roomId: "room-proof",
+    turnId: "room-turn-proof",
+    turnSequence: 1,
+    senderId: "operator",
+    correlationId: "corr-proof",
+    recipients: ["a", "b", "c", "d", "e", "f", "g", "h", "i"],
+    message: "hello"
+  }),
+  /room_recipient_limit_exceeded/,
+  "room recipient sets must remain bounded"
+);
 
 const route = observatory.normalizeGovernedRoomRoute({
   schema: "adl.runtime.governed_room_route.v1",
@@ -85,6 +98,7 @@ for (const requiredId of [
   assert(html.includes(`id="${requiredId}"`), `HTML must expose #${requiredId}`);
 }
 assert(html.includes("multiple"), "room recipient select must allow explicit multi-agent selection");
+assert(html.includes("Select 1-8 explicit recipients."), "UI must disclose bounded room size");
 assert(html.includes("Broadcast and browser-selected implicit participants are denied."), "UI must disclose no implicit broadcast");
 
 console.log(JSON.stringify({
@@ -94,6 +108,7 @@ console.log(JSON.stringify({
     "participants_filtered_and_state_mapped",
     "explicit_recipient_intent_sorted",
     "implicit_broadcast_denied",
+    "room_recipient_limit_enforced",
     "partial_delivery_rows_attributed",
     "static_room_dom_anchors_present"
   ]

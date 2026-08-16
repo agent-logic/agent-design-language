@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Added the #115 Observatory governed multi-agent room surface for explicit participant selection, room turns, and per-recipient delivery rendering.
+Hardened the #115 governed room UI against accidental broad room sends by enforcing an explicit 1-8 recipient bound and removing a fragile CSS.escape selector dependency.
 
 ## Artifacts
 
@@ -29,6 +29,10 @@ Added the #115 Observatory governed multi-agent room surface for explicit partic
 - demos/html-observatory/styles.css
 - adl/tools/validate_v092_governed_room_observatory.mjs
 - .csdlc/evidence/115/governed-room-observatory-validation.json
+- demos/html-observatory/app.js
+- demos/html-observatory/index.html
+- adl/tools/validate_v092_governed_room_observatory.mjs
+- .csdlc/evidence/115/governed-room-observatory-validation.json
 
 ## Execution
 
@@ -43,6 +47,9 @@ Added the #115 Observatory governed multi-agent room surface for explicit partic
 - Added exported governed-room JavaScript helpers for participant normalization, explicit recipient validation, room-turn intent creation, route normalization, and per-recipient delivery rows.
 - Wired Runtime v3 roster updates into the room participant selector without allowing hidden browser-side recipient expansion.
 - Added a focused non-credential validator for explicit recipient denial, stable recipient ordering, attributed partial delivery rows, and static DOM anchors.
+- Rejected room turns with more than eight explicit recipients before send.
+- Updated the UI help text to disclose the bounded 1-8 recipient contract.
+- Rendered prepared room delivery labels from selected options without relying on CSS.escape availability.
 
 ## Validation
 
@@ -146,6 +153,15 @@ Added the #115 Observatory governed multi-agent room surface for explicit partic
     "purpose": "Existing HTML Observatory Runtime v3, signed command, and roster projection contract smoke after adding governed room UI",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/115/html-observatory-smoke.log"
+  },
+  {
+    "command": [
+      "node",
+      "adl/tools/validate_v092_governed_room_observatory.mjs"
+    ],
+    "purpose": "Focused #115 Observatory room proof after enforcing 1-8 explicit recipient bound",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/115/governed-room-observatory-validation.json"
   }
 ]
 

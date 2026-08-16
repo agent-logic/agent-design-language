@@ -433,6 +433,7 @@ function escapeHtml(value) {
 const GOVERNED_ROOM_TURN_SCHEMA = "adl.runtime.governed_room_turn.v1";
 const GOVERNED_ROOM_ROUTE_SCHEMA = "adl.runtime.governed_room_route.v1";
 const GOVERNED_ROOM_MENTION_SCHEMA = "adl.runtime.governed_room_mention.v1";
+const MAX_GOVERNED_ROOM_RECIPIENTS = 8;
 
 function isSafeGovernedRoomIdentifier(value) {
   return typeof value === "string" &&
@@ -467,6 +468,9 @@ function normalizeExplicitGovernedRoomRecipients(recipients) {
   }
   if (unique.size === 0) {
     throw new Error("implicit_broadcast_denied");
+  }
+  if (unique.size > MAX_GOVERNED_ROOM_RECIPIENTS) {
+    throw new Error("room_recipient_limit_exceeded");
   }
   return [...unique].sort();
 }
@@ -2762,9 +2766,11 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
         intent
       };
       liveSocket.send(JSON.stringify(envelope));
+      const selectedLabels = new Map(Array.from(roomRecipients?.selectedOptions || [])
+        .map((option) => [option.value, option.textContent || option.value]));
       appendRoomTurn("operator", message, turnId, "awaiting runtime", intent.addressed_recipients.map((recipientId) => ({
         recipientId,
-        displayName: roomRecipients?.querySelector(`option[value="${CSS.escape(recipientId)}"]`)?.textContent || recipientId,
+        displayName: selectedLabels.get(recipientId) || recipientId,
         state: "prepared",
         detail: "explicit recipient"
       })));
