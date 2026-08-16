@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-18C.02d][112.d] Integrate Layer 8 authority and delivery states into Observatory",
     "slug": "layer8-authority-observatory",
     "version": "v0.92.0",
-    "generation": 18
+    "generation": 19
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "demos/html-observatory/app.js\ndemos/html-observatory/styles.css\nadl/tools/validate_layer8_authority_observatory_ui.sh\n.csdlc/evidence/271\n.csdlc/issues/271\n.csdlc/prepared/issues/271",
-      "review_revision": "git-blake3:cc7d529a2a20a1b66e7e94df23b7fef894cce52a:23ed18296dfd6feafbd514ab2133c3acaaa49464c9fc69f5df430f72071cd4cf",
-      "reviewer": "fresh-session:/root/review_271_impl_r4",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does the browser forward only Runtime-provided signed artifacts ephemerally to the actual #270 route without originating, verifying, rendering, logging, caching, or persisting them?",
         "Does proof require the real existing adl-runtime-kernel recipient_ack handler target with a parsed nonzero denominator and authentic issue-local handler-output artifact handoff rather than mocked conversation frames?",
@@ -24,11 +24,8 @@
         "Does post-bind scope validation compare execution base to current main and restrict product/test changes to exactly app.js, styles.css, and validate_layer8_authority_observatory_ui.sh without requiring any fourth non-issue-local proof script?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Review observed uncommitted typed review-assignment metadata and r21 request file only; no source/product file dirt was present.",
-        "No GitHub, lifecycle, branch, or file mutation was performed by the reviewer."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
