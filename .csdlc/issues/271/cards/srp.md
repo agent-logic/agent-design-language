@@ -38,12 +38,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- R6 did not mutate lifecycle state or record the PASS in repository.
+- R6 did not rerun the Rust runtime test suite; retained runtime proof was inspected and nonzero denominator verified.
+- The UI proof is a Node/DOM harness over exported Observatory functions, not a full browser launch.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:1f010256591bcf0279559d4987fda870132baa1a:ed6a4dc06697e5ed905be1036cc58c27596b0b8712ad663089d0a283f928f8ad")
 
-Reviewer: None
+Reviewer: Some("fresh-session:/root/review_271_impl_r6")
 
-Result: pre_review
+Result: pass

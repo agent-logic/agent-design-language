@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "c4dbe43c62a974f1a18b33d9b8c6603e5dc3ce0f301be1448117d0e6e7c4d93c",
-  "phase": "implemented",
-  "generation": 20,
-  "digest": "c3e9bca9555f73a12ca8d1e7cca0c188be6f14599c3b1b23cc2d5d8eecb042c7",
+  "phase": "reviewed",
+  "generation": 21,
+  "digest": "afb09c74fd0db934bb9f988e1a3867717c5da5502aa98620f5a5e22bd7e48961",
   "branch": "codex/271-layer8-authority-observatory",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-271-layer8-authority-observatory",
   "review_assignment": {
@@ -23,7 +23,27 @@
       ".csdlc/locks/271.lock"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:/root/review_271_impl_r6",
+    "scope": [
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/styles.css",
+      "adl/tools/validate_layer8_authority_observatory_ui.sh",
+      ".csdlc/evidence/271",
+      ".csdlc/issues/271",
+      ".csdlc/prepared/issues/271",
+      ".csdlc/locks/271.lock"
+    ],
+    "reviewed_revision": "git-blake3:1f010256591bcf0279559d4987fda870132baa1a:ed6a4dc06697e5ed905be1036cc58c27596b0b8712ad663089d0a283f928f8ad",
+    "findings": [],
+    "residual_risks": [
+      "R6 did not mutate lifecycle state or record the PASS in repository.",
+      "R6 did not rerun the Rust runtime test suite; retained runtime proof was inspected and nonzero denominator verified.",
+      "The UI proof is a Node/DOM harness over exported Observatory functions, not a full browser launch."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -38,32 +58,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "10c26f4b6e4439dc29fa947b955c85d81c2e70870bdad868efc7f49268c63eb1",
+      "values_digest": "1d11644e0bd22cbe025f5aa61957977d3d9c7d513e173407c5544f65751cd350",
       "rendered_digest": "2a66fbe49be5e2a60d2e9bd329ff1f536f15d58add41689e83f3f6d3545e5a62",
       "ast_digest": "6eb9087ee12927519d91ec1489c93b8451381ce9ab6fdb3db3936ce984b22da0"
     },
     "stp": {
-      "values_digest": "62872f8bd40b3233a81c8785a70c4c0598b63653accbf4be50543565be681544",
+      "values_digest": "dd483fa49031b1d6f33f962d81c805f3d479064778990a31fffb8c40eac354fc",
       "rendered_digest": "d695d037165b3920de98d1366aadb37caa52567b61399728ed589cd9abb30eab",
       "ast_digest": "d9bb7c1efa0a9feb3c2c6a7b73c9f13a99dcc51862633471513e196133d297f4"
     },
     "spp": {
-      "values_digest": "aa1848496a36c4c0ca4c5fc7ebd51e1a110a9e336953ab226584d8d9420581a2",
+      "values_digest": "39f7ae4b0831c924da67de8bd32c17bbad39c4d9d555035055b474df8bb05f29",
       "rendered_digest": "90c41c9107c8bd5ac759409880d5af190e30e6eb0034a6b77b0c2d929a0ae6d2",
       "ast_digest": "7cb01588005200e258a742df413d0a4cb2829a5bb45a34a01a5ec1cb947fb9ba"
     },
     "vpp": {
-      "values_digest": "6efdf38278a991bb3646de8a9702a123547d8f691d2c2b6c7b0c6e684c5db47b",
+      "values_digest": "6f1a95fb05253aadb132fcbbc0e70d5910176aa3733b60b9353d8b98d96447d7",
       "rendered_digest": "56142605424a0febd9e4bb6b91a1e4382384caf4294f4557fafc81afd679c5d0",
       "ast_digest": "eb59ce5611c4a71d34aba3c023c85ae276f66e4baa810b096df9ff97bf400580"
     },
     "srp": {
-      "values_digest": "f43669d8dc6bf10ccb8909880a0ca97e0fdb4ffd2ce04cbe5341273061e27520",
-      "rendered_digest": "e32b8f865b841cdb17d56b10192fa064bcc45100df537f74c9bf02d629de6bae",
-      "ast_digest": "6ac8640a02ebd498ee8ebab9a04ac8abef7e94d6b7b1b5ffe3c83663f1eed245"
+      "values_digest": "956b94669b69af8cabc9b57758b86c47de6848157d12f6534c0a37ed55159f26",
+      "rendered_digest": "98ea7b25beff02ba413d662bb811e75ace1df14e1989bde7f3e849b411f1a709",
+      "ast_digest": "b1deb7ec862d5ecf24c59fb45fbe832e2a1f569b8d0e92ca024d6b25c928ae1f"
     },
     "sor": {
-      "values_digest": "6ddd38b08a2e187dbd5761eb033d601a68922de6fe56c6774934b85d27319bf1",
+      "values_digest": "ce078bccb2cd0c8cd9317b343fb400842acae3b2fb745c1ae0c7a98322595e19",
       "rendered_digest": "bdf662a0e8195222661cfb85e10df14352a796d91bc270ea34c39210158e85b1",
       "ast_digest": "f79ef991ea5d380ce7a9f45026d296d3631187e48afe54b14c7bd003072bd449"
     }
@@ -117,6 +137,13 @@
       "to": "implemented",
       "actor": "codex:root",
       "reason": "Recover #271 review after tracked prepared request packets were committed after the reviewed revision; reassign from current immutable head using Git-common request storage only."
+    },
+    {
+      "sequence": 8,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:/root/review_271_impl_r6",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -315,6 +342,13 @@
       "actor": "codex:root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 21,
+      "actor": "fresh-session:/root/review_271_impl_r6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
