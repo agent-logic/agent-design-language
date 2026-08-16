@@ -12,12 +12,7 @@ Status: draft
 
 ## Scope
 
-demos/html-observatory/app.js
-demos/html-observatory/styles.css
-adl/tools/validate_layer8_authority_observatory_ui.sh
-.csdlc/evidence/271
-.csdlc/issues/271
-.csdlc/prepared/issues/271
+
 
 ## Prompts
 
@@ -41,8 +36,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:fb78a39dbca9202e7e91c32150820e72d49f6f57:ff43ff69323ec8f00bd69204cbc5605cfe926af678be544455a8a330ca4ac51a")
+Revision: None
 
-Reviewer: Some("fresh-session:/root/review_271_impl_r3")
+Reviewer: None
 
-Result: pass
+Result: pre_review

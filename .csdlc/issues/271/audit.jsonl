@@ -19,3 +19,4 @@
 {"sequence":19,"generation":15,"actor":"codex:sprint5-271-review-recovery","reason":"Recover #271 implementation review after fresh reviewer R2 returned changes required; clear assignment before substantive validator repair.","operation":"recover_review"}
 {"sequence":20,"generation":15,"actor":"codex:root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":21,"generation":16,"actor":"fresh-session:/root/review_271_impl_r3","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":22,"generation":17,"actor":"codex:root","reason":"Recover #271 review because publication guard requires exact current clean HEAD after metadata-only review-record commit advanced from reviewed source revision.","operation":"recover_review"}
