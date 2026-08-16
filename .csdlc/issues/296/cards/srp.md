@@ -12,7 +12,9 @@ Status: draft
 
 ## Scope
 
-
+csdlc-v2/src/store.rs
+csdlc-v2/tests/gate5.rs
+.csdlc/issues/296
 
 ## Prompts
 

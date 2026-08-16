@@ -5,10 +5,19 @@
   "initialization_digest": "959b44fd61ec0393ad471311d39b13f254c41ca7f6e910dc8b5256529409cb2d",
   "phase": "implemented",
   "generation": 22,
-  "digest": "74045803bbd0b135a52453bef0b6f4907aba26bc6234ea17433a1ae39a06fd3f",
+  "digest": "ce719ec59de208e130fdae0b27e4ada9811afe3de5cf70e3e7925b3ac2c19316",
   "branch": "codex/296-implemented-authored-design-refresh",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-296-implemented-authored-design-refresh",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:646518a3-5255-482a-89e8-0cb9f9f37dc3",
+    "assigned_by": "codex:issue-296",
+    "revision": "git-blake3:dcb9f68a806158899c2cf1334a4d0aede97a221e:4a0b79ef159002d77edd8c4626ce1b70ab0e24cf10815c6098e09b3c749c4b55",
+    "scope": [
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/296"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +53,9 @@
       "ast_digest": "9a6d9e9f0fca538be0c8fbde6452928f1bca0298ec6bd09822c0a6e3979431f8"
     },
     "srp": {
-      "values_digest": "eba2f0a83dd017da883a19cac845a10763b13e838fdcff3379323011b472c89a",
-      "rendered_digest": "9f6660015a337ab5724deb53bfc4a3eba76a277311ca093069379d433ad43416",
-      "ast_digest": "0d52b7027fcaa160851a266410a5d41e8281dc86a753e3f06672bf3c1e7e4ad0"
+      "values_digest": "eabde09ad6290dda3a105a9d7fe2fc6a6d7663dcae024234022ca39387c31f18",
+      "rendered_digest": "19e08747104ae38a27b6eab2121d9f67a5faac24f03ee072bf88f14036ea8768",
+      "ast_digest": "f1af0944b6efd80c7eb7f5068325100bbda2931b66ebb0ae75a09b98921b3d50"
     },
     "sor": {
       "values_digest": "53ced90adcc9bdc1eb1e61d9a9cfa9dd092a3ef3ca243510bb3ba7dd165ab0b3",
@@ -280,6 +289,13 @@
       "actor": "codex:issue-296",
       "reason": "Record post-297 current-main reconciliation and proving validation before fresh exact-head review",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Reconciled the typed implemented authored-design refresh with terminal #297 projection recovery and current main.\",\"changes\":[\"Restore implemented authored-design refresh preparation/application helpers after the current-main merge while preserving the public rollback-preserved path and fail-closed classification guard.\",\"Remove an orphaned Gate 5 merge artifact that left a duplicate fixture helper and restore the intended issue-local authored artifact proof.\",\"Allow post-recovery plan-summary correction to recognize current structured approve_design audit records and the matching recovery transition after approved intervening repairs.\"],\"artifacts\":[\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate5.rs\",\".csdlc/issues/296\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\"],\"purpose\":\"Run complete Gate 5 regression suite including projection recovery, exact review recovery, and issue-local authored refresh.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:r6-gate5-59\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"card_identity\"],\"purpose\":\"Run card identity integration suite including implemented authored-design refresh and linked-worktree coverage.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:r6-card-identity-5\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\"],\"purpose\":\"Run full library suite including retained authored artifact, rollback-preserved, GitHub, finish, and schema invariants.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:r6-lib-86\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove strict all-target lint cleanliness.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:r6-clippy\"}]}"
+    },
+    {
+      "sequence": 30,
+      "generation": 22,
+      "actor": "codex:issue-296",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
