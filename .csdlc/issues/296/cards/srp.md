@@ -12,7 +12,10 @@ Status: draft
 
 ## Scope
 
-
+csdlc-v2/tests/estimation_contracts.rs
+csdlc-v2/tests/gate10a.rs
+csdlc-v2/tests/gate2.rs
+.csdlc/issues/296
 
 ## Prompts
 

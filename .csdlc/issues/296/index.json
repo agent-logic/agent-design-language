@@ -5,10 +5,20 @@
   "initialization_digest": "959b44fd61ec0393ad471311d39b13f254c41ca7f6e910dc8b5256529409cb2d",
   "phase": "implemented",
   "generation": 26,
-  "digest": "9acdccc913fdeb9c4d69a28accdbb330d93e2a4dea5a59b9639cdbb4564ea8a7",
+  "digest": "bd1936deac230e4f923b4ec8175d432aec420e64d2644dc130e5a0f7779cbf40",
   "branch": "codex/296-implemented-authored-design-refresh",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-296-implemented-authored-design-refresh",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:a12780a7-6a78-4485-bdff-2bd14fb84957",
+    "assigned_by": "codex:issue-296",
+    "revision": "git-blake3:2cbb7af54c101775e9ee3873cac64e6ec2276006:a41598c8e66d0d7e632ad0c704428eac31e7b4d0900d288f9d9b03028faac6a9",
+    "scope": [
+      "csdlc-v2/tests/estimation_contracts.rs",
+      "csdlc-v2/tests/gate10a.rs",
+      "csdlc-v2/tests/gate2.rs",
+      ".csdlc/issues/296"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +54,9 @@
       "ast_digest": "9a6d9e9f0fca538be0c8fbde6452928f1bca0298ec6bd09822c0a6e3979431f8"
     },
     "srp": {
-      "values_digest": "a813ca98cc362744bc9382a8c358e389d179f848ce6fb6d786aa70d1e28c531b",
-      "rendered_digest": "9f6660015a337ab5724deb53bfc4a3eba76a277311ca093069379d433ad43416",
-      "ast_digest": "0d52b7027fcaa160851a266410a5d41e8281dc86a753e3f06672bf3c1e7e4ad0"
+      "values_digest": "a9f172093efaa338bb637303e3a79d2dc8b18ebb852d3bfc0163a329dbdd3c33",
+      "rendered_digest": "d77eeef31de44799ef257e724591c1701c59ced04ce61840e83af839c9f7f93c",
+      "ast_digest": "f0beaa06e19a4ecf8ed7a534559f34a5058c230382d100b1089e8739999df895"
     },
     "sor": {
       "values_digest": "d3eb880950e8a0548fbe6eb6df9e0cf0f2ddeaf779800b8a9cdc131534a06619",
@@ -336,6 +346,13 @@
       "actor": "codex:issue-296",
       "reason": "Record CI standalone fixture remediation before fresh exact-head review",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Remediated C-SDLC standalone CI fixture drift after publication by aligning tests with current canonical design-review and target-directory contracts.\",\"changes\":[\"Allow estimation contract fixtures to fall back to the crate target directory when CARGO_TARGET_DIR is absent, matching cargo test's default standalone behavior.\",\"Update Gate 10A installed-editor fixture to use a canonical fresh-session design reviewer for implemented design reapproval.\",\"Update Gate 2 design approval fixtures and audit expectations for canonical fresh-session reviewer identity, structured approve_design audit records, prior_design_approval null provenance, and the current single-link authored artifact guard message.\"],\"artifacts\":[\"csdlc-v2/tests/estimation_contracts.rs\",\"csdlc-v2/tests/gate10a.rs\",\"csdlc-v2/tests/gate2.rs\",\".csdlc/issues/296\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"estimation_contracts\"],\"purpose\":\"Reproduce and prove the missing CARGO_TARGET_DIR fixture fallback in the failing standalone integration target.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:r7-estimation-contracts-11\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate10a\"],\"purpose\":\"Prove installed owner-binary and canonical fresh-session design reapproval fixtures.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:r7-gate10a-20\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\"],\"purpose\":\"Prove initialized/ready design approval and pre-bind contract repair fixtures match current typed audit semantics.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:r7-gate2-11\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--\",\"--check\"],\"purpose\":\"Prove C-SDLC v2 formatting.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:r7-fmt\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove strict all-target lint cleanliness.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:r7-clippy\"}]}"
+    },
+    {
+      "sequence": 35,
+      "generation": 26,
+      "actor": "codex:issue-296",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
