@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "959b44fd61ec0393ad471311d39b13f254c41ca7f6e910dc8b5256529409cb2d",
   "phase": "implemented",
-  "generation": 19,
-  "digest": "e820d9dbe9eae998b66447169dd9bca0ccb2afbcee9ac5385325e66fa63d069a",
+  "generation": 21,
+  "digest": "d2863a0098d90edf62912ef19c3fe593edf8404319388851bd2d631d52df6aa7",
   "branch": "codex/296-implemented-authored-design-refresh",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-296-implemented-authored-design-refresh",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "dfab8adbe82e05d54ca1ab8ea540f0c31c08338f53951f9323e2b659174b6866",
+      "values_digest": "0cd5acc99635d449cadc839d9660f7262cc89c0ebea10dbaf37f5b036cfe6617",
       "rendered_digest": "57c636d2e2f6070a237866654cd4127dbe7a4fc5f191741e071ab2535642984d",
       "ast_digest": "6461b0f59b4c2a6f6dd2f9f13bacb203b861d859e8d58f33bd7ed07b42bb5c79"
     },
     "stp": {
-      "values_digest": "9ce3aab5bef43184b7ffd0032081926e036c715fbf3d2d5f62d65ad5a3606789",
+      "values_digest": "55bb68e7c6dd039b3d3f32dbd54ff1476eef2d975efcca9ed13953a4a2c57a36",
       "rendered_digest": "11159f0d7f9983633a92db76cd8c7649cdf3e4810b7c6a017d81f64ce614aa8a",
       "ast_digest": "95e8ab9c66e490f856cc459c14f4eb65807a2bd7ec63956cacf2d5441087e983"
     },
     "spp": {
-      "values_digest": "d66a172134c9802eb23d556a7ff25ae11a638366f418f18e6a789ab5fb135c0b",
+      "values_digest": "5158d34e25704644641b40c91eebf318e33c7e332c74094217c8a29b9cc545fc",
       "rendered_digest": "a4d0b4299567ee7fee32a6bfa3ff8a9613f985311842df815ae5cc7c4d74c274",
       "ast_digest": "a90a4d80862cdfe7a6a938432ac9b0c93be84e046765dcbc5964a24f01ffb8b3"
     },
     "vpp": {
-      "values_digest": "f4be1969451842355e362440a3ada7893a2f965c60b89d8f6128dc2a645c824c",
+      "values_digest": "a6dc59932cebec80483c0fd6d7c33f013bd18444f7c2888cfadf00d0d0e8dd8e",
       "rendered_digest": "910bf36f49d48ff8a442c83ed765f5a9e581a737ff3459adc22939a7e754be17",
       "ast_digest": "9a6d9e9f0fca538be0c8fbde6452928f1bca0298ec6bd09822c0a6e3979431f8"
     },
     "srp": {
-      "values_digest": "43b429a10c0da4bb13534b1e13d4cd337bbe5779df8d54b20b11fb44bd92dc42",
+      "values_digest": "7f45c3e629baf53b537939b7a32f9a25407b5604824d2aa52dd42d10ca3f2553",
       "rendered_digest": "9f6660015a337ab5724deb53bfc4a3eba76a277311ca093069379d433ad43416",
       "ast_digest": "0d52b7027fcaa160851a266410a5d41e8281dc86a753e3f06672bf3c1e7e4ad0"
     },
     "sor": {
-      "values_digest": "197d20d03d7cd0fea45ae0841c9460168c3cb56f4da1ca972caa5bb621f82834",
-      "rendered_digest": "ababcc9f4b726c3d498d125ceac1ee65e0640702ac4abe3c2587a6e12d249912",
-      "ast_digest": "8b49f1eed5233b04362159b733526f18103a5b5714769d20179feb39060170fb"
+      "values_digest": "60a5f4252aa9b490d1537a1981014a1e30f66cde874827ed752a84847eb4699d",
+      "rendered_digest": "c8a13c8522d3fa824c2b4642800a9dc533321c60a3263b6f96d029047808164e",
+      "ast_digest": "31815a92200441d4a37998474d9b4c3b132530fd072fabe2e0b84e3e9f9c6390"
     }
   },
   "transitions": [
@@ -252,6 +252,27 @@
       "actor": "codex:issue-296",
       "reason": "Record bounded r4 transaction remediation and executed proof before a different fresh review",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Remediated r4 with swap-aware issue-local authored verification, non-destructive failed-projection quarantine, and durable staged authored copies.\",\"changes\":[\"Keep validating retained source bytes and identity while accepting the expected copied inode only when the authored path is inside the swapped issue projection; verify copied canonical bytes and path safety after swap.\",\"On verifier failure, rename the rejected canonical projection to a fail-closed rollback-preserved quarantine before restoring the backup, preserving externally injected post-swap state without recursive deletion.\",\"Sync copied authored files, every staged destination directory through the staging root, and the issue parent after swap, quarantine, restore, and backup removal.\"],\"artifacts\":[\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate5.rs\",\".csdlc/issues/296\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\"],\"purpose\":\"Run full Gate 5 review, recovery, issue-local authored refresh and assignment regression proof.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:r4-gate5-21\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\"],\"purpose\":\"Run full library proof including expected issue-local copy and unrelated post-swap state preservation tests.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:r4-lib-81\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove strict all-target lint cleanliness.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:r4-clippy\"}]}"
+    },
+    {
+      "sequence": 26,
+      "generation": 19,
+      "actor": "codex:issue-296",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 20,
+      "actor": "codex:issue-296",
+      "reason": "Exact r5 review failed: retain authored verification authority through backup finalization, make rollback restoration collision-safe, and add typed evidence-preserving quarantine recovery before a new exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 21,
+      "actor": "codex:issue-296",
+      "reason": "Preserve exact r5 findings and route the reusable transaction-recovery subsystem to typed child blocker #297 without widening issue #296.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Exact r5 review failed; bounded #296 remediation stopped because evidence-preserving quarantine classification and restart recovery require the reusable store transaction subsystem tracked by child blocker #297.\",\"changes\":[\"R5 P1: issue-local post-swap verification releases canonical copied-artifact authority before deleting the only complete backup, permitting finalization drift without rollback authority.\",\"R5 P1: quarantine-name collision, dangling symlink, or race can make rejected-projection preservation fail before verified-backup restoration, leaving the rejected projection canonical.\",\"R5 P2: a successfully preserved quarantine blocks every later typed commit and has no typed classification, archive, cleanup, or resume route.\",\"Cohesion stop: typed recovery subsystem scope was split to child blocker #297; no source remediation was attempted after r5 recovery.\"],\"artifacts\":[\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate5.rs\",\".csdlc/issues/296\",\"https://github.com/agent-logic/agent-design-language/issues/297\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\"],\"purpose\":\"R5 review baseline; 81 library tests passed but did not cover finalization-window drift, quarantine collisions, or typed preserved-projection recovery.\",\"outcome\":\"passed\",\"evidence_ref\":\"review:r5-lib-81\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\"],\"purpose\":\"R5 review baseline; 21 Gate 5 tests passed while the identified transaction recovery gaps remained.\",\"outcome\":\"passed\",\"evidence_ref\":\"review:r5-gate5-21\"}]}"
     }
   ]
 }

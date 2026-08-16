@@ -7,24 +7,38 @@
     "title": "[v0.92][C-SDLC][defect] Support typed authored-design refresh after implemented review recovery",
     "slug": "implemented-authored-design-refresh",
     "version": "v0.92",
-    "generation": 19
+    "generation": 21
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Remediated r4 with swap-aware issue-local authored verification, non-destructive failed-projection quarantine, and durable staged authored copies.",
+      "summary": "Exact r5 review failed; bounded #296 remediation stopped because evidence-preserving quarantine classification and restart recovery require the reusable store transaction subsystem tracked by child blocker #297.",
       "actual_changes": [
-        "Keep validating retained source bytes and identity while accepting the expected copied inode only when the authored path is inside the swapped issue projection; verify copied canonical bytes and path safety after swap.",
-        "On verifier failure, rename the rejected canonical projection to a fail-closed rollback-preserved quarantine before restoring the backup, preserving externally injected post-swap state without recursive deletion.",
-        "Sync copied authored files, every staged destination directory through the staging root, and the issue parent after swap, quarantine, restore, and backup removal."
+        "R5 P1: issue-local post-swap verification releases canonical copied-artifact authority before deleting the only complete backup, permitting finalization drift without rollback authority.",
+        "R5 P1: quarantine-name collision, dangling symlink, or race can make rejected-projection preservation fail before verified-backup restoration, leaving the rejected projection canonical.",
+        "R5 P2: a successfully preserved quarantine blocks every later typed commit and has no typed classification, archive, cleanup, or resume route.",
+        "Cohesion stop: typed recovery subsystem scope was split to child blocker #297; no source remediation was attempted after r5 recovery."
       ],
       "artifacts": [
         "csdlc-v2/src/store.rs",
         "csdlc-v2/tests/gate5.rs",
-        ".csdlc/issues/296"
+        ".csdlc/issues/296",
+        "https://github.com/agent-logic/agent-design-language/issues/297"
       ],
       "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--lib"
+          ],
+          "purpose": "R5 review baseline; 81 library tests passed but did not cover finalization-window drift, quarantine collisions, or typed preserved-projection recovery.",
+          "outcome": "passed",
+          "evidence_ref": "review:r5-lib-81"
+        },
         {
           "command": [
             "cargo",
@@ -34,36 +48,9 @@
             "--test",
             "gate5"
           ],
-          "purpose": "Run full Gate 5 review, recovery, issue-local authored refresh and assignment regression proof.",
+          "purpose": "R5 review baseline; 21 Gate 5 tests passed while the identified transaction recovery gaps remained.",
           "outcome": "passed",
-          "evidence_ref": "local:r4-gate5-21"
-        },
-        {
-          "command": [
-            "cargo",
-            "test",
-            "--manifest-path",
-            "csdlc-v2/Cargo.toml",
-            "--lib"
-          ],
-          "purpose": "Run full library proof including expected issue-local copy and unrelated post-swap state preservation tests.",
-          "outcome": "passed",
-          "evidence_ref": "local:r4-lib-81"
-        },
-        {
-          "command": [
-            "cargo",
-            "clippy",
-            "--manifest-path",
-            "csdlc-v2/Cargo.toml",
-            "--all-targets",
-            "--",
-            "-D",
-            "warnings"
-          ],
-          "purpose": "Prove strict all-target lint cleanliness.",
-          "outcome": "passed",
-          "evidence_ref": "local:r4-clippy"
+          "evidence_ref": "review:r5-gate5-21"
         }
       ],
       "integration_state": "worktree_only",
