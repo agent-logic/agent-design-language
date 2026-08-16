@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18C.05] Implement governed multi-agent rooms and message routing",
     "slug": "v0-92-wp-18c-05-governed-multi-agent-rooms-routing",
     "version": "v0.92.0",
-    "generation": 14
+    "generation": 15
   },
   "status": "pre_phase",
   "content": {
@@ -133,6 +133,15 @@
           "purpose": "Focused #115 Observatory room proof: explicit recipients, no implicit broadcast, stable room intent, attributed partial delivery rows, and static DOM anchors",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/115/governed-room-observatory-validation.json"
+        },
+        {
+          "command": [
+            "bash",
+            "adl/tools/test_html_observatory.sh"
+          ],
+          "purpose": "Existing HTML Observatory Runtime v3, signed command, and roster projection contract smoke after adding governed room UI",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/115/html-observatory-smoke.log"
         }
       ],
       "integration_state": "not_started",

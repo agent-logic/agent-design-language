@@ -137,6 +137,15 @@ Added the #115 Observatory governed multi-agent room surface for explicit partic
     "purpose": "Focused #115 Observatory room proof: explicit recipients, no implicit broadcast, stable room intent, attributed partial delivery rows, and static DOM anchors",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/115/governed-room-observatory-validation.json"
+  },
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_html_observatory.sh"
+    ],
+    "purpose": "Existing HTML Observatory Runtime v3, signed command, and roster projection contract smoke after adding governed room UI",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/115/html-observatory-smoke.log"
   }
 ]
 

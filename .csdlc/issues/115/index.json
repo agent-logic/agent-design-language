@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "6b431e21b2b0a61991853e1f3f4a1bf51241907edaac9389f1c22998ae3334e7",
   "phase": "bound",
-  "generation": 14,
-  "digest": "a89981e31e12956fd41b53db5116b049a28c3ca4556b2a8c02c01df1f4576d08",
+  "generation": 15,
+  "digest": "71ce13516044e7eec2337cda43cb3c9aed6ede65564a627505f29a61eb6f8054",
   "branch": "codex/115-governed-multi-agent-rooms",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-115-governed-multi-agent-rooms",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c909efea89932e2629c4eb9ab0a0a9802afe836eab1af2bb583c0b25ff31a4fb",
+      "values_digest": "f093093ffb438234b66f9c907b8f6a759a5149e83c88c84e508723197ac3970a",
       "rendered_digest": "ecadc343231ebf27f6cc2251766828eff504b8338d3bf9054daa17b13a178c93",
       "ast_digest": "e02db63fa0459d5bd0d779d49185ce9f2d0c99a6a3378a81fa7d5dcbda279605"
     },
     "stp": {
-      "values_digest": "2eb8dd1ed2196784392c9dee8abb506970286636c8bd3bdb73ae6bdb9f7db270",
+      "values_digest": "3b10387ab4013ca92631edc72b9e009f364febd7e8d16405064fc70f817b6a30",
       "rendered_digest": "52b7561d3147cf35a9d9e3e9c250bb2a4b29d24f74d72f0affff7e08a712c0df",
       "ast_digest": "35ee5ba28500c070fbcfd0489da6659b6a5043c0516503d3d603efd4c71b847c"
     },
     "spp": {
-      "values_digest": "f9c78c7f870410d4c4a08f629a09cbf907aee61daab83249bd9e2e336a138f32",
+      "values_digest": "1710066e47ef96f4dda6c4102c55e86b5a6a054c6382c04012a4558812160764",
       "rendered_digest": "e26bfe2140a9e173c825afa8ca0bc232861990e642e27fc8b62b7598d87bc095",
       "ast_digest": "16b4224ccc9852138207e7ea7650ab8597dacc0572143c308eaa3f9f51cc30f0"
     },
     "vpp": {
-      "values_digest": "428fbc95a360cb8b4c857a25001dc1ff10540f37866a1922b48094a8596394e4",
+      "values_digest": "5733cf8bb3ef9d5f612ec69379e38a16de855b131b232a3ea74996ee35b341e1",
       "rendered_digest": "5ba45045d2fec22c237ee9ef6da6228d1bde2612277d4955b7a8652ba1e41e62",
       "ast_digest": "eb8f2cb0c493fbb437ed0edfd5922ffea6758fd0731841881c2e8acdae1eb7b9"
     },
     "srp": {
-      "values_digest": "bda5575080572f1ea24d9d46b4d744b721e1d8f3675b581be1049b9e477392d6",
+      "values_digest": "aeb4f7daa09584a86ebd98d36cc0eef81e5160c0626aa5880c1b858ac7104ac1",
       "rendered_digest": "7773977e7456ba0297c9b92ae7413161c871cb4e7467ac90a241b7f5b5e529d7",
       "ast_digest": "d4d362c5933f3441a30ea40375adbc01c52aeaef43e90a8c49ad67dd81d9d057"
     },
     "sor": {
-      "values_digest": "4d9ffc4c3a16491633e32f0041939b795788d9a962d7a39140adc3516bc7081f",
-      "rendered_digest": "f664e6b585eaa64fc0ebecd73dddf013a802f1f835294ac3ac8aba8c30936419",
-      "ast_digest": "0201914dd03373d42eccd65de19a0163937fef0c24af5bf11a9c46e554403993"
+      "values_digest": "047b53a859e727b12aa5117c173cc6507870d62488f5918a78c57cd09f6ff489",
+      "rendered_digest": "9f84fc66732d7841e80d95e11b96cfc7b1b3c7642aea6cfe3b36a0bbf2ae131a",
+      "ast_digest": "416aa078fe9d5b1c67a0ec92de27d7d051d0fca5ef264678dc3114fdda4e2546"
     }
   },
   "transitions": [
@@ -183,6 +183,13 @@
       "actor": "codex:root",
       "reason": "Record #115 Observatory governed room UI validator proof",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"node\",\"adl/tools/validate_v092_governed_room_observatory.mjs\"],\"purpose\":\"Focused #115 Observatory room proof: explicit recipients, no implicit broadcast, stable room intent, attributed partial delivery rows, and static DOM anchors\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/115/governed-room-observatory-validation.json\"}}"
+    },
+    {
+      "sequence": 17,
+      "generation": 15,
+      "actor": "codex:root",
+      "reason": "Record #115 HTML Observatory smoke proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/test_html_observatory.sh\"],\"purpose\":\"Existing HTML Observatory Runtime v3, signed command, and roster projection contract smoke after adding governed room UI\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/115/html-observatory-smoke.log\"}}"
     }
   ]
 }
