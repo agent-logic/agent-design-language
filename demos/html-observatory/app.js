@@ -430,6 +430,124 @@ function escapeHtml(value) {
     .replaceAll("'", "&#39;");
 }
 
+const GOVERNED_ROOM_TURN_SCHEMA = "adl.runtime.governed_room_turn.v1";
+const GOVERNED_ROOM_ROUTE_SCHEMA = "adl.runtime.governed_room_route.v1";
+const GOVERNED_ROOM_MENTION_SCHEMA = "adl.runtime.governed_room_mention.v1";
+
+function isSafeGovernedRoomIdentifier(value) {
+  return typeof value === "string" &&
+    value.length > 0 &&
+    value.length <= 128 &&
+    /^[A-Za-z0-9_.-]+$/.test(value);
+}
+
+function normalizeGovernedRoomParticipants(population) {
+  return asArray(population?.sample)
+    .filter((agent) => agent && typeof agent.id === "string" && agent.communication_eligible === true)
+    .map((agent) => ({
+      participant_id: agent.id,
+      display_name: agent.label || agent.id,
+      polis_id: agent.polis_id || agent.polis || "runtime-local",
+      state: agent.state === "ready" || agent.state === "available" ? "joined" : "unavailable",
+      policy_eligible: true
+    }))
+    .sort((left, right) => left.participant_id.localeCompare(right.participant_id));
+}
+
+function normalizeExplicitGovernedRoomRecipients(recipients) {
+  const unique = new Set();
+  for (const recipient of asArray(recipients).map((value) => String(value || "").trim())) {
+    if (!isSafeGovernedRoomIdentifier(recipient) || recipient === "*" || recipient.toLowerCase() === "all") {
+      throw new Error("implicit_broadcast_denied");
+    }
+    if (unique.has(recipient)) {
+      throw new Error("duplicate_room_recipient");
+    }
+    unique.add(recipient);
+  }
+  if (unique.size === 0) {
+    throw new Error("implicit_broadcast_denied");
+  }
+  return [...unique].sort();
+}
+
+function buildGovernedRoomTurnIntent({
+  roomId,
+  turnId,
+  turnSequence = 1,
+  senderId = "operator",
+  correlationId,
+  recipients = [],
+  message = ""
+} = {}) {
+  const addressedRecipients = normalizeExplicitGovernedRoomRecipients(recipients);
+  const trimmedMessage = String(message || "").trim();
+  if (!isSafeGovernedRoomIdentifier(roomId) ||
+      !isSafeGovernedRoomIdentifier(turnId) ||
+      !isSafeGovernedRoomIdentifier(senderId) ||
+      typeof correlationId !== "string" ||
+      correlationId.length === 0 ||
+      correlationId.length > 128 ||
+      !Number.isSafeInteger(turnSequence) ||
+      turnSequence < 1 ||
+      trimmedMessage.length === 0 ||
+      trimmedMessage.length > 4096) {
+    throw new Error("invalid_room_turn");
+  }
+  return {
+    schema: GOVERNED_ROOM_TURN_SCHEMA,
+    room_id: roomId,
+    turn_id: turnId,
+    turn_sequence: turnSequence,
+    sender_id: senderId,
+    correlation_id: correlationId,
+    addressed_recipients: addressedRecipients,
+    message: trimmedMessage
+  };
+}
+
+function normalizeGovernedRoomRoute(route = {}) {
+  const addressedRecipients = normalizeExplicitGovernedRoomRecipients(route.addressed_recipients || []);
+  const mentions = asArray(route.mentions).map((mention) => ({
+    schema: mention.schema || GOVERNED_ROOM_MENTION_SCHEMA,
+    room_id: String(mention.room_id || route.room_id || ""),
+    turn_id: String(mention.turn_id || route.turn_id || ""),
+    recipient_id: String(mention.recipient_id || ""),
+    display_name: String(mention.display_name || mention.recipient_id || "unknown")
+  })).filter((mention) => addressedRecipients.includes(mention.recipient_id));
+  const deliveries = asArray(route.deliveries).map((delivery) => ({
+    recipient_id: String(delivery.recipient_id || ""),
+    state: String(delivery.state || "timed_out"),
+    error: delivery.error ? String(delivery.error) : null
+  })).filter((delivery) => addressedRecipients.includes(delivery.recipient_id));
+  return {
+    schema: route.schema || GOVERNED_ROOM_ROUTE_SCHEMA,
+    status: String(route.status || "accepted"),
+    room_id: String(route.room_id || ""),
+    turn_id: String(route.turn_id || ""),
+    turn_sequence: Number.isSafeInteger(route.turn_sequence) ? route.turn_sequence : 0,
+    addressed_recipients: addressedRecipients,
+    mentions,
+    deliveries,
+    error: route.error ? String(route.error) : null
+  };
+}
+
+function buildGovernedRoomRows(route = {}) {
+  const normalized = normalizeGovernedRoomRoute(route);
+  const deliveryByRecipient = new Map(normalized.deliveries.map((delivery) => [delivery.recipient_id, delivery]));
+  return normalized.addressed_recipients.map((recipientId) => {
+    const mention = normalized.mentions.find((candidate) => candidate.recipient_id === recipientId);
+    const delivery = deliveryByRecipient.get(recipientId);
+    return {
+      recipientId,
+      displayName: mention?.display_name || recipientId,
+      state: delivery?.state || normalized.status,
+      detail: delivery?.error || `room turn ${normalized.turn_sequence || "pending"}`
+    };
+  });
+}
+
 function buildOperatorEnvelope({ channel = "events", message = "", packetId = "", acipSnsSummary = {}, snsResourceSummary = {} } = {}) {
   const acipProjection = acipSnsSummary.acip_projection || {};
   const acipSns = acipSnsSummary.sns || {};
@@ -1792,6 +1910,13 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   const conversationStatus = document.getElementById("agent-conversation-status");
   const conversationTranscript = document.getElementById("agent-conversation-transcript");
   const pendingConversationTurns = new Map();
+  const roomRecipients = document.getElementById("governed-room-recipients");
+  const roomParticipants = document.getElementById("governed-room-participants");
+  const roomTranscript = document.getElementById("governed-room-transcript");
+  const roomMessage = document.getElementById("governed-room-message");
+  const roomSend = document.getElementById("send-governed-room-turn");
+  const roomStatus = document.getElementById("governed-room-status");
+  let governedRoomTurnSequence = 1;
   let conversationAuthorized = false;
   const rosterSearch = document.getElementById("roster-search");
   const rosterPresence = document.getElementById("roster-presence-filter");
@@ -1859,6 +1984,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     if (conversationSend) {
       conversationSend.disabled = !enabled || !conversationRecipient?.value;
     }
+    updateRoomSendState();
     if (operatorControlResult && detail) {
       operatorControlResult.textContent = detail;
     }
@@ -1894,6 +2020,91 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     if (conversationSend) {
       conversationSend.disabled = !conversationAuthorized || !conversationRecipient.value;
     }
+  };
+
+  const selectedRoomRecipients = () =>
+    Array.from(roomRecipients?.selectedOptions || [])
+      .map((option) => option.value)
+      .filter(Boolean);
+
+  const updateRoomSendState = () => {
+    if (roomSend) {
+      roomSend.disabled = !conversationAuthorized ||
+        selectedRoomRecipients().length === 0 ||
+        !(roomMessage?.value || "").trim();
+    }
+  };
+
+  const renderGovernedRoomParticipants = (participants) => {
+    if (!roomParticipants) return;
+    if (participants.length === 0) {
+      roomParticipants.innerHTML = '<span class="room-participant-empty">No Runtime-eligible participants.</span>';
+      return;
+    }
+    roomParticipants.innerHTML = participants.map((participant) => `
+      <span class="room-participant" data-state="${escapeHtml(participant.state)}">
+        <strong>${escapeHtml(participant.display_name)}</strong>
+        <span>${escapeHtml(participant.participant_id)}</span>
+      </span>
+    `).join("");
+  };
+
+  const updateGovernedRoomRoster = (population) => {
+    if (!roomRecipients) return;
+    const previous = new Set(selectedRoomRecipients());
+    const participants = normalizeGovernedRoomParticipants(population);
+    roomRecipients.replaceChildren();
+    if (participants.length === 0) {
+      const option = document.createElement("option");
+      option.value = "";
+      option.textContent = "No live agents";
+      roomRecipients.append(option);
+      roomRecipients.disabled = true;
+      if (roomStatus) roomStatus.textContent = "waiting for runtime";
+    } else {
+      participants.forEach((participant) => {
+        const option = document.createElement("option");
+        option.value = participant.participant_id;
+        option.textContent = participant.display_name;
+        option.selected = previous.has(participant.participant_id);
+        roomRecipients.append(option);
+      });
+      roomRecipients.disabled = false;
+      if (roomStatus) roomStatus.textContent = conversationAuthorized ? "ready" : "login required";
+    }
+    renderGovernedRoomParticipants(participants);
+    updateRoomSendState();
+  };
+
+  const appendRoomTurn = (speaker, message, turnId, status = "", rows = []) => {
+    if (!roomTranscript) return null;
+    roomTranscript.querySelector(".conversation-empty")?.remove();
+    const item = document.createElement("li");
+    item.className = "conversation-turn governed-room-turn";
+    item.dataset.speaker = speaker;
+    if (turnId) item.dataset.turnId = turnId;
+    const content = document.createElement("span");
+    content.className = "conversation-turn-content";
+    content.textContent = message;
+    item.append(content);
+    if (rows.length > 0) {
+      const list = document.createElement("ul");
+      list.className = "governed-room-delivery-list";
+      list.innerHTML = rows.map((row) => `
+        <li data-state="${escapeHtml(row.state)}">
+          <strong>${escapeHtml(row.displayName)}</strong>
+          <span>${escapeHtml(row.state)} / ${escapeHtml(row.detail)}</span>
+        </li>
+      `).join("");
+      item.append(list);
+    }
+    const state = document.createElement("span");
+    state.className = "conversation-turn-status";
+    state.textContent = status;
+    item.append(state);
+    roomTranscript.append(item);
+    roomTranscript.scrollTop = roomTranscript.scrollHeight;
+    return item;
   };
 
   const appendConversationTurn = (speaker, message, turnId, status = "") => {
@@ -1987,6 +2198,24 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     if (frame.status === "authenticated") {
       setWriteAccess(true, "write access enabled", JSON.stringify(frame, null, 2));
       replayPendingConversationsAfterAuthentication();
+      return;
+    }
+    if (frame.schema === GOVERNED_ROOM_ROUTE_SCHEMA ||
+        frame.schema === "adl.runtime_v3.observatory_governed_room_result.v1") {
+      try {
+        const normalized = normalizeGovernedRoomRoute(frame.route || frame);
+        appendRoomTurn(
+          "runtime",
+          normalized.error ? `Room turn rejected: ${normalized.error}` : `Room turn ${normalized.status}`,
+          normalized.turn_id,
+          normalized.status,
+          buildGovernedRoomRows(normalized)
+        );
+        if (roomStatus) roomStatus.textContent = normalized.status;
+        updateRoomSendState();
+      } catch (error) {
+        if (roomStatus) roomStatus.textContent = error instanceof Error ? error.message : "room frame rejected";
+      }
       return;
     }
     if (frame.schema === "adl.runtime_v3.observatory_conversation_result.v1") {
@@ -2291,6 +2520,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
             if (!acceptRuntimeRosterSnapshot(streamSnapshot)) return;
             renderPanopticon(streamSnapshot, packet);
             updateConversationRoster(streamSnapshot.status?.agent_population);
+            updateGovernedRoomRoster(streamSnapshot.status?.agent_population);
             if (runtimeV3Readiness?.ready !== true && !runtimeV3ReadinessRefresh) {
               runtimeV3ReadinessRefresh = fetchCurrentRuntimeV3Readiness(base)
                 .then((readiness) => {
@@ -2454,6 +2684,8 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
       conversationSend.disabled = !conversationAuthorized || !conversationRecipient.value;
     }
   });
+  roomRecipients?.addEventListener("change", updateRoomSendState);
+  roomMessage?.addEventListener("input", updateRoomSendState);
   conversationSend?.addEventListener("click", () => {
     const message = conversationMessage?.value.trim() || "";
     const recipientId = conversationRecipient?.value || "";
@@ -2499,6 +2731,50 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     if (conversationMessage) conversationMessage.value = "";
     if (conversationStatus) conversationStatus.textContent = "awaiting runtime";
     conversationSend.disabled = true;
+  });
+  roomSend?.addEventListener("click", () => {
+    const message = roomMessage?.value.trim() || "";
+    const recipients = selectedRoomRecipients();
+    if (!conversationAuthorized || !liveSocket || liveSocket.readyState !== WebSocket.OPEN) {
+      if (roomStatus) roomStatus.textContent = "login required";
+      return;
+    }
+    if (!liveRuntimeIncarnationId) {
+      if (roomStatus) roomStatus.textContent = "runtime incarnation unavailable";
+      return;
+    }
+    try {
+      const randomId = globalThis.crypto?.randomUUID?.().replaceAll("-", "") || `${Date.now().toString(16).padStart(32, "0")}`;
+      const turnId = `room-turn-${randomId}`;
+      const roomId = `room-${recipients.join("-")}`;
+      const intent = buildGovernedRoomTurnIntent({
+        roomId,
+        turnId,
+        turnSequence: governedRoomTurnSequence,
+        senderId: "operator",
+        correlationId: randomId,
+        recipients,
+        message
+      });
+      const envelope = {
+        schema: "adl.runtime_v3.observatory_governed_room_intent.v1",
+        runtime_incarnation_id: liveRuntimeIncarnationId,
+        intent
+      };
+      liveSocket.send(JSON.stringify(envelope));
+      appendRoomTurn("operator", message, turnId, "awaiting runtime", intent.addressed_recipients.map((recipientId) => ({
+        recipientId,
+        displayName: roomRecipients?.querySelector(`option[value="${CSS.escape(recipientId)}"]`)?.textContent || recipientId,
+        state: "prepared",
+        detail: "explicit recipient"
+      })));
+      governedRoomTurnSequence += 1;
+      if (roomMessage) roomMessage.value = "";
+      if (roomStatus) roomStatus.textContent = "awaiting runtime";
+      roomSend.disabled = true;
+    } catch (error) {
+      if (roomStatus) roomStatus.textContent = error instanceof Error ? error.message : "invalid room turn";
+    }
   });
 
   const queryApiBase = getQueryApiBase();
@@ -2611,6 +2887,12 @@ globalThis.AdlHtmlObservatory = {
   conversationFrameProvesAcceptance,
   conversationReconnectIntent,
   conversationReplyFromFrame,
+  isSafeGovernedRoomIdentifier,
+  normalizeGovernedRoomParticipants,
+  normalizeExplicitGovernedRoomRecipients,
+  buildGovernedRoomTurnIntent,
+  normalizeGovernedRoomRoute,
+  buildGovernedRoomRows,
   fetchRetainedRuntimeSnapshot,
   requestedRuntimeSelection,
   getRuntimeV3Config,

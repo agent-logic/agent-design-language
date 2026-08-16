@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Refined the #115 Runtime governed room-routing slice with an explicit mention contract for accepted room turns.
+Added the #115 Observatory governed multi-agent room surface for explicit participant selection, room turns, and per-recipient delivery rendering.
 
 ## Artifacts
 
@@ -24,6 +24,11 @@ Refined the #115 Runtime governed room-routing slice with an explicit mention co
 - .csdlc/evidence/115/conversation-rooms-test.log
 - .csdlc/evidence/115/cargo-fmt-check.log
 - .csdlc/evidence/115/cargo-clippy-lib.log
+- demos/html-observatory/index.html
+- demos/html-observatory/app.js
+- demos/html-observatory/styles.css
+- adl/tools/validate_v092_governed_room_observatory.mjs
+- .csdlc/evidence/115/governed-room-observatory-validation.json
 
 ## Execution
 
@@ -34,6 +39,10 @@ Refined the #115 Runtime governed room-routing slice with an explicit mention co
 - Added governed room mention schema and route payload entries derived from authorized room participants.
 - Preserved stable recipient ordering and display names so Observatory can render recipient mentions without inferring or expanding recipients in the browser.
 - Extended the focused runtime proof to assert exact mention identities for accepted room turns.
+- Added a Multi-agent room panel to the HTML Observatory communication surface with explicit multi-select participants, participant chips, transcript, composer, and send control.
+- Added exported governed-room JavaScript helpers for participant normalization, explicit recipient validation, room-turn intent creation, route normalization, and per-recipient delivery rows.
+- Wired Runtime v3 roster updates into the room participant selector without allowing hidden browser-side recipient expansion.
+- Added a focused non-credential validator for explicit recipient denial, stable recipient ordering, attributed partial delivery rows, and static DOM anchors.
 
 ## Validation
 
@@ -119,6 +128,15 @@ Refined the #115 Runtime governed room-routing slice with an explicit mention co
     "purpose": "Strict Clippy for #115 Runtime governed room-routing library after mention contract refinement",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/115/cargo-clippy-lib.log"
+  },
+  {
+    "command": [
+      "node",
+      "adl/tools/validate_v092_governed_room_observatory.mjs"
+    ],
+    "purpose": "Focused #115 Observatory room proof: explicit recipients, no implicit broadcast, stable room intent, attributed partial delivery rows, and static DOM anchors",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/115/governed-room-observatory-validation.json"
   }
 ]
 

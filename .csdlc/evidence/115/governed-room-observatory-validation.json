@@ -1,0 +1,11 @@
+{
+  "schema": "adl.issue_115.governed_room_observatory_validation.v1",
+  "status": "passed",
+  "cases": [
+    "participants_filtered_and_state_mapped",
+    "explicit_recipient_intent_sorted",
+    "implicit_broadcast_denied",
+    "partial_delivery_rows_attributed",
+    "static_room_dom_anchors_present"
+  ]
+}
