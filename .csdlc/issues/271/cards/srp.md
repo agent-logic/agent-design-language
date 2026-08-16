@@ -12,7 +12,12 @@ Status: draft
 
 ## Scope
 
-
+demos/html-observatory/app.js
+demos/html-observatory/styles.css
+adl/tools/validate_layer8_authority_observatory_ui.sh
+.csdlc/evidence/271
+.csdlc/issues/271
+.csdlc/prepared/issues/271
 
 ## Prompts
 
@@ -32,12 +37,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Review observed uncommitted typed review-assignment metadata and r21 request file only; no source/product file dirt was present.
+- No GitHub, lifecycle, branch, or file mutation was performed by the reviewer.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:cc7d529a2a20a1b66e7e94df23b7fef894cce52a:23ed18296dfd6feafbd514ab2133c3acaaa49464c9fc69f5df430f72071cd4cf")
 
-Reviewer: None
+Reviewer: Some("fresh-session:/root/review_271_impl_r4")
 
-Result: pre_review
+Result: pass

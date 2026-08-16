@@ -20,3 +20,5 @@
 {"sequence":20,"generation":15,"actor":"codex:root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":21,"generation":16,"actor":"fresh-session:/root/review_271_impl_r3","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":22,"generation":17,"actor":"codex:root","reason":"Recover #271 review because publication guard requires exact current clean HEAD after metadata-only review-record commit advanced from reviewed source revision.","operation":"recover_review"}
+{"sequence":23,"generation":17,"actor":"codex:root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":24,"generation":18,"actor":"fresh-session:/root/review_271_impl_r4","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

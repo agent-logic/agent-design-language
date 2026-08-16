@@ -1,0 +1,25 @@
+{
+  "issue": 271,
+  "expected_generation": 17,
+  "expected_digest": "af446b53ef66dcda3005b1968d815f414baf925029b3b8244e17ab86e30181da",
+  "actor": "fresh-session:/root/review_271_impl_r4",
+  "evidence": {
+    "completed": true,
+    "findings": [],
+    "non_substantive_proof": null,
+    "residual_risks": [
+      "Review observed uncommitted typed review-assignment metadata and r21 request file only; no source/product file dirt was present.",
+      "No GitHub, lifecycle, branch, or file mutation was performed by the reviewer."
+    ],
+    "reviewed_revision": "git-blake3:cc7d529a2a20a1b66e7e94df23b7fef894cce52a:23ed18296dfd6feafbd514ab2133c3acaaa49464c9fc69f5df430f72071cd4cf",
+    "reviewer": "fresh-session:/root/review_271_impl_r4",
+    "scope": [
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/styles.css",
+      "adl/tools/validate_layer8_authority_observatory_ui.sh",
+      ".csdlc/evidence/271",
+      ".csdlc/issues/271",
+      ".csdlc/prepared/issues/271"
+    ]
+  }
+}
