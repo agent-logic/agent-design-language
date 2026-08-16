@@ -86,11 +86,11 @@ Reconciled the typed implemented authored-design refresh with terminal #297 proj
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
