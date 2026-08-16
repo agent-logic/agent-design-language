@@ -78,12 +78,6 @@ impl Store {
             .join(format!(".{issue}.staging"))
     }
 
-    fn rollback_preserved(&self, issue: u64) -> PathBuf {
-        self.root
-            .join(".csdlc/issues")
-            .join(format!(".{issue}.rollback-preserved"))
-    }
-
     pub(crate) fn lock(&self, issue: u64) -> Result<File> {
         let relative = PathBuf::from(format!(".csdlc/locks/{issue}.lock"));
         require_canonical_parent_beneath(&self.root, &relative)?;
@@ -418,7 +412,8 @@ impl Store {
         let current = self.issue_dir(issue);
         let staging = self.staging_dir(issue);
         let backup = self.interrupted_backup(issue);
-        if self.rollback_preserved(issue).symlink_metadata().is_ok() {
+        let rollback_preserved = self.rollback_preserved(issue);
+        if rollback_preserved.symlink_metadata().is_ok() {
             return Err(V2Error::new(
                 ErrorCode::ReconciliationRequired,
                 "preserved failed projection requires typed classification and recovery",
@@ -2820,7 +2815,6 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
                 "assign_review" | "record_review" | "recover_review"
             )
         });
-        let latest_transition = record.transitions.last();
         if request.actor.trim().is_empty() || request.reason.trim().is_empty() {
             return Err(V2Error::new(
                 ErrorCode::InvalidInput,
@@ -2829,7 +2823,7 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
         }
         let current_recovery = latest_review_operation.is_some_and(|event| {
             event.operation == "recover_review"
-                && latest_transition.is_some_and(|transition| {
+                && record.transitions.iter().rev().any(|transition| {
                     transition.to == LifecyclePhase::Implemented
                         && matches!(
                             transition.from,
@@ -3156,6 +3150,117 @@ struct DesignBindingRefresh {
     new_design_digest: String,
     old_diagram_digest: String,
     new_diagram_digest: String,
+}
+
+fn apply_design_binding_refresh(
+    cards: &mut BTreeMap<CardKind, CardValues>,
+    refresh: &DesignBindingRefresh,
+) {
+    for kind in [CardKind::Spp, CardKind::Vpp] {
+        match &mut cards.get_mut(&kind).expect("design-bearing card").content {
+            CardContent::Spp(values) => {
+                values.design_digest = refresh.new_design_digest.clone();
+                values.diagram_digest = refresh.new_diagram_digest.clone();
+            }
+            CardContent::Vpp(values) => {
+                values.design_digest = refresh.new_design_digest.clone();
+                values.diagram_digest = refresh.new_diagram_digest.clone();
+            }
+            _ => unreachable!("design-bearing card"),
+        }
+    }
+}
+
+fn prepare_implemented_design_refresh(
+    store: &Store,
+    record: &IssueRecord,
+    cards: &BTreeMap<CardKind, CardValues>,
+    request: &EditRequest,
+) -> Result<(
+    DesignBindingRefresh,
+    RetainedAuthoredArtifact,
+    RetainedAuthoredArtifact,
+)> {
+    if request.card != CardKind::Spp
+        || record.phase != LifecyclePhase::Implemented
+        || request.actor.trim().is_empty()
+        || request.reason.trim().is_empty()
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "authored design refresh requires an implemented SPP recovery operation",
+        ));
+    }
+    let latest_review = record.audit.iter().rev().find(|event| {
+        matches!(
+            event.operation.as_str(),
+            "assign_review" | "record_review" | "recover_review"
+        )
+    });
+    if latest_review.is_none_or(|event| {
+        event.operation != "recover_review" || event.generation != record.generation
+    }) || record.review_assignment.is_some()
+        || record.review.is_some()
+        || record.publication.is_some()
+        || record.readiness.is_some()
+        || record.terminal.is_some()
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "authored design refresh requires current review recovery and cleared downstream authority",
+        ));
+    }
+    require_registered_worktree(store, record)?;
+    let (old_design_digest, old_diagram_digest) = match &cards[&CardKind::Spp].content {
+        CardContent::Spp(values) => (values.design_digest.clone(), values.diagram_digest.clone()),
+        _ => unreachable!("SPP"),
+    };
+    let mut design_artifact =
+        retain_authored_artifact(store.root(), Path::new(&record.design_path))?;
+    let mut diagram_artifact =
+        retain_authored_artifact(store.root(), Path::new(&record.diagram_path))?;
+    let new_design_digest = design_artifact.verify()?;
+    let new_diagram_digest = diagram_artifact.verify()?;
+    if new_design_digest == old_design_digest && new_diagram_digest == old_diagram_digest {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "authored design refresh is a no-op",
+        ));
+    }
+    Ok((
+        DesignBindingRefresh {
+            old_design_digest,
+            new_design_digest,
+            old_diagram_digest,
+            new_diagram_digest,
+        },
+        design_artifact,
+        diagram_artifact,
+    ))
+}
+
+fn require_registered_worktree(store: &Store, record: &IssueRecord) -> Result<()> {
+    let registered = record.worktree.as_ref().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authored design refresh requires a registered worktree",
+        )
+    })?;
+    let branch = record.branch.as_ref().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authored design refresh requires a registered branch",
+        )
+    })?;
+    let actual = fs::canonicalize(store.root())?;
+    let expected = fs::canonicalize(registered)?;
+    if actual != expected || crate::git::current_branch(store.root())? != *branch {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "authored design refresh invocation does not match registered worktree",
+        ));
+    }
+    Ok(())
 }
 
 #[cfg(unix)]
@@ -4683,6 +4788,7 @@ fn recovery_epoch_operation_is_allowed(operation: &str) -> bool {
         return false;
     };
     match value.get("operation").and_then(serde_json::Value::as_str) {
+        Some("approve_design") => true,
         Some("replace_planning_collection") => {
             value.get("field").and_then(serde_json::Value::as_str) == Some("affected_areas")
         }
