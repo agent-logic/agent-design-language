@@ -6,10 +6,21 @@
   "initialization_digest": "c4dbe43c62a974f1a18b33d9b8c6603e5dc3ce0f301be1448117d0e6e7c4d93c",
   "phase": "implemented",
   "generation": 19,
-  "digest": "5e093259b3395a2c6a12a7dddc512abc24a6198830656e5d2f2b2380858ed99b",
+  "digest": "d43755816f18b9b19881b41706b0ad8730c1a2cdb1f6089db45b01760ba8b984",
   "branch": "codex/271-layer8-authority-observatory",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-271-layer8-authority-observatory",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:/root/review_271_impl_r5",
+    "assigned_by": "codex:root",
+    "revision": "git-blake3:371e868effcce5d889eee550250628c9857861fc:b695222f8321319a0f043302bf1ba805165ba4ea5ba77c264eb523fb72a23c67",
+    "scope": [
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/styles.css",
+      "adl/tools/validate_layer8_authority_observatory_ui.sh",
+      ".csdlc/evidence/271",
+      ".csdlc/issues/271"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +56,9 @@
       "ast_digest": "eb59ce5611c4a71d34aba3c023c85ae276f66e4baa810b096df9ff97bf400580"
     },
     "srp": {
-      "values_digest": "726421e300cbedf24a45f14e6f99d43d7a5143db85dad0f03c3911bf8a40b6d4",
-      "rendered_digest": "d31275d3911924ab8f07a4ccab465103013c62509f4ffc19a538eba1692b2768",
-      "ast_digest": "53ad64d0f7a9b3be237ed5cd08a2718213fd832f910caebb98cd894731cbe20a"
+      "values_digest": "2c4f1fd06598318b5890ecbfb8262d9461b6fddbb8de1e01a764796e930a340a",
+      "rendered_digest": "b252ddea28608ae7704ac49edcf1f9848446cd15d082020b2c767d0db718244f",
+      "ast_digest": "54c3a85cc8a4b7417161e574aca1136d0cee2542f19f1810f49d750a5442fc9f"
     },
     "sor": {
       "values_digest": "ac67870b934e5e052ce2a4bde7affb2cbb7c5784638b10b23f7de5be715a19b5",
@@ -281,6 +292,13 @@
       "actor": "codex:root",
       "reason": "Recover #271 review after tracked prepared request packets were committed after the reviewed revision; reassign from current immutable head using Git-common request storage only.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 19,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

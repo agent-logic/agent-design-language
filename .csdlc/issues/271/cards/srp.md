@@ -12,7 +12,11 @@ Status: draft
 
 ## Scope
 
-
+demos/html-observatory/app.js
+demos/html-observatory/styles.css
+adl/tools/validate_layer8_authority_observatory_ui.sh
+.csdlc/evidence/271
+.csdlc/issues/271
 
 ## Prompts
 
