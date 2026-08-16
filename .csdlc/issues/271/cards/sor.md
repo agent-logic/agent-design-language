@@ -89,11 +89,11 @@ Implemented Layer 8 recipient-acknowledgement delivery-state presentation in the
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
