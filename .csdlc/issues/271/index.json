@@ -5,22 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "c4dbe43c62a974f1a18b33d9b8c6603e5dc3ce0f301be1448117d0e6e7c4d93c",
   "phase": "implemented",
-  "generation": 19,
-  "digest": "d43755816f18b9b19881b41706b0ad8730c1a2cdb1f6089db45b01760ba8b984",
+  "generation": 20,
+  "digest": "2d58d4aaf771a03342ca1c5df8087c738cd7e2f5843fe455ab65e16e398296c2",
   "branch": "codex/271-layer8-authority-observatory",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-271-layer8-authority-observatory",
-  "review_assignment": {
-    "reviewer": "fresh-session:/root/review_271_impl_r5",
-    "assigned_by": "codex:root",
-    "revision": "git-blake3:371e868effcce5d889eee550250628c9857861fc:b695222f8321319a0f043302bf1ba805165ba4ea5ba77c264eb523fb72a23c67",
-    "scope": [
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/styles.css",
-      "adl/tools/validate_layer8_authority_observatory_ui.sh",
-      ".csdlc/evidence/271",
-      ".csdlc/issues/271"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -36,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9c3a11c24e049d93610733979a6bdecfa0b28e547e5b5516344f984a62f6b185",
+      "values_digest": "10c26f4b6e4439dc29fa947b955c85d81c2e70870bdad868efc7f49268c63eb1",
       "rendered_digest": "2a66fbe49be5e2a60d2e9bd329ff1f536f15d58add41689e83f3f6d3545e5a62",
       "ast_digest": "6eb9087ee12927519d91ec1489c93b8451381ce9ab6fdb3db3936ce984b22da0"
     },
     "stp": {
-      "values_digest": "abd00972efe0733848883e359c665828aeed95cfe03fe57718ec0909f9938e7a",
+      "values_digest": "62872f8bd40b3233a81c8785a70c4c0598b63653accbf4be50543565be681544",
       "rendered_digest": "d695d037165b3920de98d1366aadb37caa52567b61399728ed589cd9abb30eab",
       "ast_digest": "d9bb7c1efa0a9feb3c2c6a7b73c9f13a99dcc51862633471513e196133d297f4"
     },
     "spp": {
-      "values_digest": "349799d26d2017d5961426a16a3eb50c48ab26255807c358b1b193806dbbdeab",
+      "values_digest": "aa1848496a36c4c0ca4c5fc7ebd51e1a110a9e336953ab226584d8d9420581a2",
       "rendered_digest": "90c41c9107c8bd5ac759409880d5af190e30e6eb0034a6b77b0c2d929a0ae6d2",
       "ast_digest": "7cb01588005200e258a742df413d0a4cb2829a5bb45a34a01a5ec1cb947fb9ba"
     },
     "vpp": {
-      "values_digest": "2542358c15b41061ebda0b9050a455034d6c2ddc3df0784573555114873429d4",
+      "values_digest": "6efdf38278a991bb3646de8a9702a123547d8f691d2c2b6c7b0c6e684c5db47b",
       "rendered_digest": "56142605424a0febd9e4bb6b91a1e4382384caf4294f4557fafc81afd679c5d0",
       "ast_digest": "eb59ce5611c4a71d34aba3c023c85ae276f66e4baa810b096df9ff97bf400580"
     },
     "srp": {
-      "values_digest": "2c4f1fd06598318b5890ecbfb8262d9461b6fddbb8de1e01a764796e930a340a",
-      "rendered_digest": "b252ddea28608ae7704ac49edcf1f9848446cd15d082020b2c767d0db718244f",
-      "ast_digest": "54c3a85cc8a4b7417161e574aca1136d0cee2542f19f1810f49d750a5442fc9f"
+      "values_digest": "18278310b1e5c48eaaad5b6b0aff0a0f27298b4958ebebd39588851464f9a509",
+      "rendered_digest": "d31275d3911924ab8f07a4ccab465103013c62509f4ffc19a538eba1692b2768",
+      "ast_digest": "53ad64d0f7a9b3be237ed5cd08a2718213fd832f910caebb98cd894731cbe20a"
     },
     "sor": {
-      "values_digest": "ac67870b934e5e052ce2a4bde7affb2cbb7c5784638b10b23f7de5be715a19b5",
+      "values_digest": "6ddd38b08a2e187dbd5761eb033d601a68922de6fe56c6774934b85d27319bf1",
       "rendered_digest": "bdf662a0e8195222661cfb85e10df14352a796d91bc270ea34c39210158e85b1",
       "ast_digest": "f79ef991ea5d380ce7a9f45026d296d3631187e48afe54b14c7bd003072bd449"
     }
@@ -299,6 +288,13 @@
       "actor": "codex:root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 20,
+      "actor": "codex:root",
+      "reason": "Recover #271 r5 review assignment after findings-first reviewer identified assignment scope omitted tracked lifecycle prepared and lock paths already present in the publishable diff; reassign with full lifecycle/proof scope.",
+      "operation": "recover_review"
     }
   ]
 }
