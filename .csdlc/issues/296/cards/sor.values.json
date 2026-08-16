@@ -7,38 +7,24 @@
     "title": "[v0.92][C-SDLC][defect] Support typed authored-design refresh after implemented review recovery",
     "slug": "implemented-authored-design-refresh",
     "version": "v0.92",
-    "generation": 21
+    "generation": 22
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Exact r5 review failed; bounded #296 remediation stopped because evidence-preserving quarantine classification and restart recovery require the reusable store transaction subsystem tracked by child blocker #297.",
+      "summary": "Reconciled the typed implemented authored-design refresh with terminal #297 projection recovery and current main.",
       "actual_changes": [
-        "R5 P1: issue-local post-swap verification releases canonical copied-artifact authority before deleting the only complete backup, permitting finalization drift without rollback authority.",
-        "R5 P1: quarantine-name collision, dangling symlink, or race can make rejected-projection preservation fail before verified-backup restoration, leaving the rejected projection canonical.",
-        "R5 P2: a successfully preserved quarantine blocks every later typed commit and has no typed classification, archive, cleanup, or resume route.",
-        "Cohesion stop: typed recovery subsystem scope was split to child blocker #297; no source remediation was attempted after r5 recovery."
+        "Restore implemented authored-design refresh preparation/application helpers after the current-main merge while preserving the public rollback-preserved path and fail-closed classification guard.",
+        "Remove an orphaned Gate 5 merge artifact that left a duplicate fixture helper and restore the intended issue-local authored artifact proof.",
+        "Allow post-recovery plan-summary correction to recognize current structured approve_design audit records and the matching recovery transition after approved intervening repairs."
       ],
       "artifacts": [
         "csdlc-v2/src/store.rs",
         "csdlc-v2/tests/gate5.rs",
-        ".csdlc/issues/296",
-        "https://github.com/agent-logic/agent-design-language/issues/297"
+        ".csdlc/issues/296"
       ],
       "actual_validation": [
-        {
-          "command": [
-            "cargo",
-            "test",
-            "--manifest-path",
-            "csdlc-v2/Cargo.toml",
-            "--lib"
-          ],
-          "purpose": "R5 review baseline; 81 library tests passed but did not cover finalization-window drift, quarantine collisions, or typed preserved-projection recovery.",
-          "outcome": "passed",
-          "evidence_ref": "review:r5-lib-81"
-        },
         {
           "command": [
             "cargo",
@@ -48,9 +34,49 @@
             "--test",
             "gate5"
           ],
-          "purpose": "R5 review baseline; 21 Gate 5 tests passed while the identified transaction recovery gaps remained.",
+          "purpose": "Run complete Gate 5 regression suite including projection recovery, exact review recovery, and issue-local authored refresh.",
           "outcome": "passed",
-          "evidence_ref": "review:r5-gate5-21"
+          "evidence_ref": "local:r6-gate5-59"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "card_identity"
+          ],
+          "purpose": "Run card identity integration suite including implemented authored-design refresh and linked-worktree coverage.",
+          "outcome": "passed",
+          "evidence_ref": "local:r6-card-identity-5"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--lib"
+          ],
+          "purpose": "Run full library suite including retained authored artifact, rollback-preserved, GitHub, finish, and schema invariants.",
+          "outcome": "passed",
+          "evidence_ref": "local:r6-lib-86"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Prove strict all-target lint cleanliness.",
+          "outcome": "passed",
+          "evidence_ref": "local:r6-clippy"
         }
       ],
       "integration_state": "worktree_only",
