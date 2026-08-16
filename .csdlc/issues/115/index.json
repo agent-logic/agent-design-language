@@ -1,0 +1,146 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 115,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "6b431e21b2b0a61991853e1f3f4a1bf51241907edaac9389f1c22998ae3334e7",
+  "phase": "bound",
+  "generation": 8,
+  "digest": "ee639397b068ef2221607eca0f842ac7cd5dce21bbbb8d5060079091d1647edc",
+  "branch": "codex/115-governed-multi-agent-rooms",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-115-governed-multi-agent-rooms",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/115/design.md",
+  "diagram_path": ".csdlc/prepared/issues/115/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "/root/issue_259_takeover/review_259_exact_r1",
+      "revision": "d31a0fb00e55da6078c092f3d05b1f865035e7a2b745a671a5d2067f9bed9df2"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "5152c458306a13b14050b08562850dd2592d156568e89a1878e4ad806b68f157",
+      "rendered_digest": "ecadc343231ebf27f6cc2251766828eff504b8338d3bf9054daa17b13a178c93",
+      "ast_digest": "e02db63fa0459d5bd0d779d49185ce9f2d0c99a6a3378a81fa7d5dcbda279605"
+    },
+    "stp": {
+      "values_digest": "63f844583cf7e1ac43d581c50f4983c727e1cbf7f769fb4b3aac74cb6ac9aa35",
+      "rendered_digest": "52b7561d3147cf35a9d9e3e9c250bb2a4b29d24f74d72f0affff7e08a712c0df",
+      "ast_digest": "35ee5ba28500c070fbcfd0489da6659b6a5043c0516503d3d603efd4c71b847c"
+    },
+    "spp": {
+      "values_digest": "5b322068939a4bec788139f599398fcb9317ac93890c8ce7f9ce1b6741718657",
+      "rendered_digest": "e26bfe2140a9e173c825afa8ca0bc232861990e642e27fc8b62b7598d87bc095",
+      "ast_digest": "16b4224ccc9852138207e7ea7650ab8597dacc0572143c308eaa3f9f51cc30f0"
+    },
+    "vpp": {
+      "values_digest": "e331b722de312936edd376d7eb20148e718d43401ec4595a069ed310312586c9",
+      "rendered_digest": "5ba45045d2fec22c237ee9ef6da6228d1bde2612277d4955b7a8652ba1e41e62",
+      "ast_digest": "eb8f2cb0c493fbb437ed0edfd5922ffea6758fd0731841881c2e8acdae1eb7b9"
+    },
+    "srp": {
+      "values_digest": "b1d3dafb64ae49e211c2e9927ca9fb784b0a72245156bbbc1e39bdc5b8634d30",
+      "rendered_digest": "7773977e7456ba0297c9b92ae7413161c871cb4e7467ac90a241b7f5b5e529d7",
+      "ast_digest": "d4d362c5933f3441a30ea40375adbc01c52aeaef43e90a8c49ad67dd81d9d057"
+    },
+    "sor": {
+      "values_digest": "4b3bffc746e9b99c5cdc9206a15ae57fa34c8c14ffd3dd3af675829ba3b2dd94",
+      "rendered_digest": "287f6be64491ef4017909f4aa314c2a7f93157120b9533f208e5f9420400e0ea",
+      "ast_digest": "62a89eb5754808f8fc115a6c8fb3fb2df988af3008037c5d9c97a9bcce1ed740"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root/issue_115_canonical_recovery",
+      "reason": "Advance #115 to ready/unbound after current-main recovery, hardened canonical dependency and path proof, fresh R4 design/readiness PASS, typed validate PASS, and doctor PASS; stop before bind or implementation."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root/issue_115_canonical_recovery",
+      "reason": "Refresh #115 preparation input to the current typed live issue read before fresh design review; preserve all other plan semantics and remain unbound.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"repo_inputs\",\"values\":[\".git/csdlc-v2/requests/issue115-typed-read-canonical-recovery-20260813T1705Z.result.json\",\".csdlc/prepared/issues/110/graph.json\",\".git/csdlc-v2/derived-terminal/111.json\",\".git/csdlc-v2/derived-terminal/112.json\",\".git/csdlc-v2/derived-terminal/113.json\",\".git/csdlc-v2/derived-terminal/270.json\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root/issue_115_canonical_recovery",
+      "reason": "Resolve fresh-review P2 by making the preparation validator lane's AC-7 role explicitly partial; full AC-7 remains gated by post-approval typed validate and doctor.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-115-preparation-validator\",\"proof_role\":\"Prove current live #115 identity, unbound branch/worktree state, exact #110 dependency graph and #270 marker, concrete governed-room scope/non-goals from cards and design, typed-canonical #111/#112/#113/#270 terminal ancestry, preparation-only changed-path containment, and only the preparation-validator component of AC-7; typed validate and doctor remain separate post-approval gates before ready.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/115/validate_preparation_bundle.py\"],\"parallel_group\":\"local-preparation\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "/root/issue_259_takeover/review_259_exact_r1",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root/issue_115_canonical_recovery",
+      "reason": "Advance #115 to ready/unbound after current-main recovery, hardened canonical dependency and path proof, fresh R4 design/readiness PASS, typed validate PASS, and doctor PASS; stop before bind or implementation.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:root",
+      "reason": "Record #115 partial Runtime room-routing execution while Observatory UI remains gated on terminal #271",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented the Runtime governed room-routing contract slice for #115 while deferring Observatory UI edits until #271 terminal ancestry clears.\",\"changes\":[\"Added exported adl-runtime-kernel conversation_rooms module for explicit governed room turns.\",\"Denied implicit broadcast, duplicate recipients, unknown recipients, ineligible recipients, cross-Polis recipients, unavailable left/revoked recipients, duplicate turns, and reordered turns.\",\"Mapped accepted room routes to Layer 8 AddressRecipients authority scope and preserved partial delivery/refusal/timeout/unavailable/revoked states without hiding recipient identity.\",\"Quarantined an unexported duplicate multi_agent_rooms.rs draft under Git-common quarantine before removing it from the publishable worktree.\"],\"artifacts\":[\"adl-runtime-kernel/src/conversation_rooms.rs\",\"adl-runtime-kernel/src/lib.rs\",\".csdlc/evidence/115/runtime-proof-summary.json\",\".git/csdlc-v2/quarantine/115-duplicate-room-draft-20260816T2322Z/MANIFEST.md\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:root",
+      "reason": "Record #115 Runtime fmt proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--check\"],\"purpose\":\"Format check for #115 Runtime governed room-routing slice\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/115/cargo-fmt-check.log\"}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:root",
+      "reason": "Record #115 Runtime conversation_rooms proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"conversation_rooms\",\"--\",\"--nocapture\"],\"purpose\":\"Focused Runtime governed room-routing proof: explicit recipients, policy/membership denial, partial delivery, Layer 8 scope reuse, ordering, and replay\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/115/conversation-rooms-test.log; summary .csdlc/evidence/115/runtime-proof-summary.json; 6 passed, 0 failed\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:root",
+      "reason": "Record #115 Runtime strict clippy proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict Clippy for #115 Runtime governed room-routing library slice\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/115/cargo-clippy-lib.log\"}}"
+    }
+  ]
+}

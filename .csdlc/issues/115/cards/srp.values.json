@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 115,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.05] Implement governed multi-agent rooms and message routing",
+    "slug": "v0-92-wp-18c-05-governed-multi-agent-rooms-routing",
+    "version": "v0.92.0",
+    "generation": 8
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Fresh readiness/design review of #115 cards, design, readiness packet, validator, live issue contract, and canonical #111/#112/#113/#270 terminal dependency gates.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Verify #115 preserves #111/#112/#113/#270 dependencies and the #270 reconciliation marker.",
+        "Verify #115 consumes canonical terminal caches for #111/#112/#113/#270 and no longer expects #112/#270 terminal caches to be absent.",
+        "Verify #115 is limited to governed rooms/routing and does not redefine #112 authority or #270 acknowledgement trust.",
+        "Verify it is safe to approve design and keep unbound while bind/implementation remain held."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
