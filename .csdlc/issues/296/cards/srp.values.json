@@ -7,21 +7,24 @@
     "title": "[v0.92][C-SDLC][defect] Support typed authored-design refresh after implemented review recovery",
     "slug": "implemented-authored-design-refresh",
     "version": "v0.92",
-    "generation": 22
+    "generation": 23
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "csdlc-v2/src/store.rs\ncsdlc-v2/tests/gate5.rs\n.csdlc/issues/296",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:dcb9f68a806158899c2cf1334a4d0aede97a221e:4a0b79ef159002d77edd8c4626ce1b70ab0e24cf10815c6098e09b3c749c4b55",
+      "reviewer": "fresh-session:646518a3-5255-482a-89e8-0cb9f9f37dc3",
       "review_prompts": [
         "Review every acceptance criterion with code, security, test, and evidence coverage, emphasizing lifecycle authority, stale approval invalidation, artifact TOCTOU and path safety, atomic SPP/VPP parity, append-only history, and exact fresh-review gating."
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Review distinguished substantive revision dcb9f68a806158899c2cf1334a4d0aede97a221e from later assignment-only metadata commit 848c48fc56be3e12161134e90536a944975c8016.",
+        "Reviewer reran only the focused exact issue-local authored artifact test and relied on recorded r6 gate5, card_identity, lib, and clippy evidence for the broader validation set."
+      ],
+      "review_result": "pass"
     }
   }
 }
