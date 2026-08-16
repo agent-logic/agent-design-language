@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "6b431e21b2b0a61991853e1f3f4a1bf51241907edaac9389f1c22998ae3334e7",
   "phase": "bound",
-  "generation": 8,
-  "digest": "ee639397b068ef2221607eca0f842ac7cd5dce21bbbb8d5060079091d1647edc",
+  "generation": 12,
+  "digest": "7c5e3833c3320f2905c8b4f4eb68edf4efbe7de6216a5b29aff12924a934c74f",
   "branch": "codex/115-governed-multi-agent-rooms",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-115-governed-multi-agent-rooms",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5152c458306a13b14050b08562850dd2592d156568e89a1878e4ad806b68f157",
+      "values_digest": "7e001160c1ec79781167be663a77de61cfc1b0bfa9e306c82916ae27115dc003",
       "rendered_digest": "ecadc343231ebf27f6cc2251766828eff504b8338d3bf9054daa17b13a178c93",
       "ast_digest": "e02db63fa0459d5bd0d779d49185ce9f2d0c99a6a3378a81fa7d5dcbda279605"
     },
     "stp": {
-      "values_digest": "63f844583cf7e1ac43d581c50f4983c727e1cbf7f769fb4b3aac74cb6ac9aa35",
+      "values_digest": "dc02b3e3faa9dcbc5827061015130acc9faf8e85c188ae9025d3d6a916e01ac5",
       "rendered_digest": "52b7561d3147cf35a9d9e3e9c250bb2a4b29d24f74d72f0affff7e08a712c0df",
       "ast_digest": "35ee5ba28500c070fbcfd0489da6659b6a5043c0516503d3d603efd4c71b847c"
     },
     "spp": {
-      "values_digest": "5b322068939a4bec788139f599398fcb9317ac93890c8ce7f9ce1b6741718657",
+      "values_digest": "404d153e4bce0f023038a2d528ca05494c59cbc511475af0a440e16b1cbcbded",
       "rendered_digest": "e26bfe2140a9e173c825afa8ca0bc232861990e642e27fc8b62b7598d87bc095",
       "ast_digest": "16b4224ccc9852138207e7ea7650ab8597dacc0572143c308eaa3f9f51cc30f0"
     },
     "vpp": {
-      "values_digest": "e331b722de312936edd376d7eb20148e718d43401ec4595a069ed310312586c9",
+      "values_digest": "9f00c7a9106a2ed4ac3d98871bc054a179e4b2b755a7c1e6e9df69c2ee14333e",
       "rendered_digest": "5ba45045d2fec22c237ee9ef6da6228d1bde2612277d4955b7a8652ba1e41e62",
       "ast_digest": "eb8f2cb0c493fbb437ed0edfd5922ffea6758fd0731841881c2e8acdae1eb7b9"
     },
     "srp": {
-      "values_digest": "b1d3dafb64ae49e211c2e9927ca9fb784b0a72245156bbbc1e39bdc5b8634d30",
+      "values_digest": "1a81ef25f0f5a4091282614545cdb92c8a9f092ecd11c7aa2519ab0a28425b2f",
       "rendered_digest": "7773977e7456ba0297c9b92ae7413161c871cb4e7467ac90a241b7f5b5e529d7",
       "ast_digest": "d4d362c5933f3441a30ea40375adbc01c52aeaef43e90a8c49ad67dd81d9d057"
     },
     "sor": {
-      "values_digest": "4b3bffc746e9b99c5cdc9206a15ae57fa34c8c14ffd3dd3af675829ba3b2dd94",
-      "rendered_digest": "287f6be64491ef4017909f4aa314c2a7f93157120b9533f208e5f9420400e0ea",
-      "ast_digest": "62a89eb5754808f8fc115a6c8fb3fb2df988af3008037c5d9c97a9bcce1ed740"
+      "values_digest": "f08f5566d55d4a6658b8706d079254a28d5713cb1b14d2ac2246b199c839ad56",
+      "rendered_digest": "13dc4ed47c7246c774f7db5a84753c692f0facf78d857416e3dba9eb8764deeb",
+      "ast_digest": "138ae2668449bf9abfdf93a360129e8065c8e7415a12b0d7d8982898f00e8cb9"
     }
   },
   "transitions": [
@@ -141,6 +141,34 @@
       "actor": "codex:root",
       "reason": "Record #115 Runtime strict clippy proof",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict Clippy for #115 Runtime governed room-routing library slice\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/115/cargo-clippy-lib.log\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:root",
+      "reason": "Record #115 Runtime mention contract refinement",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Refined the #115 Runtime governed room-routing slice with an explicit mention contract for accepted room turns.\",\"changes\":[\"Added governed room mention schema and route payload entries derived from authorized room participants.\",\"Preserved stable recipient ordering and display names so Observatory can render recipient mentions without inferring or expanding recipients in the browser.\",\"Extended the focused runtime proof to assert exact mention identities for accepted room turns.\"],\"artifacts\":[\"adl-runtime-kernel/src/conversation_rooms.rs\",\".csdlc/evidence/115/conversation-rooms-test.log\",\".csdlc/evidence/115/cargo-fmt-check.log\",\".csdlc/evidence/115/cargo-clippy-lib.log\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:root",
+      "reason": "Record #115 mention-contract fmt proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--check\"],\"purpose\":\"Format check after adding #115 governed room mention contract\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/115/cargo-fmt-check.log\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:root",
+      "reason": "Record #115 mention-contract runtime proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"conversation_rooms\",\"--\",\"--nocapture\"],\"purpose\":\"Focused Runtime governed room-routing proof after adding stable mention contract\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/115/conversation-rooms-test.log; summary .csdlc/evidence/115/runtime-proof-summary.json; 6 passed, 0 failed\"}}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:root",
+      "reason": "Record #115 mention-contract strict clippy proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict Clippy for #115 Runtime governed room-routing library after mention contract refinement\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/115/cargo-clippy-lib.log\"}}"
     }
   ]
 }

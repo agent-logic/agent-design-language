@@ -1,12 +1,11 @@
-   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-115-governed-multi-agent-rooms/adl-runtime-kernel)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 6.98s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.19s
      Running unittests src/lib.rs (adl-runtime-kernel/target/debug/deps/adl_runtime_kernel-f9fdccf8b6316af1)
 
 running 6 tests
 test conversation_rooms::tests::implicit_broadcast_and_duplicate_recipients_fail_closed ... ok
-test conversation_rooms::tests::unknown_ineligible_and_cross_polis_recipients_fail_closed ... ok
 test conversation_rooms::tests::room_turn_requires_explicit_stable_recipient_set ... ok
 test conversation_rooms::tests::room_turn_ordering_and_replay_are_deterministic ... ok
+test conversation_rooms::tests::unknown_ineligible_and_cross_polis_recipients_fail_closed ... ok
 test conversation_rooms::tests::delivery_states_preserve_partial_failure_without_hiding_recipient_identity ... ok
 test conversation_rooms::tests::room_route_reuses_layer8_address_recipients_authority_scope ... ok
 

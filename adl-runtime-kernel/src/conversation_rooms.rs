@@ -12,6 +12,7 @@ use serde::{Deserialize, Serialize};
 use crate::layer8_authority::{AuthorityScope, Layer8Action};
 
 pub const GOVERNED_ROOM_TURN_SCHEMA: &str = "adl.runtime.governed_room_turn.v1";
+pub const GOVERNED_ROOM_MENTION_SCHEMA: &str = "adl.runtime.governed_room_mention.v1";
 pub const GOVERNED_ROOM_ROUTE_SCHEMA: &str = "adl.runtime.governed_room_route.v1";
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -57,6 +58,16 @@ pub struct GovernedRoomTurnIntent {
     pub message: String,
 }
 
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct GovernedRoomMention {
+    pub schema: &'static str,
+    pub room_id: String,
+    pub turn_id: String,
+    pub recipient_id: String,
+    pub display_name: String,
+}
+
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum GovernedRoomDeliveryState {
@@ -87,6 +98,7 @@ pub struct GovernedRoomRoute {
     pub correlation_id: String,
     pub room_epoch: u64,
     pub addressed_recipients: Vec<String>,
+    pub mentions: Vec<GovernedRoomMention>,
     pub deliveries: Vec<GovernedRoomRecipientDelivery>,
     pub error: Option<&'static str>,
 }
@@ -160,6 +172,7 @@ impl GovernedRoom {
             .iter()
             .map(|participant| (participant.participant_id.as_str(), participant))
             .collect::<BTreeMap<_, _>>();
+        let mut mentions = Vec::new();
         for recipient_id in &addressed {
             let Some(participant) = participants.get(recipient_id.as_str()) else {
                 return Err(GovernedRoomRoutingError::UnknownRecipient);
@@ -173,6 +186,13 @@ impl GovernedRoom {
             if participant.state != GovernedRoomParticipantState::Joined {
                 return Err(GovernedRoomRoutingError::UnavailableRecipient);
             }
+            mentions.push(GovernedRoomMention {
+                schema: GOVERNED_ROOM_MENTION_SCHEMA,
+                room_id: self.room_id.clone(),
+                turn_id: intent.turn_id.clone(),
+                recipient_id: recipient_id.clone(),
+                display_name: participant.display_name.clone(),
+            });
         }
         self.seen_turn_ids.insert(intent.turn_id.clone());
         self.next_turn_sequence = self
@@ -189,6 +209,7 @@ impl GovernedRoom {
             correlation_id: intent.correlation_id.clone(),
             room_epoch: self.epoch,
             addressed_recipients: addressed.into_iter().collect(),
+            mentions,
             deliveries: Vec::new(),
             error: None,
         })
@@ -339,6 +360,25 @@ mod tests {
         assert_eq!(route.room_epoch, 7);
         assert_eq!(route.turn_sequence, 1);
         assert_eq!(route.addressed_recipients, vec!["scribe", "shepherd"]);
+        assert_eq!(
+            route.mentions,
+            vec![
+                GovernedRoomMention {
+                    schema: GOVERNED_ROOM_MENTION_SCHEMA,
+                    room_id: "room-1".to_owned(),
+                    turn_id: "turn-1".to_owned(),
+                    recipient_id: "scribe".to_owned(),
+                    display_name: "scribe".to_owned(),
+                },
+                GovernedRoomMention {
+                    schema: GOVERNED_ROOM_MENTION_SCHEMA,
+                    room_id: "room-1".to_owned(),
+                    turn_id: "turn-1".to_owned(),
+                    recipient_id: "shepherd".to_owned(),
+                    display_name: "shepherd".to_owned(),
+                },
+            ]
+        );
         assert_eq!(route.deliveries, Vec::new());
     }
 
