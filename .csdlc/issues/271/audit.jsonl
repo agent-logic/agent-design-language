@@ -25,3 +25,4 @@
 {"sequence":25,"generation":19,"actor":"codex:root","reason":"Recover #271 review after tracked prepared request packets were committed after the reviewed revision; reassign from current immutable head using Git-common request storage only.","operation":"recover_review"}
 {"sequence":26,"generation":19,"actor":"codex:root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":27,"generation":20,"actor":"codex:root","reason":"Recover #271 r5 review assignment after findings-first reviewer identified assignment scope omitted tracked lifecycle prepared and lock paths already present in the publishable diff; reassign with full lifecycle/proof scope.","operation":"recover_review"}
+{"sequence":28,"generation":20,"actor":"codex:root","reason":"assign bounded exact-revision review","operation":"assign_review"}

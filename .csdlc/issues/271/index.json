@@ -6,10 +6,23 @@
   "initialization_digest": "c4dbe43c62a974f1a18b33d9b8c6603e5dc3ce0f301be1448117d0e6e7c4d93c",
   "phase": "implemented",
   "generation": 20,
-  "digest": "2d58d4aaf771a03342ca1c5df8087c738cd7e2f5843fe455ab65e16e398296c2",
+  "digest": "c3e9bca9555f73a12ca8d1e7cca0c188be6f14599c3b1b23cc2d5d8eecb042c7",
   "branch": "codex/271-layer8-authority-observatory",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-271-layer8-authority-observatory",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:/root/review_271_impl_r6",
+    "assigned_by": "codex:root",
+    "revision": "git-blake3:1f010256591bcf0279559d4987fda870132baa1a:ed6a4dc06697e5ed905be1036cc58c27596b0b8712ad663089d0a283f928f8ad",
+    "scope": [
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/styles.css",
+      "adl/tools/validate_layer8_authority_observatory_ui.sh",
+      ".csdlc/evidence/271",
+      ".csdlc/issues/271",
+      ".csdlc/prepared/issues/271",
+      ".csdlc/locks/271.lock"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +58,9 @@
       "ast_digest": "eb59ce5611c4a71d34aba3c023c85ae276f66e4baa810b096df9ff97bf400580"
     },
     "srp": {
-      "values_digest": "18278310b1e5c48eaaad5b6b0aff0a0f27298b4958ebebd39588851464f9a509",
-      "rendered_digest": "d31275d3911924ab8f07a4ccab465103013c62509f4ffc19a538eba1692b2768",
-      "ast_digest": "53ad64d0f7a9b3be237ed5cd08a2718213fd832f910caebb98cd894731cbe20a"
+      "values_digest": "f43669d8dc6bf10ccb8909880a0ca97e0fdb4ffd2ce04cbe5341273061e27520",
+      "rendered_digest": "e32b8f865b841cdb17d56b10192fa064bcc45100df537f74c9bf02d629de6bae",
+      "ast_digest": "6ac8640a02ebd498ee8ebab9a04ac8abef7e94d6b7b1b5ffe3c83663f1eed245"
     },
     "sor": {
       "values_digest": "6ddd38b08a2e187dbd5761eb033d601a68922de6fe56c6774934b85d27319bf1",
@@ -295,6 +308,13 @@
       "actor": "codex:root",
       "reason": "Recover #271 r5 review assignment after findings-first reviewer identified assignment scope omitted tracked lifecycle prepared and lock paths already present in the publishable diff; reassign with full lifecycle/proof scope.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 20,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
