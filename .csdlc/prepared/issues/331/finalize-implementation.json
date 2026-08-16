@@ -1,0 +1,203 @@
+{
+  "schema": "csdlc.finalize_request.v1",
+  "issue": 331,
+  "expected_generation": 3,
+  "expected_digest": "b7d066b3598b7acadba36ff2b9e695cad88e405f420be2f4b0fa00138d337bd1",
+  "actor": "codex:/root",
+  "summary": "Implemented initialized/unbound code_repository migration authority for legacy issue records without widening existing bound migration behavior.",
+  "changes": [
+    "Added a typed initialized_code_repository migration request/report/evidence contract for initialized, unbound issue records.",
+    "Authorized migration only when exact generation/digest, source issue repository, canonical target repository, clean initialized topology, and digest-bound collision evidence all match.",
+    "Preserved existing bound/implemented/reviewed code-repository migration report schema and behavior while adding a separate initialized/unbound route.",
+    "Exposed the route through csdlc-issue and the public schema surface.",
+    "Added issue-owned regression proof for digest-bound evidence, initialized/unbound evidence shape, doctor/validate readiness, and existing bound migration compatibility."
+  ],
+  "artifacts": [
+    "csdlc-v2/src/migration.rs",
+    "csdlc-v2/src/store.rs",
+    "csdlc-v2/src/bin/csdlc-issue.rs",
+    "csdlc-v2/src/schema.rs",
+    "csdlc-v2/src/lib.rs",
+    "csdlc-v2/tests/code_repository_migration.rs",
+    ".csdlc/prepared/issues/331/validate_initialized_code_repository_migration.py"
+  ],
+  "execution": {
+    "manifest": {
+      "schema": "csdlc.pvf.manifest.v1",
+      "lanes": [
+        {
+          "id": "initialized-nonzero-validator",
+          "proof_role": "Issue-owned initialized/unbound migration proof",
+          "purpose": "Run the issue-owned validator that verifies its own digest, exact nonzero regression tests, and doctor plus csdlc-validate readiness coverage.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 512,
+            "tokens": 2500
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "python",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 600,
+          "executable": "python3",
+          "argv": [
+            ".csdlc/prepared/issues/331/validate_initialized_code_repository_migration.py",
+            "--mode",
+            "initialized-nonzero"
+          ],
+          "evidence": {
+            "max_log_bytes": 65536,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        },
+        {
+          "id": "code-repository-migration-target",
+          "proof_role": "Focused code repository migration regression suite",
+          "purpose": "Run the full code_repository_migration integration target covering initialized migration and existing bound migration compatibility.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 2,
+            "memory_mib": 2048,
+            "tokens": 3000
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "rust",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 900,
+          "executable": "cargo",
+          "argv": [
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "code_repository_migration"
+          ],
+          "evidence": {
+            "max_log_bytes": 65536,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        },
+        {
+          "id": "csdlc-v2-fmt",
+          "proof_role": "Formatting regression guard",
+          "purpose": "Reject Rust formatting drift in the changed C-SDLC v2 crate.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 256,
+            "tokens": 500
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "rust",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 120,
+          "executable": "cargo",
+          "argv": [
+            "fmt",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--check"
+          ],
+          "evidence": {
+            "max_log_bytes": 16384,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        },
+        {
+          "id": "csdlc-v2-check",
+          "proof_role": "Rust compile regression guard",
+          "purpose": "Confirm the changed C-SDLC v2 crate compiles.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 1024,
+            "tokens": 1500
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "rust",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 600,
+          "executable": "cargo",
+          "argv": [
+            "check",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml"
+          ],
+          "evidence": {
+            "max_log_bytes": 32768,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        },
+        {
+          "id": "csdlc-v2-strict-clippy",
+          "proof_role": "Strict Rust warning regression guard",
+          "purpose": "Reject warning regressions across all C-SDLC v2 targets.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 2,
+            "memory_mib": 2048,
+            "tokens": 2500
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "rust",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 900,
+          "executable": "cargo",
+          "argv": [
+            "clippy",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "evidence": {
+            "max_log_bytes": 65536,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        }
+      ]
+    },
+    "selection": {
+      "requested_lanes": [
+        "initialized-nonzero-validator",
+        "code-repository-migration-target",
+        "csdlc-v2-fmt",
+        "csdlc-v2-check",
+        "csdlc-v2-strict-clippy"
+      ],
+      "allow_network": false,
+      "available_credentials": []
+    },
+    "budget": {
+      "max_parallel": 2,
+      "cpu_units": 4,
+      "memory_mib": 4096,
+      "tokens": 10000
+    },
+    "root": "/Volumes/FastWork/adl-worktrees/adl-issue-331-initialized-code-repository-recovery",
+    "evidence_dir": "/Volumes/FastWork/adl-worktrees/adl-issue-331-initialized-code-repository-recovery/.csdlc/evidence/331",
+    "cancellation_file": null
+  }
+}

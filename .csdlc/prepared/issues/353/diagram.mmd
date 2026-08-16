@@ -1,0 +1,10 @@
+flowchart LR
+  A["Reviewed commit A"] --> B["Review metadata B"]
+  B --> C["Published metadata head C"]
+  C --> F["Finish"]
+  F --> H["Read C historical index: review equal"]
+  F --> R["Read A as reviewed substantive revision"]
+  H --> T["Terminal"]
+  R --> T
+  N["Null or unequal review anchor"] --> X["Fail closed"]
+  D["Non-governed drift"] --> X

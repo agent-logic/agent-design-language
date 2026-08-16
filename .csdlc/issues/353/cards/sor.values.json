@@ -1,0 +1,77 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 353,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC v2][defect] Anchor republished review evidence to the publication commit",
+    "slug": "publication-review-anchor",
+    "version": "v0.92",
+    "generation": 5
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Anchor canonical review equality to the exact live publication metadata head while retaining the original publication revision as the governed-drift lower bound.",
+      "actual_changes": [
+        "Read canonical review authority from expected_head_sha after live PR-head verification.",
+        "Retain publication.revision for metadata-only drift classification and review.reviewed_revision for substantive ancestry.",
+        "Exercise a republish-shaped historical publication anchor without review and a current metadata head containing the canonical completed review."
+      ],
+      "artifacts": [
+        "csdlc-v2/src/finish.rs",
+        "csdlc-v2/tests/gate_finish.rs"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Prove strict lint cleanliness.",
+          "outcome": "passed",
+          "evidence_ref": "issue-353-clippy.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "fmt",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--all",
+            "--",
+            "--check"
+          ],
+          "purpose": "Prove Rust formatting.",
+          "outcome": "passed",
+          "evidence_ref": "issue-353-format.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate_finish"
+          ],
+          "purpose": "Prove publication/review anchor semantics.",
+          "outcome": "passed",
+          "evidence_ref": "issue-353-gate-finish.log"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

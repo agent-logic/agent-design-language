@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 363,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[C-SDLC v2][defect] Permit sequenced implemented plan-summary repair after review recovery",
+    "slug": "implemented-plan-summary-recovery-epoch",
+    "version": "v0.92",
+    "generation": 10
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "csdlc-v2/src/store.rs\ncsdlc-v2/tests/gate5.rs\n.csdlc/issues/363\n.csdlc/prepared/issues/363\n.csdlc/evidence/363",
+      "review_revision": "git-blake3:1765d9eaf7c6da7ef80b28d052c8d2a06d3f3bef:4563de7d1436ba72888f21863583369f28c1a5636ab36e8f7170720352ffbfa3",
+      "reviewer": "fresh-session:2e9ad15d-ff0a-4c15-8bac-ac28674348d4",
+      "review_prompts": [
+        "Is recovery ancestry bounded to one issue epoch?",
+        "Does every authority-changing operation end the epoch?",
+        "Are review publication readiness terminal guards preserved?",
+        "Does the regression reproduce #274 sequencing?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pass"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 274,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1b][205.c] Add Observatory quorum serving authority",
+    "slug": "observatory-quorum-serving-authority",
+    "version": "v0.92",
+    "generation": 31
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/274\n.csdlc/prepared/issues/274\n.csdlc/evidence/274\nadl-runtime/src/distributed/mod.rs\nadl-runtime/src/distributed/observatory_serving_eligibility.rs\nadl-runtime/tests/distributed_observatory_serving_eligibility.rs\nadl/tools/check_coverage_impact.sh\nadl/tools/test_check_coverage_impact.sh\nadl/tools/run_pr_fast_coverage_lane.sh\nadl/tools/test_run_pr_fast_coverage_lane.sh",
+      "review_revision": "git-blake3:a1a79ae14a94eb181f3b1d781eef54c703919f1d:d0e6f562874e2fbacae0a76cca8bf15fdb4f6b716bb7ac41574987c2a26f9c64",
+      "reviewer": "fresh-session:89ff2555-eb86-4a61-a214-7c584945eaac",
+      "review_prompts": [
+        "Does #274 own only the Observatory-specific module/test and explicitly exclude serving_authority.rs, Shepherd paths, #203, and #205?",
+        "Is distributed/mod.rs treated as a shared serialized registration surface gated after terminal+ancestral #273 unless proven unnecessary?",
+        "Can any caller, minority, partition, stale lease, cached state, raw token, or local clock mint or revive eligibility?",
+        "Does transfer atomically deny the predecessor before the successor is eligible and bind a strictly newer fence?",
+        "Are acquire, renew, revoke, expiry, replay, retry, restart, receipt, and redaction semantics deterministic and fail closed?",
+        "Are all product proof, exact-head review, hosted CI, and terminal claims truthfully deferred?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pass"
+    }
+  }
+}

@@ -32,6 +32,10 @@
       "description": "Signed Runtime v3 control commands."
     },
     {
+      "name": "layer8",
+      "description": "Layer 8 signed authority protocol endpoints."
+    },
+    {
       "name": "discovery",
       "description": "API specifications and interactive documentation."
     }
@@ -183,6 +187,84 @@
           "maximumSequenceAdvance": 1000000,
           "terminalSequenceAccepted": false,
           "pressureResult": "structured_rejection_without_sequence_reservation"
+        }
+      }
+    },
+    "/v1/layer8/recipient-acknowledgement": {
+      "post": {
+        "operationId": "verifyLayer8RecipientAcknowledgement",
+        "tags": [
+          "layer8"
+        ],
+        "summary": "Verify a signed Layer 8 recipient acknowledgement",
+        "description": "Verifies the sender-signed request and recipient-signed acknowledgement before reporting delivery. The route performs no conversation-history, Observatory, or durable-state mutation, binds credential generations through the signed identity messages, distinguishes delivered from refused acknowledgements, and returns only a hash of the shared correlation id.",
+        "security": [],
+        "x-adl-authorization": {
+          "transport": "server_tls",
+          "listenerMutualTls": false,
+          "application": "sender_request_and_recipient_acknowledgement_ed25519_signatures",
+          "verifyBeforeSideEffects": true,
+          "correlation": "hash_only",
+          "description": "The Runtime validates both SignedIdentityMessage signatures after ordinary server-authenticated TLS. This endpoint does not invent authority, expose raw correlation ids, or persist delivery history."
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RuntimeRecipientAcknowledgementRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Acknowledgement verified and delivered.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RuntimeRecipientAcknowledgementResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Request or acknowledgement refused before side effects.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RuntimeRecipientAcknowledgementResponse"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "Layer 8 acknowledgement verifier is unavailable.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RuntimeRecipientAcknowledgementResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "options": {
+        "operationId": "runtimeLayer8RecipientAcknowledgementCorsPreflight",
+        "tags": [
+          "layer8"
+        ],
+        "summary": "Preflight Layer 8 recipient acknowledgement verification",
+        "description": "Returns CORS preflight headers for configured Observatory origins before browser POSTs to /v1/layer8/recipient-acknowledgement.",
+        "security": [],
+        "responses": {
+          "204": {
+            "description": "Origin and requested method are allowed for signed acknowledgement verification."
+          },
+          "403": {
+            "description": "Origin is not present in configured observatory.allowed_origins."
+          }
         }
       }
     },
@@ -647,6 +729,148 @@
           },
           "sequence_reserved": {
             "type": "boolean"
+          }
+        }
+      },
+      "SignedIdentityMessage": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "schema",
+          "message_kind",
+          "message_id",
+          "sender_id",
+          "recipient_id",
+          "polis_id",
+          "conversation_id",
+          "correlation_id",
+          "causation_id",
+          "replay_id",
+          "monotonic_sequence",
+          "issued_at_epoch_secs",
+          "expires_at_epoch_secs",
+          "payload_json",
+          "signing_key_id",
+          "credential_generation",
+          "signature"
+        ],
+        "properties": {
+          "schema": {
+            "const": "adl.runtime.acip.identity_message.v1"
+          },
+          "message_kind": {
+            "enum": ["request", "acknowledgement"]
+          },
+          "message_id": {
+            "type": "string"
+          },
+          "sender_id": {
+            "type": "string"
+          },
+          "recipient_id": {
+            "type": "string"
+          },
+          "polis_id": {
+            "type": "string"
+          },
+          "conversation_id": {
+            "type": "string"
+          },
+          "correlation_id": {
+            "type": "string",
+            "description": "Raw signed correlation id. The acknowledgement response returns only correlation_hash."
+          },
+          "causation_id": {
+            "type": "string"
+          },
+          "replay_id": {
+            "type": "string"
+          },
+          "monotonic_sequence": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "issued_at_epoch_secs": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "expires_at_epoch_secs": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "payload_json": {
+            "type": "string",
+            "description": "JCS-canonical JSON string covered by the Ed25519 signature."
+          },
+          "signing_key_id": {
+            "type": "string"
+          },
+          "credential_generation": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "signature": {
+            "type": "string",
+            "description": "Hex-encoded Ed25519 signature over the unsigned identity message JSON."
+          }
+        }
+      },
+      "RuntimeRecipientAcknowledgementRequest": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["schema", "signed_request", "acknowledgement"],
+        "properties": {
+          "schema": {
+            "const": "adl.runtime_v3.layer8.recipient_acknowledgement_request.v1"
+          },
+          "signed_request": {
+            "$ref": "#/components/schemas/SignedIdentityMessage"
+          },
+          "acknowledgement": {
+            "$ref": "#/components/schemas/SignedIdentityMessage"
+          }
+        }
+      },
+      "RuntimeRecipientAcknowledgementResponse": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["schema", "status"],
+        "properties": {
+          "schema": {
+            "const": "adl.runtime_v3.layer8.recipient_acknowledgement_response.v1"
+          },
+          "status": {
+            "enum": ["delivered", "refused", "failed"]
+          },
+          "conversation_id": {
+            "type": "string"
+          },
+          "request_message_id": {
+            "type": "string"
+          },
+          "acknowledgement_message_id": {
+            "type": "string"
+          },
+          "sender_id": {
+            "type": "string"
+          },
+          "recipient_id": {
+            "type": "string"
+          },
+          "correlation_hash": {
+            "type": "string",
+            "description": "BLAKE3 hash of the raw signed correlation id; the raw correlation id is not echoed."
+          },
+          "sender_credential_generation": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "recipient_credential_generation": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "error": {
+            "type": "string"
           }
         }
       },

@@ -1,0 +1,7 @@
+flowchart TD
+  A["#112 Layer 8 signed authority core"] --> D["#276 durable journal foundation"]
+  B["#265 Runtime ingress enforcement"] --> D
+  C["#270 trusted recipient acknowledgement API"] --> D
+  D --> E["#277 watermarks, idempotency, replay, receipts"]
+  E --> F["#278 re-authorized history APIs and Observatory restoration"]
+  F --> G["#114 parent integrated durable-history proof"]

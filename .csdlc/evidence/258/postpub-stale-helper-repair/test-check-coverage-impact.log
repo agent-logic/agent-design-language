@@ -1,0 +1,1786 @@
+Authoritative coverage mode: bounded_policy_surface_pr
+Features: default
+Full authoritative default-feature proof remains reserved for push-to-main and mixed runtime policy changes.
+Authoritative coverage test threads: 4
+Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup
+{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl/target","dest_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/.csdlc/evidence/258/repo-local-tmp/authoritative-coverage.Mtm95f/scratch/target/llvm-cov-target/run-a/adl-runtime","validation_proof":false}
+Authoritative coverage companion: adl-runtime
+{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl/target","dest_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/.csdlc/evidence/258/repo-local-tmp/authoritative-coverage.Mtm95f/scratch/target/llvm-cov-target/run-a/workspace","validation_proof":false}
+Authoritative coverage mode: bounded_policy_surface_pr
+Features: default
+Full authoritative default-feature proof remains reserved for push-to-main and mixed runtime policy changes.
+Authoritative coverage test threads: 4
+Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup
+{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl/target","dest_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/.csdlc/evidence/258/repo-local-tmp/authoritative-coverage.Mtm95f/scratch/target/llvm-cov-target/run-collect-shard/workspace","validation_proof":false}
+Authoritative coverage mode: bounded_policy_surface_pr
+Features: default
+Full authoritative default-feature proof remains reserved for push-to-main and mixed runtime policy changes.
+Authoritative coverage test threads: 4
+Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup
+{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl/target","dest_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/.csdlc/evidence/258/repo-local-tmp/authoritative-coverage.Mtm95f/scratch/target/llvm-cov-target/run-report-only/workspace","validation_proof":false}
+Imported coverage profraw profiles: 1
+Authoritative coverage mode: full_authoritative_default_features
+Features: default
+Authoritative coverage linker mode: default
+Authoritative coverage test threads: 4
+Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup
+{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl/target","dest_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/.csdlc/evidence/258/repo-local-tmp/authoritative-coverage.Mtm95f/scratch/target/llvm-cov-target/run-isolated-workspace/workspace","validation_proof":false}
+Authoritative coverage mode: full_authoritative_default_features
+Features: default
+Authoritative coverage linker mode: default
+Authoritative coverage test threads: 4
+Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup
+{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl/target","dest_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/.csdlc/evidence/258/repo-local-tmp/authoritative-coverage.Mtm95f/scratch/target/llvm-cov-target/run-isolated-adl-runtime/adl-runtime","validation_proof":false}
+Authoritative coverage companion: adl-runtime
+Authoritative coverage mode: full_authoritative_default_features
+Features: default
+Authoritative coverage linker mode: default
+Authoritative coverage test threads: 4
+Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup
+{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl/target","dest_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/.csdlc/evidence/258/repo-local-tmp/authoritative-coverage.Mtm95f/scratch/target/llvm-cov-target/run-release-artifacts/workspace","validation_proof":false}
+workspace summary from current isolated profile
+Authoritative coverage mode: full_authoritative_default_features
+Features: default
+Authoritative coverage linker mode: default
+Authoritative coverage test threads: 4
+Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup
+Authoritative coverage mode: bounded_policy_surface_pr
+Features: default
+Full authoritative default-feature proof remains reserved for push-to-main and mixed runtime policy changes.
+Authoritative coverage test threads: 4
+Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup
+{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl/target","dest_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/.csdlc/evidence/258/repo-local-tmp/authoritative-coverage.Mtm95f/scratch/target/llvm-cov-target/run-prebuild-failure/adl-runtime","validation_proof":false}
+Authoritative coverage companion: adl-runtime
+{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl/target","dest_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/.csdlc/evidence/258/repo-local-tmp/authoritative-coverage.Mtm95f/scratch/target/llvm-cov-target/run-prebuild-failure/workspace","validation_proof":false}
+Authoritative coverage compile failed for workspace: 66; partitions and report command suppressed
+coverage summary merge failed: workspace summary is missing: /Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/.csdlc/evidence/258/repo-local-tmp/authoritative-coverage.Mtm95f/scratch/coverage-output/run-prebuild-failure/coverage-summary.adl.json
+Authoritative coverage mode: bounded_policy_surface_pr
+Features: default
+Full authoritative default-feature proof remains reserved for push-to-main and mixed runtime policy changes.
+Authoritative coverage test threads: 4
+Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup
+{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl/target","dest_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/.csdlc/evidence/258/repo-local-tmp/authoritative-coverage.Mtm95f/scratch/target/llvm-cov-target/run-combined-failure/adl-runtime","validation_proof":false}
+Authoritative coverage companion: adl-runtime
+{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl/target","dest_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/.csdlc/evidence/258/repo-local-tmp/authoritative-coverage.Mtm95f/scratch/target/llvm-cov-target/run-combined-failure/workspace","validation_proof":false}
+Authoritative coverage profile cleanup failed for workspace: 55
+coverage summary merge failed: workspace summary is missing: /Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/.csdlc/evidence/258/repo-local-tmp/authoritative-coverage.Mtm95f/scratch/coverage-output/run-combined-failure/coverage-summary.adl.json
+Authoritative coverage mode: bounded_policy_surface_pr
+Features: default
+Full authoritative default-feature proof remains reserved for push-to-main and mixed runtime policy changes.
+Authoritative coverage test threads: 4
+Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup
+{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl/target","dest_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/.csdlc/evidence/258/repo-local-tmp/authoritative-coverage.Mtm95f/scratch/target/llvm-cov-target/run-cleanup-failure/adl-runtime","validation_proof":false}
+Authoritative coverage companion: adl-runtime
+Authoritative coverage profile cleanup failed for adl-runtime: 55
+{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl/target","dest_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/.csdlc/evidence/258/repo-local-tmp/authoritative-coverage.Mtm95f/scratch/target/llvm-cov-target/run-cleanup-failure/workspace","validation_proof":false}
+Authoritative coverage profile cleanup failed for workspace: 55
+coverage summary merge failed: workspace summary is missing: /Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/.csdlc/evidence/258/repo-local-tmp/authoritative-coverage.Mtm95f/scratch/coverage-output/run-cleanup-failure/coverage-summary.adl.json
+Authoritative coverage mode: bounded_policy_surface_pr
+Features: default
+Full authoritative default-feature proof remains reserved for push-to-main and mixed runtime policy changes.
+Authoritative coverage test threads: 4
+Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup
+{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl/target","dest_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/.csdlc/evidence/258/repo-local-tmp/authoritative-coverage.Mtm95f/scratch/target/llvm-cov-target/run-failing/adl-runtime","validation_proof":false}
+Authoritative coverage companion: adl-runtime
+{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl/target","dest_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/.csdlc/evidence/258/repo-local-tmp/authoritative-coverage.Mtm95f/scratch/target/llvm-cov-target/run-failing/workspace","validation_proof":false}
+Authoritative coverage mode: bounded_policy_surface_pr
+Features: default
+Full authoritative default-feature proof remains reserved for push-to-main and mixed runtime policy changes.
+Authoritative coverage test threads: 4
+Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup
+{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl/target","dest_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/.csdlc/evidence/258/repo-local-tmp/authoritative-coverage.Mtm95f/scratch/target/llvm-cov-target/run-runtime-only-failure/adl-runtime","validation_proof":false}
+Authoritative coverage companion: adl-runtime
+{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl/target","dest_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/.csdlc/evidence/258/repo-local-tmp/authoritative-coverage.Mtm95f/scratch/target/llvm-cov-target/run-runtime-only-failure/workspace","validation_proof":false}
+Authoritative coverage mode: bounded_policy_surface_pr
+Features: default
+Full authoritative default-feature proof remains reserved for push-to-main and mixed runtime policy changes.
+Authoritative coverage test threads: 4
+Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup
+{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl/target","dest_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/.csdlc/evidence/258/repo-local-tmp/authoritative-coverage.Mtm95f/scratch/target/llvm-cov-target/run-workspace-only-failure/adl-runtime","validation_proof":false}
+Authoritative coverage companion: adl-runtime
+{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl/target","dest_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/.csdlc/evidence/258/repo-local-tmp/authoritative-coverage.Mtm95f/scratch/target/llvm-cov-target/run-workspace-only-failure/workspace","validation_proof":false}
+Authoritative coverage mode: bounded_policy_surface_pr
+Features: default
+Full authoritative default-feature proof remains reserved for push-to-main and mixed runtime policy changes.
+Authoritative coverage test threads: 4
+Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup
+{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl/target","dest_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/.csdlc/evidence/258/repo-local-tmp/authoritative-coverage.Mtm95f/scratch/target/llvm-cov-target/run-distinct-failures/adl-runtime","validation_proof":false}
+Authoritative coverage companion: adl-runtime
+{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl/target","dest_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/.csdlc/evidence/258/repo-local-tmp/authoritative-coverage.Mtm95f/scratch/target/llvm-cov-target/run-distinct-failures/workspace","validation_proof":false}
+Authoritative coverage mode: bounded_policy_surface_pr
+Features: default
+Full authoritative default-feature proof remains reserved for push-to-main and mixed runtime policy changes.
+Authoritative coverage test threads: 4
+Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup
+Authoritative coverage mode: bounded_policy_surface_pr
+Features: default
+Full authoritative default-feature proof remains reserved for push-to-main and mixed runtime policy changes.
+Authoritative coverage test threads: 4
+Authoritative coverage skip patterns: real_pr_,runtime_v2_runtime_inhabitant_integration_proof_route_paths_exist,runtime_v2_runtime_inhabitant_integration_contract_is_stable,runtime_v2_runtime_inhabitant_integration_matches_golden_fixture_and_report,runtime_v2_runtime_inhabitant_integration_validation_rejects_metadata_drift,runtime_v2_runtime_inhabitant_integration_validation_rejects_stage_and_trace_gaps,runtime_v2_runtime_inhabitant_integration_validate_against_rejects_dependency_drift,runtime_v2_runtime_inhabitant_integration_contract_registry_smoke_covers_accessors,csmctl_authenticated_api_client_waits_for_slow_listener_startup
+{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl/target","dest_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/.csdlc/evidence/258/repo-local-tmp/authoritative-coverage.Mtm95f/scratch/target/llvm-cov-target/run-concurrent-a/adl-runtime","validation_proof":false}
+{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl/target","dest_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/.csdlc/evidence/258/repo-local-tmp/authoritative-coverage.Mtm95f/scratch/target/llvm-cov-target/run-concurrent-b/adl-runtime","validation_proof":false}
+Authoritative coverage companion: adl-runtime
+Authoritative coverage companion: adl-runtime
+{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl/target","dest_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/.csdlc/evidence/258/repo-local-tmp/authoritative-coverage.Mtm95f/scratch/target/llvm-cov-target/run-concurrent-a/workspace","validation_proof":false}
+{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl/target","dest_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/.csdlc/evidence/258/repo-local-tmp/authoritative-coverage.Mtm95f/scratch/target/llvm-cov-target/run-concurrent-b/workspace","validation_proof":false}
+Authoritative coverage mode: full_authoritative_default_features
+Features: default
+Authoritative coverage linker mode: lld
+Authoritative coverage test threads: 2
+Authoritative coverage skip patterns: live_pr_fixture_
+{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl/target","dest_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/.csdlc/evidence/258/repo-local-tmp/authoritative-coverage.Mtm95f/scratch/target/llvm-cov-target/run-lld/adl-runtime","validation_proof":false}
+Authoritative coverage companion: adl-runtime
+{"status":"skipped","reason":"source target cache missing","source_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/adl/target","dest_target":"/Volumes/FastWork/adl-worktrees/adl-issue-258-authority-store-boundary/.csdlc/evidence/258/repo-local-tmp/authoritative-coverage.Mtm95f/scratch/target/llvm-cov-target/run-lld/workspace","validation_proof":false}
+PASS test_run_authoritative_coverage_lane
+PASS test_run_local_authoritative_coverage_gate
+warning: variant `RevisionDrift` is never constructed
+  --> tests/../src/distributed/fencing.rs:67:5
+   |
+46 | pub enum FencingError {
+   |          ------------ variant in this enum
+...
+67 |     RevisionDrift,
+   |     ^^^^^^^^^^^^^
+   |
+   = note: `FencingError` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: struct `FencingAuthorityRevision` is never constructed
+   --> tests/../src/distributed/fencing.rs:174:12
+    |
+174 | pub struct FencingAuthorityRevision {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `checkpoint_generation` and `state_sha256` are never used
+   --> tests/../src/distributed/fencing.rs:180:12
+    |
+179 | impl FencingAuthorityRevision {
+    | ----------------------------- methods in this implementation
+180 |     pub fn checkpoint_generation(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^^^
+...
+184 |     pub fn state_sha256(&self) -> [u8; 32] {
+    |            ^^^^^^^^^^^^
+
+warning: struct `RedactedFencingRow` is never constructed
+   --> tests/../src/distributed/fencing.rs:190:12
+    |
+190 | pub struct RedactedFencingRow {
+    |            ^^^^^^^^^^^^^^^^^^
+
+warning: methods `lineage_ref`, `epoch`, `committed_log_index`, `voter_set_generation`, and `operation_class` are never used
+   --> tests/../src/distributed/fencing.rs:199:12
+    |
+198 | impl RedactedFencingRow {
+    | ----------------------- methods in this implementation
+199 |     pub fn lineage_ref(&self) -> &str {
+    |            ^^^^^^^^^^^
+...
+203 |     pub fn epoch(&self) -> u64 {
+    |            ^^^^^
+...
+207 |     pub fn committed_log_index(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+211 |     pub fn voter_set_generation(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+215 |     pub fn operation_class(&self) -> u32 {
+    |            ^^^^^^^^^^^^^^^
+
+warning: struct `RedactedFencingSnapshot` is never constructed
+   --> tests/../src/distributed/fencing.rs:221:12
+    |
+221 | pub struct RedactedFencingSnapshot {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `trust_domain`, `revision`, and `rows` are never used
+   --> tests/../src/distributed/fencing.rs:228:12
+    |
+227 | impl RedactedFencingSnapshot {
+    | ---------------------------- methods in this implementation
+228 |     pub fn trust_domain(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+232 |     pub fn revision(&self) -> FencingAuthorityRevision {
+    |            ^^^^^^^^
+...
+236 |     pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedFencingRow> {
+    |            ^^^^
+
+warning: methods `authority_revision`, `redacted_snapshot_at`, and `seed_floor_for_snapshot_test` are never used
+   --> tests/../src/distributed/fencing.rs:387:12
+    |
+285 | impl FencingStore {
+    | ----------------- methods in this implementation
+...
+387 |     pub fn authority_revision(&self) -> FencingResult<FencingAuthorityRevision> {
+    |            ^^^^^^^^^^^^^^^^^^
+...
+395 |     pub fn redacted_snapshot_at(
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+444 |     pub(crate) fn seed_floor_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `projection_ref` is never used
+   --> tests/../src/distributed/fencing.rs:769:4
+    |
+769 | fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+    |    ^^^^^^^^^^^^^^
+
+warning: constant `AUTHORITY_BOUND` is never used
+  --> tests/../src/distributed/fencing.rs:31:22
+   |
+31 |     pub(crate) const AUTHORITY_BOUND: FencingStoreAccess = FencingStoreAccess { _seal: [1] };
+   |                      ^^^^^^^^^^^^^^^
+
+warning: variant `RevisionDrift` is never constructed
+  --> tests/../src/distributed/migration.rs:56:5
+   |
+33 | pub enum MigrationError {
+   |          -------------- variant in this enum
+...
+56 |     RevisionDrift,
+   |     ^^^^^^^^^^^^^
+   |
+   = note: `MigrationError` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: struct `MigrationAuthorityRevision` is never constructed
+   --> tests/../src/distributed/migration.rs:258:12
+    |
+258 | pub struct MigrationAuthorityRevision {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `checkpoint_generation` and `state_sha256` are never used
+   --> tests/../src/distributed/migration.rs:264:12
+    |
+263 | impl MigrationAuthorityRevision {
+    | ------------------------------- methods in this implementation
+264 |     pub fn checkpoint_generation(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^^^
+...
+268 |     pub fn state_sha256(&self) -> [u8; 32] {
+    |            ^^^^^^^^^^^^
+
+warning: struct `RedactedMigrationRow` is never constructed
+   --> tests/../src/distributed/migration.rs:274:12
+    |
+274 | pub struct RedactedMigrationRow {
+    |            ^^^^^^^^^^^^^^^^^^^^
+
+warning: multiple methods are never used
+   --> tests/../src/distributed/migration.rs:287:12
+    |
+286 | impl RedactedMigrationRow {
+    | ------------------------- methods in this implementation
+287 |     pub fn migration_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^^
+...
+291 |     pub fn lineage_ref(&self) -> &str {
+    |            ^^^^^^^^^^^
+...
+295 |     pub fn source_node_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^^^^
+...
+299 |     pub fn source_guardian_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+303 |     pub fn target_node_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^^^^
+...
+307 |     pub fn target_guardian_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+311 |     pub fn phase(&self) -> MigrationPhase {
+    |            ^^^^^
+...
+315 |     pub fn source_authoritative(&self) -> bool {
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+319 |     pub fn target_authoritative(&self) -> bool {
+    |            ^^^^^^^^^^^^^^^^^^^^
+
+warning: struct `RedactedMigrationSnapshot` is never constructed
+   --> tests/../src/distributed/migration.rs:325:12
+    |
+325 | pub struct RedactedMigrationSnapshot {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `trust_domain`, `revision`, and `rows` are never used
+   --> tests/../src/distributed/migration.rs:332:12
+    |
+331 | impl RedactedMigrationSnapshot {
+    | ------------------------------ methods in this implementation
+332 |     pub fn trust_domain(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+336 |     pub fn revision(&self) -> MigrationAuthorityRevision {
+    |            ^^^^^^^^
+...
+340 |     pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedMigrationRow> {
+    |            ^^^^
+
+warning: methods `authority_revision`, `redacted_snapshot_at`, and `seed_record_for_snapshot_test` are never used
+   --> tests/../src/distributed/migration.rs:514:12
+    |
+422 | impl MigrationStore {
+    | ------------------- methods in this implementation
+...
+514 |     pub fn authority_revision(&self) -> MigrationResult<MigrationAuthorityRevision> {
+    |            ^^^^^^^^^^^^^^^^^^
+...
+522 |     pub fn redacted_snapshot_at(
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+560 |     pub(crate) fn seed_record_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `projection_ref` is never used
+    --> tests/../src/distributed/migration.rs:1467:4
+     |
+1467 | fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+     |    ^^^^^^^^^^^^^^
+
+warning: variants `RevisionDrift` and `AuthorityUnavailable` are never constructed
+  --> tests/../src/distributed/placement.rs:44:5
+   |
+34 | pub enum PlacementError {
+   |          -------------- variants in this enum
+...
+44 |     RevisionDrift,
+   |     ^^^^^^^^^^^^^
+45 |     AuthorityUnavailable,
+   |     ^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `PlacementError` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: struct `PlacementAuthorityRevision` is never constructed
+   --> tests/../src/distributed/placement.rs:429:12
+    |
+429 | pub struct PlacementAuthorityRevision {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `sequence` and `content_sha256` are never used
+   --> tests/../src/distributed/placement.rs:435:12
+    |
+434 | impl PlacementAuthorityRevision {
+    | ------------------------------- methods in this implementation
+435 |     pub fn sequence(&self) -> u64 {
+    |            ^^^^^^^^
+...
+439 |     pub fn content_sha256(&self) -> [u8; 32] {
+    |            ^^^^^^^^^^^^^^
+
+warning: struct `RedactedPlacementRow` is never constructed
+   --> tests/../src/distributed/placement.rs:445:12
+    |
+445 | pub struct RedactedPlacementRow {
+    |            ^^^^^^^^^^^^^^^^^^^^
+
+warning: enum `PlacementFreshness` is never used
+   --> tests/../src/distributed/placement.rs:456:10
+    |
+456 | pub enum PlacementFreshness {
+    |          ^^^^^^^^^^^^^^^^^^
+
+warning: enum `PlacementCapacityBand` is never used
+   --> tests/../src/distributed/placement.rs:461:10
+    |
+461 | pub enum PlacementCapacityBand {
+    |          ^^^^^^^^^^^^^^^^^^^^^
+
+warning: multiple methods are never used
+   --> tests/../src/distributed/placement.rs:468:12
+    |
+467 | impl RedactedPlacementRow {
+    | ------------------------- methods in this implementation
+468 |     pub fn lineage_ref(&self) -> &str {
+    |            ^^^^^^^^^^^
+...
+472 |     pub fn node_ref(&self) -> &str {
+    |            ^^^^^^^^
+...
+476 |     pub fn guardian_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+480 |     pub fn capability_sequence(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+484 |     pub fn weather_sequence(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^
+...
+488 |     pub fn freshness(&self) -> PlacementFreshness {
+    |            ^^^^^^^^^
+...
+492 |     pub fn capacity(&self) -> PlacementCapacityBand {
+    |            ^^^^^^^^
+
+warning: struct `RedactedPlacementSnapshot` is never constructed
+   --> tests/../src/distributed/placement.rs:498:12
+    |
+498 | pub struct RedactedPlacementSnapshot {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `trust_domain`, `membership_epoch`, `committed_log_index`, `revision`, and `rows` are never used
+   --> tests/../src/distributed/placement.rs:507:12
+    |
+506 | impl RedactedPlacementSnapshot {
+    | ------------------------------ methods in this implementation
+507 |     pub fn trust_domain(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+511 |     pub fn membership_epoch(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^
+...
+515 |     pub fn committed_log_index(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+519 |     pub fn revision(&self) -> PlacementAuthorityRevision {
+    |            ^^^^^^^^
+...
+523 |     pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedPlacementRow> {
+    |            ^^^^
+
+warning: fields `decision` and `captured_at_unix_secs` are never read
+   --> tests/../src/distributed/placement.rs:530:5
+    |
+529 | struct StoredPlacementDecision {
+    |        ----------------------- fields in this struct
+530 |     decision: PlacementDecision,
+    |     ^^^^^^^^
+531 |     captured_at_unix_secs: u64,
+    |     ^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `StoredPlacementDecision` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: methods `remove_decision`, `authority_revision`, `redacted_snapshot_at`, and `seed_decision_for_snapshot_test` are never used
+   --> tests/../src/distributed/placement.rs:568:12
+    |
+543 | impl<C: PlacementClock> PlacementService<C> {
+    | ------------------------------------------- methods in this implementation
+...
+568 |     pub fn remove_decision(&self, lineage_id: &str) -> PlacementResult<bool> {
+    |            ^^^^^^^^^^^^^^^
+...
+588 |     pub fn authority_revision(&self) -> PlacementResult<PlacementAuthorityRevision> {
+    |            ^^^^^^^^^^^^^^^^^^
+...
+599 |     pub fn redacted_snapshot_at(
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+646 |     pub(crate) fn seed_decision_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `placement_revision` is never used
+   --> tests/../src/distributed/placement.rs:714:4
+    |
+714 | fn placement_revision(authority: &PlacementAuthorityState) -> PlacementAuthorityRevision {
+    |    ^^^^^^^^^^^^^^^^^^
+
+warning: function `projection_ref` is never used
+   --> tests/../src/distributed/placement.rs:741:4
+    |
+741 | fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+    |    ^^^^^^^^^^^^^^
+
+warning: `adl-runtime` (test "distributed_fencing") generated 10 warnings
+warning: `adl-runtime` (test "distributed_migration") generated 9 warnings
+warning: `adl-runtime` (test "distributed_placement") generated 13 warnings
+warning: method `trust_domain` is never used
+   --> tests/../src/distributed/membership.rs:255:12
+    |
+239 | impl MembershipState {
+    | -------------------- method in this implementation
+...
+255 |     pub fn trust_domain(&self) -> &str {
+    |            ^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: struct `CertificateAuthorityRevision` is never constructed
+   --> tests/../src/distributed/certificates.rs:144:12
+    |
+144 | pub struct CertificateAuthorityRevision {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: method `state_sha256` is never used
+   --> tests/../src/distributed/certificates.rs:149:12
+    |
+148 | impl CertificateAuthorityRevision {
+    | --------------------------------- method in this implementation
+149 |     pub fn state_sha256(&self) -> [u8; 32] {
+    |            ^^^^^^^^^^^^
+
+warning: enum `RedactedCertificateHealth` is never used
+   --> tests/../src/distributed/certificates.rs:155:10
+    |
+155 | pub enum RedactedCertificateHealth {
+    |          ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: struct `RedactedCertificateRow` is never constructed
+   --> tests/../src/distributed/certificates.rs:166:12
+    |
+166 | pub struct RedactedCertificateRow {
+    |            ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `certificate_ref`, `node_ref`, `guardian_ref`, `purpose`, `generation`, and `health` are never used
+   --> tests/../src/distributed/certificates.rs:176:12
+    |
+175 | impl RedactedCertificateRow {
+    | --------------------------- methods in this implementation
+176 |     pub fn certificate_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^^^^
+...
+180 |     pub fn node_ref(&self) -> Option<&str> {
+    |            ^^^^^^^^
+...
+184 |     pub fn guardian_ref(&self) -> Option<&str> {
+    |            ^^^^^^^^^^^^
+...
+188 |     pub fn purpose(&self) -> CertificatePurpose {
+    |            ^^^^^^^
+...
+192 |     pub fn generation(&self) -> u64 {
+    |            ^^^^^^^^^^
+...
+196 |     pub fn health(&self) -> RedactedCertificateHealth {
+    |            ^^^^^^
+
+warning: struct `RedactedCertificateSnapshot` is never constructed
+   --> tests/../src/distributed/certificates.rs:202:12
+    |
+202 | pub struct RedactedCertificateSnapshot {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `trust_domain`, `captured_at_unix_secs`, `revision`, and `rows` are never used
+   --> tests/../src/distributed/certificates.rs:210:12
+    |
+209 | impl RedactedCertificateSnapshot {
+    | -------------------------------- methods in this implementation
+210 |     pub fn trust_domain(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+214 |     pub fn captured_at_unix_secs(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^^^
+...
+218 |     pub fn revision(&self) -> CertificateAuthorityRevision {
+    |            ^^^^^^^^
+...
+222 |     pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedCertificateRow> {
+    |            ^^^^
+
+warning: variant `RevisionDrift` is never constructed
+   --> tests/../src/distributed/certificates.rs:298:5
+    |
+273 | pub enum CertificateError {
+    |          ---------------- variant in this enum
+...
+298 |     RevisionDrift,
+    |     ^^^^^^^^^^^^^
+    |
+    = note: `CertificateError` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: methods `authority_revision` and `redacted_snapshot_at` are never used
+   --> tests/../src/distributed/certificates.rs:701:12
+    |
+419 | impl DistributedCertificateStore {
+    | -------------------------------- methods in this implementation
+...
+701 |     pub fn authority_revision(&self) -> CertificateResult<CertificateAuthorityRevision> {
+    |            ^^^^^^^^^^^^^^^^^^
+...
+708 |     pub fn redacted_snapshot_at(
+    |            ^^^^^^^^^^^^^^^^^^^^
+
+warning: function `certificate_state_sha256` is never used
+    --> tests/../src/distributed/certificates.rs:1013:4
+     |
+1013 | fn certificate_state_sha256(read: &redb::ReadTransaction) -> CertificateResult<[u8; 32]> {
+     |    ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `projection_ref` is never used
+    --> tests/../src/distributed/certificates.rs:1035:4
+     |
+1035 | fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+     |    ^^^^^^^^^^^^^^
+
+warning: constant `AUTHORITY_BOUND` is never used
+  --> tests/../src/distributed/certificates.rs:32:22
+   |
+32 |     pub(crate) const AUTHORITY_BOUND: CertificateStoreAccess =
+   |                      ^^^^^^^^^^^^^^^
+
+warning: variant `RevisionDrift` is never constructed
+  --> tests/../src/distributed/failure_detection.rs:43:5
+   |
+26 | pub enum FailureError {
+   |          ------------ variant in this enum
+...
+43 |     RevisionDrift,
+   |     ^^^^^^^^^^^^^
+   |
+   = note: `FailureError` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: struct `FailureMembershipSnapshot` is never constructed
+   --> tests/../src/distributed/failure_detection.rs:213:12
+    |
+213 | pub struct FailureMembershipSnapshot {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: associated function `from_test_rows` is never used
+   --> tests/../src/distributed/failure_detection.rs:235:19
+    |
+220 | impl FailureMembershipSnapshot {
+    | ------------------------------ associated function in this implementation
+...
+235 |     pub(crate) fn from_test_rows(
+    |                   ^^^^^^^^^^^^^^
+
+warning: struct `FailureAuthorityRevision` is never constructed
+   --> tests/../src/distributed/failure_detection.rs:282:12
+    |
+282 | pub struct FailureAuthorityRevision {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `sequence` and `content_sha256` are never used
+   --> tests/../src/distributed/failure_detection.rs:288:12
+    |
+287 | impl FailureAuthorityRevision {
+    | ----------------------------- methods in this implementation
+288 |     pub fn sequence(&self) -> u64 {
+    |            ^^^^^^^^
+...
+292 |     pub fn content_sha256(&self) -> [u8; 32] {
+    |            ^^^^^^^^^^^^^^
+
+warning: enum `FailureSnapshotReason` is never used
+   --> tests/../src/distributed/failure_detection.rs:298:10
+    |
+298 | pub enum FailureSnapshotReason {
+    |          ^^^^^^^^^^^^^^^^^^^^^
+
+warning: enum `FailureEvidenceBand` is never used
+   --> tests/../src/distributed/failure_detection.rs:309:10
+    |
+309 | pub enum FailureEvidenceBand {
+    |          ^^^^^^^^^^^^^^^^^^^
+
+warning: enum `FailureFreshness` is never used
+   --> tests/../src/distributed/failure_detection.rs:316:10
+    |
+316 | pub enum FailureFreshness {
+    |          ^^^^^^^^^^^^^^^^
+
+warning: struct `RedactedFailureRow` is never constructed
+   --> tests/../src/distributed/failure_detection.rs:323:12
+    |
+323 | pub struct RedactedFailureRow {
+    |            ^^^^^^^^^^^^^^^^^^
+
+warning: methods `node_ref`, `guardian_ref`, `class`, `reason`, `evidence`, and `freshness` are never used
+   --> tests/../src/distributed/failure_detection.rs:333:12
+    |
+332 | impl RedactedFailureRow {
+    | ----------------------- methods in this implementation
+333 |     pub fn node_ref(&self) -> &str {
+    |            ^^^^^^^^
+...
+337 |     pub fn guardian_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+341 |     pub fn class(&self) -> Option<FailureClass> {
+    |            ^^^^^
+...
+345 |     pub fn reason(&self) -> FailureSnapshotReason {
+    |            ^^^^^^
+...
+349 |     pub fn evidence(&self) -> FailureEvidenceBand {
+    |            ^^^^^^^^
+...
+353 |     pub fn freshness(&self) -> FailureFreshness {
+    |            ^^^^^^^^^
+
+warning: struct `RedactedFailureSnapshot` is never constructed
+   --> tests/../src/distributed/failure_detection.rs:359:12
+    |
+359 | pub struct RedactedFailureSnapshot {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `trust_domain`, `membership_epoch`, `committed_log_index`, `captured_at_unix_secs`, `revision`, and `rows` are never used
+   --> tests/../src/distributed/failure_detection.rs:369:12
+    |
+368 | impl RedactedFailureSnapshot {
+    | ---------------------------- methods in this implementation
+369 |     pub fn trust_domain(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+373 |     pub fn membership_epoch(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^
+...
+377 |     pub fn committed_log_index(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+381 |     pub fn captured_at_unix_secs(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^^^
+...
+385 |     pub fn revision(&self) -> FailureAuthorityRevision {
+    |            ^^^^^^^^
+...
+389 |     pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedFailureRow> {
+    |            ^^^^
+
+warning: methods `authority_revision`, `redacted_snapshot_at`, and `redacted_rows` are never used
+   --> tests/../src/distributed/failure_detection.rs:607:12
+    |
+436 | impl FailureDetector {
+    | -------------------- methods in this implementation
+...
+607 |     pub fn authority_revision(
+    |            ^^^^^^^^^^^^^^^^^^
+...
+625 |     pub fn redacted_snapshot_at(
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+655 |     fn redacted_rows(
+    |        ^^^^^^^^^^^^^
+
+warning: function `failure_content_sha256` is never used
+   --> tests/../src/distributed/failure_detection.rs:779:4
+    |
+779 | fn failure_content_sha256(
+    |    ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `projection_ref` is never used
+   --> tests/../src/distributed/failure_detection.rs:806:4
+    |
+806 | fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+    |    ^^^^^^^^^^^^^^
+
+warning: variant `RevisionDrift` is never constructed
+   --> tests/../src/distributed/lease.rs:452:5
+    |
+423 | pub enum AuthorityError {
+    |          -------------- variant in this enum
+...
+452 |     RevisionDrift,
+    |     ^^^^^^^^^^^^^
+    |
+    = note: `AuthorityError` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: struct `LeaseAuthorityRevision` is never constructed
+   --> tests/../src/distributed/lease.rs:703:12
+    |
+703 | pub struct LeaseAuthorityRevision {
+    |            ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `applied_log_index` and `state_sha256` are never used
+   --> tests/../src/distributed/lease.rs:709:12
+    |
+708 | impl LeaseAuthorityRevision {
+    | --------------------------- methods in this implementation
+709 |     pub fn applied_log_index(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^
+...
+713 |     pub fn state_sha256(&self) -> [u8; 32] {
+    |            ^^^^^^^^^^^^
+
+warning: enum `RedactedLeaseHealth` is never used
+   --> tests/../src/distributed/lease.rs:719:10
+    |
+719 | pub enum RedactedLeaseHealth {
+    |          ^^^^^^^^^^^^^^^^^^^
+
+warning: struct `RedactedLeaseRow` is never constructed
+   --> tests/../src/distributed/lease.rs:726:12
+    |
+726 | pub struct RedactedLeaseRow {
+    |            ^^^^^^^^^^^^^^^^
+
+warning: multiple methods are never used
+   --> tests/../src/distributed/lease.rs:737:12
+    |
+736 | impl RedactedLeaseRow {
+    | --------------------- methods in this implementation
+737 |     pub fn lineage_ref(&self) -> &str {
+    |            ^^^^^^^^^^^
+...
+741 |     pub fn holder_node_ref(&self) -> Option<&str> {
+    |            ^^^^^^^^^^^^^^^
+...
+745 |     pub fn holder_guardian_ref(&self) -> Option<&str> {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+749 |     pub fn epoch(&self) -> u64 {
+    |            ^^^^^
+...
+753 |     pub fn committed_log_index(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+757 |     pub fn certificate_generation(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^^^^
+...
+761 |     pub fn health(&self) -> RedactedLeaseHealth {
+    |            ^^^^^^
+...
+765 |     pub fn revoked(&self) -> bool {
+    |            ^^^^^^^
+
+warning: struct `RedactedLeaseSnapshot` is never constructed
+   --> tests/../src/distributed/lease.rs:771:12
+    |
+771 | pub struct RedactedLeaseSnapshot {
+    |            ^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `trust_domain`, `revision`, and `rows` are never used
+   --> tests/../src/distributed/lease.rs:778:12
+    |
+777 | impl RedactedLeaseSnapshot {
+    | -------------------------- methods in this implementation
+778 |     pub fn trust_domain(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+782 |     pub fn revision(&self) -> LeaseAuthorityRevision {
+    |            ^^^^^^^^
+...
+786 |     pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedLeaseRow> {
+    |            ^^^^
+
+warning: methods `authority_revision`, `redacted_snapshot_at`, and `seed_lease_for_snapshot_test` are never used
+   --> tests/../src/distributed/lease.rs:811:12
+    |
+791 | impl AuthorityLedger {
+    | -------------------- methods in this implementation
+...
+811 |     pub fn authority_revision(&self) -> AuthorityResult<LeaseAuthorityRevision> {
+    |            ^^^^^^^^^^^^^^^^^^
+...
+819 |     pub fn redacted_snapshot_at(
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+872 |     pub(crate) fn seed_lease_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `projection_ref` is never used
+    --> tests/../src/distributed/lease.rs:1299:4
+     |
+1299 | fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+     |    ^^^^^^^^^^^^^^
+
+warning: constant `AUTHORITY_BOUND` is never used
+  --> tests/../src/distributed/lease.rs:34:22
+   |
+34 |     pub(crate) const AUTHORITY_BOUND: LeaseStoreAccess = LeaseStoreAccess { _seal: [1] };
+   |                      ^^^^^^^^^^^^^^^
+
+warning: `adl-runtime` (test "distributed_membership") generated 1 warning
+warning: `adl-runtime` (test "distributed_certificates") generated 12 warnings
+warning: `adl-runtime` (test "distributed_failure_detection") generated 15 warnings
+warning: `adl-runtime` (test "distributed_lease") generated 11 warnings
+warning: method `seed_floor_for_snapshot_test` is never used
+   --> src/distributed/fencing.rs:444:19
+    |
+285 | impl FencingStore {
+    | ----------------- method in this implementation
+...
+444 |     pub(crate) fn seed_floor_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: methods `seed_lease_for_snapshot_test` and `set_counters_for_test` are never used
+   --> src/distributed/lease.rs:872:19
+    |
+791 | impl AuthorityLedger {
+    | -------------------- methods in this implementation
+...
+872 |     pub(crate) fn seed_lease_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+885 |     pub(crate) fn set_counters_for_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `seed_record_for_snapshot_test` is never used
+   --> src/distributed/migration.rs:560:19
+    |
+422 | impl MigrationStore {
+    | ------------------- method in this implementation
+...
+560 |     pub(crate) fn seed_record_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `seed_decision_for_snapshot_test` is never used
+   --> src/distributed/placement.rs:646:19
+    |
+543 | impl<C: PlacementClock> PlacementService<C> {
+    | ------------------------------------------- method in this implementation
+...
+646 |     pub(crate) fn seed_decision_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: struct `GuardianControlSignerCustody` is never constructed
+   --> tests/../src/distributed/identity.rs:233:19
+    |
+233 | pub(crate) struct GuardianControlSignerCustody {
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: methods `public_identity`, `verifying_key`, and `sign` are never used
+   --> tests/../src/distributed/identity.rs:249:19
+    |
+248 | impl GuardianControlSignerCustody {
+    | --------------------------------- methods in this implementation
+249 |     pub(crate) fn public_identity(&self) -> &PublicNodeGuardianIdentity {
+    |                   ^^^^^^^^^^^^^^^
+...
+253 |     pub(crate) fn verifying_key(&self) -> VerifyingKey {
+    |                   ^^^^^^^^^^^^^
+...
+257 |     pub(crate) fn sign(&self, payload: &[u8]) -> Signature {
+    |                   ^^^^
+
+warning: method `authority_signer_custody` is never used
+   --> tests/../src/distributed/identity.rs:311:19
+    |
+272 | impl LocalNodeGuardianIdentity {
+    | ------------------------------ method in this implementation
+...
+311 |     pub(crate) fn authority_signer_custody(&self) -> GuardianControlSignerCustody {
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `adl-runtime` (lib test) generated 4 warnings
+warning: `adl-runtime` (test "distributed_identity") generated 3 warnings
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.13s
+warning: method `trust_domain` is never used
+   --> tests/../src/distributed/membership.rs:255:12
+    |
+239 | impl MembershipState {
+    | -------------------- method in this implementation
+...
+255 |     pub fn trust_domain(&self) -> &str {
+    |            ^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: variant `RevisionDrift` is never constructed
+  --> tests/../src/distributed/failure_detection.rs:43:5
+   |
+26 | pub enum FailureError {
+   |          ------------ variant in this enum
+...
+43 |     RevisionDrift,
+   |     ^^^^^^^^^^^^^
+   |
+   = note: `FailureError` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: struct `FailureMembershipSnapshot` is never constructed
+   --> tests/../src/distributed/failure_detection.rs:213:12
+    |
+213 | pub struct FailureMembershipSnapshot {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: associated function `from_test_rows` is never used
+   --> tests/../src/distributed/failure_detection.rs:235:19
+    |
+220 | impl FailureMembershipSnapshot {
+    | ------------------------------ associated function in this implementation
+...
+235 |     pub(crate) fn from_test_rows(
+    |                   ^^^^^^^^^^^^^^
+
+warning: struct `FailureAuthorityRevision` is never constructed
+   --> tests/../src/distributed/failure_detection.rs:282:12
+    |
+282 | pub struct FailureAuthorityRevision {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `sequence` and `content_sha256` are never used
+   --> tests/../src/distributed/failure_detection.rs:288:12
+    |
+287 | impl FailureAuthorityRevision {
+    | ----------------------------- methods in this implementation
+288 |     pub fn sequence(&self) -> u64 {
+    |            ^^^^^^^^
+...
+292 |     pub fn content_sha256(&self) -> [u8; 32] {
+    |            ^^^^^^^^^^^^^^
+
+warning: enum `FailureSnapshotReason` is never used
+   --> tests/../src/distributed/failure_detection.rs:298:10
+    |
+298 | pub enum FailureSnapshotReason {
+    |          ^^^^^^^^^^^^^^^^^^^^^
+
+warning: enum `FailureEvidenceBand` is never used
+   --> tests/../src/distributed/failure_detection.rs:309:10
+    |
+309 | pub enum FailureEvidenceBand {
+    |          ^^^^^^^^^^^^^^^^^^^
+
+warning: enum `FailureFreshness` is never used
+   --> tests/../src/distributed/failure_detection.rs:316:10
+    |
+316 | pub enum FailureFreshness {
+    |          ^^^^^^^^^^^^^^^^
+
+warning: struct `RedactedFailureRow` is never constructed
+   --> tests/../src/distributed/failure_detection.rs:323:12
+    |
+323 | pub struct RedactedFailureRow {
+    |            ^^^^^^^^^^^^^^^^^^
+
+warning: methods `node_ref`, `guardian_ref`, `class`, `reason`, `evidence`, and `freshness` are never used
+   --> tests/../src/distributed/failure_detection.rs:333:12
+    |
+332 | impl RedactedFailureRow {
+    | ----------------------- methods in this implementation
+333 |     pub fn node_ref(&self) -> &str {
+    |            ^^^^^^^^
+...
+337 |     pub fn guardian_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+341 |     pub fn class(&self) -> Option<FailureClass> {
+    |            ^^^^^
+...
+345 |     pub fn reason(&self) -> FailureSnapshotReason {
+    |            ^^^^^^
+...
+349 |     pub fn evidence(&self) -> FailureEvidenceBand {
+    |            ^^^^^^^^
+...
+353 |     pub fn freshness(&self) -> FailureFreshness {
+    |            ^^^^^^^^^
+
+warning: struct `RedactedFailureSnapshot` is never constructed
+   --> tests/../src/distributed/failure_detection.rs:359:12
+    |
+359 | pub struct RedactedFailureSnapshot {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `trust_domain`, `membership_epoch`, `committed_log_index`, `captured_at_unix_secs`, `revision`, and `rows` are never used
+   --> tests/../src/distributed/failure_detection.rs:369:12
+    |
+368 | impl RedactedFailureSnapshot {
+    | ---------------------------- methods in this implementation
+369 |     pub fn trust_domain(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+373 |     pub fn membership_epoch(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^
+...
+377 |     pub fn committed_log_index(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+381 |     pub fn captured_at_unix_secs(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^^^
+...
+385 |     pub fn revision(&self) -> FailureAuthorityRevision {
+    |            ^^^^^^^^
+...
+389 |     pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedFailureRow> {
+    |            ^^^^
+
+warning: methods `authority_revision`, `redacted_snapshot_at`, and `redacted_rows` are never used
+   --> tests/../src/distributed/failure_detection.rs:607:12
+    |
+436 | impl FailureDetector {
+    | -------------------- methods in this implementation
+...
+607 |     pub fn authority_revision(
+    |            ^^^^^^^^^^^^^^^^^^
+...
+625 |     pub fn redacted_snapshot_at(
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+655 |     fn redacted_rows(
+    |        ^^^^^^^^^^^^^
+
+warning: function `failure_content_sha256` is never used
+   --> tests/../src/distributed/failure_detection.rs:779:4
+    |
+779 | fn failure_content_sha256(
+    |    ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `projection_ref` is never used
+   --> tests/../src/distributed/failure_detection.rs:806:4
+    |
+806 | fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+    |    ^^^^^^^^^^^^^^
+
+warning: struct `CertificateAuthorityRevision` is never constructed
+   --> tests/../src/distributed/certificates.rs:144:12
+    |
+144 | pub struct CertificateAuthorityRevision {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: method `state_sha256` is never used
+   --> tests/../src/distributed/certificates.rs:149:12
+    |
+148 | impl CertificateAuthorityRevision {
+    | --------------------------------- method in this implementation
+149 |     pub fn state_sha256(&self) -> [u8; 32] {
+    |            ^^^^^^^^^^^^
+
+warning: enum `RedactedCertificateHealth` is never used
+   --> tests/../src/distributed/certificates.rs:155:10
+    |
+155 | pub enum RedactedCertificateHealth {
+    |          ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: struct `RedactedCertificateRow` is never constructed
+   --> tests/../src/distributed/certificates.rs:166:12
+    |
+166 | pub struct RedactedCertificateRow {
+    |            ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `certificate_ref`, `node_ref`, `guardian_ref`, `purpose`, `generation`, and `health` are never used
+   --> tests/../src/distributed/certificates.rs:176:12
+    |
+175 | impl RedactedCertificateRow {
+    | --------------------------- methods in this implementation
+176 |     pub fn certificate_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^^^^
+...
+180 |     pub fn node_ref(&self) -> Option<&str> {
+    |            ^^^^^^^^
+...
+184 |     pub fn guardian_ref(&self) -> Option<&str> {
+    |            ^^^^^^^^^^^^
+...
+188 |     pub fn purpose(&self) -> CertificatePurpose {
+    |            ^^^^^^^
+...
+192 |     pub fn generation(&self) -> u64 {
+    |            ^^^^^^^^^^
+...
+196 |     pub fn health(&self) -> RedactedCertificateHealth {
+    |            ^^^^^^
+
+warning: struct `RedactedCertificateSnapshot` is never constructed
+   --> tests/../src/distributed/certificates.rs:202:12
+    |
+202 | pub struct RedactedCertificateSnapshot {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `trust_domain`, `captured_at_unix_secs`, `revision`, and `rows` are never used
+   --> tests/../src/distributed/certificates.rs:210:12
+    |
+209 | impl RedactedCertificateSnapshot {
+    | -------------------------------- methods in this implementation
+210 |     pub fn trust_domain(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+214 |     pub fn captured_at_unix_secs(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^^^
+...
+218 |     pub fn revision(&self) -> CertificateAuthorityRevision {
+    |            ^^^^^^^^
+...
+222 |     pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedCertificateRow> {
+    |            ^^^^
+
+warning: variant `RevisionDrift` is never constructed
+   --> tests/../src/distributed/certificates.rs:298:5
+    |
+273 | pub enum CertificateError {
+    |          ---------------- variant in this enum
+...
+298 |     RevisionDrift,
+    |     ^^^^^^^^^^^^^
+    |
+    = note: `CertificateError` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: methods `authority_revision` and `redacted_snapshot_at` are never used
+   --> tests/../src/distributed/certificates.rs:701:12
+    |
+419 | impl DistributedCertificateStore {
+    | -------------------------------- methods in this implementation
+...
+701 |     pub fn authority_revision(&self) -> CertificateResult<CertificateAuthorityRevision> {
+    |            ^^^^^^^^^^^^^^^^^^
+...
+708 |     pub fn redacted_snapshot_at(
+    |            ^^^^^^^^^^^^^^^^^^^^
+
+warning: function `certificate_state_sha256` is never used
+    --> tests/../src/distributed/certificates.rs:1013:4
+     |
+1013 | fn certificate_state_sha256(read: &redb::ReadTransaction) -> CertificateResult<[u8; 32]> {
+     |    ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `projection_ref` is never used
+    --> tests/../src/distributed/certificates.rs:1035:4
+     |
+1035 | fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+     |    ^^^^^^^^^^^^^^
+
+warning: constant `AUTHORITY_BOUND` is never used
+  --> tests/../src/distributed/certificates.rs:32:22
+   |
+32 |     pub(crate) const AUTHORITY_BOUND: CertificateStoreAccess =
+   |                      ^^^^^^^^^^^^^^^
+
+warning: method `seed_floor_for_snapshot_test` is never used
+   --> src/distributed/fencing.rs:444:19
+    |
+285 | impl FencingStore {
+    | ----------------- method in this implementation
+...
+444 |     pub(crate) fn seed_floor_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: methods `seed_lease_for_snapshot_test` and `set_counters_for_test` are never used
+   --> src/distributed/lease.rs:872:19
+    |
+791 | impl AuthorityLedger {
+    | -------------------- methods in this implementation
+...
+872 |     pub(crate) fn seed_lease_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+885 |     pub(crate) fn set_counters_for_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `seed_record_for_snapshot_test` is never used
+   --> src/distributed/migration.rs:560:19
+    |
+422 | impl MigrationStore {
+    | ------------------- method in this implementation
+...
+560 |     pub(crate) fn seed_record_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `seed_decision_for_snapshot_test` is never used
+   --> src/distributed/placement.rs:646:19
+    |
+543 | impl<C: PlacementClock> PlacementService<C> {
+    | ------------------------------------------- method in this implementation
+...
+646 |     pub(crate) fn seed_decision_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: struct `GuardianControlSignerCustody` is never constructed
+   --> tests/../src/distributed/identity.rs:233:19
+    |
+233 | pub(crate) struct GuardianControlSignerCustody {
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: methods `public_identity`, `verifying_key`, and `sign` are never used
+   --> tests/../src/distributed/identity.rs:249:19
+    |
+248 | impl GuardianControlSignerCustody {
+    | --------------------------------- methods in this implementation
+249 |     pub(crate) fn public_identity(&self) -> &PublicNodeGuardianIdentity {
+    |                   ^^^^^^^^^^^^^^^
+...
+253 |     pub(crate) fn verifying_key(&self) -> VerifyingKey {
+    |                   ^^^^^^^^^^^^^
+...
+257 |     pub(crate) fn sign(&self, payload: &[u8]) -> Signature {
+    |                   ^^^^
+
+warning: method `authority_signer_custody` is never used
+   --> tests/../src/distributed/identity.rs:311:19
+    |
+272 | impl LocalNodeGuardianIdentity {
+    | ------------------------------ method in this implementation
+...
+311 |     pub(crate) fn authority_signer_custody(&self) -> GuardianControlSignerCustody {
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `adl-runtime` (test "distributed_membership") generated 1 warning
+warning: `adl-runtime` (test "distributed_failure_detection") generated 15 warnings
+warning: `adl-runtime` (test "distributed_certificates") generated 12 warnings
+warning: `adl-runtime` (lib test) generated 4 warnings
+warning: `adl-runtime` (test "distributed_identity") generated 3 warnings
+warning: variants `RevisionDrift` and `AuthorityUnavailable` are never constructed
+  --> tests/../src/distributed/placement.rs:44:5
+   |
+34 | pub enum PlacementError {
+   |          -------------- variants in this enum
+...
+44 |     RevisionDrift,
+   |     ^^^^^^^^^^^^^
+45 |     AuthorityUnavailable,
+   |     ^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `PlacementError` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: struct `PlacementAuthorityRevision` is never constructed
+   --> tests/../src/distributed/placement.rs:429:12
+    |
+429 | pub struct PlacementAuthorityRevision {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `sequence` and `content_sha256` are never used
+   --> tests/../src/distributed/placement.rs:435:12
+    |
+434 | impl PlacementAuthorityRevision {
+    | ------------------------------- methods in this implementation
+435 |     pub fn sequence(&self) -> u64 {
+    |            ^^^^^^^^
+...
+439 |     pub fn content_sha256(&self) -> [u8; 32] {
+    |            ^^^^^^^^^^^^^^
+
+warning: struct `RedactedPlacementRow` is never constructed
+   --> tests/../src/distributed/placement.rs:445:12
+    |
+445 | pub struct RedactedPlacementRow {
+    |            ^^^^^^^^^^^^^^^^^^^^
+
+warning: enum `PlacementFreshness` is never used
+   --> tests/../src/distributed/placement.rs:456:10
+    |
+456 | pub enum PlacementFreshness {
+    |          ^^^^^^^^^^^^^^^^^^
+
+warning: enum `PlacementCapacityBand` is never used
+   --> tests/../src/distributed/placement.rs:461:10
+    |
+461 | pub enum PlacementCapacityBand {
+    |          ^^^^^^^^^^^^^^^^^^^^^
+
+warning: multiple methods are never used
+   --> tests/../src/distributed/placement.rs:468:12
+    |
+467 | impl RedactedPlacementRow {
+    | ------------------------- methods in this implementation
+468 |     pub fn lineage_ref(&self) -> &str {
+    |            ^^^^^^^^^^^
+...
+472 |     pub fn node_ref(&self) -> &str {
+    |            ^^^^^^^^
+...
+476 |     pub fn guardian_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+480 |     pub fn capability_sequence(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+484 |     pub fn weather_sequence(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^
+...
+488 |     pub fn freshness(&self) -> PlacementFreshness {
+    |            ^^^^^^^^^
+...
+492 |     pub fn capacity(&self) -> PlacementCapacityBand {
+    |            ^^^^^^^^
+
+warning: struct `RedactedPlacementSnapshot` is never constructed
+   --> tests/../src/distributed/placement.rs:498:12
+    |
+498 | pub struct RedactedPlacementSnapshot {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `trust_domain`, `membership_epoch`, `committed_log_index`, `revision`, and `rows` are never used
+   --> tests/../src/distributed/placement.rs:507:12
+    |
+506 | impl RedactedPlacementSnapshot {
+    | ------------------------------ methods in this implementation
+507 |     pub fn trust_domain(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+511 |     pub fn membership_epoch(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^
+...
+515 |     pub fn committed_log_index(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+519 |     pub fn revision(&self) -> PlacementAuthorityRevision {
+    |            ^^^^^^^^
+...
+523 |     pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedPlacementRow> {
+    |            ^^^^
+
+warning: fields `decision` and `captured_at_unix_secs` are never read
+   --> tests/../src/distributed/placement.rs:530:5
+    |
+529 | struct StoredPlacementDecision {
+    |        ----------------------- fields in this struct
+530 |     decision: PlacementDecision,
+    |     ^^^^^^^^
+531 |     captured_at_unix_secs: u64,
+    |     ^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `StoredPlacementDecision` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+
+warning: methods `remove_decision`, `authority_revision`, `redacted_snapshot_at`, and `seed_decision_for_snapshot_test` are never used
+   --> tests/../src/distributed/placement.rs:568:12
+    |
+543 | impl<C: PlacementClock> PlacementService<C> {
+    | ------------------------------------------- methods in this implementation
+...
+568 |     pub fn remove_decision(&self, lineage_id: &str) -> PlacementResult<bool> {
+    |            ^^^^^^^^^^^^^^^
+...
+588 |     pub fn authority_revision(&self) -> PlacementResult<PlacementAuthorityRevision> {
+    |            ^^^^^^^^^^^^^^^^^^
+...
+599 |     pub fn redacted_snapshot_at(
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+646 |     pub(crate) fn seed_decision_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `placement_revision` is never used
+   --> tests/../src/distributed/placement.rs:714:4
+    |
+714 | fn placement_revision(authority: &PlacementAuthorityState) -> PlacementAuthorityRevision {
+    |    ^^^^^^^^^^^^^^^^^^
+
+warning: function `projection_ref` is never used
+   --> tests/../src/distributed/placement.rs:741:4
+    |
+741 | fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+    |    ^^^^^^^^^^^^^^
+
+warning: variant `RevisionDrift` is never constructed
+  --> tests/../src/distributed/migration.rs:56:5
+   |
+33 | pub enum MigrationError {
+   |          -------------- variant in this enum
+...
+56 |     RevisionDrift,
+   |     ^^^^^^^^^^^^^
+   |
+   = note: `MigrationError` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: struct `MigrationAuthorityRevision` is never constructed
+   --> tests/../src/distributed/migration.rs:258:12
+    |
+258 | pub struct MigrationAuthorityRevision {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `checkpoint_generation` and `state_sha256` are never used
+   --> tests/../src/distributed/migration.rs:264:12
+    |
+263 | impl MigrationAuthorityRevision {
+    | ------------------------------- methods in this implementation
+264 |     pub fn checkpoint_generation(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^^^
+...
+268 |     pub fn state_sha256(&self) -> [u8; 32] {
+    |            ^^^^^^^^^^^^
+
+warning: struct `RedactedMigrationRow` is never constructed
+   --> tests/../src/distributed/migration.rs:274:12
+    |
+274 | pub struct RedactedMigrationRow {
+    |            ^^^^^^^^^^^^^^^^^^^^
+
+warning: multiple methods are never used
+   --> tests/../src/distributed/migration.rs:287:12
+    |
+286 | impl RedactedMigrationRow {
+    | ------------------------- methods in this implementation
+287 |     pub fn migration_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^^
+...
+291 |     pub fn lineage_ref(&self) -> &str {
+    |            ^^^^^^^^^^^
+...
+295 |     pub fn source_node_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^^^^
+...
+299 |     pub fn source_guardian_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+303 |     pub fn target_node_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^^^^
+...
+307 |     pub fn target_guardian_ref(&self) -> &str {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+311 |     pub fn phase(&self) -> MigrationPhase {
+    |            ^^^^^
+...
+315 |     pub fn source_authoritative(&self) -> bool {
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+319 |     pub fn target_authoritative(&self) -> bool {
+    |            ^^^^^^^^^^^^^^^^^^^^
+
+warning: struct `RedactedMigrationSnapshot` is never constructed
+   --> tests/../src/distributed/migration.rs:325:12
+    |
+325 | pub struct RedactedMigrationSnapshot {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `trust_domain`, `revision`, and `rows` are never used
+   --> tests/../src/distributed/migration.rs:332:12
+    |
+331 | impl RedactedMigrationSnapshot {
+    | ------------------------------ methods in this implementation
+332 |     pub fn trust_domain(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+336 |     pub fn revision(&self) -> MigrationAuthorityRevision {
+    |            ^^^^^^^^
+...
+340 |     pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedMigrationRow> {
+    |            ^^^^
+
+warning: methods `authority_revision`, `redacted_snapshot_at`, and `seed_record_for_snapshot_test` are never used
+   --> tests/../src/distributed/migration.rs:514:12
+    |
+422 | impl MigrationStore {
+    | ------------------- methods in this implementation
+...
+514 |     pub fn authority_revision(&self) -> MigrationResult<MigrationAuthorityRevision> {
+    |            ^^^^^^^^^^^^^^^^^^
+...
+522 |     pub fn redacted_snapshot_at(
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+560 |     pub(crate) fn seed_record_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `projection_ref` is never used
+    --> tests/../src/distributed/migration.rs:1467:4
+     |
+1467 | fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+     |    ^^^^^^^^^^^^^^
+
+warning: variant `RevisionDrift` is never constructed
+  --> tests/../src/distributed/fencing.rs:67:5
+   |
+46 | pub enum FencingError {
+   |          ------------ variant in this enum
+...
+67 |     RevisionDrift,
+   |     ^^^^^^^^^^^^^
+   |
+   = note: `FencingError` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: struct `FencingAuthorityRevision` is never constructed
+   --> tests/../src/distributed/fencing.rs:174:12
+    |
+174 | pub struct FencingAuthorityRevision {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `checkpoint_generation` and `state_sha256` are never used
+   --> tests/../src/distributed/fencing.rs:180:12
+    |
+179 | impl FencingAuthorityRevision {
+    | ----------------------------- methods in this implementation
+180 |     pub fn checkpoint_generation(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^^^
+...
+184 |     pub fn state_sha256(&self) -> [u8; 32] {
+    |            ^^^^^^^^^^^^
+
+warning: struct `RedactedFencingRow` is never constructed
+   --> tests/../src/distributed/fencing.rs:190:12
+    |
+190 | pub struct RedactedFencingRow {
+    |            ^^^^^^^^^^^^^^^^^^
+
+warning: methods `lineage_ref`, `epoch`, `committed_log_index`, `voter_set_generation`, and `operation_class` are never used
+   --> tests/../src/distributed/fencing.rs:199:12
+    |
+198 | impl RedactedFencingRow {
+    | ----------------------- methods in this implementation
+199 |     pub fn lineage_ref(&self) -> &str {
+    |            ^^^^^^^^^^^
+...
+203 |     pub fn epoch(&self) -> u64 {
+    |            ^^^^^
+...
+207 |     pub fn committed_log_index(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+211 |     pub fn voter_set_generation(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+215 |     pub fn operation_class(&self) -> u32 {
+    |            ^^^^^^^^^^^^^^^
+
+warning: struct `RedactedFencingSnapshot` is never constructed
+   --> tests/../src/distributed/fencing.rs:221:12
+    |
+221 | pub struct RedactedFencingSnapshot {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `trust_domain`, `revision`, and `rows` are never used
+   --> tests/../src/distributed/fencing.rs:228:12
+    |
+227 | impl RedactedFencingSnapshot {
+    | ---------------------------- methods in this implementation
+228 |     pub fn trust_domain(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+232 |     pub fn revision(&self) -> FencingAuthorityRevision {
+    |            ^^^^^^^^
+...
+236 |     pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedFencingRow> {
+    |            ^^^^
+
+warning: methods `authority_revision`, `redacted_snapshot_at`, and `seed_floor_for_snapshot_test` are never used
+   --> tests/../src/distributed/fencing.rs:387:12
+    |
+285 | impl FencingStore {
+    | ----------------- methods in this implementation
+...
+387 |     pub fn authority_revision(&self) -> FencingResult<FencingAuthorityRevision> {
+    |            ^^^^^^^^^^^^^^^^^^
+...
+395 |     pub fn redacted_snapshot_at(
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+444 |     pub(crate) fn seed_floor_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `projection_ref` is never used
+   --> tests/../src/distributed/fencing.rs:769:4
+    |
+769 | fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+    |    ^^^^^^^^^^^^^^
+
+warning: constant `AUTHORITY_BOUND` is never used
+  --> tests/../src/distributed/fencing.rs:31:22
+   |
+31 |     pub(crate) const AUTHORITY_BOUND: FencingStoreAccess = FencingStoreAccess { _seal: [1] };
+   |                      ^^^^^^^^^^^^^^^
+
+warning: `adl-runtime` (test "distributed_placement") generated 13 warnings
+warning: `adl-runtime` (test "distributed_migration") generated 9 warnings
+warning: `adl-runtime` (test "distributed_fencing") generated 10 warnings
+warning: variant `RevisionDrift` is never constructed
+   --> tests/../src/distributed/lease.rs:452:5
+    |
+423 | pub enum AuthorityError {
+    |          -------------- variant in this enum
+...
+452 |     RevisionDrift,
+    |     ^^^^^^^^^^^^^
+    |
+    = note: `AuthorityError` has derived impls for the traits `Debug` and `Clone`, but these are intentionally ignored during dead code analysis
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: struct `LeaseAuthorityRevision` is never constructed
+   --> tests/../src/distributed/lease.rs:703:12
+    |
+703 | pub struct LeaseAuthorityRevision {
+    |            ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `applied_log_index` and `state_sha256` are never used
+   --> tests/../src/distributed/lease.rs:709:12
+    |
+708 | impl LeaseAuthorityRevision {
+    | --------------------------- methods in this implementation
+709 |     pub fn applied_log_index(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^
+...
+713 |     pub fn state_sha256(&self) -> [u8; 32] {
+    |            ^^^^^^^^^^^^
+
+warning: enum `RedactedLeaseHealth` is never used
+   --> tests/../src/distributed/lease.rs:719:10
+    |
+719 | pub enum RedactedLeaseHealth {
+    |          ^^^^^^^^^^^^^^^^^^^
+
+warning: struct `RedactedLeaseRow` is never constructed
+   --> tests/../src/distributed/lease.rs:726:12
+    |
+726 | pub struct RedactedLeaseRow {
+    |            ^^^^^^^^^^^^^^^^
+
+warning: multiple methods are never used
+   --> tests/../src/distributed/lease.rs:737:12
+    |
+736 | impl RedactedLeaseRow {
+    | --------------------- methods in this implementation
+737 |     pub fn lineage_ref(&self) -> &str {
+    |            ^^^^^^^^^^^
+...
+741 |     pub fn holder_node_ref(&self) -> Option<&str> {
+    |            ^^^^^^^^^^^^^^^
+...
+745 |     pub fn holder_guardian_ref(&self) -> Option<&str> {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+749 |     pub fn epoch(&self) -> u64 {
+    |            ^^^^^
+...
+753 |     pub fn committed_log_index(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^
+...
+757 |     pub fn certificate_generation(&self) -> u64 {
+    |            ^^^^^^^^^^^^^^^^^^^^^^
+...
+761 |     pub fn health(&self) -> RedactedLeaseHealth {
+    |            ^^^^^^
+...
+765 |     pub fn revoked(&self) -> bool {
+    |            ^^^^^^^
+
+warning: struct `RedactedLeaseSnapshot` is never constructed
+   --> tests/../src/distributed/lease.rs:771:12
+    |
+771 | pub struct RedactedLeaseSnapshot {
+    |            ^^^^^^^^^^^^^^^^^^^^^
+
+warning: methods `trust_domain`, `revision`, and `rows` are never used
+   --> tests/../src/distributed/lease.rs:778:12
+    |
+777 | impl RedactedLeaseSnapshot {
+    | -------------------------- methods in this implementation
+778 |     pub fn trust_domain(&self) -> &str {
+    |            ^^^^^^^^^^^^
+...
+782 |     pub fn revision(&self) -> LeaseAuthorityRevision {
+    |            ^^^^^^^^
+...
+786 |     pub fn rows(&self) -> impl ExactSizeIterator<Item = &RedactedLeaseRow> {
+    |            ^^^^
+
+warning: methods `authority_revision`, `redacted_snapshot_at`, and `seed_lease_for_snapshot_test` are never used
+   --> tests/../src/distributed/lease.rs:811:12
+    |
+791 | impl AuthorityLedger {
+    | -------------------- methods in this implementation
+...
+811 |     pub fn authority_revision(&self) -> AuthorityResult<LeaseAuthorityRevision> {
+    |            ^^^^^^^^^^^^^^^^^^
+...
+819 |     pub fn redacted_snapshot_at(
+    |            ^^^^^^^^^^^^^^^^^^^^
+...
+872 |     pub(crate) fn seed_lease_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `projection_ref` is never used
+    --> tests/../src/distributed/lease.rs:1299:4
+     |
+1299 | fn projection_ref(kind: &[u8], value: &[u8]) -> String {
+     |    ^^^^^^^^^^^^^^
+
+warning: constant `AUTHORITY_BOUND` is never used
+  --> tests/../src/distributed/lease.rs:34:22
+   |
+34 |     pub(crate) const AUTHORITY_BOUND: LeaseStoreAccess = LeaseStoreAccess { _seal: [1] };
+   |                      ^^^^^^^^^^^^^^^
+
+warning: `adl-runtime` (test "distributed_lease") generated 11 warnings
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.13s
+PASS test_check_coverage_impact

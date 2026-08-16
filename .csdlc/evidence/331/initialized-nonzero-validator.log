@@ -1,0 +1,28 @@
+## initialized_code_repository_migration_requires_digest_bound_collision_evidence
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s
+     Running tests/code_repository_migration.rs (csdlc-v2/target/debug/deps/code_repository_migration-80936b045f854e8b)
+
+running 1 test
+test initialized_code_repository_migration_requires_digest_bound_collision_evidence ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 11 filtered out; finished in 0.25s
+
+## initialized_code_repository_migration_emits_v1_initialized_unbound_evidence
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.09s
+     Running tests/code_repository_migration.rs (csdlc-v2/target/debug/deps/code_repository_migration-80936b045f854e8b)
+
+running 1 test
+test initialized_code_repository_migration_emits_v1_initialized_unbound_evidence ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 11 filtered out; finished in 0.34s
+
+## initialized_code_repository_migration_clears_doctor_and_validate_issue
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.08s
+     Running tests/code_repository_migration.rs (csdlc-v2/target/debug/deps/code_repository_migration-80936b045f854e8b)
+
+running 1 test
+test initialized_code_repository_migration_clears_doctor_and_validate_issue ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 11 filtered out; finished in 0.41s
+
+{"schema": "csdlc.issue331.initialized_validation.v1", "status": "pass"}

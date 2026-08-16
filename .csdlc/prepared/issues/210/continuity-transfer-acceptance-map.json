@@ -1,0 +1,190 @@
+{
+  "schema": "adl.continuity-transfer-acceptance-map.v1",
+  "issue": 210,
+  "case_count": 45,
+  "acceptance_count": 8,
+  "subassertion_count": 84,
+  "marker_format": "<outcome>:<acceptance>:<subassertion>",
+  "case_marker_format": "pass:CASE-<three-digit-ordinal>:<case_name>",
+  "case_manifest": [
+    {"ordinal":1,"name":"authorized_transfer","result":"pass","marker":"pass:CASE-001:authorized_transfer"},
+    {"ordinal":2,"name":"real_bundle_source","result":"pass","marker":"pass:CASE-002:real_bundle_source"},
+    {"ordinal":3,"name":"exact_target_stage","result":"pass","marker":"pass:CASE-003:exact_target_stage"},
+    {"ordinal":4,"name":"incremental_catalog_verify","result":"pass","marker":"pass:CASE-004:incremental_catalog_verify"},
+    {"ordinal":5,"name":"resume_after_partition","result":"pass","marker":"pass:CASE-005:resume_after_partition"},
+    {"ordinal":6,"name":"exact_retry_cached","result":"pass","marker":"pass:CASE-006:exact_retry_cached"},
+    {"ordinal":7,"name":"wrong_source_denied","result":"pass","marker":"pass:CASE-007:wrong_source_denied"},
+    {"ordinal":8,"name":"wrong_target_denied","result":"pass","marker":"pass:CASE-008:wrong_target_denied"},
+    {"ordinal":9,"name":"wrong_polis_denied","result":"pass","marker":"pass:CASE-009:wrong_polis_denied"},
+    {"ordinal":10,"name":"wrong_domain_denied","result":"pass","marker":"pass:CASE-010:wrong_domain_denied"},
+    {"ordinal":11,"name":"wrong_lineage_denied","result":"pass","marker":"pass:CASE-011:wrong_lineage_denied"},
+    {"ordinal":12,"name":"wrong_membership_cut_denied","result":"pass","marker":"pass:CASE-012:wrong_membership_cut_denied"},
+    {"ordinal":13,"name":"stale_certificate_denied","result":"pass","marker":"pass:CASE-013:stale_certificate_denied"},
+    {"ordinal":14,"name":"wrong_boot_generation_denied","result":"pass","marker":"pass:CASE-014:wrong_boot_generation_denied"},
+    {"ordinal":15,"name":"generic_send_denied","result":"pass","marker":"pass:CASE-015:generic_send_denied"},
+    {"ordinal":16,"name":"raft_rpc_confusion_denied","result":"pass","marker":"pass:CASE-016:raft_rpc_confusion_denied"},
+    {"ordinal":17,"name":"unknown_kind_denied","result":"pass","marker":"pass:CASE-017:unknown_kind_denied"},
+    {"ordinal":18,"name":"frame_n_accepted","result":"pass","marker":"pass:CASE-018:frame_n_accepted"},
+    {"ordinal":19,"name":"frame_n_plus_one_denied","result":"pass","marker":"pass:CASE-019:frame_n_plus_one_denied"},
+    {"ordinal":20,"name":"reordered_frame_denied","result":"pass","marker":"pass:CASE-020:reordered_frame_denied"},
+    {"ordinal":21,"name":"exact_duplicate_frame_cached","result":"pass","marker":"pass:CASE-021:exact_duplicate_frame_cached"},
+    {"ordinal":22,"name":"conflicting_duplicate_denied","result":"pass","marker":"pass:CASE-022:conflicting_duplicate_denied"},
+    {"ordinal":23,"name":"wrong_predecessor_denied","result":"pass","marker":"pass:CASE-023:wrong_predecessor_denied"},
+    {"ordinal":24,"name":"wrong_chunk_digest_denied","result":"pass","marker":"pass:CASE-024:wrong_chunk_digest_denied"},
+    {"ordinal":25,"name":"wrong_manifest_denied","result":"pass","marker":"pass:CASE-025:wrong_manifest_denied"},
+    {"ordinal":26,"name":"oversized_frame_denied","result":"pass","marker":"pass:CASE-026:oversized_frame_denied"},
+    {"ordinal":27,"name":"oversized_total_denied","result":"pass","marker":"pass:CASE-027:oversized_total_denied"},
+    {"ordinal":28,"name":"deadline_before_first_byte","result":"pass","marker":"pass:CASE-028:deadline_before_first_byte"},
+    {"ordinal":29,"name":"deadline_midstream","result":"pass","marker":"pass:CASE-029:deadline_midstream"},
+    {"ordinal":30,"name":"cancellation_before_effect","result":"pass","marker":"pass:CASE-030:cancellation_before_effect"},
+    {"ordinal":31,"name":"cancellation_midstream","result":"pass","marker":"pass:CASE-031:cancellation_midstream"},
+    {"ordinal":32,"name":"source_restart_resume","result":"pass","marker":"pass:CASE-032:source_restart_resume"},
+    {"ordinal":33,"name":"target_restart_resume","result":"pass","marker":"pass:CASE-033:target_restart_resume"},
+    {"ordinal":34,"name":"crash_after_admission","result":"pass","marker":"pass:CASE-034:crash_after_admission"},
+    {"ordinal":35,"name":"crash_after_frame_write","result":"pass","marker":"pass:CASE-035:crash_after_frame_write"},
+    {"ordinal":36,"name":"crash_after_prefix_receipt","result":"pass","marker":"pass:CASE-036:crash_after_prefix_receipt"},
+    {"ordinal":37,"name":"crash_after_completion_result","result":"pass","marker":"pass:CASE-037:crash_after_completion_result"},
+    {"ordinal":38,"name":"crash_before_checkpoint","result":"pass","marker":"pass:CASE-038:crash_before_checkpoint"},
+    {"ordinal":39,"name":"crash_after_checkpoint","result":"pass","marker":"pass:CASE-039:crash_after_checkpoint"},
+    {"ordinal":40,"name":"reply_loss_retry","result":"pass","marker":"pass:CASE-040:reply_loss_retry"},
+    {"ordinal":41,"name":"disk_full_no_false_success","result":"pass","marker":"pass:CASE-041:disk_full_no_false_success"},
+    {"ordinal":42,"name":"coherent_rollback_denied","result":"pass","marker":"pass:CASE-042:coherent_rollback_denied"},
+    {"ordinal":43,"name":"unsafe_path_denied","result":"pass","marker":"pass:CASE-043:unsafe_path_denied"},
+    {"ordinal":44,"name":"zero_residue_abort","result":"pass","marker":"pass:CASE-044:zero_residue_abort"},
+    {"ordinal":45,"name":"evidence_redaction","result":"pass","marker":"pass:CASE-045:evidence_redaction"}
+  ],
+  "acceptances": [
+    {
+      "acceptance_id": "AC-1",
+      "cases": ["authorized_transfer", "wrong_source_denied", "wrong_target_denied", "wrong_polis_denied", "wrong_domain_denied", "wrong_lineage_denied", "wrong_membership_cut_denied", "stale_certificate_denied", "wrong_boot_generation_denied", "generic_send_denied", "raft_rpc_confusion_denied", "unknown_kind_denied"],
+      "subassertions": [
+        {"id":"exact_grant_route_cut_accepted","case":"authorized_transfer","outcome":"accepted","marker":"accepted:AC-1:exact_grant_route_cut_accepted"},
+        {"id":"route_drift_midstream_denied","case":"wrong_membership_cut_denied","outcome":"denied","marker":"denied:AC-1:route_drift_midstream_denied"},
+        {"id":"membership_drift_midstream_denied","case":"wrong_membership_cut_denied","outcome":"denied","marker":"denied:AC-1:membership_drift_midstream_denied"},
+        {"id":"certificate_drift_midstream_denied","case":"stale_certificate_denied","outcome":"denied","marker":"denied:AC-1:certificate_drift_midstream_denied"},
+        {"id":"boot_drift_midstream_denied","case":"wrong_boot_generation_denied","outcome":"denied","marker":"denied:AC-1:boot_drift_midstream_denied"},
+        {"id":"source_target_swap_denied","case":"wrong_source_denied","outcome":"denied","marker":"denied:AC-1:source_target_swap_denied"},
+        {"id":"lineage_or_domain_drift_denied","case":"wrong_lineage_denied","outcome":"denied","marker":"denied:AC-1:lineage_or_domain_drift_denied"},
+        {"id":"wrong_session_role_denied","case":"wrong_target_denied","outcome":"denied","marker":"denied:AC-1:wrong_session_role_denied"},
+        {"id":"wrong_polis_binding_denied","case":"wrong_polis_denied","outcome":"denied","marker":"denied:AC-1:wrong_polis_binding_denied"},
+        {"id":"wrong_domain_binding_denied","case":"wrong_domain_denied","outcome":"denied","marker":"denied:AC-1:wrong_domain_binding_denied"},
+        {"id":"generic_send_authority_denied","case":"generic_send_denied","outcome":"denied","marker":"denied:AC-1:generic_send_authority_denied"},
+        {"id":"raft_transfer_confusion_denied","case":"raft_rpc_confusion_denied","outcome":"denied","marker":"denied:AC-1:raft_transfer_confusion_denied"},
+        {"id":"generic_unknown_dispatch_denied","case":"unknown_kind_denied","outcome":"denied","marker":"denied:AC-1:generic_unknown_dispatch_denied"}
+      ]
+    },
+    {
+      "acceptance_id": "AC-2",
+      "cases": ["frame_n_accepted", "frame_n_plus_one_denied", "reordered_frame_denied", "exact_duplicate_frame_cached", "conflicting_duplicate_denied", "wrong_predecessor_denied", "wrong_chunk_digest_denied", "oversized_frame_denied", "oversized_total_denied"],
+      "subassertions": [
+        {"id":"canonical_frame_header_accepted","case":"frame_n_accepted","outcome":"accepted","marker":"accepted:AC-2:canonical_frame_header_accepted"},
+        {"id":"frame_count_n_plus_one_denied","case":"frame_n_plus_one_denied","outcome":"denied","marker":"denied:AC-2:frame_count_n_plus_one_denied"},
+        {"id":"zero_length_nonfinal_denied","case":"frame_n_plus_one_denied","outcome":"denied","marker":"denied:AC-2:zero_length_nonfinal_denied"},
+        {"id":"final_frame_shape_mismatch_denied","case":"reordered_frame_denied","outcome":"denied","marker":"denied:AC-2:final_frame_shape_mismatch_denied"},
+        {"id":"absolute_range_overflow_denied","case":"oversized_total_denied","outcome":"denied","marker":"denied:AC-2:absolute_range_overflow_denied"},
+        {"id":"cross_entry_frame_denied","case":"wrong_chunk_digest_denied","outcome":"denied","marker":"denied:AC-2:cross_entry_frame_denied"},
+        {"id":"queued_frames_n_plus_one_denied","case":"oversized_frame_denied","outcome":"denied","marker":"denied:AC-2:queued_frames_n_plus_one_denied"},
+        {"id":"inflight_requests_n_plus_one_denied","case":"oversized_frame_denied","outcome":"denied","marker":"denied:AC-2:inflight_requests_n_plus_one_denied"},
+        {"id":"conflicting_duplicate_no_effect","case":"conflicting_duplicate_denied","outcome":"denied","marker":"denied:AC-2:conflicting_duplicate_no_effect"},
+        {"id":"wrong_predecessor_no_effect","case":"wrong_predecessor_denied","outcome":"denied","marker":"denied:AC-2:wrong_predecessor_no_effect"}
+      ]
+    },
+    {
+      "acceptance_id": "AC-3",
+      "cases": ["exact_retry_cached", "frame_n_accepted", "exact_duplicate_frame_cached", "conflicting_duplicate_denied", "source_restart_resume", "target_restart_resume", "crash_after_admission", "crash_after_frame_write", "crash_after_prefix_receipt", "reply_loss_retry"],
+      "subassertions": [
+        {"id":"pending_effect_record_before_write","case":"crash_after_admission","outcome":"accepted","marker":"accepted:AC-3:pending_effect_record_before_write"},
+        {"id":"signed_expectation_before_write","case":"frame_n_accepted","outcome":"accepted","marker":"accepted:AC-3:signed_expectation_before_write"},
+        {"id":"bytes_fsync_before_verifier_prefix","case":"crash_after_frame_write","outcome":"accepted","marker":"accepted:AC-3:bytes_fsync_before_verifier_prefix"},
+        {"id":"verifier_state_matches_durable_bytes","case":"crash_after_frame_write","outcome":"accepted","marker":"accepted:AC-3:verifier_state_matches_durable_bytes"},
+        {"id":"prefix_commit_before_ack","case":"crash_after_prefix_receipt","outcome":"accepted","marker":"accepted:AC-3:prefix_commit_before_ack"},
+        {"id":"exact_retry_returns_retained_published_result","case":"exact_retry_cached","outcome":"accepted","marker":"accepted:AC-3:exact_retry_returns_retained_published_result"},
+        {"id":"exact_duplicate_returns_retained_receipt","case":"exact_duplicate_frame_cached","outcome":"accepted","marker":"accepted:AC-3:exact_duplicate_returns_retained_receipt"},
+        {"id":"source_restart_uses_target_prefix","case":"source_restart_resume","outcome":"accepted","marker":"accepted:AC-3:source_restart_uses_target_prefix"},
+        {"id":"target_restart_rebuilds_verifier","case":"target_restart_resume","outcome":"accepted","marker":"accepted:AC-3:target_restart_rebuilds_verifier"},
+        {"id":"reply_loss_no_duplicate_write","case":"reply_loss_retry","outcome":"accepted","marker":"accepted:AC-3:reply_loss_no_duplicate_write"},
+        {"id":"prefix_conflict_never_advances","case":"conflicting_duplicate_denied","outcome":"denied","marker":"denied:AC-3:prefix_conflict_never_advances"}
+      ]
+    },
+    {
+      "acceptance_id": "AC-4",
+      "cases": ["real_bundle_source", "exact_target_stage", "incremental_catalog_verify", "wrong_chunk_digest_denied", "wrong_manifest_denied", "coherent_rollback_denied"],
+      "subassertions": [
+        {"id":"signed_manifest_key_generation_verified","case":"incremental_catalog_verify","outcome":"accepted","marker":"accepted:AC-4:signed_manifest_key_generation_verified"},
+        {"id":"signed_catalog_bytes_digest_verified","case":"incremental_catalog_verify","outcome":"accepted","marker":"accepted:AC-4:signed_catalog_bytes_digest_verified"},
+        {"id":"entry_order_and_identity_verified","case":"incremental_catalog_verify","outcome":"accepted","marker":"accepted:AC-4:entry_order_and_identity_verified"},
+        {"id":"entry_schema_verified","case":"incremental_catalog_verify","outcome":"accepted","marker":"accepted:AC-4:entry_schema_verified"},
+        {"id":"entry_range_length_digest_verified","case":"incremental_catalog_verify","outcome":"accepted","marker":"accepted:AC-4:entry_range_length_digest_verified"},
+        {"id":"chunk_index_range_digest_verified","case":"incremental_catalog_verify","outcome":"accepted","marker":"accepted:AC-4:chunk_index_range_digest_verified"},
+        {"id":"entry_gap_overlap_reorder_denied","case":"wrong_manifest_denied","outcome":"denied","marker":"denied:AC-4:entry_gap_overlap_reorder_denied"},
+        {"id":"wrong_signing_generation_denied","case":"wrong_manifest_denied","outcome":"denied","marker":"denied:AC-4:wrong_signing_generation_denied"},
+        {"id":"whole_bundle_digest_before_possession","case":"exact_target_stage","outcome":"accepted","marker":"accepted:AC-4:whole_bundle_digest_before_possession"},
+        {"id":"whole_bundle_allocation_absent","case":"real_bundle_source","outcome":"accepted","marker":"accepted:AC-4:whole_bundle_allocation_absent"}
+      ]
+    },
+    {
+      "acceptance_id": "AC-5",
+      "cases": ["resume_after_partition", "deadline_before_first_byte", "deadline_midstream", "cancellation_before_effect", "cancellation_midstream", "source_restart_resume", "target_restart_resume", "crash_after_completion_result", "crash_before_checkpoint", "crash_after_checkpoint", "reply_loss_retry", "disk_full_no_false_success", "coherent_rollback_denied"],
+      "subassertions": [
+        {"id":"partition_stops_new_io","case":"resume_after_partition","outcome":"accepted","marker":"accepted:AC-5:partition_stops_new_io"},
+        {"id":"deadline_before_effect_no_stage","case":"deadline_before_first_byte","outcome":"denied","marker":"denied:AC-5:deadline_before_effect_no_stage"},
+        {"id":"deadline_midstream_retains_reconcilable_stage","case":"deadline_midstream","outcome":"denied","marker":"denied:AC-5:deadline_midstream_retains_reconcilable_stage"},
+        {"id":"cancel_before_effect_no_stage","case":"cancellation_before_effect","outcome":"denied","marker":"denied:AC-5:cancel_before_effect_no_stage"},
+        {"id":"cancel_midstream_retains_cleanup_permit","case":"cancellation_midstream","outcome":"denied","marker":"denied:AC-5:cancel_midstream_retains_cleanup_permit"},
+        {"id":"disk_full_never_advances_prefix","case":"disk_full_no_false_success","outcome":"denied","marker":"denied:AC-5:disk_full_never_advances_prefix"},
+        {"id":"completion_result_replayed","case":"crash_after_completion_result","outcome":"accepted","marker":"accepted:AC-5:completion_result_replayed"},
+        {"id":"checkpoint_owed_reconciled","case":"crash_before_checkpoint","outcome":"accepted","marker":"accepted:AC-5:checkpoint_owed_reconciled"},
+        {"id":"marker_owed_reconciled","case":"crash_after_checkpoint","outcome":"accepted","marker":"accepted:AC-5:marker_owed_reconciled"},
+        {"id":"rollback_or_ambiguous_state_denied","case":"coherent_rollback_denied","outcome":"denied","marker":"denied:AC-5:rollback_or_ambiguous_state_denied"}
+      ]
+    },
+    {
+      "acceptance_id": "AC-6",
+      "cases": ["deadline_midstream", "cancellation_midstream", "target_restart_resume", "unsafe_path_denied", "zero_residue_abort"],
+      "subassertions": [
+        {"id":"cleanup_permit_separate_from_transfer_grant","case":"zero_residue_abort","outcome":"accepted","marker":"accepted:AC-6:cleanup_permit_separate_from_transfer_grant"},
+        {"id":"cleanup_after_transfer_expiry","case":"deadline_midstream","outcome":"accepted","marker":"accepted:AC-6:cleanup_after_transfer_expiry"},
+        {"id":"cleanup_after_transfer_cancellation","case":"cancellation_midstream","outcome":"accepted","marker":"accepted:AC-6:cleanup_after_transfer_cancellation"},
+        {"id":"cleanup_restart_reconciles_exact_stage","case":"target_restart_resume","outcome":"accepted","marker":"accepted:AC-6:cleanup_restart_reconciles_exact_stage"},
+        {"id":"cleanup_exact_retry_returns_receipt","case":"zero_residue_abort","outcome":"accepted","marker":"accepted:AC-6:cleanup_exact_retry_returns_receipt"},
+        {"id":"cleanup_wrong_stage_denied","case":"unsafe_path_denied","outcome":"denied","marker":"denied:AC-6:cleanup_wrong_stage_denied"},
+        {"id":"transfer_has_no_activation_or_deletion_authority_and_cleanup_activated_stage_denied","case":"zero_residue_abort","outcome":"denied","marker":"denied:AC-6:transfer_has_no_activation_or_deletion_authority_and_cleanup_activated_stage_denied"},
+        {"id":"cleanup_closes_all_stage_handles","case":"zero_residue_abort","outcome":"accepted","marker":"accepted:AC-6:cleanup_closes_all_stage_handles"},
+        {"id":"cleanup_parent_fsync_proved","case":"zero_residue_abort","outcome":"accepted","marker":"accepted:AC-6:cleanup_parent_fsync_proved"},
+        {"id":"cleanup_live_absence_attested_by_208","case":"zero_residue_abort","outcome":"accepted","marker":"accepted:AC-6:cleanup_live_absence_attested_by_208"}
+      ]
+    },
+    {
+      "acceptance_id": "AC-7",
+      "cases": ["unsafe_path_denied", "evidence_redaction"],
+      "subassertions": [
+        {"id":"raw_bundle_content_absent","case":"evidence_redaction","outcome":"accepted","marker":"accepted:AC-7:raw_bundle_content_absent"},
+        {"id":"raw_identity_absent","case":"evidence_redaction","outcome":"accepted","marker":"accepted:AC-7:raw_identity_absent"},
+        {"id":"certificate_and_token_absent","case":"evidence_redaction","outcome":"accepted","marker":"accepted:AC-7:certificate_and_token_absent"},
+        {"id":"endpoint_and_address_absent","case":"evidence_redaction","outcome":"accepted","marker":"accepted:AC-7:endpoint_and_address_absent"},
+        {"id":"path_and_raw_handle_absent","case":"unsafe_path_denied","outcome":"accepted","marker":"accepted:AC-7:path_and_raw_handle_absent"},
+        {"id":"key_signature_secret_absent","case":"evidence_redaction","outcome":"accepted","marker":"accepted:AC-7:key_signature_secret_absent"},
+        {"id":"bounded_counts_only","case":"evidence_redaction","outcome":"accepted","marker":"accepted:AC-7:bounded_counts_only"},
+        {"id":"opaque_refs_only","case":"evidence_redaction","outcome":"accepted","marker":"accepted:AC-7:opaque_refs_only"},
+        {"id":"unsafe_path_input_rejected","case":"unsafe_path_denied","outcome":"denied","marker":"denied:AC-7:unsafe_path_input_rejected"},
+        {"id":"diagnostics_stable_and_bounded","case":"evidence_redaction","outcome":"accepted","marker":"accepted:AC-7:diagnostics_stable_and_bounded"}
+      ]
+    },
+    {
+      "acceptance_id": "AC-8",
+      "cases": ["authorized_transfer", "incremental_catalog_verify", "zero_residue_abort", "evidence_redaction"],
+      "subassertions": [
+        {"id":"exact_45_case_ordered_parity","case":"authorized_transfer","outcome":"accepted","marker":"accepted:AC-8:exact_45_case_ordered_parity"},
+        {"id":"exact_8_acceptance_rows","case":"authorized_transfer","outcome":"accepted","marker":"accepted:AC-8:exact_8_acceptance_rows"},
+        {"id":"exact_84_unique_subassertions","case":"authorized_transfer","outcome":"accepted","marker":"accepted:AC-8:exact_84_unique_subassertions"},
+        {"id":"map_sha256_bound","case":"authorized_transfer","outcome":"accepted","marker":"accepted:AC-8:map_sha256_bound"},
+        {"id":"tests_before_clippy","case":"authorized_transfer","outcome":"accepted","marker":"accepted:AC-8:tests_before_clippy"},
+        {"id":"clippy_before_exact_diff","case":"authorized_transfer","outcome":"accepted","marker":"accepted:AC-8:clippy_before_exact_diff"},
+        {"id":"recorded_base_to_source_diff_clean","case":"authorized_transfer","outcome":"accepted","marker":"accepted:AC-8:recorded_base_to_source_diff_clean"},
+        {"id":"producer_before_independent_review","case":"authorized_transfer","outcome":"accepted","marker":"accepted:AC-8:producer_before_independent_review"},
+        {"id":"review_revision_equals_proving_source","case":"authorized_transfer","outcome":"accepted","marker":"accepted:AC-8:review_revision_equals_proving_source"},
+        {"id":"validator_after_review_and_immutable_evidence","case":"authorized_transfer","outcome":"accepted","marker":"accepted:AC-8:validator_after_review_and_immutable_evidence"}
+      ]
+    }
+  ]
+}

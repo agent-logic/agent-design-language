@@ -1,0 +1,12 @@
+{
+  "issue": 203,
+  "card": "sip",
+  "expected_generation": 27,
+  "expected_digest": "c645788748b914eaa9501dc30a83ece86181fd0d406a7304587dee2ecaafb590",
+  "actor": "codex:/root",
+  "reason": "Correct issue 203 typed card path for governed polis runtime without changing scope",
+  "operation": {
+    "operation": "correct_required_outcome_after_recovery",
+    "value": "All authority-restoring store reads and mutations revalidate a live lineage/action/generation-scoped #200 grant; sealed adapters consume the exact private #201 store-native signed artifact view; canonical lease state, step receipts, results, and result digests contain no node-local safety-anchor bytes or digest; the anchor is bound only by a node-local checkpoint/audit record; every enumerated normal-build source consumer and integration fixture migrates off raw store access; and partial progress remains fail-safe until publication. Specifically, adl-runtime/src/distributed/transport/governed/polis_runtime.rs and adl-runtime/tests/distributed_runtime_transport.rs must construct and carry the sealed authority-bound handle rather than raw Arc<DistributedCertificateStore>."
+  }
+}

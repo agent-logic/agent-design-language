@@ -22,18 +22,18 @@ use std::{
 
 use certificates::{
     AuthorityCertificate, CertificateBody, CertificatePolicy, CertificatePurpose,
-    CertificateValidity, DistributedCertificateStore,
+    CertificateValidity, DistributedCertificateStore, TEST_CERTIFICATE_STORE_ACCESS,
 };
 use ed25519_dalek::SigningKey;
 use fencing::{
     ActiveLeaseCheck, FencingCheckpoint, FencingCheckpointAuthority, FencingError, FencingPolicy,
-    FencingStore,
+    FencingStore, TEST_FENCING_STORE_ACCESS,
 };
 use lease::{
     activation_signature, encode_certificate, endorse, AuthorityApplication,
     AuthorityCertificateBodyV1, AuthorityCertificateV1, AuthorityLedger, AuthorityMembership,
     ControlCertificatePurpose, LeasePolicy, LeaseState, OperationClass, VoterAuthority,
-    AUTHORITY_CERTIFICATE_SCHEMA_VERSION, SIGNING_ALGORITHM_ED25519,
+    AUTHORITY_CERTIFICATE_SCHEMA_VERSION, SIGNING_ALGORITHM_ED25519, TEST_LEASE_STORE_ACCESS,
 };
 use sha2::{Digest, Sha256};
 use snapshot_catalog::{
@@ -162,9 +162,10 @@ impl LeaseFixture {
             endorsements,
         })
         .unwrap();
-        let mut ledger = AuthorityLedger::new(lease_policy()).unwrap();
+        let mut ledger = AuthorityLedger::new(&TEST_LEASE_STORE_ACCESS, lease_policy()).unwrap();
         ledger
             .apply(
+                &TEST_LEASE_STORE_ACCESS,
                 &certificate,
                 &self.membership,
                 AuthorityApplication {
@@ -230,6 +231,7 @@ impl Fixture {
         let signer = key(41);
         let certificate_store = Arc::new(
             DistributedCertificateStore::open(
+                &TEST_CERTIFICATE_STORE_ACCESS,
                 root_path.join("certificates.redb"),
                 CertificatePolicy::new(DOMAIN, [issuer.verifying_key()])
                     .unwrap()
@@ -254,10 +256,13 @@ impl Fixture {
             &issuer,
         )
         .unwrap();
-        certificate_store.activate(&certificate, NOW - 10).unwrap();
+        certificate_store
+            .activate(&TEST_CERTIFICATE_STORE_ACCESS, &certificate, NOW - 10)
+            .unwrap();
         let fence_root = root_path.join("fencing");
         fs::create_dir(&fence_root).unwrap();
         let fencing_store = FencingStore::create(
+            &TEST_FENCING_STORE_ACCESS,
             &fence_root,
             fencing_policy(),
             Arc::new(CheckpointAuthority::default()),
@@ -284,7 +289,7 @@ impl Fixture {
     }
 
     fn verifier(&self) -> SnapshotCatalogVerifier {
-        SnapshotCatalogVerifier::open(
+        SnapshotCatalogVerifier::open_for_test(
             self.certificate_store.clone(),
             self.policy.clone(),
             &self.replay_path,
@@ -671,7 +676,7 @@ fn oversized_and_unsafe_replay_state_paths_fail_closed() {
         SnapshotError::InvalidSnapshot,
     );
     assert_eq!(
-        SnapshotCatalogVerifier::open(
+        SnapshotCatalogVerifier::open_for_test(
             fixture.certificate_store.clone(),
             fixture.policy.clone(),
             "relative.redb",

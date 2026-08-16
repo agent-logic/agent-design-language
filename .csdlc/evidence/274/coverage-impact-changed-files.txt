@@ -1,0 +1,7 @@
+A	adl-runtime/src/distributed/observatory_serving_eligibility.rs	524
+A	adl-runtime/tests/distributed_observatory_serving_eligibility.rs	230
+M	adl-runtime/src/distributed/mod.rs	1
+M	adl/tools/check_coverage_impact.sh	6
+M	adl/tools/test_check_coverage_impact.sh	12
+M	adl/tools/run_pr_fast_coverage_lane.sh	14
+M	adl/tools/test_run_pr_fast_coverage_lane.sh	18

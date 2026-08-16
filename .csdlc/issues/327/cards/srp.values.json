@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 327,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Restore strict Clippy after v1 tooling removal",
+    "slug": "real-tooling-dead-code",
+    "version": "v0.92",
+    "generation": 7
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl/src/cli/mod.rs\nadl/tests/issue_327_removed_tooling.rs\n.csdlc/issues/327",
+      "review_revision": "git-blake3:4cd334aedd52473bcde6d32759a83647958744b8:0d6532f6b5d18758f9350a7ed577cf8fef61ac5c6cd7c3fcff5d214ef171720b",
+      "reviewer": "fresh-session:7a81c032-1c4d-4e2f-a6b9-93d8e75f2041",
+      "review_prompts": [
+        "Is removing real_tooling behavior-preserving given all current dispatch call sites?",
+        "Does any v1 tooling route or authority return?",
+        "Are focused and strict-Clippy proofs sufficient for the one-line deletion?",
+        "Did the change avoid every #259 surface?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Inspection-only review; local tests were not rerun. Prior focused regression, strict Clippy, and hosted required CI were green before metadata-only review recovery."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

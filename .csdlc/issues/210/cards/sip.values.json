@@ -1,0 +1,51 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 210,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1d] Stream authenticated continuity bundles between voters",
+    "slug": "authenticated-continuity-bundle-transfer",
+    "version": "v0.92",
+    "generation": 26
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Move one real #208 continuity bundle between the exact authorized source and target voters with bounded resumable authenticated streaming.",
+      "required_outcome": "A closed typed service on the existing authenticated polis connection streams and incrementally verifies exact bundle bytes into the target's isolated #208 stage, survives partition/restart/reply loss, and aborts with live zero-residue proof without generic transport or whole-bundle allocation.",
+      "declared_scope": [
+        "Opaque #201 transfer authority bound to exact source, target, route cut, lineage, bundle, deadline, and limits",
+        "Closed typed continuity-transfer service on #191 authenticated current-voter sessions",
+        "Bounded canonical frames, backpressure, accepted-prefix durability, resume, replay, and conflict handling",
+        "Incremental SnapshotCatalog and whole-content verification without whole-bundle allocation",
+        "Opaque #208 source-bundle reader and target isolated-stage writer integration",
+        "Exact abort, cleanup, zero-residue, crash, restart, rollback, path, and evidence proof"
+      ],
+      "authority_boundary": [
+        "Only #201's private finalized ContinuityTransferGrantProjection plus the current #191 authenticated route and #203 certificate cut creates a transfer session; callers cannot construct or widen the projection",
+        "The projection and session bind exact domain, polis, operation/transfer ids, lineage, source/target voter and Guardian, route/membership/certificate/boot cuts, signed bundle/catalog bytes and digests, trusted key generation, canonical entries/chunks/ranges, bounds, deadline, uncertainty policy, and cleanup identity",
+        "#210 consumes only #208's sealed ContinuityBundleSourcePort and TargetContinuityEffectPort and never receives a caller path, raw file handle, injectable normal-build trait, synthetic bundle, or caller-selected expected descriptor",
+        "Before every write #210 and #208 independently match signature/key generation, entry order/schema/range/length/digest, chunk index/range/digest/predecessor, frame and whole-bundle bounds; mismatch fails before durable bytes, verifier state, or prefix changes",
+        "TargetCleanupPermit is a separate #208-owned discard-only authority bound to the exact stage and remains valid after transfer deadline expiry or cancellation until TargetDiscardReceipt or TargetActivationReceipt",
+        "#210 may request #208 cleanup after an authorized transfer abort but performs no deletion itself; only #208 touches kernel/filesystem state and attests live zero residue",
+        "Transfer completion returns only VerifiedTransferPossession containing exact TargetStageHandle and TargetPossessionEvidence; it creates no fencing, activation, OwnerCommit, ownership, serving, or cloud authority",
+        "#204 alone owns migration/control decisions and invokes #208 source resume, target activation, or target discard through its private adapter",
+        "The transfer capability has no generic send API and cannot dispatch Raft, unknown, public, or ordinary polis messages",
+        "Normal builds expose no injectable mock transport, verifier, bundle reader, stage writer, cleanup authority, or possession constructor"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Merged fixed baseline already ancestral at origin/main 2afa820c4aaa8528ef4cd252de4ee9078b8a882a: issue #191 / PR #197 at 8bd475cf18eb77cc7402220f69282f64a4a1a1e5, issue #201 / PR #229 at 3ffc4c402c57e167fb9943221c9dac24f96f8895, issue #200 / PR #231 at 507d9a1e3a74c2c9c6cce14259b095139aa3bdfa, and issue #208 / PR #230 at 5e25dccebde3bdd608e3ecb80d3d60a0c40e3a90",
+        "Do not bind #210 or edit product source until issue #202 is independently reviewed, merged, and ancestral, then issue #199 is independently reviewed, merged, and ancestral, then issue #203 is independently reviewed, merged, and ancestral",
+        "After #202, #199, and #203 merge in that order, resync #210 onto the resulting exact origin/main and rerun typed csdlc-validate issue plus csdlc-doctor before bind",
+        "#205 and #210 may remain graph-parallel in preparation, but their implementation PRs must land serially because both touch adl-runtime/src/distributed/mod.rs; the second landing branch must resync and revalidate on the first landing",
+        "Keep #210 limited to authenticated bundle transport and verification: #208 alone owns kernel/filesystem continuity effects and cleanup, while future #204 alone consumes #210 possession/cleanup outcomes for migration and recovery decisions",
+        "Resolve every review finding through a subagent and obtain fresh exact-head review before publication",
+        "Open a ready PR for visibility but never merge before operator review and authorization",
+        "No AWS use and no lifecycle closeout"
+      ]
+    }
+  }
+}

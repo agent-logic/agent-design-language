@@ -1,0 +1,14 @@
+
+running 6 tests
+test authenticated_lifecycle_and_restart_are_monotone ... ok
+test corrupt_durable_payload_cannot_yield_committed_projection ... ok
+test empty_store_has_no_committed_projection ... ok
+test inclusive_nanos_expiry_and_pair_mismatch_fail_closed ... ok
+test projection_is_redacted ... ok
+test stale_predecessor_overlap_and_conflicting_retry_fail_closed ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.46s
+
+   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-365-sealed-child-eligibility-provenance/adl-runtime)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.40s
+     Running tests/distributed_observatory_serving_eligibility.rs (adl-runtime/target/debug/deps/distributed_observatory_serving_eligibility-bdebf9ea1f4d521b)

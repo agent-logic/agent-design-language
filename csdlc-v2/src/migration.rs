@@ -8,10 +8,12 @@ use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use strum::{AsRefStr, Display, EnumString};
 
-use crate::cards::{CardContent, CardKind, InitialCardInput, PlanStep, StepStatus, ValidationLane};
+use crate::cards::{
+    digest, render, CardContent, CardKind, InitialCardInput, PlanStep, StepStatus, ValidationLane,
+};
 use crate::error::{ErrorCode, Result, V2Error};
 use crate::lifecycle::initialize_issue;
-use crate::model::{AuditEvent, TerminalEvidence, TransitionEvent};
+use crate::model::{AuditEvent, IssueRecord, TerminalEvidence, TransitionEvent};
 use crate::model::{LifecyclePhase, MigrationEvidence};
 use crate::readiness::TerminalDisposition;
 use crate::{
@@ -190,6 +192,141 @@ pub struct CodeRepositoryMigrationReport {
     pub evidence: CodeRepositoryMigrationEvidence,
 }
 
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum InitializedCanonicalCollisionDisposition {
+    SameNumberAbsent,
+    SameNumberNonAuthoritative,
+    SameNumberSuccessor,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct InitializedCodeRepositoryCollisionEvidence {
+    pub schema: String,
+    pub source_issue_repository: String,
+    pub source_issue: u64,
+    pub target_code_repository: String,
+    pub target_same_number_issue: Option<u64>,
+    pub disposition: InitializedCanonicalCollisionDisposition,
+    pub observed_state: String,
+    pub operation_key: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct InitializedCodeRepositoryMigrationRequest {
+    pub schema: String,
+    pub issue: u64,
+    pub source_issue_repository: String,
+    pub code_repository: String,
+    pub expected_generation: u64,
+    pub expected_digest: String,
+    pub actor: String,
+    pub reason: String,
+    pub canonical_issue_collision_evidence_ref: String,
+    pub canonical_issue_collision_evidence_digest: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct InitializedCodeRepositoryMigrationEvidence {
+    pub schema: String,
+    pub issue: u64,
+    pub actor: String,
+    pub reason: String,
+    pub pre_generation: u64,
+    pub pre_digest: String,
+    pub previous_code_repository: Option<String>,
+    pub source_issue_repository: String,
+    pub requested_repository: String,
+    pub canonical_issue_collision_evidence_ref: String,
+    pub canonical_issue_collision_evidence_digest: String,
+    pub canonical_issue_collision_disposition: InitializedCanonicalCollisionDisposition,
+    pub cross_repository_authority_disposition: String,
+    pub topology_state: String,
+    pub phase: LifecyclePhase,
+    pub branch: Option<String>,
+    pub worktree: Option<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct InitializedCodeRepositoryMigrationReport {
+    pub schema: String,
+    pub issue: u64,
+    pub changed: bool,
+    pub phase: LifecyclePhase,
+    pub topology_state: String,
+    pub branch: Option<String>,
+    pub worktree: Option<String>,
+    pub code_repository: String,
+    pub resulting_generation: u64,
+    pub resulting_digest: String,
+    pub evidence: InitializedCodeRepositoryMigrationEvidence,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct BoundIssueIdentityMigrationRequest {
+    pub schema: String,
+    pub source_issue: u64,
+    pub target_issue: u64,
+    pub source_repository: String,
+    pub target_repository: String,
+    pub expected_generation: u64,
+    pub expected_digest: String,
+    pub actor: String,
+    pub reason: String,
+    pub target_issue_evidence: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct BoundIssueIdentityMigrationEvidence {
+    pub schema: String,
+    pub source_issue: u64,
+    pub target_issue: u64,
+    pub source_repository: String,
+    pub target_repository: String,
+    pub pre_generation: u64,
+    pub pre_digest: String,
+    pub resulting_generation: u64,
+    pub resulting_digest: String,
+    pub target_issue_evidence: String,
+    pub target_issue_evidence_digest: String,
+    pub previous_phase: LifecyclePhase,
+    pub resulting_phase: LifecyclePhase,
+    pub cleared_publication: bool,
+    pub cleared_readiness: bool,
+    pub branch: Option<String>,
+    pub worktree: Option<String>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct BoundIssueIdentityMigrationReport {
+    pub schema: String,
+    pub changed: bool,
+    pub source_issue: u64,
+    pub target_issue: u64,
+    pub source_repository: String,
+    pub target_repository: String,
+    pub resulting_generation: u64,
+    pub resulting_digest: String,
+    pub evidence: BoundIssueIdentityMigrationEvidence,
+}
+
+#[derive(Debug, Deserialize)]
+struct BoundIssueTargetEvidence {
+    schema: String,
+    repository: String,
+    issue: u64,
+    state: String,
+    title: String,
+    operation_key: String,
+}
+
 pub fn migrate_code_repository(
     store: &Store,
     request: CodeRepositoryMigrationRequest,
@@ -223,6 +360,326 @@ pub fn migrate_code_repository(
         resulting_digest: record.digest.clone(),
         evidence,
     })
+}
+
+pub fn migrate_initialized_code_repository(
+    store: &Store,
+    request: InitializedCodeRepositoryMigrationRequest,
+) -> Result<InitializedCodeRepositoryMigrationReport> {
+    if request.schema != "csdlc.initialized_code_repository_migration_request.v1"
+        || request.issue == 0
+        || !valid_repository_identity(&request.source_issue_repository)
+        || !valid_repository_identity(&request.code_repository)
+        || request.expected_digest.trim().is_empty()
+        || request.actor.trim().is_empty()
+        || request.reason.trim().is_empty()
+        || !clean_relative_path(&request.canonical_issue_collision_evidence_ref)
+        || request
+            .canonical_issue_collision_evidence_digest
+            .trim()
+            .is_empty()
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "initialized code repository migration request is incomplete",
+        ));
+    }
+    let _binding_lock = store.binding_lock()?;
+    let (record, evidence) = store.commit_initialized_code_repository_migration(&request)?;
+    Ok(InitializedCodeRepositoryMigrationReport {
+        schema: "csdlc.initialized_code_repository_migration_report.v1".into(),
+        issue: record.issue,
+        changed: true,
+        phase: record.phase,
+        topology_state: "initialized_unbound".into(),
+        branch: None,
+        worktree: None,
+        code_repository: record
+            .code_repository
+            .clone()
+            .expect("migration commits repository identity"),
+        resulting_generation: record.generation,
+        resulting_digest: record.digest.clone(),
+        evidence,
+    })
+}
+
+pub fn migrate_bound_issue_identity(
+    store: &Store,
+    request: BoundIssueIdentityMigrationRequest,
+) -> Result<BoundIssueIdentityMigrationReport> {
+    if request.schema != "csdlc.bound_issue_identity_migration_request.v1"
+        || request.source_issue == 0
+        || request.target_issue == 0
+        || request.source_issue == request.target_issue
+        || !valid_repository_identity(&request.source_repository)
+        || !valid_repository_identity(&request.target_repository)
+        || request.expected_digest.trim().is_empty()
+        || request.actor.trim().is_empty()
+        || request.reason.trim().is_empty()
+        || !clean_relative_path(&request.target_issue_evidence)
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "bound issue identity migration request is incomplete",
+        ));
+    }
+    let _binding_lock = store.binding_lock()?;
+    let _source_lock = store.lock(request.source_issue)?;
+    let _target_lock = store.lock(request.target_issue)?;
+    recover_interrupted_migration(store)?;
+
+    let target_issue_dir = store.issue_dir(request.target_issue);
+    if target_issue_dir.exists() {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "target issue namespace already exists",
+        ));
+    }
+    let evidence_path = store.root().join(&request.target_issue_evidence);
+    let evidence_bytes = fs::read(&evidence_path)?;
+    let evidence_digest = digest(&evidence_bytes);
+    let target: BoundIssueTargetEvidence = serde_json::from_slice(&evidence_bytes)?;
+    if target.schema != "csdlc.bound_issue_identity_target_evidence.v1"
+        || target.repository != request.target_repository
+        || target.issue != request.target_issue
+        || target.state != "open"
+        || target.title.trim().is_empty()
+        || target.operation_key.trim().is_empty()
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "target issue evidence does not match migration request",
+        ));
+    }
+
+    let mut record = store.load_record(request.source_issue)?;
+    if record.issue != request.source_issue
+        || record.repository != request.source_repository
+        || record.generation != request.expected_generation
+        || record.digest != request.expected_digest
+    {
+        return Err(V2Error::new(
+            ErrorCode::StaleDigest,
+            "bound issue identity migration source identity is stale",
+        ));
+    }
+    if matches!(record.phase, LifecyclePhase::ClosedOut) || record.terminal.is_some() {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "bound issue identity migration refuses terminal records",
+        ));
+    }
+    verify_topology_for_identity_migration(store, &record)?;
+    verify_clean_except_locks(store.root())?;
+
+    let mut cards = store.load_cards(request.source_issue)?;
+    crate::store::verify_cards(store, &record, &cards)?;
+    let previous_phase = record.phase;
+    let cleared_publication = record.publication.take().is_some();
+    let cleared_readiness = record.readiness.take().is_some();
+    if record.phase == LifecyclePhase::MergeReady {
+        record.transitions.push(TransitionEvent {
+            sequence: record.transitions.len() as u64 + 1,
+            from: previous_phase,
+            to: LifecyclePhase::Published,
+            actor: request.actor.clone(),
+            reason: "migrate issue identity and require typed republication".into(),
+        });
+        record.phase = LifecyclePhase::Published;
+    }
+    record.issue = request.target_issue;
+    record.repository = request.target_repository.clone();
+    record.generation += 1;
+    for values in cards.values_mut() {
+        values.identity.issue = request.target_issue;
+        values.identity.repository = request.target_repository.clone();
+        values.identity.generation = record.generation;
+    }
+    let operation = serde_json::json!({
+        "operation": "migrate_bound_issue_identity",
+        "source_issue": request.source_issue,
+        "target_issue": request.target_issue,
+        "source_repository": request.source_repository,
+        "target_repository": request.target_repository,
+        "target_issue_evidence": request.target_issue_evidence,
+        "target_issue_evidence_digest": evidence_digest,
+        "cleared_publication": cleared_publication,
+        "cleared_readiness": cleared_readiness,
+    })
+    .to_string();
+    record.audit.push(AuditEvent {
+        sequence: record.audit.len() as u64 + 1,
+        generation: record.generation,
+        actor: request.actor.clone(),
+        reason: request.reason.clone(),
+        operation,
+    });
+    hydrate_identity_migration_projections(&mut record, &cards)?;
+    let resulting_digest = record.digest.clone();
+    let evidence = BoundIssueIdentityMigrationEvidence {
+        schema: "csdlc.bound_issue_identity_migration_evidence.v1".into(),
+        source_issue: request.source_issue,
+        target_issue: request.target_issue,
+        source_repository: request.source_repository,
+        target_repository: request.target_repository,
+        pre_generation: request.expected_generation,
+        pre_digest: request.expected_digest,
+        resulting_generation: record.generation,
+        resulting_digest: resulting_digest.clone(),
+        target_issue_evidence: request.target_issue_evidence,
+        target_issue_evidence_digest: evidence_digest,
+        previous_phase,
+        resulting_phase: record.phase,
+        cleared_publication,
+        cleared_readiness,
+        branch: record.branch.clone(),
+        worktree: record.worktree.clone(),
+    };
+    write_identity_migration_namespace(
+        store,
+        request.source_issue,
+        request.target_issue,
+        &record,
+        &cards,
+    )?;
+    Ok(BoundIssueIdentityMigrationReport {
+        schema: "csdlc.bound_issue_identity_migration_report.v1".into(),
+        changed: true,
+        source_issue: evidence.source_issue,
+        target_issue: evidence.target_issue,
+        source_repository: evidence.source_repository.clone(),
+        target_repository: evidence.target_repository.clone(),
+        resulting_generation: evidence.resulting_generation,
+        resulting_digest,
+        evidence,
+    })
+}
+
+fn verify_topology_for_identity_migration(store: &Store, record: &IssueRecord) -> Result<()> {
+    let Some(branch) = record.branch.as_deref() else {
+        return Ok(());
+    };
+    let worktree = record.worktree.as_deref().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "bound issue identity migration requires complete topology",
+        )
+    })?;
+    if crate::git::current_branch(store.root())? != branch {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "bound issue identity migration must run in the recorded branch",
+        ));
+    }
+    if store.root().canonicalize()? != Path::new(worktree).canonicalize()? {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "bound issue identity migration must run in the recorded worktree",
+        ));
+    }
+    Ok(())
+}
+
+fn verify_clean_except_locks(root: &Path) -> Result<()> {
+    let dirty = crate::git::run(
+        root,
+        &[
+            "status",
+            "--porcelain=v1",
+            "--untracked-files=all",
+            "--",
+            ".",
+            ":(exclude).csdlc/locks/*.lock",
+        ],
+    )?
+    .stdout;
+    if dirty.is_empty() {
+        Ok(())
+    } else {
+        Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "bound issue identity migration requires a clean worktree except lifecycle locks",
+        ))
+    }
+}
+
+fn hydrate_identity_migration_projections(
+    record: &mut IssueRecord,
+    cards: &BTreeMap<CardKind, crate::cards::CardValues>,
+) -> Result<()> {
+    let mut projections = BTreeMap::new();
+    for (kind, values) in cards {
+        let rendered = render(values)?;
+        projections.insert(
+            *kind,
+            crate::model::CardProjection {
+                values_digest: rendered.values_digest,
+                rendered_digest: rendered.rendered_digest,
+                ast_digest: rendered.ast_digest,
+            },
+        );
+    }
+    record.cards = projections;
+    let mut digest_record = record.clone();
+    digest_record.digest.clear();
+    record.digest = digest(&serde_json::to_vec(&digest_record)?);
+    crate::store::verify_record(record)
+}
+
+fn write_identity_migration_namespace(
+    store: &Store,
+    source_issue: u64,
+    target_issue: u64,
+    record: &IssueRecord,
+    cards: &BTreeMap<CardKind, crate::cards::CardValues>,
+) -> Result<()> {
+    let source = store.issue_dir(source_issue);
+    let target = store.issue_dir(target_issue);
+    let temporary = store.root().join(".csdlc/issues").join(format!(
+        ".{source_issue}-to-{target_issue}.identity-migration-tmp"
+    ));
+    if temporary.exists() {
+        fs::remove_dir_all(&temporary)?;
+    }
+    fs::create_dir(&temporary)?;
+    fs::create_dir(temporary.join("cards"))?;
+    let result = (|| {
+        let mut index = serde_json::to_vec_pretty(record)?;
+        index.push(b'\n');
+        fs::write(temporary.join("index.json"), index)?;
+        let mut audit = Vec::new();
+        for event in &record.audit {
+            serde_json::to_writer(&mut audit, event)?;
+            audit.push(b'\n');
+        }
+        fs::write(temporary.join("audit.jsonl"), audit)?;
+        for (kind, values) in cards {
+            let mut value_bytes = serde_json::to_vec_pretty(values)?;
+            value_bytes.push(b'\n');
+            fs::write(
+                temporary.join("cards").join(format!("{kind}.values.json")),
+                value_bytes,
+            )?;
+            fs::write(
+                temporary.join("cards").join(format!("{kind}.md")),
+                render(values)?.markdown,
+            )?;
+        }
+        if target.exists() {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "target issue namespace appeared during migration",
+            ));
+        }
+        fs::rename(&temporary, &target)?;
+        fs::remove_dir_all(&source)?;
+        Ok(())
+    })();
+    if result.is_err() && temporary.exists() {
+        let _ = fs::remove_dir_all(&temporary);
+    }
+    result
 }
 
 fn valid_repository_identity(value: &str) -> bool {

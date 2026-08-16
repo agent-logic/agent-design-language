@@ -1,0 +1,14 @@
+{
+  "issue": 300,
+  "expected_generation": 9,
+  "expected_digest": "418db2a5834012010fd81339a8cfaf8663e812e116de12f89532e30517a02a06",
+  "reviewer": "fresh-session:lovelace-300-bridge-fed-r4",
+  "assigned_by": "codex:worker-5",
+  "scope": [
+    "csdlc-v2/tests/projection_recovery_integration.rs",
+    ".csdlc/issues/300",
+    ".csdlc/evidence/300/bridge-fed-r4",
+    ".csdlc/requests/300/recover-review-curie-r3.json",
+    ".csdlc/requests/300/replace-sor-bridge-fed-r4.json"
+  ]
+}

@@ -1,0 +1,32 @@
+flowchart TD
+  C["Classify under issue lock and retained handles"] --> T{"Tagged CAS and lineage exact?"}
+  T -->|No| F["Fail closed; preserve all namespaces"]
+  T -->|Yes| P["PREPARED commits exact anchor-specific transition plan"]
+  P --> AI["ARCHIVE_INTENT for plan-selected rejected source"]
+  AI --> AR["Archive rollback-preserved or exact invalid canonical; fsync parents"]
+  AR --> CP["CANDIDATE_PLAN"]
+  CP --> NI["Temp-node create intent; required names absent"]
+  NI --> NC["Exclusive create; bind created identity"]
+  NC --> NW["Write intent; continue only exact committed prefix"]
+  NW --> NF["Write complete; node fsync and parent fsync receipts"]
+  NF --> NP["No-replace publish intent; exact final identity"]
+  NP --> CV["CANDIDATE_VERIFIED; audit binds prior digest plus operation, classify, plan, and manifest commitments"]
+  CV --> S{"Plan source shape"}
+  S -->|Verified canonical| II["INSTALL_INTENT for atomic exchange"]
+  S -->|Verified backup| BD["Move backup without replacement to displaced; canonical absent"]
+  BD --> RI["INSTALL_INTENT for no-replace candidate install"]
+  II --> EX["Atomic exchange candidate and verified canonical"]
+  RI --> EX["No-replace rename candidate into absent canonical"]
+  EX --> CI["CANONICAL_INSTALLED"]
+  CI --> DI["Confirm prior already displaced, or issue DISPLACE_INTENT for exchanged canonical"]
+  DI --> PD["Retain exact verified prior as displaced"]
+  PD --> V["CANONICAL_VERIFIED"]
+  V --> R["RECOVERED immutable result"]
+  AI -. "restart exact pre/post state" .-> AI
+  NI -. "adopt sole intent-owned initial node" .-> NC
+  NW -. "continue exact prefix; never overwrite" .-> NW
+  NF -. "repeat recorded fsync" .-> NF
+  NP -. "adopt only exact rename post-order" .-> NP
+  II -. "adopt only exact exchange order" .-> II
+  DI -. "restart exact rename state" .-> DI
+  R --> O["Later ordinary commit may proceed; evidence retained"]

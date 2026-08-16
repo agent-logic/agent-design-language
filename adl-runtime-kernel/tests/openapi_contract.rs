@@ -256,7 +256,7 @@ fn real_kernel_control_routes() -> BTreeSet<(String, String)> {
             | "/v1/observatory/docs/" => {
                 routes.insert(("get".to_owned(), route));
             }
-            "/v1/control" => {
+            "/v1/control" | "/v1/layer8/recipient-acknowledgement" => {
                 routes.insert(("post".to_owned(), route.clone()));
                 routes.insert(("options".to_owned(), route));
             }
@@ -277,6 +277,7 @@ fn literal_routes_from_control_rs() -> BTreeSet<String> {
         "/v1/agents/{agent_id}",
         "/v1/observatory",
         "/v1/control",
+        "/v1/layer8/recipient-acknowledgement",
     ] {
         assert!(
             CONTROL_RS.contains(&format!("\"{expected}\"")),

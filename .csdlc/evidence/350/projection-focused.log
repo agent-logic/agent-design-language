@@ -1,0 +1,12 @@
+command: cargo test --locked --manifest-path adl-runtime/Cargo.toml --features internal-test-fixtures --test distributed_observatory_authority_projection -- --test-threads=1
+candidate_source_commit: 76215e811783d3b753434fc5300d1ea2bfe55f4d
+result: PASS
+tests: 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
+cases:
+- every_binding_field_mismatch_fails_closed
+- exact_pair_matrix_only_matching_pairs_pass
+- i_json_integer_bounds_accept_max_and_reject_zero_or_above_max
+- identifier_grammar_rejects_unicode_whitespace_control_and_punctuation
+- noncanonical_unknown_missing_and_digest_encodings_fail_closed
+- projection_is_redacted_and_deadline_is_committed
+- sealed_quorum_restore_mutations_fail_closed

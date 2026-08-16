@@ -1,0 +1,39 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 259,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1a][203.b] Bind governed transport to authority adapters",
+    "slug": "governed-transport-authority-adapters",
+    "version": "v0.92",
+    "generation": 17
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Route governed transport certificate and authority flows through the terminal #258 authority-store boundary.",
+      "required_outcome": "Runtime governed transport authorization uses authority-bound certificate handles and cannot bypass the #258 authority-store boundary with raw-store access.",
+      "declared_scope": [
+        "adl-runtime/src/distributed/transport",
+        "adl-runtime/src/distributed/certificates.rs",
+        "transport-coupled Runtime tests required to prove authority-bound certificate use"
+      ],
+      "authority_boundary": [
+        "#258 terminal authority-store boundary is a prerequisite and must be consumed, not reimplemented.",
+        "Governed transport may use authority-bound adapters; raw-store bypasses are non-production/test-fixture only and must not satisfy #259.",
+        "Publication and terminal authority remain typed C-SDLC v2 only."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2 lifecycle operations only.",
+        "Bind beneath /Volumes/FastWork/adl-worktrees.",
+        "Preserve #203 worktrees untouched.",
+        "Do not absorb #260 caller migration or #203 parent integration.",
+        "Obtain fresh exact-head review before publication.",
+        "Use required CI only; no optional or paid lanes unless separately authorized."
+      ]
+    }
+  }
+}

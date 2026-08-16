@@ -1,0 +1,37 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 301,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Persist provenance for title-only issue updates",
+    "slug": "title-only-issue-update-operation-provenance",
+    "version": "v0.92",
+    "generation": 27
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Make title-only typed issue updates durably attributable and truthfully reconciled without changing unrelated issue body content.",
+      "required_outcome": "A title-only update preserves the prior body, durably records its operation key, and reports reconciliation only after exact readback proves title and provenance.",
+      "declared_scope": [
+        "csdlc-v2 typed GitHub issue-update owner",
+        "focused issue-owner tests",
+        "issue-local lifecycle and evidence"
+      ],
+      "authority_boundary": [
+        "Typed owner remains the mutation authority",
+        "Existing body content is preserved",
+        "No lifecycle or card authority changes"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2",
+        "Bind beneath /Volumes/FastWork/adl-worktrees",
+        "Fresh exact-head review",
+        "Stop before merge"
+      ]
+    }
+  }
+}

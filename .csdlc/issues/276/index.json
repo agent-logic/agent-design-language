@@ -1,0 +1,234 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 276,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "e8a36e73588ecfae5810762f177c6995b8d48a8f05122bcb7a65d240465761fe",
+  "phase": "published",
+  "generation": 10,
+  "digest": "51d8570f5fdfdac988d03d8c03b302667ab3620c9ba8033004069e8d218326e6",
+  "branch": "codex/276-durable-conversation-journal-foundation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-276-durable-conversation-journal-foundation",
+  "review_assignment": {
+    "reviewer": "fresh-session:72acb0cd-e22f-489d-ae9f-29083e08ea9e",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:f09bfcedbed742954499618f09c0541951213a23:43a097aa1c487f143169d59e69711386b1c4ff1ebb46fcc28b6e69ce9ce067f2",
+    "scope": [
+      "adl-runtime-kernel/src/conversation_journal.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/conversation_journal.rs",
+      ".csdlc/issues/276",
+      ".csdlc/prepared/issues/276",
+      ".csdlc/evidence/276"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:72acb0cd-e22f-489d-ae9f-29083e08ea9e",
+    "scope": [
+      "adl-runtime-kernel/src/conversation_journal.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/conversation_journal.rs",
+      ".csdlc/issues/276",
+      ".csdlc/prepared/issues/276",
+      ".csdlc/evidence/276"
+    ],
+    "reviewed_revision": "git-blake3:f09bfcedbed742954499618f09c0541951213a23:43a097aa1c487f143169d59e69711386b1c4ff1ebb46fcc28b6e69ce9ce067f2",
+    "findings": [],
+    "residual_risks": [
+      "Reviewer did not rerun cargo/validator commands during the immediate verdict; implementation session retained local fmt, focused test, strict Clippy, doctor, and validate proof."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 276,
+    "pull_request": 346,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/346",
+    "base": "main",
+    "head": "codex/276-durable-conversation-journal-foundation",
+    "revision": "git-blake3:da9b64f08360078ae4856815633e837294d8e104:46a12e5b82a0830f7a2c600302adf323bd43df39abaf9f6a44774df82528f736",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/276/design.md",
+  "diagram_path": ".csdlc/prepared/issues/276/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "/root/issue276_readiness_review_terminal_cache_r2",
+      "revision": "a55f0219502ec12cfb4e9ba882b74569fd0a3ed7db2fe62a7cfd6818ad716262"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "b8bc95f80155bdae5deeef2a42a11617a26697023f1cf0052c0a68aafbcf5bcf",
+      "rendered_digest": "4f5f260f2006c2e6ff3fd952f2d70264850379c50db1f075a86467a89cf1fa14",
+      "ast_digest": "9a35b98ec4cc65e3b3cb7f64bd5ebdb7733a9f14656a265c80a351efec6522cf"
+    },
+    "stp": {
+      "values_digest": "1c28be64d8998fc25d96915c3be3fd69a8072e8769267831bfbda32276821b65",
+      "rendered_digest": "d76e5646cf7c40b5d3e59824e8b3496d4f860f4c55968e1252c9ef9bcfbcfaca",
+      "ast_digest": "3fdf04b24ef9ad1b1f4f9a70afd7ef366222caf9290fc18bdd8b38f4e4990a92"
+    },
+    "spp": {
+      "values_digest": "4b8bc6038efbdd3c16eb9bc888025db0f197d6a39719548497fde0216ea6ec68",
+      "rendered_digest": "26740818992620ae292500e29c76d3cbc98a6b98da1cdca0108a1ce35ed5ad1f",
+      "ast_digest": "c0f33c83340a05a3a99c63bd3a6858d9d39a70cc4aa8e957e82f8cb621b3d023"
+    },
+    "vpp": {
+      "values_digest": "7c224454165b46ca71df5f1b1b8e3240fea63d0f512a2eaf64cee44d2d816788",
+      "rendered_digest": "943438bde12aba2c177eb614804b4b07ab9fea1c647840f1b3496c6b6c670ef3",
+      "ast_digest": "72fb449b908ac68371474b44a6be7ebc6420dce20d60d81540a4e5064a7bd075"
+    },
+    "srp": {
+      "values_digest": "9149f61a059c012f9768f8f681ea4e1b9f680cb212e636dc53067df5bc7bd5da",
+      "rendered_digest": "be37d4d55bfa24e20a9781ae00f40860b874948060792e40b04c1e8edace61b3",
+      "ast_digest": "c3b51dc2e17c8ce9ac16b678f1007caf7c37ed49c03b401bf66af2238dc77548"
+    },
+    "sor": {
+      "values_digest": "f90259af4e8cddf2d6731a4f7aaf70d57921ca0737193be97d6bffc3d5a19e09",
+      "rendered_digest": "4352f26fb1ab756e2f1d935d9bd178dbff5793a492964634ec6a15b554668b30",
+      "ast_digest": "1960d4f0202dbbc4600d44dbfafccaea34e4880fdbcf8bafcd1758d4be69f32a"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Advance #276 to ready after fresh design/readiness PASS and typed design approval; remain unbound until dedicated FastWork bind."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:72acb0cd-e22f-489d-ae9f-29083e08ea9e",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Remove nonportable unavailable .adl/bin doctor lane from #276 clean current-main preparation packet; keep issue-local validator as the governed proving lane and run doctor/validate externally.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-276-preparation-validator\",\"proof_role\":\"Prove #276 remains scoped to durable journal foundation and validates canonical #112/#265/#270 derived-terminal caches ancestral to current origin/main.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"python3\",\".csdlc/prepared/issues/276/validate_preparation_bundle.py\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Resolve fresh design/readiness review P1 by refreshing pre-bind SPP/VPP design and diagram digests to the current authored #276 preparation packet without changing plan semantics.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/276/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/276/diagram.mmd\",\"new_design_digest\":\"a55f0219502ec12cfb4e9ba882b74569fd0a3ed7db2fe62a7cfd6818ad716262\",\"new_diagram_digest\":\"e488739c3a623e0723dce9620d729b77b4a9c15ccc35271783c7bd98ab94bb46\",\"old_design_digest\":\"a55f0219502ec12cfb4e9ba882b74569fd0a3ed7db2fe62a7cfd6818ad716262\",\"old_diagram_digest\":\"e488739c3a623e0723dce9620d729b77b4a9c15ccc35271783c7bd98ab94bb46\"},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\"],\"action\":\"Refresh and bootstrap the #276 design/card packet from live issue truth and canonical terminal dependency observations.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"action\":\"Validate scope boundaries and non-goals against #114/#276 live issue text.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"action\":\"Run prep validator, typed doctor/validate, and obtain fresh design/readiness review before design approval.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-8\"],\"action\":\"Bind only the dedicated #276 branch/worktree under FastWork after PASS and typed approval.\",\"id\":\"S4\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "/root/issue276_readiness_review_terminal_cache_r2",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Advance #276 to ready after fresh design/readiness PASS and typed design approval; remain unbound until dedicated FastWork bind.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "fresh-session:214af78c-bfec-4b51-88a4-0ab18da96e19",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Recover failed exact review fresh-session:214af78c-bfec-4b51-88a4-0ab18da96e19 before repairing P1 stale VPP implementation-lane truth through typed card tooling.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Resolve exact review P1 by aligning #276 VPP validation-planning truth with the implemented durable journal runtime proof lanes retained in SOR evidence.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-276-preparation-validator\",\"proof_role\":\"Prove #276 remains scoped to durable journal foundation and validates canonical #112/#265/#270 derived-terminal caches ancestral to current origin/main.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"python3\",\".csdlc/prepared/issues/276/validate_preparation_bundle.py\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"runtime-kernel-conversation-journal-fmt\",\"proof_role\":\"Reject Rust formatting drift for the #276 kernel journal change.\",\"acceptance_ids\":[\"AC-4\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":500,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"runtime-kernel-conversation-journal-tests\",\"proof_role\":\"Prove durable journal schema/storage/restart/corruption/retention/deletion foundation behavior.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"conversation_journal\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"runtime-kernel-conversation-journal-clippy\",\"proof_role\":\"Reject warning regressions in the #276 focused kernel target.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"conversation_journal\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "fresh-session:72acb0cd-e22f-489d-ae9f-29083e08ea9e",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{"sequence":1,"generation":0,"actor":"codex:planning2-issue272-owner","reason":"initialize issue record and all six cards","operation":"bootstrap"}
+{"sequence":2,"generation":1,"actor":"fresh-session:4f090c4c-63e0-4d6d-b49e-839ba7a2b489","reason":"approve completed issue design","operation":"approve_design"}
+{"sequence":3,"generation":1,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
+{"sequence":4,"generation":2,"actor":"codex:planning2-issue272-owner","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
+{"sequence":5,"generation":2,"actor":"codex:planning2-issue272-owner","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":6,"generation":3,"actor":"codex:planning2-issue272-owner","reason":"Recover failed fresh-session:80077170-5a85-4c91-815f-16372cff214b exact-head review at 48cd0e7b: add the missing explicit canonical/schema/bounds/embedded-binding substitution, retry conflict, malformed-state, capacity atomicity, and pre-publication visibility proof before a new immutable head and fresh assignment.","operation":"recover_review"}
+{"sequence":7,"generation":3,"actor":"codex:planning2-issue272-owner","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":8,"generation":4,"actor":"codex:planning2-issue272-owner","reason":"Recover nonresponsive fresh-session:5e555370-1cb7-446f-afac-a106494b9925 assignment after bounded final prompt; candidate head 08015fbb remains unchanged and requires a new fresh exact-head reviewer.","operation":"recover_review"}
+{"sequence":9,"generation":4,"actor":"codex:planning2-issue272-owner","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":10,"generation":5,"actor":"codex:planning2-issue272-owner","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":11,"generation":6,"actor":"codex:planning2-issue272-owner","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

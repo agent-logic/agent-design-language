@@ -1,0 +1,7 @@
+flowchart LR
+  P[Published or Reviewed] --> R[recover_review]
+  R --> I[Implemented recovery epoch]
+  I --> E[Allowed typed design and card repairs]
+  E --> S[Correct SPP summary with CAS]
+  S --> A[Append provenance audit]
+  I -->|review publication terminal or unknown op| X[Fail closed]

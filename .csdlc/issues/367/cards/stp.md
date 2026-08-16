@@ -1,0 +1,58 @@
+# Structured Task Prompt
+
+Template: 1.0.0
+
+Issue: 367
+
+Repository: agent-logic/agent-design-language
+
+Card: stp
+
+Status: ready
+
+## Task
+
+Add only verifier-derived redacted lineage binding and opaque same-lineage verification across terminal #365 sealed children without changing authority issuance or eligibility policy.
+
+## Deliverables
+
+- adl-runtime/src/distributed/serving_authority.rs
+- adl-runtime/src/distributed/shepherd_serving_eligibility.rs
+- adl-runtime/tests/distributed_shepherd_serving_eligibility.rs
+- adl-runtime/tests/distributed_observatory_serving_eligibility.rs
+- .csdlc/prepared/issues/367/design.md
+- .csdlc/prepared/issues/367/diagram.mmd
+- .csdlc/issues/367
+- .csdlc/evidence/367
+
+## Acceptance
+
+1. AC-1: lineage_ref is derived only from the opaque verified serving-authority cut using the exact existing ADL-SERVING-REF-V1 lineage domain/preimage and no new raw getter is added.
+2. AC-2: Shepherd grant public projection receipt normalized state and sealed preimage bind and preserve the redacted lineage across authenticated transitions and restart.
+3. AC-3: The pair verifier accepts only opaque #365 sealed child inputs with fixed child kinds and equal required lineage references, then returns a privately constructed borrowed VerifiedCommittedChildLineagePair with no raw-lineage, boolean-success, constructor, or deserializer seam.
+4. AC-4: Authentic same-lineage stores pass while two genuine A/B stores deny before first integration and after reopen.
+5. AC-5: Legacy missing lineage fabricated DTOs mutation corruption stale provenance raw caller pairing input and pair-adapter struct construction fail closed without synthetic migration.
+6. AC-6: Existing Shepherd and Observatory policy behavior and redaction remain unchanged.
+7. AC-7: Exact four-path scope focused tests strict Clippy exact review hosted CI typed finish cache and ancestry pass before #275 resumes.
+
+## Dependencies
+
+- #272 terminal cache canonical and ancestral
+- #273 terminal cache canonical and ancestral
+- #274 terminal cache canonical and ancestral
+- #365 terminal cache canonical and ancestral
+- Blocks #275 and is part of #205 serialized wave
+
+## Inputs
+
+- agent-logic/agent-design-language#367
+- terminal #365 sealed Shepherd and Observatory projection APIs
+- VerifiedServingAuthorityCut and exact existing ADL-SERVING-REF-V1 keyed lineage domain
+- terminal #273/#274 focused durable store tests
+
+## Non Goals
+
+- New authority issuance verifier or eligibility transition policy
+- New raw lineage getter or raw lineage exposure on child/integration surfaces
+- Caller constructor deserializer DTO conversion raw pairing input or migration
+- Any #275 #205 Observatory source mod.rs listener transport UI cloud or provider change

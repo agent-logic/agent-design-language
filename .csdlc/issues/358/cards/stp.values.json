@@ -1,0 +1,49 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 358,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1b][defect] Seal Observatory transition intent and full canonical time",
+    "slug": "observatory-transition-intent-time",
+    "version": "v0.92",
+    "generation": 16
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Minimal #350/#356 extension only; no #274 state machine.",
+      "deliverables": [
+        "adl-runtime/src/distributed/authority_protocol.rs",
+        "adl-runtime/src/distributed/serving_authority.rs",
+        "adl-runtime/tests/distributed_observatory_authority_projection.rs",
+        ".csdlc/issues/358",
+        ".csdlc/evidence/358"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Canonical artifact authenticates acquire/renew/transfer/revoke and exact predecessor shape.",
+        "AC-2: Invalid/unknown/missing/unexpected/self predecessor intent fails before projection creation.",
+        "AC-3: Projection exposes read-only action/predecessor plus deadline/finalization seconds,nanos,uncertainty.",
+        "AC-4: Exact tuple boundaries and durable restart are proven without caller time authority.",
+        "AC-5: Private construction and redaction remain intact.",
+        "AC-6: Focused tests, Clippy, review, CI, finish and ancestry pass before #274."
+      ],
+      "dependencies": [
+        "#350 terminal and ancestral",
+        "#356 terminal and ancestral",
+        "Blocks #274"
+      ],
+      "repo_inputs": [
+        "issue #358",
+        "terminal #350 authority_protocol.rs and serving_authority.rs",
+        "terminal #356 accessors and focused test"
+      ],
+      "non_goals": [
+        "#274 state machine",
+        "#273/#272/#203/#205/#275 changes",
+        "UI/listener/transport/cloud/provider"
+      ]
+    }
+  }
+}

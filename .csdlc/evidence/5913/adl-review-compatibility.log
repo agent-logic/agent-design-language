@@ -1,0 +1,4 @@
+validate_codebuddy_review_showcase_demo: ok
+PASS test_adl_review_compatibility
+adl_event schema=adl.observability.event.v1 command=adl-review stage=dispatch result=started subcommand=verify-repo-contract
+adl_event schema=adl.observability.event.v1 command=adl-review stage=dispatch result=started subcommand=code-review
