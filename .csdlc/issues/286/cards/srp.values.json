@@ -1,0 +1,34 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 286,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][ADR 0069][207.d] Reconcile Observatory governed Runtime consumer evidence",
+    "slug": "adr-0069-observatory-runtime-consumer-evidence",
+    "version": "v0.92",
+    "generation": 32
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/evidence/286/adr0069-evidence-reconciliation.md\n.csdlc/evidence/286/issue84-live-state.json\n.csdlc/evidence/286/validate_adr0069_evidence_reconciliation.py\n.csdlc/prepared/issues/286/validate_preparation_bundle.py\n.csdlc/issues/286",
+      "review_revision": "git-blake3:aea47db612ef10b76dc8b8212d4a50bd9349962f:c5f8cfee27329e8f09d718be04618b834b0d086e961db04b1cb2f47e39e3fa8b",
+      "reviewer": "fresh-session:22bfcbde-29b5-43d9-be7b-1ba533f3ebd6",
+      "review_prompts": [
+        "Does #286 stay limited to issue-local ADR 0069 evidence reconciliation?",
+        "Are residual gaps explicitly allowed and truthfully separated from terminal-proving evidence?",
+        "Does the plan avoid Runtime/UI/Unity/provider/cloud implementation and credential-bound proof?",
+        "Are #207 and #288 boundaries preserved?",
+        "Are validation lanes deterministic and issue-owned?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "#84 state is a timestamped retained observation; subsequent external issue-state changes require refreshing the packet.",
+        "#117/#271/#282 validation depends on retained terminal caches and configured local owner/worktree paths, which were present and canonical during review."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

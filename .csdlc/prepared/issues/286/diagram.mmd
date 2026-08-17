@@ -1,0 +1,7 @@
+flowchart TD
+    I["Live issue #286 contract"] --> P["#286 evidence reconciliation packet"]
+    A["WP-18A Runtime/Unity evidence"] --> P
+    C["WP-18C Runtime/Observatory evidence, terminal only when proven"] --> P
+    P --> R["Machine-readable outcome: terminal, partial, or out-of-scope"]
+    R --> Parent["#207 ADR coordination"]
+    Parent --> Final["#288 final ADR index/manifest serialization"]

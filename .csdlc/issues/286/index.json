@@ -1,0 +1,437 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 286,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "c92f938e8f52553a5e99e5a70cd53244133692af78462fa1d8eae320a9d9bfef",
+  "phase": "published",
+  "generation": 32,
+  "digest": "1114e8843d92731a241e46de38c65623da5aa87c801247445684a54a12d6bc75",
+  "branch": "codex/286-adr0069-evidence-reconciliation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-286-adr0069-evidence-reconciliation",
+  "review_assignment": {
+    "reviewer": "fresh-session:22bfcbde-29b5-43d9-be7b-1ba533f3ebd6",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:aea47db612ef10b76dc8b8212d4a50bd9349962f:c5f8cfee27329e8f09d718be04618b834b0d086e961db04b1cb2f47e39e3fa8b",
+    "scope": [
+      ".csdlc/evidence/286/adr0069-evidence-reconciliation.md",
+      ".csdlc/evidence/286/issue84-live-state.json",
+      ".csdlc/evidence/286/validate_adr0069_evidence_reconciliation.py",
+      ".csdlc/prepared/issues/286/validate_preparation_bundle.py",
+      ".csdlc/issues/286"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:22bfcbde-29b5-43d9-be7b-1ba533f3ebd6",
+    "scope": [
+      ".csdlc/evidence/286/adr0069-evidence-reconciliation.md",
+      ".csdlc/evidence/286/issue84-live-state.json",
+      ".csdlc/evidence/286/validate_adr0069_evidence_reconciliation.py",
+      ".csdlc/prepared/issues/286/validate_preparation_bundle.py",
+      ".csdlc/issues/286"
+    ],
+    "reviewed_revision": "git-blake3:aea47db612ef10b76dc8b8212d4a50bd9349962f:c5f8cfee27329e8f09d718be04618b834b0d086e961db04b1cb2f47e39e3fa8b",
+    "findings": [],
+    "residual_risks": [
+      "#84 state is a timestamped retained observation; subsequent external issue-state changes require refreshing the packet.",
+      "#117/#271/#282 validation depends on retained terminal caches and configured local owner/worktree paths, which were present and canonical during review."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 286,
+    "pull_request": 409,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/409",
+    "base": "main",
+    "head": "codex/286-adr0069-evidence-reconciliation",
+    "revision": "git-blake3:02cf833089287b6bc5b5ea3a99332fa69ef5d9fc:6233f9d690ddb5ec49fbe556f39cbd6e8acd8f3527b80d5524f5866cef18e20e",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/286/design.md",
+  "diagram_path": ".csdlc/prepared/issues/286/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:5ce0d17f-78a5-42be-80f4-3644424cad7e",
+      "revision": "e2df93f901096d9019c2f6361bf5f11d43982a252d244511e6feb496d8261038"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "afee460ca708643c42533139f0ed46878cda11e60f7dfae415620df8cf665d38",
+      "rendered_digest": "c9091a7475893afda9b0d9001ff075042bdd75ec791d54c17b73dcbb68d5464d",
+      "ast_digest": "844ba9e776904493cec9be5f02f243035f059cbd8359f8ede4a79ca665e7b3d7"
+    },
+    "stp": {
+      "values_digest": "217873f0906dca56414249d3430cbe890e7e1b3fb67e6d9f03db70e7f671cb65",
+      "rendered_digest": "bd6235d325ad72150ca3f7a517ec6780c9ece4ae76a9c259ba886caec2f58a8a",
+      "ast_digest": "eb37e31f42f8b321a8d427f82f1e2369201f99771891dd41d08e431f2e088135"
+    },
+    "spp": {
+      "values_digest": "196d4ec13058ad3e95cf315e0640aa6d01665d25de3dd2ff0ed0ebddce9ecc4a",
+      "rendered_digest": "e9c2d49e10fcb1e9b3f678067faf5aa2a2d4af5a03a3a53987e579e97e414a29",
+      "ast_digest": "73d8fa338897a32598bab8205f6be3e4301ebe5b9e86c088f2ed5940445c2039"
+    },
+    "vpp": {
+      "values_digest": "cbe7b7714b3a3791ce241197085e40feeab4717684a9e27f6aab4fe3f85ea4af",
+      "rendered_digest": "182be6cb11fe7081a1ed2ee23df8db32cabef0b3cf7423e71f6ba8420beb0e08",
+      "ast_digest": "2356174ae13d8fc4efda883e3b306eb865652ebe9b42de9733e4a32713741111"
+    },
+    "srp": {
+      "values_digest": "40ed18e395b16ad41e15f1f9bd009e1ea772857af19990de425899a31154907d",
+      "rendered_digest": "77044bb467eaea439c113d60bce5eba517b43800a2e76405b9b7a7854c66ab6b",
+      "ast_digest": "03115c6ea14f2dfdb9aa001dc16be6c4e8b8dae29c4a33a406e075c318851a52"
+    },
+    "sor": {
+      "values_digest": "f0e16a4bca71077d1a04f7159c7ab7e6d6306bfe8516ccdcf64d0f3b3ced252b",
+      "rendered_digest": "d456948065aab03474aeb84b936215f968a1436d9e246a6e7ab5a2ba238ef025",
+      "ast_digest": "03609d0a6ab5fb478bca4a883b992f3a5de6bdaae154b5f6b4605142c8b2e6a7"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Advance #286 to ready/unbound after fresh design review PASS and doctor advance_ready."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:22bfcbde-29b5-43d9-be7b-1ba533f3ebd6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Repair #286 initialized readiness denominator: declare exact prepared artifacts and issue card paths as SPP affected areas before design review/bind.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/prepared/issues/286/design.md\",\".csdlc/prepared/issues/286/diagram.mmd\",\".csdlc/prepared/issues/286/validate_preparation_bundle.py\",\".csdlc/issues/286\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Refresh #286 authored diagram/validator truth after design-review findings repair and normalize pre-bind plan coverage to the exact AC-1 through AC-6 denominator.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/286/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/286/diagram.mmd\",\"new_design_digest\":\"e2df93f901096d9019c2f6361bf5f11d43982a252d244511e6feb496d8261038\",\"new_diagram_digest\":\"5c343cc8b687993e6ace28a43ba7a3f1fb1afcbc755a7a321e2d53e225701a77\",\"old_design_digest\":\"e2df93f901096d9019c2f6361bf5f11d43982a252d244511e6feb496d8261038\",\"old_diagram_digest\":\"68016d09ee6618173443c9655864befd155a0b94cd5fea4ccc37c250dd17cd57\",\"prior_design_approval\":null},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\"],\"action\":\"Create and validate the #286 preparation packet with ADR 0069 boundary, evidence model, and #207/#288 non-claims.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-5\"],\"action\":\"Obtain a fresh no-context design review and approve only if residual-gap and non-implementation boundaries are truthful.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\"],\"action\":\"Bind in FastWork and author the issue-local ADR 0069 evidence reconciliation packet and deterministic validator.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-6\"],\"action\":\"Run focused proof, typed validation, fresh exact-head review, publication, required CI, and finish.\",\"id\":\"S4\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Repair replacement design-review finding by tightening the #286 preparation validator against #207/#288 terminal or complete overclaims while preserving pre-bind pending plan truth.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/286/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/286/diagram.mmd\",\"new_design_digest\":\"e2df93f901096d9019c2f6361bf5f11d43982a252d244511e6feb496d8261038\",\"new_diagram_digest\":\"5c343cc8b687993e6ace28a43ba7a3f1fb1afcbc755a7a321e2d53e225701a77\",\"old_design_digest\":\"e2df93f901096d9019c2f6361bf5f11d43982a252d244511e6feb496d8261038\",\"old_diagram_digest\":\"5c343cc8b687993e6ace28a43ba7a3f1fb1afcbc755a7a321e2d53e225701a77\",\"prior_design_approval\":null},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\"],\"action\":\"Create and validate the #286 preparation packet with ADR 0069 boundary, evidence model, and #207/#288 non-claims.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-5\"],\"action\":\"Obtain a fresh no-context design review and approve only if residual-gap and non-implementation boundaries are truthful.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\"],\"action\":\"Bind in FastWork and author the issue-local ADR 0069 evidence reconciliation packet and deterministic validator.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-6\"],\"action\":\"Run focused proof, typed validation, fresh exact-head review, publication, required CI, and finish.\",\"id\":\"S4\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Repair third design-review finding by replacing brittle phrase-only overclaim checks with line-oriented WP-18C/#207/#288 terminal, complete, and closeout pattern guards.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/286/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/286/diagram.mmd\",\"new_design_digest\":\"e2df93f901096d9019c2f6361bf5f11d43982a252d244511e6feb496d8261038\",\"new_diagram_digest\":\"5c343cc8b687993e6ace28a43ba7a3f1fb1afcbc755a7a321e2d53e225701a77\",\"old_design_digest\":\"e2df93f901096d9019c2f6361bf5f11d43982a252d244511e6feb496d8261038\",\"old_diagram_digest\":\"5c343cc8b687993e6ace28a43ba7a3f1fb1afcbc755a7a321e2d53e225701a77\",\"prior_design_approval\":null},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\"],\"action\":\"Create and validate the #286 preparation packet with ADR 0069 boundary, evidence model, and #207/#288 non-claims.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-5\"],\"action\":\"Obtain a fresh no-context design review and approve only if residual-gap and non-implementation boundaries are truthful.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\"],\"action\":\"Bind in FastWork and author the issue-local ADR 0069 evidence reconciliation packet and deterministic validator.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-6\"],\"action\":\"Run focused proof, typed validation, fresh exact-head review, publication, required CI, and finish.\",\"id\":\"S4\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "fresh-session:5ce0d17f-78a5-42be-80f4-3644424cad7e",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"e2df93f901096d9019c2f6361bf5f11d43982a252d244511e6feb496d8261038\",\"design_ref\":\".csdlc/prepared/issues/286/design.md\",\"diagram_digest\":\"5c343cc8b687993e6ace28a43ba7a3f1fb1afcbc755a7a321e2d53e225701a77\",\"diagram_ref\":\".csdlc/prepared/issues/286/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Advance #286 to ready/unbound after fresh design review PASS and doctor advance_ready.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "fresh-session:1ab080b7-9d6b-4a52-b6c2-fb1a4b740a33",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:root",
+      "reason": "Recover after fresh-session:1ab080b7-9d6b-4a52-b6c2-fb1a4b740a33 found WP-18C terminal overclaim and validator coverage gap; repair evidence truth and assign a different fresh reviewer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "fresh-session:88cb69df-9456-431c-b8cf-a33752f163db",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:root",
+      "reason": "Recover after fresh-session:88cb69df-9456-431c-b8cf-a33752f163db found SOR lifecycle truth still used WP-18C terminal overclaim language; repair SOR through typed editor and widen validator coverage before assigning a different fresh reviewer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:root",
+      "reason": "Replace SOR execution truth after R2 review found remaining WP-18C-level terminal overclaim language; preserve exact issue-input terminal references only as partial ADR 0069 evidence.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"#286 records issue-local ADR 0069 evidence reconciliation: ADR 0069 remains Deferred, exact #117/#271/#282 terminal issue inputs are retained only as partial ADR 0069 evidence, and #84 remains the first external WP-18A Unity Runtime consumer proof gate.\",\"changes\":[\"Added .csdlc/evidence/286/adr0069-evidence-reconciliation.md with ADR 0069 source status, partial evidence classifications, exact #117/#271/#282 terminal issue input references, #84 open-state blocker, #207/#288 non-claims, and residual gaps.\",\"Added .csdlc/evidence/286/issue84-live-state.json retaining the live #84 OPEN observation and partial/non-terminal classification.\",\"Replaced the fail-closed placeholder with .csdlc/evidence/286/validate_adr0069_evidence_reconciliation.py to validate the packet, SOR/card overclaim guard, #84 state, and canonical terminal caches for #117, #271, and #282.\",\"Restored .csdlc/prepared/issues/286/validate_preparation_bundle.py in the bound worktree so the declared preparation lane is executable.\"],\"artifacts\":[\".csdlc/evidence/286/adr0069-evidence-reconciliation.md\",\".csdlc/evidence/286/issue84-live-state.json\",\".csdlc/evidence/286/validate_adr0069_evidence_reconciliation.py\",\".csdlc/prepared/issues/286/validate_preparation_bundle.py\",\".csdlc/issues/286\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/286/validate_preparation_bundle.py\"],\"purpose\":\"Run the issue-owned preparation validator from the bound worktree.\",\"outcome\":\"passed\",\"evidence_ref\":\"preparation-contract.log\"},{\"command\":[\"python3\",\".csdlc/evidence/286/validate_adr0069_evidence_reconciliation.py\"],\"purpose\":\"Run the #286 ADR 0069 evidence reconciliation and SOR/card overclaim validator.\",\"outcome\":\"passed\",\"evidence_ref\":\"adr0069-evidence-reconciliation.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Run Git diff whitespace hygiene for the #286 evidence packet and lifecycle truth.\",\"outcome\":\"passed\",\"evidence_ref\":\"diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "fresh-session:4e1ee006-c737-487b-988b-e33b99f9229a",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex:root",
+      "reason": "Recover after fresh-session:4e1ee006-c737-487b-988b-e33b99f9229a found SIP declared-scope WP-18C terminal overclaim and validator lifecycle-card coverage gap; repair SIP through typed editor and widen validator coverage before assigning a different fresh reviewer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:root",
+      "reason": "Repair R3 lifecycle card truth so #286 references exact issue inputs without WP-18C-level terminal overclaims and prepares full-card validator coverage.",
+      "operation": "{\"new_value\":\"ADR 0069 has issue-local evidence showing whether governed Runtime consumer proof exists at exact landed issue revisions, with retained human review and machine-readable outcomes, while #84 remains the external Unity Runtime proof gate.\",\"operation\":\"correct_required_outcome_after_recovery\",\"previous_value\":\"ADR 0069 has issue-local evidence showing whether terminal Observatory governed Runtime consumer proof exists at exact landed revisions from WP-18A/WP-18C owners, with retained human review and machine-readable outcomes.\"}"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "codex:root",
+      "reason": "Repair R3 lifecycle card truth so #286 references exact issue inputs without WP-18C-level terminal overclaims and prepares full-card validator coverage.",
+      "operation": "{\"new_values\":[\"Reconcile Observatory governed Runtime consumer evidence from WP-18A owners, including the open #84 Unity Runtime proof gate.\",\"Reference exact #117/#271/#282 terminal issue inputs only as partial ADR 0069 evidence, not as WP-18C-level terminal proof.\",\"Verify exact artifact-bound revisions, machine-readable outcomes, and human review evidence are retained.\",\"Record issue-local evidence and residual gaps for #207.\",\"Preserve downstream #288 ownership of final ADR index, plan, manifest, and review-packet serialization.\"],\"operation\":\"correct_declared_scope_before_publication\",\"previous_values\":[\"Reconcile terminal Observatory governed Runtime consumer evidence from WP-18A owners.\",\"Reconcile terminal WP-18C Runtime/Observatory integration evidence where the WP-18C graph owns it.\",\"Verify exact artifact-bound revisions, machine-readable outcomes, and human review evidence are retained.\",\"Record issue-local evidence and residual gaps for #207.\",\"Preserve downstream #288 ownership of final ADR index, plan, manifest, and review-packet serialization.\"]}"
+    },
+    {
+      "sequence": 22,
+      "generation": 17,
+      "actor": "codex:root",
+      "reason": "Repair R3 lifecycle card truth so #286 references exact issue inputs without WP-18C-level terminal overclaims and prepares full-card validator coverage.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: #286 preparation packet states the ADR 0069 evidence-reconciliation boundary and #288/#207 ownership boundaries.\",\"AC-2: Issue-local evidence classifies referenced WP-18A surfaces and exact #117/#271/#282 issue inputs as terminal-proving for their own issues, partial/non-terminal for ADR 0069, or out-of-scope.\",\"AC-3: Every issue-input claim includes exact landed revision identity, artifact locator/digest, human-review reference, and machine-readable outcome reference.\",\"AC-4: Residual gaps are explicit and do not block truthful #207 consumption when ADR 0069 is not acceptance-ready.\",\"AC-5: #286 does not move ADR 0069 to Accepted, does not update shared ADR indexes/manifests, and does not claim #207/#288 or WP-18C closeout.\",\"AC-6: Fresh exact-head review has no unresolved actionable findings, required CI is green on the published head, and typed finish derives terminal authority.\"]}"
+    },
+    {
+      "sequence": 23,
+      "generation": 17,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 18,
+      "actor": "fresh-session:abfe3cc7-e359-44db-8da0-208691d9ff57",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 19,
+      "actor": "codex:root",
+      "reason": "Recover after fresh-session:abfe3cc7-e359-44db-8da0-208691d9ff57 found remaining SIP Goal WP-18C terminal framing and validator semantic coverage gap; repair only #286 card/evidence truth before a different fresh exact reviewer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "Correct review-blocking SIP Goal truth after typed review recovery so #286 remains issue-local ADR 0069 evidence reconciliation and does not claim WP-18C terminal closeout.",
+      "operation": "{\"new_value\":\"Reconcile issue-local ADR 0069 governed Runtime consumer evidence from exact WP-18A and WP-18C issue inputs without claiming WP-18C terminal closeout or changing ADR 0069 status.\",\"operation\":\"correct_goal_after_recovery\",\"previous_value\":\"Reconcile terminal evidence for ADR 0069, the Observatory governed Runtime consumer boundary, from WP-18A and WP-18C owners.\",\"recovery_generation\":19,\"recovery_sequence\":25}"
+    },
+    {
+      "sequence": 27,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 21,
+      "actor": "fresh-session:7643e45f-4c12-4d5a-9b79-6f076f8f5277",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "Recover after fresh-session:7643e45f-4c12-4d5a-9b79-6f076f8f5277 found AC-3 missing issue-input artifact locator/digest and per-input human-review evidence for #117/#271/#282; repair evidence packet and validator before a different fresh exact reviewer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "Replace #286 SOR execution truth after R5 review found AC-3 missing artifact/review evidence; record repaired per-input terminal cache artifacts, SHA-256s, terminal digests, human-review references, and validator coverage.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"#286 records issue-local ADR 0069 evidence reconciliation: ADR 0069 remains Deferred, exact #117/#271/#282 terminal issue inputs are retained only as partial ADR 0069 evidence with artifact locators/digests and human-review references, and #84 remains the first external WP-18A Unity Runtime consumer proof gate.\",\"changes\":[\"Retained .csdlc/evidence/286/adr0069-evidence-reconciliation.md with ADR 0069 source status, partial evidence classifications, #84 open-state blocker, #207/#288 non-claims, and residual gaps.\",\"Added explicit #117/#271/#282 terminal cache artifact locators, cache SHA-256s, terminal digests, PR numbers, merge/head revisions, and human-review references to satisfy AC-3 without claiming ADR acceptance or WP-18C closeout.\",\"Tightened .csdlc/evidence/286/validate_adr0069_evidence_reconciliation.py so it verifies per-input cache artifact presence, SHA-256, terminal digest, human-review reference, reviewed revision, canonical terminal state, and merge SHA.\",\"Retained .csdlc/evidence/286/issue84-live-state.json as the live #84 OPEN observation and partial/non-terminal ADR 0069 blocker classification.\",\"Retained .csdlc/prepared/issues/286/validate_preparation_bundle.py as the declared preparation-boundary proof.\"],\"artifacts\":[\".csdlc/evidence/286/adr0069-evidence-reconciliation.md\",\".csdlc/evidence/286/issue84-live-state.json\",\".csdlc/evidence/286/validate_adr0069_evidence_reconciliation.py\",\".csdlc/prepared/issues/286/validate_preparation_bundle.py\",\".csdlc/issues/286\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/286/validate_preparation_bundle.py\"],\"purpose\":\"Run the issue-owned preparation validator from the bound worktree.\",\"outcome\":\"passed\",\"evidence_ref\":\"preparation-contract.log\"},{\"command\":[\"python3\",\".csdlc/evidence/286/validate_adr0069_evidence_reconciliation.py\"],\"purpose\":\"Run the #286 ADR 0069 evidence reconciliation, AC-3 artifact/review evidence, and card overclaim validator.\",\"outcome\":\"passed\",\"evidence_ref\":\"adr0069-evidence-reconciliation.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Run Git diff whitespace hygiene for the #286 evidence packet and lifecycle truth.\",\"outcome\":\"passed\",\"evidence_ref\":\"diff-hygiene.log\"},{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-286-adr0069-evidence-reconciliation\",\"issue\",\"--issue\",\"286\"],\"purpose\":\"Validate #286 typed lifecycle state after R5 recovery and AC-3 remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"csdlc-validate-issue.log\"}]}"
+    },
+    {
+      "sequence": 31,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 24,
+      "actor": "fresh-session:ad5cf061-0846-49c7-96c6-d11a66d6d96a",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 25,
+      "actor": "codex:/root",
+      "reason": "Recover after fresh-session:ad5cf061-0846-49c7-96c6-d11a66d6d96a failed only because the read-only Codex sandbox blocked required exact-head validation execution with exit 71; reassign a different fresh reviewer in a validation-capable no-edit environment against unchanged substantive head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 25,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 26,
+      "actor": "fresh-session:95038528-b0e4-4954-ab2d-f8cef6b7eb3d",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 27,
+      "actor": "codex:/root",
+      "reason": "Recover after fresh-session:95038528-b0e4-4954-ab2d-f8cef6b7eb3d failed only because the Codex reviewer sandbox blocked required exact-head validation execution with exit 71 before validators ran; reassign a different fresh reviewer in a validation-capable no-edit environment against unchanged substantive head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 27,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 28,
+      "actor": "fresh-session:f83fdcc1-dcf0-43eb-95fd-772eb7213ae4",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 29,
+      "actor": "codex:/root",
+      "reason": "Recover after fresh-session:f83fdcc1-dcf0-43eb-95fd-772eb7213ae4 found AC-3 merge/head identity enforcement gap; repair #286 validator so packet merge/head fragments and terminal head_sha are enforced before a different fresh exact reviewer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 30,
+      "actor": "codex:/root",
+      "reason": "Replace #286 SOR execution truth after R8 review found AC-3 merge/head identity enforcement gap; record repaired validator coverage for packet merge/head fragments and terminal head_sha.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"#286 records issue-local ADR 0069 evidence reconciliation: ADR 0069 remains Deferred, exact #117/#271/#282 terminal issue inputs are retained only as partial ADR 0069 evidence with artifact locators/digests, merge/head revisions, and human-review references, and #84 remains the first external WP-18A Unity Runtime consumer proof gate.\",\"changes\":[\"Retained .csdlc/evidence/286/adr0069-evidence-reconciliation.md with ADR 0069 source status, partial evidence classifications, #84 open-state blocker, #207/#288 non-claims, and residual gaps.\",\"Retained explicit #117/#271/#282 terminal cache artifact locators, cache SHA-256s, terminal digests, PR numbers, merge/head revisions, and human-review references to satisfy AC-3 without claiming ADR acceptance or WP-18C closeout.\",\"Tightened .csdlc/evidence/286/validate_adr0069_evidence_reconciliation.py so it verifies per-input cache artifact presence, SHA-256, terminal digest, human-review reference, reviewed revision, packet merge/head fragments, canonical terminal state, merge SHA, and head SHA.\",\"Retained .csdlc/evidence/286/issue84-live-state.json as the live #84 OPEN observation and partial/non-terminal ADR 0069 blocker classification.\",\"Retained .csdlc/prepared/issues/286/validate_preparation_bundle.py as the declared preparation-boundary proof.\"],\"artifacts\":[\".csdlc/evidence/286/adr0069-evidence-reconciliation.md\",\".csdlc/evidence/286/issue84-live-state.json\",\".csdlc/evidence/286/validate_adr0069_evidence_reconciliation.py\",\".csdlc/prepared/issues/286/validate_preparation_bundle.py\",\".csdlc/issues/286\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/286/validate_preparation_bundle.py\"],\"purpose\":\"Run the issue-owned preparation validator from the bound worktree.\",\"outcome\":\"passed\",\"evidence_ref\":\"preparation-contract.log\"},{\"command\":[\"python3\",\".csdlc/evidence/286/validate_adr0069_evidence_reconciliation.py\"],\"purpose\":\"Run the #286 ADR 0069 evidence reconciliation, AC-3 artifact/review evidence, merge/head identity, and card overclaim validator.\",\"outcome\":\"passed\",\"evidence_ref\":\"adr0069-evidence-reconciliation.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Run Git diff whitespace hygiene for the #286 evidence packet and lifecycle truth.\",\"outcome\":\"passed\",\"evidence_ref\":\"diff-hygiene.log\"},{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-286-adr0069-evidence-reconciliation\",\"issue\",\"--issue\",\"286\"],\"purpose\":\"Validate #286 typed lifecycle state after R8 recovery and AC-3 merge/head remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"csdlc-validate-issue.log\"}]}"
+    },
+    {
+      "sequence": 41,
+      "generation": 30,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 42,
+      "generation": 31,
+      "actor": "fresh-session:22bfcbde-29b5-43d9-be7b-1ba533f3ebd6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 43,
+      "generation": 32,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}
