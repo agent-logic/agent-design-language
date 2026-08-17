@@ -40,3 +40,4 @@
 {"sequence":40,"generation":31,"actor":"codex:/root","reason":"Recover reviewed #117 state after publication guard rejected stale explicit review_metadata_only_v1 proof; re-record the same fresh PASS without explicit non_substantive_proof so the owner guard can use its automatic metadata-only path for review metadata commits.","operation":"recover_review"}
 {"sequence":41,"generation":31,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":42,"generation":32,"actor":"codex:/root","reason":"Recover stale #117 review assignment fresh-session:28effa4b-77e6-4783-b7d2-7d8298d1fcb8 before merging terminal #404 tooling support and completing STP repo input repair.","operation":"recover_review"}
+{"sequence":43,"generation":32,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}

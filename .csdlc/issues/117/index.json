@@ -5,10 +5,22 @@
   "initialization_digest": "024d435a2fcf6fd78678e4b9cda121ea06eecca7e6effaabceb5ad5c2f22ddaf",
   "phase": "implemented",
   "generation": 32,
-  "digest": "01e88408f58d18c86bbda509704725387bb50cd8d7765a5457062774457ea194",
+  "digest": "99bd2e67a8bcab1feefd393dad79bfccc3159eabb7194b0ff1ee531fe16a9375",
   "branch": "codex/117-production-polis-interface-qualification-parent",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-117-production-polis-interface-qualification-parent",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:2cce2757-f8a0-4f54-977e-ea4a79f5e8af",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:c4b9dafa0cd6fc8a12677a104a41405a699d9e8e:701324b18bb2c9e405d5e42b86e395f7a6a68e754a0aea1b9278ddde40813fa0",
+    "scope": [
+      ".csdlc/evidence/117/production-polis-interface-parent-closeout.md",
+      ".csdlc/evidence/117/validate_parent_closeout.py",
+      ".csdlc/prepared/issues/117/validate_preparation_bundle.py",
+      ".csdlc/prepared/issues/117/design.md",
+      ".csdlc/prepared/issues/117/diagram.mmd",
+      ".csdlc/issues/117"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +56,9 @@
       "ast_digest": "6e9164f90884128e31ad8d16a53deb657a3a6a3e58d6efdc82dc0b092069348d"
     },
     "srp": {
-      "values_digest": "479e7525df6cf6655e79ceeb3685b846b38c9770ccb50082d03451abbdabf7de",
-      "rendered_digest": "1253ac0f42063c5f2011243e9449818f55d1504c07ad8146ba38ea23a0a35357",
-      "ast_digest": "d3faf3908bf4b8cf64c7ef7144b0ef223acc1883189f0f858db1e2af1d228ef1"
+      "values_digest": "25c0c6f61074b378425a78e415cb44efd168fe2a4808aace196ebd231155f4e1",
+      "rendered_digest": "ca7d62232ed05329e6bf5b4d84f149e93c6cf43a0dc66a0ac90feaf7141236d9",
+      "ast_digest": "b830fc0d966ef86f4b7b785c5459a431f11737d96611114d81e931161ae0386c"
     },
     "sor": {
       "values_digest": "2932c30f737cabde3f7ffd2ad3fcfd9ab11779daf08a8371cd1863ecd64e550d",
@@ -385,6 +397,13 @@
       "actor": "codex:/root",
       "reason": "Recover stale #117 review assignment fresh-session:28effa4b-77e6-4783-b7d2-7d8298d1fcb8 before merging terminal #404 tooling support and completing STP repo input repair.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 43,
+      "generation": 32,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

@@ -12,7 +12,12 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/evidence/117/production-polis-interface-parent-closeout.md
+.csdlc/evidence/117/validate_parent_closeout.py
+.csdlc/prepared/issues/117/validate_preparation_bundle.py
+.csdlc/prepared/issues/117/design.md
+.csdlc/prepared/issues/117/diagram.mmd
+.csdlc/issues/117
 
 ## Prompts
 
