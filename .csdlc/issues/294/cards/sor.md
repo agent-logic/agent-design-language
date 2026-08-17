@@ -247,11 +247,11 @@ Added a typed initialized design-envelope recovery that relocates authored artif
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
