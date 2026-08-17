@@ -4,23 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "024d435a2fcf6fd78678e4b9cda121ea06eecca7e6effaabceb5ad5c2f22ddaf",
   "phase": "implemented",
-  "generation": 31,
-  "digest": "b292f48c3defecfa718da3c4d8cb17ce7927d020e587eb4bdf8a936c3e6ab97a",
+  "generation": 32,
+  "digest": "01e88408f58d18c86bbda509704725387bb50cd8d7765a5457062774457ea194",
   "branch": "codex/117-production-polis-interface-qualification-parent",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-117-production-polis-interface-qualification-parent",
-  "review_assignment": {
-    "reviewer": "fresh-session:28effa4b-77e6-4783-b7d2-7d8298d1fcb8",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:89f16dd857c13522fdf02b1264103a236a3d26a6:c32d650faf31b3a2784329bd8d5ae4bde7168808d3ca73cc71577755bd31d338",
-    "scope": [
-      ".csdlc/evidence/117/production-polis-interface-parent-closeout.md",
-      ".csdlc/evidence/117/validate_parent_closeout.py",
-      ".csdlc/prepared/issues/117/validate_preparation_bundle.py",
-      ".csdlc/prepared/issues/117/design.md",
-      ".csdlc/prepared/issues/117/diagram.mmd",
-      ".csdlc/issues/117"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -36,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a6deab2d267a6536e426eaae2669c4f5076e11046ec2ac6b6b115d8a3ece47f2",
+      "values_digest": "df8becc8acdf9c5308cd15779fc2a9e422f3b203a98307b92c8b603cc7fad376",
       "rendered_digest": "31377833f0fdf1c38188d892ce3d604f14ea61410b4d14eded85470c819d1506",
       "ast_digest": "34914eb71385e6d9a391827d3bcdfd88497cc2bccadad9d09dd81bf9d07fd13f"
     },
     "stp": {
-      "values_digest": "c7825f285ea7e311b0aab763306bfb3ed93bde30e11d2c6a5f472962a3660352",
+      "values_digest": "0c15db8e95bb6a1ec3c4229c76bd4cf2fd48b01483edefb46c87ecd2eb22124b",
       "rendered_digest": "3962299e8f5c41c9ebdb23f85131cf638b309cc58e4b166ad56efd100851e0e9",
       "ast_digest": "dde896295af7848a68de9eaa55ad152d1773062e79a9f27b8c37cce29c6e1301"
     },
     "spp": {
-      "values_digest": "6442902d424f2dcd50979b019bab2dc9d54e5de11a3277b879c534c6a1e6a542",
+      "values_digest": "3f8c896b01ab04aec42a5dc0475e82d74c977e7d8ec13bb5f216c37642fcfa15",
       "rendered_digest": "258848e070a57478e07177c1e9546907cd706f89a06ec45a05b77793a471e276",
       "ast_digest": "da7b6053c0774cd71960d329cd12a806b6bf66fce728459688fa9b9d524c7434"
     },
     "vpp": {
-      "values_digest": "dece5b595a8bda79a68a1a4f49d5c90182b842b4bf880e69185adc6de122ed07",
+      "values_digest": "f9024593388a04baa1799b68a2447160712415407532a5a82323c04727a7843f",
       "rendered_digest": "cb288c0e4e3fa37efca1d62888457c5cfab8b9ddc1ce0282259f69e987b4c0d7",
       "ast_digest": "6e9164f90884128e31ad8d16a53deb657a3a6a3e58d6efdc82dc0b092069348d"
     },
     "srp": {
-      "values_digest": "85cda9ce39f4a807c85482fd9dd961395a83d4ca99865e09737fa06cfa643c1a",
-      "rendered_digest": "ca7d62232ed05329e6bf5b4d84f149e93c6cf43a0dc66a0ac90feaf7141236d9",
-      "ast_digest": "b830fc0d966ef86f4b7b785c5459a431f11737d96611114d81e931161ae0386c"
+      "values_digest": "479e7525df6cf6655e79ceeb3685b846b38c9770ccb50082d03451abbdabf7de",
+      "rendered_digest": "1253ac0f42063c5f2011243e9449818f55d1504c07ad8146ba38ea23a0a35357",
+      "ast_digest": "d3faf3908bf4b8cf64c7ef7144b0ef223acc1883189f0f858db1e2af1d228ef1"
     },
     "sor": {
-      "values_digest": "63e429b3b98e5b6ad893204366b7ac5065fd9c3854e0f7ad1eb0e63cdcc4a552",
+      "values_digest": "2932c30f737cabde3f7ffd2ad3fcfd9ab11779daf08a8371cd1863ecd64e550d",
       "rendered_digest": "d8b815a277aad19f8d907b0a73f1c49b3724272f92e792c1995d40f19637d036",
       "ast_digest": "f119737ef3d6411764ce511ada41365d6a58d714922d2e2739fc7bb4cccf202d"
     }
@@ -390,6 +378,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 42,
+      "generation": 32,
+      "actor": "codex:/root",
+      "reason": "Recover stale #117 review assignment fresh-session:28effa4b-77e6-4783-b7d2-7d8298d1fcb8 before merging terminal #404 tooling support and completing STP repo input repair.",
+      "operation": "recover_review"
     }
   ]
 }
