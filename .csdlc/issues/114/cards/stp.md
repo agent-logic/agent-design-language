@@ -29,7 +29,7 @@ Implemented parent-only #114 durable-history integration proof in the bound work
 2. AC-2: The bound #114 worktree and branch are canonical and preserve historical authored design/diagram artifacts while treating them as reference evidence only.
 3. AC-3: Parent proof validates terminal canonical caches and merge-SHA ancestry for #112, #265, #270, #271, #276, #277, and #278 before review/publication.
 4. AC-4: The issue-owned validator proves #114 identity, bound topology, preserved design/diagram digests, and parent-only dependency boundaries.
-5. AC-5: The repository parent integration validator proves #276/#277/#278 terminal chain integrity, merged dispositions, ancestry, and parent-only ownership.
+5. AC-5: The repository parent terminal-chain validator proves #276/#277/#278 derived-terminal caches, merged dispositions, canonical generation/digest fields, merge-SHA ancestry, and focused integration-test marker presence only; lifecycle/card ownership proof belongs to the issue-owned validator.
 6. AC-6: The focused Runtime kernel integration test proves durable history, continuity, journal restart, duplicate attempt admission, receipts, replay owner state, retention/deletion, and Observatory transcript restoration coherence.
 7. AC-7: Strict relevant Clippy and diff hygiene pass for the parent-only proof surface.
 8. AC-8: SOR records the exact local validation lanes and truthfully leaves publication, merge, and closeout pending until typed publication/CI/finish complete.

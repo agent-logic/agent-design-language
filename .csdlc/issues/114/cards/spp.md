@@ -16,7 +16,7 @@ Status: ready
 
 ## Plan
 
-Revision 16
+Revision 17
 
 ## Steps
 
@@ -55,7 +55,7 @@ Revision 16
   },
   {
     "id": "S5",
-    "action": "Run the repository parent integration validator for #276/#277/#278 terminal chain integrity, ancestry, and parent-only ownership.",
+    "action": "Run the repository parent terminal-chain validator for #276/#277/#278 derived-terminal caches, merged dispositions, canonical generation/digest fields, merge-SHA ancestry, and focused integration-test marker presence only.",
     "acceptance_ids": [
       "AC-5"
     ],

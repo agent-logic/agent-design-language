@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/114/diagram.mmd
 [
   {
     "lane": "114-issue-owned-bound-parent-validator",
-    "proof_role": "Validate the bound #114 parent identity, preserved design/diagram digests, issue-owned validator availability, and terminal ancestry for #112, #265, #270, #271, #276, #277, and #278.",
+    "proof_role": "Validate the bound #114 parent identity, preserved design/diagram digests, issue-owned validator availability, parent-only dependency boundaries, and terminal ancestry for #112, #265, #270, #271, #276, #277, and #278.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -51,16 +51,10 @@ Diagram: .csdlc/prepared/issues/114/diagram.mmd
   },
   {
     "lane": "114-parent-terminal-chain-validator",
-    "proof_role": "Validate #276, #277, and #278 derived-terminal caches, merged dispositions, canonical generation/digest fields, merge-SHA ancestry, parent-only ownership, and preserved boundary truth at the exact #114 parent proof head.",
+    "proof_role": "Validate #276, #277, and #278 derived-terminal caches, merged dispositions, canonical generation/digest fields, merge-SHA ancestry, and focused integration-test marker presence only.",
     "acceptance_ids": [
-      "AC-1",
-      "AC-2",
       "AC-3",
-      "AC-4",
       "AC-5",
-      "AC-6",
-      "AC-7",
-      "AC-8",
       "AC-9",
       "AC-10"
     ],

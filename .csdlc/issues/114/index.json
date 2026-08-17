@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "bb70960941aab631d5c34ecdb2e526c2af37ec6b16d7835180a774117e371407",
   "phase": "implemented",
-  "generation": 87,
-  "digest": "b3c546496535c080252a0453d6b90c57368ff39c0f640bc38da36bbab2719c62",
+  "generation": 99,
+  "digest": "5b8efb8ec91cff8c81f900f7a4d3b011e5ab1a1f1e3576588020deed3055d422",
   "branch": "codex/114-durable-history-parent-integration-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-114-durable-history-parent-integration-proof",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "25b5ea0098145898d0e0853fe2964b5425afb97e8564fa9278e9e872604e6023",
+      "values_digest": "79edf468fba987a869da9c17a2c904cc12caa9f731ed07d0aea7a4ff14c1f21c",
       "rendered_digest": "0b0c6bafa6deda1c3729cf78a0329206ddc13dee5d9d87714262d211aaaf4190",
       "ast_digest": "3e1bbbcc8e45f6c68031ca5d6b787383716509ed050a4795ae7d74647bbe1bf2"
     },
     "stp": {
-      "values_digest": "64881f783bfd0c6e6f97b6f11d286d480d7a40ebf8be7c26bb9f33cca12038d4",
-      "rendered_digest": "8fe296ff077386a628ddb15582f8bcbff8d6cf0a31b5f82e8e74eb81faaa2119",
-      "ast_digest": "b0a63a6b951cb61d92ff50bd4694a3a8f8bdee0cc11559a363ab189f55117eb0"
+      "values_digest": "ac58b26193f0d4592221a39259a3618d74554afe5118d4bbf0ebae7a8cee4984",
+      "rendered_digest": "54be2e47fc6ac1e830cad277f5f65e0b0e6a9dd6d2b902cafa4a94facdadadb1",
+      "ast_digest": "e50d74e143c0b064f3d4d50fedc4d54d677cf7274c6bff9e7200cae751c51bb7"
     },
     "spp": {
-      "values_digest": "6242668d6e08e50990f27e1d76ad520a53933a81e3a5be443443c9244ac1147f",
-      "rendered_digest": "2f2c1a789272228ab57b3e15340a4b1da3df53edeb43634983b7108e99e94787",
-      "ast_digest": "ec346eace80ce81a7888b5d922369fce943a913658365eb954df3d8ccbc871c7"
+      "values_digest": "f0956ba0306dac5e2d4d8b85e02b8c3f95b5d2fdc0e5ba5a392890b3fe7cc67e",
+      "rendered_digest": "2b33e24101202208e944424c6042bea1756273f265945acffe94babcbfdd4d50",
+      "ast_digest": "7af499af5167903300dadeef694b73dcd01ebf204b5fe9955ac3a0aca156a789"
     },
     "vpp": {
-      "values_digest": "679e0730a616d499fefaa65d118d53b4c5d072ac6e8aedc6962333b243fe5f20",
-      "rendered_digest": "b57f3f88b91d7680b829a4fa657a3541ec45a556443919115247dcb57969fcc5",
-      "ast_digest": "f389e0118c2b905dab9734a5647b8a6fa7a9a31191fee58dcd2e65bddcc3ce97"
+      "values_digest": "87d75c025f3ee8b628e9aec3cd7d9d2318b6cc00c7154c98cad56b80890c8285",
+      "rendered_digest": "ba2d3cabab8fa8a531ec7b76dd97f9d2fd283ce79bb7baead3f9c201297da58a",
+      "ast_digest": "15b31620d42587530dfe6993147841e9736b616cf6a632ba6aa4a1501b79c6f8"
     },
     "srp": {
-      "values_digest": "192abbdcb1536ae3bfa98df0246c152e5f63d2738617b4e185c1c7f92b6ac339",
+      "values_digest": "ad021225163341e52c06cb45dcf710a5a8e1983b9947542328120bcb493afcad",
       "rendered_digest": "c06395f4d4ab6cddbe4b153514352d5bdffb4cca611c62c1f8e4cde42877ef2e",
       "ast_digest": "22a6cef2711bbd6b4e373004febad2b1b3c57d85739785c25cfe333836f1dad8"
     },
     "sor": {
-      "values_digest": "3ce7d618bf67b15308054a717be2ff4e82fe0834a07383ada5d0029a18af9f4e",
+      "values_digest": "a757a764bd7da30201802d85066c60f6b4b8989d64bd645922c0ae13b4254042",
       "rendered_digest": "df7c29ddd443597f2c7242bae99927305ae9804cb1958ad18da5ce3b4f3000a1",
       "ast_digest": "9197b60f6f478644a1b85787eee33f5b909efb20ffb4ae08d07c921ed1121858"
     }
@@ -777,6 +777,97 @@
       "actor": "codex:wp18c-114-review-remediation",
       "reason": "Record #114 remediation for fresh-review P2 findings before committing the new immutable review head.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Recorded the #114 durable-history coordination-parent integration proof after #276, #277, and #278 reached terminal ancestry. Review remediation added persisted retention-marker restart assertions and narrowed the terminal-chain validator claim to its actual proof boundary; lifecycle/card parent ownership remains enforced by the issue-owned preparation bundle validator. Publication, merge, and finish remain pending.\",\"changes\":[\"Added explicit retained ConversationJournal restart assertions before deletion so retention marker fields, total journal records, committed event continuity, and Observatory transcript visibility are proved before deletion is recorded.\",\"Narrowed adl/tools/validate_v092_durable_history_parent_integration.py to claim terminal child cache ancestry and focused test-surface presence only, while pointing lifecycle/card ownership proof to the issue-owned #114 preparation validator.\",\"Preserved #114 parent-only scope and did not absorb #276, #277, #278, #271, #115, #116, or #117 product behavior.\"],\"artifacts\":[\".csdlc/prepared/issues/114/validate_preparation_bundle.py\",\"adl/tools/validate_v092_durable_history_parent_integration.py\",\"adl-runtime-kernel/tests/durable_conversation_history_integration.rs\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/114/validate_preparation_bundle.py\"],\"purpose\":\"Validate bound/implemented #114 identity, preserved design/diagram digests, terminal ancestry for #112/#265/#270/#271/#276/#277/#278, and absence of stale preparation-only markers in current publication-relevant card truth.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:114-issue-owned-bound-parent-validator-gen86\"},{\"command\":[\"python3\",\"adl/tools/validate_v092_durable_history_parent_integration.py\"],\"purpose\":\"Validate #276/#277/#278 terminal caches, merged dispositions, merge-SHA ancestry, and focused test-surface presence; parent ownership/lifecycle truth is separately validated by the issue-owned bundle validator.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:114-parent-terminal-chain-validator-gen86\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"durable_conversation_history_integration\",\"--\",\"--nocapture\"],\"purpose\":\"Run focused durable-history parent integration test across restart, duplicate attempt admission, receipts, replay owner state, retained marker persistence before deletion, deletion cleanup, and Observatory transcript restoration.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:114-parent-runtime-kernel-integration-test-reviewfix\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"durable_conversation_history_integration\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict Clippy for the #114 focused Runtime kernel integration test target.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:114-parent-hygiene-reviewfix\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Check whitespace/diff hygiene for the #114 parent proof surface.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:114-diff-hygiene-reviewfix\"},{\"command\":[\"csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-114-durable-history-parent-integration-proof\",\"issue\",\"--issue\",\"114\"],\"purpose\":\"Validate canonical #114 lifecycle truth after review recovery and remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:114-csdlc-validate-gen86\"}]}"
+    },
+    {
+      "sequence": 101,
+      "generation": 87,
+      "actor": "codex:wp18c-114-review-remediation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 102,
+      "generation": 88,
+      "actor": "codex:wp18c-114-review-recovery",
+      "reason": "Recover #114 exact-head review after fresh reviewer 1033edef returned one P2 card-truth finding: STP AC-5, SPP S5, and VPP terminal-chain lane still attribute parent-only ownership proof to the narrowed terminal-chain validator.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 103,
+      "generation": 89,
+      "actor": "codex:wp18c-114-card-truth-remediation",
+      "reason": "Fix review finding: STP AC-5 must not attribute parent-only ownership proof to the narrowed terminal-chain validator.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: Parent #114 remains coordination/integration-only and does not absorb #276, #277, #278, #271, #115, or #117 product implementation scope.\",\"AC-2: The bound #114 worktree and branch are canonical and preserve historical authored design/diagram artifacts while treating them as reference evidence only.\",\"AC-3: Parent proof validates terminal canonical caches and merge-SHA ancestry for #112, #265, #270, #271, #276, #277, and #278 before review/publication.\",\"AC-4: The issue-owned validator proves #114 identity, bound topology, preserved design/diagram digests, and parent-only dependency boundaries.\",\"AC-5: The repository parent terminal-chain validator proves #276/#277/#278 derived-terminal caches, merged dispositions, canonical generation/digest fields, merge-SHA ancestry, and focused integration-test marker presence only; lifecycle/card ownership proof belongs to the issue-owned validator.\",\"AC-6: The focused Runtime kernel integration test proves durable history, continuity, journal restart, duplicate attempt admission, receipts, replay owner state, retention/deletion, and Observatory transcript restoration coherence.\",\"AC-7: Strict relevant Clippy and diff hygiene pass for the parent-only proof surface.\",\"AC-8: SOR records the exact local validation lanes and truthfully leaves publication, merge, and closeout pending until typed publication/CI/finish complete.\",\"AC-9: Fresh exact-head implementation review covers the current clean immutable head before publication.\",\"AC-10: Publication and finish use typed owner routes with correct Closes #114 linkage only after current review truth, base/head ancestry, and required CI are green.\"]}"
+    },
+    {
+      "sequence": 104,
+      "generation": 90,
+      "actor": "codex:wp18c-114-card-truth-remediation",
+      "reason": "Fix review finding: replace SPP steps with corrected S5 through the pending-only typed route before re-advancing completed statuses.",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Confirm #114 remains parent-only and does not absorb #276, #277, #278, #271, #115, or #117 product implementation scope.\",\"acceptance_ids\":[\"AC-1\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Confirm the bound #114 worktree/branch are canonical and preserve historical authored design/diagram artifacts as reference evidence only.\",\"acceptance_ids\":[\"AC-2\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Validate terminal canonical caches and merge-SHA ancestry for #112, #265, #270, #271, #276, #277, and #278 from the parent proof head.\",\"acceptance_ids\":[\"AC-3\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Run the issue-owned validator for #114 identity, bound topology, preserved design/diagram digests, and parent-only dependency boundaries.\",\"acceptance_ids\":[\"AC-4\"],\"status\":\"pending\"},{\"id\":\"S5\",\"action\":\"Run the repository parent terminal-chain validator for #276/#277/#278 derived-terminal caches, merged dispositions, canonical generation/digest fields, merge-SHA ancestry, and focused integration-test marker presence only.\",\"acceptance_ids\":[\"AC-5\"],\"status\":\"pending\"},{\"id\":\"S6\",\"action\":\"Run the focused Runtime kernel integration regression for durable history, restart, receipts, replay owner state, retention/deletion, and Observatory restoration coherence.\",\"acceptance_ids\":[\"AC-6\"],\"status\":\"pending\"},{\"id\":\"S7\",\"action\":\"Run strict relevant Clippy and diff hygiene for the parent-only proof surface.\",\"acceptance_ids\":[\"AC-7\"],\"status\":\"pending\"},{\"id\":\"S8\",\"action\":\"Record SOR validation truth while leaving publication, merge, and closeout pending until typed publication/CI/finish complete.\",\"acceptance_ids\":[\"AC-8\"],\"status\":\"pending\"},{\"id\":\"S9\",\"action\":\"Obtain fresh exact-head implementation review over the current clean immutable #114 revision.\",\"acceptance_ids\":[\"AC-9\"],\"status\":\"pending\"},{\"id\":\"S10\",\"action\":\"Publish and finish through typed owner routes only after review, base/head ancestry, linkage, and required CI are green.\",\"acceptance_ids\":[\"AC-10\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 105,
+      "generation": 91,
+      "actor": "codex:wp18c-114-card-truth-remediation",
+      "reason": "Restore truthful SPP S1 completed status after pending-only step replacement.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 106,
+      "generation": 92,
+      "actor": "codex:wp18c-114-card-truth-remediation",
+      "reason": "Restore truthful SPP S2 completed status after pending-only step replacement.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 107,
+      "generation": 93,
+      "actor": "codex:wp18c-114-card-truth-remediation",
+      "reason": "Restore truthful SPP S3 completed status after pending-only step replacement.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 108,
+      "generation": 94,
+      "actor": "codex:wp18c-114-card-truth-remediation",
+      "reason": "Restore truthful SPP S4 completed status after pending-only step replacement.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 109,
+      "generation": 95,
+      "actor": "codex:wp18c-114-card-truth-remediation",
+      "reason": "Restore truthful SPP S5 completed status after correcting terminal-chain validator wording.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S5\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 110,
+      "generation": 96,
+      "actor": "codex:wp18c-114-card-truth-remediation",
+      "reason": "Restore truthful SPP S6 completed status after pending-only step replacement.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S6\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 111,
+      "generation": 97,
+      "actor": "codex:wp18c-114-card-truth-remediation",
+      "reason": "Restore truthful SPP S7 completed status after pending-only step replacement.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S7\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 112,
+      "generation": 98,
+      "actor": "codex:wp18c-114-card-truth-remediation",
+      "reason": "Restore truthful SPP S8 completed status after pending-only step replacement.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S8\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 113,
+      "generation": 99,
+      "actor": "codex:wp18c-114-card-truth-remediation",
+      "reason": "Fix review finding: VPP terminal-chain lane must not claim parent-only ownership or preserved boundary truth.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"114-issue-owned-bound-parent-validator\",\"proof_role\":\"Validate the bound #114 parent identity, preserved design/diagram digests, issue-owned validator availability, parent-only dependency boundaries, and terminal ancestry for #112, #265, #270, #271, #276, #277, and #278.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/114/validate_preparation_bundle.py\"],\"parallel_group\":\"114-parent-proof\",\"defer_reason\":null},{\"lane\":\"114-parent-terminal-chain-validator\",\"proof_role\":\"Validate #276, #277, and #278 derived-terminal caches, merged dispositions, canonical generation/digest fields, merge-SHA ancestry, and focused integration-test marker presence only.\",\"acceptance_ids\":[\"AC-3\",\"AC-5\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\"adl/tools/validate_v092_durable_history_parent_integration.py\"],\"parallel_group\":\"114-parent-proof\",\"defer_reason\":null},{\"lane\":\"114-parent-runtime-kernel-integration-test\",\"proof_role\":\"Prove integrated durable-history parent behavior across history, continuity, journal retention/deletion, restart, duplicate attempt admission, receipts, replay owner state, and Observatory transcript restoration.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"durable_conversation_history_integration\",\"--\",\"--nocapture\"],\"parallel_group\":\"114-parent-proof\",\"defer_reason\":null},{\"lane\":\"114-parent-hygiene\",\"proof_role\":\"Check strict relevant Clippy and diff hygiene for the parent-only proof surface before exact-head review.\",\"acceptance_ids\":[\"AC-7\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"durable_conversation_history_integration\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"114-parent-proof\",\"defer_reason\":null}]}"
     }
   ]
 }
