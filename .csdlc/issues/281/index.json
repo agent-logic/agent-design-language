@@ -6,10 +6,20 @@
   "initialization_digest": "2f7413cb01489f80873183bf0cb3f041747a54a7888d8a7b976df4841c8e0f95",
   "phase": "implemented",
   "generation": 6,
-  "digest": "4b52bc7f445e7c87c744d4bd4e5adde913470cb7ae41ce60d20a3913e0f3e8e2",
+  "digest": "f5d5a18b2c136ba458c66352a7f6b36fe46b45a1393fb8d8a432bce03ca10849",
   "branch": "codex/281-observatory-security-privacy-adversarial-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-281-observatory-security-privacy-adversarial-proof-bound",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:1847ff25-e937-4945-bc5b-38e5c7f71f4a",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:ae79e044e6af21de879bc0f2b2cd0a7f068a34fa:b3be95a4b2bc6a69df33be45364f5194cf358cf2ea04b6af901bb68f1d18c5f3",
+    "scope": [
+      "demos/html-observatory/tests/security_privacy_adversarial.test.mjs",
+      ".csdlc/prepared/issues/281/validate_preparation_bundle.py",
+      ".csdlc/issues/281",
+      ".csdlc/evidence/281"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +55,9 @@
       "ast_digest": "720d44b9a35f0bcbb16e73919994d358afcae6ff5c640931b853ed4b184821f1"
     },
     "srp": {
-      "values_digest": "0ea7ed332195f9c345abc4f900993fab70a26135265a2f3554708e1b2d802543",
-      "rendered_digest": "7f5ab869700b92ceca58eb0a1842bb0fedceb1c3fa46f5c64521470797a71d1c",
-      "ast_digest": "3a5b3b27c6c1d88da92923302e68c4024fb0a603f4d8219a71ef03a5c8307831"
+      "values_digest": "739ba5c37ce1b1387f060e954360411428060c9fcb5fcd60310db1e2f73c6a90",
+      "rendered_digest": "52fd3ac21d6680915e83df9e47c8f5681df3563801f67a9c77dff3783276e535",
+      "ast_digest": "2da1e88edbafbae74a2a8819dde03bdf432c10f8aa80cf7a50836890cb779134"
     },
     "sor": {
       "values_digest": "a0d408a22e601afee16cd14b71da502231d247be1ef78c33f6ab65c720e94e01",
@@ -134,6 +144,13 @@
       "actor": "codex:/root/wp18c_281_security_r2",
       "reason": "Record full #281 validation evidence before exact-head review.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented deterministic HTML Observatory security/privacy/adversarial proof without changing Runtime authority or reading credentials, private cognition, raw provider payloads, cloud, or Unity state.\",\"changes\":[\"Added demos/html-observatory/tests/security_privacy_adversarial.test.mjs to prove XSS-safe text/rendering boundaries, credential/token exclusion, trusted HTTPS origin handling, replay/confused-deputy rejection, stale history behavior, denial/recovery state, operator-attention non-authority, and public-safe redaction evidence.\",\"Added .csdlc/evidence/281/security_privacy_adversarial.json as machine-readable public-safe proof metadata with no secrets, private cognition, or raw provider payloads.\",\"Added and ran the #281 preparation validator to prove live issue identity, dependency terminal-cache and ancestry gates, security/privacy scope, and forbidden sibling/parent ownership.\",\"Kept #279 accessibility/responsive, #280 performance/recovery, #282 qualification assembly, #117 parent, #110 umbrella, Runtime authority, cloud/public deployment, Unity, credentials, and provider payloads out of #281 scope.\"],\"artifacts\":[\"demos/html-observatory/tests/security_privacy_adversarial.test.mjs\",\".csdlc/evidence/281/security_privacy_adversarial.json\",\".csdlc/evidence/281/281-preparation-contract.log\",\".csdlc/evidence/281/281-observatory-security-privacy-adversarial.log\",\".csdlc/evidence/281/281-observatory-conversation-regression.log\",\".csdlc/evidence/281/281-observatory-operator-attention-regression.log\",\".csdlc/evidence/281/281-typed-validate.log\",\".csdlc/evidence/281/281-diff-hygiene.log\",\".csdlc/prepared/issues/281/validate_preparation_bundle.py\",\".csdlc/issues/281\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/281/validate_preparation_bundle.py\"],\"purpose\":\"Validate #281 issue identity, dependency terminal-cache and ancestry gates, security/privacy/adversarial proof scope, and forbidden sibling/parent ownership.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/281/281-preparation-contract.log\"},{\"command\":[\"node\",\"demos/html-observatory/tests/security_privacy_adversarial.test.mjs\"],\"purpose\":\"Prove deterministic #281 XSS/content rendering, credential/token, origin/TLS metadata, replay/confused-deputy/stale/denial, redaction, and no-browser-authority boundaries.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/281/281-observatory-security-privacy-adversarial.log and .csdlc/evidence/281/security_privacy_adversarial.json\"},{\"command\":[\"node\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\"],\"purpose\":\"Prove existing Runtime conversation acceptance/delivery/reconnect behavior still passes after the #281 proof addition.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/281/281-observatory-conversation-regression.log\"},{\"command\":[\"node\",\"demos/html-observatory/tests/operator_attention_inbox.test.mjs\"],\"purpose\":\"Prove operator-attention Runtime-authority boundaries still pass after the #281 proof addition.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/281/281-observatory-operator-attention-regression.log\"},{\"command\":[\".adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"281\"],\"purpose\":\"Run typed issue validation at the bound #281 proof state.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/281/281-typed-validate.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject malformed whitespace or patch artifacts before review.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/281/281-diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

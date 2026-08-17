@@ -12,7 +12,10 @@ Status: pre_phase
 
 ## Scope
 
-Issue #281 initialized packet, live issue contract, dependency merge gates, Observatory security/privacy/adversarial proof scope, validation lanes, forbidden #279/#280/#282/#117/#110 authority, and planned HTML Observatory test/source boundaries.
+demos/html-observatory/tests/security_privacy_adversarial.test.mjs
+.csdlc/prepared/issues/281/validate_preparation_bundle.py
+.csdlc/issues/281
+.csdlc/evidence/281
 
 ## Prompts
 
