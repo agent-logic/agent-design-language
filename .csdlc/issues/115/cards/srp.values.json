@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-18C.05] Implement governed multi-agent rooms and message routing",
     "slug": "v0-92-wp-18c-05-governed-multi-agent-rooms-routing",
     "version": "v0.92.0",
-    "generation": 41
+    "generation": 42
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "adl-runtime-kernel/src/conversation_rooms.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/lib.rs\ndemos/html-observatory/app.js\ndemos/html-observatory/index.html\ndemos/html-observatory/styles.css\nadl/tools/validate_v092_governed_room_observatory.mjs\nadl/tools/test_html_observatory.sh\n.csdlc/prepared/issues/115/validate_governed_room_implementation.py\n.csdlc/issues/115",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:28da28014cf0db439100e08f4f8436e46ed61844:babb103592fd2dfef7aaf86fa2382ddcb6e5aaa8c6e43688f95822a60478c00e",
+      "reviewer": "fresh-session:c98af1d7-23f3-4826-a820-7d48a41dfb02",
       "review_prompts": [
         "Verify #115 implements governed multi-agent rooms and message routing only within its owned Runtime/Observatory scope.",
         "Verify Runtime governed-room routes require explicit bounded recipients, reject implicit broadcast, preserve ordering/replay refusal, and reuse Layer 8 AddressRecipients authority without redefining #112 or #270.",
@@ -25,7 +25,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }
