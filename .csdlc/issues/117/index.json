@@ -3,9 +3,9 @@
   "issue": 117,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "024d435a2fcf6fd78678e4b9cda121ea06eecca7e6effaabceb5ad5c2f22ddaf",
-  "phase": "implemented",
-  "generation": 35,
-  "digest": "6f4458b98db98226b884b682d1c50c5f358bf23c38426d0b3dacbe015706e8bd",
+  "phase": "reviewed",
+  "generation": 36,
+  "digest": "9fc34ebfeb386ea39c5acb44a8d10194f2a90b7d3406074882f88976ba293b95",
   "branch": "codex/117-production-polis-interface-qualification-parent",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-117-production-polis-interface-qualification-parent",
   "review_assignment": {
@@ -21,7 +21,27 @@
       ".csdlc/issues/117"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:bb641977-06c4-4f64-a281-545f0e88f7e5",
+    "scope": [
+      ".csdlc/evidence/117/production-polis-interface-parent-closeout.md",
+      ".csdlc/evidence/117/validate_parent_closeout.py",
+      ".csdlc/prepared/issues/117/validate_preparation_bundle.py",
+      ".csdlc/prepared/issues/117/design.md",
+      ".csdlc/prepared/issues/117/diagram.mmd",
+      ".csdlc/issues/117"
+    ],
+    "reviewed_revision": "git-blake3:6ce36effa6f571328319edbc087e0d2cc751dcf4:0559566439881497ec8816c442ec05cd9846880b30e7dfe710b8978f0e9c77dc",
+    "findings": [],
+    "residual_risks": [
+      "Hosted publication, CI, merge, and typed finish for #117 remain pending.",
+      "#110 must still consume terminal #117 and reconcile the remaining umbrella evidence.",
+      "#207 and #286 remain separate coordination work.",
+      "This review adds no credentialed provider, Unity, cloud, Runtime, API, storage, or Observatory implementation proof."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -36,32 +56,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2ff90b7d735b96a40bf79d9463fd4d78a3b0b1af7d41927c8725a0ae3f8d714a",
+      "values_digest": "4c2a6607e25bd435ea2882670ec7543ee9a075ecbdacac83f0af1a06b1bd78e8",
       "rendered_digest": "31377833f0fdf1c38188d892ce3d604f14ea61410b4d14eded85470c819d1506",
       "ast_digest": "34914eb71385e6d9a391827d3bcdfd88497cc2bccadad9d09dd81bf9d07fd13f"
     },
     "stp": {
-      "values_digest": "1d37f8168b8b2ab572e3fe2a91d9f4855cf6b082048f1bcf474a3bdb547a3637",
+      "values_digest": "82e77f6e0ae109227903c59bec0caecc0467503c28ffb33791c75daa8a5c080a",
       "rendered_digest": "f8099291fedf2e483eb4dfe9f0f5ab1cbb63bd2d3b2bc6b90acbc3a256dfeb95",
       "ast_digest": "b8b062816d273caf18d6a3e5ea99cc66c13ce3d1c2154f3779f0b3599be431d3"
     },
     "spp": {
-      "values_digest": "ac235810ef5ac61a991b66d37aa3a9e0f0b77c75e88d697b695004de14f76ae1",
+      "values_digest": "7c419096f38aed16dcaef11fe3294ae13464b0cb29775a60bd3d62e22ac868bb",
       "rendered_digest": "258848e070a57478e07177c1e9546907cd706f89a06ec45a05b77793a471e276",
       "ast_digest": "da7b6053c0774cd71960d329cd12a806b6bf66fce728459688fa9b9d524c7434"
     },
     "vpp": {
-      "values_digest": "c27e63ef40875b747e9aa1c9757c4c289886af23055de375e99f260da17078ea",
+      "values_digest": "ba03402a9bc11de30d89754ee9b655478ac776bab3f3186ef6140fb5511afe43",
       "rendered_digest": "cb288c0e4e3fa37efca1d62888457c5cfab8b9ddc1ce0282259f69e987b4c0d7",
       "ast_digest": "6e9164f90884128e31ad8d16a53deb657a3a6a3e58d6efdc82dc0b092069348d"
     },
     "srp": {
-      "values_digest": "4551f5544e570c695ac9e08a9fbba31cc26e00250cd19f75e714eacec63e725c",
-      "rendered_digest": "ca7d62232ed05329e6bf5b4d84f149e93c6cf43a0dc66a0ac90feaf7141236d9",
-      "ast_digest": "b830fc0d966ef86f4b7b785c5459a431f11737d96611114d81e931161ae0386c"
+      "values_digest": "510dffdfb0711402766de6f23a0ea77c8ff94e8dfddab307d677a66a5ca2b25b",
+      "rendered_digest": "556911e684ceb84da333a3d9e4ec637738a665a3bff92b3a842da737d54ba91a",
+      "ast_digest": "3a7eb42b8034059b4ae2a1e9d654fcb3e7e45c45e0faa69b0d4f7ebfc1f82046"
     },
     "sor": {
-      "values_digest": "5cb42ab79376d9e7266c8a76bfab290669d9c9e7929fb764384c9beea33c0b33",
+      "values_digest": "7013b63dcb6312f91641d2c4c015e2d3ff7c2efa896460317ace8e5d6c656170",
       "rendered_digest": "d8b815a277aad19f8d907b0a73f1c49b3724272f92e792c1995d40f19637d036",
       "ast_digest": "f119737ef3d6411764ce511ada41365d6a58d714922d2e2739fc7bb4cccf202d"
     }
@@ -101,6 +121,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover reviewed #117 state after publication guard rejected stale explicit review_metadata_only_v1 proof; re-record the same fresh PASS without explicit non_substantive_proof so the owner guard can use its automatic metadata-only path for review metadata commits."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -432,6 +459,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 48,
+      "generation": 36,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
