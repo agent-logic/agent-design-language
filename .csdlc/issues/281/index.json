@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "2f7413cb01489f80873183bf0cb3f041747a54a7888d8a7b976df4841c8e0f95",
-  "phase": "reviewed",
-  "generation": 15,
-  "digest": "749f0b8e0bd7424c95403cae63a18c3fdb6bb9a016c24e0b07dae1bc688b0fcb",
+  "phase": "published",
+  "generation": 16,
+  "digest": "d75c7a1484931153ba29e13b36d8cd50b416f07df4fcfc927044e7d8c376e10a",
   "branch": "codex/281-observatory-security-privacy-adversarial-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-281-observatory-security-privacy-adversarial-proof-bound",
   "review_assignment": {
@@ -37,7 +37,18 @@
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 281,
+    "pull_request": 395,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/395",
+    "base": "main",
+    "head": "codex/281-observatory-security-privacy-adversarial-proof",
+    "revision": "git-blake3:990498d9a39006a17af74d99469045c71c153702:2e4b5fa697446f5dd09a3ebca078ba205cc68c786eb421ee1ad04138b84ca3cf",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -51,34 +62,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f3e1dcf111eca4398c0ef00c64a9da7978d3e155b2f56c997e39e12fc9866dd7",
+      "values_digest": "a5e97896b09a930ad1dad3935948ea8a90e42bf6397ec994ac2cf28379b9c35c",
       "rendered_digest": "554d11397ec1afbda6fb34a01c29b32978744e71f1275e2e57aacc3fe5acb46b",
       "ast_digest": "92cfe22f5d143b078bd0b4bed2b3d4db8d258f9b5541320677a3cbbc20df1231"
     },
     "stp": {
-      "values_digest": "3496598bf90c59a5a0094004252350be0a5b902a06b9bb0edebf32dab2c44f3c",
+      "values_digest": "dcf6dadd83bbc8498c8f19254438afbea2f137310865c9e6a0991937af7c4a4a",
       "rendered_digest": "2bbeb6440a03b77c996752e850ec05baa68e1c5ee44c9992cf3b1994240b06db",
       "ast_digest": "8c1fbf937ed7846252948f61ea050e702a73556adb528728134b4ae63789afbc"
     },
     "spp": {
-      "values_digest": "4ade67dd02a3b82a0ea75245429308fa845d111e359dca6750d68185dd9d23a2",
+      "values_digest": "262150ca3bc82a147828ea7a4306e7acf1f1949b2fe38c46871e4c3b70e78be9",
       "rendered_digest": "7ed05e820daa4afa8b4958a16a37cb93b619425d78ec301f6bc3f612a93a1693",
       "ast_digest": "22affcf68299bb262e1636e15128d8c46471ab93e918d6298e2f26049f3f0688"
     },
     "vpp": {
-      "values_digest": "c9ed167da7350dc245239342c5a10744cdf5f9ae8807eeb390cd4b372d720672",
+      "values_digest": "5855b594bcd13abdd332cae36435e38155933afd05b988d1298669f706da8b89",
       "rendered_digest": "fcd1cea166ebcd65d3e5713bc0a634879037ba000eed3ee07ec985914ebf4726",
       "ast_digest": "d4d9ab87114ce18ebf5f36d6758f89334adc18df9e5f1ea19fcce02d4dfd6641"
     },
     "srp": {
-      "values_digest": "2afa7ea6f51f8dd6f59d018af013fc9df8d6765564f5fc6eb970c3c3402fc8e8",
+      "values_digest": "a2f55e587de2c7aea26b226a6abc9ec95acee75d5504aff0f485844b46ef7e2f",
       "rendered_digest": "a954880e5752bfe89d179ced0be527cd1f2a3cacaa1b80dbb6cae2df02ab76b5",
       "ast_digest": "b7ad15dd5b2cfc19071d8762e1ed42614df20f30ecacf7e5bd2b7846e1407239"
     },
     "sor": {
-      "values_digest": "5d0f8b129a2a6357f341ade2a3ee3be4c434ab136632a5d009548a8067cfe951",
-      "rendered_digest": "d2d2744305cbb30d9c236cf5c58c38983fd442fff47edc3e2581d41b9dbd8c7e",
-      "ast_digest": "8649c7ec3f59bd1ada1e938f42f554559dd77780fd690c862d5bc4bb9d77e2f5"
+      "values_digest": "13470621140bd77e5154204d740b69394deed9b1a3d86a812dbd3969523e8fbe",
+      "rendered_digest": "2717a64f52742d136d80a1031d4878bdb4861266df07c84954afb0b38fcd49b7",
+      "ast_digest": "6bcbe03725baa48ecaefbe3d114195b401bdc29cb1d1632e78e3f1961063da4e"
     }
   },
   "transitions": [
@@ -137,6 +148,13 @@
       "to": "reviewed",
       "actor": "fresh-session:0ca8e7b5-2436-40a7-b0f3-58665ed63264",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 9,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -300,6 +318,13 @@
       "actor": "fresh-session:0ca8e7b5-2436-40a7-b0f3-58665ed63264",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

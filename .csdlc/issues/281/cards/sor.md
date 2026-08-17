@@ -100,11 +100,11 @@ Implemented deterministic HTML Observatory security/privacy/adversarial proof wi
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
