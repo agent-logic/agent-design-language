@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #280 initialized packet, live issue contract, dependency merge gates, Observatory large-Polis performance/recovery proof scope, validation lanes, forbidden #279/#281/#282/#117/#110 authority, and planned HTML Observatory test/source boundaries.",
+      "review_scope": "demos/html-observatory/app.js\ndemos/html-observatory/tests/large_polis_performance_recovery.test.mjs\n.csdlc/prepared/issues/280/validate_preparation_bundle.py\n.csdlc/issues/280\n.csdlc/evidence/280",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

@@ -12,7 +12,11 @@ Status: pre_phase
 
 ## Scope
 
-Issue #280 initialized packet, live issue contract, dependency merge gates, Observatory large-Polis performance/recovery proof scope, validation lanes, forbidden #279/#281/#282/#117/#110 authority, and planned HTML Observatory test/source boundaries.
+demos/html-observatory/app.js
+demos/html-observatory/tests/large_polis_performance_recovery.test.mjs
+.csdlc/prepared/issues/280/validate_preparation_bundle.py
+.csdlc/issues/280
+.csdlc/evidence/280
 
 ## Prompts
 
