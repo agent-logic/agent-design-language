@@ -12,7 +12,9 @@ Status: pre_phase
 
 ## Scope
 
-Issue-local evidence and validator only; no shared ADR document review.
+.csdlc/evidence/285
+.csdlc/issues/285
+.csdlc/prepared/issues/285
 
 ## Prompts
 
@@ -30,12 +32,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Review was bounded to #285 issue-local ADR 0068 evidence reconciliation and did not claim ADR 0068 acceptance, #207 closeout, #288 final serialization, WP-18 terminal birthday proof, or WP-19 implementation acceptance changes.
+- Reviewer confirmed retained proof logs and artifact existence but its read-only sandbox blocked live reruns of the focused validator and typed validation; implementation session reran both immediately before immutable commit.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:ec6edc17b01178ad9ce843a2d92449707c745c91:c63ed3a10c7c8d0722351f5237fd2cb28068db10441fdf77a6cf45fb20cdc84d")
 
-Reviewer: None
+Reviewer: Some("fresh-session:fbc18cfe-c9a1-4710-9fc1-9cb662d34661")
 
-Result: pre_review
+Result: pass
