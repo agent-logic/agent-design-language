@@ -81,11 +81,11 @@ Implemented deterministic HTML Observatory large-Polis performance/recovery proo
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
