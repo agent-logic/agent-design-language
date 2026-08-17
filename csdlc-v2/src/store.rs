@@ -4350,9 +4350,20 @@ fn prepare_implemented_design_refresh(
             "assign_review" | "record_review" | "recover_review"
         )
     });
-    if latest_review.is_none_or(|event| {
-        event.operation != "recover_review" || event.generation != record.generation
-    }) || record.review_assignment.is_some()
+    let current_review_recovery = latest_review.is_some_and(|event| {
+        event.operation == "recover_review" && event.generation == record.generation
+    });
+    let iterative_pending_refresh = latest_review.is_some_and(|event| {
+        event.operation == "recover_review" && event.generation + 1 == record.generation
+    }) && matches!(record.design_review, DesignReview::Pending)
+        && record.audit.last().is_some_and(|event| {
+            event.generation == record.generation
+                && event
+                    .operation
+                    .contains("refresh_authored_design_after_recovery")
+        });
+    if !(current_review_recovery || iterative_pending_refresh)
+        || record.review_assignment.is_some()
         || record.review.is_some()
         || record.publication.is_some()
         || record.readiness.is_some()

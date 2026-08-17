@@ -7,7 +7,7 @@
     "title": "[v0.92][C-SDLC][defect] Recover initialized design identity and artifact paths before bind",
     "slug": "initialized-design-envelope-recovery",
     "version": "v0.92",
-    "generation": 29
+    "generation": 33
   },
   "status": "ready",
   "content": {
@@ -71,7 +71,7 @@
       "planned_validation_tokens": 25000,
       "failure_policy": "Fail closed without mutation on stale CAS, wrong phase, unsafe path, artifact drift, insufficient reviewer proof, audit-history mismatch, validation failure, or stale review.",
       "design_ref": ".csdlc/prepared/issues/294/design.md",
-      "design_digest": "e9f60c82e3b6a228f42399eaaa0fe01ce4998f9c27c8fa6517b04e1e2c8be181",
+      "design_digest": "aa21ee83435381695a1c97ee82b4e04540c7ee71f8eb5623c2b11dfa7a322309",
       "diagram_ref": ".csdlc/prepared/issues/294/diagram.mmd",
       "diagram_digest": "beac856b22f305cbf45a3fcd48de11fc8b92637cef77c24fa81c22f834709450"
     }

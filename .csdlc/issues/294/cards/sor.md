@@ -58,6 +58,48 @@ Added a typed initialized design-envelope recovery that relocates authored artif
     "purpose": "Run focused card identity integration tests",
     "outcome": "passed",
     "evidence_ref": "initialized-design-envelope-recovery.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "card_identity"
+    ],
+    "purpose": "Prove initialized design-envelope recovery, iterative pending authored-design refresh, unsafe .git pre-bind rejection, actual failpoint restart, owned cleanup, and #292 terminal-gate fixture.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/294/card-identity-18-exact-head.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "check",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml"
+    ],
+    "purpose": "Prove the recovered csdlc-v2 implementation compiles after the iterative pending authored-design refresh owner fix.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/294/csdlc-v2-cargo-check-exact-head.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Prove the recovered csdlc-v2 implementation is warning-free across all targets after the iterative pending authored-design refresh owner fix.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/294/csdlc-v2-strict-clippy-exact-head.log"
   }
 ]
 
