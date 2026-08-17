@@ -205,6 +205,14 @@ def main() -> None:
         if isinstance(stp_current_values, dict):
             stp_current_values.pop("task_boundary", None)
             stp_current_values.pop("non_goals", None)
+    srp_current_content = current_authority_values.get("srp", {}).get("content", {})
+    if isinstance(srp_current_content, dict):
+        srp_current_values = srp_current_content.get("values", {})
+        if isinstance(srp_current_values, dict):
+            # `pre_review` is the truthful SRP lifecycle status before the
+            # required fresh exact-head implementation review. It is not stale
+            # preparation scope.
+            srp_current_values.pop("review_result", None)
     combined_text = json.dumps(current_authority_values, sort_keys=True)
 
     for marker in REQUIRED_MARKERS:
