@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-18C.06] Build the operator attention inbox and intervention workflow",
     "slug": "operator-attention-inbox",
     "version": "v0.92",
-    "generation": 8
+    "generation": 10
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact #116 attention-request lifecycle, Runtime queue policy, Observatory inbox/actions, source identity authority, response semantics, restart/reconnect proof, and exclusions from #117/#279-#282.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

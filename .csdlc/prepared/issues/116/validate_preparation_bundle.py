@@ -81,7 +81,7 @@ def ensure_terminal_cache(issue: int) -> None:
         fail(f"terminal cache issue mismatch for #{issue}: {existing}")
 
 
-def ensure_main_current() -> None:
+def ensure_current_root_or_bound_worktree() -> None:
     result = subprocess.run(
         ["git", "-C", str(REPO), "rev-parse", "HEAD"],
         check=True,
@@ -95,8 +95,28 @@ def ensure_main_current() -> None:
         text=True,
         capture_output=True,
     ).stdout.strip()
-    if head != origin:
-        fail(f"preparation root is not current origin/main: HEAD={head} origin/main={origin}")
+    if head == origin:
+        return
+    branch = subprocess.run(
+        ["git", "-C", str(REPO), "branch", "--show-current"],
+        check=True,
+        text=True,
+        capture_output=True,
+    ).stdout.strip()
+    ancestry = subprocess.run(
+        ["git", "-C", str(REPO), "merge-base", "--is-ancestor", "origin/main", "HEAD"],
+        text=True,
+        capture_output=True,
+    )
+    index_path = REPO / ".csdlc" / "issues" / str(ISSUE) / "index.json"
+    index = json.loads(index_path.read_text(encoding="utf-8")) if index_path.exists() else {}
+    if (
+        ancestry.returncode == 0
+        and branch == index.get("branch") == "codex/116-operator-attention-inbox"
+        and pathlib.Path(index.get("worktree", "")).resolve() == REPO
+    ):
+        return
+    fail(f"root is neither current origin/main nor registered #116 bound worktree: HEAD={head} origin/main={origin} branch={branch}")
 
 
 def ensure_card_bindings() -> None:
@@ -136,13 +156,17 @@ def ensure_owner_doctor_has_only_expected_design_review_blocker() -> None:
     except json.JSONDecodeError as exc:
         fail(f"doctor did not return JSON: {exc}: stdout={doctor.stdout!r} stderr={doctor.stderr!r}")
     findings = report.get("findings", [])
-    unexpected = [finding for finding in findings if finding.get("code") != "design_review_missing_or_stale"]
+    unexpected = [
+        finding
+        for finding in findings
+        if finding.get("code") != "design_review_missing_or_stale"
+    ]
     if unexpected:
         fail(f"unexpected owner-doctor findings before design review: {unexpected}")
 
 
 def main() -> None:
-    ensure_main_current()
+    ensure_current_root_or_bound_worktree()
     design = read(REPO / ".csdlc" / "prepared" / "issues" / str(ISSUE) / "design.md")
     diagram = read(REPO / ".csdlc" / "prepared" / "issues" / str(ISSUE) / "diagram.mmd")
     for text in REQUIRED_TEXT:

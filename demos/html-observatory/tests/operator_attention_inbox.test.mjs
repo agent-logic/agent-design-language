@@ -13,6 +13,7 @@ await import("../app.js");
 const {
   normalizeOperatorAttentionRequest,
   operatorAttentionRows,
+  operatorAttentionViewModel,
   operatorAttentionActionPayload,
   renderOperatorAttentionInbox
 } = globalThis.AdlHtmlObservatory;
@@ -22,11 +23,22 @@ for (const id of [
   "operator-attention-title",
   "operator-attention-count",
   "operator-attention-unread",
+  "operator-attention-filter",
+  "operator-attention-priority-filter",
+  "operator-attention-notifications",
   "operator-attention-list"
 ]) {
   assert.match(html, new RegExp(`id=["']${id}["']`));
 }
-for (const id of ["operator-attention-inbox", "operator-attention-count", "operator-attention-unread", "operator-attention-list"]) {
+for (const id of [
+  "operator-attention-inbox",
+  "operator-attention-count",
+  "operator-attention-unread",
+  "operator-attention-filter",
+  "operator-attention-priority-filter",
+  "operator-attention-notifications",
+  "operator-attention-list"
+]) {
   const matches = html.match(new RegExp(`id=["']${id}["']`, "g")) || [];
   assert.equal(matches.length, 1, `${id} must be unique`);
 }
@@ -64,6 +76,30 @@ const rows = operatorAttentionRows({
 });
 assert.deepEqual(rows.map((row) => row.request_id), ["attn-urgent", "attn-low"]);
 assert.equal(rows[0].priority, "urgent", "newer duplicate must not replace fresher urgent state");
+
+const view = operatorAttentionViewModel({
+  operator_attention_requests: [
+    attention,
+    { ...attention, request_id: "attn-002", priority: "normal", status: "acknowledged", created_at_millis: 300 },
+    { ...attention, request_id: "attn-003", priority: "high", status: "resolved", created_at_millis: 100 }
+  ]
+}, {
+  statusFilter: "active",
+  priorityFilter: "urgent",
+  readRequestIds: ["attn-002"],
+  locationHash: "#operator-attention-attn-001",
+  notificationPreference: "enabled"
+});
+assert.deepEqual(view.rows.map((row) => row.request_id), ["attn-001"]);
+assert.equal(view.rows[0].deep_link, "#operator-attention-attn-001");
+assert.equal(view.rows[0].selected, true);
+assert.equal(view.rows[0].unread, true);
+assert.equal(view.unread_count, 1);
+assert.equal(view.notification_enabled, true);
+assert.equal(operatorAttentionViewModel({ operator_attention_requests: [attention] }, {
+  readRequestIds: ["attn-001"],
+  notificationPreference: "muted"
+}).notification_enabled, false);
 
 const reply = operatorAttentionActionPayload(attention, {
   action: "reply",

@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Exact #116 attention-request lifecycle, Runtime queue policy, Observatory inbox/actions, source identity authority, response semantics, restart/reconnect proof, and exclusions from #117/#279-#282.
+
 
 ## Prompts
 

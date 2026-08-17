@@ -566,6 +566,33 @@
                 <span class="mini-badge" id="operator-attention-unread">0 unread</span>
                 <span class="mini-badge" data-tone="warn">intervention only</span>
               </div>
+              <div class="roster-controls" aria-label="Operator attention filters">
+                <label class="field" for="operator-attention-filter">
+                  <span>Status</span>
+                  <select id="operator-attention-filter">
+                    <option value="active">Active</option>
+                    <option value="open">Unread/open</option>
+                    <option value="acknowledged">Acknowledged</option>
+                    <option value="replied">Replied</option>
+                    <option value="deferred">Deferred</option>
+                    <option value="all">All states</option>
+                  </select>
+                </label>
+                <label class="field" for="operator-attention-priority-filter">
+                  <span>Priority</span>
+                  <select id="operator-attention-priority-filter">
+                    <option value="all">All priorities</option>
+                    <option value="urgent">Urgent</option>
+                    <option value="high">High</option>
+                    <option value="normal">Normal</option>
+                    <option value="low">Low</option>
+                  </select>
+                </label>
+                <label class="field checkbox-field" for="operator-attention-notifications">
+                  <span>Notifications</span>
+                  <input id="operator-attention-notifications" type="checkbox" checked>
+                </label>
+              </div>
               <ol class="operator-attention-list" id="operator-attention-list" aria-live="polite">
                 <li class="conversation-empty">No agent is currently requesting operator attention.</li>
               </ol>

@@ -7,18 +7,19 @@
     "title": "[v0.92][WP-18C.06] Build the operator attention inbox and intervention workflow",
     "slug": "operator-attention-inbox",
     "version": "v0.92",
-    "generation": 8
+    "generation": 10
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Implemented the bounded WP-18C.06 operator attention inbox and intervention workflow for Runtime kernel and HTML Observatory surfaces without granting authority outside Runtime policy.",
+      "summary": "Implemented the bounded WP-18C.06 operator attention inbox and intervention workflow with trusted source authorization, validated restart restoration, proposal-only Observatory outcomes, and exact local proof provenance.",
       "actual_changes": [
-        "Added Runtime kernel operator-attention request, dedupe, rate-limit, expiry, outcome, snapshot, and restart primitives.",
-        "Added focused Rust coverage for source authorization, urgent escalation, dedupe/rate limiting, non-authorizing outcomes, expiry, and restart preservation.",
-        "Added HTML Observatory operator attention inbox rendering, request normalization, proposal-only outcome payloads, and focused Node proof.",
-        "Added visible Observatory inbox markup and styling while preserving #114/#115/#117 boundaries."
+        "Replaced self-asserted operator-attention source privilege checks with trusted Runtime source registration and principal/urgent validation.",
+        "Added fail-closed snapshot restore validation for schema, capacity, duplicates, source limits, request safety, event references, and timestamps.",
+        "Added quiet-mode/grouping behavior while preserving source-bound rate and dedupe semantics.",
+        "Added an issue-owned exact local proof runner that prints HEAD, status, command argv, exit status, and denominators before PASS.",
+        "Preserved bounded HTML Observatory inbox and proposal-only outcome payloads that explicitly do not grant authority."
       ],
       "artifacts": [
         "adl-runtime-kernel/src/operator_attention.rs",
@@ -27,82 +28,23 @@
         "demos/html-observatory/app.js",
         "demos/html-observatory/index.html",
         "demos/html-observatory/styles.css",
-        "demos/html-observatory/tests/operator_attention_inbox.test.mjs"
+        "demos/html-observatory/tests/operator_attention_inbox.test.mjs",
+        ".csdlc/prepared/issues/116/validate_preparation_bundle.py",
+        ".csdlc/prepared/issues/116/run_exact_local_proof.py",
+        ".csdlc/evidence/116/issue-116-exact-local-proof.log"
       ],
       "actual_validation": [
         {
           "command": [
-            "git",
-            "diff",
-            "--check"
-          ],
-          "purpose": "Verify no whitespace or conflict-marker hygiene failures remain in the exact worktree diff.",
-          "outcome": "passed",
-          "evidence_ref": "issue-116-diff-hygiene.log"
-        },
-        {
-          "command": [
-            "node",
-            "--test",
-            "demos/html-observatory/tests/operator_attention_inbox.test.mjs"
-          ],
-          "purpose": "Verify the operator attention inbox DOM contract, request normalization, and proposal-only outcome payload.",
-          "outcome": "passed",
-          "evidence_ref": "issue-116-observatory-node-proof.log"
-        },
-        {
-          "command": [
             "python3",
-            ".csdlc/prepared/issues/116/validate_preparation_bundle.py"
+            ".csdlc/prepared/issues/116/run_exact_local_proof.py"
           ],
-          "purpose": "Verify the issue-owned preparation bundle and dependency cache truth still match canonical #112/#114/#115 gates.",
+          "purpose": "Run exact #116 local proof with HEAD/status/command/exit provenance for preparation validator, rustfmt, focused Rust tests, Node Observatory proof, strict clippy, and diff hygiene.",
           "outcome": "passed",
-          "evidence_ref": "issue-116-preparation-validator.log"
-        },
-        {
-          "command": [
-            "cargo",
-            "test",
-            "--manifest-path",
-            "adl-runtime-kernel/Cargo.toml",
-            "--test",
-            "observatory",
-            "operator_attention"
-          ],
-          "purpose": "Run the named observatory integration-test target filtered to operator attention tests.",
-          "outcome": "passed",
-          "evidence_ref": "issue-116-rust-operator-attention-tests.log"
-        },
-        {
-          "command": [
-            "cargo",
-            "fmt",
-            "--manifest-path",
-            "adl-runtime-kernel/Cargo.toml",
-            "--check"
-          ],
-          "purpose": "Verify Runtime kernel Rust formatting for the #116 touched crate.",
-          "outcome": "passed",
-          "evidence_ref": "issue-116-rustfmt-check.log"
-        },
-        {
-          "command": [
-            "cargo",
-            "clippy",
-            "--manifest-path",
-            "adl-runtime-kernel/Cargo.toml",
-            "--test",
-            "observatory",
-            "--",
-            "-D",
-            "warnings"
-          ],
-          "purpose": "Run strict clippy for the named observatory test target after focused behavior proof.",
-          "outcome": "passed",
-          "evidence_ref": "issue-116-strict-clippy.log"
+          "evidence_ref": ".csdlc/evidence/116/issue-116-exact-local-proof.log"
         }
       ],
-      "integration_state": "not_started",
+      "integration_state": "worktree_only",
       "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",

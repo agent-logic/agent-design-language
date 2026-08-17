@@ -834,6 +834,42 @@ function operatorAttentionRows(packet = {}) {
   );
 }
 
+function operatorAttentionViewModel(packet = {}, options = {}) {
+  const statusFilter = String(options.statusFilter || "active").toLowerCase();
+  const priorityFilter = String(options.priorityFilter || "all").toLowerCase();
+  const readRequestIds = new Set(asArray(options.readRequestIds).map(String));
+  const selectedHash = String(options.locationHash || "").replace(/^#/, "");
+  const notificationPreference = String(options.notificationPreference || "enabled").toLowerCase();
+  const rows = operatorAttentionRows(packet)
+    .map((row) => {
+      const read = readRequestIds.has(row.request_id) || row.status !== "open";
+      const anchor = `operator-attention-${row.request_id}`;
+      return {
+        ...row,
+        read,
+        unread: !read,
+        deep_link: `#${anchor}`,
+        anchor,
+        selected: selectedHash === anchor
+      };
+    })
+    .filter((row) => {
+      const statusOk = statusFilter === "all" ||
+        (statusFilter === "active" && !["resolved", "refused", "expired"].includes(row.status)) ||
+        row.status === statusFilter;
+      const priorityOk = priorityFilter === "all" || row.priority === priorityFilter;
+      return statusOk && priorityOk;
+    });
+  const unreadCount = rows.filter((row) => row.unread).length;
+  return {
+    rows,
+    active_count: rows.filter((row) => !["resolved", "refused", "expired"].includes(row.status)).length,
+    unread_count: unreadCount,
+    notification_preference: notificationPreference,
+    notification_enabled: notificationPreference !== "muted" && unreadCount > 0
+  };
+}
+
 function operatorAttentionActionPayload(request, outcome = {}) {
   const row = normalizeOperatorAttentionRequest(request);
   if (!row) {
@@ -870,24 +906,44 @@ function operatorAttentionActionPayload(request, outcome = {}) {
 }
 
 function renderOperatorAttentionInbox(packet = {}) {
-  const rows = operatorAttentionRows(packet);
   if (typeof document === "undefined") {
-    return rows;
+    return operatorAttentionViewModel(packet).rows;
   }
+  const statusFilter = document.getElementById("operator-attention-filter")?.value || "active";
+  const priorityFilter = document.getElementById("operator-attention-priority-filter")?.value || "all";
+  const notifications = document.getElementById("operator-attention-notifications");
+  const readRequestIds = JSON.parse(globalThis.localStorage?.getItem("adl.operatorAttention.readRequestIds") || "[]");
+  const view = operatorAttentionViewModel(packet, {
+    statusFilter,
+    priorityFilter,
+    readRequestIds,
+    locationHash: globalThis.location?.hash || "",
+    notificationPreference: notifications?.checked === false ? "muted" : "enabled"
+  });
+  const rows = view.rows;
   const list = document.getElementById("operator-attention-list");
   const count = document.getElementById("operator-attention-count");
   const unread = document.getElementById("operator-attention-unread");
   if (!list) {
     return rows;
   }
-  const activeRows = rows.filter((row) => !["resolved", "refused", "expired"].includes(row.status));
-  if (count) count.textContent = `${activeRows.length} active`;
-  if (unread) unread.textContent = `${activeRows.filter((row) => row.status === "open").length} unread`;
+  for (const control of [
+    document.getElementById("operator-attention-filter"),
+    document.getElementById("operator-attention-priority-filter"),
+    notifications
+  ]) {
+    if (control && !control.dataset.operatorAttentionBound) {
+      control.dataset.operatorAttentionBound = "true";
+      control.addEventListener("change", () => renderOperatorAttentionInbox(packet));
+    }
+  }
+  if (count) count.textContent = `${view.active_count} active`;
+  if (unread) unread.textContent = `${view.unread_count} unread`;
   renderRows("operator-attention-list", rows.length ? rows.map((row) => `
-    <li class="operator-attention-row" data-priority="${escapeHtml(row.priority)}" data-status="${escapeHtml(row.status)}">
+    <li class="operator-attention-row" id="${escapeHtml(row.anchor)}" data-priority="${escapeHtml(row.priority)}" data-status="${escapeHtml(row.status)}" data-read="${escapeHtml(row.read ? "true" : "false")}" data-selected="${escapeHtml(row.selected ? "true" : "false")}">
       <span class="mini-badge" data-tone="${escapeHtml(row.priority === "urgent" ? "blocked" : row.priority === "high" ? "warn" : "ok")}">${escapeHtml(row.priority)}</span>
       <span><strong>${escapeHtml(row.display_name)}</strong><br><span class="row-detail">${escapeHtml(row.reason)} · ${escapeHtml(row.message)}</span></span>
-      <span class="row-detail">${escapeHtml(row.status)} · ${escapeHtml(row.request_id)}</span>
+      <span class="row-detail">${escapeHtml(row.status)} · <a href="${escapeHtml(row.deep_link)}">${escapeHtml(row.request_id)}</a></span>
     </li>
   `) : [`<li class="conversation-empty">No agent is currently requesting operator attention.</li>`]);
   return rows;
@@ -3333,6 +3389,7 @@ globalThis.AdlHtmlObservatory = {
   submitLayer8RecipientAcknowledgement,
   normalizeOperatorAttentionRequest,
   operatorAttentionRows,
+  operatorAttentionViewModel,
   operatorAttentionActionPayload,
   renderOperatorAttentionInbox,
   hasForbiddenLayer8Disclosure,
