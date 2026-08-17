@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 284,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][ADR 0066][207.b] Reconcile distributed Guardian authority evidence",
+    "slug": "adr0066-guardian-authority-evidence-reconciliation",
+    "version": "v0.92",
+    "generation": 6
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue-local evidence and validator only; no shared ADR document review.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does #284 avoid claiming #142 completion from partial #194 evidence or stale local cards?",
+        "Does the validator prove exact retained #5878/#194 evidence and hashes rather than relying on prose?",
+        "Are shared ADR docs/index/plan/manifest untouched as required for #288?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

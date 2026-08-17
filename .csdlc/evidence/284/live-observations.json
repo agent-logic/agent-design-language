@@ -1,0 +1,37 @@
+{
+  "schema": "adl.issue284.live_observations.v1",
+  "issue": 284,
+  "observed_head": "af49f8f674722bee671d65db5b6a49ea08eeb4b0",
+  "github": {
+    "issue_142": {
+      "repository": "agent-logic/agent-design-language",
+      "state": "CLOSED",
+      "closed_at": "2026-08-17T18:10:14Z",
+      "closed_by_pull_requests_count": 0
+    },
+    "pr_140": {
+      "repository": "danielbaustin/agent-design-language",
+      "state": "MERGED",
+      "head_sha": "801ea3f26917421e0f315b17ba0aa299f6c64c39",
+      "merge_commit": "7415b1577b67c3b1a5b62d5d4a81790b77f85193"
+    },
+    "retained_5878_terminal": {
+      "repository": "danielbaustin/agent-design-language",
+      "issue": 5878,
+      "pull_request": 140,
+      "head_sha": "1288f89499d26a1a607b96cd96e0b71051194af6",
+      "merge_sha": "d3a0d69a4c1507eb038392741d163d8341bd95d1",
+      "digest": "71c4c126f914ffb8af2f0f35c611580a5f05ffb11879c291e4c33aba5800ae89"
+    },
+    "issue_194": {
+      "repository": "agent-logic/agent-design-language",
+      "state": "CLOSED"
+    },
+    "pr_397": {
+      "repository": "agent-logic/agent-design-language",
+      "state": "MERGED",
+      "head_sha": "0b74abd26bcb3609980ce74ffd763871d4871157",
+      "merge_commit": "974b8cbb27215d6d2e232d207fe5ffb3a2cfc04c"
+    }
+  }
+}

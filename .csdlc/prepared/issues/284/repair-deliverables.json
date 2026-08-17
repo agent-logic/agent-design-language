@@ -1,0 +1,18 @@
+{
+  "actor": "codex-worker-5",
+  "card": "stp",
+  "expected_digest": "b28c858ef1f25c43585aef4510a1079a1fbb32199619b7d29cbd9510a64be0d2",
+  "expected_generation": 3,
+  "issue": 284,
+  "operation": {
+    "operation": "correct_stp_deliverables_after_recovery",
+    "values": [
+      ".csdlc/evidence/284/evidence-manifest.json",
+      ".csdlc/evidence/284/live-observations.json",
+      ".csdlc/evidence/284/adr0066-guardian-authority-reconciliation.md",
+      ".csdlc/prepared/issues/284/validate_adr0066_guardian_authority_evidence.sh",
+      "Typed SOR/SRP truth for #284"
+    ]
+  },
+  "reason": "Repair #284 deliverables so the required validator deliverable matches the exact issue-owned prepared validator path."
+}

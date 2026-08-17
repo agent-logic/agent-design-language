@@ -1,0 +1,18 @@
+{
+  "actor": "codex-worker-5",
+  "card": "spp",
+  "expected_digest": "b28c858ef1f25c43585aef4510a1079a1fbb32199619b7d29cbd9510a64be0d2",
+  "expected_generation": 3,
+  "issue": 284,
+  "operation": {
+    "field": "affected_areas",
+    "operation": "replace_planning_collection",
+    "values": [
+      ".csdlc/issues/284/",
+      ".csdlc/prepared/issues/284/",
+      ".csdlc/evidence/284/",
+      ".csdlc/evidence/284/validate_adr0066_guardian_authority_evidence.sh"
+    ]
+  },
+  "reason": "Align affected areas with the existing STP-declared focused validator deliverable path."
+}

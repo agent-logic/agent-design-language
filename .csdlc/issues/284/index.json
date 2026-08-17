@@ -1,0 +1,138 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 284,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "d471d95c607e9d810728ebcb23e26844d4b579a5e1b9d28e1245b4e4693990cf",
+  "phase": "implemented",
+  "generation": 6,
+  "digest": "151b0f00166610e23550690f607d9c9afe785cca51d2dc36eb39b03ba9df0ab8",
+  "branch": "codex/284-adr0066-guardian-authority-evidence-reconciliation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-284-adr0066-guardian-authority-evidence-reconciliation",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/284/design.md",
+  "diagram_path": ".csdlc/prepared/issues/284/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:0E8F9C82-9EDF-446F-AB62-5964DDA4E436",
+      "revision": "5d6d5235a90dc583c83a2d3487618a9363d1db66306ae5f8858666da7a2b2c08"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "cde303b1133cba9e20a6124f08e69467833aa25e143d70fe3ba914b805abe243",
+      "rendered_digest": "01ff30845f4d507ec76619d4792136378e120a0f3a42eba5e5ef387331e59d06",
+      "ast_digest": "b9e044289eb363c500ea0e20254545cd90e3b000b85442799e34a90df7862aef"
+    },
+    "stp": {
+      "values_digest": "c030b5e827b73546eba2e67e523a79812d65642b6c0efe8cc1ab0bf7cbb46e04",
+      "rendered_digest": "9fdb3e0a2850173916d338ea8f5a81422c4fa510faf7c08101eef83e5459cd83",
+      "ast_digest": "b9cdf73a91371a813131d0f96fb001cdab5d00410079996020f855d4cea64a8d"
+    },
+    "spp": {
+      "values_digest": "702468f04c64e6c64cc667c8ffe8ba2328bef339c24a1fd7721c0edb0f7a1d07",
+      "rendered_digest": "4351a6bf2b732c0d0efc2699e8a1bc3a2b53084db4731cfb6f559273fe114ea1",
+      "ast_digest": "1e38a0e0c5f517d2a2c5561ab985b3bb892bac0efb0c81c110c7b091067fc817"
+    },
+    "vpp": {
+      "values_digest": "d3e63c28a7084825a7096d36e36484323f9cb593b2c189f9693c15eeb74a69e7",
+      "rendered_digest": "acf1ac4145e989ea2270d099b7f04a8d646bab62f267f642e560ade1b301e700",
+      "ast_digest": "ccddaaf702116ca69ea725f6c3503ac6379d142b7cbe83359ce229d51dec7d5f"
+    },
+    "srp": {
+      "values_digest": "2f14050e81e2feab3f06e76e698746e6cec6a825eb1078fa9e34f0add4a28a54",
+      "rendered_digest": "6607dcf84b25bb88afb056508304ae016e71133e537e5abfee2fa7ae43bdefa1",
+      "ast_digest": "de5ea6035392d1d5b972157a5ef4603b24b79de1d39b577bba20a526ec57f656"
+    },
+    "sor": {
+      "values_digest": "70e16f1aebe36ebffafdae04f3bff7603a93d7a8d6181e367ed870d649f8d355",
+      "rendered_digest": "df809591f9f3da1e49f26ede66423e91a6f2c5de7564e0661e170761f9b439a0",
+      "ast_digest": "9e0c4ac835ceae0a1eaa41616f5ecaf8e1f89eb0565c102ecaa526ac1e7f8cd7"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex-worker-5",
+      "reason": "Issue #284 design is approved and ready for FastWork binding before implementation."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex-worker-5",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex-worker-5",
+      "reason": "Issue #284 design is approved and ready for FastWork binding before implementation.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex-worker-5",
+      "reason": "Repair #284 VPP so the focused validator is an executable issue-owned prepared target and typed validation uses the supported issue subcommand.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"focused-adr0066-guardian-authority-evidence\",\"proof_role\":\"Issue-local reconciliation validator for retained #142 graph evidence and residual gaps.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/prepared/issues/284/validate_adr0066_guardian_authority_evidence.sh\"],\"parallel_group\":\"serial\",\"defer_reason\":null},{\"lane\":\"typed-issue-validation\",\"proof_role\":\"Typed lifecycle/card validation before review and publication.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\".adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"284\"],\"parallel_group\":\"serial\",\"defer_reason\":\"Run after implementation evidence is recorded.\"}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex-worker-5",
+      "reason": "Name the exact focused validator as an issue-owned affected path so readiness can govern the bash validation target.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/issues/284/\",\".csdlc/prepared/issues/284/\",\".csdlc/prepared/issues/284/validate_adr0066_guardian_authority_evidence.sh\",\".csdlc/evidence/284/\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex-worker-5",
+      "reason": "Align affected areas with the existing STP-declared focused validator deliverable path.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/issues/284/\",\".csdlc/prepared/issues/284/\",\".csdlc/evidence/284/\",\".csdlc/evidence/284/validate_adr0066_guardian_authority_evidence.sh\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Repair #284 readiness VPP after current validation found stale non-proving lane targets; use the issue-owned evidence validator path and the stable C-SDLC v2 owner binary with explicit worktree root.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"focused-adr0066-guardian-authority-evidence\",\"proof_role\":\"Issue-local reconciliation validator for retained #142 graph evidence and residual gaps.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/evidence/284/validate_adr0066_guardian_authority_evidence.sh\"],\"parallel_group\":\"serial\",\"defer_reason\":null},{\"lane\":\"typed-issue-validation\",\"proof_role\":\"Typed lifecycle/card validation before review and publication.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-284-adr0066-guardian-authority-evidence-reconciliation\",\"issue\",\"--issue\",\"284\"],\"parallel_group\":\"serial\",\"defer_reason\":\"Run after implementation evidence is recorded.\"}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}
