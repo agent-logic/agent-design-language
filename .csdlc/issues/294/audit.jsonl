@@ -40,3 +40,4 @@
 {"sequence":40,"generation":26,"actor":"codex:issue-294","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":41,"generation":27,"actor":"codex:issue-294","reason":"mandatory real bind_issue linked-worktree unsafe-before/recovery+fresh-approval/success-after fixture absent; linked fixture is recovery-only","operation":"recover_review"}
 {"sequence":42,"generation":27,"actor":"codex:issue-294","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":43,"generation":28,"actor":"codex:issue-294","reason":"r13 failed: linked bind fixture accepts any pre-recovery error instead of proving unsafe_checkout causality, and authoritative design remains stale to the authorized immutable attempt-ledger and actual failpoint model","operation":"recover_review"}
