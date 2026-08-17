@@ -6,10 +6,20 @@
   "initialization_digest": "2f7413cb01489f80873183bf0cb3f041747a54a7888d8a7b976df4841c8e0f95",
   "phase": "implemented",
   "generation": 10,
-  "digest": "d9546ec0f17e59d2e09614b584147989e680ed1d498b93adb88f47ba9898baa2",
+  "digest": "d06f34e85e1ce3fd72f499e03662f81e8df03923d3266db944390a83f72a2af5",
   "branch": "codex/281-observatory-security-privacy-adversarial-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-281-observatory-security-privacy-adversarial-proof-bound",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:28698c9f-c79d-42ba-8a51-1537a31163a8",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:60336d4729795cd44dedaf98fea7db809bef03a5:ad82d370d2e65cff70fc27de6d7c73cad8d6a6b7a4fb4454d4656cdfb914b2ab",
+    "scope": [
+      "demos/html-observatory/tests/security_privacy_adversarial.test.mjs",
+      ".csdlc/prepared/issues/281/validate_preparation_bundle.py",
+      ".csdlc/issues/281",
+      ".csdlc/evidence/281"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +55,9 @@
       "ast_digest": "d4d9ab87114ce18ebf5f36d6758f89334adc18df9e5f1ea19fcce02d4dfd6641"
     },
     "srp": {
-      "values_digest": "cb8ca72efe04876ee3cfd524be36d50b29b0c98355d5d16c2b98e06ffb2a6a0d",
-      "rendered_digest": "bfd1caeda65be38076b06f5709aef6cd47e76e9a44a2715f26e00b90bc9055c5",
-      "ast_digest": "398e804ac7f1dbf3a149b374ae10f74b345e0de1b9e756d633deca5519c59eb2"
+      "values_digest": "67e45d135a27a056b30102861a4a16d288673a48f301f1c3ef93925769b68923",
+      "rendered_digest": "5a82091ebc8354d887f64ece2ee4ecf3d6a5ef0b32c328b04b10e27a03085fb1",
+      "ast_digest": "254e42f78d10f69e825ce6bd886527809c6f13c9cb9a200e914d018228807b48"
     },
     "sor": {
       "values_digest": "24915708d0c1627c0746d2f6c242241bc0eaaccc5c274c3757b0a00cd649caac",
@@ -190,6 +200,13 @@
       "actor": "codex:/root",
       "reason": "Recover stale review truth after removing a tracked empty lifecycle lock from the #281 branch before publication; exact publication guard rejected the prior PASS as review_stale.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

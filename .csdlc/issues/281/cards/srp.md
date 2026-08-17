@@ -12,7 +12,10 @@ Status: draft
 
 ## Scope
 
-
+demos/html-observatory/tests/security_privacy_adversarial.test.mjs
+.csdlc/prepared/issues/281/validate_preparation_bundle.py
+.csdlc/issues/281
+.csdlc/evidence/281
 
 ## Prompts
 
