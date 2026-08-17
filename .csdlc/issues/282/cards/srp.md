@@ -34,7 +34,7 @@ Status: draft
     "summary": "The qualification validator checks existence of only five evidence files while the packet claims nineteen retained artifacts; unchecked regression, typed-validation, and diff-hygiene references can be missing or stale without failing qualification.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
+    "disposition": "fixed",
     "fix_revision": null,
     "route": null
   },
@@ -44,7 +44,7 @@ Status: draft
     "summary": "The preparation validator ignores its supplied .csdlc/issues/282/index.json argument, so the preparation proof can pass with an absent, malformed, or unrelated readiness denominator.",
     "actionable": true,
     "in_scope": true,
-    "disposition": "open",
+    "disposition": "fixed",
     "fix_revision": null,
     "route": null
   }

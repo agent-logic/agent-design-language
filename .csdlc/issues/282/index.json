@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "0f56b55082822da8e6698295189ad62a8e5e2b06fee02463e7fcd6fe2c32152b",
   "phase": "implemented",
-  "generation": 20,
-  "digest": "6185f8b649896a1e6b3eedc3c9f2708f7d12f9579c7b38c65f020f6ef189d519",
+  "generation": 22,
+  "digest": "d82fbfcca08a8622343e6e5c73aff755b52ddf188d900717e2b304111b7f5c35",
   "branch": "codex/282-production-polis-qualification",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-282-production-polis-qualification",
   "review_assignment": {
@@ -72,32 +72,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5152298ea5515501489ebae41bb049d447a48efcd602681c9d521f6674855672",
+      "values_digest": "d67abffea883488ac1ef502ce65f7a10a843ba8c2b60e093fa0751f9d39018d7",
       "rendered_digest": "756456c28d69eb105001f57991727645ae9f2dd003196b24187fdda672239dcc",
       "ast_digest": "9f6b9c35777a50fbccbfaf62a70f5d4582bbdf49c0e85d8e099ae337c542e084"
     },
     "stp": {
-      "values_digest": "7c1ec2abee1dfac7b8efc817e449246babcd53c40ed53daacd6fd1a7f14d04cb",
+      "values_digest": "070fb6ef459fd307f82c161bacf64184b1f15e2e3c3d15fcdfa7b7fe4a99a709",
       "rendered_digest": "d9761e0a08dcfd0903c2a33841c21bf690aa4f23173a897582f80f199447aa71",
       "ast_digest": "4e03a9d0f16b93c09443663dc75c1ba8708d9dd5caad5e9e5e98ce26c41a9c18"
     },
     "spp": {
-      "values_digest": "ed2b9cf89b240fe47250f202eb29988cb3bba38875426216a256a5ee1eb1ee0f",
+      "values_digest": "dce18f15644d115bca4a35afda92755ba39594820542cc8bebaa11262c53bbe5",
       "rendered_digest": "f065bf10b4535996dac3b4db617ba5b1f4397c5c4841bb2e4af23b4b5e60630f",
       "ast_digest": "5ecf9f4be997546248ebd7f11bb3d241d54588883b5c1ab09acaaf76f10fb092"
     },
     "vpp": {
-      "values_digest": "17d146227aa775f1ee1c7baa0acc99af894e12e96caa2b9120da613d8d87643c",
+      "values_digest": "a4ddeba0ee50173921072abcc3e05ab71b1918200f60120156d7e9b3dd1c53e4",
       "rendered_digest": "9d9c316363e69d0fa40755400083574e5ec857634c25da469e64864ab304c119",
       "ast_digest": "c54633f4f5c1ba706963b658c375a1b47c7ee6708fedc8205d536c0ae6ebb409"
     },
     "srp": {
-      "values_digest": "a9ad46668bf62f09231d1be9a9ac27cac7e0c056ff99025f5cda9b8f61920ed4",
-      "rendered_digest": "26010e1f5b6fc51683ac35e34d40b5efe7f7ca52c00594f0f1882bc4a99712a3",
-      "ast_digest": "ce902e696d8a6526d82e06a02ede20c374786bf8a1edbb36913e099d8efbf9ab"
+      "values_digest": "eb8704ec874723eed63affd3a7ad895f335e5e697f70774ad8213afe996eaa24",
+      "rendered_digest": "69dcea7c8d57268368a0106e97eda3079c352817d9e2d2e88f06cd31f4f3c11a",
+      "ast_digest": "b4ed551c8d42a8675574f41bd2dc873f52816e595b2039728132e6b90bd8ecb2"
     },
     "sor": {
-      "values_digest": "473a4dd5266f4fed1bf4661f904595c60968bc03e2b4af18ff1a0ff858552d1e",
+      "values_digest": "16fc5f32c7c2060c6bd637e2a052cbae7713f6308d04aa602c3f0cf63d63bd1f",
       "rendered_digest": "2062c67da5984d987f8d4d7f67de279dca93d001b15d6a2a7eea0b3bbec795f6",
       "ast_digest": "0956c61fa3b7e23a0e37ef32adebc875e0de344a0f665c274d431acf951f01fe"
     }
@@ -300,6 +300,20 @@
       "actor": "codex:/root",
       "reason": "Record validation after resolving #282 R3 findings: all packet-listed evidence files are existence-checked and the preparation validator consumes the supplied issue index denominator.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3 .csdlc/prepared/issues/282/validate_preparation_bundle.py .csdlc/issues/282/index.json\",\"python3 .csdlc/evidence/282/validate_qualification_packet.py .csdlc/evidence/282/production-polis-interface-qualification.md\",\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate --root /Volumes/FastWork/adl-worktrees/adl-issue-282-production-polis-qualification issue --issue 282\",\"git diff --check\"],\"purpose\":\"Prove #282 R3 remediation: qualification validation now covers every packet-listed evidence artifact, and preparation validation fails closed unless the supplied issue index is the #282 canonical denominator with expected repository/design/diagram identity.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/prepared/issues/282/validate_preparation_bundle.py; .csdlc/evidence/282/validate_qualification_packet.py; .csdlc/evidence/282/production-polis-interface-qualification.md\"}}"
+    },
+    {
+      "sequence": 26,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "Resolve #282 R3-P2 qualification validator evidence coverage finding after adding all packet-listed evidence artifacts to REQUIRED_EVIDENCE_REFERENCES and REQUIRED_EVIDENCE_PATHS.",
+      "operation": "{\"operation\":\"dispose_finding\",\"finding_id\":\"R3-P2-qualification-validator-evidence-coverage\",\"disposition\":\"fixed\"}"
+    },
+    {
+      "sequence": 27,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "Resolve #282 R3-P2 preparation validator denominator finding after making validate_preparation_bundle.py require and validate the supplied .csdlc/issues/282/index.json denominator.",
+      "operation": "{\"operation\":\"dispose_finding\",\"finding_id\":\"R3-P2-prep-validator-denominator-argument\",\"disposition\":\"fixed\"}"
     }
   ]
 }
