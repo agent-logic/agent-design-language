@@ -12,7 +12,12 @@ Status: draft
 
 ## Scope
 
-
+demos/html-observatory/index.html
+demos/html-observatory/styles.css
+demos/html-observatory/tests/accessibility_responsive.test.mjs
+.csdlc/prepared/issues/279/validate_preparation_bundle.py
+.csdlc/issues/279
+.csdlc/evidence/279
 
 ## Prompts
 
@@ -32,12 +37,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Review was bounded to #279 Observatory accessibility/responsive UX proof and its scoped lifecycle/evidence surfaces; #280 performance, #281 security/privacy, #282 aggregation/readout, #117/#110 parent closeout, Runtime authority/protocol, cloud/Unity, and credential lanes were not reviewed.
+- Reviewer observed only assignment-projection tracked dirt plus an untracked issue lock at review time; no product or proof dirt was present.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:eae585fc15d14e682f5c43aeb58f3877e684b0fe:16e3c50edcf77c43db32094d785e34d14cbf19a4b1efb15ac8f54c43d953ed48")
 
-Reviewer: None
+Reviewer: Some("fresh-session:2a658d3d-3e25-4f1c-9f6e-5dbd14f8c279")
 
-Result: pre_review
+Result: pass

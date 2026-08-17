@@ -4,13 +4,43 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "ff41e3111a97fd285be5db94a99c5f762342f0cd2ae534300482b383f505a3f3",
-  "phase": "implemented",
-  "generation": 9,
-  "digest": "b0e86b454dd418d09a4899379fb7c35caeff527fc422c6bcafc033ceb7a2038f",
+  "phase": "reviewed",
+  "generation": 10,
+  "digest": "d0c89aeafbdd04773733f4060074f87a2c0ab3c066b6aa8a6be1313049dca22f",
   "branch": "codex/279-observatory-accessibility-responsive-ux-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-279-observatory-accessibility-responsive-ux-proof",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:2a658d3d-3e25-4f1c-9f6e-5dbd14f8c279",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:eae585fc15d14e682f5c43aeb58f3877e684b0fe:16e3c50edcf77c43db32094d785e34d14cbf19a4b1efb15ac8f54c43d953ed48",
+    "scope": [
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "demos/html-observatory/tests/accessibility_responsive.test.mjs",
+      ".csdlc/prepared/issues/279/validate_preparation_bundle.py",
+      ".csdlc/issues/279",
+      ".csdlc/evidence/279"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:2a658d3d-3e25-4f1c-9f6e-5dbd14f8c279",
+    "scope": [
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "demos/html-observatory/tests/accessibility_responsive.test.mjs",
+      ".csdlc/prepared/issues/279/validate_preparation_bundle.py",
+      ".csdlc/issues/279",
+      ".csdlc/evidence/279"
+    ],
+    "reviewed_revision": "git-blake3:eae585fc15d14e682f5c43aeb58f3877e684b0fe:16e3c50edcf77c43db32094d785e34d14cbf19a4b1efb15ac8f54c43d953ed48",
+    "findings": [],
+    "residual_risks": [
+      "Review was bounded to #279 Observatory accessibility/responsive UX proof and its scoped lifecycle/evidence surfaces; #280 performance, #281 security/privacy, #282 aggregation/readout, #117/#110 parent closeout, Runtime authority/protocol, cloud/Unity, and credential lanes were not reviewed.",
+      "Reviewer observed only assignment-projection tracked dirt plus an untracked issue lock at review time; no product or proof dirt was present."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +55,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f143a482e1e33724ef8ae35c857b6626e17e78e2893913cf4b28825108c50eaa",
+      "values_digest": "daf44e25230fb321cd676b0b3cd31e1778988b13702639c046ca12cd8ea1b86f",
       "rendered_digest": "399ecb84d8c2d97d2aec61804cbf6823d5fdc6954692fdbf6b4f948f52fb5f25",
       "ast_digest": "7c3aa57d0dd057df2df7a147a5bc59266af12dfee54834e943c074d82f7cd4f2"
     },
     "stp": {
-      "values_digest": "b1e76ca699684cdeb6f3069174420e14490c9f6f7bf185c004b7dcc91c1a7a91",
+      "values_digest": "fa02f483d12ad11ad859b53d242a4754f98439b4baa0d987857a8426509443c8",
       "rendered_digest": "1100c3e6cb1564f6511a56e51ed324e3b409da2a4eed89e8b00b20bf51f0b615",
       "ast_digest": "71d9bb7e566725f25d3b6d8239cea40a6a3742e9c9f7d4a7ada5a174adb5329e"
     },
     "spp": {
-      "values_digest": "6e38dd3b7de153d6ca3d24d8d6064c44142a60424c8957372c118ac571a14e14",
+      "values_digest": "db5cb0fcd4bae863a60066d91dd79f4d9917e69850cea202cf7b784aff925a12",
       "rendered_digest": "2f3e8e72e4b4e9b84f0999892d696d4408f6a31a51b902222ed1b4d2238057a5",
       "ast_digest": "51eb5ef8ee7cc8fe2eb6f7bec989dfc6d2528809cd9c49ffbb13a1cdc1029539"
     },
     "vpp": {
-      "values_digest": "1b4a76cbfb9d390fad48882e6a2bbc42bbb9da264a395e5e2917a53a2f5672fe",
+      "values_digest": "0a84de44103837c6ccaf86949d978c8f905ed16be3d37dad1fc328ec4fbbbe76",
       "rendered_digest": "c2d688ddb97dd376f713af361190e50619cac81f5fc1ca8ad6522c972b220926",
       "ast_digest": "57c3168a85f1c9b5ff4b682384f702262bf80b09ff299589c77205cb6ce945ce"
     },
     "srp": {
-      "values_digest": "f4315f0755edc1c3844cd1dca0245bcc67c3d4e3e8c125560777ce80a424e689",
-      "rendered_digest": "6b216b2a0cca19124760afc80e96016ffb4a1a189cc4599c5dee42f24f2e5a4f",
-      "ast_digest": "b71e714e39b320befd5167ffc4c4f15e2d16020244dadab2c9c2aa6ae687eb61"
+      "values_digest": "0bc3fa45499e5c5548fa186d6d5b724bb08784ffecb3de17a9de089690684ee6",
+      "rendered_digest": "241b308a5ea5c50189d042b18effa96b8c9586e9de8c0354515cf69572db8a4a",
+      "ast_digest": "14a399ef4682371ded0ef0db808ec6e1dff89247e5eb6b500db7e9de3d8c0d65"
     },
     "sor": {
-      "values_digest": "df94db4fa027d37a852311be07fff7c0e820e1f9ce90dcad6d0e529c3a9b5f5e",
+      "values_digest": "a21d3926659d943d09c009bf8813b2db631c5dedea76f3642ac029d9d236dcbc",
       "rendered_digest": "a4f7916af5e45f2660f57bf51d2975b6bd16dd7ce14820afe044c3dae94e25b7",
       "ast_digest": "a4323e5019d55a47f7b6634cd9f528ff7ce2c5e6c6b7199729ff57a2f85c0fcd"
     }
@@ -76,6 +106,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -162,6 +199,20 @@
       "actor": "codex:/root",
       "reason": "Recover stale #279 review assignment recorded before the gen8 lifecycle/evidence repair commit; exact-head review must bind the current immutable head.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

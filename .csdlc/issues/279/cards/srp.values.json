@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-18C.07a][117.a] Prove Observatory accessibility and responsive UX",
     "slug": "observatory-accessibility-responsive-ux-proof",
     "version": "v0.92",
-    "generation": 9
+    "generation": 10
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "demos/html-observatory/index.html\ndemos/html-observatory/styles.css\ndemos/html-observatory/tests/accessibility_responsive.test.mjs\n.csdlc/prepared/issues/279/validate_preparation_bundle.py\n.csdlc/issues/279\n.csdlc/evidence/279",
+      "review_revision": "git-blake3:eae585fc15d14e682f5c43aeb58f3877e684b0fe:16e3c50edcf77c43db32094d785e34d14cbf19a4b1efb15ac8f54c43d953ed48",
+      "reviewer": "fresh-session:2a658d3d-3e25-4f1c-9f6e-5dbd14f8c279",
       "review_prompts": [
         "Does #279 stay limited to Observatory accessibility/responsive UX proof and narrowly necessary presentation fixes?",
         "Are #280 performance/recovery, #281 security/privacy/adversarial, #282 final qualification, #117, and #110 explicitly excluded?",
@@ -24,8 +24,11 @@
         "Are all terminal dependency gates truthfully required before implementation and publication?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Review was bounded to #279 Observatory accessibility/responsive UX proof and its scoped lifecycle/evidence surfaces; #280 performance, #281 security/privacy, #282 aggregation/readout, #117/#110 parent closeout, Runtime authority/protocol, cloud/Unity, and credential lanes were not reviewed.",
+        "Reviewer observed only assignment-projection tracked dirt plus an untracked issue lock at review time; no product or proof dirt was present."
+      ],
+      "review_result": "pass"
     }
   }
 }
