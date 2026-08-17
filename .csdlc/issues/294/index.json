@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "800ae278d01e46c7ea3bc653920a4178dd1439d1836c928794dc1984fdde1b5a",
   "phase": "implemented",
-  "generation": 28,
-  "digest": "6d1ea10a1e51507e17baf87983d8ba95c4bf9e5450c9a570d06e8f76746f3fa9",
+  "generation": 29,
+  "digest": "f1a2525b6c522990632bf312c3c6230de474aeaad98fbd9dbcee48a4c10ab3f5",
   "branch": "codex/294-initialized-design-envelope-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-294-initialized-design-envelope-recovery",
   "review_assignment": null,
@@ -16,40 +16,35 @@
   "migration": null,
   "design_path": ".csdlc/prepared/issues/294/design.md",
   "diagram_path": ".csdlc/prepared/issues/294/diagram.mmd",
-  "design_review": {
-    "approved": {
-      "reviewer": "fresh-session:8a4ab27f-1366-4f5a-a7b4-e6df6bb49d68",
-      "revision": "b516c4d844e9f383baa1fae14b1fed9cfc2242a6a5ce86a5bf02b0b7c10494f7"
-    }
-  },
+  "design_review": "pending",
   "cards": {
     "sip": {
-      "values_digest": "0e97c7a9aba66e2ac2be990e6205898962e29a1abf5221d1a25669603164d304",
+      "values_digest": "be7d1d61b33dc7f8e06af7b024273b64b9f41e7f804c997095a2f78561bea7e1",
       "rendered_digest": "3e36b0e88d7f76e4a233fcff102b6aa56fe57becbc26a6dba984a5dc1f5699bc",
       "ast_digest": "b5eb19fa979837c27cae787dd8ed10ce8aa10a2d84d6d386c76d8e2628ba3864"
     },
     "stp": {
-      "values_digest": "6b80bca7283b61965f959b586fd240ba6c33e53dec13535042a0bb3ac33be09e",
+      "values_digest": "7bfe623e046e3e90bb0d2654cd0857aadaf442aeaa9ad8dc6ae780fbaf187201",
       "rendered_digest": "62b94e609f2b1a7babc548935a5db66323d9a4be44dae9f6c37d849ec56a6e31",
       "ast_digest": "8b080ac00c6eed5a7d97b6187e92c4b7e41d70d5c967c9fa57b08a32a818955c"
     },
     "spp": {
-      "values_digest": "6cd046a4dff1f9f641dea65d23f6661a70689949f2baad058d7e138bebe6633f",
-      "rendered_digest": "818c831b4006e6cba1fae7fd705b517025fdb4dffebcdd5ed63c77e88dd8e9ee",
-      "ast_digest": "fe2b4a198e777d6d1184d8db1e169a565f0425a9c547b1f1252c24a7410e2c5e"
+      "values_digest": "3c8ca23ee0a24f2d453d356f259fc8d4ee52c5fd1beb4fbebdd14363c7c030a2",
+      "rendered_digest": "c7b46e8f37528b86d67673175806835686b060b8b2b25b6c3f275fcef2512fe3",
+      "ast_digest": "b80f223c2ebbb86bd7677981e257a5e7208675e9296722cc62e96d25dd643fd5"
     },
     "vpp": {
-      "values_digest": "867d2814de762eb12f3c8d99b7fad81a0f815837524fd8ef9de1d5a67d7a4b24",
+      "values_digest": "867de7ab2b475ed797900e77a6d8ca8c936538f7246a6d745bfdf382ee633bff",
       "rendered_digest": "2ec8f40f5663c0883b898d842aed1fcc99aa4d4f79eb3fe8e9c50ca682758a94",
       "ast_digest": "9c636f5af53a97a09991989dd18baf33fafa10df6b5a0554de5ccc30d748ca1a"
     },
     "srp": {
-      "values_digest": "5cd4e4a6503cb88aa4b7b17c0494cadedbbd89f67785b84703c7b8ac87665ea0",
+      "values_digest": "87b92750d53edb966b039bb236af718174481057c62bce4c0ea7e0ede8a52af8",
       "rendered_digest": "0567ed70395313482b89d8e35be47456c488cb326c2df14cbc015b5e7d92c5d8",
       "ast_digest": "13f502d7ae633df5336ea95b80bbd88392eb15b98caf010e8d859f6d282810c7"
     },
     "sor": {
-      "values_digest": "91673acdc4261010fac1f5626d35a1ad9c2456c5624a82603a78b83bbd4afe2c",
+      "values_digest": "3866a8b3351ad3d895ed1e13d428d060540fc836e544c886f231977b8e8414c2",
       "rendered_digest": "02a3825c1b8aa02ee4ff72c2597d88a060af2ae9a31abc8a0aa8df0f7e3d9438",
       "ast_digest": "926479531ef701e505067ba4a19c0f8b998388e2ef55666e78e7210deb803fe9"
     }
@@ -378,6 +373,13 @@
       "actor": "codex:issue-294",
       "reason": "r13 failed: linked bind fixture accepts any pre-recovery error instead of proving unsafe_checkout causality, and authoritative design remains stale to the authorized immutable attempt-ledger and actual failpoint model",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 44,
+      "generation": 29,
+      "actor": "codex:issue-294",
+      "reason": "Refresh authored design after r13 repair so design truth matches immutable attempt-ledger and actual failpoint model",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/294/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/294/diagram.mmd\",\"new_design_digest\":\"e9f60c82e3b6a228f42399eaaa0fe01ce4998f9c27c8fa6517b04e1e2c8be181\",\"new_diagram_digest\":\"beac856b22f305cbf45a3fcd48de11fc8b92637cef77c24fa81c22f834709450\",\"old_design_digest\":\"b516c4d844e9f383baa1fae14b1fed9cfc2242a6a5ce86a5bf02b0b7c10494f7\",\"old_diagram_digest\":\"beac856b22f305cbf45a3fcd48de11fc8b92637cef77c24fa81c22f834709450\",\"prior_design_approval\":{\"approved\":{\"reviewer\":\"fresh-session:8a4ab27f-1366-4f5a-a7b4-e6df6bb49d68\",\"revision\":\"b516c4d844e9f383baa1fae14b1fed9cfc2242a6a5ce86a5bf02b0b7c10494f7\"}}},\"operation\":{\"operation\":\"refresh_authored_design_after_recovery\"}}"
     }
   ]
 }
