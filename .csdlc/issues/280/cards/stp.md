@@ -1,0 +1,73 @@
+# Structured Task Prompt
+
+Template: 1.0.0
+
+Issue: 280
+
+Repository: agent-logic/agent-design-language
+
+Card: stp
+
+Status: ready
+
+## Task
+
+Bootstrap, design-review, bind, implement, prove, review, publish, CI, and finish only #280 large-Polis performance/recovery proof for the integrated candidate; do not absorb #279/#281/#282 or parent coordination scope.
+
+## Deliverables
+
+- .csdlc/prepared/issues/280/design.md
+- .csdlc/prepared/issues/280/diagram.mmd
+- .csdlc/prepared/issues/280/validate_preparation_bundle.py
+- .csdlc/evidence/280
+- .csdlc/issues/280
+- demos/html-observatory/tests/large_polis_performance_recovery.test.mjs
+- demos/html-observatory/app.js
+- demos/html-observatory/index.html
+- demos/html-observatory/styles.css
+
+## Acceptance
+
+1. AC-1: Large roster and long transcript fixtures remain bounded in retained state, rendered state, and DOM-facing projection size.
+2. AC-2: Local proof records deterministic latency and resource metrics for roster growth, transcript growth, stream pressure, and recovery transitions.
+3. AC-3: Reconnect, Runtime restart, offline, backpressure, and version-mismatch states degrade explicitly and recover without duplicate actions or hidden stale state.
+4. AC-4: Proof artifacts are machine-readable, public-safe, credential-free, and tied to one exact integrated candidate revision.
+5. AC-5: Any source changes are Observatory performance/recovery or test-only and do not alter Runtime authority, acknowledgement, room routing, durable history, receipt, accessibility, security/privacy, or final qualification semantics.
+6. AC-6: Fresh exact-head review has no unresolved actionable findings, required CI is green on the published head, and typed finish derives terminal authority before #282 consumes #280.
+
+## Dependencies
+
+- #111 terminal merge 5dab282aa6b730efd057f0502dacd462d30cc1d0 ancestral
+- #112 terminal merge 6172bfb067bd45ec231fbc2635e7efbb718ef415 ancestral
+- #265 terminal merge 301080a40c91c6882f34fead3c742524467c056d ancestral
+- #270 terminal merge b1c38cd53573c03cdc4ad818ed5ead5eba570981 ancestral
+- #271 terminal merge 6b200cfee83ea36a546123de4d24a6eda191b652 ancestral
+- #113 terminal merge a260e14ab4a56b95fe5b37e4ffaff3f263bc58c1 ancestral
+- #114 terminal merge 1d8685745b00df78f304cb03a6a559fa4e2cdec9 ancestral
+- #276 terminal merge 3e249f9857f392f7f569560fbd5fbfbc36b95b2f ancestral
+- #277 terminal merge 3160fb8be575ba9a27748b05ea5dd911e4375deb ancestral
+- #278 terminal merge c3ecaa615fbc29c1784d4e89f4fe38a98743ff02 ancestral
+- #115 terminal merge 22122c6c245b1f847aabcaf168a98660a3f11972 ancestral
+- #116 terminal merge 557dd28d85746a8dc5109dcc674f5a606b8c9890 ancestral
+- #117 live parent remains coordination-only
+- #110 live parent remains coordination-only
+
+## Inputs
+
+- agent-logic/agent-design-language#280
+- agent-logic/agent-design-language#117
+- agent-logic/agent-design-language#110
+- demos/html-observatory/index.html
+- demos/html-observatory/app.js
+- demos/html-observatory/styles.css
+- demos/html-observatory/tests
+- terminal merge commits for #111/#112/#113/#114/#115/#116/#265/#270/#271/#276/#277/#278
+
+## Non Goals
+
+- Runtime authority, signing, acknowledgement protocol, room routing, durable history, receipt, retention, or security-policy changes
+- Accessibility/responsive UX proof owned by #279
+- Security/privacy/adversarial proof owned by #281
+- Final production qualification assembly owned by #282
+- Parent #117 or #110 implementation/closeout
+- Cloud/public deployment, Unity feature implementation, provider credentials, or paid/optional jobs
