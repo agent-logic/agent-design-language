@@ -4818,6 +4818,205 @@ fn recovered_implemented_issue_can_correct_stp_dependencies_after_recorded_revie
 }
 
 #[test]
+fn recovered_implemented_issue_can_correct_stp_repo_inputs_after_recorded_review() {
+    let (_temp, store, implemented) = implemented_fixture();
+    let before_cards = store.load_cards(7).expect("load cards before correction");
+    let csdlc_v2::cards::CardContent::Stp(before_stp) =
+        before_cards[&CardKind::Stp].content.clone()
+    else {
+        panic!("STP")
+    };
+    let replacement = vec![
+        ".csdlc/prepared/issues/117/design.md".into(),
+        ".csdlc/prepared/issues/117/diagram.mmd".into(),
+        ".csdlc/prepared/issues/117/validate_preparation_bundle.py".into(),
+        ".csdlc/issues/271".into(),
+        "/Volumes/FastWork/adl-worktrees/adl-issue-114-durable-history-parent-integration-proof/.csdlc/issues/114".into(),
+    ];
+
+    let unrecovered = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Stp,
+            expected_generation: implemented.generation,
+            expected_digest: implemented.digest.clone(),
+            actor: "operator".into(),
+            reason: "correct reviewed repo input denominator".into(),
+            operation: SemanticOperation::CorrectStpRepoInputsAfterRecovery {
+                values: replacement.clone(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("ordinary implemented issue must not imply repo input recovery");
+    assert_eq!(unrecovered.code, ErrorCode::InvalidTransition);
+
+    let assigned = assign_review(
+        &store,
+        ReviewAssignmentRequest {
+            issue: 7,
+            expected_generation: implemented.generation,
+            expected_digest: implemented.digest,
+            reviewer: "subagent".into(),
+            assigned_by: "operator".into(),
+            scope: vec!["csdlc-v2".into()],
+        },
+    )
+    .expect("assign review");
+    let assignment_recovered = csdlc_v2::recover_review(
+        &store,
+        ReviewRecoveryRequest {
+            issue: 7,
+            expected_generation: assigned.generation,
+            expected_digest: assigned.digest,
+            actor: "operator".into(),
+            reason: "assignment-only recovery".into(),
+        },
+    )
+    .expect("recover assignment-only implemented state");
+    let assignment_only_error = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Stp,
+            expected_generation: assignment_recovered.generation,
+            expected_digest: assignment_recovered.digest.clone(),
+            actor: "operator".into(),
+            reason: "assignment-only recovery must not authorize repo input repair".into(),
+            operation: SemanticOperation::CorrectStpRepoInputsAfterRecovery {
+                values: replacement.clone(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("assignment-only recovery must fail closed for repo inputs");
+    assert_eq!(assignment_only_error.code, ErrorCode::InvalidTransition);
+
+    let reviewed = record_review(
+        &store,
+        ReviewRecordRequest {
+            issue: 7,
+            expected_generation: assignment_recovered.generation,
+            expected_digest: assignment_recovered.digest.clone(),
+            actor: "reviewer".into(),
+            evidence: ReviewEvidence {
+                reviewer: "reviewer".into(),
+                scope: vec!["csdlc-v2".into()],
+                reviewed_revision: csdlc_v2::git::substantive_revision(
+                    store.root(),
+                    &["csdlc-v2".into()],
+                )
+                .expect("review revision"),
+                findings: vec![ReviewFindingEvidence {
+                    id: "fresh-session:repo-inputs".into(),
+                    severity: FindingSeverity::P1,
+                    summary: "STP repo inputs omit consumed terminal inputs".into(),
+                    actionable: true,
+                    in_scope: true,
+                    disposition: FindingDisposition::Open,
+                    fix_revision: None,
+                    route: None,
+                }],
+                residual_risks: vec![],
+                completed: true,
+                non_substantive_proof: None,
+            },
+        },
+    )
+    .expect("record repo input review finding");
+    let recovered = csdlc_v2::recover_review(
+        &store,
+        ReviewRecoveryRequest {
+            issue: 7,
+            expected_generation: reviewed.generation,
+            expected_digest: reviewed.digest,
+            actor: "operator".into(),
+            reason: "repair repo input review finding".into(),
+        },
+    )
+    .expect("recover recorded-review implemented state");
+
+    for invalid in [
+        Vec::<String>::new(),
+        vec![" ".into()],
+        vec![".csdlc/issues/271".into(), " .csdlc/issues/271 ".into()],
+    ] {
+        let error = edit_issue(
+            &store,
+            EditRequest {
+                issue: 7,
+                card: CardKind::Stp,
+                expected_generation: recovered.generation,
+                expected_digest: recovered.digest.clone(),
+                actor: "operator".into(),
+                reason: "reject malformed repo input replacement".into(),
+                operation: SemanticOperation::CorrectStpRepoInputsAfterRecovery { values: invalid },
+                fail_after_backup: false,
+            },
+        )
+        .expect_err("malformed repo inputs must fail closed");
+        assert_eq!(error.code, ErrorCode::CardInvalid);
+    }
+
+    let wrong_card = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Sip,
+            expected_generation: recovered.generation,
+            expected_digest: recovered.digest.clone(),
+            actor: "operator".into(),
+            reason: "reject wrong card".into(),
+            operation: SemanticOperation::CorrectStpRepoInputsAfterRecovery {
+                values: replacement.clone(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("non-STP card must fail closed");
+    assert_eq!(wrong_card.code, ErrorCode::InvalidTransition);
+
+    let corrected = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Stp,
+            expected_generation: recovered.generation,
+            expected_digest: recovered.digest,
+            actor: "operator".into(),
+            reason: "align repo inputs with reviewed terminal denominator".into(),
+            operation: SemanticOperation::CorrectStpRepoInputsAfterRecovery {
+                values: replacement.clone(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("correct STP repo inputs after recorded-review recovery");
+    assert_eq!(corrected.phase, LifecyclePhase::Implemented);
+    let after_cards = store.load_cards(7).expect("load corrected cards");
+    let csdlc_v2::cards::CardContent::Stp(after_stp) = after_cards[&CardKind::Stp].content.clone()
+    else {
+        panic!("STP")
+    };
+    let mut expected_stp = before_stp.clone();
+    expected_stp.repo_inputs = replacement.clone();
+    assert_eq!(after_stp, expected_stp);
+
+    let audit: serde_json::Value =
+        serde_json::from_str(&corrected.audit.last().expect("correction audit").operation)
+            .expect("structured audit operation");
+    assert_eq!(audit["operation"], "correct_stp_repo_inputs_after_recovery");
+    assert_eq!(
+        audit["previous_values"],
+        serde_json::json!(before_stp.repo_inputs)
+    );
+    assert_eq!(audit["new_values"], serde_json::json!(replacement));
+    assert!(audit["recovery_sequence"].as_u64().is_some());
+    assert!(audit["recovery_generation"].as_u64().is_some());
+}
+
+#[test]
 fn recovered_implemented_issue_can_correct_spp_step_status_after_recorded_review() {
     let (_temp, store, implemented) = implemented_fixture();
     let before_cards = store.load_cards(7).expect("load cards before correction");

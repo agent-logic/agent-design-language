@@ -590,6 +590,9 @@ pub enum SemanticOperation {
     CorrectStpDependenciesAfterRecovery {
         values: Vec<String>,
     },
+    CorrectStpRepoInputsAfterRecovery {
+        values: Vec<String>,
+    },
     CorrectPlanSummaryAfterRecovery {
         value: String,
     },
@@ -989,6 +992,16 @@ pub fn apply(
             match &mut values.content {
                 CardContent::Stp(value) => value.dependencies = replacement.clone(),
                 _ => return ownership(values.kind(), "correct_stp_dependencies_after_recovery"),
+            }
+            Ok(None)
+        }
+        SemanticOperation::CorrectStpRepoInputsAfterRecovery {
+            values: replacement,
+        } => {
+            validate_unique_replacement(replacement, "STP repo inputs")?;
+            match &mut values.content {
+                CardContent::Stp(value) => value.repo_inputs = replacement.clone(),
+                _ => return ownership(values.kind(), "correct_stp_repo_inputs_after_recovery"),
             }
             Ok(None)
         }
