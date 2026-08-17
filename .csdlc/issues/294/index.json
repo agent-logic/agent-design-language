@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "800ae278d01e46c7ea3bc653920a4178dd1439d1836c928794dc1984fdde1b5a",
   "phase": "implemented",
-  "generation": 36,
-  "digest": "7406117da75df0202d397220afc497f68e49b703ca5ed8a8dea417d9f9c45511",
+  "generation": 37,
+  "digest": "3cfab37a71e8c15caf7ffc55a538523e9885ee3f70b0f2389fede9a2fe6b55c7",
   "branch": "codex/294-initialized-design-envelope-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-294-initialized-design-envelope-recovery",
   "review_assignment": null,
@@ -16,35 +16,40 @@
   "migration": null,
   "design_path": ".csdlc/prepared/issues/294/design.md",
   "diagram_path": ".csdlc/prepared/issues/294/diagram.mmd",
-  "design_review": "pending",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:bcf1d99d-3317-4826-b44a-66b064f8b936",
+      "revision": "aa21ee83435381695a1c97ee82b4e04540c7ee71f8eb5623c2b11dfa7a322309"
+    }
+  },
   "cards": {
     "sip": {
-      "values_digest": "251fb52b1db4ca19790aa70ed1ead874ef7c362d99eea97ec62df4ddb17d41e4",
+      "values_digest": "66743d92d25a83bf2d20823f567f3c2a72b635faffe130887ccdf20fc311a586",
       "rendered_digest": "3e36b0e88d7f76e4a233fcff102b6aa56fe57becbc26a6dba984a5dc1f5699bc",
       "ast_digest": "b5eb19fa979837c27cae787dd8ed10ce8aa10a2d84d6d386c76d8e2628ba3864"
     },
     "stp": {
-      "values_digest": "b922c448eb9b9eea1082593ee2eb2b4762d105e73519421eb872380e673a6321",
+      "values_digest": "79b975d9a76a80b74830a35fcd8e8452cad64962266b7c269a8bc0447891c003",
       "rendered_digest": "62b94e609f2b1a7babc548935a5db66323d9a4be44dae9f6c37d849ec56a6e31",
       "ast_digest": "8b080ac00c6eed5a7d97b6187e92c4b7e41d70d5c967c9fa57b08a32a818955c"
     },
     "spp": {
-      "values_digest": "0569f29cacb6f51d6fc818c2e085e755e4b74dc62c64bd2abf4c91494cb2b225",
+      "values_digest": "eb61126eca144d311caa8b5294eb709c519335ef35dfd1583e9afc8e4bde3f21",
       "rendered_digest": "288414b628210cf5ba8e08c4c4145ab43f5ed0fe7417ace0e07f22060630fb86",
       "ast_digest": "8126bc1d4576a9e9a2191435dbaefc568046a73cf40bbbed42661c2c1e984153"
     },
     "vpp": {
-      "values_digest": "eb90f1e13f65dfc78ea127246e5795fb9b01e476cc432864d0ea884a31e5c1bc",
+      "values_digest": "6f3ae46fc08906224f78fe2f8b05a8244a78efcf4b47171201a77fb45899a6f8",
       "rendered_digest": "2ec8f40f5663c0883b898d842aed1fcc99aa4d4f79eb3fe8e9c50ca682758a94",
       "ast_digest": "9c636f5af53a97a09991989dd18baf33fafa10df6b5a0554de5ccc30d748ca1a"
     },
     "srp": {
-      "values_digest": "66f7e03217897ff935bd2330d542c7b2fab3f4ed092c36b7d8194429e8e6bf7d",
+      "values_digest": "4dcb59f12b00fb6a8bd4d99789c0eb61ffc3a521d6d283bbfdccee8484029683",
       "rendered_digest": "0567ed70395313482b89d8e35be47456c488cb326c2df14cbc015b5e7d92c5d8",
       "ast_digest": "13f502d7ae633df5336ea95b80bbd88392eb15b98caf010e8d859f6d282810c7"
     },
     "sor": {
-      "values_digest": "7053768db7395a629b032cc3863017ffe3164e6f526971aad0c5b7d8eb6e4d33",
+      "values_digest": "25c03e4095403e3b7726dbc3270a24332d956c05dee9051cec5511c4343b3786",
       "rendered_digest": "32927c59d2721c763f5cd7591423dc9581b5316ecae6328093f252a4ca80a747",
       "ast_digest": "bdc3da8d7dae75d0961295ce3968218dc19dd669726ce0fc436b5899ec0e42a9"
     }
@@ -429,6 +434,13 @@
       "actor": "codex:issue-294",
       "reason": "Record exact-head strict Clippy validation after r15 review found stale retained evidence.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove the recovered csdlc-v2 implementation is warning-free across all targets at exact current head after initialized design-envelope recovery changes.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/294/csdlc-v2-strict-clippy-exact-head.log\"}}"
+    },
+    {
+      "sequence": 52,
+      "generation": 37,
+      "actor": "fresh-session:bcf1d99d-3317-4826-b44a-66b064f8b936",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"aa21ee83435381695a1c97ee82b4e04540c7ee71f8eb5623c2b11dfa7a322309\",\"design_ref\":\".csdlc/prepared/issues/294/design.md\",\"diagram_digest\":\"beac856b22f305cbf45a3fcd48de11fc8b92637cef77c24fa81c22f834709450\",\"diagram_ref\":\".csdlc/prepared/issues/294/diagram.mmd\",\"operation\":\"approve_design\"}"
     }
   ]
 }
