@@ -1,0 +1,125 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 280,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "a9e76b0d5c4ae85d6d72522adcc9f5c568eb1128a84ea282cde4601038a3dc77",
+  "phase": "implemented",
+  "generation": 4,
+  "digest": "3baccea630d62e3bba0c5f9cdbc3b372cc90435a66e814533ba2290db94d441b",
+  "branch": "codex/280-large-polis-performance-recovery",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-280-large-polis-performance-recovery",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/280/design.md",
+  "diagram_path": ".csdlc/prepared/issues/280/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:2b5f74d3-d0f4-4784-9700-14e8325668df",
+      "revision": "a92007752035c6440f1b03e88ed42c8588ecb19e65dd3bae7dff52d90740458c"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "5998fb9cd998368663f6b16dd1ccb6795492532ed932d34408d04a67599b6c22",
+      "rendered_digest": "0292b60bec62dc27f2de3e5ddd7046079e1d18ce76df63f8ba846d795c7be12c",
+      "ast_digest": "1071d7f76fb0a238a2e4fc614b05087a3f8c9d56e37f424e104c6ded16af8aff"
+    },
+    "stp": {
+      "values_digest": "53b6b58df3425b46947f125b1377af26c609e811d11107091e93e5f23368bd3b",
+      "rendered_digest": "f32af0ea55041cb66b548540592248ae63d7a11115e32af86d9bb62965b4a20f",
+      "ast_digest": "fb18932ada816a7f1efda0cf5e90f66ad54e9640dd6bfb4ae994d522f5d7fe73"
+    },
+    "spp": {
+      "values_digest": "d7621c410e8e1a00bbd2d035a129a15e157b2acebda7bedcf12f9b3c288c220c",
+      "rendered_digest": "5e3ca4b8fcfa420c823c412940c5677057462e7fdf6463814915e5aec8735798",
+      "ast_digest": "d2b2e4b201a644033a2ad662d001f155f7d4cdbd441ff422ad0c3f6b49c1be51"
+    },
+    "vpp": {
+      "values_digest": "f3840139f324ae8d5860d854937610e792233190767625fef54dec2514d5ddfc",
+      "rendered_digest": "988a9609f7792465ff794a53f4e13b3cc9027cb6cb54f8054c2c01458bbda2da",
+      "ast_digest": "a0403052bc3f735e434966a883808a3b3055d2e0341cd59d01227c2a9f4c321d"
+    },
+    "srp": {
+      "values_digest": "49684797516b2eaa376287da5f6b4b374d4f96247ec8e8970787ba71e1520140",
+      "rendered_digest": "d53503e5fee65f0477c4d5d4888a9529e948405e0ac0db967c033432613ee0c7",
+      "ast_digest": "93d81b70c89efe3a130dc89a3210dc936f82bf2fed1e8d6fbe7e5807982dcf14"
+    },
+    "sor": {
+      "values_digest": "7e1d73856dc0932f9eee2415be8c29136e75e5316adb8cb1ad16f7fc84a1fc8d",
+      "rendered_digest": "72ff441d9cb4d4b09239f94cca6b43efeb49817959a8d0a85453bce879fdc28b",
+      "ast_digest": "aa01734247d682b73cc3343da9b928a528a60a6b5612b6ec62d65359c1041962"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Advance #280 to ready after fresh-session design review PASS and doctor readiness PASS."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root/wp18c_280_execute",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:2b5f74d3-d0f4-4784-9700-14e8325668df",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"a92007752035c6440f1b03e88ed42c8588ecb19e65dd3bae7dff52d90740458c\",\"design_ref\":\".csdlc/prepared/issues/280/design.md\",\"diagram_digest\":\"bf28037d2821453aaa37d62e96765fd69050206b2b6219f5d98198eff509d6c6\",\"diagram_ref\":\".csdlc/prepared/issues/280/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Advance #280 to ready after fresh-session design review PASS and doctor readiness PASS.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Replace pre-implementation and non-proving review/hosted pseudo-lanes with the executable local #280 implementation proof lanes; exact-head review, publication, CI, and finish remain required lifecycle gates outside VPP execution.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-280-preparation-validator\",\"proof_role\":\"Validate #280 issue identity, dependency ancestry, performance/recovery proof scope, and forbidden sibling/parent ownership.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"python3\",\".csdlc/prepared/issues/280/validate_preparation_bundle.py\"],\"parallel_group\":\"280-local-proof\",\"defer_reason\":null},{\"lane\":\"observatory-large-polis-performance-recovery\",\"proof_role\":\"Run deterministic large-roster, long-transcript, stream pressure, reconnect/restart/offline/version-mismatch recovery assertions and emit public-safe metrics.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":180,\"budget_tokens\":3000,\"argv\":[\"node\",\"demos/html-observatory/tests/large_polis_performance_recovery.test.mjs\"],\"parallel_group\":\"280-local-proof\",\"defer_reason\":null},{\"lane\":\"observatory-conversation-regression\",\"proof_role\":\"Prove existing Runtime conversation acceptance/delivery/reconnect behavior still passes after #280 projection-bounding changes.\",\"acceptance_ids\":[\"AC-3\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":2000,\"argv\":[\"node\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\"],\"parallel_group\":\"280-local-regression\",\"defer_reason\":null},{\"lane\":\"observatory-operator-attention-regression\",\"proof_role\":\"Prove operator-attention Runtime-authority boundaries still pass after #280 projection-bounding changes.\",\"acceptance_ids\":[\"AC-3\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":2000,\"argv\":[\"node\",\"demos/html-observatory/tests/operator_attention_inbox.test.mjs\"],\"parallel_group\":\"280-local-regression\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject malformed whitespace or patch artifacts before review.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"280-local-hygiene\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}

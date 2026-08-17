@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 280,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.07b][117.b] Prove large-Polis performance and recovery behavior",
+    "slug": "large-polis-performance-recovery",
+    "version": "v0.92",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #280 initialized packet, live issue contract, dependency merge gates, Observatory large-Polis performance/recovery proof scope, validation lanes, forbidden #279/#281/#282/#117/#110 authority, and planned HTML Observatory test/source boundaries.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does #280 stay limited to large-Polis performance/recovery proof and narrowly necessary Observatory fixes?",
+        "Are #279 accessibility/responsive, #281 security/privacy/adversarial, #282 final qualification, #117, and #110 explicitly excluded?",
+        "Do validation lanes prove large roster, long transcript, bounded metrics, backpressure, reconnect/restart/offline/version mismatch, public-safe evidence, and exact revision without credentials?",
+        "Could any browser behavior introduced here grant authority, synthesize acknowledgements, mask refusal, or cache stale authorization?",
+        "Are all dependency merge gates truthfully required before implementation and publication?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

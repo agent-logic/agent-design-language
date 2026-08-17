@@ -89,6 +89,12 @@ const RUNTIME_V3_DEFAULT_CONFIG = Object.freeze({
 });
 const RUNTIME_V3_OBSERVATORY_SCHEMA = "adl.runtime_v3.observatory_feed.v2";
 const RUNTIME_V3_OBSERVATORY_WS_AUTH_SCHEMA = "adl.runtime_v3.observatory_ws_auth.v1";
+const LARGE_POLIS_LIMITS = Object.freeze({
+  maxVisibleAgents: 120,
+  maxTranscriptTurns: 300,
+  maxEventTail: 240,
+  maxPendingRecoveryActions: 1
+});
 let runtimeV3Config = { ...RUNTIME_V3_DEFAULT_CONFIG };
 const rosterUiState = {
   filter: "",
@@ -1808,6 +1814,155 @@ function normalizeEventEntries(eventEnvelope = {}) {
   return [];
 }
 
+function retainedLargePolisWindow(rows = [], limit = LARGE_POLIS_LIMITS.maxTranscriptTurns) {
+  const safeLimit = Math.max(0, Number(limit) || 0);
+  return asArray(rows).slice(Math.max(0, asArray(rows).length - safeLimit));
+}
+
+function largePolisRecoveryViewModel(state = {}) {
+  const transitions = [];
+  const actions = [];
+  const status = {
+    reconnect: state.connected === false ? "degraded" : "ready",
+    restart: state.runtimeIncarnationChanged === true ? "requires_resync" : "ready",
+    backpressure: Number(state.bufferedMessages || 0) > Number(state.backpressureThreshold || 1000) ? "throttled" : "ready",
+    offline: state.offline === true ? "offline" : "ready",
+    versionMismatch: state.versionMismatch === true ? "blocked_until_refresh" : "ready"
+  };
+
+  if (status.reconnect === "degraded") {
+    transitions.push("socket_disconnected");
+    actions.push("schedule_single_reconnect");
+  }
+  if (status.restart === "requires_resync") {
+    transitions.push("runtime_incarnation_changed");
+    actions.push("discard_stale_pending_turns");
+  }
+  if (status.backpressure === "throttled") {
+    transitions.push("stream_backpressure");
+    actions.push("pause_nonessential_rendering");
+  }
+  if (status.offline === "offline") {
+    transitions.push("browser_offline");
+    actions.push("show_offline_state");
+  }
+  if (status.versionMismatch === "blocked_until_refresh") {
+    transitions.push("client_runtime_version_mismatch");
+    actions.push("block_mutating_controls");
+  }
+
+  return {
+    schema: "adl.html_observatory.large_polis_recovery_view.v1",
+    status,
+    transitions,
+    actions: [...new Set(actions)].slice(0, LARGE_POLIS_LIMITS.maxPendingRecoveryActions),
+    duplicate_action_prevented: actions.length > new Set(actions).size || actions.length > LARGE_POLIS_LIMITS.maxPendingRecoveryActions,
+    grants_authority: false,
+    runtime_authority_required: true
+  };
+}
+
+function buildLargePolisPerformanceRecoveryFixture({
+  agentCount = 2500,
+  transcriptTurns = 5000,
+  streamEvents = 1200,
+  runtimeIncarnationChanged = true
+} = {}) {
+  const agents = Array.from({ length: agentCount }, (_, index) => ({
+    id: `agent-${String(index + 1).padStart(5, "0")}`,
+    label: `Polis Agent ${index + 1}`,
+    role: index % 7 === 0 ? "moderator" : "citizen",
+    state: index % 11 === 0 ? "busy" : "ready",
+    detail: "deterministic large-Polis fixture",
+    communication_eligible: index % 3 === 0,
+    source_revision: "fixture"
+  }));
+  const transcript = Array.from({ length: transcriptTurns }, (_, index) => ({
+    turn_id: `turn-${String(index + 1).padStart(6, "0")}`,
+    sequence: index + 1,
+    speaker: index % 2 === 0 ? "operator" : `agent-${String((index % Math.max(agentCount, 1)) + 1).padStart(5, "0")}`,
+    text: `Deterministic long transcript turn ${index + 1}`
+  }));
+  const events = Array.from({ length: streamEvents }, (_, index) => ({
+    event_type: index % 10 === 0 ? "stream_pressure" : "agent_tick",
+    sequence: index + 1,
+    status: "observed",
+    runtime_id: "runtime-large-polis",
+    timestamp: `2026-08-17T00:${String(Math.floor(index / 60)).padStart(2, "0")}:${String(index % 60).padStart(2, "0")}Z`
+  }));
+
+  return {
+    snapshot: {
+      mode: "retained",
+      fetchedAt: "2026-08-17T00:00:00Z",
+      status: {
+        schema: RUNTIME_V3_OBSERVATORY_SCHEMA,
+        runtime_id: "runtime-large-polis",
+        runtime_incarnation_id: runtimeIncarnationChanged ? "incarnation-b" : "incarnation-a",
+        agent_population: {
+          total_count: agentCount,
+          revision: 42,
+          event_cursor: "cursor-large-polis-42",
+          sample: agents,
+          has_more: agentCount > LARGE_POLIS_LIMITS.maxVisibleAgents,
+          next_page_token: "page-2"
+        }
+      },
+      health: { status: "ready" },
+      ready: { status: "ready" },
+      metrics: {
+        gauges: {
+          agent_count: agentCount,
+          transcript_turn_count: transcriptTurns,
+          stream_event_count: streamEvents
+        }
+      },
+      events: { events }
+    },
+    transcript,
+    recovery: {
+      connected: false,
+      runtimeIncarnationChanged,
+      bufferedMessages: streamEvents,
+      backpressureThreshold: 1000,
+      offline: true,
+      versionMismatch: true
+    }
+  };
+}
+
+function evaluateLargePolisPerformanceRecovery(fixture = buildLargePolisPerformanceRecoveryFixture()) {
+  const vm = buildPanopticonViewModel(fixture.snapshot, FALLBACK_PACKET);
+  const transcriptWindow = retainedLargePolisWindow(fixture.transcript);
+  const recovery = largePolisRecoveryViewModel(fixture.recovery);
+  return {
+    schema: "adl.html_observatory.large_polis_performance_recovery_metrics.v1",
+    candidate_revision: runTimeCandidateRevision(fixture.snapshot),
+    agent_total: vm.agentTotal,
+    visible_agent_count: vm.visibleAgentCount,
+    max_visible_agents: LARGE_POLIS_LIMITS.maxVisibleAgents,
+    transcript_total_turns: asArray(fixture.transcript).length,
+    retained_transcript_turns: transcriptWindow.length,
+    max_transcript_turns: LARGE_POLIS_LIMITS.maxTranscriptTurns,
+    stream_event_total: normalizeEventEntries(fixture.snapshot?.events).length,
+    retained_stream_events: vm.events.length,
+    max_event_tail: LARGE_POLIS_LIMITS.maxEventTail,
+    recovery,
+    bounded: vm.visibleAgentCount <= LARGE_POLIS_LIMITS.maxVisibleAgents
+      && transcriptWindow.length <= LARGE_POLIS_LIMITS.maxTranscriptTurns
+      && vm.events.length <= LARGE_POLIS_LIMITS.maxEventTail
+      && recovery.actions.length <= LARGE_POLIS_LIMITS.maxPendingRecoveryActions,
+    grants_authority: false
+  };
+}
+
+function runTimeCandidateRevision(snapshot = {}) {
+  return snapshot.status?.source_revision
+    || snapshot.status?.agent_population?.source_revision
+    || snapshot.status?.runtime_incarnation_id
+    || "unknown";
+}
+
 function normalizeMetricRows(metrics = {}) {
   const rows = flattenStatusRows(metrics)
     .filter((row) => ["number", "string", "boolean"].includes(typeof row.value))
@@ -1849,7 +2004,7 @@ function buildRuntimeAgentRows({ status = {}, health = {}, ready = {}, metrics =
   }
 
   if (agentSample.length || status.schema === RUNTIME_V3_OBSERVATORY_SCHEMA) {
-    return agentSample.map((agent) => ({
+    return agentSample.slice(0, LARGE_POLIS_LIMITS.maxVisibleAgents).map((agent) => ({
       id: agent.id,
       label: agent.label || agent.id,
       role: agent.role || "runtime agent",
@@ -1920,7 +2075,9 @@ function buildPanopticonViewModel(snapshot = {}, packet = FALLBACK_PACKET) {
   const ready = snapshot.ready || {};
   const metrics = snapshot.metrics || {};
   const eventEnvelope = snapshot.events || {};
-  const events = normalizeEventEntries(eventEnvelope).map(eventMessageToObject);
+  const events = normalizeEventEntries(eventEnvelope)
+    .slice(-LARGE_POLIS_LIMITS.maxEventTail)
+    .map(eventMessageToObject);
   const statusRows = flattenStatusRows(status);
   const liveAgents = buildRuntimeAgentRows({ status, health, ready, metrics, events, packet });
   const agentTotal = Number(status.agent_population?.total_count ?? metrics.gauges?.agent_count ?? liveAgents.length);
@@ -3382,6 +3539,11 @@ globalThis.AdlHtmlObservatory = {
   buildGovernedRoomTurnIntent,
   normalizeGovernedRoomRoute,
   buildGovernedRoomRows,
+  LARGE_POLIS_LIMITS,
+  retainedLargePolisWindow,
+  largePolisRecoveryViewModel,
+  buildLargePolisPerformanceRecoveryFixture,
+  evaluateLargePolisPerformanceRecovery,
   LAYER8_RECIPIENT_ACK_ENDPOINT,
   normalizeLayer8DeliveryState,
   layer8DeliveryRows,
