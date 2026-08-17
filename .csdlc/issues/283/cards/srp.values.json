@@ -7,7 +7,7 @@
     "title": "[v0.92][ADR 0065][207.a] Reconcile terminal ACIP schema catalog evidence",
     "slug": "adr0065-acip-terminal-evidence-reconciliation",
     "version": "v0.92",
-    "generation": 14
+    "generation": 15
   },
   "status": "draft",
   "content": {

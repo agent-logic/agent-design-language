@@ -89,11 +89,11 @@ Reconciled ADR 0065 evidence for #207, remediated r1 P3 diff-check hygiene, reco
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
