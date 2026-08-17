@@ -12,7 +12,10 @@ Status: pre_phase
 
 ## Scope
 
-Read-only fresh design/card review of recovered initialized parent #114 at the exact generation/digest. Verify live issue title/body alignment, #276 -> #277 -> #278 graph semantics, preserved design/diagram byte hashes, preparation-only validation truth, no #112/#203/#298/product/GitHub mutation, no child implementation, and whether the recovered bundle may proceed to typed design approval or remains blocked.
+.csdlc/issues/114
+.csdlc/prepared/issues/114
+adl/tools/validate_v092_durable_history_parent_integration.py
+adl-runtime-kernel/tests/durable_conversation_history_integration.rs
 
 ## Prompts
 
