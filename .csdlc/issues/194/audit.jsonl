@@ -4,3 +4,4 @@
 {"sequence":4,"generation":2,"actor":"codex:issue-194-private-wuji-aws-recovery","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
 {"sequence":5,"generation":2,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":6,"generation":3,"actor":"codex:/root","reason":"Recover #194 after exact-head review r1 found a P3 privacy hygiene issue in the focused AWS-account fixture; clear stale review assignment before bounded fixture repair and new review.","operation":"recover_review"}
+{"sequence":7,"generation":3,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}

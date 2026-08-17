@@ -6,10 +6,25 @@
   "initialization_digest": "2609fad55d8c07f3abf65e672f34c03301f1175acf34d33d3e6271a0f12d8429",
   "phase": "implemented",
   "generation": 3,
-  "digest": "a66836af43072013917cd639dfaf4a180e24eab55cc932220a98abe5c4da12ad",
+  "digest": "6a5c334364d4bc79d65ac6be512723f027b8c5160af503514ccf18e69ad4a585",
   "branch": "codex/194-private-wuji-aws-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-194-private-wuji-aws-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex:/root/review_issue_194_exact_head_r2",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:93fa87e9657e48c85ba2433796d10c2b0595974e:3bc69e4ee874c1a34f8a70950175b10e51e1963e9de3e4bb66c7709e4b50c833",
+    "scope": [
+      "adl/tools/issue194_private_network.cloudformation.json",
+      "adl/tools/issue194_private_wuji_aws_runner.sh",
+      "adl/tools/private_wuji_aws_recovery_qualification.py",
+      "adl/tools/issue194_model_health_command.py",
+      "adl/tools/test_issue194_private_network_template.sh",
+      "adl/tools/test_private_wuji_aws_recovery_qualification.sh",
+      ".csdlc/prepared/issues/194/design.md",
+      ".csdlc/prepared/issues/194/diagram.mmd",
+      ".csdlc/evidence/194"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +60,9 @@
       "ast_digest": "36c06e2aeff7d4339ea47f6e3d98e55e0dc33dcbb4de191c7ba77f2115a25f42"
     },
     "srp": {
-      "values_digest": "73106b3387b3105c7f20cce6cb6b6c6e617b19588a9fab26cf35d576cab1dcd3",
-      "rendered_digest": "82b6a5eb20af00d7d051eda7311e3d3a2aa0fd1c529c816f9aa3e890c44cbd85",
-      "ast_digest": "9ae8aafaa9d48c51a8b75bd2f75660e3babbf822bf29dfeb62b55db1d2b3e382"
+      "values_digest": "45c9f68d1135c0d87427983fa413cac1e35eda154d4db85f734987a526538457",
+      "rendered_digest": "326f72534d8bdecdf96a773720301659bd9269d6e68f26f9a4285520838acbdb",
+      "ast_digest": "2b1329b7a702552940bbbb66f283f5c51abd799a933bda65e69e6e44be09fa25"
     },
     "sor": {
       "values_digest": "6361080c0f433529f6b87f8eb13a6f9dcfdcb26af82e0b61503137770479ab99",
@@ -120,6 +135,13 @@
       "actor": "codex:/root",
       "reason": "Recover #194 after exact-head review r1 found a P3 privacy hygiene issue in the focused AWS-account fixture; clear stale review assignment before bounded fixture repair and new review.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
