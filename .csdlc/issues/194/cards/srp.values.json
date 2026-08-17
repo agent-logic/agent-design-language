@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-04.16d] Qualify private Wuji-AWS recovery with fail-safe cleanup",
     "slug": "private-wuji-aws-recovery",
     "version": "v0.92",
-    "generation": 2
+    "generation": 3
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl/tools/issue194_private_network.cloudformation.json\nadl/tools/issue194_private_wuji_aws_runner.sh\nadl/tools/private_wuji_aws_recovery_qualification.py\nadl/tools/issue194_model_health_command.py\nadl/tools/test_issue194_private_network_template.sh\nadl/tools/test_private_wuji_aws_recovery_qualification.sh\n.csdlc/prepared/issues/194/design.md\n.csdlc/prepared/issues/194/diagram.mmd\n.csdlc/evidence/194",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

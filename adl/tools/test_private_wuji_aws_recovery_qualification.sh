@@ -4,7 +4,7 @@ set -euo pipefail
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 FIXTURE_ROOT="${REPO_ROOT}/.csdlc/evidence/194/qualification-fixtures"
 QUOTA_RUN_ROOT="${REPO_ROOT}/.csdlc/evidence/194/live-runs/issue-194-dryrun-fixture"
-ACCOUNT_ID="713332525889"
+ACCOUNT_ID="123456789012"
 ACCOUNT_SHA="$(python3 - "${ACCOUNT_ID}" <<'PY'
 import hashlib
 import sys
@@ -68,7 +68,7 @@ plan = {
     ],
 }
 inventory = {
-    "account_identity": {"Account": "713332525889"},
+    "account_identity": {"Account": "123456789012"},
     "subnets": [
         {"SubnetId": "subnet-private-a", "VpcId": "vpc-private", "AvailabilityZone": "us-west-2a", "MapPublicIpOnLaunch": False, "State": "available"},
         {"SubnetId": "subnet-private-b", "VpcId": "vpc-private", "AvailabilityZone": "us-west-2b", "MapPublicIpOnLaunch": False, "State": "available"},

@@ -80,7 +80,7 @@ Implemented the private Wuji/AWS recovery qualification harness and recorded the
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
