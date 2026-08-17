@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "bb70960941aab631d5c34ecdb2e526c2af37ec6b16d7835180a774117e371407",
   "phase": "implemented",
-  "generation": 72,
-  "digest": "768aa065ed25667b996d084725724e1dc8a3814e1a588c6bfdb1f420491318c6",
+  "generation": 73,
+  "digest": "1429559fe4a6ed347ffe3adf06746c9422e205f5b0cf2f2741f14dc30391fbc5",
   "branch": "codex/114-durable-history-parent-integration-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-114-durable-history-parent-integration-proof",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ce9e75884c3079c1e666a18fadc93606fa208a3a4b216969bb38aabde56957ab",
+      "values_digest": "26f8ce9dd9cf1d4570fda1a0bc9d89f75c1dc5546b3915e337073b78c16e52ac",
       "rendered_digest": "89f405b49c76e9944ea3413534b97b4215307ba3f175fbee93ea33f84f9595b9",
       "ast_digest": "94b4c9e549e7529d148f2cb67cf6f0365be3e8692a118f79b4fcedd9ff3c480c"
     },
     "stp": {
-      "values_digest": "765c05e1c7a7b2a666373746cbc4b5e6d2140ad381c0ff4081a5b843e931cf59",
+      "values_digest": "21c8e6ada1c4ae5428e94cde167dcfb7227dc2a348b5ca82dd2058e116a57331",
       "rendered_digest": "79899f67ce8031dd9a1a634240b8e11c4218453539aeb1e6be407589efbc67e9",
       "ast_digest": "2d4f6513c99b8054c679cd994533f0e74d90fb41163882c2428335936348d357"
     },
     "spp": {
-      "values_digest": "2be98be3fd6db4911a81cba01c5530cd751f2c563bf954451c769f0a130c56ea",
+      "values_digest": "f94c53b96cf2215881c287f27a2a5da6090bc64a358f5193931d31fbfd9ce06c",
       "rendered_digest": "592b1142b740f8f76ca1acc77417e99728983af322c8f145f16c326d4a0588eb",
       "ast_digest": "6ebafeb1279217b52719544e1d17c3a04c7aa8cb9f90909588ed6975c44462ab"
     },
     "vpp": {
-      "values_digest": "95bf231208f32d6b575f3e84ce5d31aa3bcb8561bc194a76fa4025d4970bc6a0",
+      "values_digest": "3677e1a6eff259b6379c59001d929c4478477c77df98723d152242bdb576c184",
       "rendered_digest": "79d6e5df0082425232cec2354664ce08427d6682936f933e0a9fed93ea409040",
       "ast_digest": "616c081289d62f27a5b08a5be35245d0505c20f338c44f2da7fbf6ae3eade347"
     },
     "srp": {
-      "values_digest": "7fc19e1b607346ddc081f96c5babbac6ce66d5dbeca99b9b4bbd38d2ab0daf3a",
+      "values_digest": "a90c42ed67f02434beb701ea2084f73273d00fa2a5e5fe578115ea89da2ccc99",
       "rendered_digest": "675233c7dddbbe543a08d402e6f1985b373a3efc4e50e1f25d746b6b888a0518",
       "ast_digest": "5d8bfa7b856ab2c8e3e3156b635194f84011ed7b7b58827561d0116974a8265e"
     },
     "sor": {
-      "values_digest": "19088ef85571eca0d1053728edc10aabebaefcf21b2ecd20b1e9a51240d64984",
+      "values_digest": "f3a3b36f3c1cf2d4c9a80235df36c8b88495b5f4e1e953b9426aa89875bb0d7f",
       "rendered_digest": "8409f4f8ae6579651ab0ac19c57951ed720be9aa898636d2a065dcded002f78e",
       "ast_digest": "9843a946efead72d9b1651d5615111856446eed10ffe29bddd06d013cc7c9b5a"
     }
@@ -644,6 +644,20 @@
       "actor": "codex:/root",
       "reason": "Record exact #114 post-review-repair proof truth, including the bounded typed-tool limitation for uneditable STP task/non-goals fields.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Recorded the #114 durable-history coordination-parent integration proof after #276, #277, and #278 reached terminal ancestry. The proof remains parent-only and current authority is the repaired SIP scope/operator constraints, STP acceptance/deliverables, VPP, SRP, SOR, and validators. The issue-owned validator explicitly reports two typed-tool-limited stale STP fields (task_boundary and non_goals) that implemented-phase csdlc-edit cannot mutate; they are treated as historical residue, not current publication authority.\",\"changes\":[\"Materialized and ran the #114 issue-owned bound parent validator; it now rejects stale preparation-only markers outside the known typed-tool-limited STP task/non-goals fields and reports those fields explicitly.\",\"Added a focused durable conversation history parent integration regression covering restart, duplicate attempt admission, receipts, replay ownership, retention, deletion, and Observatory transcript restoration.\",\"Added the #114 integration proof runner that verifies terminal ancestry for #276, #277, and #278.\",\"Repaired implemented-phase SIP operator constraints and declared scope through typed owner routes so #114 remains parent-only and does not claim #276/#277/#278/#271/#115/#116/#117 scope.\"],\"artifacts\":[\".csdlc/prepared/issues/114/validate_preparation_bundle.py\",\"adl/tools/validate_v092_durable_history_parent_integration.py\",\"adl-runtime-kernel/tests/durable_conversation_history_integration.rs\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/114/validate_preparation_bundle.py\"],\"purpose\":\"Validate bound/implemented #114 identity, preserved design/diagram digests, terminal ancestry for #112/#265/#270/#271/#276/#277/#278, and explicit classification of typed-tool-limited stale STP task/non-goals fields.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:114-issue-owned-bound-parent-validator\"},{\"command\":[\"python3\",\"adl/tools/validate_v092_durable_history_parent_integration.py\"],\"purpose\":\"Validate #276/#277/#278 terminal caches, merged dispositions, merge-SHA ancestry, parent-only ownership, and preserved boundary truth.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:114-parent-terminal-chain-validator\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"durable_conversation_history_integration\",\"--\",\"--nocapture\"],\"purpose\":\"Run focused durable-history parent integration test across history, continuity, journal retention/deletion, restart, duplicate attempt admission, receipts, replay owner state, and Observatory transcript restoration.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:114-parent-runtime-kernel-integration-test\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"durable_conversation_history_integration\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict clippy for the #114 focused Runtime kernel integration test target.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:114-parent-hygiene\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Check whitespace/diff hygiene for the #114 parent proof surface.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:114-diff-hygiene\"}]}"
+    },
+    {
+      "sequence": 82,
+      "generation": 72,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 83,
+      "generation": 73,
+      "actor": "codex:/root",
+      "reason": "Recover active #114 review assignment before applying the #363 sequenced implemented SPP plan-summary recovery route for exact review finding remediation.",
+      "operation": "recover_review"
     }
   ]
 }
