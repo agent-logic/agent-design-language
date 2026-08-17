@@ -4,23 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "072eda7c560e8283a4da1967834bb3006a2402e31ac8767987d9c05d78652abb",
   "phase": "implemented",
-  "generation": 12,
-  "digest": "930921fee2fd70b763bf4a47f2c16a955dfbb31cf432e6c6025d9452c35876c8",
+  "generation": 14,
+  "digest": "fe9b4ffc816ad5eff0d72c21d85ee9f86d5d0dd412e61e9e18e18dc51fe575e9",
   "branch": "codex/400-implemented-card-recovery-bound",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-400-implemented-card-recovery-bound",
-  "review_assignment": {
-    "reviewer": "fresh-session:e647ddf0-0564-475d-becb-210208f0cf1d",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:17127d16732a4e09a4d8b8ad68a4a7ef0cf9328e:597b8e65c4155165f66969b3680d51361a2f6b5ea530c3203d94d080597631b0",
-    "scope": [
-      "csdlc-v2/src/cards.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/tests/gate5.rs",
-      ".csdlc/issues/400",
-      ".csdlc/evidence/400",
-      ".csdlc/prepared/issues/400"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -36,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2e33bacf0dcfe845ab97464663f678394bd689abfd1ed4bea39d03c73f2f9771",
+      "values_digest": "18d65381ba4a63cc67b2668642a68ddae2e197e63bfc1b065c7c17d1a9cace8c",
       "rendered_digest": "f5bf608d8357ce2388f47a1145a3d9001e15fdebc96815f2499c6f0cfa108ec9",
       "ast_digest": "547d0a425b2a224731511673f3a061c5fe84e93613d538b45e0ba932964c4ad6"
     },
     "stp": {
-      "values_digest": "1606cd60dee4849aea96fc708cfb2a43781bed75110efb32a4c488f5f5196a34",
+      "values_digest": "9a5ff49272371a3f654ec0fbb12150f6dd1b18e059d347573917b3c74882b1a7",
       "rendered_digest": "7ddcbfc4e2134e2f7f738d5759d3879d06cceb19c0794db2f939d7eda66b2e2d",
       "ast_digest": "e90a91099addec80240f0dcb4a1794d6ab0f5135da6719a7f4b6ef40ad8af584"
     },
     "spp": {
-      "values_digest": "f5873b04e01a844dd9714d7b910a82ef777508fda7d60a279b4ebd0feafa8632",
+      "values_digest": "ac58f3ab40f63e63eda778db68c25b24cc76d7992b8f7e939d82e1fac657be16",
       "rendered_digest": "7efe47ff2e3ec85491c42679a01633e5ecfab7940a588d7af278ec150ae3b193",
       "ast_digest": "afd801aee92aabb025fd1c21f48bef650f8c14544fcf200c6cf8485e48ba4dd4"
     },
     "vpp": {
-      "values_digest": "3d4df52cc2d1ee96acb7287a05484a156dfc5c88a283974263c59c3aa5a3696e",
+      "values_digest": "139e694ef5566eda171b77aa738d3e76e6a63fc5146532f8838eea2dba7991fa",
       "rendered_digest": "5c7938afb7cb6b76275239e0f7c77a95bea96410711c69cd5456ab3e58694f1b",
       "ast_digest": "fc90d7d37341077576faabdf578b2ea0924b24eb7ba466cedd30e9022324efbe"
     },
     "srp": {
-      "values_digest": "7fb64a17441c813951c854eec1c381504662407e2299d1f6d3a1ae9e7e82fab2",
-      "rendered_digest": "70953f5798da4deb46bd3093a2a02851e1eb1f4e895423a0acb069786a2a6395",
-      "ast_digest": "727d05f9170d7089a0796bef334abcb096c0172041f212d06621443deedbe186"
+      "values_digest": "2db2b014761175fdfe6948e9befc1748147f254aa9492823857b2466425a8c23",
+      "rendered_digest": "e662daa75218350717f2317b4c65158ceabf6fd915af0752e41ae6ec3932c4a0",
+      "ast_digest": "7f5850023bb0c8cf673b1c12e928d7f63b132dc5fa7f8bf95934991cf461ff7b"
     },
     "sor": {
-      "values_digest": "09714cd5c516ea090837152d108ebfcd99e6cd0e0984859dc40d0e7dfe145d30",
-      "rendered_digest": "a9185b699e7e4e616a76a2c0388f37c562749ffb1e4e75aa740eeadd4faf35a3",
-      "ast_digest": "b2f7e1e5defc2565e54fd5dcc09812ed84901c8b67624d7d990da53bacdd83a8"
+      "values_digest": "369bd5aa05dcfe190bc76c07164808835c32972a67df4d336be07f6359848a67",
+      "rendered_digest": "6a74335f9caca17eea8ce94849f92bf963fa2cdb55ec7683d5cb0ee0083b54c0",
+      "ast_digest": "a011e6d217c7cfffdc737f43c8a00c6f72df19db67b07de641e100bfa5027588"
     }
   },
   "transitions": [
@@ -215,6 +203,20 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "Recover #400 review assignment after fresh-session:e647ddf0-0564-475d-becb-210208f0cf1d returned P2: the status-only SPP plan-step guard is implemented, but focused regression coverage lacks independent negative cases for step id mutation and acceptance_ids mutation. Preserve finding and remediate tests before re-review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Resolve #400 review recovery finding by recording independent SPP status-only negative regressions for step id and acceptance-id mutation plus refreshed exact proof evidence.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"#400 implemented and validated a narrow typed C-SDLC v2 recovery route for implemented-phase STP dependency truth and SPP plan-step status truth after recorded review recovery. The final recovery keeps SPP plan-step repair status-only: step IDs, actions, acceptance IDs, and step cardinality must remain identical to prior SPP truth.\",\"changes\":[\"Added typed semantic operation correct_stp_dependencies_after_recovery for STP dependency denominator repairs.\",\"Added typed semantic operation correct_plan_steps_after_recovery for SPP execution-step status repairs.\",\"Gated both operations on implemented phase plus current recorded-review recovery provenance with cleared review/publication/readiness/terminal truth.\",\"Recorded audit snapshots for previous/new STP dependencies or SPP steps and the associated recovery sequence/generation.\",\"Restricted correct_plan_steps_after_recovery to status-only changes by rejecting changed step IDs, changed actions, changed acceptance IDs, and changed step cardinality.\",\"Added independent gate5 negative regressions for SPP step id mutation and acceptance_ids mutation after review recovery finding fresh-session:e647ddf0-0564-475d-becb-210208f0cf1d.\",\"Retained full gate5 regression proof under .csdlc/evidence/400/gate5-full.log after the earlier full-denominator proof-retention finding.\"],\"artifacts\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate5.rs\",\".csdlc/issues/400\",\".csdlc/evidence/400/cargo-fmt-check.log sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\".csdlc/evidence/400/recovery-focused-tests.log sha256=f1d7885884ddd7c64db7514131d1a599b8269fecdbd080900be862bf01076ab2\",\".csdlc/evidence/400/schema-focused-test.log sha256=1ec2a2049eafc9d0eec3093e2466462e5c88176af781f7ab448c0199ed928116\",\".csdlc/evidence/400/strict-clippy.log sha256=4cf86278c1e6d659943a46a3d7e3da429ac15be90f0f17742e24ef85228e7d3e\",\".csdlc/evidence/400/gate5-full.log sha256=eeefcd2bb6de9bd6f3e309ea7830999c728f1382b45355abb44f25ecd890bac1\",\".csdlc/evidence/400/diff-hygiene.log sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--check\"],\"purpose\":\"Formatting proof for touched C-SDLC v2 Rust files.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/400/cargo-fmt-check.log sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"recovered_implemented_issue_can_correct\",\"--\",\"--nocapture\"],\"purpose\":\"Focused proof for implemented-phase STP dependency repair, SPP step-status repair, and status-only SPP negative regressions.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/400/recovery-focused-tests.log sha256=f1d7885884ddd7c64db7514131d1a599b8269fecdbd080900be862bf01076ab2\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"public_edit_schema_exposes_implemented_recovery_card_repairs\",\"--\",\"--nocapture\"],\"purpose\":\"Schema exposure proof for the new typed recovery operations.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/400/schema-focused-test.log sha256=1ec2a2049eafc9d0eec3093e2466462e5c88176af781f7ab448c0199ed928116\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict lint proof for touched C-SDLC v2 targets.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/400/strict-clippy.log sha256=4cf86278c1e6d659943a46a3d7e3da429ac15be90f0f17742e24ef85228e7d3e\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"--\",\"--nocapture\"],\"purpose\":\"Full gate5 regression proof after #400 changes; retained result: 64 passed, 0 failed.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/400/gate5-full.log sha256=eeefcd2bb6de9bd6f3e309ea7830999c728f1382b45355abb44f25ecd890bac1\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Whitespace and patch hygiene proof.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/400/diff-hygiene.log sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\"}]}"
     }
   ]
 }

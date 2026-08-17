@@ -6,4 +6,4 @@ test recovered_implemented_issue_can_correct_only_stp_deliverables ... ok
 test recovered_implemented_issue_can_correct_spp_step_status_after_recorded_review ... ok
 test recovered_implemented_issue_can_correct_stp_dependencies_after_recorded_review ... ok
 
-test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 61 filtered out; finished in 2.83s
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 61 filtered out; finished in 2.84s

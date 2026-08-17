@@ -4924,6 +4924,46 @@ fn recovered_implemented_issue_can_correct_spp_step_status_after_recorded_review
     .expect_err("substantive SPP plan rewrites must fail closed");
     assert_eq!(substantive_rewrite.code, ErrorCode::CardInvalid);
 
+    let mut rewritten_id = replacement.clone();
+    rewritten_id[0].id = "rewritten-step-id".into();
+    let id_rewrite = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Spp,
+            expected_generation: recovered.generation,
+            expected_digest: recovered.digest.clone(),
+            actor: "operator".into(),
+            reason: "reject SPP plan step id rewrite".into(),
+            operation: SemanticOperation::CorrectPlanStepsAfterRecovery {
+                steps: rewritten_id,
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("SPP plan step id rewrites must fail closed");
+    assert_eq!(id_rewrite.code, ErrorCode::CardInvalid);
+
+    let mut rewritten_acceptance_ids = replacement.clone();
+    rewritten_acceptance_ids[0].acceptance_ids = vec!["AC-rewritten".into()];
+    let acceptance_ids_rewrite = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Spp,
+            expected_generation: recovered.generation,
+            expected_digest: recovered.digest.clone(),
+            actor: "operator".into(),
+            reason: "reject SPP plan acceptance id rewrite".into(),
+            operation: SemanticOperation::CorrectPlanStepsAfterRecovery {
+                steps: rewritten_acceptance_ids,
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("SPP plan acceptance id rewrites must fail closed");
+    assert_eq!(acceptance_ids_rewrite.code, ErrorCode::CardInvalid);
+
     let mut dropped_step = replacement.clone();
     dropped_step.pop();
     let cardinality_rewrite = edit_issue(

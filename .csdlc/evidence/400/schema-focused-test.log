@@ -1,4 +1,4 @@
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.09s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.08s
      Running tests/gate5.rs (csdlc-v2/target/debug/deps/gate5-e41b57686d925f3c)
 
 running 1 test
