@@ -4,55 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "ff41e3111a97fd285be5db94a99c5f762342f0cd2ae534300482b383f505a3f3",
-  "phase": "published",
-  "generation": 11,
-  "digest": "fb2d34005805f4162e517f34f3ef657cc0806fc37b8c34ba8f48eb455e745525",
+  "phase": "implemented",
+  "generation": 12,
+  "digest": "766573c584aeb96e4d421f28ec6e007c4aa1f86498fd2aa319d59513c95dc49c",
   "branch": "codex/279-observatory-accessibility-responsive-ux-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-279-observatory-accessibility-responsive-ux-proof",
-  "review_assignment": {
-    "reviewer": "fresh-session:2a658d3d-3e25-4f1c-9f6e-5dbd14f8c279",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:eae585fc15d14e682f5c43aeb58f3877e684b0fe:16e3c50edcf77c43db32094d785e34d14cbf19a4b1efb15ac8f54c43d953ed48",
-    "scope": [
-      "demos/html-observatory/index.html",
-      "demos/html-observatory/styles.css",
-      "demos/html-observatory/tests/accessibility_responsive.test.mjs",
-      ".csdlc/prepared/issues/279/validate_preparation_bundle.py",
-      ".csdlc/issues/279",
-      ".csdlc/evidence/279"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:2a658d3d-3e25-4f1c-9f6e-5dbd14f8c279",
-    "scope": [
-      "demos/html-observatory/index.html",
-      "demos/html-observatory/styles.css",
-      "demos/html-observatory/tests/accessibility_responsive.test.mjs",
-      ".csdlc/prepared/issues/279/validate_preparation_bundle.py",
-      ".csdlc/issues/279",
-      ".csdlc/evidence/279"
-    ],
-    "reviewed_revision": "git-blake3:eae585fc15d14e682f5c43aeb58f3877e684b0fe:16e3c50edcf77c43db32094d785e34d14cbf19a4b1efb15ac8f54c43d953ed48",
-    "findings": [],
-    "residual_risks": [
-      "Review was bounded to #279 Observatory accessibility/responsive UX proof and its scoped lifecycle/evidence surfaces; #280 performance, #281 security/privacy, #282 aggregation/readout, #117/#110 parent closeout, Runtime authority/protocol, cloud/Unity, and credential lanes were not reviewed.",
-      "Reviewer observed only assignment-projection tracked dirt plus an untracked issue lock at review time; no product or proof dirt was present."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 279,
-    "pull_request": 393,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/393",
-    "base": "main",
-    "head": "codex/279-observatory-accessibility-responsive-ux-proof",
-    "revision": "git-blake3:1438dddc988c2976c9ec2f56e1f6119824f37234:d1cd0a20898388a2c263c460da40fe2a08a979dbb18471947029bc99e871128a",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -66,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "470cd4e997b111c541de3b69fba8f810ca0c352a04ef0fa650a22f03c5950fb9",
+      "values_digest": "fce2f416c040fa752ddd47abbd9e98178457b1607c5e321b9d6280328aa96ef4",
       "rendered_digest": "399ecb84d8c2d97d2aec61804cbf6823d5fdc6954692fdbf6b4f948f52fb5f25",
       "ast_digest": "7c3aa57d0dd057df2df7a147a5bc59266af12dfee54834e943c074d82f7cd4f2"
     },
     "stp": {
-      "values_digest": "4ab2eeef811ddb8547fe7fdab1b30230f286ac553b3e3965d99ccf331720b3ba",
+      "values_digest": "67fa4f3c8677d5caafdaeedc1f8d0b0e8b1d9c62f6b1e64e4e4221212e490fc1",
       "rendered_digest": "1100c3e6cb1564f6511a56e51ed324e3b409da2a4eed89e8b00b20bf51f0b615",
       "ast_digest": "71d9bb7e566725f25d3b6d8239cea40a6a3742e9c9f7d4a7ada5a174adb5329e"
     },
     "spp": {
-      "values_digest": "b8b8208c3d7e6724b805b8d44586a19d59c14daabd0cef5bf9185a94a0e9b817",
+      "values_digest": "9b289e03376ee5c621a8c402202c9771c108c82f714d22b3d394a63e754a8b8d",
       "rendered_digest": "2f3e8e72e4b4e9b84f0999892d696d4408f6a31a51b902222ed1b4d2238057a5",
       "ast_digest": "51eb5ef8ee7cc8fe2eb6f7bec989dfc6d2528809cd9c49ffbb13a1cdc1029539"
     },
     "vpp": {
-      "values_digest": "91773c36d04183730311ec28f48de5cf3961b2ea6bc98a6ca25c84fb89692ecc",
+      "values_digest": "476cc775ec72abadd1456890e57e96e230a436a9042e635f465482102372e7f5",
       "rendered_digest": "c2d688ddb97dd376f713af361190e50619cac81f5fc1ca8ad6522c972b220926",
       "ast_digest": "57c3168a85f1c9b5ff4b682384f702262bf80b09ff299589c77205cb6ce945ce"
     },
     "srp": {
-      "values_digest": "8fdd0c80310a12a06328947c670f97704db9ff1024d9bd17bee4e0f0ea8d480b",
-      "rendered_digest": "241b308a5ea5c50189d042b18effa96b8c9586e9de8c0354515cf69572db8a4a",
-      "ast_digest": "14a399ef4682371ded0ef0db808ec6e1dff89247e5eb6b500db7e9de3d8c0d65"
+      "values_digest": "da186df48aa291848c70f96925cbb0aec966867db6eaede28f1de5ab2846f1db",
+      "rendered_digest": "6b216b2a0cca19124760afc80e96016ffb4a1a189cc4599c5dee42f24f2e5a4f",
+      "ast_digest": "b71e714e39b320befd5167ffc4c4f15e2d16020244dadab2c9c2aa6ae687eb61"
     },
     "sor": {
-      "values_digest": "d4af10fd5ce7a82ffd8cf7c1c8013d9f43f6323fdf66bbf67bf6ef36699f4b64",
-      "rendered_digest": "a7d791bcdd01c75ec4b0f4c99d9409450a7df6720bca246cdda9d190b6c6f3b9",
-      "ast_digest": "8b4f91552712b74513dae90668e7a5f439e3b722f7abe719eb74b74ffbdfac10"
+      "values_digest": "bcd17ea09d577c3d29de09acd4389a6b79205ff2df1ee0369c88988bd22b7522",
+      "rendered_digest": "a4f7916af5e45f2660f57bf51d2975b6bd16dd7ce14820afe044c3dae94e25b7",
+      "ast_digest": "a4323e5019d55a47f7b6634cd9f528ff7ce2c5e6c6b7199729ff57a2f85c0fcd"
     }
   },
   "transitions": [
@@ -131,6 +90,13 @@
       "to": "published",
       "actor": "codex:/root",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover invalid #279 post-publication review truth before any finish: PR #393 was published from head 1438dddc after a stale PASS record whose reviewed_revision remained eae585fc and whose evidence set omitted .csdlc/evidence/279/279-observatory-conversation-regression.log despite SOR/audit references. Clear review authority so the missing evidence artifact can be committed and a different fresh exact-head reviewer can review the corrected publication head before republish/finish."
     }
   ],
   "audit": [
@@ -238,6 +204,13 @@
       "actor": "codex:/root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Recover invalid #279 post-publication review truth before any finish: PR #393 was published from head 1438dddc after a stale PASS record whose reviewed_revision remained eae585fc and whose evidence set omitted .csdlc/evidence/279/279-observatory-conversation-regression.log despite SOR/audit references. Clear review authority so the missing evidence artifact can be committed and a different fresh exact-head reviewer can review the corrected publication head before republish/finish.",
+      "operation": "recover_review"
     }
   ]
 }

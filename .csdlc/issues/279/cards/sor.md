@@ -100,11 +100,11 @@ Implement deterministic HTML Observatory accessibility and responsive UX proof.
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
