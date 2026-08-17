@@ -7,7 +7,7 @@
     "title": "[C-SDLC v2][defect] Permit implemented-phase VPP/SOR/SPP truth repair for WP-18C parent closeout",
     "slug": "implemented-card-truth-repair",
     "version": "v0.92.0",
-    "generation": 10
+    "generation": 12
   },
   "status": "pre_phase",
   "content": {
@@ -19,7 +19,7 @@
         "Relaxed SPP plan-summary repair to work after assignment/review recovery before publication while preserving actor/reason, active downstream truth, and duplicate-repair guards.",
         "Added recovery-epoch duplicate-field refusal and append-only audit payloads for the SPP/VPP/SOR repair operations.",
         "Added focused gate5 regressions proving SPP repair after assignment recovery, VPP/SOR repair guards, SOR empty-vector follow-up removal, blank-entry refusal, and compatibility with existing allowed intervening repairs.",
-        "Repaired #388 lifecycle proof truth after merging current main so committed evidence logs reflect the exact post-merge revision and generation-9 typed validation state."
+        "Repaired #388 lifecycle proof truth after merging current main so committed evidence logs reflect the exact post-merge revision and current implemented-phase typed validation state."
       ],
       "artifacts": [
         "csdlc-v2/src/cards.rs",
@@ -103,7 +103,7 @@
             "--issue",
             "388"
           ],
-          "purpose": "Run C-SDLC v2 typed issue validation for #388 at generation 9 after review recovery.",
+          "purpose": "Run C-SDLC v2 typed issue validation for #388 at the current implemented generation after review recovery.",
           "outcome": "passed",
           "evidence_ref": "388-typed-validate.log"
         },
@@ -115,7 +115,7 @@
             "--issue",
             "388"
           ],
-          "purpose": "Run C-SDLC v2 doctor for #388 at generation 9 after review recovery.",
+          "purpose": "Run C-SDLC v2 doctor for #388 at the current implemented generation after review recovery.",
           "outcome": "passed",
           "evidence_ref": "388-doctor.log"
         }

@@ -28,7 +28,7 @@ Implemented bounded C-SDLC v2 implemented-phase SPP/VPP/SOR card-truth repair ro
 - Relaxed SPP plan-summary repair to work after assignment/review recovery before publication while preserving actor/reason, active downstream truth, and duplicate-repair guards.
 - Added recovery-epoch duplicate-field refusal and append-only audit payloads for the SPP/VPP/SOR repair operations.
 - Added focused gate5 regressions proving SPP repair after assignment recovery, VPP/SOR repair guards, SOR empty-vector follow-up removal, blank-entry refusal, and compatibility with existing allowed intervening repairs.
-- Repaired #388 lifecycle proof truth after merging current main so committed evidence logs reflect the exact post-merge revision and generation-9 typed validation state.
+- Repaired #388 lifecycle proof truth after merging current main so committed evidence logs reflect the exact post-merge revision and current implemented-phase typed validation state.
 
 ## Validation
 
@@ -107,7 +107,7 @@ Implemented bounded C-SDLC v2 implemented-phase SPP/VPP/SOR card-truth repair ro
       "--issue",
       "388"
     ],
-    "purpose": "Run C-SDLC v2 typed issue validation for #388 at generation 9 after review recovery.",
+    "purpose": "Run C-SDLC v2 typed issue validation for #388 at the current implemented generation after review recovery.",
     "outcome": "passed",
     "evidence_ref": "388-typed-validate.log"
   },
@@ -119,7 +119,7 @@ Implemented bounded C-SDLC v2 implemented-phase SPP/VPP/SOR card-truth repair ro
       "--issue",
       "388"
     ],
-    "purpose": "Run C-SDLC v2 doctor for #388 at generation 9 after review recovery.",
+    "purpose": "Run C-SDLC v2 doctor for #388 at the current implemented generation after review recovery.",
     "outcome": "passed",
     "evidence_ref": "388-doctor.log"
   }

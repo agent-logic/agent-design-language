@@ -3,7 +3,7 @@
   "issue": 388,
   "status": "pass",
   "phase": "implemented",
-  "generation": 9,
+  "generation": 12,
   "ready": false,
   "findings": [],
   "next_operation": "inspect_phase"
