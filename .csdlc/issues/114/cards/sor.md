@@ -105,11 +105,11 @@ Recorded the #114 durable-history coordination-parent integration proof after #2
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
