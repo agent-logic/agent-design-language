@@ -5,10 +5,10 @@ use csdlc_v2::cards::{
     ResourceProfile, SemanticOperation, StepStatus, ValidationLane,
 };
 use csdlc_v2::{
-    approve_design, bind_issue, edit_issue, initialize_native_json,
+    approve_design, assign_review, bind_issue, edit_issue, initialize_native_json,
     recover_initialized_design_envelope, recover_initialized_design_envelope_with_hook,
     ApproveDesignRequest, BindRequest, DesignRecoveryFailpoint, EditRequest,
-    RecoverInitializedDesignEnvelopeRequest, Store,
+    RecoverInitializedDesignEnvelopeRequest, ReviewAssignmentRequest, Store,
 };
 use csdlc_v2::{CardKind, IssueRecord, PlanningProfile};
 use std::fs;
@@ -382,6 +382,42 @@ fn implemented_identity_title_slug_repair_rejects_mismatched_live_title() {
     )
     .unwrap_err();
     assert_eq!(error.code.to_string(), "invalid_input");
+}
+
+#[test]
+fn implemented_identity_title_slug_repair_rejects_existing_review_assignment() {
+    let temp = tempfile::tempdir().unwrap();
+    let issue = 115;
+    let (worktree, implemented) = implemented_bound_fixture(&temp, issue);
+    commit_all(&worktree, "fixture implemented");
+    let assigned = assign_review(
+        &Store::new(&worktree),
+        ReviewAssignmentRequest {
+            issue,
+            expected_generation: implemented.generation,
+            expected_digest: implemented.digest,
+            reviewer: "fresh-session:aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa".into(),
+            assigned_by: "test".into(),
+            scope: vec!["csdlc-v2/tests/card_identity.rs".into()],
+        },
+    )
+    .unwrap();
+    assert!(assigned.review_assignment.is_some());
+    let error = edit_issue(
+        &Store::new(&worktree),
+        EditRequest {
+            issue,
+            card: CardKind::Sip,
+            expected_generation: assigned.generation,
+            expected_digest: assigned.digest,
+            actor: "test".into(),
+            reason: "reject active assignment".into(),
+            operation: identity_title_slug_operation(issue),
+            fail_after_backup: false,
+        },
+    )
+    .unwrap_err();
+    assert_eq!(error.code.to_string(), "invalid_transition");
 }
 
 #[test]
