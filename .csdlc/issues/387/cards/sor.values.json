@@ -7,7 +7,7 @@
     "title": "[v0.92][C-SDLC][defect] Support implemented-phase card truth repair before publication",
     "slug": "implemented-card-truth-repair-before-publication",
     "version": "v0.92.1",
-    "generation": 20
+    "generation": 21
   },
   "status": "ready",
   "content": {
@@ -91,8 +91,8 @@
           "evidence_ref": "terminal output: fmt exited 0; focused gate5 1 passed, 0 failed, 59 filtered out; clippy exited 0"
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

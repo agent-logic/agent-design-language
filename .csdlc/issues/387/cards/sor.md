@@ -98,11 +98,11 @@ Implemented bounded C-SDLC v2 typed repair authority for implemented, pre-public
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
