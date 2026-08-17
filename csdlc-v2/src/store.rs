@@ -4004,6 +4004,24 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     }
     if matches!(
         request.operation,
+        SemanticOperation::CorrectStpDependenciesAfterRecovery { .. }
+            | SemanticOperation::CorrectPlanStepsAfterRecovery { .. }
+    ) {
+        if request.actor.trim().is_empty() || request.reason.trim().is_empty() {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "post-recovery card correction requires actor and reason",
+            ));
+        }
+        if !implemented_pre_publication_review_recovery_is_clear(&record) {
+            return Err(V2Error::new(
+                ErrorCode::InvalidTransition,
+                "post-recovery card correction requires current typed recorded-review recovery provenance and cleared review, publication, readiness, and terminal truth",
+            ));
+        }
+    }
+    if matches!(
+        request.operation,
         SemanticOperation::CorrectPlanSummaryAfterRecovery { .. }
             | SemanticOperation::CorrectValidationSummaryAfterRecovery { .. }
             | SemanticOperation::CorrectValidationFailurePolicyAfterRecovery { .. }
@@ -4127,6 +4145,28 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     } else {
         None
     };
+    let stp_dependencies_before = if matches!(
+        request.operation,
+        SemanticOperation::CorrectStpDependenciesAfterRecovery { .. }
+    ) {
+        match &cards[&CardKind::Stp].content {
+            CardContent::Stp(value) => Some(value.dependencies.clone()),
+            _ => unreachable!("STP"),
+        }
+    } else {
+        None
+    };
+    let plan_steps_before = if matches!(
+        request.operation,
+        SemanticOperation::CorrectPlanStepsAfterRecovery { .. }
+    ) {
+        match &cards[&CardKind::Spp].content {
+            CardContent::Spp(value) => Some(value.steps.clone()),
+            _ => unreachable!("SPP"),
+        }
+    } else {
+        None
+    };
     let plan_summary_before = if matches!(
         request.operation,
         SemanticOperation::CorrectPlanSummaryAfterRecovery { .. }
@@ -4235,9 +4275,30 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
                 "previous_values": stp_deliverables_before
                     .expect("STP deliverable correction snapshot"),
                 "new_values": values,
+                "recovery_sequence": record.audit.iter().rev().find(|event| event.operation == "recover_review").map(|event| event.sequence),
+                "recovery_generation": record.audit.iter().rev().find(|event| event.operation == "recover_review").map(|event| event.generation),
             })
             .to_string()
         }
+        (SemanticOperation::CorrectStpDependenciesAfterRecovery { values }, _) => {
+            serde_json::json!({
+                "operation": "correct_stp_dependencies_after_recovery",
+                "previous_values": stp_dependencies_before
+                    .expect("STP dependency correction snapshot"),
+                "new_values": values,
+                "recovery_sequence": record.audit.iter().rev().find(|event| event.operation == "recover_review").map(|event| event.sequence),
+                "recovery_generation": record.audit.iter().rev().find(|event| event.operation == "recover_review").map(|event| event.generation),
+            })
+            .to_string()
+        }
+        (SemanticOperation::CorrectPlanStepsAfterRecovery { steps }, _) => serde_json::json!({
+            "operation": "correct_plan_steps_after_recovery",
+            "previous_steps": plan_steps_before.expect("SPP step correction snapshot"),
+            "new_steps": steps,
+            "recovery_sequence": record.audit.iter().rev().find(|event| event.operation == "recover_review").map(|event| event.sequence),
+            "recovery_generation": record.audit.iter().rev().find(|event| event.operation == "recover_review").map(|event| event.generation),
+        })
+        .to_string(),
         (SemanticOperation::CorrectPlanSummaryAfterRecovery { value }, _) => serde_json::json!({
             "operation": "correct_plan_summary_after_recovery",
             "previous_value": plan_summary_before.expect("SPP summary correction snapshot"),
@@ -6047,7 +6108,8 @@ fn authorize_card_operation(
             LifecyclePhase::Implemented,
             CardKind::Stp,
             SemanticOperation::ReplaceAcceptanceCriteria { .. }
-                | SemanticOperation::CorrectStpDeliverablesAfterRecovery { .. },
+                | SemanticOperation::CorrectStpDeliverablesAfterRecovery { .. }
+                | SemanticOperation::CorrectStpDependenciesAfterRecovery { .. },
         ) | (
             LifecyclePhase::Implemented,
             CardKind::Stp,
@@ -6061,7 +6123,8 @@ fn authorize_card_operation(
         ) | (
             LifecyclePhase::Implemented,
             CardKind::Spp,
-            SemanticOperation::CorrectPlanSummaryAfterRecovery { .. },
+            SemanticOperation::CorrectPlanSummaryAfterRecovery { .. }
+                | SemanticOperation::CorrectPlanStepsAfterRecovery { .. },
         ) | (
             LifecyclePhase::Implemented,
             CardKind::Vpp,
@@ -6173,11 +6236,12 @@ fn is_implemented_card_truth_repair(
             } | SemanticOperation::ReplacePlanningCollection {
                 field: crate::cards::PlanningCollectionField::NonGoals,
                 ..
-            },
+            } | SemanticOperation::CorrectStpDependenciesAfterRecovery { .. },
         ) | (
             LifecyclePhase::Implemented,
             CardKind::Spp,
-            SemanticOperation::CorrectPlanSummaryAfterRecovery { .. },
+            SemanticOperation::CorrectPlanSummaryAfterRecovery { .. }
+                | SemanticOperation::CorrectPlanStepsAfterRecovery { .. },
         ) | (
             LifecyclePhase::Implemented,
             CardKind::Sip,
@@ -6413,6 +6477,8 @@ fn recovery_epoch_operation_is_allowed(operation: &str) -> bool {
             )
         }
         "correct_plan_summary_after_recovery"
+        | "correct_plan_steps_after_recovery"
+        | "correct_stp_dependencies_after_recovery"
         | "correct_required_outcome_after_recovery"
         | "correct_review_prompts_after_recovery"
         | "replace_sor_follow_ups_after_recovery"
