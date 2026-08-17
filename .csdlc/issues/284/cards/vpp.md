@@ -56,13 +56,13 @@ Diagram: .csdlc/prepared/issues/284/diagram.mmd
     "argv": [
       "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate",
       "--root",
-      "/Volumes/FastWork/adl-worktrees/adl-issue-284-adr0066-guardian-authority-evidence-reconciliation",
+      ".",
       "issue",
       "--issue",
       "284"
     ],
     "parallel_group": "serial",
-    "defer_reason": "Run after implementation evidence is recorded."
+    "defer_reason": "Stable generated owner binary is outside Cargo target output; command is run from the issue worktree with worktree-relative root."
   }
 ]
 
@@ -79,7 +79,7 @@ Tokens: 10000
 ## Commands
 
 - `bash .csdlc/evidence/284/validate_adr0066_guardian_authority_evidence.sh`
-- `/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate --root /Volumes/FastWork/adl-worktrees/adl-issue-284-adr0066-guardian-authority-evidence-reconciliation issue --issue 284`
+- `/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate --root . issue --issue 284`
 
 ## Failure Semantics
 

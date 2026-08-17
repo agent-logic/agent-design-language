@@ -7,7 +7,7 @@
     "title": "[v0.92][ADR 0066][207.b] Reconcile distributed Guardian authority evidence",
     "slug": "adr0066-guardian-authority-evidence-reconciliation",
     "version": "v0.92",
-    "generation": 10
+    "generation": 17
   },
   "status": "pre_phase",
   "content": {
@@ -18,8 +18,8 @@
         "Added .csdlc/evidence/284/evidence-manifest.json with retained #5878 terminal cache, #5878 execution proof, #194 private qualification summary, #194 preflight input hashes, classifications, residual gaps, and non-claims.",
         "Added .csdlc/evidence/284/live-observations.json with current #142/#194/#397 and legacy PR #140 observations plus retained #5878 terminal-cache identity.",
         "Added .csdlc/evidence/284/adr0066-guardian-authority-reconciliation.md with issue-local ADR 0066 evidence classification, residual gaps, #142/#207/#288 non-claims, and live-vs-retained PR #140 drift truth.",
-        "Repaired .csdlc/evidence/284/validate_adr0066_guardian_authority_evidence.sh and the prepared mirror so linked-worktree terminal-cache lookup uses the canonical Git-common cache and validates the current retained-terminal schema.",
-        "Repaired #284 VPP lane truth so the focused validator is issue-owned and typed validation uses the stable C-SDLC v2 owner binary with explicit worktree root."
+        "Repaired .csdlc/evidence/284/validate_adr0066_guardian_authority_evidence.sh and the prepared mirror so linked-worktree terminal-cache lookup uses the current Git common directory and validates the retained-terminal schema without hard-coding the primary checkout.",
+        "Repaired #284 VPP/SOR typed validation lane so it uses the stable generated owner binary with worktree-relative --root . rather than hard-coding the issue worktree path."
       ],
       "artifacts": [
         ".csdlc/evidence/284/evidence-manifest.json",
@@ -53,12 +53,12 @@
           "command": [
             "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate",
             "--root",
-            "/Volumes/FastWork/adl-worktrees/adl-issue-284-adr0066-guardian-authority-evidence-reconciliation",
+            ".",
             "issue",
             "--issue",
             "284"
           ],
-          "purpose": "Run typed C-SDLC v2 issue validation.",
+          "purpose": "Run typed C-SDLC v2 issue validation from the issue worktree with the stable generated owner binary.",
           "outcome": "passed",
           "evidence_ref": "typed-issue-validation.log"
         }
