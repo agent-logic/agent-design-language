@@ -1,0 +1,14 @@
+flowchart TD
+  A["Terminal upstream children\n#111 #112 #113 #114 #115 #116\n#265 #270 #271 #276 #277 #278"] --> B["#279 dependency validator\ncanonical caches + ancestry"]
+  B --> C["Bind #279 FastWork worktree"]
+  C --> D["Deterministic Observatory accessibility proof"]
+  C --> E["Narrow HTML/CSS/JS presentation fixes only if proof requires"]
+  D --> F["Evidence: keyboard, focus, semantics, contrast,\nreduced motion, responsive layout"]
+  E --> F
+  F --> G["Fresh exact-head review"]
+  G --> H["Typed publish PR\nCloses #279"]
+  H --> I["Required CI"]
+  I --> J["Typed finish + terminal cache"]
+  J --> K["#282 consumes #279 evidence"]
+
+  C -. "out of scope" .-> X["Runtime authority, #280 performance,\n#281 security, #282 synthesis"]

@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="./styles.css?v=runtime-v3-live-controls-2">
   </head>
   <body>
+    <a class="skip-link" href="#runtime-proof">Skip to Observatory runtime proof</a>
     <svg class="icon-sprite" aria-hidden="true">
       <symbol id="icon-pulse" viewBox="0 0 24 24">
         <path d="M3 12h4l2-7 4 14 2-7h6" />
@@ -93,7 +94,7 @@
           <span>ADL Observatory</span>
           <span class="version-chip">Runtime v3</span>
         </a>
-        <div class="topbar-controls" aria-label="Runtime controls">
+          <div class="topbar-controls" role="group" aria-label="Runtime controls">
           <div class="top-readout">
             <span>Environment</span>
             <strong>prod-polis</strong>
@@ -151,28 +152,28 @@
           <p class="lede" id="claim-boundary">
             Loading the bounded runtime capture and operator report.
           </p>
-          <div class="ops-status-grid" aria-label="Runtime status summary">
-            <article class="ops-stat" data-state="unknown">
+          <div class="ops-status-grid" aria-label="Runtime status summary" aria-describedby="claim-boundary">
+            <article class="ops-stat" data-state="unknown" aria-labelledby="hero-ready-label hero-ready-state">
               <svg class="stat-icon"><use href="#icon-check"></use></svg>
-              <span class="row-kicker">Runtime Readiness</span>
+              <span class="row-kicker" id="hero-ready-label">Runtime Readiness</span>
               <strong id="hero-ready-state">pending</strong>
               <p class="row-detail" id="hero-ready-detail">Waiting for CSM /ready mirror.</p>
             </article>
-            <article class="ops-stat" data-state="unknown">
+            <article class="ops-stat" data-state="unknown" aria-labelledby="hero-agent-count-label hero-agent-count">
               <svg class="stat-icon"><use href="#icon-bot"></use></svg>
-              <span class="row-kicker">Active in Polis</span>
+              <span class="row-kicker" id="hero-agent-count-label">Active in Polis</span>
               <strong id="hero-agent-count">0</strong>
               <p class="row-detail">Runtime owner, scheduler, telemetry, event, and checkpoint lanes.</p>
             </article>
-            <article class="ops-stat" data-state="unknown">
+            <article class="ops-stat" data-state="unknown" aria-labelledby="hero-event-count-label hero-event-count">
               <svg class="stat-icon"><use href="#icon-pulse"></use></svg>
-              <span class="row-kicker">Last 5 Minutes</span>
+              <span class="row-kicker" id="hero-event-count-label">Last 5 Minutes</span>
               <strong id="hero-event-count">0</strong>
               <p class="row-detail" id="hero-event-detail">Waiting for CSM /events mirror.</p>
             </article>
-            <article class="ops-stat" data-state="unknown">
+            <article class="ops-stat" data-state="unknown" aria-labelledby="hero-cloudwatch-label hero-cloudwatch-state">
               <svg class="stat-icon"><use href="#icon-cloud"></use></svg>
-              <span class="row-kicker">Heartbeat Verified</span>
+              <span class="row-kicker" id="hero-cloudwatch-label">Heartbeat Verified</span>
               <strong id="hero-cloudwatch-state">pending</strong>
               <p class="row-detail" id="hero-cloudwatch-detail">CloudWatch heartbeat proof pending load.</p>
             </article>

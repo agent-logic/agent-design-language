@@ -1,0 +1,125 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 279,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "ff41e3111a97fd285be5db94a99c5f762342f0cd2ae534300482b383f505a3f3",
+  "phase": "bound",
+  "generation": 5,
+  "digest": "49aaa68aac2b994c3b737daefdbd7673f9d2762f0875412b1b94f7b1ecf77c92",
+  "branch": "codex/279-observatory-accessibility-responsive-ux-proof",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-279-observatory-accessibility-responsive-ux-proof",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/279/design.md",
+  "diagram_path": ".csdlc/prepared/issues/279/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:742e3ec8-761a-4f1a-a075-53acbc22e4e4",
+      "revision": "8b120c808de945e27c2ab009eb8076c247afcc0568845ee8cc5ce0ef246aaa6b"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "90c75498329b1650bdf997bba89a16ac106ab455b55e7fba58daf5075f0d0bae",
+      "rendered_digest": "399ecb84d8c2d97d2aec61804cbf6823d5fdc6954692fdbf6b4f948f52fb5f25",
+      "ast_digest": "7c3aa57d0dd057df2df7a147a5bc59266af12dfee54834e943c074d82f7cd4f2"
+    },
+    "stp": {
+      "values_digest": "b4050fca4aed00c77165dbccbda05a9628d9c4b01a75e1c6cc30a800efe65a5b",
+      "rendered_digest": "1100c3e6cb1564f6511a56e51ed324e3b409da2a4eed89e8b00b20bf51f0b615",
+      "ast_digest": "71d9bb7e566725f25d3b6d8239cea40a6a3742e9c9f7d4a7ada5a174adb5329e"
+    },
+    "spp": {
+      "values_digest": "71cf4f59f9a55d452456f0fb80eec16c48977912fea03bd1c6dcfb6794ef8df8",
+      "rendered_digest": "2f3e8e72e4b4e9b84f0999892d696d4408f6a31a51b902222ed1b4d2238057a5",
+      "ast_digest": "51eb5ef8ee7cc8fe2eb6f7bec989dfc6d2528809cd9c49ffbb13a1cdc1029539"
+    },
+    "vpp": {
+      "values_digest": "5bd2bcc1e7ad41840e7cbff0aba1c54d951dec620641292c511099ab4137b3f3",
+      "rendered_digest": "99fdb51c4c7e0e93b224eaf6ba4e895a883fc611ab6ac2c3d5467bf105696113",
+      "ast_digest": "90d00e06f490497eedd8ac93a06d3ad724cb43ba7735adfba72bc29a520ddecb"
+    },
+    "srp": {
+      "values_digest": "376d701f8b317a38662a84bb82779c24e14c9fa03196d05f2a163042feaf7a91",
+      "rendered_digest": "7547aef0f1f8fb9720c2a3cf71604da9ef77d096a1d54af8539ec8f294f28138",
+      "ast_digest": "9e795a68830e0ca0a36c4748419427afa77ee51deffce47c83d123de69566139"
+    },
+    "sor": {
+      "values_digest": "a40cdcdf697a11876e4196111658f825e86806d41f2c752288cd74fb25c578be",
+      "rendered_digest": "ab05ea00b5cd1bf7af99bdebb1aadd6fafe2406a6d9998687e229de6374011d7",
+      "ast_digest": "5b6c25680495716f78fb705d98c21d5d792015b1961a608820d6e8d9d98a8c06"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Advance #279 to ready after canonical fresh-session design review PASS and doctor readiness PASS."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Make the #279 preparation validator an explicit issue-owned affected area before design approval and bind.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"demos/html-observatory/index.html\",\"demos/html-observatory/app.js\",\"demos/html-observatory/styles.css\",\"demos/html-observatory/tests/accessibility_responsive.test.mjs\",\".csdlc/prepared/issues/279\",\".csdlc/prepared/issues/279/validate_preparation_bundle.py\",\".csdlc/evidence/279\",\".csdlc/issues/279\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Repair #279 design-review findings: use typed PR-state owner for hosted checks, mark hosted checks non-deterministic/deferred, and add the focused Observatory UI regression lane promised by the design.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preparation-contract\",\"proof_role\":\"Validate #279 issue identity, dependency terminal gates, structured proof/presentation scope, and forbidden sibling/parent ownership before bind.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"python3\",\".csdlc/prepared/issues/279/validate_preparation_bundle.py\"],\"parallel_group\":\"279-serial-01-prep\",\"defer_reason\":null},{\"lane\":\"observatory-accessibility-responsive\",\"proof_role\":\"Run deterministic Node-based accessibility/responsive assertions over the HTML Observatory fixtures.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":3000,\"argv\":[\"node\",\"demos/html-observatory/tests/accessibility_responsive.test.mjs\"],\"parallel_group\":\"279-serial-02-proof\",\"defer_reason\":\"Deferred until bound implementation creates or refreshes the exact proof target.\"},{\"lane\":\"observatory-ui-regression\",\"proof_role\":\"Rerun existing focused HTML Observatory UI regressions touched by the accessibility/responsive presentation slice.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":2000,\"argv\":[\"node\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\",\"demos/html-observatory/tests/operator_attention_inbox.test.mjs\"],\"parallel_group\":\"279-serial-03-ui-regression\",\"defer_reason\":\"Deferred until bound implementation creates or refreshes the exact proof target.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject malformed whitespace or patch artifacts before review.\",\"acceptance_ids\":[\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"279-serial-04-diff\",\"defer_reason\":null},{\"lane\":\"fresh-exact-head-review\",\"proof_role\":\"Require a typed fresh-session exact-head review before publication.\",\"acceptance_ids\":[\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":3000,\"argv\":[\".adl/bin/csdlc-v2/csdlc-review\",\"guard\",\"--request\",\".git/csdlc-v2/requests/279-review-guard.json\"],\"parallel_group\":\"279-serial-05-review\",\"defer_reason\":\"Deferred until implementation is immutable and validation has passed.\"},{\"lane\":\"hosted-required-checks\",\"proof_role\":\"Observe required PR checks on the exact reviewed published head before typed finish through the typed PR-state owner.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\".adl/bin/csdlc-v2/csdlc-pr-state\",\"--request\",\".git/csdlc-v2/requests/279-pr-state.json\"],\"parallel_group\":\"279-serial-06-ci\",\"defer_reason\":\"Deferred until reviewed publication creates the exact PR observation target.\"}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "fresh-session:742e3ec8-761a-4f1a-a075-53acbc22e4e4",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"8b120c808de945e27c2ab009eb8076c247afcc0568845ee8cc5ce0ef246aaa6b\",\"design_ref\":\".csdlc/prepared/issues/279/design.md\",\"diagram_digest\":\"c98a8de13a90de9747b0baff514b3059c0bfeff4e0bf91764848000ba15f490b\",\"diagram_ref\":\".csdlc/prepared/issues/279/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Advance #279 to ready after canonical fresh-session design review PASS and doctor readiness PASS.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Repair #279 bound-worktree validation lanes so deferred review and hosted-check observation invoke available typed owner binaries from the canonical repository owner root instead of missing linked-worktree .adl/bin targets.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preparation-contract\",\"proof_role\":\"Validate #279 issue identity, dependency terminal gates, structured proof/presentation scope, and forbidden sibling/parent ownership before bind or in the dedicated bound topology.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"python3\",\".csdlc/prepared/issues/279/validate_preparation_bundle.py\"],\"parallel_group\":\"279-serial-01-prep\",\"defer_reason\":null},{\"lane\":\"observatory-accessibility-responsive\",\"proof_role\":\"Run deterministic Node-based accessibility/responsive assertions over the HTML Observatory fixtures.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":3000,\"argv\":[\"node\",\"demos/html-observatory/tests/accessibility_responsive.test.mjs\"],\"parallel_group\":\"279-serial-02-proof\",\"defer_reason\":null},{\"lane\":\"observatory-ui-regression\",\"proof_role\":\"Rerun existing focused HTML Observatory UI regressions touched by the accessibility/responsive presentation slice.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":2000,\"argv\":[\"node\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\",\"demos/html-observatory/tests/operator_attention_inbox.test.mjs\"],\"parallel_group\":\"279-serial-03-ui-regression\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject malformed whitespace or patch artifacts before review.\",\"acceptance_ids\":[\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"279-serial-04-diff\",\"defer_reason\":null},{\"lane\":\"fresh-exact-head-review\",\"proof_role\":\"Require a typed fresh-session exact-head review before publication.\",\"acceptance_ids\":[\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":3000,\"argv\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-review\",\"guard\",\"--request\",\"/Users/daniel/git/agent-design-language/.git/csdlc-v2/requests/279-review-guard.json\"],\"parallel_group\":\"279-serial-05-review\",\"defer_reason\":\"Deferred until implementation is immutable and validation has passed.\"},{\"lane\":\"hosted-required-checks\",\"proof_role\":\"Observe required PR checks on the exact reviewed published head before typed finish through the typed PR-state owner.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-pr-state\",\"--request\",\"/Users/daniel/git/agent-design-language/.git/csdlc-v2/requests/279-pr-state.json\"],\"parallel_group\":\"279-serial-06-ci\",\"defer_reason\":\"Deferred until reviewed publication creates the exact PR observation target.\"}]}"
+    }
+  ]
+}
