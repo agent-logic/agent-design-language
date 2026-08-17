@@ -17,3 +17,5 @@
 {"sequence":17,"generation":14,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":18,"generation":15,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":19,"generation":16,"actor":"codex:/root","reason":"Recover failed exact review fresh-session:509e4418-914a-43af-9985-e2c5e94776d9 before remediating its P1 finding: #117 closeout validator did not compare every exact field recorded in the parent closeout packet against terminal cache truth.","operation":"recover_review"}
+{"sequence":20,"generation":16,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":21,"generation":17,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
