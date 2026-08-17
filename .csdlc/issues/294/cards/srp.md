@@ -33,12 +33,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Reviewer observed retained exact-head evidence logs from predecessor source head for older validation lanes; reviewer reran card_identity at 58f99146506b8999ad0170f3b4d3cc445bd93688 and treated file-backed PR #385 gate5/gate2/check/clippy logs as the current remediation proof.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:9afd91ce84a28bd118299cf3b12e840611f55fe3:89c2642008f9e0d129b8b4beba0303f769528c1d66f71aefa3a73c9c215d18ab")
 
-Reviewer: None
+Reviewer: Some("fresh-session:fd57172e-204f-483a-ad29-9faa4f7c7fad")
 
-Result: pre_review
+Result: pass

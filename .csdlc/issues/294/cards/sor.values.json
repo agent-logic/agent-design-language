@@ -7,7 +7,7 @@
     "title": "[v0.92][C-SDLC][defect] Recover initialized design identity and artifact paths before bind",
     "slug": "initialized-design-envelope-recovery",
     "version": "v0.92",
-    "generation": 47
+    "generation": 48
   },
   "status": "pre_phase",
   "content": {

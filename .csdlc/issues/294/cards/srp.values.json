@@ -7,21 +7,23 @@
     "title": "[v0.92][C-SDLC][defect] Recover initialized design identity and artifact paths before bind",
     "slug": "initialized-design-envelope-recovery",
     "version": "v0.92",
-    "generation": 47
+    "generation": 48
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "csdlc-v2/src/store.rs\ncsdlc-v2/tests/card_identity.rs\ncsdlc-v2/tests/gate2.rs\ncsdlc-v2/tests/gate5.rs\n.csdlc/issues/294\n.csdlc/evidence/294",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:9afd91ce84a28bd118299cf3b12e840611f55fe3:89c2642008f9e0d129b8b4beba0303f769528c1d66f71aefa3a73c9c215d18ab",
+      "reviewer": "fresh-session:fd57172e-204f-483a-ad29-9faa4f7c7fad",
       "review_prompts": [
         "Review every acceptance criterion with special attention to lifecycle authority, path traversal/symlink safety, append-only audit integrity, atomicity, and linked-worktree regression proof."
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Reviewer observed retained exact-head evidence logs from predecessor source head for older validation lanes; reviewer reran card_identity at 58f99146506b8999ad0170f3b4d3cc445bd93688 and treated file-backed PR #385 gate5/gate2/check/clippy logs as the current remediation proof."
+      ],
+      "review_result": "pass"
     }
   }
 }

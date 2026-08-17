@@ -3,9 +3,9 @@
   "issue": 294,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "800ae278d01e46c7ea3bc653920a4178dd1439d1836c928794dc1984fdde1b5a",
-  "phase": "implemented",
-  "generation": 47,
-  "digest": "d30b450dff6e88c612e2c41f1157ef79c16baeb3b6226a4fc9ea5146968af13b",
+  "phase": "reviewed",
+  "generation": 48,
+  "digest": "6d1af92c46c886da7b126e08e2283f52c4ff068f71cb798313e77bcc2c4d1dd1",
   "branch": "codex/294-initialized-design-envelope-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-294-initialized-design-envelope-recovery",
   "review_assignment": {
@@ -21,7 +21,24 @@
       ".csdlc/evidence/294"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:fd57172e-204f-483a-ad29-9faa4f7c7fad",
+    "scope": [
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/card_identity.rs",
+      "csdlc-v2/tests/gate2.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/294",
+      ".csdlc/evidence/294"
+    ],
+    "reviewed_revision": "git-blake3:9afd91ce84a28bd118299cf3b12e840611f55fe3:89c2642008f9e0d129b8b4beba0303f769528c1d66f71aefa3a73c9c215d18ab",
+    "findings": [],
+    "residual_risks": [
+      "Reviewer observed retained exact-head evidence logs from predecessor source head for older validation lanes; reviewer reran card_identity at 58f99146506b8999ad0170f3b4d3cc445bd93688 and treated file-backed PR #385 gate5/gate2/check/clippy logs as the current remediation proof."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -36,32 +53,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b33fe641838f7dc40e9f965c73432de8ff06e3b785e9d034433e09e2665a55a5",
+      "values_digest": "e5bca3b066ba3b1599b71e05b168a533810db5ac983c37c06bf23ffa44aae3c7",
       "rendered_digest": "3e36b0e88d7f76e4a233fcff102b6aa56fe57becbc26a6dba984a5dc1f5699bc",
       "ast_digest": "b5eb19fa979837c27cae787dd8ed10ce8aa10a2d84d6d386c76d8e2628ba3864"
     },
     "stp": {
-      "values_digest": "5688a11b7cb6ba1f00500ef1b75a5c40b3037573771bfaa3cad0416862936848",
+      "values_digest": "569297ede0913a911de0c24c82c6fec02c557e67006498248c4810403c7d7f0f",
       "rendered_digest": "62b94e609f2b1a7babc548935a5db66323d9a4be44dae9f6c37d849ec56a6e31",
       "ast_digest": "8b080ac00c6eed5a7d97b6187e92c4b7e41d70d5c967c9fa57b08a32a818955c"
     },
     "spp": {
-      "values_digest": "58fcaa4bf42a8aaa42bc50eb598485701ba44c15907bda225c96ff0b4b374bab",
+      "values_digest": "4dc69a5ad70bdc06341f7bbcf34df51b6edf2fecf6992255252125d052251d97",
       "rendered_digest": "288414b628210cf5ba8e08c4c4145ab43f5ed0fe7417ace0e07f22060630fb86",
       "ast_digest": "8126bc1d4576a9e9a2191435dbaefc568046a73cf40bbbed42661c2c1e984153"
     },
     "vpp": {
-      "values_digest": "658405726e30b164201450af232a7ffcb67d3ed63da98c230d9cc8f0dfb22a21",
+      "values_digest": "c3f4cab9259252dee0e8f16a158a3b909112824fc6ec6f5869fe82f4d3f95777",
       "rendered_digest": "2ec8f40f5663c0883b898d842aed1fcc99aa4d4f79eb3fe8e9c50ca682758a94",
       "ast_digest": "9c636f5af53a97a09991989dd18baf33fafa10df6b5a0554de5ccc30d748ca1a"
     },
     "srp": {
-      "values_digest": "f21f95ccc2a810502c74c550ba857f7789bb60604ca82cdd46f400b14e4c46d7",
-      "rendered_digest": "8a182d3857bd77110b872ec2c83adcc42217b669ba99078957e9772bafaaab1f",
-      "ast_digest": "9f7fe9d76274b4ace0923418609151d074bb5faced3504b41500b09635299dda"
+      "values_digest": "0e966adf77922dee2b1b18c636fe4cf77d9d75d7ac91b43421e5002d5f9c9428",
+      "rendered_digest": "898ea110f6401437eb50105b819ff66be42691d2196e14b68ea326fead5cb9ee",
+      "ast_digest": "0119dc76bcfa0dd65caf740b7cbd4bfc186ef58e4febf2d7b992ffc287e6b763"
     },
     "sor": {
-      "values_digest": "7a3ab4002e84b705221616f03e2459e805052b909168bc0bca2faa5d6db7683a",
+      "values_digest": "082670d8286469dd22232ade914edd44fde16d7bf7b5b8602dd6c6a91ddff318",
       "rendered_digest": "56aff4ef03011bb7af9ff46844831072691fca5568b6acceee4a7ecdb1cfc6b5",
       "ast_digest": "c970d41aca5daf37f71e5806b924b624f31a6b0f966ed5bf52e0c37a5893008e"
     }
@@ -108,6 +125,13 @@
       "to": "implemented",
       "actor": "codex:issue-294",
       "reason": "Recover published #294 after PR #385 CI exposed Linux inode-reuse fixture drift in card_identity; source fix requires fresh review and republication."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-294",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -558,6 +582,13 @@
       "actor": "codex:issue-294",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 65,
+      "generation": 48,
+      "actor": "codex:issue-294",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
