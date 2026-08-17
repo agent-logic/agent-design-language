@@ -5,10 +5,22 @@
   "initialization_digest": "072eda7c560e8283a4da1967834bb3006a2402e31ac8767987d9c05d78652abb",
   "phase": "implemented",
   "generation": 10,
-  "digest": "a6fad5d2e64662a2342a62a1bdd334a4c9d380edd9329e7b05e7f14eede9cff0",
+  "digest": "5c145d60f7e0f027dbf7e190752ddd026fa6103125b48985d8264781ac10dc2f",
   "branch": "codex/400-implemented-card-recovery-bound",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-400-implemented-card-recovery-bound",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:463d2a97-65eb-41b1-a86f-ab8cdc14c8ac",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:8ec9a7edf56e032ce371923336be9e6f837dbc28:5f5ccacfab9cf44dbcb29097f0280d0cbf349ed9564a70b3d59c0878a2924b01",
+    "scope": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/400",
+      ".csdlc/evidence/400",
+      ".csdlc/prepared/issues/400"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +56,9 @@
       "ast_digest": "fc90d7d37341077576faabdf578b2ea0924b24eb7ba466cedd30e9022324efbe"
     },
     "srp": {
-      "values_digest": "2bfe98d22712f384daad08e7ad1dbcb3d11adb785c4266be054b9811c626d3b1",
-      "rendered_digest": "e662daa75218350717f2317b4c65158ceabf6fd915af0752e41ae6ec3932c4a0",
-      "ast_digest": "7f5850023bb0c8cf673b1c12e928d7f63b132dc5fa7f8bf95934991cf461ff7b"
+      "values_digest": "320edee030c4db6acb1f0f998bcc034a91aedc19ff4e258015bf853512c0d205",
+      "rendered_digest": "70953f5798da4deb46bd3093a2a02851e1eb1f4e895423a0acb069786a2a6395",
+      "ast_digest": "727d05f9170d7089a0796bef334abcb096c0172041f212d06621443deedbe186"
     },
     "sor": {
       "values_digest": "672caac801d2c68f0e1b08f805ef10b766931d1172ac7e2fb6c3ad02db3db30d",
@@ -175,6 +187,13 @@
       "actor": "codex:/root",
       "reason": "Recover pending #400 exact review assignment fresh-session:2ef54c29-7e40-4f80-a5cd-3f42adfe0d62 because no verdict/result is recorded; preserve implemented source/proof and assign a different fresh no-context reviewer.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

@@ -12,7 +12,12 @@ Status: draft
 
 ## Scope
 
-
+csdlc-v2/src/cards.rs
+csdlc-v2/src/store.rs
+csdlc-v2/tests/gate5.rs
+.csdlc/issues/400
+.csdlc/evidence/400
+.csdlc/prepared/issues/400
 
 ## Prompts
 
