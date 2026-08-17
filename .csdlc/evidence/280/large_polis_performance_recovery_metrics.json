@@ -1,7 +1,7 @@
 {
   "schema": "adl.html_observatory.large_polis_performance_recovery_metrics.v1",
   "candidate_revision": "557dd28d85746a8dc5109dcc674f5a606b8c9890",
-  "implementation_revision": "bd5e2e2548cfa0ce2aa012006c02614bc456f63b",
+  "implementation_revision": "bound-by-csdlc-review-assignment",
   "agent_total": 2500,
   "visible_agent_count": 120,
   "max_visible_agents": 120,

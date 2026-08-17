@@ -1,5 +1,4 @@
 import assert from "node:assert/strict";
-import { execFileSync } from "node:child_process";
 import { mkdir, writeFile } from "node:fs/promises";
 
 const testUrl = new URL(import.meta.url);
@@ -19,10 +18,7 @@ const {
   retainedLargePolisWindow
 } = globalThis.AdlHtmlObservatory;
 
-const implementationRevision = execFileSync("git", ["rev-parse", "HEAD"], {
-  cwd: repoRoot,
-  encoding: "utf8"
-}).trim();
+const implementationRevision = process.env.ADL_OBSERVATORY_IMPLEMENTATION_REVISION || "bound-by-csdlc-review-assignment";
 const fixture = buildLargePolisPerformanceRecoveryFixture({
   agentCount: 2500,
   transcriptTurns: 5000,
