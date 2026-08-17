@@ -5,10 +5,22 @@
   "initialization_digest": "800ae278d01e46c7ea3bc653920a4178dd1439d1836c928794dc1984fdde1b5a",
   "phase": "implemented",
   "generation": 47,
-  "digest": "ee021bc3993384b54315db461816cb90443e18d699682e719afb8a7eca1d64c4",
+  "digest": "d30b450dff6e88c612e2c41f1157ef79c16baeb3b6226a4fc9ea5146968af13b",
   "branch": "codex/294-initialized-design-envelope-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-294-initialized-design-envelope-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:fd57172e-204f-483a-ad29-9faa4f7c7fad",
+    "assigned_by": "codex:issue-294",
+    "revision": "git-blake3:9afd91ce84a28bd118299cf3b12e840611f55fe3:89c2642008f9e0d129b8b4beba0303f769528c1d66f71aefa3a73c9c215d18ab",
+    "scope": [
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/card_identity.rs",
+      "csdlc-v2/tests/gate2.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/294",
+      ".csdlc/evidence/294"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +56,9 @@
       "ast_digest": "9c636f5af53a97a09991989dd18baf33fafa10df6b5a0554de5ccc30d748ca1a"
     },
     "srp": {
-      "values_digest": "0b61eedd42aa4ef866b10144f3bb0abc09c20b4b27bf22d6975ab3ee4380d18d",
-      "rendered_digest": "0567ed70395313482b89d8e35be47456c488cb326c2df14cbc015b5e7d92c5d8",
-      "ast_digest": "13f502d7ae633df5336ea95b80bbd88392eb15b98caf010e8d859f6d282810c7"
+      "values_digest": "f21f95ccc2a810502c74c550ba857f7789bb60604ca82cdd46f400b14e4c46d7",
+      "rendered_digest": "8a182d3857bd77110b872ec2c83adcc42217b669ba99078957e9772bafaaab1f",
+      "ast_digest": "9f7fe9d76274b4ace0923418609151d074bb5faced3504b41500b09635299dda"
     },
     "sor": {
       "values_digest": "7a3ab4002e84b705221616f03e2459e805052b909168bc0bca2faa5d6db7683a",
@@ -539,6 +551,13 @@
       "actor": "codex:issue-294",
       "reason": "Record strict clippy after PR #385 gate5 remediation.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove strict lint cleanliness after issue-local authored destination remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/294/csdlc-v2-clippy-pr385-gate5-fix.log\"}}"
+    },
+    {
+      "sequence": 64,
+      "generation": 47,
+      "actor": "codex:issue-294",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

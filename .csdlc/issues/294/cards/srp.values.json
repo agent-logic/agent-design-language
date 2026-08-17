@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": "csdlc-v2/src/store.rs\ncsdlc-v2/tests/card_identity.rs\ncsdlc-v2/tests/gate2.rs\ncsdlc-v2/tests/gate5.rs\n.csdlc/issues/294\n.csdlc/evidence/294",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
