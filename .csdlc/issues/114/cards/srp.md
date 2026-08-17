@@ -12,7 +12,10 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/issues/114
+.csdlc/prepared/issues/114
+adl/tools/validate_v092_durable_history_parent_integration.py
+adl-runtime-kernel/tests/durable_conversation_history_integration.rs
 
 ## Prompts
 
@@ -33,12 +36,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Publication remains gated on typed review record, typed republish with Closes #114, current PR/base/head/linkage checks, required CI green, and typed finish.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:55f3b96c01964c2caacd6a9e437ce5cc17be6f07:818b74330573752fd81a8922370a390fe3e366d9ee4a53b59c33635082aef505")
 
-Reviewer: None
+Reviewer: Some("fresh-session:5e026a81-bca8-4e85-a4bc-88d677716e1b")
 
-Result: pre_review
+Result: pass

@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-18C.04][coordination] Coordinate durable conversation history, continuity, and receipts",
     "slug": "v0-92-wp-18c-04-coordinate-durable-conversation-history-continuity-receipts",
     "version": "v0.92.0",
-    "generation": 107
+    "generation": 108
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/114\n.csdlc/prepared/issues/114\nadl/tools/validate_v092_durable_history_parent_integration.py\nadl-runtime-kernel/tests/durable_conversation_history_integration.rs",
+      "review_revision": "git-blake3:55f3b96c01964c2caacd6a9e437ce5cc17be6f07:818b74330573752fd81a8922370a390fe3e366d9ee4a53b59c33635082aef505",
+      "reviewer": "fresh-session:5e026a81-bca8-4e85-a4bc-88d677716e1b",
       "review_prompts": [
         "Verify the exact #114 immutable head implements only parent durable-history integration proof and does not absorb #276, #277, #278, #271, #115, #116, or #117 product scope.",
         "Verify terminal cache and merge-SHA ancestry proof for #112, #265, #270, #271, #276, #277, and #278 is current and consumed read-only.",
@@ -25,8 +25,10 @@
         "Verify VPP/SOR validation truth, local proof outputs, diff hygiene, and remaining publication/CI/finish gates are current before publication."
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Publication remains gated on typed review record, typed republish with Closes #114, current PR/base/head/linkage checks, required CI green, and typed finish."
+      ],
+      "review_result": "pass"
     }
   }
 }

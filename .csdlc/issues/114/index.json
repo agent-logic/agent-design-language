@@ -3,13 +3,38 @@
   "issue": 114,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "bb70960941aab631d5c34ecdb2e526c2af37ec6b16d7835180a774117e371407",
-  "phase": "implemented",
-  "generation": 107,
-  "digest": "9e3fe245a41466d7ad29b3d54d8b52145cd20b157d043ce0dcb6b59fb3dccfac",
+  "phase": "reviewed",
+  "generation": 108,
+  "digest": "8aac6c2a9fa67bf8b69275fe86ca86957e84e3fc45035222439baa78d62e7266",
   "branch": "codex/114-durable-history-parent-integration-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-114-durable-history-parent-integration-proof",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:5e026a81-bca8-4e85-a4bc-88d677716e1b",
+    "assigned_by": "codex:wp18c-114-bool-generation-review-repair",
+    "revision": "git-blake3:55f3b96c01964c2caacd6a9e437ce5cc17be6f07:818b74330573752fd81a8922370a390fe3e366d9ee4a53b59c33635082aef505",
+    "scope": [
+      ".csdlc/issues/114",
+      ".csdlc/prepared/issues/114",
+      "adl/tools/validate_v092_durable_history_parent_integration.py",
+      "adl-runtime-kernel/tests/durable_conversation_history_integration.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:5e026a81-bca8-4e85-a4bc-88d677716e1b",
+    "scope": [
+      ".csdlc/issues/114",
+      ".csdlc/prepared/issues/114",
+      "adl/tools/validate_v092_durable_history_parent_integration.py",
+      "adl-runtime-kernel/tests/durable_conversation_history_integration.rs"
+    ],
+    "reviewed_revision": "git-blake3:55f3b96c01964c2caacd6a9e437ce5cc17be6f07:818b74330573752fd81a8922370a390fe3e366d9ee4a53b59c33635082aef505",
+    "findings": [],
+    "residual_risks": [
+      "Publication remains gated on typed review record, typed republish with Closes #114, current PR/base/head/linkage checks, required CI green, and typed finish."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +49,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "751b7979932687d47124f8b3209a5bcb7aac52514ed94a2963904b604595d50e",
+      "values_digest": "5fb1c6e40547671d69f1d495f10535c7d962e7a6754c48536391e1fee12e0df4",
       "rendered_digest": "0b0c6bafa6deda1c3729cf78a0329206ddc13dee5d9d87714262d211aaaf4190",
       "ast_digest": "3e1bbbcc8e45f6c68031ca5d6b787383716509ed050a4795ae7d74647bbe1bf2"
     },
     "stp": {
-      "values_digest": "ad75bb81d6d8d482019096cf5d3b716fec2f76980f7ff88822998a7d9ab000c4",
+      "values_digest": "99ad9f912bbee88d569b132d070f31df2c0193bd9499c612a38b2367241805be",
       "rendered_digest": "54be2e47fc6ac1e830cad277f5f65e0b0e6a9dd6d2b902cafa4a94facdadadb1",
       "ast_digest": "e50d74e143c0b064f3d4d50fedc4d54d677cf7274c6bff9e7200cae751c51bb7"
     },
     "spp": {
-      "values_digest": "ad9daaa1ef69dc2d6eedf5456e4f31ca234ea567fa3ee00ab9f84a9375d0c5f6",
+      "values_digest": "4991655db22768450a100804a35ee368997cf1e8f9a488812af4c383450e58e3",
       "rendered_digest": "3fc6d07cc7a7b383f7c0d7e34a3da8e1b35f04556f441ecf50c115e054202f8a",
       "ast_digest": "cb9f36cc2bb8b80fa2a83bf639fe0932edcf0e893be584bc195f5e0103079445"
     },
     "vpp": {
-      "values_digest": "e81f644939098ee7393402191ab2e04be4c1b14f730a018cb8eb56f33b66de9f",
+      "values_digest": "f683cb1e979c8859bda3f02c3995c1d6882e5a4426125f1485b5cae1059f3351",
       "rendered_digest": "ba2d3cabab8fa8a531ec7b76dd97f9d2fd283ce79bb7baead3f9c201297da58a",
       "ast_digest": "15b31620d42587530dfe6993147841e9736b616cf6a632ba6aa4a1501b79c6f8"
     },
     "srp": {
-      "values_digest": "d915a57fe8e28e2045cf985336b4eabff1cfa45d30fc28a4dcfa276733641369",
-      "rendered_digest": "4c20c6b889cff9d9412737fa59fadc0f0a7bec2a0b54836a17900e0c6acf51a7",
-      "ast_digest": "8ad302f3a7ef866858f7587928930e17eabb1a7e4467fe4bfb70391ea23ef2ef"
+      "values_digest": "ec2a868db063879ab7b55a379899c8d7bbbf0961f45782304f7ce89fdb080baa",
+      "rendered_digest": "70216de9fa8fa1aa5d5fc106193f6c0594c92367b6e381de6ed9c508c8d05311",
+      "ast_digest": "4f4f93b30725397c143978af1bfc29e9c0ca39e2c07b25279dec78f7f1969dae"
     },
     "sor": {
-      "values_digest": "b90e757bad32dc40bbb1ce5537c3399ef63f7b8f899ca89f05c091f430738378",
+      "values_digest": "1640195a28a9e87779a5711aba3d2c54f8f3977cde6cf253289bb85fa5a2bec4",
       "rendered_digest": "0a0ff8a0b556f34ae877437d64483e2b290ed341be3ea20368745bbaf5e42f86",
       "ast_digest": "07b8d4fb3243e8c03202c7b2ef9664cbb0ecc2da69729dc2d97fd8028c6345b8"
     }
@@ -96,6 +121,13 @@
       "to": "implemented",
       "actor": "codex:wp18c-114-review-publication-recovery",
       "reason": "Recover #114 after typed state recorded PASS/publication for reviewer 915c3530 even though the actual fresh-session verdict returned FAIL with two Medium findings. Clear stale review/publication truth before validator and SPP card repairs, fresh review, and republish."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:wp18c-114-bool-generation-review-repair",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -959,6 +991,20 @@
       "actor": "codex:wp18c-114-bool-generation-review-repair",
       "reason": "Record #114 remediation for fresh reviewer 5d0c5f61 finding before committing the new immutable review head.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3\",\"-c\",\"import importlib.util, pathlib; path=pathlib.Path('adl/tools/validate_v092_durable_history_parent_integration.py'); spec=importlib.util.spec_from_file_location('validator', path); mod=importlib.util.module_from_spec(spec); spec.loader.exec_module(mod); mod.fail=lambda message: (_ for _ in ()).throw(RuntimeError(message));\\ntry:\\n    mod.require_positive_int(True, field='canonical_generation', issue=276)\\nexcept RuntimeError as exc:\\n    assert 'invalid canonical_generation' in str(exc)\\nelse:\\n    raise SystemExit('bool canonical_generation accepted')\\nassert mod.require_positive_int(10, field='canonical_generation', issue=276) == 10\\nprint('bool canonical_generation rejected')\"],\"purpose\":\"Prove malformed boolean canonical_generation is rejected after reviewer 5d0c5f61 found Python bool/int subclass acceptance.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:114-bool-canonical-generation-rejected-gen106\"}}"
+    },
+    {
+      "sequence": 124,
+      "generation": 107,
+      "actor": "codex:wp18c-114-bool-generation-review-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 125,
+      "generation": 108,
+      "actor": "codex:wp18c-114-bool-generation-review-repair",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
