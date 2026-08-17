@@ -51,6 +51,19 @@ STALE_PREPARATION_MARKERS = [
     "Binding #114",
     "Editing product Runtime",
     "Binding #114 or starting #276/#277/#278 implementation in this recovery step",
+    "ready/unbound",
+    "pre-bind",
+    "Preparation-only",
+    "initialized/unbound",
+    "stops before bind",
+    "before any bind",
+    "before bind",
+    "pre-review",
+    "pre_review",
+    "pre-design approval",
+    "remains preparation/coordination-only",
+    "remains pre-bind",
+    "attempted bind/publication",
 ]
 
 

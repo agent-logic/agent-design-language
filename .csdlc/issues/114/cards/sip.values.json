@@ -7,14 +7,14 @@
     "title": "[v0.92][WP-18C.04][coordination] Coordinate durable conversation history, continuity, and receipts",
     "slug": "v0-92-wp-18c-04-coordinate-durable-conversation-history-continuity-receipts",
     "version": "v0.92.0",
-    "generation": 73
+    "generation": 76
   },
   "status": "ready",
   "content": {
     "card_kind": "sip",
     "values": {
       "goal": "Coordinate durable conversation history across #276, #277, and #278, then own only the exact-revision parent integration proof for restart, corruption, migration, retention, and deletion coherence.",
-      "required_outcome": "The #114 parent remains preparation/coordination-only until #276 durable journal foundation, #277 watermark/idempotency/replay/receipt persistence, and #278 re-authorized history API and Observatory restoration are terminal and ancestral; parent proof then verifies the integrated chain without absorbing child implementation.",
+      "required_outcome": "The #114 parent integration proof is implemented in the bound worktree after terminal ancestry for #276, #277, and #278 was verified; #114 remains parent-only, does not absorb child scope, and now requires fresh exact-head review, typed publication, CI, and finish.",
       "declared_scope": [
         "Coordinate and close the decomposed child chain #276 -> #277 -> #278 with parent exact-revision integration proof only after terminal child ancestry is verified.",
         "Preserve the existing gen0 monolithic design and diagram as historical reference evidence only.",

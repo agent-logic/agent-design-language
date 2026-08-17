@@ -16,7 +16,7 @@ Coordinate durable conversation history across #276, #277, and #278, then own on
 
 ## Required Outcome
 
-The #114 parent remains preparation/coordination-only until #276 durable journal foundation, #277 watermark/idempotency/replay/receipt persistence, and #278 re-authorized history API and Observatory restoration are terminal and ancestral; parent proof then verifies the integrated chain without absorbing child implementation.
+The #114 parent integration proof is implemented in the bound worktree after terminal ancestry for #276, #277, and #278 was verified; #114 remains parent-only, does not absorb child scope, and now requires fresh exact-head review, typed publication, CI, and finish.
 
 ## Scope
 
