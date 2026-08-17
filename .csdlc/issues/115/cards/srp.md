@@ -12,16 +12,7 @@ Status: draft
 
 ## Scope
 
-adl-runtime-kernel/src/conversation_rooms.rs
-adl-runtime-kernel/src/control.rs
-adl-runtime-kernel/src/lib.rs
-demos/html-observatory/app.js
-demos/html-observatory/index.html
-demos/html-observatory/styles.css
-adl/tools/validate_v092_governed_room_observatory.mjs
-adl/tools/test_html_observatory.sh
-.csdlc/prepared/issues/115/validate_governed_room_implementation.py
-.csdlc/issues/115
+
 
 ## Prompts
 

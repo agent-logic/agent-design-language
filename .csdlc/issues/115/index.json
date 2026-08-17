@@ -5,27 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "6b431e21b2b0a61991853e1f3f4a1bf51241907edaac9389f1c22998ae3334e7",
   "phase": "implemented",
-  "generation": 38,
-  "digest": "0cb45e7f8438cf6397b576bcc454220ef9c2fd28577b2201b0ccec44fd15c673",
+  "generation": 41,
+  "digest": "31743d3f5ff38a0aed838042fa46d391c95c29c0157899ac1ff225faf7857b1f",
   "branch": "codex/115-governed-multi-agent-rooms",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-115-governed-multi-agent-rooms",
-  "review_assignment": {
-    "reviewer": "fresh-session:ad5f4ae4-2e2d-4c83-9b16-a888b1ee5514",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:b25f86b0b4ab77255f7efe4ed0d9188b9fb565c6:b6405c3fc32a110cb02f26cc8284c62730acfc960561d52deb7e217148853596",
-    "scope": [
-      "adl-runtime-kernel/src/conversation_rooms.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/index.html",
-      "demos/html-observatory/styles.css",
-      "adl/tools/validate_v092_governed_room_observatory.mjs",
-      "adl/tools/test_html_observatory.sh",
-      ".csdlc/prepared/issues/115/validate_governed_room_implementation.py",
-      ".csdlc/issues/115"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -41,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "321db0e9a60babbe7486075493e5a74b624052b853f15fa033544b7564166acb",
+      "values_digest": "74884cfc450f942c3478bd3edc53a3ed140ac4b8f7d04fe97e06b45e09669414",
       "rendered_digest": "ecadc343231ebf27f6cc2251766828eff504b8338d3bf9054daa17b13a178c93",
       "ast_digest": "e02db63fa0459d5bd0d779d49185ce9f2d0c99a6a3378a81fa7d5dcbda279605"
     },
     "stp": {
-      "values_digest": "9a6caa86da206915e375845ee9823c0545d4b4b46c9fe67a7b37c5ba8e1ffd17",
+      "values_digest": "d3e6bf676ef34117af5ef4e819c3ddacf059012f4f126373a76563bcecd33f36",
       "rendered_digest": "26ffe471f874105d9aa4826b57ce59a2248f61ed6620ba26f582fcb4e548336e",
       "ast_digest": "591074b50f7551f7504beccd7cf7f78f96b394317692b5e134c3102d87d1e22d"
     },
     "spp": {
-      "values_digest": "75c7664bb5ef45612653e762857340c46cf07a7f05ee07317f4043d02d55450d",
+      "values_digest": "8b2913f864ba3eb3b803976266c293688c35d64dd2597c49c734e52880b953d2",
       "rendered_digest": "4ef2609ec1237bf5c41a8e7e9cd125f0f765488281fe2fd91929f6b7ec5c5c58",
       "ast_digest": "bdaa7b224835ac227316f8aeb1697414ec3d9a26a8fb5ef6bf886d317f2f09f8"
     },
     "vpp": {
-      "values_digest": "feea5e60a81b9a16af78a6ac5050d35bd3ff947d698ed262ceea6e81d384d61d",
+      "values_digest": "5d27a0d5c8f612db33185bd58490c88e6b485763841af5291d13f509c61335bf",
       "rendered_digest": "64cdef83233be96362daa2ceb5edc28d49e2db9b87ea9c95cd1b7137688394fe",
       "ast_digest": "c3cb9142b38708e33c36615802b2a5697531c12af32bed39e5e2b63c43735771"
     },
     "srp": {
-      "values_digest": "fdc8a1150659c95d771035ef09b74f7f198230f9db920f3232e91a9bb99b633c",
-      "rendered_digest": "2be66f687a49a4fa72624137eb0f767e58c68eae044a104c966c035b4ad8d401",
-      "ast_digest": "78f3712c7bc81b91dac930e61d9a36359327f45238a389ed457bb11ac64dcf0b"
+      "values_digest": "34cac84b390b50e4622a1615b49fdfb235f671195ba55dcaed5b17a0a9937429",
+      "rendered_digest": "829cc05f432c149d408093e41eadae4b28ff7ab28d33e78727169556216aa222",
+      "ast_digest": "990b41c9dcd607326b4b831078342b01aa9f3876d7e39f18b7e0a6992102ae0e"
     },
     "sor": {
-      "values_digest": "180d250ce950cb5f6321d51a9be0322b668b5bf85092f216cf04af8798b828ea",
-      "rendered_digest": "3b90b0495fc976e5d9076858829869c48b8fac37b774acab1aa6b3cfc7f30969",
-      "ast_digest": "da92cce718aba5dbfdc52b99900c7e48320d172b32ce2cf50dd209825367c022"
+      "values_digest": "abdd10c854a03d874be13e72ad54adc8c1494d37e6e38178c002984a20305239",
+      "rendered_digest": "d6efcf61699ec73cb2f63435c59fed898229986b3150522a409244fccd0b1b0b",
+      "ast_digest": "d3c4674ab07a2485e3d1fe912967391aefe2aedbcfe763a1ac2c1f6937f44c70"
     }
   },
   "transitions": [
@@ -437,6 +421,27 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 50,
+      "generation": 39,
+      "actor": "codex:/root",
+      "reason": "Recover #115 exact review R11 after fresh-session:ad5f4ae4-2e2d-4c83-9b16-a888b1ee5514 found P1 served governed rooms accept arbitrary first turn_sequence for newly created rooms. Fix must reject or canonicalize first-turn ordering before a fresh review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 51,
+      "generation": 40,
+      "actor": "codex:/root",
+      "reason": "Record #115 R11 P1 remediation: served governed rooms now reject a non-initial first turn sequence instead of accepting arbitrary client-selected starting sequence.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Fixed the #115 governed-room served route so newly created Runtime rooms start at canonical turn sequence 1 and reject first-turn sequence gaps.\",\"changes\":[\"Initialized newly created served governed rooms with next_turn_sequence 1 instead of trusting envelope.intent.turn_sequence.\",\"Added served-path regression coverage proving first turn_sequence 2 is refused as reordered_room_turn and does not prevent a subsequent canonical sequence 1 turn from being accepted.\",\"Preserved existing governed-room Runtime, Layer 8 dependency, Observatory UI, and #278 durability boundaries.\"],\"artifacts\":[\"adl-runtime-kernel/src/control.rs\",\".csdlc/prepared/issues/115/validate_governed_room_implementation.py\"]}"
+    },
+    {
+      "sequence": 52,
+      "generation": 41,
+      "actor": "codex:/root",
+      "reason": "Record focused proof after #115 R11 P1 first-turn sequence remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3\",\".csdlc/prepared/issues/115/validate_governed_room_implementation.py\"],\"purpose\":\"Prove #115 governed-room Runtime and Observatory implementation after first-turn sequence-gap remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local run: fmt passed; conversation_rooms 6 passed; governed_room 3 passed including governed_room_ws_intent_rejects_non_initial_first_sequence; strict clippy passed; governed-room Observatory validator passed; HTML Observatory smoke passed; git diff --check passed\"}}"
     }
   ]
 }

@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Distinguished Runtime-accepted governed-room routes from recipient-delivered routes so the Observatory does not claim delivery before recipient delivery evidence exists.
+Fixed the #115 governed-room served route so newly created Runtime rooms start at canonical turn sequence 1 and reject first-turn sequence gaps.
 
 ## Artifacts
 
@@ -41,6 +41,8 @@ Distinguished Runtime-accepted governed-room routes from recipient-delivered rou
 - adl-runtime-kernel/src/conversation_rooms.rs
 - adl-runtime-kernel/src/control.rs
 - adl/tools/validate_v092_governed_room_observatory.mjs
+- adl-runtime-kernel/src/control.rs
+- .csdlc/prepared/issues/115/validate_governed_room_implementation.py
 
 ## Execution
 
@@ -67,6 +69,9 @@ Distinguished Runtime-accepted governed-room routes from recipient-delivered rou
 - Added an accepted governed-room delivery state for Runtime-accepted but not yet recipient-delivered turns.
 - Mapped served Runtime room intent acknowledgements to accepted rather than delivered.
 - Extended Runtime and Observatory proof so accepted route rows do not invent delivery evidence.
+- Initialized newly created served governed rooms with next_turn_sequence 1 instead of trusting envelope.intent.turn_sequence.
+- Added served-path regression coverage proving first turn_sequence 2 is refused as reordered_room_turn and does not prevent a subsequent canonical sequence 1 turn from being accepted.
+- Preserved existing governed-room Runtime, Layer 8 dependency, Observatory UI, and #278 durability boundaries.
 
 ## Validation
 
@@ -206,6 +211,15 @@ Distinguished Runtime-accepted governed-room routes from recipient-delivered rou
     "purpose": "Prove #115 governed-room accepted-vs-delivered remediation, prior per-room sequencing fix, Runtime routing, Observatory rendering, and diff hygiene before fresh exact review.",
     "outcome": "passed",
     "evidence_ref": "local run: fmt passed; conversation_rooms 6 passed; governed_room 2 passed; strict clippy passed; governed-room Observatory validator passed including accepted_route_rows_do_not_claim_delivery and per_room_turn_sequence_preserved_across_room_switching; HTML Observatory smoke passed; git diff --check passed"
+  },
+  {
+    "command": [
+      "python3",
+      ".csdlc/prepared/issues/115/validate_governed_room_implementation.py"
+    ],
+    "purpose": "Prove #115 governed-room Runtime and Observatory implementation after first-turn sequence-gap remediation.",
+    "outcome": "passed",
+    "evidence_ref": "local run: fmt passed; conversation_rooms 6 passed; governed_room 3 passed including governed_room_ws_intent_rejects_non_initial_first_sequence; strict clippy passed; governed-room Observatory validator passed; HTML Observatory smoke passed; git diff --check passed"
   }
 ]
 

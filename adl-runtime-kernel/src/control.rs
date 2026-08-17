@@ -985,7 +985,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             room_id: envelope.intent.room_id.clone(),
             polis_id: "local_runtime".to_owned(),
             epoch: 1,
-            next_turn_sequence: envelope.intent.turn_sequence,
+            next_turn_sequence: 1,
             seen_turn_ids: BTreeSet::new(),
             closed: false,
             participants,
@@ -3939,6 +3939,29 @@ mod layer8_conversation_ingress_tests {
             service.accept_governed_room_intent(&room_envelope(&service, "room-turn-1", 1, vec![]));
         assert_eq!(refused.status, "refused");
         assert_eq!(refused.error, Some("implicit_broadcast_denied"));
+
+        let accepted = service.accept_governed_room_intent(&room_envelope(
+            &service,
+            "room-turn-1",
+            1,
+            vec!["shepherd"],
+        ));
+        assert_eq!(accepted.status, "accepted");
+        assert_eq!(accepted.turn_sequence, 1);
+        assert_eq!(accepted.addressed_recipients, vec!["shepherd"]);
+    }
+
+    #[test]
+    fn governed_room_ws_intent_rejects_non_initial_first_sequence() {
+        let service = service_with_room_agents();
+        let refused = service.accept_governed_room_intent(&room_envelope(
+            &service,
+            "room-turn-2",
+            2,
+            vec!["shepherd"],
+        ));
+        assert_eq!(refused.status, "refused");
+        assert_eq!(refused.error, Some("reordered_room_turn"));
 
         let accepted = service.accept_governed_room_intent(&room_envelope(
             &service,
