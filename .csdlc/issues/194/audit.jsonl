@@ -1,3 +1,4 @@
 {"sequence":1,"generation":0,"actor":"codex:/root","reason":"initialize issue record and all six cards","operation":"bootstrap"}
 {"sequence":2,"generation":1,"actor":"codex:/root","reason":"approve completed issue design","operation":"approve_design"}
 {"sequence":3,"generation":1,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
+{"sequence":4,"generation":2,"actor":"codex:issue-194-private-wuji-aws-recovery","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
