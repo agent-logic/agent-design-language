@@ -6,10 +6,21 @@
   "initialization_digest": "a9e76b0d5c4ae85d6d72522adcc9f5c568eb1128a84ea282cde4601038a3dc77",
   "phase": "implemented",
   "generation": 10,
-  "digest": "78c5342d2c98ba50c77b7305a4c6276b4e6a346ea5111ba9741bdfed2bb4dfa9",
+  "digest": "2d25fac1e28af8c0d968212c646401fc3241bb1a9df2a4d33047f5cdbf88e628",
   "branch": "codex/280-large-polis-performance-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-280-large-polis-performance-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:b8ddccdc-1ece-472e-9f82-ec35647334be",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:f211adb46e970d5cdb82951d8b27f509a9f051fd:51afd6af7c9bf50a8cff39a25e6a63273de2fb0e001257b956eb915ef07381cf",
+    "scope": [
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/tests/large_polis_performance_recovery.test.mjs",
+      ".csdlc/prepared/issues/280/validate_preparation_bundle.py",
+      ".csdlc/issues/280",
+      ".csdlc/evidence/280"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +56,9 @@
       "ast_digest": "a0403052bc3f735e434966a883808a3b3055d2e0341cd59d01227c2a9f4c321d"
     },
     "srp": {
-      "values_digest": "22da0b657e8361378e99739390c86664318b1b309b11a4dc14d25611ab81e8b6",
-      "rendered_digest": "dec77dc40d7d3993c54a070acb40b5d32354eb4044c80cbb5c505a967c937e41",
-      "ast_digest": "1450c4863306f66943b37afdc80c8063add5b4c7e2aeb7ae6fb0dae50a450bfd"
+      "values_digest": "d0488afd93c480fce8ad21dec7437e89f2cdc9ff34b3902f7a299658e8a3768a",
+      "rendered_digest": "85c779587157a290479906c0b91c86080aaa9370782243676dde578a7b103e1b",
+      "ast_digest": "9f3ea422d1dd17c8df3ae87a5dd2ad76ad9a3321048dc783dc501a78bc032bb7"
     },
     "sor": {
       "values_digest": "c60c4bf2b9c8f59324236d47a27e5a057ae9746fe604a8b85ed0c8aad58b082c",
@@ -183,6 +194,13 @@
       "actor": "codex:/root",
       "reason": "Recover active exact-head review assignment fresh-session:b9b23de4-b56e-4270-8bfd-292aca8e9858 because post-assignment proof evidence rerun found the committed preparation log still named the pre-refresh merge head; commit corrected evidence and reassign a new fresh reviewer.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
