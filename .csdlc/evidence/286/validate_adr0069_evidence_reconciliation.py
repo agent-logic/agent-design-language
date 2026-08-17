@@ -64,6 +64,7 @@ FORBIDDEN_OVERCLAIMS = (
     "terminal WP-18C Runtime/Observatory evidence",
     "terminal for its own WP-18C parent",
     "WP-18C terminal evidence",
+    "terminal evidence from WP-18C owners",
     "WP-18C parent terminal",
     "WP-18C complete",
     "WP-18C closeout",
@@ -83,7 +84,6 @@ NEGATED_OVERCLAIM_MARKERS = (
     "without ",
     "non-goal",
     "non_goals",
-    "claiming ",
 )
 
 
@@ -93,13 +93,21 @@ def require(condition: bool, message: str) -> None:
 
 
 def assert_no_forbidden_overclaims(text: str, label: str) -> None:
+    def phrase_is_negated(line_lower: str, phrase_lower: str) -> bool:
+        start = line_lower.find(phrase_lower)
+        if start < 0:
+            return False
+        prefix = line_lower[max(0, start - 80) : start]
+        return any(marker in prefix for marker in NEGATED_OVERCLAIM_MARKERS)
+
     for line_number, line in enumerate(text.splitlines(), start=1):
         line_lower = line.lower()
-        if any(marker in line_lower for marker in NEGATED_OVERCLAIM_MARKERS):
-            continue
         for phrase in FORBIDDEN_OVERCLAIMS:
+            phrase_lower = phrase.lower()
+            if phrase_is_negated(line_lower, phrase_lower):
+                continue
             require(
-                phrase.lower() not in line_lower,
+                phrase_lower not in line_lower,
                 f"{label}:{line_number} contains forbidden overclaim: {phrase}",
             )
 

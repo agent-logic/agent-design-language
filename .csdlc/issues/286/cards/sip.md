@@ -12,7 +12,7 @@ Status: ready
 
 ## Goal
 
-Reconcile terminal evidence for ADR 0069, the Observatory governed Runtime consumer boundary, from WP-18A and WP-18C owners.
+Reconcile issue-local ADR 0069 governed Runtime consumer evidence from exact WP-18A and WP-18C issue inputs without claiming WP-18C terminal closeout or changing ADR 0069 status.
 
 ## Required Outcome
 

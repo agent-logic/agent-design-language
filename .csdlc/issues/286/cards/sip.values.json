@@ -7,13 +7,13 @@
     "title": "[v0.92][ADR 0069][207.d] Reconcile Observatory governed Runtime consumer evidence",
     "slug": "adr-0069-observatory-runtime-consumer-evidence",
     "version": "v0.92",
-    "generation": 17
+    "generation": 20
   },
   "status": "ready",
   "content": {
     "card_kind": "sip",
     "values": {
-      "goal": "Reconcile terminal evidence for ADR 0069, the Observatory governed Runtime consumer boundary, from WP-18A and WP-18C owners.",
+      "goal": "Reconcile issue-local ADR 0069 governed Runtime consumer evidence from exact WP-18A and WP-18C issue inputs without claiming WP-18C terminal closeout or changing ADR 0069 status.",
       "required_outcome": "ADR 0069 has issue-local evidence showing whether governed Runtime consumer proof exists at exact landed issue revisions, with retained human review and machine-readable outcomes, while #84 remains the external Unity Runtime proof gate.",
       "declared_scope": [
         "Reconcile Observatory governed Runtime consumer evidence from WP-18A owners, including the open #84 Unity Runtime proof gate.",

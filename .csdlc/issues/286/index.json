@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "c92f938e8f52553a5e99e5a70cd53244133692af78462fa1d8eae320a9d9bfef",
   "phase": "implemented",
-  "generation": 17,
-  "digest": "98055cee7c51c7437cafb2d96590d21b1d9eabd6edbc23c0a16bc5f7c55acf5c",
+  "generation": 20,
+  "digest": "1b2dd5334e3f650c10177282d7d81d28810099698b9946ab14a39dcbc82efeee",
   "branch": "codex/286-adr0069-evidence-reconciliation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-286-adr0069-evidence-reconciliation",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ca84d6bc1b0b5747d9bafdcaad6c4d89796d2c25e47c4faa919837e99f2511a3",
-      "rendered_digest": "d3fddd29969501de4733bc3ebc572e5aec426165c0b2c6974ee4ee52a403c2ee",
-      "ast_digest": "d3e010103f4d9bd8c088fc84a7ca0b98d32059558a35d38cd943ff3c0cb459fa"
+      "values_digest": "26fc2eaf382f0a1514d9cfaa6af9a27b3b73a34e9ce31ae0c5e75bf90498c221",
+      "rendered_digest": "c9091a7475893afda9b0d9001ff075042bdd75ec791d54c17b73dcbb68d5464d",
+      "ast_digest": "844ba9e776904493cec9be5f02f243035f059cbd8359f8ede4a79ca665e7b3d7"
     },
     "stp": {
-      "values_digest": "fb4af212b32b943f6b91c5bb266c2779e418cf4951a48f7c05a51fa5ccad6cc9",
+      "values_digest": "6e1944f5f94470c725bc4a6f81ae4bbb58af4d6f0f6a696a3ba5f2b6caaaffd1",
       "rendered_digest": "bd6235d325ad72150ca3f7a517ec6780c9ece4ae76a9c259ba886caec2f58a8a",
       "ast_digest": "eb37e31f42f8b321a8d427f82f1e2369201f99771891dd41d08e431f2e088135"
     },
     "spp": {
-      "values_digest": "2df6b4b157b4ae8f9bd7a918911de92eab715022d5c750d3a1ef2604144e43f9",
+      "values_digest": "710330053d2639d61a7e8353afb1734b9b2f162a1a96ee07e280bd6173f2eef8",
       "rendered_digest": "e9c2d49e10fcb1e9b3f678067faf5aa2a2d4af5a03a3a53987e579e97e414a29",
       "ast_digest": "73d8fa338897a32598bab8205f6be3e4301ebe5b9e86c088f2ed5940445c2039"
     },
     "vpp": {
-      "values_digest": "99579cdb489ac0482951858870bc972ea48722d3fea69992c18b806315df8a72",
+      "values_digest": "bd2a9de1ce3d6c620dbe99f27dcbb7f5b0f0be9bc282a2671f1bb0ba320c46c8",
       "rendered_digest": "182be6cb11fe7081a1ed2ee23df8db32cabef0b3cf7423e71f6ba8420beb0e08",
       "ast_digest": "2356174ae13d8fc4efda883e3b306eb865652ebe9b42de9733e4a32713741111"
     },
     "srp": {
-      "values_digest": "4cacd19927687b32e90392b9d848626846d59f1ddec607a5225cb7d2476b8b30",
+      "values_digest": "4b5398c8694812a2328a5d2cddd3dbc8da978d005b8fb72acf5d394bd4fd35c5",
       "rendered_digest": "6ef3a2ad5eb7e09cf68f6bbe15d9c075cbc920037aad82181a5246547e4202ff",
       "ast_digest": "182ea2d5f98eae31333eff0580d49c6986d3a2ef399aefcaed3fb98295298a5e"
     },
     "sor": {
-      "values_digest": "c91a6e994155772a31112e3db0d68cdd8d8337c86cac252958f8ee4fa8a9575b",
+      "values_digest": "67884d1fb4e259358f338bb9a930450ff2dd95a469e1afe2ff906a15549124fd",
       "rendered_digest": "f006b7e3d5b9342398d7820c4f522748a3dda921c8ba2d95dfabeefe73ed3617",
       "ast_digest": "5122c5e18aa2d1ccacf91951c04f4818a81883d22fd89580853ffc1308caa925"
     }
@@ -232,6 +232,34 @@
       "actor": "codex:root",
       "reason": "Repair R3 lifecycle card truth so #286 references exact issue inputs without WP-18C-level terminal overclaims and prepares full-card validator coverage.",
       "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: #286 preparation packet states the ADR 0069 evidence-reconciliation boundary and #288/#207 ownership boundaries.\",\"AC-2: Issue-local evidence classifies referenced WP-18A surfaces and exact #117/#271/#282 issue inputs as terminal-proving for their own issues, partial/non-terminal for ADR 0069, or out-of-scope.\",\"AC-3: Every issue-input claim includes exact landed revision identity, artifact locator/digest, human-review reference, and machine-readable outcome reference.\",\"AC-4: Residual gaps are explicit and do not block truthful #207 consumption when ADR 0069 is not acceptance-ready.\",\"AC-5: #286 does not move ADR 0069 to Accepted, does not update shared ADR indexes/manifests, and does not claim #207/#288 or WP-18C closeout.\",\"AC-6: Fresh exact-head review has no unresolved actionable findings, required CI is green on the published head, and typed finish derives terminal authority.\"]}"
+    },
+    {
+      "sequence": 23,
+      "generation": 17,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 18,
+      "actor": "fresh-session:abfe3cc7-e359-44db-8da0-208691d9ff57",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 19,
+      "actor": "codex:root",
+      "reason": "Recover after fresh-session:abfe3cc7-e359-44db-8da0-208691d9ff57 found remaining SIP Goal WP-18C terminal framing and validator semantic coverage gap; repair only #286 card/evidence truth before a different fresh exact reviewer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "Correct review-blocking SIP Goal truth after typed review recovery so #286 remains issue-local ADR 0069 evidence reconciliation and does not claim WP-18C terminal closeout.",
+      "operation": "{\"new_value\":\"Reconcile issue-local ADR 0069 governed Runtime consumer evidence from exact WP-18A and WP-18C issue inputs without claiming WP-18C terminal closeout or changing ADR 0069 status.\",\"operation\":\"correct_goal_after_recovery\",\"previous_value\":\"Reconcile terminal evidence for ADR 0069, the Observatory governed Runtime consumer boundary, from WP-18A and WP-18C owners.\",\"recovery_generation\":19,\"recovery_sequence\":25}"
     }
   ]
 }
