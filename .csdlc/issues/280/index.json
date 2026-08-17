@@ -5,90 +5,12 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "a9e76b0d5c4ae85d6d72522adcc9f5c568eb1128a84ea282cde4601038a3dc77",
   "phase": "implemented",
-  "generation": 5,
-  "digest": "f2aefa83531b096850d268343cecb3e6fa982456821390635fa65f0ba6bd1933",
+  "generation": 7,
+  "digest": "c25446eaddbe4c25e184b2155094fbfc344d1645b48b7a9244a45b466eac6941",
   "branch": "codex/280-large-polis-performance-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-280-large-polis-performance-recovery",
-  "review_assignment": {
-    "reviewer": "fresh-session:613498c9-7e79-4ad7-84d5-848b4e7714eb",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:5a2b82d33259e3ee4dc5d0c56debeb4cdde10b2e:1ad837bb66e9c5a86241d9771088743f86554d1ccde6b7d28907e6f3e1d3a904",
-    "scope": [
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/tests/large_polis_performance_recovery.test.mjs",
-      ".csdlc/prepared/issues/280/validate_preparation_bundle.py",
-      ".csdlc/issues/280",
-      ".csdlc/evidence/280"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:613498c9-7e79-4ad7-84d5-848b4e7714eb",
-    "scope": [
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/tests/large_polis_performance_recovery.test.mjs",
-      ".csdlc/prepared/issues/280/validate_preparation_bundle.py",
-      ".csdlc/issues/280",
-      ".csdlc/evidence/280"
-    ],
-    "reviewed_revision": "git-blake3:5a2b82d33259e3ee4dc5d0c56debeb4cdde10b2e:1ad837bb66e9c5a86241d9771088743f86554d1ccde6b7d28907e6f3e1d3a904",
-    "findings": [
-      {
-        "id": "6134-p2-missing-latency-resource-metrics",
-        "severity": "p2",
-        "summary": "AC-2 is unmet: the proof records fixture counts and limits but no latency or resource measurements.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "6134-p2-missing-json-evidence-and-candidate-revision",
-        "severity": "p2",
-        "summary": "AC-4 is unmet: SOR claims .csdlc/evidence/280/large_polis_performance_recovery_metrics.json but the assigned commit lacks it, and candidate_revision resolves to fixture incarnation rather than Git revision.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "6134-p2-transcript-window-not-integrated",
-        "severity": "p2",
-        "summary": "AC-1 is not proven for transcripts because retainedLargePolisWindow is only exercised by synthetic test/evaluator and not integrated into the browser transcript or DOM-facing projection path.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "6134-p2-recovery-back-to-healthy-not-proven",
-        "severity": "p2",
-        "summary": "AC-3 is not proven: the test asserts degraded labels and a truncated action list but never exercises recovery back to healthy state, reconnect/restart execution, or absence of hidden stale state.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "6134-p2-prep-validator-base-not-assigned-revision",
-        "severity": "p2",
-        "summary": "The preparation validator and evidence validate pre-implementation HEAD 557dd28d85746a8dc5109dcc674f5a606b8c9890, not the assigned substantive revision.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
-    "residual_risks": [
-      "Publication is held until all actionable findings are remediated and a different fresh reviewer passes the new immutable head."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -103,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d632c1f29f316e511859617d1050c32979c4525ee2ab7fbd82a829dd110da805",
+      "values_digest": "f5d59262082fd89ba8cce70d3d9b15df71d052a112d2f7a253e339d00245eac8",
       "rendered_digest": "0292b60bec62dc27f2de3e5ddd7046079e1d18ce76df63f8ba846d795c7be12c",
       "ast_digest": "1071d7f76fb0a238a2e4fc614b05087a3f8c9d56e37f424e104c6ded16af8aff"
     },
     "stp": {
-      "values_digest": "537fec59b710c4445df3d49775fffb5f1227dce662fbf7bda66db4371c174d9d",
+      "values_digest": "d29cef6648b6abda1903508cbe2ad914dfda22fb71d326855db6e93543c4c28e",
       "rendered_digest": "f32af0ea55041cb66b548540592248ae63d7a11115e32af86d9bb62965b4a20f",
       "ast_digest": "fb18932ada816a7f1efda0cf5e90f66ad54e9640dd6bfb4ae994d522f5d7fe73"
     },
     "spp": {
-      "values_digest": "201ec6c884afa8f1a2d0ded8131dc81ae81f3d42bca8d321708820e0148924ae",
+      "values_digest": "5527e97908c852f823263f1a2cceb972dc67892da256e66125a1eeb669e8f185",
       "rendered_digest": "5e3ca4b8fcfa420c823c412940c5677057462e7fdf6463814915e5aec8735798",
       "ast_digest": "d2b2e4b201a644033a2ad662d001f155f7d4cdbd441ff422ad0c3f6b49c1be51"
     },
     "vpp": {
-      "values_digest": "3d0dfe26ae353a32a82fca315d42905279263124721df2003e00421ff19f686a",
+      "values_digest": "b886991aa41c115315166884df2ac9c299c3cb576eb855b61555b00048e55ea8",
       "rendered_digest": "988a9609f7792465ff794a53f4e13b3cc9027cb6cb54f8054c2c01458bbda2da",
       "ast_digest": "a0403052bc3f735e434966a883808a3b3055d2e0341cd59d01227c2a9f4c321d"
     },
     "srp": {
-      "values_digest": "51ea98466926477a043e5ea8b72b313e575c2626451683c935311fbbc740e08f",
-      "rendered_digest": "ddb31b499f9baf9394a064948014a33ad40b2759b1686be78152f9615e89ae76",
-      "ast_digest": "42cd14016fca27b4fa393851fec1c1c7de9530cf04466d65c41c8bd18c05d6bb"
+      "values_digest": "2742563a15f2f692b5475aff55b2cd2c373dd2888332a96c0a87dc58ffa4d90b",
+      "rendered_digest": "dec77dc40d7d3993c54a070acb40b5d32354eb4044c80cbb5c505a967c937e41",
+      "ast_digest": "1450c4863306f66943b37afdc80c8063add5b4c7e2aeb7ae6fb0dae50a450bfd"
     },
     "sor": {
-      "values_digest": "216295c707e0b801a0c5610068370fc20fd4def6be9686c92be7a9825e0b8c75",
-      "rendered_digest": "72ff441d9cb4d4b09239f94cca6b43efeb49817959a8d0a85453bce879fdc28b",
-      "ast_digest": "aa01734247d682b73cc3343da9b928a528a60a6b5612b6ec62d65359c1041962"
+      "values_digest": "1012b5e2b54eb84eecdcd12fefdcfcaadc611d9c51a1e34e6d4b69f28ce274a3",
+      "rendered_digest": "9b00e1b0fa17eae71426862856048ea72f668cf0650fdf4fa171cfe0833db0b7",
+      "ast_digest": "67b09ae287512bd75cc0ef042aab1c111ba8fd8db15a1935ac56ef53a092ebe9"
     }
   },
   "transitions": [
@@ -212,6 +134,20 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Recover failed exact review fresh-session:613498c9-7e79-4ad7-84d5-848b4e7714eb before remediating its five in-scope #280 performance/recovery proof findings and assigning a different fresh reviewer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Record #280 remediation of fresh review findings before assigning a different exact-head reviewer.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented deterministic HTML Observatory large-Polis performance/recovery proof and remediated review findings by adding latency/resource metrics, committed JSON evidence, DOM transcript-window integration, recovery-to-healthy proof, and implementation-head ancestry validation.\",\"changes\":[\"Bound browser-facing roster and event projections and integrated transcript pruning into actual conversation and governed-room DOM append paths.\",\"Added deterministic resource and latency metrics for large roster, retained transcript, retained event tail, and recovery actions.\",\"Added degraded-to-healthy recovery sequence proof for reconnect, Runtime restart, backpressure, offline, and version mismatch without granting browser authority or hiding stale state.\",\"Committed the machine-readable #280 metrics JSON evidence and tied it to exact integrated candidate base 557dd28d85746a8dc5109dcc674f5a606b8c9890 plus the proof execution head.\",\"Repaired the preparation validator so it proves the integrated candidate base is ancestral to the implementation head instead of requiring the worktree to remain at the pre-implementation base.\"],\"artifacts\":[\"demos/html-observatory/app.js\",\"demos/html-observatory/tests/large_polis_performance_recovery.test.mjs\",\".csdlc/evidence/280/large_polis_performance_recovery_metrics.json\",\".csdlc/prepared/issues/280/validate_preparation_bundle.py\",\".csdlc/issues/280\",\".csdlc/evidence/280\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/280/validate_preparation_bundle.py\"],\"purpose\":\"Validate #280 issue identity, dependency ancestry, integrated candidate base ancestry, performance/recovery proof scope, and forbidden sibling/parent ownership.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/280/280-preparation-contract.log\"},{\"command\":[\"node\",\"demos/html-observatory/tests/large_polis_performance_recovery.test.mjs\"],\"purpose\":\"Run deterministic large-roster, long-transcript, stream pressure, resource/latency, reconnect/restart/offline/version-mismatch recovery proof and emit JSON metrics.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/280/280-observatory-large-polis-performance-recovery.log and .csdlc/evidence/280/large_polis_performance_recovery_metrics.json\"},{\"command\":[\"node\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\"],\"purpose\":\"Prove existing Runtime conversation acceptance/delivery/reconnect behavior still passes after #280 projection-bounding changes.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/280/280-observatory-conversation-regression.log\"},{\"command\":[\"node\",\"demos/html-observatory/tests/operator_attention_inbox.test.mjs\"],\"purpose\":\"Prove operator-attention Runtime-authority boundaries still pass after #280 projection-bounding changes.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/280/280-observatory-operator-attention-regression.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject malformed whitespace or patch artifacts before review.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/280/280-diff-hygiene.log\"}]}"
     }
   ]
 }

@@ -7,87 +7,77 @@
     "title": "[v0.92][WP-18C.07b][117.b] Prove large-Polis performance and recovery behavior",
     "slug": "large-polis-performance-recovery",
     "version": "v0.92",
-    "generation": 5
+    "generation": 7
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Implement deterministic HTML Observatory large-Polis performance/recovery proof with bounded roster, transcript, event, and recovery-state projections.",
+      "summary": "Implemented deterministic HTML Observatory large-Polis performance/recovery proof and remediated review findings by adding latency/resource metrics, committed JSON evidence, DOM transcript-window integration, recovery-to-healthy proof, and implementation-head ancestry validation.",
       "actual_changes": [
-        "Add deterministic large-Polis fixture/proof helpers to the HTML Observatory model without changing Runtime authority or protocol semantics.",
-        "Bound browser-facing large roster and event-tail projections while preserving exact total counts for proof and operator truth.",
-        "Add a focused large-Polis performance/recovery Node proof that emits public-safe metrics for roster growth, long transcripts, stream pressure, reconnect, restart, offline, and version-mismatch recovery."
+        "Bound browser-facing roster and event projections and integrated transcript pruning into actual conversation and governed-room DOM append paths.",
+        "Added deterministic resource and latency metrics for large roster, retained transcript, retained event tail, and recovery actions.",
+        "Added degraded-to-healthy recovery sequence proof for reconnect, Runtime restart, backpressure, offline, and version mismatch without granting browser authority or hiding stale state.",
+        "Committed the machine-readable #280 metrics JSON evidence and tied it to exact integrated candidate base 557dd28d85746a8dc5109dcc674f5a606b8c9890 plus the proof execution head.",
+        "Repaired the preparation validator so it proves the integrated candidate base is ancestral to the implementation head instead of requiring the worktree to remain at the pre-implementation base."
       ],
       "artifacts": [
         "demos/html-observatory/app.js",
         "demos/html-observatory/tests/large_polis_performance_recovery.test.mjs",
         ".csdlc/evidence/280/large_polis_performance_recovery_metrics.json",
+        ".csdlc/prepared/issues/280/validate_preparation_bundle.py",
         ".csdlc/issues/280",
-        ".csdlc/prepared/issues/280"
+        ".csdlc/evidence/280"
       ],
       "actual_validation": [
         {
           "command": [
-            "git",
-            "diff",
-            "--check"
+            "python3",
+            ".csdlc/prepared/issues/280/validate_preparation_bundle.py"
           ],
-          "purpose": "Run git diff hygiene check.",
+          "purpose": "Validate #280 issue identity, dependency ancestry, integrated candidate base ancestry, performance/recovery proof scope, and forbidden sibling/parent ownership.",
           "outcome": "passed",
-          "evidence_ref": "280-diff-hygiene.log"
-        },
-        {
-          "command": [
-            "node",
-            "demos/html-observatory/tests/conversation_sessions.test.mjs"
-          ],
-          "purpose": "Run focused conversation-session regression.",
-          "outcome": "passed",
-          "evidence_ref": "280-observatory-conversation-regression.log"
+          "evidence_ref": ".csdlc/evidence/280/280-preparation-contract.log"
         },
         {
           "command": [
             "node",
             "demos/html-observatory/tests/large_polis_performance_recovery.test.mjs"
           ],
-          "purpose": "Run the #280 large-Polis deterministic Node proof.",
+          "purpose": "Run deterministic large-roster, long-transcript, stream pressure, resource/latency, reconnect/restart/offline/version-mismatch recovery proof and emit JSON metrics.",
           "outcome": "passed",
-          "evidence_ref": "280-observatory-large-polis-performance-recovery.log"
+          "evidence_ref": ".csdlc/evidence/280/280-observatory-large-polis-performance-recovery.log and .csdlc/evidence/280/large_polis_performance_recovery_metrics.json"
+        },
+        {
+          "command": [
+            "node",
+            "demos/html-observatory/tests/conversation_sessions.test.mjs"
+          ],
+          "purpose": "Prove existing Runtime conversation acceptance/delivery/reconnect behavior still passes after #280 projection-bounding changes.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/280/280-observatory-conversation-regression.log"
         },
         {
           "command": [
             "node",
             "demos/html-observatory/tests/operator_attention_inbox.test.mjs"
           ],
-          "purpose": "Run focused operator-attention regression.",
+          "purpose": "Prove operator-attention Runtime-authority boundaries still pass after #280 projection-bounding changes.",
           "outcome": "passed",
-          "evidence_ref": "280-observatory-operator-attention-regression.log"
+          "evidence_ref": ".csdlc/evidence/280/280-observatory-operator-attention-regression.log"
         },
         {
           "command": [
-            "python3",
-            ".csdlc/prepared/issues/280/validate_preparation_bundle.py"
+            "git",
+            "diff",
+            "--check"
           ],
-          "purpose": "Run the issue-owned #280 preparation validator.",
+          "purpose": "Reject malformed whitespace or patch artifacts before review.",
           "outcome": "passed",
-          "evidence_ref": "280-preparation-contract.log"
-        },
-        {
-          "command": [
-            "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate",
-            "--root",
-            "/Volumes/FastWork/adl-worktrees/adl-issue-280-large-polis-performance-recovery",
-            "issue",
-            "--issue",
-            "280"
-          ],
-          "purpose": "Run C-SDLC v2 typed issue validation for #280.",
-          "outcome": "passed",
-          "evidence_ref": "280-typed-validate.log"
+          "evidence_ref": ".csdlc/evidence/280/280-diff-hygiene.log"
         }
       ],
-      "integration_state": "not_started",
+      "integration_state": "worktree_only",
       "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",

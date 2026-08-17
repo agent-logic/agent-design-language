@@ -18,7 +18,7 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parents[4]
 ISSUE = 280
 EXPECTED_TITLE = "[v0.92][WP-18C.07b][117.b] Prove large-Polis performance and recovery behavior"
-EXPECTED_HEAD = "557dd28d85746a8dc5109dcc674f5a606b8c9890"
+EXPECTED_CANDIDATE_BASE = "557dd28d85746a8dc5109dcc674f5a606b8c9890"
 DEPENDENCY_MERGES = {
     111: "5dab282aa6b730efd057f0502dacd462d30cc1d0",
     112: "6172bfb067bd45ec231fbc2635e7efbb718ef415",
@@ -71,7 +71,17 @@ def require(condition: bool, message: str) -> None:
 
 def main() -> int:
     head = run_git("rev-parse", "HEAD")
-    require(head == EXPECTED_HEAD, f"unexpected current candidate HEAD: {head}")
+    base_proc = subprocess.run(
+        ["git", "-C", str(ROOT), "merge-base", "--is-ancestor", EXPECTED_CANDIDATE_BASE, "HEAD"],
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+    require(
+        base_proc.returncode == 0,
+        f"expected integrated candidate base {EXPECTED_CANDIDATE_BASE} is not ancestral to HEAD {head}",
+    )
 
     for issue, sha in DEPENDENCY_MERGES.items():
         proc = subprocess.run(
@@ -109,6 +119,7 @@ def main() -> int:
                 "schema": "adl.issue_280.preparation_validation.v1",
                 "issue": ISSUE,
                 "head": head,
+                "candidate_base": EXPECTED_CANDIDATE_BASE,
                 "dependency_merges_checked": DEPENDENCY_MERGES,
                 "result": "pass",
             },

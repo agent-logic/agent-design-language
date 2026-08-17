@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-18C.07b][117.b] Prove large-Polis performance and recovery behavior",
     "slug": "large-polis-performance-recovery",
     "version": "v0.92",
-    "generation": 5
+    "generation": 7
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "demos/html-observatory/app.js\ndemos/html-observatory/tests/large_polis_performance_recovery.test.mjs\n.csdlc/prepared/issues/280/validate_preparation_bundle.py\n.csdlc/issues/280\n.csdlc/evidence/280",
-      "review_revision": "git-blake3:5a2b82d33259e3ee4dc5d0c56debeb4cdde10b2e:1ad837bb66e9c5a86241d9771088743f86554d1ccde6b7d28907e6f3e1d3a904",
-      "reviewer": "fresh-session:613498c9-7e79-4ad7-84d5-848b4e7714eb",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does #280 stay limited to large-Polis performance/recovery proof and narrowly necessary Observatory fixes?",
         "Are #279 accessibility/responsive, #281 security/privacy/adversarial, #282 final qualification, #117, and #110 explicitly excluded?",
@@ -23,62 +23,9 @@
         "Could any browser behavior introduced here grant authority, synthesize acknowledgements, mask refusal, or cache stale authorization?",
         "Are all dependency merge gates truthfully required before implementation and publication?"
       ],
-      "findings": [
-        {
-          "id": "6134-p2-missing-latency-resource-metrics",
-          "severity": "p2",
-          "summary": "AC-2 is unmet: the proof records fixture counts and limits but no latency or resource measurements.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": null
-        },
-        {
-          "id": "6134-p2-missing-json-evidence-and-candidate-revision",
-          "severity": "p2",
-          "summary": "AC-4 is unmet: SOR claims .csdlc/evidence/280/large_polis_performance_recovery_metrics.json but the assigned commit lacks it, and candidate_revision resolves to fixture incarnation rather than Git revision.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": null
-        },
-        {
-          "id": "6134-p2-transcript-window-not-integrated",
-          "severity": "p2",
-          "summary": "AC-1 is not proven for transcripts because retainedLargePolisWindow is only exercised by synthetic test/evaluator and not integrated into the browser transcript or DOM-facing projection path.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": null
-        },
-        {
-          "id": "6134-p2-recovery-back-to-healthy-not-proven",
-          "severity": "p2",
-          "summary": "AC-3 is not proven: the test asserts degraded labels and a truncated action list but never exercises recovery back to healthy state, reconnect/restart execution, or absence of hidden stale state.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": null
-        },
-        {
-          "id": "6134-p2-prep-validator-base-not-assigned-revision",
-          "severity": "p2",
-          "summary": "The preparation validator and evidence validate pre-implementation HEAD 557dd28d85746a8dc5109dcc674f5a606b8c9890, not the assigned substantive revision.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": null
-        }
-      ],
-      "residual_risk": [
-        "Publication is held until all actionable findings are remediated and a different fresh reviewer passes the new immutable head."
-      ],
-      "review_result": "changes_required"
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

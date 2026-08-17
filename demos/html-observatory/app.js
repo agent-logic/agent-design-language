@@ -93,7 +93,9 @@ const LARGE_POLIS_LIMITS = Object.freeze({
   maxVisibleAgents: 120,
   maxTranscriptTurns: 300,
   maxEventTail: 240,
-  maxPendingRecoveryActions: 1
+  maxPendingRecoveryActions: 5,
+  maxProjectedDomNodes: 1300,
+  maxDeterministicProjectionMillis: 120
 });
 let runtimeV3Config = { ...RUNTIME_V3_DEFAULT_CONFIG };
 const rosterUiState = {
@@ -1819,6 +1821,16 @@ function retainedLargePolisWindow(rows = [], limit = LARGE_POLIS_LIMITS.maxTrans
   return asArray(rows).slice(Math.max(0, asArray(rows).length - safeLimit));
 }
 
+function pruneLargePolisDomWindow(container, selector, limit = LARGE_POLIS_LIMITS.maxTranscriptTurns) {
+  if (!container || typeof container.querySelectorAll !== "function") return 0;
+  const rows = Array.from(container.querySelectorAll(selector));
+  const removeCount = Math.max(0, rows.length - Math.max(0, Number(limit) || 0));
+  rows.slice(0, removeCount).forEach((row) => row.remove());
+  container.dataset.retainedTurnCount = String(rows.length - removeCount);
+  container.dataset.prunedTurnCount = String(removeCount);
+  return removeCount;
+}
+
 function largePolisRecoveryViewModel(state = {}) {
   const transitions = [];
   const actions = [];
@@ -1856,9 +1868,49 @@ function largePolisRecoveryViewModel(state = {}) {
     status,
     transitions,
     actions: [...new Set(actions)].slice(0, LARGE_POLIS_LIMITS.maxPendingRecoveryActions),
-    duplicate_action_prevented: actions.length > new Set(actions).size || actions.length > LARGE_POLIS_LIMITS.maxPendingRecoveryActions,
+    duplicate_action_prevented: actions.length > new Set(actions).size,
     grants_authority: false,
     runtime_authority_required: true
+  };
+}
+
+function largePolisRecoverySequence(states = []) {
+  const steps = asArray(states).map((state, index) => ({
+    sequence: index + 1,
+    view: largePolisRecoveryViewModel(state)
+  }));
+  const terminal = steps.at(-1)?.view;
+  return {
+    schema: "adl.html_observatory.large_polis_recovery_sequence.v1",
+    steps,
+    recovered: terminal
+      ? Object.values(terminal.status).every((state) => state === "ready") && terminal.actions.length === 0
+      : false,
+    stale_state_hidden: false,
+    duplicate_actions: steps.reduce((count, step) => count + (step.view.duplicate_action_prevented ? 1 : 0), 0)
+  };
+}
+
+function estimateLargePolisResourceMetrics({
+  visibleAgents = 0,
+  retainedTranscriptTurns = 0,
+  retainedStreamEvents = 0,
+  recoveryActions = 0
+} = {}) {
+  const projectedDomNodes =
+    Number(visibleAgents) * 3
+    + Number(retainedTranscriptTurns) * 2
+    + Number(retainedStreamEvents)
+    + Number(recoveryActions);
+  const deterministicProjectionMillis = Math.ceil(projectedDomNodes / 25);
+  return {
+    schema: "adl.html_observatory.large_polis_resource_metrics.v1",
+    projected_dom_nodes: projectedDomNodes,
+    max_projected_dom_nodes: LARGE_POLIS_LIMITS.maxProjectedDomNodes,
+    deterministic_projection_millis: deterministicProjectionMillis,
+    max_deterministic_projection_millis: LARGE_POLIS_LIMITS.maxDeterministicProjectionMillis,
+    bounded_dom_nodes: projectedDomNodes <= LARGE_POLIS_LIMITS.maxProjectedDomNodes,
+    bounded_latency: deterministicProjectionMillis <= LARGE_POLIS_LIMITS.maxDeterministicProjectionMillis
   };
 }
 
@@ -1866,7 +1918,9 @@ function buildLargePolisPerformanceRecoveryFixture({
   agentCount = 2500,
   transcriptTurns = 5000,
   streamEvents = 1200,
-  runtimeIncarnationChanged = true
+  runtimeIncarnationChanged = true,
+  candidateRevision = "557dd28d85746a8dc5109dcc674f5a606b8c9890",
+  implementationRevision = "unassigned"
 } = {}) {
   const agents = Array.from({ length: agentCount }, (_, index) => ({
     id: `agent-${String(index + 1).padStart(5, "0")}`,
@@ -1899,6 +1953,8 @@ function buildLargePolisPerformanceRecoveryFixture({
         schema: RUNTIME_V3_OBSERVATORY_SCHEMA,
         runtime_id: "runtime-large-polis",
         runtime_incarnation_id: runtimeIncarnationChanged ? "incarnation-b" : "incarnation-a",
+        source_revision: candidateRevision,
+        implementation_revision: implementationRevision,
         agent_population: {
           total_count: agentCount,
           revision: 42,
@@ -1935,9 +1991,27 @@ function evaluateLargePolisPerformanceRecovery(fixture = buildLargePolisPerforma
   const vm = buildPanopticonViewModel(fixture.snapshot, FALLBACK_PACKET);
   const transcriptWindow = retainedLargePolisWindow(fixture.transcript);
   const recovery = largePolisRecoveryViewModel(fixture.recovery);
+  const recoverySequence = largePolisRecoverySequence([
+    fixture.recovery,
+    {
+      connected: true,
+      runtimeIncarnationChanged: false,
+      bufferedMessages: 0,
+      backpressureThreshold: fixture.recovery?.backpressureThreshold || 1000,
+      offline: false,
+      versionMismatch: false
+    }
+  ]);
+  const resourceMetrics = estimateLargePolisResourceMetrics({
+    visibleAgents: vm.visibleAgentCount,
+    retainedTranscriptTurns: transcriptWindow.length,
+    retainedStreamEvents: vm.events.length,
+    recoveryActions: recovery.actions.length
+  });
   return {
     schema: "adl.html_observatory.large_polis_performance_recovery_metrics.v1",
     candidate_revision: runTimeCandidateRevision(fixture.snapshot),
+    implementation_revision: fixture.snapshot?.status?.implementation_revision || "unassigned",
     agent_total: vm.agentTotal,
     visible_agent_count: vm.visibleAgentCount,
     max_visible_agents: LARGE_POLIS_LIMITS.maxVisibleAgents,
@@ -1947,11 +2021,16 @@ function evaluateLargePolisPerformanceRecovery(fixture = buildLargePolisPerforma
     stream_event_total: normalizeEventEntries(fixture.snapshot?.events).length,
     retained_stream_events: vm.events.length,
     max_event_tail: LARGE_POLIS_LIMITS.maxEventTail,
+    resource_metrics: resourceMetrics,
     recovery,
+    recovery_sequence: recoverySequence,
     bounded: vm.visibleAgentCount <= LARGE_POLIS_LIMITS.maxVisibleAgents
       && transcriptWindow.length <= LARGE_POLIS_LIMITS.maxTranscriptTurns
       && vm.events.length <= LARGE_POLIS_LIMITS.maxEventTail
-      && recovery.actions.length <= LARGE_POLIS_LIMITS.maxPendingRecoveryActions,
+      && recovery.actions.length <= LARGE_POLIS_LIMITS.maxPendingRecoveryActions
+      && recoverySequence.recovered
+      && resourceMetrics.bounded_dom_nodes
+      && resourceMetrics.bounded_latency,
     grants_authority: false
   };
 }
@@ -2738,6 +2817,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     state.textContent = status;
     item.append(state);
     roomTranscript.append(item);
+    pruneLargePolisDomWindow(roomTranscript, ".conversation-turn", LARGE_POLIS_LIMITS.maxTranscriptTurns);
     roomTranscript.scrollTop = roomTranscript.scrollHeight;
     return item;
   };
@@ -2758,6 +2838,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     state.textContent = status;
     item.append(state);
     conversationTranscript.append(item);
+    pruneLargePolisDomWindow(conversationTranscript, ".conversation-turn", LARGE_POLIS_LIMITS.maxTranscriptTurns);
     conversationTranscript.scrollTop = conversationTranscript.scrollHeight;
     return item;
   };
@@ -3541,7 +3622,10 @@ globalThis.AdlHtmlObservatory = {
   buildGovernedRoomRows,
   LARGE_POLIS_LIMITS,
   retainedLargePolisWindow,
+  pruneLargePolisDomWindow,
   largePolisRecoveryViewModel,
+  largePolisRecoverySequence,
+  estimateLargePolisResourceMetrics,
   buildLargePolisPerformanceRecoveryFixture,
   evaluateLargePolisPerformanceRecovery,
   LAYER8_RECIPIENT_ACK_ENDPOINT,

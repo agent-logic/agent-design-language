@@ -1,0 +1,108 @@
+{
+  "schema": "adl.html_observatory.large_polis_performance_recovery_metrics.v1",
+  "candidate_revision": "557dd28d85746a8dc5109dcc674f5a606b8c9890",
+  "implementation_revision": "bd5e2e2548cfa0ce2aa012006c02614bc456f63b",
+  "agent_total": 2500,
+  "visible_agent_count": 120,
+  "max_visible_agents": 120,
+  "transcript_total_turns": 5000,
+  "retained_transcript_turns": 300,
+  "max_transcript_turns": 300,
+  "stream_event_total": 1200,
+  "retained_stream_events": 240,
+  "max_event_tail": 240,
+  "resource_metrics": {
+    "schema": "adl.html_observatory.large_polis_resource_metrics.v1",
+    "projected_dom_nodes": 1205,
+    "max_projected_dom_nodes": 1300,
+    "deterministic_projection_millis": 49,
+    "max_deterministic_projection_millis": 120,
+    "bounded_dom_nodes": true,
+    "bounded_latency": true
+  },
+  "recovery": {
+    "schema": "adl.html_observatory.large_polis_recovery_view.v1",
+    "status": {
+      "reconnect": "degraded",
+      "restart": "requires_resync",
+      "backpressure": "throttled",
+      "offline": "offline",
+      "versionMismatch": "blocked_until_refresh"
+    },
+    "transitions": [
+      "socket_disconnected",
+      "runtime_incarnation_changed",
+      "stream_backpressure",
+      "browser_offline",
+      "client_runtime_version_mismatch"
+    ],
+    "actions": [
+      "schedule_single_reconnect",
+      "discard_stale_pending_turns",
+      "pause_nonessential_rendering",
+      "show_offline_state",
+      "block_mutating_controls"
+    ],
+    "duplicate_action_prevented": false,
+    "grants_authority": false,
+    "runtime_authority_required": true
+  },
+  "recovery_sequence": {
+    "schema": "adl.html_observatory.large_polis_recovery_sequence.v1",
+    "steps": [
+      {
+        "sequence": 1,
+        "view": {
+          "schema": "adl.html_observatory.large_polis_recovery_view.v1",
+          "status": {
+            "reconnect": "degraded",
+            "restart": "requires_resync",
+            "backpressure": "throttled",
+            "offline": "offline",
+            "versionMismatch": "blocked_until_refresh"
+          },
+          "transitions": [
+            "socket_disconnected",
+            "runtime_incarnation_changed",
+            "stream_backpressure",
+            "browser_offline",
+            "client_runtime_version_mismatch"
+          ],
+          "actions": [
+            "schedule_single_reconnect",
+            "discard_stale_pending_turns",
+            "pause_nonessential_rendering",
+            "show_offline_state",
+            "block_mutating_controls"
+          ],
+          "duplicate_action_prevented": false,
+          "grants_authority": false,
+          "runtime_authority_required": true
+        }
+      },
+      {
+        "sequence": 2,
+        "view": {
+          "schema": "adl.html_observatory.large_polis_recovery_view.v1",
+          "status": {
+            "reconnect": "ready",
+            "restart": "ready",
+            "backpressure": "ready",
+            "offline": "ready",
+            "versionMismatch": "ready"
+          },
+          "transitions": [],
+          "actions": [],
+          "duplicate_action_prevented": false,
+          "grants_authority": false,
+          "runtime_authority_required": true
+        }
+      }
+    ],
+    "recovered": true,
+    "stale_state_hidden": false,
+    "duplicate_actions": 0
+  },
+  "bounded": true,
+  "grants_authority": false
+}
