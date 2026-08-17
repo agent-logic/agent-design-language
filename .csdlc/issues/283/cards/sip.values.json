@@ -1,0 +1,39 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 283,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][ADR 0065][207.a] Reconcile terminal ACIP schema catalog evidence",
+    "slug": "adr0065-acip-terminal-evidence-reconciliation",
+    "version": "v0.92",
+    "generation": 15
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Reconcile terminal evidence for ADR 0065 without promoting or accepting the ADR.",
+      "required_outcome": "An issue-local evidence packet states whether ADR 0065 has terminal, landed, exact-revision-bound ACIP schema catalog and governed projection proof, with residual gaps recorded for #207 and #288.",
+      "declared_scope": [
+        ".csdlc/issues/283",
+        ".csdlc/prepared/issues/283",
+        ".csdlc/evidence/283"
+      ],
+      "authority_boundary": [
+        "#283 consumes terminal evidence only; it does not own ACIP implementation or proof repair",
+        "#5832 remains historical/superseded evidence unless current terminal authority explicitly restores it",
+        "#209 / PR #215 may serve as replacement proof only if live merge, derived terminal cache, non-empty artifacts, and validation manifests agree",
+        "#288 owns shared ADR index, plan, manifest, and review packet serialization",
+        "No ADR may be moved to Accepted by #283"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Do not edit shared ADR docs, ADR index, milestone plan, or product code",
+        "Use typed C-SDLC v2 for lifecycle state",
+        "Use raw GitHub only for read-only observation if typed GitHub state is insufficient",
+        "Preserve root main cleanliness and bind execution to a FastWork worktree before implementation edits"
+      ]
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 283,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][ADR 0065][207.a] Reconcile terminal ACIP schema catalog evidence",
+    "slug": "adr0065-acip-terminal-evidence-reconciliation",
+    "version": "v0.92",
+    "generation": 15
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "adr0065-evidence-reconciliation",
+          "proof_role": "Execute the issue-owned validator to check terminal/live state, non-empty manifests, referenced artifacts, and issue-local reconciliation boundaries without editing shared ADR docs.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 3000,
+          "argv": [
+            ".csdlc/prepared/issues/283/validate-adr0065-evidence.sh"
+          ],
+          "parallel_group": "focused",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed on missing terminal linkage, stale typed terminal cache, empty manifests, missing referenced artifacts, or any attempted ADR acceptance/shared-doc mutation.",
+      "design_ref": ".csdlc/prepared/issues/283/design.md",
+      "design_digest": "082a41990b6687bd7d5c64e4d515cf5e8c038d8d80bc88e4ce2a06fada160cf1",
+      "diagram_ref": ".csdlc/prepared/issues/283/diagram.mmd",
+      "diagram_digest": "52e3b2429e3bb5d8cd34dfc35e7cc346c75908de45b4e3be0f764b83513300ae"
+    }
+  }
+}

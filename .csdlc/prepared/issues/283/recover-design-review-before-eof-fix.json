@@ -1,0 +1,12 @@
+{
+  "issue": 283,
+  "expected_generation": 5,
+  "expected_digest": "92a7451552b7c5d0635da287dd5edfcb6434e1c9a43bafa391dc5033ac08a095",
+  "expected_phase": "implemented",
+  "actor": "codex:adr-mini-sprint-207",
+  "previous_reviewer": "codex:adr-mini-sprint-207-design-route",
+  "false_reviewer": "codex:adr-mini-sprint-207-design-route",
+  "previous_revision": "3962d88d374f0e6c6fca4d5760525893a090b40206a94da7a2f86724916dcfa7",
+  "disposition": "self_routed_design_approval_recovered_before_eof_hygiene_fix",
+  "reason": "Clear the self-routed design approval so the reviewer-requested design/diagram EOF hygiene fix can refresh authored design refs through typed recovery."
+}
