@@ -1,62 +1,6 @@
-HEAD e4d952bdb26af7ead9365303c83ed06db53701db
+HEAD aa26c125a232a27587b00edbb81c3716a47ec0db
 STATUS
 ## codex/116-operator-attention-inbox
- M .csdlc/issues/116/audit.jsonl
- M .csdlc/issues/116/cards/sip.values.json
- M .csdlc/issues/116/cards/sor.md
- M .csdlc/issues/116/cards/sor.values.json
- M .csdlc/issues/116/cards/spp.values.json
- M .csdlc/issues/116/cards/srp.md
- M .csdlc/issues/116/cards/srp.values.json
- M .csdlc/issues/116/cards/stp.values.json
- M .csdlc/issues/116/cards/vpp.values.json
- M .csdlc/issues/116/index.json
- M .csdlc/prepared/issues/116/validate_preparation_bundle.py
- M adl-runtime-kernel/src/operator_attention.rs
- M adl-runtime-kernel/tests/observatory.rs
- M demos/html-observatory/app.js
- M demos/html-observatory/index.html
- M demos/html-observatory/styles.css
- M demos/html-observatory/tests/operator_attention_inbox.test.mjs
-?? .csdlc/evidence/116/issue-116-exact-local-proof.log
-?? .csdlc/prepared/issues/116/run_exact_local_proof.py
 COMMAND python3 .csdlc/prepared/issues/116/validate_preparation_bundle.py
-issue-116 preparation validator: PASS
-EXIT 0
-COMMAND cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --check
-
-EXIT 0
-COMMAND cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test observatory operator_attention
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.12s
-     Running tests/observatory.rs (adl-runtime-kernel/target/debug/deps/observatory-b52a90f1a590f9db)
-
-running 7 tests
-test operator_attention_expiry_and_restart_preserve_receipts ... ok
-test operator_attention_restore_rejects_malformed_snapshot_state ... ok
-test operator_attention_quiet_mode_suppresses_non_urgent_noise ... ok
-test operator_attention_outcomes_do_not_create_authority_approval ... ok
-test operator_attention_rejects_spoofed_identity_and_unauthorized_urgency ... ok
-test operator_attention_deduplicates_and_rate_limits_by_source ... ok
-test operator_attention_groups_related_requests_without_new_rows ... ok
-
-test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 7 filtered out; finished in 0.00s
-EXIT 0
-COMMAND node --test demos/html-observatory/tests/operator_attention_inbox.test.mjs
-WP-18C.06 Observatory operator attention inbox: PASS
-✔ demos/html-observatory/tests/operator_attention_inbox.test.mjs (65.185667ms)
-ℹ tests 1
-ℹ suites 0
-ℹ pass 1
-ℹ fail 0
-ℹ cancelled 0
-ℹ skipped 0
-ℹ todo 0
-ℹ duration_ms 70.075083
-EXIT 0
-COMMAND cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --test observatory -- -D warnings
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 0.12s
-EXIT 0
-COMMAND git diff --check
-
-EXIT 0
-ISSUE_116_EXACT_LOCAL_PROOF PASS
+issue-116 preparation validator: FAIL: root is neither current origin/main nor registered #116 bound worktree: HEAD=aa26c125a232a27587b00edbb81c3716a47ec0db origin/main=204b0ea77300920e8b62dd1b36fd61538072d5bd branch=codex/116-operator-attention-inbox
+EXIT 1
