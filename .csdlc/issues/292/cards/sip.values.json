@@ -1,0 +1,46 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 292,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Repair implemented card identity after issue decomposition",
+    "slug": "implemented-card-identity-repair",
+    "version": "v0.92",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Implement csdlc-edit operation correct_identity_title_slug_after_decomposition for implemented-phase post-decomposition card identity repair.",
+      "required_outcome": "A typed csdlc-edit operation atomically updates title and slug across all six cards under strict implemented-phase predicates, live issue title evidence binding, sibling-scope rejection, audit recording, and validation coverage.",
+      "declared_scope": [
+        "csdlc-edit semantic operation correct_identity_title_slug_after_decomposition",
+        "implemented-phase authorization predicates",
+        "live issue evidence title binding",
+        "normalized non-colliding slug checks",
+        "sibling-scope rejection",
+        "atomic all-six-card identity title/slug update",
+        "audit record with previous/new title and slug",
+        "isolated tests using #112-derived fixture evidence without mutating #112"
+      ],
+      "authority_boundary": [
+        "csdlc-edit owns this semantic repair route",
+        "typed GitHub issue read evidence is required for live title binding",
+        "Planning assignment is not design approval",
+        "#112 worktree remains read-only",
+        "#291 initialized-phase recovery is not widened or absorbed"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed v2 owner binaries only for lifecycle and GitHub covered operations.",
+        "Dedicated worktree: /Volumes/FastWork/adl-worktrees/adl-issue-292-implemented-card-identity-repair.",
+        "Branch: codex/292-implemented-card-identity-repair.",
+        "Do not claim Planning assignment as design approval.",
+        "Use genuine fresh design review if bootstrap requires it.",
+        "Stop before merge."
+      ]
+    }
+  }
+}

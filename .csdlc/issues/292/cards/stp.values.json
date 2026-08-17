@@ -1,0 +1,56 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 292,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Repair implemented card identity after issue decomposition",
+    "slug": "implemented-card-identity-repair",
+    "version": "v0.92",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Tooling-only csdlc-edit implementation and tests; #112 is a read-only fixture and must not be mutated.",
+      "deliverables": [
+        "Implemented csdlc-edit operation",
+        "Authorization predicates and sibling-scope rejects",
+        "Audit event recording previous/new identity",
+        "Tests for atomic update, stale CAS, phase/review/publication/readiness/terminal rejects, incompatible latest review-related audit rejects, malformed/sibling title/slug rejects, live evidence mismatch, cross-card equality, and validation on isolated #112 fixture",
+        "Fresh exact-head review record",
+        "Published ready PR, not merged"
+      ],
+      "acceptance_criteria": [
+        "AC-1 csdlc-edit accepts correct_identity_title_slug_after_decomposition only for implemented-phase records with no review assignment, review, publication, readiness, or terminal truth, and with latest review-related audit state compatible with review recovery.",
+        "AC-2 The operation requires live typed issue evidence and rejects when the evidence title does not equal the requested title.",
+        "AC-3 The operation rejects sibling-scope claims and malformed, empty, or colliding slugs.",
+        "AC-4 The operation atomically updates title and slug across all six card value envelopes while preserving non-identity card content.",
+        "AC-5 The audit event records previous_title, new_title, previous_slug, new_slug, and live issue evidence.",
+        "AC-6 Stale generation/digest requests fail closed.",
+        "AC-7 An isolated #112-derived fixture validates without mutating any #112 worktree.",
+        "AC-8 A #119-compliant fresh-session exact-head review is assigned and recorded before publication.",
+        "AC-9 The ready PR is published green and the session stops before merge."
+      ],
+      "dependencies": [
+        "Issue #292",
+        "Issue #119 fresh-session review procedure",
+        "Read-only #112 fixture evidence"
+      ],
+      "repo_inputs": [
+        "GitHub issue #292 typed-read body",
+        "/Volumes/FastWork/adl-worktrees/adl-issue-112-layer8-authority-preparation-v2 as read-only fixture evidence",
+        "csdlc-v2 csdlc-edit implementation and tests",
+        "existing card identity tests and gate2 identity preservation tests"
+      ],
+      "non_goals": [
+        "Do not mutate #112 lifecycle, branch, worktree, cards, implementation, review, or publication.",
+        "Do not implement #112 product behavior.",
+        "Do not widen or replace #291 initialized-phase recovery.",
+        "Do not directly edit rendered Markdown or C-SDLC state files.",
+        "Do not merge or close #292."
+      ]
+    }
+  }
+}

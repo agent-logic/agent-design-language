@@ -184,6 +184,234 @@ fn record_digest_for_fixture(record: &IssueRecord) -> String {
     digest(&serde_json::to_vec(&value).expect("record digest JSON"))
 }
 
+fn commit_all(root: &std::path::Path, message: &str) {
+    assert!(std::process::Command::new("git")
+        .args(["add", "."])
+        .current_dir(root)
+        .status()
+        .unwrap()
+        .success());
+    assert!(std::process::Command::new("git")
+        .args([
+            "-c",
+            "user.name=test",
+            "-c",
+            "user.email=test@example.com",
+            "commit",
+            "-qm",
+            message,
+        ])
+        .current_dir(root)
+        .status()
+        .unwrap()
+        .success());
+}
+
+fn implemented_bound_fixture(
+    temp: &tempfile::TempDir,
+    issue: u64,
+) -> (std::path::PathBuf, IssueRecord) {
+    let root = temp.path();
+    let boot = bootstrap_at(
+        root,
+        issue,
+        ".csdlc/prepared/issues/fixture/design.md",
+        ".csdlc/prepared/issues/fixture/diagram.mmd",
+    );
+    let ready = edit_issue(
+        &Store::new(root),
+        EditRequest {
+            issue,
+            card: CardKind::Sip,
+            expected_generation: boot.generation,
+            expected_digest: boot.digest,
+            actor: "test".into(),
+            reason: "fixture ready".into(),
+            operation: SemanticOperation::AdvancePhase {
+                phase: csdlc_v2::LifecyclePhase::Ready,
+            },
+            fail_after_backup: false,
+        },
+    )
+    .unwrap();
+    commit_all(root, "fixture ready");
+    let bind_target = root.join("bound-worktree");
+    bind_issue(
+        &Store::new(root),
+        BindRequest {
+            issue,
+            base_branch: "main".into(),
+            branch: format!("issue-{issue}-bound"),
+            worktree: bind_target.to_string_lossy().into_owned(),
+            code_repository: None,
+        },
+    )
+    .unwrap();
+    let bound = Store::new(&bind_target).load_record(issue).unwrap();
+    assert_eq!(bound.phase, csdlc_v2::LifecyclePhase::Bound);
+    let executed = edit_issue(
+        &Store::new(&bind_target),
+        EditRequest {
+            issue,
+            card: CardKind::Sor,
+            expected_generation: bound.generation,
+            expected_digest: bound.digest,
+            actor: "test".into(),
+            reason: "fixture execution evidence".into(),
+            operation: SemanticOperation::RecordExecution {
+                summary: "fixture implementation evidence".into(),
+                changes: vec!["changed tooling fixture".into()],
+                artifacts: vec!["csdlc-v2/tests/card_identity.rs".into()],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .unwrap();
+    let implemented = edit_issue(
+        &Store::new(&bind_target),
+        EditRequest {
+            issue,
+            card: CardKind::Sip,
+            expected_generation: executed.generation,
+            expected_digest: executed.digest,
+            actor: "test".into(),
+            reason: "fixture implemented".into(),
+            operation: SemanticOperation::AdvancePhase {
+                phase: csdlc_v2::LifecyclePhase::Implemented,
+            },
+            fail_after_backup: false,
+        },
+    )
+    .unwrap();
+    assert_eq!(ready.phase, csdlc_v2::LifecyclePhase::Ready);
+    assert_eq!(implemented.phase, csdlc_v2::LifecyclePhase::Implemented);
+    (bind_target, implemented)
+}
+
+fn identity_title_slug_operation(issue: u64) -> SemanticOperation {
+    SemanticOperation::CorrectIdentityTitleSlugAfterDecomposition {
+        title: format!(
+            "[v0.92][WP-18C.02a][{issue}.a] Define shared Layer 8 signed authority core"
+        ),
+        slug: format!("wp18c02a-{issue}a-shared-layer8-signed-authority-core"),
+        live_issue_title: format!(
+            "[v0.92][WP-18C.02a][{issue}.a] Define shared Layer 8 signed authority core"
+        ),
+        live_issue_url: format!(
+            "https://github.com/agent-logic/agent-design-language/issues/{issue}"
+        ),
+        live_issue_body_digest: "body-digest".into(),
+    }
+}
+
+#[test]
+fn implemented_identity_title_slug_repair_updates_all_cards_with_audit() {
+    let temp = tempfile::tempdir().unwrap();
+    let issue = 112;
+    let (worktree, implemented) = implemented_bound_fixture(&temp, issue);
+    let before = Store::new(&worktree).load_cards(issue).unwrap();
+    let repaired = edit_issue(
+        &Store::new(&worktree),
+        EditRequest {
+            issue,
+            card: CardKind::Sip,
+            expected_generation: implemented.generation,
+            expected_digest: implemented.digest,
+            actor: "test".into(),
+            reason: "repair decomposed identity".into(),
+            operation: identity_title_slug_operation(issue),
+            fail_after_backup: false,
+        },
+    )
+    .unwrap();
+    let cards = Store::new(&worktree).load_cards(issue).unwrap();
+    for (kind, values) in &cards {
+        assert_eq!(
+            values.identity.title,
+            "[v0.92][WP-18C.02a][112.a] Define shared Layer 8 signed authority core",
+            "{kind}"
+        );
+        assert_eq!(
+            values.identity.slug, "wp18c02a-112a-shared-layer8-signed-authority-core",
+            "{kind}"
+        );
+        assert_eq!(values.identity.generation, repaired.generation, "{kind}");
+        let original = &before[kind];
+        match (&values.content, &original.content) {
+            (CardContent::Sip(actual), CardContent::Sip(expected)) => assert_eq!(actual, expected),
+            (CardContent::Stp(actual), CardContent::Stp(expected)) => assert_eq!(actual, expected),
+            (CardContent::Spp(actual), CardContent::Spp(expected)) => assert_eq!(actual, expected),
+            (CardContent::Vpp(actual), CardContent::Vpp(expected)) => assert_eq!(actual, expected),
+            (CardContent::Srp(actual), CardContent::Srp(expected)) => assert_eq!(actual, expected),
+            (CardContent::Sor(actual), CardContent::Sor(expected)) => assert_eq!(actual, expected),
+            _ => panic!("card content kind changed"),
+        }
+    }
+    let audit = repaired.audit.last().expect("repair audit");
+    assert!(audit
+        .operation
+        .contains("correct_identity_title_slug_after_decomposition"));
+    assert!(audit.operation.contains("previous_title"));
+    assert!(audit.operation.contains("live_issue_evidence"));
+}
+
+#[test]
+fn implemented_identity_title_slug_repair_rejects_mismatched_live_title() {
+    let temp = tempfile::tempdir().unwrap();
+    let issue = 113;
+    let (worktree, implemented) = implemented_bound_fixture(&temp, issue);
+    let mut operation = identity_title_slug_operation(issue);
+    if let SemanticOperation::CorrectIdentityTitleSlugAfterDecomposition {
+        live_issue_title, ..
+    } = &mut operation
+    {
+        *live_issue_title = "[v0.92][WP-18C.02b][113.b] Sibling scope".into();
+    }
+    let error = edit_issue(
+        &Store::new(&worktree),
+        EditRequest {
+            issue,
+            card: CardKind::Sip,
+            expected_generation: implemented.generation,
+            expected_digest: implemented.digest,
+            actor: "test".into(),
+            reason: "reject sibling".into(),
+            operation,
+            fail_after_backup: false,
+        },
+    )
+    .unwrap_err();
+    assert_eq!(error.code.to_string(), "invalid_input");
+}
+
+#[test]
+fn identity_title_slug_repair_rejects_before_implemented_phase() {
+    let temp = tempfile::tempdir().unwrap();
+    let issue = 114;
+    let root = temp.path();
+    let record = bootstrap_at(
+        root,
+        issue,
+        ".csdlc/prepared/issues/fixture/design.md",
+        ".csdlc/prepared/issues/fixture/diagram.mmd",
+    );
+    let error = edit_issue(
+        &Store::new(root),
+        EditRequest {
+            issue,
+            card: CardKind::Sip,
+            expected_generation: record.generation,
+            expected_digest: record.digest,
+            actor: "test".into(),
+            reason: "wrong phase".into(),
+            operation: identity_title_slug_operation(issue),
+            fail_after_backup: false,
+        },
+    )
+    .unwrap_err();
+    assert_eq!(error.code.to_string(), "invalid_transition");
+}
+
 fn rewrite_initialized_authored_paths_for_legacy_fixture(
     root: &std::path::Path,
     record: &mut IssueRecord,

@@ -1,0 +1,94 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 292,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Repair implemented card identity after issue decomposition",
+    "slug": "implemented-card-identity-repair",
+    "version": "v0.92",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Add the typed operation, enforce authorization predicates, render/audit the atomic identity update, add isolated fixture tests including #112-derived evidence, validate, obtain #119-compliant fresh-session exact-head review, publish a ready PR, and stop before merge.",
+      "steps": [
+        {
+          "id": "P1",
+          "action": "Bootstrap, doctor, and bind #292 to the dedicated FastWork worktree.",
+          "acceptance_ids": [
+            "AC-8"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "P2",
+          "action": "Implement correct_identity_title_slug_after_decomposition in csdlc-edit with predicates, evidence binding, slug checks, sibling rejects, atomic update, render, digest, and audit.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "P3",
+          "action": "Add isolated tests including #112-derived fixture validation without mutating #112.",
+          "acceptance_ids": [
+            "AC-7"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "P4",
+          "action": "Run validation, obtain fresh exact-head review, publish ready PR, shepherd required checks, and stop before merge.",
+          "acceptance_ids": [
+            "AC-8",
+            "AC-9"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "csdlc-v2/src/store.rs",
+        "csdlc-v2/src/cards.rs",
+        "csdlc-v2/tests/card_identity.rs"
+      ],
+      "invariants": [
+        "All six cards have equal identity title and slug after a successful operation.",
+        "Only identity title/slug plus normal generation/digest/render/audit projections change.",
+        "Failures leave state unchanged.",
+        "Review and publication remain fail-closed without current exact-head evidence."
+      ],
+      "risks": [
+        "Overbroad operation could rewrite non-identity card content.",
+        "Weak title predicates could accidentally claim sibling issue scope.",
+        "Fixture setup could mutate #112 if not isolated.",
+        "Publication could proceed without fresh #119-compliant review if review truth is mishandled."
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "Typed bootstrap/doctor/bind rejects topology or dirty-state conditions.",
+        "The dedicated FastWork worktree cannot be bound safely.",
+        "The implementation requires #112 mutation.",
+        "Fresh-session review reports actionable findings not fixed in scope.",
+        "Required validation or hosted required checks fail."
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/292/design.md",
+      "design_digest": "d9f07d34e65d0f0e12343ef7be532ddd65573ae07878eb435f584353437d8a08",
+      "diagram_ref": ".csdlc/prepared/issues/292/diagram.mmd",
+      "diagram_digest": "ddb7bd579661bb727935d5276c73192db8a7d289cb7ac062140e1ea40b24e69a"
+    }
+  }
+}

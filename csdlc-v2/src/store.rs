@@ -3877,19 +3877,39 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     let identity_update = matches!(
         request.operation,
         SemanticOperation::UpdateIdentityVersion { .. }
+            | SemanticOperation::CorrectIdentityTitleSlugAfterDecomposition { .. }
     );
     if identity_update {
-        if !matches!(
-            record.phase,
-            LifecyclePhase::Initialized
-                | LifecyclePhase::Ready
-                | LifecyclePhase::Bound
-                | LifecyclePhase::Implemented
-        ) {
-            return Err(V2Error::new(
-                ErrorCode::InvalidTransition,
-                "identity version repair requires an active pre-review issue",
-            ));
+        match &request.operation {
+            SemanticOperation::UpdateIdentityVersion { .. } => {
+                if !matches!(
+                    record.phase,
+                    LifecyclePhase::Initialized
+                        | LifecyclePhase::Ready
+                        | LifecyclePhase::Bound
+                        | LifecyclePhase::Implemented
+                ) {
+                    return Err(V2Error::new(
+                        ErrorCode::InvalidTransition,
+                        "identity version repair requires an active pre-review issue",
+                    ));
+                }
+            }
+            SemanticOperation::CorrectIdentityTitleSlugAfterDecomposition {
+                title,
+                slug,
+                live_issue_title,
+                live_issue_url,
+                live_issue_body_digest,
+            } => validate_implemented_identity_title_slug_repair(
+                &record,
+                title,
+                slug,
+                live_issue_title,
+                live_issue_url,
+                live_issue_body_digest,
+            )?,
+            _ => unreachable!("identity_update match"),
         }
     } else {
         authorize_card_operation(record.phase, request.card, &request.operation)?;
@@ -4174,6 +4194,17 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     } else {
         None
     };
+    let identity_before = if matches!(
+        request.operation,
+        SemanticOperation::CorrectIdentityTitleSlugAfterDecomposition { .. }
+    ) {
+        cards
+            .values()
+            .next()
+            .map(|values| (values.identity.title.clone(), values.identity.slug.clone()))
+    } else {
+        None
+    };
     let binding_refresh = if prebind_contract_repair {
         Some(refresh_prebind_design_bindings(store, &record, &mut cards)?)
     } else if let Some(refresh) = design_refresh.as_ref() {
@@ -4268,6 +4299,32 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
             })
             .to_string()
         }
+        (
+            SemanticOperation::CorrectIdentityTitleSlugAfterDecomposition {
+                title,
+                slug,
+                live_issue_title,
+                live_issue_url,
+                live_issue_body_digest,
+            },
+            _,
+        ) => {
+            let (previous_title, previous_slug) =
+                identity_before.expect("identity correction snapshot");
+            serde_json::json!({
+                "operation": "correct_identity_title_slug_after_decomposition",
+                "previous_title": previous_title,
+                "new_title": title,
+                "previous_slug": previous_slug,
+                "new_slug": slug,
+                "live_issue_evidence": {
+                    "title": live_issue_title,
+                    "url": live_issue_url,
+                    "body_digest": live_issue_body_digest,
+                },
+            })
+            .to_string()
+        }
         _ if binding_refresh.is_some() => {
             let refresh = binding_refresh.as_ref().expect("pre-bind refresh");
             serde_json::json!({
@@ -4287,8 +4344,21 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
         _ => serde_json::to_string(&request.operation)?,
     };
     if identity_update {
-        for values in cards.values_mut() {
-            apply(values, &request.operation)?;
+        match &request.operation {
+            SemanticOperation::UpdateIdentityVersion { .. } => {
+                for values in cards.values_mut() {
+                    apply(values, &request.operation)?;
+                }
+            }
+            SemanticOperation::CorrectIdentityTitleSlugAfterDecomposition {
+                title, slug, ..
+            } => {
+                for values in cards.values_mut() {
+                    values.identity.title = title.clone();
+                    values.identity.slug = slug.clone();
+                }
+            }
+            _ => unreachable!("identity_update apply"),
         }
     } else if let SemanticOperation::ReplaceAcceptancePlan {
         acceptance_criteria,
@@ -6168,6 +6238,106 @@ fn implemented_pre_publication_review_recovery_is_clear(record: &IssueRecord) ->
             .iter()
             .filter(|candidate| candidate.sequence > recovery.sequence)
             .all(|candidate| recovery_epoch_operation_is_allowed(&candidate.operation))
+}
+
+fn validate_implemented_identity_title_slug_repair(
+    record: &IssueRecord,
+    title: &str,
+    slug: &str,
+    live_issue_title: &str,
+    live_issue_url: &str,
+    live_issue_body_digest: &str,
+) -> Result<()> {
+    if record.phase != LifecyclePhase::Implemented
+        || record.review_assignment.is_some()
+        || record.review.is_some()
+        || record.publication.is_some()
+        || record.readiness.is_some()
+        || record.terminal.is_some()
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "implemented identity title/slug repair requires implemented phase with no review, publication, readiness, or terminal truth",
+        ));
+    }
+    validate_identity_title(title)?;
+    validate_identity_slug(slug)?;
+    if live_issue_title.trim() != title.trim() {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "live issue title evidence does not match requested title",
+        ));
+    }
+    if !live_issue_url.contains(&format!("/issues/{}", record.issue))
+        || live_issue_body_digest.trim().is_empty()
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "live issue evidence is incomplete",
+        ));
+    }
+    if !latest_review_audit_is_identity_repair_compatible(record) {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "implemented identity title/slug repair requires compatible latest review-related audit state",
+        ));
+    }
+    Ok(())
+}
+
+fn validate_identity_title(title: &str) -> Result<()> {
+    let trimmed = title.trim();
+    if trimmed.is_empty() || trimmed != title || trimmed.len() > 240 {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "identity title is malformed",
+        ));
+    }
+    Ok(())
+}
+
+fn validate_identity_slug(slug: &str) -> Result<()> {
+    let trimmed = slug.trim();
+    if trimmed.is_empty()
+        || trimmed != slug
+        || trimmed.len() > 120
+        || slug.starts_with('-')
+        || slug.ends_with('-')
+        || slug.contains("--")
+        || !slug
+            .chars()
+            .all(|ch| ch.is_ascii_lowercase() || ch.is_ascii_digit() || ch == '-')
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "identity slug is malformed",
+        ));
+    }
+    Ok(())
+}
+
+fn latest_review_audit_is_identity_repair_compatible(record: &IssueRecord) -> bool {
+    let Some(event) = record
+        .audit
+        .iter()
+        .rev()
+        .find(|event| review_related_audit_operation(&event.operation).is_some())
+    else {
+        return true;
+    };
+    review_related_audit_operation(&event.operation).is_some_and(|operation| {
+        operation == "recover_review"
+            && implemented_pre_publication_review_recovery_is_clear(record)
+    })
+}
+
+fn review_related_audit_operation(operation: &str) -> Option<String> {
+    let name = recovery_epoch_operation_name(operation)?;
+    match name.as_str() {
+        "assign_review" | "record_review" | "recover_review" | "publish" | "record_publication"
+        | "record_readiness" | "finish" | "record_closeout" | "record_merge" => Some(name),
+        _ => None,
+    }
 }
 
 fn implemented_pre_publication_review_recovery_is_immediate(record: &IssueRecord) -> bool {

@@ -1,0 +1,97 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 292,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "08e30a8dbd04eedb08602d3c3864c6defd3ead0d69eb9a9a0fe80e970be49c9d",
+  "phase": "bound",
+  "generation": 1,
+  "digest": "7a691b9a43a54c4214db177a3289561165a9b2b29f3a740c818a8aeb67f4c3cb",
+  "branch": "codex/292-implemented-card-identity-repair",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-292-implemented-card-identity-repair",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/292/design.md",
+  "diagram_path": ".csdlc/prepared/issues/292/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:6fe92be3-41d7-49d5-b82a-b48ba7eb89cf",
+      "revision": "d9f07d34e65d0f0e12343ef7be532ddd65573ae07878eb435f584353437d8a08"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "9376b6666553a49def780820f487547f7d9a6599ad98b7c2eedddae6acb770b3",
+      "rendered_digest": "daca1a5f6edef70879284eb654b0a17b034f4cc7e088dfe14ab5e686424ef3a7",
+      "ast_digest": "b8d9064074a7c786ec81817843935e761519728e2afbd5add5b53040f6b35c06"
+    },
+    "stp": {
+      "values_digest": "0a20fadb1fb265a3664f0c49e862aa6ad5947712ab67b4a3884286b931e61695",
+      "rendered_digest": "5c901ebae2dd5712aeb89d5bc09b7d88cf59e0a5c7016facc9415a8aee0152f9",
+      "ast_digest": "0ea630ad10cecdc0ac124644733468ac505adde4cfc24b191fcb0b329b2d4f2d"
+    },
+    "spp": {
+      "values_digest": "d38a42c0679150884a5142872b73f5fa5e6379d4dd753a8ad01e81cc0ef7fd1e",
+      "rendered_digest": "077729b22794431c857f23e2cbc37f8ead82a95006c39b639d12f72691524f64",
+      "ast_digest": "6caa3183fbccec2ce7f4bd2bb27655dadeb911dec4320b74b60a960985d3723f"
+    },
+    "vpp": {
+      "values_digest": "58595b1bf6d0ccafacc58a0910a2878b191f8d4e7d526e8225eef0f929dec5f8",
+      "rendered_digest": "938328688a8d3fb41407076b9e35a91ab5def31e4e3f611206dd9729f0bff609",
+      "ast_digest": "8f2c23d4005f6ae89a5726b0188787b77d5739b4e3b5019f6a6a80f33393843d"
+    },
+    "srp": {
+      "values_digest": "ecd4802b8d953ab1cbb6102d6b77e358f5cc4bbeef2d08842bcefd75d140a360",
+      "rendered_digest": "72b801d5921e47b879616cafaa3263b094b3949a75b51a3f7033da6bda8113f4",
+      "ast_digest": "d2523611956334f07dfeaa4482a8415fff4235b9795097de108cb280346fa4c1"
+    },
+    "sor": {
+      "values_digest": "26b118b4afc56687e58503c78e0e9d7f8614417cd6ab142315540dd40a95c0b1",
+      "rendered_digest": "f6e6acee7e899a4508125f6e9f5adafc1425effe5711af8cf7db26276f13b6a5",
+      "ast_digest": "fedcab7451a4e147ac05addf28fd2afb334680be13d14d689a218a047c23e08f"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:292-implemented-card-identity-repair",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:6fe92be3-41d7-49d5-b82a-b48ba7eb89cf",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"d9f07d34e65d0f0e12343ef7be532ddd65573ae07878eb435f584353437d8a08\",\"design_ref\":\".csdlc/prepared/issues/292/design.md\",\"diagram_digest\":\"ddb7bd579661bb727935d5276c73192db8a7d289cb7ac062140e1ea40b24e69a\",\"diagram_ref\":\".csdlc/prepared/issues/292/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    }
+  ]
+}
