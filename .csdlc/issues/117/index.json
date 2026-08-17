@@ -4,73 +4,12 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "024d435a2fcf6fd78678e4b9cda121ea06eecca7e6effaabceb5ad5c2f22ddaf",
   "phase": "implemented",
-  "generation": 17,
-  "digest": "6e2e58dca60676d5bca57f305bb2bf434c73ca213763eb6ded59353e0d3f693f",
+  "generation": 22,
+  "digest": "9db205741f390210c4c8c4f190a137526a0258f079011c67130e121692a2a6d8",
   "branch": "codex/117-production-polis-interface-qualification-parent",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-117-production-polis-interface-qualification-parent",
-  "review_assignment": {
-    "reviewer": "fresh-session:6f9a515b-3ccd-4067-b955-b010968082eb",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:63a8b2c08577b51a97c915f28dcc40c7e75c3879:fe5c70e5e8215f32700542cc51df0fb5000f98106e8f7080e5201a9376d32ce7",
-    "scope": [
-      ".csdlc/evidence/117/production-polis-interface-parent-closeout.md",
-      ".csdlc/evidence/117/validate_parent_closeout.py",
-      ".csdlc/prepared/issues/117/validate_preparation_bundle.py",
-      ".csdlc/prepared/issues/117/design.md",
-      ".csdlc/prepared/issues/117/diagram.mmd",
-      ".csdlc/issues/117"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:6f9a515b-3ccd-4067-b955-b010968082eb",
-    "scope": [
-      ".csdlc/evidence/117/production-polis-interface-parent-closeout.md",
-      ".csdlc/evidence/117/validate_parent_closeout.py",
-      ".csdlc/prepared/issues/117/validate_preparation_bundle.py",
-      ".csdlc/prepared/issues/117/design.md",
-      ".csdlc/prepared/issues/117/diagram.mmd",
-      ".csdlc/issues/117"
-    ],
-    "reviewed_revision": "git-blake3:63a8b2c08577b51a97c915f28dcc40c7e75c3879:fe5c70e5e8215f32700542cc51df0fb5000f98106e8f7080e5201a9376d32ce7",
-    "findings": [
-      {
-        "id": "6f9a-p2-spp-step-status-stale",
-        "severity": "p2",
-        "summary": "SPP execution status is stale: the issue is implemented and SOR records completed execution/validation, but every SPP step remains pending.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "6f9a-p2-stp-dependencies-omit-terminal-inputs",
-        "severity": "p2",
-        "summary": "STP dependency truth omits #271/#114/#115/#116 even though AC-1, VPP, validators, design, closeout table, and SOR require those terminal inputs.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "6f9a-p3-sip-required-outcome-duplicate-refs",
-        "severity": "p3",
-        "summary": "SIP required outcome duplicates #271/#114/#115/#116 in the terminal dependency list.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
-    "residual_risks": [
-      "Reviewer could rerun git diff --check, but read-only sandbox blocked Python validators and typed doctor/validate startup with exit 71; static inspection and committed proof logs were used for the remaining proof review.",
-      "Publication, hosted CI, merge, and terminal finish were not reviewed because this exact revision remained unpublished."
-    ],
-    "completed": false,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -85,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2011779f528b0f8d3b24cf024a1b9e794908a200f2bd9e1d59c6cf57b690a4f8",
-      "rendered_digest": "40ce52a0a91980bb37e05fb80fc3bebcd43112af537e17003cc5ab799e10c539",
-      "ast_digest": "173b4e7307b7fa9cc0d5b89ef40b6981406b1cfa1baa236bba81afa14bb91782"
+      "values_digest": "8729b121428e9030c6a6f751e451a3b5f3ad94f82c860149ec5a7b07abd8e5b7",
+      "rendered_digest": "31377833f0fdf1c38188d892ce3d604f14ea61410b4d14eded85470c819d1506",
+      "ast_digest": "34914eb71385e6d9a391827d3bcdfd88497cc2bccadad9d09dd81bf9d07fd13f"
     },
     "stp": {
-      "values_digest": "cf75a5bec0065fc5df1eae493f9b29d4baf2e79c565bdb244d2c24ddeabd107a",
+      "values_digest": "fd9aa38ce1e5ec9c51a9e123fd1d23ac33c500e58103e191fa6a87df173d2e51",
       "rendered_digest": "90a11f2ccd8f2e44783806970332b4a0657af031f79dda6b395ff593ae5a3dd6",
       "ast_digest": "21dda05a4a0a3f33ddb1c2752f58c353d4fb6794d3eb2dba2b9592433b8364ce"
     },
     "spp": {
-      "values_digest": "8acbbdf2adc236da4b3e4f1d6d6fb8b72347e521cda59150ad2a7b8bd8484f42",
-      "rendered_digest": "7e0f095673cae0e44793f8707e218ec27e94fb640077b5c33fd1879e37b9b490",
-      "ast_digest": "36796b0cbcd7add30d28bbbf118e8069bd6310a1948ec062bf78302e45129de9"
+      "values_digest": "f00de9ab32cc4db7a61f57c3e46d06090fbe23ae47dd3cc437eca781144e2054",
+      "rendered_digest": "258848e070a57478e07177c1e9546907cd706f89a06ec45a05b77793a471e276",
+      "ast_digest": "da7b6053c0774cd71960d329cd12a806b6bf66fce728459688fa9b9d524c7434"
     },
     "vpp": {
-      "values_digest": "a909da982fa648c4f5dea1d6706e85e0a251c8316800c06b10c9379b8e9d6c4b",
+      "values_digest": "fde3f0ae4d23e3ca218913449b0123062577efef3926f984cff4f4126c782852",
       "rendered_digest": "cb288c0e4e3fa37efca1d62888457c5cfab8b9ddc1ce0282259f69e987b4c0d7",
       "ast_digest": "6e9164f90884128e31ad8d16a53deb657a3a6a3e58d6efdc82dc0b092069348d"
     },
     "srp": {
-      "values_digest": "e69dbaf151accdc65ba2c09a2deb5da92bec445c20730bd0377adbc736e34ac7",
-      "rendered_digest": "d8ec48095c862e1a6bb49b1a2bd9f715fc9e7ff441fe8be99dedc4af936168a6",
-      "ast_digest": "5c6f2160236e57e606cd6b4be58f5cc79246e65a99afbe081082565d14d933d4"
+      "values_digest": "64af67f0c4f493d7f711307b4119eb72dad855f93ffec126c5498771602552f8",
+      "rendered_digest": "1253ac0f42063c5f2011243e9449818f55d1504c07ad8146ba38ea23a0a35357",
+      "ast_digest": "d3faf3908bf4b8cf64c7ef7144b0ef223acc1883189f0f858db1e2af1d228ef1"
     },
     "sor": {
-      "values_digest": "85a318c5b2a5b1a26a7af7ab85457e92d0b0f7f86314b2d8d28fd4965f03285c",
+      "values_digest": "5a1247d8dee2928eab661e19c724d46a147735f895b8cde5965f9c1ec908ac93",
       "rendered_digest": "d8b815a277aad19f8d907b0a73f1c49b3724272f92e792c1995d40f19637d036",
       "ast_digest": "f119737ef3d6411764ce511ada41365d6a58d714922d2e2739fc7bb4cccf202d"
     }
@@ -285,6 +224,41 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "Recover failed exact review fresh-session:6f9a515b-3ccd-4067-b955-b010968082eb before remediating card-truth findings: SPP step statuses stale, STP dependencies missing consumed terminal inputs, and SIP required outcome duplicate issue references.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "Repair #117 SIP required outcome after review: remove duplicated #271/#114/#115/#116 references while preserving the same terminal dependency set and parent-only outcome.",
+      "operation": "{\"new_value\":\"A reviewed, validated, parent-only #117 closeout packet that truthfully consumes terminal #271/#114/#115/#116/#279/#280/#281/#282 evidence and hands remaining umbrella truth to #110.\",\"operation\":\"correct_required_outcome_after_recovery\",\"previous_value\":\"A reviewed, validated, parent-only #117 closeout packet that truthfully consumes terminal #271/#114/#115/#116/#271/#114/#115/#116/#279/#280/#281/#282 evidence and hands remaining umbrella truth to #110.\"}"
+    },
+    {
+      "sequence": 24,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "Resolve prior exact-review finding: SPP S1 terminal-cache validation is complete and proven by preparation-terminal-cache-validator.log plus live rerun.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 25,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "Resolve prior exact-review finding: SPP S2 parent-only closeout evidence and deterministic validator are complete in the bound #117 worktree.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 26,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "Resolve prior exact-review finding: SPP S3 focused parent validator and diff hygiene proof are complete and recorded in #117 evidence logs.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
     }
   ]
 }

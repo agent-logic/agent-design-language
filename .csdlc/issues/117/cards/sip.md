@@ -16,7 +16,7 @@ Close #117 as a coordination-only parent by recording exact production Polis int
 
 ## Required Outcome
 
-A reviewed, validated, parent-only #117 closeout packet that truthfully consumes terminal #271/#114/#115/#116/#271/#114/#115/#116/#279/#280/#281/#282 evidence and hands remaining umbrella truth to #110.
+A reviewed, validated, parent-only #117 closeout packet that truthfully consumes terminal #271/#114/#115/#116/#279/#280/#281/#282 evidence and hands remaining umbrella truth to #110.
 
 ## Scope
 

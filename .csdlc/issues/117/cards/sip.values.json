@@ -7,14 +7,14 @@
     "title": "[v0.92][WP-18C.07][coordination] Coordinate production Polis interface qualification",
     "slug": "production-polis-interface-qualification-parent",
     "version": "v0.92",
-    "generation": 17
+    "generation": 22
   },
   "status": "ready",
   "content": {
     "card_kind": "sip",
     "values": {
       "goal": "Close #117 as a coordination-only parent by recording exact production Polis interface qualification truth after terminal #271/#114/#115/#116/#279/#280/#281/#282, without absorbing child or umbrella authority.",
-      "required_outcome": "A reviewed, validated, parent-only #117 closeout packet that truthfully consumes terminal #271/#114/#115/#116/#271/#114/#115/#116/#279/#280/#281/#282 evidence and hands remaining umbrella truth to #110.",
+      "required_outcome": "A reviewed, validated, parent-only #117 closeout packet that truthfully consumes terminal #271/#114/#115/#116/#279/#280/#281/#282 evidence and hands remaining umbrella truth to #110.",
       "declared_scope": [
         "Create and validate the #117 parent evidence packet after terminal #271/#114/#115/#116/#279/#280/#281/#282.",
         "Summarize exact child terminal evidence, integrated lineage, residual risks, non-claims, and downstream #110 handoff truth.",
