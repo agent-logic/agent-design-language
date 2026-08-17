@@ -12,7 +12,12 @@ Status: draft
 
 ## Scope
 
-
+demos/html-observatory/index.html
+demos/html-observatory/styles.css
+demos/html-observatory/tests/accessibility_responsive.test.mjs
+.csdlc/prepared/issues/279/validate_preparation_bundle.py
+.csdlc/issues/279
+.csdlc/evidence/279
 
 ## Prompts
 
@@ -32,12 +37,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Validation is deterministic static Node/fixture coverage, not rendered assistive-technology or multi-viewport browser automation.
+- Hosted CI, PR publication, and terminal integration remain deferred to the typed publish/shepherd/finish lane.
+- Current assignment metadata dirt was generated after immutable commit a857aaa and is recorded as lifecycle metadata, not product scope.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:a857aaa38164f39e6fde00a9fdf44938532e86da:0b7d3d07c90a3abdc4cf297201c28836a088a00e618ac083313c6b6d17d2b273")
 
-Reviewer: None
+Reviewer: Some("fresh-session:f7b2ce35-5c2c-4bdc-8217-026d3d9c89e9")
 
-Result: pre_review
+Result: pass
