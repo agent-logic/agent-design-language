@@ -105,7 +105,7 @@ Status: pre_phase
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

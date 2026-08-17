@@ -4,23 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "072eda7c560e8283a4da1967834bb3006a2402e31ac8767987d9c05d78652abb",
   "phase": "implemented",
-  "generation": 8,
-  "digest": "dba4916653a14a6edb47f2a3356c9abce7dae8edd466a0dc7aaea87a9c2d1b0d",
+  "generation": 9,
+  "digest": "8add139f19b897f5bbb49fe96788c9d4b2a273f3031507e75b665db22d8d35bd",
   "branch": "codex/400-implemented-card-recovery-bound",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-400-implemented-card-recovery-bound",
-  "review_assignment": {
-    "reviewer": "fresh-session:e937cedf-d68d-4126-8e37-7c3e67b4b4d8",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:dbe7352efd090465a4c25c691dc4cd2dd7fe91b7:6e43091d237d579dd2d62c59e6f41e13becd3b3aa58962db1c9b7670c3ee5501",
-    "scope": [
-      "csdlc-v2/src/cards.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/tests/gate5.rs",
-      ".csdlc/issues/400",
-      ".csdlc/evidence/400",
-      ".csdlc/prepared/issues/400"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -36,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "846101617f7f5aa71f28c71894c8250dbc8828329664fd1c5b5ffd0c4a01231d",
+      "values_digest": "5ab8d91b6bfb83161726a0e586607a70f65a04336954cc97586f66ca66a30c33",
       "rendered_digest": "f5bf608d8357ce2388f47a1145a3d9001e15fdebc96815f2499c6f0cfa108ec9",
       "ast_digest": "547d0a425b2a224731511673f3a061c5fe84e93613d538b45e0ba932964c4ad6"
     },
     "stp": {
-      "values_digest": "7cc73d728444691b863cc6a9c237f2ab79f6f16ea74d8f7b79bc474c47fe9703",
+      "values_digest": "2d7f8f510b6e3433a6e105491992f1f30e7646ddc7d8489e9b6b58da942e6b60",
       "rendered_digest": "7ddcbfc4e2134e2f7f738d5759d3879d06cceb19c0794db2f939d7eda66b2e2d",
       "ast_digest": "e90a91099addec80240f0dcb4a1794d6ab0f5135da6719a7f4b6ef40ad8af584"
     },
     "spp": {
-      "values_digest": "4699a374b145478cde85c5bc1e74cf884b4aa23fb7060aaace75f63043f155c1",
+      "values_digest": "136a6960d38d24b8ec08b4ac042cc61acbbdadfa3a829e8017b4fd9144dc2e35",
       "rendered_digest": "7efe47ff2e3ec85491c42679a01633e5ecfab7940a588d7af278ec150ae3b193",
       "ast_digest": "afd801aee92aabb025fd1c21f48bef650f8c14544fcf200c6cf8485e48ba4dd4"
     },
     "vpp": {
-      "values_digest": "bb9a520aec0c8ffd70d233a59354193372b8a5c56e4d7035f38002ac357442aa",
+      "values_digest": "e5220870cc696bccf1a7354d5bd2ffd4c77a4714360b36c7056ddbfb3801b3ae",
       "rendered_digest": "5c7938afb7cb6b76275239e0f7c77a95bea96410711c69cd5456ab3e58694f1b",
       "ast_digest": "fc90d7d37341077576faabdf578b2ea0924b24eb7ba466cedd30e9022324efbe"
     },
     "srp": {
-      "values_digest": "4f3d63531099304b6c06991fb4a9dd47ec1ea334a2546a7d5fda10243c33c6c8",
-      "rendered_digest": "23d9dafed2f5d422fee52c7b6e5a32ce3b263a6117041a13d9800cb3d8288b9a",
-      "ast_digest": "d21d9abc2d62b8a314c3e2dceb87a872fc20de30bfb9a5bb632fa40bc1c0d2df"
+      "values_digest": "d2743242407412d72503a22642258643ca497953f9e4b5f0811f77ee30b3b143",
+      "rendered_digest": "e662daa75218350717f2317b4c65158ceabf6fd915af0752e41ae6ec3932c4a0",
+      "ast_digest": "7f5850023bb0c8cf673b1c12e928d7f63b132dc5fa7f8bf95934991cf461ff7b"
     },
     "sor": {
-      "values_digest": "3d5a5c0558ff74079573384c36959f660b870f948852e9de8de5b99678a17920",
-      "rendered_digest": "4d570c82d52f2de0094610b4541da480dcc98037afcea53377b70089bf02009d",
-      "ast_digest": "32f1fb40357ea4b35fb0fbba26968df5f62724b35090bbff2ba16f9abf0f6a67"
+      "values_digest": "d9b7005139726ba8ed9a6e3413b5a97923497449ada86a83d550e72bbd223be2",
+      "rendered_digest": "20c03617c3cf99f8bb9eb778b4fa5ac285bd1bb4fbc93bd429ad09972f4a1dd5",
+      "ast_digest": "a4616c73a1b2bdef39f623a23842a52d1a03ee89faebf20adc3eca11ad6d4f36"
     }
   },
   "transitions": [
@@ -166,6 +154,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Fresh review assignment fresh-session:e937cedf-d68d-4126-8e37-7c3e67b4b4d8 produced no verdict after bounded waits and was interrupted. Preserve assignment truth as no-result and recover review authority before dispatching a different fresh no-context reviewer against unchanged #400 scope.",
+      "operation": "recover_review"
     }
   ]
 }
