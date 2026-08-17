@@ -5,27 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "6b431e21b2b0a61991853e1f3f4a1bf51241907edaac9389f1c22998ae3334e7",
   "phase": "implemented",
-  "generation": 24,
-  "digest": "7ce3b235a98086485f7855ecd29fdc86f87f18130f79b72d44272c90a8057ec2",
+  "generation": 26,
+  "digest": "8d726959440c8e95f75aea3d7c0527b9b3cc8ea6b3d8235e2cf6d62e991c4332",
   "branch": "codex/115-governed-multi-agent-rooms",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-115-governed-multi-agent-rooms",
-  "review_assignment": {
-    "reviewer": "fresh-session:309b4e3e-2a97-4af5-b6aa-bd42c4c21169",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:4716dc282976fdf91eddd293816480f4f51ce5de:8ffb7d51255458023b345959c838dc13a43e479b987ef3f56cdada01c692eade",
-    "scope": [
-      "adl-runtime-kernel/src/conversation_rooms.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/index.html",
-      "demos/html-observatory/styles.css",
-      "adl/tools/validate_v092_governed_room_observatory.mjs",
-      ".csdlc/issues/115",
-      ".csdlc/prepared/issues/115",
-      ".csdlc/evidence/115"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -41,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c38ab8a28f91bd1f9058669aa22090861dd95f2959c319fbd4e488f4694ffb03",
+      "values_digest": "eac3353b1f7120fd73f94e2456c643035f0054ff034d195144c6c84a8f1504b2",
       "rendered_digest": "ecadc343231ebf27f6cc2251766828eff504b8338d3bf9054daa17b13a178c93",
       "ast_digest": "e02db63fa0459d5bd0d779d49185ce9f2d0c99a6a3378a81fa7d5dcbda279605"
     },
     "stp": {
-      "values_digest": "4607e5abaf5c9428f0ad19c2c37f8d03c9066d85db04eefc747a932c806e9607",
+      "values_digest": "8ed9dcccb905785c4f943a74e3ed64e123196d0fb810a360c80e34bfef03ce2f",
       "rendered_digest": "52b7561d3147cf35a9d9e3e9c250bb2a4b29d24f74d72f0affff7e08a712c0df",
       "ast_digest": "35ee5ba28500c070fbcfd0489da6659b6a5043c0516503d3d603efd4c71b847c"
     },
     "spp": {
-      "values_digest": "60025b0bb595016ba8ba9d0ed2291a17cb178555070880378062f2e1deb64e63",
+      "values_digest": "0a2fc5302056726f5de19496ddc76a6f792fde811031b566e68c815f893c4f10",
       "rendered_digest": "e26bfe2140a9e173c825afa8ca0bc232861990e642e27fc8b62b7598d87bc095",
       "ast_digest": "16b4224ccc9852138207e7ea7650ab8597dacc0572143c308eaa3f9f51cc30f0"
     },
     "vpp": {
-      "values_digest": "085bee2a16981a2bc1b6bc6c5c8209ceeec802cedc2ced11077dbec0a3c8f893",
+      "values_digest": "b30eebbbca4008a8204f82d90545d2bed4672ae59668c1315be0113a266129b3",
       "rendered_digest": "5ba45045d2fec22c237ee9ef6da6228d1bde2612277d4955b7a8652ba1e41e62",
       "ast_digest": "eb8f2cb0c493fbb437ed0edfd5922ffea6758fd0731841881c2e8acdae1eb7b9"
     },
     "srp": {
-      "values_digest": "2deac6e1e6718a98bc0237c8213bedf2fdaabe128c7f3e9c5444b09135de6949",
-      "rendered_digest": "caa32cec7ee45bdc6639e84fa323a1031e8fa857b683476d42cd133f817da2a5",
-      "ast_digest": "48cf8333edfa0e54788ff6eeae5d7d38020fbd2b1bb738ceb32be7918f3fbe8b"
+      "values_digest": "b87fcc83326dd667dc43a01bc8c16f4e87c9705ae35bda637ad177abb0d2f581",
+      "rendered_digest": "9ead6718bfb47f6f4f62d1bdcb8769919c9aca261ab0cf61151ca2a4db764ebb",
+      "ast_digest": "adee842c155c8b19c4d9df432cfe83ded2620dae6d9f8cedfaf4ddc069604c78"
     },
     "sor": {
-      "values_digest": "b8d1449b66be423417861665c3226c10fa37d54b75ec227d66640e59c5056451",
-      "rendered_digest": "2bfd06b6099c16b7f226fbb3962935ba36bd130453c1e2f5fff08554e7375964",
-      "ast_digest": "239221d82881cefe55a4e8ccc97429c052af05c8bf87aeff8b500ba1bbd4f0dc"
+      "values_digest": "dc98f3ac69adfd937dc1df13a29ba3ed8e1ff71d3f72a59dccf6513411713e24",
+      "rendered_digest": "e73ef228982e898ed23a7b17327fd026548bd2d011d64906f1bf32dc254ca2d0",
+      "ast_digest": "6f4e9192de97121306085ac095e712c8d2e6cd23d3ac61af4de8e6fbbe53ea5a"
     }
   },
   "transitions": [
@@ -311,6 +295,20 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 25,
+      "actor": "codex:/root",
+      "reason": "Recover #115 review assignment fresh-session:309b4e3e-2a97-4af5-b6aa-bd42c4c21169 because its assigned revision still includes known R8 scope findings: tracked issue-110 graph artifact and empty lock file. No verdict will be accepted until those artifacts are removed and a fresh exact review is assigned.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 26,
+      "actor": "codex:/root",
+      "reason": "Record #115 R8 scope-hygiene remediation before fresh exact review",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Removed out-of-scope tracked lifecycle byproducts from the #115 governed-room implementation branch after fresh review identified them as scope leaks.\",\"changes\":[\"Removed the tracked issue-110 coordination graph artifact from the #115 branch.\",\"Removed the tracked empty #115 lock file from the publishable #115 branch.\",\"Kept the governed-room Runtime and Observatory product implementation unchanged.\"],\"artifacts\":[\".csdlc/prepared/issues/110/graph.json\",\".csdlc/locks/115.lock\"]}"
     }
   ]
 }

@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Resolved the fresh exact-review P1 by preserving Observatory governed-room turn sequences per stable room identity instead of using one global UI counter.
+Removed out-of-scope tracked lifecycle byproducts from the #115 governed-room implementation branch after fresh review identified them as scope leaks.
 
 ## Artifacts
 
@@ -36,6 +36,8 @@ Resolved the fresh exact-review P1 by preserving Observatory governed-room turn 
 - demos/html-observatory/app.js
 - adl/tools/validate_v092_governed_room_observatory.mjs
 - .csdlc/evidence/115/governed-room-observatory-validation.json
+- .csdlc/prepared/issues/110/graph.json
+- .csdlc/locks/115.lock
 
 ## Execution
 
@@ -56,6 +58,9 @@ Resolved the fresh exact-review P1 by preserving Observatory governed-room turn 
 - Derived stable governed room identity from normalized explicit recipients for the served Observatory composer.
 - Tracked next turn sequence per governed room id so switching rooms and returning to a prior room continues the correct Runtime sequence.
 - Added focused validator coverage for switch-return behavior that would previously trigger a false reordered-turn refusal.
+- Removed the tracked issue-110 coordination graph artifact from the #115 branch.
+- Removed the tracked empty #115 lock file from the publishable #115 branch.
+- Kept the governed-room Runtime and Observatory product implementation unchanged.
 
 ## Validation
 
