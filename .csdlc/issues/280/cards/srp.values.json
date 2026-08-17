@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-18C.07b][117.b] Prove large-Polis performance and recovery behavior",
     "slug": "large-polis-performance-recovery",
     "version": "v0.92",
-    "generation": 13
+    "generation": 14
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "demos/html-observatory/app.js\ndemos/html-observatory/tests/large_polis_performance_recovery.test.mjs\n.csdlc/prepared/issues/280/validate_preparation_bundle.py\n.csdlc/issues/280\n.csdlc/evidence/280",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:9bbd01f472b57bade1775177f5f163ddf3691ce2:f11d7fd33362e3e2f5635eda96d8b88b1f07a44984739fad43e2ec85d9e27784",
+      "reviewer": "fresh-session:df7a77e9-23fb-4f7e-94a6-15df93ae8e19",
       "review_prompts": [
         "Does #280 stay limited to large-Polis performance/recovery proof and narrowly necessary Observatory fixes?",
         "Are #279 accessibility/responsive, #281 security/privacy/adversarial, #282 final qualification, #117, and #110 explicitly excluded?",
@@ -24,8 +24,12 @@
         "Are all dependency merge gates truthfully required before implementation and publication?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Reviewer confirmed current HEAD 1796ab1d436efe8558a55d2e5f90dd7450112b8a differs from assigned substantive/evidence revision only by review-assignment metadata.",
+        "Reviewer verified duplicate-action remediation in code, focused regression, committed metrics JSON, current preparation evidence, and SOR validation truth.",
+        "GitHub CI remains the remote integration gate after typed publication."
+      ],
+      "review_result": "pass"
     }
   }
 }

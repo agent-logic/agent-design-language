@@ -36,12 +36,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Reviewer confirmed current HEAD 1796ab1d436efe8558a55d2e5f90dd7450112b8a differs from assigned substantive/evidence revision only by review-assignment metadata.
+- Reviewer verified duplicate-action remediation in code, focused regression, committed metrics JSON, current preparation evidence, and SOR validation truth.
+- GitHub CI remains the remote integration gate after typed publication.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:9bbd01f472b57bade1775177f5f163ddf3691ce2:f11d7fd33362e3e2f5635eda96d8b88b1f07a44984739fad43e2ec85d9e27784")
 
-Reviewer: None
+Reviewer: Some("fresh-session:df7a77e9-23fb-4f7e-94a6-15df93ae8e19")
 
-Result: pre_review
+Result: pass

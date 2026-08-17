@@ -20,3 +20,4 @@
 {"sequence":20,"generation":12,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":21,"generation":13,"actor":"codex:/root","reason":"Recover failed exact review fresh-session:0eff64f9-2720-4d52-9bd2-fe781f20f604 before remediating its P2 lifecycle/evidence finding: SOR claims current duplicate-action proof but committed evidence logs and metrics are stale and do not include the consecutive degraded-frame scenario.","operation":"recover_review"}
 {"sequence":22,"generation":13,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":23,"generation":14,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
