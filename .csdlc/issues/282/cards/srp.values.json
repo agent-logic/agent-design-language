@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 282,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.07d][117.d] Assemble exact-revision production Polis interface qualification",
+    "slug": "production-polis-interface-qualification",
+    "version": "v0.92",
+    "generation": 10
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "#282 production Polis interface qualification packet, runbook, artifact index, review synthesis, residual risks, non-claims, and lifecycle truth",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Review the exact-revision qualification packet for stale evidence, overclaims, missing artifact links, and unclear residual risks.",
+        "Review the operator runbook for local/read-only reproducibility without credentials or cloud deployment.",
+        "Review product, architecture, and security synthesis for unsupported readiness claims."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

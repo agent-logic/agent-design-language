@@ -1,0 +1,55 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 282,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.07d][117.d] Assemble exact-revision production Polis interface qualification",
+    "slug": "production-polis-interface-qualification",
+    "version": "v0.92",
+    "generation": 10
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Produce and review the #282 qualification packet and lifecycle truth only; do not implement product/runtime/browser changes.",
+      "deliverables": [
+        ".csdlc/evidence/282/production-polis-interface-qualification.md",
+        ".csdlc/evidence/282",
+        ".csdlc/issues/282"
+      ],
+      "acceptance_criteria": [
+        "AC-1: #279, #280, and #281 terminal caches validate with canonical_match=true",
+        "AC-2: The qualification packet names one exact integrated candidate revision and indexes terminal envelopes, PRs, merge SHAs, reviewed heads, and proof artifacts",
+        "AC-3: The operator runbook is local/read-only and requires no credentials or cloud deployment",
+        "AC-4: Product, architecture, and security review outcomes are retained with no unresolved actionable findings",
+        "AC-5: Residual risks and non-claims are explicit and the packet does not claim Runtime authority changes, UI implementation, cloud/public deployment, Unity implementation, or new product authority"
+      ],
+      "dependencies": [
+        "#279 terminal and ancestral",
+        "#280 terminal and ancestral",
+        "#281 terminal and ancestral",
+        "#117 parent coordination",
+        "#110 WP-18C umbrella"
+      ],
+      "repo_inputs": [
+        ".csdlc/issues/279/index.json",
+        ".csdlc/issues/280/index.json",
+        ".csdlc/issues/281/index.json",
+        ".csdlc/prepared/issues/282/design.md",
+        ".csdlc/prepared/issues/282/diagram.mmd",
+        ".csdlc/prepared/issues/282/validate_preparation_bundle.py"
+      ],
+      "non_goals": [
+        "Implementing fixes discovered by #279, #280, or #281",
+        "Runtime authority changes",
+        "Browser UI or API behavior changes",
+        "Cloud/public deployment",
+        "Unity feature implementation",
+        "Provider credential proof",
+        "Editing #117 or #110 parent issue bodies"
+      ]
+    }
+  }
+}

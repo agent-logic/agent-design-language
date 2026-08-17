@@ -1,0 +1,40 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 282,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.07d][117.d] Assemble exact-revision production Polis interface qualification",
+    "slug": "production-polis-interface-qualification",
+    "version": "v0.92",
+    "generation": 10
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Assemble the exact-revision production Polis interface qualification packet for #117 without changing Runtime or Observatory behavior.",
+      "required_outcome": "At one exact integrated candidate revision, retain a qualification packet naming the tested revision, indexing #279/#280/#281 proof artifacts, providing the operator runbook, and recording independent product, architecture, and security review outcomes with residual risks and non-claims.",
+      "declared_scope": [
+        "Exact-revision integrated production Polis interface qualification",
+        "Runbook and artifact index for the integrated candidate",
+        "Evidence synthesis from terminal #279, #280, and #281",
+        "Independent product, architecture, and security review outcomes",
+        "Residual risks and non-claims for release decision-makers"
+      ],
+      "authority_boundary": [
+        "#282 owns qualification evidence assembly only",
+        "#117 remains the production Polis interface qualification coordination parent",
+        "#110 remains the WP-18C umbrella",
+        "Runtime authority, browser UI behavior, cloud deployment, Unity behavior, and child proof fixes remain out of scope"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2 lifecycle owners",
+        "Do not mutate #117 or #110 parent issue bodies",
+        "Do not absorb #279, #280, or #281 implementation/proof ownership",
+        "Do not claim cloud/public deployment or credential-bound proof"
+      ]
+    }
+  }
+}

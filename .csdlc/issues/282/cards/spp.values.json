@@ -1,0 +1,106 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 282,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.07d][117.d] Assemble exact-revision production Polis interface qualification",
+    "slug": "production-polis-interface-qualification",
+    "version": "v0.92",
+    "generation": 10
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 4,
+      "summary": "Validate terminal dependencies, assemble the exact-revision qualification packet and runbook, validate packet structure, obtain fresh independent review, then publish and finish #282 if CI and lifecycle gates pass.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Validate #279/#280/#281 terminal caches and #282 preparation packet",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Assemble exact-revision qualification artifact and runbook",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Validate the issue-owned qualification packet",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Obtain independent product, architecture, and security review outcomes",
+          "acceptance_ids": [
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S5",
+          "action": "Publish, shepherd CI, and finish terminal truth",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        ".csdlc/evidence/282/validate_qualification_packet.py",
+        ".csdlc/evidence/282/production-polis-interface-qualification.md",
+        ".csdlc/evidence/282",
+        ".csdlc/issues/282"
+      ],
+      "invariants": [
+        "#282 does not change Runtime, browser UI, API, cloud, Unity, or provider behavior",
+        "All proof references are exact-revision and terminal-cache backed",
+        "Residual risks and non-claims are retained rather than hidden"
+      ],
+      "risks": [
+        "Stale terminal evidence if origin/main advances before publication",
+        "Overclaiming release readiness beyond the exact local/browser proof graph",
+        "Confusing #282 qualification assembly with child proof ownership"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 7200,
+        "total_tokens": 40000,
+        "validation_seconds": 1200
+      },
+      "stop_conditions": [
+        "Any terminal dependency cache fails canonical validation",
+        "Any fresh review returns unresolved actionable findings",
+        "The packet requires credentials, cloud deployment, or implementation changes outside #282 scope",
+        "Publication or finish observes stale head/base/review truth"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/282/design.md",
+      "design_digest": "3079c8247b039c558f201cfbe2ca61745ecdf32a60771ac53e17a28463b23625",
+      "diagram_ref": ".csdlc/prepared/issues/282/diagram.mmd",
+      "diagram_digest": "f97c5419f147209a7d82bad66197b850feb3e881db79a4434b4e2ffaa1b3f3c3"
+    }
+  }
+}

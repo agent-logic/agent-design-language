@@ -1,0 +1,109 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 282,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.07d][117.d] Assemble exact-revision production Polis interface qualification",
+    "slug": "production-polis-interface-qualification",
+    "version": "v0.92",
+    "generation": 10
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "terminal-dependency-caches",
+          "proof_role": "Validate canonical terminal caches for #279, #280, and #281 before #282 review/publication.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-finish",
+            "--root",
+            "/Volumes/FastWork/adl-worktrees/adl-issue-279-observatory-accessibility-responsive-ux-proof",
+            "--validate-cached-issue",
+            "279"
+          ],
+          "parallel_group": "282-serial-01-terminal",
+          "defer_reason": null
+        },
+        {
+          "lane": "qualification-packet-validator",
+          "proof_role": "Validate the #282 exact-revision qualification packet, runbook, review retention, residual-risk, and non-claim sections.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1500,
+          "argv": [
+            "python3",
+            ".csdlc/evidence/282/validate_qualification_packet.py",
+            ".csdlc/evidence/282/production-polis-interface-qualification.md"
+          ],
+          "parallel_group": "282-serial-02-packet",
+          "defer_reason": null
+        },
+        {
+          "lane": "typed-issue-validation",
+          "proof_role": "Validate #282 lifecycle/card truth after bound implementation evidence is recorded.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate",
+            "--root",
+            "/Volumes/FastWork/adl-worktrees/adl-issue-282-production-polis-qualification",
+            "issue",
+            "--issue",
+            "282"
+          ],
+          "parallel_group": "282-serial-03-lifecycle",
+          "defer_reason": null
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Reject whitespace, conflict marker, and patch hygiene defects before exact-head review.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "282-serial-04-diff",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed on stale terminal evidence, missing exact revisions, out-of-scope implementation claims, validator failure, or unresolved review findings.",
+      "design_ref": ".csdlc/prepared/issues/282/design.md",
+      "design_digest": "3079c8247b039c558f201cfbe2ca61745ecdf32a60771ac53e17a28463b23625",
+      "diagram_ref": ".csdlc/prepared/issues/282/diagram.mmd",
+      "diagram_digest": "f97c5419f147209a7d82bad66197b850feb3e881db79a4434b4e2ffaa1b3f3c3"
+    }
+  }
+}
