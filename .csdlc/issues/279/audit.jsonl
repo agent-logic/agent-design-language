@@ -12,3 +12,4 @@
 {"sequence":12,"generation":9,"actor":"codex:/root","reason":"Recover stale #279 review assignment recorded before the gen8 lifecycle/evidence repair commit; exact-head review must bind the current immutable head.","operation":"recover_review"}
 {"sequence":13,"generation":9,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":14,"generation":10,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":15,"generation":11,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
