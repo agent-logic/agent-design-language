@@ -1,0 +1,81 @@
+# Structured Task Prompt
+
+Template: 1.0.0
+
+Issue: 278
+
+Repository: agent-logic/agent-design-language
+
+Card: stp
+
+Status: ready
+
+## Task
+
+Bootstrap, design-review, approve, bind, implement, validate, exact-review, publish, and finish only #278 history API and Observatory transcript restoration scope.
+
+## Deliverables
+
+- .csdlc/prepared/issues/278/design.md
+- .csdlc/prepared/issues/278/diagram.mmd
+- .csdlc/prepared/issues/278/readiness-packet.md
+- .csdlc/prepared/issues/278/validate_preparation_bundle.py
+- adl-runtime-kernel/src/conversation_history.rs
+- adl-runtime-kernel/tests/conversation_history.rs
+- adl/tools/validate_v092_observatory_transcript_history.mjs
+- demos/html-observatory/app.js
+- demos/html-observatory/index.html
+- .csdlc/evidence/278
+- Typed #278 lifecycle cards, validation evidence, fresh exact review, publication, CI, and terminal cache
+
+## Acceptance
+
+1. AC-1: #278 records live issue identity and #114/#110 child role without binding parent issues.
+2. AC-2: Preparation proves #276/#277/#271/#115 canonical terminal caches and ancestry before bind.
+3. AC-3: Runtime re-authorizes every history page, search, export, redaction, and restore request.
+4. AC-4: Stale cursors, revoked access, stale browser state, and private-memory access fail closed.
+5. AC-5: Runtime provides deterministic pagination and bounded search over authorized transcript records.
+6. AC-6: Runtime exports only public-safe redacted transcript records with redaction metadata.
+7. AC-7: Redaction markers affect subsequent reads, searches, exports, and restored Observatory transcripts.
+8. AC-8: Observatory restores transcript state after restart from Runtime-owned durable history.
+9. AC-9: Implementation does not redefine #270 acknowledgement trust, #276 journal foundation, #277 continuity semantics, #271 authority presentation, #115 governed room routing, #114 parent, #116 lifecycle/durability qualification, #117 integrated qualification, cloud exposure, provider transcript scraping, or private-memory search.
+10. AC-10: Focused proof, strict relevant Rust validation, lifecycle validation, exact fresh review, publication, required CI, and finish all pass before terminal claim.
+
+## Dependencies
+
+- #276 terminal and ancestral to execution base
+- #277 terminal and ancestral to execution base
+- #271 terminal and ancestral to execution base
+- #115 terminal and ancestral to execution base as read-only governed room/history input
+- #114 parent remains coordination-only
+- #116 and #117 remain downstream/separate ownership and must not be absorbed
+
+## Inputs
+
+- agent-logic/agent-design-language#278
+- agent-logic/agent-design-language#276
+- agent-logic/agent-design-language#277
+- agent-logic/agent-design-language#271
+- agent-logic/agent-design-language#115
+- agent-logic/agent-design-language#114
+- agent-logic/agent-design-language#110
+- .git/csdlc-v2/derived-terminal/276.json
+- .git/csdlc-v2/derived-terminal/277.json
+- .git/csdlc-v2/derived-terminal/271.json
+- .git/csdlc-v2/derived-terminal/115.json
+- adl-runtime-kernel/src/conversation_journal.rs
+- adl-runtime-kernel/src/conversation_continuity.rs
+- demos/html-observatory/app.js
+
+## Non Goals
+
+- Global private-memory search
+- Provider transcript scraping
+- Browser-owned policy, signing, transcript authority, or cached authorization
+- Durable journal schema/storage foundation ownership
+- Redefining #270 acknowledgement trust or #277 replay/idempotency semantics
+- Reimplementing #115 governed multi-agent room routing or changing accepted-vs-delivered room semantics
+- #116 lifecycle/durability qualification ownership
+- #117 integrated WP-18C qualification ownership
+- New cloud/public exposure work
+- Binding or implementing #114 parent directly

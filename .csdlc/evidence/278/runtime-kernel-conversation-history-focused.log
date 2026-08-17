@@ -1,0 +1,11 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.13s
+     Running tests/conversation_history.rs (adl-runtime-kernel/target/debug/deps/conversation_history-837e7a589b742006)
+
+running 5 tests
+test export_and_redaction_require_explicit_authority ... ok
+test deletion_marker_hides_page_search_export_and_restore_history ... ok
+test revoked_access_and_private_memory_fail_closed ... ok
+test authorized_pagination_rejects_stale_cursor_after_restart ... ok
+test search_export_redaction_and_restore_apply_public_safe_redactions ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s

@@ -1,0 +1,41 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 278,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.04c][114.c] Expose re-authorized conversation history APIs and restore Observatory transcripts",
+    "slug": "v0-92-wp-18c-04c-114-c-reauthorized-conversation-history-observatory-transcripts",
+    "version": "v0.92.0",
+    "generation": 17
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Implement re-authorized conversation history APIs and Observatory transcript restoration after #276, #277, and #271 terminal caches validate as ancestral to current origin/main.",
+      "required_outcome": "Authorized operators can reopen conversations, page visible history, search/export/redact permitted transcript records, and restore Observatory transcript state after restart without trusting stale browser state or exposing private agent memory.",
+      "declared_scope": [
+        "Re-authorized paginated conversation history APIs",
+        "Bounded authorized search over transcript records",
+        "Public-safe redacted export of transcript records",
+        "Redaction markers applied to reads, search, export, and restored transcripts",
+        "Observatory transcript restoration from Runtime-owned durable history after restart",
+        "Focused stale cursor, revoked access, restart, export, search, and redaction proof"
+      ],
+      "authority_boundary": [
+        "#276 owns durable conversation journal schema, storage, migrations, corruption recovery, retention, and deletion foundation",
+        "#277 owns persisted watermarks, idempotency, replay ownership, ambiguous dispatch, and receipts",
+        "#271 owns Observatory authority-state and delivery-state UI integration",
+        "#278 consumes #276/#277/#271 and must not redefine their authority"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "#276, #277, and #271 terminal caches must validate canonical_match=true and their merge commits must be ancestral to refreshed origin/main before bind.",
+        "Use typed v2 lifecycle routes only; no raw GitHub lifecycle writes.",
+        "Bind only /Volumes/FastWork/adl-worktrees/adl-issue-278-reauthorized-conversation-history-observatory-transcripts on branch codex/278-reauthorized-conversation-history-observatory-transcripts.",
+        "Do not absorb #114 parent, #115 room routing, #276 journal foundation, #277 continuity semantics, #271 authority presentation, cloud exposure, provider transcript scraping, or private-memory search."
+      ]
+    }
+  }
+}
