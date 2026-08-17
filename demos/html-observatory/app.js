@@ -1093,6 +1093,8 @@ function connectRuntimeV3ObservatoryWebSocket(
         onSnapshot(runtimeV3SnapshotFromFeed(frame));
       } else if (frame.schema === "adl.runtime_v3.observatory_ws_control_result.v1" ||
                  frame.schema === "adl.runtime_v3.observatory_conversation_result.v1" ||
+                 frame.schema === GOVERNED_ROOM_ROUTE_SCHEMA ||
+                 frame.schema === "adl.runtime_v3.observatory_governed_room_result.v1" ||
                  frame.schema === "adl.csm.acip_carrier.websocket_frame.v1") {
         onControlFrame(frame);
       }

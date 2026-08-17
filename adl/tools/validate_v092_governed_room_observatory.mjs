@@ -87,6 +87,7 @@ assert.deepEqual(rows.map((row) => row.state), ["delivered", "timed_out"]);
 assert.equal(rows[1].detail, "recipient_delivery_timed_out");
 
 const html = readFileSync(htmlPath, "utf8");
+const app = readFileSync(appPath, "utf8");
 for (const requiredId of [
   "governed-room-status",
   "governed-room-recipients",
@@ -100,6 +101,11 @@ for (const requiredId of [
 assert(html.includes("multiple"), "room recipient select must allow explicit multi-agent selection");
 assert(html.includes("Select 1-8 explicit recipients."), "UI must disclose bounded room size");
 assert(html.includes("Broadcast and browser-selected implicit participants are denied."), "UI must disclose no implicit broadcast");
+assert(
+  app.includes("frame.schema === GOVERNED_ROOM_ROUTE_SCHEMA") &&
+    app.includes("renderControlFrame(frame)"),
+  "Runtime v3 WebSocket handler must route governed-room result frames into the control-frame renderer"
+);
 
 console.log(JSON.stringify({
   schema: "adl.issue_115.governed_room_observatory_validation.v1",
@@ -110,6 +116,7 @@ console.log(JSON.stringify({
     "implicit_broadcast_denied",
     "room_recipient_limit_enforced",
     "partial_delivery_rows_attributed",
-    "static_room_dom_anchors_present"
+    "static_room_dom_anchors_present",
+    "served_room_route_frames_dispatched"
   ]
 }, null, 2));

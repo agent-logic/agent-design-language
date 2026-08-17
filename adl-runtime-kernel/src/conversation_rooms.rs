@@ -14,6 +14,7 @@ use crate::layer8_authority::{AuthorityScope, Layer8Action};
 pub const GOVERNED_ROOM_TURN_SCHEMA: &str = "adl.runtime.governed_room_turn.v1";
 pub const GOVERNED_ROOM_MENTION_SCHEMA: &str = "adl.runtime.governed_room_mention.v1";
 pub const GOVERNED_ROOM_ROUTE_SCHEMA: &str = "adl.runtime.governed_room_route.v1";
+pub const GOVERNED_ROOM_MAX_RECIPIENTS: usize = 8;
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
@@ -270,7 +271,7 @@ impl GovernedRoomRoute {
 fn explicit_recipient_set(
     recipients: &[String],
 ) -> Result<BTreeSet<String>, GovernedRoomRoutingError> {
-    if recipients.is_empty() {
+    if recipients.is_empty() || recipients.len() > GOVERNED_ROOM_MAX_RECIPIENTS {
         return Err(GovernedRoomRoutingError::ImplicitBroadcastDenied);
     }
     let mut unique = BTreeSet::new();

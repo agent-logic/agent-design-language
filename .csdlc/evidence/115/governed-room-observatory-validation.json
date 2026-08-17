@@ -7,6 +7,7 @@
     "implicit_broadcast_denied",
     "room_recipient_limit_enforced",
     "partial_delivery_rows_attributed",
-    "static_room_dom_anchors_present"
+    "static_room_dom_anchors_present",
+    "served_room_route_frames_dispatched"
   ]
 }
