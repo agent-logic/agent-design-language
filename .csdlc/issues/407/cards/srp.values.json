@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 407,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[tooling][csdlc-v2] Implemented-phase SIP recovery cannot repair review-blocking goal truth",
+    "slug": "implemented-sip-goal-recovery",
+    "version": "v0.92",
+    "generation": 5
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "csdlc-v2 SIP Goal recovery operation, authorization, audit, and focused tests only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Verify the new operation is SIP Goal specific and recovery-provenance gated.",
+        "Verify tests prove both allowed recovered repair and rejected unrecovered mutation.",
+        "Verify no publication/review guard is weakened."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

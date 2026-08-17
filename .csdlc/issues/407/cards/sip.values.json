@@ -1,0 +1,36 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 407,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[tooling][csdlc-v2] Implemented-phase SIP recovery cannot repair review-blocking goal truth",
+    "slug": "implemented-sip-goal-recovery",
+    "version": "v0.92",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Add a narrow typed implemented-phase recovery operation for SIP Goal truth repairs after exact review recovery.",
+      "required_outcome": "Recovered implemented issues can repair review-blocking SIP Goal truth through a guarded typed operation without allowing arbitrary implemented-phase SIP rewrites.",
+      "declared_scope": [
+        "Add a SIP-only typed recovery operation for goal replacement after current review recovery.",
+        "Preserve generation/digest gating, recovery provenance, rendering, and audit behavior.",
+        "Add focused regression coverage for #286-style goal repair and unrecovered rejection."
+      ],
+      "authority_boundary": [
+        "C-SDLC v2 card editor semantics only.",
+        "No GitHub publication guard weakening.",
+        "No direct mutation of #286 cards in this issue."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2 lifecycle.",
+        "Do not hand-edit generated cards.",
+        "Keep the primary checkout tracked-clean and implement only in a FastWork bound worktree."
+      ]
+    }
+  }
+}

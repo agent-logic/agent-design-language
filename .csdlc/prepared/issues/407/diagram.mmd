@@ -1,0 +1,6 @@
+flowchart TD
+  A["Implemented issue with review FAIL recorded"] --> B["csdlc-review recover clears review/publication truth"]
+  B --> C["csdlc-edit correct_goal_after_recovery"]
+  C --> D["SIP goal value and rendered card update"]
+  D --> E["Generation, digest, audit updated"]
+  C --> F["Reject stale/unrecovered/broad SIP mutation"]

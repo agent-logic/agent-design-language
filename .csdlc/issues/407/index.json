@@ -1,0 +1,132 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 407,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "5ba38da70ce5022a29ce1dac564b5e30e24972939e4fc6fedddf1301bbdc13fa",
+  "phase": "implemented",
+  "generation": 5,
+  "digest": "31b5d4a8bc36e5ed57cf8fdf56a5abff4908f179edc0af3662c6daa94cbefa8c",
+  "branch": "codex/407-implemented-sip-goal-recovery",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-407-implemented-sip-goal-recovery",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/407/design.md",
+  "diagram_path": ".csdlc/prepared/issues/407/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:8ab0950a-2247-4141-8af8-3f36f169d4a3",
+      "revision": "21f11538fd99055fdb1089c53fcf59972bc5e26503446eaf7c5b7b8d49918387"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "bfce700ed2123f569cc38f002a56917c3aa053708bb9354c1df7fe7249a1df9a",
+      "rendered_digest": "1d17f05e60722cfef777403a59b6599bfac39a9d6a8c935c57ecd6a22c4fef4e",
+      "ast_digest": "0ab2111b6f1ff8db235bf8c86df391aa13f38084f0f39a3e5098277dee40382c"
+    },
+    "stp": {
+      "values_digest": "71b5dfa7d2d800e34bf5f433841bf6ca946bd7fa8eb600c52e3c104253a81cd1",
+      "rendered_digest": "84b2bc9f8079899d04e173e8c64cb657af7a671ea42b8a6f98f87f251b886618",
+      "ast_digest": "85a44608630987708aec871520be4e48b4b9423796316dba43385a698c8d199f"
+    },
+    "spp": {
+      "values_digest": "c341f9d06f93aace9ff898897e6b4cd82ae47dbf62943dce34f2b8f8404b51c0",
+      "rendered_digest": "44ad4d3585b009a3ad38d47de81d98135845d86d81c288c332ec82f699a68304",
+      "ast_digest": "a25e3e734122053944c029a16d47a278911d930b11ea6150e45bcb41ab861787"
+    },
+    "vpp": {
+      "values_digest": "81efc94a1e84d96798ecdfa250169c33cf674baa06681d95c4ecbcdb767bcdcd",
+      "rendered_digest": "6f1d5c3d1307f66db56b85e9f89e224e5ea676bb4bdc7a2c4bb0bc08fe73a38b",
+      "ast_digest": "de78d5bb39a3c51f8fbfbcacfaaeff97cc5014e9d4d7301f2c84d6d59f987f42"
+    },
+    "srp": {
+      "values_digest": "f8e0a0c27b518fa1851a44432c9b36285e4cd0c896dd65818f2b55b11e72394a",
+      "rendered_digest": "5d5efe50e3aa10606f57e99889db9eb9dd04ad891831f0f5cc2b604113269015",
+      "ast_digest": "e1456561431280709fcbb9e87ce6c8ceec7f095aef76b38274c2a72fb0466685"
+    },
+    "sor": {
+      "values_digest": "310953c6c1a2880980d3754b55460502dad708db1034c0ed9d9f643d0e9cf2f7",
+      "rendered_digest": "8df9331d186bf4e4706ece5eec6520b5e47f690d14af987c9ebef996a913835e",
+      "ast_digest": "c056d04c30b9d5f3677b01660c77d9f1155dc0dd891092f0458e3624919bb633"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:root",
+      "reason": "Advance #407 to ready/unbound after canonical fresh design review PASS, typed design approval, and doctor readiness PASS."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:root",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:root",
+      "reason": "Refresh #407 design digest after design-review proof-plan findings while preserving the exact AC-1 through AC-4 denominator.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/407/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/407/diagram.mmd\",\"new_design_digest\":\"21f11538fd99055fdb1089c53fcf59972bc5e26503446eaf7c5b7b8d49918387\",\"new_diagram_digest\":\"a76d9879e62ccf451ae3864ba83c6ba9018f82edcb111284d206500074693eac\",\"old_design_digest\":\"251dd091bb976349c42c9c572727aac05c3b18b71abe9862c7697a38bf98cb20\",\"old_diagram_digest\":\"a76d9879e62ccf451ae3864ba83c6ba9018f82edcb111284d206500074693eac\",\"prior_design_approval\":null},\"operation\":{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: A recovered implemented issue can repair SIP goal through a typed operation.\",\"AC-2: The operation rejects stale generation/digest and unrecovered reviewed/published/terminal state.\",\"AC-3: Existing implemented-phase SIP guards remain fail-closed for unrelated SIP mutations.\",\"AC-4: Focused regression proves #286-style SIP goal recovery without permitting arbitrary implemented SIP edits.\"]}}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "fresh-session:8ab0950a-2247-4141-8af8-3f36f169d4a3",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"21f11538fd99055fdb1089c53fcf59972bc5e26503446eaf7c5b7b8d49918387\",\"design_ref\":\".csdlc/prepared/issues/407/design.md\",\"diagram_digest\":\"a76d9879e62ccf451ae3864ba83c6ba9018f82edcb111284d206500074693eac\",\"diagram_ref\":\".csdlc/prepared/issues/407/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:root",
+      "reason": "Advance #407 to ready/unbound after canonical fresh design review PASS, typed design approval, and doctor readiness PASS.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:root",
+      "reason": "Align #407 VPP focused lane with the exact regression test filter that proved the SIP Goal recovery path.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"csdlc-v2-focused\",\"proof_role\":\"focused regression\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"recovered_implemented_issue_can_correct_only_the_sip_goal\",\"--test\",\"gate5\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}
