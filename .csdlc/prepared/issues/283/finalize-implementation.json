@@ -1,0 +1,71 @@
+{
+  "schema": "csdlc.finalize_request.v1",
+  "issue": 283,
+  "expected_generation": 3,
+  "expected_digest": "6ac24927026a1dd2d18920b3e492be3e882b0da23cf04e5c6a8ad7ed979abe3d",
+  "actor": "codex:adr-mini-sprint-207",
+  "summary": "Reconciled ADR 0065 evidence for #207: #209 / PR #215 is the current replacement terminal authority; #5832 is retained as historical/superseded evidence; #283 does not accept the ADR or edit shared #288-owned ADR documents.",
+  "changes": [
+    "Added issue-local reconciliation packet .csdlc/evidence/283/ADR0065_ACIP_EVIDENCE_RECONCILIATION.md.",
+    "Added machine-readable evidence manifest .csdlc/evidence/283/evidence-manifest.json.",
+    "Added issue-owned focused validator .csdlc/prepared/issues/283/validate-adr0065-evidence.sh.",
+    "Verified #209 live/typed terminal authority and #209/#5832 non-empty artifact inputs without editing shared ADR docs."
+  ],
+  "artifacts": [
+    ".csdlc/evidence/283/ADR0065_ACIP_EVIDENCE_RECONCILIATION.md sha256=fefa9470c6b6dc58eaf7977cbf96e4ba7c23557af226fbcfd70ca1be9fc836a8",
+    ".csdlc/evidence/283/evidence-manifest.json sha256=39144ace946f543abe79e65d62ac4ebc6cb1e25812e21744316f060880737eae",
+    ".csdlc/prepared/issues/283/validate-adr0065-evidence.sh sha256=720b8426c567d2ec45201e864bcddc33b6ab4bff4fb0a2a5915921bd0cd2b128",
+    ".git/csdlc-v2/derived-terminal/209.json sha256=2db7585030569dbf7350e1ce2cedc70e8c6f90ca7d7d08476f2be0ecac9cc59a",
+    ".csdlc/evidence/209/local-validation-manifest.json sha256=33b6d90ba1330aec3ca9ff228bb997c7fd8cbf062208119669991cc846dd1c74",
+    ".csdlc/evidence/209/native-validation-manifest.json sha256=c85fc5f007e2e091f2fa91ddec1dad2f5602a15861039e5d600886f49ce10987",
+    ".csdlc/evidence/5832/acip-native-receipts.json sha256=eb69f742c8074ea96d3bfb9a6d846001a9a4abfe9caf25bdb237b1bac4d11f4c"
+  ],
+  "execution": {
+    "manifest": {
+      "schema": "csdlc.pvf.manifest.v1",
+      "lanes": [
+        {
+          "id": "adr0065-evidence-reconciliation",
+          "proof_role": "Prove #283's issue-local ADR 0065 evidence reconciliation is backed by #209 terminal authority, non-empty #209 validation artifacts, and retained historical #5832 evidence without shared ADR mutation.",
+          "purpose": "Run the issue-owned ADR 0065 evidence validator.",
+          "determinism": "deterministic",
+          "resources": {
+            "cpu_units": 1,
+            "memory_mib": 256,
+            "tokens": 0
+          },
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "283-focused",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 60,
+          "executable": ".csdlc/prepared/issues/283/validate-adr0065-evidence.sh",
+          "argv": [],
+          "evidence": {
+            "max_log_bytes": 65536,
+            "redact_values": [],
+            "require_relative_paths": true
+          }
+        }
+      ]
+    },
+    "selection": {
+      "requested_lanes": [
+        "adr0065-evidence-reconciliation"
+      ],
+      "allow_network": false,
+      "available_credentials": []
+    },
+    "budget": {
+      "max_parallel": 1,
+      "cpu_units": 1,
+      "memory_mib": 512,
+      "tokens": 0
+    },
+    "root": "/Volumes/FastWork/adl-worktrees/adl-issue-283-adr0065-acip-evidence-reconciliation",
+    "evidence_dir": "/Volumes/FastWork/adl-worktrees/adl-issue-283-adr0065-acip-evidence-reconciliation/.csdlc/evidence/283",
+    "cancellation_file": null
+  }
+}

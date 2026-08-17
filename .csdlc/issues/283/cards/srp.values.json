@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 283,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][ADR 0065][207.a] Reconcile terminal ACIP schema catalog evidence",
+    "slug": "adr0065-acip-terminal-evidence-reconciliation",
+    "version": "v0.92",
+    "generation": 5
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "ADR 0065 evidence classification, #209/#5832 artifact binding, and #207/#288 handoff truth.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does #283 correctly classify #5832 as historical/superseded evidence?",
+        "Is #209 / PR #215 evidence exact-head, merged, and artifact-bound?",
+        "Does the reconciliation packet avoid ADR acceptance and shared #288 serialization scope?",
+        "Are residual gaps stated truthfully for #207?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
