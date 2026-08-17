@@ -6,10 +6,20 @@
   "initialization_digest": "2f7413cb01489f80873183bf0cb3f041747a54a7888d8a7b976df4841c8e0f95",
   "phase": "implemented",
   "generation": 12,
-  "digest": "f07eee944cc082c8ebe24a088f326762a59e38e93a3206890773754a8593741f",
+  "digest": "16c5a6fe04a9f42281c1c893a6cb588c618f0a05ad09f4c6ea264f210d2e65b3",
   "branch": "codex/281-observatory-security-privacy-adversarial-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-281-observatory-security-privacy-adversarial-proof-bound",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:f96abf33-cad6-4227-97a5-7bcb96142c94",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:9af591f8c1fb14f3226564971951377faebe80fa:5bbc2dccf1433a6be96a357512251f0abd0de547da7ab0d07719f1b90c1764c0",
+    "scope": [
+      "demos/html-observatory/tests/security_privacy_adversarial.test.mjs",
+      ".csdlc/prepared/issues/281/validate_preparation_bundle.py",
+      ".csdlc/issues/281",
+      ".csdlc/evidence/281"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +55,9 @@
       "ast_digest": "d4d9ab87114ce18ebf5f36d6758f89334adc18df9e5f1ea19fcce02d4dfd6641"
     },
     "srp": {
-      "values_digest": "c508896057f2aa4b482a32fb246687ed35940e43b6c3033e99e81bf1004a7116",
-      "rendered_digest": "bfd1caeda65be38076b06f5709aef6cd47e76e9a44a2715f26e00b90bc9055c5",
-      "ast_digest": "398e804ac7f1dbf3a149b374ae10f74b345e0de1b9e756d633deca5519c59eb2"
+      "values_digest": "4fefc98f2450128713d3c47015ae2707df62a906c6ecbfc7ab8b3f757b63ec4d",
+      "rendered_digest": "5a82091ebc8354d887f64ece2ee4ecf3d6a5ef0b32c328b04b10e27a03085fb1",
+      "ast_digest": "254e42f78d10f69e825ce6bd886527809c6f13c9cb9a200e914d018228807b48"
     },
     "sor": {
       "values_digest": "4c979dca094713536e5ee1ae1d65e67e545ebc100fa2fa4a9f635d8af81c9df3",
@@ -225,6 +235,13 @@
       "actor": "codex:/root",
       "reason": "Recover #281 review truth before merging current origin/main after terminal #280; merge-base collision check found no touched-path overlap, but publication must not use a stale-base reviewed head.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
