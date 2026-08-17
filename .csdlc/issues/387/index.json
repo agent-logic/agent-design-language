@@ -3,13 +3,37 @@
   "issue": 387,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "2b9ffdf2dd694c35d4495cc6855e4d52faef8969138fd6a42bece4e177889818",
-  "phase": "implemented",
-  "generation": 23,
-  "digest": "3f69428f1a55c5e7332e91388965b5805ea69dc18753765dce115c87c1f469cc",
+  "phase": "reviewed",
+  "generation": 24,
+  "digest": "2e47e2e9fdea4c02482339742c801de9767ee3245e218c18dcbce5dd7176ac1e",
   "branch": "codex/387-implemented-card-truth-repair-before-publication",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-387-implemented-card-truth-repair-before-publication",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:02ce1362-e859-4102-8014-c8773758f08e",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:6e05f1c11124dc1d60122562861c38dea6f249af:c944f98d5992f93212abd0bac4448034f9ce166754d40965a8e7f01450d55d56",
+    "scope": [
+      ".csdlc/issues/387",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate5.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:02ce1362-e859-4102-8014-c8773758f08e",
+    "scope": [
+      ".csdlc/issues/387",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate5.rs"
+    ],
+    "reviewed_revision": "git-blake3:6e05f1c11124dc1d60122562861c38dea6f249af:c944f98d5992f93212abd0bac4448034f9ce166754d40965a8e7f01450d55d56",
+    "findings": [],
+    "residual_risks": [
+      "Fresh reviewer performed focused exact-head source/evidence review; broader CI remains required after republishing PR #389.",
+      "Reviewer started focused gate5 validation and observed the #387 regression pass before stopping to return the bounded immediate verdict."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +48,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "96d94c76f87bde199188ce22c52dce11f85b8c48bdd31b6fa02485418a425fc1",
+      "values_digest": "43a439d209b2c995f4d570786b0078e6c93af91bd626f7eebc41d614060a173e",
       "rendered_digest": "96fa78b7fa936b9834e8db631669035645fb02a59c9773443c728c1bb0351e1d",
       "ast_digest": "30bda68f5854dfd69c1ddcf2223fc9ddd9e8b0c621b6ac263103e67134a0c8fb"
     },
     "stp": {
-      "values_digest": "8f927cdd0ce38582ad13684f041b6f93a4f3239d16bc4b3edc8f2d0e77c0fc15",
+      "values_digest": "dbba5756ea1c4634d53c53cc631e48ce03dff9d8ffb91dec75f6f6c1e5838eb9",
       "rendered_digest": "258b01cab3aee3ad9e117454696e7d770d03a0dbadfbcf8a7a489d2fcca25bbb",
       "ast_digest": "814ec4dfaa95bb1e4b701fb1218aef43ec86cee6d43c39039cea84b5302f3392"
     },
     "spp": {
-      "values_digest": "735d69a4b7f0a65bc584989049aaa9c3a2eb2202185e82936be4ef14f1ecfe3f",
+      "values_digest": "6cb7ebcf35ce946d4c58c0f46cd4a0cb76cb5b223061ff754d0fdc058ac34ba8",
       "rendered_digest": "260c3250c359fba05c2dae48501ea67f4257fa78aa5b5d6d0c88ef5a9f32b534",
       "ast_digest": "eb951a89580c959e8902863c90a1f25313f74ccc40d72dd1b94b3d4085fbbc2f"
     },
     "vpp": {
-      "values_digest": "96068c36eadedda2c7d0ebee3596ceb56cf7de04657636baae94f2b2d72645d8",
+      "values_digest": "6b28e648ae54a79b6bc68e0d9c15da990a29ec446306ba09c145653387546eb4",
       "rendered_digest": "ec7994b9ad519b1657e3f2cf8c91d31de587a5950b0f6c755e5ec708781860a0",
       "ast_digest": "ff79ec3a1f44ebeca8aef72ea1eb0b874e6378dfbaca72787c3e9543b45ee76f"
     },
     "srp": {
-      "values_digest": "319917c8d01a77a407d2baab07733b0d760e25ccc4a661763e57dc1254c425c2",
-      "rendered_digest": "4b959e0b8afb20800368e6be7320e6a4870b9f0acf4fd0fceb77c7566ec5797e",
-      "ast_digest": "8bceeb01bd1b0c1a42aab3ae0eeac49165688bb6e123b2945d1dea836608ecde"
+      "values_digest": "0953bef80807034ce9015e1cb077b67976909ac4b2871b2a1b76ac0c3f7ecd5a",
+      "rendered_digest": "49d18caf72d851fa9c80fcac856694f7450f96f25593e23de8eaa5fa5c0f6629",
+      "ast_digest": "920e9828cdd848819948806f5e254825a6d1a13985a94bb23212088ae277e359"
     },
     "sor": {
-      "values_digest": "016c4b496653bf6bc76de644c388f959f7375fca1510c1ca5b19e37e383e38b9",
+      "values_digest": "155176c9bc79562ff68348b63753841f235167fb6ef8ebb84a8338564995716a",
       "rendered_digest": "736ec6794b4b2c960982a8cefde52ca2becc0b68cb6a376466623aec894a042d",
       "ast_digest": "84d203e4e45fac947671d5c558839b728ede40cda2d4481d568b4804ddce80d7"
     }
@@ -110,6 +134,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover #387 after PR #389 CI failed csdlc-v2-standalone: implemented-phase SPP/SIP recovery guard widened assignment-only and repeat-summary repair; source/tests will be repaired before fresh exact review."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -301,6 +332,20 @@
       "actor": "codex:/root",
       "reason": "Record #387 CI-red remediation before fresh exact review.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Remediated PR #389 csdlc-v2-standalone CI failure by narrowing implemented-phase card-truth recovery guards: assignment-only review recovery no longer authorizes implemented card repair, SIP required-outcome repair remains immediate-only after recorded-review recovery, and SPP summary repair closes after one correction.\",\"changes\":[\"csdlc-v2/src/store.rs: require implemented pre-publication recovery to follow an actual recorded review before guarded card-truth repairs.\",\"csdlc-v2/src/store.rs: keep SIP required-outcome recovery immediate-generation only.\",\"csdlc-v2/src/store.rs: make SPP plan-summary correction one-shot within the recovery epoch.\",\"csdlc-v2/tests/gate5.rs: add/repair regressions for assignment-only recovery rejection, one-shot SPP summary repair, SIP immediate-only behavior, and the #387 comprehensive repair path.\"],\"artifacts\":[\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate5.rs\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--check\"],\"purpose\":\"Reject formatting drift after CI-red remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal output: cargo fmt --check exited 0\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\"],\"purpose\":\"Reproduce and fix PR #389 csdlc-v2-standalone failures plus full Gate 5 lifecycle guard coverage.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal output: 60 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warning regressions across C-SDLC v2 after CI-red remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal output: Finished dev profile, exited 0\"}]}"
+    },
+    {
+      "sequence": 28,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 24,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
