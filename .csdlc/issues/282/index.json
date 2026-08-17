@@ -4,60 +4,12 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "0f56b55082822da8e6698295189ad62a8e5e2b06fee02463e7fcd6fe2c32152b",
   "phase": "implemented",
-  "generation": 22,
-  "digest": "d82fbfcca08a8622343e6e5c73aff755b52ddf188d900717e2b304111b7f5c35",
+  "generation": 23,
+  "digest": "6d778811ab4f8b28bb66a9dad0a4433362503730a36babade689eba42c668a93",
   "branch": "codex/282-production-polis-qualification",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-282-production-polis-qualification",
-  "review_assignment": {
-    "reviewer": "fresh-session:8d227575-106e-4b9d-925e-89768fdea106",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:d55ce3457bec87337532c78292d3f59948842ac4:a62e6db68094033be6b2823934466051a4d684f1788686f7167e1215beb096d7",
-    "scope": [
-      ".csdlc/evidence/282/production-polis-interface-qualification.md",
-      ".csdlc/evidence/282/validate_qualification_packet.py",
-      ".csdlc/prepared/issues/282/validate_preparation_bundle.py",
-      ".csdlc/prepared/issues/282/design.md",
-      ".csdlc/prepared/issues/282/diagram.mmd",
-      ".csdlc/issues/282"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:8d227575-106e-4b9d-925e-89768fdea106",
-    "scope": [
-      ".csdlc/evidence/282/production-polis-interface-qualification.md",
-      ".csdlc/evidence/282/validate_qualification_packet.py",
-      ".csdlc/prepared/issues/282/validate_preparation_bundle.py",
-      ".csdlc/prepared/issues/282/design.md",
-      ".csdlc/prepared/issues/282/diagram.mmd",
-      ".csdlc/issues/282"
-    ],
-    "reviewed_revision": "git-blake3:d55ce3457bec87337532c78292d3f59948842ac4:a62e6db68094033be6b2823934466051a4d684f1788686f7167e1215beb096d7",
-    "findings": [
-      {
-        "id": "R3-P2-qualification-validator-evidence-coverage",
-        "severity": "p2",
-        "summary": "The qualification validator checks existence of only five evidence files while the packet claims nineteen retained artifacts; unchecked regression, typed-validation, and diff-hygiene references can be missing or stale without failing qualification.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "R3-P2-prep-validator-denominator-argument",
-        "severity": "p2",
-        "summary": "The preparation validator ignores its supplied .csdlc/issues/282/index.json argument, so the preparation proof can pass with an absent, malformed, or unrelated readiness denominator.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -72,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d67abffea883488ac1ef502ce65f7a10a843ba8c2b60e093fa0751f9d39018d7",
+      "values_digest": "a0b33c7e92fb9e92b180064a2db76ed1564d843802b16e6943f98df1f747b386",
       "rendered_digest": "756456c28d69eb105001f57991727645ae9f2dd003196b24187fdda672239dcc",
       "ast_digest": "9f6b9c35777a50fbccbfaf62a70f5d4582bbdf49c0e85d8e099ae337c542e084"
     },
     "stp": {
-      "values_digest": "070fb6ef459fd307f82c161bacf64184b1f15e2e3c3d15fcdfa7b7fe4a99a709",
+      "values_digest": "fd6a17eb8d29542b4ef165611dfbc9987421837313f9b9a7d55fd071a1ce6742",
       "rendered_digest": "d9761e0a08dcfd0903c2a33841c21bf690aa4f23173a897582f80f199447aa71",
       "ast_digest": "4e03a9d0f16b93c09443663dc75c1ba8708d9dd5caad5e9e5e98ce26c41a9c18"
     },
     "spp": {
-      "values_digest": "dce18f15644d115bca4a35afda92755ba39594820542cc8bebaa11262c53bbe5",
+      "values_digest": "17ee96291566cff414a8a09985ccfc24d3bbd21d77dc3535cc06d8a2de94322c",
       "rendered_digest": "f065bf10b4535996dac3b4db617ba5b1f4397c5c4841bb2e4af23b4b5e60630f",
       "ast_digest": "5ecf9f4be997546248ebd7f11bb3d241d54588883b5c1ab09acaaf76f10fb092"
     },
     "vpp": {
-      "values_digest": "a4ddeba0ee50173921072abcc3e05ab71b1918200f60120156d7e9b3dd1c53e4",
+      "values_digest": "309ea83c2733c4c22909bff7dc72f281bd9ec680c2a024c6b4f04b2fa1b1633f",
       "rendered_digest": "9d9c316363e69d0fa40755400083574e5ec857634c25da469e64864ab304c119",
       "ast_digest": "c54633f4f5c1ba706963b658c375a1b47c7ee6708fedc8205d536c0ae6ebb409"
     },
     "srp": {
-      "values_digest": "eb8704ec874723eed63affd3a7ad895f335e5e697f70774ad8213afe996eaa24",
-      "rendered_digest": "69dcea7c8d57268368a0106e97eda3079c352817d9e2d2e88f06cd31f4f3c11a",
-      "ast_digest": "b4ed551c8d42a8675574f41bd2dc873f52816e595b2039728132e6b90bd8ecb2"
+      "values_digest": "6204ede5ead3d8c65c11f9e802245b148b9b6b6db95815acca039233d8d02813",
+      "rendered_digest": "c2d74ab62e34e6ae306e15635c1aee3f528a87ec3de285da8519cf0e706d3188",
+      "ast_digest": "05517e4ee225490006606aeb09144d2cde94191f0fa3ea70ec5969b9b72d290e"
     },
     "sor": {
-      "values_digest": "16fc5f32c7c2060c6bd637e2a052cbae7713f6308d04aa602c3f0cf63d63bd1f",
+      "values_digest": "6c1d7462c69aeda25a28ab3281747b606d9bc42dce0fc5d5766b25d841694196",
       "rendered_digest": "2062c67da5984d987f8d4d7f67de279dca93d001b15d6a2a7eea0b3bbec795f6",
       "ast_digest": "0956c61fa3b7e23a0e37ef32adebc875e0de344a0f665c274d431acf951f01fe"
     }
@@ -314,6 +266,13 @@
       "actor": "codex:/root",
       "reason": "Resolve #282 R3-P2 preparation validator denominator finding after making validate_preparation_bundle.py require and validate the supplied .csdlc/issues/282/index.json denominator.",
       "operation": "{\"operation\":\"dispose_finding\",\"finding_id\":\"R3-P2-prep-validator-denominator-argument\",\"disposition\":\"fixed\"}"
+    },
+    {
+      "sequence": 28,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "Recover #282 failed review fresh-session:8d227575-106e-4b9d-925e-89768fdea106 after committing fixes for R3-P2 evidence coverage and preparation denominator validation at 22ab507c; assign a different fresh reviewer to the new immutable head.",
+      "operation": "recover_review"
     }
   ]
 }
