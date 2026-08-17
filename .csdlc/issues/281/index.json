@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "2f7413cb01489f80873183bf0cb3f041747a54a7888d8a7b976df4841c8e0f95",
-  "phase": "implemented",
-  "generation": 10,
-  "digest": "d06f34e85e1ce3fd72f499e03662f81e8df03923d3266db944390a83f72a2af5",
+  "phase": "reviewed",
+  "generation": 11,
+  "digest": "1b48769872d8f9d1a8bcd216498f9dcf4bcb7c2094188ece7e7ed0569cb36fae",
   "branch": "codex/281-observatory-security-privacy-adversarial-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-281-observatory-security-privacy-adversarial-proof-bound",
   "review_assignment": {
@@ -20,7 +20,23 @@
       ".csdlc/evidence/281"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:28698c9f-c79d-42ba-8a51-1537a31163a8",
+    "scope": [
+      "demos/html-observatory/tests/security_privacy_adversarial.test.mjs",
+      ".csdlc/prepared/issues/281/validate_preparation_bundle.py",
+      ".csdlc/issues/281",
+      ".csdlc/evidence/281"
+    ],
+    "reviewed_revision": "git-blake3:60336d4729795cd44dedaf98fea7db809bef03a5:ad82d370d2e65cff70fc27de6d7c73cad8d6a6b7a4fb4454d4656cdfb914b2ab",
+    "findings": [],
+    "residual_risks": [
+      "Review was bounded to #281 Observatory security/privacy/adversarial proof and did not rerun the in-place security_privacy_adversarial Node proof because that command rewrites its committed evidence JSON.",
+      "Post-target changes observed by the reviewer were assignment metadata only; #281 does not implement #279 accessibility, #280 performance/recovery, #282 qualification assembly, Runtime authority, cloud, Unity, credential, or provider-payload behavior."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -35,32 +51,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f9909722cd1d8d91382b88a416adeba0228c527e309d7856e13d68e701eed5fb",
+      "values_digest": "5f104673cc8def90ce4a1a1f5add348749d2f313ee5b96871a43ff1beaa62a79",
       "rendered_digest": "554d11397ec1afbda6fb34a01c29b32978744e71f1275e2e57aacc3fe5acb46b",
       "ast_digest": "92cfe22f5d143b078bd0b4bed2b3d4db8d258f9b5541320677a3cbbc20df1231"
     },
     "stp": {
-      "values_digest": "e1a5ee9f882db825b7cfe83a7f8af9e21d427039c997df339d76d97e5ab4cd69",
+      "values_digest": "770749f8c7e994a1d184717bc2c1b54b4d7fdb0d4eb86bcec6007f8ff00dd51f",
       "rendered_digest": "2bbeb6440a03b77c996752e850ec05baa68e1c5ee44c9992cf3b1994240b06db",
       "ast_digest": "8c1fbf937ed7846252948f61ea050e702a73556adb528728134b4ae63789afbc"
     },
     "spp": {
-      "values_digest": "12b688315f8a73a0d3edca063173b8e998e51d7094aed9dea0c1c6c838960862",
+      "values_digest": "f25072c66502d43b1a1a57c56116bf9975d4de27559e33887276acd9195906e6",
       "rendered_digest": "7ed05e820daa4afa8b4958a16a37cb93b619425d78ec301f6bc3f612a93a1693",
       "ast_digest": "22affcf68299bb262e1636e15128d8c46471ab93e918d6298e2f26049f3f0688"
     },
     "vpp": {
-      "values_digest": "062382c3ac898d35065d1e4328242284b8ca72886610415be5e395b4674bb2f6",
+      "values_digest": "88617d04f39fd97dc4ecf00a6fb8f954e29c8dd48194a78ef0854115384bdbe2",
       "rendered_digest": "fcd1cea166ebcd65d3e5713bc0a634879037ba000eed3ee07ec985914ebf4726",
       "ast_digest": "d4d9ab87114ce18ebf5f36d6758f89334adc18df9e5f1ea19fcce02d4dfd6641"
     },
     "srp": {
-      "values_digest": "67e45d135a27a056b30102861a4a16d288673a48f301f1c3ef93925769b68923",
-      "rendered_digest": "5a82091ebc8354d887f64ece2ee4ecf3d6a5ef0b32c328b04b10e27a03085fb1",
-      "ast_digest": "254e42f78d10f69e825ce6bd886527809c6f13c9cb9a200e914d018228807b48"
+      "values_digest": "a0932ef1bbb5261270ad301b96ced3418da829ddc945de1e9b7a0d72c47d4787",
+      "rendered_digest": "0d1551feac0a68f40efcc56efb59dc278c9a30cb6af05f03469afa6137084f46",
+      "ast_digest": "7929e480bcb867d650a71813f436a90e6ba234f230449f7530d0daa4566aba4d"
     },
     "sor": {
-      "values_digest": "24915708d0c1627c0746d2f6c242241bc0eaaccc5c274c3757b0a00cd649caac",
+      "values_digest": "13d812961ea1d20455b361fe4d96db8853d9fb05d67ed8464eadad811a346447",
       "rendered_digest": "d2d2744305cbb30d9c236cf5c58c38983fd442fff47edc3e2581d41b9dbd8c7e",
       "ast_digest": "8649c7ec3f59bd1ada1e938f42f554559dd77780fd690c862d5bc4bb9d77e2f5"
     }
@@ -100,6 +116,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover stale review truth after removing a tracked empty lifecycle lock from the #281 branch before publication; exact publication guard rejected the prior PASS as review_stale."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:28698c9f-c79d-42ba-8a51-1537a31163a8",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -207,6 +230,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "fresh-session:28698c9f-c79d-42ba-8a51-1537a31163a8",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
