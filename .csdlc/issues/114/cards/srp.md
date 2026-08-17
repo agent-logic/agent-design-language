@@ -12,11 +12,7 @@ Status: draft
 
 ## Scope
 
-.csdlc/issues/114
-.csdlc/prepared/issues/114
-.csdlc/evidence/114
-adl/tools/validate_v092_durable_history_parent_integration.py
-adl-runtime-kernel/tests/durable_conversation_history_integration.rs
+
 
 ## Prompts
 

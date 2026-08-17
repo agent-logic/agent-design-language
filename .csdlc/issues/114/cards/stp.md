@@ -16,25 +16,25 @@ Typed initialized-decomposition recovery/replan for parent #114 from preserved g
 
 ## Deliverables
 
-- Typed initialized-decomposition recovery request/result for #114 gen35 staging
-- Regenerated #114 SIP/STP/SPP/VPP/SRP/SOR projections matching live coordination-parent issue scope
-- Preserved .csdlc/prepared/issues/114/design.md and diagram.mmd byte-for-byte as historical gen0 reference evidence
-- .csdlc/prepared/issues/114/validate_preparation_bundle.py preparation validator
-- Fresh independent design/card review packet covering exact generation/digest before any design approval or bind
-- Doctor/validation evidence showing the next truthful typed boundary
+- Bound #114 parent integration proof worktree on codex/114-durable-history-parent-integration-proof
+- .csdlc/prepared/issues/114/validate_preparation_bundle.py bound parent validator
+- adl/tools/validate_v092_durable_history_parent_integration.py parent terminal-chain proof runner
+- adl-runtime-kernel/tests/durable_conversation_history_integration.rs parent integration regression
+- Typed VPP/SOR evidence for issue-owned validator, terminal-chain validator, focused Rust test, strict clippy, and diff hygiene
+- Fresh exact-head implementation review and typed publication/finish only after current proof truth passes
 
 ## Acceptance
 
-1. AC-1: Parent #114 is ready/unbound and records coordination/integration-only scope for #276 -> #277 -> #278 -> parent exact-revision integration proof.
-2. AC-2: The preserved gen0 monolithic design.md and diagram.mmd remain byte-for-byte intact and are explicitly treated as historical reference evidence, not current implementation authority.
-3. AC-3: #276 owns durable journal schema/storage/migrations/corruption/retention foundation and depends on #112 core, #265, and #270.
-4. AC-4: #277 owns persisted watermarks, attempt-local idempotency, replay, ambiguous dispatch outcomes, receipts, and restart reconciliation; it depends on #276 and #270 and does not redefine #270 acknowledgement trust.
-5. AC-5: #278 owns re-authorized history/search/export/redaction APIs and Observatory restoration; it depends on #276, #277, and #271.
-6. AC-6: Parent #114 owns only final exact-revision integrated restart/corruption/migration/retention/deletion/receipt-coherence proof after terminal child evidence lands.
-7. AC-7: Preparation validation proves only local lifecycle/card consistency, unbound state, child graph truth, guardrails, and preserved evidence digests; it makes no product/runtime/browser/API publication claim.
-8. AC-8: Handoff records remaining typed tooling recovery gaps for initialized-phase SRP/SOR/identity/design-reference semantics without mutating GitHub, binding, implementation, publication, PR, merge, closeout, or #112 worktrees.
-9. AC-9: No #112 slice worktree, child worktree, branch, GitHub issue, PR, publication, merge, closeout, product Runtime, API, Observatory, documentation, or test implementation is mutated by this preparation-only recovery.
-10. AC-10: Fresh design/card review covers the exact recovered generation/digest before any design approval, bind, child bootstrap, implementation, publication, PR, merge, closeout, or GitHub mutation.
+1. AC-1: Parent #114 remains coordination/integration-only and does not absorb #276, #277, #278, #271, #115, or #117 product implementation scope.
+2. AC-2: The bound #114 worktree and branch are canonical and preserve historical authored design/diagram artifacts while treating them as reference evidence only.
+3. AC-3: Parent proof validates terminal canonical caches and merge-SHA ancestry for #112, #265, #270, #271, #276, #277, and #278 before review/publication.
+4. AC-4: The issue-owned validator proves #114 identity, bound topology, preserved design/diagram digests, and parent-only dependency boundaries.
+5. AC-5: The repository parent integration validator proves #276/#277/#278 terminal chain integrity, merged dispositions, ancestry, and parent-only ownership.
+6. AC-6: The focused Runtime kernel integration test proves durable history, continuity, journal restart, duplicate attempt admission, receipts, replay owner state, retention/deletion, and Observatory transcript restoration coherence.
+7. AC-7: Strict relevant Clippy and diff hygiene pass for the parent-only proof surface.
+8. AC-8: SOR records the exact local validation lanes and truthfully leaves publication, merge, and closeout pending until typed publication/CI/finish complete.
+9. AC-9: Fresh exact-head implementation review covers the current clean immutable head before publication.
+10. AC-10: Publication and finish use typed owner routes with correct Closes #114 linkage only after current review truth, base/head ancestry, and required CI are green.
 
 ## Dependencies
 

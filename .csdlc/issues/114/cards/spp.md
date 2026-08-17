@@ -16,78 +16,78 @@ Status: ready
 
 ## Plan
 
-Revision 14
+Revision 16
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Verify #114 is ready and unbound while recording coordination/integration-only parent scope for #276 -> #277 -> #278 -> parent exact-revision proof.",
+    "action": "Confirm #114 remains parent-only and does not absorb #276, #277, #278, #271, #115, or #117 product implementation scope.",
     "acceptance_ids": [
       "AC-1"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
-    "action": "Verify preserved gen0 design.md and diagram.mmd digests and record them as historical reference evidence only.",
+    "action": "Confirm the bound #114 worktree/branch are canonical and preserve historical authored design/diagram artifacts as reference evidence only.",
     "acceptance_ids": [
       "AC-2"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
-    "action": "Verify #276 ownership/dependency text remains durable journal foundation only and depends on #112 core, #265, and #270.",
+    "action": "Validate terminal canonical caches and merge-SHA ancestry for #112, #265, #270, #271, #276, #277, and #278 from the parent proof head.",
     "acceptance_ids": [
       "AC-3"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S4",
-    "action": "Verify #277 ownership/dependency text remains watermark/idempotency/replay/receipt/restart reconciliation only and consumes but does not redefine #270 trust.",
+    "action": "Run the issue-owned validator for #114 identity, bound topology, preserved design/diagram digests, and parent-only dependency boundaries.",
     "acceptance_ids": [
       "AC-4"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S5",
-    "action": "Verify #278 ownership/dependency text remains re-authorized history API and Observatory restoration only and depends on #276, #277, and #271.",
+    "action": "Run the repository parent integration validator for #276/#277/#278 terminal chain integrity, ancestry, and parent-only ownership.",
     "acceptance_ids": [
       "AC-5"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S6",
-    "action": "Verify parent #114 owns only final exact-revision integrated restart, corruption, migration, retention, deletion, and receipt-coherence proof after terminal child evidence lands.",
+    "action": "Run the focused Runtime kernel integration regression for durable history, restart, receipts, replay owner state, retention/deletion, and Observatory restoration coherence.",
     "acceptance_ids": [
       "AC-6"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S7",
-    "action": "Run the issue-local preparation validator and typed doctor/validate surfaces only as preparation/card/history checks, not Runtime/API/Observatory product proof.",
+    "action": "Run strict relevant Clippy and diff hygiene for the parent-only proof surface.",
     "acceptance_ids": [
       "AC-7"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S8",
-    "action": "Record a local recovery handoff under .adl/session-handoffs with exact residual typed tooling gaps and without GitHub, bind, publication, PR, merge, closeout, or #112 worktree mutation.",
+    "action": "Record SOR validation truth while leaving publication, merge, and closeout pending until typed publication/CI/finish complete.",
     "acceptance_ids": [
       "AC-8"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S9",
-    "action": "Verify final local diff/status proves no #112 slice, child worktree, branch, GitHub, PR, product Runtime, API, Observatory, documentation, or test implementation mutation occurred.",
+    "action": "Obtain fresh exact-head implementation review over the current clean immutable #114 revision.",
     "acceptance_ids": [
       "AC-9"
     ],
@@ -95,7 +95,7 @@ Revision 14
   },
   {
     "id": "S10",
-    "action": "Obtain fresh independent design/card review over the recovered exact generation/digest before any design approval or bind.",
+    "action": "Publish and finish through typed owner routes only after review, base/head ancestry, linkage, and required CI are green.",
     "acceptance_ids": [
       "AC-10"
     ],
@@ -140,12 +140,11 @@ Digest: b8e5984d673cff4cb398de9deeb653bfb7dda81c388243371d91bd7562bebf42
 
 ## Stop Conditions
 
-- Any attempted bind, product-code edit, child bootstrap, publication, PR, merge, closeout, or GitHub mutation in this lane
-- Any attempt to delete or overwrite .csdlc/prepared/issues/114/design.md or diagram.mmd
-- Any attempt to mutate #112 slice worktrees or reuse the parent #114 branch for child execution
-- Typed validation reports corrupt projections or digest drift that cannot be repaired through csdlc-edit apply
-- Fresh design/card review returns changes_required or blocked.
-- Typed doctor reports anything beyond the intended next-boundary state.
+- Any attempted #276, #277, #278, #271, #115, or #117 product implementation inside #114 parent scope
+- Any attempt to redefine #270 acknowledgement trust or #271 Observatory authority-state semantics in the parent proof
+- Any failed issue-owned validator, terminal-chain validator, focused Runtime kernel integration test, strict Clippy, csdlc-validate, or diff hygiene check
+- Any fresh exact-head review finding requiring source or lifecycle remediation
+- Any publication, CI, base/head, linkage, mergeability, or typed finish failure before terminal closeout
 
 ## Handoff
 
