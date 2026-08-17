@@ -34,11 +34,11 @@ Implemented correct_identity_title_slug_after_decomposition in csdlc-edit with i
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
