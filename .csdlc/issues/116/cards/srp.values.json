@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 116,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.06] Build the operator attention inbox and intervention workflow",
+    "slug": "operator-attention-inbox",
+    "version": "v0.92",
+    "generation": 8
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact #116 attention-request lifecycle, Runtime queue policy, Observatory inbox/actions, source identity authority, response semantics, restart/reconnect proof, and exclusions from #117/#279-#282.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the design prevent fabricated source identity, urgency, and authority?",
+        "Are rate limits, grouping, deduplication, quiet modes, and retention explicit enough to prevent flooding?",
+        "Do operator response states avoid implicit approval?",
+        "Does #116 remain separate from #117 and downstream proof children?",
+        "Are focused validation lanes truthful and bounded?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

@@ -1,0 +1,10 @@
+WP-18C.06 Observatory operator attention inbox: PASS
+✔ demos/html-observatory/tests/operator_attention_inbox.test.mjs (60.864625ms)
+ℹ tests 1
+ℹ suites 0
+ℹ pass 1
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 65.884041

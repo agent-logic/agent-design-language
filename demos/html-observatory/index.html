@@ -553,6 +553,23 @@
                 <button class="button button-primary" type="button" id="send-governed-room-turn" disabled>Send room turn</button>
               </div>
             </div>
+            <div class="conversation-surface operator-attention-surface field-wide" id="operator-attention-inbox" aria-labelledby="operator-attention-title">
+              <div class="conversation-heading">
+                <div>
+                  <span class="row-kicker">Operator intervention</span>
+                  <h3 id="operator-attention-title">Attention inbox</h3>
+                </div>
+                <span class="mini-badge" id="operator-attention-count">0 active</span>
+              </div>
+              <p class="row-detail">Runtime-originated attention requests are visible here; replies never grant authority without Runtime policy authorization.</p>
+              <div class="communication-proof-list" aria-label="Operator attention summary">
+                <span class="mini-badge" id="operator-attention-unread">0 unread</span>
+                <span class="mini-badge" data-tone="warn">intervention only</span>
+              </div>
+              <ol class="operator-attention-list" id="operator-attention-list" aria-live="polite">
+                <li class="conversation-empty">No agent is currently requesting operator attention.</li>
+              </ol>
+            </div>
             <label class="field field-wide">
               <span class="row-kicker">Signed Runtime v3 command</span>
               <textarea id="signed-control-command" rows="8" spellcheck="false" placeholder='Paste an adl.runtime.control_command.v1 JSON envelope signed by a trusted operator key. Signed commands are submitted to /v1/control.'></textarea>

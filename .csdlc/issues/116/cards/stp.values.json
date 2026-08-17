@@ -1,0 +1,64 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 116,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.06] Build the operator attention inbox and intervention workflow",
+    "slug": "operator-attention-inbox",
+    "version": "v0.92",
+    "generation": 8
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only #116 operator attention inbox and intervention workflow; preserve #117 and children as downstream.",
+      "deliverables": [
+        "Runtime attention-request model/queue/lifecycle implementation",
+        "Observatory inbox projection and action surfaces",
+        "Focused runtime and Observatory proof for lifecycle, spoof denial, dedup/rate/expiry, restart/reconnect, and explicit outcomes",
+        ".csdlc/issues/116 lifecycle truth",
+        ".csdlc/prepared/issues/116 authored design, diagram, and validator",
+        ".csdlc/evidence/116 validation evidence"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Every attention request has stable source identity, reason, correlation, priority, expiry, lifecycle state, and bounded retention metadata.",
+        "AC-2: Agents cannot fabricate authority, urgency, or another agent identity.",
+        "AC-3: Rate limits, grouping, deduplication, quiet modes, and retention prevent attention flooding.",
+        "AC-4: Operator acknowledge, reply, defer, resolve, and refuse outcomes route through governed conversation paths and never imply approval without explicit authority action.",
+        "AC-5: Observatory exposes live inbox state with unread/read status, filters, deep links, and notification preferences.",
+        "AC-6: Restart and reconnect preserve actionable requests without duplicate notifications.",
+        "AC-7: Exact-head review has no unresolved actionable findings; PR CI and terminal finish pass."
+      ],
+      "dependencies": [
+        "#111 terminal and ancestral",
+        "#112 terminal and ancestral",
+        "#114 terminal and ancestral",
+        "#115 terminal and ancestral",
+        "#265 terminal and ancestral",
+        "#270 terminal and ancestral",
+        "#271 terminal and ancestral",
+        "#276 terminal and ancestral",
+        "#277 terminal and ancestral",
+        "#278 terminal and ancestral",
+        "Part of #110"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#116",
+        ".csdlc/prepared/issues/116/design.md",
+        ".csdlc/prepared/issues/116/diagram.mmd",
+        ".csdlc/prepared/issues/116/validate_preparation_bundle.py",
+        "Current origin/main after #114 merge"
+      ],
+      "non_goals": [
+        "Generic system-alert replacement",
+        "Silent automatic approval",
+        "Push-notification vendor integration",
+        "#117 final qualification assembly",
+        "#279/#280/#281/#282 downstream proof bundles",
+        "Reopening #270/#271/#276/#277/#278 semantics"
+      ]
+    }
+  }
+}

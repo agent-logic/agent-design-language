@@ -757,6 +757,142 @@ async function submitLayer8RecipientAcknowledgement(apiBase, signedPair) {
   return normalizeLayer8DeliveryState(await response.json());
 }
 
+const OPERATOR_ATTENTION_REQUEST_SCHEMA = "adl.runtime_v3.operator_attention.request.v1";
+const OPERATOR_ATTENTION_OUTCOME_SCHEMA = "adl.runtime_v3.operator_attention.outcome.v1";
+const OPERATOR_ATTENTION_STATUS = new Set(["open", "acknowledged", "replied", "deferred", "resolved", "refused", "expired"]);
+const OPERATOR_ATTENTION_PRIORITY_WEIGHT = {
+  urgent: 4,
+  high: 3,
+  normal: 2,
+  low: 1
+};
+const OPERATOR_ATTENTION_FORBIDDEN_FIELDS = new Set([
+  "authority",
+  "capability",
+  "ed25519",
+  "private_key",
+  "raw_provider_payload",
+  "signed_request",
+  "signature"
+]);
+
+function hasForbiddenOperatorAttentionDisclosure(value) {
+  if (value == null || typeof value !== "object") {
+    return false;
+  }
+  return Object.entries(value).some(([key, nested]) =>
+    OPERATOR_ATTENTION_FORBIDDEN_FIELDS.has(String(key).toLowerCase()) ||
+    hasForbiddenOperatorAttentionDisclosure(nested)
+  );
+}
+
+function normalizeOperatorAttentionRequest(input = {}) {
+  const request = input && typeof input === "object" ? input : {};
+  if (request.schema !== OPERATOR_ATTENTION_REQUEST_SCHEMA) {
+    return null;
+  }
+  const requestId = safeLayer8Value(request.request_id || request.id, "");
+  const sourceAgentId = safeLayer8Value(request.source_agent_id || request.agent_id, "unknown-agent");
+  const status = String(request.status || "open").toLowerCase();
+  const priority = String(request.priority || "normal").toLowerCase();
+  const message = safeConversationHistoryText(request.message || request.summary || "Operator attention requested.");
+  if (!requestId || hasForbiddenOperatorAttentionDisclosure(request)) {
+    return null;
+  }
+  return {
+    schema: OPERATOR_ATTENTION_REQUEST_SCHEMA,
+    request_id: requestId,
+    source_agent_id: sourceAgentId,
+    display_name: safeConversationHistoryText(request.display_name || request.source_display_name || sourceAgentId),
+    status: OPERATOR_ATTENTION_STATUS.has(status) ? status : "open",
+    priority: OPERATOR_ATTENTION_PRIORITY_WEIGHT[priority] ? priority : "normal",
+    reason: safeLayer8Value(request.reason || "clarification", "clarification"),
+    message,
+    correlation_id: safeLayer8Value(request.correlation_id || request.correlation_hash || "redacted", "redacted"),
+    related_conversation_id: request.related_conversation_id ? safeLayer8Value(request.related_conversation_id) : null,
+    related_work_id: request.related_work_id ? safeLayer8Value(request.related_work_id) : null,
+    created_at_millis: Number.isSafeInteger(request.created_at_millis) ? request.created_at_millis : 0,
+    updated_at_millis: Number.isSafeInteger(request.updated_at_millis) ? request.updated_at_millis : 0
+  };
+}
+
+function operatorAttentionRows(packet = {}) {
+  const candidates = asArray(packet.operator_attention_requests || packet.operator_attention?.requests);
+  const byId = new Map();
+  for (const candidate of candidates) {
+    const row = normalizeOperatorAttentionRequest(candidate);
+    if (!row) continue;
+    const existing = byId.get(row.request_id);
+    if (!existing || row.updated_at_millis >= existing.updated_at_millis) {
+      byId.set(row.request_id, row);
+    }
+  }
+  return [...byId.values()].sort((left, right) =>
+    (OPERATOR_ATTENTION_PRIORITY_WEIGHT[right.priority] - OPERATOR_ATTENTION_PRIORITY_WEIGHT[left.priority]) ||
+    (left.created_at_millis - right.created_at_millis) ||
+    left.request_id.localeCompare(right.request_id)
+  );
+}
+
+function operatorAttentionActionPayload(request, outcome = {}) {
+  const row = normalizeOperatorAttentionRequest(request);
+  if (!row) {
+    throw new Error("valid operator attention request is required");
+  }
+  const action = String(outcome.action || outcome.status || "acknowledge").toLowerCase();
+  if (!["acknowledge", "reply", "defer", "resolve", "refuse"].includes(action)) {
+    throw new Error("unsupported operator attention outcome");
+  }
+  const payload = {
+    schema: OPERATOR_ATTENTION_OUTCOME_SCHEMA,
+    request_id: row.request_id,
+    source_agent_id: row.source_agent_id,
+    correlation_id: row.correlation_id,
+    outcome: action,
+    grants_authority: false,
+    authority_approved: false,
+    operator_intervention_only: true,
+    requires_runtime_authorization: true
+  };
+  if (action === "reply" || action === "refuse") {
+    payload.message = safeConversationHistoryText(outcome.message || outcome.reason || "");
+    if (!payload.message) {
+      throw new Error("operator attention outcome message required");
+    }
+  }
+  if (action === "defer") {
+    payload.until_millis = Number.isSafeInteger(outcome.until_millis) ? outcome.until_millis : null;
+    if (!payload.until_millis) {
+      throw new Error("operator attention defer time required");
+    }
+  }
+  return payload;
+}
+
+function renderOperatorAttentionInbox(packet = {}) {
+  const rows = operatorAttentionRows(packet);
+  if (typeof document === "undefined") {
+    return rows;
+  }
+  const list = document.getElementById("operator-attention-list");
+  const count = document.getElementById("operator-attention-count");
+  const unread = document.getElementById("operator-attention-unread");
+  if (!list) {
+    return rows;
+  }
+  const activeRows = rows.filter((row) => !["resolved", "refused", "expired"].includes(row.status));
+  if (count) count.textContent = `${activeRows.length} active`;
+  if (unread) unread.textContent = `${activeRows.filter((row) => row.status === "open").length} unread`;
+  renderRows("operator-attention-list", rows.length ? rows.map((row) => `
+    <li class="operator-attention-row" data-priority="${escapeHtml(row.priority)}" data-status="${escapeHtml(row.status)}">
+      <span class="mini-badge" data-tone="${escapeHtml(row.priority === "urgent" ? "blocked" : row.priority === "high" ? "warn" : "ok")}">${escapeHtml(row.priority)}</span>
+      <span><strong>${escapeHtml(row.display_name)}</strong><br><span class="row-detail">${escapeHtml(row.reason)} · ${escapeHtml(row.message)}</span></span>
+      <span class="row-detail">${escapeHtml(row.status)} · ${escapeHtml(row.request_id)}</span>
+    </li>
+  `) : [`<li class="conversation-empty">No agent is currently requesting operator attention.</li>`]);
+  return rows;
+}
+
 function buildOperatorEnvelope({ channel = "events", message = "", packetId = "", acipSnsSummary = {}, snsResourceSummary = {} } = {}) {
   const acipProjection = acipSnsSummary.acip_projection || {};
   const acipSns = acipSnsSummary.sns || {};
@@ -3137,6 +3273,7 @@ async function bootObservatory() {
     renderObservatory(packet, reportText, "ok");
     renderIntegrations({ serviceManifest, apiText, cloudwatchSummary, cloudwatchEvents, acipSnsSummary, snsResourceSummary });
     renderLayer8DeliveryPanel(packet.layer8_delivery_states || packet.layer8_acknowledgements || []);
+    renderOperatorAttentionInbox(packet);
     bindDashboardNavigation(packet);
     bindCommunication(packet, acipSnsSummary, snsResourceSummary);
     bindLivePanopticon(packet);
@@ -3144,6 +3281,7 @@ async function bootObservatory() {
     renderObservatory(FALLBACK_PACKET, "", "fallback");
     renderIntegrations();
     renderLayer8DeliveryPanel([]);
+    renderOperatorAttentionInbox(FALLBACK_PACKET);
     bindDashboardNavigation(FALLBACK_PACKET);
     bindCommunication(FALLBACK_PACKET);
     bindLivePanopticon(FALLBACK_PACKET);
@@ -3193,6 +3331,10 @@ globalThis.AdlHtmlObservatory = {
   layer8DeliveryRows,
   renderLayer8DeliveryPanel,
   submitLayer8RecipientAcknowledgement,
+  normalizeOperatorAttentionRequest,
+  operatorAttentionRows,
+  operatorAttentionActionPayload,
+  renderOperatorAttentionInbox,
   hasForbiddenLayer8Disclosure,
   fetchRetainedRuntimeSnapshot,
   requestedRuntimeSelection,

@@ -12,9 +12,14 @@ use adl_runtime_kernel::{
     CanonicalIngress, ComponentRegistry, ControlAction, ControlApiPolicy, ControlAuthority,
     ControlCapability, ControlService, ExecutorError, FailureClass, Kernel, KernelExit,
     LifecycleControl, OperationExecutor, OperationRequest, OperationalAdapter, OperationalFactory,
+    OperatorAttentionError as AttentionError, OperatorAttentionIdentity as AttentionSourceIdentity,
+    OperatorAttentionInbox, OperatorAttentionOutcome as AttentionOutcome,
+    OperatorAttentionPriority as AttentionPriority, OperatorAttentionReason as AttentionReason,
+    OperatorAttentionRequestInput as AttentionRequestInput,
+    OperatorAttentionSettings as AttentionInboxConfig, OperatorAttentionStatus as AttentionStatus,
     RuntimeRecorder, SignedControlCommand, TrustedControlKey, ACIP_WEBSOCKET_SCHEMA,
     OBSERVATORY_FEED_SCHEMA, OBSERVATORY_WS_AUTH_SCHEMA, OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
-    OBSERVATORY_WS_PATH,
+    OBSERVATORY_WS_PATH, OPERATOR_ATTENTION_REQUEST_SCHEMA,
 };
 use async_trait::async_trait;
 use ed25519_dalek::SigningKey;
@@ -35,6 +40,145 @@ mod tls_support;
 use tls_support::TestPki;
 
 const ACIP_WRITE_TOKEN: &str = "test-acip-write-token-000000000001";
+
+fn attention_input(source: &str, correlation: &str) -> AttentionRequestInput {
+    AttentionRequestInput {
+        schema: OPERATOR_ATTENTION_REQUEST_SCHEMA.to_owned(),
+        source_agent_id: source.to_owned(),
+        source_identity: AttentionSourceIdentity {
+            agent_id: source.to_owned(),
+            principal_id: format!("{source}-principal"),
+            display_name: Some(format!("{source} display")),
+            can_mark_urgent: false,
+            can_request_attention: true,
+        },
+        reason: AttentionReason::Clarification,
+        priority: AttentionPriority::Normal,
+        correlation_id: correlation.to_owned(),
+        message: "Need operator guidance for the next bounded step.".to_owned(),
+        created_at_millis: 1_000,
+        expires_at_millis: Some(10_000),
+        related_conversation_id: Some("conversation-1".to_owned()),
+        related_work_id: Some("work-1".to_owned()),
+    }
+}
+
+#[test]
+fn operator_attention_deduplicates_and_rate_limits_by_source() {
+    let mut inbox = OperatorAttentionInbox::new(AttentionInboxConfig {
+        capacity: 8,
+        max_active_per_source: 1,
+        max_message_chars: 256,
+    })
+    .unwrap();
+    let first_id = inbox
+        .submit(attention_input("agent-a", "corr-agent-a-1"))
+        .unwrap()
+        .request_id
+        .clone();
+
+    let duplicate = inbox
+        .submit(attention_input("agent-a", "corr-agent-a-1"))
+        .unwrap();
+    assert_eq!(duplicate.request_id, first_id);
+    assert_eq!(duplicate.duplicate_count, 1);
+    assert_eq!(
+        inbox.submit(attention_input("agent-a", "corr-agent-a-2")),
+        Err(AttentionError::RateLimited)
+    );
+
+    inbox
+        .submit(attention_input("agent-b", "corr-agent-b-1"))
+        .unwrap();
+    assert_eq!(inbox.snapshot(1_010).open_count, 2);
+}
+
+#[test]
+fn operator_attention_rejects_spoofed_identity_and_unauthorized_urgency() {
+    let mut inbox = OperatorAttentionInbox::new(AttentionInboxConfig::default()).unwrap();
+    let mut spoofed = attention_input("agent-a", "corr-spoofed");
+    spoofed.source_identity.agent_id = "agent-b".to_owned();
+    assert_eq!(
+        inbox.submit(spoofed),
+        Err(AttentionError::UnauthorizedSource)
+    );
+
+    let mut urgent = attention_input("agent-a", "corr-urgent-denied");
+    urgent.priority = AttentionPriority::Urgent;
+    assert_eq!(
+        inbox.submit(urgent),
+        Err(AttentionError::UnauthorizedUrgency)
+    );
+
+    let mut allowed = attention_input("agent-a", "corr-urgent-allowed");
+    allowed.priority = AttentionPriority::Urgent;
+    allowed.source_identity.can_mark_urgent = true;
+    assert_eq!(
+        inbox.submit(allowed).unwrap().priority,
+        AttentionPriority::Urgent
+    );
+}
+
+#[test]
+fn operator_attention_outcomes_do_not_create_authority_approval() {
+    let mut inbox = OperatorAttentionInbox::new(AttentionInboxConfig::default()).unwrap();
+    let request_id = inbox
+        .submit(attention_input("agent-a", "corr-outcome"))
+        .unwrap()
+        .request_id
+        .clone();
+    let replied = inbox
+        .apply_outcome(
+            &request_id,
+            "operator-a",
+            AttentionOutcome::Reply {
+                message: "Acknowledged; continue only after Runtime authorization.".to_owned(),
+            },
+            1_100,
+        )
+        .unwrap();
+    assert_eq!(replied.status, AttentionStatus::Replied);
+    let encoded = serde_json::to_string(replied).unwrap();
+    assert!(!encoded.contains("approved"));
+    assert!(!encoded.contains("capability"));
+
+    inbox
+        .apply_outcome(&request_id, "operator-a", AttentionOutcome::Resolve, 1_101)
+        .unwrap();
+    assert_eq!(
+        inbox.apply_outcome(
+            &request_id,
+            "operator-a",
+            AttentionOutcome::Acknowledge,
+            1_102
+        ),
+        Err(AttentionError::TerminalRequest)
+    );
+}
+
+#[test]
+fn operator_attention_expiry_and_restart_preserve_receipts() {
+    let settings = AttentionInboxConfig::default();
+    let mut inbox = OperatorAttentionInbox::new(settings.clone()).unwrap();
+    let request_id = inbox
+        .submit(attention_input("agent-a", "corr-expiry"))
+        .unwrap()
+        .request_id
+        .clone();
+    assert_eq!(inbox.expire(10_000), 1);
+    let snapshot = inbox.snapshot(10_001);
+    assert_eq!(snapshot.open_count, 0);
+    assert_eq!(snapshot.requests[0].request_id, request_id);
+    assert_eq!(snapshot.requests[0].status, AttentionStatus::Expired);
+
+    let mut restored = OperatorAttentionInbox::restore(settings, snapshot).unwrap();
+    let duplicate = restored
+        .submit(attention_input("agent-a", "corr-expiry"))
+        .unwrap();
+    assert_eq!(duplicate.request_id, request_id);
+    assert_eq!(duplicate.status, AttentionStatus::Expired);
+    assert_eq!(duplicate.duplicate_count, 1);
+}
 
 struct FakeLifecycle;
 
