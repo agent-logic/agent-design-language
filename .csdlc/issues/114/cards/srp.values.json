@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-18C.04][coordination] Coordinate durable conversation history, continuity, and receipts",
     "slug": "v0-92-wp-18c-04-coordinate-durable-conversation-history-continuity-receipts",
     "version": "v0.92.0",
-    "generation": 51
+    "generation": 52
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/114\n.csdlc/prepared/issues/114\nadl/tools/validate_v092_durable_history_parent_integration.py\nadl-runtime-kernel/tests/durable_conversation_history_integration.rs",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

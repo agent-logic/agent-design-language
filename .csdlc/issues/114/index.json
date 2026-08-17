@@ -4,21 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "bb70960941aab631d5c34ecdb2e526c2af37ec6b16d7835180a774117e371407",
   "phase": "implemented",
-  "generation": 51,
-  "digest": "0f5925322d590447a8ed3bb7659c60c7989845584c29ca4f8f1219976726be25",
+  "generation": 52,
+  "digest": "7f5defdb8b06d6fc5ff9625e624c3207f59b5c75b85c7a858eac73c6e9182b2f",
   "branch": "codex/114-durable-history-parent-integration-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-114-durable-history-parent-integration-proof",
-  "review_assignment": {
-    "reviewer": "fresh-session:9f4bf33f-b889-4e80-b663-0b21d5cb10f1",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:72ea0af060349353a722e36b1348ea615e3251dc:06c811df8758bacb74e0daa745d528f767fb01e5c58b44cd5a07379b2dfc6f0f",
-    "scope": [
-      ".csdlc/issues/114",
-      ".csdlc/prepared/issues/114",
-      "adl/tools/validate_v092_durable_history_parent_integration.py",
-      "adl-runtime-kernel/tests/durable_conversation_history_integration.rs"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -34,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7c9c1b58e581fbc0da0d5f8baf21abee4159dbbd6337268aa32cbbbdf4a6e2ac",
+      "values_digest": "997f9b5a316aee336bcef67a301e90c2571537cf3de2fd6cb852ce2ee73940ab",
       "rendered_digest": "b66140459dae14a332be996a9812d00f07f523cb57faa3fc91d0f3bc3877018f",
       "ast_digest": "cd67bbbdd74fac8c89f9ca0c6f5e96f2078911e5463178c66f15983f8af4da1e"
     },
     "stp": {
-      "values_digest": "678c9e3a19da0083208d38074425b9790f5da64254e2fa0551b33f6bc2dfcd7d",
+      "values_digest": "3c00082577b27bc7e4afa9f459a930341aa7c69315c41e29054ebc8cfc4b4bca",
       "rendered_digest": "90374d9c291e2c504d92d0c3506b749a137b47c84613c8b72c229cdff43749b2",
       "ast_digest": "2bd97e7baf88e42d6d8a8f7ab2b8a1b0a0e3b13da8b2a487662439b7ba3d7087"
     },
     "spp": {
-      "values_digest": "5c65d61b044fcb54c92f4484b1847301da515a82c5c3dba0e4258099c4746876",
+      "values_digest": "542fc15fe1468f983eb3a840174f7ce3b040f03e0a01f1487ec1853bf761f846",
       "rendered_digest": "15c85d16638102e494f82c8def10fcb4fe14b0e2bcbd0ab4344646e85144f2de",
       "ast_digest": "36ee5ab31573f2a1c8bf95722d8887c0aa26644c9027bd4e2d3ab31c2d8a6edb"
     },
     "vpp": {
-      "values_digest": "e7c9d7da6f70a57121dc9a3e0866a210f43be1e1eb996d965b176ae54a2e2c08",
+      "values_digest": "c6a1f18da927ff6f22757cec03ae78e17518e9a2fe25ea941d46bfdfe920ce8e",
       "rendered_digest": "79d6e5df0082425232cec2354664ce08427d6682936f933e0a9fed93ea409040",
       "ast_digest": "616c081289d62f27a5b08a5be35245d0505c20f338c44f2da7fbf6ae3eade347"
     },
     "srp": {
-      "values_digest": "aa097c913325870ff8231c76d6596aefe33e086232953692d76cd0d37aa0d522",
-      "rendered_digest": "7e055a233c1084a4a19a333ec93049d7124cc62a5e50d5abcffae0c66e74456e",
-      "ast_digest": "a66d66788a84c3765a85a69f76f6acb5fae11ecaae976369c931e69202129b3c"
+      "values_digest": "9932fc627997a6053dbf95675e956a9b974dc43e24b07bd553d1f1bbc6ab4511",
+      "rendered_digest": "675233c7dddbbe543a08d402e6f1985b373a3efc4e50e1f25d746b6b888a0518",
+      "ast_digest": "5d8bfa7b856ab2c8e3e3156b635194f84011ed7b7b58827561d0116974a8265e"
     },
     "sor": {
-      "values_digest": "61d06e25fd63d750ead2a85f36b5965b158c013832b3fe573ec0a58fe4d3a096",
-      "rendered_digest": "29009e1bf0a403fb7982b431224e460efe39597cd13f43b1c0bef29fe328bec9",
-      "ast_digest": "7d815a35d3e9d26820aa9a89a9a9406cf753521fa33bfac9e47aad72cb8d17a1"
+      "values_digest": "106d536fec3bca8cbb2a8a4225cd10f6e6f4af73383b1b7f59ad2d993b8c701f",
+      "rendered_digest": "8937fb23f4ce0f02edb8c14733d0bff4f28b2dcace97cd2ff84c7d7d0804a582",
+      "ast_digest": "755c1f1ad6941f27ce9f1048a4c7d8cdd9e881b580e210441767ee7c94c1b675"
     }
   },
   "transitions": [
@@ -465,6 +455,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 55,
+      "generation": 52,
+      "actor": "codex:/root",
+      "reason": "Recover failed exact review r1 before repairing stale STP/SPP/SOR preparation-only card truth.",
+      "operation": "recover_review"
     }
   ]
 }

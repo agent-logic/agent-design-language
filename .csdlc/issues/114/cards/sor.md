@@ -82,7 +82,7 @@ Recorded the #114 durable-history coordination-parent integration proof after #2
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
