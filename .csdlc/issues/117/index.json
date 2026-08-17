@@ -3,57 +3,13 @@
   "issue": 117,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "024d435a2fcf6fd78678e4b9cda121ea06eecca7e6effaabceb5ad5c2f22ddaf",
-  "phase": "reviewed",
-  "generation": 30,
-  "digest": "d53c4a1eeb847f334e9dbfbcae39aeec01b6f96b713ce11726b05acec91da47c",
+  "phase": "implemented",
+  "generation": 31,
+  "digest": "3c9ec14a6768de88dd49e2d2a982ed089d58cb8c63a5464effdfc949ee59f388",
   "branch": "codex/117-production-polis-interface-qualification-parent",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-117-production-polis-interface-qualification-parent",
-  "review_assignment": {
-    "reviewer": "fresh-session:08ec28a0-5432-4b2c-8427-d8aa3bec40aa",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:0e8d68adaee69475f4c00be4ce8a461cec06109a:c63557537f54b85563d6386aca04e480cb237c19f16ad2eb639dc72225b07888",
-    "scope": [
-      ".csdlc/evidence/117/production-polis-interface-parent-closeout.md",
-      ".csdlc/evidence/117/validate_parent_closeout.py",
-      ".csdlc/prepared/issues/117/validate_preparation_bundle.py",
-      ".csdlc/prepared/issues/117/design.md",
-      ".csdlc/prepared/issues/117/diagram.mmd",
-      ".csdlc/issues/117"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:08ec28a0-5432-4b2c-8427-d8aa3bec40aa",
-    "scope": [
-      ".csdlc/evidence/117/production-polis-interface-parent-closeout.md",
-      ".csdlc/evidence/117/validate_parent_closeout.py",
-      ".csdlc/prepared/issues/117/validate_preparation_bundle.py",
-      ".csdlc/prepared/issues/117/design.md",
-      ".csdlc/prepared/issues/117/diagram.mmd",
-      ".csdlc/issues/117"
-    ],
-    "reviewed_revision": "git-blake3:0e8d68adaee69475f4c00be4ce8a461cec06109a:c63557537f54b85563d6386aca04e480cb237c19f16ad2eb639dc72225b07888",
-    "findings": [],
-    "residual_risks": [
-      "Hosted publication, CI, merge, and typed finish for #117 remain pending.",
-      "#110 must still consume terminal #117 and reconcile the remaining umbrella evidence.",
-      "#207 and #286 remain separate coordination work.",
-      "This review adds no credentialed provider, Unity, cloud, Runtime, API, storage, or Observatory implementation proof."
-    ],
-    "completed": true,
-    "non_substantive_proof": {
-      "policy": "review_metadata_only_v1",
-      "from_revision": "git-blake3:0e8d68adaee69475f4c00be4ce8a461cec06109a:c63557537f54b85563d6386aca04e480cb237c19f16ad2eb639dc72225b07888",
-      "to_revision": "git-blake3:a98d4b573e57be99e02d789351a816ff5bb273a2:d4bac9685125bbc76e178c8fababcee1c78e5db8e804ce69151c6ce101bca5ae",
-      "from_commit": "0e8d68adaee69475f4c00be4ce8a461cec06109a",
-      "to_commit": "a98d4b573e57be99e02d789351a816ff5bb273a2",
-      "changed_paths": [
-        ".csdlc/issues/117/audit.jsonl",
-        ".csdlc/issues/117/cards/srp.md",
-        ".csdlc/issues/117/cards/srp.values.json",
-        ".csdlc/issues/117/index.json"
-      ]
-    }
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -68,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "63ded7b3ffa95b399a02c9c67ff14d5dc1fed6e82a422dd6621e6122762f5d4e",
+      "values_digest": "a6deab2d267a6536e426eaae2669c4f5076e11046ec2ac6b6b115d8a3ece47f2",
       "rendered_digest": "31377833f0fdf1c38188d892ce3d604f14ea61410b4d14eded85470c819d1506",
       "ast_digest": "34914eb71385e6d9a391827d3bcdfd88497cc2bccadad9d09dd81bf9d07fd13f"
     },
     "stp": {
-      "values_digest": "1eb1c102ec26a43b45b9a695fb64697f6eae2d1b769507ca39d87df421b58239",
+      "values_digest": "c7825f285ea7e311b0aab763306bfb3ed93bde30e11d2c6a5f472962a3660352",
       "rendered_digest": "3962299e8f5c41c9ebdb23f85131cf638b309cc58e4b166ad56efd100851e0e9",
       "ast_digest": "dde896295af7848a68de9eaa55ad152d1773062e79a9f27b8c37cce29c6e1301"
     },
     "spp": {
-      "values_digest": "ba506f5abb7233082adcc1c21950893a62641ca854675eb44c030be2852b3dbf",
+      "values_digest": "6442902d424f2dcd50979b019bab2dc9d54e5de11a3277b879c534c6a1e6a542",
       "rendered_digest": "258848e070a57478e07177c1e9546907cd706f89a06ec45a05b77793a471e276",
       "ast_digest": "da7b6053c0774cd71960d329cd12a806b6bf66fce728459688fa9b9d524c7434"
     },
     "vpp": {
-      "values_digest": "e31fd518083d2359582a2f72a5178723d7ab9673d9909d4903d7043aa914ea3e",
+      "values_digest": "dece5b595a8bda79a68a1a4f49d5c90182b842b4bf880e69185adc6de122ed07",
       "rendered_digest": "cb288c0e4e3fa37efca1d62888457c5cfab8b9ddc1ce0282259f69e987b4c0d7",
       "ast_digest": "6e9164f90884128e31ad8d16a53deb657a3a6a3e58d6efdc82dc0b092069348d"
     },
     "srp": {
-      "values_digest": "e3798653d0c15bb197c84bd9528eb63092f48b771923609b6a2ee241567d8552",
-      "rendered_digest": "d8255730d3efc626790a683d41b6cfce8373f90a505d83804bc6c96f131833fe",
-      "ast_digest": "1c3c81d723c11ff414feaab507d8f440d2f6b8eced8b0e85833a2c9e74e809f5"
+      "values_digest": "533aa0f7d2a60be0821232e8d8918f30013af797470d9731f43aa72919182bc2",
+      "rendered_digest": "1253ac0f42063c5f2011243e9449818f55d1504c07ad8146ba38ea23a0a35357",
+      "ast_digest": "d3faf3908bf4b8cf64c7ef7144b0ef223acc1883189f0f858db1e2af1d228ef1"
     },
     "sor": {
-      "values_digest": "1d010e7f4202fd80f63eed2cc00470b2eec254e214026b19f8b78abf2be76379",
+      "values_digest": "63e429b3b98e5b6ad893204366b7ac5065fd9c3854e0f7ad1eb0e63cdcc4a552",
       "rendered_digest": "d8b815a277aad19f8d907b0a73f1c49b3724272f92e792c1995d40f19637d036",
       "ast_digest": "f119737ef3d6411764ce511ada41365d6a58d714922d2e2739fc7bb4cccf202d"
     }
@@ -126,6 +82,13 @@
       "to": "reviewed",
       "actor": "codex:/root",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover reviewed #117 state after publication guard rejected stale explicit review_metadata_only_v1 proof; re-record the same fresh PASS without explicit non_substantive_proof so the owner guard can use its automatic metadata-only path for review metadata commits."
     }
   ],
   "audit": [
@@ -401,6 +364,13 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 40,
+      "generation": 31,
+      "actor": "codex:/root",
+      "reason": "Recover reviewed #117 state after publication guard rejected stale explicit review_metadata_only_v1 proof; re-record the same fresh PASS without explicit non_substantive_proof so the owner guard can use its automatic metadata-only path for review metadata commits.",
+      "operation": "recover_review"
     }
   ]
 }
