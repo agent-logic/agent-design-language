@@ -5,21 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "2f7413cb01489f80873183bf0cb3f041747a54a7888d8a7b976df4841c8e0f95",
   "phase": "implemented",
-  "generation": 6,
-  "digest": "f5d5a18b2c136ba458c66352a7f6b36fe46b45a1393fb8d8a432bce03ca10849",
+  "generation": 8,
+  "digest": "e6f43bbfd7d1014d71d1ef678df0156171dceb1dfe090d12f75dd42a0e46b69a",
   "branch": "codex/281-observatory-security-privacy-adversarial-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-281-observatory-security-privacy-adversarial-proof-bound",
-  "review_assignment": {
-    "reviewer": "fresh-session:1847ff25-e937-4945-bc5b-38e5c7f71f4a",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:ae79e044e6af21de879bc0f2b2cd0a7f068a34fa:b3be95a4b2bc6a69df33be45364f5194cf358cf2ea04b6af901bb68f1d18c5f3",
-    "scope": [
-      "demos/html-observatory/tests/security_privacy_adversarial.test.mjs",
-      ".csdlc/prepared/issues/281/validate_preparation_bundle.py",
-      ".csdlc/issues/281",
-      ".csdlc/evidence/281"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -35,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "107f9429ef9ff7a7e0a10ec1f9a9063be70beb3c67349619ba3635f042f44662",
+      "values_digest": "08351e7b80d5f646b56050a8c060656bbf151acb468b8e552b69f33f6e79d26e",
       "rendered_digest": "554d11397ec1afbda6fb34a01c29b32978744e71f1275e2e57aacc3fe5acb46b",
       "ast_digest": "92cfe22f5d143b078bd0b4bed2b3d4db8d258f9b5541320677a3cbbc20df1231"
     },
     "stp": {
-      "values_digest": "f2312cd2e4534522b534ce7ecc0841b219ca81c5450fb184b09a3ac099f52281",
+      "values_digest": "4a9a0aadbae8fddfad71ada7182254df80c5f5d194bb4d594705db75f46394ce",
       "rendered_digest": "2bbeb6440a03b77c996752e850ec05baa68e1c5ee44c9992cf3b1994240b06db",
       "ast_digest": "8c1fbf937ed7846252948f61ea050e702a73556adb528728134b4ae63789afbc"
     },
     "spp": {
-      "values_digest": "8b3d2bd256ea6d88bd363d95fb6f04b4cf1ce6c89fcb33042c703545b996b1d3",
+      "values_digest": "8908260297e9b56e82d67464484bb7e5ac71dc00358877a5928d525e6837f4f8",
       "rendered_digest": "7ed05e820daa4afa8b4958a16a37cb93b619425d78ec301f6bc3f612a93a1693",
       "ast_digest": "22affcf68299bb262e1636e15128d8c46471ab93e918d6298e2f26049f3f0688"
     },
     "vpp": {
-      "values_digest": "7164792da29a0b28f43706824b845d7e9ba2ba458de1593e32e3e6465d88d10a",
-      "rendered_digest": "2dee4b490d9942c5e80ec1cf1770d3bf017bce496e370cdcdbf4aed40e02e826",
-      "ast_digest": "720d44b9a35f0bcbb16e73919994d358afcae6ff5c640931b853ed4b184821f1"
+      "values_digest": "f084a79833ec16fed272e8000db694efcb1e852334256084d483662b5695155e",
+      "rendered_digest": "fcd1cea166ebcd65d3e5713bc0a634879037ba000eed3ee07ec985914ebf4726",
+      "ast_digest": "d4d9ab87114ce18ebf5f36d6758f89334adc18df9e5f1ea19fcce02d4dfd6641"
     },
     "srp": {
-      "values_digest": "739ba5c37ce1b1387f060e954360411428060c9fcb5fcd60310db1e2f73c6a90",
-      "rendered_digest": "52fd3ac21d6680915e83df9e47c8f5681df3563801f67a9c77dff3783276e535",
-      "ast_digest": "2da1e88edbafbae74a2a8819dde03bdf432c10f8aa80cf7a50836890cb779134"
+      "values_digest": "7d15f5e96d5bf2573d6c3b6e9ef34d9f099def61f58df1174e0315c6a327a856",
+      "rendered_digest": "bfd1caeda65be38076b06f5709aef6cd47e76e9a44a2715f26e00b90bc9055c5",
+      "ast_digest": "398e804ac7f1dbf3a149b374ae10f74b345e0de1b9e756d633deca5519c59eb2"
     },
     "sor": {
-      "values_digest": "a0d408a22e601afee16cd14b71da502231d247be1ef78c33f6ab65c720e94e01",
-      "rendered_digest": "1fa36c1af94241c06a4a1ee480603b52d7e869b11a12161e5f47f6d252e200ca",
-      "ast_digest": "90eb6df8960f2804a435bfb3e2a2226ee65c00fa82f4c9c3b6ef97d053505ef5"
+      "values_digest": "465dec1e90358f5dbb924a87a109b474a58cfa8336bf54717e176f366cf966ae",
+      "rendered_digest": "d2d2744305cbb30d9c236cf5c58c38983fd442fff47edc3e2581d41b9dbd8c7e",
+      "ast_digest": "8649c7ec3f59bd1ada1e938f42f554559dd77780fd690c862d5bc4bb9d77e2f5"
     }
   },
   "transitions": [
@@ -151,6 +141,20 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Recover failed exact review fresh-session:1847ff25-e937-4945-bc5b-38e5c7f71f4a before remediating its P2 VPP finding: the observatory-ui-regression lane encodes two Node test files in one argv, so replay runs only the first script.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Split #281 observatory-ui-regression into executable one-script Node lanes after exact review found the combined argv only runs the first script.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preparation-contract\",\"proof_role\":\"Validate #281 issue identity, dependency ancestry, security/privacy/adversarial proof scope, and forbidden sibling/parent ownership before bind.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"python3\",\".csdlc/prepared/issues/281/validate_preparation_bundle.py\"],\"parallel_group\":\"281-serial-01-prep\",\"defer_reason\":null},{\"lane\":\"observatory-security-privacy-adversarial\",\"proof_role\":\"Run deterministic Node-based XSS, credential/token, origin metadata, replay/confused-deputy/stale/denial, and redaction assertions over the HTML Observatory fixtures.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":3000,\"argv\":[\"node\",\"demos/html-observatory/tests/security_privacy_adversarial.test.mjs\"],\"parallel_group\":\"281-serial-02-proof\",\"defer_reason\":null},{\"lane\":\"observatory-conversation-regression\",\"proof_role\":\"Rerun the focused HTML Observatory conversation-session regression touched by the security/privacy slice.\",\"acceptance_ids\":[\"AC-4\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":2000,\"argv\":[\"node\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\"],\"parallel_group\":\"281-serial-03-ui-regression\",\"defer_reason\":null},{\"lane\":\"observatory-operator-attention-regression\",\"proof_role\":\"Rerun the focused HTML Observatory operator-attention regression touched by the security/privacy slice.\",\"acceptance_ids\":[\"AC-4\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":2000,\"argv\":[\"node\",\"demos/html-observatory/tests/operator_attention_inbox.test.mjs\"],\"parallel_group\":\"281-serial-04-ui-regression\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject malformed whitespace or patch artifacts before review.\",\"acceptance_ids\":[\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"281-serial-05-diff\",\"defer_reason\":null}]}"
     }
   ]
 }

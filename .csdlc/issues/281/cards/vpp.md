@@ -61,11 +61,11 @@ Diagram: .csdlc/prepared/issues/281/diagram.mmd
       "demos/html-observatory/tests/security_privacy_adversarial.test.mjs"
     ],
     "parallel_group": "281-serial-02-proof",
-    "defer_reason": "Deferred until bound implementation creates or refreshes the exact proof target."
+    "defer_reason": null
   },
   {
-    "lane": "observatory-ui-regression",
-    "proof_role": "Rerun focused HTML Observatory regressions touched by the security/privacy slice.",
+    "lane": "observatory-conversation-regression",
+    "proof_role": "Rerun the focused HTML Observatory conversation-session regression touched by the security/privacy slice.",
     "acceptance_ids": [
       "AC-4",
       "AC-7"
@@ -76,11 +76,28 @@ Diagram: .csdlc/prepared/issues/281/diagram.mmd
     "budget_tokens": 2000,
     "argv": [
       "node",
-      "demos/html-observatory/tests/conversation_sessions.test.mjs",
-      "demos/html-observatory/tests/operator_attention_inbox.test.mjs"
+      "demos/html-observatory/tests/conversation_sessions.test.mjs"
     ],
     "parallel_group": "281-serial-03-ui-regression",
-    "defer_reason": "Deferred until bound implementation creates or refreshes the exact proof target."
+    "defer_reason": null
+  },
+  {
+    "lane": "observatory-operator-attention-regression",
+    "proof_role": "Rerun the focused HTML Observatory operator-attention regression touched by the security/privacy slice.",
+    "acceptance_ids": [
+      "AC-4",
+      "AC-7"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 2000,
+    "argv": [
+      "node",
+      "demos/html-observatory/tests/operator_attention_inbox.test.mjs"
+    ],
+    "parallel_group": "281-serial-04-ui-regression",
+    "defer_reason": null
   },
   {
     "lane": "diff-hygiene",
@@ -98,7 +115,7 @@ Diagram: .csdlc/prepared/issues/281/diagram.mmd
       "diff",
       "--check"
     ],
-    "parallel_group": "281-serial-04-diff",
+    "parallel_group": "281-serial-05-diff",
     "defer_reason": null
   }
 ]
@@ -117,7 +134,8 @@ Tokens: 25000
 
 - `python3 .csdlc/prepared/issues/281/validate_preparation_bundle.py`
 - `node demos/html-observatory/tests/security_privacy_adversarial.test.mjs`
-- `node demos/html-observatory/tests/conversation_sessions.test.mjs demos/html-observatory/tests/operator_attention_inbox.test.mjs`
+- `node demos/html-observatory/tests/conversation_sessions.test.mjs`
+- `node demos/html-observatory/tests/operator_attention_inbox.test.mjs`
 - `git diff --check`
 
 ## Failure Semantics

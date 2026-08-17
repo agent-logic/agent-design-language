@@ -100,7 +100,7 @@ Implemented deterministic HTML Observatory security/privacy/adversarial proof wi
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
