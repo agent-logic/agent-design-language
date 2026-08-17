@@ -6,10 +6,26 @@
   "initialization_digest": "6b431e21b2b0a61991853e1f3f4a1bf51241907edaac9389f1c22998ae3334e7",
   "phase": "implemented",
   "generation": 21,
-  "digest": "827ce2bf79f710d5964112123305cf56620174354000322481e2feffb177cd75",
+  "digest": "c56b7738eb7d514cef33cac1194edf7bb94c91f6ef807b226b18a76ee27a5cc3",
   "branch": "codex/115-governed-multi-agent-rooms",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-115-governed-multi-agent-rooms",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:92f416b8-2e7f-4afa-9fb2-b8b30caa93cd",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:95c3ce9dfd6d97b610845fb7e8ec578c75b61992:7e9c64c1c9d8066d34081cb658b9051a520e9102a2aafe108525dbb4bc2b2cc3",
+    "scope": [
+      "adl-runtime-kernel/src/conversation_rooms.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "adl/tools/validate_v092_governed_room_observatory.mjs",
+      ".csdlc/issues/115",
+      ".csdlc/prepared/issues/115",
+      ".csdlc/evidence/115"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +61,9 @@
       "ast_digest": "eb8f2cb0c493fbb437ed0edfd5922ffea6758fd0731841881c2e8acdae1eb7b9"
     },
     "srp": {
-      "values_digest": "c18e0d62218dbfbb4eec07f91fbba576083249ca3dbae2b2ce350e667df23c5d",
-      "rendered_digest": "9ead6718bfb47f6f4f62d1bdcb8769919c9aca261ab0cf61151ca2a4db764ebb",
-      "ast_digest": "adee842c155c8b19c4d9df432cfe83ded2620dae6d9f8cedfaf4ddc069604c78"
+      "values_digest": "7b251d00073bcbf42ae7c0763e23f7be5d16ec653efed8b01baf7c2d18947a01",
+      "rendered_digest": "caa32cec7ee45bdc6639e84fa323a1031e8fa857b683476d42cd133f817da2a5",
+      "ast_digest": "48cf8333edfa0e54788ff6eeae5d7d38020fbd2b1bb738ceb32be7918f3fbe8b"
     },
     "sor": {
       "values_digest": "a52c89d110697381edb496ba7e297f51d40378a540b652b5c15f2fcb72048cda",
@@ -253,6 +269,13 @@
       "actor": "codex:/root",
       "reason": "Record #115 R6 P1 per-room turn sequence remediation",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Resolved the fresh exact-review P1 by preserving Observatory governed-room turn sequences per stable room identity instead of using one global UI counter.\",\"changes\":[\"Derived stable governed room identity from normalized explicit recipients for the served Observatory composer.\",\"Tracked next turn sequence per governed room id so switching rooms and returning to a prior room continues the correct Runtime sequence.\",\"Added focused validator coverage for switch-return behavior that would previously trigger a false reordered-turn refusal.\"],\"artifacts\":[\"demos/html-observatory/app.js\",\"adl/tools/validate_v092_governed_room_observatory.mjs\",\".csdlc/evidence/115/governed-room-observatory-validation.json\"]}"
+    },
+    {
+      "sequence": 26,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
