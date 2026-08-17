@@ -31,6 +31,10 @@ Status: ready
 
 ## Dependencies
 
+- #271 terminal and canonical
+- #114 terminal and canonical
+- #115 terminal and canonical
+- #116 terminal and canonical
 - #279 terminal and canonical
 - #280 terminal and canonical
 - #281 terminal and canonical

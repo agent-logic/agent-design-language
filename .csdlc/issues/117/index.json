@@ -4,52 +4,12 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "024d435a2fcf6fd78678e4b9cda121ea06eecca7e6effaabceb5ad5c2f22ddaf",
   "phase": "implemented",
-  "generation": 24,
-  "digest": "9e44ce52ce02d373168beb5b2b7e9affe2a2edcb8e86d93be3d5164475e60ff8",
+  "generation": 26,
+  "digest": "cd573b4b170f23b324b796a9ce8d162d874ad869aaec879bdc28e8aa0b5de3ec",
   "branch": "codex/117-production-polis-interface-qualification-parent",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-117-production-polis-interface-qualification-parent",
-  "review_assignment": {
-    "reviewer": "fresh-session:9bb9d4e3-cfc3-42ac-8ff4-e9b1d75f93c0",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:af490bc1a7554974b17d054ad0ecfebd92cb56eb:07bf98dba7054134692c21bdedfd0858dc3c40932d6d1c45220478c3dec6066f",
-    "scope": [
-      ".csdlc/evidence/117/production-polis-interface-parent-closeout.md",
-      ".csdlc/evidence/117/validate_parent_closeout.py",
-      ".csdlc/prepared/issues/117/validate_preparation_bundle.py",
-      ".csdlc/prepared/issues/117/design.md",
-      ".csdlc/prepared/issues/117/diagram.mmd",
-      ".csdlc/issues/117"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:9bb9d4e3-cfc3-42ac-8ff4-e9b1d75f93c0",
-    "scope": [
-      ".csdlc/evidence/117/production-polis-interface-parent-closeout.md",
-      ".csdlc/evidence/117/validate_parent_closeout.py",
-      ".csdlc/prepared/issues/117/validate_preparation_bundle.py",
-      ".csdlc/prepared/issues/117/design.md",
-      ".csdlc/prepared/issues/117/diagram.mmd",
-      ".csdlc/issues/117"
-    ],
-    "reviewed_revision": "git-blake3:af490bc1a7554974b17d054ad0ecfebd92cb56eb:07bf98dba7054134692c21bdedfd0858dc3c40932d6d1c45220478c3dec6066f",
-    "findings": [
-      {
-        "id": "9bb9-p1-stp-omits-consumed-terminal-inputs",
-        "severity": "p1",
-        "summary": "STP dependency/input truth omits consumed terminal prerequisites #271/#114/#115/#116 even though the #117 design, diagram, validators, closeout evidence, and AC-1 consume them.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
-    "residual_risks": [
-      "Publication, hosted CI, merge, and terminal finish were not reviewed because this exact revision remained unpublished."
-    ],
-    "completed": false,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -64,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6507aee183c85e49f11ad8e80171798a9ac58a5b0cd577d474f1298f69811400",
+      "values_digest": "ec1ed5d2426adc9615fd7dfbaaa50df1072d23dc90d592e045d0b22749281f05",
       "rendered_digest": "31377833f0fdf1c38188d892ce3d604f14ea61410b4d14eded85470c819d1506",
       "ast_digest": "34914eb71385e6d9a391827d3bcdfd88497cc2bccadad9d09dd81bf9d07fd13f"
     },
     "stp": {
-      "values_digest": "6b81eb58f3d600358db7971718d45132d637f03a810e7d0d6ed85794289c8f0f",
-      "rendered_digest": "90a11f2ccd8f2e44783806970332b4a0657af031f79dda6b395ff593ae5a3dd6",
-      "ast_digest": "21dda05a4a0a3f33ddb1c2752f58c353d4fb6794d3eb2dba2b9592433b8364ce"
+      "values_digest": "002356618e0f2b5cc810238f421208a29583b9f889ce0ac53f3268efd8f0da3a",
+      "rendered_digest": "3962299e8f5c41c9ebdb23f85131cf638b309cc58e4b166ad56efd100851e0e9",
+      "ast_digest": "dde896295af7848a68de9eaa55ad152d1773062e79a9f27b8c37cce29c6e1301"
     },
     "spp": {
-      "values_digest": "a7136178e58e73b0d1374933528cb46934687313c388672f1118e1f3fae2d594",
+      "values_digest": "bb53fbca465d7dfa68b72febffa6333e57a1a077a89836579f2c01ad1036edd5",
       "rendered_digest": "258848e070a57478e07177c1e9546907cd706f89a06ec45a05b77793a471e276",
       "ast_digest": "da7b6053c0774cd71960d329cd12a806b6bf66fce728459688fa9b9d524c7434"
     },
     "vpp": {
-      "values_digest": "844a42988de128eab1773e5ab55bda6b7326321bd7f66ffe8a75bf39ee1ef3e2",
+      "values_digest": "999519b6cb2673f116b36ee3c2e6498a9d9feaf2f79b254829a6b36c52233430",
       "rendered_digest": "cb288c0e4e3fa37efca1d62888457c5cfab8b9ddc1ce0282259f69e987b4c0d7",
       "ast_digest": "6e9164f90884128e31ad8d16a53deb657a3a6a3e58d6efdc82dc0b092069348d"
     },
     "srp": {
-      "values_digest": "93fe6f03eb256bb3c4c2e91ed63f9af33372ab9a808709edc42967d1780a0380",
-      "rendered_digest": "5411de990c8df43b2cc2a6271e6ee472214b13d8639a3a0579c4facfc7de24e0",
-      "ast_digest": "637cf67f9965da192b8f66bb0468ce02f69a2f079f1fd5009cd67a4a73a0d6ac"
+      "values_digest": "e16d8cb98a3f2f66eef7c088be9c7f46f27780d49dd534ec883e48d2342d2070",
+      "rendered_digest": "1253ac0f42063c5f2011243e9449818f55d1504c07ad8146ba38ea23a0a35357",
+      "ast_digest": "d3faf3908bf4b8cf64c7ef7144b0ef223acc1883189f0f858db1e2af1d228ef1"
     },
     "sor": {
-      "values_digest": "106698dea30ce9ed009be5766180a69a405730c20cec68378d6fbca07643edbe",
+      "values_digest": "4a24276b0a0f3afca29fadc34af78b4b737eb984cfe6828263a877ee7500c706",
       "rendered_digest": "d8b815a277aad19f8d907b0a73f1c49b3724272f92e792c1995d40f19637d036",
       "ast_digest": "f119737ef3d6411764ce511ada41365d6a58d714922d2e2739fc7bb4cccf202d"
     }
@@ -327,6 +287,20 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 25,
+      "actor": "codex:/root",
+      "reason": "Recover failed exact review fresh-session:9bb9d4e3-cfc3-42ac-8ff4-e9b1d75f93c0 before remediating P1 STP dependency/input truth finding for #271/#114/#115/#116.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 26,
+      "actor": "codex:/root",
+      "reason": "Repair #117 STP dependency truth after current recorded-review recovery: include every terminal input consumed by AC-1, VPP, validators, design, closeout table, and SOR without changing product scope.",
+      "operation": "{\"new_values\":[\"#271 terminal and canonical\",\"#114 terminal and canonical\",\"#115 terminal and canonical\",\"#116 terminal and canonical\",\"#279 terminal and canonical\",\"#280 terminal and canonical\",\"#281 terminal and canonical\",\"#282 terminal and canonical\",\"#110 umbrella remains open until #117 and other umbrella truth are reconciled\"],\"operation\":\"correct_stp_dependencies_after_recovery\",\"previous_values\":[\"#279 terminal and canonical\",\"#280 terminal and canonical\",\"#281 terminal and canonical\",\"#282 terminal and canonical\",\"#110 umbrella remains open until #117 and other umbrella truth are reconciled\"],\"recovery_generation\":25,\"recovery_sequence\":31}"
     }
   ]
 }

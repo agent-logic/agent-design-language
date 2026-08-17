@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18C.07][coordination] Coordinate production Polis interface qualification",
     "slug": "production-polis-interface-qualification-parent",
     "version": "v0.92",
-    "generation": 24
+    "generation": 26
   },
   "status": "ready",
   "content": {
@@ -28,6 +28,10 @@
         "AC-5: Record truthful lifecycle/review/publication state for #117 without claiming umbrella terminal closeout."
       ],
       "dependencies": [
+        "#271 terminal and canonical",
+        "#114 terminal and canonical",
+        "#115 terminal and canonical",
+        "#116 terminal and canonical",
         "#279 terminal and canonical",
         "#280 terminal and canonical",
         "#281 terminal and canonical",
