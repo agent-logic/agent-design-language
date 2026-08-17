@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e10a02d2361925ec52b0b77c0a7a3e7dc8ef8b69527ba2ed22637ad434d727d5",
   "phase": "implemented",
-  "generation": 8,
-  "digest": "00421497fe1125365502881a7fa2442fe36027eb2c0d3e884bc525e991d60eec",
+  "generation": 10,
+  "digest": "03e0f9b88b9e3613549d6e602e53c1274a3cc8499eb1e3a43aca04cef33d72f4",
   "branch": "codex/388-implemented-card-truth-repair",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-388-implemented-card-truth-repair",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6b2aafdf0d53981d299e0531108c41fbf7d1e451abae492b0ccbae2c779f9598",
+      "values_digest": "11f2cc4c2672985bcfe3a593297e1c7b883503c8345496b4063b20f8af3cb221",
       "rendered_digest": "f5f0ee6d8684987ed56b858c183cfd0c047a386f082296d87becb52480476533",
       "ast_digest": "33261cccf844c3c06c0dc2baf00e437ca82b8bbd49da3a88fa9e17fa1764d04b"
     },
     "stp": {
-      "values_digest": "57871d5b5d46b92633a34de98a61591445b83ae19b6dea54e0ff7b529a1860d9",
+      "values_digest": "93fda416c56ccd0da46bcaa4940bab45e6af72ae7712b34bf31c234be76aa589",
       "rendered_digest": "4cc64fef144574f5474a4ef671a90ce0c19c10d73264a23d84d95ea76ca51eb6",
       "ast_digest": "e324125a8ad06f4e2b8362817f931c16f148d5e150f802eb8f3472e3fdefdea6"
     },
     "spp": {
-      "values_digest": "0c7de0e66ede4242eca7668872fa69088f61e7dba1a2d2a2e73f9b0479cd95d4",
+      "values_digest": "10179d0e3d5317d816011beb14043ada3f4b7adf5ac72feeb6d1f876852fb7e1",
       "rendered_digest": "86f18144c1bda2360de6db1ad1f4a11558be484397b3cfe89606c562513e028c",
       "ast_digest": "96cde977e749a673d4b4cc0241eb90e3192817bd3cd4944da5a1a50610754950"
     },
     "vpp": {
-      "values_digest": "fc1eaacbd53f9e70c4d41362ab9c4467bac59ed57b5883118caca58f4b6383ce",
+      "values_digest": "064f5531c1c7889e2803ed8c24961811f4bdcd2a5fae5371b7e0efec99729fdf",
       "rendered_digest": "ec731370c3909e971560ad57d4aa09856a64acc3c5f4dc5a134d885ee6c78a0d",
       "ast_digest": "cf65fe0ecaa662e5800e88c05ab594fc4025324a0606266f0ca408039246e56e"
     },
     "srp": {
-      "values_digest": "84914f522d15108c95c496baa38eef8905c5e819482d83a0788a718a83eac687",
+      "values_digest": "5bc56e9f1a4e2732ec9e8c54c8a83497e217e84490bbcdfceafd3c3a53580b2a",
       "rendered_digest": "00361b1e516c41080c211d8e242d74277a681ef314e7250214f63e8a4f0e9b1d",
       "ast_digest": "d780e3c2e5f62c12b48d3fb9cd37e1321bfb7f2057dcb8e6de92f18b421ef9e8"
     },
     "sor": {
-      "values_digest": "06acfe51b1365f3d3d5355fa8ab53c3c9edaae7da39b858efcf6d55c0357db6c",
-      "rendered_digest": "786eb84220d5fc568b4bfc1bc9728133ffe06ac6987942619e47adc85482d530",
-      "ast_digest": "82ad4b8357b1042bee75556aee6fd44a00ad5886d6dbd4b7f5961abdae6a23c8"
+      "values_digest": "d967beed4e8df0c21f68f48c222684bbab9c8f2d66a2fb6c031b6ed5b382c27e",
+      "rendered_digest": "12269797e17a2c6900be20386b4f09954b63238c9366148b27d3e7f2b2a2cffe",
+      "ast_digest": "8482ecc853a5d6b435a4cce0b412bb27c7b587b6a30a35748b25b3457bcc266f"
     }
   },
   "transitions": [
@@ -169,6 +169,27 @@
       "actor": "codex:/root",
       "reason": "Recover #388 review after merging current origin/main (#387/#389 card-truth repair surfaces) and resolving store.rs/gate5.rs conflicts before fresh exact-head review.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Recover failed exact-head review assignment fresh-session:6bc45962-e580-46d1-90cc-47c00b0e273c after actionable evidence-truth findings: committed proof, doctor, validate, fmt, clippy, and diff logs were stale or empty relative to merged revision 5e06d31c634b3ea42f51aee2a3aa020fcdd5080c. Product semantics were not faulted; recovery clears the invalidated assignment before recording current evidence and requesting a new fresh review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Replace #388 SOR validation truth after fresh review found stale pre-merge evidence. Keep product execution summary unchanged while recording the exact post-merge focused proof, lifecycle validation, fmt, clippy, and diff evidence now present under .csdlc/evidence/388.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented bounded C-SDLC v2 implemented-phase SPP/VPP/SOR card-truth repair routes.\",\"changes\":[\"Added typed semantic card operations for implemented-phase VPP summary repair, VPP failure-policy repair, and SOR follow-up replacement/removal after current review recovery.\",\"Relaxed SPP plan-summary repair to work after assignment/review recovery before publication while preserving actor/reason, active downstream truth, and duplicate-repair guards.\",\"Added recovery-epoch duplicate-field refusal and append-only audit payloads for the SPP/VPP/SOR repair operations.\",\"Added focused gate5 regressions proving SPP repair after assignment recovery, VPP/SOR repair guards, SOR empty-vector follow-up removal, blank-entry refusal, and compatibility with existing allowed intervening repairs.\",\"Repaired #388 lifecycle proof truth after merging current main so committed evidence logs reflect the exact post-merge revision and generation-9 typed validation state.\"],\"artifacts\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate5.rs\",\".csdlc/prepared/issues/388/validate_preparation_bundle.py\",\".csdlc/evidence/388\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"card_truth_repair\"],\"purpose\":\"Run the post-merge #388/#387 C-SDLC v2 gate5 card-truth repair regressions at the exact recovered head.\",\"outcome\":\"passed\",\"evidence_ref\":\"388-focused-csdlc-store.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"implemented_card_truth_repair\"],\"purpose\":\"Run the exact single-filter #388 implemented card-truth repair regression requested by fresh review.\",\"outcome\":\"passed\",\"evidence_ref\":\"388-focused-csdlc-store-implemented-filter.log\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--check\"],\"purpose\":\"Run rustfmt check for csdlc-v2.\",\"outcome\":\"passed\",\"evidence_ref\":\"388-fmt.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict Clippy for all csdlc-v2 targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"388-clippy.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Run git diff hygiene check.\",\"outcome\":\"passed\",\"evidence_ref\":\"388-diff.log\"},{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-388-implemented-card-truth-repair\",\"issue\",\"--issue\",\"388\"],\"purpose\":\"Run C-SDLC v2 typed issue validation for #388 at generation 9 after review recovery.\",\"outcome\":\"passed\",\"evidence_ref\":\"388-typed-validate.log\"},{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor\",\"--repo\",\"/Volumes/FastWork/adl-worktrees/adl-issue-388-implemented-card-truth-repair\",\"--issue\",\"388\"],\"purpose\":\"Run C-SDLC v2 doctor for #388 at generation 9 after review recovery.\",\"outcome\":\"passed\",\"evidence_ref\":\"388-doctor.log\"}]}"
     }
   ]
 }

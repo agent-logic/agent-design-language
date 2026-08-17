@@ -1,10 +1,9 @@
 
-running 3 tests
-test implemented_card_truth_repair_plan_summary_survives_allowed_intervening_repairs ... ok
-test implemented_card_truth_repair_can_correct_vpp_and_sor_truth_fields ... ok
-test implemented_card_truth_repair_can_correct_only_the_spp_plan_summary ... ok
+running 2 tests
+test implemented_card_truth_repair_can_correct_vpp_and_sor_semantic_fields ... ok
+test implemented_phase_card_truth_repair_unblocks_fresh_review_assignment ... ok
 
-test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 57 filtered out; finished in 7.29s
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 59 filtered out; finished in 3.70s
 
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.10s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.13s
      Running tests/gate5.rs (csdlc-v2/target/debug/deps/gate5-b9662c2cfecc7109)

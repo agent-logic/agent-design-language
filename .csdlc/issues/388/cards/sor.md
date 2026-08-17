@@ -28,11 +28,51 @@ Implemented bounded C-SDLC v2 implemented-phase SPP/VPP/SOR card-truth repair ro
 - Relaxed SPP plan-summary repair to work after assignment/review recovery before publication while preserving actor/reason, active downstream truth, and duplicate-repair guards.
 - Added recovery-epoch duplicate-field refusal and append-only audit payloads for the SPP/VPP/SOR repair operations.
 - Added focused gate5 regressions proving SPP repair after assignment recovery, VPP/SOR repair guards, SOR empty-vector follow-up removal, blank-entry refusal, and compatibility with existing allowed intervening repairs.
-- Repaired #388 lifecycle proof truth to use the real gate5 integration-test denominator instead of a zero-test --lib filter and restored the issue-owned preparation validator target in the bound worktree.
+- Repaired #388 lifecycle proof truth after merging current main so committed evidence logs reflect the exact post-merge revision and generation-9 typed validation state.
 
 ## Validation
 
 [
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate5",
+      "card_truth_repair"
+    ],
+    "purpose": "Run the post-merge #388/#387 C-SDLC v2 gate5 card-truth repair regressions at the exact recovered head.",
+    "outcome": "passed",
+    "evidence_ref": "388-focused-csdlc-store.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate5",
+      "implemented_card_truth_repair"
+    ],
+    "purpose": "Run the exact single-filter #388 implemented card-truth repair regression requested by fresh review.",
+    "outcome": "passed",
+    "evidence_ref": "388-focused-csdlc-store-implemented-filter.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "fmt",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--check"
+    ],
+    "purpose": "Run rustfmt check for csdlc-v2.",
+    "outcome": "passed",
+    "evidence_ref": "388-fmt.log"
+  },
   {
     "command": [
       "cargo",
@@ -60,44 +100,6 @@ Implemented bounded C-SDLC v2 implemented-phase SPP/VPP/SOR card-truth repair ro
   },
   {
     "command": [
-      "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor",
-      "--repo",
-      "/Volumes/FastWork/adl-worktrees/adl-issue-388-implemented-card-truth-repair",
-      "--issue",
-      "388"
-    ],
-    "purpose": "Run C-SDLC v2 doctor for #388.",
-    "outcome": "passed",
-    "evidence_ref": "388-doctor.log"
-  },
-  {
-    "command": [
-      "cargo",
-      "fmt",
-      "--manifest-path",
-      "csdlc-v2/Cargo.toml",
-      "--check"
-    ],
-    "purpose": "Run rustfmt check for csdlc-v2.",
-    "outcome": "passed",
-    "evidence_ref": "388-fmt.log"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "csdlc-v2/Cargo.toml",
-      "--test",
-      "gate5",
-      "implemented_card_truth_repair"
-    ],
-    "purpose": "Run the focused #388 C-SDLC v2 gate5 integration-test regressions.",
-    "outcome": "passed",
-    "evidence_ref": "388-focused-csdlc-store.log"
-  },
-  {
-    "command": [
       "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate",
       "--root",
       "/Volumes/FastWork/adl-worktrees/adl-issue-388-implemented-card-truth-repair",
@@ -105,9 +107,21 @@ Implemented bounded C-SDLC v2 implemented-phase SPP/VPP/SOR card-truth repair ro
       "--issue",
       "388"
     ],
-    "purpose": "Run C-SDLC v2 typed issue validation for #388.",
+    "purpose": "Run C-SDLC v2 typed issue validation for #388 at generation 9 after review recovery.",
     "outcome": "passed",
     "evidence_ref": "388-typed-validate.log"
+  },
+  {
+    "command": [
+      "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor",
+      "--repo",
+      "/Volumes/FastWork/adl-worktrees/adl-issue-388-implemented-card-truth-repair",
+      "--issue",
+      "388"
+    ],
+    "purpose": "Run C-SDLC v2 doctor for #388 at generation 9 after review recovery.",
+    "outcome": "passed",
+    "evidence_ref": "388-doctor.log"
   }
 ]
 
