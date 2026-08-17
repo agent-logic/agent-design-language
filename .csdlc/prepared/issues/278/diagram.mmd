@@ -1,0 +1,10 @@
+flowchart LR
+  A["#276 durable journal"] --> C["#278 re-authorized history API"]
+  B["#277 continuity receipts"] --> C
+  D["#271 Observatory authority states"] --> E["#278 restored Observatory transcripts"]
+  C --> E
+  C --> F["page/search/export/redact"]
+  G["Runtime authority check per read"] --> C
+  H["stale browser cursor/cache"] -. denied .-> C
+  I["private agent memory"] -. out of scope .-> F
+

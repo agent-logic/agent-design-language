@@ -1,0 +1,85 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 278,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.04c][114.c] Expose re-authorized conversation history APIs and restore Observatory transcripts",
+    "slug": "v0-92-wp-18c-04c-114-c-reauthorized-conversation-history-observatory-transcripts",
+    "version": "v0.92.0",
+    "generation": 12
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Implemented #278 re-authorized conversation history APIs and Observatory transcript restoration helpers over Runtime-owned durable journal state.",
+      "actual_changes": [
+        "Added adl-runtime-kernel conversation_history module for authorized page/search/export/redact/restore over journal events.",
+        "Added focused Runtime conversation_history integration tests for stale cursors, revoked access, private-memory denial, export authority, redaction, search, and restart restore.",
+        "Added Observatory Runtime-history normalization/restoration/redaction helpers and validator for stale incarnation rejection and unsafe-field redaction.",
+        "Updated #278 VPP to implementation-phase proof lanes with exact available commands."
+      ],
+      "artifacts": [
+        "adl-runtime-kernel/src/conversation_history.rs",
+        "adl-runtime-kernel/tests/conversation_history.rs",
+        "adl/tools/validate_v092_observatory_transcript_history.mjs",
+        "demos/html-observatory/app.js",
+        ".csdlc/evidence/278"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "python3",
+            ".csdlc/prepared/issues/278/validate_preparation_bundle.py"
+          ],
+          "purpose": "Validate #278 dependency/scope packet and terminal caches.",
+          "outcome": "passed",
+          "evidence_ref": "issue-278-preparation-validator.log"
+        },
+        {
+          "command": [
+            "node",
+            "adl/tools/validate_v092_observatory_transcript_history.mjs"
+          ],
+          "purpose": "Run #278 Observatory transcript history validator.",
+          "outcome": "passed",
+          "evidence_ref": "observatory-transcript-restore-validator.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--test",
+            "conversation_history"
+          ],
+          "purpose": "Run #278 Runtime conversation history tests.",
+          "outcome": "passed",
+          "evidence_ref": "runtime-kernel-conversation-history-focused.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--lib",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Run strict clippy for touched Runtime kernel library.",
+          "outcome": "passed",
+          "evidence_ref": "runtime-kernel-strict-clippy.log"
+        }
+      ],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

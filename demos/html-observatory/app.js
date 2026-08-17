@@ -1404,6 +1404,81 @@ function conversationReconnectIntent(pending, runtimeIncarnationId) {
   return pending.intent;
 }
 
+const OBSERVATORY_CONVERSATION_HISTORY_SCHEMA = "adl.runtime.conversation_history.v1";
+const FORBIDDEN_CONVERSATION_HISTORY_FIELDS = [
+  "bearer_token",
+  "operator_token",
+  "private_key",
+  "signature",
+  "correlation_id",
+  "result_hash"
+];
+
+function safeConversationHistoryText(value, fallback = "[redacted]") {
+  const text = typeof value === "string" ? value : "";
+  if (!text.trim()) return fallback;
+  const lower = text.toLowerCase();
+  if (FORBIDDEN_CONVERSATION_HISTORY_FIELDS.some((field) => lower.includes(field))) {
+    return fallback;
+  }
+  return text.slice(0, 4096);
+}
+
+function normalizeRuntimeConversationHistorySnapshot(history, feed = {}) {
+  if (!history ||
+      history.schema !== OBSERVATORY_CONVERSATION_HISTORY_SCHEMA ||
+      typeof history.conversation_id !== "string" ||
+      history.conversation_id.length === 0 ||
+      !Array.isArray(history.records)) {
+    return { accepted: false, reason: "invalid_runtime_history" };
+  }
+  const expectedIncarnation = feed.runtime_incarnation_id || feed.runtimeIncarnationId || "";
+  if (expectedIncarnation &&
+      history.runtime_incarnation_id &&
+      history.runtime_incarnation_id !== expectedIncarnation) {
+    return { accepted: false, reason: "stale_runtime_history" };
+  }
+  let lastSequence = 0;
+  const records = [];
+  for (const record of history.records) {
+    const sequence = Number(record.turn_sequence ?? record.journal_sequence ?? 0);
+    if (!Number.isSafeInteger(sequence) || sequence <= lastSequence) {
+      return { accepted: false, reason: "non_monotonic_runtime_history" };
+    }
+    lastSequence = sequence;
+    records.push({
+      conversation_id: history.conversation_id,
+      message_id: String(record.message_id || record.turn_id || `history-${sequence}`),
+      speaker_id: safeConversationHistoryText(record.speaker_id || "runtime"),
+      body: record.redacted ? "[redacted]" : safeConversationHistoryText(record.body),
+      status: record.redacted ? "redacted" : safeConversationHistoryText(record.status || "restored"),
+      turn_sequence: sequence,
+      redacted: record.redacted === true,
+      redaction_reason: record.redaction_reason ? safeConversationHistoryText(record.redaction_reason) : null
+    });
+  }
+  return {
+    accepted: true,
+    schema: history.schema,
+    conversation_id: history.conversation_id,
+    runtime_incarnation_id: history.runtime_incarnation_id || expectedIncarnation || null,
+    records
+  };
+}
+
+function restoreConversationTranscriptFromRuntimeHistory(history, feed = {}, appendTurn = null) {
+  const normalized = normalizeRuntimeConversationHistorySnapshot(history, feed);
+  if (!normalized.accepted) {
+    return normalized;
+  }
+  if (typeof appendTurn === "function") {
+    for (const record of normalized.records) {
+      appendTurn(record.speaker_id, record.body, record.message_id, record.status);
+    }
+  }
+  return normalized;
+}
+
 async function fetchRetainedRuntimeSnapshot(refs = {}) {
   const [status, health, ready, metrics, events] = await Promise.all([
     loadJson(refs.statusRef).catch((error) => ({ __load_error: error instanceof Error ? error.message : "status load failed" })),
@@ -3102,6 +3177,9 @@ globalThis.AdlHtmlObservatory = {
   conversationFrameProvesAcceptance,
   conversationReconnectIntent,
   conversationReplyFromFrame,
+  normalizeRuntimeConversationHistorySnapshot,
+  restoreConversationTranscriptFromRuntimeHistory,
+  safeConversationHistoryText,
   isSafeGovernedRoomIdentifier,
   normalizeGovernedRoomParticipants,
   normalizeExplicitGovernedRoomRecipients,

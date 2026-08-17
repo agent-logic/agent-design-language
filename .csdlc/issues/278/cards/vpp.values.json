@@ -1,0 +1,115 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 278,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.04c][114.c] Expose re-authorized conversation history APIs and restore Observatory transcripts",
+    "slug": "v0-92-wp-18c-04c-114-c-reauthorized-conversation-history-observatory-transcripts",
+    "version": "v0.92.0",
+    "generation": 12
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Pre-bind validation proves dependency/scope readiness only; runtime and Observatory product proof remains deferred until the bound #278 implementation creates exact issue-owned test and validator targets.",
+      "lanes": [
+        {
+          "lane": "issue-278-preparation-validator",
+          "proof_role": "Prove #278 live issue identity, dependency terminal caches, ancestry, scope boundaries, non-goals, and dedicated branch/worktree strings.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-9"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "python3",
+            ".csdlc/prepared/issues/278/validate_preparation_bundle.py"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "runtime-kernel-conversation-history-focused",
+          "proof_role": "Prove authorized pagination, stale cursor denial, revoked access denial, private-memory denial, restart restoration, search, export, and redaction behavior.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-9"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 600,
+          "budget_tokens": 4000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--test",
+            "conversation_history"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "observatory-transcript-restore-validator",
+          "proof_role": "Prove Observatory transcript restoration consumes Runtime-owned durable history and rejects stale browser state/redacts unsafe fields.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-8",
+            "AC-9"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "node",
+            "adl/tools/validate_v092_observatory_transcript_history.mjs"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "runtime-kernel-strict-clippy",
+          "proof_role": "Prove strict Rust hygiene for the touched Runtime kernel library before review/publication.",
+          "acceptance_ids": [
+            "AC-10"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 600,
+          "budget_tokens": 2000,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--lib",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on terminal dependency mismatch, non-ancestral merge SHA, missing re-authorization, stale cursor acceptance, revoked access acceptance, private-memory exposure, redaction drift, stale browser restore, invalid bind target, failed proof, or unresolved review finding.",
+      "design_ref": ".csdlc/prepared/issues/278/design.md",
+      "design_digest": "a1cd90456f932404f358e8d02d680eaa67202eef39f7f2189d5f0bc2fb635411",
+      "diagram_ref": ".csdlc/prepared/issues/278/diagram.mmd",
+      "diagram_digest": "03e5bf94a4e3d1506211fabd10452b37eb1c58153ab0f195c1fdc90e652eefc7"
+    }
+  }
+}
