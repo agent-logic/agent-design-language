@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 400,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[tooling][csdlc-v2] Implemented-phase card recovery cannot repair review-blocking SPP/STP truth",
+    "slug": "implemented-phase-card-recovery-spp-stp-truth",
+    "version": "v0.92",
+    "generation": 8
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Review the implemented-phase recovery route for scope narrowness, generation/digest/audit preservation, guardrail preservation, and test adequacy.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the typed recovery path only allow #400 SPP/STP truth repairs and reject unrelated implemented-phase rewrites?",
+        "Do tests prove positive #117-style repairs and negative stale/phase/malformed cases?",
+        "Are review, publication, and terminal gates preserved?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

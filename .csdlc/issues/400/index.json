@@ -1,0 +1,152 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 400,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "072eda7c560e8283a4da1967834bb3006a2402e31ac8767987d9c05d78652abb",
+  "phase": "implemented",
+  "generation": 8,
+  "digest": "3c30c29a1d6d11f407885bcc7f8235f4c6fb83402fcd4e268b1846cf188adc38",
+  "branch": "codex/400-implemented-card-recovery-bound",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-400-implemented-card-recovery-bound",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/400/design.md",
+  "diagram_path": ".csdlc/prepared/issues/400/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:ca13f558-4476-494e-9871-a1475ff3e03f",
+      "revision": "dffcc62edb01e76e836542b3190f65c6952c913bc6f7ccfbc92395704bbe2777"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "846101617f7f5aa71f28c71894c8250dbc8828329664fd1c5b5ffd0c4a01231d",
+      "rendered_digest": "f5bf608d8357ce2388f47a1145a3d9001e15fdebc96815f2499c6f0cfa108ec9",
+      "ast_digest": "547d0a425b2a224731511673f3a061c5fe84e93613d538b45e0ba932964c4ad6"
+    },
+    "stp": {
+      "values_digest": "7cc73d728444691b863cc6a9c237f2ab79f6f16ea74d8f7b79bc474c47fe9703",
+      "rendered_digest": "7ddcbfc4e2134e2f7f738d5759d3879d06cceb19c0794db2f939d7eda66b2e2d",
+      "ast_digest": "e90a91099addec80240f0dcb4a1794d6ab0f5135da6719a7f4b6ef40ad8af584"
+    },
+    "spp": {
+      "values_digest": "4699a374b145478cde85c5bc1e74cf884b4aa23fb7060aaace75f63043f155c1",
+      "rendered_digest": "7efe47ff2e3ec85491c42679a01633e5ecfab7940a588d7af278ec150ae3b193",
+      "ast_digest": "afd801aee92aabb025fd1c21f48bef650f8c14544fcf200c6cf8485e48ba4dd4"
+    },
+    "vpp": {
+      "values_digest": "bb9a520aec0c8ffd70d233a59354193372b8a5c56e4d7035f38002ac357442aa",
+      "rendered_digest": "5c7938afb7cb6b76275239e0f7c77a95bea96410711c69cd5456ab3e58694f1b",
+      "ast_digest": "fc90d7d37341077576faabdf578b2ea0924b24eb7ba466cedd30e9022324efbe"
+    },
+    "srp": {
+      "values_digest": "2951a053fc3a10fc6b8906f5d20a0add745169fe602ee0f8e6b728bb3b77597d",
+      "rendered_digest": "26bfe3a7821b463bfc1019fe35b0db1402f3714d6e28ec2bd8b985f7246aaf76",
+      "ast_digest": "68009ccdc0ab39425a74325e2e7fe9fa95a36e35e861ec64285b9cc43b335b37"
+    },
+    "sor": {
+      "values_digest": "3d5a5c0558ff74079573384c36959f660b870f948852e9de8de5b99678a17920",
+      "rendered_digest": "4d570c82d52f2de0094610b4541da480dcc98037afcea53377b70089bf02009d",
+      "ast_digest": "32f1fb40357ea4b35fb0fbba26968df5f62724b35090bbff2ba16f9abf0f6a67"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:issue-400-prep",
+      "reason": "Declare the future issue-owned regression test target so readiness has an exact denominator.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/implemented_phase_card_recovery.rs\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:issue-400-prep",
+      "reason": "Declare the exact future issue-owned regression test file as a deliverable before implementation.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"typed implemented-phase recovery support for SPP step status truth\",\"typed implemented-phase recovery support for STP dependency truth\",\"csdlc-v2/tests/implemented_phase_card_recovery.rs\",\"focused positive and negative tests\",\"validation and exact review evidence\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:issue-400-prep",
+      "reason": "Use an explicit issue-owned deferred regression target as the validation denominator before bind.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"implemented-phase-card-recovery-regression\",\"proof_role\":\"After bind, prove #400 implemented-phase SPP status and STP dependency recovery with positive and negative cases.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"implemented_phase_card_recovery\"],\"parallel_group\":\"400-local-01\",\"defer_reason\":\"Deferred until typed bind creates csdlc-v2/tests/implemented_phase_card_recovery.rs; missing or zero tests fail closed.\"},{\"lane\":\"csdlc-v2-strict-clippy\",\"proof_role\":\"Reject warnings across touched C-SDLC v2 Rust targets after implementation.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"400-local-02\",\"defer_reason\":\"Deferred until implementation changes exist in the bound issue worktree.\"}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "fresh-session:ca13f558-4476-494e-9871-a1475ff3e03f",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"dffcc62edb01e76e836542b3190f65c6952c913bc6f7ccfbc92395704bbe2777\",\"design_ref\":\".csdlc/prepared/issues/400/design.md\",\"diagram_digest\":\"f722953c905cb1c24fa7fe389c76a7a3b2efd2192b27faa5cd4072d62befa5d4\",\"diagram_ref\":\".csdlc/prepared/issues/400/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:issue-400-bound",
+      "reason": "Align #400 affected areas with the actual focused regression target implemented in the bound worktree.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate5.rs\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:issue-400-bound",
+      "reason": "Align #400 deliverables with the actual focused regression target implemented in gate5.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"typed implemented-phase recovery support for SPP step status truth\",\"typed implemented-phase recovery support for STP dependency truth\",\"csdlc-v2/tests/gate5.rs focused regression coverage\",\"focused positive and negative tests\",\"validation and exact review evidence\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:issue-400-bound",
+      "reason": "Align #400 validation lanes with the actual gate5 focused regression tests in the bound implementation.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"implemented-phase-card-recovery-regression\",\"proof_role\":\"Prove #400 implemented-phase SPP status and STP dependency recovery with positive and negative gate5 cases.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"recovered_implemented_issue_can_correct\",\"--\",\"--nocapture\"],\"parallel_group\":\"400-local-01\",\"defer_reason\":null},{\"lane\":\"implemented-phase-card-recovery-schema\",\"proof_role\":\"Prove public edit schema exposes the #400 recovery operations.\",\"acceptance_ids\":[\"AC-3\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"public_edit_schema_exposes_implemented_recovery_card_repairs\",\"--\",\"--nocapture\"],\"parallel_group\":\"400-local-01\",\"defer_reason\":null},{\"lane\":\"csdlc-v2-strict-clippy\",\"proof_role\":\"Reject warnings across touched C-SDLC v2 Rust targets after implementation.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"400-local-02\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}

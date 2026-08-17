@@ -1,0 +1,122 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 400
+
+Repository: agent-logic/agent-design-language
+
+Card: sor
+
+Status: pre_phase
+
+## Summary
+
+#400 implemented a narrow typed C-SDLC v2 recovery route for implemented-phase SPP plan-step truth and STP dependency truth after recorded review recovery, without weakening review, publication, or terminal guardrails.
+
+## Artifacts
+
+- csdlc-v2/src/cards.rs
+- csdlc-v2/src/store.rs
+- csdlc-v2/tests/gate5.rs
+- .csdlc/issues/400
+
+## Execution
+
+- Added typed semantic operation correct_stp_dependencies_after_recovery for STP dependency denominator repairs.
+- Added typed semantic operation correct_plan_steps_after_recovery for SPP execution-step status repairs.
+- Gated both operations on implemented phase plus current recorded-review recovery provenance with cleared review/publication/readiness/terminal truth.
+- Recorded audit snapshots for previous/new STP dependencies or SPP steps and the associated recovery sequence/generation.
+- Added focused gate5 regression coverage for #117-style STP dependency repairs, SPP step repairs, guardrail failures, and public schema exposure.
+
+## Validation
+
+[
+  {
+    "command": [
+      "cargo",
+      "fmt",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--check"
+    ],
+    "purpose": "Run cargo fmt in check mode.",
+    "outcome": "passed",
+    "evidence_ref": "cargo-fmt-check.log"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Run git diff whitespace checks.",
+    "outcome": "passed",
+    "evidence_ref": "diff-hygiene.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate5",
+      "recovered_implemented_issue_can_correct",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Run the #400-focused gate5 recovery tests.",
+    "outcome": "passed",
+    "evidence_ref": "recovery-focused-tests.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate5",
+      "public_edit_schema_exposes_implemented_recovery_card_repairs",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Run the #400 schema exposure regression.",
+    "outcome": "passed",
+    "evidence_ref": "schema-focused-test.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Run cargo clippy with warnings denied.",
+    "outcome": "passed",
+    "evidence_ref": "strict-clippy.log"
+  }
+]
+
+## Integration
+
+not_started
+
+## Publication
+
+Publication: not_published
+
+Merge: not_merged
+
+## Closeout
+
+not_started
+
+## Follow Ups
+
+- none
