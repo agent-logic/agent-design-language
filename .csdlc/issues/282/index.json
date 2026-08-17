@@ -4,14 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "0f56b55082822da8e6698295189ad62a8e5e2b06fee02463e7fcd6fe2c32152b",
   "phase": "implemented",
-  "generation": 15,
-  "digest": "75a637334ac7f1ef0f7362097debb51f0dc3f8bc624bc727fb18e1aec737b706",
+  "generation": 17,
+  "digest": "a07dfaf7361a4c0f891f1c4b42aacce2dcd6433600d31297ff43a45b133d87cd",
   "branch": "codex/282-production-polis-qualification",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-282-production-polis-qualification",
   "review_assignment": {
-    "reviewer": "fresh-session:ddf47a06-b817-433c-8d96-f73e14abe576",
+    "reviewer": "fresh-session:dcac044c-14d1-41d5-9cb5-8611f0ce5477",
     "assigned_by": "codex:/root",
-    "revision": "git-blake3:0befd94f4aceb186840c92e51533b555d2aa992e:cc036eaafa62dc86c55dbea057e210194d5a9b55348667848180528d2b45d37b",
+    "revision": "git-blake3:e0e1158d4d59fc9238e86ec17712aab9a3b8cc0a:1480924d52ac2094b7a222894e5ba4e7c226ad8f3d9ed8c24e46812ae2445f77",
     "scope": [
       ".csdlc/evidence/282/production-polis-interface-qualification.md",
       ".csdlc/evidence/282/validate_qualification_packet.py",
@@ -21,53 +21,7 @@
       ".csdlc/issues/282"
     ]
   },
-  "review": {
-    "reviewer": "fresh-session:ddf47a06-b817-433c-8d96-f73e14abe576",
-    "scope": [
-      ".csdlc/evidence/282/production-polis-interface-qualification.md",
-      ".csdlc/evidence/282/validate_qualification_packet.py",
-      ".csdlc/prepared/issues/282/validate_preparation_bundle.py",
-      ".csdlc/prepared/issues/282/design.md",
-      ".csdlc/prepared/issues/282/diagram.mmd",
-      ".csdlc/issues/282"
-    ],
-    "reviewed_revision": "git-blake3:0befd94f4aceb186840c92e51533b555d2aa992e:cc036eaafa62dc86c55dbea057e210194d5a9b55348667848180528d2b45d37b",
-    "findings": [
-      {
-        "id": "R1-P1-validator-terminal-truth",
-        "severity": "p1",
-        "summary": "Qualification validator searches for strings but does not invoke cached-terminal validation, compare returned fields with the table, verify Git ancestry, or check referenced evidence files.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "R1-P2-bound-head-wording",
-        "severity": "p2",
-        "summary": "Qualification packet calls 716f0ff the origin/main/bound HEAD even though the reviewed HEAD is 0befd94f and 716f0ff is its parent integrated candidate.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "R1-P2-spp-step-truth",
-        "severity": "p2",
-        "summary": "SPP steps remain pending while index/SOR record implemented execution and validation truth.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -82,34 +36,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e796325f68e407990d4c3cbbaa0d84884305e3989db47e6cb0b3efd11e1dde42",
+      "values_digest": "c285ee0a98db627ffa3f0bb74c0484a7cf3226f43bf470d4f1e76650a15a0922",
       "rendered_digest": "756456c28d69eb105001f57991727645ae9f2dd003196b24187fdda672239dcc",
       "ast_digest": "9f6b9c35777a50fbccbfaf62a70f5d4582bbdf49c0e85d8e099ae337c542e084"
     },
     "stp": {
-      "values_digest": "f69ba72d8bff1c4c2837731d6951a201286ac9edb26fb23f19f78a1461303036",
+      "values_digest": "aaa71a9ab39020fefcf2e4940d423f1bc04bb06a6ada76093e2d3f290e1401b4",
       "rendered_digest": "d9761e0a08dcfd0903c2a33841c21bf690aa4f23173a897582f80f199447aa71",
       "ast_digest": "4e03a9d0f16b93c09443663dc75c1ba8708d9dd5caad5e9e5e98ce26c41a9c18"
     },
     "spp": {
-      "values_digest": "e3d10a245cfb6e50461e9ae97425d258215628fdbf3984aeeb1d64463f391c67",
-      "rendered_digest": "fa8608c68cff324020383c118c31f209fe8add10545a4fcf84c86497145943d8",
-      "ast_digest": "855dc77b92d15ccac8afab2d44d04eca0b9db5be9c315bda086d08fb4c514359"
+      "values_digest": "4bc614c1413e61e25940dfdf12dcb9b27dcec49dc2eb3def3aea7f1d75e5c15b",
+      "rendered_digest": "f065bf10b4535996dac3b4db617ba5b1f4397c5c4841bb2e4af23b4b5e60630f",
+      "ast_digest": "5ecf9f4be997546248ebd7f11bb3d241d54588883b5c1ab09acaaf76f10fb092"
     },
     "vpp": {
-      "values_digest": "4b7c978542feded82ff218ce23cb3f6bc0345341f51baac0971ca0e7628566b2",
+      "values_digest": "ad7749819a6b1cf6135167da73e2c2e9f203075a1c0f31f6365798cc547ead08",
       "rendered_digest": "9d9c316363e69d0fa40755400083574e5ec857634c25da469e64864ab304c119",
       "ast_digest": "c54633f4f5c1ba706963b658c375a1b47c7ee6708fedc8205d536c0ae6ebb409"
     },
     "srp": {
-      "values_digest": "cfc8eb8c0c9bf514169d211c3ab6f8e5a1b262b83b7b6c696d2f469ad37dd3a9",
+      "values_digest": "0893586a738c5cb07c4bed917eeb290f64906f9dfbda1c0d14aa9abd8489f1c9",
       "rendered_digest": "14a59367b92b90c5b36cf8c5fc0dc2bd0edd30138724b4db03c6997d33c9ed9b",
       "ast_digest": "c9f85207223aaea8ad7351bbdf01e8b06bed4818ad496bd2f33366022791f05f"
     },
     "sor": {
-      "values_digest": "f2ee6c877b2c5c54ea81080641097cee8748733b953e1595382272eed6a304a4",
-      "rendered_digest": "0961b0d5893b70f67ce76ffbea746c2af7866584af00729263f68dff35e41e19",
-      "ast_digest": "0b2d34273cf7e158db8a0be63c4945a02d4efb6be6c6807145e712c0a8bef5a4"
+      "values_digest": "32f4c3c1810af55e5a7864650d1a52653652ace8d2c94fe60ff9e02a0f80b87a",
+      "rendered_digest": "a73a456cdab045f17482fb776c7655c8c323c1d5a850e4d9cda8f5946257db5e",
+      "ast_digest": "af41622ed7dbc03f0319674fd66c96c5c716fdc3738798cecb591f3825a530ec"
     }
   },
   "transitions": [
@@ -261,6 +215,27 @@
       "actor": "codex:/root",
       "reason": "Record validation after resolving #282 R1 findings: stronger validator, exact candidate/head wording, and SPP step truth.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3 .csdlc/prepared/issues/282/validate_preparation_bundle.py .csdlc/issues/282/index.json\",\"python3 .csdlc/evidence/282/validate_qualification_packet.py .csdlc/evidence/282/production-polis-interface-qualification.md\",\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate --root /Volumes/FastWork/adl-worktrees/adl-issue-282-production-polis-qualification issue --issue 282\",\"git diff --check\"],\"purpose\":\"Prove #282 R1 remediation: validator now checks terminal caches, expected terminal fields, evidence-file existence, and candidate ancestry; packet distinguishes integrated candidate from issue head; SPP S1-S3 reflect completed implementation/validation truth.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/282/validate_qualification_packet.py; .csdlc/evidence/282/production-polis-interface-qualification.md; .csdlc/issues/282/cards/spp.values.json\"}}"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "Record #282 SPP S4 as completed: retained product, architecture, and security review outcomes are indexed in the qualification packet.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 21,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "Record #282 R1 remediation proof after validator hardening, candidate/head wording repair, and SPP step truth repair.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3 .csdlc/prepared/issues/282/validate_preparation_bundle.py .csdlc/issues/282/index.json\",\"python3 .csdlc/evidence/282/validate_qualification_packet.py .csdlc/evidence/282/production-polis-interface-qualification.md\",\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate --root /Volumes/FastWork/adl-worktrees/adl-issue-282-production-polis-qualification issue --issue 282\",\"git diff --check\"],\"purpose\":\"Prove #282 review finding remediation: terminal-cache truth is validated against command output and table fields, evidence files must exist, the packet distinguishes integrated candidate from current issue head, and SPP S1-S4 reflect completed implemented-scope truth while publication remains pending.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/282/validate_qualification_packet.py; .csdlc/evidence/282/production-polis-interface-qualification.md; .csdlc/issues/282/cards/spp.values.json\"}}"
     }
   ]
 }

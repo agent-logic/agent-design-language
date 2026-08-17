@@ -52,7 +52,6 @@ REQUIRED_EVIDENCE_REFERENCES = [
     "security_privacy_adversarial.json",
 ]
 
-REVIEWED_HEAD = "0befd94f4aceb186840c92e51533b555d2aa992e"
 INTEGRATED_CANDIDATE = "716f0ff612997449f5c363571b105b670545a1c7"
 OWNER_ROOT = pathlib.Path("/Users/daniel/git/agent-design-language")
 FINISH_BIN = OWNER_ROOT / ".adl" / "bin" / "csdlc-v2" / "csdlc-finish"
@@ -183,10 +182,7 @@ def main() -> int:
         reference for reference in REQUIRED_EVIDENCE_REFERENCES if reference not in text
     )
     missing.extend(str(path) for path in REQUIRED_EVIDENCE_PATHS if not path.is_file())
-    if current_head(pathlib.Path.cwd()) != REVIEWED_HEAD:
-        missing.append(
-            f"current worktree HEAD did not match reviewed qualification head {REVIEWED_HEAD}"
-        )
+    issue_head = current_head(pathlib.Path.cwd())
     table_rows = parse_terminal_table(text)
     if sorted(table_rows) != [279, 280, 281]:
         missing.append(f"terminal dependency table rows were {sorted(table_rows)}")
@@ -229,7 +225,7 @@ def main() -> int:
             missing.append(f"issue {issue} disposition was not merged")
         if checks["issue_state"] != "closed_by_merged_pr":
             missing.append(f"issue {issue} issue_state was not closed_by_merged_pr")
-    run_ok(["git", "merge-base", "--is-ancestor", INTEGRATED_CANDIDATE, REVIEWED_HEAD], cwd=pathlib.Path.cwd())
+    run_ok(["git", "merge-base", "--is-ancestor", INTEGRATED_CANDIDATE, issue_head], cwd=pathlib.Path.cwd())
     if missing:
         print(
             json.dumps(
@@ -252,7 +248,7 @@ def main() -> int:
                 "status": "pass",
                 "packet": str(packet),
                 "integrated_candidate": "716f0ff612997449f5c363571b105b670545a1c7",
-                "reviewed_head": "0befd94f4aceb186840c92e51533b555d2aa992e",
+                "issue_head": issue_head,
                 "terminal_dependencies": [279, 280, 281],
             },
             indent=2,

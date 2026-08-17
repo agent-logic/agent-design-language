@@ -59,7 +59,7 @@ Revision 4
     "acceptance_ids": [
       "AC-4"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S5",

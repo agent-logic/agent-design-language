@@ -4,7 +4,7 @@ Issue: #282 `[v0.92][WP-18C.07d][117.d] Assemble exact-revision production Polis
 
 Integrated candidate revision: `716f0ff612997449f5c363571b105b670545a1c7`
 
-Qualification packet revision: `0befd94f4aceb186840c92e51533b555d2aa992e`
+Qualification packet revision: current #282 issue head under exact SRP review assignment.
 
 This packet qualifies the current WP-18C Observatory production Polis interface evidence graph without changing Runtime, browser UI, API, cloud, Unity, provider, or credential behavior. It consumes the terminal child issue evidence for #279, #280, and #281 and records the remaining release-facing claims and non-claims for #117/#110 coordination.
 
@@ -16,7 +16,7 @@ This packet qualifies the current WP-18C Observatory production Polis interface 
 | #280 | Large-Polis performance and recovery behavior proof | #394 | `6b8eb3435268fcb4618703df8158cee377fe3ad5` | `a8c3695750dd6037406c225a1b929d5a420a752c` | 15 | `0c0515a24ace9bc1a02da30a2188ac328dfc9b8756d3e5dd82007066c79e59ee` | `c7f9e4a23c6c9b03dca73b215846261f8fa71a0092065559da7d2d77a5874177` | `canonical_match=true` |
 | #281 | Observatory security, privacy, and adversarial behavior proof | #395 | `716f0ff612997449f5c363571b105b670545a1c7` | `eb6e00399ee75a5208d9a11dff95f26308588732` | 16 | `d75c7a1484931153ba29e13b36d8cd50b416f07df4fcfc927044e7d8c376e10a` | `ece3bd46f5e1f2fd1ec66b5bf46d047532c6d733ba66ebbbc83150e796ec70ed` | `canonical_match=true` |
 
-The integrated candidate is the terminal WP-18C child-evidence base revision `716f0ff612997449f5c363571b105b670545a1c7`, which includes #279, #280, and #281 through merged PRs #393, #394, and #395. It is not the #282 bound worktree HEAD. The #282 qualification packet is reviewed at issue head `0befd94f4aceb186840c92e51533b555d2aa992e`, whose parent is the integrated candidate revision.
+The integrated candidate is the terminal WP-18C child-evidence base revision `716f0ff612997449f5c363571b105b670545a1c7`, which includes #279, #280, and #281 through merged PRs #393, #394, and #395. It is not the #282 bound worktree HEAD. The immutable #282 review head is recorded by the typed SRP review assignment; this packet validator requires the integrated candidate to be ancestral to the current issue head.
 
 ## Proof artifact index
 
@@ -82,4 +82,4 @@ The first three commands must report `canonical_match=true`. The final command m
 
 ## Acceptance conclusion
 
-The current evidence supports the bounded WP-18C claim that the Observatory production Polis interface has exact-revision local qualification coverage for accessibility/responsive UX, large-Polis performance/recovery, and security/privacy/adversarial behavior at integrated candidate `716f0ff612997449f5c363571b105b670545a1c7`, with the #282 qualification packet itself carried by issue head `0befd94f4aceb186840c92e51533b555d2aa992e`. It does not by itself authorize broader cloud, Unity, credentialed provider, Runtime authority, or parent coordination terminal claims.
+The current evidence supports the bounded WP-18C claim that the Observatory production Polis interface has exact-revision local qualification coverage for accessibility/responsive UX, large-Polis performance/recovery, and security/privacy/adversarial behavior at integrated candidate `716f0ff612997449f5c363571b105b670545a1c7`, with the #282 qualification packet itself carried by the current issue head recorded in typed SRP review truth. It does not by itself authorize broader cloud, Unity, credentialed provider, Runtime authority, or parent coordination terminal claims.
