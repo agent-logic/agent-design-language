@@ -1,0 +1,37 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 400,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[tooling][csdlc-v2] Implemented-phase card recovery cannot repair review-blocking SPP/STP truth",
+    "slug": "implemented-phase-card-recovery-spp-stp-truth",
+    "version": "v0.92",
+    "generation": 16
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Provide a typed implemented-phase recovery route for review-blocking SPP step truth and STP dependency truth repairs without raw card edits or lifecycle reset.",
+      "required_outcome": "Implemented issues can truthfully repair #117-style SPP step status and STP dependency drift through typed C-SDLC v2 operations while preserving review and publication gates.",
+      "declared_scope": [
+        "implemented-phase typed card recovery",
+        "SPP plan-step status truth repair",
+        "STP dependency truth repair",
+        "generation/digest CAS and audit preservation"
+      ],
+      "authority_boundary": [
+        "typed C-SDLC v2 owner binaries remain lifecycle authority",
+        "generated cards are not edited directly",
+        "fresh review and publication gates remain required"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "keep primary main tracked files clean",
+        "work only in the bound FastWork issue worktree after bind",
+        "do not touch moving unrelated issue worktrees"
+      ]
+    }
+  }
+}

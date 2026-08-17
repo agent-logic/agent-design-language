@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 400,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[tooling][csdlc-v2] Implemented-phase card recovery cannot repair review-blocking SPP/STP truth",
+    "slug": "implemented-phase-card-recovery-spp-stp-truth",
+    "version": "v0.92",
+    "generation": 16
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "csdlc-v2/src/cards.rs\ncsdlc-v2/src/store.rs\ncsdlc-v2/tests/gate5.rs\n.csdlc/issues/400\n.csdlc/evidence/400\n.csdlc/prepared/issues/400",
+      "review_revision": "git-blake3:7c446e517f6da4e45aef9c84309d5037602cf6f2:414504fffaaafc20bab723f3a08cc3f96f0b99f1510c22936c3ec4845ee444a5",
+      "reviewer": "fresh-session:5fa2f051-8f48-47d5-b65d-cc1a5280a7c9",
+      "review_prompts": [
+        "Does the typed recovery path only allow #400 SPP/STP truth repairs and reject unrelated implemented-phase rewrites?",
+        "Do tests prove positive #117-style repairs and negative stale/phase/malformed cases?",
+        "Are review, publication, and terminal gates preserved?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "The new implemented-phase repairs remain intentionally limited to post-review recovery of STP dependency truth and SPP status-only plan-step truth.",
+        "Review inspected retained evidence logs and hashes rather than rerunning Cargo tests to preserve read-only review posture."
+      ],
+      "review_result": "pass"
+    }
+  }
+}
