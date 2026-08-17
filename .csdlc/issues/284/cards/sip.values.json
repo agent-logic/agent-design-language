@@ -1,0 +1,36 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 284,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][ADR 0066][207.b] Reconcile distributed Guardian authority evidence",
+    "slug": "adr0066-guardian-authority-evidence-reconciliation",
+    "version": "v0.92",
+    "generation": 19
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Reconcile ADR 0066 distributed Guardian authority evidence under #207 using exact retained issue-graph evidence and issue-local validation.",
+      "required_outcome": "Issue #284 has exact issue-local reconciliation truth for ADR 0066, including validated evidence and residual gaps, ready for #207/#288 final serialization.",
+      "declared_scope": [
+        "ADR 0066 distributed Guardian authority evidence reconciliation for #207.",
+        "Issue-local evidence, validator, and lifecycle truth only."
+      ],
+      "authority_boundary": [
+        "Consumes #142 graph evidence but cannot complete, weaken, or rewrite #142/#194/#5878 implementation acceptance.",
+        "Uses retained local evidence and live read-only observations as reconciliation input.",
+        "Shared ADR docs, ADR index, final plan, and manifest remain frozen until #288."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Work in a bound FastWork issue worktree before implementation.",
+        "Preserve unrelated root #400 staging.",
+        "Run typed C-SDLC v2 lifecycle only for lifecycle writes.",
+        "Review with a fresh bounded reviewer before publication."
+      ]
+    }
+  }
+}

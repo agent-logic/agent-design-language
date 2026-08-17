@@ -1,0 +1,18 @@
+{
+  "actor": "codex-worker-5",
+  "card": "spp",
+  "expected_digest": "0f6f8db3a68ef648b5db0ae6269e6c5d5937e97b83a487559fa5a4ce8f28fc63",
+  "expected_generation": 2,
+  "issue": 284,
+  "operation": {
+    "field": "affected_areas",
+    "operation": "replace_planning_collection",
+    "values": [
+      ".csdlc/issues/284/",
+      ".csdlc/prepared/issues/284/",
+      ".csdlc/prepared/issues/284/validate_adr0066_guardian_authority_evidence.sh",
+      ".csdlc/evidence/284/"
+    ]
+  },
+  "reason": "Name the exact focused validator as an issue-owned affected path so readiness can govern the bash validation target."
+}
