@@ -3,9 +3,9 @@
   "issue": 296,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "959b44fd61ec0393ad471311d39b13f254c41ca7f6e910dc8b5256529409cb2d",
-  "phase": "implemented",
-  "generation": 30,
-  "digest": "8841141bbe248bd1325302621e47e107b2fb4a336d58f5f323e75f84f0619a1f",
+  "phase": "reviewed",
+  "generation": 31,
+  "digest": "601f2059ea95dea52899232ca204290dc881802b762d66662910151004b52dcf",
   "branch": "codex/296-implemented-authored-design-refresh",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-296-implemented-authored-design-refresh",
   "review_assignment": {
@@ -17,7 +17,21 @@
       ".csdlc/issues/296"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:7af449c4-a536-4183-845e-ebb080a66526",
+    "scope": [
+      "csdlc-v2/tests/initialized_decomposition_recovery.rs",
+      ".csdlc/issues/296"
+    ],
+    "reviewed_revision": "git-blake3:946bf5b4b13a389f1c509762a284dd05ec4efc5f:0b04a6836cfb70db9ec9df1d79eb6dbf662c1ef876b75753db2485ec4b453a48",
+    "findings": [],
+    "residual_risks": [
+      "Review treated e6792e46c0492c36e9e6bf4e74a4e61509b7bdf8 as non-substantive review-assignment metadata over the substantive r8 remediation head.",
+      "Review scope was limited to the initialized decomposition recovery stale reviewer fixture and #296 lifecycle record after CI exposed the additional canonical fresh-session failure."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -32,32 +46,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "bf4a25618c8f40421cd6d09bb95d608cd64db11d31854ca542579e18cd2d75e8",
+      "values_digest": "b1623a807cf991a94d7f49434f210e63465899cdfa8c73c3f69af1deabcb0949",
       "rendered_digest": "57c636d2e2f6070a237866654cd4127dbe7a4fc5f191741e071ab2535642984d",
       "ast_digest": "6461b0f59b4c2a6f6dd2f9f13bacb203b861d859e8d58f33bd7ed07b42bb5c79"
     },
     "stp": {
-      "values_digest": "f53fe5bd30e649eafca09570105646028784604b504ce55b4a18c46f73f31432",
+      "values_digest": "5793993e1eb586c4a5c477cbe958bbe39a844936970f6bffff47c6a054a83ae9",
       "rendered_digest": "11159f0d7f9983633a92db76cd8c7649cdf3e4810b7c6a017d81f64ce614aa8a",
       "ast_digest": "95e8ab9c66e490f856cc459c14f4eb65807a2bd7ec63956cacf2d5441087e983"
     },
     "spp": {
-      "values_digest": "b37ae333701b8c21a4e25b294991b85f8b8681356caa96b6849c697f2ddf1553",
+      "values_digest": "e88c9ea51428f95a192e4c84bf822ed1a612cee8c32684ff7a0a5fbc77d9cdf2",
       "rendered_digest": "a4d0b4299567ee7fee32a6bfa3ff8a9613f985311842df815ae5cc7c4d74c274",
       "ast_digest": "a90a4d80862cdfe7a6a938432ac9b0c93be84e046765dcbc5964a24f01ffb8b3"
     },
     "vpp": {
-      "values_digest": "9506b03f80da95a5b8cf3510327f41ae262ad36c015923063c3cbfe533c5e11c",
+      "values_digest": "2511f4a50c45911d38063764795a1f1d501084163eb45dc4c90b3414ed4e40a1",
       "rendered_digest": "910bf36f49d48ff8a442c83ed765f5a9e581a737ff3459adc22939a7e754be17",
       "ast_digest": "9a6d9e9f0fca538be0c8fbde6452928f1bca0298ec6bd09822c0a6e3979431f8"
     },
     "srp": {
-      "values_digest": "5e9e13a29ea034f0f682b7a642fae030664f7c99613e356e7af275be238653e5",
-      "rendered_digest": "d2a530fd26dafb2ee7231ee463f68d92ccacf653354987b9bb9c0d9b9fd2af61",
-      "ast_digest": "81d24dfd56af733ec4f692248e9c469ccd01c3833c7336e85fb2dcf4d7497f69"
+      "values_digest": "807367e6c5210bfda7ac670a669e1a6e6f4de7b43fc65ba39917e6ac98a784fc",
+      "rendered_digest": "77eb5eb6dfddac9111d9ce278ac8e655b50e518c3acdb97a1842eea01a91dc19",
+      "ast_digest": "a4aabb103e2190b0bf8ce6183e4a134a5154325b9d7b6219bd6b4a06c3555771"
     },
     "sor": {
-      "values_digest": "e5d449557865b51023ec485d81af39bf3fae442df8c1035085c853d496ab2013",
+      "values_digest": "3562646437e529b64b4051271d25266051dcc838b7dacae4c09c83f1af455d18",
       "rendered_digest": "aeb6eff980358f2bac76e34fe84b9c7ba8dab94bcbd074a59fa7bb9dddaec2b8",
       "ast_digest": "a9d9e5a3325444c1869a72d51ec4b4db4ff79cd2140adb2afb56907dbbfeea3c"
     }
@@ -125,6 +139,13 @@
       "to": "implemented",
       "actor": "codex:issue-296",
       "reason": "Recover published review after CI exposed an additional stale initialized decomposition recovery design-review fixture requiring a canonical fresh-session UUID."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:7af449c4-a536-4183-845e-ebb080a66526",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -407,6 +428,13 @@
       "actor": "codex:issue-296",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 31,
+      "actor": "fresh-session:7af449c4-a536-4183-845e-ebb080a66526",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
