@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-18C.07][coordination] Coordinate production Polis interface qualification",
     "slug": "production-polis-interface-qualification-parent",
     "version": "v0.92",
-    "generation": 32
+    "generation": 35
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/evidence/117/production-polis-interface-parent-closeout.md\n.csdlc/evidence/117/validate_parent_closeout.py\n.csdlc/prepared/issues/117/validate_preparation_bundle.py\n.csdlc/prepared/issues/117/design.md\n.csdlc/prepared/issues/117/diagram.mmd\n.csdlc/issues/117",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

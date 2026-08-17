@@ -4,23 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "024d435a2fcf6fd78678e4b9cda121ea06eecca7e6effaabceb5ad5c2f22ddaf",
   "phase": "implemented",
-  "generation": 32,
-  "digest": "99bd2e67a8bcab1feefd393dad79bfccc3159eabb7194b0ff1ee531fe16a9375",
+  "generation": 35,
+  "digest": "de6b39e1f534163dcbac135d295b7224a8d6f13cc7adda2bda72e2e11ee94f3d",
   "branch": "codex/117-production-polis-interface-qualification-parent",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-117-production-polis-interface-qualification-parent",
-  "review_assignment": {
-    "reviewer": "fresh-session:2cce2757-f8a0-4f54-977e-ea4a79f5e8af",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:c4b9dafa0cd6fc8a12677a104a41405a699d9e8e:701324b18bb2c9e405d5e42b86e395f7a6a68e754a0aea1b9278ddde40813fa0",
-    "scope": [
-      ".csdlc/evidence/117/production-polis-interface-parent-closeout.md",
-      ".csdlc/evidence/117/validate_parent_closeout.py",
-      ".csdlc/prepared/issues/117/validate_preparation_bundle.py",
-      ".csdlc/prepared/issues/117/design.md",
-      ".csdlc/prepared/issues/117/diagram.mmd",
-      ".csdlc/issues/117"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -36,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "df8becc8acdf9c5308cd15779fc2a9e422f3b203a98307b92c8b603cc7fad376",
+      "values_digest": "2ff90b7d735b96a40bf79d9463fd4d78a3b0b1af7d41927c8725a0ae3f8d714a",
       "rendered_digest": "31377833f0fdf1c38188d892ce3d604f14ea61410b4d14eded85470c819d1506",
       "ast_digest": "34914eb71385e6d9a391827d3bcdfd88497cc2bccadad9d09dd81bf9d07fd13f"
     },
     "stp": {
-      "values_digest": "0c15db8e95bb6a1ec3c4229c76bd4cf2fd48b01483edefb46c87ecd2eb22124b",
-      "rendered_digest": "3962299e8f5c41c9ebdb23f85131cf638b309cc58e4b166ad56efd100851e0e9",
-      "ast_digest": "dde896295af7848a68de9eaa55ad152d1773062e79a9f27b8c37cce29c6e1301"
+      "values_digest": "1d37f8168b8b2ab572e3fe2a91d9f4855cf6b082048f1bcf474a3bdb547a3637",
+      "rendered_digest": "f8099291fedf2e483eb4dfe9f0f5ab1cbb63bd2d3b2bc6b90acbc3a256dfeb95",
+      "ast_digest": "b8b062816d273caf18d6a3e5ea99cc66c13ce3d1c2154f3779f0b3599be431d3"
     },
     "spp": {
-      "values_digest": "3f8c896b01ab04aec42a5dc0475e82d74c977e7d8ec13bb5f216c37642fcfa15",
+      "values_digest": "ac235810ef5ac61a991b66d37aa3a9e0f0b77c75e88d697b695004de14f76ae1",
       "rendered_digest": "258848e070a57478e07177c1e9546907cd706f89a06ec45a05b77793a471e276",
       "ast_digest": "da7b6053c0774cd71960d329cd12a806b6bf66fce728459688fa9b9d524c7434"
     },
     "vpp": {
-      "values_digest": "f9024593388a04baa1799b68a2447160712415407532a5a82323c04727a7843f",
+      "values_digest": "c27e63ef40875b747e9aa1c9757c4c289886af23055de375e99f260da17078ea",
       "rendered_digest": "cb288c0e4e3fa37efca1d62888457c5cfab8b9ddc1ce0282259f69e987b4c0d7",
       "ast_digest": "6e9164f90884128e31ad8d16a53deb657a3a6a3e58d6efdc82dc0b092069348d"
     },
     "srp": {
-      "values_digest": "25c0c6f61074b378425a78e415cb44efd168fe2a4808aace196ebd231155f4e1",
-      "rendered_digest": "ca7d62232ed05329e6bf5b4d84f149e93c6cf43a0dc66a0ac90feaf7141236d9",
-      "ast_digest": "b830fc0d966ef86f4b7b785c5459a431f11737d96611114d81e931161ae0386c"
+      "values_digest": "34ff06d1db2087f188956f9cf277cddfe0e3ea8c1aca775fdbf346731d618e3c",
+      "rendered_digest": "1253ac0f42063c5f2011243e9449818f55d1504c07ad8146ba38ea23a0a35357",
+      "ast_digest": "d3faf3908bf4b8cf64c7ef7144b0ef223acc1883189f0f858db1e2af1d228ef1"
     },
     "sor": {
-      "values_digest": "2932c30f737cabde3f7ffd2ad3fcfd9ab11779daf08a8371cd1863ecd64e550d",
+      "values_digest": "5cb42ab79376d9e7266c8a76bfab290669d9c9e7929fb764384c9beea33c0b33",
       "rendered_digest": "d8b815a277aad19f8d907b0a73f1c49b3724272f92e792c1995d40f19637d036",
       "ast_digest": "f119737ef3d6411764ce511ada41365d6a58d714922d2e2739fc7bb4cccf202d"
     }
@@ -404,6 +392,27 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 44,
+      "generation": 33,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 45,
+      "generation": 34,
+      "actor": "codex:/root",
+      "reason": "Recover failed exact review fresh-session:2cce2757-f8a0-4f54-977e-ea4a79f5e8af before remediating its P1 lifecycle truth finding: STP Inputs omitted #271/#114/#115/#116 terminal records consumed by #117 validators.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 46,
+      "generation": 35,
+      "actor": "codex:/root",
+      "reason": "Resolve fresh review P1: STP Inputs must include #271/#114/#115/#116 records consumed by #117 terminal validators, alongside #279/#280/#281/#282.",
+      "operation": "{\"new_values\":[\".csdlc/prepared/issues/117/design.md\",\".csdlc/prepared/issues/117/diagram.mmd\",\".csdlc/prepared/issues/117/validate_preparation_bundle.py\",\".csdlc/issues/271\",\"/Volumes/FastWork/adl-worktrees/adl-issue-114-durable-history-parent-integration-proof/.csdlc/issues/114\",\"/Volumes/FastWork/adl-worktrees/adl-issue-115-governed-multi-agent-rooms/.csdlc/issues/115\",\"/Volumes/FastWork/adl-worktrees/adl-issue-116-operator-attention-inbox/.csdlc/issues/116\",\"/Volumes/FastWork/adl-worktrees/adl-issue-279-observatory-accessibility-responsive-ux-proof/.csdlc/issues/279\",\"/Volumes/FastWork/adl-worktrees/adl-issue-280-large-polis-performance-recovery/.csdlc/issues/280\",\"/Volumes/FastWork/adl-worktrees/adl-issue-281-observatory-security-privacy-adversarial-proof-bound/.csdlc/issues/281\",\"/Volumes/FastWork/adl-worktrees/adl-issue-282-production-polis-qualification/.csdlc/issues/282\"],\"operation\":\"correct_stp_repo_inputs_after_recovery\",\"previous_values\":[\".csdlc/prepared/issues/117/design.md\",\".csdlc/prepared/issues/117/diagram.mmd\",\".csdlc/prepared/issues/117/validate_preparation_bundle.py\",\"/Volumes/FastWork/adl-worktrees/adl-issue-279-observatory-accessibility-responsive-ux-proof/.csdlc/issues/279\",\"/Volumes/FastWork/adl-worktrees/adl-issue-280-large-polis-performance-recovery/.csdlc/issues/280\",\"/Volumes/FastWork/adl-worktrees/adl-issue-281-observatory-security-privacy-adversarial-proof-bound/.csdlc/issues/281\",\"/Volumes/FastWork/adl-worktrees/adl-issue-282-production-polis-qualification/.csdlc/issues/282\"],\"recovery_generation\":34,\"recovery_sequence\":45}"
     }
   ]
 }
