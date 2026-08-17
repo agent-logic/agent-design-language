@@ -5,27 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "6b431e21b2b0a61991853e1f3f4a1bf51241907edaac9389f1c22998ae3334e7",
   "phase": "implemented",
-  "generation": 22,
-  "digest": "e49e01edc484a501cc7272a00c56d52e11db03cfe06795827a2a91e653ffe0e3",
+  "generation": 23,
+  "digest": "b851969fd6b26f9790e8846a57985dab183a4e8c096e23ee8cf6edc5fba5c9f5",
   "branch": "codex/115-governed-multi-agent-rooms",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-115-governed-multi-agent-rooms",
-  "review_assignment": {
-    "reviewer": "fresh-session:92f416b8-2e7f-4afa-9fb2-b8b30caa93cd",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:95c3ce9dfd6d97b610845fb7e8ec578c75b61992:7e9c64c1c9d8066d34081cb658b9051a520e9102a2aafe108525dbb4bc2b2cc3",
-    "scope": [
-      "adl-runtime-kernel/src/conversation_rooms.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/index.html",
-      "demos/html-observatory/styles.css",
-      "adl/tools/validate_v092_governed_room_observatory.mjs",
-      ".csdlc/issues/115",
-      ".csdlc/prepared/issues/115",
-      ".csdlc/evidence/115"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -41,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4f30d7d4afe5c2ce7d2df5f3c922d22bb952832b63d6ddd66bb25b7ab6d7d387",
+      "values_digest": "447098c3598115a7201d103a88d8c7e8555842ee9b3772c383f2d6f947b8c41d",
       "rendered_digest": "ecadc343231ebf27f6cc2251766828eff504b8338d3bf9054daa17b13a178c93",
       "ast_digest": "e02db63fa0459d5bd0d779d49185ce9f2d0c99a6a3378a81fa7d5dcbda279605"
     },
     "stp": {
-      "values_digest": "ab4a12e9656c830973159c9f405ca02dc9544bc1c196c8108bc7741add396cae",
+      "values_digest": "396a6f12b68de1356ec61fafac6fcac47d04714aa6cd34c415ff4bf79d314ed1",
       "rendered_digest": "52b7561d3147cf35a9d9e3e9c250bb2a4b29d24f74d72f0affff7e08a712c0df",
       "ast_digest": "35ee5ba28500c070fbcfd0489da6659b6a5043c0516503d3d603efd4c71b847c"
     },
     "spp": {
-      "values_digest": "48c1354a900bff92d8b9fcc9ea94dad3c0c77466025fbd5f7eb2c3bff74f19c0",
+      "values_digest": "1f879fa6334a3eb626bf00fa86eab7e65b04309683633daa56ce5dbb0cb25af3",
       "rendered_digest": "e26bfe2140a9e173c825afa8ca0bc232861990e642e27fc8b62b7598d87bc095",
       "ast_digest": "16b4224ccc9852138207e7ea7650ab8597dacc0572143c308eaa3f9f51cc30f0"
     },
     "vpp": {
-      "values_digest": "1be052381c2896cb450aefb14f6ed4f7effdbe7772e6410c5975fc09f1946c2d",
+      "values_digest": "e94a0ef2ab967d30202d8933160601fc014471269e0ac14a1b6c90e03356b270",
       "rendered_digest": "5ba45045d2fec22c237ee9ef6da6228d1bde2612277d4955b7a8652ba1e41e62",
       "ast_digest": "eb8f2cb0c493fbb437ed0edfd5922ffea6758fd0731841881c2e8acdae1eb7b9"
     },
     "srp": {
-      "values_digest": "78f41f5d89be4d3f77cc9b759b80a91ba1bd14417239074f2731082bf9374c5f",
-      "rendered_digest": "caa32cec7ee45bdc6639e84fa323a1031e8fa857b683476d42cd133f817da2a5",
-      "ast_digest": "48cf8333edfa0e54788ff6eeae5d7d38020fbd2b1bb738ceb32be7918f3fbe8b"
+      "values_digest": "a8482d043074751dccbf70761622c85d2b4be44b046f0312c113c48464dbb0cc",
+      "rendered_digest": "9ead6718bfb47f6f4f62d1bdcb8769919c9aca261ab0cf61151ca2a4db764ebb",
+      "ast_digest": "adee842c155c8b19c4d9df432cfe83ded2620dae6d9f8cedfaf4ddc069604c78"
     },
     "sor": {
-      "values_digest": "8873c2b7d2a98ad3dc131144fb3b50c1e692a482f9fc868df55b9f73835ae416",
+      "values_digest": "daef65ee91957052444479d7626fe08d09315c8923b0f23d813c8d9663f4139b",
       "rendered_digest": "2bfd06b6099c16b7f226fbb3962935ba36bd130453c1e2f5fff08554e7375964",
       "ast_digest": "239221d82881cefe55a4e8ccc97429c052af05c8bf87aeff8b500ba1bbd4f0dc"
     }
@@ -283,6 +267,13 @@
       "actor": "codex:/root",
       "reason": "Record #115 post-R6-fix focused validation",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --check\",\"cargo test --manifest-path adl-runtime-kernel/Cargo.toml conversation_rooms -- --nocapture\",\"cargo test --manifest-path adl-runtime-kernel/Cargo.toml governed_room -- --nocapture\",\"cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --lib -- -D warnings\",\"node adl/tools/validate_v092_governed_room_observatory.mjs\",\"bash adl/tools/test_html_observatory.sh\"],\"purpose\":\"Reprove the #115 governed-room Runtime and Observatory surfaces after the per-room turn-sequence remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local post-fix run: fmt passed; conversation_rooms 6 passed; governed_room 2 passed; strict clippy passed; governed-room Observatory validator passed with per_room_turn_sequence_preserved_across_room_switching; HTML Observatory smoke passed\"}}"
+    },
+    {
+      "sequence": 28,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "Recover stale #115 review assignment fresh-session:92f416b8-2e7f-4afa-9fb2-b8b30caa93cd because validation/lifecycle truth was recorded after its assigned revision; no review verdict is accepted from that stale assignment.",
+      "operation": "recover_review"
     }
   ]
 }
