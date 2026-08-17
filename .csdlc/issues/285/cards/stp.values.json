@@ -7,7 +7,7 @@
     "title": "[v0.92][ADR 0068][207.c] Reconcile birthday-to-governance handoff evidence",
     "slug": "adr0068-birthday-governance-handoff-evidence-reconciliation",
     "version": "v0.92",
-    "generation": 5
+    "generation": 6
   },
   "status": "ready",
   "content": {

@@ -6,3 +6,4 @@
 {"sequence":6,"generation":4,"actor":"codex:/root","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
 {"sequence":7,"generation":4,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":8,"generation":5,"actor":"fresh-session:fbc18cfe-c9a1-4710-9fc1-9cb662d34661","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":9,"generation":6,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
