@@ -6,10 +6,21 @@
   "initialization_digest": "a9e76b0d5c4ae85d6d72522adcc9f5c568eb1128a84ea282cde4601038a3dc77",
   "phase": "implemented",
   "generation": 9,
-  "digest": "7bafaccd246f5593696fa79733eb295738a24f2672d9813f6f544c9afc03d3f5",
+  "digest": "580ec0c0bacc6104572c38acf19197c8eda8c8b68913ee2b1aecedee7e864237",
   "branch": "codex/280-large-polis-performance-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-280-large-polis-performance-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:b9b23de4-b56e-4270-8bfd-292aca8e9858",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:f9738a8b4acf165225512928e3ab953f8368fdc0:3645123a7bf82aaac9854e6d55b0f2f654244e9db61043227fb9f1c3d3531df3",
+    "scope": [
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/tests/large_polis_performance_recovery.test.mjs",
+      ".csdlc/prepared/issues/280/validate_preparation_bundle.py",
+      ".csdlc/issues/280",
+      ".csdlc/evidence/280"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +56,9 @@
       "ast_digest": "a0403052bc3f735e434966a883808a3b3055d2e0341cd59d01227c2a9f4c321d"
     },
     "srp": {
-      "values_digest": "491fffd280cb5cab4644be66d3b78dd9a55de839bcb25a7bad61529012543169",
-      "rendered_digest": "dec77dc40d7d3993c54a070acb40b5d32354eb4044c80cbb5c505a967c937e41",
-      "ast_digest": "1450c4863306f66943b37afdc80c8063add5b4c7e2aeb7ae6fb0dae50a450bfd"
+      "values_digest": "c76080f342de842739e7ef3fd87be67a1d474791506a88465801840051a329bf",
+      "rendered_digest": "85c779587157a290479906c0b91c86080aaa9370782243676dde578a7b103e1b",
+      "ast_digest": "9f3ea422d1dd17c8df3ae87a5dd2ad76ad9a3321048dc783dc501a78bc032bb7"
     },
     "sor": {
       "values_digest": "1ca45697ca9f809fa394e9dbd6db9c9c3faf6ed595682210471398740b1a18cb",
@@ -169,6 +180,13 @@
       "actor": "codex:/root",
       "reason": "Recover failed exact review fresh-session:d2561236-2668-4999-a988-842c4d973fb1 before remediating its in-scope #280 recovery-sequence proof finding and assigning a different fresh reviewer.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
