@@ -5,10 +5,22 @@
   "initialization_digest": "072eda7c560e8283a4da1967834bb3006a2402e31ac8767987d9c05d78652abb",
   "phase": "implemented",
   "generation": 9,
-  "digest": "8add139f19b897f5bbb49fe96788c9d4b2a273f3031507e75b665db22d8d35bd",
+  "digest": "72280148141b6195847aa633200f43a8f0df1c80d09a496c8e850d502a069013",
   "branch": "codex/400-implemented-card-recovery-bound",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-400-implemented-card-recovery-bound",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:2ef54c29-7e40-4f80-a5cd-3f42adfe0d62",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:1d402196a7192b7f6d8c5a95c4863979a69291d3:b68f7afa74c2af43ad61cdafa955ce81b9ca2ac96f3db937ff3a75d2c9171ea4",
+    "scope": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/400",
+      ".csdlc/evidence/400",
+      ".csdlc/prepared/issues/400"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +56,9 @@
       "ast_digest": "fc90d7d37341077576faabdf578b2ea0924b24eb7ba466cedd30e9022324efbe"
     },
     "srp": {
-      "values_digest": "d2743242407412d72503a22642258643ca497953f9e4b5f0811f77ee30b3b143",
-      "rendered_digest": "e662daa75218350717f2317b4c65158ceabf6fd915af0752e41ae6ec3932c4a0",
-      "ast_digest": "7f5850023bb0c8cf673b1c12e928d7f63b132dc5fa7f8bf95934991cf461ff7b"
+      "values_digest": "a937d9d0d9cdda3fe8b3f3343ea3e93889acbe6e71798ae1c185ba823b947816",
+      "rendered_digest": "70953f5798da4deb46bd3093a2a02851e1eb1f4e895423a0acb069786a2a6395",
+      "ast_digest": "727d05f9170d7089a0796bef334abcb096c0172041f212d06621443deedbe186"
     },
     "sor": {
       "values_digest": "d9b7005139726ba8ed9a6e3413b5a97923497449ada86a83d550e72bbd223be2",
@@ -161,6 +173,13 @@
       "actor": "codex:/root",
       "reason": "Fresh review assignment fresh-session:e937cedf-d68d-4126-8e37-7c3e67b4b4d8 produced no verdict after bounded waits and was interrupted. Preserve assignment truth as no-result and recover review authority before dispatching a different fresh no-context reviewer against unchanged #400 scope.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
