@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented the bounded WP-18C.06 operator attention inbox and intervention workflow with trusted source authorization, validated restart restoration, Runtime quiet-mode/grouping, proposal-only Observatory outcomes, invalid-outcome rollback safety, and focused local proof whose exact revision authority is the typed review assignment.
+Implemented the bounded WP-18C.06 operator attention inbox and intervention workflow with trusted source authorization, validated restart restoration, Runtime quiet-mode/grouping, proposal-only Observatory outcomes, invalid-outcome rollback safety, terminal duplicate immutability, and focused local proof whose exact revision authority is the typed review assignment.
 
 ## Artifacts
 
@@ -31,8 +31,9 @@ Implemented the bounded WP-18C.06 operator attention inbox and intervention work
 
 - Validated operator attention outcome payloads and monotonic timestamps before mutating request state or appending events.
 - Added focused Rust regression coverage proving invalid reply, refusal, defer, and non-monotonic outcome attempts leave request state and event count unchanged.
+- Rejected stale active duplicate/grouped submissions before changing duplicate or grouping counters.
+- Returned existing terminal duplicate receipts without mutating status, duplicate_count, updated_at_millis, or event count, including restored expired requests.
 - Preserved trusted Runtime source registration, principal and urgent authorization checks, quiet-mode/grouping behavior, and proposal-only Observatory outcomes.
-- Removed self-referential committed HEAD/status proof claims; the focused proof runner and retained log report command argv, exit status, and test denominators only.
 - Retained focused proof with 8 Rust operator-attention tests, 1 Node Observatory test, rustfmt, strict clippy, preparation validator, and diff hygiene PASS; exact Git revision is bound separately by typed review assignment.
 
 ## Validation

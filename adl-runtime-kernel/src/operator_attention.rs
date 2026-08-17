@@ -289,6 +289,17 @@ impl OperatorAttentionInbox {
                 .requests
                 .get_mut(&existing_id)
                 .ok_or(OperatorAttentionError::NotFound)?;
+            if !existing.status.is_active() {
+                return self
+                    .requests
+                    .get(&existing_id)
+                    .ok_or(OperatorAttentionError::NotFound);
+            }
+            if input.created_at_millis < existing.updated_at_millis {
+                return Err(OperatorAttentionError::InvalidRequest(
+                    "request_timestamp_monotonic",
+                ));
+            }
             existing.duplicate_count = existing.duplicate_count.saturating_add(1);
             existing.updated_at_millis = input.created_at_millis;
             return self
@@ -304,6 +315,11 @@ impl OperatorAttentionInbox {
                 .requests
                 .get_mut(&existing_id)
                 .ok_or(OperatorAttentionError::NotFound)?;
+            if input.created_at_millis < existing.updated_at_millis {
+                return Err(OperatorAttentionError::InvalidRequest(
+                    "request_timestamp_monotonic",
+                ));
+            }
             existing.grouped_count = existing.grouped_count.saturating_add(1);
             existing.updated_at_millis = input.created_at_millis;
             if input.priority > existing.priority {

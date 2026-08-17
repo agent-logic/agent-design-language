@@ -103,6 +103,37 @@ fn operator_attention_deduplicates_and_rate_limits_by_source() {
         inbox.submit(attention_input("agent-a", "corr-agent-a-2")),
         Err(AttentionError::RateLimited)
     );
+    let snapshot_before_stale_duplicate = inbox.snapshot(1_002);
+    let request_before_stale_duplicate = snapshot_before_stale_duplicate
+        .requests
+        .iter()
+        .find(|request| request.request_id == first_id)
+        .expect("request remains available")
+        .clone();
+    let mut stale_duplicate = attention_input("agent-a", "corr-agent-a-1");
+    stale_duplicate.created_at_millis = request_before_stale_duplicate
+        .updated_at_millis
+        .saturating_sub(1);
+    assert_eq!(
+        inbox.submit(stale_duplicate),
+        Err(AttentionError::InvalidRequest(
+            "request_timestamp_monotonic"
+        ))
+    );
+    let snapshot_after_stale_duplicate = inbox.snapshot(1_003);
+    let request_after_stale_duplicate = snapshot_after_stale_duplicate
+        .requests
+        .iter()
+        .find(|request| request.request_id == first_id)
+        .expect("request remains available after stale duplicate");
+    assert_eq!(
+        request_after_stale_duplicate.duplicate_count,
+        request_before_stale_duplicate.duplicate_count
+    );
+    assert_eq!(
+        request_after_stale_duplicate.updated_at_millis,
+        request_before_stale_duplicate.updated_at_millis
+    );
 
     inbox
         .submit(attention_input("agent-b", "corr-agent-b-1"))
@@ -340,12 +371,31 @@ fn operator_attention_expiry_and_restart_preserve_receipts() {
     assert_eq!(snapshot.requests[0].status, AttentionStatus::Expired);
 
     let mut restored = OperatorAttentionInbox::restore(settings, snapshot).unwrap();
+    let snapshot_before_duplicate = restored.snapshot(10_002);
+    let events_before_duplicate = snapshot_before_duplicate.events.len();
+    let restored_before_duplicate = snapshot_before_duplicate
+        .requests
+        .iter()
+        .find(|request| request.request_id == request_id)
+        .expect("restored request remains available")
+        .clone();
     let duplicate = restored
         .submit(attention_input("agent-a", "corr-expiry"))
         .unwrap();
     assert_eq!(duplicate.request_id, request_id);
     assert_eq!(duplicate.status, AttentionStatus::Expired);
-    assert_eq!(duplicate.duplicate_count, 1);
+    assert_eq!(
+        duplicate.duplicate_count,
+        restored_before_duplicate.duplicate_count
+    );
+    assert_eq!(
+        duplicate.updated_at_millis,
+        restored_before_duplicate.updated_at_millis
+    );
+    assert_eq!(
+        restored.snapshot(10_003).events.len(),
+        events_before_duplicate
+    );
 }
 
 #[test]

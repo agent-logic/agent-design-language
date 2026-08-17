@@ -12,16 +12,7 @@ Status: draft
 
 ## Scope
 
-.csdlc/issues/116
-.csdlc/prepared/issues/116
-.csdlc/evidence/116
-adl-runtime-kernel/src/operator_attention.rs
-adl-runtime-kernel/src/lib.rs
-adl-runtime-kernel/tests/observatory.rs
-demos/html-observatory/app.js
-demos/html-observatory/index.html
-demos/html-observatory/styles.css
-demos/html-observatory/tests/operator_attention_inbox.test.mjs
+
 
 ## Prompts
 
