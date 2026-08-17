@@ -3,7 +3,7 @@ set -euo pipefail
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
 cd "$repo_root"
-owner_root="/Users/daniel/git/agent-design-language"
+git_common_dir="$(git rev-parse --git-common-dir)"
 
 fail() {
   echo "FAIL: $*" >&2
@@ -34,7 +34,7 @@ expect_jq() {
   jq -e "$expr" "$path" >/dev/null || fail "jq assertion failed for $path: $expr"
 }
 
-terminal_5878="$owner_root/.git/csdlc-v2/derived-terminal/5878.json"
+terminal_5878="$git_common_dir/csdlc-v2/derived-terminal/5878.json"
 proof_5878=".csdlc/evidence/5878/execution-proof.json"
 summary_194=".csdlc/evidence/194/private-wuji-aws-recovery-live-summary.redacted.json"
 preflight_194=".csdlc/evidence/194/live-preflight/live-private-network-preflight.redacted.json"

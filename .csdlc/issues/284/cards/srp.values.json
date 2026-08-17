@@ -7,13 +7,13 @@
     "title": "[v0.92][ADR 0066][207.b] Reconcile distributed Guardian authority evidence",
     "slug": "adr0066-guardian-authority-evidence-reconciliation",
     "version": "v0.92",
-    "generation": 6
+    "generation": 10
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue-local evidence and validator only; no shared ADR document review.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

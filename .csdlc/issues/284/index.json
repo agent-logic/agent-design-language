@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "d471d95c607e9d810728ebcb23e26844d4b579a5e1b9d28e1245b4e4693990cf",
   "phase": "implemented",
-  "generation": 6,
-  "digest": "151b0f00166610e23550690f607d9c9afe785cca51d2dc36eb39b03ba9df0ab8",
+  "generation": 10,
+  "digest": "f0604adf4e8a6edea043c4adfb710ce3848ddeab08a4ef77294509c194e7d4c0",
   "branch": "codex/284-adr0066-guardian-authority-evidence-reconciliation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-284-adr0066-guardian-authority-evidence-reconciliation",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "cde303b1133cba9e20a6124f08e69467833aa25e143d70fe3ba914b805abe243",
+      "values_digest": "0e531f517ded66a1e4b649d5fb9c7ed0ebeb8db3b8669baf97ab2912b3a91ca5",
       "rendered_digest": "01ff30845f4d507ec76619d4792136378e120a0f3a42eba5e5ef387331e59d06",
       "ast_digest": "b9e044289eb363c500ea0e20254545cd90e3b000b85442799e34a90df7862aef"
     },
     "stp": {
-      "values_digest": "c030b5e827b73546eba2e67e523a79812d65642b6c0efe8cc1ab0bf7cbb46e04",
+      "values_digest": "84fa7afe3cc63f079e1158972a2c4ff9341a0cee8c5299202952dfb2b9a5b834",
       "rendered_digest": "9fdb3e0a2850173916d338ea8f5a81422c4fa510faf7c08101eef83e5459cd83",
       "ast_digest": "b9cdf73a91371a813131d0f96fb001cdab5d00410079996020f855d4cea64a8d"
     },
     "spp": {
-      "values_digest": "702468f04c64e6c64cc667c8ffe8ba2328bef339c24a1fd7721c0edb0f7a1d07",
-      "rendered_digest": "4351a6bf2b732c0d0efc2699e8a1bc3a2b53084db4731cfb6f559273fe114ea1",
-      "ast_digest": "1e38a0e0c5f517d2a2c5561ab985b3bb892bac0efb0c81c110c7b091067fc817"
+      "values_digest": "3853d62819b0a5c736d7f464a933018011a60b6402ff22a157107336a1d267e9",
+      "rendered_digest": "05a634ff720b706a94fcb61c4ef65591e4e77bfd4fe765c0a3b5ef10c400c265",
+      "ast_digest": "6caa613d51714b90bd0c565a800d1144e37c8f531dee135072fb26413e56196d"
     },
     "vpp": {
-      "values_digest": "d3e63c28a7084825a7096d36e36484323f9cb593b2c189f9693c15eeb74a69e7",
+      "values_digest": "a0be32a2cc3297efaffcb02a540a413b94345f4d263b2af29da9ba7faffeb28f",
       "rendered_digest": "acf1ac4145e989ea2270d099b7f04a8d646bab62f267f642e560ade1b301e700",
       "ast_digest": "ccddaaf702116ca69ea725f6c3503ac6379d142b7cbe83359ce229d51dec7d5f"
     },
     "srp": {
-      "values_digest": "2f14050e81e2feab3f06e76e698746e6cec6a825eb1078fa9e34f0add4a28a54",
-      "rendered_digest": "6607dcf84b25bb88afb056508304ae016e71133e537e5abfee2fa7ae43bdefa1",
-      "ast_digest": "de5ea6035392d1d5b972157a5ef4603b24b79de1d39b577bba20a526ec57f656"
+      "values_digest": "4e246e80e0dfd5b6c50df404b371241f18d670a0c96b4bb8e00217878390f865",
+      "rendered_digest": "b45424ebd2f7ebd980dd11d6eabe6bef2b867ea2498e324a0cd0e2a3c829a371",
+      "ast_digest": "25d58f12ac34fc932b52d31850f56e5e2ac8f5d17f38c0dfbaf9e748896c4fc7"
     },
     "sor": {
-      "values_digest": "70e16f1aebe36ebffafdae04f3bff7603a93d7a8d6181e367ed870d649f8d355",
-      "rendered_digest": "df809591f9f3da1e49f26ede66423e91a6f2c5de7564e0661e170761f9b439a0",
-      "ast_digest": "9e0c4ac835ceae0a1eaa41616f5ecaf8e1f89eb0565c102ecaa526ac1e7f8cd7"
+      "values_digest": "59e2207191a1714d7015082fa9c01585a6bcedf2f87d72284712838e432da99f",
+      "rendered_digest": "15205c2ef83551737bf6d8288bade4b4a1c5611bc22e8c60c2e30d594ba23d6d",
+      "ast_digest": "9f92a59727aafbfc32a6b12f0f0458ebf7f0018690ee61670a314976b8deef1c"
     }
   },
   "transitions": [
@@ -133,6 +133,41 @@
       "actor": "codex:/root",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Recover after fresh-session:629351bd-7c71-4d7c-acb4-f34c4222ceb3 found stale typed-validation evidence, pending SPP steps despite implemented phase, and machine-local terminal-cache validator target; repair lifecycle/evidence truth before assigning a different fresh exact reviewer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Record completed #284 evidence packet creation after implementation and review recovery.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"step-1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Record completed #284 focused validator implementation after implementation and review recovery.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"step-2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Record #284 validation/review/publication step as in progress while fresh review and terminal delivery remain pending.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"step-3\",\"status\":\"in_progress\"}"
     }
   ]
 }

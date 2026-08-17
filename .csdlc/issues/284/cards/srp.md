@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Issue-local evidence and validator only; no shared ADR document review.
+
 
 ## Prompts
 
