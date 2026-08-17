@@ -1,0 +1,15 @@
+flowchart TD
+  I279["#279 accessibility and responsive UX terminal proof"]
+  I280["#280 scale, performance, and recovery terminal proof"]
+  I281["#281 security, privacy, and adversarial terminal proof"]
+  Q282["#282 exact-revision qualification packet"]
+  R["Product, architecture, and security reviews"]
+  P117["#117 production Polis interface qualification parent"]
+  P110["#110 WP-18C Observatory umbrella"]
+
+  I279 --> Q282
+  I280 --> Q282
+  I281 --> Q282
+  Q282 --> R
+  R --> P117
+  P117 --> P110

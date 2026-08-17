@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 282,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.07d][117.d] Assemble exact-revision production Polis interface qualification",
+    "slug": "production-polis-interface-qualification",
+    "version": "v0.92",
+    "generation": 25
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/evidence/282/production-polis-interface-qualification.md\n.csdlc/evidence/282/validate_qualification_packet.py\n.csdlc/prepared/issues/282/validate_preparation_bundle.py\n.csdlc/prepared/issues/282/design.md\n.csdlc/prepared/issues/282/diagram.mmd\n.csdlc/issues/282",
+      "review_revision": "git-blake3:4e241f5dff406dc344f3ab5da8edbc9142847e1d:ad6b2612ad1d7f79c26641f7866520a95b08d362d964f74c9baad701399372d8",
+      "reviewer": "fresh-session:8397ad62-5e06-436a-855b-af7b3878fdbc",
+      "review_prompts": [
+        "Review the exact-revision qualification packet for stale evidence, overclaims, missing artifact links, and unclear residual risks.",
+        "Review the operator runbook for local/read-only reproducibility without credentials or cloud deployment.",
+        "Review product, architecture, and security synthesis for unsupported readiness claims."
+      ],
+      "findings": [],
+      "residual_risk": [
+        "This #282 PASS is bounded to exact-revision Observatory production Polis interface qualification evidence and does not claim public cloud deployment, Unity native live proof, provider credential proof, Runtime authority changes, API/storage/browser behavior changes, publication, merge, or terminal closeout.",
+        "Reviewer reran local read-only validators and lifecycle validation; publication, CI, merge, and terminal finish remain pending as separate typed lifecycle steps."
+      ],
+      "review_result": "pass"
+    }
+  }
+}
