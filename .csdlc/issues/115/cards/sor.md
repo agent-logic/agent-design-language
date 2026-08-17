@@ -225,11 +225,11 @@ Fixed the #115 governed-room served route so newly created Runtime rooms start a
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
