@@ -2829,7 +2829,7 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
     assert_eq!(error.code, csdlc_v2::ErrorCode::ReconciliationRequired);
     assert_eq!(
         error.message,
-        "authored artifact target must be a regular single-link file"
+        "authored artifact target must be a regular single-link file: design/issue-42.md"
     );
     assert_eq!(issue_projection_snapshot(&repo, 42), path_drift_projection);
     fs::remove_dir(&design_path).expect("remove drifted design directory");

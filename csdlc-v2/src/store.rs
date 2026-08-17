@@ -2126,6 +2126,1165 @@ struct InitializedRecoveryJournalTarget {
     len: u64,
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct RecoverInitializedDesignEnvelopeRequest {
+    pub issue: u64,
+    pub expected_generation: u64,
+    pub expected_digest: String,
+    pub actor: String,
+    pub expected_design_path: String,
+    pub expected_diagram_path: String,
+    pub expected_design_digest: String,
+    pub expected_diagram_digest: String,
+    pub new_design_path: String,
+    pub new_diagram_path: String,
+    pub prior_reviewer: String,
+    pub canonical_reviewer: String,
+    pub reviewer_session_uuid: String,
+    pub reviewer_turn_uuid: String,
+    pub spawned_task: String,
+    pub thread_source: String,
+    pub fork_turns: String,
+    pub reviewed_generation: u64,
+    pub reviewed_digest: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+struct DesignEnvelopeRecoveryJournal {
+    schema: String,
+    issue: u64,
+    pre_generation: u64,
+    pre_digest: String,
+    post_generation: u64,
+    old_design_path: String,
+    old_diagram_path: String,
+    new_design_path: String,
+    new_diagram_path: String,
+    design_digest: String,
+    diagram_digest: String,
+    #[serde(default)]
+    design_identity: Option<(u64, u64)>,
+    #[serde(default)]
+    diagram_identity: Option<(u64, u64)>,
+    #[serde(default)]
+    post_state_digest: Option<String>,
+    #[serde(default)]
+    audit_sequence: Option<u64>,
+    phase: String,
+    #[serde(default)]
+    attempt_id: String,
+    #[serde(default)]
+    sequence: u64,
+    #[serde(default)]
+    prior_receipt_digest: Option<String>,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum DesignRecoveryFailpoint {
+    AfterPreparedReceipt,
+    AfterDesignInstall,
+    AfterDesignReceipt,
+    AfterDiagramInstall,
+    AfterArtifactsReceipt,
+    AfterStatePreparedReceipt,
+    BeforeStateCommit,
+    AfterStateCommit,
+}
+
+pub fn recover_initialized_design_envelope(
+    store: &Store,
+    request: RecoverInitializedDesignEnvelopeRequest,
+) -> Result<IssueRecord> {
+    recover_initialized_design_envelope_with_hook(store, request, |_| false)
+}
+
+pub fn recover_initialized_design_envelope_with_hook(
+    store: &Store,
+    request: RecoverInitializedDesignEnvelopeRequest,
+    mut hook: impl FnMut(DesignRecoveryFailpoint) -> bool,
+) -> Result<IssueRecord> {
+    macro_rules! checkpoint {
+        ($point:expr) => {
+            if hook($point) {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "injected design-recovery interruption",
+                ));
+            }
+        };
+    }
+    let _lock = store.lock(request.issue)?;
+    store.recover_if_needed(request.issue)?;
+    let mut record = store.load_record(request.issue)?;
+    reconcile_design_envelope_journal(store, &record)?;
+    record = store.load_record(request.issue)?;
+    if record.phase != LifecyclePhase::Initialized
+        || record.branch.is_some()
+        || record.worktree.is_some()
+        || record.review_assignment.is_some()
+        || record.review.is_some()
+        || record.publication.is_some()
+        || record.readiness.is_some()
+        || record.migration.is_some()
+        || record.terminal.is_some()
+    {
+        return Err(V2Error::new(ErrorCode::InvalidTransition, "design-envelope recovery requires an initialized unbound issue without later lifecycle evidence"));
+    }
+    if record.generation != request.expected_generation {
+        return Err(V2Error::new(
+            ErrorCode::StaleGeneration,
+            "design-envelope recovery generation is stale",
+        ));
+    }
+    if record.digest != request.expected_digest {
+        return Err(V2Error::new(
+            ErrorCode::StaleDigest,
+            "design-envelope recovery digest is stale",
+        ));
+    }
+    if record.design_path != request.expected_design_path
+        || record.diagram_path != request.expected_diagram_path
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authored artifact source paths drifted",
+        ));
+    }
+    validate_recovery_provenance(&request)?;
+    match &record.design_review {
+        DesignReview::Approved { reviewer, revision }
+            if reviewer == &request.prior_reviewer && revision == &request.reviewed_digest => {}
+        _ => {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "prior reviewer provenance does not match canonical design review",
+            ))
+        }
+    }
+    validate_safe_authored_destination(&request.new_design_path)?;
+    validate_safe_authored_destination(&request.new_diagram_path)?;
+    if request.new_design_path == request.new_diagram_path
+        || request.new_design_path == request.expected_design_path
+        || request.new_design_path == request.expected_diagram_path
+        || request.new_diagram_path == request.expected_design_path
+        || request.new_diagram_path == request.expected_diagram_path
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "design-envelope recovery paths must be pairwise distinct",
+        ));
+    }
+    let design_bytes = read_regular_authored_artifact_with_hook(
+        store.root(),
+        Path::new(&record.design_path),
+        |_| {},
+    )?
+    .ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authored design artifact is absent",
+        )
+    })?;
+    let diagram_bytes = read_regular_authored_artifact_with_hook(
+        store.root(),
+        Path::new(&record.diagram_path),
+        |_| {},
+    )?
+    .ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authored diagram artifact is absent",
+        )
+    })?;
+    let old_design_digest = digest(&design_bytes);
+    let old_diagram_digest = digest(&diagram_bytes);
+    #[cfg(unix)]
+    if file_identity_no_follow(store.root(), Path::new(&record.design_path))?
+        == file_identity_no_follow(store.root(), Path::new(&record.diagram_path))?
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "design and diagram sources must not alias the same inode",
+        ));
+    }
+    if old_design_digest != request.expected_design_digest
+        || old_diagram_digest != request.expected_diagram_digest
+    {
+        return Err(V2Error::new(
+            ErrorCode::StaleDigest,
+            "authored artifact digest drifted",
+        ));
+    }
+    if request.reviewed_generation != record.generation {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "reviewed generation must equal the approved canonical generation",
+        ));
+    }
+    let nonce = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map_err(|_| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "system clock precedes epoch",
+            )
+        })?
+        .as_nanos();
+    let attempt_id = digest(
+        format!(
+            "{}:{}:{}:{}:{}:{}",
+            request.issue,
+            request.expected_digest,
+            request.reviewer_session_uuid,
+            request.reviewer_turn_uuid,
+            std::process::id(),
+            nonce
+        )
+        .as_bytes(),
+    );
+    let mut journal = DesignEnvelopeRecoveryJournal {
+        schema: "csdlc.initialized_design_envelope_recovery_journal.v1".into(),
+        issue: request.issue,
+        pre_generation: record.generation,
+        pre_digest: record.digest.clone(),
+        post_generation: record.generation + 1,
+        old_design_path: request.expected_design_path.clone(),
+        old_diagram_path: request.expected_diagram_path.clone(),
+        new_design_path: request.new_design_path.clone(),
+        new_diagram_path: request.new_diagram_path.clone(),
+        design_digest: old_design_digest.clone(),
+        diagram_digest: old_diagram_digest.clone(),
+        design_identity: None,
+        diagram_identity: None,
+        post_state_digest: None,
+        audit_sequence: None,
+        phase: "prepared".into(),
+        attempt_id,
+        sequence: 0,
+        prior_receipt_digest: None,
+    };
+    let mut receipt_digest = write_recovery_journal(store.root(), &journal)?;
+    checkpoint!(DesignRecoveryFailpoint::AfterPreparedReceipt);
+    journal.design_identity = Some(stage_and_install_authored(
+        store.root(),
+        Path::new(&request.new_design_path),
+        &design_bytes,
+    )?);
+    checkpoint!(DesignRecoveryFailpoint::AfterDesignInstall);
+    journal.phase = "design_installed".into();
+    journal.sequence = 10;
+    journal.prior_receipt_digest = Some(receipt_digest);
+    receipt_digest = write_recovery_journal(store.root(), &journal)?;
+    checkpoint!(DesignRecoveryFailpoint::AfterDesignReceipt);
+    cleanup_stage(
+        store.root(),
+        Path::new(&request.new_design_path),
+        &old_design_digest,
+    )?;
+    match stage_and_install_authored(
+        store.root(),
+        Path::new(&request.new_diagram_path),
+        &diagram_bytes,
+    ) {
+        Ok(identity) => journal.diagram_identity = Some(identity),
+        Err(error) => {
+            let _ = remove_authored_if_owned(
+                store.root(),
+                Path::new(&request.new_design_path),
+                &old_design_digest,
+                journal.design_identity,
+            );
+            return Err(error);
+        }
+    }
+    checkpoint!(DesignRecoveryFailpoint::AfterDiagramInstall);
+    journal.phase = "artifacts_installed".into();
+    journal.sequence = 20;
+    journal.prior_receipt_digest = Some(receipt_digest);
+    receipt_digest = write_recovery_journal(store.root(), &journal)?;
+    checkpoint!(DesignRecoveryFailpoint::AfterArtifactsReceipt);
+    cleanup_stage(
+        store.root(),
+        Path::new(&request.new_diagram_path),
+        &old_diagram_digest,
+    )?;
+    let mut cards = store.load_cards(request.issue)?;
+    verify_card_projections(store, &record, &cards)?;
+    for kind in [CardKind::Spp, CardKind::Vpp] {
+        match &mut cards.get_mut(&kind).expect("design card").content {
+            CardContent::Spp(values) => {
+                values.design_ref = request.new_design_path.clone();
+                values.design_digest = old_design_digest.clone();
+                values.diagram_ref = request.new_diagram_path.clone();
+                values.diagram_digest = old_diagram_digest.clone();
+            }
+            CardContent::Vpp(values) => {
+                values.design_ref = request.new_design_path.clone();
+                values.design_digest = old_design_digest.clone();
+                values.diagram_ref = request.new_diagram_path.clone();
+                values.diagram_digest = old_diagram_digest.clone();
+            }
+            _ => unreachable!(),
+        }
+    }
+    let old_review = record.design_review.clone();
+    record.design_path = request.new_design_path.clone();
+    record.diagram_path = request.new_diagram_path.clone();
+    record.design_review = DesignReview::Pending;
+    record.generation += 1;
+    for values in cards.values_mut() {
+        values.identity.generation = record.generation;
+    }
+    record.audit.push(AuditEvent {
+        sequence: record.audit.len() as u64 + 1,
+        generation: record.generation,
+        actor: request.actor,
+        reason: "recover initialized design envelope and require fresh approval".into(),
+        operation: serde_json::json!({
+            "operation":"recover_initialized_design_envelope",
+            "old_reviewer":request.prior_reviewer,"new_reviewer":request.canonical_reviewer,
+            "old_design_path":request.expected_design_path,"new_design_path":request.new_design_path,
+            "old_diagram_path":request.expected_diagram_path,"new_diagram_path":request.new_diagram_path,
+            "old_design_digest":old_design_digest,"new_design_digest":old_design_digest,
+            "old_diagram_digest":old_diagram_digest,"new_diagram_digest":old_diagram_digest,
+            "reviewed_generation":request.reviewed_generation,"reviewed_digest":request.reviewed_digest,
+            "reviewer_session_uuid":request.reviewer_session_uuid,"reviewer_turn_uuid":request.reviewer_turn_uuid,
+            "spawned_task":request.spawned_task,"thread_source":request.thread_source,"fork_turns":request.fork_turns,
+            "old_design_review":old_review,"approval_disposition":"invalidated_pending_reapproval",
+            "pre_state_digest":request.expected_digest,"post_generation":record.generation,
+            "post_state_digest":"pending-canonical-post-state-digest"
+        }).to_string(),
+    });
+    hydrate_projections(&mut record, &cards)?;
+    let post_state_digest = canonical_recovery_post_state_digest(&record)?;
+    let operation = &mut record.audit.last_mut().expect("recovery audit").operation;
+    let mut operation_value: serde_json::Value = serde_json::from_str(operation)?;
+    operation_value["post_state_digest"] = serde_json::Value::String(post_state_digest);
+    *operation = operation_value.to_string();
+    journal.post_state_digest = Some(canonical_recovery_post_state_digest(&record)?);
+    journal.audit_sequence = record.audit.last().map(|event| event.sequence);
+    journal.phase = "state_prepared".into();
+    journal.sequence = 30;
+    journal.prior_receipt_digest = Some(receipt_digest);
+    let _receipt_digest = write_recovery_journal(store.root(), &journal)?;
+    checkpoint!(DesignRecoveryFailpoint::AfterStatePreparedReceipt);
+    record.digest = record_digest(&record)?;
+    checkpoint!(DesignRecoveryFailpoint::BeforeStateCommit);
+    if let Err(error) = store.commit(request.issue, &record, &cards, false) {
+        if store.load_record(request.issue).is_ok_and(|installed| {
+            installed.digest == record.digest && recovery_post_state_matches(&installed, &journal)
+        }) {
+            resolve_recovery_ledger(store.root(), &journal)?;
+            return Ok(record);
+        }
+        let _ = remove_authored_if_owned(
+            store.root(),
+            Path::new(&request.new_design_path),
+            &old_design_digest,
+            journal.design_identity,
+        );
+        let _ = remove_authored_if_owned(
+            store.root(),
+            Path::new(&request.new_diagram_path),
+            &old_diagram_digest,
+            journal.diagram_identity,
+        );
+        return Err(error);
+    }
+    checkpoint!(DesignRecoveryFailpoint::AfterStateCommit);
+    resolve_recovery_ledger(store.root(), &journal)?;
+    Ok(record)
+}
+
+fn recovery_journal_relative(journal: &DesignEnvelopeRecoveryJournal) -> PathBuf {
+    PathBuf::from("csdlc-v2/recovery-journals")
+        .join(journal.issue.to_string())
+        .join(&journal.attempt_id)
+        .join(format!("{:03}-{}.json", journal.sequence, journal.phase))
+}
+
+fn git_common_dir(root: &Path) -> Result<PathBuf> {
+    Ok(crate::git::shared_request_path(root, 1)?
+        .parent()
+        .and_then(Path::parent)
+        .expect("Git common csdlc-v2")
+        .parent()
+        .expect("Git common directory")
+        .to_path_buf())
+}
+
+fn write_recovery_journal(root: &Path, journal: &DesignEnvelopeRecoveryJournal) -> Result<String> {
+    let common = git_common_dir(root)?;
+    let relative = recovery_journal_relative(journal);
+    let bytes = serde_json::to_vec_pretty(journal)?;
+    write_authored_exclusive(&common, &relative, &bytes)?;
+    Ok(digest(&bytes))
+}
+
+fn read_recovery_journal(root: &Path, issue: u64) -> Result<Option<DesignEnvelopeRecoveryJournal>> {
+    let common = git_common_dir(root)?;
+    let issue_dir = common
+        .join("csdlc-v2/recovery-journals")
+        .join(issue.to_string());
+    if !issue_dir.exists() {
+        return Ok(None);
+    }
+    let attempts: Vec<_> = std::fs::read_dir(&issue_dir)?.collect::<std::result::Result<_, _>>()?;
+    let mut active = Vec::new();
+    for attempt in attempts {
+        if !attempt.file_type()?.is_dir() {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "recovery attempt entry is invalid",
+            ));
+        }
+        let mut receipts: Vec<_> =
+            std::fs::read_dir(attempt.path())?.collect::<std::result::Result<_, _>>()?;
+        receipts.sort_by_key(|entry| entry.file_name());
+        let mut prior = None;
+        let mut latest = None;
+        for entry in receipts {
+            if !entry.file_type()?.is_file() {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "recovery receipt is not regular",
+                ));
+            }
+            let bytes = std::fs::read(entry.path())?;
+            let receipt: DesignEnvelopeRecoveryJournal = serde_json::from_slice(&bytes)?;
+            if receipt.issue != issue
+                || receipt.attempt_id != attempt.file_name().to_string_lossy()
+                || receipt.prior_receipt_digest != prior
+            {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "recovery receipt chain is invalid",
+                ));
+            }
+            prior = Some(digest(&bytes));
+            latest = Some(receipt);
+        }
+        let latest = latest.ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "recovery attempt ledger is empty",
+            )
+        })?;
+        if latest.phase != "resolved" {
+            active.push(latest);
+        }
+    }
+    if active.len() > 1 {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "recovery attempt ledger is ambiguous",
+        ));
+    }
+    Ok(active.pop())
+}
+
+fn resolve_recovery_ledger(root: &Path, journal: &DesignEnvelopeRecoveryJournal) -> Result<()> {
+    let mut resolved = journal.clone();
+    resolved.sequence = 90;
+    resolved.phase = "resolved".into();
+    resolved.prior_receipt_digest = Some(digest(&serde_json::to_vec_pretty(journal)?));
+    write_recovery_journal(root, &resolved).map(|_| ())
+}
+
+fn recovery_post_state_matches(
+    record: &IssueRecord,
+    journal: &DesignEnvelopeRecoveryJournal,
+) -> bool {
+    record.generation == journal.post_generation
+        && record.design_path == journal.new_design_path
+        && record.diagram_path == journal.new_diagram_path
+        && matches!(record.design_review, DesignReview::Pending)
+        && journal.post_state_digest.as_ref().is_some_and(|expected| {
+            canonical_recovery_post_state_digest(record).is_ok_and(|actual| &actual == expected)
+        })
+        && record.audit.last().is_some_and(|event| {
+            Some(event.sequence) == journal.audit_sequence
+                && serde_json::from_str::<serde_json::Value>(&event.operation)
+                    .ok()
+                    .and_then(|value| {
+                        value
+                            .get("operation")
+                            .and_then(|v| v.as_str())
+                            .map(str::to_owned)
+                    })
+                    .as_deref()
+                    == Some("recover_initialized_design_envelope")
+        })
+}
+
+fn canonical_recovery_post_state_digest(record: &IssueRecord) -> Result<String> {
+    let mut value = record.clone();
+    value.digest.clear();
+    let operation = &mut value
+        .audit
+        .last_mut()
+        .ok_or_else(|| V2Error::new(ErrorCode::ReconciliationRequired, "recovery audit absent"))?
+        .operation;
+    let mut operation_value: serde_json::Value = serde_json::from_str(operation)?;
+    operation_value["post_state_digest"] =
+        serde_json::Value::String("pending-canonical-post-state-digest".into());
+    *operation = operation_value.to_string();
+    Ok(digest(&serde_json::to_vec(&value)?))
+}
+
+fn reconcile_design_envelope_journal(store: &Store, record: &IssueRecord) -> Result<()> {
+    let Some(journal) = read_recovery_journal(store.root(), record.issue)? else {
+        return Ok(());
+    };
+    if journal.schema != "csdlc.initialized_design_envelope_recovery_journal.v1"
+        || journal.issue != record.issue
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "design-envelope recovery journal identity is invalid",
+        ));
+    }
+    if recovery_post_state_matches(record, &journal) {
+        require_authored_digest(
+            store.root(),
+            &journal.new_design_path,
+            &journal.design_digest,
+        )?;
+        require_authored_digest(
+            store.root(),
+            &journal.new_diagram_path,
+            &journal.diagram_digest,
+        )?;
+        return resolve_recovery_ledger(store.root(), &journal);
+    }
+    if record.generation == journal.pre_generation
+        && record.digest == journal.pre_digest
+        && record.design_path == journal.old_design_path
+        && record.diagram_path == journal.old_diagram_path
+    {
+        remove_authored_if_owned(
+            store.root(),
+            Path::new(&journal.new_design_path),
+            &journal.design_digest,
+            journal.design_identity,
+        )?;
+        remove_authored_if_owned(
+            store.root(),
+            Path::new(&journal.new_diagram_path),
+            &journal.diagram_digest,
+            journal.diagram_identity,
+        )?;
+        return resolve_recovery_ledger(store.root(), &journal);
+    }
+    Err(V2Error::new(
+        ErrorCode::ReconciliationRequired,
+        "recovery journal does not match canonical pre-state or post-state",
+    ))
+}
+
+fn require_authored_digest(root: &Path, relative: &str, expected: &str) -> Result<()> {
+    let actual = read_regular_authored_artifact_with_hook(root, Path::new(relative), |_| {})?
+        .map(|bytes| digest(&bytes));
+    if actual.as_deref() != Some(expected) {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "recovered authored artifact digest is absent or drifted",
+        ));
+    }
+    Ok(())
+}
+
+#[cfg(unix)]
+fn staged_authored_path(relative: &Path) -> Result<PathBuf> {
+    let file_name = relative.file_name().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::InvalidInput,
+            "authored destination file name missing",
+        )
+    })?;
+    Ok(relative.with_file_name(format!(".{}.csdlc-stage", file_name.to_string_lossy())))
+}
+
+#[cfg(unix)]
+fn cleanup_stage(root: &Path, relative: &Path, expected: &str) -> Result<()> {
+    let stage = staged_authored_path(relative)?;
+    reconcile_owned_quarantine(root, &stage, expected)?;
+    unlink_anchored(root, &stage, Some(expected))
+}
+
+#[cfg(unix)]
+fn reconcile_owned_quarantine(root: &Path, relative: &Path, expected: &str) -> Result<()> {
+    let parent = relative.parent().unwrap_or_else(|| Path::new("."));
+    let name = relative
+        .file_name()
+        .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "cleanup file name missing"))?
+        .to_string_lossy();
+    let prefix = format!(".{name}.csdlc-delete-");
+    let directory = root.join(parent);
+    if !directory.exists() {
+        return Ok(());
+    }
+    for entry in std::fs::read_dir(directory)? {
+        let entry = entry?;
+        let candidate_name = entry.file_name();
+        let candidate_text = candidate_name.to_string_lossy();
+        let Some(suffix) = candidate_text.strip_prefix(&prefix) else {
+            continue;
+        };
+        let parts: Vec<_> = suffix.split('-').collect();
+        if parts.len() != 2 {
+            continue;
+        }
+        let identity = (
+            parts[0].parse::<u64>().map_err(|_| {
+                V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "quarantine identity invalid",
+                )
+            })?,
+            parts[1].parse::<u64>().map_err(|_| {
+                V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "quarantine identity invalid",
+                )
+            })?,
+        );
+        let candidate = parent.join(candidate_name);
+        unlink_owned_anchored(root, &candidate, expected, identity)?;
+    }
+    Ok(())
+}
+
+#[cfg(unix)]
+fn reconcile_owned_delete_quarantine(root: &Path, relative: &Path, expected: &str) -> Result<()> {
+    let parent = relative.parent().unwrap_or_else(|| Path::new("."));
+    let name = relative
+        .file_name()
+        .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "cleanup file name missing"))?
+        .to_string_lossy();
+    let prefix = format!(".{name}.csdlc-owned-delete-");
+    let directory = root.join(parent);
+    if !directory.exists() {
+        return Ok(());
+    }
+    for entry in std::fs::read_dir(directory)? {
+        let entry = entry?;
+        let candidate_name = entry.file_name();
+        let candidate_text = candidate_name.to_string_lossy();
+        let Some(suffix) = candidate_text.strip_prefix(&prefix) else {
+            continue;
+        };
+        let parts: Vec<_> = suffix.split('-').collect();
+        if parts.len() != 2 {
+            continue;
+        }
+        let identity = (
+            parts[0].parse::<u64>().map_err(|_| {
+                V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "owned quarantine identity invalid",
+                )
+            })?,
+            parts[1].parse::<u64>().map_err(|_| {
+                V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "owned quarantine identity invalid",
+                )
+            })?,
+        );
+        let candidate = parent.join(candidate_name);
+        unlink_owned_anchored(root, &candidate, expected, identity)?;
+    }
+    Ok(())
+}
+
+#[cfg(unix)]
+fn stage_and_install_authored(root: &Path, relative: &Path, bytes: &[u8]) -> Result<(u64, u64)> {
+    let staged = staged_authored_path(relative)?;
+    write_authored_exclusive(root, &staged, bytes)?;
+    if let Err(error) = link_no_replace_anchored(root, &staged, relative) {
+        let _ = unlink_anchored(root, &staged, Some(&digest(bytes)));
+        return Err(error);
+    }
+    file_identity_no_follow(root, relative)
+}
+
+#[cfg(not(unix))]
+fn stage_and_install_authored(_root: &Path, _relative: &Path, _bytes: &[u8]) -> Result<(u64, u64)> {
+    Err(V2Error::new(
+        ErrorCode::UnsafeCheckout,
+        "safe authored artifact installation requires anchored platform primitives",
+    ))
+}
+
+#[cfg(unix)]
+fn write_authored_exclusive(root: &Path, relative: &Path, bytes: &[u8]) -> Result<()> {
+    use std::ffi::CString;
+    use std::io::Write;
+    use std::os::unix::ffi::OsStrExt;
+    use std::os::unix::io::{AsRawFd, FromRawFd};
+    let root_file = File::open(root)?;
+    let mut retained = Vec::new();
+    let mut directory_fd = root_file.as_raw_fd();
+    let components: Vec<_> = relative.components().collect();
+    for (index, component) in components.iter().enumerate() {
+        let std::path::Component::Normal(name) = component else {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "authored destination contains non-normal component",
+            ));
+        };
+        let name = CString::new(name.as_bytes()).map_err(|_| {
+            V2Error::new(ErrorCode::InvalidInput, "authored destination contains NUL")
+        })?;
+        let last = index + 1 == components.len();
+        if last {
+            let fd = unsafe {
+                libc::openat(
+                    directory_fd,
+                    name.as_ptr(),
+                    libc::O_WRONLY
+                        | libc::O_CREAT
+                        | libc::O_EXCL
+                        | libc::O_CLOEXEC
+                        | libc::O_NOFOLLOW,
+                    0o644,
+                )
+            };
+            if fd < 0 {
+                return Err(std::io::Error::last_os_error().into());
+            }
+            let mut file = unsafe { File::from_raw_fd(fd) };
+            file.write_all(bytes)?;
+            file.sync_all()?;
+        } else {
+            let mut fd = unsafe {
+                libc::openat(
+                    directory_fd,
+                    name.as_ptr(),
+                    libc::O_RDONLY | libc::O_DIRECTORY | libc::O_CLOEXEC | libc::O_NOFOLLOW,
+                )
+            };
+            if fd < 0 && std::io::Error::last_os_error().raw_os_error() == Some(libc::ENOENT) {
+                if unsafe { libc::mkdirat(directory_fd, name.as_ptr(), 0o755) } != 0 {
+                    return Err(std::io::Error::last_os_error().into());
+                }
+                fd = unsafe {
+                    libc::openat(
+                        directory_fd,
+                        name.as_ptr(),
+                        libc::O_RDONLY | libc::O_DIRECTORY | libc::O_CLOEXEC | libc::O_NOFOLLOW,
+                    )
+                };
+            }
+            if fd < 0 {
+                return Err(V2Error::new(
+                    ErrorCode::UnsafeCheckout,
+                    "authored destination ancestor is unsafe",
+                ));
+            }
+            let opened = unsafe { File::from_raw_fd(fd) };
+            retained.push(opened);
+            directory_fd = retained.last().unwrap().as_raw_fd();
+        }
+    }
+    Ok(())
+}
+
+#[cfg(unix)]
+fn open_parent_no_follow(root: &Path, relative: &Path) -> Result<(File, std::ffi::CString)> {
+    use std::ffi::CString;
+    use std::os::unix::ffi::OsStrExt;
+    use std::os::unix::io::{AsRawFd, FromRawFd};
+    let root_file = File::open(root)?;
+    let mut current = root_file;
+    let parent = relative.parent().unwrap_or_else(|| Path::new(""));
+    for component in parent.components() {
+        let std::path::Component::Normal(name) = component else {
+            return Err(V2Error::new(ErrorCode::InvalidInput, "non-normal path"));
+        };
+        let name = CString::new(name.as_bytes())
+            .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "NUL path"))?;
+        let mut fd = unsafe {
+            libc::openat(
+                current.as_raw_fd(),
+                name.as_ptr(),
+                libc::O_RDONLY | libc::O_DIRECTORY | libc::O_CLOEXEC | libc::O_NOFOLLOW,
+            )
+        };
+        if fd < 0 && std::io::Error::last_os_error().raw_os_error() == Some(libc::ENOENT) {
+            if unsafe { libc::mkdirat(current.as_raw_fd(), name.as_ptr(), 0o755) } != 0 {
+                return Err(std::io::Error::last_os_error().into());
+            }
+            fd = unsafe {
+                libc::openat(
+                    current.as_raw_fd(),
+                    name.as_ptr(),
+                    libc::O_RDONLY | libc::O_DIRECTORY | libc::O_CLOEXEC | libc::O_NOFOLLOW,
+                )
+            };
+        }
+        if fd < 0 {
+            return Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "unsafe path ancestor",
+            ));
+        }
+        current = unsafe { File::from_raw_fd(fd) };
+    }
+    let name = relative
+        .file_name()
+        .ok_or_else(|| V2Error::new(ErrorCode::InvalidInput, "file name missing"))?;
+    Ok((
+        current,
+        CString::new(name.as_bytes())
+            .map_err(|_| V2Error::new(ErrorCode::InvalidInput, "NUL path"))?,
+    ))
+}
+
+#[cfg(unix)]
+fn link_no_replace_anchored(root: &Path, source: &Path, destination: &Path) -> Result<()> {
+    use std::os::unix::io::AsRawFd;
+    let (source_parent, source_name) = open_parent_no_follow(root, source)?;
+    let (dest_parent, dest_name) = open_parent_no_follow(root, destination)?;
+    if unsafe {
+        libc::linkat(
+            source_parent.as_raw_fd(),
+            source_name.as_ptr(),
+            dest_parent.as_raw_fd(),
+            dest_name.as_ptr(),
+            0,
+        )
+    } != 0
+    {
+        return Err(std::io::Error::last_os_error().into());
+    }
+    dest_parent.sync_all()?;
+    Ok(())
+}
+
+#[cfg(unix)]
+fn unlink_anchored(root: &Path, relative: &Path, expected_digest: Option<&str>) -> Result<()> {
+    use std::io::Read;
+    use std::os::unix::io::{AsRawFd, FromRawFd};
+    let (parent, name) = open_parent_no_follow(root, relative)?;
+    if let Some(expected) = expected_digest {
+        let fd = unsafe {
+            libc::openat(
+                parent.as_raw_fd(),
+                name.as_ptr(),
+                libc::O_RDONLY | libc::O_CLOEXEC | libc::O_NOFOLLOW,
+            )
+        };
+        if fd < 0 {
+            let error = std::io::Error::last_os_error();
+            if error.raw_os_error() == Some(libc::ENOENT) {
+                return Ok(());
+            }
+            return Err(error.into());
+        }
+        let mut target = unsafe { File::from_raw_fd(fd) };
+        let opened = target.metadata()?;
+        let mut bytes = Vec::new();
+        target.read_to_end(&mut bytes)?;
+        if digest(&bytes) != expected {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "cleanup target digest drifted",
+            ));
+        }
+        use std::os::unix::fs::MetadataExt;
+        let quarantine = relative.with_file_name(format!(
+            ".{}.csdlc-delete-{}-{}",
+            relative
+                .file_name()
+                .expect("cleanup file name")
+                .to_string_lossy(),
+            opened.dev(),
+            opened.ino()
+        ));
+        rename_no_replace_anchored(root, relative, &quarantine)?;
+        let quarantined = match read_opened_metadata_no_follow(root, &quarantine) {
+            Ok(metadata) => metadata,
+            Err(error) => {
+                let _ = rename_no_replace_anchored(root, &quarantine, relative);
+                return Err(error);
+            }
+        };
+        if opened.dev() != quarantined.dev() || opened.ino() != quarantined.ino() {
+            let _ = rename_no_replace_anchored(root, &quarantine, relative);
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "cleanup target identity changed",
+            ));
+        }
+        return unlink_anchored(root, &quarantine, None);
+    }
+    if unsafe { libc::unlinkat(parent.as_raw_fd(), name.as_ptr(), 0) } != 0 {
+        let e = std::io::Error::last_os_error();
+        if e.raw_os_error() == Some(libc::ENOENT) {
+            return Ok(());
+        }
+        return Err(e.into());
+    }
+    parent.sync_all()?;
+    Ok(())
+}
+
+#[cfg(unix)]
+fn read_opened_metadata_no_follow(root: &Path, relative: &Path) -> Result<std::fs::Metadata> {
+    use std::os::unix::io::{AsRawFd, FromRawFd};
+    let (parent, name) = open_parent_no_follow(root, relative)?;
+    let fd = unsafe {
+        libc::openat(
+            parent.as_raw_fd(),
+            name.as_ptr(),
+            libc::O_RDONLY | libc::O_CLOEXEC | libc::O_NOFOLLOW,
+        )
+    };
+    if fd < 0 {
+        return Err(std::io::Error::last_os_error().into());
+    }
+    Ok(unsafe { File::from_raw_fd(fd) }.metadata()?)
+}
+
+#[cfg(unix)]
+fn file_identity_no_follow(root: &Path, relative: &Path) -> Result<(u64, u64)> {
+    use std::os::unix::fs::MetadataExt;
+    let metadata = read_opened_metadata_no_follow(root, relative)?;
+    Ok((metadata.dev(), metadata.ino()))
+}
+
+#[cfg(unix)]
+fn unlink_owned_anchored(
+    root: &Path,
+    relative: &Path,
+    expected_digest: &str,
+    expected_identity: (u64, u64),
+) -> Result<()> {
+    let quarantine = relative.with_file_name(format!(
+        ".{}.csdlc-owned-delete-{}-{}",
+        relative
+            .file_name()
+            .expect("cleanup file name")
+            .to_string_lossy(),
+        expected_identity.0,
+        expected_identity.1
+    ));
+    if file_identity_no_follow(root, &quarantine).is_err() {
+        rename_no_replace_anchored(root, relative, &quarantine)?;
+    }
+    let actual_identity = file_identity_no_follow(root, &quarantine)?;
+    if actual_identity != expected_identity {
+        rename_no_replace_anchored(root, &quarantine, relative)?;
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "cleanup target is not the journal-owned artifact",
+        ));
+    }
+    unlink_anchored(root, &quarantine, Some(expected_digest))
+}
+
+#[cfg(target_os = "macos")]
+fn rename_no_replace_anchored(root: &Path, source: &Path, destination: &Path) -> Result<()> {
+    use std::os::unix::io::AsRawFd;
+    let (source_parent, source_name) = open_parent_no_follow(root, source)?;
+    let (dest_parent, dest_name) = open_parent_no_follow(root, destination)?;
+    if unsafe {
+        libc::renameatx_np(
+            source_parent.as_raw_fd(),
+            source_name.as_ptr(),
+            dest_parent.as_raw_fd(),
+            dest_name.as_ptr(),
+            libc::RENAME_EXCL,
+        )
+    } != 0
+    {
+        return Err(std::io::Error::last_os_error().into());
+    }
+    dest_parent.sync_all()?;
+    Ok(())
+}
+
+#[cfg(all(unix, not(target_os = "macos")))]
+fn rename_no_replace_anchored(root: &Path, source: &Path, destination: &Path) -> Result<()> {
+    use std::os::unix::io::AsRawFd;
+    let (source_parent, source_name) = open_parent_no_follow(root, source)?;
+    let (dest_parent, dest_name) = open_parent_no_follow(root, destination)?;
+    #[cfg(target_os = "linux")]
+    let result = unsafe {
+        libc::syscall(
+            libc::SYS_renameat2,
+            source_parent.as_raw_fd(),
+            source_name.as_ptr(),
+            dest_parent.as_raw_fd(),
+            dest_name.as_ptr(),
+            libc::RENAME_NOREPLACE,
+        ) as libc::c_int
+    };
+    #[cfg(not(target_os = "linux"))]
+    let result = -1;
+    if result != 0 {
+        return Err(std::io::Error::last_os_error().into());
+    }
+    dest_parent.sync_all()?;
+    Ok(())
+}
+
+#[cfg(not(unix))]
+fn unlink_anchored(_root: &Path, _relative: &Path, _expected: Option<&str>) -> Result<()> {
+    Err(V2Error::new(
+        ErrorCode::UnsafeCheckout,
+        "anchored unlink unavailable",
+    ))
+}
+
+#[cfg(not(unix))]
+fn write_authored_exclusive(_root: &Path, _relative: &Path, _bytes: &[u8]) -> Result<()> {
+    Err(V2Error::new(
+        ErrorCode::UnsafeCheckout,
+        "safe authored artifact writes require anchored no-follow platform primitives",
+    ))
+}
+
+fn remove_authored_if_owned(
+    root: &Path,
+    relative: &Path,
+    expected: &str,
+    identity: Option<(u64, u64)>,
+) -> Result<()> {
+    reconcile_owned_quarantine(root, &staged_authored_path(relative)?, expected)?;
+    reconcile_owned_delete_quarantine(root, relative, expected)?;
+    reconcile_owned_delete_quarantine(root, &staged_authored_path(relative)?, expected)?;
+    let Some(identity) = identity else {
+        // A crash before the journal identity update leaves the retained stage
+        // as the ownership witness for the installed hard link.
+        let stage = staged_authored_path(relative)?;
+        let stage_identity = match file_identity_no_follow(root, &stage) {
+            Ok(value) => value,
+            Err(_) => {
+                if read_regular_authored_artifact_with_hook(root, relative, |_| {})?.is_none() {
+                    return Ok(());
+                }
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "recovery artifact ownership is unproven",
+                ));
+            }
+        };
+        let destination_identity = file_identity_no_follow(root, relative).ok();
+        if destination_identity.is_some_and(|value| value != stage_identity) {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "recovery destination is not linked to its owned stage",
+            ));
+        }
+        if destination_identity.is_some() {
+            unlink_owned_anchored(root, relative, expected, stage_identity)?;
+        }
+        return unlink_owned_anchored(root, &stage, expected, stage_identity);
+    };
+    let quarantine = relative.with_file_name(format!(
+        ".{}.csdlc-delete-{}-{}",
+        relative
+            .file_name()
+            .expect("cleanup file name")
+            .to_string_lossy(),
+        identity.0,
+        identity.1
+    ));
+    if let Ok(quarantine_identity) = file_identity_no_follow(root, &quarantine) {
+        if quarantine_identity != identity {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "quarantined cleanup inode drifted",
+            ));
+        }
+        unlink_owned_anchored(root, &quarantine, expected, identity)?;
+    }
+    let current_identity = match file_identity_no_follow(root, relative) {
+        Ok(value) => value,
+        Err(error) if error.message.contains("No such file") => return Ok(()),
+        Err(error) => return Err(error),
+    };
+    if current_identity != identity {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "cleanup target is not the journal-owned inode",
+        ));
+    }
+    let stage = staged_authored_path(relative)?;
+    if file_identity_no_follow(root, &stage).ok() == Some(identity) {
+        unlink_owned_anchored(root, &stage, expected, identity)?;
+    }
+    match read_regular_authored_artifact_with_hook(root, relative, |_| {})? {
+        Some(bytes) if digest(&bytes) == expected => {
+            unlink_owned_anchored(root, relative, expected, identity)?;
+            Ok(())
+        }
+        Some(_) => Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "cleanup target digest drifted",
+        )),
+        None => Ok(()),
+    }
+}
+
+fn validate_recovery_provenance(request: &RecoverInitializedDesignEnvelopeRequest) -> Result<()> {
+    let uuid = |value: &str| {
+        let parts: Vec<_> = value.split('-').collect();
+        parts.iter().map(|part| part.len()).eq([8, 4, 4, 4, 12])
+            && value.bytes().all(|b| b == b'-' || b.is_ascii_hexdigit())
+    };
+    if !uuid(&request.reviewer_session_uuid)
+        || !uuid(&request.reviewer_turn_uuid)
+        || request.canonical_reviewer != format!("fresh-session:{}", request.reviewer_session_uuid)
+        || request.spawned_task.trim().is_empty()
+        || request.thread_source != "subagent"
+        || request.fork_turns != "none"
+        || request.prior_reviewer.trim().is_empty()
+        || request.reviewed_digest.trim().is_empty()
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "complete canonical projectless reviewer provenance is required",
+        ));
+    }
+    Ok(())
+}
+
+fn validate_safe_authored_destination(value: &str) -> Result<()> {
+    let path = Path::new(value);
+    if !crate::pvf::clean_relative(path)
+        || path
+            .components()
+            .next()
+            .is_some_and(|c| c.as_os_str() == ".git")
+        || (value.starts_with(".csdlc/")
+            && !value.starts_with(".csdlc/prepared/")
+            && !is_issue_local_authored_destination(value))
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "authored artifact destination is unsafe",
+        ));
+    }
+    Ok(())
+}
+
+fn is_issue_local_authored_destination(value: &str) -> bool {
+    let Some(rest) = value.strip_prefix(".csdlc/issues/") else {
+        return false;
+    };
+    let Some((issue, authored_path)) = rest.split_once('/') else {
+        return false;
+    };
+    issue.parse::<u64>().is_ok_and(|issue| issue > 0)
+        && authored_path.starts_with("authored/")
+        && authored_path.len() > "authored/".len()
+}
+
 pub fn approve_design(store: &Store, request: ApproveDesignRequest) -> Result<IssueRecord> {
     approve_design_with_hook(store, request, |_| {})
 }
@@ -2630,6 +3789,14 @@ pub(crate) fn validate_bootstrap_request(request: &BootstrapRequest) -> Result<(
         return Err(V2Error::new(
             ErrorCode::InvalidInput,
             "bootstrap actor/reviewer invariants are incomplete",
+        ));
+    }
+    validate_safe_authored_destination(&request.design_path)?;
+    validate_safe_authored_destination(&request.diagram_path)?;
+    if request.design_path == request.diagram_path {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "design and diagram paths must be distinct",
         ));
     }
     Ok(())
@@ -3283,9 +4450,20 @@ fn prepare_implemented_design_refresh(
             "assign_review" | "record_review" | "recover_review"
         )
     });
-    if latest_review.is_none_or(|event| {
-        event.operation != "recover_review" || event.generation != record.generation
-    }) || record.review_assignment.is_some()
+    let current_review_recovery = latest_review.is_some_and(|event| {
+        event.operation == "recover_review" && event.generation == record.generation
+    });
+    let iterative_pending_refresh = latest_review.is_some_and(|event| {
+        event.operation == "recover_review" && event.generation + 1 == record.generation
+    }) && matches!(record.design_review, DesignReview::Pending)
+        && record.audit.last().is_some_and(|event| {
+            event.generation == record.generation
+                && event
+                    .operation
+                    .contains("refresh_authored_design_after_recovery")
+        });
+    if !(current_review_recovery || iterative_pending_refresh)
+        || record.review_assignment.is_some()
         || record.review.is_some()
         || record.publication.is_some()
         || record.readiness.is_some()
@@ -5480,7 +6658,10 @@ fn read_regular_authored_artifact_platform_with_hook(
     if !before.is_file() || before.nlink() != 1 {
         return Err(V2Error::new(
             ErrorCode::ReconciliationRequired,
-            "authored artifact target must be a regular single-link file",
+            format!(
+                "authored artifact target must be a regular single-link file: {}",
+                relative.display()
+            ),
         ));
     }
     let first = read_exact_current_file(&mut opened, before.len())?;
