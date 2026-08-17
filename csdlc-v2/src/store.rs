@@ -3076,16 +3076,14 @@ fn unlink_owned_anchored(
         rename_no_replace_anchored(root, relative, &quarantine)?;
     }
     let actual_identity = file_identity_no_follow(root, &quarantine)?;
-    let actual_digest = read_regular_authored_artifact_with_hook(root, &quarantine, |_| {})?
-        .map(|bytes| digest(&bytes));
-    if actual_identity != expected_identity || actual_digest.as_deref() != Some(expected_digest) {
+    if actual_identity != expected_identity {
         rename_no_replace_anchored(root, &quarantine, relative)?;
         return Err(V2Error::new(
             ErrorCode::ReconciliationRequired,
             "cleanup target is not the journal-owned artifact",
         ));
     }
-    unlink_anchored(root, &quarantine, None)
+    unlink_anchored(root, &quarantine, Some(expected_digest))
 }
 
 #[cfg(target_os = "macos")]
@@ -3216,13 +3214,13 @@ fn remove_authored_if_owned(
             "cleanup target is not the journal-owned inode",
         ));
     }
+    let stage = staged_authored_path(relative)?;
+    if file_identity_no_follow(root, &stage).ok() == Some(identity) {
+        unlink_owned_anchored(root, &stage, expected, identity)?;
+    }
     match read_regular_authored_artifact_with_hook(root, relative, |_| {})? {
         Some(bytes) if digest(&bytes) == expected => {
             unlink_owned_anchored(root, relative, expected, identity)?;
-            let stage = staged_authored_path(relative)?;
-            if file_identity_no_follow(root, &stage).ok() == Some(identity) {
-                unlink_owned_anchored(root, &stage, expected, identity)?;
-            }
             Ok(())
         }
         Some(_) => Err(V2Error::new(
@@ -6347,7 +6345,10 @@ fn read_regular_authored_artifact_platform_with_hook(
     if !before.is_file() || before.nlink() != 1 {
         return Err(V2Error::new(
             ErrorCode::ReconciliationRequired,
-            "authored artifact target must be a regular single-link file",
+            format!(
+                "authored artifact target must be a regular single-link file: {}",
+                relative.display()
+            ),
         ));
     }
     let first = read_exact_current_file(&mut opened, before.len())?;

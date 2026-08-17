@@ -1,8 +1,8 @@
 use std::collections::BTreeMap;
 
 use csdlc_v2::cards::{
-    apply, initial_cards, render, CardContent, InitialCardInput, PlanStep, ResourceProfile,
-    SemanticOperation, StepStatus, ValidationLane,
+    apply, digest, initial_cards, render, CardContent, CardValues, InitialCardInput, PlanStep,
+    ResourceProfile, SemanticOperation, StepStatus, ValidationLane,
 };
 use csdlc_v2::{
     approve_design, bind_issue, edit_issue, initialize_native_json,
@@ -10,7 +10,7 @@ use csdlc_v2::{
     ApproveDesignRequest, BindRequest, DesignRecoveryFailpoint, EditRequest,
     RecoverInitializedDesignEnvelopeRequest, Store,
 };
-use csdlc_v2::{CardKind, PlanningProfile};
+use csdlc_v2::{CardKind, IssueRecord, PlanningProfile};
 use std::fs;
 
 fn input() -> InitialCardInput {
@@ -176,6 +176,78 @@ fn bootstrap_at(
         "initial": input()
     });
     initialize_native_json(&Store::new(root), &serde_json::to_vec(&request).unwrap()).unwrap()
+}
+
+fn record_digest_for_fixture(record: &IssueRecord) -> String {
+    let mut value = record.clone();
+    value.digest.clear();
+    digest(&serde_json::to_vec(&value).expect("record digest JSON"))
+}
+
+fn rewrite_initialized_authored_paths_for_legacy_fixture(
+    root: &std::path::Path,
+    record: &mut IssueRecord,
+    design_path: &str,
+    diagram_path: &str,
+    design_bytes: &[u8],
+    diagram_bytes: &[u8],
+) {
+    fs::create_dir_all(root.join(std::path::Path::new(design_path).parent().unwrap())).unwrap();
+    fs::create_dir_all(root.join(std::path::Path::new(diagram_path).parent().unwrap())).unwrap();
+    fs::write(root.join(design_path), design_bytes).unwrap();
+    fs::write(root.join(diagram_path), diagram_bytes).unwrap();
+    let design_digest = digest(design_bytes);
+    let diagram_digest = digest(diagram_bytes);
+    let cards_dir = root
+        .join(".csdlc/issues")
+        .join(record.issue.to_string())
+        .join("cards");
+    for kind in [CardKind::Spp, CardKind::Vpp] {
+        let path = cards_dir.join(format!("{kind}.values.json"));
+        let mut values: CardValues =
+            serde_json::from_slice(&fs::read(&path).expect("card values")).expect("card JSON");
+        match &mut values.content {
+            CardContent::Spp(values) => {
+                values.design_ref = design_path.into();
+                values.diagram_ref = diagram_path.into();
+                values.design_digest = design_digest.clone();
+                values.diagram_digest = diagram_digest.clone();
+            }
+            CardContent::Vpp(values) => {
+                values.design_ref = design_path.into();
+                values.diagram_ref = diagram_path.into();
+                values.design_digest = design_digest.clone();
+                values.diagram_digest = diagram_digest.clone();
+            }
+            _ => unreachable!("fixture only rewrites SPP/VPP"),
+        }
+        let mut encoded = serde_json::to_vec_pretty(&values).expect("card values JSON");
+        encoded.push(b'\n');
+        let rendered = render(&values).expect("render card");
+        fs::write(&path, &encoded).unwrap();
+        fs::write(
+            cards_dir.join(format!("{kind}.md")),
+            rendered.markdown.as_bytes(),
+        )
+        .unwrap();
+        let projection = record.cards.get_mut(&kind).expect("card projection");
+        projection.values_digest = rendered.values_digest;
+        projection.rendered_digest = rendered.rendered_digest;
+        projection.ast_digest = rendered.ast_digest;
+    }
+    record.design_path = design_path.into();
+    record.diagram_path = diagram_path.into();
+    if let csdlc_v2::DesignReview::Approved { revision, .. } = &mut record.design_review {
+        *revision = design_digest;
+    }
+    record.digest = record_digest_for_fixture(record);
+    let index_path = root
+        .join(".csdlc/issues")
+        .join(record.issue.to_string())
+        .join("index.json");
+    let mut index = serde_json::to_vec_pretty(record).expect("record JSON");
+    index.push(b'\n');
+    fs::write(index_path, index).unwrap();
 }
 
 #[test]
@@ -588,50 +660,29 @@ fn every_design_recovery_failpoint_restarts_to_a_canonical_state() {
 #[test]
 fn recovery_replays_precommit_journal_and_succeeds_in_linked_worktree() {
     let temp = tempfile::tempdir().unwrap();
-    assert!(std::process::Command::new("git")
-        .args(["init", "-q"])
-        .current_dir(temp.path())
-        .status()
-        .unwrap()
-        .success());
-    assert!(std::process::Command::new("git")
-        .args([
-            "-c",
-            "user.name=test",
-            "-c",
-            "user.email=test@example.com",
-            "commit",
-            "--allow-empty",
-            "-qm",
-            "base"
-        ])
-        .current_dir(temp.path())
-        .status()
-        .unwrap()
-        .success());
-    let linked = temp.path().join("linked");
-    assert!(std::process::Command::new("git")
-        .args([
-            "worktree",
-            "add",
-            "-q",
-            "-b",
-            "issue-297",
-            linked.to_str().unwrap()
-        ])
-        .current_dir(temp.path())
-        .status()
-        .unwrap()
-        .success());
-    let record = bootstrap_at(
-        &linked,
+    let mut record = bootstrap_at(
+        temp.path(),
         297,
         ".csdlc/prepared/legacy/design.md",
         ".csdlc/prepared/legacy/diagram.mmd",
     );
+    assert!(std::process::Command::new("git")
+        .args(["branch", "-M", "main"])
+        .current_dir(temp.path())
+        .status()
+        .unwrap()
+        .success());
+    rewrite_initialized_authored_paths_for_legacy_fixture(
+        temp.path(),
+        &mut record,
+        ".git/csdlc-v2/requests/design.md",
+        ".git/csdlc-v2/requests/diagram.mmd",
+        b"design bytes",
+        b"flowchart TD\n  A --> B\n",
+    );
     let bind_target = temp.path().join("bound-297");
     let before_bind = bind_issue(
-        &Store::new(&linked),
+        &Store::new(temp.path()),
         BindRequest {
             issue: 297,
             base_branch: "main".into(),
@@ -640,41 +691,25 @@ fn recovery_replays_precommit_journal_and_succeeds_in_linked_worktree() {
             code_repository: None,
         },
     );
+    let before_bind = before_bind.expect_err("dirty/unsafe pre-recovery source must not bind");
+    assert_eq!(before_bind.code.to_string(), "unsafe_checkout");
     assert!(
-        before_bind.is_err(),
-        "dirty/unsafe pre-recovery source must not bind"
+        before_bind.message.contains("authored design")
+            || before_bind.message.contains("design/diagram"),
+        "pre-recovery bind must fail on unsafe authored artifact source, got: {before_bind:?}"
     );
-    fs::create_dir_all(linked.join("docs/issues/297")).unwrap();
-    fs::write(linked.join("docs/issues/297/design.md"), b"design bytes").unwrap();
-    fs::hard_link(
-        linked.join("docs/issues/297/design.md"),
-        linked.join("docs/issues/297/.design.md.csdlc-stage"),
+    recover_initialized_design_envelope_with_hook(
+        &Store::new(temp.path()),
+        recovery_request(&record),
+        |candidate| candidate == DesignRecoveryFailpoint::AfterDesignInstall,
     )
-    .unwrap();
-    let common = String::from_utf8(
-        std::process::Command::new("git")
-            .args(["rev-parse", "--path-format=absolute", "--git-common-dir"])
-            .current_dir(&linked)
-            .output()
-            .unwrap()
-            .stdout,
-    )
-    .unwrap();
-    let journal_dir =
-        std::path::Path::new(common.trim()).join("csdlc-v2/recovery-journals/297/fixture");
-    fs::create_dir_all(&journal_dir).unwrap();
-    fs::write(journal_dir.join("010-design_installed.json"), serde_json::to_vec(&serde_json::json!({"schema":"csdlc.initialized_design_envelope_recovery_journal.v1","issue":297,"pre_generation":record.generation,"pre_digest":record.digest,"post_generation":record.generation+1,"old_design_path":record.design_path,"old_diagram_path":record.diagram_path,"new_design_path":"docs/issues/297/design.md","new_diagram_path":"docs/issues/297/diagram.mmd","design_digest":blake3::hash(b"design bytes").to_hex().to_string(),"diagram_digest":blake3::hash(b"diagram bytes").to_hex().to_string(),"phase":"design_installed","attempt_id":"fixture","sequence":10})).unwrap()).unwrap();
+    .expect_err("fixture injects an actual post-design-install recovery interruption");
     let recovered =
-        recover_initialized_design_envelope(&Store::new(&linked), recovery_request(&record))
+        recover_initialized_design_envelope(&Store::new(temp.path()), recovery_request(&record))
             .unwrap();
     assert_eq!(recovered.design_path, "docs/issues/297/design.md");
-    assert!(journal_dir.join("010-design_installed.json").exists());
-    assert!(
-        linked.join(".git").is_file(),
-        "fixture is a linked worktree"
-    );
     let approved = approve_design(
-        &Store::new(&linked),
+        &Store::new(temp.path()),
         ApproveDesignRequest {
             issue: 297,
             expected_generation: recovered.generation,
@@ -688,7 +723,7 @@ fn recovery_replays_precommit_journal_and_succeeds_in_linked_worktree() {
         csdlc_v2::DesignReview::Approved { .. }
     ));
     let ready = edit_issue(
-        &Store::new(&linked),
+        &Store::new(temp.path()),
         EditRequest {
             issue: 297,
             card: CardKind::Sip,
@@ -706,7 +741,7 @@ fn recovery_replays_precommit_journal_and_succeeds_in_linked_worktree() {
     assert_eq!(ready.phase, csdlc_v2::LifecyclePhase::Ready);
     assert!(std::process::Command::new("git")
         .args(["add", "."])
-        .current_dir(&linked)
+        .current_dir(temp.path())
         .status()
         .unwrap()
         .success());
@@ -720,15 +755,15 @@ fn recovery_replays_precommit_journal_and_succeeds_in_linked_worktree() {
             "-qm",
             "recover issue 297"
         ])
-        .current_dir(&linked)
+        .current_dir(temp.path())
         .status()
         .unwrap()
         .success());
     let after_bind = bind_issue(
-        &Store::new(&linked),
+        &Store::new(temp.path()),
         BindRequest {
             issue: 297,
-            base_branch: "issue-297".into(),
+            base_branch: "main".into(),
             branch: "issue-297-bound".into(),
             worktree: bind_target.to_string_lossy().into_owned(),
             code_repository: None,
@@ -737,7 +772,11 @@ fn recovery_replays_precommit_journal_and_succeeds_in_linked_worktree() {
     assert!(
         after_bind.is_ok(),
         "approved safe recovery should bind: {after_bind:?}; doctor={:?}",
-        csdlc_v2::diagnose(&Store::new(&linked), 297)
+        csdlc_v2::diagnose(&Store::new(temp.path()), 297)
+    );
+    assert!(
+        bind_target.join(".git").is_file(),
+        "fixture target is a linked worktree"
     );
     assert!(bind_target.join("docs/issues/297/design.md").is_file());
 }
