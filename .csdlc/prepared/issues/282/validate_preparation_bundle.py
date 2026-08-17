@@ -46,7 +46,35 @@ def require(condition: bool, message: str) -> None:
         raise AssertionError(message)
 
 
+def load_issue_index() -> dict:
+    require(len(sys.argv) == 2, "usage: validate_preparation_bundle.py .csdlc/issues/282/index.json")
+    index_path = (ROOT / sys.argv[1]).resolve()
+    expected = ROOT / ".csdlc" / "issues" / "282" / "index.json"
+    require(index_path == expected.resolve(), f"unexpected issue index path: {index_path}")
+    require(index_path.is_file(), f"missing issue index: {index_path}")
+    try:
+        with index_path.open(encoding="utf-8") as handle:
+            index = json.load(handle)
+    except json.JSONDecodeError as exc:
+        raise AssertionError(f"issue index is not valid JSON: {index_path}") from exc
+    require(index.get("issue") == 282, f"issue index is for #{index.get('issue')}, expected #282")
+    require(
+        index.get("repository") == "agent-logic/agent-design-language",
+        f"unexpected issue repository: {index.get('repository')}",
+    )
+    require(
+        index.get("design_path") == ".csdlc/prepared/issues/282/design.md",
+        f"unexpected design path: {index.get('design_path')}",
+    )
+    require(
+        index.get("diagram_path") == ".csdlc/prepared/issues/282/diagram.mmd",
+        f"unexpected diagram path: {index.get('diagram_path')}",
+    )
+    return index
+
+
 def main() -> int:
+    load_issue_index()
     require(BIN.is_file(), f"missing finish binary: {BIN}")
     design = DESIGN.read_text(encoding="utf-8")
     diagram = DIAGRAM.read_text(encoding="utf-8")

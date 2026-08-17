@@ -46,10 +46,24 @@ REQUIRED_STRINGS = [
 
 REQUIRED_EVIDENCE_REFERENCES = [
     "279-observatory-accessibility-responsive.log",
+    "279-observatory-ui-regression.log",
+    "279-operator-attention-ui-regression.log",
+    "279-observatory-conversation-regression.log",
+    "279-observatory-operator-attention-regression.log",
+    "279-typed-validate.log",
+    "279-diff-hygiene.log",
     "280-observatory-large-polis-performance-recovery.log",
     "large_polis_performance_recovery_metrics.json",
+    "280-observatory-conversation-regression.log",
+    "280-observatory-operator-attention-regression.log",
+    "280-typed-validate.log",
+    "280-diff-hygiene.log",
     "281-observatory-security-privacy-adversarial.log",
     "security_privacy_adversarial.json",
+    "281-observatory-conversation-regression.log",
+    "281-observatory-operator-attention-regression.log",
+    "281-typed-validate.log",
+    "281-diff-hygiene.log",
 ]
 
 INTEGRATED_CANDIDATE = "716f0ff612997449f5c363571b105b670545a1c7"
@@ -93,10 +107,24 @@ EXPECTED_TABLE_SCOPE = {
 }
 REQUIRED_EVIDENCE_PATHS = [
     pathlib.Path("/Volumes/FastWork/adl-worktrees/adl-issue-279-observatory-accessibility-responsive-ux-proof/.csdlc/evidence/279/279-observatory-accessibility-responsive.log"),
+    pathlib.Path("/Volumes/FastWork/adl-worktrees/adl-issue-279-observatory-accessibility-responsive-ux-proof/.csdlc/evidence/279/279-observatory-ui-regression.log"),
+    pathlib.Path("/Volumes/FastWork/adl-worktrees/adl-issue-279-observatory-accessibility-responsive-ux-proof/.csdlc/evidence/279/279-operator-attention-ui-regression.log"),
+    pathlib.Path("/Volumes/FastWork/adl-worktrees/adl-issue-279-observatory-accessibility-responsive-ux-proof/.csdlc/evidence/279/279-observatory-conversation-regression.log"),
+    pathlib.Path("/Volumes/FastWork/adl-worktrees/adl-issue-279-observatory-accessibility-responsive-ux-proof/.csdlc/evidence/279/279-observatory-operator-attention-regression.log"),
+    pathlib.Path("/Volumes/FastWork/adl-worktrees/adl-issue-279-observatory-accessibility-responsive-ux-proof/.csdlc/evidence/279/279-typed-validate.log"),
+    pathlib.Path("/Volumes/FastWork/adl-worktrees/adl-issue-279-observatory-accessibility-responsive-ux-proof/.csdlc/evidence/279/279-diff-hygiene.log"),
     pathlib.Path("/Volumes/FastWork/adl-worktrees/adl-issue-280-large-polis-performance-recovery/.csdlc/evidence/280/280-observatory-large-polis-performance-recovery.log"),
     pathlib.Path("/Volumes/FastWork/adl-worktrees/adl-issue-280-large-polis-performance-recovery/.csdlc/evidence/280/large_polis_performance_recovery_metrics.json"),
+    pathlib.Path("/Volumes/FastWork/adl-worktrees/adl-issue-280-large-polis-performance-recovery/.csdlc/evidence/280/280-observatory-conversation-regression.log"),
+    pathlib.Path("/Volumes/FastWork/adl-worktrees/adl-issue-280-large-polis-performance-recovery/.csdlc/evidence/280/280-observatory-operator-attention-regression.log"),
+    pathlib.Path("/Volumes/FastWork/adl-worktrees/adl-issue-280-large-polis-performance-recovery/.csdlc/evidence/280/280-typed-validate.log"),
+    pathlib.Path("/Volumes/FastWork/adl-worktrees/adl-issue-280-large-polis-performance-recovery/.csdlc/evidence/280/280-diff-hygiene.log"),
     pathlib.Path("/Volumes/FastWork/adl-worktrees/adl-issue-281-observatory-security-privacy-adversarial-proof-bound/.csdlc/evidence/281/281-observatory-security-privacy-adversarial.log"),
     pathlib.Path("/Volumes/FastWork/adl-worktrees/adl-issue-281-observatory-security-privacy-adversarial-proof-bound/.csdlc/evidence/281/security_privacy_adversarial.json"),
+    pathlib.Path("/Volumes/FastWork/adl-worktrees/adl-issue-281-observatory-security-privacy-adversarial-proof-bound/.csdlc/evidence/281/281-observatory-conversation-regression.log"),
+    pathlib.Path("/Volumes/FastWork/adl-worktrees/adl-issue-281-observatory-security-privacy-adversarial-proof-bound/.csdlc/evidence/281/281-observatory-operator-attention-regression.log"),
+    pathlib.Path("/Volumes/FastWork/adl-worktrees/adl-issue-281-observatory-security-privacy-adversarial-proof-bound/.csdlc/evidence/281/281-typed-validate.log"),
+    pathlib.Path("/Volumes/FastWork/adl-worktrees/adl-issue-281-observatory-security-privacy-adversarial-proof-bound/.csdlc/evidence/281/281-diff-hygiene.log"),
 ]
 
 

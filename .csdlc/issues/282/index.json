@@ -4,12 +4,60 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "0f56b55082822da8e6698295189ad62a8e5e2b06fee02463e7fcd6fe2c32152b",
   "phase": "implemented",
-  "generation": 18,
-  "digest": "bf52b387e874e90e96dafae06e8e2e440f45316f396d9edfbfe9181d6e621034",
+  "generation": 20,
+  "digest": "6185f8b649896a1e6b3eedc3c9f2708f7d12f9579c7b38c65f020f6ef189d519",
   "branch": "codex/282-production-polis-qualification",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-282-production-polis-qualification",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:8d227575-106e-4b9d-925e-89768fdea106",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:d55ce3457bec87337532c78292d3f59948842ac4:a62e6db68094033be6b2823934466051a4d684f1788686f7167e1215beb096d7",
+    "scope": [
+      ".csdlc/evidence/282/production-polis-interface-qualification.md",
+      ".csdlc/evidence/282/validate_qualification_packet.py",
+      ".csdlc/prepared/issues/282/validate_preparation_bundle.py",
+      ".csdlc/prepared/issues/282/design.md",
+      ".csdlc/prepared/issues/282/diagram.mmd",
+      ".csdlc/issues/282"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:8d227575-106e-4b9d-925e-89768fdea106",
+    "scope": [
+      ".csdlc/evidence/282/production-polis-interface-qualification.md",
+      ".csdlc/evidence/282/validate_qualification_packet.py",
+      ".csdlc/prepared/issues/282/validate_preparation_bundle.py",
+      ".csdlc/prepared/issues/282/design.md",
+      ".csdlc/prepared/issues/282/diagram.mmd",
+      ".csdlc/issues/282"
+    ],
+    "reviewed_revision": "git-blake3:d55ce3457bec87337532c78292d3f59948842ac4:a62e6db68094033be6b2823934466051a4d684f1788686f7167e1215beb096d7",
+    "findings": [
+      {
+        "id": "R3-P2-qualification-validator-evidence-coverage",
+        "severity": "p2",
+        "summary": "The qualification validator checks existence of only five evidence files while the packet claims nineteen retained artifacts; unchecked regression, typed-validation, and diff-hygiene references can be missing or stale without failing qualification.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "R3-P2-prep-validator-denominator-argument",
+        "severity": "p2",
+        "summary": "The preparation validator ignores its supplied .csdlc/issues/282/index.json argument, so the preparation proof can pass with an absent, malformed, or unrelated readiness denominator.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,34 +72,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6321448195b172a38340d53744185eb79ab36bc21861ac28f7fccd6974e1a7d9",
+      "values_digest": "5152298ea5515501489ebae41bb049d447a48efcd602681c9d521f6674855672",
       "rendered_digest": "756456c28d69eb105001f57991727645ae9f2dd003196b24187fdda672239dcc",
       "ast_digest": "9f6b9c35777a50fbccbfaf62a70f5d4582bbdf49c0e85d8e099ae337c542e084"
     },
     "stp": {
-      "values_digest": "0cf48c08ffb57472405b63af8a5e5bb8cfa1ae15d17335a9e595a9c002877686",
+      "values_digest": "7c1ec2abee1dfac7b8efc817e449246babcd53c40ed53daacd6fd1a7f14d04cb",
       "rendered_digest": "d9761e0a08dcfd0903c2a33841c21bf690aa4f23173a897582f80f199447aa71",
       "ast_digest": "4e03a9d0f16b93c09443663dc75c1ba8708d9dd5caad5e9e5e98ce26c41a9c18"
     },
     "spp": {
-      "values_digest": "23d8509daf189d7aa12a2ceb6eef9b7c99ea6b409b2618da139254f93bd24e77",
+      "values_digest": "ed2b9cf89b240fe47250f202eb29988cb3bba38875426216a256a5ee1eb1ee0f",
       "rendered_digest": "f065bf10b4535996dac3b4db617ba5b1f4397c5c4841bb2e4af23b4b5e60630f",
       "ast_digest": "5ecf9f4be997546248ebd7f11bb3d241d54588883b5c1ab09acaaf76f10fb092"
     },
     "vpp": {
-      "values_digest": "61f6531da811899216343da82766dc0970b10845ad032bfedca3726d01b1cc69",
+      "values_digest": "17d146227aa775f1ee1c7baa0acc99af894e12e96caa2b9120da613d8d87643c",
       "rendered_digest": "9d9c316363e69d0fa40755400083574e5ec857634c25da469e64864ab304c119",
       "ast_digest": "c54633f4f5c1ba706963b658c375a1b47c7ee6708fedc8205d536c0ae6ebb409"
     },
     "srp": {
-      "values_digest": "3c52598ed49d990121e4d7ff1807c6b152d323395833731f2cfd3cc0a450779b",
-      "rendered_digest": "c2d74ab62e34e6ae306e15635c1aee3f528a87ec3de285da8519cf0e706d3188",
-      "ast_digest": "05517e4ee225490006606aeb09144d2cde94191f0fa3ea70ec5969b9b72d290e"
+      "values_digest": "a9ad46668bf62f09231d1be9a9ac27cac7e0c056ff99025f5cda9b8f61920ed4",
+      "rendered_digest": "26010e1f5b6fc51683ac35e34d40b5efe7f7ca52c00594f0f1882bc4a99712a3",
+      "ast_digest": "ce902e696d8a6526d82e06a02ede20c374786bf8a1edbb36913e099d8efbf9ab"
     },
     "sor": {
-      "values_digest": "66e227a143f645c64d699f0e766a221d373a322b20f549a415b261f19845288d",
-      "rendered_digest": "2d170e23b290a063734efa7f99fb1f8441c016c04182a33b97901f972a4c2d88",
-      "ast_digest": "31f398035776c4cb9ac4a17f171719c0b3c30e9160c3c4f067d93d13355c9f0c"
+      "values_digest": "473a4dd5266f4fed1bf4661f904595c60968bc03e2b4af18ff1a0ff858552d1e",
+      "rendered_digest": "2062c67da5984d987f8d4d7f67de279dca93d001b15d6a2a7eea0b3bbec795f6",
+      "ast_digest": "0956c61fa3b7e23a0e37ef32adebc875e0de344a0f665c274d431acf951f01fe"
     }
   },
   "transitions": [
@@ -231,6 +279,27 @@
       "actor": "codex:/root",
       "reason": "Recover stale #282 review assignment fresh-session:dcac044c-14d1-41d5-9cb5-8611f0ce5477 because the assignment targeted pre-repair commit e0e1158d; the exact post-review-fix implementation is clean at 23bd87ce and requires a new fresh no-context reviewer.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 19,
+      "actor": "fresh-session:8d227575-106e-4b9d-925e-89768fdea106",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "Record validation after resolving #282 R3 findings: all packet-listed evidence files are existence-checked and the preparation validator consumes the supplied issue index denominator.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3 .csdlc/prepared/issues/282/validate_preparation_bundle.py .csdlc/issues/282/index.json\",\"python3 .csdlc/evidence/282/validate_qualification_packet.py .csdlc/evidence/282/production-polis-interface-qualification.md\",\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate --root /Volumes/FastWork/adl-worktrees/adl-issue-282-production-polis-qualification issue --issue 282\",\"git diff --check\"],\"purpose\":\"Prove #282 R3 remediation: qualification validation now covers every packet-listed evidence artifact, and preparation validation fails closed unless the supplied issue index is the #282 canonical denominator with expected repository/design/diagram identity.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/prepared/issues/282/validate_preparation_bundle.py; .csdlc/evidence/282/validate_qualification_packet.py; .csdlc/evidence/282/production-polis-interface-qualification.md\"}}"
     }
   ]
 }

@@ -7,23 +7,44 @@
     "title": "[v0.92][WP-18C.07d][117.d] Assemble exact-revision production Polis interface qualification",
     "slug": "production-polis-interface-qualification",
     "version": "v0.92",
-    "generation": 18
+    "generation": 20
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/evidence/282/production-polis-interface-qualification.md\n.csdlc/evidence/282/validate_qualification_packet.py\n.csdlc/prepared/issues/282/validate_preparation_bundle.py\n.csdlc/prepared/issues/282/design.md\n.csdlc/prepared/issues/282/diagram.mmd\n.csdlc/issues/282",
+      "review_revision": "git-blake3:d55ce3457bec87337532c78292d3f59948842ac4:a62e6db68094033be6b2823934466051a4d684f1788686f7167e1215beb096d7",
+      "reviewer": "fresh-session:8d227575-106e-4b9d-925e-89768fdea106",
       "review_prompts": [
         "Review the exact-revision qualification packet for stale evidence, overclaims, missing artifact links, and unclear residual risks.",
         "Review the operator runbook for local/read-only reproducibility without credentials or cloud deployment.",
         "Review product, architecture, and security synthesis for unsupported readiness claims."
       ],
-      "findings": [],
+      "findings": [
+        {
+          "id": "R3-P2-qualification-validator-evidence-coverage",
+          "severity": "p2",
+          "summary": "The qualification validator checks existence of only five evidence files while the packet claims nineteen retained artifacts; unchecked regression, typed-validation, and diff-hygiene references can be missing or stale without failing qualification.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        },
+        {
+          "id": "R3-P2-prep-validator-denominator-argument",
+          "severity": "p2",
+          "summary": "The preparation validator ignores its supplied .csdlc/issues/282/index.json argument, so the preparation proof can pass with an absent, malformed, or unrelated readiness denominator.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        }
+      ],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "changes_required"
     }
   }
 }
