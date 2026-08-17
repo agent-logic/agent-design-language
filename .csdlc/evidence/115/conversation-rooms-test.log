@@ -1,14 +1,14 @@
     Blocking waiting for file lock on build directory
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 9.68s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 11.71s
      Running unittests src/lib.rs (adl-runtime-kernel/target/debug/deps/adl_runtime_kernel-f9fdccf8b6316af1)
 
 running 6 tests
-test conversation_rooms::tests::implicit_broadcast_and_duplicate_recipients_fail_closed ... ok
-test conversation_rooms::tests::unknown_ineligible_and_cross_polis_recipients_fail_closed ... ok
-test conversation_rooms::tests::room_turn_requires_explicit_stable_recipient_set ... ok
-test conversation_rooms::tests::room_turn_ordering_and_replay_are_deterministic ... ok
 test conversation_rooms::tests::delivery_states_preserve_partial_failure_without_hiding_recipient_identity ... ok
+test conversation_rooms::tests::implicit_broadcast_and_duplicate_recipients_fail_closed ... ok
 test conversation_rooms::tests::room_route_reuses_layer8_address_recipients_authority_scope ... ok
+test conversation_rooms::tests::room_turn_ordering_and_replay_are_deterministic ... ok
+test conversation_rooms::tests::room_turn_requires_explicit_stable_recipient_set ... ok
+test conversation_rooms::tests::unknown_ineligible_and_cross_polis_recipients_fail_closed ... ok
 
 test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 102 filtered out; finished in 0.00s
 

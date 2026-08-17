@@ -1,16 +1,16 @@
    Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-115-governed-multi-agent-rooms/adl-runtime-kernel)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 8.05s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 11.72s
      Running unittests src/lib.rs (adl-runtime-kernel/target/debug/deps/adl_runtime_kernel-f9fdccf8b6316af1)
 
 running 2 tests
 adl_event schema=adl.runtime.event.v1 sequence=0 component=shepherd event=state:Running correlation_id=none
+adl_event schema=adl.runtime.event.v1 sequence=1 component=scribe event=state:Running correlation_id=none
 adl_event schema=adl.runtime.event.v1 sequence=0 component=shepherd event=state:Running correlation_id=none
 adl_event schema=adl.runtime.event.v1 sequence=1 component=scribe event=state:Running correlation_id=none
-adl_event schema=adl.runtime.event.v1 sequence=1 component=scribe event=state:Running correlation_id=none
-test control::layer8_conversation_ingress_tests::governed_room_ws_intent_rejects_implicit_broadcast_without_consuming_sequence ... ok
 test control::layer8_conversation_ingress_tests::governed_room_ws_intent_routes_explicit_runtime_recipients ... ok
+test control::layer8_conversation_ingress_tests::governed_room_ws_intent_rejects_implicit_broadcast_without_consuming_sequence ... ok
 
-test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 106 filtered out; finished in 0.00s
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 106 filtered out; finished in 0.01s
 
      Running unittests src/bin/adl-runtime-governed-operations.rs (adl-runtime-kernel/target/debug/deps/adl_runtime_governed_operations-467011d06629654e)
 
