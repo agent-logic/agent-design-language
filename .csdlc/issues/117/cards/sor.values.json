@@ -1,0 +1,65 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 117,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.07][coordination] Coordinate production Polis interface qualification",
+    "slug": "production-polis-interface-qualification-parent",
+    "version": "v0.92",
+    "generation": 37
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "#117 coordination-only parent closeout consumes terminal WP-18C authority for #271, #114, #115, #116, #279, #280, #281, and #282; records production Polis interface qualification truth; and does not absorb child work, Runtime/API/UI/provider scope, #110, #207, or #286.",
+      "actual_changes": [
+        "Added .csdlc/evidence/117/production-polis-interface-parent-closeout.md with exact terminal dependency PRs, merge SHAs, head SHAs, canonical generation/digest truth, terminal digest truth, and parent non-claims.",
+        "Added .csdlc/evidence/117/validate_parent_closeout.py to fail closed unless all #117 terminal dependencies and the #282 integrated qualification revision are retained exactly.",
+        "Restored .csdlc/prepared/issues/117/validate_preparation_bundle.py in the bound worktree so local proof validates canonical terminal cache authority for #271, #114, #115, #116, #279, #280, #281, and #282."
+      ],
+      "artifacts": [
+        ".csdlc/evidence/117/production-polis-interface-parent-closeout.md",
+        ".csdlc/evidence/117/validate_parent_closeout.py",
+        ".csdlc/prepared/issues/117/validate_preparation_bundle.py",
+        ".csdlc/issues/117"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "purpose": "Run Git diff whitespace hygiene after parent evidence/card changes.",
+          "outcome": "passed",
+          "evidence_ref": "diff-hygiene.log"
+        },
+        {
+          "command": [
+            "python3",
+            ".csdlc/evidence/117/validate_parent_closeout.py"
+          ],
+          "purpose": "Run the #117 parent closeout validator.",
+          "outcome": "passed",
+          "evidence_ref": "parent-closeout-validator.log"
+        },
+        {
+          "command": [
+            "python3",
+            ".csdlc/prepared/issues/117/validate_preparation_bundle.py"
+          ],
+          "purpose": "Run the issue-owned preparation validator from the bound worktree.",
+          "outcome": "passed",
+          "evidence_ref": "preparation-terminal-cache-validator.log"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}
