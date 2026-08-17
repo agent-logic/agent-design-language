@@ -1,0 +1,20 @@
+{
+  "issue": 271,
+  "card": "spp",
+  "expected_generation": 1,
+  "expected_digest": "c7833bcb1cdd902448a802ad5136994f684ca59e9f2b8a96d7973b3f56f43ca1",
+  "actor": "codex:issue-271-preparation",
+  "reason": "Clarify the browser boundary against the terminal #270 CORS contract: Runtime-provided signed artifacts may be forwarded ephemerally but are never originated, rendered, logged, cached, or persisted by Observatory.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "invariants",
+    "values": [
+      "Browser never becomes authority and never creates or holds private keys",
+      "Runtime-provided signed request and acknowledgement artifacts are opaque ephemeral POST inputs only and are never originated, rendered, logged, cached, or persisted by Observatory",
+      "Only Runtime status delivered is presented as delivery",
+      "Refusal and failure remain distinct",
+      "Raw correlation identifiers and private authority material never render or persist",
+      "#278 and #114 remain untouched"
+    ]
+  }
+}

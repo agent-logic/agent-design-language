@@ -1,0 +1,23 @@
+{
+  "issue": 271,
+  "card": "sor",
+  "expected_generation": 8,
+  "expected_digest": "cc560729027c5e38cba1c07921d7728ffcf833f04d03da17caf0d40672de4c20",
+  "actor": "codex:sprint5-271-validation",
+  "reason": "Record #271 validation: Typed C-SDLC doctor proof for bound #271",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor",
+        "--repo",
+        ".",
+        "--issue",
+        "271"
+      ],
+      "purpose": "Typed C-SDLC doctor proof for bound #271",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/evidence/271/csdlc-doctor-bound.log; status pass"
+    }
+  }
+}

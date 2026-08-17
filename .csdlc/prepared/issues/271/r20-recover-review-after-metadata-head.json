@@ -1,0 +1,7 @@
+{
+  "issue": 271,
+  "expected_generation": 16,
+  "expected_digest": "8887c7873a03e93c751e58e48e04c9db2f60e1f834ddc0072db7c54ac6d791dd",
+  "actor": "codex:root",
+  "reason": "Recover #271 review because publication guard requires exact current clean HEAD after metadata-only review-record commit advanced from reviewed source revision."
+}

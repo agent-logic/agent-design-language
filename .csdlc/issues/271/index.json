@@ -1,0 +1,379 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 271,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "c4dbe43c62a974f1a18b33d9b8c6603e5dc3ce0f301be1448117d0e6e7c4d93c",
+  "phase": "published",
+  "generation": 22,
+  "digest": "3fd0755e7a191f437bb76340c838bff627d1d984c7e09407364be7fa06f3ccfd",
+  "branch": "codex/271-layer8-authority-observatory",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-271-layer8-authority-observatory",
+  "review_assignment": {
+    "reviewer": "fresh-session:/root/review_271_impl_r6",
+    "assigned_by": "codex:root",
+    "revision": "git-blake3:1f010256591bcf0279559d4987fda870132baa1a:ed6a4dc06697e5ed905be1036cc58c27596b0b8712ad663089d0a283f928f8ad",
+    "scope": [
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/styles.css",
+      "adl/tools/validate_layer8_authority_observatory_ui.sh",
+      ".csdlc/evidence/271",
+      ".csdlc/issues/271",
+      ".csdlc/prepared/issues/271",
+      ".csdlc/locks/271.lock"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:/root/review_271_impl_r6",
+    "scope": [
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/styles.css",
+      "adl/tools/validate_layer8_authority_observatory_ui.sh",
+      ".csdlc/evidence/271",
+      ".csdlc/issues/271",
+      ".csdlc/prepared/issues/271",
+      ".csdlc/locks/271.lock"
+    ],
+    "reviewed_revision": "git-blake3:1f010256591bcf0279559d4987fda870132baa1a:ed6a4dc06697e5ed905be1036cc58c27596b0b8712ad663089d0a283f928f8ad",
+    "findings": [],
+    "residual_risks": [
+      "R6 did not mutate lifecycle state or record the PASS in repository.",
+      "R6 did not rerun the Rust runtime test suite; retained runtime proof was inspected and nonzero denominator verified.",
+      "The UI proof is a Node/DOM harness over exported Observatory functions, not a full browser launch."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 271,
+    "pull_request": 382,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/382",
+    "base": "main",
+    "head": "codex/271-layer8-authority-observatory",
+    "revision": "git-blake3:9fe6d6bafb8c79a906a854462e109f9dc13724ce:7090144e3c041f31a8eea51280b44b35c66988832b3430f273dee618154870da",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/271/design.md",
+  "diagram_path": ".csdlc/prepared/issues/271/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:/root/review_271_design_r1",
+      "revision": "a3545d85a11d70829e5ca722da074aaa51dddb6f14d0e23f3e7cac3559fda42d"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "6b4f9f01d2842996d3697d64304ab96eb7437f369b5122c9e1326633e33478cf",
+      "rendered_digest": "2a66fbe49be5e2a60d2e9bd329ff1f536f15d58add41689e83f3f6d3545e5a62",
+      "ast_digest": "6eb9087ee12927519d91ec1489c93b8451381ce9ab6fdb3db3936ce984b22da0"
+    },
+    "stp": {
+      "values_digest": "5c5a82c4864d1ac747ad4cb13250443550b5f5202a8d99ab44f8cbb7ec2ae6fc",
+      "rendered_digest": "d695d037165b3920de98d1366aadb37caa52567b61399728ed589cd9abb30eab",
+      "ast_digest": "d9bb7c1efa0a9feb3c2c6a7b73c9f13a99dcc51862633471513e196133d297f4"
+    },
+    "spp": {
+      "values_digest": "687b431874bdb0b34b8746baa85b32ca44de50b8b9ad20249b0961e7e43e5fb9",
+      "rendered_digest": "90c41c9107c8bd5ac759409880d5af190e30e6eb0034a6b77b0c2d929a0ae6d2",
+      "ast_digest": "7cb01588005200e258a742df413d0a4cb2829a5bb45a34a01a5ec1cb947fb9ba"
+    },
+    "vpp": {
+      "values_digest": "40319785a841e5b478da69caf73632e120d8caf3917e54ce7499350149c49789",
+      "rendered_digest": "56142605424a0febd9e4bb6b91a1e4382384caf4294f4557fafc81afd679c5d0",
+      "ast_digest": "eb59ce5611c4a71d34aba3c023c85ae276f66e4baa810b096df9ff97bf400580"
+    },
+    "srp": {
+      "values_digest": "de92ea6bec260c7c267b5ca0b26d68ec47c3bc435d6acfcacd232dc836b3858b",
+      "rendered_digest": "98ea7b25beff02ba413d662bb811e75ace1df14e1989bde7f3e849b411f1a709",
+      "ast_digest": "b1deb7ec862d5ecf24c59fb45fbe832e2a1f569b8d0e92ca024d6b25c928ae1f"
+    },
+    "sor": {
+      "values_digest": "385057b3f0fec1330fd2985b954c7f1cf9d5bd3104a9129ccf163d414298d092",
+      "rendered_digest": "faf7d2765365c33b39c3c7cbd1ab089e679b0b58a8386f979b425af0c891dad7",
+      "ast_digest": "30885a90ef21ca3a3845464fb7335355fd86bd482b577fdc9872487ebc81b4cd"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:sprint5-271-implementation",
+      "reason": "Advance #271 to implemented after bounded implementation and retained validation proof"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:/root/review_271_impl_r3",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:root",
+      "reason": "Recover #271 review because publication guard requires exact current clean HEAD after metadata-only review-record commit advanced from reviewed source revision."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:/root/review_271_impl_r4",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:root",
+      "reason": "Recover #271 review after tracked prepared request packets were committed after the reviewed revision; reassign from current immutable head using Git-common request storage only."
+    },
+    {
+      "sequence": 8,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:/root/review_271_impl_r6",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 9,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-271-bootstrap",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:issue-271-r2-remediation",
+      "reason": "Recover initialized #271 design/cards after R2 review findings while preserving terminal #112/#265/#270 dependency truth, opaque transient signed-pair boundary, and historical e0fd nonpublication status.",
+      "operation": "{\"design_review_recovery\":null,\"graph\":{\"edges\":[{\"from\":\"core_112\",\"relation\":\"terminal_dependency\",\"to\":\"child_271\"},{\"from\":\"ingress_265\",\"relation\":\"terminal_dependency\",\"to\":\"child_271\"},{\"from\":\"ack_270\",\"relation\":\"terminal_dependency\",\"to\":\"child_271\"},{\"from\":\"downstream_278\",\"relation\":\"downstream_dependency\",\"to\":\"child_271\"}],\"forbidden_cross_child_trust_redefinition\":false,\"nodes\":[{\"in_scope\":true,\"issue\":112,\"node_id\":\"core_112\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"terminal_layer8_authority_core\"},{\"in_scope\":true,\"issue\":265,\"node_id\":\"ingress_265\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"terminal_runtime_kernel_ingress\"},{\"in_scope\":true,\"issue\":270,\"node_id\":\"ack_270\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"terminal_recipient_ack_runtime_api\"},{\"in_scope\":true,\"issue\":271,\"node_id\":\"child_271\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"observatory_authority_delivery_state_child\"},{\"in_scope\":true,\"issue\":278,\"node_id\":\"downstream_278\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"downstream_history_restoration\"}],\"parent_integration_owner\":\"child_271\"},\"operation\":\"recover_initialized_decomposition\",\"preserved_design\":{\"authored_digest\":\"eb5e20d7fa1d23214e8bbfa0caad6620404451dbc8e6eebbd8f102afd7ffaca7\",\"byte_sha256\":\"f846c1cf596936ed5bba785d496b4ae42d9ca3c35f9d92973405d69526979c14\",\"path\":\".csdlc/prepared/issues/271/design.md\"},\"preserved_diagram\":{\"authored_digest\":\"5a41bf8c813739b3548ec3f5bb8b3be6ad210154e4a741ff083729cf102465b0\",\"byte_sha256\":\"0bcff109e291067bb47429d1e087c977fb254711491bf0326222da9c2ae6c41d\",\"path\":\".csdlc/prepared/issues/271/diagram.mmd\"},\"recovery_scope\":[\"R2 design/card remediation before fresh design review and before bind\",\"literal browser eight-case exact-set wrapper with per-test nonzero and zero/ignored/skipped rejection\",\"exact five-test recipient_ack runtime wrapper with parsed denominator\",\"post-bind/base-to-current exact three-product-path scope validator\",\"source-grounded authentic handler-output artifact handoff instead of ambiguous loopback/mock evidence\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:issue-271-r4-design-review-remediation",
+      "reason": "Recover initialized #271 design/cards after fresh-session:6f71c735-7f4e-4b08-a9c6-7333afc23c13 found out-of-scope runtime wrapper and loopback-proof ambiguity.",
+      "operation": "{\"design_review_recovery\":null,\"graph\":{\"edges\":[{\"from\":\"core_112\",\"relation\":\"terminal_dependency\",\"to\":\"child_271\"},{\"from\":\"ingress_265\",\"relation\":\"terminal_dependency\",\"to\":\"child_271\"},{\"from\":\"ack_270\",\"relation\":\"terminal_dependency\",\"to\":\"child_271\"},{\"from\":\"downstream_278\",\"relation\":\"downstream_dependency\",\"to\":\"child_271\"}],\"forbidden_cross_child_trust_redefinition\":false,\"nodes\":[{\"in_scope\":true,\"issue\":112,\"node_id\":\"core_112\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"terminal_layer8_authority_core\"},{\"in_scope\":true,\"issue\":265,\"node_id\":\"ingress_265\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"terminal_runtime_kernel_ingress\"},{\"in_scope\":true,\"issue\":270,\"node_id\":\"ack_270\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"terminal_recipient_ack_runtime_api\"},{\"in_scope\":true,\"issue\":271,\"node_id\":\"child_271\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"observatory_authority_delivery_state_child\"},{\"in_scope\":true,\"issue\":278,\"node_id\":\"downstream_278\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"downstream_history_restoration\"}],\"parent_integration_owner\":\"child_271\"},\"operation\":\"recover_initialized_decomposition\",\"preserved_design\":{\"authored_digest\":\"eb5e20d7fa1d23214e8bbfa0caad6620404451dbc8e6eebbd8f102afd7ffaca7\",\"byte_sha256\":\"f846c1cf596936ed5bba785d496b4ae42d9ca3c35f9d92973405d69526979c14\",\"path\":\".csdlc/prepared/issues/271/design.md\"},\"preserved_diagram\":{\"authored_digest\":\"5a41bf8c813739b3548ec3f5bb8b3be6ad210154e4a741ff083729cf102465b0\",\"byte_sha256\":\"0bcff109e291067bb47429d1e087c977fb254711491bf0326222da9c2ae6c41d\",\"path\":\".csdlc/prepared/issues/271/diagram.mmd\"},\"recovery_scope\":[\"R4 design/card remediation before fresh design review and before bind\",\"literal browser eight-case exact-set wrapper with per-test nonzero and zero/ignored/skipped rejection\",\"existing real recipient_ack runtime proof with parsed nonzero denominator and issue-local handler-output evidence\",\"post-bind/base-to-current exact three-product-path scope validator\",\"source-grounded authentic handler-output artifact handoff instead of ambiguous loopback/mock evidence\",\"no new non-issue-local runtime wrapper script outside exact #271 scope\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:sprint5-271-stale-binding-repair",
+      "reason": "Refresh initialized #271 stale design/diagram card bindings through supported pre-bind acceptance repair without changing acceptance semantics.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/271/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/271/diagram.mmd\",\"new_design_digest\":\"a3545d85a11d70829e5ca722da074aaa51dddb6f14d0e23f3e7cac3559fda42d\",\"new_diagram_digest\":\"5a41bf8c813739b3548ec3f5bb8b3be6ad210154e4a741ff083729cf102465b0\",\"old_design_digest\":\"eb5e20d7fa1d23214e8bbfa0caad6620404451dbc8e6eebbd8f102afd7ffaca7\",\"old_diagram_digest\":\"5a41bf8c813739b3548ec3f5bb8b3be6ad210154e4a741ff083729cf102465b0\"},\"operation\":{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: #112/#265/#270 terminal caches validate canonical and their merges are ancestral to the execution base.\",\"AC-2: Observatory consumes only the served #270 response schema and never treats request acceptance as delivery.\",\"AC-3: Delivered, refused, failed, revoked, and recovery states are distinct, visible, accessible, and action-safe.\",\"AC-4: Raw correlation identifiers, signed messages, private keys, proof hashes, provider payloads, policy details, and opaque signed request/acknowledgement material do not render, log, cache, or persist.\",\"AC-5: Post-bind scope validation compares the bound branch from its exact execution base to current main and accepts exactly three product/test paths: demos/html-observatory/app.js, demos/html-observatory/styles.css, and adl/tools/validate_layer8_authority_observatory_ui.sh, plus issue-local lifecycle/evidence surfaces.\",\"AC-6: The browser wrapper exercises the actual Observatory assets through the literal eight-case exact set: delivered, signed refusal, malformed response failure, unavailable Runtime recovery, revoked demotion, action release, keyboard/live-region accessibility, and forbidden-field non-disclosure; every case must be nonzero and zero/ignored/skipped/missing/duplicated cases fail closed.\",\"AC-7: Existing real adl-runtime-kernel recipient_ack handler proof parses a nonzero denominator and covers delivered acknowledgement, signed refusal, generation binding, malformed/unknown status rejection, and raw-correlation redaction without adding a new non-issue-local script.\",\"AC-8: Browser fixtures consume a source-grounded authentic handler-output artifact handoff stored under .csdlc/evidence/271 from the runtime proof; loopback-only or mocked conversation-frame evidence is not accepted.\",\"AC-9: Fresh design review and fresh exact-head implementation review have no actionable findings before publication.\"]}}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "fresh-session:/root/review_271_design_r1",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:sprint5-271-implementation",
+      "reason": "Record #271 Layer 8 Observatory implementation execution",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented Layer 8 recipient-acknowledgement delivery-state presentation in the HTML Observatory, preserving Runtime-only authority and browser non-disclosure boundaries.\",\"changes\":[\"Added Layer 8 delivery-state normalization and rendering for delivered, refused, failed, revoked, recovery, and action-release states in demos/html-observatory/app.js.\",\"Styled the Layer 8 delivery panel without changing index.html or Runtime/OpenAPI surfaces.\",\"Added issue-owned browser exact-eight validator, authentic handler-output handoff evidence, and exact post-bind scope validator.\"],\"artifacts\":[\"demos/html-observatory/app.js\",\"demos/html-observatory/styles.css\",\"adl/tools/validate_layer8_authority_observatory_ui.sh\",\".csdlc/evidence/271/authentic-handler-output.json\",\".csdlc/evidence/271/validate_exact_three_path_scope.py\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:sprint5-271-validation",
+      "reason": "Record #271 validation: Existing Runtime recipient-acknowledgement handler proof with nonzero denominator",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"recipient_acknowledgement\",\"--\",\"--nocapture\"],\"purpose\":\"Existing Runtime recipient-acknowledgement handler proof with nonzero denominator\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/271/runtime-recipient-acknowledgement.log; 5 passed, 0 failed\"}}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:sprint5-271-validation",
+      "reason": "Record #271 validation: Layer 8 Observatory exact-eight browser/UI proof consuming issue-local handler-output handoff",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\"adl/tools/validate_layer8_authority_observatory_ui.sh\"],\"purpose\":\"Layer 8 Observatory exact-eight browser/UI proof consuming issue-local handler-output handoff\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/271/layer8-observatory-ui.log; exact eight cases passed\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:sprint5-271-validation",
+      "reason": "Record #271 validation: Post-bind exact three product/test path scope proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3\",\".csdlc/evidence/271/validate_exact_three_path_scope.py\"],\"purpose\":\"Post-bind exact three product/test path scope proof\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/271/exact-three-path-scope.log; rejected=[]\"}}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:sprint5-271-validation",
+      "reason": "Record #271 validation: Typed C-SDLC doctor proof for bound #271",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor\",\"--repo\",\".\",\"--issue\",\"271\"],\"purpose\":\"Typed C-SDLC doctor proof for bound #271\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/271/csdlc-doctor-bound.log; status pass\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:sprint5-271-validation",
+      "reason": "Record #271 validation: Git diff hygiene proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Git diff hygiene proof\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/271/diff-check.log; clean\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:sprint5-271-implementation",
+      "reason": "Advance #271 to implemented after bounded implementation and retained validation proof",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:sprint5-271-review-recovery",
+      "reason": "Recover #271 implementation review after fresh reviewer returned changes required; clear assignment before substantive repair.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "fresh-session:/root/review_271_design_r1",
+      "reason": "reapprove changed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex:sprint5-271-r1-remediation",
+      "reason": "Record supported SOR correction that prior follow-up bullets are completed/superseded after bind, implementation proof, review recovery, and R1 remediation; implemented-phase typed owner does not expose follow-up replacement.",
+      "operation": "{\"operation\":\"append_reference\",\"value\":\"R1 remediation note: the prior design-review and proof-before-review follow-up bullets are completed/superseded by generation 13 typed state; remaining gate is fresh exact-head implementation rereview and publication.\"}"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:sprint5-271-review-recovery",
+      "reason": "Recover #271 implementation review after fresh reviewer R2 returned changes required; clear assignment before substantive validator repair.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 16,
+      "actor": "fresh-session:/root/review_271_impl_r3",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 17,
+      "actor": "codex:root",
+      "reason": "Recover #271 review because publication guard requires exact current clean HEAD after metadata-only review-record commit advanced from reviewed source revision.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 17,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 18,
+      "actor": "fresh-session:/root/review_271_impl_r4",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 19,
+      "actor": "codex:root",
+      "reason": "Recover #271 review after tracked prepared request packets were committed after the reviewed revision; reassign from current immutable head using Git-common request storage only.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 19,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 20,
+      "actor": "codex:root",
+      "reason": "Recover #271 r5 review assignment after findings-first reviewer identified assignment scope omitted tracked lifecycle prepared and lock paths already present in the publishable diff; reassign with full lifecycle/proof scope.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 20,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 21,
+      "actor": "fresh-session:/root/review_271_impl_r6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}
