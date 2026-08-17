@@ -78,7 +78,7 @@ Assembled the #282 exact-revision production Polis interface qualification packe
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

@@ -4,23 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "0f56b55082822da8e6698295189ad62a8e5e2b06fee02463e7fcd6fe2c32152b",
   "phase": "implemented",
-  "generation": 17,
-  "digest": "a07dfaf7361a4c0f891f1c4b42aacce2dcd6433600d31297ff43a45b133d87cd",
+  "generation": 18,
+  "digest": "bf52b387e874e90e96dafae06e8e2e440f45316f396d9edfbfe9181d6e621034",
   "branch": "codex/282-production-polis-qualification",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-282-production-polis-qualification",
-  "review_assignment": {
-    "reviewer": "fresh-session:dcac044c-14d1-41d5-9cb5-8611f0ce5477",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:e0e1158d4d59fc9238e86ec17712aab9a3b8cc0a:1480924d52ac2094b7a222894e5ba4e7c226ad8f3d9ed8c24e46812ae2445f77",
-    "scope": [
-      ".csdlc/evidence/282/production-polis-interface-qualification.md",
-      ".csdlc/evidence/282/validate_qualification_packet.py",
-      ".csdlc/prepared/issues/282/validate_preparation_bundle.py",
-      ".csdlc/prepared/issues/282/design.md",
-      ".csdlc/prepared/issues/282/diagram.mmd",
-      ".csdlc/issues/282"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -36,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c285ee0a98db627ffa3f0bb74c0484a7cf3226f43bf470d4f1e76650a15a0922",
+      "values_digest": "6321448195b172a38340d53744185eb79ab36bc21861ac28f7fccd6974e1a7d9",
       "rendered_digest": "756456c28d69eb105001f57991727645ae9f2dd003196b24187fdda672239dcc",
       "ast_digest": "9f6b9c35777a50fbccbfaf62a70f5d4582bbdf49c0e85d8e099ae337c542e084"
     },
     "stp": {
-      "values_digest": "aaa71a9ab39020fefcf2e4940d423f1bc04bb06a6ada76093e2d3f290e1401b4",
+      "values_digest": "0cf48c08ffb57472405b63af8a5e5bb8cfa1ae15d17335a9e595a9c002877686",
       "rendered_digest": "d9761e0a08dcfd0903c2a33841c21bf690aa4f23173a897582f80f199447aa71",
       "ast_digest": "4e03a9d0f16b93c09443663dc75c1ba8708d9dd5caad5e9e5e98ce26c41a9c18"
     },
     "spp": {
-      "values_digest": "4bc614c1413e61e25940dfdf12dcb9b27dcec49dc2eb3def3aea7f1d75e5c15b",
+      "values_digest": "23d8509daf189d7aa12a2ceb6eef9b7c99ea6b409b2618da139254f93bd24e77",
       "rendered_digest": "f065bf10b4535996dac3b4db617ba5b1f4397c5c4841bb2e4af23b4b5e60630f",
       "ast_digest": "5ecf9f4be997546248ebd7f11bb3d241d54588883b5c1ab09acaaf76f10fb092"
     },
     "vpp": {
-      "values_digest": "ad7749819a6b1cf6135167da73e2c2e9f203075a1c0f31f6365798cc547ead08",
+      "values_digest": "61f6531da811899216343da82766dc0970b10845ad032bfedca3726d01b1cc69",
       "rendered_digest": "9d9c316363e69d0fa40755400083574e5ec857634c25da469e64864ab304c119",
       "ast_digest": "c54633f4f5c1ba706963b658c375a1b47c7ee6708fedc8205d536c0ae6ebb409"
     },
     "srp": {
-      "values_digest": "0893586a738c5cb07c4bed917eeb290f64906f9dfbda1c0d14aa9abd8489f1c9",
-      "rendered_digest": "14a59367b92b90c5b36cf8c5fc0dc2bd0edd30138724b4db03c6997d33c9ed9b",
-      "ast_digest": "c9f85207223aaea8ad7351bbdf01e8b06bed4818ad496bd2f33366022791f05f"
+      "values_digest": "3c52598ed49d990121e4d7ff1807c6b152d323395833731f2cfd3cc0a450779b",
+      "rendered_digest": "c2d74ab62e34e6ae306e15635c1aee3f528a87ec3de285da8519cf0e706d3188",
+      "ast_digest": "05517e4ee225490006606aeb09144d2cde94191f0fa3ea70ec5969b9b72d290e"
     },
     "sor": {
-      "values_digest": "32f4c3c1810af55e5a7864650d1a52653652ace8d2c94fe60ff9e02a0f80b87a",
-      "rendered_digest": "a73a456cdab045f17482fb776c7655c8c323c1d5a850e4d9cda8f5946257db5e",
-      "ast_digest": "af41622ed7dbc03f0319674fd66c96c5c716fdc3738798cecb591f3825a530ec"
+      "values_digest": "66e227a143f645c64d699f0e766a221d373a322b20f549a415b261f19845288d",
+      "rendered_digest": "2d170e23b290a063734efa7f99fb1f8441c016c04182a33b97901f972a4c2d88",
+      "ast_digest": "31f398035776c4cb9ac4a17f171719c0b3c30e9160c3c4f067d93d13355c9f0c"
     }
   },
   "transitions": [
@@ -236,6 +224,13 @@
       "actor": "codex:/root",
       "reason": "Record #282 R1 remediation proof after validator hardening, candidate/head wording repair, and SPP step truth repair.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3 .csdlc/prepared/issues/282/validate_preparation_bundle.py .csdlc/issues/282/index.json\",\"python3 .csdlc/evidence/282/validate_qualification_packet.py .csdlc/evidence/282/production-polis-interface-qualification.md\",\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate --root /Volumes/FastWork/adl-worktrees/adl-issue-282-production-polis-qualification issue --issue 282\",\"git diff --check\"],\"purpose\":\"Prove #282 review finding remediation: terminal-cache truth is validated against command output and table fields, evidence files must exist, the packet distinguishes integrated candidate from current issue head, and SPP S1-S4 reflect completed implemented-scope truth while publication remains pending.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/282/validate_qualification_packet.py; .csdlc/evidence/282/production-polis-interface-qualification.md; .csdlc/issues/282/cards/spp.values.json\"}}"
+    },
+    {
+      "sequence": 22,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "Recover stale #282 review assignment fresh-session:dcac044c-14d1-41d5-9cb5-8611f0ce5477 because the assignment targeted pre-repair commit e0e1158d; the exact post-review-fix implementation is clean at 23bd87ce and requires a new fresh no-context reviewer.",
+      "operation": "recover_review"
     }
   ]
 }
