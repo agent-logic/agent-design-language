@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 import subprocess
 import sys
 from pathlib import Path
@@ -34,14 +35,29 @@ TERMINAL_INPUTS = {
     117: {
         "root": Path("/Volumes/FastWork/adl-worktrees/adl-issue-117-production-polis-interface-qualification-parent"),
         "merge_sha": "e56ab80f5f7b1f163a8846410dfe50afa29b0bf9",
+        "cache": OWNER_ROOT / ".git" / "csdlc-v2" / "derived-terminal" / "117.json",
+        "cache_sha256": "cde8193974a67e042afacc9e0b2b3eaa5535259bc3c5fd407013ff76c1b0f614",
+        "terminal_digest": "7931f0c63d008d71836c48c436f6003be39d93806e32baf06bb41b3f048a0178",
+        "reviewer": "fresh-session:bb641977-06c4-4f64-a281-545f0e88f7e5",
+        "reviewed_revision": "git-blake3:6ce36effa6f571328319edbc087e0d2cc751dcf4:0559566439881497ec8816c442ec05cd9846880b30e7dfe710b8978f0e9c77dc",
     },
     271: {
         "root": OWNER_ROOT,
         "merge_sha": "6b200cfee83ea36a546123de4d24a6eda191b652",
+        "cache": OWNER_ROOT / ".git" / "csdlc-v2" / "derived-terminal" / "271.json",
+        "cache_sha256": "49594df0ab81e15d92ef3c822a835ca19c36a3c0758043cbe0fb2d45dffb4ceb",
+        "terminal_digest": "5383f60ae5a2d8e521891329f7b9cf43b9a4a28db71999f5551412f24b14b8cf",
+        "reviewer": "fresh-session:/root/review_271_impl_r6",
+        "reviewed_revision": "git-blake3:1f010256591bcf0279559d4987fda870132baa1a:ed6a4dc06697e5ed905be1036cc58c27596b0b8712ad663089d0a283f928f8ad",
     },
     282: {
         "root": Path("/Volumes/FastWork/adl-worktrees/adl-issue-282-production-polis-qualification"),
         "merge_sha": "973d611bbc8bee570ce4a98e8b1b0249b5001f51",
+        "cache": OWNER_ROOT / ".git" / "csdlc-v2" / "derived-terminal" / "282.json",
+        "cache_sha256": "9786490694c1d392e4db50f00844afada6f9815c2624b9022d33443f5d54fced",
+        "terminal_digest": "79e4549170a07dec2061f5be6432b0316d4348c162d18c500962510e20b85e84",
+        "reviewer": "fresh-session:8397ad62-5e06-436a-855b-af7b3878fdbc",
+        "reviewed_revision": "git-blake3:4e241f5dff406dc344f3ab5da8edbc9142847e1d:ad6b2612ad1d7f79c26641f7866520a95b08d362d964f74c9baad701399372d8",
     },
 }
 
@@ -132,6 +148,10 @@ def run_json(argv: list[str]) -> dict:
         raise AssertionError(f"command did not emit JSON: {' '.join(argv)}\n{completed.stdout}") from exc
 
 
+def sha256_file(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
 def main() -> int:
     require(FINISH.is_file(), f"missing finish binary: {FINISH}")
     require(PACKET.is_file(), f"missing packet: {PACKET.relative_to(ROOT)}")
@@ -151,12 +171,25 @@ def main() -> int:
 
     terminal_results = {}
     for issue, expected in TERMINAL_INPUTS.items():
+        cache = expected["cache"]
+        cache_ref = cache.relative_to(OWNER_ROOT).as_posix()
+        require(cache.is_file(), f"issue #{issue} missing terminal cache artifact: {cache_ref}")
+        require(sha256_file(cache) == expected["cache_sha256"], f"issue #{issue} terminal cache SHA-256 drift")
+        for required_fragment in (
+            cache_ref,
+            expected["cache_sha256"],
+            expected["terminal_digest"],
+            expected["reviewer"],
+            expected["reviewed_revision"],
+        ):
+            require(required_fragment in packet, f"packet missing issue #{issue} AC-3 evidence: {required_fragment}")
         result = run_json([str(FINISH), "--root", str(expected["root"]), "--validate-cached-issue", str(issue)])
         terminal = result.get("terminal") or {}
         require(result.get("canonical_match") is True, f"issue #{issue} terminal cache is not canonical")
         require(terminal.get("disposition") == "merged", f"issue #{issue} is not merged terminal")
         require(terminal.get("issue_state") == "closed_by_merged_pr", f"issue #{issue} is not closed by merged PR")
         require(terminal.get("merge_sha") == expected["merge_sha"], f"issue #{issue} merge SHA drift")
+        require(terminal.get("digest") == expected["terminal_digest"], f"issue #{issue} terminal digest drift")
         terminal_results[issue] = terminal
 
     print(
