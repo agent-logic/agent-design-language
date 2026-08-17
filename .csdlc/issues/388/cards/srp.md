@@ -12,7 +12,12 @@ Status: draft
 
 ## Scope
 
-
+csdlc-v2/src/cards.rs
+csdlc-v2/src/store.rs
+csdlc-v2/tests/gate5.rs
+.csdlc/issues/388
+.csdlc/prepared/issues/388
+.csdlc/evidence/388
 
 ## Prompts
 
@@ -32,12 +37,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Validation was assessed from committed evidence rather than rerun in the read-only review session.
+- The empty issue lock is lifecycle binding metadata outside the substantive review surface.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:32cb34b353c4e7b4347fdef359083337cab3f3d2:6d89c521962edcc8d1ae2c0dab15a3f0b19837fc71dddb2c94d9b258b450e8cb")
 
-Reviewer: None
+Reviewer: Some("fresh-session:da20f923-1403-48e4-b279-34ce98bd558f")
 
-Result: pre_review
+Result: pass
