@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "024d435a2fcf6fd78678e4b9cda121ea06eecca7e6effaabceb5ad5c2f22ddaf",
   "phase": "implemented",
-  "generation": 27,
-  "digest": "2ba06050ec30fec16e937bc182e2c352e1b1894f48672c28e6e007c51868e290",
+  "generation": 29,
+  "digest": "acb8ba34e35987a2a79ec8ddc7616d4889b8c177ec57745d0cf3699f0aafa4ec",
   "branch": "codex/117-production-polis-interface-qualification-parent",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-117-production-polis-interface-qualification-parent",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f497f9b8d0017037a3a060a5bc2437ea6a17c72eddcd22e08966de9bdecff329",
+      "values_digest": "48f24d8c43a4e3726de6a032003317217dffb95f18e6df945bd34097d486e45f",
       "rendered_digest": "31377833f0fdf1c38188d892ce3d604f14ea61410b4d14eded85470c819d1506",
       "ast_digest": "34914eb71385e6d9a391827d3bcdfd88497cc2bccadad9d09dd81bf9d07fd13f"
     },
     "stp": {
-      "values_digest": "297e0c232b00153fb5aea1af334300b87bc3c81aa43d92af6d974a105e78c9d2",
+      "values_digest": "fe514d15ddd333594ff3ccef3509077eb905e04e2af920613dac2e0ede119c15",
       "rendered_digest": "3962299e8f5c41c9ebdb23f85131cf638b309cc58e4b166ad56efd100851e0e9",
       "ast_digest": "dde896295af7848a68de9eaa55ad152d1773062e79a9f27b8c37cce29c6e1301"
     },
     "spp": {
-      "values_digest": "efe595ee97b764574ab2a1e2174184c4c2d2fc0dc8e24e5b2114981faaf13ed6",
+      "values_digest": "fdca54c003983e3718f212ce5883e3cb0e11fd9f47ae31e6e44c9d686b3fa3b9",
       "rendered_digest": "258848e070a57478e07177c1e9546907cd706f89a06ec45a05b77793a471e276",
       "ast_digest": "da7b6053c0774cd71960d329cd12a806b6bf66fce728459688fa9b9d524c7434"
     },
     "vpp": {
-      "values_digest": "769dda5223574d1df23801320ec81a2905b426cc5bdc5d054b798a75329e3244",
+      "values_digest": "f361f0453669023b39cb41ab6d89e834866f83fa5ae93092b0b49d6c43a2fec8",
       "rendered_digest": "cb288c0e4e3fa37efca1d62888457c5cfab8b9ddc1ce0282259f69e987b4c0d7",
       "ast_digest": "6e9164f90884128e31ad8d16a53deb657a3a6a3e58d6efdc82dc0b092069348d"
     },
     "srp": {
-      "values_digest": "a4972edea134260923f3917f9280de1957caee9d0191eddcc5715b1536443bec",
+      "values_digest": "00cd21c206401833d52916d75b61f71a0033fef911595faa46d4d8e6ac31d16d",
       "rendered_digest": "1253ac0f42063c5f2011243e9449818f55d1504c07ad8146ba38ea23a0a35357",
       "ast_digest": "d3faf3908bf4b8cf64c7ef7144b0ef223acc1883189f0f858db1e2af1d228ef1"
     },
     "sor": {
-      "values_digest": "eda7783bf7e909a1f398f5c4177b1264e5b0b08c117dd509327d986df623a724",
+      "values_digest": "5b1c257d237f675eba871abe625ebc257e86754a3d1044c9581da00722d4db62",
       "rendered_digest": "d8b815a277aad19f8d907b0a73f1c49b3724272f92e792c1995d40f19637d036",
       "ast_digest": "f119737ef3d6411764ce511ada41365d6a58d714922d2e2739fc7bb4cccf202d"
     }
@@ -314,6 +314,27 @@
       "generation": 27,
       "actor": "codex:/root",
       "reason": "Recover unintended #117 review assignment fresh-session:aa7a55bd-7549-4986-9f62-496f2a12e9e0 created before STP input repair was complete; no reviewer material was sent.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 27,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 28,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 29,
+      "actor": "codex:/root",
+      "reason": "Recover failed exact review fresh-session:b515dfb0-7d0d-4119-a2cf-258198e9eb68 before remediating accepted findings: clean exact-head review setup and remove raw-gh live issue read from #117 parent closeout validator.",
       "operation": "recover_review"
     }
   ]

@@ -41,7 +41,7 @@ It also does not claim #110 milestone/sprint-parent terminal closeout by itself.
 
 ## Residual risks and handoff gates
 
-- #110 must remain live/open until it consumes terminal #117, #207, #286, and any other umbrella evidence required by the current WP-18C issue graph.
+- #110 remains the WP-18C umbrella handoff authority until it consumes terminal #117, #207, #286, and any other umbrella evidence required by the current WP-18C issue graph.
 - #207 and #286 evidence reconciliation remains separate coordination work; this #117 packet does not claim their terminal truth.
 - Hosted publication, CI, merge, and typed finish for #117 remain pending until exact-head review passes and the typed publication/finish routes derive terminal authority.
 - No credentialed provider, Unity, cloud, Runtime, API, storage, or Observatory child implementation proof is added by this parent packet.
