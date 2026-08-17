@@ -6,10 +6,21 @@
   "initialization_digest": "a9e76b0d5c4ae85d6d72522adcc9f5c568eb1128a84ea282cde4601038a3dc77",
   "phase": "implemented",
   "generation": 12,
-  "digest": "645f9ceff9b36eb6be9834e04a48ab0c3873e7e3c11c237d6ae12d12e1e7a27b",
+  "digest": "23c20d31bee1b649da351acf6fc93024c9c7aeb120fedbd5105f441776d4c153",
   "branch": "codex/280-large-polis-performance-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-280-large-polis-performance-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:0eff64f9-2720-4d52-9bd2-fe781f20f604",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:c0fc1e120daf711e0f3179a1eeb68dca5c144d72:75b34b1f9d68c6bddf09888efb4ae578181717eb3f46e7fb4844cef8e2c75e69",
+    "scope": [
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/tests/large_polis_performance_recovery.test.mjs",
+      ".csdlc/prepared/issues/280/validate_preparation_bundle.py",
+      ".csdlc/issues/280",
+      ".csdlc/evidence/280"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +56,9 @@
       "ast_digest": "a0403052bc3f735e434966a883808a3b3055d2e0341cd59d01227c2a9f4c321d"
     },
     "srp": {
-      "values_digest": "754108f5787916dfc97d7c2a6bce3da588cd90776d147e3e3397c683bd2dca06",
-      "rendered_digest": "dec77dc40d7d3993c54a070acb40b5d32354eb4044c80cbb5c505a967c937e41",
-      "ast_digest": "1450c4863306f66943b37afdc80c8063add5b4c7e2aeb7ae6fb0dae50a450bfd"
+      "values_digest": "63d6801b15b83757343e86cab9b2c777bbe5bd555675b9dd519d4167be1f3c45",
+      "rendered_digest": "85c779587157a290479906c0b91c86080aaa9370782243676dde578a7b103e1b",
+      "ast_digest": "9f3ea422d1dd17c8df3ae87a5dd2ad76ad9a3321048dc783dc501a78bc032bb7"
     },
     "sor": {
       "values_digest": "91bfda61a28e6f9c7d18582c9ca76a53917c70c4ad5177cf3183122f4f4e92b7",
@@ -211,6 +222,13 @@
       "actor": "codex:/root",
       "reason": "Record #280 remediation of fresh review P2 duplicate-action finding before assigning a different exact-head reviewer.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented deterministic HTML Observatory large-Polis performance/recovery proof and remediated exact-review duplicate-action finding by suppressing already-pending recovery actions across consecutive degraded frames.\",\"changes\":[\"Suppressed recovery actions that are already pending before exposing the per-step large-Polis recovery view to consumers.\",\"Marked repeated already-pending recovery actions as duplicate_action_prevented so metrics truthfully reflect suppressed duplicates.\",\"Added a focused disconnected-to-disconnected-to-healthy regression proving a consumer receives only one schedule_single_reconnect action while recovery still resolves cleanly.\",\"Re-ran the issue-owned preparation validator, large-Polis proof, existing conversation regression, operator-attention regression, and diff hygiene.\"],\"artifacts\":[\"demos/html-observatory/app.js\",\"demos/html-observatory/tests/large_polis_performance_recovery.test.mjs\",\".csdlc/issues/280\",\".csdlc/evidence/280\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/280/validate_preparation_bundle.py\"],\"purpose\":\"Validate #280 issue identity, dependency ancestry, performance/recovery proof scope, and forbidden sibling/parent ownership.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/280/280-preparation-contract.log\"},{\"command\":[\"node\",\"demos/html-observatory/tests/large_polis_performance_recovery.test.mjs\"],\"purpose\":\"Run deterministic large-roster, long-transcript, stream pressure, duplicate-action, reconnect/restart/offline/version-mismatch recovery proof and emit JSON metrics.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/280/280-observatory-large-polis-performance-recovery.log and .csdlc/evidence/280/large_polis_performance_recovery_metrics.json\"},{\"command\":[\"node\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\"],\"purpose\":\"Prove existing Runtime conversation acceptance/delivery/reconnect behavior still passes after #280 projection-bounding changes.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/280/280-observatory-conversation-regression.log\"},{\"command\":[\"node\",\"demos/html-observatory/tests/operator_attention_inbox.test.mjs\"],\"purpose\":\"Prove operator-attention Runtime-authority boundaries still pass after #280 projection-bounding changes.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/280/280-observatory-operator-attention-regression.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject malformed whitespace or patch artifacts before review.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/280/280-diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
