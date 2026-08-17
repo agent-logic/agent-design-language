@@ -1,0 +1,36 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 387,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Support implemented-phase card truth repair before publication",
+    "slug": "implemented-card-truth-repair-before-publication",
+    "version": "v0.92.1",
+    "generation": 17
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Unblock #114 by adding a bounded typed v2 repair route for stale implemented-phase card truth before publication.",
+      "required_outcome": "Implemented, reviewed, and published tooling fix that lets #114 truthfully repair STP/SPP/SOR card fields without hand edits or weakened publication guards.",
+      "declared_scope": [
+        "csdlc-v2 typed editor/store authorization for implemented-phase pre-publication card truth repair",
+        "focused regression coverage for #114-shaped review-recovery sequence",
+        "no direct #114 card hand edits"
+      ],
+      "authority_boundary": [
+        "Typed v2 owner binaries remain lifecycle authority",
+        "Review/publication/finish guards remain fail-closed",
+        "No product Runtime or Observatory behavior changes"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Preserve #114/#116/#117/#110 worktrees and staging",
+        "Use FastWork bound worktree before source edits",
+        "No raw GitHub lifecycle writes"
+      ]
+    }
+  }
+}

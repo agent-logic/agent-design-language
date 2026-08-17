@@ -1,0 +1,28 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 387,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Support implemented-phase card truth repair before publication",
+    "slug": "implemented-card-truth-repair-before-publication",
+    "version": "v0.92.1",
+    "generation": 17
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "csdlc-v2 implemented-phase card repair authorization and regression",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Verify the implemented-phase repair route is narrow and does not weaken reviewed/published/publication guards.",
+        "Verify the regression covers the #114-shaped sequence and negative guard behavior."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

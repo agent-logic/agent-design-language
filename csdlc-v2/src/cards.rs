@@ -586,6 +586,9 @@ pub enum SemanticOperation {
     CorrectRequiredOutcomeAfterRecovery {
         value: String,
     },
+    ReplaceSorFollowUpsAfterRecovery {
+        values: Vec<String>,
+    },
     CorrectOperatorConstraintsBeforeBind {
         values: Vec<String>,
     },
@@ -976,6 +979,16 @@ pub fn apply(
             match &mut values.content {
                 CardContent::Sip(v) => v.required_outcome = value.clone(),
                 _ => return ownership(values.kind(), "correct_required_outcome_after_recovery"),
+            }
+            Ok(None)
+        }
+        SemanticOperation::ReplaceSorFollowUpsAfterRecovery {
+            values: replacement,
+        } => {
+            validate_replacement(replacement, "SOR follow-ups")?;
+            match &mut values.content {
+                CardContent::Sor(v) => v.follow_ups = replacement.clone(),
+                _ => return ownership(values.kind(), "replace_sor_follow_ups_after_recovery"),
             }
             Ok(None)
         }
@@ -1541,6 +1554,7 @@ fn set_text(values: &mut CardValues, field: TextField, value: String) -> Result<
             v.summary = value;
             v.plan_revision += 1;
         }
+        (CardContent::Vpp(v), TextField::PlanSummary) => v.summary = value,
         (CardContent::Vpp(v), TextField::FailurePolicy) => v.failure_policy = value,
         (CardContent::Srp(v), TextField::ReviewScope) => v.review_scope = value,
         (CardContent::Sor(v), TextField::SorSummary) => v.summary = value,
