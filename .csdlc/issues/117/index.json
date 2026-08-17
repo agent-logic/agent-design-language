@@ -5,10 +5,22 @@
   "initialization_digest": "024d435a2fcf6fd78678e4b9cda121ea06eecca7e6effaabceb5ad5c2f22ddaf",
   "phase": "implemented",
   "generation": 29,
-  "digest": "acb8ba34e35987a2a79ec8ddc7616d4889b8c177ec57745d0cf3699f0aafa4ec",
+  "digest": "9bba080d572c8182442720eb7e007b345580f47b661468b8e182b5d4c71428de",
   "branch": "codex/117-production-polis-interface-qualification-parent",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-117-production-polis-interface-qualification-parent",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:08ec28a0-5432-4b2c-8427-d8aa3bec40aa",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:0e8d68adaee69475f4c00be4ce8a461cec06109a:c63557537f54b85563d6386aca04e480cb237c19f16ad2eb639dc72225b07888",
+    "scope": [
+      ".csdlc/evidence/117/production-polis-interface-parent-closeout.md",
+      ".csdlc/evidence/117/validate_parent_closeout.py",
+      ".csdlc/prepared/issues/117/validate_preparation_bundle.py",
+      ".csdlc/prepared/issues/117/design.md",
+      ".csdlc/prepared/issues/117/diagram.mmd",
+      ".csdlc/issues/117"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +56,9 @@
       "ast_digest": "6e9164f90884128e31ad8d16a53deb657a3a6a3e58d6efdc82dc0b092069348d"
     },
     "srp": {
-      "values_digest": "00cd21c206401833d52916d75b61f71a0033fef911595faa46d4d8e6ac31d16d",
-      "rendered_digest": "1253ac0f42063c5f2011243e9449818f55d1504c07ad8146ba38ea23a0a35357",
-      "ast_digest": "d3faf3908bf4b8cf64c7ef7144b0ef223acc1883189f0f858db1e2af1d228ef1"
+      "values_digest": "213f690758c8b9b781f7a3a5f5f78c0e1a0d8a713787594aac32d8cbd4d067ad",
+      "rendered_digest": "ca7d62232ed05329e6bf5b4d84f149e93c6cf43a0dc66a0ac90feaf7141236d9",
+      "ast_digest": "b830fc0d966ef86f4b7b785c5459a431f11737d96611114d81e931161ae0386c"
     },
     "sor": {
       "values_digest": "5b1c257d237f675eba871abe625ebc257e86754a3d1044c9581da00722d4db62",
@@ -336,6 +348,13 @@
       "actor": "codex:/root",
       "reason": "Recover failed exact review fresh-session:b515dfb0-7d0d-4119-a2cf-258198e9eb68 before remediating accepted findings: clean exact-head review setup and remove raw-gh live issue read from #117 parent closeout validator.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 29,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
