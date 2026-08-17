@@ -7,20 +7,21 @@
     "title": "[v0.92][WP-18C.05] Implement governed multi-agent rooms and message routing",
     "slug": "v0-92-wp-18c-05-governed-multi-agent-rooms-routing",
     "version": "v0.92.0",
-    "generation": 28
+    "generation": 33
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime-kernel/src/conversation_rooms.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/lib.rs\ndemos/html-observatory/app.js\ndemos/html-observatory/index.html\ndemos/html-observatory/styles.css\nadl/tools/validate_v092_governed_room_observatory.mjs\n.csdlc/issues/115\n.csdlc/prepared/issues/115\n.csdlc/evidence/115",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
-        "Verify #115 preserves #111/#112/#113/#270 dependencies and the #270 reconciliation marker.",
-        "Verify #115 consumes canonical terminal caches for #111/#112/#113/#270 and no longer expects #112/#270 terminal caches to be absent.",
-        "Verify #115 is limited to governed rooms/routing and does not redefine #112 authority or #270 acknowledgement trust.",
-        "Verify it is safe to approve design and keep unbound while bind/implementation remain held."
+        "Verify #115 implements governed multi-agent rooms and message routing only within its owned Runtime/Observatory scope.",
+        "Verify Runtime governed-room routes require explicit bounded recipients, reject implicit broadcast, preserve ordering/replay refusal, and reuse Layer 8 AddressRecipients authority without redefining #112 or #270.",
+        "Verify accepted governed-room routes do not claim recipient delivery unless actual delivery evidence exists; #270 acknowledgement trust remains a dependency/non-goal.",
+        "Verify Observatory renders participant selection, room transcript, accepted/partial/refused/unavailable/revoked states, and per-room turn sequencing without hidden browser recipient expansion.",
+        "Verify focused Runtime, UI, smoke, formatting, clippy, and diff-hygiene proof truth matches the exact reviewed revision and no #278/#114/#116/#117/#110 work is absorbed."
       ],
       "findings": [],
       "residual_risk": [],

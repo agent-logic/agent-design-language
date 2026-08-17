@@ -5,27 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "6b431e21b2b0a61991853e1f3f4a1bf51241907edaac9389f1c22998ae3334e7",
   "phase": "implemented",
-  "generation": 28,
-  "digest": "61c0d3973fb503e0eca3b4a9d68b330d1098b77cbcca60ef6dd6b25d2521baaf",
+  "generation": 33,
+  "digest": "9bc87b3bc0d7910cd1df02c369c4bdc7b19725f288d853148993296f43ced37a",
   "branch": "codex/115-governed-multi-agent-rooms",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-115-governed-multi-agent-rooms",
-  "review_assignment": {
-    "reviewer": "fresh-session:e96514a5-0b28-4dad-96b4-5f4a1ca8460d",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:45b1ccb84dd48a5b2e10449f9bb8afe06a195863:b3012279dd95b3a76590b977974342ea15148106de20241a6003bc6d2a137187",
-    "scope": [
-      "adl-runtime-kernel/src/conversation_rooms.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/index.html",
-      "demos/html-observatory/styles.css",
-      "adl/tools/validate_v092_governed_room_observatory.mjs",
-      ".csdlc/issues/115",
-      ".csdlc/prepared/issues/115",
-      ".csdlc/evidence/115"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -41,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8631ffbc27f1fc28eb7ffd588dc4c963c329eccbcf74d25856e6ede0b34239f6",
+      "values_digest": "cb297780f0b5aa547fbfd06e277eb661ad31809d587ddebf59323494e7083d73",
       "rendered_digest": "ecadc343231ebf27f6cc2251766828eff504b8338d3bf9054daa17b13a178c93",
       "ast_digest": "e02db63fa0459d5bd0d779d49185ce9f2d0c99a6a3378a81fa7d5dcbda279605"
     },
     "stp": {
-      "values_digest": "c1092560a56e7a63fced015dab2c27f9adadf1c8246c050041870d0fe0570859",
-      "rendered_digest": "52b7561d3147cf35a9d9e3e9c250bb2a4b29d24f74d72f0affff7e08a712c0df",
-      "ast_digest": "35ee5ba28500c070fbcfd0489da6659b6a5043c0516503d3d603efd4c71b847c"
+      "values_digest": "66bae3c5379c34b734efd04ec3c9b0d7213a0b93975de8dec764239b9ba69a46",
+      "rendered_digest": "b6b73dcdfcfc4570e8072547d7ac8c9e8381ca89926a1b67d984f409c0c31d52",
+      "ast_digest": "fbf909611f7686114f761bcfa3475b1d58d3c24f61248d9edbef0ab78a438831"
     },
     "spp": {
-      "values_digest": "74ec4834b528018f42050ae839641da9e8acce8d66056a61baa25838f396c48a",
+      "values_digest": "ecaf2995f965f4389641a3be0cfe6f38397c05695e6f8e411295f8093533f9be",
       "rendered_digest": "e26bfe2140a9e173c825afa8ca0bc232861990e642e27fc8b62b7598d87bc095",
       "ast_digest": "16b4224ccc9852138207e7ea7650ab8597dacc0572143c308eaa3f9f51cc30f0"
     },
     "vpp": {
-      "values_digest": "ba3ca0488f8de414c6e946154d45480241d2b655341f298c5e83fcd6e835fa22",
-      "rendered_digest": "5ba45045d2fec22c237ee9ef6da6228d1bde2612277d4955b7a8652ba1e41e62",
-      "ast_digest": "eb8f2cb0c493fbb437ed0edfd5922ffea6758fd0731841881c2e8acdae1eb7b9"
+      "values_digest": "f15786e41b83a0a739cc8252d60d14d5e75f043db9e500abf864dbb9913cff9d",
+      "rendered_digest": "359cdb5cf8bfaa74247034a7765d5028afa9e3e16defe6667996756771314b16",
+      "ast_digest": "69c6120f871d83ba16881e8f66429bbe6af3e92e52cfc2b8fead3303b577b644"
     },
     "srp": {
-      "values_digest": "1a8c5fdc50e3354bbfe85a6165627d5770015883ce40e1d673ed3b21999a4f29",
-      "rendered_digest": "caa32cec7ee45bdc6639e84fa323a1031e8fa857b683476d42cd133f817da2a5",
-      "ast_digest": "48cf8333edfa0e54788ff6eeae5d7d38020fbd2b1bb738ceb32be7918f3fbe8b"
+      "values_digest": "191d21ba62b2d983b2915b4bb597d04725ff8192cb8575fd812056cb8672fee3",
+      "rendered_digest": "829cc05f432c149d408093e41eadae4b28ff7ab28d33e78727169556216aa222",
+      "ast_digest": "990b41c9dcd607326b4b831078342b01aa9f3876d7e39f18b7e0a6992102ae0e"
     },
     "sor": {
-      "values_digest": "0ed5ea1edbb662cc1d7b7bde29b2814d973a4b1f42fd39d5a519af75eb6b29ef",
+      "values_digest": "c7b22129d31c2afcba68d2d7ae2e7be7f5a3396873e289565df160592b8f29cd",
       "rendered_digest": "3b90b0495fc976e5d9076858829869c48b8fac37b774acab1aa6b3cfc7f30969",
       "ast_digest": "da92cce718aba5dbfdc52b99900c7e48320d172b32ce2cf50dd209825367c022"
     }
@@ -346,6 +330,48 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 29,
+      "actor": "codex:/root",
+      "reason": "Recover premature #115 review assignment fresh-session:e96514a5-0b28-4dad-96b4-5f4a1ca8460d because P2 card truth drift is still known and must be repaired through supported typed routes before another exact review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 30,
+      "actor": "codex:/root",
+      "reason": "Replace stale #115 preparation-only VPP with implemented governed-room proof lanes",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-governed-room-model\",\"proof_role\":\"Prove explicit governed-room recipients, no implicit broadcast, membership/policy refusal, ordering/replay rejection, authority-scope reuse, and accepted-vs-delivered distinction in the Runtime room model.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"conversation_rooms\",\"--\",\"--nocapture\"],\"parallel_group\":\"local-runtime\",\"defer_reason\":null},{\"lane\":\"runtime-governed-room-served-route\",\"proof_role\":\"Prove the served Runtime governed-room WebSocket route accepts explicit recipients, rejects implicit broadcast without consuming sequence, and returns accepted rather than fabricated delivered state.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"governed_room\",\"--\",\"--nocapture\"],\"parallel_group\":\"local-runtime\",\"defer_reason\":null},{\"lane\":\"observatory-governed-room-ui\",\"proof_role\":\"Prove the HTML Observatory room composer uses explicit bounded recipients, stable per-room turn sequences, accepted route rows that do not claim delivery, partial/refused/unavailable/revoked delivery rendering, static DOM anchors, and served frame dispatch.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1200,\"argv\":[\"node\",\"adl/tools/validate_v092_governed_room_observatory.mjs\"],\"parallel_group\":\"local-ui\",\"defer_reason\":null},{\"lane\":\"html-observatory-smoke\",\"proof_role\":\"Prove the existing HTML Observatory Runtime v3, signed-command, roster projection, and control-frame smoke still passes after the governed-room UI changes.\",\"acceptance_ids\":[\"AC-4\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"bash\",\"adl/tools/test_html_observatory.sh\"],\"parallel_group\":\"local-ui\",\"defer_reason\":null},{\"lane\":\"format-clippy-diff-hygiene\",\"proof_role\":\"Prove formatting, warning-free Runtime library code, and diff hygiene for the #115 touched surfaces.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":1500,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--check\"],\"parallel_group\":\"local-runtime\",\"defer_reason\":\"Strict clippy and git diff --check are recorded in SOR validation because this lane has a single argv vector.\"}]}"
+    },
+    {
+      "sequence": 39,
+      "generation": 31,
+      "actor": "codex:/root",
+      "reason": "Replace stale #115 design-readiness prompts with implemented exact-review prompts",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Verify #115 implements governed multi-agent rooms and message routing only within its owned Runtime/Observatory scope.\",\"Verify Runtime governed-room routes require explicit bounded recipients, reject implicit broadcast, preserve ordering/replay refusal, and reuse Layer 8 AddressRecipients authority without redefining #112 or #270.\",\"Verify accepted governed-room routes do not claim recipient delivery unless actual delivery evidence exists; #270 acknowledgement trust remains a dependency/non-goal.\",\"Verify Observatory renders participant selection, room transcript, accepted/partial/refused/unavailable/revoked states, and per-room turn sequencing without hidden browser recipient expansion.\",\"Verify focused Runtime, UI, smoke, formatting, clippy, and diff-hygiene proof truth matches the exact reviewed revision and no #278/#114/#116/#117/#110 work is absorbed.\"]}"
+    },
+    {
+      "sequence": 40,
+      "generation": 32,
+      "actor": "codex:/root",
+      "reason": "Replace stale #115 preparation acceptance criteria with implemented governed-room criteria",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: Runtime governed-room turns require explicit bounded recipients and deny implicit broadcast or browser-expanded participant sets.\",\"AC-2: Runtime room routing rejects duplicate, unknown, ineligible, unavailable, revoked, cross-Polis, duplicate-turn, and reordered-turn requests without consuming invalid turns incorrectly.\",\"AC-3: Accepted room turns reuse Layer 8 AddressRecipients authority scope without redefining #112 authority or #270 acknowledgement trust.\",\"AC-4: Runtime distinguishes accepted room turns from recipient-delivered turns and does not fabricate delivered state without delivery evidence.\",\"AC-5: Observatory renders explicit participants, room transcript, composer, per-room turn sequencing, and accepted/partial/refused/unavailable/revoked delivery states.\",\"AC-6: #115 excludes #278 durability, #114 parent coordination, #116/#117 qualification work, and #110 parent mutation.\",\"AC-7: Focused Runtime, Observatory, smoke, formatting, strict clippy, diff hygiene, and exact fresh review pass before publication.\"]}"
+    },
+    {
+      "sequence": 41,
+      "generation": 32,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 42,
+      "generation": 33,
+      "actor": "codex:/root",
+      "reason": "Recover intentionally undispatched #115 card-repair-window assignment so supported post-recovery SPP summary and STP deliverable corrections can be applied before the real exact review.",
+      "operation": "recover_review"
     }
   ]
 }

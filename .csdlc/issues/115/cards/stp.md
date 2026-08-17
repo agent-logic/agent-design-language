@@ -25,13 +25,13 @@ Repair the #115 preparation packet on a clean current-main root, prove canonical
 
 ## Acceptance
 
-1. AC-1: #115 records live issue identity and #110 child role without branch/worktree.
-2. AC-2: Cards preserve dependencies on #111, #112, #113, and #270, including the #270 reconciliation marker.
-3. AC-3: Dependency gates are proven through canonical derived-terminal caches for #111/#112/#113/#270 whose merge SHAs are ancestral to current origin/main.
-4. AC-4: Scope is limited to governed rooms, explicit participants, routing, delivery states, and proof.
-5. AC-5: Non-goals exclude hidden broadcast, browser-selected recipients, cross-Polis federation, and lifecycle publication/closeout.
-6. AC-6: #115 remains unbound until fresh readiness/design review PASS and later explicit bind authority.
-7. AC-7: Preparation validator, doctor, and validate pass for the recovered packet.
+1. AC-1: Runtime governed-room turns require explicit bounded recipients and deny implicit broadcast or browser-expanded participant sets.
+2. AC-2: Runtime room routing rejects duplicate, unknown, ineligible, unavailable, revoked, cross-Polis, duplicate-turn, and reordered-turn requests without consuming invalid turns incorrectly.
+3. AC-3: Accepted room turns reuse Layer 8 AddressRecipients authority scope without redefining #112 authority or #270 acknowledgement trust.
+4. AC-4: Runtime distinguishes accepted room turns from recipient-delivered turns and does not fabricate delivered state without delivery evidence.
+5. AC-5: Observatory renders explicit participants, room transcript, composer, per-room turn sequencing, and accepted/partial/refused/unavailable/revoked delivery states.
+6. AC-6: #115 excludes #278 durability, #114 parent coordination, #116/#117 qualification work, and #110 parent mutation.
+7. AC-7: Focused Runtime, Observatory, smoke, formatting, strict clippy, diff hygiene, and exact fresh review pass before publication.
 
 ## Dependencies
 
