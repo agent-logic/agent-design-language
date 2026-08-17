@@ -1,0 +1,8 @@
+flowchart TD
+  A["Implemented issue with stale card text"] --> B["assign_review"]
+  B --> C["recover_review clears downstream truth"]
+  C --> D["CAS-guarded SPP/VPP/SOR repair"]
+  D --> E["audit previous/new values"]
+  E --> F["validate + fresh exact-head review"]
+  C --> G["active review/publication/terminal?"]
+  G --> H["fail closed"]
