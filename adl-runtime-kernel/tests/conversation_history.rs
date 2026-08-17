@@ -1,9 +1,10 @@
 use std::collections::BTreeSet;
 
 use adl_runtime_kernel::{
-    ConversationHistoryAccessPolicy, ConversationHistoryError, ConversationHistoryMessage,
-    ConversationHistoryPageRequest, ConversationHistorySearchRequest, ConversationHistoryStore,
-    ConversationJournal, ConversationJournalEvent, CONVERSATION_HISTORY_SCHEMA,
+    ConversationDeletionMarker, ConversationHistoryAccessPolicy, ConversationHistoryError,
+    ConversationHistoryMessage, ConversationHistoryPageRequest, ConversationHistorySearchRequest,
+    ConversationHistoryStore, ConversationJournal, ConversationJournalEvent,
+    CONVERSATION_HISTORY_SCHEMA,
 };
 
 const H: &str = "0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef";
@@ -116,6 +117,57 @@ fn revoked_access_and_private_memory_fail_closed() {
     assert!(!serde_json::to_string(&export)
         .unwrap()
         .contains("raw-secret-that-must-not-export"));
+}
+
+#[test]
+fn deletion_marker_hides_page_search_export_and_restore_history() {
+    let root = tempfile::tempdir().unwrap();
+    let store = ConversationHistoryStore::open(root.path()).unwrap();
+    append(&store, "conversation-a", "m1", "deleted transcript", 1);
+    ConversationJournal::open(root.path())
+        .unwrap()
+        .record_deletion(ConversationDeletionMarker {
+            conversation_id: "conversation-a".to_string(),
+            reason: "retention window elapsed".to_string(),
+            authority_audit_hash: H.to_string(),
+            created_at_epoch_ms: 2,
+        })
+        .unwrap();
+
+    let page = store
+        .page(
+            &policy("conversation-a"),
+            ConversationHistoryPageRequest {
+                conversation_id: "conversation-a".to_string(),
+                page_size: 10,
+                cursor: None,
+            },
+        )
+        .unwrap();
+    assert!(page.records.is_empty());
+    assert!(page.next_cursor.is_none());
+
+    assert!(store
+        .search(
+            &policy("conversation-a"),
+            ConversationHistorySearchRequest {
+                conversation_id: "conversation-a".to_string(),
+                query: "deleted".to_string(),
+                limit: 10,
+            },
+        )
+        .unwrap()
+        .is_empty());
+    assert!(store
+        .export(&policy("conversation-a"), "conversation-a")
+        .unwrap()
+        .records
+        .is_empty());
+    assert!(ConversationHistoryStore::open(root.path())
+        .unwrap()
+        .restore_observatory_transcript(&policy("conversation-a"), "conversation-a")
+        .unwrap()
+        .is_empty());
 }
 
 #[test]

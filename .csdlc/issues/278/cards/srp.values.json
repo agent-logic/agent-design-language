@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-18C.04c][114.c] Expose re-authorized conversation history APIs and restore Observatory transcripts",
     "slug": "v0-92-wp-18c-04c-114-c-reauthorized-conversation-history-observatory-transcripts",
     "version": "v0.92.0",
-    "generation": 12
+    "generation": 15
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Fresh design/readiness review before bind; later fresh exact-head implementation review before publication.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

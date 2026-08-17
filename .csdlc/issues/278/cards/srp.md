@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Fresh design/readiness review before bind; later fresh exact-head implementation review before publication.
+
 
 ## Prompts
 

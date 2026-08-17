@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "c1b6e52e4c9445198a5adf816edf8ff48438f3adc995cb05d8c8f9430ea536a7",
   "phase": "implemented",
-  "generation": 12,
-  "digest": "ce6422ca6fbcaa7021f2ae4648ffc371f8514012ab12dcb370e769858cd34719",
+  "generation": 15,
+  "digest": "38456904c448c4d5ffb8ab45ed6c2827033de5f9064dd798019f740e89450f71",
   "branch": "codex/278-reauthorized-conversation-history-observatory-transcripts",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-278-reauthorized-conversation-history-observatory-transcripts",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7584f7a33955cc704451fa8ea1a65b5c3850156f79949958da41a19e096a654d",
+      "values_digest": "645d1878c1bf23bba226e0df18a74a4f5c46fd9a14cdaae7a1f63825bfdb966a",
       "rendered_digest": "59f9981b08847505dedc8bca2894f98d95268657006195b3ee0a107590e4794f",
       "ast_digest": "7cdc6be4df2df9638835f02ce9df9c3b2fa01ec07612f6219cbd43ee57c6dcef"
     },
     "stp": {
-      "values_digest": "9c4d5e02f3412c7ff0170453870af0fedd889f7fd3f7425538ffe693e646af3c",
+      "values_digest": "2d0d6474ec56777b457791843fd3fdd307c0c91f37e07386fa83b52f1a39269b",
       "rendered_digest": "2fbbd4f6db53c0eedc819e764e6224e62603a420bcee74f2e33c98e18b06df00",
       "ast_digest": "fbe04dc4a5cabc69c1ba5d8cd46b5a8f61f871484f6cb65ae46d4042b93fe97e"
     },
     "spp": {
-      "values_digest": "f79620722a09426ec95c6d8c65c3f881136e1bd26b73238b089a8bfc2b868b76",
+      "values_digest": "d9ab0dcd1ed8109a76cbe04d36da9b37b70a2eeedb75eafe5a45d1c651109b29",
       "rendered_digest": "f4c77b7233b9b4b38be67c4ed729a25b68c89b885716b50f39ee8daf96a190d7",
       "ast_digest": "b41a7bbe7629262e7f30c5a399cfaf1c388b44b8b741b60c7f609117010f7223"
     },
     "vpp": {
-      "values_digest": "30729759625c346236e50d2936b85994c6d6bcb36543e08b1a9536c1640efc25",
+      "values_digest": "9c002f57dd884175ca863fff6c65fe39be9445bef16f7abefd0d2122b3d86b12",
       "rendered_digest": "ebe3f9201985c9e6fa3b243fcfdf979b2310de8190d5ffc817c83545a1531994",
       "ast_digest": "bedbd31bcea4467a1854155c6b913de34278e9eb205fabb7f3e584ed99d104fe"
     },
     "srp": {
-      "values_digest": "ec70c388889a7d91b73e386009cab41a1d47a7aa30a08a6e546b55834706ce05",
-      "rendered_digest": "6c37b97dc3401b6131ae655e552a44083867af2987e1c0a3f20fe4cfa91ac215",
-      "ast_digest": "7deef765d304f69942dea712031c0fc53cec23be7e0214c6be2bca1d8268565b"
+      "values_digest": "b126481d2ad64d76becc7b17963b38230b39c25eaca2385136f0cfd53f6e083a",
+      "rendered_digest": "258fde6cabf8a9078680afe0d0013b25eb00f43807d1a145a456f5a7291282db",
+      "ast_digest": "4352ee17b0378fedfb8c3fcff219ead53584fe0ca5de756f302e3ad1f0b9c6fb"
     },
     "sor": {
-      "values_digest": "036301fde230e3ddb1f8703fb39711d685caa1938b4120d51416d4cedaa5dd7b",
-      "rendered_digest": "973e3bf4e7e40d32297c11768d50be695bed2da9a1dddc5cb29440ae505319b9",
-      "ast_digest": "a49695cefcb0c68973ff9317cd890ee6a2d931cee7a0dfb0d06ad23107e4cacc"
+      "values_digest": "1e7c3ba24db7532d0521bad04201fdeb2958e3fb09fa5f28e131300d16ca1ef3",
+      "rendered_digest": "8a1cbce9b6c0b6573dcc0fb42f3a6b3a94a47eb319dd59fd886dc2be9ea3ab6a",
+      "ast_digest": "714c58353b8a3d62dd8ef2cb64b1a9459578253f4c0666e5aa0659bf40f185b4"
     }
   },
   "transitions": [
@@ -175,6 +175,41 @@
       "actor": "codex:/root",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex:issue-278-review-compliance",
+      "reason": "Recover non-UUID implementation review assignment before any review material is sent; #119 requires a canonical fresh-session:<UUID> reviewer identity bound before review activity.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:issue-278-implementation-review",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Recover exact-head implementation review after fresh-session:869ae2be-e7c5-4571-89bb-c72b843c98dc returned FAIL at 9fa5dbbd. P1: ConversationHistoryStore visible read surfaces ignore journal deleted_conversations and can return deleted transcript records. No product changes before this recovery.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "Record exact #278 implementation-review P1 remediation: deleted journal conversations no longer appear in history page/search/export/restore surfaces.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Remediated #278 review P1 by making re-authorized conversation history reads honor Runtime journal deletion markers. The shared history visibility helper now returns no records for deleted conversations, and the focused Runtime regression proves page, search, export, and Observatory restore all hide deleted transcript history. Publication and merge are not yet attempted.\",\"changes\":[\"adl-runtime-kernel/src/conversation_history.rs: visible_records now returns an empty history projection when the journal snapshot marks the conversation deleted\",\"adl-runtime-kernel/tests/conversation_history.rs: added deletion_marker_hides_page_search_export_and_restore_history covering page/search/export/restore\",\".csdlc/evidence/278: refreshed preparation, fmt, focused Runtime, Observatory validator, strict clippy, and diff-hygiene logs after the remediation\"],\"artifacts\":[\"adl-runtime-kernel/src/conversation_history.rs\",\"adl-runtime-kernel/tests/conversation_history.rs\",\".csdlc/evidence/278/issue-278-preparation-validator.log sha256=a74a551afb309432adce3831f480d3ae4c88b657f7e470c9e4678dacb37e1ee5\",\".csdlc/evidence/278/runtime-kernel-conversation-history-fmt.log sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\",\".csdlc/evidence/278/runtime-kernel-conversation-history-focused.log sha256=cfdf9229396a1991e68e6f105772ad5eddb3fe69a741562bb467c27e5f94ffb9\",\".csdlc/evidence/278/observatory-transcript-restore-validator.log sha256=a9906d8870f32db6ff606f4c244bc072a5688b4112d4b73214b53ebf38d61f55\",\".csdlc/evidence/278/runtime-kernel-strict-clippy.log sha256=22e0df986057b9ba5be07526ac5fb348862a3dedef42108383cc3e088acbb889\",\".csdlc/evidence/278/diff-check.log sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/278/validate_preparation_bundle.py\"],\"purpose\":\"Validate #278 dependency/scope packet and terminal caches after review recovery.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/278/issue-278-preparation-validator.log sha256=a74a551afb309432adce3831f480d3ae4c88b657f7e470c9e4678dacb37e1ee5\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--check\"],\"purpose\":\"Rust formatting check after deletion-visibility remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/278/runtime-kernel-conversation-history-fmt.log sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"conversation_history\"],\"purpose\":\"Focused #278 Runtime proof including deletion marker hiding across page/search/export/restore; 5 tests passed.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/278/runtime-kernel-conversation-history-focused.log sha256=cfdf9229396a1991e68e6f105772ad5eddb3fe69a741562bb467c27e5f94ffb9\"},{\"command\":[\"node\",\"adl/tools/validate_v092_observatory_transcript_history.mjs\"],\"purpose\":\"Validate Observatory transcript restoration helper behavior after Runtime history remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/278/observatory-transcript-restore-validator.log sha256=a9906d8870f32db6ff606f4c244bc072a5688b4112d4b73214b53ebf38d61f55\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Strict Runtime kernel clippy after deletion-visibility remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/278/runtime-kernel-strict-clippy.log sha256=22e0df986057b9ba5be07526ac5fb348862a3dedef42108383cc3e088acbb889\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Whitespace and patch hygiene after refreshed evidence logs.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/278/diff-check.log sha256=e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\"}]}"
     }
   ]
 }

@@ -326,6 +326,9 @@ fn visible_records(
     policy: &ConversationHistoryAccessPolicy,
 ) -> ConversationHistoryResult<Vec<ConversationHistoryRecord>> {
     authorize(policy, conversation_id)?;
+    if snapshot.deleted_conversations.contains(conversation_id) {
+        return Ok(Vec::new());
+    }
     let redactions = history_redactions(snapshot, conversation_id);
     let mut records = Vec::new();
     for record in &snapshot.records {
