@@ -3,50 +3,14 @@
   "issue": 114,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "bb70960941aab631d5c34ecdb2e526c2af37ec6b16d7835180a774117e371407",
-  "phase": "published",
-  "generation": 102,
-  "digest": "6082aab49550fbc2c9a94251aecb99aad4d330cd4731ff0d323529a578e9ff2b",
+  "phase": "implemented",
+  "generation": 105,
+  "digest": "d33117e3a2ac0a77a3e9550c3da6d76b6c1c02ab6decae8c06910912f442b5e0",
   "branch": "codex/114-durable-history-parent-integration-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-114-durable-history-parent-integration-proof",
-  "review_assignment": {
-    "reviewer": "fresh-session:915c3530-945a-4f21-8fd3-d0128456f77a",
-    "assigned_by": "codex:wp18c-114-card-truth-remediation",
-    "revision": "git-blake3:93bca7330e5e11e77c3fb519955f767b734d9a37:296f2754342f3492d5eab46d7b21a3b329b0d9555c50e7d58b9b251eb908e877",
-    "scope": [
-      ".csdlc/issues/114",
-      ".csdlc/prepared/issues/114/validate_preparation_bundle.py",
-      "adl/tools/validate_v092_durable_history_parent_integration.py",
-      "adl-runtime-kernel/tests/durable_conversation_history_integration.rs"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:915c3530-945a-4f21-8fd3-d0128456f77a",
-    "scope": [
-      ".csdlc/issues/114",
-      ".csdlc/prepared/issues/114/validate_preparation_bundle.py",
-      "adl/tools/validate_v092_durable_history_parent_integration.py",
-      "adl-runtime-kernel/tests/durable_conversation_history_integration.rs"
-    ],
-    "reviewed_revision": "git-blake3:93bca7330e5e11e77c3fb519955f767b734d9a37:296f2754342f3492d5eab46d7b21a3b329b0d9555c50e7d58b9b251eb908e877",
-    "findings": [],
-    "residual_risks": [
-      "Review was limited to #114 parent durable-history integration proof and lifecycle truth; publication, CI, finish, and downstream #115/#116/#117 execution remain separate gates."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 114,
-    "pull_request": 390,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/390",
-    "base": "main",
-    "head": "codex/114-durable-history-parent-integration-proof",
-    "revision": "git-blake3:3a24612088070e23a6012b735f15bfb0e343451a:a3aa6bf2e1ada6c66355271bed31166dec117190a6a981cf4c9e1e5498814775",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -60,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a35678628e71af8bcd7b34a76b75fe9bf8d0147d136ee7b7d76f6697f6e2b912",
+      "values_digest": "0be5ee13b35804af046d9226701b60d3eb79fb54ef1dd8e384396ac09d94aa8f",
       "rendered_digest": "0b0c6bafa6deda1c3729cf78a0329206ddc13dee5d9d87714262d211aaaf4190",
       "ast_digest": "3e1bbbcc8e45f6c68031ca5d6b787383716509ed050a4795ae7d74647bbe1bf2"
     },
     "stp": {
-      "values_digest": "10be60d154c4b14ccca74d4b8311b0c3aac5672751d55cdcc2d8931baf5b2462",
+      "values_digest": "e7d6eec8e9fdd1ac2f7afbd63bb994972ee745820d3a0a568334642d9c2d9cea",
       "rendered_digest": "54be2e47fc6ac1e830cad277f5f65e0b0e6a9dd6d2b902cafa4a94facdadadb1",
       "ast_digest": "e50d74e143c0b064f3d4d50fedc4d54d677cf7274c6bff9e7200cae751c51bb7"
     },
     "spp": {
-      "values_digest": "44cc7575dbc65cd937422576ca9e43f8c2e55ae68b645de5801ef20c02f98cab",
-      "rendered_digest": "2b33e24101202208e944424c6042bea1756273f265945acffe94babcbfdd4d50",
-      "ast_digest": "7af499af5167903300dadeef694b73dcd01ebf204b5fe9955ac3a0aca156a789"
+      "values_digest": "d578868f96aeba4f258e948fabf0ad2b46f9c7f4dc9ec05dbeeadff12765bf7d",
+      "rendered_digest": "3fc6d07cc7a7b383f7c0d7e34a3da8e1b35f04556f441ecf50c115e054202f8a",
+      "ast_digest": "cb9f36cc2bb8b80fa2a83bf639fe0932edcf0e893be584bc195f5e0103079445"
     },
     "vpp": {
-      "values_digest": "77f88fc6948b4d0ac5318aff6a041e61cb40b8c00913f9243c681c1df6b248e4",
+      "values_digest": "acbbf73312c301ae7a565d9a6c9505f68b1293299fdfa5151a77fea5c052458c",
       "rendered_digest": "ba2d3cabab8fa8a531ec7b76dd97f9d2fd283ce79bb7baead3f9c201297da58a",
       "ast_digest": "15b31620d42587530dfe6993147841e9736b616cf6a632ba6aa4a1501b79c6f8"
     },
     "srp": {
-      "values_digest": "a576ce61700def49b00ba78a6a526e3431dae63d8e6794a3fa4dd208076c0b24",
-      "rendered_digest": "a056cc1e1149f30576cb8f5ec824c915388602e3330e21aa26d6989c2112f253",
-      "ast_digest": "39372e14f92513542a6c21d20397a411cedacff23db92f5cd7841f55b63eb0cb"
+      "values_digest": "ca589d048737699d9818081c66bd66a040212b7d219bf782c9b6ba6cca333385",
+      "rendered_digest": "4c20c6b889cff9d9412737fa59fadc0f0a7bec2a0b54836a17900e0c6acf51a7",
+      "ast_digest": "8ad302f3a7ef866858f7587928930e17eabb1a7e4467fe4bfb70391ea23ef2ef"
     },
     "sor": {
-      "values_digest": "64ad4bae141070ceb9637e490667aa1286181fbf024bbd7f47f9487ee9ca28b0",
-      "rendered_digest": "f1d2bcca70d902952f6c3ada689b08cc72ad4d415f6b08f5aa7d1dfb79384d04",
-      "ast_digest": "04b399c4406f62b65214b3999f71f1fcb1f733c96f7daebc6ec33de831161b74"
+      "values_digest": "730fe25c8d6334d12e9268020debc3942de43a19a1a2ea1f0b0b34a6cd1e98b0",
+      "rendered_digest": "c91f4fdf4c45b555600ceddc51d33294fb0eaa240406d1a53c054032c67c42c1",
+      "ast_digest": "3576889ec702979f0156d30b4faada8787a6b4ba37a858d1940b5793badf64db"
     }
   },
   "transitions": [
@@ -125,6 +89,13 @@
       "to": "published",
       "actor": "codex:/root",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:wp18c-114-review-publication-recovery",
+      "reason": "Recover #114 after typed state recorded PASS/publication for reviewer 915c3530 even though the actual fresh-session verdict returned FAIL with two Medium findings. Clear stale review/publication truth before validator and SPP card repairs, fresh review, and republish."
     }
   ],
   "audit": [
@@ -946,6 +917,27 @@
       "actor": "codex:/root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 118,
+      "generation": 103,
+      "actor": "codex:wp18c-114-review-publication-recovery",
+      "reason": "Recover #114 after typed state recorded PASS/publication for reviewer 915c3530 even though the actual fresh-session verdict returned FAIL with two Medium findings. Clear stale review/publication truth before validator and SPP card repairs, fresh review, and republish.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 119,
+      "generation": 104,
+      "actor": "codex:wp18c-114-review-finding-repair",
+      "reason": "Repair #114 SPP summary after typed review/publication recovery so current implemented-phase planning truth states the exact remaining gates before publication and finish.",
+      "operation": "{\"new_value\":\"Implemented #114 durable-history parent integration proof is complete within parent-only scope after #276, #277, and #278 terminal ancestry. Current recovery truth has cleared the invalid PASS/publication record; remaining gates are the validator/card-truth repair, focused proof, immutable commit, fresh no-context exact-head review PASS, typed republish with Closes #114, required CI green, and typed finish.\",\"operation\":\"correct_plan_summary_after_recovery\",\"previous_value\":\"#114 has implemented the parent-only durable-history integration proof in the bound worktree: dependency terminal ancestry, issue-owned validation, terminal-chain validation, focused Runtime integration regression, strict Clippy, and diff hygiene are complete; fresh exact-head review, typed publication, CI, and finish remain pending.\",\"recovery_generation\":103,\"recovery_sequence\":118}"
+    },
+    {
+      "sequence": 120,
+      "generation": 105,
+      "actor": "codex:wp18c-114-review-finding-repair",
+      "reason": "Record #114 post-publication-recovery remediation for fresh-review findings before committing the new immutable review head.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Recovered #114 from an invalid PASS/publication record after reviewer 915c3530 returned FAIL, then repaired the executable validator proof and implemented-phase planning summary through supported typed routes. Publication, merge, and finish remain pending until fresh exact-head review PASS, current typed republish, required CI green, and typed finish.\",\"changes\":[\"Added explicit validation that each #276/#277/#278 derived-terminal cache has a positive canonical_generation and a 64-hex canonical_digest before the #114 terminal-chain validator passes.\",\"Updated #114 SPP implemented-phase summary through correct_plan_summary_after_recovery to state the invalid publication recovery and exact remaining review/publication/CI/finish gates.\",\"Preserved #114 parent-only scope and did not absorb #276, #277, #278, #271, #115, #116, or #117 product behavior.\"],\"artifacts\":[\"adl/tools/validate_v092_durable_history_parent_integration.py\",\".csdlc/issues/114/cards/spp.md\",\".csdlc/issues/114/cards/spp.values.json\",\".csdlc/issues/114/cards/sor.md\",\".csdlc/issues/114/cards/sor.values.json\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/114/validate_preparation_bundle.py\"],\"purpose\":\"Validate bound/implemented #114 identity, preserved design/diagram digests, terminal ancestry for #112/#265/#270/#271/#276/#277/#278, and parent-only card boundaries.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:114-issue-owned-bound-parent-validator-gen104\"},{\"command\":[\"python3\",\"adl/tools/validate_v092_durable_history_parent_integration.py\"],\"purpose\":\"Validate #276/#277/#278 terminal caches, merged dispositions, canonical generation/digest fields, merge-SHA ancestry, and focused test-surface presence.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:114-parent-terminal-chain-validator-gen104\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"durable_conversation_history_integration\",\"--\",\"--nocapture\"],\"purpose\":\"Run focused durable-history parent integration test across restart, duplicate attempt admission, receipts, replay owner state, retained marker persistence before deletion, deletion cleanup, and Observatory transcript restoration.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:114-parent-runtime-kernel-integration-test-gen104\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"durable_conversation_history_integration\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict Clippy for the #114 focused Runtime kernel integration test target.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:114-parent-hygiene-gen104\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Check whitespace/diff hygiene for the #114 parent proof surface.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:114-diff-hygiene-gen104\"},{\"command\":[\"csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-114-durable-history-parent-integration-proof\",\"issue\",\"--issue\",\"114\"],\"purpose\":\"Validate canonical #114 lifecycle truth after review/publication recovery and remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:114-csdlc-validate-gen104\"}]}"
     }
   ]
 }

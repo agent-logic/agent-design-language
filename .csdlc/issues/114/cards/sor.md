@@ -12,18 +12,20 @@ Status: pre_phase
 
 ## Summary
 
-Recorded the #114 durable-history coordination-parent integration proof after #276, #277, and #278 reached terminal ancestry. Review remediation added persisted retention-marker restart assertions and narrowed the terminal-chain validator claim to its actual proof boundary; lifecycle/card parent ownership remains enforced by the issue-owned preparation bundle validator. Publication, merge, and finish remain pending.
+Recovered #114 from an invalid PASS/publication record after reviewer 915c3530 returned FAIL, then repaired the executable validator proof and implemented-phase planning summary through supported typed routes. Publication, merge, and finish remain pending until fresh exact-head review PASS, current typed republish, required CI green, and typed finish.
 
 ## Artifacts
 
-- .csdlc/prepared/issues/114/validate_preparation_bundle.py
 - adl/tools/validate_v092_durable_history_parent_integration.py
-- adl-runtime-kernel/tests/durable_conversation_history_integration.rs
+- .csdlc/issues/114/cards/spp.md
+- .csdlc/issues/114/cards/spp.values.json
+- .csdlc/issues/114/cards/sor.md
+- .csdlc/issues/114/cards/sor.values.json
 
 ## Execution
 
-- Added explicit retained ConversationJournal restart assertions before deletion so retention marker fields, total journal records, committed event continuity, and Observatory transcript visibility are proved before deletion is recorded.
-- Narrowed adl/tools/validate_v092_durable_history_parent_integration.py to claim terminal child cache ancestry and focused test-surface presence only, while pointing lifecycle/card ownership proof to the issue-owned #114 preparation validator.
+- Added explicit validation that each #276/#277/#278 derived-terminal cache has a positive canonical_generation and a 64-hex canonical_digest before the #114 terminal-chain validator passes.
+- Updated #114 SPP implemented-phase summary through correct_plan_summary_after_recovery to state the invalid publication recovery and exact remaining review/publication/CI/finish gates.
 - Preserved #114 parent-only scope and did not absorb #276, #277, #278, #271, #115, #116, or #117 product behavior.
 
 ## Validation
@@ -34,18 +36,18 @@ Recorded the #114 durable-history coordination-parent integration proof after #2
       "python3",
       ".csdlc/prepared/issues/114/validate_preparation_bundle.py"
     ],
-    "purpose": "Validate bound/implemented #114 identity, preserved design/diagram digests, terminal ancestry for #112/#265/#270/#271/#276/#277/#278, and absence of stale preparation-only markers in current publication-relevant card truth.",
+    "purpose": "Validate bound/implemented #114 identity, preserved design/diagram digests, terminal ancestry for #112/#265/#270/#271/#276/#277/#278, and parent-only card boundaries.",
     "outcome": "passed",
-    "evidence_ref": "local:114-issue-owned-bound-parent-validator-gen86"
+    "evidence_ref": "local:114-issue-owned-bound-parent-validator-gen104"
   },
   {
     "command": [
       "python3",
       "adl/tools/validate_v092_durable_history_parent_integration.py"
     ],
-    "purpose": "Validate #276/#277/#278 terminal caches, merged dispositions, merge-SHA ancestry, and focused test-surface presence; parent ownership/lifecycle truth is separately validated by the issue-owned bundle validator.",
+    "purpose": "Validate #276/#277/#278 terminal caches, merged dispositions, canonical generation/digest fields, merge-SHA ancestry, and focused test-surface presence.",
     "outcome": "passed",
-    "evidence_ref": "local:114-parent-terminal-chain-validator-gen86"
+    "evidence_ref": "local:114-parent-terminal-chain-validator-gen104"
   },
   {
     "command": [
@@ -60,7 +62,7 @@ Recorded the #114 durable-history coordination-parent integration proof after #2
     ],
     "purpose": "Run focused durable-history parent integration test across restart, duplicate attempt admission, receipts, replay owner state, retained marker persistence before deletion, deletion cleanup, and Observatory transcript restoration.",
     "outcome": "passed",
-    "evidence_ref": "local:114-parent-runtime-kernel-integration-test-reviewfix"
+    "evidence_ref": "local:114-parent-runtime-kernel-integration-test-gen104"
   },
   {
     "command": [
@@ -76,7 +78,7 @@ Recorded the #114 durable-history coordination-parent integration proof after #2
     ],
     "purpose": "Run strict Clippy for the #114 focused Runtime kernel integration test target.",
     "outcome": "passed",
-    "evidence_ref": "local:114-parent-hygiene-reviewfix"
+    "evidence_ref": "local:114-parent-hygiene-gen104"
   },
   {
     "command": [
@@ -86,7 +88,7 @@ Recorded the #114 durable-history coordination-parent integration proof after #2
     ],
     "purpose": "Check whitespace/diff hygiene for the #114 parent proof surface.",
     "outcome": "passed",
-    "evidence_ref": "local:114-diff-hygiene-reviewfix"
+    "evidence_ref": "local:114-diff-hygiene-gen104"
   },
   {
     "command": [
@@ -97,19 +99,19 @@ Recorded the #114 durable-history coordination-parent integration proof after #2
       "--issue",
       "114"
     ],
-    "purpose": "Validate canonical #114 lifecycle truth after review recovery and remediation.",
+    "purpose": "Validate canonical #114 lifecycle truth after review/publication recovery and remediation.",
     "outcome": "passed",
-    "evidence_ref": "local:114-csdlc-validate-gen86"
+    "evidence_ref": "local:114-csdlc-validate-gen104"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

@@ -12,10 +12,7 @@ Status: draft
 
 ## Scope
 
-.csdlc/issues/114
-.csdlc/prepared/issues/114/validate_preparation_bundle.py
-adl/tools/validate_v092_durable_history_parent_integration.py
-adl-runtime-kernel/tests/durable_conversation_history_integration.rs
+
 
 ## Prompts
 
@@ -36,12 +33,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Review was limited to #114 parent durable-history integration proof and lifecycle truth; publication, CI, finish, and downstream #115/#116/#117 execution remain separate gates.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:93bca7330e5e11e77c3fb519955f767b734d9a37:296f2754342f3492d5eab46d7b21a3b329b0d9555c50e7d58b9b251eb908e877")
+Revision: None
 
-Reviewer: Some("fresh-session:915c3530-945a-4f21-8fd3-d0128456f77a")
+Reviewer: None
 
-Result: pass
+Result: pre_review

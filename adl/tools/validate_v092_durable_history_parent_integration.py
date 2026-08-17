@@ -76,6 +76,22 @@ def load_json(path: pathlib.Path) -> dict:
     return payload
 
 
+def require_positive_int(value: object, *, field: str, issue: int) -> int:
+    if not isinstance(value, int) or value <= 0:
+        fail(f"issue #{issue} invalid {field}")
+    return value
+
+
+def require_digest(value: object, *, field: str, issue: int) -> str:
+    if not isinstance(value, str) or len(value) != 64:
+        fail(f"issue #{issue} invalid {field}")
+    try:
+        int(value, 16)
+    except ValueError:
+        fail(f"issue #{issue} invalid {field}")
+    return value
+
+
 def main() -> None:
     root = repo_root()
     common_git_dir = pathlib.Path(git(root, "rev-parse", "--git-common-dir"))
@@ -98,12 +114,22 @@ def main() -> None:
         if not merge_sha:
             fail(f"issue #{issue} missing merge_sha")
         git(root, "merge-base", "--is-ancestor", merge_sha, "HEAD")
+        canonical_generation = require_positive_int(
+            terminal.get("canonical_generation"),
+            field="canonical_generation",
+            issue=issue,
+        )
+        canonical_digest = require_digest(
+            terminal.get("canonical_digest"),
+            field="canonical_digest",
+            issue=issue,
+        )
         terminals[issue] = {
             "role": role,
             "pull_request": terminal.get("pull_request"),
             "merge_sha": merge_sha,
-            "canonical_generation": terminal.get("canonical_generation"),
-            "canonical_digest": terminal.get("canonical_digest"),
+            "canonical_generation": canonical_generation,
+            "canonical_digest": canonical_digest,
         }
 
     test_path = root / "adl-runtime-kernel" / "tests" / "durable_conversation_history_integration.rs"

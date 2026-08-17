@@ -7,14 +7,14 @@
     "title": "[v0.92][WP-18C.04][coordination] Coordinate durable conversation history, continuity, and receipts",
     "slug": "v0-92-wp-18c-04-coordinate-durable-conversation-history-continuity-receipts",
     "version": "v0.92.0",
-    "generation": 102
+    "generation": 105
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
       "plan_revision": 17,
-      "summary": "#114 has implemented the parent-only durable-history integration proof in the bound worktree: dependency terminal ancestry, issue-owned validation, terminal-chain validation, focused Runtime integration regression, strict Clippy, and diff hygiene are complete; fresh exact-head review, typed publication, CI, and finish remain pending.",
+      "summary": "Implemented #114 durable-history parent integration proof is complete within parent-only scope after #276, #277, and #278 terminal ancestry. Current recovery truth has cleared the invalid PASS/publication record; remaining gates are the validator/card-truth repair, focused proof, immutable commit, fresh no-context exact-head review PASS, typed republish with Closes #114, required CI green, and typed finish.",
       "steps": [
         {
           "id": "S1",

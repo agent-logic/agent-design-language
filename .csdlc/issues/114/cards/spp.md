@@ -12,7 +12,7 @@ Status: ready
 
 ## Summary
 
-#114 has implemented the parent-only durable-history integration proof in the bound worktree: dependency terminal ancestry, issue-owned validation, terminal-chain validation, focused Runtime integration regression, strict Clippy, and diff hygiene are complete; fresh exact-head review, typed publication, CI, and finish remain pending.
+Implemented #114 durable-history parent integration proof is complete within parent-only scope after #276, #277, and #278 terminal ancestry. Current recovery truth has cleared the invalid PASS/publication record; remaining gates are the validator/card-truth repair, focused proof, immutable commit, fresh no-context exact-head review PASS, typed republish with Closes #114, required CI green, and typed finish.
 
 ## Plan
 
