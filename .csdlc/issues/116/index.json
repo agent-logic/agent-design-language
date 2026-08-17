@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "174c0bed7ee984cb1f5ca273105bf6d626e2b7186d70aaf113c79ae4a0f0052a",
-  "phase": "implemented",
-  "generation": 22,
-  "digest": "4ead46d383a304dfd1ed8a43be6b9f476285366dcaa0f4d050c875cf85380d20",
+  "phase": "reviewed",
+  "generation": 23,
+  "digest": "9e81d7ea51a7c06ae6fa0d02ea1bf5af802bb47e08c02d58a47d76df4e4e98af",
   "branch": "codex/116-operator-attention-inbox",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-116-operator-attention-inbox",
   "review_assignment": {
@@ -26,7 +26,30 @@
       "demos/html-observatory/tests/operator_attention_inbox.test.mjs"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:d1e3ad16-762a-4a7f-88cd-3e4ec49bcb8a",
+    "scope": [
+      ".csdlc/issues/116",
+      ".csdlc/prepared/issues/116",
+      ".csdlc/evidence/116",
+      "adl-runtime-kernel/src/operator_attention.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "demos/html-observatory/tests/operator_attention_inbox.test.mjs"
+    ],
+    "reviewed_revision": "git-blake3:c4d5f42f9ebd6ee89571d364801948a4e7f03e6f:baafc85716d4cbe62985b050416a2ad69ea6998bf114cc439cd58d4d0d0c74b5",
+    "findings": [],
+    "residual_risks": [
+      "Reviewer confirmed current HEAD 67d89c3ac91dac833357e666147a2d359d9fe328 differs from assigned substantive revision only by review-assignment metadata.",
+      "Reviewer reran the focused #116 local proof: preparation validator, rustfmt check, 8 Rust operator_attention tests, 1 Node Observatory inbox test, strict clippy, and git diff --check all passed.",
+      "GitHub CI remains the remote integration gate after typed publication."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -41,32 +64,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3103f01feed155c17b6b1505816ced52f77fd5fc5b5cf1d95a7710095515615f",
+      "values_digest": "3bbeb4188c4a0f4f923e790cc2c7c887831f4268feb64dfc579b3d39749ea96e",
       "rendered_digest": "615ebc26ce85e6f0d223a5d81a8699b2db73646ffbfcc7036e08722adf48cef1",
       "ast_digest": "dd817ebec75ea010b2d37cc52f92d3b12040fd30da6bc3a55bfe4fca81e8cac4"
     },
     "stp": {
-      "values_digest": "db1633ad08e269f4cecc3d205c3182788ec15d1532acefcbf6c51309100cab66",
+      "values_digest": "f8732a3a2d287e1bd7208121a8060ee815cf2ac4c67e6e774f1e5f5b6f1bcc35",
       "rendered_digest": "52de91966d27c36d2e5322ebad84fecc97cb749d0118832ab58f8e70f1fd928b",
       "ast_digest": "1a304201009b5f8022ff747a66acec75efba1e92154d48a921882543c66115e9"
     },
     "spp": {
-      "values_digest": "b92c508692eee4a46f706f663bc27a49d1d082c17e116e92f940966ce518379e",
+      "values_digest": "bc5baf9947c6c34f0e547e4dcffc586706bacd322d2dedb060f715507a54da23",
       "rendered_digest": "848d519bc8bb7c5208170b8d4848a57b98796d2b384c7378fd86ec4e0dd3261b",
       "ast_digest": "b0124a985f14ac971b2405f5911db285773a93600e66d9c1af0e2f1f35b09e0d"
     },
     "vpp": {
-      "values_digest": "5999df82abcff235a7df376b9a976e79abdd2e39c3927d68621d725f753de251",
+      "values_digest": "28e6e239e95c611d4bcf2c5b1967989424d8f2724949931d3cebb1da0562322b",
       "rendered_digest": "2eb411e606fe12920a2951e032f17a3378196cb36282bdff32127aa1442634b0",
       "ast_digest": "81b8ad794c55c5086c59931af269a1e2abbd45630fe6a97f93add391e138c503"
     },
     "srp": {
-      "values_digest": "17cbdd05e9873780c654427e7b95d0b9c3756887288ab8d104ffa10934cb9a07",
-      "rendered_digest": "ae6be4bc0ba079baa312548fc277c8d7db5aac3e17cfc37b36a4f65e5de3e94e",
-      "ast_digest": "ac9aa24d3ef1c3c5db9711ec893f5f5c88c4948432859a790d712504e054ecde"
+      "values_digest": "af852d3ca0d9a12d021c5ee8e6aebe95ab67c668a8a9401042734951f06f4073",
+      "rendered_digest": "00800f1613e39ade1b1686435143c7960f899c673c04180f4af6d95e2c8c94dd",
+      "ast_digest": "584745850c68ff32806deb5f16a29bef496038c327d1184a0dfec00ed9f01dde"
     },
     "sor": {
-      "values_digest": "39f472a98cc1804192540edc426847b50ad127739cc72f3cbb4f93d4d41b41cf",
+      "values_digest": "a547f2fbf3523098083fadbb036767f3fe4afaf027d0c6a55ca02aca7b67acd4",
       "rendered_digest": "8801fd4f1fa4d0a7034f32c830f7e6233cd31122b6d979f30ce47faa68460e15",
       "ast_digest": "c2187dae04abc851a9c862ae006a96269a6318cfb95a715a82c91b3de03e9e1d"
     }
@@ -106,6 +129,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover after environment-only review fresh-session:4fb35f20-81c8-46f8-af89-8fb4d9a0685d was recorded without proving repository inspection; publication remains held pending a different fresh reviewer with readable workspace access."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -339,6 +369,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-18C.06] Build the operator attention inbox and intervention workflow",
     "slug": "operator-attention-inbox",
     "version": "v0.92",
-    "generation": 22
+    "generation": 23
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": ".csdlc/issues/116\n.csdlc/prepared/issues/116\n.csdlc/evidence/116\nadl-runtime-kernel/src/operator_attention.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/tests/observatory.rs\ndemos/html-observatory/app.js\ndemos/html-observatory/index.html\ndemos/html-observatory/styles.css\ndemos/html-observatory/tests/operator_attention_inbox.test.mjs",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:c4d5f42f9ebd6ee89571d364801948a4e7f03e6f:baafc85716d4cbe62985b050416a2ad69ea6998bf114cc439cd58d4d0d0c74b5",
+      "reviewer": "fresh-session:d1e3ad16-762a-4a7f-88cd-3e4ec49bcb8a",
       "review_prompts": [
         "Does the design prevent fabricated source identity, urgency, and authority?",
         "Are rate limits, grouping, deduplication, quiet modes, and retention explicit enough to prevent flooding?",
@@ -24,8 +24,12 @@
         "Are focused validation lanes truthful and bounded?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Reviewer confirmed current HEAD 67d89c3ac91dac833357e666147a2d359d9fe328 differs from assigned substantive revision only by review-assignment metadata.",
+        "Reviewer reran the focused #116 local proof: preparation validator, rustfmt check, 8 Rust operator_attention tests, 1 Node Observatory inbox test, strict clippy, and git diff --check all passed.",
+        "GitHub CI remains the remote integration gate after typed publication."
+      ],
+      "review_result": "pass"
     }
   }
 }
