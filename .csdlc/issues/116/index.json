@@ -6,10 +6,26 @@
   "initialization_digest": "174c0bed7ee984cb1f5ca273105bf6d626e2b7186d70aaf113c79ae4a0f0052a",
   "phase": "implemented",
   "generation": 11,
-  "digest": "884cce2eaab53b2c89c14d5761886b364c53623104789d14c62e2b7bc666bb79",
+  "digest": "d44ffdd7b783fc323bcad401f7b69fd55c3df40e2edfeee92e6309adcd3c1ade",
   "branch": "codex/116-operator-attention-inbox",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-116-operator-attention-inbox",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:930bbc1d-11d4-4e8e-8f2d-df67fa31fd88",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:5bf40ae7c0026e542e4ba004c4272a399c6fa62e:93b80081b85c9a85bba1943ca319e89e0153f7a1cc3b944251bb853a77749dd8",
+    "scope": [
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/operator_attention.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "demos/html-observatory/tests/operator_attention_inbox.test.mjs",
+      ".csdlc/issues/116",
+      ".csdlc/prepared/issues/116",
+      ".csdlc/evidence/116"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +61,9 @@
       "ast_digest": "81b8ad794c55c5086c59931af269a1e2abbd45630fe6a97f93add391e138c503"
     },
     "srp": {
-      "values_digest": "699947d88aeb0b04f9bbcf4d39850eb8637c806493abdc127a83889f73bd4688",
-      "rendered_digest": "06621288578774e759e283cfc7e6f805e9d910bc6b5df7556f12a6430608e5f6",
-      "ast_digest": "f313a30007b7fe32bfffff80fa4a861b38ab4aec03cdb352c56280c81840a70b"
+      "values_digest": "55bacb260f3f063b8ca56e7ef2784296d6fdc848691853103ed6bc32ce94f529",
+      "rendered_digest": "0f0734769ac9a65819b381bb233adf4ab7a8d984c3769a3e44c29c46ded3b807",
+      "ast_digest": "ac41048e840972b6883c5cf76d01a2db16b035b4aa205f254bf99dd8df9e1935"
     },
     "sor": {
       "values_digest": "6b45b86571f29ac19d3da11722c0512ba8880db7da111a93114545165af62e69",
@@ -183,6 +199,13 @@
       "actor": "codex:/root",
       "reason": "Recover stale #116 review assignment fresh-session:bf8c5284-d875-4354-aa26-be3e9768a701 after committing its typed assignment metadata; no product changes, but exact review must bind the new clean immutable head.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
