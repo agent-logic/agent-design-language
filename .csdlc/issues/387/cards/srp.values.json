@@ -7,24 +7,22 @@
     "title": "[v0.92][C-SDLC][defect] Support implemented-phase card truth repair before publication",
     "slug": "implemented-card-truth-repair-before-publication",
     "version": "v0.92.1",
-    "generation": 18
+    "generation": 19
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "csdlc-v2/src/cards.rs\ncsdlc-v2/src/store.rs\ncsdlc-v2/tests/gate5.rs\n.csdlc/issues/387\n.csdlc/prepared/issues/387",
-      "review_revision": "git-blake3:5572ce98b8d859cb55d1f518d36ed871c948ce2b:b6af6fa5650526cd0e2441c5b2a284ac579bc3ec58fbee1702f59a632e11df27",
-      "reviewer": "fresh-session:fad332cc-e5b4-4f8c-9fbb-0924645f56b7",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Verify the implemented-phase repair route is narrow and does not weaken reviewed/published/publication guards.",
         "Verify the regression covers the #114-shaped sequence and negative guard behavior."
       ],
       "findings": [],
-      "residual_risk": [
-        "Review validation was intentionally limited to the permitted focused regression and Clippy; the complete crate test suite was not run."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

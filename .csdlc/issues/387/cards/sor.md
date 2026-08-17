@@ -98,7 +98,7 @@ Implemented bounded C-SDLC v2 typed repair authority for implemented, pre-public
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

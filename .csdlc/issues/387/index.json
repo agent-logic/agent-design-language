@@ -3,40 +3,13 @@
   "issue": 387,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "2b9ffdf2dd694c35d4495cc6855e4d52faef8969138fd6a42bece4e177889818",
-  "phase": "reviewed",
-  "generation": 18,
-  "digest": "18b18ef07dad76783259974b4084e947b973557d02faee328f16c2208a193eaf",
+  "phase": "implemented",
+  "generation": 19,
+  "digest": "2ee1e6f823d9ac0c0c9053206dd80cef729d05aebddec923e5dc5340c4e6fc03",
   "branch": "codex/387-implemented-card-truth-repair-before-publication",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-387-implemented-card-truth-repair-before-publication",
-  "review_assignment": {
-    "reviewer": "fresh-session:fad332cc-e5b4-4f8c-9fbb-0924645f56b7",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:5572ce98b8d859cb55d1f518d36ed871c948ce2b:b6af6fa5650526cd0e2441c5b2a284ac579bc3ec58fbee1702f59a632e11df27",
-    "scope": [
-      "csdlc-v2/src/cards.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/tests/gate5.rs",
-      ".csdlc/issues/387",
-      ".csdlc/prepared/issues/387"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:fad332cc-e5b4-4f8c-9fbb-0924645f56b7",
-    "scope": [
-      "csdlc-v2/src/cards.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/tests/gate5.rs",
-      ".csdlc/issues/387",
-      ".csdlc/prepared/issues/387"
-    ],
-    "reviewed_revision": "git-blake3:5572ce98b8d859cb55d1f518d36ed871c948ce2b:b6af6fa5650526cd0e2441c5b2a284ac579bc3ec58fbee1702f59a632e11df27",
-    "findings": [],
-    "residual_risks": [
-      "Review validation was intentionally limited to the permitted focused regression and Clippy; the complete crate test suite was not run."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -51,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f4a55a09abc8d97410093327d3bd2330ac5e5621e22353d8a1653e4cb5656a02",
+      "values_digest": "ba7ff030c9087c90854d89204190c7e751b0195af1483e6d6259a1dd76f0623b",
       "rendered_digest": "96fa78b7fa936b9834e8db631669035645fb02a59c9773443c728c1bb0351e1d",
       "ast_digest": "30bda68f5854dfd69c1ddcf2223fc9ddd9e8b0c621b6ac263103e67134a0c8fb"
     },
     "stp": {
-      "values_digest": "d571a09cba6c9dc4a9fc4e1c721290f06aef9736355c1a15870bad8506b39119",
+      "values_digest": "f0f195281bf3122b0bc619876d3f1bda30826ac96b8414c234287a25e47f930e",
       "rendered_digest": "258b01cab3aee3ad9e117454696e7d770d03a0dbadfbcf8a7a489d2fcca25bbb",
       "ast_digest": "814ec4dfaa95bb1e4b701fb1218aef43ec86cee6d43c39039cea84b5302f3392"
     },
     "spp": {
-      "values_digest": "99c5c9a60e74e03cb0f1b6a8fb5c19a0cc7fcf8fa5109a0824e8a8ea86976340",
+      "values_digest": "e9d06f8abcfe2bc60cb45f09aa98b00e937077fa03e8bb6a0c91343b8c9c7e82",
       "rendered_digest": "260c3250c359fba05c2dae48501ea67f4257fa78aa5b5d6d0c88ef5a9f32b534",
       "ast_digest": "eb951a89580c959e8902863c90a1f25313f74ccc40d72dd1b94b3d4085fbbc2f"
     },
     "vpp": {
-      "values_digest": "3c6932710c6df5e6691e0a248ef846ac426ec25857d6dd1048988a91ce3f04d6",
+      "values_digest": "e92c55f0730fd9a1a6bf3f4441b66cd59b5e233c9887b048450fb077fc71d027",
       "rendered_digest": "ec7994b9ad519b1657e3f2cf8c91d31de587a5950b0f6c755e5ec708781860a0",
       "ast_digest": "ff79ec3a1f44ebeca8aef72ea1eb0b874e6378dfbaca72787c3e9543b45ee76f"
     },
     "srp": {
-      "values_digest": "10dca9787ba467015f9f897cf18352d5eeb7b922b8475147b303a63008445f40",
-      "rendered_digest": "2718a69587e198538474e12782a74d00c415b24e88e9472b957192b2b753b2a9",
-      "ast_digest": "94a3b532a34df66272a5fb28954d41083056d13219171f02dce9d9f28e62d346"
+      "values_digest": "1b1449bda26cb5c5f231acb7f01422ab8d036b52186ce8c1bc48702660356be2",
+      "rendered_digest": "4b959e0b8afb20800368e6be7320e6a4870b9f0acf4fd0fceb77c7566ec5797e",
+      "ast_digest": "8bceeb01bd1b0c1a42aab3ae0eeac49165688bb6e123b2945d1dea836608ecde"
     },
     "sor": {
-      "values_digest": "ded48596445091a0a14d7d3d2e1db35aeb5ed26ad009046186838bfb523e1512",
-      "rendered_digest": "c230dd63a8add574f69156a9acc3d2cdc48875b91cff68e27a3361e16957023a",
-      "ast_digest": "16fae826b621b7a88176512e912efc83147447b48e0372f2f35399a8c4c932bc"
+      "values_digest": "6d7fd0b93c605a54d439d589a8c28dadc51c171d83b8d12fee70d8a454b665d1",
+      "rendered_digest": "e2c230f652d79bed9fb5e8f3b49c096ef5103a2935eb3aa7ca2e6f13076926c9",
+      "ast_digest": "0cdbc11358e6941ea04d1456a539bb365ece58fde3e3c45cb2966a135b5461a2"
     }
   },
   "transitions": [
@@ -109,6 +82,13 @@
       "to": "reviewed",
       "actor": "codex:/root",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover #387 reviewed state because committing typed PASS metadata advanced HEAD to f5a68fcb; exact-head publication requires a fresh metadata-current review."
     }
   ],
   "audit": [
@@ -258,6 +238,13 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "Recover #387 reviewed state because committing typed PASS metadata advanced HEAD to f5a68fcb; exact-head publication requires a fresh metadata-current review.",
+      "operation": "recover_review"
     }
   ]
 }
