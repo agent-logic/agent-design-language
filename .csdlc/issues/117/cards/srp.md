@@ -35,12 +35,15 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted publication, CI, merge, and typed finish for #117 remain pending.
+- #110 must still consume terminal #117 and reconcile the remaining umbrella evidence.
+- #207 and #286 remain separate coordination work.
+- This review adds no credentialed provider, Unity, cloud, Runtime, API, storage, or Observatory implementation proof.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:0e8d68adaee69475f4c00be4ce8a461cec06109a:c63557537f54b85563d6386aca04e480cb237c19f16ad2eb639dc72225b07888")
 
-Reviewer: None
+Reviewer: Some("fresh-session:08ec28a0-5432-4b2c-8427-d8aa3bec40aa")
 
-Result: pre_review
+Result: pass
