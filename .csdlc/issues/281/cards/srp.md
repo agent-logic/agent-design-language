@@ -35,12 +35,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Review was bounded to #281 Observatory security/privacy/adversarial proof and did not rerun the in-place security_privacy_adversarial Node proof because that command rewrites its committed evidence JSON.
+- Post-target changes observed by the reviewer were assignment metadata only; #281 does not implement #279 accessibility, #280 performance/recovery, #282 qualification assembly, Runtime authority, cloud, Unity, credential, or provider-payload behavior.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:b416e5e83eb812626174babeef74725af39f66ae:973f2dca8ea8a7103f8cb999bc11620de275a8f669fb259f80b67a88ea29724f")
 
-Reviewer: None
+Reviewer: Some("fresh-session:0ca8e7b5-2436-40a7-b0f3-58665ed63264")
 
-Result: pre_review
+Result: pass

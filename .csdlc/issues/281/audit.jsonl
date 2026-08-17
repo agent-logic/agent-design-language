@@ -20,3 +20,4 @@
 {"sequence":20,"generation":13,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":21,"generation":14,"actor":"codex:/root","reason":"Recover fresh-session:e5453b60-8679-43e2-ac2a-24af3f0f1808 FAIL caused by origin/main advancing to 21ab0f8fa13f25ed4e1b5f2d9b186667f26ba7bd after #281 current-base merge; finding is stale-base only, with no #281 product/code/security findings.","operation":"recover_review"}
 {"sequence":22,"generation":14,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":23,"generation":15,"actor":"fresh-session:0ca8e7b5-2436-40a7-b0f3-58665ed63264","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
