@@ -1,0 +1,116 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 388,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[C-SDLC v2][defect] Permit implemented-phase VPP/SOR/SPP truth repair for WP-18C parent closeout",
+    "slug": "implemented-card-truth-repair",
+    "version": "v0.92.0",
+    "generation": 6
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Implemented bounded C-SDLC v2 implemented-phase SPP/VPP/SOR card-truth repair routes.",
+      "actual_changes": [
+        "Added typed semantic card operations for implemented-phase VPP summary repair, VPP failure-policy repair, and SOR follow-up replacement/removal after current review recovery.",
+        "Relaxed SPP plan-summary repair to work after assignment/review recovery before publication while preserving actor/reason, active downstream truth, and duplicate-repair guards.",
+        "Added recovery-epoch duplicate-field refusal and append-only audit payloads for the SPP/VPP/SOR repair operations.",
+        "Added focused gate5 regressions proving SPP repair after assignment recovery, VPP/SOR repair guards, SOR empty-vector follow-up removal, blank-entry refusal, and compatibility with existing allowed intervening repairs.",
+        "Repaired #388 lifecycle proof truth to use the real gate5 integration-test denominator instead of a zero-test --lib filter and restored the issue-owned preparation validator target in the bound worktree."
+      ],
+      "artifacts": [
+        "csdlc-v2/src/cards.rs",
+        "csdlc-v2/src/store.rs",
+        "csdlc-v2/tests/gate5.rs",
+        ".csdlc/prepared/issues/388/validate_preparation_bundle.py",
+        ".csdlc/evidence/388"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Run strict Clippy for all csdlc-v2 targets.",
+          "outcome": "passed",
+          "evidence_ref": "388-clippy.log"
+        },
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "purpose": "Run git diff hygiene check.",
+          "outcome": "passed",
+          "evidence_ref": "388-diff.log"
+        },
+        {
+          "command": [
+            "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor",
+            "--repo",
+            "/Volumes/FastWork/adl-worktrees/adl-issue-388-implemented-card-truth-repair",
+            "--issue",
+            "388"
+          ],
+          "purpose": "Run C-SDLC v2 doctor for #388.",
+          "outcome": "passed",
+          "evidence_ref": "388-doctor.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "fmt",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--check"
+          ],
+          "purpose": "Run rustfmt check for csdlc-v2.",
+          "outcome": "passed",
+          "evidence_ref": "388-fmt.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate5",
+            "implemented_card_truth_repair"
+          ],
+          "purpose": "Run the focused #388 C-SDLC v2 gate5 integration-test regressions.",
+          "outcome": "passed",
+          "evidence_ref": "388-focused-csdlc-store.log"
+        },
+        {
+          "command": [
+            "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate",
+            "--root",
+            "/Volumes/FastWork/adl-worktrees/adl-issue-388-implemented-card-truth-repair",
+            "issue",
+            "--issue",
+            "388"
+          ],
+          "purpose": "Run C-SDLC v2 typed issue validation for #388.",
+          "outcome": "passed",
+          "evidence_ref": "388-typed-validate.log"
+        }
+      ],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

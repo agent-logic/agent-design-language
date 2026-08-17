@@ -2808,6 +2808,9 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     if matches!(
         request.operation,
         SemanticOperation::CorrectPlanSummaryAfterRecovery { .. }
+            | SemanticOperation::CorrectValidationSummaryAfterRecovery { .. }
+            | SemanticOperation::CorrectValidationFailurePolicyAfterRecovery { .. }
+            | SemanticOperation::CorrectSorFollowUpsAfterRecovery { .. }
     ) {
         let latest_review_operation = record.audit.iter().rev().find(|event| {
             matches!(
@@ -2823,24 +2826,40 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
         }
         let current_recovery = latest_review_operation.is_some_and(|event| {
             event.operation == "recover_review"
-                && record.transitions.iter().rev().any(|transition| {
-                    transition.to == LifecyclePhase::Implemented
-                        && matches!(
-                            transition.from,
-                            LifecyclePhase::Reviewed
-                                | LifecyclePhase::Published
-                                | LifecyclePhase::MergeReady
-                        )
-                        && transition.actor == event.actor
-                        && transition.reason == event.reason
-                })
                 && record
                     .audit
                     .iter()
                     .skip_while(|candidate| candidate.sequence <= event.sequence)
                     .all(|candidate| recovery_epoch_operation_is_allowed(&candidate.operation))
         });
+        let already_repaired = record
+            .audit
+            .iter()
+            .skip_while(|candidate| {
+                latest_review_operation.is_some_and(|event| candidate.sequence <= event.sequence)
+            })
+            .any(|candidate| {
+                recovery_epoch_operation_name(&candidate.operation).is_some_and(|operation| {
+                    matches!(
+                        (&request.operation, operation.as_str()),
+                        (
+                            SemanticOperation::CorrectPlanSummaryAfterRecovery { .. },
+                            "correct_plan_summary_after_recovery"
+                        ) | (
+                            SemanticOperation::CorrectValidationSummaryAfterRecovery { .. },
+                            "correct_validation_summary_after_recovery"
+                        ) | (
+                            SemanticOperation::CorrectValidationFailurePolicyAfterRecovery { .. },
+                            "correct_validation_failure_policy_after_recovery"
+                        ) | (
+                            SemanticOperation::CorrectSorFollowUpsAfterRecovery { .. },
+                            "correct_sor_follow_ups_after_recovery"
+                        )
+                    )
+                })
+            });
         if !current_recovery
+            || already_repaired
             || record.review_assignment.is_some()
             || record.review.is_some()
             || record.publication.is_some()
@@ -2934,6 +2953,39 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     } else {
         None
     };
+    let validation_summary_before = if matches!(
+        request.operation,
+        SemanticOperation::CorrectValidationSummaryAfterRecovery { .. }
+    ) {
+        match &cards[&CardKind::Vpp].content {
+            CardContent::Vpp(value) => Some(value.summary.clone()),
+            _ => unreachable!("VPP"),
+        }
+    } else {
+        None
+    };
+    let validation_failure_policy_before = if matches!(
+        request.operation,
+        SemanticOperation::CorrectValidationFailurePolicyAfterRecovery { .. }
+    ) {
+        match &cards[&CardKind::Vpp].content {
+            CardContent::Vpp(value) => Some(value.failure_policy.clone()),
+            _ => unreachable!("VPP"),
+        }
+    } else {
+        None
+    };
+    let sor_follow_ups_before = if matches!(
+        request.operation,
+        SemanticOperation::CorrectSorFollowUpsAfterRecovery { .. }
+    ) {
+        match &cards[&CardKind::Sor].content {
+            CardContent::Sor(value) => Some(value.follow_ups.clone()),
+            _ => unreachable!("SOR"),
+        }
+    } else {
+        None
+    };
     let required_outcome_before = if matches!(
         request.operation,
         SemanticOperation::CorrectRequiredOutcomeAfterRecovery { .. }
@@ -2993,6 +3045,30 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
             "operation": "correct_plan_summary_after_recovery",
             "previous_value": plan_summary_before.expect("SPP summary correction snapshot"),
             "new_value": value,
+            "recovery_sequence": record.audit.iter().rev().find(|event| event.operation == "recover_review").map(|event| event.sequence),
+            "recovery_generation": record.audit.iter().rev().find(|event| event.operation == "recover_review").map(|event| event.generation),
+        })
+        .to_string(),
+        (SemanticOperation::CorrectValidationSummaryAfterRecovery { value }, _) => serde_json::json!({
+            "operation": "correct_validation_summary_after_recovery",
+            "previous_value": validation_summary_before.expect("VPP summary correction snapshot"),
+            "new_value": value,
+            "recovery_sequence": record.audit.iter().rev().find(|event| event.operation == "recover_review").map(|event| event.sequence),
+            "recovery_generation": record.audit.iter().rev().find(|event| event.operation == "recover_review").map(|event| event.generation),
+        })
+        .to_string(),
+        (SemanticOperation::CorrectValidationFailurePolicyAfterRecovery { value }, _) => serde_json::json!({
+            "operation": "correct_validation_failure_policy_after_recovery",
+            "previous_value": validation_failure_policy_before.expect("VPP failure policy correction snapshot"),
+            "new_value": value,
+            "recovery_sequence": record.audit.iter().rev().find(|event| event.operation == "recover_review").map(|event| event.sequence),
+            "recovery_generation": record.audit.iter().rev().find(|event| event.operation == "recover_review").map(|event| event.generation),
+        })
+        .to_string(),
+        (SemanticOperation::CorrectSorFollowUpsAfterRecovery { values }, _) => serde_json::json!({
+            "operation": "correct_sor_follow_ups_after_recovery",
+            "previous_values": sor_follow_ups_before.expect("SOR follow-up correction snapshot"),
+            "new_values": values,
             "recovery_sequence": record.audit.iter().rev().find(|event| event.operation == "recover_review").map(|event| event.sequence),
             "recovery_generation": record.audit.iter().rev().find(|event| event.operation == "recover_review").map(|event| event.generation),
         })
@@ -4713,6 +4789,15 @@ fn authorize_card_operation(
             SemanticOperation::CorrectPlanSummaryAfterRecovery { .. },
         ) | (
             LifecyclePhase::Implemented,
+            CardKind::Vpp,
+            SemanticOperation::CorrectValidationSummaryAfterRecovery { .. }
+                | SemanticOperation::CorrectValidationFailurePolicyAfterRecovery { .. },
+        ) | (
+            LifecyclePhase::Implemented,
+            CardKind::Sor,
+            SemanticOperation::CorrectSorFollowUpsAfterRecovery { .. },
+        ) | (
+            LifecyclePhase::Implemented,
             CardKind::Sip,
             SemanticOperation::CorrectRequiredOutcomeAfterRecovery { .. },
         ) | (
@@ -4780,19 +4865,37 @@ fn authorize_card_operation(
     }
 }
 
-fn recovery_epoch_operation_is_allowed(operation: &str) -> bool {
+fn recovery_epoch_operation_name(operation: &str) -> Option<String> {
     if matches!(operation, "approve_design") {
-        return true;
+        return Some("approve_design".into());
     }
     let Ok(value) = serde_json::from_str::<serde_json::Value>(operation) else {
+        return None;
+    };
+    value
+        .get("operation")
+        .and_then(serde_json::Value::as_str)
+        .map(str::to_string)
+}
+
+fn recovery_epoch_operation_is_allowed(operation: &str) -> bool {
+    let Some(name) = recovery_epoch_operation_name(operation) else {
         return false;
     };
-    match value.get("operation").and_then(serde_json::Value::as_str) {
-        Some("approve_design") => true,
-        Some("replace_planning_collection") => {
+    match name.as_str() {
+        "approve_design" => true,
+        "replace_planning_collection" => {
+            let Ok(value) = serde_json::from_str::<serde_json::Value>(operation) else {
+                return false;
+            };
             value.get("field").and_then(serde_json::Value::as_str) == Some("affected_areas")
         }
-        Some("replace_plan_steps" | "replace_validation_lanes") => true,
+        "replace_plan_steps"
+        | "replace_validation_lanes"
+        | "correct_plan_summary_after_recovery"
+        | "correct_validation_summary_after_recovery"
+        | "correct_validation_failure_policy_after_recovery"
+        | "correct_sor_follow_ups_after_recovery" => true,
         _ => false,
     }
 }

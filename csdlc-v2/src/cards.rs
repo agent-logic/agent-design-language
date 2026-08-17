@@ -583,6 +583,15 @@ pub enum SemanticOperation {
     CorrectPlanSummaryAfterRecovery {
         value: String,
     },
+    CorrectValidationSummaryAfterRecovery {
+        value: String,
+    },
+    CorrectValidationFailurePolicyAfterRecovery {
+        value: String,
+    },
+    CorrectSorFollowUpsAfterRecovery {
+        values: Vec<String>,
+    },
     CorrectRequiredOutcomeAfterRecovery {
         value: String,
     },
@@ -963,6 +972,52 @@ pub fn apply(
             match &mut values.content {
                 CardContent::Spp(v) => v.summary = value.clone(),
                 _ => return ownership(values.kind(), "correct_plan_summary_after_recovery"),
+            }
+            Ok(None)
+        }
+        SemanticOperation::CorrectValidationSummaryAfterRecovery { value } => {
+            if value.trim().is_empty() {
+                return Err(V2Error::new(
+                    ErrorCode::CardInvalid,
+                    "validation summary cannot be empty",
+                ));
+            }
+            match &mut values.content {
+                CardContent::Vpp(v) => v.summary = value.clone(),
+                _ => return ownership(values.kind(), "correct_validation_summary_after_recovery"),
+            }
+            Ok(None)
+        }
+        SemanticOperation::CorrectValidationFailurePolicyAfterRecovery { value } => {
+            if value.trim().is_empty() {
+                return Err(V2Error::new(
+                    ErrorCode::CardInvalid,
+                    "validation failure policy cannot be empty",
+                ));
+            }
+            match &mut values.content {
+                CardContent::Vpp(v) => v.failure_policy = value.clone(),
+                _ => {
+                    return ownership(
+                        values.kind(),
+                        "correct_validation_failure_policy_after_recovery",
+                    )
+                }
+            }
+            Ok(None)
+        }
+        SemanticOperation::CorrectSorFollowUpsAfterRecovery {
+            values: replacement,
+        } => {
+            if replacement.iter().any(|value| value.trim().is_empty()) {
+                return Err(V2Error::new(
+                    ErrorCode::CardInvalid,
+                    "SOR follow-up replacement cannot contain blank entries",
+                ));
+            }
+            match &mut values.content {
+                CardContent::Sor(v) => v.follow_ups = replacement.clone(),
+                _ => return ownership(values.kind(), "correct_sor_follow_ups_after_recovery"),
             }
             Ok(None)
         }

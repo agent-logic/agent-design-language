@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 388,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[C-SDLC v2][defect] Permit implemented-phase VPP/SOR/SPP truth repair for WP-18C parent closeout",
+    "slug": "implemented-card-truth-repair",
+    "version": "v0.92.0",
+    "generation": 6
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "csdlc-v2/src/cards.rs\ncsdlc-v2/src/store.rs\nfocused csdlc-v2 regression tests\n.csdlc/issues/388\n.csdlc/prepared/issues/388/validate_preparation_bundle.py\n.csdlc/evidence/388",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Are the new repair operations narrow and field-specific?",
+        "Do guards fail closed on stale CAS and active downstream truth?",
+        "Does the #114-like sequence pass without weakening #363 behavior?",
+        "Are SOR follow-up replacement, empty-vector removal, and blank-entry refusal explicitly covered?",
+        "Are audit records complete and append-only?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

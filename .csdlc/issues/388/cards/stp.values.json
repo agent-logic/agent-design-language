@@ -1,0 +1,55 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 388,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[C-SDLC v2][defect] Permit implemented-phase VPP/SOR/SPP truth repair for WP-18C parent closeout",
+    "slug": "implemented-card-truth-repair",
+    "version": "v0.92.0",
+    "generation": 6
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only the narrow C-SDLC v2 owner-tool routes needed to repair implemented-phase SPP/VPP/SOR card truth after review recovery.",
+      "deliverables": [
+        "New or widened semantic operations for implemented SPP summary, VPP summary/failure-policy, and SOR follow-up replacement/removal repair",
+        "CAS/recovery/downstream-truth guards",
+        "Audit provenance containing previous value, new value, actor/reason, and recovery sequence",
+        "Focused regression tests for #114-like sequencing, empty-vector SOR follow-up removal, blank-entry refusal, and other refusal cases",
+        ".csdlc/prepared/issues/388/validate_preparation_bundle.py",
+        "Fresh exact-head review and publishable PR"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Implemented-phase SPP summary repair works after current recover_review with no active downstream truth, even without prior reviewed/published transition.",
+        "AC-2: Implemented-phase VPP summary and failure-policy repair works only after current recover_review with exact CAS and actor/reason.",
+        "AC-3: Implemented-phase SOR follow-up replacement works only after current recover_review with exact CAS and actor/reason, including replacing follow_ups with [] to remove all follow-ups while rejecting blank entries in non-empty replacements.",
+        "AC-4: Repairs mutate only the intended card fields and derived card/index/audit projections.",
+        "AC-5: Stale CAS, active review assignment/review/publication/readiness/terminal, wrong card/field, empty required text, blank SOR follow-up entries, and unrelated recovery epoch fail closed.",
+        "AC-6: Existing #363 immediate/sequenced SPP summary recovery remains compatible.",
+        "AC-7: Focused tests, strict relevant Clippy, validation, fresh review, publication, CI, and finish pass before #388 terminal closeout."
+      ],
+      "dependencies": [
+        "Blocks #114 WP-18C parent publication/finish",
+        "#363 terminal behavior remains compatibility baseline"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#388",
+        "agent-logic/agent-design-language#114",
+        "agent-logic/agent-design-language#363",
+        "csdlc-v2/src/cards.rs",
+        "csdlc-v2/src/store.rs",
+        "csdlc-v2/tests"
+      ],
+      "non_goals": [
+        "No #114 product/proof implementation changes",
+        "No raw Markdown/card edits",
+        "No generic implemented-phase set_field",
+        "No review/publication/finish guard weakening",
+        "No lifecycle reset or topology bypass"
+      ]
+    }
+  }
+}

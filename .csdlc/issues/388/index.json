@@ -1,0 +1,139 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 388,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "e10a02d2361925ec52b0b77c0a7a3e7dc8ef8b69527ba2ed22637ad434d727d5",
+  "phase": "implemented",
+  "generation": 6,
+  "digest": "3d9596729d8193a07a8630926a4999b4d6c93f9ecb29d7f0abd5d948d24eaf0a",
+  "branch": "codex/388-implemented-card-truth-repair",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-388-implemented-card-truth-repair",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/388/design.md",
+  "diagram_path": ".csdlc/prepared/issues/388/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:255768b3-b22b-44d7-b8c4-517c38fbbe7e",
+      "revision": "d2135ce8ea6c3c8b2a90a58f7e23f703e8752b5f74c11f4bc96ed792bf08a5b7"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "fb7237534960bad41640de42a0a12aae8281865bf0b1d83b0a29e9d78d99dbf4",
+      "rendered_digest": "f5f0ee6d8684987ed56b858c183cfd0c047a386f082296d87becb52480476533",
+      "ast_digest": "33261cccf844c3c06c0dc2baf00e437ca82b8bbd49da3a88fa9e17fa1764d04b"
+    },
+    "stp": {
+      "values_digest": "82c1cc752e5bfc2a6f73a6b3c1402ba3ac002432b01a452bcda8d5e6a748bfec",
+      "rendered_digest": "4cc64fef144574f5474a4ef671a90ce0c19c10d73264a23d84d95ea76ca51eb6",
+      "ast_digest": "e324125a8ad06f4e2b8362817f931c16f148d5e150f802eb8f3472e3fdefdea6"
+    },
+    "spp": {
+      "values_digest": "95eae457a3461a1321377446b82c67b7b4255763904fee879726c2fab2ea5c40",
+      "rendered_digest": "86f18144c1bda2360de6db1ad1f4a11558be484397b3cfe89606c562513e028c",
+      "ast_digest": "96cde977e749a673d4b4cc0241eb90e3192817bd3cd4944da5a1a50610754950"
+    },
+    "vpp": {
+      "values_digest": "decd0d1dfd372c96a93b24b75d78bc5fa46eadf976e0eb6ad0a8e663d690562f",
+      "rendered_digest": "ec731370c3909e971560ad57d4aa09856a64acc3c5f4dc5a134d885ee6c78a0d",
+      "ast_digest": "cf65fe0ecaa662e5800e88c05ab594fc4025324a0606266f0ca408039246e56e"
+    },
+    "srp": {
+      "values_digest": "f0e1c5e7c5af5262b1856fa0fd829c236dcbc239d74333240f240a980cc9410e",
+      "rendered_digest": "effc6f071e0e4dfb1d8209220a76bfc34ab4ca18ba696613a4abf3651e8df5d0",
+      "ast_digest": "6e19d80c3724297a380cadc9ae67a9050f607a2617b7425dc23552363c11e140"
+    },
+    "sor": {
+      "values_digest": "660778830b0c031a7590ae853b5b63c0499950d7aaa87116859e3c43c0ba89a0",
+      "rendered_digest": "d18b68cd7cec03ecee36822fee961bd96ccd7a0102d3a66ef83718c6ee244fec",
+      "ast_digest": "ec6dc17f863f89f186aae4d7019f283d017d0c527fba058e4bb8f061e6a73aa8"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Advance clean #388 rebootstrap to ready/unbound after fresh design PASS, typed approval, preparation validator PASS, csdlc-doctor PASS, and csdlc-validate PASS."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:255768b3-b22b-44d7-b8c4-517c38fbbe7e",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Advance clean #388 rebootstrap to ready/unbound after fresh design PASS, typed approval, preparation validator PASS, csdlc-doctor PASS, and csdlc-validate PASS.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Narrow #388 owned test scope to the exact gate5 regression file used by the focused implemented-phase card-truth repair proof.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate5.rs\",\".csdlc/prepared/issues/388/validate_preparation_bundle.py\",\".csdlc/evidence/388\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Replace stale zero-test --lib focused lane with the real gate5 integration-test denominator and mark the unbound-topology preparation validator as pre-bind evidence after #388 is bound.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"388-preparation-validator\",\"proof_role\":\"Validate #388 initialized preparation bundle has issue identity, unbound topology, required tooling-defect scope markers, and explicit SOR follow-up empty-vector removal plus blank-entry refusal denominator.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/388/validate_preparation_bundle.py\"],\"parallel_group\":\"388-prep\",\"defer_reason\":\"Passed during initialized/ready preparation before bind; not rerun after bind because the validator intentionally checks unbound topology.\"},{\"lane\":\"388-focused-csdlc-store\",\"proof_role\":\"Prove implemented-phase SPP/VPP/SOR card-truth repair, SOR empty-vector follow-up removal, blank-entry refusal, and broader refusal matrix.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":12000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"implemented_card_truth_repair\"],\"parallel_group\":\"388-impl\",\"defer_reason\":\"Runs after implementation.\"},{\"lane\":\"388-clippy\",\"proof_role\":\"Reject warnings in changed C-SDLC v2 owner-tool surfaces.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"388-impl\",\"defer_reason\":\"Runs after implementation.\"},{\"lane\":\"388-diff\",\"proof_role\":\"Reject diff hygiene errors.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"388-impl\",\"defer_reason\":\"Runs after implementation.\"}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Record the explicit C-SDLC v2 rustfmt check that was run for the touched Rust crate before #388 finalize.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"388-preparation-validator\",\"proof_role\":\"Validate #388 initialized preparation bundle has issue identity, unbound topology, required tooling-defect scope markers, and explicit SOR follow-up empty-vector removal plus blank-entry refusal denominator.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/388/validate_preparation_bundle.py\"],\"parallel_group\":\"388-prep\",\"defer_reason\":\"Passed during initialized/ready preparation before bind; not rerun after bind because the validator intentionally checks unbound topology.\"},{\"lane\":\"388-focused-csdlc-store\",\"proof_role\":\"Prove implemented-phase SPP/VPP/SOR card-truth repair, SOR empty-vector follow-up removal, blank-entry refusal, and broader refusal matrix.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":12000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"implemented_card_truth_repair\"],\"parallel_group\":\"388-impl\",\"defer_reason\":\"Runs after implementation.\"},{\"lane\":\"388-fmt\",\"proof_role\":\"Reject Rust formatting drift in the touched C-SDLC v2 crate.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--check\"],\"parallel_group\":\"388-impl\",\"defer_reason\":\"Runs after implementation.\"},{\"lane\":\"388-clippy\",\"proof_role\":\"Reject warnings in changed C-SDLC v2 owner-tool surfaces.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"388-impl\",\"defer_reason\":\"Runs after implementation.\"},{\"lane\":\"388-diff\",\"proof_role\":\"Reject diff hygiene errors.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"388-impl\",\"defer_reason\":\"Runs after implementation.\"}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}

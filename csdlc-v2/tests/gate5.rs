@@ -2905,7 +2905,7 @@ fn implemented_review_recovery_clears_truth() {
 }
 
 #[test]
-fn recovered_issue_can_correct_only_the_spp_plan_summary() {
+fn implemented_card_truth_repair_can_correct_only_the_spp_plan_summary() {
     for recovery_phase in [
         LifecyclePhase::Reviewed,
         LifecyclePhase::Published,
@@ -3326,14 +3326,7 @@ fn recovered_issue_can_correct_only_the_spp_plan_summary() {
     )
     .expect("audit-only recovery");
     let before = std::fs::read(store.issue_dir(7).join("index.json")).expect("before rejection");
-    for (actor, reason) in [
-        (
-            "operator",
-            "audit-only recovery must not authorize correction",
-        ),
-        ("", "missing actor"),
-        ("operator", " "),
-    ] {
+    for (actor, reason) in [("", "missing actor"), ("operator", " ")] {
         let error = edit_issue(
             &store,
             EditRequest {
@@ -3359,10 +3352,259 @@ fn recovered_issue_can_correct_only_the_spp_plan_summary() {
             before
         );
     }
+    let corrected = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Spp,
+            expected_generation: audit_only.generation,
+            expected_digest: audit_only.digest.clone(),
+            actor: "operator".into(),
+            reason: "audit-only recovery now authorizes exact correction".into(),
+            operation: SemanticOperation::CorrectPlanSummaryAfterRecovery {
+                value: "audit-only implemented recovery correction".into(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("audit-only implemented recovery now permits SPP summary correction");
+    let corrected_cards = store
+        .load_cards(7)
+        .expect("cards after audit-only summary correction");
+    let csdlc_v2::cards::CardContent::Spp(corrected_spp) = &corrected_cards[&CardKind::Spp].content
+    else {
+        panic!("SPP")
+    };
+    assert_eq!(
+        corrected_spp.summary,
+        "audit-only implemented recovery correction"
+    );
+    assert_eq!(
+        edit_issue(
+            &store,
+            EditRequest {
+                issue: 7,
+                card: CardKind::Spp,
+                expected_generation: corrected.generation,
+                expected_digest: corrected.digest,
+                actor: "operator".into(),
+                reason: "reject duplicate summary correction".into(),
+                operation: SemanticOperation::CorrectPlanSummaryAfterRecovery {
+                    value: "duplicate".into(),
+                },
+                fail_after_backup: false,
+            },
+        )
+        .expect_err("duplicate SPP summary correction must end epoch")
+        .code,
+        ErrorCode::InvalidTransition
+    );
 }
 
 #[test]
-fn implemented_plan_summary_recovery_survives_allowed_intervening_repairs() {
+fn implemented_card_truth_repair_can_correct_vpp_and_sor_truth_fields() {
+    let (_temp, store, implemented) = implemented_fixture();
+    let before_cards = store
+        .load_cards(7)
+        .expect("cards before VPP/SOR correction");
+    let assigned = assign_review(
+        &store,
+        ReviewAssignmentRequest {
+            issue: 7,
+            expected_generation: implemented.generation,
+            expected_digest: implemented.digest,
+            reviewer: "subagent".into(),
+            assigned_by: "operator".into(),
+            scope: vec!["csdlc-v2".into()],
+        },
+    )
+    .expect("assign review");
+    let mut recovered = csdlc_v2::recover_review(
+        &store,
+        ReviewRecoveryRequest {
+            issue: 7,
+            expected_generation: assigned.generation,
+            expected_digest: assigned.digest,
+            actor: "operator".into(),
+            reason: "clear implemented review truth for VPP/SOR".into(),
+        },
+    )
+    .expect("recover review");
+
+    for (card, operation) in [
+        (
+            CardKind::Spp,
+            SemanticOperation::CorrectValidationSummaryAfterRecovery {
+                value: "wrong card".into(),
+            },
+        ),
+        (
+            CardKind::Vpp,
+            SemanticOperation::CorrectValidationSummaryAfterRecovery { value: " ".into() },
+        ),
+        (
+            CardKind::Vpp,
+            SemanticOperation::CorrectValidationFailurePolicyAfterRecovery { value: " ".into() },
+        ),
+        (
+            CardKind::Sor,
+            SemanticOperation::CorrectSorFollowUpsAfterRecovery {
+                values: vec![" ".into()],
+            },
+        ),
+    ] {
+        let error = edit_issue(
+            &store,
+            EditRequest {
+                issue: 7,
+                card,
+                expected_generation: recovered.generation,
+                expected_digest: recovered.digest.clone(),
+                actor: "operator".into(),
+                reason: "reject malformed VPP/SOR correction".into(),
+                operation,
+                fail_after_backup: false,
+            },
+        )
+        .expect_err("malformed VPP/SOR correction must fail");
+        assert!(matches!(
+            error.code,
+            ErrorCode::InvalidTransition | ErrorCode::CardInvalid
+        ));
+    }
+
+    recovered = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Vpp,
+            expected_generation: recovered.generation,
+            expected_digest: recovered.digest,
+            actor: "operator".into(),
+            reason: "correct VPP summary".into(),
+            operation: SemanticOperation::CorrectValidationSummaryAfterRecovery {
+                value: "implemented validation truth".into(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("correct VPP summary");
+    recovered = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Vpp,
+            expected_generation: recovered.generation,
+            expected_digest: recovered.digest,
+            actor: "operator".into(),
+            reason: "correct VPP failure policy".into(),
+            operation: SemanticOperation::CorrectValidationFailurePolicyAfterRecovery {
+                value: "fail closed on stale publication truth".into(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("correct VPP failure policy");
+
+    let with_follow_up = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Sor,
+            expected_generation: recovered.generation,
+            expected_digest: recovered.digest,
+            actor: "operator".into(),
+            reason: "correct SOR follow-ups".into(),
+            operation: SemanticOperation::CorrectSorFollowUpsAfterRecovery {
+                values: vec!["remaining typed follow-up".into()],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("correct SOR follow-ups");
+    let with_follow_up_cards = store
+        .load_cards(7)
+        .expect("cards after follow-up replacement");
+    let csdlc_v2::cards::CardContent::Sor(with_follow_up_sor) =
+        &with_follow_up_cards[&CardKind::Sor].content
+    else {
+        panic!("SOR")
+    };
+    assert_eq!(
+        with_follow_up_sor.follow_ups,
+        vec!["remaining typed follow-up"]
+    );
+
+    let reassigned = assign_review(
+        &store,
+        ReviewAssignmentRequest {
+            issue: 7,
+            expected_generation: with_follow_up.generation,
+            expected_digest: with_follow_up.digest,
+            reviewer: "subagent-2".into(),
+            assigned_by: "operator".into(),
+            scope: vec!["csdlc-v2".into()],
+        },
+    )
+    .expect("assign second review");
+    let recovered_again = csdlc_v2::recover_review(
+        &store,
+        ReviewRecoveryRequest {
+            issue: 7,
+            expected_generation: reassigned.generation,
+            expected_digest: reassigned.digest,
+            actor: "operator".into(),
+            reason: "clear second review truth for SOR removal".into(),
+        },
+    )
+    .expect("recover second review");
+    let removed = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Sor,
+            expected_generation: recovered_again.generation,
+            expected_digest: recovered_again.digest,
+            actor: "operator".into(),
+            reason: "remove stale SOR follow-ups".into(),
+            operation: SemanticOperation::CorrectSorFollowUpsAfterRecovery { values: vec![] },
+            fail_after_backup: false,
+        },
+    )
+    .expect("empty vector removes SOR follow-ups");
+    let after_cards = store.load_cards(7).expect("cards after VPP/SOR correction");
+    let csdlc_v2::cards::CardContent::Vpp(after_vpp) = &after_cards[&CardKind::Vpp].content else {
+        panic!("VPP")
+    };
+    let csdlc_v2::cards::CardContent::Sor(after_sor) = &after_cards[&CardKind::Sor].content else {
+        panic!("SOR")
+    };
+    assert_eq!(after_vpp.summary, "implemented validation truth");
+    assert_eq!(
+        after_vpp.failure_policy,
+        "fail closed on stale publication truth"
+    );
+    assert!(after_sor.follow_ups.is_empty());
+    for kind in [CardKind::Sip, CardKind::Stp, CardKind::Spp] {
+        assert_eq!(
+            after_cards[&kind].content, before_cards[&kind].content,
+            "{kind} changed during VPP/SOR-only correction"
+        );
+    }
+    let audit: serde_json::Value = serde_json::from_str(
+        &removed
+            .audit
+            .last()
+            .expect("SOR correction audit")
+            .operation,
+    )
+    .expect("structured SOR audit");
+    assert_eq!(audit["operation"], "correct_sor_follow_ups_after_recovery");
+    assert_eq!(audit["new_values"], serde_json::json!([]));
+}
+
+#[test]
+fn implemented_card_truth_repair_plan_summary_survives_allowed_intervening_repairs() {
     let (_temp, store, implemented) = implemented_fixture();
     let revision = csdlc_v2::git::substantive_revision(store.root(), &["src".into()])
         .expect("review revision");
