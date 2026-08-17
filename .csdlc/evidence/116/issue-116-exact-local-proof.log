@@ -1,3 +1,7 @@
+EXPECTED_HEAD 7c5aefc44eb9beb5c94c76821cd47ddf33c93535
+HEAD 7c5aefc44eb9beb5c94c76821cd47ddf33c93535
+STATUS
+## codex/116-operator-attention-inbox
 COMMAND python3 .csdlc/prepared/issues/116/validate_preparation_bundle.py
 issue-116 preparation validator: PASS
 EXIT 0
@@ -6,14 +10,14 @@ COMMAND cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --check
 EXIT 0
 COMMAND cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test observatory operator_attention
    Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-116-operator-attention-inbox/adl-runtime-kernel)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.27s
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.36s
      Running tests/observatory.rs (adl-runtime-kernel/target/debug/deps/observatory-b52a90f1a590f9db)
 
 running 8 tests
+test operator_attention_restore_rejects_malformed_snapshot_state ... ok
 test operator_attention_quiet_mode_suppresses_non_urgent_noise ... ok
 test operator_attention_rejects_spoofed_identity_and_unauthorized_urgency ... ok
 test operator_attention_expiry_and_restart_preserve_receipts ... ok
-test operator_attention_restore_rejects_malformed_snapshot_state ... ok
 test operator_attention_deduplicates_and_rate_limits_by_source ... ok
 test operator_attention_invalid_outcomes_do_not_mutate_request_state ... ok
 test operator_attention_groups_related_requests_without_new_rows ... ok
@@ -23,7 +27,7 @@ test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 7 filtered out; fini
 EXIT 0
 COMMAND node --test demos/html-observatory/tests/operator_attention_inbox.test.mjs
 WP-18C.06 Observatory operator attention inbox: PASS
-✔ demos/html-observatory/tests/operator_attention_inbox.test.mjs (66.373375ms)
+✔ demos/html-observatory/tests/operator_attention_inbox.test.mjs (65.90025ms)
 ℹ tests 1
 ℹ suites 0
 ℹ pass 1
@@ -31,7 +35,7 @@ WP-18C.06 Observatory operator attention inbox: PASS
 ℹ cancelled 0
 ℹ skipped 0
 ℹ todo 0
-ℹ duration_ms 71.503833
+ℹ duration_ms 70.990958
 EXIT 0
 COMMAND cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --test observatory -- -D warnings
    Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-116-operator-attention-inbox/adl-runtime-kernel)
@@ -40,4 +44,4 @@ EXIT 0
 COMMAND git diff --check
 
 EXIT 0
-ISSUE_116_FOCUSED_LOCAL_PROOF PASS
+ISSUE_116_EXACT_LOCAL_PROOF PASS

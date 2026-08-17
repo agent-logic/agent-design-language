@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "174c0bed7ee984cb1f5ca273105bf6d626e2b7186d70aaf113c79ae4a0f0052a",
   "phase": "implemented",
-  "generation": 16,
-  "digest": "5b295dfdb87b16bcf89c640c828844b62568233b87198ea40ce16fafe3ba29a6",
+  "generation": 18,
+  "digest": "7fbc10c01ff6eb70b4bafb259bbc57d33be49db117cc71fd3683bcf6876423e7",
   "branch": "codex/116-operator-attention-inbox",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-116-operator-attention-inbox",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2d2c288c4339193cdc6252484463aedb46ad624b30be9a67b97cff1bec7b0964",
+      "values_digest": "f22f34a2f70bb73f6b2f319f96171e7dc0c0c66df9060f242c6553f0103a5ec5",
       "rendered_digest": "615ebc26ce85e6f0d223a5d81a8699b2db73646ffbfcc7036e08722adf48cef1",
       "ast_digest": "dd817ebec75ea010b2d37cc52f92d3b12040fd30da6bc3a55bfe4fca81e8cac4"
     },
     "stp": {
-      "values_digest": "e1091a17e2b4b644972f5ad55f807d168feea69b9a5b5fdf2f34f77e78af8ad6",
+      "values_digest": "a4f7241d7a53be72be6e4f8ef2e561e5c8577289fd530b2cdd7a6d0aa292d549",
       "rendered_digest": "52de91966d27c36d2e5322ebad84fecc97cb749d0118832ab58f8e70f1fd928b",
       "ast_digest": "1a304201009b5f8022ff747a66acec75efba1e92154d48a921882543c66115e9"
     },
     "spp": {
-      "values_digest": "6c6c90a2d61c566ff3ee223bc7a8cc4f10e7f8a9967a4db91a4a7a0c6e1c0bea",
+      "values_digest": "650a4239dee35baf19a54ba43177c29396ee6926a6017bfa22e357d6707bafe9",
       "rendered_digest": "848d519bc8bb7c5208170b8d4848a57b98796d2b384c7378fd86ec4e0dd3261b",
       "ast_digest": "b0124a985f14ac971b2405f5911db285773a93600e66d9c1af0e2f1f35b09e0d"
     },
     "vpp": {
-      "values_digest": "f3fc96127d5c5ee0a8ad19d03ebe7d330d926870b92fc9ba1f531d3c6b2c7e56",
+      "values_digest": "aaa86b9ec710224d4369d0c573088ae5342bad3c51b52e9bf4dd4a53277fa8b8",
       "rendered_digest": "2eb411e606fe12920a2951e032f17a3378196cb36282bdff32127aa1442634b0",
       "ast_digest": "81b8ad794c55c5086c59931af269a1e2abbd45630fe6a97f93add391e138c503"
     },
     "srp": {
-      "values_digest": "010f12828bd2d6b5343190439c0325e55100ab5e300c05732d7e9084a8ad5718",
+      "values_digest": "42b13b46fca68b5906da813052cff13e9f97aee145982d6dce4240d29483e31c",
       "rendered_digest": "06621288578774e759e283cfc7e6f805e9d910bc6b5df7556f12a6430608e5f6",
       "ast_digest": "f313a30007b7fe32bfffff80fa4a861b38ab4aec03cdb352c56280c81840a70b"
     },
     "sor": {
-      "values_digest": "a59d4cbdef0b7fa4947669c229b208fb569b26653a5fe738c5f95019cdaafdba",
-      "rendered_digest": "90ccd82da16273d660f482f9d56fb51e00a2b636371fea5f304fab602d9b240c",
-      "ast_digest": "777c53b27a42f8654f9357e2271947cb944bcef9eebf455d0a2217ebc2b8c98b"
+      "values_digest": "4300420e24688b1e5b0fd7dea2b9324d82a995d685ae78b841bdec4a72968132",
+      "rendered_digest": "1c559fafb4f14e73b3cfbac38cc226dbe3725d843f63493e9f6898cc5464fcea",
+      "ast_digest": "d809ffff572c06fdc79c9717f4aa7d75d7dc63132277bfbabe506488a68eb865"
     }
   },
   "transitions": [
@@ -253,6 +253,27 @@
       "actor": "codex:/root",
       "reason": "Replace #116 SOR proof truth after repeated reviews found the committed proof log self-referentially stale.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the bounded WP-18C.06 operator attention inbox and intervention workflow with trusted source authorization, validated restart restoration, Runtime quiet-mode/grouping, and proposal-only Observatory outcomes.\",\"changes\":[\"Replaced self-asserted operator-attention source privilege checks with trusted Runtime source registration and principal/urgent validation.\",\"Added fail-closed snapshot restore validation for schema, capacity, duplicates, source limits, request safety, event references, and timestamps.\",\"Added quiet-mode/grouping behavior while preserving source-bound rate and dedupe semantics.\",\"Added Observatory status/priority filters, deep links, read/unread view state, notification preference handling, and selected-row rendering.\",\"Removed stale self-referential committed HEAD-proof wording; exact revision authority remains the typed review assignment.\"],\"artifacts\":[\"adl-runtime-kernel/src/operator_attention.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/observatory.rs\",\"demos/html-observatory/app.js\",\"demos/html-observatory/index.html\",\"demos/html-observatory/styles.css\",\"demos/html-observatory/tests/operator_attention_inbox.test.mjs\",\".csdlc/prepared/issues/116/validate_preparation_bundle.py\",\".csdlc/prepared/issues/116/run_exact_local_proof.py\",\".csdlc/evidence/116/issue-116-exact-local-proof.log\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/116/run_exact_local_proof.py\"],\"purpose\":\"Run focused #116 local proof with command argv, exit status, and test denominators for preparation validator, rustfmt, focused Rust tests, Node Observatory proof, strict clippy, and diff hygiene. Exact Git revision is bound separately by typed review assignment.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/116/issue-116-exact-local-proof.log\"}]}"
+    },
+    {
+      "sequence": 24,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "Recover stale #116 review assignment after remediating R5 findings and regenerating exact-head proof evidence; a different fresh reviewer must inspect the repaired immutable head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "Replace #116 SOR execution truth after R5 remediation of invalid-outcome mutation and exact-proof assertion findings.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the bounded WP-18C.06 operator attention inbox and intervention workflow with trusted source authorization, validated restart restoration, proposal-only Observatory outcomes, invalid-outcome rollback safety, and exact-head local proof enforcement.\",\"changes\":[\"Validated operator attention outcome payloads and monotonic timestamps before mutating request state or appending events.\",\"Added focused Rust regression coverage proving invalid reply, refusal, defer, and non-monotonic outcome attempts leave request state and event count unchanged.\",\"Preserved trusted Runtime source registration, principal and urgent authorization checks, quiet-mode/grouping behavior, and proposal-only Observatory outcomes.\",\"Restored the issue-owned exact local proof runner so it asserts ISSUE_116_EXPECTED_HEAD and clean worktree before reporting PASS.\",\"Regenerated exact local proof at 7c5aefc44eb9beb5c94c76821cd47ddf33c93535 with 8 focused Rust tests, 1 Node test, rustfmt, strict clippy, preparation validator, and diff hygiene PASS.\"],\"artifacts\":[\"adl-runtime-kernel/src/operator_attention.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/observatory.rs\",\"demos/html-observatory/app.js\",\"demos/html-observatory/index.html\",\"demos/html-observatory/styles.css\",\"demos/html-observatory/tests/operator_attention_inbox.test.mjs\",\".csdlc/prepared/issues/116/validate_preparation_bundle.py\",\".csdlc/prepared/issues/116/run_exact_local_proof.py\",\".csdlc/evidence/116/issue-116-exact-local-proof.log\"],\"validation\":[{\"command\":[\"ISSUE_116_EXPECTED_HEAD=7c5aefc44eb9beb5c94c76821cd47ddf33c93535\",\"python3\",\".csdlc/prepared/issues/116/run_exact_local_proof.py\"],\"purpose\":\"Run exact #116 local proof with expected HEAD assertion, clean-tree assertion, preparation validator, rustfmt, focused Rust tests, Node Observatory proof, strict clippy, and diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/116/issue-116-exact-local-proof.log\"}]}"
     }
   ]
 }
