@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-18C.07a][117.a] Prove Observatory accessibility and responsive UX",
     "slug": "observatory-accessibility-responsive-ux-proof",
     "version": "v0.92",
-    "generation": 7
+    "generation": 8
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #279 initialized packet, live issue contract, dependency gates, Observatory accessibility/responsive proof scope, validation lanes, forbidden #280/#281/#282/#117/#110 authority, and planned HTML Observatory test/source boundaries.",
+      "review_scope": "demos/html-observatory/index.html\ndemos/html-observatory/styles.css\ndemos/html-observatory/tests/accessibility_responsive.test.mjs\n.csdlc/prepared/issues/279/validate_preparation_bundle.py\n.csdlc/issues/279\n.csdlc/evidence/279",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

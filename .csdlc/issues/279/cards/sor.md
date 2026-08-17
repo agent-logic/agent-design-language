@@ -82,6 +82,19 @@ Implement deterministic HTML Observatory accessibility and responsive UX proof.
     "purpose": "Run C-SDLC v2 typed issue validation for #279.",
     "outcome": "passed",
     "evidence_ref": "279-typed-validate.log"
+  },
+  {
+    "command": [
+      "python3 .csdlc/prepared/issues/279/validate_preparation_bundle.py",
+      "node demos/html-observatory/tests/accessibility_responsive.test.mjs",
+      "node demos/html-observatory/tests/conversation_sessions.test.mjs",
+      "node demos/html-observatory/tests/operator_attention_inbox.test.mjs",
+      "csdlc-validate issue --issue 279",
+      "git diff --check"
+    ],
+    "purpose": "Prove #279 preparation contract, accessibility/responsive proof, conversation regression, operator-attention regression, typed issue validation, and diff hygiene after the VPP split made both UI regressions independently executable.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/279/279-preparation-contract.log; .csdlc/evidence/279/279-observatory-accessibility-responsive.log; .csdlc/evidence/279/279-observatory-conversation-regression.log; .csdlc/evidence/279/279-observatory-operator-attention-regression.log; .csdlc/evidence/279/279-typed-validate.log; .csdlc/evidence/279/279-diff-hygiene.log"
   }
 ]
 

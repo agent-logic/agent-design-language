@@ -12,7 +12,12 @@ Status: pre_phase
 
 ## Scope
 
-Issue #279 initialized packet, live issue contract, dependency gates, Observatory accessibility/responsive proof scope, validation lanes, forbidden #280/#281/#282/#117/#110 authority, and planned HTML Observatory test/source boundaries.
+demos/html-observatory/index.html
+demos/html-observatory/styles.css
+demos/html-observatory/tests/accessibility_responsive.test.mjs
+.csdlc/prepared/issues/279/validate_preparation_bundle.py
+.csdlc/issues/279
+.csdlc/evidence/279
 
 ## Prompts
 
