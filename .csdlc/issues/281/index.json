@@ -5,21 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "2f7413cb01489f80873183bf0cb3f041747a54a7888d8a7b976df4841c8e0f95",
   "phase": "implemented",
-  "generation": 12,
-  "digest": "16c5a6fe04a9f42281c1c893a6cb588c618f0a05ad09f4c6ea264f210d2e65b3",
+  "generation": 13,
+  "digest": "882e11b8a20f94d109c5736e7516d5e5ccc9814cbf5a43f200f4325d2e79d4d8",
   "branch": "codex/281-observatory-security-privacy-adversarial-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-281-observatory-security-privacy-adversarial-proof-bound",
-  "review_assignment": {
-    "reviewer": "fresh-session:f96abf33-cad6-4227-97a5-7bcb96142c94",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:9af591f8c1fb14f3226564971951377faebe80fa:5bbc2dccf1433a6be96a357512251f0abd0de547da7ab0d07719f1b90c1764c0",
-    "scope": [
-      "demos/html-observatory/tests/security_privacy_adversarial.test.mjs",
-      ".csdlc/prepared/issues/281/validate_preparation_bundle.py",
-      ".csdlc/issues/281",
-      ".csdlc/evidence/281"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -35,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3409094d0858ab6df79400fb47d29c05c14f42ef752dd46cc4e7432436575d74",
+      "values_digest": "14f016e0b4cd68961afbc94e6fc3e7daecd346ebe3772710d27780fa7fb32ab2",
       "rendered_digest": "554d11397ec1afbda6fb34a01c29b32978744e71f1275e2e57aacc3fe5acb46b",
       "ast_digest": "92cfe22f5d143b078bd0b4bed2b3d4db8d258f9b5541320677a3cbbc20df1231"
     },
     "stp": {
-      "values_digest": "95f19ddde6496fe5f8e7c7888eff895124a41a5fafb5aec9cab73274cc0f2b82",
+      "values_digest": "42f4ee9b0d6ff3d463485e59557f29f5e19c7e7ed05e01666d2b1db9dfbc7aae",
       "rendered_digest": "2bbeb6440a03b77c996752e850ec05baa68e1c5ee44c9992cf3b1994240b06db",
       "ast_digest": "8c1fbf937ed7846252948f61ea050e702a73556adb528728134b4ae63789afbc"
     },
     "spp": {
-      "values_digest": "dfecc6e134c10c14aab0c8f4c78c3a7ee30ad0ab689302708383c3599bc8c964",
+      "values_digest": "563a7b41dcfe986a5aa6602464a610382896c38fb66609ff9030fe8f2c40c306",
       "rendered_digest": "7ed05e820daa4afa8b4958a16a37cb93b619425d78ec301f6bc3f612a93a1693",
       "ast_digest": "22affcf68299bb262e1636e15128d8c46471ab93e918d6298e2f26049f3f0688"
     },
     "vpp": {
-      "values_digest": "1d49c231a185ab25db127a58fd1a8ef09d9f9b51e8d40dc5b5bba1364f2e0c15",
+      "values_digest": "27a9915728e3cb0f6909f9373f1f4b75f8d6ebdf1a0c0682cc87feb834a3ec36",
       "rendered_digest": "fcd1cea166ebcd65d3e5713bc0a634879037ba000eed3ee07ec985914ebf4726",
       "ast_digest": "d4d9ab87114ce18ebf5f36d6758f89334adc18df9e5f1ea19fcce02d4dfd6641"
     },
     "srp": {
-      "values_digest": "4fefc98f2450128713d3c47015ae2707df62a906c6ecbfc7ab8b3f757b63ec4d",
-      "rendered_digest": "5a82091ebc8354d887f64ece2ee4ecf3d6a5ef0b32c328b04b10e27a03085fb1",
-      "ast_digest": "254e42f78d10f69e825ce6bd886527809c6f13c9cb9a200e914d018228807b48"
+      "values_digest": "84a614c014b13d2611b7034a4ca47afa5e3e462a5c5f8c9c09fea2c7ddca949c",
+      "rendered_digest": "bfd1caeda65be38076b06f5709aef6cd47e76e9a44a2715f26e00b90bc9055c5",
+      "ast_digest": "398e804ac7f1dbf3a149b374ae10f74b345e0de1b9e756d633deca5519c59eb2"
     },
     "sor": {
-      "values_digest": "4c979dca094713536e5ee1ae1d65e67e545ebc100fa2fa4a9f635d8af81c9df3",
+      "values_digest": "1bc2fd6fe5b2fa8f7e7b2c953c3ef76587b0990fd8ff7b35b5ee66d15a8ee316",
       "rendered_digest": "d2d2744305cbb30d9c236cf5c58c38983fd442fff47edc3e2581d41b9dbd8c7e",
       "ast_digest": "8649c7ec3f59bd1ada1e938f42f554559dd77780fd690c862d5bc4bb9d77e2f5"
     }
@@ -242,6 +232,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "Recover interrupted/silent fresh-session:f96abf33-cad6-4227-97a5-7bcb96142c94 review assignment after bounded wait elapsed without PASS/FAIL.",
+      "operation": "recover_review"
     }
   ]
 }
