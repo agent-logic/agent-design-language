@@ -21,6 +21,10 @@ OWNER_ROOT = Path("/Users/daniel/git/agent-design-language")
 FINISH = OWNER_ROOT / ".adl" / "bin" / "csdlc-v2" / "csdlc-finish"
 PACKET = ROOT / ".csdlc" / "evidence" / "286" / "adr0069-evidence-reconciliation.md"
 ISSUE84_STATE = ROOT / ".csdlc" / "evidence" / "286" / "issue84-live-state.json"
+CARD_SURFACES = (
+    ROOT / ".csdlc" / "issues" / "286" / "cards" / "sor.md",
+    ROOT / ".csdlc" / "issues" / "286" / "cards" / "sor.values.json",
+)
 
 TERMINAL_INPUTS = {
     117: {
@@ -99,11 +103,13 @@ def main() -> int:
     require(PACKET.is_file(), f"missing packet: {PACKET.relative_to(ROOT)}")
     require(ISSUE84_STATE.is_file(), f"missing issue state: {ISSUE84_STATE.relative_to(ROOT)}")
     packet = PACKET.read_text(encoding="utf-8")
+    card_text = "\n".join(path.read_text(encoding="utf-8") for path in CARD_SURFACES)
 
     for phrase in REQUIRED_PACKET_PHRASES:
         require(phrase in packet, f"packet missing required phrase: {phrase}")
     for phrase in FORBIDDEN_OVERCLAIMS:
         require(phrase.lower() not in packet.lower(), f"packet contains forbidden overclaim: {phrase}")
+        require(phrase.lower() not in card_text.lower(), f"SOR/card truth contains forbidden overclaim: {phrase}")
 
     issue84 = json.loads(ISSUE84_STATE.read_text(encoding="utf-8"))
     require(issue84.get("issue") == 84, "issue84 state has wrong issue")
