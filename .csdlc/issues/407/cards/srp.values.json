@@ -7,23 +7,25 @@
     "title": "[tooling][csdlc-v2] Implemented-phase SIP recovery cannot repair review-blocking goal truth",
     "slug": "implemented-sip-goal-recovery",
     "version": "v0.92",
-    "generation": 5
+    "generation": 6
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "csdlc-v2 SIP Goal recovery operation, authorization, audit, and focused tests only.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "csdlc-v2/src/cards.rs\ncsdlc-v2/src/store.rs\ncsdlc-v2/tests/gate5.rs\n.csdlc/issues/407\n.csdlc/prepared/issues/407\n.csdlc/evidence/407",
+      "review_revision": "git-blake3:1cc0afa63b1906b18064778d0f367bf93e5b20b6:167be6441a652fdf1fdfdc491c860ecbb46ce103f4cd74c680c57bdc25085e51",
+      "reviewer": "fresh-session:5842e447-3520-4686-ab09-08b49d028904",
       "review_prompts": [
         "Verify the new operation is SIP Goal specific and recovery-provenance gated.",
         "Verify tests prove both allowed recovered repair and rejected unrecovered mutation.",
         "Verify no publication/review guard is weakened."
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Validation is focused rather than full-suite; no uncovered issue-specific correctness risk was identified."
+      ],
+      "review_result": "pass"
     }
   }
 }
