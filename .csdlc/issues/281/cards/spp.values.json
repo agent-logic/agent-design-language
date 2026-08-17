@@ -1,0 +1,101 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 281,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.07c][117.c] Prove Observatory security, privacy, and adversarial behavior",
+    "slug": "observatory-security-privacy-adversarial-proof",
+    "version": "v0.92",
+    "generation": 16
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Bootstrap and review #281 as a bounded Observatory security/privacy/adversarial proof issue; after terminal dependency validation, bind a FastWork worktree, add deterministic proof and narrow UI fixes if needed, then exact-review, publish, observe CI, and finish.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Create the #281 six-card packet and issue-owned preparation validator that proves live issue identity, dependency ancestry, and security/privacy scope boundaries.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-7"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Obtain a fresh no-context design review and approve only if #281 remains a security/privacy/adversarial proof issue with truthful #279/#280/#282 deferrals.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-7"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Bind in the FastWork issue worktree and implement the smallest deterministic security/privacy/adversarial proof plus any narrowly required Observatory fixes.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-7"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Run focused proof, strict relevant checks, diff hygiene, fresh exact-head review, typed publication, required CI, and typed finish.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-8"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "demos/html-observatory/index.html",
+        "demos/html-observatory/app.js",
+        "demos/html-observatory/styles.css",
+        "demos/html-observatory/tests/security_privacy_adversarial.test.mjs",
+        ".csdlc/prepared/issues/281",
+        ".csdlc/prepared/issues/281/validate_preparation_bundle.py",
+        ".csdlc/evidence/281",
+        ".csdlc/issues/281"
+      ],
+      "invariants": [
+        "Every browser-visible security/privacy state is representational and tied to Runtime-owned evidence or deterministic fixture input",
+        "Security/privacy proof must not depend on hidden network, provider, cloud, credential, paid runner, raw provider payload, private cognition, or Unity state",
+        "Browser changes cannot grant policy authority, synthesize delivery, mask refusal, hide stale authorization, or hold private signing material",
+        "#279/#280/#282 and parent coordination records stay out of #281 source/lifecycle ownership"
+      ],
+      "risks": [
+        "A proof-only issue could uncover defects that belong to Runtime or sibling proof owners rather than #281",
+        "Fixture-based adversarial proof could overclaim live integrated behavior unless exact candidate revision and non-live boundary are recorded",
+        "Redaction checks could become superficial if they only search for sample strings instead of enforcing denylisted evidence classes",
+        "Origin/transport proof could overclaim TLS deployment unless it stays limited to allowed metadata and fail-closed behavior in local/public-safe proof"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "Any required dependency merge is missing, noncanonical, or nonancestral",
+        "Design review finds #281 claims Runtime authority or #279/#280/#282 scope",
+        "A required proof needs credentials, cloud/public deployment, Unity live host, raw provider payloads, private cognition, or paid runner",
+        "Implementation would require Runtime contract changes or sibling issue worktree mutation",
+        "Focused proof, review, CI, publication, or terminal finish fails"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/281/design.md",
+      "design_digest": "ae92a1ac2d174252d7dc7cab8f923098f25bb4a0d8321722a7dfd483c57c3886",
+      "diagram_ref": ".csdlc/prepared/issues/281/diagram.mmd",
+      "diagram_digest": "827ec3a4965e3d96dab8ae1aae4ad44ddc2137fab2a23225cf47b016223186ff"
+    }
+  }
+}

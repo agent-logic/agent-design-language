@@ -1,0 +1,74 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 281,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.07c][117.c] Prove Observatory security, privacy, and adversarial behavior",
+    "slug": "observatory-security-privacy-adversarial-proof",
+    "version": "v0.92",
+    "generation": 16
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Bootstrap, design-review, bind, implement, prove, review, publish, CI, and finish only #281 Observatory security/privacy/adversarial proof for the integrated candidate; do not absorb #279/#280/#282 or parent coordination scope.",
+      "deliverables": [
+        ".csdlc/prepared/issues/281/design.md",
+        ".csdlc/prepared/issues/281/diagram.mmd",
+        ".csdlc/prepared/issues/281/validate_preparation_bundle.py",
+        ".csdlc/evidence/281",
+        ".csdlc/issues/281",
+        "demos/html-observatory/tests/security_privacy_adversarial.test.mjs",
+        "demos/html-observatory/app.js",
+        "demos/html-observatory/index.html",
+        "demos/html-observatory/styles.css"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Browser-visible transcript, roster, room, history, and operator-attention content rejects XSS and unsafe HTML/script/event-handler rendering under adversarial fixture input.",
+        "AC-2: Credential and token handling proof shows browser fixtures do not contain agent private signing material, provider secrets, raw token values, or secret-bearing durable evidence.",
+        "AC-3: Origin/transport proof records the allowed local/public-safe origin assumptions and fail-closed behavior for mismatched, missing, or downgraded transport/origin metadata without claiming cloud deployment.",
+        "AC-4: Replay, confused-deputy, stale-data, denial, and refusal states remain explicit and cannot be masked into successful delivery, authority, or acknowledgement by browser-side behavior.",
+        "AC-5: Redaction proof shows private cognition, raw provider payloads, secrets, and sensitive identifiers are excluded or visibly redacted in Observatory-facing evidence and durable #281 artifacts.",
+        "AC-6: Proof artifacts are deterministic, credential-free, public-safe, and tied to one exact integrated candidate revision.",
+        "AC-7: Any source changes are Observatory security/privacy presentation or test-only and do not alter Runtime authority, acknowledgement, room routing, durable history, receipt, accessibility, performance/recovery, or final qualification semantics.",
+        "AC-8: Fresh exact-head review has no unresolved actionable findings, required CI is green on the published head, and typed finish derives terminal authority before #282 consumes #281."
+      ],
+      "dependencies": [
+        "#111 terminal merge 5dab282aa6b730efd057f0502dacd462d30cc1d0 ancestral",
+        "#112 terminal merge 6172bfb067bd45ec231fbc2635e7efbb718ef415 ancestral",
+        "#265 terminal merge 301080a40c91c6882f34fead3c742524467c056d ancestral",
+        "#270 terminal merge b1c38cd53573c03cdc4ad818ed5ead5eba570981 ancestral",
+        "#271 terminal merge 6b200cfee83ea36a546123de4d24a6eda191b652 ancestral",
+        "#113 terminal merge a260e14ab4a56b95fe5b37e4ffaff3f263bc58c1 ancestral",
+        "#114 terminal merge 1d8685745b00df78f304cb03a6a559fa4e2cdec9 ancestral",
+        "#276 terminal merge 3e249f9857f392f7f569560fbd5fbfbc36b95b2f ancestral",
+        "#277 terminal merge 3160fb8be575ba9a27748b05ea5dd911e4375deb ancestral",
+        "#278 terminal merge c3ecaa615fbc29c1784d4e89f4fe38a98743ff02 ancestral",
+        "#115 terminal merge 22122c6c245b1f847aabcaf168a98660a3f11972 ancestral",
+        "#116 terminal merge 557dd28d85746a8dc5109dcc674f5a606b8c9890 ancestral",
+        "#117 live parent remains coordination-only",
+        "#110 live parent remains coordination-only"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#281",
+        "agent-logic/agent-design-language#117",
+        "agent-logic/agent-design-language#110",
+        "demos/html-observatory/index.html",
+        "demos/html-observatory/app.js",
+        "demos/html-observatory/styles.css",
+        "demos/html-observatory/tests",
+        "terminal merge commits for #111/#112/#113/#114/#115/#116/#265/#270/#271/#276/#277/#278"
+      ],
+      "non_goals": [
+        "Runtime authority, signing, acknowledgement protocol, room routing, durable history, receipt, retention, or policy changes",
+        "Accessibility/responsive UX proof owned by #279",
+        "Large-Polis performance/recovery proof owned by #280",
+        "Final production qualification assembly owned by #282",
+        "Parent #117 or #110 implementation/closeout",
+        "Cloud/public deployment, Unity feature implementation, provider credentials, raw provider payload inspection, or paid/optional jobs"
+      ]
+    }
+  }
+}
