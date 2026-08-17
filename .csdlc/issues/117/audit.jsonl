@@ -38,3 +38,4 @@
 {"sequence":38,"generation":29,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":39,"generation":30,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":40,"generation":31,"actor":"codex:/root","reason":"Recover reviewed #117 state after publication guard rejected stale explicit review_metadata_only_v1 proof; re-record the same fresh PASS without explicit non_substantive_proof so the owner guard can use its automatic metadata-only path for review metadata commits.","operation":"recover_review"}
+{"sequence":41,"generation":31,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}

@@ -5,10 +5,22 @@
   "initialization_digest": "024d435a2fcf6fd78678e4b9cda121ea06eecca7e6effaabceb5ad5c2f22ddaf",
   "phase": "implemented",
   "generation": 31,
-  "digest": "3c9ec14a6768de88dd49e2d2a982ed089d58cb8c63a5464effdfc949ee59f388",
+  "digest": "b292f48c3defecfa718da3c4d8cb17ce7927d020e587eb4bdf8a936c3e6ab97a",
   "branch": "codex/117-production-polis-interface-qualification-parent",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-117-production-polis-interface-qualification-parent",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:28effa4b-77e6-4783-b7d2-7d8298d1fcb8",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:89f16dd857c13522fdf02b1264103a236a3d26a6:c32d650faf31b3a2784329bd8d5ae4bde7168808d3ca73cc71577755bd31d338",
+    "scope": [
+      ".csdlc/evidence/117/production-polis-interface-parent-closeout.md",
+      ".csdlc/evidence/117/validate_parent_closeout.py",
+      ".csdlc/prepared/issues/117/validate_preparation_bundle.py",
+      ".csdlc/prepared/issues/117/design.md",
+      ".csdlc/prepared/issues/117/diagram.mmd",
+      ".csdlc/issues/117"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +56,9 @@
       "ast_digest": "6e9164f90884128e31ad8d16a53deb657a3a6a3e58d6efdc82dc0b092069348d"
     },
     "srp": {
-      "values_digest": "533aa0f7d2a60be0821232e8d8918f30013af797470d9731f43aa72919182bc2",
-      "rendered_digest": "1253ac0f42063c5f2011243e9449818f55d1504c07ad8146ba38ea23a0a35357",
-      "ast_digest": "d3faf3908bf4b8cf64c7ef7144b0ef223acc1883189f0f858db1e2af1d228ef1"
+      "values_digest": "85cda9ce39f4a807c85482fd9dd961395a83d4ca99865e09737fa06cfa643c1a",
+      "rendered_digest": "ca7d62232ed05329e6bf5b4d84f149e93c6cf43a0dc66a0ac90feaf7141236d9",
+      "ast_digest": "b830fc0d966ef86f4b7b785c5459a431f11737d96611114d81e931161ae0386c"
     },
     "sor": {
       "values_digest": "63e429b3b98e5b6ad893204366b7ac5065fd9c3854e0f7ad1eb0e63cdcc4a552",
@@ -371,6 +383,13 @@
       "actor": "codex:/root",
       "reason": "Recover reviewed #117 state after publication guard rejected stale explicit review_metadata_only_v1 proof; re-record the same fresh PASS without explicit non_substantive_proof so the owner guard can use its automatic metadata-only path for review metadata commits.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 41,
+      "generation": 31,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
