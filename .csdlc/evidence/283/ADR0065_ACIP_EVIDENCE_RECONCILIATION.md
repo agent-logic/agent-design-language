@@ -106,4 +106,3 @@ Evidence:
 - Cite #5832 only as historical/superseded lineage evidence.
 - Do not mark ADR 0065 Accepted.
 - Let #288 perform the shared ADR index/plan/manifest/review-packet serialization after #283-#287 complete.
-

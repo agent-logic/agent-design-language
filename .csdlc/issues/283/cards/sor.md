@@ -12,14 +12,16 @@ Status: pre_phase
 
 ## Summary
 
-Reconciled ADR 0065 evidence for #207: #209 / PR #215 is the current replacement terminal authority; #5832 is retained as historical/superseded evidence; #283 does not accept the ADR or edit shared #288-owned ADR documents.
+Reconciled ADR 0065 evidence for #207 and remediated r1 P3 diff-check hygiene: #209 / PR #215 is the current replacement terminal authority; #5832 is retained as historical/superseded evidence; #283 does not accept the ADR or edit shared #288-owned ADR documents.
 
 ## Artifacts
 
-- .csdlc/evidence/283/ADR0065_ACIP_EVIDENCE_RECONCILIATION.md sha256=4376f3406e7b1ff2140ad515ae28e554cab143b4561f8ee875852669c1ecf486
+- .csdlc/evidence/283/ADR0065_ACIP_EVIDENCE_RECONCILIATION.md sha256=3ff1e5479c1fe54f1d30ba7148a8009c5cef8cfc39a7df11dd330bbbc68aa22f
 - .csdlc/evidence/283/evidence-manifest.json sha256=1f477067c7955da1443d9c8d286d16e68da08def10ec672c0ee6f5819f101326
 - .csdlc/evidence/283/adr0065-evidence-reconciliation.log sha256=623644f28d5c513d017d283e4dcc5f7e6fd0c9959ae5539c872691b77de2e8c0
 - .csdlc/prepared/issues/283/validate-adr0065-evidence.sh sha256=720b8426c567d2ec45201e864bcddc33b6ab4bff4fb0a2a5915921bd0cd2b128
+- .csdlc/prepared/issues/283/design.md sha256=37d2c15d3cc59b15b428fa5c2e2e91ab3d7c4aa93ea2c03719eb65d0960f00b1
+- .csdlc/prepared/issues/283/diagram.mmd sha256=826962955865e356c3b0b5b539014a48294607299c298748a38b53faa6c5c73f
 - .git/csdlc-v2/derived-terminal/209.json sha256=2db7585030569dbf7350e1ce2cedc70e8c6f90ca7d7d08476f2be0ecac9cc59a
 - .csdlc/evidence/209/local-validation-manifest.json sha256=33b6d90ba1330aec3ca9ff228bb997c7fd8cbf062208119669991cc846dd1c74
 - .csdlc/evidence/209/native-validation-manifest.json sha256=c85fc5f007e2e091f2fa91ddec1dad2f5602a15861039e5d600886f49ce10987
@@ -32,6 +34,7 @@ Reconciled ADR 0065 evidence for #207: #209 / PR #215 is the current replacement
 - Added issue-owned focused validator .csdlc/prepared/issues/283/validate-adr0065-evidence.sh.
 - Captured typed finalize PVF output in .csdlc/evidence/283/adr0065-evidence-reconciliation.log.
 - Verified #209 live/typed terminal authority and #209/#5832 non-empty artifact inputs without editing shared ADR docs.
+- Recovered the self-routed design approval, reapproved the EOF-clean design/diagram with canonical fresh-session UUID fresh-session:ce78ec0d-4168-494b-b604-73181fb20ecd, and removed blank EOF lines flagged by r1 review.
 
 ## Validation
 
@@ -40,7 +43,7 @@ Reconciled ADR 0065 evidence for #207: #209 / PR #215 is the current replacement
     "command": [
       ".csdlc/prepared/issues/283/validate-adr0065-evidence.sh"
     ],
-    "purpose": "Typed finalize PVF lane for issue-owned ADR 0065 evidence reconciliation validator.",
+    "purpose": "Focused issue-owned ADR 0065 evidence reconciliation validator after EOF remediation.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/283/adr0065-evidence-reconciliation.log"
   },
@@ -53,21 +56,9 @@ Reconciled ADR 0065 evidence for #207: #209 / PR #215 is the current replacement
       "--issue",
       "283"
     ],
-    "purpose": "Typed #283 issue validation after implemented evidence updates.",
+    "purpose": "Typed #283 issue validation after design reapproval and EOF remediation.",
     "outcome": "passed",
-    "evidence_ref": "terminal output: status pass, phase implemented, generation 4, findings []"
-  },
-  {
-    "command": [
-      "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor",
-      "--repo",
-      "/Volumes/FastWork/adl-worktrees/adl-issue-283-adr0065-acip-evidence-reconciliation",
-      "--issue",
-      "283"
-    ],
-    "purpose": "Typed #283 doctor after implemented evidence updates.",
-    "outcome": "passed",
-    "evidence_ref": "terminal output: status pass, phase implemented, generation 4, findings []"
+    "evidence_ref": "terminal output: status pass, phase implemented, generation 7, findings []"
   },
   {
     "command": [
@@ -75,7 +66,7 @@ Reconciled ADR 0065 evidence for #207: #209 / PR #215 is the current replacement
       "diff",
       "--check"
     ],
-    "purpose": "Whitespace/diff hygiene.",
+    "purpose": "Working-tree whitespace/diff hygiene after EOF remediation.",
     "outcome": "passed",
     "evidence_ref": "terminal output: exit 0"
   }

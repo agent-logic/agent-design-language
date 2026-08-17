@@ -26,4 +26,3 @@ Validation is evidence/documentation focused:
 - non-empty file checks for each referenced #209 and #5832 artifact.
 - `git diff --check`.
 - C-SDLC validation/doctor over #283 after cards and evidence are recorded.
-

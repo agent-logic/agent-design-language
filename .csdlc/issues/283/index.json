@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "588c6fbf2abc4aa3e25dd9d535e7d6036199eb37f9b22cd1a6cd80670d75ed23",
   "phase": "implemented",
-  "generation": 5,
-  "digest": "92a7451552b7c5d0635da287dd5edfcb6434e1c9a43bafa391dc5033ac08a095",
+  "generation": 8,
+  "digest": "d72ef4085e1c3e3a18e026dcbb6123aeb73e76360c5dc58075f6c396f2834934",
   "branch": "codex/283-adr0065-acip-evidence-reconciliation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-283-adr0065-acip-evidence-reconciliation",
   "review_assignment": null,
@@ -19,40 +19,40 @@
   "diagram_path": ".csdlc/prepared/issues/283/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "codex:adr-mini-sprint-207-design-route",
-      "revision": "3962d88d374f0e6c6fca4d5760525893a090b40206a94da7a2f86724916dcfa7"
+      "reviewer": "fresh-session:ce78ec0d-4168-494b-b604-73181fb20ecd",
+      "revision": "082a41990b6687bd7d5c64e4d515cf5e8c038d8d80bc88e4ce2a06fada160cf1"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "a9fae1493b36d270a145f3e9e5fa9ee44c3a6d5c22f40f9f378e0d3b1e31354b",
+      "values_digest": "510b08a435491f4201426d071561b396d58b9cea77bd6ff89fa9d709ded1e24a",
       "rendered_digest": "550fadeb2c40b452fc593a0865010aa648880939fe7ae42d688d78c90eaf3316",
       "ast_digest": "599dfa361861c3e9bbf747aa45f4dd29e1f58acec1d621c077bff797eac04524"
     },
     "stp": {
-      "values_digest": "fc167acbde8ea8a3df515ac39a1b216c7ccb2687a9baf9e1d0f26fc530459fa6",
+      "values_digest": "3c0fbd3b783982cdb6197f01741d4260b32895945f102b2bbf65b567caed9d13",
       "rendered_digest": "3c591173ff9624dadece0c97cc5e4d0337b115fa52eea3878303a031a2539ffe",
       "ast_digest": "4f476468ac84163e1051e1499de5f5b5356d0d11b72505c86f90164f191193c4"
     },
     "spp": {
-      "values_digest": "0111447530f0adb83ec961c5b33a4641934c6bb4d4c0075b624e45e74fa3af75",
-      "rendered_digest": "8d33f6b285a5d6790ec955e53481c321a94a6145be51a541349203b52dcb7d28",
-      "ast_digest": "00d327b1531b1b73262629d10240cc39f26bbea6b077d9e54c130b74dbe8cc59"
+      "values_digest": "1cb703c92a90d6f30b10300c9e6a018748a0c008d6af54a99ee85d2fc6a1e607",
+      "rendered_digest": "b1bf730a8d4540ac97d01ff207030e8b0a74079f46918b694d114d4f81234e2e",
+      "ast_digest": "081a8a08e940537ccb0009e759883855f89af094113f3c6227d6a85e59993b86"
     },
     "vpp": {
-      "values_digest": "4609d6bbc8956305653b2b58dce323fd0ae3d3633e32951ab360c04876e46a49",
+      "values_digest": "aa1b19a8edf22027bc048aafa053db20fe5370f38bf3ddae03c2d13be16c867e",
       "rendered_digest": "2789d04a630a69f750813ee611330683e180edb99b8e66b66601b34db3eca71d",
       "ast_digest": "be71fa64ca6f4505af61748cde8e0cc08f922dc0f748b4480454add4ee7d5da6"
     },
     "srp": {
-      "values_digest": "2fadaa30da122614ec197addd537d3de879568a627ca890e2a3db613d97f45e6",
+      "values_digest": "f69da54ba4e0f1d70b8ab9052c9a0cadbcc43e29af2c445af4a4272b4521007c",
       "rendered_digest": "c05ce4ff88745d94731b03f3905a48d0e89c2de06982819365e03580f7e530d3",
       "ast_digest": "5a292e159adcc5e84608b305f659c5ea4b01e01da7c2cf16b16361d35f3b5549"
     },
     "sor": {
-      "values_digest": "f506b9987ce043affa4bae099358e673d35534cb790363c6eedd8647e3ef1b77",
-      "rendered_digest": "62f1cadabab8ec498471bb1e96a912d11a4ef218cd99f52ef71b8f0eafa89653",
-      "ast_digest": "75089304655e693958ae15955c2c1c5c8dab6c22b2bfec51d6098e96dceab8d7"
+      "values_digest": "c218aa9930d737239e54657d75386e2c2b24be0a89f90dec362969bc41c4965d",
+      "rendered_digest": "c3adf2052cd4fe04b4e25de62ea8be1e5b9a0729b39920ba84a9e3cbee7d61dc",
+      "ast_digest": "606276207f1224c9e22f2426f7a5173ecdce80a06ab50e1e2dbb5991cb3a7e6f"
     }
   },
   "transitions": [
@@ -127,6 +127,27 @@
       "actor": "codex:adr-mini-sprint-207",
       "reason": "Refresh #283 SOR artifact hashes after typed finalize published the PVF evidence log and the reconciliation packet was restored with final paths.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Reconciled ADR 0065 evidence for #207: #209 / PR #215 is the current replacement terminal authority; #5832 is retained as historical/superseded evidence; #283 does not accept the ADR or edit shared #288-owned ADR documents.\",\"changes\":[\"Added issue-local reconciliation packet .csdlc/evidence/283/ADR0065_ACIP_EVIDENCE_RECONCILIATION.md.\",\"Added machine-readable evidence manifest .csdlc/evidence/283/evidence-manifest.json.\",\"Added issue-owned focused validator .csdlc/prepared/issues/283/validate-adr0065-evidence.sh.\",\"Captured typed finalize PVF output in .csdlc/evidence/283/adr0065-evidence-reconciliation.log.\",\"Verified #209 live/typed terminal authority and #209/#5832 non-empty artifact inputs without editing shared ADR docs.\"],\"artifacts\":[\".csdlc/evidence/283/ADR0065_ACIP_EVIDENCE_RECONCILIATION.md sha256=4376f3406e7b1ff2140ad515ae28e554cab143b4561f8ee875852669c1ecf486\",\".csdlc/evidence/283/evidence-manifest.json sha256=1f477067c7955da1443d9c8d286d16e68da08def10ec672c0ee6f5819f101326\",\".csdlc/evidence/283/adr0065-evidence-reconciliation.log sha256=623644f28d5c513d017d283e4dcc5f7e6fd0c9959ae5539c872691b77de2e8c0\",\".csdlc/prepared/issues/283/validate-adr0065-evidence.sh sha256=720b8426c567d2ec45201e864bcddc33b6ab4bff4fb0a2a5915921bd0cd2b128\",\".git/csdlc-v2/derived-terminal/209.json sha256=2db7585030569dbf7350e1ce2cedc70e8c6f90ca7d7d08476f2be0ecac9cc59a\",\".csdlc/evidence/209/local-validation-manifest.json sha256=33b6d90ba1330aec3ca9ff228bb997c7fd8cbf062208119669991cc846dd1c74\",\".csdlc/evidence/209/native-validation-manifest.json sha256=c85fc5f007e2e091f2fa91ddec1dad2f5602a15861039e5d600886f49ce10987\",\".csdlc/evidence/5832/acip-native-receipts.json sha256=eb69f742c8074ea96d3bfb9a6d846001a9a4abfe9caf25bdb237b1bac4d11f4c\"],\"validation\":[{\"command\":[\".csdlc/prepared/issues/283/validate-adr0065-evidence.sh\"],\"purpose\":\"Typed finalize PVF lane for issue-owned ADR 0065 evidence reconciliation validator.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/283/adr0065-evidence-reconciliation.log\"},{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-283-adr0065-acip-evidence-reconciliation\",\"issue\",\"--issue\",\"283\"],\"purpose\":\"Typed #283 issue validation after implemented evidence updates.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal output: status pass, phase implemented, generation 4, findings []\"},{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor\",\"--repo\",\"/Volumes/FastWork/adl-worktrees/adl-issue-283-adr0065-acip-evidence-reconciliation\",\"--issue\",\"283\"],\"purpose\":\"Typed #283 doctor after implemented evidence updates.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal output: status pass, phase implemented, generation 4, findings []\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Whitespace/diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal output: exit 0\"}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:adr-mini-sprint-207",
+      "reason": "{\"disposition\":\"self_routed_design_approval_recovered_before_eof_hygiene_fix\",\"false_reviewer\":\"codex:adr-mini-sprint-207-design-route\",\"previous_approval\":{\"reviewer\":\"codex:adr-mini-sprint-207-design-route\",\"revision\":\"3962d88d374f0e6c6fca4d5760525893a090b40206a94da7a2f86724916dcfa7\"},\"reason\":\"Clear the self-routed design approval so the reviewer-requested design/diagram EOF hygiene fix can refresh authored design refs through typed recovery.\"}",
+      "operation": "recover_design_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "fresh-session:ce78ec0d-4168-494b-b604-73181fb20ecd",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"082a41990b6687bd7d5c64e4d515cf5e8c038d8d80bc88e4ce2a06fada160cf1\",\"design_ref\":\".csdlc/prepared/issues/283/design.md\",\"diagram_digest\":\"52e3b2429e3bb5d8cd34dfc35e7cc346c75908de45b4e3be0f764b83513300ae\",\"diagram_ref\":\".csdlc/prepared/issues/283/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:adr-mini-sprint-207",
+      "reason": "Record r1 P3 EOF hygiene remediation, corrected evidence hashes, and clean working diff-check before recommit/re-review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Reconciled ADR 0065 evidence for #207 and remediated r1 P3 diff-check hygiene: #209 / PR #215 is the current replacement terminal authority; #5832 is retained as historical/superseded evidence; #283 does not accept the ADR or edit shared #288-owned ADR documents.\",\"changes\":[\"Added issue-local reconciliation packet .csdlc/evidence/283/ADR0065_ACIP_EVIDENCE_RECONCILIATION.md.\",\"Added machine-readable evidence manifest .csdlc/evidence/283/evidence-manifest.json.\",\"Added issue-owned focused validator .csdlc/prepared/issues/283/validate-adr0065-evidence.sh.\",\"Captured typed finalize PVF output in .csdlc/evidence/283/adr0065-evidence-reconciliation.log.\",\"Verified #209 live/typed terminal authority and #209/#5832 non-empty artifact inputs without editing shared ADR docs.\",\"Recovered the self-routed design approval, reapproved the EOF-clean design/diagram with canonical fresh-session UUID fresh-session:ce78ec0d-4168-494b-b604-73181fb20ecd, and removed blank EOF lines flagged by r1 review.\"],\"artifacts\":[\".csdlc/evidence/283/ADR0065_ACIP_EVIDENCE_RECONCILIATION.md sha256=3ff1e5479c1fe54f1d30ba7148a8009c5cef8cfc39a7df11dd330bbbc68aa22f\",\".csdlc/evidence/283/evidence-manifest.json sha256=1f477067c7955da1443d9c8d286d16e68da08def10ec672c0ee6f5819f101326\",\".csdlc/evidence/283/adr0065-evidence-reconciliation.log sha256=623644f28d5c513d017d283e4dcc5f7e6fd0c9959ae5539c872691b77de2e8c0\",\".csdlc/prepared/issues/283/validate-adr0065-evidence.sh sha256=720b8426c567d2ec45201e864bcddc33b6ab4bff4fb0a2a5915921bd0cd2b128\",\".csdlc/prepared/issues/283/design.md sha256=37d2c15d3cc59b15b428fa5c2e2e91ab3d7c4aa93ea2c03719eb65d0960f00b1\",\".csdlc/prepared/issues/283/diagram.mmd sha256=826962955865e356c3b0b5b539014a48294607299c298748a38b53faa6c5c73f\",\".git/csdlc-v2/derived-terminal/209.json sha256=2db7585030569dbf7350e1ce2cedc70e8c6f90ca7d7d08476f2be0ecac9cc59a\",\".csdlc/evidence/209/local-validation-manifest.json sha256=33b6d90ba1330aec3ca9ff228bb997c7fd8cbf062208119669991cc846dd1c74\",\".csdlc/evidence/209/native-validation-manifest.json sha256=c85fc5f007e2e091f2fa91ddec1dad2f5602a15861039e5d600886f49ce10987\",\".csdlc/evidence/5832/acip-native-receipts.json sha256=eb69f742c8074ea96d3bfb9a6d846001a9a4abfe9caf25bdb237b1bac4d11f4c\"],\"validation\":[{\"command\":[\".csdlc/prepared/issues/283/validate-adr0065-evidence.sh\"],\"purpose\":\"Focused issue-owned ADR 0065 evidence reconciliation validator after EOF remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/283/adr0065-evidence-reconciliation.log\"},{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-283-adr0065-acip-evidence-reconciliation\",\"issue\",\"--issue\",\"283\"],\"purpose\":\"Typed #283 issue validation after design reapproval and EOF remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal output: status pass, phase implemented, generation 7, findings []\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Working-tree whitespace/diff hygiene after EOF remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal output: exit 0\"}]}"
     }
   ]
 }
