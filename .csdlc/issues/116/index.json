@@ -5,27 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "174c0bed7ee984cb1f5ca273105bf6d626e2b7186d70aaf113c79ae4a0f0052a",
   "phase": "implemented",
-  "generation": 10,
-  "digest": "feb5ba8a340b0a95ac2ab20aa42b0f8a051992e17ae1e0c26500d0de7fc23dc4",
+  "generation": 11,
+  "digest": "884cce2eaab53b2c89c14d5761886b364c53623104789d14c62e2b7bc666bb79",
   "branch": "codex/116-operator-attention-inbox",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-116-operator-attention-inbox",
-  "review_assignment": {
-    "reviewer": "fresh-session:bf8c5284-d875-4354-aa26-be3e9768a701",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:ab6929f4c3ce26c754814384804e861c1543fec5:9207b1c8ac59d277c1ad3caa2b9d76f6db78612ab6fcb10e60ee006a648a1a6d",
-    "scope": [
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/src/operator_attention.rs",
-      "adl-runtime-kernel/tests/observatory.rs",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/index.html",
-      "demos/html-observatory/styles.css",
-      "demos/html-observatory/tests/operator_attention_inbox.test.mjs",
-      ".csdlc/issues/116",
-      ".csdlc/prepared/issues/116",
-      ".csdlc/evidence/116"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -41,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "127e74f56d6d7c9c1814caf8dd4489ced72999f3f972b549d43ed1d8dad5f8df",
+      "values_digest": "216cbf59460046a6fed2c125ec676fdb173fa34988b5c88db63f0dbe9c8de004",
       "rendered_digest": "615ebc26ce85e6f0d223a5d81a8699b2db73646ffbfcc7036e08722adf48cef1",
       "ast_digest": "dd817ebec75ea010b2d37cc52f92d3b12040fd30da6bc3a55bfe4fca81e8cac4"
     },
     "stp": {
-      "values_digest": "014ca383478c54de86565348d75d7e2a8fbed62d92eafa41ddf07eeab7d7cc83",
+      "values_digest": "33b48336d07aad876f35ed32b4070cf095af63a69dd6af8ba1a478a208a87ed9",
       "rendered_digest": "52de91966d27c36d2e5322ebad84fecc97cb749d0118832ab58f8e70f1fd928b",
       "ast_digest": "1a304201009b5f8022ff747a66acec75efba1e92154d48a921882543c66115e9"
     },
     "spp": {
-      "values_digest": "626ac50c4f96e6cbb978951c3f0a57310ebf1b65a914894721a47ad33d88920a",
+      "values_digest": "65a9949ea831ed3a743d8f743b02318c0eb3b1c9ae41220c572aeb33e87a5279",
       "rendered_digest": "848d519bc8bb7c5208170b8d4848a57b98796d2b384c7378fd86ec4e0dd3261b",
       "ast_digest": "b0124a985f14ac971b2405f5911db285773a93600e66d9c1af0e2f1f35b09e0d"
     },
     "vpp": {
-      "values_digest": "df101c365094bdb688dca14a223d9aa57147ca4702e274b3190a6c529e1c0c28",
+      "values_digest": "6e73b1af58835ed73236a02156da13f0cd76c0faa1893c4abcb29641326cb33c",
       "rendered_digest": "2eb411e606fe12920a2951e032f17a3378196cb36282bdff32127aa1442634b0",
       "ast_digest": "81b8ad794c55c5086c59931af269a1e2abbd45630fe6a97f93add391e138c503"
     },
     "srp": {
-      "values_digest": "03d08e127f9e6924972fdcaeb9718fd7680cea9ce3136cf49c446f2867b7ad5b",
-      "rendered_digest": "0f0734769ac9a65819b381bb233adf4ab7a8d984c3769a3e44c29c46ded3b807",
-      "ast_digest": "ac41048e840972b6883c5cf76d01a2db16b035b4aa205f254bf99dd8df9e1935"
+      "values_digest": "699947d88aeb0b04f9bbcf4d39850eb8637c806493abdc127a83889f73bd4688",
+      "rendered_digest": "06621288578774e759e283cfc7e6f805e9d910bc6b5df7556f12a6430608e5f6",
+      "ast_digest": "f313a30007b7fe32bfffff80fa4a861b38ab4aec03cdb352c56280c81840a70b"
     },
     "sor": {
-      "values_digest": "94e979af73dd4711d8896785937833c7644fe786a33c2cb0971ee2030987cdf2",
+      "values_digest": "6b45b86571f29ac19d3da11722c0512ba8880db7da111a93114545165af62e69",
       "rendered_digest": "7e4de687ed6b73e1446ab94c16770f09cb6f45e7c16a7aa937134be6b543f98d",
       "ast_digest": "36dafb30138cddd07a5c1d0febebd934dd8ce7b87fee7a9110c34714c27be424"
     }
@@ -192,6 +176,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Recover stale #116 review assignment fresh-session:bf8c5284-d875-4354-aa26-be3e9768a701 after committing its typed assignment metadata; no product changes, but exact review must bind the new clean immutable head.",
+      "operation": "recover_review"
     }
   ]
 }
