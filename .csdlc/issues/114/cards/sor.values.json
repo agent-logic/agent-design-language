@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-18C.04][coordination] Coordinate durable conversation history, continuity, and receipts",
     "slug": "v0-92-wp-18c-04-coordinate-durable-conversation-history-continuity-receipts",
     "version": "v0.92.0",
-    "generation": 76
+    "generation": 84
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Recorded the #114 durable-history coordination-parent integration proof after #276, #277, and #278 reached terminal ancestry. The proof remains parent-only and current authority is the repaired SIP scope/operator constraints, STP acceptance/deliverables, VPP, SRP, SOR, and validators. The issue-owned validator explicitly reports two typed-tool-limited stale STP fields (task_boundary and non_goals) that implemented-phase csdlc-edit cannot mutate; they are treated as historical residue, not current publication authority.",
+      "summary": "Recorded the #114 durable-history coordination-parent integration proof after #276, #277, and #278 reached terminal ancestry. The proof remains parent-only: issue-owned validator, terminal-chain validator, focused Runtime integration regression, strict Clippy, and diff hygiene are the current local evidence; SIP/STP/SPP/VPP/SRP/SOR card truth has been repaired through typed implemented-phase routes; publication, merge, and finish remain pending.",
       "actual_changes": [
         "Materialized and ran the #114 issue-owned bound parent validator; it now rejects stale preparation-only markers outside the known typed-tool-limited STP task/non-goals fields and reports those fields explicitly.",
         "Added a focused durable conversation history parent integration regression covering restart, duplicate attempt admission, receipts, replay ownership, retention, deletion, and Observatory transcript restoration.",
@@ -91,7 +91,10 @@
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": [
-        "If fresh design/card review passes and doctor is green, request explicit Planning authority before any bind or child implementation."
+        "Obtain fresh no-context exact-head review over the current #114 immutable head and repaired lifecycle truth.",
+        "Publish through typed csdlc-publish with correct Closes #114 linkage only after review PASS and base/head ancestry are current.",
+        "Shepherd required CI and use typed csdlc-finish only after exact green authority.",
+        "After #114 terminal cache validates canonical and ancestral, refresh #115/#116/#117 readiness without absorbing their child scope."
       ]
     }
   }

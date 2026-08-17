@@ -12,7 +12,7 @@ Status: ready
 
 ## Task
 
-Typed initialized-decomposition recovery/replan for parent #114 from preserved gen35 staging, followed by fresh design/card review and doctor/validation. Stop before bind, child bootstrap, child implementation, publication, PR, merge, closeout, or GitHub mutation.
+Implemented parent-only #114 durable-history integration proof in the bound worktree: verify terminal ancestry for #276, #277, and #278; prove restart, retention, deletion, receipt, replay-owner, and Observatory transcript restoration coherence; preserve child/#271/#115/#116/#117 boundaries; then fresh review, typed publication, CI, and finish.
 
 ## Deliverables
 
@@ -62,10 +62,10 @@ Typed initialized-decomposition recovery/replan for parent #114 from preserved g
 
 ## Non Goals
 
-- Implementing #276, #277, or #278 directly in parent #114
-- Binding #114 or any child issue
-- Editing product Runtime, API, Observatory, documentation, or test code
-- Redefining #270 acknowledgement trust, provenance, or served API protocol
-- Mutating #112 slice worktrees, GitHub issues, cards outside #114, PRs, branches, or worktrees
-- Approving the design without a fresh exact-generation review
-- Binding #114 or starting #276/#277/#278 implementation in this recovery step
+- Implementing or changing #276 durable journal foundation behavior inside #114
+- Implementing or changing #277 watermark, idempotency, replay, receipt, or restart-reconciliation behavior inside #114
+- Implementing or changing #278 history API/search/export/redaction or Observatory restoration behavior inside #114
+- Redefining #270 acknowledgement trust, provenance, credential binding, or served API protocol
+- Changing #271 Observatory authority-state UI scope, #115 room/UI behavior, #116 durable transcript follow-on scope, or #117 umbrella behavior inside #114
+- Mutating #112/#265/#270/#271/#276/#277/#278 child worktrees, GitHub issues, PRs, branches, or lifecycle cards while finishing #114
+- Publishing, merging, or finishing without fresh exact-head review PASS, correct Closes #114 linkage, current base/head ancestry, and required CI green

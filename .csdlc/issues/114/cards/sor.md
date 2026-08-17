@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Recorded the #114 durable-history coordination-parent integration proof after #276, #277, and #278 reached terminal ancestry. The proof remains parent-only and current authority is the repaired SIP scope/operator constraints, STP acceptance/deliverables, VPP, SRP, SOR, and validators. The issue-owned validator explicitly reports two typed-tool-limited stale STP fields (task_boundary and non_goals) that implemented-phase csdlc-edit cannot mutate; they are treated as historical residue, not current publication authority.
+Recorded the #114 durable-history coordination-parent integration proof after #276, #277, and #278 reached terminal ancestry. The proof remains parent-only: issue-owned validator, terminal-chain validator, focused Runtime integration regression, strict Clippy, and diff hygiene are the current local evidence; SIP/STP/SPP/VPP/SRP/SOR card truth has been repaired through typed implemented-phase routes; publication, merge, and finish remain pending.
 
 ## Artifacts
 
@@ -107,4 +107,7 @@ not_started
 
 ## Follow Ups
 
-- If fresh design/card review passes and doctor is green, request explicit Planning authority before any bind or child implementation.
+- Obtain fresh no-context exact-head review over the current #114 immutable head and repaired lifecycle truth.
+- Publish through typed csdlc-publish with correct Closes #114 linkage only after review PASS and base/head ancestry are current.
+- Shepherd required CI and use typed csdlc-finish only after exact green authority.
+- After #114 terminal cache validates canonical and ancestral, refresh #115/#116/#117 readiness without absorbing their child scope.

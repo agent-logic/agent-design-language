@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "bb70960941aab631d5c34ecdb2e526c2af37ec6b16d7835180a774117e371407",
   "phase": "implemented",
-  "generation": 76,
-  "digest": "69d1128be64fb77348ceebcec8882d2c053b45e1353469e7010795dca09e0a47",
+  "generation": 84,
+  "digest": "8365b2d6baef4938e982caf50e1c78010f11d457d479d3bc17c4b616d7dd4370",
   "branch": "codex/114-durable-history-parent-integration-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-114-durable-history-parent-integration-proof",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a6ed281a9cc8efb926c880f5a6e807c8368fcb01016f72a3002c2363d0142e14",
+      "values_digest": "a3809ae648c64845e1eae69d9cb8cc721ed4eec1b8bbb3d2b8579da133a6c4b2",
       "rendered_digest": "0b0c6bafa6deda1c3729cf78a0329206ddc13dee5d9d87714262d211aaaf4190",
       "ast_digest": "3e1bbbcc8e45f6c68031ca5d6b787383716509ed050a4795ae7d74647bbe1bf2"
     },
     "stp": {
-      "values_digest": "37fad47804613c738ef9ace25b3300240795674f34ac3e655ad3ec94ccb4c10e",
-      "rendered_digest": "79899f67ce8031dd9a1a634240b8e11c4218453539aeb1e6be407589efbc67e9",
-      "ast_digest": "2d4f6513c99b8054c679cd994533f0e74d90fb41163882c2428335936348d357"
+      "values_digest": "eaa7269c1970bc69872c6ba2af8916445d87b1c2f701455cb86658d1642d5cd3",
+      "rendered_digest": "8fe296ff077386a628ddb15582f8bcbff8d6cf0a31b5f82e8e74eb81faaa2119",
+      "ast_digest": "b0a63a6b951cb61d92ff50bd4694a3a8f8bdee0cc11559a363ab189f55117eb0"
     },
     "spp": {
-      "values_digest": "f677d3f5554a4376134f0beaf6fab3caa8edbfd9d86720f26d5be757a0d8b5b6",
-      "rendered_digest": "592b1142b740f8f76ca1acc77417e99728983af322c8f145f16c326d4a0588eb",
-      "ast_digest": "6ebafeb1279217b52719544e1d17c3a04c7aa8cb9f90909588ed6975c44462ab"
+      "values_digest": "995e4786bb925b26f06433e5c51df8a1eed98fc727945c21176b36527b96eb67",
+      "rendered_digest": "2f2c1a789272228ab57b3e15340a4b1da3df53edeb43634983b7108e99e94787",
+      "ast_digest": "ec346eace80ce81a7888b5d922369fce943a913658365eb954df3d8ccbc871c7"
     },
     "vpp": {
-      "values_digest": "75c17b52be5e24843bfe4cc7d75caf14f86214b626df2f14064048559e008210",
-      "rendered_digest": "79d6e5df0082425232cec2354664ce08427d6682936f933e0a9fed93ea409040",
-      "ast_digest": "616c081289d62f27a5b08a5be35245d0505c20f338c44f2da7fbf6ae3eade347"
+      "values_digest": "53d6a5f03b25b2c7c5556eb642d3a50b603383d41d1a4dcae4438f09033c718d",
+      "rendered_digest": "b57f3f88b91d7680b829a4fa657a3541ec45a556443919115247dcb57969fcc5",
+      "ast_digest": "f389e0118c2b905dab9734a5647b8a6fa7a9a31191fee58dcd2e65bddcc3ce97"
     },
     "srp": {
-      "values_digest": "b6fbf1ff5761d6d32408d15cfd8d94377bd95054f7656f31575eea17556ab300",
-      "rendered_digest": "675233c7dddbbe543a08d402e6f1985b373a3efc4e50e1f25d746b6b888a0518",
-      "ast_digest": "5d8bfa7b856ab2c8e3e3156b635194f84011ed7b7b58827561d0116974a8265e"
+      "values_digest": "122775ed1e2b3c5862b348d36d30fdc64da9a28d4f1b1002568c31a01372c44b",
+      "rendered_digest": "c06395f4d4ab6cddbe4b153514352d5bdffb4cca611c62c1f8e4cde42877ef2e",
+      "ast_digest": "22a6cef2711bbd6b4e373004febad2b1b3c57d85739785c25cfe333836f1dad8"
     },
     "sor": {
-      "values_digest": "f14d4486a735495513d5ca576790d2b66d7675eb24bc2fc76b8ae4466d94a624",
-      "rendered_digest": "8409f4f8ae6579651ab0ac19c57951ed720be9aa898636d2a065dcded002f78e",
-      "ast_digest": "9843a946efead72d9b1651d5615111856446eed10ffe29bddd06d013cc7c9b5a"
+      "values_digest": "76169b5350ce50161ca44783e5d8fee17159f3a4963d3e8adf6bf99910d97ee4",
+      "rendered_digest": "5a8d6a9537e589d32b0fb67c6092c66eba006e6b064bae1e334aa5da3536b3c5",
+      "ast_digest": "4e1561f49cc87a3f5cda51d95066749384cee8fb7c2b8f9b43dab913fac7e8bf"
     }
   },
   "transitions": [
@@ -686,6 +686,62 @@
       "actor": "codex:/root",
       "reason": "Repair #114 SIP required outcome after recorded-review recovery so implemented parent proof truth replaces stale preparation-only wording before fresh exact-head review.",
       "operation": "{\"new_value\":\"The #114 parent integration proof is implemented in the bound worktree after terminal ancestry for #276, #277, and #278 was verified; #114 remains parent-only, does not absorb child scope, and now requires fresh exact-head review, typed publication, CI, and finish.\",\"operation\":\"correct_required_outcome_after_recovery\",\"previous_value\":\"The #114 parent remains preparation/coordination-only until #276 durable journal foundation, #277 watermark/idempotency/replay/receipt persistence, and #278 re-authorized history API and Observatory restoration are terminal and ancestral; parent proof then verifies the integrated chain without absorbing child implementation.\"}"
+    },
+    {
+      "sequence": 88,
+      "generation": 77,
+      "actor": "codex:/root",
+      "reason": "Repair #114 STP task boundary after implemented parent proof so it no longer claims pre-bind/preparation-only recovery.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"task_boundary\",\"value\":\"Implemented parent-only #114 durable-history integration proof in the bound worktree: verify terminal ancestry for #276, #277, and #278; prove restart, retention, deletion, receipt, replay-owner, and Observatory transcript restoration coherence; preserve child/#271/#115/#116/#117 boundaries; then fresh review, typed publication, CI, and finish.\"}"
+    },
+    {
+      "sequence": 89,
+      "generation": 78,
+      "actor": "codex:/root",
+      "reason": "Repair #114 STP non-goals after implemented parent proof so stale no-bind/no-product-edit recovery text is removed while child boundaries remain explicit.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"non_goals\",\"values\":[\"Implementing or changing #276 durable journal foundation behavior inside #114\",\"Implementing or changing #277 watermark, idempotency, replay, receipt, or restart-reconciliation behavior inside #114\",\"Implementing or changing #278 history API/search/export/redaction or Observatory restoration behavior inside #114\",\"Redefining #270 acknowledgement trust, provenance, credential binding, or served API protocol\",\"Changing #271 Observatory authority-state UI scope, #115 room/UI behavior, #116 durable transcript follow-on scope, or #117 umbrella behavior inside #114\",\"Mutating #112/#265/#270/#271/#276/#277/#278 child worktrees, GitHub issues, PRs, branches, or lifecycle cards while finishing #114\",\"Publishing, merging, or finishing without fresh exact-head review PASS, correct Closes #114 linkage, current base/head ancestry, and required CI green\"]}"
+    },
+    {
+      "sequence": 90,
+      "generation": 79,
+      "actor": "codex:/root",
+      "reason": "Repair #114 SPP summary after implemented parent proof so it records completed validation and remaining review/publication/finish gates.",
+      "operation": "{\"new_value\":\"#114 has implemented the parent-only durable-history integration proof in the bound worktree: dependency terminal ancestry, issue-owned validation, terminal-chain validation, focused Runtime integration regression, strict Clippy, and diff hygiene are complete; fresh exact-head review, typed publication, CI, and finish remain pending.\",\"operation\":\"correct_plan_summary_after_recovery\",\"previous_value\":\"#114 has been recovered to the ready/unbound coordination-parent boundary: preserved gen0 authored artifacts remain historical evidence, cards align to #276 -> #277 -> #278 -> parent exact-revision integration proof, local preparation validation is current, and execution stops before bind or child work.\",\"recovery_generation\":75,\"recovery_sequence\":86}"
+    },
+    {
+      "sequence": 91,
+      "generation": 80,
+      "actor": "codex:/root",
+      "reason": "Repair #114 VPP summary after implemented parent proof so it no longer describes preparation-only validation.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"plan_summary\",\"value\":\"Implemented #114 validation proves the parent-only durable-history integration boundary: issue-owned bound parent validator, #276/#277/#278 terminal-chain validator, focused Runtime kernel integration regression, strict Clippy, and diff hygiene; publication/merge/terminal proof remains deferred to typed PR/CI/finish.\"}"
+    },
+    {
+      "sequence": 92,
+      "generation": 81,
+      "actor": "codex:/root",
+      "reason": "Repair #114 VPP failure policy after implemented parent proof so it gates review/publication truth rather than stale preparation-only recovery.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"failure_policy\",\"value\":\"Fail closed on dependency terminal-cache drift, merge-SHA ancestry drift, parent/child scope absorption, #270/#271 authority redefinition, issue-owned validator failure, terminal-chain validator failure, focused Runtime integration failure, strict Clippy or diff hygiene failure, stale exact-head review, publication/linkage drift, CI failure, or typed finish failure.\"}"
+    },
+    {
+      "sequence": 93,
+      "generation": 82,
+      "actor": "codex:/root",
+      "reason": "Repair #114 SRP review prompts after implemented parent proof so fresh review covers the current product/proof head instead of preparation-only design review.",
+      "operation": "{\"operation\":\"correct_review_prompts_after_recovery\",\"values\":[\"Verify the exact #114 immutable head implements only parent durable-history integration proof and does not absorb #276, #277, #278, #271, #115, #116, or #117 product scope.\",\"Verify terminal cache and merge-SHA ancestry proof for #112, #265, #270, #271, #276, #277, and #278 is current and consumed read-only.\",\"Verify adl/tools/validate_v092_durable_history_parent_integration.py proves #276/#277/#278 terminal-chain integrity, merged dispositions, ancestry, and parent-only ownership.\",\"Verify adl-runtime-kernel/tests/durable_conversation_history_integration.rs proves restart, duplicate attempt admission, receipts, replay owner state, retention/deletion, and Observatory transcript restoration coherence without redefining child authority.\",\"Verify .csdlc/prepared/issues/114/validate_preparation_bundle.py no longer permits stale preparation-only card truth outside historical audit evidence.\",\"Verify VPP/SOR validation truth, local proof outputs, diff hygiene, and remaining publication/CI/finish gates are current before publication.\"]}"
+    },
+    {
+      "sequence": 94,
+      "generation": 83,
+      "actor": "codex:/root",
+      "reason": "Repair #114 SOR summary after implemented parent proof and typed card repairs so it no longer records typed-tool-limited stale STP residue.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"sor_summary\",\"value\":\"Recorded the #114 durable-history coordination-parent integration proof after #276, #277, and #278 reached terminal ancestry. The proof remains parent-only: issue-owned validator, terminal-chain validator, focused Runtime integration regression, strict Clippy, and diff hygiene are the current local evidence; SIP/STP/SPP/VPP/SRP/SOR card truth has been repaired through typed implemented-phase routes; publication, merge, and finish remain pending.\"}"
+    },
+    {
+      "sequence": 95,
+      "generation": 84,
+      "actor": "codex:/root",
+      "reason": "Repair #114 SOR follow-ups after implemented parent proof so remaining work is fresh review, typed publication, CI, finish, and downstream unlocks.",
+      "operation": "{\"new_values\":[\"Obtain fresh no-context exact-head review over the current #114 immutable head and repaired lifecycle truth.\",\"Publish through typed csdlc-publish with correct Closes #114 linkage only after review PASS and base/head ancestry are current.\",\"Shepherd required CI and use typed csdlc-finish only after exact green authority.\",\"After #114 terminal cache validates canonical and ancestral, refresh #115/#116/#117 readiness without absorbing their child scope.\"],\"operation\":\"replace_sor_follow_ups_after_recovery\",\"previous_values\":[\"If fresh design/card review passes and doctor is green, request explicit Planning authority before any bind or child implementation.\"],\"recovery_generation\":75,\"recovery_sequence\":86}"
     }
   ]
 }

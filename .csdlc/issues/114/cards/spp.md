@@ -12,7 +12,7 @@ Status: ready
 
 ## Summary
 
-#114 has been recovered to the ready/unbound coordination-parent boundary: preserved gen0 authored artifacts remain historical evidence, cards align to #276 -> #277 -> #278 -> parent exact-revision integration proof, local preparation validation is current, and execution stops before bind or child work.
+#114 has implemented the parent-only durable-history integration proof in the bound worktree: dependency terminal ancestry, issue-owned validation, terminal-chain validation, focused Runtime integration regression, strict Clippy, and diff hygiene are complete; fresh exact-head review, typed publication, CI, and finish remain pending.
 
 ## Plan
 

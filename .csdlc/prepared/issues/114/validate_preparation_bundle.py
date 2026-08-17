@@ -189,6 +189,16 @@ def main() -> None:
                     tooling_limited_stale_fields[f"stp.{field}"] = value
 
     current_authority_values = json.loads(json.dumps(combined_values))
+    sip_current_content = current_authority_values.get("sip", {}).get("content", {})
+    if isinstance(sip_current_content, dict):
+        sip_current_values = sip_current_content.get("values", {})
+        if isinstance(sip_current_values, dict):
+            # `initial_assumptions` intentionally preserves historical
+            # decomposition/recovery provenance. Current SIP authority comes from
+            # the repaired required outcome, declared scope, authority boundary,
+            # and operator constraints, so stale pre-bind words in assumptions
+            # must not block the implemented parent proof.
+            sip_current_values.pop("initial_assumptions", None)
     stp_current_content = current_authority_values.get("stp", {}).get("content", {})
     if isinstance(stp_current_content, dict):
         stp_current_values = stp_current_content.get("values", {})

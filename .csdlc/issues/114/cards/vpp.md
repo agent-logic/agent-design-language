@@ -12,7 +12,7 @@ Status: ready
 
 ## Summary
 
-Preparation-only validation proves artifact preservation, initialized/unbound parent scope, graph truth, and typed lifecycle/card consistency; it does not prove Runtime, API, Observatory, publication, merge, or terminal behavior.
+Implemented #114 validation proves the parent-only durable-history integration boundary: issue-owned bound parent validator, #276/#277/#278 terminal-chain validator, focused Runtime kernel integration regression, strict Clippy, and diff hygiene; publication/merge/terminal proof remains deferred to typed PR/CI/finish.
 
 ## Lane Inputs
 
@@ -147,7 +147,7 @@ Tokens: 100000
 
 ## Failure Semantics
 
-Fail closed on projection drift, stale digest, corrupt audit, missing preserved design/diagram evidence, accidental parent implementation scope, attempted bind/publication/PR/GitHub mutation, dependency graph mismatch, or issue-local preparation validator failure.
+Fail closed on dependency terminal-cache drift, merge-SHA ancestry drift, parent/child scope absorption, #270/#271 authority redefinition, issue-owned validator failure, terminal-chain validator failure, focused Runtime integration failure, strict Clippy or diff hygiene failure, stale exact-head review, publication/linkage drift, CI failure, or typed finish failure.
 
 ## Handoff
 
