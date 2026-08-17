@@ -6335,7 +6335,7 @@ fn review_related_audit_operation(operation: &str) -> Option<String> {
     let name = recovery_epoch_operation_name(operation)?;
     match name.as_str() {
         "assign_review" | "record_review" | "recover_review" | "publish" | "record_publication"
-        | "record_readiness" | "finish" | "record_closeout" | "record_merge" => Some(name),
+        | "finish" | "record_closeout" | "record_merge" => Some(name),
         _ => None,
     }
 }
