@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 283,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][ADR 0065][207.a] Reconcile terminal ACIP schema catalog evidence",
+    "slug": "adr0065-acip-terminal-evidence-reconciliation",
+    "version": "v0.92",
+    "generation": 15
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/283\n.csdlc/prepared/issues/283\n.csdlc/evidence/283",
+      "review_revision": "git-blake3:5724cbf1f05ef59313a015505def6249852b8703:0b90e3995b39b1344665c2bfcf433b45e52d3515ab67313b67f07374854c50de",
+      "reviewer": "fresh-session:fb915b60-c681-402f-a445-b153a41b451f",
+      "review_prompts": [
+        "Does #283 correctly classify #5832 as historical/superseded evidence?",
+        "Is #209 / PR #215 evidence exact-head, merged, and artifact-bound?",
+        "Does the reconciliation packet avoid ADR acceptance and shared #288 serialization scope?",
+        "Are residual gaps stated truthfully for #207?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "#288 owns shared ADR document/index/plan/manifest serialization; #283 intentionally records issue-local ADR 0065 evidence reconciliation only."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

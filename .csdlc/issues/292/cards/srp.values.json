@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 292,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Repair implemented card identity after issue decomposition",
+    "slug": "implemented-card-identity-repair",
+    "version": "v0.92",
+    "generation": 5
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "csdlc-v2/src/cards.rs\ncsdlc-v2/src/store.rs\ncsdlc-v2/tests/card_identity.rs\n.csdlc/issues/292\n.csdlc/prepared/issues/292",
+      "review_revision": "git-blake3:ee18d8e987bab6d8971dfda00ce4ce0b76d1a025:7f95158a6170c35f2e96da29328ba351f66125b5ea758bde0fd31a81f56cb19d",
+      "reviewer": "fresh-session:a6458bb4-3c16-4a60-8bcb-ca881691672c",
+      "review_prompts": [
+        "Verify the operation cannot run outside the intended implemented-phase pre-review/pre-publication/pre-readiness/pre-terminal window and rejects incompatible latest review-related audit state.",
+        "Verify live issue evidence binds the requested title and sibling-scope claims are rejected.",
+        "Verify all six card values update atomically and no non-identity content changes.",
+        "Verify #112 fixture use is isolated and read-only.",
+        "Verify tests cover stale CAS, phase/review/publication/readiness/terminal rejects, incompatible latest review-related audit state, malformed or sibling identity rejects, evidence mismatch, audit fields, and validation."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pass"
+    }
+  }
+}

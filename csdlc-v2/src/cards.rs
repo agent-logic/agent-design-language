@@ -557,6 +557,13 @@ pub enum SemanticOperation {
     UpdateIdentityVersion {
         version: String,
     },
+    CorrectIdentityTitleSlugAfterDecomposition {
+        title: String,
+        slug: String,
+        live_issue_title: String,
+        live_issue_url: String,
+        live_issue_body_digest: String,
+    },
     Replan {
         field: TextField,
         value: String,
@@ -578,6 +585,9 @@ pub enum SemanticOperation {
         values: Vec<String>,
     },
     CorrectStpDeliverablesAfterRecovery {
+        values: Vec<String>,
+    },
+    CorrectStpDependenciesAfterRecovery {
         values: Vec<String>,
     },
     CorrectPlanSummaryAfterRecovery {
@@ -602,6 +612,9 @@ pub enum SemanticOperation {
         values: Vec<String>,
     },
     RefreshAuthoredDesignAfterRecovery,
+    CorrectPlanStepsAfterRecovery {
+        steps: Vec<PlanStep>,
+    },
     ReplacePlanSteps {
         steps: Vec<PlanStep>,
     },
@@ -898,6 +911,10 @@ pub fn apply(
             values.identity.version = version.clone();
             Ok(None)
         }
+        SemanticOperation::CorrectIdentityTitleSlugAfterDecomposition { .. } => Err(V2Error::new(
+            ErrorCode::FieldOwnership,
+            "correct_identity_title_slug_after_decomposition is a cross-card operation",
+        )),
         SemanticOperation::Replan { field, value } => {
             set_text(values, *field, value.clone())?;
             Ok(None)
@@ -962,6 +979,16 @@ pub fn apply(
             match &mut values.content {
                 CardContent::Stp(value) => value.deliverables = replacement.clone(),
                 _ => return ownership(values.kind(), "correct_stp_deliverables_after_recovery"),
+            }
+            Ok(None)
+        }
+        SemanticOperation::CorrectStpDependenciesAfterRecovery {
+            values: replacement,
+        } => {
+            validate_unique_replacement(replacement, "STP dependencies")?;
+            match &mut values.content {
+                CardContent::Stp(value) => value.dependencies = replacement.clone(),
+                _ => return ownership(values.kind(), "correct_stp_dependencies_after_recovery"),
             }
             Ok(None)
         }
@@ -1066,6 +1093,17 @@ pub fn apply(
             CardContent::Spp(_) => Ok(None),
             _ => ownership(values.kind(), "refresh_authored_design_after_recovery"),
         },
+        SemanticOperation::CorrectPlanStepsAfterRecovery { steps } => {
+            validate_recovery_plan_steps(steps)?;
+            match &mut values.content {
+                CardContent::Spp(v) => {
+                    v.steps = steps.clone();
+                    v.plan_revision += 1;
+                }
+                _ => return ownership(values.kind(), "correct_plan_steps_after_recovery"),
+            }
+            Ok(None)
+        }
         SemanticOperation::ReplacePlanSteps { steps } => {
             validate_plan_steps(steps)?;
             match &mut values.content {
@@ -1713,6 +1751,39 @@ fn validate_plan_steps(steps: &[PlanStep]) -> Result<()> {
         return Err(V2Error::new(
             ErrorCode::CardInvalid,
             "replacement plan steps must be unique, pending, and complete",
+        ));
+    }
+    Ok(())
+}
+
+fn validate_recovery_plan_steps(steps: &[PlanStep]) -> Result<()> {
+    let ids: BTreeSet<_> = steps.iter().map(|step| step.id.as_str()).collect();
+    if steps.is_empty()
+        || ids.len() != steps.len()
+        || steps.iter().any(|step| {
+            let acceptance_ids: BTreeSet<_> =
+                step.acceptance_ids.iter().map(String::as_str).collect();
+            step.id.trim().is_empty()
+                || step.action.trim().is_empty()
+                || step.acceptance_ids.is_empty()
+                || acceptance_ids.len() != step.acceptance_ids.len()
+                || step.acceptance_ids.iter().any(|id| id.trim().is_empty())
+        })
+    {
+        return Err(V2Error::new(
+            ErrorCode::CardInvalid,
+            "post-recovery plan steps must be unique and complete",
+        ));
+    }
+    if steps
+        .iter()
+        .filter(|step| step.status == StepStatus::InProgress)
+        .count()
+        > 1
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "only one plan step may be in progress",
         ));
     }
     Ok(())

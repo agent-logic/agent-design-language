@@ -1,0 +1,14 @@
+flowchart TD
+    Review["Exact implemented-phase review finding"]
+    Recovery["Typed csdlc-edit recovery operation"]
+    SPP["SPP step truth repaired"]
+    STP["STP dependencies repaired"]
+    Audit["Generation/digest CAS + append-only audit"]
+    Publish["Publication remains gated by fresh review"]
+
+    Review --> Recovery
+    Recovery --> SPP
+    Recovery --> STP
+    SPP --> Audit
+    STP --> Audit
+    Audit --> Publish

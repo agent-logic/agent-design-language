@@ -1,0 +1,52 @@
+{
+  "account_id_sha256": "b05e1f4379b5c7457d1de357e21447526ecf418ed47176ead2868d0a2d6589c9",
+  "azs": [
+    "us-west-2a",
+    "us-west-2b"
+  ],
+  "cleanup": {
+    "active_instances": 0,
+    "delete_status": "absent",
+    "network_interfaces": 0,
+    "security_groups": 0,
+    "vpc_endpoints": 0
+  },
+  "issue": 194,
+  "non_claims": [
+    "infrastructure and SSM smoke only",
+    "does not claim private local model health/restart",
+    "does not claim snapshot recovery, partition, demotion, or one-of-three halt",
+    "does not claim #142 completion",
+    "omits raw AWS identifiers and machine-local paths"
+  ],
+  "preflight_status": "dry_run_preflight_passed",
+  "profile": "agent-logic-admin",
+  "region": "us-west-2",
+  "run_id": "issue-194-voter-smoke-20260816T234641Z",
+  "schema": "adl.issue194.private_wuji_aws_recovery.live_smoke_receipt.v1",
+  "ssm_command_attempt": 12,
+  "ssm_command_complete_count": 2,
+  "ssm_command_failed_count": 0,
+  "ssm_command_id_sha256": "21d31f158ae7616a4f6d909007c5de1ae4eb97b7b129886e6d9fd483148b46ff",
+  "ssm_online_attempt": 23,
+  "ssm_online_count": 2,
+  "ssm_smoke_node_outputs": [
+    "issue-194-voter-smoke-20260816T234641Z aws-voter-a",
+    "issue-194-voter-smoke-20260816T234641Z aws-voter-b"
+  ],
+  "ssm_smoke_statuses": [
+    "Success",
+    "Success"
+  ],
+  "stack_outputs_sha256": {
+    "AwsVoterAInstanceIdSha256": "469e81b87f72e7cc3b21125831548d0b8fa2fea37e29584067ce649731bd8b64",
+    "AwsVoterBInstanceIdSha256": "c682fe12129707a28e97aca21b752624ebe66b5428d3a68e166fa7040658a08d",
+    "InstanceSecurityGroupIdSha256": "b0eba4e883a0a8e7d027e445797a884280ede5e9c67faaba4d2d6e03686ceb87",
+    "PrivateSubnetASha256": "91f8b7a06e46dc5bea7e8f4b886d4923bc27785b23a32e275a4d0926e16b8e11",
+    "PrivateSubnetBSha256": "92de4b8692ee2eebf0f0b14362ccfdfdec88be9f699295d81aa5d8f69105ba14",
+    "VpcIdSha256": "542a2dfa9ce322407e3fb836e236ae96075c4f3c265d37f35e21dd8ca86febab"
+  },
+  "status": "passed",
+  "ttl_expires_at": "2026-08-17T00:01:46.041475Z",
+  "ttl_minutes": 15
+}
