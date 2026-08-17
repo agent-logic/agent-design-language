@@ -1,7 +1,7 @@
 {
   "schema": "adl.html_observatory.large_polis_performance_recovery_metrics.v1",
   "candidate_revision": "557dd28d85746a8dc5109dcc674f5a606b8c9890",
-  "implementation_revision": "bound-by-csdlc-review-assignment",
+  "implementation_revision": "6a705c7bff64f375fe47103c25607fba9573ca8b",
   "agent_total": 2500,
   "visible_agent_count": 120,
   "max_visible_agents": 120,
@@ -134,5 +134,99 @@
     "duplicate_actions": 0
   },
   "bounded": true,
-  "grants_authority": false
+  "grants_authority": false,
+  "consecutive_degraded_recovery_sequence": {
+    "schema": "adl.html_observatory.large_polis_recovery_sequence.v1",
+    "steps": [
+      {
+        "sequence": 1,
+        "view": {
+          "schema": "adl.html_observatory.large_polis_recovery_view.v1",
+          "status": {
+            "reconnect": "degraded",
+            "restart": "ready",
+            "backpressure": "ready",
+            "offline": "ready",
+            "versionMismatch": "ready"
+          },
+          "transitions": [
+            "socket_disconnected"
+          ],
+          "actions": [
+            "schedule_single_reconnect"
+          ],
+          "duplicate_action_prevented": false,
+          "grants_authority": false,
+          "runtime_authority_required": true
+        },
+        "pending_actions_before": [],
+        "pending_actions_after": [
+          "schedule_single_reconnect"
+        ],
+        "resolved_pending_actions": [],
+        "stale_state_visible": true
+      },
+      {
+        "sequence": 2,
+        "view": {
+          "schema": "adl.html_observatory.large_polis_recovery_view.v1",
+          "status": {
+            "reconnect": "degraded",
+            "restart": "ready",
+            "backpressure": "ready",
+            "offline": "ready",
+            "versionMismatch": "ready"
+          },
+          "transitions": [
+            "socket_disconnected"
+          ],
+          "actions": [],
+          "duplicate_action_prevented": true,
+          "grants_authority": false,
+          "runtime_authority_required": true
+        },
+        "pending_actions_before": [
+          "schedule_single_reconnect"
+        ],
+        "pending_actions_after": [
+          "schedule_single_reconnect"
+        ],
+        "resolved_pending_actions": [],
+        "stale_state_visible": true
+      },
+      {
+        "sequence": 3,
+        "view": {
+          "schema": "adl.html_observatory.large_polis_recovery_view.v1",
+          "status": {
+            "reconnect": "ready",
+            "restart": "ready",
+            "backpressure": "ready",
+            "offline": "ready",
+            "versionMismatch": "ready"
+          },
+          "transitions": [],
+          "actions": [],
+          "duplicate_action_prevented": false,
+          "grants_authority": false,
+          "runtime_authority_required": true
+        },
+        "pending_actions_before": [
+          "schedule_single_reconnect"
+        ],
+        "pending_actions_after": [],
+        "resolved_pending_actions": [
+          "schedule_single_reconnect"
+        ],
+        "stale_state_visible": true
+      }
+    ],
+    "recovered": true,
+    "stale_state_hidden": false,
+    "observed_pending_action_count": 1,
+    "resolved_pending_action_count": 1,
+    "pending_action_count": 0,
+    "dropped_pending_actions": 0,
+    "duplicate_actions": 1
+  }
 }
