@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "bb70960941aab631d5c34ecdb2e526c2af37ec6b16d7835180a774117e371407",
   "phase": "implemented",
-  "generation": 99,
-  "digest": "5b8efb8ec91cff8c81f900f7a4d3b011e5ab1a1f1e3576588020deed3055d422",
+  "generation": 100,
+  "digest": "f04feb46380334504872ce07e26bf51b9f2db4501e983198afe3364d491774de",
   "branch": "codex/114-durable-history-parent-integration-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-114-durable-history-parent-integration-proof",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "79edf468fba987a869da9c17a2c904cc12caa9f731ed07d0aea7a4ff14c1f21c",
+      "values_digest": "8946cc3f35b762664c8b0d23e5e12a3cf351e0a9f5e965950dae63c3d6abad8c",
       "rendered_digest": "0b0c6bafa6deda1c3729cf78a0329206ddc13dee5d9d87714262d211aaaf4190",
       "ast_digest": "3e1bbbcc8e45f6c68031ca5d6b787383716509ed050a4795ae7d74647bbe1bf2"
     },
     "stp": {
-      "values_digest": "ac58b26193f0d4592221a39259a3618d74554afe5118d4bbf0ebae7a8cee4984",
+      "values_digest": "6666545adbcd84fc69005533d15e4a030de2415f0136e0b774cd811e03353744",
       "rendered_digest": "54be2e47fc6ac1e830cad277f5f65e0b0e6a9dd6d2b902cafa4a94facdadadb1",
       "ast_digest": "e50d74e143c0b064f3d4d50fedc4d54d677cf7274c6bff9e7200cae751c51bb7"
     },
     "spp": {
-      "values_digest": "f0956ba0306dac5e2d4d8b85e02b8c3f95b5d2fdc0e5ba5a392890b3fe7cc67e",
+      "values_digest": "a4e2e825f4c45fe99e2e432ae5cdafa312d06f7a08912797f8d930d9a5e0df46",
       "rendered_digest": "2b33e24101202208e944424c6042bea1756273f265945acffe94babcbfdd4d50",
       "ast_digest": "7af499af5167903300dadeef694b73dcd01ebf204b5fe9955ac3a0aca156a789"
     },
     "vpp": {
-      "values_digest": "87d75c025f3ee8b628e9aec3cd7d9d2318b6cc00c7154c98cad56b80890c8285",
+      "values_digest": "b8ed7c619f74b6566de381007142af6f6f89f7024d7cade6dbc5a4bf82ae4505",
       "rendered_digest": "ba2d3cabab8fa8a531ec7b76dd97f9d2fd283ce79bb7baead3f9c201297da58a",
       "ast_digest": "15b31620d42587530dfe6993147841e9736b616cf6a632ba6aa4a1501b79c6f8"
     },
     "srp": {
-      "values_digest": "ad021225163341e52c06cb45dcf710a5a8e1983b9947542328120bcb493afcad",
-      "rendered_digest": "c06395f4d4ab6cddbe4b153514352d5bdffb4cca611c62c1f8e4cde42877ef2e",
-      "ast_digest": "22a6cef2711bbd6b4e373004febad2b1b3c57d85739785c25cfe333836f1dad8"
+      "values_digest": "3c427106cf9d29cc36344930b6a479238d6d89e90b5541dadcac48017577dad5",
+      "rendered_digest": "4c20c6b889cff9d9412737fa59fadc0f0a7bec2a0b54836a17900e0c6acf51a7",
+      "ast_digest": "8ad302f3a7ef866858f7587928930e17eabb1a7e4467fe4bfb70391ea23ef2ef"
     },
     "sor": {
-      "values_digest": "a757a764bd7da30201802d85066c60f6b4b8989d64bd645922c0ae13b4254042",
+      "values_digest": "4ed734a5e3585859b776b9d312e8c904bd48c4e1e6105f452d4710ca063b9844",
       "rendered_digest": "df7c29ddd443597f2c7242bae99927305ae9804cb1958ad18da5ce3b4f3000a1",
       "ast_digest": "9197b60f6f478644a1b85787eee33f5b909efb20ffb4ae08d07c921ed1121858"
     }
@@ -868,6 +868,13 @@
       "actor": "codex:wp18c-114-card-truth-remediation",
       "reason": "Fix review finding: VPP terminal-chain lane must not claim parent-only ownership or preserved boundary truth.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"114-issue-owned-bound-parent-validator\",\"proof_role\":\"Validate the bound #114 parent identity, preserved design/diagram digests, issue-owned validator availability, parent-only dependency boundaries, and terminal ancestry for #112, #265, #270, #271, #276, #277, and #278.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/114/validate_preparation_bundle.py\"],\"parallel_group\":\"114-parent-proof\",\"defer_reason\":null},{\"lane\":\"114-parent-terminal-chain-validator\",\"proof_role\":\"Validate #276, #277, and #278 derived-terminal caches, merged dispositions, canonical generation/digest fields, merge-SHA ancestry, and focused integration-test marker presence only.\",\"acceptance_ids\":[\"AC-3\",\"AC-5\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\"adl/tools/validate_v092_durable_history_parent_integration.py\"],\"parallel_group\":\"114-parent-proof\",\"defer_reason\":null},{\"lane\":\"114-parent-runtime-kernel-integration-test\",\"proof_role\":\"Prove integrated durable-history parent behavior across history, continuity, journal retention/deletion, restart, duplicate attempt admission, receipts, replay owner state, and Observatory transcript restoration.\",\"acceptance_ids\":[\"AC-6\",\"AC-7\",\"AC-9\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"durable_conversation_history_integration\",\"--\",\"--nocapture\"],\"parallel_group\":\"114-parent-proof\",\"defer_reason\":null},{\"lane\":\"114-parent-hygiene\",\"proof_role\":\"Check strict relevant Clippy and diff hygiene for the parent-only proof surface before exact-head review.\",\"acceptance_ids\":[\"AC-7\",\"AC-9\",\"AC-10\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"durable_conversation_history_integration\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"114-parent-proof\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 114,
+      "generation": 100,
+      "actor": "codex:wp18c-114-card-truth-remediation",
+      "reason": "Remove terminal-chain parent-only ownership overclaim from current SRP review prompts through the general typed collection route.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"review_prompts\",\"values\":[\"Verify the exact #114 immutable head implements only parent durable-history integration proof and does not absorb #276, #277, #278, #271, #115, #116, or #117 product scope.\",\"Verify terminal cache and merge-SHA ancestry proof for #112, #265, #270, #271, #276, #277, and #278 is current and consumed read-only.\",\"Verify adl/tools/validate_v092_durable_history_parent_integration.py proves #276/#277/#278 derived-terminal caches, merged dispositions, canonical generation/digest fields, merge-SHA ancestry, and focused integration-test marker presence only.\",\"Verify adl-runtime-kernel/tests/durable_conversation_history_integration.rs proves restart, duplicate attempt admission, receipts, replay owner state, retention/deletion, and Observatory transcript restoration coherence without redefining child authority.\",\"Verify .csdlc/prepared/issues/114/validate_preparation_bundle.py proves #114 lifecycle/card boundary truth, parent-only dependency boundaries, and no stale preparation-only card truth outside historical audit evidence.\",\"Verify VPP/SOR validation truth, local proof outputs, diff hygiene, and remaining publication/CI/finish gates are current before publication.\"]}"
     }
   ]
 }
