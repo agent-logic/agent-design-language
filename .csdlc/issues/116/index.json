@@ -6,10 +6,26 @@
   "initialization_digest": "174c0bed7ee984cb1f5ca273105bf6d626e2b7186d70aaf113c79ae4a0f0052a",
   "phase": "implemented",
   "generation": 10,
-  "digest": "b2671eaf3df36a7a4ac1bc3c449d6b714bd29c8d5d146e40e07d160841aad26d",
+  "digest": "feb5ba8a340b0a95ac2ab20aa42b0f8a051992e17ae1e0c26500d0de7fc23dc4",
   "branch": "codex/116-operator-attention-inbox",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-116-operator-attention-inbox",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:bf8c5284-d875-4354-aa26-be3e9768a701",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:ab6929f4c3ce26c754814384804e861c1543fec5:9207b1c8ac59d277c1ad3caa2b9d76f6db78612ab6fcb10e60ee006a648a1a6d",
+    "scope": [
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/operator_attention.rs",
+      "adl-runtime-kernel/tests/observatory.rs",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "demos/html-observatory/tests/operator_attention_inbox.test.mjs",
+      ".csdlc/issues/116",
+      ".csdlc/prepared/issues/116",
+      ".csdlc/evidence/116"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +61,9 @@
       "ast_digest": "81b8ad794c55c5086c59931af269a1e2abbd45630fe6a97f93add391e138c503"
     },
     "srp": {
-      "values_digest": "15f2965becce4464dee53e32afa238675656f841dc038f64f37554a81cd01558",
-      "rendered_digest": "06621288578774e759e283cfc7e6f805e9d910bc6b5df7556f12a6430608e5f6",
-      "ast_digest": "f313a30007b7fe32bfffff80fa4a861b38ab4aec03cdb352c56280c81840a70b"
+      "values_digest": "03d08e127f9e6924972fdcaeb9718fd7680cea9ce3136cf49c446f2867b7ad5b",
+      "rendered_digest": "0f0734769ac9a65819b381bb233adf4ab7a8d984c3769a3e44c29c46ded3b807",
+      "ast_digest": "ac41048e840972b6883c5cf76d01a2db16b035b4aa205f254bf99dd8df9e1935"
     },
     "sor": {
       "values_digest": "94e979af73dd4711d8896785937833c7644fe786a33c2cb0971ee2030987cdf2",
@@ -169,6 +185,13 @@
       "actor": "codex",
       "reason": "Replace #116 implemented execution truth after fresh review FAIL remediation: trusted-source authorization, validated restore path, and exact-head proof provenance.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented the bounded WP-18C.06 operator attention inbox and intervention workflow with trusted source authorization, validated restart restoration, proposal-only Observatory outcomes, and exact local proof provenance.\",\"changes\":[\"Replaced self-asserted operator-attention source privilege checks with trusted Runtime source registration and principal/urgent validation.\",\"Added fail-closed snapshot restore validation for schema, capacity, duplicates, source limits, request safety, event references, and timestamps.\",\"Added quiet-mode/grouping behavior while preserving source-bound rate and dedupe semantics.\",\"Added an issue-owned exact local proof runner that prints HEAD, status, command argv, exit status, and denominators before PASS.\",\"Preserved bounded HTML Observatory inbox and proposal-only outcome payloads that explicitly do not grant authority.\"],\"artifacts\":[\"adl-runtime-kernel/src/operator_attention.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/observatory.rs\",\"demos/html-observatory/app.js\",\"demos/html-observatory/index.html\",\"demos/html-observatory/styles.css\",\"demos/html-observatory/tests/operator_attention_inbox.test.mjs\",\".csdlc/prepared/issues/116/validate_preparation_bundle.py\",\".csdlc/prepared/issues/116/run_exact_local_proof.py\",\".csdlc/evidence/116/issue-116-exact-local-proof.log\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/116/run_exact_local_proof.py\"],\"purpose\":\"Run exact #116 local proof with HEAD/status/command/exit provenance for preparation validator, rustfmt, focused Rust tests, Node Observatory proof, strict clippy, and diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/116/issue-116-exact-local-proof.log\"}]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
