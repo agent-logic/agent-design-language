@@ -121,6 +121,7 @@ assert.equal(consecutiveDisconnectedSequence.steps[1].view.duplicate_action_prev
 assert.equal(consecutiveDisconnectedSequence.duplicate_actions, 1);
 assert.equal(consecutiveDisconnectedSequence.pending_action_count, 0);
 assert.equal(consecutiveDisconnectedSequence.dropped_pending_actions, 0);
+metrics.consecutive_degraded_recovery_sequence = consecutiveDisconnectedSequence;
 
 const unresolvedSequence = largePolisRecoverySequence([
   { connected: false, runtimeIncarnationChanged: true, bufferedMessages: 1200, offline: true, versionMismatch: true }
