@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
-"""Issue #116 focused local proof runner.
+"""Issue #116 exact-head local proof runner.
 
-Prints command argv and exit status for each focused proof lane before returning
-a non-zero exit on the first failure. Exact Git revision authority belongs to
-the typed review assignment, not to this committed evidence artifact.
+Asserts the expected immutable HEAD and clean worktree before running focused
+proof lanes. Prints command argv and exit status for each lane before returning
+a non-zero exit on the first failure.
 """
 
 from __future__ import annotations
 
+import os
 import subprocess
 import sys
 from pathlib import Path
@@ -69,6 +70,28 @@ def run_capture(argv: list[str]) -> subprocess.CompletedProcess[str]:
 
 
 def main() -> int:
+    head = run_capture(["git", "rev-parse", "HEAD"])
+    current_head = head.stdout.strip()
+    status = run_capture(["git", "status", "--short", "--branch"])
+    expected_head = os.environ.get("ISSUE_116_EXPECTED_HEAD", current_head).strip()
+    print(f"EXPECTED_HEAD {expected_head}")
+    print(f"HEAD {current_head}")
+    print("STATUS")
+    print(status.stdout.strip() or "clean")
+    if head.returncode != 0:
+        print(f"HEAD_ASSERTION_FAILED exit={head.returncode}")
+        return head.returncode
+    if current_head != expected_head:
+        print("HEAD_ASSERTION_FAILED expected head does not match current head")
+        return 2
+    dirty_lines = [
+        line
+        for line in status.stdout.splitlines()
+        if line and not line.startswith("## ")
+    ]
+    if dirty_lines:
+        print("CLEAN_ASSERTION_FAILED worktree has uncommitted changes")
+        return 3
     for argv in COMMANDS:
         print(f"COMMAND {' '.join(argv)}")
         result = run_capture(argv)
@@ -76,7 +99,7 @@ def main() -> int:
         print(f"EXIT {result.returncode}")
         if result.returncode != 0:
             return result.returncode
-    print("ISSUE_116_FOCUSED_LOCAL_PROOF PASS")
+    print("ISSUE_116_EXACT_LOCAL_PROOF PASS")
     return 0
 
 
