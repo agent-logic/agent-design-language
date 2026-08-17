@@ -2833,11 +2833,22 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
         }
         let current_recovery = latest_review_operation.is_some_and(|event| {
             implemented_pre_publication_review_recovery_is_clear(&record)
+                && recovery_follows_recorded_review(&record, event.sequence)
                 && record
                     .audit
                     .iter()
-                    .skip_while(|candidate| candidate.sequence <= event.sequence)
+                    .filter(|candidate| candidate.sequence > event.sequence)
                     .all(|candidate| recovery_epoch_operation_is_allowed(&candidate.operation))
+                && record
+                    .audit
+                    .iter()
+                    .filter(|candidate| candidate.sequence > event.sequence)
+                    .all(|candidate| {
+                        !audit_operation_is(
+                            &candidate.operation,
+                            "correct_plan_summary_after_recovery",
+                        )
+                    })
         });
         if !current_recovery
             || record.review_assignment.is_some()
@@ -2855,7 +2866,7 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     if matches!(
         request.operation,
         SemanticOperation::CorrectRequiredOutcomeAfterRecovery { .. }
-    ) && !implemented_pre_publication_review_recovery_is_clear(&record)
+    ) && !implemented_pre_publication_review_recovery_is_immediate(&record)
     {
         return Err(V2Error::new(
             ErrorCode::InvalidTransition,
@@ -4894,11 +4905,44 @@ fn implemented_pre_publication_review_recovery_is_clear(record: &IssueRecord) ->
         return false;
     };
     recovery.operation == "recover_review"
+        && recovery_follows_recorded_review(record, recovery.sequence)
         && record
             .audit
             .iter()
-            .skip_while(|candidate| candidate.sequence <= recovery.sequence)
+            .filter(|candidate| candidate.sequence > recovery.sequence)
             .all(|candidate| recovery_epoch_operation_is_allowed(&candidate.operation))
+}
+
+fn implemented_pre_publication_review_recovery_is_immediate(record: &IssueRecord) -> bool {
+    implemented_pre_publication_review_recovery_is_clear(record)
+        && record
+            .audit
+            .iter()
+            .rev()
+            .find(|event| {
+                matches!(
+                    event.operation.as_str(),
+                    "assign_review" | "record_review" | "recover_review"
+                )
+            })
+            .is_some_and(|event| {
+                event.operation == "recover_review" && event.generation == record.generation
+            })
+}
+
+fn recovery_follows_recorded_review(record: &IssueRecord, recovery_sequence: u64) -> bool {
+    record
+        .audit
+        .iter()
+        .rev()
+        .filter(|event| event.sequence < recovery_sequence)
+        .find(|event| {
+            matches!(
+                event.operation.as_str(),
+                "assign_review" | "record_review" | "recover_review"
+            )
+        })
+        .is_some_and(|event| event.operation == "record_review")
 }
 
 fn sor_contains_execution_evidence(cards: &BTreeMap<CardKind, CardValues>) -> bool {
@@ -4939,6 +4983,18 @@ fn recovery_epoch_operation_is_allowed(operation: &str) -> bool {
         Some("replace_plan_steps" | "replace_validation_lanes") => true,
         _ => false,
     }
+}
+
+fn audit_operation_is(operation: &str, expected: &str) -> bool {
+    serde_json::from_str::<serde_json::Value>(operation)
+        .ok()
+        .and_then(|value| {
+            value
+                .get("operation")
+                .and_then(serde_json::Value::as_str)
+                .map(|actual| actual == expected)
+        })
+        .unwrap_or(false)
 }
 
 fn hydrate_projections(

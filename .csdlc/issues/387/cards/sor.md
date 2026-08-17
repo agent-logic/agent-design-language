@@ -12,41 +12,23 @@ Status: ready
 
 ## Summary
 
-Implemented bounded C-SDLC v2 typed repair authority for implemented, pre-publication lifecycle-card truth after typed review recovery so WP-18C #114 can repair stale publication blockers without hand-editing generated cards.
+Remediated PR #389 csdlc-v2-standalone CI failure by narrowing implemented-phase card-truth recovery guards: assignment-only review recovery no longer authorizes implemented card repair, SIP required-outcome repair remains immediate-only after recorded-review recovery, and SPP summary repair closes after one correction.
 
 ## Artifacts
 
-- csdlc-v2/src/cards.rs
 - csdlc-v2/src/store.rs
 - csdlc-v2/tests/gate5.rs
 
 ## Execution
 
-- Allowed guarded implemented-phase STP task_boundary and non_goals repair after typed review recovery.
-- Allowed assignment-only recovery to authorize SPP summary, SIP required_outcome, SRP review prompt, VPP summary/failure_policy, SOR summary/follow-up, and SOR ready-status repair while review/publication/readiness/terminal truth remains clear.
-- Added a narrow replace_sor_follow_ups_after_recovery semantic operation because append-only SOR references cannot remove stale pre-bind follow-up text.
-- Preserved publication and finish guards: repair remains blocked with active review, retained review/publication/readiness/terminal truth, stale CAS, or non-implemented phases.
-- Expanded the focused gate5 regression to cover the #114-shaped repair chain and refusal gates.
+- csdlc-v2/src/store.rs: require implemented pre-publication recovery to follow an actual recorded review before guarded card-truth repairs.
+- csdlc-v2/src/store.rs: keep SIP required-outcome recovery immediate-generation only.
+- csdlc-v2/src/store.rs: make SPP plan-summary correction one-shot within the recovery epoch.
+- csdlc-v2/tests/gate5.rs: add/repair regressions for assignment-only recovery rejection, one-shot SPP summary repair, SIP immediate-only behavior, and the #387 comprehensive repair path.
 
 ## Validation
 
 [
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "csdlc-v2/Cargo.toml",
-      "--test",
-      "gate5",
-      "implemented_phase_card_truth_repair_unblocks_fresh_review_assignment",
-      "--",
-      "--nocapture"
-    ],
-    "purpose": "Prove the #114-shaped implemented-phase repair chain, stale-CAS rejection, active review/publication/readiness/terminal rejection, fresh review assignment after repair, and publication failure before fresh review evidence.",
-    "outcome": "passed",
-    "evidence_ref": "terminal output: 1 passed; 0 failed; 0 ignored; 59 filtered out"
-  },
   {
     "command": [
       "cargo",
@@ -55,9 +37,22 @@ Implemented bounded C-SDLC v2 typed repair authority for implemented, pre-public
       "csdlc-v2/Cargo.toml",
       "--check"
     ],
-    "purpose": "Reject formatting drift in the changed C-SDLC v2 crate.",
+    "purpose": "Reject formatting drift after CI-red remediation.",
     "outcome": "passed",
     "evidence_ref": "terminal output: cargo fmt --check exited 0"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate5"
+    ],
+    "purpose": "Reproduce and fix PR #389 csdlc-v2-standalone failures plus full Gate 5 lifecycle guard coverage.",
+    "outcome": "passed",
+    "evidence_ref": "terminal output: 60 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out"
   },
   {
     "command": [
@@ -70,39 +65,19 @@ Implemented bounded C-SDLC v2 typed repair authority for implemented, pre-public
       "-D",
       "warnings"
     ],
-    "purpose": "Reject warning regressions across changed C-SDLC v2 surfaces.",
+    "purpose": "Reject warning regressions across C-SDLC v2 after CI-red remediation.",
     "outcome": "passed",
     "evidence_ref": "terminal output: Finished dev profile, exited 0"
-  },
-  {
-    "command": [
-      "git",
-      "diff",
-      "--check"
-    ],
-    "purpose": "Reject diff hygiene errors before immutable review.",
-    "outcome": "passed",
-    "evidence_ref": "terminal output: git diff --check exited 0"
-  },
-  {
-    "command": [
-      "cargo fmt --manifest-path csdlc-v2/Cargo.toml --check",
-      "cargo test --manifest-path csdlc-v2/Cargo.toml --test gate5 implemented_phase_card_truth_repair_unblocks_fresh_review_assignment",
-      "cargo clippy --manifest-path csdlc-v2/Cargo.toml --all-targets -- -D warnings"
-    ],
-    "purpose": "Revalidate the final full #387 diff after lifecycle truth normalization.",
-    "outcome": "passed",
-    "evidence_ref": "terminal output: fmt exited 0; focused gate5 1 passed, 0 failed, 59 filtered out; clippy exited 0"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

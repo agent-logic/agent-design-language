@@ -2939,7 +2939,7 @@ fn implemented_phase_card_truth_repair_unblocks_fresh_review_assignment() {
     .expect_err("active review assignment must block implemented card repair");
     assert_eq!(active_assignment_error.code, ErrorCode::InvalidTransition);
 
-    let recovered = csdlc_v2::recover_review(
+    let assignment_only_recovered = csdlc_v2::recover_review(
         &store,
         ReviewRecoveryRequest {
             issue: 7,
@@ -2950,6 +2950,65 @@ fn implemented_phase_card_truth_repair_unblocks_fresh_review_assignment() {
         },
     )
     .expect("recover assignment-only implemented state");
+    assert_eq!(assignment_only_recovered.phase, LifecyclePhase::Implemented);
+    assert!(assignment_only_recovered.review_assignment.is_none());
+    assert!(assignment_only_recovered.review.is_none());
+    assert!(assignment_only_recovered.publication.is_none());
+    assert!(assignment_only_recovered.readiness.is_none());
+    assert!(assignment_only_recovered.terminal.is_none());
+    let assignment_only_error = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Stp,
+            expected_generation: assignment_only_recovered.generation,
+            expected_digest: assignment_only_recovered.digest.clone(),
+            actor: "operator".into(),
+            reason: "assignment-only recovery must not authorize implemented repair".into(),
+            operation: SemanticOperation::SetField {
+                field: csdlc_v2::cards::TextField::TaskBoundary,
+                value: "implemented and ready for fresh review".into(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("assignment-only recovery is not enough for card truth repair");
+    assert_eq!(assignment_only_error.code, ErrorCode::InvalidTransition);
+
+    let reviewed = record_review(
+        &store,
+        ReviewRecordRequest {
+            issue: 7,
+            expected_generation: assignment_only_recovered.generation,
+            expected_digest: assignment_only_recovered.digest.clone(),
+            actor: "reviewer".into(),
+            evidence: ReviewEvidence {
+                reviewer: "reviewer".into(),
+                scope: vec!["src".into()],
+                reviewed_revision: csdlc_v2::git::substantive_revision(
+                    store.root(),
+                    &["src".into()],
+                )
+                .expect("review revision"),
+                findings: vec![],
+                residual_risks: vec![],
+                completed: true,
+                non_substantive_proof: None,
+            },
+        },
+    )
+    .expect("record exact review before repair recovery");
+    let recovered = csdlc_v2::recover_review(
+        &store,
+        ReviewRecoveryRequest {
+            issue: 7,
+            expected_generation: reviewed.generation,
+            expected_digest: reviewed.digest,
+            actor: "operator".into(),
+            reason: "repair stale card truth before publication".into(),
+        },
+    )
+    .expect("recover recorded-review implemented state");
     assert_eq!(recovered.phase, LifecyclePhase::Implemented);
     assert!(recovered.review_assignment.is_none());
     assert!(recovered.review.is_none());
@@ -3086,13 +3145,30 @@ fn implemented_phase_card_truth_repair_unblocks_fresh_review_assignment() {
 
     let mut restored = recovered.clone();
     write_consistent_record(store.root(), &mut restored);
+    let required_outcome = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Sip,
+            expected_generation: recovered.generation,
+            expected_digest: recovered.digest,
+            actor: "operator".into(),
+            reason: "repair stale required outcome".into(),
+            operation: SemanticOperation::CorrectRequiredOutcomeAfterRecovery {
+                value: "Implemented parent proof is complete; fresh review and publication remain pending.".into(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("repair SIP required outcome immediately after recorded-review recovery");
+
     let task_boundary = edit_issue(
         &store,
         EditRequest {
             issue: 7,
             card: CardKind::Stp,
-            expected_generation: recovered.generation,
-            expected_digest: recovered.digest,
+            expected_generation: required_outcome.generation,
+            expected_digest: required_outcome.digest,
             actor: "operator".into(),
             reason: "repair stale task boundary".into(),
             operation: SemanticOperation::SetField {
@@ -3141,30 +3217,13 @@ fn implemented_phase_card_truth_repair_unblocks_fresh_review_assignment() {
     )
     .expect("repair summary after assignment-only recovery");
 
-    let required_outcome = edit_issue(
-        &store,
-        EditRequest {
-            issue: 7,
-            card: CardKind::Sip,
-            expected_generation: summary.generation,
-            expected_digest: summary.digest,
-            actor: "operator".into(),
-            reason: "repair stale required outcome".into(),
-            operation: SemanticOperation::CorrectRequiredOutcomeAfterRecovery {
-                value: "Implemented parent proof is complete; fresh review and publication remain pending.".into(),
-            },
-            fail_after_backup: false,
-        },
-    )
-    .expect("repair SIP required outcome after assignment-only recovery");
-
     let vpp_summary = edit_issue(
         &store,
         EditRequest {
             issue: 7,
             card: CardKind::Vpp,
-            expected_generation: required_outcome.generation,
-            expected_digest: required_outcome.digest,
+            expected_generation: summary.generation,
+            expected_digest: summary.digest,
             actor: "operator".into(),
             reason: "repair stale validation summary".into(),
             operation: SemanticOperation::SetField {
