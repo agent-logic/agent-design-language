@@ -4,12 +4,53 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "024d435a2fcf6fd78678e4b9cda121ea06eecca7e6effaabceb5ad5c2f22ddaf",
   "phase": "implemented",
-  "generation": 14,
-  "digest": "686155c87d159d30d30cbdee2e0310d9cde2e30e27dc46e679202f20adc5d634",
+  "generation": 15,
+  "digest": "18d3da82dbcf22baebb39f644414b2147c3a4ee68329334badd49b2284732ab9",
   "branch": "codex/117-production-polis-interface-qualification-parent",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-117-production-polis-interface-qualification-parent",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:509e4418-914a-43af-9985-e2c5e94776d9",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:6b46d54de8576a7260ea83e02d92018b05bd2b50:49ab2089dd7040902331a58d5a6a28339dab513a23a65aaa1daf35ac860ebfc9",
+    "scope": [
+      ".csdlc/evidence/117/production-polis-interface-parent-closeout.md",
+      ".csdlc/evidence/117/validate_parent_closeout.py",
+      ".csdlc/prepared/issues/117/validate_preparation_bundle.py",
+      ".csdlc/prepared/issues/117/design.md",
+      ".csdlc/prepared/issues/117/diagram.mmd",
+      ".csdlc/issues/117"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:509e4418-914a-43af-9985-e2c5e94776d9",
+    "scope": [
+      ".csdlc/evidence/117/production-polis-interface-parent-closeout.md",
+      ".csdlc/evidence/117/validate_parent_closeout.py",
+      ".csdlc/prepared/issues/117/validate_preparation_bundle.py",
+      ".csdlc/prepared/issues/117/design.md",
+      ".csdlc/prepared/issues/117/diagram.mmd",
+      ".csdlc/issues/117"
+    ],
+    "reviewed_revision": "git-blake3:6b46d54de8576a7260ea83e02d92018b05bd2b50:49ab2089dd7040902331a58d5a6a28339dab513a23a65aaa1daf35ac860ebfc9",
+    "findings": [
+      {
+        "id": "509e-p1-closeout-validator-exact-field-coverage",
+        "severity": "p1",
+        "summary": "The #117 closeout validator checks terminal caches are canonical/merged/closed but does not compare every exact PR, merge SHA, head SHA, generation, canonical digest, terminal digest, or integrated-candidate field recorded in the closeout packet.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Reviewer could rerun git diff --check, but the read-only sandbox blocked Python validators and typed doctor/validate startup with exit 71; committed proof logs were inspected instead.",
+      "Publication, hosted CI, merge, and terminal finish were not reviewed because this exact revision remained unpublished."
+    ],
+    "completed": false,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +65,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "899658578ef07fbe32eabd3ce777ce776ff28343e8562a6efec21029fa79f969",
+      "values_digest": "9d2162abd59bf548373b2ee984af0ac9fb554acb554d782c95cdd37ac986c9e6",
       "rendered_digest": "40ce52a0a91980bb37e05fb80fc3bebcd43112af537e17003cc5ab799e10c539",
       "ast_digest": "173b4e7307b7fa9cc0d5b89ef40b6981406b1cfa1baa236bba81afa14bb91782"
     },
     "stp": {
-      "values_digest": "b43de7ab5dcc907c53da7bb005c2f7fb6bedaab45788700b7ae73152e99a7898",
+      "values_digest": "151880b0814329bd9ab521920b94f57977ac34c2d7a2848d82396f0d04e51596",
       "rendered_digest": "90a11f2ccd8f2e44783806970332b4a0657af031f79dda6b395ff593ae5a3dd6",
       "ast_digest": "21dda05a4a0a3f33ddb1c2752f58c353d4fb6794d3eb2dba2b9592433b8364ce"
     },
     "spp": {
-      "values_digest": "ccbed65c2c80f1783eeed3f9957e3f62e4375e5e13494e2d8b942676fe46abaf",
+      "values_digest": "af401330ee77defd1d94001fd72cfb91386f712484cd1b0ddba816a3ab8bc71a",
       "rendered_digest": "7e0f095673cae0e44793f8707e218ec27e94fb640077b5c33fd1879e37b9b490",
       "ast_digest": "36796b0cbcd7add30d28bbbf118e8069bd6310a1948ec062bf78302e45129de9"
     },
     "vpp": {
-      "values_digest": "9ab97066f0d4b5df5de828996a1de54fc852f4d7e7f638f81ca2902370e46882",
+      "values_digest": "9240eef4d8b827a04fd2af6ba65df61c2e6a9f4a12193780200c26a0aa2fa1ab",
       "rendered_digest": "cb288c0e4e3fa37efca1d62888457c5cfab8b9ddc1ce0282259f69e987b4c0d7",
       "ast_digest": "6e9164f90884128e31ad8d16a53deb657a3a6a3e58d6efdc82dc0b092069348d"
     },
     "srp": {
-      "values_digest": "2ce46e8aa89bc364f6ac6439d2e6edec7e920376f27c159be3b79a5d8afb92d1",
-      "rendered_digest": "1fc90ffb9231c8c02614f87a7fee36e55d83c862d3c75811d3d8a513baf90163",
-      "ast_digest": "ad81fe34dec4cefce76ab04f37002cce6edc58b5d889c081faa2575293d4df3b"
+      "values_digest": "1f7c22f36e505f0f14f8f780b366692e29dce248f5ffe6aa5fbb6008fa5b7146",
+      "rendered_digest": "81ea864fe8d9c846d0ac300062221893d7e3e89cce2e274801785de6c20a26ca",
+      "ast_digest": "f1b6e77e84d79d4612da9a332790471c19cd7c873585cf1ce78bc03f9f826d6c"
     },
     "sor": {
-      "values_digest": "c20b5b6e10b4048ffbbfce62a9a3d671d503a8582799b1312c531bde39cfbcd0",
+      "values_digest": "c880ceadf821bafa27bea28a1ce8a37f7e0ae28e2a025776013cd6e12ca9739f",
       "rendered_digest": "b4c9969c60b5e11de9b045486d75ab0094bb83b524130f79519de6936c296174",
       "ast_digest": "ab229dee903c5fdbf24384a14faacec2161aa473fed09f8236a899bdc6ca18d9"
     }
@@ -189,6 +230,20 @@
       "actor": "codex:/root",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

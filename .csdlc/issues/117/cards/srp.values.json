@@ -7,23 +7,37 @@
     "title": "[v0.92][WP-18C.07][coordination] Coordinate production Polis interface qualification",
     "slug": "production-polis-interface-qualification-parent",
     "version": "v0.92",
-    "generation": 14
+    "generation": 15
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "#117 parent evidence, validator, lifecycle cards, and publication truth only.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/evidence/117/production-polis-interface-parent-closeout.md\n.csdlc/evidence/117/validate_parent_closeout.py\n.csdlc/prepared/issues/117/validate_preparation_bundle.py\n.csdlc/prepared/issues/117/design.md\n.csdlc/prepared/issues/117/diagram.mmd\n.csdlc/issues/117",
+      "review_revision": "git-blake3:6b46d54de8576a7260ea83e02d92018b05bd2b50:49ab2089dd7040902331a58d5a6a28339dab513a23a65aaa1daf35ac860ebfc9",
+      "reviewer": "fresh-session:509e4418-914a-43af-9985-e2c5e94776d9",
       "review_prompts": [
         "Verify #117 remains coordination-only and does not absorb child implementation or umbrella closeout authority.",
         "Verify terminal child evidence is exact, canonical, and consumed read-only.",
         "Verify residual risks, non-claims, and #110 handoff are truthful."
       ],
-      "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "findings": [
+        {
+          "id": "509e-p1-closeout-validator-exact-field-coverage",
+          "severity": "p1",
+          "summary": "The #117 closeout validator checks terminal caches are canonical/merged/closed but does not compare every exact PR, merge SHA, head SHA, generation, canonical digest, terminal digest, or integrated-candidate field recorded in the closeout packet.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        }
+      ],
+      "residual_risk": [
+        "Reviewer could rerun git diff --check, but the read-only sandbox blocked Python validators and typed doctor/validate startup with exit 71; committed proof logs were inspected instead.",
+        "Publication, hosted CI, merge, and terminal finish were not reviewed because this exact revision remained unpublished."
+      ],
+      "review_result": "changes_required"
     }
   }
 }
