@@ -35,6 +35,7 @@ TERMINAL_INPUTS = {
     117: {
         "root": Path("/Volumes/FastWork/adl-worktrees/adl-issue-117-production-polis-interface-qualification-parent"),
         "merge_sha": "e56ab80f5f7b1f163a8846410dfe50afa29b0bf9",
+        "head_sha": "cbb3b1489c2899f118f5ca5a5a9426b24bc85971",
         "cache": OWNER_ROOT / ".git" / "csdlc-v2" / "derived-terminal" / "117.json",
         "cache_sha256": "cde8193974a67e042afacc9e0b2b3eaa5535259bc3c5fd407013ff76c1b0f614",
         "terminal_digest": "7931f0c63d008d71836c48c436f6003be39d93806e32baf06bb41b3f048a0178",
@@ -44,6 +45,7 @@ TERMINAL_INPUTS = {
     271: {
         "root": OWNER_ROOT,
         "merge_sha": "6b200cfee83ea36a546123de4d24a6eda191b652",
+        "head_sha": "caa33d0782540861495bffaa0fcb98aaa646e481",
         "cache": OWNER_ROOT / ".git" / "csdlc-v2" / "derived-terminal" / "271.json",
         "cache_sha256": "49594df0ab81e15d92ef3c822a835ca19c36a3c0758043cbe0fb2d45dffb4ceb",
         "terminal_digest": "5383f60ae5a2d8e521891329f7b9cf43b9a4a28db71999f5551412f24b14b8cf",
@@ -53,6 +55,7 @@ TERMINAL_INPUTS = {
     282: {
         "root": Path("/Volumes/FastWork/adl-worktrees/adl-issue-282-production-polis-qualification"),
         "merge_sha": "973d611bbc8bee570ce4a98e8b1b0249b5001f51",
+        "head_sha": "460745c3064da50c7421001e867ab062d3cb0511",
         "cache": OWNER_ROOT / ".git" / "csdlc-v2" / "derived-terminal" / "282.json",
         "cache_sha256": "9786490694c1d392e4db50f00844afada6f9815c2624b9022d33443f5d54fced",
         "terminal_digest": "79e4549170a07dec2061f5be6432b0316d4348c162d18c500962510e20b85e84",
@@ -177,6 +180,8 @@ def main() -> int:
         require(sha256_file(cache) == expected["cache_sha256"], f"issue #{issue} terminal cache SHA-256 drift")
         for required_fragment in (
             cache_ref,
+            expected["merge_sha"],
+            expected["head_sha"],
             expected["cache_sha256"],
             expected["terminal_digest"],
             expected["reviewer"],
@@ -189,6 +194,7 @@ def main() -> int:
         require(terminal.get("disposition") == "merged", f"issue #{issue} is not merged terminal")
         require(terminal.get("issue_state") == "closed_by_merged_pr", f"issue #{issue} is not closed by merged PR")
         require(terminal.get("merge_sha") == expected["merge_sha"], f"issue #{issue} merge SHA drift")
+        require(terminal.get("head_sha") == expected["head_sha"], f"issue #{issue} head SHA drift")
         require(terminal.get("digest") == expected["terminal_digest"], f"issue #{issue} terminal digest drift")
         terminal_results[issue] = terminal
 
