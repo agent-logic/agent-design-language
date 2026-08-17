@@ -102,6 +102,16 @@ Recovered #114 from an invalid PASS/publication record after reviewer 915c3530 r
     "purpose": "Validate canonical #114 lifecycle truth after review/publication recovery and remediation.",
     "outcome": "passed",
     "evidence_ref": "local:114-csdlc-validate-gen104"
+  },
+  {
+    "command": [
+      "python3",
+      "-c",
+      "import importlib.util, pathlib; path=pathlib.Path('adl/tools/validate_v092_durable_history_parent_integration.py'); spec=importlib.util.spec_from_file_location('validator', path); mod=importlib.util.module_from_spec(spec); spec.loader.exec_module(mod); mod.fail=lambda message: (_ for _ in ()).throw(RuntimeError(message));\ntry:\n    mod.require_positive_int(True, field='canonical_generation', issue=276)\nexcept RuntimeError as exc:\n    assert 'invalid canonical_generation' in str(exc)\nelse:\n    raise SystemExit('bool canonical_generation accepted')\nassert mod.require_positive_int(10, field='canonical_generation', issue=276) == 10\nprint('bool canonical_generation rejected')"
+    ],
+    "purpose": "Prove malformed boolean canonical_generation is rejected after reviewer 5d0c5f61 found Python bool/int subclass acceptance.",
+    "outcome": "passed",
+    "evidence_ref": "local:114-bool-canonical-generation-rejected-gen106"
   }
 ]
 

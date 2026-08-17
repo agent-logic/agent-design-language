@@ -77,7 +77,7 @@ def load_json(path: pathlib.Path) -> dict:
 
 
 def require_positive_int(value: object, *, field: str, issue: int) -> int:
-    if not isinstance(value, int) or value <= 0:
+    if type(value) is not int or value <= 0:
         fail(f"issue #{issue} invalid {field}")
     return value
 

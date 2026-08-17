@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "bb70960941aab631d5c34ecdb2e526c2af37ec6b16d7835180a774117e371407",
   "phase": "implemented",
-  "generation": 105,
-  "digest": "d33117e3a2ac0a77a3e9550c3da6d76b6c1c02ab6decae8c06910912f442b5e0",
+  "generation": 107,
+  "digest": "9e3fe245a41466d7ad29b3d54d8b52145cd20b157d043ce0dcb6b59fb3dccfac",
   "branch": "codex/114-durable-history-parent-integration-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-114-durable-history-parent-integration-proof",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0be5ee13b35804af046d9226701b60d3eb79fb54ef1dd8e384396ac09d94aa8f",
+      "values_digest": "751b7979932687d47124f8b3209a5bcb7aac52514ed94a2963904b604595d50e",
       "rendered_digest": "0b0c6bafa6deda1c3729cf78a0329206ddc13dee5d9d87714262d211aaaf4190",
       "ast_digest": "3e1bbbcc8e45f6c68031ca5d6b787383716509ed050a4795ae7d74647bbe1bf2"
     },
     "stp": {
-      "values_digest": "e7d6eec8e9fdd1ac2f7afbd63bb994972ee745820d3a0a568334642d9c2d9cea",
+      "values_digest": "ad75bb81d6d8d482019096cf5d3b716fec2f76980f7ff88822998a7d9ab000c4",
       "rendered_digest": "54be2e47fc6ac1e830cad277f5f65e0b0e6a9dd6d2b902cafa4a94facdadadb1",
       "ast_digest": "e50d74e143c0b064f3d4d50fedc4d54d677cf7274c6bff9e7200cae751c51bb7"
     },
     "spp": {
-      "values_digest": "d578868f96aeba4f258e948fabf0ad2b46f9c7f4dc9ec05dbeeadff12765bf7d",
+      "values_digest": "ad9daaa1ef69dc2d6eedf5456e4f31ca234ea567fa3ee00ab9f84a9375d0c5f6",
       "rendered_digest": "3fc6d07cc7a7b383f7c0d7e34a3da8e1b35f04556f441ecf50c115e054202f8a",
       "ast_digest": "cb9f36cc2bb8b80fa2a83bf639fe0932edcf0e893be584bc195f5e0103079445"
     },
     "vpp": {
-      "values_digest": "acbbf73312c301ae7a565d9a6c9505f68b1293299fdfa5151a77fea5c052458c",
+      "values_digest": "e81f644939098ee7393402191ab2e04be4c1b14f730a018cb8eb56f33b66de9f",
       "rendered_digest": "ba2d3cabab8fa8a531ec7b76dd97f9d2fd283ce79bb7baead3f9c201297da58a",
       "ast_digest": "15b31620d42587530dfe6993147841e9736b616cf6a632ba6aa4a1501b79c6f8"
     },
     "srp": {
-      "values_digest": "ca589d048737699d9818081c66bd66a040212b7d219bf782c9b6ba6cca333385",
+      "values_digest": "d915a57fe8e28e2045cf985336b4eabff1cfa45d30fc28a4dcfa276733641369",
       "rendered_digest": "4c20c6b889cff9d9412737fa59fadc0f0a7bec2a0b54836a17900e0c6acf51a7",
       "ast_digest": "8ad302f3a7ef866858f7587928930e17eabb1a7e4467fe4bfb70391ea23ef2ef"
     },
     "sor": {
-      "values_digest": "730fe25c8d6334d12e9268020debc3942de43a19a1a2ea1f0b0b34a6cd1e98b0",
-      "rendered_digest": "c91f4fdf4c45b555600ceddc51d33294fb0eaa240406d1a53c054032c67c42c1",
-      "ast_digest": "3576889ec702979f0156d30b4faada8787a6b4ba37a858d1940b5793badf64db"
+      "values_digest": "b90e757bad32dc40bbb1ce5537c3399ef63f7b8f899ca89f05c091f430738378",
+      "rendered_digest": "0a0ff8a0b556f34ae877437d64483e2b290ed341be3ea20368745bbaf5e42f86",
+      "ast_digest": "07b8d4fb3243e8c03202c7b2ef9664cbb0ecc2da69729dc2d97fd8028c6345b8"
     }
   },
   "transitions": [
@@ -938,6 +938,27 @@
       "actor": "codex:wp18c-114-review-finding-repair",
       "reason": "Record #114 post-publication-recovery remediation for fresh-review findings before committing the new immutable review head.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Recovered #114 from an invalid PASS/publication record after reviewer 915c3530 returned FAIL, then repaired the executable validator proof and implemented-phase planning summary through supported typed routes. Publication, merge, and finish remain pending until fresh exact-head review PASS, current typed republish, required CI green, and typed finish.\",\"changes\":[\"Added explicit validation that each #276/#277/#278 derived-terminal cache has a positive canonical_generation and a 64-hex canonical_digest before the #114 terminal-chain validator passes.\",\"Updated #114 SPP implemented-phase summary through correct_plan_summary_after_recovery to state the invalid publication recovery and exact remaining review/publication/CI/finish gates.\",\"Preserved #114 parent-only scope and did not absorb #276, #277, #278, #271, #115, #116, or #117 product behavior.\"],\"artifacts\":[\"adl/tools/validate_v092_durable_history_parent_integration.py\",\".csdlc/issues/114/cards/spp.md\",\".csdlc/issues/114/cards/spp.values.json\",\".csdlc/issues/114/cards/sor.md\",\".csdlc/issues/114/cards/sor.values.json\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/114/validate_preparation_bundle.py\"],\"purpose\":\"Validate bound/implemented #114 identity, preserved design/diagram digests, terminal ancestry for #112/#265/#270/#271/#276/#277/#278, and parent-only card boundaries.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:114-issue-owned-bound-parent-validator-gen104\"},{\"command\":[\"python3\",\"adl/tools/validate_v092_durable_history_parent_integration.py\"],\"purpose\":\"Validate #276/#277/#278 terminal caches, merged dispositions, canonical generation/digest fields, merge-SHA ancestry, and focused test-surface presence.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:114-parent-terminal-chain-validator-gen104\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"durable_conversation_history_integration\",\"--\",\"--nocapture\"],\"purpose\":\"Run focused durable-history parent integration test across restart, duplicate attempt admission, receipts, replay owner state, retained marker persistence before deletion, deletion cleanup, and Observatory transcript restoration.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:114-parent-runtime-kernel-integration-test-gen104\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"durable_conversation_history_integration\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict Clippy for the #114 focused Runtime kernel integration test target.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:114-parent-hygiene-gen104\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Check whitespace/diff hygiene for the #114 parent proof surface.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:114-diff-hygiene-gen104\"},{\"command\":[\"csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-114-durable-history-parent-integration-proof\",\"issue\",\"--issue\",\"114\"],\"purpose\":\"Validate canonical #114 lifecycle truth after review/publication recovery and remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:114-csdlc-validate-gen104\"}]}"
+    },
+    {
+      "sequence": 121,
+      "generation": 105,
+      "actor": "codex:wp18c-114-review-finding-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 122,
+      "generation": 106,
+      "actor": "codex:wp18c-114-bool-generation-review-recovery",
+      "reason": "Recover #114 exact-head review assignment after fresh reviewer 5d0c5f61 returned FAIL: require_positive_int accepts JSON true because bool is a Python int subclass. Repair validator narrowly, rerun proof, commit, and assign a different fresh reviewer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 123,
+      "generation": 107,
+      "actor": "codex:wp18c-114-bool-generation-review-repair",
+      "reason": "Record #114 remediation for fresh reviewer 5d0c5f61 finding before committing the new immutable review head.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3\",\"-c\",\"import importlib.util, pathlib; path=pathlib.Path('adl/tools/validate_v092_durable_history_parent_integration.py'); spec=importlib.util.spec_from_file_location('validator', path); mod=importlib.util.module_from_spec(spec); spec.loader.exec_module(mod); mod.fail=lambda message: (_ for _ in ()).throw(RuntimeError(message));\\ntry:\\n    mod.require_positive_int(True, field='canonical_generation', issue=276)\\nexcept RuntimeError as exc:\\n    assert 'invalid canonical_generation' in str(exc)\\nelse:\\n    raise SystemExit('bool canonical_generation accepted')\\nassert mod.require_positive_int(10, field='canonical_generation', issue=276) == 10\\nprint('bool canonical_generation rejected')\"],\"purpose\":\"Prove malformed boolean canonical_generation is rejected after reviewer 5d0c5f61 found Python bool/int subclass acceptance.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:114-bool-canonical-generation-rejected-gen106\"}}"
     }
   ]
 }
