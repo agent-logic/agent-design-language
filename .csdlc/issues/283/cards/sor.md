@@ -74,7 +74,7 @@ Reconciled ADR 0065 evidence for #207 and remediated r1 P3 diff-check hygiene: #
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

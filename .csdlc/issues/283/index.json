@@ -4,36 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "588c6fbf2abc4aa3e25dd9d535e7d6036199eb37f9b22cd1a6cd80670d75ed23",
-  "phase": "reviewed",
-  "generation": 9,
-  "digest": "c9ad6bc767c1b12bf6cc670d559f142b17e0522752d9dd6f286cff8001a4bbf7",
+  "phase": "implemented",
+  "generation": 10,
+  "digest": "cc27a04e1a998f88348a608637f6c4434110674ac8115dd72eaa5c6833dea382",
   "branch": "codex/283-adr0065-acip-evidence-reconciliation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-283-adr0065-acip-evidence-reconciliation",
-  "review_assignment": {
-    "reviewer": "fresh-session:3996bc31-225d-4724-9782-ab4c33311e5f",
-    "assigned_by": "codex:adr-mini-sprint-207",
-    "revision": "git-blake3:d4137aefd8f8fdbbedc5706a6dcd7d7288b16ef4:d577b5c11fad8a9a7584372972ca15961c2cbb792195041a8b2e01e6c221613c",
-    "scope": [
-      ".csdlc/issues/283",
-      ".csdlc/prepared/issues/283",
-      ".csdlc/evidence/283"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:3996bc31-225d-4724-9782-ab4c33311e5f",
-    "scope": [
-      ".csdlc/issues/283",
-      ".csdlc/prepared/issues/283",
-      ".csdlc/evidence/283"
-    ],
-    "reviewed_revision": "git-blake3:d4137aefd8f8fdbbedc5706a6dcd7d7288b16ef4:d577b5c11fad8a9a7584372972ca15961c2cbb792195041a8b2e01e6c221613c",
-    "findings": [],
-    "residual_risks": [
-      "#288 owns shared ADR document/index/plan/manifest serialization; #283 intentionally records issue-local ADR 0065 evidence reconciliation only."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -48,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6cd654af16a4d980ab17ac32e17f6bbbb823ce84e34e32ea40ab7668a6dcd474",
+      "values_digest": "caf5d1db645849be4b7b6ee21fce1ecb5563d48fcaa1b204f262ff30898a45ed",
       "rendered_digest": "550fadeb2c40b452fc593a0865010aa648880939fe7ae42d688d78c90eaf3316",
       "ast_digest": "599dfa361861c3e9bbf747aa45f4dd29e1f58acec1d621c077bff797eac04524"
     },
     "stp": {
-      "values_digest": "e67aa2d1f1af648a8634e3d9a8ac74bc807a75d725ed80b53c3f5104c1f70d3e",
+      "values_digest": "5d52d628d38004906c4b7e5e99fa086dd2b031fc8bedbf02d39d48f6dc3145eb",
       "rendered_digest": "3c591173ff9624dadece0c97cc5e4d0337b115fa52eea3878303a031a2539ffe",
       "ast_digest": "4f476468ac84163e1051e1499de5f5b5356d0d11b72505c86f90164f191193c4"
     },
     "spp": {
-      "values_digest": "cbf1e2527aa21841efe02b7bb0ddf081200d5a992730e195fbbbc0e85087e08c",
+      "values_digest": "0aa2684fdb7c024751bda4c09c4d7ee8c3ba78ff16d9a126a03a959435096bae",
       "rendered_digest": "b1bf730a8d4540ac97d01ff207030e8b0a74079f46918b694d114d4f81234e2e",
       "ast_digest": "081a8a08e940537ccb0009e759883855f89af094113f3c6227d6a85e59993b86"
     },
     "vpp": {
-      "values_digest": "cf13a2bfec564504c158868fe7661d79b7183698a910da1fda7fd7d7d41d00ef",
+      "values_digest": "43f469a0dca0f736e3f51a225d0b39e494e2fe390bc8310e8459a158a1f664ad",
       "rendered_digest": "2789d04a630a69f750813ee611330683e180edb99b8e66b66601b34db3eca71d",
       "ast_digest": "be71fa64ca6f4505af61748cde8e0cc08f922dc0f748b4480454add4ee7d5da6"
     },
     "srp": {
-      "values_digest": "7fb6cdb671e0ccae77cf251fecabade092aac7c3fc2ff6c15e4ded4c974cf1e3",
-      "rendered_digest": "46b15f5a6c3f30c3a02af021ab703f916fd245b78e6c003f91707510fc07c592",
-      "ast_digest": "b9fc9276c8f06fc3d5372f3f263a225dfa10d8744c4b67a5afdcdb35a9a14eeb"
+      "values_digest": "ee3588c836e5be19121b8fca620002f487e85cea261b67ad08f0b1a4b49420af",
+      "rendered_digest": "33505b880d79230c74435da0fd47bc3ce7a3cc0aaf6dc6687d44dfe616220eba",
+      "ast_digest": "0cc015fe77b761544c56376cc33fe5a52d6f781d017d3dde7680ea29c9690e23"
     },
     "sor": {
-      "values_digest": "f620973c968f0f3414ececde5c9f297be5e5cf0bfe21b6408d0c7fb12630e50f",
-      "rendered_digest": "c3adf2052cd4fe04b4e25de62ea8be1e5b9a0729b39920ba84a9e3cbee7d61dc",
-      "ast_digest": "606276207f1224c9e22f2426f7a5173ecdce80a06ab50e1e2dbb5991cb3a7e6f"
+      "values_digest": "04e0fa032549b807d078994eecbf287ad54cc4324205b2764bb319c7ee4616f4",
+      "rendered_digest": "a7d69862997e3146590f64abc487eb2a15ad8ec0d15aa2d1ce5fe381137a2ced",
+      "ast_digest": "4808934e92a848eccdd49bd3af77ddd1061addd5e26df34f5d904e3427300e53"
     }
   },
   "transitions": [
@@ -106,6 +83,13 @@
       "to": "reviewed",
       "actor": "codex:adr-mini-sprint-207",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:adr-mini-sprint-207",
+      "reason": "Recover #283 review after merging current origin/main, which changed the exact commit identity from d4137aefd8f8fdbbedc5706a6dcd7d7288b16ef4 to 6abd36e84d696b8ebc0e4d271245e59bd7d90e5d while leaving the issue-owned ADR 0065 evidence bytes and validation semantics unchanged. Typed validation correctly blocked publication with review_publication_dead_end; recover for fresh exact-head review before publication."
     }
   ],
   "audit": [
@@ -192,6 +176,13 @@
       "actor": "codex:adr-mini-sprint-207",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:adr-mini-sprint-207",
+      "reason": "Recover #283 review after merging current origin/main, which changed the exact commit identity from d4137aefd8f8fdbbedc5706a6dcd7d7288b16ef4 to 6abd36e84d696b8ebc0e4d271245e59bd7d90e5d while leaving the issue-owned ADR 0065 evidence bytes and validation semantics unchanged. Typed validation correctly blocked publication with review_publication_dead_end; recover for fresh exact-head review before publication.",
+      "operation": "recover_review"
     }
   ]
 }
