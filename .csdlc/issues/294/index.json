@@ -3,50 +3,14 @@
   "issue": 294,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "800ae278d01e46c7ea3bc653920a4178dd1439d1836c928794dc1984fdde1b5a",
-  "phase": "published",
-  "generation": 39,
-  "digest": "8c0b8b27449455645637f80ec84f387065acc9e9eee5079ee5a445e75df21df1",
+  "phase": "implemented",
+  "generation": 43,
+  "digest": "a58efb9cfe504e4ae75309e32731d59713488764c3715887d717b3c7af33cf7e",
   "branch": "codex/294-initialized-design-envelope-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-294-initialized-design-envelope-recovery",
-  "review_assignment": {
-    "reviewer": "fresh-session:26b34eaa-3d4d-4446-8923-fd78fbd21f79",
-    "assigned_by": "codex:issue-294",
-    "revision": "git-blake3:83efe6e3ab1b62b451940342f5b7aa70031ddc7d:70acecffe0255196d7a4f5996cc374965cf5235420dea0c9be050880f77cc52f",
-    "scope": [
-      "csdlc-v2/src",
-      "csdlc-v2/tests/card_identity.rs",
-      ".csdlc/prepared/issues/294",
-      ".csdlc/evidence/294",
-      ".csdlc/issues/294"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:26b34eaa-3d4d-4446-8923-fd78fbd21f79",
-    "scope": [
-      "csdlc-v2/src",
-      "csdlc-v2/tests/card_identity.rs",
-      ".csdlc/prepared/issues/294",
-      ".csdlc/evidence/294",
-      ".csdlc/issues/294"
-    ],
-    "reviewed_revision": "git-blake3:83efe6e3ab1b62b451940342f5b7aa70031ddc7d:70acecffe0255196d7a4f5996cc374965cf5235420dea0c9be050880f77cc52f",
-    "findings": [],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 294,
-    "pull_request": 385,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/385",
-    "base": "main",
-    "head": "codex/294-initialized-design-envelope-recovery",
-    "revision": "git-blake3:69403b1b67d09ea542b30b96a485ef63dc20fb17:c1f3e2de9dc04053f18d5ea4f7a18cb73008741d344bc93965d35fd8b9569d41",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -60,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8ff7c36c8ab0756377f018d95a3a80822c11cfe57b3ee5d3a22c50160ae20723",
+      "values_digest": "1467c3bde4e1f6cccff2e88e898f56eb9361b7f4db9394c38265b8043e70dcd6",
       "rendered_digest": "3e36b0e88d7f76e4a233fcff102b6aa56fe57becbc26a6dba984a5dc1f5699bc",
       "ast_digest": "b5eb19fa979837c27cae787dd8ed10ce8aa10a2d84d6d386c76d8e2628ba3864"
     },
     "stp": {
-      "values_digest": "6fa165c9f5b33ec2d23b18e337fddc00d94b813ff22935c9e9cb7c1e5c91c492",
+      "values_digest": "b06c57a7bbd04ce78be643406f0bd8c1f25aaa744b3f80c398eee9e7570a870e",
       "rendered_digest": "62b94e609f2b1a7babc548935a5db66323d9a4be44dae9f6c37d849ec56a6e31",
       "ast_digest": "8b080ac00c6eed5a7d97b6187e92c4b7e41d70d5c967c9fa57b08a32a818955c"
     },
     "spp": {
-      "values_digest": "6e9cae26a1cd95e8efb21800d756345d0c1f78a18789c68749a11ee9d7622ba4",
+      "values_digest": "76faae4fb20f2216b55f862fe94c3da2425fb8eea4bfe8f2adb7dd951f85f150",
       "rendered_digest": "288414b628210cf5ba8e08c4c4145ab43f5ed0fe7417ace0e07f22060630fb86",
       "ast_digest": "8126bc1d4576a9e9a2191435dbaefc568046a73cf40bbbed42661c2c1e984153"
     },
     "vpp": {
-      "values_digest": "c87eea53447933dc270b9d774018e513896a90ffcc412b1ca5b4aea3d9e675ea",
+      "values_digest": "b6f6224e20dfd5d4225a92ffa6d4f986404c31d6baaba3edef3808d5b42cb785",
       "rendered_digest": "2ec8f40f5663c0883b898d842aed1fcc99aa4d4f79eb3fe8e9c50ca682758a94",
       "ast_digest": "9c636f5af53a97a09991989dd18baf33fafa10df6b5a0554de5ccc30d748ca1a"
     },
     "srp": {
-      "values_digest": "e434ce3f246ad6068561b3ddd9eb627de7a9e25333035da6c626598a99c2b2a8",
-      "rendered_digest": "897030a3706734f859f4c75f453cb5e41aec2360cb7aae0db2d69782687e6ba1",
-      "ast_digest": "35d06cdabee1747c40a35ea107137c8543aba80c0a54fde644087f084d4989ac"
+      "values_digest": "f48bfdab5bc5458d131bc83859af8279e07f63b8545b2d284547f092e0efe5da",
+      "rendered_digest": "0567ed70395313482b89d8e35be47456c488cb326c2df14cbc015b5e7d92c5d8",
+      "ast_digest": "13f502d7ae633df5336ea95b80bbd88392eb15b98caf010e8d859f6d282810c7"
     },
     "sor": {
-      "values_digest": "084dc0673b6cfac7f5e32aa3d61300dcc8dbd002b0490bd1417a2e66ca789de6",
-      "rendered_digest": "e3520321ef7fac3dbe1bf556564adbf24c2f1715bd97959f42c914a1dc471d0e",
-      "ast_digest": "df05295cbe42869df4480a9a53c892bb36449f3cf7894d19d32fc1297fedb381"
+      "values_digest": "c202380732e858182b7437b9532fc8e871ab4741647c1fdcb562d76f6a99e1df",
+      "rendered_digest": "80a0ebc36f113f923e9b529881d1c340f1875037b2f63ccef86ca875946c55ad",
+      "ast_digest": "f9b1ff1dfbdc76b8cbaa3678c83c29e34b3ef095c91591b56383b4ae2c21cbad"
     }
   },
   "transitions": [
@@ -125,6 +89,13 @@
       "to": "published",
       "actor": "codex:issue-294",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-294",
+      "reason": "Recover published #294 after PR #385 CI exposed Linux inode-reuse fixture drift in card_identity; source fix requires fresh review and republication."
     }
   ],
   "audit": [
@@ -512,6 +483,34 @@
       "actor": "codex:issue-294",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 56,
+      "generation": 40,
+      "actor": "codex:issue-294",
+      "reason": "Recover published #294 after PR #385 CI exposed Linux inode-reuse fixture drift in card_identity; source fix requires fresh review and republication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 57,
+      "generation": 41,
+      "actor": "codex:issue-294",
+      "reason": "Record card_identity validation after PR #385 Linux inode-reuse fixture fix.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"card_identity\"],\"purpose\":\"Prove initialized design-envelope recovery and the Linux-stable owned-inode replacement fixture after PR #385 CI failure remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/294/card-identity-18-exact-head.log\"}}"
+    },
+    {
+      "sequence": 58,
+      "generation": 42,
+      "actor": "codex:issue-294",
+      "reason": "Record cargo check after PR #385 Linux inode-reuse fixture fix.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"check\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"purpose\":\"Prove csdlc-v2 still compiles after PR #385 Linux-stable fixture remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/294/csdlc-v2-cargo-check-exact-head.log\"}}"
+    },
+    {
+      "sequence": 59,
+      "generation": 43,
+      "actor": "codex:issue-294",
+      "reason": "Record strict Clippy after PR #385 Linux inode-reuse fixture fix.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove csdlc-v2 remains warning-free after PR #385 Linux-stable fixture remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/294/csdlc-v2-strict-clippy-exact-head.log\"}}"
     }
   ]
 }

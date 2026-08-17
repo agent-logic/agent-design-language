@@ -142,16 +142,58 @@ Added a typed initialized design-envelope recovery that relocates authored artif
     "purpose": "Prove the recovered csdlc-v2 implementation is warning-free across all targets at exact current head after initialized design-envelope recovery changes.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/294/csdlc-v2-strict-clippy-exact-head.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "card_identity"
+    ],
+    "purpose": "Prove initialized design-envelope recovery and the Linux-stable owned-inode replacement fixture after PR #385 CI failure remediation.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/294/card-identity-18-exact-head.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "check",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml"
+    ],
+    "purpose": "Prove csdlc-v2 still compiles after PR #385 Linux-stable fixture remediation.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/294/csdlc-v2-cargo-check-exact-head.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--locked",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Prove csdlc-v2 remains warning-free after PR #385 Linux-stable fixture remediation.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/294/csdlc-v2-strict-clippy-exact-head.log"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

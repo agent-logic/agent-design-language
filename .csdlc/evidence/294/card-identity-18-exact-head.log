@@ -1,28 +1,28 @@
-Mon Aug 17 00:59:16 UTC 2026
-3704b952f48169cca7147b6106051fc44d2ea3d4
+Mon Aug 17 01:20:53 UTC 2026
+3030e33beaa87ee7dee3bbf835b8b38e6def437e
 COMMAND cargo test --locked --manifest-path csdlc-v2/Cargo.toml --test card_identity
     Finished `test` profile [unoptimized + debuginfo] target(s) in 0.09s
      Running tests/card_identity.rs (csdlc-v2/target/debug/deps/card_identity-a92d9b02507c81cc)
 
 running 18 tests
 test issue_292_waits_for_terminal_ancestral_294 ... ok
-test identity_operation_updates_all_cards_without_content_drift ... ok
 test malformed_identity_update_is_rejected_before_mutation ... ok
 test implemented_authored_design_refresh ... ok
+test identity_operation_updates_all_cards_without_content_drift ... ok
 test pre_change_native_1_0_0_fixture_loads_but_legacy_relabel_is_rejected ... ok
 test implemented_authored_design_refresh_linked_worktree ... ok
 test bootstrap_and_recovery_reject_git_authored_paths ... ok
-test journal_owned_inode_prevents_identical_byte_replacement_deletion ... ok
-test recovery_rejects_later_lifecycle_and_unsafe_control_destinations ... ok
-test recovery_rejects_hardlinked_source_alias_before_journaling ... ok
 test recovery_rejects_tampered_later_history_without_artifact_mutation ... ok
-test restart_reconciles_interrupted_stage_quarantine ... ok
-test initialized_design_envelope_recovery_relocates_and_invalidates_approval ... ok
+test recovery_rejects_hardlinked_source_alias_before_journaling ... ok
+test recovery_rejects_later_lifecycle_and_unsafe_control_destinations ... ok
+test journal_owned_inode_prevents_identical_byte_replacement_deletion ... ok
 test destination_collision_cleans_stage_and_retry_succeeds ... ok
+test initialized_design_envelope_recovery_relocates_and_invalidates_approval ... ok
 test restart_reconciles_interrupted_owned_delete_quarantine ... ok
+test restart_reconciles_interrupted_stage_quarantine ... ok
 test recovery_replays_precommit_journal_and_succeeds_in_linked_worktree ... ok
 test recovery_rejects_stale_cas_unsafe_alias_and_missing_provenance_without_mutation ... ok
 test every_design_recovery_failpoint_restarts_to_a_canonical_state ... ok
 
-test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 5.89s
+test result: ok. 18 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 6.00s
 

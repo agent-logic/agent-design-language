@@ -7,21 +7,21 @@
     "title": "[v0.92][C-SDLC][defect] Recover initialized design identity and artifact paths before bind",
     "slug": "initialized-design-envelope-recovery",
     "version": "v0.92",
-    "generation": 39
+    "generation": 43
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "csdlc-v2/src\ncsdlc-v2/tests/card_identity.rs\n.csdlc/prepared/issues/294\n.csdlc/evidence/294\n.csdlc/issues/294",
-      "review_revision": "git-blake3:83efe6e3ab1b62b451940342f5b7aa70031ddc7d:70acecffe0255196d7a4f5996cc374965cf5235420dea0c9be050880f77cc52f",
-      "reviewer": "fresh-session:26b34eaa-3d4d-4446-8923-fd78fbd21f79",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Review every acceptance criterion with special attention to lifecycle authority, path traversal/symlink safety, append-only audit integrity, atomicity, and linked-worktree regression proof."
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pass"
+      "review_result": "pre_review"
     }
   }
 }
