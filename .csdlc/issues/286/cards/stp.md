@@ -25,10 +25,10 @@ Prepare, bind, implement, validate, review, publish, and finish only #286 ADR 00
 ## Acceptance
 
 1. AC-1: #286 preparation packet states the ADR 0069 evidence-reconciliation boundary and #288/#207 ownership boundaries.
-2. AC-2: Issue-local evidence classifies referenced WP-18A/WP-18C surfaces as terminal-proving, partial/non-terminal, or out-of-scope.
-3. AC-3: Every terminal-proving claim includes exact landed revision identity, artifact locator/digest, human-review reference, and machine-readable outcome reference.
+2. AC-2: Issue-local evidence classifies referenced WP-18A surfaces and exact #117/#271/#282 issue inputs as terminal-proving for their own issues, partial/non-terminal for ADR 0069, or out-of-scope.
+3. AC-3: Every issue-input claim includes exact landed revision identity, artifact locator/digest, human-review reference, and machine-readable outcome reference.
 4. AC-4: Residual gaps are explicit and do not block truthful #207 consumption when ADR 0069 is not acceptance-ready.
-5. AC-5: #286 does not move ADR 0069 to Accepted, does not update shared ADR indexes/manifests, and does not claim #207/#288 terminal closeout.
+5. AC-5: #286 does not move ADR 0069 to Accepted, does not update shared ADR indexes/manifests, and does not claim #207/#288 or WP-18C closeout.
 6. AC-6: Fresh exact-head review has no unresolved actionable findings, required CI is green on the published head, and typed finish derives terminal authority.
 
 ## Dependencies

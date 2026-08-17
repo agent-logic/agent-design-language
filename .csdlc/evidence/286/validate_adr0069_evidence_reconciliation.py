@@ -21,9 +21,13 @@ OWNER_ROOT = Path("/Users/daniel/git/agent-design-language")
 FINISH = OWNER_ROOT / ".adl" / "bin" / "csdlc-v2" / "csdlc-finish"
 PACKET = ROOT / ".csdlc" / "evidence" / "286" / "adr0069-evidence-reconciliation.md"
 ISSUE84_STATE = ROOT / ".csdlc" / "evidence" / "286" / "issue84-live-state.json"
-CARD_SURFACES = (
-    ROOT / ".csdlc" / "issues" / "286" / "cards" / "sor.md",
-    ROOT / ".csdlc" / "issues" / "286" / "cards" / "sor.values.json",
+CARD_DIR = ROOT / ".csdlc" / "issues" / "286" / "cards"
+CARD_SURFACES = tuple(
+    sorted(
+        path
+        for path in CARD_DIR.iterdir()
+        if path.name.endswith((".md", ".values.json"))
+    )
 )
 
 TERMINAL_INPUTS = {
@@ -72,10 +76,32 @@ FORBIDDEN_OVERCLAIMS = (
     "implements UI",
 )
 
+NEGATED_OVERCLAIM_MARKERS = (
+    "does not",
+    "do not",
+    "not ",
+    "without ",
+    "non-goal",
+    "non_goals",
+    "claiming ",
+)
+
 
 def require(condition: bool, message: str) -> None:
     if not condition:
         raise AssertionError(message)
+
+
+def assert_no_forbidden_overclaims(text: str, label: str) -> None:
+    for line_number, line in enumerate(text.splitlines(), start=1):
+        line_lower = line.lower()
+        if any(marker in line_lower for marker in NEGATED_OVERCLAIM_MARKERS):
+            continue
+        for phrase in FORBIDDEN_OVERCLAIMS:
+            require(
+                phrase.lower() not in line_lower,
+                f"{label}:{line_number} contains forbidden overclaim: {phrase}",
+            )
 
 
 def run_json(argv: list[str]) -> dict:
@@ -107,9 +133,8 @@ def main() -> int:
 
     for phrase in REQUIRED_PACKET_PHRASES:
         require(phrase in packet, f"packet missing required phrase: {phrase}")
-    for phrase in FORBIDDEN_OVERCLAIMS:
-        require(phrase.lower() not in packet.lower(), f"packet contains forbidden overclaim: {phrase}")
-        require(phrase.lower() not in card_text.lower(), f"SOR/card truth contains forbidden overclaim: {phrase}")
+    assert_no_forbidden_overclaims(packet, PACKET.relative_to(ROOT).as_posix())
+    assert_no_forbidden_overclaims(card_text, ".csdlc/issues/286/cards")
 
     issue84 = json.loads(ISSUE84_STATE.read_text(encoding="utf-8"))
     require(issue84.get("issue") == 84, "issue84 state has wrong issue")

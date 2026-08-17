@@ -16,12 +16,12 @@ Reconcile terminal evidence for ADR 0069, the Observatory governed Runtime consu
 
 ## Required Outcome
 
-ADR 0069 has issue-local evidence showing whether terminal Observatory governed Runtime consumer proof exists at exact landed revisions from WP-18A/WP-18C owners, with retained human review and machine-readable outcomes.
+ADR 0069 has issue-local evidence showing whether governed Runtime consumer proof exists at exact landed issue revisions, with retained human review and machine-readable outcomes, while #84 remains the external Unity Runtime proof gate.
 
 ## Scope
 
-- Reconcile terminal Observatory governed Runtime consumer evidence from WP-18A owners.
-- Reconcile terminal WP-18C Runtime/Observatory integration evidence where the WP-18C graph owns it.
+- Reconcile Observatory governed Runtime consumer evidence from WP-18A owners, including the open #84 Unity Runtime proof gate.
+- Reference exact #117/#271/#282 terminal issue inputs only as partial ADR 0069 evidence, not as WP-18C-level terminal proof.
 - Verify exact artifact-bound revisions, machine-readable outcomes, and human review evidence are retained.
 - Record issue-local evidence and residual gaps for #207.
 - Preserve downstream #288 ownership of final ADR index, plan, manifest, and review-packet serialization.
