@@ -1,0 +1,194 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 117,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "024d435a2fcf6fd78678e4b9cda121ea06eecca7e6effaabceb5ad5c2f22ddaf",
+  "phase": "implemented",
+  "generation": 14,
+  "digest": "686155c87d159d30d30cbdee2e0310d9cde2e30e27dc46e679202f20adc5d634",
+  "branch": "codex/117-production-polis-interface-qualification-parent",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-117-production-polis-interface-qualification-parent",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/117/design.md",
+  "diagram_path": ".csdlc/prepared/issues/117/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:66c8e991-d138-4f77-875a-dbe413e0c111",
+      "revision": "0c3bdcb8801003259e8526f09cb5775bbe5f07e41dc2ac2f9f3aa5efe720bc6c"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "899658578ef07fbe32eabd3ce777ce776ff28343e8562a6efec21029fa79f969",
+      "rendered_digest": "40ce52a0a91980bb37e05fb80fc3bebcd43112af537e17003cc5ab799e10c539",
+      "ast_digest": "173b4e7307b7fa9cc0d5b89ef40b6981406b1cfa1baa236bba81afa14bb91782"
+    },
+    "stp": {
+      "values_digest": "b43de7ab5dcc907c53da7bb005c2f7fb6bedaab45788700b7ae73152e99a7898",
+      "rendered_digest": "90a11f2ccd8f2e44783806970332b4a0657af031f79dda6b395ff593ae5a3dd6",
+      "ast_digest": "21dda05a4a0a3f33ddb1c2752f58c353d4fb6794d3eb2dba2b9592433b8364ce"
+    },
+    "spp": {
+      "values_digest": "ccbed65c2c80f1783eeed3f9957e3f62e4375e5e13494e2d8b942676fe46abaf",
+      "rendered_digest": "7e0f095673cae0e44793f8707e218ec27e94fb640077b5c33fd1879e37b9b490",
+      "ast_digest": "36796b0cbcd7add30d28bbbf118e8069bd6310a1948ec062bf78302e45129de9"
+    },
+    "vpp": {
+      "values_digest": "9ab97066f0d4b5df5de828996a1de54fc852f4d7e7f638f81ca2902370e46882",
+      "rendered_digest": "cb288c0e4e3fa37efca1d62888457c5cfab8b9ddc1ce0282259f69e987b4c0d7",
+      "ast_digest": "6e9164f90884128e31ad8d16a53deb657a3a6a3e58d6efdc82dc0b092069348d"
+    },
+    "srp": {
+      "values_digest": "2ce46e8aa89bc364f6ac6439d2e6edec7e920376f27c159be3b79a5d8afb92d1",
+      "rendered_digest": "1fc90ffb9231c8c02614f87a7fee36e55d83c862d3c75811d3d8a513baf90163",
+      "ast_digest": "ad81fe34dec4cefce76ab04f37002cce6edc58b5d889c081faa2575293d4df3b"
+    },
+    "sor": {
+      "values_digest": "c20b5b6e10b4048ffbbfce62a9a3d671d503a8582799b1312c531bde39cfbcd0",
+      "rendered_digest": "b4c9969c60b5e11de9b045486d75ab0094bb83b524130f79519de6936c296174",
+      "ast_digest": "ab229dee903c5fdbf24384a14faacec2161aa473fed09f8236a899bdc6ca18d9"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Advance #117 to ready/unbound after canonical fresh design review PASS and doctor/validate readiness PASS."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Repair initialized #117 readiness so pre-bind validation uses only available issue-owned preparation proof; implemented parent closeout validator will be recorded after bind when it exists.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preparation-terminal-cache-validator\",\"proof_role\":\"Verify #117 preparation consumes canonical terminal #279/#280/#281/#282 evidence and remains parent-only.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"python3\",\".csdlc/prepared/issues/117/validate_preparation_bundle.py\"],\"parallel_group\":\"117-serial-01-prep\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace or patch artifacts before bind and implementation.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"117-serial-02-diff\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Repair initialized #117 STP deliverables so doctor validates available issue-owned preparation/card artifacts before bind; implemented parent evidence and validator will be declared after they exist in the bound worktree.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\".csdlc/prepared/issues/117/design.md\",\".csdlc/prepared/issues/117/diagram.mmd\",\".csdlc/prepared/issues/117/validate_preparation_bundle.py\",\".csdlc/issues/117\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Repair initialized #117 readiness so pre-bind validation uses only available issue-owned preparation proof; implemented parent closeout validator will be recorded after bind when it exists.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preparation-terminal-cache-validator\",\"proof_role\":\"Verify #117 preparation consumes canonical terminal #279/#280/#281/#282 evidence and remains parent-only.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"python3\",\".csdlc/issues/117/authored/validate_preparation_bundle.py\"],\"parallel_group\":\"117-serial-01-prep\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace or patch artifacts before bind and implementation.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"117-serial-02-diff\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Repair initialized #117 STP deliverables so doctor validates available issue-owned preparation/card artifacts before bind; implemented parent evidence and validator will be declared after they exist in the bound worktree.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\".csdlc/prepared/issues/117/design.md\",\".csdlc/prepared/issues/117/diagram.mmd\",\".csdlc/issues/117/authored/validate_preparation_bundle.py\",\".csdlc/issues/117\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Repair initialized #117 readiness so pre-bind validation uses only available issue-owned preparation proof; implemented parent closeout validator will be recorded after bind when it exists.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preparation-terminal-cache-validator\",\"proof_role\":\"Verify #117 preparation consumes canonical terminal #279/#280/#281/#282 evidence and remains parent-only.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"python3\",\".csdlc/prepared/issues/117/117/validate_preparation_bundle.py\"],\"parallel_group\":\"117-serial-01-prep\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace or patch artifacts before bind and implementation.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"117-serial-02-diff\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Repair initialized #117 STP deliverables so doctor validates available issue-owned preparation/card artifacts before bind; implemented parent evidence and validator will be declared after they exist in the bound worktree.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\".csdlc/prepared/issues/117/design.md\",\".csdlc/prepared/issues/117/diagram.mmd\",\".csdlc/prepared/issues/117/117/validate_preparation_bundle.py\",\".csdlc/issues/117\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Add exact initialized validator path to #117 affected areas so readiness ownership and validation denominator are explicit.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/issues/117\",\".csdlc/evidence/117\",\".csdlc/prepared/issues/117\",\".csdlc/prepared/issues/117/validate_preparation_bundle.py\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Repair initialized #117 readiness so pre-bind validation uses only available issue-owned preparation proof; implemented parent closeout validator will be recorded after bind when it exists.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preparation-terminal-cache-validator\",\"proof_role\":\"Verify #117 preparation consumes canonical terminal #279/#280/#281/#282 evidence and remains parent-only.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"python3\",\".csdlc/prepared/issues/117/validate_preparation_bundle.py\"],\"parallel_group\":\"117-serial-01-prep\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace or patch artifacts before bind and implementation.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"117-serial-02-diff\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Repair initialized #117 STP deliverables so doctor validates available issue-owned preparation/card artifacts before bind; implemented parent evidence and validator will be declared after they exist in the bound worktree.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\".csdlc/prepared/issues/117/design.md\",\".csdlc/prepared/issues/117/diagram.mmd\",\".csdlc/prepared/issues/117/validate_preparation_bundle.py\",\".csdlc/issues/117\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Advance #117 to ready/unbound after canonical fresh design review PASS and doctor/validate readiness PASS.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Declare #117 bound parent closeout evidence and validator as exact affected areas before implementation review.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/issues/117\",\".csdlc/evidence/117\",\".csdlc/evidence/117/production-polis-interface-parent-closeout.md\",\".csdlc/evidence/117/validate_parent_closeout.py\",\".csdlc/prepared/issues/117/validate_preparation_bundle.py\"]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Declare actual #117 parent closeout evidence and validator deliverables after bound implementation.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\".csdlc/evidence/117/production-polis-interface-parent-closeout.md\",\".csdlc/evidence/117/validate_parent_closeout.py\",\".csdlc/prepared/issues/117/validate_preparation_bundle.py\",\".csdlc/issues/117\"]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "Record #117 bound implementation validation lanes for parent closeout evidence and lifecycle hygiene.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"preparation-terminal-cache-validator\",\"proof_role\":\"Verify #117 preparation consumes canonical terminal #271/#114/#115/#116/#279/#280/#281/#282 evidence and remains parent-only.\",\"acceptance_ids\":[\"AC-1\",\"AC-3\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"python3\",\".csdlc/prepared/issues/117/validate_preparation_bundle.py\"],\"parallel_group\":\"117-parent-proof\",\"defer_reason\":null},{\"lane\":\"parent-closeout-validator\",\"proof_role\":\"Verify #117 parent closeout evidence, terminal child/prerequisite caches, exact #282 integrated qualification truth, residual risks, non-claims, and #110 handoff.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1500,\"argv\":[\"python3\",\".csdlc/evidence/117/validate_parent_closeout.py\"],\"parallel_group\":\"117-parent-proof\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace or patch artifacts before exact-head review and publication.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"117-parent-proof\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}

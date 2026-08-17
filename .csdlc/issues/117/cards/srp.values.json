@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 117,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.07][coordination] Coordinate production Polis interface qualification",
+    "slug": "production-polis-interface-qualification-parent",
+    "version": "v0.92",
+    "generation": 14
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "#117 parent evidence, validator, lifecycle cards, and publication truth only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Verify #117 remains coordination-only and does not absorb child implementation or umbrella closeout authority.",
+        "Verify terminal child evidence is exact, canonical, and consumed read-only.",
+        "Verify residual risks, non-claims, and #110 handoff are truthful."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

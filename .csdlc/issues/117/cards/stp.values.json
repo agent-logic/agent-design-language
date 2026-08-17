@@ -1,0 +1,54 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 117,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.07][coordination] Coordinate production Polis interface qualification",
+    "slug": "production-polis-interface-qualification-parent",
+    "version": "v0.92",
+    "generation": 14
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "#117 coordination parent closeout only.",
+      "deliverables": [
+        ".csdlc/evidence/117/production-polis-interface-parent-closeout.md",
+        ".csdlc/evidence/117/validate_parent_closeout.py",
+        ".csdlc/prepared/issues/117/validate_preparation_bundle.py",
+        ".csdlc/issues/117"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Validate canonical terminal cache truth for #271, #114, #115, #116, #279, #280, #281, and #282 from their bound worktrees.",
+        "AC-2: Retain a parent-only production Polis interface qualification packet that summarizes the terminal child evidence, exact integrated candidate lineage, residual risks, and non-claims.",
+        "AC-3: Preserve #110 as the WP-18C umbrella parent and do not absorb child implementation, Runtime, cloud, Unity, provider, API, storage, or browser UI authority.",
+        "AC-4: Provide a local/read-only runbook and deterministic validator for the parent coordination evidence.",
+        "AC-5: Record truthful lifecycle/review/publication state for #117 without claiming umbrella terminal closeout."
+      ],
+      "dependencies": [
+        "#279 terminal and canonical",
+        "#280 terminal and canonical",
+        "#281 terminal and canonical",
+        "#282 terminal and canonical",
+        "#110 umbrella remains open until #117 and other umbrella truth are reconciled"
+      ],
+      "repo_inputs": [
+        ".csdlc/prepared/issues/117/design.md",
+        ".csdlc/prepared/issues/117/diagram.mmd",
+        ".csdlc/prepared/issues/117/validate_preparation_bundle.py",
+        "/Volumes/FastWork/adl-worktrees/adl-issue-279-observatory-accessibility-responsive-ux-proof/.csdlc/issues/279",
+        "/Volumes/FastWork/adl-worktrees/adl-issue-280-large-polis-performance-recovery/.csdlc/issues/280",
+        "/Volumes/FastWork/adl-worktrees/adl-issue-281-observatory-security-privacy-adversarial-proof-bound/.csdlc/issues/281",
+        "/Volumes/FastWork/adl-worktrees/adl-issue-282-production-polis-qualification/.csdlc/issues/282"
+      ],
+      "non_goals": [
+        "Implementing or modifying #279, #280, #281, or #282 child work.",
+        "Closing #110 umbrella authority.",
+        "Changing Runtime authority, browser UI, API, storage, cloud, Unity, provider credentials, or product code.",
+        "Claiming WP-18C terminal closeout beyond #117."
+      ]
+    }
+  }
+}
