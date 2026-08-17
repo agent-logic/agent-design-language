@@ -5,10 +5,22 @@
   "initialization_digest": "024d435a2fcf6fd78678e4b9cda121ea06eecca7e6effaabceb5ad5c2f22ddaf",
   "phase": "implemented",
   "generation": 35,
-  "digest": "de6b39e1f534163dcbac135d295b7224a8d6f13cc7adda2bda72e2e11ee94f3d",
+  "digest": "6f4458b98db98226b884b682d1c50c5f358bf23c38426d0b3dacbe015706e8bd",
   "branch": "codex/117-production-polis-interface-qualification-parent",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-117-production-polis-interface-qualification-parent",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:bb641977-06c4-4f64-a281-545f0e88f7e5",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:6ce36effa6f571328319edbc087e0d2cc751dcf4:0559566439881497ec8816c442ec05cd9846880b30e7dfe710b8978f0e9c77dc",
+    "scope": [
+      ".csdlc/evidence/117/production-polis-interface-parent-closeout.md",
+      ".csdlc/evidence/117/validate_parent_closeout.py",
+      ".csdlc/prepared/issues/117/validate_preparation_bundle.py",
+      ".csdlc/prepared/issues/117/design.md",
+      ".csdlc/prepared/issues/117/diagram.mmd",
+      ".csdlc/issues/117"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +56,9 @@
       "ast_digest": "6e9164f90884128e31ad8d16a53deb657a3a6a3e58d6efdc82dc0b092069348d"
     },
     "srp": {
-      "values_digest": "34ff06d1db2087f188956f9cf277cddfe0e3ea8c1aca775fdbf346731d618e3c",
-      "rendered_digest": "1253ac0f42063c5f2011243e9449818f55d1504c07ad8146ba38ea23a0a35357",
-      "ast_digest": "d3faf3908bf4b8cf64c7ef7144b0ef223acc1883189f0f858db1e2af1d228ef1"
+      "values_digest": "4551f5544e570c695ac9e08a9fbba31cc26e00250cd19f75e714eacec63e725c",
+      "rendered_digest": "ca7d62232ed05329e6bf5b4d84f149e93c6cf43a0dc66a0ac90feaf7141236d9",
+      "ast_digest": "b830fc0d966ef86f4b7b785c5459a431f11737d96611114d81e931161ae0386c"
     },
     "sor": {
       "values_digest": "5cb42ab79376d9e7266c8a76bfab290669d9c9e7929fb764384c9beea33c0b33",
@@ -413,6 +425,13 @@
       "actor": "codex:/root",
       "reason": "Resolve fresh review P1: STP Inputs must include #271/#114/#115/#116 records consumed by #117 terminal validators, alongside #279/#280/#281/#282.",
       "operation": "{\"new_values\":[\".csdlc/prepared/issues/117/design.md\",\".csdlc/prepared/issues/117/diagram.mmd\",\".csdlc/prepared/issues/117/validate_preparation_bundle.py\",\".csdlc/issues/271\",\"/Volumes/FastWork/adl-worktrees/adl-issue-114-durable-history-parent-integration-proof/.csdlc/issues/114\",\"/Volumes/FastWork/adl-worktrees/adl-issue-115-governed-multi-agent-rooms/.csdlc/issues/115\",\"/Volumes/FastWork/adl-worktrees/adl-issue-116-operator-attention-inbox/.csdlc/issues/116\",\"/Volumes/FastWork/adl-worktrees/adl-issue-279-observatory-accessibility-responsive-ux-proof/.csdlc/issues/279\",\"/Volumes/FastWork/adl-worktrees/adl-issue-280-large-polis-performance-recovery/.csdlc/issues/280\",\"/Volumes/FastWork/adl-worktrees/adl-issue-281-observatory-security-privacy-adversarial-proof-bound/.csdlc/issues/281\",\"/Volumes/FastWork/adl-worktrees/adl-issue-282-production-polis-qualification/.csdlc/issues/282\"],\"operation\":\"correct_stp_repo_inputs_after_recovery\",\"previous_values\":[\".csdlc/prepared/issues/117/design.md\",\".csdlc/prepared/issues/117/diagram.mmd\",\".csdlc/prepared/issues/117/validate_preparation_bundle.py\",\"/Volumes/FastWork/adl-worktrees/adl-issue-279-observatory-accessibility-responsive-ux-proof/.csdlc/issues/279\",\"/Volumes/FastWork/adl-worktrees/adl-issue-280-large-polis-performance-recovery/.csdlc/issues/280\",\"/Volumes/FastWork/adl-worktrees/adl-issue-281-observatory-security-privacy-adversarial-proof-bound/.csdlc/issues/281\",\"/Volumes/FastWork/adl-worktrees/adl-issue-282-production-polis-qualification/.csdlc/issues/282\"],\"recovery_generation\":34,\"recovery_sequence\":45}"
+    },
+    {
+      "sequence": 47,
+      "generation": 35,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
