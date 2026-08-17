@@ -1,0 +1,70 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 114,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.04][coordination] Coordinate durable conversation history, continuity, and receipts",
+    "slug": "v0-92-wp-18c-04-coordinate-durable-conversation-history-continuity-receipts",
+    "version": "v0.92.0",
+    "generation": 109
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implemented parent-only #114 durable-history integration proof in the bound worktree: verify terminal ancestry for #276, #277, and #278; prove restart, retention, deletion, receipt, replay-owner, and Observatory transcript restoration coherence; preserve child/#271/#115/#116/#117 boundaries; then fresh review, typed publication, CI, and finish.",
+      "deliverables": [
+        "Bound #114 parent integration proof worktree on codex/114-durable-history-parent-integration-proof",
+        ".csdlc/prepared/issues/114/validate_preparation_bundle.py bound parent validator",
+        "adl/tools/validate_v092_durable_history_parent_integration.py parent terminal-chain proof runner",
+        "adl-runtime-kernel/tests/durable_conversation_history_integration.rs parent integration regression",
+        "Typed VPP/SOR evidence for issue-owned validator, terminal-chain validator, focused Rust test, strict clippy, and diff hygiene",
+        "Fresh exact-head implementation review and typed publication/finish only after current proof truth passes"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Parent #114 remains coordination/integration-only and does not absorb #276, #277, #278, #271, #115, or #117 product implementation scope.",
+        "AC-2: The bound #114 worktree and branch are canonical and preserve historical authored design/diagram artifacts while treating them as reference evidence only.",
+        "AC-3: Parent proof validates terminal canonical caches and merge-SHA ancestry for #112, #265, #270, #271, #276, #277, and #278 before review/publication.",
+        "AC-4: The issue-owned validator proves #114 identity, bound topology, preserved design/diagram digests, and parent-only dependency boundaries.",
+        "AC-5: The repository parent terminal-chain validator proves #276/#277/#278 derived-terminal caches, merged dispositions, canonical generation/digest fields, merge-SHA ancestry, and focused integration-test marker presence only; lifecycle/card ownership proof belongs to the issue-owned validator.",
+        "AC-6: The focused Runtime kernel integration test proves durable history, continuity, journal restart, duplicate attempt admission, receipts, replay owner state, retention/deletion, and Observatory transcript restoration coherence.",
+        "AC-7: Strict relevant Clippy and diff hygiene pass for the parent-only proof surface.",
+        "AC-8: SOR records the exact local validation lanes and truthfully leaves publication, merge, and closeout pending until typed publication/CI/finish complete.",
+        "AC-9: Fresh exact-head implementation review covers the current clean immutable head before publication.",
+        "AC-10: Publication and finish use typed owner routes with correct Closes #114 linkage only after current review truth, base/head ancestry, and required CI are green."
+      ],
+      "dependencies": [
+        "#276 depends on #112 core, #265 Runtime kernel conversation ingress enforcement, and #270 trusted recipient-acknowledgement Runtime API protocol",
+        "#277 depends on #276 and #270 and must not redefine #270 acknowledgement trust",
+        "#278 depends on #276, #277, and #271 Observatory authority-state integration",
+        "Parent #114 waits on terminal #276, #277, and #278 and remains part of #110",
+        "#291 terminal authority is present at .git/csdlc-v2/derived-terminal/291.json and enables the typed initialized-decomposition recovery route."
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#110",
+        "agent-logic/agent-design-language#112",
+        "agent-logic/agent-design-language#114",
+        "agent-logic/agent-design-language#265",
+        "agent-logic/agent-design-language#270",
+        "agent-logic/agent-design-language#271",
+        "agent-logic/agent-design-language#276",
+        "agent-logic/agent-design-language#277",
+        "agent-logic/agent-design-language#278",
+        ".csdlc/prepared/issues/114/design.md",
+        ".csdlc/prepared/issues/114/diagram.mmd",
+        ".csdlc/issues/114",
+        ".git/csdlc-v2/derived-terminal/291.json"
+      ],
+      "non_goals": [
+        "Implementing or changing #276 durable journal foundation behavior inside #114",
+        "Implementing or changing #277 watermark, idempotency, replay, receipt, or restart-reconciliation behavior inside #114",
+        "Implementing or changing #278 history API/search/export/redaction or Observatory restoration behavior inside #114",
+        "Redefining #270 acknowledgement trust, provenance, credential binding, or served API protocol",
+        "Changing #271 Observatory authority-state UI scope, #115 room/UI behavior, #116 durable transcript follow-on scope, or #117 umbrella behavior inside #114",
+        "Mutating #112/#265/#270/#271/#276/#277/#278 child worktrees, GitHub issues, PRs, branches, or lifecycle cards while finishing #114",
+        "Publishing, merging, or finishing without fresh exact-head review PASS, correct Closes #114 linkage, current base/head ancestry, and required CI green"
+      ]
+    }
+  }
+}

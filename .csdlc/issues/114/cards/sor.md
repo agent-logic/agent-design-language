@@ -1,0 +1,137 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 114
+
+Repository: agent-logic/agent-design-language
+
+Card: sor
+
+Status: pre_phase
+
+## Summary
+
+Recovered #114 from an invalid PASS/publication record after reviewer 915c3530 returned FAIL, then repaired the executable validator proof and implemented-phase planning summary through supported typed routes. Publication, merge, and finish remain pending until fresh exact-head review PASS, current typed republish, required CI green, and typed finish.
+
+## Artifacts
+
+- adl/tools/validate_v092_durable_history_parent_integration.py
+- .csdlc/issues/114/cards/spp.md
+- .csdlc/issues/114/cards/spp.values.json
+- .csdlc/issues/114/cards/sor.md
+- .csdlc/issues/114/cards/sor.values.json
+
+## Execution
+
+- Added explicit validation that each #276/#277/#278 derived-terminal cache has a positive canonical_generation and a 64-hex canonical_digest before the #114 terminal-chain validator passes.
+- Updated #114 SPP implemented-phase summary through correct_plan_summary_after_recovery to state the invalid publication recovery and exact remaining review/publication/CI/finish gates.
+- Preserved #114 parent-only scope and did not absorb #276, #277, #278, #271, #115, #116, or #117 product behavior.
+
+## Validation
+
+[
+  {
+    "command": [
+      "python3",
+      ".csdlc/prepared/issues/114/validate_preparation_bundle.py"
+    ],
+    "purpose": "Validate bound/implemented #114 identity, preserved design/diagram digests, terminal ancestry for #112/#265/#270/#271/#276/#277/#278, and parent-only card boundaries.",
+    "outcome": "passed",
+    "evidence_ref": "local:114-issue-owned-bound-parent-validator-gen104"
+  },
+  {
+    "command": [
+      "python3",
+      "adl/tools/validate_v092_durable_history_parent_integration.py"
+    ],
+    "purpose": "Validate #276/#277/#278 terminal caches, merged dispositions, canonical generation/digest fields, merge-SHA ancestry, and focused test-surface presence.",
+    "outcome": "passed",
+    "evidence_ref": "local:114-parent-terminal-chain-validator-gen104"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "durable_conversation_history_integration",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Run focused durable-history parent integration test across restart, duplicate attempt admission, receipts, replay owner state, retained marker persistence before deletion, deletion cleanup, and Observatory transcript restoration.",
+    "outcome": "passed",
+    "evidence_ref": "local:114-parent-runtime-kernel-integration-test-gen104"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "durable_conversation_history_integration",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Run strict Clippy for the #114 focused Runtime kernel integration test target.",
+    "outcome": "passed",
+    "evidence_ref": "local:114-parent-hygiene-gen104"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Check whitespace/diff hygiene for the #114 parent proof surface.",
+    "outcome": "passed",
+    "evidence_ref": "local:114-diff-hygiene-gen104"
+  },
+  {
+    "command": [
+      "csdlc-validate",
+      "--root",
+      "/Volumes/FastWork/adl-worktrees/adl-issue-114-durable-history-parent-integration-proof",
+      "issue",
+      "--issue",
+      "114"
+    ],
+    "purpose": "Validate canonical #114 lifecycle truth after review/publication recovery and remediation.",
+    "outcome": "passed",
+    "evidence_ref": "local:114-csdlc-validate-gen104"
+  },
+  {
+    "command": [
+      "python3",
+      "-c",
+      "import importlib.util, pathlib; path=pathlib.Path('adl/tools/validate_v092_durable_history_parent_integration.py'); spec=importlib.util.spec_from_file_location('validator', path); mod=importlib.util.module_from_spec(spec); spec.loader.exec_module(mod); mod.fail=lambda message: (_ for _ in ()).throw(RuntimeError(message));\ntry:\n    mod.require_positive_int(True, field='canonical_generation', issue=276)\nexcept RuntimeError as exc:\n    assert 'invalid canonical_generation' in str(exc)\nelse:\n    raise SystemExit('bool canonical_generation accepted')\nassert mod.require_positive_int(10, field='canonical_generation', issue=276) == 10\nprint('bool canonical_generation rejected')"
+    ],
+    "purpose": "Prove malformed boolean canonical_generation is rejected after reviewer 5d0c5f61 found Python bool/int subclass acceptance.",
+    "outcome": "passed",
+    "evidence_ref": "local:114-bool-canonical-generation-rejected-gen106"
+  }
+]
+
+## Integration
+
+pr_open
+
+## Publication
+
+Publication: ready
+
+Merge: not_merged
+
+## Closeout
+
+not_started
+
+## Follow Ups
+
+- Obtain fresh no-context exact-head review over the current #114 immutable head and repaired lifecycle truth.
+- Publish through typed csdlc-publish with correct Closes #114 linkage only after review PASS and base/head ancestry are current.
+- Shepherd required CI and use typed csdlc-finish only after exact green authority.
+- After #114 terminal cache validates canonical and ancestral, refresh #115/#116/#117 readiness without absorbing their child scope.
