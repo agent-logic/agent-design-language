@@ -447,9 +447,15 @@ fn journal_owned_inode_prevents_identical_byte_replacement_deletion() {
     let destination = temp.path().join("docs/issues/299/design.md");
     fs::create_dir_all(destination.parent().unwrap()).unwrap();
     fs::write(&destination, b"design bytes").unwrap();
-    let owned = fs::metadata(&destination).unwrap();
+    let owned_handle = fs::File::open(&destination).unwrap();
+    let owned = owned_handle.metadata().unwrap();
     fs::remove_file(&destination).unwrap();
     fs::write(&destination, b"design bytes").unwrap();
+    let replacement = fs::metadata(&destination).unwrap();
+    assert_ne!(
+        (owned.dev(), owned.ino()),
+        (replacement.dev(), replacement.ino())
+    );
     let common = String::from_utf8(
         std::process::Command::new("git")
             .args(["rev-parse", "--path-format=absolute", "--git-common-dir"])
