@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Hardened the #115 governed room UI against accidental broad room sends by enforcing an explicit 1-8 recipient bound and removing a fragile CSS.escape selector dependency.
+Resolved the fresh exact-review P1 by preserving Observatory governed-room turn sequences per stable room identity instead of using one global UI counter.
 
 ## Artifacts
 
@@ -33,6 +33,9 @@ Hardened the #115 governed room UI against accidental broad room sends by enforc
 - demos/html-observatory/index.html
 - adl/tools/validate_v092_governed_room_observatory.mjs
 - .csdlc/evidence/115/governed-room-observatory-validation.json
+- demos/html-observatory/app.js
+- adl/tools/validate_v092_governed_room_observatory.mjs
+- .csdlc/evidence/115/governed-room-observatory-validation.json
 
 ## Execution
 
@@ -50,6 +53,9 @@ Hardened the #115 governed room UI against accidental broad room sends by enforc
 - Rejected room turns with more than eight explicit recipients before send.
 - Updated the UI help text to disclose the bounded 1-8 recipient contract.
 - Rendered prepared room delivery labels from selected options without relying on CSS.escape availability.
+- Derived stable governed room identity from normalized explicit recipients for the served Observatory composer.
+- Tracked next turn sequence per governed room id so switching rooms and returning to a prior room continues the correct Runtime sequence.
+- Added focused validator coverage for switch-return behavior that would previously trigger a false reordered-turn refusal.
 
 ## Validation
 
