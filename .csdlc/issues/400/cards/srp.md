@@ -35,12 +35,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The new implemented-phase repairs remain intentionally limited to post-review recovery of STP dependency truth and SPP status-only plan-step truth.
+- Review inspected retained evidence logs and hashes rather than rerunning Cargo tests to preserve read-only review posture.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:7c446e517f6da4e45aef9c84309d5037602cf6f2:414504fffaaafc20bab723f3a08cc3f96f0b99f1510c22936c3ec4845ee444a5")
 
-Reviewer: None
+Reviewer: Some("fresh-session:5fa2f051-8f48-47d5-b65d-cc1a5280a7c9")
 
-Result: pre_review
+Result: pass

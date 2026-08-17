@@ -3,9 +3,9 @@
   "issue": 400,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "072eda7c560e8283a4da1967834bb3006a2402e31ac8767987d9c05d78652abb",
-  "phase": "implemented",
-  "generation": 14,
-  "digest": "abcd89c98c2de5c52c531f62a3f664739f652d6160c5eaf29359779fe884cc38",
+  "phase": "reviewed",
+  "generation": 15,
+  "digest": "ccdbe72a928fddb320b999aa454cea87eca1bfbe3fa6ea3eb5d8b4a9c861f6ce",
   "branch": "codex/400-implemented-card-recovery-bound",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-400-implemented-card-recovery-bound",
   "review_assignment": {
@@ -21,7 +21,25 @@
       ".csdlc/prepared/issues/400"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:5fa2f051-8f48-47d5-b65d-cc1a5280a7c9",
+    "scope": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/400",
+      ".csdlc/evidence/400",
+      ".csdlc/prepared/issues/400"
+    ],
+    "reviewed_revision": "git-blake3:7c446e517f6da4e45aef9c84309d5037602cf6f2:414504fffaaafc20bab723f3a08cc3f96f0b99f1510c22936c3ec4845ee444a5",
+    "findings": [],
+    "residual_risks": [
+      "The new implemented-phase repairs remain intentionally limited to post-review recovery of STP dependency truth and SPP status-only plan-step truth.",
+      "Review inspected retained evidence logs and hashes rather than rerunning Cargo tests to preserve read-only review posture."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -36,32 +54,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "18d65381ba4a63cc67b2668642a68ddae2e197e63bfc1b065c7c17d1a9cace8c",
+      "values_digest": "631f7dd8faa7e56b2ce66c72a8b397c13837c0b84edb57b8d4f7439c18e0e2fe",
       "rendered_digest": "f5bf608d8357ce2388f47a1145a3d9001e15fdebc96815f2499c6f0cfa108ec9",
       "ast_digest": "547d0a425b2a224731511673f3a061c5fe84e93613d538b45e0ba932964c4ad6"
     },
     "stp": {
-      "values_digest": "9a5ff49272371a3f654ec0fbb12150f6dd1b18e059d347573917b3c74882b1a7",
+      "values_digest": "32d4730e0731d11dbd9e5778cd920a5df215c1e1dd2df6f7a7171fe2c1b5d2c7",
       "rendered_digest": "7ddcbfc4e2134e2f7f738d5759d3879d06cceb19c0794db2f939d7eda66b2e2d",
       "ast_digest": "e90a91099addec80240f0dcb4a1794d6ab0f5135da6719a7f4b6ef40ad8af584"
     },
     "spp": {
-      "values_digest": "ac58f3ab40f63e63eda778db68c25b24cc76d7992b8f7e939d82e1fac657be16",
+      "values_digest": "a6d6203936439321164e90ecb8279edc3b32113a611f89d82015c76857c6af99",
       "rendered_digest": "7efe47ff2e3ec85491c42679a01633e5ecfab7940a588d7af278ec150ae3b193",
       "ast_digest": "afd801aee92aabb025fd1c21f48bef650f8c14544fcf200c6cf8485e48ba4dd4"
     },
     "vpp": {
-      "values_digest": "139e694ef5566eda171b77aa738d3e76e6a63fc5146532f8838eea2dba7991fa",
+      "values_digest": "c9fe6038bf0745550645588dc83ef939bff6de07ae869680ce38ca5a09e53938",
       "rendered_digest": "5c7938afb7cb6b76275239e0f7c77a95bea96410711c69cd5456ab3e58694f1b",
       "ast_digest": "fc90d7d37341077576faabdf578b2ea0924b24eb7ba466cedd30e9022324efbe"
     },
     "srp": {
-      "values_digest": "2412e06525191d9a3f09396ef88d7a32f5ec8256f9152fe7a7df8d9c34f1abc9",
-      "rendered_digest": "70953f5798da4deb46bd3093a2a02851e1eb1f4e895423a0acb069786a2a6395",
-      "ast_digest": "727d05f9170d7089a0796bef334abcb096c0172041f212d06621443deedbe186"
+      "values_digest": "020abc687818f573563b93d56ec6487d3a27fa659bf2b4ebaa23cdc28c064748",
+      "rendered_digest": "6b49640275853f8270cd215a3d35ad741e34aeca49321aec7c136ba29367ff2a",
+      "ast_digest": "7049fcdf686c3cd626ce9a2a4f5e729e404377c35acc55786f7898241b791a6b"
     },
     "sor": {
-      "values_digest": "369bd5aa05dcfe190bc76c07164808835c32972a67df4d336be07f6359848a67",
+      "values_digest": "47b61c10a3a9abd37d97113df11802167eaf857f9509d256ab5be3e4f56f65ab",
       "rendered_digest": "6a74335f9caca17eea8ce94849f92bf963fa2cdb55ec7683d5cb0ee0083b54c0",
       "ast_digest": "a011e6d217c7cfffdc737f43c8a00c6f72df19db67b07de641e100bfa5027588"
     }
@@ -87,6 +105,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -236,6 +261,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
