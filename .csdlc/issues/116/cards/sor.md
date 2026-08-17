@@ -52,11 +52,11 @@ Implemented the bounded WP-18C.06 operator attention inbox and intervention work
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
