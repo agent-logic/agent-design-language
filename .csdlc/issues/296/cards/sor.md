@@ -101,11 +101,11 @@ Remediated C-SDLC standalone CI fixture drift after publication by aligning test
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
