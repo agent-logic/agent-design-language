@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": "csdlc-v2/tests/initialized_decomposition_recovery.rs\n.csdlc/issues/296",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
