@@ -108,6 +108,20 @@ assert.equal(duplicateSequence.pending_action_count, 0);
 assert.equal(duplicateSequence.dropped_pending_actions, 0);
 assert.deepEqual(duplicateSequence.steps.at(-1).resolved_pending_actions, ["schedule_single_reconnect"]);
 
+const consecutiveDisconnectedSequence = largePolisRecoverySequence([
+  { connected: false, bufferedMessages: 0 },
+  { connected: false, bufferedMessages: 0 },
+  { connected: true, bufferedMessages: 0 }
+]);
+assert.equal(consecutiveDisconnectedSequence.recovered, true);
+assert.deepEqual(consecutiveDisconnectedSequence.steps[0].view.actions, ["schedule_single_reconnect"]);
+assert.deepEqual(consecutiveDisconnectedSequence.steps[1].pending_actions_before, ["schedule_single_reconnect"]);
+assert.deepEqual(consecutiveDisconnectedSequence.steps[1].view.actions, []);
+assert.equal(consecutiveDisconnectedSequence.steps[1].view.duplicate_action_prevented, true);
+assert.equal(consecutiveDisconnectedSequence.duplicate_actions, 1);
+assert.equal(consecutiveDisconnectedSequence.pending_action_count, 0);
+assert.equal(consecutiveDisconnectedSequence.dropped_pending_actions, 0);
+
 const unresolvedSequence = largePolisRecoverySequence([
   { connected: false, runtimeIncarnationChanged: true, bufferedMessages: 1200, offline: true, versionMismatch: true }
 ]);

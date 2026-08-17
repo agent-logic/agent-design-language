@@ -1880,8 +1880,14 @@ function largePolisRecoverySequence(states = []) {
   let resolvedPendingActionCount = 0;
   let hiddenStaleState = false;
   const steps = asArray(states).map((state, index) => {
-    const view = largePolisRecoveryViewModel(state);
     const pendingBefore = [...pendingActions];
+    const rawView = largePolisRecoveryViewModel(state);
+    const repeatedPendingActions = rawView.actions.filter((action) => pendingActions.has(action));
+    const view = {
+      ...rawView,
+      actions: rawView.actions.filter((action) => !pendingActions.has(action)),
+      duplicate_action_prevented: rawView.duplicate_action_prevented || repeatedPendingActions.length > 0
+    };
     for (const action of view.actions) {
       pendingActions.add(action);
     }

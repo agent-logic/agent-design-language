@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-18C.07b][117.b] Prove large-Polis performance and recovery behavior",
     "slug": "large-polis-performance-recovery",
     "version": "v0.92",
-    "generation": 10
+    "generation": 12
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "demos/html-observatory/app.js\ndemos/html-observatory/tests/large_polis_performance_recovery.test.mjs\n.csdlc/prepared/issues/280/validate_preparation_bundle.py\n.csdlc/issues/280\n.csdlc/evidence/280",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
