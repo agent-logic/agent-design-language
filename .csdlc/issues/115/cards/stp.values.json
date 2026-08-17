@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18C.05] Implement governed multi-agent rooms and message routing",
     "slug": "v0-92-wp-18c-05-governed-multi-agent-rooms-routing",
     "version": "v0.92.0",
-    "generation": 35
+    "generation": 38
   },
   "status": "ready",
   "content": {
@@ -21,8 +21,7 @@
         "demos/html-observatory/app.js",
         "demos/html-observatory/index.html",
         "demos/html-observatory/styles.css",
-        "adl/tools/validate_v092_governed_room_observatory.mjs",
-        ".csdlc/evidence/115/governed-room-observatory-validation.json",
+        ".csdlc/prepared/issues/115/validate_governed_room_implementation.py",
         ".csdlc/issues/115"
       ],
       "acceptance_criteria": [

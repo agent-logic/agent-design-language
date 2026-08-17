@@ -16,7 +16,7 @@ Prepare #115 as unbound design only with canonical #111/#112/#113/#270 terminal-
 
 ## Plan
 
-Revision 1
+Revision 2
 
 ## Steps
 

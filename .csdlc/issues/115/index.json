@@ -5,27 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "6b431e21b2b0a61991853e1f3f4a1bf51241907edaac9389f1c22998ae3334e7",
   "phase": "implemented",
-  "generation": 35,
-  "digest": "e304251e2f04d9144b467ceff1a1be8a113fa9ba9ef8d802274726163e5175b4",
+  "generation": 38,
+  "digest": "5639a6ba27bac3494253b8b41657afe4a81510c826590eb9a3a28c7e0e1c9c12",
   "branch": "codex/115-governed-multi-agent-rooms",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-115-governed-multi-agent-rooms",
-  "review_assignment": {
-    "reviewer": "fresh-session:da7c027e-acfa-4187-9a36-6ada962338a1",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:00773b9e36b182b209a57d4f700aa420d2e80316:f5393f8323283d90714aff846cbf1a63a244967d1e8cdcbecacee1b88b066972",
-    "scope": [
-      "adl-runtime-kernel/src/conversation_rooms.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/index.html",
-      "demos/html-observatory/styles.css",
-      "adl/tools/validate_v092_governed_room_observatory.mjs",
-      ".csdlc/issues/115",
-      ".csdlc/prepared/issues/115",
-      ".csdlc/evidence/115"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -41,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b8aad18318c2522d5565032a4fef248cabab16d957565b4b3d2dcfa0a2de6de5",
+      "values_digest": "321db0e9a60babbe7486075493e5a74b624052b853f15fa033544b7564166acb",
       "rendered_digest": "ecadc343231ebf27f6cc2251766828eff504b8338d3bf9054daa17b13a178c93",
       "ast_digest": "e02db63fa0459d5bd0d779d49185ce9f2d0c99a6a3378a81fa7d5dcbda279605"
     },
     "stp": {
-      "values_digest": "8d8f1d547e1e30f69dcac2592592f7eab37321962cc20d4fd0c044e235becc3e",
-      "rendered_digest": "e88c3f827c3e96281536c178f5411ae39afa84df02fc4225c9e9193e675b9734",
-      "ast_digest": "54a87b79a6574d93f48a520c561e41166d9c2e8eb6a580e2d9d6ca5c3c3c5ec9"
+      "values_digest": "9a6caa86da206915e375845ee9823c0545d4b4b46c9fe67a7b37c5ba8e1ffd17",
+      "rendered_digest": "26ffe471f874105d9aa4826b57ce59a2248f61ed6620ba26f582fcb4e548336e",
+      "ast_digest": "591074b50f7551f7504beccd7cf7f78f96b394317692b5e134c3102d87d1e22d"
     },
     "spp": {
-      "values_digest": "dc2a1c405e95a89d9c3acc65c3404b54b600fea4419a433770d5badb98656a57",
-      "rendered_digest": "e26bfe2140a9e173c825afa8ca0bc232861990e642e27fc8b62b7598d87bc095",
-      "ast_digest": "16b4224ccc9852138207e7ea7650ab8597dacc0572143c308eaa3f9f51cc30f0"
+      "values_digest": "75c7664bb5ef45612653e762857340c46cf07a7f05ee07317f4043d02d55450d",
+      "rendered_digest": "4ef2609ec1237bf5c41a8e7e9cd125f0f765488281fe2fd91929f6b7ec5c5c58",
+      "ast_digest": "bdaa7b224835ac227316f8aeb1697414ec3d9a26a8fb5ef6bf886d317f2f09f8"
     },
     "vpp": {
-      "values_digest": "e22ee0dedb34483f7c157e6c164275791cbce4304caf36974dc42d9ac230cc22",
+      "values_digest": "feea5e60a81b9a16af78a6ac5050d35bd3ff947d698ed262ceea6e81d384d61d",
       "rendered_digest": "64cdef83233be96362daa2ceb5edc28d49e2db9b87ea9c95cd1b7137688394fe",
       "ast_digest": "c3cb9142b38708e33c36615802b2a5697531c12af32bed39e5e2b63c43735771"
     },
     "srp": {
-      "values_digest": "1e9ad15a7f370daa69893944d60386b2d80634076fb9b8cfd407776f9640dda1",
-      "rendered_digest": "090b622aa467a255801f271867dc517886c6d5233a8e6ea59eb6d1a3cd0a465b",
-      "ast_digest": "917fa6e1dc6976932cc41e8c40d33725f7d08b7fe0a59cb577ffd48048755ac0"
+      "values_digest": "572420b9b0f8b4d32eccf3bed50736c50a05ebeab725e1c7515024b529307529",
+      "rendered_digest": "829cc05f432c149d408093e41eadae4b28ff7ab28d33e78727169556216aa222",
+      "ast_digest": "990b41c9dcd607326b4b831078342b01aa9f3876d7e39f18b7e0a6992102ae0e"
     },
     "sor": {
-      "values_digest": "1713bed0d1d25a3f4c1e12dc12ba8f138ba466de1a8f6110d4ca896adc28c47c",
+      "values_digest": "180d250ce950cb5f6321d51a9be0322b668b5bf85092f216cf04af8798b828ea",
       "rendered_digest": "3b90b0495fc976e5d9076858829869c48b8fac37b774acab1aa6b3cfc7f30969",
       "ast_digest": "da92cce718aba5dbfdc52b99900c7e48320d172b32ce2cf50dd209825367c022"
     }
@@ -409,6 +393,27 @@
       "actor": "codex:/root",
       "reason": "Replace #115 VPP with issue-owned governed implementation validator after doctor rejected shared-path lanes",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-115-governed-room-implementation-validator\",\"proof_role\":\"Issue-owned validator proving Runtime governed-room model and served route behavior, accepted-vs-delivered semantics, Observatory governed-room UI rendering, HTML Observatory smoke, formatting, strict clippy, and diff hygiene.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":3000,\"argv\":[\"python3\",\".csdlc/prepared/issues/115/validate_governed_room_implementation.py\"],\"parallel_group\":\"local-implementation\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 46,
+      "generation": 36,
+      "actor": "codex:/root",
+      "reason": "Recover stale #115 review assignment fresh-session:da7c027e-acfa-4187-9a36-6ada962338a1 because the issue-owned VPP validator and final card/source commit moved HEAD after the assigned revision.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 47,
+      "generation": 37,
+      "actor": "codex:/root",
+      "reason": "Correct #115 STP deliverables to avoid shared validator/evidence paths after doctor rejected them as unowned validator deliverables",
+      "operation": "{\"new_values\":[\"adl-runtime-kernel/src/conversation_rooms.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/lib.rs\",\"demos/html-observatory/app.js\",\"demos/html-observatory/index.html\",\"demos/html-observatory/styles.css\",\".csdlc/prepared/issues/115/validate_governed_room_implementation.py\",\".csdlc/issues/115\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"adl-runtime-kernel/src/conversation_rooms.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/lib.rs\",\"demos/html-observatory/app.js\",\"demos/html-observatory/index.html\",\"demos/html-observatory/styles.css\",\"adl/tools/validate_v092_governed_room_observatory.mjs\",\".csdlc/evidence/115/governed-room-observatory-validation.json\",\".csdlc/issues/115\"]}"
+    },
+    {
+      "sequence": 48,
+      "generation": 38,
+      "actor": "codex",
+      "reason": "Align implemented #115 SPP affected areas with owned product paths and the issue-owned validator required by VPP/doctor after accepted-vs-delivered remediation.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/conversation_rooms.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl-runtime-kernel/src/lib.rs\",\"demos/html-observatory/app.js\",\"demos/html-observatory/index.html\",\"demos/html-observatory/styles.css\",\".csdlc/prepared/issues/115/validate_governed_room_implementation.py\",\".csdlc/issues/115\"]}"
     }
   ]
 }

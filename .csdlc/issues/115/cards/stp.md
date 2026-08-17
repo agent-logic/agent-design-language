@@ -22,8 +22,7 @@ Repair the #115 preparation packet on a clean current-main root, prove canonical
 - demos/html-observatory/app.js
 - demos/html-observatory/index.html
 - demos/html-observatory/styles.css
-- adl/tools/validate_v092_governed_room_observatory.mjs
-- .csdlc/evidence/115/governed-room-observatory-validation.json
+- .csdlc/prepared/issues/115/validate_governed_room_implementation.py
 - .csdlc/issues/115
 
 ## Acceptance

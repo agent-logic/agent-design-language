@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-18C.05] Implement governed multi-agent rooms and message routing",
     "slug": "v0-92-wp-18c-05-governed-multi-agent-rooms-routing",
     "version": "v0.92.0",
-    "generation": 35
+    "generation": 38
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
+      "plan_revision": 2,
       "summary": "Prepare #115 as unbound design only with canonical #111/#112/#113/#270 terminal-cache dependency validation; obtain fresh readiness/design review before any bind or implementation.",
       "steps": [
         {
@@ -54,8 +54,13 @@
         }
       ],
       "affected_areas": [
-        ".csdlc/prepared/issues/115",
-        ".csdlc/prepared/issues/115/validate_preparation_bundle.py",
+        "adl-runtime-kernel/src/conversation_rooms.rs",
+        "adl-runtime-kernel/src/control.rs",
+        "adl-runtime-kernel/src/lib.rs",
+        "demos/html-observatory/app.js",
+        "demos/html-observatory/index.html",
+        "demos/html-observatory/styles.css",
+        ".csdlc/prepared/issues/115/validate_governed_room_implementation.py",
         ".csdlc/issues/115"
       ],
       "invariants": [
