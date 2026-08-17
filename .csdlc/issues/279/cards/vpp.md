@@ -64,8 +64,8 @@ Diagram: .csdlc/prepared/issues/279/diagram.mmd
     "defer_reason": null
   },
   {
-    "lane": "observatory-ui-regression",
-    "proof_role": "Rerun existing focused HTML Observatory UI regressions touched by the accessibility/responsive presentation slice.",
+    "lane": "observatory-conversation-regression",
+    "proof_role": "Rerun the focused HTML Observatory conversation regression touched by the accessibility/responsive presentation slice.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -75,13 +75,32 @@ Diagram: .csdlc/prepared/issues/279/diagram.mmd
     "deterministic": true,
     "resource_profile": "small",
     "budget_seconds": 120,
-    "budget_tokens": 2000,
+    "budget_tokens": 1500,
     "argv": [
       "node",
-      "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs"
+    ],
+    "parallel_group": "279-serial-03-conversation-regression",
+    "defer_reason": null
+  },
+  {
+    "lane": "observatory-operator-attention-regression",
+    "proof_role": "Rerun the focused HTML Observatory operator-attention regression touched by the accessibility/responsive presentation slice.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-4",
+      "AC-7"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 1500,
+    "argv": [
+      "node",
       "demos/html-observatory/tests/operator_attention_inbox.test.mjs"
     ],
-    "parallel_group": "279-serial-03-ui-regression",
+    "parallel_group": "279-serial-04-operator-attention-regression",
     "defer_reason": null
   },
   {
@@ -100,7 +119,7 @@ Diagram: .csdlc/prepared/issues/279/diagram.mmd
       "diff",
       "--check"
     ],
-    "parallel_group": "279-serial-04-diff",
+    "parallel_group": "279-serial-05-diff",
     "defer_reason": null
   },
   {
@@ -120,7 +139,7 @@ Diagram: .csdlc/prepared/issues/279/diagram.mmd
       "--request",
       "/Users/daniel/git/agent-design-language/.git/csdlc-v2/requests/279-review-guard.json"
     ],
-    "parallel_group": "279-serial-05-review",
+    "parallel_group": "279-serial-06-review",
     "defer_reason": "Deferred until implementation is immutable and validation has passed."
   },
   {
@@ -138,7 +157,7 @@ Diagram: .csdlc/prepared/issues/279/diagram.mmd
       "--request",
       "/Users/daniel/git/agent-design-language/.git/csdlc-v2/requests/279-pr-state.json"
     ],
-    "parallel_group": "279-serial-06-ci",
+    "parallel_group": "279-serial-07-ci",
     "defer_reason": "Deferred until reviewed publication creates the exact PR observation target."
   }
 ]
@@ -157,7 +176,8 @@ Tokens: 25000
 
 - `python3 .csdlc/prepared/issues/279/validate_preparation_bundle.py`
 - `node demos/html-observatory/tests/accessibility_responsive.test.mjs`
-- `node demos/html-observatory/tests/conversation_sessions.test.mjs demos/html-observatory/tests/operator_attention_inbox.test.mjs`
+- `node demos/html-observatory/tests/conversation_sessions.test.mjs`
+- `node demos/html-observatory/tests/operator_attention_inbox.test.mjs`
 - `git diff --check`
 - `/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-review guard --request /Users/daniel/git/agent-design-language/.git/csdlc-v2/requests/279-review-guard.json`
 - `/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-pr-state --request /Users/daniel/git/agent-design-language/.git/csdlc-v2/requests/279-pr-state.json`

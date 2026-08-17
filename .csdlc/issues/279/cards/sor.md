@@ -12,19 +12,78 @@ Status: pre_phase
 
 ## Summary
 
-Pre-execution output record.
+Implement deterministic HTML Observatory accessibility and responsive UX proof.
 
 ## Artifacts
 
-- none
+- demos/html-observatory/index.html
+- demos/html-observatory/styles.css
+- demos/html-observatory/tests/accessibility_responsive.test.mjs
+- .csdlc/evidence/279
+- .csdlc/issues/279
+- .csdlc/prepared/issues/279
 
 ## Execution
 
-- none
+- Add a keyboard skip link, Runtime controls grouping, status-summary accessible labels, and proof-boundary descriptions to the HTML Observatory shell.
+- Add visible focus treatment, reduced-motion behavior, and explicit responsive scrolling behavior for the Observatory presentation surfaces.
+- Add the issue-owned deterministic accessibility/responsive Node proof and retain focused existing Observatory conversation and operator-attention regression proof.
 
 ## Validation
 
-[]
+[
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Run git diff hygiene check.",
+    "outcome": "passed",
+    "evidence_ref": "279-diff-hygiene.log"
+  },
+  {
+    "command": [
+      "node",
+      "demos/html-observatory/tests/accessibility_responsive.test.mjs"
+    ],
+    "purpose": "Run the #279 accessibility/responsive deterministic Node proof.",
+    "outcome": "passed",
+    "evidence_ref": "279-observatory-accessibility-responsive.log"
+  },
+  {
+    "command": [
+      "node",
+      "demos/html-observatory/tests/conversation_sessions.test.mjs",
+      "demos/html-observatory/tests/operator_attention_inbox.test.mjs"
+    ],
+    "purpose": "Run focused existing Observatory UI regressions.",
+    "outcome": "passed",
+    "evidence_ref": "279-observatory-ui-regression.log"
+  },
+  {
+    "command": [
+      "python3",
+      ".csdlc/prepared/issues/279/validate_preparation_bundle.py"
+    ],
+    "purpose": "Run the issue-owned #279 preparation validator.",
+    "outcome": "passed",
+    "evidence_ref": "279-preparation-contract.log"
+  },
+  {
+    "command": [
+      "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate",
+      "--root",
+      "/Volumes/FastWork/adl-worktrees/adl-issue-279-observatory-accessibility-responsive-ux-proof",
+      "issue",
+      "--issue",
+      "279"
+    ],
+    "purpose": "Run C-SDLC v2 typed issue validation for #279.",
+    "outcome": "passed",
+    "evidence_ref": "279-typed-validate.log"
+  }
+]
 
 ## Integration
 

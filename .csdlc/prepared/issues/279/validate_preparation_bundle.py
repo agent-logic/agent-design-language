@@ -208,9 +208,9 @@ def main() -> None:
     record = read_json(ROOT / ".csdlc" / "issues" / "279" / "index.json")
     if record.get("issue") != 279:
         fail(f"wrong issue index: {record.get('issue')}")
-    if record.get("phase") not in ("initialized", "ready", "bound"):
-        fail(f"unexpected #279 phase for preparation/bound validation: {record.get('phase')}")
-    if record.get("phase") == "bound":
+    if record.get("phase") not in ("initialized", "ready", "bound", "implemented"):
+        fail(f"unexpected #279 phase for preparation/bound/implemented validation: {record.get('phase')}")
+    if record.get("phase") in ("bound", "implemented"):
         if record.get("branch") != EXPECTED_BRANCH:
             fail(f"unexpected #279 bound branch: {record.get('branch')}")
         if record.get("worktree") != EXPECTED_WORKTREE:
