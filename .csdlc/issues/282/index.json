@@ -3,13 +3,43 @@
   "issue": 282,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "0f56b55082822da8e6698295189ad62a8e5e2b06fee02463e7fcd6fe2c32152b",
-  "phase": "implemented",
-  "generation": 23,
-  "digest": "6d778811ab4f8b28bb66a9dad0a4433362503730a36babade689eba42c668a93",
+  "phase": "reviewed",
+  "generation": 24,
+  "digest": "da87540a0b209d84109c58de90f737732b5d78ce1afbf5b4aff0936d02fbebc9",
   "branch": "codex/282-production-polis-qualification",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-282-production-polis-qualification",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:8397ad62-5e06-436a-855b-af7b3878fdbc",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:4e241f5dff406dc344f3ab5da8edbc9142847e1d:ad6b2612ad1d7f79c26641f7866520a95b08d362d964f74c9baad701399372d8",
+    "scope": [
+      ".csdlc/evidence/282/production-polis-interface-qualification.md",
+      ".csdlc/evidence/282/validate_qualification_packet.py",
+      ".csdlc/prepared/issues/282/validate_preparation_bundle.py",
+      ".csdlc/prepared/issues/282/design.md",
+      ".csdlc/prepared/issues/282/diagram.mmd",
+      ".csdlc/issues/282"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:8397ad62-5e06-436a-855b-af7b3878fdbc",
+    "scope": [
+      ".csdlc/evidence/282/production-polis-interface-qualification.md",
+      ".csdlc/evidence/282/validate_qualification_packet.py",
+      ".csdlc/prepared/issues/282/validate_preparation_bundle.py",
+      ".csdlc/prepared/issues/282/design.md",
+      ".csdlc/prepared/issues/282/diagram.mmd",
+      ".csdlc/issues/282"
+    ],
+    "reviewed_revision": "git-blake3:4e241f5dff406dc344f3ab5da8edbc9142847e1d:ad6b2612ad1d7f79c26641f7866520a95b08d362d964f74c9baad701399372d8",
+    "findings": [],
+    "residual_risks": [
+      "This #282 PASS is bounded to exact-revision Observatory production Polis interface qualification evidence and does not claim public cloud deployment, Unity native live proof, provider credential proof, Runtime authority changes, API/storage/browser behavior changes, publication, merge, or terminal closeout.",
+      "Reviewer reran local read-only validators and lifecycle validation; publication, CI, merge, and terminal finish remain pending as separate typed lifecycle steps."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +54,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a0b33c7e92fb9e92b180064a2db76ed1564d843802b16e6943f98df1f747b386",
+      "values_digest": "478b20839e4f638cfe9dea5faf3767b40df1df760ad442430c18bf14453684de",
       "rendered_digest": "756456c28d69eb105001f57991727645ae9f2dd003196b24187fdda672239dcc",
       "ast_digest": "9f6b9c35777a50fbccbfaf62a70f5d4582bbdf49c0e85d8e099ae337c542e084"
     },
     "stp": {
-      "values_digest": "fd6a17eb8d29542b4ef165611dfbc9987421837313f9b9a7d55fd071a1ce6742",
+      "values_digest": "f328437d0f8f1364e985d61817ddeef8e1693dd43f6f90807184943b6e88cfbd",
       "rendered_digest": "d9761e0a08dcfd0903c2a33841c21bf690aa4f23173a897582f80f199447aa71",
       "ast_digest": "4e03a9d0f16b93c09443663dc75c1ba8708d9dd5caad5e9e5e98ce26c41a9c18"
     },
     "spp": {
-      "values_digest": "17ee96291566cff414a8a09985ccfc24d3bbd21d77dc3535cc06d8a2de94322c",
+      "values_digest": "80a3f22b9b5be7e5f5fd8946e746ae258e4e3136858de73341dc1b04f167aacb",
       "rendered_digest": "f065bf10b4535996dac3b4db617ba5b1f4397c5c4841bb2e4af23b4b5e60630f",
       "ast_digest": "5ecf9f4be997546248ebd7f11bb3d241d54588883b5c1ab09acaaf76f10fb092"
     },
     "vpp": {
-      "values_digest": "309ea83c2733c4c22909bff7dc72f281bd9ec680c2a024c6b4f04b2fa1b1633f",
+      "values_digest": "868941863505259f83cbed8ea5d39910bfa26aca61c6bc1171690ce10ab6e6ac",
       "rendered_digest": "9d9c316363e69d0fa40755400083574e5ec857634c25da469e64864ab304c119",
       "ast_digest": "c54633f4f5c1ba706963b658c375a1b47c7ee6708fedc8205d536c0ae6ebb409"
     },
     "srp": {
-      "values_digest": "6204ede5ead3d8c65c11f9e802245b148b9b6b6db95815acca039233d8d02813",
-      "rendered_digest": "c2d74ab62e34e6ae306e15635c1aee3f528a87ec3de285da8519cf0e706d3188",
-      "ast_digest": "05517e4ee225490006606aeb09144d2cde94191f0fa3ea70ec5969b9b72d290e"
+      "values_digest": "34c3e8551ea41b0f5a6b2602acc424b5d14e4229eadac8f11dcdefe06c6785f6",
+      "rendered_digest": "e7b9d5b74b2e0b3aa3f469489c0300ad7f1922625469d527703a705d8b824a92",
+      "ast_digest": "e67f8978c487f86c769866feeb0dcebb5bc80993aba9bdec852d1e1995651dab"
     },
     "sor": {
-      "values_digest": "6c1d7462c69aeda25a28ab3281747b606d9bc42dce0fc5d5766b25d841694196",
+      "values_digest": "6b92244eef4b9741b2cbc8679be9bd2beb31a1f524ec7c094e7604581d195721",
       "rendered_digest": "2062c67da5984d987f8d4d7f67de279dca93d001b15d6a2a7eea0b3bbec795f6",
       "ast_digest": "0956c61fa3b7e23a0e37ef32adebc875e0de344a0f665c274d431acf951f01fe"
     }
@@ -75,6 +105,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Advance #282 to implemented after typed execution and validation evidence are both recorded."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:8397ad62-5e06-436a-855b-af7b3878fdbc",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -273,6 +310,20 @@
       "actor": "codex:/root",
       "reason": "Recover #282 failed review fresh-session:8d227575-106e-4b9d-925e-89768fdea106 after committing fixes for R3-P2 evidence coverage and preparation denominator validation at 22ab507c; assign a different fresh reviewer to the new immutable head.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 24,
+      "actor": "fresh-session:8397ad62-5e06-436a-855b-af7b3878fdbc",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
