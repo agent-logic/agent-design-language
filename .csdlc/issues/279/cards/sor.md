@@ -100,7 +100,7 @@ Implement deterministic HTML Observatory accessibility and responsive UX proof.
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

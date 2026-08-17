@@ -5,23 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "ff41e3111a97fd285be5db94a99c5f762342f0cd2ae534300482b383f505a3f3",
   "phase": "implemented",
-  "generation": 8,
-  "digest": "338687dcbfa458187f4fcb72afc022e2fa313e04250742a30a17731be923d065",
+  "generation": 9,
+  "digest": "b0e86b454dd418d09a4899379fb7c35caeff527fc422c6bcafc033ceb7a2038f",
   "branch": "codex/279-observatory-accessibility-responsive-ux-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-279-observatory-accessibility-responsive-ux-proof",
-  "review_assignment": {
-    "reviewer": "fresh-session:57cb4a24-cec0-47cc-afd2-35f0eb202aab",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:4347e00095943b5b8f75239d1a26f8d5ede4b064:e1bb29b046a9bf9289c12f9e77bd13666c5171010a668a07bd6968272c741737",
-    "scope": [
-      "demos/html-observatory/index.html",
-      "demos/html-observatory/styles.css",
-      "demos/html-observatory/tests/accessibility_responsive.test.mjs",
-      ".csdlc/prepared/issues/279/validate_preparation_bundle.py",
-      ".csdlc/issues/279",
-      ".csdlc/evidence/279"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -37,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "cfe75be15cda7d3dc0a97a2827061b46bb0a2f4cfea2b4a502869dee7e82f24c",
+      "values_digest": "f143a482e1e33724ef8ae35c857b6626e17e78e2893913cf4b28825108c50eaa",
       "rendered_digest": "399ecb84d8c2d97d2aec61804cbf6823d5fdc6954692fdbf6b4f948f52fb5f25",
       "ast_digest": "7c3aa57d0dd057df2df7a147a5bc59266af12dfee54834e943c074d82f7cd4f2"
     },
     "stp": {
-      "values_digest": "311dea321254b0970c9372464fc4b77c2a12875a8103c857fccfb602b4097b66",
+      "values_digest": "b1e76ca699684cdeb6f3069174420e14490c9f6f7bf185c004b7dcc91c1a7a91",
       "rendered_digest": "1100c3e6cb1564f6511a56e51ed324e3b409da2a4eed89e8b00b20bf51f0b615",
       "ast_digest": "71d9bb7e566725f25d3b6d8239cea40a6a3742e9c9f7d4a7ada5a174adb5329e"
     },
     "spp": {
-      "values_digest": "dde8abe76fbbe5dafb8d8aeb997844f4bbb5425a1edebd4f37090a0f7bb854a5",
+      "values_digest": "6e38dd3b7de153d6ca3d24d8d6064c44142a60424c8957372c118ac571a14e14",
       "rendered_digest": "2f3e8e72e4b4e9b84f0999892d696d4408f6a31a51b902222ed1b4d2238057a5",
       "ast_digest": "51eb5ef8ee7cc8fe2eb6f7bec989dfc6d2528809cd9c49ffbb13a1cdc1029539"
     },
     "vpp": {
-      "values_digest": "b5057417768b267bf9355726ce55199958ead2a49d789ad4507709a6f3c94992",
+      "values_digest": "1b4a76cbfb9d390fad48882e6a2bbc42bbb9da264a395e5e2917a53a2f5672fe",
       "rendered_digest": "c2d688ddb97dd376f713af361190e50619cac81f5fc1ca8ad6522c972b220926",
       "ast_digest": "57c3168a85f1c9b5ff4b682384f702262bf80b09ff299589c77205cb6ce945ce"
     },
     "srp": {
-      "values_digest": "eece28eeb67d966085a420839ea269f6f5a85e592ffd280a5cafd9df5b708cf0",
-      "rendered_digest": "fc0770460fb653639e551e7f6f44f12aeba24c553c5c0d606bc57cd2dcebaf42",
-      "ast_digest": "64e8b9c63b6c254c31a81ee8a39d50b042bd6a35d8d140a79520e11aa4ff8404"
+      "values_digest": "f4315f0755edc1c3844cd1dca0245bcc67c3d4e3e8c125560777ce80a424e689",
+      "rendered_digest": "6b216b2a0cca19124760afc80e96016ffb4a1a189cc4599c5dee42f24f2e5a4f",
+      "ast_digest": "b71e714e39b320befd5167ffc4c4f15e2d16020244dadab2c9c2aa6ae687eb61"
     },
     "sor": {
-      "values_digest": "6657e9d7d80bbb0a8c8a49a2f965fe903079a9f31db9f625c4d57784a8698005",
-      "rendered_digest": "54083291057cfd7e67de1d918e8aba594c095c1fb3cd04d56305ac78879bc46a",
-      "ast_digest": "360bd1d5f8555c23b3a9d90e4a8877b1792c379ea1289787c96a4b62b8fae78e"
+      "values_digest": "df94db4fa027d37a852311be07fff7c0e820e1f9ce90dcad6d0e529c3a9b5f5e",
+      "rendered_digest": "a4f7916af5e45f2660f57bf51d2975b6bd16dd7ce14820afe044c3dae94e25b7",
+      "ast_digest": "a4323e5019d55a47f7b6634cd9f528ff7ce2c5e6c6b7199729ff57a2f85c0fcd"
     }
   },
   "transitions": [
@@ -167,6 +155,13 @@
       "actor": "codex:/root",
       "reason": "Record #279 corrected split UI regression validation after VPP repair.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3 .csdlc/prepared/issues/279/validate_preparation_bundle.py\",\"node demos/html-observatory/tests/accessibility_responsive.test.mjs\",\"node demos/html-observatory/tests/conversation_sessions.test.mjs\",\"node demos/html-observatory/tests/operator_attention_inbox.test.mjs\",\"csdlc-validate issue --issue 279\",\"git diff --check\"],\"purpose\":\"Prove #279 preparation contract, accessibility/responsive proof, conversation regression, operator-attention regression, typed issue validation, and diff hygiene after the VPP split made both UI regressions independently executable.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/279/279-preparation-contract.log; .csdlc/evidence/279/279-observatory-accessibility-responsive.log; .csdlc/evidence/279/279-observatory-conversation-regression.log; .csdlc/evidence/279/279-observatory-operator-attention-regression.log; .csdlc/evidence/279/279-typed-validate.log; .csdlc/evidence/279/279-diff-hygiene.log\"}}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Recover stale #279 review assignment recorded before the gen8 lifecycle/evidence repair commit; exact-head review must bind the current immutable head.",
+      "operation": "recover_review"
     }
   ]
 }

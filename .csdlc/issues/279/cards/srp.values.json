@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-18C.07a][117.a] Prove Observatory accessibility and responsive UX",
     "slug": "observatory-accessibility-responsive-ux-proof",
     "version": "v0.92",
-    "generation": 8
+    "generation": 9
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "demos/html-observatory/index.html\ndemos/html-observatory/styles.css\ndemos/html-observatory/tests/accessibility_responsive.test.mjs\n.csdlc/prepared/issues/279/validate_preparation_bundle.py\n.csdlc/issues/279\n.csdlc/evidence/279",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

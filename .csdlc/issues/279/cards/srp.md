@@ -8,16 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-demos/html-observatory/index.html
-demos/html-observatory/styles.css
-demos/html-observatory/tests/accessibility_responsive.test.mjs
-.csdlc/prepared/issues/279/validate_preparation_bundle.py
-.csdlc/issues/279
-.csdlc/evidence/279
+
 
 ## Prompts
 
