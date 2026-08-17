@@ -12,12 +12,7 @@ Status: draft
 
 ## Scope
 
-.csdlc/issues/114
-.csdlc/prepared/issues/114/validate_preparation_bundle.py
-adl-runtime-kernel/src
-adl-runtime-kernel/tests
-adl/src
-adl/tests
+
 
 ## Prompts
 

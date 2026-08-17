@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""Validate the WP-18C #114 durable-history parent integration proof surface."""
+"""Validate the WP-18C #114 durable-history parent terminal-chain proof.
+
+This command proves the terminal child cache/ancestry inputs and the presence of
+the focused Runtime integration test surface. #114 lifecycle/card scope and
+parent-vs-child ownership truth are enforced by the issue-owned preparation
+bundle validator, not by this terminal-chain checker.
+"""
 
 from __future__ import annotations
 
@@ -22,6 +28,8 @@ REQUIRED_TEST_MARKERS = [
     "ConversationJournal",
     "record_retention",
     "record_deletion",
+    "retention_by_conversation",
+    "retention marker must persist across journal restart",
     "restore_observatory_transcript",
     "DuplicateCompleted",
 ]
@@ -111,6 +119,11 @@ def main() -> None:
                 "status": "passed",
                 "issue": 114,
                 "head": git(root, "rev-parse", "HEAD"),
+                "proof_boundary": (
+                    "terminal child cache ancestry and focused test-surface "
+                    "presence only; lifecycle/card ownership is validated by "
+                    ".csdlc/prepared/issues/114/validate_preparation_bundle.py"
+                ),
                 "terminals": terminals,
                 "proof_test": str(test_path.relative_to(root)),
             },

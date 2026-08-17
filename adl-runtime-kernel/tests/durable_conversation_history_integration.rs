@@ -132,6 +132,35 @@ fn durable_history_parent_chain_survives_restart_and_deletion_coherently() {
             created_at_epoch_ms: 1_786_608_001_000,
         })
         .unwrap();
+
+    let retained_snapshot = ConversationJournal::open(root.path())
+        .unwrap()
+        .snapshot()
+        .unwrap();
+    let retained_marker = retained_snapshot
+        .retention_by_conversation
+        .get("conversation-a")
+        .expect("retention marker must persist across journal restart");
+    assert_eq!(retained_marker.reason, "operator-retention-window");
+    assert_eq!(
+        retained_marker.retain_until_epoch_ms,
+        Some(1_786_694_400_000)
+    );
+    assert_eq!(
+        retained_marker.authority_audit_hash,
+        digest("retention-authority")
+    );
+    assert_eq!(retained_snapshot.records.len(), 7);
+    assert_eq!(retained_snapshot.committed_events().count(), 6);
+    assert_eq!(
+        ConversationHistoryStore::open(root.path())
+            .unwrap()
+            .restore_observatory_transcript(&policy("conversation-a"), "conversation-a")
+            .unwrap()
+            .len(),
+        1
+    );
+
     journal
         .record_deletion(ConversationDeletionMarker {
             conversation_id: "conversation-a".to_string(),
