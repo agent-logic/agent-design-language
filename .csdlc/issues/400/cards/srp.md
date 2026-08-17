@@ -12,7 +12,12 @@ Status: pre_phase
 
 ## Scope
 
-Review the implemented-phase recovery route for scope narrowness, generation/digest/audit preservation, guardrail preservation, and test adequacy.
+csdlc-v2/src/cards.rs
+csdlc-v2/src/store.rs
+csdlc-v2/tests/gate5.rs
+.csdlc/issues/400
+.csdlc/evidence/400
+.csdlc/prepared/issues/400
 
 ## Prompts
 

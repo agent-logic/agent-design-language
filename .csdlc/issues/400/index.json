@@ -5,10 +5,22 @@
   "initialization_digest": "072eda7c560e8283a4da1967834bb3006a2402e31ac8767987d9c05d78652abb",
   "phase": "implemented",
   "generation": 8,
-  "digest": "3c30c29a1d6d11f407885bcc7f8235f4c6fb83402fcd4e268b1846cf188adc38",
+  "digest": "dba4916653a14a6edb47f2a3356c9abce7dae8edd466a0dc7aaea87a9c2d1b0d",
   "branch": "codex/400-implemented-card-recovery-bound",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-400-implemented-card-recovery-bound",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:e937cedf-d68d-4126-8e37-7c3e67b4b4d8",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:dbe7352efd090465a4c25c691dc4cd2dd7fe91b7:6e43091d237d579dd2d62c59e6f41e13becd3b3aa58962db1c9b7670c3ee5501",
+    "scope": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/400",
+      ".csdlc/evidence/400",
+      ".csdlc/prepared/issues/400"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +56,9 @@
       "ast_digest": "fc90d7d37341077576faabdf578b2ea0924b24eb7ba466cedd30e9022324efbe"
     },
     "srp": {
-      "values_digest": "2951a053fc3a10fc6b8906f5d20a0add745169fe602ee0f8e6b728bb3b77597d",
-      "rendered_digest": "26bfe3a7821b463bfc1019fe35b0db1402f3714d6e28ec2bd8b985f7246aaf76",
-      "ast_digest": "68009ccdc0ab39425a74325e2e7fe9fa95a36e35e861ec64285b9cc43b335b37"
+      "values_digest": "4f3d63531099304b6c06991fb4a9dd47ec1ea334a2546a7d5fda10243c33c6c8",
+      "rendered_digest": "23d9dafed2f5d422fee52c7b6e5a32ce3b263a6117041a13d9800cb3d8288b9a",
+      "ast_digest": "d21d9abc2d62b8a314c3e2dceb87a872fc20de30bfb9a5bb632fa40bc1c0d2df"
     },
     "sor": {
       "values_digest": "3d5a5c0558ff74079573384c36959f660b870f948852e9de8de5b99678a17920",
@@ -147,6 +159,13 @@
       "actor": "codex:/root",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

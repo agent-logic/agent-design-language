@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Review the implemented-phase recovery route for scope narrowness, generation/digest/audit preservation, guardrail preservation, and test adequacy.",
+      "review_scope": "csdlc-v2/src/cards.rs\ncsdlc-v2/src/store.rs\ncsdlc-v2/tests/gate5.rs\n.csdlc/issues/400\n.csdlc/evidence/400\n.csdlc/prepared/issues/400",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
