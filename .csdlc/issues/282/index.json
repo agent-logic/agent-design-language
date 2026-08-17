@@ -4,12 +4,70 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "0f56b55082822da8e6698295189ad62a8e5e2b06fee02463e7fcd6fe2c32152b",
   "phase": "implemented",
-  "generation": 10,
-  "digest": "8525fcf2b62d0baa45f796122cf3e3cbf533e4a086d66a14af0b5b0f2b3493a8",
+  "generation": 15,
+  "digest": "75a637334ac7f1ef0f7362097debb51f0dc3f8bc624bc727fb18e1aec737b706",
   "branch": "codex/282-production-polis-qualification",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-282-production-polis-qualification",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:ddf47a06-b817-433c-8d96-f73e14abe576",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:0befd94f4aceb186840c92e51533b555d2aa992e:cc036eaafa62dc86c55dbea057e210194d5a9b55348667848180528d2b45d37b",
+    "scope": [
+      ".csdlc/evidence/282/production-polis-interface-qualification.md",
+      ".csdlc/evidence/282/validate_qualification_packet.py",
+      ".csdlc/prepared/issues/282/validate_preparation_bundle.py",
+      ".csdlc/prepared/issues/282/design.md",
+      ".csdlc/prepared/issues/282/diagram.mmd",
+      ".csdlc/issues/282"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:ddf47a06-b817-433c-8d96-f73e14abe576",
+    "scope": [
+      ".csdlc/evidence/282/production-polis-interface-qualification.md",
+      ".csdlc/evidence/282/validate_qualification_packet.py",
+      ".csdlc/prepared/issues/282/validate_preparation_bundle.py",
+      ".csdlc/prepared/issues/282/design.md",
+      ".csdlc/prepared/issues/282/diagram.mmd",
+      ".csdlc/issues/282"
+    ],
+    "reviewed_revision": "git-blake3:0befd94f4aceb186840c92e51533b555d2aa992e:cc036eaafa62dc86c55dbea057e210194d5a9b55348667848180528d2b45d37b",
+    "findings": [
+      {
+        "id": "R1-P1-validator-terminal-truth",
+        "severity": "p1",
+        "summary": "Qualification validator searches for strings but does not invoke cached-terminal validation, compare returned fields with the table, verify Git ancestry, or check referenced evidence files.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "R1-P2-bound-head-wording",
+        "severity": "p2",
+        "summary": "Qualification packet calls 716f0ff the origin/main/bound HEAD even though the reviewed HEAD is 0befd94f and 716f0ff is its parent integrated candidate.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "R1-P2-spp-step-truth",
+        "severity": "p2",
+        "summary": "SPP steps remain pending while index/SOR record implemented execution and validation truth.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,34 +82,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5f3599c60e7f0b16e17b7cd2864cced155d5c8dc1de93843360b6552f8495930",
+      "values_digest": "e796325f68e407990d4c3cbbaa0d84884305e3989db47e6cb0b3efd11e1dde42",
       "rendered_digest": "756456c28d69eb105001f57991727645ae9f2dd003196b24187fdda672239dcc",
       "ast_digest": "9f6b9c35777a50fbccbfaf62a70f5d4582bbdf49c0e85d8e099ae337c542e084"
     },
     "stp": {
-      "values_digest": "6b157a04566276a8e5719656597a4901543b644a4259277e0d3eec4ccf19b26f",
+      "values_digest": "f69ba72d8bff1c4c2837731d6951a201286ac9edb26fb23f19f78a1461303036",
       "rendered_digest": "d9761e0a08dcfd0903c2a33841c21bf690aa4f23173a897582f80f199447aa71",
       "ast_digest": "4e03a9d0f16b93c09443663dc75c1ba8708d9dd5caad5e9e5e98ce26c41a9c18"
     },
     "spp": {
-      "values_digest": "c463b7bdf2e6ad752f40e246de8dba0f5c176dc6009a74d8e458835853d7c176",
-      "rendered_digest": "4ab636bbd98370986654e7d8d851722648dcf3a78be47df2f27da48492de75d3",
-      "ast_digest": "445ffccd9da1dee37509a7f7ada79c594b32b6179b604fb4fa3549c429dc4116"
+      "values_digest": "e3d10a245cfb6e50461e9ae97425d258215628fdbf3984aeeb1d64463f391c67",
+      "rendered_digest": "fa8608c68cff324020383c118c31f209fe8add10545a4fcf84c86497145943d8",
+      "ast_digest": "855dc77b92d15ccac8afab2d44d04eca0b9db5be9c315bda086d08fb4c514359"
     },
     "vpp": {
-      "values_digest": "0094c63face8347601a1dcdd9006d34326c2e22e6f932e88252d8a416d9fa57e",
+      "values_digest": "4b7c978542feded82ff218ce23cb3f6bc0345341f51baac0971ca0e7628566b2",
       "rendered_digest": "9d9c316363e69d0fa40755400083574e5ec857634c25da469e64864ab304c119",
       "ast_digest": "c54633f4f5c1ba706963b658c375a1b47c7ee6708fedc8205d536c0ae6ebb409"
     },
     "srp": {
-      "values_digest": "6ef58c7ffae4866b8bad080f04f78bbcd40b29f4c4da7e10d8148077a2c0b45f",
-      "rendered_digest": "070dc0c9022da2eef1e69d7930354a00e6e938d087894a20d8d9d7213da86b2a",
-      "ast_digest": "6a2fc59df0acd14da83f9fb8a3e1da6bda2d3b2993d0bc4c72487294261830f6"
+      "values_digest": "cfc8eb8c0c9bf514169d211c3ab6f8e5a1b262b83b7b6c696d2f469ad37dd3a9",
+      "rendered_digest": "14a59367b92b90c5b36cf8c5fc0dc2bd0edd30138724b4db03c6997d33c9ed9b",
+      "ast_digest": "c9f85207223aaea8ad7351bbdf01e8b06bed4818ad496bd2f33366022791f05f"
     },
     "sor": {
-      "values_digest": "612248e9fc656bfaca6b7e1e6d7ab8c2f92c750dc14dd4e6b35583804a4203d1",
-      "rendered_digest": "bc7a5203ce36fc1dc0f93e6f4fd2c1e8c9355967a05217008c43f56583943984",
-      "ast_digest": "91eb13248699ea3453da3f39f19c5e899f1e7c18018c08bc7023b30d135bc7c6"
+      "values_digest": "f2ee6c877b2c5c54ea81080641097cee8748733b953e1595382272eed6a304a4",
+      "rendered_digest": "0961b0d5893b70f67ce76ffbea746c2af7866584af00729263f68dff35e41e19",
+      "ast_digest": "0b2d34273cf7e158db8a0be63c4945a02d4efb6be6c6807145e712c0a8bef5a4"
     }
   },
   "transitions": [
@@ -161,6 +219,48 @@
       "actor": "codex:/root",
       "reason": "Record #282 bound-worktree preparation validator portability repair and passing final proof before exact-head review.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3 .csdlc/prepared/issues/282/validate_preparation_bundle.py .csdlc/issues/282/index.json\",\"python3 .csdlc/evidence/282/validate_qualification_packet.py .csdlc/evidence/282/production-polis-interface-qualification.md\",\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate --root /Volumes/FastWork/adl-worktrees/adl-issue-282-production-polis-qualification issue --issue 282\",\"git diff --check\"],\"purpose\":\"Prove the self-contained #282 bound worktree validates both preparation topology and final qualification packet after the prep validator was copied from root staging and repaired to use canonical owner binary/cache roots.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/prepared/issues/282/validate_preparation_bundle.py; .csdlc/evidence/282/validate_qualification_packet.py; .csdlc/evidence/282/production-polis-interface-qualification.md\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "fresh-session:ddf47a06-b817-433c-8d96-f73e14abe576",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Resolve #282 review finding R1-P2-spp-step-truth: S1 terminal/preparation validation is complete.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "Resolve #282 review finding R1-P2-spp-step-truth: S2 qualification artifact and runbook assembly is complete.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Resolve #282 review finding R1-P2-spp-step-truth: S3 issue-owned qualification packet validation is complete.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "Record validation after resolving #282 R1 findings: stronger validator, exact candidate/head wording, and SPP step truth.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3 .csdlc/prepared/issues/282/validate_preparation_bundle.py .csdlc/issues/282/index.json\",\"python3 .csdlc/evidence/282/validate_qualification_packet.py .csdlc/evidence/282/production-polis-interface-qualification.md\",\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate --root /Volumes/FastWork/adl-worktrees/adl-issue-282-production-polis-qualification issue --issue 282\",\"git diff --check\"],\"purpose\":\"Prove #282 R1 remediation: validator now checks terminal caches, expected terminal fields, evidence-file existence, and candidate ancestry; packet distinguishes integrated candidate from issue head; SPP S1-S3 reflect completed implementation/validation truth.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/282/validate_qualification_packet.py; .csdlc/evidence/282/production-polis-interface-qualification.md; .csdlc/issues/282/cards/spp.values.json\"}}"
     }
   ]
 }

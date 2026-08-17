@@ -12,7 +12,12 @@ Status: pre_phase
 
 ## Scope
 
-#282 production Polis interface qualification packet, runbook, artifact index, review synthesis, residual risks, non-claims, and lifecycle truth
+.csdlc/evidence/282/production-polis-interface-qualification.md
+.csdlc/evidence/282/validate_qualification_packet.py
+.csdlc/prepared/issues/282/validate_preparation_bundle.py
+.csdlc/prepared/issues/282/design.md
+.csdlc/prepared/issues/282/diagram.mmd
+.csdlc/issues/282
 
 ## Prompts
 
@@ -22,7 +27,38 @@ Status: pre_phase
 
 ## Findings
 
-[]
+[
+  {
+    "id": "R1-P1-validator-terminal-truth",
+    "severity": "p1",
+    "summary": "Qualification validator searches for strings but does not invoke cached-terminal validation, compare returned fields with the table, verify Git ancestry, or check referenced evidence files.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "R1-P2-bound-head-wording",
+    "severity": "p2",
+    "summary": "Qualification packet calls 716f0ff the origin/main/bound HEAD even though the reviewed HEAD is 0befd94f and 716f0ff is its parent integrated candidate.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "R1-P2-spp-step-truth",
+    "severity": "p2",
+    "summary": "SPP steps remain pending while index/SOR record implemented execution and validation truth.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -34,8 +70,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:0befd94f4aceb186840c92e51533b555d2aa992e:cc036eaafa62dc86c55dbea057e210194d5a9b55348667848180528d2b45d37b")
 
-Reviewer: None
+Reviewer: Some("fresh-session:ddf47a06-b817-433c-8d96-f73e14abe576")
 
-Result: pre_review
+Result: changes_required
