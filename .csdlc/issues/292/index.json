@@ -4,13 +4,27 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "08e30a8dbd04eedb08602d3c3864c6defd3ead0d69eb9a9a0fe80e970be49c9d",
-  "phase": "implemented",
-  "generation": 3,
-  "digest": "67fccacd948c9c249eb957ff27c4a8ce0fec6029ab1384edd103bcc9514caf7a",
+  "phase": "reviewed",
+  "generation": 4,
+  "digest": "0f39d6f3e3536fac35a090d1bf5c873f5b2f17cf5ff6e4b5af29b270de3cce6c",
   "branch": "codex/292-implemented-card-identity-repair",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-292-implemented-card-identity-repair",
   "review_assignment": null,
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:a6458bb4-3c16-4a60-8bcb-ca881691672c",
+    "scope": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/card_identity.rs",
+      ".csdlc/issues/292",
+      ".csdlc/prepared/issues/292"
+    ],
+    "reviewed_revision": "git-blake3:ee18d8e987bab6d8971dfda00ce4ce0b76d1a025:7f95158a6170c35f2e96da29328ba351f66125b5ea758bde0fd31a81f56cb19d",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +39,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4b32e0e34fd1c13e38c48480fec1f4016ea2b76614d82f7beeaccbdc32a7f439",
+      "values_digest": "c8b3d1c293517895a3cc7a4f0e7b934d461b3e4b4a17996b7beee3262bc32f8f",
       "rendered_digest": "daca1a5f6edef70879284eb654b0a17b034f4cc7e088dfe14ab5e686424ef3a7",
       "ast_digest": "b8d9064074a7c786ec81817843935e761519728e2afbd5add5b53040f6b35c06"
     },
     "stp": {
-      "values_digest": "041d00340dec2e8a0ee72393dcde3043c23f8d71162d40a22bf68ec196b150e6",
+      "values_digest": "6c625588c29e8e8d2b1c919764841d7ba168855d68d7b8ab71ba655cdcd01efe",
       "rendered_digest": "5c901ebae2dd5712aeb89d5bc09b7d88cf59e0a5c7016facc9415a8aee0152f9",
       "ast_digest": "0ea630ad10cecdc0ac124644733468ac505adde4cfc24b191fcb0b329b2d4f2d"
     },
     "spp": {
-      "values_digest": "6dd2e56cae2ad55fcc155c244bba0ed06230b8c4c74d7eaaffe913e487cdfee8",
+      "values_digest": "23f4ec5a3fdc2b7b8a7e65398f25fe809a6ebd7a724d848b49f07a230e36aa06",
       "rendered_digest": "077729b22794431c857f23e2cbc37f8ead82a95006c39b639d12f72691524f64",
       "ast_digest": "6caa3183fbccec2ce7f4bd2bb27655dadeb911dec4320b74b60a960985d3723f"
     },
     "vpp": {
-      "values_digest": "43b43c0274122f9b49be2fc256733c8807acad3c266698d0b1ce3a637d24df6e",
+      "values_digest": "a2221f35de004ff146bad4bc994ea7822d9e4f7464441cccc9f80fc71b98528e",
       "rendered_digest": "938328688a8d3fb41407076b9e35a91ab5def31e4e3f611206dd9729f0bff609",
       "ast_digest": "8f2c23d4005f6ae89a5726b0188787b77d5739b4e3b5019f6a6a80f33393843d"
     },
     "srp": {
-      "values_digest": "954559d063bb1f130590f6b4f2c4f99e1a0e2c539b67c66aefebb2842cfa6ec2",
-      "rendered_digest": "72b801d5921e47b879616cafaa3263b094b3949a75b51a3f7033da6bda8113f4",
-      "ast_digest": "d2523611956334f07dfeaa4482a8415fff4235b9795097de108cb280346fa4c1"
+      "values_digest": "c5de872fb415b92b9b77769e3745c456156a42fc57d72152d68698320aad1b66",
+      "rendered_digest": "9d79ef596f8305d45960089c39785d044ceec4e3852226d32b5986a5a5abdf61",
+      "ast_digest": "db46a666d1d0767a22a6f17386e1635ae4e4069604e9c038dd5eced1668764a5"
     },
     "sor": {
-      "values_digest": "a17f3abb6933512537077ad3219dbf56ec60a6c80ea8c602b41ca3d8b821c508",
+      "values_digest": "0c7d702961c68796f45069722264a3692eb2854a327614ff353864939fcac3f8",
       "rendered_digest": "31eb136e2fca911a32904ab8eb1613a7efa39748db5d1a069a3ba6daa596492d",
       "ast_digest": "1f3267f472ef1040b2a6d0e77e8645b363e939d5f684ca8b72a17ec5207be062"
     }
@@ -76,6 +90,13 @@
       "to": "implemented",
       "actor": "codex:issue-292",
       "reason": "implementation complete for #292 tooling defect"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:a6458bb4-3c16-4a60-8bcb-ca881691672c",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -113,6 +134,13 @@
       "actor": "codex:issue-292",
       "reason": "implementation complete for #292 tooling defect",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "fresh-session:a6458bb4-3c16-4a60-8bcb-ca881691672c",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
