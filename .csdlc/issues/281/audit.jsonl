@@ -19,3 +19,4 @@
 {"sequence":19,"generation":13,"actor":"codex:/root","reason":"Recover interrupted/silent fresh-session:f96abf33-cad6-4227-97a5-7bcb96142c94 review assignment after bounded wait elapsed without PASS/FAIL.","operation":"recover_review"}
 {"sequence":20,"generation":13,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":21,"generation":14,"actor":"codex:/root","reason":"Recover fresh-session:e5453b60-8679-43e2-ac2a-24af3f0f1808 FAIL caused by origin/main advancing to 21ab0f8fa13f25ed4e1b5f2d9b186667f26ba7bd after #281 current-base merge; finding is stale-base only, with no #281 product/code/security findings.","operation":"recover_review"}
+{"sequence":22,"generation":14,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
