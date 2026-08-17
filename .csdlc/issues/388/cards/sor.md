@@ -127,11 +127,11 @@ Implemented bounded C-SDLC v2 implemented-phase SPP/VPP/SOR card-truth repair ro
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
