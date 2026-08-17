@@ -1,0 +1,292 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 388,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "e10a02d2361925ec52b0b77c0a7a3e7dc8ef8b69527ba2ed22637ad434d727d5",
+  "phase": "published",
+  "generation": 14,
+  "digest": "b15fcc1c9b716916d1e91b91ae5b443fea45b155d1b654dd7afada0a5e20b541",
+  "branch": "codex/388-implemented-card-truth-repair",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-388-implemented-card-truth-repair",
+  "review_assignment": {
+    "reviewer": "fresh-session:da20f923-1403-48e4-b279-34ce98bd558f",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:32cb34b353c4e7b4347fdef359083337cab3f3d2:6d89c521962edcc8d1ae2c0dab15a3f0b19837fc71dddb2c94d9b258b450e8cb",
+    "scope": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/388",
+      ".csdlc/prepared/issues/388",
+      ".csdlc/evidence/388"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:da20f923-1403-48e4-b279-34ce98bd558f",
+    "scope": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/388",
+      ".csdlc/prepared/issues/388",
+      ".csdlc/evidence/388"
+    ],
+    "reviewed_revision": "git-blake3:32cb34b353c4e7b4347fdef359083337cab3f3d2:6d89c521962edcc8d1ae2c0dab15a3f0b19837fc71dddb2c94d9b258b450e8cb",
+    "findings": [],
+    "residual_risks": [
+      "Validation was assessed from committed evidence rather than rerun in the read-only review session.",
+      "The empty issue lock is lifecycle binding metadata outside the substantive review surface."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 388,
+    "pull_request": 391,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/391",
+    "base": "main",
+    "head": "codex/388-implemented-card-truth-repair",
+    "revision": "git-blake3:40f5aea9362ba45977d71cb6d5d7689e9134a46d:05170dac629004d77d06663e8e255f965792dcee9c475e8c9d0c38ac05eb2307",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/388/design.md",
+  "diagram_path": ".csdlc/prepared/issues/388/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:255768b3-b22b-44d7-b8c4-517c38fbbe7e",
+      "revision": "d2135ce8ea6c3c8b2a90a58f7e23f703e8752b5f74c11f4bc96ed792bf08a5b7"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "dd60e381024027fbdceec20f16fa12e75ab4f13fccbbce3b0564dd07c3499f61",
+      "rendered_digest": "f5f0ee6d8684987ed56b858c183cfd0c047a386f082296d87becb52480476533",
+      "ast_digest": "33261cccf844c3c06c0dc2baf00e437ca82b8bbd49da3a88fa9e17fa1764d04b"
+    },
+    "stp": {
+      "values_digest": "a36cb463b3b230656bd7a64fcc642b9306afd1bfaf12c10fb2c6d7f7a83770d5",
+      "rendered_digest": "4cc64fef144574f5474a4ef671a90ce0c19c10d73264a23d84d95ea76ca51eb6",
+      "ast_digest": "e324125a8ad06f4e2b8362817f931c16f148d5e150f802eb8f3472e3fdefdea6"
+    },
+    "spp": {
+      "values_digest": "2449a777954561781239234b09f7df086e099ccadbf4b07aa21343b73c03ce64",
+      "rendered_digest": "86f18144c1bda2360de6db1ad1f4a11558be484397b3cfe89606c562513e028c",
+      "ast_digest": "96cde977e749a673d4b4cc0241eb90e3192817bd3cd4944da5a1a50610754950"
+    },
+    "vpp": {
+      "values_digest": "b064cfb8bc5b9b4d1a95b05ffae82ffe26b24116c10c6c18dabf900ba141162f",
+      "rendered_digest": "ec731370c3909e971560ad57d4aa09856a64acc3c5f4dc5a134d885ee6c78a0d",
+      "ast_digest": "cf65fe0ecaa662e5800e88c05ab594fc4025324a0606266f0ca408039246e56e"
+    },
+    "srp": {
+      "values_digest": "371832b5fb5718c74508a1a2709dc9179c0e5bde6ffbbdac34093c58ed8edeab",
+      "rendered_digest": "563462d57dad0e21d3ef43878d26ad4078453bbc3f3a4ae51a6908f2e5f14304",
+      "ast_digest": "196e94f34ff323adda6e9dfd507f761a854aedd9185105a4e6e45c3cfef8fa9f"
+    },
+    "sor": {
+      "values_digest": "5832f9de2f32aa6ef2655f4255479771bb65651de74489b484b95a8efcc1dc53",
+      "rendered_digest": "9c39110b8cb0a63503adcf5b903f0245b0ccf6bc46cb5bb1946cd9b01ba9712b",
+      "ast_digest": "7074c2af82eb3bcc3367b44df9c4cdf8f5101887499033a72c0b8998f5452bba"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Advance clean #388 rebootstrap to ready/unbound after fresh design PASS, typed approval, preparation validator PASS, csdlc-doctor PASS, and csdlc-validate PASS."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:65b06b39-aac6-46ee-b6f1-08567d17479c",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover #388 review after merging current origin/main (#387/#389 card-truth repair surfaces) and resolving store.rs/gate5.rs conflicts before fresh exact-head review."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:da20f923-1403-48e4-b279-34ce98bd558f",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:255768b3-b22b-44d7-b8c4-517c38fbbe7e",
+      "reason": "approve completed issue design",
+      "operation": "approve_design"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Advance clean #388 rebootstrap to ready/unbound after fresh design PASS, typed approval, preparation validator PASS, csdlc-doctor PASS, and csdlc-validate PASS.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Narrow #388 owned test scope to the exact gate5 regression file used by the focused implemented-phase card-truth repair proof.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate5.rs\",\".csdlc/prepared/issues/388/validate_preparation_bundle.py\",\".csdlc/evidence/388\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Replace stale zero-test --lib focused lane with the real gate5 integration-test denominator and mark the unbound-topology preparation validator as pre-bind evidence after #388 is bound.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"388-preparation-validator\",\"proof_role\":\"Validate #388 initialized preparation bundle has issue identity, unbound topology, required tooling-defect scope markers, and explicit SOR follow-up empty-vector removal plus blank-entry refusal denominator.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/388/validate_preparation_bundle.py\"],\"parallel_group\":\"388-prep\",\"defer_reason\":\"Passed during initialized/ready preparation before bind; not rerun after bind because the validator intentionally checks unbound topology.\"},{\"lane\":\"388-focused-csdlc-store\",\"proof_role\":\"Prove implemented-phase SPP/VPP/SOR card-truth repair, SOR empty-vector follow-up removal, blank-entry refusal, and broader refusal matrix.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":12000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"implemented_card_truth_repair\"],\"parallel_group\":\"388-impl\",\"defer_reason\":\"Runs after implementation.\"},{\"lane\":\"388-clippy\",\"proof_role\":\"Reject warnings in changed C-SDLC v2 owner-tool surfaces.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"388-impl\",\"defer_reason\":\"Runs after implementation.\"},{\"lane\":\"388-diff\",\"proof_role\":\"Reject diff hygiene errors.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"388-impl\",\"defer_reason\":\"Runs after implementation.\"}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Record the explicit C-SDLC v2 rustfmt check that was run for the touched Rust crate before #388 finalize.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"388-preparation-validator\",\"proof_role\":\"Validate #388 initialized preparation bundle has issue identity, unbound topology, required tooling-defect scope markers, and explicit SOR follow-up empty-vector removal plus blank-entry refusal denominator.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/388/validate_preparation_bundle.py\"],\"parallel_group\":\"388-prep\",\"defer_reason\":\"Passed during initialized/ready preparation before bind; not rerun after bind because the validator intentionally checks unbound topology.\"},{\"lane\":\"388-focused-csdlc-store\",\"proof_role\":\"Prove implemented-phase SPP/VPP/SOR card-truth repair, SOR empty-vector follow-up removal, blank-entry refusal, and broader refusal matrix.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":12000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"implemented_card_truth_repair\"],\"parallel_group\":\"388-impl\",\"defer_reason\":\"Runs after implementation.\"},{\"lane\":\"388-fmt\",\"proof_role\":\"Reject Rust formatting drift in the touched C-SDLC v2 crate.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--check\"],\"parallel_group\":\"388-impl\",\"defer_reason\":\"Runs after implementation.\"},{\"lane\":\"388-clippy\",\"proof_role\":\"Reject warnings in changed C-SDLC v2 owner-tool surfaces.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1200,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"388-impl\",\"defer_reason\":\"Runs after implementation.\"},{\"lane\":\"388-diff\",\"proof_role\":\"Reject diff hygiene errors.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"388-impl\",\"defer_reason\":\"Runs after implementation.\"}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "fresh-session:65b06b39-aac6-46ee-b6f1-08567d17479c",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Recover #388 review after merging current origin/main (#387/#389 card-truth repair surfaces) and resolving store.rs/gate5.rs conflicts before fresh exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Recover failed exact-head review assignment fresh-session:6bc45962-e580-46d1-90cc-47c00b0e273c after actionable evidence-truth findings: committed proof, doctor, validate, fmt, clippy, and diff logs were stale or empty relative to merged revision 5e06d31c634b3ea42f51aee2a3aa020fcdd5080c. Product semantics were not faulted; recovery clears the invalidated assignment before recording current evidence and requesting a new fresh review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Replace #388 SOR validation truth after fresh review found stale pre-merge evidence. Keep product execution summary unchanged while recording the exact post-merge focused proof, lifecycle validation, fmt, clippy, and diff evidence now present under .csdlc/evidence/388.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented bounded C-SDLC v2 implemented-phase SPP/VPP/SOR card-truth repair routes.\",\"changes\":[\"Added typed semantic card operations for implemented-phase VPP summary repair, VPP failure-policy repair, and SOR follow-up replacement/removal after current review recovery.\",\"Relaxed SPP plan-summary repair to work after assignment/review recovery before publication while preserving actor/reason, active downstream truth, and duplicate-repair guards.\",\"Added recovery-epoch duplicate-field refusal and append-only audit payloads for the SPP/VPP/SOR repair operations.\",\"Added focused gate5 regressions proving SPP repair after assignment recovery, VPP/SOR repair guards, SOR empty-vector follow-up removal, blank-entry refusal, and compatibility with existing allowed intervening repairs.\",\"Repaired #388 lifecycle proof truth after merging current main so committed evidence logs reflect the exact post-merge revision and generation-9 typed validation state.\"],\"artifacts\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate5.rs\",\".csdlc/prepared/issues/388/validate_preparation_bundle.py\",\".csdlc/evidence/388\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"card_truth_repair\"],\"purpose\":\"Run the post-merge #388/#387 C-SDLC v2 gate5 card-truth repair regressions at the exact recovered head.\",\"outcome\":\"passed\",\"evidence_ref\":\"388-focused-csdlc-store.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"implemented_card_truth_repair\"],\"purpose\":\"Run the exact single-filter #388 implemented card-truth repair regression requested by fresh review.\",\"outcome\":\"passed\",\"evidence_ref\":\"388-focused-csdlc-store-implemented-filter.log\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--check\"],\"purpose\":\"Run rustfmt check for csdlc-v2.\",\"outcome\":\"passed\",\"evidence_ref\":\"388-fmt.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict Clippy for all csdlc-v2 targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"388-clippy.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Run git diff hygiene check.\",\"outcome\":\"passed\",\"evidence_ref\":\"388-diff.log\"},{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-388-implemented-card-truth-repair\",\"issue\",\"--issue\",\"388\"],\"purpose\":\"Run C-SDLC v2 typed issue validation for #388 at generation 9 after review recovery.\",\"outcome\":\"passed\",\"evidence_ref\":\"388-typed-validate.log\"},{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor\",\"--repo\",\"/Volumes/FastWork/adl-worktrees/adl-issue-388-implemented-card-truth-repair\",\"--issue\",\"388\"],\"purpose\":\"Run C-SDLC v2 doctor for #388 at generation 9 after review recovery.\",\"outcome\":\"passed\",\"evidence_ref\":\"388-doctor.log\"}]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Recover failed exact-head review assignment fresh-session:bb525b9d-f7cb-430d-a1b2-5b899c98e932 after one actionable evidence-truth finding: committed doctor and typed-validate logs reported generation 9 while the committed issue record advanced to generation 10 after SOR validation repair. Product semantics, focused proof, fmt/clippy/diff evidence, assignment scope, and #387/#389 recovery guards were otherwise accepted.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Normalize #388 SOR validation wording after second review found generation-specific lifecycle evidence drift. Keep the same product and proof scope while describing doctor and typed validation as current-generation lifecycle checks; the actual logs are refreshed after this typed SOR repair so final committed issue truth and evidence agree.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented bounded C-SDLC v2 implemented-phase SPP/VPP/SOR card-truth repair routes.\",\"changes\":[\"Added typed semantic card operations for implemented-phase VPP summary repair, VPP failure-policy repair, and SOR follow-up replacement/removal after current review recovery.\",\"Relaxed SPP plan-summary repair to work after assignment/review recovery before publication while preserving actor/reason, active downstream truth, and duplicate-repair guards.\",\"Added recovery-epoch duplicate-field refusal and append-only audit payloads for the SPP/VPP/SOR repair operations.\",\"Added focused gate5 regressions proving SPP repair after assignment recovery, VPP/SOR repair guards, SOR empty-vector follow-up removal, blank-entry refusal, and compatibility with existing allowed intervening repairs.\",\"Repaired #388 lifecycle proof truth after merging current main so committed evidence logs reflect the exact post-merge revision and current implemented-phase typed validation state.\"],\"artifacts\":[\"csdlc-v2/src/cards.rs\",\"csdlc-v2/src/store.rs\",\"csdlc-v2/tests/gate5.rs\",\".csdlc/prepared/issues/388/validate_preparation_bundle.py\",\".csdlc/evidence/388\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"card_truth_repair\"],\"purpose\":\"Run the post-merge #388/#387 C-SDLC v2 gate5 card-truth repair regressions at the exact recovered head.\",\"outcome\":\"passed\",\"evidence_ref\":\"388-focused-csdlc-store.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"implemented_card_truth_repair\"],\"purpose\":\"Run the exact single-filter #388 implemented card-truth repair regression requested by fresh review.\",\"outcome\":\"passed\",\"evidence_ref\":\"388-focused-csdlc-store-implemented-filter.log\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--check\"],\"purpose\":\"Run rustfmt check for csdlc-v2.\",\"outcome\":\"passed\",\"evidence_ref\":\"388-fmt.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict Clippy for all csdlc-v2 targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"388-clippy.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Run git diff hygiene check.\",\"outcome\":\"passed\",\"evidence_ref\":\"388-diff.log\"},{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-388-implemented-card-truth-repair\",\"issue\",\"--issue\",\"388\"],\"purpose\":\"Run C-SDLC v2 typed issue validation for #388 at the current implemented generation after review recovery.\",\"outcome\":\"passed\",\"evidence_ref\":\"388-typed-validate.log\"},{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor\",\"--repo\",\"/Volumes/FastWork/adl-worktrees/adl-issue-388-implemented-card-truth-repair\",\"--issue\",\"388\"],\"purpose\":\"Run C-SDLC v2 doctor for #388 at the current implemented generation after review recovery.\",\"outcome\":\"passed\",\"evidence_ref\":\"388-doctor.log\"}]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "fresh-session:da20f923-1403-48e4-b279-34ce98bd558f",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

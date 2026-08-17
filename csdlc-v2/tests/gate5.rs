@@ -3372,6 +3372,236 @@ fn implemented_phase_card_truth_repair_unblocks_fresh_review_assignment() {
 }
 
 #[test]
+fn implemented_card_truth_repair_can_correct_vpp_and_sor_semantic_fields() {
+    let (_temp, store, implemented) = implemented_fixture();
+    let revision = csdlc_v2::git::substantive_revision(store.root(), &["src".into()])
+        .expect("review revision");
+    let reviewed = record_review(
+        &store,
+        ReviewRecordRequest {
+            issue: 7,
+            expected_generation: implemented.generation,
+            expected_digest: implemented.digest,
+            actor: "reviewer".into(),
+            evidence: ReviewEvidence {
+                reviewer: "reviewer".into(),
+                scope: vec!["src".into()],
+                reviewed_revision: revision,
+                findings: vec![],
+                residual_risks: vec![],
+                completed: true,
+                non_substantive_proof: None,
+            },
+        },
+    )
+    .expect("record exact review before semantic repair recovery");
+    let mut recovered = csdlc_v2::recover_review(
+        &store,
+        ReviewRecoveryRequest {
+            issue: 7,
+            expected_generation: reviewed.generation,
+            expected_digest: reviewed.digest,
+            actor: "operator".into(),
+            reason: "repair stale VPP/SOR semantic fields before publication".into(),
+        },
+    )
+    .expect("recover recorded-review implemented state");
+
+    for (card, operation) in [
+        (
+            CardKind::Spp,
+            SemanticOperation::CorrectValidationSummaryAfterRecovery {
+                value: "wrong card".into(),
+            },
+        ),
+        (
+            CardKind::Vpp,
+            SemanticOperation::CorrectValidationSummaryAfterRecovery { value: " ".into() },
+        ),
+        (
+            CardKind::Vpp,
+            SemanticOperation::CorrectValidationFailurePolicyAfterRecovery { value: " ".into() },
+        ),
+        (
+            CardKind::Sor,
+            SemanticOperation::CorrectSorFollowUpsAfterRecovery {
+                values: vec![" ".into()],
+            },
+        ),
+    ] {
+        let error = edit_issue(
+            &store,
+            EditRequest {
+                issue: 7,
+                card,
+                expected_generation: recovered.generation,
+                expected_digest: recovered.digest.clone(),
+                actor: "operator".into(),
+                reason: "reject malformed VPP/SOR correction".into(),
+                operation,
+                fail_after_backup: false,
+            },
+        )
+        .expect_err("malformed VPP/SOR correction must fail");
+        assert!(matches!(
+            error.code,
+            ErrorCode::InvalidTransition | ErrorCode::CardInvalid
+        ));
+    }
+
+    recovered = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Vpp,
+            expected_generation: recovered.generation,
+            expected_digest: recovered.digest,
+            actor: "operator".into(),
+            reason: "correct VPP summary".into(),
+            operation: SemanticOperation::CorrectValidationSummaryAfterRecovery {
+                value: "implemented validation truth".into(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("correct VPP summary");
+    let duplicate_summary = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Vpp,
+            expected_generation: recovered.generation,
+            expected_digest: recovered.digest.clone(),
+            actor: "operator".into(),
+            reason: "reject duplicate VPP summary correction".into(),
+            operation: SemanticOperation::CorrectValidationSummaryAfterRecovery {
+                value: "duplicate".into(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("duplicate VPP summary correction must fail");
+    assert_eq!(duplicate_summary.code, ErrorCode::InvalidTransition);
+
+    recovered = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Vpp,
+            expected_generation: recovered.generation,
+            expected_digest: recovered.digest,
+            actor: "operator".into(),
+            reason: "correct VPP failure policy".into(),
+            operation: SemanticOperation::CorrectValidationFailurePolicyAfterRecovery {
+                value: "fail closed on stale publication truth".into(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("correct VPP failure policy");
+    recovered = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Sor,
+            expected_generation: recovered.generation,
+            expected_digest: recovered.digest,
+            actor: "operator".into(),
+            reason: "correct SOR follow-ups".into(),
+            operation: SemanticOperation::CorrectSorFollowUpsAfterRecovery {
+                values: vec!["remaining typed follow-up".into()],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("correct SOR follow-ups");
+
+    let reassigned = assign_review(
+        &store,
+        ReviewAssignmentRequest {
+            issue: 7,
+            expected_generation: recovered.generation,
+            expected_digest: recovered.digest,
+            reviewer: "fresh-session:semantic-r2".into(),
+            assigned_by: "operator".into(),
+            scope: vec!["src".into()],
+        },
+    )
+    .expect("assign second exact review");
+    let reviewed_again = record_review(
+        &store,
+        ReviewRecordRequest {
+            issue: 7,
+            expected_generation: reassigned.generation,
+            expected_digest: reassigned.digest,
+            actor: "fresh-session:semantic-r2".into(),
+            evidence: ReviewEvidence {
+                reviewer: "fresh-session:semantic-r2".into(),
+                scope: vec!["src".into()],
+                reviewed_revision: csdlc_v2::git::substantive_revision(
+                    store.root(),
+                    &["src".into()],
+                )
+                .expect("second review revision"),
+                findings: vec![],
+                residual_risks: vec![],
+                completed: true,
+                non_substantive_proof: None,
+            },
+        },
+    )
+    .expect("record second exact review");
+    let recovered_again = csdlc_v2::recover_review(
+        &store,
+        ReviewRecoveryRequest {
+            issue: 7,
+            expected_generation: reviewed_again.generation,
+            expected_digest: reviewed_again.digest,
+            actor: "operator".into(),
+            reason: "clear second review truth for SOR removal".into(),
+        },
+    )
+    .expect("recover second review");
+    let removed = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Sor,
+            expected_generation: recovered_again.generation,
+            expected_digest: recovered_again.digest,
+            actor: "operator".into(),
+            reason: "remove stale SOR follow-ups".into(),
+            operation: SemanticOperation::CorrectSorFollowUpsAfterRecovery { values: vec![] },
+            fail_after_backup: false,
+        },
+    )
+    .expect("empty vector removes SOR follow-ups");
+    let after_cards = store.load_cards(7).expect("cards after VPP/SOR correction");
+    let csdlc_v2::cards::CardContent::Vpp(after_vpp) = &after_cards[&CardKind::Vpp].content else {
+        panic!("VPP")
+    };
+    let csdlc_v2::cards::CardContent::Sor(after_sor) = &after_cards[&CardKind::Sor].content else {
+        panic!("SOR")
+    };
+    assert_eq!(after_vpp.summary, "implemented validation truth");
+    assert_eq!(
+        after_vpp.failure_policy,
+        "fail closed on stale publication truth"
+    );
+    assert!(after_sor.follow_ups.is_empty());
+    let audit: serde_json::Value = serde_json::from_str(
+        &removed
+            .audit
+            .last()
+            .expect("SOR correction audit")
+            .operation,
+    )
+    .expect("structured SOR audit");
+    assert_eq!(audit["operation"], "correct_sor_follow_ups_after_recovery");
+    assert_eq!(audit["new_values"], serde_json::json!([]));
+}
+
+#[test]
 fn recovered_issue_can_correct_only_the_spp_plan_summary() {
     for recovery_phase in [
         LifecyclePhase::Reviewed,
