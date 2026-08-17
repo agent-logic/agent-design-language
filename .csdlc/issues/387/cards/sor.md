@@ -73,11 +73,11 @@ Remediated PR #389 csdlc-v2-standalone CI failure by narrowing implemented-phase
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
