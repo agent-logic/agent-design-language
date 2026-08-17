@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 114,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.04][coordination] Coordinate durable conversation history, continuity, and receipts",
+    "slug": "v0-92-wp-18c-04-coordinate-durable-conversation-history-continuity-receipts",
+    "version": "v0.92.0",
+    "generation": 50
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Read-only fresh design/card review of recovered initialized parent #114 at the exact generation/digest. Verify live issue title/body alignment, #276 -> #277 -> #278 graph semantics, preserved design/diagram byte hashes, preparation-only validation truth, no #112/#203/#298/product/GitHub mutation, no child implementation, and whether the recovered bundle may proceed to typed design approval or remains blocked.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Verify #114 title/slug/body scope now matches the live coordination parent issue and no longer claims monolithic product implementation authority.",
+        "Verify #276 -> #277 -> #278 ownership and dependency order remain intact and #114 owns only parent exact-revision integration proof after children are terminal.",
+        "Verify #114 cards preserve .csdlc/prepared/issues/114/design.md and diagram.mmd byte-for-byte as historical gen0 reference evidence and do not overwrite or delete unique history.",
+        "Verify preparation validation proves only local card/history preservation and does not claim Runtime/API/Observatory product behavior, publication, merge, or terminal closeout.",
+        "Verify fresh design/card review is required before design approval and that bind/child implementation remain out of scope for this recovery boundary."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

@@ -1,0 +1,152 @@
+# Structured Planning Prompt
+
+Template: 1.0.0
+
+Issue: 114
+
+Repository: agent-logic/agent-design-language
+
+Card: spp
+
+Status: ready
+
+## Summary
+
+#114 has been recovered to the ready/unbound coordination-parent boundary: preserved gen0 authored artifacts remain historical evidence, cards align to #276 -> #277 -> #278 -> parent exact-revision integration proof, local preparation validation is current, and execution stops before bind or child work.
+
+## Plan
+
+Revision 14
+
+## Steps
+
+[
+  {
+    "id": "S1",
+    "action": "Verify #114 is ready and unbound while recording coordination/integration-only parent scope for #276 -> #277 -> #278 -> parent exact-revision proof.",
+    "acceptance_ids": [
+      "AC-1"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S2",
+    "action": "Verify preserved gen0 design.md and diagram.mmd digests and record them as historical reference evidence only.",
+    "acceptance_ids": [
+      "AC-2"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S3",
+    "action": "Verify #276 ownership/dependency text remains durable journal foundation only and depends on #112 core, #265, and #270.",
+    "acceptance_ids": [
+      "AC-3"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S4",
+    "action": "Verify #277 ownership/dependency text remains watermark/idempotency/replay/receipt/restart reconciliation only and consumes but does not redefine #270 trust.",
+    "acceptance_ids": [
+      "AC-4"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S5",
+    "action": "Verify #278 ownership/dependency text remains re-authorized history API and Observatory restoration only and depends on #276, #277, and #271.",
+    "acceptance_ids": [
+      "AC-5"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S6",
+    "action": "Verify parent #114 owns only final exact-revision integrated restart, corruption, migration, retention, deletion, and receipt-coherence proof after terminal child evidence lands.",
+    "acceptance_ids": [
+      "AC-6"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S7",
+    "action": "Run the issue-local preparation validator and typed doctor/validate surfaces only as preparation/card/history checks, not Runtime/API/Observatory product proof.",
+    "acceptance_ids": [
+      "AC-7"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S8",
+    "action": "Record a local recovery handoff under .adl/session-handoffs with exact residual typed tooling gaps and without GitHub, bind, publication, PR, merge, closeout, or #112 worktree mutation.",
+    "acceptance_ids": [
+      "AC-8"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S9",
+    "action": "Verify final local diff/status proves no #112 slice, child worktree, branch, GitHub, PR, product Runtime, API, Observatory, documentation, or test implementation mutation occurred.",
+    "acceptance_ids": [
+      "AC-9"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S10",
+    "action": "Obtain fresh independent design/card review over the recovered exact generation/digest before any design approval or bind.",
+    "acceptance_ids": [
+      "AC-10"
+    ],
+    "status": "pending"
+  }
+]
+
+## Invariants
+
+- #114 parent remains coordination/integration-only and does not own child implementation
+- Existing gen0 design and diagram are preserved as historical reference evidence
+- Child execution order remains #276 then #277 then #278, followed by parent exact-revision integration proof
+- #270 acknowledgement trust is consumed but never redefined by #114 or #277
+- #112 slice worktrees and child branches/worktrees are out of scope for this recovery
+- Design review authority is not inferred from Planning assignment or prior implementation review; it must be fresh and exact-generation bound.
+
+## Risks
+
+- Typed initialized-decomposition recovery is new tooling from #291; fail closed on CAS, graph validation, artifact preservation, rendering, or doctor drift.
+- A fresh design/card reviewer may find residual lifecycle/card truth gaps; actionable findings must be repaired through typed routes before approval or bind.
+- #276/#277/#278 dependency state can still change before child execution begins.
+
+## Estimates
+
+{
+  "elapsed_seconds": 86400,
+  "total_tokens": 240000,
+  "validation_seconds": 21600
+}
+
+## Design
+
+.csdlc/prepared/issues/114/design.md
+
+Digest: b70cf7e77e06cad287166597bf0b70bfcd43392f6452325c905dcec6fab65c08
+
+## Diagram
+
+.csdlc/prepared/issues/114/diagram.mmd
+
+Digest: b8e5984d673cff4cb398de9deeb653bfb7dda81c388243371d91bd7562bebf42
+
+## Stop Conditions
+
+- Any attempted bind, product-code edit, child bootstrap, publication, PR, merge, closeout, or GitHub mutation in this lane
+- Any attempt to delete or overwrite .csdlc/prepared/issues/114/design.md or diagram.mmd
+- Any attempt to mutate #112 slice worktrees or reuse the parent #114 branch for child execution
+- Typed validation reports corrupt projections or digest drift that cannot be repaired through csdlc-edit apply
+- Fresh design/card review returns changes_required or blocked.
+- Typed doctor reports anything beyond the intended next-boundary state.
+
+## Handoff
+
+Proceed only after doctor readiness.
