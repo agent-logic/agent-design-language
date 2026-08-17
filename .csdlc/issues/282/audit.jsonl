@@ -28,3 +28,4 @@
 {"sequence":28,"generation":23,"actor":"codex:/root","reason":"Recover #282 failed review fresh-session:8d227575-106e-4b9d-925e-89768fdea106 after committing fixes for R3-P2 evidence coverage and preparation denominator validation at 22ab507c; assign a different fresh reviewer to the new immutable head.","operation":"recover_review"}
 {"sequence":29,"generation":23,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":30,"generation":24,"actor":"fresh-session:8397ad62-5e06-436a-855b-af7b3878fdbc","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":31,"generation":25,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
