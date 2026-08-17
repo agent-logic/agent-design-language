@@ -1,0 +1,53 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 407,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[tooling][csdlc-v2] Implemented-phase SIP recovery cannot repair review-blocking goal truth",
+    "slug": "implemented-sip-goal-recovery",
+    "version": "v0.92",
+    "generation": 7
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "csdlc-v2-focused",
+          "proof_role": "focused regression",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 180,
+          "budget_tokens": 1000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "recovered_implemented_issue_can_correct_only_the_sip_goal",
+            "--test",
+            "gate5"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed on stale generation/digest, unrecovered state, or broad SIP mutation authorization.",
+      "design_ref": ".csdlc/prepared/issues/407/design.md",
+      "design_digest": "21f11538fd99055fdb1089c53fcf59972bc5e26503446eaf7c5b7b8d49918387",
+      "diagram_ref": ".csdlc/prepared/issues/407/diagram.mmd",
+      "diagram_digest": "a76d9879e62ccf451ae3864ba83c6ba9018f82edcb111284d206500074693eac"
+    }
+  }
+}
