@@ -5,10 +5,22 @@
   "initialization_digest": "024d435a2fcf6fd78678e4b9cda121ea06eecca7e6effaabceb5ad5c2f22ddaf",
   "phase": "implemented",
   "generation": 23,
-  "digest": "bfc95bdc8caca13aae3ed60f53fb1d2a051455e791b3c2f8d3e44b9812f1a121",
+  "digest": "2290967ffacbfbbea2aeace870e7fbdec4c43570928721cd7a740a201907774b",
   "branch": "codex/117-production-polis-interface-qualification-parent",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-117-production-polis-interface-qualification-parent",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:9bb9d4e3-cfc3-42ac-8ff4-e9b1d75f93c0",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:af490bc1a7554974b17d054ad0ecfebd92cb56eb:07bf98dba7054134692c21bdedfd0858dc3c40932d6d1c45220478c3dec6066f",
+    "scope": [
+      ".csdlc/evidence/117/production-polis-interface-parent-closeout.md",
+      ".csdlc/evidence/117/validate_parent_closeout.py",
+      ".csdlc/prepared/issues/117/validate_preparation_bundle.py",
+      ".csdlc/prepared/issues/117/design.md",
+      ".csdlc/prepared/issues/117/diagram.mmd",
+      ".csdlc/issues/117"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +56,9 @@
       "ast_digest": "6e9164f90884128e31ad8d16a53deb657a3a6a3e58d6efdc82dc0b092069348d"
     },
     "srp": {
-      "values_digest": "6f7167135286c23c9d13869f7eeac1169a3b9fd5ba5651ff5e1ec2570be3d786",
-      "rendered_digest": "1253ac0f42063c5f2011243e9449818f55d1504c07ad8146ba38ea23a0a35357",
-      "ast_digest": "d3faf3908bf4b8cf64c7ef7144b0ef223acc1883189f0f858db1e2af1d228ef1"
+      "values_digest": "08c30ec9ef6f7b4336601d972d10aa88182d6fd604ef15ec12406df6f65135af",
+      "rendered_digest": "ca7d62232ed05329e6bf5b4d84f149e93c6cf43a0dc66a0ac90feaf7141236d9",
+      "ast_digest": "b830fc0d966ef86f4b7b785c5459a431f11737d96611114d81e931161ae0386c"
     },
     "sor": {
       "values_digest": "64e1e23d28355a8955a1ba8db04939261d9f770e715b3741996cd08fabd93374",
@@ -273,6 +285,13 @@
       "actor": "codex:/root",
       "reason": "Recover unintended #117 review assignment created while attempting to re-establish implemented-phase recovery provenance after #400 terminal merge. No reviewer material was sent; preserve implemented source/proof and continue with the pending STP dependency truth repair.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
