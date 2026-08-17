@@ -1,0 +1,10 @@
+*
+!*/
+!.gitignore
+!csdlc-schema.local.json
+!private-wuji-aws-recovery-live-summary.redacted.json
+!live-preflight/
+!live-preflight/*.redacted.json
+!live-runs/
+!live-runs/*/
+!live-runs/*/*.redacted.json

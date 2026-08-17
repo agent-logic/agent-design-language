@@ -1,0 +1,152 @@
+{
+  "evaluated_gpu_instance_type_count": 64,
+  "feasible_model_capable_options": [],
+  "issue": 194,
+  "lowest_vcpu_model_capable_options": [
+    {
+      "family": "gvt",
+      "gpu_memory_mib": 16384,
+      "instance_type": "g4dn.xlarge",
+      "model_capable_gpu": true,
+      "quota_code": "L-DB2E81BA",
+      "quota_ready": false,
+      "quota_vcpus": 4,
+      "required_vcpus": 8,
+      "vcpus": 4
+    },
+    {
+      "family": "gvt",
+      "gpu_memory_mib": 22888,
+      "instance_type": "g5.xlarge",
+      "model_capable_gpu": true,
+      "quota_code": "L-DB2E81BA",
+      "quota_ready": false,
+      "quota_vcpus": 4,
+      "required_vcpus": 8,
+      "vcpus": 4
+    },
+    {
+      "family": "gvt",
+      "gpu_memory_mib": 22888,
+      "instance_type": "g6.xlarge",
+      "model_capable_gpu": true,
+      "quota_code": "L-DB2E81BA",
+      "quota_ready": false,
+      "quota_vcpus": 4,
+      "required_vcpus": 8,
+      "vcpus": 4
+    },
+    {
+      "family": "gvt",
+      "gpu_memory_mib": 45776,
+      "instance_type": "g6e.xlarge",
+      "model_capable_gpu": true,
+      "quota_code": "L-DB2E81BA",
+      "quota_ready": false,
+      "quota_vcpus": 4,
+      "required_vcpus": 8,
+      "vcpus": 4
+    },
+    {
+      "family": "gvt",
+      "gpu_memory_mib": 16384,
+      "instance_type": "g4dn.2xlarge",
+      "model_capable_gpu": true,
+      "quota_code": "L-DB2E81BA",
+      "quota_ready": false,
+      "quota_vcpus": 4,
+      "required_vcpus": 16,
+      "vcpus": 8
+    },
+    {
+      "family": "gvt",
+      "gpu_memory_mib": 22888,
+      "instance_type": "g5.2xlarge",
+      "model_capable_gpu": true,
+      "quota_code": "L-DB2E81BA",
+      "quota_ready": false,
+      "quota_vcpus": 4,
+      "required_vcpus": 16,
+      "vcpus": 8
+    },
+    {
+      "family": "gvt",
+      "gpu_memory_mib": 22888,
+      "instance_type": "g6.2xlarge",
+      "model_capable_gpu": true,
+      "quota_code": "L-DB2E81BA",
+      "quota_ready": false,
+      "quota_vcpus": 4,
+      "required_vcpus": 16,
+      "vcpus": 8
+    },
+    {
+      "family": "gvt",
+      "gpu_memory_mib": 45776,
+      "instance_type": "g6e.2xlarge",
+      "model_capable_gpu": true,
+      "quota_code": "L-DB2E81BA",
+      "quota_ready": false,
+      "quota_vcpus": 4,
+      "required_vcpus": 16,
+      "vcpus": 8
+    },
+    {
+      "family": "gvt",
+      "gpu_memory_mib": 32768,
+      "instance_type": "g7.2xlarge",
+      "model_capable_gpu": true,
+      "quota_code": "L-DB2E81BA",
+      "quota_ready": false,
+      "quota_vcpus": 4,
+      "required_vcpus": 16,
+      "vcpus": 8
+    },
+    {
+      "family": "gvt",
+      "gpu_memory_mib": 98304,
+      "instance_type": "g7e.2xlarge",
+      "model_capable_gpu": true,
+      "quota_code": "L-DB2E81BA",
+      "quota_ready": false,
+      "quota_vcpus": 4,
+      "required_vcpus": 16,
+      "vcpus": 8
+    }
+  ],
+  "model_gpu_memory_min_mib": 16000,
+  "non_claims": [
+    "does not launch EC2 instances",
+    "does not request quota increases",
+    "does not claim model-health success"
+  ],
+  "quota_fit_but_model_insufficient_options": [
+    {
+      "family": "gvt",
+      "gpu_memory_mib": 2861,
+      "instance_type": "g6f.large",
+      "model_capable_gpu": false,
+      "quota_code": "L-DB2E81BA",
+      "quota_ready": true,
+      "quota_vcpus": 4,
+      "required_vcpus": 4,
+      "vcpus": 2
+    }
+  ],
+  "quotas": {
+    "gvt": {
+      "quota_code": "L-DB2E81BA",
+      "quota_name": "Running On-Demand G and VT instances",
+      "quota_vcpus": 4
+    },
+    "p": {
+      "quota_code": "L-417A185B",
+      "quota_name": "Running On-Demand P instances",
+      "quota_vcpus": 8
+    }
+  },
+  "run_id": "issue-194-gpu-feasibility-live",
+  "schema": "adl.issue194.aws_gpu_feasibility.v1",
+  "status": "failed_no_feasible_two_voter_model_shape",
+  "voter_count": 2
+}

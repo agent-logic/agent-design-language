@@ -1,0 +1,54 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 194,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16d] Qualify private Wuji-AWS recovery with fail-safe cleanup",
+    "slug": "private-wuji-aws-recovery",
+    "version": "v0.92",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Issue #194 only; final prerequisite for #142 integration/publication, without implementing #142 itself or public production ingress.",
+      "deliverables": [
+        "CloudFormation private network template with no IGW/NAT/public subnet route and endpoint-only maintenance/artifact paths",
+        "Fail-closed runner with create/preflight/launch/smoke/delete/assert-zero actions and signal-safe cleanup contract",
+        "Local tests for template invariants and preflight denial/fault paths",
+        "Redacted live summary binding two-voter private mesh and single-GPU private model health receipts",
+        "Truthful SOR/SRP/review/PR state before publication"
+      ],
+      "acceptance_criteria": [
+        "AC-1: No cloud spend starts without exact merged prerequisites, clean Wuji receipt or explicit non-claim, and approved Agent Logic account/role identity.",
+        "AC-2: Two AWS voters launch in distinct AZs with no public Runtime/model/Observatory exposure and unique non-exported identities.",
+        "AC-3: Every create is idempotent/discoverable after ambiguous failure, and cleanup proves zero instances, volumes, ENIs, security groups, sessions, credentials, processes, locks, and model caches where applicable.",
+        "AC-4: The serial hybrid run proves private model health/restart, snapshot recovery, Wuji partition, AWS continuity, heal/demotion, and true one-of-three halt.",
+        "AC-5: Receipts bind live account/AZ/topology/route/model/process/authority evidence without secrets or machine-local paths.",
+        "AC-6: Harness tests, dry-run fault injection, live proof, independent exact-head review, and publication pass."
+      ],
+      "dependencies": [
+        "WP-04.16a-c merged before publication credit",
+        "Agent Logic AWS profile agent-logic-admin available outside repository",
+        "Wuji voter receipt required before full serial hybrid recovery proof",
+        "AWS GPU quota currently prevents simultaneous two-g6.xlarge voter model-health proof"
+      ],
+      "repo_inputs": [
+        "GitHub issue agent-logic/agent-design-language#194",
+        ".csdlc/prepared/issues/194/design.md",
+        ".csdlc/prepared/issues/194/diagram.mmd",
+        ".csdlc/evidence/194/private-wuji-aws-recovery-live-summary.redacted.json"
+      ],
+      "non_goals": [
+        "Implementing consensus internals",
+        "Implementing authority policy or kernel continuity internals beyond the harness boundary",
+        "Permanent infrastructure",
+        "Public production ingress stack",
+        "Merging #142 or claiming #142 completion",
+        "Observatory scope beyond avoiding public exposure and consuming required terminal evidence"
+      ]
+    }
+  }
+}

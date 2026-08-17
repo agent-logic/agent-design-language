@@ -1,0 +1,1 @@
+{"run_id":"issue-194-one-gpu-model-store-20260817T024918Z","status":"passed","model":"gemma4:12b","runtime_surface":"ollama_http_loopback","node_count":1,"control_plane":"SSM invoked shepherd maintenance command; model runtime and generation ran locally on private voters"}

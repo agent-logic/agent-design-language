@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 194,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16d] Qualify private Wuji-AWS recovery with fail-safe cleanup",
+    "slug": "private-wuji-aws-recovery",
+    "version": "v0.92",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Review #194 private AWS qualification harness, CloudFormation private topology, fail-closed preflight/cleanup, redacted evidence, live private model proof, and explicit serial hybrid recovery non-claim.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does any path allow public Runtime/model/Observatory exposure or hosted model fallback?",
+        "Does cleanup prove zero resources after success, failure, and interruption?",
+        "Are redacted receipts truthful and free of secrets/raw AWS identifiers/machine-local paths?",
+        "Does the proof avoid overclaiming #142 or the unimplemented serial hybrid recovery behavior?",
+        "Is the SSM maintenance plane clearly separated from direct private agent/voter data-plane traffic?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

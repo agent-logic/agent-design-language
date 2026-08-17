@@ -1,0 +1,27 @@
+{
+  "cleanup_zero": true,
+  "evidence": {
+    "cleanup_receipt_sha256": "8b73d0c82543a1c6e4a03fccb2aefe48a98064c2f51f32b8b97b3aea8964f55b",
+    "log_sha256": "8b73d0c82543a1c6e4a03fccb2aefe48a98064c2f51f32b8b97b3aea8964f55b",
+    "runtime_semantic_marker": "ADL_ISSUE_191_CASE secure_three_two_one_real_restart=passed",
+    "runtime_semantic_test": "three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state",
+    "snapshot_digest_sha256": "8b73d0c82543a1c6e4a03fccb2aefe48a98064c2f51f32b8b97b3aea8964f55b"
+  },
+  "issue": 194,
+  "non_claims": [
+    "local Wuji runtime semantic proof only",
+    "does not launch AWS instances",
+    "does not claim hybrid AWS continuity without AWS receipts"
+  ],
+  "partition_proof": true,
+  "phases": {
+    "cleanup_zero": true,
+    "partition_isolation": true,
+    "snapshot_recovery": true
+  },
+  "run_id": "issue-194-wuji-local-recovery-20260817",
+  "schema": "adl.issue194.wuji_recovery_receipt.v1",
+  "snapshot_recovery": true,
+  "source_host": "wuji",
+  "status": "passed"
+}
