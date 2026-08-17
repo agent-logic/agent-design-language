@@ -522,8 +522,35 @@
                 <span class="row-kicker">Message</span>
                 <textarea id="agent-conversation-message" rows="3" maxlength="4096" placeholder="Message the selected agent"></textarea>
               </label>
+            <div class="communication-actions">
+              <button class="button button-primary" type="button" id="send-agent-conversation" disabled>Send message</button>
+            </div>
+            </div>
+            <div class="conversation-surface room-surface field-wide" aria-labelledby="governed-room-title">
+              <div class="conversation-heading">
+                <div>
+                  <span class="row-kicker">Governed room</span>
+                  <h3 id="governed-room-title">Multi-agent room</h3>
+                </div>
+                <span class="mini-badge" id="governed-room-status">waiting for runtime</span>
+              </div>
+              <label class="field">
+                <span class="row-kicker">Room participants</span>
+                <select id="governed-room-recipients" multiple size="4" disabled aria-describedby="governed-room-help">
+                  <option value="">No live agents</option>
+                </select>
+              </label>
+              <p class="row-detail" id="governed-room-help">Select 1-8 explicit recipients. Broadcast and browser-selected implicit participants are denied.</p>
+              <div class="governed-room-participants" id="governed-room-participants" aria-live="polite"></div>
+              <ol class="conversation-transcript governed-room-transcript" id="governed-room-transcript" aria-live="polite">
+                <li class="conversation-empty">Connect to Runtime v3 and select room participants.</li>
+              </ol>
+              <label class="field">
+                <span class="row-kicker">Room message</span>
+                <textarea id="governed-room-message" rows="3" maxlength="4096" placeholder="Message the selected room participants"></textarea>
+              </label>
               <div class="communication-actions">
-                <button class="button button-primary" type="button" id="send-agent-conversation" disabled>Send message</button>
+                <button class="button button-primary" type="button" id="send-governed-room-turn" disabled>Send room turn</button>
               </div>
             </div>
             <label class="field field-wide">

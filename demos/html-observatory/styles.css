@@ -1593,6 +1593,65 @@ textarea,
   color: var(--muted);
 }
 
+.room-surface select[multiple] {
+  min-height: 7rem;
+}
+
+.governed-room-participants {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.room-participant,
+.room-participant-empty {
+  display: inline-grid;
+  gap: 0.15rem;
+  border: 1px solid rgba(72, 211, 255, 0.22);
+  border-radius: 999px;
+  padding: 0.35rem 0.65rem;
+  color: var(--muted);
+  background: rgba(72, 211, 255, 0.06);
+}
+
+.room-participant strong {
+  color: var(--text);
+}
+
+.room-participant[data-state="joined"] {
+  border-color: rgba(142, 240, 176, 0.42);
+}
+
+.governed-room-delivery-list {
+  display: grid;
+  gap: 0.35rem;
+  margin: 0.65rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.governed-room-delivery-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 0.35rem;
+  color: var(--muted);
+}
+
+.governed-room-delivery-list li[data-state="delivered"],
+.governed-room-delivery-list li[data-state="accepted"],
+.governed-room-delivery-list li[data-state="prepared"] {
+  color: var(--mint);
+}
+
+.governed-room-delivery-list li[data-state="refused"],
+.governed-room-delivery-list li[data-state="timed_out"],
+.governed-room-delivery-list li[data-state="unavailable"],
+.governed-room-delivery-list li[data-state="revoked"] {
+  color: var(--amber);
+}
+
 .communication-proof-list {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

@@ -1,0 +1,51 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 115,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.05] Implement governed multi-agent rooms and message routing",
+    "slug": "v0-92-wp-18c-05-governed-multi-agent-rooms-routing",
+    "version": "v0.92.0",
+    "generation": 43
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "issue-115-governed-room-implementation-validator",
+          "proof_role": "Issue-owned validator proving Runtime governed-room model and served route behavior, accepted-vs-delivered semantics, Observatory governed-room UI rendering, HTML Observatory smoke, formatting, strict clippy, and diff hygiene.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 3000,
+          "argv": [
+            "python3",
+            ".csdlc/prepared/issues/115/validate_governed_room_implementation.py"
+          ],
+          "parallel_group": "local-implementation",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on graph mismatch, missing #270 marker, unexpected lifecycle state, missing or nonterminal dependency cache, non-ancestral dependency merge SHA, or design/readiness review findings.",
+      "design_ref": ".csdlc/prepared/issues/115/design.md",
+      "design_digest": "d31a0fb00e55da6078c092f3d05b1f865035e7a2b745a671a5d2067f9bed9df2",
+      "diagram_ref": ".csdlc/prepared/issues/115/diagram.mmd",
+      "diagram_digest": "bbe81d60aa95b35ecc0dd22ed3d25f494f881a79a39c6d63a24b6ed456243844"
+    }
+  }
+}

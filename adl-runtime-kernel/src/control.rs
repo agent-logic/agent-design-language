@@ -36,6 +36,11 @@ use crate::layer8_authority::{
 };
 
 use crate::{
+    conversation_rooms::{
+        GovernedRoom, GovernedRoomDeliveryState, GovernedRoomParticipant,
+        GovernedRoomParticipantState, GovernedRoomRoute, GovernedRoomTurnIntent,
+        GOVERNED_ROOM_ROUTE_SCHEMA,
+    },
     decode_acip_envelope, AgentPresence, AgentRoster, AgentRosterEntry, AgentRosterPolicy,
     AgentRosterQuery, AgentRuntimeEvidence, BootstrapEvent, CanonicalIngress, CheckpointManifest,
     ComponentId, DomainResult, DomainWork, IngressError, KernelControl, KernelExit, LifecycleState,
@@ -67,6 +72,8 @@ pub const OBSERVATORY_WS_CONVERSATION_RESULT_SCHEMA: &str =
     "adl.runtime_v3.observatory_conversation_result.v1";
 pub const OBSERVATORY_WS_CONVERSATION_CANCEL_SCHEMA: &str =
     "adl.runtime_v3.observatory_conversation_cancel.v1";
+pub const OBSERVATORY_WS_GOVERNED_ROOM_INTENT_SCHEMA: &str =
+    "adl.runtime_v3.observatory_governed_room_intent.v1";
 pub const RUNTIME_RECIPIENT_ACKNOWLEDGEMENT_REQUEST_SCHEMA: &str =
     "adl.runtime_v3.layer8.recipient_acknowledgement_request.v1";
 pub const RUNTIME_RECIPIENT_ACKNOWLEDGEMENT_RESPONSE_SCHEMA: &str =
@@ -709,6 +716,7 @@ pub struct ControlService<C> {
     idempotency: Mutex<IdempotencyState>,
     acip_replay: Mutex<AcipReplayState>,
     conversation_sessions: Mutex<ConversationSessions>,
+    governed_rooms: Mutex<BTreeMap<String, GovernedRoom>>,
     weather: Mutex<Option<ObservedWeather>>,
     weather_stale_after_millis: Mutex<u64>,
     observatory_bearer_digest: Mutex<Option<blake3::Hash>>,
@@ -799,6 +807,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 sequences_by_principal: BTreeMap::new(),
             }),
             conversation_sessions: Mutex::new(ConversationSessions::default()),
+            governed_rooms: Mutex::new(BTreeMap::new()),
             weather: Mutex::new(None),
             weather_stale_after_millis: Mutex::new(30_000),
             observatory_bearer_digest: Mutex::new(None),
@@ -889,6 +898,110 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
             Ok(agent) => Ok(Some(agent.communication_eligible)),
             Err(ControlError::InvalidBounds) => Ok(None),
             Err(error) => Err(error),
+        }
+    }
+
+    fn governed_room_refusal(
+        intent: &GovernedRoomTurnIntent,
+        error: &'static str,
+    ) -> GovernedRoomRoute {
+        GovernedRoomRoute {
+            schema: GOVERNED_ROOM_ROUTE_SCHEMA,
+            status: "refused",
+            room_id: intent.room_id.clone(),
+            turn_id: intent.turn_id.clone(),
+            turn_sequence: intent.turn_sequence,
+            sender_id: intent.sender_id.clone(),
+            correlation_id: intent.correlation_id.clone(),
+            room_epoch: 0,
+            addressed_recipients: intent.addressed_recipients.clone(),
+            mentions: Vec::new(),
+            deliveries: Vec::new(),
+            error: Some(error),
+        }
+    }
+
+    fn governed_room_participants(
+        &self,
+        intent: &GovernedRoomTurnIntent,
+    ) -> Vec<GovernedRoomParticipant> {
+        intent
+            .addressed_recipients
+            .iter()
+            .filter_map(|recipient_id| {
+                self.agent_roster_detail(recipient_id)
+                    .ok()
+                    .map(|agent| GovernedRoomParticipant {
+                        participant_id: agent.id,
+                        polis_id: "local_runtime".to_owned(),
+                        display_name: agent.label,
+                        policy_eligible: agent.communication_eligible,
+                        state: if agent.communication_eligible {
+                            GovernedRoomParticipantState::Joined
+                        } else {
+                            GovernedRoomParticipantState::Left
+                        },
+                    })
+            })
+            .collect()
+    }
+
+    fn accept_governed_room_intent(
+        &self,
+        envelope: &ObservatoryGovernedRoomIntent,
+    ) -> GovernedRoomRoute {
+        if envelope.schema != OBSERVATORY_WS_GOVERNED_ROOM_INTENT_SCHEMA
+            || envelope.runtime_incarnation_id != self.runtime_incarnation_id
+        {
+            return Self::governed_room_refusal(&envelope.intent, "invalid_governed_room_intent");
+        }
+        let participants = self.governed_room_participants(&envelope.intent);
+        let mut rooms = self
+            .governed_rooms
+            .lock()
+            .expect("governed room state mutex poisoned");
+        if let Some(room) = rooms.get_mut(&envelope.intent.room_id) {
+            return match room.plan_turn(&envelope.intent) {
+                Ok(route) => {
+                    let delivery_states = route
+                        .addressed_recipients
+                        .iter()
+                        .map(|recipient_id| {
+                            (recipient_id.clone(), GovernedRoomDeliveryState::Accepted)
+                        })
+                        .collect();
+                    route.with_delivery_states(delivery_states)
+                }
+                Err(error) => Self::governed_room_refusal(&envelope.intent, error.code()),
+            };
+        }
+        if rooms.len() >= self.max_records {
+            return Self::governed_room_refusal(
+                &envelope.intent,
+                "governed_room_capacity_exhausted",
+            );
+        }
+        let mut room = GovernedRoom {
+            room_id: envelope.intent.room_id.clone(),
+            polis_id: "local_runtime".to_owned(),
+            epoch: 1,
+            next_turn_sequence: 1,
+            seen_turn_ids: BTreeSet::new(),
+            closed: false,
+            participants,
+        };
+        match room.plan_turn(&envelope.intent) {
+            Ok(route) => {
+                let delivery_states = route
+                    .addressed_recipients
+                    .iter()
+                    .map(|recipient_id| (recipient_id.clone(), GovernedRoomDeliveryState::Accepted))
+                    .collect();
+                let route = route.with_delivery_states(delivery_states);
+                rooms.insert(envelope.intent.room_id.clone(), room);
+                route
+            }
+            Err(error) => Self::governed_room_refusal(&envelope.intent, error.code()),
         }
     }
 
@@ -2720,6 +2833,14 @@ struct ObservatoryConversationIntent {
 
 #[derive(Clone, Debug, Eq, PartialEq, Deserialize)]
 #[serde(deny_unknown_fields)]
+struct ObservatoryGovernedRoomIntent {
+    schema: String,
+    runtime_incarnation_id: String,
+    intent: GovernedRoomTurnIntent,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Deserialize)]
+#[serde(deny_unknown_fields)]
 struct ObservatoryConversationCancel {
     schema: String,
     conversation_id: String,
@@ -3164,6 +3285,23 @@ async fn observatory_ws_session<C: LifecycleControl + 'static>(
                                         .await;
                                 }
                             });
+                        }
+                        continue;
+                    }
+                    if let Ok(room_intent) = serde_json::from_str::<ObservatoryGovernedRoomIntent>(&payload) {
+                        let result = if bearer_token.is_none() {
+                            ControlService::<C>::governed_room_refusal(
+                                &room_intent.intent,
+                                "write_authentication_required",
+                            )
+                        } else {
+                            service.accept_governed_room_intent(&room_intent)
+                        };
+                        let Ok(payload) = serde_json::to_string(&result) else {
+                            break;
+                        };
+                        if socket.send(Message::Text(payload.into())).await.is_err() {
+                            break;
                         }
                         continue;
                     }
@@ -3696,6 +3834,143 @@ mod layer8_conversation_ingress_tests {
         } = fixture;
         let service = service_from_layer8_parts(authority, exchange);
         (service, root)
+    }
+
+    fn service_with_room_agents() -> ControlService<FakeLifecycle> {
+        let recorder = RuntimeRecorder::new(16);
+        let now = now_unix_millis();
+        let mut population = AgentPopulationFeed::empty();
+        for (id, label) in [("shepherd", "Shepherd"), ("scribe", "Scribe")] {
+            recorder.set_component_state(ComponentId::new(id), RunningState::Running);
+            assert!(recorder.record_agent_admission(
+                id,
+                now,
+                now + 30_000,
+                "1111111111111111111111111111111111111111",
+            ));
+            population.sample.push(AgentSample {
+                id: id.to_owned(),
+                label: label.to_owned(),
+                role: "conversation agent".to_owned(),
+                state: "unknown".to_owned(),
+                detail: "Awaiting Runtime projection".to_owned(),
+                health: "unknown".to_owned(),
+                availability: "unknown".to_owned(),
+                activity: None,
+                capabilities: vec!["conversation".to_owned()],
+                location: Some("local_runtime".to_owned()),
+                communication_eligible: false,
+                observed_at_unix_millis: 0,
+                freshness_deadline_unix_millis: 0,
+                source_revision: "unobserved".to_owned(),
+                provenance: "runtime_component_state".to_owned(),
+            });
+        }
+        population = population.with_public_policy(AgentRosterPolicy {
+            policy_subject: "governed-room-test".to_owned(),
+            visible_agent_ids: BTreeSet::from(["shepherd".to_owned(), "scribe".to_owned()]),
+            reveal_capabilities: false,
+            reveal_location: false,
+        });
+        ControlService::new_with_observatory_config_and_agents(
+            "conversation-runtime",
+            recorder,
+            FakeLifecycle,
+            ControlAuthority::new(BTreeMap::new()),
+            8,
+            ["https://observatory.example.test".to_owned()],
+            population,
+        )
+    }
+
+    fn room_envelope(
+        service: &ControlService<FakeLifecycle>,
+        turn_id: &str,
+        sequence: u64,
+        recipients: Vec<&str>,
+    ) -> ObservatoryGovernedRoomIntent {
+        ObservatoryGovernedRoomIntent {
+            schema: OBSERVATORY_WS_GOVERNED_ROOM_INTENT_SCHEMA.to_owned(),
+            runtime_incarnation_id: service.runtime_incarnation_id.clone(),
+            intent: GovernedRoomTurnIntent {
+                schema: crate::conversation_rooms::GOVERNED_ROOM_TURN_SCHEMA.to_owned(),
+                room_id: "room-shepherd-scribe".to_owned(),
+                turn_id: turn_id.to_owned(),
+                turn_sequence: sequence,
+                sender_id: "operator".to_owned(),
+                correlation_id: format!("corr:{turn_id}"),
+                addressed_recipients: recipients.into_iter().map(str::to_owned).collect(),
+                message: "hello room".to_owned(),
+            },
+        }
+    }
+
+    #[test]
+    fn governed_room_ws_intent_routes_explicit_runtime_recipients() {
+        let service = service_with_room_agents();
+        let route = service.accept_governed_room_intent(&room_envelope(
+            &service,
+            "room-turn-1",
+            1,
+            vec!["scribe", "shepherd"],
+        ));
+        assert_eq!(route.schema, GOVERNED_ROOM_ROUTE_SCHEMA);
+        assert_eq!(route.status, "accepted");
+        assert_eq!(route.addressed_recipients, vec!["scribe", "shepherd"]);
+        assert_eq!(route.deliveries.len(), 2);
+        assert!(route
+            .deliveries
+            .iter()
+            .all(|delivery| delivery.state == GovernedRoomDeliveryState::Accepted));
+        assert_eq!(
+            route
+                .mentions
+                .iter()
+                .map(|mention| (mention.recipient_id.as_str(), mention.display_name.as_str()))
+                .collect::<Vec<_>>(),
+            vec![("scribe", "Scribe"), ("shepherd", "Shepherd")]
+        );
+    }
+
+    #[test]
+    fn governed_room_ws_intent_rejects_implicit_broadcast_without_consuming_sequence() {
+        let service = service_with_room_agents();
+        let refused =
+            service.accept_governed_room_intent(&room_envelope(&service, "room-turn-1", 1, vec![]));
+        assert_eq!(refused.status, "refused");
+        assert_eq!(refused.error, Some("implicit_broadcast_denied"));
+
+        let accepted = service.accept_governed_room_intent(&room_envelope(
+            &service,
+            "room-turn-1",
+            1,
+            vec!["shepherd"],
+        ));
+        assert_eq!(accepted.status, "accepted");
+        assert_eq!(accepted.turn_sequence, 1);
+        assert_eq!(accepted.addressed_recipients, vec!["shepherd"]);
+    }
+
+    #[test]
+    fn governed_room_ws_intent_rejects_non_initial_first_sequence() {
+        let service = service_with_room_agents();
+        let refused = service.accept_governed_room_intent(&room_envelope(
+            &service,
+            "room-turn-2",
+            2,
+            vec!["shepherd"],
+        ));
+        assert_eq!(refused.status, "refused");
+        assert_eq!(refused.error, Some("reordered_room_turn"));
+
+        let accepted = service.accept_governed_room_intent(&room_envelope(
+            &service,
+            "room-turn-1",
+            1,
+            vec!["shepherd"],
+        ));
+        assert_eq!(accepted.status, "accepted");
+        assert_eq!(accepted.addressed_recipients, vec!["shepherd"]);
     }
 
     fn intent() -> ObservatoryConversationIntent {
