@@ -12,7 +12,16 @@ Status: pre_phase
 
 ## Scope
 
-Fresh readiness/design review of #115 cards, design, readiness packet, validator, live issue contract, and canonical #111/#112/#113/#270 terminal dependency gates.
+adl-runtime-kernel/src/conversation_rooms.rs
+adl-runtime-kernel/src/control.rs
+adl-runtime-kernel/src/lib.rs
+demos/html-observatory/app.js
+demos/html-observatory/index.html
+demos/html-observatory/styles.css
+adl/tools/validate_v092_governed_room_observatory.mjs
+.csdlc/issues/115
+.csdlc/prepared/issues/115
+.csdlc/evidence/115
 
 ## Prompts
 

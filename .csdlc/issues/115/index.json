@@ -6,10 +6,26 @@
   "initialization_digest": "6b431e21b2b0a61991853e1f3f4a1bf51241907edaac9389f1c22998ae3334e7",
   "phase": "implemented",
   "generation": 18,
-  "digest": "5775ab7eed3271091ab49a0731d49182207e1d836b74aa32ae22fd8f7d6c3190",
+  "digest": "85b84a9e115492a83b0fcc1cbfaa10e99c9ede245e33d27ef3dafc0de86eb063",
   "branch": "codex/115-governed-multi-agent-rooms",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-115-governed-multi-agent-rooms",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:cc048107-993f-4d25-9a71-95bc411cdc72",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:4c1a2f31e51dfec3759fa70f5338e9c783bfae23:07cbcbd05d1f0340884ffc7db31bde32f9c91aaf722cdc05445985c4ae66c7fc",
+    "scope": [
+      "adl-runtime-kernel/src/conversation_rooms.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "adl/tools/validate_v092_governed_room_observatory.mjs",
+      ".csdlc/issues/115",
+      ".csdlc/prepared/issues/115",
+      ".csdlc/evidence/115"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +61,9 @@
       "ast_digest": "eb8f2cb0c493fbb437ed0edfd5922ffea6758fd0731841881c2e8acdae1eb7b9"
     },
     "srp": {
-      "values_digest": "e895198e3ff7ccfb436657f93d8ae6e38a7fe780bebed37570095fabe20fa4a4",
-      "rendered_digest": "7773977e7456ba0297c9b92ae7413161c871cb4e7467ac90a241b7f5b5e529d7",
-      "ast_digest": "d4d362c5933f3441a30ea40375adbc01c52aeaef43e90a8c49ad67dd81d9d057"
+      "values_digest": "1eab81d32f3b49b8b7b3411a8b76cdbd81a2361d1a249f185e4dc744e189fbc2",
+      "rendered_digest": "bec37c544ce296120cce98d30c0f824178702d094df6f562677657491618034d",
+      "ast_digest": "56971ac9e885dac661daa6b12b52d304a75d51beabd5268789a96ae280dec974"
     },
     "sor": {
       "values_digest": "657ec9602e79efce3c1a1e9859ef8d845a09761909f831c9e5eaf73f03f33d9e",
@@ -218,6 +234,13 @@
       "actor": "codex:/root",
       "reason": "Advance #115 after governed-room implementation, current-main merge, and focused proof capture before exact review.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 21,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
