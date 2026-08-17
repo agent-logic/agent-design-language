@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "024d435a2fcf6fd78678e4b9cda121ea06eecca7e6effaabceb5ad5c2f22ddaf",
   "phase": "implemented",
-  "generation": 23,
-  "digest": "2290967ffacbfbbea2aeace870e7fbdec4c43570928721cd7a740a201907774b",
+  "generation": 24,
+  "digest": "9e44ce52ce02d373168beb5b2b7e9affe2a2edcb8e86d93be3d5164475e60ff8",
   "branch": "codex/117-production-polis-interface-qualification-parent",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-117-production-polis-interface-qualification-parent",
   "review_assignment": {
@@ -21,7 +21,35 @@
       ".csdlc/issues/117"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:9bb9d4e3-cfc3-42ac-8ff4-e9b1d75f93c0",
+    "scope": [
+      ".csdlc/evidence/117/production-polis-interface-parent-closeout.md",
+      ".csdlc/evidence/117/validate_parent_closeout.py",
+      ".csdlc/prepared/issues/117/validate_preparation_bundle.py",
+      ".csdlc/prepared/issues/117/design.md",
+      ".csdlc/prepared/issues/117/diagram.mmd",
+      ".csdlc/issues/117"
+    ],
+    "reviewed_revision": "git-blake3:af490bc1a7554974b17d054ad0ecfebd92cb56eb:07bf98dba7054134692c21bdedfd0858dc3c40932d6d1c45220478c3dec6066f",
+    "findings": [
+      {
+        "id": "9bb9-p1-stp-omits-consumed-terminal-inputs",
+        "severity": "p1",
+        "summary": "STP dependency/input truth omits consumed terminal prerequisites #271/#114/#115/#116 even though the #117 design, diagram, validators, closeout evidence, and AC-1 consume them.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [
+      "Publication, hosted CI, merge, and terminal finish were not reviewed because this exact revision remained unpublished."
+    ],
+    "completed": false,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -36,32 +64,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0dcde363d0b3d5b32967e14755a5234195f1c9e96fe87e84369f487223a73cb7",
+      "values_digest": "6507aee183c85e49f11ad8e80171798a9ac58a5b0cd577d474f1298f69811400",
       "rendered_digest": "31377833f0fdf1c38188d892ce3d604f14ea61410b4d14eded85470c819d1506",
       "ast_digest": "34914eb71385e6d9a391827d3bcdfd88497cc2bccadad9d09dd81bf9d07fd13f"
     },
     "stp": {
-      "values_digest": "735e9fd20170443a89f0e6bbe9ca2beecf9d4b68a5b1f36ce5c1f4dc6b4b5551",
+      "values_digest": "6b81eb58f3d600358db7971718d45132d637f03a810e7d0d6ed85794289c8f0f",
       "rendered_digest": "90a11f2ccd8f2e44783806970332b4a0657af031f79dda6b395ff593ae5a3dd6",
       "ast_digest": "21dda05a4a0a3f33ddb1c2752f58c353d4fb6794d3eb2dba2b9592433b8364ce"
     },
     "spp": {
-      "values_digest": "971868911a095df5a7fdf165804cb119c0a46049ba277c5488790087a97d5d1e",
+      "values_digest": "a7136178e58e73b0d1374933528cb46934687313c388672f1118e1f3fae2d594",
       "rendered_digest": "258848e070a57478e07177c1e9546907cd706f89a06ec45a05b77793a471e276",
       "ast_digest": "da7b6053c0774cd71960d329cd12a806b6bf66fce728459688fa9b9d524c7434"
     },
     "vpp": {
-      "values_digest": "89533fa8d8cf1f557298b8708f56a779aa221cdeb6bf42d03d7b822d011f86b0",
+      "values_digest": "844a42988de128eab1773e5ab55bda6b7326321bd7f66ffe8a75bf39ee1ef3e2",
       "rendered_digest": "cb288c0e4e3fa37efca1d62888457c5cfab8b9ddc1ce0282259f69e987b4c0d7",
       "ast_digest": "6e9164f90884128e31ad8d16a53deb657a3a6a3e58d6efdc82dc0b092069348d"
     },
     "srp": {
-      "values_digest": "08c30ec9ef6f7b4336601d972d10aa88182d6fd604ef15ec12406df6f65135af",
-      "rendered_digest": "ca7d62232ed05329e6bf5b4d84f149e93c6cf43a0dc66a0ac90feaf7141236d9",
-      "ast_digest": "b830fc0d966ef86f4b7b785c5459a431f11737d96611114d81e931161ae0386c"
+      "values_digest": "93fe6f03eb256bb3c4c2e91ed63f9af33372ab9a808709edc42967d1780a0380",
+      "rendered_digest": "5411de990c8df43b2cc2a6271e6ee472214b13d8639a3a0579c4facfc7de24e0",
+      "ast_digest": "637cf67f9965da192b8f66bb0468ce02f69a2f079f1fd5009cd67a4a73a0d6ac"
     },
     "sor": {
-      "values_digest": "64e1e23d28355a8955a1ba8db04939261d9f770e715b3741996cd08fabd93374",
+      "values_digest": "106698dea30ce9ed009be5766180a69a405730c20cec68378d6fbca07643edbe",
       "rendered_digest": "d8b815a277aad19f8d907b0a73f1c49b3724272f92e792c1995d40f19637d036",
       "ast_digest": "f119737ef3d6411764ce511ada41365d6a58d714922d2e2739fc7bb4cccf202d"
     }
@@ -292,6 +320,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 24,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

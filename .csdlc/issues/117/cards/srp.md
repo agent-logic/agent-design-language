@@ -27,7 +27,18 @@ Status: draft
 
 ## Findings
 
-[]
+[
+  {
+    "id": "9bb9-p1-stp-omits-consumed-terminal-inputs",
+    "severity": "p1",
+    "summary": "STP dependency/input truth omits consumed terminal prerequisites #271/#114/#115/#116 even though the #117 design, diagram, validators, closeout evidence, and AC-1 consume them.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -35,12 +46,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Publication, hosted CI, merge, and terminal finish were not reviewed because this exact revision remained unpublished.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:af490bc1a7554974b17d054ad0ecfebd92cb56eb:07bf98dba7054134692c21bdedfd0858dc3c40932d6d1c45220478c3dec6066f")
 
-Reviewer: None
+Reviewer: Some("fresh-session:9bb9d4e3-cfc3-42ac-8ff4-e9b1d75f93c0")
 
-Result: pre_review
+Result: changes_required
