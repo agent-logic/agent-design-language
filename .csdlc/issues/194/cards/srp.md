@@ -40,12 +40,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Current Agent Logic AWS quota/capacity does not permit two simultaneous model-capable AWS GPU voters; #194 records this as a quota gate and does not claim the missing two-GPU serial hybrid proof.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:93fa87e9657e48c85ba2433796d10c2b0595974e:3bc69e4ee874c1a34f8a70950175b10e51e1963e9de3e4bb66c7709e4b50c833")
 
-Reviewer: None
+Reviewer: Some("codex:/root/review_issue_194_exact_head_r2")
 
-Result: pre_review
+Result: pass

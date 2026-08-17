@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "2609fad55d8c07f3abf65e672f34c03301f1175acf34d33d3e6271a0f12d8429",
-  "phase": "implemented",
-  "generation": 3,
-  "digest": "6a5c334364d4bc79d65ac6be512723f027b8c5160af503514ccf18e69ad4a585",
+  "phase": "reviewed",
+  "generation": 4,
+  "digest": "b2e629841440c3b2c47e3362cd9e44d6b6cac1292212affce78b09c931a83eeb",
   "branch": "codex/194-private-wuji-aws-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-194-private-wuji-aws-recovery",
   "review_assignment": {
@@ -25,7 +25,27 @@
       ".csdlc/evidence/194"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "codex:/root/review_issue_194_exact_head_r2",
+    "scope": [
+      "adl/tools/issue194_private_network.cloudformation.json",
+      "adl/tools/issue194_private_wuji_aws_runner.sh",
+      "adl/tools/private_wuji_aws_recovery_qualification.py",
+      "adl/tools/issue194_model_health_command.py",
+      "adl/tools/test_issue194_private_network_template.sh",
+      "adl/tools/test_private_wuji_aws_recovery_qualification.sh",
+      ".csdlc/prepared/issues/194/design.md",
+      ".csdlc/prepared/issues/194/diagram.mmd",
+      ".csdlc/evidence/194"
+    ],
+    "reviewed_revision": "git-blake3:93fa87e9657e48c85ba2433796d10c2b0595974e:3bc69e4ee874c1a34f8a70950175b10e51e1963e9de3e4bb66c7709e4b50c833",
+    "findings": [],
+    "residual_risks": [
+      "Current Agent Logic AWS quota/capacity does not permit two simultaneous model-capable AWS GPU voters; #194 records this as a quota gate and does not claim the missing two-GPU serial hybrid proof."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -40,32 +60,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "bd1a3d74d197de17f79991c595bed72980de524856d96a0e9c6d7e2b35ddf30c",
+      "values_digest": "77538f552a747a55d68706dd224a9d3e70ad72f9485b0ab0e9958f4fbf11bab4",
       "rendered_digest": "8c0a9b78135f77adadac0187241167b5fa1bd660459dee684419c3e447cb1eef",
       "ast_digest": "25f053f7224ab148b2c7162eac84ea49b167b2c74c1e43a35e43a06a7ec3ca30"
     },
     "stp": {
-      "values_digest": "2d6b4a6fe527b1b509e7602ab5247885b029f904bf4e663a87d30e40f59b444e",
+      "values_digest": "197cb6322c3dd43fa51a8cd9ec725c0bb3acb65e8f8b44d1d5b9c1432ff1fd17",
       "rendered_digest": "cc160f661d0bd63147007a9a7575f630b7fd7dadf5ada851cd1d4f52e4de4efe",
       "ast_digest": "c8e37b9ddf3a3d1d3d5be23652ef4a427209e7c57f467713d58fbd22714e4aab"
     },
     "spp": {
-      "values_digest": "ab560144e9959d51daa06d499b7a0608dc22b3835e3375d08ef5736385902264",
+      "values_digest": "a9a746b9a999b01b9fdab07a723dfe207ab9bdcb10491b87b3b22daec8704800",
       "rendered_digest": "fda73abcf91881547c69a66ca5aa86a1c4b2a93be2e355c70fecbfb7443fe9e7",
       "ast_digest": "77d3767b7a3814ba60b4d9850b5eb2936705e152b1549ec6fbea44be4f29b6f6"
     },
     "vpp": {
-      "values_digest": "45f720478428a5b98b59811e39c1b883874830dc721f9bb4f3cbc1a22257d2dd",
+      "values_digest": "401b334d669c4a6025d874e038d3dda736fb36b62ae38b96ab3cdabceb1c92c8",
       "rendered_digest": "9f504b59276320ac2c656faf589178f9fda99342ee693b20bb2cfcc4a3d1bde2",
       "ast_digest": "36c06e2aeff7d4339ea47f6e3d98e55e0dc33dcbb4de191c7ba77f2115a25f42"
     },
     "srp": {
-      "values_digest": "45c9f68d1135c0d87427983fa413cac1e35eda154d4db85f734987a526538457",
-      "rendered_digest": "326f72534d8bdecdf96a773720301659bd9269d6e68f26f9a4285520838acbdb",
-      "ast_digest": "2b1329b7a702552940bbbb66f283f5c51abd799a933bda65e69e6e44be09fa25"
+      "values_digest": "1690604e43b0d42337ec247f9590ee219d45715a16ffb4f854747e12a786772b",
+      "rendered_digest": "ec21876ffa6f8dae6f7a06028ec7a318dbf8a6bc33498a64bf23d4c00431aff2",
+      "ast_digest": "5bc9bd0479812d8cb5be1d52ca1884a836e330a677a539943ce6f20fa3a56dc2"
     },
     "sor": {
-      "values_digest": "6361080c0f433529f6b87f8eb13a6f9dcfdcb26af82e0b61503137770479ab99",
+      "values_digest": "c8f4d88e27e129c0f4bbcd187e43200398f443383a126b372ef5075a187d707d",
       "rendered_digest": "85b2c093c5074ebc0f5728d1e336d32911ff19cf36f1520349b731badc304b6b",
       "ast_digest": "846955139b8759b16f16f2261b91c82114db5768d8e7db9a064ded9cd02bf0f8"
     }
@@ -91,6 +111,13 @@
       "to": "implemented",
       "actor": "codex:issue-194-private-wuji-aws-recovery",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -142,6 +169,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

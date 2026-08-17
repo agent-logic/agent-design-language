@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.16d] Qualify private Wuji-AWS recovery with fail-safe cleanup",
     "slug": "private-wuji-aws-recovery",
     "version": "v0.92",
-    "generation": 3
+    "generation": 4
   },
   "status": "ready",
   "content": {
