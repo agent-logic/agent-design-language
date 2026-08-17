@@ -5,21 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "2f7413cb01489f80873183bf0cb3f041747a54a7888d8a7b976df4841c8e0f95",
   "phase": "implemented",
-  "generation": 13,
-  "digest": "6319b44b63c0a92fc1a30e00695c709ddb17bf92780e75f978078888f8335703",
+  "generation": 14,
+  "digest": "c85ba7b200409cd265ab61f2d01143b8433301086255ad554fae5edb2a3b1cce",
   "branch": "codex/281-observatory-security-privacy-adversarial-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-281-observatory-security-privacy-adversarial-proof-bound",
-  "review_assignment": {
-    "reviewer": "fresh-session:e5453b60-8679-43e2-ac2a-24af3f0f1808",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:b2b6c9eaf2553b39d9ac669c31642aa58ab34fa1:edcd3d7ffc9a169bc5f7878b1a4c4a3f68a8b6dc76c7d05fc71bf7444bb2fb86",
-    "scope": [
-      "demos/html-observatory/tests/security_privacy_adversarial.test.mjs",
-      ".csdlc/prepared/issues/281/validate_preparation_bundle.py",
-      ".csdlc/issues/281",
-      ".csdlc/evidence/281"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -35,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "14f016e0b4cd68961afbc94e6fc3e7daecd346ebe3772710d27780fa7fb32ab2",
+      "values_digest": "970ff93534cd903a484ddce9b55ab586072077eb2d562026e3fe10f260536b09",
       "rendered_digest": "554d11397ec1afbda6fb34a01c29b32978744e71f1275e2e57aacc3fe5acb46b",
       "ast_digest": "92cfe22f5d143b078bd0b4bed2b3d4db8d258f9b5541320677a3cbbc20df1231"
     },
     "stp": {
-      "values_digest": "42f4ee9b0d6ff3d463485e59557f29f5e19c7e7ed05e01666d2b1db9dfbc7aae",
+      "values_digest": "d99980edb1040fd138299ce8c9a57e53394e9ca6426843f99f47fd29bd47d354",
       "rendered_digest": "2bbeb6440a03b77c996752e850ec05baa68e1c5ee44c9992cf3b1994240b06db",
       "ast_digest": "8c1fbf937ed7846252948f61ea050e702a73556adb528728134b4ae63789afbc"
     },
     "spp": {
-      "values_digest": "563a7b41dcfe986a5aa6602464a610382896c38fb66609ff9030fe8f2c40c306",
+      "values_digest": "131435c2cac98f8bf29f3afa5e1dadbe74cbb2f27838d80d508477b32219723f",
       "rendered_digest": "7ed05e820daa4afa8b4958a16a37cb93b619425d78ec301f6bc3f612a93a1693",
       "ast_digest": "22affcf68299bb262e1636e15128d8c46471ab93e918d6298e2f26049f3f0688"
     },
     "vpp": {
-      "values_digest": "27a9915728e3cb0f6909f9373f1f4b75f8d6ebdf1a0c0682cc87feb834a3ec36",
+      "values_digest": "80e803d648e5a35efdb7a440b42bee5a3a6103e87f6fcec88dfdea390f1b160d",
       "rendered_digest": "fcd1cea166ebcd65d3e5713bc0a634879037ba000eed3ee07ec985914ebf4726",
       "ast_digest": "d4d9ab87114ce18ebf5f36d6758f89334adc18df9e5f1ea19fcce02d4dfd6641"
     },
     "srp": {
-      "values_digest": "60b86596f9e51ab9b577435086e0d57444895fff90c2751ec33a4b814a10e5d7",
-      "rendered_digest": "5a82091ebc8354d887f64ece2ee4ecf3d6a5ef0b32c328b04b10e27a03085fb1",
-      "ast_digest": "254e42f78d10f69e825ce6bd886527809c6f13c9cb9a200e914d018228807b48"
+      "values_digest": "2fec904ff813573a2a201d08d4029b77d438b1cdad5e22ed76c4a83e20bd5721",
+      "rendered_digest": "bfd1caeda65be38076b06f5709aef6cd47e76e9a44a2715f26e00b90bc9055c5",
+      "ast_digest": "398e804ac7f1dbf3a149b374ae10f74b345e0de1b9e756d633deca5519c59eb2"
     },
     "sor": {
-      "values_digest": "1bc2fd6fe5b2fa8f7e7b2c953c3ef76587b0990fd8ff7b35b5ee66d15a8ee316",
+      "values_digest": "696d9b3fd0721fb6adf23bf7ce48a87b87eeda51387bd73ca354d6aadb394d88",
       "rendered_digest": "d2d2744305cbb30d9c236cf5c58c38983fd442fff47edc3e2581d41b9dbd8c7e",
       "ast_digest": "8649c7ec3f59bd1ada1e938f42f554559dd77780fd690c862d5bc4bb9d77e2f5"
     }
@@ -256,6 +246,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Recover fresh-session:e5453b60-8679-43e2-ac2a-24af3f0f1808 FAIL caused by origin/main advancing to 21ab0f8fa13f25ed4e1b5f2d9b186667f26ba7bd after #281 current-base merge; finding is stale-base only, with no #281 product/code/security findings.",
+      "operation": "recover_review"
     }
   ]
 }
