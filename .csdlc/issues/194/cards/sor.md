@@ -80,11 +80,11 @@ Implemented the private Wuji/AWS recovery qualification harness and recorded the
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
