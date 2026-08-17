@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-18C.04c][114.c] Expose re-authorized conversation history APIs and restore Observatory transcripts",
     "slug": "v0-92-wp-18c-04c-114-c-reauthorized-conversation-history-observatory-transcripts",
     "version": "v0.92.0",
-    "generation": 15
+    "generation": 16
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime-kernel/src/conversation_history.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/tests/conversation_history.rs\nadl/tools/validate_v092_observatory_transcript_history.mjs\ndemos/html-observatory/app.js\n.csdlc/issues/278\n.csdlc/prepared/issues/278\n.csdlc/evidence/278",
+      "review_revision": "git-blake3:dc0d3bfb2bb188cfba6b54d5a7999d94d83e0ba1:9c8f1e435090463da017a000b395c075555826feaa229ca65afb367a396e283c",
+      "reviewer": "fresh-session:91fe0bc4-4fcc-4d5c-a53b-02560a57c9d1",
       "review_prompts": [
         "Does #278 own only re-authorized history APIs, search/export/redaction, and Observatory transcript restoration?",
         "Does the packet consume #276/#277/#271 without redefining their authority or semantics?",
@@ -23,8 +23,13 @@
         "Is the validation plan sufficient to prove pagination, search, export, redaction, restart restoration, and Observatory transcript restore?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "PASS is limited to immutable implementation commit dc0d3bfb2bb188cfba6b54d5a7999d94d83e0ba1 and #278 re-authorized conversation history APIs plus Observatory transcript restoration scope.",
+        "Reviewer reran focused proof only: preparation validator, cargo fmt --check, cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test conversation_history with 5 tests, node Observatory transcript validator, cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --lib -- -D warnings, and git diff --check.",
+        "No publication, merge, CI, or terminal closeout is claimed by review.",
+        "Review does not approve #271 authority UI beyond #278 integration, #114 parent, #115 governed room routing, #270 acknowledgement protocol, #276 journal foundation, or #277 continuity semantics."
+      ],
+      "review_result": "pass"
     }
   }
 }
