@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "2f7413cb01489f80873183bf0cb3f041747a54a7888d8a7b976df4841c8e0f95",
-  "phase": "implemented",
-  "generation": 8,
-  "digest": "f76e86df4dcb3ec48d428507e19157183346567b2fedf0364a7a3e993d96cdc4",
+  "phase": "reviewed",
+  "generation": 9,
+  "digest": "146edb02960ac494c0cc5d94b1c5dcc500e415f28c378c6fb080e2199b319a92",
   "branch": "codex/281-observatory-security-privacy-adversarial-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-281-observatory-security-privacy-adversarial-proof-bound",
   "review_assignment": {
@@ -20,7 +20,23 @@
       ".csdlc/evidence/281"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:f283ff3c-d8a2-4e97-87b2-4b1fcd9f6785",
+    "scope": [
+      "demos/html-observatory/tests/security_privacy_adversarial.test.mjs",
+      ".csdlc/prepared/issues/281/validate_preparation_bundle.py",
+      ".csdlc/issues/281",
+      ".csdlc/evidence/281"
+    ],
+    "reviewed_revision": "git-blake3:f3e9c1a07c8db48d80f88c25bae76281e21b9e6a:cafe951d7fd288ca6393ec6b0b0d515587093c6461e3a32d30d45f8a6df378ee",
+    "findings": [],
+    "residual_risks": [
+      "Review was bounded to #281 Observatory security/privacy/adversarial proof and did not rerun the in-place security_privacy_adversarial Node proof because that command rewrites its committed evidence JSON.",
+      "Post-target changes observed by the reviewer were assignment metadata only; #281 does not implement #279 accessibility, #280 performance/recovery, #282 qualification assembly, Runtime authority, cloud, Unity, credential, or provider-payload behavior."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -35,32 +51,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "08351e7b80d5f646b56050a8c060656bbf151acb468b8e552b69f33f6e79d26e",
+      "values_digest": "a530047f0a1929fec82b47ed3d99c937828a14d5fb7262e75ccae119ed8dc1be",
       "rendered_digest": "554d11397ec1afbda6fb34a01c29b32978744e71f1275e2e57aacc3fe5acb46b",
       "ast_digest": "92cfe22f5d143b078bd0b4bed2b3d4db8d258f9b5541320677a3cbbc20df1231"
     },
     "stp": {
-      "values_digest": "4a9a0aadbae8fddfad71ada7182254df80c5f5d194bb4d594705db75f46394ce",
+      "values_digest": "d538ad39f2930d9fc297679a6dbeccafe735c5b2452cf70d980805ee181000e3",
       "rendered_digest": "2bbeb6440a03b77c996752e850ec05baa68e1c5ee44c9992cf3b1994240b06db",
       "ast_digest": "8c1fbf937ed7846252948f61ea050e702a73556adb528728134b4ae63789afbc"
     },
     "spp": {
-      "values_digest": "8908260297e9b56e82d67464484bb7e5ac71dc00358877a5928d525e6837f4f8",
+      "values_digest": "111afa8c63f0e8f0787b9fddf5a4d3d9012314b6d94b87879311b84269476917",
       "rendered_digest": "7ed05e820daa4afa8b4958a16a37cb93b619425d78ec301f6bc3f612a93a1693",
       "ast_digest": "22affcf68299bb262e1636e15128d8c46471ab93e918d6298e2f26049f3f0688"
     },
     "vpp": {
-      "values_digest": "f084a79833ec16fed272e8000db694efcb1e852334256084d483662b5695155e",
+      "values_digest": "56f8a1a685a26e03f76234aaa5e41042f73325684b48163b11c5141e051daa37",
       "rendered_digest": "fcd1cea166ebcd65d3e5713bc0a634879037ba000eed3ee07ec985914ebf4726",
       "ast_digest": "d4d9ab87114ce18ebf5f36d6758f89334adc18df9e5f1ea19fcce02d4dfd6641"
     },
     "srp": {
-      "values_digest": "e1ca0ba95e7173b6576d05b5537fd7661282747b7e8b12405e13e6ca1f6a25cb",
-      "rendered_digest": "5a82091ebc8354d887f64ece2ee4ecf3d6a5ef0b32c328b04b10e27a03085fb1",
-      "ast_digest": "254e42f78d10f69e825ce6bd886527809c6f13c9cb9a200e914d018228807b48"
+      "values_digest": "3a8e9144ee32b69c1e78d8e7f733dc908c5ea559d1b82cb80e11ef56796ea69f",
+      "rendered_digest": "183d0b27d649c0f778ea2e32089c87ac365ffd2c1549b9bc2f8ff864ec5e48bb",
+      "ast_digest": "2c9b11f9861ce3def145b64b2f3e97652f1fdb50ffa27f0e20cdec687596e516"
     },
     "sor": {
-      "values_digest": "465dec1e90358f5dbb924a87a109b474a58cfa8336bf54717e176f366cf966ae",
+      "values_digest": "b2b325e56902bf9fd2b6f4c85ab97717f47d56acbdada3222b00a5a4c9681655",
       "rendered_digest": "d2d2744305cbb30d9c236cf5c58c38983fd442fff47edc3e2581d41b9dbd8c7e",
       "ast_digest": "8649c7ec3f59bd1ada1e938f42f554559dd77780fd690c862d5bc4bb9d77e2f5"
     }
@@ -86,6 +102,13 @@
       "to": "implemented",
       "actor": "codex:/root/wp18c_281_security_r2",
       "reason": "Advance #281 to implemented after bounded security/privacy/adversarial proof and focused validation passed locally."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:f283ff3c-d8a2-4e97-87b2-4b1fcd9f6785",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -172,6 +195,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "fresh-session:f283ff3c-d8a2-4e97-87b2-4b1fcd9f6785",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

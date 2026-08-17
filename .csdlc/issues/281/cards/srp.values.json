@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-18C.07c][117.c] Prove Observatory security, privacy, and adversarial behavior",
     "slug": "observatory-security-privacy-adversarial-proof",
     "version": "v0.92",
-    "generation": 8
+    "generation": 9
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "demos/html-observatory/tests/security_privacy_adversarial.test.mjs\n.csdlc/prepared/issues/281/validate_preparation_bundle.py\n.csdlc/issues/281\n.csdlc/evidence/281",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:f3e9c1a07c8db48d80f88c25bae76281e21b9e6a:cafe951d7fd288ca6393ec6b0b0d515587093c6461e3a32d30d45f8a6df378ee",
+      "reviewer": "fresh-session:f283ff3c-d8a2-4e97-87b2-4b1fcd9f6785",
       "review_prompts": [
         "Does #281 stay limited to Observatory security/privacy/adversarial proof and narrowly necessary presentation fixes?",
         "Are #279 accessibility/responsive, #280 performance/recovery, #282 final qualification, #117, and #110 explicitly excluded?",
@@ -24,8 +24,11 @@
         "Are all dependency merge gates truthfully required before implementation and publication?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Review was bounded to #281 Observatory security/privacy/adversarial proof and did not rerun the in-place security_privacy_adversarial Node proof because that command rewrites its committed evidence JSON.",
+        "Post-target changes observed by the reviewer were assignment metadata only; #281 does not implement #279 accessibility, #280 performance/recovery, #282 qualification assembly, Runtime authority, cloud, Unity, credential, or provider-payload behavior."
+      ],
+      "review_result": "pass"
     }
   }
 }
