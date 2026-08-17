@@ -1,0 +1,125 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 285,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "86fc885845863ed7760b82c9ecb729e80febdd155435633ae42807d293d42e51",
+  "phase": "implemented",
+  "generation": 4,
+  "digest": "ab93284d60e910dad999e7ca71fdcd7f53f84c1407a6f6d7d86198f1f4be968d",
+  "branch": "codex/285-adr0068-birthday-governance-handoff-evidence-reconciliation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-285-adr0068-birthday-governance-handoff-evidence-reconciliation",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/285/design.md",
+  "diagram_path": ".csdlc/prepared/issues/285/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "github-issue-contract:v092-decompose-p207-c3-v1",
+      "revision": "8bced2bb314f4473637ede6b96a685b496090857ddce4cf0c7f14dc7da8ef9cb"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "7957a51bc3a0505cd079c5872865c071f21f3601060e2431a4b8956777b5aadd",
+      "rendered_digest": "6c1324a79d23d684d31c1e9eccf9b16bd2ce616d42e432c3ca5ee81b20950097",
+      "ast_digest": "bdd8b9633262cacb42b746ce66abcacdbe9c534f9b0c269af2a6dd879f9245e7"
+    },
+    "stp": {
+      "values_digest": "08a73ce9c43f1d66c05ee7ec8c717f7a9f73c43db7e917565dfcc68c5aadde0d",
+      "rendered_digest": "ad84c1cbf61485bb7875a15bbde6cbcfdad97af1313965a85ce29c88b5fd6adb",
+      "ast_digest": "79e80601df506f4af9310c4015edc49fe1b796f08d7aea77ffa51b02a49c76c2"
+    },
+    "spp": {
+      "values_digest": "b8402f7f2051f3126d14c1218efe21fea6a81c6890c59e698b658dc5d074cd3c",
+      "rendered_digest": "71f2f1a3df09214f7b67559addd6e8e6713e20a84c7dd87b54cc23dfaf6d8198",
+      "ast_digest": "cb8bf3af0c251a15cc7f97e10ef4ce2f25c7c849cfe38a8af05f48a34e3cc111"
+    },
+    "vpp": {
+      "values_digest": "07f14d40d6a4dccdaed79f40745b8311c75a50c7c21b58f8c9a70e6e8b3b3b02",
+      "rendered_digest": "f1b2832b396f33fa60dd605640381ba399af41b5cdfec39abe2c98244839448e",
+      "ast_digest": "489588cef49c7c039a7027a324206262da0eb4f015cbd743f49d81cc3d4e7055"
+    },
+    "srp": {
+      "values_digest": "b0dae02179cef9d55b032a6e6d0012a358e9f9336f021e921240593cb3afcadb",
+      "rendered_digest": "ac7d68c25d3d4a7e18c860da8d586c913ef0533df444ea6b924e3e0544effa09",
+      "ast_digest": "e822ab9a2ad11d381612eeb7a9bba3e1a886343f8aa2d729a30a4a9d7f2ad634"
+    },
+    "sor": {
+      "values_digest": "690d5cbc8e9c01fc6b2f408a9cc4133d871e82b6cd75f0742371d5a122269b8a",
+      "rendered_digest": "1d521e5705b6c32c7e82760dc740cb38d7b8881c1726cd826fb325dd2c7f9a61",
+      "ast_digest": "c428bc0c8323000f5bfa2aabbd5c8b1b8602ab730db8bb7416aefb983f94c84f"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Issue #285 design is approved by the typed live issue contract and validates with an issue-owned focused evidence validator target; ready for FastWork binding before implementation."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Align #285 affected areas with the issue-owned focused validator deliverable path before ready/bind.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/issues/285/\",\".csdlc/prepared/issues/285/\",\".csdlc/evidence/285/\",\".csdlc/evidence/285/validate_adr0068_birthday_governance_handoff_evidence.sh\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Issue #285 design is approved by the typed live issue contract and validates with an issue-owned focused evidence validator target; ready for FastWork binding before implementation.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Repair #285 bound-worktree VPP after validation found the deferred typed issue validation lane pointed at missing FastWork-local .adl/bin; use the stable generated owner binary with worktree-relative root.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"focused-adr0068-birthday-governance-handoff-evidence\",\"proof_role\":\"Issue-local reconciliation validator for retained and terminal birthday-to-governance handoff evidence and residual gaps.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/evidence/285/validate_adr0068_birthday_governance_handoff_evidence.sh\"],\"parallel_group\":\"serial\",\"defer_reason\":null},{\"lane\":\"typed-issue-validation\",\"proof_role\":\"Typed lifecycle/card validation before review and publication.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"285\"],\"parallel_group\":\"serial\",\"defer_reason\":\"Run after implementation evidence is recorded.\"}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}
