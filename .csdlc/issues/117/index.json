@@ -5,10 +5,22 @@
   "initialization_digest": "024d435a2fcf6fd78678e4b9cda121ea06eecca7e6effaabceb5ad5c2f22ddaf",
   "phase": "implemented",
   "generation": 22,
-  "digest": "9db205741f390210c4c8c4f190a137526a0258f079011c67130e121692a2a6d8",
+  "digest": "41cb77e34a3da8ad82a4a0ecec271efbaf96849b02bfab4c7b123c8c9c5d1f52",
   "branch": "codex/117-production-polis-interface-qualification-parent",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-117-production-polis-interface-qualification-parent",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:2af64f8d-a01b-462c-9cf6-f53e3fce05ab",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:8fb5328611afcda2f95ff6ee4561489cf5b931a5:82dfe978ac0c66fe443780c3f2d0817d61c5b715e1b5c20cd5167903f118961d",
+    "scope": [
+      ".csdlc/evidence/117/production-polis-interface-parent-closeout.md",
+      ".csdlc/evidence/117/validate_parent_closeout.py",
+      ".csdlc/prepared/issues/117/validate_preparation_bundle.py",
+      ".csdlc/prepared/issues/117/design.md",
+      ".csdlc/prepared/issues/117/diagram.mmd",
+      ".csdlc/issues/117"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +56,9 @@
       "ast_digest": "6e9164f90884128e31ad8d16a53deb657a3a6a3e58d6efdc82dc0b092069348d"
     },
     "srp": {
-      "values_digest": "64af67f0c4f493d7f711307b4119eb72dad855f93ffec126c5498771602552f8",
-      "rendered_digest": "1253ac0f42063c5f2011243e9449818f55d1504c07ad8146ba38ea23a0a35357",
-      "ast_digest": "d3faf3908bf4b8cf64c7ef7144b0ef223acc1883189f0f858db1e2af1d228ef1"
+      "values_digest": "1e777acd2136391ecc2114d087dc630cc74133afb4ecf1748798c3d454603e9a",
+      "rendered_digest": "ca7d62232ed05329e6bf5b4d84f149e93c6cf43a0dc66a0ac90feaf7141236d9",
+      "ast_digest": "b830fc0d966ef86f4b7b785c5459a431f11737d96611114d81e931161ae0386c"
     },
     "sor": {
       "values_digest": "5a1247d8dee2928eab661e19c724d46a147735f895b8cde5965f9c1ec908ac93",
@@ -259,6 +271,13 @@
       "actor": "codex:/root",
       "reason": "Resolve prior exact-review finding: SPP S3 focused parent validator and diff hygiene proof are complete and recorded in #117 evidence logs.",
       "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 27,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
