@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented the bounded WP-18C.06 operator attention inbox and intervention workflow with trusted source authorization, validated restart restoration, proposal-only Observatory outcomes, invalid-outcome rollback safety, and exact-head local proof enforcement.
+Implemented the bounded WP-18C.06 operator attention inbox and intervention workflow with trusted source authorization, validated restart restoration, Runtime quiet-mode/grouping, proposal-only Observatory outcomes, invalid-outcome rollback safety, and focused local proof whose exact revision authority is the typed review assignment.
 
 ## Artifacts
 
@@ -32,19 +32,18 @@ Implemented the bounded WP-18C.06 operator attention inbox and intervention work
 - Validated operator attention outcome payloads and monotonic timestamps before mutating request state or appending events.
 - Added focused Rust regression coverage proving invalid reply, refusal, defer, and non-monotonic outcome attempts leave request state and event count unchanged.
 - Preserved trusted Runtime source registration, principal and urgent authorization checks, quiet-mode/grouping behavior, and proposal-only Observatory outcomes.
-- Restored the issue-owned exact local proof runner so it asserts ISSUE_116_EXPECTED_HEAD and clean worktree before reporting PASS.
-- Regenerated exact local proof at 7c5aefc44eb9beb5c94c76821cd47ddf33c93535 with 8 focused Rust tests, 1 Node test, rustfmt, strict clippy, preparation validator, and diff hygiene PASS.
+- Removed self-referential committed HEAD/status proof claims; the focused proof runner and retained log report command argv, exit status, and test denominators only.
+- Retained focused proof with 8 Rust operator-attention tests, 1 Node Observatory test, rustfmt, strict clippy, preparation validator, and diff hygiene PASS; exact Git revision is bound separately by typed review assignment.
 
 ## Validation
 
 [
   {
     "command": [
-      "ISSUE_116_EXPECTED_HEAD=7c5aefc44eb9beb5c94c76821cd47ddf33c93535",
       "python3",
       ".csdlc/prepared/issues/116/run_exact_local_proof.py"
     ],
-    "purpose": "Run exact #116 local proof with expected HEAD assertion, clean-tree assertion, preparation validator, rustfmt, focused Rust tests, Node Observatory proof, strict clippy, and diff hygiene.",
+    "purpose": "Run focused #116 local proof with command argv, exit status, and test denominators for preparation validator, rustfmt, focused Rust tests, Node Observatory proof, strict clippy, and diff hygiene. Exact Git revision is bound separately by typed review assignment.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/116/issue-116-exact-local-proof.log"
   }

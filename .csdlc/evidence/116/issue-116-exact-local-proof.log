@@ -1,7 +1,3 @@
-EXPECTED_HEAD 7c5aefc44eb9beb5c94c76821cd47ddf33c93535
-HEAD 7c5aefc44eb9beb5c94c76821cd47ddf33c93535
-STATUS
-## codex/116-operator-attention-inbox
 COMMAND python3 .csdlc/prepared/issues/116/validate_preparation_bundle.py
 issue-116 preparation validator: PASS
 EXIT 0
@@ -44,4 +40,4 @@ EXIT 0
 COMMAND git diff --check
 
 EXIT 0
-ISSUE_116_EXACT_LOCAL_PROOF PASS
+ISSUE_116_FOCUSED_LOCAL_PROOF PASS
