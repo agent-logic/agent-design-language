@@ -4,23 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "072eda7c560e8283a4da1967834bb3006a2402e31ac8767987d9c05d78652abb",
   "phase": "implemented",
-  "generation": 9,
-  "digest": "72280148141b6195847aa633200f43a8f0df1c80d09a496c8e850d502a069013",
+  "generation": 10,
+  "digest": "a6fad5d2e64662a2342a62a1bdd334a4c9d380edd9329e7b05e7f14eede9cff0",
   "branch": "codex/400-implemented-card-recovery-bound",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-400-implemented-card-recovery-bound",
-  "review_assignment": {
-    "reviewer": "fresh-session:2ef54c29-7e40-4f80-a5cd-3f42adfe0d62",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:1d402196a7192b7f6d8c5a95c4863979a69291d3:b68f7afa74c2af43ad61cdafa955ce81b9ca2ac96f3db937ff3a75d2c9171ea4",
-    "scope": [
-      "csdlc-v2/src/cards.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/tests/gate5.rs",
-      ".csdlc/issues/400",
-      ".csdlc/evidence/400",
-      ".csdlc/prepared/issues/400"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -36,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5ab8d91b6bfb83161726a0e586607a70f65a04336954cc97586f66ca66a30c33",
+      "values_digest": "0c641080809127351f02255b5badcab4991399f9cab05d0c4a2fe719402a5f85",
       "rendered_digest": "f5bf608d8357ce2388f47a1145a3d9001e15fdebc96815f2499c6f0cfa108ec9",
       "ast_digest": "547d0a425b2a224731511673f3a061c5fe84e93613d538b45e0ba932964c4ad6"
     },
     "stp": {
-      "values_digest": "2d7f8f510b6e3433a6e105491992f1f30e7646ddc7d8489e9b6b58da942e6b60",
+      "values_digest": "0b03a5e14181020a6c01d4c0717491492531d8f82e327beb5659781d9cf738d0",
       "rendered_digest": "7ddcbfc4e2134e2f7f738d5759d3879d06cceb19c0794db2f939d7eda66b2e2d",
       "ast_digest": "e90a91099addec80240f0dcb4a1794d6ab0f5135da6719a7f4b6ef40ad8af584"
     },
     "spp": {
-      "values_digest": "136a6960d38d24b8ec08b4ac042cc61acbbdadfa3a829e8017b4fd9144dc2e35",
+      "values_digest": "e168f9fa3d368a9ad8948ebda8b36144faeaaa6aa1dafc0d59bc3f9f4d6def5d",
       "rendered_digest": "7efe47ff2e3ec85491c42679a01633e5ecfab7940a588d7af278ec150ae3b193",
       "ast_digest": "afd801aee92aabb025fd1c21f48bef650f8c14544fcf200c6cf8485e48ba4dd4"
     },
     "vpp": {
-      "values_digest": "e5220870cc696bccf1a7354d5bd2ffd4c77a4714360b36c7056ddbfb3801b3ae",
+      "values_digest": "97651a806b9a97942b3e6d24c163f182aec8a5d6138b93eb22ab33339186ef3c",
       "rendered_digest": "5c7938afb7cb6b76275239e0f7c77a95bea96410711c69cd5456ab3e58694f1b",
       "ast_digest": "fc90d7d37341077576faabdf578b2ea0924b24eb7ba466cedd30e9022324efbe"
     },
     "srp": {
-      "values_digest": "a937d9d0d9cdda3fe8b3f3343ea3e93889acbe6e71798ae1c185ba823b947816",
-      "rendered_digest": "70953f5798da4deb46bd3093a2a02851e1eb1f4e895423a0acb069786a2a6395",
-      "ast_digest": "727d05f9170d7089a0796bef334abcb096c0172041f212d06621443deedbe186"
+      "values_digest": "2bfe98d22712f384daad08e7ad1dbcb3d11adb785c4266be054b9811c626d3b1",
+      "rendered_digest": "e662daa75218350717f2317b4c65158ceabf6fd915af0752e41ae6ec3932c4a0",
+      "ast_digest": "7f5850023bb0c8cf673b1c12e928d7f63b132dc5fa7f8bf95934991cf461ff7b"
     },
     "sor": {
-      "values_digest": "d9b7005139726ba8ed9a6e3413b5a97923497449ada86a83d550e72bbd223be2",
+      "values_digest": "672caac801d2c68f0e1b08f805ef10b766931d1172ac7e2fb6c3ad02db3db30d",
       "rendered_digest": "20c03617c3cf99f8bb9eb778b4fa5ac285bd1bb4fbc93bd429ad09972f4a1dd5",
       "ast_digest": "a4616c73a1b2bdef39f623a23842a52d1a03ee89faebf20adc3eca11ad6d4f36"
     }
@@ -180,6 +168,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Recover pending #400 exact review assignment fresh-session:2ef54c29-7e40-4f80-a5cd-3f42adfe0d62 because no verdict/result is recorded; preserve implemented source/proof and assign a different fresh no-context reviewer.",
+      "operation": "recover_review"
     }
   ]
 }

@@ -7,13 +7,13 @@
     "title": "[tooling][csdlc-v2] Implemented-phase card recovery cannot repair review-blocking SPP/STP truth",
     "slug": "implemented-phase-card-recovery-spp-stp-truth",
     "version": "v0.92",
-    "generation": 9
+    "generation": 10
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "csdlc-v2/src/cards.rs\ncsdlc-v2/src/store.rs\ncsdlc-v2/tests/gate5.rs\n.csdlc/issues/400\n.csdlc/evidence/400\n.csdlc/prepared/issues/400",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

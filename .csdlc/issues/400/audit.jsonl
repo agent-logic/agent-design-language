@@ -11,3 +11,4 @@
 {"sequence":11,"generation":8,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":12,"generation":9,"actor":"codex:/root","reason":"Fresh review assignment fresh-session:e937cedf-d68d-4126-8e37-7c3e67b4b4d8 produced no verdict after bounded waits and was interrupted. Preserve assignment truth as no-result and recover review authority before dispatching a different fresh no-context reviewer against unchanged #400 scope.","operation":"recover_review"}
 {"sequence":13,"generation":9,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":14,"generation":10,"actor":"codex:/root","reason":"Recover pending #400 exact review assignment fresh-session:2ef54c29-7e40-4f80-a5cd-3f42adfe0d62 because no verdict/result is recorded; preserve implemented source/proof and assign a different fresh no-context reviewer.","operation":"recover_review"}
