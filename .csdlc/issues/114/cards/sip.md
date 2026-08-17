@@ -20,10 +20,10 @@ The #114 parent remains preparation/coordination-only until #276 durable journal
 
 ## Scope
 
-- Coordinate the decomposed child chain #276 -> #277 -> #278 -> parent exact-revision integration proof
-- Preserve the existing gen0 monolithic design and diagram as historical reference evidence only
-- Track dependency gates on #112 core, #265 Runtime ingress enforcement, #270 trusted acknowledgement API, and #271 Observatory authority-state integration
-- Own only final cross-child restart, corruption, migration, retention, deletion, and receipt-coherence proof after children land
+- Coordinate and close the decomposed child chain #276 -> #277 -> #278 with parent exact-revision integration proof only after terminal child ancestry is verified.
+- Preserve the existing gen0 monolithic design and diagram as historical reference evidence only.
+- Consume terminal gates from #112 core, #265 Runtime ingress enforcement, #270 trusted acknowledgement API, and #271 Observatory authority-state integration without redefining their authority.
+- Own only final cross-child restart, retention, deletion, receipt, replay-owner, and Observatory transcript restoration coherence proof at the parent boundary.
 
 ## Authority
 
@@ -39,8 +39,8 @@ The #114 parent remains preparation/coordination-only until #276 durable journal
 
 ## Operator Constraints
 
-- Preparation only: do not implement product code, bind #114 or any child, publish, push, open a PR, merge, close, bootstrap children, or mutate GitHub.
-- Work only in /Volumes/FastWork/adl-worktrees/adl-issue-114-durable-history-preparation and keep root main inspection-only.
-- Use only typed C-SDLC v2 owners/card editors for lifecycle/card truth; do not hand-edit rendered cards or lifecycle projections.
-- Preserve .csdlc/prepared/issues/114/design.md and diagram.mmd as historical gen0 reference evidence; do not delete or overwrite unique evidence.
-- Do not touch #112 slice worktrees; #276 can become execution-ready first only after #112 core, #265, and #270 terminal gates are proven.
+- Work only in /Volumes/FastWork/adl-worktrees/adl-issue-114-durable-history-parent-integration-proof for #114 implementation, review, publication, and finish.
+- Use typed C-SDLC v2 owner routes for card truth, review, publication, CI readiness, and finish; keep the primary checkout inspection-only.
+- Preserve .csdlc/prepared/issues/114/design.md and diagram.mmd as historical reference evidence; do not treat them as current child implementation authority.
+- Do not absorb #276, #277, #278, #271, #115, #116, or #117 product scope into #114.
+- Publish and finish only after fresh exact-head review PASS, correct Closes #114 linkage, current base/head ancestry, required CI green, and typed finish authority.

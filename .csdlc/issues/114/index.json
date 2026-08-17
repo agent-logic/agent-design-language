@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "bb70960941aab631d5c34ecdb2e526c2af37ec6b16d7835180a774117e371407",
   "phase": "implemented",
-  "generation": 68,
-  "digest": "2d3ca383c466163eb34d6961993f237cc60c5dbac7bca336fabf741d725a4a4a",
+  "generation": 70,
+  "digest": "c5deeb110668b6a72d42eed7793d4fcae8283b66e89fc2db83d2245221e799a4",
   "branch": "codex/114-durable-history-parent-integration-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-114-durable-history-parent-integration-proof",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a8ef318b85d399cb4874bdd217fd09962001a34390ce60da50a227a1a8254f4b",
-      "rendered_digest": "b66140459dae14a332be996a9812d00f07f523cb57faa3fc91d0f3bc3877018f",
-      "ast_digest": "cd67bbbdd74fac8c89f9ca0c6f5e96f2078911e5463178c66f15983f8af4da1e"
+      "values_digest": "f5e052e3c4f52e03fef8f799b5a08bbed1618b4e89f30267dc54e98917031437",
+      "rendered_digest": "89f405b49c76e9944ea3413534b97b4215307ba3f175fbee93ea33f84f9595b9",
+      "ast_digest": "94b4c9e549e7529d148f2cb67cf6f0365be3e8692a118f79b4fcedd9ff3c480c"
     },
     "stp": {
-      "values_digest": "442ad29b47af8a1f6eb7326f133c77c3f2ac53874e27310a139d4b04ea5dbed8",
+      "values_digest": "46180bd51ec0a81fef44e06555e721b3c9a5c41373f53093d4b4324fccb31201",
       "rendered_digest": "79899f67ce8031dd9a1a634240b8e11c4218453539aeb1e6be407589efbc67e9",
       "ast_digest": "2d4f6513c99b8054c679cd994533f0e74d90fb41163882c2428335936348d357"
     },
     "spp": {
-      "values_digest": "9b35957ec38318d799de1d4e7641f4035b73e372230ce2d30b6fcaf6ca78b14e",
+      "values_digest": "ab63e5c2c287e995247ea325f8a4caff57afb4ad111bb0d36eb65db520071faf",
       "rendered_digest": "592b1142b740f8f76ca1acc77417e99728983af322c8f145f16c326d4a0588eb",
       "ast_digest": "6ebafeb1279217b52719544e1d17c3a04c7aa8cb9f90909588ed6975c44462ab"
     },
     "vpp": {
-      "values_digest": "973845703456d182365b22fd8e1852a8bcb42b7d125a6ad796e1deff85a82799",
+      "values_digest": "664b39c1efbc1e6ca136b11a7e9d8a3724eb9378a169541a1a8721011d0fe8dd",
       "rendered_digest": "79d6e5df0082425232cec2354664ce08427d6682936f933e0a9fed93ea409040",
       "ast_digest": "616c081289d62f27a5b08a5be35245d0505c20f338c44f2da7fbf6ae3eade347"
     },
     "srp": {
-      "values_digest": "1464ae3100544eb52024c00f45bbb9f0dbfd253d48752fc84e70df5b4e78142d",
+      "values_digest": "6aa4d43cbb8dcd09f1a81092dc4b6f375848e313f862d881a2842aeca329d6fb",
       "rendered_digest": "675233c7dddbbe543a08d402e6f1985b373a3efc4e50e1f25d746b6b888a0518",
       "ast_digest": "5d8bfa7b856ab2c8e3e3156b635194f84011ed7b7b58827561d0116974a8265e"
     },
     "sor": {
-      "values_digest": "d50a36abb97df2831c6a56bf2ad2309c4c4cd4f1ae42da82e4b3de4e6eb3fedb",
+      "values_digest": "6613266e2f086c16d9cf935509fbef0da0218459f6eb21c1e7ef19b0790618d1",
       "rendered_digest": "8937fb23f4ce0f02edb8c14733d0bff4f28b2dcace97cd2ff84c7d7d0804a582",
       "ast_digest": "755c1f1ad6941f27ce9f1048a4c7d8cdd9e881b580e210441767ee7c94c1b675"
     }
@@ -609,6 +609,20 @@
       "actor": "codex:/root",
       "reason": "Recover active #114 review assignment before correcting known stale SIP/STP implemented-phase truth from exact review blockers.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 77,
+      "generation": 69,
+      "actor": "codex:/root",
+      "reason": "Replace stale #114 preparation-only operator constraints with implemented-phase parent-only publication gates.",
+      "operation": "{\"operation\":\"replace_operator_constraints\",\"values\":[\"Work only in /Volumes/FastWork/adl-worktrees/adl-issue-114-durable-history-parent-integration-proof for #114 implementation, review, publication, and finish.\",\"Use typed C-SDLC v2 owner routes for card truth, review, publication, CI readiness, and finish; keep the primary checkout inspection-only.\",\"Preserve .csdlc/prepared/issues/114/design.md and diagram.mmd as historical reference evidence; do not treat them as current child implementation authority.\",\"Do not absorb #276, #277, #278, #271, #115, #116, or #117 product scope into #114.\",\"Publish and finish only after fresh exact-head review PASS, correct Closes #114 linkage, current base/head ancestry, required CI green, and typed finish authority.\"]}"
+    },
+    {
+      "sequence": 78,
+      "generation": 70,
+      "actor": "codex:/root",
+      "reason": "Narrow #114 SIP declared scope before publication to parent-only terminal-chain integration proof and remove unproved corruption/migration ownership claims.",
+      "operation": "{\"new_values\":[\"Coordinate and close the decomposed child chain #276 -> #277 -> #278 with parent exact-revision integration proof only after terminal child ancestry is verified.\",\"Preserve the existing gen0 monolithic design and diagram as historical reference evidence only.\",\"Consume terminal gates from #112 core, #265 Runtime ingress enforcement, #270 trusted acknowledgement API, and #271 Observatory authority-state integration without redefining their authority.\",\"Own only final cross-child restart, retention, deletion, receipt, replay-owner, and Observatory transcript restoration coherence proof at the parent boundary.\"],\"operation\":\"correct_declared_scope_before_publication\",\"previous_values\":[\"Coordinate the decomposed child chain #276 -> #277 -> #278 -> parent exact-revision integration proof\",\"Preserve the existing gen0 monolithic design and diagram as historical reference evidence only\",\"Track dependency gates on #112 core, #265 Runtime ingress enforcement, #270 trusted acknowledgement API, and #271 Observatory authority-state integration\",\"Own only final cross-child restart, corruption, migration, retention, deletion, and receipt-coherence proof after children land\"]}"
     }
   ]
 }

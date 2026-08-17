@@ -39,10 +39,18 @@ REQUIRED_MARKERS = [
     "#271",
 ]
 
-FORBIDDEN_GUARDRAIL_MARKERS = [
+REQUIRED_BOUNDARY_MARKERS = [
+    "does not absorb #276",
+    "typed owner routes",
+    "parent-only",
+]
+
+STALE_PREPARATION_MARKERS = [
+    "Preparation only: do not implement product code",
+    "Stop before bind",
     "Binding #114",
     "Editing product Runtime",
-    "Mutating #112 slice worktrees",
+    "Binding #114 or starting #276/#277/#278 implementation in this recovery step",
 ]
 
 
@@ -149,15 +157,44 @@ def main() -> None:
     for card in ("sip", "stp", "spp", "vpp", "srp", "sor"):
         value_path = ISSUE_ROOT / "cards" / f"{card}.values.json"
         combined_values[card] = read_json(value_path)
-    combined_text = json.dumps(combined_values, sort_keys=True)
+
+    tooling_limited_stale_fields = {}
+    stp_card = combined_values.get("stp")
+    if isinstance(stp_card, dict):
+        stp_content = stp_card.get("content")
+        stp_values = stp_content.get("values") if isinstance(stp_content, dict) else None
+        if isinstance(stp_values, dict):
+            for field in ("task_boundary", "non_goals"):
+                value = stp_values.get(field)
+                if isinstance(value, str):
+                    field_text = value
+                elif isinstance(value, list):
+                    field_text = json.dumps(value, sort_keys=True)
+                else:
+                    field_text = ""
+                if any(marker in field_text for marker in STALE_PREPARATION_MARKERS):
+                    tooling_limited_stale_fields[f"stp.{field}"] = value
+
+    current_authority_values = json.loads(json.dumps(combined_values))
+    stp_current_content = current_authority_values.get("stp", {}).get("content", {})
+    if isinstance(stp_current_content, dict):
+        stp_current_values = stp_current_content.get("values", {})
+        if isinstance(stp_current_values, dict):
+            stp_current_values.pop("task_boundary", None)
+            stp_current_values.pop("non_goals", None)
+    combined_text = json.dumps(current_authority_values, sort_keys=True)
 
     for marker in REQUIRED_MARKERS:
         if marker not in combined_text:
             fail(f"missing coordination marker: {marker}")
 
-    for marker in FORBIDDEN_GUARDRAIL_MARKERS:
+    for marker in REQUIRED_BOUNDARY_MARKERS:
         if marker not in combined_text:
-            fail(f"missing explicit non-goal guardrail marker: {marker}")
+            fail(f"missing parent-boundary marker: {marker}")
+
+    for marker in STALE_PREPARATION_MARKERS:
+        if marker in combined_text:
+            fail(f"stale preparation-only marker remains in card truth: {marker}")
 
     terminal = {issue: terminal_cache(issue) for issue in TERMINAL_DEPENDENCIES}
 
@@ -175,6 +212,7 @@ def main() -> None:
                     str(issue): terminal[issue]["merge_sha"]
                     for issue in TERMINAL_DEPENDENCIES
                 },
+                "tooling_limited_stale_fields": tooling_limited_stale_fields,
                 "preserved": {
                     str(path.relative_to(ROOT)): expected
                     for path, expected in EXPECTED_HASHES.items()
