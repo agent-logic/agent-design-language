@@ -1,0 +1,53 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 407,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[tooling][csdlc-v2] Implemented-phase SIP recovery cannot repair review-blocking goal truth",
+    "slug": "implemented-sip-goal-recovery",
+    "version": "v0.92",
+    "generation": 7
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "#407 adds a narrow typed implemented-phase SIP Goal recovery operation guarded by review-recovery provenance, with focused regression proof for #286-style repair and fail-closed broad SIP mutation rejection.",
+      "actual_changes": [
+        "Added SemanticOperation::CorrectGoalAfterRecovery as a SIP-only recovery operation.",
+        "Authorized the operation only for implemented issues with immediate typed review-recovery provenance and cleared downstream lifecycle truth.",
+        "Recorded structured audit evidence with previous/new goal and recovery generation/sequence.",
+        "Added focused gate5 regression covering recovered repair, unrecovered rejection, stale generation rejection, retained terminal rejection, and broad SIP mutation rejection."
+      ],
+      "artifacts": [
+        "csdlc-v2/src/cards.rs",
+        "csdlc-v2/src/store.rs",
+        "csdlc-v2/tests/gate5.rs",
+        ".csdlc/issues/407",
+        ".csdlc/prepared/issues/407"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "recovered_implemented_issue_can_correct_only_the_sip_goal",
+            "--test",
+            "gate5"
+          ],
+          "purpose": "Prove recovered implemented SIP Goal repair and fail-closed guard coverage.",
+          "outcome": "passed",
+          "evidence_ref": "csdlc-v2-focused.log"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

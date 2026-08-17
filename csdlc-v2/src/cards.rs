@@ -605,6 +605,9 @@ pub enum SemanticOperation {
     CorrectSorFollowUpsAfterRecovery {
         values: Vec<String>,
     },
+    CorrectGoalAfterRecovery {
+        value: String,
+    },
     CorrectRequiredOutcomeAfterRecovery {
         value: String,
     },
@@ -1074,6 +1077,16 @@ pub fn apply(
             match &mut values.content {
                 CardContent::Sip(v) => v.required_outcome = value.clone(),
                 _ => return ownership(values.kind(), "correct_required_outcome_after_recovery"),
+            }
+            Ok(None)
+        }
+        SemanticOperation::CorrectGoalAfterRecovery { value } => {
+            if value.trim().is_empty() {
+                return Err(V2Error::new(ErrorCode::CardInvalid, "goal cannot be empty"));
+            }
+            match &mut values.content {
+                CardContent::Sip(v) => v.goal = value.clone(),
+                _ => return ownership(values.kind(), "correct_goal_after_recovery"),
             }
             Ok(None)
         }
