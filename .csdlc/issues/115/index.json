@@ -5,27 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "6b431e21b2b0a61991853e1f3f4a1bf51241907edaac9389f1c22998ae3334e7",
   "phase": "implemented",
-  "generation": 18,
-  "digest": "85b84a9e115492a83b0fcc1cbfaa10e99c9ede245e33d27ef3dafc0de86eb063",
+  "generation": 19,
+  "digest": "53b56afac7f4ab0abf77f6404196afb34aa4b24de70070577faa390d065eecd6",
   "branch": "codex/115-governed-multi-agent-rooms",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-115-governed-multi-agent-rooms",
-  "review_assignment": {
-    "reviewer": "fresh-session:cc048107-993f-4d25-9a71-95bc411cdc72",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:4c1a2f31e51dfec3759fa70f5338e9c783bfae23:07cbcbd05d1f0340884ffc7db31bde32f9c91aaf722cdc05445985c4ae66c7fc",
-    "scope": [
-      "adl-runtime-kernel/src/conversation_rooms.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/index.html",
-      "demos/html-observatory/styles.css",
-      "adl/tools/validate_v092_governed_room_observatory.mjs",
-      ".csdlc/issues/115",
-      ".csdlc/prepared/issues/115",
-      ".csdlc/evidence/115"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -41,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "af54874c6e6963a9297896246fd29895a305f234597d65be301ba441c0ab8792",
+      "values_digest": "96b5c8334d75c3c6446e13886a70e6df7eeaff71b85c1370c3d616894d762d15",
       "rendered_digest": "ecadc343231ebf27f6cc2251766828eff504b8338d3bf9054daa17b13a178c93",
       "ast_digest": "e02db63fa0459d5bd0d779d49185ce9f2d0c99a6a3378a81fa7d5dcbda279605"
     },
     "stp": {
-      "values_digest": "b851a56d2ff72bac433545ec99ea8a996cd061cb17f5acd5bcbae780b5652368",
+      "values_digest": "e554bc55cb2ac5027c1224e8b88fce67d1a5789bcbb69ec74a4d5a2ea65272a0",
       "rendered_digest": "52b7561d3147cf35a9d9e3e9c250bb2a4b29d24f74d72f0affff7e08a712c0df",
       "ast_digest": "35ee5ba28500c070fbcfd0489da6659b6a5043c0516503d3d603efd4c71b847c"
     },
     "spp": {
-      "values_digest": "e90869bb65761356363aff06ea6392a9016febd17fec42ce1d88521e94985c95",
+      "values_digest": "89d1b65e2c3094eb06f8fca409a490a5f88817cbb8665da5a7df328a8e1b3ccd",
       "rendered_digest": "e26bfe2140a9e173c825afa8ca0bc232861990e642e27fc8b62b7598d87bc095",
       "ast_digest": "16b4224ccc9852138207e7ea7650ab8597dacc0572143c308eaa3f9f51cc30f0"
     },
     "vpp": {
-      "values_digest": "6c1007dbc00b7190982f84950f9146becd44bd95b1790cd5f38883c4905c03a3",
+      "values_digest": "ff779f936c3f30a61c18596b65c4a4209031878df3463996a08442bac75baf12",
       "rendered_digest": "5ba45045d2fec22c237ee9ef6da6228d1bde2612277d4955b7a8652ba1e41e62",
       "ast_digest": "eb8f2cb0c493fbb437ed0edfd5922ffea6758fd0731841881c2e8acdae1eb7b9"
     },
     "srp": {
-      "values_digest": "1eab81d32f3b49b8b7b3411a8b76cdbd81a2361d1a249f185e4dc744e189fbc2",
-      "rendered_digest": "bec37c544ce296120cce98d30c0f824178702d094df6f562677657491618034d",
-      "ast_digest": "56971ac9e885dac661daa6b12b52d304a75d51beabd5268789a96ae280dec974"
+      "values_digest": "6ab2299a6763b29b575e402a5cec581c5ebf31df57dc5f8244d80da509619091",
+      "rendered_digest": "9ead6718bfb47f6f4f62d1bdcb8769919c9aca261ab0cf61151ca2a4db764ebb",
+      "ast_digest": "adee842c155c8b19c4d9df432cfe83ded2620dae6d9f8cedfaf4ddc069604c78"
     },
     "sor": {
-      "values_digest": "657ec9602e79efce3c1a1e9859ef8d845a09761909f831c9e5eaf73f03f33d9e",
-      "rendered_digest": "146f03d00dd7a758b58a8b0fbf3cbc85063cb840364d6083bfeee5c2be1f8e60",
-      "ast_digest": "1ab5ff04f64c9b2f6e1e54dde8871b75145a87d2b6f84813499d99d5c2ed8e40"
+      "values_digest": "c358457a6965407ba65af37ce6704ba5532882fc9f98b9865a3e77bd7873f6ba",
+      "rendered_digest": "614dc3ce31d08cf546b598d764a09780e014cf23fea6123d05129eee54d4a828",
+      "ast_digest": "603dd939d2dc29df15eef51bd1ec4b75fbf3c7c5bc3887d188f1192f75f5a8d6"
     }
   },
   "transitions": [
@@ -241,6 +225,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "Fresh review assignment fresh-session:cc048107-993f-4d25-9a71-95bc411cdc72 produced no verdict after a bounded interval and was interrupted. Preserve assignment truth as no-result and recover review authority before dispatching a different fresh no-context reviewer against unchanged #115 governed-room scope.",
+      "operation": "recover_review"
     }
   ]
 }

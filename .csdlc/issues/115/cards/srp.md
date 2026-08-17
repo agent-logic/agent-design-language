@@ -8,20 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-adl-runtime-kernel/src/conversation_rooms.rs
-adl-runtime-kernel/src/control.rs
-adl-runtime-kernel/src/lib.rs
-demos/html-observatory/app.js
-demos/html-observatory/index.html
-demos/html-observatory/styles.css
-adl/tools/validate_v092_governed_room_observatory.mjs
-.csdlc/issues/115
-.csdlc/prepared/issues/115
-.csdlc/evidence/115
+
 
 ## Prompts
 

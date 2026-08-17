@@ -167,7 +167,7 @@ Hardened the #115 governed room UI against accidental broad room sends by enforc
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
