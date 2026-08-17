@@ -3261,7 +3261,9 @@ fn validate_safe_authored_destination(value: &str) -> Result<()> {
             .components()
             .next()
             .is_some_and(|c| c.as_os_str() == ".git")
-        || (value.starts_with(".csdlc/") && !value.starts_with(".csdlc/prepared/"))
+        || (value.starts_with(".csdlc/")
+            && !value.starts_with(".csdlc/prepared/")
+            && !is_issue_local_authored_destination(value))
     {
         return Err(V2Error::new(
             ErrorCode::InvalidInput,
@@ -3269,6 +3271,18 @@ fn validate_safe_authored_destination(value: &str) -> Result<()> {
         ));
     }
     Ok(())
+}
+
+fn is_issue_local_authored_destination(value: &str) -> bool {
+    let Some(rest) = value.strip_prefix(".csdlc/issues/") else {
+        return false;
+    };
+    let Some((issue, authored_path)) = rest.split_once('/') else {
+        return false;
+    };
+    issue.parse::<u64>().is_ok_and(|issue| issue > 0)
+        && authored_path.starts_with("authored/")
+        && authored_path.len() > "authored/".len()
 }
 
 pub fn approve_design(store: &Store, request: ApproveDesignRequest) -> Result<IssueRecord> {
