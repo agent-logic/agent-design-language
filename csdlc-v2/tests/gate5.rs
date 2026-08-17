@@ -2905,6 +2905,473 @@ fn implemented_review_recovery_clears_truth() {
 }
 
 #[test]
+fn implemented_phase_card_truth_repair_unblocks_fresh_review_assignment() {
+    let (_temp, store, implemented) = implemented_fixture();
+    let assigned = assign_review(
+        &store,
+        ReviewAssignmentRequest {
+            issue: 7,
+            expected_generation: implemented.generation,
+            expected_digest: implemented.digest,
+            reviewer: "subagent".into(),
+            assigned_by: "operator".into(),
+            scope: vec!["src".into()],
+        },
+    )
+    .expect("assign review");
+
+    let active_assignment_error = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Stp,
+            expected_generation: assigned.generation,
+            expected_digest: assigned.digest.clone(),
+            actor: "operator".into(),
+            reason: "repair stale task boundary".into(),
+            operation: SemanticOperation::SetField {
+                field: csdlc_v2::cards::TextField::TaskBoundary,
+                value: "implemented and ready for fresh review".into(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("active review assignment must block implemented card repair");
+    assert_eq!(active_assignment_error.code, ErrorCode::InvalidTransition);
+
+    let assignment_only_recovered = csdlc_v2::recover_review(
+        &store,
+        ReviewRecoveryRequest {
+            issue: 7,
+            expected_generation: assigned.generation,
+            expected_digest: assigned.digest,
+            actor: "operator".into(),
+            reason: "repair stale card truth before publication".into(),
+        },
+    )
+    .expect("recover assignment-only implemented state");
+    assert_eq!(assignment_only_recovered.phase, LifecyclePhase::Implemented);
+    assert!(assignment_only_recovered.review_assignment.is_none());
+    assert!(assignment_only_recovered.review.is_none());
+    assert!(assignment_only_recovered.publication.is_none());
+    assert!(assignment_only_recovered.readiness.is_none());
+    assert!(assignment_only_recovered.terminal.is_none());
+    let assignment_only_error = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Stp,
+            expected_generation: assignment_only_recovered.generation,
+            expected_digest: assignment_only_recovered.digest.clone(),
+            actor: "operator".into(),
+            reason: "assignment-only recovery must not authorize implemented repair".into(),
+            operation: SemanticOperation::SetField {
+                field: csdlc_v2::cards::TextField::TaskBoundary,
+                value: "implemented and ready for fresh review".into(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("assignment-only recovery is not enough for card truth repair");
+    assert_eq!(assignment_only_error.code, ErrorCode::InvalidTransition);
+
+    let reviewed = record_review(
+        &store,
+        ReviewRecordRequest {
+            issue: 7,
+            expected_generation: assignment_only_recovered.generation,
+            expected_digest: assignment_only_recovered.digest.clone(),
+            actor: "reviewer".into(),
+            evidence: ReviewEvidence {
+                reviewer: "reviewer".into(),
+                scope: vec!["src".into()],
+                reviewed_revision: csdlc_v2::git::substantive_revision(
+                    store.root(),
+                    &["src".into()],
+                )
+                .expect("review revision"),
+                findings: vec![],
+                residual_risks: vec![],
+                completed: true,
+                non_substantive_proof: None,
+            },
+        },
+    )
+    .expect("record exact review before repair recovery");
+    let recovered = csdlc_v2::recover_review(
+        &store,
+        ReviewRecoveryRequest {
+            issue: 7,
+            expected_generation: reviewed.generation,
+            expected_digest: reviewed.digest,
+            actor: "operator".into(),
+            reason: "repair stale card truth before publication".into(),
+        },
+    )
+    .expect("recover recorded-review implemented state");
+    assert_eq!(recovered.phase, LifecyclePhase::Implemented);
+    assert!(recovered.review_assignment.is_none());
+    assert!(recovered.review.is_none());
+    assert!(recovered.publication.is_none());
+    assert!(recovered.readiness.is_none());
+    assert!(recovered.terminal.is_none());
+
+    let stale_error = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Stp,
+            expected_generation: recovered.generation,
+            expected_digest: "stale-digest".into(),
+            actor: "operator".into(),
+            reason: "stale repair".into(),
+            operation: SemanticOperation::SetField {
+                field: csdlc_v2::cards::TextField::TaskBoundary,
+                value: "implemented and ready for fresh review".into(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("stale CAS must fail before mutation");
+    assert_eq!(stale_error.code, ErrorCode::StaleDigest);
+
+    let assert_task_boundary_rejected =
+        |store: &Store, record: &csdlc_v2::IssueRecord, message: &str| {
+            let error = edit_issue(
+                store,
+                EditRequest {
+                    issue: 7,
+                    card: CardKind::Stp,
+                    expected_generation: record.generation,
+                    expected_digest: record.digest.clone(),
+                    actor: "operator".into(),
+                    reason: message.into(),
+                    operation: SemanticOperation::SetField {
+                        field: csdlc_v2::cards::TextField::TaskBoundary,
+                        value: "implemented and ready for fresh review".into(),
+                    },
+                    fail_after_backup: false,
+                },
+            )
+            .expect_err(message);
+            assert_eq!(error.code, ErrorCode::InvalidTransition);
+        };
+    let assert_task_boundary_fails_closed =
+        |store: &Store, record: &csdlc_v2::IssueRecord, message: &str| {
+            let error = edit_issue(
+                store,
+                EditRequest {
+                    issue: 7,
+                    card: CardKind::Stp,
+                    expected_generation: record.generation,
+                    expected_digest: record.digest.clone(),
+                    actor: "operator".into(),
+                    reason: message.into(),
+                    operation: SemanticOperation::SetField {
+                        field: csdlc_v2::cards::TextField::TaskBoundary,
+                        value: "implemented and ready for fresh review".into(),
+                    },
+                    fail_after_backup: false,
+                },
+            )
+            .expect_err(message);
+            assert!(
+                matches!(
+                    error.code,
+                    ErrorCode::InvalidTransition | ErrorCode::CorruptRecord
+                ),
+                "unexpected fail-closed code: {:?}",
+                error.code
+            );
+        };
+
+    let mut retained = recovered.clone();
+    retained.publication = Some(csdlc_v2::model::PublicationEvidence {
+        repository: "example/repo".into(),
+        issue: 7,
+        pull_request: 7,
+        url: "https://example.invalid/pr/7".into(),
+        base: "main".into(),
+        head: "issue-7".into(),
+        revision: "retained".into(),
+        linkage_mode: None,
+        draft: true,
+        observed_state: "open".into(),
+    });
+    write_consistent_record(store.root(), &mut retained);
+    assert_task_boundary_rejected(&store, &retained, "retained publication must block repair");
+
+    let mut retained = recovered.clone();
+    retained.readiness = Some(csdlc_v2::model::ReadinessEvidence {
+        pull_request: 7,
+        head_sha: "retained".into(),
+        checks: vec![],
+        review_state: csdlc_v2::readiness::RemoteReviewState::Pending,
+        conflict_state: csdlc_v2::readiness::ConflictState::Pending,
+        post_publication_findings: vec![],
+        ready: false,
+        blockers: vec!["retained".into()],
+    });
+    write_consistent_record(store.root(), &mut retained);
+    assert_task_boundary_rejected(&store, &retained, "retained readiness must block repair");
+
+    let mut retained = recovered.clone();
+    retained.terminal = Some(csdlc_v2::model::TerminalEvidence {
+        pull_request: Some(7),
+        disposition: csdlc_v2::readiness::TerminalDisposition::Merged,
+        observed_sha: Some("retained".into()),
+        observed_state: "closed".into(),
+        receipt_path: "terminal.json".into(),
+        branch: Some("issue-7".into()),
+        worktree: Some(store.root().to_string_lossy().into_owned()),
+    });
+    write_consistent_record(store.root(), &mut retained);
+    assert_task_boundary_rejected(&store, &retained, "retained terminal must block repair");
+
+    for phase in [
+        LifecyclePhase::Reviewed,
+        LifecyclePhase::Published,
+        LifecyclePhase::MergeReady,
+    ] {
+        let mut retained = recovered.clone();
+        retained.phase = phase;
+        write_consistent_record(store.root(), &mut retained);
+        assert_task_boundary_fails_closed(
+            &store,
+            &retained,
+            "reviewed/published phase must block repair",
+        );
+    }
+
+    let mut restored = recovered.clone();
+    write_consistent_record(store.root(), &mut restored);
+    let required_outcome = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Sip,
+            expected_generation: recovered.generation,
+            expected_digest: recovered.digest,
+            actor: "operator".into(),
+            reason: "repair stale required outcome".into(),
+            operation: SemanticOperation::CorrectRequiredOutcomeAfterRecovery {
+                value: "Implemented parent proof is complete; fresh review and publication remain pending.".into(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("repair SIP required outcome immediately after recorded-review recovery");
+
+    let task_boundary = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Stp,
+            expected_generation: required_outcome.generation,
+            expected_digest: required_outcome.digest,
+            actor: "operator".into(),
+            reason: "repair stale task boundary".into(),
+            operation: SemanticOperation::SetField {
+                field: csdlc_v2::cards::TextField::TaskBoundary,
+                value: "implemented and ready for fresh review".into(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("repair task boundary after typed recovery");
+
+    let non_goals = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Stp,
+            expected_generation: task_boundary.generation,
+            expected_digest: task_boundary.digest,
+            actor: "operator".into(),
+            reason: "repair stale non-goals".into(),
+            operation: SemanticOperation::ReplacePlanningCollection {
+                field: csdlc_v2::cards::PlanningCollectionField::NonGoals,
+                values: vec![
+                    "Do not widen lifecycle repair beyond pre-publication card truth".into(),
+                ],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("repair non-goals after typed recovery");
+
+    let summary = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Spp,
+            expected_generation: non_goals.generation,
+            expected_digest: non_goals.digest,
+            actor: "operator".into(),
+            reason: "repair stale plan summary".into(),
+            operation: SemanticOperation::CorrectPlanSummaryAfterRecovery {
+                value: "Implemented work is complete; fresh exact review and publication remain pending.".into(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("repair summary after assignment-only recovery");
+
+    let vpp_summary = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Vpp,
+            expected_generation: summary.generation,
+            expected_digest: summary.digest,
+            actor: "operator".into(),
+            reason: "repair stale validation summary".into(),
+            operation: SemanticOperation::SetField {
+                field: csdlc_v2::cards::TextField::PlanSummary,
+                value: "Implemented validation covers the parent proof; fresh review and hosted publication checks remain pending.".into(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("repair VPP summary after assignment-only recovery");
+
+    let vpp_failure_policy = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Vpp,
+            expected_generation: vpp_summary.generation,
+            expected_digest: vpp_summary.digest,
+            actor: "operator".into(),
+            reason: "repair stale validation failure policy".into(),
+            operation: SemanticOperation::SetField {
+                field: csdlc_v2::cards::TextField::FailurePolicy,
+                value: "Fail closed on validation, review, publication, readiness, terminal, or stale authority drift.".into(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("repair VPP failure policy after assignment-only recovery");
+
+    let srp_prompts = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Srp,
+            expected_generation: vpp_failure_policy.generation,
+            expected_digest: vpp_failure_policy.digest,
+            actor: "operator".into(),
+            reason: "repair stale review prompts".into(),
+            operation: SemanticOperation::CorrectReviewPromptsAfterRecovery {
+                values: vec![
+                    "Review the implemented exact head and lifecycle truth before publication."
+                        .into(),
+                    "Verify the repaired card truth does not widen product scope.".into(),
+                ],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("repair SRP prompts after assignment-only recovery");
+
+    let sor_summary = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Sor,
+            expected_generation: srp_prompts.generation,
+            expected_digest: srp_prompts.digest,
+            actor: "operator".into(),
+            reason: "repair stale SOR summary".into(),
+            operation: SemanticOperation::SetField {
+                field: csdlc_v2::cards::TextField::SorSummary,
+                value: "Implemented evidence is recorded; publication and terminal closeout remain pending.".into(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("repair SOR summary after assignment-only recovery");
+
+    let sor_follow_ups = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Sor,
+            expected_generation: sor_summary.generation,
+            expected_digest: sor_summary.digest,
+            actor: "operator".into(),
+            reason: "repair stale SOR follow-ups".into(),
+            operation: SemanticOperation::ReplaceSorFollowUpsAfterRecovery {
+                values: vec![
+                    "Obtain fresh exact-head review before typed publication.".into(),
+                    "Finish only after typed publication, required CI, and merge authority are green.".into(),
+                ],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("repair SOR follow-ups after assignment-only recovery");
+
+    let pre_review_publication_error = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Sor,
+            expected_generation: sor_follow_ups.generation,
+            expected_digest: sor_follow_ups.digest.clone(),
+            actor: "operator".into(),
+            reason: "publication still requires review".into(),
+            operation: SemanticOperation::AdvancePhase {
+                phase: LifecyclePhase::Published,
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("publication must still require fresh review evidence");
+    assert_eq!(
+        pre_review_publication_error.code,
+        ErrorCode::InvalidTransition
+    );
+
+    let sor_ready = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Sor,
+            expected_generation: sor_follow_ups.generation,
+            expected_digest: sor_follow_ups.digest,
+            actor: "operator".into(),
+            reason: "normalize SOR status after execution evidence".into(),
+            operation: SemanticOperation::AdvanceStatus {
+                status: csdlc_v2::cards::CardStatus::Ready,
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("normalize SOR status with execution evidence");
+
+    let fresh_assignment = assign_review(
+        &store,
+        ReviewAssignmentRequest {
+            issue: 7,
+            expected_generation: sor_ready.generation,
+            expected_digest: sor_ready.digest,
+            reviewer: "fresh-session:387".into(),
+            assigned_by: "operator".into(),
+            scope: vec!["csdlc-v2".into()],
+        },
+    )
+    .expect("fresh review assignment after repair");
+    assert!(fresh_assignment.review_assignment.is_some());
+
+    assert_task_boundary_rejected(
+        &store,
+        &fresh_assignment,
+        "fresh active assignment must block further card repair",
+    );
+}
+
+#[test]
 fn recovered_issue_can_correct_only_the_spp_plan_summary() {
     for recovery_phase in [
         LifecyclePhase::Reviewed,

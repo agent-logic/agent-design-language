@@ -1,0 +1,98 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 387,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Support implemented-phase card truth repair before publication",
+    "slug": "implemented-card-truth-repair-before-publication",
+    "version": "v0.92.1",
+    "generation": 25
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "csdlc-v2-gate5-implemented-card-repair",
+          "proof_role": "Run the exact named gate5 regression proving the #114-shaped implemented-phase repair sequence, stale-CAS rejection, active review assignment/review evidence rejection, readiness/publication/terminal truth rejection, reviewed/published/merge_ready phase rejection, fresh review assignment after repair, and publication failure before fresh review evidence.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 240,
+          "budget_tokens": 1500,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate5",
+            "implemented_phase_card_truth_repair_unblocks_fresh_review_assignment"
+          ],
+          "parallel_group": "387-local",
+          "defer_reason": null
+        },
+        {
+          "lane": "csdlc-v2-fmt",
+          "proof_role": "Reject formatting drift in the changed C-SDLC v2 crate.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 500,
+          "argv": [
+            "cargo",
+            "fmt",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--check"
+          ],
+          "parallel_group": "387-local",
+          "defer_reason": null
+        },
+        {
+          "lane": "csdlc-v2-clippy-focused",
+          "proof_role": "Reject warning regressions across the changed C-SDLC v2 surfaces.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 800,
+          "budget_tokens": 2000,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "387-local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed on stale CAS, over-broad mutation authorization, failed focused regression, missing review, or publication guard drift.",
+      "design_ref": ".csdlc/prepared/issues/387/design.md",
+      "design_digest": "1694a81f4a60ff232dc49e3730de01b09ad73f47a48b08dea36e4f4ef8baf554",
+      "diagram_ref": ".csdlc/prepared/issues/387/diagram.mmd",
+      "diagram_digest": "cac872df5ac7932e44545adf4c7debf83c3378a14dc11eee099afb2ac9b99ad5"
+    }
+  }
+}
