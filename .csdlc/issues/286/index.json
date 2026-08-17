@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "c92f938e8f52553a5e99e5a70cd53244133692af78462fa1d8eae320a9d9bfef",
   "phase": "implemented",
-  "generation": 7,
-  "digest": "90120677fb8f25d2cdfe0af2918cbea77084edd781b1cfb4e524aa41f09637e9",
+  "generation": 9,
+  "digest": "8a61c8475785202a67941369ac9812a6952059612d90f0c08b338bd5af3eadc9",
   "branch": "codex/286-adr0069-evidence-reconciliation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-286-adr0069-evidence-reconciliation",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "dbe45c16e6ddfea0edfce884f6a1d755337db8e4d72d4b15d60221cca2362cab",
+      "values_digest": "00840ed76edce21aabe0c1cdd10f9456c8e05a316ce0fec10ec0a80fe3dcb159",
       "rendered_digest": "e215f1631c784d3713271c6cb7c78d4d097a264c4ad3f912e32a21d095e6ff13",
       "ast_digest": "9c1b84ad1fece5c9164917f33eb1430297b15dcf4f62f0312c866e70824b34d7"
     },
     "stp": {
-      "values_digest": "a134146bc5cc25482d5c5e14ccdfa479487c038908112603a87bb54dbd11c7d3",
+      "values_digest": "93f8c6f9e537c0988b9898064805685f763d00792a37dbbd69603d90c31e6d5f",
       "rendered_digest": "ca393630c72f3e95e028f9eecf97c461f87e70805c5e150fc243725d8c0807e9",
       "ast_digest": "0f2d9beec51f81eff2fa20066da88365faf03ee5763ac89adbb992b63385ac84"
     },
     "spp": {
-      "values_digest": "268f3c6bdf3c29fbc2f5adbc511148ad988dab0209db86bf37c9014ba815622a",
+      "values_digest": "415d5d0ac8e37cf0debe8e17a30452ac024a40c35123dd1800ceee1260759559",
       "rendered_digest": "e9c2d49e10fcb1e9b3f678067faf5aa2a2d4af5a03a3a53987e579e97e414a29",
       "ast_digest": "73d8fa338897a32598bab8205f6be3e4301ebe5b9e86c088f2ed5940445c2039"
     },
     "vpp": {
-      "values_digest": "02a81f883723e7fb4e7489236fe2b0f71dd3c1e5189da05b552db6074e3e0e03",
+      "values_digest": "f31828bd3621f5fa8eb6b550709a8ed409b13a5362ecd7536337541abdb1f64d",
       "rendered_digest": "182be6cb11fe7081a1ed2ee23df8db32cabef0b3cf7423e71f6ba8420beb0e08",
       "ast_digest": "2356174ae13d8fc4efda883e3b306eb865652ebe9b42de9733e4a32713741111"
     },
     "srp": {
-      "values_digest": "03345452cf7138304eaa39c0083cd7d425c202dcccb57129f13ba6acfc865367",
-      "rendered_digest": "00ce1b3ac377573085747f80148ef65d4a7a3524f275779fd9d062d00af0f567",
-      "ast_digest": "9b94ddacce86429c07d56cd5cfab1830db662d587c19bc40ccf3a5af0fa27a99"
+      "values_digest": "17c3b3435d39e387f89cf4b9cd9e8d13eabdffa488a25d4b900f38a1ad281c3e",
+      "rendered_digest": "6ef3a2ad5eb7e09cf68f6bbe15d9c075cbc920037aad82181a5246547e4202ff",
+      "ast_digest": "182ea2d5f98eae31333eff0580d49c6986d3a2ef399aefcaed3fb98295298a5e"
     },
     "sor": {
-      "values_digest": "10079ae0b567cd536046a5506410b840b2869150eb1b2221dfac1372bc685464",
-      "rendered_digest": "aceabf522d63acf78f65965e4fc5d83493ba2095986e85b46347d42bd4ef0087",
-      "ast_digest": "9dfecd899a9f6a29cb2579afdbcea5e3b3e158ae2291381606d7455ab7c5060e"
+      "values_digest": "4a7e055393edaf7ccd4229e42d66c439659fc6d788230ed25785b1f4a8f9b6e3",
+      "rendered_digest": "7757ebebe0bede6b7f241c133ed0abe882cbf8e2f229daa3ae325bce826da1d8",
+      "ast_digest": "e05a6ded7d5321ec1b0de0020f23149c00b0fecd993e11220e4bf9903aaa5dbb"
     }
   },
   "transitions": [
@@ -141,6 +141,27 @@
       "actor": "codex:/root",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "fresh-session:1ab080b7-9d6b-4a52-b6c2-fb1a4b740a33",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:root",
+      "reason": "Recover after fresh-session:1ab080b7-9d6b-4a52-b6c2-fb1a4b740a33 found WP-18C terminal overclaim and validator coverage gap; repair evidence truth and assign a different fresh reviewer.",
+      "operation": "recover_review"
     }
   ]
 }

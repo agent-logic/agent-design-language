@@ -7,13 +7,13 @@
     "title": "[v0.92][ADR 0069][207.d] Reconcile Observatory governed Runtime consumer evidence",
     "slug": "adr-0069-observatory-runtime-consumer-evidence",
     "version": "v0.92",
-    "generation": 7
+    "generation": 9
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #286 initialized packet, live issue contract, ADR 0069 evidence-reconciliation design, residual-gap policy, validation lanes, and #207/#288/sibling non-claims.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

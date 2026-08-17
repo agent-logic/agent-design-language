@@ -7,3 +7,6 @@
 {"sequence":7,"generation":6,"actor":"codex:/root","reason":"Advance #286 to ready/unbound after fresh design review PASS and doctor advance_ready.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"}
 {"sequence":8,"generation":6,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
 {"sequence":9,"generation":7,"actor":"codex:/root","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
+{"sequence":10,"generation":7,"actor":"codex:root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":11,"generation":8,"actor":"fresh-session:1ab080b7-9d6b-4a52-b6c2-fb1a4b740a33","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":12,"generation":9,"actor":"codex:root","reason":"Recover after fresh-session:1ab080b7-9d6b-4a52-b6c2-fb1a4b740a33 found WP-18C terminal overclaim and validator coverage gap; repair evidence truth and assign a different fresh reviewer.","operation":"recover_review"}

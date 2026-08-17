@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Issue #286 initialized packet, live issue contract, ADR 0069 evidence-reconciliation design, residual-gap policy, validation lanes, and #207/#288/sibling non-claims.
+
 
 ## Prompts
 

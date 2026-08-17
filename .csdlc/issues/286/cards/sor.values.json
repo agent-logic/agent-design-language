@@ -7,7 +7,7 @@
     "title": "[v0.92][ADR 0069][207.d] Reconcile Observatory governed Runtime consumer evidence",
     "slug": "adr-0069-observatory-runtime-consumer-evidence",
     "version": "v0.92",
-    "generation": 7
+    "generation": 9
   },
   "status": "pre_phase",
   "content": {
@@ -57,7 +57,7 @@
           "evidence_ref": "preparation-contract.log"
         }
       ],
-      "integration_state": "not_started",
+      "integration_state": "worktree_only",
       "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
