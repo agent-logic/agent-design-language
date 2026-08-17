@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": ".csdlc/issues/114\n.csdlc/prepared/issues/114/validate_preparation_bundle.py\nadl-runtime-kernel/src\nadl-runtime-kernel/tests\nadl/src\nadl/tests",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

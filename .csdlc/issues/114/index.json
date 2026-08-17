@@ -5,10 +5,22 @@
   "initialization_digest": "bb70960941aab631d5c34ecdb2e526c2af37ec6b16d7835180a774117e371407",
   "phase": "implemented",
   "generation": 85,
-  "digest": "e1fd068e07acce622a855de01dca3b9a19170864ceb5c6c5a4b5500f02c58dbf",
+  "digest": "3cb9430d56248397f84da6fcd82343b9e4f6c949e94d5f4abf05318b4a33bd6d",
   "branch": "codex/114-durable-history-parent-integration-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-114-durable-history-parent-integration-proof",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:891f002e-35bd-4a91-8a53-e92c0b379406",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:cedf89d2fc967fcc13428304e4dc41ccd4708f96:05c58164dac61d2475f3c5c68caf0bb120714d23fdff4eb38f66bc03a4e4f175",
+    "scope": [
+      ".csdlc/issues/114",
+      ".csdlc/prepared/issues/114/validate_preparation_bundle.py",
+      "adl-runtime-kernel/src",
+      "adl-runtime-kernel/tests",
+      "adl/src",
+      "adl/tests"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +56,9 @@
       "ast_digest": "f389e0118c2b905dab9734a5647b8a6fa7a9a31191fee58dcd2e65bddcc3ce97"
     },
     "srp": {
-      "values_digest": "1690d2c07651ef166879c9c3288499d4fe5e6af601d0247734be56a2410e7da0",
-      "rendered_digest": "c06395f4d4ab6cddbe4b153514352d5bdffb4cca611c62c1f8e4cde42877ef2e",
-      "ast_digest": "22a6cef2711bbd6b4e373004febad2b1b3c57d85739785c25cfe333836f1dad8"
+      "values_digest": "76610dc3a62736cfbffcc1f77fc28d792cb5672495105323247dca26067afd11",
+      "rendered_digest": "f59926a9df572d3e7d766dcce4ada8368e98c24369fe4b2e0badb04fffec3715",
+      "ast_digest": "0287791d381b7653928907b0e16085bb428b4564ada355cacdce0311d01dd1cb"
     },
     "sor": {
       "values_digest": "a6d52741edcef6843e17389970eaa56f77db830fa5984d805bdfab4c09910272",
@@ -749,6 +761,13 @@
       "actor": "codex:/root",
       "reason": "Replace #114 SOR execution truth after implemented-phase card repairs so validation wording no longer claims stale STP repair limitations.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Recorded the #114 durable-history coordination-parent integration proof after #276, #277, and #278 reached terminal ancestry. The proof remains parent-only: issue-owned validator, terminal-chain validator, focused Runtime integration regression, strict Clippy, and diff hygiene are the current local evidence; SIP/STP/SPP/VPP/SRP/SOR card truth has been repaired through typed implemented-phase routes where supported; publication, merge, and finish remain pending.\",\"changes\":[\"Materialized and ran the #114 issue-owned bound parent validator; it rejects stale preparation-only markers in current publication-relevant card truth and preserves historical audit/design evidence as reference only.\",\"Added a focused durable conversation history parent integration regression covering restart, duplicate attempt admission, receipts, replay ownership, retention, deletion, and Observatory transcript restoration.\",\"Added the #114 integration proof runner that verifies terminal ancestry for #276, #277, and #278.\",\"Repaired implemented-phase SIP/STP/SPP/VPP/SRP/SOR truth through typed owner routes so #114 remains parent-only and does not claim #276/#277/#278/#271/#115/#116/#117 scope.\"],\"artifacts\":[\".csdlc/prepared/issues/114/validate_preparation_bundle.py\",\"adl/tools/validate_v092_durable_history_parent_integration.py\",\"adl-runtime-kernel/tests/durable_conversation_history_integration.rs\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/114/validate_preparation_bundle.py\"],\"purpose\":\"Validate bound/implemented #114 identity, preserved design/diagram digests, terminal ancestry for #112/#265/#270/#271/#276/#277/#278, and absence of stale preparation-only markers in current publication-relevant card truth.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:114-issue-owned-bound-parent-validator\"},{\"command\":[\"python3\",\"adl/tools/validate_v092_durable_history_parent_integration.py\"],\"purpose\":\"Validate #276/#277/#278 terminal caches, merged dispositions, merge-SHA ancestry, parent-only ownership, and preserved boundary truth.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:114-parent-terminal-chain-validator\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"durable_conversation_history_integration\",\"--\",\"--nocapture\"],\"purpose\":\"Run focused durable-history parent integration test across history, continuity, journal retention/deletion, restart, duplicate attempt admission, receipts, replay owner state, and Observatory transcript restoration.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:114-parent-runtime-kernel-integration-test\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"durable_conversation_history_integration\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict clippy for the #114 focused Runtime kernel integration test target.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:114-parent-hygiene\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Check whitespace/diff hygiene for the #114 parent proof surface.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:114-diff-hygiene\"}]}"
+    },
+    {
+      "sequence": 97,
+      "generation": 85,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
