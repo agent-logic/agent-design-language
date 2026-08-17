@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "6b431e21b2b0a61991853e1f3f4a1bf51241907edaac9389f1c22998ae3334e7",
   "phase": "implemented",
-  "generation": 21,
-  "digest": "c56b7738eb7d514cef33cac1194edf7bb94c91f6ef807b226b18a76ee27a5cc3",
+  "generation": 22,
+  "digest": "e49e01edc484a501cc7272a00c56d52e11db03cfe06795827a2a91e653ffe0e3",
   "branch": "codex/115-governed-multi-agent-rooms",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-115-governed-multi-agent-rooms",
   "review_assignment": {
@@ -41,34 +41,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "07a34b3021148c477df6daa31dac8884c740d1d6bcc79d90ebb3edfdce203697",
+      "values_digest": "4f30d7d4afe5c2ce7d2df5f3c922d22bb952832b63d6ddd66bb25b7ab6d7d387",
       "rendered_digest": "ecadc343231ebf27f6cc2251766828eff504b8338d3bf9054daa17b13a178c93",
       "ast_digest": "e02db63fa0459d5bd0d779d49185ce9f2d0c99a6a3378a81fa7d5dcbda279605"
     },
     "stp": {
-      "values_digest": "7d6d98a8c6340feae9ac743794ceb4a2e8b3715dc2081e93d73e8fe52b92520d",
+      "values_digest": "ab4a12e9656c830973159c9f405ca02dc9544bc1c196c8108bc7741add396cae",
       "rendered_digest": "52b7561d3147cf35a9d9e3e9c250bb2a4b29d24f74d72f0affff7e08a712c0df",
       "ast_digest": "35ee5ba28500c070fbcfd0489da6659b6a5043c0516503d3d603efd4c71b847c"
     },
     "spp": {
-      "values_digest": "40b9e8f90edfee8cd91cd92dcbf47d8432a18b1d6633dcd62f47a1551357e690",
+      "values_digest": "48c1354a900bff92d8b9fcc9ea94dad3c0c77466025fbd5f7eb2c3bff74f19c0",
       "rendered_digest": "e26bfe2140a9e173c825afa8ca0bc232861990e642e27fc8b62b7598d87bc095",
       "ast_digest": "16b4224ccc9852138207e7ea7650ab8597dacc0572143c308eaa3f9f51cc30f0"
     },
     "vpp": {
-      "values_digest": "f123a146171ada42ebc6bdb45361988cf96cf89da28a51ca61941ca03d6eb94a",
+      "values_digest": "1be052381c2896cb450aefb14f6ed4f7effdbe7772e6410c5975fc09f1946c2d",
       "rendered_digest": "5ba45045d2fec22c237ee9ef6da6228d1bde2612277d4955b7a8652ba1e41e62",
       "ast_digest": "eb8f2cb0c493fbb437ed0edfd5922ffea6758fd0731841881c2e8acdae1eb7b9"
     },
     "srp": {
-      "values_digest": "7b251d00073bcbf42ae7c0763e23f7be5d16ec653efed8b01baf7c2d18947a01",
+      "values_digest": "78f41f5d89be4d3f77cc9b759b80a91ba1bd14417239074f2731082bf9374c5f",
       "rendered_digest": "caa32cec7ee45bdc6639e84fa323a1031e8fa857b683476d42cd133f817da2a5",
       "ast_digest": "48cf8333edfa0e54788ff6eeae5d7d38020fbd2b1bb738ceb32be7918f3fbe8b"
     },
     "sor": {
-      "values_digest": "a52c89d110697381edb496ba7e297f51d40378a540b652b5c15f2fcb72048cda",
-      "rendered_digest": "44b15b11e4937facfd464d994fe3dfd0c5b1c158b25069f841509ba531e31069",
-      "ast_digest": "39e28edc517757bda5f7ea202cbaf0871715b3a1f0e0fcc457220625de3b781e"
+      "values_digest": "8873c2b7d2a98ad3dc131144fb3b50c1e692a482f9fc868df55b9f73835ae416",
+      "rendered_digest": "2bfd06b6099c16b7f226fbb3962935ba36bd130453c1e2f5fff08554e7375964",
+      "ast_digest": "239221d82881cefe55a4e8ccc97429c052af05c8bf87aeff8b500ba1bbd4f0dc"
     }
   },
   "transitions": [
@@ -276,6 +276,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "Record #115 post-R6-fix focused validation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --check\",\"cargo test --manifest-path adl-runtime-kernel/Cargo.toml conversation_rooms -- --nocapture\",\"cargo test --manifest-path adl-runtime-kernel/Cargo.toml governed_room -- --nocapture\",\"cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --lib -- -D warnings\",\"node adl/tools/validate_v092_governed_room_observatory.mjs\",\"bash adl/tools/test_html_observatory.sh\"],\"purpose\":\"Reprove the #115 governed-room Runtime and Observatory surfaces after the per-room turn-sequence remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local post-fix run: fmt passed; conversation_rooms 6 passed; governed_room 2 passed; strict clippy passed; governed-room Observatory validator passed with per_room_turn_sequence_preserved_across_room_switching; HTML Observatory smoke passed\"}}"
     }
   ]
 }

@@ -168,6 +168,19 @@ Resolved the fresh exact-review P1 by preserving Observatory governed-room turn 
     "purpose": "Focused #115 Observatory room proof after enforcing 1-8 explicit recipient bound",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/115/governed-room-observatory-validation.json"
+  },
+  {
+    "command": [
+      "cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --check",
+      "cargo test --manifest-path adl-runtime-kernel/Cargo.toml conversation_rooms -- --nocapture",
+      "cargo test --manifest-path adl-runtime-kernel/Cargo.toml governed_room -- --nocapture",
+      "cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --lib -- -D warnings",
+      "node adl/tools/validate_v092_governed_room_observatory.mjs",
+      "bash adl/tools/test_html_observatory.sh"
+    ],
+    "purpose": "Reprove the #115 governed-room Runtime and Observatory surfaces after the per-room turn-sequence remediation.",
+    "outcome": "passed",
+    "evidence_ref": "local post-fix run: fmt passed; conversation_rooms 6 passed; governed_room 2 passed; strict clippy passed; governed-room Observatory validator passed with per_room_turn_sequence_preserved_across_room_switching; HTML Observatory smoke passed"
   }
 ]
 
