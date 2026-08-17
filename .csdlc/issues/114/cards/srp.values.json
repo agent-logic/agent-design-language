@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": ".csdlc/issues/114\n.csdlc/prepared/issues/114\n.csdlc/evidence/114\nadl/tools/validate_v092_durable_history_parent_integration.py\nadl-runtime-kernel/tests/durable_conversation_history_integration.rs",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

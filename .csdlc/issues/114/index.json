@@ -5,10 +5,21 @@
   "initialization_digest": "bb70960941aab631d5c34ecdb2e526c2af37ec6b16d7835180a774117e371407",
   "phase": "implemented",
   "generation": 52,
-  "digest": "7f5defdb8b06d6fc5ff9625e624c3207f59b5c75b85c7a858eac73c6e9182b2f",
+  "digest": "ba326141eb433e8dc0df6ceba88bd151488925c610a805e1f9d0b07e1805e36f",
   "branch": "codex/114-durable-history-parent-integration-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-114-durable-history-parent-integration-proof",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:604ce63e-42a3-4774-9fda-4145a2c9ac23",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:3dc2e3f75825d01cf637b849915928ab03a8187e:40630421937ab2e843f91664689990bcfeb92ac8f0788eb624abd34065d3a0f4",
+    "scope": [
+      ".csdlc/issues/114",
+      ".csdlc/prepared/issues/114",
+      ".csdlc/evidence/114",
+      "adl/tools/validate_v092_durable_history_parent_integration.py",
+      "adl-runtime-kernel/tests/durable_conversation_history_integration.rs"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +55,9 @@
       "ast_digest": "616c081289d62f27a5b08a5be35245d0505c20f338c44f2da7fbf6ae3eade347"
     },
     "srp": {
-      "values_digest": "9932fc627997a6053dbf95675e956a9b974dc43e24b07bd553d1f1bbc6ab4511",
-      "rendered_digest": "675233c7dddbbe543a08d402e6f1985b373a3efc4e50e1f25d746b6b888a0518",
-      "ast_digest": "5d8bfa7b856ab2c8e3e3156b635194f84011ed7b7b58827561d0116974a8265e"
+      "values_digest": "1d9cec1901e94ec9c9e8523852b7e73b2273c185ea2189260eef08d5adefd7c2",
+      "rendered_digest": "fb66412a0d6aa2f0d5e0bc09c28e8ff40bdc13ea274706633ceb551851a638ab",
+      "ast_digest": "f5eba988d56227c9a9d32453b055e8212091236f6c5e247b3ef0531f430a67a9"
     },
     "sor": {
       "values_digest": "106d536fec3bca8cbb2a8a4225cd10f6e6f4af73383b1b7f59ad2d993b8c701f",
@@ -462,6 +473,13 @@
       "actor": "codex:/root",
       "reason": "Recover failed exact review r1 before repairing stale STP/SPP/SOR preparation-only card truth.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 56,
+      "generation": 52,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
