@@ -139,7 +139,7 @@ fn bootstrap_at(
     diagram: &str,
 ) -> csdlc_v2::IssueRecord {
     assert!(std::process::Command::new("git")
-        .args(["init", "-q"])
+        .args(["init", "-q", "-b", "main"])
         .current_dir(root)
         .status()
         .unwrap()
@@ -697,7 +697,7 @@ fn journal_owned_inode_prevents_identical_byte_replacement_deletion() {
     use std::os::unix::fs::MetadataExt;
     let temp = tempfile::tempdir().unwrap();
     assert!(std::process::Command::new("git")
-        .args(["init", "-q"])
+        .args(["init", "-q", "-b", "main"])
         .current_dir(temp.path())
         .status()
         .unwrap()
@@ -1055,7 +1055,7 @@ fn recovery_replays_precommit_journal_and_succeeds_in_linked_worktree() {
 fn bootstrap_and_recovery_reject_git_authored_paths() {
     let temp = tempfile::tempdir().unwrap();
     assert!(std::process::Command::new("git")
-        .args(["init", "-q"])
+        .args(["init", "-q", "-b", "main"])
         .current_dir(temp.path())
         .status()
         .unwrap()
