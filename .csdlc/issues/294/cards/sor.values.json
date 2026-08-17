@@ -7,7 +7,7 @@
     "title": "[v0.92][C-SDLC][defect] Recover initialized design identity and artifact paths before bind",
     "slug": "initialized-design-envelope-recovery",
     "version": "v0.92",
-    "generation": 43
+    "generation": 47
   },
   "status": "pre_phase",
   "content": {
@@ -180,6 +180,64 @@
           "purpose": "Prove csdlc-v2 remains warning-free after PR #385 Linux-stable fixture remediation.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/294/csdlc-v2-strict-clippy-exact-head.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate5",
+            "implemented_authored_design_refresh_and_assignment_support_issue_local_artifacts"
+          ],
+          "purpose": "Prove implemented authored-design refresh accepts governed issue-local authored artifacts after PR #385 gate5 CI failure remediation.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/294/gate5-authored-refresh-pr385-gate5-fix.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate2",
+            "prebind_contract_repair_is_exact_atomic_and_fail_closed"
+          ],
+          "purpose": "Prove the earlier PR #385 gate2 assertion drift remains fixed while applying the issue-local authored destination remediation.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/294/gate2-prebind-contract-pr385-gate5-fix.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "check",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml"
+          ],
+          "purpose": "Prove csdlc-v2 still compiles after issue-local authored destination remediation.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/294/csdlc-v2-cargo-check-pr385-gate5-fix.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Prove strict lint cleanliness after issue-local authored destination remediation.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/294/csdlc-v2-clippy-pr385-gate5-fix.log"
         }
       ],
       "integration_state": "worktree_only",

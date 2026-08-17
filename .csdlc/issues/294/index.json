@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "800ae278d01e46c7ea3bc653920a4178dd1439d1836c928794dc1984fdde1b5a",
   "phase": "implemented",
-  "generation": 43,
-  "digest": "a58efb9cfe504e4ae75309e32731d59713488764c3715887d717b3c7af33cf7e",
+  "generation": 47,
+  "digest": "ee021bc3993384b54315db461816cb90443e18d699682e719afb8a7eca1d64c4",
   "branch": "codex/294-initialized-design-envelope-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-294-initialized-design-envelope-recovery",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1467c3bde4e1f6cccff2e88e898f56eb9361b7f4db9394c38265b8043e70dcd6",
+      "values_digest": "b33fe641838f7dc40e9f965c73432de8ff06e3b785e9d034433e09e2665a55a5",
       "rendered_digest": "3e36b0e88d7f76e4a233fcff102b6aa56fe57becbc26a6dba984a5dc1f5699bc",
       "ast_digest": "b5eb19fa979837c27cae787dd8ed10ce8aa10a2d84d6d386c76d8e2628ba3864"
     },
     "stp": {
-      "values_digest": "b06c57a7bbd04ce78be643406f0bd8c1f25aaa744b3f80c398eee9e7570a870e",
+      "values_digest": "5688a11b7cb6ba1f00500ef1b75a5c40b3037573771bfaa3cad0416862936848",
       "rendered_digest": "62b94e609f2b1a7babc548935a5db66323d9a4be44dae9f6c37d849ec56a6e31",
       "ast_digest": "8b080ac00c6eed5a7d97b6187e92c4b7e41d70d5c967c9fa57b08a32a818955c"
     },
     "spp": {
-      "values_digest": "76faae4fb20f2216b55f862fe94c3da2425fb8eea4bfe8f2adb7dd951f85f150",
+      "values_digest": "58fcaa4bf42a8aaa42bc50eb598485701ba44c15907bda225c96ff0b4b374bab",
       "rendered_digest": "288414b628210cf5ba8e08c4c4145ab43f5ed0fe7417ace0e07f22060630fb86",
       "ast_digest": "8126bc1d4576a9e9a2191435dbaefc568046a73cf40bbbed42661c2c1e984153"
     },
     "vpp": {
-      "values_digest": "b6f6224e20dfd5d4225a92ffa6d4f986404c31d6baaba3edef3808d5b42cb785",
+      "values_digest": "658405726e30b164201450af232a7ffcb67d3ed63da98c230d9cc8f0dfb22a21",
       "rendered_digest": "2ec8f40f5663c0883b898d842aed1fcc99aa4d4f79eb3fe8e9c50ca682758a94",
       "ast_digest": "9c636f5af53a97a09991989dd18baf33fafa10df6b5a0554de5ccc30d748ca1a"
     },
     "srp": {
-      "values_digest": "f48bfdab5bc5458d131bc83859af8279e07f63b8545b2d284547f092e0efe5da",
+      "values_digest": "0b61eedd42aa4ef866b10144f3bb0abc09c20b4b27bf22d6975ab3ee4380d18d",
       "rendered_digest": "0567ed70395313482b89d8e35be47456c488cb326c2df14cbc015b5e7d92c5d8",
       "ast_digest": "13f502d7ae633df5336ea95b80bbd88392eb15b98caf010e8d859f6d282810c7"
     },
     "sor": {
-      "values_digest": "c202380732e858182b7437b9532fc8e871ab4741647c1fdcb562d76f6a99e1df",
-      "rendered_digest": "80a0ebc36f113f923e9b529881d1c340f1875037b2f63ccef86ca875946c55ad",
-      "ast_digest": "f9b1ff1dfbdc76b8cbaa3678c83c29e34b3ef095c91591b56383b4ae2c21cbad"
+      "values_digest": "7a3ab4002e84b705221616f03e2459e805052b909168bc0bca2faa5d6db7683a",
+      "rendered_digest": "56aff4ef03011bb7af9ff46844831072691fca5568b6acceee4a7ecdb1cfc6b5",
+      "ast_digest": "c970d41aca5daf37f71e5806b924b624f31a6b0f966ed5bf52e0c37a5893008e"
     }
   },
   "transitions": [
@@ -511,6 +511,34 @@
       "actor": "codex:issue-294",
       "reason": "Record strict Clippy after PR #385 Linux inode-reuse fixture fix.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove csdlc-v2 remains warning-free after PR #385 Linux-stable fixture remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/294/csdlc-v2-strict-clippy-exact-head.log\"}}"
+    },
+    {
+      "sequence": 60,
+      "generation": 44,
+      "actor": "codex:issue-294",
+      "reason": "Record focused gate5 validation after PR #385 issue-local authored destination remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate5\",\"implemented_authored_design_refresh_and_assignment_support_issue_local_artifacts\"],\"purpose\":\"Prove implemented authored-design refresh accepts governed issue-local authored artifacts after PR #385 gate5 CI failure remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/294/gate5-authored-refresh-pr385-gate5-fix.log\"}}"
+    },
+    {
+      "sequence": 61,
+      "generation": 45,
+      "actor": "codex:issue-294",
+      "reason": "Record retained gate2 regression validation after PR #385 gate5 remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--test\",\"gate2\",\"prebind_contract_repair_is_exact_atomic_and_fail_closed\"],\"purpose\":\"Prove the earlier PR #385 gate2 assertion drift remains fixed while applying the issue-local authored destination remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/294/gate2-prebind-contract-pr385-gate5-fix.log\"}}"
+    },
+    {
+      "sequence": 62,
+      "generation": 46,
+      "actor": "codex:issue-294",
+      "reason": "Record cargo check after PR #385 gate5 remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"check\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\"],\"purpose\":\"Prove csdlc-v2 still compiles after issue-local authored destination remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/294/csdlc-v2-cargo-check-pr385-gate5-fix.log\"}}"
+    },
+    {
+      "sequence": 63,
+      "generation": 47,
+      "actor": "codex:issue-294",
+      "reason": "Record strict clippy after PR #385 gate5 remediation.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove strict lint cleanliness after issue-local authored destination remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/294/csdlc-v2-clippy-pr385-gate5-fix.log\"}}"
     }
   ]
 }
