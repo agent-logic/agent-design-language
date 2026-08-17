@@ -1,0 +1,95 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 292,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Repair implemented card identity after issue decomposition",
+    "slug": "implemented-card-identity-repair",
+    "version": "v0.92",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "csdlc-edit-card-identity-target",
+          "proof_role": "focused csdlc-edit card identity regression target",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 300,
+          "budget_tokens": 2000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "card_identity"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "csdlc-validate-292",
+          "proof_role": "lifecycle/card consistency after bind",
+          "acceptance_ids": [
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            ".adl/bin/csdlc-v2/csdlc-validate",
+            "--root",
+            "/Volumes/FastWork/adl-worktrees/adl-issue-292-implemented-card-identity-repair",
+            "issue",
+            "--issue",
+            "292"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "required-hosted-pr-checks",
+          "proof_role": "hosted required checks prove the published ready PR before merge is withheld",
+          "acceptance_ids": [
+            "AC-9"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 900,
+          "budget_tokens": 1500,
+          "argv": [
+            ".adl/bin/csdlc-v2/csdlc-shepherd",
+            "observe",
+            "--issue",
+            "292"
+          ],
+          "parallel_group": "hosted",
+          "defer_reason": "Runs after csdlc-publish creates the PR and before merge authority."
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on stale CAS, missing/mismatched live issue evidence, forbidden phase or existing review/publication/readiness/terminal truth, incompatible latest review-related audit state, sibling-scope title, malformed/colliding slug, validation failure, or missing fresh-session review.",
+      "design_ref": ".csdlc/prepared/issues/292/design.md",
+      "design_digest": "d9f07d34e65d0f0e12343ef7be532ddd65573ae07878eb435f584353437d8a08",
+      "diagram_ref": ".csdlc/prepared/issues/292/diagram.mmd",
+      "diagram_digest": "ddb7bd579661bb727935d5276c73192db8a7d289cb7ac062140e1ea40b24e69a"
+    }
+  }
+}

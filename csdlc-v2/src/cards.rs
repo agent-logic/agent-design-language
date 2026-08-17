@@ -557,6 +557,13 @@ pub enum SemanticOperation {
     UpdateIdentityVersion {
         version: String,
     },
+    CorrectIdentityTitleSlugAfterDecomposition {
+        title: String,
+        slug: String,
+        live_issue_title: String,
+        live_issue_url: String,
+        live_issue_body_digest: String,
+    },
     Replan {
         field: TextField,
         value: String,
@@ -898,6 +905,10 @@ pub fn apply(
             values.identity.version = version.clone();
             Ok(None)
         }
+        SemanticOperation::CorrectIdentityTitleSlugAfterDecomposition { .. } => Err(V2Error::new(
+            ErrorCode::FieldOwnership,
+            "correct_identity_title_slug_after_decomposition is a cross-card operation",
+        )),
         SemanticOperation::Replan { field, value } => {
             set_text(values, *field, value.clone())?;
             Ok(None)
