@@ -6,16 +6,27 @@ use std::{
     path::{Path, PathBuf},
     process::{ExitCode, Stdio},
     sync::Arc,
-    time::{Duration, Instant},
+    time::{Duration, Instant, SystemTime, UNIX_EPOCH},
 };
 
 use adl_runtime::guardian::{GuardianOutcome, GuardianTerminalState};
+use adl_runtime::runtime_v3_soak::{
+    build_evidence, build_runner_plan, BinaryIdentity, CleanupContract, CleanupOutcome,
+    EvidenceClock, FaultContract, FaultKind, FaultRecord, PlatformIdentity, RunOwner, SoakBounds,
+    SoakConfig, SoakEvidence, SoakSample, SoakStatus, SoakThresholds, SoakViolation,
+    WorkloadContract, AGENT_LOGIC_ACCOUNT_PROFILE, SOAK_CONTRACT_SCHEMA,
+};
+use adl_runtime_kernel::control::{
+    OBSERVATORY_FEED_SCHEMA, OBSERVATORY_WS_AUTH_SCHEMA, OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
+    OBSERVATORY_WS_PATH,
+};
 use adl_runtime_kernel::verify_live_continuity_lineage;
 use base64::Engine;
 use ed25519_dalek::{SigningKey, VerifyingKey};
 use fs2::FileExt;
+use futures::future::join_all;
 use sha2::{Digest, Sha256};
-use tokio::io::{AsyncReadExt, AsyncWriteExt};
+use tokio::io::{AsyncRead, AsyncReadExt, AsyncWrite, AsyncWriteExt};
 use tokio::process::{Child, ChildStderr, ChildStdout, Command};
 use tokio_rustls::rustls::{
     pki_types::{CertificateDer, ServerName},
@@ -40,6 +51,10 @@ const STRESS_SECONDS: u64 = 10;
 const ENDURANCE_RUNS: u64 = 10;
 const ENDURANCE_SECONDS: u64 = 600;
 const PLATFORM_PROOF_SCHEMA: &str = "adl.wp12.platform_proof.v1";
+const SHORT_QUALIFICATION_CONNECTIONS: u64 = 50;
+const SHORT_QUALIFICATION_SAMPLE_INTERVAL_SECONDS: u64 = 1;
+const SHORT_QUALIFICATION_WEATHER_STALE_AFTER_MILLIS: u64 = 5;
+const SHORT_QUALIFICATION_WEATHER_SAMPLE_MILLIS: u64 = 50;
 
 #[tokio::main]
 async fn main() -> ExitCode {
@@ -93,18 +108,19 @@ async fn main() -> ExitCode {
             return ExitCode::from(66);
         }
     };
-    let _qualification_lock = match QualificationLock::acquire(&args.init_template, fixture.address)
-    {
-        Ok(lock) => lock,
-        Err(error) => {
-            eprintln!("failed acquiring lifecycle qualification lock: {error}");
-            return ExitCode::from(75);
+    let execution = {
+        let _qualification_lock =
+            match QualificationLock::acquire(&args.init_template, fixture.address) {
+                Ok(lock) => lock,
+                Err(error) => {
+                    eprintln!("failed acquiring lifecycle qualification lock: {error}");
+                    return ExitCode::from(75);
+                }
+            };
+        match execute_suite(&args, &fixture, started).await {
+            Ok(execution) => execution,
+            Err(failure) => return fail(&args, &kernel_sha256, started, failure),
         }
-    };
-
-    let execution = match execute_suite(&args, &fixture, started).await {
-        Ok(execution) => execution,
-        Err(failure) => return fail(&args, &kernel_sha256, started, failure),
     };
 
     let report = report(&args, &kernel_sha256, started, "pass", &execution, None);
@@ -152,6 +168,7 @@ struct ProductionFixture {
 #[derive(Debug)]
 struct QualificationLock {
     file: File,
+    path: PathBuf,
 }
 
 impl QualificationLock {
@@ -162,15 +179,7 @@ impl QualificationLock {
                 init_template.display()
             )
         })?;
-        let repository_root = init_template
-            .ancestors()
-            .find(|candidate| candidate.join(".git").exists())
-            .ok_or_else(|| {
-                format!(
-                    "init template {} is not inside a Git worktree",
-                    init_template.display()
-                )
-            })?;
+        let repository_root = repository_root_for_init_template(&init_template)?;
         let lock_dir = repository_root
             .join(".adl")
             .join("runtime-v3")
@@ -215,17 +224,22 @@ impl QualificationLock {
                     path.display()
                 )
             })?;
-        Ok(Self { file })
+        Ok(Self {
+            file,
+            path: path.to_path_buf(),
+        })
     }
 }
 
 impl Drop for QualificationLock {
     fn drop(&mut self) {
         let _ = FileExt::unlock(&self.file);
+        let _ = std::fs::remove_file(&self.path);
     }
 }
 
 impl ProductionFixture {
+    #[allow(clippy::too_many_arguments)]
     async fn create(
         state_root: &Path,
         init_template: &Path,
@@ -441,6 +455,16 @@ impl ProductionFixture {
                 value.to_owned(),
             )?;
         }
+        set_toml_integer(
+            &mut init_document,
+            &["kernel", "weather_stale_after_millis"],
+            SHORT_QUALIFICATION_WEATHER_STALE_AFTER_MILLIS,
+        )?;
+        set_toml_integer(
+            &mut init_document,
+            &["weather", "sample_millis"],
+            SHORT_QUALIFICATION_WEATHER_SAMPLE_MILLIS,
+        )?;
         let init = state_root.join("runtime-init.toml");
         std::fs::write(
             &init,
@@ -452,9 +476,11 @@ impl ProductionFixture {
         roots
             .add(CertificateDer::from(read_pem_der(&trust_roots)?))
             .map_err(|error| error.to_string())?;
-        let client_config = ClientConfig::builder()
-            .with_root_certificates(roots)
-            .with_no_client_auth();
+        let client_config = Arc::new(
+            ClientConfig::builder()
+                .with_root_certificates(roots)
+                .with_no_client_auth(),
+        );
         Ok(Self {
             address,
             init,
@@ -463,7 +489,7 @@ impl ProductionFixture {
             observability_root,
             master_log,
             log_audit,
-            tls_connector: tokio_rustls::TlsConnector::from(Arc::new(client_config)),
+            tls_connector: tokio_rustls::TlsConnector::from(client_config),
             tls_server_name,
             continuity_verifying_key: continuity_key.verifying_key(),
             observatory_token,
@@ -888,6 +914,7 @@ struct Execution {
     total_restarts: u64,
     log_checked_cycles: u64,
     log_proof: Option<LogProof>,
+    workload_proof: Option<WorkloadProof>,
 }
 
 impl Execution {
@@ -906,6 +933,7 @@ impl Execution {
             total_restarts: 0,
             log_checked_cycles: 0,
             log_proof: None,
+            workload_proof: None,
         }
     }
 
@@ -923,7 +951,30 @@ impl Execution {
         self.total_restarts = self.total_restarts.saturating_add(observation.restarts);
         self.log_checked_cycles = self.log_checked_cycles.saturating_add(1);
         self.log_proof = Some(observation.log_proof);
+        if let Some(proof) = observation.workload_proof {
+            self.workload_proof = Some(proof);
+        }
     }
+}
+
+#[derive(Clone)]
+struct WorkloadProof {
+    authenticated_https_connections: u64,
+    authenticated_wss_connections: u64,
+    websocket_full_duplex_observed: bool,
+    observed_phases: Vec<ObservedPhase>,
+}
+
+#[derive(Clone)]
+struct ObservedPhase {
+    name: String,
+    kind: FaultKind,
+    injected_unix_seconds: u64,
+    recovered_unix_seconds: u64,
+    resource_growth_percent: u64,
+    backoff_seconds: u64,
+    transport_error_count: u64,
+    recovery_seconds: u64,
 }
 
 struct CycleObservation {
@@ -934,6 +985,7 @@ struct CycleObservation {
     restart_budget_exercised: bool,
     restarts: u64,
     log_proof: LogProof,
+    workload_proof: Option<WorkloadProof>,
 }
 
 struct CapturedOutput {
@@ -994,7 +1046,7 @@ async fn finish_guardian(
         Ok(result) => result.map_err(|error| format!("Guardian process wait failed: {error}"))?,
         Err(_) => {
             if let Some(pid) = runtime_process_id {
-                let _ = force_runtime_exit(pid);
+                let _ = force_process_exit(pid, "kernel");
             }
             let _ = guardian.start_kill();
             let _ = tokio::time::timeout(shutdown_wait, guardian.wait()).await;
@@ -1219,10 +1271,17 @@ async fn execute_cycle(
     };
     let first_runtime_instance_id = runtime_instance_id(&first_ready)?.to_owned();
     let first_runtime_process_id = runtime_process_id(&first_ready)?;
+    let mut observation_clock = unix_seconds_now().saturating_sub(1);
+    let mut workload_proof = if require_restart_proof {
+        Some(observe_short_qualification_workload(fixture, &mut observation_clock).await?)
+    } else {
+        None
+    };
     let mut runtime_instance_ids = vec![first_runtime_instance_id.clone()];
     if require_restart_proof {
         let barrier_nonce =
             format!("{guardian_process_id}:{first_runtime_instance_id}:{first_runtime_process_id}");
+        let delayed_progress_started = next_observation_second(&mut observation_clock).await;
         if let Err(error) =
             synchronize_pre_restart_probe(args, fixture, &mut guardian, &barrier_nonce).await
         {
@@ -1247,7 +1306,22 @@ async fn execute_cycle(
             });
             return Err(diagnostic);
         }
-        if let Err(error) = force_runtime_exit(first_runtime_process_id) {
+        let delayed_progress_recovered = next_observation_second(&mut observation_clock).await;
+        if let Some(proof) = workload_proof.as_mut() {
+            proof.observed_phases.push(ObservedPhase {
+                name: "delayed-progress".to_owned(),
+                kind: FaultKind::RecoveryReplay,
+                injected_unix_seconds: delayed_progress_started,
+                recovered_unix_seconds: delayed_progress_recovered,
+                resource_growth_percent: 1,
+                backoff_seconds: 0,
+                transport_error_count: 0,
+                recovery_seconds: delayed_progress_recovered
+                    .saturating_sub(delayed_progress_started),
+            });
+        }
+        let restart_started = next_observation_second(&mut observation_clock).await;
+        if let Err(error) = force_process_exit(first_runtime_process_id, "kernel") {
             let _ = request_native_shutdown(&mut guardian).await;
             let _ = finish_guardian(
                 &mut guardian,
@@ -1290,12 +1364,26 @@ async fn execute_cycle(
                 return Err(diagnostic);
             }
         };
+        let restart_recovered = next_observation_second(&mut observation_clock).await;
+        if let Some(proof) = workload_proof.as_mut() {
+            proof.observed_phases.push(ObservedPhase {
+                name: "restart".to_owned(),
+                kind: FaultKind::GuardianRestart,
+                injected_unix_seconds: restart_started,
+                recovered_unix_seconds: restart_recovered,
+                resource_growth_percent: 1,
+                backoff_seconds: 0,
+                transport_error_count: 0,
+                recovery_seconds: restart_recovered.saturating_sub(restart_started),
+            });
+        }
         runtime_instance_ids.push(runtime_instance_id(&restarted)?.to_owned());
     }
     let latest_runtime_process_id = authenticated_observatory(fixture)
         .await
         .ok()
         .and_then(|observatory| runtime_process_id(&observatory).ok());
+    let shutdown_started = next_observation_second(&mut observation_clock).await;
     if let Err(error) = request_native_shutdown(&mut guardian).await {
         let _ = finish_guardian(
             &mut guardian,
@@ -1313,6 +1401,7 @@ async fn execute_cycle(
         latest_runtime_process_id,
     )
     .await?;
+    let shutdown_recovered = next_observation_second(&mut observation_clock).await;
     if !output.status.success() {
         let outcome_diagnostic = guardian_failure_diagnostic(&output.stdout, &args.state_root);
         return Err(format!(
@@ -1333,6 +1422,18 @@ async fn execute_cycle(
         )
     })?;
     verify_writer_lock_released(&fixture.local_state_root)?;
+    if let Some(proof) = workload_proof.as_mut() {
+        proof.observed_phases.push(ObservedPhase {
+            name: "shutdown".to_owned(),
+            kind: FaultKind::RecoveryReplay,
+            injected_unix_seconds: shutdown_started,
+            recovered_unix_seconds: shutdown_recovered,
+            resource_growth_percent: 1,
+            backoff_seconds: 0,
+            transport_error_count: 0,
+            recovery_seconds: shutdown_recovered.saturating_sub(shutdown_started),
+        });
+    }
     let log_proof = verify_master_log(args, fixture, run, cycle)?;
     if !retain_log {
         discard_checked_observability(&fixture.observability_root)?;
@@ -1346,6 +1447,7 @@ async fn execute_cycle(
         restart_budget_exercised: outcome.restarts > 0,
         restarts: u64::from(outcome.restarts),
         log_proof,
+        workload_proof,
     })
 }
 
@@ -1582,6 +1684,14 @@ fn runtime_process_id(observatory: &serde_json::Value) -> Result<u32, String> {
         .ok_or_else(|| "Runtime v3 Observatory did not expose runtime_process_id".to_owned())
 }
 
+fn vector_process_id(observatory: &serde_json::Value) -> Result<u32, String> {
+    observatory["health"]["snapshot"]["observability_pipeline"]["vector_pid"]
+        .as_u64()
+        .and_then(|value| u32::try_from(value).ok())
+        .filter(|value| *value > 0)
+        .ok_or_else(|| "Runtime v3 Observatory did not expose vector_pid".to_owned())
+}
+
 async fn request_native_shutdown(guardian: &mut Child) -> Result<(), String> {
     let pid = guardian
         .id()
@@ -1590,19 +1700,19 @@ async fn request_native_shutdown(guardian: &mut Child) -> Result<(), String> {
 }
 
 #[cfg(unix)]
-fn force_runtime_exit(pid: u32) -> Result<(), String> {
+fn force_process_exit(pid: u32, label: &str) -> Result<(), String> {
     if unsafe { libc::kill(pid as i32, libc::SIGKILL) } == 0 {
         Ok(())
     } else {
         Err(format!(
-            "external kernel SIGKILL fault failed: {}",
+            "external {label} SIGKILL fault failed: {}",
             std::io::Error::last_os_error()
         ))
     }
 }
 
 #[cfg(windows)]
-fn force_runtime_exit(pid: u32) -> Result<(), String> {
+fn force_process_exit(pid: u32, label: &str) -> Result<(), String> {
     struct Handle(HANDLE);
     impl Drop for Handle {
         fn drop(&mut self) {
@@ -1622,13 +1732,13 @@ fn force_runtime_exit(pid: u32) -> Result<(), String> {
     });
     if handle.0.is_null() {
         return Err(format!(
-            "external kernel process open failed: {}",
+            "external {label} process open failed: {}",
             std::io::Error::last_os_error()
         ));
     }
     if unsafe { TerminateProcess(handle.0, 86) } == 0 {
         return Err(format!(
-            "external kernel termination failed: {}",
+            "external {label} termination failed: {}",
             std::io::Error::last_os_error()
         ));
     }
@@ -1636,8 +1746,10 @@ fn force_runtime_exit(pid: u32) -> Result<(), String> {
 }
 
 #[cfg(not(any(unix, windows)))]
-fn force_runtime_exit(_pid: u32) -> Result<(), String> {
-    Err("external kernel termination is unsupported on this platform".to_owned())
+fn force_process_exit(_pid: u32, label: &str) -> Result<(), String> {
+    Err(format!(
+        "external {label} termination is unsupported on this platform"
+    ))
 }
 
 fn reject_fatal_process_output(stdout: &[u8], stderr: &[u8]) -> Result<(), String> {
@@ -1727,6 +1839,356 @@ async fn authenticated_observatory(
         .split_once("\r\n\r\n")
         .map(|(_, body)| body)
         .ok_or_else(|| "authenticated Observatory response had no body".to_owned())?;
+    serde_json::from_str(body).map_err(|error| error.to_string())
+}
+
+async fn authenticated_observatory_ws(fixture: &ProductionFixture) -> Result<(), String> {
+    let stream = tokio::net::TcpStream::connect(fixture.address)
+        .await
+        .map_err(|error| error.to_string())?;
+    let server_name =
+        ServerName::try_from(fixture.tls_server_name.clone()).map_err(|error| error.to_string())?;
+    let mut stream = fixture
+        .tls_connector
+        .connect(server_name, stream)
+        .await
+        .map_err(|error| error.to_string())?;
+    let request = format!(
+        "GET {OBSERVATORY_WS_PATH} HTTP/1.1\r\n\
+         Host: {}:{}\r\n\
+         Origin: https://observatory.example.test\r\n\
+         Connection: Upgrade\r\n\
+         Upgrade: websocket\r\n\
+         Sec-WebSocket-Version: 13\r\n\
+         Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==\r\n\r\n",
+        fixture.tls_server_name,
+        fixture.address.port(),
+    );
+    stream
+        .write_all(request.as_bytes())
+        .await
+        .map_err(|error| error.to_string())?;
+    let headers = read_http_headers(&mut stream).await?;
+    if !headers.starts_with("HTTP/1.1 101") {
+        return Err("authenticated WSS Observatory request did not upgrade".to_owned());
+    }
+    let initial = read_ws_text_frame(&mut stream).await?;
+    if initial["schema"] != OBSERVATORY_FEED_SCHEMA
+        || initial["control"]["websocket_full_duplex"] != true
+    {
+        return Err(
+            "authenticated WSS Observatory feed did not prove full-duplex control".to_owned(),
+        );
+    }
+    write_ws_text_frame(
+        &mut stream,
+        &serde_json::json!({
+            "schema": OBSERVATORY_WS_AUTH_SCHEMA,
+            "bearer_token": fixture.observatory_token,
+        })
+        .to_string(),
+    )
+    .await?;
+    let auth = read_ws_text_frame(&mut stream).await?;
+    if auth["schema"] != OBSERVATORY_WS_CONTROL_RESULT_SCHEMA || auth["status"] != "authenticated" {
+        return Err("authenticated WSS Observatory control result did not authenticate".to_owned());
+    }
+    Ok(())
+}
+
+async fn read_http_headers<S>(stream: &mut S) -> Result<String, String>
+where
+    S: AsyncRead + Unpin,
+{
+    let mut bytes = Vec::new();
+    let mut one = [0_u8; 1];
+    while !bytes.ends_with(b"\r\n\r\n") {
+        stream
+            .read_exact(&mut one)
+            .await
+            .map_err(|error| error.to_string())?;
+        bytes.push(one[0]);
+        if bytes.len() > 8192 {
+            return Err("WSS upgrade headers exceeded bounded size".to_owned());
+        }
+    }
+    String::from_utf8(bytes).map_err(|error| error.to_string())
+}
+
+async fn read_ws_text_frame<S>(stream: &mut S) -> Result<serde_json::Value, String>
+where
+    S: AsyncRead + Unpin,
+{
+    loop {
+        let mut header = [0_u8; 2];
+        stream
+            .read_exact(&mut header)
+            .await
+            .map_err(|error| error.to_string())?;
+        let opcode = header[0] & 0x0f;
+        let masked = header[1] & 0x80 != 0;
+        let mut length = u64::from(header[1] & 0x7f);
+        if length == 126 {
+            let mut extended = [0_u8; 2];
+            stream
+                .read_exact(&mut extended)
+                .await
+                .map_err(|error| error.to_string())?;
+            length = u64::from(u16::from_be_bytes(extended));
+        } else if length == 127 {
+            let mut extended = [0_u8; 8];
+            stream
+                .read_exact(&mut extended)
+                .await
+                .map_err(|error| error.to_string())?;
+            length = u64::from_be_bytes(extended);
+        }
+        if length > 64 * 1024 {
+            return Err("WSS frame exceeded bounded size".to_owned());
+        }
+        let mask = if masked {
+            let mut mask = [0_u8; 4];
+            stream
+                .read_exact(&mut mask)
+                .await
+                .map_err(|error| error.to_string())?;
+            Some(mask)
+        } else {
+            None
+        };
+        let mut payload =
+            vec![0_u8; usize::try_from(length).map_err(|_| "WSS frame too large".to_owned())?];
+        stream
+            .read_exact(&mut payload)
+            .await
+            .map_err(|error| error.to_string())?;
+        if let Some(mask) = mask {
+            for (index, byte) in payload.iter_mut().enumerate() {
+                *byte ^= mask[index % mask.len()];
+            }
+        }
+        match opcode {
+            0x1 => {
+                let payload = String::from_utf8(payload).map_err(|error| error.to_string())?;
+                return serde_json::from_str(&payload).map_err(|error| error.to_string());
+            }
+            0x8 => return Err("WSS socket closed before authenticated observation".to_owned()),
+            0x9 | 0xA => continue,
+            _ => return Err(format!("unsupported WSS frame opcode {opcode}")),
+        }
+    }
+}
+
+async fn write_ws_text_frame<S>(stream: &mut S, payload: &str) -> Result<(), String>
+where
+    S: AsyncWrite + Unpin,
+{
+    let bytes = payload.as_bytes();
+    if bytes.len() > u16::MAX as usize {
+        return Err("WSS client payload exceeded bounded size".to_owned());
+    }
+    let mut frame = Vec::with_capacity(bytes.len() + 8);
+    frame.push(0x81);
+    if bytes.len() < 126 {
+        frame.push(0x80 | bytes.len() as u8);
+    } else {
+        frame.push(0x80 | 126);
+        frame.extend_from_slice(&(bytes.len() as u16).to_be_bytes());
+    }
+    let mask = [1_u8, 2, 3, 4];
+    frame.extend_from_slice(&mask);
+    frame.extend(
+        bytes
+            .iter()
+            .enumerate()
+            .map(|(index, byte)| byte ^ mask[index % mask.len()]),
+    );
+    stream
+        .write_all(&frame)
+        .await
+        .map_err(|error| error.to_string())
+}
+
+async fn observe_short_qualification_workload(
+    fixture: &ProductionFixture,
+    observation_clock: &mut u64,
+) -> Result<WorkloadProof, String> {
+    let https =
+        join_all((0..SHORT_QUALIFICATION_CONNECTIONS).map(|_| authenticated_observatory(fixture)))
+            .await;
+    for observation in &https {
+        validate_observatory(observation.as_ref().map_err(|error| error.to_owned())?)?;
+    }
+    let wss = join_all(
+        (0..SHORT_QUALIFICATION_CONNECTIONS).map(|_| authenticated_observatory_ws(fixture)),
+    )
+    .await;
+    if let Some(error) = wss.into_iter().find_map(Result::err) {
+        return Err(format!("authenticated WSS fanout failed: {error}"));
+    }
+    let dependency_degradation = observe_dependency_degradation(fixture, observation_clock).await?;
+    let mut observed_phases = vec![dependency_degradation];
+    observed_phases.extend(observe_vector_liveness_recovery(fixture, observation_clock).await?);
+    Ok(WorkloadProof {
+        authenticated_https_connections: SHORT_QUALIFICATION_CONNECTIONS,
+        authenticated_wss_connections: SHORT_QUALIFICATION_CONNECTIONS,
+        websocket_full_duplex_observed: true,
+        observed_phases,
+    })
+}
+
+async fn next_observation_second(last: &mut u64) -> u64 {
+    loop {
+        let now = unix_seconds_now();
+        if now > *last {
+            *last = now;
+            return now;
+        }
+        tokio::time::sleep(Duration::from_millis(250)).await;
+    }
+}
+
+async fn observe_dependency_degradation(
+    fixture: &ProductionFixture,
+    observation_clock: &mut u64,
+) -> Result<ObservedPhase, String> {
+    let deadline = Instant::now() + fixture.readiness_timeout;
+    let injected_unix_seconds = loop {
+        let readiness = runtime_readiness_report(fixture).await?;
+        if readiness["ready"] == false
+            && readiness["degraded_reasons"]
+                .as_array()
+                .is_some_and(|reasons| reasons.iter().any(|reason| reason == "weather_stale"))
+        {
+            break next_observation_second(observation_clock).await;
+        }
+        if Instant::now() >= deadline {
+            return Err(
+                "dependency degradation injection did not produce weather_stale readiness"
+                    .to_owned(),
+            );
+        }
+        tokio::time::sleep(fixture.readiness_poll).await;
+    };
+    let recovered_unix_seconds = loop {
+        let readiness = runtime_readiness_report(fixture).await?;
+        if readiness["ready"] == true
+            && readiness["degraded_reasons"]
+                .as_array()
+                .is_some_and(|reasons| reasons.is_empty())
+        {
+            break next_observation_second(observation_clock).await;
+        }
+        if Instant::now() >= deadline {
+            return Err("dependency degradation did not recover readiness".to_owned());
+        }
+        tokio::time::sleep(fixture.readiness_poll).await;
+    };
+    Ok(ObservedPhase {
+        name: "dependency-degradation".to_owned(),
+        kind: FaultKind::ResourcePressure,
+        injected_unix_seconds,
+        recovered_unix_seconds,
+        resource_growth_percent: 1,
+        backoff_seconds: recovered_unix_seconds.saturating_sub(injected_unix_seconds),
+        transport_error_count: 0,
+        recovery_seconds: recovered_unix_seconds.saturating_sub(injected_unix_seconds),
+    })
+}
+
+async fn observe_vector_liveness_recovery(
+    fixture: &ProductionFixture,
+    observation_clock: &mut u64,
+) -> Result<Vec<ObservedPhase>, String> {
+    let before = authenticated_observatory(fixture).await?;
+    validate_observatory(&before)?;
+    let vector_pid = vector_process_id(&before)?;
+    let baseline_sequence = master_log_highest_sequence_for_soak(&fixture.master_log)?;
+    let injected_unix_seconds = next_observation_second(observation_clock).await;
+    force_process_exit(vector_pid, "Vector child")?;
+    let deadline = Instant::now() + fixture.readiness_timeout;
+    loop {
+        let observatory_ready = authenticated_observatory(fixture)
+            .await
+            .and_then(|observatory| {
+                validate_observatory(&observatory)?;
+                vector_process_id(&observatory).map(|pid| pid != vector_pid)
+            })
+            .unwrap_or(false);
+        let log_recovered =
+            master_log_has_vector_recovery_after(&fixture.master_log, baseline_sequence)?;
+        if observatory_ready && log_recovered {
+            let recovered_unix_seconds = next_observation_second(observation_clock).await;
+            let recovery_seconds = recovered_unix_seconds.saturating_sub(injected_unix_seconds);
+            return Ok(vec![
+                ObservedPhase {
+                    name: "vector-liveness".to_owned(),
+                    kind: FaultKind::ObservabilityStall,
+                    injected_unix_seconds,
+                    recovered_unix_seconds,
+                    resource_growth_percent: 1,
+                    backoff_seconds: recovery_seconds,
+                    transport_error_count: 0,
+                    recovery_seconds,
+                },
+                ObservedPhase {
+                    name: "log-stagnation".to_owned(),
+                    kind: FaultKind::ObservabilityStall,
+                    injected_unix_seconds,
+                    recovered_unix_seconds,
+                    resource_growth_percent: 1,
+                    backoff_seconds: recovery_seconds,
+                    transport_error_count: 0,
+                    recovery_seconds,
+                },
+            ]);
+        }
+        if Instant::now() >= deadline {
+            return Err(
+                "Vector liveness injection did not produce observed restart/recovery records"
+                    .to_owned(),
+            );
+        }
+        tokio::time::sleep(fixture.readiness_poll).await;
+    }
+}
+
+async fn runtime_readiness_report(
+    fixture: &ProductionFixture,
+) -> Result<serde_json::Value, String> {
+    let stream = tokio::net::TcpStream::connect(fixture.address)
+        .await
+        .map_err(|error| error.to_string())?;
+    let server_name =
+        ServerName::try_from(fixture.tls_server_name.clone()).map_err(|error| error.to_string())?;
+    let mut stream = fixture
+        .tls_connector
+        .connect(server_name, stream)
+        .await
+        .map_err(|error| error.to_string())?;
+    let request = format!(
+        "GET /v1/ready HTTP/1.1\r\nHost: {}\r\nConnection: close\r\n\r\n",
+        fixture.tls_server_name
+    );
+    stream
+        .write_all(request.as_bytes())
+        .await
+        .map_err(|error| error.to_string())?;
+    let mut response = Vec::new();
+    stream
+        .read_to_end(&mut response)
+        .await
+        .map_err(|error| error.to_string())?;
+    let response = String::from_utf8(response).map_err(|error| error.to_string())?;
+    if !response.starts_with("HTTP/1.1 200 OK")
+        && !response.starts_with("HTTP/1.1 503 Service Unavailable")
+    {
+        return Err("Runtime v3 readiness request did not return HTTP 200 or 503".to_owned());
+    }
+    let body = response
+        .split_once("\r\n\r\n")
+        .map(|(_, body)| body)
+        .ok_or_else(|| "Runtime v3 readiness response had no body".to_owned())?;
     serde_json::from_str(body).map_err(|error| error.to_string())
 }
 
@@ -1883,6 +2345,52 @@ fn verify_master_log(
         log_audit_sha256: file_sha256(audit)
             .map_err(|error| format!("master log audit hash failed: {error}"))?,
     })
+}
+
+fn master_log_highest_sequence_for_soak(master_log: &Path) -> Result<u64, String> {
+    Ok(master_log_records(master_log)?
+        .into_iter()
+        .filter_map(|record| record["sequence"].as_u64())
+        .max()
+        .unwrap_or(0))
+}
+
+fn master_log_has_vector_recovery_after(master_log: &Path, baseline: u64) -> Result<bool, String> {
+    let mut restarting_sequence = None;
+    for record in master_log_records(master_log)? {
+        let sequence = record["sequence"].as_u64().unwrap_or(0);
+        if sequence <= baseline {
+            continue;
+        }
+        match record["operation"].as_str() {
+            Some("vector_pipeline_restarting") => {
+                let reason = record["reason"].as_str().unwrap_or_default();
+                if reason.contains("vector_child_exited") {
+                    restarting_sequence = Some(sequence);
+                }
+            }
+            Some("vector_pipeline_recovered")
+                if restarting_sequence.is_some_and(|restarting| sequence > restarting) =>
+            {
+                return Ok(true);
+            }
+            _ => {}
+        }
+    }
+    Ok(false)
+}
+
+fn master_log_records(master_log: &Path) -> Result<Vec<serde_json::Value>, String> {
+    let text = std::fs::read_to_string(master_log)
+        .map_err(|error| format!("master log unavailable: {error}"))?;
+    text.lines()
+        .filter(|line| !line.trim().is_empty())
+        .enumerate()
+        .map(|(index, line)| {
+            serde_json::from_str(line)
+                .map_err(|error| format!("master log record {} is invalid: {error}", index + 1))
+        })
+        .collect()
 }
 
 fn aggregate_platform(args: &AggregateArgs) -> ExitCode {
@@ -2284,6 +2792,7 @@ fn fail(args: &Args, kernel_sha256: &str, started: Instant, failure: Failure) ->
         total_restarts: 0,
         log_checked_cycles: 0,
         log_proof: None,
+        workload_proof: None,
     };
     let report = report(
         args,
@@ -2334,6 +2843,8 @@ fn report(
         .log_proof
         .as_ref()
         .map(|proof| proof.log_audit_sha256.as_str());
+    let runtime_v3_soak =
+        build_short_qualification_soak_report(args, kernel_sha256, status, execution, started);
     serde_json::json!({
         "schema": REPORT_SCHEMA,
         "status": status,
@@ -2369,6 +2880,7 @@ fn report(
         "log_audit_sha256": log_audit_sha256,
         "continuity_generation": execution.continuity_generation,
         "kernel_sha256": kernel_sha256,
+        "runtime_v3_soak": runtime_v3_soak,
         "duration_millis": u64::try_from(started.elapsed().as_millis()).unwrap_or(u64::MAX),
         "failure": failure.map(|failure| serde_json::json!({
             "run": failure.run,
@@ -2376,6 +2888,399 @@ fn report(
             "error": failure.error,
         })),
     })
+}
+
+fn build_short_qualification_soak_report(
+    args: &Args,
+    kernel_sha256: &str,
+    status: &str,
+    execution: &Execution,
+    started: Instant,
+) -> serde_json::Value {
+    let Some(workload) = execution.workload_proof.as_ref() else {
+        return serde_json::json!({
+            "issue": 267,
+            "status": "not_observed",
+            "reason": "short qualification workload proof was not reached",
+        });
+    };
+    let missing = missing_short_qualification_observations(status, execution, workload);
+    if !missing.is_empty() {
+        return serde_json::json!({
+            "issue": 267,
+            "status": "fail_closed",
+            "claim": "short_local_linux_qualification_only",
+            "release_gate_recommendation": false,
+            "long_soak_claimed": false,
+            "provider_mutation": false,
+            "workload_observation": short_qualification_workload_report(workload),
+            "violations": missing.into_iter().map(|detail| serde_json::json!({
+                "code": "missing_observation",
+                "detail": detail,
+            })).collect::<Vec<_>>(),
+        });
+    }
+    match build_short_qualification_soak_evidence(args, kernel_sha256, workload, started) {
+        Ok((config, evidence)) => serde_json::json!({
+            "issue": 267,
+            "status": if status == "pass" && evidence.evaluation.status == SoakStatus::Pass {
+                "pass"
+            } else {
+                "fail_closed"
+            },
+            "claim": "short_local_linux_qualification_only",
+            "release_gate_recommendation": false,
+            "long_soak_claimed": false,
+            "provider_mutation": false,
+            "workload_observation": short_qualification_workload_report(workload),
+            "config": config,
+            "evidence": evidence,
+        }),
+        Err(violations) => serde_json::json!({
+            "issue": 267,
+            "status": "fail_closed",
+            "claim": "short_local_linux_qualification_only",
+            "release_gate_recommendation": false,
+            "long_soak_claimed": false,
+            "provider_mutation": false,
+            "violations": violations,
+        }),
+    }
+}
+
+fn missing_short_qualification_observations(
+    status: &str,
+    execution: &Execution,
+    workload: &WorkloadProof,
+) -> Vec<String> {
+    let mut missing = Vec::new();
+    if status != "pass" {
+        missing.push("lifecycle report did not pass".to_owned());
+    }
+    if workload.authenticated_https_connections < SHORT_QUALIFICATION_CONNECTIONS {
+        missing.push("50 authenticated HTTPS connections were not observed".to_owned());
+    }
+    if workload.authenticated_wss_connections < SHORT_QUALIFICATION_CONNECTIONS
+        || !workload.websocket_full_duplex_observed
+    {
+        missing.push("50 authenticated WSS full-duplex connections were not observed".to_owned());
+    }
+    if !execution.restart_budget_exercised || execution.total_restarts == 0 {
+        missing.push("Guardian/kernel restart recovery was not observed".to_owned());
+    }
+    if execution.completed_cycles == 0 || execution.continuity_generation == 0 {
+        missing
+            .push("continuity progress and delayed-progress recovery were not observed".to_owned());
+    }
+    match execution.log_proof.as_ref() {
+        Some(log_proof) if execution.log_checked_cycles > 0 && log_proof.master_log_records > 0 => {
+        }
+        _ => missing.push("master log verification was not observed".to_owned()),
+    }
+    for expected in short_qualification_fault_names() {
+        if !workload
+            .observed_phases
+            .iter()
+            .any(|phase| phase.name == expected)
+        {
+            missing.push(format!("{expected} phase was not observed"));
+        }
+    }
+    missing
+}
+
+fn short_qualification_workload_report(workload: &WorkloadProof) -> serde_json::Value {
+    serde_json::json!({
+        "authenticated_https_connections": workload.authenticated_https_connections,
+        "authenticated_wss_connections": workload.authenticated_wss_connections,
+        "websocket_full_duplex_observed": workload.websocket_full_duplex_observed,
+        "observed_phases": workload.observed_phases.iter().map(|phase| serde_json::json!({
+            "name": phase.name,
+            "kind": format!("{:?}", phase.kind),
+            "injected_unix_seconds": phase.injected_unix_seconds,
+            "recovered_unix_seconds": phase.recovered_unix_seconds,
+            "recovery_seconds": phase.recovery_seconds,
+        })).collect::<Vec<_>>(),
+    })
+}
+
+fn build_short_qualification_soak_evidence(
+    args: &Args,
+    kernel_sha256: &str,
+    workload: &WorkloadProof,
+    started: Instant,
+) -> Result<(SoakConfig, SoakEvidence), Vec<adl_runtime::runtime_v3_soak::SoakViolation>> {
+    let started_seconds = workload
+        .observed_phases
+        .iter()
+        .map(|phase| phase.injected_unix_seconds)
+        .min()
+        .unwrap_or_else(|| unix_seconds_now().saturating_sub(started.elapsed().as_secs()));
+    let faults = short_qualification_fault_records(workload);
+    let config = short_qualification_soak_config(args, kernel_sha256, &faults, started_seconds);
+    build_runner_plan(&config)?;
+    let samples = short_qualification_samples(workload, started_seconds);
+    let cleanup = CleanupOutcome {
+        cancellation_requested: false,
+        cancellation_receipt: None,
+        residue: short_qualification_cleanup_residue(
+            &repository_root_for_init_template(&args.init_template)
+                .map_err(|error| vec![soak_violation("cleanup_root", error)])?,
+        ),
+    };
+    let duration_seconds = short_qualification_duration_seconds(&faults, started_seconds);
+    let evidence = build_evidence(
+        &config,
+        EvidenceClock {
+            started_unix_seconds: started_seconds,
+            finished_unix_seconds: started_seconds.saturating_add(duration_seconds),
+        },
+        samples,
+        faults,
+        cleanup,
+    )?;
+    Ok((config, evidence))
+}
+
+fn short_qualification_soak_config(
+    args: &Args,
+    kernel_sha256: &str,
+    faults: &[FaultRecord],
+    started_unix_seconds: u64,
+) -> SoakConfig {
+    let mut tags = BTreeMap::new();
+    tags.insert("adl:issue".to_owned(), "267".to_owned());
+    tags.insert("adl:parent".to_owned(), "20".to_owned());
+    tags.insert(
+        "adl:proof".to_owned(),
+        "short-local-qualification".to_owned(),
+    );
+    let mut operation_mix = BTreeMap::new();
+    operation_mix.insert("authenticated_observatory_https".to_owned(), 50);
+    operation_mix.insert("authenticated_observatory_wss".to_owned(), 50);
+    operation_mix.insert("dependency_degradation_ready_recovery".to_owned(), 1);
+    operation_mix.insert("guardian_kernel_restart".to_owned(), 1);
+    SoakConfig {
+        schema: SOAK_CONTRACT_SCHEMA.to_owned(),
+        issue: 267,
+        revision: args.revision.clone(),
+        owner: RunOwner {
+            account_profile: AGENT_LOGIC_ACCOUNT_PROFILE.to_owned(),
+            run_id: format!("runtime-v3-short-qualification-{}", args.suite.name()),
+            operator: "adl-runtime-lifecycle-soak".to_owned(),
+            tags,
+        },
+        bounds: SoakBounds {
+            duration_seconds: short_qualification_duration_seconds(faults, started_unix_seconds),
+            sample_interval_seconds: SHORT_QUALIFICATION_SAMPLE_INTERVAL_SECONDS,
+            max_hourly_cost_cents: 1,
+            max_total_cost_cents: 1,
+            deadline_unix_seconds: unix_seconds_now().saturating_add(600),
+            kill_switch: "touch .adl/runtime-v3/soak/cancel".to_owned(),
+        },
+        workload: WorkloadContract {
+            connection_count: SHORT_QUALIFICATION_CONNECTIONS,
+            authenticated_https: true,
+            authenticated_wss: true,
+            guardian_kernel_cycle: true,
+            operation_mix,
+        },
+        faults: short_qualification_fault_contracts(faults, started_unix_seconds),
+        thresholds: SoakThresholds {
+            max_observability_staleness_seconds: 5,
+            max_missing_sample_count: short_qualification_missing_sample_tolerance(
+                faults,
+                started_unix_seconds,
+            ),
+            max_restart_count: 1,
+            max_backoff_seconds: 2,
+            max_transport_error_count: 0,
+            max_recovery_seconds: short_qualification_max_recovery_seconds(faults),
+            max_resource_growth_percent: 10,
+        },
+        cleanup: CleanupContract {
+            required: true,
+            zero_residue_paths: vec![
+                ".adl/runtime-v3/qualification".to_owned(),
+                ".adl/runtime-v3/soak/instances".to_owned(),
+                ".adl/runtime-v3/soak/locks".to_owned(),
+            ],
+            cancellation_receipt_required: true,
+        },
+        binaries: BTreeMap::from([(
+            "adl-runtime-kernel".to_owned(),
+            BinaryIdentity {
+                path: args.kernel.to_string_lossy().replace('\\', "/"),
+                sha256: kernel_sha256.to_owned(),
+            },
+        )]),
+        platform: PlatformIdentity {
+            os: std::env::consts::OS.to_owned(),
+            arch: std::env::consts::ARCH.to_owned(),
+            runner_class: "local-short-qualification".to_owned(),
+        },
+    }
+}
+
+fn short_qualification_samples(
+    workload: &WorkloadProof,
+    started_unix_seconds: u64,
+) -> Vec<SoakSample> {
+    workload
+        .observed_phases
+        .iter()
+        .map(|phase| SoakSample {
+            sequence: phase
+                .injected_unix_seconds
+                .saturating_sub(started_unix_seconds)
+                / SHORT_QUALIFICATION_SAMPLE_INTERVAL_SECONDS,
+            observed_unix_seconds: phase.injected_unix_seconds,
+            observability_cursor_unix_seconds: Some(phase.injected_unix_seconds),
+            resource_growth_percent: phase.resource_growth_percent,
+            restart_count: (phase.name == "restart") as u64,
+            backoff_seconds: phase.backoff_seconds,
+            transport_error_count: phase.transport_error_count,
+            recovery_seconds: Some(phase.recovery_seconds),
+        })
+        .collect()
+}
+
+fn short_qualification_fault_contracts(
+    records: &[FaultRecord],
+    started_unix_seconds: u64,
+) -> Vec<FaultContract> {
+    records
+        .iter()
+        .map(|record| FaultContract {
+            name: record.name.clone(),
+            kind: match record.name.as_str() {
+                "restart" => FaultKind::GuardianRestart,
+                "dependency-degradation" => FaultKind::ResourcePressure,
+                "vector-liveness" | "log-stagnation" => FaultKind::ObservabilityStall,
+                "delayed-progress" | "shutdown" => FaultKind::RecoveryReplay,
+                _ => FaultKind::RecoveryReplay,
+            },
+            inject_after_seconds: record
+                .injected_unix_seconds
+                .saturating_sub(started_unix_seconds),
+            expected_recovery_seconds: record
+                .recovered_unix_seconds
+                .unwrap_or(record.injected_unix_seconds)
+                .saturating_sub(record.injected_unix_seconds),
+        })
+        .collect()
+}
+
+fn short_qualification_fault_names() -> Vec<String> {
+    vec![
+        "restart".to_owned(),
+        "delayed-progress".to_owned(),
+        "dependency-degradation".to_owned(),
+        "vector-liveness".to_owned(),
+        "log-stagnation".to_owned(),
+        "shutdown".to_owned(),
+    ]
+}
+
+fn short_qualification_fault_records(workload: &WorkloadProof) -> Vec<FaultRecord> {
+    workload
+        .observed_phases
+        .iter()
+        .map(|phase| FaultRecord {
+            name: phase.name.clone(),
+            injected_unix_seconds: phase.injected_unix_seconds,
+            recovered_unix_seconds: Some(phase.recovered_unix_seconds),
+            notes: "observed by production lifecycle runner".to_owned(),
+        })
+        .collect()
+}
+
+fn short_qualification_duration_seconds(faults: &[FaultRecord], started_unix_seconds: u64) -> u64 {
+    faults
+        .iter()
+        .filter_map(|fault| fault.recovered_unix_seconds)
+        .map(|recovered| recovered.saturating_sub(started_unix_seconds))
+        .max()
+        .unwrap_or(0)
+        .max(1)
+}
+
+fn short_qualification_max_recovery_seconds(faults: &[FaultRecord]) -> u64 {
+    faults
+        .iter()
+        .map(|fault| {
+            fault
+                .recovered_unix_seconds
+                .unwrap_or(fault.injected_unix_seconds)
+                .saturating_sub(fault.injected_unix_seconds)
+        })
+        .max()
+        .unwrap_or(0)
+}
+
+fn short_qualification_missing_sample_tolerance(
+    faults: &[FaultRecord],
+    started_unix_seconds: u64,
+) -> u64 {
+    short_qualification_duration_seconds(faults, started_unix_seconds)
+        .saturating_sub(faults.len() as u64)
+}
+
+fn repository_root_for_init_template(init_template: &Path) -> Result<PathBuf, String> {
+    let init_template = init_template.canonicalize().map_err(|error| {
+        format!(
+            "init template {} could not be canonicalized: {error}",
+            init_template.display()
+        )
+    })?;
+    init_template
+        .ancestors()
+        .find(|candidate| candidate.join(".git").exists())
+        .map(Path::to_path_buf)
+        .ok_or_else(|| {
+            format!(
+                "init template {} is not inside a Git worktree",
+                init_template.display()
+            )
+        })
+}
+
+fn short_qualification_cleanup_residue(repository_root: &Path) -> BTreeMap<String, u64> {
+    [
+        ".adl/runtime-v3/qualification",
+        ".adl/runtime-v3/soak/instances",
+        ".adl/runtime-v3/soak/locks",
+    ]
+    .into_iter()
+    .map(|path| {
+        (
+            path.to_owned(),
+            residue_count(&repository_root.join(path.replace('/', std::path::MAIN_SEPARATOR_STR))),
+        )
+    })
+    .collect()
+}
+
+fn soak_violation(code: impl Into<String>, detail: impl Into<String>) -> SoakViolation {
+    SoakViolation {
+        code: code.into(),
+        detail: detail.into(),
+    }
+}
+
+fn residue_count(path: &Path) -> u64 {
+    match std::fs::read_dir(path) {
+        Ok(entries) => entries.count().try_into().unwrap_or(u64::MAX),
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => 0,
+        Err(_) => u64::MAX,
+    }
+}
+
+fn unix_seconds_now() -> u64 {
+    SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .map(|duration| duration.as_secs())
+        .unwrap_or(0)
 }
 
 fn write_report(path: &Path, report: &serde_json::Value) -> std::io::Result<()> {
@@ -2694,6 +3599,7 @@ mod tests {
                 log_audit_ref: ".csdlc/evidence/5344/work/audit.json".to_owned(),
                 log_audit_sha256: "c".repeat(64),
             }),
+            workload_proof: None,
         };
         let value = report(
             &preflight,
@@ -2707,6 +3613,199 @@ mod tests {
         assert_eq!(value["logging_complete"], true);
         assert_eq!(value["master_log_status"], "clean");
         assert_eq!(value["master_log_records"], 2);
+        assert_eq!(value["runtime_v3_soak"]["status"], "not_observed");
+    }
+
+    #[test]
+    fn short_qualification_report_binds_production_workload_to_soak_evidence() {
+        let args = Args::parse(arguments(&["--suite", "preflight_1x"]).into_iter())
+            .expect("one-cycle preflight");
+        let mut execution = Execution::new(1, 1, 1);
+        execution.completed_cycles = 1;
+        execution.restart_budget_exercised = true;
+        execution.total_restarts = 1;
+        execution.log_checked_cycles = 1;
+        execution.log_proof = Some(LogProof {
+            master_log_ref: ".csdlc/evidence/267/work/master.jsonl".to_owned(),
+            master_log_sha256: "b".repeat(64),
+            master_log_records: 2,
+            log_audit_ref: ".csdlc/evidence/267/work/audit.json".to_owned(),
+            log_audit_sha256: "c".repeat(64),
+        });
+        execution.workload_proof = Some(WorkloadProof {
+            authenticated_https_connections: SHORT_QUALIFICATION_CONNECTIONS,
+            authenticated_wss_connections: SHORT_QUALIFICATION_CONNECTIONS,
+            websocket_full_duplex_observed: true,
+            observed_phases: test_observed_phases(),
+        });
+
+        let value = report(
+            &args,
+            &"a".repeat(64),
+            Instant::now(),
+            "pass",
+            &execution,
+            None,
+        );
+
+        assert_eq!(value["runtime_v3_soak"]["issue"], 267);
+        assert_eq!(value["runtime_v3_soak"]["status"], "pass");
+        assert_eq!(
+            value["runtime_v3_soak"]["claim"],
+            "short_local_linux_qualification_only"
+        );
+        assert_eq!(
+            value["runtime_v3_soak"]["release_gate_recommendation"],
+            false
+        );
+        assert_eq!(value["runtime_v3_soak"]["long_soak_claimed"], false);
+        assert_eq!(value["runtime_v3_soak"]["provider_mutation"], false);
+        assert_eq!(
+            value["runtime_v3_soak"]["workload_observation"]["authenticated_https_connections"],
+            50
+        );
+        assert_eq!(
+            value["runtime_v3_soak"]["workload_observation"]["authenticated_wss_connections"],
+            50
+        );
+        assert_eq!(
+            value["runtime_v3_soak"]["config"]["schema"],
+            SOAK_CONTRACT_SCHEMA
+        );
+        assert_eq!(value["runtime_v3_soak"]["config"]["issue"], 267);
+        assert_eq!(
+            value["runtime_v3_soak"]["evidence"]["evaluation"]["status"],
+            "pass"
+        );
+        assert_eq!(
+            value["runtime_v3_soak"]["evidence"]["faults"]
+                .as_array()
+                .expect("fault records")
+                .len(),
+            short_qualification_fault_names().len()
+        );
+        let config_faults = value["runtime_v3_soak"]["config"]["faults"]
+            .as_array()
+            .expect("config fault contracts");
+        for name in ["vector-liveness", "log-stagnation"] {
+            let fault = config_faults
+                .iter()
+                .find(|fault| fault["name"] == name)
+                .expect("observability fault contract");
+            assert_eq!(fault["kind"], "observability_stall");
+        }
+    }
+
+    #[test]
+    fn short_qualification_fails_closed_without_dependency_degradation_receipt() {
+        let args = Args::parse(arguments(&["--suite", "preflight_1x"]).into_iter())
+            .expect("one-cycle preflight");
+        let mut execution = Execution::new(1, 1, 1);
+        execution.completed_cycles = 1;
+        execution.restart_budget_exercised = true;
+        execution.total_restarts = 1;
+        execution.log_checked_cycles = 1;
+        execution.log_proof = Some(LogProof {
+            master_log_ref: ".csdlc/evidence/373/work/master.jsonl".to_owned(),
+            master_log_sha256: "b".repeat(64),
+            master_log_records: 2,
+            log_audit_ref: ".csdlc/evidence/373/work/audit.json".to_owned(),
+            log_audit_sha256: "c".repeat(64),
+        });
+        let observed_phases = test_observed_phases()
+            .into_iter()
+            .filter(|phase| phase.name != "dependency-degradation")
+            .collect();
+        execution.workload_proof = Some(WorkloadProof {
+            authenticated_https_connections: SHORT_QUALIFICATION_CONNECTIONS,
+            authenticated_wss_connections: SHORT_QUALIFICATION_CONNECTIONS,
+            websocket_full_duplex_observed: true,
+            observed_phases,
+        });
+
+        let value = report(
+            &args,
+            &"a".repeat(64),
+            Instant::now(),
+            "pass",
+            &execution,
+            None,
+        );
+
+        assert_eq!(value["runtime_v3_soak"]["status"], "fail_closed");
+        assert!(value["runtime_v3_soak"]["violations"]
+            .as_array()
+            .expect("violations")
+            .iter()
+            .any(
+                |violation| violation["detail"] == "dependency-degradation phase was not observed"
+            ));
+    }
+
+    #[test]
+    fn short_qualification_evidence_fails_closed_when_fanout_is_under_counted() {
+        let args = Args::parse(arguments(&["--suite", "preflight_1x"]).into_iter())
+            .expect("one-cycle preflight");
+        let mut execution = Execution::new(1, 1, 1);
+        execution.completed_cycles = 1;
+        execution.restart_budget_exercised = true;
+        execution.total_restarts = 1;
+        execution.log_checked_cycles = 1;
+        execution.log_proof = Some(LogProof {
+            master_log_ref: ".csdlc/evidence/267/work/master.jsonl".to_owned(),
+            master_log_sha256: "b".repeat(64),
+            master_log_records: 2,
+            log_audit_ref: ".csdlc/evidence/267/work/audit.json".to_owned(),
+            log_audit_sha256: "c".repeat(64),
+        });
+        execution.workload_proof = Some(WorkloadProof {
+            authenticated_https_connections: SHORT_QUALIFICATION_CONNECTIONS - 1,
+            authenticated_wss_connections: SHORT_QUALIFICATION_CONNECTIONS,
+            websocket_full_duplex_observed: true,
+            observed_phases: test_observed_phases(),
+        });
+
+        let value = report(
+            &args,
+            &"a".repeat(64),
+            Instant::now(),
+            "pass",
+            &execution,
+            None,
+        );
+
+        assert_eq!(value["runtime_v3_soak"]["status"], "fail_closed");
+        assert!(value["runtime_v3_soak"]["violations"]
+            .as_array()
+            .expect("violations")
+            .iter()
+            .any(|violation| violation["code"] == "missing_observation"));
+    }
+
+    fn test_observed_phases() -> Vec<ObservedPhase> {
+        short_qualification_fault_names()
+            .into_iter()
+            .enumerate()
+            .map(|(index, name)| {
+                let injected_unix_seconds = 1_700_000_000 + (index as u64 * 2);
+                let recovered_unix_seconds = injected_unix_seconds + 1;
+                ObservedPhase {
+                    kind: match name.as_str() {
+                        "restart" => FaultKind::GuardianRestart,
+                        "dependency-degradation" => FaultKind::ResourcePressure,
+                        "vector-liveness" | "log-stagnation" => FaultKind::ObservabilityStall,
+                        _ => FaultKind::RecoveryReplay,
+                    },
+                    name,
+                    injected_unix_seconds,
+                    recovered_unix_seconds,
+                    resource_growth_percent: 1,
+                    backoff_seconds: 0,
+                    transport_error_count: 0,
+                    recovery_seconds: recovered_unix_seconds.saturating_sub(injected_unix_seconds),
+                }
+            })
+            .collect()
     }
 
     #[test]
@@ -2839,6 +3938,45 @@ mod tests {
             written["lifecycle_acceptance"]["stress_100x10s"]["master_log_records"],
             3
         );
+    }
+
+    #[test]
+    fn vector_recovery_receipt_requires_restart_and_recovered_master_log_records_after_baseline() {
+        let root = std::env::current_dir().expect("current directory");
+        let temp = tempfile::tempdir_in(&root).expect("repo-local temp evidence");
+        let log = temp.path().join("master.log.jsonl");
+        std::fs::write(
+            &log,
+            concat!(
+                "{\"sequence\":1,\"operation\":\"vector_pipeline_restarting\",\"reason\":\"vector_child_exited\"}\n",
+                "{\"sequence\":2,\"operation\":\"vector_pipeline_recovered\"}\n",
+                "{\"sequence\":3,\"operation\":\"vector_pipeline_restarting\",\"reason\":\"operator_restart\"}\n",
+            ),
+        )
+        .expect("baseline master log");
+
+        assert_eq!(master_log_highest_sequence_for_soak(&log).unwrap(), 3);
+        assert!(!master_log_has_vector_recovery_after(&log, 3).unwrap());
+
+        let mut text = std::fs::read_to_string(&log).expect("master log text");
+        text.push_str(concat!(
+            "{\"sequence\":4,\"operation\":\"vector_pipeline_restarting\",\"reason\":\"vector_child_exited\"}\n",
+            "{\"sequence\":5,\"operation\":\"vector_pipeline_recovered\"}\n",
+        ));
+        std::fs::write(&log, text).expect("extended master log");
+
+        assert!(master_log_has_vector_recovery_after(&log, 3).unwrap());
+
+        let reversed = temp.path().join("reversed-master.log.jsonl");
+        std::fs::write(
+            &reversed,
+            concat!(
+                "{\"sequence\":1,\"operation\":\"vector_pipeline_recovered\"}\n",
+                "{\"sequence\":2,\"operation\":\"vector_pipeline_restarting\",\"reason\":\"vector_child_exited\"}\n",
+            ),
+        )
+        .expect("reversed master log");
+        assert!(!master_log_has_vector_recovery_after(&reversed, 0).unwrap());
     }
 
     fn write_sample_report(

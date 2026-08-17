@@ -1,0 +1,36 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 363,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[C-SDLC v2][defect] Permit sequenced implemented plan-summary repair after review recovery",
+    "slug": "implemented-plan-summary-recovery-epoch",
+    "version": "v0.92",
+    "generation": 10
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Permit one truthful Implemented SPP summary correction through a bounded recovery epoch.",
+      "required_outcome": "Typed summary correction remains available after required design and card repairs following recover_review without weakening review or publication invalidation.",
+      "declared_scope": [
+        "Bounded recovery-epoch predicate",
+        "SPP plan-summary correction provenance",
+        "Focused lifecycle regression"
+      ],
+      "authority_boundary": [
+        "Exact CAS and same issue recovery epoch",
+        "Review publication readiness terminal truth must remain cleared",
+        "No generic Implemented set_field or #274 mutation"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Base exact origin/main dae957c435b73d87af1f36d4e15fb088f6fd055b",
+        "Own store.rs and focused tests only",
+        "Unknown or authority-changing intervening operations fail closed"
+      ]
+    }
+  }
+}

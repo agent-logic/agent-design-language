@@ -1,0 +1,47 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 296,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Support typed authored-design refresh after implemented review recovery",
+    "slug": "implemented-authored-design-refresh",
+    "version": "v0.92",
+    "generation": 32
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Remediated the remaining C-SDLC standalone CI stale design-review fixture by aligning initialized decomposition recovery approval with canonical fresh-session UUID requirements.",
+      "actual_changes": [
+        "Update initialized_decomposition_recovery recovered-design approval fixture from a noncanonical fresh-session label to a canonical fresh-session UUID.",
+        "Reproduce the exact CI failure class locally and prove the initialized decomposition recovery integration target passes."
+      ],
+      "artifacts": [
+        "csdlc-v2/tests/initialized_decomposition_recovery.rs",
+        ".csdlc/issues/296"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "initialized_decomposition_recovery"
+          ],
+          "purpose": "Prove the remaining stale canonical fresh-session reviewer fixture exposed by CI.",
+          "outcome": "passed",
+          "evidence_ref": "local:r8-initialized-decomposition-recovery-2"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

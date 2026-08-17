@@ -1,0 +1,123 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 296,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Support typed authored-design refresh after implemented review recovery",
+    "slug": "implemented-authored-design-refresh",
+    "version": "v0.92",
+    "generation": 32
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "implemented-authored-design-refresh-end-to-end",
+          "proof_role": "Linked-worktree integration proof for typed recovery, stale CAS rejection, SPP/VPP parity, pending approval, preserved topology/transitions/execution, exact digest audit fields, blocked preapproval assignment, no-op rejection, approval, and reassignment; not scheduler-race proof.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 600,
+          "budget_tokens": 5000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate5",
+            "implemented_authored_design_refresh_end_to_end_is_atomic_and_assignment_gated"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "implemented-authored-design-refresh-retained-handles",
+          "proof_role": "Unit proof that a retained authored handle rejects path replacement and identity drift before the commit boundary; combined with the rollback-capable transaction implementation, not a scheduler-race claim.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 3000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--lib",
+            "implemented_authored_design_refresh_retains_handle_identity_until_commit_boundary"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "csdlc-v2-gate5-review-regression",
+          "proof_role": "Complete Gate 5 regression for assignment, recovery, exact revision, dirty-tree rejection, and lifecycle behavior; no scheduler-race injection claim.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-7",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 7000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate5"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "issue-294-terminal-ancestry-observation",
+          "proof_role": "Deferred live observation only; not implementation proof.",
+          "acceptance_ids": [
+            "AC-9"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "card_identity",
+            "issue_294_waits_for_terminal_ancestral_296"
+          ],
+          "parallel_group": "post-terminal",
+          "defer_reason": "Run only after issue 296 is terminal and ancestral; AC-9 remains deferred."
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed without mutation on wrong phase or card, absent or stale recovery provenance, active authority truth, stale CAS, unsafe or drifted artifacts, partial failure, no-op refresh, validation failure, or stale review.",
+      "design_ref": ".csdlc/prepared/issues/296/design.md",
+      "design_digest": "e4d4e8f5b9385cb4f7d7f286ddae8365f93245628d01308017bd76bd70222d77",
+      "diagram_ref": ".csdlc/prepared/issues/296/diagram.mmd",
+      "diagram_digest": "3ae668e6528b89970f972b1b895ae3676b0561c48de46bfbcc9acc9b28e9e654"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-112-layer8-authority-preparation-v2/adl-runtime-kernel)
+   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-112-layer8-authority-preparation-v2/adl-runtime)
+   Compiling adl v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-112-layer8-authority-preparation-v2/adl)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 18.69s
+     Running tests/layer8_authority_runtime_api.rs (adl/target/debug/deps/layer8_authority_runtime_api-6a14213f54f8fc25)
+
+running 7 tests
+test runtime_api_refuses_recipient_identity_not_bound_to_signed_key_id ... ok
+test runtime_api_refuses_revoked_recipient_identity_before_delivery ... ok
+test runtime_api_bounds_correlation_on_boundary_refusals ... ok
+test runtime_api_refuses_outer_fields_not_bound_to_signed_request ... ok
+test runtime_api_refuses_delivery_without_exact_recipient_acknowledgement ... ok
+test runtime_api_refusal_cannot_invoke_delivery ... ok
+test runtime_api_delivers_only_after_authority_grants ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.08s

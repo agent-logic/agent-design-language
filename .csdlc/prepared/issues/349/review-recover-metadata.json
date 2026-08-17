@@ -1,0 +1,7 @@
+{
+  "issue": 349,
+  "expected_generation": 6,
+  "expected_digest": "b1569c6799d2a01a9a537f9cc823398a3844d2b70a95b1d4c25e2a3bbb2505ba",
+  "actor": "codex:issue-349-implementation",
+  "reason": "Recover review authority onto the exact governed review-metadata commit after publication correctly rejected stale scoped lifecycle projections."
+}

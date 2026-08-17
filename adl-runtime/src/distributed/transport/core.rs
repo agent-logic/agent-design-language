@@ -22,10 +22,13 @@ use tokio_util::sync::CancellationToken;
 #[cfg(test)]
 use super::lease::VoterAuthority;
 use super::{
-    certificates::{AuthorityCertificate, CertificatePurpose, DistributedCertificateStore},
+    authority_store_adapters::{AuthorityBoundCertificateStore, AuthorityStoreAdapterError},
+    certificates::{AuthorityCertificate, CertificatePurpose},
     lease::{AuthorityMembership, ControlCertificatePurpose},
     membership::{MemberRole, MembershipPolicy, MembershipState},
 };
+#[cfg(test)]
+use super::certificates::DistributedCertificateStore;
 use adl_runtime_kernel::tls::{
     build_mutual_tls_client_config, build_mutual_tls_server_config, trust_roots_from_der,
     TlsIdentity,
@@ -328,6 +331,48 @@ struct PendingLearnerHandshake {
     authorization_deadline: Instant,
     request: Vec<u8>,
     _guard: tokio::sync::OwnedRwLockReadGuard<()>,
+}
+
+#[derive(Clone)]
+enum TransportCertificateAuthority {
+    Bound(AuthorityBoundCertificateStore),
+    #[cfg(test)]
+    TestRaw(Arc<DistributedCertificateStore>),
+}
+
+impl TransportCertificateAuthority {
+    fn authorize(
+        &self,
+        holder_id: &str,
+        purpose: CertificatePurpose,
+        generation: u64,
+        now_unix_secs: u64,
+    ) -> TransportResult<super::certificates::VerifiedCertificate> {
+        match self {
+            Self::Bound(store) => store
+                .authorize(holder_id, purpose, generation, now_unix_secs)
+                .map_err(transport_certificate_authorization_error),
+            #[cfg(test)]
+            Self::TestRaw(store) => store
+                .authorize(
+                    &super::certificates::AUTHORITY_BOUND_CERTIFICATE_ACCESS,
+                    holder_id,
+                    purpose,
+                    generation,
+                    now_unix_secs,
+                )
+                .map_err(|_| TransportError::CertificateAuthorization),
+        }
+    }
+}
+
+fn transport_certificate_authorization_error(
+    error: AuthorityStoreAdapterError,
+) -> TransportError {
+    match error {
+        AuthorityStoreAdapterError::Certificate(_) => TransportError::CertificateAuthorization,
+        _ => TransportError::InvalidSessionBinding,
+    }
 }
 
 impl PendingLearnerHandshake {
@@ -851,7 +896,7 @@ struct VerifiedRouteAuthority {
 pub struct EstablishedRuntimeAuthority {
     membership: MembershipState,
     authority: AuthorityMembership,
-    certificate_store: Arc<DistributedCertificateStore>,
+    certificate_store: TransportCertificateAuthority,
     guardian_certificates: BTreeMap<Vec<u8>, String>,
     authorization_deadline_unix_seconds: u64,
 }
@@ -864,11 +909,31 @@ pub struct EstablishedRuntimeAuthority {
 /// issuer roots for this Runtime instance.
 pub(crate) struct RuntimeAuthorityInitializer {
     membership: MembershipState,
-    certificate_store: Arc<DistributedCertificateStore>,
+    certificate_store: TransportCertificateAuthority,
 }
 
 impl RuntimeAuthorityInitializer {
     pub(crate) fn restore(
+        certificate_store: AuthorityBoundCertificateStore,
+        membership_policy: MembershipPolicy,
+        membership_snapshot: &[u8],
+        trusted_membership_commitment: [u8; 32],
+    ) -> TransportResult<Self> {
+        let membership = MembershipState::restore(
+            membership_policy,
+            membership_snapshot,
+            trusted_membership_commitment,
+        )
+        .map_err(|_| TransportError::InvalidSessionBinding)?;
+        Ok(Self {
+            membership,
+            certificate_store: TransportCertificateAuthority::Bound(certificate_store),
+        })
+    }
+
+    #[cfg(test)]
+    #[allow(dead_code)]
+    pub(crate) fn restore_for_test(
         certificate_store: Arc<DistributedCertificateStore>,
         membership_policy: MembershipPolicy,
         membership_snapshot: &[u8],
@@ -882,7 +947,7 @@ impl RuntimeAuthorityInitializer {
         .map_err(|_| TransportError::InvalidSessionBinding)?;
         Ok(Self {
             membership,
-            certificate_store,
+            certificate_store: TransportCertificateAuthority::TestRaw(certificate_store),
         })
     }
 
@@ -895,7 +960,7 @@ impl RuntimeAuthorityInitializer {
         EstablishedRuntimeAuthority::accept(
             &self.membership,
             authority,
-            Arc::clone(&self.certificate_store),
+            self.certificate_store.clone(),
             guardian_certificates,
             now_unix_seconds,
         )
@@ -906,7 +971,7 @@ impl EstablishedRuntimeAuthority {
     fn accept(
         membership: &MembershipState,
         authority: &AuthorityMembership,
-        certificate_store: Arc<DistributedCertificateStore>,
+        certificate_store: TransportCertificateAuthority,
         guardian_certificates: &BTreeMap<Vec<u8>, AuthorityCertificate>,
         now_unix_seconds: u64,
     ) -> TransportResult<Self> {
@@ -1630,7 +1695,7 @@ impl PeerBinding {
 
 #[derive(Clone)]
 pub struct TransportAuthorization {
-    store: Arc<DistributedCertificateStore>,
+    store: TransportCertificateAuthority,
     holder_id: String,
     trust_domain: String,
     generation: u64,
@@ -1640,7 +1705,22 @@ pub struct TransportAuthorization {
 
 impl TransportAuthorization {
     pub fn new(
+        store: AuthorityBoundCertificateStore,
+        certificate: &AuthorityCertificate,
+    ) -> TransportResult<Self> {
+        Self::from_authority(TransportCertificateAuthority::Bound(store), certificate)
+    }
+
+    #[cfg(test)]
+    pub(crate) fn new_for_test(
         store: Arc<DistributedCertificateStore>,
+        certificate: &AuthorityCertificate,
+    ) -> TransportResult<Self> {
+        Self::from_authority(TransportCertificateAuthority::TestRaw(store), certificate)
+    }
+
+    fn from_authority(
+        store: TransportCertificateAuthority,
         certificate: &AuthorityCertificate,
     ) -> TransportResult<Self> {
         let body = &certificate.body;

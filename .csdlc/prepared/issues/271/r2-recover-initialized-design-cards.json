@@ -1,0 +1,396 @@
+{
+  "issue": 271,
+  "expected_generation": 0,
+  "expected_digest": "427c7092ef1bf5d68ea6efbba1a063795c3c34559e7d50af6e305aaf5420b123",
+  "actor": "codex:issue-271-r2-remediation",
+  "reason": "Recover initialized #271 design/cards after R2 review findings while preserving terminal #112/#265/#270 dependency truth, opaque transient signed-pair boundary, and historical e0fd nonpublication status.",
+  "request_root": ".",
+  "recovery_scope": [
+    "R2 design/card remediation before fresh design review and before bind",
+    "literal browser eight-case exact-set wrapper with per-test nonzero and zero/ignored/skipped rejection",
+    "exact five-test recipient_ack runtime wrapper with parsed denominator",
+    "post-bind/base-to-current exact three-product-path scope validator",
+    "source-grounded authentic handler-output artifact handoff instead of ambiguous loopback/mock evidence"
+  ],
+  "preserved_design": {
+    "path": ".csdlc/prepared/issues/271/design.md",
+    "authored_digest": "eb5e20d7fa1d23214e8bbfa0caad6620404451dbc8e6eebbd8f102afd7ffaca7",
+    "byte_sha256": "f846c1cf596936ed5bba785d496b4ae42d9ca3c35f9d92973405d69526979c14"
+  },
+  "preserved_diagram": {
+    "path": ".csdlc/prepared/issues/271/diagram.mmd",
+    "authored_digest": "5a41bf8c813739b3548ec3f5bb8b3be6ad210154e4a741ff083729cf102465b0",
+    "byte_sha256": "0bcff109e291067bb47429d1e087c977fb254711491bf0326222da9c2ae6c41d"
+  },
+  "graph": {
+    "parent_integration_owner": "child_271",
+    "forbidden_cross_child_trust_redefinition": false,
+    "nodes": [
+      {
+        "node_id": "core_112",
+        "issue": 112,
+        "repository": "agent-logic/agent-design-language",
+        "role": "terminal_layer8_authority_core",
+        "in_scope": true
+      },
+      {
+        "node_id": "ingress_265",
+        "issue": 265,
+        "repository": "agent-logic/agent-design-language",
+        "role": "terminal_runtime_kernel_ingress",
+        "in_scope": true
+      },
+      {
+        "node_id": "ack_270",
+        "issue": 270,
+        "repository": "agent-logic/agent-design-language",
+        "role": "terminal_recipient_ack_runtime_api",
+        "in_scope": true
+      },
+      {
+        "node_id": "child_271",
+        "issue": 271,
+        "repository": "agent-logic/agent-design-language",
+        "role": "observatory_authority_delivery_state_child",
+        "in_scope": true
+      },
+      {
+        "node_id": "downstream_278",
+        "issue": 278,
+        "repository": "agent-logic/agent-design-language",
+        "role": "downstream_history_restoration",
+        "in_scope": true
+      }
+    ],
+    "edges": [
+      {
+        "from": "core_112",
+        "relation": "terminal_dependency",
+        "to": "child_271"
+      },
+      {
+        "from": "ingress_265",
+        "relation": "terminal_dependency",
+        "to": "child_271"
+      },
+      {
+        "from": "ack_270",
+        "relation": "terminal_dependency",
+        "to": "child_271"
+      },
+      {
+        "from": "child_271",
+        "relation": "terminal_dependency",
+        "to": "downstream_278"
+      }
+    ]
+  },
+  "replacements": {
+    "title": "[v0.92][WP-18C.02d][112.d] Integrate Layer 8 authority and delivery states into Observatory",
+    "slug": "layer8-authority-observatory",
+    "version": "v0.92",
+    "goal": "Present Runtime-owned Layer 8 authority, delivery, refusal, failure, recovery, and redacted correlation state in Observatory without browser authority.",
+    "required_outcome": "The actual Observatory consumes the terminal #270 served protocol and visibly distinguishes delivered, refused, failed, revoked, and recovery outcomes while retaining no private authority material and never treating request acceptance as delivery.",
+    "declared_scope": [
+      "Observatory adapter for the terminal #270 recipient-acknowledgement route",
+      "Visible accessible delivery/refusal/failure/recovery states",
+      "Exact five-test recipient_ack runtime wrapper and authentic handler-output artifact handoff",
+      "Literal eight-case real-browser wrapper over actual Observatory assets",
+      "Post-bind/base-to-current exact three-product-path scope validator"
+    ],
+    "authority_boundary": [
+      "Runtime #270 remains sole acknowledgement verifier",
+      "Browser holds no private key and performs no signing, local signature verification, or policy decision",
+      "Runtime-provided signed request and acknowledgement may be forwarded only as opaque ephemeral POST input and must never render, log, cache, or persist",
+      "Only served redacted response fields may render",
+      "Historical e0fd2364 is inspection-only nonpublication reference and must not be replayed as proof"
+    ],
+    "operator_constraints": [
+      "Use typed C-SDLC v2 only",
+      "Work only in the canonical bound FastWork worktree after fresh design approval",
+      "Create the issue-bound implementation goal only after bind and before product edits",
+      "Do not touch stale #114 parent preparation or bind #114",
+      "Do not mutate #112 worktrees or replay historical e0fd mock evidence"
+    ],
+    "initial_assumptions": [
+      "Terminal #112/#265/#270 caches and ancestry are preserved and must be revalidated immediately before bind.",
+      "The signed request/acknowledgement pair is opaque transient POST input for the browser and is never renderable or persistable."
+    ],
+    "task_boundary": "Prepare and later implement only #271 Observatory presentation/adapter and focused proof; #278 history restoration remains downstream.",
+    "deliverables": [
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/styles.css",
+      "adl/tools/validate_layer8_authority_observatory_ui.sh",
+      "adl/tools/validate_layer8_recipient_ack_runtime_exact.sh",
+      ".csdlc/evidence/271/validate_exact_three_path_scope.py",
+      ".csdlc/evidence/271/authentic-handler-output.json",
+      ".csdlc/prepared/issues/271",
+      ".csdlc/issues/271",
+      ".csdlc/evidence/271"
+    ],
+    "acceptance_criteria": [
+      "AC-1: #112/#265/#270 terminal caches validate canonical and their merges are ancestral to the execution base.",
+      "AC-2: Observatory consumes only the served #270 response schema and never treats request acceptance as delivery.",
+      "AC-3: Delivered, refused, failed, revoked, and recovery states are distinct, visible, accessible, and action-safe.",
+      "AC-4: Raw correlation identifiers, signed messages, private keys, proof hashes, provider payloads, policy details, and opaque signed request/acknowledgement material do not render, log, cache, or persist.",
+      "AC-5: Post-bind scope validation compares the bound branch from its exact execution base to current main and accepts exactly three product/test paths: demos/html-observatory/app.js, demos/html-observatory/styles.css, and adl/tools/validate_layer8_authority_observatory_ui.sh, plus issue-local lifecycle/evidence surfaces.",
+      "AC-6: The browser wrapper exercises the actual Observatory assets through the literal eight-case exact set: delivered, signed refusal, malformed response failure, unavailable Runtime recovery, revoked demotion, action release, keyboard/live-region accessibility, and forbidden-field non-disclosure; every case must be nonzero and zero/ignored/skipped/missing/duplicated cases fail closed.",
+      "AC-7: The runtime wrapper invokes the real adl-runtime-kernel recipient_ack handler path, parses the denominator, and passes only when exactly five nonzero tests cover delivered acknowledgement, signed refusal, generation binding, malformed/unknown status rejection, and raw-correlation redaction.",
+      "AC-8: Browser fixtures consume a source-grounded authentic handler-output artifact handoff from the runtime wrapper; loopback-only or mocked conversation-frame evidence is not accepted.",
+      "AC-9: Fresh design review and fresh exact-head implementation review have no actionable findings before publication."
+    ],
+    "dependencies": [
+      "#112 terminal canonical and ancestral",
+      "#265 terminal canonical and ancestral",
+      "#270 terminal canonical and ancestral",
+      "#278 remains downstream and blocked until #271 terminal"
+    ],
+    "repo_inputs": [
+      "agent-logic/agent-design-language#271",
+      "agent-logic/agent-design-language#112",
+      "agent-logic/agent-design-language#265",
+      "agent-logic/agent-design-language#270",
+      "agent-logic/agent-design-language#278",
+      "docs/api/runtime-v3/v1/openapi.json",
+      "adl-runtime-kernel/src/control.rs",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/styles.css",
+      "historical nonpublication reference e0fd2364"
+    ],
+    "non_goals": [
+      "Runtime authority or acknowledgement protocol changes",
+      "Kernel ingress enforcement",
+      "Durable transcript/history/receipt persistence",
+      "#278 transcript restoration",
+      "Browser signing, policy, local signature verification, or private-key storage",
+      "Rendering, logging, caching, or persisting opaque signed request/acknowledgement material",
+      "Cloud/public exposure",
+      "Mutating or binding #114",
+      "Mutating #112 worktrees or replaying historical e0fd mock evidence"
+    ],
+    "plan_summary": "Prove dependencies and collision-free scope, obtain fresh design authority, bind #271, implement the narrow served-protocol adapter plus exact runtime/browser/scope wrappers, review, publish, and finish before #278 resumes.",
+    "affected_areas": [
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/styles.css",
+      "adl/tools/validate_layer8_authority_observatory_ui.sh",
+      "adl/tools/validate_layer8_recipient_ack_runtime_exact.sh",
+      ".csdlc/evidence/271/validate_exact_three_path_scope.py",
+      ".csdlc/evidence/271/authentic-handler-output.json",
+      ".csdlc/prepared/issues/271",
+      ".csdlc/issues/271",
+      ".csdlc/evidence/271"
+    ],
+    "plan_steps": [
+      {
+        "id": "S1",
+        "action": "Validate terminal #112/#265/#270 dependencies, current-main base, exact scope, and collision freedom without binding or product edits.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-5"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Obtain fresh design review over the repaired design/card packet and bind #271 through typed v2 in FastWork only if the review passes.",
+        "acceptance_ids": [
+          "AC-9"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Implement the Runtime-owned acknowledgement adapter and distinct accessible UI states within the exact three product/test paths.",
+        "acceptance_ids": [
+          "AC-2",
+          "AC-3",
+          "AC-4",
+          "AC-5"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Implement the exact five-test recipient_ack runtime wrapper and use its source-grounded authentic handler-output artifact handoff as the browser fixture source.",
+        "acceptance_ids": [
+          "AC-7",
+          "AC-8"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S5",
+        "action": "Implement the literal eight-case browser wrapper with per-test nonzero assertions and zero/ignored/skipped/missing/duplicated case rejection.",
+        "acceptance_ids": [
+          "AC-3",
+          "AC-4",
+          "AC-6",
+          "AC-8"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S6",
+        "action": "Run exact validation, fresh exact-head implementation review, publication, CI, finish, and release #278 only after terminal ancestry.",
+        "acceptance_ids": [
+          "AC-6",
+          "AC-7",
+          "AC-8",
+          "AC-9"
+        ],
+        "status": "pending"
+      }
+    ],
+    "invariants": [
+      "Browser never becomes authority and never creates or holds private keys",
+      "Runtime-provided signed request and acknowledgement artifacts are opaque ephemeral POST inputs only and are never originated, rendered, logged, cached, or persisted by Observatory",
+      "Only Runtime status delivered is presented as delivery",
+      "Refusal and failure remain distinct",
+      "Raw correlation identifiers and private authority material never render or persist",
+      "The browser proof consumes source-grounded authentic handler-output artifacts rather than mocked conversation frames",
+      "#278 and #114 remain untouched"
+    ],
+    "risks": [
+      "Historical candidate mocked conversation results rather than the terminal #270 endpoint",
+      "UI could confuse accepted with delivered",
+      "Fixture-only proof could miss actual asset wiring",
+      "Private response fields could leak into DOM text",
+      "A wrapper could report success with zero, ignored, skipped, missing, duplicated, or denominator-mismatched tests unless explicitly rejected"
+    ],
+    "replan_triggers": [
+      "#270 served schema changes before bind",
+      "Terminal dependency cache or ancestry drift",
+      "Fresh design review finds actionable design/card issues",
+      "Exact three-path scope cannot hold without changing Runtime/OpenAPI/index.html/#278/#114"
+    ],
+    "stop_conditions": [
+      "Any dependency cache is noncanonical or nonancestral",
+      "Any concurrent writer owns an exact changed path",
+      "Implementation requires Runtime/OpenAPI, index.html, or #278/#114 changes",
+      "Fresh review finds an actionable defect",
+      "Proof does not exercise the actual served response schema and actual Observatory assets",
+      "Wrapper evidence uses loopback-only or mocked conversation frames instead of authentic handler output",
+      "Any opaque signed request/acknowledgement material would render, log, cache, or persist"
+    ],
+    "validation_summary": "Preparation validation runs now; runtime/browser/scope wrappers are required after bind and before implementation review/publication.",
+    "validation_lanes": [
+      {
+        "lane": "dependency-scope-and-review-readiness",
+        "proof_role": "Prove canonical terminal dependencies, exact current-main base, declared path scope, exact lock scope, and deterministic packet readiness for separate fresh design review.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-5",
+          "AC-9"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 120,
+        "budget_tokens": 3000,
+        "argv": [
+          "python3",
+          ".csdlc/prepared/issues/271/validate_preparation_bundle.py"
+        ],
+        "parallel_group": "271-serial-01",
+        "defer_reason": null
+      },
+      {
+        "lane": "recipient-ack-runtime-exact-five",
+        "proof_role": "Run the exact five-test wrapper for the real adl-runtime-kernel recipient_ack handler path, parse the denominator, and emit the authentic public handler-output artifact consumed by browser fixtures.",
+        "acceptance_ids": [
+          "AC-2",
+          "AC-4",
+          "AC-7",
+          "AC-8"
+        ],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 300,
+        "budget_tokens": 5000,
+        "argv": [
+          "bash",
+          "adl/tools/validate_layer8_recipient_ack_runtime_exact.sh"
+        ],
+        "parallel_group": "271-serial-02",
+        "defer_reason": "Deferred until bound implementation creates the exact wrapper and source-grounded handler-output artifact."
+      },
+      {
+        "lane": "observatory-browser-exact-eight",
+        "proof_role": "Exercise actual Observatory assets through the literal eight-case exact-set browser wrapper with per-test nonzero assertions and zero/ignored/skipped/missing/duplicated case rejection.",
+        "acceptance_ids": [
+          "AC-2",
+          "AC-3",
+          "AC-4",
+          "AC-6",
+          "AC-8"
+        ],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 300,
+        "budget_tokens": 5500,
+        "argv": [
+          "bash",
+          "adl/tools/validate_layer8_authority_observatory_ui.sh"
+        ],
+        "parallel_group": "271-serial-03",
+        "defer_reason": "Deferred until bound implementation creates the exact browser wrapper and consumes authentic handler-derived public response fixtures rather than mocked conversation frames."
+      },
+      {
+        "lane": "post-bind-exact-three-path-scope",
+        "proof_role": "After bind, compare the bound branch from its exact execution base to current main and reject any product/test path outside app.js, styles.css, and validate_layer8_authority_observatory_ui.sh, while allowing issue-local lifecycle/evidence surfaces.",
+        "acceptance_ids": [
+          "AC-5"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 90,
+        "budget_tokens": 1000,
+        "argv": [
+          "python3",
+          ".csdlc/evidence/271/validate_exact_three_path_scope.py"
+        ],
+        "parallel_group": "271-serial-04",
+        "defer_reason": "Deferred until bind establishes the execution base and evidence directory."
+      },
+      {
+        "lane": "diff-hygiene",
+        "proof_role": "Prove clean patch structure before review.",
+        "acceptance_ids": [
+          "AC-5",
+          "AC-9"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 90,
+        "budget_tokens": 1000,
+        "argv": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "parallel_group": "271-serial-05",
+        "defer_reason": null
+      }
+    ],
+    "failure_policy": "Fail closed on unknown schema/status, malformed response, unavailable Runtime, redaction uncertainty, scope drift, missing proof, wrapper denominator mismatch, zero/ignored/skipped browser cases, or non-authentic handler-output fixture evidence.",
+    "review_prompts": [
+      "Does the browser forward only Runtime-provided signed artifacts ephemerally to the actual #270 route without originating, verifying, rendering, logging, caching, or persisting them?",
+      "Does proof require the real adl-runtime-kernel recipient_ack handler with an exact five-test parsed denominator and authentic handler-output artifact handoff rather than mocked conversation frames?",
+      "Do exactly eight nonzero browser cases prove delivered, refusal, malformed failure, unavailable recovery, revoked demotion, action release, accessibility, and non-disclosure, with unknown/ignored/zero/skipped/missing/duplicated cases failing closed?",
+      "Can any raw signed material, raw correlation ID, private key, proof hash, provider payload, or policy detail render, log, cache, or persist?",
+      "Does post-bind scope validation compare execution base to current main and restrict product/test changes to exactly app.js, styles.css, and validate_layer8_authority_observatory_ui.sh?"
+    ],
+    "review_scope": "Exact #271 issue/prepared/evidence plus app.js, styles.css, validate_layer8_authority_observatory_ui.sh, the exact five-test recipient_ack runtime wrapper, authentic handler-output artifact handoff, and post-bind exact three-path scope validator.",
+    "residual_risk": [
+      "Product implementation has not started; runtime/browser/scope wrappers are deferred until bind.",
+      "Fresh design review is still required before bind."
+    ],
+    "sor_summary": "Pre-execution preparation record: R2 design/card remediation is being prepared before fresh design review, bind, or product edits.",
+    "sor_validation": [],
+    "sor_artifacts": [],
+    "sor_follow_ups": [
+      "Run fresh design review before bind.",
+      "After bind, create the exact runtime/browser/scope wrappers before implementation review."
+    ]
+  }
+}

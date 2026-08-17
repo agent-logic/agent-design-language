@@ -1,0 +1,41 @@
+# Structured Intent Prompt
+
+Template: 1.0.0
+
+Issue: 363
+
+Repository: agent-logic/agent-design-language
+
+Card: sip
+
+Status: ready
+
+## Goal
+
+Permit one truthful Implemented SPP summary correction through a bounded recovery epoch.
+
+## Required Outcome
+
+Typed summary correction remains available after required design and card repairs following recover_review without weakening review or publication invalidation.
+
+## Scope
+
+- Bounded recovery-epoch predicate
+- SPP plan-summary correction provenance
+- Focused lifecycle regression
+
+## Authority
+
+- Exact CAS and same issue recovery epoch
+- Review publication readiness terminal truth must remain cleared
+- No generic Implemented set_field or #274 mutation
+
+## Assumptions
+
+- none
+
+## Operator Constraints
+
+- Base exact origin/main dae957c435b73d87af1f36d4e15fb088f6fd055b
+- Own store.rs and focused tests only
+- Unknown or authority-changing intervening operations fail closed

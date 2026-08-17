@@ -1,0 +1,6 @@
+flowchart LR
+  A["Canonical artifact: action + predecessor intent"] --> V["#350 sealed verifier"]
+  T["Durable canonical deadline/finalization time"] --> V
+  V --> P["Private verified projection"]
+  P --> R["Read-only action, predecessor, seconds, nanos, uncertainty"]
+  R --> O["#274 consumer"]

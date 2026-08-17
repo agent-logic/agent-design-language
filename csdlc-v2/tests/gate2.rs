@@ -420,6 +420,7 @@ fn assert_last_prebind_audit_operation(
                 "diagram_ref": "design/issue-42.mmd",
                 "old_diagram_digest": old_diagram_digest,
                 "new_diagram_digest": new_diagram_digest,
+                "prior_design_approval": null,
             }
         })
     );
@@ -469,7 +470,7 @@ fn request() -> BootstrapRequest {
         actor: "test-operator".into(),
         design_path: "design/issue-42.md".into(),
         diagram_path: "design/issue-42.mmd".into(),
-        design_reviewer: "reviewer".into(),
+        design_reviewer: "fresh-session:22222222-2222-4222-8222-222222222222".into(),
         design_approved: true,
         initial: InitialCardInput {
             title: "Claim-free issue workflow".into(),
@@ -730,6 +731,28 @@ fn initialized_deferred_distributed_targets_bind_only_through_exact_path_harness
         assert_eq!(initialized.status, csdlc_v2::doctor::DoctorStatus::Pass);
         assert!(initialized.ready);
         assert!(initialized.findings.is_empty());
+        assert_eq!(initialized.next_operation.as_deref(), Some("advance_ready"));
+
+        apply_edit(
+            &repo,
+            temp.path(),
+            issue,
+            "spp",
+            "follow-advertised-ready-transition",
+            serde_json::json!({
+                "operation": "advance_phase",
+                "phase": "ready"
+            }),
+        );
+        let ready = csdlc_v2::doctor::diagnose_with_code_repository(
+            &Store::new(&repo),
+            issue,
+            Some("agent-logic/agent-design-language"),
+        );
+        assert_eq!(ready.status, csdlc_v2::doctor::DoctorStatus::Pass);
+        assert!(!ready.ready);
+        assert!(ready.findings.is_empty());
+        assert_eq!(ready.next_operation.as_deref(), Some("inspect_phase"));
 
         let worktree = temp.path().join(format!("worktrees/issue-{issue}"));
         bind_issue(
@@ -1668,7 +1691,7 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
             "issue": 42,
             "expected_generation": index["generation"],
             "expected_digest": index["digest"],
-            "reviewer": "independent-prebind-reviewer"
+            "reviewer": "fresh-session:33333333-3333-4333-8333-333333333333"
         }))
         .expect("serialize initialized reapproval"),
     )
@@ -1799,7 +1822,7 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
             "issue": 42,
             "expected_generation": repaired["generation"],
             "expected_digest": repaired["digest"],
-            "reviewer": "independent-ready-reviewer"
+            "reviewer": "fresh-session:44444444-4444-4444-8444-444444444444"
         }))
         .expect("serialize ready reapproval"),
     )
@@ -1889,7 +1912,7 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
             "issue": 42,
             "expected_generation": index["generation"],
             "expected_digest": index["digest"],
-            "reviewer": "independent-restored-binding-reviewer"
+            "reviewer": "fresh-session:55555555-5555-4555-8555-555555555555"
         }))
         .expect("serialize restored binding approval"),
     )
@@ -2394,7 +2417,7 @@ fn prebind_operator_constraints_correction_is_exact_and_fail_closed() {
                     issue: 42,
                     expected_generation: corrected.generation,
                     expected_digest: corrected.digest,
-                    reviewer: "post-correction-reviewer".into(),
+                    reviewer: "fresh-session:66666666-6666-4666-8666-666666666666".into(),
                 },
             )
             .expect("reapprove corrected ready design");
@@ -2607,7 +2630,7 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
                 issue: 42,
                 expected_generation: invalid_record.generation,
                 expected_digest: invalid_record.digest.clone(),
-                reviewer: "adversarial-path-reviewer".into(),
+                reviewer: "fresh-session:77777777-7777-4777-8777-777777777777".into(),
             },
         )
         .expect_err(name);
@@ -2806,7 +2829,7 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
     assert_eq!(error.code, csdlc_v2::ErrorCode::ReconciliationRequired);
     assert_eq!(
         error.message,
-        "authored artifact target is not a regular file"
+        "authored artifact target must be a regular single-link file"
     );
     assert_eq!(issue_projection_snapshot(&repo, 42), path_drift_projection);
     fs::remove_dir(&design_path).expect("remove drifted design directory");
@@ -2841,7 +2864,7 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
             issue: 42,
             expected_generation: record.generation,
             expected_digest: record.digest.clone(),
-            reviewer: "independent-prebind-reviewer".into(),
+            reviewer: "fresh-session:33333333-3333-4333-8333-333333333333".into(),
         },
     )
     .expect("reapprove initialized repair");
@@ -3076,18 +3099,28 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
             issue: 42,
             expected_generation: record.generation,
             expected_digest: record.digest.clone(),
-            reviewer: "independent-ready-reviewer".into(),
+            reviewer: "fresh-session:44444444-4444-4444-8444-444444444444".into(),
         },
     )
     .expect("reapprove ready plan repair");
     assert_eq!(record.audit.len(), audit_len_before_ready_approval + 1);
     let ready_approval_event = record.audit.last().expect("ready approval audit event");
-    assert_eq!(ready_approval_event.actor, "independent-ready-reviewer");
+    assert_eq!(
+        ready_approval_event.actor,
+        "fresh-session:44444444-4444-4444-8444-444444444444"
+    );
     assert_eq!(
         ready_approval_event.reason,
         "reapprove repaired ready issue design"
     );
-    assert_eq!(ready_approval_event.operation, "approve_design");
+    let ready_approval_operation: serde_json::Value =
+        serde_json::from_str(&ready_approval_event.operation).expect("approval audit JSON");
+    assert_eq!(ready_approval_operation["operation"], "approve_design");
+    assert_eq!(ready_approval_operation["design_ref"], "design/issue-42.md");
+    assert_eq!(
+        ready_approval_operation["diagram_ref"],
+        "design/issue-42.mmd"
+    );
     must_succeed(command(
         &repo,
         env!("CARGO_BIN_EXE_csdlc-validate"),
@@ -4071,4 +4104,257 @@ fn bind_topology_scan_uses_canonical_record_identity() {
     );
     assert!(!worktree_rejection.status.success());
     assert!(String::from_utf8_lossy(&worktree_rejection.stdout).contains("reconciliation_required"));
+}
+
+fn design_review_recovery_fixture(
+    issue: u64,
+    implemented: bool,
+) -> (
+    tempfile::TempDir,
+    std::path::PathBuf,
+    Store,
+    csdlc_v2::IssueRecord,
+) {
+    let temp = tempfile::tempdir().expect("tempdir");
+    let repo = temp.path().join("repo");
+    fs::create_dir_all(&repo).expect("fixture repo");
+    focused_fixture_repo(&repo);
+    if issue != 42 && issue != 43 {
+        fs::write(
+            repo.join(format!("design/issue-{issue}.md")),
+            format!("# Approved design for issue {issue}\n"),
+        )
+        .expect("issue design fixture");
+        fs::write(
+            repo.join(format!("design/issue-{issue}.mmd")),
+            "flowchart LR\n  Create --> Bind\n",
+        )
+        .expect("issue diagram fixture");
+    }
+    create_focused_issue(&repo, temp.path(), issue);
+    git(&repo, &["add", "."]);
+    git(&repo, &["commit", "-m", "create recovery fixture"]);
+    let worktree = temp.path().join(format!("worktrees/issue-{issue}"));
+    bind_issue(
+        &Store::new(&repo),
+        BindRequest {
+            issue,
+            base_branch: "main".into(),
+            branch: format!("issue-{issue}"),
+            worktree: worktree.to_string_lossy().into_owned(),
+            code_repository: None,
+        },
+    )
+    .expect("bind recovery fixture");
+    let store = Store::new(&worktree);
+    let mut record = store.load_record(issue).expect("bound recovery record");
+    if implemented {
+        record = direct_edit(
+            &store,
+            &record,
+            CardKind::Sor,
+            SemanticOperation::RecordExecution {
+                summary: "implemented recovery fixture".into(),
+                changes: vec!["csdlc-v2/tests/gate2.rs".into()],
+                artifacts: vec!["focused recovery proof".into()],
+            },
+            false,
+        )
+        .expect("record implementation");
+        record = direct_edit(
+            &store,
+            &record,
+            CardKind::Spp,
+            SemanticOperation::AdvancePhase {
+                phase: LifecyclePhase::Implemented,
+            },
+            false,
+        )
+        .expect("advance implemented recovery fixture");
+    }
+    (temp, worktree, store, record)
+}
+
+fn recovery_request(record: &csdlc_v2::IssueRecord) -> csdlc_v2::RecoverDesignReviewRequest {
+    let csdlc_v2::DesignReview::Approved { reviewer, revision } = &record.design_review else {
+        panic!("fixture design approval")
+    };
+    csdlc_v2::RecoverDesignReviewRequest {
+        issue: record.issue,
+        expected_phase: record.phase,
+        expected_generation: record.generation,
+        expected_digest: record.digest.clone(),
+        previous_reviewer: reviewer.clone(),
+        previous_revision: revision.clone(),
+        false_reviewer: reviewer.clone(),
+        actor: "test:false-design-review-recovery".into(),
+        reason: "correct falsely attributed review authority".into(),
+        disposition: "false_review_recorded_before_reviewer_returned".into(),
+    }
+}
+
+fn assert_recovery_result(before: &csdlc_v2::IssueRecord, after: &csdlc_v2::IssueRecord) {
+    assert_eq!(after.phase, before.phase);
+    assert_eq!(after.generation, before.generation + 1);
+    assert!(matches!(
+        after.design_review,
+        csdlc_v2::DesignReview::Pending
+    ));
+    assert_eq!(after.branch, before.branch);
+    assert_eq!(after.worktree, before.worktree);
+    assert_eq!(after.transitions, before.transitions);
+    assert_eq!(after.review_assignment, before.review_assignment);
+    assert_eq!(after.review, before.review);
+    assert_eq!(after.publication, before.publication);
+    assert_eq!(after.audit.len(), before.audit.len() + 1);
+    assert_eq!(
+        after.audit.last().unwrap().operation,
+        "recover_design_review"
+    );
+    assert!(after
+        .audit
+        .last()
+        .unwrap()
+        .reason
+        .contains("previous_approval"));
+    assert!(after
+        .audit
+        .last()
+        .unwrap()
+        .reason
+        .contains("false_reviewer"));
+    assert!(after.audit.last().unwrap().reason.contains("disposition"));
+}
+
+#[test]
+fn bound_design_review_recovery_clears_false_approval() {
+    let (_temp, _worktree, store, record) = design_review_recovery_fixture(42, false);
+    let before_cards = store.load_cards(42).expect("cards before recovery");
+    let corrected = csdlc_v2::recover_design_review(&store, recovery_request(&record))
+        .expect("recover bound false approval");
+    assert_recovery_result(&record, &corrected);
+    let after_cards = store.load_cards(42).expect("cards after recovery");
+    for kind in [
+        CardKind::Sip,
+        CardKind::Stp,
+        CardKind::Spp,
+        CardKind::Vpp,
+        CardKind::Srp,
+        CardKind::Sor,
+    ] {
+        assert_card_identity_advanced(&before_cards[&kind], &after_cards[&kind]);
+        assert_eq!(before_cards[&kind].content, after_cards[&kind].content);
+    }
+}
+
+#[test]
+fn implemented_design_review_recovery_clears_false_approval() {
+    let (_temp, _worktree, store, record) = design_review_recovery_fixture(42, true);
+    let corrected = csdlc_v2::recover_design_review(&store, recovery_request(&record))
+        .expect("recover implemented false approval");
+    assert_recovery_result(&record, &corrected);
+    assert_eq!(corrected.phase, LifecyclePhase::Implemented);
+}
+
+#[test]
+fn design_review_recovery_rejects_invalid_authority_and_repeat() {
+    let (_temp, worktree, store, record) = design_review_recovery_fixture(42, false);
+    let pristine = issue_projection_snapshot(&worktree, 42);
+    let mut cases = Vec::new();
+    let mut value = recovery_request(&record);
+    value.expected_generation += 1;
+    cases.push(value);
+    let mut value = recovery_request(&record);
+    value.expected_digest = "0".repeat(64);
+    cases.push(value);
+    let mut value = recovery_request(&record);
+    value.expected_phase = LifecyclePhase::Implemented;
+    cases.push(value);
+    let mut value = recovery_request(&record);
+    value.previous_reviewer = "different-reviewer".into();
+    value.false_reviewer = "different-reviewer".into();
+    cases.push(value);
+    let mut value = recovery_request(&record);
+    value.previous_revision = "0".repeat(64);
+    cases.push(value);
+    let mut value = recovery_request(&record);
+    value.false_reviewer = "different-reviewer".into();
+    cases.push(value);
+    let mut value = recovery_request(&record);
+    value.reason.clear();
+    cases.push(value);
+    let mut value = recovery_request(&record);
+    value.disposition.clear();
+    cases.push(value);
+    for request in cases {
+        csdlc_v2::recover_design_review(&store, request).expect_err("invalid recovery");
+        assert_eq!(issue_projection_snapshot(&worktree, 42), pristine);
+    }
+    let mut later = record.clone();
+    later.review_assignment = Some(csdlc_v2::ReviewAssignment {
+        reviewer: "later-reviewer".into(),
+        assigned_by: "test".into(),
+        revision: "0".repeat(40),
+        scope: vec!["later authority".into()],
+    });
+    write_consistent_record(&worktree, &mut later);
+    let later_projection = issue_projection_snapshot(&worktree, 42);
+    csdlc_v2::recover_design_review(&store, recovery_request(&later))
+        .expect_err("later authority recovery");
+    assert_eq!(issue_projection_snapshot(&worktree, 42), later_projection);
+    restore_issue_projection(&worktree, 42, &pristine);
+    let mut repeat = recovery_request(&record);
+    let corrected =
+        csdlc_v2::recover_design_review(&store, repeat.clone()).expect("first recovery");
+    repeat.expected_generation = corrected.generation;
+    repeat.expected_digest = corrected.digest.clone();
+    csdlc_v2::recover_design_review(&store, repeat).expect_err("repeat recovery");
+}
+
+#[test]
+fn design_review_recovery_matches_issue_275_shape() {
+    let (_temp, worktree, store, mut record) = design_review_recovery_fixture(275, true);
+    record.audit.push(csdlc_v2::model::AuditEvent {
+        sequence: record.audit.len() as u64 + 1,
+        generation: record.generation,
+        actor: "fresh-session:97817988-0208-4c4f-b721-aa1dc24fdfda".into(),
+        reason: "historical false approval preserved for correction provenance".into(),
+        operation: "approve_design".into(),
+    });
+    record.design_review = csdlc_v2::DesignReview::Approved {
+        reviewer: "codex:/root/issue-275-implementation".into(),
+        revision: "045fdad3f60a30c16c6a5b27f2a2a55f7dc2a38d3bc75b83197a1d576c9c1f66".into(),
+    };
+    write_consistent_record(&worktree, &mut record);
+    let audit = record
+        .audit
+        .iter()
+        .map(|event| serde_json::to_string(event).expect("serialize audit event"))
+        .collect::<Vec<_>>()
+        .join("\n")
+        + "\n";
+    fs::write(worktree.join(".csdlc/issues/275/audit.jsonl"), audit)
+        .expect("write preserved issue 275 audit history");
+    record = store
+        .load_record(275)
+        .expect("current issue 275 corruption shape");
+    let mut request = recovery_request(&record);
+    request.actor = "codex:issue-275-false-review-recovery".into();
+    request.reason = "clear current noncanonical self-review approval while preserving both false approval events".into();
+    request.disposition = "current_self_review_and_prior_false_fresh_review_preserved".into();
+    let corrected =
+        csdlc_v2::recover_design_review(&store, request).expect("recover exact issue 275 shape");
+    assert_recovery_result(&record, &corrected);
+    assert_eq!(corrected.issue, 275);
+    assert_eq!(corrected.phase, LifecyclePhase::Implemented);
+    assert!(corrected
+        .audit
+        .iter()
+        .any(|event| event.actor == "fresh-session:97817988-0208-4c4f-b721-aa1dc24fdfda"));
+    assert!(corrected
+        .audit
+        .last()
+        .unwrap()
+        .reason
+        .contains("codex:/root/issue-275-implementation"));
 }

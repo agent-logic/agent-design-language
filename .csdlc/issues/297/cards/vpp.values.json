@@ -1,0 +1,145 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 297,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Recover and classify preserved failed issue projections",
+    "slug": "preserved-failed-projection-recovery",
+    "version": "v0.92",
+    "generation": 26
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "parent-recovery-cleanup-bridge",
+          "proof_role": "Prove production recovery validates a completed recovery attempt, emits cleanup-consumable completed recovery receipt and canonical archive manifest authority, and feeds cleanup without test-authored authority.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 1200,
+          "budget_tokens": 7000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate5",
+            "recovery_bridge_emits_cleanup_authority_consumed_by_cleanup",
+            "--",
+            "--nocapture"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "recovery-regression-matrix",
+          "proof_role": "Retain full preserved projection recovery regression coverage after adding the bridge API.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8",
+            "AC-9"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 1200,
+          "budget_tokens": 7000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate5",
+            "--",
+            "--nocapture"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "cleanup-authority-regression",
+          "proof_role": "Retain cleanup authority regressions after allowing directory link-count drift only for the same directory identity during child removal.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-3",
+            "AC-4",
+            "AC-7",
+            "AC-8",
+            "AC-9"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 1200,
+          "budget_tokens": 7000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate_cleanup",
+            "--",
+            "--nocapture"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "child-300-integrated-matrix-dependency",
+          "proof_role": "#300 must separately prove the integrated recovery/cleanup matrix using its own target after #297 is terminal and ancestral; this parent card records the dependency and does not claim #300 proof.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8",
+            "AC-9"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 1200,
+          "budget_tokens": 7000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate5",
+            "recovery_bridge_emits_cleanup_authority_consumed_by_cleanup",
+            "--",
+            "--nocapture"
+          ],
+          "parallel_group": "local",
+          "defer_reason": "Dependency record only: #300 remains review-failed/unpublished until it consumes the terminal #297 bridge and mechanically invokes or explicitly enumerates the matrix."
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed without mutation on unsafe node type, alias, identity drift, corrupt or mismatched projection, ambiguous lineage, stale CAS/topology, incomplete receipt chain, collision/race, validation failure, or stale review; preserve every failure artifact.",
+      "design_ref": ".csdlc/prepared/issues/297/design.md",
+      "design_digest": "fa657fb40b9571fd0ff37b0099de2546405dbe7fc836ebabd264a8096d305978",
+      "diagram_ref": ".csdlc/prepared/issues/297/diagram.mmd",
+      "diagram_digest": "8fea8524f0be5ce3b0cf19b9034a9721dcf92bb3afda875df661679494fc816a"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+flowchart LR
+  SD["Shepherd durable envelope + exact receipt"] --> SC["private store constructor"]
+  OD["Observatory durable envelope + exact receipt"] --> OC["private store constructor"]
+  SC --> SS["opaque sealed Shepherd committed projection"]
+  OC --> OS["opaque sealed Observatory committed projection"]
+  SS --> I["future #275 integration input"]
+  OS --> I
+  FP["fabricated public projection"] -. no constructor .-> I
+  AB["A/B mixed components"] -. canonical cross-binding denial .-> I
+  C["corrupt or stale checkpoint/receipt"] -. open/revalidation denial .-> SC
+  C -. open/revalidation denial .-> OC

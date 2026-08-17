@@ -1,0 +1,53 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 330,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[C-SDLC][defect] Bridge-fed projection cleanup invalidates recovery validation and fails closed-race invariant",
+    "slug": "bridge-fed-projection-cleanup-defect",
+    "version": "v0.92",
+    "generation": 19
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "One production bridge-fed cleanup/recovery invariant defect; no broad projection recovery or cleanup redesign.",
+      "deliverables": [
+        "Narrow production repair in projection recovery/cleanup",
+        "csdlc-v2/tests/issue_330_bridge_cleanup_defect.rs",
+        ".csdlc/prepared/issues/330/validate_preparation_bundle.py",
+        "Passing #300 bridge-fed projection_recovery_integration target after #330 terminal ancestry",
+        "Strict Clippy, fmt/diff, typed validate/doctor evidence",
+        "Fresh exact-head review and ready PR",
+        "Terminal finish if hosted gates pass"
+      ],
+      "acceptance_criteria": [
+        "AC-1: A completed recovery whose rejected archive was removed by exact-authority cleanup remains valid for ordinary typed commits only when completed cleanup receipt and canonical/archive manifest authority prove the same recovery result.",
+        "AC-2: Missing, forged, mismatched, stale, or cross-operation cleanup authority still fails closed and never becomes a blanket bypass for retained recovery validation.",
+        "AC-3: A real final cleanup receipt appearing after early shortcut and before pre-final validation is rejected unless the whole operation ledger and final receipt chain match current request authority.",
+        "AC-4: Rejected final-receipt races preserve byte-exact ledger, namespace, receipt, and archived-node state.",
+        "AC-5: #300 bridge-fed integration tests pass without synthetic cleanup authority and without weakening mechanical matrix invocation.",
+        "AC-6: Fresh exact-head review records no actionable findings before publication."
+      ],
+      "dependencies": [
+        "#297 terminal/ancestral via PR #328 merge 5ebd2143e3f36638b16f6153446eff655116f76a",
+        "#300 blocked-proof checkpoint a5253b9866f88aeeeff083c3d0a8e16c4fbdafd7"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#330",
+        ".csdlc/evidence/300/bridge-fed-r2/projection-recovery-integration-failed.log",
+        "csdlc-v2/tests/projection_recovery_integration.rs",
+        "csdlc-v2/src/projection_recovery.rs",
+        "csdlc-v2/src/projection_cleanup.rs"
+      ],
+      "non_goals": [
+        "Publishing or reviewing #300 before #330 terminal ancestry",
+        "Broad lifecycle/GitHub/store redesign",
+        "Weakening #299 cleanup authority checks",
+        "Mutating #297 terminal state"
+      ]
+    }
+  }
+}

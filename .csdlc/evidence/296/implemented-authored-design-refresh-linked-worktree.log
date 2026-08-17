@@ -1,0 +1,10 @@
+
+running 3 tests
+test malformed_identity_update_is_rejected_before_mutation ... ok
+test identity_operation_updates_all_cards_without_content_drift ... ok
+test pre_change_native_1_0_0_fixture_loads_but_legacy_relabel_is_rejected ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.09s
+     Running tests/card_identity.rs (csdlc-v2/target/debug/deps/card_identity-c6dea35ade990c1c)

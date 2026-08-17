@@ -1,0 +1,12 @@
+
+running 5 tests
+test migration_and_recovery_transitions_are_governed_in_production ... ok
+test production_authorization_does_not_pass_raw_access_tokens ... ok
+test production_verifiers_require_governed_certificate_adapters ... ok
+test raw_certificate_store_seams_are_test_only ... ok
+test remaining_read_callers_are_governed_in_production ... ok
+
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.15s
+     Running tests/distributed_authority_adapter_callers_260.rs (adl-runtime/target/debug/deps/distributed_authority_adapter_callers_260-310f726dec5d6329)

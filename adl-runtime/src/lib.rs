@@ -23,6 +23,7 @@ pub mod reasoning_runtime;
 pub mod resident_agent;
 pub mod runtime_api;
 pub mod runtime_api_auth;
+pub mod runtime_v3_soak;
 pub mod shutdown;
 pub mod supervision;
 pub mod topology;

@@ -1,0 +1,81 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 299,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][297.b][defect] Implement exact-authority archived-projection cleanup",
+    "slug": "exact-authority-archived-projection-cleanup",
+    "version": "v0.92",
+    "generation": 37
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "archived-projection-cleanup-focused",
+          "proof_role": "Prove exact capture, type-correct removal, restart, idempotence, and sentinel preservation for AC-1 through AC-7, including terminal gate, recovery receipt load, cleanup namespace creation, capture intent, exchange, capture receipt, removal intent, unlink/rmdir, parent fsync, placeholder disposal, final receipt, and completed-repeat restart boundaries.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 6000,
+          "argv": [
+            "cargo",
+            "nextest",
+            "run",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "archived_projection_cleanup",
+            "--no-tests=fail"
+          ],
+          "parallel_group": "local",
+          "defer_reason": "Deferred until implementation creates csdlc-v2/tests/archived_projection_cleanup.rs with #[path = \"../src/projection_cleanup.rs\"] coverage for csdlc-v2/src/projection_cleanup.rs and enumerates the #299 cleanup restart cuts: terminal gate/read, recovery receipt load, cleanup namespace creation, capture intent, exchange, capture receipt, removal intent, unlink/rmdir, parent fsync, placeholder disposal, final cleanup receipt, and completed repeat."
+        },
+        {
+          "lane": "csdlc-v2-strict-clippy",
+          "proof_role": "Reject warning and target regressions in the cleanup implementation.",
+          "acceptance_ids": [
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 3000,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--workspace",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed on missing #298 terminal ancestry, receipt/canonical/archive mismatch, unsafe topology, symlink/special node, unsupported type, replacement, non-empty directory, mount/owner/mode drift, parent identity drift, stale generation/digest, or unresolved review finding.",
+      "design_ref": ".csdlc/prepared/issues/299/design.md",
+      "design_digest": "33db4cc9f41106f4ad0ae5b002a3fb6befc8454ca5f156e6dd0e6f7b62219f32",
+      "diagram_ref": ".csdlc/prepared/issues/299/diagram.mmd",
+      "diagram_digest": "af7a53b44961b3010199ac739e88d0ea14d8e0526e5523c5a3681a51bdf80d77"
+    }
+  }
+}

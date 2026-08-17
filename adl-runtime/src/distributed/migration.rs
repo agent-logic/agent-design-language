@@ -11,15 +11,117 @@ use fs2::FileExt;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
+#[cfg(not(test))]
+use super::authority_store_adapters::{AuthorityBoundFencingStore, AuthorityBoundLeaseLedger};
 use super::{
-    fencing::{ActiveLeaseCheck, FenceCommit, FencingStore},
+    fencing::{ActiveLeaseCheck, FenceCommit},
+    integrated_serving_authority_snapshot::{
+        IntegratedOutcome, IntegratedServingAuthoritySnapshotStore, IntegratedSnapshotReceipt,
+    },
     lease::{
-        verify_certificate, AuthorityApplication, AuthorityLedger, AuthorityMembership, LeaseState,
-        OperationClass,
+        verify_certificate, AuthorityApplication, AuthorityMembership, LeaseState, OperationClass,
     },
     placement::{PlacementClock, PlacementInputs, PlacementRequest, PlacementService},
+    shepherd_serving_eligibility::VerifiedCommittedChildLineagePair,
     snapshot_catalog::SnapshotCatalogVerifier,
 };
+#[cfg(test)]
+use super::{
+    fencing::{FencingStore, AUTHORITY_BOUND_FENCING_ACCESS},
+    lease::{AuthorityLedger, AUTHORITY_BOUND_LEASE_ACCESS},
+};
+
+#[cfg(not(test))]
+type MigrationLeaseAuthority = AuthorityBoundLeaseLedger;
+#[cfg(test)]
+type MigrationLeaseAuthority = AuthorityLedger;
+#[cfg(not(test))]
+type MigrationFencingAuthority = AuthorityBoundFencingStore;
+#[cfg(test)]
+type MigrationFencingAuthority = FencingStore;
+
+fn migration_lease(
+    ledger: &MigrationLeaseAuthority,
+    lineage_id: &[u8],
+) -> MigrationResult<Option<LeaseState>> {
+    #[cfg(not(test))]
+    return ledger
+        .lease(lineage_id)
+        .map_err(|_| MigrationError::SourceAuthorityRejected);
+    #[cfg(test)]
+    return Ok(ledger.lease(lineage_id).cloned());
+}
+
+fn migration_applied_log_index(ledger: &MigrationLeaseAuthority) -> MigrationResult<u64> {
+    #[cfg(not(test))]
+    return ledger
+        .applied_log_index()
+        .map_err(|_| MigrationError::SourceAuthorityRejected);
+    #[cfg(test)]
+    return Ok(ledger.applied_log_index());
+}
+
+fn migration_apply(
+    ledger: &mut MigrationLeaseAuthority,
+    certificate_bytes: &[u8],
+    membership: &AuthorityMembership,
+    application: AuthorityApplication<'_>,
+) -> MigrationResult<LeaseState> {
+    #[cfg(not(test))]
+    return ledger
+        .apply(certificate_bytes, membership, application)
+        .map_err(|_| MigrationError::SourceAuthorityRejected);
+    #[cfg(test)]
+    return ledger
+        .apply(
+            &AUTHORITY_BOUND_LEASE_ACCESS,
+            certificate_bytes,
+            membership,
+            application,
+        )
+        .cloned()
+        .map_err(|_| MigrationError::SourceAuthorityRejected);
+}
+
+fn migration_floor(
+    fencing: &MigrationFencingAuthority,
+    lineage_id: &[u8],
+) -> MigrationResult<Option<super::fencing::FenceReceipt>> {
+    #[cfg(not(test))]
+    return fencing
+        .floor(lineage_id)
+        .map_err(|_| MigrationError::SourceAuthorityRejected);
+    #[cfg(test)]
+    return Ok(fencing.floor(lineage_id).cloned());
+}
+
+fn migration_fence_commit(
+    fencing: &mut MigrationFencingAuthority,
+    request: FenceCommit<'_>,
+) -> MigrationResult<super::fencing::FenceReceipt> {
+    #[cfg(not(test))]
+    return fencing
+        .commit(request)
+        .map_err(|_| MigrationError::FenceRejected);
+    #[cfg(test)]
+    return fencing
+        .commit(&AUTHORITY_BOUND_FENCING_ACCESS, request)
+        .map_err(|_| MigrationError::FenceRejected);
+}
+
+fn migration_authorize_active(
+    fencing: &MigrationFencingAuthority,
+    check: ActiveLeaseCheck<'_>,
+) -> MigrationResult<()> {
+    #[cfg(not(test))]
+    return fencing
+        .authorize_active_lease(check)
+        .map_err(|_| MigrationError::SourceAuthorityRejected);
+    #[cfg(test)]
+    return fencing
+        .authorize_active_lease(&AUTHORITY_BOUND_FENCING_ACCESS, check)
+        .map_err(|_| MigrationError::SourceAuthorityRejected);
+}
 
 pub const MIGRATION_STATE_SCHEMA: &str = "adl.distributed.migration_state.v1";
 const STATE_FILE: &str = "migration-state.json";
@@ -51,6 +153,7 @@ pub enum MigrationError {
     FenceRejected,
     ActivationRejected,
     CommitRejected,
+    ServingTransferRejected,
     PostFenceAbort,
     TimedOut,
     RevisionDrift,
@@ -79,6 +182,7 @@ impl MigrationError {
             Self::FenceRejected => "fence_rejected",
             Self::ActivationRejected => "activation_rejected",
             Self::CommitRejected => "commit_rejected",
+            Self::ServingTransferRejected => "serving_transfer_rejected",
             Self::PostFenceAbort => "post_fence_abort",
             Self::TimedOut => "timed_out",
             Self::RevisionDrift => "revision_drift",
@@ -179,6 +283,7 @@ pub enum MigrationPhase {
     Fenced,
     Activated,
     Committed,
+    ServingTransferred,
     Aborted,
 }
 
@@ -245,6 +350,14 @@ pub struct MigrationRecord {
     pub activation_certificate_sha256: Option<[u8; 32]>,
     pub commit_log_index: Option<u64>,
     pub commit_certificate_sha256: Option<[u8; 32]>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub serving_operation_ref: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub serving_input_sha256: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub serving_result_state_sha256: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub serving_receipt_sha256: Option<String>,
     pub history: Vec<TransitionEvidence>,
 }
 
@@ -578,7 +691,7 @@ impl MigrationStore {
         placement: &PlacementService<C>,
         placement_request: &PlacementRequest,
         placement_inputs: PlacementInputs<'_>,
-        fencing: &FencingStore,
+        fencing: &MigrationFencingAuthority,
         source_check: ActiveLeaseCheck<'_>,
     ) -> MigrationResult<MigrationRecord> {
         validate_request(&self.policy, &request)?;
@@ -587,9 +700,7 @@ impl MigrationStore {
             .checked_add(request.timeout_millis)
             .ok_or(MigrationError::ResourceExhausted)?;
         validate_source_request(&request, &source_check)?;
-        fencing
-            .authorize_active_lease(copy_active_check(&source_check))
-            .map_err(|_| MigrationError::SourceAuthorityRejected)?;
+        migration_authorize_active(fencing, copy_active_check(&source_check))?;
         let decision = placement
             .decide(placement_request, placement_inputs)
             .map_err(|_| MigrationError::PlacementRejected)?;
@@ -669,6 +780,10 @@ impl MigrationStore {
             activation_certificate_sha256: None,
             commit_log_index: None,
             commit_certificate_sha256: None,
+            serving_operation_ref: None,
+            serving_input_sha256: None,
+            serving_result_state_sha256: None,
+            serving_receipt_sha256: None,
             history: vec![TransitionEvidence {
                 phase: MigrationPhase::Prepared,
                 evidence_sha256: prepared_evidence,
@@ -682,15 +797,13 @@ impl MigrationStore {
         &mut self,
         migration_id: &[u8],
         authority: &dyn SourceQuiescenceAuthority,
-        fencing: &FencingStore,
+        fencing: &MigrationFencingAuthority,
         source_check: ActiveLeaseCheck<'_>,
     ) -> MigrationResult<MigrationRecord> {
         let current = self.required_record(migration_id)?.clone();
         let remaining_timeout_millis = self.ensure_live(&current)?;
         validate_source_record(&current, &source_check)?;
-        fencing
-            .authorize_active_lease(copy_active_check(&source_check))
-            .map_err(|_| MigrationError::SourceAuthorityRejected)?;
+        migration_authorize_active(fencing, copy_active_check(&source_check))?;
         let receipt = authority
             .quiesce(quiescence_request(&current, remaining_timeout_millis))
             .map_err(|_| MigrationError::QuiescenceRejected)?;
@@ -719,7 +832,7 @@ impl MigrationStore {
         migration_id: &[u8],
         encoded_catalog: &[u8],
         verifier: &SnapshotCatalogVerifier,
-        fencing: &FencingStore,
+        fencing: &MigrationFencingAuthority,
         source_check: ActiveLeaseCheck<'_>,
     ) -> MigrationResult<MigrationRecord> {
         let current = self.required_record(migration_id)?.clone();
@@ -764,16 +877,14 @@ impl MigrationStore {
         encoded_catalog: &[u8],
         chunks: &[Vec<u8>],
         verifier: &SnapshotCatalogVerifier,
-        fencing: &FencingStore,
+        fencing: &MigrationFencingAuthority,
         source_check: ActiveLeaseCheck<'_>,
     ) -> MigrationResult<MigrationRecord> {
         let current = self.required_record(migration_id)?.clone();
         self.ensure_live(&current)?;
         if current.phase == MigrationPhase::Transferred {
             validate_source_record(&current, &source_check)?;
-            fencing
-                .authorize_active_lease(copy_active_check(&source_check))
-                .map_err(|_| MigrationError::SourceAuthorityRejected)?;
+            migration_authorize_active(fencing, copy_active_check(&source_check))?;
             let manifest_sha256 = sha256(encoded_manifest);
             if current.transfer_manifest_sha256 != Some(manifest_sha256)
                 || current.catalog_entry_sha256 != Some(sha256(encoded_catalog))
@@ -839,7 +950,7 @@ impl MigrationStore {
         &mut self,
         migration_id: &[u8],
         authority: &dyn IsolatedRestoreAuthority,
-        fencing: &FencingStore,
+        fencing: &MigrationFencingAuthority,
         source_check: ActiveLeaseCheck<'_>,
     ) -> MigrationResult<MigrationRecord> {
         let current = self.required_record(migration_id)?.clone();
@@ -850,9 +961,7 @@ impl MigrationStore {
             return Err(MigrationError::InvalidTransition);
         }
         validate_source_record(&current, &source_check)?;
-        fencing
-            .authorize_active_lease(copy_active_check(&source_check))
-            .map_err(|_| MigrationError::SourceAuthorityRejected)?;
+        migration_authorize_active(fencing, copy_active_check(&source_check))?;
         let transfer_id = current
             .transfer_id
             .as_deref()
@@ -912,8 +1021,8 @@ impl MigrationStore {
         fence_request_id: &[u8],
         certificate_bytes: &[u8],
         membership: &AuthorityMembership,
-        ledger: &mut AuthorityLedger,
-        fencing: &mut FencingStore,
+        ledger: &mut MigrationLeaseAuthority,
+        fencing: &mut MigrationFencingAuthority,
         application: AuthorityApplication<'_>,
     ) -> MigrationResult<MigrationRecord> {
         let current = self.required_record(migration_id)?.clone();
@@ -948,28 +1057,27 @@ impl MigrationStore {
             &body.epoch.to_be_bytes(),
             &body.committed_log_index.to_be_bytes(),
         ]);
-        let existing_floor = fencing.floor(&current.lineage_id).cloned();
-        let ledger_state = ledger.lease(&current.lineage_id).cloned();
+        let existing_floor = migration_floor(fencing, &current.lineage_id)?;
+        let ledger_state = migration_lease(ledger, &current.lineage_id)?;
         if existing_floor.is_none() {
             let source = ledger_state
                 .as_ref()
                 .filter(|lease| !lease.revoked)
                 .ok_or(MigrationError::FenceRejected)?;
             validate_source_lease(&current, source)?;
-            fencing
-                .commit(FenceCommit {
+            migration_fence_commit(
+                fencing,
+                FenceCommit {
                     request_id: fence_request_id,
                     certificate_bytes,
                     membership: Some(membership),
                     current_lease: source,
                     now_unix_seconds: application.now_unix_seconds,
-                })
-                .map_err(|_| MigrationError::FenceRejected)?;
+                },
+            )?;
         }
-        let floor = fencing
-            .floor(&current.lineage_id)
-            .cloned()
-            .ok_or(MigrationError::FenceRejected)?;
+        let floor =
+            migration_floor(fencing, &current.lineage_id)?.ok_or(MigrationError::FenceRejected)?;
         if floor.request_id != fence_request_id
             || floor.epoch != body.epoch
             || floor.committed_log_index != body.committed_log_index
@@ -978,20 +1086,18 @@ impl MigrationStore {
         {
             return Err(MigrationError::ReplayMismatch);
         }
-        let already_applied = ledger.lease(&current.lineage_id).is_some_and(|lease| {
+        let already_applied = migration_lease(ledger, &current.lineage_id)?.is_some_and(|lease| {
             lease.revoked
                 && lease.epoch == body.epoch
                 && lease.committed_log_index == body.committed_log_index
                 && lease.certificate_bytes == certificate_bytes
         });
         if !already_applied {
-            ledger
-                .apply(certificate_bytes, membership, application)
+            migration_apply(ledger, certificate_bytes, membership, application)
                 .map_err(|_| MigrationError::FenceRejected)?;
         }
-        let fenced = ledger
-            .lease(&current.lineage_id)
-            .ok_or(MigrationError::FenceRejected)?;
+        let fenced =
+            migration_lease(ledger, &current.lineage_id)?.ok_or(MigrationError::FenceRejected)?;
         if !fenced.revoked
             || fenced.epoch != floor.epoch
             || fenced.committed_log_index != floor.committed_log_index
@@ -1022,8 +1128,8 @@ impl MigrationStore {
         migration_id: &[u8],
         certificate_bytes: &[u8],
         membership: &AuthorityMembership,
-        ledger: &mut AuthorityLedger,
-        fencing: &FencingStore,
+        ledger: &mut MigrationLeaseAuthority,
+        fencing: &MigrationFencingAuthority,
         application: AuthorityApplication<'_>,
     ) -> MigrationResult<MigrationRecord> {
         self.apply_target_authority(
@@ -1043,8 +1149,8 @@ impl MigrationStore {
         migration_id: &[u8],
         certificate_bytes: &[u8],
         membership: &AuthorityMembership,
-        ledger: &mut AuthorityLedger,
-        fencing: &FencingStore,
+        ledger: &mut MigrationLeaseAuthority,
+        fencing: &MigrationFencingAuthority,
         application: AuthorityApplication<'_>,
     ) -> MigrationResult<MigrationRecord> {
         self.apply_target_authority(
@@ -1058,17 +1164,82 @@ impl MigrationStore {
         )
     }
 
+    pub fn transfer_serving_authority(
+        &mut self,
+        migration_id: &[u8],
+        serving_authority: &mut IntegratedServingAuthoritySnapshotStore,
+        pair: &VerifiedCommittedChildLineagePair<'_>,
+    ) -> MigrationResult<MigrationRecord> {
+        let current = self.required_record(migration_id)?.clone();
+        if current.phase != MigrationPhase::Committed
+            && current.phase != MigrationPhase::ServingTransferred
+        {
+            return Err(MigrationError::InvalidTransition);
+        }
+        validate_serving_pair(&current, pair)?;
+        let operation_ref = serving_operation_ref(&current);
+        if current.phase == MigrationPhase::ServingTransferred {
+            let receipt = serving_authority
+                .receipt(&operation_ref)
+                .ok_or(MigrationError::ServingTransferRejected)?
+                .clone();
+            validate_serving_receipt(&current, &operation_ref, &receipt)?;
+            let evidence = serving_transfer_evidence(&current, &operation_ref, &receipt)?;
+            if current.serving_operation_ref.as_deref() == Some(operation_ref.as_str())
+                && current.serving_input_sha256.as_deref() == Some(receipt.input_sha256.as_str())
+                && current.serving_result_state_sha256.as_deref()
+                    == Some(receipt.result_state_sha256.as_str())
+                && current.serving_receipt_sha256.as_deref()
+                    == Some(receipt.receipt_sha256.as_str())
+            {
+                return exact_retry(&current, MigrationPhase::ServingTransferred, evidence);
+            }
+            return Err(MigrationError::ReplayMismatch);
+        }
+        if let Some(receipt) = serving_authority.receipt(&operation_ref).cloned() {
+            validate_serving_receipt(&current, &operation_ref, &receipt)?;
+            let evidence = serving_transfer_evidence(&current, &operation_ref, &receipt)?;
+            return self.advance(
+                migration_id,
+                MigrationPhase::Committed,
+                MigrationPhase::ServingTransferred,
+                evidence,
+                |record| {
+                    record_serving_transfer(record, operation_ref, receipt);
+                },
+            );
+        }
+        self.ensure_live(&current)?;
+        let receipt = serving_authority
+            .observe(&operation_ref, pair, IntegratedOutcome::Success)
+            .map_err(|_| MigrationError::ServingTransferRejected)?;
+        validate_serving_receipt(&current, &operation_ref, &receipt)?;
+        let evidence = serving_transfer_evidence(&current, &operation_ref, &receipt)?;
+        self.advance(
+            migration_id,
+            MigrationPhase::Committed,
+            MigrationPhase::ServingTransferred,
+            evidence,
+            |record| {
+                record_serving_transfer(record, operation_ref, receipt);
+            },
+        )
+    }
+
     pub fn abort_before_fence(
         &mut self,
         migration_id: &[u8],
         authority: &dyn SourceQuiescenceAuthority,
-        fencing: &FencingStore,
+        fencing: &MigrationFencingAuthority,
         source_check: ActiveLeaseCheck<'_>,
     ) -> MigrationResult<MigrationRecord> {
         let current = self.required_record(migration_id)?.clone();
         if matches!(
             current.phase,
-            MigrationPhase::Fenced | MigrationPhase::Activated | MigrationPhase::Committed
+            MigrationPhase::Fenced
+                | MigrationPhase::Activated
+                | MigrationPhase::Committed
+                | MigrationPhase::ServingTransferred
         ) {
             return Err(MigrationError::PostFenceAbort);
         }
@@ -1089,9 +1260,7 @@ impl MigrationStore {
             Err(error) => return Err(error),
         };
         validate_source_record(&current, &source_check)?;
-        fencing
-            .authorize_active_lease(copy_active_check(&source_check))
-            .map_err(|_| MigrationError::SourceAuthorityRejected)?;
+        migration_authorize_active(fencing, copy_active_check(&source_check))?;
         authority
             .resume(quiescence_request(&current, remaining_timeout_millis))
             .map_err(|_| MigrationError::QuiescenceRejected)?;
@@ -1115,8 +1284,8 @@ impl MigrationStore {
         migration_id: &[u8],
         certificate_bytes: &[u8],
         membership: &AuthorityMembership,
-        ledger: &mut AuthorityLedger,
-        fencing: &FencingStore,
+        ledger: &mut MigrationLeaseAuthority,
+        fencing: &MigrationFencingAuthority,
         application: AuthorityApplication<'_>,
         operation: OperationClass,
     ) -> MigrationResult<MigrationRecord> {
@@ -1159,7 +1328,7 @@ impl MigrationStore {
             &body.committed_log_index.to_be_bytes(),
             &[operation as u8],
         ]);
-        let already_applied = ledger.lease(&current.lineage_id).is_some_and(|lease| {
+        let already_applied = migration_lease(ledger, &current.lineage_id)?.is_some_and(|lease| {
             !lease.revoked
                 && lease.epoch == body.epoch
                 && lease.holder_node_id == current.target_node_id
@@ -1168,19 +1337,17 @@ impl MigrationStore {
                 && lease.certificate_bytes == certificate_bytes
         });
         if !already_applied {
-            ledger
-                .apply(certificate_bytes, membership, application)
+            migration_apply(ledger, certificate_bytes, membership, application)
                 .map_err(|_| error.clone())?;
         }
-        let lease = ledger
-            .lease(&current.lineage_id)
-            .ok_or_else(|| error.clone())?;
+        let lease = migration_lease(ledger, &current.lineage_id)?.ok_or_else(|| error.clone())?;
         if operation == OperationClass::Activate {
-            fencing
-                .authorize_active_lease(ActiveLeaseCheck {
+            migration_authorize_active(
+                fencing,
+                ActiveLeaseCheck {
                     membership: Some(membership),
-                    lease,
-                    applied_log_index: ledger.applied_log_index(),
+                    lease: &lease,
+                    applied_log_index: migration_applied_log_index(ledger)?,
                     now_unix_seconds: application.now_unix_seconds,
                     now_unix_millis: unix_millis(
                         application.now_unix_seconds,
@@ -1189,12 +1356,12 @@ impl MigrationStore {
                     .ok_or_else(|| error.clone())?,
                     now_elapsed_millis: application.now_elapsed_millis,
                     activation_proof: application.activation_proof,
-                })
-                .map_err(|_| error.clone())?;
+                },
+            )
+            .map_err(|_| error.clone())?;
         } else {
-            let floor = fencing
-                .floor(&current.lineage_id)
-                .ok_or_else(|| error.clone())?;
+            let floor =
+                migration_floor(fencing, &current.lineage_id)?.ok_or_else(|| error.clone())?;
             if floor.operation_class != OperationClass::Fence as u32
                 || floor.epoch != lease.epoch
                 || floor.committed_log_index >= lease.committed_log_index
@@ -1288,7 +1455,10 @@ impl MigrationStore {
         let current = self.required_record(migration_id)?.clone();
         if matches!(
             current.phase,
-            MigrationPhase::Fenced | MigrationPhase::Activated | MigrationPhase::Committed
+            MigrationPhase::Fenced
+                | MigrationPhase::Activated
+                | MigrationPhase::Committed
+                | MigrationPhase::ServingTransferred
         ) {
             return Err(MigrationError::PostFenceAbort);
         }
@@ -1557,6 +1727,91 @@ fn validate_snapshot(
     Ok(())
 }
 
+fn serving_operation_ref(record: &MigrationRecord) -> String {
+    format!(
+        "migration:{}",
+        projection_ref(b"migration", &record.migration_id)
+    )
+}
+
+fn validate_serving_pair(
+    record: &MigrationRecord,
+    pair: &VerifiedCommittedChildLineagePair<'_>,
+) -> MigrationResult<()> {
+    let expected_lineage = serving_lineage_ref(&record.lineage_id)?;
+    if (record.phase != MigrationPhase::Committed
+        && record.phase != MigrationPhase::ServingTransferred)
+        || record.source_authoritative
+        || !record.target_authoritative
+        || record.commit_log_index.is_none()
+        || record.commit_certificate_sha256.is_none()
+        || pair.shepherd().lineage_ref() != Some(expected_lineage.as_str())
+        || pair.observatory().lineage_ref() != Some(expected_lineage.as_str())
+    {
+        return Err(MigrationError::EvidenceMismatch);
+    }
+    Ok(())
+}
+
+fn is_sha256_text(value: &str) -> bool {
+    value.len() == 64
+        && value
+            .bytes()
+            .all(|b| b.is_ascii_digit() || (b'a'..=b'f').contains(&b))
+}
+
+fn validate_serving_receipt(
+    record: &MigrationRecord,
+    operation_ref: &str,
+    receipt: &IntegratedSnapshotReceipt,
+) -> MigrationResult<()> {
+    let expected_lineage = serving_lineage_ref(&record.lineage_id)?;
+    if receipt.operation_ref != operation_ref
+        || receipt.outcome != IntegratedOutcome::Success
+        || receipt.shepherd.lineage_ref != expected_lineage
+        || receipt.observatory.lineage_ref != expected_lineage
+        || !is_sha256_text(&receipt.input_sha256)
+        || !is_sha256_text(&receipt.result_state_sha256)
+        || !is_sha256_text(&receipt.receipt_sha256)
+    {
+        return Err(MigrationError::ServingTransferRejected);
+    }
+    Ok(())
+}
+
+fn serving_transfer_evidence(
+    record: &MigrationRecord,
+    operation_ref: &str,
+    receipt: &IntegratedSnapshotReceipt,
+) -> MigrationResult<[u8; 32]> {
+    let receipt_bytes =
+        serde_jcs::to_vec(receipt).map_err(|_| MigrationError::ServingTransferRejected)?;
+    Ok(sha256_many(&[
+        b"ADL-MIGRATION-SERVING-TRANSFER-V1\0",
+        &record.request_sha256,
+        operation_ref.as_bytes(),
+        &receipt_bytes,
+    ]))
+}
+
+fn record_serving_transfer(
+    record: &mut MigrationRecord,
+    operation_ref: String,
+    receipt: IntegratedSnapshotReceipt,
+) {
+    record.serving_operation_ref = Some(operation_ref);
+    record.serving_input_sha256 = Some(receipt.input_sha256);
+    record.serving_result_state_sha256 = Some(receipt.result_state_sha256);
+    record.serving_receipt_sha256 = Some(receipt.receipt_sha256);
+}
+
+fn serving_lineage_ref(lineage_id: &[u8]) -> MigrationResult<String> {
+    let lineage = std::str::from_utf8(lineage_id).map_err(|_| MigrationError::EvidenceMismatch)?;
+    Ok(hex::encode(Sha256::digest(format!(
+        "ADL-SERVING-REF-V1\0lineage\0{lineage}"
+    ))))
+}
+
 fn quiescence_request(
     record: &MigrationRecord,
     remaining_timeout_millis: u64,
@@ -1636,7 +1891,8 @@ fn validate_record(policy: &MigrationPolicy, record: &MigrationRecord) -> Migrat
     let validated = phase_at_least(record.phase, MigrationPhase::Validated);
     let fenced = phase_at_least(record.phase, MigrationPhase::Fenced);
     let activated = phase_at_least(record.phase, MigrationPhase::Activated);
-    let committed = record.phase == MigrationPhase::Committed;
+    let committed = phase_at_least(record.phase, MigrationPhase::Committed);
+    let serving_transferred = record.phase == MigrationPhase::ServingTransferred;
     if !valid_bytes(&record.migration_id, policy.max_identity_bytes)
         || record.trust_domain != policy.trust_domain
         || !valid_text(&record.trust_domain, policy.max_identity_bytes)
@@ -1666,12 +1922,17 @@ fn validate_record(policy: &MigrationPolicy, record: &MigrationRecord) -> Migrat
         || record.source_authoritative && record.target_authoritative
         || matches!(
             record.phase,
-            MigrationPhase::Fenced | MigrationPhase::Activated | MigrationPhase::Committed
+            MigrationPhase::Fenced
+                | MigrationPhase::Activated
+                | MigrationPhase::Committed
+                | MigrationPhase::ServingTransferred
         ) && record.source_authoritative
         || record.phase == MigrationPhase::Fenced && record.target_authoritative
         || matches!(
             record.phase,
-            MigrationPhase::Activated | MigrationPhase::Committed
+            MigrationPhase::Activated
+                | MigrationPhase::Committed
+                | MigrationPhase::ServingTransferred
         ) && !record.target_authoritative
         || checkpointed
             && (record.catalog_entry_sha256.is_none()
@@ -1693,6 +1954,23 @@ fn validate_record(policy: &MigrationPolicy, record: &MigrationRecord) -> Migrat
                 || record.activation_certificate_sha256.is_none())
         || committed
             && (record.commit_log_index.is_none() || record.commit_certificate_sha256.is_none())
+        || serving_transferred
+            && (record
+                .serving_operation_ref
+                .as_deref()
+                .is_none_or(|value| !valid_text(value, 128))
+                || record
+                    .serving_input_sha256
+                    .as_deref()
+                    .is_none_or(|value| !is_sha256_text(value))
+                || record
+                    .serving_result_state_sha256
+                    .as_deref()
+                    .is_none_or(|value| !is_sha256_text(value))
+                || record
+                    .serving_receipt_sha256
+                    .as_deref()
+                    .is_none_or(|value| !is_sha256_text(value)))
     {
         return Err(MigrationError::StateCorrupt);
     }
@@ -1709,6 +1987,7 @@ fn normal_phase_rank(phase: MigrationPhase) -> Option<u8> {
         MigrationPhase::Fenced => Some(5),
         MigrationPhase::Activated => Some(6),
         MigrationPhase::Committed => Some(7),
+        MigrationPhase::ServingTransferred => Some(8),
         MigrationPhase::Aborted => None,
     }
 }
@@ -1878,4 +2157,342 @@ fn sha256_many(parts: &[&[u8]]) -> [u8; 32] {
         hasher.update(part);
     }
     hasher.finalize().into()
+}
+
+#[cfg(all(test, feature = "internal-test-fixtures"))]
+mod serving_transfer_tests {
+    use super::*;
+    use crate::distributed::{
+        authority_protocol::test_observatory_published_authority_for_operation,
+        observatory_serving_eligibility::ObservatoryEligibilityStore,
+        polis_runtime::{ConsensusCheckpoint, ConsensusCheckpointAuthority, PolisRuntimeError},
+        serving_authority::{
+            ObservatoryBindingFixture, ObservatoryIdentifierField, ObservatoryTransitionAction,
+            VerifiedServingAuthorityCut,
+        },
+        shepherd_serving_eligibility::{
+            verify_committed_child_lineage_pair, ShepherdEligibilityStore,
+        },
+    };
+    use std::{
+        collections::BTreeMap,
+        sync::{Arc, Mutex},
+    };
+
+    const DOMAIN: &str = "polis.example";
+    const LINEAGE: &[u8] = b"lineage-a";
+
+    #[derive(Debug, Default)]
+    struct MigrationAuthority(Mutex<Option<MigrationCheckpoint>>);
+
+    impl MigrationCheckpointAuthority for MigrationAuthority {
+        fn current(&self) -> MigrationResult<Option<MigrationCheckpoint>> {
+            Ok(*self.0.lock().unwrap())
+        }
+
+        fn compare_and_swap(
+            &self,
+            expected: Option<MigrationCheckpoint>,
+            next: MigrationCheckpoint,
+        ) -> MigrationResult<()> {
+            let mut current = self.0.lock().unwrap();
+            if *current != expected {
+                return Err(MigrationError::Rollback);
+            }
+            *current = Some(next);
+            Ok(())
+        }
+    }
+
+    #[derive(Debug)]
+    struct TestClock(u64);
+
+    impl MigrationClock for TestClock {
+        fn now_millis(&self) -> MigrationResult<u64> {
+            Ok(self.0)
+        }
+    }
+
+    #[derive(Debug, Default)]
+    struct ServingAuthority(Mutex<BTreeMap<String, ConsensusCheckpoint>>);
+
+    impl ConsensusCheckpointAuthority for ServingAuthority {
+        fn load(&self, object: &str) -> Result<Option<ConsensusCheckpoint>, PolisRuntimeError> {
+            Ok(self.0.lock().unwrap().get(object).cloned())
+        }
+
+        fn compare_and_swap(
+            &self,
+            expected: Option<&ConsensusCheckpoint>,
+            candidate: &ConsensusCheckpoint,
+        ) -> Result<(), PolisRuntimeError> {
+            let mut current = self.0.lock().unwrap();
+            if current.get(&candidate.object) != expected {
+                return Err(PolisRuntimeError::StateRegression);
+            }
+            current.insert(candidate.object.clone(), candidate.clone());
+            Ok(())
+        }
+    }
+
+    fn observatory_input_for(
+        operation: &str,
+        lineage: &str,
+    ) -> (
+        crate::distributed::authority_protocol::PublishedAuthorityResult,
+        VerifiedServingAuthorityCut,
+    ) {
+        let mut fixture = ObservatoryBindingFixture::new(operation);
+        fixture.set_invalid_identifier(ObservatoryIdentifierField::LineageId, lineage);
+        fixture.set_invalid_identifier(ObservatoryIdentifierField::OperationId, operation);
+        fixture.set_operation(operation, 2);
+        fixture.set_integers(2, 1, 1);
+        fixture.set_transition(ObservatoryTransitionAction::Acquire, None);
+        (
+            test_observatory_published_authority_for_operation(
+                fixture.artifact_bytes(),
+                operation,
+                2,
+            ),
+            VerifiedServingAuthorityCut::fixture_from_observatory(&fixture),
+        )
+    }
+
+    fn shepherd_cut_for(lineage: &str) -> VerifiedServingAuthorityCut {
+        VerifiedServingAuthorityCut::fixture(
+            lineage.into(),
+            7,
+            format!("owner-{lineage}"),
+            9,
+            format!("lease-{lineage}"),
+            "11".repeat(32),
+            "22".repeat(32),
+            "33".repeat(32),
+        )
+    }
+
+    fn committed_pair_for_lineage(
+        root: &Path,
+        authority: Arc<ServingAuthority>,
+        lineage: &str,
+    ) -> (
+        crate::distributed::shepherd_serving_eligibility::SealedShepherdCommittedProjection,
+        crate::distributed::observatory_serving_eligibility::SealedObservatoryCommittedProjection,
+    ) {
+        let shepherd_root = root.join(format!("shepherd-{lineage}"));
+        let observatory_root = root.join(format!("observatory-{lineage}"));
+        fs::create_dir(&shepherd_root).unwrap();
+        fs::create_dir(&observatory_root).unwrap();
+        let mut shepherd =
+            ShepherdEligibilityStore::open(&shepherd_root, authority.clone(), 8).unwrap();
+        let shepherd_cut = shepherd_cut_for(lineage);
+        shepherd
+            .acquire(
+                "shepherd-acquire",
+                "shepherd-a",
+                b"raw-secret-permit",
+                &shepherd_cut,
+                100,
+                1,
+            )
+            .unwrap();
+        let mut observatory =
+            ObservatoryEligibilityStore::open(&observatory_root, authority, 8).unwrap();
+        let (published, cut) = observatory_input_for("observatory-acquire", lineage);
+        observatory
+            .apply(&published, &cut, 1_700_000_000, 123_456_789)
+            .unwrap();
+        (
+            shepherd.committed_projection().unwrap().unwrap(),
+            observatory.committed_projection().unwrap().unwrap(),
+        )
+    }
+
+    fn committed_record() -> MigrationRecord {
+        MigrationRecord {
+            migration_id: b"migration-1".to_vec(),
+            request_sha256: [1; 32],
+            trust_domain: DOMAIN.into(),
+            lineage_id: LINEAGE.to_vec(),
+            source_node_id: b"node-0".to_vec(),
+            source_guardian_id: b"guardian-0".to_vec(),
+            source_epoch: 1,
+            source_log_index: 11,
+            source_certificate_sha256: [2; 32],
+            target_node_id: b"node-1".to_vec(),
+            target_guardian_id: b"guardian-1".to_vec(),
+            placement_membership_epoch: 1,
+            placement_log_index: 11,
+            placement_capability_sequence: 1,
+            placement_weather_sequence: 1,
+            timeout_millis: 10_000,
+            started_at_millis: 1_000,
+            deadline_millis: 11_000,
+            phase: MigrationPhase::Committed,
+            source_authoritative: false,
+            target_authoritative: true,
+            quiescence_sha256: Some([3; 32]),
+            catalog_entry_sha256: Some([4; 32]),
+            snapshot_content_sha256: Some([5; 32]),
+            snapshot_schema: Some("adl.snapshot.fixture.v1".into()),
+            snapshot_byte_length: Some(128),
+            snapshot_chunk_count: Some(1),
+            snapshot_expiry_unix_secs: Some(1_700_000_000),
+            transfer_id: Some(b"transfer-1".to_vec()),
+            transfer_manifest_sha256: Some([6; 32]),
+            restore_receipt_sha256: Some([7; 32]),
+            fence_request_id: Some(b"fence-1".to_vec()),
+            fence_epoch: Some(2),
+            fence_log_index: Some(12),
+            fence_certificate_sha256: Some([8; 32]),
+            activation_log_index: Some(13),
+            activation_certificate_sha256: Some([9; 32]),
+            commit_log_index: Some(14),
+            commit_certificate_sha256: Some([10; 32]),
+            serving_operation_ref: None,
+            serving_input_sha256: None,
+            serving_result_state_sha256: None,
+            serving_receipt_sha256: None,
+            history: vec![
+                MigrationPhase::Prepared,
+                MigrationPhase::Quiesced,
+                MigrationPhase::Checkpointed,
+                MigrationPhase::Transferred,
+                MigrationPhase::Validated,
+                MigrationPhase::Fenced,
+                MigrationPhase::Activated,
+                MigrationPhase::Committed,
+            ]
+            .into_iter()
+            .enumerate()
+            .map(|(index, phase)| TransitionEvidence {
+                phase,
+                evidence_sha256: [index as u8 + 1; 32],
+            })
+            .collect(),
+        }
+    }
+
+    fn seeded_store(root: &Path, authority: Arc<MigrationAuthority>) -> MigrationStore {
+        let mut store = MigrationStore::create(
+            root,
+            MigrationPolicy::new(DOMAIN).unwrap(),
+            authority,
+            Arc::new(TestClock(2_000)),
+        )
+        .unwrap();
+        store
+            .seed_record_for_snapshot_test(committed_record())
+            .unwrap();
+        store
+    }
+
+    #[test]
+    fn committed_migration_transfers_verified_serving_authority_and_retries_exactly() {
+        let directory = tempfile::tempdir().unwrap();
+        let root = directory.path().canonicalize().unwrap();
+        let migration_root = root.join("migration");
+        let serving_root = root.join("integrated");
+        fs::create_dir(&migration_root).unwrap();
+        fs::create_dir(&serving_root).unwrap();
+        let migration_authority = Arc::new(MigrationAuthority::default());
+        let serving_authority = Arc::new(ServingAuthority::default());
+        let mut store = seeded_store(&migration_root, migration_authority.clone());
+        let (shepherd, observatory) = committed_pair_for_lineage(
+            &root,
+            serving_authority.clone(),
+            std::str::from_utf8(LINEAGE).unwrap(),
+        );
+        let pair = verify_committed_child_lineage_pair(&shepherd, &observatory).unwrap();
+        let mut integrated = IntegratedServingAuthoritySnapshotStore::open(
+            &serving_root,
+            serving_authority.clone(),
+            8,
+        )
+        .unwrap();
+
+        let transferred = store
+            .transfer_serving_authority(b"migration-1", &mut integrated, &pair)
+            .unwrap();
+        assert_eq!(transferred.phase, MigrationPhase::ServingTransferred);
+        assert!(transferred.serving_operation_ref.is_some());
+        assert!(transferred.serving_receipt_sha256.is_some());
+        assert_eq!(transferred.history.len(), 9);
+        let generation = store.checkpoint().generation;
+        assert_eq!(
+            store
+                .transfer_serving_authority(b"migration-1", &mut integrated, &pair)
+                .unwrap(),
+            transferred
+        );
+        assert_eq!(store.checkpoint().generation, generation);
+
+        let recovery_root = root.join("migration-recovery");
+        fs::create_dir(&recovery_root).unwrap();
+        let mut recovery_store =
+            seeded_store(&recovery_root, Arc::new(MigrationAuthority::default()));
+        assert_eq!(
+            recovery_store
+                .transfer_serving_authority(b"migration-1", &mut integrated, &pair)
+                .unwrap(),
+            transferred
+        );
+
+        drop(store);
+        drop(integrated);
+        let mut store = MigrationStore::open(
+            &migration_root,
+            MigrationPolicy::new(DOMAIN).unwrap(),
+            migration_authority,
+            Arc::new(TestClock(2_000)),
+        )
+        .unwrap();
+        let mut integrated =
+            IntegratedServingAuthoritySnapshotStore::open(&serving_root, serving_authority, 8)
+                .unwrap();
+        assert_eq!(
+            store
+                .transfer_serving_authority(b"migration-1", &mut integrated, &pair)
+                .unwrap(),
+            transferred
+        );
+    }
+
+    #[test]
+    fn serving_transfer_rejects_uncommitted_and_wrong_lineage_without_receipt() {
+        let directory = tempfile::tempdir().unwrap();
+        let root = directory.path().canonicalize().unwrap();
+        let migration_root = root.join("migration");
+        let serving_root = root.join("integrated");
+        fs::create_dir(&migration_root).unwrap();
+        fs::create_dir(&serving_root).unwrap();
+        let migration_authority = Arc::new(MigrationAuthority::default());
+        let serving_authority = Arc::new(ServingAuthority::default());
+        let mut store = seeded_store(&migration_root, migration_authority);
+        store
+            .records
+            .get_mut(b"migration-1".as_slice())
+            .unwrap()
+            .phase = MigrationPhase::Validated;
+        let (wrong_shepherd, wrong_observatory) =
+            committed_pair_for_lineage(&root, serving_authority.clone(), "lineage-other");
+        let wrong_pair =
+            verify_committed_child_lineage_pair(&wrong_shepherd, &wrong_observatory).unwrap();
+        let mut integrated =
+            IntegratedServingAuthoritySnapshotStore::open(&serving_root, serving_authority, 8)
+                .unwrap();
+        assert_eq!(
+            store.transfer_serving_authority(b"migration-1", &mut integrated, &wrong_pair),
+            Err(MigrationError::InvalidTransition)
+        );
+        store
+            .records
+            .get_mut(b"migration-1".as_slice())
+            .unwrap()
+            .phase = MigrationPhase::Committed;
+        assert_eq!(
+            store.transfer_serving_authority(b"migration-1", &mut integrated, &wrong_pair),
+            Err(MigrationError::EvidenceMismatch)
+        );
+    }
 }

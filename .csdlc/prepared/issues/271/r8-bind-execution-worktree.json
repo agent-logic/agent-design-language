@@ -1,0 +1,7 @@
+{
+  "issue": 271,
+  "base_branch": "codex/271-prebind-main-base",
+  "branch": "codex/271-layer8-authority-observatory",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-271-layer8-authority-observatory",
+  "code_repository": "agent-logic/agent-design-language"
+}

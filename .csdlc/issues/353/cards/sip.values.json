@@ -1,0 +1,41 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 353,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC v2][defect] Anchor republished review evidence to the publication commit",
+    "slug": "publication-review-anchor",
+    "version": "v0.92",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Make supported post-publication review recovery and republish terminally finishable without weakening review or lineage gates.",
+      "required_outcome": "Finish reads canonical review evidence from the exact publication metadata head while retaining reviewed-substantive ancestry and governed-drift checks.",
+      "declared_scope": [
+        "csdlc-v2/src/finish.rs",
+        "csdlc-v2/src/publication.rs",
+        "csdlc-v2/src/model.rs",
+        "csdlc-v2/tests/gate_finish.rs",
+        ".csdlc/prepared/issues/353/validate_preparation.rb",
+        ".csdlc/issues/353",
+        ".csdlc/evidence/353"
+      ],
+      "authority_boundary": [
+        "#349 PR #352 is read-only and remains open",
+        "#342 is untouched",
+        "Review and CI gates remain fail closed"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Typed C-SDLC v2 only",
+        "Direct bind after design PASS",
+        "No raw merge or hand editing",
+        "No #349 or #342 mutation"
+      ]
+    }
+  }
+}

@@ -1,0 +1,99 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 300,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][297.c][test] Prove projection recovery crash, topology, race, and idempotency behavior",
+    "slug": "projection-recovery-integration-proof",
+    "version": "v0.92.0",
+    "generation": 24
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the production-backed focused integration matrix, exact prerequisite regression lanes, strict all-target Clippy, and later hosted required checks.",
+      "lanes": [
+        {
+          "lane": "projection-recovery-integration",
+          "proof_role": "Prove AC-1 through AC-5 and retain observed command/result truth for AC-7.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 1200,
+          "budget_tokens": 7000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "projection_recovery_integration"
+          ],
+          "parallel_group": "local",
+          "defer_reason": "Blocked until terminal and ancestral #299."
+        },
+        {
+          "lane": "projection-recovery-regression",
+          "proof_role": "Keep terminal #298/#299 and existing #291 recovery behavior green for AC-6.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 1200,
+          "budget_tokens": 4000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate5"
+          ],
+          "parallel_group": "local",
+          "defer_reason": "Blocked until terminal and ancestral #299; gate5 is read-only for #300."
+        },
+        {
+          "lane": "csdlc-v2-strict-clippy",
+          "proof_role": "Reject integration-target warning regressions for AC-8.",
+          "acceptance_ids": [
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 3000,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--workspace",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "local",
+          "defer_reason": "Blocked until terminal and ancestral #299."
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed before bind on missing/stale terminal ancestry and during proof on production API insufficiency, collision, ambiguity, fabricated authority, nondeterministic ordering, evidence loss, or unresolved findings.",
+      "design_ref": ".csdlc/prepared/issues/300/design.md",
+      "design_digest": "68001b6bad9eecd3695b504b61b70fe8f8ab757030c05f3ccd966e4f36d282ac",
+      "diagram_ref": ".csdlc/prepared/issues/300/diagram.mmd",
+      "diagram_digest": "ca70de12c02aebbab46c0c1416c2ad330199d2c6936b77417a7c2b1a594f1d15"
+    }
+  }
+}

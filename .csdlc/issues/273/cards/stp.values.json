@@ -1,0 +1,68 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 273,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1b][205.b] Add Shepherd serving-eligibility authority",
+    "slug": "shepherd-serving-eligibility",
+    "version": "v0.92",
+    "generation": 27
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Own only the Shepherd eligibility lifecycle, one non-policy verified-cut foundation API, its new module/test, and one additive serialized registration; leave Observatory, integrated proof, process/listener, UI, and cloud behavior outside scope.",
+      "deliverables": [
+        "adl-runtime/src/distributed/shepherd_serving_eligibility.rs",
+        "adl-runtime/tests/distributed_shepherd_serving_eligibility.rs",
+        "adl-runtime/src/distributed/mod.rs",
+        "adl-runtime/src/distributed/serving_authority.rs",
+        ".csdlc/prepared/issues/273/design.md",
+        ".csdlc/prepared/issues/273/diagram.mmd",
+        ".csdlc/prepared/issues/273/validate_preparation_bundle.py",
+        ".csdlc/prepared/issues/273/validate_scope.py",
+        ".csdlc/prepared/issues/273/validate_terminal.py",
+        ".csdlc/prepared/issues/273/validate_scope.py",
+        ".csdlc/prepared/issues/273/validate_terminal.py",
+        ".csdlc/evidence/273",
+        ".csdlc/issues/273"
+      ],
+      "acceptance_criteria": [
+        "AC-1: The foundation returns an unconstructible VerifiedServingAuthorityCut only after existing sealed receipt/binding verification and durable Published commit; acquire creates at most one eligible Shepherd only from that cut and a newer valid permit.",
+        "AC-2: Replace atomically supersedes the prior grant without any observable dual-eligible state; revoke and expiry permanently reject stale replay.",
+        "AC-3: Same-operation identical retry is idempotent, conflicting retry and every stale/mismatched binding fail closed without mutation.",
+        "AC-4: Restart, pending/reconciled boundaries, corruption, rollback, and capacity failure preserve the last exact committed eligibility state.",
+        "AC-5: Receipts bind the exact transition and projection exposes only bounded redacted state with no raw authority or operational secrets.",
+        "AC-6: Product changes are exactly the Shepherd module/test, one bounded additive verified-cut API in serving_authority.rs, and one additive distributed/mod.rs registration; #274 and parent #205 remain untouched; focused tests, strict Clippy, scope proof, and exact-head review pass.",
+        "AC-7: Required CI is green, typed finish creates canonical #273 terminal authority, and its merge is ancestral before #274 changes shared registration."
+      ],
+      "dependencies": [
+        "#191 terminal and ancestral",
+        "#199 terminal and ancestral",
+        "#200 terminal and ancestral",
+        "#201 terminal and ancestral",
+        "#202 terminal and ancestral",
+        "#203 terminal and ancestral",
+        "#272 terminal and ancestral",
+        "#274 shared registration waits for terminal and ancestral #273",
+        "#275 waits for terminal #273 and #274"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#273",
+        "agent-logic/agent-design-language#205 coordination graph",
+        "adl-runtime/src/distributed/serving_authority.rs from terminal #272",
+        "adl-runtime/src/distributed/mod.rs registration surface"
+      ],
+      "non_goals": [
+        "Parent #205 implementation or closeout",
+        "Any #272 modification beyond the additive non-policy verified-cut API",
+        "Observatory quorum lifecycle #274",
+        "Integrated proof #275",
+        "Process launch, listener/transport/HTTP/WSS wiring",
+        "Migration #204, UI, cloud/provider action, paid runners, or release qualification"
+      ]
+    }
+  }
+}

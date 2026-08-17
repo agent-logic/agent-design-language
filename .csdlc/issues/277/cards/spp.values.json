@@ -1,0 +1,100 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 277,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.04b][114.b] Persist conversation watermarks, idempotency, replay, and receipts",
+    "slug": "v0-92-wp-18c-04b-114-b-conversation-watermarks-idempotency-replay-receipts",
+    "version": "v0.92.0",
+    "generation": 18
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "Build the #277 continuity layer on top of the #276 journal and #270 trusted acknowledgement protocol, then prove restart/idempotency/replay/receipt behavior without absorbing downstream history/UI work.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Bootstrap #277 from live issue truth and prove #276/#270 terminal dependency gates.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Bind the dedicated FastWork branch/worktree after fresh design review approval.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-8",
+            "AC-9"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Implement Runtime continuity primitives for watermarks, idempotency, replay decisions, ambiguous dispatch, and receipts.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8",
+            "AC-9"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Run focused proof, strict relevant Rust validation, lifecycle validation, fresh exact review, publication, CI, and finish.",
+          "acceptance_ids": [
+            "AC-10"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        ".csdlc/prepared/issues/277",
+        ".csdlc/prepared/issues/277/validate_preparation_bundle.py",
+        ".csdlc/issues/277",
+        "adl-runtime-kernel/src",
+        "adl-runtime-kernel/tests"
+      ],
+      "invariants": [
+        "#277 consumes but does not redefine #276 and #270",
+        "Duplicate completed attempts cannot execute twice after restart",
+        "Ambiguous dispatch remains ambiguous until a trusted receipt or reconciliation resolves it",
+        "Definite pre-dispatch failures remain retryable",
+        "Receipts survive restart through the #276 durable journal",
+        "#278/#114/#115/UI/API/cloud work remains out of scope"
+      ],
+      "risks": [
+        "Replay logic can accidentally grow into #278 public history integration",
+        "Acknowledgement-watermark storage can accidentally redefine #270 trust if provenance boundaries are blurred",
+        "Idempotency state must distinguish ambiguous and pre-dispatch retryable cases precisely"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "#276 or #270 terminal cache or ancestry validation fails",
+        "Bind target is not the dedicated #277 FastWork worktree",
+        "Design/readiness review reports unresolved actionable findings",
+        "Scope expands into #278, #114 parent, #115, #270 trust redefinition, #276 foundation rewrite, API/UI/Observatory, browser, cloud, or provider transcript scraping"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/277/design.md",
+      "design_digest": "21c173f854c1a447865801b8992fed4658993f12c7f19ef68953d81317161b2e",
+      "diagram_ref": ".csdlc/prepared/issues/277/diagram.mmd",
+      "diagram_digest": "54db214860da4ea91991631e5167956fd9f70b3c40649c44229d80b356424f4b"
+    }
+  }
+}

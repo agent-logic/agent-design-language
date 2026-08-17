@@ -1,0 +1,47 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 363,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[C-SDLC v2][defect] Permit sequenced implemented plan-summary repair after review recovery",
+    "slug": "implemented-plan-summary-recovery-epoch",
+    "version": "v0.92",
+    "generation": 10
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Repair only sequenced Implemented plan-summary recovery authorization.",
+      "deliverables": [
+        "csdlc-v2/src/store.rs",
+        "focused csdlc-v2 store/gate tests",
+        ".csdlc/issues/363",
+        ".csdlc/prepared/issues/363",
+        ".csdlc/evidence/363"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Exact #274-style recovery then approved design SPP and VPP edits permits one typed summary correction.",
+        "AC-2: CAS actor reason cleared review publication readiness terminal and same recovery epoch are mandatory.",
+        "AC-3: Missing recovery unknown operation new review publication terminal unrelated epoch and stale CAS fail closed.",
+        "AC-4: Only SPP summary and derived audited lifecycle digests change; no generic set_field.",
+        "AC-5: Existing immediate post-recovery correction remains compatible and focused tests strict Clippy review CI finish pass."
+      ],
+      "dependencies": [
+        "#274 remains frozen",
+        "Blocks #274 and #275"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#363",
+        "csdlc-v2/src/store.rs current recovery guard",
+        "#274 gen14 through gen21 reproduction"
+      ],
+      "non_goals": [
+        "Any #274 source card or coverage edit",
+        "Generic Implemented text mutation",
+        "Review publication or terminal weakening"
+      ]
+    }
+  }
+}

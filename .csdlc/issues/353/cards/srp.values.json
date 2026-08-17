@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 353,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC v2][defect] Anchor republished review evidence to the publication commit",
+    "slug": "publication-review-anchor",
+    "version": "v0.92",
+    "generation": 5
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "csdlc-v2/src/finish.rs\ncsdlc-v2/tests/gate_finish.rs\n.csdlc/issues/353\n.csdlc/evidence/353",
+      "review_revision": "git-blake3:84256326d2a8967c599d0e8239ada8757f8f0d56:c6c98f23727699ae6b4b2e02db3bd228bab2bfc9e7b619864fe1249043b72e2b",
+      "reviewer": "fresh-session:fresh_353_impl_review",
+      "review_prompts": [
+        "Does finish anchor to a commit retaining equal canonical review?",
+        "Are reviewed substantive ancestry and governed metadata drift still independently proven?",
+        "Do null/unequal/non-governed cases fail?",
+        "Are #349/#342 untouched?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pass"
+    }
+  }
+}

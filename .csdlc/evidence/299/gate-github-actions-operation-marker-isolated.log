@@ -1,0 +1,14 @@
+HEAD 299c5bb16577fc5ae462b09a5a011311204ae0bd
+WORKTREE_STATUS_DIGEST sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+WORKTREE_STATUS_BEGIN
+CLEAN
+WORKTREE_STATUS_END
+ARGV env CARGO_TARGET_DIR=/Volumes/FastWork/adl-builds/299/csdlc-v2-github-actions-isolated-marker cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_github_actions operation_marker_is_stable_and_idempotent -- --test-threads=1
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.09s
+     Running tests/gate_github_actions.rs (/Volumes/FastWork/adl-builds/299/csdlc-v2-github-actions-isolated-marker/debug/deps/gate_github_actions-e2722390dfc8bcd5)
+
+running 1 test
+test operation_marker_is_stable_and_idempotent ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s
+STATUS 0

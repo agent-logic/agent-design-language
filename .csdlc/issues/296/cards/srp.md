@@ -1,0 +1,41 @@
+# Structured Review Prompt
+
+Template: 1.0.0
+
+Issue: 296
+
+Repository: agent-logic/agent-design-language
+
+Card: srp
+
+Status: draft
+
+## Scope
+
+csdlc-v2/tests/initialized_decomposition_recovery.rs
+.csdlc/issues/296
+
+## Prompts
+
+- Review every acceptance criterion with code, security, test, and evidence coverage, emphasizing lifecycle authority, stale approval invalidation, artifact TOCTOU and path safety, atomic SPP/VPP parity, append-only history, and exact fresh-review gating.
+
+## Findings
+
+[]
+
+## Dispositions
+
+Every actionable finding requires a terminal disposition.
+
+## Residual Risk
+
+- Review treated e6792e46c0492c36e9e6bf4e74a4e61509b7bdf8 as non-substantive review-assignment metadata over the substantive r8 remediation head.
+- Review scope was limited to the initialized decomposition recovery stale reviewer fixture and #296 lifecycle record after CI exposed the additional canonical fresh-session failure.
+
+## Review Result
+
+Revision: Some("git-blake3:946bf5b4b13a389f1c509762a284dd05ec4efc5f:0b04a6836cfb70db9ec9df1d79eb6dbf662c1ef876b75753db2485ec4b453a48")
+
+Reviewer: Some("fresh-session:7af449c4-a536-4183-845e-ebb080a66526")
+
+Result: pass

@@ -27,9 +27,9 @@ use super::{
 
 const ARTIFACT_SCHEMA: &str = "adl.authority-reconciliation.artifact.v1";
 const PROTOCOL_INSTANCE: &str = "adl.authority-reconciliation.v1";
-#[cfg(test)]
+#[cfg(any(test, debug_assertions))]
 const TEST_ADAPTER_KIND: &str = "adl.test.deterministic-authority";
-#[cfg(test)]
+#[cfg(any(test, debug_assertions))]
 const TEST_ADAPTER_VERSION: u32 = 1;
 const MAX_OPERATIONS: usize = 4_096;
 const MAX_STEPS: usize = 64;
@@ -258,8 +258,12 @@ pub enum AuthorityReconciliationPhase {
 pub struct PublishedReconciliationResult {
     operation_id: String,
     lineage_id: String,
+    adapter_kind: String,
+    adapter_version: u32,
+    mutation_kind: String,
     generation: u64,
     result: Vec<u8>,
+    receipts_sha256: [u8; 32],
     result_sha256: [u8; 32],
 }
 
@@ -272,6 +276,18 @@ impl PublishedReconciliationResult {
         &self.lineage_id
     }
 
+    pub fn adapter_kind(&self) -> &str {
+        &self.adapter_kind
+    }
+
+    pub fn adapter_version(&self) -> u32 {
+        self.adapter_version
+    }
+
+    pub fn mutation_kind(&self) -> &str {
+        &self.mutation_kind
+    }
+
     pub fn generation(&self) -> u64 {
         self.generation
     }
@@ -282,6 +298,10 @@ impl PublishedReconciliationResult {
 
     pub fn result_sha256(&self) -> [u8; 32] {
         self.result_sha256
+    }
+
+    pub fn receipts_sha256(&self) -> [u8; 32] {
+        self.receipts_sha256
     }
 }
 
@@ -447,6 +467,39 @@ impl AuthorityReconciliationBarrier {
             && operation.marker_written
             && exact_view(operation, view).is_ok())
         .then(|| published_result(operation))
+    }
+
+    /// Publishes deterministic reconciliation authority for integration tests.
+    ///
+    /// This does not expose a raw store or manufacture an authority-bound store;
+    /// callers must still pass through the authority store adapter registry after
+    /// publishing the same reconciliation artifact used by production.
+    #[cfg(feature = "internal-test-fixtures")]
+    #[doc(hidden)]
+    pub fn publish_internal_test_fixture(
+        &mut self,
+        operation_id: &str,
+        artifact: AuthorityReconciliationArtifact,
+        committed_log_index: u64,
+        finalization_time: CanonicalAuthorityTime,
+    ) -> AuthorityReconciliationResult<PublishedReconciliationResult> {
+        use super::authority_protocol::test_published_reconciliation_token;
+
+        let identity = AuthorityNodeIdentity {
+            trust_domain: self.identity.trust_domain.clone(),
+            polis_id: self.identity.polis_id.clone(),
+            node_id: self.identity.node_id.clone(),
+            guardian_id: self.identity.guardian_id.clone(),
+            boot_generation: self.identity.boot_generation,
+        };
+        let token = test_published_reconciliation_token(
+            identity,
+            operation_id,
+            artifact.committed_artifact()?,
+            committed_log_index,
+            finalization_time,
+        );
+        self.reconcile(&token)
     }
 
     /// Denial-only compatibility surface. Raw bytes can never be promoted to
@@ -858,10 +911,42 @@ fn execute_registered_step(
     {
         return execute_test_step(operation, index);
     }
-    #[cfg(not(test))]
+    #[cfg(all(debug_assertions, not(test)))]
+    if operation.adapter_kind == TEST_ADAPTER_KIND
+        && operation.adapter_version == TEST_ADAPTER_VERSION
+    {
+        return execute_debug_step(operation, index);
+    }
+    #[cfg(not(any(test, debug_assertions)))]
     let _ = operation;
     let _ = index;
     Err(AuthorityReconciliationError::UnknownAdapter)
+}
+
+#[cfg(all(debug_assertions, not(test)))]
+fn execute_debug_step(
+    operation: &DurableReconciliationOperation,
+    index: usize,
+) -> AuthorityReconciliationResult<AuthorityStepReceipt> {
+    let plan = operation
+        .plan
+        .get(index)
+        .ok_or(AuthorityReconciliationError::ReceiptMismatch)?;
+    Ok(AuthorityStepReceipt {
+        index: plan.index,
+        input_sha256: plan.input_sha256,
+        output_sha256: plan.expected_output_sha256,
+        receipt_sha256: domain_digest(
+            b"ADL-AUTHORITY-RECONCILIATION-STEP-RECEIPT-V1\0",
+            &(
+                operation.token_sha256,
+                operation.plan_sha256,
+                plan.index,
+                plan.input_sha256,
+                plan.expected_output_sha256,
+            ),
+        )?,
+    })
 }
 
 fn validate_receipt(
@@ -931,11 +1016,20 @@ fn exact_view(
 }
 
 fn published_result(operation: &DurableReconciliationOperation) -> PublishedReconciliationResult {
+    let receipts_sha256 = domain_digest(
+        b"ADL-AUTHORITY-RECONCILIATION-RECEIPTS-V1\0",
+        &operation.receipts,
+    )
+    .unwrap_or([0; 32]);
     PublishedReconciliationResult {
         operation_id: operation.operation_id.clone(),
         lineage_id: operation.lineage_id.clone(),
+        adapter_kind: operation.adapter_kind.clone(),
+        adapter_version: operation.adapter_version,
+        mutation_kind: operation.mutation_kind.clone(),
         generation: operation.target_generation,
         result: operation.result.clone(),
+        receipts_sha256,
         result_sha256: operation.result_sha256,
     }
 }

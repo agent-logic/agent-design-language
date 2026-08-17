@@ -1,0 +1,39 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 258,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][runtime][authority] Seal #203 authority store boundary",
+    "slug": "issue-203-authority-store-boundary-slice1",
+    "version": "v0.92",
+    "generation": 57
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Split #203 and publish the authority-store security boundary as a focused runtime remediation slice.",
+      "required_outcome": "Raw certificate, lease, and fencing store access is sealed behind typed authority access tokens; authority-bound adapter and published receipt view are reviewable without the broader #203 transport/peripheral/lifecycle monolith.",
+      "declared_scope": [
+        "adl-runtime/src/distributed/authority_store_adapters.rs",
+        "adl-runtime/src/distributed/certificates.rs",
+        "adl-runtime/src/distributed/lease.rs",
+        "adl-runtime/src/distributed/fencing.rs",
+        "direct raw-store test fixture callers required to compile after sealing"
+      ],
+      "authority_boundary": [
+        "Raw store mutation/open APIs require typed authority access tokens.",
+        "Production publication still requires typed C-SDLC review and publish; Gemini review is advisory evidence only.",
+        "No broad hosted/coverage jobs."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use bound FastWork worktree.",
+        "Use typed C-SDLC v2 lifecycle and GitHub routes.",
+        "Do not use raw gh.",
+        "Leave closeout/background bookkeeping to the background lane."
+      ]
+    }
+  }
+}

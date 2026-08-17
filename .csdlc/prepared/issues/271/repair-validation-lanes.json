@@ -1,0 +1,16 @@
+{
+  "issue": 271,
+  "card": "vpp",
+  "expected_generation": 0,
+  "expected_digest": "6f3d25d477863812746ec22cd414a3f19ddd2b001b6f6583ae80abb5e59d59e3",
+  "actor": "codex:issue-271-preparation",
+  "reason": "Keep every initialized lane executable before product targets exist; bind AC-7 to preparation readiness while preserving fresh design and exact-head implementation review as separate typed lifecycle gates.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {"lane":"dependency-scope-and-review-readiness","proof_role":"Prove canonical terminal dependencies, exact current-main base, declared path scope, and a deterministic packet ready for separate fresh design review.","acceptance_ids":["AC-1","AC-5","AC-7"],"deterministic":true,"resource_profile":"small","budget_seconds":120,"budget_tokens":3000,"argv":["python3",".csdlc/prepared/issues/271/validate_preparation_bundle.py"],"parallel_group":"271-serial-01","defer_reason":null},
+      {"lane":"observatory-browser-proof","proof_role":"Exercise actual Observatory assets against delivered, refused, failed, revoked, recovery, accessibility, and redaction cases for the #270 route.","acceptance_ids":["AC-2","AC-3","AC-4","AC-6"],"deterministic":true,"resource_profile":"medium","budget_seconds":300,"budget_tokens":5000,"argv":["bash","adl/tools/validate_layer8_authority_observatory_ui.sh"],"parallel_group":"271-serial-02","defer_reason":"Deferred until bound implementation creates the exact validator target."},
+      {"lane":"diff-hygiene","proof_role":"Prove exact changed paths and clean patch.","acceptance_ids":["AC-5","AC-6"],"deterministic":true,"resource_profile":"small","budget_seconds":90,"budget_tokens":1000,"argv":["git","diff","--check"],"parallel_group":"271-serial-03","defer_reason":null}
+    ]
+  }
+}

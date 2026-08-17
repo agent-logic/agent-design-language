@@ -1,0 +1,23 @@
+{
+  "schema": "csdlc.review_assignment_request.v1",
+  "issue": 112,
+  "expected_generation": 52,
+  "expected_digest": "80f71483641ec1d21c6c5ca302161567e7cc2aa60500d6ad88c2b4ea53efe4f6",
+  "reviewer": "codex-fresh-session:issue-112-final-layer8-authority-e22f7c26",
+  "assigned_by": "codex-session-112",
+  "scope": [
+    "adl-runtime-kernel/src",
+    "adl-runtime/src",
+    "adl-runtime/tests/layer8_authority.rs",
+    "adl/Cargo.lock",
+    "adl/src/csm_runtime_api.rs",
+    "adl/tests/layer8_authority_runtime_api.rs",
+    "adl/tools/validate_layer8_authority_observatory_ui.sh",
+    "demos/html-observatory",
+    "docs/milestones/v0.92/features/LAYER8_CONVERSATION_AUTHORITY.md",
+    ".csdlc/evidence/112",
+    ".csdlc/issues/112",
+    ".csdlc/prepared/issues/112",
+    ".csdlc/locks/112.lock"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 277,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.04b][114.b] Persist conversation watermarks, idempotency, replay, and receipts",
+    "slug": "v0-92-wp-18c-04b-114-b-conversation-watermarks-idempotency-replay-receipts",
+    "version": "v0.92.0",
+    "generation": 18
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl-runtime-kernel/src/conversation_continuity.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/tests/conversation_continuity.rs\n.csdlc/issues/277\n.csdlc/prepared/issues/277\n.csdlc/evidence/277",
+      "review_revision": "git-blake3:90b48719e787a3d8ce8f37032a79020c66832f62:3015d15f1dedcb03cb67be6d514f2d58146ede467875fe97f6a2bf3223f33853",
+      "reviewer": "fresh-session:c5fb85eb-5ca5-4311-9bc9-a588e8259455",
+      "review_prompts": [
+        "Does #277 own only watermarks, idempotency, replay, ambiguous-dispatch outcomes, and receipts?",
+        "Does the packet consume #276 and #270 without redefining their authority?",
+        "Are #278, #114 parent, #115, API/UI/Observatory, browser, cloud, and provider-transcript work excluded?",
+        "Is the validation plan sufficient to prove restart reconciliation, duplicate suppression, ambiguous dispatch, retryable pre-dispatch state, and receipt reconstruction?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Reviewer inspected retained proof logs rather than rerunning validation; implementation session retained local preparation validator, fmt, focused 10-test conversation_continuity target, strict Clippy, doctor, validate, and diff hygiene proof.",
+        "This issue consumes #270 trusted acknowledgement protocol and #276 journal foundation; it does not implement #278 history restoration, #114 parent integration, #115 browser behavior, or #270 trust semantics."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

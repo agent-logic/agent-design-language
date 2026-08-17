@@ -1,0 +1,45 @@
+# Structured Intent Prompt
+
+Template: 1.0.0
+
+Issue: 365
+
+Repository: agent-logic/agent-design-language
+
+Card: sip
+
+Status: ready
+
+## Goal
+
+Add minimal opaque store-derived committed projection inputs for Shepherd and Observatory eligibility so #275 cannot accept fabricated public projection values.
+
+## Required Outcome
+
+Only owning #273/#274 durable stores construct redacted sealed child projection values that bind and revalidate state receipt checkpoint generation/index provenance across restart; callers cannot construct or assemble them.
+
+## Scope
+
+- Opaque read-only committed Shepherd projection
+- Opaque read-only committed Observatory projection
+- Store-owned private construction and provenance cross-binding
+- Existing focused child tests extended for authenticity restart corruption substitution and redaction
+
+## Authority
+
+- No public or feature-gated caller constructor or conversion from public projection structs
+- Existing child transition policies are unchanged
+- Only redacted getters and canonical sealed bytes are exposed
+- #275 and #205 remain frozen until terminal ancestry
+
+## Assumptions
+
+- none
+
+## Operator Constraints
+
+- Exact base 26de2a048cea436e5140a8ab5afa7524324b3b39
+- Own exactly two existing modules and two existing focused tests
+- No mod.rs authority protocol serving_authority adapters #275 or #205 edit
+- Fresh UUID design PASS approval doctor and bind required before source mutation
+- No optional paid runner

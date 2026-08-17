@@ -1,0 +1,68 @@
+sha: 9aecbb18872036912a14d199c72a484c7ba08107
+argv: cargo test --manifest-path csdlc-v2/Cargo.toml --test gate5 -- --nocapture
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.09s
+     Running tests/gate5.rs (csdlc-v2/target/debug/deps/gate5-5b4c36b520b537e5)
+
+running 57 tests
+test guard_rejects_malformed_fixed_and_accepted_risk_evidence ... ok
+test missing_incomplete_stale_and_unresolved_review_fail_closed ... ok
+test out_of_scope_finding_must_remain_visible_and_routed ... ok
+test exact_completed_review_with_resolved_findings_is_publishable ... ok
+test guard_cli_is_read_only_and_returns_typed_truth ... ok
+test non_substantive_exception_is_narrow_and_machine_proven ... ok
+test preserved_projection_recovery_keeps_initialized_and_ready_and_291_semantics_unchanged ... ok
+test preserved_projection_recovery_classifies_without_mutation_and_rejects_symlink ... ok
+test dirty_substantive_tree_is_rejected_before_review_assignment ... ok
+test preserved_projection_recovery_blocks_ordinary_commit_on_symlinked_recovery_root ... ok
+test preserved_projection_recovery_blocks_ordinary_commit_until_typed_recovery ... ok
+test preserved_projection_recovery_classifies_hardlink_as_unsafe ... ok
+test direct_exact_review_records_and_advances_without_assignment ... ok
+test metadata_only_changes_do_not_stale_a_clean_review ... ok
+test preserved_projection_recovery_rejects_extra_node_directory ... ok
+test assignment_and_recording_update_index_and_srp_without_publication_side_effect ... ok
+test preserved_projection_recovery_rejects_coherent_candidate_chain_forgery ... ok
+test doctor_accepts_committed_typed_metadata_after_review ... ok
+test preserved_projection_recovery_archives_builds_installs_and_is_idempotent ... ok
+test preserved_projection_recovery_rejects_extra_node_receipt ... ok
+test preserved_projection_recovery_rejects_extra_post_terminal_directory ... ok
+test preserved_projection_recovery_rejects_extra_node_symlink ... ok
+test preserved_projection_recovery_rejects_extra_post_terminal_fifo ... ok
+test preserved_projection_recovery_rejects_extra_post_terminal_receipt ... ok
+test preserved_projection_recovery_rejects_extra_post_terminal_symlink ... ok
+test preserved_projection_recovery_rejects_forged_candidate_created_resume_before_install ... ok
+test preserved_projection_recovery_rejects_lineage_and_replacement_without_mutation ... ok
+test preserved_projection_recovery_rejects_malformed_request_classification_before_mutation ... ok
+test preserved_projection_recovery_rejects_hardlinked_terminal_receipt ... ok
+test preserved_projection_recovery_rejects_permissive_terminal_receipt ... ok
+test preserved_projection_recovery_rejects_rehashed_envelope_extension ... ok
+test preserved_projection_recovery_rejects_rehashed_intermediate_payload_forgery ... ok
+test preserved_projection_recovery_rejects_rehashed_node_created_identity_forgery ... ok
+test preserved_projection_recovery_rejects_rehashed_node_final_path_forgery ... ok
+test preserved_projection_recovery_rejects_symlinked_partial_receipt_before_resume_mutation ... ok
+test preserved_projection_recovery_rejects_rehashed_node_payload_forgery ... ok
+test preserved_projection_recovery_rejects_rehashed_node_terminal_identity_forgery ... ok
+test preserved_projection_recovery_rejects_symlinked_recovery_root ... ok
+test preserved_projection_recovery_rejects_symlinked_recovery_root_before_recover_mutation ... ok
+test preserved_projection_recovery_rejects_swapped_post_exchange_candidate ... ok
+test preserved_projection_recovery_rejects_rehashed_prepared_classification_forgery ... ok
+test implemented_review_recovery_clears_truth ... ok
+test preserved_projection_recovery_rejects_wrong_topology_and_unsafe_mode ... ok
+test substantive_revision_honors_review_scope_pathspecs ... ok
+test typed_publication_metadata_commit_does_not_stale_review_but_source_drift_does ... ok
+test preserved_projection_recovery_uses_backup_source_when_canonical_absent ... ok
+test preserved_projection_recovery_validates_terminal_receipt_chain_and_classifies_completed_attempt ... ok
+test recovered_implemented_issue_can_correct_only_stp_deliverables ... ok
+test recovered_issue_can_correct_only_the_sip_required_outcome ... ok
+test stp_deliverable_correction_rejects_projection_drift ... ok
+test preserved_projection_recovery_rejects_forged_terminal_and_broken_earlier_chain ... ok
+test recovery_bridge_emits_cleanup_authority_consumed_by_cleanup ... ok
+test reviewed_dirty_state_is_diagnosed_and_recoverable_for_clean_rereview ... ok
+test preserved_projection_recovery_rejects_post_validation_root_and_attempt_swaps_before_mutation ... ok
+test recovered_issue_can_correct_only_the_spp_plan_summary ... ok
+test preserved_projection_recovery_restarts_nonexchange_anchors_after_displacement ... ok
+test preserved_projection_recovery_resumes_every_recovery_boundary has been running for over 60 seconds
+test preserved_projection_recovery_resumes_every_recovery_boundary ... ok
+
+test result: ok. 57 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 113.80s
+
+status: 0

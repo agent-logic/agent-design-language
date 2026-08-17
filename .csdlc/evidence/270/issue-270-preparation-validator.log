@@ -1,0 +1,1 @@
+{"dependency_states": {"270": "open"}, "execution_ready": true, "generation": 11, "issue": 270, "phase": "bound", "schema": "adl.issue_270.preparation_validator.v1", "status": "passed", "terminal_merges": {"112": "6172bfb067bd45ec231fbc2635e7efbb718ef415", "265": "301080a40c91c6882f34fead3c742524467c056d"}}

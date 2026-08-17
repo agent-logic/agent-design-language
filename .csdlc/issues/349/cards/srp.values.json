@@ -1,0 +1,33 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 349,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC v2][defect] Keep deferred-validator admission consistent across ready transition",
+    "slug": "deferred-validator-ready-consistency",
+    "version": "v0.92",
+    "generation": 12
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "csdlc-v2/src/cards.rs\ncsdlc-v2/tests/gate2.rs\n.csdlc/issues/349\n.csdlc/evidence/349",
+      "review_revision": "git-blake3:14c6771d1d7710423bd14f371e50daf00fa903ac:60c25fcac61ad441a91c4929b8861bc1d2afb087e561af068f08eb7a51e0cb39",
+      "reviewer": "/root/issue_349_prepare/fresh_postpub_review",
+      "review_prompts": [
+        "Does the design preserve every #79 exact-path and fail-closed predicate?",
+        "Is deferred admission limited exactly to initialized and ready before bind?",
+        "Does the regression follow doctor's actual advertised advance_ready sequence?",
+        "Can any bound or later packet misinterpret deferred planning as execution proof?",
+        "Is #342 completely read-only and outside all owned paths?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Recovery review was read-only and did not rerun validation; substantive implementation is byte-identical and historical PR #352 proving CI was green, but republished metadata requires renewed hosted observation."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

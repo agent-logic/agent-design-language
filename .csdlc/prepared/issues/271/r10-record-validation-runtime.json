@@ -1,0 +1,25 @@
+{
+  "issue": 271,
+  "card": "sor",
+  "expected_generation": 5,
+  "expected_digest": "bac4aac194f543075724e2b97a6a212250d27ef1f3d117b07d553c8683a719b7",
+  "actor": "codex:sprint5-271-validation",
+  "reason": "Record #271 validation: Existing Runtime recipient-acknowledgement handler proof with nonzero denominator",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "cargo",
+        "test",
+        "--manifest-path",
+        "adl-runtime-kernel/Cargo.toml",
+        "recipient_acknowledgement",
+        "--",
+        "--nocapture"
+      ],
+      "purpose": "Existing Runtime recipient-acknowledgement handler proof with nonzero denominator",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/evidence/271/runtime-recipient-acknowledgement.log; 5 passed, 0 failed"
+    }
+  }
+}

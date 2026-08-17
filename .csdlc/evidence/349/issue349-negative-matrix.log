@@ -1,0 +1,8 @@
+
+running 1 test
+test deferred_rust_path_harness_admission_fails_closed_for_each_missing_predicate ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 6 filtered out; finished in 5.85s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.08s
+     Running tests/gate2.rs (csdlc-v2/target/debug/deps/gate2-9bb4b4c54bebd02b)

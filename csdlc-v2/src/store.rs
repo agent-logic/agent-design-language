@@ -6,11 +6,12 @@ use std::path::{Path, PathBuf};
 use fs2::FileExt;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
+use sha2::{Digest, Sha256};
 
 use crate::cards::{
     apply, digest, initial_cards, render, terminal_validation_passed, validate_cross_card,
-    validate_result, CardContent, CardKind, CardStatus, CardValues, InitialCardInput,
-    SemanticOperation, StepStatus, ValidationResult,
+    validate_identity_version, validate_result, CardContent, CardKind, CardStatus, CardValues,
+    InitialCardInput, SemanticOperation, StepStatus, ValidationResult,
 };
 use crate::error::{ErrorCode, Result, V2Error};
 use crate::model::{
@@ -63,6 +64,12 @@ impl Store {
         self.root
             .join(".csdlc/issues")
             .join(format!(".{issue}.backup"))
+    }
+
+    pub fn rollback_preserved(&self, issue: u64) -> PathBuf {
+        self.root
+            .join(".csdlc/issues")
+            .join(format!(".{issue}.rollback-preserved"))
     }
 
     fn staging_dir(&self, issue: u64) -> PathBuf {
@@ -215,6 +222,40 @@ impl Store {
         Ok(Some(receipt))
     }
 
+    pub(crate) fn load_legacy_terminal_receipt_projection_match(
+        &self,
+        issue: u64,
+    ) -> Result<Option<bool>> {
+        let path = self.terminal_receipt_path(issue)?;
+        let (common, relative) = self.git_common_relative(&path)?;
+        let Some(metadata) = canonical_path_metadata_beneath(&common, &relative)? else {
+            return Ok(None);
+        };
+        if !metadata.is_file() {
+            return Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                format!(
+                    "terminal receipt is not a canonical regular file: {}",
+                    path.display()
+                ),
+            ));
+        }
+        let receipt: TerminalReceipt = read_json(&path)?;
+        if receipt.schema != "csdlc.terminal_receipt.v1"
+            || receipt.issue != issue
+            || receipt.issue != receipt.record.issue
+            || receipt.repository != receipt.record.repository
+            || receipt.initialization_digest != receipt.record.initialization_digest
+            || receipt.receipt_ref != format!("csdlc-v2/closeout/{issue}.json")
+        {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "legacy terminal receipt identity is invalid",
+            ));
+        }
+        Ok(Some(self.legacy_receipt_matches_projection(&receipt)?))
+    }
+
     fn legacy_receipt_matches_projection(&self, receipt: &TerminalReceipt) -> Result<bool> {
         let local = self.load_record(receipt.issue)?;
         let cards = self.load_cards(receipt.issue)?;
@@ -249,7 +290,86 @@ impl Store {
     }
 
     fn recover_if_needed(&self, issue: u64) -> Result<()> {
-        self.recover_local_transaction(issue)
+        let recovery_root = self
+            .root
+            .join(".csdlc/issues")
+            .join(format!(".{issue}.recovery"));
+        let recovery_root = match recovery_root.symlink_metadata() {
+            Ok(_) => Some(crate::projection_recovery::open_private_recovery_dir(
+                &recovery_root,
+                "recovery root",
+                None,
+            )?),
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => None,
+            Err(error) => return Err(error.into()),
+        };
+        if let Some(recovery_root) = recovery_root {
+            for name in recovery_root.names()? {
+                let operation = name.to_str().unwrap_or_default();
+                let attempt = match recovery_root.open_child(&name, "recovery attempt") {
+                    Ok(attempt) => attempt,
+                    Err(error) => {
+                        if crate::projection_recovery::is_authorized_cleanup_ledger_entry(
+                            self,
+                            issue,
+                            &recovery_root,
+                            operation,
+                        )? {
+                            continue;
+                        }
+                        return Err(error);
+                    }
+                };
+                if let Err(error) =
+                    crate::projection_recovery::validate_completed_recovery_attempt_from_dir(
+                        self, issue, &attempt, operation,
+                    )
+                {
+                    return Err(V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        format!("incomplete typed projection recovery must reach verified RECOVERED before ordinary commit: {}", error.message),
+                    ));
+                }
+            }
+        }
+        self.recover_local_transaction(issue)?;
+        self.recover_initialized_recovery_journal(issue)
+    }
+
+    fn initialized_recovery_journal_root(&self, issue: u64) -> PathBuf {
+        self.root
+            .join(".csdlc/issues")
+            .join(format!(".{issue}.recovery-journal"))
+    }
+
+    fn recover_initialized_recovery_journal(&self, issue: u64) -> Result<()> {
+        let journal_root = self.initialized_recovery_journal_root(issue);
+        if !journal_root.exists() {
+            return Ok(());
+        }
+        for entry in fs::read_dir(&journal_root)? {
+            let entry = entry?;
+            let transaction = entry.path();
+            if !entry.file_type()?.is_dir() {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "initialized recovery journal contains a non-directory entry",
+                ));
+            }
+            let prepared = transaction.join("manifest.prepared.json");
+            if !prepared.exists() {
+                fs::remove_dir_all(&transaction)?;
+                continue;
+            }
+            let manifest: InitializedRecoveryJournalManifest = read_json(&prepared)?;
+            roll_forward_initialized_recovery(self, &transaction, &manifest)?;
+            fs::write(transaction.join("commit.marker"), b"committed\n")?;
+            fs::remove_dir_all(&transaction)?;
+        }
+        if fs::read_dir(&journal_root)?.next().is_none() {
+            fs::remove_dir(&journal_root)?;
+        }
+        Ok(())
     }
 
     fn commit(
@@ -259,7 +379,25 @@ impl Store {
         cards: &BTreeMap<CardKind, CardValues>,
         fail_after_backup: bool,
     ) -> Result<()> {
-        self.commit_with_authored(issue, record, cards, fail_after_backup, None)
+        self.commit_with_authored(issue, record, cards, fail_after_backup, None, None)
+    }
+
+    fn commit_verified(
+        &self,
+        issue: u64,
+        record: &IssueRecord,
+        cards: &BTreeMap<CardKind, CardValues>,
+        fail_after_backup: bool,
+        verifier: &mut dyn FnMut() -> Result<()>,
+    ) -> Result<()> {
+        self.commit_with_authored(
+            issue,
+            record,
+            cards,
+            fail_after_backup,
+            None,
+            Some(verifier),
+        )
     }
 
     fn commit_with_authored(
@@ -269,10 +407,18 @@ impl Store {
         cards: &BTreeMap<CardKind, CardValues>,
         fail_after_backup: bool,
         authored_overrides: Option<&BTreeMap<String, String>>,
+        mut verifier: Option<&mut dyn FnMut() -> Result<()>>,
     ) -> Result<()> {
         let current = self.issue_dir(issue);
         let staging = self.staging_dir(issue);
         let backup = self.interrupted_backup(issue);
+        let rollback_preserved = self.rollback_preserved(issue);
+        if rollback_preserved.symlink_metadata().is_ok() {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "preserved failed projection requires typed classification and recovery",
+            ));
+        }
         if staging.exists() {
             fs::remove_dir_all(&staging)?;
         }
@@ -292,12 +438,17 @@ impl Store {
                 if let Some(contents) =
                     authored_overrides.and_then(|overrides| overrides.get(authored_path))
                 {
-                    let mut file = File::create(destination)?;
+                    let mut file = File::create(&destination)?;
                     file.write_all(contents.as_bytes())?;
                     file.sync_all()?;
                 } else if source.is_file() {
-                    fs::copy(source, destination)?;
+                    fs::copy(source, &destination)?;
+                    File::open(&destination)?.sync_all()?;
                 }
+                sync_dirs_through(
+                    destination.parent().expect("authored destination parent"),
+                    &staging,
+                )?;
             }
         }
         if let Some(overrides) = authored_overrides {
@@ -314,9 +465,13 @@ impl Store {
                     if let Some(parent) = staged.parent() {
                         fs::create_dir_all(parent)?;
                     }
-                    let mut file = File::create(staged)?;
+                    let mut file = File::create(&staged)?;
                     file.write_all(contents.as_bytes())?;
                     file.sync_all()?;
+                    sync_dirs_through(
+                        staged.parent().expect("authored override parent"),
+                        &staging,
+                    )?;
                 }
             }
         }
@@ -347,6 +502,12 @@ impl Store {
                     contents.as_bytes(),
                     "authored-commit-tmp",
                 )?;
+            }
+        }
+        if let Some(verify) = verifier.as_mut() {
+            if let Err(error) = verify() {
+                preserve_failed_projection_and_restore(&current, &backup, &rollback_preserved)?;
+                return Err(error);
             }
         }
         if backup.exists() {
@@ -383,6 +544,216 @@ impl Store {
         let cards = self.load_cards(issue)?;
         verify_cards(self, &current, &cards)?;
         self.commit(issue, record, &cards, false)
+    }
+
+    #[allow(dead_code)] // Retained compatibility wrapper; live recovery uses descriptor-read bytes.
+    pub(crate) fn projection_recovery_candidate_files_locked(
+        &self,
+        issue: u64,
+        source: &Path,
+        expected_digest: &str,
+        actor: String,
+        reason: String,
+        operation: String,
+    ) -> Result<(IssueRecord, BTreeMap<String, Vec<u8>>)> {
+        let mut record: IssueRecord = read_json(&source.join("index.json"))?;
+        if record.issue != issue {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "recovery source projection namespace mismatch",
+            ));
+        }
+        if record.digest != expected_digest {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "record changed before recovery audit commit",
+            ));
+        }
+        let mut cards = BTreeMap::new();
+        for kind in enum_iterator() {
+            cards.insert(
+                kind,
+                read_json(&source.join("cards").join(format!("{kind}.values.json")))?,
+            );
+        }
+        verify_record(&record)?;
+        for (kind, values) in &cards {
+            let rendered = render(values)?;
+            let projection = record.cards.get(kind).ok_or_else(|| {
+                V2Error::new(
+                    ErrorCode::CorruptRecord,
+                    format!("missing {kind} projection"),
+                )
+            })?;
+            if values.kind() != *kind
+                || values.identity.issue != record.issue
+                || values.identity.repository != record.repository
+                || values.identity.generation != record.generation
+                || projection.values_digest != rendered.values_digest
+                || projection.rendered_digest != rendered.rendered_digest
+                || projection.ast_digest != rendered.ast_digest
+                || digest(&fs::read(source.join("cards").join(format!("{kind}.md")))?)
+                    != rendered.rendered_digest
+            {
+                return Err(V2Error::new(
+                    ErrorCode::CorruptRecord,
+                    format!("recovery source {kind} projection drift"),
+                ));
+            }
+        }
+        let mut expected_audit = Vec::new();
+        for event in &record.audit {
+            serde_json::to_writer(&mut expected_audit, event)?;
+            expected_audit.push(b'\n');
+        }
+        if fs::read(source.join("audit.jsonl"))? != expected_audit {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "recovery source audit projection drift",
+            ));
+        }
+        validate_updated_cards(self, &record, &cards)?;
+        record.generation += 1;
+        for values in cards.values_mut() {
+            values.identity.generation = record.generation;
+        }
+        record.audit.push(AuditEvent {
+            sequence: record.audit.len() as u64 + 1,
+            generation: record.generation,
+            actor,
+            reason,
+            operation,
+        });
+        hydrate_projections(&mut record, &cards)?;
+        record.digest = record_digest(&record)?;
+        let mut files = BTreeMap::new();
+        let mut index = serde_json::to_vec_pretty(&record)?;
+        index.push(b'\n');
+        files.insert("index.json".into(), index);
+        let mut audit = Vec::new();
+        for event in &record.audit {
+            serde_json::to_writer(&mut audit, event)?;
+            audit.push(b'\n');
+        }
+        files.insert("audit.jsonl".into(), audit);
+        for (kind, values) in &cards {
+            let mut value_bytes = serde_json::to_vec_pretty(values)?;
+            value_bytes.push(b'\n');
+            files.insert(format!("cards/{kind}.values.json"), value_bytes);
+            files.insert(
+                format!("cards/{kind}.md"),
+                render(values)?.markdown.into_bytes(),
+            );
+        }
+        Ok((record, files))
+    }
+
+    pub(crate) fn projection_recovery_candidate_files_from_bytes_locked(
+        &self,
+        issue: u64,
+        source: &BTreeMap<String, Vec<u8>>,
+        expected_digest: &str,
+        actor: String,
+        reason: String,
+        operation: String,
+    ) -> Result<(IssueRecord, BTreeMap<String, Vec<u8>>)> {
+        let mut record: IssueRecord =
+            serde_json::from_slice(source.get("index.json").ok_or_else(|| {
+                V2Error::new(ErrorCode::CorruptRecord, "recovery source index missing")
+            })?)?;
+        if record.issue != issue || record.digest != expected_digest {
+            return Err(V2Error::new(
+                ErrorCode::StaleDigest,
+                "recovery source identity or digest changed",
+            ));
+        }
+        let mut cards = BTreeMap::new();
+        for kind in enum_iterator() {
+            let key = format!("cards/{kind}.values.json");
+            cards.insert(
+                kind,
+                serde_json::from_slice(source.get(&key).ok_or_else(|| {
+                    V2Error::new(
+                        ErrorCode::CorruptRecord,
+                        format!("recovery source {kind} missing"),
+                    )
+                })?)?,
+            );
+        }
+        verify_record(&record)?;
+        for (kind, values) in &cards {
+            let rendered = render(values)?;
+            let projection = record.cards.get(kind).ok_or_else(|| {
+                V2Error::new(
+                    ErrorCode::CorruptRecord,
+                    format!("missing {kind} projection"),
+                )
+            })?;
+            if values.kind() != *kind
+                || values.identity.issue != record.issue
+                || values.identity.repository != record.repository
+                || values.identity.generation != record.generation
+                || projection.values_digest != rendered.values_digest
+                || projection.rendered_digest != rendered.rendered_digest
+                || projection.ast_digest != rendered.ast_digest
+                || digest(source.get(&format!("cards/{kind}.md")).ok_or_else(|| {
+                    V2Error::new(
+                        ErrorCode::CorruptRecord,
+                        format!("recovery source {kind} markdown missing"),
+                    )
+                })?) != rendered.rendered_digest
+            {
+                return Err(V2Error::new(
+                    ErrorCode::CorruptRecord,
+                    format!("recovery source {kind} projection drift"),
+                ));
+            }
+        }
+        let mut expected_audit = Vec::new();
+        for event in &record.audit {
+            serde_json::to_writer(&mut expected_audit, event)?;
+            expected_audit.push(b'\n');
+        }
+        if source.get("audit.jsonl") != Some(&expected_audit) {
+            return Err(V2Error::new(
+                ErrorCode::CorruptRecord,
+                "recovery source audit projection drift",
+            ));
+        }
+        validate_updated_cards(self, &record, &cards)?;
+        record.generation += 1;
+        for values in cards.values_mut() {
+            values.identity.generation = record.generation;
+        }
+        record.audit.push(AuditEvent {
+            sequence: record.audit.len() as u64 + 1,
+            generation: record.generation,
+            actor,
+            reason,
+            operation,
+        });
+        hydrate_projections(&mut record, &cards)?;
+        record.digest = record_digest(&record)?;
+        let mut files = BTreeMap::new();
+        let mut index = serde_json::to_vec_pretty(&record)?;
+        index.push(b'\n');
+        files.insert("index.json".into(), index);
+        let mut audit = Vec::new();
+        for event in &record.audit {
+            serde_json::to_writer(&mut audit, event)?;
+            audit.push(b'\n');
+        }
+        files.insert("audit.jsonl".into(), audit);
+        for (kind, values) in &cards {
+            let mut value_bytes = serde_json::to_vec_pretty(values)?;
+            value_bytes.push(b'\n');
+            files.insert(format!("cards/{kind}.values.json"), value_bytes);
+            files.insert(
+                format!("cards/{kind}.md"),
+                render(values)?.markdown.into_bytes(),
+            );
+        }
+        Ok((record, files))
     }
 
     pub(crate) fn replace_pre_topology_record_locked(
@@ -776,6 +1147,44 @@ impl Store {
         Ok((record, evidence))
     }
 
+    pub(crate) fn commit_initialized_code_repository_migration(
+        &self,
+        request: &crate::migration::InitializedCodeRepositoryMigrationRequest,
+    ) -> Result<(
+        IssueRecord,
+        crate::migration::InitializedCodeRepositoryMigrationEvidence,
+    )> {
+        let _lock = self.lock(request.issue)?;
+        self.recover_if_needed(request.issue)?;
+        let mut record = self.load_record(request.issue)?;
+        let mut cards = self.load_cards(request.issue)?;
+        verify_cards(self, &record, &cards)?;
+        authorize_initialized_code_repository_migration(&self.root, &record, request)?;
+
+        // Re-read and reauthorize immediately before mutation while both the
+        // binding and issue locks remain held.
+        record = self.load_record(request.issue)?;
+        let evidence =
+            authorize_initialized_code_repository_migration(&self.root, &record, request)?;
+        record.code_repository = Some(request.code_repository.clone());
+        record.generation += 1;
+        for values in cards.values_mut() {
+            values.identity.generation = record.generation;
+        }
+        record.audit.push(AuditEvent {
+            sequence: record.audit.len() as u64 + 1,
+            generation: record.generation,
+            actor: request.actor.clone(),
+            reason: request.reason.clone(),
+            operation: serde_json::to_string(&evidence)?,
+        });
+        validate_updated_cards(self, &record, &cards)?;
+        hydrate_projections(&mut record, &cards)?;
+        record.digest = record_digest(&record)?;
+        self.commit(request.issue, &record, &cards, false)?;
+        Ok((record, evidence))
+    }
+
     pub(crate) fn commit_publication(
         &self,
         issue: u64,
@@ -1061,6 +1470,86 @@ impl Store {
         }
         let mut cards = self.load_cards(issue)?;
         verify_cards(self, &record, &cards)?;
+        let (design_ref, design_digest, diagram_ref, diagram_digest) =
+            match &cards[&CardKind::Spp].content {
+                CardContent::Spp(values) => (
+                    values.design_ref.clone(),
+                    values.design_digest.clone(),
+                    values.diagram_ref.clone(),
+                    values.diagram_digest.clone(),
+                ),
+                _ => unreachable!("SPP"),
+            };
+        let refresh_used = record.audit.iter().any(|event| {
+            event
+                .operation
+                .contains("refresh_authored_design_after_recovery")
+        });
+        let tuple_approved = !refresh_used
+            || record
+                .audit
+                .iter()
+                .rev()
+                .find_map(|event| {
+                    let value: serde_json::Value = serde_json::from_str(&event.operation).ok()?;
+                    (value["operation"] == "approve_design").then_some(value)
+                })
+                .is_some_and(|value| {
+                    value["design_ref"] == record.design_path
+                        && value["design_digest"] == design_digest
+                        && value["diagram_ref"] == record.diagram_path
+                        && value["diagram_digest"] == diagram_digest
+                });
+        if !matches!(&record.design_review, DesignReview::Approved { revision, .. } if revision == &design_digest)
+            || !tuple_approved
+            || authored_digest(self, &record.design_path)? != design_digest
+            || authored_digest(self, &record.diagram_path)? != diagram_digest
+        {
+            return Err(V2Error::new(
+                ErrorCode::InvalidTransition,
+                "review assignment requires current approved authored design tuple at commit",
+            ));
+        }
+        let mut design_artifact = retain_authored_artifact(self.root(), Path::new(&design_ref))?;
+        let mut diagram_artifact = retain_authored_artifact(self.root(), Path::new(&diagram_ref))?;
+        if design_artifact.verify()? != design_digest
+            || diagram_artifact.verify()? != diagram_digest
+        {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "review assignment authored tuple changed before commit",
+            ));
+        }
+        let registered = record.worktree.as_ref().ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "review assignment lost registered worktree at commit",
+            )
+        })?;
+        let branch = record.branch.as_ref().ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "review assignment lost registered branch at commit",
+            )
+        })?;
+        if fs::canonicalize(self.root())? != fs::canonicalize(registered)?
+            || crate::git::current_branch(self.root())? != *branch
+        {
+            return Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "review assignment topology changed before commit",
+            ));
+        }
+        let final_head = crate::git::run(self.root(), &["rev-parse", "HEAD"])?.stdout;
+        let final_revision = crate::git::substantive_revision(self.root(), &assignment.scope)?;
+        if final_revision != assignment.revision
+            || final_revision != crate::git::clean_commit_revision(&final_head)
+        {
+            return Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "review assignment HEAD or substantive revision changed before commit",
+            ));
+        }
         let actor = assignment.assigned_by.clone();
         let srp = match &mut cards.get_mut(&CardKind::Srp).expect("SRP").content {
             CardContent::Srp(values) => values,
@@ -1078,7 +1567,23 @@ impl Store {
         });
         hydrate_projections(&mut record, &cards)?;
         record.digest = record_digest(&record)?;
-        self.commit(issue, &record, &cards, false)?;
+        let expected_design = design_digest;
+        let expected_diagram = diagram_digest;
+        let issue_dir = self.issue_dir(issue);
+        let mut verifier = || {
+            if design_artifact.verify_after_projection_swap(self.root(), &issue_dir)?
+                != expected_design
+                || diagram_artifact.verify_after_projection_swap(self.root(), &issue_dir)?
+                    != expected_diagram
+            {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "review assignment authored tuple changed across commit",
+                ));
+            }
+            Ok(())
+        };
+        self.commit_verified(issue, &record, &cards, false, &mut verifier)?;
         Ok(record)
     }
 
@@ -1294,6 +1799,147 @@ fn authorize_code_repository_migration(
     })
 }
 
+fn authorize_initialized_code_repository_migration(
+    root: &Path,
+    record: &IssueRecord,
+    request: &crate::migration::InitializedCodeRepositoryMigrationRequest,
+) -> Result<crate::migration::InitializedCodeRepositoryMigrationEvidence> {
+    if record.issue != request.issue || record.repository != request.source_issue_repository {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "initialized code repository migration issue identity does not match",
+        ));
+    }
+    if record.digest != request.expected_digest {
+        return Err(V2Error::new(
+            ErrorCode::StaleDigest,
+            "initialized code repository migration digest is stale",
+        ));
+    }
+    if record.generation != request.expected_generation {
+        return Err(V2Error::new(
+            ErrorCode::StaleGeneration,
+            "initialized code repository migration generation is stale",
+        ));
+    }
+    if record.phase != LifecyclePhase::Initialized {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "initialized code repository migration requires initialized phase",
+        ));
+    }
+    if record.code_repository.is_some() {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "initialized code repository migration requires an absent code_repository",
+        ));
+    }
+    if record.branch.is_some()
+        || record.worktree.is_some()
+        || record.review_assignment.is_some()
+        || record.review.is_some()
+        || record.publication.is_some()
+        || record.readiness.is_some()
+        || record.terminal.is_some()
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "initialized code repository migration requires unbound topology and no later lifecycle evidence",
+        ));
+    }
+    let evidence_path = root.join(&request.canonical_issue_collision_evidence_ref);
+    let evidence_bytes = fs::read(&evidence_path)?;
+    let evidence_digest = crate::cards::digest(&evidence_bytes);
+    if evidence_digest != request.canonical_issue_collision_evidence_digest {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "canonical issue collision evidence digest does not match request",
+        ));
+    }
+    let collision: crate::migration::InitializedCodeRepositoryCollisionEvidence =
+        serde_json::from_slice(&evidence_bytes)?;
+    if collision.schema != "csdlc.initialized_code_repository_collision_evidence.v1"
+        || collision.source_issue_repository != request.source_issue_repository
+        || collision.source_issue != request.issue
+        || !collision
+            .target_code_repository
+            .eq_ignore_ascii_case(&request.code_repository)
+        || collision.observed_state.trim().is_empty()
+        || collision.operation_key.trim().is_empty()
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "canonical issue collision evidence does not match request",
+        ));
+    }
+    match collision.disposition {
+        crate::migration::InitializedCanonicalCollisionDisposition::SameNumberAbsent => {
+            if collision.target_same_number_issue.is_some() {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "same-number-absent collision evidence must not name a target issue",
+                ));
+            }
+        }
+        crate::migration::InitializedCanonicalCollisionDisposition::SameNumberNonAuthoritative
+        | crate::migration::InitializedCanonicalCollisionDisposition::SameNumberSuccessor => {
+            if collision.target_same_number_issue != Some(request.issue) {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "same-number collision evidence must name the matching target issue number",
+                ));
+            }
+        }
+    }
+    let origins = crate::git::github_remote_repositories(root, "origin")?.ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "initialized code repository migration requires an origin remote",
+        )
+    })?;
+    let mut identities = origins.fetch.iter().chain(&origins.push);
+    let canonical = identities.next().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "origin repository identity is unavailable",
+        )
+    })?;
+    if identities.any(|identity| !identity.eq_ignore_ascii_case(canonical))
+        || !request.code_repository.eq_ignore_ascii_case(canonical)
+    {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "requested code repository does not match every origin fetch and push identity",
+        ));
+    }
+    Ok(
+        crate::migration::InitializedCodeRepositoryMigrationEvidence {
+            schema: "csdlc.initialized_code_repository_migration_evidence.v1".into(),
+            issue: record.issue,
+            actor: request.actor.clone(),
+            reason: request.reason.clone(),
+            pre_generation: record.generation,
+            pre_digest: record.digest.clone(),
+            previous_code_repository: None,
+            source_issue_repository: request.source_issue_repository.clone(),
+            requested_repository: request.code_repository.clone(),
+            canonical_issue_collision_evidence_ref: request
+                .canonical_issue_collision_evidence_ref
+                .clone(),
+            canonical_issue_collision_evidence_digest: request
+                .canonical_issue_collision_evidence_digest
+                .clone(),
+            canonical_issue_collision_disposition: collision.disposition.clone(),
+            cross_repository_authority_disposition:
+                "legacy_issue_authority_with_canonical_code_repository".into(),
+            topology_state: "initialized_unbound".into(),
+            phase: record.phase,
+            branch: None,
+            worktree: None,
+        },
+    )
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
 #[serde(deny_unknown_fields)]
 pub struct BootstrapRequest {
@@ -1327,6 +1973,157 @@ pub struct ApproveDesignRequest {
     pub expected_generation: u64,
     pub expected_digest: String,
     pub reviewer: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct RecoverDesignReviewRequest {
+    pub issue: u64,
+    pub expected_phase: LifecyclePhase,
+    pub expected_generation: u64,
+    pub expected_digest: String,
+    pub previous_reviewer: String,
+    pub previous_revision: String,
+    pub false_reviewer: String,
+    pub actor: String,
+    pub reason: String,
+    pub disposition: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct PreservedAuthoredArtifact {
+    pub path: String,
+    pub byte_sha256: String,
+    pub authored_digest: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct DecompositionGraphNode {
+    pub node_id: String,
+    pub issue: u64,
+    pub role: String,
+    pub repository: String,
+    pub in_scope: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct DecompositionGraphEdge {
+    pub from: String,
+    pub to: String,
+    pub relation: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct DecompositionGraphInput {
+    pub nodes: Vec<DecompositionGraphNode>,
+    pub edges: Vec<DecompositionGraphEdge>,
+    pub parent_integration_owner: String,
+    #[serde(default)]
+    pub forbidden_cross_child_trust_redefinition: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct DesignReviewRecoveryTruth {
+    pub previous_review_state: DesignReview,
+    pub new_review_state: DesignReview,
+    pub false_reviewer: String,
+    pub disposition: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct InitializedDecompositionRecoveryReplacement {
+    pub title: String,
+    pub slug: String,
+    pub version: String,
+    pub goal: String,
+    pub required_outcome: String,
+    pub declared_scope: Vec<String>,
+    pub authority_boundary: Vec<String>,
+    pub initial_assumptions: Vec<String>,
+    pub operator_constraints: Vec<String>,
+    pub task_boundary: String,
+    pub deliverables: Vec<String>,
+    pub acceptance_criteria: Vec<String>,
+    pub dependencies: Vec<String>,
+    pub repo_inputs: Vec<String>,
+    pub non_goals: Vec<String>,
+    pub plan_summary: String,
+    pub plan_steps: Vec<crate::cards::PlanStep>,
+    pub affected_areas: Vec<String>,
+    pub invariants: Vec<String>,
+    pub risks: Vec<String>,
+    pub stop_conditions: Vec<String>,
+    pub replan_triggers: Vec<String>,
+    pub validation_summary: String,
+    pub validation_lanes: Vec<crate::cards::ValidationLane>,
+    pub failure_policy: String,
+    pub review_scope: String,
+    pub review_prompts: Vec<String>,
+    #[serde(default)]
+    pub residual_risk: Vec<String>,
+    pub sor_summary: String,
+    #[serde(default)]
+    pub sor_artifacts: Vec<String>,
+    #[serde(default)]
+    pub sor_validation: Vec<crate::cards::ValidationResult>,
+    #[serde(default)]
+    pub sor_follow_ups: Vec<String>,
+}
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, JsonSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum InitializedRecoveryFailurePoint {
+    BeforePreparedManifest,
+    AfterPreparedManifest,
+    AfterFirstTarget,
+    AfterCommitMarker,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct InitializedDecompositionRecoveryRequest {
+    pub issue: u64,
+    pub expected_generation: u64,
+    pub expected_digest: String,
+    pub actor: String,
+    pub reason: String,
+    pub request_root: PathBuf,
+    pub recovery_scope: Vec<String>,
+    pub preserved_design: PreservedAuthoredArtifact,
+    pub preserved_diagram: PreservedAuthoredArtifact,
+    pub graph: DecompositionGraphInput,
+    #[serde(default)]
+    pub design_review_recovery: Option<DesignReviewRecoveryTruth>,
+    pub replacements: InitializedDecompositionRecoveryReplacement,
+    #[serde(default)]
+    pub fail_at: Option<InitializedRecoveryFailurePoint>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+pub struct InitializedDecompositionRecoveryResult {
+    pub schema: String,
+    pub issue: u64,
+    pub generation: u64,
+    pub digest: String,
+    pub journal: String,
+    pub applied: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+struct InitializedRecoveryJournalManifest {
+    schema: String,
+    issue: u64,
+    generation: u64,
+    digest: String,
+    targets: Vec<InitializedRecoveryJournalTarget>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+struct InitializedRecoveryJournalTarget {
+    path: String,
+    preimage_sha256: String,
+    postimage_sha256: String,
+    blob: String,
+    len: u64,
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
@@ -2480,6 +3277,269 @@ pub fn approve_design(store: &Store, request: ApproveDesignRequest) -> Result<Is
     approve_design_with_hook(store, request, |_| {})
 }
 
+pub fn recover_design_review(
+    store: &Store,
+    request: RecoverDesignReviewRequest,
+) -> Result<IssueRecord> {
+    let _lock = store.lock(request.issue)?;
+    store.recover_if_needed(request.issue)?;
+    if request.issue == 0
+        || request.expected_digest.trim().is_empty()
+        || request.previous_reviewer.trim().is_empty()
+        || request.previous_revision.trim().is_empty()
+        || request.false_reviewer.trim().is_empty()
+        || request.actor.trim().is_empty()
+        || request.reason.trim().is_empty()
+        || request.disposition.trim().is_empty()
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "design review recovery requires exact authority, CAS, actor, reason, and disposition",
+        ));
+    }
+    if request.false_reviewer != request.previous_reviewer {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "false reviewer must equal the current approved reviewer",
+        ));
+    }
+
+    let mut record = store.load_record(request.issue)?;
+    if record.generation != request.expected_generation {
+        return Err(V2Error::new(
+            ErrorCode::StaleGeneration,
+            "design review recovery generation is stale",
+        ));
+    }
+    if record.digest != request.expected_digest {
+        return Err(V2Error::new(
+            ErrorCode::StaleDigest,
+            "design review recovery digest is stale",
+        ));
+    }
+    if record.phase != request.expected_phase
+        || !matches!(
+            record.phase,
+            LifecyclePhase::Bound | LifecyclePhase::Implemented
+        )
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "design review recovery requires the exact bound or implemented phase",
+        ));
+    }
+    if record.review_assignment.is_some()
+        || record.review.is_some()
+        || record.publication.is_some()
+        || record.readiness.is_some()
+        || record.migration.is_some()
+        || record.terminal.is_some()
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "design review recovery refuses later lifecycle authority",
+        ));
+    }
+    let (reviewer, revision) = match &record.design_review {
+        DesignReview::Approved { reviewer, revision } => (reviewer, revision),
+        _ => {
+            return Err(V2Error::new(
+                ErrorCode::InvalidTransition,
+                "design review recovery requires a current approved review",
+            ))
+        }
+    };
+    if reviewer != &request.previous_reviewer || revision != &request.previous_revision {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "design review recovery approval identity or revision does not match",
+        ));
+    }
+
+    let branch = record.branch.as_deref().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "design review recovery requires a registered branch",
+        )
+    })?;
+    let worktree = record.worktree.as_deref().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "design review recovery requires a registered worktree",
+        )
+    })?;
+    let actual_root = fs::canonicalize(store.root())?;
+    let registered_root = fs::canonicalize(worktree).map_err(|error| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            format!("registered worktree is unavailable: {error}"),
+        )
+    })?;
+    if actual_root != registered_root || crate::git::current_branch(store.root())? != branch {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "design review recovery invocation does not match registered topology",
+        ));
+    }
+    let registered = crate::git::worktrees(store.root())?
+        .into_iter()
+        .filter(|(candidate_branch, candidate_path)| {
+            candidate_branch == branch
+                && fs::canonicalize(candidate_path)
+                    .is_ok_and(|candidate| candidate == registered_root)
+        })
+        .count();
+    if registered != 1 {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "design review recovery topology is missing or ambiguous",
+        ));
+    }
+
+    let mut cards = store.load_cards(request.issue)?;
+    verify_cards(store, &record, &cards)?;
+    record.design_review = DesignReview::Pending;
+    record.generation += 1;
+    for values in cards.values_mut() {
+        values.identity.generation = record.generation;
+    }
+    record.audit.push(AuditEvent {
+        sequence: record.audit.len() as u64 + 1,
+        generation: record.generation,
+        actor: request.actor,
+        reason: serde_json::to_string(&serde_json::json!({
+            "reason": request.reason,
+            "disposition": request.disposition,
+            "previous_approval": {
+                "reviewer": request.previous_reviewer,
+                "revision": request.previous_revision,
+            },
+            "false_reviewer": request.false_reviewer,
+        }))?,
+        operation: "recover_design_review".into(),
+    });
+    hydrate_projections(&mut record, &cards)?;
+    record.digest = record_digest(&record)?;
+    store.commit(request.issue, &record, &cards, false)?;
+    Ok(record)
+}
+
+pub fn recover_initialized_decomposition(
+    store: &Store,
+    request: InitializedDecompositionRecoveryRequest,
+) -> Result<InitializedDecompositionRecoveryResult> {
+    let _lock = store.lock(request.issue)?;
+    store.recover_if_needed(request.issue)?;
+    validate_initialized_recovery_root(store, &request)?;
+    validate_initialized_recovery_request_identity(&request)?;
+    validate_decomposition_graph(request.issue, &request.graph)?;
+
+    let mut record = store.load_record(request.issue)?;
+    if record.generation != request.expected_generation {
+        return Err(V2Error::new(
+            ErrorCode::StaleGeneration,
+            "initialized decomposition recovery generation is stale",
+        ));
+    }
+    if record.digest != request.expected_digest {
+        return Err(V2Error::new(
+            ErrorCode::StaleDigest,
+            "initialized decomposition recovery digest is stale",
+        ));
+    }
+    if record.phase != LifecyclePhase::Initialized {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "initialized decomposition recovery requires initialized phase",
+        ));
+    }
+    if record.branch.is_some()
+        || record.worktree.is_some()
+        || record.review_assignment.is_some()
+        || record.review.is_some()
+        || record.publication.is_some()
+        || record.readiness.is_some()
+        || record.migration.is_some()
+        || record.terminal.is_some()
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "initialized decomposition recovery requires unbound nonterminal issue state",
+        ));
+    }
+
+    let mut cards = store.load_cards(request.issue)?;
+    verify_cards(store, &record, &cards)?;
+    validate_preserved_artifact(
+        store,
+        &record.design_path,
+        &request.preserved_design,
+        "design",
+    )?;
+    validate_preserved_artifact(
+        store,
+        &record.diagram_path,
+        &request.preserved_diagram,
+        "diagram",
+    )?;
+
+    apply_initialized_recovery_replacements(&mut cards, &request.replacements)?;
+    if let Some(review_truth) = &request.design_review_recovery {
+        validate_design_review_recovery_truth(&record, review_truth)?;
+        record.design_review = review_truth.new_review_state.clone();
+    } else {
+        record.design_review = DesignReview::Pending;
+    }
+
+    let design_digest = authored_digest(store, &record.design_path)?;
+    let diagram_digest = authored_digest(store, &record.diagram_path)?;
+    validate_cross_card(
+        &cards,
+        &record.design_path,
+        &design_digest,
+        &record.diagram_path,
+        &diagram_digest,
+    )?;
+
+    record.generation += 1;
+    for values in cards.values_mut() {
+        values.identity.generation = record.generation;
+    }
+    let audit_operation = serde_json::json!({
+        "operation": "recover_initialized_decomposition",
+        "recovery_scope": request.recovery_scope,
+        "preserved_design": request.preserved_design,
+        "preserved_diagram": request.preserved_diagram,
+        "graph": request.graph,
+        "design_review_recovery": request.design_review_recovery,
+    })
+    .to_string();
+    record.audit.push(AuditEvent {
+        sequence: record.audit.len() as u64 + 1,
+        generation: record.generation,
+        actor: request.actor,
+        reason: request.reason,
+        operation: audit_operation,
+    });
+    hydrate_projections(&mut record, &cards)?;
+    record.digest = record_digest(&record)?;
+    let journal = commit_initialized_recovery_with_journal(
+        store,
+        request.issue,
+        &record,
+        &cards,
+        request.fail_at,
+    )?;
+    Ok(InitializedDecompositionRecoveryResult {
+        schema: "csdlc.initialized_decomposition_recovery.result.v1".into(),
+        issue: request.issue,
+        generation: record.generation,
+        digest: record.digest,
+        journal,
+        applied: true,
+    })
+}
+
 fn approve_design_with_hook(
     store: &Store,
     request: ApproveDesignRequest,
@@ -2500,10 +3560,21 @@ fn approve_design_with_hook(
             "design approval digest is stale",
         ));
     }
-    if request.reviewer.trim().is_empty() {
+    if !canonical_fresh_session(&request.reviewer) {
         return Err(V2Error::new(
             ErrorCode::InvalidInput,
-            "design reviewer is required",
+            "design reviewer must be a canonical fresh-session UUID",
+        ));
+    }
+    if record.review_assignment.is_some()
+        || record.review.is_some()
+        || record.publication.is_some()
+        || record.readiness.is_some()
+        || record.terminal.is_some()
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "design approval requires cleared review and publication authority",
         ));
     }
     let mut cards = store.load_cards(request.issue)?;
@@ -2570,7 +3641,7 @@ fn approve_design_with_hook(
     }
     record.design_review = DesignReview::Approved {
         reviewer: request.reviewer.clone(),
-        revision: design_digest,
+        revision: design_digest.clone(),
     };
     record.generation += 1;
     for values in cards.values_mut() {
@@ -2590,12 +3661,35 @@ fn approve_design_with_hook(
             "approve completed issue design"
         }
         .into(),
-        operation: "approve_design".into(),
+        operation: serde_json::json!({
+            "operation": "approve_design",
+            "design_ref": record.design_path,
+            "design_digest": design_digest,
+            "diagram_ref": record.diagram_path,
+            "diagram_digest": diagram_digest,
+        })
+        .to_string(),
     });
     hydrate_projections(&mut record, &cards)?;
     record.digest = record_digest(&record)?;
     store.commit(request.issue, &record, &cards, false)?;
     Ok(record)
+}
+
+fn canonical_fresh_session(value: &str) -> bool {
+    let Some(uuid) = value.strip_prefix("fresh-session:") else {
+        return false;
+    };
+    let bytes = uuid.as_bytes();
+    bytes.len() == 36
+        && [8, 13, 18, 23]
+            .into_iter()
+            .all(|index| bytes[index] == b'-')
+        && bytes.iter().enumerate().all(|(index, byte)| {
+            [8, 13, 18, 23].contains(&index)
+                || byte.is_ascii_digit()
+                || (b'a'..=b'f').contains(byte)
+        })
 }
 
 pub(crate) fn bootstrap_issue(store: &Store, request: BootstrapRequest) -> Result<IssueRecord> {
@@ -2697,6 +3791,14 @@ pub(crate) fn validate_bootstrap_request(request: &BootstrapRequest) -> Result<(
 }
 
 pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
+    let _binding_lock = if matches!(
+        request.operation,
+        SemanticOperation::RefreshAuthoredDesignAfterRecovery
+    ) {
+        Some(store.binding_lock()?)
+    } else {
+        None
+    };
     let _lock = store.lock(request.issue)?;
     store.recover_if_needed(request.issue)?;
     let mut record = store.load_record(request.issue)?;
@@ -2713,6 +3815,10 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
         ));
     }
     let mut cards = store.load_cards(request.issue)?;
+    let implemented_design_refresh = matches!(
+        request.operation,
+        SemanticOperation::RefreshAuthoredDesignAfterRecovery
+    );
     let prebind_contract_repair = is_prebind_contract_repair(&record, &request);
     let prebind_operator_constraints_correction = matches!(
         (record.phase, request.card, &request.operation),
@@ -2722,7 +3828,9 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
             SemanticOperation::CorrectOperatorConstraintsBeforeBind { .. }
         )
     );
-    if prebind_contract_repair {
+    if implemented_design_refresh {
+        verify_cards_without_authored_tuple(store, &record, &cards)?;
+    } else if prebind_contract_repair {
         verify_prebind_contract_repair_inputs(store, &record, &cards)?;
     } else {
         verify_cards(store, &record, &cards)?;
@@ -2730,6 +3838,16 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     if prebind_operator_constraints_correction {
         validate_prebind_operator_constraints_correction(&record, &cards, &request)?;
     }
+    let mut retained_refresh_artifacts = None;
+    let design_refresh = if implemented_design_refresh {
+        let (refresh, design_artifact, diagram_artifact) =
+            prepare_implemented_design_refresh(store, &record, &cards, &request)?;
+        retained_refresh_artifacts = Some((design_artifact, diagram_artifact));
+        Some(refresh)
+    } else {
+        None
+    };
+    let prior_design_approval = implemented_design_refresh.then(|| record.design_review.clone());
     if matches!(
         record.phase,
         LifecyclePhase::Reviewed | LifecyclePhase::Published | LifecyclePhase::MergeReady
@@ -2845,7 +3963,54 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     if matches!(
         request.operation,
         SemanticOperation::CorrectPlanSummaryAfterRecovery { .. }
-            | SemanticOperation::CorrectRequiredOutcomeAfterRecovery { .. }
+    ) {
+        let latest_review_operation = record.audit.iter().rev().find(|event| {
+            matches!(
+                event.operation.as_str(),
+                "assign_review" | "record_review" | "recover_review"
+            )
+        });
+        if request.actor.trim().is_empty() || request.reason.trim().is_empty() {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "post-recovery text correction requires actor and reason",
+            ));
+        }
+        let current_recovery = latest_review_operation.is_some_and(|event| {
+            event.operation == "recover_review"
+                && record.transitions.iter().rev().any(|transition| {
+                    transition.to == LifecyclePhase::Implemented
+                        && matches!(
+                            transition.from,
+                            LifecyclePhase::Reviewed
+                                | LifecyclePhase::Published
+                                | LifecyclePhase::MergeReady
+                        )
+                        && transition.actor == event.actor
+                        && transition.reason == event.reason
+                })
+                && record
+                    .audit
+                    .iter()
+                    .skip_while(|candidate| candidate.sequence <= event.sequence)
+                    .all(|candidate| recovery_epoch_operation_is_allowed(&candidate.operation))
+        });
+        if !current_recovery
+            || record.review_assignment.is_some()
+            || record.review.is_some()
+            || record.publication.is_some()
+            || record.readiness.is_some()
+            || record.terminal.is_some()
+        {
+            return Err(V2Error::new(
+                ErrorCode::InvalidTransition,
+                "post-recovery text correction requires current typed recovery provenance and cleared review, publication, readiness, and terminal truth",
+            ));
+        }
+    }
+    if matches!(
+        request.operation,
+        SemanticOperation::CorrectRequiredOutcomeAfterRecovery { .. }
     ) {
         let latest_review_operation = record.audit.iter().rev().find(|event| {
             matches!(
@@ -2854,12 +4019,6 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
             )
         });
         let latest_transition = record.transitions.last();
-        if request.actor.trim().is_empty() || request.reason.trim().is_empty() {
-            return Err(V2Error::new(
-                ErrorCode::InvalidInput,
-                "post-recovery text correction requires actor and reason",
-            ));
-        }
         let current_recovery = latest_review_operation.is_some_and(|event| {
             event.operation == "recover_review"
                 && event.generation == record.generation
@@ -2954,6 +4113,9 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     };
     let binding_refresh = if prebind_contract_repair {
         Some(refresh_prebind_design_bindings(store, &record, &mut cards)?)
+    } else if let Some(refresh) = design_refresh.as_ref() {
+        apply_design_binding_refresh(&mut cards, refresh);
+        Some(refresh.clone())
     } else {
         None
     };
@@ -2986,6 +4148,8 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
             "operation": "correct_plan_summary_after_recovery",
             "previous_value": plan_summary_before.expect("SPP summary correction snapshot"),
             "new_value": value,
+            "recovery_sequence": record.audit.iter().rev().find(|event| event.operation == "recover_review").map(|event| event.sequence),
+            "recovery_generation": record.audit.iter().rev().find(|event| event.operation == "recover_review").map(|event| event.generation),
         })
         .to_string(),
         (SemanticOperation::CorrectRequiredOutcomeAfterRecovery { value }, _) => {
@@ -3017,6 +4181,7 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
                     "diagram_ref": record.diagram_path,
                     "old_diagram_digest": refresh.old_diagram_digest,
                     "new_diagram_digest": refresh.new_diagram_digest,
+                    "prior_design_approval": prior_design_approval,
                 }
             })
             .to_string()
@@ -3048,8 +4213,27 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
             record.advance(next, request.actor.clone(), request.reason.clone())?;
         }
     }
-    if prebind_contract_repair || prebind_operator_constraints_correction {
+    if prebind_contract_repair
+        || prebind_operator_constraints_correction
+        || implemented_design_refresh
+    {
         record.design_review = DesignReview::Pending;
+    }
+    if implemented_design_refresh {
+        let (design_artifact, diagram_artifact) = retained_refresh_artifacts
+            .as_mut()
+            .expect("implemented refresh retains paired artifacts");
+        let final_design_digest = design_artifact.verify()?;
+        let final_diagram_digest = diagram_artifact.verify()?;
+        let refresh = design_refresh.as_ref().expect("implemented design refresh");
+        if final_design_digest != refresh.new_design_digest
+            || final_diagram_digest != refresh.new_diagram_digest
+        {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "authored design tuple changed before canonical commit",
+            ));
+        }
     }
     let design_digest = authored_digest(store, &record.design_path)?;
     let diagram_digest = authored_digest(store, &record.diagram_path)?;
@@ -3073,16 +4257,275 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     });
     hydrate_projections(&mut record, &cards)?;
     record.digest = record_digest(&record)?;
-    store.commit(request.issue, &record, &cards, request.fail_after_backup)?;
+    if let Some((design_artifact, diagram_artifact)) = retained_refresh_artifacts.as_mut() {
+        let refresh = design_refresh.as_ref().expect("retained refresh binding");
+        if design_artifact.verify()? != refresh.new_design_digest
+            || diagram_artifact.verify()? != refresh.new_diagram_digest
+        {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "paired authored artifact handles changed at commit boundary",
+            ));
+        }
+    }
+    if let Some((design_artifact, diagram_artifact)) = retained_refresh_artifacts.as_mut() {
+        let refresh = design_refresh.as_ref().expect("retained refresh binding");
+        let expected_design = refresh.new_design_digest.clone();
+        let expected_diagram = refresh.new_diagram_digest.clone();
+        let issue_dir = store.issue_dir(request.issue);
+        let mut verifier = || {
+            if design_artifact.verify_after_projection_swap(store.root(), &issue_dir)?
+                != expected_design
+                || diagram_artifact.verify_after_projection_swap(store.root(), &issue_dir)?
+                    != expected_diagram
+            {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "paired authored artifact handles changed across canonical commit",
+                ));
+            }
+            Ok(())
+        };
+        store.commit_verified(
+            request.issue,
+            &record,
+            &cards,
+            request.fail_after_backup,
+            &mut verifier,
+        )?;
+    } else {
+        store.commit(request.issue, &record, &cards, request.fail_after_backup)?;
+    }
     Ok(record)
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 struct DesignBindingRefresh {
     old_design_digest: String,
     new_design_digest: String,
     old_diagram_digest: String,
     new_diagram_digest: String,
+}
+
+fn apply_design_binding_refresh(
+    cards: &mut BTreeMap<CardKind, CardValues>,
+    refresh: &DesignBindingRefresh,
+) {
+    for kind in [CardKind::Spp, CardKind::Vpp] {
+        match &mut cards.get_mut(&kind).expect("design-bearing card").content {
+            CardContent::Spp(values) => {
+                values.design_digest = refresh.new_design_digest.clone();
+                values.diagram_digest = refresh.new_diagram_digest.clone();
+            }
+            CardContent::Vpp(values) => {
+                values.design_digest = refresh.new_design_digest.clone();
+                values.diagram_digest = refresh.new_diagram_digest.clone();
+            }
+            _ => unreachable!("design-bearing card"),
+        }
+    }
+}
+
+fn prepare_implemented_design_refresh(
+    store: &Store,
+    record: &IssueRecord,
+    cards: &BTreeMap<CardKind, CardValues>,
+    request: &EditRequest,
+) -> Result<(
+    DesignBindingRefresh,
+    RetainedAuthoredArtifact,
+    RetainedAuthoredArtifact,
+)> {
+    if request.card != CardKind::Spp
+        || record.phase != LifecyclePhase::Implemented
+        || request.actor.trim().is_empty()
+        || request.reason.trim().is_empty()
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "authored design refresh requires an implemented SPP recovery operation",
+        ));
+    }
+    let latest_review = record.audit.iter().rev().find(|event| {
+        matches!(
+            event.operation.as_str(),
+            "assign_review" | "record_review" | "recover_review"
+        )
+    });
+    if latest_review.is_none_or(|event| {
+        event.operation != "recover_review" || event.generation != record.generation
+    }) || record.review_assignment.is_some()
+        || record.review.is_some()
+        || record.publication.is_some()
+        || record.readiness.is_some()
+        || record.terminal.is_some()
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "authored design refresh requires current review recovery and cleared downstream authority",
+        ));
+    }
+    require_registered_worktree(store, record)?;
+    let (old_design_digest, old_diagram_digest) = match &cards[&CardKind::Spp].content {
+        CardContent::Spp(values) => (values.design_digest.clone(), values.diagram_digest.clone()),
+        _ => unreachable!("SPP"),
+    };
+    let mut design_artifact =
+        retain_authored_artifact(store.root(), Path::new(&record.design_path))?;
+    let mut diagram_artifact =
+        retain_authored_artifact(store.root(), Path::new(&record.diagram_path))?;
+    let new_design_digest = design_artifact.verify()?;
+    let new_diagram_digest = diagram_artifact.verify()?;
+    if new_design_digest == old_design_digest && new_diagram_digest == old_diagram_digest {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "authored design refresh is a no-op",
+        ));
+    }
+    Ok((
+        DesignBindingRefresh {
+            old_design_digest,
+            new_design_digest,
+            old_diagram_digest,
+            new_diagram_digest,
+        },
+        design_artifact,
+        diagram_artifact,
+    ))
+}
+
+fn require_registered_worktree(store: &Store, record: &IssueRecord) -> Result<()> {
+    let registered = record.worktree.as_ref().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authored design refresh requires a registered worktree",
+        )
+    })?;
+    let branch = record.branch.as_ref().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authored design refresh requires a registered branch",
+        )
+    })?;
+    let actual = fs::canonicalize(store.root())?;
+    let expected = fs::canonicalize(registered)?;
+    if actual != expected || crate::git::current_branch(store.root())? != *branch {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "authored design refresh invocation does not match registered worktree",
+        ));
+    }
+    Ok(())
+}
+
+#[cfg(unix)]
+struct RetainedAuthoredArtifact {
+    root: File,
+    relative: PathBuf,
+    file: File,
+    bytes: Vec<u8>,
+    identity: std::fs::Metadata,
+}
+
+#[cfg(unix)]
+impl RetainedAuthoredArtifact {
+    fn verify_retained(&mut self) -> Result<String> {
+        use std::os::unix::fs::MetadataExt;
+        let current = self.file.metadata()?;
+        self.file.seek(SeekFrom::Start(0))?;
+        let bytes = read_exact_current_file(&mut self.file, current.len())?;
+        if current.nlink() != 1
+            || !same_file_identity(&self.identity, &current)
+            || current.len() != self.identity.len()
+            || current.mtime() != self.identity.mtime()
+            || current.mtime_nsec() != self.identity.mtime_nsec()
+            || current.ctime() != self.identity.ctime()
+            || current.ctime_nsec() != self.identity.ctime_nsec()
+            || bytes != self.bytes
+        {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "retained authored artifact changed before commit",
+            ));
+        }
+        Ok(digest(&bytes))
+    }
+
+    fn verify_path_identity(&self) -> Result<()> {
+        use std::os::unix::fs::MetadataExt;
+        let current = self.file.metadata()?;
+        let path_file = open_relative_no_follow(&self.root, &self.relative)?.ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "retained authored artifact path disappeared",
+            )
+        })?;
+        let path_meta = path_file.metadata()?;
+        if path_meta.nlink() != 1 || !same_file_identity(&current, &path_meta) {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "retained authored artifact path identity changed before commit",
+            ));
+        }
+        Ok(())
+    }
+
+    fn verify(&mut self) -> Result<String> {
+        let retained_digest = self.verify_retained()?;
+        self.verify_path_identity()?;
+        Ok(retained_digest)
+    }
+
+    fn verify_after_projection_swap(&mut self, root: &Path, issue_dir: &Path) -> Result<String> {
+        let retained_digest = self.verify_retained()?;
+        let canonical = root.join(&self.relative);
+        if canonical.strip_prefix(issue_dir).is_ok() {
+            let canonical_bytes = read_regular_authored_artifact(root, &self.relative)?
+                .ok_or_else(|| {
+                    V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "copied authored artifact disappeared after projection swap",
+                    )
+                })?;
+            if canonical_bytes != self.bytes {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "copied authored artifact changed across projection swap",
+                ));
+            }
+        } else {
+            self.verify_path_identity()?;
+        }
+        Ok(retained_digest)
+    }
+}
+
+#[cfg(unix)]
+fn retain_authored_artifact(root: &Path, relative: &Path) -> Result<RetainedAuthoredArtifact> {
+    validate_authored_relative_path(relative)?;
+    let root_file = File::open(root)?;
+    let mut file = open_relative_no_follow(&root_file, relative)?.ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authored artifact is absent",
+        )
+    })?;
+    let identity = file.metadata()?;
+    use std::os::unix::fs::MetadataExt;
+    if !identity.is_file() || identity.nlink() != 1 {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authored artifact must be a regular single-link file",
+        ));
+    }
+    let bytes = read_exact_current_file(&mut file, identity.len())?;
+    Ok(RetainedAuthoredArtifact {
+        root: root_file,
+        relative: relative.to_path_buf(),
+        file,
+        bytes,
+        identity,
+    })
 }
 
 fn is_prebind_contract_repair(record: &IssueRecord, request: &EditRequest) -> bool {
@@ -3273,6 +4716,638 @@ fn refresh_prebind_design_bindings(
     })
 }
 
+fn validate_initialized_recovery_request_identity(
+    request: &InitializedDecompositionRecoveryRequest,
+) -> Result<()> {
+    if request.issue == 0
+        || request.expected_digest.trim().is_empty()
+        || request.actor.trim().is_empty()
+        || request.reason.trim().is_empty()
+        || request.recovery_scope.is_empty()
+        || request
+            .recovery_scope
+            .iter()
+            .any(|value| value.trim().is_empty())
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "initialized decomposition recovery requires issue, CAS, actor, reason, and scope",
+        ));
+    }
+    Ok(())
+}
+
+fn validate_initialized_recovery_root(
+    store: &Store,
+    request: &InitializedDecompositionRecoveryRequest,
+) -> Result<()> {
+    let store_root = fs::canonicalize(store.root())?;
+    let request_root = fs::canonicalize(&request.request_root)?;
+    let cwd = fs::canonicalize(std::env::current_dir()?)?;
+    if store_root != request_root || store_root != cwd {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "initialized decomposition recovery requires repo root, request_root, and cwd to match",
+        ));
+    }
+    Ok(())
+}
+
+fn validate_preserved_artifact(
+    store: &Store,
+    expected_path: &str,
+    artifact: &PreservedAuthoredArtifact,
+    label: &str,
+) -> Result<()> {
+    if artifact.path != expected_path {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            format!("preserved {label} path does not match issue authority"),
+        ));
+    }
+    let bytes = read_regular_authored_artifact(store.root(), Path::new(&artifact.path))?
+        .ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                format!("preserved {label} artifact is absent"),
+            )
+        })?;
+    if sha256_hex(&bytes) != artifact.byte_sha256 {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            format!("preserved {label} byte SHA-256 drifted"),
+        ));
+    }
+    if digest(&bytes) != artifact.authored_digest {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            format!("preserved {label} authored digest drifted"),
+        ));
+    }
+    Ok(())
+}
+
+fn validate_design_review_recovery_truth(
+    record: &IssueRecord,
+    review_truth: &DesignReviewRecoveryTruth,
+) -> Result<()> {
+    if review_truth.false_reviewer.trim().is_empty() || review_truth.disposition.trim().is_empty() {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "design review recovery requires false reviewer and disposition",
+        ));
+    }
+    if review_truth.previous_review_state != record.design_review {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "design review recovery previous state does not match issue truth",
+        ));
+    }
+    if !matches!(review_truth.new_review_state, DesignReview::Pending) {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "initialized decomposition recovery can only reset design review to pending",
+        ));
+    }
+    Ok(())
+}
+
+fn validate_decomposition_graph(issue: u64, graph: &DecompositionGraphInput) -> Result<()> {
+    if graph.forbidden_cross_child_trust_redefinition {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "decomposition graph attempts forbidden cross-child trust redefinition",
+        ));
+    }
+    if graph.nodes.is_empty()
+        || graph.edges.is_empty()
+        || graph.parent_integration_owner.trim().is_empty()
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "decomposition graph requires nodes, edges, and parent integration owner",
+        ));
+    }
+    let mut nodes = std::collections::BTreeMap::new();
+    let mut parent_count = 0_u64;
+    let mut roles = std::collections::BTreeSet::new();
+    for node in &graph.nodes {
+        if node.node_id.trim().is_empty()
+            || node.issue == 0
+            || node.role.trim().is_empty()
+            || node.repository.trim().is_empty()
+            || !node.in_scope
+        {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "decomposition graph node identity is incomplete or out of scope",
+            ));
+        }
+        if nodes.insert(node.node_id.clone(), node).is_some() {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "decomposition graph contains duplicate node id",
+            ));
+        }
+        if !roles.insert(node.role.clone()) {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "decomposition graph contains duplicate role",
+            ));
+        }
+        if node.node_id == graph.parent_integration_owner {
+            parent_count += 1;
+        }
+    }
+    if parent_count != 1 {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "decomposition graph must name exactly one parent integration owner",
+        ));
+    }
+    let parent = nodes
+        .get(&graph.parent_integration_owner)
+        .expect("parent count proves parent node exists");
+    if parent.issue != issue {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "decomposition graph parent integration owner does not match the recovered issue",
+        ));
+    }
+    let mut outgoing: std::collections::BTreeMap<&str, Vec<&str>> =
+        std::collections::BTreeMap::new();
+    let mut incoming: std::collections::BTreeMap<&str, Vec<&str>> =
+        std::collections::BTreeMap::new();
+    let mut edges = std::collections::BTreeSet::new();
+    for edge in &graph.edges {
+        if edge.from.trim().is_empty()
+            || edge.to.trim().is_empty()
+            || edge.relation.trim().is_empty()
+        {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "decomposition graph edge identity is incomplete",
+            ));
+        }
+        if !nodes.contains_key(&edge.from) || !nodes.contains_key(&edge.to) {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "decomposition graph edge references a missing node",
+            ));
+        }
+        if edge.from == graph.parent_integration_owner {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "decomposition graph edge orientation is inverted from parent owner",
+            ));
+        }
+        if !edges.insert((&edge.from, &edge.to, &edge.relation)) {
+            return Err(V2Error::new(
+                ErrorCode::InvalidInput,
+                "decomposition graph contains duplicate directed edge",
+            ));
+        }
+        outgoing.entry(&edge.from).or_default().push(&edge.to);
+        incoming.entry(&edge.to).or_default().push(&edge.from);
+    }
+    let mut visiting = std::collections::BTreeSet::new();
+    let mut visited = std::collections::BTreeSet::new();
+    for node in nodes.keys() {
+        visit_decomposition_node(node, &outgoing, &mut visiting, &mut visited)?;
+    }
+    let mut connected_to_parent = std::collections::BTreeSet::new();
+    let mut pending = vec![graph.parent_integration_owner.as_str()];
+    while let Some(node) = pending.pop() {
+        if connected_to_parent.insert(node) {
+            pending.extend(incoming.get(node).into_iter().flatten().copied());
+        }
+    }
+    if connected_to_parent.len() != nodes.len() {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "every decomposition graph node must have a directed path to the parent integration owner",
+        ));
+    }
+    Ok(())
+}
+
+fn visit_decomposition_node<'a>(
+    node: &'a str,
+    outgoing: &std::collections::BTreeMap<&'a str, Vec<&'a str>>,
+    visiting: &mut std::collections::BTreeSet<&'a str>,
+    visited: &mut std::collections::BTreeSet<&'a str>,
+) -> Result<()> {
+    if visited.contains(node) {
+        return Ok(());
+    }
+    if !visiting.insert(node) {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "decomposition graph must be acyclic",
+        ));
+    }
+    if let Some(children) = outgoing.get(node) {
+        for child in children {
+            visit_decomposition_node(child, outgoing, visiting, visited)?;
+        }
+    }
+    visiting.remove(node);
+    visited.insert(node);
+    Ok(())
+}
+
+fn apply_initialized_recovery_replacements(
+    cards: &mut BTreeMap<CardKind, CardValues>,
+    replacements: &InitializedDecompositionRecoveryReplacement,
+) -> Result<()> {
+    validate_recovery_text(&replacements.title, "title")?;
+    validate_recovery_text(&replacements.slug, "slug")?;
+    validate_identity_version(&replacements.version)?;
+    validate_recovery_text(&replacements.goal, "goal")?;
+    validate_recovery_text(&replacements.required_outcome, "required outcome")?;
+    validate_recovery_vec(&replacements.declared_scope, "declared scope")?;
+    validate_recovery_vec(&replacements.authority_boundary, "authority boundary")?;
+    validate_recovery_vec(&replacements.operator_constraints, "operator constraints")?;
+    validate_recovery_text(&replacements.task_boundary, "task boundary")?;
+    validate_recovery_vec(&replacements.deliverables, "deliverables")?;
+    validate_recovery_vec(&replacements.acceptance_criteria, "acceptance criteria")?;
+    validate_recovery_vec(&replacements.non_goals, "non-goals")?;
+    validate_recovery_text(&replacements.plan_summary, "plan summary")?;
+    validate_recovery_vec(&replacements.affected_areas, "affected areas")?;
+    validate_recovery_vec(&replacements.invariants, "invariants")?;
+    validate_recovery_vec(&replacements.risks, "risks")?;
+    validate_recovery_vec(&replacements.stop_conditions, "stop conditions")?;
+    validate_recovery_text(&replacements.validation_summary, "validation summary")?;
+    validate_recovery_vec(&replacements.review_prompts, "review prompts")?;
+    validate_recovery_text(&replacements.review_scope, "review scope")?;
+    validate_recovery_text(&replacements.sor_summary, "SOR summary")?;
+    validate_recovery_lanes(&replacements.validation_lanes)?;
+    for result in &replacements.sor_validation {
+        validate_result(result)?;
+    }
+    for values in cards.values_mut() {
+        values.identity.title = replacements.title.clone();
+        values.identity.slug = replacements.slug.clone();
+        values.identity.version = replacements.version.clone();
+    }
+    match &mut cards.get_mut(&CardKind::Sip).expect("SIP").content {
+        CardContent::Sip(values) => {
+            values.goal = replacements.goal.clone();
+            values.required_outcome = replacements.required_outcome.clone();
+            values.declared_scope = replacements.declared_scope.clone();
+            values.authority_boundary = replacements.authority_boundary.clone();
+            values.initial_assumptions = replacements.initial_assumptions.clone();
+            values.operator_constraints = replacements.operator_constraints.clone();
+        }
+        _ => unreachable!("SIP"),
+    }
+    match &mut cards.get_mut(&CardKind::Stp).expect("STP").content {
+        CardContent::Stp(values) => {
+            values.task_boundary = replacements.task_boundary.clone();
+            values.deliverables = replacements.deliverables.clone();
+            values.acceptance_criteria = replacements.acceptance_criteria.clone();
+            values.dependencies = replacements.dependencies.clone();
+            values.repo_inputs = replacements.repo_inputs.clone();
+            values.non_goals = replacements.non_goals.clone();
+        }
+        _ => unreachable!("STP"),
+    }
+    match &mut cards.get_mut(&CardKind::Spp).expect("SPP").content {
+        CardContent::Spp(values) => {
+            values.plan_revision += 1;
+            values.summary = replacements.plan_summary.clone();
+            values.steps = replacements.plan_steps.clone();
+            values.affected_areas = replacements.affected_areas.clone();
+            values.invariants = replacements.invariants.clone();
+            values.risks = replacements.risks.clone();
+            values.stop_conditions = replacements.stop_conditions.clone();
+            values.replan_triggers = replacements.replan_triggers.clone();
+        }
+        _ => unreachable!("SPP"),
+    }
+    match &mut cards.get_mut(&CardKind::Vpp).expect("VPP").content {
+        CardContent::Vpp(values) => {
+            values.summary = replacements.validation_summary.clone();
+            values.lanes = replacements.validation_lanes.clone();
+            values.failure_policy = replacements.failure_policy.clone();
+        }
+        _ => unreachable!("VPP"),
+    }
+    match &mut cards.get_mut(&CardKind::Srp).expect("SRP").content {
+        CardContent::Srp(values) => {
+            values.review_scope = replacements.review_scope.clone();
+            values.review_revision = None;
+            values.reviewer = None;
+            values.review_prompts = replacements.review_prompts.clone();
+            values.findings.clear();
+            values.residual_risk = replacements.residual_risk.clone();
+            values.review_result = crate::cards::ReviewResult::PreReview;
+        }
+        _ => unreachable!("SRP"),
+    }
+    match &mut cards.get_mut(&CardKind::Sor).expect("SOR").content {
+        CardContent::Sor(values) => {
+            values.summary = replacements.sor_summary.clone();
+            values.actual_changes.clear();
+            values.artifacts = replacements.sor_artifacts.clone();
+            values.actual_validation = replacements.sor_validation.clone();
+            values.integration_state = crate::cards::IntegrationState::NotStarted;
+            values.publication_state = crate::cards::PublicationState::NotPublished;
+            values.merge_state = crate::cards::MergeState::NotMerged;
+            values.closeout_state = crate::cards::CloseoutState::NotStarted;
+            values.follow_ups = replacements.sor_follow_ups.clone();
+        }
+        _ => unreachable!("SOR"),
+    }
+    Ok(())
+}
+
+fn validate_recovery_text(value: &str, label: &str) -> Result<()> {
+    if value.trim().is_empty() {
+        return Err(V2Error::new(
+            ErrorCode::CardInvalid,
+            format!("initialized recovery {label} cannot be empty"),
+        ));
+    }
+    Ok(())
+}
+
+fn validate_recovery_vec(values: &[String], label: &str) -> Result<()> {
+    if values.is_empty() || values.iter().any(|value| value.trim().is_empty()) {
+        return Err(V2Error::new(
+            ErrorCode::CardInvalid,
+            format!("initialized recovery {label} cannot be empty"),
+        ));
+    }
+    Ok(())
+}
+
+fn validate_recovery_lanes(lanes: &[crate::cards::ValidationLane]) -> Result<()> {
+    if lanes.is_empty() {
+        return Err(V2Error::new(
+            ErrorCode::CardInvalid,
+            "initialized recovery validation lanes cannot be empty",
+        ));
+    }
+    let mut ids = std::collections::BTreeSet::new();
+    for lane in lanes {
+        if !ids.insert(lane.lane.as_str())
+            || lane.lane.trim().is_empty()
+            || lane.proof_role.trim().is_empty()
+            || lane.acceptance_ids.is_empty()
+            || lane.acceptance_ids.iter().any(|id| id.trim().is_empty())
+            || lane.argv.is_empty()
+            || lane.argv.iter().any(|arg| arg.trim().is_empty())
+            || lane.parallel_group.trim().is_empty()
+            || lane.budget_seconds == 0
+            || lane.budget_tokens == 0
+        {
+            return Err(V2Error::new(
+                ErrorCode::CardInvalid,
+                "initialized recovery validation lanes must be unique and complete",
+            ));
+        }
+    }
+    Ok(())
+}
+
+fn commit_initialized_recovery_with_journal(
+    store: &Store,
+    issue: u64,
+    record: &IssueRecord,
+    cards: &BTreeMap<CardKind, CardValues>,
+    fail_at: Option<InitializedRecoveryFailurePoint>,
+) -> Result<String> {
+    let issue_parent = store.root.join(".csdlc/issues");
+    let current = store.issue_dir(issue);
+    let output_staging = issue_parent.join(format!(".{issue}.recovery-output"));
+    let journal_root = store.initialized_recovery_journal_root(issue);
+    let txid = format!(
+        "tx-g{}-{}",
+        record.generation,
+        record.digest.chars().take(12).collect::<String>()
+    );
+    let transaction = journal_root.join(&txid);
+    if output_staging.exists() {
+        fs::remove_dir_all(&output_staging)?;
+    }
+    if transaction.exists() {
+        fs::remove_dir_all(&transaction)?;
+    }
+    fs::create_dir_all(transaction.join("blobs"))?;
+    write_complete(&output_staging, record, cards)?;
+    let mut targets = Vec::new();
+    collect_recovery_targets(
+        store.root(),
+        &current,
+        &output_staging,
+        &output_staging,
+        &mut targets,
+    )?;
+    let mut manifest_targets = Vec::new();
+    for target in &targets {
+        let blob_name = format!("{}.blob", target.postimage_sha256);
+        let blob_path = transaction.join("blobs").join(&blob_name);
+        let mut blob = File::create(&blob_path)?;
+        blob.write_all(&target.postimage)?;
+        blob.sync_all()?;
+        manifest_targets.push(InitializedRecoveryJournalTarget {
+            path: target.relative_path.clone(),
+            preimage_sha256: target.preimage_sha256.clone(),
+            postimage_sha256: target.postimage_sha256.clone(),
+            blob: format!("blobs/{blob_name}"),
+            len: target.postimage.len() as u64,
+        });
+    }
+    sync_dir(&transaction.join("blobs"))?;
+    let manifest = InitializedRecoveryJournalManifest {
+        schema: "csdlc.initialized_recovery_journal.v1".into(),
+        issue,
+        generation: record.generation,
+        digest: record.digest.clone(),
+        targets: manifest_targets,
+    };
+    let manifest_bytes = serde_json::to_vec_pretty(&manifest)?;
+    let manifest_path = transaction.join("manifest.prepared.json");
+    if fail_at == Some(InitializedRecoveryFailurePoint::BeforePreparedManifest) {
+        fs::remove_dir_all(&output_staging)?;
+        return Err(V2Error::new(
+            ErrorCode::InterruptedTransaction,
+            "injected interruption before prepared initialized recovery manifest",
+        ));
+    }
+    let mut prepared = File::create(&manifest_path)?;
+    prepared.write_all(&manifest_bytes)?;
+    prepared.write_all(b"\n")?;
+    prepared.sync_all()?;
+    sync_dir(&transaction)?;
+    if fail_at == Some(InitializedRecoveryFailurePoint::AfterPreparedManifest) {
+        fs::remove_dir_all(&output_staging)?;
+        return Err(V2Error::new(
+            ErrorCode::InterruptedTransaction,
+            "injected interruption after prepared initialized recovery manifest",
+        ));
+    }
+    for (index, target) in manifest.targets.iter().enumerate() {
+        apply_recovery_target(store.root(), &transaction, target)?;
+        if index == 0 && fail_at == Some(InitializedRecoveryFailurePoint::AfterFirstTarget) {
+            fs::remove_dir_all(&output_staging)?;
+            return Err(V2Error::new(
+                ErrorCode::InterruptedTransaction,
+                "injected interruption after first initialized recovery target",
+            ));
+        }
+    }
+    fs::write(transaction.join("commit.marker"), b"committed\n")?;
+    sync_dir(&transaction)?;
+    if fail_at == Some(InitializedRecoveryFailurePoint::AfterCommitMarker) {
+        fs::remove_dir_all(&output_staging)?;
+        return Err(V2Error::new(
+            ErrorCode::InterruptedTransaction,
+            "injected interruption after initialized recovery commit marker",
+        ));
+    }
+    fs::remove_dir_all(&output_staging)?;
+    fs::remove_dir_all(&transaction)?;
+    if fs::read_dir(&journal_root)?.next().is_none() {
+        fs::remove_dir(&journal_root)?;
+    }
+    Ok(format!(".csdlc/issues/.{issue}.recovery-journal/{txid}"))
+}
+
+#[derive(Debug)]
+struct RecoveryTargetBytes {
+    relative_path: String,
+    preimage_sha256: String,
+    postimage_sha256: String,
+    postimage: Vec<u8>,
+}
+
+fn collect_recovery_targets(
+    root: &Path,
+    current: &Path,
+    staging_base: &Path,
+    staging: &Path,
+    targets: &mut Vec<RecoveryTargetBytes>,
+) -> Result<()> {
+    for entry in fs::read_dir(staging)? {
+        let entry = entry?;
+        let source = entry.path();
+        let relative = source.strip_prefix(staging_base).map_err(|_| {
+            V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "recovery staging path escapes staging root",
+            )
+        })?;
+        let target = current.join(relative);
+        if entry.file_type()?.is_dir() {
+            collect_recovery_targets(root, current, staging_base, &source, targets)?;
+            continue;
+        }
+        let postimage = fs::read(&source)?;
+        let preimage = fs::read(&target).unwrap_or_default();
+        let target_relative = target.strip_prefix(root).map_err(|_| {
+            V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "recovery target path escapes repository root",
+            )
+        })?;
+        targets.push(RecoveryTargetBytes {
+            relative_path: target_relative.to_string_lossy().into_owned(),
+            preimage_sha256: sha256_hex(&preimage),
+            postimage_sha256: sha256_hex(&postimage),
+            postimage,
+        });
+    }
+    targets.sort_by(|left, right| left.relative_path.cmp(&right.relative_path));
+    Ok(())
+}
+
+fn roll_forward_initialized_recovery(
+    store: &Store,
+    transaction: &Path,
+    manifest: &InitializedRecoveryJournalManifest,
+) -> Result<()> {
+    if manifest.schema != "csdlc.initialized_recovery_journal.v1" {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "initialized recovery journal schema is unsupported",
+        ));
+    }
+    for target in &manifest.targets {
+        let path = store.root().join(&target.path);
+        let current = fs::read(&path).unwrap_or_default();
+        let current_hash = sha256_hex(&current);
+        if current_hash != target.preimage_sha256 && current_hash != target.postimage_sha256 {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "initialized recovery target has unexpected hash",
+            ));
+        }
+    }
+    for target in &manifest.targets {
+        apply_recovery_target(store.root(), transaction, target)?;
+    }
+    Ok(())
+}
+
+fn apply_recovery_target(
+    root: &Path,
+    transaction: &Path,
+    target: &InitializedRecoveryJournalTarget,
+) -> Result<()> {
+    if !crate::pvf::clean_relative(Path::new(&target.path))
+        || !crate::pvf::clean_relative(Path::new(&target.blob))
+    {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "initialized recovery target or blob path is unsafe",
+        ));
+    }
+    let destination = root.join(&target.path);
+    let blob_path = transaction.join(&target.blob);
+    let bytes = fs::read(&blob_path)?;
+    if bytes.len() as u64 != target.len || sha256_hex(&bytes) != target.postimage_sha256 {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "initialized recovery staged blob does not match manifest",
+        ));
+    }
+    if let Some(parent) = destination.parent() {
+        fs::create_dir_all(parent)?;
+        let tmp = parent.join(format!(
+            ".{}.initialized-recovery-tmp",
+            destination
+                .file_name()
+                .and_then(|name| name.to_str())
+                .unwrap_or("target")
+        ));
+        {
+            let mut file = File::create(&tmp)?;
+            file.write_all(&bytes)?;
+            file.sync_all()?;
+        }
+        fs::rename(&tmp, &destination)?;
+        sync_dir(parent)?;
+        Ok(())
+    } else {
+        Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "initialized recovery target has no parent",
+        ))
+    }
+}
+
+fn sha256_hex(bytes: &[u8]) -> String {
+    let digest = Sha256::digest(bytes);
+    let mut out = String::with_capacity(64);
+    for byte in digest {
+        use std::fmt::Write as _;
+        write!(&mut out, "{byte:02x}").expect("format SHA-256");
+    }
+    out
+}
+
 fn authored_digest(store: &Store, relative: &str) -> Result<String> {
     authored_digest_with_hook(store, relative, |_| {})
 }
@@ -3351,6 +5426,26 @@ pub(crate) fn verify_cards(
         &record.diagram_path,
         &diagram_digest,
     )?;
+    Ok(())
+}
+
+fn verify_cards_without_authored_tuple(
+    store: &Store,
+    record: &IssueRecord,
+    cards: &BTreeMap<CardKind, CardValues>,
+) -> Result<()> {
+    verify_card_projections(store, record, cards)?;
+    let mut expected_audit = Vec::new();
+    for event in &record.audit {
+        serde_json::to_writer(&mut expected_audit, event)?;
+        expected_audit.push(b'\n');
+    }
+    if fs::read(store.issue_dir(record.issue).join("audit.jsonl"))? != expected_audit {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "audit projection drift",
+        ));
+    }
     Ok(())
 }
 
@@ -3742,10 +5837,12 @@ fn authorize_card_operation(
         ) | (
             LifecyclePhase::Implemented,
             CardKind::Spp,
-            SemanticOperation::ReplacePlanningCollection {
-                field: crate::cards::PlanningCollectionField::AffectedAreas,
-                ..
-            } | SemanticOperation::ReplacePlanSteps { .. }
+            SemanticOperation::RefreshAuthoredDesignAfterRecovery
+                | SemanticOperation::ReplacePlanningCollection {
+                    field: crate::cards::PlanningCollectionField::AffectedAreas,
+                    ..
+                }
+                | SemanticOperation::ReplacePlanSteps { .. }
                 | SemanticOperation::ReplacePlanningCollection {
                     field: crate::cards::PlanningCollectionField::Invariants
                         | crate::cards::PlanningCollectionField::StopConditions,
@@ -3835,6 +5932,23 @@ fn authorize_card_operation(
             ErrorCode::InvalidTransition,
             format!("{card} mutation is not allowed during {phase}"),
         ))
+    }
+}
+
+fn recovery_epoch_operation_is_allowed(operation: &str) -> bool {
+    if matches!(operation, "approve_design") {
+        return true;
+    }
+    let Ok(value) = serde_json::from_str::<serde_json::Value>(operation) else {
+        return false;
+    };
+    match value.get("operation").and_then(serde_json::Value::as_str) {
+        Some("approve_design") => true,
+        Some("replace_planning_collection") => {
+            value.get("field").and_then(serde_json::Value::as_str) == Some("affected_areas")
+        }
+        Some("replace_plan_steps" | "replace_validation_lanes") => true,
+        _ => false,
     }
 }
 
@@ -4230,10 +6344,10 @@ fn read_regular_authored_artifact_platform_with_hook(
     };
     hook(AuthoredReadStage::AfterInitialOpen);
     let before = opened.metadata()?;
-    if !before.is_file() {
+    if !before.is_file() || before.nlink() != 1 {
         return Err(V2Error::new(
             ErrorCode::ReconciliationRequired,
-            "authored artifact target is not a regular file",
+            "authored artifact target must be a regular single-link file",
         ));
     }
     let first = read_exact_current_file(&mut opened, before.len())?;
@@ -4270,8 +6384,11 @@ fn read_regular_authored_artifact_platform_with_hook(
     })?;
     let final_metadata = final_file.metadata()?;
     if !final_metadata.is_file()
+        || final_metadata.nlink() != 1
         || !same_file_identity(&after, &final_metadata)
         || after.len() != final_metadata.len()
+        || after.ctime() != final_metadata.ctime()
+        || after.ctime_nsec() != final_metadata.ctime_nsec()
     {
         return Err(V2Error::new(
             ErrorCode::ReconciliationRequired,
@@ -4282,6 +6399,7 @@ fn read_regular_authored_artifact_platform_with_hook(
     let final_bytes = read_exact_current_file(&mut final_file, final_metadata.len())?;
     let final_after = final_file.metadata()?;
     if final_bytes != first
+        || final_after.nlink() != 1
         || !same_file_identity(&final_metadata, &final_after)
         || final_metadata.len() != final_after.len()
         || final_metadata.mtime() != final_after.mtime()
@@ -4660,6 +6778,46 @@ fn sync_dir(path: &Path) -> Result<()> {
     Ok(())
 }
 
+fn sync_dirs_through(start: &Path, stop: &Path) -> Result<()> {
+    let mut directory = start;
+    loop {
+        sync_dir(directory)?;
+        if directory == stop {
+            return Ok(());
+        }
+        directory = directory.parent().ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "durable authored destination escaped the staging directory",
+            )
+        })?;
+    }
+}
+
+fn preserve_failed_projection_and_restore(
+    current: &Path,
+    backup: &Path,
+    rollback_preserved: &Path,
+) -> Result<()> {
+    if rollback_preserved.exists() {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "cannot overwrite an existing preserved failed projection",
+        ));
+    }
+    let parent = current.parent().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "issue projection has no parent for rollback",
+        )
+    })?;
+    fs::rename(current, rollback_preserved)?;
+    sync_dir(parent)?;
+    fs::rename(backup, current)?;
+    sync_dir(parent)?;
+    Ok(())
+}
+
 fn enum_iterator() -> impl Iterator<Item = CardKind> {
     use strum::IntoEnumIterator;
     CardKind::iter()
@@ -4762,6 +6920,110 @@ mod edit_authorization_tests {
             })
             .expect_err("approval replacement must fail closed");
         assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn implemented_authored_design_refresh_rejects_preexisting_hardlinks() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let design = temp.path().join("design.md");
+        fs::write(&design, b"# design\n").expect("design");
+        fs::hard_link(&design, temp.path().join("design-alias.md")).expect("hardlink alias");
+        let error = read_regular_authored_artifact(temp.path(), Path::new("design.md"))
+            .expect_err("pre-existing hardlink must fail closed");
+        assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+        assert!(error.message.contains("single-link"));
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn implemented_authored_design_refresh_rejects_hardlink_added_before_final_open() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let design = temp.path().join("design.md");
+        fs::write(&design, b"# design\n").expect("design");
+        let error = read_regular_authored_artifact_with_hook(
+            temp.path(),
+            Path::new("design.md"),
+            |stage| {
+                if stage == AuthoredReadStage::BeforeFinalOpen {
+                    fs::hard_link(&design, temp.path().join("late-alias.md")).expect("late alias");
+                }
+            },
+        )
+        .expect_err("late hardlink alias must fail closed");
+        assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn implemented_authored_design_refresh_retains_handle_identity_until_commit_boundary() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let design = temp.path().join("design.md");
+        fs::write(&design, b"# design\n").expect("design");
+        let mut retained = retain_authored_artifact(temp.path(), Path::new("design.md"))
+            .expect("retain artifact handle");
+        fs::rename(&design, temp.path().join("old-design.md")).expect("move original");
+        fs::write(&design, b"# replacement\n").expect("replace path");
+        let error = retained
+            .verify()
+            .expect_err("replacement must fail final identity check");
+        assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn implemented_authored_design_refresh_accepts_expected_issue_local_copy_after_swap() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let issue_dir = temp.path().join(".csdlc/issues/7");
+        let backup = temp.path().join(".csdlc/issues/.7.backup");
+        fs::create_dir_all(&issue_dir).expect("issue directory");
+        fs::write(issue_dir.join("design.md"), b"# design\n").expect("design");
+        let mut retained =
+            retain_authored_artifact(temp.path(), Path::new(".csdlc/issues/7/design.md"))
+                .expect("retain issue-local artifact");
+
+        fs::rename(&issue_dir, &backup).expect("preserve prior issue projection");
+        fs::create_dir_all(&issue_dir).expect("install next issue projection");
+        fs::copy(backup.join("design.md"), issue_dir.join("design.md"))
+            .expect("copy authored artifact into next projection");
+
+        assert_eq!(
+            retained
+                .verify_after_projection_swap(temp.path(), &issue_dir)
+                .expect("expected issue-local copy remains valid"),
+            digest(b"# design\n")
+        );
+        fs::write(issue_dir.join("design.md"), b"# injected\n").expect("inject drift");
+        let error = retained
+            .verify_after_projection_swap(temp.path(), &issue_dir)
+            .expect_err("post-swap drift must fail closed");
+        assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+    }
+
+    #[test]
+    fn failed_projection_rollback_preserves_unrelated_post_swap_state() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let parent = temp.path().join(".csdlc/issues");
+        let current = parent.join("7");
+        let backup = parent.join(".7.backup");
+        let preserved = parent.join(".7.rollback-preserved");
+        fs::create_dir_all(&current).expect("current projection");
+        fs::create_dir_all(&backup).expect("backup projection");
+        fs::write(current.join("index.json"), b"new").expect("new projection");
+        fs::write(current.join("externally-injected.txt"), b"preserve me")
+            .expect("external post-swap state");
+        fs::write(backup.join("index.json"), b"prior").expect("prior projection");
+
+        preserve_failed_projection_and_restore(&current, &backup, &preserved)
+            .expect("non-destructive rollback");
+
+        assert_eq!(fs::read(current.join("index.json")).unwrap(), b"prior");
+        assert_eq!(
+            fs::read(preserved.join("externally-injected.txt")).unwrap(),
+            b"preserve me"
+        );
+        assert_eq!(fs::read(preserved.join("index.json")).unwrap(), b"new");
+        assert!(!backup.exists());
     }
 
     #[cfg(unix)]
@@ -5005,6 +7267,52 @@ mod edit_authorization_tests {
                     .expect_err("late SPP replacement remains rejected");
                 assert_eq!(error.code, ErrorCode::InvalidTransition);
             }
+        }
+    }
+
+    #[test]
+    fn implemented_authored_design_refresh_is_exact_phase_and_card_only() {
+        let operation = SemanticOperation::RefreshAuthoredDesignAfterRecovery;
+        authorize_card_operation(LifecyclePhase::Implemented, CardKind::Spp, &operation)
+            .expect("implemented SPP reaches recovery-sensitive guard");
+        for phase in [
+            LifecyclePhase::Initialized,
+            LifecyclePhase::Ready,
+            LifecyclePhase::Bound,
+            LifecyclePhase::Reviewed,
+            LifecyclePhase::Published,
+            LifecyclePhase::MergeReady,
+            LifecyclePhase::Merged,
+            LifecyclePhase::ClosedOut,
+        ] {
+            assert_eq!(
+                authorize_card_operation(phase, CardKind::Spp, &operation)
+                    .expect_err("wrong phase")
+                    .code,
+                ErrorCode::InvalidTransition
+            );
+        }
+        assert_eq!(
+            authorize_card_operation(LifecyclePhase::Implemented, CardKind::Vpp, &operation)
+                .expect_err("wrong card")
+                .code,
+            ErrorCode::InvalidTransition
+        );
+    }
+
+    #[test]
+    fn canonical_fresh_design_reviewer_is_fail_closed() {
+        assert!(canonical_fresh_session(
+            "fresh-session:c4ee2e17-78fb-4e35-9442-11d2ac0e0478"
+        ));
+        for invalid in [
+            "",
+            "fresh-session:pending",
+            "fresh-session:C4EE2E17-78FB-4E35-9442-11D2AC0E0478",
+            "fresh-session:c4ee2e1778fb4e35944211d2ac0e0478",
+            "reviewer:c4ee2e17-78fb-4e35-9442-11d2ac0e0478",
+        ] {
+            assert!(!canonical_fresh_session(invalid), "{invalid}");
         }
     }
 }

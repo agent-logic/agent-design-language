@@ -1,0 +1,11 @@
+sha: f9cd01a44391729d2d46c799e20ea9cf5f5ab335
+argv: cargo clippy --manifest-path csdlc-v2/Cargo.toml --all-targets -- -D warnings
+   Compiling ring v0.17.14
+   Compiling rustls v0.23.41
+    Checking rustls-webpki v0.103.13
+    Checking tokio-rustls v0.26.4
+    Checking hyper-rustls v0.27.9
+    Checking octocrab v0.53.1
+    Checking csdlc-v2 v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-300-projection-recovery-integration-proof/csdlc-v2)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 16.55s
+status: 0

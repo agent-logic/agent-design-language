@@ -1,0 +1,120 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 356,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1b][defect] Expose minimal sealed Observatory projection accessors",
+    "slug": "sealed-observatory-projection-accessors",
+    "version": "v0.92",
+    "generation": 7
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Expose minimal read-only redacted accessors on terminal #350's sealed Observatory authority projection.",
+      "actual_changes": [
+        "Borrowed accessors for four opaque redacted references",
+        "Copied accessors for committed index, generations, digest refs, signer count, deadline and finalization time",
+        "Focused A/A getter, A/B denial, and redaction proof"
+      ],
+      "artifacts": [
+        "adl-runtime/src/distributed/serving_authority.rs",
+        "adl-runtime/tests/distributed_observatory_authority_projection.rs"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_observatory_authority_projection",
+            "--features",
+            "internal-test-fixtures",
+            "--",
+            "--test-threads=1"
+          ],
+          "purpose": "Prove all sealed projection accessors, A/B mismatch denial, canonical binding, durable quorum restore rejection, integer bounds, and redaction.",
+          "outcome": "passed",
+          "evidence_ref": "8 tests passed; 0 failed; 0 ignored at source commit 8ab811777"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_observatory_authority_projection",
+            "--features",
+            "internal-test-fixtures",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Reject warnings in exact accessor source and focused target.",
+          "outcome": "passed",
+          "evidence_ref": "strict Clippy completed successfully at source commit 8ab811777"
+        },
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check",
+            "5bff0099858f005bcc045b0aa7548be4892a2acb...cdc242321"
+          ],
+          "purpose": "Prove clean patch syntax and exact two-product-path scope against terminal #350 base.",
+          "outcome": "passed",
+          "evidence_ref": "exit 0 with no output; product diff limited to serving_authority.rs and distributed_observatory_authority_projection.rs"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_observatory_authority_projection",
+            "--features",
+            "internal-test-fixtures",
+            "--",
+            "--test-threads=1"
+          ],
+          "purpose": "Run the focused projection target.",
+          "outcome": "passed",
+          "evidence_ref": "focused-accessors.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "distributed_observatory_authority_projection",
+            "--features",
+            "internal-test-fixtures",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Run strict Clippy.",
+          "outcome": "passed",
+          "evidence_ref": "strict-clippy.log"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

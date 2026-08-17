@@ -1,0 +1,22 @@
+{
+  "issue": 271,
+  "expected_generation": 2,
+  "expected_digest": "a628cb34b1706035b3a4fb105228643d7ce8f0352bbdcc96e944b9ecaa600b58",
+  "actor": "codex:sprint5-271-stale-binding-repair",
+  "reason": "Refresh initialized #271 stale design/diagram card bindings through supported pre-bind acceptance repair without changing acceptance semantics.",
+  "card": "stp",
+  "operation": {
+    "operation": "replace_acceptance_criteria",
+    "values": [
+      "AC-1: #112/#265/#270 terminal caches validate canonical and their merges are ancestral to the execution base.",
+      "AC-2: Observatory consumes only the served #270 response schema and never treats request acceptance as delivery.",
+      "AC-3: Delivered, refused, failed, revoked, and recovery states are distinct, visible, accessible, and action-safe.",
+      "AC-4: Raw correlation identifiers, signed messages, private keys, proof hashes, provider payloads, policy details, and opaque signed request/acknowledgement material do not render, log, cache, or persist.",
+      "AC-5: Post-bind scope validation compares the bound branch from its exact execution base to current main and accepts exactly three product/test paths: demos/html-observatory/app.js, demos/html-observatory/styles.css, and adl/tools/validate_layer8_authority_observatory_ui.sh, plus issue-local lifecycle/evidence surfaces.",
+      "AC-6: The browser wrapper exercises the actual Observatory assets through the literal eight-case exact set: delivered, signed refusal, malformed response failure, unavailable Runtime recovery, revoked demotion, action release, keyboard/live-region accessibility, and forbidden-field non-disclosure; every case must be nonzero and zero/ignored/skipped/missing/duplicated cases fail closed.",
+      "AC-7: Existing real adl-runtime-kernel recipient_ack handler proof parses a nonzero denominator and covers delivered acknowledgement, signed refusal, generation binding, malformed/unknown status rejection, and raw-correlation redaction without adding a new non-issue-local script.",
+      "AC-8: Browser fixtures consume a source-grounded authentic handler-output artifact handoff stored under .csdlc/evidence/271 from the runtime proof; loopback-only or mocked conversation-frame evidence is not accepted.",
+      "AC-9: Fresh design review and fresh exact-head implementation review have no actionable findings before publication."
+    ]
+  }
+}

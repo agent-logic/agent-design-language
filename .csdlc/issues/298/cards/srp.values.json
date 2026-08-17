@@ -1,0 +1,34 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 298,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][297.a][defect] Implement anchored classification and resumable recovery ledger",
+    "slug": "297a-anchored-classification-resumable-recovery-ledger",
+    "version": "v0.92",
+    "generation": 70
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "csdlc-v2/src/projection_recovery.rs\ncsdlc-v2/src/store.rs\ncsdlc-v2/src/schema.rs\ncsdlc-v2/src/bin/csdlc-issue.rs\ncsdlc-v2/tests/gate5.rs\n.csdlc/issues/298\n.csdlc/evidence/298",
+      "review_revision": "git-blake3:222abd504d99a3bedc224699c0b68d302aac25b7:84e0aadc005c93ddf4bf88ac30533059fc92a2038fae8d23f727d44885c3e4fd",
+      "reviewer": "fresh-session:aee63902-3a08-4f0b-8f9f-6676a5ef1352",
+      "review_prompts": [
+        "no-follow retained-handle identity and mount authority",
+        "tagged CAS and failed-operation lineage permissions",
+        "immutable receipt chain and exact crash adoption",
+        "complete candidate construction and atomic install",
+        "evidence preservation and ordinary-commit release gate",
+        "scope exclusion of #299 cleanup and #300 integrated proof"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Inspection-only review; reviewer did not rerun validation or recheck GitHub CI. Parent observed local validation at the unchanged source tree after merge reconciliation: cargo fmt --check, git diff --check, focused gate5 preserved_projection_recovery, cargo test --lib, and strict all-target Clippy all passed. Hosted CI remains deferred to republication."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

@@ -3,11 +3,12 @@ use std::process::Command;
 
 use csdlc_v2::cards::{digest, PlanStep, ResourceProfile, StepStatus, ValidationLane};
 use csdlc_v2::{
-    initialize_native_json, migrate_bound_topology, migrate_bound_topology_with_crash_for_test,
-    migrate_bound_topology_with_failure_for_test, BootstrapRequest, BoundTopologyDisposition,
+    initialize_native_json, migrate_bound_issue_identity, migrate_bound_topology,
+    migrate_bound_topology_with_crash_for_test, migrate_bound_topology_with_failure_for_test,
+    BootstrapRequest, BoundIssueIdentityMigrationRequest, BoundTopologyDisposition,
     BoundTopologyMigrationItem, BoundTopologyMigrationRequest, ClosedIssueEvidence,
-    InitialCardInput, LifecyclePhase, MigrationIssueState, PlanningProfile, Store,
-    TerminalDisposition,
+    InitialCardInput, LifecyclePhase, MigrationIssueState, PlanningProfile, PublicationEvidence,
+    PublicationLinkageMode, Store, TerminalDisposition,
 };
 
 fn git(root: &std::path::Path, args: &[&str]) {
@@ -228,6 +229,95 @@ fn request(
     }
 }
 
+fn commit_all(root: &std::path::Path, message: &str) {
+    git(root, &["add", "."]);
+    git(root, &["commit", "-m", message]);
+}
+
+fn identity_target_evidence(store: &Store, target_issue: u64) -> String {
+    let evidence_dir = store.root().join("evidence");
+    fs::create_dir_all(&evidence_dir).unwrap();
+    fs::write(
+        evidence_dir.join("target-issue.json"),
+        serde_json::to_vec_pretty(&serde_json::json!({
+            "schema": "csdlc.bound_issue_identity_target_evidence.v1",
+            "repository": "example/repo",
+            "issue": target_issue,
+            "state": "open",
+            "title": "Canonical current issue",
+            "operation_key": "typed-create-current-issue"
+        }))
+        .unwrap(),
+    )
+    .unwrap();
+    "evidence/target-issue.json".into()
+}
+
+fn identity_request(
+    store: &Store,
+    source_issue: u64,
+    target_issue: u64,
+) -> BoundIssueIdentityMigrationRequest {
+    let record = store.load_record(source_issue).unwrap();
+    BoundIssueIdentityMigrationRequest {
+        schema: "csdlc.bound_issue_identity_migration_request.v1".into(),
+        source_issue,
+        target_issue,
+        source_repository: "example/repo".into(),
+        target_repository: "example/repo".into(),
+        expected_generation: record.generation,
+        expected_digest: record.digest,
+        actor: "test-identity-migrator".into(),
+        reason: "recover wrong issue identity".into(),
+        target_issue_evidence: identity_target_evidence(store, target_issue),
+    }
+}
+
+fn make_published_source(store: &Store, issue: u64) {
+    let mut record = store.load_record(issue).unwrap();
+    record.transitions.push(csdlc_v2::model::TransitionEvent {
+        sequence: record.transitions.len() as u64 + 1,
+        from: LifecyclePhase::Bound,
+        to: LifecyclePhase::Implemented,
+        actor: "fixture".into(),
+        reason: "implemented fixture".into(),
+    });
+    record.transitions.push(csdlc_v2::model::TransitionEvent {
+        sequence: record.transitions.len() as u64 + 1,
+        from: LifecyclePhase::Implemented,
+        to: LifecyclePhase::Reviewed,
+        actor: "fixture".into(),
+        reason: "reviewed fixture".into(),
+    });
+    record.transitions.push(csdlc_v2::model::TransitionEvent {
+        sequence: record.transitions.len() as u64 + 1,
+        from: LifecyclePhase::Reviewed,
+        to: LifecyclePhase::Published,
+        actor: "fixture".into(),
+        reason: "published fixture".into(),
+    });
+    record.phase = LifecyclePhase::Published;
+    record.publication = Some(PublicationEvidence {
+        repository: "example/repo".into(),
+        issue,
+        pull_request: 320,
+        url: "https://github.com/example/repo/pull/320".into(),
+        base: "main".into(),
+        head: "codex/source".into(),
+        revision: "git-blake3:0123456789012345678901234567890123456789:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa".into(),
+        linkage_mode: Some(PublicationLinkageMode::Closing),
+        draft: false,
+        observed_state: "open".into(),
+    });
+    record.digest.clear();
+    record.digest = digest(&serde_json::to_vec(&record).unwrap());
+    fs::write(
+        store.issue_dir(issue).join("index.json"),
+        serde_json::to_vec_pretty(&record).unwrap(),
+    )
+    .unwrap();
+}
+
 #[test]
 fn open_record_dry_run_apply_and_second_run_are_truthful() {
     let (_temp, store) = fixture(42);
@@ -258,6 +348,99 @@ fn open_record_dry_run_apply_and_second_run_are_truthful() {
     assert_eq!(
         second.results[0].disposition,
         BoundTopologyDisposition::AlreadyCurrent
+    );
+}
+
+#[test]
+fn bound_issue_identity_migration_moves_published_source_to_canonical_issue() {
+    let (_temp, store) = fixture(5913);
+    make_published_source(&store, 5913);
+    let request = identity_request(&store, 5913, 322);
+    commit_all(store.root(), "published wrong issue identity");
+
+    let report = migrate_bound_issue_identity(&store, request).unwrap();
+    assert!(report.changed);
+    assert_eq!(report.source_issue, 5913);
+    assert_eq!(report.target_issue, 322);
+    assert_eq!(report.evidence.previous_phase, LifecyclePhase::Published);
+    assert_eq!(report.evidence.resulting_phase, LifecyclePhase::Published);
+    assert!(report.evidence.cleared_publication);
+    assert!(!store.issue_dir(5913).exists());
+
+    let migrated = store.load_record(322).unwrap();
+    assert_eq!(migrated.issue, 322);
+    assert_eq!(migrated.repository, "example/repo");
+    assert_eq!(migrated.phase, LifecyclePhase::Published);
+    assert!(migrated.publication.is_none());
+    assert!(migrated.readiness.is_none());
+    assert!(migrated
+        .audit
+        .last()
+        .unwrap()
+        .operation
+        .contains("\"source_issue\":5913"));
+    for card in store.load_cards(322).unwrap().values() {
+        assert_eq!(card.identity.issue, 322);
+        assert_eq!(card.identity.repository, "example/repo");
+        assert_eq!(card.identity.generation, migrated.generation);
+    }
+}
+
+#[test]
+fn bound_issue_identity_migration_fails_closed_on_stale_conflict_dirty_and_terminal() {
+    let (_temp, store) = fixture(5913);
+    commit_all(store.root(), "bound wrong issue identity");
+    let mut stale = identity_request(&store, 5913, 322);
+    stale.expected_generation += 1;
+    assert_eq!(
+        migrate_bound_issue_identity(&store, stale)
+            .unwrap_err()
+            .code,
+        csdlc_v2::ErrorCode::StaleDigest
+    );
+
+    fs::create_dir_all(store.issue_dir(322)).unwrap();
+    assert_eq!(
+        migrate_bound_issue_identity(&store, identity_request(&store, 5913, 322))
+            .unwrap_err()
+            .code,
+        csdlc_v2::ErrorCode::ReconciliationRequired
+    );
+    fs::remove_dir_all(store.issue_dir(322)).unwrap();
+
+    fs::write(store.root().join("untracked.txt"), "dirty\n").unwrap();
+    assert_eq!(
+        migrate_bound_issue_identity(&store, identity_request(&store, 5913, 322))
+            .unwrap_err()
+            .code,
+        csdlc_v2::ErrorCode::UnsafeCheckout
+    );
+    fs::remove_file(store.root().join("untracked.txt")).unwrap();
+
+    let mut terminal = store.load_record(5913).unwrap();
+    terminal.phase = LifecyclePhase::ClosedOut;
+    terminal.terminal = Some(csdlc_v2::TerminalEvidence {
+        pull_request: None,
+        disposition: TerminalDisposition::ClosedNoPr,
+        observed_sha: None,
+        observed_state: "closed".into(),
+        receipt_path: "evidence/terminal.json".into(),
+        branch: None,
+        worktree: None,
+    });
+    terminal.digest.clear();
+    terminal.digest = digest(&serde_json::to_vec(&terminal).unwrap());
+    fs::write(
+        store.issue_dir(5913).join("index.json"),
+        serde_json::to_vec_pretty(&terminal).unwrap(),
+    )
+    .unwrap();
+    commit_all(store.root(), "terminal wrong issue identity");
+    assert_eq!(
+        migrate_bound_issue_identity(&store, identity_request(&store, 5913, 322))
+            .unwrap_err()
+            .code,
+        csdlc_v2::ErrorCode::InvalidTransition
     );
 }
 

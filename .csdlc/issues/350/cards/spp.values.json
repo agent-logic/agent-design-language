@@ -1,0 +1,105 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 350,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16b3.1b][defect] Expose sealed authenticated Observatory authority projection",
+    "slug": "authenticated-observatory-authority-projection",
+    "version": "v0.92",
+    "generation": 22
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "Bootstrap and review the sealed interface, bind after PASS, implement durable deadline retention and exact cross-binding, prove focused behavior and compatibility, review exact head, publish, pass CI, and finish before releasing #274.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Freshly review and approve exact design and proof boundaries.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Implement durable deadline retention and sealed cross-bound projection without widening scope.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Run focused tests, strict Clippy, scope and diff proof, then exact-head review.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Publish, shepherd required CI, finish, and prove terminal ancestry before #274 resumes.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "adl-runtime/src/distributed/authority_protocol.rs",
+        "adl-runtime/src/distributed/authority_protocol_contract_tests.rs",
+        "adl-runtime/src/distributed/serving_authority.rs",
+        "adl-runtime/tests/distributed_observatory_authority_projection.rs",
+        "adl-runtime/Cargo.toml",
+        ".csdlc/prepared/issues/350",
+        ".csdlc/evidence/350",
+        ".csdlc/issues/350"
+      ],
+      "invariants": [
+        "No caller-supplied field can mint projection authority",
+        "Published quorum and exact #272 cut remain cross-bound",
+        "Deadline authority is committed, durable, and restart-safe",
+        "Projection is deterministic and redacted",
+        "#274 remains unbound until terminal #350"
+      ],
+      "risks": [
+        "Durable schema evolution could reject or misread legacy checkpoints",
+        "A weak cross-binding could combine unrelated valid authorities",
+        "Projection could leak signer or identity material",
+        "Changes could regress existing authority consumers"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 43200,
+        "total_tokens": 140000,
+        "validation_seconds": 7200
+      },
+      "stop_conditions": [
+        "Design review identifies an unresolved authority or compatibility gap",
+        "Implementation requires #274, #273 behavior, #203, #205, #275, or undeclared runtime surfaces",
+        "Legacy durable state gains authority through a default",
+        "Any proof, review, CI, or terminal gate fails"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/350/design.md",
+      "design_digest": "30c79e11c4d8659d20e6f443a5f6c72ebff57093d3f25e06b58f4a620a44d9ee",
+      "diagram_ref": ".csdlc/prepared/issues/350/diagram.mmd",
+      "diagram_digest": "2094f41a435389c054a8b4a5261230f9261eb8cde61e33528ff96fcffaf0b772"
+    }
+  }
+}

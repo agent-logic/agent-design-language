@@ -1,0 +1,368 @@
+# Structured Output Record
+
+Template: 1.0.0
+
+Issue: 298
+
+Repository: agent-logic/agent-design-language
+
+Card: sor
+
+Status: pre_phase
+
+## Summary
+
+Removed the cfg-Linux needless return rejected by hosted strict Clippy.
+
+## Artifacts
+
+- .csdlc/evidence/298/csdlc-v2-lib.log
+- .csdlc/evidence/298/csdlc-v2-strict-clippy.log
+- .csdlc/evidence/298/preserved-projection-recovery.log
+- csdlc-v2/src/bin/csdlc-issue.rs
+- csdlc-v2/src/projection_recovery.rs
+- csdlc-v2/src/schema.rs
+- csdlc-v2/src/store.rs
+- csdlc-v2/tests/gate5.rs
+- csdlc-v2/src/projection_recovery.rs
+- .csdlc/evidence/298/preserved-projection-recovery.log
+- .csdlc/evidence/298/csdlc-v2-lib.log
+- .csdlc/evidence/298/csdlc-v2-strict-clippy.log
+
+## Execution
+
+- Added typed classify/recover contracts and CLI/schema exports; cleanup remains excluded for #299
+- Added retained descriptor-relative no-follow traversal with fstat/fstatfs identity, mount, ownership, permission, type, and link validation
+- Added immutable hash-linked main/per-node receipt ledgers and exact-prefix temporary-node create/write/fsync/no-replace-publish restart
+- Added archive, candidate verification, atomic exchange/no-replace install, displacement, canonical verification, and final idempotent recovery
+- Blocked ordinary commits before complete recovery and proved later ordinary commit after recovery
+- Added deterministic 21-boundary failpoints plus lineage, replacement, symlink, hardlink, mode, topology, initialized/ready, and #291-compatible regressions
+- Cross-mount enforcement is implemented with retained-handle fstatfs mount identity; dynamic bind-mount injection was not available locally and is not claimed
+- Typed tagged-CAS classification and failed-operation lineage
+- Retained descriptor-relative no-follow per-node identity and mount authority
+- Immutable main and per-node recovery ledgers with deterministic restart
+- Recovery-owned candidate construction, atomic install, displacement, and canonical verification
+- CLI/schema/store integration and focused recovery-only regression proof
+- Added typed classify/recover contracts and CLI/schema exports; cleanup remains excluded for #299
+- Added retained descriptor-relative no-follow traversal with fstat/fstatfs identity, mount, ownership, permission, type, and link validation
+- Added immutable hash-linked main/per-node receipt ledgers and exact-prefix temporary-node create/write/fsync/no-replace-publish restart
+- Added archive, candidate verification, atomic exchange/no-replace install, displacement, canonical verification, and final idempotent recovery
+- Blocked ordinary commits before complete recovery and proved later ordinary commit after recovery
+- Added deterministic 21-boundary failpoints plus lineage, replacement, symlink, hardlink, mode, topology, initialized/ready, and #291-compatible regressions
+- Cross-mount enforcement is implemented with retained-handle fstatfs mount identity; dynamic bind-mount injection was not available locally and is not claimed
+- Validated full IssueRecord, all six cards, rendered Markdown, audit JSONL, cross-card bindings, and authored artifact digests before trusting a projection
+- Replaced AT_FDCWD mutations with retained no-follow parent descriptor-relative rename and exchange
+- Blocked ordinary commits until every recovery attempt has a validated recovered terminal receipt
+- Validated receipt schema, sequence, state, unique predecessor, and hash-chain envelopes on restart
+- Inventoried recovery attempts and classified matching completed recovery as already_recovered
+- Added distinct terminal receipt tamper and already-recovered classification proof
+- Added typed classify/recover contracts and CLI/schema exports; cleanup remains excluded for #299
+- Added retained descriptor-relative no-follow traversal with fstat/fstatfs identity, mount, ownership, permission, type, and link validation
+- Added immutable hash-linked main/per-node receipt ledgers and exact-prefix temporary-node create/write/fsync/no-replace-publish restart
+- Added archive, candidate verification, atomic exchange/no-replace install, displacement, canonical verification, and final idempotent recovery
+- Blocked ordinary commits before complete recovery and proved later ordinary commit after recovery
+- Added deterministic 21-boundary failpoints plus lineage, replacement, symlink, hardlink, mode, topology, initialized/ready, and #291-compatible regressions
+- Cross-mount enforcement is implemented with retained-handle fstatfs mount identity; dynamic bind-mount injection was not available locally and is not claimed
+- Validated full IssueRecord, all six cards, rendered Markdown, audit JSONL, cross-card bindings, and authored artifact digests before trusting a projection
+- Replaced AT_FDCWD mutations with retained no-follow parent descriptor-relative rename and exchange
+- Blocked ordinary commits until every recovery attempt has a validated recovered terminal receipt
+- Validated receipt schema, sequence, state, unique predecessor, and hash-chain envelopes on restart
+- Inventoried recovery attempts and classified matching completed recovery as already_recovered
+- Added distinct terminal receipt tamper and already-recovered classification proof
+- Validated the complete 13-state recovery chain, request authority, terminal operation identity, result self-digest, and canonical binding through one shared loader
+- Changed rename/exchange interfaces to consume retained anchored parent descriptors and basenames
+- Added forged terminal, broken earlier chain, operation mismatch, and self-digest negative proof
+- Added typed classify/recover contracts and CLI/schema exports; cleanup remains excluded for #299
+- Added retained descriptor-relative no-follow traversal with fstat/fstatfs identity, mount, ownership, permission, type, and link validation
+- Added immutable hash-linked main/per-node receipt ledgers and exact-prefix temporary-node create/write/fsync/no-replace-publish restart
+- Added archive, candidate verification, atomic exchange/no-replace install, displacement, canonical verification, and final idempotent recovery
+- Blocked ordinary commits before complete recovery and proved later ordinary commit after recovery
+- Added deterministic 21-boundary failpoints plus lineage, replacement, symlink, hardlink, mode, topology, initialized/ready, and #291-compatible regressions
+- Cross-mount enforcement is implemented with retained-handle fstatfs mount identity; dynamic bind-mount injection was not available locally and is not claimed
+- Validated full IssueRecord, all six cards, rendered Markdown, audit JSONL, cross-card bindings, and authored artifact digests before trusting a projection
+- Replaced AT_FDCWD mutations with retained no-follow parent descriptor-relative rename and exchange
+- Blocked ordinary commits until every recovery attempt has a validated recovered terminal receipt
+- Validated receipt schema, sequence, state, unique predecessor, and hash-chain envelopes on restart
+- Inventoried recovery attempts and classified matching completed recovery as already_recovered
+- Added distinct terminal receipt tamper and already-recovered classification proof
+- Validated the complete 13-state recovery chain, request authority, terminal operation identity, result self-digest, and canonical binding through one shared loader
+- Changed rename/exchange interfaces to consume retained anchored parent descriptors and basenames
+- Added forged terminal, broken earlier chain, operation mismatch, and self-digest negative proof
+- Persisted and recomputed the full PREPARED typed request authority
+- Bound terminal operation and receipt result to the canonical recovery audit while allowing later canonical generations
+- Revalidated exact retained-parent child identity immediately before dirfd rename/exchange
+- Proved two successive ordinary commits after recovery
+- Added typed classify/recover contracts and CLI/schema exports; cleanup remains excluded for #299
+- Added retained descriptor-relative no-follow traversal with fstat/fstatfs identity, mount, ownership, permission, type, and link validation
+- Added immutable hash-linked main/per-node receipt ledgers and exact-prefix temporary-node create/write/fsync/no-replace-publish restart
+- Added archive, candidate verification, atomic exchange/no-replace install, displacement, canonical verification, and final idempotent recovery
+- Blocked ordinary commits before complete recovery and proved later ordinary commit after recovery
+- Added deterministic 21-boundary failpoints plus lineage, replacement, symlink, hardlink, mode, topology, initialized/ready, and #291-compatible regressions
+- Cross-mount enforcement is implemented with retained-handle fstatfs mount identity; dynamic bind-mount injection was not available locally and is not claimed
+- Validated full IssueRecord, all six cards, rendered Markdown, audit JSONL, cross-card bindings, and authored artifact digests before trusting a projection
+- Replaced AT_FDCWD mutations with retained no-follow parent descriptor-relative rename and exchange
+- Blocked ordinary commits until every recovery attempt has a validated recovered terminal receipt
+- Validated receipt schema, sequence, state, unique predecessor, and hash-chain envelopes on restart
+- Inventoried recovery attempts and classified matching completed recovery as already_recovered
+- Added distinct terminal receipt tamper and already-recovered classification proof
+- Validated the complete 13-state recovery chain, request authority, terminal operation identity, result self-digest, and canonical binding through one shared loader
+- Changed rename/exchange interfaces to consume retained anchored parent descriptors and basenames
+- Added forged terminal, broken earlier chain, operation mismatch, and self-digest negative proof
+- Persisted and recomputed the full PREPARED typed request authority
+- Bound terminal operation and receipt result to the canonical recovery audit while allowing later canonical generations
+- Revalidated exact retained-parent child identity immediately before dirfd rename/exchange
+- Proved two successive ordinary commits after recovery
+- Added typed classify/recover contracts and CLI/schema exports; cleanup remains excluded for #299
+- Added retained descriptor-relative no-follow traversal with fstat/fstatfs identity, mount, ownership, permission, type, and link validation
+- Added immutable hash-linked main/per-node receipt ledgers and exact-prefix temporary-node create/write/fsync/no-replace-publish restart
+- Added archive, candidate verification, atomic exchange/no-replace install, displacement, canonical verification, and final idempotent recovery
+- Blocked ordinary commits before complete recovery and proved later ordinary commit after recovery
+- Added deterministic 21-boundary failpoints plus lineage, replacement, symlink, hardlink, mode, topology, initialized/ready, and #291-compatible regressions
+- Cross-mount enforcement is implemented with retained-handle fstatfs mount identity; dynamic bind-mount injection was not available locally and is not claimed
+- Validated full IssueRecord, all six cards, rendered Markdown, audit JSONL, cross-card bindings, and authored artifact digests before trusting a projection
+- Replaced AT_FDCWD mutations with retained no-follow parent descriptor-relative rename and exchange
+- Blocked ordinary commits until every recovery attempt has a validated recovered terminal receipt
+- Validated receipt schema, sequence, state, unique predecessor, and hash-chain envelopes on restart
+- Inventoried recovery attempts and classified matching completed recovery as already_recovered
+- Added distinct terminal receipt tamper and already-recovered classification proof
+- Validated the complete 13-state recovery chain, request authority, terminal operation identity, result self-digest, and canonical binding through one shared loader
+- Changed rename/exchange interfaces to consume retained anchored parent descriptors and basenames
+- Added forged terminal, broken earlier chain, operation mismatch, and self-digest negative proof
+- Persisted and recomputed the full PREPARED typed request authority
+- Bound terminal operation and receipt result to the canonical recovery audit while allowing later canonical generations
+- Revalidated exact retained-parent child identity immediately before dirfd rename/exchange
+- Proved two successive ordinary commits after recovery
+- Retained the exact checked source child descriptor until rename/exchange completion
+- Validated typed request authority and durable canonical recovery audit
+- Added post-exchange candidate name-swap fail-closed proof
+- Added typed classify/recover contracts and CLI/schema exports; cleanup remains excluded for #299
+- Added retained descriptor-relative no-follow traversal with fstat/fstatfs identity, mount, ownership, permission, type, and link validation
+- Added immutable hash-linked main/per-node receipt ledgers and exact-prefix temporary-node create/write/fsync/no-replace-publish restart
+- Added archive, candidate verification, atomic exchange/no-replace install, displacement, canonical verification, and final idempotent recovery
+- Blocked ordinary commits before complete recovery and proved later ordinary commit after recovery
+- Added deterministic 21-boundary failpoints plus lineage, replacement, symlink, hardlink, mode, topology, initialized/ready, and #291-compatible regressions
+- Cross-mount enforcement is implemented with retained-handle fstatfs mount identity; dynamic bind-mount injection was not available locally and is not claimed
+- Validated full IssueRecord, all six cards, rendered Markdown, audit JSONL, cross-card bindings, and authored artifact digests before trusting a projection
+- Replaced AT_FDCWD mutations with retained no-follow parent descriptor-relative rename and exchange
+- Blocked ordinary commits until every recovery attempt has a validated recovered terminal receipt
+- Validated receipt schema, sequence, state, unique predecessor, and hash-chain envelopes on restart
+- Inventoried recovery attempts and classified matching completed recovery as already_recovered
+- Added distinct terminal receipt tamper and already-recovered classification proof
+- Validated the complete 13-state recovery chain, request authority, terminal operation identity, result self-digest, and canonical binding through one shared loader
+- Changed rename/exchange interfaces to consume retained anchored parent descriptors and basenames
+- Added forged terminal, broken earlier chain, operation mismatch, and self-digest negative proof
+- Persisted and recomputed the full PREPARED typed request authority
+- Bound terminal operation and receipt result to the canonical recovery audit while allowing later canonical generations
+- Revalidated exact retained-parent child identity immediately before dirfd rename/exchange
+- Proved two successive ordinary commits after recovery
+- Retained the exact checked source child descriptor until rename/exchange completion
+- Validated typed request authority and durable canonical recovery audit
+- Added post-exchange candidate name-swap fail-closed proof
+- Added typed classify/recover contracts and CLI/schema exports; cleanup remains excluded for #299
+- Added retained descriptor-relative no-follow traversal with fstat/fstatfs identity, mount, ownership, permission, type, and link validation
+- Added immutable hash-linked main/per-node receipt ledgers and exact-prefix temporary-node create/write/fsync/no-replace-publish restart
+- Added archive, candidate verification, atomic exchange/no-replace install, displacement, canonical verification, and final idempotent recovery
+- Blocked ordinary commits before complete recovery and proved later ordinary commit after recovery
+- Added deterministic 21-boundary failpoints plus lineage, replacement, symlink, hardlink, mode, topology, initialized/ready, and #291-compatible regressions
+- Cross-mount enforcement is implemented with retained-handle fstatfs mount identity; dynamic bind-mount injection was not available locally and is not claimed
+- Validated full IssueRecord, all six cards, rendered Markdown, audit JSONL, cross-card bindings, and authored artifact digests before trusting a projection
+- Replaced AT_FDCWD mutations with retained no-follow parent descriptor-relative rename and exchange
+- Blocked ordinary commits until every recovery attempt has a validated recovered terminal receipt
+- Validated receipt schema, sequence, state, unique predecessor, and hash-chain envelopes on restart
+- Inventoried recovery attempts and classified matching completed recovery as already_recovered
+- Added distinct terminal receipt tamper and already-recovered classification proof
+- Validated the complete 13-state recovery chain, request authority, terminal operation identity, result self-digest, and canonical binding through one shared loader
+- Changed rename/exchange interfaces to consume retained anchored parent descriptors and basenames
+- Added forged terminal, broken earlier chain, operation mismatch, and self-digest negative proof
+- Persisted and recomputed the full PREPARED typed request authority
+- Bound terminal operation and receipt result to the canonical recovery audit while allowing later canonical generations
+- Revalidated exact retained-parent child identity immediately before dirfd rename/exchange
+- Proved two successive ordinary commits after recovery
+- Retained the exact checked source child descriptor until rename/exchange completion
+- Validated typed request authority and durable canonical recovery audit
+- Added post-exchange candidate name-swap fail-closed proof
+- Added typed classify/recover contracts and CLI/schema exports; cleanup remains excluded for #299
+- Added retained descriptor-relative no-follow traversal with fstat/fstatfs identity, mount, ownership, permission, type, and link validation
+- Added immutable hash-linked main/per-node receipt ledgers and exact-prefix temporary-node create/write/fsync/no-replace-publish restart
+- Added archive, candidate verification, atomic exchange/no-replace install, displacement, canonical verification, and final idempotent recovery
+- Blocked ordinary commits before complete recovery and proved later ordinary commit after recovery
+- Added deterministic 21-boundary failpoints plus lineage, replacement, symlink, hardlink, mode, topology, initialized/ready, and #291-compatible regressions
+- Cross-mount enforcement is implemented with retained-handle fstatfs mount identity; dynamic bind-mount injection was not available locally and is not claimed
+- Validated full IssueRecord, all six cards, rendered Markdown, audit JSONL, cross-card bindings, and authored artifact digests before trusting a projection
+- Replaced AT_FDCWD mutations with retained no-follow parent descriptor-relative rename and exchange
+- Blocked ordinary commits until every recovery attempt has a validated recovered terminal receipt
+- Validated receipt schema, sequence, state, unique predecessor, and hash-chain envelopes on restart
+- Inventoried recovery attempts and classified matching completed recovery as already_recovered
+- Added distinct terminal receipt tamper and already-recovered classification proof
+- Validated the complete 13-state recovery chain, request authority, terminal operation identity, result self-digest, and canonical binding through one shared loader
+- Changed rename/exchange interfaces to consume retained anchored parent descriptors and basenames
+- Added forged terminal, broken earlier chain, operation mismatch, and self-digest negative proof
+- Persisted and recomputed the full PREPARED typed request authority
+- Bound terminal operation and receipt result to the canonical recovery audit while allowing later canonical generations
+- Revalidated exact retained-parent child identity immediately before dirfd rename/exchange
+- Proved two successive ordinary commits after recovery
+- Retained the exact checked source child descriptor until rename/exchange completion
+- Validated typed request authority and durable canonical recovery audit
+- Added post-exchange candidate name-swap fail-closed proof
+- Added typed classify/recover contracts and CLI/schema exports; cleanup remains excluded for #299
+- Added retained descriptor-relative no-follow traversal with fstat/fstatfs identity, mount, ownership, permission, type, and link validation
+- Added immutable hash-linked main/per-node receipt ledgers and exact-prefix temporary-node create/write/fsync/no-replace-publish restart
+- Added archive, candidate verification, atomic exchange/no-replace install, displacement, canonical verification, and final idempotent recovery
+- Blocked ordinary commits before complete recovery and proved later ordinary commit after recovery
+- Added deterministic 21-boundary failpoints plus lineage, replacement, symlink, hardlink, mode, topology, initialized/ready, and #291-compatible regressions
+- Cross-mount enforcement is implemented with retained-handle fstatfs mount identity; dynamic bind-mount injection was not available locally and is not claimed
+- Validated full IssueRecord, all six cards, rendered Markdown, audit JSONL, cross-card bindings, and authored artifact digests before trusting a projection
+- Replaced AT_FDCWD mutations with retained no-follow parent descriptor-relative rename and exchange
+- Blocked ordinary commits until every recovery attempt has a validated recovered terminal receipt
+- Validated receipt schema, sequence, state, unique predecessor, and hash-chain envelopes on restart
+- Inventoried recovery attempts and classified matching completed recovery as already_recovered
+- Added distinct terminal receipt tamper and already-recovered classification proof
+- Validated the complete 13-state recovery chain, request authority, terminal operation identity, result self-digest, and canonical binding through one shared loader
+- Changed rename/exchange interfaces to consume retained anchored parent descriptors and basenames
+- Added forged terminal, broken earlier chain, operation mismatch, and self-digest negative proof
+- Persisted and recomputed the full PREPARED typed request authority
+- Bound terminal operation and receipt result to the canonical recovery audit while allowing later canonical generations
+- Revalidated exact retained-parent child identity immediately before dirfd rename/exchange
+- Proved two successive ordinary commits after recovery
+- Retained the exact checked source child descriptor until rename/exchange completion
+- Validated typed request authority and durable canonical recovery audit
+- Added post-exchange candidate name-swap fail-closed proof
+- Added typed classify/recover contracts and CLI/schema exports; cleanup remains excluded for #299
+- Added retained descriptor-relative no-follow traversal with fstat/fstatfs identity, mount, ownership, permission, type, and link validation
+- Added immutable hash-linked main/per-node receipt ledgers and exact-prefix temporary-node create/write/fsync/no-replace-publish restart
+- Added archive, candidate verification, atomic exchange/no-replace install, displacement, canonical verification, and final idempotent recovery
+- Blocked ordinary commits before complete recovery and proved later ordinary commit after recovery
+- Added deterministic recovery-boundary failpoints plus lineage, replacement, symlink, hardlink, mode, topology, initialized/ready, and #291-compatible regressions
+- Validated full IssueRecord, all six cards, rendered Markdown, audit JSONL, cross-card bindings, and authored artifact digests before trusting a projection
+- Retained the exact checked source child descriptor until rename/exchange completion
+- Validated typed request authority, PREPARED classification self-digest, request classification equality, terminal result authority, and durable canonical recovery audit
+- Derived completed recovery candidate record/files from the retained displaced prior projection and exact authorized audit transform
+- Compared completed candidate-created receipts and terminal canonical artifacts against the authorized recovery transform
+- Allowed later ordinary generations after the recovered terminal generation without requiring canonical files to remain at the recovered generation
+- Added coherent candidate-chain forgery and malformed request classification fail-closed proof
+- Recorded refreshed focused recovery proof with 15 passing tests
+- Enumerated every recovery attempt entry without dropping read or type errors
+- Required exactly the 13 named regular authority receipts
+- Classified only operation-owned rejected, displaced, and exact node ledger directories as allowed workspace state
+- Rejected symlink, directory, non-regular, unknown, and malformed post-terminal entries
+- Added regular-file, symlink, and directory post-terminal rejection regressions
+- Validated the 19-test focused recovery lane
+- Allowed exactly candidate, displaced, rejected, and contiguous node-NNN directories alongside the 13 regular authority receipts
+- Required node ledger count to equal the derived candidate file count plus the two authorized directories
+- Validated every node ledger as an exact ten-receipt sequence with authorized payload and stable filesystem identity bindings
+- Rejected extra regular, directory, symlink, and FIFO entries at attempt and node-ledger levels
+- Preserved exact candidate manifest and content derivation plus all prior receipt-chain, mutation, and ordinary-commit gates
+- Validated the 24-test focused recovery lane; retained evidence log remains the prior 19-test capture and is not claimed as refreshed
+- Derived and required the exact operation-owned temporary name in create, fsync, and publish intent receipts
+- Bound the created temporary identity to the observed published file across device, mount, inode, links, ownership, mode, and node type
+- Rejected unexpected or incomplete top-level receipt envelope fields
+- Added coherently rehashed temporary-name, created-identity, and envelope-extension forgery regressions
+- Added expected-canonical-absent recovery proof using the authorized backup source
+- Validated the 28-test focused recovery lane, 75 library tests, strict all-target Clippy, formatting, and diff hygiene
+- Required exact operation-owned temporary names in create, fsync, and publish intent receipts
+- Bound created temporary identity to the observed published node across stable filesystem identity fields
+- Retained distinct coherent forgeries for created and terminal node identities, final paths, temporary names, and receipt envelopes
+- Proved expected-canonical-absent recovery through the authorized backup source
+- Validated exact seq2 and seq10 filters plus the live 29-test focused lane; retained evidence log was not refreshed because a concurrent stale capture was rejected
+- Validated 75 library tests, strict all-target Clippy, formatting, and diff hygiene
+- Required receipt and predecessor paths to remain regular non-symlink files when reading immutable receipt authority
+- Required existing receipts and predecessors to remain regular non-symlink files during deterministic resume
+- Added a partial PREPARED receipt symlink substitution regression proving failure before preserved evidence mutation
+- Validated the exact regression, the 30-test focused recovery lane, 75 library tests, strict all-target Clippy, formatting, and diff hygiene
+- Retained evidence log was not refreshed and is not claimed as current
+- Opened recovery roots and attempts with O_DIRECTORY, O_NOFOLLOW, and O_CLOEXEC and retained the resulting directory descriptors
+- Validated retained directory mode, owner, group, device, mount, inode, and pathname binding before evidence mutation
+- Enumerated recovery roots and attempts descriptor-relative and created attempt directories with mkdirat
+- Opened and created immutable receipts descriptor-relative with openat while preserving all prior regular-file, link, owner, device, mode, and digest guards
+- Anchored archive, candidate, and displacement rename destinations to the retained attempt directory descriptor
+- Applied retained directory authority to classification, completed-attempt validation, and ordinary-commit recovery inventory
+- Added deterministic post-open recovery-root and recovery-attempt substitution tests proving fail-closed binding before evidence mutation
+- Validated 35 focused preserved-recovery tests, 54 full Gate5 tests, 78 library tests, strict all-target Clippy, formatting, and diff hygiene
+- Removed F_GETPATH, anchored_path, /dev/fd, and /proc/self/fd recovery aliases
+- Read, created, inventoried, validated, and chained receipts through retained attempt and node-ledger dirfds
+- Built, wrote, fsynced, published, observed, and revalidated candidate nodes through openat and retained parent descriptors
+- Observed archive and displaced projections and derived candidate bytes through retained child descriptors
+- Added deterministic post-validation recovery-root and attempt swaps that fail closed before receipt, candidate, or archive mutation
+- Preserved every earlier receipt-chain, identity, topology, idempotency, ordinary-commit, initialized/ready, and issue 291 proof
+- Replaced both live pathname candidate derivations with exact bytes read from retained source descriptors
+- Selected restart prior authority from exact current, displaced, or candidate descriptors without pathname rereads
+- Replaced live attempt, candidate, archive, and displaced sync and observation with retained descriptor operations
+- Added deterministic late recovery-root and attempt swaps immediately before archive mutation
+- Preserved early swap, every-boundary restart, receipt, identity, inventory, idempotency, ordinary-commit, initialized/ready, and issue 291 proof
+- Removed the unconditional backup-path descriptor open before restart-state selection
+- Resolved the candidate-build prior from exact retained current, displaced, or candidate authority
+- Added deterministic boundary replay coverage for ExpectedCanonicalAbsent and ExactObservedInvalid anchors
+- Proved replay after candidate install, canonical install, and the prior-displaced receipt boundary
+- Preserved all descriptor-relative mutation, swap, receipt, inventory, idempotency, and earlier recovery proof
+- Use statx with AT_EMPTY_PATH and STATX_MNT_ID on retained Linux file descriptors
+- Preserve statfs-derived mount identity on macOS, iOS, and FreeBSD
+- Retain a device-based compatibility fallback for other Unix targets without private libc fields
+- Reject successful statx results whose stx_mask omits STATX_MNT_ID
+- Return the exact kernel-provided mount ID only when its authority bit is present
+- Add Linux-focused helper proof for missing-bit rejection and exact returned mount ID
+- Removed only the unnecessary return from the Linux statx mount-ID branch
+- Refreshed governed focused recovery, library, and strict all-target Clippy evidence after the correction
+
+## Validation
+
+[
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate5",
+      "preserved_projection_recovery"
+    ],
+    "purpose": "Run focused preserved-projection recovery proof: 37 passed, 19 filtered.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/298/preserved-projection-recovery.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--lib"
+    ],
+    "purpose": "Run complete csdlc-v2 library proof: 78 passed.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/298/csdlc-v2-lib.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Run strict all-target Clippy.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/298/csdlc-v2-strict-clippy.log"
+  }
+]
+
+## Integration
+
+pr_open
+
+## Publication
+
+Publication: ready
+
+Merge: not_merged
+
+## Closeout
+
+not_started
+
+## Follow Ups
+
+- none
