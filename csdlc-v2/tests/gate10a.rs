@@ -555,7 +555,7 @@ fn freshly_installed_stable_edit_binary_is_executable() {
         issue: 42,
         expected_generation: implemented.generation,
         expected_digest: implemented.digest,
-        reviewer: "architect".into(),
+        reviewer: "fresh-session:11111111-1111-4111-8111-111111111111".into(),
     };
     let request_path = worktree.join("approve.json");
     fs::write(&request_path, serde_json::to_vec_pretty(&request).unwrap()).unwrap();

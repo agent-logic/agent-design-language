@@ -119,3 +119,26 @@ fn malformed_identity_update_is_rejected_before_mutation() {
     assert_eq!(error.code.to_string(), "invalid_input");
     assert_eq!(cards, before);
 }
+
+#[test]
+fn implemented_authored_design_refresh() {
+    let operation: SemanticOperation = serde_json::from_value(serde_json::json!({
+        "operation": "refresh_authored_design_after_recovery"
+    }))
+    .expect("typed refresh operation");
+    let mut cards = fixture();
+    let spp = cards.get_mut(&CardKind::Spp).expect("SPP");
+    apply(spp, &operation).expect("SPP owns refresh operation");
+    let error = apply(cards.get_mut(&CardKind::Vpp).expect("VPP"), &operation)
+        .expect_err("VPP cannot own refresh operation");
+    assert_eq!(error.code.to_string(), "field_ownership");
+}
+
+#[test]
+fn implemented_authored_design_refresh_linked_worktree() {
+    let schema = csdlc_v2::public_schema_bundle();
+    let encoded = serde_json::to_string(&schema).expect("schema JSON");
+    assert!(encoded.contains("refresh_authored_design_after_recovery"));
+    assert!(encoded.contains("approve_design_request"));
+    assert!(encoded.contains("review_assignment_request"));
+}
