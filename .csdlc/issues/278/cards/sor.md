@@ -106,11 +106,11 @@ Remediated #278 review P1 by making re-authorized conversation history reads hon
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
