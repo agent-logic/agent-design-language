@@ -1,0 +1,354 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 282,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "0f56b55082822da8e6698295189ad62a8e5e2b06fee02463e7fcd6fe2c32152b",
+  "phase": "published",
+  "generation": 25,
+  "digest": "b7b67cad882038c455a64bb8609a34d776bc7249a9e20acc0f43967e69ea185b",
+  "branch": "codex/282-production-polis-qualification",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-282-production-polis-qualification",
+  "review_assignment": {
+    "reviewer": "fresh-session:8397ad62-5e06-436a-855b-af7b3878fdbc",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:4e241f5dff406dc344f3ab5da8edbc9142847e1d:ad6b2612ad1d7f79c26641f7866520a95b08d362d964f74c9baad701399372d8",
+    "scope": [
+      ".csdlc/evidence/282/production-polis-interface-qualification.md",
+      ".csdlc/evidence/282/validate_qualification_packet.py",
+      ".csdlc/prepared/issues/282/validate_preparation_bundle.py",
+      ".csdlc/prepared/issues/282/design.md",
+      ".csdlc/prepared/issues/282/diagram.mmd",
+      ".csdlc/issues/282"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:8397ad62-5e06-436a-855b-af7b3878fdbc",
+    "scope": [
+      ".csdlc/evidence/282/production-polis-interface-qualification.md",
+      ".csdlc/evidence/282/validate_qualification_packet.py",
+      ".csdlc/prepared/issues/282/validate_preparation_bundle.py",
+      ".csdlc/prepared/issues/282/design.md",
+      ".csdlc/prepared/issues/282/diagram.mmd",
+      ".csdlc/issues/282"
+    ],
+    "reviewed_revision": "git-blake3:4e241f5dff406dc344f3ab5da8edbc9142847e1d:ad6b2612ad1d7f79c26641f7866520a95b08d362d964f74c9baad701399372d8",
+    "findings": [],
+    "residual_risks": [
+      "This #282 PASS is bounded to exact-revision Observatory production Polis interface qualification evidence and does not claim public cloud deployment, Unity native live proof, provider credential proof, Runtime authority changes, API/storage/browser behavior changes, publication, merge, or terminal closeout.",
+      "Reviewer reran local read-only validators and lifecycle validation; publication, CI, merge, and terminal finish remain pending as separate typed lifecycle steps."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 282,
+    "pull_request": 398,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/398",
+    "base": "main",
+    "head": "codex/282-production-polis-qualification",
+    "revision": "git-blake3:8160202aced0587ec3237f915ad90b36c51e687f:b3d2bc07bfc2a8e609d23c3c7b900dab81d9de01e44339f28161868af2bf4d92",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/282/design.md",
+  "diagram_path": ".csdlc/prepared/issues/282/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:01a010d5-d33b-7de3-9e08-53361df0d841",
+      "revision": "3079c8247b039c558f201cfbe2ca61745ecdf32a60771ac53e17a28463b23625"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "14e3cab0ebdaacdc220d0d313957f6e4a4e7cdfe0bf03d9b7cda284f993257c8",
+      "rendered_digest": "756456c28d69eb105001f57991727645ae9f2dd003196b24187fdda672239dcc",
+      "ast_digest": "9f6b9c35777a50fbccbfaf62a70f5d4582bbdf49c0e85d8e099ae337c542e084"
+    },
+    "stp": {
+      "values_digest": "8d907fd489f9a4621f7039d126ff6822fa5bbe841dab462ac5adc0cc381aa12e",
+      "rendered_digest": "d9761e0a08dcfd0903c2a33841c21bf690aa4f23173a897582f80f199447aa71",
+      "ast_digest": "4e03a9d0f16b93c09443663dc75c1ba8708d9dd5caad5e9e5e98ce26c41a9c18"
+    },
+    "spp": {
+      "values_digest": "ca4529cac774a0fbc73e7b9e5c496c6c276cc76228aace3bc2a2f0f8f3e8ce03",
+      "rendered_digest": "f065bf10b4535996dac3b4db617ba5b1f4397c5c4841bb2e4af23b4b5e60630f",
+      "ast_digest": "5ecf9f4be997546248ebd7f11bb3d241d54588883b5c1ab09acaaf76f10fb092"
+    },
+    "vpp": {
+      "values_digest": "37ad8a6a4213a41230d01b7cf4a3916ef28128aaba86cf64f113c68428d6f623",
+      "rendered_digest": "9d9c316363e69d0fa40755400083574e5ec857634c25da469e64864ab304c119",
+      "ast_digest": "c54633f4f5c1ba706963b658c375a1b47c7ee6708fedc8205d536c0ae6ebb409"
+    },
+    "srp": {
+      "values_digest": "b3f26b46b30841db6bf3b193acce0a0e8fe99c0f993536dc7a9ccb9532cc051a",
+      "rendered_digest": "e7b9d5b74b2e0b3aa3f469489c0300ad7f1922625469d527703a705d8b824a92",
+      "ast_digest": "e67f8978c487f86c769866feeb0dcebb5bc80993aba9bdec852d1e1995651dab"
+    },
+    "sor": {
+      "values_digest": "a3217162055c2076c316619034484a8404c9d667fb3deb6a2b051e9f3d2b9de6",
+      "rendered_digest": "a38904000090d4302e1b41267c154fce397b69fca44508400638da44bb73a140",
+      "ast_digest": "453edb67113d131f9816505f7a833c1988d52758a8fe80e82ae7bc25ca8c35e3"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Advance #282 to ready/unbound after fresh design review PASS and doctor advance_ready."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Advance #282 to implemented after typed execution and validation evidence are both recorded."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:8397ad62-5e06-436a-855b-af7b3878fdbc",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Repair #282 initialized readiness: VPP denominator must include an available issue-owned target.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue-282-preparation\",\"proof_role\":\"Validate terminal dependency caches and #282 design/diagram topology before binding, with .csdlc/issues/282/index.json as the issue-owned readiness denominator.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/282/validate_preparation_bundle.py\",\".csdlc/issues/282/index.json\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Repair #282 initialized readiness: SPP affected areas must include the exact issue-owned validator target.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/issues/282/index.json\",\".csdlc/issues/282\",\".csdlc/prepared/issues/282\",\".csdlc/evidence/282\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Repair #282 initialized readiness: v2 validator target extraction for python lanes selects argv[1], so SPP affected areas must include the preparation validator script as the issue-owned denominator.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/prepared/issues/282/validate_preparation_bundle.py\",\".csdlc/issues/282/index.json\",\".csdlc/issues/282\",\".csdlc/prepared/issues/282\",\".csdlc/evidence/282\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Advance #282 to ready/unbound after fresh design review PASS and doctor advance_ready.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Align #282 bound implementation truth with the issue-owned qualification packet validator created under .csdlc/evidence/282.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/evidence/282/validate_qualification_packet.py\",\".csdlc/evidence/282/production-polis-interface-qualification.md\",\".csdlc/evidence/282\",\".csdlc/issues/282\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Replace #282 preparation-only validation with the final qualification packet proof, terminal dependency cache validation, lifecycle validation, and diff hygiene.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"terminal-dependency-caches\",\"proof_role\":\"Validate canonical terminal caches for #279, #280, and #281 before #282 review/publication.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-finish\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-279-observatory-accessibility-responsive-ux-proof\",\"--validate-cached-issue\",\"279\"],\"parallel_group\":\"282-serial-01-terminal\",\"defer_reason\":null},{\"lane\":\"qualification-packet-validator\",\"proof_role\":\"Validate the #282 exact-revision qualification packet, runbook, review retention, residual-risk, and non-claim sections.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"python3\",\".csdlc/evidence/282/validate_qualification_packet.py\",\".csdlc/evidence/282/production-polis-interface-qualification.md\"],\"parallel_group\":\"282-serial-02-packet\",\"defer_reason\":null},{\"lane\":\"typed-issue-validation\",\"proof_role\":\"Validate #282 lifecycle/card truth after bound implementation evidence is recorded.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-282-production-polis-qualification\",\"issue\",\"--issue\",\"282\"],\"parallel_group\":\"282-serial-03-lifecycle\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace, conflict marker, and patch hygiene defects before exact-head review.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"282-serial-04-diff\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Record #282 implementation proof: canonical child terminal caches and issue-owned qualification packet validator passed.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-finish --root /Volumes/FastWork/adl-worktrees/adl-issue-279-observatory-accessibility-responsive-ux-proof --validate-cached-issue 279\",\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-finish --root /Volumes/FastWork/adl-worktrees/adl-issue-280-large-polis-performance-recovery --validate-cached-issue 280\",\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-finish --root /Volumes/FastWork/adl-worktrees/adl-issue-281-observatory-security-privacy-adversarial-proof-bound --validate-cached-issue 281\",\"python3 .csdlc/evidence/282/validate_qualification_packet.py .csdlc/evidence/282/production-polis-interface-qualification.md\",\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate --root /Volumes/FastWork/adl-worktrees/adl-issue-282-production-polis-qualification issue --issue 282\"],\"purpose\":\"Prove #282 exact-revision qualification: #279/#280/#281 canonical terminal caches match, the qualification packet names exact integrated candidate/review/evidence/non-claim truth, and lifecycle validation passes.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/282/production-polis-interface-qualification.md; .csdlc/evidence/282/validate_qualification_packet.py; terminal cache validation output observed canonical_match=true for #279/#280/#281\"}}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Record the bounded #282 qualification-packet implementation artifacts before implemented transition.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Assembled the #282 exact-revision production Polis interface qualification packet for #117.d by indexing canonical terminal evidence from #279/#280/#281, retaining product/architecture/security review outcomes, adding a local no-credential runbook, and recording residual risks/non-claims.\",\"changes\":[\"Added .csdlc/evidence/282/production-polis-interface-qualification.md with exact integrated candidate revision, PRs, merge SHAs, terminal head SHAs, canonical digests, terminal digests, evidence index, runbook, review outcomes, residual risks, and non-claims.\",\"Added .csdlc/evidence/282/validate_qualification_packet.py to fail closed unless the packet retains exact #279/#280/#281 terminal evidence, runbook, review outcomes, and non-claim language.\",\"Updated #282 lifecycle truth through typed SPP/VPP/SOR edits so validation targets the final issue-owned qualification packet rather than the pre-bind preparation validator.\"],\"artifacts\":[\".csdlc/evidence/282/production-polis-interface-qualification.md\",\".csdlc/evidence/282/validate_qualification_packet.py\",\".csdlc/issues/282\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Advance #282 to implemented after typed execution and validation evidence are both recorded.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Record #282 bound-worktree preparation validator portability repair and passing final proof before exact-head review.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3 .csdlc/prepared/issues/282/validate_preparation_bundle.py .csdlc/issues/282/index.json\",\"python3 .csdlc/evidence/282/validate_qualification_packet.py .csdlc/evidence/282/production-polis-interface-qualification.md\",\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate --root /Volumes/FastWork/adl-worktrees/adl-issue-282-production-polis-qualification issue --issue 282\",\"git diff --check\"],\"purpose\":\"Prove the self-contained #282 bound worktree validates both preparation topology and final qualification packet after the prep validator was copied from root staging and repaired to use canonical owner binary/cache roots.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/prepared/issues/282/validate_preparation_bundle.py; .csdlc/evidence/282/validate_qualification_packet.py; .csdlc/evidence/282/production-polis-interface-qualification.md\"}}"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "fresh-session:ddf47a06-b817-433c-8d96-f73e14abe576",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Resolve #282 review finding R1-P2-spp-step-truth: S1 terminal/preparation validation is complete.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "Resolve #282 review finding R1-P2-spp-step-truth: S2 qualification artifact and runbook assembly is complete.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Resolve #282 review finding R1-P2-spp-step-truth: S3 issue-owned qualification packet validation is complete.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "Record validation after resolving #282 R1 findings: stronger validator, exact candidate/head wording, and SPP step truth.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3 .csdlc/prepared/issues/282/validate_preparation_bundle.py .csdlc/issues/282/index.json\",\"python3 .csdlc/evidence/282/validate_qualification_packet.py .csdlc/evidence/282/production-polis-interface-qualification.md\",\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate --root /Volumes/FastWork/adl-worktrees/adl-issue-282-production-polis-qualification issue --issue 282\",\"git diff --check\"],\"purpose\":\"Prove #282 R1 remediation: validator now checks terminal caches, expected terminal fields, evidence-file existence, and candidate ancestry; packet distinguishes integrated candidate from issue head; SPP S1-S3 reflect completed implementation/validation truth.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/282/validate_qualification_packet.py; .csdlc/evidence/282/production-polis-interface-qualification.md; .csdlc/issues/282/cards/spp.values.json\"}}"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "Record #282 SPP S4 as completed: retained product, architecture, and security review outcomes are indexed in the qualification packet.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 21,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "Record #282 R1 remediation proof after validator hardening, candidate/head wording repair, and SPP step truth repair.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3 .csdlc/prepared/issues/282/validate_preparation_bundle.py .csdlc/issues/282/index.json\",\"python3 .csdlc/evidence/282/validate_qualification_packet.py .csdlc/evidence/282/production-polis-interface-qualification.md\",\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate --root /Volumes/FastWork/adl-worktrees/adl-issue-282-production-polis-qualification issue --issue 282\",\"git diff --check\"],\"purpose\":\"Prove #282 review finding remediation: terminal-cache truth is validated against command output and table fields, evidence files must exist, the packet distinguishes integrated candidate from current issue head, and SPP S1-S4 reflect completed implemented-scope truth while publication remains pending.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/282/validate_qualification_packet.py; .csdlc/evidence/282/production-polis-interface-qualification.md; .csdlc/issues/282/cards/spp.values.json\"}}"
+    },
+    {
+      "sequence": 22,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "Recover stale #282 review assignment fresh-session:dcac044c-14d1-41d5-9cb5-8611f0ce5477 because the assignment targeted pre-repair commit e0e1158d; the exact post-review-fix implementation is clean at 23bd87ce and requires a new fresh no-context reviewer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 19,
+      "actor": "fresh-session:8d227575-106e-4b9d-925e-89768fdea106",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "Record validation after resolving #282 R3 findings: all packet-listed evidence files are existence-checked and the preparation validator consumes the supplied issue index denominator.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3 .csdlc/prepared/issues/282/validate_preparation_bundle.py .csdlc/issues/282/index.json\",\"python3 .csdlc/evidence/282/validate_qualification_packet.py .csdlc/evidence/282/production-polis-interface-qualification.md\",\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate --root /Volumes/FastWork/adl-worktrees/adl-issue-282-production-polis-qualification issue --issue 282\",\"git diff --check\"],\"purpose\":\"Prove #282 R3 remediation: qualification validation now covers every packet-listed evidence artifact, and preparation validation fails closed unless the supplied issue index is the #282 canonical denominator with expected repository/design/diagram identity.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/prepared/issues/282/validate_preparation_bundle.py; .csdlc/evidence/282/validate_qualification_packet.py; .csdlc/evidence/282/production-polis-interface-qualification.md\"}}"
+    },
+    {
+      "sequence": 26,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "Resolve #282 R3-P2 qualification validator evidence coverage finding after adding all packet-listed evidence artifacts to REQUIRED_EVIDENCE_REFERENCES and REQUIRED_EVIDENCE_PATHS.",
+      "operation": "{\"operation\":\"dispose_finding\",\"finding_id\":\"R3-P2-qualification-validator-evidence-coverage\",\"disposition\":\"fixed\"}"
+    },
+    {
+      "sequence": 27,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "Resolve #282 R3-P2 preparation validator denominator finding after making validate_preparation_bundle.py require and validate the supplied .csdlc/issues/282/index.json denominator.",
+      "operation": "{\"operation\":\"dispose_finding\",\"finding_id\":\"R3-P2-prep-validator-denominator-argument\",\"disposition\":\"fixed\"}"
+    },
+    {
+      "sequence": 28,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "Recover #282 failed review fresh-session:8d227575-106e-4b9d-925e-89768fdea106 after committing fixes for R3-P2 evidence coverage and preparation denominator validation at 22ab507c; assign a different fresh reviewer to the new immutable head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 24,
+      "actor": "fresh-session:8397ad62-5e06-436a-855b-af7b3878fdbc",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 25,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}
