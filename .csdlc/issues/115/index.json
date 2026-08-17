@@ -6,10 +6,26 @@
   "initialization_digest": "6b431e21b2b0a61991853e1f3f4a1bf51241907edaac9389f1c22998ae3334e7",
   "phase": "implemented",
   "generation": 24,
-  "digest": "5119df32cf30d9659396a46b9e0cc0d9b5a7809023dac3baf64015d162084eeb",
+  "digest": "7ce3b235a98086485f7855ecd29fdc86f87f18130f79b72d44272c90a8057ec2",
   "branch": "codex/115-governed-multi-agent-rooms",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-115-governed-multi-agent-rooms",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:309b4e3e-2a97-4af5-b6aa-bd42c4c21169",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:4716dc282976fdf91eddd293816480f4f51ce5de:8ffb7d51255458023b345959c838dc13a43e479b987ef3f56cdada01c692eade",
+    "scope": [
+      "adl-runtime-kernel/src/conversation_rooms.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "adl/tools/validate_v092_governed_room_observatory.mjs",
+      ".csdlc/issues/115",
+      ".csdlc/prepared/issues/115",
+      ".csdlc/evidence/115"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +61,9 @@
       "ast_digest": "eb8f2cb0c493fbb437ed0edfd5922ffea6758fd0731841881c2e8acdae1eb7b9"
     },
     "srp": {
-      "values_digest": "5e2c8da20e0a3edb8e065b00a47cdd04882a298a5aecd393ce4d5267168c7fd3",
-      "rendered_digest": "9ead6718bfb47f6f4f62d1bdcb8769919c9aca261ab0cf61151ca2a4db764ebb",
-      "ast_digest": "adee842c155c8b19c4d9df432cfe83ded2620dae6d9f8cedfaf4ddc069604c78"
+      "values_digest": "2deac6e1e6718a98bc0237c8213bedf2fdaabe128c7f3e9c5444b09135de6949",
+      "rendered_digest": "caa32cec7ee45bdc6639e84fa323a1031e8fa857b683476d42cd133f817da2a5",
+      "ast_digest": "48cf8333edfa0e54788ff6eeae5d7d38020fbd2b1bb738ceb32be7918f3fbe8b"
     },
     "sor": {
       "values_digest": "b8d1449b66be423417861665c3226c10fa37d54b75ec227d66640e59c5056451",
@@ -288,6 +304,13 @@
       "actor": "codex:/root",
       "reason": "Recover #115 review assignment fresh-session:46dbd343-a3fd-41f8-8b19-fd64543cdb67 after the reviewer correctly failed a prompt-shape mismatch: the typed assignment bound clean substantive revision 78300a633 while live HEAD was the assignment metadata commit 56a6aa353. No product review verdict is accepted from that assignment.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 24,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
