@@ -1,0 +1,14 @@
+{
+  "aws_mesh_receipt_sha256": "9bf1c00bdd4c820ccd658ad2dc038d9c31420c5181d36b792bd4c89d8456598f",
+  "aws_model_receipt_sha256": "f9da187e2117e42256abc31e5dad76945e6d17fdbe614793d23c70f79a95c8d6",
+  "requirements": {
+    "aws_bidirectional_private_tcp": true,
+    "aws_two_voter_model_health": true,
+    "wuji_cleanup_zero": true,
+    "wuji_partition_proof": true,
+    "wuji_snapshot_recovery": true
+  },
+  "schema": "adl.issue194.serial_hybrid_inputs.v1",
+  "status": "accepted",
+  "wuji_receipt_sha256": "34632841e25f95b471c1d0b9407a0d0e734d384660582c65e7aad6e83ca3452c"
+}

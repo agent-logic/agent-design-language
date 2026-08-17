@@ -1,0 +1,86 @@
+{
+  "cleanup": {
+    "latest_run_assert_zero": {
+      "active_instances": 0,
+      "delete_status": "absent",
+      "network_interfaces": 0,
+      "security_groups": 0,
+      "vpc_endpoints": 0
+    },
+    "mesh_run_cleanup": {
+      "active_instances": 0,
+      "delete_status": "absent",
+      "network_interfaces": 0,
+      "security_groups": 0,
+      "vpc_endpoints": 0
+    }
+  },
+  "issue": 194,
+  "non_claims": [
+    "does not claim #142 completion",
+    "does not claim production public stack",
+    "does not expose Runtime/model endpoints publicly",
+    "raw AWS identifiers remain local-only and are not included in this summary"
+  ],
+  "passed_profiles": [
+    {
+      "profile": "two_voter_private_network_smoke",
+      "proves": [
+        "two AWS voters in distinct private subnets/AZs",
+        "SSM shepherd maintenance reachability",
+        "direct private voter-to-voter TCP adjacency suitable for ACIP transport routing",
+        "zero-resource cleanup after run"
+      ],
+      "receipt": ".csdlc/evidence/194/live-runs/issue-194-mesh-smoke-20260817T000100Z/live-smoke.redacted.json",
+      "run_id": "issue-194-mesh-smoke-20260817T000100Z",
+      "status": "passed"
+    },
+    {
+      "profile": "single_gpu_private_model_health",
+      "proves": [
+        "single private g6.xlarge voter under current AWS quota",
+        "private S3 artifact delivery through VPC endpoint path",
+        "local Ollama HTTP loopback model health for gemma4:12b",
+        "local model restart persistence on the private voter",
+        "zero-resource cleanup after run"
+      ],
+      "receipt": ".csdlc/evidence/194/live-runs/issue-194-one-gpu-model-store-20260817T024918Z/live-smoke.redacted.json",
+      "run_id": "issue-194-one-gpu-model-store-20260817T024918Z",
+      "status": "passed"
+    },
+    {
+      "profile": "wuji_local_recovery",
+      "proves": [
+        "local Wuji Runtime semantic proof on host wuji",
+        "snapshot recovery across real voter restart",
+        "partition/isolation behavior through 3-to-2-to-1 quorum transition",
+        "one-of-three mutation halt in the local Runtime proof",
+        "no AWS instances launched by this proof"
+      ],
+      "receipt": ".csdlc/evidence/194/live-runs/issue-194-wuji-local-recovery-20260817/wuji-recovery.redacted.json",
+      "run_id": "issue-194-wuji-local-recovery-20260817",
+      "status": "passed"
+    }
+  ],
+  "quota_limitations": [
+    {
+      "current_gvt_quota_vcpus": 4,
+      "current_p_quota_vcpus": 8,
+      "fractional_g6_result": "g6f.large fits two-voter vCPU quota but has only 2861 MiB GPU memory and is not model-capable for this proof.",
+      "lowest_model_capable_gvt_options_require_vcpus": 8,
+      "model_gpu_memory_min_mib": 16000,
+      "non_claim": "does not prove simultaneous model health on two AWS GPU voters until quota/capacity permits",
+      "observed": "No current model-capable two-voter GPU shape fits current us-west-2 quotas.",
+      "receipt": ".csdlc/evidence/194/live-runs/issue-194-gpu-feasibility-live/gpu-feasibility.redacted.json",
+      "scope": "two_voter_model_capable_gpu_feasibility",
+      "status": "failed_no_feasible_two_voter_model_shape"
+    }
+  ],
+  "remaining_acceptance_gaps": [
+    "two simultaneous model-capable AWS GPU voters under current quota",
+    "independent exact-head review and PR publication",
+    "same serial hybrid run combining Wuji receipt plus two AWS model-health voters"
+  ],
+  "schema": "adl.issue194.private_wuji_aws_recovery.live_summary.v1",
+  "status": "partial_private_qualification_passed"
+}

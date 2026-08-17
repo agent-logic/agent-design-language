@@ -1,0 +1,33 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 194,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-04.16d] Qualify private Wuji-AWS recovery with fail-safe cleanup",
+    "slug": "private-wuji-aws-recovery",
+    "version": "v0.92",
+    "generation": 5
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl/tools/issue194_private_network.cloudformation.json\nadl/tools/issue194_private_wuji_aws_runner.sh\nadl/tools/private_wuji_aws_recovery_qualification.py\nadl/tools/issue194_model_health_command.py\nadl/tools/test_issue194_private_network_template.sh\nadl/tools/test_private_wuji_aws_recovery_qualification.sh\n.csdlc/prepared/issues/194/design.md\n.csdlc/prepared/issues/194/diagram.mmd\n.csdlc/evidence/194",
+      "review_revision": "git-blake3:93fa87e9657e48c85ba2433796d10c2b0595974e:3bc69e4ee874c1a34f8a70950175b10e51e1963e9de3e4bb66c7709e4b50c833",
+      "reviewer": "codex:/root/review_issue_194_exact_head_r2",
+      "review_prompts": [
+        "Does any path allow public Runtime/model/Observatory exposure or hosted model fallback?",
+        "Does cleanup prove zero resources after success, failure, and interruption?",
+        "Are redacted receipts truthful and free of secrets/raw AWS identifiers/machine-local paths?",
+        "Does the proof avoid overclaiming #142 or the unimplemented serial hybrid recovery behavior?",
+        "Is the SSM maintenance plane clearly separated from direct private agent/voter data-plane traffic?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Current Agent Logic AWS quota/capacity does not permit two simultaneous model-capable AWS GPU voters; #194 records this as a quota gate and does not claim the missing two-GPU serial hybrid proof."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

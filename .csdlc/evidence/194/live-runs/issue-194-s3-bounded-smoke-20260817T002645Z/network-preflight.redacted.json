@@ -1,0 +1,41 @@
+{
+  "account_id_sha256": "b05e1f4379b5c7457d1de357e21447526ecf418ed47176ead2868d0a2d6589c9",
+  "aws_voters": [
+    {
+      "ami_id_sha256": "a6794d51791b35fc058e0e9131526d1082b7b17e91a20c911852d65ca1f32ae3",
+      "aws_cli_preview": "aws ec2 run-instances --profile agent-logic-admin --region us-west-2 --image-id <redacted-ami> --instance-type t3.micro --subnet-id <redacted-subnet> --no-associate-public-ip-address --iam-instance-profile Name=ADLRemoteValidationPermanentProfile --security-group-ids <redacted-sg> --tag-specifications ResourceType=instance,Tags=[Name=issue-194-s3-bounded-smoke-20260817T002645Z,adl:cleanup_required=true,adl:component=private-wuji-aws-recovery,adl:hosted_model_fallback=false,adl:issue=194,adl:public_runtime_exposure=false,adl:run_id=issue-194-s3-bounded-smoke-20260817T002645Z,adl:ttl_expires_at=2026-08-17T00:43:27.173908Z]",
+      "az": "us-west-2a",
+      "instance_profile_name": "ADLRemoteValidationPermanentProfile",
+      "instance_type": "t3.micro",
+      "node_id": "aws-voter-a",
+      "security_group_id_sha256": "b834699d95073eb566d0c6e20af3c40c3f5343d1bf15a6fe1b9a072ccd09b814",
+      "subnet_id_sha256": "cfbe90c099c77664f406f78baa5614e7011e29448c6bed37eaf77b85189e4693"
+    },
+    {
+      "ami_id_sha256": "a6794d51791b35fc058e0e9131526d1082b7b17e91a20c911852d65ca1f32ae3",
+      "aws_cli_preview": "aws ec2 run-instances --profile agent-logic-admin --region us-west-2 --image-id <redacted-ami> --instance-type t3.micro --subnet-id <redacted-subnet> --no-associate-public-ip-address --iam-instance-profile Name=ADLRemoteValidationPermanentProfile --security-group-ids <redacted-sg> --tag-specifications ResourceType=instance,Tags=[Name=issue-194-s3-bounded-smoke-20260817T002645Z,adl:cleanup_required=true,adl:component=private-wuji-aws-recovery,adl:hosted_model_fallback=false,adl:issue=194,adl:public_runtime_exposure=false,adl:run_id=issue-194-s3-bounded-smoke-20260817T002645Z,adl:ttl_expires_at=2026-08-17T00:43:27.173908Z]",
+      "az": "us-west-2b",
+      "instance_profile_name": "ADLRemoteValidationPermanentProfile",
+      "instance_type": "t3.micro",
+      "node_id": "aws-voter-b",
+      "security_group_id_sha256": "b834699d95073eb566d0c6e20af3c40c3f5343d1bf15a6fe1b9a072ccd09b814",
+      "subnet_id_sha256": "13109fb37dfa6f7e2fab985a71a7a8e047e2b2080c519c33411332b09e79a5cc"
+    }
+  ],
+  "findings": [],
+  "issue": 194,
+  "non_claims": [
+    "dry-run preflight only; no AWS instance was launched",
+    "does not claim #142 completion",
+    "does not claim Observatory terminal evidence",
+    "does not expose raw AWS account id, subnet id, security group id, AMI id, or instance id"
+  ],
+  "profile": "agent-logic-admin",
+  "reaper_actions_if_expired_now": [],
+  "region": "us-west-2",
+  "run_id": "issue-194-s3-bounded-smoke-20260817T002645Z",
+  "schema": "adl.issue194.private_wuji_aws_recovery.receipt.v1",
+  "status": "dry_run_preflight_passed",
+  "ttl_expires_at": "2026-08-17T00:43:27.173908Z",
+  "ttl_minutes": 15
+}

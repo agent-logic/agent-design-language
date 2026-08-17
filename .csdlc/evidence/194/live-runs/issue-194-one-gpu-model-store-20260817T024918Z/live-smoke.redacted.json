@@ -1,0 +1,74 @@
+{
+  "account_id_sha256": "b05e1f4379b5c7457d1de357e21447526ecf418ed47176ead2868d0a2d6589c9",
+  "azs": [
+    "us-west-2a",
+    "us-west-2b"
+  ],
+  "cleanup": {
+    "active_instances": 0,
+    "delete_status": "absent",
+    "network_interfaces": 0,
+    "security_groups": 0,
+    "vpc_endpoints": 0
+  },
+  "issue": 194,
+  "non_claims": [
+    "infrastructure and SSM smoke only unless private_local_model_health.status is passed",
+    "single_gpu_private_model_health profile does not claim two-voter mesh; use a separate two_voter_private_network_smoke receipt for that proof",
+    "does not claim snapshot recovery, partition, demotion, or one-of-three halt",
+    "does not claim #142 completion",
+    "omits raw AWS identifiers and machine-local paths"
+  ],
+  "preflight_status": "dry_run_preflight_passed",
+  "private_artifact_delivery": {
+    "bucket": "adl-shepherd-model-artifacts-b05e1f4379b5c745-us-west-2",
+    "control_plane": "SSM invoked shepherd maintenance command; S3 artifact reads used private endpoint path from voters",
+    "prefix": "shepherd/",
+    "ssm_command_complete_count": 1,
+    "ssm_command_failed_count": 0,
+    "status": "passed"
+  },
+  "private_local_model_health": {
+    "control_plane": "SSM invoked shepherd maintenance command; model runtime and generation ran locally on private voters",
+    "model": "gemma4:12b",
+    "node_count": 1,
+    "runtime_surface": "ollama_http_loopback",
+    "ssm_command_complete_count": 1,
+    "ssm_command_failed_count": 0,
+    "status": "passed"
+  },
+  "profile": "agent-logic-admin",
+  "proof_profile": "single_gpu_private_model_health",
+  "region": "us-west-2",
+  "run_id": "issue-194-one-gpu-model-store-20260817T024918Z",
+  "schema": "adl.issue194.private_wuji_aws_recovery.live_smoke_receipt.v1",
+  "ssm_command_attempt": 13,
+  "ssm_command_complete_count": 1,
+  "ssm_command_failed_count": 0,
+  "ssm_command_id_sha256": "f105d44ef9308424fa3ca5ca62964f7a8b9cf77a37a6128358e5814385dce59d",
+  "ssm_online_attempt": 21,
+  "ssm_online_count": 1,
+  "ssm_smoke_node_outputs": [
+    "issue-194-one-gpu-model-store-20260817T024918Z aws-voter-a"
+  ],
+  "ssm_smoke_statuses": [
+    "Success"
+  ],
+  "stack_outputs_sha256": {
+    "AwsVoterAInstanceIdSha256": "0aef2b41e437d47e572238067111e044e862b3d83ee8db759818ca1a7376e962",
+    "InstanceSecurityGroupIdSha256": "b170752fc7a26e4a8a84f45cb7cb27df14eef193493be5e894257ce26bc3b287",
+    "PrivateSubnetASha256": "4e56d11a74521dff3e2e6ae5bdbbb186d2e39e2c0d28acf37826cbf22293f0f3",
+    "PrivateSubnetBSha256": "b9292b632e27e3bf16e910994ef5733ee16dc7149e93b18346503c80bfb36359",
+    "S3GatewayEndpointIdSha256": "c8c8cc73af4a80797fba58600669263955a3681edc097361c2094b3c15209436",
+    "VpcIdSha256": "13555de77b8ac1c912656227e3b0cde42d54ea2956f1a6b016e984c775c9e027"
+  },
+  "status": "passed",
+  "ttl_expires_at": "2026-08-17T03:34:20.029643Z",
+  "ttl_minutes": 45,
+  "voter_mesh": {
+    "control_plane": "SSM invoked shepherd maintenance commands only; peer payloads flowed over direct private TCP",
+    "directions": [],
+    "proof_role": "private_acip_ready_tcp_adjacency",
+    "status": null
+  }
+}
