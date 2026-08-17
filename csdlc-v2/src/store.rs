@@ -2730,30 +2730,40 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     if prebind_contract_repair {
         validate_prebind_contract_repair(&cards, &request)?;
     }
+    let implemented_card_truth_repair =
+        is_implemented_card_truth_repair(&record, request.card, &request.operation);
+    if implemented_card_truth_repair
+        && !implemented_pre_publication_review_recovery_is_clear(&record)
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "implemented card truth repair requires current typed recovery provenance and cleared review, publication, readiness, and terminal truth",
+        ));
+    }
+    if matches!(
+        (request.card, &request.operation),
+        (
+            CardKind::Sor,
+            SemanticOperation::AdvanceStatus {
+                status: CardStatus::Ready,
+            },
+        )
+    ) && !sor_contains_execution_evidence(&cards)
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "implemented SOR status repair requires existing execution evidence",
+        ));
+    }
     if matches!(
         request.operation,
         SemanticOperation::CorrectReviewPromptsAfterRecovery { .. }
-    ) {
-        let recovered = record.transitions.last().is_some_and(|transition| {
-            transition.to == LifecyclePhase::Implemented
-                && matches!(
-                    transition.from,
-                    LifecyclePhase::Reviewed
-                        | LifecyclePhase::Published
-                        | LifecyclePhase::MergeReady
-                )
-        });
-        if !recovered
-            || record.review_assignment.is_some()
-            || record.review.is_some()
-            || record.publication.is_some()
-            || record.readiness.is_some()
-        {
-            return Err(V2Error::new(
-                ErrorCode::InvalidTransition,
-                "post-recovery review prompt correction requires cleared review and publication truth",
-            ));
-        }
+    ) && !implemented_pre_publication_review_recovery_is_clear(&record)
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "post-recovery review prompt correction requires cleared review and publication truth",
+        ));
     }
     if matches!(
         request.operation,
@@ -2822,23 +2832,23 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
             ));
         }
         let current_recovery = latest_review_operation.is_some_and(|event| {
-            event.operation == "recover_review"
-                && record.transitions.iter().rev().any(|transition| {
-                    transition.to == LifecyclePhase::Implemented
-                        && matches!(
-                            transition.from,
-                            LifecyclePhase::Reviewed
-                                | LifecyclePhase::Published
-                                | LifecyclePhase::MergeReady
-                        )
-                        && transition.actor == event.actor
-                        && transition.reason == event.reason
-                })
+            implemented_pre_publication_review_recovery_is_clear(&record)
+                && recovery_follows_recorded_review(&record, event.sequence)
                 && record
                     .audit
                     .iter()
-                    .skip_while(|candidate| candidate.sequence <= event.sequence)
+                    .filter(|candidate| candidate.sequence > event.sequence)
                     .all(|candidate| recovery_epoch_operation_is_allowed(&candidate.operation))
+                && record
+                    .audit
+                    .iter()
+                    .filter(|candidate| candidate.sequence > event.sequence)
+                    .all(|candidate| {
+                        !audit_operation_is(
+                            &candidate.operation,
+                            "correct_plan_summary_after_recovery",
+                        )
+                    })
         });
         if !current_recovery
             || record.review_assignment.is_some()
@@ -2856,41 +2866,27 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     if matches!(
         request.operation,
         SemanticOperation::CorrectRequiredOutcomeAfterRecovery { .. }
-    ) {
-        let latest_review_operation = record.audit.iter().rev().find(|event| {
-            matches!(
-                event.operation.as_str(),
-                "assign_review" | "record_review" | "recover_review"
-            )
-        });
-        let latest_transition = record.transitions.last();
-        let current_recovery = latest_review_operation.is_some_and(|event| {
-            event.operation == "recover_review"
-                && event.generation == record.generation
-                && latest_transition.is_some_and(|transition| {
-                    transition.to == LifecyclePhase::Implemented
-                        && matches!(
-                            transition.from,
-                            LifecyclePhase::Reviewed
-                                | LifecyclePhase::Published
-                                | LifecyclePhase::MergeReady
-                        )
-                        && transition.actor == event.actor
-                        && transition.reason == event.reason
-                })
-        });
-        if !current_recovery
-            || record.review_assignment.is_some()
-            || record.review.is_some()
-            || record.publication.is_some()
-            || record.readiness.is_some()
-            || record.terminal.is_some()
-        {
-            return Err(V2Error::new(
-                ErrorCode::InvalidTransition,
-                "post-recovery text correction requires current typed recovery provenance and cleared review, publication, readiness, and terminal truth",
-            ));
-        }
+    ) && !implemented_pre_publication_review_recovery_is_immediate(&record)
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "post-recovery text correction requires current typed recovery provenance and cleared review, publication, readiness, and terminal truth",
+        ));
+    }
+    if matches!(
+        request.operation,
+        SemanticOperation::ReplaceSorFollowUpsAfterRecovery { .. }
+    ) && (!implemented_pre_publication_review_recovery_is_clear(&record)
+        || record.review_assignment.is_some()
+        || record.review.is_some()
+        || record.publication.is_some()
+        || record.readiness.is_some()
+        || record.terminal.is_some())
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "post-recovery SOR follow-up repair requires current typed recovery provenance and cleared review, publication, readiness, and terminal truth",
+        ));
     }
     let replan_before = match &request.operation {
         SemanticOperation::Replan { field, .. } => Some(current_text_value(
@@ -2941,6 +2937,17 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
         match &cards[&CardKind::Sip].content {
             CardContent::Sip(value) => Some(value.required_outcome.clone()),
             _ => unreachable!("SIP"),
+        }
+    } else {
+        None
+    };
+    let sor_follow_ups_before = if matches!(
+        request.operation,
+        SemanticOperation::ReplaceSorFollowUpsAfterRecovery { .. }
+    ) {
+        match &cards[&CardKind::Sor].content {
+            CardContent::Sor(value) => Some(value.follow_ups.clone()),
+            _ => unreachable!("SOR"),
         }
     } else {
         None
@@ -3003,6 +3010,17 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
                 "previous_value": required_outcome_before
                     .expect("SIP required-outcome correction snapshot"),
                 "new_value": value,
+            })
+            .to_string()
+        }
+        (SemanticOperation::ReplaceSorFollowUpsAfterRecovery { values }, _) => {
+            serde_json::json!({
+                "operation": "replace_sor_follow_ups_after_recovery",
+                "previous_values": sor_follow_ups_before
+                    .expect("SOR follow-up correction snapshot"),
+                "new_values": values,
+                "recovery_sequence": record.audit.iter().rev().find(|event| event.operation == "recover_review").map(|event| event.sequence),
+                "recovery_generation": record.audit.iter().rev().find(|event| event.operation == "recover_review").map(|event| event.generation),
             })
             .to_string()
         }
@@ -4235,9 +4253,16 @@ fn current_text_value(values: &CardValues, field: crate::cards::TextField) -> Re
         (CardContent::Spp(value), crate::cards::TextField::PlanSummary) => {
             Ok(value.summary.clone())
         }
+        (CardContent::Vpp(value), crate::cards::TextField::PlanSummary) => {
+            Ok(value.summary.clone())
+        }
+        (CardContent::Vpp(value), crate::cards::TextField::FailurePolicy) => {
+            Ok(value.failure_policy.clone())
+        }
         (CardContent::Srp(value), crate::cards::TextField::ReviewScope) => {
             Ok(value.review_scope.clone())
         }
+        (CardContent::Sor(value), crate::cards::TextField::SorSummary) => Ok(value.summary.clone()),
         _ => Err(V2Error::new(
             ErrorCode::FieldOwnership,
             "replan field is not owned by the selected planning card",
@@ -4709,12 +4734,30 @@ fn authorize_card_operation(
                 | SemanticOperation::CorrectStpDeliverablesAfterRecovery { .. },
         ) | (
             LifecyclePhase::Implemented,
+            CardKind::Stp,
+            SemanticOperation::SetField {
+                field: crate::cards::TextField::TaskBoundary,
+                ..
+            } | SemanticOperation::ReplacePlanningCollection {
+                field: crate::cards::PlanningCollectionField::NonGoals,
+                ..
+            },
+        ) | (
+            LifecyclePhase::Implemented,
             CardKind::Spp,
             SemanticOperation::CorrectPlanSummaryAfterRecovery { .. },
         ) | (
             LifecyclePhase::Implemented,
             CardKind::Sip,
             SemanticOperation::CorrectRequiredOutcomeAfterRecovery { .. },
+        ) | (
+            LifecyclePhase::Implemented,
+            CardKind::Vpp,
+            SemanticOperation::SetField {
+                field: crate::cards::TextField::PlanSummary
+                    | crate::cards::TextField::FailurePolicy,
+                ..
+            },
         ) | (
             LifecyclePhase::Initialized | LifecyclePhase::Ready,
             CardKind::Sip,
@@ -4757,6 +4800,15 @@ fn authorize_card_operation(
                 | SemanticOperation::RecordValidation { .. }
                 | SemanticOperation::AppendReference { .. },
         ) | (
+            LifecyclePhase::Implemented,
+            CardKind::Sor,
+            SemanticOperation::AdvanceStatus {
+                status: CardStatus::Ready,
+            } | SemanticOperation::SetField {
+                field: crate::cards::TextField::SorSummary,
+                ..
+            } | SemanticOperation::ReplaceSorFollowUpsAfterRecovery { .. },
+        ) | (
             LifecyclePhase::Reviewed | LifecyclePhase::Published,
             CardKind::Srp,
             SemanticOperation::RecordFinding { .. }
@@ -4780,6 +4832,131 @@ fn authorize_card_operation(
     }
 }
 
+fn is_implemented_card_truth_repair(
+    record: &IssueRecord,
+    card: CardKind,
+    operation: &SemanticOperation,
+) -> bool {
+    matches!(
+        (record.phase, card, operation),
+        (
+            LifecyclePhase::Implemented,
+            CardKind::Stp,
+            SemanticOperation::SetField {
+                field: crate::cards::TextField::TaskBoundary,
+                ..
+            } | SemanticOperation::ReplacePlanningCollection {
+                field: crate::cards::PlanningCollectionField::NonGoals,
+                ..
+            },
+        ) | (
+            LifecyclePhase::Implemented,
+            CardKind::Spp,
+            SemanticOperation::CorrectPlanSummaryAfterRecovery { .. },
+        ) | (
+            LifecyclePhase::Implemented,
+            CardKind::Sip,
+            SemanticOperation::CorrectRequiredOutcomeAfterRecovery { .. },
+        ) | (
+            LifecyclePhase::Implemented,
+            CardKind::Vpp,
+            SemanticOperation::SetField {
+                field: crate::cards::TextField::PlanSummary
+                    | crate::cards::TextField::FailurePolicy,
+                ..
+            },
+        ) | (
+            LifecyclePhase::Implemented,
+            CardKind::Srp,
+            SemanticOperation::CorrectReviewPromptsAfterRecovery { .. },
+        ) | (
+            LifecyclePhase::Implemented,
+            CardKind::Sor,
+            SemanticOperation::SetField {
+                field: crate::cards::TextField::SorSummary,
+                ..
+            } | SemanticOperation::ReplaceSorFollowUpsAfterRecovery { .. },
+        ) | (
+            LifecyclePhase::Implemented,
+            CardKind::Sor,
+            SemanticOperation::AdvanceStatus {
+                status: CardStatus::Ready,
+            },
+        )
+    )
+}
+
+fn implemented_pre_publication_review_recovery_is_clear(record: &IssueRecord) -> bool {
+    if record.phase != LifecyclePhase::Implemented
+        || record.review_assignment.is_some()
+        || record.review.is_some()
+        || record.publication.is_some()
+        || record.readiness.is_some()
+        || record.terminal.is_some()
+    {
+        return false;
+    }
+    let Some(recovery) = record.audit.iter().rev().find(|event| {
+        matches!(
+            event.operation.as_str(),
+            "assign_review" | "record_review" | "recover_review"
+        )
+    }) else {
+        return false;
+    };
+    recovery.operation == "recover_review"
+        && recovery_follows_recorded_review(record, recovery.sequence)
+        && record
+            .audit
+            .iter()
+            .filter(|candidate| candidate.sequence > recovery.sequence)
+            .all(|candidate| recovery_epoch_operation_is_allowed(&candidate.operation))
+}
+
+fn implemented_pre_publication_review_recovery_is_immediate(record: &IssueRecord) -> bool {
+    implemented_pre_publication_review_recovery_is_clear(record)
+        && record
+            .audit
+            .iter()
+            .rev()
+            .find(|event| {
+                matches!(
+                    event.operation.as_str(),
+                    "assign_review" | "record_review" | "recover_review"
+                )
+            })
+            .is_some_and(|event| {
+                event.operation == "recover_review" && event.generation == record.generation
+            })
+}
+
+fn recovery_follows_recorded_review(record: &IssueRecord, recovery_sequence: u64) -> bool {
+    record
+        .audit
+        .iter()
+        .rev()
+        .filter(|event| event.sequence < recovery_sequence)
+        .find(|event| {
+            matches!(
+                event.operation.as_str(),
+                "assign_review" | "record_review" | "recover_review"
+            )
+        })
+        .is_some_and(|event| event.operation == "record_review")
+}
+
+fn sor_contains_execution_evidence(cards: &BTreeMap<CardKind, CardValues>) -> bool {
+    match &cards[&CardKind::Sor].content {
+        CardContent::Sor(values) => {
+            !values.summary.trim().is_empty()
+                || !values.actual_changes.is_empty()
+                || !values.artifacts.is_empty()
+                || !values.actual_validation.is_empty()
+        }
+        _ => false,
+    }
+}
+
 fn recovery_epoch_operation_is_allowed(operation: &str) -> bool {
     if matches!(operation, "approve_design") {
         return true;
@@ -4790,11 +4967,34 @@ fn recovery_epoch_operation_is_allowed(operation: &str) -> bool {
     match value.get("operation").and_then(serde_json::Value::as_str) {
         Some("approve_design") => true,
         Some("replace_planning_collection") => {
-            value.get("field").and_then(serde_json::Value::as_str) == Some("affected_areas")
+            matches!(
+                value.get("field").and_then(serde_json::Value::as_str),
+                Some("affected_areas" | "non_goals")
+            )
         }
+        Some("correct_plan_summary_after_recovery") => true,
+        Some("correct_required_outcome_after_recovery") => true,
+        Some("correct_review_prompts_after_recovery") => true,
+        Some("replace_sor_follow_ups_after_recovery") => true,
+        Some("set_field") => matches!(
+            value.get("field").and_then(serde_json::Value::as_str),
+            Some("task_boundary" | "plan_summary" | "failure_policy" | "sor_summary")
+        ),
         Some("replace_plan_steps" | "replace_validation_lanes") => true,
         _ => false,
     }
+}
+
+fn audit_operation_is(operation: &str, expected: &str) -> bool {
+    serde_json::from_str::<serde_json::Value>(operation)
+        .ok()
+        .and_then(|value| {
+            value
+                .get("operation")
+                .and_then(serde_json::Value::as_str)
+                .map(|actual| actual == expected)
+        })
+        .unwrap_or(false)
 }
 
 fn hydrate_projections(
