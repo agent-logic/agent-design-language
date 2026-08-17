@@ -3,13 +3,40 @@
   "issue": 387,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "2b9ffdf2dd694c35d4495cc6855e4d52faef8969138fd6a42bece4e177889818",
-  "phase": "implemented",
-  "generation": 17,
-  "digest": "a42d6ced768d67895bed98099965e306895e8098ae91af40104bbec54cf40505",
+  "phase": "reviewed",
+  "generation": 18,
+  "digest": "18b18ef07dad76783259974b4084e947b973557d02faee328f16c2208a193eaf",
   "branch": "codex/387-implemented-card-truth-repair-before-publication",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-387-implemented-card-truth-repair-before-publication",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:fad332cc-e5b4-4f8c-9fbb-0924645f56b7",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:5572ce98b8d859cb55d1f518d36ed871c948ce2b:b6af6fa5650526cd0e2441c5b2a284ac579bc3ec58fbee1702f59a632e11df27",
+    "scope": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/387",
+      ".csdlc/prepared/issues/387"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:fad332cc-e5b4-4f8c-9fbb-0924645f56b7",
+    "scope": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/387",
+      ".csdlc/prepared/issues/387"
+    ],
+    "reviewed_revision": "git-blake3:5572ce98b8d859cb55d1f518d36ed871c948ce2b:b6af6fa5650526cd0e2441c5b2a284ac579bc3ec58fbee1702f59a632e11df27",
+    "findings": [],
+    "residual_risks": [
+      "Review validation was intentionally limited to the permitted focused regression and Clippy; the complete crate test suite was not run."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +51,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "88f64c74d5ad4a7570c343dfee80913b95bcb17394f9e007f46b2f2f9b14d6a7",
+      "values_digest": "f4a55a09abc8d97410093327d3bd2330ac5e5621e22353d8a1653e4cb5656a02",
       "rendered_digest": "96fa78b7fa936b9834e8db631669035645fb02a59c9773443c728c1bb0351e1d",
       "ast_digest": "30bda68f5854dfd69c1ddcf2223fc9ddd9e8b0c621b6ac263103e67134a0c8fb"
     },
     "stp": {
-      "values_digest": "ee7599911fa7c907a60a0dd13a4b82953757f4a5b70df2b88136fbbd1bf92bfb",
+      "values_digest": "d571a09cba6c9dc4a9fc4e1c721290f06aef9736355c1a15870bad8506b39119",
       "rendered_digest": "258b01cab3aee3ad9e117454696e7d770d03a0dbadfbcf8a7a489d2fcca25bbb",
       "ast_digest": "814ec4dfaa95bb1e4b701fb1218aef43ec86cee6d43c39039cea84b5302f3392"
     },
     "spp": {
-      "values_digest": "ad65285e27f2ef17d049722e2d35a2a4cb23025ea8d5a9b2ea2a69b5d55778df",
+      "values_digest": "99c5c9a60e74e03cb0f1b6a8fb5c19a0cc7fcf8fa5109a0824e8a8ea86976340",
       "rendered_digest": "260c3250c359fba05c2dae48501ea67f4257fa78aa5b5d6d0c88ef5a9f32b534",
       "ast_digest": "eb951a89580c959e8902863c90a1f25313f74ccc40d72dd1b94b3d4085fbbc2f"
     },
     "vpp": {
-      "values_digest": "919ebf5e660df027c76705bb1f62eb335efea748cfde4043de82435cff0bfe67",
+      "values_digest": "3c6932710c6df5e6691e0a248ef846ac426ec25857d6dd1048988a91ce3f04d6",
       "rendered_digest": "ec7994b9ad519b1657e3f2cf8c91d31de587a5950b0f6c755e5ec708781860a0",
       "ast_digest": "ff79ec3a1f44ebeca8aef72ea1eb0b874e6378dfbaca72787c3e9543b45ee76f"
     },
     "srp": {
-      "values_digest": "1930247b408a7098be0c8a85c6ca605ee7e11db2120bc50b03e5c338d3fe2bfe",
-      "rendered_digest": "40f1d5eab49ac13e1f8f5152e60a97ec42b42c2ef1b79794458552c88b43416e",
-      "ast_digest": "db54f73244dd6e2b96c7771bcb08eeb15b871bd02f68b7905257f85cf547c29e"
+      "values_digest": "10dca9787ba467015f9f897cf18352d5eeb7b922b8475147b303a63008445f40",
+      "rendered_digest": "2718a69587e198538474e12782a74d00c415b24e88e9472b957192b2b753b2a9",
+      "ast_digest": "94a3b532a34df66272a5fb28954d41083056d13219171f02dce9d9f28e62d346"
     },
     "sor": {
-      "values_digest": "4db8401c97a789449f82447e4900286742fa7435c7ad41a6cb487b82dcc7cfa7",
+      "values_digest": "ded48596445091a0a14d7d3d2e1db35aeb5ed26ad009046186838bfb523e1512",
       "rendered_digest": "c230dd63a8add574f69156a9acc3d2cdc48875b91cff68e27a3361e16957023a",
       "ast_digest": "16fae826b621b7a88176512e912efc83147447b48e0372f2f35399a8c4c932bc"
     }
@@ -75,6 +102,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Advance #387 to implemented after source changes and validation proof."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -210,6 +244,20 @@
       "actor": "codex:/root",
       "reason": "Record post-full-diff #387 validation rerun.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo fmt --manifest-path csdlc-v2/Cargo.toml --check\",\"cargo test --manifest-path csdlc-v2/Cargo.toml --test gate5 implemented_phase_card_truth_repair_unblocks_fresh_review_assignment\",\"cargo clippy --manifest-path csdlc-v2/Cargo.toml --all-targets -- -D warnings\"],\"purpose\":\"Revalidate the final full #387 diff after lifecycle truth normalization.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal output: fmt exited 0; focused gate5 1 passed, 0 failed, 59 filtered out; clippy exited 0\"}}"
+    },
+    {
+      "sequence": 20,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
