@@ -62,6 +62,25 @@ a {
   text-decoration: none;
 }
 
+.skip-link {
+  position: fixed;
+  top: 0.65rem;
+  left: 0.65rem;
+  z-index: 100;
+  transform: translateY(-160%);
+  border: 2px solid var(--cyan);
+  border-radius: 8px;
+  padding: 0.62rem 0.85rem;
+  color: var(--ink);
+  background: var(--panel-strong);
+  box-shadow: 0 0 0 4px rgba(110, 231, 249, 0.18);
+  transition: transform 0.16s ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
 .observatory {
   height: 100vh;
   overflow: hidden;
@@ -547,6 +566,15 @@ h2 {
   border: 1px solid var(--line-strong);
 }
 
+.button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(110, 231, 249, 0.14);
+}
+
 .button svg {
   width: 1rem;
   height: 1rem;
@@ -566,6 +594,17 @@ h2 {
 
 button {
   cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 .proof-card {
@@ -649,14 +688,17 @@ button {
 }
 
 .dashboard-rail a[aria-current="page"],
-.dashboard-rail a:hover {
+.dashboard-rail a:hover,
+.dashboard-rail a:focus-visible {
   color: var(--cyan);
   border-color: rgba(110, 231, 249, 0.28);
   background: rgba(110, 231, 249, 0.07);
+  outline-offset: 2px;
 }
 
 .dashboard-rail a[aria-current="page"] svg,
-.dashboard-rail a:hover svg {
+.dashboard-rail a:hover svg,
+.dashboard-rail a:focus-visible svg {
   color: var(--cyan);
 }
 
@@ -1153,7 +1195,8 @@ dd {
   display: none;
   height: 100%;
   min-height: 0;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
   padding: 1rem;
   margin-bottom: 0;
 }
