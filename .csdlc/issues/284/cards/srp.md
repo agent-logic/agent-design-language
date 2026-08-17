@@ -12,7 +12,9 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/evidence/284
+.csdlc/issues/284
+.csdlc/prepared/issues/284
 
 ## Prompts
 
@@ -30,12 +32,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Review was bounded to #284 issue-local ADR 0066 Guardian authority evidence reconciliation and did not claim #207 closeout, #288 ADR serialization, #142 completion, ADR acceptance, runtime implementation, cloud rerun, or WP-18C terminal proof.
+- Typed validation uses the stable generated owner binary with worktree-relative --root . because the FastWork issue worktree does not carry its own .adl/bin owner installation.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:95587b9c75177ab1970368a26f35f334f7fa420f:b5f09ed4498272d90b074ea617697d5a70b7b1999c059bb5837ddf4aded9a6e8")
 
-Reviewer: None
+Reviewer: Some("fresh-session:3eac0ef5-62a6-464d-ae62-afe89ceb74cd")
 
-Result: pre_review
+Result: pass
