@@ -4,23 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "024d435a2fcf6fd78678e4b9cda121ea06eecca7e6effaabceb5ad5c2f22ddaf",
   "phase": "implemented",
-  "generation": 22,
-  "digest": "41cb77e34a3da8ad82a4a0ecec271efbaf96849b02bfab4c7b123c8c9c5d1f52",
+  "generation": 23,
+  "digest": "bfc95bdc8caca13aae3ed60f53fb1d2a051455e791b3c2f8d3e44b9812f1a121",
   "branch": "codex/117-production-polis-interface-qualification-parent",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-117-production-polis-interface-qualification-parent",
-  "review_assignment": {
-    "reviewer": "fresh-session:2af64f8d-a01b-462c-9cf6-f53e3fce05ab",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:8fb5328611afcda2f95ff6ee4561489cf5b931a5:82dfe978ac0c66fe443780c3f2d0817d61c5b715e1b5c20cd5167903f118961d",
-    "scope": [
-      ".csdlc/evidence/117/production-polis-interface-parent-closeout.md",
-      ".csdlc/evidence/117/validate_parent_closeout.py",
-      ".csdlc/prepared/issues/117/validate_preparation_bundle.py",
-      ".csdlc/prepared/issues/117/design.md",
-      ".csdlc/prepared/issues/117/diagram.mmd",
-      ".csdlc/issues/117"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -36,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8729b121428e9030c6a6f751e451a3b5f3ad94f82c860149ec5a7b07abd8e5b7",
+      "values_digest": "0dcde363d0b3d5b32967e14755a5234195f1c9e96fe87e84369f487223a73cb7",
       "rendered_digest": "31377833f0fdf1c38188d892ce3d604f14ea61410b4d14eded85470c819d1506",
       "ast_digest": "34914eb71385e6d9a391827d3bcdfd88497cc2bccadad9d09dd81bf9d07fd13f"
     },
     "stp": {
-      "values_digest": "fd9aa38ce1e5ec9c51a9e123fd1d23ac33c500e58103e191fa6a87df173d2e51",
+      "values_digest": "735e9fd20170443a89f0e6bbe9ca2beecf9d4b68a5b1f36ce5c1f4dc6b4b5551",
       "rendered_digest": "90a11f2ccd8f2e44783806970332b4a0657af031f79dda6b395ff593ae5a3dd6",
       "ast_digest": "21dda05a4a0a3f33ddb1c2752f58c353d4fb6794d3eb2dba2b9592433b8364ce"
     },
     "spp": {
-      "values_digest": "f00de9ab32cc4db7a61f57c3e46d06090fbe23ae47dd3cc437eca781144e2054",
+      "values_digest": "971868911a095df5a7fdf165804cb119c0a46049ba277c5488790087a97d5d1e",
       "rendered_digest": "258848e070a57478e07177c1e9546907cd706f89a06ec45a05b77793a471e276",
       "ast_digest": "da7b6053c0774cd71960d329cd12a806b6bf66fce728459688fa9b9d524c7434"
     },
     "vpp": {
-      "values_digest": "fde3f0ae4d23e3ca218913449b0123062577efef3926f984cff4f4126c782852",
+      "values_digest": "89533fa8d8cf1f557298b8708f56a779aa221cdeb6bf42d03d7b822d011f86b0",
       "rendered_digest": "cb288c0e4e3fa37efca1d62888457c5cfab8b9ddc1ce0282259f69e987b4c0d7",
       "ast_digest": "6e9164f90884128e31ad8d16a53deb657a3a6a3e58d6efdc82dc0b092069348d"
     },
     "srp": {
-      "values_digest": "1e777acd2136391ecc2114d087dc630cc74133afb4ecf1748798c3d454603e9a",
-      "rendered_digest": "ca7d62232ed05329e6bf5b4d84f149e93c6cf43a0dc66a0ac90feaf7141236d9",
-      "ast_digest": "b830fc0d966ef86f4b7b785c5459a431f11737d96611114d81e931161ae0386c"
+      "values_digest": "6f7167135286c23c9d13869f7eeac1169a3b9fd5ba5651ff5e1ec2570be3d786",
+      "rendered_digest": "1253ac0f42063c5f2011243e9449818f55d1504c07ad8146ba38ea23a0a35357",
+      "ast_digest": "d3faf3908bf4b8cf64c7ef7144b0ef223acc1883189f0f858db1e2af1d228ef1"
     },
     "sor": {
-      "values_digest": "5a1247d8dee2928eab661e19c724d46a147735f895b8cde5965f9c1ec908ac93",
+      "values_digest": "64e1e23d28355a8955a1ba8db04939261d9f770e715b3741996cd08fabd93374",
       "rendered_digest": "d8b815a277aad19f8d907b0a73f1c49b3724272f92e792c1995d40f19637d036",
       "ast_digest": "f119737ef3d6411764ce511ada41365d6a58d714922d2e2739fc7bb4cccf202d"
     }
@@ -278,6 +266,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "Recover unintended #117 review assignment created while attempting to re-establish implemented-phase recovery provenance after #400 terminal merge. No reviewer material was sent; preserve implemented source/proof and continue with the pending STP dependency truth repair.",
+      "operation": "recover_review"
     }
   ]
 }
