@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 281,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.07c][117.c] Prove Observatory security, privacy, and adversarial behavior",
+    "slug": "observatory-security-privacy-adversarial-proof",
+    "version": "v0.92",
+    "generation": 6
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #281 initialized packet, live issue contract, dependency merge gates, Observatory security/privacy/adversarial proof scope, validation lanes, forbidden #279/#280/#282/#117/#110 authority, and planned HTML Observatory test/source boundaries.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does #281 stay limited to Observatory security/privacy/adversarial proof and narrowly necessary presentation fixes?",
+        "Are #279 accessibility/responsive, #280 performance/recovery, #282 final qualification, #117, and #110 explicitly excluded?",
+        "Do validation lanes prove XSS/rendering safety, credential/token exclusion, origin metadata fail-closed behavior, replay/confused-deputy/stale/denial states, redaction, public-safe evidence, and exact revision without credentials?",
+        "Could any browser behavior introduced here grant authority, synthesize acknowledgements, mask refusal, hide stale authorization, or store private signing material?",
+        "Are all dependency merge gates truthfully required before implementation and publication?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
