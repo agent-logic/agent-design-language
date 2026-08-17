@@ -25,6 +25,16 @@ require_json() {
   jq -e . "${path}" >/dev/null || fail "invalid json: ${path}"
 }
 
+require_sha256() {
+  local path="$1"
+  local expected="$2"
+  require_file "${path}"
+  [[ "${expected}" =~ ^[0-9a-f]{64}$ ]] || fail "invalid expected sha256 for ${path}: ${expected}"
+  local actual
+  actual="$(shasum -a 256 "${path}" | awk '{print $1}')"
+  [[ "${actual}" == "${expected}" ]] || fail "sha256 mismatch for ${path}: expected ${expected}, got ${actual}"
+}
+
 terminal_209="${git_common_dir}/csdlc-v2/derived-terminal/209.json"
 
 require_json "${terminal_209}"
@@ -57,10 +67,8 @@ jq -e '
 
 jq -r '.proof[].path' .csdlc/evidence/209/local-validation-manifest.json |
   while IFS= read -r artifact; do
-    require_file "${artifact}"
-    actual="$(shasum -a 256 "${artifact}" | awk '{print $1}')"
     expected="$(jq -r --arg path "${artifact}" '.proof[] | select(.path == $path) | .sha256' .csdlc/evidence/209/local-validation-manifest.json)"
-    [[ "${actual}" == "${expected}" ]] || fail "sha256 mismatch for ${artifact}: expected ${expected}, got ${actual}"
+    require_sha256 "${artifact}" "${expected}"
   done
 
 jq -e '
@@ -80,16 +88,45 @@ jq -e '
 ' .csdlc/evidence/209/native-validation-manifest.json >/dev/null ||
   fail "#209 native validation manifest is not successful and exact-head-bound"
 
-for artifact in \
-  .csdlc/evidence/209/native-platform/linux.json \
-  .csdlc/evidence/209/native-platform/macos.json \
-  .csdlc/evidence/209/native-platform/linux-semantic.json \
-  .csdlc/evidence/209/native-platform/macos-semantic.json \
-  .csdlc/evidence/209/native-receipts-validation.log \
-  .csdlc/evidence/5832/native/linux/receipt.json \
-  .csdlc/evidence/5832/native/macos/receipt.json \
-  .csdlc/evidence/5832/native/windows/receipt.json; do
-  require_file "${artifact}"
-done
+require_sha256 \
+  ".csdlc/evidence/209/native-platform/linux.json" \
+  "$(jq -r '.jobs.linux.receipt_sha256' .csdlc/evidence/209/native-validation-manifest.json)"
+require_sha256 \
+  ".csdlc/evidence/209/native-platform/macos.json" \
+  "$(jq -r '.jobs.macos.receipt_sha256' .csdlc/evidence/209/native-validation-manifest.json)"
+require_sha256 \
+  ".csdlc/evidence/209/native-platform/linux-nextest.log" \
+  "$(jq -r '.jobs.linux.command_output_sha256' .csdlc/evidence/209/native-validation-manifest.json)"
+require_sha256 \
+  ".csdlc/evidence/209/native-platform/macos-nextest.log" \
+  "$(jq -r '.jobs.macos.command_output_sha256' .csdlc/evidence/209/native-validation-manifest.json)"
+require_sha256 \
+  ".csdlc/evidence/209/native-platform/linux-semantic.json" \
+  "$(jq -r '.jobs.linux.semantic_output_sha256' .csdlc/evidence/209/native-validation-manifest.json)"
+require_sha256 \
+  ".csdlc/evidence/209/native-platform/macos-semantic.json" \
+  "$(jq -r '.jobs.macos.semantic_output_sha256' .csdlc/evidence/209/native-validation-manifest.json)"
+require_sha256 \
+  ".csdlc/evidence/209/native-platform/linux-source-manifest.json" \
+  "$(jq -r '.source_manifest_sha256' .csdlc/evidence/209/native-validation-manifest.json)"
+require_sha256 \
+  ".csdlc/evidence/209/native-platform/macos-source-manifest.json" \
+  "$(jq -r '.source_manifest_sha256' .csdlc/evidence/209/native-validation-manifest.json)"
+require_sha256 \
+  "$(jq -r '.independent_validation.output_ref' .csdlc/evidence/209/native-validation-manifest.json)" \
+  "$(jq -r '.independent_validation.output_sha256' .csdlc/evidence/209/native-validation-manifest.json)"
+
+jq -e '
+  .schema == "adl.acip_native_receipts.v2"
+  and .source_revision == "7c8569351ea4cbd1d9c9d94d7021a238c7c9599c"
+  and (.receipts | type == "array" and length == 3)
+  and all(.receipts[]; (.artifacts | type == "array" and length >= 1))
+' .csdlc/evidence/5832/acip-native-receipts.json >/dev/null ||
+  fail "#5832 native receipts manifest is not the expected historical/superseded native evidence shape"
+
+jq -r '.receipts[].artifacts[] | [.path, .sha256] | @tsv' .csdlc/evidence/5832/acip-native-receipts.json |
+  while IFS=$'\t' read -r artifact expected; do
+    require_sha256 "${artifact}" "${expected}"
+  done
 
 printf 'PASS: ADR 0065 evidence inputs are present, non-empty, and classified for #283 reconciliation\n'

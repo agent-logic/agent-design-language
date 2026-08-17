@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "588c6fbf2abc4aa3e25dd9d535e7d6036199eb37f9b22cd1a6cd80670d75ed23",
   "phase": "implemented",
-  "generation": 10,
-  "digest": "cc27a04e1a998f88348a608637f6c4434110674ac8115dd72eaa5c6833dea382",
+  "generation": 13,
+  "digest": "2488ff27dd425774797d7aedabdb4308afb9e52590ce0321bef4847a5487c3c5",
   "branch": "codex/283-adr0065-acip-evidence-reconciliation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-283-adr0065-acip-evidence-reconciliation",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "caf5d1db645849be4b7b6ee21fce1ecb5563d48fcaa1b204f262ff30898a45ed",
+      "values_digest": "348bb27d7f163c1ad4d55010f08b75deaee88ce3194bdfaf48b70527254c7ce3",
       "rendered_digest": "550fadeb2c40b452fc593a0865010aa648880939fe7ae42d688d78c90eaf3316",
       "ast_digest": "599dfa361861c3e9bbf747aa45f4dd29e1f58acec1d621c077bff797eac04524"
     },
     "stp": {
-      "values_digest": "5d52d628d38004906c4b7e5e99fa086dd2b031fc8bedbf02d39d48f6dc3145eb",
+      "values_digest": "295c9a5d2a58ecd4f10ceaaf6ec024493065d34ca92e4a7ac362e6a57027fb38",
       "rendered_digest": "3c591173ff9624dadece0c97cc5e4d0337b115fa52eea3878303a031a2539ffe",
       "ast_digest": "4f476468ac84163e1051e1499de5f5b5356d0d11b72505c86f90164f191193c4"
     },
     "spp": {
-      "values_digest": "0aa2684fdb7c024751bda4c09c4d7ee8c3ba78ff16d9a126a03a959435096bae",
+      "values_digest": "13080242f6ee151c4de08f514e3335003ad83a56b341d65491fcae872d77c3cf",
       "rendered_digest": "b1bf730a8d4540ac97d01ff207030e8b0a74079f46918b694d114d4f81234e2e",
       "ast_digest": "081a8a08e940537ccb0009e759883855f89af094113f3c6227d6a85e59993b86"
     },
     "vpp": {
-      "values_digest": "43f469a0dca0f736e3f51a225d0b39e494e2fe390bc8310e8459a158a1f664ad",
+      "values_digest": "b76f7a895d85d5e11a889b02a416ccacd1587ff39e8f0a470529f65e1d2f15cf",
       "rendered_digest": "2789d04a630a69f750813ee611330683e180edb99b8e66b66601b34db3eca71d",
       "ast_digest": "be71fa64ca6f4505af61748cde8e0cc08f922dc0f748b4480454add4ee7d5da6"
     },
     "srp": {
-      "values_digest": "ee3588c836e5be19121b8fca620002f487e85cea261b67ad08f0b1a4b49420af",
+      "values_digest": "9d632984bc5f1151cf6a0705efab4c4cffa2fd6aa1cfba4ed36ea0f5a1b85291",
       "rendered_digest": "33505b880d79230c74435da0fd47bc3ce7a3cc0aaf6dc6687d44dfe616220eba",
       "ast_digest": "0cc015fe77b761544c56376cc33fe5a52d6f781d017d3dde7680ea29c9690e23"
     },
     "sor": {
-      "values_digest": "04e0fa032549b807d078994eecbf287ad54cc4324205b2764bb319c7ee4616f4",
-      "rendered_digest": "a7d69862997e3146590f64abc487eb2a15ad8ec0d15aa2d1ce5fe381137a2ced",
-      "ast_digest": "4808934e92a848eccdd49bd3af77ddd1061addd5e26df34f5d904e3427300e53"
+      "values_digest": "0490a82ef6ac0c28086afc6e08bb69bb2888ab137f68df21c10aa074e75322c2",
+      "rendered_digest": "6a55f07d196a1ed107da67c75c83253c1cac256aa69b715dc9d4a301c2783893",
+      "ast_digest": "2506b5334d4f2ad43b5fd21d45d783ae00f3bb7fccadf6c75d8dd95aea56a2f6"
     }
   },
   "transitions": [
@@ -183,6 +183,34 @@
       "actor": "codex:adr-mini-sprint-207",
       "reason": "Recover #283 review after merging current origin/main, which changed the exact commit identity from d4137aefd8f8fdbbedc5706a6dcd7d7288b16ef4 to 6abd36e84d696b8ebc0e4d271245e59bd7d90e5d while leaving the issue-owned ADR 0065 evidence bytes and validation semantics unchanged. Typed validation correctly blocked publication with review_publication_dead_end; recover for fresh exact-head review before publication.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:adr-mini-sprint-207",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:adr-mini-sprint-207",
+      "reason": "Recover failed exact-head review assignment fresh-session:1de7c8ef-945c-49e0-8a6d-8f07539a7c74 after P2 finding: the #283 issue-owned validator checked native artifact presence but did not hash-bind the manifest-declared native artifacts it accepted. Clear assignment before bounded validator/evidence remediation and fresh review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:adr-mini-sprint-207",
+      "reason": "Record r3 P2 remediation: the #283 validator now hash-binds the manifest-declared #209 and #5832 native artifacts instead of accepting presence-only artifact files.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Reconciled ADR 0065 evidence for #207, remediated r1 P3 diff-check hygiene, recovered stale review after main resync, and remediated r3 P2 validator artifact-binding truth: #209 / PR #215 is the current replacement terminal authority; #5832 is retained as historical/superseded evidence; #283 does not accept the ADR or edit shared #288-owned ADR documents.\",\"changes\":[\"Added issue-local reconciliation packet .csdlc/evidence/283/ADR0065_ACIP_EVIDENCE_RECONCILIATION.md.\",\"Added machine-readable evidence manifest .csdlc/evidence/283/evidence-manifest.json.\",\"Added issue-owned focused validator .csdlc/prepared/issues/283/validate-adr0065-evidence.sh.\",\"Captured typed finalize PVF output in .csdlc/evidence/283/adr0065-evidence-reconciliation.log.\",\"Verified #209 live/typed terminal authority and #209/#5832 evidence inputs without editing shared ADR docs.\",\"Recovered the self-routed design approval, reapproved the EOF-clean design/diagram with canonical fresh-session UUID fresh-session:ce78ec0d-4168-494b-b604-73181fb20ecd, and removed blank EOF lines flagged by r1 review.\",\"Merged current origin/main, recovered stale exact-head review truth after review_publication_dead_end, and reran the focused validator/diff guard at the resynced head.\",\"Remediated r3 P2 by deriving #209/#5832 native artifact paths and expected SHA-256 values from their source manifests and failing closed on any missing, empty, invalid, or byte-drifted artifact.\"],\"artifacts\":[\".csdlc/evidence/283/ADR0065_ACIP_EVIDENCE_RECONCILIATION.md sha256=6e1b8dd4fedc8fe5191828a2990c3fb8327baabfea50d695c2f9e5f3c8d2914c\",\".csdlc/evidence/283/evidence-manifest.json sha256=dcfe6d9882f5e99ffb2a051730d41fcb0b4a3176f6430afd9282106813918b6e\",\".csdlc/evidence/283/adr0065-evidence-reconciliation.log sha256=623644f28d5c513d017d283e4dcc5f7e6fd0c9959ae5539c872691b77de2e8c0\",\".csdlc/prepared/issues/283/validate-adr0065-evidence.sh sha256=f1fbf834696059b22fc8082d1a6a86dcf9f05fd373fccd5976be7893ca6e4e98\",\".csdlc/prepared/issues/283/design.md sha256=37d2c15d3cc59b15b428fa5c2e2e91ab3d7c4aa93ea2c03719eb65d0960f00b1\",\".csdlc/prepared/issues/283/diagram.mmd sha256=826962955865e356c3b0b5b539014a48294607299c298748a38b53faa6c5c73f\",\".git/csdlc-v2/derived-terminal/209.json sha256=2db7585030569dbf7350e1ce2cedc70e8c6f90ca7d7d08476f2be0ecac9cc59a\",\".csdlc/evidence/209/local-validation-manifest.json sha256=33b6d90ba1330aec3ca9ff228bb997c7fd8cbf062208119669991cc846dd1c74\",\".csdlc/evidence/209/native-validation-manifest.json sha256=c85fc5f007e2e091f2fa91ddec1dad2f5602a15861039e5d600886f49ce10987\",\".csdlc/evidence/5832/acip-native-receipts.json sha256=eb69f742c8074ea96d3bfb9a6d846001a9a4abfe9caf25bdb237b1bac4d11f4c\"],\"validation\":[{\"command\":[\".csdlc/prepared/issues/283/validate-adr0065-evidence.sh\"],\"purpose\":\"Focused issue-owned ADR 0065 evidence reconciliation validator after r3 artifact-binding remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal output: PASS: ADR 0065 evidence inputs are present, non-empty, and classified for #283 reconciliation\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Working-tree whitespace/diff hygiene after main resync and r3 remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal output: exit 0 before r3 remediation; rerun required after commit before review\"}]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:adr-mini-sprint-207",
+      "reason": "Refresh SOR validation evidence after rerunning focused validator, typed validate, doctor, and diff-check at the post-r3 remediation state.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Reconciled ADR 0065 evidence for #207, remediated r1 P3 diff-check hygiene, recovered stale review after main resync, and remediated r3 P2 validator artifact-binding truth: #209 / PR #215 is the current replacement terminal authority; #5832 is retained as historical/superseded evidence; #283 does not accept the ADR or edit shared #288-owned ADR documents.\",\"changes\":[\"Added issue-local reconciliation packet .csdlc/evidence/283/ADR0065_ACIP_EVIDENCE_RECONCILIATION.md.\",\"Added machine-readable evidence manifest .csdlc/evidence/283/evidence-manifest.json.\",\"Added issue-owned focused validator .csdlc/prepared/issues/283/validate-adr0065-evidence.sh.\",\"Captured typed finalize PVF output in .csdlc/evidence/283/adr0065-evidence-reconciliation.log.\",\"Verified #209 live/typed terminal authority and #209/#5832 evidence inputs without editing shared ADR docs.\",\"Recovered the self-routed design approval, reapproved the EOF-clean design/diagram with canonical fresh-session UUID fresh-session:ce78ec0d-4168-494b-b604-73181fb20ecd, and removed blank EOF lines flagged by r1 review.\",\"Merged current origin/main, recovered stale exact-head review truth after review_publication_dead_end, and reran the focused validator/diff guard at the resynced head.\",\"Remediated r3 P2 by deriving #209/#5832 native artifact paths and expected SHA-256 values from their source manifests and failing closed on any missing, empty, invalid, or byte-drifted artifact.\"],\"artifacts\":[\".csdlc/evidence/283/ADR0065_ACIP_EVIDENCE_RECONCILIATION.md sha256=6e1b8dd4fedc8fe5191828a2990c3fb8327baabfea50d695c2f9e5f3c8d2914c\",\".csdlc/evidence/283/evidence-manifest.json sha256=dcfe6d9882f5e99ffb2a051730d41fcb0b4a3176f6430afd9282106813918b6e\",\".csdlc/evidence/283/adr0065-evidence-reconciliation.log sha256=623644f28d5c513d017d283e4dcc5f7e6fd0c9959ae5539c872691b77de2e8c0\",\".csdlc/prepared/issues/283/validate-adr0065-evidence.sh sha256=f1fbf834696059b22fc8082d1a6a86dcf9f05fd373fccd5976be7893ca6e4e98\",\".csdlc/prepared/issues/283/design.md sha256=37d2c15d3cc59b15b428fa5c2e2e91ab3d7c4aa93ea2c03719eb65d0960f00b1\",\".csdlc/prepared/issues/283/diagram.mmd sha256=826962955865e356c3b0b5b539014a48294607299c298748a38b53faa6c5c73f\",\".git/csdlc-v2/derived-terminal/209.json sha256=2db7585030569dbf7350e1ce2cedc70e8c6f90ca7d7d08476f2be0ecac9cc59a\",\".csdlc/evidence/209/local-validation-manifest.json sha256=33b6d90ba1330aec3ca9ff228bb997c7fd8cbf062208119669991cc846dd1c74\",\".csdlc/evidence/209/native-validation-manifest.json sha256=c85fc5f007e2e091f2fa91ddec1dad2f5602a15861039e5d600886f49ce10987\",\".csdlc/evidence/5832/acip-native-receipts.json sha256=eb69f742c8074ea96d3bfb9a6d846001a9a4abfe9caf25bdb237b1bac4d11f4c\"],\"validation\":[{\"command\":[\".csdlc/prepared/issues/283/validate-adr0065-evidence.sh\"],\"purpose\":\"Focused issue-owned ADR 0065 evidence reconciliation validator after r3 artifact-binding remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal output: PASS: ADR 0065 evidence inputs are present, non-empty, and classified for #283 reconciliation\"},{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-283-adr0065-acip-evidence-reconciliation\",\"issue\",\"--issue\",\"283\"],\"purpose\":\"Typed #283 issue validation after r3 artifact-binding remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal output: status pass, phase implemented, generation 12, findings []\"},{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-doctor\",\"--repo\",\"/Volumes/FastWork/adl-worktrees/adl-issue-283-adr0065-acip-evidence-reconciliation\",\"--issue\",\"283\"],\"purpose\":\"Typed #283 doctor after r3 artifact-binding remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal output: status pass, phase implemented, generation 12, findings []\"},{\"command\":[\"git\",\"diff\",\"--check\",\"origin/main...HEAD\"],\"purpose\":\"Whitespace/diff hygiene after r3 artifact-binding remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"terminal output: exit 0\"}]}"
     }
   ]
 }

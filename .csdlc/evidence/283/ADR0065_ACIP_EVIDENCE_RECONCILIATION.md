@@ -74,10 +74,11 @@ Native validation manifest:
 
 - Path: `.csdlc/evidence/5832/acip-native-receipts.json`
 - File SHA-256: `eb69f742c8074ea96d3bfb9a6d846001a9a4abfe9caf25bdb237b1bac4d11f4c`
-- Native receipt paths checked for non-empty presence:
-  - `.csdlc/evidence/5832/native/linux/receipt.json`
-  - `.csdlc/evidence/5832/native/macos/receipt.json`
-  - `.csdlc/evidence/5832/native/windows/receipt.json`
+- Native proof artifacts are read from the manifest and checked byte-for-byte
+  against their manifest-declared SHA-256 values:
+  - `.csdlc/evidence/5832/native/linux/proof.json`
+  - `.csdlc/evidence/5832/native/macos/proof.json`
+  - `.csdlc/evidence/5832/native/windows/proof.json`
 
 Classification: historical/superseded. #5832 is useful proof lineage, but #209 records identify the old #5832 / PR #76 authority as a defect baseline. #283 therefore does not cite #5832 as sole terminal evidence for ADR 0065.
 
@@ -94,9 +95,14 @@ Outcome: passed.
 Evidence:
 
 - Validator script: `.csdlc/prepared/issues/283/validate-adr0065-evidence.sh`
-- Validator script SHA-256: `720b8426c567d2ec45201e864bcddc33b6ab4bff4fb0a2a5915921bd0cd2b128`
+- Validator script SHA-256: `f1fbf834696059b22fc8082d1a6a86dcf9f05fd373fccd5976be7893ca6e4e98`
 - PVF log: `.csdlc/evidence/283/adr0065-evidence-reconciliation.log`
 - PVF log SHA-256: `623644f28d5c513d017d283e4dcc5f7e6fd0c9959ae5539c872691b77de2e8c0`
+
+The validator also hash-binds the #209 local manifest proof artifacts, #209
+native platform receipts, nextest logs, semantic outputs, source-manifest
+artifacts, independent validation output, and the #5832 historical proof
+artifacts using the SHA-256 values declared by their source manifests.
 
 ## Handoff to #207 and #288
 

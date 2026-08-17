@@ -40,8 +40,8 @@
     },
     {
       "path": ".csdlc/prepared/issues/283/validate-adr0065-evidence.sh",
-      "sha256": "720b8426c567d2ec45201e864bcddc33b6ab4bff4fb0a2a5915921bd0cd2b128",
-      "role": "issue-owned focused validator"
+      "sha256": "f1fbf834696059b22fc8082d1a6a86dcf9f05fd373fccd5976be7893ca6e4e98",
+      "role": "issue-owned focused validator with manifest-declared artifact SHA-256 binding"
     }
   ],
   "residual_gaps": [
