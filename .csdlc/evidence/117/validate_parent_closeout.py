@@ -41,6 +41,13 @@ REQUIRED_PACKET_PHRASES = (
     "does not change Runtime authority, browser UI, API, storage, cloud, Unity, or provider changes",
     "Claiming WP-18C umbrella terminal closeout",
 )
+REQUIRED_RESIDUAL_RISK_PHRASES = (
+    "## Residual risks and handoff gates",
+    "#110 must remain live/open",
+    "#207 and #286 evidence reconciliation remains separate coordination work",
+    "Hosted publication, CI, merge, and typed finish for #117 remain pending",
+    "No credentialed provider, Unity, cloud, Runtime, API, storage, or Observatory child implementation proof",
+)
 TABLE_PATTERN = re.compile(
     r"^\| #(?P<issue>\d+) \| (?P<scope>[^|]+) \| #(?P<pr>\d+) \| "
     r"`(?P<merge_sha>[0-9a-f]{40})` \| `(?P<head_sha>[0-9a-f]{40})` \| "
@@ -74,6 +81,23 @@ def run_json(argv: list[str]) -> dict:
         raise AssertionError(f"command did not emit JSON: {' '.join(argv)}\n{completed.stdout}") from exc
 
 
+def run_text(argv: list[str]) -> str:
+    completed = subprocess.run(
+        argv,
+        cwd=ROOT,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        check=False,
+    )
+    if completed.returncode != 0:
+        raise AssertionError(
+            f"command failed ({completed.returncode}): {' '.join(argv)}\n"
+            f"stdout:\n{completed.stdout}\nstderr:\n{completed.stderr}"
+        )
+    return completed.stdout.strip()
+
+
 def packet_terminal_rows(packet: str) -> dict[int, dict[str, str]]:
     rows: dict[int, dict[str, str]] = {}
     for line in packet.splitlines():
@@ -97,6 +121,11 @@ def main() -> int:
 
     for phrase in REQUIRED_PACKET_PHRASES:
         require(phrase in packet, f"closeout packet missing required phrase: {phrase}")
+    for phrase in REQUIRED_RESIDUAL_RISK_PHRASES:
+        require(phrase in packet, f"closeout packet missing residual-risk/handoff phrase: {phrase}")
+
+    issue_110_state = run_text(["gh", "issue", "view", "110", "--json", "state", "--jq", ".state"])
+    require(issue_110_state == "OPEN", f"issue #110 is not live/open: {issue_110_state!r}")
 
     packet_rows = packet_terminal_rows(packet)
     terminal_results: dict[int, dict] = {}
@@ -140,6 +169,7 @@ def main() -> int:
             {
                 "schema": "adl.issue_117.parent_closeout_validation.v1",
                 "status": "pass",
+                "umbrella_parent": {"issue": 110, "state": issue_110_state},
                 "terminal_dependencies": list(REQUIRED_TERMINAL),
             },
             indent=2,
