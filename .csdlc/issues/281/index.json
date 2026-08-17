@@ -4,39 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "2f7413cb01489f80873183bf0cb3f041747a54a7888d8a7b976df4841c8e0f95",
-  "phase": "reviewed",
-  "generation": 9,
-  "digest": "146edb02960ac494c0cc5d94b1c5dcc500e415f28c378c6fb080e2199b319a92",
+  "phase": "implemented",
+  "generation": 10,
+  "digest": "d9546ec0f17e59d2e09614b584147989e680ed1d498b93adb88f47ba9898baa2",
   "branch": "codex/281-observatory-security-privacy-adversarial-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-281-observatory-security-privacy-adversarial-proof-bound",
-  "review_assignment": {
-    "reviewer": "fresh-session:f283ff3c-d8a2-4e97-87b2-4b1fcd9f6785",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:f3e9c1a07c8db48d80f88c25bae76281e21b9e6a:cafe951d7fd288ca6393ec6b0b0d515587093c6461e3a32d30d45f8a6df378ee",
-    "scope": [
-      "demos/html-observatory/tests/security_privacy_adversarial.test.mjs",
-      ".csdlc/prepared/issues/281/validate_preparation_bundle.py",
-      ".csdlc/issues/281",
-      ".csdlc/evidence/281"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:f283ff3c-d8a2-4e97-87b2-4b1fcd9f6785",
-    "scope": [
-      "demos/html-observatory/tests/security_privacy_adversarial.test.mjs",
-      ".csdlc/prepared/issues/281/validate_preparation_bundle.py",
-      ".csdlc/issues/281",
-      ".csdlc/evidence/281"
-    ],
-    "reviewed_revision": "git-blake3:f3e9c1a07c8db48d80f88c25bae76281e21b9e6a:cafe951d7fd288ca6393ec6b0b0d515587093c6461e3a32d30d45f8a6df378ee",
-    "findings": [],
-    "residual_risks": [
-      "Review was bounded to #281 Observatory security/privacy/adversarial proof and did not rerun the in-place security_privacy_adversarial Node proof because that command rewrites its committed evidence JSON.",
-      "Post-target changes observed by the reviewer were assignment metadata only; #281 does not implement #279 accessibility, #280 performance/recovery, #282 qualification assembly, Runtime authority, cloud, Unity, credential, or provider-payload behavior."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -51,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a530047f0a1929fec82b47ed3d99c937828a14d5fb7262e75ccae119ed8dc1be",
+      "values_digest": "f9909722cd1d8d91382b88a416adeba0228c527e309d7856e13d68e701eed5fb",
       "rendered_digest": "554d11397ec1afbda6fb34a01c29b32978744e71f1275e2e57aacc3fe5acb46b",
       "ast_digest": "92cfe22f5d143b078bd0b4bed2b3d4db8d258f9b5541320677a3cbbc20df1231"
     },
     "stp": {
-      "values_digest": "d538ad39f2930d9fc297679a6dbeccafe735c5b2452cf70d980805ee181000e3",
+      "values_digest": "e1a5ee9f882db825b7cfe83a7f8af9e21d427039c997df339d76d97e5ab4cd69",
       "rendered_digest": "2bbeb6440a03b77c996752e850ec05baa68e1c5ee44c9992cf3b1994240b06db",
       "ast_digest": "8c1fbf937ed7846252948f61ea050e702a73556adb528728134b4ae63789afbc"
     },
     "spp": {
-      "values_digest": "111afa8c63f0e8f0787b9fddf5a4d3d9012314b6d94b87879311b84269476917",
+      "values_digest": "12b688315f8a73a0d3edca063173b8e998e51d7094aed9dea0c1c6c838960862",
       "rendered_digest": "7ed05e820daa4afa8b4958a16a37cb93b619425d78ec301f6bc3f612a93a1693",
       "ast_digest": "22affcf68299bb262e1636e15128d8c46471ab93e918d6298e2f26049f3f0688"
     },
     "vpp": {
-      "values_digest": "56f8a1a685a26e03f76234aaa5e41042f73325684b48163b11c5141e051daa37",
+      "values_digest": "062382c3ac898d35065d1e4328242284b8ca72886610415be5e395b4674bb2f6",
       "rendered_digest": "fcd1cea166ebcd65d3e5713bc0a634879037ba000eed3ee07ec985914ebf4726",
       "ast_digest": "d4d9ab87114ce18ebf5f36d6758f89334adc18df9e5f1ea19fcce02d4dfd6641"
     },
     "srp": {
-      "values_digest": "3a8e9144ee32b69c1e78d8e7f733dc908c5ea559d1b82cb80e11ef56796ea69f",
-      "rendered_digest": "183d0b27d649c0f778ea2e32089c87ac365ffd2c1549b9bc2f8ff864ec5e48bb",
-      "ast_digest": "2c9b11f9861ce3def145b64b2f3e97652f1fdb50ffa27f0e20cdec687596e516"
+      "values_digest": "cb8ca72efe04876ee3cfd524be36d50b29b0c98355d5d16c2b98e06ffb2a6a0d",
+      "rendered_digest": "bfd1caeda65be38076b06f5709aef6cd47e76e9a44a2715f26e00b90bc9055c5",
+      "ast_digest": "398e804ac7f1dbf3a149b374ae10f74b345e0de1b9e756d633deca5519c59eb2"
     },
     "sor": {
-      "values_digest": "b2b325e56902bf9fd2b6f4c85ab97717f47d56acbdada3222b00a5a4c9681655",
+      "values_digest": "24915708d0c1627c0746d2f6c242241bc0eaaccc5c274c3757b0a00cd649caac",
       "rendered_digest": "d2d2744305cbb30d9c236cf5c58c38983fd442fff47edc3e2581d41b9dbd8c7e",
       "ast_digest": "8649c7ec3f59bd1ada1e938f42f554559dd77780fd690c862d5bc4bb9d77e2f5"
     }
@@ -109,6 +83,13 @@
       "to": "reviewed",
       "actor": "fresh-session:f283ff3c-d8a2-4e97-87b2-4b1fcd9f6785",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover stale review truth after removing a tracked empty lifecycle lock from the #281 branch before publication; exact publication guard rejected the prior PASS as review_stale."
     }
   ],
   "audit": [
@@ -202,6 +183,13 @@
       "actor": "fresh-session:f283ff3c-d8a2-4e97-87b2-4b1fcd9f6785",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Recover stale review truth after removing a tracked empty lifecycle lock from the #281 branch before publication; exact publication guard rejected the prior PASS as review_stale.",
+      "operation": "recover_review"
     }
   ]
 }
