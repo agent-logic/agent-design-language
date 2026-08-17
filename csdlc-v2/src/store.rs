@@ -11,7 +11,7 @@ use sha2::{Digest, Sha256};
 use crate::cards::{
     apply, digest, initial_cards, render, terminal_validation_passed, validate_cross_card,
     validate_identity_version, validate_result, CardContent, CardKind, CardStatus, CardValues,
-    InitialCardInput, SemanticOperation, StepStatus, ValidationResult,
+    InitialCardInput, PlanStep, SemanticOperation, StepStatus, ValidationResult,
 };
 use crate::error::{ErrorCode, Result, V2Error};
 use crate::model::{
@@ -4253,6 +4253,11 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     } else {
         None
     };
+    if let (SemanticOperation::CorrectPlanStepsAfterRecovery { steps }, Some(previous_steps)) =
+        (&request.operation, plan_steps_before.as_ref())
+    {
+        validate_status_only_plan_step_recovery(previous_steps, steps)?;
+    }
     let audit_operation = match (&request.operation, replan_before) {
         (SemanticOperation::Replan { field, value }, Some(previous)) => serde_json::json!({
             "operation": "replan",
@@ -4822,6 +4827,28 @@ fn validate_prebind_contract_repair(
             }
         }
         _ => unreachable!("pre-bind contract repair operation"),
+    }
+    Ok(())
+}
+
+fn validate_status_only_plan_step_recovery(
+    previous_steps: &[PlanStep],
+    replacement_steps: &[PlanStep],
+) -> Result<()> {
+    let same_non_status_shape = previous_steps.len() == replacement_steps.len()
+        && previous_steps
+            .iter()
+            .zip(replacement_steps)
+            .all(|(previous, replacement)| {
+                previous.id == replacement.id
+                    && previous.action == replacement.action
+                    && previous.acceptance_ids == replacement.acceptance_ids
+            });
+    if !same_non_status_shape {
+        return Err(V2Error::new(
+            ErrorCode::CardInvalid,
+            "SPP recovery plan-step correction may change only step status",
+        ));
     }
     Ok(())
 }

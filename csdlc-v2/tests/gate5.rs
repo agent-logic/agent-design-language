@@ -4826,12 +4826,8 @@ fn recovered_implemented_issue_can_correct_spp_step_status_after_recorded_review
     else {
         panic!("SPP")
     };
-    let replacement = vec![csdlc_v2::cards::PlanStep {
-        id: "one".into(),
-        action: "review".into(),
-        acceptance_ids: vec!["AC-1".into()],
-        status: csdlc_v2::cards::StepStatus::Completed,
-    }];
+    let mut replacement = before_spp.steps.clone();
+    replacement[0].status = csdlc_v2::cards::StepStatus::Completed;
 
     let generic_replacement = edit_issue(
         &store,
@@ -4908,7 +4904,9 @@ fn recovered_implemented_issue_can_correct_spp_step_status_after_recorded_review
     )
     .expect("recover recorded-review implemented state");
 
-    let duplicate_ids = edit_issue(
+    let mut rewritten_action = replacement.clone();
+    rewritten_action[0].action = "rewrite substantive plan action".into();
+    let substantive_rewrite = edit_issue(
         &store,
         EditRequest {
             issue: 7,
@@ -4916,30 +4914,19 @@ fn recovered_implemented_issue_can_correct_spp_step_status_after_recorded_review
             expected_generation: recovered.generation,
             expected_digest: recovered.digest.clone(),
             actor: "operator".into(),
-            reason: "reject duplicate plan step ids".into(),
+            reason: "reject substantive plan action rewrite".into(),
             operation: SemanticOperation::CorrectPlanStepsAfterRecovery {
-                steps: vec![
-                    csdlc_v2::cards::PlanStep {
-                        id: "one".into(),
-                        action: "first".into(),
-                        acceptance_ids: vec!["AC-1".into()],
-                        status: csdlc_v2::cards::StepStatus::InProgress,
-                    },
-                    csdlc_v2::cards::PlanStep {
-                        id: "one".into(),
-                        action: "second".into(),
-                        acceptance_ids: vec!["AC-1".into()],
-                        status: csdlc_v2::cards::StepStatus::InProgress,
-                    },
-                ],
+                steps: rewritten_action,
             },
             fail_after_backup: false,
         },
     )
-    .expect_err("duplicate plan step ids must fail closed");
-    assert_eq!(duplicate_ids.code, ErrorCode::CardInvalid);
+    .expect_err("substantive SPP plan rewrites must fail closed");
+    assert_eq!(substantive_rewrite.code, ErrorCode::CardInvalid);
 
-    let multiple_in_progress = edit_issue(
+    let mut dropped_step = replacement.clone();
+    dropped_step.pop();
+    let cardinality_rewrite = edit_issue(
         &store,
         EditRequest {
             issue: 7,
@@ -4947,28 +4934,15 @@ fn recovered_implemented_issue_can_correct_spp_step_status_after_recorded_review
             expected_generation: recovered.generation,
             expected_digest: recovered.digest.clone(),
             actor: "operator".into(),
-            reason: "reject multiple in-progress plan steps".into(),
+            reason: "reject SPP plan cardinality rewrite".into(),
             operation: SemanticOperation::CorrectPlanStepsAfterRecovery {
-                steps: vec![
-                    csdlc_v2::cards::PlanStep {
-                        id: "one".into(),
-                        action: "first".into(),
-                        acceptance_ids: vec!["AC-1".into()],
-                        status: csdlc_v2::cards::StepStatus::InProgress,
-                    },
-                    csdlc_v2::cards::PlanStep {
-                        id: "two".into(),
-                        action: "second".into(),
-                        acceptance_ids: vec!["AC-1".into()],
-                        status: csdlc_v2::cards::StepStatus::InProgress,
-                    },
-                ],
+                steps: dropped_step,
             },
             fail_after_backup: false,
         },
     )
-    .expect_err("multiple in-progress plan steps must fail closed");
-    assert_eq!(multiple_in_progress.code, ErrorCode::InvalidTransition);
+    .expect_err("SPP plan cardinality rewrites must fail closed");
+    assert_eq!(cardinality_rewrite.code, ErrorCode::CardInvalid);
 
     let corrected = edit_issue(
         &store,
