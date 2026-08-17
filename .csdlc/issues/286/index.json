@@ -4,13 +4,41 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "c92f938e8f52553a5e99e5a70cd53244133692af78462fa1d8eae320a9d9bfef",
-  "phase": "implemented",
-  "generation": 30,
-  "digest": "3006900e348dac7c58c4c46e05a4c70f7fab4f7f6e44bb33296b0b7000db6c1f",
+  "phase": "reviewed",
+  "generation": 31,
+  "digest": "f00953f12144f221d9f8ab6f7bdef1816d98c3d785a0d055652cd6b7e9e75356",
   "branch": "codex/286-adr0069-evidence-reconciliation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-286-adr0069-evidence-reconciliation",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:22bfcbde-29b5-43d9-be7b-1ba533f3ebd6",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:aea47db612ef10b76dc8b8212d4a50bd9349962f:c5f8cfee27329e8f09d718be04618b834b0d086e961db04b1cb2f47e39e3fa8b",
+    "scope": [
+      ".csdlc/evidence/286/adr0069-evidence-reconciliation.md",
+      ".csdlc/evidence/286/issue84-live-state.json",
+      ".csdlc/evidence/286/validate_adr0069_evidence_reconciliation.py",
+      ".csdlc/prepared/issues/286/validate_preparation_bundle.py",
+      ".csdlc/issues/286"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:22bfcbde-29b5-43d9-be7b-1ba533f3ebd6",
+    "scope": [
+      ".csdlc/evidence/286/adr0069-evidence-reconciliation.md",
+      ".csdlc/evidence/286/issue84-live-state.json",
+      ".csdlc/evidence/286/validate_adr0069_evidence_reconciliation.py",
+      ".csdlc/prepared/issues/286/validate_preparation_bundle.py",
+      ".csdlc/issues/286"
+    ],
+    "reviewed_revision": "git-blake3:aea47db612ef10b76dc8b8212d4a50bd9349962f:c5f8cfee27329e8f09d718be04618b834b0d086e961db04b1cb2f47e39e3fa8b",
+    "findings": [],
+    "residual_risks": [
+      "#84 state is a timestamped retained observation; subsequent external issue-state changes require refreshing the packet.",
+      "#117/#271/#282 validation depends on retained terminal caches and configured local owner/worktree paths, which were present and canonical during review."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +53,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6063dab83650c43599395e5b990e014131dcc654c4b12dfe7ea880c0b6434321",
+      "values_digest": "70a9ad8b41fab4328df659f9decae0ba7fdb5f23a83e8255cf3e66642fc9f83a",
       "rendered_digest": "c9091a7475893afda9b0d9001ff075042bdd75ec791d54c17b73dcbb68d5464d",
       "ast_digest": "844ba9e776904493cec9be5f02f243035f059cbd8359f8ede4a79ca665e7b3d7"
     },
     "stp": {
-      "values_digest": "e8ba280d8799397d3d59e898c0d3bbb2ac358f1be3170e3c465e60766538242a",
+      "values_digest": "2bdea5352af4dec9820fbaf892da21e65b08b1c313fac7e0817d94189f078e6e",
       "rendered_digest": "bd6235d325ad72150ca3f7a517ec6780c9ece4ae76a9c259ba886caec2f58a8a",
       "ast_digest": "eb37e31f42f8b321a8d427f82f1e2369201f99771891dd41d08e431f2e088135"
     },
     "spp": {
-      "values_digest": "3fe23a3e0b259f5996a135c454a7b74af6a3ba452222c70f5d939eef94e8016c",
+      "values_digest": "3301b6c691d9da3fd340e455206d8591cbb0c6d6012325720fcf1823fdcad29a",
       "rendered_digest": "e9c2d49e10fcb1e9b3f678067faf5aa2a2d4af5a03a3a53987e579e97e414a29",
       "ast_digest": "73d8fa338897a32598bab8205f6be3e4301ebe5b9e86c088f2ed5940445c2039"
     },
     "vpp": {
-      "values_digest": "0b9a276dac4e7917a3dc7f1ea93113eaf21d18857f7c5a7e10d7bcac0d5d9a2a",
+      "values_digest": "07f906e4c22fb2e74873d0328667cad54aeab638e61f1e423a7a23363f35bd0f",
       "rendered_digest": "182be6cb11fe7081a1ed2ee23df8db32cabef0b3cf7423e71f6ba8420beb0e08",
       "ast_digest": "2356174ae13d8fc4efda883e3b306eb865652ebe9b42de9733e4a32713741111"
     },
     "srp": {
-      "values_digest": "1044ce91a771019c8f8825f1ce99361a0bdd39c085e6798a1c28b56778b74a36",
-      "rendered_digest": "6ef3a2ad5eb7e09cf68f6bbe15d9c075cbc920037aad82181a5246547e4202ff",
-      "ast_digest": "182ea2d5f98eae31333eff0580d49c6986d3a2ef399aefcaed3fb98295298a5e"
+      "values_digest": "5827a716214669dfc6550e4e2bbd581dc13e1daa4ead9e1ea305a39f388993f2",
+      "rendered_digest": "77044bb467eaea439c113d60bce5eba517b43800a2e76405b9b7a7854c66ab6b",
+      "ast_digest": "03115c6ea14f2dfdb9aa001dc16be6c4e8b8dae29c4a33a406e075c318851a52"
     },
     "sor": {
-      "values_digest": "8dbeac959fa8c5c3c9d763703040038317d86df55ac4b08afd5ff5ca197dd02b",
+      "values_digest": "d3ae5c30e079a76b9fc5cc63096aef6d15c619197e2f4cea8a59017ce87ce351",
       "rendered_digest": "59d915e1f28f16c5506be0b4951823f7a1fd6528b85a08bd1328f21b3d1e0861",
       "ast_digest": "42ad2e55574d0ca2f9baa92c0f474ad6d3c7fbacc78d04987d5681dba10618af"
     }
@@ -76,6 +104,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:22bfcbde-29b5-43d9-be7b-1ba533f3ebd6",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -358,6 +393,20 @@
       "actor": "codex:/root",
       "reason": "Replace #286 SOR execution truth after R8 review found AC-3 merge/head identity enforcement gap; record repaired validator coverage for packet merge/head fragments and terminal head_sha.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"#286 records issue-local ADR 0069 evidence reconciliation: ADR 0069 remains Deferred, exact #117/#271/#282 terminal issue inputs are retained only as partial ADR 0069 evidence with artifact locators/digests, merge/head revisions, and human-review references, and #84 remains the first external WP-18A Unity Runtime consumer proof gate.\",\"changes\":[\"Retained .csdlc/evidence/286/adr0069-evidence-reconciliation.md with ADR 0069 source status, partial evidence classifications, #84 open-state blocker, #207/#288 non-claims, and residual gaps.\",\"Retained explicit #117/#271/#282 terminal cache artifact locators, cache SHA-256s, terminal digests, PR numbers, merge/head revisions, and human-review references to satisfy AC-3 without claiming ADR acceptance or WP-18C closeout.\",\"Tightened .csdlc/evidence/286/validate_adr0069_evidence_reconciliation.py so it verifies per-input cache artifact presence, SHA-256, terminal digest, human-review reference, reviewed revision, packet merge/head fragments, canonical terminal state, merge SHA, and head SHA.\",\"Retained .csdlc/evidence/286/issue84-live-state.json as the live #84 OPEN observation and partial/non-terminal ADR 0069 blocker classification.\",\"Retained .csdlc/prepared/issues/286/validate_preparation_bundle.py as the declared preparation-boundary proof.\"],\"artifacts\":[\".csdlc/evidence/286/adr0069-evidence-reconciliation.md\",\".csdlc/evidence/286/issue84-live-state.json\",\".csdlc/evidence/286/validate_adr0069_evidence_reconciliation.py\",\".csdlc/prepared/issues/286/validate_preparation_bundle.py\",\".csdlc/issues/286\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/286/validate_preparation_bundle.py\"],\"purpose\":\"Run the issue-owned preparation validator from the bound worktree.\",\"outcome\":\"passed\",\"evidence_ref\":\"preparation-contract.log\"},{\"command\":[\"python3\",\".csdlc/evidence/286/validate_adr0069_evidence_reconciliation.py\"],\"purpose\":\"Run the #286 ADR 0069 evidence reconciliation, AC-3 artifact/review evidence, merge/head identity, and card overclaim validator.\",\"outcome\":\"passed\",\"evidence_ref\":\"adr0069-evidence-reconciliation.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Run Git diff whitespace hygiene for the #286 evidence packet and lifecycle truth.\",\"outcome\":\"passed\",\"evidence_ref\":\"diff-hygiene.log\"},{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-286-adr0069-evidence-reconciliation\",\"issue\",\"--issue\",\"286\"],\"purpose\":\"Validate #286 typed lifecycle state after R8 recovery and AC-3 merge/head remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"csdlc-validate-issue.log\"}]}"
+    },
+    {
+      "sequence": 41,
+      "generation": 30,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 42,
+      "generation": 31,
+      "actor": "fresh-session:22bfcbde-29b5-43d9-be7b-1ba533f3ebd6",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
