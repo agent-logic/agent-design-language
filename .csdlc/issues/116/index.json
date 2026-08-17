@@ -5,27 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "174c0bed7ee984cb1f5ca273105bf6d626e2b7186d70aaf113c79ae4a0f0052a",
   "phase": "implemented",
-  "generation": 11,
-  "digest": "d44ffdd7b783fc323bcad401f7b69fd55c3df40e2edfeee92e6309adcd3c1ade",
+  "generation": 14,
+  "digest": "b03de2a6ffc6d7dd939ce08d3f6dd8c34ca240eb598fe63d4e21e08a007c7bfa",
   "branch": "codex/116-operator-attention-inbox",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-116-operator-attention-inbox",
-  "review_assignment": {
-    "reviewer": "fresh-session:930bbc1d-11d4-4e8e-8f2d-df67fa31fd88",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:5bf40ae7c0026e542e4ba004c4272a399c6fa62e:93b80081b85c9a85bba1943ca319e89e0153f7a1cc3b944251bb853a77749dd8",
-    "scope": [
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/src/operator_attention.rs",
-      "adl-runtime-kernel/tests/observatory.rs",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/index.html",
-      "demos/html-observatory/styles.css",
-      "demos/html-observatory/tests/operator_attention_inbox.test.mjs",
-      ".csdlc/issues/116",
-      ".csdlc/prepared/issues/116",
-      ".csdlc/evidence/116"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -41,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "216cbf59460046a6fed2c125ec676fdb173fa34988b5c88db63f0dbe9c8de004",
+      "values_digest": "b92dc4d378ad38d2d632a09db058cd476ee6cfe4ffdc87bdcd024755dc954794",
       "rendered_digest": "615ebc26ce85e6f0d223a5d81a8699b2db73646ffbfcc7036e08722adf48cef1",
       "ast_digest": "dd817ebec75ea010b2d37cc52f92d3b12040fd30da6bc3a55bfe4fca81e8cac4"
     },
     "stp": {
-      "values_digest": "33b48336d07aad876f35ed32b4070cf095af63a69dd6af8ba1a478a208a87ed9",
+      "values_digest": "ebed592d93badcfb9d8f4e8694d3086bdc1c448954ec037183e2ec06e5b153b6",
       "rendered_digest": "52de91966d27c36d2e5322ebad84fecc97cb749d0118832ab58f8e70f1fd928b",
       "ast_digest": "1a304201009b5f8022ff747a66acec75efba1e92154d48a921882543c66115e9"
     },
     "spp": {
-      "values_digest": "65a9949ea831ed3a743d8f743b02318c0eb3b1c9ae41220c572aeb33e87a5279",
+      "values_digest": "975edcd9c916bd71edb249d3901a8f00dee54e68f1112470fb7cc24ca565110e",
       "rendered_digest": "848d519bc8bb7c5208170b8d4848a57b98796d2b384c7378fd86ec4e0dd3261b",
       "ast_digest": "b0124a985f14ac971b2405f5911db285773a93600e66d9c1af0e2f1f35b09e0d"
     },
     "vpp": {
-      "values_digest": "6e73b1af58835ed73236a02156da13f0cd76c0faa1893c4abcb29641326cb33c",
+      "values_digest": "a85e143ca6ea340ca5273676a97a72bdc5c6f2684e6212090ad5718680b0ed3c",
       "rendered_digest": "2eb411e606fe12920a2951e032f17a3378196cb36282bdff32127aa1442634b0",
       "ast_digest": "81b8ad794c55c5086c59931af269a1e2abbd45630fe6a97f93add391e138c503"
     },
     "srp": {
-      "values_digest": "55bacb260f3f063b8ca56e7ef2784296d6fdc848691853103ed6bc32ce94f529",
-      "rendered_digest": "0f0734769ac9a65819b381bb233adf4ab7a8d984c3769a3e44c29c46ded3b807",
-      "ast_digest": "ac41048e840972b6883c5cf76d01a2db16b035b4aa205f254bf99dd8df9e1935"
+      "values_digest": "bebd5e1e05e610cbcb916aeb8c3bc87fd98504dcd8b56884df5508242a81e11a",
+      "rendered_digest": "06621288578774e759e283cfc7e6f805e9d910bc6b5df7556f12a6430608e5f6",
+      "ast_digest": "f313a30007b7fe32bfffff80fa4a861b38ab4aec03cdb352c56280c81840a70b"
     },
     "sor": {
-      "values_digest": "6b45b86571f29ac19d3da11722c0512ba8880db7da111a93114545165af62e69",
+      "values_digest": "4f72df1920f7ccd91311ab816e5be57674c1b09f1e0dc2ac24727411dbc87a1d",
       "rendered_digest": "7e4de687ed6b73e1446ab94c16770f09cb6f45e7c16a7aa937134be6b543f98d",
       "ast_digest": "36dafb30138cddd07a5c1d0febebd934dd8ce7b87fee7a9110c34714c27be424"
     }
@@ -92,6 +76,20 @@
       "to": "implemented",
       "actor": "codex",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover after environment-only review fresh-session:4fb35f20-81c8-46f8-af89-8fb4d9a0685d was recorded without proving repository inspection; publication remains held pending a different fresh reviewer with readable workspace access."
     }
   ],
   "audit": [
@@ -206,6 +204,34 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Recover stale #116 review assignment fresh-session:930bbc1d-11d4-4e8e-8f2d-df67fa31fd88 after committing typed assignment metadata; no product changes, exact review must bind the new clean immutable head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Recover after environment-only review fresh-session:4fb35f20-81c8-46f8-af89-8fb4d9a0685d was recorded without proving repository inspection; publication remains held pending a different fresh reviewer with readable workspace access.",
+      "operation": "recover_review"
     }
   ]
 }
