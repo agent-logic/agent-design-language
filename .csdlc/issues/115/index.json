@@ -5,27 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "6b431e21b2b0a61991853e1f3f4a1bf51241907edaac9389f1c22998ae3334e7",
   "phase": "implemented",
-  "generation": 19,
-  "digest": "2703143d3eb71519bb2223c2ac08561455fbea088a3b771c58401b63a55f5f8c",
+  "generation": 20,
+  "digest": "1938658cdc25f030bebc31b68ce04c975f89aa195e2110e5dadcf14791b12b78",
   "branch": "codex/115-governed-multi-agent-rooms",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-115-governed-multi-agent-rooms",
-  "review_assignment": {
-    "reviewer": "fresh-session:e7449ffa-ab24-4a8e-a279-a8b8b04d5e1d",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:b058b8d2598679d4f0730a9af3bd315bbc61931b:caacf0c5d6ba9b885c0c0ed7f4740261e697ff3a8495d39197529a4d1df9f502",
-    "scope": [
-      "adl-runtime-kernel/src/conversation_rooms.rs",
-      "adl-runtime-kernel/src/control.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/index.html",
-      "demos/html-observatory/styles.css",
-      "adl/tools/validate_v092_governed_room_observatory.mjs",
-      ".csdlc/issues/115",
-      ".csdlc/prepared/issues/115",
-      ".csdlc/evidence/115"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -41,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "96b5c8334d75c3c6446e13886a70e6df7eeaff71b85c1370c3d616894d762d15",
+      "values_digest": "bdbde8de2cbd9925b0e7d088016f28b57a6900600352edeacfaaad216da73c29",
       "rendered_digest": "ecadc343231ebf27f6cc2251766828eff504b8338d3bf9054daa17b13a178c93",
       "ast_digest": "e02db63fa0459d5bd0d779d49185ce9f2d0c99a6a3378a81fa7d5dcbda279605"
     },
     "stp": {
-      "values_digest": "e554bc55cb2ac5027c1224e8b88fce67d1a5789bcbb69ec74a4d5a2ea65272a0",
+      "values_digest": "c5b6c4a0edc174d5e942c651530227991775d4f7f4f1ddb832c12eeb61722b73",
       "rendered_digest": "52b7561d3147cf35a9d9e3e9c250bb2a4b29d24f74d72f0affff7e08a712c0df",
       "ast_digest": "35ee5ba28500c070fbcfd0489da6659b6a5043c0516503d3d603efd4c71b847c"
     },
     "spp": {
-      "values_digest": "89d1b65e2c3094eb06f8fca409a490a5f88817cbb8665da5a7df328a8e1b3ccd",
+      "values_digest": "2c1d1a24aef46c6eb7d894bd42a5e50c3f927214cc1b3aeaa347ac4afbceadc9",
       "rendered_digest": "e26bfe2140a9e173c825afa8ca0bc232861990e642e27fc8b62b7598d87bc095",
       "ast_digest": "16b4224ccc9852138207e7ea7650ab8597dacc0572143c308eaa3f9f51cc30f0"
     },
     "vpp": {
-      "values_digest": "ff779f936c3f30a61c18596b65c4a4209031878df3463996a08442bac75baf12",
+      "values_digest": "9f138acad9d6907b8f458054912bf8ee2523c0f41a4e5c3e9dcf8db77c72db48",
       "rendered_digest": "5ba45045d2fec22c237ee9ef6da6228d1bde2612277d4955b7a8652ba1e41e62",
       "ast_digest": "eb8f2cb0c493fbb437ed0edfd5922ffea6758fd0731841881c2e8acdae1eb7b9"
     },
     "srp": {
-      "values_digest": "bb182609f9a1526b39a0b14889919a407f26023f5eac111b8ec499671c4aebd1",
-      "rendered_digest": "caa32cec7ee45bdc6639e84fa323a1031e8fa857b683476d42cd133f817da2a5",
-      "ast_digest": "48cf8333edfa0e54788ff6eeae5d7d38020fbd2b1bb738ceb32be7918f3fbe8b"
+      "values_digest": "6cc89f6668509a19bd9896ca592380b302192e7228ebea5c2028110c7616f154",
+      "rendered_digest": "9ead6718bfb47f6f4f62d1bdcb8769919c9aca261ab0cf61151ca2a4db764ebb",
+      "ast_digest": "adee842c155c8b19c4d9df432cfe83ded2620dae6d9f8cedfaf4ddc069604c78"
     },
     "sor": {
-      "values_digest": "c358457a6965407ba65af37ce6704ba5532882fc9f98b9865a3e77bd7873f6ba",
+      "values_digest": "7f2814d29bb3ea87b154d2667dcb5cec1347c3b37ea234c8c9cbc9dbc8e9faca",
       "rendered_digest": "614dc3ce31d08cf546b598d764a09780e014cf23fea6123d05129eee54d4a828",
       "ast_digest": "603dd939d2dc29df15eef51bd1ec4b75fbf3c7c5bc3887d188f1192f75f5a8d6"
     }
@@ -255,6 +239,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "Recover #115 review after fresh-session:e7449ffa-ab24-4a8e-a279-a8b8b04d5e1d found P1 Observatory per-room sequencing bug. Implementation fixed by preserving turn sequences per stable room identity and adding focused room-switch regression proof.",
+      "operation": "recover_review"
     }
   ]
 }
