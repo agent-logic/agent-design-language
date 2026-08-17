@@ -503,6 +503,21 @@ fn materialize_issue(source: &Store, target_root: &Path, issue: u64) -> Result<M
     })
 }
 
+fn reject_bind_unsafe_authored_path(relative: &str) -> Result<()> {
+    let path = Path::new(relative);
+    if path
+        .components()
+        .next()
+        .is_some_and(|component| component == Component::Normal(".git".as_ref()))
+    {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "binding cannot materialize authored design/diagram artifacts from .git; run initialized design-envelope recovery first",
+        ));
+    }
+    Ok(())
+}
+
 pub(crate) fn initialize_issue(
     store: &Store,
     mut request: BootstrapRequest,
@@ -663,6 +678,8 @@ pub fn bind_issue(store: &Store, request: BindRequest) -> Result<BindResult> {
             )
         )
         && (source_phase != Some(crate::LifecyclePhase::Initialized) || source_diagnosis.ready);
+    reject_bind_unsafe_authored_path(&current_record.design_path)?;
+    reject_bind_unsafe_authored_path(&current_record.diagram_path)?;
     if !source_is_bindable {
         return Err(V2Error::new(
             ErrorCode::InvalidTransition,

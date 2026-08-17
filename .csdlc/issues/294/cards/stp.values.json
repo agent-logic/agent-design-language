@@ -1,0 +1,52 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 294,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Recover initialized design identity and artifact paths before bind",
+    "slug": "initialized-design-envelope-recovery",
+    "version": "v0.92",
+    "generation": 49
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Issue #294 control-plane recovery and bootstrap rejection only; no #292 product behavior.",
+      "deliverables": [
+        "Typed initialized design-envelope recovery request and result",
+        "Append-only recovery audit evidence",
+        "Bootstrap unsafe authored-path rejection",
+        "Focused recovery and linked-worktree tests"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Typed initialized recovery atomically corrects reviewer identity and relocates artifact paths",
+        "AC-2: Operation is generation/digest guarded and append-only",
+        "AC-3: Audit records complete old/new reviewer, path, digest, reviewed-generation/digest, session, and no-inheritance evidence",
+        "AC-4: Insufficient proof invalidates approval and requires reapproval",
+        "AC-5: Noncanonical reviewer identity requires concrete projectless UUID and no-inheritance evidence",
+        "AC-6: Unsafe path classes fail closed",
+        "AC-7: Bootstrap rejects .git authored paths",
+        "AC-8: Linked-worktree fixture fails before recovery and succeeds after recovery",
+        "AC-9: Negative tests cover phase, CAS, source, drift, path, history, and reviewer failures",
+        "AC-10: #292 remains blocked until #294 is terminal and ancestral"
+      ],
+      "dependencies": [
+        "#292 blocked on terminal ancestral #294"
+      ],
+      "repo_inputs": [
+        "csdlc-v2/",
+        ".csdlc/issues/292/index.json read-only reproduction truth",
+        "docs/tooling/INDEPENDENT_EXACT_HEAD_REVIEW.md"
+      ],
+      "non_goals": [
+        "#292 product implementation or mutation",
+        "#112 mutation",
+        "manual lifecycle record edits",
+        "generic lifecycle rewrite",
+        "merge or closeout"
+      ]
+    }
+  }
+}

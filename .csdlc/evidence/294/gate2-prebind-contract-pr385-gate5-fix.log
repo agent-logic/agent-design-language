@@ -1,0 +1,8 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.10s
+     Running tests/gate2.rs (csdlc-v2/target/debug/deps/gate2-a525af84331492b6)
+
+running 1 test
+test prebind_contract_repair_is_exact_atomic_and_fail_closed ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 10 filtered out; finished in 3.14s
+

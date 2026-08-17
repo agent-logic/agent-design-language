@@ -5,7 +5,8 @@ use clap::{Parser, Subcommand};
 use csdlc_v2::{
     approve_design, edit_issue, initialize_native_json, public_schema_bundle,
     recover_design_review, recover_initialized_decomposition, ApproveDesignRequest, EditRequest,
-    ErrorCode, InitializedDecompositionRecoveryRequest, RecoverDesignReviewRequest, Store,
+    ErrorCode, InitializedDecompositionRecoveryRequest, RecoverDesignReviewRequest,
+    RecoverInitializedDesignEnvelopeRequest, Store,
 };
 use serde::Serialize;
 
@@ -29,6 +30,10 @@ enum Command {
         request: PathBuf,
     },
     ApproveDesign {
+        #[arg(long)]
+        request: PathBuf,
+    },
+    RecoverInitializedDesignEnvelope {
         #[arg(long)]
         request: PathBuf,
     },
@@ -71,6 +76,11 @@ fn main() {
         Command::ApproveDesign { request } => read::<ApproveDesignRequest>(&request)
             .and_then(|request| approve_design(&store, request))
             .and_then(json_value),
+        Command::RecoverInitializedDesignEnvelope { request } => {
+            read::<RecoverInitializedDesignEnvelopeRequest>(&request)
+                .and_then(|request| csdlc_v2::recover_initialized_design_envelope(&store, request))
+                .and_then(json_value)
+        }
         Command::RecoverDesignReview { request } => read::<RecoverDesignReviewRequest>(&request)
             .and_then(|request| recover_design_review(&store, request))
             .and_then(json_value),

@@ -138,9 +138,11 @@ pub use soak::{
 };
 pub use store::{
     approve_design, edit_issue, recover_design_review, recover_initialized_decomposition,
-    ApproveDesignRequest, BootstrapRequest, DecompositionGraphEdge, DecompositionGraphInput,
-    DecompositionGraphNode, DesignReviewRecoveryTruth, EditRequest,
-    InitializedDecompositionRecoveryReplacement, InitializedDecompositionRecoveryRequest,
-    InitializedDecompositionRecoveryResult, InitializedRecoveryFailurePoint,
-    PreservedAuthoredArtifact, RecoverDesignReviewRequest, Store,
+    recover_initialized_design_envelope, ApproveDesignRequest, BootstrapRequest,
+    DecompositionGraphEdge, DecompositionGraphInput, DecompositionGraphNode,
+    DesignReviewRecoveryTruth, EditRequest, InitializedDecompositionRecoveryReplacement,
+    InitializedDecompositionRecoveryRequest, InitializedDecompositionRecoveryResult,
+    InitializedRecoveryFailurePoint, PreservedAuthoredArtifact, RecoverDesignReviewRequest,
+    RecoverInitializedDesignEnvelopeRequest, Store,
 };
+pub use store::{recover_initialized_design_envelope_with_hook, DesignRecoveryFailpoint};

@@ -37,10 +37,10 @@ use crate::review::{
 };
 use crate::runner_preflight::{RunnerPreflightPacket, RunnerPreflightRequest};
 use crate::store::{
-    ApproveDesignRequest, InitializedDecompositionRecoveryRequest,
+    ApproveDesignRequest, BootstrapRequest, EditRequest, InitializedDecompositionRecoveryRequest,
     InitializedDecompositionRecoveryResult, RecoverDesignReviewRequest,
+    RecoverInitializedDesignEnvelopeRequest,
 };
-use crate::store::{BootstrapRequest, EditRequest};
 
 pub fn public_schema_bundle() -> Value {
     json!({
@@ -56,6 +56,7 @@ pub fn public_schema_bundle() -> Value {
         "terminal_census_report": schemars::schema_for!(TerminalCensusReport),
         "bootstrap_request": schemars::schema_for!(BootstrapRequest),
         "approve_design_request": schemars::schema_for!(ApproveDesignRequest),
+        "recover_initialized_design_envelope_request": schemars::schema_for!(RecoverInitializedDesignEnvelopeRequest),
         "recover_design_review_request": schemars::schema_for!(RecoverDesignReviewRequest),
         "edit_request": schemars::schema_for!(EditRequest),
         "initialized_decomposition_recovery_request": schemars::schema_for!(InitializedDecompositionRecoveryRequest),

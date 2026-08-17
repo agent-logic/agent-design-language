@@ -1,0 +1,39 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 294,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Recover initialized design identity and artifact paths before bind",
+    "slug": "initialized-design-envelope-recovery",
+    "version": "v0.92",
+    "generation": 49
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Recover initialized design identity and authored artifact paths safely before bind.",
+      "required_outcome": "A typed, CAS-guarded initialized recovery atomically canonicalizes reviewer evidence, relocates design and diagram artifacts to safe paths, preserves append-only audit truth, and bootstrap rejects unsafe authored paths.",
+      "declared_scope": [
+        "csdlc-v2 typed issue state and request contracts",
+        "initialized design-envelope recovery",
+        "bootstrap authored-path validation",
+        "focused unit and linked-worktree integration tests"
+      ],
+      "authority_boundary": [
+        "Only initialized and unbound records are recoverable",
+        "No direct issue record or card edits",
+        "#292 is a read-only reproduction fixture",
+        "No merge or closeout authority"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2 binaries only",
+        "Bind under /Volumes/FastWork/adl-worktrees",
+        "Do not mutate #292 or root #114/#292 locks",
+        "Use canonical fresh-session UUID review evidence"
+      ]
+    }
+  }
+}
