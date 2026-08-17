@@ -84,7 +84,7 @@ fn initialized_decomposition_recovery_preserves_history_and_recovers_crashes() {
             issue: 114,
             expected_generation: recovered.generation,
             expected_digest: recovered.digest.clone(),
-            reviewer: "fresh-session:test-reviewer".into(),
+            reviewer: "fresh-session:88888888-8888-4888-8888-888888888888".into(),
         },
     )
     .expect("approve recovered design");
