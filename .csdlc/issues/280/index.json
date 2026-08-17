@@ -6,10 +6,21 @@
   "initialization_digest": "a9e76b0d5c4ae85d6d72522adcc9f5c568eb1128a84ea282cde4601038a3dc77",
   "phase": "implemented",
   "generation": 7,
-  "digest": "c25446eaddbe4c25e184b2155094fbfc344d1645b48b7a9244a45b466eac6941",
+  "digest": "2a2b212d2ab8762de919607aecf619b98834c5ed76a21f8b7d37bf704c60bdaf",
   "branch": "codex/280-large-polis-performance-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-280-large-polis-performance-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:d2561236-2668-4999-a988-842c4d973fb1",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:86626d2ec6e71b348d1c09e8dd012e4bbd845427:965d35e0883c8a50eb603fb3b7e800e4ab0103ada968cd652771628859cd7e3a",
+    "scope": [
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/tests/large_polis_performance_recovery.test.mjs",
+      ".csdlc/prepared/issues/280/validate_preparation_bundle.py",
+      ".csdlc/issues/280",
+      ".csdlc/evidence/280"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +56,9 @@
       "ast_digest": "a0403052bc3f735e434966a883808a3b3055d2e0341cd59d01227c2a9f4c321d"
     },
     "srp": {
-      "values_digest": "2742563a15f2f692b5475aff55b2cd2c373dd2888332a96c0a87dc58ffa4d90b",
-      "rendered_digest": "dec77dc40d7d3993c54a070acb40b5d32354eb4044c80cbb5c505a967c937e41",
-      "ast_digest": "1450c4863306f66943b37afdc80c8063add5b4c7e2aeb7ae6fb0dae50a450bfd"
+      "values_digest": "f68f7dcb9638d1c79edd8a56bee7d99b8443d2d1e361adb728fa136795db122c",
+      "rendered_digest": "85c779587157a290479906c0b91c86080aaa9370782243676dde578a7b103e1b",
+      "ast_digest": "9f3ea422d1dd17c8df3ae87a5dd2ad76ad9a3321048dc783dc501a78bc032bb7"
     },
     "sor": {
       "values_digest": "1012b5e2b54eb84eecdcd12fefdcfcaadc611d9c51a1e34e6d4b69f28ce274a3",
@@ -148,6 +159,13 @@
       "actor": "codex:/root",
       "reason": "Record #280 remediation of fresh review findings before assigning a different exact-head reviewer.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented deterministic HTML Observatory large-Polis performance/recovery proof and remediated review findings by adding latency/resource metrics, committed JSON evidence, DOM transcript-window integration, recovery-to-healthy proof, and implementation-head ancestry validation.\",\"changes\":[\"Bound browser-facing roster and event projections and integrated transcript pruning into actual conversation and governed-room DOM append paths.\",\"Added deterministic resource and latency metrics for large roster, retained transcript, retained event tail, and recovery actions.\",\"Added degraded-to-healthy recovery sequence proof for reconnect, Runtime restart, backpressure, offline, and version mismatch without granting browser authority or hiding stale state.\",\"Committed the machine-readable #280 metrics JSON evidence and tied it to exact integrated candidate base 557dd28d85746a8dc5109dcc674f5a606b8c9890 plus the proof execution head.\",\"Repaired the preparation validator so it proves the integrated candidate base is ancestral to the implementation head instead of requiring the worktree to remain at the pre-implementation base.\"],\"artifacts\":[\"demos/html-observatory/app.js\",\"demos/html-observatory/tests/large_polis_performance_recovery.test.mjs\",\".csdlc/evidence/280/large_polis_performance_recovery_metrics.json\",\".csdlc/prepared/issues/280/validate_preparation_bundle.py\",\".csdlc/issues/280\",\".csdlc/evidence/280\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/280/validate_preparation_bundle.py\"],\"purpose\":\"Validate #280 issue identity, dependency ancestry, integrated candidate base ancestry, performance/recovery proof scope, and forbidden sibling/parent ownership.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/280/280-preparation-contract.log\"},{\"command\":[\"node\",\"demos/html-observatory/tests/large_polis_performance_recovery.test.mjs\"],\"purpose\":\"Run deterministic large-roster, long-transcript, stream pressure, resource/latency, reconnect/restart/offline/version-mismatch recovery proof and emit JSON metrics.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/280/280-observatory-large-polis-performance-recovery.log and .csdlc/evidence/280/large_polis_performance_recovery_metrics.json\"},{\"command\":[\"node\",\"demos/html-observatory/tests/conversation_sessions.test.mjs\"],\"purpose\":\"Prove existing Runtime conversation acceptance/delivery/reconnect behavior still passes after #280 projection-bounding changes.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/280/280-observatory-conversation-regression.log\"},{\"command\":[\"node\",\"demos/html-observatory/tests/operator_attention_inbox.test.mjs\"],\"purpose\":\"Prove operator-attention Runtime-authority boundaries still pass after #280 projection-bounding changes.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/280/280-observatory-operator-attention-regression.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject malformed whitespace or patch artifacts before review.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/280/280-diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
