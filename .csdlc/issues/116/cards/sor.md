@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented the bounded WP-18C.06 operator attention inbox and intervention workflow with trusted source authorization, validated restart restoration, proposal-only Observatory outcomes, and exact local proof provenance.
+Implemented the bounded WP-18C.06 operator attention inbox and intervention workflow with trusted source authorization, validated restart restoration, Runtime quiet-mode/grouping, and proposal-only Observatory outcomes.
 
 ## Artifacts
 
@@ -32,8 +32,8 @@ Implemented the bounded WP-18C.06 operator attention inbox and intervention work
 - Replaced self-asserted operator-attention source privilege checks with trusted Runtime source registration and principal/urgent validation.
 - Added fail-closed snapshot restore validation for schema, capacity, duplicates, source limits, request safety, event references, and timestamps.
 - Added quiet-mode/grouping behavior while preserving source-bound rate and dedupe semantics.
-- Added an issue-owned exact local proof runner that prints HEAD, status, command argv, exit status, and denominators before PASS.
-- Preserved bounded HTML Observatory inbox and proposal-only outcome payloads that explicitly do not grant authority.
+- Added Observatory status/priority filters, deep links, read/unread view state, notification preference handling, and selected-row rendering.
+- Removed stale self-referential committed HEAD-proof wording; exact revision authority remains the typed review assignment.
 
 ## Validation
 
@@ -43,7 +43,7 @@ Implemented the bounded WP-18C.06 operator attention inbox and intervention work
       "python3",
       ".csdlc/prepared/issues/116/run_exact_local_proof.py"
     ],
-    "purpose": "Run exact #116 local proof with HEAD/status/command/exit provenance for preparation validator, rustfmt, focused Rust tests, Node Observatory proof, strict clippy, and diff hygiene.",
+    "purpose": "Run focused #116 local proof with command argv, exit status, and test denominators for preparation validator, rustfmt, focused Rust tests, Node Observatory proof, strict clippy, and diff hygiene. Exact Git revision is bound separately by typed review assignment.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/116/issue-116-exact-local-proof.log"
   }

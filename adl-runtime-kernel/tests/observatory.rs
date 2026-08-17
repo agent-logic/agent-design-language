@@ -242,6 +242,88 @@ fn operator_attention_outcomes_do_not_create_authority_approval() {
 }
 
 #[test]
+fn operator_attention_invalid_outcomes_do_not_mutate_request_state() {
+    let mut inbox = OperatorAttentionInbox::new(AttentionInboxConfig::default()).unwrap();
+    trust_attention_source(&mut inbox, "agent-a", false);
+    let request_id = inbox
+        .submit(attention_input("agent-a", "corr-invalid-outcome"))
+        .unwrap()
+        .request_id
+        .clone();
+
+    let before = inbox.snapshot(1_000);
+    let request_before = before
+        .requests
+        .iter()
+        .find(|request| request.request_id == request_id)
+        .cloned()
+        .unwrap();
+    let events_before = before.events.len();
+
+    assert_eq!(
+        inbox.apply_outcome(
+            &request_id,
+            "operator-a",
+            AttentionOutcome::Reply {
+                message: "   ".to_owned(),
+            },
+            1_100,
+        ),
+        Err(AttentionError::InvalidRequest("reply_required"))
+    );
+    assert_eq!(
+        inbox.apply_outcome(
+            &request_id,
+            "operator-a",
+            AttentionOutcome::Refuse {
+                reason: "".to_owned(),
+            },
+            1_101,
+        ),
+        Err(AttentionError::InvalidRequest("refusal_reason_required"))
+    );
+    assert_eq!(
+        inbox.apply_outcome(
+            &request_id,
+            "operator-a",
+            AttentionOutcome::Defer {
+                until_millis: 1_101
+            },
+            1_101,
+        ),
+        Err(AttentionError::InvalidRequest("defer_until_future"))
+    );
+    assert_eq!(
+        inbox.apply_outcome(&request_id, "operator-a", AttentionOutcome::Resolve, 999),
+        Err(AttentionError::InvalidRequest(
+            "outcome_timestamp_monotonic"
+        ))
+    );
+
+    let after = inbox.snapshot(1_200);
+    let request_after = after
+        .requests
+        .iter()
+        .find(|request| request.request_id == request_id)
+        .cloned()
+        .unwrap();
+    assert_eq!(request_after.status, request_before.status);
+    assert_eq!(
+        request_after.updated_at_millis,
+        request_before.updated_at_millis
+    );
+    assert_eq!(
+        request_after.operator_response,
+        request_before.operator_response
+    );
+    assert_eq!(
+        request_after.deferred_until_millis,
+        request_before.deferred_until_millis
+    );
+    assert_eq!(after.events.len(), events_before);
+}
+
+#[test]
 fn operator_attention_expiry_and_restart_preserve_receipts() {
     let settings = AttentionInboxConfig::default();
     let mut inbox = OperatorAttentionInbox::new(settings.clone()).unwrap();

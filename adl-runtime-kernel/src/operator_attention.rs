@@ -374,7 +374,59 @@ impl OperatorAttentionInbox {
         if actor_id.trim().is_empty() {
             return Err(OperatorAttentionError::InvalidRequest("actor_id_required"));
         }
-        let (status, detail) = {
+        let request = self
+            .requests
+            .get(request_id)
+            .ok_or(OperatorAttentionError::NotFound)?;
+        if !request.status.is_active() {
+            return Err(OperatorAttentionError::TerminalRequest);
+        }
+        if at_millis < request.updated_at_millis {
+            return Err(OperatorAttentionError::InvalidRequest(
+                "outcome_timestamp_monotonic",
+            ));
+        }
+        let (status, detail, operator_response, deferred_until_millis) = match outcome {
+            OperatorAttentionOutcome::Acknowledge => {
+                (OperatorAttentionStatus::Acknowledged, None, None, None)
+            }
+            OperatorAttentionOutcome::Reply { message } => {
+                let response = bounded_text(&message, self.settings.max_message_chars)
+                    .ok_or(OperatorAttentionError::InvalidRequest("reply_required"))?;
+                (
+                    OperatorAttentionStatus::Replied,
+                    Some(response.clone()),
+                    Some(response),
+                    None,
+                )
+            }
+            OperatorAttentionOutcome::Defer { until_millis } => {
+                if until_millis <= at_millis {
+                    return Err(OperatorAttentionError::InvalidRequest("defer_until_future"));
+                }
+                (
+                    OperatorAttentionStatus::Deferred,
+                    Some(until_millis.to_string()),
+                    None,
+                    Some(until_millis),
+                )
+            }
+            OperatorAttentionOutcome::Resolve => {
+                (OperatorAttentionStatus::Resolved, None, None, None)
+            }
+            OperatorAttentionOutcome::Refuse { reason } => {
+                let reason = bounded_text(&reason, self.settings.max_message_chars).ok_or(
+                    OperatorAttentionError::InvalidRequest("refusal_reason_required"),
+                )?;
+                (
+                    OperatorAttentionStatus::Refused,
+                    Some(reason.clone()),
+                    Some(reason),
+                    None,
+                )
+            }
+        };
+        {
             let request = self
                 .requests
                 .get_mut(request_id)
@@ -383,42 +435,10 @@ impl OperatorAttentionInbox {
                 return Err(OperatorAttentionError::TerminalRequest);
             }
             request.updated_at_millis = at_millis;
-            let detail;
-            request.status = match outcome {
-                OperatorAttentionOutcome::Acknowledge => {
-                    detail = None;
-                    OperatorAttentionStatus::Acknowledged
-                }
-                OperatorAttentionOutcome::Reply { message } => {
-                    let response = bounded_text(&message, self.settings.max_message_chars)
-                        .ok_or(OperatorAttentionError::InvalidRequest("reply_required"))?;
-                    request.operator_response = Some(response.clone());
-                    detail = Some(response);
-                    OperatorAttentionStatus::Replied
-                }
-                OperatorAttentionOutcome::Defer { until_millis } => {
-                    if until_millis <= at_millis {
-                        return Err(OperatorAttentionError::InvalidRequest("defer_until_future"));
-                    }
-                    request.deferred_until_millis = Some(until_millis);
-                    detail = Some(until_millis.to_string());
-                    OperatorAttentionStatus::Deferred
-                }
-                OperatorAttentionOutcome::Resolve => {
-                    detail = None;
-                    OperatorAttentionStatus::Resolved
-                }
-                OperatorAttentionOutcome::Refuse { reason } => {
-                    let reason = bounded_text(&reason, self.settings.max_message_chars).ok_or(
-                        OperatorAttentionError::InvalidRequest("refusal_reason_required"),
-                    )?;
-                    request.operator_response = Some(reason.clone());
-                    detail = Some(reason);
-                    OperatorAttentionStatus::Refused
-                }
-            };
-            (request.status, detail)
-        };
+            request.status = status;
+            request.operator_response = operator_response;
+            request.deferred_until_millis = deferred_until_millis;
+        }
         self.push_event(request_id, status, actor_id, at_millis, detail);
         self.requests
             .get(request_id)
