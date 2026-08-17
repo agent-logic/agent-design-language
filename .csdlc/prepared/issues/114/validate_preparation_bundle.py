@@ -128,8 +128,8 @@ def main() -> None:
         fail("index is not an object")
     if index.get("issue") != 114:
         fail("index issue is not 114")
-    if index.get("phase") != "bound":
-        fail("issue phase is not bound for parent integration proof")
+    if index.get("phase") not in {"bound", "implemented"}:
+        fail("issue phase is not bound or implemented for parent integration proof")
     if index.get("branch") != EXPECTED_BRANCH:
         fail("issue record is not bound to the expected #114 branch")
     if index.get("worktree") != EXPECTED_WORKTREE:

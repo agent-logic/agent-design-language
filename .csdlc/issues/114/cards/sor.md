@@ -22,13 +22,22 @@ Recorded the #114 durable-history coordination-parent integration proof after #2
 
 ## Execution
 
-- Materialized and ran the #114 parent integration proof validator.
+- Materialized and ran the #114 issue-owned bound parent validator.
 - Added a focused durable conversation history parent integration regression covering restart, duplicate attempt admission, receipts, replay ownership, retention, deletion, and Observatory transcript restoration.
 - Added the #114 integration proof runner that verifies terminal ancestry for #276, #277, and #278.
 
 ## Validation
 
 [
+  {
+    "command": [
+      "python3",
+      ".csdlc/prepared/issues/114/validate_preparation_bundle.py"
+    ],
+    "purpose": "Validate bound/implemented #114 identity, preserved design/diagram digests, and terminal ancestry for #112/#265/#270/#271/#276/#277/#278.",
+    "outcome": "passed",
+    "evidence_ref": "local:114-issue-owned-bound-parent-validator"
+  },
   {
     "command": [
       "python3",

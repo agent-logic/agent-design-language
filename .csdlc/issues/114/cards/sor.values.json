@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18C.04][coordination] Coordinate durable conversation history, continuity, and receipts",
     "slug": "v0-92-wp-18c-04-coordinate-durable-conversation-history-continuity-receipts",
     "version": "v0.92.0",
-    "generation": 50
+    "generation": 51
   },
   "status": "pre_phase",
   "content": {
@@ -15,7 +15,7 @@
     "values": {
       "summary": "Recorded the #114 durable-history coordination-parent integration proof after #276, #277, and #278 reached terminal ancestry. The proof remains parent-only: it consumes terminal child caches and verifies integrated durable history behavior without absorbing child implementation scope.",
       "actual_changes": [
-        "Materialized and ran the #114 parent integration proof validator.",
+        "Materialized and ran the #114 issue-owned bound parent validator.",
         "Added a focused durable conversation history parent integration regression covering restart, duplicate attempt admission, receipts, replay ownership, retention, deletion, and Observatory transcript restoration.",
         "Added the #114 integration proof runner that verifies terminal ancestry for #276, #277, and #278."
       ],
@@ -25,6 +25,15 @@
         "adl-runtime-kernel/tests/durable_conversation_history_integration.rs"
       ],
       "actual_validation": [
+        {
+          "command": [
+            "python3",
+            ".csdlc/prepared/issues/114/validate_preparation_bundle.py"
+          ],
+          "purpose": "Validate bound/implemented #114 identity, preserved design/diagram digests, and terminal ancestry for #112/#265/#270/#271/#276/#277/#278.",
+          "outcome": "passed",
+          "evidence_ref": "local:114-issue-owned-bound-parent-validator"
+        },
         {
           "command": [
             "python3",
