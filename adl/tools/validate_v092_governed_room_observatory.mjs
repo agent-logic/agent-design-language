@@ -99,6 +99,28 @@ assert.deepEqual(rows.map((row) => row.displayName), ["Scribe", "Shepherd"]);
 assert.deepEqual(rows.map((row) => row.state), ["delivered", "timed_out"]);
 assert.equal(rows[1].detail, "recipient_delivery_timed_out");
 
+const acceptedRows = observatory.buildGovernedRoomRows({
+  schema: "adl.runtime.governed_room_route.v1",
+  status: "accepted",
+  room_id: "room-scribe-shepherd",
+  turn_id: "room-turn-accepted",
+  turn_sequence: 9,
+  addressed_recipients: ["scribe", "shepherd"],
+  mentions: [
+    { schema: "adl.runtime.governed_room_mention.v1", room_id: "room-scribe-shepherd", turn_id: "room-turn-accepted", recipient_id: "scribe", display_name: "Scribe" },
+    { schema: "adl.runtime.governed_room_mention.v1", room_id: "room-scribe-shepherd", turn_id: "room-turn-accepted", recipient_id: "shepherd", display_name: "Shepherd" }
+  ],
+  deliveries: [
+    { recipient_id: "scribe", state: "accepted" },
+    { recipient_id: "shepherd", state: "accepted" }
+  ]
+});
+assert.deepEqual(acceptedRows.map((row) => row.state), ["accepted", "accepted"]);
+assert(
+  acceptedRows.every((row) => row.detail.startsWith("room turn 9")),
+  "accepted governed-room rows must not invent delivery evidence"
+);
+
 const unavailableRows = observatory.buildGovernedRoomRows({
   schema: "adl.runtime.governed_room_route.v1",
   status: "partial_delivery",
@@ -165,6 +187,7 @@ console.log(JSON.stringify({
     "per_room_turn_sequence_preserved_across_room_switching",
     "implicit_broadcast_denied",
     "room_recipient_limit_enforced",
+    "accepted_route_rows_do_not_claim_delivery",
     "partial_delivery_rows_attributed",
     "unavailable_and_revoked_rows_attributed",
     "duplicate_and_reordered_refusals_visible",

@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "6b431e21b2b0a61991853e1f3f4a1bf51241907edaac9389f1c22998ae3334e7",
   "phase": "implemented",
-  "generation": 26,
-  "digest": "8d726959440c8e95f75aea3d7c0527b9b3cc8ea6b3d8235e2cf6d62e991c4332",
+  "generation": 28,
+  "digest": "80f82522fa63fa633f297dfa7289ffb997d557cb931f19ede6bc931e15f5b9d0",
   "branch": "codex/115-governed-multi-agent-rooms",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-115-governed-multi-agent-rooms",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "eac3353b1f7120fd73f94e2456c643035f0054ff034d195144c6c84a8f1504b2",
+      "values_digest": "8631ffbc27f1fc28eb7ffd588dc4c963c329eccbcf74d25856e6ede0b34239f6",
       "rendered_digest": "ecadc343231ebf27f6cc2251766828eff504b8338d3bf9054daa17b13a178c93",
       "ast_digest": "e02db63fa0459d5bd0d779d49185ce9f2d0c99a6a3378a81fa7d5dcbda279605"
     },
     "stp": {
-      "values_digest": "8ed9dcccb905785c4f943a74e3ed64e123196d0fb810a360c80e34bfef03ce2f",
+      "values_digest": "c1092560a56e7a63fced015dab2c27f9adadf1c8246c050041870d0fe0570859",
       "rendered_digest": "52b7561d3147cf35a9d9e3e9c250bb2a4b29d24f74d72f0affff7e08a712c0df",
       "ast_digest": "35ee5ba28500c070fbcfd0489da6659b6a5043c0516503d3d603efd4c71b847c"
     },
     "spp": {
-      "values_digest": "0a2fc5302056726f5de19496ddc76a6f792fde811031b566e68c815f893c4f10",
+      "values_digest": "74ec4834b528018f42050ae839641da9e8acce8d66056a61baa25838f396c48a",
       "rendered_digest": "e26bfe2140a9e173c825afa8ca0bc232861990e642e27fc8b62b7598d87bc095",
       "ast_digest": "16b4224ccc9852138207e7ea7650ab8597dacc0572143c308eaa3f9f51cc30f0"
     },
     "vpp": {
-      "values_digest": "b30eebbbca4008a8204f82d90545d2bed4672ae59668c1315be0113a266129b3",
+      "values_digest": "ba3ca0488f8de414c6e946154d45480241d2b655341f298c5e83fcd6e835fa22",
       "rendered_digest": "5ba45045d2fec22c237ee9ef6da6228d1bde2612277d4955b7a8652ba1e41e62",
       "ast_digest": "eb8f2cb0c493fbb437ed0edfd5922ffea6758fd0731841881c2e8acdae1eb7b9"
     },
     "srp": {
-      "values_digest": "b87fcc83326dd667dc43a01bc8c16f4e87c9705ae35bda637ad177abb0d2f581",
+      "values_digest": "119b7a0afc66c05240dda97c6ab0a59439bb8b68d97e8462a674c859ddba9e8c",
       "rendered_digest": "9ead6718bfb47f6f4f62d1bdcb8769919c9aca261ab0cf61151ca2a4db764ebb",
       "ast_digest": "adee842c155c8b19c4d9df432cfe83ded2620dae6d9f8cedfaf4ddc069604c78"
     },
     "sor": {
-      "values_digest": "dc98f3ac69adfd937dc1df13a29ba3ed8e1ff71d3f72a59dccf6513411713e24",
-      "rendered_digest": "e73ef228982e898ed23a7b17327fd026548bd2d011d64906f1bf32dc254ca2d0",
-      "ast_digest": "6f4e9192de97121306085ac095e712c8d2e6cd23d3ac61af4de8e6fbbe53ea5a"
+      "values_digest": "0ed5ea1edbb662cc1d7b7bde29b2814d973a4b1f42fd39d5a519af75eb6b29ef",
+      "rendered_digest": "3b90b0495fc976e5d9076858829869c48b8fac37b774acab1aa6b3cfc7f30969",
+      "ast_digest": "da92cce718aba5dbfdc52b99900c7e48320d172b32ce2cf50dd209825367c022"
     }
   },
   "transitions": [
@@ -309,6 +309,20 @@
       "actor": "codex:/root",
       "reason": "Record #115 R8 scope-hygiene remediation before fresh exact review",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Removed out-of-scope tracked lifecycle byproducts from the #115 governed-room implementation branch after fresh review identified them as scope leaks.\",\"changes\":[\"Removed the tracked issue-110 coordination graph artifact from the #115 branch.\",\"Removed the tracked empty #115 lock file from the publishable #115 branch.\",\"Kept the governed-room Runtime and Observatory product implementation unchanged.\"],\"artifacts\":[\".csdlc/prepared/issues/110/graph.json\",\".csdlc/locks/115.lock\"]}"
+    },
+    {
+      "sequence": 34,
+      "generation": 27,
+      "actor": "codex:/root",
+      "reason": "Record #115 accepted-vs-delivered governed-room remediation",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Distinguished Runtime-accepted governed-room routes from recipient-delivered routes so the Observatory does not claim delivery before recipient delivery evidence exists.\",\"changes\":[\"Added an accepted governed-room delivery state for Runtime-accepted but not yet recipient-delivered turns.\",\"Mapped served Runtime room intent acknowledgements to accepted rather than delivered.\",\"Extended Runtime and Observatory proof so accepted route rows do not invent delivery evidence.\"],\"artifacts\":[\"adl-runtime-kernel/src/conversation_rooms.rs\",\"adl-runtime-kernel/src/control.rs\",\"adl/tools/validate_v092_governed_room_observatory.mjs\"]}"
+    },
+    {
+      "sequence": 35,
+      "generation": 28,
+      "actor": "codex:/root",
+      "reason": "Record #115 accepted-vs-delivered remediation proof",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --check\",\"cargo test --manifest-path adl-runtime-kernel/Cargo.toml conversation_rooms -- --nocapture\",\"cargo test --manifest-path adl-runtime-kernel/Cargo.toml governed_room -- --nocapture\",\"cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --lib -- -D warnings\",\"node adl/tools/validate_v092_governed_room_observatory.mjs\",\"bash adl/tools/test_html_observatory.sh\",\"git diff --check\"],\"purpose\":\"Prove #115 governed-room accepted-vs-delivered remediation, prior per-room sequencing fix, Runtime routing, Observatory rendering, and diff hygiene before fresh exact review.\",\"outcome\":\"passed\",\"evidence_ref\":\"local run: fmt passed; conversation_rooms 6 passed; governed_room 2 passed; strict clippy passed; governed-room Observatory validator passed including accepted_route_rows_do_not_claim_delivery and per_room_turn_sequence_preserved_across_room_switching; HTML Observatory smoke passed; git diff --check passed\"}}"
     }
   ]
 }

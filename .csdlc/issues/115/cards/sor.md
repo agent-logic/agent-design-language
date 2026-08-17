@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Removed out-of-scope tracked lifecycle byproducts from the #115 governed-room implementation branch after fresh review identified them as scope leaks.
+Distinguished Runtime-accepted governed-room routes from recipient-delivered routes so the Observatory does not claim delivery before recipient delivery evidence exists.
 
 ## Artifacts
 
@@ -38,6 +38,9 @@ Removed out-of-scope tracked lifecycle byproducts from the #115 governed-room im
 - .csdlc/evidence/115/governed-room-observatory-validation.json
 - .csdlc/prepared/issues/110/graph.json
 - .csdlc/locks/115.lock
+- adl-runtime-kernel/src/conversation_rooms.rs
+- adl-runtime-kernel/src/control.rs
+- adl/tools/validate_v092_governed_room_observatory.mjs
 
 ## Execution
 
@@ -61,6 +64,9 @@ Removed out-of-scope tracked lifecycle byproducts from the #115 governed-room im
 - Removed the tracked issue-110 coordination graph artifact from the #115 branch.
 - Removed the tracked empty #115 lock file from the publishable #115 branch.
 - Kept the governed-room Runtime and Observatory product implementation unchanged.
+- Added an accepted governed-room delivery state for Runtime-accepted but not yet recipient-delivered turns.
+- Mapped served Runtime room intent acknowledgements to accepted rather than delivered.
+- Extended Runtime and Observatory proof so accepted route rows do not invent delivery evidence.
 
 ## Validation
 
@@ -186,6 +192,20 @@ Removed out-of-scope tracked lifecycle byproducts from the #115 governed-room im
     "purpose": "Reprove the #115 governed-room Runtime and Observatory surfaces after the per-room turn-sequence remediation.",
     "outcome": "passed",
     "evidence_ref": "local post-fix run: fmt passed; conversation_rooms 6 passed; governed_room 2 passed; strict clippy passed; governed-room Observatory validator passed with per_room_turn_sequence_preserved_across_room_switching; HTML Observatory smoke passed"
+  },
+  {
+    "command": [
+      "cargo fmt --manifest-path adl-runtime-kernel/Cargo.toml --check",
+      "cargo test --manifest-path adl-runtime-kernel/Cargo.toml conversation_rooms -- --nocapture",
+      "cargo test --manifest-path adl-runtime-kernel/Cargo.toml governed_room -- --nocapture",
+      "cargo clippy --manifest-path adl-runtime-kernel/Cargo.toml --lib -- -D warnings",
+      "node adl/tools/validate_v092_governed_room_observatory.mjs",
+      "bash adl/tools/test_html_observatory.sh",
+      "git diff --check"
+    ],
+    "purpose": "Prove #115 governed-room accepted-vs-delivered remediation, prior per-room sequencing fix, Runtime routing, Observatory rendering, and diff hygiene before fresh exact review.",
+    "outcome": "passed",
+    "evidence_ref": "local run: fmt passed; conversation_rooms 6 passed; governed_room 2 passed; strict clippy passed; governed-room Observatory validator passed including accepted_route_rows_do_not_claim_delivery and per_room_turn_sequence_preserved_across_room_switching; HTML Observatory smoke passed; git diff --check passed"
   }
 ]
 

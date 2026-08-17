@@ -72,6 +72,7 @@ pub struct GovernedRoomMention {
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum GovernedRoomDeliveryState {
+    Accepted,
     Delivered,
     Refused,
     TimedOut,
@@ -244,7 +245,7 @@ impl GovernedRoomRoute {
                 let state = states
                     .get(recipient_id)
                     .copied()
-                    .unwrap_or(GovernedRoomDeliveryState::TimedOut);
+                    .unwrap_or(GovernedRoomDeliveryState::Accepted);
                 GovernedRoomRecipientDelivery {
                     recipient_id: recipient_id.clone(),
                     state,
@@ -255,10 +256,17 @@ impl GovernedRoomRoute {
         let delivered = self
             .deliveries
             .iter()
-            .filter(|delivery| delivery.state == GovernedRoomDeliveryState::Delivered)
+            .filter(|delivery| matches!(delivery.state, GovernedRoomDeliveryState::Delivered))
+            .count();
+        let accepted = self
+            .deliveries
+            .iter()
+            .filter(|delivery| matches!(delivery.state, GovernedRoomDeliveryState::Accepted))
             .count();
         self.status = if delivered == addressed.len() {
             "delivered"
+        } else if accepted == addressed.len() {
+            "accepted"
         } else if delivered == 0 {
             "refused"
         } else {
@@ -289,6 +297,7 @@ fn explicit_recipient_set(
 
 fn delivery_error(state: GovernedRoomDeliveryState) -> Option<&'static str> {
     match state {
+        GovernedRoomDeliveryState::Accepted => None,
         GovernedRoomDeliveryState::Delivered => None,
         GovernedRoomDeliveryState::Refused => Some("recipient_refused_delivery"),
         GovernedRoomDeliveryState::TimedOut => Some("recipient_delivery_timed_out"),
@@ -438,6 +447,16 @@ mod tests {
         let route = room()
             .plan_turn(&intent(vec!["shepherd", "scribe"]))
             .expect("accepted");
+        let accepted_route = route.clone().with_delivery_states(BTreeMap::from([
+            ("shepherd".to_owned(), GovernedRoomDeliveryState::Accepted),
+            ("scribe".to_owned(), GovernedRoomDeliveryState::Accepted),
+        ]));
+        assert_eq!(accepted_route.status, "accepted");
+        assert!(accepted_route
+            .deliveries
+            .iter()
+            .all(|delivery| delivery.error.is_none()));
+
         let route = route.with_delivery_states(BTreeMap::from([
             ("shepherd".to_owned(), GovernedRoomDeliveryState::Delivered),
             ("scribe".to_owned(), GovernedRoomDeliveryState::TimedOut),

@@ -967,7 +967,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                         .addressed_recipients
                         .iter()
                         .map(|recipient_id| {
-                            (recipient_id.clone(), GovernedRoomDeliveryState::Delivered)
+                            (recipient_id.clone(), GovernedRoomDeliveryState::Accepted)
                         })
                         .collect();
                     route.with_delivery_states(delivery_states)
@@ -995,9 +995,7 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
                 let delivery_states = route
                     .addressed_recipients
                     .iter()
-                    .map(|recipient_id| {
-                        (recipient_id.clone(), GovernedRoomDeliveryState::Delivered)
-                    })
+                    .map(|recipient_id| (recipient_id.clone(), GovernedRoomDeliveryState::Accepted))
                     .collect();
                 let route = route.with_delivery_states(delivery_states);
                 rooms.insert(envelope.intent.room_id.clone(), room);
@@ -3917,13 +3915,13 @@ mod layer8_conversation_ingress_tests {
             vec!["scribe", "shepherd"],
         ));
         assert_eq!(route.schema, GOVERNED_ROOM_ROUTE_SCHEMA);
-        assert_eq!(route.status, "delivered");
+        assert_eq!(route.status, "accepted");
         assert_eq!(route.addressed_recipients, vec!["scribe", "shepherd"]);
         assert_eq!(route.deliveries.len(), 2);
         assert!(route
             .deliveries
             .iter()
-            .all(|delivery| delivery.state == GovernedRoomDeliveryState::Delivered));
+            .all(|delivery| delivery.state == GovernedRoomDeliveryState::Accepted));
         assert_eq!(
             route
                 .mentions
@@ -3948,7 +3946,7 @@ mod layer8_conversation_ingress_tests {
             1,
             vec!["shepherd"],
         ));
-        assert_eq!(accepted.status, "delivered");
+        assert_eq!(accepted.status, "accepted");
         assert_eq!(accepted.addressed_recipients, vec!["shepherd"]);
     }
 
