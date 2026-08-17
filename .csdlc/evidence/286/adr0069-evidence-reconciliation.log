@@ -1,0 +1,12 @@
+{
+  "adr": "0069",
+  "blocking_external_gate": "agent-logic/agent-design-language#84",
+  "classification": "deferred_partial_non_terminal",
+  "schema": "adl.issue_286.adr0069_evidence_reconciliation_validation.v1",
+  "status": "pass",
+  "terminal_inputs": [
+    117,
+    271,
+    282
+  ]
+}

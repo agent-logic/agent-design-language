@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 286,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][ADR 0069][207.d] Reconcile Observatory governed Runtime consumer evidence",
+    "slug": "adr-0069-observatory-runtime-consumer-evidence",
+    "version": "v0.92",
+    "generation": 7
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #286 initialized packet, live issue contract, ADR 0069 evidence-reconciliation design, residual-gap policy, validation lanes, and #207/#288/sibling non-claims.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does #286 stay limited to issue-local ADR 0069 evidence reconciliation?",
+        "Are residual gaps explicitly allowed and truthfully separated from terminal-proving evidence?",
+        "Does the plan avoid Runtime/UI/Unity/provider/cloud implementation and credential-bound proof?",
+        "Are #207 and #288 boundaries preserved?",
+        "Are validation lanes deterministic and issue-owned?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
