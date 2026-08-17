@@ -1,0 +1,20 @@
+flowchart TD
+    A["Implemented issue with stale authored design"] --> B["Typed recover_review"]
+    B --> C{"Current recovery provenance and cleared authority?"}
+    C -- "No" --> X["Fail closed without mutation"]
+    C -- "Yes" --> D["CAS check generation and digest"]
+    D --> E["Resolve registered worktree and acquire Git-common lock"]
+    E --> N{"Canonical worktree identity?"}
+    N -- "No" --> X
+    N -- "Yes" --> O["Safely retain design and diagram handles"]
+    O --> F{"Single-link handles and paired final revalidation valid?"}
+    F -- "No" --> X
+    F -- "Yes" --> G{"At least one authored digest changed?"}
+    G -- "No" --> X
+    G -- "Yes" --> H["Atomically refresh SPP and VPP digests"]
+    H --> I["Set design review pending and append audit"]
+    I --> J["Block assign_review while pending"]
+    J --> K["Fresh canonical UUID design review"]
+    K --> L["Typed approve_design binds full design and diagram tuple"]
+    L --> M["New exact-head implementation review may begin"]
+    M --> P["Reject approval rewrite while assignment or later authority exists"]

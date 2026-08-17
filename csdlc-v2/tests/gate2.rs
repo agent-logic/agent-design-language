@@ -420,6 +420,7 @@ fn assert_last_prebind_audit_operation(
                 "diagram_ref": "design/issue-42.mmd",
                 "old_diagram_digest": old_diagram_digest,
                 "new_diagram_digest": new_diagram_digest,
+                "prior_design_approval": null,
             }
         })
     );
@@ -469,7 +470,7 @@ fn request() -> BootstrapRequest {
         actor: "test-operator".into(),
         design_path: "design/issue-42.md".into(),
         diagram_path: "design/issue-42.mmd".into(),
-        design_reviewer: "reviewer".into(),
+        design_reviewer: "fresh-session:22222222-2222-4222-8222-222222222222".into(),
         design_approved: true,
         initial: InitialCardInput {
             title: "Claim-free issue workflow".into(),
@@ -1690,7 +1691,7 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
             "issue": 42,
             "expected_generation": index["generation"],
             "expected_digest": index["digest"],
-            "reviewer": "independent-prebind-reviewer"
+            "reviewer": "fresh-session:33333333-3333-4333-8333-333333333333"
         }))
         .expect("serialize initialized reapproval"),
     )
@@ -1821,7 +1822,7 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
             "issue": 42,
             "expected_generation": repaired["generation"],
             "expected_digest": repaired["digest"],
-            "reviewer": "independent-ready-reviewer"
+            "reviewer": "fresh-session:44444444-4444-4444-8444-444444444444"
         }))
         .expect("serialize ready reapproval"),
     )
@@ -1911,7 +1912,7 @@ fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
             "issue": 42,
             "expected_generation": index["generation"],
             "expected_digest": index["digest"],
-            "reviewer": "independent-restored-binding-reviewer"
+            "reviewer": "fresh-session:55555555-5555-4555-8555-555555555555"
         }))
         .expect("serialize restored binding approval"),
     )
@@ -2416,7 +2417,7 @@ fn prebind_operator_constraints_correction_is_exact_and_fail_closed() {
                     issue: 42,
                     expected_generation: corrected.generation,
                     expected_digest: corrected.digest,
-                    reviewer: "post-correction-reviewer".into(),
+                    reviewer: "fresh-session:66666666-6666-4666-8666-666666666666".into(),
                 },
             )
             .expect("reapprove corrected ready design");
@@ -2629,7 +2630,7 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
                 issue: 42,
                 expected_generation: invalid_record.generation,
                 expected_digest: invalid_record.digest.clone(),
-                reviewer: "adversarial-path-reviewer".into(),
+                reviewer: "fresh-session:77777777-7777-4777-8777-777777777777".into(),
             },
         )
         .expect_err(name);
@@ -2828,7 +2829,7 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
     assert_eq!(error.code, csdlc_v2::ErrorCode::ReconciliationRequired);
     assert_eq!(
         error.message,
-        "authored artifact target is not a regular file"
+        "authored artifact target must be a regular single-link file"
     );
     assert_eq!(issue_projection_snapshot(&repo, 42), path_drift_projection);
     fs::remove_dir(&design_path).expect("remove drifted design directory");
@@ -2863,7 +2864,7 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
             issue: 42,
             expected_generation: record.generation,
             expected_digest: record.digest.clone(),
-            reviewer: "independent-prebind-reviewer".into(),
+            reviewer: "fresh-session:33333333-3333-4333-8333-333333333333".into(),
         },
     )
     .expect("reapprove initialized repair");
@@ -3098,18 +3099,28 @@ fn prebind_contract_repair_is_exact_atomic_and_fail_closed() {
             issue: 42,
             expected_generation: record.generation,
             expected_digest: record.digest.clone(),
-            reviewer: "independent-ready-reviewer".into(),
+            reviewer: "fresh-session:44444444-4444-4444-8444-444444444444".into(),
         },
     )
     .expect("reapprove ready plan repair");
     assert_eq!(record.audit.len(), audit_len_before_ready_approval + 1);
     let ready_approval_event = record.audit.last().expect("ready approval audit event");
-    assert_eq!(ready_approval_event.actor, "independent-ready-reviewer");
+    assert_eq!(
+        ready_approval_event.actor,
+        "fresh-session:44444444-4444-4444-8444-444444444444"
+    );
     assert_eq!(
         ready_approval_event.reason,
         "reapprove repaired ready issue design"
     );
-    assert_eq!(ready_approval_event.operation, "approve_design");
+    let ready_approval_operation: serde_json::Value =
+        serde_json::from_str(&ready_approval_event.operation).expect("approval audit JSON");
+    assert_eq!(ready_approval_operation["operation"], "approve_design");
+    assert_eq!(ready_approval_operation["design_ref"], "design/issue-42.md");
+    assert_eq!(
+        ready_approval_operation["diagram_ref"],
+        "design/issue-42.mmd"
+    );
     must_succeed(command(
         &repo,
         env!("CARGO_BIN_EXE_csdlc-validate"),

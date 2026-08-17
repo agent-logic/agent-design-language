@@ -379,7 +379,25 @@ impl Store {
         cards: &BTreeMap<CardKind, CardValues>,
         fail_after_backup: bool,
     ) -> Result<()> {
-        self.commit_with_authored(issue, record, cards, fail_after_backup, None)
+        self.commit_with_authored(issue, record, cards, fail_after_backup, None, None)
+    }
+
+    fn commit_verified(
+        &self,
+        issue: u64,
+        record: &IssueRecord,
+        cards: &BTreeMap<CardKind, CardValues>,
+        fail_after_backup: bool,
+        verifier: &mut dyn FnMut() -> Result<()>,
+    ) -> Result<()> {
+        self.commit_with_authored(
+            issue,
+            record,
+            cards,
+            fail_after_backup,
+            None,
+            Some(verifier),
+        )
     }
 
     fn commit_with_authored(
@@ -389,11 +407,13 @@ impl Store {
         cards: &BTreeMap<CardKind, CardValues>,
         fail_after_backup: bool,
         authored_overrides: Option<&BTreeMap<String, String>>,
+        mut verifier: Option<&mut dyn FnMut() -> Result<()>>,
     ) -> Result<()> {
         let current = self.issue_dir(issue);
         let staging = self.staging_dir(issue);
         let backup = self.interrupted_backup(issue);
-        if self.rollback_preserved(issue).symlink_metadata().is_ok() {
+        let rollback_preserved = self.rollback_preserved(issue);
+        if rollback_preserved.symlink_metadata().is_ok() {
             return Err(V2Error::new(
                 ErrorCode::ReconciliationRequired,
                 "preserved failed projection requires typed classification and recovery",
@@ -418,12 +438,17 @@ impl Store {
                 if let Some(contents) =
                     authored_overrides.and_then(|overrides| overrides.get(authored_path))
                 {
-                    let mut file = File::create(destination)?;
+                    let mut file = File::create(&destination)?;
                     file.write_all(contents.as_bytes())?;
                     file.sync_all()?;
                 } else if source.is_file() {
-                    fs::copy(source, destination)?;
+                    fs::copy(source, &destination)?;
+                    File::open(&destination)?.sync_all()?;
                 }
+                sync_dirs_through(
+                    destination.parent().expect("authored destination parent"),
+                    &staging,
+                )?;
             }
         }
         if let Some(overrides) = authored_overrides {
@@ -440,9 +465,13 @@ impl Store {
                     if let Some(parent) = staged.parent() {
                         fs::create_dir_all(parent)?;
                     }
-                    let mut file = File::create(staged)?;
+                    let mut file = File::create(&staged)?;
                     file.write_all(contents.as_bytes())?;
                     file.sync_all()?;
+                    sync_dirs_through(
+                        staged.parent().expect("authored override parent"),
+                        &staging,
+                    )?;
                 }
             }
         }
@@ -473,6 +502,12 @@ impl Store {
                     contents.as_bytes(),
                     "authored-commit-tmp",
                 )?;
+            }
+        }
+        if let Some(verify) = verifier.as_mut() {
+            if let Err(error) = verify() {
+                preserve_failed_projection_and_restore(&current, &backup, &rollback_preserved)?;
+                return Err(error);
             }
         }
         if backup.exists() {
@@ -1435,6 +1470,86 @@ impl Store {
         }
         let mut cards = self.load_cards(issue)?;
         verify_cards(self, &record, &cards)?;
+        let (design_ref, design_digest, diagram_ref, diagram_digest) =
+            match &cards[&CardKind::Spp].content {
+                CardContent::Spp(values) => (
+                    values.design_ref.clone(),
+                    values.design_digest.clone(),
+                    values.diagram_ref.clone(),
+                    values.diagram_digest.clone(),
+                ),
+                _ => unreachable!("SPP"),
+            };
+        let refresh_used = record.audit.iter().any(|event| {
+            event
+                .operation
+                .contains("refresh_authored_design_after_recovery")
+        });
+        let tuple_approved = !refresh_used
+            || record
+                .audit
+                .iter()
+                .rev()
+                .find_map(|event| {
+                    let value: serde_json::Value = serde_json::from_str(&event.operation).ok()?;
+                    (value["operation"] == "approve_design").then_some(value)
+                })
+                .is_some_and(|value| {
+                    value["design_ref"] == record.design_path
+                        && value["design_digest"] == design_digest
+                        && value["diagram_ref"] == record.diagram_path
+                        && value["diagram_digest"] == diagram_digest
+                });
+        if !matches!(&record.design_review, DesignReview::Approved { revision, .. } if revision == &design_digest)
+            || !tuple_approved
+            || authored_digest(self, &record.design_path)? != design_digest
+            || authored_digest(self, &record.diagram_path)? != diagram_digest
+        {
+            return Err(V2Error::new(
+                ErrorCode::InvalidTransition,
+                "review assignment requires current approved authored design tuple at commit",
+            ));
+        }
+        let mut design_artifact = retain_authored_artifact(self.root(), Path::new(&design_ref))?;
+        let mut diagram_artifact = retain_authored_artifact(self.root(), Path::new(&diagram_ref))?;
+        if design_artifact.verify()? != design_digest
+            || diagram_artifact.verify()? != diagram_digest
+        {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "review assignment authored tuple changed before commit",
+            ));
+        }
+        let registered = record.worktree.as_ref().ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "review assignment lost registered worktree at commit",
+            )
+        })?;
+        let branch = record.branch.as_ref().ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "review assignment lost registered branch at commit",
+            )
+        })?;
+        if fs::canonicalize(self.root())? != fs::canonicalize(registered)?
+            || crate::git::current_branch(self.root())? != *branch
+        {
+            return Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "review assignment topology changed before commit",
+            ));
+        }
+        let final_head = crate::git::run(self.root(), &["rev-parse", "HEAD"])?.stdout;
+        let final_revision = crate::git::substantive_revision(self.root(), &assignment.scope)?;
+        if final_revision != assignment.revision
+            || final_revision != crate::git::clean_commit_revision(&final_head)
+        {
+            return Err(V2Error::new(
+                ErrorCode::UnsafeCheckout,
+                "review assignment HEAD or substantive revision changed before commit",
+            ));
+        }
         let actor = assignment.assigned_by.clone();
         let srp = match &mut cards.get_mut(&CardKind::Srp).expect("SRP").content {
             CardContent::Srp(values) => values,
@@ -1452,7 +1567,23 @@ impl Store {
         });
         hydrate_projections(&mut record, &cards)?;
         record.digest = record_digest(&record)?;
-        self.commit(issue, &record, &cards, false)?;
+        let expected_design = design_digest;
+        let expected_diagram = diagram_digest;
+        let issue_dir = self.issue_dir(issue);
+        let mut verifier = || {
+            if design_artifact.verify_after_projection_swap(self.root(), &issue_dir)?
+                != expected_design
+                || diagram_artifact.verify_after_projection_swap(self.root(), &issue_dir)?
+                    != expected_diagram
+            {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "review assignment authored tuple changed across commit",
+                ));
+            }
+            Ok(())
+        };
+        self.commit_verified(issue, &record, &cards, false, &mut verifier)?;
         Ok(record)
     }
 
@@ -2282,10 +2413,21 @@ fn approve_design_with_hook(
             "design approval digest is stale",
         ));
     }
-    if request.reviewer.trim().is_empty() {
+    if !canonical_fresh_session(&request.reviewer) {
         return Err(V2Error::new(
             ErrorCode::InvalidInput,
-            "design reviewer is required",
+            "design reviewer must be a canonical fresh-session UUID",
+        ));
+    }
+    if record.review_assignment.is_some()
+        || record.review.is_some()
+        || record.publication.is_some()
+        || record.readiness.is_some()
+        || record.terminal.is_some()
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "design approval requires cleared review and publication authority",
         ));
     }
     let mut cards = store.load_cards(request.issue)?;
@@ -2352,7 +2494,7 @@ fn approve_design_with_hook(
     }
     record.design_review = DesignReview::Approved {
         reviewer: request.reviewer.clone(),
-        revision: design_digest,
+        revision: design_digest.clone(),
     };
     record.generation += 1;
     for values in cards.values_mut() {
@@ -2372,12 +2514,35 @@ fn approve_design_with_hook(
             "approve completed issue design"
         }
         .into(),
-        operation: "approve_design".into(),
+        operation: serde_json::json!({
+            "operation": "approve_design",
+            "design_ref": record.design_path,
+            "design_digest": design_digest,
+            "diagram_ref": record.diagram_path,
+            "diagram_digest": diagram_digest,
+        })
+        .to_string(),
     });
     hydrate_projections(&mut record, &cards)?;
     record.digest = record_digest(&record)?;
     store.commit(request.issue, &record, &cards, false)?;
     Ok(record)
+}
+
+fn canonical_fresh_session(value: &str) -> bool {
+    let Some(uuid) = value.strip_prefix("fresh-session:") else {
+        return false;
+    };
+    let bytes = uuid.as_bytes();
+    bytes.len() == 36
+        && [8, 13, 18, 23]
+            .into_iter()
+            .all(|index| bytes[index] == b'-')
+        && bytes.iter().enumerate().all(|(index, byte)| {
+            [8, 13, 18, 23].contains(&index)
+                || byte.is_ascii_digit()
+                || (b'a'..=b'f').contains(byte)
+        })
 }
 
 pub(crate) fn bootstrap_issue(store: &Store, request: BootstrapRequest) -> Result<IssueRecord> {
@@ -2471,6 +2636,14 @@ pub(crate) fn validate_bootstrap_request(request: &BootstrapRequest) -> Result<(
 }
 
 pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
+    let _binding_lock = if matches!(
+        request.operation,
+        SemanticOperation::RefreshAuthoredDesignAfterRecovery
+    ) {
+        Some(store.binding_lock()?)
+    } else {
+        None
+    };
     let _lock = store.lock(request.issue)?;
     store.recover_if_needed(request.issue)?;
     let mut record = store.load_record(request.issue)?;
@@ -2487,6 +2660,10 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
         ));
     }
     let mut cards = store.load_cards(request.issue)?;
+    let implemented_design_refresh = matches!(
+        request.operation,
+        SemanticOperation::RefreshAuthoredDesignAfterRecovery
+    );
     let prebind_contract_repair = is_prebind_contract_repair(&record, &request);
     let prebind_operator_constraints_correction = matches!(
         (record.phase, request.card, &request.operation),
@@ -2496,7 +2673,9 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
             SemanticOperation::CorrectOperatorConstraintsBeforeBind { .. }
         )
     );
-    if prebind_contract_repair {
+    if implemented_design_refresh {
+        verify_cards_without_authored_tuple(store, &record, &cards)?;
+    } else if prebind_contract_repair {
         verify_prebind_contract_repair_inputs(store, &record, &cards)?;
     } else {
         verify_cards(store, &record, &cards)?;
@@ -2504,6 +2683,16 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     if prebind_operator_constraints_correction {
         validate_prebind_operator_constraints_correction(&record, &cards, &request)?;
     }
+    let mut retained_refresh_artifacts = None;
+    let design_refresh = if implemented_design_refresh {
+        let (refresh, design_artifact, diagram_artifact) =
+            prepare_implemented_design_refresh(store, &record, &cards, &request)?;
+        retained_refresh_artifacts = Some((design_artifact, diagram_artifact));
+        Some(refresh)
+    } else {
+        None
+    };
+    let prior_design_approval = implemented_design_refresh.then(|| record.design_review.clone());
     if matches!(
         record.phase,
         LifecyclePhase::Reviewed | LifecyclePhase::Published | LifecyclePhase::MergeReady
@@ -2626,7 +2815,6 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
                 "assign_review" | "record_review" | "recover_review"
             )
         });
-        let latest_transition = record.transitions.last();
         if request.actor.trim().is_empty() || request.reason.trim().is_empty() {
             return Err(V2Error::new(
                 ErrorCode::InvalidInput,
@@ -2635,7 +2823,7 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
         }
         let current_recovery = latest_review_operation.is_some_and(|event| {
             event.operation == "recover_review"
-                && latest_transition.is_some_and(|transition| {
+                && record.transitions.iter().rev().any(|transition| {
                     transition.to == LifecyclePhase::Implemented
                         && matches!(
                             transition.from,
@@ -2770,6 +2958,9 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     };
     let binding_refresh = if prebind_contract_repair {
         Some(refresh_prebind_design_bindings(store, &record, &mut cards)?)
+    } else if let Some(refresh) = design_refresh.as_ref() {
+        apply_design_binding_refresh(&mut cards, refresh);
+        Some(refresh.clone())
     } else {
         None
     };
@@ -2835,6 +3026,7 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
                     "diagram_ref": record.diagram_path,
                     "old_diagram_digest": refresh.old_diagram_digest,
                     "new_diagram_digest": refresh.new_diagram_digest,
+                    "prior_design_approval": prior_design_approval,
                 }
             })
             .to_string()
@@ -2866,8 +3058,27 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
             record.advance(next, request.actor.clone(), request.reason.clone())?;
         }
     }
-    if prebind_contract_repair || prebind_operator_constraints_correction {
+    if prebind_contract_repair
+        || prebind_operator_constraints_correction
+        || implemented_design_refresh
+    {
         record.design_review = DesignReview::Pending;
+    }
+    if implemented_design_refresh {
+        let (design_artifact, diagram_artifact) = retained_refresh_artifacts
+            .as_mut()
+            .expect("implemented refresh retains paired artifacts");
+        let final_design_digest = design_artifact.verify()?;
+        let final_diagram_digest = diagram_artifact.verify()?;
+        let refresh = design_refresh.as_ref().expect("implemented design refresh");
+        if final_design_digest != refresh.new_design_digest
+            || final_diagram_digest != refresh.new_diagram_digest
+        {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "authored design tuple changed before canonical commit",
+            ));
+        }
     }
     let design_digest = authored_digest(store, &record.design_path)?;
     let diagram_digest = authored_digest(store, &record.diagram_path)?;
@@ -2891,16 +3102,275 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     });
     hydrate_projections(&mut record, &cards)?;
     record.digest = record_digest(&record)?;
-    store.commit(request.issue, &record, &cards, request.fail_after_backup)?;
+    if let Some((design_artifact, diagram_artifact)) = retained_refresh_artifacts.as_mut() {
+        let refresh = design_refresh.as_ref().expect("retained refresh binding");
+        if design_artifact.verify()? != refresh.new_design_digest
+            || diagram_artifact.verify()? != refresh.new_diagram_digest
+        {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "paired authored artifact handles changed at commit boundary",
+            ));
+        }
+    }
+    if let Some((design_artifact, diagram_artifact)) = retained_refresh_artifacts.as_mut() {
+        let refresh = design_refresh.as_ref().expect("retained refresh binding");
+        let expected_design = refresh.new_design_digest.clone();
+        let expected_diagram = refresh.new_diagram_digest.clone();
+        let issue_dir = store.issue_dir(request.issue);
+        let mut verifier = || {
+            if design_artifact.verify_after_projection_swap(store.root(), &issue_dir)?
+                != expected_design
+                || diagram_artifact.verify_after_projection_swap(store.root(), &issue_dir)?
+                    != expected_diagram
+            {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "paired authored artifact handles changed across canonical commit",
+                ));
+            }
+            Ok(())
+        };
+        store.commit_verified(
+            request.issue,
+            &record,
+            &cards,
+            request.fail_after_backup,
+            &mut verifier,
+        )?;
+    } else {
+        store.commit(request.issue, &record, &cards, request.fail_after_backup)?;
+    }
     Ok(record)
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 struct DesignBindingRefresh {
     old_design_digest: String,
     new_design_digest: String,
     old_diagram_digest: String,
     new_diagram_digest: String,
+}
+
+fn apply_design_binding_refresh(
+    cards: &mut BTreeMap<CardKind, CardValues>,
+    refresh: &DesignBindingRefresh,
+) {
+    for kind in [CardKind::Spp, CardKind::Vpp] {
+        match &mut cards.get_mut(&kind).expect("design-bearing card").content {
+            CardContent::Spp(values) => {
+                values.design_digest = refresh.new_design_digest.clone();
+                values.diagram_digest = refresh.new_diagram_digest.clone();
+            }
+            CardContent::Vpp(values) => {
+                values.design_digest = refresh.new_design_digest.clone();
+                values.diagram_digest = refresh.new_diagram_digest.clone();
+            }
+            _ => unreachable!("design-bearing card"),
+        }
+    }
+}
+
+fn prepare_implemented_design_refresh(
+    store: &Store,
+    record: &IssueRecord,
+    cards: &BTreeMap<CardKind, CardValues>,
+    request: &EditRequest,
+) -> Result<(
+    DesignBindingRefresh,
+    RetainedAuthoredArtifact,
+    RetainedAuthoredArtifact,
+)> {
+    if request.card != CardKind::Spp
+        || record.phase != LifecyclePhase::Implemented
+        || request.actor.trim().is_empty()
+        || request.reason.trim().is_empty()
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "authored design refresh requires an implemented SPP recovery operation",
+        ));
+    }
+    let latest_review = record.audit.iter().rev().find(|event| {
+        matches!(
+            event.operation.as_str(),
+            "assign_review" | "record_review" | "recover_review"
+        )
+    });
+    if latest_review.is_none_or(|event| {
+        event.operation != "recover_review" || event.generation != record.generation
+    }) || record.review_assignment.is_some()
+        || record.review.is_some()
+        || record.publication.is_some()
+        || record.readiness.is_some()
+        || record.terminal.is_some()
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "authored design refresh requires current review recovery and cleared downstream authority",
+        ));
+    }
+    require_registered_worktree(store, record)?;
+    let (old_design_digest, old_diagram_digest) = match &cards[&CardKind::Spp].content {
+        CardContent::Spp(values) => (values.design_digest.clone(), values.diagram_digest.clone()),
+        _ => unreachable!("SPP"),
+    };
+    let mut design_artifact =
+        retain_authored_artifact(store.root(), Path::new(&record.design_path))?;
+    let mut diagram_artifact =
+        retain_authored_artifact(store.root(), Path::new(&record.diagram_path))?;
+    let new_design_digest = design_artifact.verify()?;
+    let new_diagram_digest = diagram_artifact.verify()?;
+    if new_design_digest == old_design_digest && new_diagram_digest == old_diagram_digest {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "authored design refresh is a no-op",
+        ));
+    }
+    Ok((
+        DesignBindingRefresh {
+            old_design_digest,
+            new_design_digest,
+            old_diagram_digest,
+            new_diagram_digest,
+        },
+        design_artifact,
+        diagram_artifact,
+    ))
+}
+
+fn require_registered_worktree(store: &Store, record: &IssueRecord) -> Result<()> {
+    let registered = record.worktree.as_ref().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authored design refresh requires a registered worktree",
+        )
+    })?;
+    let branch = record.branch.as_ref().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authored design refresh requires a registered branch",
+        )
+    })?;
+    let actual = fs::canonicalize(store.root())?;
+    let expected = fs::canonicalize(registered)?;
+    if actual != expected || crate::git::current_branch(store.root())? != *branch {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "authored design refresh invocation does not match registered worktree",
+        ));
+    }
+    Ok(())
+}
+
+#[cfg(unix)]
+struct RetainedAuthoredArtifact {
+    root: File,
+    relative: PathBuf,
+    file: File,
+    bytes: Vec<u8>,
+    identity: std::fs::Metadata,
+}
+
+#[cfg(unix)]
+impl RetainedAuthoredArtifact {
+    fn verify_retained(&mut self) -> Result<String> {
+        use std::os::unix::fs::MetadataExt;
+        let current = self.file.metadata()?;
+        self.file.seek(SeekFrom::Start(0))?;
+        let bytes = read_exact_current_file(&mut self.file, current.len())?;
+        if current.nlink() != 1
+            || !same_file_identity(&self.identity, &current)
+            || current.len() != self.identity.len()
+            || current.mtime() != self.identity.mtime()
+            || current.mtime_nsec() != self.identity.mtime_nsec()
+            || current.ctime() != self.identity.ctime()
+            || current.ctime_nsec() != self.identity.ctime_nsec()
+            || bytes != self.bytes
+        {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "retained authored artifact changed before commit",
+            ));
+        }
+        Ok(digest(&bytes))
+    }
+
+    fn verify_path_identity(&self) -> Result<()> {
+        use std::os::unix::fs::MetadataExt;
+        let current = self.file.metadata()?;
+        let path_file = open_relative_no_follow(&self.root, &self.relative)?.ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "retained authored artifact path disappeared",
+            )
+        })?;
+        let path_meta = path_file.metadata()?;
+        if path_meta.nlink() != 1 || !same_file_identity(&current, &path_meta) {
+            return Err(V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "retained authored artifact path identity changed before commit",
+            ));
+        }
+        Ok(())
+    }
+
+    fn verify(&mut self) -> Result<String> {
+        let retained_digest = self.verify_retained()?;
+        self.verify_path_identity()?;
+        Ok(retained_digest)
+    }
+
+    fn verify_after_projection_swap(&mut self, root: &Path, issue_dir: &Path) -> Result<String> {
+        let retained_digest = self.verify_retained()?;
+        let canonical = root.join(&self.relative);
+        if canonical.strip_prefix(issue_dir).is_ok() {
+            let canonical_bytes = read_regular_authored_artifact(root, &self.relative)?
+                .ok_or_else(|| {
+                    V2Error::new(
+                        ErrorCode::ReconciliationRequired,
+                        "copied authored artifact disappeared after projection swap",
+                    )
+                })?;
+            if canonical_bytes != self.bytes {
+                return Err(V2Error::new(
+                    ErrorCode::ReconciliationRequired,
+                    "copied authored artifact changed across projection swap",
+                ));
+            }
+        } else {
+            self.verify_path_identity()?;
+        }
+        Ok(retained_digest)
+    }
+}
+
+#[cfg(unix)]
+fn retain_authored_artifact(root: &Path, relative: &Path) -> Result<RetainedAuthoredArtifact> {
+    validate_authored_relative_path(relative)?;
+    let root_file = File::open(root)?;
+    let mut file = open_relative_no_follow(&root_file, relative)?.ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authored artifact is absent",
+        )
+    })?;
+    let identity = file.metadata()?;
+    use std::os::unix::fs::MetadataExt;
+    if !identity.is_file() || identity.nlink() != 1 {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "authored artifact must be a regular single-link file",
+        ));
+    }
+    let bytes = read_exact_current_file(&mut file, identity.len())?;
+    Ok(RetainedAuthoredArtifact {
+        root: root_file,
+        relative: relative.to_path_buf(),
+        file,
+        bytes,
+        identity,
+    })
 }
 
 fn is_prebind_contract_repair(record: &IssueRecord, request: &EditRequest) -> bool {
@@ -3804,6 +4274,26 @@ pub(crate) fn verify_cards(
     Ok(())
 }
 
+fn verify_cards_without_authored_tuple(
+    store: &Store,
+    record: &IssueRecord,
+    cards: &BTreeMap<CardKind, CardValues>,
+) -> Result<()> {
+    verify_card_projections(store, record, cards)?;
+    let mut expected_audit = Vec::new();
+    for event in &record.audit {
+        serde_json::to_writer(&mut expected_audit, event)?;
+        expected_audit.push(b'\n');
+    }
+    if fs::read(store.issue_dir(record.issue).join("audit.jsonl"))? != expected_audit {
+        return Err(V2Error::new(
+            ErrorCode::CorruptRecord,
+            "audit projection drift",
+        ));
+    }
+    Ok(())
+}
+
 pub(crate) fn verify_pre_topology_cards(
     store: &Store,
     record: &IssueRecord,
@@ -4192,10 +4682,12 @@ fn authorize_card_operation(
         ) | (
             LifecyclePhase::Implemented,
             CardKind::Spp,
-            SemanticOperation::ReplacePlanningCollection {
-                field: crate::cards::PlanningCollectionField::AffectedAreas,
-                ..
-            } | SemanticOperation::ReplacePlanSteps { .. }
+            SemanticOperation::RefreshAuthoredDesignAfterRecovery
+                | SemanticOperation::ReplacePlanningCollection {
+                    field: crate::cards::PlanningCollectionField::AffectedAreas,
+                    ..
+                }
+                | SemanticOperation::ReplacePlanSteps { .. }
                 | SemanticOperation::ReplacePlanningCollection {
                     field: crate::cards::PlanningCollectionField::Invariants
                         | crate::cards::PlanningCollectionField::StopConditions,
@@ -4296,6 +4788,7 @@ fn recovery_epoch_operation_is_allowed(operation: &str) -> bool {
         return false;
     };
     match value.get("operation").and_then(serde_json::Value::as_str) {
+        Some("approve_design") => true,
         Some("replace_planning_collection") => {
             value.get("field").and_then(serde_json::Value::as_str) == Some("affected_areas")
         }
@@ -4696,10 +5189,10 @@ fn read_regular_authored_artifact_platform_with_hook(
     };
     hook(AuthoredReadStage::AfterInitialOpen);
     let before = opened.metadata()?;
-    if !before.is_file() {
+    if !before.is_file() || before.nlink() != 1 {
         return Err(V2Error::new(
             ErrorCode::ReconciliationRequired,
-            "authored artifact target is not a regular file",
+            "authored artifact target must be a regular single-link file",
         ));
     }
     let first = read_exact_current_file(&mut opened, before.len())?;
@@ -4736,8 +5229,11 @@ fn read_regular_authored_artifact_platform_with_hook(
     })?;
     let final_metadata = final_file.metadata()?;
     if !final_metadata.is_file()
+        || final_metadata.nlink() != 1
         || !same_file_identity(&after, &final_metadata)
         || after.len() != final_metadata.len()
+        || after.ctime() != final_metadata.ctime()
+        || after.ctime_nsec() != final_metadata.ctime_nsec()
     {
         return Err(V2Error::new(
             ErrorCode::ReconciliationRequired,
@@ -4748,6 +5244,7 @@ fn read_regular_authored_artifact_platform_with_hook(
     let final_bytes = read_exact_current_file(&mut final_file, final_metadata.len())?;
     let final_after = final_file.metadata()?;
     if final_bytes != first
+        || final_after.nlink() != 1
         || !same_file_identity(&final_metadata, &final_after)
         || final_metadata.len() != final_after.len()
         || final_metadata.mtime() != final_after.mtime()
@@ -5126,6 +5623,46 @@ fn sync_dir(path: &Path) -> Result<()> {
     Ok(())
 }
 
+fn sync_dirs_through(start: &Path, stop: &Path) -> Result<()> {
+    let mut directory = start;
+    loop {
+        sync_dir(directory)?;
+        if directory == stop {
+            return Ok(());
+        }
+        directory = directory.parent().ok_or_else(|| {
+            V2Error::new(
+                ErrorCode::ReconciliationRequired,
+                "durable authored destination escaped the staging directory",
+            )
+        })?;
+    }
+}
+
+fn preserve_failed_projection_and_restore(
+    current: &Path,
+    backup: &Path,
+    rollback_preserved: &Path,
+) -> Result<()> {
+    if rollback_preserved.exists() {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "cannot overwrite an existing preserved failed projection",
+        ));
+    }
+    let parent = current.parent().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "issue projection has no parent for rollback",
+        )
+    })?;
+    fs::rename(current, rollback_preserved)?;
+    sync_dir(parent)?;
+    fs::rename(backup, current)?;
+    sync_dir(parent)?;
+    Ok(())
+}
+
 fn enum_iterator() -> impl Iterator<Item = CardKind> {
     use strum::IntoEnumIterator;
     CardKind::iter()
@@ -5228,6 +5765,110 @@ mod edit_authorization_tests {
             })
             .expect_err("approval replacement must fail closed");
         assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn implemented_authored_design_refresh_rejects_preexisting_hardlinks() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let design = temp.path().join("design.md");
+        fs::write(&design, b"# design\n").expect("design");
+        fs::hard_link(&design, temp.path().join("design-alias.md")).expect("hardlink alias");
+        let error = read_regular_authored_artifact(temp.path(), Path::new("design.md"))
+            .expect_err("pre-existing hardlink must fail closed");
+        assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+        assert!(error.message.contains("single-link"));
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn implemented_authored_design_refresh_rejects_hardlink_added_before_final_open() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let design = temp.path().join("design.md");
+        fs::write(&design, b"# design\n").expect("design");
+        let error = read_regular_authored_artifact_with_hook(
+            temp.path(),
+            Path::new("design.md"),
+            |stage| {
+                if stage == AuthoredReadStage::BeforeFinalOpen {
+                    fs::hard_link(&design, temp.path().join("late-alias.md")).expect("late alias");
+                }
+            },
+        )
+        .expect_err("late hardlink alias must fail closed");
+        assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn implemented_authored_design_refresh_retains_handle_identity_until_commit_boundary() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let design = temp.path().join("design.md");
+        fs::write(&design, b"# design\n").expect("design");
+        let mut retained = retain_authored_artifact(temp.path(), Path::new("design.md"))
+            .expect("retain artifact handle");
+        fs::rename(&design, temp.path().join("old-design.md")).expect("move original");
+        fs::write(&design, b"# replacement\n").expect("replace path");
+        let error = retained
+            .verify()
+            .expect_err("replacement must fail final identity check");
+        assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn implemented_authored_design_refresh_accepts_expected_issue_local_copy_after_swap() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let issue_dir = temp.path().join(".csdlc/issues/7");
+        let backup = temp.path().join(".csdlc/issues/.7.backup");
+        fs::create_dir_all(&issue_dir).expect("issue directory");
+        fs::write(issue_dir.join("design.md"), b"# design\n").expect("design");
+        let mut retained =
+            retain_authored_artifact(temp.path(), Path::new(".csdlc/issues/7/design.md"))
+                .expect("retain issue-local artifact");
+
+        fs::rename(&issue_dir, &backup).expect("preserve prior issue projection");
+        fs::create_dir_all(&issue_dir).expect("install next issue projection");
+        fs::copy(backup.join("design.md"), issue_dir.join("design.md"))
+            .expect("copy authored artifact into next projection");
+
+        assert_eq!(
+            retained
+                .verify_after_projection_swap(temp.path(), &issue_dir)
+                .expect("expected issue-local copy remains valid"),
+            digest(b"# design\n")
+        );
+        fs::write(issue_dir.join("design.md"), b"# injected\n").expect("inject drift");
+        let error = retained
+            .verify_after_projection_swap(temp.path(), &issue_dir)
+            .expect_err("post-swap drift must fail closed");
+        assert_eq!(error.code, ErrorCode::ReconciliationRequired);
+    }
+
+    #[test]
+    fn failed_projection_rollback_preserves_unrelated_post_swap_state() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let parent = temp.path().join(".csdlc/issues");
+        let current = parent.join("7");
+        let backup = parent.join(".7.backup");
+        let preserved = parent.join(".7.rollback-preserved");
+        fs::create_dir_all(&current).expect("current projection");
+        fs::create_dir_all(&backup).expect("backup projection");
+        fs::write(current.join("index.json"), b"new").expect("new projection");
+        fs::write(current.join("externally-injected.txt"), b"preserve me")
+            .expect("external post-swap state");
+        fs::write(backup.join("index.json"), b"prior").expect("prior projection");
+
+        preserve_failed_projection_and_restore(&current, &backup, &preserved)
+            .expect("non-destructive rollback");
+
+        assert_eq!(fs::read(current.join("index.json")).unwrap(), b"prior");
+        assert_eq!(
+            fs::read(preserved.join("externally-injected.txt")).unwrap(),
+            b"preserve me"
+        );
+        assert_eq!(fs::read(preserved.join("index.json")).unwrap(), b"new");
+        assert!(!backup.exists());
     }
 
     #[cfg(unix)]
@@ -5471,6 +6112,52 @@ mod edit_authorization_tests {
                     .expect_err("late SPP replacement remains rejected");
                 assert_eq!(error.code, ErrorCode::InvalidTransition);
             }
+        }
+    }
+
+    #[test]
+    fn implemented_authored_design_refresh_is_exact_phase_and_card_only() {
+        let operation = SemanticOperation::RefreshAuthoredDesignAfterRecovery;
+        authorize_card_operation(LifecyclePhase::Implemented, CardKind::Spp, &operation)
+            .expect("implemented SPP reaches recovery-sensitive guard");
+        for phase in [
+            LifecyclePhase::Initialized,
+            LifecyclePhase::Ready,
+            LifecyclePhase::Bound,
+            LifecyclePhase::Reviewed,
+            LifecyclePhase::Published,
+            LifecyclePhase::MergeReady,
+            LifecyclePhase::Merged,
+            LifecyclePhase::ClosedOut,
+        ] {
+            assert_eq!(
+                authorize_card_operation(phase, CardKind::Spp, &operation)
+                    .expect_err("wrong phase")
+                    .code,
+                ErrorCode::InvalidTransition
+            );
+        }
+        assert_eq!(
+            authorize_card_operation(LifecyclePhase::Implemented, CardKind::Vpp, &operation)
+                .expect_err("wrong card")
+                .code,
+            ErrorCode::InvalidTransition
+        );
+    }
+
+    #[test]
+    fn canonical_fresh_design_reviewer_is_fail_closed() {
+        assert!(canonical_fresh_session(
+            "fresh-session:c4ee2e17-78fb-4e35-9442-11d2ac0e0478"
+        ));
+        for invalid in [
+            "",
+            "fresh-session:pending",
+            "fresh-session:C4EE2E17-78FB-4E35-9442-11D2AC0E0478",
+            "fresh-session:c4ee2e1778fb4e35944211d2ac0e0478",
+            "reviewer:c4ee2e17-78fb-4e35-9442-11d2ac0e0478",
+        ] {
+            assert!(!canonical_fresh_session(invalid), "{invalid}");
         }
     }
 }
