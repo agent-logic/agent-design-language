@@ -4,53 +4,12 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "024d435a2fcf6fd78678e4b9cda121ea06eecca7e6effaabceb5ad5c2f22ddaf",
   "phase": "implemented",
-  "generation": 15,
-  "digest": "18d3da82dbcf22baebb39f644414b2147c3a4ee68329334badd49b2284732ab9",
+  "generation": 16,
+  "digest": "93a08be4b042091fff19255001187ab29d782bc4605e5b99eb8315743f8f5b7f",
   "branch": "codex/117-production-polis-interface-qualification-parent",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-117-production-polis-interface-qualification-parent",
-  "review_assignment": {
-    "reviewer": "fresh-session:509e4418-914a-43af-9985-e2c5e94776d9",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:6b46d54de8576a7260ea83e02d92018b05bd2b50:49ab2089dd7040902331a58d5a6a28339dab513a23a65aaa1daf35ac860ebfc9",
-    "scope": [
-      ".csdlc/evidence/117/production-polis-interface-parent-closeout.md",
-      ".csdlc/evidence/117/validate_parent_closeout.py",
-      ".csdlc/prepared/issues/117/validate_preparation_bundle.py",
-      ".csdlc/prepared/issues/117/design.md",
-      ".csdlc/prepared/issues/117/diagram.mmd",
-      ".csdlc/issues/117"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:509e4418-914a-43af-9985-e2c5e94776d9",
-    "scope": [
-      ".csdlc/evidence/117/production-polis-interface-parent-closeout.md",
-      ".csdlc/evidence/117/validate_parent_closeout.py",
-      ".csdlc/prepared/issues/117/validate_preparation_bundle.py",
-      ".csdlc/prepared/issues/117/design.md",
-      ".csdlc/prepared/issues/117/diagram.mmd",
-      ".csdlc/issues/117"
-    ],
-    "reviewed_revision": "git-blake3:6b46d54de8576a7260ea83e02d92018b05bd2b50:49ab2089dd7040902331a58d5a6a28339dab513a23a65aaa1daf35ac860ebfc9",
-    "findings": [
-      {
-        "id": "509e-p1-closeout-validator-exact-field-coverage",
-        "severity": "p1",
-        "summary": "The #117 closeout validator checks terminal caches are canonical/merged/closed but does not compare every exact PR, merge SHA, head SHA, generation, canonical digest, terminal digest, or integrated-candidate field recorded in the closeout packet.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
-    "residual_risks": [
-      "Reviewer could rerun git diff --check, but the read-only sandbox blocked Python validators and typed doctor/validate startup with exit 71; committed proof logs were inspected instead.",
-      "Publication, hosted CI, merge, and terminal finish were not reviewed because this exact revision remained unpublished."
-    ],
-    "completed": false,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -65,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9d2162abd59bf548373b2ee984af0ac9fb554acb554d782c95cdd37ac986c9e6",
+      "values_digest": "2c2b1ef4f2f15c2aa04912531f8f9efc4a6e33c81a07bdd6ac331dd0004cafc2",
       "rendered_digest": "40ce52a0a91980bb37e05fb80fc3bebcd43112af537e17003cc5ab799e10c539",
       "ast_digest": "173b4e7307b7fa9cc0d5b89ef40b6981406b1cfa1baa236bba81afa14bb91782"
     },
     "stp": {
-      "values_digest": "151880b0814329bd9ab521920b94f57977ac34c2d7a2848d82396f0d04e51596",
+      "values_digest": "22c7ed5844aee6d75d94952b634ad2cb601ae86ed1cdc4d24a351272064c03ec",
       "rendered_digest": "90a11f2ccd8f2e44783806970332b4a0657af031f79dda6b395ff593ae5a3dd6",
       "ast_digest": "21dda05a4a0a3f33ddb1c2752f58c353d4fb6794d3eb2dba2b9592433b8364ce"
     },
     "spp": {
-      "values_digest": "af401330ee77defd1d94001fd72cfb91386f712484cd1b0ddba816a3ab8bc71a",
+      "values_digest": "d584e209309db96e9dbc88ac07ec17ef825d1aa012aa534c1836a625f5149989",
       "rendered_digest": "7e0f095673cae0e44793f8707e218ec27e94fb640077b5c33fd1879e37b9b490",
       "ast_digest": "36796b0cbcd7add30d28bbbf118e8069bd6310a1948ec062bf78302e45129de9"
     },
     "vpp": {
-      "values_digest": "9240eef4d8b827a04fd2af6ba65df61c2e6a9f4a12193780200c26a0aa2fa1ab",
+      "values_digest": "886394737e54e87fcec1d2e69c0759e2e570f23d3df6d90e5d16b869ff17fee8",
       "rendered_digest": "cb288c0e4e3fa37efca1d62888457c5cfab8b9ddc1ce0282259f69e987b4c0d7",
       "ast_digest": "6e9164f90884128e31ad8d16a53deb657a3a6a3e58d6efdc82dc0b092069348d"
     },
     "srp": {
-      "values_digest": "1f7c22f36e505f0f14f8f780b366692e29dce248f5ffe6aa5fbb6008fa5b7146",
-      "rendered_digest": "81ea864fe8d9c846d0ac300062221893d7e3e89cce2e274801785de6c20a26ca",
-      "ast_digest": "f1b6e77e84d79d4612da9a332790471c19cd7c873585cf1ce78bc03f9f826d6c"
+      "values_digest": "864763cc315ccceb1e43703e89770b69733bd1d3f62fa3428f0bab3c776a6b29",
+      "rendered_digest": "1253ac0f42063c5f2011243e9449818f55d1504c07ad8146ba38ea23a0a35357",
+      "ast_digest": "d3faf3908bf4b8cf64c7ef7144b0ef223acc1883189f0f858db1e2af1d228ef1"
     },
     "sor": {
-      "values_digest": "c880ceadf821bafa27bea28a1ce8a37f7e0ae28e2a025776013cd6e12ca9739f",
-      "rendered_digest": "b4c9969c60b5e11de9b045486d75ab0094bb83b524130f79519de6936c296174",
-      "ast_digest": "ab229dee903c5fdbf24384a14faacec2161aa473fed09f8236a899bdc6ca18d9"
+      "values_digest": "18a1a06accd862556df32605bd9d442ecea84d4e55007e7ae14e52983c4b58c5",
+      "rendered_digest": "d8b815a277aad19f8d907b0a73f1c49b3724272f92e792c1995d40f19637d036",
+      "ast_digest": "f119737ef3d6411764ce511ada41365d6a58d714922d2e2739fc7bb4cccf202d"
     }
   },
   "transitions": [
@@ -244,6 +203,13 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "Recover failed exact review fresh-session:509e4418-914a-43af-9985-e2c5e94776d9 before remediating its P1 finding: #117 closeout validator did not compare every exact field recorded in the parent closeout packet against terminal cache truth.",
+      "operation": "recover_review"
     }
   ]
 }

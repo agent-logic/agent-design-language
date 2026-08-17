@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import re
 import subprocess
 import sys
 from pathlib import Path
@@ -40,6 +41,12 @@ REQUIRED_PACKET_PHRASES = (
     "does not change Runtime authority, browser UI, API, storage, cloud, Unity, or provider changes",
     "Claiming WP-18C umbrella terminal closeout",
 )
+TABLE_PATTERN = re.compile(
+    r"^\| #(?P<issue>\d+) \| (?P<scope>[^|]+) \| #(?P<pr>\d+) \| "
+    r"`(?P<merge_sha>[0-9a-f]{40})` \| `(?P<head_sha>[0-9a-f]{40})` \| "
+    r"(?P<canonical_generation>\d+) \| `(?P<canonical_digest>[0-9a-f]{64})` \| "
+    r"`(?P<terminal_digest>[0-9a-f]{64})` \| `(?P<canonical_cache>[^`]+)` \|$"
+)
 
 
 def require(condition: bool, message: str) -> None:
@@ -67,6 +74,22 @@ def run_json(argv: list[str]) -> dict:
         raise AssertionError(f"command did not emit JSON: {' '.join(argv)}\n{completed.stdout}") from exc
 
 
+def packet_terminal_rows(packet: str) -> dict[int, dict[str, str]]:
+    rows: dict[int, dict[str, str]] = {}
+    for line in packet.splitlines():
+        match = TABLE_PATTERN.match(line)
+        if not match:
+            continue
+        row = match.groupdict()
+        issue = int(row.pop("issue"))
+        rows[issue] = row
+    missing = sorted(set(REQUIRED_TERMINAL) - set(rows))
+    extra = sorted(set(rows) - set(REQUIRED_TERMINAL))
+    require(not missing, f"closeout packet missing terminal table rows: {missing}")
+    require(not extra, f"closeout packet contains unexpected terminal table rows: {extra}")
+    return rows
+
+
 def main() -> int:
     require(BIN.is_file(), f"missing finish binary: {BIN}")
     require(PACKET.is_file(), f"missing closeout packet: {PACKET.relative_to(ROOT)}")
@@ -75,6 +98,7 @@ def main() -> int:
     for phrase in REQUIRED_PACKET_PHRASES:
         require(phrase in packet, f"closeout packet missing required phrase: {phrase}")
 
+    packet_rows = packet_terminal_rows(packet)
     terminal_results: dict[int, dict] = {}
     for issue in REQUIRED_TERMINAL:
         result = run_json([str(BIN), "--root", str(TERMINAL_ROOTS[issue]), "--validate-cached-issue", str(issue)])
@@ -83,10 +107,33 @@ def main() -> int:
         require(terminal.get("disposition") == "merged", f"issue #{issue} is not merged terminal")
         require(terminal.get("issue_state") == "closed_by_merged_pr", f"issue #{issue} is not closed by merged PR")
         require(terminal.get("merge_sha"), f"issue #{issue} has no merge SHA")
+        packet_row = packet_rows[issue]
+        exact_checks = {
+            "pull_request": int(packet_row["pr"]),
+            "merge_sha": packet_row["merge_sha"],
+            "head_sha": packet_row["head_sha"],
+            "canonical_generation": int(packet_row["canonical_generation"]),
+            "canonical_digest": packet_row["canonical_digest"],
+            "digest": packet_row["terminal_digest"],
+        }
+        for field, expected in exact_checks.items():
+            require(
+                terminal.get(field) == expected,
+                f"issue #{issue} terminal {field} drift: packet={expected!r} cache={terminal.get(field)!r}",
+            )
+        require(
+            packet_row["canonical_cache"] == "canonical_match=true",
+            f"issue #{issue} packet canonical cache marker drift",
+        )
         terminal_results[issue] = result
 
     issue_282 = terminal_results[282].get("terminal") or {}
     require(issue_282.get("merge_sha") == "973d611bbc8bee570ce4a98e8b1b0249b5001f51", "issue #282 merge SHA drift")
+    issue_281 = terminal_results[281].get("terminal") or {}
+    require(
+        issue_281.get("merge_sha") == "716f0ff612997449f5c363571b105b670545a1c7",
+        "integrated candidate revision drift from #281 merge SHA",
+    )
 
     print(
         json.dumps(
