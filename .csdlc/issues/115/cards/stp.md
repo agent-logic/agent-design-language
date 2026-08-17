@@ -16,12 +16,15 @@ Repair the #115 preparation packet on a clean current-main root, prove canonical
 
 ## Deliverables
 
-- .csdlc/prepared/issues/115/readiness-packet.md
-- .csdlc/prepared/issues/115/design.md
-- .csdlc/prepared/issues/115/diagram.mmd
-- .csdlc/prepared/issues/115/validate_preparation_bundle.py
-- Typed #115 initialized/ready unbound record and rendered cards
-- Fresh design/readiness review and typed design approval only if review passes
+- adl-runtime-kernel/src/conversation_rooms.rs
+- adl-runtime-kernel/src/control.rs
+- adl-runtime-kernel/src/lib.rs
+- demos/html-observatory/app.js
+- demos/html-observatory/index.html
+- demos/html-observatory/styles.css
+- adl/tools/validate_v092_governed_room_observatory.mjs
+- .csdlc/evidence/115/governed-room-observatory-validation.json
+- .csdlc/issues/115
 
 ## Acceptance
 
