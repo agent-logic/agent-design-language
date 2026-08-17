@@ -1875,18 +1875,53 @@ function largePolisRecoveryViewModel(state = {}) {
 }
 
 function largePolisRecoverySequence(states = []) {
-  const steps = asArray(states).map((state, index) => ({
-    sequence: index + 1,
-    view: largePolisRecoveryViewModel(state)
-  }));
+  const pendingActions = new Set();
+  let observedPendingActionCount = 0;
+  let resolvedPendingActionCount = 0;
+  let hiddenStaleState = false;
+  const steps = asArray(states).map((state, index) => {
+    const view = largePolisRecoveryViewModel(state);
+    const pendingBefore = [...pendingActions];
+    for (const action of view.actions) {
+      pendingActions.add(action);
+    }
+    observedPendingActionCount = Math.max(observedPendingActionCount, pendingActions.size);
+    const isHealthy = Object.values(view.status).every((status) => status === "ready") && view.actions.length === 0;
+    const resolvedActions = isHealthy ? [...pendingActions] : [];
+    if (!isHealthy && pendingBefore.length > 0 && view.transitions.length === 0 && view.actions.length === 0) {
+      hiddenStaleState = true;
+    }
+    if (isHealthy) {
+      resolvedPendingActionCount += resolvedActions.length;
+      pendingActions.clear();
+    }
+    return {
+      sequence: index + 1,
+      view,
+      pending_actions_before: pendingBefore,
+      pending_actions_after: [...pendingActions],
+      resolved_pending_actions: resolvedActions,
+      stale_state_visible: view.transitions.length > 0
+        || pendingBefore.length > 0
+        || view.actions.length > 0
+        || resolvedActions.length > 0
+    };
+  });
   const terminal = steps.at(-1)?.view;
+  const terminalPendingActions = steps.at(-1)?.pending_actions_after || [];
   return {
     schema: "adl.html_observatory.large_polis_recovery_sequence.v1",
     steps,
     recovered: terminal
       ? Object.values(terminal.status).every((state) => state === "ready") && terminal.actions.length === 0
+        && terminalPendingActions.length === 0
+        && resolvedPendingActionCount >= observedPendingActionCount
       : false,
-    stale_state_hidden: false,
+    stale_state_hidden: hiddenStaleState || terminalPendingActions.length > 0,
+    observed_pending_action_count: observedPendingActionCount,
+    resolved_pending_action_count: resolvedPendingActionCount,
+    pending_action_count: terminalPendingActions.length,
+    dropped_pending_actions: Math.max(0, observedPendingActionCount - resolvedPendingActionCount),
     duplicate_actions: steps.reduce((count, step) => count + (step.view.duplicate_action_prevented ? 1 : 0), 0)
   };
 }

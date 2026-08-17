@@ -71,6 +71,15 @@ assert.equal(metrics.recovery.actions.length, 5);
 assert.equal(metrics.recovery.duplicate_action_prevented, false);
 assert.equal(metrics.recovery_sequence.recovered, true);
 assert.equal(metrics.recovery_sequence.stale_state_hidden, false);
+assert.equal(metrics.recovery_sequence.observed_pending_action_count, 5);
+assert.equal(metrics.recovery_sequence.resolved_pending_action_count, 5);
+assert.equal(metrics.recovery_sequence.pending_action_count, 0);
+assert.equal(metrics.recovery_sequence.dropped_pending_actions, 0);
+assert.deepEqual(metrics.recovery_sequence.steps[0].pending_actions_after, metrics.recovery.actions);
+assert.equal(metrics.recovery_sequence.steps[0].stale_state_visible, true);
+assert.deepEqual(metrics.recovery_sequence.steps.at(-1).pending_actions_before, metrics.recovery.actions);
+assert.deepEqual(metrics.recovery_sequence.steps.at(-1).resolved_pending_actions, metrics.recovery.actions);
+assert.deepEqual(metrics.recovery_sequence.steps.at(-1).pending_actions_after, []);
 assert.deepEqual(metrics.recovery_sequence.steps.at(-1).view.status, {
   reconnect: "ready",
   restart: "ready",
@@ -95,6 +104,16 @@ const duplicateSequence = largePolisRecoverySequence([
   { connected: true, bufferedMessages: 0 }
 ]);
 assert.equal(duplicateSequence.recovered, true);
+assert.equal(duplicateSequence.pending_action_count, 0);
+assert.equal(duplicateSequence.dropped_pending_actions, 0);
+assert.deepEqual(duplicateSequence.steps.at(-1).resolved_pending_actions, ["schedule_single_reconnect"]);
+
+const unresolvedSequence = largePolisRecoverySequence([
+  { connected: false, runtimeIncarnationChanged: true, bufferedMessages: 1200, offline: true, versionMismatch: true }
+]);
+assert.equal(unresolvedSequence.recovered, false);
+assert.equal(unresolvedSequence.pending_action_count, 5);
+assert.equal(unresolvedSequence.dropped_pending_actions, 5);
 
 const resourceMetrics = estimateLargePolisResourceMetrics({
   visibleAgents: LARGE_POLIS_LIMITS.maxVisibleAgents,

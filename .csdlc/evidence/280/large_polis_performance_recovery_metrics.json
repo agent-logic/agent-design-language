@@ -78,7 +78,17 @@
           "duplicate_action_prevented": false,
           "grants_authority": false,
           "runtime_authority_required": true
-        }
+        },
+        "pending_actions_before": [],
+        "pending_actions_after": [
+          "schedule_single_reconnect",
+          "discard_stale_pending_turns",
+          "pause_nonessential_rendering",
+          "show_offline_state",
+          "block_mutating_controls"
+        ],
+        "resolved_pending_actions": [],
+        "stale_state_visible": true
       },
       {
         "sequence": 2,
@@ -96,11 +106,31 @@
           "duplicate_action_prevented": false,
           "grants_authority": false,
           "runtime_authority_required": true
-        }
+        },
+        "pending_actions_before": [
+          "schedule_single_reconnect",
+          "discard_stale_pending_turns",
+          "pause_nonessential_rendering",
+          "show_offline_state",
+          "block_mutating_controls"
+        ],
+        "pending_actions_after": [],
+        "resolved_pending_actions": [
+          "schedule_single_reconnect",
+          "discard_stale_pending_turns",
+          "pause_nonessential_rendering",
+          "show_offline_state",
+          "block_mutating_controls"
+        ],
+        "stale_state_visible": true
       }
     ],
     "recovered": true,
     "stale_state_hidden": false,
+    "observed_pending_action_count": 5,
+    "resolved_pending_action_count": 5,
+    "pending_action_count": 0,
+    "dropped_pending_actions": 0,
     "duplicate_actions": 0
   },
   "bounded": true,
