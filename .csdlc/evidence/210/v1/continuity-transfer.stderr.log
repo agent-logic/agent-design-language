@@ -1,0 +1,4 @@
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-210-authenticated-continuity-bundle-transfer/adl-runtime-kernel)
+   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-210-authenticated-continuity-bundle-transfer/adl-runtime)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 4.70s
+     Running tests/distributed_continuity_transfer.rs (adl-runtime/target/debug/deps/distributed_continuity_transfer-06b7001716953b2d)

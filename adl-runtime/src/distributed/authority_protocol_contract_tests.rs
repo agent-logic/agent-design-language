@@ -1174,6 +1174,8 @@ fn continuity_artifact() -> CommittedAuthorityArtifact {
     let manifest = b"signed-manifest".to_vec();
     let catalog = b"signed-catalog".to_vec();
     CommittedAuthorityArtifact::continuity_transfer(&ContinuityTransferGrantArtifact {
+        trust_domain: "trust-domain".into(),
+        polis_id: "polis-a".into(),
         source_guardian_id: "guardian-a".into(),
         target_guardian_id: "guardian-b".into(),
         route_id: "route-a".into(),

@@ -1,0 +1,45 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 271,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.02d][112.d] Integrate Layer 8 authority and delivery states into Observatory",
+    "slug": "layer8-authority-observatory",
+    "version": "v0.92.0",
+    "generation": 22
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Present Runtime-owned Layer 8 authority, delivery, refusal, failure, recovery, and redacted correlation state in Observatory without browser authority.",
+      "required_outcome": "The actual Observatory consumes the terminal #270 served protocol and visibly distinguishes delivered, refused, failed, revoked, and recovery outcomes while retaining no private authority material and never treating request acceptance as delivery.",
+      "declared_scope": [
+        "Observatory adapter for the terminal #270 recipient-acknowledgement route",
+        "Visible accessible delivery/refusal/failure/recovery states",
+        "Existing real recipient_ack runtime proof and authentic handler-output artifact handoff stored under issue-local evidence",
+        "Literal eight-case real-browser wrapper over actual Observatory assets",
+        "Post-bind/base-to-current exact three-product-path scope validator"
+      ],
+      "authority_boundary": [
+        "Runtime #270 remains sole acknowledgement verifier",
+        "Browser holds no private key and performs no signing, local signature verification, or policy decision",
+        "Runtime-provided signed request and acknowledgement may be forwarded only as opaque ephemeral POST input and must never render, log, cache, or persist",
+        "Only served redacted response fields may render",
+        "Historical e0fd2364 is inspection-only nonpublication reference and must not be replayed as proof"
+      ],
+      "initial_assumptions": [
+        "Terminal #112/#265/#270 caches and ancestry are preserved and must be revalidated immediately before bind.",
+        "The signed request/acknowledgement pair is opaque transient POST input for the browser and is never renderable or persistable."
+      ],
+      "operator_constraints": [
+        "Use typed C-SDLC v2 only",
+        "Work only in the canonical bound FastWork worktree after fresh design approval",
+        "Create the issue-bound implementation goal only after bind and before product edits",
+        "Do not touch stale #114 parent preparation or bind #114",
+        "Do not mutate #112 worktrees or replay historical e0fd mock evidence"
+      ]
+    }
+  }
+}

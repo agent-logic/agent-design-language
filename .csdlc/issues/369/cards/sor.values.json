@@ -1,0 +1,74 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 369,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Recover false design approval on bound issues",
+    "slug": "bound-false-design-review-recovery",
+    "version": "v0.92",
+    "generation": 5
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Add exact CAS-guarded recovery for falsely recorded design approval on bound or implemented issues without granting replacement authority.",
+      "actual_changes": [
+        "Add typed recover-design-review request, schema, library export, and csdlc-edit dispatch",
+        "Require exact phase, generation, digest, prior reviewer/revision, and identical false reviewer",
+        "Reject later lifecycle authority, wrong topology, empty provenance, and repeat recovery",
+        "Preserve topology and audit history, append explicit correction, and set only current design review pending",
+        "Prove bound, implemented, refusal, and current #275 gen21-shaped recovery with four literal exact tests"
+      ],
+      "artifacts": [
+        "csdlc-v2/src/store.rs",
+        "csdlc-v2/src/lib.rs",
+        "csdlc-v2/src/schema.rs",
+        "csdlc-v2/src/bin/csdlc-edit.rs",
+        "csdlc-v2/tests/gate2.rs"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Run strict all-target Clippy.",
+          "outcome": "passed",
+          "evidence_ref": "clippy.log"
+        },
+        {
+          "command": [
+            "python3",
+            ".csdlc/prepared/issues/369/run_exact_focused_matrix.py"
+          ],
+          "purpose": "Run the issue-owned exact focused wrapper.",
+          "outcome": "passed",
+          "evidence_ref": "focused-exact.log"
+        },
+        {
+          "command": [
+            "python3",
+            ".csdlc/prepared/issues/369/validate_exact_scope.py"
+          ],
+          "purpose": "Run exact scope validator.",
+          "outcome": "passed",
+          "evidence_ref": "scope-exact.log"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

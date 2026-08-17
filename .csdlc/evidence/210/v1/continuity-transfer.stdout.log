@@ -1,0 +1,149 @@
+
+running 15 tests
+test abort_is_idempotent_redacted_and_stops_later_frames ... pass:CASE-030:cancellation_before_effect
+pass:CASE-031:cancellation_midstream
+pass:CASE-044:zero_residue_abort
+denied:AC-5:cancel_before_effect_no_stage
+denied:AC-5:cancel_midstream_retains_cleanup_permit
+accepted:AC-6:cleanup_after_transfer_cancellation
+accepted:AC-6:cleanup_permit_separate_from_transfer_grant
+accepted:AC-6:cleanup_exact_retry_returns_receipt
+denied:AC-6:transfer_has_no_activation_or_deletion_authority_and_cleanup_activated_stage_denied
+accepted:AC-6:cleanup_closes_all_stage_handles
+accepted:AC-6:cleanup_parent_fsync_proved
+accepted:AC-6:cleanup_live_absence_attested_by_208
+ok
+test authorized_transfer_accepts_ordered_frames_and_redacted_receipt ... pass:CASE-001:authorized_transfer
+pass:CASE-018:frame_n_accepted
+pass:CASE-045:evidence_redaction
+accepted:AC-1:exact_grant_route_cut_accepted
+accepted:AC-2:canonical_frame_header_accepted
+accepted:AC-3:signed_expectation_before_write
+accepted:AC-7:raw_bundle_content_absent
+accepted:AC-7:raw_identity_absent
+accepted:AC-7:certificate_and_token_absent
+accepted:AC-7:endpoint_and_address_absent
+accepted:AC-7:key_signature_secret_absent
+accepted:AC-7:bounded_counts_only
+accepted:AC-7:opaque_refs_only
+accepted:AC-7:diagnostics_stable_and_bounded
+accepted:AC-8:exact_45_case_ordered_parity
+accepted:AC-8:exact_8_acceptance_rows
+accepted:AC-8:exact_84_unique_subassertions
+accepted:AC-8:map_sha256_bound
+accepted:AC-8:tests_before_clippy
+accepted:AC-8:clippy_before_exact_diff
+accepted:AC-8:recorded_base_to_source_diff_clean
+accepted:AC-8:producer_before_independent_review
+accepted:AC-8:review_revision_equals_proving_source
+accepted:AC-8:validator_after_review_and_immutable_evidence
+ok
+test completion_retry_and_completion_journal_are_cached_without_payload ... pass:CASE-006:exact_retry_cached
+pass:CASE-037:crash_after_completion_result
+pass:CASE-039:crash_after_checkpoint
+accepted:AC-3:exact_retry_returns_retained_published_result
+accepted:AC-5:completion_result_replayed
+accepted:AC-5:marker_owed_reconciled
+ok
+test corrupt_or_rollback_journal_is_denied ... pass:CASE-042:coherent_rollback_denied
+pass:CASE-041:disk_full_no_false_success
+denied:AC-5:rollback_or_ambiguous_state_denied
+denied:AC-5:disk_full_never_advances_prefix
+ok
+test deadline_and_chunk_overrun_are_denied_before_prefix_advances ... pass:CASE-019:frame_n_plus_one_denied
+pass:CASE-028:deadline_before_first_byte
+pass:CASE-029:deadline_midstream
+denied:AC-2:frame_count_n_plus_one_denied
+denied:AC-2:zero_length_nonfinal_denied
+denied:AC-5:deadline_before_effect_no_stage
+denied:AC-5:deadline_midstream_retains_reconcilable_stage
+accepted:AC-6:cleanup_after_transfer_expiry
+ok
+test exact_duplicate_frame_is_cached_without_advancing_prefix ... pass:CASE-021:exact_duplicate_frame_cached
+accepted:AC-3:exact_duplicate_returns_retained_receipt
+ok
+test gaps_conflicts_wrong_predecessor_and_wrong_digest_are_denied ... pass:CASE-020:reordered_frame_denied
+pass:CASE-022:conflicting_duplicate_denied
+pass:CASE-023:wrong_predecessor_denied
+pass:CASE-024:wrong_chunk_digest_denied
+denied:AC-2:final_frame_shape_mismatch_denied
+denied:AC-2:conflicting_duplicate_no_effect
+denied:AC-3:prefix_conflict_never_advances
+denied:AC-2:wrong_predecessor_no_effect
+denied:AC-2:cross_entry_frame_denied
+ok
+test generic_or_confused_authority_binding_is_denied ... pass:CASE-015:generic_send_denied
+pass:CASE-016:raft_rpc_confusion_denied
+pass:CASE-017:unknown_kind_denied
+denied:AC-1:generic_send_authority_denied
+denied:AC-1:raft_transfer_confusion_denied
+denied:AC-1:generic_unknown_dispatch_denied
+ok
+test journal_restore_resumes_exact_prefix_without_raw_payload ... pass:CASE-005:resume_after_partition
+pass:CASE-032:source_restart_resume
+pass:CASE-033:target_restart_resume
+pass:CASE-034:crash_after_admission
+pass:CASE-035:crash_after_frame_write
+pass:CASE-036:crash_after_prefix_receipt
+pass:CASE-038:crash_before_checkpoint
+pass:CASE-040:reply_loss_retry
+accepted:AC-5:partition_stops_new_io
+accepted:AC-3:source_restart_uses_target_prefix
+accepted:AC-3:target_restart_rebuilds_verifier
+accepted:AC-6:cleanup_restart_reconciles_exact_stage
+accepted:AC-3:pending_effect_record_before_write
+accepted:AC-3:bytes_fsync_before_verifier_prefix
+accepted:AC-3:verifier_state_matches_durable_bytes
+accepted:AC-3:prefix_commit_before_ack
+accepted:AC-5:checkpoint_owed_reconciled
+accepted:AC-3:reply_loss_no_duplicate_write
+ok
+test policy_bounds_reject_oversized_frame_and_total_before_effect ... pass:CASE-026:oversized_frame_denied
+pass:CASE-027:oversized_total_denied
+denied:AC-2:queued_frames_n_plus_one_denied
+denied:AC-2:inflight_requests_n_plus_one_denied
+denied:AC-2:absolute_range_overflow_denied
+ok
+test real_source_and_target_stage_handles_are_exact_and_pathless ... pass:CASE-002:real_bundle_source
+pass:CASE-003:exact_target_stage
+pass:CASE-043:unsafe_path_denied
+accepted:AC-4:whole_bundle_allocation_absent
+accepted:AC-4:whole_bundle_digest_before_possession
+denied:AC-6:cleanup_wrong_stage_denied
+accepted:AC-7:path_and_raw_handle_absent
+denied:AC-7:unsafe_path_input_rejected
+ok
+test signed_catalog_manifest_and_incremental_ranges_are_verified ... pass:CASE-004:incremental_catalog_verify
+pass:CASE-025:wrong_manifest_denied
+accepted:AC-4:signed_manifest_key_generation_verified
+accepted:AC-4:signed_catalog_bytes_digest_verified
+accepted:AC-4:entry_order_and_identity_verified
+accepted:AC-4:entry_schema_verified
+accepted:AC-4:entry_range_length_digest_verified
+accepted:AC-4:chunk_index_range_digest_verified
+denied:AC-4:entry_gap_overlap_reorder_denied
+denied:AC-4:wrong_signing_generation_denied
+ok
+test subassertion_marker_denominator_matches_acceptance_map ... ok
+test wrong_source_target_route_and_cut_are_denied_before_bytes_move ... pass:CASE-007:wrong_source_denied
+pass:CASE-008:wrong_target_denied
+pass:CASE-009:wrong_polis_denied
+pass:CASE-010:wrong_domain_denied
+pass:CASE-011:wrong_lineage_denied
+pass:CASE-012:wrong_membership_cut_denied
+pass:CASE-013:stale_certificate_denied
+pass:CASE-014:wrong_boot_generation_denied
+denied:AC-1:source_target_swap_denied
+denied:AC-1:wrong_session_role_denied
+denied:AC-1:wrong_polis_binding_denied
+denied:AC-1:wrong_domain_binding_denied
+denied:AC-1:lineage_or_domain_drift_denied
+denied:AC-1:route_drift_midstream_denied
+denied:AC-1:membership_drift_midstream_denied
+denied:AC-1:certificate_drift_midstream_denied
+denied:AC-1:boot_drift_midstream_denied
+ok
+test wrong_transfer_and_incomplete_finish_are_denied ... ok
+
+test result: ok. 15 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+

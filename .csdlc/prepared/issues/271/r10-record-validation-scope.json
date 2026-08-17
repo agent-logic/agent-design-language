@@ -1,0 +1,20 @@
+{
+  "issue": 271,
+  "card": "sor",
+  "expected_generation": 7,
+  "expected_digest": "f2f7488f640e3db6535599121b0e9e20ef65b31287d7d2f5e29fa8845f5312ff",
+  "actor": "codex:sprint5-271-validation",
+  "reason": "Record #271 validation: Post-bind exact three product/test path scope proof",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "python3",
+        ".csdlc/evidence/271/validate_exact_three_path_scope.py"
+      ],
+      "purpose": "Post-bind exact three product/test path scope proof",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/evidence/271/exact-three-path-scope.log; rejected=[]"
+    }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "issue": 271,
+  "card": "sor",
+  "expected_generation": 6,
+  "expected_digest": "d4abeaf61465335ccdc4e15107e7af09216fa40e15e0b704bec752bfa9d3d3a7",
+  "actor": "codex:sprint5-271-validation",
+  "reason": "Record #271 validation: Layer 8 Observatory exact-eight browser/UI proof consuming issue-local handler-output handoff",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": [
+        "bash",
+        "adl/tools/validate_layer8_authority_observatory_ui.sh"
+      ],
+      "purpose": "Layer 8 Observatory exact-eight browser/UI proof consuming issue-local handler-output handoff",
+      "outcome": "passed",
+      "evidence_ref": ".csdlc/evidence/271/layer8-observatory-ui.log; exact eight cases passed"
+    }
+  }
+}

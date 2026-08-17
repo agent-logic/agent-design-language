@@ -86,6 +86,42 @@ assert.deepEqual(rows.map((row) => row.displayName), ["Scribe", "Shepherd"]);
 assert.deepEqual(rows.map((row) => row.state), ["delivered", "timed_out"]);
 assert.equal(rows[1].detail, "recipient_delivery_timed_out");
 
+const unavailableRows = observatory.buildGovernedRoomRows({
+  schema: "adl.runtime.governed_room_route.v1",
+  status: "partial_delivery",
+  room_id: "room-scribe-shepherd",
+  turn_id: "room-turn-2",
+  turn_sequence: 8,
+  addressed_recipients: ["scribe", "shepherd"],
+  mentions: [
+    { schema: "adl.runtime.governed_room_mention.v1", room_id: "room-scribe-shepherd", turn_id: "room-turn-2", recipient_id: "scribe", display_name: "Scribe" },
+    { schema: "adl.runtime.governed_room_mention.v1", room_id: "room-scribe-shepherd", turn_id: "room-turn-2", recipient_id: "shepherd", display_name: "Shepherd" }
+  ],
+  deliveries: [
+    { recipient_id: "scribe", state: "unavailable", error: "recipient_unavailable" },
+    { recipient_id: "shepherd", state: "revoked", error: "recipient_revoked" }
+  ]
+});
+assert.deepEqual(unavailableRows.map((row) => row.state), ["unavailable", "revoked"]);
+assert.deepEqual(unavailableRows.map((row) => row.detail), ["recipient_unavailable", "recipient_revoked"]);
+
+for (const [error, state] of [
+  ["duplicate_room_turn", "refused"],
+  ["reordered_room_turn", "refused"]
+]) {
+  const refusedRows = observatory.buildGovernedRoomRows({
+    schema: "adl.runtime.governed_room_route.v1",
+    status: state,
+    room_id: "room-scribe-shepherd",
+    turn_id: `room-${error}`,
+    turn_sequence: 8,
+    addressed_recipients: ["scribe"],
+    error
+  });
+  assert.deepEqual(refusedRows.map((row) => row.state), [state]);
+  assert.deepEqual(refusedRows.map((row) => row.detail), [error]);
+}
+
 const html = readFileSync(htmlPath, "utf8");
 const app = readFileSync(appPath, "utf8");
 for (const requiredId of [
@@ -116,6 +152,8 @@ console.log(JSON.stringify({
     "implicit_broadcast_denied",
     "room_recipient_limit_enforced",
     "partial_delivery_rows_attributed",
+    "unavailable_and_revoked_rows_attributed",
+    "duplicate_and_reordered_refusals_visible",
     "static_room_dom_anchors_present",
     "served_room_route_frames_dispatched"
   ]

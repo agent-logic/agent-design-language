@@ -1,0 +1,129 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 271,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.02d][112.d] Integrate Layer 8 authority and delivery states into Observatory",
+    "slug": "layer8-authority-observatory",
+    "version": "v0.92.0",
+    "generation": 22
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Preparation validation runs now; runtime/browser/scope wrappers are required after bind and before implementation review/publication.",
+      "lanes": [
+        {
+          "lane": "dependency-scope-and-review-readiness",
+          "proof_role": "Prove canonical terminal dependencies, exact current-main base, declared path scope, exact lock scope, and deterministic packet readiness for separate fresh design review.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-5",
+            "AC-9"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 3000,
+          "argv": [
+            "python3",
+            ".csdlc/prepared/issues/271/validate_preparation_bundle.py"
+          ],
+          "parallel_group": "271-serial-01",
+          "defer_reason": null
+        },
+        {
+          "lane": "recipient-ack-runtime-existing-handler",
+          "proof_role": "Run the existing real adl-runtime-kernel recipient_ack handler target, parse the nonzero denominator, and retain the authentic public handler-output artifact consumed by browser fixtures under issue-local evidence.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-4",
+            "AC-7",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 300,
+          "budget_tokens": 5000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "recipient_ack",
+            "--",
+            "--nocapture"
+          ],
+          "parallel_group": "271-serial-02",
+          "defer_reason": "Deferred until bound implementation captures the existing-handler denominator and source-grounded handler-output artifact under issue-local evidence."
+        },
+        {
+          "lane": "observatory-browser-exact-eight",
+          "proof_role": "Exercise actual Observatory assets through the literal eight-case exact-set browser wrapper with per-test nonzero assertions and zero/ignored/skipped/missing/duplicated case rejection while consuming authentic issue-local handler-output evidence rather than loopback-only data.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-6",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 300,
+          "budget_tokens": 5500,
+          "argv": [
+            "bash",
+            "adl/tools/validate_layer8_authority_observatory_ui.sh"
+          ],
+          "parallel_group": "271-serial-03",
+          "defer_reason": "Deferred until bound implementation creates the exact browser wrapper and consumes authentic handler-derived public response fixtures from .csdlc/evidence/271 rather than mocked conversation frames."
+        },
+        {
+          "lane": "post-bind-exact-three-path-scope",
+          "proof_role": "After bind, compare the bound branch from its exact execution base to current main and reject any product/test path outside app.js, styles.css, and validate_layer8_authority_observatory_ui.sh, while allowing issue-local lifecycle/evidence surfaces.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 90,
+          "budget_tokens": 1000,
+          "argv": [
+            "python3",
+            ".csdlc/evidence/271/validate_exact_three_path_scope.py"
+          ],
+          "parallel_group": "271-serial-04",
+          "defer_reason": "Deferred until bind establishes the execution base and evidence directory."
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Prove clean patch structure before review.",
+          "acceptance_ids": [
+            "AC-5",
+            "AC-9"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 90,
+          "budget_tokens": 1000,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "271-serial-05",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on unknown schema/status, malformed response, unavailable Runtime, redaction uncertainty, scope drift, missing proof, denominator mismatch, zero/ignored/skipped browser cases, non-authentic handler-output fixture evidence, or a new non-issue-local runtime wrapper script.",
+      "design_ref": ".csdlc/prepared/issues/271/design.md",
+      "design_digest": "a3545d85a11d70829e5ca722da074aaa51dddb6f14d0e23f3e7cac3559fda42d",
+      "diagram_ref": ".csdlc/prepared/issues/271/diagram.mmd",
+      "diagram_digest": "c67a465e8c202e2022435f246471649a1c542179458bb21fe5deecdf2c3625be"
+    }
+  }
+}

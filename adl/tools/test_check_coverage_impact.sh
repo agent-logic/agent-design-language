@@ -376,6 +376,20 @@ grep -Fx "runtime_v3_observatory_serving_eligibility" "$observatory_serving_elig
 observatory_serving_eligibility_expression="$(bash "$SCRIPT" --changed-files "$observatory_serving_eligibility_changed" --print-risk-nextest-expression)"
 grep -Fx "binary_id(adl-runtime::distributed_observatory_serving_eligibility) or (binary_id(adl-runtime) and test(/^distributed::observatory_serving_eligibility::tests::/))" <<<"$observatory_serving_eligibility_expression" >/dev/null
 
+integrated_serving_authority_changed="$TMP/integrated-serving-authority-changed.txt"
+printf 'M\tadl-runtime/src/distributed/integrated_serving_authority_snapshot.rs\t409\n' >"$integrated_serving_authority_changed"
+integrated_serving_authority_filters="$TMP/integrated-serving-authority-filters.txt"
+bash "$SCRIPT" --changed-files "$integrated_serving_authority_changed" --print-risk-filters >"$integrated_serving_authority_filters"
+grep -Fx "runtime_v3_integrated_serving_authority" "$integrated_serving_authority_filters" >/dev/null
+[ "$(wc -l <"$integrated_serving_authority_filters" | tr -d ' ')" -eq 1 ]
+integrated_serving_authority_expression="$(bash "$SCRIPT" --changed-files "$integrated_serving_authority_changed" --print-risk-nextest-expression)"
+grep -Fx "binary_id(adl-runtime::distributed_integrated_serving_authority) or (binary_id(adl-runtime) and test(/^distributed::integrated_serving_authority_snapshot::tests::/))" <<<"$integrated_serving_authority_expression" >/dev/null
+if bash "$SCRIPT" --changed-files "$integrated_serving_authority_changed" --require-summary-for-risk >"$TMP/integrated-serving-authority-missing-summary.out" 2>&1; then
+  echo "expected integrated serving authority source change to require focused coverage summary" >&2
+  exit 1
+fi
+grep -F "generate focused summary: bash adl/tools/run_pr_fast_coverage_lane.sh --filter-expression 'binary_id(adl-runtime::distributed_integrated_serving_authority) or (binary_id(adl-runtime) and test(/^distributed::integrated_serving_authority_snapshot::tests::/))'" "$TMP/integrated-serving-authority-missing-summary.out" >/dev/null
+
 authority_identity_combined="$TMP/authority-identity-combined.txt"
 cat >"$authority_identity_combined" <<'EOF'
 A	adl-runtime/src/distributed/authority_protocol.rs	1727

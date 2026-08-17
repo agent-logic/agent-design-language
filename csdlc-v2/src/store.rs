@@ -1845,6 +1845,21 @@ pub struct ApproveDesignRequest {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct RecoverDesignReviewRequest {
+    pub issue: u64,
+    pub expected_phase: LifecyclePhase,
+    pub expected_generation: u64,
+    pub expected_digest: String,
+    pub previous_reviewer: String,
+    pub previous_revision: String,
+    pub false_reviewer: String,
+    pub actor: String,
+    pub reason: String,
+    pub disposition: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, JsonSchema)]
 pub struct PreservedAuthoredArtifact {
     pub path: String,
     pub byte_sha256: String,
@@ -1982,6 +1997,153 @@ struct InitializedRecoveryJournalTarget {
 
 pub fn approve_design(store: &Store, request: ApproveDesignRequest) -> Result<IssueRecord> {
     approve_design_with_hook(store, request, |_| {})
+}
+
+pub fn recover_design_review(
+    store: &Store,
+    request: RecoverDesignReviewRequest,
+) -> Result<IssueRecord> {
+    let _lock = store.lock(request.issue)?;
+    store.recover_if_needed(request.issue)?;
+    if request.issue == 0
+        || request.expected_digest.trim().is_empty()
+        || request.previous_reviewer.trim().is_empty()
+        || request.previous_revision.trim().is_empty()
+        || request.false_reviewer.trim().is_empty()
+        || request.actor.trim().is_empty()
+        || request.reason.trim().is_empty()
+        || request.disposition.trim().is_empty()
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "design review recovery requires exact authority, CAS, actor, reason, and disposition",
+        ));
+    }
+    if request.false_reviewer != request.previous_reviewer {
+        return Err(V2Error::new(
+            ErrorCode::InvalidInput,
+            "false reviewer must equal the current approved reviewer",
+        ));
+    }
+
+    let mut record = store.load_record(request.issue)?;
+    if record.generation != request.expected_generation {
+        return Err(V2Error::new(
+            ErrorCode::StaleGeneration,
+            "design review recovery generation is stale",
+        ));
+    }
+    if record.digest != request.expected_digest {
+        return Err(V2Error::new(
+            ErrorCode::StaleDigest,
+            "design review recovery digest is stale",
+        ));
+    }
+    if record.phase != request.expected_phase
+        || !matches!(
+            record.phase,
+            LifecyclePhase::Bound | LifecyclePhase::Implemented
+        )
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "design review recovery requires the exact bound or implemented phase",
+        ));
+    }
+    if record.review_assignment.is_some()
+        || record.review.is_some()
+        || record.publication.is_some()
+        || record.readiness.is_some()
+        || record.migration.is_some()
+        || record.terminal.is_some()
+    {
+        return Err(V2Error::new(
+            ErrorCode::InvalidTransition,
+            "design review recovery refuses later lifecycle authority",
+        ));
+    }
+    let (reviewer, revision) = match &record.design_review {
+        DesignReview::Approved { reviewer, revision } => (reviewer, revision),
+        _ => {
+            return Err(V2Error::new(
+                ErrorCode::InvalidTransition,
+                "design review recovery requires a current approved review",
+            ))
+        }
+    };
+    if reviewer != &request.previous_reviewer || revision != &request.previous_revision {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "design review recovery approval identity or revision does not match",
+        ));
+    }
+
+    let branch = record.branch.as_deref().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "design review recovery requires a registered branch",
+        )
+    })?;
+    let worktree = record.worktree.as_deref().ok_or_else(|| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "design review recovery requires a registered worktree",
+        )
+    })?;
+    let actual_root = fs::canonicalize(store.root())?;
+    let registered_root = fs::canonicalize(worktree).map_err(|error| {
+        V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            format!("registered worktree is unavailable: {error}"),
+        )
+    })?;
+    if actual_root != registered_root || crate::git::current_branch(store.root())? != branch {
+        return Err(V2Error::new(
+            ErrorCode::UnsafeCheckout,
+            "design review recovery invocation does not match registered topology",
+        ));
+    }
+    let registered = crate::git::worktrees(store.root())?
+        .into_iter()
+        .filter(|(candidate_branch, candidate_path)| {
+            candidate_branch == branch
+                && fs::canonicalize(candidate_path)
+                    .is_ok_and(|candidate| candidate == registered_root)
+        })
+        .count();
+    if registered != 1 {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "design review recovery topology is missing or ambiguous",
+        ));
+    }
+
+    let mut cards = store.load_cards(request.issue)?;
+    verify_cards(store, &record, &cards)?;
+    record.design_review = DesignReview::Pending;
+    record.generation += 1;
+    for values in cards.values_mut() {
+        values.identity.generation = record.generation;
+    }
+    record.audit.push(AuditEvent {
+        sequence: record.audit.len() as u64 + 1,
+        generation: record.generation,
+        actor: request.actor,
+        reason: serde_json::to_string(&serde_json::json!({
+            "reason": request.reason,
+            "disposition": request.disposition,
+            "previous_approval": {
+                "reviewer": request.previous_reviewer,
+                "revision": request.previous_revision,
+            },
+            "false_reviewer": request.false_reviewer,
+        }))?,
+        operation: "recover_design_review".into(),
+    });
+    hydrate_projections(&mut record, &cards)?;
+    record.digest = record_digest(&record)?;
+    store.commit(request.issue, &record, &cards, false)?;
+    Ok(record)
 }
 
 pub fn recover_initialized_decomposition(

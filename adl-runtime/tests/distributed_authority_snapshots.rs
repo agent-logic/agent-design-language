@@ -21,6 +21,19 @@ mod membership;
 #[allow(dead_code)]
 #[path = "../src/distributed/migration.rs"]
 mod migration;
+mod integrated_serving_authority_snapshot {
+    pub use adl_runtime::distributed::integrated_serving_authority_snapshot::*;
+}
+mod shepherd_serving_eligibility {
+    pub use adl_runtime::distributed::shepherd_serving_eligibility::*;
+}
+#[cfg(feature = "internal-test-fixtures")]
+mod distributed {
+    pub use adl_runtime::distributed::{
+        authority_protocol, observatory_serving_eligibility, polis_runtime, serving_authority,
+        shepherd_serving_eligibility,
+    };
+}
 #[allow(dead_code)]
 #[path = "../src/distributed/placement.rs"]
 mod placement;
@@ -449,6 +462,10 @@ fn migration_record() -> MigrationRecord {
         activation_certificate_sha256: None,
         commit_log_index: None,
         commit_certificate_sha256: None,
+        serving_operation_ref: None,
+        serving_input_sha256: None,
+        serving_result_state_sha256: None,
+        serving_receipt_sha256: None,
         history: vec![TransitionEvidence {
             phase: MigrationPhase::Prepared,
             evidence_sha256: [3; 32],
@@ -568,6 +585,10 @@ fn recovery_record() -> RecoveryRecord {
         owner_epoch: None,
         committed_log_index: None,
         authority_certificate_sha256: None,
+        serving_operation_ref: None,
+        serving_input_sha256: None,
+        serving_result_state_sha256: None,
+        serving_receipt_sha256: None,
         history: vec![RecoveryEvidence {
             phase: RecoveryPhase::Assessing,
             evidence_sha256: [6; 32],

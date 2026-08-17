@@ -1,0 +1,181 @@
+{
+  "issue": 271,
+  "card": "stp",
+  "expected_generation": 0,
+  "expected_digest": "427c7092ef1bf5d68ea6efbba1a063795c3c34559e7d50af6e305aaf5420b123",
+  "actor": "codex:issue-271-r2-remediation",
+  "reason": "Address R2 design review findings: literal browser eight-case exact-set wrapper, exact five-test recipient_ack runtime wrapper with parsed denominator, post-bind/base-to-current exact three-path scope validator, and source-grounded authentic handler-output artifact handoff.",
+  "operation": {
+    "operation": "replace_acceptance_plan",
+    "acceptance_criteria": [
+      "AC-1: #112/#265/#270 terminal caches validate canonical and their merges are ancestral to the execution base.",
+      "AC-2: Observatory consumes only the served #270 response schema and never treats request acceptance as delivery.",
+      "AC-3: Delivered, refused, failed, revoked, and recovery states are distinct, visible, accessible, and action-safe.",
+      "AC-4: Raw correlation identifiers, signed messages, private keys, proof hashes, provider payloads, policy details, and opaque signed request/acknowledgement material do not render, log, cache, or persist.",
+      "AC-5: Post-bind scope validation compares the bound branch from its exact execution base to current main and accepts exactly three product/test paths: demos/html-observatory/app.js, demos/html-observatory/styles.css, and adl/tools/validate_layer8_authority_observatory_ui.sh, plus issue-local lifecycle/evidence surfaces.",
+      "AC-6: The browser wrapper exercises the actual Observatory assets through the literal eight-case exact set: delivered, signed refusal, malformed response failure, unavailable Runtime recovery, revoked demotion, action release, keyboard/live-region accessibility, and forbidden-field non-disclosure; every case must be nonzero and zero/ignored/skipped/missing/duplicated cases fail closed.",
+      "AC-7: The runtime wrapper invokes the real adl-runtime-kernel recipient_ack handler path, parses the denominator, and passes only when exactly five nonzero tests cover delivered acknowledgement, signed refusal, generation binding, malformed/unknown status rejection, and raw-correlation redaction.",
+      "AC-8: Browser fixtures consume a source-grounded authentic handler-output artifact handoff from the runtime wrapper; loopback-only or mocked conversation-frame evidence is not accepted.",
+      "AC-9: Fresh design review and fresh exact-head implementation review have no actionable findings before publication."
+    ],
+    "steps": [
+      {
+        "id": "S1",
+        "action": "Validate terminal #112/#265/#270 dependencies, current-main base, exact scope, and collision freedom without binding or product edits.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-5"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S2",
+        "action": "Obtain fresh design review over the repaired design/card packet and bind #271 through typed v2 in FastWork only if the review passes.",
+        "acceptance_ids": [
+          "AC-9"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S3",
+        "action": "Implement the Runtime-owned acknowledgement adapter and distinct accessible UI states within the exact three product/test paths.",
+        "acceptance_ids": [
+          "AC-2",
+          "AC-3",
+          "AC-4",
+          "AC-5"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S4",
+        "action": "Implement the exact five-test recipient_ack runtime wrapper and use its source-grounded authentic handler-output artifact handoff as the browser fixture source.",
+        "acceptance_ids": [
+          "AC-7",
+          "AC-8"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S5",
+        "action": "Implement the literal eight-case browser wrapper with per-test nonzero assertions and zero/ignored/skipped/missing/duplicated case rejection.",
+        "acceptance_ids": [
+          "AC-3",
+          "AC-4",
+          "AC-6",
+          "AC-8"
+        ],
+        "status": "pending"
+      },
+      {
+        "id": "S6",
+        "action": "Run exact validation, fresh exact-head implementation review, publication, CI, finish, and release #278 only after terminal ancestry.",
+        "acceptance_ids": [
+          "AC-6",
+          "AC-7",
+          "AC-8",
+          "AC-9"
+        ],
+        "status": "pending"
+      }
+    ],
+    "validation_lanes": [
+      {
+        "lane": "dependency-scope-and-review-readiness",
+        "proof_role": "Prove canonical terminal dependencies, exact current-main base, declared path scope, exact lock scope, and deterministic packet readiness for separate fresh design review.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-5",
+          "AC-9"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 120,
+        "budget_tokens": 3000,
+        "argv": [
+          "python3",
+          ".csdlc/prepared/issues/271/validate_preparation_bundle.py"
+        ],
+        "parallel_group": "271-serial-01",
+        "defer_reason": null
+      },
+      {
+        "lane": "recipient-ack-runtime-exact-five",
+        "proof_role": "Run the exact five-test wrapper for the real adl-runtime-kernel recipient_ack handler path, parse the denominator, and emit the authentic public handler-output artifact consumed by browser fixtures.",
+        "acceptance_ids": [
+          "AC-2",
+          "AC-4",
+          "AC-7",
+          "AC-8"
+        ],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 300,
+        "budget_tokens": 5000,
+        "argv": [
+          "bash",
+          "adl/tools/validate_layer8_recipient_ack_runtime_exact.sh"
+        ],
+        "parallel_group": "271-serial-02",
+        "defer_reason": "Deferred until bound implementation creates the exact wrapper and source-grounded handler-output artifact."
+      },
+      {
+        "lane": "observatory-browser-exact-eight",
+        "proof_role": "Exercise actual Observatory assets through the literal eight-case exact-set browser wrapper with per-test nonzero assertions and zero/ignored/skipped/missing/duplicated case rejection.",
+        "acceptance_ids": [
+          "AC-2",
+          "AC-3",
+          "AC-4",
+          "AC-6",
+          "AC-8"
+        ],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 300,
+        "budget_tokens": 5500,
+        "argv": [
+          "bash",
+          "adl/tools/validate_layer8_authority_observatory_ui.sh"
+        ],
+        "parallel_group": "271-serial-03",
+        "defer_reason": "Deferred until bound implementation creates the exact browser wrapper and consumes authentic handler-derived public response fixtures rather than mocked conversation frames."
+      },
+      {
+        "lane": "post-bind-exact-three-path-scope",
+        "proof_role": "After bind, compare the bound branch from its exact execution base to current main and reject any product/test path outside app.js, styles.css, and validate_layer8_authority_observatory_ui.sh, while allowing issue-local lifecycle/evidence surfaces.",
+        "acceptance_ids": [
+          "AC-5"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 90,
+        "budget_tokens": 1000,
+        "argv": [
+          "python3",
+          ".csdlc/evidence/271/validate_exact_three_path_scope.py"
+        ],
+        "parallel_group": "271-serial-04",
+        "defer_reason": "Deferred until bind establishes the execution base and evidence directory."
+      },
+      {
+        "lane": "diff-hygiene",
+        "proof_role": "Prove clean patch structure before review.",
+        "acceptance_ids": [
+          "AC-5",
+          "AC-9"
+        ],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 90,
+        "budget_tokens": 1000,
+        "argv": [
+          "git",
+          "diff",
+          "--check"
+        ],
+        "parallel_group": "271-serial-05",
+        "defer_reason": null
+      }
+    ]
+  }
+}

@@ -203,6 +203,51 @@ a {
   border-color: rgba(255, 198, 109, 0.36);
 }
 
+.mini-badge[data-tone="blocked"] {
+  color: var(--rose);
+  border-color: rgba(255, 122, 149, 0.38);
+}
+
+.layer8-delivery-panel {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.78rem;
+  background: rgba(12, 18, 27, 0.72);
+}
+
+.layer8-delivery-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+  gap: 0.55rem;
+  margin: 0.65rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.layer8-delivery-row {
+  display: grid;
+  gap: 0.42rem;
+  min-height: 7rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.65rem;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.layer8-delivery-row[data-state="delivered"] {
+  border-color: rgba(142, 240, 176, 0.34);
+}
+
+.layer8-delivery-row[data-state="refused"],
+.layer8-delivery-row[data-state="failed"],
+.layer8-delivery-row[data-state="revoked"] {
+  border-color: rgba(255, 122, 149, 0.32);
+}
+
+.layer8-delivery-row[data-state="recovery"] {
+  border-color: rgba(255, 198, 109, 0.32);
+}
+
 .hero,
 .runtime-grid,
 .evidence-band {
