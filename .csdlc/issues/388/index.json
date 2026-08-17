@@ -4,43 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e10a02d2361925ec52b0b77c0a7a3e7dc8ef8b69527ba2ed22637ad434d727d5",
-  "phase": "reviewed",
-  "generation": 7,
-  "digest": "c3a0f09022dfae432814fce638b7bb77c4307a16c27cc2ab944274fa5de0d0c9",
+  "phase": "implemented",
+  "generation": 8,
+  "digest": "00421497fe1125365502881a7fa2442fe36027eb2c0d3e884bc525e991d60eec",
   "branch": "codex/388-implemented-card-truth-repair",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-388-implemented-card-truth-repair",
-  "review_assignment": {
-    "reviewer": "fresh-session:65b06b39-aac6-46ee-b6f1-08567d17479c",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:0e5852ba76248b8cdd8889aa6b05748f2273f936:66a54d40d358bfedc3c1403d7e790dc24065a0faf7f975ec71259b1e80db7bed",
-    "scope": [
-      "csdlc-v2/src/cards.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/tests/gate5.rs",
-      ".csdlc/issues/388",
-      ".csdlc/prepared/issues/388",
-      ".csdlc/evidence/388"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:65b06b39-aac6-46ee-b6f1-08567d17479c",
-    "scope": [
-      "csdlc-v2/src/cards.rs",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/tests/gate5.rs",
-      ".csdlc/issues/388",
-      ".csdlc/prepared/issues/388",
-      ".csdlc/evidence/388"
-    ],
-    "reviewed_revision": "git-blake3:0e5852ba76248b8cdd8889aa6b05748f2273f936:66a54d40d358bfedc3c1403d7e790dc24065a0faf7f975ec71259b1e80db7bed",
-    "findings": [],
-    "residual_risks": [
-      "Validation was evidence-based rather than rerun by the read-only reviewer.",
-      "Focused tests exercise the specified repair/refusal paths but do not exhaustively fuzz malformed audit histories or concurrent filesystem interference."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -55,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ad4da6dc7cfbaf77fd4d256906d449053f0ce026990c1fc356fb1f7bd47a5b2f",
+      "values_digest": "6b2aafdf0d53981d299e0531108c41fbf7d1e451abae492b0ccbae2c779f9598",
       "rendered_digest": "f5f0ee6d8684987ed56b858c183cfd0c047a386f082296d87becb52480476533",
       "ast_digest": "33261cccf844c3c06c0dc2baf00e437ca82b8bbd49da3a88fa9e17fa1764d04b"
     },
     "stp": {
-      "values_digest": "a99babf85e01365ed9568637c0bc697ca3e48882b088d8ecf826a5cab5d1b036",
+      "values_digest": "57871d5b5d46b92633a34de98a61591445b83ae19b6dea54e0ff7b529a1860d9",
       "rendered_digest": "4cc64fef144574f5474a4ef671a90ce0c19c10d73264a23d84d95ea76ca51eb6",
       "ast_digest": "e324125a8ad06f4e2b8362817f931c16f148d5e150f802eb8f3472e3fdefdea6"
     },
     "spp": {
-      "values_digest": "3364dc73e79d387149e490bdf7a918f65a74e311c63648d7eae6730cd2bdfc2a",
+      "values_digest": "0c7de0e66ede4242eca7668872fa69088f61e7dba1a2d2a2e73f9b0479cd95d4",
       "rendered_digest": "86f18144c1bda2360de6db1ad1f4a11558be484397b3cfe89606c562513e028c",
       "ast_digest": "96cde977e749a673d4b4cc0241eb90e3192817bd3cd4944da5a1a50610754950"
     },
     "vpp": {
-      "values_digest": "e97090660a2fcf82eece0b03eecf87a97c3f5cad13c383df84bc2eaf8c3b44ee",
+      "values_digest": "fc1eaacbd53f9e70c4d41362ab9c4467bac59ed57b5883118caca58f4b6383ce",
       "rendered_digest": "ec731370c3909e971560ad57d4aa09856a64acc3c5f4dc5a134d885ee6c78a0d",
       "ast_digest": "cf65fe0ecaa662e5800e88c05ab594fc4025324a0606266f0ca408039246e56e"
     },
     "srp": {
-      "values_digest": "27a3a9df01edc35ea0ab1a917cbae71d4c89a7de34b0f163db2224ed09b8794a",
-      "rendered_digest": "f02536ead7d6be69b7baf29efc35cb72de9e705bb93c9cbb9195a8f38a55e163",
-      "ast_digest": "67e5de3728c14f65008f938155ddd0a232ad52e190bf4c395180a2ee1e885022"
+      "values_digest": "84914f522d15108c95c496baa38eef8905c5e819482d83a0788a718a83eac687",
+      "rendered_digest": "00361b1e516c41080c211d8e242d74277a681ef314e7250214f63e8a4f0e9b1d",
+      "ast_digest": "d780e3c2e5f62c12b48d3fb9cd37e1321bfb7f2057dcb8e6de92f18b421ef9e8"
     },
     "sor": {
-      "values_digest": "4ab1c4fc1bbb060cb7e2675e08beb88bc75bf9c138190fa0b35a45e016782bdb",
-      "rendered_digest": "d18b68cd7cec03ecee36822fee961bd96ccd7a0102d3a66ef83718c6ee244fec",
-      "ast_digest": "ec6dc17f863f89f186aae4d7019f283d017d0c527fba058e4bb8f061e6a73aa8"
+      "values_digest": "06acfe51b1365f3d3d5355fa8ab53c3c9edaae7da39b858efcf6d55c0357db6c",
+      "rendered_digest": "786eb84220d5fc568b4bfc1bc9728133ffe06ac6987942619e47adc85482d530",
+      "ast_digest": "82ad4b8357b1042bee75556aee6fd44a00ad5886d6dbd4b7f5961abdae6a23c8"
     }
   },
   "transitions": [
@@ -113,6 +83,13 @@
       "to": "reviewed",
       "actor": "fresh-session:65b06b39-aac6-46ee-b6f1-08567d17479c",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover #388 review after merging current origin/main (#387/#389 card-truth repair surfaces) and resolving store.rs/gate5.rs conflicts before fresh exact-head review."
     }
   ],
   "audit": [
@@ -185,6 +162,13 @@
       "actor": "fresh-session:65b06b39-aac6-46ee-b6f1-08567d17479c",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Recover #388 review after merging current origin/main (#387/#389 card-truth repair surfaces) and resolving store.rs/gate5.rs conflicts before fresh exact-head review.",
+      "operation": "recover_review"
     }
   ]
 }

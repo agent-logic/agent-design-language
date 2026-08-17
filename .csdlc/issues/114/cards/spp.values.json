@@ -1,0 +1,155 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 114,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.04][coordination] Coordinate durable conversation history, continuity, and receipts",
+    "slug": "v0-92-wp-18c-04-coordinate-durable-conversation-history-continuity-receipts",
+    "version": "v0.92.0",
+    "generation": 109
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 17,
+      "summary": "Implemented #114 durable-history parent integration proof is complete within parent-only scope after #276, #277, and #278 terminal ancestry. Current recovery truth has cleared the invalid PASS/publication record; remaining gates are the validator/card-truth repair, focused proof, immutable commit, fresh no-context exact-head review PASS, typed republish with Closes #114, required CI green, and typed finish.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Confirm #114 remains parent-only and does not absorb #276, #277, #278, #271, #115, or #117 product implementation scope.",
+          "acceptance_ids": [
+            "AC-1"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S2",
+          "action": "Confirm the bound #114 worktree/branch are canonical and preserve historical authored design/diagram artifacts as reference evidence only.",
+          "acceptance_ids": [
+            "AC-2"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S3",
+          "action": "Validate terminal canonical caches and merge-SHA ancestry for #112, #265, #270, #271, #276, #277, and #278 from the parent proof head.",
+          "acceptance_ids": [
+            "AC-3"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S4",
+          "action": "Run the issue-owned validator for #114 identity, bound topology, preserved design/diagram digests, and parent-only dependency boundaries.",
+          "acceptance_ids": [
+            "AC-4"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S5",
+          "action": "Run the repository parent terminal-chain validator for #276/#277/#278 derived-terminal caches, merged dispositions, canonical generation/digest fields, merge-SHA ancestry, and focused integration-test marker presence only.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S6",
+          "action": "Run the focused Runtime kernel integration regression for durable history, restart, receipts, replay owner state, retention/deletion, and Observatory restoration coherence.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S7",
+          "action": "Run strict relevant Clippy and diff hygiene for the parent-only proof surface.",
+          "acceptance_ids": [
+            "AC-7"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S8",
+          "action": "Record SOR validation truth while leaving publication, merge, and closeout pending until typed publication/CI/finish complete.",
+          "acceptance_ids": [
+            "AC-8"
+          ],
+          "status": "completed"
+        },
+        {
+          "id": "S9",
+          "action": "Obtain fresh exact-head implementation review over the current clean immutable #114 revision.",
+          "acceptance_ids": [
+            "AC-9"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S10",
+          "action": "Publish and finish through typed owner routes only after review, base/head ancestry, linkage, and required CI are green.",
+          "acceptance_ids": [
+            "AC-10"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        ".csdlc/issues/114/audit.jsonl",
+        ".csdlc/issues/114/index.json",
+        ".csdlc/issues/114/cards/sip.md",
+        ".csdlc/issues/114/cards/sip.values.json",
+        ".csdlc/issues/114/cards/stp.md",
+        ".csdlc/issues/114/cards/stp.values.json",
+        ".csdlc/issues/114/cards/spp.md",
+        ".csdlc/issues/114/cards/spp.values.json",
+        ".csdlc/issues/114/cards/vpp.md",
+        ".csdlc/issues/114/cards/vpp.values.json",
+        ".csdlc/issues/114/cards/srp.md",
+        ".csdlc/issues/114/cards/srp.values.json",
+        ".csdlc/issues/114/cards/sor.md",
+        ".csdlc/issues/114/cards/sor.values.json",
+        ".csdlc/prepared/issues/114/validate_preparation_bundle.py",
+        ".csdlc/prepared/issues/114/design.md",
+        ".csdlc/prepared/issues/114/diagram.mmd"
+      ],
+      "invariants": [
+        "#114 parent remains coordination/integration-only and does not own child implementation",
+        "Existing gen0 design and diagram are preserved as historical reference evidence",
+        "Child execution order remains #276 then #277 then #278, followed by parent exact-revision integration proof",
+        "#270 acknowledgement trust is consumed but never redefined by #114 or #277",
+        "#112 slice worktrees and child branches/worktrees are out of scope for this recovery",
+        "Design review authority is not inferred from Planning assignment or prior implementation review; it must be fresh and exact-generation bound."
+      ],
+      "risks": [
+        "Typed initialized-decomposition recovery is new tooling from #291; fail closed on CAS, graph validation, artifact preservation, rendering, or doctor drift.",
+        "A fresh design/card reviewer may find residual lifecycle/card truth gaps; actionable findings must be repaired through typed routes before approval or bind.",
+        "#276/#277/#278 dependency state can still change before child execution begins."
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 86400,
+        "total_tokens": 240000,
+        "validation_seconds": 21600
+      },
+      "stop_conditions": [
+        "Any attempted #276, #277, #278, #271, #115, or #117 product implementation inside #114 parent scope",
+        "Any attempt to redefine #270 acknowledgement trust or #271 Observatory authority-state semantics in the parent proof",
+        "Any failed issue-owned validator, terminal-chain validator, focused Runtime kernel integration test, strict Clippy, csdlc-validate, or diff hygiene check",
+        "Any fresh exact-head review finding requiring source or lifecycle remediation",
+        "Any publication, CI, base/head, linkage, mergeability, or typed finish failure before terminal closeout"
+      ],
+      "replan_triggers": [
+        "#112, #265, #270, or #271 changes terminal scope before #276 starts",
+        "#276, #277, or #278 is further split or folded by Planning #1",
+        "Typed v2 tooling gains an initialized-phase identity-title, acceptance-plan, or SOR preparation repair route"
+      ],
+      "design_ref": ".csdlc/prepared/issues/114/design.md",
+      "design_digest": "b70cf7e77e06cad287166597bf0b70bfcd43392f6452325c905dcec6fab65c08",
+      "diagram_ref": ".csdlc/prepared/issues/114/diagram.mmd",
+      "diagram_digest": "b8e5984d673cff4cb398de9deeb653bfb7dda81c388243371d91bd7562bebf42"
+    }
+  }
+}

@@ -1,0 +1,46 @@
+# Structured Intent Prompt
+
+Template: 1.0.0
+
+Issue: 114
+
+Repository: agent-logic/agent-design-language
+
+Card: sip
+
+Status: ready
+
+## Goal
+
+Coordinate durable conversation history across #276, #277, and #278, then own only the exact-revision parent integration proof for restart, corruption, migration, retention, and deletion coherence.
+
+## Required Outcome
+
+The #114 parent integration proof is implemented in the bound worktree after terminal ancestry for #276, #277, and #278 was verified; #114 remains parent-only, does not absorb child scope, and now requires fresh exact-head review, typed publication, CI, and finish.
+
+## Scope
+
+- Coordinate and close the decomposed child chain #276 -> #277 -> #278 with parent exact-revision integration proof only after terminal child ancestry is verified.
+- Preserve the existing gen0 monolithic design and diagram as historical reference evidence only.
+- Consume terminal gates from #112 core, #265 Runtime ingress enforcement, #270 trusted acknowledgement API, and #271 Observatory authority-state integration without redefining their authority.
+- Own only final cross-child restart, retention, deletion, receipt, replay-owner, and Observatory transcript restoration coherence proof at the parent boundary.
+
+## Authority
+
+- #276 owns durable journal schema, storage, migrations, corruption recovery, and bounded retention/deletion foundation
+- #277 owns persisted watermarks, attempt-local idempotency, replay ownership, ambiguous-dispatch outcomes, delivery/response/ack receipts, and restart reconciliation while consuming #270 trust
+- #278 owns re-authorized history/search/export/redaction APIs and Observatory restoration while consuming #271 UI authority-state integration
+- #114 parent coordinates integration and must not redefine #270 acknowledgement trust or implement child product scope directly
+
+## Assumptions
+
+- Live #114 is now the coordination parent for decomposed children #276, #277, and #278; the preserved gen0 monolithic preparation bundle is historical reference evidence only.
+- #291 terminal authority introduced the typed initialized-decomposition recovery route used here; this recovery remains pre-bind and does not implement child product scope.
+
+## Operator Constraints
+
+- Work only in /Volumes/FastWork/adl-worktrees/adl-issue-114-durable-history-parent-integration-proof for #114 implementation, review, publication, and finish.
+- Use typed C-SDLC v2 owner routes for card truth, review, publication, CI readiness, and finish; keep the primary checkout inspection-only.
+- Preserve .csdlc/prepared/issues/114/design.md and diagram.mmd as historical reference evidence; do not treat them as current child implementation authority.
+- Do not absorb #276, #277, #278, #271, #115, #116, or #117 product scope into #114.
+- Publish and finish only after fresh exact-head review PASS, correct Closes #114 linkage, current base/head ancestry, required CI green, and typed finish authority.

@@ -7,7 +7,7 @@
     "title": "[C-SDLC v2][defect] Permit implemented-phase VPP/SOR/SPP truth repair for WP-18C parent closeout",
     "slug": "implemented-card-truth-repair",
     "version": "v0.92.0",
-    "generation": 7
+    "generation": 8
   },
   "status": "pre_phase",
   "content": {
@@ -106,7 +106,7 @@
           "evidence_ref": "388-typed-validate.log"
         }
       ],
-      "integration_state": "not_started",
+      "integration_state": "worktree_only",
       "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",

@@ -8,3 +8,4 @@
 {"sequence":8,"generation":6,"actor":"codex:/root","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
 {"sequence":9,"generation":6,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":10,"generation":7,"actor":"fresh-session:65b06b39-aac6-46ee-b6f1-08567d17479c","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":11,"generation":8,"actor":"codex:/root","reason":"Recover #388 review after merging current origin/main (#387/#389 card-truth repair surfaces) and resolving store.rs/gate5.rs conflicts before fresh exact-head review.","operation":"recover_review"}
