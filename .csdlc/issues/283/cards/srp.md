@@ -12,7 +12,9 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/issues/283
+.csdlc/prepared/issues/283
+.csdlc/evidence/283
 
 ## Prompts
 
@@ -31,12 +33,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- #288 owns shared ADR document/index/plan/manifest serialization; #283 intentionally records issue-local ADR 0065 evidence reconciliation only.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:5724cbf1f05ef59313a015505def6249852b8703:0b90e3995b39b1344665c2bfcf433b45e52d3515ab67313b67f07374854c50de")
 
-Reviewer: None
+Reviewer: Some("fresh-session:fb915b60-c681-402f-a445-b153a41b451f")
 
-Result: pre_review
+Result: pass
