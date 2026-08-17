@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": "adl-runtime-kernel/src/conversation_rooms.rs\nadl-runtime-kernel/src/control.rs\nadl-runtime-kernel/src/lib.rs\ndemos/html-observatory/app.js\ndemos/html-observatory/index.html\ndemos/html-observatory/styles.css\nadl/tools/validate_v092_governed_room_observatory.mjs\nadl/tools/test_html_observatory.sh\n.csdlc/prepared/issues/115/validate_governed_room_implementation.py\n.csdlc/issues/115",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

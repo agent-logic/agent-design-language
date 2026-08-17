@@ -6,10 +6,26 @@
   "initialization_digest": "6b431e21b2b0a61991853e1f3f4a1bf51241907edaac9389f1c22998ae3334e7",
   "phase": "implemented",
   "generation": 41,
-  "digest": "31743d3f5ff38a0aed838042fa46d391c95c29c0157899ac1ff225faf7857b1f",
+  "digest": "81c1d297bdf64febfad8cfb77cac0c5a40d77a9883c45da1ed84ed19177f1c73",
   "branch": "codex/115-governed-multi-agent-rooms",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-115-governed-multi-agent-rooms",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:c98af1d7-23f3-4826-a820-7d48a41dfb02",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:28da28014cf0db439100e08f4f8436e46ed61844:babb103592fd2dfef7aaf86fa2382ddcb6e5aaa8c6e43688f95822a60478c00e",
+    "scope": [
+      "adl-runtime-kernel/src/conversation_rooms.rs",
+      "adl-runtime-kernel/src/control.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/index.html",
+      "demos/html-observatory/styles.css",
+      "adl/tools/validate_v092_governed_room_observatory.mjs",
+      "adl/tools/test_html_observatory.sh",
+      ".csdlc/prepared/issues/115/validate_governed_room_implementation.py",
+      ".csdlc/issues/115"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +61,9 @@
       "ast_digest": "c3cb9142b38708e33c36615802b2a5697531c12af32bed39e5e2b63c43735771"
     },
     "srp": {
-      "values_digest": "34cac84b390b50e4622a1615b49fdfb235f671195ba55dcaed5b17a0a9937429",
-      "rendered_digest": "829cc05f432c149d408093e41eadae4b28ff7ab28d33e78727169556216aa222",
-      "ast_digest": "990b41c9dcd607326b4b831078342b01aa9f3876d7e39f18b7e0a6992102ae0e"
+      "values_digest": "622dc83570e7d1ce1018bce7aa3632f722b7d140ca88888ad9954c8b918e7913",
+      "rendered_digest": "2be66f687a49a4fa72624137eb0f767e58c68eae044a104c966c035b4ad8d401",
+      "ast_digest": "78f3712c7bc81b91dac930e61d9a36359327f45238a389ed457bb11ac64dcf0b"
     },
     "sor": {
       "values_digest": "abdd10c854a03d874be13e72ad54adc8c1494d37e6e38178c002984a20305239",
@@ -442,6 +458,13 @@
       "actor": "codex:/root",
       "reason": "Record focused proof after #115 R11 P1 first-turn sequence remediation.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3\",\".csdlc/prepared/issues/115/validate_governed_room_implementation.py\"],\"purpose\":\"Prove #115 governed-room Runtime and Observatory implementation after first-turn sequence-gap remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local run: fmt passed; conversation_rooms 6 passed; governed_room 3 passed including governed_room_ws_intent_rejects_non_initial_first_sequence; strict clippy passed; governed-room Observatory validator passed; HTML Observatory smoke passed; git diff --check passed\"}}"
+    },
+    {
+      "sequence": 53,
+      "generation": 41,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
