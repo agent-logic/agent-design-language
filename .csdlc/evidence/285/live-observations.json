@@ -1,0 +1,33 @@
+{
+  "schema": "adl.csdlc.evidence.adr0068_live_observations.v1",
+  "issue": 285,
+  "observed_utc": "2026-08-17T23:22:00Z",
+  "observations": {
+    "wp19_pr_289": {
+      "state": "MERGED",
+      "title": "[v0.92][WP-19] Birthday-to-governance evidence handoff",
+      "base": "main",
+      "head": "codex/5839-birthday-governance-handoff",
+      "head_sha": "042710838de804f4ccd85a46b48e8e6b7daab1a4",
+      "merge_sha": "7f88697ce82215188af941e15cf02a6220c9ad63"
+    },
+    "wp18_issue_5836_current_repo": "not_found",
+    "wp18_retained_record": {
+      "issue": 5836,
+      "phase": "initialized",
+      "generation": 44,
+      "digest": "e45f9365f8eaf2252922d7d7bd052791c616558816935b4d33ef2f865f47ca62",
+      "publication": null,
+      "terminal": null
+    },
+    "current_issue_285": {
+      "state": "OPEN",
+      "title": "[v0.92][ADR 0068][207.c] Reconcile birthday-to-governance handoff evidence"
+    }
+  },
+  "classification": {
+    "wp19": "terminal handoff evidence exists",
+    "wp18": "terminal birthday evidence not present in current terminal authority",
+    "adr0068": "reconciliation input only; not accepted"
+  }
+}

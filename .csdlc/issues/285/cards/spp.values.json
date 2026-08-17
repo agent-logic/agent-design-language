@@ -1,0 +1,79 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 285,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][ADR 0068][207.c] Reconcile birthday-to-governance handoff evidence",
+    "slug": "adr0068-birthday-governance-handoff-evidence-reconciliation",
+    "version": "v0.92",
+    "generation": 6
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "Create a narrow issue-local reconciliation packet for ADR 0068, validate terminal #5839 handoff evidence and the #5836 residual WP-18 terminal-proof gap, then route review/publication without touching shared ADR serialization surfaces.",
+      "steps": [
+        {
+          "id": "step-1",
+          "action": "Bind #285 and create issue-local evidence packet that classifies terminal, retained, absent, and residual proof surfaces.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "step-2",
+          "action": "Implement focused validator over #5839 terminal cache and #5836 retained non-terminal state.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "step-3",
+          "action": "Run validation, update SOR/SRP truth, obtain fresh review, publish, and finish if gates pass.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        ".csdlc/issues/285/",
+        ".csdlc/prepared/issues/285/",
+        ".csdlc/evidence/285/",
+        ".csdlc/evidence/285/validate_adr0068_birthday_governance_handoff_evidence.sh"
+      ],
+      "invariants": [
+        "No shared ADR/index/plan/manifest edits in #285.",
+        "No governance implementation or WP-18/WP-19 acceptance mutation.",
+        "Non-terminal or absent evidence is classified as a residual gap, never upgraded by inference."
+      ],
+      "risks": [
+        "Confusing retained #5836 implemented state with terminal birthday proof.",
+        "Treating #5839 handoff terminality as ADR acceptance or WP-18 completion.",
+        "Accidentally editing shared ADR serialization files before #288."
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 7200,
+        "total_tokens": 40000,
+        "validation_seconds": 1200
+      },
+      "stop_conditions": [
+        "Required retained or terminal evidence is absent in a way that cannot be truthfully recorded as a residual gap.",
+        "A needed change would touch shared ADR docs/index/plan/manifest before #288.",
+        "Typed lifecycle validation or review fails."
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/285/design.md",
+      "design_digest": "8bced2bb314f4473637ede6b96a685b496090857ddce4cf0c7f14dc7da8ef9cb",
+      "diagram_ref": ".csdlc/prepared/issues/285/diagram.mmd",
+      "diagram_digest": "38d8fbf4050d7a4985f363585e882cd1317bb35919f82fc6a07effb67c311d5f"
+    }
+  }
+}

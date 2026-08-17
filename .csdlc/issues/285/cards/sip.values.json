@@ -1,0 +1,36 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 285,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][ADR 0068][207.c] Reconcile birthday-to-governance handoff evidence",
+    "slug": "adr0068-birthday-governance-handoff-evidence-reconciliation",
+    "version": "v0.92",
+    "generation": 6
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Reconcile ADR 0068 birthday-to-governance handoff evidence under #207 using exact retained and terminal evidence with issue-local validation.",
+      "required_outcome": "Issue #285 has exact issue-local reconciliation truth for ADR 0068, including validated terminal #5839 evidence, explicit #5836 residual gap truth, and inputs ready for #207/#288 final serialization.",
+      "declared_scope": [
+        "ADR 0068 birthday-to-governance handoff evidence reconciliation for #207.",
+        "Issue-local evidence, validator, and lifecycle truth only."
+      ],
+      "authority_boundary": [
+        "Consumes WP-18/WP-19 evidence but cannot complete, weaken, or rewrite implementation acceptance for those owners.",
+        "Records absent or partial evidence as residual gaps; it does not infer terminal proof from retained local state.",
+        "Shared ADR docs, ADR index, final plan, and manifest remain frozen until #288."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Work in a bound FastWork issue worktree before implementation.",
+        "Run typed C-SDLC v2 lifecycle only for lifecycle writes.",
+        "Review with a fresh bounded reviewer before publication.",
+        "Preserve #207 parent and #288 final serialization boundaries."
+      ]
+    }
+  }
+}
