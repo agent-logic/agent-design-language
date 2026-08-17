@@ -1,0 +1,99 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 116,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18C.06] Build the operator attention inbox and intervention workflow",
+    "slug": "operator-attention-inbox",
+    "version": "v0.92",
+    "generation": 24
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 4,
+      "summary": "Bootstrap and review the #116 design, bind a dedicated FastWork worktree, implement the bounded Runtime and Observatory attention inbox seams, prove focused behavior, obtain exact review, publish, watch CI, and finish.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Bootstrap and approve the #116 design packet from current main and terminal dependency truth.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Bind #116 to a dedicated FastWork worktree and implement runtime attention request lifecycle and queue policy.",
+          "acceptance_ids": [
+            "AC-3"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Implement Observatory inbox projections, filters, deep links, notification preference state, and explicit intervention outcomes.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Run focused proof, strict hygiene, exact review, publication, CI, and terminal finish.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-7"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "adl-runtime-kernel/src/operator_attention.rs",
+        "adl-runtime-kernel/src/lib.rs",
+        "adl-runtime-kernel/tests/observatory.rs",
+        "demos/html-observatory/app.js",
+        "demos/html-observatory/index.html",
+        "demos/html-observatory/styles.css",
+        "demos/html-observatory/tests/operator_attention_inbox.test.mjs",
+        ".csdlc/prepared/issues/116/design.md",
+        ".csdlc/prepared/issues/116/diagram.mmd",
+        ".csdlc/prepared/issues/116/validate_preparation_bundle.py",
+        ".csdlc/issues/116",
+        ".csdlc/evidence/116"
+      ],
+      "invariants": [
+        "Attention requests are policy-visible and identity-bound",
+        "Operator responses are communication outcomes unless paired with an explicit authority action",
+        "Queue behavior is bounded, deterministic, and restart-safe",
+        "#117 and downstream proof children remain out of scope"
+      ],
+      "risks": [
+        "Alert flood if rate/dedup/grouping logic is weak",
+        "Authority confusion if reply/ack/refuse states imply approval",
+        "Spoofing risk if source identity is caller-controlled",
+        "Duplicate notifications after restart/reconnect"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 43200,
+        "total_tokens": 140000,
+        "validation_seconds": 7200
+      },
+      "stop_conditions": [
+        "Any missing terminal dependency gate",
+        "Any need to change #270/#271/#276/#277/#278 semantics",
+        "Any scope pull into #117/#279/#280/#281/#282",
+        "Any failed proof, actionable review finding, red CI, or publication guard failure"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/116/design.md",
+      "design_digest": "fff3d704ae4a24ffc15b6c2d2c1bf29d3fadfd68d539904bacbb273c5caa5351",
+      "diagram_ref": ".csdlc/prepared/issues/116/diagram.mmd",
+      "diagram_digest": "d3c7c13d82a8af2b3c5803e0f67faba2a8fddacc2362074f0310c274332b2162"
+    }
+  }
+}

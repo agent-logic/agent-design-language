@@ -12,9 +12,14 @@ use adl_runtime_kernel::{
     CanonicalIngress, ComponentRegistry, ControlAction, ControlApiPolicy, ControlAuthority,
     ControlCapability, ControlService, ExecutorError, FailureClass, Kernel, KernelExit,
     LifecycleControl, OperationExecutor, OperationRequest, OperationalAdapter, OperationalFactory,
+    OperatorAttentionError as AttentionError, OperatorAttentionIdentity as AttentionSourceIdentity,
+    OperatorAttentionInbox, OperatorAttentionOutcome as AttentionOutcome,
+    OperatorAttentionPriority as AttentionPriority, OperatorAttentionReason as AttentionReason,
+    OperatorAttentionRequestInput as AttentionRequestInput,
+    OperatorAttentionSettings as AttentionInboxConfig, OperatorAttentionStatus as AttentionStatus,
     RuntimeRecorder, SignedControlCommand, TrustedControlKey, ACIP_WEBSOCKET_SCHEMA,
     OBSERVATORY_FEED_SCHEMA, OBSERVATORY_WS_AUTH_SCHEMA, OBSERVATORY_WS_CONTROL_RESULT_SCHEMA,
-    OBSERVATORY_WS_PATH,
+    OBSERVATORY_WS_PATH, OPERATOR_ATTENTION_REQUEST_SCHEMA,
 };
 use async_trait::async_trait;
 use ed25519_dalek::SigningKey;
@@ -35,6 +40,400 @@ mod tls_support;
 use tls_support::TestPki;
 
 const ACIP_WRITE_TOKEN: &str = "test-acip-write-token-000000000001";
+
+fn attention_input(source: &str, correlation: &str) -> AttentionRequestInput {
+    AttentionRequestInput {
+        schema: OPERATOR_ATTENTION_REQUEST_SCHEMA.to_owned(),
+        source_agent_id: source.to_owned(),
+        source_identity: AttentionSourceIdentity {
+            agent_id: source.to_owned(),
+            principal_id: format!("{source}-principal"),
+            display_name: Some(format!("{source} display")),
+            can_mark_urgent: false,
+            can_request_attention: true,
+        },
+        reason: AttentionReason::Clarification,
+        priority: AttentionPriority::Normal,
+        correlation_id: correlation.to_owned(),
+        message: "Need operator guidance for the next bounded step.".to_owned(),
+        created_at_millis: 1_000,
+        expires_at_millis: Some(10_000),
+        related_conversation_id: Some("conversation-1".to_owned()),
+        related_work_id: Some("work-1".to_owned()),
+        group_key: Some("operator-work-group".to_owned()),
+    }
+}
+
+fn trust_attention_source(inbox: &mut OperatorAttentionInbox, source: &str, can_mark_urgent: bool) {
+    inbox
+        .trust_source(AttentionSourceIdentity {
+            agent_id: source.to_owned(),
+            principal_id: format!("{source}-principal"),
+            display_name: Some(format!("{source} display")),
+            can_mark_urgent,
+            can_request_attention: true,
+        })
+        .unwrap();
+}
+
+#[test]
+fn operator_attention_deduplicates_and_rate_limits_by_source() {
+    let mut inbox = OperatorAttentionInbox::new(AttentionInboxConfig {
+        capacity: 8,
+        max_active_per_source: 1,
+        max_message_chars: 256,
+        grouping_window_millis: 0,
+        ..AttentionInboxConfig::default()
+    })
+    .unwrap();
+    trust_attention_source(&mut inbox, "agent-a", false);
+    trust_attention_source(&mut inbox, "agent-b", false);
+    let first_id = inbox
+        .submit(attention_input("agent-a", "corr-agent-a-1"))
+        .unwrap()
+        .request_id
+        .clone();
+
+    let duplicate = inbox
+        .submit(attention_input("agent-a", "corr-agent-a-1"))
+        .unwrap();
+    assert_eq!(duplicate.request_id, first_id);
+    assert_eq!(duplicate.duplicate_count, 1);
+    assert_eq!(
+        inbox.submit(attention_input("agent-a", "corr-agent-a-2")),
+        Err(AttentionError::RateLimited)
+    );
+    let snapshot_before_stale_duplicate = inbox.snapshot(1_002);
+    let request_before_stale_duplicate = snapshot_before_stale_duplicate
+        .requests
+        .iter()
+        .find(|request| request.request_id == first_id)
+        .expect("request remains available")
+        .clone();
+    let mut stale_duplicate = attention_input("agent-a", "corr-agent-a-1");
+    stale_duplicate.created_at_millis = request_before_stale_duplicate
+        .updated_at_millis
+        .saturating_sub(1);
+    assert_eq!(
+        inbox.submit(stale_duplicate),
+        Err(AttentionError::InvalidRequest(
+            "request_timestamp_monotonic"
+        ))
+    );
+    let snapshot_after_stale_duplicate = inbox.snapshot(1_003);
+    let request_after_stale_duplicate = snapshot_after_stale_duplicate
+        .requests
+        .iter()
+        .find(|request| request.request_id == first_id)
+        .expect("request remains available after stale duplicate");
+    assert_eq!(
+        request_after_stale_duplicate.duplicate_count,
+        request_before_stale_duplicate.duplicate_count
+    );
+    assert_eq!(
+        request_after_stale_duplicate.updated_at_millis,
+        request_before_stale_duplicate.updated_at_millis
+    );
+
+    inbox
+        .submit(attention_input("agent-b", "corr-agent-b-1"))
+        .unwrap();
+    assert_eq!(inbox.snapshot(1_010).open_count, 2);
+}
+
+#[test]
+fn operator_attention_quiet_mode_suppresses_non_urgent_noise() {
+    let mut inbox = OperatorAttentionInbox::new(AttentionInboxConfig {
+        quiet_mode: true,
+        ..AttentionInboxConfig::default()
+    })
+    .unwrap();
+    trust_attention_source(&mut inbox, "agent-a", true);
+
+    assert_eq!(
+        inbox.submit(attention_input("agent-a", "corr-quiet-normal")),
+        Err(AttentionError::QuietModeSuppressed)
+    );
+
+    let mut urgent = attention_input("agent-a", "corr-quiet-urgent");
+    urgent.priority = AttentionPriority::Urgent;
+    urgent.source_identity.can_mark_urgent = true;
+    assert_eq!(
+        inbox.submit(urgent).unwrap().priority,
+        AttentionPriority::Urgent
+    );
+}
+
+#[test]
+fn operator_attention_groups_related_requests_without_new_rows() {
+    let mut inbox = OperatorAttentionInbox::new(AttentionInboxConfig {
+        grouping_window_millis: 500,
+        max_active_per_source: 4,
+        ..AttentionInboxConfig::default()
+    })
+    .unwrap();
+    trust_attention_source(&mut inbox, "agent-a", false);
+    let first_id = inbox
+        .submit(attention_input("agent-a", "corr-group-1"))
+        .unwrap()
+        .request_id
+        .clone();
+    let mut grouped = attention_input("agent-a", "corr-group-2");
+    grouped.created_at_millis = 1_250;
+    grouped.priority = AttentionPriority::High;
+    let grouped_result = inbox.submit(grouped).unwrap();
+    assert_eq!(grouped_result.request_id, first_id);
+    assert_eq!(grouped_result.grouped_count, 1);
+    assert_eq!(grouped_result.priority, AttentionPriority::High);
+    assert_eq!(inbox.snapshot(1_260).requests.len(), 1);
+
+    let mut later = attention_input("agent-a", "corr-group-3");
+    later.created_at_millis = 1_750;
+    later.group_key = Some("operator-work-group-later".to_owned());
+    inbox.submit(later).unwrap();
+    assert_eq!(inbox.snapshot(1_760).requests.len(), 2);
+}
+
+#[test]
+fn operator_attention_rejects_spoofed_identity_and_unauthorized_urgency() {
+    let mut inbox = OperatorAttentionInbox::new(AttentionInboxConfig::default()).unwrap();
+    trust_attention_source(&mut inbox, "agent-a", false);
+    let mut spoofed = attention_input("agent-a", "corr-spoofed");
+    spoofed.source_identity.agent_id = "agent-b".to_owned();
+    assert_eq!(
+        inbox.submit(spoofed),
+        Err(AttentionError::UnauthorizedSource)
+    );
+
+    let mut urgent = attention_input("agent-a", "corr-urgent-denied");
+    urgent.priority = AttentionPriority::Urgent;
+    assert_eq!(
+        inbox.submit(urgent),
+        Err(AttentionError::UnauthorizedUrgency)
+    );
+
+    let mut allowed = attention_input("agent-a", "corr-urgent-allowed");
+    allowed.priority = AttentionPriority::Urgent;
+    allowed.source_identity.can_mark_urgent = true;
+    assert_eq!(
+        inbox.submit(allowed.clone()),
+        Err(AttentionError::UnauthorizedUrgency),
+        "caller-controlled urgent privilege must not override trusted source policy"
+    );
+    trust_attention_source(&mut inbox, "agent-a", true);
+    assert_eq!(
+        inbox.submit(allowed).unwrap().priority,
+        AttentionPriority::Urgent
+    );
+
+    let mut forged_principal = attention_input("agent-a", "corr-principal");
+    forged_principal.source_identity.principal_id = "attacker-principal".to_owned();
+    assert_eq!(
+        inbox.submit(forged_principal),
+        Err(AttentionError::UnauthorizedSource)
+    );
+}
+
+#[test]
+fn operator_attention_outcomes_do_not_create_authority_approval() {
+    let mut inbox = OperatorAttentionInbox::new(AttentionInboxConfig::default()).unwrap();
+    trust_attention_source(&mut inbox, "agent-a", false);
+    let request_id = inbox
+        .submit(attention_input("agent-a", "corr-outcome"))
+        .unwrap()
+        .request_id
+        .clone();
+    let replied = inbox
+        .apply_outcome(
+            &request_id,
+            "operator-a",
+            AttentionOutcome::Reply {
+                message: "Acknowledged; continue only after Runtime authorization.".to_owned(),
+            },
+            1_100,
+        )
+        .unwrap();
+    assert_eq!(replied.status, AttentionStatus::Replied);
+    let encoded = serde_json::to_string(replied).unwrap();
+    assert!(!encoded.contains("approved"));
+    assert!(!encoded.contains("capability"));
+
+    inbox
+        .apply_outcome(&request_id, "operator-a", AttentionOutcome::Resolve, 1_101)
+        .unwrap();
+    assert_eq!(
+        inbox.apply_outcome(
+            &request_id,
+            "operator-a",
+            AttentionOutcome::Acknowledge,
+            1_102
+        ),
+        Err(AttentionError::TerminalRequest)
+    );
+}
+
+#[test]
+fn operator_attention_invalid_outcomes_do_not_mutate_request_state() {
+    let mut inbox = OperatorAttentionInbox::new(AttentionInboxConfig::default()).unwrap();
+    trust_attention_source(&mut inbox, "agent-a", false);
+    let request_id = inbox
+        .submit(attention_input("agent-a", "corr-invalid-outcome"))
+        .unwrap()
+        .request_id
+        .clone();
+
+    let before = inbox.snapshot(1_000);
+    let request_before = before
+        .requests
+        .iter()
+        .find(|request| request.request_id == request_id)
+        .cloned()
+        .unwrap();
+    let events_before = before.events.len();
+
+    assert_eq!(
+        inbox.apply_outcome(
+            &request_id,
+            "operator-a",
+            AttentionOutcome::Reply {
+                message: "   ".to_owned(),
+            },
+            1_100,
+        ),
+        Err(AttentionError::InvalidRequest("reply_required"))
+    );
+    assert_eq!(
+        inbox.apply_outcome(
+            &request_id,
+            "operator-a",
+            AttentionOutcome::Refuse {
+                reason: "".to_owned(),
+            },
+            1_101,
+        ),
+        Err(AttentionError::InvalidRequest("refusal_reason_required"))
+    );
+    assert_eq!(
+        inbox.apply_outcome(
+            &request_id,
+            "operator-a",
+            AttentionOutcome::Defer {
+                until_millis: 1_101
+            },
+            1_101,
+        ),
+        Err(AttentionError::InvalidRequest("defer_until_future"))
+    );
+    assert_eq!(
+        inbox.apply_outcome(&request_id, "operator-a", AttentionOutcome::Resolve, 999),
+        Err(AttentionError::InvalidRequest(
+            "outcome_timestamp_monotonic"
+        ))
+    );
+
+    let after = inbox.snapshot(1_200);
+    let request_after = after
+        .requests
+        .iter()
+        .find(|request| request.request_id == request_id)
+        .cloned()
+        .unwrap();
+    assert_eq!(request_after.status, request_before.status);
+    assert_eq!(
+        request_after.updated_at_millis,
+        request_before.updated_at_millis
+    );
+    assert_eq!(
+        request_after.operator_response,
+        request_before.operator_response
+    );
+    assert_eq!(
+        request_after.deferred_until_millis,
+        request_before.deferred_until_millis
+    );
+    assert_eq!(after.events.len(), events_before);
+}
+
+#[test]
+fn operator_attention_expiry_and_restart_preserve_receipts() {
+    let settings = AttentionInboxConfig::default();
+    let mut inbox = OperatorAttentionInbox::new(settings.clone()).unwrap();
+    trust_attention_source(&mut inbox, "agent-a", false);
+    let request_id = inbox
+        .submit(attention_input("agent-a", "corr-expiry"))
+        .unwrap()
+        .request_id
+        .clone();
+    assert_eq!(inbox.expire(10_000), 1);
+    let snapshot = inbox.snapshot(10_001);
+    assert_eq!(snapshot.open_count, 0);
+    assert_eq!(snapshot.requests[0].request_id, request_id);
+    assert_eq!(snapshot.requests[0].status, AttentionStatus::Expired);
+
+    let mut restored = OperatorAttentionInbox::restore(settings, snapshot).unwrap();
+    let snapshot_before_duplicate = restored.snapshot(10_002);
+    let events_before_duplicate = snapshot_before_duplicate.events.len();
+    let restored_before_duplicate = snapshot_before_duplicate
+        .requests
+        .iter()
+        .find(|request| request.request_id == request_id)
+        .expect("restored request remains available")
+        .clone();
+    let duplicate = restored
+        .submit(attention_input("agent-a", "corr-expiry"))
+        .unwrap();
+    assert_eq!(duplicate.request_id, request_id);
+    assert_eq!(duplicate.status, AttentionStatus::Expired);
+    assert_eq!(
+        duplicate.duplicate_count,
+        restored_before_duplicate.duplicate_count
+    );
+    assert_eq!(
+        duplicate.updated_at_millis,
+        restored_before_duplicate.updated_at_millis
+    );
+    assert_eq!(
+        restored.snapshot(10_003).events.len(),
+        events_before_duplicate
+    );
+}
+
+#[test]
+fn operator_attention_restore_rejects_malformed_snapshot_state() {
+    let settings = AttentionInboxConfig {
+        capacity: 1,
+        max_active_per_source: 1,
+        max_message_chars: 256,
+        ..AttentionInboxConfig::default()
+    };
+    let mut inbox = OperatorAttentionInbox::new(settings.clone()).unwrap();
+    trust_attention_source(&mut inbox, "agent-a", false);
+    let request = inbox
+        .submit(attention_input("agent-a", "corr-restore"))
+        .unwrap()
+        .clone();
+
+    let mut duplicate = inbox.snapshot(2_000);
+    duplicate.requests.push(request.clone());
+    assert_eq!(
+        OperatorAttentionInbox::restore(settings.clone(), duplicate).unwrap_err(),
+        AttentionError::InvalidRequest("snapshot_invalid")
+    );
+
+    let mut bad_schema = inbox.snapshot(2_000);
+    bad_schema.requests[0].schema = "wrong".to_owned();
+    assert_eq!(
+        OperatorAttentionInbox::restore(settings.clone(), bad_schema).unwrap_err(),
+        AttentionError::SchemaMismatch
+    );
+
+    let mut bad_event = inbox.snapshot(2_000);
+    bad_event.events[0].request_id = "missing".to_owned();
+    assert_eq!(
+        OperatorAttentionInbox::restore(settings, bad_event).unwrap_err(),
+        AttentionError::InvalidRequest("snapshot_event_invalid")
+    );
+}
 
 struct FakeLifecycle;
 
