@@ -4,6 +4,7 @@
   "cases": [
     "participants_filtered_and_state_mapped",
     "explicit_recipient_intent_sorted",
+    "per_room_turn_sequence_preserved_across_room_switching",
     "implicit_broadcast_denied",
     "room_recipient_limit_enforced",
     "partial_delivery_rows_attributed",

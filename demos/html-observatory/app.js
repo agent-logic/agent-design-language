@@ -475,6 +475,26 @@ function normalizeExplicitGovernedRoomRecipients(recipients) {
   return [...unique].sort();
 }
 
+function governedRoomIdentityForRecipients(recipients) {
+  const addressedRecipients = normalizeExplicitGovernedRoomRecipients(recipients);
+  return {
+    roomId: `room-${addressedRecipients.join("-")}`,
+    addressedRecipients
+  };
+}
+
+function nextGovernedRoomTurnSequence(sequenceByRoom, roomId) {
+  if (!(sequenceByRoom instanceof Map) || !isSafeGovernedRoomIdentifier(roomId)) {
+    throw new Error("invalid_room_turn");
+  }
+  const current = sequenceByRoom.get(roomId) || 1;
+  if (!Number.isSafeInteger(current) || current < 1) {
+    throw new Error("invalid_room_turn");
+  }
+  sequenceByRoom.set(roomId, current + 1);
+  return current;
+}
+
 function buildGovernedRoomTurnIntent({
   roomId,
   turnId,
@@ -2107,7 +2127,7 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
   const roomMessage = document.getElementById("governed-room-message");
   const roomSend = document.getElementById("send-governed-room-turn");
   const roomStatus = document.getElementById("governed-room-status");
-  let governedRoomTurnSequence = 1;
+  const governedRoomSequences = new Map();
   let conversationAuthorized = false;
   const rosterSearch = document.getElementById("roster-search");
   const rosterPresence = document.getElementById("roster-presence-filter");
@@ -2937,14 +2957,15 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
     try {
       const randomId = globalThis.crypto?.randomUUID?.().replaceAll("-", "") || `${Date.now().toString(16).padStart(32, "0")}`;
       const turnId = `room-turn-${randomId}`;
-      const roomId = `room-${recipients.join("-")}`;
+      const roomIdentity = governedRoomIdentityForRecipients(recipients);
+      const turnSequence = nextGovernedRoomTurnSequence(governedRoomSequences, roomIdentity.roomId);
       const intent = buildGovernedRoomTurnIntent({
-        roomId,
+        roomId: roomIdentity.roomId,
         turnId,
-        turnSequence: governedRoomTurnSequence,
+        turnSequence,
         senderId: "operator",
         correlationId: randomId,
-        recipients,
+        recipients: roomIdentity.addressedRecipients,
         message
       });
       const envelope = {
@@ -2961,7 +2982,6 @@ function bindLivePanopticon(packet = FALLBACK_PACKET) {
         state: "prepared",
         detail: "explicit recipient"
       })));
-      governedRoomTurnSequence += 1;
       if (roomMessage) roomMessage.value = "";
       if (roomStatus) roomStatus.textContent = "awaiting runtime";
       roomSend.disabled = true;
@@ -3085,6 +3105,8 @@ globalThis.AdlHtmlObservatory = {
   isSafeGovernedRoomIdentifier,
   normalizeGovernedRoomParticipants,
   normalizeExplicitGovernedRoomRecipients,
+  governedRoomIdentityForRecipients,
+  nextGovernedRoomTurnSequence,
   buildGovernedRoomTurnIntent,
   normalizeGovernedRoomRoute,
   buildGovernedRoomRows,

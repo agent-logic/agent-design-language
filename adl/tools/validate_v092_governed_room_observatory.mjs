@@ -35,6 +35,19 @@ assert.equal(intent.schema, "adl.runtime.governed_room_turn.v1");
 assert.deepEqual(intent.addressed_recipients, ["scribe", "shepherd"], "room recipients must be explicit and stable");
 assert.equal(intent.turn_sequence, 7);
 
+const roomSequences = new Map();
+const fullRoom = observatory.governedRoomIdentityForRecipients(["shepherd", "scribe"]);
+const scribeRoom = observatory.governedRoomIdentityForRecipients(["scribe"]);
+assert.equal(fullRoom.roomId, "room-scribe-shepherd");
+assert.equal(scribeRoom.roomId, "room-scribe");
+assert.equal(observatory.nextGovernedRoomTurnSequence(roomSequences, fullRoom.roomId), 1);
+assert.equal(observatory.nextGovernedRoomTurnSequence(roomSequences, scribeRoom.roomId), 1);
+assert.equal(
+  observatory.nextGovernedRoomTurnSequence(roomSequences, fullRoom.roomId),
+  2,
+  "returning to a prior governed room must use that room's next sequence"
+);
+
 for (const recipients of [[], ["all"], ["*"], ["scribe", "scribe"], ["bad recipient"]]) {
   assert.throws(
     () => observatory.buildGovernedRoomTurnIntent({
@@ -149,6 +162,7 @@ console.log(JSON.stringify({
   cases: [
     "participants_filtered_and_state_mapped",
     "explicit_recipient_intent_sorted",
+    "per_room_turn_sequence_preserved_across_room_switching",
     "implicit_broadcast_denied",
     "room_recipient_limit_enforced",
     "partial_delivery_rows_attributed",
