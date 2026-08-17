@@ -12,3 +12,4 @@
 {"sequence":12,"generation":8,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":13,"generation":9,"actor":"codex:/root","reason":"Recover failed exact review fresh-session:d2561236-2668-4999-a988-842c4d973fb1 before remediating its in-scope #280 recovery-sequence proof finding and assigning a different fresh reviewer.","operation":"recover_review"}
 {"sequence":14,"generation":9,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":15,"generation":10,"actor":"codex:/root","reason":"Recover active exact-head review assignment fresh-session:b9b23de4-b56e-4270-8bfd-292aca8e9858 because post-assignment proof evidence rerun found the committed preparation log still named the pre-refresh merge head; commit corrected evidence and reassign a new fresh reviewer.","operation":"recover_review"}

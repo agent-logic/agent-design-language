@@ -12,11 +12,7 @@ Status: draft
 
 ## Scope
 
-demos/html-observatory/app.js
-demos/html-observatory/tests/large_polis_performance_recovery.test.mjs
-.csdlc/prepared/issues/280/validate_preparation_bundle.py
-.csdlc/issues/280
-.csdlc/evidence/280
+
 
 ## Prompts
 
