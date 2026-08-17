@@ -7,21 +7,24 @@
     "title": "[v0.92][C-SDLC][defect] Support typed authored-design refresh after implemented review recovery",
     "slug": "implemented-authored-design-refresh",
     "version": "v0.92",
-    "generation": 26
+    "generation": 27
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "csdlc-v2/tests/estimation_contracts.rs\ncsdlc-v2/tests/gate10a.rs\ncsdlc-v2/tests/gate2.rs\n.csdlc/issues/296",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:2cbb7af54c101775e9ee3873cac64e6ec2276006:a41598c8e66d0d7e632ad0c704428eac31e7b4d0900d288f9d9b03028faac6a9",
+      "reviewer": "fresh-session:a12780a7-6a78-4485-bdff-2bd14fb84957",
       "review_prompts": [
         "Review every acceptance criterion with code, security, test, and evidence coverage, emphasizing lifecycle authority, stale approval invalidation, artifact TOCTOU and path safety, atomic SPP/VPP parity, append-only history, and exact fresh-review gating."
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Review treated 53b52e8a819a5549b0fb56eded4c618d76a1fa4a as non-substantive review-assignment metadata over the substantive r7 remediation head.",
+        "Review scope was limited to the standalone CI fixture remediation and #296 lifecycle record after PR #383 failed Gate 10A on noncanonical design reviewer identity."
+      ],
+      "review_result": "pass"
     }
   }
 }

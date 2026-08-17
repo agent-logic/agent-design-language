@@ -3,9 +3,9 @@
   "issue": 296,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "959b44fd61ec0393ad471311d39b13f254c41ca7f6e910dc8b5256529409cb2d",
-  "phase": "implemented",
-  "generation": 26,
-  "digest": "bd1936deac230e4f923b4ec8175d432aec420e64d2644dc130e5a0f7779cbf40",
+  "phase": "reviewed",
+  "generation": 27,
+  "digest": "4768b0ef72442576e291f15a2678542ee437a8566e8414053621dd07b8108e66",
   "branch": "codex/296-implemented-authored-design-refresh",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-296-implemented-authored-design-refresh",
   "review_assignment": {
@@ -19,7 +19,23 @@
       ".csdlc/issues/296"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:a12780a7-6a78-4485-bdff-2bd14fb84957",
+    "scope": [
+      "csdlc-v2/tests/estimation_contracts.rs",
+      "csdlc-v2/tests/gate10a.rs",
+      "csdlc-v2/tests/gate2.rs",
+      ".csdlc/issues/296"
+    ],
+    "reviewed_revision": "git-blake3:2cbb7af54c101775e9ee3873cac64e6ec2276006:a41598c8e66d0d7e632ad0c704428eac31e7b4d0900d288f9d9b03028faac6a9",
+    "findings": [],
+    "residual_risks": [
+      "Review treated 53b52e8a819a5549b0fb56eded4c618d76a1fa4a as non-substantive review-assignment metadata over the substantive r7 remediation head.",
+      "Review scope was limited to the standalone CI fixture remediation and #296 lifecycle record after PR #383 failed Gate 10A on noncanonical design reviewer identity."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -34,32 +50,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d67ddffce121c5415e0edc411019c4ed314332a5e00b7992d16d14b8e1f6d469",
+      "values_digest": "b9c3a24bcb83e0c29bb22543424a2fb1bcb1ebe337f82ce991f8eb24991fda39",
       "rendered_digest": "57c636d2e2f6070a237866654cd4127dbe7a4fc5f191741e071ab2535642984d",
       "ast_digest": "6461b0f59b4c2a6f6dd2f9f13bacb203b861d859e8d58f33bd7ed07b42bb5c79"
     },
     "stp": {
-      "values_digest": "64b4a14cf7397648b639da97c38ca641f7ef45c4bdea0b4edf5cd82af956128d",
+      "values_digest": "406a685ed788caeca77213a3d9380b011689b4b88f82ed4ed0e209702e3cf98f",
       "rendered_digest": "11159f0d7f9983633a92db76cd8c7649cdf3e4810b7c6a017d81f64ce614aa8a",
       "ast_digest": "95e8ab9c66e490f856cc459c14f4eb65807a2bd7ec63956cacf2d5441087e983"
     },
     "spp": {
-      "values_digest": "f778e6eb5e89a0d5f324ae9a1c9f15efe2ed0e15cd6efbec9eb0f36ef88ef09e",
+      "values_digest": "0f5b47839efc5213741e572985b0b9806ebb9e3aa33827d9c25ca16268598212",
       "rendered_digest": "a4d0b4299567ee7fee32a6bfa3ff8a9613f985311842df815ae5cc7c4d74c274",
       "ast_digest": "a90a4d80862cdfe7a6a938432ac9b0c93be84e046765dcbc5964a24f01ffb8b3"
     },
     "vpp": {
-      "values_digest": "28194eaf015ea4aae380f04a4c06bae718da9646234ac22c3f2810441213b976",
+      "values_digest": "cb06c5effc705bbd24fe4fde6e3281afe210c7eeb1aa822b3c150fca74c4cdc3",
       "rendered_digest": "910bf36f49d48ff8a442c83ed765f5a9e581a737ff3459adc22939a7e754be17",
       "ast_digest": "9a6d9e9f0fca538be0c8fbde6452928f1bca0298ec6bd09822c0a6e3979431f8"
     },
     "srp": {
-      "values_digest": "a9f172093efaa338bb637303e3a79d2dc8b18ebb852d3bfc0163a329dbdd3c33",
-      "rendered_digest": "d77eeef31de44799ef257e724591c1701c59ced04ce61840e83af839c9f7f93c",
-      "ast_digest": "f0beaa06e19a4ecf8ed7a534559f34a5058c230382d100b1089e8739999df895"
+      "values_digest": "c6e8c9bc70bae264219d8afd0f143de8e69dd120329d6f8f33812dbe69b8c466",
+      "rendered_digest": "ce03d6c93b1bc8eaad81498ea27b76904cf5e2cfd4117d7fb3eb350e813ca21f",
+      "ast_digest": "53313e534003f7532d2958d0ef62ca5e51beac4b5420c11e11060f4e1eb824a9"
     },
     "sor": {
-      "values_digest": "d3eb880950e8a0548fbe6eb6df9e0cf0f2ddeaf779800b8a9cdc131534a06619",
+      "values_digest": "f03e78714d3a1f6cf97d6011ab79f56c0c8d6502daf856628e237a80c53aa012",
       "rendered_digest": "4b4ed2e8e032544d58682f30b6e64865d864ac7d99c8ff2e7685d39d6f275457",
       "ast_digest": "11599707257512b887d828bd6fdfe7578b8f9bf4b4741c31b22a9486326ddcb7"
     }
@@ -106,6 +122,13 @@
       "to": "implemented",
       "actor": "codex:issue-296",
       "reason": "Recover published review after CI standalone fixture remediation changed the publication head before merge."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:a12780a7-6a78-4485-bdff-2bd14fb84957",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -353,6 +376,13 @@
       "actor": "codex:issue-296",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 27,
+      "actor": "fresh-session:a12780a7-6a78-4485-bdff-2bd14fb84957",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
