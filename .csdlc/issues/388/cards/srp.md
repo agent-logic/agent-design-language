@@ -14,9 +14,9 @@ Status: pre_phase
 
 csdlc-v2/src/cards.rs
 csdlc-v2/src/store.rs
-focused csdlc-v2 regression tests
+csdlc-v2/tests/gate5.rs
 .csdlc/issues/388
-.csdlc/prepared/issues/388/validate_preparation_bundle.py
+.csdlc/prepared/issues/388
 .csdlc/evidence/388
 
 ## Prompts
@@ -37,12 +37,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Validation was evidence-based rather than rerun by the read-only reviewer.
+- Focused tests exercise the specified repair/refusal paths but do not exhaustively fuzz malformed audit histories or concurrent filesystem interference.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:0e5852ba76248b8cdd8889aa6b05748f2273f936:66a54d40d358bfedc3c1403d7e790dc24065a0faf7f975ec71259b1e80db7bed")
 
-Reviewer: None
+Reviewer: Some("fresh-session:65b06b39-aac6-46ee-b6f1-08567d17479c")
 
-Result: pre_review
+Result: pass

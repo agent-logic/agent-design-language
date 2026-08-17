@@ -4,13 +4,43 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "e10a02d2361925ec52b0b77c0a7a3e7dc8ef8b69527ba2ed22637ad434d727d5",
-  "phase": "implemented",
-  "generation": 6,
-  "digest": "3d9596729d8193a07a8630926a4999b4d6c93f9ecb29d7f0abd5d948d24eaf0a",
+  "phase": "reviewed",
+  "generation": 7,
+  "digest": "c3a0f09022dfae432814fce638b7bb77c4307a16c27cc2ab944274fa5de0d0c9",
   "branch": "codex/388-implemented-card-truth-repair",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-388-implemented-card-truth-repair",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:65b06b39-aac6-46ee-b6f1-08567d17479c",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:0e5852ba76248b8cdd8889aa6b05748f2273f936:66a54d40d358bfedc3c1403d7e790dc24065a0faf7f975ec71259b1e80db7bed",
+    "scope": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/388",
+      ".csdlc/prepared/issues/388",
+      ".csdlc/evidence/388"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:65b06b39-aac6-46ee-b6f1-08567d17479c",
+    "scope": [
+      "csdlc-v2/src/cards.rs",
+      "csdlc-v2/src/store.rs",
+      "csdlc-v2/tests/gate5.rs",
+      ".csdlc/issues/388",
+      ".csdlc/prepared/issues/388",
+      ".csdlc/evidence/388"
+    ],
+    "reviewed_revision": "git-blake3:0e5852ba76248b8cdd8889aa6b05748f2273f936:66a54d40d358bfedc3c1403d7e790dc24065a0faf7f975ec71259b1e80db7bed",
+    "findings": [],
+    "residual_risks": [
+      "Validation was evidence-based rather than rerun by the read-only reviewer.",
+      "Focused tests exercise the specified repair/refusal paths but do not exhaustively fuzz malformed audit histories or concurrent filesystem interference."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +55,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "fb7237534960bad41640de42a0a12aae8281865bf0b1d83b0a29e9d78d99dbf4",
+      "values_digest": "ad4da6dc7cfbaf77fd4d256906d449053f0ce026990c1fc356fb1f7bd47a5b2f",
       "rendered_digest": "f5f0ee6d8684987ed56b858c183cfd0c047a386f082296d87becb52480476533",
       "ast_digest": "33261cccf844c3c06c0dc2baf00e437ca82b8bbd49da3a88fa9e17fa1764d04b"
     },
     "stp": {
-      "values_digest": "82c1cc752e5bfc2a6f73a6b3c1402ba3ac002432b01a452bcda8d5e6a748bfec",
+      "values_digest": "a99babf85e01365ed9568637c0bc697ca3e48882b088d8ecf826a5cab5d1b036",
       "rendered_digest": "4cc64fef144574f5474a4ef671a90ce0c19c10d73264a23d84d95ea76ca51eb6",
       "ast_digest": "e324125a8ad06f4e2b8362817f931c16f148d5e150f802eb8f3472e3fdefdea6"
     },
     "spp": {
-      "values_digest": "95eae457a3461a1321377446b82c67b7b4255763904fee879726c2fab2ea5c40",
+      "values_digest": "3364dc73e79d387149e490bdf7a918f65a74e311c63648d7eae6730cd2bdfc2a",
       "rendered_digest": "86f18144c1bda2360de6db1ad1f4a11558be484397b3cfe89606c562513e028c",
       "ast_digest": "96cde977e749a673d4b4cc0241eb90e3192817bd3cd4944da5a1a50610754950"
     },
     "vpp": {
-      "values_digest": "decd0d1dfd372c96a93b24b75d78bc5fa46eadf976e0eb6ad0a8e663d690562f",
+      "values_digest": "e97090660a2fcf82eece0b03eecf87a97c3f5cad13c383df84bc2eaf8c3b44ee",
       "rendered_digest": "ec731370c3909e971560ad57d4aa09856a64acc3c5f4dc5a134d885ee6c78a0d",
       "ast_digest": "cf65fe0ecaa662e5800e88c05ab594fc4025324a0606266f0ca408039246e56e"
     },
     "srp": {
-      "values_digest": "f0e1c5e7c5af5262b1856fa0fd829c236dcbc239d74333240f240a980cc9410e",
-      "rendered_digest": "effc6f071e0e4dfb1d8209220a76bfc34ab4ca18ba696613a4abf3651e8df5d0",
-      "ast_digest": "6e19d80c3724297a380cadc9ae67a9050f607a2617b7425dc23552363c11e140"
+      "values_digest": "27a3a9df01edc35ea0ab1a917cbae71d4c89a7de34b0f163db2224ed09b8794a",
+      "rendered_digest": "f02536ead7d6be69b7baf29efc35cb72de9e705bb93c9cbb9195a8f38a55e163",
+      "ast_digest": "67e5de3728c14f65008f938155ddd0a232ad52e190bf4c395180a2ee1e885022"
     },
     "sor": {
-      "values_digest": "660778830b0c031a7590ae853b5b63c0499950d7aaa87116859e3c43c0ba89a0",
+      "values_digest": "4ab1c4fc1bbb060cb7e2675e08beb88bc75bf9c138190fa0b35a45e016782bdb",
       "rendered_digest": "d18b68cd7cec03ecee36822fee961bd96ccd7a0102d3a66ef83718c6ee244fec",
       "ast_digest": "ec6dc17f863f89f186aae4d7019f283d017d0c527fba058e4bb8f061e6a73aa8"
     }
@@ -76,6 +106,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:65b06b39-aac6-46ee-b6f1-08567d17479c",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -134,6 +171,20 @@
       "actor": "codex:/root",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "fresh-session:65b06b39-aac6-46ee-b6f1-08567d17479c",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
