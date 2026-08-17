@@ -17,3 +17,4 @@
 {"sequence":17,"generation":12,"actor":"codex:/root","reason":"Recover #281 review truth before merging current origin/main after terminal #280; merge-base collision check found no touched-path overlap, but publication must not use a stale-base reviewed head.","operation":"recover_review"}
 {"sequence":18,"generation":12,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":19,"generation":13,"actor":"codex:/root","reason":"Recover interrupted/silent fresh-session:f96abf33-cad6-4227-97a5-7bcb96142c94 review assignment after bounded wait elapsed without PASS/FAIL.","operation":"recover_review"}
+{"sequence":20,"generation":13,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
