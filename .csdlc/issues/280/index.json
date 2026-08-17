@@ -6,10 +6,21 @@
   "initialization_digest": "a9e76b0d5c4ae85d6d72522adcc9f5c568eb1128a84ea282cde4601038a3dc77",
   "phase": "implemented",
   "generation": 13,
-  "digest": "6e00f6f7ca985d9e60a91bc9c2293bfa7ef4d8d0a34906ba8b08786a7e3b923d",
+  "digest": "676e8200fd9d618a2f38b44caa8fef4e01c61197d3fd4438cc6089054aa84894",
   "branch": "codex/280-large-polis-performance-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-280-large-polis-performance-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:df7a77e9-23fb-4f7e-94a6-15df93ae8e19",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:9bbd01f472b57bade1775177f5f163ddf3691ce2:f11d7fd33362e3e2f5635eda96d8b88b1f07a44984739fad43e2ec85d9e27784",
+    "scope": [
+      "demos/html-observatory/app.js",
+      "demos/html-observatory/tests/large_polis_performance_recovery.test.mjs",
+      ".csdlc/prepared/issues/280/validate_preparation_bundle.py",
+      ".csdlc/issues/280",
+      ".csdlc/evidence/280"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +56,9 @@
       "ast_digest": "a0403052bc3f735e434966a883808a3b3055d2e0341cd59d01227c2a9f4c321d"
     },
     "srp": {
-      "values_digest": "3f216d0de42063bc62d198efd84155b1c682c2ee05b3fe77104c07b192d138e3",
-      "rendered_digest": "dec77dc40d7d3993c54a070acb40b5d32354eb4044c80cbb5c505a967c937e41",
-      "ast_digest": "1450c4863306f66943b37afdc80c8063add5b4c7e2aeb7ae6fb0dae50a450bfd"
+      "values_digest": "c4c78c301e9fcf11bcd160ca665779a09600a3f8db68a404f229a5dbbf872c20",
+      "rendered_digest": "85c779587157a290479906c0b91c86080aaa9370782243676dde578a7b103e1b",
+      "ast_digest": "9f3ea422d1dd17c8df3ae87a5dd2ad76ad9a3321048dc783dc501a78bc032bb7"
     },
     "sor": {
       "values_digest": "5a15522e0fc656d471e2a9d10a8208eea3e4d0cfce08553574b6012472d330cd",
@@ -225,6 +236,13 @@
       "actor": "codex:/root",
       "reason": "Recover failed exact review fresh-session:0eff64f9-2720-4d52-9bd2-fe781f20f604 before remediating its P2 lifecycle/evidence finding: SOR claims current duplicate-action proof but committed evidence logs and metrics are stale and do not include the consecutive degraded-frame scenario.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
