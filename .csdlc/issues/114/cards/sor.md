@@ -117,11 +117,11 @@ Recovered #114 from an invalid PASS/publication record after reviewer 915c3530 r
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
