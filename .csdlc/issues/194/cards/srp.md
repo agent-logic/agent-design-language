@@ -12,7 +12,15 @@ Status: pre_phase
 
 ## Scope
 
-Review #194 private AWS qualification harness, CloudFormation private topology, fail-closed preflight/cleanup, redacted evidence, live private model proof, and explicit serial hybrid recovery non-claim.
+adl/tools/issue194_private_network.cloudformation.json
+adl/tools/issue194_private_wuji_aws_runner.sh
+adl/tools/private_wuji_aws_recovery_qualification.py
+adl/tools/issue194_model_health_command.py
+adl/tools/test_issue194_private_network_template.sh
+adl/tools/test_private_wuji_aws_recovery_qualification.sh
+.csdlc/prepared/issues/194/design.md
+.csdlc/prepared/issues/194/diagram.mmd
+.csdlc/evidence/194
 
 ## Prompts
 

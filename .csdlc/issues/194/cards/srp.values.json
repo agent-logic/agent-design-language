@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Review #194 private AWS qualification harness, CloudFormation private topology, fail-closed preflight/cleanup, redacted evidence, live private model proof, and explicit serial hybrid recovery non-claim.",
+      "review_scope": "adl/tools/issue194_private_network.cloudformation.json\nadl/tools/issue194_private_wuji_aws_runner.sh\nadl/tools/private_wuji_aws_recovery_qualification.py\nadl/tools/issue194_model_health_command.py\nadl/tools/test_issue194_private_network_template.sh\nadl/tools/test_private_wuji_aws_recovery_qualification.sh\n.csdlc/prepared/issues/194/design.md\n.csdlc/prepared/issues/194/diagram.mmd\n.csdlc/evidence/194",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

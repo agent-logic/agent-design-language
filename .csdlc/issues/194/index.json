@@ -6,10 +6,25 @@
   "initialization_digest": "2609fad55d8c07f3abf65e672f34c03301f1175acf34d33d3e6271a0f12d8429",
   "phase": "implemented",
   "generation": 2,
-  "digest": "76e8eaafe5b20947bf01807114f3cd0a7b2acf16326f096f10e0e5c0abefd0de",
+  "digest": "fd8113c5261aea2defd7ce68f9d2c6935f1bab3a295c8c5b6c0b879b6b050e92",
   "branch": "codex/194-private-wuji-aws-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-194-private-wuji-aws-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "codex:/root/review_issue_194_exact_head_r1",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:178c9a4d5c32b7051233e4168c0cfa8c51d95881:1edaa44244bd434ee14a71c4132e9f1e64ad8262c5f6fa1be40d3557be2f217d",
+    "scope": [
+      "adl/tools/issue194_private_network.cloudformation.json",
+      "adl/tools/issue194_private_wuji_aws_runner.sh",
+      "adl/tools/private_wuji_aws_recovery_qualification.py",
+      "adl/tools/issue194_model_health_command.py",
+      "adl/tools/test_issue194_private_network_template.sh",
+      "adl/tools/test_private_wuji_aws_recovery_qualification.sh",
+      ".csdlc/prepared/issues/194/design.md",
+      ".csdlc/prepared/issues/194/diagram.mmd",
+      ".csdlc/evidence/194"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +60,9 @@
       "ast_digest": "36c06e2aeff7d4339ea47f6e3d98e55e0dc33dcbb4de191c7ba77f2115a25f42"
     },
     "srp": {
-      "values_digest": "c2a9a7fee5e39754120336a7b5e47fc9a1a758b340b117a73574e52bfce4c732",
-      "rendered_digest": "88ada89559788c5ab102c2aea9a6fc9d7ad09010223451c268ae0826b815def3",
-      "ast_digest": "887ce32558775e25d14c8e0cf5d78591db8f5ec4f014a6f303f32f98663b74d9"
+      "values_digest": "4596c090f9ddb3e6bff1a6e6aa63b0f0f3ff25aa28a6727ed1ebb4ff65f56839",
+      "rendered_digest": "4bed04834e72de0a06a3f6646794cd1de488ecc2a69c73c4e408da7e44c0b6a7",
+      "ast_digest": "0b5217bb29b97639dc26425bce841769eecf19617fbfdf4137bc1809caf99902"
     },
     "sor": {
       "values_digest": "059c0b043b0dfce403e9b86dd069bdacd7effdbd7ae0fa779ae21c299e8861e7",
@@ -106,6 +121,13 @@
       "actor": "codex:issue-194-private-wuji-aws-recovery",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
