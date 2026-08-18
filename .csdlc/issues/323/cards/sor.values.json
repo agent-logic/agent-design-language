@@ -7,9 +7,9 @@
     "title": "[v0.92][tools] Add typed bound issue identity/repository migration for split-authority recovery",
     "slug": "typed-bound-issue-identity-migration",
     "version": "v0.92",
-    "generation": 13
+    "generation": 14
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -81,10 +81,10 @@
           "evidence_ref": "local-command:cli-schema-smoke:passed"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }

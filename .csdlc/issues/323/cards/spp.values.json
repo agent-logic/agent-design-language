@@ -7,7 +7,7 @@
     "title": "[v0.92][tools] Add typed bound issue identity/repository migration for split-authority recovery",
     "slug": "typed-bound-issue-identity-migration",
     "version": "v0.92",
-    "generation": 13
+    "generation": 14
   },
   "status": "ready",
   "content": {
@@ -23,7 +23,7 @@
             "AC-1",
             "AC-2"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -33,7 +33,7 @@
             "AC-3",
             "AC-4"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -42,7 +42,7 @@
             "AC-2",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -51,7 +51,7 @@
             "AC-3",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [
