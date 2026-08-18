@@ -7,9 +7,9 @@
     "title": "[v0.92][C-SDLC][297.c][test] Prove projection recovery crash, topology, race, and idempotency behavior",
     "slug": "projection-recovery-integration-proof",
     "version": "v0.92.0",
-    "generation": 24
+    "generation": 25
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -84,10 +84,10 @@
           "evidence_ref": ".csdlc/evidence/300/bridge-fed-r12/git-diff-check-head.log sha256=8fede4e5446307c581d338b9947eb2cf89306fefb67b61bb6fd3024bec9c5e84 head=75fd81b37b6adbbd6cb768e76066218617422410 status=0"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }

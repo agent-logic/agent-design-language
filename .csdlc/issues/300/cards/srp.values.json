@@ -7,7 +7,7 @@
     "title": "[v0.92][C-SDLC][297.c][test] Prove projection recovery crash, topology, race, and idempotency behavior",
     "slug": "projection-recovery-integration-proof",
     "version": "v0.92.0",
-    "generation": 24
+    "generation": 25
   },
   "status": "draft",
   "content": {
