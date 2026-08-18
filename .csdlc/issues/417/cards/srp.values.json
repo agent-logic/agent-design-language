@@ -7,15 +7,15 @@
     "title": "[v0.92][C-SDLC][defect] Permit authored design refresh after implemented recovery repairs",
     "slug": "implemented-design-refresh-recovery",
     "version": "v0.92",
-    "generation": 20
+    "generation": 21
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/417\n.csdlc/prepared/issues/417\n.csdlc/evidence/417\ncsdlc-v2/src/store.rs\ncsdlc-v2/tests/gate5.rs",
-      "review_revision": "git-blake3:646e8bf81ca89d9ef1c8a3ee44c1e7da463238b4:4472c6b1c174b70c5663ef0ae34383c5c4977297f8f783d7a8951e3d3daeb4fb",
-      "reviewer": "fresh-session:26ed0de7-6bd6-48f0-aa48-642a9ee19634",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does eligibility bind to the originating recover_review recovery epoch rather than any historical recovery?",
         "Are all supported intervening operations bounded explicitly and unsafe operations rejected?",
@@ -23,10 +23,8 @@
         "Do immediate and iterative refresh paths retain compatibility?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Hosted CI, merge, terminal finish, owner-binary installation, and #414 resumption remain future gates."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

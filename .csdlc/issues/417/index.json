@@ -3,52 +3,14 @@
   "issue": 417,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "32d2485256e10769425246e7f621730e81b12450d2a90fb923a5acb65e0ac790",
-  "phase": "published",
-  "generation": 20,
-  "digest": "9e0d026384e7d5fd940a4131e17f2bdcf2fc5a393d2f4e129a3aeaad8090a128",
+  "phase": "implemented",
+  "generation": 21,
+  "digest": "5e5baea8bd780bb1a12b534e8d5d1f6880da6926e0d7c7bbaff5722671b37f12",
   "branch": "codex/417-implemented-design-refresh-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-417-implemented-design-refresh-recovery",
-  "review_assignment": {
-    "reviewer": "fresh-session:26ed0de7-6bd6-48f0-aa48-642a9ee19634",
-    "assigned_by": "codex:issue-417-implementation",
-    "revision": "git-blake3:646e8bf81ca89d9ef1c8a3ee44c1e7da463238b4:4472c6b1c174b70c5663ef0ae34383c5c4977297f8f783d7a8951e3d3daeb4fb",
-    "scope": [
-      ".csdlc/issues/417",
-      ".csdlc/prepared/issues/417",
-      ".csdlc/evidence/417",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/tests/gate5.rs"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:26ed0de7-6bd6-48f0-aa48-642a9ee19634",
-    "scope": [
-      ".csdlc/issues/417",
-      ".csdlc/prepared/issues/417",
-      ".csdlc/evidence/417",
-      "csdlc-v2/src/store.rs",
-      "csdlc-v2/tests/gate5.rs"
-    ],
-    "reviewed_revision": "git-blake3:646e8bf81ca89d9ef1c8a3ee44c1e7da463238b4:4472c6b1c174b70c5663ef0ae34383c5c4977297f8f783d7a8951e3d3daeb4fb",
-    "findings": [],
-    "residual_risks": [
-      "Hosted CI, merge, terminal finish, owner-binary installation, and #414 resumption remain future gates."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 417,
-    "pull_request": 419,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/419",
-    "base": "main",
-    "head": "codex/417-implemented-design-refresh-recovery",
-    "revision": "git-blake3:82f4bcd66db9779735c3c5f7ccace2a7359254ed:1614dd584585d74755623c2c85e5839cd1f575d428f884a86fb97b08e9954ee7",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -62,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "69fa8d782026307ea196ea1b5310a574b92e06ef80bca3f0466e3ae4484f5329",
+      "values_digest": "5b74f1df0de05ab564a01ee7145ae7725a04983078dcf1cf28cb67e6382d6634",
       "rendered_digest": "a70d4db98d3279e4f2128190ee06a49f0256527425b2727ac9be1562a00d64bb",
       "ast_digest": "c0e17f61efd2eb5d2ccb4b6fedb26c5403ddeda25f6b5f69ebca2db4ba4b0d17"
     },
     "stp": {
-      "values_digest": "b61b82aaf5cf0394894c48099481429461304caaec92d0cd145e836c924560be",
+      "values_digest": "3d1a547a94ec1565d60827fe180cf35a6a938b342ac017d209755a0b2f395964",
       "rendered_digest": "c450c6b0b6b73ec3ace9d89eb9703e28b5bd3f3e736534c3af0122080faf5a64",
       "ast_digest": "f5a87ea0e2a0502ff7634f5cf1ae7fe79555c306e17ace10f9e98e5477bd2aaf"
     },
     "spp": {
-      "values_digest": "cdfff9f76a08251b3789757c06ba952ca9f11a2341393f45b1efb89936633d76",
+      "values_digest": "4adf8ccfe4d67baf09f63efa2426481932dc3a91180491ad5251c044763943cb",
       "rendered_digest": "8230c0371938563ccdbf70736ba5dd5acb1aa41bacb3bfc2e26b76ca8e11c8cd",
       "ast_digest": "aad9922b469c296fa2d4fe2dac449f10420f05cc8762c023a0bbb48498996940"
     },
     "vpp": {
-      "values_digest": "1a3a660febb1f522530ada2195e97df32a3bfeb77ab99713b8a2dd9c70c237a9",
+      "values_digest": "e839d7a161e7108901867da20972d3050245a6a881c5c8345c3dc48b14227702",
       "rendered_digest": "e1a2aee4a28d0d2bc7c9e6b7e079d2539d8333df07f5eb8e2efcae71f0e364ae",
       "ast_digest": "26bb70cbf6549e5107bff5d8db92e98198f7c679022d69e4048f6b06bc5a9c4b"
     },
     "srp": {
-      "values_digest": "f50b333e10d2ae90e4d5aa5f7f2293c743b06930db0e88eb7fec3f0f315f9d37",
-      "rendered_digest": "77c9fd91a54b6dfc5023284c736601ea6f5049dc830c877148cd96b6a3be5d67",
-      "ast_digest": "9d6af43fbf19ac543877d576584582098f4b37a62e3bf75374414e8bef2ef603"
+      "values_digest": "ad158c0a928e63e145572588e6260d7690bd04949077b76f11b553f124dd1438",
+      "rendered_digest": "a5ee02938cb31790336eebb0648c69da4a66c810f5c2ccba39cc054611dfb962",
+      "ast_digest": "04cad8efd2a4fecab4fdffbe8e8b2cb26bab7ad77ea06c5e20d7162083b0deb2"
     },
     "sor": {
-      "values_digest": "11e0fb5a7631e4c79b4f046b39733a015878f838fac28fb4523899e4554cf2c7",
-      "rendered_digest": "713155b58b9ba6866ab124ad1c943ce6b02b47c66b251e5eb0f3dce11266be36",
-      "ast_digest": "4487524039bbbb35f764a190eb23b448a0a4bd1fccd47147accba0e343e42bb2"
+      "values_digest": "fc79c30afaa32243aadc99addc52f859d40e09478d06b214d6d2b42643612c8c",
+      "rendered_digest": "63572c94d2aa24b7a5765dc429323acd8a36f9fb3bf7647db220860624414e6c",
+      "ast_digest": "875c12d7fe88c149a3e1bab1aab8b58953877acd983669626330c81016314df2"
     }
   },
   "transitions": [
@@ -127,6 +89,13 @@
       "to": "published",
       "actor": "codex:issue-417-implementation",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-417-implementation",
+      "reason": "Recover the published review after hosted CI exposed backward-incompatible null provenance keys on unrelated pre-bind design refresh audit events."
     }
   ],
   "audit": [
@@ -318,6 +287,13 @@
       "actor": "codex:issue-417-implementation",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 28,
+      "generation": 21,
+      "actor": "codex:issue-417-implementation",
+      "reason": "Recover the published review after hosted CI exposed backward-incompatible null provenance keys on unrelated pre-bind design refresh audit events.",
+      "operation": "recover_review"
     }
   ]
 }

@@ -4466,10 +4466,8 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
                     .map(|event| (event.sequence, event.generation))
                     .expect("implemented design refresh requires recovery provenance")
             });
-            serde_json::json!({
+            let mut operation = serde_json::json!({
                 "operation": request.operation,
-                "recovery_sequence": recovery.map(|value| value.0),
-                "recovery_generation": recovery.map(|value| value.1),
                 "design_binding_refresh": {
                     "design_ref": record.design_path,
                     "old_design_digest": refresh.old_design_digest,
@@ -4479,8 +4477,15 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
                     "new_diagram_digest": refresh.new_diagram_digest,
                     "prior_design_approval": prior_design_approval,
                 }
-            })
-            .to_string()
+            });
+            if let Some((sequence, generation)) = recovery {
+                let object = operation
+                    .as_object_mut()
+                    .expect("design binding refresh audit is an object");
+                object.insert("recovery_sequence".into(), sequence.into());
+                object.insert("recovery_generation".into(), generation.into());
+            }
+            operation.to_string()
         }
         _ => serde_json::to_string(&request.operation)?,
     };

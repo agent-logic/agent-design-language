@@ -63,11 +63,11 @@ Implement and test authored-design refresh provenance for the next installed own
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
