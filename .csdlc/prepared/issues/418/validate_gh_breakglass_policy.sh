@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-repo_root="${1:-.}"
+repo_root="$(cd "${1:-.}" && pwd -P)"
 agents="${repo_root}/AGENTS.md"
 coordination="${repo_root}/docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md"
 
@@ -166,7 +166,7 @@ fi
 fixture_parent="${repo_root}/.csdlc/evidence/418"
 mkdir -p "$fixture_parent"
 fixture_root="$(mktemp -d "${fixture_parent}/policy-fixtures.XXXXXX")"
-trap 'rm -rf "$fixture_root"' EXIT
+trap 'cd "$repo_root" && rm -rf -- "$fixture_root"' EXIT
 mkdir -p "$fixture_root/.git/csdlc-v2/break-glass"
 for invocation in invoke-1 invoke-2 invoke-3 invoke-4 invoke-5 invoke-6 unsafe-mode symlink-target; do
   mkdir -m 700 "$fixture_root/.git/csdlc-v2/break-glass/$invocation"
