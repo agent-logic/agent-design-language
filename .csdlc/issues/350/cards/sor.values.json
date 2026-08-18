@@ -7,9 +7,9 @@
     "title": "[v0.92][WP-04.16b3.1b][defect] Expose sealed authenticated Observatory authority projection",
     "slug": "authenticated-observatory-authority-projection",
     "version": "v0.92",
-    "generation": 22
+    "generation": 23
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -173,10 +173,10 @@
           "evidence_ref": "projection-focused=f3d1ba96d376686917db5bf5fe18b0d90c7a3bc6ee26f2e264f4a4ecdd02bb29; authority-protocol=25765175d7fcdaa488f9d3334dd7141b76c997212b5c49b439d1874868f32357; clippy=43cd963d94709fa4b174fa3dbd314977f9480e1abc71e279109909d7a1ed4bd3; diff=af064573279fbea66256552e6e2bce10b4fda7670ac404b7dbe578a9cc97f455"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }
