@@ -7,7 +7,7 @@
     "title": "[v0.92][C-SDLC][defect] Recover initialized decomposed issue cards without rewriting history",
     "slug": "initialized-decomposition-card-recovery",
     "version": "v0.92",
-    "generation": 33
+    "generation": 34
   },
   "status": "ready",
   "content": {

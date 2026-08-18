@@ -27,7 +27,7 @@ Revision 12
     "acceptance_ids": [
       "AC-1"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
@@ -35,7 +35,7 @@ Revision 12
     "acceptance_ids": [
       "AC-2"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
@@ -43,7 +43,7 @@ Revision 12
     "acceptance_ids": [
       "AC-3"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S4",
@@ -51,7 +51,7 @@ Revision 12
     "acceptance_ids": [
       "AC-4"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S5",
@@ -59,7 +59,7 @@ Revision 12
     "acceptance_ids": [
       "AC-5"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S6",
@@ -67,7 +67,7 @@ Revision 12
     "acceptance_ids": [
       "AC-6"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S7",
@@ -75,7 +75,7 @@ Revision 12
     "acceptance_ids": [
       "AC-7"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S8",
@@ -83,7 +83,7 @@ Revision 12
     "acceptance_ids": [
       "AC-8"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S9",
@@ -91,7 +91,7 @@ Revision 12
     "acceptance_ids": [
       "AC-9"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S10",
@@ -99,7 +99,7 @@ Revision 12
     "acceptance_ids": [
       "AC-10"
     ],
-    "status": "pending"
+    "status": "completed"
   }
 ]
 
