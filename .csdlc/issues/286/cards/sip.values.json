@@ -7,7 +7,7 @@
     "title": "[v0.92][ADR 0069][207.d] Reconcile Observatory governed Runtime consumer evidence",
     "slug": "adr-0069-observatory-runtime-consumer-evidence",
     "version": "v0.92",
-    "generation": 32
+    "generation": 33
   },
   "status": "ready",
   "content": {

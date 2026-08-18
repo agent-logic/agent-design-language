@@ -7,9 +7,9 @@
     "title": "[v0.92][ADR 0069][207.d] Reconcile Observatory governed Runtime consumer evidence",
     "slug": "adr-0069-observatory-runtime-consumer-evidence",
     "version": "v0.92",
-    "generation": 32
+    "generation": 33
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -71,10 +71,10 @@
           "evidence_ref": "csdlc-validate-issue.log"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }
