@@ -73,3 +73,4 @@
 {"sequence":73,"generation":55,"actor":"codex:/root/issue_258_takeover_r4","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":74,"generation":56,"actor":"codex:/root/issue_258_takeover_r4","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":75,"generation":57,"actor":"codex:/root/issue_258_takeover_r4","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":76,"generation":58,"actor":"codex-worker-4-closeout","reason":"Materialize live GitHub terminal truth for merged PR #290 before cleanup.","operation":"materialize_derived_terminal"}
