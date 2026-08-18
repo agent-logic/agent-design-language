@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18C.04c][114.c] Expose re-authorized conversation history APIs and restore Observatory transcripts",
     "slug": "v0-92-wp-18c-04c-114-c-reauthorized-conversation-history-observatory-transcripts",
     "version": "v0.92.0",
-    "generation": 17
+    "generation": 18
   },
   "status": "ready",
   "content": {
@@ -23,7 +23,7 @@
             "AC-1",
             "AC-2"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -33,7 +33,7 @@
             "AC-2",
             "AC-9"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -46,7 +46,7 @@
             "AC-7",
             "AC-9"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -55,7 +55,7 @@
             "AC-8",
             "AC-9"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S5",
@@ -63,7 +63,7 @@
           "acceptance_ids": [
             "AC-10"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [
