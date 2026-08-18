@@ -180,9 +180,13 @@ def main() -> None:
         "It is not an approval record and it accepts no ADR.",
         "| ADR 0065 | Proposed | #283 |",
         "| ADR 0066 | Deferred | #284 |",
+        "Residual two-voter AWS/model-health proof and #142 completion gaps remain.",
         "| ADR 0068 | Deferred | #285 |",
+        "WP-19 handoff evidence exists, but WP-18 birthday proof remains non-terminal.",
         "| ADR 0069 | Deferred | #286 |",
+        "#84/WP-18A Unity Runtime consumer proof remains open.",
         "| ADR 0071 | Deferred | #287 |",
+        "#341/WP-18B provider-neutral proof remains open with no terminal cache.",
         "#207 is not closed by this handoff.",
     )
 

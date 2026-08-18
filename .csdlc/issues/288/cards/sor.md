@@ -77,12 +77,21 @@ Status: pre_phase
     "purpose": "Run typed C-SDLC issue validation.",
     "outcome": "passed",
     "evidence_ref": "typed-issue-validation.log"
+  },
+  {
+    "command": [
+      "python3",
+      ".csdlc/evidence/288/validate_final_adr_serialization.py"
+    ],
+    "purpose": "Prove #288 final ADR serialization status and residual-gap wording across manifest, ADR index, ADR plan, candidate ADR 0065, internal review handoff, and terminal caches after fresh review findings.",
+    "outcome": "passed",
+    "evidence_ref": "#288 final ADR serialization PASS at post-recovery source"
   }
 ]
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

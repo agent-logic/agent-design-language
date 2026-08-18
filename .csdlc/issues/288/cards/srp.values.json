@@ -7,13 +7,13 @@
     "title": "[v0.92][ADR][207.f] Serialize final ADR index, plan, manifest, and review packet",
     "slug": "final-adr-index-plan-manifest-review-packet",
     "version": "v0.92",
-    "generation": 10
+    "generation": 13
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Documentation/evidence truth for final v0.92 ADR serialization and internal review handoff.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

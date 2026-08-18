@@ -12,7 +12,7 @@ evidence review. It is not an approval record and it accepts no ADR.
 | ADR | Serialized status | Source issue | Terminal input | Review boundary |
 | --- | --- | --- | --- | --- |
 | ADR 0065 | Proposed | #283 | `.csdlc/evidence/283/evidence-manifest.json`; `.git/csdlc-v2/derived-terminal/283.json` | Proposed from replacement terminal #209 authority; not Accepted. |
-| ADR 0066 | Deferred | #284 | `.csdlc/evidence/284/evidence-manifest.json`; `.git/csdlc-v2/derived-terminal/284.json` | Residual #142 and AWS/model-health proof gaps remain. |
+| ADR 0066 | Deferred | #284 | `.csdlc/evidence/284/evidence-manifest.json`; `.git/csdlc-v2/derived-terminal/284.json` | Residual two-voter AWS/model-health proof and #142 completion gaps remain. |
 | ADR 0068 | Deferred | #285 | `.csdlc/evidence/285/evidence-manifest.json`; `.git/csdlc-v2/derived-terminal/285.json` | WP-19 handoff evidence exists, but WP-18 birthday proof remains non-terminal. |
 | ADR 0069 | Deferred | #286 | `.csdlc/evidence/286/adr0069-evidence-reconciliation.md`; `.git/csdlc-v2/derived-terminal/286.json` | #84/WP-18A Unity Runtime consumer proof remains open. |
 | ADR 0071 | Deferred | #287 | `.csdlc/evidence/287/evidence-manifest.json`; `.git/csdlc-v2/derived-terminal/287.json` | #341/WP-18B provider-neutral proof remains open with no terminal cache. |

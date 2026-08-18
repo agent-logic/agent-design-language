@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Documentation/evidence truth for final v0.92 ADR serialization and internal review handoff.
+
 
 ## Prompts
 
