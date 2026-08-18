@@ -7,24 +7,67 @@
     "title": "[v0.92][AWS tooling][defect] Retain exact remote builder preflight failure diagnostics",
     "slug": "builder-preflight-diagnostics",
     "version": "v0.92",
-    "generation": 4
+    "generation": 5
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Builder validation script, focused tests, minimal remote-runner retention wiring, and issue-local lifecycle/design artifacts.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/415\n.csdlc/prepared/issues/415\n.csdlc/evidence/415\nadl/tools/run_aws_spot_builder_image_validation.sh\nadl/tools/test_run_aws_spot_builder_image_validation.sh\ntools/aws_remote_validation/scripts/remote_validation_runner.sh",
+      "review_revision": "git-blake3:e9fb5687180cae2803f240022177b95d51217c3b:fc1888f29402591a0f9df30e1004ee284f52df942bc74480f1bd90733e91ee3d",
+      "reviewer": "fresh-session:cdbaa5ed-0414-4785-9db8-e9032b5e68a8",
       "review_prompts": [
         "Does every required tool/check produce an individually attributable retained diagnostic?",
         "Can early exit 127 preserve exact redacted output and identify the missing executable?",
         "Are success compatibility and exact cleanup semantics unchanged?",
         "Are AWS, #268, and #269 strictly outside execution scope?"
       ],
-      "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "findings": [
+        {
+          "id": "415-r1-p2-path-leak",
+          "severity": "p2",
+          "summary": "Failure summary emits the machine-local retained-log path without redaction.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        },
+        {
+          "id": "415-r1-p2-canned-missing-tool",
+          "severity": "p2",
+          "summary": "Missing-tool fixture keys only on the label instead of dynamically executing the received probe command.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        },
+        {
+          "id": "415-r1-p2-unreadable-diagnostic",
+          "severity": "p2",
+          "summary": "Runner compatibility proof covers an absent diagnostic but not a present unreadable diagnostic.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        },
+        {
+          "id": "415-r1-p3-evidence-binding",
+          "severity": "p3",
+          "summary": "Focused evidence lacks an explicit assertion denominator and exact-revision binding is not visible beside it.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        }
+      ],
+      "residual_risk": [
+        "No P0 or P1 findings; fixes require a new exact-head review."
+      ],
+      "review_result": "changes_required"
     }
   }
 }

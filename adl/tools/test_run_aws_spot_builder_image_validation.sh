@@ -7,9 +7,10 @@ TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 
 FAKE_BIN="$TMP/fake-bin"
+TOOLCHAIN_BIN="$TMP/toolchain-bin"
 RUN_ROOT="$TMP/run"
 CACHE_MOUNT="$TMP/cache"
-mkdir -p "$FAKE_BIN" "$RUN_ROOT" "$CACHE_MOUNT"
+mkdir -p "$FAKE_BIN" "$TOOLCHAIN_BIN" "$RUN_ROOT" "$CACHE_MOUNT"
 mkdir -p "$TMP/raw"
 export ADL_REAL_PYTHON3="$(command -v python3)"
 
@@ -52,6 +53,49 @@ echo "unexpected aws command: $*" >&2
 exit 1
 EOF
 
+cat >"$TOOLCHAIN_BIN/uname" <<'EOF'
+#!/usr/bin/env bash
+echo x86_64
+EOF
+
+for tool in rustc sccache ld.lld aws; do
+  cat >"$TOOLCHAIN_BIN/$tool" <<'EOF'
+#!/usr/bin/env bash
+case "$(basename "$0")" in
+  rustc) echo 'rustc 1.96.0' ;;
+  sccache) echo 'sccache 0.16.0' ;;
+  ld.lld) echo 'Ubuntu LLD 18.1.3' ;;
+  aws) echo 'aws-cli/2.35.15' ;;
+esac
+EOF
+done
+
+cat >"$TOOLCHAIN_BIN/cargo" <<'EOF'
+#!/usr/bin/env bash
+if [[ "${1:-}" == "nextest" ]]; then
+  shift
+  [[ -z "${ADL_FAKE_SENSITIVE_OUTPUT:-}" ]] || printf '%s\n' "$ADL_FAKE_SENSITIVE_OUTPUT"
+  exec cargo-nextest nextest "$@"
+fi
+echo 'cargo 1.96.0'
+EOF
+
+cat >"$TOOLCHAIN_BIN/cargo-nextest" <<'EOF'
+#!/usr/bin/env bash
+[[ -z "${ADL_FAKE_SENSITIVE_OUTPUT:-}" ]] || printf '%s\n' "$ADL_FAKE_SENSITIVE_OUTPUT"
+echo 'cargo-nextest 0.9.140'
+EOF
+
+cat >"$TOOLCHAIN_BIN/ruby" <<'EOF'
+#!/usr/bin/env bash
+case "$*" in
+  *ruby-smoke-ok*) echo 'ruby-smoke-ok' ;;
+  *--self-test-finalization-policy*) echo 'PASS: finalization allowlist rejects Runtime product drift' ;;
+  *) echo 'ruby 3.3.6' ;;
+esac
+EOF
+chmod +x "$TOOLCHAIN_BIN"/*
+
 cat >"$FAKE_BIN/docker" <<'EOF'
 #!/usr/bin/env bash
 set -euo pipefail
@@ -73,24 +117,16 @@ case "$1" in
       check="${args#*ADL_BUILDER_CHECK=}"
       check="${check%% *}"
       if [[ "${ADL_FAKE_MISSING_CHECK:-}" == "$check" ]]; then
-        [[ -z "${ADL_FAKE_SENSITIVE_OUTPUT:-}" ]] || printf '%s\n' "$ADL_FAKE_SENSITIVE_OUTPUT"
-        echo "/bin/bash: ${ADL_FAKE_MISSING_EXECUTABLE:-cargo-nextest}: command not found" >&2
-        exit 127
+        disabled="$ADL_FAKE_TOOLCHAIN_BIN/${ADL_FAKE_MISSING_EXECUTABLE:-cargo-nextest}"
+        mv "$disabled" "$disabled.disabled"
+        trap 'mv "$disabled.disabled" "$disabled"' EXIT
       fi
-      case "$check" in
-        architecture) ;;
-        rustc) echo 'rustc 1.96.0' ;;
-        cargo) echo 'cargo 1.96.0' ;;
-        nextest) echo 'cargo-nextest 0.9.140' ;;
-        sccache) echo 'sccache 0.16.0' ;;
-        linker) echo 'Ubuntu LLD 18.1.3' ;;
-        aws_cli) echo 'aws-cli/2.35.15' ;;
-        ruby) echo 'ruby 3.3.6' ;;
-        ruby_smoke) [[ "${ADL_FAKE_RUBY_OK:-1}" == "1" ]] && echo 'ruby-smoke-ok' ;;
-        receipt_validator) echo 'PASS: finalization allowlist rejects Runtime product drift' ;;
-        *) echo "unknown fake builder check: $check" >&2; exit 2 ;;
-      esac
-      exit 0
+      if [[ "$check" == "ruby_smoke" && "${ADL_FAKE_RUBY_OK:-1}" != "1" ]]; then
+        exit 0
+      fi
+      command="${!#}"
+      PATH="$ADL_FAKE_TOOLCHAIN_BIN:/usr/bin:/bin" /bin/bash -c "$command"
+      exit $?
     fi
     echo validation >>"$ADL_FAKE_DOCKER_CALLS"
     [[ "$args" == *"--env RUSTFLAGS= --env CARGO_INCREMENTAL=0"* ]] || {
@@ -144,6 +180,7 @@ run_fixture() {
   local command="${1:-cargo nextest run --workspace}"
   PATH="$FAKE_BIN:$PATH" \
   TMPDIR="$TMP/raw" \
+  ADL_FAKE_TOOLCHAIN_BIN="$TOOLCHAIN_BIN" \
   ADL_REMOTE_REPO_DIR="$ROOT" \
   ADL_RUN_ROOT="$RUN_ROOT" \
   ADL_CACHE_VOLUME_MOUNT_PATH="$CACHE_MOUNT" \
@@ -219,7 +256,7 @@ fi
 grep -F 'builder preflight failed check=nextest executable=cargo-nextest exit_status=127' "$TMP/tool.err" >/dev/null
 grep -F 'ADL_BUILDER_CHECK_END label=nextest executable=cargo-nextest exit_status=127' \
   "$RUN_ROOT/builder-toolchain.log" >/dev/null
-grep -F 'cargo-nextest: command not found' "$RUN_ROOT/builder-toolchain.log" >/dev/null
+grep -F 'cargo-nextest: not found' "$RUN_ROOT/builder-toolchain.log" >/dev/null
 grep -F '<aws-account-id-redacted>' "$RUN_ROOT/builder-toolchain.log" >/dev/null
 grep -F '<aws-access-key-redacted>' "$RUN_ROOT/builder-toolchain.log" >/dev/null
 grep -F '<ip-address-redacted>' "$RUN_ROOT/builder-toolchain.log" >/dev/null
@@ -312,6 +349,38 @@ if grep -F 'ADL_REMOTE_LOG_BEGIN:builder_toolchain' "$TMP/runner-missing.err" >/
   exit 1
 fi
 
+# A present diagnostic that cannot be read is equally non-authoritative. Force
+# only the file-reading sed call to fail and prove the original command result
+# and summary/cleanup tail remain reachable.
+unreadable_runner_root="$TMP/runner-unreadable"
+unreadable_bin="$TMP/unreadable-bin"
+mkdir -p "$unreadable_runner_root" "$unreadable_bin"
+printf 'must-not-be-emitted\n' >"$unreadable_runner_root/builder-toolchain.log"
+cat >"$unreadable_bin/sed" <<EOF
+#!/usr/bin/env bash
+case "\${*: -1}" in
+  $unreadable_runner_root/builder-toolchain.log) exit 66 ;;
+  *) exec /usr/bin/sed "\$@" ;;
+esac
+EOF
+chmod +x "$unreadable_bin/sed"
+set +e
+PATH="$unreadable_bin:$PATH" \
+HOME="$TMP/runner-unreadable-home" \
+ADL_RUN_ID=issue415-runner-unreadable-fixture \
+ADL_RUN_ROOT="$unreadable_runner_root" \
+ADL_REMOTE_REPO_DIR="$ROOT" \
+ADL_REMOTE_COMMAND='bash adl/tools/run_aws_spot_builder_image_validation.sh --invalid' \
+  bash "$runner" >"$TMP/runner-unreadable.out" 2>"$TMP/runner-unreadable.err"
+unreadable_runner_status=$?
+set -e
+[[ "$unreadable_runner_status" -eq 2 ]]
+grep -F 'ADL_AWS_REMOTE_SUMMARY_BEGIN' "$TMP/runner-unreadable.out" >/dev/null
+if grep -F 'must-not-be-emitted' "$TMP/runner-unreadable.err" >/dev/null; then
+  echo "unreadable runner diagnostic unexpectedly emitted content" >&2
+  exit 1
+fi
+
 bash -n "$SCRIPT" "$runner" "$0"
 
 scope_paths="$TMP/scope-paths.txt"
@@ -324,6 +393,7 @@ while IFS= read -r path; do
     adl/tools/run_aws_spot_builder_image_validation.sh | \
     adl/tools/test_run_aws_spot_builder_image_validation.sh | \
     tools/aws_remote_validation/scripts/remote_validation_runner.sh | \
+    .csdlc/evidence/415/* | \
     .csdlc/issues/415/* | \
     .csdlc/prepared/issues/415/* | \
     .csdlc/locks/415.lock) ;;
@@ -360,4 +430,4 @@ set -e
 grep -F 'retained summary generation failed with status 23' "$TMP/both-fail.err" >/dev/null
 grep -F 'validation command failed with status 17' "$TMP/both-fail.err" >/dev/null
 
-echo "PASS test_run_aws_spot_builder_image_validation"
+echo "PASS test_run_aws_spot_builder_image_validation cases=15"

@@ -1,1 +1,1 @@
-PASS test_run_aws_spot_builder_image_validation
+PASS test_run_aws_spot_builder_image_validation cases=15

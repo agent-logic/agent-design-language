@@ -211,7 +211,7 @@ run_builder_check() {
   mv -f "$TOOLCHAIN_NEXT" "$TOOLCHAIN_OUTPUT"
   rm -f "$TOOLCHAIN_RAW_STDOUT" "$TOOLCHAIN_RAW_STDERR"
   if [[ "$status" -ne 0 ]]; then
-    echo "spot_builder_image_validation: builder preflight failed check=$label executable=$executable exit_status=$status retained=$TOOLCHAIN_OUTPUT" >&2
+    echo "spot_builder_image_validation: builder preflight failed check=$label executable=$executable exit_status=$status retained=builder-toolchain.log" >&2
     return "$status"
   fi
 }
