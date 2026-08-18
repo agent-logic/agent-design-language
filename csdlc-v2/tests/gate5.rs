@@ -8,8 +8,9 @@ use csdlc_v2::{
     BindRequest, BootstrapRequest, CardKind, CleanupNodeIdentity, CleanupNodeType, EditRequest,
     ErrorCode, FailedOperationLineage, InitialCardInput, LifecyclePhase, NonSubstantiveProof,
     PlanningProfile, ProjectionCasAnchor, ProjectionClassifyRequest, ProjectionRecoverRequest,
-    ProjectionRecoveryCleanupBridgeRequest, ReviewAssignmentRequest, ReviewEvidence,
-    ReviewFindingEvidence, ReviewRecordRequest, ReviewRecoveryRequest, SemanticOperation, Store,
+    ProjectionRecoveryCleanupBridgeRequest, RecoverDesignReviewRequest, ReviewAssignmentRequest,
+    ReviewEvidence, ReviewFindingEvidence, ReviewRecordRequest, ReviewRecoveryRequest,
+    SemanticOperation, Store,
 };
 use std::os::unix::fs::{MetadataExt, PermissionsExt};
 
@@ -2155,7 +2156,7 @@ fn fixture_initial_input() -> InitialCardInput {
 }
 
 #[test]
-fn implemented_authored_design_refresh_and_assignment_support_issue_local_artifacts() {
+fn implemented_design_refresh_and_assignment_support_issue_local_artifacts() {
     let (_temp, store, implemented) = implemented_fixture_with_authored_paths(
         ".csdlc/issues/7/authored/design.md",
         ".csdlc/issues/7/authored/diagram.mmd",
@@ -2225,6 +2226,233 @@ fn implemented_authored_design_refresh_and_assignment_support_issue_local_artifa
         .root()
         .join(".csdlc/issues/.7.rollback-preserved")
         .exists());
+}
+
+#[test]
+fn implemented_design_refresh_survives_repairs_and_design_review_recovery() {
+    let (_temp, store, implemented) = implemented_fixture();
+    let revision = csdlc_v2::git::substantive_revision(store.root(), &["src".into()])
+        .expect("review revision");
+    let reviewed = record_review(
+        &store,
+        ReviewRecordRequest {
+            issue: 7,
+            expected_generation: implemented.generation,
+            expected_digest: implemented.digest,
+            actor: "reviewer".into(),
+            evidence: ReviewEvidence {
+                reviewer: "reviewer".into(),
+                scope: vec!["src".into()],
+                reviewed_revision: revision,
+                findings: vec![],
+                residual_risks: vec![],
+                completed: true,
+                non_substantive_proof: None,
+            },
+        },
+    )
+    .expect("record review");
+    let recovered = csdlc_v2::recover_review(
+        &store,
+        ReviewRecoveryRequest {
+            issue: 7,
+            expected_generation: reviewed.generation,
+            expected_digest: reviewed.digest,
+            actor: "operator".into(),
+            reason: "repair plan and authored design".into(),
+        },
+    )
+    .expect("recover review");
+    let recovery = recovered.audit.last().expect("recovery event").clone();
+    let repaired = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Stp,
+            expected_generation: recovered.generation,
+            expected_digest: recovered.digest,
+            actor: "operator".into(),
+            reason: "repair deliverable parity".into(),
+            operation: SemanticOperation::CorrectStpDeliverablesAfterRecovery {
+                values: vec!["src/lib.rs".into(), "src/validate.sh".into()],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("repair STP deliverables");
+    let csdlc_v2::DesignReview::Approved { reviewer, revision } = repaired.design_review.clone()
+    else {
+        panic!("fixture design approval")
+    };
+    let design_recovered = csdlc_v2::recover_design_review(
+        &store,
+        RecoverDesignReviewRequest {
+            issue: 7,
+            expected_phase: LifecyclePhase::Implemented,
+            expected_generation: repaired.generation,
+            expected_digest: repaired.digest,
+            previous_reviewer: reviewer.clone(),
+            previous_revision: revision,
+            false_reviewer: reviewer,
+            actor: "operator".into(),
+            reason: "clear stale design approval after repairs".into(),
+            disposition: "fresh design review required".into(),
+        },
+    )
+    .expect("recover design review");
+
+    let shared_repair = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Spp,
+            expected_generation: design_recovered.generation,
+            expected_digest: design_recovered.digest.clone(),
+            actor: "operator".into(),
+            reason: "shared predicate must remain closed".into(),
+            operation: SemanticOperation::CorrectPlanSummaryAfterRecovery {
+                value: "must not apply after design recovery".into(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("design recovery must not widen ordinary repair authority");
+    assert_eq!(shared_repair.code, ErrorCode::InvalidTransition);
+
+    std::fs::write(store.root().join("docs/design.md"), "# repaired design\n").unwrap();
+    std::fs::write(
+        store.root().join("docs/diagram.mmd"),
+        "flowchart LR\n Recovered-->Refreshed\n",
+    )
+    .unwrap();
+    let refreshed = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Spp,
+            expected_generation: design_recovered.generation,
+            expected_digest: design_recovered.digest,
+            actor: "operator".into(),
+            reason: "refresh authored tuple in the same recovery epoch".into(),
+            operation: SemanticOperation::RefreshAuthoredDesignAfterRecovery,
+            fail_after_backup: false,
+        },
+    )
+    .expect("refresh authored design after repairs and design recovery");
+    assert!(matches!(
+        refreshed.design_review,
+        csdlc_v2::DesignReview::Pending
+    ));
+    assert!(refreshed.review_assignment.is_none());
+    assert!(refreshed.review.is_none());
+    assert!(refreshed.publication.is_none());
+    assert!(refreshed.readiness.is_none());
+    assert!(refreshed.terminal.is_none());
+    let refresh_audit: serde_json::Value =
+        serde_json::from_str(&refreshed.audit.last().expect("refresh audit").operation)
+            .expect("structured refresh audit");
+    assert_eq!(refresh_audit["recovery_sequence"], recovery.sequence);
+    assert_eq!(refresh_audit["recovery_generation"], recovery.generation);
+
+    std::fs::write(
+        store.root().join("docs/design.md"),
+        "# repaired design r2\n",
+    )
+    .unwrap();
+    let iterative = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Spp,
+            expected_generation: refreshed.generation,
+            expected_digest: refreshed.digest,
+            actor: "operator".into(),
+            reason: "iterate authored tuple in the same recovery epoch".into(),
+            operation: SemanticOperation::RefreshAuthoredDesignAfterRecovery,
+            fail_after_backup: false,
+        },
+    )
+    .expect("iterative refresh remains supported");
+    let iterative_audit: serde_json::Value =
+        serde_json::from_str(&iterative.audit.last().expect("iterative audit").operation)
+            .expect("structured iterative audit");
+    assert_eq!(iterative_audit["recovery_sequence"], recovery.sequence);
+    assert_eq!(iterative_audit["recovery_generation"], recovery.generation);
+}
+
+#[test]
+fn implemented_design_refresh_rejects_unlisted_recovery_epoch_operation() {
+    let (_temp, store, implemented) = implemented_fixture();
+    let revision = csdlc_v2::git::substantive_revision(store.root(), &["src".into()])
+        .expect("review revision");
+    let reviewed = record_review(
+        &store,
+        ReviewRecordRequest {
+            issue: 7,
+            expected_generation: implemented.generation,
+            expected_digest: implemented.digest,
+            actor: "reviewer".into(),
+            evidence: ReviewEvidence {
+                reviewer: "reviewer".into(),
+                scope: vec!["src".into()],
+                reviewed_revision: revision,
+                findings: vec![],
+                residual_risks: vec![],
+                completed: true,
+                non_substantive_proof: None,
+            },
+        },
+    )
+    .expect("record review");
+    let recovered = csdlc_v2::recover_review(
+        &store,
+        ReviewRecoveryRequest {
+            issue: 7,
+            expected_generation: reviewed.generation,
+            expected_digest: reviewed.digest,
+            actor: "operator".into(),
+            reason: "start recovery epoch".into(),
+        },
+    )
+    .expect("recover review");
+    let advanced = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Spp,
+            expected_generation: recovered.generation,
+            expected_digest: recovered.digest,
+            actor: "operator".into(),
+            reason: "record an unrelated execution-plan update".into(),
+            operation: SemanticOperation::UpdatePlanStep {
+                step_id: "one".into(),
+                status: csdlc_v2::cards::StepStatus::InProgress,
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("authorized but refresh-unlisted update");
+    std::fs::write(store.root().join("docs/design.md"), "# unrelated design\n").unwrap();
+    let before = std::fs::read(store.issue_dir(7).join("index.json")).unwrap();
+    let error = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Spp,
+            expected_generation: advanced.generation,
+            expected_digest: advanced.digest,
+            actor: "operator".into(),
+            reason: "reject unrelated recovery epoch".into(),
+            operation: SemanticOperation::RefreshAuthoredDesignAfterRecovery,
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("unlisted recovery operation must block authored refresh");
+    assert_eq!(error.code, ErrorCode::InvalidTransition);
+    assert_eq!(
+        std::fs::read(store.issue_dir(7).join("index.json")).unwrap(),
+        before
+    );
 }
 
 fn implemented_fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord) {

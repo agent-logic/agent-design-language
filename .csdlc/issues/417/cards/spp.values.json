@@ -1,0 +1,91 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 417,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Permit authored design refresh after implemented recovery repairs",
+    "slug": "implemented-design-refresh-recovery",
+    "version": "v0.92",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 3,
+      "summary": "Bind #417, prove the deadlock, make implemented authored-refresh eligibility recovery-epoch aware, add exact and negative regressions, obtain fresh review, publish, merge, finish, clean, and install the terminal owner binaries.",
+      "steps": [
+        {
+          "id": "step-1",
+          "action": "Reproduce and characterize the exact implemented recovery audit sequence.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "step-2",
+          "action": "Implement recovery-epoch-aware authored refresh eligibility with bounded intervening operations.",
+          "acceptance_ids": [
+            "AC-3"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "step-3",
+          "action": "Add exact public-operation regressions and negative authority/provenance assertions.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "step-4",
+          "action": "Review, publish, merge, finish, clean, install, and report the safe #414 resume operation.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "csdlc-v2/src/store.rs",
+        "csdlc-v2/tests/gate5.rs",
+        ".csdlc/issues/417/",
+        ".csdlc/prepared/issues/417/"
+      ],
+      "invariants": [
+        "The record remains implemented during design recovery.",
+        "The originating recover_review audit event remains the recovery-epoch anchor.",
+        "Only supported recovery repair operations may intervene.",
+        "Review and publication authority remain absent after substantive recovery edits.",
+        "No hand editing of generated cards or canonical state."
+      ],
+      "risks": [
+        "Searching too far back could authorize a stale recovery epoch.",
+        "An incomplete operation allowlist could preserve the deadlock or admit unrelated mutations.",
+        "Recovery could accidentally retain review or publication authority.",
+        "A test could construct synthetic state without exercising public typed operations."
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "The change requires mutating #414, #268, #269, or AWS.",
+        "Eligibility cannot be tied unambiguously to one originating recovery epoch.",
+        "Focused tests cannot prove downstream authority remains cleared.",
+        "Review, CI, merge, finish, ancestry, or installed provenance is not current."
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/417/design.md",
+      "design_digest": "74843541a629a6f83f5e0cc707c9f20ce8ffb75486c98f69052e5d29f5767044",
+      "diagram_ref": ".csdlc/prepared/issues/417/diagram.mmd",
+      "diagram_digest": "d439843ec874e892b8f06e65c478174165c7522cfff6aafac3ccd47fd56254f7"
+    }
+  }
+}

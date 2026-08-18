@@ -1,0 +1,12 @@
+
+running 3 tests
+test implemented_design_refresh_rejects_unlisted_recovery_epoch_operation ... ok
+test implemented_design_refresh_and_assignment_support_issue_local_artifacts ... ok
+test implemented_design_refresh_survives_repairs_and_design_review_recovery ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 65 filtered out; finished in 3.16s
+
+    Blocking waiting for file lock on build directory
+   Compiling csdlc-v2 v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-417-implemented-design-refresh-recovery/csdlc-v2)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.09s
+     Running tests/gate5.rs (csdlc-v2/target/debug/deps/gate5-ebacdb3278f3dc97)

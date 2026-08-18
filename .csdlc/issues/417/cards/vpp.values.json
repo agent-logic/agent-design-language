@@ -1,0 +1,77 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 417,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Permit authored design refresh after implemented recovery repairs",
+    "slug": "implemented-design-refresh-recovery",
+    "version": "v0.92",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "implemented-design-refresh-recovery-focused",
+          "proof_role": "Prove exact implemented recovery ordering, provenance, compatibility, and authority clearing.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 8000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate5",
+            "implemented_design_refresh"
+          ],
+          "parallel_group": "417-local",
+          "defer_reason": null
+        },
+        {
+          "lane": "csdlc-v2-library-regression",
+          "proof_role": "Prove the store change preserves the broader typed library contract.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 8000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--lib"
+          ],
+          "parallel_group": "417-local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed without a current implemented recovery epoch, preserve all audit provenance, and do not permit design refresh to restore or retain downstream review/publication authority.",
+      "design_ref": ".csdlc/prepared/issues/417/design.md",
+      "design_digest": "74843541a629a6f83f5e0cc707c9f20ce8ffb75486c98f69052e5d29f5767044",
+      "diagram_ref": ".csdlc/prepared/issues/417/diagram.mmd",
+      "diagram_digest": "d439843ec874e892b8f06e65c478174165c7522cfff6aafac3ccd47fd56254f7"
+    }
+  }
+}
