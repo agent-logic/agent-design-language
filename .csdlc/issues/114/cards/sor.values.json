@@ -7,9 +7,9 @@
     "title": "[v0.92][WP-18C.04][coordination] Coordinate durable conversation history, continuity, and receipts",
     "slug": "v0-92-wp-18c-04-coordinate-durable-conversation-history-continuity-receipts",
     "version": "v0.92.0",
-    "generation": 109
+    "generation": 110
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -110,10 +110,10 @@
           "evidence_ref": "local:114-bool-canonical-generation-rejected-gen106"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": [
         "Obtain fresh no-context exact-head review over the current #114 immutable head and repaired lifecycle truth.",
         "Publish through typed csdlc-publish with correct Closes #114 linkage only after review PASS and base/head ancestry are current.",

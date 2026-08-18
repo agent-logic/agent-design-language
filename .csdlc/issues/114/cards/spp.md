@@ -91,7 +91,7 @@ Revision 17
     "acceptance_ids": [
       "AC-9"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S10",
@@ -99,7 +99,7 @@ Revision 17
     "acceptance_ids": [
       "AC-10"
     ],
-    "status": "pending"
+    "status": "completed"
   }
 ]
 
