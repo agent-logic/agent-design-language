@@ -21,6 +21,7 @@ pub mod networking;
 pub mod observability;
 pub mod reasoning_runtime;
 pub mod resident_agent;
+pub mod resident_shepherd_continuity;
 pub mod runtime_api;
 pub mod runtime_api_auth;
 pub mod runtime_v3_soak;
