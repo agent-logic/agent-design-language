@@ -7,9 +7,9 @@
     "title": "[v0.92][WP-18C.07][coordination] Coordinate production Polis interface qualification",
     "slug": "production-polis-interface-qualification-parent",
     "version": "v0.92",
-    "generation": 37
+    "generation": 38
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -55,10 +55,10 @@
           "evidence_ref": "preparation-terminal-cache-validator.log"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }
