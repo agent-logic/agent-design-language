@@ -53,3 +53,4 @@
 {"sequence":53,"generation":41,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":54,"generation":42,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":55,"generation":43,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":56,"generation":44,"actor":"codex-worker-4-closeout","reason":"Materialize live GitHub terminal truth for merged PR #384 before cleanup.","operation":"materialize_derived_terminal"}
