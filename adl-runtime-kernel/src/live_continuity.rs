@@ -79,6 +79,8 @@ pub enum LiveContinuityError {
     SigningKey,
     #[error("resident population checkpoint requires resident-aware restore before admission")]
     ResidentPopulationRequired,
+    #[error("resident population checkpoint validation failed: {0}")]
+    ResidentPopulationValidation(String),
 }
 
 pub struct LiveContinuity {
@@ -139,26 +141,26 @@ impl LiveContinuity {
         &mut self,
         recorder: &RuntimeRecorder,
     ) -> Result<Option<u64>, LiveContinuityError> {
-        let restored = self.restore_latest_inner(recorder).await?;
-        if restored
-            .as_ref()
-            .is_some_and(|value| value.resident_population.is_some())
-        {
-            return Err(LiveContinuityError::ResidentPopulationRequired);
-        }
+        let restored = self.restore_latest_inner(recorder, None).await?;
         Ok(restored.map(|value| value.generation))
     }
 
-    pub async fn restore_latest_with_resident_population(
+    pub async fn restore_latest_with_resident_population<F>(
         &mut self,
         recorder: &RuntimeRecorder,
-    ) -> Result<Option<RestoredLiveContinuity>, LiveContinuityError> {
-        self.restore_latest_inner(recorder).await
+        mut validate: F,
+    ) -> Result<Option<RestoredLiveContinuity>, LiveContinuityError>
+    where
+        F: FnMut(&[u8]) -> Result<(), String>,
+    {
+        self.restore_latest_inner(recorder, Some(&mut validate))
+            .await
     }
 
     async fn restore_latest_inner(
         &mut self,
         recorder: &RuntimeRecorder,
+        mut resident_validator: Option<&mut dyn FnMut(&[u8]) -> Result<(), String>>,
     ) -> Result<Option<RestoredLiveContinuity>, LiveContinuityError> {
         let Some(generation) = latest_generation(&self.root).await? else {
             if self.minimum_generation > 0 {
@@ -211,10 +213,16 @@ impl LiveContinuity {
         if restored != self.snapshot {
             return Err(LiveContinuityError::SnapshotIdentity);
         }
+        if let Some(population) = resident_population.as_deref() {
+            let validator = resident_validator
+                .as_mut()
+                .ok_or(LiveContinuityError::ResidentPopulationRequired)?;
+            validator(population).map_err(LiveContinuityError::ResidentPopulationValidation)?;
+        }
+        self.validate_lineage(&loaded.manifest).await?;
         if let (Some(target), Some(snapshot)) = (&self.ingress, ingress) {
             target.restore(snapshot);
         }
-        self.validate_lineage(&loaded.manifest).await?;
         self.generation = generation;
         self.last_integrity = Some(loaded.manifest.integrity.clone());
         recorder.set_continuity_head(ContinuityHead {

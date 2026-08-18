@@ -6,6 +6,7 @@ OLLAMA_URL="${OLLAMA_HOST:-http://127.0.0.1:11434}"
 OUT="${ADL_ISSUE414_OUT:-$ROOT/.csdlc/evidence/414/cpu-shepherd-reference.json}"
 HOST_CLASS="${ADL_ISSUE414_HOST_CLASS:-reference}"
 MODELS=("llama3.1:8b" "qwen3:8b" "phi4-mini")
+CONTINUITY_BIN="${ADL_ISSUE414_CONTINUITY_BIN:-$ROOT/adl-runtime/target/debug/adl-runtime-resident-shepherd-continuity}"
 
 usage() {
   cat <<'USAGE'
@@ -31,8 +32,13 @@ done
   echo "host class must be reference or r7i.2xlarge" >&2
   exit 64
 }
+[[ "$OUT" == /* ]] || OUT="$ROOT/$OUT"
 command -v curl >/dev/null
 command -v jq >/dev/null
+[[ -x "$CONTINUITY_BIN" ]] || {
+  echo "resident continuity proof binary is missing; build adl-runtime-resident-shepherd-continuity before model execution" >&2
+  exit 66
+}
 curl -fsS "$OLLAMA_URL/api/tags" >/dev/null
 
 if [[ "$HOST_CLASS" == r7i.2xlarge ]]; then
@@ -88,6 +94,40 @@ for model in "${MODELS[@]}"; do
 
   completed_digest="$(<"$tmp/$model.cold.sha256")"
   continuation_prompt="You are resident agent $model continuing after exact restore. The completed task digest is $completed_digest. Return only JSON with keys action, ordered_steps, risk, next_action. Verify that the exact three-agent population digest and predecessor are bound before reopening admission. Give exactly three ordered_steps and set next_action to reopen_admission_after_exact_restore."
+  printf '%s' "$continuation_prompt" | shasum -a 256 | awk '{print $1}' >"$tmp/$model.continuation-request.sha256"
+  printf '%s' "$continuation_prompt" >"$tmp/$model.continuation-prompt.txt"
+  jq -n --arg model "$model" '{model:$model,keep_alive:0}' >"$tmp/unload.json"
+  curl -fsS "$OLLAMA_URL/api/generate" -H 'Content-Type: application/json' --data-binary @"$tmp/unload.json" >/dev/null
+done
+
+python3 - "$tags" "$tmp" >"$tmp/pre-recovery.json" <<'PY'
+import json, pathlib, sys
+tags = json.loads(pathlib.Path(sys.argv[1]).read_text())
+tmp = pathlib.Path(sys.argv[2])
+models = ["llama3.1:8b", "qwen3:8b", "phi4-mini"]
+residents = []
+for index, model in enumerate(models, start=1):
+    metadata = json.loads((tmp / f"{model}.metadata.json").read_text())
+    residents.append({
+        "agent_id": f"resident-{index}",
+        "model": model,
+        "artifact_sha256": metadata["digest"],
+        "quantization": metadata["details"]["quantization_level"],
+        "completed_task_sha256": (tmp / f"{model}.cold.sha256").read_text().strip(),
+        "continuation_request_sha256": (tmp / f"{model}.continuation-request.sha256").read_text().strip(),
+    })
+print(json.dumps({"schema":"adl.runtime.resident_shepherd_pre_recovery.v1","residents":residents}, sort_keys=True))
+PY
+
+mkdir -p "$tmp/runtime-continuity"
+"$CONTINUITY_BIN" dehydrate \
+  --input "$tmp/pre-recovery.json" \
+  --runtime-root "$tmp/runtime-continuity" \
+  --output "$tmp/runtime-continuity/dehydration-state.json"
+
+for model in "${MODELS[@]}"; do
+  completed_digest="$(<"$tmp/$model.cold.sha256")"
+  continuation_prompt="$(<"$tmp/$model.continuation-prompt.txt")"
   jq -n --arg model "$model" --arg prompt "$continuation_prompt" '{model:$model,prompt:$prompt,stream:false,format:"json",keep_alive:"5m",options:{num_ctx:8192,temperature:0,seed:415}}' >"$tmp/request.json"
   curl -fsS "$OLLAMA_URL/api/generate" -H 'Content-Type: application/json' --data-binary @"$tmp/request.json" >"$tmp/$model.warm.json"
   jq -e '.done == true and (.response | fromjson | .next_action == "reopen_admission_after_exact_restore") and (.response | fromjson | .ordered_steps | length == 3)' "$tmp/$model.warm.json" >/dev/null || {
@@ -130,6 +170,7 @@ for index, model in enumerate(models, start=1):
         "cold_latency_millis": max(1, cold["total_duration"] // 1_000_000),
         "warm_latency_millis": max(1, warm["total_duration"] // 1_000_000),
         "completed_task_sha256": (tmp / f"{model}.cold.sha256").read_text().strip(),
+        "continuation_request_sha256": (tmp / f"{model}.continuation-request.sha256").read_text().strip(),
         "next_task_sha256": (tmp / f"{model}.warm.sha256").read_text().strip(),
         "loaded_model_count": len(loaded),
         "loaded_model_bytes": sum(item["size"] for item in loaded),
@@ -163,3 +204,9 @@ path = pathlib.Path(out_path)
 path.write_text(json.dumps(receipt, indent=2, sort_keys=True) + "\n")
 print(json.dumps(receipt, sort_keys=True))
 PY
+
+"$CONTINUITY_BIN" restore \
+  --input "$OUT" \
+  --runtime-root "$tmp/runtime-continuity" \
+  --output "${OUT%.json}-end-to-end.json"
+jq -c '.' "${OUT%.json}-end-to-end.json"

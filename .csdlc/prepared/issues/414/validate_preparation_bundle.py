@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Fail-closed structural validator for the issue #414 preparation packet."""
 
+import json
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[4]
@@ -33,7 +34,7 @@ require(
         "dedicated retained/re-attached Runtime volume",
         "restore-before-admission",
         "No model-weight serialization",
-        "No Runtime v2 authority edits",
+        "No Runtime v2 state or transition invention",
         "No model-weight serialization, GPU, paid #268 launch, or #269 mutation",
     ),
 )
@@ -45,5 +46,19 @@ stp = (CARDS / "stp.md").read_text()
 for acceptance in range(1, 9):
     if f"AC-{acceptance}:" not in stp:
         raise SystemExit(f"stp.md missing AC-{acceptance}")
+
+index = json.loads((ROOT / ".csdlc/issues/414/index.json").read_text())
+spp = json.loads((CARDS / "spp.values.json").read_text())["content"]["values"]
+vpp = json.loads((CARDS / "vpp.values.json").read_text())["content"]["values"]
+approved = index.get("design_review", {}).get("approved")
+if not approved:
+    raise SystemExit("issue #414 design review is not approved")
+if not (
+    spp["design_ref"] == vpp["design_ref"] == index["design_path"]
+    and spp["diagram_ref"] == vpp["diagram_ref"] == index["diagram_path"]
+    and spp["design_digest"] == vpp["design_digest"] == approved["revision"]
+    and spp["diagram_digest"] == vpp["diagram_digest"]
+):
+    raise SystemExit("issue #414 design/diagram bindings are stale or disagree")
 
 print("PASS issue-414 preparation bundle")

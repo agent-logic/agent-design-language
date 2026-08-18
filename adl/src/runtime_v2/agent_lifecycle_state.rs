@@ -7,6 +7,8 @@
 
 use std::path::Path;
 
+pub use adl_runtime::agent_lifecycle::RuntimeV2AgentLifecycleState;
+
 use super::*;
 
 pub const RUNTIME_V2_AGENT_LIFECYCLE_STATE_CONTRACT_SCHEMA: &str =
@@ -293,6 +295,18 @@ impl RuntimeV2AgentLifecycleTransitionMatrix {
             return Err(anyhow!(
                 "agent_lifecycle_transition_matrix.transitions must preserve the reviewed runtime lifecycle transitions"
             ));
+        }
+        for rule in &self.transitions {
+            let from = RuntimeV2AgentLifecycleState::from_contract_name(&rule.from_state)
+                .ok_or_else(|| anyhow!("unknown shared lifecycle state '{}'", rule.from_state))?;
+            let to = RuntimeV2AgentLifecycleState::from_contract_name(&rule.to_state)
+                .ok_or_else(|| anyhow!("unknown shared lifecycle state '{}'", rule.to_state))?;
+            if rule.allowed != from.allows(to) {
+                return Err(anyhow!(
+                    "transition '{}' disagrees with shared Runtime lifecycle authority",
+                    rule.transition_id
+                ));
+            }
         }
         Ok(())
     }

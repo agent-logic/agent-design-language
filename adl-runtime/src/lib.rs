@@ -32,3 +32,4 @@ pub mod weather;
 
 pub const CSM_RUNTIME_OWNER: &str = "csm";
 pub const ADL_TOOLING_ROLE: &str = "tooling_control_plane";
+pub mod agent_lifecycle;

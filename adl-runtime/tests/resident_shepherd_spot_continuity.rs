@@ -2,9 +2,9 @@ use std::collections::{BTreeMap, BTreeSet};
 
 use adl_runtime::resident_shepherd_continuity::{
     load_population, persist_population_atomically, validate_habitability,
-    ExistingAgentLifecycleState, ResidentAgentCapsule, ResidentContinuityController,
-    ResidentHabitabilityReceipt, ResidentModelBinding, RuntimeVolumeBinding,
-    SpotInterruptionNotice, RESIDENT_POPULATION_SCHEMA, SPOT_NOTICE_SOURCE,
+    validate_population_before_restore, ExistingAgentLifecycleState, ResidentAgentCapsule,
+    ResidentContinuityController, ResidentHabitabilityReceipt, ResidentModelBinding,
+    RuntimeVolumeBinding, SpotInterruptionNotice, RESIDENT_POPULATION_SCHEMA, SPOT_NOTICE_SOURCE,
 };
 use adl_runtime_kernel::{LiveContinuity, LiveKernelSnapshot, RuntimeRecorder};
 use tempfile::TempDir;
@@ -116,8 +116,19 @@ async fn signed_live_kernel_checkpoint_requires_population_aware_restore() {
         identity,
         1,
     );
+    assert!(restored_live
+        .restore_latest_with_resident_population(&RuntimeRecorder::new(16), |_| {
+            Err("reject before mutation".to_string())
+        })
+        .await
+        .unwrap_err()
+        .to_string()
+        .contains("reject before mutation"));
     let restored = restored_live
-        .restore_latest_with_resident_population(&RuntimeRecorder::new(16))
+        .restore_latest_with_resident_population(&RuntimeRecorder::new(16), |bytes| {
+            let checkpoint = serde_json::from_slice(bytes).map_err(|error| error.to_string())?;
+            validate_population_before_restore(&checkpoint, &expected_ids(), &volume, 1)
+        })
         .await
         .unwrap()
         .unwrap();

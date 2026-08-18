@@ -14,6 +14,8 @@ use std::{
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
+pub use crate::agent_lifecycle::RuntimeV2AgentLifecycleState as ExistingAgentLifecycleState;
+
 pub const RESIDENT_POPULATION_SCHEMA: &str = "adl.runtime.resident_shepherd_population.v1";
 pub const RESIDENT_RECEIPT_SCHEMA: &str = "adl.runtime.resident_shepherd_continuity_receipt.v1";
 pub const SPOT_NOTICE_SOURCE: &str = "aws_imds_v2/spot/instance-action";
@@ -22,23 +24,6 @@ pub const R7I_2XLARGE_MEMORY_MIB: u64 = 65_536;
 pub const REQUIRED_CONTEXT_TOKENS: u32 = 8_192;
 pub const REQUIRED_PARALLELISM: u16 = 2;
 pub const REQUIRED_MAX_LOADED_MODELS: u16 = 2;
-
-#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord)]
-#[serde(rename_all = "SCREAMING_SNAKE_CASE")]
-pub enum ExistingAgentLifecycleState {
-    Active,
-    Quiescent,
-    Suspended,
-    Dormant,
-    Simulation,
-    InTransit,
-    Bootstrap,
-    Shutdown,
-    ForcedSuspension,
-    Quarantined,
-    Rejected,
-    Orphaned,
-}
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct ResidentModelBinding {
@@ -166,6 +151,21 @@ impl ResidentContinuityController {
         }
     }
 
+    pub fn exercise_quiescent_habitability(&mut self) -> Result<usize, String> {
+        if !self.admission_open {
+            return Err("admission is closed".to_string());
+        }
+        for agent in self.agents.values_mut() {
+            agent
+                .lifecycle_state
+                .transition(ExistingAgentLifecycleState::Quiescent)?;
+            agent
+                .lifecycle_state
+                .transition(ExistingAgentLifecycleState::Active)?;
+        }
+        Ok(self.agents.len())
+    }
+
     pub fn dehydrate_for_spot(
         &mut self,
         notice: &SpotInterruptionNotice,
@@ -188,7 +188,12 @@ impl ResidentContinuityController {
             .ok_or("generation overflow")?;
         let mut dormant = self.agents.values().cloned().collect::<Vec<_>>();
         for agent in &mut dormant {
-            agent.lifecycle_state = ExistingAgentLifecycleState::Dormant;
+            agent
+                .lifecycle_state
+                .transition(ExistingAgentLifecycleState::Suspended)?;
+            agent
+                .lifecycle_state
+                .transition(ExistingAgentLifecycleState::Dormant)?;
         }
         let mut checkpoint = ResidentPopulationCheckpoint {
             schema: RESIDENT_POPULATION_SCHEMA.to_string(),
@@ -223,7 +228,9 @@ impl ResidentContinuityController {
         let generation = checkpoint.generation;
         let mut restored = checkpoint.agents;
         for agent in &mut restored {
-            agent.lifecycle_state = ExistingAgentLifecycleState::Active;
+            agent
+                .lifecycle_state
+                .transition(ExistingAgentLifecycleState::Active)?;
             agent.sequence = agent.sequence.checked_add(1).ok_or("sequence overflow")?;
             agent.predecessor_sha256 = Some(agent.state_sha256.clone());
             agent.state_sha256 = digest_bytes(
@@ -354,6 +361,16 @@ fn validate_checkpoint(
         }
     }
     Ok(())
+}
+
+pub fn validate_population_before_restore(
+    checkpoint: &ResidentPopulationCheckpoint,
+    expected_agent_ids: &BTreeSet<String>,
+    volume: &RuntimeVolumeBinding,
+    minimum_generation: u64,
+) -> Result<(), String> {
+    validate_volume(volume)?;
+    validate_checkpoint(checkpoint, expected_agent_ids, volume, minimum_generation)
 }
 
 fn validate_agent(agent: &ResidentAgentCapsule, max_agent_bytes: u64) -> Result<(), String> {
