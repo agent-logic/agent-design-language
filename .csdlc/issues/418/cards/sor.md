@@ -44,11 +44,11 @@ Implemented a narrow, fail-closed raw-gh break-glass policy with executable appe
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
