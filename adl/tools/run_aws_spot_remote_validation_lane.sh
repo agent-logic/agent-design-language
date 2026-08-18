@@ -76,6 +76,7 @@ EXPECTED_ARCHITECTURE="${ADL_AWS_SPOT_EXPECTED_ARCHITECTURE:-x86_64}"
 MIN_CACHE_FREE_GIB="${ADL_AWS_SPOT_MIN_CACHE_FREE_GIB:-10}"
 ESTIMATED_HOURLY_COST_USD="${ADL_AWS_SPOT_ESTIMATED_HOURLY_COST_USD:-}"
 MAX_RUN_SECONDS=""
+MAX_SPOT_RETRIES="${ADL_AWS_SPOT_MAX_RETRIES:-2}"
 AMI_ID="${ADL_AWS_REMOTE_VALIDATION_AMI_ID:-}"
 SUBNET_ID="${ADL_AWS_REMOTE_VALIDATION_SUBNET_ID:-}"
 EXPECTED_CACHE_VOLUME_ID_SHA256="${ADL_AWS_REMOTE_VALIDATION_CACHE_VOLUME_ID_SHA256:-}"
@@ -143,6 +144,7 @@ Options:
   --estimated-hourly-cost-usd <usd>
                                 Override the pre-run Spot hourly price estimate.
   --max-run-seconds <seconds>   Remote validation command timeout in seconds.
+  --max-spot-retries <count>    Maximum additional Spot instance attempts. Defaults to 2.
   --ami-id <id>                 Explicit AMI. Defaults to the current AL2023 SSM image.
   --subnet-id <id>              Explicit subnet. Defaults to retained hot-cache proof topology.
   --expected-cache-volume-id-sha256 <hash>
@@ -325,6 +327,10 @@ while [[ $# -gt 0 ]]; do
       MAX_RUN_SECONDS="${2:-}"
       shift 2
       ;;
+    --max-spot-retries)
+      MAX_SPOT_RETRIES="${2:-}"
+      shift 2
+      ;;
     --ami-id)
       AMI_ID="${2:-}"
       shift 2
@@ -425,6 +431,10 @@ if [[ ! "$MIN_CACHE_FREE_GIB" =~ ^[0-9]+$ ]] || [[ "$MIN_CACHE_FREE_GIB" -lt 1 ]
 fi
 if [[ -n "$ESTIMATED_HOURLY_COST_USD" ]] && [[ ! "$ESTIMATED_HOURLY_COST_USD" =~ ^[0-9]+([.][0-9]+)?$ ]]; then
   echo "run_aws_spot_remote_validation_lane: --estimated-hourly-cost-usd must be numeric" >&2
+  exit 2
+fi
+if [[ ! "$MAX_SPOT_RETRIES" =~ ^[0-9]+$ ]]; then
+  echo "run_aws_spot_remote_validation_lane: --max-spot-retries must be a non-negative integer" >&2
   exit 2
 fi
 
@@ -973,6 +983,7 @@ cmd=(
   --out "$OUT_PATH"
   --artifact-dir "$ARTIFACT_DIR"
   --spot-only
+  --max-spot-retries "$MAX_SPOT_RETRIES"
   --cache-volume-id "$RETAINED_CACHE_VOLUME_ID"
   --cache-volume-name "$CACHE_VOLUME_NAME"
   --cache-volume-size-gib "$CACHE_VOLUME_SIZE_GIB"

@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 268,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][runtime-v3][20.c] Run six-hour Agent Logic Spot qualification only after operator and cost authorization",
+    "slug": "six-hour-agent-logic-spot-qualification",
+    "version": "v0.92",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact fixed-duration Runtime suite, issue-owned Spot wrapper/tests, paid evidence, cleanup, redaction, and lifecycle records only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any caller weaken the minimum 21,600-second monotonic denominator or hide final-cycle overshoot?",
+        "Can any path launch outside Agent Logic, exceed USD 20, use On-Demand/GPU, retry, or touch unrelated resources?",
+        "Are all #267/#373/#374 workload and fault receipts required throughout the run?",
+        "Do every exit path and interruption preserve evidence, clean exact ownership, and independently prove zero instances?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

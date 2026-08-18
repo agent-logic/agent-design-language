@@ -15,7 +15,7 @@ while (( $# > 0 )); do
       shift 2
       ;;
     -h|--help)
-      echo "Usage: $0 [--suite preflight_1x|lifecycle_10000|stress_100x10s|endurance_10x600s]"
+      echo "Usage: $0 [--suite preflight_1x|lifecycle_10000|stress_100x10s|endurance_10x600s|six_hour_qualification]"
       exit 0
       ;;
     *)
@@ -26,7 +26,7 @@ while (( $# > 0 )); do
 done
 
 case "$lifecycle_suite" in
-  preflight|preflight_1x|lifecycle_10000|stress_100x10s|endurance_10x600s) ;;
+  preflight|preflight_1x|lifecycle_10000|stress_100x10s|endurance_10x600s|six_hour|six_hour_qualification) ;;
   *)
     echo "unsupported ADL_RUNTIME_GUARDIAN_SUITE: $lifecycle_suite" >&2
     exit 64
@@ -639,6 +639,15 @@ if evaluation.get("status") != "pass" or evaluation.get("violations"):
     fail("bounded Runtime soak evidence remained fail-closed")
 if report.get("revision") != revision:
     fail("lifecycle revision drifted")
+if report.get("suite") == "six_hour_qualification":
+    if int(report.get("minimum_exposure_seconds", 0)) != 21600:
+        fail("six-hour minimum exposure denominator drifted")
+    measured = int(report.get("measured_exposure_seconds", 0))
+    overshoot = int(report.get("overshoot_seconds", -1))
+    if measured < 21600 or overshoot != measured - 21600:
+        fail("six-hour measured exposure did not reconcile")
+    if int(report.get("maximum_overshoot_seconds", 0)) != 600 or overshoot > 600:
+        fail("six-hour final-cycle overshoot exceeded its fixed cap")
 completed_cycles = int(report.get("completed_cycles", 0))
 total_restarts = int(report.get("total_restarts", 0))
 if completed_cycles < 1:
@@ -709,3 +718,11 @@ os.replace(temporary, proof_path)
 PY
 
 printf 'PASS: production Guardian lifecycle proof=%s revision=%s\n' "$run_root/issue-proof.json" "$revision"
+if [[ "$lifecycle_suite" == "six_hour" || "$lifecycle_suite" == "six_hour_qualification" ]]; then
+  printf 'ADL_ISSUE268_REPORT_BEGIN\n'
+  cat "$report"
+  printf '\nADL_ISSUE268_REPORT_END\n'
+  printf 'ADL_ISSUE268_PROOF_BEGIN\n'
+  cat "$run_root/issue-proof.json"
+  printf '\nADL_ISSUE268_PROOF_END\n'
+fi

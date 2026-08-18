@@ -1,0 +1,14 @@
+flowchart LR
+  A["Closed #266/#267/#373/#374 on exact base"] --> B["No-mutation Agent Logic account, quota, price and residue preflight"]
+  B --> C{"All gates pass and total <= USD 20?"}
+  C -->|no| D["Stop without AWS mutation"]
+  C -->|yes| E["Atomically claim and launch one c7i.2xlarge Spot identity"]
+  E --> F["At least 21,600 monotonic seconds; bounded final-cycle overshoot"]
+  F -->|success| G["Retain samples, faults, transcripts and digest receipt"]
+  F -->|failure, interruption, timeout or cancel| X["Retain terminal outcome and cleanup evidence"]
+  G --> H["Terminate exact task-owned compute"]
+  X --> H
+  E -->|manager dies| H
+  H --> I{"Independent zero-instance proof"}
+  I -->|no| J["Terminal failure and escalation"]
+  I -->|yes| K["Exact-head review, PR, finish"]

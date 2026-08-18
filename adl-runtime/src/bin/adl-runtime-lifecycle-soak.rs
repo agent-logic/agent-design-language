@@ -49,6 +49,8 @@ const STRESS_RUNS: u64 = 100;
 const STRESS_SECONDS: u64 = 10;
 const ENDURANCE_RUNS: u64 = 10;
 const ENDURANCE_SECONDS: u64 = 600;
+const SIX_HOUR_MINIMUM_SECONDS: u64 = 21_600;
+const SIX_HOUR_MAX_OVERSHOOT_SECONDS: u64 = 600;
 const PLATFORM_PROOF_SCHEMA: &str = "adl.wp12.platform_proof.v1";
 const SHORT_QUALIFICATION_CONNECTIONS: u64 = 50;
 const SHORT_QUALIFICATION_SAMPLE_INTERVAL_SECONDS: u64 = 1;
@@ -846,6 +848,7 @@ enum Suite {
     Lifecycle { cycles: u64 },
     Stress { runs: u64, seconds: u64 },
     Endurance { runs: u64, seconds: u64 },
+    SixHourQualification,
 }
 
 impl Suite {
@@ -855,6 +858,7 @@ impl Suite {
             Self::Lifecycle { .. } => "lifecycle_10000",
             Self::Stress { .. } => "stress_100x10s",
             Self::Endurance { .. } => "endurance_10x600s",
+            Self::SixHourQualification => "six_hour_qualification",
         }
     }
 }
@@ -913,6 +917,7 @@ impl Args {
                             runs: ENDURANCE_RUNS,
                             seconds: ENDURANCE_SECONDS,
                         },
+                        "six_hour" | "six_hour_qualification" => Suite::SixHourQualification,
                         other => return Err(format!("unsupported lifecycle soak suite: {other}")),
                     });
                 }
@@ -1097,6 +1102,7 @@ struct Execution {
     log_checked_cycles: u64,
     log_proof: Option<LogProof>,
     workload_proof: Option<WorkloadProof>,
+    exposure_elapsed: Option<Duration>,
 }
 
 impl Execution {
@@ -1116,6 +1122,7 @@ impl Execution {
             log_checked_cycles: 0,
             log_proof: None,
             workload_proof: None,
+            exposure_elapsed: None,
         }
     }
 
@@ -1477,6 +1484,84 @@ async fn execute_suite(
                 cycle: minimum_cycles_per_run,
                 completed_runs: runs,
                 completed_cycles: total_cycles,
+                error,
+            })?;
+            Ok(execution)
+        }
+        Suite::SixHourQualification => {
+            let exposure_started = Instant::now();
+            let minimum_deadline = exposure_started + Duration::from_secs(SIX_HOUR_MINIMUM_SECONDS);
+            let hard_deadline = tokio::time::Instant::from_std(
+                minimum_deadline + Duration::from_secs(SIX_HOUR_MAX_OVERSHOOT_SECONDS),
+            );
+            let mut execution = Execution::new(1, 0, 0);
+            let mut cycles = 0_u64;
+            loop {
+                cycles = cycles.saturating_add(1);
+                let cycle = execute_cycle(args, fixture, 1, cycles, cycles, false, cycles == 1);
+                let observation = tokio::time::timeout_at(hard_deadline, cycle)
+                    .await
+                    .map_err(|_| Failure {
+                        run: 1,
+                        cycle: cycles,
+                        completed_runs: 0,
+                        completed_cycles: cycles.saturating_sub(1),
+                        error: format!(
+                            "six-hour in-flight cycle exceeded the {}-second overshoot cap",
+                            SIX_HOUR_MAX_OVERSHOOT_SECONDS
+                        ),
+                    })?
+                    .map_err(|error| Failure {
+                        run: 1,
+                        cycle: cycles,
+                        completed_runs: 0,
+                        completed_cycles: cycles.saturating_sub(1),
+                        error,
+                    })?;
+                execution.record_cycle(observation);
+                if Instant::now() >= minimum_deadline {
+                    break;
+                }
+            }
+
+            cycles = cycles.saturating_add(1);
+            let final_cycle = execute_cycle(args, fixture, 1, cycles, cycles, true, false);
+            let observation = tokio::time::timeout_at(hard_deadline, final_cycle)
+                .await
+                .map_err(|_| Failure {
+                    run: 1,
+                    cycle: cycles,
+                    completed_runs: 0,
+                    completed_cycles: cycles.saturating_sub(1),
+                    error: format!(
+                        "six-hour final cycle exceeded the {}-second overshoot cap",
+                        SIX_HOUR_MAX_OVERSHOOT_SECONDS
+                    ),
+                })?
+                .map_err(|error| Failure {
+                    run: 1,
+                    cycle: cycles,
+                    completed_runs: 0,
+                    completed_cycles: cycles.saturating_sub(1),
+                    error,
+                })?;
+            execution.record_cycle(observation);
+            execution.completed_runs = 1;
+            execution.continuity_generation = cycles;
+            execution.minimum_cycles_per_run = cycles;
+            execution.exposure_elapsed = Some(exposure_started.elapsed());
+
+            verify_continuity_chain(
+                &fixture.continuity_root,
+                cycles,
+                &fixture.continuity_verifying_key,
+            )
+            .await
+            .map_err(|error| Failure {
+                run: 1,
+                cycle: cycles,
+                completed_runs: 1,
+                completed_cycles: cycles,
                 error,
             })?;
             Ok(execution)
@@ -3114,6 +3199,7 @@ fn fail(args: &Args, kernel_sha256: &str, started: Instant, failure: Failure) ->
         log_checked_cycles: 0,
         log_proof: None,
         workload_proof: None,
+        exposure_elapsed: None,
     };
     let report = report(
         args,
@@ -3142,6 +3228,7 @@ fn report(
         Suite::Stress { runs, seconds } | Suite::Endurance { runs, seconds } => {
             (None, Some(runs), Some(seconds))
         }
+        Suite::SixHourQualification => (None, Some(1), Some(SIX_HOUR_MINIMUM_SECONDS)),
     };
     let logging_complete = execution.log_proof.is_some();
     let master_log_ref = execution
@@ -3203,6 +3290,14 @@ fn report(
         "kernel_sha256": kernel_sha256,
         "runtime_v3_soak": runtime_v3_soak,
         "duration_millis": u64::try_from(started.elapsed().as_millis()).unwrap_or(u64::MAX),
+        "minimum_exposure_seconds": execution.exposure_elapsed
+            .map(|_| SIX_HOUR_MINIMUM_SECONDS),
+        "measured_exposure_seconds": execution.exposure_elapsed
+            .map(|elapsed| elapsed.as_secs()),
+        "overshoot_seconds": execution.exposure_elapsed
+            .map(|elapsed| elapsed.as_secs().saturating_sub(SIX_HOUR_MINIMUM_SECONDS)),
+        "maximum_overshoot_seconds": execution.exposure_elapsed
+            .map(|_| SIX_HOUR_MAX_OVERSHOOT_SECONDS),
         "failure": failure.map(|failure| serde_json::json!({
             "run": failure.run,
             "cycle": failure.cycle,
@@ -3984,7 +4079,7 @@ max_open_handles = 8
     }
 
     #[test]
-    fn accepts_only_the_three_exact_acceptance_suites() {
+    fn accepts_the_fixed_six_hour_qualification_without_duration_input() {
         let lifecycle = Args::parse(arguments(&["--suite", "lifecycle_10000"]).into_iter())
             .expect("10k lifecycle suite");
         assert!(matches!(
@@ -4013,6 +4108,19 @@ max_open_handles = 8
                 seconds: ENDURANCE_SECONDS
             }
         ));
+
+        let six_hour = Args::parse(arguments(&["--suite", "six_hour_qualification"]).into_iter())
+            .expect("fixed six-hour qualification suite");
+        assert!(matches!(six_hour.suite, Suite::SixHourQualification));
+
+        let error = Args::parse(
+            arguments(&["--suite", "six_hour_qualification", "--duration", "1"]).into_iter(),
+        )
+        .err()
+        .expect("caller duration override must fail");
+        assert!(error.contains("unknown lifecycle soak option: --duration"));
+        assert_eq!(SIX_HOUR_MINIMUM_SECONDS, 21_600);
+        assert_eq!(SIX_HOUR_MAX_OVERSHOOT_SECONDS, 600);
     }
 
     #[test]
@@ -4104,6 +4212,7 @@ max_open_handles = 8
                 log_audit_sha256: "c".repeat(64),
             }),
             workload_proof: None,
+            exposure_elapsed: None,
         };
         let value = report(
             &preflight,
