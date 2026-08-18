@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "dbfd1abbebd4f9dc40467d98535511955f705aa769d4c5d8836050003b7623f5",
   "phase": "bound",
-  "generation": 4,
-  "digest": "d374a07ee4daebb3b0a3a64651c1140d52e598fe0f8a56a8efe91b2100d42045",
+  "generation": 5,
+  "digest": "49a865be5ded5fc140b876ff6736fa119c06e5dd0024022c777141e31fc3a56e",
   "branch": "codex/418-audited-gh-breakglass-policy",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-418-audited-gh-breakglass-policy",
   "review_assignment": null,
@@ -18,38 +18,38 @@
   "diagram_path": ".csdlc/prepared/issues/418/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "fresh-session:6f11b72a-f556-4469-8987-32c44254e082",
+      "reviewer": "fresh-session:7ce5720b-9ac0-44ba-a934-3950f599b5c5",
       "revision": "1f39b4b28615007d25a1838d419ded9c7e21439ee5d4d802ecdd5c4348802dc1"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "8ca2da7aa929bfef107ccb1fc5761367559cca13292adc3d89013f0375767636",
+      "values_digest": "d35fd7214d34edb4a52fe1810a3fe87eb377f08c867d6b99e7046e896b4532c1",
       "rendered_digest": "6d3735ae33b30c22165d2bbde42b368012920281adaa756bb7f88fdc9724d48f",
       "ast_digest": "e32572518542a417e6fa122f7c9171f42d0f88d3f500398ed1c2a48721d71b12"
     },
     "stp": {
-      "values_digest": "bab5bebe17855212ead3cbe411e6461dd7e0da8065cf01caf03e15362182cfe4",
+      "values_digest": "add3fda52e1018ec0956a768817e21a366da7b0235b55a112b3097e056d9bfef",
       "rendered_digest": "62cbad6591fd6ec41bf26a76ac79dc159fbd382e4a682c9ba135923b62f649a7",
       "ast_digest": "ca8f5972d24c5a253a1f9035e983739b02b13d45ce9d6ed85045cec06b62bae1"
     },
     "spp": {
-      "values_digest": "0e2f57c54f36c259f29bfbf81d10b3e2768fe64e6deb996e3040bdbc9ddb60b9",
-      "rendered_digest": "eca4cb355d3009819249381e6fe33eadfbc3c0c1c825b6e77a7ef2f3fce12289",
-      "ast_digest": "9df747f15c19c03b7b983f3ce5de63050d873c531178889a99c1a9f1545ee270"
+      "values_digest": "5d5df302be501ca33e2fad80ecaa404e0197fe7c95ab418146da51cd14183568",
+      "rendered_digest": "c46ecf37270047df68f4046b2bf69ae82a6951f2cb35c082553695b9158827cb",
+      "ast_digest": "e852a40a6548bfe92f921a57866e45f4f707e10ad5f17f5751358c0a0e3ba63f"
     },
     "vpp": {
-      "values_digest": "bbbb3136c97528e91142ac875ff857f88f68a37ba6fd74a3757ceecfbeedd6e3",
+      "values_digest": "d3ad41441ee2d4ddf0f63631c49a71bad9859b02d1aec7921ca67173d3cdda12",
       "rendered_digest": "f97f734532b5705f5e600ea974ae8c7d21a480d4f7e9d9990c6eddcf30f34148",
       "ast_digest": "4fcbe31c2d7d0a13d8e69f5f9bf1704d38750588cd4f119a1d741f9cb4462d72"
     },
     "srp": {
-      "values_digest": "e9c36be50d3552106a262cfc3644f80971a3bac8b28b928b7e5f7f1afd217760",
+      "values_digest": "2dc7c5dc92221252216ce8c00b093813c846f166227415b904aece32936720ba",
       "rendered_digest": "f9d9f508e8da27cce8b60485c62c568dc3ccc6f1e8c86239fd5e20b112db1951",
       "ast_digest": "aaf520baea48dc1264a3e3c2791a6e5a71277b0f82cdbd795728a22948dd5824"
     },
     "sor": {
-      "values_digest": "e7db328d398f78f5c05e575436638d3d84f15739b71f4062d3c61b57d2913c59",
+      "values_digest": "7cb386f8057d7fb6c0840b2af1a59407963e206dd6b9ceea7724913382a53907",
       "rendered_digest": "04b5dd99ccca5552c54672caf9ef05c0bea940b81c09af7f050b8cb5a3d643cc",
       "ast_digest": "3dd5fb58032e02fa38426d57efcebfa2ab4432f4a1f9ec994a65a0cdfd2bd902"
     }
@@ -112,6 +112,13 @@
       "actor": "codex:issue-418",
       "reason": "Align deliverable truth with the existing boundary contract and focused test that must change alongside the root exception.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Fail-closed root break-glass policy in AGENTS.md.\",\"Three-event create-only receipt and typed reconciliation protocol in docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md.\",\"Aligned owner boundary in docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md.\",\"Updated exact route contract regression in csdlc-v2/tests/gate_github_route_policy.rs.\",\".csdlc/prepared/issues/418/validate_gh_breakglass_policy.sh\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "fresh-session:7ce5720b-9ac0-44ba-a934-3950f599b5c5",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"1f39b4b28615007d25a1838d419ded9c7e21439ee5d4d802ecdd5c4348802dc1\",\"design_ref\":\".csdlc/prepared/issues/418/design.md\",\"diagram_digest\":\"daeef03b693bef86186037ea1816a9044db352bd499417b2b0e17d5ed130e243\",\"diagram_ref\":\".csdlc/prepared/issues/418/diagram.mmd\",\"operation\":\"approve_design\"}"
     }
   ]
 }

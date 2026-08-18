@@ -37,17 +37,15 @@ is_branch() {
     && git check-ref-format --branch "$1" >/dev/null 2>&1
 }
 
-is_body_path() {
-  local path="$1"
-  local invocation
+verified_invocation_dir() {
+  local invocation="$1"
   local receipt_root
   local invocation_dir
   local canonical_root
   local canonical_invocation
   local mode
   local owner
-  [[ "$path" =~ ^\.git/csdlc-v2/break-glass/([A-Za-z0-9][A-Za-z0-9_.-]*)/body\.md$ ]] || return 1
-  invocation="${BASH_REMATCH[1]}"
+  [[ "$invocation" =~ ^[A-Za-z0-9][A-Za-z0-9_.-]*$ ]] || return 1
   [[ "$invocation" != '.' && "$invocation" != '..' ]] || return 1
   receipt_root='.git/csdlc-v2/break-glass'
   invocation_dir="${receipt_root}/${invocation}"
@@ -66,6 +64,49 @@ is_body_path() {
     owner="$(stat -c '%u' "$invocation_dir" 2>/dev/null || true)"
   fi
   [[ "$mode" == 700 && "$owner" == "$(id -u)" ]] || return 1
+  REPLY="$invocation_dir"
+}
+
+is_body_path() {
+  local path="$1"
+  local invocation
+  local invocation_dir
+  local mode
+  local owner
+  [[ "$path" =~ ^\.git/csdlc-v2/break-glass/([A-Za-z0-9][A-Za-z0-9_.-]*)/body\.md$ ]] || return 1
+  invocation="${BASH_REMATCH[1]}"
+  verified_invocation_dir "$invocation" || return 1
+  invocation_dir="$REPLY"
+  [[ "$path" == "$invocation_dir/body.md" ]] || return 1
+  [[ -f "$path" && ! -L "$path" ]] || return 1
+  mode="$(stat -f '%Lp' "$path" 2>/dev/null || true)"
+  if [[ ! "$mode" =~ ^[0-7]+$ ]]; then
+    mode="$(stat -c '%a' "$path" 2>/dev/null || true)"
+  fi
+  owner="$(stat -f '%u' "$path" 2>/dev/null || true)"
+  if [[ ! "$owner" =~ ^[0-9]+$ ]]; then
+    owner="$(stat -c '%u' "$path" 2>/dev/null || true)"
+  fi
+  [[ "$mode" == 600 && "$owner" == "$(id -u)" ]]
+}
+
+create_receipt_event() {
+  local invocation="$1"
+  local event="$2"
+  local payload="$3"
+  local invocation_dir
+  local path
+  local mode
+  local owner
+  case "$event" in
+    intent.json|result.json|reconciliation.json) ;;
+    *) return 1 ;;
+  esac
+  verified_invocation_dir "$invocation" || return 1
+  invocation_dir="$REPLY"
+  path="$invocation_dir/$event"
+  [[ ! -e "$path" && ! -L "$path" ]] || return 1
+  (umask 077; set -o noclobber; printf '%s\n' "$payload" >"$path") 2>/dev/null || return 1
   [[ -f "$path" && ! -L "$path" ]] || return 1
   mode="$(stat -f '%Lp' "$path" 2>/dev/null || true)"
   if [[ ! "$mode" =~ ^[0-7]+$ ]]; then
@@ -168,7 +209,7 @@ mkdir -p "$fixture_parent"
 fixture_root="$(mktemp -d "${fixture_parent}/policy-fixtures.XXXXXX")"
 trap 'cd "$repo_root" && rm -rf -- "$fixture_root"' EXIT
 mkdir -p "$fixture_root/.git/csdlc-v2/break-glass"
-for invocation in invoke-1 invoke-2 invoke-3 invoke-4 invoke-5 invoke-6 unsafe-mode symlink-target; do
+for invocation in invoke-1 invoke-2 invoke-3 invoke-4 invoke-5 invoke-6 ready-events unsafe-mode symlink-target; do
   mkdir -m 700 "$fixture_root/.git/csdlc-v2/break-glass/$invocation"
   install -m 600 /dev/null "$fixture_root/.git/csdlc-v2/break-glass/$invocation/body.md"
 done
@@ -188,6 +229,26 @@ expect_allowed gh pr create --repo agent-logic/agent-design-language --base main
 expect_allowed gh pr edit 419 --repo agent-logic/agent-design-language --body-file .git/csdlc-v2/break-glass/invoke-5/body.md
 expect_allowed gh pr ready 419 --repo agent-logic/agent-design-language
 expect_allowed gh pr comment 419 --repo agent-logic/agent-design-language --body-file .git/csdlc-v2/break-glass/invoke-6/body.md
+
+# The no-body PR-ready route still requires all three create-only receipt events.
+create_receipt_event ready-events intent.json '{"event":"intent"}' || fail 'intent receipt creation failed'
+create_receipt_event ready-events result.json '{"event":"result"}' || fail 'result receipt creation failed'
+create_receipt_event ready-events reconciliation.json '{"event":"reconciliation"}' || fail 'reconciliation receipt creation failed'
+for event in intent.json result.json reconciliation.json; do
+  if create_receipt_event ready-events "$event" '{"event":"overwrite"}'; then
+    fail "receipt overwrite accepted: $event"
+  fi
+done
+ln -s body.md "$fixture_root/.git/csdlc-v2/break-glass/invoke-1/result.json"
+if create_receipt_event invoke-1 result.json '{}'; then
+  fail 'symlink receipt target accepted'
+fi
+if create_receipt_event unsafe-parent intent.json '{}'; then
+  fail 'receipt creation escaped through symlinked invocation directory'
+fi
+if create_receipt_event invoke-1 arbitrary.json '{}'; then
+  fail 'receipt name outside the event allowlist accepted'
+fi
 
 # Negative fixtures: missing identity/authorization surfaces and every denied family.
 expect_denied gh issue create --repo agent-logic/agent-design-language --title defect --body-file .git/csdlc-v2/break-glass/x/body.md
@@ -220,4 +281,4 @@ expect_denied gh pr ready 419
 expect_denied gh pr ready branch-name --repo agent-logic/agent-design-language
 expect_denied gh pr create --repo agent-logic/agent-design-language --base main --head codex/418-policy --title policy --body-file .git/csdlc-v2/break-glass/x/body.md --draft --reviewer user
 
-printf 'PASS: typed gh break-glass policy contract (text_guards=27 argv_positive=7 argv_negative=28)\n'
+printf 'PASS: typed gh break-glass policy contract (text_guards=27 argv_positive=7 argv_negative=28 receipt_positive=3 receipt_negative=6)\n'

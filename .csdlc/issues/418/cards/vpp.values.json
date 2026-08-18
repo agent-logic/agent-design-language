@@ -7,7 +7,7 @@
     "title": "[v0.92][C-SDLC policy] Permit audited gh break-glass during confirmed typed regressions",
     "slug": "audited-gh-breakglass-policy",
     "version": "v0.92",
-    "generation": 4
+    "generation": 5
   },
   "status": "ready",
   "content": {
@@ -44,7 +44,7 @@
       "design_ref": ".csdlc/prepared/issues/418/design.md",
       "design_digest": "1f39b4b28615007d25a1838d419ded9c7e21439ee5d4d802ecdd5c4348802dc1",
       "diagram_ref": ".csdlc/prepared/issues/418/diagram.mmd",
-      "diagram_digest": "d2b1e5fd6030226dca7fbdb8823f9de8a8f07901c7bd9cc01dba9119fc9671c6"
+      "diagram_digest": "daeef03b693bef86186037ea1816a9044db352bd499417b2b0e17d5ed130e243"
     }
   }
 }
