@@ -5,3 +5,6 @@
 {"sequence":5,"generation":4,"actor":"codex:issue-417-implementation","reason":"Advance the complete fresh-reviewed #417 design package to execution readiness.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"}
 {"sequence":6,"generation":4,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
 {"sequence":7,"generation":5,"actor":"codex:issue-417-implementation","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
+{"sequence":8,"generation":5,"actor":"codex:issue-417-implementation","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":9,"generation":6,"actor":"codex:issue-417-implementation","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":10,"generation":7,"actor":"codex:issue-417-implementation","reason":"Recover failed exact review R1 to add absent, stale, and superseded recovery-epoch public-operation regressions with no-mutation assertions.","operation":"recover_review"}

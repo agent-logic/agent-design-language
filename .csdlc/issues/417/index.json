@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "32d2485256e10769425246e7f621730e81b12450d2a90fb923a5acb65e0ac790",
   "phase": "implemented",
-  "generation": 5,
-  "digest": "cefdf8eed3be930689681931f719478a7db150dde1852670a69e9725927a32e6",
+  "generation": 7,
+  "digest": "a0ddc5c51f3a68c9654304a6818e277e853910d8cb29685e037ecae5a4cb4761",
   "branch": "codex/417-implemented-design-refresh-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-417-implemented-design-refresh-recovery",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7796db52cbf8d7adc8068fa4a70e2d17cc39008d5f848b2434c65c023f4ff241",
+      "values_digest": "9db8c4e35878178be56008089d0c249a570c6abe49062dfcd4607c608e073a63",
       "rendered_digest": "a70d4db98d3279e4f2128190ee06a49f0256527425b2727ac9be1562a00d64bb",
       "ast_digest": "c0e17f61efd2eb5d2ccb4b6fedb26c5403ddeda25f6b5f69ebca2db4ba4b0d17"
     },
     "stp": {
-      "values_digest": "277c7308a184823614def9d91553bf8d944e9fc410c6f41da384df8c1aa63a54",
+      "values_digest": "451be4091c4f35b849c6be4650f2b0c4f50dc765bec2ac57c29dc1c89804dded",
       "rendered_digest": "c450c6b0b6b73ec3ace9d89eb9703e28b5bd3f3e736534c3af0122080faf5a64",
       "ast_digest": "f5a87ea0e2a0502ff7634f5cf1ae7fe79555c306e17ace10f9e98e5477bd2aaf"
     },
     "spp": {
-      "values_digest": "b15fa2ec645f747a2dd970408e152a4e436bc86dd380435451b9c349d986a724",
+      "values_digest": "90d1f1f8ced71dc6daa7433a11c62e59551339746ad38e88ed047503643b60ca",
       "rendered_digest": "216bf60974b25cd01bbc977838b435a10df32b6cc3563089a8b121ddd3c063fe",
       "ast_digest": "101a53fec4638ccc1920591a200ad31d9c64614cd818ec25117db0f2205d0bf7"
     },
     "vpp": {
-      "values_digest": "871004c561bd86f872d3424727755febd6e5eb0d652c0cbf049c8a2269b9831e",
+      "values_digest": "d51e5c8d3cfb88eb001dff1ddb5ff9d9327967686103668b1a7c4cad308751c3",
       "rendered_digest": "e1a2aee4a28d0d2bc7c9e6b7e079d2539d8333df07f5eb8e2efcae71f0e364ae",
       "ast_digest": "26bb70cbf6549e5107bff5d8db92e98198f7c679022d69e4048f6b06bc5a9c4b"
     },
     "srp": {
-      "values_digest": "703cd0349cc0978cde745c9b1a8c5ef03cd283486bd2cbde4bd376e1073d504f",
-      "rendered_digest": "63c71e0313f9a5cc7293133919c8ac60f73c5da6904dd545306255f3e58a3f91",
-      "ast_digest": "c2619e5616e5495e1146c62dcafdb347431dd2fd705abbc5ff78b44cbafaf627"
+      "values_digest": "74667fcfbd26ef00246b2239549f22db2e9e80ff9a041456b1e551aa5bc706aa",
+      "rendered_digest": "a5ee02938cb31790336eebb0648c69da4a66c810f5c2ccba39cc054611dfb962",
+      "ast_digest": "04cad8efd2a4fecab4fdffbe8e8b2cb26bab7ad77ea06c5e20d7162083b0deb2"
     },
     "sor": {
-      "values_digest": "3523605f17cf19b89e854a1aaaad5db1bea00b84184b664119e4b5a71530b33e",
-      "rendered_digest": "ad186d3721b391ada7a862d50c4042a94239dec2251f620b7a7be16a49e40008",
-      "ast_digest": "d1ee6052528610c081873ccfbba2901687c442501a07ada1bd2b2a13149b5c35"
+      "values_digest": "27aa4fd6ec83685c9ca3c96c3cda5728be34ac305b05da9952516c365049d55e",
+      "rendered_digest": "a1cdeb3d27e51e46be8e5afe2d368a2b5d2c4e5de510e4c74d0a242da41a27bb",
+      "ast_digest": "dbc9dd256ad0b743cda0e5661e4a2879e11e54af11e4862f4ed66fc2005a25f6"
     }
   },
   "transitions": [
@@ -126,6 +126,27 @@
       "actor": "codex:issue-417-implementation",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:issue-417-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:issue-417-implementation",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:issue-417-implementation",
+      "reason": "Recover failed exact review R1 to add absent, stale, and superseded recovery-epoch public-operation regressions with no-mutation assertions.",
+      "operation": "recover_review"
     }
   ]
 }

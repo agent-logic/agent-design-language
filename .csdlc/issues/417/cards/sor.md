@@ -61,7 +61,7 @@ Permit implemented authored-design refresh after bounded recovery repairs and ty
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-The exact store.rs recovery eligibility change, focused gate5 regressions, and issue-owned design/lifecycle artifacts.
+
 
 ## Prompts
 

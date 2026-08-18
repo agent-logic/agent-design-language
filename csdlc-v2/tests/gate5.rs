@@ -2455,6 +2455,144 @@ fn implemented_design_refresh_rejects_unlisted_recovery_epoch_operation() {
     );
 }
 
+#[test]
+fn implemented_design_refresh_rejects_absent_and_stale_recovery_epoch() {
+    let (_temp, store, implemented) = implemented_fixture();
+    std::fs::write(store.root().join("docs/design.md"), "# unanchored design\n").unwrap();
+    let before = std::fs::read(store.issue_dir(7).join("index.json")).unwrap();
+    for (generation, digest) in [
+        (implemented.generation, implemented.digest.clone()),
+        (implemented.generation + 1, implemented.digest.clone()),
+        (implemented.generation, "0".repeat(64)),
+    ] {
+        let error = edit_issue(
+            &store,
+            EditRequest {
+                issue: 7,
+                card: CardKind::Spp,
+                expected_generation: generation,
+                expected_digest: digest,
+                actor: "operator".into(),
+                reason: "reject absent or stale recovery epoch".into(),
+                operation: SemanticOperation::RefreshAuthoredDesignAfterRecovery,
+                fail_after_backup: false,
+            },
+        )
+        .expect_err("absent or stale recovery epoch must fail closed");
+        assert!(matches!(
+            error.code,
+            ErrorCode::InvalidTransition | ErrorCode::StaleGeneration | ErrorCode::StaleDigest
+        ));
+        assert_eq!(
+            std::fs::read(store.issue_dir(7).join("index.json")).unwrap(),
+            before
+        );
+    }
+}
+
+#[test]
+fn implemented_design_refresh_rejects_superseded_recovery_epoch() {
+    for superseding_recorded_review in [false, true] {
+        let (_temp, store, implemented) = implemented_fixture();
+        let revision = csdlc_v2::git::substantive_revision(store.root(), &["src".into()])
+            .expect("review revision");
+        let reviewed = record_review(
+            &store,
+            ReviewRecordRequest {
+                issue: 7,
+                expected_generation: implemented.generation,
+                expected_digest: implemented.digest,
+                actor: "reviewer".into(),
+                evidence: ReviewEvidence {
+                    reviewer: "reviewer".into(),
+                    scope: vec!["src".into()],
+                    reviewed_revision: revision,
+                    findings: vec![],
+                    residual_risks: vec![],
+                    completed: true,
+                    non_substantive_proof: None,
+                },
+            },
+        )
+        .expect("record first review");
+        let recovered = csdlc_v2::recover_review(
+            &store,
+            ReviewRecoveryRequest {
+                issue: 7,
+                expected_generation: reviewed.generation,
+                expected_digest: reviewed.digest,
+                actor: "operator".into(),
+                reason: "start recovery epoch that will be superseded".into(),
+            },
+        )
+        .expect("recover first review");
+        let assigned = assign_review(
+            &store,
+            ReviewAssignmentRequest {
+                issue: 7,
+                expected_generation: recovered.generation,
+                expected_digest: recovered.digest,
+                reviewer: "fresh-session:superseding".into(),
+                assigned_by: "operator".into(),
+                scope: vec!["src".into()],
+            },
+        )
+        .expect("assign superseding review");
+        let superseded = if superseding_recorded_review {
+            record_review(
+                &store,
+                ReviewRecordRequest {
+                    issue: 7,
+                    expected_generation: assigned.generation,
+                    expected_digest: assigned.digest,
+                    actor: "fresh-session:superseding".into(),
+                    evidence: ReviewEvidence {
+                        reviewer: "fresh-session:superseding".into(),
+                        scope: vec!["src".into()],
+                        reviewed_revision: csdlc_v2::git::substantive_revision(
+                            store.root(),
+                            &["src".into()],
+                        )
+                        .expect("superseding revision"),
+                        findings: vec![],
+                        residual_risks: vec![],
+                        completed: true,
+                        non_substantive_proof: None,
+                    },
+                },
+            )
+            .expect("record superseding review")
+        } else {
+            assigned
+        };
+        std::fs::write(
+            store.root().join("docs/design.md"),
+            "# superseded recovery design\n",
+        )
+        .unwrap();
+        let before = std::fs::read(store.issue_dir(7).join("index.json")).unwrap();
+        let error = edit_issue(
+            &store,
+            EditRequest {
+                issue: 7,
+                card: CardKind::Spp,
+                expected_generation: superseded.generation,
+                expected_digest: superseded.digest,
+                actor: "operator".into(),
+                reason: "reject superseded recovery epoch".into(),
+                operation: SemanticOperation::RefreshAuthoredDesignAfterRecovery,
+                fail_after_backup: false,
+            },
+        )
+        .expect_err("later assignment or review must supersede the old recovery epoch");
+        assert_eq!(error.code, ErrorCode::InvalidTransition);
+        assert_eq!(
+            std::fs::read(store.issue_dir(7).join("index.json")).unwrap(),
+            before
+        );
+    }
+}
+
 fn implemented_fixture() -> (tempfile::TempDir, Store, csdlc_v2::IssueRecord) {
     implemented_fixture_with_authored_paths("docs/design.md", "docs/diagram.mmd")
 }
