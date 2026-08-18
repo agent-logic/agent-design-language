@@ -7,9 +7,9 @@
     "title": "[v0.92][ADR][207.f] Serialize final ADR index, plan, manifest, and review packet",
     "slug": "final-adr-index-plan-manifest-review-packet",
     "version": "v0.92",
-    "generation": 16
+    "generation": 17
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -84,10 +84,10 @@
           "evidence_ref": "#288 final ADR serialization PASS at post-recovery source"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }
