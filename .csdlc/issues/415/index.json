@@ -3,15 +3,15 @@
   "issue": 415,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "6037409f66fba3a4ebafae9a06b9df42e8c8a1a9983858fcbbfa7826db44bce6",
-  "phase": "implemented",
-  "generation": 5,
-  "digest": "041588f94ba0a71518ad2a2329c6b538dacb4d6b918a6cf275d4c1d3d3c0585c",
+  "phase": "reviewed",
+  "generation": 6,
+  "digest": "97108888b8be8ef0b6eb0ac42e2ee6697027a919004e1268bf4ca1c1b95d6d5b",
   "branch": "codex/415-builder-preflight-diagnostics",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-415-builder-preflight-diagnostics",
   "review_assignment": {
-    "reviewer": "fresh-session:cdbaa5ed-0414-4785-9db8-e9032b5e68a8",
+    "reviewer": "fresh-session:3c69e04a-000a-402d-b62a-7b9d865553f1",
     "assigned_by": "codex:issue-415",
-    "revision": "git-blake3:e9fb5687180cae2803f240022177b95d51217c3b:fc1888f29402591a0f9df30e1004ee284f52df942bc74480f1bd90733e91ee3d",
+    "revision": "git-blake3:78112644e520b52e8f221645d570d0c30bbf84ef:32d971bd2da7f7af4a5e77b3e37c9038d9300fd8172eb2631a35864db2c2421c",
     "scope": [
       ".csdlc/issues/415",
       ".csdlc/prepared/issues/415",
@@ -22,7 +22,7 @@
     ]
   },
   "review": {
-    "reviewer": "fresh-session:cdbaa5ed-0414-4785-9db8-e9032b5e68a8",
+    "reviewer": "fresh-session:3c69e04a-000a-402d-b62a-7b9d865553f1",
     "scope": [
       ".csdlc/issues/415",
       ".csdlc/prepared/issues/415",
@@ -31,51 +31,10 @@
       "adl/tools/test_run_aws_spot_builder_image_validation.sh",
       "tools/aws_remote_validation/scripts/remote_validation_runner.sh"
     ],
-    "reviewed_revision": "git-blake3:e9fb5687180cae2803f240022177b95d51217c3b:fc1888f29402591a0f9df30e1004ee284f52df942bc74480f1bd90733e91ee3d",
-    "findings": [
-      {
-        "id": "415-r1-p2-path-leak",
-        "severity": "p2",
-        "summary": "Failure summary emits the machine-local retained-log path without redaction.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "415-r1-p2-canned-missing-tool",
-        "severity": "p2",
-        "summary": "Missing-tool fixture keys only on the label instead of dynamically executing the received probe command.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "415-r1-p2-unreadable-diagnostic",
-        "severity": "p2",
-        "summary": "Runner compatibility proof covers an absent diagnostic but not a present unreadable diagnostic.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "415-r1-p3-evidence-binding",
-        "severity": "p3",
-        "summary": "Focused evidence lacks an explicit assertion denominator and exact-revision binding is not visible beside it.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
+    "reviewed_revision": "git-blake3:78112644e520b52e8f221645d570d0c30bbf84ef:32d971bd2da7f7af4a5e77b3e37c9038d9300fd8172eb2631a35864db2c2421c",
+    "findings": [],
     "residual_risks": [
-      "No P0 or P1 findings; fixes require a new exact-head review."
+      "No live AWS validation ran because issue #415 explicitly prohibits paid launch; the deterministic local runner and fake-provider fixtures are the proving boundary."
     ],
     "completed": true,
     "non_substantive_proof": null
@@ -94,32 +53,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5b744a2da357bf5df48fb05dc931a875134b36e5333f9511550adc2280bc0aa0",
+      "values_digest": "82a63edf691c2444a7910e6ac20f4b7c772baa5d8c83419a2ebc3569202c0ceb",
       "rendered_digest": "a808919bd08ac8d6cabb709455b6ed918578fdd4084b39340e09abec259f15d9",
       "ast_digest": "0e2b3caba2da4dbf59f8028a135511fda8535648f0c19a096da6e9374791d573"
     },
     "stp": {
-      "values_digest": "84cff107abcd087d4c542cdf353ac8bb020ac5786422fbe707653686c3a44559",
+      "values_digest": "dd44128bc72f6c488ee0fc13fbf0e8afe9f5dc682418a3bc45282bc764e61588",
       "rendered_digest": "49c7c64933d265f18bc89ab562868438aaa5af448489f0906e074b2a14355e01",
       "ast_digest": "3842e82a542b09ffef44fd24d7ce1abb44ea05fb0b8401c70a85ca4b225a52cb"
     },
     "spp": {
-      "values_digest": "78064a26e5e04fec3cc847a3eccffc9a06c3a5d1517c33a5a59adeeb2b96caf4",
+      "values_digest": "b2a554b1aa9d18ec6c2089461e410a9673dfa241bf5f2ff005d56569603ac275",
       "rendered_digest": "6d8a90d815dca253ca2574dbad36973f9ee330d622cd6eae3b493673f112e9bf",
       "ast_digest": "529365bac42bf9c7d841ac9cd2e7ababb12a903a12da342d112da87a1f37bff7"
     },
     "vpp": {
-      "values_digest": "59c5ab0d10d9db8eac0a6eda88a9cc4f02ef40ba96cecb5f37ffcf0733710895",
+      "values_digest": "d5493c2c62a0db2a624de5c073c30ef9dbec2c6be5eea012ba96d007d6a9282a",
       "rendered_digest": "aa608f04e26efd1bc935396ae3c50f7bed6114bead8121d023ed8ef641b93614",
       "ast_digest": "b497eda96940af7d0e123be9a734c4766ff6c0b914f638f4506ca61b4ce84f44"
     },
     "srp": {
-      "values_digest": "57f21265ee79fc09cdc9d8db554f09e1ac966b42f195a22ab0584d4e0257946e",
-      "rendered_digest": "8e7ee9833619d174326360259a5a1f79ed6f64c225581b24003e2dbf0f7addf5",
-      "ast_digest": "eee125b8231506ef9ce7ee0f39c36679417dae8647d6ff4b600e5b0e2ddf5a82"
+      "values_digest": "76ddfe33b2ed65147c009a79c527b65dcb40e626496f096d5c45801419661f95",
+      "rendered_digest": "adb1ab272412f07f7ab5e61a2b9a60f3c6a315a4c0014bd83c19c8c2f9cac791",
+      "ast_digest": "9df63e7aee1311fbb09a468b647a0aa1f808ac2b92e1a37926e8016ab8a3cf71"
     },
     "sor": {
-      "values_digest": "28d65ace7e850aaaa5c0988b7a84faed5f1a2ac7d8d6d41368a8bf49210dea6d",
+      "values_digest": "68d4770fb3ce231661fdd1565c554e9c1d8046aee396043b6debe5fdf716a772",
       "rendered_digest": "e8e517bc480e0de82ee2af11b5f9922d384612597691ec9607b190e47840d28e",
       "ast_digest": "efb14ac12f5595eedeed6049b315c1b696b68d7b81923fb646412cc2ba4250b2"
     }
@@ -145,6 +104,13 @@
       "to": "implemented",
       "actor": "codex:issue-415",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-415",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -200,6 +166,20 @@
     {
       "sequence": 8,
       "generation": 5,
+      "actor": "codex:issue-415",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 5,
+      "actor": "codex:issue-415",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
       "actor": "codex:issue-415",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
