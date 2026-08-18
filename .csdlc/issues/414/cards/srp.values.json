@@ -7,13 +7,13 @@
     "title": "[v0.92][runtime-v3][integration] Wire resident Shepherd continuity into Spot reclamation",
     "slug": "resident-shepherd-spot-continuity",
     "version": "v0.92",
-    "generation": 27
+    "generation": 29
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #414 lifecycle/prepared/evidence plus the exact resident adapter, additive registration, focused test, lifecycle soak bridge, Spot runner contract, and CPU habitability runner contract paths.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

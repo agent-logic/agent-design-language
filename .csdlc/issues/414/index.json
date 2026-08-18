@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "9e1cbce390fccdfb4d50654dd520ba265644fc9b5d2e59297e61befe2e6311e5",
   "phase": "implemented",
-  "generation": 27,
-  "digest": "f48a939867a5e426f8ea1d6dc3c02f4e0c6b1eb958dcfebe51b861ce7e52647f",
+  "generation": 29,
+  "digest": "f6c5220df2d8785815a6b7dfba46f5ab1602c0a7cb4ea00e8f184fbf5d517ac3",
   "branch": "codex/414-resident-shepherd-spot-continuity",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-414-resident-shepherd-spot-continuity",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d772b72f433a503aa916958e11444aeda0e0fbec28acd8a5984d8beb74d427aa",
+      "values_digest": "55f68d2772a4637f87b948ff3d7ee0a0d3c3ff41b1e67e8d23b555c9f7281bd2",
       "rendered_digest": "a46bc46b66ce391e80992efb06f6647b266a69ab272b9d386ee2218c953a0f47",
       "ast_digest": "b00b065288707e4799ea84336611f03bba306bb52bc68f174fb2412bafad8bd8"
     },
     "stp": {
-      "values_digest": "1fc5104fd85f8e65dcb227f3d8822ca72f5c338c12d669bcee7d7416bfda14b8",
+      "values_digest": "ab6796555f4f8113734468590849e8ccca5153a1bb404543354d6638aaefd670",
       "rendered_digest": "a7537adadaf86b26eb880432058462ffa75aba343e8cd6b5b13dfc7539106197",
       "ast_digest": "fcffc4c120fa877da45d88867faa7007b2d03e648ebebc962f22f6decb901dbb"
     },
     "spp": {
-      "values_digest": "376be66a5295a1e90aeb5ffb8978025315e329ce696e94c7a203adc332c89595",
+      "values_digest": "8c25d639e507241125119c290e1ea7bbea6e3022a7b0b7e8ff5df6ce74e492d7",
       "rendered_digest": "586e38d33f8a6a603cb7d97ad382e8e71f70ed7af6c6dc87d4f67b3dae322989",
       "ast_digest": "a4a0489007bb01dfac7046907d4343d64df3cd59f32755cc7c5c95356bca8042"
     },
     "vpp": {
-      "values_digest": "633d12f012b95a6a17576b57f1b70baecbbc3450a075c07876941c858c534633",
+      "values_digest": "5c554fdc27dc3240ea7525b757f80ea0e920c890728128314b785d7314829043",
       "rendered_digest": "a1a7323c68e7fd06f4d382d5ef3a048acb15099337eded25c4d1a43e9c78365f",
       "ast_digest": "396921d0280451333aac043dc11a899ab381ad50cc3ef61094ee2057d39ece61"
     },
     "srp": {
-      "values_digest": "96b6b3ae3cdf7bd90cb5a63a7bce8e9c2e02fb0bf447e50034b4aca061875f8c",
-      "rendered_digest": "2ce2a554989c9305140c93061141660bd5aa7549c9b215e6dacb4d86ba73ea3c",
-      "ast_digest": "0b60afa997050a5671ce7cb27af54aa2331b097df707f62a718e1f1b4e33f26c"
+      "values_digest": "d6060c3d7615a36f3be4105d43dee49c7b264ce8d4f8995bce03b87bb27519b8",
+      "rendered_digest": "cbb7dd10d44c030c590239976f70bc71790c2b1a634db2ac0d4c6828da2a7351",
+      "ast_digest": "848d2046d03e7743382348d73e6a6dad11011baa7544dcfe5351c20a70c64e99"
     },
     "sor": {
-      "values_digest": "7907f469b6d9f395f0da6bd8b3f8a241d1d01260f34d8878b00912725d01d20f",
-      "rendered_digest": "0877ea14af5a1088805704129b564aed36327e2287ebf82805a7298e9a70fc9e",
-      "ast_digest": "897f264b02be4c71fa9aad7793ed38354be6cf0b96ad324d0fb5e2573ba87e54"
+      "values_digest": "85853180b44772579f88881f449a0cd5d039fb6f7e5a3524829c7e025fa64f63",
+      "rendered_digest": "16a60d949b41df26945dde9f5855f1009010119cd95092a39b11f6688bdb9b7a",
+      "ast_digest": "1ae6ba98181d62b3ddc2d0131d3d29035724be5651d4475c131875d11d99600c"
     }
   },
   "transitions": [
@@ -280,6 +280,27 @@
       "actor": "codex:issue-414-implementation",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 30,
+      "generation": 27,
+      "actor": "codex:issue-414-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 28,
+      "actor": "codex:issue-414-implementation",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 29,
+      "actor": "codex:issue-414-implementation",
+      "reason": "Recover failed exact-head review before enforcing one matching CSM capsule per resident and removing raw prompt/response workdir evidence from publication truth.",
+      "operation": "recover_review"
     }
   ]
 }

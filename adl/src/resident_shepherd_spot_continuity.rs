@@ -177,11 +177,13 @@ pub async fn dehydrate(input: &DehydrationInput, deadline: Duration) -> Result<D
 
     let capsules = capture_all(input, deadline_at)?;
     let result: Result<DehydrationReceipt> = async {
+        // Each resident is one Runtime-v2 citizen and must have exactly one
+        // existing-agent CSM capsule.  Capsule bindings are recovery evidence
+        // for those same citizens, not additional citizens.
         let citizen_ids = input
             .residents
             .iter()
             .map(|resident| resident.agent_id.clone())
-            .chain(capsules.iter().map(|capsule| capsule.agent_id.clone()))
             .collect::<Vec<_>>();
         let snapshot = runtime_v2_snapshot_rehydration_for_active_citizens(&citizen_ids)?;
         snapshot.validate()?;
@@ -301,12 +303,6 @@ pub async fn restore_and_admit(
         .model_bindings
         .iter()
         .map(|resident| resident.agent_id.clone())
-        .chain(
-            integration
-                .capsule_bindings
-                .iter()
-                .map(|capsule| capsule.agent_id.clone()),
-        )
         .collect::<Vec<_>>();
     let runtime_v2_rehydration = RuntimeV2RehydrationReport::after_successful_restore(
         &integration.runtime_v2_snapshot,
@@ -478,6 +474,19 @@ fn validate_integration(value: &ResidentContinuityIntegration, root: &Path) -> R
         {
             bail!("capsule binding mismatch for {}", binding.agent_id);
         }
+    }
+    let resident_ids = value
+        .model_bindings
+        .iter()
+        .map(|binding| binding.agent_id.as_str())
+        .collect::<BTreeSet<_>>();
+    let capsule_ids = value
+        .capsule_bindings
+        .iter()
+        .map(|binding| binding.agent_id.as_str())
+        .collect::<BTreeSet<_>>();
+    if resident_ids != capsule_ids || value.model_bindings.len() != value.capsule_bindings.len() {
+        bail!("every resident must have exactly one matching CSM capsule binding");
     }
     Ok(())
 }
@@ -821,6 +830,7 @@ fn rollback_admission(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use base64::Engine;
     use std::sync::atomic::{AtomicU64, Ordering};
     use std::thread;
 
@@ -849,12 +859,30 @@ mod tests {
         fs::write(
             &spec,
             format!(
-                "schema: adl.long_lived_agent_spec.v1\nagent_instance_id: {id}\ndisplay_name: {id}\nstate_root: {}\nworkflow:\n  kind: demo_adapter\nheartbeat:\n  stale_lease_after_secs: 60\n",
-                root.join("state").display()
+                "schema: adl.long_lived_agent_spec.v1\nagent_instance_id: {id}\ndisplay_name: {id}\nstate_root: state\nworkflow:\n  kind: demo_adapter\nheartbeat:\n  stale_lease_after_secs: 60\n"
             ),
         )
         .unwrap();
         long_lived_agent::status(&spec).unwrap();
+        let daemon_spec = spec.clone();
+        thread::spawn(move || {
+            long_lived_agent::daemon(
+                &daemon_spec,
+                long_lived_agent::DaemonOptions {
+                    bounded_test_restart_limit: Some(0),
+                    checkpoint_interval_secs: 1,
+                    interval_secs: Some(1),
+                    api_bind: None,
+                    no_sleep: true,
+                    recover_stale_lease: false,
+                    api_otel_status_path: None,
+                    api_otel_log_path: None,
+                },
+            )
+        })
+        .join()
+        .unwrap()
+        .unwrap();
         spec
     }
 
@@ -879,6 +907,7 @@ mod tests {
             runtime_volume_identity_sha256: digest("volume"),
             spot_notice: None,
         };
+        assert!(validate_integration(&integration, Path::new("runtime")).is_err());
         assert!(validate_restore_bindings(
             &integration,
             &RestoreInput {
@@ -1022,15 +1051,32 @@ mod tests {
             "ADL_ISSUE414_SIGNING_KEY_HEX",
             "9999999999999999999999999999999999999999999999999999999999999999",
         );
+        let custody_private_key = "CQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQkJCQk=";
+        let key_bytes = base64::engine::general_purpose::STANDARD
+            .decode(custody_private_key)
+            .unwrap();
+        let signing = p256::ecdsa::SigningKey::from_slice(&key_bytes).unwrap();
+        let custody_public_key = base64::engine::general_purpose::STANDARD
+            .encode(signing.verifying_key().to_encoded_point(false).as_bytes());
+        std::env::set_var(
+            "ADL_CSM_CUSTODY_P256_SIGNING_PRIVATE_KEY_B64",
+            custody_private_key,
+        );
+        std::env::set_var("ADL_CSM_CUSTODY_SIGNING_KEY_ID", "issue414-test-key");
+        std::env::set_var(
+            "ADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64",
+            custody_public_key,
+        );
         let id = NEXT_TEST.fetch_add(1, Ordering::Relaxed);
         let base = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
             .join("target")
             .join(format!("issue414-continuity-test-{id}"));
+        let _ = fs::remove_dir_all(&base);
         let runtime_root = base.join("retained-runtime");
         let build_root = base.join("build-cache");
         let input = DehydrationInput {
             residents: vec![binding("a"), binding("b")],
-            existing_agent_specs: vec![],
+            existing_agent_specs: vec![existing_agent(&base, "a"), existing_agent(&base, "b")],
             retained_runtime_root: runtime_root.clone(),
             build_cache_root: build_root.clone(),
             runtime_volume_identity_sha256: digest("test-volume"),
@@ -1040,6 +1086,8 @@ mod tests {
         };
         let dehydrated = dehydrate(&input, Duration::from_secs(2)).await.unwrap();
         assert!(!dehydrated.admission_open);
+        assert_eq!(dehydrated.resident_count, 2);
+        assert_eq!(dehydrated.capsule_count, 2);
         assert!(restore_and_admit(
             &runtime_root,
             &RestoreInput {
@@ -1063,6 +1111,8 @@ mod tests {
         .await
         .unwrap();
         assert!(restored.admission_open);
+        assert_eq!(restored.resident_count, 2);
+        assert_eq!(restored.capsule_count, 2);
         assert!(runtime_root
             .join("restored-populations/generation-1")
             .is_dir());

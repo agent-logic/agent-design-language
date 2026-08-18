@@ -7,7 +7,7 @@
     "title": "[v0.92][runtime-v3][integration] Wire resident Shepherd continuity into Spot reclamation",
     "slug": "resident-shepherd-spot-continuity",
     "version": "v0.92",
-    "generation": 27
+    "generation": 29
   },
   "status": "pre_phase",
   "content": {
@@ -122,7 +122,7 @@
           "evidence_ref": "watcher-race-regression.log"
         }
       ],
-      "integration_state": "not_started",
+      "integration_state": "worktree_only",
       "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",

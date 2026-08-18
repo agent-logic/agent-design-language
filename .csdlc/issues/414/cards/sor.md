@@ -129,7 +129,7 @@ Integrate existing Runtime-v2, CSM capsule, LiveContinuity, Ollama-provider, ret
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

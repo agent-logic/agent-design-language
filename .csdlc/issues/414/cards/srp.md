@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Issue #414 lifecycle/prepared/evidence plus the exact resident adapter, additive registration, focused test, lifecycle soak bridge, Spot runner contract, and CPU habitability runner contract paths.
+
 
 ## Prompts
 
