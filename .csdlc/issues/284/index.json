@@ -1,0 +1,299 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 284,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "d471d95c607e9d810728ebcb23e26844d4b579a5e1b9d28e1245b4e4693990cf",
+  "phase": "published",
+  "generation": 19,
+  "digest": "642bb3f4524ced9efddd8c52a7ac9f96ae3c852695bbf04281e29b2db7b6027f",
+  "branch": "codex/284-adr0066-guardian-authority-evidence-reconciliation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-284-adr0066-guardian-authority-evidence-reconciliation",
+  "review_assignment": {
+    "reviewer": "fresh-session:3eac0ef5-62a6-464d-ae62-afe89ceb74cd",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:95587b9c75177ab1970368a26f35f334f7fa420f:b5f09ed4498272d90b074ea617697d5a70b7b1999c059bb5837ddf4aded9a6e8",
+    "scope": [
+      ".csdlc/evidence/284",
+      ".csdlc/issues/284",
+      ".csdlc/prepared/issues/284"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:3eac0ef5-62a6-464d-ae62-afe89ceb74cd",
+    "scope": [
+      ".csdlc/evidence/284",
+      ".csdlc/issues/284",
+      ".csdlc/prepared/issues/284"
+    ],
+    "reviewed_revision": "git-blake3:95587b9c75177ab1970368a26f35f334f7fa420f:b5f09ed4498272d90b074ea617697d5a70b7b1999c059bb5837ddf4aded9a6e8",
+    "findings": [],
+    "residual_risks": [
+      "Review was bounded to #284 issue-local ADR 0066 Guardian authority evidence reconciliation and did not claim #207 closeout, #288 ADR serialization, #142 completion, ADR acceptance, runtime implementation, cloud rerun, or WP-18C terminal proof.",
+      "Typed validation uses the stable generated owner binary with worktree-relative --root . because the FastWork issue worktree does not carry its own .adl/bin owner installation."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 284,
+    "pull_request": 410,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/410",
+    "base": "main",
+    "head": "codex/284-adr0066-guardian-authority-evidence-reconciliation",
+    "revision": "git-blake3:44eded4bfad97faec9f596bf6d537482e32330f4:419561adb5e2b354c04b1de285ac70517829ac0f5f20845153eac2a729fecf0d",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/284/design.md",
+  "diagram_path": ".csdlc/prepared/issues/284/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:0E8F9C82-9EDF-446F-AB62-5964DDA4E436",
+      "revision": "5d6d5235a90dc583c83a2d3487618a9363d1db66306ae5f8858666da7a2b2c08"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "d14b139fdc5ba310a2daa3f86bff0b98f56950cd995cc3cc3d9512e0810ff9ae",
+      "rendered_digest": "01ff30845f4d507ec76619d4792136378e120a0f3a42eba5e5ef387331e59d06",
+      "ast_digest": "b9e044289eb363c500ea0e20254545cd90e3b000b85442799e34a90df7862aef"
+    },
+    "stp": {
+      "values_digest": "cc24a42d8e0756ab2129576f795d6bef87e27c15a0c6dce97f8de5d4a9f80e61",
+      "rendered_digest": "9fdb3e0a2850173916d338ea8f5a81422c4fa510faf7c08101eef83e5459cd83",
+      "ast_digest": "b9cdf73a91371a813131d0f96fb001cdab5d00410079996020f855d4cea64a8d"
+    },
+    "spp": {
+      "values_digest": "876e47a436b0f55e901c5cd452fd1a64311a63f82a72c0e05618f52fb12b7045",
+      "rendered_digest": "05a634ff720b706a94fcb61c4ef65591e4e77bfd4fe765c0a3b5ef10c400c265",
+      "ast_digest": "6caa613d51714b90bd0c565a800d1144e37c8f531dee135072fb26413e56196d"
+    },
+    "vpp": {
+      "values_digest": "aeb83390b643bb798c3cd7a3edd36e97b2508f5f678127f4a9c89970162ba530",
+      "rendered_digest": "c4c2ef57cffda8352cb4e9a4783025b908781913c2fed94f33ff67944292b8fe",
+      "ast_digest": "58b837b21393b8fc9a473e4a02a5cc69c2d90c20458b88780645a8b605ab8356"
+    },
+    "srp": {
+      "values_digest": "843ebb836e951f742838b59fe186bfe4bf74df0adb20254de4d84c8243715380",
+      "rendered_digest": "87978a7bc3aba06e33f9d53d15e5aadf2a1f64ce32837d8d123de6eba9774949",
+      "ast_digest": "1a9d6c00ac2787d0d6dc3eb800831c2cd70d0e4a6f0fb97a97b7a84b91d6e98f"
+    },
+    "sor": {
+      "values_digest": "e8705856d122371b3dafbd7b32f9f37bc971f069c91f90d80e40d202e7192001",
+      "rendered_digest": "e31a7834e5747563565b239ff218df6564ca738b6409c4be0322ccb157d0fafb",
+      "ast_digest": "a329f40096a40210489746f904f049fd729a96bc3d312949510835464582ecb0"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex-worker-5",
+      "reason": "Issue #284 design is approved and ready for FastWork binding before implementation."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:3eac0ef5-62a6-464d-ae62-afe89ceb74cd",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex-worker-5",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex-worker-5",
+      "reason": "Issue #284 design is approved and ready for FastWork binding before implementation.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex-worker-5",
+      "reason": "Repair #284 VPP so the focused validator is an executable issue-owned prepared target and typed validation uses the supported issue subcommand.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"focused-adr0066-guardian-authority-evidence\",\"proof_role\":\"Issue-local reconciliation validator for retained #142 graph evidence and residual gaps.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/prepared/issues/284/validate_adr0066_guardian_authority_evidence.sh\"],\"parallel_group\":\"serial\",\"defer_reason\":null},{\"lane\":\"typed-issue-validation\",\"proof_role\":\"Typed lifecycle/card validation before review and publication.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\".adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"284\"],\"parallel_group\":\"serial\",\"defer_reason\":\"Run after implementation evidence is recorded.\"}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex-worker-5",
+      "reason": "Name the exact focused validator as an issue-owned affected path so readiness can govern the bash validation target.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/issues/284/\",\".csdlc/prepared/issues/284/\",\".csdlc/prepared/issues/284/validate_adr0066_guardian_authority_evidence.sh\",\".csdlc/evidence/284/\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex-worker-5",
+      "reason": "Align affected areas with the existing STP-declared focused validator deliverable path.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/issues/284/\",\".csdlc/prepared/issues/284/\",\".csdlc/evidence/284/\",\".csdlc/evidence/284/validate_adr0066_guardian_authority_evidence.sh\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Repair #284 readiness VPP after current validation found stale non-proving lane targets; use the issue-owned evidence validator path and the stable C-SDLC v2 owner binary with explicit worktree root.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"focused-adr0066-guardian-authority-evidence\",\"proof_role\":\"Issue-local reconciliation validator for retained #142 graph evidence and residual gaps.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/evidence/284/validate_adr0066_guardian_authority_evidence.sh\"],\"parallel_group\":\"serial\",\"defer_reason\":null},{\"lane\":\"typed-issue-validation\",\"proof_role\":\"Typed lifecycle/card validation before review and publication.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-284-adr0066-guardian-authority-evidence-reconciliation\",\"issue\",\"--issue\",\"284\"],\"parallel_group\":\"serial\",\"defer_reason\":\"Run after implementation evidence is recorded.\"}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Recover after fresh-session:629351bd-7c71-4d7c-acb4-f34c4222ceb3 found stale typed-validation evidence, pending SPP steps despite implemented phase, and machine-local terminal-cache validator target; repair lifecycle/evidence truth before assigning a different fresh exact reviewer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Record completed #284 evidence packet creation after implementation and review recovery.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"step-1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Record completed #284 focused validator implementation after implementation and review recovery.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"step-2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Record #284 validation/review/publication step as in progress while fresh review and terminal delivery remain pending.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"step-3\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Recover after fresh-session:b28e52bf-6fb9-416b-8a47-27448e1be27e found host-specific validation command paths in VPP/SOR; repair card/evidence-command truth before a different fresh exact reviewer.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Repair #284 VPP after review finding: planned validation commands must be portable and repo/worktree-relative rather than host-specific absolute paths.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"focused-adr0066-guardian-authority-evidence\",\"proof_role\":\"Issue-local reconciliation validator for retained #142 graph evidence and residual gaps.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/evidence/284/validate_adr0066_guardian_authority_evidence.sh\"],\"parallel_group\":\"serial\",\"defer_reason\":null},{\"lane\":\"typed-issue-validation\",\"proof_role\":\"Typed lifecycle/card validation before review and publication.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"284\"],\"parallel_group\":\"serial\",\"defer_reason\":\"Run after implementation evidence is recorded with the repository-approved owner binary on PATH.\"}]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "Replace #284 SOR validation truth after review finding: record portable command forms rather than host-specific absolute paths.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"#284 records issue-local ADR 0066 Guardian authority evidence reconciliation from retained #5878 and #194 inputs, including live-vs-retained legacy PR #140 drift, residual gaps, and non-claims; it does not claim #142 completion, ADR acceptance, #207 closeout, or #288 serialization.\",\"changes\":[\"Added .csdlc/evidence/284/evidence-manifest.json with retained #5878 terminal cache, #5878 execution proof, #194 private qualification summary, #194 preflight input hashes, classifications, residual gaps, and non-claims.\",\"Added .csdlc/evidence/284/live-observations.json with current #142/#194/#397 and legacy PR #140 observations plus retained #5878 terminal-cache identity.\",\"Added .csdlc/evidence/284/adr0066-guardian-authority-reconciliation.md with issue-local ADR 0066 evidence classification, residual gaps, #142/#207/#288 non-claims, and live-vs-retained PR #140 drift truth.\",\"Repaired .csdlc/evidence/284/validate_adr0066_guardian_authority_evidence.sh and the prepared mirror so linked-worktree terminal-cache lookup uses the current Git common directory and validates the retained-terminal schema without hard-coding the primary checkout.\",\"Repaired #284 VPP/SOR lane truth so validation commands are portable command forms from the issue worktree; local execution used the installed repository owner binary.\"],\"artifacts\":[\".csdlc/evidence/284/evidence-manifest.json\",\".csdlc/evidence/284/live-observations.json\",\".csdlc/evidence/284/adr0066-guardian-authority-reconciliation.md\",\".csdlc/evidence/284/validate_adr0066_guardian_authority_evidence.sh\",\".csdlc/prepared/issues/284/validate_adr0066_guardian_authority_evidence.sh\",\".csdlc/issues/284\"],\"validation\":[{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Run Git diff whitespace hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"diff-hygiene.log\"},{\"command\":[\"bash\",\".csdlc/evidence/284/validate_adr0066_guardian_authority_evidence.sh\"],\"purpose\":\"Run the #284 focused reconciliation validator.\",\"outcome\":\"passed\",\"evidence_ref\":\"focused-adr0066-guardian-authority-evidence.log\"},{\"command\":[\"csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"284\"],\"purpose\":\"Run typed C-SDLC v2 issue validation from the issue worktree with the repository-approved owner binary.\",\"outcome\":\"passed\",\"evidence_ref\":\"typed-issue-validation.log\"}]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Repair #284 VPP after PATH-only typed validation was not governed in the issue worktree; use issue-owned wrapper that resolves the owner binary from Git common dir.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"focused-adr0066-guardian-authority-evidence\",\"proof_role\":\"Issue-local reconciliation validator for retained #142 graph evidence and residual gaps.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/evidence/284/validate_adr0066_guardian_authority_evidence.sh\"],\"parallel_group\":\"serial\",\"defer_reason\":null},{\"lane\":\"typed-issue-validation\",\"proof_role\":\"Typed lifecycle/card validation before review and publication.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"bash\",\".csdlc/evidence/284/run_typed_issue_validation.sh\"],\"parallel_group\":\"serial\",\"defer_reason\":\"Wrapper resolves the repository-approved C-SDLC v2 owner binary from the current Git common directory.\"}]}"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "Replace #284 SOR validation truth after VPP wrapper repair so actual validation evidence names the issue-owned typed validation wrapper.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"#284 records issue-local ADR 0066 Guardian authority evidence reconciliation from retained #5878 and #194 inputs, including live-vs-retained legacy PR #140 drift, residual gaps, and non-claims; it does not claim #142 completion, ADR acceptance, #207 closeout, or #288 serialization.\",\"changes\":[\"Added .csdlc/evidence/284/evidence-manifest.json with retained #5878 terminal cache, #5878 execution proof, #194 private qualification summary, #194 preflight input hashes, classifications, residual gaps, and non-claims.\",\"Added .csdlc/evidence/284/live-observations.json with current #142/#194/#397 and legacy PR #140 observations plus retained #5878 terminal-cache identity.\",\"Added .csdlc/evidence/284/adr0066-guardian-authority-reconciliation.md with issue-local ADR 0066 evidence classification, residual gaps, #142/#207/#288 non-claims, and live-vs-retained PR #140 drift truth.\",\"Repaired .csdlc/evidence/284/validate_adr0066_guardian_authority_evidence.sh and the prepared mirror so linked-worktree terminal-cache lookup uses the current Git common directory and validates the retained-terminal schema without hard-coding the primary checkout.\",\"Added .csdlc/evidence/284/run_typed_issue_validation.sh so typed issue validation is declared through an issue-owned wrapper that resolves the repository-approved owner binary from the current Git common directory.\"],\"artifacts\":[\".csdlc/evidence/284/evidence-manifest.json\",\".csdlc/evidence/284/live-observations.json\",\".csdlc/evidence/284/adr0066-guardian-authority-reconciliation.md\",\".csdlc/evidence/284/validate_adr0066_guardian_authority_evidence.sh\",\".csdlc/evidence/284/run_typed_issue_validation.sh\",\".csdlc/prepared/issues/284/validate_adr0066_guardian_authority_evidence.sh\",\".csdlc/issues/284\"],\"validation\":[{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Run Git diff whitespace hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"diff-hygiene.log\"},{\"command\":[\"bash\",\".csdlc/evidence/284/validate_adr0066_guardian_authority_evidence.sh\"],\"purpose\":\"Run the #284 focused reconciliation validator.\",\"outcome\":\"passed\",\"evidence_ref\":\"focused-adr0066-guardian-authority-evidence.log\"},{\"command\":[\"bash\",\".csdlc/evidence/284/run_typed_issue_validation.sh\"],\"purpose\":\"Run typed C-SDLC v2 issue validation through the issue-owned wrapper.\",\"outcome\":\"passed\",\"evidence_ref\":\"typed-issue-validation.log\"}]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "Repair #284 VPP after wrapper validation was not accepted as governed; use direct stable owner binary with worktree-relative --root .",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"focused-adr0066-guardian-authority-evidence\",\"proof_role\":\"Issue-local reconciliation validator for retained #142 graph evidence and residual gaps.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":2000,\"argv\":[\"bash\",\".csdlc/evidence/284/validate_adr0066_guardian_authority_evidence.sh\"],\"parallel_group\":\"serial\",\"defer_reason\":null},{\"lane\":\"typed-issue-validation\",\"proof_role\":\"Typed lifecycle/card validation before review and publication.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"284\"],\"parallel_group\":\"serial\",\"defer_reason\":\"Stable generated owner binary is outside Cargo target output; command is run from the issue worktree with worktree-relative root.\"}]}"
+    },
+    {
+      "sequence": 21,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "Replace #284 SOR validation truth after governed lane repair: direct stable owner binary with worktree-relative root.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"#284 records issue-local ADR 0066 Guardian authority evidence reconciliation from retained #5878 and #194 inputs, including live-vs-retained legacy PR #140 drift, residual gaps, and non-claims; it does not claim #142 completion, ADR acceptance, #207 closeout, or #288 serialization.\",\"changes\":[\"Added .csdlc/evidence/284/evidence-manifest.json with retained #5878 terminal cache, #5878 execution proof, #194 private qualification summary, #194 preflight input hashes, classifications, residual gaps, and non-claims.\",\"Added .csdlc/evidence/284/live-observations.json with current #142/#194/#397 and legacy PR #140 observations plus retained #5878 terminal-cache identity.\",\"Added .csdlc/evidence/284/adr0066-guardian-authority-reconciliation.md with issue-local ADR 0066 evidence classification, residual gaps, #142/#207/#288 non-claims, and live-vs-retained PR #140 drift truth.\",\"Repaired .csdlc/evidence/284/validate_adr0066_guardian_authority_evidence.sh and the prepared mirror so linked-worktree terminal-cache lookup uses the current Git common directory and validates the retained-terminal schema without hard-coding the primary checkout.\",\"Repaired #284 VPP/SOR typed validation lane so it uses the stable generated owner binary with worktree-relative --root . rather than hard-coding the issue worktree path.\"],\"artifacts\":[\".csdlc/evidence/284/evidence-manifest.json\",\".csdlc/evidence/284/live-observations.json\",\".csdlc/evidence/284/adr0066-guardian-authority-reconciliation.md\",\".csdlc/evidence/284/validate_adr0066_guardian_authority_evidence.sh\",\".csdlc/prepared/issues/284/validate_adr0066_guardian_authority_evidence.sh\",\".csdlc/issues/284\"],\"validation\":[{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Run Git diff whitespace hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"diff-hygiene.log\"},{\"command\":[\"bash\",\".csdlc/evidence/284/validate_adr0066_guardian_authority_evidence.sh\"],\"purpose\":\"Run the #284 focused reconciliation validator.\",\"outcome\":\"passed\",\"evidence_ref\":\"focused-adr0066-guardian-authority-evidence.log\"},{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"284\"],\"purpose\":\"Run typed C-SDLC v2 issue validation from the issue worktree with the stable generated owner binary.\",\"outcome\":\"passed\",\"evidence_ref\":\"typed-issue-validation.log\"}]}"
+    },
+    {
+      "sequence": 22,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 18,
+      "actor": "fresh-session:3eac0ef5-62a6-464d-ae62-afe89ceb74cd",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

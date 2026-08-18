@@ -1,0 +1,36 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 287,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][ADR 0071][207.e] Reconcile provider-neutral multi-agent evidence",
+    "slug": "adr0071-provider-neutral-multi-agent-evidence-reconciliation",
+    "version": "v0.92",
+    "generation": 6
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Reconcile ADR 0071 provider-neutral multi-agent evidence under #207 using exact retained and terminal evidence with issue-local validation.",
+      "required_outcome": "Issue #287 has exact issue-local reconciliation truth for ADR 0071, including validated WP-18B umbrella terminality status, explicit residual gap truth when #341 remains non-terminal, and inputs ready for #207/#288 final serialization.",
+      "declared_scope": [
+        "ADR 0071 provider-neutral multi-agent evidence reconciliation for #207.",
+        "Issue-local evidence, validator, and lifecycle truth only."
+      ],
+      "authority_boundary": [
+        "Consumes WP-18B evidence but cannot complete, weaken, or rewrite implementation acceptance for WP-18B owners.",
+        "Records absent or partial evidence as residual gaps; it does not infer terminal provider-neutral proof from supporting child state.",
+        "Shared ADR docs, ADR index, final plan, and manifest remain frozen until #288."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Work in a bound FastWork issue worktree before implementation.",
+        "Run typed C-SDLC v2 lifecycle only for lifecycle writes.",
+        "Review with a fresh bounded reviewer before publication.",
+        "Preserve #207 parent and #288 final serialization boundaries."
+      ]
+    }
+  }
+}

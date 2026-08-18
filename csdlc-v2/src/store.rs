@@ -11,7 +11,7 @@ use sha2::{Digest, Sha256};
 use crate::cards::{
     apply, digest, initial_cards, render, terminal_validation_passed, validate_cross_card,
     validate_identity_version, validate_result, CardContent, CardKind, CardStatus, CardValues,
-    InitialCardInput, SemanticOperation, StepStatus, ValidationResult,
+    InitialCardInput, PlanStep, SemanticOperation, StepStatus, ValidationResult,
 };
 use crate::error::{ErrorCode, Result, V2Error};
 use crate::model::{
@@ -4005,6 +4005,7 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     if matches!(
         request.operation,
         SemanticOperation::CorrectStpDependenciesAfterRecovery { .. }
+            | SemanticOperation::CorrectStpRepoInputsAfterRecovery { .. }
             | SemanticOperation::CorrectPlanStepsAfterRecovery { .. }
     ) {
         if request.actor.trim().is_empty() || request.reason.trim().is_empty() {
@@ -4022,6 +4023,9 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
         let operation_name = match request.operation {
             SemanticOperation::CorrectStpDependenciesAfterRecovery { .. } => {
                 "correct_stp_dependencies_after_recovery"
+            }
+            SemanticOperation::CorrectStpRepoInputsAfterRecovery { .. } => {
+                "correct_stp_repo_inputs_after_recovery"
             }
             SemanticOperation::CorrectPlanStepsAfterRecovery { .. } => {
                 "correct_plan_steps_after_recovery"
@@ -4106,7 +4110,8 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     }
     if matches!(
         request.operation,
-        SemanticOperation::CorrectRequiredOutcomeAfterRecovery { .. }
+        SemanticOperation::CorrectGoalAfterRecovery { .. }
+            | SemanticOperation::CorrectRequiredOutcomeAfterRecovery { .. }
     ) && !implemented_pre_publication_review_recovery_is_immediate(&record)
     {
         return Err(V2Error::new(
@@ -4166,6 +4171,17 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     ) {
         match &cards[&CardKind::Stp].content {
             CardContent::Stp(value) => Some(value.dependencies.clone()),
+            _ => unreachable!("STP"),
+        }
+    } else {
+        None
+    };
+    let stp_repo_inputs_before = if matches!(
+        request.operation,
+        SemanticOperation::CorrectStpRepoInputsAfterRecovery { .. }
+    ) {
+        match &cards[&CardKind::Stp].content {
+            CardContent::Stp(value) => Some(value.repo_inputs.clone()),
             _ => unreachable!("STP"),
         }
     } else {
@@ -4238,6 +4254,17 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     } else {
         None
     };
+    let goal_before = if matches!(
+        request.operation,
+        SemanticOperation::CorrectGoalAfterRecovery { .. }
+    ) {
+        match &cards[&CardKind::Sip].content {
+            CardContent::Sip(value) => Some(value.goal.clone()),
+            _ => unreachable!("SIP"),
+        }
+    } else {
+        None
+    };
     let operator_constraints_before = if matches!(
         request.operation,
         SemanticOperation::CorrectOperatorConstraintsBeforeBind { .. }
@@ -4268,6 +4295,11 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
     } else {
         None
     };
+    if let (SemanticOperation::CorrectPlanStepsAfterRecovery { steps }, Some(previous_steps)) =
+        (&request.operation, plan_steps_before.as_ref())
+    {
+        validate_status_only_plan_step_recovery(previous_steps, steps)?;
+    }
     let audit_operation = match (&request.operation, replan_before) {
         (SemanticOperation::Replan { field, value }, Some(previous)) => serde_json::json!({
             "operation": "replan",
@@ -4300,6 +4332,17 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
                 "operation": "correct_stp_dependencies_after_recovery",
                 "previous_values": stp_dependencies_before
                     .expect("STP dependency correction snapshot"),
+                "new_values": values,
+                "recovery_sequence": record.audit.iter().rev().find(|event| event.operation == "recover_review").map(|event| event.sequence),
+                "recovery_generation": record.audit.iter().rev().find(|event| event.operation == "recover_review").map(|event| event.generation),
+            })
+            .to_string()
+        }
+        (SemanticOperation::CorrectStpRepoInputsAfterRecovery { values }, _) => {
+            serde_json::json!({
+                "operation": "correct_stp_repo_inputs_after_recovery",
+                "previous_values": stp_repo_inputs_before
+                    .expect("STP repo input correction snapshot"),
                 "new_values": values,
                 "recovery_sequence": record.audit.iter().rev().find(|event| event.operation == "recover_review").map(|event| event.sequence),
                 "recovery_generation": record.audit.iter().rev().find(|event| event.operation == "recover_review").map(|event| event.generation),
@@ -4352,6 +4395,17 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
                 "previous_value": required_outcome_before
                     .expect("SIP required-outcome correction snapshot"),
                 "new_value": value,
+            })
+            .to_string()
+        }
+        (SemanticOperation::CorrectGoalAfterRecovery { value }, _) => {
+            serde_json::json!({
+                "operation": "correct_goal_after_recovery",
+                "previous_value": goal_before
+                    .expect("SIP goal correction snapshot"),
+                "new_value": value,
+                "recovery_sequence": record.audit.iter().rev().find(|event| event.operation == "recover_review").map(|event| event.sequence),
+                "recovery_generation": record.audit.iter().rev().find(|event| event.operation == "recover_review").map(|event| event.generation),
             })
             .to_string()
         }
@@ -4837,6 +4891,28 @@ fn validate_prebind_contract_repair(
             }
         }
         _ => unreachable!("pre-bind contract repair operation"),
+    }
+    Ok(())
+}
+
+fn validate_status_only_plan_step_recovery(
+    previous_steps: &[PlanStep],
+    replacement_steps: &[PlanStep],
+) -> Result<()> {
+    let same_non_status_shape = previous_steps.len() == replacement_steps.len()
+        && previous_steps
+            .iter()
+            .zip(replacement_steps)
+            .all(|(previous, replacement)| {
+                previous.id == replacement.id
+                    && previous.action == replacement.action
+                    && previous.acceptance_ids == replacement.acceptance_ids
+            });
+    if !same_non_status_shape {
+        return Err(V2Error::new(
+            ErrorCode::CardInvalid,
+            "SPP recovery plan-step correction may change only step status",
+        ));
     }
     Ok(())
 }
@@ -6124,7 +6200,8 @@ fn authorize_card_operation(
             CardKind::Stp,
             SemanticOperation::ReplaceAcceptanceCriteria { .. }
                 | SemanticOperation::CorrectStpDeliverablesAfterRecovery { .. }
-                | SemanticOperation::CorrectStpDependenciesAfterRecovery { .. },
+                | SemanticOperation::CorrectStpDependenciesAfterRecovery { .. }
+                | SemanticOperation::CorrectStpRepoInputsAfterRecovery { .. },
         ) | (
             LifecyclePhase::Implemented,
             CardKind::Stp,
@@ -6152,7 +6229,8 @@ fn authorize_card_operation(
         ) | (
             LifecyclePhase::Implemented,
             CardKind::Sip,
-            SemanticOperation::CorrectRequiredOutcomeAfterRecovery { .. },
+            SemanticOperation::CorrectGoalAfterRecovery { .. }
+                | SemanticOperation::CorrectRequiredOutcomeAfterRecovery { .. },
         ) | (
             LifecyclePhase::Implemented,
             CardKind::Vpp,
@@ -6251,7 +6329,8 @@ fn is_implemented_card_truth_repair(
             } | SemanticOperation::ReplacePlanningCollection {
                 field: crate::cards::PlanningCollectionField::NonGoals,
                 ..
-            } | SemanticOperation::CorrectStpDependenciesAfterRecovery { .. },
+            } | SemanticOperation::CorrectStpDependenciesAfterRecovery { .. }
+                | SemanticOperation::CorrectStpRepoInputsAfterRecovery { .. },
         ) | (
             LifecyclePhase::Implemented,
             CardKind::Spp,
@@ -6260,7 +6339,8 @@ fn is_implemented_card_truth_repair(
         ) | (
             LifecyclePhase::Implemented,
             CardKind::Sip,
-            SemanticOperation::CorrectRequiredOutcomeAfterRecovery { .. },
+            SemanticOperation::CorrectGoalAfterRecovery { .. }
+                | SemanticOperation::CorrectRequiredOutcomeAfterRecovery { .. },
         ) | (
             LifecyclePhase::Implemented,
             CardKind::Vpp,
@@ -6513,6 +6593,8 @@ fn recovery_epoch_operation_is_allowed(operation: &str) -> bool {
         "correct_plan_summary_after_recovery"
         | "correct_plan_steps_after_recovery"
         | "correct_stp_dependencies_after_recovery"
+        | "correct_stp_repo_inputs_after_recovery"
+        | "correct_goal_after_recovery"
         | "correct_required_outcome_after_recovery"
         | "correct_review_prompts_after_recovery"
         | "replace_sor_follow_ups_after_recovery"

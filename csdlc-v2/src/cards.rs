@@ -590,6 +590,9 @@ pub enum SemanticOperation {
     CorrectStpDependenciesAfterRecovery {
         values: Vec<String>,
     },
+    CorrectStpRepoInputsAfterRecovery {
+        values: Vec<String>,
+    },
     CorrectPlanSummaryAfterRecovery {
         value: String,
     },
@@ -601,6 +604,9 @@ pub enum SemanticOperation {
     },
     CorrectSorFollowUpsAfterRecovery {
         values: Vec<String>,
+    },
+    CorrectGoalAfterRecovery {
+        value: String,
     },
     CorrectRequiredOutcomeAfterRecovery {
         value: String,
@@ -992,6 +998,16 @@ pub fn apply(
             }
             Ok(None)
         }
+        SemanticOperation::CorrectStpRepoInputsAfterRecovery {
+            values: replacement,
+        } => {
+            validate_unique_replacement(replacement, "STP repo inputs")?;
+            match &mut values.content {
+                CardContent::Stp(value) => value.repo_inputs = replacement.clone(),
+                _ => return ownership(values.kind(), "correct_stp_repo_inputs_after_recovery"),
+            }
+            Ok(None)
+        }
         SemanticOperation::CorrectPlanSummaryAfterRecovery { value } => {
             if value.trim().is_empty() {
                 return Err(V2Error::new(
@@ -1061,6 +1077,16 @@ pub fn apply(
             match &mut values.content {
                 CardContent::Sip(v) => v.required_outcome = value.clone(),
                 _ => return ownership(values.kind(), "correct_required_outcome_after_recovery"),
+            }
+            Ok(None)
+        }
+        SemanticOperation::CorrectGoalAfterRecovery { value } => {
+            if value.trim().is_empty() {
+                return Err(V2Error::new(ErrorCode::CardInvalid, "goal cannot be empty"));
+            }
+            match &mut values.content {
+                CardContent::Sip(v) => v.goal = value.clone(),
+                _ => return ownership(values.kind(), "correct_goal_after_recovery"),
             }
             Ok(None)
         }

@@ -1,0 +1,17 @@
+flowchart TD
+  issue["#284 ADR 0066 reconciliation"]
+  graph["#142 graph context"]
+  wp["#5878 / PR #140 terminal WP-04.16 proof"]
+  private["#194 / PR #397 private Wuji-AWS partial qualification"]
+  evidence["#284 issue-local evidence packet"]
+  residual["Residual gaps / non-claims"]
+  parent["#207 / #288 final ADR serialization"]
+
+  issue --> graph
+  graph --> wp
+  graph --> private
+  wp --> evidence
+  private --> evidence
+  evidence --> residual
+  evidence --> parent
+  residual --> parent

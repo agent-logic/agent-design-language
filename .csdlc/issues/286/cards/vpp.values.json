@@ -1,0 +1,84 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 286,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][ADR 0069][207.d] Reconcile Observatory governed Runtime consumer evidence",
+    "slug": "adr-0069-observatory-runtime-consumer-evidence",
+    "version": "v0.92",
+    "generation": 32
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "preparation-contract",
+          "proof_role": "Validate #286 preparation boundary, evidence model, residual-gap policy, and #207/#288 non-claims.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 1500,
+          "argv": [
+            "python3",
+            ".csdlc/prepared/issues/286/validate_preparation_bundle.py"
+          ],
+          "parallel_group": "286-serial-01-prep",
+          "defer_reason": null
+        },
+        {
+          "lane": "adr0069-evidence-reconciliation",
+          "proof_role": "Validate the issue-local ADR 0069 evidence reconciliation packet and residual-gap classifications.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 1500,
+          "argv": [
+            "python3",
+            ".csdlc/evidence/286/validate_adr0069_evidence_reconciliation.py"
+          ],
+          "parallel_group": "286-serial-02-evidence",
+          "defer_reason": "Deferred until bound implementation creates the evidence packet."
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Reject malformed whitespace or patch artifacts before review.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "286-serial-03-diff",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed on missing exact evidence references, overclaimed ADR acceptance, sibling/parent scope absorption, stale review, PR linkage failure, CI failure, or terminal-cache mismatch.",
+      "design_ref": ".csdlc/prepared/issues/286/design.md",
+      "design_digest": "e2df93f901096d9019c2f6361bf5f11d43982a252d244511e6feb496d8261038",
+      "diagram_ref": ".csdlc/prepared/issues/286/diagram.mmd",
+      "diagram_digest": "5c343cc8b687993e6ace28a43ba7a3f1fb1afcbc755a7a321e2d53e225701a77"
+    }
+  }
+}

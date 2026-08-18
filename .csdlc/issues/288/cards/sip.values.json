@@ -1,0 +1,42 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 288,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][ADR][207.f] Serialize final ADR index, plan, manifest, and review packet",
+    "slug": "final-adr-index-plan-manifest-review-packet",
+    "version": "v0.92",
+    "generation": 16
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Serialize the final v0.92 ADR index, plan, evidence manifest, and internal review handoff packet from terminal #283-#287 issue-local evidence.",
+      "required_outcome": "The shared ADR index, ADR plan, machine-readable evidence manifest, and internal review handoff packet agree exactly with terminal issue-local evidence from #283, #284, #285, #286, and #287, move only evidence-proven Deferred ADRs to Proposed, mark no ADR Accepted, and record residual gaps for #207.",
+      "declared_scope": [
+        "Final shared ADR index serialization for ADR 0065, ADR 0066, ADR 0068, ADR 0069, and ADR 0071",
+        "Final v0.92 ADR plan serialization for the same ADRs",
+        "Machine-readable review evidence manifest extension for #283-#287 terminal inputs",
+        "Internal review handoff packet covering architecture, security, documentation, and evidence review lanes",
+        "Issue-owned validator and retained proof for the final serialization truth"
+      ],
+      "authority_boundary": [
+        "#288 consumes #283-#287 terminal issue-local evidence and owns shared serialization only",
+        "No ADR may be marked Accepted by this issue",
+        "Deferred-to-Proposed movement is allowed only where exact terminal evidence proves it",
+        "#207 remains coordination-only and is not closed by #288",
+        "Provider credentials, Unity proof, cloud runs, and implementation acceptance are out of scope"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2 lifecycle only for lifecycle/GitHub writes",
+        "Do not mutate #207 parent lifecycle truth",
+        "Do not run provider credentials, Unity, cloud, or external proof",
+        "Use a FastWork bound worktree for implementation",
+        "Obtain fresh exact-head review before publication"
+      ]
+    }
+  }
+}

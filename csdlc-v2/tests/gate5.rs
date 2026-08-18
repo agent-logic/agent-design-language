@@ -4379,6 +4379,204 @@ fn recovered_issue_can_correct_only_the_sip_required_outcome() {
 }
 
 #[test]
+fn recovered_implemented_issue_can_correct_only_the_sip_goal() {
+    let (_temp, store, implemented) = implemented_fixture();
+    let operation = SemanticOperation::CorrectGoalAfterRecovery {
+        value: "corrected issue-local ADR evidence goal".into(),
+    };
+    let unrecovered = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Sip,
+            expected_generation: implemented.generation,
+            expected_digest: implemented.digest.clone(),
+            actor: "operator".into(),
+            reason: "must recover first".into(),
+            operation: operation.clone(),
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("unrecovered goal correction must fail");
+    assert_eq!(unrecovered.code, ErrorCode::InvalidTransition);
+
+    let revision = csdlc_v2::git::substantive_revision(store.root(), &["src".into()])
+        .expect("review revision");
+    let reviewed = record_review(
+        &store,
+        ReviewRecordRequest {
+            issue: 7,
+            expected_generation: implemented.generation,
+            expected_digest: implemented.digest,
+            actor: "reviewer".into(),
+            evidence: ReviewEvidence {
+                reviewer: "reviewer".into(),
+                scope: vec!["src".into()],
+                reviewed_revision: revision,
+                findings: vec![],
+                residual_risks: vec![],
+                completed: true,
+                non_substantive_proof: None,
+            },
+        },
+    )
+    .expect("record review");
+    let recovered = csdlc_v2::recover_review(
+        &store,
+        ReviewRecoveryRequest {
+            issue: 7,
+            expected_generation: reviewed.generation,
+            expected_digest: reviewed.digest,
+            actor: "operator".into(),
+            reason: "correct SIP goal".into(),
+        },
+    )
+    .expect("recover review");
+    let before_cards = store.load_cards(7).expect("cards before goal correction");
+    let replacement = "corrected issue-local ADR evidence goal".to_string();
+    for (card, value) in [
+        (CardKind::Spp, replacement.clone()),
+        (CardKind::Sip, " ".into()),
+    ] {
+        let rejected = edit_issue(
+            &store,
+            EditRequest {
+                issue: 7,
+                card,
+                expected_generation: recovered.generation,
+                expected_digest: recovered.digest.clone(),
+                actor: "operator".into(),
+                reason: "prove correction rejection".into(),
+                operation: SemanticOperation::CorrectGoalAfterRecovery { value },
+                fail_after_backup: false,
+            },
+        )
+        .expect_err("wrong-card or blank correction must fail");
+        assert!(matches!(
+            rejected.code,
+            ErrorCode::InvalidTransition | ErrorCode::CardInvalid
+        ));
+    }
+
+    let stale = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Sip,
+            expected_generation: recovered.generation + 1,
+            expected_digest: recovered.digest.clone(),
+            actor: "operator".into(),
+            reason: "reject stale generation".into(),
+            operation: operation.clone(),
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("stale generation must fail");
+    assert_eq!(stale.code, ErrorCode::StaleGeneration);
+
+    let mut retained = recovered.clone();
+    retained.terminal = Some(csdlc_v2::model::TerminalEvidence {
+        pull_request: Some(7),
+        disposition: csdlc_v2::readiness::TerminalDisposition::Merged,
+        observed_sha: Some("retained".into()),
+        observed_state: "closed".into(),
+        receipt_path: "terminal.json".into(),
+        branch: Some("issue-7".into()),
+        worktree: Some(store.root().to_string_lossy().into_owned()),
+    });
+    write_consistent_record(store.root(), &mut retained);
+    let terminal_rejected = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Sip,
+            expected_generation: retained.generation,
+            expected_digest: retained.digest,
+            actor: "operator".into(),
+            reason: "retained terminal must block goal repair".into(),
+            operation: operation.clone(),
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("retained terminal truth must block goal repair");
+    assert_eq!(terminal_rejected.code, ErrorCode::InvalidTransition);
+    let mut restored = recovered.clone();
+    write_consistent_record(store.root(), &mut restored);
+
+    for broad_operation in [
+        SemanticOperation::SetField {
+            field: csdlc_v2::cards::TextField::Goal,
+            value: replacement.clone(),
+        },
+        SemanticOperation::SetField {
+            field: csdlc_v2::cards::TextField::RequiredOutcome,
+            value: replacement.clone(),
+        },
+        SemanticOperation::ReplacePlanningCollection {
+            field: csdlc_v2::cards::PlanningCollectionField::DeclaredScope,
+            values: vec![replacement.clone()],
+        },
+    ] {
+        let rejected = edit_issue(
+            &store,
+            EditRequest {
+                issue: 7,
+                card: CardKind::Sip,
+                expected_generation: recovered.generation,
+                expected_digest: recovered.digest.clone(),
+                actor: "operator".into(),
+                reason: "reject broad SIP mutation".into(),
+                operation: broad_operation,
+                fail_after_backup: false,
+            },
+        )
+        .expect_err("broad SIP mutation must remain rejected");
+        assert_eq!(rejected.code, ErrorCode::InvalidTransition);
+    }
+
+    let corrected = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Sip,
+            expected_generation: recovered.generation,
+            expected_digest: recovered.digest,
+            actor: "operator".into(),
+            reason: "align recovered SIP goal".into(),
+            operation: SemanticOperation::CorrectGoalAfterRecovery {
+                value: replacement.clone(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("correct recovered SIP goal");
+    let after_cards = store.load_cards(7).expect("cards after goal correction");
+    let csdlc_v2::cards::CardContent::Sip(after_sip) = &after_cards[&CardKind::Sip].content else {
+        panic!("SIP")
+    };
+    assert_eq!(after_sip.goal, replacement);
+    for kind in [
+        CardKind::Stp,
+        CardKind::Spp,
+        CardKind::Vpp,
+        CardKind::Srp,
+        CardKind::Sor,
+    ] {
+        assert_eq!(
+            after_cards[&kind].content, before_cards[&kind].content,
+            "{kind} changed during SIP-only goal correction"
+        );
+    }
+    let audit: serde_json::Value =
+        serde_json::from_str(&corrected.audit.last().expect("correction audit").operation)
+            .expect("structured goal audit");
+    assert_eq!(audit["operation"], "correct_goal_after_recovery");
+    assert_eq!(audit["new_value"], replacement);
+    assert!(audit["recovery_sequence"].is_number());
+    assert!(audit["recovery_generation"].is_number());
+}
+
+#[test]
 fn recovered_implemented_issue_can_correct_only_stp_deliverables() {
     let (_temp, store, implemented) = implemented_fixture();
     let before_cards = store.load_cards(7).expect("load cards before correction");
@@ -4836,6 +5034,223 @@ fn recovered_implemented_issue_can_correct_stp_dependencies_after_recorded_revie
 }
 
 #[test]
+fn recovered_implemented_issue_can_correct_stp_repo_inputs_after_recorded_review() {
+    let (_temp, store, implemented) = implemented_fixture();
+    let before_cards = store.load_cards(7).expect("load cards before correction");
+    let csdlc_v2::cards::CardContent::Stp(before_stp) =
+        before_cards[&CardKind::Stp].content.clone()
+    else {
+        panic!("STP")
+    };
+    let replacement = vec![
+        ".csdlc/prepared/issues/117/design.md".into(),
+        ".csdlc/prepared/issues/117/diagram.mmd".into(),
+        ".csdlc/prepared/issues/117/validate_preparation_bundle.py".into(),
+        ".csdlc/issues/271".into(),
+        "/Volumes/FastWork/adl-worktrees/adl-issue-114-durable-history-parent-integration-proof/.csdlc/issues/114".into(),
+    ];
+
+    let unrecovered = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Stp,
+            expected_generation: implemented.generation,
+            expected_digest: implemented.digest.clone(),
+            actor: "operator".into(),
+            reason: "correct reviewed repo input denominator".into(),
+            operation: SemanticOperation::CorrectStpRepoInputsAfterRecovery {
+                values: replacement.clone(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("ordinary implemented issue must not imply repo input recovery");
+    assert_eq!(unrecovered.code, ErrorCode::InvalidTransition);
+
+    let assigned = assign_review(
+        &store,
+        ReviewAssignmentRequest {
+            issue: 7,
+            expected_generation: implemented.generation,
+            expected_digest: implemented.digest,
+            reviewer: "subagent".into(),
+            assigned_by: "operator".into(),
+            scope: vec!["csdlc-v2".into()],
+        },
+    )
+    .expect("assign review");
+    let assignment_recovered = csdlc_v2::recover_review(
+        &store,
+        ReviewRecoveryRequest {
+            issue: 7,
+            expected_generation: assigned.generation,
+            expected_digest: assigned.digest,
+            actor: "operator".into(),
+            reason: "assignment-only recovery".into(),
+        },
+    )
+    .expect("recover assignment-only implemented state");
+    let assignment_only_error = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Stp,
+            expected_generation: assignment_recovered.generation,
+            expected_digest: assignment_recovered.digest.clone(),
+            actor: "operator".into(),
+            reason: "assignment-only recovery must not authorize repo input repair".into(),
+            operation: SemanticOperation::CorrectStpRepoInputsAfterRecovery {
+                values: replacement.clone(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("assignment-only recovery must fail closed for repo inputs");
+    assert_eq!(assignment_only_error.code, ErrorCode::InvalidTransition);
+
+    let reviewed = record_review(
+        &store,
+        ReviewRecordRequest {
+            issue: 7,
+            expected_generation: assignment_recovered.generation,
+            expected_digest: assignment_recovered.digest.clone(),
+            actor: "reviewer".into(),
+            evidence: ReviewEvidence {
+                reviewer: "reviewer".into(),
+                scope: vec!["csdlc-v2".into()],
+                reviewed_revision: csdlc_v2::git::substantive_revision(
+                    store.root(),
+                    &["csdlc-v2".into()],
+                )
+                .expect("review revision"),
+                findings: vec![ReviewFindingEvidence {
+                    id: "fresh-session:repo-inputs".into(),
+                    severity: FindingSeverity::P1,
+                    summary: "STP repo inputs omit consumed terminal inputs".into(),
+                    actionable: true,
+                    in_scope: true,
+                    disposition: FindingDisposition::Open,
+                    fix_revision: None,
+                    route: None,
+                }],
+                residual_risks: vec![],
+                completed: true,
+                non_substantive_proof: None,
+            },
+        },
+    )
+    .expect("record repo input review finding");
+    let recovered = csdlc_v2::recover_review(
+        &store,
+        ReviewRecoveryRequest {
+            issue: 7,
+            expected_generation: reviewed.generation,
+            expected_digest: reviewed.digest,
+            actor: "operator".into(),
+            reason: "repair repo input review finding".into(),
+        },
+    )
+    .expect("recover recorded-review implemented state");
+
+    for invalid in [
+        Vec::<String>::new(),
+        vec![" ".into()],
+        vec![".csdlc/issues/271".into(), " .csdlc/issues/271 ".into()],
+    ] {
+        let error = edit_issue(
+            &store,
+            EditRequest {
+                issue: 7,
+                card: CardKind::Stp,
+                expected_generation: recovered.generation,
+                expected_digest: recovered.digest.clone(),
+                actor: "operator".into(),
+                reason: "reject malformed repo input replacement".into(),
+                operation: SemanticOperation::CorrectStpRepoInputsAfterRecovery { values: invalid },
+                fail_after_backup: false,
+            },
+        )
+        .expect_err("malformed repo inputs must fail closed");
+        assert_eq!(error.code, ErrorCode::CardInvalid);
+    }
+
+    let wrong_card = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Sip,
+            expected_generation: recovered.generation,
+            expected_digest: recovered.digest.clone(),
+            actor: "operator".into(),
+            reason: "reject wrong card".into(),
+            operation: SemanticOperation::CorrectStpRepoInputsAfterRecovery {
+                values: replacement.clone(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("non-STP card must fail closed");
+    assert_eq!(wrong_card.code, ErrorCode::InvalidTransition);
+
+    let corrected = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Stp,
+            expected_generation: recovered.generation,
+            expected_digest: recovered.digest,
+            actor: "operator".into(),
+            reason: "align repo inputs with reviewed terminal denominator".into(),
+            operation: SemanticOperation::CorrectStpRepoInputsAfterRecovery {
+                values: replacement.clone(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("correct STP repo inputs after recorded-review recovery");
+    assert_eq!(corrected.phase, LifecyclePhase::Implemented);
+    let after_cards = store.load_cards(7).expect("load corrected cards");
+    let csdlc_v2::cards::CardContent::Stp(after_stp) = after_cards[&CardKind::Stp].content.clone()
+    else {
+        panic!("STP")
+    };
+    let mut expected_stp = before_stp.clone();
+    expected_stp.repo_inputs = replacement.clone();
+    assert_eq!(after_stp, expected_stp);
+
+    let audit: serde_json::Value =
+        serde_json::from_str(&corrected.audit.last().expect("correction audit").operation)
+            .expect("structured audit operation");
+    assert_eq!(audit["operation"], "correct_stp_repo_inputs_after_recovery");
+    assert_eq!(
+        audit["previous_values"],
+        serde_json::json!(before_stp.repo_inputs)
+    );
+    assert_eq!(audit["new_values"], serde_json::json!(replacement));
+    assert!(audit["recovery_sequence"].as_u64().is_some());
+    assert!(audit["recovery_generation"].as_u64().is_some());
+
+    let repeat = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Stp,
+            expected_generation: corrected.generation,
+            expected_digest: corrected.digest,
+            actor: "operator".into(),
+            reason: "same recovery epoch must not authorize a second repo input repair".into(),
+            operation: SemanticOperation::CorrectStpRepoInputsAfterRecovery {
+                values: vec![".csdlc/issues/271".into()],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("same recovery epoch must not authorize repeated repo input repair");
+    assert_eq!(repeat.code, ErrorCode::InvalidTransition);
+}
+
+#[test]
 fn recovered_implemented_issue_can_correct_spp_step_status_after_recorded_review() {
     let (_temp, store, implemented) = implemented_fixture();
     let before_cards = store.load_cards(7).expect("load cards before correction");
@@ -4844,12 +5259,8 @@ fn recovered_implemented_issue_can_correct_spp_step_status_after_recorded_review
     else {
         panic!("SPP")
     };
-    let replacement = vec![csdlc_v2::cards::PlanStep {
-        id: "one".into(),
-        action: "review".into(),
-        acceptance_ids: vec!["AC-1".into()],
-        status: csdlc_v2::cards::StepStatus::Completed,
-    }];
+    let mut replacement = before_spp.steps.clone();
+    replacement[0].status = csdlc_v2::cards::StepStatus::Completed;
 
     let generic_replacement = edit_issue(
         &store,
@@ -4926,7 +5337,9 @@ fn recovered_implemented_issue_can_correct_spp_step_status_after_recorded_review
     )
     .expect("recover recorded-review implemented state");
 
-    let duplicate_ids = edit_issue(
+    let mut rewritten_action = replacement.clone();
+    rewritten_action[0].action = "rewrite substantive plan action".into();
+    let substantive_rewrite = edit_issue(
         &store,
         EditRequest {
             issue: 7,
@@ -4934,30 +5347,19 @@ fn recovered_implemented_issue_can_correct_spp_step_status_after_recorded_review
             expected_generation: recovered.generation,
             expected_digest: recovered.digest.clone(),
             actor: "operator".into(),
-            reason: "reject duplicate plan step ids".into(),
+            reason: "reject substantive plan action rewrite".into(),
             operation: SemanticOperation::CorrectPlanStepsAfterRecovery {
-                steps: vec![
-                    csdlc_v2::cards::PlanStep {
-                        id: "one".into(),
-                        action: "first".into(),
-                        acceptance_ids: vec!["AC-1".into()],
-                        status: csdlc_v2::cards::StepStatus::InProgress,
-                    },
-                    csdlc_v2::cards::PlanStep {
-                        id: "one".into(),
-                        action: "second".into(),
-                        acceptance_ids: vec!["AC-1".into()],
-                        status: csdlc_v2::cards::StepStatus::InProgress,
-                    },
-                ],
+                steps: rewritten_action,
             },
             fail_after_backup: false,
         },
     )
-    .expect_err("duplicate plan step ids must fail closed");
-    assert_eq!(duplicate_ids.code, ErrorCode::CardInvalid);
+    .expect_err("substantive SPP plan rewrites must fail closed");
+    assert_eq!(substantive_rewrite.code, ErrorCode::CardInvalid);
 
-    let multiple_in_progress = edit_issue(
+    let mut rewritten_id = replacement.clone();
+    rewritten_id[0].id = "rewritten-step-id".into();
+    let id_rewrite = edit_issue(
         &store,
         EditRequest {
             issue: 7,
@@ -4965,28 +5367,55 @@ fn recovered_implemented_issue_can_correct_spp_step_status_after_recorded_review
             expected_generation: recovered.generation,
             expected_digest: recovered.digest.clone(),
             actor: "operator".into(),
-            reason: "reject multiple in-progress plan steps".into(),
+            reason: "reject SPP plan step id rewrite".into(),
             operation: SemanticOperation::CorrectPlanStepsAfterRecovery {
-                steps: vec![
-                    csdlc_v2::cards::PlanStep {
-                        id: "one".into(),
-                        action: "first".into(),
-                        acceptance_ids: vec!["AC-1".into()],
-                        status: csdlc_v2::cards::StepStatus::InProgress,
-                    },
-                    csdlc_v2::cards::PlanStep {
-                        id: "two".into(),
-                        action: "second".into(),
-                        acceptance_ids: vec!["AC-1".into()],
-                        status: csdlc_v2::cards::StepStatus::InProgress,
-                    },
-                ],
+                steps: rewritten_id,
             },
             fail_after_backup: false,
         },
     )
-    .expect_err("multiple in-progress plan steps must fail closed");
-    assert_eq!(multiple_in_progress.code, ErrorCode::InvalidTransition);
+    .expect_err("SPP plan step id rewrites must fail closed");
+    assert_eq!(id_rewrite.code, ErrorCode::CardInvalid);
+
+    let mut rewritten_acceptance_ids = replacement.clone();
+    rewritten_acceptance_ids[0].acceptance_ids = vec!["AC-rewritten".into()];
+    let acceptance_ids_rewrite = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Spp,
+            expected_generation: recovered.generation,
+            expected_digest: recovered.digest.clone(),
+            actor: "operator".into(),
+            reason: "reject SPP plan acceptance id rewrite".into(),
+            operation: SemanticOperation::CorrectPlanStepsAfterRecovery {
+                steps: rewritten_acceptance_ids,
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("SPP plan acceptance id rewrites must fail closed");
+    assert_eq!(acceptance_ids_rewrite.code, ErrorCode::CardInvalid);
+
+    let mut dropped_step = replacement.clone();
+    dropped_step.pop();
+    let cardinality_rewrite = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Spp,
+            expected_generation: recovered.generation,
+            expected_digest: recovered.digest.clone(),
+            actor: "operator".into(),
+            reason: "reject SPP plan cardinality rewrite".into(),
+            operation: SemanticOperation::CorrectPlanStepsAfterRecovery {
+                steps: dropped_step,
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("SPP plan cardinality rewrites must fail closed");
+    assert_eq!(cardinality_rewrite.code, ErrorCode::CardInvalid);
 
     let corrected = edit_issue(
         &store,
@@ -5034,12 +5463,7 @@ fn recovered_implemented_issue_can_correct_spp_step_status_after_recorded_review
             actor: "operator".into(),
             reason: "same recovery epoch must not authorize a second plan-step repair".into(),
             operation: SemanticOperation::CorrectPlanStepsAfterRecovery {
-                steps: vec![csdlc_v2::cards::PlanStep {
-                    id: "two".into(),
-                    action: "repeat".into(),
-                    acceptance_ids: vec!["AC-1".into()],
-                    status: csdlc_v2::cards::StepStatus::Completed,
-                }],
+                steps: replacement.clone(),
             },
             fail_after_backup: false,
         },
@@ -5053,6 +5477,7 @@ fn public_edit_schema_exposes_implemented_recovery_card_repairs() {
     let schema = csdlc_v2::public_schema_bundle()["edit_request"].to_string();
     for operation in [
         "correct_stp_dependencies_after_recovery",
+        "correct_stp_repo_inputs_after_recovery",
         "correct_plan_steps_after_recovery",
     ] {
         assert!(

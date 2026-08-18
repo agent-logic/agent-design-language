@@ -48,22 +48,23 @@ casually.
 | ADR 0062 | Witness And Birthday Receipt Authority Boundary | Proposed | Exact-candidate signed witnesses and redacted receipts use opaque runtime trust policy. | WP-15 |
 | ADR 0063 | ACP Cognitive Profile Evidence Boundary | Proposed | Cognitive profiles are runtime-authority-bound projections, not identity or rights authority. | WP-13 |
 | ADR 0064 | Adaptive Learning DAG Governance Boundary | Proposed | Adaptive graph mutations are authority-bound, bounded, replayable, and fail closed. | WP-13A |
-| ADR 0065 | ACIP Schema Catalog And Governed Projection Boundary | Deferred | Implementation exists, but retained #5832 validation outcomes are empty and must be reproven. | WP-14 |
-| ADR 0066 | Distributed Guardian Membership, Authority, And Fencing Boundary | Deferred | Library contracts are landed, but operational Guardian/kernel and polis proof remains open #142. | WP-04 |
+| ADR 0065 | ACIP Schema Catalog And Governed Projection Boundary | Proposed | #283 reconciles the stale #5832 receipt against exact replacement terminal authority from #209 / PR #215 with non-empty machine-readable validation. | WP-14, WP-18C |
+| ADR 0066 | Distributed Guardian Membership, Authority, And Fencing Boundary | Deferred | #284 retains terminal and partial Guardian evidence, but two-voter AWS/model-health proof and #142 completion remain residual gaps. | WP-04, WP-18C |
 | ADR 0067 | Runtime Transport And TLS Stack Boundary | Proposed | Runtime transport uses one Rustls-backed trust model with explicit production certificate input. | WP-03, WP-04, WP-14 |
-| ADR 0068 | Birthday-To-Governance Handoff Boundary | Proposed | v0.92 evidence can be mapped for accepted v0.93 planning consumption, but it does not complete v0.93 governance. | WP-18, WP-19 |
-| ADR 0069 | Observatory Governed Runtime Consumer Boundary | Deferred | Real Observatory and Unity consumer proof remains WP-18A work. | WP-18A |
+| ADR 0068 | Birthday-To-Governance Handoff Boundary | Deferred | #285 retains terminal WP-19 handoff evidence, but WP-18/#5836 birthday proof is not terminal and no ADR acceptance is claimed. | WP-18, WP-19, WP-18C |
+| ADR 0069 | Observatory Governed Runtime Consumer Boundary | Deferred | #286 records #84/WP-18A Unity Runtime consumer proof as open; #117/#271/#282 are partial inputs only. | WP-18A, WP-18C |
 | ADR 0070 | Cross-Polis Continuity Transfer Planning Boundary | Proposed | Copying is not continuity; operational migration remains deferred. | WP-17 |
-| ADR 0071 | Provider-Neutral Multi-Agent Proof Boundary | Deferred | Provider-neutral executable proof remains WP-18B work. | WP-18B |
+| ADR 0071 | Provider-Neutral Multi-Agent Proof Boundary | Deferred | #287 records #341/WP-18B as open with no derived terminal cache; #283-#286 are supporting-only inputs. | WP-18B, WP-18C |
 
 ## Authoring Policy
 
 - Candidate ADRs should be drafted only from landed feature work, tests,
   fixtures, demos, review findings, and milestone docs.
 - Candidate ADRs remain proposed until human review accepts them.
-- ADR 0068 is proposed only as a handoff-boundary record: it does not grant
-  citizenship, does not grant standing, does not assign rights or duties, and
-  does not accept or implement v0.93 governance.
+- ADR 0068 remains deferred until terminal birthday proof exists; the v0.93
+  planning handoff evidence remains useful input but does not grant citizenship,
+  does not grant standing, does not assign rights or duties, and does not accept
+  or implement v0.93 governance.
 - Accepted ADRs should live in `docs/adr/`.
 - Candidate/provenance copies should live in `docs/architecture/adr/` if the
   milestone follows the existing ADR promotion pattern.

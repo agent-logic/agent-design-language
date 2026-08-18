@@ -1,0 +1,168 @@
+{
+  "actor": "codex-worker-5",
+  "design_approved": true,
+  "design_path": ".csdlc/prepared/issues/284/design.md",
+  "design_reviewer": "fresh-session:0E8F9C82-9EDF-446F-AB62-5964DDA4E436",
+  "diagram_path": ".csdlc/prepared/issues/284/diagram.mmd",
+  "initial": {
+    "acceptance_criteria": [
+      "AC1: Retain an issue-local evidence packet that identifies exact #142-graph proof sources for ADR 0066 Guardian membership, authority, fencing, operational, migration, recovery, and shutdown claims.",
+      "AC2: Machine-check the retained #5878 WP-04.16 terminal proof, including PR #140 identity, execution-proof schema, command success, negative rejection cases, and referenced artifact hashes.",
+      "AC3: Machine-check the retained #194 private Wuji-AWS qualification evidence while preserving its partial-proof status, quota limitations, and explicit non-claim that it does not complete #142.",
+      "AC4: Record residual gaps, stale local-card caveats, and non-goals truthfully for #207 without updating shared ADR docs, the ADR index, the final ADR plan, or the milestone manifest.",
+      "AC5: Publish #284 only after focused validation, card validation/doctor, and fresh bounded review pass at the immutable implementation revision."
+    ],
+    "affected_areas": [
+      ".csdlc/issues/284/",
+      ".csdlc/prepared/issues/284/",
+      ".csdlc/evidence/284/"
+    ],
+    "authority_boundary": [
+      "Consumes #142 graph evidence but cannot complete, weaken, or rewrite #142/#194/#5878 implementation acceptance.",
+      "Uses retained local evidence and live read-only observations as reconciliation input.",
+      "Shared ADR docs, ADR index, final plan, and manifest remain frozen until #288."
+    ],
+    "declared_scope": [
+      "ADR 0066 distributed Guardian authority evidence reconciliation for #207.",
+      "Issue-local evidence, validator, and lifecycle truth only."
+    ],
+    "deliverables": [
+      ".csdlc/evidence/284/evidence-manifest.json",
+      ".csdlc/evidence/284/live-observations.json",
+      ".csdlc/evidence/284/adr0066-guardian-authority-reconciliation.md",
+      ".csdlc/evidence/284/validate_adr0066_guardian_authority_evidence.sh",
+      "Typed SOR/SRP truth for #284"
+    ],
+    "dependencies": [
+      "#207 parent ADR proof gate coordination",
+      "#142 implementation graph evidence",
+      "#5878 / PR #140 terminal WP-04.16 distributed integration proof",
+      "#194 / PR #397 private Wuji-AWS qualification evidence"
+    ],
+    "failure_policy": "Fail closed if any cited terminal cache, evidence hash, required retained proof, residual-gap classification, or non-goal boundary is missing or contradictory.",
+    "goal": "Reconcile ADR 0066 distributed Guardian authority evidence under #207 using exact retained issue-graph evidence and issue-local validation.",
+    "invariants": [
+      "No shared ADR/index/plan/manifest edits in #284.",
+      "No runtime, production, cloud, or #142 acceptance mutation.",
+      "Partial and stale evidence is classified as partial or stale, never upgraded by inference."
+    ],
+    "non_goals": [
+      "Runtime implementation.",
+      "Cloud run or public deployment.",
+      "Rewriting #142 graph acceptance criteria.",
+      "ADR acceptance or moving ADR 0066 to Accepted.",
+      "Updating shared ADR docs, index, plan, or evidence manifest."
+    ],
+    "operator_constraints": [
+      "Work in a bound FastWork issue worktree before implementation.",
+      "Preserve unrelated root #400 staging.",
+      "Run typed C-SDLC v2 lifecycle only for lifecycle writes.",
+      "Review with a fresh bounded reviewer before publication."
+    ],
+    "plan_summary": "Create a narrow issue-local reconciliation packet for ADR 0066, validate exact retained #142-graph evidence and residual gaps, then route review/publication without touching shared ADR serialization surfaces.",
+    "planning_profile": "small",
+    "repo_inputs": [
+      "GitHub issue #284",
+      "GitHub issue #142",
+      "GitHub issue #194 and PR #397",
+      "GitHub PR #140",
+      ".git/csdlc-v2/derived-terminal/5878.json",
+      ".csdlc/evidence/5878/execution-proof.json",
+      ".csdlc/evidence/194/private-wuji-aws-recovery-live-summary.redacted.json",
+      ".csdlc/evidence/194/live-preflight/live-private-network-preflight.redacted.json"
+    ],
+    "required_outcome": "Issue #284 has exact issue-local reconciliation truth for ADR 0066, including validated evidence and residual gaps, ready for #207/#288 final serialization.",
+    "review_prompts": [
+      "Does #284 avoid claiming #142 completion from partial #194 evidence or stale local cards?",
+      "Does the validator prove exact retained #5878/#194 evidence and hashes rather than relying on prose?",
+      "Are shared ADR docs/index/plan/manifest untouched as required for #288?"
+    ],
+    "review_scope": "Issue-local evidence and validator only; no shared ADR document review.",
+    "risks": [
+      "Confusing closed coordination issue #142 with complete terminal implementation proof.",
+      "Treating stale #5878/#194 local card state as current truth instead of derived terminal/live PR observations.",
+      "Accidentally editing shared ADR serialization files before #288."
+    ],
+    "slug": "adr0066-guardian-authority-evidence-reconciliation",
+    "steps": [
+      {
+        "acceptance_ids": [
+          "AC-1",
+          "AC-4"
+        ],
+        "action": "Bind #284 and create issue-local evidence packet that classifies terminal, partial, stale, and residual proof surfaces.",
+        "id": "step-1",
+        "status": "pending"
+      },
+      {
+        "acceptance_ids": [
+          "AC-2",
+          "AC-3"
+        ],
+        "action": "Implement focused validator over retained terminal/evidence inputs and evidence packet hashes.",
+        "id": "step-2",
+        "status": "pending"
+      },
+      {
+        "acceptance_ids": [
+          "AC-5"
+        ],
+        "action": "Run validation, update SOR/SRP truth, obtain fresh review, publish, and finish if gates pass.",
+        "id": "step-3",
+        "status": "pending"
+      }
+    ],
+    "stop_conditions": [
+      "Required retained evidence is absent or hash-mismatched.",
+      "A needed change would touch shared ADR docs/index/plan/manifest before #288.",
+      "Typed lifecycle validation or review fails."
+    ],
+    "task_boundary": "Bounded #284 evidence reconciliation for ADR 0066 only.",
+    "title": "[v0.92][ADR 0066][207.b] Reconcile distributed Guardian authority evidence",
+    "validation_lanes": [
+      {
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4"
+        ],
+        "argv": [
+          "bash",
+          ".csdlc/evidence/284/validate_adr0066_guardian_authority_evidence.sh"
+        ],
+        "budget_seconds": 60,
+        "budget_tokens": 2000,
+        "deterministic": true,
+        "lane": "focused-adr0066-guardian-authority-evidence",
+        "parallel_group": "serial",
+        "proof_role": "Issue-local reconciliation validator for retained #142 graph evidence and residual gaps.",
+        "resource_profile": "small"
+      },
+      {
+        "acceptance_ids": [
+          "AC-5"
+        ],
+        "argv": [
+          ".adl/bin/csdlc-v2/csdlc-validate",
+          "--root",
+          ".",
+          "doctor",
+          "--issue",
+          "284"
+        ],
+        "budget_seconds": 30,
+        "budget_tokens": 1000,
+        "defer_reason": "Run after implementation evidence is recorded.",
+        "deterministic": true,
+        "lane": "typed-doctor",
+        "parallel_group": "serial",
+        "proof_role": "Typed lifecycle/card validation before review and publication.",
+        "resource_profile": "small"
+      }
+    ],
+    "version": "v0.92"
+  },
+  "issue": 284,
+  "repository": "agent-logic/agent-design-language"
+}

@@ -1,0 +1,53 @@
+{
+  "actor": "codex-worker-5",
+  "card": "vpp",
+  "expected_digest": "3a18a8bbd46d55cf539c48b35c6665cfef9fa870556ee66b0b0f452c57e86b96",
+  "expected_generation": 1,
+  "issue": 284,
+  "operation": {
+    "lanes": [
+      {
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4"
+        ],
+        "argv": [
+          "bash",
+          ".csdlc/prepared/issues/284/validate_adr0066_guardian_authority_evidence.sh"
+        ],
+        "budget_seconds": 60,
+        "budget_tokens": 2000,
+        "deterministic": true,
+        "lane": "focused-adr0066-guardian-authority-evidence",
+        "parallel_group": "serial",
+        "proof_role": "Issue-local reconciliation validator for retained #142 graph evidence and residual gaps.",
+        "resource_profile": "small"
+      },
+      {
+        "acceptance_ids": [
+          "AC-5"
+        ],
+        "argv": [
+          ".adl/bin/csdlc-v2/csdlc-validate",
+          "--root",
+          ".",
+          "issue",
+          "--issue",
+          "284"
+        ],
+        "budget_seconds": 30,
+        "budget_tokens": 1000,
+        "defer_reason": "Run after implementation evidence is recorded.",
+        "deterministic": true,
+        "lane": "typed-issue-validation",
+        "parallel_group": "serial",
+        "proof_role": "Typed lifecycle/card validation before review and publication.",
+        "resource_profile": "small"
+      }
+    ],
+    "operation": "replace_validation_lanes"
+  },
+  "reason": "Repair #284 VPP so the focused validator is an executable issue-owned prepared target and typed validation uses the supported issue subcommand."
+}

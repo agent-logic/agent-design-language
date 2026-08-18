@@ -1,0 +1,12 @@
+flowchart TD
+  I["#287 ADR 0071 evidence reconciliation"] --> G["Observe #341 live issue state"]
+  I --> C["Check .git/csdlc-v2/derived-terminal/341.json"]
+  G --> O["live-observations.json"]
+  C --> O
+  O --> M["evidence-manifest.json"]
+  M --> R["adr0071-provider-neutral-multi-agent-reconciliation.md"]
+  M --> V["focused validator"]
+  R --> V
+  V --> P["#287 publishable issue-local packet"]
+  P --> Q["#288 final ADR serialization consumes later"]
+  I -. "non-goal" .-> X["No provider execution, credentials, ADR acceptance, #207 closeout, or shared ADR edits"]

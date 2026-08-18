@@ -1,0 +1,41 @@
+{
+  "schema": "adl.issue284.adr0066_guardian_authority_evidence_manifest.v1",
+  "issue": 284,
+  "inputs": {
+    ".git/csdlc-v2/derived-terminal/5878.json": {
+      "sha256": "7c02bca8850112812b40199148e8b3c3bdb0df94c26c8eae23367c179368b947",
+      "classification": "terminal_proof"
+    },
+    ".csdlc/evidence/5878/execution-proof.json": {
+      "sha256": "c6eef86743055f0af725193dc3c0b610c6aa0da66a0ba30cde7accb0d468d24f",
+      "classification": "terminal_proof"
+    },
+    ".csdlc/evidence/194/private-wuji-aws-recovery-live-summary.redacted.json": {
+      "sha256": "4598758414dea21b8232b878a05043634858fadc8066872f24645e44dbb37286",
+      "classification": "partial_proof"
+    },
+    ".csdlc/evidence/194/live-preflight/live-private-network-preflight.redacted.json": {
+      "sha256": "7f7414e06df08f21dc32c2309e76a87376306656582f5b638f8906a551a313bf",
+      "classification": "partial_proof"
+    }
+  },
+  "classifications": {
+    "terminal_proof": [
+      "#5878 / PR #140"
+    ],
+    "partial_proof": [
+      "#194 / PR #397"
+    ],
+    "residual_gaps": [
+      "two simultaneous model-capable AWS GPU voters under current quota",
+      "same serial hybrid run combining Wuji receipt plus two AWS model-health voters",
+      "#142 completion and ADR acceptance remain outside #284"
+    ],
+    "non_claims": [
+      "#284 does not accept ADR 0066 or edit shared ADR serialization surfaces",
+      "#284 does not claim #142 completion",
+      "#284 does not claim #207 or WP-18C closeout",
+      "#284 does not mutate #288 serialization/acceptance surfaces"
+    ]
+  }
+}

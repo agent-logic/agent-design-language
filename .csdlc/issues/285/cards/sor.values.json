@@ -1,0 +1,73 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 285,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][ADR 0068][207.c] Reconcile birthday-to-governance handoff evidence",
+    "slug": "adr0068-birthday-governance-handoff-evidence-reconciliation",
+    "version": "v0.92",
+    "generation": 6
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "#285 reconciles ADR 0068 birthday-to-governance handoff evidence issue-locally: #5839 has terminal handoff evidence, while #5836 lacks current derived-terminal authority and remains a residual WP-18 evidence gap.",
+      "actual_changes": [
+        "Added .csdlc/evidence/285/evidence-manifest.json with #5839 terminal handoff identity, #5836 non-terminal current-main retained state, residual gaps, and non-claims.",
+        "Added .csdlc/evidence/285/live-observations.json with PR #289 merged state, current-repo #5836 absence, and retained #5836 lifecycle state.",
+        "Added .csdlc/evidence/285/adr0068-birthday-governance-handoff-reconciliation.md summarizing terminal WP-19 evidence, non-terminal WP-18 evidence, and #207/#288 boundaries.",
+        "Added focused issue-owned validator and prepared mirror for ADR 0068 handoff evidence reconciliation.",
+        "Repaired #285 VPP typed validation lane to use the stable generated owner binary with worktree-relative --root ."
+      ],
+      "artifacts": [
+        ".csdlc/evidence/285/evidence-manifest.json",
+        ".csdlc/evidence/285/live-observations.json",
+        ".csdlc/evidence/285/adr0068-birthday-governance-handoff-reconciliation.md",
+        ".csdlc/evidence/285/validate_adr0068_birthday_governance_handoff_evidence.sh",
+        ".csdlc/prepared/issues/285/validate_adr0068_birthday_governance_handoff_evidence.sh",
+        ".csdlc/issues/285"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "purpose": "Run git diff whitespace checks.",
+          "outcome": "passed",
+          "evidence_ref": "diff-hygiene.log"
+        },
+        {
+          "command": [
+            "bash",
+            ".csdlc/evidence/285/validate_adr0068_birthday_governance_handoff_evidence.sh"
+          ],
+          "purpose": "Run the #285 focused reconciliation validator.",
+          "outcome": "passed",
+          "evidence_ref": "focused-adr0068-birthday-governance-handoff-evidence.log"
+        },
+        {
+          "command": [
+            "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate",
+            "--root",
+            ".",
+            "issue",
+            "--issue",
+            "285"
+          ],
+          "purpose": "Run typed C-SDLC issue validation.",
+          "outcome": "passed",
+          "evidence_ref": "typed-issue-validation.log"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

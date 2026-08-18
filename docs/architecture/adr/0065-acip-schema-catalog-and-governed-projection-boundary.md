@@ -2,25 +2,27 @@
 
 ## Status
 
-Status: **Deferred**
+Status: **Proposed**
 
 ## Context
 
-The ACIP implementation and focused tests are present, but the retained
-issue-owned native receipt is empty and #5832 records no machine-readable
-validation outcomes.
+The original retained #5832 native receipt was empty, but #283 reconciled that
+stale evidence against exact replacement terminal authority from #209 / PR #215.
+The replacement local and native validation manifests contain non-empty
+machine-readable ACIP outcomes and are now the bounded evidence for review.
 
 ## Decision
 
-Defer this decision until ACIP validation is rerun at an exact revision and a
-non-empty machine-readable receipt proves the versioned schema catalog,
-deterministic projection, negotiation, replay, authority, and semantic-binding
-contracts. Source and tests alone are insufficient publication authority.
+Propose the ACIP schema catalog and governed projection boundary for human ADR
+review. ACIP messages remain versioned, cataloged, deterministically projected,
+and bound to runtime authority. The proposal is based on #283's replacement
+terminal evidence and does not itself accept the ADR.
 
 ## Consequences
 
-The implementation remains bounded evidence, but this ADR packet does not
-promote its unretained execution outcome into a durable architecture claim.
+The stale #5832 receipt remains historical evidence only. The current review
+candidate cites #283/#209 replacement authority and remains outside accepted ADR
+authority until a separate human acceptance change promotes it under `docs/adr/`.
 
 ## Alternatives Considered
 
@@ -36,7 +38,9 @@ Unversioned JSON-only messages and transport-as-authority were rejected.
 
 - `adl-runtime/tests/acip_version_negotiation.rs`
 - `adl-runtime-kernel/tests/production_acip_wss.rs`
-- `.csdlc/evidence/5832/acip-native-receipts.json`
+- `.csdlc/evidence/283/evidence-manifest.json`
+- `.csdlc/evidence/209/local-validation-manifest.json`
+- `.csdlc/evidence/209/native-validation-manifest.json`
 
 ## Supersession Relationships
 
@@ -49,5 +53,5 @@ authority source.
 
 ## Approval Boundary
 
-Issue #5832 needs truthful revision-bound validation evidence and human review
-before this record can become Proposed.
+This record is Proposed from #283 replacement terminal evidence. A separate
+human approval change is still required before it can become Accepted.
