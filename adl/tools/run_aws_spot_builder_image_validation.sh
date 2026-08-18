@@ -160,23 +160,73 @@ fi
 CURRENT_STAGE="verify_builder_toolchain"
 stage "$CURRENT_STAGE"
 TOOLCHAIN_OUTPUT="$ADL_RUN_ROOT/builder-toolchain.log"
-"${DOCKER[@]}" run --rm \
-  --workdir /workspace \
-  --volume "$ADL_REMOTE_REPO_DIR:/workspace:ro" \
-  --entrypoint /bin/bash \
-  "$IMAGE" -lc "
-  set -euo pipefail
-  test \"\$(uname -m)\" = '$EXPECTED_UNAME_ARCH'
-  rustc --version
-  cargo --version
-  cargo nextest --version
-  sccache --version
-  ld.lld --version | head -n 1
-  aws --version
-  ruby --version
-  ruby -e 'abort unless 6 * 7 == 42; puts \"ruby-smoke-ok\"'
-  ruby adl/tools/validate_v092_runtime_native_receipts.rb --self-test-finalization-policy
-" >"$TOOLCHAIN_OUTPUT" 2>&1
+TOOLCHAIN_RAW_STDOUT="${TMPDIR:-/tmp}/adl-builder-toolchain-raw.$$.stdout"
+TOOLCHAIN_RAW_STDERR="${TMPDIR:-/tmp}/adl-builder-toolchain-raw.$$.stderr"
+TOOLCHAIN_NEXT="$ADL_RUN_ROOT/.builder-toolchain.log.tmp.$$"
+cleanup_toolchain_capture() {
+  rm -f "$TOOLCHAIN_RAW_STDOUT" "$TOOLCHAIN_RAW_STDERR" "$TOOLCHAIN_NEXT"
+}
+trap cleanup_toolchain_capture EXIT
+
+redact_builder_output() {
+  sed -E \
+    -e 's/[0-9]{12}/<aws-account-id-redacted>/g' \
+    -e 's#arn:aws[^[:space:],\"]*#<aws-arn-redacted>#g' \
+    -e 's/AKIA[0-9A-Z]{16}/<aws-access-key-redacted>/g' \
+    -e 's/i-[0-9a-f]{8,17}/<ec2-instance-id-redacted>/g' \
+    -e 's/vol-[0-9a-f]{8,17}/<ebs-volume-id-redacted>/g' \
+    -e 's/(vpc|subnet|sg|sir)-[0-9a-f]{8,17}/<aws-resource-id-redacted>/g' \
+    -e 's/([0-9]{1,3}\.){3}[0-9]{1,3}/<ip-address-redacted>/g' \
+    -e 's#/(Users|Volumes|private|tmp)/[^[:space:],\"]*#<machine-path-redacted>#g'
+}
+
+run_builder_check() {
+  local label="$1"
+  local executable="$2"
+  local command="$3"
+  local status=0
+  rm -f "$TOOLCHAIN_RAW_STDOUT" "$TOOLCHAIN_RAW_STDERR" "$TOOLCHAIN_NEXT"
+  "${DOCKER[@]}" run --rm \
+    --workdir /workspace \
+    --volume "$ADL_REMOTE_REPO_DIR:/workspace:ro" \
+    --env "ADL_BUILDER_CHECK=$label" \
+    --entrypoint /bin/bash \
+    "$IMAGE" -lc "set -o pipefail; $command" \
+    >"$TOOLCHAIN_RAW_STDOUT" 2>"$TOOLCHAIN_RAW_STDERR" || status=$?
+  if [[ -f "$TOOLCHAIN_OUTPUT" ]]; then
+    cp "$TOOLCHAIN_OUTPUT" "$TOOLCHAIN_NEXT"
+  else
+    : >"$TOOLCHAIN_NEXT"
+  fi
+  {
+    printf 'ADL_BUILDER_CHECK_BEGIN label=%s executable=%s\n' "$label" "$executable"
+    printf 'ADL_BUILDER_CHECK_STDOUT_BEGIN label=%s\n' "$label"
+    redact_builder_output <"$TOOLCHAIN_RAW_STDOUT"
+    printf 'ADL_BUILDER_CHECK_STDOUT_END label=%s\n' "$label"
+    printf 'ADL_BUILDER_CHECK_STDERR_BEGIN label=%s\n' "$label"
+    redact_builder_output <"$TOOLCHAIN_RAW_STDERR"
+    printf 'ADL_BUILDER_CHECK_STDERR_END label=%s\n' "$label"
+    printf 'ADL_BUILDER_CHECK_END label=%s executable=%s exit_status=%s\n' "$label" "$executable" "$status"
+  } >>"$TOOLCHAIN_NEXT"
+  mv -f "$TOOLCHAIN_NEXT" "$TOOLCHAIN_OUTPUT"
+  rm -f "$TOOLCHAIN_RAW_STDOUT" "$TOOLCHAIN_RAW_STDERR"
+  if [[ "$status" -ne 0 ]]; then
+    echo "spot_builder_image_validation: builder preflight failed check=$label executable=$executable exit_status=$status retained=$TOOLCHAIN_OUTPUT" >&2
+    return "$status"
+  fi
+}
+
+rm -f "$TOOLCHAIN_OUTPUT"
+run_builder_check architecture uname "test \"\$(uname -m)\" = '$EXPECTED_UNAME_ARCH'"
+run_builder_check rustc rustc "rustc --version"
+run_builder_check cargo cargo "cargo --version"
+run_builder_check nextest cargo-nextest "cargo nextest --version"
+run_builder_check sccache sccache "sccache --version"
+run_builder_check linker ld.lld "ld.lld --version | head -n 1"
+run_builder_check aws_cli aws "aws --version"
+run_builder_check ruby ruby "ruby --version"
+run_builder_check ruby_smoke ruby "ruby -e 'abort unless 6 * 7 == 42; puts \"ruby-smoke-ok\"'"
+run_builder_check receipt_validator ruby "ruby adl/tools/validate_v092_runtime_native_receipts.rb --self-test-finalization-policy"
 for required in rustc cargo cargo-nextest sccache LLD aws-cli ruby-smoke-ok \
   'PASS: finalization allowlist rejects Runtime product drift'; do
   grep -F "$required" "$TOOLCHAIN_OUTPUT" >/dev/null || {

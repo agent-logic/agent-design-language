@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 415,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][AWS tooling][defect] Retain exact remote builder preflight failure diagnostics",
+    "slug": "builder-preflight-diagnostics",
+    "version": "v0.92",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Builder validation script, focused tests, minimal remote-runner retention wiring, and issue-local lifecycle/design artifacts.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does every required tool/check produce an individually attributable retained diagnostic?",
+        "Can early exit 127 preserve exact redacted output and identify the missing executable?",
+        "Are success compatibility and exact cleanup semantics unchanged?",
+        "Are AWS, #268, and #269 strictly outside execution scope?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

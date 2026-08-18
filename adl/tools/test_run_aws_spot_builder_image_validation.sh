@@ -10,6 +10,7 @@ FAKE_BIN="$TMP/fake-bin"
 RUN_ROOT="$TMP/run"
 CACHE_MOUNT="$TMP/cache"
 mkdir -p "$FAKE_BIN" "$RUN_ROOT" "$CACHE_MOUNT"
+mkdir -p "$TMP/raw"
 export ADL_REAL_PYTHON3="$(command -v python3)"
 
 cat >"$FAKE_BIN/mountpoint" <<'EOF'
@@ -67,27 +68,28 @@ case "$1" in
     ;;
   run)
     args="$*"
-    if [[ "$args" == *"rustc --version"* ]]; then
+    if [[ "$args" == *"ADL_BUILDER_CHECK="* ]]; then
       echo toolchain >>"$ADL_FAKE_DOCKER_CALLS"
-      if [[ "${ADL_FAKE_TOOLCHAIN_OK:-1}" != "1" ]]; then
-        echo "rustc 1.96.0"
-        exit 0
+      check="${args#*ADL_BUILDER_CHECK=}"
+      check="${check%% *}"
+      if [[ "${ADL_FAKE_MISSING_CHECK:-}" == "$check" ]]; then
+        [[ -z "${ADL_FAKE_SENSITIVE_OUTPUT:-}" ]] || printf '%s\n' "$ADL_FAKE_SENSITIVE_OUTPUT"
+        echo "/bin/bash: ${ADL_FAKE_MISSING_EXECUTABLE:-cargo-nextest}: command not found" >&2
+        exit 127
       fi
-      cat <<'TOOLS'
-rustc 1.96.0
-cargo 1.96.0
-cargo-nextest 0.9.140
-sccache 0.16.0
-Ubuntu LLD 18.1.3
-aws-cli/2.35.15
-TOOLS
-      if [[ "${ADL_FAKE_RUBY_OK:-1}" == "1" ]]; then
-        cat <<'RUBY'
-ruby 3.3.6
-ruby-smoke-ok
-PASS: finalization allowlist rejects Runtime product drift
-RUBY
-      fi
+      case "$check" in
+        architecture) ;;
+        rustc) echo 'rustc 1.96.0' ;;
+        cargo) echo 'cargo 1.96.0' ;;
+        nextest) echo 'cargo-nextest 0.9.140' ;;
+        sccache) echo 'sccache 0.16.0' ;;
+        linker) echo 'Ubuntu LLD 18.1.3' ;;
+        aws_cli) echo 'aws-cli/2.35.15' ;;
+        ruby) echo 'ruby 3.3.6' ;;
+        ruby_smoke) [[ "${ADL_FAKE_RUBY_OK:-1}" == "1" ]] && echo 'ruby-smoke-ok' ;;
+        receipt_validator) echo 'PASS: finalization allowlist rejects Runtime product drift' ;;
+        *) echo "unknown fake builder check: $check" >&2; exit 2 ;;
+      esac
       exit 0
     fi
     echo validation >>"$ADL_FAKE_DOCKER_CALLS"
@@ -141,6 +143,7 @@ image="123456789012.dkr.ecr.us-west-2.amazonaws.com/adl-builder@$digest"
 run_fixture() {
   local command="${1:-cargo nextest run --workspace}"
   PATH="$FAKE_BIN:$PATH" \
+  TMPDIR="$TMP/raw" \
   ADL_REMOTE_REPO_DIR="$ROOT" \
   ADL_RUN_ROOT="$RUN_ROOT" \
   ADL_CACHE_VOLUME_MOUNT_PATH="$CACHE_MOUNT" \
@@ -205,11 +208,35 @@ ADL_FAKE_CACHE_FREE_BYTES=1024 run_fixture \
   >"$TMP/clean.out" 2>"$TMP/clean.err"
 grep -F 'low-space target cleanup recovery authorized' "$TMP/clean.err" >/dev/null
 
-if ADL_FAKE_TOOLCHAIN_OK=0 run_fixture >"$TMP/tool.out" 2>"$TMP/tool.err"; then
+rm -f "$RUN_ROOT/builder-toolchain.log"
+: >"$TMP/docker-calls.log"
+if ADL_FAKE_MISSING_CHECK=nextest ADL_FAKE_MISSING_EXECUTABLE=cargo-nextest \
+  ADL_FAKE_SENSITIVE_OUTPUT='account=123456789012 key=AKIAABCDEFGHIJKLMNOP ip=10.2.3.4 path=/Users/example/private.log' \
+  run_fixture >"$TMP/tool.out" 2>"$TMP/tool.err"; then
   echo "expected missing builder tool to fail" >&2
   exit 1
 fi
-grep -F 'builder toolchain verification missing' "$TMP/tool.err" >/dev/null
+grep -F 'builder preflight failed check=nextest executable=cargo-nextest exit_status=127' "$TMP/tool.err" >/dev/null
+grep -F 'ADL_BUILDER_CHECK_END label=nextest executable=cargo-nextest exit_status=127' \
+  "$RUN_ROOT/builder-toolchain.log" >/dev/null
+grep -F 'cargo-nextest: command not found' "$RUN_ROOT/builder-toolchain.log" >/dev/null
+grep -F '<aws-account-id-redacted>' "$RUN_ROOT/builder-toolchain.log" >/dev/null
+grep -F '<aws-access-key-redacted>' "$RUN_ROOT/builder-toolchain.log" >/dev/null
+grep -F '<ip-address-redacted>' "$RUN_ROOT/builder-toolchain.log" >/dev/null
+grep -F '<machine-path-redacted>' "$RUN_ROOT/builder-toolchain.log" >/dev/null
+if grep -E '123456789012|AKIAABCDEFGHIJKLMNOP|10[.]2[.]3[.]4|/Users/example' \
+  "$RUN_ROOT/builder-toolchain.log" >/dev/null; then
+  echo "missing-tool diagnostic retained unredacted identifiers" >&2
+  exit 1
+fi
+if compgen -G "$TMP/raw/adl-builder-toolchain-raw.*" >/dev/null; then
+  echo "missing-tool failure retained a raw toolchain capture" >&2
+  exit 1
+fi
+if grep -F validation "$TMP/docker-calls.log" >/dev/null; then
+  echo "missing tool reached the requested validation command" >&2
+  exit 1
+fi
 
 : >"$TMP/docker-calls.log"
 if ADL_FAKE_RUBY_OK=0 run_fixture >"$TMP/ruby.out" 2>"$TMP/ruby.err"; then
@@ -244,6 +271,68 @@ if grep -F 'ADL_SPOT_BUILDER_PROOF=' "$TMP/summary-failure.out" >/dev/null; then
   echo "summary failure emitted a proof marker" >&2
   exit 1
 fi
+
+# Exercise the real remote runner's captured nonzero-command path. The command
+# starts with the governed builder entrypoint, creates a retained diagnostic
+# after its expected argument failure, and returns 127. The runner must emit the
+# retained log on its normal path even though ERR is suppressed by set +e.
+runner="$ROOT/tools/aws_remote_validation/scripts/remote_validation_runner.sh"
+runner_root="$TMP/runner"
+runner_command="bash adl/tools/run_aws_spot_builder_image_validation.sh --invalid || { printf 'runner-retained-builder-diagnostic\\n' > '$runner_root/builder-toolchain.log'; exit 127; }"
+set +e
+HOME="$TMP/runner-home" \
+ADL_RUN_ID=issue415-runner-fixture \
+ADL_RUN_ROOT="$runner_root" \
+ADL_REMOTE_REPO_DIR="$ROOT" \
+ADL_REMOTE_COMMAND="$runner_command" \
+  bash "$runner" >"$TMP/runner.out" 2>"$TMP/runner.err"
+runner_status=$?
+set -e
+[[ "$runner_status" -eq 127 ]]
+grep -F 'ADL_REMOTE_LOG_BEGIN:builder_toolchain' "$TMP/runner.err" >/dev/null
+grep -F 'runner-retained-builder-diagnostic' "$TMP/runner.err" >/dev/null
+grep -F 'ADL_AWS_REMOTE_SUMMARY_BEGIN' "$TMP/runner.out" >/dev/null
+
+# Missing diagnostics are non-authoritative: the same runner path still emits
+# its summary and original command result without a builder log.
+missing_runner_root="$TMP/runner-missing"
+set +e
+HOME="$TMP/runner-missing-home" \
+ADL_RUN_ID=issue415-runner-missing-fixture \
+ADL_RUN_ROOT="$missing_runner_root" \
+ADL_REMOTE_REPO_DIR="$ROOT" \
+ADL_REMOTE_COMMAND='bash adl/tools/run_aws_spot_builder_image_validation.sh --invalid' \
+  bash "$runner" >"$TMP/runner-missing.out" 2>"$TMP/runner-missing.err"
+missing_runner_status=$?
+set -e
+[[ "$missing_runner_status" -eq 2 ]]
+grep -F 'ADL_AWS_REMOTE_SUMMARY_BEGIN' "$TMP/runner-missing.out" >/dev/null
+if grep -F 'ADL_REMOTE_LOG_BEGIN:builder_toolchain' "$TMP/runner-missing.err" >/dev/null; then
+  echo "missing runner diagnostic emitted a false retained log" >&2
+  exit 1
+fi
+
+bash -n "$SCRIPT" "$runner" "$0"
+
+scope_paths="$TMP/scope-paths.txt"
+{
+  git -C "$ROOT" diff --name-only HEAD --
+  git -C "$ROOT" ls-files --others --exclude-standard
+} | LC_ALL=C sort -u >"$scope_paths"
+while IFS= read -r path; do
+  case "$path" in
+    adl/tools/run_aws_spot_builder_image_validation.sh | \
+    adl/tools/test_run_aws_spot_builder_image_validation.sh | \
+    tools/aws_remote_validation/scripts/remote_validation_runner.sh | \
+    .csdlc/issues/415/* | \
+    .csdlc/prepared/issues/415/* | \
+    .csdlc/locks/415.lock) ;;
+    *)
+      echo "issue 415 exact-scope violation: $path" >&2
+      exit 1
+      ;;
+  esac
+done <"$scope_paths"
 
 rm -f "$RUN_ROOT/spot-builder-summary.json"
 set +e
