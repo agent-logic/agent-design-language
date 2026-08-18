@@ -12,7 +12,11 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/issues/417
+.csdlc/prepared/issues/417
+.csdlc/evidence/417
+csdlc-v2/src/store.rs
+csdlc-v2/tests/gate5.rs
 
 ## Prompts
 
@@ -31,12 +35,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted CI, merge, terminal finish, owner-binary installation, and #414 resumption remain future gates.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:646e8bf81ca89d9ef1c8a3ee44c1e7da463238b4:4472c6b1c174b70c5663ef0ae34383c5c4977297f8f783d7a8951e3d3daeb4fb")
 
-Reviewer: None
+Reviewer: Some("fresh-session:26ed0de7-6bd6-48f0-aa48-642a9ee19634")
 
-Result: pre_review
+Result: pass
