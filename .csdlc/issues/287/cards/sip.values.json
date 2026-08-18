@@ -7,7 +7,7 @@
     "title": "[v0.92][ADR 0071][207.e] Reconcile provider-neutral multi-agent evidence",
     "slug": "adr0071-provider-neutral-multi-agent-evidence-reconciliation",
     "version": "v0.92",
-    "generation": 6
+    "generation": 7
   },
   "status": "ready",
   "content": {

@@ -7,7 +7,7 @@
     "title": "[v0.92][ADR 0071][207.e] Reconcile provider-neutral multi-agent evidence",
     "slug": "adr0071-provider-neutral-multi-agent-evidence-reconciliation",
     "version": "v0.92",
-    "generation": 6
+    "generation": 7
   },
   "status": "ready",
   "content": {
@@ -23,7 +23,7 @@
             "AC-1",
             "AC-4"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "step-2",
@@ -32,7 +32,7 @@
             "AC-2",
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "step-3",
@@ -40,7 +40,7 @@
           "acceptance_ids": [
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [
