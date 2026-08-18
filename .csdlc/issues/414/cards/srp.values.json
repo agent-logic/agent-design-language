@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 414,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][runtime-v3][integration] Wire resident Shepherd continuity into Spot reclamation",
+    "slug": "resident-shepherd-spot-continuity",
+    "version": "v0.92",
+    "generation": 26
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #414 lifecycle/prepared/evidence plus the exact resident adapter, additive registration, focused test, lifecycle soak bridge, Spot runner contract, and CPU habitability runner contract paths.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does #414 reuse existing Runtime v2 lifecycle/snapshot/rehydration authority without inventing a recovery system?",
+        "Are complete-population dehydration and exact restore-before-admission fail closed for every listed fault?",
+        "Do multiple pinned local residents prove useful work before and after recovery within r7i.2xlarge headroom?",
+        "Is any optional external-model call entirely non-authoritative and non-required?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

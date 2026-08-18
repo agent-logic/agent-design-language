@@ -38,6 +38,15 @@ pub fn runtime_v2_snapshot_rehydration_contract() -> Result<RuntimeV2SnapshotAnd
     RuntimeV2SnapshotAndRehydrationArtifacts::prototype(&manifold, &kernel, &citizens)
 }
 
+pub fn runtime_v2_snapshot_rehydration_for_active_citizens(
+    citizen_ids: &[String],
+) -> Result<RuntimeV2SnapshotAndRehydrationArtifacts> {
+    let manifold = runtime_v2_manifold_contract()?;
+    let kernel = RuntimeV2KernelLoopArtifacts::prototype(&manifold)?;
+    let citizens = RuntimeV2CitizenLifecycleArtifacts::for_active_citizens(&manifold, citizen_ids)?;
+    RuntimeV2SnapshotAndRehydrationArtifacts::prototype(&manifold, &kernel, &citizens)
+}
+
 pub fn runtime_v2_invariant_violation_contract() -> Result<RuntimeV2InvariantViolationArtifact> {
     let manifold = runtime_v2_manifold_contract()?;
     let kernel = RuntimeV2KernelLoopArtifacts::prototype(&manifold)?;

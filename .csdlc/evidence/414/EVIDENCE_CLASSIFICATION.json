@@ -1,0 +1,28 @@
+{
+  "schema": "adl.issue414.evidence_classification.v1",
+  "accepted_local_reference": {
+    "qualification": false,
+    "focused_tests_passed": 6,
+    "logical_resident_count": 2,
+    "distinct_model_count": 1,
+    "loaded_model_count": 1,
+    "max_concurrent_inference": 1,
+    "scope": "one pinned llama3.1:8b Q4 baseline through signed continuity and warm continuation",
+    "files": {
+      "llama-baseline-reference.json": "06bdd980c6c8745c7181df0a578091dff0f26f58473c4e1834fb6483799a5002",
+      "llama-baseline-reference-end-to-end.json": "f51a795eda66b6e9b46368c3d5316862f8ac5cbaf1e0cbfa676fff330b8d97c9",
+      "llama-baseline-reference-validation.json": "2f13e564e8514e9c4bbaf4744706f87c4a95f0f5ad24dade281d20939e1898ea"
+    }
+  },
+  "excluded_non_proving": [
+    "cpu-shepherd-reference.json",
+    "cpu-shepherd-reference-end-to-end.json",
+    "cpu-shepherd-r3.json.ollama.log",
+    "cpu-shepherd-r3-attempt1-failure.json",
+    "cpu-shepherd-r3-attempt2-failure.json",
+    "cpu-shepherd-r3-attempt3-failure.json",
+    "cpu-shepherd-r3-attempt4-failure.json"
+  ],
+  "excluded_reason": "historical exploratory three-model attempts are retained failure evidence and cannot satisfy issue 414 proof or qualification",
+  "deferred": "exact Linux r7i.2xlarge three-model resource qualification belongs to issue 268"
+}

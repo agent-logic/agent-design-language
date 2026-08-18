@@ -5,6 +5,7 @@
 
 pub use adl_resilience as shared_resilience;
 pub use adl_runtime_kernel::tls;
+pub use adl_runtime_kernel::{LiveContinuity, LiveKernelSnapshot, RuntimeRecorder};
 
 pub mod acip;
 pub mod backpressure;
@@ -21,7 +22,6 @@ pub mod networking;
 pub mod observability;
 pub mod reasoning_runtime;
 pub mod resident_agent;
-pub mod resident_shepherd_continuity;
 pub mod runtime_api;
 pub mod runtime_api_auth;
 pub mod runtime_v3_soak;
@@ -32,4 +32,3 @@ pub mod weather;
 
 pub const CSM_RUNTIME_OWNER: &str = "csm";
 pub const ADL_TOOLING_ROLE: &str = "tooling_control_plane";
-pub mod agent_lifecycle;

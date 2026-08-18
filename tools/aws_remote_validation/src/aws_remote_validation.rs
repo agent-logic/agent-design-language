@@ -4840,6 +4840,41 @@ mod tests {
     }
 
     #[test]
+    fn spot_notice_invokes_bounded_fail_closed_dehydration_callback() {
+        let tracked_runner = include_str!("../scripts/remote_validation_runner.sh");
+        assert!(tracked_runner.contains("/latest/api/token"));
+        assert!(tracked_runner.contains("X-aws-ec2-metadata-token"));
+        assert!(!tracked_runner.contains("curl -fsS http://169.254.169.254/latest/meta-data/spot/instance-action"));
+        assert!(tracked_runner.contains("ADL_SPOT_DEHYDRATE_CALLBACK"));
+        assert!(tracked_runner.contains("ADL_SPOT_DEHYDRATE_TIMEOUT_SECONDS"));
+        assert!(tracked_runner.contains("--notice-file \"$RUN_ROOT/spot-interruption.log\""));
+        assert!(tracked_runner.contains("--deadline-utc \"$DEADLINE_UTC\""));
+        assert!(tracked_runner.contains(".admission_open == false and .generation > 0"));
+        assert!(tracked_runner.contains("COMMAND_EXIT=70"));
+    }
+
+    #[test]
+    fn validation_completion_cannot_cancel_an_accepted_spot_transaction() {
+        let tracked_runner = include_str!("../scripts/remote_validation_runner.sh");
+        assert!(tracked_runner.contains("spot-watcher-stop-requested"));
+        assert!(tracked_runner.contains("spot-dehydration.active"));
+        assert!(tracked_runner.contains("spot-dehydration.done"));
+        assert!(tracked_runner.contains("Accepted Spot transaction lacks exact terminal state"));
+        assert!(tracked_runner.contains("WATCH_EXIT=0"));
+        assert!(tracked_runner.contains("wait \"$WATCH_PID\""));
+        assert!(!tracked_runner.contains("kill \"$WATCH_PID\""));
+        let accepted = tracked_runner.find("spot-dehydration.active").unwrap();
+        let callback = tracked_runner
+            .find("if timeout \"${ADL_SPOT_DEHYDRATE_TIMEOUT_SECONDS:-90}\"")
+            .unwrap();
+        let terminal = callback
+            + tracked_runner[callback..]
+                .find("spot-dehydration.done")
+                .unwrap();
+        assert!(accepted < callback && callback < terminal);
+    }
+
+    #[test]
     fn build_remote_command_script_tracks_sccache_degradation() {
         let tmp = std::env::temp_dir().join(format!(
             "adl-aws-remote-validation-sccache-{}",

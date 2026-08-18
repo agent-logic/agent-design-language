@@ -1,0 +1,63 @@
+{
+  "capacity_headroom_pass": true,
+  "compilation_concurrent": false,
+  "context_tokens": 8192,
+  "external_model_authoritative": false,
+  "host_class": "reference",
+  "instance_type": "reference-host",
+  "max_loaded_models": 2,
+  "memory_mib": 65536,
+  "model_capacity_headroom_mib": 59738,
+  "model_weights_serialized": false,
+  "parallelism": 2,
+  "peak_loaded_model_bytes": 6079350046,
+  "prompts_retained": false,
+  "qualification": false,
+  "required_capacity_headroom_mib": 16384,
+  "resident_count": 3,
+  "residents": [
+    {
+      "agent_id": "resident-1",
+      "artifact_sha256": "46e0c10c039e019119339687c3c1757cc81b9da49709a3b3924863ba87ca666e",
+      "cold_latency_millis": 7726,
+      "completed_task_sha256": "0b2b5bb0b7869dc6d3a369838cdd8bc6aa710d7229aedd8de7b5742ab6ca1aae",
+      "continuation_request_sha256": "169faa97cdb199328e536c51353c716ef3c8b74186d0ea714c92c2b0a39405a0",
+      "loaded_model_bytes": 5431193763,
+      "loaded_model_count": 1,
+      "model": "llama3.1:8b",
+      "next_task_sha256": "5fc2dbab2d9292f04b00e7edd52fd4983217c3ee21bd0710968a41a9f88a58b8",
+      "quantization": "Q4_K_M",
+      "warm_latency_millis": 7083
+    },
+    {
+      "agent_id": "resident-2",
+      "artifact_sha256": "500a1f067a9f782620b40bee6f7b0c89e17ae61f686b92c24933e4ca4b2b8b41",
+      "cold_latency_millis": 5563,
+      "completed_task_sha256": "0c11e98ef597ceba9124169ad840e60b13e9549bdee9576aba8b1032448accaf",
+      "continuation_request_sha256": "43e5ac0b49dc089ab4fa9fa9e110e8c5b25fc959ce32431ff0781ce73fbd8e19",
+      "loaded_model_bytes": 6079350046,
+      "loaded_model_count": 1,
+      "model": "qwen3:8b",
+      "next_task_sha256": "d4af34ec746b7438c5b22ac91c705cbdf4c87c437eb764524ce894e98efc2d54",
+      "quantization": "Q4_K_M",
+      "warm_latency_millis": 8936
+    },
+    {
+      "agent_id": "resident-3",
+      "artifact_sha256": "78fad5d182a7c33065e153a5f8ba210754207ba9d91973f57dffa7f487363753",
+      "cold_latency_millis": 4572,
+      "completed_task_sha256": "fa7b3dfc76186779ddb2b3ece486eb8f531ce8327dd7ae1a3bb648599f3a6117",
+      "continuation_request_sha256": "77f11255cb17c5d87b1fcd23d81c47d1c193094bd5b06d9f845ab04260d591f0",
+      "loaded_model_bytes": 3209345105,
+      "loaded_model_count": 1,
+      "model": "phi4-mini",
+      "next_task_sha256": "113ffb5886217bc6c50752feedd6c49fccef517a01ca58dbc05d149e7808bd28",
+      "quantization": "Q4_K_M",
+      "warm_latency_millis": 5162
+    }
+  ],
+  "schema": "adl.runtime.resident_shepherd_habitability.v1",
+  "swap_measurement": "unavailable_on_reference_host",
+  "swap_used_mib": -1,
+  "vcpus": 14
+}

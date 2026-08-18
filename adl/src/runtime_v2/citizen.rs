@@ -5,6 +5,80 @@
 
 use super::*;
 impl RuntimeV2CitizenLifecycleArtifacts {
+    pub fn for_active_citizens(
+        manifold: &RuntimeV2ManifoldRoot,
+        citizen_ids: &[String],
+    ) -> Result<Self> {
+        manifold.validate()?;
+        if citizen_ids.is_empty() {
+            return Err(anyhow!("active Runtime-v2 population must not be empty"));
+        }
+        let mut unique = std::collections::BTreeSet::new();
+        let records = citizen_ids
+            .iter()
+            .map(|citizen_id| {
+                if citizen_id.trim().is_empty() || !unique.insert(citizen_id.clone()) {
+                    return Err(anyhow!(
+                        "active Runtime-v2 citizen IDs must be unique and nonempty"
+                    ));
+                }
+                Ok(RuntimeV2ProvisionalCitizenRecord {
+                    schema_version: RUNTIME_V2_PROVISIONAL_CITIZEN_SCHEMA.to_string(),
+                    citizen_id: citizen_id.clone(),
+                    display_name: citizen_id.clone(),
+                    provisional_status: "provisional".to_string(),
+                    lifecycle_state: "active".to_string(),
+                    manifold_id: manifold.manifold_id.clone(),
+                    record_path: format!("runtime_v2/citizens/{citizen_id}.json"),
+                    created_at_utc: "not_started".to_string(),
+                    last_wake_at_utc: None,
+                    memory_identity_refs: RuntimeV2CitizenMemoryIdentityRefs {
+                        memory_root_ref: format!("runtime_v2/citizens/{citizen_id}/memory"),
+                        identity_profile_ref: format!(
+                            "runtime_v2/citizens/{citizen_id}/identity.json"
+                        ),
+                    },
+                    policy_boundary_refs: RuntimeV2CitizenPolicyBoundaryRefs {
+                        policy_ref: format!("runtime_v2/citizens/{citizen_id}/policy.json"),
+                        admission_trace_ref: format!(
+                            "runtime_v2/traces/admission/{citizen_id}.json"
+                        ),
+                    },
+                    rehydration_validation_ref: None,
+                    termination_event_ref: None,
+                    resources_released: false,
+                    can_execute_episodes: true,
+                })
+            })
+            .collect::<Result<Vec<_>>>()?;
+        let active_index = RuntimeV2CitizenRegistryIndex {
+            schema_version: RUNTIME_V2_CITIZEN_REGISTRY_INDEX_SCHEMA.to_string(),
+            manifold_id: manifold.manifold_id.clone(),
+            registry_root: manifold.citizen_registry_refs.registry_root.clone(),
+            index_kind: "active".to_string(),
+            index_path: manifold.citizen_registry_refs.active_index.clone(),
+            citizens: records
+                .iter()
+                .map(RuntimeV2CitizenRegistryEntry::from_record)
+                .collect(),
+        };
+        let pending_index = RuntimeV2CitizenRegistryIndex {
+            schema_version: RUNTIME_V2_CITIZEN_REGISTRY_INDEX_SCHEMA.to_string(),
+            manifold_id: manifold.manifold_id.clone(),
+            registry_root: manifold.citizen_registry_refs.registry_root.clone(),
+            index_kind: "pending".to_string(),
+            index_path: manifold.citizen_registry_refs.pending_index.clone(),
+            citizens: vec![],
+        };
+        let artifacts = Self {
+            records,
+            active_index,
+            pending_index,
+        };
+        artifacts.validate()?;
+        Ok(artifacts)
+    }
+
     pub fn prototype(manifold: &RuntimeV2ManifoldRoot) -> Result<Self> {
         manifold.validate()?;
         let records = vec![

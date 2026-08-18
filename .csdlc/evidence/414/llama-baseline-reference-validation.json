@@ -1,0 +1,7 @@
+{
+  "capacity_headroom_pass": true,
+  "qualification": false,
+  "resident_count": 2,
+  "schema": "adl.runtime.resident_shepherd_habitability_validation.v1",
+  "status": "passed"
+}

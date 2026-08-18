@@ -1,0 +1,129 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 414,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][runtime-v3][integration] Wire resident Shepherd continuity into Spot reclamation",
+    "slug": "resident-shepherd-spot-continuity",
+    "version": "v0.92",
+    "generation": 26
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 10,
+      "summary": "Validate and review the reuse-first packet, bind #414, implement the smallest resident/Spot bridge, prove complete population recovery and multi-resident CPU habitability locally, obtain fresh exact-head review, publish, observe CI, and finish if green.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Freshly review and approve the exact reuse-only Runtime-v2, CSM capsule, signed LiveContinuity, IMDSv2, retained-volume, and Linux bootstrap design.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-8"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Integrate multiple distinct resident agents through the existing lifecycle, snapshot, capsule, signed checkpoint, restore-before-admission, and fail-closed Spot callback authorities.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Retain deterministic complete-population proof and one nonqualifying pinned llama3.1:8b Q4 cold/dehydrate/restore/warm reference proof; preserve Qwen/Phi attempts as exploratory non-proof and defer exact three-model Linux r7 measurement/artifact staging to #268.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5",
+            "AC-7",
+            "AC-8"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Validate exact scope, obtain fresh exact-head implementation review, publish with closing linkage, require green CI, finish, validate terminal cache/ancestry, and clean the worktree.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        ".csdlc/prepared/issues/414/design.md",
+        ".csdlc/prepared/issues/414/diagram.mmd",
+        ".csdlc/prepared/issues/414/design-bindings.json",
+        ".csdlc/prepared/issues/414/validate_preparation_bundle.py",
+        ".csdlc/issues/414",
+        ".csdlc/evidence/414",
+        "adl-runtime-kernel/src/live_continuity.rs",
+        "adl-runtime/src/lib.rs",
+        "adl/Cargo.toml",
+        "adl/Cargo.lock",
+        "adl/src/lib.rs",
+        "adl/src/resident_shepherd_spot_continuity.rs",
+        "adl/src/bin/adl_resident_shepherd_continuity.rs",
+        "adl/src/runtime_v2/agent_lifecycle_state.rs",
+        "adl/src/runtime_v2/citizen.rs",
+        "adl/src/runtime_v2/contracts.rs",
+        "tools/aws_remote_validation/scripts/remote_validation_runner.sh",
+        "tools/aws_remote_validation/src/aws_remote_validation.rs",
+        "adl/tools/aws_spot_artifact_finalize.py",
+        "adl/tools/test_aws_spot_artifact_finalize.sh",
+        "adl/tools/run_aws_spot_remote_validation_lane.sh",
+        "adl/tools/test_run_aws_spot_remote_validation_lane.sh",
+        "adl/tools/run_issue414_cpu_shepherd_continuity.sh",
+        "adl/tools/run_issue414_llama_baseline.sh",
+        "adl/tools/issue414_spot_dehydrate_callback.sh",
+        "adl/tools/issue414_restore_and_admit.sh",
+        "adl/tools/issue414_s3_linux_bootstrap.py",
+        "adl/tools/test_issue414_s3_linux_bootstrap.py"
+      ],
+      "invariants": [
+        "Every admitted resident appears exactly once in a completed generation",
+        "Restore and exact population validation precede admission",
+        "Runtime continuity storage is distinct from build cache",
+        "Existing Runtime v2 lifecycle, snapshot, lineage, invariant, and wake authority remains authoritative"
+      ],
+      "risks": [
+        "A bridge could accidentally duplicate existing recovery authority",
+        "Resource proof could become non-proving if model execution overlaps compilation",
+        "Population or storage ambiguity could falsely permit admission"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 43200,
+        "total_tokens": 140000,
+        "validation_seconds": 7200
+      },
+      "stop_conditions": [
+        "Need to invent a lifecycle state, snapshot schema, lineage, or recovery policy",
+        "Cannot prove exact complete-population restore before admission",
+        "Cannot keep Runtime continuity storage distinct from build cache",
+        "Resource proof exceeds 64 GiB or lacks nonzero useful-work denominators"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/414/design.md",
+      "design_digest": "551c6412a9c7d1f7ac09c0d435759497816fa3f30d68de4050b8c25049c29746",
+      "diagram_ref": ".csdlc/prepared/issues/414/diagram.mmd",
+      "diagram_digest": "fb2112b7a494342accbb2282156a0610f8f43ebe189a788dc11e1a8b1d3fab8b"
+    }
+  }
+}
