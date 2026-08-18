@@ -7,7 +7,7 @@
     "title": "[v0.92][C-SDLC][defect] Recover and classify preserved failed issue projections",
     "slug": "preserved-failed-projection-recovery",
     "version": "v0.92",
-    "generation": 26
+    "generation": 27
   },
   "status": "ready",
   "content": {
@@ -23,7 +23,7 @@
             "AC-8",
             "AC-9"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -33,7 +33,7 @@
             "AC-5",
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -41,7 +41,7 @@
           "acceptance_ids": [
             "AC-9"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -53,7 +53,7 @@
             "AC-7",
             "AC-8"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [

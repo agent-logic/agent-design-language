@@ -29,3 +29,4 @@
 {"sequence":29,"generation":24,"actor":"codex:worker-5","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":30,"generation":25,"actor":"fresh-session:0d7a9b8e-bc56-45ab-a650-45d0668a5dc8","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":31,"generation":26,"actor":"codex:worker-5","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":32,"generation":27,"actor":"codex-worker-4-closeout","reason":"Materialize live GitHub terminal truth for merged PR #328 before cleanup.","operation":"materialize_derived_terminal"}
