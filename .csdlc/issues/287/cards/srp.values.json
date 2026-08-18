@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 287,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][ADR 0071][207.e] Reconcile provider-neutral multi-agent evidence",
+    "slug": "adr0071-provider-neutral-multi-agent-evidence-reconciliation",
+    "version": "v0.92",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue-local evidence and validator only; no shared ADR document review.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does #287 avoid claiming terminal provider-neutral multi-agent proof from non-terminal #341 or supporting child state?",
+        "Does the validator prove exact #341 terminal-cache absence/presence and residual-gap truth rather than relying on prose?",
+        "Are shared ADR docs/index/plan/manifest untouched as required for #288?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

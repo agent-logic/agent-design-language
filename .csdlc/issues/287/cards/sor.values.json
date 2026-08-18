@@ -1,0 +1,73 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 287,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][ADR 0071][207.e] Reconcile provider-neutral multi-agent evidence",
+    "slug": "adr0071-provider-neutral-multi-agent-evidence-reconciliation",
+    "version": "v0.92",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "#287 reconciles ADR 0071 provider-neutral multi-agent evidence issue-locally: WP-18B umbrella #341 remains open with no derived terminal cache, while #283-#286 terminal caches are retained only as supporting evidence.",
+      "actual_changes": [
+        "Added .csdlc/evidence/287/evidence-manifest.json with #341 open residual-gap truth, #283-#286 supporting-only terminal cache identities, residual gaps, and non-claims.",
+        "Added .csdlc/evidence/287/live-observations.json with live #341 OPEN state, resolved Git common terminal-cache path, and no credential/provider execution truth.",
+        "Added .csdlc/evidence/287/adr0071-provider-neutral-multi-agent-reconciliation.md summarizing residual-gap truth and #207/#288 boundaries.",
+        "Added focused issue-owned validator and prepared mirror for ADR 0071 provider-neutral multi-agent evidence reconciliation.",
+        "Repaired #287 VPP typed validation lane to use the stable generated owner binary with worktree-relative --root ."
+      ],
+      "artifacts": [
+        ".csdlc/evidence/287/evidence-manifest.json",
+        ".csdlc/evidence/287/live-observations.json",
+        ".csdlc/evidence/287/adr0071-provider-neutral-multi-agent-reconciliation.md",
+        ".csdlc/evidence/287/validate_adr0071_provider_neutral_multi_agent_evidence.sh",
+        ".csdlc/prepared/issues/287/validate_adr0071_provider_neutral_multi_agent_evidence.sh",
+        ".csdlc/issues/287"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "purpose": "Run git diff whitespace checks.",
+          "outcome": "passed",
+          "evidence_ref": "diff-hygiene.log"
+        },
+        {
+          "command": [
+            "bash",
+            ".csdlc/evidence/287/validate_adr0071_provider_neutral_multi_agent_evidence.sh"
+          ],
+          "purpose": "Run the #287 focused reconciliation validator.",
+          "outcome": "passed",
+          "evidence_ref": "focused-adr0071-provider-neutral-multi-agent-evidence.log"
+        },
+        {
+          "command": [
+            "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate",
+            "--root",
+            ".",
+            "issue",
+            "--issue",
+            "287"
+          ],
+          "purpose": "Run typed C-SDLC issue validation.",
+          "outcome": "passed",
+          "evidence_ref": "typed-issue-validation.log"
+        }
+      ],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

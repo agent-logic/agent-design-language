@@ -1,0 +1,24 @@
+{
+  "schema": "adl.csdlc.evidence.live_observations.v1",
+  "issue": 287,
+  "observed_from_worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-287-adr0071-provider-neutral-multi-agent-evidence-reconciliation",
+  "issue_341": {
+    "number": 341,
+    "title": "[v0.92][WP-18B] Provider-neutral multi-agent proof",
+    "state": "OPEN",
+    "closed": false,
+    "closedAt": null,
+    "url": "https://github.com/agent-logic/agent-design-language/issues/341"
+  },
+  "derived_terminal": {
+    "git_common_dir": "/Users/daniel/git/agent-design-language/.git",
+    "341_path": ".git/csdlc-v2/derived-terminal/341.json",
+    "341_resolved_path": "/Users/daniel/git/agent-design-language/.git/csdlc-v2/derived-terminal/341.json",
+    "341_present": false,
+    "supporting_present": [283, 284, 285, 286],
+    "absent": [287, 288, 341]
+  },
+  "credentials_read": false,
+  "provider_execution_run": false,
+  "shared_adr_docs_updated": false
+}

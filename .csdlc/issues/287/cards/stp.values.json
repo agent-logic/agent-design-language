@@ -1,0 +1,52 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 287,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][ADR 0071][207.e] Reconcile provider-neutral multi-agent evidence",
+    "slug": "adr0071-provider-neutral-multi-agent-evidence-reconciliation",
+    "version": "v0.92",
+    "generation": 4
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Bounded #287 evidence reconciliation for ADR 0071 only.",
+      "deliverables": [
+        ".csdlc/evidence/287/evidence-manifest.json",
+        ".csdlc/evidence/287/live-observations.json",
+        ".csdlc/evidence/287/adr0071-provider-neutral-multi-agent-reconciliation.md",
+        ".csdlc/evidence/287/validate_adr0071_provider_neutral_multi_agent_evidence.sh",
+        "Typed SOR/SRP truth for #287"
+      ],
+      "acceptance_criteria": [
+        "AC1: Retain issue-local evidence showing whether terminal provider-neutral multi-agent proof exists from WP-18B owners at exact revisions.",
+        "AC2: Machine-check the current WP-18B umbrella #341 state and derived-terminal cache identity, recording absence of terminal umbrella authority as a residual evidence gap when applicable.",
+        "AC3: Reconcile exact terminal issue-local evidence that exists for related provider/multi-agent slices without upgrading supporting child evidence into terminal #341/#287 proof.",
+        "AC4: Record machine-readable outcomes, human review boundary, residual gaps, and non-claims for #207 without updating shared ADR docs, the ADR index, final plan, or evidence manifest.",
+        "AC5: Publish #287 only after focused validation, typed lifecycle validation, and fresh bounded exact review pass."
+      ],
+      "dependencies": [
+        "#207 parent ADR proof gate coordination",
+        "#341 WP-18B provider-neutral multi-agent proof umbrella",
+        "Terminal or retained evidence from WP-18B owners where present"
+      ],
+      "repo_inputs": [
+        "GitHub issue #287",
+        "GitHub issue #207",
+        "GitHub issue #341",
+        ".git/csdlc-v2/derived-terminal/*.json for related WP-18B evidence where present",
+        "GitHub issue/PR live observations for #341 where available"
+      ],
+      "non_goals": [
+        "Provider execution.",
+        "Credential access, setup, printing, copying, or mutation.",
+        "ADR acceptance or moving ADR 0071 to Accepted.",
+        "Rewriting WP-18B acceptance criteria.",
+        "Updating shared ADR docs, index, plan, or evidence manifest."
+      ]
+    }
+  }
+}
