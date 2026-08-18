@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "f9123a53c2cc6e11570a192a9d2aa81321ff990ff31ccd823536b6259c3732a5",
-  "phase": "published",
-  "generation": 5,
-  "digest": "a57b7555244aaa7a8fbd65f2a33b4870906bccd31e209f4e02b1cb9392d06a2a",
+  "phase": "closed_out",
+  "generation": 6,
+  "digest": "643bf34bebe5acb0c82b65bc1ee22555343d456f242ed1f48c95a1ee0c9e6d5a",
   "branch": "codex/353-publication-review-anchor",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-353-publication-review-anchor",
   "review_assignment": {
@@ -44,10 +44,18 @@
     "revision": "git-blake3:84256326d2a8967c599d0e8239ada8757f8f0d56:c6c98f23727699ae6b4b2e02db3bd228bab2bfc9e7b619864fe1249043b72e2b",
     "linkage_mode": "closing",
     "draft": false,
-    "observed_state": "open"
+    "observed_state": "merged"
   },
   "readiness": null,
-  "terminal": null,
+  "terminal": {
+    "pull_request": 354,
+    "disposition": "merged",
+    "observed_sha": "4df777aa3ef6235c10294e344953709f61c8c2e3",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/353.json",
+    "branch": "codex/353-publication-review-anchor",
+    "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-353-publication-review-anchor"
+  },
   "migration": null,
   "design_path": ".csdlc/prepared/issues/353/design.md",
   "diagram_path": ".csdlc/prepared/issues/353/diagram.mmd",
@@ -59,34 +67,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "03ab524f09be8391e5d2e74b85046f3895d00327583b1a8f61ab521d5d8124fa",
+      "values_digest": "9a75e3a050c7ba87acbb9e94f7a9f1fca722c66a61f7f32e60f74d4b4113f287",
       "rendered_digest": "c5369453884c8d19cfd8cdfcae29a8b36c6128a3a6f22ea109acb8fe47dfa200",
       "ast_digest": "3f454bf54a89127afd537c5b9619f9b792b1783cfa2b87f18fd7aeca17dd27af"
     },
     "stp": {
-      "values_digest": "e1bc34995413a4a3f953e2dec44914dcfc828967e74267b680700db7d5c3bded",
+      "values_digest": "8dd6f69d337f71017c4e2c78a02f9b98479147314aea8eeb6b9000486d639c71",
       "rendered_digest": "ca6a705dfe2429272b532e2596bb7f9c4ea51de79895e8f29447e47b955d398f",
       "ast_digest": "f62d3b7de695af9fae411463d42474fa13aab4dab517f646cdd638381309e62f"
     },
     "spp": {
-      "values_digest": "4789c5070c478ee444155e47a6e0d68b526a22b5b20410df98906d140bfc7911",
-      "rendered_digest": "f015ba713bea2e30a8bb18bbe833ad9f88c34fdc282191453fe35d3302540d12",
-      "ast_digest": "f62cedeae15fb82e31e759cdf764f1d488db4955f33a85193c1edf64f92dd609"
+      "values_digest": "563e358f5a4b135c3bbc34d822a13a9c2ce634eff58384dee7532e253ea2dcdf",
+      "rendered_digest": "4b626885be348127cff301c63f02b5d87abbfe90b3d7ccb4648db440c13b25cf",
+      "ast_digest": "fa26d92a50985022d9faba7b83dddaaf0b2d93a0a5a2a4fc426fd8ad8f3a4b0b"
     },
     "vpp": {
-      "values_digest": "6490e54a8debf60496fc8fca658e6dceb33615440dab280cae1af5ec775399c8",
+      "values_digest": "181ea7e8f1f2be098f88e1e9284b4b363fe8394b2d850e5a97d195acb62ac0a5",
       "rendered_digest": "811d9c72e0bb14cba0ad53b1fc16d78680ba46b5881b477a4a4e91417bd7d301",
       "ast_digest": "5c49aaabf52451b3db512a1b02923c7939260ce23b9716bdac07ffca68d5034a"
     },
     "srp": {
-      "values_digest": "2d68bd11b3bf3322302a73ece5a682fa26734e3286784d2fd2e9c5df81e8ad21",
+      "values_digest": "0cfa0258da5acf7a80cb595f61a091154e9b2c3cc99b17af5ab3f5d11bfc3dc2",
       "rendered_digest": "4537914a9ed57ce9bb010dd956fd088c8a713aeed81ee24629f49087d9173359",
       "ast_digest": "97d9f5c06743b9cd03914a5389d900352a0ca123b5f577540c151204052756c0"
     },
     "sor": {
-      "values_digest": "0b825617cffc18cdcd35f3833efac98564463f041d2de559204d477aeee30a03",
-      "rendered_digest": "3295305abe56fe69e5152db027ee6c74dab3980631e30c7cb8f7267ca9b3d169",
-      "ast_digest": "7526fbb37f456f8eb82107a0db82063038427f1ea81b6354987541f851013e9e"
+      "values_digest": "7246c21ea6e12fbd73dba899e5c8081253178ae25697811fef561495742d1607",
+      "rendered_digest": "ee95fc0d721b29e94082f4fb968b4c4041f9ef00de55792d313f433ef144ef30",
+      "ast_digest": "b9e68684a50b50eaf6b2f6882ae4b7efb6f8623a1f9d3d24fc829a6967864ec0"
     }
   },
   "transitions": [
@@ -124,6 +132,27 @@
       "to": "published",
       "actor": "codex:issue-353-publication-review-anchor",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex-worker-4-closeout",
+      "reason": "observed required checks, review, and conflict readiness"
+    },
+    {
+      "sequence": 7,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex-worker-4-closeout",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 8,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex-worker-4-closeout",
+      "reason": "Materialize live GitHub terminal truth for merged PR #354 before cleanup."
     }
   ],
   "audit": [
@@ -182,6 +211,13 @@
       "actor": "codex:issue-353-publication-review-anchor",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex-worker-4-closeout",
+      "reason": "Materialize live GitHub terminal truth for merged PR #354 before cleanup.",
+      "operation": "materialize_derived_terminal"
     }
   ]
 }
