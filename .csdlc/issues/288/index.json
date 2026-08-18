@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "2b4cb9709eb4123afac1afa596cd1cc79ddc63bbb6a39c458fdf11821367f1eb",
   "phase": "implemented",
-  "generation": 13,
-  "digest": "5c4b65cf79abb4f3185561ae4066b0d2629d94aa25ad436d0b19e9c6c534a098",
+  "generation": 14,
+  "digest": "63d654e81dc2d41e7ebb9ac3ea42f64da50faac54f8fb85bf61cc7f75702cd89",
   "branch": "codex/288-final-adr-index-plan-manifest-review-packet",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-288-final-adr-index-plan-manifest-review-packet",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4c0b1e9b709bce99909a9865113b0255c2ccc27b524d4c9485575c36ca20435c",
+      "values_digest": "bb909880aec7962eba18572ea6116a24cd5ea35ef43b120794aad37fde010262",
       "rendered_digest": "fd101303f021f6255283d65c35625609a35e979110108570dba9a85fc28914b9",
       "ast_digest": "0dd52a00620de8e4812346ae8419ef35790713a3e3bd3f051348fc40d5683caa"
     },
     "stp": {
-      "values_digest": "ae3c5ef50aec1d8b9c2db220a18d08a71013506038dab3a4243e03985420d10e",
+      "values_digest": "255b13e34b722336ed054068dfa901f2ab58d120ed8c6ecdf48e7ba3cba90f05",
       "rendered_digest": "a0285a30996d91cf6e89fc11459a3f1787efadc9467e393bb56257898cd6c46e",
       "ast_digest": "4afcc67557d35fb2250c5f9034023091e8c1c33afb7fe02e6d993ff7d63ada28"
     },
     "spp": {
-      "values_digest": "4c9b508b6b0148ffaef5d464793eb8e4d2c253fdca18b2c8abedd313217cd376",
+      "values_digest": "494e27faea6591c71a65d866e8675146f8afa3214a71b1418e4acb43e113062a",
       "rendered_digest": "d92b52e0146f0c5a3576b9f8a9fd3f3c11d9d9c7b41ca77534ad7e32c1b6803a",
       "ast_digest": "33a86cbfb779917c6864c49a77ce2b6387d08a02aba1a3c69cc3941b10887c40"
     },
     "vpp": {
-      "values_digest": "fc0c70d6bff7a4cb2a01d201b2e53ec53facc2770a1ee36ad153711dd79dc922",
+      "values_digest": "ff59bcfee661a74bed64cbe4ba078e9ec69518f0e91f076beb02b0e8d3d72422",
       "rendered_digest": "381dc86472a8aa1a3db1e1c4071946836e0aed9abb4a54e7a85e25e50aa1da13",
       "ast_digest": "44afeb7e5306141ea2339872617bba0600d2a64a06d8bc5fd472efef4c757ba9"
     },
     "srp": {
-      "values_digest": "54c9588b350b454385eb85687a9d89dc6d99d8277dfeed83bf50c31beaa1ab23",
+      "values_digest": "84d581f258ce01b3bfe449312feb8aae3f2c563fb69881719aa45c5864a413f1",
       "rendered_digest": "36721ddeaff18edf8a1170c73e761ac625afe04888ecbf7e2b5db28189cc0b58",
       "ast_digest": "7a2e4441f2a7f16d13fcd8602831faffbeb78789517f0381ae242a3f1120cea8"
     },
     "sor": {
-      "values_digest": "47633cbdca79a2c30de2189e167e726fbb96287e4fc5e6a6c6f528d8e7d4398d",
+      "values_digest": "87a8f44fe8c6c915ec1a76a3a0964897835106709a908608b2b5c68877844932",
       "rendered_digest": "727ea5d3b1aa5f20ba05446cd982fa212f8ad136bc661281f1f4ae6c1ed8b19d",
       "ast_digest": "23f3212dd09b8068158c9c30fbce8c1ccc36fd93e7c80b9887ecc5f7b0b4b044"
     }
@@ -190,6 +190,20 @@
       "actor": "codex:/root",
       "reason": "Record post-review remediation proof after R288-F1/R288-F2: handoff residual-gap wording now includes two-voter AWS/model-health plus #142 completion, and the final validator now asserts residual-gap wording across deferred ADR rows.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"python3\",\".csdlc/evidence/288/validate_final_adr_serialization.py\"],\"purpose\":\"Prove #288 final ADR serialization status and residual-gap wording across manifest, ADR index, ADR plan, candidate ADR 0065, internal review handoff, and terminal caches after fresh review findings.\",\"outcome\":\"passed\",\"evidence_ref\":\"#288 final ADR serialization PASS at post-recovery source\"}}"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Recover #288 after fresh-session:91df7ad5-b8a9-4ca9-8c90-d1224a1efabb returned an environmental FAIL: it statically confirmed R288-F1/R288-F2 remediation but could not execute Python validators, typed validation, or merge-base checks because its managed read-only sandbox rejected them with sandbox-exec exit 71. Clear assignment before a new fresh exact-head review with local command execution enabled but read-only review instructions preserved.",
+      "operation": "recover_review"
     }
   ]
 }
