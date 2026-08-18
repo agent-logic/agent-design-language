@@ -1,0 +1,87 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 288,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][ADR][207.f] Serialize final ADR index, plan, manifest, and review packet",
+    "slug": "final-adr-index-plan-manifest-review-packet",
+    "version": "v0.92",
+    "generation": 16
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "final-adr-serialization-validator",
+          "proof_role": "Prove the final ADR index, plan, candidate ADR 0065, evidence manifest, handoff packet, terminal child caches, status matrix, residual gaps, and non-accepted boundary agree.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 2000,
+          "argv": [
+            "python3",
+            ".csdlc/evidence/288/validate_final_adr_serialization.py"
+          ],
+          "parallel_group": "serial",
+          "defer_reason": null
+        },
+        {
+          "lane": "typed-issue-validation",
+          "proof_role": "Validate #288 typed lifecycle/card truth.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 1000,
+          "argv": [
+            "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate",
+            "--root",
+            ".",
+            "issue",
+            "--issue",
+            "288"
+          ],
+          "parallel_group": "serial",
+          "defer_reason": null
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Reject whitespace and unintended broad churn.",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "serial",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on missing/non-ancestral child terminal caches, contradictory ADR statuses, any Accepted claim, missing residual gaps, stale review truth, failed focused validation, or GitHub publication/finish drift.",
+      "design_ref": ".csdlc/prepared/issues/288/design.md",
+      "design_digest": "b3443502549f134d4d38c2803842384ccc8389b81bc41a2f75edd17537586e31",
+      "diagram_ref": ".csdlc/prepared/issues/288/diagram.mmd",
+      "diagram_digest": "6612c61bc13fcc1ed3f9877a003a5b200263098e92f616a561fe9ce4c4cf60c2"
+    }
+  }
+}

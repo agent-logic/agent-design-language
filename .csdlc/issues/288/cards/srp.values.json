@@ -1,0 +1,36 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 288,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][ADR][207.f] Serialize final ADR index, plan, manifest, and review packet",
+    "slug": "final-adr-index-plan-manifest-review-packet",
+    "version": "v0.92",
+    "generation": 16
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "docs/architecture/adr/V092_ADR_INDEX_143.md\ndocs/milestones/v0.92/ADR_PLAN_v0.92.md\ndocs/architecture/adr/0065-acip-schema-catalog-and-governed-projection-boundary.md\ndocs/milestones/v0.92/review/first-birthday-review-evidence.v1.json\ndocs/milestones/v0.92/review/V092_ADR_INTERNAL_REVIEW_HANDOFF.md\n.csdlc/evidence/288\n.csdlc/issues/288\n.csdlc/prepared/issues/288",
+      "review_revision": "git-blake3:74dd04fc768d3dd8bb2e3d84fb58ada2c8f966dc:8fa140a1ae235b2147c4866e8dee7a6573f9700f0cd44d8677d832187f1958e6",
+      "reviewer": "fresh-session:e8904698-1f3e-4e88-b60a-6200c6d01bb1",
+      "review_prompts": [
+        "Verify the ADR status matrix against #283-#287 terminal evidence and residual gaps.",
+        "Verify no touched surface marks an ADR Accepted or claims #207 closeout.",
+        "Verify the review evidence manifest and handoff packet are source-backed and non-overclaiming."
+      ],
+      "findings": [],
+      "residual_risk": [
+        "ADR 0065 is Proposed, not Accepted; separate human approval remains required.",
+        "ADR 0066 remains Deferred pending two-voter AWS/model-health proof and #142 completion.",
+        "ADR 0068 remains Deferred pending terminal WP-18 birthday proof.",
+        "ADR 0069 remains Deferred pending #84/WP-18A Unity Runtime consumer proof.",
+        "ADR 0071 remains Deferred pending #341/WP-18B provider-neutral proof and its terminal cache.",
+        "No ADR acceptance, #207 closeout, provider execution, credential-backed proof, Unity runtime proof, cloud execution, citizenship, governance approval, public release, or production deployment is claimed."
+      ],
+      "review_result": "pass"
+    }
+  }
+}
