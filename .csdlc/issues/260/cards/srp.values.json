@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.16b3.1a][203.c] Migrate distributed Runtime callers to authority adapters",
     "slug": "issue-260-distributed-runtime-authority-adapters",
     "version": "v0.92",
-    "generation": 14
+    "generation": 15
   },
   "status": "draft",
   "content": {

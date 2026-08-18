@@ -7,9 +7,9 @@
     "title": "[v0.92][WP-04.16b3.1a][203.c] Migrate distributed Runtime callers to authority adapters",
     "slug": "issue-260-distributed-runtime-authority-adapters",
     "version": "v0.92",
-    "generation": 14
+    "generation": 15
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -113,10 +113,10 @@
           "evidence_ref": ".csdlc/evidence/260/runtime-lib-clippy.log"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }
