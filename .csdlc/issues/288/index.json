@@ -1,0 +1,167 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 288,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "2b4cb9709eb4123afac1afa596cd1cc79ddc63bbb6a39c458fdf11821367f1eb",
+  "phase": "implemented",
+  "generation": 10,
+  "digest": "30e0c0cf0d4667bffb89ef70994f26fd342a0f926edfe61cc8bbce8c975c1287",
+  "branch": "codex/288-final-adr-index-plan-manifest-review-packet",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-288-final-adr-index-plan-manifest-review-packet",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/288/design.md",
+  "diagram_path": ".csdlc/prepared/issues/288/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:01a0123a-0e67-7813-9aa9-5e2c20d82ee1",
+      "revision": "b3443502549f134d4d38c2803842384ccc8389b81bc41a2f75edd17537586e31"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "94098528341892ea55fd73f6c86a542e5c10cdd9fb515ad2c282f047484c5d29",
+      "rendered_digest": "fd101303f021f6255283d65c35625609a35e979110108570dba9a85fc28914b9",
+      "ast_digest": "0dd52a00620de8e4812346ae8419ef35790713a3e3bd3f051348fc40d5683caa"
+    },
+    "stp": {
+      "values_digest": "ad364fbd6be77fbb334598f8c4c9578646b1836a9eb0e5e91e0015e6391fd642",
+      "rendered_digest": "a0285a30996d91cf6e89fc11459a3f1787efadc9467e393bb56257898cd6c46e",
+      "ast_digest": "4afcc67557d35fb2250c5f9034023091e8c1c33afb7fe02e6d993ff7d63ada28"
+    },
+    "spp": {
+      "values_digest": "29edd35e870956ab974aec581b9c3ff123cdde2e0f1df4c4dacc45f4ac74c725",
+      "rendered_digest": "d92b52e0146f0c5a3576b9f8a9fd3f3c11d9d9c7b41ca77534ad7e32c1b6803a",
+      "ast_digest": "33a86cbfb779917c6864c49a77ce2b6387d08a02aba1a3c69cc3941b10887c40"
+    },
+    "vpp": {
+      "values_digest": "9b1cdb691145175a27ca31a09d94d2e187ef04f4db34b25bdda72232666a77c1",
+      "rendered_digest": "381dc86472a8aa1a3db1e1c4071946836e0aed9abb4a54e7a85e25e50aa1da13",
+      "ast_digest": "44afeb7e5306141ea2339872617bba0600d2a64a06d8bc5fd472efef4c757ba9"
+    },
+    "srp": {
+      "values_digest": "141ac49d55354de33bb0d67c889edc4077b351b8f786e1fb9b5578e2c32a9587",
+      "rendered_digest": "c6be60e1ed373d7e2ecc0e5680a4693eb259319c6e06a0de4ba497941bafbebb",
+      "ast_digest": "301898e424a2e280d84ace49aac7edd43a5787df3bd83a2f38ffe33ff5af4500"
+    },
+    "sor": {
+      "values_digest": "8e679516f8b458a1bc44136947609256b2f0895d2542fa3e72df03218bafb635",
+      "rendered_digest": "fba326023e91b49c0e38a1d1993202eff42064dd7924abd2dbd3187fb82882c6",
+      "ast_digest": "cfacce9a12983d7d6e55d9646ffe5946e2b788f96fe019b0699242ed7470fc2e"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Advance #288 to ready/unbound after fresh design review PASS and typed design approval; remain bounded to final ADR serialization and review handoff."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:01a0123a-0e67-7813-9aa9-5e2c20d82ee1",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"b3443502549f134d4d38c2803842384ccc8389b81bc41a2f75edd17537586e31\",\"design_ref\":\".csdlc/prepared/issues/288/design.md\",\"diagram_digest\":\"6612c61bc13fcc1ed3f9877a003a5b200263098e92f616a561fe9ce4c4cf60c2\",\"diagram_ref\":\".csdlc/prepared/issues/288/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Advance #288 to ready/unbound after fresh design review PASS and typed design approval; remain bounded to final ADR serialization and review handoff.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Repair #288 pre-bind validation lane after bind readiness correctly rejected the implementation-phase .csdlc/evidence/288 validator target before it exists; use an issue-owned prepared validator for readiness and keep final implementation validator as a deliverable.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"final-adr-serialization-preparation-validator\",\"proof_role\":\"Pre-bind proof that #283-#287 terminal caches and residual-gap evidence exist, are ancestral, and support the #288 ADR status matrix before implementation edits.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/288/validate_preparation_bundle.py\"],\"parallel_group\":\"serial\",\"defer_reason\":null},{\"lane\":\"final-adr-serialization-validator\",\"proof_role\":\"Implementation-phase proof that final ADR index, plan, evidence manifest, handoff packet, terminal child caches, status matrix, and non-accepted boundary agree.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":2000,\"argv\":[\"python3\",\".csdlc/evidence/288/validate_final_adr_serialization.py\"],\"parallel_group\":\"serial\",\"defer_reason\":\"Run after implementation creates the issue-owned final serialization validator and evidence manifest.\"},{\"lane\":\"typed-issue-validation\",\"proof_role\":\"Validate #288 typed lifecycle/card truth.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"288\"],\"parallel_group\":\"serial\",\"defer_reason\":\"Run after implementation evidence is recorded.\"},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace and unintended broad churn.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"serial\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Narrow #288 pre-bind VPP to the available issue-owned prepared validator only; final .csdlc/evidence/288 validator is an implementation deliverable and will be recorded after binding.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"final-adr-serialization-preparation-validator\",\"proof_role\":\"Pre-bind proof that #283-#287 terminal caches and residual-gap evidence exist, are ancestral, and support the #288 ADR status matrix before implementation edits.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/prepared/issues/288/validate_preparation_bundle.py\"],\"parallel_group\":\"serial\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace and unintended broad churn.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"serial\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Align #288 pre-bind deliverables with the available issue-owned preparation validator; final .csdlc/evidence/288 implementation validator remains an execution deliverable recorded after bind.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"docs/architecture/adr/V092_ADR_INDEX_143.md\",\"docs/milestones/v0.92/ADR_PLAN_v0.92.md\",\"docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json\",\"docs/milestones/v0.92/review/V092_ADR_INTERNAL_REVIEW_HANDOFF.md\",\".csdlc/prepared/issues/288/validate_preparation_bundle.py\",\".csdlc/evidence/288\",\".csdlc/issues/288\",\".csdlc/prepared/issues/288\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Add the #288 prepared validator to the explicit affected-area ownership set so pre-bind readiness can prove an issue-owned denominator.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/architecture/adr/V092_ADR_INDEX_143.md\",\"docs/milestones/v0.92/ADR_PLAN_v0.92.md\",\"docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json\",\"docs/milestones/v0.92/review/V092_ADR_INTERNAL_REVIEW_HANDOFF.md\",\".csdlc/prepared/issues/288/validate_preparation_bundle.py\",\".csdlc/evidence/288\",\".csdlc/issues/288\",\".csdlc/prepared/issues/288\"]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Record actual #288 implementation deliverables after binding, including candidate ADR 0065 and the final issue-owned validator.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"docs/architecture/adr/V092_ADR_INDEX_143.md\",\"docs/architecture/adr/0065-acip-schema-catalog-and-governed-projection-boundary.md\",\"docs/milestones/v0.92/ADR_PLAN_v0.92.md\",\"docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json\",\"docs/milestones/v0.92/review/V092_ADR_INTERNAL_REVIEW_HANDOFF.md\",\".csdlc/evidence/288/final-adr-serialization-manifest.json\",\".csdlc/evidence/288/validate_final_adr_serialization.py\",\".csdlc/prepared/issues/288/validate_preparation_bundle.py\",\".csdlc/issues/288\",\".csdlc/prepared/issues/288\"]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Record actual #288 implementation affected paths after binding.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/architecture/adr/V092_ADR_INDEX_143.md\",\"docs/architecture/adr/0065-acip-schema-catalog-and-governed-projection-boundary.md\",\"docs/milestones/v0.92/ADR_PLAN_v0.92.md\",\"docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json\",\"docs/milestones/v0.92/review/V092_ADR_INTERNAL_REVIEW_HANDOFF.md\",\".csdlc/evidence/288/final-adr-serialization-manifest.json\",\".csdlc/evidence/288/validate_final_adr_serialization.py\",\".csdlc/prepared/issues/288/validate_preparation_bundle.py\",\".csdlc/issues/288\",\".csdlc/prepared/issues/288\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Record #288 final implementation validation lanes after creating the final ADR serialization manifest and validator.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"final-adr-serialization-validator\",\"proof_role\":\"Prove the final ADR index, plan, candidate ADR 0065, evidence manifest, handoff packet, terminal child caches, status matrix, residual gaps, and non-accepted boundary agree.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":2000,\"argv\":[\"python3\",\".csdlc/evidence/288/validate_final_adr_serialization.py\"],\"parallel_group\":\"serial\",\"defer_reason\":null},{\"lane\":\"typed-issue-validation\",\"proof_role\":\"Validate #288 typed lifecycle/card truth.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":1000,\"argv\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\".\",\"issue\",\"--issue\",\"288\"],\"parallel_group\":\"serial\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject whitespace and unintended broad churn.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"serial\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}

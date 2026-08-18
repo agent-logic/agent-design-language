@@ -1,0 +1,70 @@
+# Structured Task Prompt
+
+Template: 1.0.0
+
+Issue: 288
+
+Repository: agent-logic/agent-design-language
+
+Card: stp
+
+Status: ready
+
+## Task
+
+Bounded documentation/evidence serialization for #288 only; no implementation, provider, cloud, Unity, ADR acceptance, or parent closeout work.
+
+## Deliverables
+
+- docs/architecture/adr/V092_ADR_INDEX_143.md
+- docs/architecture/adr/0065-acip-schema-catalog-and-governed-projection-boundary.md
+- docs/milestones/v0.92/ADR_PLAN_v0.92.md
+- docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json
+- docs/milestones/v0.92/review/V092_ADR_INTERNAL_REVIEW_HANDOFF.md
+- .csdlc/evidence/288/final-adr-serialization-manifest.json
+- .csdlc/evidence/288/validate_final_adr_serialization.py
+- .csdlc/prepared/issues/288/validate_preparation_bundle.py
+- .csdlc/issues/288
+- .csdlc/prepared/issues/288
+
+## Acceptance
+
+1. AC-1: The ADR index and ADR plan agree on ADR 0065 Proposed and ADR 0066, ADR 0068, ADR 0069, and ADR 0071 Deferred.
+2. AC-2: No touched ADR/index/plan/review surface marks ADR 0065, ADR 0066, ADR 0068, ADR 0069, or ADR 0071 Accepted.
+3. AC-3: The review evidence manifest records exact terminal #283-#287 issue-local inputs, their merge SHAs, canonical digests, and residual-gap classifications.
+4. AC-4: The internal review handoff packet names architecture, security, documentation, and evidence review lanes, source inputs, review questions, and non-claims without presenting the packet as already human-approved.
+5. AC-5: The issue-owned validator, typed issue validation, diff hygiene, fresh exact-head review, publication checks, and typed finish pass before #288 closes.
+
+## Dependencies
+
+- #283 terminal and ancestral
+- #284 terminal and ancestral
+- #285 terminal and ancestral
+- #286 terminal and ancestral
+- #287 terminal and ancestral
+- #207 remains the coordination parent and is not closed by #288
+
+## Inputs
+
+- agent-logic/agent-design-language#288
+- .git/csdlc-v2/derived-terminal/283.json
+- .git/csdlc-v2/derived-terminal/284.json
+- .git/csdlc-v2/derived-terminal/285.json
+- .git/csdlc-v2/derived-terminal/286.json
+- .git/csdlc-v2/derived-terminal/287.json
+- .csdlc/evidence/283/evidence-manifest.json
+- .csdlc/evidence/284/evidence-manifest.json
+- .csdlc/evidence/285/evidence-manifest.json
+- .csdlc/evidence/286/adr0069-evidence-reconciliation.md
+- .csdlc/evidence/287/evidence-manifest.json
+- docs/architecture/adr/V092_ADR_INDEX_143.md
+- docs/milestones/v0.92/ADR_PLAN_v0.92.md
+- docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json
+
+## Non Goals
+
+- ADR acceptance or edits to accepted ADR authority under docs/adr
+- Implementation work for #283, #284, #285, #286, #287, #207, or WP-18A/WP-18B
+- Provider execution, credential handling, Unity proof, cloud run, or public deployment
+- Weakening/replacing implementation acceptance criteria
+- Closing #207

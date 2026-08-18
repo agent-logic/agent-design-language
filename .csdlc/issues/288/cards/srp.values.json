@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 288,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][ADR][207.f] Serialize final ADR index, plan, manifest, and review packet",
+    "slug": "final-adr-index-plan-manifest-review-packet",
+    "version": "v0.92",
+    "generation": 10
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Documentation/evidence truth for final v0.92 ADR serialization and internal review handoff.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Verify the ADR status matrix against #283-#287 terminal evidence and residual gaps.",
+        "Verify no touched surface marks an ADR Accepted or claims #207 closeout.",
+        "Verify the review evidence manifest and handoff packet are source-backed and non-overclaiming."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

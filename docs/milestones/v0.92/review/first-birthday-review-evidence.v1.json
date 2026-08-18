@@ -17,6 +17,23 @@
     {"wp":"WP-14","issue_repository":"agent-logic/agent-design-language","code_repository":"agent-logic/agent-design-language","issue":209,"pull_request":215,"revision":"aef6729640dc89918f34b4337a27167c6ed625fb","merge_commit":"a77519c3fca9f64752af41c9a2ebd396468891f7","path":".csdlc/evidence/209/local-validation-manifest.json","digest":"33b6d90ba1330aec3ca9ff228bb997c7fd8cbf062208119669991cc846dd1c74","terminal_state":"merged_closed","review_state":"approved","reviewed_revision":"git-blake3:f8ccbd4b5f245a2d82cb9dfa421e5d1441954c15:7d943700a84dfa2b9d603382d4d82b4a0ab69b8d3ce4b3803bd55f947c4a8d14","public_projection":"Production Guardian/kernel ACIP dispatch, pressure rollback, replay isolation, and contract proof."},
     {"wp":"WP-15","issue_repository":"danielbaustin/agent-design-language","code_repository":"agent-logic/agent-design-language","issue":5833,"pull_request":198,"revision":"33dad75ef4150eb06410805e0775afadc62635d2","merge_commit":"ed657e4494e08d4ce3de1b554d097632111a83a9","path":".csdlc/evidence/5833/native-validation-manifest.json","digest":"b020ded941a125351dda14fb654da46409873eea3b2b8fdf7b162208140fc0b0","terminal_state":"merged_closed","review_state":"approved","reviewed_revision":"git-blake3:c2c4c275d89501a9e8d81a8ee595ae76d5892c48:08c85d180df1d3b7fa2e903adf47685aa1fa0a8aeada7ae1465d28f8cd8ec754","public_projection":"Four-role witness and redacted public-receipt proof."}
   ],
+  "adr_serialization": {
+    "schema": "adl.v092.adr_serialization_review.v1",
+    "issue": 288,
+    "status_matrix": [
+      {"adr": "0065", "status": "Proposed", "source_issue": 283, "terminal_cache": ".git/csdlc-v2/derived-terminal/283.json", "merge_sha": "2bca3a60243ffc03b8264659ca1d6dd2770dfb0a", "canonical_digest": "45d457db9ef5232896a358aa3ab3bf941e0cbaff3f04bc634a183c61853939cd", "classification": "replacement_terminal_authority"},
+      {"adr": "0066", "status": "Deferred", "source_issue": 284, "terminal_cache": ".git/csdlc-v2/derived-terminal/284.json", "merge_sha": "52de626194d37e25b00e2536285d5e0de332d893", "canonical_digest": "642bb3f4524ced9efddd8c52a7ac9f96ae3c852695bbf04281e29b2db7b6027f", "classification": "residual_gap"},
+      {"adr": "0068", "status": "Deferred", "source_issue": 285, "terminal_cache": ".git/csdlc-v2/derived-terminal/285.json", "merge_sha": "298a23476b3cdc55e952e60793689fc6b738491f", "canonical_digest": "8b695c8622e7443a6216788f4ece3f09dd4b2842978ac4d9871b5aae661da3e6", "classification": "residual_gap"},
+      {"adr": "0069", "status": "Deferred", "source_issue": 286, "terminal_cache": ".git/csdlc-v2/derived-terminal/286.json", "merge_sha": "af49f8f674722bee671d65db5b6a49ea08eeb4b0", "canonical_digest": "1114e8843d92731a241e46de38c65623da5aa87c801247445684a54a12d6bc75", "classification": "residual_gap"},
+      {"adr": "0071", "status": "Deferred", "source_issue": 287, "terminal_cache": ".git/csdlc-v2/derived-terminal/287.json", "merge_sha": "b4f4b1a9104e4d72c52b32b6b42451665a7cca97", "canonical_digest": "0d55b10c3e0d48d572e5cfc9a23cd850743a008ab1e3cd2118f448ee8e36f227", "classification": "residual_gap"}
+    ],
+    "handoff_packet": "docs/milestones/v0.92/review/V092_ADR_INTERNAL_REVIEW_HANDOFF.md",
+    "non_claims": [
+      "No ADR is Accepted by #288.",
+      "#207 remains coordination-only and is not closed by this manifest.",
+      "Provider execution, Unity proof, cloud runs, citizenship, governance approval, and public release are not claimed."
+    ]
+  },
   "public_claims": [
     "The repository contains an integrated, reviewable evidence packet for WP-08 through WP-15.",
     "Each cited child issue is closed by a merged pull request whose merge commit is ancestral to this packet.",
