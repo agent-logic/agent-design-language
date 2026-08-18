@@ -26,3 +26,5 @@
 {"sequence":26,"generation":19,"actor":"codex:issue-417-implementation","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":27,"generation":20,"actor":"codex:issue-417-implementation","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":28,"generation":21,"actor":"codex:issue-417-implementation","reason":"Recover the published review after hosted CI exposed backward-incompatible null provenance keys on unrelated pre-bind design refresh audit events.","operation":"recover_review"}
+{"sequence":29,"generation":21,"actor":"codex:issue-417-implementation","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":30,"generation":22,"actor":"codex:issue-417-implementation","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
