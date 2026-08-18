@@ -40,11 +40,32 @@ is_branch() {
 is_body_path() {
   local path="$1"
   local invocation
+  local receipt_root
+  local invocation_dir
+  local canonical_root
+  local canonical_invocation
   local mode
   local owner
   [[ "$path" =~ ^\.git/csdlc-v2/break-glass/([A-Za-z0-9][A-Za-z0-9_.-]*)/body\.md$ ]] || return 1
   invocation="${BASH_REMATCH[1]}"
   [[ "$invocation" != '.' && "$invocation" != '..' ]] || return 1
+  receipt_root='.git/csdlc-v2/break-glass'
+  invocation_dir="${receipt_root}/${invocation}"
+  for component in .git .git/csdlc-v2 "$receipt_root" "$invocation_dir"; do
+    [[ -d "$component" && ! -L "$component" ]] || return 1
+  done
+  canonical_root="$(cd "$receipt_root" && pwd -P)" || return 1
+  canonical_invocation="$(cd "$invocation_dir" && pwd -P)" || return 1
+  [[ "$canonical_invocation" == "${canonical_root}/${invocation}" ]] || return 1
+  mode="$(stat -f '%Lp' "$invocation_dir" 2>/dev/null || true)"
+  if [[ ! "$mode" =~ ^[0-7]+$ ]]; then
+    mode="$(stat -c '%a' "$invocation_dir" 2>/dev/null || true)"
+  fi
+  owner="$(stat -f '%u' "$invocation_dir" 2>/dev/null || true)"
+  if [[ ! "$owner" =~ ^[0-9]+$ ]]; then
+    owner="$(stat -c '%u' "$invocation_dir" 2>/dev/null || true)"
+  fi
+  [[ "$mode" == 700 && "$owner" == "$(id -u)" ]] || return 1
   [[ -f "$path" && ! -L "$path" ]] || return 1
   mode="$(stat -f '%Lp' "$path" 2>/dev/null || true)"
   if [[ ! "$mode" =~ ^[0-7]+$ ]]; then
@@ -148,12 +169,15 @@ fixture_root="$(mktemp -d "${fixture_parent}/policy-fixtures.XXXXXX")"
 trap 'rm -rf "$fixture_root"' EXIT
 mkdir -p "$fixture_root/.git/csdlc-v2/break-glass"
 for invocation in invoke-1 invoke-2 invoke-3 invoke-4 invoke-5 invoke-6 unsafe-mode symlink-target; do
-  mkdir -p "$fixture_root/.git/csdlc-v2/break-glass/$invocation"
+  mkdir -m 700 "$fixture_root/.git/csdlc-v2/break-glass/$invocation"
   install -m 600 /dev/null "$fixture_root/.git/csdlc-v2/break-glass/$invocation/body.md"
 done
 chmod 0644 "$fixture_root/.git/csdlc-v2/break-glass/unsafe-mode/body.md"
-mkdir -p "$fixture_root/.git/csdlc-v2/break-glass/unsafe-link"
+mkdir -m 700 "$fixture_root/.git/csdlc-v2/break-glass/unsafe-link"
 ln -s ../symlink-target/body.md "$fixture_root/.git/csdlc-v2/break-glass/unsafe-link/body.md"
+mkdir -m 700 "$fixture_root/outside"
+install -m 600 /dev/null "$fixture_root/outside/body.md"
+ln -s ../../../outside "$fixture_root/.git/csdlc-v2/break-glass/unsafe-parent"
 cd "$fixture_root"
 
 # Positive fixtures: every exact allowed canonical shape with owned mode-0600 files.
@@ -180,6 +204,7 @@ expect_denied gh issue comment 418 --repo agent-logic/agent-design-language --bo
 expect_denied gh issue comment 418 --repo agent-logic/agent-design-language --body-file .git/csdlc-v2/break-glass/./body.md
 expect_denied gh issue comment 418 --repo agent-logic/agent-design-language --body-file .git/csdlc-v2/break-glass/unsafe-mode/body.md
 expect_denied gh issue comment 418 --repo agent-logic/agent-design-language --body-file .git/csdlc-v2/break-glass/unsafe-link/body.md
+expect_denied gh issue comment 418 --repo agent-logic/agent-design-language --body-file .git/csdlc-v2/break-glass/unsafe-parent/body.md
 expect_denied gh pr edit 419 --repo agent-logic/agent-design-language --base other
 expect_denied gh pr edit 419 --repo agent-logic/agent-design-language --add-reviewer user
 expect_denied gh pr create --repo agent-logic/agent-design-language --base main --head '$(unsafe)' --title policy --body-file .git/csdlc-v2/break-glass/invoke-3/body.md
@@ -195,4 +220,4 @@ expect_denied gh pr ready 419
 expect_denied gh pr ready branch-name --repo agent-logic/agent-design-language
 expect_denied gh pr create --repo agent-logic/agent-design-language --base main --head codex/418-policy --title policy --body-file .git/csdlc-v2/break-glass/x/body.md --draft --reviewer user
 
-printf 'PASS: typed gh break-glass policy contract (text_guards=27 argv_positive=7 argv_negative=27)\n'
+printf 'PASS: typed gh break-glass policy contract (text_guards=27 argv_positive=7 argv_negative=28)\n'
