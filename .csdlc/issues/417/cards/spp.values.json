@@ -7,13 +7,13 @@
     "title": "[v0.92][C-SDLC][defect] Permit authored design refresh after implemented recovery repairs",
     "slug": "implemented-design-refresh-recovery",
     "version": "v0.92",
-    "generation": 15
+    "generation": 18
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 3,
+      "plan_revision": 4,
       "summary": "Bind #417, prove the deadlock, make implemented authored-refresh eligibility recovery-epoch aware, add exact and negative regressions, obtain fresh review, publish, merge, finish, clean, and install the terminal owner binaries.",
       "steps": [
         {
@@ -23,7 +23,7 @@
             "AC-1",
             "AC-2"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "step-2",
@@ -31,7 +31,7 @@
           "acceptance_ids": [
             "AC-3"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "step-3",
@@ -40,7 +40,7 @@
             "AC-4",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "step-4",

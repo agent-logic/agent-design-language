@@ -16,7 +16,7 @@ Bind #417, prove the deadlock, make implemented authored-refresh eligibility rec
 
 ## Plan
 
-Revision 3
+Revision 4
 
 ## Steps
 
@@ -28,7 +28,7 @@ Revision 3
       "AC-1",
       "AC-2"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "step-2",
@@ -36,7 +36,7 @@ Revision 3
     "acceptance_ids": [
       "AC-3"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "step-3",
@@ -45,7 +45,7 @@ Revision 3
       "AC-4",
       "AC-5"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "step-4",
