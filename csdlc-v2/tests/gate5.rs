@@ -2226,6 +2226,68 @@ fn implemented_design_refresh_and_assignment_support_issue_local_artifacts() {
         .root()
         .join(".csdlc/issues/.7.rollback-preserved")
         .exists());
+
+    std::fs::write(
+        store.root().join(".csdlc/issues/7/authored/design.md"),
+        "# refreshed issue-local design r2\n",
+    )
+    .unwrap();
+    let iterative = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Spp,
+            expected_generation: refreshed.generation,
+            expected_digest: refreshed.digest,
+            actor: "agent".into(),
+            reason: "iterate the assignment-only authored tuple".into(),
+            operation: SemanticOperation::RefreshAuthoredDesignAfterRecovery,
+            fail_after_backup: false,
+        },
+    )
+    .expect("assignment-only iterative authored refresh remains supported");
+    let advanced = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Spp,
+            expected_generation: iterative.generation,
+            expected_digest: iterative.digest,
+            actor: "agent".into(),
+            reason: "record non-refresh suffix event".into(),
+            operation: SemanticOperation::UpdatePlanStep {
+                step_id: "one".into(),
+                status: csdlc_v2::cards::StepStatus::InProgress,
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect("ordinary plan update remains independently authorized");
+    std::fs::write(
+        store.root().join(".csdlc/issues/7/authored/design.md"),
+        "# must not refresh after non-refresh suffix\n",
+    )
+    .unwrap();
+    let before = std::fs::read(store.issue_dir(7).join("index.json")).unwrap();
+    let blocked = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Spp,
+            expected_generation: advanced.generation,
+            expected_digest: advanced.digest,
+            actor: "agent".into(),
+            reason: "reject assignment-only non-refresh suffix".into(),
+            operation: SemanticOperation::RefreshAuthoredDesignAfterRecovery,
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("assignment-only compatibility must admit authored refreshes only");
+    assert_eq!(blocked.code, ErrorCode::InvalidTransition);
+    assert_eq!(
+        std::fs::read(store.issue_dir(7).join("index.json")).unwrap(),
+        before
+    );
 }
 
 #[test]

@@ -18,12 +18,19 @@ terminal authority.
 
 The anchor is the nearest audit event, searching newest to oldest, whose exact
 operation is one of `assign_review`, `record_review`, or `recover_review`.
-Eligibility requires that nearest event to be `recover_review`. The nearest
-earlier event from the same three-operation set must be `record_review`, so an
-assignment-only recovery cannot authorize repair. A later `assign_review`,
-`record_review`, or `recover_review` supersedes the prior epoch because it
-becomes the nearest anchor. Publication/readiness/terminal state also rejects
-the operation independently.
+Eligibility requires that nearest event to be `recover_review`. For the new
+repair sequence, the nearest earlier event from the same three-operation set
+must be `record_review`. A later `assign_review`, `record_review`, or
+`recover_review` supersedes the prior epoch because it becomes the nearest
+anchor. Publication/readiness/terminal state also rejects the operation
+independently.
+
+One compatibility exception preserves the pre-existing assignment-only route:
+when the nearest earlier review event is only `assign_review`, every event after
+`recover_review` must be an authored refresh. This permits the existing
+immediate refresh (the empty suffix) and iterative authored refreshes, but no
+planning, deliverable, design-review recovery, or other operation. Therefore an
+assignment-only recovery still cannot authorize the newly added repair path.
 
 Every event after the anchor and before the requested refresh must be in this
 finite allowlist:
@@ -58,7 +65,9 @@ only the three refresh-path events absent from the shared repair predicate:
 `refresh_authored_design_after_recovery`. The shared
 `implemented_pre_publication_review_recovery_is_clear` predicate and its other
 repair/identity callers remain unchanged, preventing this fix from widening
-their authorization after design recovery or authored refresh.
+their authorization after design recovery or authored refresh. The separate
+legacy branch accepts only a suffix consisting entirely of authored-refresh
+events; the recorded-review branch applies the finite allowlist above.
 
 ## Operation ordering and design authority
 
@@ -75,9 +84,10 @@ The required issue-#414-shaped sequence is:
 7. a later independent fresh design review and typed `approve_design`;
 8. a later fresh exact-head implementation review assignment.
 
-Immediate refresh after `recover_review` and an iterative refresh after a prior
-pending refresh remain supported. The operation never restores downstream
-authority.
+Immediate refresh after an assignment-only `recover_review` and iterative
+refreshes whose entire suffix contains only prior authored refreshes remain
+supported for compatibility. Any intervening non-refresh event closes that
+legacy exception. The operation never restores downstream authority.
 
 ## Provenance and proof
 
@@ -92,5 +102,6 @@ fields remain empty, reject an unlisted intervening operation without mutation,
 and retain immediate and iterative compatibility.
 
 Eligibility otherwise fails closed on wrong phase, stale CAS, unsafe topology,
-blank actor/reason, missing recorded-review provenance, unlisted events,
+blank actor/reason, missing recorded-review provenance for a repair epoch,
+non-refresh events in the assignment-only legacy route, unlisted events,
 downstream authority, unsafe artifacts, or a no-op authored tuple.

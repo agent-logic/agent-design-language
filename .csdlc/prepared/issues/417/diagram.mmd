@@ -8,5 +8,10 @@ flowchart TD
     REF --> AUD["Retain original recovery sequence and generation"]
     AUD --> FDA["New fresh design approval"]
     FDA --> FIR["New exact-head implementation review"]
+    A0["assign_review only"] --> ARR["recover_review: legacy compatibility"]
+    ARR --> ARF["Zero or more authored refresh events only"]
+    ARF --> ARF
+    ARR -->|"Any non-refresh suffix event"| REJECT
+    ARF -->|"Any non-refresh suffix event"| REJECT
     BAD1["Later review event or unlisted audit operation"] --> REJECT["Reject fail-closed"]
     BAD2["Authority present, stale CAS, unsafe topology, or no-op"] --> REJECT
