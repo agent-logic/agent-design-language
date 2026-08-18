@@ -1,0 +1,311 @@
+﻿2026-08-17T18:04:34.3940092Z Current runner version: '2.336.0'
+2026-08-17T18:04:34.3976429Z ##[group]Runner Image Provisioner
+2026-08-17T18:04:34.3977773Z Hosted Compute Agent
+2026-08-17T18:04:34.3978913Z Version: 20260729.566
+2026-08-17T18:04:34.3980218Z Commit: cf7153fe6e25b664e8693c24944bf2b00355d109
+2026-08-17T18:04:34.3981629Z Build Date: 2026-07-29T19:17:02Z
+2026-08-17T18:04:34.3982870Z Worker ID: {d642db3a-5d08-4090-a944-8c3848b9bf2e}
+2026-08-17T18:04:34.3984106Z Azure Region: eastus
+2026-08-17T18:04:34.3985310Z ##[endgroup]
+2026-08-17T18:04:34.3988163Z ##[group]Operating System
+2026-08-17T18:04:34.3989383Z Ubuntu
+2026-08-17T18:04:34.3990273Z 24.04.4
+2026-08-17T18:04:34.3991082Z LTS
+2026-08-17T18:04:34.3992142Z ##[endgroup]
+2026-08-17T18:04:34.3993112Z ##[group]Runner Image
+2026-08-17T18:04:34.3994240Z Image: ubuntu-24.04
+2026-08-17T18:04:34.3995201Z Version: 20260810.271.1
+2026-08-17T18:04:34.3997776Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260810.271/images/ubuntu/Ubuntu2404-Readme.md
+2026-08-17T18:04:34.4000625Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260810.271
+2026-08-17T18:04:34.4002637Z ##[endgroup]
+2026-08-17T18:04:34.4004659Z ##[group]GITHUB_TOKEN Permissions
+2026-08-17T18:04:34.4007885Z Contents: read
+2026-08-17T18:04:34.4008832Z Metadata: read
+2026-08-17T18:04:34.4009834Z ##[endgroup]
+2026-08-17T18:04:34.4012893Z Secret source: Actions
+2026-08-17T18:04:34.4015304Z Prepare workflow directory
+2026-08-17T18:04:34.4512619Z Prepare all required actions
+2026-08-17T18:04:34.4586104Z Getting action download info
+2026-08-17T18:04:34.6204435Z Download action repository 'actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0' (SHA:9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0)
+2026-08-17T18:04:34.8649661Z Complete job name: adl-ci
+2026-08-17T18:04:34.9421633Z ##[group]Run actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
+2026-08-17T18:04:34.9422695Z with:
+2026-08-17T18:04:34.9423192Z   repository: agent-logic/agent-design-language
+2026-08-17T18:04:34.9427317Z   token: ***
+2026-08-17T18:04:34.9427753Z   ssh-strict: true
+2026-08-17T18:04:34.9428189Z   ssh-user: git
+2026-08-17T18:04:34.9428626Z   persist-credentials: true
+2026-08-17T18:04:34.9429109Z   clean: true
+2026-08-17T18:04:34.9429548Z   sparse-checkout-cone-mode: true
+2026-08-17T18:04:34.9430064Z   fetch-depth: 1
+2026-08-17T18:04:34.9430584Z   fetch-tags: false
+2026-08-17T18:04:34.9431075Z   show-progress: true
+2026-08-17T18:04:34.9431519Z   lfs: false
+2026-08-17T18:04:34.9431927Z   submodules: false
+2026-08-17T18:04:34.9432424Z   set-safe-directory: true
+2026-08-17T18:04:34.9432936Z   allow-unsafe-pr-checkout: false
+2026-08-17T18:04:34.9433730Z ##[endgroup]
+2026-08-17T18:04:35.0459462Z Syncing repository: agent-logic/agent-design-language
+2026-08-17T18:04:35.0462256Z ##[group]Getting Git version info
+2026-08-17T18:04:35.0463144Z Working directory is '/home/runner/work/agent-design-language/agent-design-language'
+2026-08-17T18:04:35.0464289Z [command]/usr/bin/git version
+2026-08-17T18:04:35.0558680Z git version 2.54.0
+2026-08-17T18:04:35.0581858Z ##[endgroup]
+2026-08-17T18:04:35.0592939Z Temporarily overriding HOME='/home/runner/work/_temp/7c13b9b5-c51c-4737-859f-a593de890bc2' before making global git config changes
+2026-08-17T18:04:35.0595325Z Adding repository directory to the temporary git global config as a safe directory
+2026-08-17T18:04:35.0599302Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/agent-design-language/agent-design-language
+2026-08-17T18:04:35.0649045Z Deleting the contents of '/home/runner/work/agent-design-language/agent-design-language'
+2026-08-17T18:04:35.0652321Z ##[group]Determining repository object format
+2026-08-17T18:04:35.0653753Z ##[endgroup]
+2026-08-17T18:04:35.0655069Z ##[group]Initializing the repository
+2026-08-17T18:04:35.0658308Z [command]/usr/bin/git init /home/runner/work/agent-design-language/agent-design-language
+2026-08-17T18:04:35.0800944Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-08-17T18:04:35.0803285Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-08-17T18:04:35.0804561Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-08-17T18:04:35.0805575Z hint: call:
+2026-08-17T18:04:35.0806580Z hint:
+2026-08-17T18:04:35.0807515Z hint: 	git config --global init.defaultBranch <name>
+2026-08-17T18:04:35.0808613Z hint:
+2026-08-17T18:04:35.0809724Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-08-17T18:04:35.0811572Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-08-17T18:04:35.0812887Z hint:
+2026-08-17T18:04:35.0813658Z hint: 	git branch -m <name>
+2026-08-17T18:04:35.0814470Z hint:
+2026-08-17T18:04:35.0815546Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-08-17T18:04:35.0817818Z Initialized empty Git repository in /home/runner/work/agent-design-language/agent-design-language/.git/
+2026-08-17T18:04:35.0821466Z [command]/usr/bin/git remote add origin https://github.com/agent-logic/agent-design-language
+2026-08-17T18:04:35.0873522Z ##[endgroup]
+2026-08-17T18:04:35.0874311Z ##[group]Disabling automatic garbage collection
+2026-08-17T18:04:35.0877694Z [command]/usr/bin/git config --local gc.auto 0
+2026-08-17T18:04:35.0910217Z ##[endgroup]
+2026-08-17T18:04:35.0911102Z ##[group]Setting up auth
+2026-08-17T18:04:35.0911991Z Removing SSH command configuration
+2026-08-17T18:04:35.0916683Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-08-17T18:04:35.0961639Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-08-17T18:04:35.1324237Z Removing HTTP extra header
+2026-08-17T18:04:35.1330298Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-08-17T18:04:35.1366061Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-08-17T18:04:35.1584819Z Removing includeIf entries pointing to credentials config files
+2026-08-17T18:04:35.1589666Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-08-17T18:04:35.1623486Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-08-17T18:04:35.1849330Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-c7b626c4-1000-45a6-bc3d-dfb73f682138.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-08-17T18:04:35.1890687Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/agent-design-language/agent-design-language/.git.path /home/runner/work/_temp/git-credentials-c7b626c4-1000-45a6-bc3d-dfb73f682138.config
+2026-08-17T18:04:35.1924586Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/agent-design-language/agent-design-language/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-c7b626c4-1000-45a6-bc3d-dfb73f682138.config
+2026-08-17T18:04:35.1962105Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-c7b626c4-1000-45a6-bc3d-dfb73f682138.config
+2026-08-17T18:04:35.1996978Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-c7b626c4-1000-45a6-bc3d-dfb73f682138.config
+2026-08-17T18:04:35.2027664Z ##[endgroup]
+2026-08-17T18:04:35.2028403Z ##[group]Fetching the repository
+2026-08-17T18:04:35.2034124Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +2ee3804313744e25d5b66988325f8cb373d207c1:refs/remotes/pull/396/merge
+2026-08-17T18:04:42.0496547Z From https://github.com/agent-logic/agent-design-language
+2026-08-17T18:04:42.0499426Z  * [new ref]           2ee3804313744e25d5b66988325f8cb373d207c1 -> pull/396/merge
+2026-08-17T18:04:42.0521443Z ##[endgroup]
+2026-08-17T18:04:42.0522806Z ##[group]Determining the checkout info
+2026-08-17T18:04:42.0524100Z ##[endgroup]
+2026-08-17T18:04:42.0527662Z [command]/usr/bin/git sparse-checkout disable
+2026-08-17T18:04:42.0578363Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-08-17T18:04:42.0610771Z ##[group]Checking out the ref
+2026-08-17T18:04:42.0617077Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/396/merge
+2026-08-17T18:04:43.0917170Z Updating files:  68% (15347/22384)
+2026-08-17T18:04:43.1056349Z Updating files:  69% (15445/22384)
+2026-08-17T18:04:43.1214327Z Updating files:  70% (15669/22384)
+2026-08-17T18:04:43.1365357Z Updating files:  71% (15893/22384)
+2026-08-17T18:04:43.1500579Z Updating files:  72% (16117/22384)
+2026-08-17T18:04:43.1645824Z Updating files:  73% (16341/22384)
+2026-08-17T18:04:43.5663984Z Updating files:  74% (16565/22384)
+2026-08-17T18:04:43.5978994Z Updating files:  75% (16788/22384)
+2026-08-17T18:04:43.6138830Z Updating files:  76% (17012/22384)
+2026-08-17T18:04:43.6354676Z Updating files:  77% (17236/22384)
+2026-08-17T18:04:43.6507577Z Updating files:  78% (17460/22384)
+2026-08-17T18:04:43.6676604Z Updating files:  79% (17684/22384)
+2026-08-17T18:04:43.6800115Z Updating files:  80% (17908/22384)
+2026-08-17T18:04:43.6928663Z Updating files:  81% (18132/22384)
+2026-08-17T18:04:43.7135458Z Updating files:  82% (18355/22384)
+2026-08-17T18:04:43.7268762Z Updating files:  83% (18579/22384)
+2026-08-17T18:04:43.7351888Z Updating files:  84% (18803/22384)
+2026-08-17T18:04:43.7444167Z Updating files:  85% (19027/22384)
+2026-08-17T18:04:43.7538696Z Updating files:  86% (19251/22384)
+2026-08-17T18:04:43.7674006Z Updating files:  87% (19475/22384)
+2026-08-17T18:04:43.7804165Z Updating files:  88% (19698/22384)
+2026-08-17T18:04:43.7913513Z Updating files:  89% (19922/22384)
+2026-08-17T18:04:43.8041811Z Updating files:  90% (20146/22384)
+2026-08-17T18:04:43.8140633Z Updating files:  91% (20370/22384)
+2026-08-17T18:04:43.8239403Z Updating files:  92% (20594/22384)
+2026-08-17T18:04:43.8449551Z Updating files:  93% (20818/22384)
+2026-08-17T18:04:43.8562249Z Updating files:  94% (21041/22384)
+2026-08-17T18:04:43.8660660Z Updating files:  95% (21265/22384)
+2026-08-17T18:04:43.8761569Z Updating files:  96% (21489/22384)
+2026-08-17T18:04:43.8900836Z Updating files:  97% (21713/22384)
+2026-08-17T18:04:43.9040166Z Updating files:  98% (21937/22384)
+2026-08-17T18:04:43.9178912Z Updating files:  99% (22161/22384)
+2026-08-17T18:04:43.9179434Z Updating files: 100% (22384/22384)
+2026-08-17T18:04:43.9180165Z Updating files: 100% (22384/22384), done.
+2026-08-17T18:04:43.9412348Z Note: switching to 'refs/remotes/pull/396/merge'.
+2026-08-17T18:04:43.9413516Z 
+2026-08-17T18:04:43.9414010Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-08-17T18:04:43.9415235Z changes and commit them, and you can discard any commits you make in this
+2026-08-17T18:04:43.9416842Z state without impacting any branches by switching back to a branch.
+2026-08-17T18:04:43.9417550Z 
+2026-08-17T18:04:43.9417975Z If you want to create a new branch to retain commits you create, you may
+2026-08-17T18:04:43.9419021Z do so (now or later) by using -c with the switch command. Example:
+2026-08-17T18:04:43.9419649Z 
+2026-08-17T18:04:43.9419889Z   git switch -c <new-branch-name>
+2026-08-17T18:04:43.9420350Z 
+2026-08-17T18:04:43.9420588Z Or undo this operation with:
+2026-08-17T18:04:43.9420977Z 
+2026-08-17T18:04:43.9421179Z   git switch -
+2026-08-17T18:04:43.9421478Z 
+2026-08-17T18:04:43.9421979Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-08-17T18:04:43.9422778Z 
+2026-08-17T18:04:43.9423559Z HEAD is now at 2ee38043 Merge 8febad6c20a0b811756e7acee1a2e5bb85e59a0b into 716f0ff612997449f5c363571b105b670545a1c7
+2026-08-17T18:04:43.9500942Z ##[endgroup]
+2026-08-17T18:04:43.9560878Z [command]/usr/bin/git log -1 --format=%H
+2026-08-17T18:04:43.9594138Z 2ee3804313744e25d5b66988325f8cb373d207c1
+2026-08-17T18:04:43.9899524Z ##[group]Run set -euo pipefail
+2026-08-17T18:04:43.9899973Z [36;1mset -euo pipefail[0m
+2026-08-17T18:04:43.9900274Z [36;1mcase "$CSDLC_V2_STANDALONE_REQUIRED" in[0m
+2026-08-17T18:04:43.9900583Z [36;1m  true)[0m
+2026-08-17T18:04:43.9900847Z [36;1m    if [ "$CSDLC_V2_STANDALONE_RESULT" != success ]; then[0m
+2026-08-17T18:04:43.9901389Z [36;1m      echo "::error::selected C-SDLC v2 standalone lane is $CSDLC_V2_STANDALONE_RESULT; expected success"[0m
+2026-08-17T18:04:43.9901861Z [36;1m      exit 1[0m
+2026-08-17T18:04:43.9902061Z [36;1m    fi[0m
+2026-08-17T18:04:43.9902247Z [36;1m    ;;[0m
+2026-08-17T18:04:43.9902429Z [36;1m  false)[0m
+2026-08-17T18:04:43.9902690Z [36;1m    if [ "$CSDLC_V2_STANDALONE_RESULT" != skipped ]; then[0m
+2026-08-17T18:04:43.9903241Z [36;1m      echo "::error::unselected C-SDLC v2 standalone lane is $CSDLC_V2_STANDALONE_RESULT; expected skipped"[0m
+2026-08-17T18:04:43.9903723Z [36;1m      exit 1[0m
+2026-08-17T18:04:43.9903988Z [36;1m    fi[0m
+2026-08-17T18:04:43.9904167Z [36;1m    ;;[0m
+2026-08-17T18:04:43.9904344Z [36;1m  *)[0m
+2026-08-17T18:04:43.9904668Z [36;1m    echo "::error::csdlc_v2_standalone_required must be exactly true or false"[0m
+2026-08-17T18:04:43.9905054Z [36;1m    exit 1[0m
+2026-08-17T18:04:43.9905246Z [36;1m    ;;[0m
+2026-08-17T18:04:43.9905422Z [36;1mesac[0m
+2026-08-17T18:04:43.9905641Z [36;1mcase "$ADL_V2_STANDALONE_REQUIRED" in[0m
+2026-08-17T18:04:43.9906224Z [36;1m  true)[0m
+2026-08-17T18:04:43.9906483Z [36;1m    if [ "$ADL_V2_STANDALONE_RESULT" != success ]; then[0m
+2026-08-17T18:04:43.9907010Z [36;1m      echo "::error::selected ADL v2 standalone lane is $ADL_V2_STANDALONE_RESULT; expected success"[0m
+2026-08-17T18:04:43.9907466Z [36;1m      exit 1[0m
+2026-08-17T18:04:43.9907666Z [36;1m    fi[0m
+2026-08-17T18:04:43.9907844Z [36;1m    ;;[0m
+2026-08-17T18:04:43.9908032Z [36;1m  false)[0m
+2026-08-17T18:04:43.9908281Z [36;1m    if [ "$ADL_V2_STANDALONE_RESULT" != skipped ]; then[0m
+2026-08-17T18:04:43.9908819Z [36;1m      echo "::error::unselected ADL v2 standalone lane is $ADL_V2_STANDALONE_RESULT; expected skipped"[0m
+2026-08-17T18:04:43.9909280Z [36;1m      exit 1[0m
+2026-08-17T18:04:43.9909512Z [36;1m    fi[0m
+2026-08-17T18:04:43.9909688Z [36;1m    ;;[0m
+2026-08-17T18:04:43.9909863Z [36;1m  *)[0m
+2026-08-17T18:04:43.9910169Z [36;1m    echo "::error::adl_v2_standalone_required must be exactly true or false"[0m
+2026-08-17T18:04:43.9910546Z [36;1m    exit 1[0m
+2026-08-17T18:04:43.9910739Z [36;1m    ;;[0m
+2026-08-17T18:04:43.9910915Z [36;1mesac[0m
+2026-08-17T18:04:43.9911151Z [36;1mpython3 adl/tools/verify_ci_backend_route.py \[0m
+2026-08-17T18:04:43.9911465Z [36;1m  --surface adl-ci \[0m
+2026-08-17T18:04:43.9911708Z [36;1m  --backend "$BACKEND" \[0m
+2026-08-17T18:04:43.9911968Z [36;1m  --event-name "$EVENT_NAME" \[0m
+2026-08-17T18:04:43.9912259Z [36;1m  --same-repo-pr "$SAME_REPO_PR" \[0m
+2026-08-17T18:04:43.9912583Z [36;1m  --spot-opt-in "$SPOT_OPT_IN" \[0m
+2026-08-17T18:04:43.9912907Z [36;1m  --work-required "$WORK_REQUIRED" \[0m
+2026-08-17T18:04:43.9913277Z [36;1m  --spot-work-required "$SPOT_WORK_REQUIRED" \[0m
+2026-08-17T18:04:43.9913603Z [36;1m  --rust-required "$RUST_REQUIRED" \[0m
+2026-08-17T18:04:43.9913929Z [36;1m  --rust-tests-required "$RUST_TESTS_REQUIRED" \[0m
+2026-08-17T18:04:43.9914250Z [36;1m  --demo-required "$DEMO_REQUIRED" \[0m
+2026-08-17T18:04:43.9914551Z [36;1m  --path-policy-result "success" \[0m
+2026-08-17T18:04:43.9914835Z [36;1m  --spot-result "skipped" \[0m
+2026-08-17T18:04:43.9915136Z [36;1m  --hosted-result "rust-fmt-clippy=skipped" \[0m
+2026-08-17T18:04:43.9915476Z [36;1m  --hosted-result "rust-tests=skipped" \[0m
+2026-08-17T18:04:43.9915791Z [36;1m  --hosted-result "demo-proof=skipped"[0m
+2026-08-17T18:04:43.9916281Z [36;1mfailed=""[0m
+2026-08-17T18:04:43.9916481Z [36;1mfor lane in \[0m
+2026-08-17T18:04:43.9916709Z [36;1m  "adl_path_policy:success" \[0m
+2026-08-17T18:04:43.9917336Z [36;1m  "csdlc_v2_standalone:failure" \[0m
+2026-08-17T18:04:43.9917635Z [36;1m  "adl_v2_standalone:skipped" \[0m
+2026-08-17T18:04:43.9917916Z [36;1m  "adl_tooling_contracts:success" \[0m
+2026-08-17T18:04:43.9918197Z [36;1m  "adl_runtime_v3_fast:skipped" \[0m
+2026-08-17T18:04:43.9918471Z [36;1m  "adl_rust_fmt_clippy:skipped" \[0m
+2026-08-17T18:04:43.9918739Z [36;1m  "adl_rust_tests:skipped" \[0m
+2026-08-17T18:04:43.9918996Z [36;1m  "adl_demo_proof:skipped" \[0m
+2026-08-17T18:04:43.9919264Z [36;1m  "adl_spot_ci_and_coverage:skipped"[0m
+2026-08-17T18:04:43.9919528Z [36;1mdo[0m
+2026-08-17T18:04:43.9919718Z [36;1m  name="${lane%%:*}"[0m
+2026-08-17T18:04:43.9919954Z [36;1m  result="${lane#*:}"[0m
+2026-08-17T18:04:43.9989645Z [36;1m  echo "$name => $result"[0m
+2026-08-17T18:04:43.9989951Z [36;1m  case "$result" in[0m
+2026-08-17T18:04:43.9990203Z [36;1m    success|skipped)[0m
+2026-08-17T18:04:43.9990432Z [36;1m      ;;[0m
+2026-08-17T18:04:43.9990658Z [36;1m    *)[0m
+2026-08-17T18:04:43.9990981Z [36;1m      failed="${failed}${failed:+, }${name}=${result}"[0m
+2026-08-17T18:04:43.9991337Z [36;1m      ;;[0m
+2026-08-17T18:04:43.9991552Z [36;1m  esac[0m
+2026-08-17T18:04:43.9991750Z [36;1mdone[0m
+2026-08-17T18:04:43.9991927Z [36;1m{[0m
+2026-08-17T18:04:43.9992124Z [36;1m  echo "## Split adl-ci result"[0m
+2026-08-17T18:04:43.9992382Z [36;1m  echo[0m
+2026-08-17T18:04:43.9992578Z [36;1m  echo "| Lane | Result |"[0m
+2026-08-17T18:04:43.9992822Z [36;1m  echo "|---|---|"[0m
+2026-08-17T18:04:43.9993091Z [36;1m  echo "| adl_path_policy | \`success\` |"[0m
+2026-08-17T18:04:43.9993456Z [36;1m  echo "| csdlc_v2_standalone | \`failure\` |"[0m
+2026-08-17T18:04:43.9993788Z [36;1m  echo "| adl_v2_standalone | \`skipped\` |"[0m
+2026-08-17T18:04:43.9994110Z [36;1m  echo "| adl_tooling_contracts | \`success\` |"[0m
+2026-08-17T18:04:43.9994443Z [36;1m  echo "| adl_runtime_v3_fast | \`skipped\` |"[0m
+2026-08-17T18:04:43.9994761Z [36;1m  echo "| adl_rust_fmt_clippy | \`skipped\` |"[0m
+2026-08-17T18:04:43.9995087Z [36;1m  echo "| adl_rust_tests | \`skipped\` |"[0m
+2026-08-17T18:04:43.9995391Z [36;1m  echo "| adl_demo_proof | \`skipped\` |"[0m
+2026-08-17T18:04:43.9995725Z [36;1m  echo "| adl_spot_ci_and_coverage | \`skipped\` |"[0m
+2026-08-17T18:04:43.9996331Z [36;1m  echo[0m
+2026-08-17T18:04:43.9996673Z [36;1m  echo "Stable required check \`adl-ci\` is an aggregator over parallel lanes."[0m
+2026-08-17T18:04:43.9997087Z [36;1m} >> "$GITHUB_STEP_SUMMARY"[0m
+2026-08-17T18:04:43.9997351Z [36;1mif [ -n "$failed" ]; then[0m
+2026-08-17T18:04:43.9997658Z [36;1m  echo "::error::split adl-ci lane failure(s): $failed"[0m
+2026-08-17T18:04:43.9997971Z [36;1m  exit 1[0m
+2026-08-17T18:04:43.9998156Z [36;1mfi[0m
+2026-08-17T18:04:44.0040724Z shell: /usr/bin/bash -e {0}
+2026-08-17T18:04:44.0040987Z env:
+2026-08-17T18:04:44.0041174Z   BACKEND: hosted
+2026-08-17T18:04:44.0041388Z   EVENT_NAME: pull_request
+2026-08-17T18:04:44.0041619Z   SAME_REPO_PR: true
+2026-08-17T18:04:44.0041849Z   SPOT_OPT_IN: false
+2026-08-17T18:04:44.0042059Z   WORK_REQUIRED: false
+2026-08-17T18:04:44.0042278Z   SPOT_WORK_REQUIRED: false
+2026-08-17T18:04:44.0042506Z   RUST_REQUIRED: false
+2026-08-17T18:04:44.0042716Z   RUST_TESTS_REQUIRED: false
+2026-08-17T18:04:44.0042952Z   CSDLC_V2_STANDALONE_REQUIRED: true
+2026-08-17T18:04:44.0043230Z   CSDLC_V2_STANDALONE_RESULT: failure
+2026-08-17T18:04:44.0043497Z   ADL_V2_STANDALONE_REQUIRED: false
+2026-08-17T18:04:44.0043747Z   ADL_V2_STANDALONE_RESULT: skipped
+2026-08-17T18:04:44.0043981Z   DEMO_REQUIRED: false
+2026-08-17T18:04:44.0044184Z ##[endgroup]
+2026-08-17T18:04:44.0141898Z ##[error]selected C-SDLC v2 standalone lane is failure; expected success
+2026-08-17T18:04:44.0151668Z ##[error]Process completed with exit code 1.
+2026-08-17T18:04:44.0281777Z Post job cleanup.
+2026-08-17T18:04:44.1116709Z [command]/usr/bin/git version
+2026-08-17T18:04:44.1145710Z git version 2.54.0
+2026-08-17T18:04:44.1188819Z Temporarily overriding HOME='/home/runner/work/_temp/38060bd1-af65-4af0-85bf-7e452b2d0a37' before making global git config changes
+2026-08-17T18:04:44.1190120Z Adding repository directory to the temporary git global config as a safe directory
+2026-08-17T18:04:44.1195182Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/agent-design-language/agent-design-language
+2026-08-17T18:04:44.1230626Z Removing SSH command configuration
+2026-08-17T18:04:44.1238048Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-08-17T18:04:44.1274941Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-08-17T18:04:44.1544071Z Removing HTTP extra header
+2026-08-17T18:04:44.1551628Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-08-17T18:04:44.1594973Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-08-17T18:04:44.1856848Z Removing includeIf entries pointing to credentials config files
+2026-08-17T18:04:44.1864731Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-08-17T18:04:44.1903641Z includeif.gitdir:/home/runner/work/agent-design-language/agent-design-language/.git.path
+2026-08-17T18:04:44.1904883Z includeif.gitdir:/home/runner/work/agent-design-language/agent-design-language/.git/worktrees/*.path
+2026-08-17T18:04:44.1916712Z includeif.gitdir:/github/workspace/.git.path
+2026-08-17T18:04:44.1917175Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-08-17T18:04:44.1919161Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/agent-design-language/agent-design-language/.git.path
+2026-08-17T18:04:44.1943367Z /home/runner/work/_temp/git-credentials-c7b626c4-1000-45a6-bc3d-dfb73f682138.config
+2026-08-17T18:04:44.1954034Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/agent-design-language/agent-design-language/.git.path /home/runner/work/_temp/git-credentials-c7b626c4-1000-45a6-bc3d-dfb73f682138.config
+2026-08-17T18:04:44.1998495Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/agent-design-language/agent-design-language/.git/worktrees/*.path
+2026-08-17T18:04:44.2035182Z /home/runner/work/_temp/git-credentials-c7b626c4-1000-45a6-bc3d-dfb73f682138.config
+2026-08-17T18:04:44.2044495Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/agent-design-language/agent-design-language/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-c7b626c4-1000-45a6-bc3d-dfb73f682138.config
+2026-08-17T18:04:44.2084454Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-08-17T18:04:44.2114150Z /github/runner_temp/git-credentials-c7b626c4-1000-45a6-bc3d-dfb73f682138.config
+2026-08-17T18:04:44.2122476Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-c7b626c4-1000-45a6-bc3d-dfb73f682138.config
+2026-08-17T18:04:44.2158091Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-08-17T18:04:44.2183851Z /github/runner_temp/git-credentials-c7b626c4-1000-45a6-bc3d-dfb73f682138.config
+2026-08-17T18:04:44.2190824Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-c7b626c4-1000-45a6-bc3d-dfb73f682138.config
+2026-08-17T18:04:44.2228010Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-08-17T18:04:44.2470220Z Removing credentials config '/home/runner/work/_temp/git-credentials-c7b626c4-1000-45a6-bc3d-dfb73f682138.config'
+2026-08-17T18:04:44.2606645Z Cleaning up orphan processes
