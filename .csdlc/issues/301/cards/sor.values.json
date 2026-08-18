@@ -7,9 +7,9 @@
     "title": "[v0.92][C-SDLC][defect] Persist provenance for title-only issue updates",
     "slug": "title-only-issue-update-operation-provenance",
     "version": "v0.92",
-    "generation": 27
+    "generation": 28
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -105,10 +105,10 @@
           "evidence_ref": "local-command:f1f7756cf2113b1a8f50fd407086245831ea78d9:git-diff-check:passed"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }
