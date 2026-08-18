@@ -7,7 +7,7 @@
     "title": "[v0.92][C-SDLC v2][defect] Keep deferred-validator admission consistent across ready transition",
     "slug": "deferred-validator-ready-consistency",
     "version": "v0.92",
-    "generation": 12
+    "generation": 13
   },
   "status": "draft",
   "content": {
