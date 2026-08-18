@@ -35,3 +35,4 @@
 {"sequence":35,"generation":29,"actor":"codex:issue-274-coverage-final-review","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":36,"generation":30,"actor":"fresh-session:89ff2555-eb86-4a61-a214-7c584945eaac","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":37,"generation":31,"actor":"codex:issue-274-coverage-final","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":38,"generation":32,"actor":"codex-worker-4-closeout","reason":"Materialize live GitHub terminal truth for merged PR #362 before cleanup.","operation":"materialize_derived_terminal"}
