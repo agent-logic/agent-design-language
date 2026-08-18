@@ -78,7 +78,7 @@ Revision 7
     "acceptance_ids": [
       "AC-9"
     ],
-    "status": "in_progress"
+    "status": "completed"
   },
   {
     "id": "S6",
@@ -86,7 +86,7 @@ Revision 7
     "acceptance_ids": [
       "AC-9"
     ],
-    "status": "pending"
+    "status": "completed"
   }
 ]
 

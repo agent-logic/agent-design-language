@@ -7,9 +7,9 @@
     "title": "[v0.92][WP-04.16b3.1c] Add authenticated Guardian-kernel continuity bridge",
     "slug": "authenticated-guardian-kernel-continuity-bridge",
     "version": "v0.92",
-    "generation": 59
+    "generation": 60
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -176,10 +176,10 @@
           "evidence_ref": ".csdlc/evidence/208/v4/execution-proof.json"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }
