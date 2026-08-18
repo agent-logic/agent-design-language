@@ -1,0 +1,37 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 418,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC policy] Permit audited gh break-glass during confirmed typed regressions",
+    "slug": "audited-gh-breakglass-policy",
+    "version": "v0.92",
+    "generation": 4
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Prevent confirmed typed GitHub-owner regressions from indefinitely blocking delivery while preserving typed authority through a narrowly audited and reconcilable raw-gh transport exception.",
+      "required_outcome": "#418 is merged and terminally finished with a narrow audited raw-gh transport exception that cannot silently replace typed lifecycle authority.",
+      "declared_scope": [
+        "Root operator contract for audited raw-gh break-glass transport.",
+        "Session coordination details for immutable receipt and typed reconciliation ownership.",
+        "Focused policy contract validation."
+      ],
+      "authority_boundary": [
+        "Typed C-SDLC v2 remains default authority and no raw gh exception may be used before merge.",
+        "No mutation to #414, #268, #269, AWS, or unrelated lifecycle state.",
+        "Only the six canonical argv shapes are allowed; no issue create, merge, close, finish, cleanup, delete, force, administrative, secret, release, workflow, API, alias, extension, extra-flag, or bulk raw gh operation."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2 lifecycle for #418.",
+        "Implement only in a bound FastWork worktree.",
+        "Obtain fresh independent design and exact-head implementation reviews.",
+        "Publish, merge, finish, and clean #418 without invoking the proposed exception."
+      ]
+    }
+  }
+}

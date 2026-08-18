@@ -1,0 +1,50 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 418,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC policy] Permit audited gh break-glass during confirmed typed regressions",
+    "slug": "audited-gh-breakglass-policy",
+    "version": "v0.92",
+    "generation": 4
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "gh-breakglass-policy-contract",
+          "proof_role": "Prove exact policy prerequisites, canonical argv allowlist, comprehensive denial fixtures, three create-only receipt events, redaction, no-early-use, and typed reconciliation freeze.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 2000,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/418/validate_gh_breakglass_policy.sh"
+          ],
+          "parallel_group": "418-local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed on any missing regression evidence, authorization, exact identity, allowlist match, immutable receipt, redaction, or typed reconciliation route; never broaden raw GitHub authority.",
+      "design_ref": ".csdlc/prepared/issues/418/design.md",
+      "design_digest": "1f39b4b28615007d25a1838d419ded9c7e21439ee5d4d802ecdd5c4348802dc1",
+      "diagram_ref": ".csdlc/prepared/issues/418/diagram.mmd",
+      "diagram_digest": "d2b1e5fd6030226dca7fbdb8823f9de8a8f07901c7bd9cc01dba9119fc9671c6"
+    }
+  }
+}

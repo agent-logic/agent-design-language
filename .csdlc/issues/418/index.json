@@ -1,0 +1,117 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 418,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "dbfd1abbebd4f9dc40467d98535511955f705aa769d4c5d8836050003b7623f5",
+  "phase": "bound",
+  "generation": 4,
+  "digest": "d374a07ee4daebb3b0a3a64651c1140d52e598fe0f8a56a8efe91b2100d42045",
+  "branch": "codex/418-audited-gh-breakglass-policy",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-418-audited-gh-breakglass-policy",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/418/design.md",
+  "diagram_path": ".csdlc/prepared/issues/418/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:6f11b72a-f556-4469-8987-32c44254e082",
+      "revision": "1f39b4b28615007d25a1838d419ded9c7e21439ee5d4d802ecdd5c4348802dc1"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "8ca2da7aa929bfef107ccb1fc5761367559cca13292adc3d89013f0375767636",
+      "rendered_digest": "6d3735ae33b30c22165d2bbde42b368012920281adaa756bb7f88fdc9724d48f",
+      "ast_digest": "e32572518542a417e6fa122f7c9171f42d0f88d3f500398ed1c2a48721d71b12"
+    },
+    "stp": {
+      "values_digest": "bab5bebe17855212ead3cbe411e6461dd7e0da8065cf01caf03e15362182cfe4",
+      "rendered_digest": "62cbad6591fd6ec41bf26a76ac79dc159fbd382e4a682c9ba135923b62f649a7",
+      "ast_digest": "ca8f5972d24c5a253a1f9035e983739b02b13d45ce9d6ed85045cec06b62bae1"
+    },
+    "spp": {
+      "values_digest": "0e2f57c54f36c259f29bfbf81d10b3e2768fe64e6deb996e3040bdbc9ddb60b9",
+      "rendered_digest": "eca4cb355d3009819249381e6fe33eadfbc3c0c1c825b6e77a7ef2f3fce12289",
+      "ast_digest": "9df747f15c19c03b7b983f3ce5de63050d873c531178889a99c1a9f1545ee270"
+    },
+    "vpp": {
+      "values_digest": "bbbb3136c97528e91142ac875ff857f88f68a37ba6fd74a3757ceecfbeedd6e3",
+      "rendered_digest": "f97f734532b5705f5e600ea974ae8c7d21a480d4f7e9d9990c6eddcf30f34148",
+      "ast_digest": "4fcbe31c2d7d0a13d8e69f5f9bf1704d38750588cd4f119a1d741f9cb4462d72"
+    },
+    "srp": {
+      "values_digest": "e9c36be50d3552106a262cfc3644f80971a3bac8b28b928b7e5f7f1afd217760",
+      "rendered_digest": "f9d9f508e8da27cce8b60485c62c568dc3ccc6f1e8c86239fd5e20b112db1951",
+      "ast_digest": "aaf520baea48dc1264a3e3c2791a6e5a71277b0f82cdbd795728a22948dd5824"
+    },
+    "sor": {
+      "values_digest": "e7db328d398f78f5c05e575436638d3d84f15739b71f4062d3c61b57d2913c59",
+      "rendered_digest": "04b5dd99ccca5552c54672caf9ef05c0bea940b81c09af7f050b8cb5a3d643cc",
+      "ast_digest": "3dd5fb58032e02fa38426d57efcebfa2ab4432f4a1f9ec994a65a0cdfd2bd902"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:issue-418",
+      "reason": "Advance after complete bootstrap, fresh candidate-blind design PASS, executable governed validation, and doctor readiness PASS."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-418",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:6f11b72a-f556-4469-8987-32c44254e082",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"1f39b4b28615007d25a1838d419ded9c7e21439ee5d4d802ecdd5c4348802dc1\",\"design_ref\":\".csdlc/prepared/issues/418/design.md\",\"diagram_digest\":\"d2b1e5fd6030226dca7fbdb8823f9de8a8f07901c7bd9cc01dba9119fc9671c6\",\"diagram_ref\":\".csdlc/prepared/issues/418/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:issue-418",
+      "reason": "Advance after complete bootstrap, fresh candidate-blind design PASS, executable governed validation, and doctor readiness PASS.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:issue-418",
+      "reason": "Include the existing GitHub client boundary and its focused exact-contract regression because both currently encode the absolute prohibition that this reviewed exception intentionally narrows.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"AGENTS.md\",\"docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md\",\"docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md\",\"csdlc-v2/tests/gate_github_route_policy.rs\",\".csdlc/prepared/issues/418/validate_gh_breakglass_policy.sh\",\".csdlc/issues/418/\",\".csdlc/prepared/issues/418/\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:issue-418",
+      "reason": "Align deliverable truth with the existing boundary contract and focused test that must change alongside the root exception.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Fail-closed root break-glass policy in AGENTS.md.\",\"Three-event create-only receipt and typed reconciliation protocol in docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md.\",\"Aligned owner boundary in docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md.\",\"Updated exact route contract regression in csdlc-v2/tests/gate_github_route_policy.rs.\",\".csdlc/prepared/issues/418/validate_gh_breakglass_policy.sh\"]}"
+    }
+  ]
+}

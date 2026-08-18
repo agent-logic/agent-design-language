@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 418,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC policy] Permit audited gh break-glass during confirmed typed regressions",
+    "slug": "audited-gh-breakglass-policy",
+    "version": "v0.92",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "AGENTS.md, session coordination policy, focused validation, and issue-local lifecycle/design artifacts.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can the exception be invoked without a reproducible typed-owner regression and exact explicit operator authorization?",
+        "Does any wording permit merge, close, finish, cleanup, deletion, force, secret, workflow, release, administrative, or bulk operations?",
+        "Do receipts establish exact local and remote identity without retaining secrets or sensitive bodies?",
+        "Is every later lifecycle claim frozen until typed reconciliation succeeds?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
