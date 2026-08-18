@@ -3,9 +3,9 @@
   "issue": 418,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "dbfd1abbebd4f9dc40467d98535511955f705aa769d4c5d8836050003b7623f5",
-  "phase": "bound",
-  "generation": 5,
-  "digest": "49a865be5ded5fc140b876ff6736fa119c06e5dd0024022c777141e31fc3a56e",
+  "phase": "implemented",
+  "generation": 6,
+  "digest": "f4325306fecda613a20453b43db7f676a37fa50019cf70ec05605d98accf8d42",
   "branch": "codex/418-audited-gh-breakglass-policy",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-418-audited-gh-breakglass-policy",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d35fd7214d34edb4a52fe1810a3fe87eb377f08c867d6b99e7046e896b4532c1",
+      "values_digest": "0bf7262d2c74a60f983ff208d62531715c65465eec3153b81b4b2a6c259ac454",
       "rendered_digest": "6d3735ae33b30c22165d2bbde42b368012920281adaa756bb7f88fdc9724d48f",
       "ast_digest": "e32572518542a417e6fa122f7c9171f42d0f88d3f500398ed1c2a48721d71b12"
     },
     "stp": {
-      "values_digest": "add3fda52e1018ec0956a768817e21a366da7b0235b55a112b3097e056d9bfef",
+      "values_digest": "22d1db98e9d0da2df90932edba7cc15d6b7b659b64b7fa62c9fe1b88f00c5de4",
       "rendered_digest": "62cbad6591fd6ec41bf26a76ac79dc159fbd382e4a682c9ba135923b62f649a7",
       "ast_digest": "ca8f5972d24c5a253a1f9035e983739b02b13d45ce9d6ed85045cec06b62bae1"
     },
     "spp": {
-      "values_digest": "5d5df302be501ca33e2fad80ecaa404e0197fe7c95ab418146da51cd14183568",
+      "values_digest": "50e74a8cf11085c16c7196065b2475edfde48ace45e367ac6c6b4d1b570b66d1",
       "rendered_digest": "c46ecf37270047df68f4046b2bf69ae82a6951f2cb35c082553695b9158827cb",
       "ast_digest": "e852a40a6548bfe92f921a57866e45f4f707e10ad5f17f5751358c0a0e3ba63f"
     },
     "vpp": {
-      "values_digest": "d3ad41441ee2d4ddf0f63631c49a71bad9859b02d1aec7921ca67173d3cdda12",
+      "values_digest": "89454da237c3e6aff463bfce4f7a8e9bf1fb0b75d89ac2817ae5b36bc53ddf8d",
       "rendered_digest": "f97f734532b5705f5e600ea974ae8c7d21a480d4f7e9d9990c6eddcf30f34148",
       "ast_digest": "4fcbe31c2d7d0a13d8e69f5f9bf1704d38750588cd4f119a1d741f9cb4462d72"
     },
     "srp": {
-      "values_digest": "2dc7c5dc92221252216ce8c00b093813c846f166227415b904aece32936720ba",
+      "values_digest": "26bea945c7d3ceada8bbd86b7e7bb214a3dac54026aaab7ea1261dfc3a3e7e8b",
       "rendered_digest": "f9d9f508e8da27cce8b60485c62c568dc3ccc6f1e8c86239fd5e20b112db1951",
       "ast_digest": "aaf520baea48dc1264a3e3c2791a6e5a71277b0f82cdbd795728a22948dd5824"
     },
     "sor": {
-      "values_digest": "7cb386f8057d7fb6c0840b2af1a59407963e206dd6b9ceea7724913382a53907",
-      "rendered_digest": "04b5dd99ccca5552c54672caf9ef05c0bea940b81c09af7f050b8cb5a3d643cc",
-      "ast_digest": "3dd5fb58032e02fa38426d57efcebfa2ab4432f4a1f9ec994a65a0cdfd2bd902"
+      "values_digest": "2047c98eec8d3edfff83776e6c8d61e9ad354eb99819ed464863fa1e83f005f4",
+      "rendered_digest": "a5ad8874c8e529178cbf38fdd053a0865714a5bf463fa985c1d053ef0928ee7a",
+      "ast_digest": "c3014b306c4526e797ce8c66d9478094227d782fea47a45df7902a1be58c4803"
     }
   },
   "transitions": [
@@ -68,6 +68,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-418",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -119,6 +126,13 @@
       "actor": "fresh-session:7ce5720b-9ac0-44ba-a934-3950f599b5c5",
       "reason": "reapprove changed issue design",
       "operation": "{\"design_digest\":\"1f39b4b28615007d25a1838d419ded9c7e21439ee5d4d802ecdd5c4348802dc1\",\"design_ref\":\".csdlc/prepared/issues/418/design.md\",\"diagram_digest\":\"daeef03b693bef86186037ea1816a9044db352bd499417b2b0e17d5ed130e243\",\"diagram_ref\":\".csdlc/prepared/issues/418/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:issue-418",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
     }
   ]
 }

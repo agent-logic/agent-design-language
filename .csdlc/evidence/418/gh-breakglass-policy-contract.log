@@ -1,0 +1,1 @@
+PASS: typed gh break-glass policy contract (text_guards=27 argv_positive=7 argv_negative=28 receipt_positive=3 receipt_negative=6)
