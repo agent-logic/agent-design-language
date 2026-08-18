@@ -7,9 +7,9 @@
     "title": "[v0.92][WP-18C.02] Govern Layer 8 identity, authority, refusal, and audit",
     "slug": "wp18c02-layer8-conversation-authority",
     "version": "v0.92",
-    "generation": 85
+    "generation": 86
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -80,10 +80,10 @@
           "evidence_ref": "local-command:exit 0"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": [
         "Canonical issue identity/title for #112 core publication gate is [v0.92][WP-18C.02a][112.a] Define shared Layer 8 signed authority core. Supported post-recovery card repairs updated SIP, STP, SPP, SRP, and this SOR truth; VPP/card-identity title repair remains a bounded C-SDLC v2 tooling follow-on candidate because implemented-phase typed editors do not expose a direct card identity/title edit route, and publication/fresh-session review remain held until exact cross-card identity is consistent or the canonical standard explicitly permits the historical label."
       ]
