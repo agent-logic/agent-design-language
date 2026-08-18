@@ -3,9 +3,9 @@
   "issue": 225,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "2c2539d70d91f701387359b5176d8f0797988aec3b5745e78e295d6bcf53e1c4",
-  "phase": "published",
-  "generation": 22,
-  "digest": "9f2c6221e468f2c0e6d3ae5448dd8d525ec59bb47cdbd47e96a0ba44915f4ff0",
+  "phase": "closed_out",
+  "generation": 23,
+  "digest": "60c240cd86024253184e65db920b179a76ce0aebd615f52549267d278a6247b5",
   "branch": "codex/225-bounded-card-review-repair",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-225-bounded-card-review-repair",
   "review_assignment": null,
@@ -80,10 +80,18 @@
     "revision": "git-blake3:e814a687e4f895bd6883909ce1b758842efa84b7:6b008227c91f7cf88de2839ffd3c48d81570d78780c4aad3dc16c02b64de74be",
     "linkage_mode": "closing",
     "draft": false,
-    "observed_state": "open"
+    "observed_state": "merged"
   },
   "readiness": null,
-  "terminal": null,
+  "terminal": {
+    "pull_request": 227,
+    "disposition": "merged",
+    "observed_sha": "6a8095c4edf6b3162296bfac53602859bbd73b05",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/225.json",
+    "branch": "codex/225-bounded-card-review-repair",
+    "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-225-bounded-card-review-repair"
+  },
   "migration": null,
   "design_path": ".csdlc/prepared/issues/225/design.md",
   "diagram_path": ".csdlc/prepared/issues/225/diagram.mmd",
@@ -95,34 +103,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d7c6ebb7a65f5347468848d982c2b5bec28672e99374874ae051eaeef07d5400",
+      "values_digest": "cdbe39e7745125db8d6a751451c69aec2848712f05398e1fa089e37cab96cb16",
       "rendered_digest": "9f38b68f225883c5296d0930f90a0bd45b5d3fdfbc79b9e2eb784c83f1be0027",
       "ast_digest": "80936f9bc8d37273b594570a048d63acc5befe735e1ed02d3e188eec4b50430f"
     },
     "stp": {
-      "values_digest": "091b75446ce5fea32fa17060e1216424c96d7cfd7858141d9223a893bf8e677c",
+      "values_digest": "d2ea7bac13b2c1dcddd866f7af76f6550aeb4ab99459f24bef8ad202d8c78c76",
       "rendered_digest": "4b480f8134f03a8df280641a44c7466ac2427aaacdcad4f4bb09a40f9dfd65dc",
       "ast_digest": "98229242cbbc08bd4320f8997bf7a53d4c41945051bf846790c8b8e750b4e697"
     },
     "spp": {
-      "values_digest": "cc974eebfbdc138f82c7aa28617e7ea55968f7cb3a063c4120c5e2ff117a7f25",
+      "values_digest": "c634d03997bb57c886482f5ab57d19afb1bb32dbfbe5bdaabc19da71ed7a553b",
       "rendered_digest": "581ec08597db7ed52f8891edbde7a0e653083ac4d6d828e82bfa4293a4617296",
       "ast_digest": "c42351901df588a1dc8fe8be566846f7d4c48a92e4292383b5fff5e9b64168df"
     },
     "vpp": {
-      "values_digest": "479411913f0dc204277132c4982f1f0bad2d5130fab0e4113740c97bfbc12e67",
+      "values_digest": "b2636c5ffef6426a81568d015a3e58c78bfc501ff3713a8b3f081c0b9cf2a39c",
       "rendered_digest": "b11d0c53253aa8d670c14bdb6c2c21cad2f0a63147079d96a1e1d3b5888ca1b4",
       "ast_digest": "c6630cd1b261473cb656a38b6b5a47350843e9ee08ef5ada14e48a97043f2d12"
     },
     "srp": {
-      "values_digest": "2925ef176f742a51396e1889a9fc4519acfc31eb479627debab6cfe70cfbdf24",
+      "values_digest": "771614a387b6510b877c8a35398e2dba5bc92cc10c440ce294e506be2c1ad5e7",
       "rendered_digest": "f4781610b73861cec10be4e1c058b3c0f6d057b9a86974d71ed8b87ffe2991b7",
       "ast_digest": "a6a5fbb9f98b8131f76f12feafda176be73461f11e1808e22e69a7d6d26fa662"
     },
     "sor": {
-      "values_digest": "8fd764b553bbb5df9798c12c3f07599c2e4bff8d34acc842451b7f99200f50a5",
-      "rendered_digest": "c10844ec4e88c6f213853c2e3d4e68507eb4e3e98ae69b03c2057b53460ed33b",
-      "ast_digest": "80a42dcdcc7a75f73a574615dc9337e619e07c56b0aa5486459a0ba0b9c46d88"
+      "values_digest": "6977481fe6ee502f1be9a2b43114c5b20e140015097394b69e936b144b8ac13d",
+      "rendered_digest": "2435fa899fa2bbff43a742195515b6bef9967eb3c496351f165b1c79f30a87d3",
+      "ast_digest": "31d54dc7de4882b6d8749ff61b571552308f619448d0f6e1129554abd755a605"
     }
   },
   "transitions": [
@@ -160,6 +168,27 @@
       "to": "published",
       "actor": "codex:225-bounded-card-review-repair",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex-worker-4-closeout",
+      "reason": "observed required checks, review, and conflict readiness"
+    },
+    {
+      "sequence": 7,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex-worker-4-closeout",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 8,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex-worker-4-closeout",
+      "reason": "Materialize live GitHub terminal truth for merged PR #227 before cleanup."
     }
   ],
   "audit": [
@@ -330,6 +359,13 @@
       "actor": "codex:225-bounded-card-review-repair",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 25,
+      "generation": 23,
+      "actor": "codex-worker-4-closeout",
+      "reason": "Materialize live GitHub terminal truth for merged PR #227 before cleanup.",
+      "operation": "materialize_derived_terminal"
     }
   ]
 }
