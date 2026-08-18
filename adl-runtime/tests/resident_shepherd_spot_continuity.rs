@@ -6,6 +6,7 @@ use adl_runtime::resident_shepherd_continuity::{
     ResidentHabitabilityReceipt, ResidentModelBinding, RuntimeVolumeBinding,
     SpotInterruptionNotice, RESIDENT_POPULATION_SCHEMA, SPOT_NOTICE_SOURCE,
 };
+use adl_runtime_kernel::{LiveContinuity, LiveKernelSnapshot, RuntimeRecorder};
 use tempfile::TempDir;
 
 fn sha(seed: &str) -> String {
@@ -64,6 +65,74 @@ fn volume(root: &TempDir) -> RuntimeVolumeBinding {
 
 fn expected_ids() -> BTreeSet<String> {
     agents().into_iter().map(|agent| agent.agent_id).collect()
+}
+
+#[tokio::test]
+async fn signed_live_kernel_checkpoint_requires_population_aware_restore() {
+    let root = TempDir::new().unwrap();
+    let volume = volume(&root);
+    let mut controller = ResidentContinuityController::new(agents()).unwrap();
+    let population = controller
+        .dehydrate_for_spot(&notice(), &volume, 1_001, 1_000_000)
+        .unwrap();
+    let population_bytes = serde_jcs::to_vec(&population).unwrap();
+    let checkpoint_root = root.path().join("signed-live-kernel");
+    let identity = LiveKernelSnapshot::new(
+        sha("topology"),
+        sha("configuration"),
+        BTreeMap::from([("runtime".to_string(), "resident-shepherd".to_string())]),
+    );
+    let recorder = RuntimeRecorder::new(16);
+    let mut live = LiveContinuity::new(
+        &checkpoint_root,
+        "resident-continuity",
+        &[77_u8; 32],
+        identity.clone(),
+        0,
+    )
+    .with_resident_population(population_bytes.clone());
+    live.checkpoint(&recorder, std::time::Duration::from_secs(1))
+        .await
+        .unwrap();
+
+    let mut legacy = LiveContinuity::new(
+        &checkpoint_root,
+        "resident-continuity",
+        &[77_u8; 32],
+        identity.clone(),
+        1,
+    );
+    assert!(legacy
+        .restore_latest(&RuntimeRecorder::new(16))
+        .await
+        .unwrap_err()
+        .to_string()
+        .contains("resident-aware restore"));
+
+    let mut restored_live = LiveContinuity::new(
+        &checkpoint_root,
+        "resident-continuity",
+        &[77_u8; 32],
+        identity,
+        1,
+    );
+    let restored = restored_live
+        .restore_latest_with_resident_population(&RuntimeRecorder::new(16))
+        .await
+        .unwrap()
+        .unwrap();
+    assert_eq!(restored.generation, 1);
+    let restored_population: adl_runtime::resident_shepherd_continuity::ResidentPopulationCheckpoint =
+        serde_json::from_slice(restored.resident_population.as_deref().unwrap()).unwrap();
+    let (restored_controller, receipt) = ResidentContinuityController::restore_before_admission(
+        restored_population,
+        &expected_ids(),
+        &volume,
+        1,
+    )
+    .unwrap();
+    assert!(restored_controller.status().admission_open);
+    assert_eq!(receipt.restored_agent_count, 3);
 }
 
 #[test]

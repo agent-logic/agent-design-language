@@ -197,7 +197,6 @@ impl ResidentContinuityController {
             admission_closed: true,
             lifecycle_path: vec![
                 ExistingAgentLifecycleState::Active,
-                ExistingAgentLifecycleState::Quiescent,
                 ExistingAgentLifecycleState::Suspended,
                 ExistingAgentLifecycleState::Dormant,
             ],
@@ -334,7 +333,6 @@ fn validate_checkpoint(
     }
     let expected_path = [
         ExistingAgentLifecycleState::Active,
-        ExistingAgentLifecycleState::Quiescent,
         ExistingAgentLifecycleState::Suspended,
         ExistingAgentLifecycleState::Dormant,
     ];

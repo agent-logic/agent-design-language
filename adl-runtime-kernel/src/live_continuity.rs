@@ -50,6 +50,17 @@ pub struct LiveKernelCheckpoint {
     pub runtime: RuntimeSnapshot,
     #[serde(default)]
     pub ingress: IngressSnapshot,
+    /// Runtime-owned resident population subrecord. It remains inside the
+    /// existing signed `live_kernel` participant rather than creating a new
+    /// checkpoint authority or service.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub resident_population: Option<Vec<u8>>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct RestoredLiveContinuity {
+    pub generation: u64,
+    pub resident_population: Option<Vec<u8>>,
 }
 
 #[derive(Debug, Error)]
@@ -66,6 +77,8 @@ pub enum LiveContinuityError {
     Lineage { generation: u64 },
     #[error("continuity signing key must be exactly 32 bytes of hex")]
     SigningKey,
+    #[error("resident population checkpoint requires resident-aware restore before admission")]
+    ResidentPopulationRequired,
 }
 
 pub struct LiveContinuity {
@@ -77,6 +90,7 @@ pub struct LiveContinuity {
     generation: u64,
     last_integrity: Option<String>,
     ingress: Option<CanonicalIngress>,
+    resident_population: Option<Vec<u8>>,
 }
 
 impl LiveContinuity {
@@ -100,11 +114,17 @@ impl LiveContinuity {
             generation: 0,
             last_integrity: None,
             ingress: None,
+            resident_population: None,
         }
     }
 
     pub fn with_canonical_ingress(mut self, ingress: CanonicalIngress) -> Self {
         self.ingress = Some(ingress);
+        self
+    }
+
+    pub fn with_resident_population(mut self, resident_population: Vec<u8>) -> Self {
+        self.resident_population = Some(resident_population);
         self
     }
 
@@ -119,6 +139,27 @@ impl LiveContinuity {
         &mut self,
         recorder: &RuntimeRecorder,
     ) -> Result<Option<u64>, LiveContinuityError> {
+        let restored = self.restore_latest_inner(recorder).await?;
+        if restored
+            .as_ref()
+            .is_some_and(|value| value.resident_population.is_some())
+        {
+            return Err(LiveContinuityError::ResidentPopulationRequired);
+        }
+        Ok(restored.map(|value| value.generation))
+    }
+
+    pub async fn restore_latest_with_resident_population(
+        &mut self,
+        recorder: &RuntimeRecorder,
+    ) -> Result<Option<RestoredLiveContinuity>, LiveContinuityError> {
+        self.restore_latest_inner(recorder).await
+    }
+
+    async fn restore_latest_inner(
+        &mut self,
+        recorder: &RuntimeRecorder,
+    ) -> Result<Option<RestoredLiveContinuity>, LiveContinuityError> {
         let Some(generation) = latest_generation(&self.root).await? else {
             if self.minimum_generation > 0 {
                 return Err(LiveContinuityError::Rollback {
@@ -136,7 +177,7 @@ impl LiveContinuity {
         }
         let (loaded, schema) = self.load_generation(generation).await?;
         let bytes = &loaded.blobs["live_kernel"];
-        let (restored, ingress) = match schema {
+        let (restored, ingress, resident_population) = match schema {
             LIVE_KERNEL_CHECKPOINT_SCHEMA => {
                 let checkpoint: LiveKernelCheckpoint = serde_json::from_slice(bytes)
                     .map_err(|error| LiveContinuityError::Encoding(error.to_string()))?;
@@ -153,11 +194,16 @@ impl LiveContinuity {
                         "live runtime snapshot does not match the signed manifest".to_owned(),
                     ));
                 }
-                (checkpoint.identity, Some(checkpoint.ingress))
+                (
+                    checkpoint.identity,
+                    Some(checkpoint.ingress),
+                    checkpoint.resident_population,
+                )
             }
             LIVE_KERNEL_SNAPSHOT_SCHEMA => (
                 serde_json::from_slice::<LiveKernelSnapshot>(bytes)
                     .map_err(|error| LiveContinuityError::Encoding(error.to_string()))?,
+                None,
                 None,
             ),
             _ => unreachable!("load_generation only accepts known schemas"),
@@ -178,7 +224,10 @@ impl LiveContinuity {
             config_hash: loaded.manifest.config_hash,
             integrity: loaded.manifest.integrity,
         });
-        Ok(Some(generation))
+        Ok(Some(RestoredLiveContinuity {
+            generation,
+            resident_population,
+        }))
     }
 
     pub async fn checkpoint(
@@ -198,6 +247,7 @@ impl LiveContinuity {
                     .as_ref()
                     .map(CanonicalIngress::snapshot)
                     .unwrap_or_default(),
+                resident_population: self.resident_population.clone(),
             },
         });
         let manifest = self
