@@ -5,3 +5,4 @@
 {"sequence":5,"generation":2,"actor":"codex:issue-360-implementation-review","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":6,"generation":3,"actor":"fresh-session:c748b2c0-db46-46ae-803a-c30ac374087e","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":7,"generation":4,"actor":"codex:issue-360-final","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":8,"generation":5,"actor":"codex-worker-4-closeout","reason":"Materialize live GitHub terminal truth for merged PR #361 before cleanup.","operation":"materialize_derived_terminal"}
