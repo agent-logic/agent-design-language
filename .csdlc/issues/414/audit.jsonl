@@ -30,3 +30,6 @@
 {"sequence":30,"generation":27,"actor":"codex:issue-414-implementation","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":31,"generation":28,"actor":"codex:issue-414-implementation","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":32,"generation":29,"actor":"codex:issue-414-implementation","reason":"Recover failed exact-head review before enforcing one matching CSM capsule per resident and removing raw prompt/response workdir evidence from publication truth.","operation":"recover_review"}
+{"sequence":33,"generation":29,"actor":"codex:issue-414-implementation","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":34,"generation":30,"actor":"codex:issue-414-implementation","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":35,"generation":31,"actor":"codex:issue-414-implementation","reason":"Recover R20 before binding the retained llama runner to two real matching CSM agent specs, regenerating its current receipts, and correcting exact-range hygiene.","operation":"recover_review"}

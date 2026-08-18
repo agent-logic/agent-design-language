@@ -7,7 +7,7 @@
     "title": "[v0.92][runtime-v3][integration] Wire resident Shepherd continuity into Spot reclamation",
     "slug": "resident-shepherd-spot-continuity",
     "version": "v0.92",
-    "generation": 29
+    "generation": 31
   },
   "status": "pre_phase",
   "content": {

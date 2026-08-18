@@ -27,7 +27,7 @@ cmn  common_param: device_info:
 cmn  common_param:   -         :  (0 MiB, 0 MiB free)
 cmn  common_param:   - BLAS    : Accelerate (0 MiB, 0 MiB free)
 cmn  common_param:   - CPU     : Apple M4 Pro (65536 MiB, 65536 MiB free)
-cmn  common_param: system_info: n_threads = 10 (n_threads_batch = 10) / 14 | MTL : EMBED_LIBRARY = 1 | CPU : NEON = 1 | ARM_FMA = 1 | FP16_VA = 1 | DOTPROD = 1 | LLAMAFILE = 1 | ACCELERATE = 1 | REPACK = 1 | 
+cmn  common_param: system_info: n_threads = 10 (n_threads_batch = 10) / 14 | MTL : EMBED_LIBRARY = 1 | CPU : NEON = 1 | ARM_FMA = 1 | FP16_VA = 1 | DOTPROD = 1 | LLAMAFILE = 1 | ACCELERATE = 1 | REPACK = 1 |
 srv          init: using 13 threads for HTTP server
 srv          init: The UI is disabled
 srv          init: Use --ui/--no-ui (or deprecated --webui/--no-webui) to enable/disable
@@ -83,7 +83,7 @@ llama_model_loader: - type q4_K:  193 tensors
 llama_model_loader: - type q6_K:   33 tensors
 print_info: file format = GGUF V3 (latest)
 print_info: file type   = Q4_K - Medium
-print_info: file size   = 4.58 GiB (4.89 BPW) 
+print_info: file size   = 4.58 GiB (4.89 BPW)
 llama_prepare_model_devices: using device  () (unknown id) - 0 MiB free
 time=2026-08-18T12:38:20.922-07:00 level=INFO source=llama_server.go:1348 msg="waiting for llama-server to become available" status="llm server loading model"
 load: 0 unused tokens

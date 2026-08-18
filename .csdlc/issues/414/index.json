@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "9e1cbce390fccdfb4d50654dd520ba265644fc9b5d2e59297e61befe2e6311e5",
   "phase": "implemented",
-  "generation": 29,
-  "digest": "f6c5220df2d8785815a6b7dfba46f5ab1602c0a7cb4ea00e8f184fbf5d517ac3",
+  "generation": 31,
+  "digest": "62553d6d2af4c54e554f8b70be65ec74fcdc8ef8a1232f2da9a020bf21b64a76",
   "branch": "codex/414-resident-shepherd-spot-continuity",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-414-resident-shepherd-spot-continuity",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "55f68d2772a4637f87b948ff3d7ee0a0d3c3ff41b1e67e8d23b555c9f7281bd2",
+      "values_digest": "2d66029d14c6791a29d5f6d81ac18137a7928c4e9183cefb249681342e88096a",
       "rendered_digest": "a46bc46b66ce391e80992efb06f6647b266a69ab272b9d386ee2218c953a0f47",
       "ast_digest": "b00b065288707e4799ea84336611f03bba306bb52bc68f174fb2412bafad8bd8"
     },
     "stp": {
-      "values_digest": "ab6796555f4f8113734468590849e8ccca5153a1bb404543354d6638aaefd670",
+      "values_digest": "27255701c4fe36ab4ae7eb4253454ef64d4a711596fb63967d4106a26e1f3188",
       "rendered_digest": "a7537adadaf86b26eb880432058462ffa75aba343e8cd6b5b13dfc7539106197",
       "ast_digest": "fcffc4c120fa877da45d88867faa7007b2d03e648ebebc962f22f6decb901dbb"
     },
     "spp": {
-      "values_digest": "8c25d639e507241125119c290e1ea7bbea6e3022a7b0b7e8ff5df6ce74e492d7",
+      "values_digest": "831ed42ee3eca9a9d82977590fcafd01b6fb5d9d25968059f96497badadcb347",
       "rendered_digest": "586e38d33f8a6a603cb7d97ad382e8e71f70ed7af6c6dc87d4f67b3dae322989",
       "ast_digest": "a4a0489007bb01dfac7046907d4343d64df3cd59f32755cc7c5c95356bca8042"
     },
     "vpp": {
-      "values_digest": "5c554fdc27dc3240ea7525b757f80ea0e920c890728128314b785d7314829043",
+      "values_digest": "70b7be70b57b0e0a1f70cb58f211c4bb2e78aacb4400becae1d28d870748d672",
       "rendered_digest": "a1a7323c68e7fd06f4d382d5ef3a048acb15099337eded25c4d1a43e9c78365f",
       "ast_digest": "396921d0280451333aac043dc11a899ab381ad50cc3ef61094ee2057d39ece61"
     },
     "srp": {
-      "values_digest": "d6060c3d7615a36f3be4105d43dee49c7b264ce8d4f8995bce03b87bb27519b8",
+      "values_digest": "e4d26a62e9cde4f03352205c66e73cde7415fc407b3fe9298f758ee5c8f65555",
       "rendered_digest": "cbb7dd10d44c030c590239976f70bc71790c2b1a634db2ac0d4c6828da2a7351",
       "ast_digest": "848d2046d03e7743382348d73e6a6dad11011baa7544dcfe5351c20a70c64e99"
     },
     "sor": {
-      "values_digest": "85853180b44772579f88881f449a0cd5d039fb6f7e5a3524829c7e025fa64f63",
+      "values_digest": "8dc1a966f549e903595421c05ce682eec235476175842aa531f3f5f4e2450dac",
       "rendered_digest": "16a60d949b41df26945dde9f5855f1009010119cd95092a39b11f6688bdb9b7a",
       "ast_digest": "1ae6ba98181d62b3ddc2d0131d3d29035724be5651d4475c131875d11d99600c"
     }
@@ -300,6 +300,27 @@
       "generation": 29,
       "actor": "codex:issue-414-implementation",
       "reason": "Recover failed exact-head review before enforcing one matching CSM capsule per resident and removing raw prompt/response workdir evidence from publication truth.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 29,
+      "actor": "codex:issue-414-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 30,
+      "actor": "codex:issue-414-implementation",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 31,
+      "actor": "codex:issue-414-implementation",
+      "reason": "Recover R20 before binding the retained llama runner to two real matching CSM agent specs, regenerating its current receipts, and correcting exact-range hygiene.",
       "operation": "recover_review"
     }
   ]

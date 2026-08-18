@@ -3,9 +3,14 @@
   "capacity_headroom_pass": true,
   "compilation_concurrent": false,
   "context_tokens": 8192,
+  "distinct_model_count": 1,
   "external_model_authoritative": false,
+  "focused_tests_passed": 6,
   "host_class": "reference",
   "instance_type": "reference-host",
+  "loaded_model_count": 1,
+  "logical_resident_count": 2,
+  "max_concurrent_inference": 1,
   "max_loaded_models": 1,
   "memory_mib": 65536,
   "model_capacity_headroom_mib": 65536,
@@ -22,7 +27,7 @@
     {
       "agent_id": "resident-1",
       "artifact_sha256": "46e0c10c039e019119339687c3c1757cc81b9da49709a3b3924863ba87ca666e",
-      "cold_latency_millis": 48367,
+      "cold_latency_millis": 41663,
       "completed_task_sha256": "e4c968c0a4bd6f88af716cb841f9e4940d0635a1a8fedae97098dc57566e3c58",
       "configuration_sha256": "566780f05d6acf0d0f118a87e7ffdc05ca5e1365d33ea1b60dd90a502ab80473",
       "continuation_request_sha256": "97964486b308aa9d379c327995aad762c058a0bb755b51286a450e4d95f4260a",
@@ -32,12 +37,12 @@
       "next_task_sha256": "568e99cb00d50260fd4b2b725b7e94b03365ff1bcc3dd9f960b8676463f71014",
       "ollama_rss_kib": -1,
       "quantization": "Q4_K_M",
-      "warm_latency_millis": 51016
+      "warm_latency_millis": 36437
     },
     {
       "agent_id": "resident-2",
       "artifact_sha256": "46e0c10c039e019119339687c3c1757cc81b9da49709a3b3924863ba87ca666e",
-      "cold_latency_millis": 44138,
+      "cold_latency_millis": 29428,
       "completed_task_sha256": "e4c968c0a4bd6f88af716cb841f9e4940d0635a1a8fedae97098dc57566e3c58",
       "configuration_sha256": "566780f05d6acf0d0f118a87e7ffdc05ca5e1365d33ea1b60dd90a502ab80473",
       "continuation_request_sha256": "97964486b308aa9d379c327995aad762c058a0bb755b51286a450e4d95f4260a",
@@ -47,7 +52,7 @@
       "next_task_sha256": "568e99cb00d50260fd4b2b725b7e94b03365ff1bcc3dd9f960b8676463f71014",
       "ollama_rss_kib": -1,
       "quantization": "Q4_K_M",
-      "warm_latency_millis": 43913
+      "warm_latency_millis": 39423
     }
   ],
   "rss_measurement": "unavailable_external_reference_server",
