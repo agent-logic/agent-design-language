@@ -12,7 +12,13 @@ Status: pre_phase
 
 ## Scope
 
-AGENTS.md, session coordination policy, focused validation, and issue-local lifecycle/design artifacts.
+AGENTS.md
+docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md
+docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md
+csdlc-v2/tests/gate_github_route_policy.rs
+.csdlc/issues/418
+.csdlc/prepared/issues/418
+.csdlc/evidence/418
 
 ## Prompts
 
@@ -31,12 +37,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted CI, publication, merge, typed finish, and post-merge cleanup remain required before the policy is terminal or usable.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:63ca54f3bfddd119f95bf59fb10aca6eca882169:1f540cd9545590cc5504dc2bbc98243b622b04e319665b273d65c7b6b6d286e0")
 
-Reviewer: None
+Reviewer: Some("fresh-session:2c478c55-383e-4789-b104-dab503cce109")
 
-Result: pre_review
+Result: pass

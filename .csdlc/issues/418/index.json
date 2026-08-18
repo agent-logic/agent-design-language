@@ -3,13 +3,44 @@
   "issue": 418,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "dbfd1abbebd4f9dc40467d98535511955f705aa769d4c5d8836050003b7623f5",
-  "phase": "implemented",
-  "generation": 6,
-  "digest": "f4325306fecda613a20453b43db7f676a37fa50019cf70ec05605d98accf8d42",
+  "phase": "reviewed",
+  "generation": 7,
+  "digest": "72ca8058aa385c39648d78b91103afe84f337635f4335ab877daed67700744e3",
   "branch": "codex/418-audited-gh-breakglass-policy",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-418-audited-gh-breakglass-policy",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:2c478c55-383e-4789-b104-dab503cce109",
+    "assigned_by": "codex:issue-418",
+    "revision": "git-blake3:63ca54f3bfddd119f95bf59fb10aca6eca882169:1f540cd9545590cc5504dc2bbc98243b622b04e319665b273d65c7b6b6d286e0",
+    "scope": [
+      "AGENTS.md",
+      "docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md",
+      "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
+      "csdlc-v2/tests/gate_github_route_policy.rs",
+      ".csdlc/issues/418",
+      ".csdlc/prepared/issues/418",
+      ".csdlc/evidence/418"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:2c478c55-383e-4789-b104-dab503cce109",
+    "scope": [
+      "AGENTS.md",
+      "docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md",
+      "docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md",
+      "csdlc-v2/tests/gate_github_route_policy.rs",
+      ".csdlc/issues/418",
+      ".csdlc/prepared/issues/418",
+      ".csdlc/evidence/418"
+    ],
+    "reviewed_revision": "git-blake3:63ca54f3bfddd119f95bf59fb10aca6eca882169:1f540cd9545590cc5504dc2bbc98243b622b04e319665b273d65c7b6b6d286e0",
+    "findings": [],
+    "residual_risks": [
+      "Hosted CI, publication, merge, typed finish, and post-merge cleanup remain required before the policy is terminal or usable."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +55,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "0bf7262d2c74a60f983ff208d62531715c65465eec3153b81b4b2a6c259ac454",
+      "values_digest": "9a4d0457e02b3794f7938772a0ce18922d8583ef35df635ab495e920694b07cd",
       "rendered_digest": "6d3735ae33b30c22165d2bbde42b368012920281adaa756bb7f88fdc9724d48f",
       "ast_digest": "e32572518542a417e6fa122f7c9171f42d0f88d3f500398ed1c2a48721d71b12"
     },
     "stp": {
-      "values_digest": "22d1db98e9d0da2df90932edba7cc15d6b7b659b64b7fa62c9fe1b88f00c5de4",
+      "values_digest": "3aeedafa5913d2ae00801fa6c3a22c23b03375820359c64f6c8d787209869e5d",
       "rendered_digest": "62cbad6591fd6ec41bf26a76ac79dc159fbd382e4a682c9ba135923b62f649a7",
       "ast_digest": "ca8f5972d24c5a253a1f9035e983739b02b13d45ce9d6ed85045cec06b62bae1"
     },
     "spp": {
-      "values_digest": "50e74a8cf11085c16c7196065b2475edfde48ace45e367ac6c6b4d1b570b66d1",
+      "values_digest": "7f3666bf2a65040e5e96a3825978d87170e7fa67bcc6a9185029958f8bbce094",
       "rendered_digest": "c46ecf37270047df68f4046b2bf69ae82a6951f2cb35c082553695b9158827cb",
       "ast_digest": "e852a40a6548bfe92f921a57866e45f4f707e10ad5f17f5751358c0a0e3ba63f"
     },
     "vpp": {
-      "values_digest": "89454da237c3e6aff463bfce4f7a8e9bf1fb0b75d89ac2817ae5b36bc53ddf8d",
+      "values_digest": "6d7921cd9a017dc8e615be78599e14414707e03a0be27298ea7fbc1fdfcd0e22",
       "rendered_digest": "f97f734532b5705f5e600ea974ae8c7d21a480d4f7e9d9990c6eddcf30f34148",
       "ast_digest": "4fcbe31c2d7d0a13d8e69f5f9bf1704d38750588cd4f119a1d741f9cb4462d72"
     },
     "srp": {
-      "values_digest": "26bea945c7d3ceada8bbd86b7e7bb214a3dac54026aaab7ea1261dfc3a3e7e8b",
-      "rendered_digest": "f9d9f508e8da27cce8b60485c62c568dc3ccc6f1e8c86239fd5e20b112db1951",
-      "ast_digest": "aaf520baea48dc1264a3e3c2791a6e5a71277b0f82cdbd795728a22948dd5824"
+      "values_digest": "1309218c6681e10d88b17fd7c3642ad9611a52f2787f868ed7ed4127b8377cfd",
+      "rendered_digest": "cd9f84ab9c129d04c68e13b9416694861f07edeecd965b8f37bed6cb0355decf",
+      "ast_digest": "bfd2f1f4de819f0893860938dca8451ab27690dcfff7c1a255a7cb9db6c691ea"
     },
     "sor": {
-      "values_digest": "2047c98eec8d3edfff83776e6c8d61e9ad354eb99819ed464863fa1e83f005f4",
+      "values_digest": "3c2e6e0069a75fcfa665719e7b421d09ef85ba76fa01cf78b993399dcaac1514",
       "rendered_digest": "a5ad8874c8e529178cbf38fdd053a0865714a5bf463fa985c1d053ef0928ee7a",
       "ast_digest": "c3014b306c4526e797ce8c66d9478094227d782fea47a45df7902a1be58c4803"
     }
@@ -75,6 +106,13 @@
       "to": "implemented",
       "actor": "codex:issue-418",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:issue-418",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -133,6 +171,20 @@
       "actor": "codex:issue-418",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:issue-418",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:issue-418",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

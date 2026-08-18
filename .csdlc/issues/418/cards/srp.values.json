@@ -7,15 +7,15 @@
     "title": "[v0.92][C-SDLC policy] Permit audited gh break-glass during confirmed typed regressions",
     "slug": "audited-gh-breakglass-policy",
     "version": "v0.92",
-    "generation": 6
+    "generation": 7
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "AGENTS.md, session coordination policy, focused validation, and issue-local lifecycle/design artifacts.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "AGENTS.md\ndocs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md\ndocs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md\ncsdlc-v2/tests/gate_github_route_policy.rs\n.csdlc/issues/418\n.csdlc/prepared/issues/418\n.csdlc/evidence/418",
+      "review_revision": "git-blake3:63ca54f3bfddd119f95bf59fb10aca6eca882169:1f540cd9545590cc5504dc2bbc98243b622b04e319665b273d65c7b6b6d286e0",
+      "reviewer": "fresh-session:2c478c55-383e-4789-b104-dab503cce109",
       "review_prompts": [
         "Can the exception be invoked without a reproducible typed-owner regression and exact explicit operator authorization?",
         "Does any wording permit merge, close, finish, cleanup, deletion, force, secret, workflow, release, administrative, or bulk operations?",
@@ -23,8 +23,10 @@
         "Is every later lifecycle claim frozen until typed reconciliation succeeds?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Hosted CI, publication, merge, typed finish, and post-merge cleanup remain required before the policy is terminal or usable."
+      ],
+      "review_result": "pass"
     }
   }
 }
