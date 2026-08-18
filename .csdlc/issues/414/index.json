@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "9e1cbce390fccdfb4d50654dd520ba265644fc9b5d2e59297e61befe2e6311e5",
   "phase": "implemented",
-  "generation": 31,
-  "digest": "62553d6d2af4c54e554f8b70be65ec74fcdc8ef8a1232f2da9a020bf21b64a76",
+  "generation": 36,
+  "digest": "fbe39cdfa187cc2b29470c40a60dad8d84e22e20d34d95381242ac38cbc708ea",
   "branch": "codex/414-resident-shepherd-spot-continuity",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-414-resident-shepherd-spot-continuity",
   "review_assignment": null,
@@ -16,40 +16,35 @@
   "migration": null,
   "design_path": ".csdlc/prepared/issues/414/design.md",
   "diagram_path": ".csdlc/prepared/issues/414/diagram.mmd",
-  "design_review": {
-    "approved": {
-      "reviewer": "fresh-session:8aee5120-00c5-496c-9b2d-37b5e62c1b3b",
-      "revision": "551c6412a9c7d1f7ac09c0d435759497816fa3f30d68de4050b8c25049c29746"
-    }
-  },
+  "design_review": "pending",
   "cards": {
     "sip": {
-      "values_digest": "2d66029d14c6791a29d5f6d81ac18137a7928c4e9183cefb249681342e88096a",
+      "values_digest": "fa4ca030d868f497fda5d89d7202f952bee2e281e2040f4a6a8819ff095aa70e",
       "rendered_digest": "a46bc46b66ce391e80992efb06f6647b266a69ab272b9d386ee2218c953a0f47",
       "ast_digest": "b00b065288707e4799ea84336611f03bba306bb52bc68f174fb2412bafad8bd8"
     },
     "stp": {
-      "values_digest": "27255701c4fe36ab4ae7eb4253454ef64d4a711596fb63967d4106a26e1f3188",
-      "rendered_digest": "a7537adadaf86b26eb880432058462ffa75aba343e8cd6b5b13dfc7539106197",
-      "ast_digest": "fcffc4c120fa877da45d88867faa7007b2d03e648ebebc962f22f6decb901dbb"
+      "values_digest": "becde397a72730c8b527265591cad35b6c21e72d997bb947391921bc1300dea8",
+      "rendered_digest": "0b4757d0195ad48ec6a9ad7291fb31864645ca032009b570c00d3786e86adfe6",
+      "ast_digest": "bab631934b03e6d4cc64ab0747d06d57ff160a33cb7291877bd348032c3b68aa"
     },
     "spp": {
-      "values_digest": "831ed42ee3eca9a9d82977590fcafd01b6fb5d9d25968059f96497badadcb347",
-      "rendered_digest": "586e38d33f8a6a603cb7d97ad382e8e71f70ed7af6c6dc87d4f67b3dae322989",
-      "ast_digest": "a4a0489007bb01dfac7046907d4343d64df3cd59f32755cc7c5c95356bca8042"
+      "values_digest": "48185a4820bd8c46a663ee27cb6da8ce138f90b1eb3ed98704d6bea29ca3fa4e",
+      "rendered_digest": "c6c94abeb31de9f621d81fb6916b5bc0444cdfee31b3eab6fb4968bc0d7aa9fc",
+      "ast_digest": "694579e2a4835bcc252260540cc45891a4dd3fd5de7d6511dd4040c302d6ddd8"
     },
     "vpp": {
-      "values_digest": "70b7be70b57b0e0a1f70cb58f211c4bb2e78aacb4400becae1d28d870748d672",
+      "values_digest": "8e89d7d6835333c8a0cfa2ce1e893153511548e4650209812eafebabebc8cbea",
       "rendered_digest": "a1a7323c68e7fd06f4d382d5ef3a048acb15099337eded25c4d1a43e9c78365f",
       "ast_digest": "396921d0280451333aac043dc11a899ab381ad50cc3ef61094ee2057d39ece61"
     },
     "srp": {
-      "values_digest": "e4d26a62e9cde4f03352205c66e73cde7415fc407b3fe9298f758ee5c8f65555",
+      "values_digest": "0335adb1eb60b24586c90d3ae2ae10ffbe75987375c10baf9da8a85d3da735af",
       "rendered_digest": "cbb7dd10d44c030c590239976f70bc71790c2b1a634db2ac0d4c6828da2a7351",
       "ast_digest": "848d2046d03e7743382348d73e6a6dad11011baa7544dcfe5351c20a70c64e99"
     },
     "sor": {
-      "values_digest": "8dc1a966f549e903595421c05ce682eec235476175842aa531f3f5f4e2450dac",
+      "values_digest": "dcaa01a45ee3b8058d806136d84088f1a6542a483c2ef92b7d3ccc6c70d499e8",
       "rendered_digest": "16a60d949b41df26945dde9f5855f1009010119cd95092a39b11f6688bdb9b7a",
       "ast_digest": "1ae6ba98181d62b3ddc2d0131d3d29035724be5651d4475c131875d11d99600c"
     }
@@ -322,6 +317,48 @@
       "actor": "codex:issue-414-implementation",
       "reason": "Recover R20 before binding the retained llama runner to two real matching CSM agent specs, regenerating its current receipts, and correcting exact-range hygiene.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 31,
+      "actor": "codex:issue-414-implementation",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 32,
+      "actor": "codex:issue-414-implementation",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 33,
+      "actor": "codex:issue-414-implementation",
+      "reason": "Recover R21 before restoring exact typed affected-area and deliverable parity for every candidate path.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 34,
+      "actor": "codex:issue-414-r21-remediation",
+      "reason": "Restore exact affected-area parity for Runtime-v2 snapshot consumption and removal of the rejected parallel resident authority.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/prepared/issues/414/design.md\",\".csdlc/prepared/issues/414/diagram.mmd\",\".csdlc/prepared/issues/414/design-bindings.json\",\".csdlc/prepared/issues/414/validate_preparation_bundle.py\",\".csdlc/issues/414\",\".csdlc/evidence/414\",\"adl-runtime-kernel/src/live_continuity.rs\",\"adl-runtime/src/agent_lifecycle.rs\",\"adl-runtime/src/bin/adl-runtime-resident-shepherd-continuity.rs\",\"adl-runtime/src/lib.rs\",\"adl-runtime/src/resident_shepherd_continuity.rs\",\"adl-runtime/tests/resident_shepherd_spot_continuity.rs\",\"adl/Cargo.toml\",\"adl/Cargo.lock\",\"adl/src/lib.rs\",\"adl/src/resident_shepherd_spot_continuity.rs\",\"adl/src/bin/adl_resident_shepherd_continuity.rs\",\"adl/src/runtime_v2/agent_lifecycle_state.rs\",\"adl/src/runtime_v2/citizen.rs\",\"adl/src/runtime_v2/contracts.rs\",\"adl/src/runtime_v2/snapshot.rs\",\"tools/aws_remote_validation/scripts/remote_validation_runner.sh\",\"tools/aws_remote_validation/src/aws_remote_validation.rs\",\"adl/tools/aws_spot_artifact_finalize.py\",\"adl/tools/test_aws_spot_artifact_finalize.sh\",\"adl/tools/run_aws_spot_remote_validation_lane.sh\",\"adl/tools/test_run_aws_spot_remote_validation_lane.sh\",\"adl/tools/run_issue414_cpu_shepherd_continuity.sh\",\"adl/tools/run_issue414_llama_baseline.sh\",\"adl/tools/issue414_spot_dehydrate_callback.sh\",\"adl/tools/issue414_restore_and_admit.sh\",\"adl/tools/issue414_s3_linux_bootstrap.py\",\"adl/tools/test_issue414_s3_linux_bootstrap.py\"]}"
+    },
+    {
+      "sequence": 40,
+      "generation": 35,
+      "actor": "codex:issue-414-r21-remediation",
+      "reason": "Restore exact deliverable parity for Runtime-v2 snapshot consumption and removal of the rejected parallel resident authority.",
+      "operation": "{\"new_values\":[\".csdlc/prepared/issues/414/design.md\",\".csdlc/prepared/issues/414/diagram.mmd\",\".csdlc/prepared/issues/414/design-bindings.json\",\".csdlc/prepared/issues/414/validate_preparation_bundle.py\",\".csdlc/issues/414\",\".csdlc/evidence/414\",\"adl-runtime-kernel/src/live_continuity.rs\",\"adl-runtime/src/agent_lifecycle.rs\",\"adl-runtime/src/bin/adl-runtime-resident-shepherd-continuity.rs\",\"adl-runtime/src/lib.rs\",\"adl-runtime/src/resident_shepherd_continuity.rs\",\"adl-runtime/tests/resident_shepherd_spot_continuity.rs\",\"adl/Cargo.toml\",\"adl/Cargo.lock\",\"adl/src/lib.rs\",\"adl/src/resident_shepherd_spot_continuity.rs\",\"adl/src/bin/adl_resident_shepherd_continuity.rs\",\"adl/src/runtime_v2/agent_lifecycle_state.rs\",\"adl/src/runtime_v2/citizen.rs\",\"adl/src/runtime_v2/contracts.rs\",\"adl/src/runtime_v2/snapshot.rs\",\"tools/aws_remote_validation/scripts/remote_validation_runner.sh\",\"tools/aws_remote_validation/src/aws_remote_validation.rs\",\"adl/tools/aws_spot_artifact_finalize.py\",\"adl/tools/test_aws_spot_artifact_finalize.sh\",\"adl/tools/run_aws_spot_remote_validation_lane.sh\",\"adl/tools/test_run_aws_spot_remote_validation_lane.sh\",\"adl/tools/run_issue414_cpu_shepherd_continuity.sh\",\"adl/tools/run_issue414_llama_baseline.sh\",\"adl/tools/issue414_spot_dehydrate_callback.sh\",\"adl/tools/issue414_restore_and_admit.sh\",\"adl/tools/issue414_s3_linux_bootstrap.py\",\"adl/tools/test_issue414_s3_linux_bootstrap.py\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\".csdlc/prepared/issues/414/design.md\",\".csdlc/prepared/issues/414/diagram.mmd\",\".csdlc/prepared/issues/414/design-bindings.json\",\".csdlc/prepared/issues/414/validate_preparation_bundle.py\",\".csdlc/issues/414\",\".csdlc/evidence/414\",\"adl-runtime-kernel/src/live_continuity.rs\",\"adl-runtime/src/lib.rs\",\"adl/Cargo.toml\",\"adl/Cargo.lock\",\"adl/src/lib.rs\",\"adl/src/resident_shepherd_spot_continuity.rs\",\"adl/src/bin/adl_resident_shepherd_continuity.rs\",\"adl/src/runtime_v2/agent_lifecycle_state.rs\",\"adl/src/runtime_v2/citizen.rs\",\"adl/src/runtime_v2/contracts.rs\",\"tools/aws_remote_validation/scripts/remote_validation_runner.sh\",\"tools/aws_remote_validation/src/aws_remote_validation.rs\",\"adl/tools/aws_spot_artifact_finalize.py\",\"adl/tools/test_aws_spot_artifact_finalize.sh\",\"adl/tools/run_aws_spot_remote_validation_lane.sh\",\"adl/tools/test_run_aws_spot_remote_validation_lane.sh\",\"adl/tools/run_issue414_cpu_shepherd_continuity.sh\",\"adl/tools/run_issue414_llama_baseline.sh\",\"adl/tools/issue414_spot_dehydrate_callback.sh\",\"adl/tools/issue414_restore_and_admit.sh\",\"adl/tools/issue414_s3_linux_bootstrap.py\",\"adl/tools/test_issue414_s3_linux_bootstrap.py\"],\"recovery_generation\":33,\"recovery_sequence\":38}"
+    },
+    {
+      "sequence": 41,
+      "generation": 36,
+      "actor": "codex:issue-414-r22-remediation",
+      "reason": "{\"disposition\":\"superseded_by_fresh_post_parity_authored_review\",\"false_reviewer\":\"fresh-session:8aee5120-00c5-496c-9b2d-37b5e62c1b3b\",\"previous_approval\":{\"reviewer\":\"fresh-session:8aee5120-00c5-496c-9b2d-37b5e62c1b3b\",\"revision\":\"551c6412a9c7d1f7ac09c0d435759497816fa3f30d68de4050b8c25049c29746\"},\"reason\":\"Invalidate the pre-parity design approval after adding the exact owned-path inventory required by R21 and authored R22.\"}",
+      "operation": "recover_design_review"
     }
   ]
 }

@@ -7,13 +7,13 @@
     "title": "[v0.92][runtime-v3][integration] Wire resident Shepherd continuity into Spot reclamation",
     "slug": "resident-shepherd-spot-continuity",
     "version": "v0.92",
-    "generation": 31
+    "generation": 36
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 10,
+      "plan_revision": 11,
       "summary": "Validate and review the reuse-first packet, bind #414, implement the smallest resident/Spot bridge, prove complete population recovery and multi-resident CPU habitability locally, obtain fresh exact-head review, publish, observe CI, and finish if green.",
       "steps": [
         {
@@ -75,7 +75,11 @@
         ".csdlc/issues/414",
         ".csdlc/evidence/414",
         "adl-runtime-kernel/src/live_continuity.rs",
+        "adl-runtime/src/agent_lifecycle.rs",
+        "adl-runtime/src/bin/adl-runtime-resident-shepherd-continuity.rs",
         "adl-runtime/src/lib.rs",
+        "adl-runtime/src/resident_shepherd_continuity.rs",
+        "adl-runtime/tests/resident_shepherd_spot_continuity.rs",
         "adl/Cargo.toml",
         "adl/Cargo.lock",
         "adl/src/lib.rs",
@@ -84,6 +88,7 @@
         "adl/src/runtime_v2/agent_lifecycle_state.rs",
         "adl/src/runtime_v2/citizen.rs",
         "adl/src/runtime_v2/contracts.rs",
+        "adl/src/runtime_v2/snapshot.rs",
         "tools/aws_remote_validation/scripts/remote_validation_runner.sh",
         "tools/aws_remote_validation/src/aws_remote_validation.rs",
         "adl/tools/aws_spot_artifact_finalize.py",

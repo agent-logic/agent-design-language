@@ -23,7 +23,11 @@ Implement only the resident adapter, interruption/storage/restore bridge, and tr
 - .csdlc/issues/414
 - .csdlc/evidence/414
 - adl-runtime-kernel/src/live_continuity.rs
+- adl-runtime/src/agent_lifecycle.rs
+- adl-runtime/src/bin/adl-runtime-resident-shepherd-continuity.rs
 - adl-runtime/src/lib.rs
+- adl-runtime/src/resident_shepherd_continuity.rs
+- adl-runtime/tests/resident_shepherd_spot_continuity.rs
 - adl/Cargo.toml
 - adl/Cargo.lock
 - adl/src/lib.rs
@@ -32,6 +36,7 @@ Implement only the resident adapter, interruption/storage/restore bridge, and tr
 - adl/src/runtime_v2/agent_lifecycle_state.rs
 - adl/src/runtime_v2/citizen.rs
 - adl/src/runtime_v2/contracts.rs
+- adl/src/runtime_v2/snapshot.rs
 - tools/aws_remote_validation/scripts/remote_validation_runner.sh
 - tools/aws_remote_validation/src/aws_remote_validation.rs
 - adl/tools/aws_spot_artifact_finalize.py
