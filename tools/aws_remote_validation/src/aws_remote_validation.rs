@@ -1975,6 +1975,12 @@ fn build_remote_command_script(config: &AwsRemoteValidationConfig) -> String {
     } else {
         "0"
     };
+    let retained_volume_role =
+        if config.cache_volume_mount_path.as_deref() == Some("/mnt/adl-runtime-continuity") {
+            "runtime_continuity"
+        } else {
+            "build_cache"
+        };
     format!(
         r#"set -euo pipefail
 RUN_ROOT={run_root}
@@ -2032,6 +2038,7 @@ export ADL_NEXTEST_TARBALL_URL={nextest_tarball_url}
 export ADL_CACHE_VOLUME_ENABLED="{cache_volume_enabled}"
 export ADL_CACHE_VOLUME_DEVICE_NAME={cache_volume_device_name}
 export ADL_CACHE_VOLUME_MOUNT_PATH={cache_volume_mount_path}
+export ADL_RETAINED_VOLUME_ROLE={retained_volume_role}
 export ADL_NEEDS_NEXTEST="{needs_nextest}"
 export ADL_REGION={region}
 
@@ -2050,6 +2057,7 @@ bash "$CHECKOUT_DIR/tools/aws_remote_validation/scripts/remote_validation_runner
         cache_volume_enabled = cache_volume_enabled_flag,
         cache_volume_device_name = escaped_cache_volume_device_name,
         cache_volume_mount_path = escaped_cache_volume_mount_path,
+        retained_volume_role = shell_single_quote(retained_volume_role),
         needs_nextest = needs_nextest,
         command = escaped_command,
         region = shell_single_quote(&config.region),
@@ -4812,6 +4820,23 @@ mod tests {
         assert!(
             tracked_runner.contains("if [ \"$CURRENT_PERSISTENT_COMMIT\" != \"$SOURCE_COMMIT\" ]")
         );
+    }
+
+    #[test]
+    fn retained_runtime_volume_is_not_reused_as_build_cache() {
+        let tmp = std::env::temp_dir().join(format!(
+            "adl-aws-remote-validation-runtime-volume-{}",
+            std::process::id()
+        ));
+        let mut config = sample_config(&tmp);
+        config.cache_volume_mount_path = Some("/mnt/adl-runtime-continuity".to_string());
+        let script = build_remote_command_script(&config);
+        assert!(script.contains("export ADL_RETAINED_VOLUME_ROLE='runtime_continuity'"));
+
+        let tracked_runner = include_str!("../scripts/remote_validation_runner.sh");
+        assert!(tracked_runner.contains("ADL_RUNTIME_CONTINUITY_ROOT"));
+        assert!(tracked_runner.contains(".adl-volume-role"));
+        assert!(tracked_runner.contains("ADL_CACHE_VOLUME_MOUNT_PATH=\"$WORK_ROOT/build-cache\""));
     }
 
     #[test]

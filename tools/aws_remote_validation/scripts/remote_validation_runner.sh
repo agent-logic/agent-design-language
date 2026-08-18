@@ -52,30 +52,40 @@ if [ "${ADL_CACHE_VOLUME_ENABLED:-0}" = "1" ]; then
   CACHE_OWNER_USER="$(id -un)"
   CACHE_OWNER_GROUP="$(id -gn)"
   sudo chown "$CACHE_OWNER_USER":"$CACHE_OWNER_GROUP" "$CACHE_VOLUME_MOUNT_PATH"
-  TOOLCHAIN_ROOT="$CACHE_VOLUME_MOUNT_PATH/adl-aws-remote-validation/shared"
-  WORK_ROOT="$CACHE_VOLUME_MOUNT_PATH/adl-aws-remote-validation/runs/${ADL_RUN_ID}"
-  TARGET_DIR="$TOOLCHAIN_ROOT/target"
-  SCCACHE_DIR="$TOOLCHAIN_ROOT/sccache"
-  CARGO_HOME_DIR="$TOOLCHAIN_ROOT/cargo-home"
-  RUSTUP_HOME_DIR="$TOOLCHAIN_ROOT/rustup-home"
+  if [ "${ADL_RETAINED_VOLUME_ROLE:-build_cache}" = "runtime_continuity" ]; then
+    ADL_RUNTIME_CONTINUITY_ROOT="$CACHE_VOLUME_MOUNT_PATH/runtime"
+    mkdir -p "$ADL_RUNTIME_CONTINUITY_ROOT"
+    printf '%s\n' "runtime_continuity" > "$CACHE_VOLUME_MOUNT_PATH/.adl-volume-role"
+    export ADL_RUNTIME_CONTINUITY_ROOT
+    ADL_CACHE_VOLUME_MOUNT_PATH="$WORK_ROOT/build-cache"
+    mkdir -p "$ADL_CACHE_VOLUME_MOUNT_PATH"
+    export ADL_CACHE_VOLUME_MOUNT_PATH
+  else
+    TOOLCHAIN_ROOT="$CACHE_VOLUME_MOUNT_PATH/adl-aws-remote-validation/shared"
+    WORK_ROOT="$CACHE_VOLUME_MOUNT_PATH/adl-aws-remote-validation/runs/${ADL_RUN_ID}"
+    TARGET_DIR="$TOOLCHAIN_ROOT/target"
+    SCCACHE_DIR="$TOOLCHAIN_ROOT/sccache"
+    CARGO_HOME_DIR="$TOOLCHAIN_ROOT/cargo-home"
+    RUSTUP_HOME_DIR="$TOOLCHAIN_ROOT/rustup-home"
 
-  EPHEMERAL_CHECKOUT="$ADL_REMOTE_REPO_DIR"
-  SOURCE_COMMIT="$(git -C "$EPHEMERAL_CHECKOUT" rev-parse HEAD)"
-  PERSISTENT_CHECKOUT="$TOOLCHAIN_ROOT/source/agent-design-language"
-  mkdir -p "$(dirname "$PERSISTENT_CHECKOUT")"
-  if [ ! -d "$PERSISTENT_CHECKOUT/.git" ]; then
-    git clone "$EPHEMERAL_CHECKOUT" "$PERSISTENT_CHECKOUT" >/tmp/adl-persistent-clone.log 2>&1
+    EPHEMERAL_CHECKOUT="$ADL_REMOTE_REPO_DIR"
+    SOURCE_COMMIT="$(git -C "$EPHEMERAL_CHECKOUT" rev-parse HEAD)"
+    PERSISTENT_CHECKOUT="$TOOLCHAIN_ROOT/source/agent-design-language"
+    mkdir -p "$(dirname "$PERSISTENT_CHECKOUT")"
+    if [ ! -d "$PERSISTENT_CHECKOUT/.git" ]; then
+      git clone "$EPHEMERAL_CHECKOUT" "$PERSISTENT_CHECKOUT" >/tmp/adl-persistent-clone.log 2>&1
+    fi
+    CURRENT_PERSISTENT_COMMIT="$(git -C "$PERSISTENT_CHECKOUT" rev-parse HEAD 2>/dev/null || true)"
+    if [ "$CURRENT_PERSISTENT_COMMIT" != "$SOURCE_COMMIT" ]; then
+      git -C "$PERSISTENT_CHECKOUT" fetch "$EPHEMERAL_CHECKOUT" "$SOURCE_COMMIT" \
+        >/tmp/adl-persistent-fetch.log 2>&1
+      git -C "$PERSISTENT_CHECKOUT" checkout --detach --force "$SOURCE_COMMIT" \
+        >/tmp/adl-persistent-checkout.log 2>&1
+    fi
+    git -C "$PERSISTENT_CHECKOUT" clean -ffd >/tmp/adl-persistent-clean.log 2>&1
+    ADL_REMOTE_REPO_DIR="$PERSISTENT_CHECKOUT"
+    export ADL_REMOTE_REPO_DIR
   fi
-  CURRENT_PERSISTENT_COMMIT="$(git -C "$PERSISTENT_CHECKOUT" rev-parse HEAD 2>/dev/null || true)"
-  if [ "$CURRENT_PERSISTENT_COMMIT" != "$SOURCE_COMMIT" ]; then
-    git -C "$PERSISTENT_CHECKOUT" fetch "$EPHEMERAL_CHECKOUT" "$SOURCE_COMMIT" \
-      >/tmp/adl-persistent-fetch.log 2>&1
-    git -C "$PERSISTENT_CHECKOUT" checkout --detach --force "$SOURCE_COMMIT" \
-      >/tmp/adl-persistent-checkout.log 2>&1
-  fi
-  git -C "$PERSISTENT_CHECKOUT" clean -ffd >/tmp/adl-persistent-clean.log 2>&1
-  ADL_REMOTE_REPO_DIR="$PERSISTENT_CHECKOUT"
-  export ADL_REMOTE_REPO_DIR
 fi
 
 mkdir -p "$RUN_ROOT" "$PROGRESS_ROOT" "$WORK_ROOT" "$TARGET_DIR" "$SCCACHE_DIR" "$CARGO_HOME_DIR" "$RUSTUP_HOME_DIR"
