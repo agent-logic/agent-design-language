@@ -4020,6 +4020,24 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
                 "post-recovery card correction requires current typed recorded-review recovery provenance and cleared review, publication, readiness, and terminal truth",
             ));
         }
+        let operation_name = match request.operation {
+            SemanticOperation::CorrectStpDependenciesAfterRecovery { .. } => {
+                "correct_stp_dependencies_after_recovery"
+            }
+            SemanticOperation::CorrectStpRepoInputsAfterRecovery { .. } => {
+                "correct_stp_repo_inputs_after_recovery"
+            }
+            SemanticOperation::CorrectPlanStepsAfterRecovery { .. } => {
+                "correct_plan_steps_after_recovery"
+            }
+            _ => unreachable!("post-recovery correction operation"),
+        };
+        if recovery_epoch_already_contains_operation(&record, operation_name) {
+            return Err(V2Error::new(
+                ErrorCode::InvalidTransition,
+                format!("{operation_name} is already recorded for this review recovery epoch"),
+            ));
+        }
     }
     if matches!(
         request.operation,
@@ -6511,6 +6529,25 @@ fn recovery_follows_recorded_review(record: &IssueRecord, recovery_sequence: u64
             )
         })
         .is_some_and(|event| event.operation == "record_review")
+}
+
+fn recovery_epoch_already_contains_operation(record: &IssueRecord, operation_name: &str) -> bool {
+    let Some(recovery) = record
+        .audit
+        .iter()
+        .rev()
+        .find(|event| event.operation == "recover_review")
+    else {
+        return false;
+    };
+    record
+        .audit
+        .iter()
+        .filter(|event| event.sequence > recovery.sequence)
+        .any(|event| {
+            recovery_epoch_operation_name(&event.operation)
+                .is_some_and(|candidate| candidate == operation_name)
+        })
 }
 
 fn sor_contains_execution_evidence(cards: &BTreeMap<CardKind, CardValues>) -> bool {

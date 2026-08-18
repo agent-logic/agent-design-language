@@ -5013,6 +5013,24 @@ fn recovered_implemented_issue_can_correct_stp_dependencies_after_recorded_revie
     assert_eq!(audit["new_values"], serde_json::json!(replacement));
     assert!(audit["recovery_sequence"].as_u64().is_some());
     assert!(audit["recovery_generation"].as_u64().is_some());
+
+    let repeat = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Stp,
+            expected_generation: corrected.generation,
+            expected_digest: corrected.digest,
+            actor: "operator".into(),
+            reason: "same recovery epoch must not authorize a second dependency repair".into(),
+            operation: SemanticOperation::CorrectStpDependenciesAfterRecovery {
+                values: vec!["#271 terminal and canonical".into()],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("same recovery epoch must not authorize repeated dependency repair");
+    assert_eq!(repeat.code, ErrorCode::InvalidTransition);
 }
 
 #[test]
@@ -5212,6 +5230,24 @@ fn recovered_implemented_issue_can_correct_stp_repo_inputs_after_recorded_review
     assert_eq!(audit["new_values"], serde_json::json!(replacement));
     assert!(audit["recovery_sequence"].as_u64().is_some());
     assert!(audit["recovery_generation"].as_u64().is_some());
+
+    let repeat = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Stp,
+            expected_generation: corrected.generation,
+            expected_digest: corrected.digest,
+            actor: "operator".into(),
+            reason: "same recovery epoch must not authorize a second repo input repair".into(),
+            operation: SemanticOperation::CorrectStpRepoInputsAfterRecovery {
+                values: vec![".csdlc/issues/271".into()],
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("same recovery epoch must not authorize repeated repo input repair");
+    assert_eq!(repeat.code, ErrorCode::InvalidTransition);
 }
 
 #[test]
@@ -5416,6 +5452,24 @@ fn recovered_implemented_issue_can_correct_spp_step_status_after_recorded_review
     assert_eq!(audit["new_steps"], serde_json::json!(replacement));
     assert!(audit["recovery_sequence"].as_u64().is_some());
     assert!(audit["recovery_generation"].as_u64().is_some());
+
+    let repeat = edit_issue(
+        &store,
+        EditRequest {
+            issue: 7,
+            card: CardKind::Spp,
+            expected_generation: corrected.generation,
+            expected_digest: corrected.digest,
+            actor: "operator".into(),
+            reason: "same recovery epoch must not authorize a second plan-step repair".into(),
+            operation: SemanticOperation::CorrectPlanStepsAfterRecovery {
+                steps: replacement.clone(),
+            },
+            fail_after_backup: false,
+        },
+    )
+    .expect_err("same recovery epoch must not authorize repeated plan-step repair");
+    assert_eq!(repeat.code, ErrorCode::InvalidTransition);
 }
 
 #[test]
@@ -5423,6 +5477,7 @@ fn public_edit_schema_exposes_implemented_recovery_card_repairs() {
     let schema = csdlc_v2::public_schema_bundle()["edit_request"].to_string();
     for operation in [
         "correct_stp_dependencies_after_recovery",
+        "correct_stp_repo_inputs_after_recovery",
         "correct_plan_steps_after_recovery",
     ] {
         assert!(
