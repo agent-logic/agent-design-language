@@ -36,3 +36,4 @@
 {"sequence":36,"generation":25,"actor":"codex:planning2-issue273-owner","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":37,"generation":26,"actor":"codex:planning2-issue273-owner","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":38,"generation":27,"actor":"codex:planning2-issue273-owner","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":39,"generation":28,"actor":"codex-worker-4-closeout","reason":"Materialize live GitHub terminal truth for merged PR #339 before cleanup.","operation":"materialize_derived_terminal"}
