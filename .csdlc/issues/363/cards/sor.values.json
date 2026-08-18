@@ -7,9 +7,9 @@
     "title": "[C-SDLC v2][defect] Permit sequenced implemented plan-summary repair after review recovery",
     "slug": "implemented-plan-summary-recovery-epoch",
     "version": "v0.92",
-    "generation": 10
+    "generation": 11
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -66,10 +66,10 @@
           "evidence_ref": "no output at source aabed8b81"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }
