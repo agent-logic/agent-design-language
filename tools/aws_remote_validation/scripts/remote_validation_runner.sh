@@ -118,6 +118,7 @@ on_error() {
   emit_debug_log nextest_install /tmp/adl-nextest-install.log
   emit_debug_log command_stdout "$RUN_ROOT/command.log"
   emit_debug_log command_stderr "$RUN_ROOT/command.err"
+  emit_debug_log builder_toolchain "$RUN_ROOT/builder-toolchain.log"
   emit_debug_log sccache_stats "$RUN_ROOT/sccache-stats.log"
   exit "$exit_code"
 }
@@ -427,6 +428,10 @@ set +e
 COMMAND_EXIT="$?"
 set -e
 COMMAND_END="$(date +%s)"
+# Builder failures are captured under set +e, so ERR does not run. Emit the
+# retained redacted diagnostic on the normal path without changing command,
+# summary, or cleanup authority.
+emit_debug_log builder_toolchain "$RUN_ROOT/builder-toolchain.log" || true
 kill "$WATCH_PID" >/dev/null 2>&1 || true
 wait "$WATCH_PID" >/dev/null 2>&1 || true
 if [ -n "$SCCACHE_WATCH_PID" ]; then

@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 415,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][AWS tooling][defect] Retain exact remote builder preflight failure diagnostics",
+    "slug": "builder-preflight-diagnostics",
+    "version": "v0.92",
+    "generation": 7
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/415\n.csdlc/prepared/issues/415\n.csdlc/evidence/415\nadl/tools/run_aws_spot_builder_image_validation.sh\nadl/tools/test_run_aws_spot_builder_image_validation.sh\ntools/aws_remote_validation/scripts/remote_validation_runner.sh",
+      "review_revision": "git-blake3:78112644e520b52e8f221645d570d0c30bbf84ef:32d971bd2da7f7af4a5e77b3e37c9038d9300fd8172eb2631a35864db2c2421c",
+      "reviewer": "fresh-session:3c69e04a-000a-402d-b62a-7b9d865553f1",
+      "review_prompts": [
+        "Does every required tool/check produce an individually attributable retained diagnostic?",
+        "Can early exit 127 preserve exact redacted output and identify the missing executable?",
+        "Are success compatibility and exact cleanup semantics unchanged?",
+        "Are AWS, #268, and #269 strictly outside execution scope?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "No live AWS validation ran because issue #415 explicitly prohibits paid launch; the deterministic local runner and fake-provider fixtures are the proving boundary."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

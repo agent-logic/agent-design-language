@@ -1,0 +1,49 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 415,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][AWS tooling][defect] Retain exact remote builder preflight failure diagnostics",
+    "slug": "builder-preflight-diagnostics",
+    "version": "v0.92",
+    "generation": 7
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Issue #415 builder diagnostics prerequisite only.",
+      "deliverables": [
+        "Individually labeled builder preflight checks.",
+        "Atomic redacted retained builder-toolchain log.",
+        "Exact failed-check diagnostic with exit status.",
+        "Simulated missing-tool regression and runner retention contract."
+      ],
+      "acceptance_criteria": [
+        "AC-1: Every builder preflight check has a stable label and records its exit status.",
+        "AC-2: Early failure retains exact redacted stdout, stderr, and toolchain diagnostics in portable artifacts while removing raw temporary captures.",
+        "AC-3: The owner summary identifies the precise failed check and missing executable rather than only stage plus exit 127.",
+        "AC-4: Existing exact-owner instance, IAM, security-group, and zero-resource cleanup semantics remain unchanged.",
+        "AC-5: Focused tests simulate a missing executable, dynamically prove normal-path runner emission and raw-capture removal, and prove missing diagnostic emission cannot block summary or cleanup compatibility.",
+        "AC-6: Fresh exact-head review, required CI, merge, typed finish, terminal cache, and ancestry complete before #268 retries."
+      ],
+      "dependencies": [
+        "Blocks #268 paid retry.",
+        "Consumes the completed #268 failure observation without claiming which executable was previously missing."
+      ],
+      "repo_inputs": [
+        "GitHub issue #415",
+        "adl/tools/run_aws_spot_builder_image_validation.sh",
+        "adl/tools/test_run_aws_spot_builder_image_validation.sh",
+        "tools/aws_remote_validation/scripts/remote_validation_runner.sh"
+      ],
+      "non_goals": [
+        "Running or retrying #268.",
+        "Executing #269.",
+        "Changing provider, instance, image, or cleanup policy.",
+        "Speculating about the executable missing in the completed paid attempt."
+      ]
+    }
+  }
+}
