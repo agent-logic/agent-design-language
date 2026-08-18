@@ -7,9 +7,9 @@
     "title": "[v0.92][WP-04.16b3.1b][defect] Seal Observatory transition intent and full canonical time",
     "slug": "observatory-transition-intent-time",
     "version": "v0.92",
-    "generation": 16
+    "generation": 17
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -63,10 +63,10 @@
           "evidence_ref": "clippy.log"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }

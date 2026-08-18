@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.16b3.1b][defect] Seal Observatory transition intent and full canonical time",
     "slug": "observatory-transition-intent-time",
     "version": "v0.92",
-    "generation": 16
+    "generation": 17
   },
   "status": "ready",
   "content": {
@@ -25,7 +25,7 @@
             "AC-3",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -37,7 +37,7 @@
             "AC-4",
             "AC-5"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -45,7 +45,7 @@
           "acceptance_ids": [
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [
