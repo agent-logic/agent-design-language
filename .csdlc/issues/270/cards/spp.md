@@ -54,7 +54,7 @@ Revision 2
       "AC-6",
       "AC-7"
     ],
-    "status": "in_progress"
+    "status": "completed"
   }
 ]
 

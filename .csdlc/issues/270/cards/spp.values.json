@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18C.02c][112.c] Define and serve trusted recipient-acknowledgement Runtime API protocol",
     "slug": "v0-92-wp-18c-02c-112-c-trusted-recipient-acknowledgement-runtime-api",
     "version": "v0.92.0",
-    "generation": 26
+    "generation": 27
   },
   "status": "ready",
   "content": {
@@ -49,7 +49,7 @@
             "AC-6",
             "AC-7"
           ],
-          "status": "in_progress"
+          "status": "completed"
         }
       ],
       "affected_areas": [
