@@ -33,6 +33,35 @@ The typed `csdlc-validate finalize` request at generation 11 re-ran and recorded
   - Result: PASS
   - Log: `.csdlc/evidence/340/340-typed-validate.log`
 
+## Post-review repair proof
+
+Fresh reviewer `fresh-session:07a4715e-f5e9-496c-a48e-ef3d04488ac8` returned two actionable findings against commit `593507f943111b6bacfba4edfb4dc5ee7aeb2f1b`:
+
+- P2: HTML live mode accepted a non-200 `/v1/observatory` response because it checked `Response.ok` instead of exact `status === 200`.
+- P3: `CSMctl urls/start` could print a stale default Observatory URL after the Observatory server fell back from port 8765 to 8766.
+
+Repairs:
+
+- `demos/html-observatory/app.js` now requires `/v1/observatory` to return exact HTTP 200 before live snapshot creation.
+- `adl/tools/test_html_observatory.sh` now rejects a 204 `/v1/observatory` response even when `/v1/ready` and `/v1/health` return 200.
+- `CSMctl urls_cmd` reloads persisted Observatory state before printing URLs.
+- `adl/tools/validate_v092_observatory_restart_reconnect.sh` asserts `CSMctl urls` reports the persisted fallback Observatory URL and Runtime API base.
+- `adl-runtime/tests/runtime_api_wss.rs` pins the CSMctl persisted-state reload contract.
+
+Post-repair validation:
+
+- `bash adl/tools/validate_v092_observatory_restart_reconnect.sh --contract`
+  - Result: PASS
+- `cargo test --manifest-path adl-runtime/Cargo.toml --test runtime_api_wss`
+  - Result: PASS, `3 passed; 0 failed`
+- `cargo fmt --manifest-path adl-runtime/Cargo.toml --check`
+  - Result: PASS
+- `git diff --check -- CSMctl adl/tools/test_html_observatory.sh demos/html-observatory/app.js adl/tools/validate_v092_observatory_restart_reconnect.sh adl-runtime/tests/runtime_api_wss.rs .csdlc/issues/340 .csdlc/prepared/issues/340`
+  - Result: PASS
+- `bash adl/tools/validate_v092_observatory_restart_reconnect.sh --live`
+  - Result: PASS
+  - Evidence: when port 8765 was unavailable, `CSMctl observatory=https://localhost:8766/index.html?runtime=v3&runtimeApiBase=https://localhost:20997&live=1` was reported before and after Runtime restart.
+
 ## Exposed-route coverage
 
 The issue-owned live validator probes the documented non-mutating Runtime v3/OpenAPI surface used by the HTML Observatory:

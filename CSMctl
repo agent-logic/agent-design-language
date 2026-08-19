@@ -874,6 +874,7 @@ quarantine_continuity_state() {
 }
 
 urls_cmd() {
+  load_observatory_state || true
   info "runtime=$RUNTIME_BASE"
   info "observatory=$OBSERVATORY_URL"
   info "observatory_runtime_api_base=$OBSERVATORY_RUNTIME_BASE"

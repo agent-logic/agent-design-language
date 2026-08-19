@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implement bounded HTML Observatory Runtime v3 launch/start-stop-restart integration with CSMctl-managed local service proof and documented exposed-route coverage.
+Implemented bounded HTML Observatory Runtime v3 launch/start-stop-restart integration, then repaired fresh-review findings requiring exact HTTP 200 live Observatory gating and persisted fallback Observatory URL reporting.
 
 ## Artifacts
 
@@ -27,14 +27,50 @@ Implement bounded HTML Observatory Runtime v3 launch/start-stop-restart integrat
 
 ## Execution
 
-- CSMctl static Observatory serving maps '/' to '/index.html' and persists both OBSERVATORY_RUNTIME_BASE and OBSERVATORY_URL so the launched UI points at the configured Runtime API target.
-- HTML Observatory Runtime v3 live mode now requires /v1/observatory, /v1/ready, and /v1/health to return HTTP 200 before live data is shown.
-- The #340 validator proves static contract mode, live local CSMctl startup, graceful stop cleanup, restart recovery, local TLS probing, and documented exposed route categories.
-- Focused Runtime API/WSS tests bind OpenAPI docs, validator route coverage, strict live-data gating, and CSMctl root/runtime-base behavior.
+- CSMctl static Observatory serving maps '/' to '/index.html', persists Runtime/Observatory URL state, and reloads that state before printing URLs so fallback ports are reported truthfully.
+- HTML Observatory Runtime v3 live mode now requires /v1/observatory, /v1/ready, and /v1/health to return exact HTTP 200 before live data is shown.
+- The #340 validator proves static contract mode, live local CSMctl startup, graceful stop cleanup, restart recovery, local TLS probing, documented exposed route categories, and persisted fallback URL reporting.
+- Focused Runtime API/WSS tests bind OpenAPI docs, validator route coverage, strict live-data gating, CSMctl root/runtime-base behavior, and CSMctl persisted-state URL reload behavior.
+- Post-review P2/P3 findings from fresh-session:07a4715e-f5e9-496c-a48e-ef3d04488ac8 were repaired without absorbing Unity, AWS/public, provider, #341, #343, #84, #122, or #251 scope.
 
 ## Validation
 
 [
+  {
+    "command": [
+      "bash",
+      "adl/tools/validate_v092_observatory_restart_reconnect.sh",
+      "--contract"
+    ],
+    "purpose": "Post-review contract proof for exact /v1/observatory HTTP 200 live gating and CSMctl persisted-state reload contract.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/340/proof-summary.md"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--test",
+      "runtime_api_wss"
+    ],
+    "purpose": "Post-review focused Runtime API/WSS contract tests for OpenAPI route split, validator route coverage, strict live-data gating, and CSMctl persisted-state URL reload behavior.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/340/proof-summary.md"
+  },
+  {
+    "command": [
+      "cargo",
+      "fmt",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--check"
+    ],
+    "purpose": "Post-review Rust formatting check for the focused integration test.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/340/proof-summary.md"
+  },
   {
     "command": [
       "git",
@@ -49,19 +85,9 @@ Implement bounded HTML Observatory Runtime v3 launch/start-stop-restart integrat
       ".csdlc/issues/340",
       ".csdlc/prepared/issues/340"
     ],
-    "purpose": "Run git diff hygiene check over #340 touched paths.",
+    "purpose": "Post-review whitespace and conflict-marker hygiene across #340 touched paths.",
     "outcome": "passed",
-    "evidence_ref": "340-diff-hygiene.log"
-  },
-  {
-    "command": [
-      "bash",
-      "adl/tools/validate_v092_observatory_restart_reconnect.sh",
-      "--contract"
-    ],
-    "purpose": "Run the #340 contract validator mode.",
-    "outcome": "passed",
-    "evidence_ref": "340-html-observatory-contract.log"
+    "evidence_ref": ".csdlc/evidence/340/proof-summary.md"
   },
   {
     "command": [
@@ -69,53 +95,15 @@ Implement bounded HTML Observatory Runtime v3 launch/start-stop-restart integrat
       "adl/tools/validate_v092_observatory_restart_reconnect.sh",
       "--live"
     ],
-    "purpose": "Run the #340 live validator mode against local loopback services and configured TLS material.",
+    "purpose": "Post-review live proof that CSMctl reports the persisted fallback Observatory URL while start/stop/restart and exposed route coverage remain green.",
     "outcome": "passed",
-    "evidence_ref": "340-live-start-stop-restart.log"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "adl-runtime/Cargo.toml",
-      "--test",
-      "runtime_api_wss"
-    ],
-    "purpose": "Run focused Runtime API/WSS integration tests.",
-    "outcome": "passed",
-    "evidence_ref": "340-runtime-api-wss-contract.log"
-  },
-  {
-    "command": [
-      "cargo",
-      "fmt",
-      "--manifest-path",
-      "adl-runtime/Cargo.toml",
-      "--check"
-    ],
-    "purpose": "Run cargo fmt check.",
-    "outcome": "passed",
-    "evidence_ref": "340-rust-format.log"
-  },
-  {
-    "command": [
-      "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate",
-      "--root",
-      "/Volumes/FastWork/adl-worktrees/adl-issue-340-html-observatory-runtime-restart-integration",
-      "issue",
-      "--issue",
-      "340"
-    ],
-    "purpose": "Run C-SDLC v2 typed issue validation for #340.",
-    "outcome": "passed",
-    "evidence_ref": "340-typed-validate.log"
+    "evidence_ref": ".csdlc/evidence/340/proof-summary.md"
   }
 ]
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

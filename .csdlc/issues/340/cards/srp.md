@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Exact #340 launch/restart/reconnect integration changes across CSMctl, start_CSM.sh, runbook/config examples, runtime_api_wss tests, issue-owned validator, lifecycle cards, and evidence; exclude Unity/TLS/AWS/provider/#341/#343 and HTML child redesign.
+
 
 ## Prompts
 

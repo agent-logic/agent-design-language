@@ -1327,7 +1327,7 @@ async function fetchRuntimeV3ObservatorySnapshot(apiBase) {
     fetchRuntimeV3Readiness(base),
     fetchRuntimeV3Health(base)
   ]);
-  if (!observatoryResponse.ok) {
+  if (observatoryResponse.status !== 200) {
     throw new Error(`${config.observatory_endpoint} returned ${observatoryResponse.status}`);
   }
   const feed = await observatoryResponse.json();

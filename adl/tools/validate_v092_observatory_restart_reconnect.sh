@@ -62,6 +62,7 @@ contract_check() {
   require_source "$APP_JS" 'response.status !== 200'
   require_source "$CSMCTL" 'if self.path in ("", "/"):'
   require_source "$CSMCTL" 'printf '\''OBSERVATORY_RUNTIME_BASE=%q\n'\'' "$OBSERVATORY_RUNTIME_BASE"'
+  require_source "$CSMCTL" 'load_observatory_state || true'
   "$HTML_TEST"
 }
 
@@ -283,6 +284,12 @@ live_check() {
   require_file "$observatory_state"
   # shellcheck source=/dev/null
   . "$observatory_state"
+  local urls_output="$state_dir/CSMctl.urls.out"
+  "$CSMCTL" urls > "$urls_output"
+  grep -F "observatory=$OBSERVATORY_URL" "$urls_output" >/dev/null \
+    || fail "observatory_urls_cmd_stale_url"
+  grep -F "observatory_runtime_api_base=$OBSERVATORY_RUNTIME_BASE" "$urls_output" >/dev/null \
+    || fail "observatory_urls_cmd_stale_runtime_api_base"
   [[ "${OBSERVATORY_URL:-}" == *"runtime=v3"* ]] || fail "observatory_url_missing_runtime_v3"
   [[ "${OBSERVATORY_URL:-}" == *"runtimeApiBase="* ]] || fail "observatory_url_missing_runtime_api_base"
   [[ "$(curl_code "${OBSERVATORY_BASE:-}/")" == "200" ]] || fail "observatory_root_not_200"

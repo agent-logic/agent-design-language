@@ -254,6 +254,26 @@ assert(calls.some((call) => call.url === `${config.api_base}/v1/observatory`), "
 assert(calls.some((call) => call.url === `${config.api_base}/v1/ready`), "Runtime v3 readiness fetch must call /v1/ready");
 assert(calls.some((call) => call.url === `${config.api_base}/v1/health`), "Runtime v3 health fetch must call /v1/health");
 
+const runtimeFetch = context.fetch;
+context.fetch = async (url) => {
+  if (String(url) === `${config.api_base}/v1/observatory`) {
+    return { ok: true, status: 204, json: async () => observatoryFeed };
+  }
+  if (String(url) === `${config.api_base}/v1/ready`) {
+    return { ok: true, status: 200, json: async () => readiness };
+  }
+  if (String(url) === `${config.api_base}/v1/health`) {
+    return { ok: true, status: 200, json: async () => ({ schema: "adl.runtime_v3.health.v1", status: "healthy" }) };
+  }
+  throw new Error(`unexpected fetch in non-200 Observatory regression: ${url}`);
+};
+await assert.rejects(
+  () => api.fetchRuntimeV3ObservatorySnapshot(config.api_base),
+  /\/v1\/observatory returned 204/,
+  "Runtime v3 live mode must require exact HTTP 200 from /v1/observatory"
+);
+context.fetch = runtimeFetch;
+
 const command = {
   schema: "adl.runtime.control_command.v1",
   runtime_instance_id: "runtime-v3-test",

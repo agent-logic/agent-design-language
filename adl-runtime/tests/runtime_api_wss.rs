@@ -117,6 +117,7 @@ fn csmctl_observatory_serves_index_at_root_and_persists_runtime_target() {
         "self.path = \"/index.html\"",
         "OBSERVATORY_RUNTIME_BASE=%q",
         "OBSERVATORY_URL=%q",
+        "load_observatory_state || true",
         "runtimeApiBase=$OBSERVATORY_RUNTIME_BASE",
     ] {
         assert!(

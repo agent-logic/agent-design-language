@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "8abc247d0a5d650da01bc1639900bba9c3c40370738e752cb2074ddd851f1815",
   "phase": "implemented",
-  "generation": 12,
-  "digest": "59712df0c8cfa1ad25e27aa072f8830dafbd49c676e41349a576403a1a18a03a",
+  "generation": 14,
+  "digest": "dd32afb8fea09bcac8018ad20c2df9a048405d7f7f02cb9805a0e5ee219e2654",
   "branch": "codex/340-html-observatory-runtime-restart-integration",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-340-html-observatory-runtime-restart-integration",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5851eedae86eddbeecfa1bac888708ceb68093498e843ba193942524a3fc96b4",
+      "values_digest": "e695f051e09cc5085d0e1ea5907883f89648074c5a818f944b45cca8c8fe6110",
       "rendered_digest": "e68242eb9bbe9ef94376f6bcc73e6a402a30b750e374fd44ad2a10c1f64de1d7",
       "ast_digest": "4880fadf87cf773585e07d456e5dbd11a1ec596ac7646ae36f2ce94c09a2caa2"
     },
     "stp": {
-      "values_digest": "8fb1eb3ccf70731ef9032a277d13523171f069d57b5bba678e522faef1d7ef87",
+      "values_digest": "4a2507c491130488fe70ba00ffcd1c9efadd904796d4756dbef9dc7e2172b745",
       "rendered_digest": "3f94f447d3f0c52feafda63615f0140ef655286ccbdb3fa85163a50ec8e142da",
       "ast_digest": "7a88f55764720014ad1c151a4eedad3e71624b578e52d9fbc2c098ddd4a3173c"
     },
     "spp": {
-      "values_digest": "0f6c09f665250c0b64a4c51524012ac7e7e5f8bebd3346ed7c9689ea218fc5a9",
+      "values_digest": "ef60d5e1a24e2829dc9ec3ee0ff7001e254a0c806e413726fb6c478badb45b31",
       "rendered_digest": "04ae1a1c6abf369d12f379a3913646c64ac39b790f88c71ba1120b3d749bd517",
       "ast_digest": "ce6d867b2ee2b0fee927916db7f8feec1c4a7c1d1c1a62d3d9dfa679478aab60"
     },
     "vpp": {
-      "values_digest": "16fee41cb0749cd00bee739e0faddffd9a2bef54923e54170f495c9ebe429f47",
+      "values_digest": "73aeac085c320e03ddfa932760df9fe20500dc25877b58eb171f74d2568b10c8",
       "rendered_digest": "df1a9f32b2ef6ac3388328c6892ce316a924427db54cae87d6837231e01602fc",
       "ast_digest": "120fa996e5aaefe19914a509024f66e1b209c4d0a4ecc01caf1ab4cd64321f64"
     },
     "srp": {
-      "values_digest": "159e9cc7000d80b864c2095ab85d8341109a4520a42d56eb0effbb2d3edc7bae",
-      "rendered_digest": "d628e44e610d8a2c0e35639e80d7bbf9adf28756af7e6415f051dbda220f7af4",
-      "ast_digest": "557056d2119fa144c69bddeb9d4efa9627eaf472ae9bd8d413f344e11ad73130"
+      "values_digest": "eb32b311b91ee417aec80a559aad7d8585c76b0d975d1b7e2a982d736ab2c46f",
+      "rendered_digest": "f1f6ff292fd62b83bf9f75d91f5d6211c7b2f6341ba26a949b41cd7e93077ca7",
+      "ast_digest": "fd174d614c5b9d57ae476912b062c7a85c68c0dd93a7f9995e509a6513a4c1fd"
     },
     "sor": {
-      "values_digest": "9f0ad067a4c0a56d9afffd9df152ca17c51a01b5a078b962c6e3125a648a1daf",
-      "rendered_digest": "e1ec7ffad7a5cf7da255af4c3bead658db042e85f7052c31cd6e6ca776da7503",
-      "ast_digest": "29dff03a7689cf4bf6cf86a50ca02a2000a7356528dff60e0d23686672925a0d"
+      "values_digest": "a715567bb7aad4efc565ca47a24312de1c4781397fdd1e84558d25fbfc77a815",
+      "rendered_digest": "9498a3f8123c55694df76566ca925f53ac146e8708d063e0cc2508516bed2bb3",
+      "ast_digest": "57ccb9126f39e31a255f9b551be54ec6e367fe019ac9396de2d1126fe7c6a301"
     }
   },
   "transitions": [
@@ -176,6 +176,27 @@
       "actor": "codex:/root",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "Recover #340 review assignment after fresh-session:07a4715e-f5e9-496c-a48e-ef3d04488ac8 returned FAIL with actionable P2 exact-200 live Observatory gating and P3 stale CSMctl Observatory URL findings; implementation will repair before a distinct fresh exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Record #340 post-review P2/P3 repairs and refreshed focused validation before a second immutable exact-head review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented bounded HTML Observatory Runtime v3 launch/start-stop-restart integration, then repaired fresh-review findings requiring exact HTTP 200 live Observatory gating and persisted fallback Observatory URL reporting.\",\"changes\":[\"CSMctl static Observatory serving maps '/' to '/index.html', persists Runtime/Observatory URL state, and reloads that state before printing URLs so fallback ports are reported truthfully.\",\"HTML Observatory Runtime v3 live mode now requires /v1/observatory, /v1/ready, and /v1/health to return exact HTTP 200 before live data is shown.\",\"The #340 validator proves static contract mode, live local CSMctl startup, graceful stop cleanup, restart recovery, local TLS probing, documented exposed route categories, and persisted fallback URL reporting.\",\"Focused Runtime API/WSS tests bind OpenAPI docs, validator route coverage, strict live-data gating, CSMctl root/runtime-base behavior, and CSMctl persisted-state URL reload behavior.\",\"Post-review P2/P3 findings from fresh-session:07a4715e-f5e9-496c-a48e-ef3d04488ac8 were repaired without absorbing Unity, AWS/public, provider, #341, #343, #84, #122, or #251 scope.\"],\"artifacts\":[\"CSMctl\",\"demos/html-observatory/app.js\",\"adl/tools/test_html_observatory.sh\",\"adl/tools/validate_v092_observatory_restart_reconnect.sh\",\"adl-runtime/tests/runtime_api_wss.rs\",\".csdlc/evidence/340/proof-summary.md\",\".csdlc/issues/340\",\".csdlc/prepared/issues/340\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/validate_v092_observatory_restart_reconnect.sh\",\"--contract\"],\"purpose\":\"Post-review contract proof for exact /v1/observatory HTTP 200 live gating and CSMctl persisted-state reload contract.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/340/proof-summary.md\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"runtime_api_wss\"],\"purpose\":\"Post-review focused Runtime API/WSS contract tests for OpenAPI route split, validator route coverage, strict live-data gating, and CSMctl persisted-state URL reload behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/340/proof-summary.md\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--check\"],\"purpose\":\"Post-review Rust formatting check for the focused integration test.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/340/proof-summary.md\"},{\"command\":[\"git\",\"diff\",\"--check\",\"--\",\"CSMctl\",\"adl/tools/test_html_observatory.sh\",\"demos/html-observatory/app.js\",\"adl/tools/validate_v092_observatory_restart_reconnect.sh\",\"adl-runtime/tests/runtime_api_wss.rs\",\".csdlc/issues/340\",\".csdlc/prepared/issues/340\"],\"purpose\":\"Post-review whitespace and conflict-marker hygiene across #340 touched paths.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/340/proof-summary.md\"},{\"command\":[\"bash\",\"adl/tools/validate_v092_observatory_restart_reconnect.sh\",\"--live\"],\"purpose\":\"Post-review live proof that CSMctl reports the persisted fallback Observatory URL while start/stop/restart and exposed route coverage remain green.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/340/proof-summary.md\"}]}"
     }
   ]
 }
