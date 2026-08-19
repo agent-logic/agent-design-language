@@ -4819,8 +4819,10 @@ mod tests {
 
         let tracked_runner = include_str!("../scripts/remote_validation_runner.sh");
         assert!(tracked_runner.contains(
-            "if [ \"$CONTAINERIZED_VALIDATION\" = \"0\" ] && [ \"$NEEDS_NEXTEST\" = \"1\" ]"
+            "if [ \"$CONTAINERIZED_VALIDATION\" = \"0\" ] && [ \"$ISSUE268_RUNTIME_QUALIFICATION\" = \"0\" ] && [ \"$NEEDS_NEXTEST\" = \"1\" ]"
         ));
+        assert!(tracked_runner.contains("amazon_linux_packages_and_pinned_runtime_components"));
+        assert!(tracked_runner.contains("sudo dnf install -y gcc gcc-c++ make pkgconf-pkg-config openssl-devel rust cargo"));
         assert!(tracked_runner.contains("immutable_builder_image_only"));
         assert!(tracked_runner
             .contains("PERSISTENT_CHECKOUT=\"$TOOLCHAIN_ROOT/source/agent-design-language\""));
@@ -4855,6 +4857,10 @@ mod tests {
         assert!(!tracked_runner
             .contains("curl -fsS http://169.254.169.254/latest/meta-data/spot/instance-action"));
         assert!(tracked_runner.contains("ADL_SPOT_DEHYDRATE_CALLBACK"));
+        assert!(tracked_runner.contains("issue414_spot_dehydrate_callback.sh"));
+        assert!(tracked_runner.contains("ADL_SPOT_RESIDENT_INPUT"));
+        assert!(tracked_runner.contains("ADL_SPOT_RETAINED_RUNTIME_ROOT"));
+        assert!(tracked_runner.contains("ADL_SPOT_RUNTIME_VOLUME_ID_SHA256"));
         assert!(tracked_runner.contains("ADL_SPOT_DEHYDRATE_TIMEOUT_SECONDS"));
         assert!(tracked_runner.contains("--notice-file \"$RUN_ROOT/spot-interruption.log\""));
         assert!(tracked_runner.contains("--deadline-utc \"$DEADLINE_UTC\""));

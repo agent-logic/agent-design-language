@@ -395,6 +395,13 @@ if [[ -n "$PORTABLE_REQUEST" ]]; then
   PORTABLE_FALLBACK="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["fallback"])')"
   PORTABLE_PROFILE_DIGEST="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["command_profile_digest"])')"
   PORTABLE_ARTIFACT_POLICY_JSON="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.dumps(json.load(sys.stdin)["artifact_policy"], separators=(",", ":")))')"
+  PORTABLE_ISSUE268_RUNTIME="$(python3 - "$PORTABLE_REQUEST" <<'PY'
+import json, sys
+request = json.load(open(sys.argv[1], encoding="utf-8"))
+argv = (request.get("command_profile") or {}).get("argv") or []
+print("true" if argv == ["bash", "adl/tools/run_issue268_remote_resident_qualification.sh"] else "false")
+PY
+)"
 fi
 
 if [[ -n "$PORTABLE_MAX_COST_USD" && -z "$ESTIMATED_HOURLY_COST_USD" && "$RUN" != true && "$ACTION" != "preflight" ]]; then
@@ -930,7 +937,8 @@ fi
 
 DIRECT_HOST_RUNTIME=false
 VALIDATION_ENVIRONMENT=immutable_builder
-if [[ "$COMMAND" == "bash adl/tools/run_issue268_remote_resident_qualification.sh" ]]; then
+if [[ "$COMMAND" == "bash adl/tools/run_issue268_remote_resident_qualification.sh" \
+    || "${PORTABLE_ISSUE268_RUNTIME:-false}" == true ]]; then
   DIRECT_HOST_RUNTIME=true
   VALIDATION_ENVIRONMENT=direct_host_runtime
 fi

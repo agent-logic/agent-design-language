@@ -146,7 +146,7 @@ cat >"$out" <<JSON
   "cleanup":{"termination_attempted":true,"final_instance_state":"terminated","termination_error":null},
   "launch_surface":{"ssh_debug_enabled":true,"vpc_id":"vpc-0123456789abcdef0","subnet_id":"subnet-0123456789abcdef0","security_group_id":"sg-0123456789abcdef0"},
   "timings":{"total_seconds":120,"launch_seconds":20,"ssm_ready_seconds":10,"remote_command_seconds":80,"teardown_seconds":10},
-  "remote_summary":{"validation_environment":"direct_host_runtime","resolved_commit":"${ADL_FAKE_EXPECTED_SOURCE:?}","builder_proof":{"builder_image_immutable":true,"builder_image_digest_sha256":"${ADL_FAKE_EXPECTED_IMAGE_DIGEST_HASH:?}","toolchain_verified":true,"source_commit_verified":true,"source_commit":"${ADL_FAKE_EXPECTED_SOURCE:?}","cache_mount_verified":true,"cache_writable":true,"host_validation_tools_installed":false,"builder_image_architecture":"amd64","cache_target_preexisting_entries":5,"cache_target_preexisting_bytes":4096,"cache_free_bytes":90000000000,"validation_seconds":73}}
+  "remote_summary":{"validation_environment":"direct_host_runtime","runtime_toolchain_verified":true,"resolved_commit":"${ADL_FAKE_EXPECTED_SOURCE:?}","builder_proof":{"builder_image_immutable":true,"builder_image_digest_sha256":"${ADL_FAKE_EXPECTED_IMAGE_DIGEST_HASH:?}","toolchain_verified":true,"source_commit_verified":true,"source_commit":"${ADL_FAKE_EXPECTED_SOURCE:?}","cache_mount_verified":true,"cache_writable":true,"host_validation_tools_installed":false,"builder_image_architecture":"amd64","cache_target_preexisting_entries":5,"cache_target_preexisting_bytes":4096,"cache_free_bytes":90000000000,"validation_seconds":73}}
 }
 JSON
 cat >"$artifact_dir/command-status.log" <<'LOG'
@@ -155,7 +155,7 @@ cat >"$artifact_dir/command-status.log" <<'LOG'
 LOG
 cat >"$artifact_dir/command-stdout.log" <<JSON
 ADL_AWS_REMOTE_SUMMARY_BEGIN
-{"validation_environment":"direct_host_runtime","resolved_commit":"${ADL_FAKE_EXPECTED_SOURCE}","builder_proof":{"builder_image_immutable":true,"builder_image_digest_sha256":"${ADL_FAKE_EXPECTED_IMAGE_DIGEST_HASH}","toolchain_verified":true,"source_commit_verified":true,"source_commit":"${ADL_FAKE_EXPECTED_SOURCE}","cache_mount_verified":true,"cache_writable":true,"host_validation_tools_installed":false,"builder_image_architecture":"amd64","cache_target_preexisting_entries":5,"cache_target_preexisting_bytes":4096,"cache_free_bytes":90000000000,"validation_seconds":73}}
+{"validation_environment":"direct_host_runtime","runtime_toolchain_verified":true,"resolved_commit":"${ADL_FAKE_EXPECTED_SOURCE}","builder_proof":{"builder_image_immutable":true,"builder_image_digest_sha256":"${ADL_FAKE_EXPECTED_IMAGE_DIGEST_HASH}","toolchain_verified":true,"source_commit_verified":true,"source_commit":"${ADL_FAKE_EXPECTED_SOURCE}","cache_mount_verified":true,"cache_writable":true,"host_validation_tools_installed":false,"builder_image_architecture":"amd64","cache_target_preexisting_entries":5,"cache_target_preexisting_bytes":4096,"cache_free_bytes":90000000000,"validation_seconds":73}}
 ADL_AWS_REMOTE_SUMMARY_END
 JSON
 if [[ "$status" == "resumed_after_interruption" ]]; then

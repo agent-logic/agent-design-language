@@ -217,6 +217,7 @@ def main() -> int:
     else:
         require(remote.get("validation_environment") == "direct_host_runtime", failures, "direct_host_runtime_not_verified")
         require(remote.get("resolved_commit") == args.expected_source_commit, failures, "source_commit_mismatch")
+        require(remote.get("runtime_toolchain_verified") is True, failures, "runtime_toolchain_not_verified")
 
     total_seconds = int(timings.get("total_seconds") or 0)
     estimated_cost = round(args.estimated_hourly_cost_usd * total_seconds / 3600.0, 6)
@@ -227,16 +228,17 @@ def main() -> int:
         "validation_environment": args.validation_environment,
         "spot_purchase_verified": launch.get("purchase_option") == "spot",
         "retained_volume_role": args.expected_retained_volume_role,
-        "immutable_builder_image_verified": builder.get("builder_image_immutable") is True,
-        "builder_toolchain_verified": builder.get("toolchain_verified") is True,
-        "source_commit_verified": builder.get("source_commit") == args.expected_source_commit,
+        "immutable_builder_image_verified": builder.get("builder_image_immutable") is True if args.validation_environment == "immutable_builder" else None,
+        "builder_toolchain_verified": builder.get("toolchain_verified") is True if args.validation_environment == "immutable_builder" else None,
+        "runtime_toolchain_verified": remote.get("runtime_toolchain_verified") is True if args.validation_environment == "direct_host_runtime" else None,
+        "source_commit_verified": (builder.get("source_commit") if args.validation_environment == "immutable_builder" else remote.get("resolved_commit")) == args.expected_source_commit,
         "retained_cache_verified": cache.get("created") is False and cache.get("attachment_state") == "attached",
         "retained_cache_identity_verified": sha256(cache_volume_id) == args.expected_cache_volume_id_sha256,
-        "cache_mount_health_verified": builder.get("cache_mount_verified") is True and builder.get("cache_writable") is True,
+        "cache_mount_health_verified": (builder.get("cache_mount_verified") is True and builder.get("cache_writable") is True) if args.validation_environment == "immutable_builder" else (cache.get("attachment_state") == "attached" and cache.get("mount_path") == expected_mount),
         "ssh_recovery_verified": "status=ssh_debug_ready" in command_status,
         "live_logs_verified": "status=ssh_tail_started" in command_status,
         "compute_teardown_verified": cleanup.get("final_instance_state") == "terminated" and not cleanup.get("termination_error"),
-        "host_validation_tools_installed": builder.get("host_validation_tools_installed"),
+        "host_validation_tools_installed": builder.get("host_validation_tools_installed") if args.validation_environment == "immutable_builder" else True,
     }
     wrapper = {
         "schema": "adl.aws_spot_remote_validation_wrapper_summary.v2",

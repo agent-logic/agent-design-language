@@ -30,14 +30,22 @@ volume_serial="$(lsblk -ndo SERIAL "$mount_source" | head -1 | tr -d '[:space:]'
 if [[ "$volume_serial" == vol* && "$volume_serial" != vol-* ]]; then
   volume_serial="vol-${volume_serial#vol}"
 fi
-observed_volume_sha256="$(printf '%s' "$volume_serial" | shasum -a 256 | awk '{print $1}')"
+if command -v sha256sum >/dev/null 2>&1; then
+  observed_volume_sha256="$(printf '%s' "$volume_serial" | sha256sum | awk '{print $1}')"
+else
+  observed_volume_sha256="$(printf '%s' "$volume_serial" | shasum -a 256 | awk '{print $1}')"
+fi
 [[ "$observed_volume_sha256" == "$EXPECTED_VOLUME_SHA256" ]] || {
   echo "mounted Runtime volume identity does not match the approved retained volume" >&2
   exit 66
 }
 jq -e --arg identity "$EXPECTED_VOLUME_SHA256" '.runtime_volume_identity_sha256 == $identity' "$BASE_INPUT" >/dev/null
 jq -e --arg deadline "$DEADLINE_UTC" '(.action == "terminate" or .action == "stop") and .time == $deadline' "$NOTICE_FILE" >/dev/null
-notice_sha256="$(shasum -a 256 "$NOTICE_FILE" | awk '{print $1}')"
+if command -v sha256sum >/dev/null 2>&1; then
+  notice_sha256="$(sha256sum "$NOTICE_FILE" | awk '{print $1}')"
+else
+  notice_sha256="$(shasum -a 256 "$NOTICE_FILE" | awk '{print $1}')"
+fi
 callback_input="$RUN_ROOT/spot-dehydration-input.json"
 jq --arg source "aws_imdsv2_spot_instance_action" \
    --arg action "$(jq -r '.action' "$NOTICE_FILE")" \

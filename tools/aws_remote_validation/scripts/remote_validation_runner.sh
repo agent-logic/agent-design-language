@@ -88,6 +88,16 @@ if [ "${ADL_CACHE_VOLUME_ENABLED:-0}" = "1" ]; then
   fi
 fi
 
+if [ "${ADL_RETAINED_VOLUME_ROLE:-build_cache}" = "runtime_continuity" ] \
+    && [[ "$ADL_REMOTE_COMMAND" == *"adl/tools/run_issue268_remote_resident_qualification.sh"* ]]; then
+  export ADL_ISSUE268_REMOTE_EVIDENCE_ROOT="$RUN_ROOT/issue268"
+  export ADL_SPOT_DEHYDRATE_CALLBACK="$ADL_REMOTE_REPO_DIR/adl/tools/issue414_spot_dehydrate_callback.sh"
+  export ADL_ISSUE414_CONTINUITY_BIN="$ADL_RUNTIME_CONTINUITY_ROOT/install/current/bin/adl_resident_shepherd_continuity"
+  export ADL_SPOT_RESIDENT_INPUT="$ADL_ISSUE268_REMOTE_EVIDENCE_ROOT/continuity-uts/dehydration-input.json"
+  export ADL_SPOT_RETAINED_RUNTIME_ROOT="$ADL_RUNTIME_CONTINUITY_ROOT/state"
+  export ADL_SPOT_RUNTIME_VOLUME_ID_SHA256="${ADL_RUNTIME_CONTINUITY_VOLUME_ID_SHA256:?runtime volume identity is required}"
+fi
+
 mkdir -p "$RUN_ROOT" "$PROGRESS_ROOT" "$WORK_ROOT" "$TARGET_DIR" "$SCCACHE_DIR" "$CARGO_HOME_DIR" "$RUSTUP_HOME_DIR"
 CARGO_BIN_DIR="$CARGO_HOME_DIR/bin"
 mkdir -p "$CARGO_BIN_DIR"
@@ -142,7 +152,7 @@ case "$ADL_REMOTE_COMMAND" in
     CONTAINERIZED_VALIDATION=1
     TOOL_INSTALL_POLICY="immutable_builder_image_only"
     ;;
-  "bash adl/tools/run_issue268_remote_resident_qualification.sh")
+  *"adl/tools/run_issue268_remote_resident_qualification.sh"*)
     ISSUE268_RUNTIME_QUALIFICATION=1
     TOOL_INSTALL_POLICY="amazon_linux_packages_and_pinned_runtime_components"
     ;;
@@ -555,6 +565,7 @@ if builder_summary.exists():
   payload["builder_proof"] = json.loads(builder_summary.read_text(encoding="utf-8"))
 payload["host_validation_tools_installed"] = os.environ.get("CONTAINERIZED_VALIDATION") != "1"
 payload["validation_environment"] = "direct_host_runtime" if os.environ.get("ISSUE268_RUNTIME_QUALIFICATION") == "1" else ("immutable_builder" if os.environ.get("CONTAINERIZED_VALIDATION") == "1" else "direct_host")
+payload["runtime_toolchain_verified"] = bool(os.environ.get("ISSUE268_RUNTIME_QUALIFICATION") == "1" and payload["rustc_version"] and payload["cargo_version"])
 print("ADL_AWS_REMOTE_SUMMARY_BEGIN")
 print(json.dumps(payload))
 print("ADL_AWS_REMOTE_SUMMARY_END")
