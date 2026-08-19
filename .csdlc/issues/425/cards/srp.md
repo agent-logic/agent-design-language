@@ -36,12 +36,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- No actionable implementation or lifecycle risks identified in scoped exact-head review; stale exact-head SOR wording repaired and old SHA remains only in append-only audit history.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:ba8bf45496d35cae972d8dfbcd4c8132f9fcddf6:e06434e963c668ec21f17cadd1b1c816ea83a74d233a42964159282f19fa9290")
 
-Reviewer: None
+Reviewer: Some("fresh-session:28762e94-2dfd-446d-8227-15e5bb84dc2c")
 
-Result: pre_review
+Result: pass

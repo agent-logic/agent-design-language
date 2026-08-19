@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d98a8d900cde7810150f96c65b587a7763b677cf58610771289dd359b4be5b19",
-  "phase": "implemented",
-  "generation": 18,
-  "digest": "9937f86dcbe3c4310ddd73430fb12410309ecdc66e5e212ee7519356333af72d",
+  "phase": "reviewed",
+  "generation": 19,
+  "digest": "580fb250b931b1f4babc260568ceee4908133d96a19ce4691528f0a1fffac79b",
   "branch": "codex/425-recordless-closeout-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-425-recordless-closeout-recovery",
   "review_assignment": {
@@ -22,7 +22,24 @@
       ".csdlc/issues/425"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:28762e94-2dfd-446d-8227-15e5bb84dc2c",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-finish.rs",
+      "csdlc-v2/src/finish.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/tests/gate_recordless_closeout.rs",
+      ".csdlc/evidence/425-v092-residual-dry-run-result.json",
+      ".csdlc/issues/425"
+    ],
+    "reviewed_revision": "git-blake3:ba8bf45496d35cae972d8dfbcd4c8132f9fcddf6:e06434e963c668ec21f17cadd1b1c816ea83a74d233a42964159282f19fa9290",
+    "findings": [],
+    "residual_risks": [
+      "No actionable implementation or lifecycle risks identified in scoped exact-head review; stale exact-head SOR wording repaired and old SHA remains only in append-only audit history."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -37,32 +54,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4962665ebb6573ae11d2d351b26ac082b43b060c451c0abb51020f82028934bc",
+      "values_digest": "7ab24b6c7fa1518f03f648e8614267ddca684d57813d2ddc7938d22813ef222d",
       "rendered_digest": "cc83623a3de6c8063b7db5e0c3a0ba3924aa50ac071e49476c34290fc886bc5a",
       "ast_digest": "1dd75a8295155fbe787c7264ab83bd0f5eaf04da00ce64b71f8d06514a89e325"
     },
     "stp": {
-      "values_digest": "0e5ab65719de8bdb11d7ea0879d5e23394a8a6ea45f1945dc42181811dddd0ca",
+      "values_digest": "2c3f25905b0c2a4b5bafcc1c56ab5d450e3a149a7e226545fbe0b5f0bd58ddb1",
       "rendered_digest": "bf04bc821ead770f8bb048a8163d3a4d6d74769d4ffba2ddda54e28f33ab2a84",
       "ast_digest": "44c14d7d86cec8e8c7ae792a5b3d8d6dfc3554f3a150984bc7a5b09ba2930571"
     },
     "spp": {
-      "values_digest": "8b23c1631159d85cfaa9d7eab4812cbcfd8d3210d350f97eb9c255cb4ee5bdf3",
+      "values_digest": "ffe80112fc71fec8df9226e6be5c4288627470b420b4aeb5138fa10b3b8a16bf",
       "rendered_digest": "1a6d536268cc7d3ec39c45272b17ff50736ff2f4e09854cb33a29c193e7e3847",
       "ast_digest": "276c05c7408db0cb043143a4df1b240a8277df6e0cbffcc659efe10f2cec7a5b"
     },
     "vpp": {
-      "values_digest": "35ece87bf617006f166c55e603a8a8711bbe2acfa63f7ed53aa565b7aade71a1",
+      "values_digest": "d4a2e6e481612f76c7030246417c9905f3c2b197c029e00ab6b94b80c14a8d79",
       "rendered_digest": "6c19c5636e13f7135afe61469801392e2a753414aedba2398c792d6db155ab5a",
       "ast_digest": "dc064a1b29d4ffce555b1ffa93a65466b5adfe914df83ce7126a441ac99c6e03"
     },
     "srp": {
-      "values_digest": "5f1b0e9c62dff63365d7323e8a6af47692ca5e5590fdd74d6166d518eebd9c5e",
-      "rendered_digest": "8104e68c08d29a83760c4a0591d513e36d1a3b21ab3fee98216bd5481b2a3ec8",
-      "ast_digest": "6606bf80b5e91946eb5691de27269f1a5913b2a30140f9e883f80c5fc355da79"
+      "values_digest": "67103e6a12330019acaa24b03a9639c850372e1557025892721f37967622abbd",
+      "rendered_digest": "dde0bd1e070554c6b07c06c8224bdea3b960fd4d129700db85579d785ed4c2de",
+      "ast_digest": "222a0aacc2532427f012f29b58c2fddce7ece46929fa17b4d6cf50e50af88cbe"
     },
     "sor": {
-      "values_digest": "c2599bad2f517ecee3a3de861e7dfa81bd29590f5b39f8da7979610b86369c9a",
+      "values_digest": "3a1a3557313bfb826af7a112e7170d98e1e3bcab1572ea4a9257d8ff30ea7e6b",
       "rendered_digest": "c7f5fc7bb0cff426566ab372afc39684941e3b45099ca0a7108af5c72f8aa6a5",
       "ast_digest": "23dd85a69b372a91b50b929142bd27620123767a9ccf077183f5db02a1a1e1d5"
     }
@@ -123,6 +140,13 @@
       "to": "implemented",
       "actor": "codex-worker-4",
       "reason": "recover published state after CI strict clippy finding required source repair"
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-worker-4",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -314,6 +338,13 @@
       "actor": "codex-worker-4",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 19,
+      "actor": "codex-worker-4",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
