@@ -1,0 +1,97 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 431,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][planning][sidecar] Refresh initial milestone plan before WP-28",
+    "slug": "v0921-initial-planning-sidecar",
+    "version": "v0.92.1",
+    "generation": 17
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "preparation-contract",
+          "proof_role": "Verify exact preparation artifacts and authority boundaries before binding.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-3",
+            "AC-5",
+            "AC-7",
+            "AC-9",
+            "AC-10",
+            "AC-11"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 600,
+          "argv": [
+            "python3",
+            ".csdlc/prepared/issues/431/validate_preparation_bundle.py"
+          ],
+          "parallel_group": "431-serial-01",
+          "defer_reason": null
+        },
+        {
+          "lane": "planning-package",
+          "proof_role": "Validate per-surface six-lane parity, #432 ordering, path-bearing .adl dependency absence, WP-28 immutability, CodeFriend handoff, Runtime v4 non-scope, Observatory grounding, YAML structure, links, placeholders, exact scope, and live v0.92.1 routing.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8",
+            "AC-9",
+            "AC-10",
+            "AC-11"
+          ],
+          "deterministic": false,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 3000,
+          "argv": [
+            "python3",
+            ".csdlc/prepared/issues/431/validate_planning_package.py"
+          ],
+          "parallel_group": "431-serial-02",
+          "defer_reason": "Runs after the refreshed tracked planning package exists."
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Reject malformed or unintended planning-package changes.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 200,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "431-serial-03",
+          "defer_reason": "Runs after the implementation diff exists."
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on package denominator drift, tracked/backlog ambiguity, unsupported terminal claims, WP-28 authority overlap, invalid YAML/links/templates, or unreviewed issue migration.",
+      "design_ref": ".csdlc/prepared/issues/431/design.md",
+      "design_digest": "043d86ae2db56fd31bf3715eb7403c85ef25b9bec049884cee795ed9ed174b27",
+      "diagram_ref": ".csdlc/prepared/issues/431/diagram.mmd",
+      "diagram_digest": "eb2ffdd41815afe996828e271f23be1fc0970dcc549e995585d0c5caf930573e"
+    }
+  }
+}

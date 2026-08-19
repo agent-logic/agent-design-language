@@ -1,92 +1,27 @@
-# v0.92.1 Work Breakdown
+# Work Breakdown — v0.92.1
 
-## Lifecycle Sequence
+| ID | Work package | Exit condition |
+|---|---|---|
+| REP-01 | Repository authority / #432 | No tracked dependency on local untracked paths; guardrail proof passes |
+| WP-01 | Milestone planning / #431 | Complete reviewed package, issue wave, feature plans, and handoff |
+| CORP-01 | Corporate and IP | Four ordered packages (IP/provenance; custody/recovery; operational transfer; diligence close) reviewed without private-data leakage |
+| V3-01 | C-SDLC v3 | All #161-#180 predecessor requirements reconciled into six typed executable packages |
+| DRT-01 | Distributed multi-agent Runtime / #345 | GPU Shepherd hardening followed by governed multi-agent UTS qualification with continuity and truthful receipts |
+| POD-01 | Podcast publication and Studio | Operator-ready identity, feed, episode, Studio, and publication evidence chain |
+| HOT-01 | Axum configuration hot reload | Validated atomic last-known-good reload with failure and concurrency proof |
+| OBS-01 | Observatory redesign / #251 / #122 / #84 | TLS 1.2, public Route53/ACM exposure, Unity readiness, accessible authentic-data redesign, and bounded implementation |
+| INT-01 | Release-tail root | All six lane roots terminal before the canonical serial tail starts |
+| TAIL-01 | Quality gate | Required checks pass or every exception is explicitly owned and dispositioned |
+| TAIL-02 | Docs and release-truth pass | Repository, feature, release-note, and milestone truth agree |
+| TAIL-03 | Publication finalization | Publication artifacts and claims are finalized against landed evidence |
+| TAIL-04 | Internal review | Findings-first internal review is complete |
+| TAIL-05 | External / third-party review | Independent review is complete against the stabilized package |
+| TAIL-06 | Findings remediation | Accepted findings are fixed or explicitly deferred with owner and milestone |
+| TAIL-07 | Next-milestone planning | v0.92.2 CodeFriend Beta 1 package is ready before closeout |
+| TAIL-08 | Next-milestone closeout planning | Exact terminal issue, PR, receipt, and ceremony sequence is reviewed |
+| TAIL-09 | Next-milestone planning review | v0.92.2 planning and closeout readiness receive an independent review |
+| TAIL-10 | Release ceremony | Final validation, notes, tag, cleanup, and milestone closeout are complete |
 
-The milestone follows the standard ADL sequence. Planning does not create or
-start the execution wave.
+REP-01 precedes WP-01. The six lane roots depend on WP-01 and otherwise run independently. INT-01 consumes their terminal outputs. The release tail is strictly serial in the preceding-milestone order TAIL-01 through TAIL-10; later tail state never authorizes an earlier missing gate. #431 owns the planning-time v0.92.2 CodeFriend Beta 1 handoff, and TAIL-07 refreshes it against delivered milestone truth.
 
-| Stage | Work package | Required outcome |
-| --- | --- | --- |
-| Planning | Setup issue `#146` | Review and merge the planning-only milestone package |
-| Opening | WP-01 | Create the milestone, labels, umbrellas, child issues, cards, exact live map, readiness proof, and explicit start gate |
-| Execution | Lanes A-C | Execute only dependency-ready child packages under their coordination umbrellas |
-| Demo convergence | INT-01 | Converge every release-relevant demo at exact terminal lane revisions |
-| Quality gate | INT-02 | Evaluate the exact candidate against the complete milestone quality contract |
-| Docs and review alignment | INT-03 | Align documentation, claims, and review inputs with quality-gated truth |
-| Internal review | INT-04 | Conduct findings-first internal specialist review at the exact candidate |
-| External review | INT-05 | Obtain independent external review within the declared confidentiality boundary |
-| Remediation and final preflight | INT-06 | Remediate blockers, re-review changes, freeze the candidate, and rehearse rollback |
-| Next-milestone planning | INT-07 | Prepare the downstream milestone and deferred-work handoff |
-| Next-milestone review | INT-08 | Independently review and accept or reject that handoff |
-| Release ceremony and closeout | INT-09 | Release only with explicit operator authorization, then reconcile terminal milestone truth |
-
-WP-01 is the sole creator of the future live issue wave. Retired issues
-`#149-#190` are historical planning mistakes and must not be reopened or used as
-execution authority.
-
-## WP-01: Milestone Opening
-
-WP-01 creates all planned coordination umbrellas and work-package issues from
-the reviewed [execution specifications](WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml).
-It must prove the exact denominator, six-card completeness, issue-specific
-designs, owned paths, dependencies, PVF lanes and budgets, stop conditions,
-validators, review readiness, and canonical GitHub readback before any child
-may bind.
-
-## Lane A: Corporate And IP Transfer
-
-| WP | Outcome | Depends on |
-| --- | --- | --- |
-| CORP-01 | Critical asset, account, ownership, transfer, and exclusion inventory | WP-01 |
-| CORP-02 | Counsel-reviewed founder-to-company assignment and corporate acceptance evidence | CORP-01 |
-| CORP-03 | Contributor, third-party, OSS, model, media, and trademark provenance dispositions | CORP-01 |
-| CORP-04 | Company billing, MFA, recovery, vault, and administrative custody | CORP-01 |
-| CORP-05 | Repository, domain, brand, publishing, and vendor control | CORP-03, CORP-04 |
-| CORP-06 | Route53, ACM, SES, CloudFront/S3, monitoring, and workload migration | CORP-04 |
-| CORP-07 | Terraform state, CI/CD, deployment identity, rollback, and runbook authority | CORP-05, CORP-06 |
-| CORP-08 | Redacted chain-of-title and operational due-diligence closeout | CORP-02, CORP-03, CORP-05, CORP-07 |
-
-## Lane B: C-SDLC v3
-
-V3-01 through V3-16 retain the reviewed architecture's exact responsibilities
-and dependencies. V3-R01 remains deferred beyond the rollback window. All
-eleven architecture decisions remain explicit gates. See the machine-readable
-[issue wave](WP_ISSUE_WAVE_v0.92.1.yaml) and
-[feature contract](features/CSDLC_V3_v0.92.1.md).
-
-## Lane C: Distributed Multi-Agent Runtime Qualification
-
-| WP | Outcome | Depends on |
-| --- | --- | --- |
-| DRT-01 | Freeze topology, scenarios, faults, thresholds, receipt schemas, and claims | WP-01 |
-| DRT-02 | Deterministic ACIP, authority, ordering, duplicate, and replay conformance | DRT-01 |
-| DRT-03 | Wuji three-voter production multi-agent proof | DRT-01, DRT-02, terminal #142/WP-04.16 |
-| DRT-04 | Wuji plus two private AWS voters, continuity, partition, fencing, and healing | DRT-03 |
-| DRT-05 | Security, identity, certificate, capability, stale-authority, and provider-failure qualification | DRT-03, DRT-04 |
-| DRT-06 | Observatory coherent-cut, causal trace, redaction, and stale-read validation | DRT-03, DRT-04 |
-| DRT-07 | Soak, resource bounds, cleanup, replay, and exact-revision synthesis | DRT-05, DRT-06 |
-
-## Integration And Closeout Tail
-
-| WP | Outcome | Depends on |
-| --- | --- | --- |
-| INT-01 | Demo convergence | CORP-08, V3-16, DRT-07 |
-| INT-02 | Quality gate | INT-01 |
-| INT-03 | Documentation and review alignment | INT-02 |
-| INT-04 | Internal milestone review | INT-03 |
-| INT-05 | External milestone review | INT-04 |
-| INT-06 | Findings remediation and final preflight | INT-05 |
-| INT-07 | Next-milestone planning and deferred-work handoff | INT-06 |
-| INT-08 | Independent next-milestone review and handoff acceptance | INT-07 |
-| INT-09 | Operator-authorized release ceremony and lifecycle closeout | INT-08 |
-
-## Opening And Closing Invariants
-
-- Planning issue `#146` may publish specifications but may not create the child wave.
-- WP-01 creates each planned issue exactly once and publishes the exact live map.
-- No child starts before WP-01 is independently reviewed and explicitly authorized.
-- Implementation issues close through their merged PR or a reviewed no-PR disposition.
-- Coordination umbrellas close only after reconciling their exact child denominator.
-- Release occurs only after all nine closeout-tail steps reach their declared gates in order.
-- Release ceremony is the terminal lifecycle boundary: INT-09 performs release readback and milestone reconciliation without inventing a separate post-ceremony work package.
-- Milestone closeout occurs only after terminal issue reconciliation, accepted deferred routing, and non-destructive cleanup classification.
+Closed predecessor issues remain fully represented without being reopened: corporate `#153`-`#160`, C-SDLC v3 `#161`-`#180`, distributed Runtime `#181`-`#187`, and integration `#188`-`#190`. Existing issues `#251`, `#122`, `#84`, and `#345` are active v0.92.1 execution rather than deferred backlog.

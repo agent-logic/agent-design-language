@@ -1,0 +1,16 @@
+flowchart LR
+  Existing["Existing v0.92.1 package"] --> Audit["Inventory and truth audit"]
+  Live["Live v0.92 and v0.92.1 issues"] --> Audit
+  Decisions["Operator-promoted scope"] --> Classify["Allocate six execution lanes"]
+  Audit --> Classify
+  Classify --> Refresh["Refresh initial planning baseline"]
+  Refresh --> Review["Bounded planning-package review"]
+  Repo["#432 no tracked .adl authority"] --> Refresh
+  Review --> Handoff["WP-28 #316 and v0.92.2 CodeFriend handoff"]
+  Late["Late v0.92 terminal evidence"] --> WP28["WP-28 updates plan later"]
+  Handoff --> WP28
+  WP28 --> WP28A["WP-28A #317 closeout plan"]
+  Handoff --> CF["v0.92.2 CodeFriend Beta 1"]
+  Classify --> Obs["Observatory redesign sprint"]
+  Obs --> Refresh
+  Risk["Runtime v4 planning risk"] -. no committed scope .-> WP28

@@ -1,28 +1,13 @@
-# Distributed Multi-Agent Runtime Qualification
+# Distributed Multi-Agent Runtime Qualification — v0.92.1
 
-## Outcome
+Qualify multiple distinct resident agents performing governed collaborative work. UTS supplies a concrete workload; it is not a separate Runtime architecture. Proof covers identity, task division, continuity, restore, model/provider truth, resource use, failure handling, and exact completion receipts. Runtime v4 changes require explicit rebaseline.
 
-Qualify the production distributed Runtime with exactly three voters in one polis, three governed agents, one non-voting shepherd, one quorum-leased Observatory, and an out-of-band fault controller.
+## Retained predecessor denominator
 
-## Live Windows
+Closed planning issues `#181`-`#187` were retired before execution and are not reopened. WP-01 will create three serial packages, DRT-A through DRT-C, that retain their complete requirements:
 
-1. Three isolated Wuji voters with separate identities, ports, credentials, storage, and state roots.
-2. One Wuji voter and two private AWS voters in separate availability zones.
+1. **DRT-A (`#181`, `#182`)** — freeze the qualification contract and prove deterministic ACIP authority and replay conformance.
+2. **DRT-B (`#183`, `#184`)** — run distinct-agent UTS production work and hybrid local/AWS continuity with truthful paid-proof boundaries.
+3. **DRT-C (`#185`, `#186`, `#187`)** — qualify identity/TLS/provider failures, coherent Observatory evidence, soak, replay, resource accounting, cleanup, and synthesis.
 
-Live qualification cannot begin until `#142` is terminal. The retained input must name the exact merged revision, prove it is ancestral to the qualification revision, and include passing production Guardian, API, WSS, and WP-04.16 receipts. A green or open `#142` PR is not sufficient.
-
-## Required Proof
-
-- delegation, criticism, response, correlation, causation, and exactly-once governed commit;
-- explicit `3 -> 2 -> 1` voter behavior: three-voter commit, two-voter continuity, and one-voter mutation halt;
-- quorum election, stale-owner fencing, old-Observatory lease expiry before successor bind, snapshot restore, independently materialized snapshot parity, and committed-index parity;
-- crash, restart, latency, loss, duplication, reordering, asymmetric partition, healing, certificate failure, disk pressure, and provider stall;
-- forged identity, wrong trust domain, stale authority, stale lease/fence, missing capability, copied state, cross-polis replay, malformed envelope, and plaintext/public pre-auth REST/WSS disclosure rejection;
-- distinct voter, non-voting shepherd, Observatory, transport, and provider identities and keys;
-- private authenticated AWS transport, Wuji isolation without loss of AWS control access, and AWS-only quorum continuity;
-- deterministic replay bound to exact commands, terms, committed indexes, envelopes, receipts, source revisions, and model digests;
-- coherent Observatory authority cut, redacted causal trace, bounded resources, soak, and provider-verified cleanup after success and after every failed phase.
-
-## No Synthetic Credit
-
-In-process services, mocks, shared state roots, direct executor calls, cached provider outputs, hand-authored receipts, hard-coded counts, skipped tests, screenshots alone, or unverified cleanup cannot satisfy this feature.
+Existing issue `#345` is promoted into this lane for AWS GPU Shepherd hardening. It may run in parallel with DRT-A and the Observatory prerequisites; DRT-B and DRT-C consume its terminal evidence only for GPU-backed qualification claims.

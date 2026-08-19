@@ -796,6 +796,22 @@ open-ended post-`v0.95` ambiguity in the feature list.
 
 ## Summary
 
+## Near-Term Integration Milestones
+
+### `v0.92.1` — Integration and Product Readiness
+
+The v0.92.1 package carries six bounded lanes: Corporate and IP transfer,
+C-SDLC v3, Distributed multi-agent Runtime qualification, Podcast publication
+and Studio, Axum configuration hot reload, and Observatory redesign. Repository
+authority cleanup is the shared prerequisite. Runtime v4 is an explicit
+rebaseline risk rather than implicit scope.
+
+### `v0.92.2` — CodeFriend Beta 1
+
+CodeFriend Beta 1 follows v0.92.1. It turns the existing review, diagram, test,
+remediation, and reporting capabilities into an integrated beta slice. The
+release train must make CodeFriend available as an integrated beta by v0.95.
+
 ADL already has a substantial platform:
 - deterministic execution
 - a real Rust runtime
