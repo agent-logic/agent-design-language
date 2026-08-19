@@ -14,14 +14,56 @@ work_packages:
     depends_on: [REP-01]
   - id: CORP-01
     lane: corporate
-    title: Corporate and IP transfer
+    title: Corporate and IP transfer program
     issue: 433
     depends_on: [WP-01]
+    packages:
+      - id: CORP-A
+        title: Asset inventory, provenance, licensing, trademark, and assignment
+        predecessor_issues: [153, 154, 155]
+        depends_on: []
+      - id: CORP-B
+        title: Corporate account custody, billing, recovery, MFA, and vault controls
+        predecessor_issues: [156]
+        depends_on: [CORP-A]
+      - id: CORP-C
+        title: Repository, domain, brand, vendor, AWS, Terraform, CI, and runbook transfer
+        predecessor_issues: [157, 158, 159]
+        depends_on: [CORP-A, CORP-B]
+      - id: CORP-D
+        title: Chain-of-title, diligence index, counsel review, and corporate acceptance
+        predecessor_issues: [160]
+        depends_on: [CORP-A, CORP-B, CORP-C]
   - id: V3-01
     lane: csdlc_v3
     title: C-SDLC v3 implementation program
     issue: 434
     depends_on: [WP-01]
+    packages:
+      - id: V3-A
+        title: Product contract, Rust construction slice, and platform decision
+        predecessor_issues: [161, 162, 163]
+        depends_on: []
+      - id: V3-B
+        title: Binary foundation, application services, repository context, state, and projections
+        predecessor_issues: [164, 165, 166, 167]
+        depends_on: [V3-A]
+      - id: V3-C
+        title: Lifecycle kernel, transaction storage, recovery, and typed adapters
+        predecessor_issues: [168, 169, 170]
+        depends_on: [V3-B]
+      - id: V3-D
+        title: Local issue, bind, card, doctor, and PVF planning commands
+        predecessor_issues: [171, 172, 173]
+        depends_on: [V3-C]
+      - id: V3-E
+        title: PVF execution, review, publication, GitHub, PR, finish, and cleanup
+        predecessor_issues: [174, 175, 176, 177, 178]
+        depends_on: [V3-D]
+      - id: V3-F
+        title: Parity, canary migration, authority cutover, observation, and retirement decision
+        predecessor_issues: [179, 180]
+        depends_on: [V3-E]
   - id: DRT-01
     lane: distributed_runtime
     title: Distributed multi-agent Runtime qualification
@@ -44,6 +86,53 @@ work_packages:
     depends_on: [WP-01]
   - id: INT-01
     lane: integration
-    title: Cross-lane integration review
+    title: Release-tail coordination root
     issue: 438
     depends_on: [CORP-01, V3-01, DRT-01, POD-01, HOT-01, OBS-01]
+  - id: TAIL-01
+    lane: release_tail
+    title: Demo and proof convergence
+    predecessor_issues: [188]
+    depends_on: [INT-01]
+  - id: TAIL-02
+    lane: release_tail
+    title: Quality and coverage gate
+    depends_on: [TAIL-01]
+  - id: TAIL-03
+    lane: release_tail
+    title: Documentation and reviewer-entry convergence
+    depends_on: [TAIL-02]
+  - id: TAIL-04
+    lane: release_tail
+    title: Internal milestone review
+    depends_on: [TAIL-03]
+  - id: TAIL-05
+    lane: release_tail
+    title: External or third-party review
+    depends_on: [TAIL-04]
+  - id: TAIL-06
+    lane: release_tail
+    title: Accepted-findings remediation or explicit deferral capture
+    predecessor_issues: [188]
+    depends_on: [TAIL-05]
+  - id: TAIL-07
+    lane: release_tail
+    title: Next-milestone planning and CodeFriend Beta 1 handoff
+    predecessor_issues: [190]
+    depends_on: [TAIL-06]
+  - id: TAIL-08
+    lane: release_tail
+    title: Release ceremony, final validation, notes, tag, and cleanup
+    predecessor_issues: [189]
+    depends_on: [TAIL-07]
+backlog_disposition:
+  included_deferred:
+    - issue: 84
+      reason: Unity Observatory remains blocked on TLS 1.2 and public exposure prerequisites.
+    - issue: 122
+      reason: Public Route53 and ACM exposure remains deferred with the Unity path.
+    - issue: 251
+      reason: TLS 1.2 support remains a prerequisite backlog item, not v0.92.1 execution scope.
+    - issue: 345
+      reason: AWS GPU Shepherd hardening remains deferred; the v0.92.1 Runtime lane is CPU and r7i focused.
+  rule: Included for milestone routing truth without promotion into active execution.

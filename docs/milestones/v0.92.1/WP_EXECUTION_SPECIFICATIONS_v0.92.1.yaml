@@ -7,10 +7,14 @@ repository_prerequisite:
 lanes:
   corporate:
     root: CORP-01
+    packages: [CORP-A, CORP-B, CORP-C, CORP-D]
+    predecessor_issues: [153, 154, 155, 156, 157, 158, 159, 160]
     outcome: reviewed corporate and IP transfer evidence
     proof: redacted records, authority receipts, and operator acceptance
   csdlc_v3:
     root: V3-01
+    packages: [V3-A, V3-B, V3-C, V3-D, V3-E, V3-F]
+    predecessor_issues: [161, 162, 163, 164, 165, 166, 167, 168, 169, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180]
     source: docs/milestones/v0.92.1/sources/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE_SOURCE.md
     outcome: typed executable C-SDLC v3 slices
     proof: schema, migration, rollback, and focused behavioral tests
@@ -30,6 +34,19 @@ lanes:
     root: OBS-01
     outcome: accessible Observatory redesign grounded in authentic Runtime authority
     proof: source-bound projections, empty/degraded/recovery states, accessibility, and no invented data
+release_tail:
+  root_issue: 438
+  canonical_order:
+    - TAIL-01 demo_and_proof_convergence
+    - TAIL-02 quality_and_coverage_gate
+    - TAIL-03 docs_and_reviewer_entry_convergence
+    - TAIL-04 internal_review
+    - TAIL-05 external_or_third_party_review
+    - TAIL-06 findings_remediation_or_explicit_deferral
+    - TAIL-07 next_milestone_planning
+    - TAIL-08 release_ceremony
+  serial: true
+  no_step_may_infer_authority_from_a_later_step: true
 rebaseline:
   runtime_v4: explicit_only
   action: stop_affected_lane_and_replan

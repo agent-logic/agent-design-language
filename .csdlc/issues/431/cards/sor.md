@@ -12,13 +12,16 @@ Status: pre_phase
 
 ## Summary
 
-Published the repository-authoritative six-lane v0.92.1 planning package, seeded active issues #433-#438, retained the #51 podcast graph, and kept the v0.92.2 CodeFriend Beta 1 handoff in #431.
+Authored and validated the repository-authoritative v0.92.1 planning candidate, seeded active roots #433-#438, consolidated every retired predecessor without reopening it, classified open backlog, and defined the canonical serial release tail. Publication remains pending exact-head review.
 
 ## Artifacts
 
 - issue wave with exact #433-#438 routing
+- four-package corporate and IP decomposition for #153-#160
+- six-package C-SDLC v3 consolidation for #161-#180
+- canonical eight-gate release tail under #438
+- deferred backlog routing for #84, #122, #251, and #345
 - six feature lanes
-- historical #149-#190 classification
 - #439 duplicate closure
 - v0.92.2 CodeFriend Beta 1 handoff
 
@@ -45,7 +48,7 @@ Published the repository-authoritative six-lane v0.92.1 planning package, seeded
       "python3",
       ".csdlc/prepared/issues/431/validate_planning_package.py"
     ],
-    "purpose": "Verify exact active issue routing, six-lane package parity, repository authority, links, YAML, and live state.",
+    "purpose": "Verify committed and working-tree scope, active and backlog routing, complete predecessor denominators, six-lane parity, canonical release-tail order, links, YAML, and live state.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/431/planning-package.log"
   },
@@ -53,9 +56,10 @@ Published the repository-authoritative six-lane v0.92.1 planning package, seeded
     "command": [
       "git",
       "diff",
-      "--check"
+      "--check",
+      "72ca2634a56e538e18ab241e9fe1568dc8ad8d7a"
     ],
-    "purpose": "Verify candidate diff hygiene.",
+    "purpose": "Verify full candidate diff hygiene.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/431/diff-hygiene.log"
   }

@@ -13,6 +13,7 @@ surface_names = [
     "README.md", "VISION_v0.92.1.md", "DESIGN_v0.92.1.md",
     "DECISIONS_v0.92.1.md", "WBS_v0.92.1.md", "SPRINT_v0.92.1.md",
     "WP_ISSUE_WAVE_v0.92.1.yaml", "WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
+    "WP_PREMATURE_ISSUE_RETIREMENT_v0.92.1.yaml",
     "DEMO_MATRIX_v0.92.1.md", "MILESTONE_CHECKLIST_v0.92.1.md",
     "RELEASE_PLAN_v0.92.1.md", "RELEASE_NOTES_v0.92.1.md",
     "QUALITY_GATE_v0.92.1.md", "FEATURE_PROOF_COVERAGE_v0.92.1.md",
@@ -71,7 +72,7 @@ if spec_text:
         errors.append("yaml-structure:WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml")
 wave_packages = {item.get("id"): item for item in wave_data.get("work_packages", []) if isinstance(item, dict)}
 wave_lanes = {item.get("lane") for item in wave_packages.values()}
-allowed_wave_lanes = {"repository_authority", "milestone_opening", "integration", *lane_tokens.keys()}
+allowed_wave_lanes = {"repository_authority", "milestone_opening", "integration", "release_tail", *lane_tokens.keys()}
 if wave_lanes != allowed_wave_lanes:
     errors.append(f"issue-wave-lanes:expected={sorted(allowed_wave_lanes)}:actual={sorted(str(item) for item in wave_lanes)}")
 if "REP-01" not in wave_packages.get("WP-01", {}).get("depends_on", []):
@@ -86,6 +87,22 @@ expected_issue_routing = {
 for package_id, issue_number in expected_issue_routing.items():
     if wave_packages.get(package_id, {}).get("issue") != issue_number:
         errors.append(f"issue-routing:{package_id}:expected={issue_number}")
+expected_predecessors = {
+    "CORP-01": set(range(153, 161)),
+    "V3-01": set(range(161, 181)),
+}
+for root_id, expected in expected_predecessors.items():
+    actual = set()
+    for package in wave_packages.get(root_id, {}).get("packages", []):
+        actual.update(package.get("predecessor_issues", []))
+    if actual != expected:
+        errors.append(f"predecessor-denominator:{root_id}:expected={sorted(expected)}:actual={sorted(actual)}")
+tail_ids = [f"TAIL-{number:02d}" for number in range(1, 9)]
+for index, tail_id in enumerate(tail_ids):
+    if tail_id not in wave_packages:
+        errors.append(f"release-tail-missing:{tail_id}")
+    elif index and wave_packages[tail_id].get("depends_on") != [tail_ids[index - 1]]:
+        errors.append(f"release-tail-order:{tail_id}")
 
 required_semantics = {
     M / "README.md": ["#432", "WP-28 #316", "Runtime v4", "v0.92.2", "CodeFriend Beta 1"],
@@ -113,7 +130,8 @@ for path, text in texts.items():
 
 allowed_prefixes = ("docs/milestones/v0.92.1/", "docs/planning/ADL_FEATURE_LIST.md", ".csdlc/issues/431/", ".csdlc/prepared/issues/431/", ".csdlc/evidence/431/")
 changed = set()
-for command in [["git", "diff", "--name-only", "HEAD"], ["git", "diff", "--cached", "--name-only"], ["git", "ls-files", "--others", "--exclude-standard"]]:
+base = "72ca2634a56e538e18ab241e9fe1568dc8ad8d7a"
+for command in [["git", "diff", "--name-only", f"{base}...HEAD"], ["git", "diff", "--name-only", "HEAD"], ["git", "diff", "--cached", "--name-only"], ["git", "ls-files", "--others", "--exclude-standard"]]:
     result = subprocess.run(command, cwd=ROOT, text=True, capture_output=True, check=False)
     if result.returncode != 0:
         errors.append(f"git-inventory:{' '.join(command)}")
@@ -129,7 +147,7 @@ for item in sorted(changed):
 baseline = json.loads((ROOT / ".csdlc/prepared/issues/431/wp28-readonly-baseline.json").read_text())
 listing = subprocess.run(["gh", "issue", "list", "--repo", "agent-logic/agent-design-language", "--state", "all", "--limit", "500", "--json", "number,state,labels"], cwd=ROOT, text=True, capture_output=True, check=False)
 live = {item["number"]: item for item in json.loads(listing.stdout or "[]")} if listing.returncode == 0 else {}
-for issue in [51, 261, 262, 263, 264, 316, 317, 342, 431, 432, 433, 434, 435, 436, 437, 438]:
+for issue in [51, 84, 122, 251, 261, 262, 263, 264, 316, 317, 342, 345, 431, 432, 433, 434, 435, 436, 437, 438, 439]:
     payload = live.get(issue)
     if payload is None:
         errors.append(f"live-routing-unavailable:{issue}")
@@ -142,6 +160,12 @@ for issue in [51, 261, 262, 263, 264, 316, 317, 342, 431, 432, 433, 434, 435, 43
         digest = hashlib.sha256((json.dumps(canonical, sort_keys=True, separators=(",", ":")) + "\n").encode()).hexdigest()
         if digest != baseline["issues"][str(issue)]["canonical_json_sha256"]:
             errors.append(f"wp28-drift:{issue}")
+    elif issue == 439:
+        if payload["state"] != "CLOSED":
+            errors.append("redundant-issue-439-must-remain-closed")
+    elif issue in (84, 122, 251, 345):
+        if payload["state"] != "OPEN" or "track:backlog" not in labels:
+            errors.append(f"backlog-routing-drift:{issue}")
     elif payload["state"] != "OPEN" or "version:v0.92.1" not in labels:
         errors.append(f"live-routing-drift:{issue}")
 

@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "95b5986b4d799d43725ec94cd60cdca6cec37eecc20e979f0cd029e4c4b64cc0",
   "phase": "implemented",
-  "generation": 5,
-  "digest": "40ea5324e0329ce2e8f092c01df66a8eb8439500d0cdc27e341fd13cad8b7434",
+  "generation": 6,
+  "digest": "e9427f6cbe131f103515a39c2ad2d6a24eae89938fef2c51b03a475cb65e4af6",
   "branch": "codex/431-v0921-initial-planning-refresh",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-431-v0921-initial-planning",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "78884a1e5f4edf60d3fb2d8cf4b17a62c234f3ac0d0d76c28bb58db7cbdab845",
+      "values_digest": "1d61befadeff0ac02d56ae7ea9eb10dcfcdd10670663e0c50c8c852fa715ee5e",
       "rendered_digest": "8fb6604eb170d0e4b611b5612a161b6a979503f9e1515c41ad32ee487398f957",
       "ast_digest": "f5e035c1828111cd3f99aeacfdf007876bcb409ec4a4dbd4e4e7a129b23294a5"
     },
     "stp": {
-      "values_digest": "ede9da4a5f35a65e6f82e2885277653b736620f71fa077b2687ef1c9c23acec7",
+      "values_digest": "e5adaefb6f462983738779d44cec4acaf41476efeacb26d2980ee354681f9489",
       "rendered_digest": "925295e87f834a27943ca77b8b4180e85fe5dd93f620e83f8f463705d1f4d7f4",
       "ast_digest": "2a699ab117303345e16ea6ae04e4b9e7530547b2207eaa3a27a34c19210ff354"
     },
     "spp": {
-      "values_digest": "eff89414a27240b23ba2ab0dff592db7c4685a5c860aa59ba75e2b1e5623b142",
+      "values_digest": "8c5588ad07e16871676e1b6d8c8f237df05481fa7d03889d0ba6c6826bb54669",
       "rendered_digest": "75405c0d66601a5c9c8a4d30db97f64bfc817f1a7f78ce0cac9dd59efe1b10d4",
       "ast_digest": "c4b25c3d4e4e4979f795a4bc24cbca5b057649ea7ddc05f05acebdff8c9ed9e9"
     },
     "vpp": {
-      "values_digest": "142c2aec25a537cfb15dfd835e07306a75ff27f030f480cb644f8e4590d42f9b",
+      "values_digest": "b703b48afb10c891a5024507ea578fdd7f62565f85856d35a54736c14289ccbc",
       "rendered_digest": "737e870dd27b547ba8a2a3df43d2bd53bafd3f7b34ac1a29982434c7c696a27c",
       "ast_digest": "48c256915223a0c4db0b630c0614223a4b969d0a41c5153e698a8d0b7b981ec3"
     },
     "srp": {
-      "values_digest": "1a929f40b70e5ebcbee1d8b2481997e110acef5441ae4ab525634ffd022c8575",
+      "values_digest": "9aef482a77cb3e6705f50cf6a5e53c7861541c4e1e6a6aea42065d255fbdaae3",
       "rendered_digest": "3f6d77d4279cfbc490e7c66ecb2380acf4cc6183b3a384bff130deb6abc27544",
       "ast_digest": "9da4c9ec43ac4d9183a71866d928d82133f6908a9d19a1db27b126be12c75f1d"
     },
     "sor": {
-      "values_digest": "b6fdf52b81858fc9d233c7e82fc36a5e5e0f68da0216acb3548902dc24e95bef",
-      "rendered_digest": "8af634a106b6a4c8dbecbe2561db4d605b233e0011cef3d2fac11526790586cb",
-      "ast_digest": "fe91563c0b12132a05404bf6b2c628908f5e2c4f83b76eddae2d16fd40b49084"
+      "values_digest": "a73a37c20ad3b4fd5024ba068930aa16b571080c46c0f2e989a356f52efde85a",
+      "rendered_digest": "28a69c206bbd55edf013c9fd0bdb9f2dffe3a39500977aafa81589d7e0c0e52c",
+      "ast_digest": "b01a4fc05a8e4ce01c1d0f9f927d5a530e45c45a1f9a9c80a46f30d40482bca0"
     }
   },
   "transitions": [
@@ -126,6 +126,13 @@
       "actor": "codex:issue-431-v0921-planning",
       "reason": "Refresh execution and validation truth after seeding exact active v0.92.1 lane issues and closing redundant #439.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Published the repository-authoritative six-lane v0.92.1 planning package, seeded active issues #433-#438, retained the #51 podcast graph, and kept the v0.92.2 CodeFriend Beta 1 handoff in #431.\",\"changes\":[\"docs/milestones/v0.92.1/**\",\"docs/planning/ADL_FEATURE_LIST.md\",\".csdlc/prepared/issues/431/**\"],\"artifacts\":[\"issue wave with exact #433-#438 routing\",\"six feature lanes\",\"historical #149-#190 classification\",\"#439 duplicate closure\",\"v0.92.2 CodeFriend Beta 1 handoff\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/431/validate_preparation_bundle.py\"],\"purpose\":\"Verify the prepared planning contract and WP-28 boundary.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/431/preparation-contract.log\"},{\"command\":[\"python3\",\".csdlc/prepared/issues/431/validate_planning_package.py\"],\"purpose\":\"Verify exact active issue routing, six-lane package parity, repository authority, links, YAML, and live state.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/431/planning-package.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Verify candidate diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/431/diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:issue-431-v0921-planning",
+      "reason": "Record truthful pre-publication candidate state after completing predecessor consolidation, corporate/IP decomposition, backlog disposition, canonical release-tail ordering, and committed-scope validation.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Authored and validated the repository-authoritative v0.92.1 planning candidate, seeded active roots #433-#438, consolidated every retired predecessor without reopening it, classified open backlog, and defined the canonical serial release tail. Publication remains pending exact-head review.\",\"changes\":[\"docs/milestones/v0.92.1/**\",\"docs/planning/ADL_FEATURE_LIST.md\",\".csdlc/prepared/issues/431/**\"],\"artifacts\":[\"issue wave with exact #433-#438 routing\",\"four-package corporate and IP decomposition for #153-#160\",\"six-package C-SDLC v3 consolidation for #161-#180\",\"canonical eight-gate release tail under #438\",\"deferred backlog routing for #84, #122, #251, and #345\",\"six feature lanes\",\"#439 duplicate closure\",\"v0.92.2 CodeFriend Beta 1 handoff\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/431/validate_preparation_bundle.py\"],\"purpose\":\"Verify the prepared planning contract and WP-28 boundary.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/431/preparation-contract.log\"},{\"command\":[\"python3\",\".csdlc/prepared/issues/431/validate_planning_package.py\"],\"purpose\":\"Verify committed and working-tree scope, active and backlog routing, complete predecessor denominators, six-lane parity, canonical release-tail order, links, YAML, and live state.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/431/planning-package.log\"},{\"command\":[\"git\",\"diff\",\"--check\",\"72ca2634a56e538e18ab241e9fe1568dc8ad8d7a\"],\"purpose\":\"Verify full candidate diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/431/diff-hygiene.log\"}]}"
     }
   ]
 }

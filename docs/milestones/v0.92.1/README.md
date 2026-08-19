@@ -19,7 +19,13 @@ All six roots depend on #431 after #432. They may execute independently after th
 
 The active roots are #433 Corporate and IP, #434 C-SDLC v3, #435 Distributed multi-agent Runtime, the existing #51 podcast graph, #436 Axum configuration hot reload, and #437 Observatory redesign. #438 owns integration and release. #431 itself owns the v0.92.2 handoff.
 
-Closed issues #149–#190 are historical planning and evidence packets. They are inputs for reconciliation, not active v0.92.1 execution issues. The v0.92 tooling defect #387 is likewise not part of the active milestone plan even if legacy labeling includes v0.92.1. #439 was closed as redundant with #431.
+Closed issues #149–#190 were prematurely retired planning packets, not delivered execution. Their requirements remain in the routing denominator: corporate #153–#160 is consolidated into four packages under #433; C-SDLC v3 #161–#180 into six packages under #434; Runtime #181–#187 under #435; and integration #188–#190 into the canonical release tail under #438. They are not reopened. The v0.92 tooling defect #387 is not part of the active milestone plan even if legacy labeling includes v0.92.1. #439 was closed as redundant with #431.
+
+Open backlog issues #84, #122, #251, and #345 are included explicitly as deferred routing truth. They are not silently promoted: Unity/public exposure remains gated by TLS 1.2, and the GPU Shepherd runner remains outside the CPU/r7i v0.92.1 qualification lane.
+
+## Canonical release tail
+
+After all six execution roots are terminal, #438 conducts the standard serial tail: demo/proof convergence; quality/coverage; docs/reviewer convergence; internal review; external review; findings remediation or explicit deferral; next-milestone planning; then release ceremony. These are distinct authority gates even where implementation work is consolidated.
 
 ## Boundaries
 
