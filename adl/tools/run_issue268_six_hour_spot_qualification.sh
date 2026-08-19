@@ -75,7 +75,7 @@ profile = {
     "argv": ["bash", "adl/tools/run_issue268_remote_resident_qualification.sh"],
     "working_directory": ".",
     "environment_allowlist": [
-        "PATH", "CARGO_HOME", "RUSTUP_HOME", "CARGO_TARGET_DIR", "ADL_RUNTIME_VECTOR_BIN",
+        "PATH", "CARGO_HOME", "RUSTUP_HOME", "CARGO_TARGET_DIR", "ADL_RUN_ID", "ADL_RUNTIME_VECTOR_BIN",
         "ADL_RUNTIME_CONTINUITY_ROOT", "ADL_RUNTIME_CONTINUITY_VOLUME_ID_SHA256",
         "ADL_CACHE_VOLUME_MOUNT_PATH", "ADL_RETAINED_VOLUME_ROLE", "ADL_REGION",
         "ADL_ISSUE268_REMOTE_EVIDENCE_ROOT", "ADL_ISSUE268_CONTINUITY_BIN",

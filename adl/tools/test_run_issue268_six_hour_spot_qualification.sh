@@ -101,6 +101,7 @@ python3 - "$test_root/portable-request.json" <<'PY'
 import json, pathlib, sys
 request=json.loads(pathlib.Path(sys.argv[1]).read_text())
 assert request["request_id"] == "issue268-six-hour-r7i-20260819-01"
+assert "ADL_RUN_ID" in request["command_profile"]["environment_allowlist"]
 assert request["command_profile"]["argv"] == ["bash", "adl/tools/run_issue268_remote_resident_qualification.sh"]
 assert request["resource_budget"] == {
     "cpu_cores": 8,
