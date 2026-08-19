@@ -34,3 +34,4 @@
 {"sequence":34,"generation":23,"actor":"codex:worker-3","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":35,"generation":24,"actor":"codex:worker-3","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":36,"generation":25,"actor":"codex:issue-295-publication-reconcile","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":37,"generation":26,"actor":"codex:closeout-sweep","reason":"Materialize historical merged PR #302 terminal truth for #295 closeout.","operation":"materialize_derived_terminal"}
