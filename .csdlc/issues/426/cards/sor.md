@@ -54,11 +54,11 @@ Implemented Linux process service control for CSMctl while preserving Darwin lau
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
