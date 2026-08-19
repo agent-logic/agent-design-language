@@ -29,7 +29,7 @@ Revision 1
       "AC-2",
       "AC-3"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "step-2",
@@ -40,7 +40,7 @@ Revision 1
       "AC-3",
       "AC-5"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "step-3",
@@ -50,7 +50,7 @@ Revision 1
       "AC-3",
       "AC-4"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "step-4",
@@ -59,7 +59,7 @@ Revision 1
       "AC-4",
       "AC-5"
     ],
-    "status": "pending"
+    "status": "completed"
   }
 ]
 
