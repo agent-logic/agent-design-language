@@ -72,11 +72,17 @@ with tempfile.TemporaryDirectory() as value:
     }
     installed_path = root / "installed.json"
     installed_path.write_text(json.dumps(installed))
-    assert MODULE.validate_installed(installed_path, expected)["schema"] == MODULE.INSTALL_SCHEMA
+    validated = MODULE.validate_installed(installed_path, expected, "c" * 64)
+    assert validated["schema"] == MODULE.INSTALL_SCHEMA
+    assert validated["snapshot_clone_reuse"] is False
+    cloned = MODULE.validate_installed(installed_path, expected, "d" * 64)
+    assert cloned["snapshot_clone_reuse"] is True
+    assert cloned["installation_volume_identity_sha256"] == "c" * 64
+    assert cloned["attached_volume_identity_sha256"] == "d" * 64
     assert "source_revision" not in expected
     continuity.write_bytes(b"tampered")
     try:
-        MODULE.validate_installed(installed_path, expected)
+        MODULE.validate_installed(installed_path, expected, "c" * 64)
         raise AssertionError("tampered installed binary unexpectedly accepted")
     except ValueError as error:
         assert "continuity_binary" in str(error)

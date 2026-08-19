@@ -74,7 +74,10 @@ def extract(archive: pathlib.Path, destination: pathlib.Path) -> None:
         )
 
 
-def validate_installed(receipt_path: pathlib.Path, expected: dict) -> dict:
+def validate_installed(
+    receipt_path: pathlib.Path, expected: dict, attached_volume_identity_sha256: str
+) -> dict:
+    exact_digest(attached_volume_identity_sha256, "attached Runtime volume identity SHA-256")
     installed = json.loads(receipt_path.read_text())
     for key, value in expected.items():
         if installed.get(key) != value:
@@ -89,6 +92,12 @@ def validate_installed(receipt_path: pathlib.Path, expected: dict) -> dict:
     for relative in MODEL_MANIFESTS:
         if not (model_root / relative).is_file():
             raise ValueError(f"installed Ollama model manifest is absent: {relative}")
+    installed = dict(installed)
+    installed["installation_volume_identity_sha256"] = installed.get("volume_identity_sha256")
+    installed["attached_volume_identity_sha256"] = attached_volume_identity_sha256
+    installed["snapshot_clone_reuse"] = (
+        installed.get("volume_identity_sha256") != attached_volume_identity_sha256
+    )
     return installed
 
 
@@ -114,11 +123,10 @@ def install(args: argparse.Namespace) -> dict:
     expected = {
         "schema": INSTALL_SCHEMA,
         "reviewed_414_git_sha": args.reviewed_git_sha,
-        "volume_identity_sha256": args.volume_identity_sha256,
         "source_receipt_sha256": sha256(args.source_receipt),
     }
     if receipt_path.exists():
-        return validate_installed(receipt_path, expected)
+        return validate_installed(receipt_path, expected, args.volume_identity_sha256)
     if staging.exists() or final_root.exists():
         raise ValueError("partial or unsealed Runtime-volume installation exists")
     staging.mkdir(parents=True)
@@ -177,7 +185,7 @@ def install(args: argparse.Namespace) -> dict:
     temporary = receipt_path.with_suffix(".tmp")
     temporary.write_text(json.dumps(installed, indent=2, sort_keys=True) + "\n")
     os.replace(temporary, receipt_path)
-    return validate_installed(receipt_path, expected)
+    return validate_installed(receipt_path, expected, args.volume_identity_sha256)
 
 
 def main() -> int:
