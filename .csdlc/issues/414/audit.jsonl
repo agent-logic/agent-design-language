@@ -48,3 +48,5 @@
 {"sequence":48,"generation":41,"actor":"codex:issue-414-implementation","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":49,"generation":42,"actor":"codex:issue-414-implementation","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":50,"generation":43,"actor":"codex:issue-414-implementation","reason":"Recover R26 before rejecting populated-lineage absence and making admission authority writes crash durable.","operation":"recover_review"}
+{"sequence":51,"generation":44,"actor":"codex:closeout-sweep-reconcile-merged","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":52,"generation":45,"actor":"codex:closeout-sweep-closed-merged-v092","reason":"Materialize terminal closeout after exact merged PR #422 historical finish.","operation":"materialize_derived_terminal"}
