@@ -16,7 +16,7 @@ Make the merged CSMctl launcher work safely on Linux while preserving Darwin beh
 
 ## Required Outcome
 
-start_CSM.sh and CSMctl provide tested start, stop, restart, and status control on Linux/x86 Amazon Linux hosts without invoking launchctl.
+start_CSM.sh and CSMctl provide tested start, stop, restart, and status control on native Linux without invoking launchctl, while issue #268 retains authority for the native x86 Amazon Linux AWS qualification.
 
 ## Scope
 

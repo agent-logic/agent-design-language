@@ -7,14 +7,14 @@
     "title": "[v0.92][runtime-v3][20.c1] Add Linux service control to CSMctl",
     "slug": "linux-csmctl-service-control",
     "version": "v0.92",
-    "generation": 19
+    "generation": 22
   },
   "status": "ready",
   "content": {
     "card_kind": "sip",
     "values": {
       "goal": "Make the merged CSMctl launcher work safely on Linux while preserving Darwin behavior.",
-      "required_outcome": "start_CSM.sh and CSMctl provide tested start, stop, restart, and status control on Linux/x86 Amazon Linux hosts without invoking launchctl.",
+      "required_outcome": "start_CSM.sh and CSMctl provide tested start, stop, restart, and status control on native Linux without invoking launchctl, while issue #268 retains authority for the native x86 Amazon Linux AWS qualification.",
       "declared_scope": [
         "CSMctl",
         "start_CSM.sh compatibility",
