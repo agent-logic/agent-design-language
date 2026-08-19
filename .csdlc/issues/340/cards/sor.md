@@ -99,11 +99,11 @@ Implemented bounded HTML Observatory Runtime v3 launch/start-stop-restart integr
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
