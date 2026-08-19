@@ -7,7 +7,7 @@
     "title": "[v0.92][C-SDLC][defect] Prevent publication metadata tail from blocking exact-clean finish",
     "slug": "publication-metadata-tail-exact-clean-finish",
     "version": "v0.92",
-    "generation": 45
+    "generation": 46
   },
   "status": "ready",
   "content": {
