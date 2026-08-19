@@ -57,7 +57,7 @@ def main() -> None:
             result = json.loads(receipt.read_text())
             assert result["status"] == "passed" and result["resident_model_count"] == 3
             assert len(observed) == 3
-            assert all(row["keep_alive"] == -1 for row in observed)
+            assert all("keep_alive" not in row for row in observed)
             assert all(row["options"]["num_ctx"] == 32768 for row in observed)
     finally:
         server.shutdown()

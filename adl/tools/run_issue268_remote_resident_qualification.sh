@@ -57,7 +57,7 @@ if [[ -n "$CONTINUITY_BIN_SHA256" && "$installed_continuity_sha" != "$CONTINUITY
   echo "issue268: installed continuity binary provenance mismatch" >&2
   exit 65
 fi
-export OLLAMA_MODELS OLLAMA_HOST=http://127.0.0.1:11434 OLLAMA_MAX_LOADED_MODELS=3
+export OLLAMA_MODELS OLLAMA_HOST=http://127.0.0.1:11434 OLLAMA_MAX_LOADED_MODELS=3 OLLAMA_KEEP_ALIVE=-1
 OLLAMA_LOG="$EVIDENCE_ROOT/ollama.log"
 "$OLLAMA_BIN" serve >"$OLLAMA_LOG" 2>&1 &
 OLLAMA_PID=$!
@@ -88,10 +88,14 @@ if [[ -z "$PROVIDER_ADAPTER_BIN" ]]; then
 fi
 [[ -x "$PROVIDER_ADAPTER_BIN" ]] || { echo "issue268: provider adapter is unavailable" >&2; exit 69; }
 export ADL_PROVIDER_ADAPTER_BIN="$PROVIDER_ADAPTER_BIN"
-python3 "$MODEL_WARMUP" \
+if ! python3 "$MODEL_WARMUP" \
   --plan "$materialized" \
   --ollama-url "$OLLAMA_HOST" \
-  --receipt "$EVIDENCE_ROOT/model-residency.json"
+  --receipt "$EVIDENCE_ROOT/model-residency.json"; then
+  echo "issue268: Ollama preload failed; server diagnostics follow" >&2
+  tail -120 "$OLLAMA_LOG" >&2 || true
+  exit 70
+fi
 python3 "$ORCHESTRATOR" \
   --continuity-bin "$CONTINUITY_BIN" \
   --runtime-root "$RUNTIME_ROOT" \

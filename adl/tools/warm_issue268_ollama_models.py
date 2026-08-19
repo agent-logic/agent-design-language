@@ -6,6 +6,7 @@ import argparse
 import json
 import os
 import pathlib
+import urllib.error
 import urllib.request
 
 
@@ -17,8 +18,12 @@ def request_json(url: str, payload: dict | None = None, timeout: int = 900) -> d
         headers={"Content-Type": "application/json"} if data is not None else {},
         method="POST" if data is not None else "GET",
     )
-    with urllib.request.urlopen(request, timeout=timeout) as response:
-        return json.load(response)
+    try:
+        with urllib.request.urlopen(request, timeout=timeout) as response:
+            return json.load(response)
+    except urllib.error.HTTPError as error:
+        detail = error.read().decode("utf-8", errors="replace")
+        raise RuntimeError(f"Ollama HTTP {error.code}: {detail}") from error
 
 
 def main() -> None:
@@ -46,7 +51,6 @@ def main() -> None:
                 "prompt": "Return exactly: OK",
                 "stream": False,
                 "think": False,
-                "keep_alive": -1,
                 "options": {"num_predict": 8, "num_ctx": context_tokens, "temperature": 0},
             },
         )
@@ -64,7 +68,7 @@ def main() -> None:
         "models": models,
         "resident_model_count": len(models),
         "context_tokens": context_tokens,
-        "keep_alive": -1,
+        "keep_alive": "process_default_indefinite",
         "max_loaded_models": 3,
     }
     args.receipt.parent.mkdir(parents=True, exist_ok=True)
