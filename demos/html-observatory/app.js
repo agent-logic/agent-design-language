@@ -2271,6 +2271,11 @@ function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
   lastPanopticonPacket = packet;
   const vm = buildPanopticonViewModel(snapshot, packet);
   const sourceLabel = vm.mode === "live" ? "Live Runtime API" : vm.mode === "published" ? "Published Runtime Evidence" : "Retained Runtime Evidence";
+  const hasAuthoritativeLiveRuntimeFeed =
+    vm.mode === "live" &&
+    snapshot.status?.schema === RUNTIME_V3_OBSERVATORY_SCHEMA &&
+    snapshot.status?.agent_population &&
+    Number(snapshot.status.agent_population.total_count || 0) >= 0;
   setText("live-status", vm.mode === "live" ? "live loopback" : vm.mode === "published" ? "published runtime mirror" : "retained fallback");
   setText("hero-live-mode", vm.mode === "live" ? "Online" : vm.mode === "published" ? "Published" : "Retained");
   setText("hero-map-mode", vm.mode === "live" ? "live graph" : vm.mode === "published" ? "published graph" : "retained graph");
@@ -2278,6 +2283,13 @@ function renderPanopticon(snapshot = {}, packet = FALLBACK_PACKET) {
   setText("statusbar-mode", vm.mode === "live" ? "Live Loopback" : vm.mode === "published" ? "Published Mirror" : "Retained Mirror");
   setText("runtime-source-label", sourceLabel);
   setText("statusbar-runtime-label", sourceLabel);
+  if (hasAuthoritativeLiveRuntimeFeed) {
+    setText("packet-status", "CSM Runtime");
+    document.getElementById("packet-status")?.setAttribute("data-state", "ok");
+    setText("claim-boundary", "Live Runtime v3 Observatory feed loaded from the configured loopback API.");
+    setText("evidence-level", "Runtime v3 Observatory feed");
+    document.getElementById("evidence-level")?.setAttribute("data-tone", "ok");
+  }
   const modeSelect = document.getElementById("top-mode-select");
   if (modeSelect) {
     modeSelect.value = vm.mode === "live" ? "live" : vm.mode === "published" ? "published" : "retained";

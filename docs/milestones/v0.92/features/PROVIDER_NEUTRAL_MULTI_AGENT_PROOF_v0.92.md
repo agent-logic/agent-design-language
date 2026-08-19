@@ -5,6 +5,10 @@
 Planned for v0.92 under WP-18B (`#5838`). This document defines the required
 feature and proof boundary; it does not claim that the proof has run.
 
+Current-repository successor issue `#341` owns the bounded v0.92 WP-18B proof
+slice. Its retained proof packet lives under
+`demos/v0.92/provider-neutral-birthday/` and `.csdlc/evidence/341/`.
+
 ## Purpose
 
 Prove that a governed multi-agent interaction is an ADL and ACIP capability,
@@ -41,6 +45,14 @@ or substituted fixture output.
   successful run.
 - Artifacts are redacted, deterministic where required, and linked to exact
   source and provider-capability revisions.
+
+Issue `#341` keeps local deterministic validator coverage separate from live
+provider proof. Local proof exercises validator semantics and negative cases
+without claiming provider execution. Live positive proof requires at least two
+approved provider credentials supplied through environment variables or
+operator-approved key-file environment variables; the retained matrix stores
+provider/model identity, semantic assertion booleans, request-id presence, and
+digests, not raw prompts, raw outputs, or credentials.
 
 ## Acceptance Criteria
 

@@ -14,6 +14,7 @@ const appPath = process.argv[2];
 const configPath = process.argv[3];
 const source = fs.readFileSync(appPath, "utf8");
 const config = JSON.parse(fs.readFileSync(configPath, "utf8"));
+const sourceRevision = "feed-source-revision-under-test";
 
 (async () => {
 const observatoryFeed = {
@@ -83,7 +84,7 @@ const observatoryFeed = {
       communication_eligible: true,
       observed_at_unix_millis: 1785778500000,
       freshness_deadline_unix_millis: 1785778530000,
-      source_revision: "0123456789abcdef0123456789abcdef01234567",
+      source_revision: sourceRevision,
       provenance: "runtime_component_state"
     }]
   },
@@ -201,7 +202,7 @@ assert.equal(roster[0].state, "ready");
 assert.equal(roster[0].health, "healthy");
 assert.equal(roster[0].communicationEligible, true);
 assert.equal(roster[0].provenance, "runtime_component_state");
-assert.equal(roster[0].sourceRevision, "0123456789abcdef0123456789abcdef01234567");
+assert.equal(roster[0].sourceRevision, sourceRevision);
 assert.deepEqual(
   api.buildRuntimeAgentRows({ status: { schema: observatoryFeed.schema, agent_population: { sample: [], total_count: 0 } } }),
   [],
@@ -245,6 +246,35 @@ assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-b", "incarn
 assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-v3-test", "runtime-incarnation-a", 6, "roster-cursor-6")), true);
 await api.authenticateRuntimeRosterSuccessor(config.api_base, snapshot);
 assert(calls.some((call) => call.url.includes("page_size=100&event_cursor=roster-cursor-6")), "browser returns the prior authenticated cursor to Runtime");
+
+const elements = new Map();
+const elementFor = (id) => {
+  if (!elements.has(id)) {
+    elements.set(id, {
+      id,
+      dataset: {},
+      hidden: false,
+      disabled: false,
+      value: "",
+      textContent: "",
+      innerHTML: "",
+      setAttribute(name, value) {
+        this[name] = value;
+        if (name.startsWith("data-")) {
+          this.dataset[name.slice(5)] = value;
+        }
+      }
+    });
+  }
+  return elements.get(id);
+};
+context.document = { getElementById: elementFor };
+api.renderPanopticon(snapshot, api.FALLBACK_PACKET);
+assert.equal(elements.get("packet-status").textContent, "CSM Runtime");
+assert.equal(elements.get("packet-status").dataset.state, "ok");
+assert.equal(elements.get("evidence-level").textContent, "Runtime v3 Observatory feed");
+assert.equal(elements.get("evidence-level").dataset.tone, "ok");
+assert.match(elements.get("claim-boundary").textContent, /Live Runtime v3 Observatory feed/);
 
 const eventCheck = await api.checkEventsEndpoint(api.getQueryApiBase());
 assert.equal(eventCheck.schema, "adl.html_observatory.runtime_v3_event_check.v1");
