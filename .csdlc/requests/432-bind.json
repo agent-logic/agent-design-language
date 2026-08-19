@@ -1,6 +1,6 @@
 {
   "issue": 432,
-  "base_branch": "main",
+  "base_branch": "codex/432-remove-tracked-adl-preparation",
   "branch": "codex/432-remove-tracked-adl",
-  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-432-remove-tracked-adl"
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-432-remove-tracked-adl-execution"
 }
