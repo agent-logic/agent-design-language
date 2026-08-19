@@ -36,12 +36,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Reviewer did not rerun broader cargo check or live GitHub dry-run; implementer had already run cargo check and refreshed retained live dry-run evidence after the P1 fix.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:9d308e685ab9b87553683bae2c54c182dae46e6a:e45ff9fd06dcd1be762631510ea9c0fdba24b55211c9f23462759d8cb7c464d4")
 
-Reviewer: None
+Reviewer: Some("fresh-session:e4d1dfc3-4ad0-4bb1-a21b-ae295968da79")
 
-Result: pre_review
+Result: pass

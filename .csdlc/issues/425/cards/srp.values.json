@@ -7,15 +7,15 @@
     "title": "[v0.92][C-SDLC][defect] Recover recordless already-merged closeout authority",
     "slug": "recordless-already-merged-closeout-recovery",
     "version": "v0.92",
-    "generation": 8
+    "generation": 9
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": "csdlc-v2/src/bin/csdlc-finish.rs\ncsdlc-v2/src/finish.rs\ncsdlc-v2/src/lib.rs\ncsdlc-v2/tests/gate_recordless_closeout.rs\n.csdlc/evidence/425-v092-residual-dry-run-result.json\n.csdlc/issues/425",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:9d308e685ab9b87553683bae2c54c182dae46e6a:e45ff9fd06dcd1be762631510ea9c0fdba24b55211c9f23462759d8cb7c464d4",
+      "reviewer": "fresh-session:e4d1dfc3-4ad0-4bb1-a21b-ae295968da79",
       "review_prompts": [
         "Does #425 avoid synthesizing normal implementation/card proof for recordless issues?",
         "Does live GitHub validation prove exact closed-by-merged authority before any receipt is written?",
@@ -23,8 +23,10 @@
         "Do tests cover both no-projection positives and ambiguity negatives without weakening active issue publication gates?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Reviewer did not rerun broader cargo check or live GitHub dry-run; implementer had already run cargo check and refreshed retained live dry-run evidence after the P1 fix."
+      ],
+      "review_result": "pass"
     }
   }
 }
