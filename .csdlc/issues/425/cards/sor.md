@@ -43,11 +43,11 @@ Repaired #425 review finding: recordless source-projection proof now fails close
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
