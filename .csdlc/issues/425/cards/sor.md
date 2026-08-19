@@ -93,11 +93,11 @@ Clarified post-CI publication truth without embedding a stale current-head SHA: 
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
