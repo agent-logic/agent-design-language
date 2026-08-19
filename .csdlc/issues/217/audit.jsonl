@@ -56,3 +56,5 @@
 {"sequence":56,"generation":53,"actor":"/root/shepherd_pr215_green","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":57,"generation":54,"actor":"/root/shepherd_pr215_green","reason":"Recover published review truth after live evidence-only pushes exposed cumulative pull-request path filtering and exact-head workflow repair changed the proof contract.","operation":"recover_review"}
 {"sequence":58,"generation":55,"actor":"/root/shepherd_pr215_green/review_217_finalized_b362e8a","reason":"reapprove changed issue design","operation":"approve_design"}
+{"sequence":59,"generation":56,"actor":"codex:closeout-sweep-reconcile-merged","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":60,"generation":57,"actor":"codex:closeout-sweep-closed-merged-v092","reason":"Materialize terminal closeout after exact merged PR #221 historical finish.","operation":"materialize_derived_terminal"}
