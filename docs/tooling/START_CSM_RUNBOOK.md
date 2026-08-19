@@ -7,24 +7,26 @@ that live Runtime API.
 The intended operator behavior is deliberately simple:
 
 ```sh
-./start_CSM.sh up
+./start_CSM.sh start
 ```
 
-The script starts the Runtime service if it is not already serving, probes the
-documented Runtime v3 `/v1` endpoints, and prints the Observatory path with the
-correct Runtime query parameters.
+The script starts the Runtime service if it is absent, asks macOS launchd to
+keep it alive, probes the documented Runtime v3 `/v1` endpoints, and prints the
+Observatory path with the correct Runtime query parameters.
 
 It does not create a throwaway Runtime. It does not invent a second
-Observatory service. It does not print credential values.
+Observatory service. It does not print credential values. It does not
+force-kill, surprise-restart, replace, or take over an existing Runtime.
 
 ## What `start_CSM.sh` controls
 
 `start_CSM.sh` controls only the Runtime v3 service process:
 
 - Default Runtime API base: `https://localhost:20997`
-- Runtime binary: `.adl/bin/adl-runtime-kernel`
+- Runtime binary: `.adl/runtime-v3-service/generated/bin/adl-runtime-kernel`
 - Service package: `.adl/runtime-v3-service/`
 - Local service config generated under `.adl/runtime-v3-service/generated/`
+- macOS keepalive label: `com.agentlogic.start-csm`
 - Runtime process log: `.adl/runtime-v3-service/state/start_CSM.log`
 
 The HTML Observatory is already in the repo at:
@@ -48,7 +50,7 @@ is a browser/static-hosting concern, not a second Runtime.
 From the repository root:
 
 ```sh
-./start_CSM.sh up
+./start_CSM.sh start
 ```
 
 Successful output includes:
@@ -61,15 +63,23 @@ start_CSM observatory=/path/to/demos/html-observatory/index.html?runtime=v3&runt
 
 If a compatible Runtime is already running, the script accepts it and prints
 the same URLs. It does not try to start a duplicate service on the same port.
+If any Runtime endpoint is responding but the three required probes are not all
+HTTP 200, the script fails closed and refuses to kill or replace that Runtime.
 
 ## Commands
+
+```sh
+./start_CSM.sh start
+```
+
+Start the real Runtime v3 service if needed, probe it, and print the Runtime
+base plus Observatory path.
 
 ```sh
 ./start_CSM.sh up
 ```
 
-Start the real Runtime v3 service if needed, probe it, and print the Runtime
-base plus Observatory path.
+Alias for `start`.
 
 ```sh
 ./start_CSM.sh status
@@ -93,9 +103,9 @@ Show recent log lines for the Runtime process started by this script.
 ./start_CSM.sh stop
 ```
 
-Stop only the Runtime process started by this script. If the Runtime was
-already serving before `start_CSM.sh up`, `stop` does not kill that external
-process.
+Gracefully stop the launchd-owned Runtime. The generated runner forwards TERM
+to the kernel and waits for the Runtime checkpoint shutdown path so agent state
+can dehydrate before the process exits.
 
 ## Runtime endpoint contract
 
@@ -111,21 +121,21 @@ The local service is considered usable when:
 
 - `/v1/observatory` returns HTTP 200;
 - `/v1/health` returns HTTP 200; and
-- `/v1/ready` returns HTTP 200 or HTTP 503.
+- `/v1/ready` returns HTTP 200.
 
-`/v1/ready` is stricter than “the API is serving.” A 503 can mean the Runtime
-is reachable and serving the Observatory feed while reporting degraded
-readiness. The script prints the exact HTTP code instead of hiding it.
+`/v1/ready` is the strict gate. A 503 is not accepted as a successful startup.
+During boot the script may print transitional 503s, but it reports success only
+after all three endpoints return HTTP 200.
 
 ## Files used
 
 The script reads:
 
 - `.adl/runtime-v3-service/runtime.env`
-- `.adl/runtime-v3-service/tls/localhost-cert.pem`
-- `.adl/runtime-v3-service/tls/localhost-key.pem`
-- `.adl/runtime-v3-service/tls/test-ca-cert.pem`
-- `.adl/bin/adl-runtime-kernel`
+- `adl-runtime/tests/support/tls-fixtures/server-cert.pem`
+- `adl-runtime/tests/support/tls-fixtures/server-key.pem`
+- `adl-runtime/tests/support/tls-fixtures/root-ca.pem`
+- `.adl/runtime-v3-service/generated/bin/adl-runtime-kernel`
 - `.adl/bin/vector`
 
 The script may generate local operational artifacts under:
@@ -156,11 +166,12 @@ Unity, or cloud reachability.
 Use overrides only for local routing:
 
 ```sh
-ADL_CSM_RUNTIME_PORT=20997 ./start_CSM.sh up
+ADL_CSM_RUNTIME_PORT=20997 ./start_CSM.sh start
 ADL_CSM_RUNTIME_BASE=https://localhost:20997 ./start_CSM.sh status
-ADL_CSM_RUNTIME_ADDRESS=127.0.0.1:20997 ./start_CSM.sh up
-ADL_CSM_SERVICE_DIR=/path/to/.adl/runtime-v3-service ./start_CSM.sh up
-ADL_CSM_KERNEL_BIN=/path/to/.adl/bin/adl-runtime-kernel ./start_CSM.sh up
+ADL_CSM_RUNTIME_ADDRESS=127.0.0.1:20997 ./start_CSM.sh start
+ADL_CSM_SERVICE_DIR=/path/to/.adl/runtime-v3-service ./start_CSM.sh start
+ADL_CSM_KERNEL_BIN=/path/to/adl-runtime-kernel ./start_CSM.sh start
+ADL_CSM_TLS_CERT=/path/to/fullchain.pem ADL_CSM_TLS_KEY=/path/to/privkey.pem ./start_CSM.sh start
 ADL_CSM_OBSERVATORY_ENTRY=/path/to/demos/html-observatory/index.html ./start_CSM.sh urls
 ```
 
@@ -179,8 +190,19 @@ ls .adl/runtime-v3-service/runtime.env
 
 ### `missing_or_not_executable_kernel_binary`
 
-The stable Runtime kernel binary is absent. Refresh/install repo-local Runtime
-binaries into `.adl/bin/`, then retry.
+The generated Runtime kernel binary is absent. Build or install the current
+Runtime kernel into `.adl/runtime-v3-service/generated/bin/adl-runtime-kernel`,
+then retry.
+
+### `runtime_present_but_not_all_200`
+
+Something is already answering on one or more Runtime endpoints, but startup is
+not healthy. The script will not replace it. Inspect:
+
+```sh
+./start_CSM.sh status
+./start_CSM.sh logs
+```
 
 ### `runtime_not_ready_or_not_serving`
 
@@ -213,17 +235,18 @@ The branch validated:
 ```sh
 bash -n start_CSM.sh
 ./start_CSM.sh status
-./start_CSM.sh up
+./start_CSM.sh start
 git diff --check
 ```
 
 Observed local endpoint state during authoring:
 
 ```text
-/v1/ready        HTTP 503
+/v1/ready        HTTP 200
 /v1/observatory  HTTP 200
 /v1/health       HTTP 200
 ```
 
-That proves the local Runtime v3 service was serving the Observatory API. It
-does not claim public deployment, static hosting, Unity, or provider proof.
+That proves the local Runtime v3 service was serving the Observatory API and
+strict readiness endpoint. It does not claim public deployment, static hosting,
+Unity, or provider proof.

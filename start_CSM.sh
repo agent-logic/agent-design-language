@@ -29,7 +29,10 @@ SERVICE_DIR="${ADL_CSM_SERVICE_DIR:-$SERVICE_ROOT/.adl/runtime-v3-service}"
 ENV_FILE="${ADL_CSM_ENV_FILE:-$SERVICE_DIR/runtime.env}"
 STATE_DIR="${ADL_CSM_STATE_DIR:-$SERVICE_DIR/state}"
 GENERATED_DIR="${ADL_CSM_GENERATED_DIR:-$SERVICE_DIR/generated}"
-CREDENTIAL_DIR="$GENERATED_DIR/credentials"
+GENERATED_BIN_DIR="$GENERATED_DIR/bin"
+STATE_TLS_DIR="$STATE_DIR/tls"
+CREDENTIAL_DIR="$STATE_DIR/credentials"
+CONTINUITY_ROOT="$STATE_DIR/private-continuity"
 RUNTIME_PORT="${ADL_CSM_RUNTIME_PORT:-20997}"
 RUNTIME_BASE="${ADL_CSM_RUNTIME_BASE:-https://localhost:$RUNTIME_PORT}"
 RUNTIME_ADDRESS="${ADL_CSM_RUNTIME_ADDRESS:-127.0.0.1:$RUNTIME_PORT}"
@@ -37,25 +40,41 @@ RUNTIME_PUBLIC_BASE_URL="${ADL_CSM_RUNTIME_PUBLIC_BASE_URL:-$RUNTIME_BASE}"
 RUNTIME_SERVER_NAME="${ADL_CSM_RUNTIME_SERVER_NAME:-localhost}"
 INIT_FILE="${ADL_CSM_RUNTIME_INIT:-$GENERATED_DIR/runtime-init.current.toml}"
 PID_FILE="${ADL_CSM_PID_FILE:-$STATE_DIR/start_CSM.pid}"
+LEASE_PID_FILE="${ADL_CSM_LEASE_PID_FILE:-$STATE_DIR/start_CSM.lease.pid}"
+LEASE_INFO_FILE="${ADL_CSM_LEASE_INFO_FILE:-$STATE_DIR/start_CSM.lease.env}"
+LEASE_SERVER_FILE="$GENERATED_DIR/start_CSM_lease_server.py"
+RUNNER_FILE="$GENERATED_DIR/start_CSM_launch_runner.sh"
+PLIST_FILE="$GENERATED_DIR/com.agentlogic.start-csm.plist"
+LAUNCH_LABEL="${ADL_CSM_LAUNCH_LABEL:-com.agentlogic.start-csm}"
+LAUNCH_DOMAIN="${ADL_CSM_LAUNCH_DOMAIN:-gui/$(id -u)}"
 LOG_FILE="${ADL_CSM_LOG_FILE:-$STATE_DIR/start_CSM.log}"
 PROBE_FILE="$STATE_DIR/start_CSM.probe"
-KERNEL_BIN="${ADL_CSM_KERNEL_BIN:-$BIN_ROOT/.adl/bin/adl-runtime-kernel}"
+READY_PROBE_FILE="$STATE_DIR/start_CSM.ready.json"
+PYTHON_BIN="${ADL_CSM_PYTHON_BIN:-/usr/bin/python3}"
+KERNEL_BIN="${ADL_CSM_KERNEL_BIN:-$GENERATED_BIN_DIR/adl-runtime-kernel}"
 VECTOR_BIN="${ADL_CSM_VECTOR_BIN:-$BIN_ROOT/.adl/bin/vector}"
-CERT_FILE="${ADL_CSM_TLS_CERT:-$SERVICE_DIR/tls/localhost-cert.pem}"
-KEY_FILE="${ADL_CSM_TLS_KEY:-$SERVICE_DIR/tls/localhost-key.pem}"
-TRUST_ROOTS_FILE="${ADL_CSM_TLS_TRUST_ROOTS:-$SERVICE_DIR/tls/test-ca-cert.pem}"
+TLS_FIXTURE_ROOT="${ADL_CSM_TLS_FIXTURE_ROOT:-$REPO_ROOT/adl-runtime/tests/support/tls-fixtures}"
+CERT_FILE="${ADL_CSM_TLS_CERT:-$TLS_FIXTURE_ROOT/server-cert.pem}"
+KEY_FILE="${ADL_CSM_TLS_KEY:-$TLS_FIXTURE_ROOT/server-key.pem}"
+TRUST_ROOTS_FILE="${ADL_CSM_TLS_TRUST_ROOTS:-$TLS_FIXTURE_ROOT/root-ca.pem}"
+INTERMEDIATE_CERT_FILE="${ADL_CSM_TLS_INTERMEDIATE:-$TLS_FIXTURE_ROOT/intermediate-ca.pem}"
+GUARDIAN_CERT_FILE="${ADL_CSM_GUARDIAN_TLS_CERT:-$TLS_FIXTURE_ROOT/client-cert.pem}"
+GUARDIAN_KEY_FILE="${ADL_CSM_GUARDIAN_TLS_KEY:-$TLS_FIXTURE_ROOT/client-key.pem}"
 OBSERVATORY_ENTRY="${ADL_CSM_OBSERVATORY_ENTRY:-$REPO_ROOT/demos/html-observatory/index.html}"
 
 usage() {
   cat <<'USAGE'
-Usage: ./start_CSM.sh [up|status|stop|logs|urls]
+Usage: ./start_CSM.sh [start|up|status|stop|logs|urls]
 
 Commands:
-  up      Start the real Runtime v3 service if needed, probe it, and print URLs.
+  start   Start the real Runtime v3 service if absent, probe it, and print URLs.
+  up      Same as start.
   status  Probe the Runtime v3 service without starting anything.
-  stop    Stop only the Runtime process started by this script.
+  stop    Gracefully stop the launchd-owned Runtime and wait for it to exit.
   logs    Show recent service logs from this script.
   urls    Print Runtime and Observatory URLs/paths.
+
+This helper never force-kills, surprise-restarts, or replaces Runtime.
 USAGE
 }
 
@@ -74,6 +93,21 @@ require_file() {
 
 require_executable() {
   [[ -x "$1" ]] || fail "missing_or_not_executable_$2: $1"
+}
+
+LAST_READY_CODE="000"
+LAST_OBSERVATORY_CODE="000"
+LAST_HEALTH_CODE="000"
+
+spki_sha256() {
+  openssl x509 -in "$1" -pubkey -noout \
+    | openssl pkey -pubin -outform DER 2>/dev/null \
+    | openssl dgst -sha256 -binary \
+    | xxd -p -c 256
+}
+
+ed25519_public_hex_from_private() {
+  openssl pkey -in "$1" -pubout -outform DER 2>/dev/null | tail -c 32 | xxd -p -c 256
 }
 
 load_service_env() {
@@ -99,6 +133,118 @@ write_secret_file() {
   printf '%s\n' "$2" > "$1"
 }
 
+write_lease_server() {
+  mkdir -p "$GENERATED_DIR"
+  cat > "$LEASE_SERVER_FILE" <<'PY'
+import pathlib
+import signal
+import socket
+import sys
+import time
+
+info_path = pathlib.Path(sys.argv[1])
+token = sys.argv[2].encode()
+
+signal.signal(signal.SIGHUP, signal.SIG_IGN)
+
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+sock.bind(("127.0.0.1", 0))
+sock.listen(1)
+host, port = sock.getsockname()
+info_path.write_text(f"address={host}:{port}\n", encoding="utf-8")
+
+conn, _peer = sock.accept()
+supplied = conn.recv(len(token))
+if supplied != token:
+    conn.close()
+    raise SystemExit(2)
+conn.sendall(b"ok")
+
+while True:
+    data = conn.recv(1)
+    if not data:
+        break
+PY
+  chmod 700 "$LEASE_SERVER_FILE"
+}
+
+write_launch_runner() {
+  mkdir -p "$GENERATED_DIR"
+  cat > "$RUNNER_FILE" <<EOF
+#!/usr/bin/env bash
+set -Eeuo pipefail
+mkdir -p "$STATE_DIR"
+kernel_pid=""
+lease_pid=""
+graceful_shutdown() {
+  trap - TERM INT
+  if [[ -n "\$kernel_pid" ]] && kill -0 "\$kernel_pid" 2>/dev/null; then
+    printf 'start_CSM event=graceful_shutdown pid=%s\n' "\$kernel_pid" >> "$LOG_FILE"
+    kill -TERM "\$kernel_pid" 2>/dev/null || true
+    wait "\$kernel_pid" || true
+  fi
+  if [[ -n "\$lease_pid" ]] && kill -0 "\$lease_pid" 2>/dev/null; then
+    wait "\$lease_pid" || true
+  fi
+  rm -f "$PID_FILE" "$LEASE_PID_FILE" "$LEASE_INFO_FILE"
+  exit 0
+}
+trap graceful_shutdown TERM INT
+lease_token="\$(openssl rand -base64 32 | tr '+/' '-_' | tr -d '=')"
+: > "$LEASE_INFO_FILE"
+"$PYTHON_BIN" "$LEASE_SERVER_FILE" "$LEASE_INFO_FILE" "\$lease_token" >> "$LOG_FILE" 2>&1 &
+lease_pid="\$!"
+printf '%s\n' "\$lease_pid" > "$LEASE_PID_FILE"
+for _ in \$(seq 1 40); do
+  [[ -s "$LEASE_INFO_FILE" ]] && break
+  sleep 0.05
+done
+lease_address="\$(sed -n 's/^address=//p' "$LEASE_INFO_FILE" | head -1)"
+[[ -n "\$lease_address" ]] || exit 70
+cd "$REPO_ROOT"
+ADL_RUNTIME_GUARDIAN_LEASE_ADDRESS="\$lease_address" \\
+  ADL_RUNTIME_GUARDIAN_LEASE_TOKEN="\$lease_token" \\
+  "$KERNEL_BIN" serve --init "$INIT_FILE" >> "$LOG_FILE" 2>&1 &
+kernel_pid="\$!"
+printf '%s\n' "\$kernel_pid" > "$PID_FILE"
+wait "\$kernel_pid"
+rm -f "$PID_FILE" "$LEASE_PID_FILE" "$LEASE_INFO_FILE"
+EOF
+  chmod 700 "$RUNNER_FILE"
+}
+
+write_launch_plist() {
+  mkdir -p "$GENERATED_DIR"
+  cat > "$PLIST_FILE" <<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN"
+  "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>$LAUNCH_LABEL</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>$RUNNER_FILE</string>
+  </array>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <true/>
+  <key>ExitTimeOut</key>
+  <integer>60</integer>
+  <key>WorkingDirectory</key>
+  <string>$REPO_ROOT</string>
+  <key>StandardOutPath</key>
+  <string>$LOG_FILE</string>
+  <key>StandardErrorPath</key>
+  <string>$LOG_FILE</string>
+</dict>
+</plist>
+EOF
+}
+
 ensure_current_init() {
   load_service_env
   require_executable "$KERNEL_BIN" "kernel_binary"
@@ -106,16 +252,49 @@ ensure_current_init() {
   require_file "$CERT_FILE" "tls_certificate"
   require_file "$KEY_FILE" "tls_private_key"
   require_file "$TRUST_ROOTS_FILE" "tls_trust_roots"
+  require_file "$GUARDIAN_CERT_FILE" "guardian_tls_certificate"
+  require_file "$GUARDIAN_KEY_FILE" "guardian_tls_private_key"
 
   require_env ADL_RUNTIME_CONTROL_PUBLIC_KEY_HEX
   require_env ADL_RUNTIME_OPERATION_PUBLIC_KEY_HEX
   require_env ADL_RUNTIME_CONTINUITY_SIGNING_KEY_HEX
   require_env ADL_RUNTIME_OBSERVATORY_TOKEN
 
-  mkdir -p "$STATE_DIR" "$GENERATED_DIR" "$CREDENTIAL_DIR"
+  mkdir -p "$STATE_DIR" "$STATE_TLS_DIR" "$GENERATED_DIR" "$CREDENTIAL_DIR" \
+    "$CONTINUITY_ROOT/guardian" "$CONTINUITY_ROOT/kernel" "$CONTINUITY_ROOT/staging"
+  write_lease_server
+  write_launch_runner
+  write_launch_plist
+  cp "$CERT_FILE" "$STATE_TLS_DIR/api-cert.pem"
+  if [[ -f "$INTERMEDIATE_CERT_FILE" ]]; then
+    cat "$INTERMEDIATE_CERT_FILE" >> "$STATE_TLS_DIR/api-cert.pem"
+  fi
+  cp "$KEY_FILE" "$STATE_TLS_DIR/api-key.pem"
+  cp "$TRUST_ROOTS_FILE" "$STATE_TLS_DIR/api-trust-roots.pem"
+  cp "$CERT_FILE" "$STATE_TLS_DIR/continuity-server-cert.pem"
+  if [[ -f "$INTERMEDIATE_CERT_FILE" ]]; then
+    cat "$INTERMEDIATE_CERT_FILE" >> "$STATE_TLS_DIR/continuity-server-cert.pem"
+  fi
+  cp "$KEY_FILE" "$STATE_TLS_DIR/continuity-server-key.pem"
+  cp "$TRUST_ROOTS_FILE" "$STATE_TLS_DIR/continuity-server-trust-roots.pem"
+  cp "$GUARDIAN_CERT_FILE" "$STATE_TLS_DIR/continuity-guardian-cert.pem"
+  if [[ -f "$INTERMEDIATE_CERT_FILE" ]]; then
+    cat "$INTERMEDIATE_CERT_FILE" >> "$STATE_TLS_DIR/continuity-guardian-cert.pem"
+  fi
+  cp "$GUARDIAN_KEY_FILE" "$STATE_TLS_DIR/continuity-guardian-key.pem"
+  cp "$TRUST_ROOTS_FILE" "$STATE_TLS_DIR/continuity-guardian-trust-roots.pem"
+  chmod 600 "$STATE_TLS_DIR/"*-key.pem
+  local continuity_server_spki continuity_guardian_spki
+  continuity_server_spki="$(spki_sha256 "$CERT_FILE")"
+  continuity_guardian_spki="$(spki_sha256 "$GUARDIAN_CERT_FILE")"
   write_secret_file "$CREDENTIAL_DIR/control-public-key.hex" "$ADL_RUNTIME_CONTROL_PUBLIC_KEY_HEX"
   write_secret_file "$CREDENTIAL_DIR/operation-public-key.hex" "$ADL_RUNTIME_OPERATION_PUBLIC_KEY_HEX"
-  write_secret_file "$CREDENTIAL_DIR/migration-decision-public-key.hex" "$ADL_RUNTIME_OPERATION_PUBLIC_KEY_HEX"
+  if [[ ! -s "$CREDENTIAL_DIR/migration-decision-private-key.pem" ]]; then
+    openssl genpkey -algorithm Ed25519 -out "$CREDENTIAL_DIR/migration-decision-private-key.pem" >/dev/null 2>&1
+    chmod 600 "$CREDENTIAL_DIR/migration-decision-private-key.pem"
+  fi
+  write_secret_file "$CREDENTIAL_DIR/migration-decision-public-key.hex" \
+    "$(ed25519_public_hex_from_private "$CREDENTIAL_DIR/migration-decision-private-key.pem")"
   write_secret_file "$CREDENTIAL_DIR/continuity-signing-key.hex" "$ADL_RUNTIME_CONTINUITY_SIGNING_KEY_HEX"
   write_secret_file "$CREDENTIAL_DIR/observatory-token.txt" "$ADL_RUNTIME_OBSERVATORY_TOKEN"
   write_secret_file "$CREDENTIAL_DIR/acip-write-token.txt" "${ADL_RUNTIME_ACIP_WRITE_TOKEN:-$ADL_RUNTIME_OBSERVATORY_TOKEN}"
@@ -125,12 +304,32 @@ ensure_current_init() {
 {
   "schema": "adl.runtime.birth_witness_trust.v1",
   "authority_context": "runtime-v3-local-service",
-  "authorities": [{
-    "witness_id": "local-operation-witness",
-    "role": "runtime_operator",
-    "signing_key_id": "runtime-operations",
-    "verifying_key": "$ADL_RUNTIME_OPERATION_PUBLIC_KEY_HEX"
-  }]
+  "authorities": [
+    {
+      "witness_id": "local-identity-continuity",
+      "role": "identity_continuity",
+      "signing_key_id": "local-identity-continuity-key",
+      "verifying_key": "$ADL_RUNTIME_OPERATION_PUBLIC_KEY_HEX"
+    },
+    {
+      "witness_id": "local-memory-capability",
+      "role": "memory_capability",
+      "signing_key_id": "local-memory-capability-key",
+      "verifying_key": "$ADL_RUNTIME_OPERATION_PUBLIC_KEY_HEX"
+    },
+    {
+      "witness_id": "local-negative-case-guard",
+      "role": "negative_case_guard",
+      "signing_key_id": "local-negative-case-guard-key",
+      "verifying_key": "$ADL_RUNTIME_OPERATION_PUBLIC_KEY_HEX"
+    },
+    {
+      "witness_id": "local-handoff-consumer",
+      "role": "handoff_consumer",
+      "signing_key_id": "local-handoff-consumer-key",
+      "verifying_key": "$ADL_RUNTIME_OPERATION_PUBLIC_KEY_HEX"
+    }
+  ]
 }
 EOF
 
@@ -157,9 +356,9 @@ websocket_refresh_millis = 1000
 websocket_max_frame_bytes = 65536
 
 [api.tls]
-certificate_chain_path = "$CERT_FILE"
-private_key_path = "$KEY_FILE"
-trust_roots_path = "$TRUST_ROOTS_FILE"
+certificate_chain_path = "$STATE_TLS_DIR/api-cert.pem"
+private_key_path = "$STATE_TLS_DIR/api-key.pem"
+trust_roots_path = "$STATE_TLS_DIR/api-trust-roots.pem"
 server_name = "$RUNTIME_SERVER_NAME"
 
 [observatory]
@@ -197,6 +396,39 @@ birth_witness_trust_manifest_path = "$CREDENTIAL_DIR/birth-witness-trust.json"
 continuity_min_generation = 0
 sntp_server = "time.cloudflare.com"
 
+[continuity_control]
+address = "127.0.0.1:21097"
+guardian_state_dir = "$CONTINUITY_ROOT/guardian"
+state_dir = "$CONTINUITY_ROOT/kernel"
+staging_dir = "$CONTINUITY_ROOT/staging"
+trust_domain = "runtime-v3-local"
+polis = "local-polis"
+source_node = "guardian-local"
+target_node = "kernel-local"
+guardian_id = "guardian-local-id"
+kernel_control_id = "kernel-local-id"
+channel_epoch = 1
+
+[continuity_control.tls]
+server_certificate_chain_path = "$STATE_TLS_DIR/continuity-server-cert.pem"
+server_private_key_path = "$STATE_TLS_DIR/continuity-server-key.pem"
+server_trust_roots_path = "$STATE_TLS_DIR/continuity-server-trust-roots.pem"
+server_name = "localhost"
+guardian_certificate_chain_path = "$STATE_TLS_DIR/continuity-guardian-cert.pem"
+guardian_private_key_path = "$STATE_TLS_DIR/continuity-guardian-key.pem"
+guardian_trust_roots_path = "$STATE_TLS_DIR/continuity-guardian-trust-roots.pem"
+guardian_spki_sha256 = "$continuity_guardian_spki"
+server_spki_sha256 = "$continuity_server_spki"
+certificate_generation = 1
+
+[continuity_control.bounds]
+max_frame_bytes = 65536
+max_blob_bytes = 1048576
+max_total_bytes = 16777216
+max_services = 5
+max_journal_entries = 4096
+max_open_handles = 16
+
 [shutdown]
 checkpoint_deadline_millis = 5000
 kernel_grace_millis = 10000
@@ -208,7 +440,7 @@ restart_budget = 3
 backoff_base_millis = 100
 backoff_cap_millis = 5000
 healthy_window_millis = 60000
-lease_auth_timeout_millis = 5000
+lease_auth_timeout_millis = 20000
 lease_auth_attempts = 3
 capture_max_bytes = 65536
 capture_drain_grace_millis = 2000
@@ -272,21 +504,60 @@ recorded_pid() {
   printf '%s' "$pid"
 }
 
-curl_code() {
+curl_probe() {
   mkdir -p "$STATE_DIR"
   local url="$1"
-  curl -k -sS --max-time 3 -o "$PROBE_FILE" -w '%{http_code}' "$url" 2>/dev/null || printf '000'
+  local output="$2"
+  local code
+  code="$(curl -k -sS --max-time 3 -o "$output" -w '%{http_code}' "$url" 2>/dev/null)" || code="000"
+  printf '%s' "$code"
+}
+
+curl_code() {
+  curl_probe "$1" "$PROBE_FILE"
 }
 
 probe_runtime() {
-  local ready_code observatory_code health_code
-  ready_code="$(curl_code "$RUNTIME_BASE/v1/ready")"
-  observatory_code="$(curl_code "$RUNTIME_BASE/v1/observatory")"
-  health_code="$(curl_code "$RUNTIME_BASE/v1/health")"
-  info "probe /v1/ready http=$ready_code"
-  info "probe /v1/observatory http=$observatory_code"
-  info "probe /v1/health http=$health_code"
-  [[ "$observatory_code" == "200" && "$health_code" == "200" && ( "$ready_code" == "200" || "$ready_code" == "503" ) ]]
+  LAST_READY_CODE="$(curl_probe "$RUNTIME_BASE/v1/ready" "$READY_PROBE_FILE")"
+  LAST_OBSERVATORY_CODE="$(curl_code "$RUNTIME_BASE/v1/observatory")"
+  LAST_HEALTH_CODE="$(curl_code "$RUNTIME_BASE/v1/health")"
+  info "probe /v1/ready http=$LAST_READY_CODE"
+  info "probe /v1/observatory http=$LAST_OBSERVATORY_CODE"
+  info "probe /v1/health http=$LAST_HEALTH_CODE"
+  [[ "$LAST_READY_CODE" == "200" && "$LAST_OBSERVATORY_CODE" == "200" && "$LAST_HEALTH_CODE" == "200" ]]
+}
+
+runtime_is_responding() {
+  [[ "$LAST_READY_CODE" != "000" || "$LAST_OBSERVATORY_CODE" != "000" || "$LAST_HEALTH_CODE" != "000" ]]
+}
+
+launch_service_loaded() {
+  launchctl print "$LAUNCH_DOMAIN/$LAUNCH_LABEL" >/dev/null 2>&1
+}
+
+launch_service_pid() {
+  launchctl print "$LAUNCH_DOMAIN/$LAUNCH_LABEL" 2>/dev/null \
+    | sed -n 's/^[[:space:]]*pid = //p' \
+    | head -1
+}
+
+launch_service_start() {
+  if launch_service_loaded; then
+    launchctl bootout "$LAUNCH_DOMAIN/$LAUNCH_LABEL" >/dev/null 2>&1 || true
+    for _ in $(seq 1 80); do
+      launch_service_loaded || break
+      sleep 0.25
+    done
+  fi
+  launchctl bootstrap "$LAUNCH_DOMAIN" "$PLIST_FILE"
+}
+
+launch_service_stop() {
+  if launch_service_loaded; then
+    launchctl bootout "$LAUNCH_DOMAIN/$LAUNCH_LABEL"
+  else
+    return 1
+  fi
 }
 
 urls_cmd() {
@@ -299,8 +570,11 @@ status_cmd() {
   info "service_dir=$SERVICE_DIR"
   info "kernel_bin=$KERNEL_BIN"
   info "init_file=$INIT_FILE"
-  local pid
-  if pid="$(recorded_pid 2>/dev/null)" && pid_is_alive "$pid"; then
+  local launch_pid pid
+  launch_pid="$(launch_service_pid)"
+  if [[ -n "$launch_pid" ]]; then
+    info "launch_label=$LAUNCH_LABEL pid=$launch_pid state=running"
+  elif pid="$(recorded_pid 2>/dev/null)" && pid_is_alive "$pid"; then
     info "pid=$pid state=alive"
   else
     info "pid=none state=not_started_by_start_CSM"
@@ -319,19 +593,13 @@ up_cmd() {
     urls_cmd
     return 0
   fi
-
-  local pid
-  if pid="$(recorded_pid 2>/dev/null)" && pid_is_alive "$pid"; then
-    fail "owned_runtime_pid_alive_but_probe_failed pid=$pid log=$LOG_FILE"
+  if runtime_is_responding; then
+    fail "runtime_present_but_not_all_200 ready=$LAST_READY_CODE observatory=$LAST_OBSERVATORY_CODE health=$LAST_HEALTH_CODE refusing_to_kill_or_replace_existing_runtime"
   fi
 
   : > "$LOG_FILE"
-  info "starting kernel=$KERNEL_BIN"
-  (
-    cd "$REPO_ROOT"
-    nohup "$KERNEL_BIN" serve --init "$INIT_FILE" >> "$LOG_FILE" 2>&1 < /dev/null &
-    printf '%s\n' "$!" > "$PID_FILE"
-  )
+  info "starting launch_label=$LAUNCH_LABEL"
+  launch_service_start
 
   for _ in $(seq 1 80); do
     if probe_runtime; then
@@ -345,13 +613,23 @@ up_cmd() {
 }
 
 stop_cmd() {
-  local pid
-  if pid="$(recorded_pid 2>/dev/null)" && pid_is_alive "$pid"; then
-    kill "$pid"
-    info "status=stop_requested pid=$pid"
-  else
-    info "status=not_running"
+  if ! launch_service_loaded; then
+    info "status=not_running launch_label=$LAUNCH_LABEL"
+    return 0
   fi
+  info "stopping launch_label=$LAUNCH_LABEL mode=graceful"
+  launch_service_stop
+  for _ in $(seq 1 80); do
+    if ! launch_service_loaded && ! probe_runtime; then
+      if ! runtime_is_responding; then
+        rm -f "$PID_FILE" "$LEASE_PID_FILE" "$LEASE_INFO_FILE"
+        info "status=stopped"
+        return 0
+      fi
+    fi
+    sleep 0.25
+  done
+  fail "runtime_stop_not_confirmed ready=$LAST_READY_CODE observatory=$LAST_OBSERVATORY_CODE health=$LAST_HEALTH_CODE log=$LOG_FILE"
 }
 
 logs_cmd() {
@@ -363,6 +641,7 @@ logs_cmd() {
 }
 
 case "${1:-up}" in
+  start) up_cmd ;;
   up) up_cmd ;;
   status) status_cmd ;;
   stop) stop_cmd ;;
