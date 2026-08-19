@@ -66,7 +66,11 @@ for _ in $(seq 1 90); do
   if curl -fsS "$OLLAMA_HOST/api/tags" >/dev/null 2>&1; then break; fi
   sleep 2
 done
-curl -fsS "$OLLAMA_HOST/api/tags" >/dev/null || { echo "issue268: installed Ollama failed to open loopback" >&2; exit 70; }
+if ! curl -fsS "$OLLAMA_HOST/api/tags" >/dev/null; then
+  echo "issue268: installed Ollama failed to open loopback" >&2
+  tail -80 "$OLLAMA_LOG" >&2 || true
+  exit 70
+fi
 materialized="$EVIDENCE_ROOT/materialized-plan.json"
 python3 "$MATERIALIZER" --output "$materialized" --agent-spec-dir "$AGENT_SPEC_DIR" >/dev/null
 python3 "$ORCHESTRATOR" \
