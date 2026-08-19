@@ -20,3 +20,4 @@
 {"sequence":20,"generation":15,"actor":"codex:issue-431-review-findings","reason":"Recover the published planning candidate to resolve the #432 terminal sequencing contradiction and restore complete issue-level execution specifications for all 27 WP-01 creation slots.","operation":"recover_review"}
 {"sequence":21,"generation":15,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":22,"generation":16,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":23,"generation":17,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
