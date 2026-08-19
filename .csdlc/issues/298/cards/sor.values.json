@@ -7,9 +7,9 @@
     "title": "[v0.92][C-SDLC][297.a][defect] Implement anchored classification and resumable recovery ledger",
     "slug": "297a-anchored-classification-resumable-recovery-ledger",
     "version": "v0.92",
-    "generation": 70
+    "generation": 71
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -344,10 +344,10 @@
           "evidence_ref": ".csdlc/evidence/298/csdlc-v2-strict-clippy.log"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }
