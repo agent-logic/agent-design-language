@@ -4,13 +4,44 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "8abc247d0a5d650da01bc1639900bba9c3c40370738e752cb2074ddd851f1815",
-  "phase": "implemented",
-  "generation": 19,
-  "digest": "5ab803f8048a6af6e3fea30ec17813e0021345c3e298b822597482ec21f67f15",
+  "phase": "reviewed",
+  "generation": 20,
+  "digest": "376932cd5a2304ae4e97e9a353ce355fcf8057efb3b12877dc72a215db503bb1",
   "branch": "codex/340-html-observatory-runtime-restart-integration",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-340-html-observatory-runtime-restart-integration",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:b6bbd209-0ef7-4778-8127-e5d654461703",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:e42b61e8187e7d5cc176a023ecbc69026c2ebbdc:fd1c26da0be4963b2703812a678ef374ff81b8ccbdd9337f56e50b8e7715160e",
+    "scope": [
+      "CSMctl",
+      "adl-runtime/src/bin/adl-observatory-static.rs",
+      "adl-runtime/tests/runtime_api_wss.rs",
+      "adl/tools/validate_v092_observatory_restart_reconnect.sh",
+      ".csdlc/issues/340",
+      ".csdlc/evidence/340"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:b6bbd209-0ef7-4778-8127-e5d654461703",
+    "scope": [
+      "CSMctl",
+      "adl-runtime/src/bin/adl-observatory-static.rs",
+      "adl-runtime/tests/runtime_api_wss.rs",
+      "adl/tools/validate_v092_observatory_restart_reconnect.sh",
+      ".csdlc/issues/340",
+      ".csdlc/evidence/340"
+    ],
+    "reviewed_revision": "git-blake3:e42b61e8187e7d5cc176a023ecbc69026c2ebbdc:fd1c26da0be4963b2703812a678ef374ff81b8ccbdd9337f56e50b8e7715160e",
+    "findings": [],
+    "residual_risks": [
+      "Reviewer did not rerun live launchctl/Runtime restart or Cargo tests because the review assignment was read-only; retained current evidence and source/test contracts were inspected instead.",
+      "This review does not claim publication, merge, terminal closeout, Unity, AWS/public hosting, provider credentials, #341, #343, #84, #122, or #251 scope.",
+      "The reviewer observed post-HEAD review-assignment metadata dirt and treated the verdict as pinned to immutable assigned revision e42b61e8187e7d5cc176a023ecbc69026c2ebbdc."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +56,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "97a4337b6007a0ec7ec515de387763fb07d7f189678df16c3f00a02def7c42f0",
+      "values_digest": "7737eb940dfcddbbace5c7742210f5b8454bfbad3e6e397853c89ca1f573ba22",
       "rendered_digest": "e68242eb9bbe9ef94376f6bcc73e6a402a30b750e374fd44ad2a10c1f64de1d7",
       "ast_digest": "4880fadf87cf773585e07d456e5dbd11a1ec596ac7646ae36f2ce94c09a2caa2"
     },
     "stp": {
-      "values_digest": "a21605132b3e65def0b5f86a96b3924c86a64b7114457cdf07d8e2452980eca4",
+      "values_digest": "ec8d1c3fe73883b2376f4df086671bd68767dd85f02892f032dfd399c11aaef3",
       "rendered_digest": "3f94f447d3f0c52feafda63615f0140ef655286ccbdb3fa85163a50ec8e142da",
       "ast_digest": "7a88f55764720014ad1c151a4eedad3e71624b578e52d9fbc2c098ddd4a3173c"
     },
     "spp": {
-      "values_digest": "64b12275af5cf2d88fc30b14f9102b3e28b52069b7c54c8e64198045e1ba72d0",
+      "values_digest": "34485a8f318fbe7bf0fde501cc4d7eaecca1d12e9584839c41455024faa76d95",
       "rendered_digest": "04ae1a1c6abf369d12f379a3913646c64ac39b790f88c71ba1120b3d749bd517",
       "ast_digest": "ce6d867b2ee2b0fee927916db7f8feec1c4a7c1d1c1a62d3d9dfa679478aab60"
     },
     "vpp": {
-      "values_digest": "1f8a77a41202cecf5a9420b7dc22756daa4120be2b1b897c3ada8802dfb2a3b0",
+      "values_digest": "6019ccd1b9c251d50e06e21cf3ee77ab3b3b47e1c552d1b2c6f7fff9e935eff8",
       "rendered_digest": "df1a9f32b2ef6ac3388328c6892ce316a924427db54cae87d6837231e01602fc",
       "ast_digest": "120fa996e5aaefe19914a509024f66e1b209c4d0a4ecc01caf1ab4cd64321f64"
     },
     "srp": {
-      "values_digest": "baa97d15f18dbdc32f7fe8d87466df1b3d5cea91e111bd1f3265166ff2c9fd47",
-      "rendered_digest": "f1f6ff292fd62b83bf9f75d91f5d6211c7b2f6341ba26a949b41cd7e93077ca7",
-      "ast_digest": "fd174d614c5b9d57ae476912b062c7a85c68c0dd93a7f9995e509a6513a4c1fd"
+      "values_digest": "b65abc0380ca72d2178a9fc6855248108e2938a32ec2aa73056d52eab197c4e4",
+      "rendered_digest": "db79bcf0ecabd648e2f274116ca3b1d95b1abcdaac8d4882c612527f556979af",
+      "ast_digest": "c1601b40011ce2ac40609f3d891a1f7d29b517530d22a1e99f47d678450e71c8"
     },
     "sor": {
-      "values_digest": "79668235ebbd23f14bc39a10d7da6d0692d8da2d1c4fc6f23f0f44bda31683cb",
+      "values_digest": "4ab988aefaf2764fd1d47c3cf8c25668bd7697ac1a1d07d713033e16b57f8639",
       "rendered_digest": "bc0abd8165734fbe5fad54a0382999c4404349810ce7dfd4d031f9f43cd8a8f1",
       "ast_digest": "773f63b0a1c1fceecdf53b65bf4c8648f37fdf3f04015bfe1079eaaa6b72f5f5"
     }
@@ -90,6 +121,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover stale reviewed #340 state because substantive axum static-server simplification replaced the previously reviewed Python/launchd Observatory serving path before publication."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -260,6 +298,20 @@
       "actor": "codex:/root",
       "reason": "Record final #340 simplification repair: replace generated Python/launchd/Node/OpenSSL static-serving attempts with a zero-new-dependency repo-native axum Observatory static server and refreshed live proof.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented bounded HTML Observatory Runtime v3 launch/start-stop-restart integration with a simple repo-native axum static server. CSMctl now starts the HTML Observatory through adl-observatory-static using configured cert/key/docroot/ports, owns a pid file, preserves Runtime/Observatory separation, and proves live Runtime restart plus Observatory root/index 200 behavior without Unity, AWS/public hosting, provider credentials, #341, #343, #84, #122, or #251 scope.\",\"changes\":[\"Added adl-runtime/src/bin/adl-observatory-static.rs, a tiny axum/axum-server HTTPS static-file server using dependencies already present in adl-runtime.\",\"CSMctl observatory start now builds adl-observatory-static if needed, launches it with --daemon/--pid-file/--log-file, and reports success only when both HTTP 200 and a live pid-file process are present.\",\"CSMctl observatory stop now terminates the exact Observatory pid-file process and removes Observatory pid/state files.\",\"Removed the generated Python Observatory server, generated runner, and Observatory launchd plist path from CSMctl; no Node/http-server or OpenSSL s_server serving path is used.\",\"Kept the Apache-style config boundary: cert path, key path, host, port list, document root, Runtime API base, pid/state/log paths, and separate Runtime versus Observatory startup.\",\"The live validator now starts from a clean CSMctl-owned Observatory state, verifies root/index HTTP 200, probes every documented read/preflight/WSS route in scope, proves Runtime graceful stop/restart, and verifies post-restart CSMctl URL/base output is current.\",\"Focused Rust tests pin the zero-new-dependency axum static-server contract, forbid old generated Python/Node/launchd helper names in CSMctl, and retain the exact live Runtime API label and 200-gating contracts.\"],\"artifacts\":[\"CSMctl\",\"adl-runtime/src/bin/adl-observatory-static.rs\",\"demos/html-observatory/app.js\",\"demos/html-observatory/index.html\",\"adl/tools/test_html_observatory.sh\",\"adl/tools/validate_v092_observatory_restart_reconnect.sh\",\"adl-runtime/tests/runtime_api_wss.rs\",\".csdlc/evidence/340/proof-summary.md\",\".csdlc/evidence/340/340-html-observatory-contract.log\",\".csdlc/evidence/340/340-runtime-api-wss-contract.log\",\".csdlc/evidence/340/340-rust-format.log\",\".csdlc/evidence/340/340-diff-hygiene.log\",\".csdlc/evidence/340/340-live-start-stop-restart.log\",\".csdlc/evidence/340/340-typed-validate.log\",\".csdlc/issues/340\",\".csdlc/prepared/issues/340\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/validate_v092_observatory_restart_reconnect.sh\",\"--contract\"],\"purpose\":\"Static contract proof for HTML Observatory Runtime v3 live labels, exact /v1/observatory HTTP 200 gating, zero-new-dependency axum static serving, CSMctl persisted-state reload, and post-restart validator assertions.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/340/340-html-observatory-contract.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"runtime_api_wss\"],\"purpose\":\"Focused Runtime API/WSS and CSMctl contract tests for exposed route coverage, strict live-data gating, axum static server root/index behavior, pid-owned startup, and no generated Python/Node/launchd Observatory helper regression.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/340/340-runtime-api-wss-contract.log\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--check\"],\"purpose\":\"Rust formatting check for the focused integration test and axum static server binary.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/340/340-rust-format.log\"},{\"command\":[\"git\",\"diff\",\"--check\",\"--\",\"CSMctl\",\"adl/tools/test_html_observatory.sh\",\"demos/html-observatory/app.js\",\"demos/html-observatory/index.html\",\"adl/tools/validate_v092_observatory_restart_reconnect.sh\",\"adl-runtime/tests/runtime_api_wss.rs\",\"adl-runtime/src/bin/adl-observatory-static.rs\",\".csdlc/issues/340\",\".csdlc/prepared/issues/340\",\".csdlc/evidence/340\"],\"purpose\":\"Whitespace and conflict-marker hygiene across #340 source, tests, validator, new axum static server, lifecycle card projections, and retained evidence.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/340/340-diff-hygiene.log\"},{\"command\":[\"bash\",\"adl/tools/validate_v092_observatory_restart_reconnect.sh\",\"--live\"],\"purpose\":\"Live local CSMctl/Runtime/Observatory proof for HTTP 200 startup gates, axum-served Observatory root/index, graceful Runtime stop cleanup, restart, and post-restart current URL/base reporting.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/340/340-live-start-stop-restart.log\"},{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-340-html-observatory-runtime-restart-integration\",\"issue\",\"--issue\",\"340\"],\"purpose\":\"Typed lifecycle validation after final axum static-server evidence refresh.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/340/340-typed-validate.log\"}]}"
+    },
+    {
+      "sequence": 25,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
