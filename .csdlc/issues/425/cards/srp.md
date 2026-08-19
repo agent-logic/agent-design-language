@@ -36,12 +36,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- No residual implementation risks identified in scoped exact-head review.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:880526694714ad6af1a4d32f45ed6e7ba990acca:b61d7799cb053dc0963dbbf6d3a5523a027935551c3a6a34ef533e443030a1ff")
 
-Reviewer: None
+Reviewer: Some("fresh-session:132fc8b5-37fa-4838-bd0e-87883a2030dc")
 
-Result: pre_review
+Result: pass

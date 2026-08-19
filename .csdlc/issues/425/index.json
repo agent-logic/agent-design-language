@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d98a8d900cde7810150f96c65b587a7763b677cf58610771289dd359b4be5b19",
-  "phase": "implemented",
-  "generation": 10,
-  "digest": "d238e46ce7f45d3d91c1ab2468052aee56b4c43a406992ac4a6c15779270bc64",
+  "phase": "reviewed",
+  "generation": 11,
+  "digest": "3b40944a09200af04bd2da79d945af731f7f12424c73b30b7c2f5196e3e4820b",
   "branch": "codex/425-recordless-closeout-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-425-recordless-closeout-recovery",
   "review_assignment": {
@@ -22,7 +22,24 @@
       ".csdlc/issues/425"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:132fc8b5-37fa-4838-bd0e-87883a2030dc",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-finish.rs",
+      "csdlc-v2/src/finish.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/tests/gate_recordless_closeout.rs",
+      ".csdlc/evidence/425-v092-residual-dry-run-result.json",
+      ".csdlc/issues/425"
+    ],
+    "reviewed_revision": "git-blake3:880526694714ad6af1a4d32f45ed6e7ba990acca:b61d7799cb053dc0963dbbf6d3a5523a027935551c3a6a34ef533e443030a1ff",
+    "findings": [],
+    "residual_risks": [
+      "No residual implementation risks identified in scoped exact-head review."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -37,32 +54,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9340d6676391fcbf5a7703df1336ca6539e8433fcbc4c80dde6d23fd7c51cafe",
+      "values_digest": "56b7124fd0bd41664899d6c27d8b59f3cebb1aca614442c2d5dc47e447b713a2",
       "rendered_digest": "cc83623a3de6c8063b7db5e0c3a0ba3924aa50ac071e49476c34290fc886bc5a",
       "ast_digest": "1dd75a8295155fbe787c7264ab83bd0f5eaf04da00ce64b71f8d06514a89e325"
     },
     "stp": {
-      "values_digest": "018004bf9d0a4854fd5b2955788df9750c0059b4c53fe5ec8681a061dd3b289a",
+      "values_digest": "73fb3a194c58e30b0d35e9c7866dbc4737caea6c7eee53c171f3f1f0fb4068f1",
       "rendered_digest": "bf04bc821ead770f8bb048a8163d3a4d6d74769d4ffba2ddda54e28f33ab2a84",
       "ast_digest": "44c14d7d86cec8e8c7ae792a5b3d8d6dfc3554f3a150984bc7a5b09ba2930571"
     },
     "spp": {
-      "values_digest": "3d8ec29024c56600e96cc7ab67d33b4f909eeedc385e5158ab5488a619a6b7c7",
+      "values_digest": "85f49905f7abe942aae56331706401f3b0489554c5bff6249f1c7e7ef985016f",
       "rendered_digest": "1a6d536268cc7d3ec39c45272b17ff50736ff2f4e09854cb33a29c193e7e3847",
       "ast_digest": "276c05c7408db0cb043143a4df1b240a8277df6e0cbffcc659efe10f2cec7a5b"
     },
     "vpp": {
-      "values_digest": "3183c30d996fae4dbf2be601e8b93e3943de509c90736657f5567877cf25daed",
+      "values_digest": "1139ed4d885652a8a90776dca34a6936a6f5ba36fb8181791e9f694a170b38f1",
       "rendered_digest": "6c19c5636e13f7135afe61469801392e2a753414aedba2398c792d6db155ab5a",
       "ast_digest": "dc064a1b29d4ffce555b1ffa93a65466b5adfe914df83ce7126a441ac99c6e03"
     },
     "srp": {
-      "values_digest": "11412cbf8b52fddff095a31a211f5020787caab0f38052ffbe46cebc18d28719",
-      "rendered_digest": "8104e68c08d29a83760c4a0591d513e36d1a3b21ab3fee98216bd5481b2a3ec8",
-      "ast_digest": "6606bf80b5e91946eb5691de27269f1a5913b2a30140f9e883f80c5fc355da79"
+      "values_digest": "ae09a0d1cc40b500097479a838487aced105f1227c33da86f353758522092f6e",
+      "rendered_digest": "8d08d69d07d58b37f7fe976ec84a753f1875bc65e6b0f6177e0242dfdf96940e",
+      "ast_digest": "50130e81d337a4366f6320be47f4b00c1ed9f0c6cfdc1bf7e9eaa8bb5e43b856"
     },
     "sor": {
-      "values_digest": "64ec0b0f1dc0b70cfd9a0a5f8ecd4dd9648283079d666a6de8c7fc36aa4e85ba",
+      "values_digest": "1b4dbc517aa1f87f481deaa55c5edc2d495dd0cd123c1c0eff0470315d012c02",
       "rendered_digest": "3927b554d7354e81ba494a379d8d5650e63cfbb91613af8cb47d9877fafe1189",
       "ast_digest": "b9a8e0d35d775cf9ce7629151fbffe8e72898f76d5a5f5cf1baf2ae76ffd1310"
     }
@@ -102,6 +119,13 @@
       "to": "implemented",
       "actor": "codex-worker-4",
       "reason": "recover reviewed state for exact re-review after publication guard rejected tracked request-file drift"
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex-worker-4",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -216,6 +240,13 @@
       "actor": "codex-worker-4",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "codex-worker-4",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
