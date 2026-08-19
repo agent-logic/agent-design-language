@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-04.16b3.1b][205.d] Prove integrated serving-authority behavior",
     "slug": "integrated-serving-authority-proof",
     "version": "v0.92",
-    "generation": 24
+    "generation": 26
   },
   "status": "ready",
   "content": {
@@ -22,7 +22,7 @@
           "acceptance_ids": [
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -32,7 +32,7 @@
             "AC-5",
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -45,7 +45,7 @@
             "AC-5",
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -53,7 +53,7 @@
           "acceptance_ids": [
             "AC-7"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [

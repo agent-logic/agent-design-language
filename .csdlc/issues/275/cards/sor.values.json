@@ -7,9 +7,9 @@
     "title": "[v0.92][WP-04.16b3.1b][205.d] Prove integrated serving-authority behavior",
     "slug": "integrated-serving-authority-proof",
     "version": "v0.92",
-    "generation": 24
+    "generation": 26
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -128,10 +128,10 @@
           "evidence_ref": "Fresh read-only design review PASS at exact HEAD 86a59bde2d85d8a6ed78c542e6cace0a4fc8a459."
         }
       ],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }

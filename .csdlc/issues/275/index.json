@@ -3,16 +3,35 @@
   "issue": 275,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "20dbea588ff0ef623d711459f35c48a2d38c2fdd4d95cc7e96ee48bf3cd3ea30",
-  "phase": "implemented",
-  "generation": 24,
-  "digest": "748baeff8efce69a905c7e04fbe3a4b63660d28e30891e5eb457b7b2c2c1b9ed",
+  "phase": "closed_out",
+  "generation": 26,
+  "digest": "e5fc9a961e28372b3d936d3f9e9310599d50a0e26dbe3185918fabea3adce38b",
   "branch": "codex/275-integrated-serving-authority-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-275-integrated-serving-authority-proof",
   "review_assignment": null,
   "review": null,
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 275,
+    "pull_request": 377,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/377",
+    "base": "main",
+    "head": "codex/275-integrated-serving-authority-proof",
+    "revision": "git-blake3:ba4e47989182cfbaac3001aab5d95fc4700e54cc:760fdf33a2a65759b0cb4504c9dd7d9b4b66d30b0e351b564746a8e543162f76",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "merged"
+  },
   "readiness": null,
-  "terminal": null,
+  "terminal": {
+    "pull_request": 377,
+    "disposition": "merged",
+    "observed_sha": "ba4e47989182cfbaac3001aab5d95fc4700e54cc",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/275.json",
+    "branch": "codex/275-integrated-serving-authority-proof",
+    "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-275-integrated-serving-authority-proof"
+  },
   "migration": null,
   "design_path": ".csdlc/prepared/issues/275/design.md",
   "diagram_path": ".csdlc/prepared/issues/275/diagram.mmd",
@@ -24,34 +43,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "75b6f0a58ae1336f6a462759f440688107676020ad8e6cdca4189ec9a2717212",
+      "values_digest": "40014a625f9f6f518a1f7bc7042dd13248c76fe42b4fe2b71259eec10501bb47",
       "rendered_digest": "00ace9f727dea3e11e412621064bb937898b1fbf1f119810cddc73e37051d10b",
       "ast_digest": "9f619677574a710b4ce089e080fb8fc55fb672404720324de7027e3a487e9970"
     },
     "stp": {
-      "values_digest": "4d8b5bb376e87fcf9d6b0bb360adc3a8e38dfb60d9b81f869a460c7a8978cbb8",
+      "values_digest": "511fd38f5e0a054395d0098da22214b3aa1fe0e1b3a97cecde5f286c9db2afd7",
       "rendered_digest": "0cc9ce89406b0ce4caf31ee7735848c563c5fdf072bf461a1541deb0b0a2ee11",
       "ast_digest": "73004cf1b84bdda99e5cd1aa1ec1a2f65588905787ce8bf524438f8c1848a1d1"
     },
     "spp": {
-      "values_digest": "56c6192d4fc44281e175aa32daeae202ebc75d32359ac8b146a21df8238bddb0",
-      "rendered_digest": "002d0032d50df5ed54ba03e5af80463b31c486c8a34ac487bc51a04703f8b69a",
-      "ast_digest": "093e5aecccc9bc963efeab6117178b6ceb84291240252d1f2ecc4064d11583a4"
+      "values_digest": "5a1da875474c9c1702e3eb411097775c1186ff3d9badb27b27a921e5fc828ff9",
+      "rendered_digest": "123f771d4c4b6ae9e1d31b717db50bbcb7c8694fdbd73cd319cd28bcd1bad2c2",
+      "ast_digest": "8069a9c4661625db693ced4c9c38e7414750804ab03800aab26ff26810f60acd"
     },
     "vpp": {
-      "values_digest": "21a1e640a0ab4760fb2a0ffa518feedfed3ff8d3b30035ce1402dbcb37dfc08a",
+      "values_digest": "ca85f8b10d7574478c88eb3e23c9bdce64470d3abcea6a9f64d7c807a0ead738",
       "rendered_digest": "790fab9f72e65ecfc0e9db84c997d0f7fb07bd6c0f3fd4bfd9cbb00c7690589c",
       "ast_digest": "0be2310c955a79210201505a049051da5230e6168ece9a164c59bbd1f3bd5422"
     },
     "srp": {
-      "values_digest": "e6236120a9cc34f4d3e6e7da48b018a08951d87483b4956dc89eb756290ea44d",
+      "values_digest": "2f7ea4f444e923ca3fbc20ab335b82e27d28b610b9d6a55184e173092e7ffe1e",
       "rendered_digest": "2a95d53ba9ac5251a4630c8b842da20e85fe4bfba082114685b8432c2800b245",
       "ast_digest": "08fdce6f58bbc14d82bc91575e54ecc3fcaac5967ec38de7482cfd6f1c661447"
     },
     "sor": {
-      "values_digest": "5e760cd8b8544792c009aa973e7880c3814c2b959b87f609f300416ab78d81a3",
-      "rendered_digest": "34179f02f0ec45a99ccfb7e78d2b5bfb5db825f50d3af9cec9375088f23181a1",
-      "ast_digest": "d9df65729cb6975672a94893c81d9cc33ded1b54ab1958a97e2f54043512e28a"
+      "values_digest": "d5156b243ebded25d2e235bf3e20b7ad5bbe4d51a7e982dd9222973596033392",
+      "rendered_digest": "e72651af9acac9790a9e975e04cf84fa0df82a2c875f7954e241bd48bdd3cbf1",
+      "ast_digest": "9ebe2eb543f6451eaa53fd36d7f0117e149a641f37518e7a645193029de9ddfe"
     }
   },
   "transitions": [
@@ -75,6 +94,34 @@
       "to": "implemented",
       "actor": "codex:/root/issue-275-implementation",
       "reason": "Product implementation and focused local validation are complete; enter implemented phase for SOR truth and independent review."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "published",
+      "actor": "codex:closeout-sweep-closed-merged-v092",
+      "reason": "recovered exact merged PR publication evidence for stale historical projection"
+    },
+    {
+      "sequence": 5,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex:closeout-sweep-closed-merged-v092",
+      "reason": "observed required terminal merge authority for stale historical projection"
+    },
+    {
+      "sequence": 6,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex:closeout-sweep-closed-merged-v092",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 7,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex:closeout-sweep-closed-merged-v092",
+      "reason": "Materialize terminal closeout after exact merged PR #377 historical finish."
     }
   ],
   "audit": [
@@ -259,6 +306,20 @@
       "actor": "codex:/root/issue-275-implementation",
       "reason": "Record #275 post-recovery implementation repair, fresh design review PASS, and focused validation after resolving design-review findings.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and repaired the bounded #275 integrated serving-authority snapshot store from terminal borrowed #367 child-lineage pairs. The repaired store denies caller-minted recovery receipts, permits recovery only from reopened committed state, hashes state through the domain-tagged revision-ordered prefix required by design, enforces same-lineage strictly newer fencing/generation for replacement and transfer observations, and keeps exact product scope to the integrated store module, one module registration, and the focused integration target.\",\"changes\":[\"Added `adl-runtime/src/distributed/integrated_serving_authority_snapshot.rs` with a store API accepting only borrowed `VerifiedCommittedChildLineagePair` inputs from #367.\",\"Registered the new integrated serving-authority snapshot module from `adl-runtime/src/distributed/mod.rs`.\",\"Added `adl-runtime/tests/distributed_integrated_serving_authority.rs` with the exact eight-case matrix for authentic pairs, immutable prefix validation, caller-outcome/reopen-derived recovery separation, retry/reopen, capacity, CAS rollback, corruption, terminal child evidence, A/B denial, redaction, and tamper denial.\",\"Repaired review findings by blocking `observe(..., Recovery)`, making `recover()` require a non-empty reopened committed state with no intervening live append, implementing the `ADL-INTEGRATED-SERVING-AUTHORITY-STATE-PREFIX-V1` revision/ordered-receipts digest, and adding renew/transfer/revoke/expiry coverage inside the existing exact denominator.\",\"Re-anchored `.csdlc/prepared/issues/275/validate_exact_scope.py` to the current `origin/main` merge-base so the exact scope proof no longer flags already-merged #369 lifecycle records as #275 drift.\"],\"artifacts\":[\"adl-runtime/src/distributed/integrated_serving_authority_snapshot.rs\",\"adl-runtime/tests/distributed_integrated_serving_authority.rs\",\"adl-runtime/src/distributed/mod.rs\",\".csdlc/prepared/issues/275/run_exact_focused_matrix.py\",\".csdlc/prepared/issues/275/validate_exact_scope.py\",\".csdlc/issues/275\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/275/run_exact_focused_matrix.py\"],\"purpose\":\"Prove the exact eight-case #275 focused integration denominator after recovery/non-overlap repairs.\",\"outcome\":\"passed\",\"evidence_ref\":\"PASS: exact #275 focused matrix 8 passed, 0 failed, 0 ignored at HEAD 86a59bde2d85d8a6ed78c542e6cace0a4fc8a459.\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--features\",\"internal-test-fixtures\",\"distributed::integrated_serving_authority_snapshot::tests::normalized_receipt_rejects_tamper\",\"--\",\"--exact\"],\"purpose\":\"Prove private normalized receipt tamper denial.\",\"outcome\":\"passed\",\"evidence_ref\":\"1 passed; 0 failed; 0 ignored.\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--doc\",\"integrated_serving_authority_snapshot\"],\"purpose\":\"Prove the three compile-fail API denial examples.\",\"outcome\":\"passed\",\"evidence_ref\":\"3 passed; 0 failed; 0 ignored selected doctests.\"},{\"command\":[\"python3\",\".csdlc/prepared/issues/275/validate_exact_scope.py\"],\"purpose\":\"Prove exact #275 product scope and sole additive registration hunk against current main.\",\"outcome\":\"passed\",\"evidence_ref\":\"PASS: exact #275 scope and sole additive registration hunk.\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--lib\",\"--features\",\"internal-test-fixtures\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings and hidden API drift in the feature-bearing library.\",\"outcome\":\"passed\",\"evidence_ref\":\"Finished dev profile with -D warnings.\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"distributed_integrated_serving_authority\",\"--features\",\"internal-test-fixtures\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings in the exact focused integration target.\",\"outcome\":\"passed\",\"evidence_ref\":\"Finished dev profile with -D warnings.\"},{\"command\":[\"fresh\",\"design-review\",\"review_issue_275_design_r3\"],\"purpose\":\"Verify the post-repair design boundary after false design-review recovery.\",\"outcome\":\"passed\",\"evidence_ref\":\"Fresh read-only design review PASS at exact HEAD 86a59bde2d85d8a6ed78c542e6cace0a4fc8a459.\"}]}"
+    },
+    {
+      "sequence": 27,
+      "generation": 25,
+      "actor": "codex:closeout-sweep-reconcile-merged",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 28,
+      "generation": 26,
+      "actor": "codex:closeout-sweep-closed-merged-v092",
+      "reason": "Materialize terminal closeout after exact merged PR #377 historical finish.",
+      "operation": "materialize_derived_terminal"
     }
   ]
 }
