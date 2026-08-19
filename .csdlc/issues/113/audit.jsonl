@@ -73,3 +73,5 @@
 {"sequence":73,"generation":62,"actor":"codex:wp18c-sprint-execution","reason":"Refresh exact-head review and publication truth after required CI exposed and remediation fixed obsolete Guardian ACIP coverage and Linux Shepherd process-test isolation.","operation":"recover_review"}
 {"sequence":74,"generation":62,"actor":"codex:wp18c-sprint-execution","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":75,"generation":63,"actor":"openai-codex:gpt-5:wp18c-required-ci-review:2026-08-11","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":76,"generation":64,"actor":"codex:closeout-sweep-reconcile-merged","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":77,"generation":65,"actor":"codex:closeout-sweep-closed-merged-v092","reason":"Materialize terminal closeout after exact merged PR #222 historical finish.","operation":"materialize_derived_terminal"}
