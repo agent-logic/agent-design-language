@@ -7,7 +7,7 @@
     "title": "[v0.92.1][repository] Remove all tracked .adl paths and relocate required policy authority",
     "slug": "remove-tracked-adl-and-relocate-policy",
     "version": "v0.92.1",
-    "generation": 6
+    "generation": 7
   },
   "status": "ready",
   "content": {
@@ -53,7 +53,7 @@
             "--manifest-path",
             "csdlc-v2/Cargo.toml",
             "--lib",
-            "fastwork_policy"
+            "lifecycle::fastwork_policy_tests"
           ],
           "parallel_group": "rust",
           "defer_reason": null

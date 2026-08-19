@@ -61,7 +61,7 @@ Diagram: .csdlc/prepared/issues/432/diagram.mmd
       "--manifest-path",
       "csdlc-v2/Cargo.toml",
       "--lib",
-      "fastwork_policy"
+      "lifecycle::fastwork_policy_tests"
     ],
     "parallel_group": "rust",
     "defer_reason": null
@@ -99,7 +99,7 @@ Tokens: 100000
 ## Commands
 
 - `bash adl/tools/test_check_no_tracked_adl.sh`
-- `cargo test --manifest-path csdlc-v2/Cargo.toml --lib fastwork_policy`
+- `cargo test --manifest-path csdlc-v2/Cargo.toml --lib lifecycle::fastwork_policy_tests`
 - `git diff --check`
 
 ## Failure Semantics

@@ -1,10 +1,10 @@
 {
   "issue": 432,
   "card": "vpp",
-  "expected_generation": 5,
-  "expected_digest": "c2e1bf210bb517b0e874ea87603bd1e684f06515fe0f7295aa495dd04143d97b",
+  "expected_generation": 6,
+  "expected_digest": "aa90675ffd55da7dc329730f515293c968858ea20d234dab84ad9d82cb8eb9d8",
   "actor": "codex:432-implementation",
-  "reason": "Activate the implemented boundary validator and correct the Rust filter after the planned worktree_policy substring selected zero tests; fastwork_policy selects the exact six-test module.",
+  "reason": "Replace the free Rust substring with the exact lifecycle::fastwork_policy_tests module path after confirming that it selects the intended six tests.",
   "operation": {
     "operation": "replace_validation_lanes",
     "lanes": [
@@ -28,7 +28,7 @@
         "resource_profile": "medium",
         "budget_seconds": 600,
         "budget_tokens": 2500,
-        "argv": ["cargo", "test", "--manifest-path", "csdlc-v2/Cargo.toml", "--lib", "fastwork_policy"],
+        "argv": ["cargo", "test", "--manifest-path", "csdlc-v2/Cargo.toml", "--lib", "lifecycle::fastwork_policy_tests"],
         "parallel_group": "rust",
         "defer_reason": null
       },
