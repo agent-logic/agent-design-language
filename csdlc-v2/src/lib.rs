@@ -60,7 +60,9 @@ pub use finish::MergeMethod;
 pub use finish::{
     retain_terminal_estimation_outcome, validate_terminal_estimation_evidence,
     DerivedTerminalEnvelope, FinishDisposition, FinishRequest, FinishResult,
-    HistoricalFinishRequest, IssueTerminalObservation, TerminalEstimationResult,
+    HistoricalFinishRequest, IssueTerminalObservation, RecordlessCloseoutMode,
+    RecordlessCloseoutRequest, RecordlessCloseoutResult, RecordlessCloseoutTarget,
+    RecordlessCloseoutTargetResult, RecordlessTerminalReceipt, TerminalEstimationResult,
     TerminalEstimationStatus,
 };
 pub use git::shared_request_path;

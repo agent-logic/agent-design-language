@@ -1,0 +1,81 @@
+{
+  "actor": "codex-worker-4",
+  "approved_reason": "closed-by-merged v0.92 residual closeout recovery for issues with no source projection at merged PR head",
+  "mode": "classify_only",
+  "schema": "csdlc.recordless_closeout_request.v1",
+  "targets": [
+    {
+      "expected_head_sha": "ff39ea41ad2a7ab4de264d22aa07041984cebc7b",
+      "expected_merge_sha": "198e629905ba6e94faffd04ca67c38b190614855",
+      "issue": 204,
+      "issue_repository": "agent-logic/agent-design-language",
+      "pr_repository": "agent-logic/agent-design-language",
+      "pull_request": 379
+    },
+    {
+      "expected_head_sha": "4052f6149bf918d79518eb95e196abfe2dfc6e37",
+      "expected_merge_sha": "4856ecadacccf890f8b7463fbd4e2e74d9533423",
+      "issue": 207,
+      "issue_repository": "agent-logic/agent-design-language",
+      "pr_repository": "agent-logic/agent-design-language",
+      "pull_request": 413
+    },
+    {
+      "expected_head_sha": "255a10f3fefaa2a005eb5fe1501c19069f6a6540",
+      "expected_merge_sha": "0f0593f8d8f1c2873423db5513dc9069e1e8c4a0",
+      "issue": 211,
+      "issue_repository": "agent-logic/agent-design-language",
+      "pr_repository": "agent-logic/agent-design-language",
+      "pull_request": 380
+    },
+    {
+      "expected_head_sha": "22165a4d0304817f7816c05815d8a9e9560342d2",
+      "expected_merge_sha": "8ecbeb88fd2a8293d06a9ae7c518e45b2689cfc4",
+      "issue": 248,
+      "issue_repository": "agent-logic/agent-design-language",
+      "pr_repository": "agent-logic/agent-design-language",
+      "pull_request": 247
+    },
+    {
+      "expected_head_sha": "cd439aa040c1a778a077870e18f097d16edff155",
+      "expected_merge_sha": "86a18c8f5b21690d645bd416ff45a006e5ef9e41",
+      "issue": 266,
+      "issue_repository": "agent-logic/agent-design-language",
+      "pr_repository": "agent-logic/agent-design-language",
+      "pull_request": 372
+    },
+    {
+      "expected_head_sha": "4aa9f70a6b210314bc4e9be2ad13fd57565f5ca1",
+      "expected_merge_sha": "ea8b76fcdb458b48a50d6383eb283d3a72587b27",
+      "issue": 267,
+      "issue_repository": "agent-logic/agent-design-language",
+      "pr_repository": "agent-logic/agent-design-language",
+      "pull_request": 375
+    },
+    {
+      "expected_head_sha": "01c2a2a737d43a8361b5250da902d202455a2818",
+      "expected_merge_sha": "03e23c6a63988a780e5512c6c7be42bf862d0842",
+      "issue": 373,
+      "issue_repository": "agent-logic/agent-design-language",
+      "pr_repository": "agent-logic/agent-design-language",
+      "pull_request": 376
+    },
+    {
+      "expected_head_sha": "ae2dfbcd34f197cf1e90f4021ff6cd2d6251c22c",
+      "expected_merge_sha": "87b100dfb87fbb078621518f17e06d96114f15d2",
+      "issue": 374,
+      "issue_repository": "agent-logic/agent-design-language",
+      "pr_repository": "agent-logic/agent-design-language",
+      "pull_request": 378
+    },
+    {
+      "expected_head_sha": "92280aed5fd338533d13d32bb8eb5112a6f3039a",
+      "expected_merge_sha": "e253a04d7ba996b7bf6c3fe8d3070afa21e01540",
+      "issue": 401,
+      "issue_repository": "agent-logic/agent-design-language",
+      "pr_repository": "agent-logic/agent-design-language",
+      "pull_request": 402
+    }
+  ],
+  "token_file": null
+}

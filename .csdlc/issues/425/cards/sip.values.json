@@ -1,0 +1,40 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 425,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Recover recordless already-merged closeout authority",
+    "slug": "recordless-already-merged-closeout-recovery",
+    "version": "v0.92",
+    "generation": 20
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Implement a typed C-SDLC v2 recovery/classification route for already-merged closeout authority when no source issue projection exists at the merged PR head.",
+      "required_outcome": "Closed-by-merged v0.92 residuals with no issue projection at merged PR head can be classified or safely materialized through typed C-SDLC v2 without synthesizing normal implementation/card proof or weakening ordinary publication/terminal guards.",
+      "declared_scope": [
+        "csdlc-v2 recordless/no-projection closeout recovery request/result models",
+        "live GitHub validation for exact issue, PR, head SHA, merge SHA, repository, and closing linkage",
+        "safe fail-closed classification for contradictory retained publication evidence",
+        "focused tests for positive recordless terminal and negative ambiguity cases"
+      ],
+      "authority_boundary": [
+        "Normal active-issue publication/review/finish gates remain unchanged",
+        "Recordless terminal recovery may not invent review, implementation, publication, or card truth",
+        "GitHub state is read-only for recovery validation",
+        "Contradictory #248 precedence remains fail-closed until explicitly resolved"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2 owners for lifecycle and publication",
+        "Bind implementation under /Volumes/FastWork/adl-worktrees",
+        "Do not use raw GitHub writes",
+        "Do not edit product Runtime/Observatory/provider/Unity/AWS surfaces",
+        "Keep primary main clean after bind"
+      ]
+    }
+  }
+}
