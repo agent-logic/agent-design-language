@@ -11,3 +11,4 @@
 {"sequence":11,"generation":9,"actor":"codex:/root/resolve_213_review","reason":"Implementation and exact-head validation are complete and ready for independent review recording.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"}
 {"sequence":12,"generation":10,"actor":"/root/review_213_c46f23","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":13,"generation":11,"actor":"/root/review_213_c46f23","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":14,"generation":12,"actor":"codex:closeout-sweep","reason":"Materialize historical merged PR #219 terminal truth for #213 closeout.","operation":"materialize_derived_terminal"}
