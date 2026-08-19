@@ -50,7 +50,7 @@ require_executable() {
 require_source() {
   local path="$1"
   local needle="$2"
-  grep -F "$needle" "$path" >/dev/null || fail "missing_contract:$needle in $path"
+  grep -F -- "$needle" "$path" >/dev/null || fail "missing_contract:$needle in $path"
 }
 
 contract_check() {
@@ -60,7 +60,11 @@ contract_check() {
   require_source "$APP_JS" 'health_endpoint: "/v1/health"'
   require_source "$APP_JS" 'fetchRuntimeV3Health(base)'
   require_source "$APP_JS" 'response.status !== 200'
-  require_source "$CSMCTL" 'if self.path in ("", "/"):'
+  require_source "$CSMCTL" 'OBSERVATORY_SERVER_BIN'
+  require_source "$CSMCTL" 'adl-observatory-static'
+  require_source "$CSMCTL" '--daemon'
+  require_source "${ROOT_DIR}/adl-runtime/src/bin/adl-observatory-static.rs" 'Router::new()'
+  require_source "${ROOT_DIR}/adl-runtime/src/bin/adl-observatory-static.rs" 'path.push("index.html")'
   require_source "$CSMCTL" 'printf '\''OBSERVATORY_RUNTIME_BASE=%q\n'\'' "$OBSERVATORY_RUNTIME_BASE"'
   require_source "$CSMCTL" 'load_observatory_state || true'
   "$HTML_TEST"
@@ -280,6 +284,7 @@ live_check() {
 
   "$CSMCTL" start
   assert_exposed_read_routes "$runtime_base" "$state_dir"
+  "$CSMCTL" observatory stop >/dev/null 2>&1 || true
   "$CSMCTL" observatory start
   require_file "$observatory_state"
   # shellcheck source=/dev/null

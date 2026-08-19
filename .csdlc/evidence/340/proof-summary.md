@@ -21,7 +21,7 @@ The retained evidence logs were refreshed after the second exact-head review fin
   - Result: PASS
   - Log: `.csdlc/evidence/340/340-rust-format.log`
 - `340-diff-hygiene`
-  - Command: `git diff --check -- CSMctl adl/tools/test_html_observatory.sh demos/html-observatory/app.js demos/html-observatory/index.html adl/tools/validate_v092_observatory_restart_reconnect.sh adl-runtime/tests/runtime_api_wss.rs .csdlc/issues/340 .csdlc/prepared/issues/340`
+  - Command: `git diff --check -- CSMctl adl/tools/test_html_observatory.sh demos/html-observatory/app.js demos/html-observatory/index.html adl/tools/validate_v092_observatory_restart_reconnect.sh adl-runtime/tests/runtime_api_wss.rs adl-runtime/src/bin/adl-observatory-static.rs .csdlc/issues/340 .csdlc/prepared/issues/340 .csdlc/evidence/340`
   - Result: PASS
   - Log: `.csdlc/evidence/340/340-diff-hygiene.log`
 - `340-live-start-stop-restart`
@@ -74,6 +74,28 @@ Current validation:
 - `bash adl/tools/validate_v092_observatory_restart_reconnect.sh --live`
   - Result: PASS
   - Evidence: the refreshed live log proves Runtime read probes reach HTTP 200, Observatory root/index serve HTTP 200, graceful stop leaves no Runtime PID/lease files, and restart reaches PASS. The validator also captures `$STATE_DIR/CSMctl.restart.out` during the live run and fails closed if the post-restart `CSMctl start` output reports a stale Observatory URL or stale Runtime API base.
+
+## Final simplification repair
+
+Operator review of the live Observatory showed the prior static-server path was still too complicated and brittle: the generated Python HTTPS server and launchd LaunchAgent could serve stale primary-checkout HTML, leave orphan listeners, or require manual launchd cleanup. A brief OpenSSL `s_server` experiment also proved unsuitable because it did not behave as a durable static HTTP daemon.
+
+Final repair:
+
+- Added `adl-runtime/src/bin/adl-observatory-static.rs`, a tiny repo-native axum/axum-server HTTPS static file server using dependencies already present in `adl-runtime`.
+- `CSMctl observatory start` now builds that binary if missing, starts it with `--daemon --pid-file --log-file`, and requires both HTTP 200 and a live pid-file process before reporting success.
+- `CSMctl observatory stop` terminates the exact pid-file process and removes Observatory pid/state files.
+- Removed the generated Python Observatory server, generated runner, and Observatory launchd plist path from CSMctl.
+- Kept the Apache-style config shape: cert, key, host, port list, document root, Runtime API base, pid/state/log paths.
+- The focused Rust regression now asserts the zero-new-dependency axum static-server contract and forbids the old generated Python/Node/launchd helper names in CSMctl.
+
+Current simplification proof:
+
+- `cargo test --manifest-path adl-runtime/Cargo.toml --test runtime_api_wss`
+  - Result: PASS, `3 passed; 0 failed`
+- `bash adl/tools/validate_v092_observatory_restart_reconnect.sh --contract`
+  - Result: PASS
+- `bash adl/tools/validate_v092_observatory_restart_reconnect.sh --live`
+  - Result: PASS with local launchctl permission for the Runtime restart lane.
 
 ## Exposed-route coverage
 

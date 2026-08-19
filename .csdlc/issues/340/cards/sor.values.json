@@ -7,23 +7,25 @@
     "title": "[v0.92][WP-18A] HTML Observatory Runtime restart integration",
     "slug": "html-observatory-runtime-restart-integration",
     "version": "v0.92",
-    "generation": 17
+    "generation": 19
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Implemented bounded HTML Observatory Runtime v3 launch/start-stop-restart integration and repaired exact-review findings: live mode now distinguishes real Runtime API data from retained mirror evidence, the live validator proves post-restart CSMctl start output is current, CSMctl separates Observatory document root from launch working directory, and retained proof logs were refreshed after the repair.",
+      "summary": "Implemented bounded HTML Observatory Runtime v3 launch/start-stop-restart integration with a simple repo-native axum static server. CSMctl now starts the HTML Observatory through adl-observatory-static using configured cert/key/docroot/ports, owns a pid file, preserves Runtime/Observatory separation, and proves live Runtime restart plus Observatory root/index 200 behavior without Unity, AWS/public hosting, provider credentials, #341, #343, #84, #122, or #251 scope.",
       "actual_changes": [
-        "CSMctl static Observatory launch now has an explicit ADL_CSM_OBSERVATORY_LAUNCH_WORKING_DIR so the configured document root remains Apache-simple while launchd cwd access is not conflated with the served HTML path.",
-        "HTML Observatory visible chrome now renders Live Runtime API for live Runtime v3 mode and reserves retained/published mirror language for retained evidence paths.",
-        "The #340 validator captures post-restart CSMctl start output and fails closed if the restarted command reports a stale Observatory URL or stale Runtime API base.",
-        "Retained evidence logs under .csdlc/evidence/340 were refreshed after the second review finding instead of relying on stale pre-repair live output.",
-        "Focused HTML and Runtime API/WSS tests pin the live-label, exact HTTP 200, CSMctl root/runtime-base, launch working directory, and post-restart URL assertion contracts.",
-        "The work remains limited to #340 HTML Observatory Runtime restart/reconnect integration and excludes Unity, AWS/public hosting, provider credentials, #341, #343, #84, #122, and #251."
+        "Added adl-runtime/src/bin/adl-observatory-static.rs, a tiny axum/axum-server HTTPS static-file server using dependencies already present in adl-runtime.",
+        "CSMctl observatory start now builds adl-observatory-static if needed, launches it with --daemon/--pid-file/--log-file, and reports success only when both HTTP 200 and a live pid-file process are present.",
+        "CSMctl observatory stop now terminates the exact Observatory pid-file process and removes Observatory pid/state files.",
+        "Removed the generated Python Observatory server, generated runner, and Observatory launchd plist path from CSMctl; no Node/http-server or OpenSSL s_server serving path is used.",
+        "Kept the Apache-style config boundary: cert path, key path, host, port list, document root, Runtime API base, pid/state/log paths, and separate Runtime versus Observatory startup.",
+        "The live validator now starts from a clean CSMctl-owned Observatory state, verifies root/index HTTP 200, probes every documented read/preflight/WSS route in scope, proves Runtime graceful stop/restart, and verifies post-restart CSMctl URL/base output is current.",
+        "Focused Rust tests pin the zero-new-dependency axum static-server contract, forbid old generated Python/Node/launchd helper names in CSMctl, and retain the exact live Runtime API label and 200-gating contracts."
       ],
       "artifacts": [
         "CSMctl",
+        "adl-runtime/src/bin/adl-observatory-static.rs",
         "demos/html-observatory/app.js",
         "demos/html-observatory/index.html",
         "adl/tools/test_html_observatory.sh",
@@ -46,7 +48,7 @@
             "adl/tools/validate_v092_observatory_restart_reconnect.sh",
             "--contract"
           ],
-          "purpose": "Static contract proof for HTML Observatory Runtime v3 live labels, exact /v1/observatory HTTP 200 gating, CSMctl persisted-state reload, and post-restart validator assertions.",
+          "purpose": "Static contract proof for HTML Observatory Runtime v3 live labels, exact /v1/observatory HTTP 200 gating, zero-new-dependency axum static serving, CSMctl persisted-state reload, and post-restart validator assertions.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/340/340-html-observatory-contract.log"
         },
@@ -59,7 +61,7 @@
             "--test",
             "runtime_api_wss"
           ],
-          "purpose": "Focused Runtime API/WSS contract tests for OpenAPI route split, validator route coverage, strict live-data gating, CSMctl root/runtime-base behavior, launch working directory, and post-restart URL assertions.",
+          "purpose": "Focused Runtime API/WSS and CSMctl contract tests for exposed route coverage, strict live-data gating, axum static server root/index behavior, pid-owned startup, and no generated Python/Node/launchd Observatory helper regression.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/340/340-runtime-api-wss-contract.log"
         },
@@ -71,7 +73,7 @@
             "adl-runtime/Cargo.toml",
             "--check"
           ],
-          "purpose": "Rust formatting check for the focused integration test.",
+          "purpose": "Rust formatting check for the focused integration test and axum static server binary.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/340/340-rust-format.log"
         },
@@ -87,10 +89,12 @@
             "demos/html-observatory/index.html",
             "adl/tools/validate_v092_observatory_restart_reconnect.sh",
             "adl-runtime/tests/runtime_api_wss.rs",
+            "adl-runtime/src/bin/adl-observatory-static.rs",
             ".csdlc/issues/340",
-            ".csdlc/prepared/issues/340"
+            ".csdlc/prepared/issues/340",
+            ".csdlc/evidence/340"
           ],
-          "purpose": "Whitespace and conflict-marker hygiene across #340 source, tests, validator, and lifecycle card projections.",
+          "purpose": "Whitespace and conflict-marker hygiene across #340 source, tests, validator, new axum static server, lifecycle card projections, and retained evidence.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/340/340-diff-hygiene.log"
         },
@@ -100,7 +104,7 @@
             "adl/tools/validate_v092_observatory_restart_reconnect.sh",
             "--live"
           ],
-          "purpose": "Live local CSMctl/Runtime/Observatory proof for HTTP 200 startup gates, Observatory root/index serving, graceful stop cleanup, restart, and post-restart current URL/base reporting.",
+          "purpose": "Live local CSMctl/Runtime/Observatory proof for HTTP 200 startup gates, axum-served Observatory root/index, graceful Runtime stop cleanup, restart, and post-restart current URL/base reporting.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/340/340-live-start-stop-restart.log"
         },
@@ -113,7 +117,7 @@
             "--issue",
             "340"
           ],
-          "purpose": "Typed lifecycle validation after evidence refresh.",
+          "purpose": "Typed lifecycle validation after final axum static-server evidence refresh.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/340/340-typed-validate.log"
         }

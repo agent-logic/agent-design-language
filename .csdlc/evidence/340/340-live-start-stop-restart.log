@@ -5,7 +5,7 @@ CSMctl status=pass runtime_base=https://localhost:20997
 CSMctl runtime=https://localhost:20997
 CSMctl observatory=https://localhost:8766/index.html?runtime=v3&runtimeApiBase=https://localhost:20997&live=1
 CSMctl observatory_runtime_api_base=https://localhost:20997
-CSMctl observatory_file=/Users/daniel/git/agent-design-language/demos/html-observatory/index.html?runtime=v3&runtimeApiBase=https://localhost:20997&live=1
+CSMctl observatory_file=/Volumes/FastWork/adl-worktrees/adl-issue-340-html-observatory-runtime-restart-integration/demos/html-observatory/index.html?runtime=v3&runtimeApiBase=https://localhost:20997&live=1
 CSMctl observatory_port_unavailable port=8765 action=try_next
 CSMctl observatory_server=running url=https://localhost:8766/index.html?runtime=v3&runtimeApiBase=https://localhost:20997&live=1
 CSMctl stopping launch_label=com.agentlogic.start-csm mode=graceful

@@ -5,6 +5,7 @@ const OBSERVATORY_OPENAPI: &str =
     include_str!("../../docs/api/runtime-v3/v1/observatory.openapi.json");
 const HTML_OBSERVATORY_APP: &str = include_str!("../../demos/html-observatory/app.js");
 const CSMCTL: &str = include_str!("../../CSMctl");
+const OBSERVATORY_STATIC_BIN: &str = include_str!("../src/bin/adl-observatory-static.rs");
 const RESTART_VALIDATOR: &str =
     include_str!("../../adl/tools/validate_v092_observatory_restart_reconnect.sh");
 
@@ -113,8 +114,10 @@ fn html_observatory_live_mode_requires_the_full_runtime_read_surface() {
 #[test]
 fn csmctl_observatory_serves_index_at_root_and_persists_runtime_target() {
     for required in [
-        "if self.path in (\"\", \"/\"):",
-        "self.path = \"/index.html\"",
+        "OBSERVATORY_SERVER_BIN",
+        "adl-observatory-static",
+        "--daemon",
+        "--pid-file \"$OBSERVATORY_PID_FILE\"",
         "OBSERVATORY_RUNTIME_BASE=%q",
         "OBSERVATORY_URL=%q",
         "OBSERVATORY_LAUNCH_WORKING_DIR",
@@ -124,6 +127,30 @@ fn csmctl_observatory_serves_index_at_root_and_persists_runtime_target() {
         assert!(
             CSMCTL.contains(required),
             "CSMctl must preserve simple root launch and Runtime target evidence: {required}"
+        );
+    }
+    for forbidden in [
+        "CSMctl_observatory_server.py",
+        "CSMctl_observatory_runner.sh",
+        "com.agentlogic.csm-observatory.plist",
+        "npx",
+        "http-server",
+    ] {
+        assert!(
+            !CSMCTL.contains(forbidden),
+            "CSMctl Observatory serving must stay repo-native and avoid generated Python/Node/launchd helpers: {forbidden}"
+        );
+    }
+    for required in [
+        "Router::new()",
+        ".fallback(get(serve_static))",
+        "path.push(\"index.html\")",
+        "Component::ParentDir => return None",
+        "libc::setsid()",
+    ] {
+        assert!(
+            OBSERVATORY_STATIC_BIN.contains(required),
+            "adl-observatory-static must preserve the small axum static-server contract: {required}"
         );
     }
     for required in [
