@@ -464,6 +464,38 @@ PY
   assert_has "$issue_111_113_output" "validation_profile_escalation_required=false"
   assert_has "$issue_111_113_output" "validation_profile_run_lanes=docs_diff_check,html_observatory_roster_javascript_syntax,html_observatory_tooling_syntax,html_observatory_v0917_runtime_surface,runtime_kernel_contracts"
 
+  git checkout -q -b issue-341-provider-neutral-proof-routing "$base_sha"
+  mkdir -p .csdlc/evidence/341 .csdlc/issues/341/cards .csdlc/prepared/issues/341 \
+    adl/tools demos/html-observatory demos/v0.92/provider-neutral-birthday \
+    docs/milestones/v0.92/features
+  printf '{}\n' > .csdlc/evidence/341/proof-matrix.json
+  printf '{}\n' > .csdlc/issues/341/index.json
+  printf '# SOR\n' > .csdlc/issues/341/cards/sor.md
+  printf '# design\n' > .csdlc/prepared/issues/341/design.md
+  printf '#!/usr/bin/env bash\nexit 0\n' > adl/tools/demo_v092_provider_neutral_birthday.sh
+  printf 'print("serve observatory")\n' > adl/tools/serve_v092_provider_neutral_observatory_api.py
+  printf '#!/usr/bin/env bash\nexit 0\n' > adl/tools/test_v092_provider_neutral_proof.sh
+  printf 'print("validate proof")\n' > adl/tools/validate_v092_provider_neutral_proof.py
+  printf '#!/usr/bin/env bash\nexit 0\n' > adl/tools/test_html_observatory.sh
+  printf 'console.log("runtime badge");\n' > demos/html-observatory/app.js
+  printf '# provider neutral proof\n' > demos/v0.92/provider-neutral-birthday/README.md
+  printf '{}\n' > demos/v0.92/provider-neutral-birthday/proof-matrix.json
+  printf '# feature\n' > docs/milestones/v0.92/features/PROVIDER_NEUTRAL_MULTI_AGENT_PROOF_v0.92.md
+  git add .csdlc adl/tools demos docs/milestones/v0.92/features
+  git commit -q -m issue-341-provider-neutral-proof-routing
+  issue_341_output="$("$POLICY" --event-name pull_request --base "$base_sha" --head HEAD --ref "refs/pull/442/merge")"
+  assert_has "$issue_341_output" "fail_closed=false"
+  assert_has "$issue_341_output" "rust_required=false"
+  assert_has "$issue_341_output" "coverage_required=false"
+  assert_has "$issue_341_output" "full_coverage_required=false"
+  assert_has "$issue_341_output" "workspace_full_coverage_required=false"
+  assert_has "$issue_341_output" "coverage_lane=skip"
+  assert_has "$issue_341_output" "coverage_authority=not_required"
+  assert_has "$issue_341_output" "validation_profile_status=ready_to_run"
+  assert_has "$issue_341_output" "validation_profile_escalation_required=false"
+  assert_has "$issue_341_output" "validation_profile_run_lanes=docs_diff_check,html_observatory_tooling_syntax,html_observatory_v0917_runtime_surface,provider_neutral_multi_agent_proof"
+  assert_has "$issue_341_output" "reason=provider_neutral_multi_agent_proof_surface_requires_focused_demo_packet_validation"
+
   printf '#!/usr/bin/env bash\nexit 0\n' > adl/tools/future_unclassified_route.sh
   git add adl/tools/future_unclassified_route.sh
   git commit -q -m issue-111-113-unknown-path

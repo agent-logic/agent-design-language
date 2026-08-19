@@ -1013,8 +1013,10 @@ if "runs-on: ubuntu-latest" not in rust_test_job:
 if selected_runner in rust_test_job:
     raise SystemExit("adl-rust-tests must not use the configurable heavy runner")
 rust_test_condition = rust_test_job.split("runs-on:", 1)[0]
-if "needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true'" not in rust_test_condition:
-    raise SystemExit("CI routing changes must exercise adl-rust-tests on the standard runner")
+if "needs.adl_path_policy.outputs.rust_required == 'true'" not in rust_test_condition:
+    raise SystemExit("adl-rust-tests must only run when Rust validation is selected")
+if "needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true'" in rust_test_condition:
+    raise SystemExit("CI routing contract changes must not force adl-rust-tests when rust_required=false")
 
 deferred_test_condition = step_if("test deferred to validation-manager escalation")
 if "needs.adl_path_policy.outputs.ci_path_policy_contracts_required != 'true'" not in deferred_test_condition:
@@ -1022,8 +1024,9 @@ if "needs.adl_path_policy.outputs.ci_path_policy_contracts_required != 'true'" n
 
 adl_ci_job = job_block("adl-ci")
 for required_fragment in (
-    "WORK_REQUIRED: ${{ needs.adl_path_policy.outputs.rust_required == 'true' || needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true'",
-    "RUST_TESTS_REQUIRED: ${{ needs.adl_path_policy.outputs.rust_required == 'true' || needs.adl_path_policy.outputs.ci_path_policy_contracts_required == 'true' }}",
+    "WORK_REQUIRED: ${{ needs.adl_path_policy.outputs.rust_required == 'true' || needs.adl_path_policy.outputs.demo_smoke_required == 'true'",
+    "RUST_TESTS_REQUIRED: ${{ needs.adl_path_policy.outputs.rust_required == 'true' }}",
+    "DEMO_REQUIRED: ${{ needs.adl_path_policy.outputs.demo_smoke_required == 'true' || needs.adl_path_policy.outputs.v0913_proof_required == 'true' }}",
     '--rust-tests-required "$RUST_TESTS_REQUIRED"',
 ):
     if required_fragment not in adl_ci_job:

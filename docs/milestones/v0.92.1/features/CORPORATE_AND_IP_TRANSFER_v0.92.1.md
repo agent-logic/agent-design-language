@@ -1,20 +1,14 @@
-# Corporate And Intellectual Property Transfer
+# Corporate and IP Transfer — v0.92.1
 
-## Outcome
+Deliver a bounded, reviewed transfer package for corporate authority, intellectual property, licensing, service ownership, and operational custody. Private source material stays outside the repository; tracked evidence is redacted, classified, and digest-bound. Completion requires explicit operator acceptance.
 
-Agent Logic controls its critical intellectual property and production operations through counsel-reviewed chain-of-title, corporate acceptance, company-controlled accounts, and independently verifiable operational custody.
+## Execution packages
 
-## Scope
+The eight prematurely retired planning issues `#153`-`#160` remain source and predecessor truth; they are not reopened. WP-01 will create four replacement execution packages, CORP-A through CORP-D:
 
-- code, documentation, architecture, research, product designs, brands, domains, media, datasets, model artifacts, websites, repositories, cloud resources, vendor accounts, and contractual rights;
-- contributor, contractor, prior-employer, third-party, OSS, model, and media provenance;
-- billing, administrative access, MFA, recovery, vault custody, backups, and rollback;
-- Route53, ACM, SES, CloudFront/S3, Terraform, CI/CD, monitoring, and runbooks.
+1. **CORP-A — IP and provenance:** asset inventory, provenance, licensing, trademark disposition, counsel-reviewed assignment, and corporate acceptance (`#153`-`#155`).
+2. **CORP-B — custody and recovery:** company billing, recovery, MFA, and vault custody (`#156`).
+3. **CORP-C — operational transfer:** repository, domain, brand, vendor, AWS, Terraform, CI, deployment, and runbook authority (`#157`-`#159`).
+4. **CORP-D — diligence close:** chain-of-title, redacted diligence index, private custody map, counsel review, corporate approval, exceptions, and release recommendation (`#160`).
 
-## Evidence Boundary
-
-Executed agreements and secrets remain private. The repository retains redacted schedules, receipt identifiers, digests, dates, authority, disposition, live-readback outcomes, exclusions, and residual risks.
-
-## Release Rule
-
-Every counsel-approved critical asset must be transferred and accepted. Expressly approved non-critical exclusions may remain; deferred critical assets block release.
+Each package is independently reviewable, but CORP-D cannot close until the first three packages are terminal and their exact evidence is linked.

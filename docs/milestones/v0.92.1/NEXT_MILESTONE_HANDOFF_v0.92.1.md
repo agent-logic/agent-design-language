@@ -1,11 +1,7 @@
-# v0.92.1 Next-Milestone Handoff
+# Next Milestone Handoff — v0.92.1
 
-The downstream milestone receives:
+v0.92.2 is the CodeFriend Beta 1 milestone. It consumes only reviewed, terminal prerequisites from v0.92.1 and must keep the product on track for integrated beta availability by v0.95.
 
-- the redacted corporate ownership and operational-custody index;
-- the supported C-SDLC v3 command, state, review, GitHub, finish, cleanup, and rollback contracts;
-- the distributed Runtime qualification packet and residual-risk register;
-- unresolved but explicitly accepted non-critical exclusions;
-- V3-R01 eligibility criteria and rollback-window end state.
+The handoff records the terminal state and residual risks of Corporate and IP, C-SDLC v3, Distributed multi-agent Runtime, Podcast, Axum configuration hot reload, and Observatory redesign. Runtime v4 remains an explicit rebaseline input.
 
-The downstream milestone must not infer that v2 retirement, unlimited distributed scale, public Runtime exposure, or legal personhood was delivered by v0.92.1.
+WP-28 #316 and WP-28A #317 remain unchanged. Deferred semantic ABI, MLX/Metal packaging, subagent accounting, and VoceChat evaluation remain deferred unless separately promoted.

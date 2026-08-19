@@ -1177,6 +1177,28 @@ validation_profile_includes_lane() {
   return 1
 }
 
+validation_profile_lanes_subset_of() {
+  local allowed_csv="$1"
+  local lane
+  local old_ifs="$IFS"
+  IFS=','
+  for lane in $validation_profile_run_lanes; do
+    case ",$allowed_csv," in
+      *",$lane,"*) ;;
+      *)
+        IFS="$old_ifs"
+        return 1
+        ;;
+    esac
+  done
+  IFS="$old_ifs"
+  return 0
+}
+
+validation_profile_has_any_lane() {
+  [ -n "$validation_profile_run_lanes" ]
+}
+
 manager_profile_is_runtime_owner_focused_coverage() {
   [ "$validation_profile_status" = "ready_to_run" ] || return 1
   [ "$validation_profile_escalation_required" = "false" ] || return 1
@@ -1411,6 +1433,19 @@ apply_validation_manager_routing() {
       else
         reason="runtime_v3_only_change_runs_independent_runtime_kernel_fast_lane"
       fi
+      return 0
+    fi
+    if validation_profile_has_any_lane \
+      && validation_profile_includes_lane "provider_neutral_multi_agent_proof" \
+      && validation_profile_lanes_subset_of "docs_diff_check,html_observatory_tooling_syntax,html_observatory_v0917_runtime_surface,provider_neutral_multi_agent_proof"; then
+      ci_contracts_required=true
+      demo_smoke_required=false
+      coverage_required=false
+      full_coverage_required=false
+      coverage_lane="skip"
+      coverage_authority="not_required"
+      coverage_execution_state="skipped_by_path_policy"
+      reason="provider_neutral_multi_agent_proof_surface_requires_focused_demo_packet_validation"
       return 0
     fi
   fi

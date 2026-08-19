@@ -1,0 +1,14 @@
+{
+  "schema": "adl.issue431.wp28_readonly_baseline.v1",
+  "repository": "agent-logic/agent-design-language",
+  "issues": {
+    "316": {
+      "updated_at": "2026-08-13T06:05:19Z",
+      "canonical_json_sha256": "146bb4d7989693e456d79cc1b3b2272d6e21818353bb218b9527c49e30346002"
+    },
+    "317": {
+      "updated_at": "2026-08-13T06:05:21Z",
+      "canonical_json_sha256": "1e934d6dbf245348fbb64423769f1e4db5d8358d4c8f6bfea14aa13011fcc536"
+    }
+  }
+}

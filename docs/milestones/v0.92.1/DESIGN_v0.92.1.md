@@ -1,50 +1,26 @@
-# v0.92.1 Design
+# Design — v0.92.1
 
-## Parallel Program Structure
+## Topology
 
-The milestone uses three independent execution lanes and one integration tail.
+`#432 -> #431 -> {Corporate and IP, C-SDLC v3, Distributed multi-agent Runtime, Podcast, Axum configuration hot reload, Observatory redesign}`
 
-```mermaid
-flowchart LR
-  P["Planning issue #146"] --> O["WP-01 milestone opening"]
-  O --> A["Corporate and IP lane"]
-  O --> B["C-SDLC v3 lane"]
-  O --> C["Distributed Runtime qualification"]
-  A --> D["INT-01 Demo convergence"]
-  B --> D
-  C --> D
-  D --> Q["INT-02 Quality gate"]
-  Q --> L["INT-03 Docs and review alignment"]
-  L --> I["INT-04 Internal review"]
-  I --> E["INT-05 External review"]
-  E --> F["INT-06 Remediation and final preflight"]
-  F --> N["INT-07 Next-milestone planning"]
-  N --> H["INT-08 Next-milestone review"]
-  H --> X["INT-09 Release ceremony and lifecycle closeout"]
-```
+The six roots are parallel after the shared opening gates. Cross-lane dependencies must be explicit issue edges, never assumed from document order.
 
-## Milestone Opening
+Within those lanes, #251 TLS 1.2, #122 public exposure, #345 GPU Shepherd hardening, OBS-A, and #84 preparation may proceed concurrently. #84 final proof joins #251 and #122; OBS-B joins OBS-A and #84; GPU-backed distributed qualification consumes #345.
 
-Issue `#146` defines planning truth only. WP-01 creates the future live issues,
-cards, exact mapping, readiness evidence, and start gate. No execution lane may
-bind directly from this planning PR.
+## Lane contracts
 
-## Lane A
+- Corporate and IP produces reviewed transfer, rights, account, and governance records without exposing private material.
+- C-SDLC v3 consumes the tracked architecture source and delivers typed slices with migration and rollback proof.
+- Distributed multi-agent Runtime uses authentic resident agents, governed UTS work, continuity, and evidence-bound qualification.
+- Podcast separates operator decisions and external publication authority from repository preparation.
+- Axum configuration hot reload uses parse-validate-swap, last-known-good retention, debounced watching, and observable failure without process restart.
+- Observatory redesign consumes stable Runtime authority APIs, renders no invented data, and includes keyboard, screen-reader, reduced-motion, empty, degraded, and recovery states.
 
-Lane A freezes a critical-asset schedule, obtains counsel-reviewed assignment and corporate acceptance evidence, audits provenance and licensing, establishes company account custody, migrates infrastructure, and produces a redacted due-diligence index. Private agreements and secrets remain outside the repository.
+## Rebaseline rule
 
-## Lane B
+Runtime v4 is not silently included. If it changes authority APIs used by Distributed Runtime or Observatory work, affected issues stop, record the exact incompatibility, and replan against the new canonical interface.
 
-Lane B implements the reviewed C-SDLC v3 Rust architecture without changing its accepted contract. Its hard gates include the construction spike, all eleven operator decisions, Decision 11 before V3-08, deterministic state and recovery, exact review, remote idempotency, parity, canary operation, and single-writer cutover. V3-R01 remains deferred beyond the rollback window.
+## Successor rule
 
-## Lane C
-
-Lane C consumes terminal `#142` and WP-04.16 production proof. It qualifies exactly three voters in one polis, three governed agents, one non-voting shepherd, and exactly one quorum-leased Observatory. It runs serial Wuji-only and Wuji-plus-private-AWS windows, then validates quorum, fencing, snapshots, restart, partition, replay, security, observability, resources, soak, and cleanup.
-
-## Integration
-
-The integration tail follows the standard nine-step sequence: demo convergence,
-quality gate, docs and review alignment, internal review, external review,
-remediation and final preflight, next-milestone planning, next-milestone review,
-and operator-authorized release ceremony with lifecycle closeout. It cannot
-substitute one lane's evidence for another or collapse independent gates.
+CodeFriend Beta 1 is planned for v0.92.2. v0.92.1 may produce prerequisites, but it must not claim the beta itself.

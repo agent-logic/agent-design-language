@@ -1,0 +1,209 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 343,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "19c0a2eed502c6fb6462e7da8edd363d305a3b9250b6e2e5df6bb632e7195544",
+  "phase": "published",
+  "generation": 5,
+  "digest": "43bda5eb20a0d61edc516501e47007ea0f7fd937c6040d5e9cd1a3a8cccf19fa",
+  "branch": "codex/343-sprint5-demonstration-handoff-publication",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-343-sprint5-demonstration-handoff-publication",
+  "review_assignment": {
+    "reviewer": "fresh-session:8f4f1d2e-6a0b-4e74-9f1c-2d9a7c6b8a93",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:f15160b51166f015b26ef7e1ae8257a4d6a5efda:a516da4dd705e717f40947187a76938bf0e59d09a17dbf523489dd9eadd71515",
+    "scope": [
+      "docs/milestones/v0.92/review/sprint_343/SPRINT_CLOSEOUT_PACKET.md",
+      ".csdlc/prepared/issues/343/design.md",
+      ".csdlc/prepared/issues/343/diagram.mmd",
+      ".csdlc/prepared/issues/343/validate_preparation_bundle.py",
+      ".csdlc/prepared/issues/343/validate_sprint_readiness.py",
+      ".csdlc/prepared/issues/343/validate_exact_scope.py",
+      ".csdlc/evidence/343/terminal-256.json",
+      ".csdlc/evidence/343/terminal-341.json",
+      ".csdlc/evidence/343/terminal-5835.json",
+      ".csdlc/evidence/343/terminal-5839.json",
+      ".csdlc/evidence/343/child-256-review.json",
+      ".csdlc/evidence/343/child-256-checks.json",
+      ".csdlc/evidence/343/child-341-review.json",
+      ".csdlc/evidence/343/child-341-checks.json"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:8f4f1d2e-6a0b-4e74-9f1c-2d9a7c6b8a93",
+    "scope": [
+      "docs/milestones/v0.92/review/sprint_343/SPRINT_CLOSEOUT_PACKET.md",
+      ".csdlc/prepared/issues/343/design.md",
+      ".csdlc/prepared/issues/343/diagram.mmd",
+      ".csdlc/prepared/issues/343/validate_preparation_bundle.py",
+      ".csdlc/prepared/issues/343/validate_sprint_readiness.py",
+      ".csdlc/prepared/issues/343/validate_exact_scope.py",
+      ".csdlc/evidence/343/terminal-256.json",
+      ".csdlc/evidence/343/terminal-341.json",
+      ".csdlc/evidence/343/terminal-5835.json",
+      ".csdlc/evidence/343/terminal-5839.json",
+      ".csdlc/evidence/343/child-256-review.json",
+      ".csdlc/evidence/343/child-256-checks.json",
+      ".csdlc/evidence/343/child-341-review.json",
+      ".csdlc/evidence/343/child-341-checks.json"
+    ],
+    "reviewed_revision": "git-blake3:f15160b51166f015b26ef7e1ae8257a4d6a5efda:a516da4dd705e717f40947187a76938bf0e59d09a17dbf523489dd9eadd71515",
+    "findings": [],
+    "residual_risks": [
+      "Publication, hosted checks, merge, and typed terminal reconciliation remain pending until the reviewed packet is published."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 343,
+    "pull_request": 445,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/445",
+    "base": "main",
+    "head": "codex/343-sprint5-demonstration-handoff-publication",
+    "revision": "git-blake3:9bef8562a8d44ab1e8dec890b64d311f1d9fb794:9bed86973124384859faa8e9996ea594fcdb95d53a1e088502f087ae2802f5e9",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/343/design.md",
+  "diagram_path": ".csdlc/prepared/issues/343/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:2440f8c1-cbad-4cf1-87e1-b864accfe7a5",
+      "revision": "1fe373460ee2c82e2870d56865fefc817e20f74b353cae066f4a0d9f105411b0"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "e32878acb214188bb0ed093a6d747487bb18f8711445d7701695a311a59b5f79",
+      "rendered_digest": "f35903f5b26a58716be459ea2b58bd15a8351992ad922ff4c362ae3123330875",
+      "ast_digest": "3ffeb75cd1d2d25137c47305cbe2488e9f12571e0a199aa77de3e7175fdb3885"
+    },
+    "stp": {
+      "values_digest": "6841f122c51d28702ffc84514056cb981389635b08a8d57cee37a5f710e357c7",
+      "rendered_digest": "7bae76b7fdc7737141a5b4704c9ea5c34fa1666d3b2f233bd43e1df38e51ac7b",
+      "ast_digest": "cc1792b6015209e2aa497d1e7b107887625ad20f34b52373a6490b21e958cb8c"
+    },
+    "spp": {
+      "values_digest": "ebba88f17aa87ad342dcf14c60fcef8ebc6ffded7496b63fa31f172d0378897e",
+      "rendered_digest": "a8933a2bc754dce89180d00a4fdfb3a136d979958ab75fd1b63ec11baa00385b",
+      "ast_digest": "f268cc4410e0de8078bd00a59439e71c39ff94c3b4b448578cb07eb070eca7f4"
+    },
+    "vpp": {
+      "values_digest": "154c6640910ec26fea0ad9a5085bbbc3cca35b007b43c09a89538b81dbc39565",
+      "rendered_digest": "6a58fe841063bc2e315af3058f5c7204ae0c127265c146034554d3cedd1a6311",
+      "ast_digest": "917a6298d474738b9b384fce907c71d5ca7d11f0355b24206a45a262e97b0979"
+    },
+    "srp": {
+      "values_digest": "d0396932c7f1dc443c4533adb7e8b1640d50488b2ea7f96fb752dd1b30b06794",
+      "rendered_digest": "76871b93a8c6fd52b9ff483bdc9f23d713a98c273dec9e471a36908db08b3c82",
+      "ast_digest": "898eb1cb9269a42bc740f723653d3ebe8d02f40b32d751da3900162ec7221e3d"
+    },
+    "sor": {
+      "values_digest": "19fc668f116d6b68d247d9683710de2224385333024e457ee12ea150412b3843",
+      "rendered_digest": "407fc6e87b610de1f79b4ce25062a40786758db10207012e1ef37d7d6f82086f",
+      "ast_digest": "fbab388d3245d9279318cc9f38c31405350064f10ac76050ee8588d8d954d891"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:issue-343-sprint-closeout",
+      "reason": "Both #256 and #341 now have terminal canonical derived evidence and ancestral merges; advance the independently approved closeout preparation to binding readiness."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-343-sprint-closeout",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:issue-343-sprint-closeout",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-343-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:2440f8c1-cbad-4cf1-87e1-b864accfe7a5",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"1fe373460ee2c82e2870d56865fefc817e20f74b353cae066f4a0d9f105411b0\",\"design_ref\":\".csdlc/prepared/issues/343/design.md\",\"diagram_digest\":\"3c84452d41ec70827265b114ce8193b65b898182fe1bb19d2a27d2f862e9a884\",\"diagram_ref\":\".csdlc/prepared/issues/343/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:issue-343-sprint-closeout",
+      "reason": "Both #256 and #341 now have terminal canonical derived evidence and ancestral merges; advance the independently approved closeout preparation to binding readiness.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:issue-343-sprint-closeout",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:issue-343-sprint-closeout",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

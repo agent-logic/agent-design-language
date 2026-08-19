@@ -1,0 +1,11 @@
+flowchart LR
+  WP17["Historical WP-17 terminal evidence"] --> Review["#343 exact sprint review"]
+  WP19["Historical WP-19 terminal evidence"] --> Review
+  I414["#414 terminal continuity"] --> I256["#256 birthday demo"]
+  I414 --> I341["#341 provider-neutral proof"]
+  I256 --> I341
+  I256 --> Review
+  I341 --> Review
+  Review --> Close["#343 terminal closeout"]
+  Close --> Tail["Handoff to #307 / #308"]
+  Excluded["Excluded: #342 and Unity #84/#251"] -. non-gating .-> Review
