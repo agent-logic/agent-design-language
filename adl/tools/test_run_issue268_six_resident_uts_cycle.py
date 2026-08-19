@@ -24,6 +24,8 @@ models=pathlib.Path(args[1]).read_text().strip()
 out=pathlib.Path(args[2])
 task_panel=pathlib.Path(args[args.index('--task-panel-file')+1])
 task=json.loads(task_panel.read_text())['tasks'][0]['id']
+self_check_panel=pathlib.Path(args[args.index('--self-check-task-panel-file')+1])
+assert len(json.loads(self_check_panel.read_text())['tasks']) == 11
 lane=lambda: {'status':'evaluated','passed_count':1,'total_cases':1,'full_support':True,'cases':[{'task_id':task}]}
 out.write_text(json.dumps({'schema_version':'uts_benchmark_runner.v1','deterministic_self_check':{'passed':True},'models':[{'candidate_id':models,'lanes':{'regular':lane(),'uts_only':lane(),'uts_acc':lane()}}]})+'\\n')
 """,

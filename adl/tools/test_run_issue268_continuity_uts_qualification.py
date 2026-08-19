@@ -17,6 +17,8 @@ def main() -> None:
     for helper in ("uts_benchmark_panel.py", "uts_benchmark_tasks.py"):
         source = (ROOT / "adl/tools/benchmark" / helper).read_text(encoding="utf-8")
         assert "from __future__ import annotations" in source
+    cycle_source = (ROOT / "adl/tools/run_issue268_six_resident_uts_cycle.py").read_text(encoding="utf-8")
+    assert '"--self-check-task-panel-file"' in cycle_source
     with tempfile.TemporaryDirectory(prefix="issue268-continuity-uts-") as temporary:
         root = pathlib.Path(temporary)
         fake_uts = root / "fake_uts.py"

@@ -174,10 +174,20 @@ def main() -> int:
                 str(model_panel),
                 "--task-panel-file",
                 str(task_subset),
+                "--self-check-task-panel-file",
+                str(args.task_panel),
                 "--include-governed",
             ]
             completed = subprocess.run(command, cwd=ROOT, env=environment, check=False)
             if completed.returncode != 0:
+                self_check_path = report_path.with_name(f"{report_path.stem}_self_check.json")
+                if self_check_path.is_file():
+                    self_check = json.loads(self_check_path.read_text(encoding="utf-8"))
+                    print(
+                        f"{agent_id}: deterministic self-check failures: "
+                        f"{self_check.get('failures', [])}",
+                        file=sys.stderr,
+                    )
                 raise SystemExit(f"{agent_id}: UTS runner failed with {completed.returncode}")
             report = validate_report(report_path, agent_id, task_id)
 
