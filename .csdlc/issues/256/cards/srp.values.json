@@ -1,0 +1,34 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 256,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18] Birthday demo after Observatory sprint",
+    "slug": "v0-92-wp18-birthday-demo-after-observatory-sprint",
+    "version": "v0.92",
+    "generation": 22
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "adl/tools/validate_issue256_birthday_after_observatory.py\n.csdlc/issues/256\n.csdlc/evidence/256\n.csdlc/evidence/414/EVIDENCE_CLASSIFICATION.json\nCSMctl\nstart_CSM.sh\ndocs/tooling/START_CSM_RUNBOOK.md\ndocs/tooling/CSMctl.conf.example\ndocs/tooling/CSMctl.observatory.conf.example\ndemos/html-observatory\nadl-runtime-kernel/src/birthday.rs\nadl-runtime-kernel/tests/birthday.rs",
+      "review_revision": "git-blake3:683e38f1680535af8ad6aa012ad3fc6699339b88:1ac332d06430ee9f12afef6754f6fcee4e30867f6727f806e36cf87db99be7aa",
+      "reviewer": "fresh-session:dae21e65-2687-4c2a-bdac-27ed3ff28ec2",
+      "review_prompts": [
+        "Does #256 truthfully replace legacy #5836 as current authority without claiming legacy terminal completion?",
+        "Does the package block terminal birthday-demo acceptance on Observatory visibility?",
+        "Does it avoid #271 and other excluded implementation surfaces?",
+        "Are #341 and #343 correctly serialized behind #256?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "No AWS, Unity, public launch, browser/live Observatory, publication, cleanup, GitHub mutation, or lifecycle finish was performed during review.",
+        "The reviewed packet intentionally preserves public/AWS launch, Unity/#84/#122/#251, #341/#343, #271, credential/spend, and sibling implementation surfaces as non-claims.",
+        "Minor non-blocking note: readiness prose names the composite schema without the _validation suffix while retained JSON/live validator output use the exact schema."
+      ],
+      "review_result": "pass"
+    }
+  }
+}
