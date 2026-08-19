@@ -1,0 +1,7 @@
+
+running 3 tests
+test csmctl_observatory_serves_index_at_root_and_persists_runtime_target ... ok
+test html_observatory_live_mode_requires_the_full_runtime_read_surface ... ok
+test exposed_runtime_routes_are_all_covered_by_the_restart_validator ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s

@@ -63,8 +63,11 @@ LOG_FILE="${ADL_CSM_LOG_FILE:-$STATE_DIR/start_CSM.log}"
 PROBE_FILE="${ADL_CSM_PROBE_FILE:-$STATE_DIR/start_CSM.probe}"
 READY_PROBE_FILE="${ADL_CSM_READY_PROBE_FILE:-$STATE_DIR/start_CSM.ready.json}"
 PYTHON_BIN="${ADL_CSM_PYTHON_BIN:-/usr/bin/python3}"
+CARGO_BIN="${ADL_CSM_CARGO_BIN:-cargo}"
 KERNEL_BIN="${ADL_CSM_KERNEL_BIN:-$GENERATED_BIN_DIR/adl-runtime-kernel}"
 VECTOR_BIN="${ADL_CSM_VECTOR_BIN:-$BIN_ROOT/.adl/bin/vector}"
+OBSERVATORY_SERVER_MANIFEST="${ADL_CSM_OBSERVATORY_SERVER_MANIFEST:-$REPO_ROOT/adl-runtime/Cargo.toml}"
+OBSERVATORY_SERVER_BIN="${ADL_CSM_OBSERVATORY_SERVER_BIN:-$REPO_ROOT/adl-runtime/target/debug/adl-observatory-static}"
 TLS_FIXTURE_ROOT="${ADL_CSM_TLS_FIXTURE_ROOT:-$REPO_ROOT/adl-runtime/tests/support/tls-fixtures}"
 CERT_FILE="${ADL_CSM_TLS_CERT:-$TLS_FIXTURE_ROOT/server-cert.pem}"
 KEY_FILE="${ADL_CSM_TLS_KEY:-$TLS_FIXTURE_ROOT/server-key.pem}"
@@ -84,6 +87,7 @@ OBSERVATORY_RUNTIME_BASE="${ADL_CSM_OBSERVATORY_RUNTIME_BASE:-${ADL_CSM_RUNTIME_
 OBSERVATORY_REPO_ROOT="${ADL_CSM_OBSERVATORY_REPO_ROOT:-$PRIMARY_REPO_ROOT}"
 OBSERVATORY_ENTRY="${ADL_CSM_OBSERVATORY_ENTRY:-$OBSERVATORY_REPO_ROOT/demos/html-observatory/index.html}"
 OBSERVATORY_DIR="${ADL_CSM_OBSERVATORY_DIR:-$(dirname "$OBSERVATORY_ENTRY")}"
+OBSERVATORY_LAUNCH_WORKING_DIR="${ADL_CSM_OBSERVATORY_LAUNCH_WORKING_DIR:-$OBSERVATORY_DIR}"
 OBSERVATORY_HOST="${ADL_CSM_OBSERVATORY_HOST:-127.0.0.1}"
 OBSERVATORY_PORT="${ADL_CSM_OBSERVATORY_PORT:-8765}"
 OBSERVATORY_PORTS="${ADL_CSM_OBSERVATORY_PORTS:-$OBSERVATORY_PORT 8766}"
@@ -91,14 +95,9 @@ OBSERVATORY_BASE="${ADL_CSM_OBSERVATORY_BASE:-https://localhost:$OBSERVATORY_POR
 OBSERVATORY_URL="${ADL_CSM_OBSERVATORY_URL:-$OBSERVATORY_BASE/index.html?runtime=v3&runtimeApiBase=$OBSERVATORY_RUNTIME_BASE&live=1}"
 OBSERVATORY_TLS_CERT="${ADL_CSM_OBSERVATORY_TLS_CERT:-${ADL_CSM_API_TLS_CERT:-$CERT_FILE}}"
 OBSERVATORY_TLS_KEY="${ADL_CSM_OBSERVATORY_TLS_KEY:-${ADL_CSM_API_TLS_KEY:-$KEY_FILE}}"
-OBSERVATORY_LAUNCH_LABEL="${ADL_CSM_OBSERVATORY_LAUNCH_LABEL:-com.agentlogic.csm-observatory}"
-OBSERVATORY_LAUNCH_DOMAIN="${ADL_CSM_OBSERVATORY_LAUNCH_DOMAIN:-$LAUNCH_DOMAIN}"
 OBSERVATORY_PID_FILE="${ADL_CSM_OBSERVATORY_PID_FILE:-$STATE_DIR/CSMctl.observatory.pid}"
 OBSERVATORY_STATE_FILE="${ADL_CSM_OBSERVATORY_STATE_FILE:-$STATE_DIR/CSMctl.observatory.env}"
 OBSERVATORY_LOG_FILE="${ADL_CSM_OBSERVATORY_LOG_FILE:-$STATE_DIR/CSMctl.observatory.log}"
-OBSERVATORY_SERVER_FILE="${ADL_CSM_OBSERVATORY_SERVER_FILE:-$GENERATED_DIR/CSMctl_observatory_server.py}"
-OBSERVATORY_RUNNER_FILE="${ADL_CSM_OBSERVATORY_RUNNER_FILE:-$GENERATED_DIR/CSMctl_observatory_runner.sh}"
-OBSERVATORY_PLIST_FILE="${ADL_CSM_OBSERVATORY_PLIST_FILE:-$GENERATED_DIR/com.agentlogic.csm-observatory.plist}"
 
 detect_host_os() {
   if [[ "${ADL_CSM_TEST_MODE:-0}" == "1" && -n "${ADL_CSM_TEST_OS:-}" ]]; then
@@ -234,72 +233,9 @@ PY
   chmod 700 "$LEASE_SERVER_FILE"
 }
 
-write_observatory_server() {
-  mkdir -p "$GENERATED_DIR"
-  cat > "$OBSERVATORY_SERVER_FILE" <<'PY'
-import functools
-import http.server
-import pathlib
-import signal
-import ssl
-import sys
-
-host = sys.argv[1]
-port = int(sys.argv[2])
-root = pathlib.Path(sys.argv[3]).resolve()
-cert = sys.argv[4]
-key = sys.argv[5]
-
-signal.signal(signal.SIGHUP, signal.SIG_IGN)
-handler = functools.partial(http.server.SimpleHTTPRequestHandler, directory=str(root))
-server = http.server.ThreadingHTTPServer((host, port), handler)
-context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-context.load_cert_chain(certfile=cert, keyfile=key)
-server.socket = context.wrap_socket(server.socket, server_side=True)
-server.serve_forever()
-PY
-  chmod 700 "$OBSERVATORY_SERVER_FILE"
-}
-
 xml_escape() {
   printf '%s' "$1" \
     | sed -e 's/&/\&amp;/g' -e 's/</\&lt;/g' -e 's/>/\&gt;/g'
-}
-
-write_observatory_plist() {
-  local port="$1"
-  mkdir -p "$GENERATED_DIR" "$STATE_DIR"
-cat > "$OBSERVATORY_RUNNER_FILE" <<EOF
-#!/usr/bin/env bash
-set -Eeuo pipefail
-exec $(printf '%q' "$PYTHON_BIN") $(printf '%q' "$OBSERVATORY_SERVER_FILE") $(printf '%q' "$OBSERVATORY_HOST") $(printf '%q' "$port") $(printf '%q' "$OBSERVATORY_DIR") $(printf '%q' "$OBSERVATORY_TLS_CERT") $(printf '%q' "$OBSERVATORY_TLS_KEY")
-EOF
-  chmod 700 "$OBSERVATORY_RUNNER_FILE"
-  cat > "$OBSERVATORY_PLIST_FILE" <<EOF
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-  <key>Label</key>
-  <string>$(xml_escape "$OBSERVATORY_LAUNCH_LABEL")</string>
-  <key>ProgramArguments</key>
-  <array>
-    <string>$(xml_escape "$OBSERVATORY_RUNNER_FILE")</string>
-  </array>
-  <key>WorkingDirectory</key>
-  <string>$(xml_escape "$OBSERVATORY_DIR")</string>
-  <key>StandardOutPath</key>
-  <string>$(xml_escape "$OBSERVATORY_LOG_FILE")</string>
-  <key>StandardErrorPath</key>
-  <string>$(xml_escape "$OBSERVATORY_LOG_FILE")</string>
-  <key>KeepAlive</key>
-  <false/>
-  <key>RunAtLoad</key>
-  <true/>
-</dict>
-</plist>
-EOF
-  chmod 600 "$OBSERVATORY_PLIST_FILE"
 }
 
 write_launch_runner() {
@@ -637,11 +573,16 @@ EOF
 }
 
 ensure_observatory_config() {
+  if [[ ! -x "$OBSERVATORY_SERVER_BIN" ]]; then
+    command -v "$CARGO_BIN" >/dev/null 2>&1 || fail "missing_observatory_server_bin_and_cargo: $OBSERVATORY_SERVER_BIN"
+    "$CARGO_BIN" build --quiet --manifest-path "$OBSERVATORY_SERVER_MANIFEST" --bin adl-observatory-static
+  fi
   require_file "$OBSERVATORY_TLS_CERT" "observatory_tls_certificate"
   require_file "$OBSERVATORY_TLS_KEY" "observatory_tls_private_key"
+  require_file "$OBSERVATORY_SERVER_BIN" "observatory_server_binary"
   [[ -d "$OBSERVATORY_DIR" ]] || fail "missing_observatory_dir: $OBSERVATORY_DIR"
+  [[ -d "$OBSERVATORY_LAUNCH_WORKING_DIR" ]] || fail "missing_observatory_launch_working_dir: $OBSERVATORY_LAUNCH_WORKING_DIR"
   mkdir -p "$STATE_DIR" "$GENERATED_DIR"
-  write_observatory_server
 }
 
 pid_is_alive() {
@@ -762,6 +703,8 @@ write_observatory_state() {
   mkdir -p "$STATE_DIR"
   {
     printf 'OBSERVATORY_BASE=%q\n' "$OBSERVATORY_BASE"
+    printf 'OBSERVATORY_RUNTIME_BASE=%q\n' "$OBSERVATORY_RUNTIME_BASE"
+    printf 'OBSERVATORY_URL=%q\n' "$OBSERVATORY_URL"
   } > "$OBSERVATORY_STATE_FILE"
   chmod 600 "$OBSERVATORY_STATE_FILE"
 }
@@ -877,38 +820,39 @@ launch_service_stop() {
   esac
 }
 
-observatory_launch_loaded() {
-  launchctl print "$OBSERVATORY_LAUNCH_DOMAIN/$OBSERVATORY_LAUNCH_LABEL" >/dev/null 2>&1
-}
-
-observatory_launch_pid() {
-  launchctl print "$OBSERVATORY_LAUNCH_DOMAIN/$OBSERVATORY_LAUNCH_LABEL" 2>/dev/null \
-    | sed -n 's/^[[:space:]]*pid = //p' \
-    | head -1
-}
-
-observatory_launch_start() {
-  if observatory_launch_loaded; then
-    launchctl bootout "$OBSERVATORY_LAUNCH_DOMAIN/$OBSERVATORY_LAUNCH_LABEL" >/dev/null 2>&1 || true
-    for _ in $(seq 1 40); do
-      observatory_launch_loaded || break
-      sleep 0.25
-    done
-  fi
-  launchctl bootstrap "$OBSERVATORY_LAUNCH_DOMAIN" "$OBSERVATORY_PLIST_FILE"
-}
-
-observatory_launch_stop() {
-  if observatory_launch_loaded; then
-    launchctl bootout "$OBSERVATORY_LAUNCH_DOMAIN/$OBSERVATORY_LAUNCH_LABEL"
-  else
-    return 1
-  fi
+start_observatory_process() {
+  local port="$1"
+  (
+    cd "$OBSERVATORY_LAUNCH_WORKING_DIR"
+    "$OBSERVATORY_SERVER_BIN" \
+      --daemon \
+      --pid-file "$OBSERVATORY_PID_FILE" \
+      --log-file "$OBSERVATORY_LOG_FILE" \
+      --host "$OBSERVATORY_HOST" \
+      --port "$port" \
+      --cert "$OBSERVATORY_TLS_CERT" \
+      --key "$OBSERVATORY_TLS_KEY" \
+      --root "$OBSERVATORY_DIR"
+  )
 }
 
 start_observatory_server() {
   ensure_observatory_config
   local pid code port base url
+  load_observatory_state || true
+  if pid="$(observatory_pid 2>/dev/null)" && pid_is_alive "$pid"; then
+    code="$(observatory_probe "$OBSERVATORY_BASE")"
+    if [[ "$code" == "200" ]]; then
+      info "observatory_server=running url=$OBSERVATORY_URL"
+      return 0
+    fi
+    kill -TERM "$pid" 2>/dev/null || true
+    for _ in $(seq 1 40); do
+      pid_is_alive "$pid" || break
+      sleep 0.25
+    done
+    rm -f "$OBSERVATORY_PID_FILE"
+  fi
   if [[ -n "${ADL_CSM_OBSERVATORY_URL:-}" ]]; then
     code="$(observatory_probe "$OBSERVATORY_BASE")"
     if [[ "$code" == "200" ]]; then
@@ -923,34 +867,12 @@ start_observatory_server() {
     OBSERVATORY_BASE="$base"
     OBSERVATORY_URL="$url"
 
-    if observatory_launch_loaded; then
-      pid="$(observatory_launch_pid)"
-      code="$(observatory_probe "$base")"
-      if [[ "$code" == "200" ]]; then
-        [[ -n "$pid" ]] && printf '%s\n' "$pid" > "$OBSERVATORY_PID_FILE"
-        write_observatory_state
-        info "observatory_server=running url=$url"
-        return 0
-      fi
-      observatory_launch_stop >/dev/null 2>&1 || true
-    elif pid="$(observatory_pid 2>/dev/null)" && pid_is_alive "$pid"; then
-      kill -TERM "$pid" 2>/dev/null || true
-      rm -f "$OBSERVATORY_PID_FILE"
-    fi
-
     rm -f "$OBSERVATORY_PID_FILE" "$OBSERVATORY_STATE_FILE"
     : > "$OBSERVATORY_LOG_FILE"
-    write_observatory_plist "$port"
-    if ! observatory_launch_start; then
-      info "observatory_launch_failed port=$port action=try_next"
-      observatory_launch_stop >/dev/null 2>&1 || true
-      continue
-    fi
+    start_observatory_process "$port"
     for _ in $(seq 1 40); do
       code="$(observatory_probe "$base")"
-      if [[ "$code" == "200" ]]; then
-        pid="$(observatory_launch_pid)"
-        [[ -n "$pid" ]] && printf '%s\n' "$pid" > "$OBSERVATORY_PID_FILE"
+      if [[ "$code" == "200" ]] && pid="$(observatory_pid 2>/dev/null)" && pid_is_alive "$pid"; then
         write_observatory_state
         info "observatory_server=running url=$url"
         return 0
@@ -959,18 +881,21 @@ start_observatory_server() {
     done
     if grep -q 'Address already in use' "$OBSERVATORY_LOG_FILE" 2>/dev/null; then
       info "observatory_port_unavailable port=$port action=try_next"
-      observatory_launch_stop >/dev/null 2>&1 || true
+      if pid="$(observatory_pid 2>/dev/null)" && pid_is_alive "$pid"; then
+        kill -TERM "$pid" 2>/dev/null || true
+      fi
       rm -f "$OBSERVATORY_PID_FILE" "$OBSERVATORY_STATE_FILE"
       continue
     fi
-    observatory_launch_stop >/dev/null 2>&1 || true
+    if pid="$(observatory_pid 2>/dev/null)" && pid_is_alive "$pid"; then
+      kill -TERM "$pid" 2>/dev/null || true
+    fi
   done
   fail "observatory_server_not_ready ports='$OBSERVATORY_PORTS' log=$OBSERVATORY_LOG_FILE"
 }
 
 stop_observatory_server() {
   local pid
-  observatory_launch_stop >/dev/null 2>&1 || true
   if pid="$(observatory_pid 2>/dev/null)" && pid_is_alive "$pid"; then
     kill -TERM "$pid" 2>/dev/null || true
     for _ in $(seq 1 40); do
@@ -1009,6 +934,7 @@ quarantine_continuity_state() {
 }
 
 urls_cmd() {
+  load_observatory_state || true
   info "backend=$SERVICE_BACKEND host_os=$HOST_OS"
   info "runtime=$RUNTIME_BASE"
   info "observatory=$OBSERVATORY_URL"
@@ -1134,14 +1060,7 @@ logs_cmd() {
 
 observatory_status_cmd() {
   local pid code
-  if observatory_launch_loaded; then
-    load_observatory_state || true
-    pid="$(observatory_launch_pid)"
-    [[ -n "$pid" ]] && printf '%s\n' "$pid" > "$OBSERVATORY_PID_FILE"
-    code="$(observatory_probe)"
-    info "observatory_pid=${pid:-unknown} launch_label=$OBSERVATORY_LAUNCH_LABEL state=running http=$code url=$OBSERVATORY_URL"
-    [[ "$code" == "200" ]] || fail "observatory_not_serving_200"
-  elif pid="$(observatory_pid 2>/dev/null)" && pid_is_alive "$pid"; then
+  if pid="$(observatory_pid 2>/dev/null)" && pid_is_alive "$pid"; then
     load_observatory_state || true
     code="$(observatory_probe)"
     info "observatory_pid=$pid state=running http=$code url=$OBSERVATORY_URL"

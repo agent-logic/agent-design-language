@@ -121,6 +121,17 @@ const context = {
     if (String(url) === `${config.api_base}/v1/ready`) {
       return { ok: true, status: 200, json: async () => readiness };
     }
+    if (String(url) === `${config.api_base}/v1/health`) {
+      return {
+        ok: true,
+        status: 200,
+        json: async () => ({
+          schema: "adl.runtime_v3.health.v1",
+          status: "healthy",
+          runtime_instance_id: "runtime-v3-test"
+        })
+      };
+    }
     if (String(url).startsWith(`${config.api_base}/v1/agents?`)) {
       const pageToken = new URL(String(url)).searchParams.get("page_token");
       if (pageToken === "next-token") {
@@ -173,6 +184,7 @@ api.applyRuntimeV3Config(config);
 
 assert.equal(api.requestedRuntimeSelection(), "v3");
 assert.equal(api.getQueryApiBase(), config.api_base);
+assert.equal(api.getRuntimeV3Config().health_endpoint, "/v1/health");
 assert.equal(api.getRuntimeV3Config().signed_command_endpoint, "/v1/control");
 
 const snapshot = api.runtimeV3SnapshotFromFeed(observatoryFeed, readiness);
@@ -268,6 +280,29 @@ const eventCheck = await api.checkEventsEndpoint(api.getQueryApiBase());
 assert.equal(eventCheck.schema, "adl.html_observatory.runtime_v3_event_check.v1");
 assert.equal(eventCheck.events[0].event, "agent_ready");
 assert.equal(api.normalizeEventEntries(eventCheck).length, 1);
+assert(calls.some((call) => call.url === `${config.api_base}/v1/observatory`), "Runtime v3 Observatory fetch must call /v1/observatory");
+assert(calls.some((call) => call.url === `${config.api_base}/v1/ready`), "Runtime v3 readiness fetch must call /v1/ready");
+assert(calls.some((call) => call.url === `${config.api_base}/v1/health`), "Runtime v3 health fetch must call /v1/health");
+
+const runtimeFetch = context.fetch;
+context.fetch = async (url) => {
+  if (String(url) === `${config.api_base}/v1/observatory`) {
+    return { ok: true, status: 204, json: async () => observatoryFeed };
+  }
+  if (String(url) === `${config.api_base}/v1/ready`) {
+    return { ok: true, status: 200, json: async () => readiness };
+  }
+  if (String(url) === `${config.api_base}/v1/health`) {
+    return { ok: true, status: 200, json: async () => ({ schema: "adl.runtime_v3.health.v1", status: "healthy" }) };
+  }
+  throw new Error(`unexpected fetch in non-200 Observatory regression: ${url}`);
+};
+await assert.rejects(
+  () => api.fetchRuntimeV3ObservatorySnapshot(config.api_base),
+  /\/v1\/observatory returned 204/,
+  "Runtime v3 live mode must require exact HTTP 200 from /v1/observatory"
+);
+context.fetch = runtimeFetch;
 
 const command = {
   schema: "adl.runtime.control_command.v1",
@@ -315,6 +350,9 @@ grep -q 'id="roster-presence-filter"' "${ROOT_DIR}/demos/html-observatory/index.
 grep -q 'id="roster-sort"' "${ROOT_DIR}/demos/html-observatory/index.html"
 grep -q 'id="roster-detail"' "${ROOT_DIR}/demos/html-observatory/index.html"
 grep -q 'id="roster-load-more"' "${ROOT_DIR}/demos/html-observatory/index.html"
+grep -q 'id="runtime-source-label"' "${ROOT_DIR}/demos/html-observatory/index.html"
+grep -q 'id="statusbar-runtime-label"' "${ROOT_DIR}/demos/html-observatory/index.html"
+grep -q 'Live Runtime API' "${APP_JS}"
 grep -q 'data-dashboard-surface="runtime"' "${ROOT_DIR}/demos/html-observatory/index.html"
 grep -q 'root.dataset.dashboardSurface = key === "agents" ? "agents" : "runtime"' "${APP_JS}"
 grep -q '\[data-dashboard-surface="agents"\] > .panopticon-shell' "${ROOT_DIR}/demos/html-observatory/styles.css"

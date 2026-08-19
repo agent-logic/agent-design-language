@@ -151,7 +151,7 @@ jobs:
     name: csdlc-v2-standalone
     needs: adl_path_policy
     if: needs.adl_path_policy.outputs.csdlc_v2_standalone_required == 'true'
-    runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}
+    runs-on: ubuntu-latest
     permissions:
       contents: read
     steps:
@@ -183,7 +183,7 @@ jobs:
     name: adl-v2-standalone
     needs: adl_path_policy
     if: needs.adl_path_policy.outputs.adl_v2_standalone_required == 'true'
-    runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}
+    runs-on: ubuntu-latest
     permissions:
       contents: read
     steps:
@@ -352,7 +352,7 @@ jobs:
     name: adl-runtime-v3-fast
     needs: adl_path_policy
     if: needs.adl_path_policy.outputs.runtime_v3_fast_required == 'true'
-    runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}
+    runs-on: ubuntu-latest
     permissions:
       contents: read
     steps:
@@ -387,7 +387,7 @@ jobs:
     name: adl-rust-fmt-clippy
     needs: adl_path_policy
     if: needs.adl_path_policy.outputs.rust_required == 'true' && needs.adl_path_policy.outputs.runtime_v3_fast_required != 'true' && (needs.adl_path_policy.outputs.heavy_ci_backend != 'spot' || github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || !contains(github.event.pull_request.labels.*.name, 'ci:spot'))
-    runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}
+    runs-on: ubuntu-latest
     permissions:
       contents: read
     defaults:
@@ -436,12 +436,12 @@ jobs:
           echo "SCCACHE_DIR=$HOME/.cache/sccache" >> "$GITHUB_ENV"
           echo "SCCACHE_CACHE_SIZE=2G" >> "$GITHUB_ENV"
           echo "RUSTC_WRAPPER=sccache" >> "$GITHUB_ENV"
-          if ! command -v ld.lld >/dev/null 2>&1; then
-            echo "::error::ld.lld is unavailable after the install step"
-            exit 1
+          if command -v ld.lld >/dev/null 2>&1; then
+            echo "RUSTFLAGS=-C link-arg=-fuse-ld=lld" >> "$GITHUB_ENV"
+            echo "RUST_LINK_ACCEL=lld" >> "$GITHUB_ENV"
+          else
+            echo "RUST_LINK_ACCEL=default" >> "$GITHUB_ENV"
           fi
-          echo "RUSTFLAGS=-C link-arg=-fuse-ld=lld" >> "$GITHUB_ENV"
-          echo "RUST_LINK_ACCEL=lld" >> "$GITHUB_ENV"
           sccache --zero-stats || true
 
       - name: fmt
@@ -460,7 +460,7 @@ jobs:
     name: adl-rust-tests
     needs: adl_path_policy
     if: needs.adl_path_policy.outputs.rust_required == 'true' && needs.adl_path_policy.outputs.runtime_v3_fast_required != 'true' && (needs.adl_path_policy.outputs.heavy_ci_backend != 'spot' || github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || !contains(github.event.pull_request.labels.*.name, 'ci:spot'))
-    runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}
+    runs-on: ubuntu-latest
     permissions:
       contents: read
     defaults:
@@ -509,12 +509,12 @@ jobs:
           echo "SCCACHE_DIR=$HOME/.cache/sccache" >> "$GITHUB_ENV"
           echo "SCCACHE_CACHE_SIZE=2G" >> "$GITHUB_ENV"
           echo "RUSTC_WRAPPER=sccache" >> "$GITHUB_ENV"
-          if ! command -v ld.lld >/dev/null 2>&1; then
-            echo "::error::ld.lld is unavailable after the install step"
-            exit 1
+          if command -v ld.lld >/dev/null 2>&1; then
+            echo "RUSTFLAGS=-C link-arg=-fuse-ld=lld" >> "$GITHUB_ENV"
+            echo "RUST_LINK_ACCEL=lld" >> "$GITHUB_ENV"
+          else
+            echo "RUST_LINK_ACCEL=default" >> "$GITHUB_ENV"
           fi
-          echo "RUSTFLAGS=-C link-arg=-fuse-ld=lld" >> "$GITHUB_ENV"
-          echo "RUST_LINK_ACCEL=lld" >> "$GITHUB_ENV"
           sccache --zero-stats || true
 
       - name: Install cargo-nextest
@@ -576,7 +576,7 @@ jobs:
     name: adl-demo-proof
     needs: adl_path_policy
     if: needs.adl_path_policy.outputs.runtime_v3_fast_required != 'true' && (needs.adl_path_policy.outputs.demo_smoke_required == 'true' || needs.adl_path_policy.outputs.v0913_proof_required == 'true') && (needs.adl_path_policy.outputs.heavy_ci_backend != 'spot' || github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || !contains(github.event.pull_request.labels.*.name, 'ci:spot'))
-    runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}
+    runs-on: ubuntu-latest
     permissions:
       contents: read
     steps:
@@ -765,7 +765,7 @@ jobs:
   adl-slow-proof:
     needs: adl_path_policy
     if: github.event_name == 'workflow_dispatch'
-    runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}
+    runs-on: ubuntu-latest
     permissions:
       contents: read
     strategy:
@@ -814,7 +814,7 @@ jobs:
     name: adl-coverage-runtime-hosted
     needs: adl_path_policy
     if: needs.adl_path_policy.outputs.runtime_coverage_required == 'true' && (needs.adl_path_policy.outputs.heavy_ci_backend != 'spot' || github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || !contains(github.event.pull_request.labels.*.name, 'ci:spot'))
-    runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}
+    runs-on: ubuntu-latest
     permissions:
       contents: read
     defaults:
@@ -914,7 +914,7 @@ jobs:
     name: adl-coverage-workspace-fast-hosted
     needs: adl_path_policy
     if: needs.adl_path_policy.outputs.workspace_fast_coverage_required == 'true' && (needs.adl_path_policy.outputs.heavy_ci_backend != 'spot' || github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || !contains(github.event.pull_request.labels.*.name, 'ci:spot'))
-    runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}
+    runs-on: ubuntu-latest
     permissions:
       contents: read
     defaults:
@@ -1048,7 +1048,7 @@ jobs:
     name: adl-coverage-workspace-hosted
     needs: adl_path_policy
     if: needs.adl_path_policy.outputs.workspace_full_coverage_required == 'true' && (needs.adl_path_policy.outputs.heavy_ci_backend != 'spot' || github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name != github.repository || !contains(github.event.pull_request.labels.*.name, 'ci:spot'))
-    runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}
+    runs-on: ubuntu-latest
     permissions:
       contents: read
     defaults:

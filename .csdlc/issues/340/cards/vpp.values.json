@@ -1,0 +1,136 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 340,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18A] HTML Observatory Runtime restart integration",
+    "slug": "html-observatory-runtime-restart-integration",
+    "version": "v0.92",
+    "generation": 39
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "issue-340-html-observatory-contract",
+          "proof_role": "Prove the static HTML Observatory contract, Runtime v3 config normalization, health endpoint requirement, and route-coverage assertions without launching local services.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1200,
+          "argv": [
+            "bash",
+            "adl/tools/validate_v092_observatory_restart_reconnect.sh",
+            "--contract"
+          ],
+          "parallel_group": "340-local-contract",
+          "defer_reason": null
+        },
+        {
+          "lane": "issue-340-live-start-stop-restart",
+          "proof_role": "Launch CSMctl against configured local TLS material, require /v1/ready, /v1/observatory, and /v1/health to return HTTP 200 before success, serve the HTML Observatory root as index.html, gracefully stop with PID/lease cleanup, restart the Runtime, and re-probe exposed read/static, OPTIONS, invalid-body POST, and WebSocket handshake routes from the documented OpenAPI surfaces.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": false,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 4000,
+          "argv": [
+            "bash",
+            "adl/tools/validate_v092_observatory_restart_reconnect.sh",
+            "--live"
+          ],
+          "parallel_group": "340-live-serial",
+          "defer_reason": null
+        },
+        {
+          "lane": "runtime-api-wss-restart-tests",
+          "proof_role": "Run focused Runtime API/WSS contract tests proving the OpenAPI route split, validator route coverage, strict 200 live-feed gating, and CSMctl root-to-index/runtime-base persistence strings.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 300,
+          "budget_tokens": 2000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--test",
+            "runtime_api_wss"
+          ],
+          "parallel_group": "340-rust-contract",
+          "defer_reason": null
+        },
+        {
+          "lane": "format-and-diff-hygiene",
+          "proof_role": "Prove Rust formatting for the added integration test and reject whitespace/conflict artifacts across the #340 diff.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 600,
+          "argv": [
+            "cargo",
+            "fmt",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--check"
+          ],
+          "parallel_group": "340-hygiene",
+          "defer_reason": "git diff --check is recorded separately in SOR validation because this lane has one typed argv vector."
+        },
+        {
+          "lane": "issue-340-exact-review",
+          "proof_role": "Record a fresh exact-head review with no unresolved actionable findings before publication.",
+          "acceptance_ids": [
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 3000,
+          "argv": [
+            "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-review",
+            "--root",
+            ".",
+            "--issue",
+            "340"
+          ],
+          "parallel_group": "340-review",
+          "defer_reason": "Runs after implementation, proof, and immutable commit are current."
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed on stale dependency truth, missing live endpoint proof, fixture-only proof, restart duplicate events, stale correlation, authorization drift, redaction leak, failed validation, review finding, publication drift, or CI failure.",
+      "design_ref": ".csdlc/prepared/issues/340/design.md",
+      "design_digest": "f1bbdb3aa8e99476555c67f3d6c587b310f4ffa0ef0b577ab1a9b7b24ea85c37",
+      "diagram_ref": ".csdlc/prepared/issues/340/diagram.mmd",
+      "diagram_digest": "2dc5687f36dc3a75ff07737999c3e23257fbe198705d675f219a5cb4a48a7e00"
+    }
+  }
+}

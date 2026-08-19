@@ -1,0 +1,14 @@
+flowchart TD
+  A["#110 terminal HTML/Polis Observatory input"] --> D["#340 integration worktree"]
+  B["#256 terminal birthday interaction input"] --> D
+  C["#209 Runtime v3 API/WSS authority"] --> D
+  K["#424 merged CSMctl startup control"] --> D
+  D --> E["CSMctl start"]
+  E --> F["/v1/ready + /v1/observatory + /v1/health all HTTP 200"]
+  F --> G["HTML Observatory observes Runtime v3"]
+  G --> H["CSMctl graceful stop"]
+  H --> Q["checkpoint/dehydrate + remove PID/lease files"]
+  Q --> J["Restart + reconnect proof"]
+  J --> L["bounded replay, no duplicates, fresh correlation, unchanged auth, redacted projections"]
+  U["Unity/#84/#122/#251"] -. "deferred non-gate" .-> X["excluded"]
+  P["#341/#343"] -. "parallel/downstream non-gate" .-> X

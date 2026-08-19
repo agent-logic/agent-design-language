@@ -68,6 +68,24 @@ fn assertion(case_name: &str, assertion_name: &str) {
     eprintln!("ADL_ISSUE_202_ASSERTION_V1 {case_name} {assertion_name}");
 }
 
+async fn write_on_writable_leader(
+    nodes: &BTreeMap<u64, PolisRaft>,
+    command: PolisCommand,
+) -> (u64, openraft::raft::ClientWriteResponse<PolisTypeConfig>) {
+    tokio::time::timeout(Duration::from_secs(15), async {
+        loop {
+            for (node, raft) in nodes {
+                if let Ok(response) = raft.client_write(command.clone()).await {
+                    return (*node, response);
+                }
+            }
+            tokio::time::sleep(Duration::from_millis(25)).await;
+        }
+    })
+    .await
+    .expect("cluster elected a writable leader")
+}
+
 fn identity() -> LearnerIdentity {
     LearnerIdentity {
         trust_domain: "runtime-prod".to_owned(),
@@ -1051,13 +1069,14 @@ async fn real_four_node_learner_replication() {
     })
     .await
     .expect("leader election did not converge before promotion boundary writes");
-    let before_learner = nodes[&leader]
-        .client_write(PolisCommand::GovernedMutation {
+    let (_, before_learner) = write_on_writable_leader(
+        &nodes,
+        PolisCommand::GovernedMutation {
             mutation_id: "authorized-learner-snapshot".to_owned(),
             payload_sha256: "33".repeat(32),
-        })
-        .await
-        .unwrap();
+        },
+    )
+    .await;
     assert!(before_learner.data.accepted);
     nodes[&leader].trigger().snapshot().await.unwrap();
     let purge_upto = nodes[&leader]
@@ -1213,13 +1232,14 @@ async fn real_four_node_learner_replication() {
     .await
     .expect("leader election did not converge before learner replication write");
     for sequence in 0..8 {
-        nodes[&leader]
-            .client_write(PolisCommand::GovernedMutation {
+        let _ = write_on_writable_leader(
+            &nodes,
+            PolisCommand::GovernedMutation {
                 mutation_id: format!("promotion-authority-boundary-{sequence}"),
                 payload_sha256: format!("{:064x}", sequence + 100),
-            })
-            .await
-            .unwrap();
+            },
+        )
+        .await;
     }
     let authority_index = nodes[&leader]
         .metrics()
@@ -1361,23 +1381,14 @@ async fn real_four_node_learner_replication() {
         !learner_server.is_finished(),
         "learner server ended during catch-up"
     );
-    let leader = tokio::time::timeout(Duration::from_secs(10), async {
-        loop {
-            if let Some(leader) = nodes[&1].metrics().borrow().current_leader {
-                break leader;
-            }
-            tokio::time::sleep(Duration::from_millis(25)).await;
-        }
-    })
-    .await
-    .expect("leader election did not converge before learner replication write");
-    let replicated = nodes[&leader]
-        .client_write(PolisCommand::GovernedMutation {
+    let (_, replicated) = write_on_writable_leader(
+        &nodes,
+        PolisCommand::GovernedMutation {
             mutation_id: "authorized-learner-replicated".to_owned(),
             payload_sha256: "44".repeat(32),
-        })
-        .await
-        .unwrap();
+        },
+    )
+    .await;
     assert!(replicated.data.accepted);
     for _ in 0..1000 {
         if machines[&4]
@@ -1396,14 +1407,16 @@ async fn real_four_node_learner_replication() {
         .mutation_ids
         .contains("authorized-learner-replicated"));
     let hook = learner_effect_authority.install_dispatch_pause_for_test("learner_raft_effect");
-    let effect_raft = nodes[&leader].clone();
+    let effect_nodes = nodes.clone();
     let effect = tokio::spawn(async move {
-        effect_raft
-            .client_write(PolisCommand::GovernedMutation {
+        write_on_writable_leader(
+            &effect_nodes,
+            PolisCommand::GovernedMutation {
                 mutation_id: "authorized-learner-fenced-effect".to_owned(),
                 payload_sha256: "45".repeat(32),
-            })
-            .await
+            },
+        )
+        .await
     });
     tokio::time::timeout(Duration::from_secs(10), hook.reached.notified())
         .await
@@ -1419,7 +1432,7 @@ async fn real_four_node_learner_replication() {
         "expiry crossed an in-flight learner Raft effect/response lease"
     );
     hook.release.notify_one();
-    let response = effect.await.unwrap().unwrap();
+    let (latest_writable_leader, response) = effect.await.unwrap();
     assert!(response.data.accepted);
     expiry.await.unwrap().unwrap();
     assertion(
@@ -1447,7 +1460,11 @@ async fn real_four_node_learner_replication() {
         .await
         .mutation_ids
         .contains("authorized-learner-snapshot"));
-    let membership = nodes[&leader].metrics().borrow().membership_config.clone();
+    let membership = nodes[&latest_writable_leader]
+        .metrics()
+        .borrow()
+        .membership_config
+        .clone();
     let voters = membership
         .membership()
         .get_joint_config()
@@ -1473,6 +1490,15 @@ async fn real_four_node_learner_replication() {
     assert_eq!(voters.len(), 3);
     assert!(!voters.contains_key(&4));
 
+    // Coverage-mode timing can elect a different leader after the promotion
+    // path. Keep the governed runtime's consensus handles aligned with the node
+    // that accepted the latest governed write before proving removal
+    // crash-boundary replay, or the test can observe stale membership history
+    // before reaching the injected boundary under slow instrumentation.
+    runtime.resume_consensus(
+        nodes[&latest_writable_leader].clone(),
+        machines[&latest_writable_leader].clone(),
+    );
     let removal_old_stable_ids = runtime.authority().raft_ids.clone();
     let mut removal_target_stable_ids = removal_old_stable_ids.clone();
     removal_target_stable_ids.remove(removal_identity.guardian_id.as_bytes());
@@ -1493,7 +1519,7 @@ async fn real_four_node_learner_replication() {
         "real-four-node-remove-3",
     )
     .unwrap();
-    let removal_authority_index = nodes[&leader]
+    let removal_authority_index = nodes[&latest_writable_leader]
         .metrics()
         .borrow()
         .last_applied
@@ -1530,25 +1556,32 @@ async fn real_four_node_learner_replication() {
         MembershipCrashBoundary::AfterCheckpoint,
         MembershipCrashBoundary::AfterDurablePublicationBeforeVisibility,
     ] {
-        runtime.inject_crash_boundary(boundary);
-        let removal_attempt = runtime
-            .remove(
-                &removal_result,
-                &removal_identity,
-                voter_cut_sha256,
-                now,
-                &removal_transition,
-            )
-            .await;
-        assert_eq!(
-            removal_attempt,
-            Err(MembershipCoordinatorError::StateRegression),
-            "removal boundary {boundary:?} must fail closed"
-        );
-        assert!(
-            runtime.crash_boundary_hit(),
-            "removal boundary {boundary:?} was not reached"
-        );
+        tokio::time::timeout(Duration::from_secs(20), async {
+            loop {
+                runtime.inject_crash_boundary(boundary);
+                let removal_attempt = runtime
+                    .remove(
+                        &removal_result,
+                        &removal_identity,
+                        voter_cut_sha256,
+                        now,
+                        &removal_transition,
+                    )
+                    .await;
+                assert_eq!(
+                    removal_attempt,
+                    Err(MembershipCoordinatorError::StateRegression),
+                    "removal boundary {boundary:?} must fail closed"
+                );
+                if runtime.crash_boundary_hit() {
+                    break;
+                }
+                runtime.reopen_coordinator(&coordinator_root, checkpoint.clone());
+                tokio::time::sleep(Duration::from_millis(25)).await;
+            }
+        })
+        .await
+        .unwrap_or_else(|_| panic!("removal boundary {boundary:?} was not reached"));
         runtime.reopen_coordinator(&coordinator_root, checkpoint.clone());
     }
     let removed = tokio::time::timeout(

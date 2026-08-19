@@ -1,0 +1,16 @@
+CSMctl probe /v1/ready http=200
+CSMctl probe /v1/observatory http=200
+CSMctl probe /v1/health http=200
+CSMctl status=pass runtime_base=https://localhost:20997
+CSMctl runtime=https://localhost:20997
+CSMctl observatory=https://localhost:8766/index.html?runtime=v3&runtimeApiBase=https://localhost:20997&live=1
+CSMctl observatory_runtime_api_base=https://localhost:20997
+CSMctl observatory_file=/Volumes/FastWork/adl-worktrees/adl-issue-340-html-observatory-runtime-restart-integration/demos/html-observatory/index.html?runtime=v3&runtimeApiBase=https://localhost:20997&live=1
+CSMctl observatory_port_unavailable port=8765 action=try_next
+CSMctl observatory_server=running url=https://localhost:8766/index.html?runtime=v3&runtimeApiBase=https://localhost:20997&live=1
+CSMctl stopping launch_label=com.agentlogic.start-csm mode=graceful
+CSMctl probe /v1/ready http=000
+CSMctl probe /v1/observatory http=000
+CSMctl probe /v1/health http=000
+CSMctl status=stopped
+validate_v092_observatory_restart_reconnect status=pass mode=--live

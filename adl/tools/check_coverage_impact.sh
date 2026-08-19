@@ -253,6 +253,9 @@ candidate_filter_for_path() {
     adl/src/bin/adl_pr_shepherd.rs)
       printf 'pr_shepherd'
       ;;
+    adl/src/resident_shepherd_spot_continuity.rs)
+      printf 'resident_shepherd_spot_continuity'
+      ;;
     adl/src/cli/pr_cmd/github.rs)
       printf 'pr_cmd'
       ;;
@@ -320,6 +323,9 @@ candidate_filter_for_path() {
       ;;
     adl-runtime/src/distributed/observatory_serving_eligibility.rs)
       printf 'runtime_v3_observatory_serving_eligibility'
+      ;;
+    adl-runtime/src/bin/adl-observatory-static.rs)
+      printf 'runtime_v3_observatory_static'
       ;;
     adl-runtime/src/distributed/authority_reconciliation.rs|\
     adl-runtime/src/distributed/capability_advertisement.rs|\
@@ -459,6 +465,9 @@ nextest_expression_for_filter() {
     pr_shepherd)
       printf '(binary_id(adl::bin/adl-pr-shepherd) and test(/^cli::pr_cmd::/)) or (binary_id(adl::bin/adl-pr-shepherd) and test(/^tests::adl_pr_shepherd_/))'
       ;;
+    resident_shepherd_spot_continuity)
+      printf 'binary_id(adl) and test(/^resident_shepherd_spot_continuity::/)'
+      ;;
     adl_aws_remote_validation_bin)
       printf 'binary_id(adl::bin/adl-aws-remote-validation) and test(/^tests::/)'
       ;;
@@ -524,6 +533,9 @@ nextest_expression_for_filter() {
       ;;
     runtime_v3_observatory_serving_eligibility)
       printf 'binary_id(adl-runtime::distributed_observatory_serving_eligibility) or (binary_id(adl-runtime) and test(/^distributed::observatory_serving_eligibility::tests::/))'
+      ;;
+    runtime_v3_observatory_static)
+      printf 'test(adl_observatory_static)'
       ;;
     runtime_v3_auth)
       printf 'test(/^runtime_api_auth::tests::/)'

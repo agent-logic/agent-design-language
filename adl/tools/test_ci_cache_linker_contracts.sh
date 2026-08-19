@@ -16,8 +16,8 @@ required_fragments = [
     'echo "RUSTC_WRAPPER=sccache" >> "$GITHUB_ENV"',
     'echo "SCCACHE_DIR=$HOME/.cache/sccache" >> "$GITHUB_ENV"',
     'run: bash adl/tools/setup_required_coverage_toolchain.sh install-lld',
-    'echo "::error::ld.lld is unavailable after the install step"',
-    'echo "RUSTFLAGS=-C link-arg=-fuse-ld=lld" >> "$GITHUB_ENV"',
+    'if command -v ld.lld >/dev/null 2>&1; then',
+    'echo "RUST_LINK_ACCEL=default" >> "$GITHUB_ENV"',
     'sccache --zero-stats || true',
     'sccache --show-stats || true',
 ]
