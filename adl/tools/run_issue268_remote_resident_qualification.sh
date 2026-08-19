@@ -58,6 +58,9 @@ if [[ -n "$CONTINUITY_BIN_SHA256" && "$installed_continuity_sha" != "$CONTINUITY
   exit 65
 fi
 export OLLAMA_MODELS OLLAMA_HOST=http://127.0.0.1:11434 OLLAMA_MAX_LOADED_MODELS=3 OLLAMA_KEEP_ALIVE=-1
+# Ollama 0.31.1's autodetected AMX runner segfaults on virtualized Sapphire
+# Rapids during its first warmup. Use Ollama's packaged AVX2 CPU runner.
+export OLLAMA_LLM_LIBRARY=cpu_avx2
 OLLAMA_LOG="$EVIDENCE_ROOT/ollama.log"
 "$OLLAMA_BIN" serve >"$OLLAMA_LOG" 2>&1 &
 OLLAMA_PID=$!

@@ -3,6 +3,7 @@ set -euo pipefail
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd -P)
 grep -Fq 'tail -80 "$OLLAMA_LOG"' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq 'OLLAMA_KEEP_ALIVE=-1' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
+grep -Fq 'OLLAMA_LLM_LIBRARY=cpu_avx2' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq 'Ollama preload failed; server diagnostics follow' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq 'provider-adapter/runtime-v1' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq 'adapter_baseline_revision=179253eebade8c5e24c992aa0c4dd35b020aee83' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
