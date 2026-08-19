@@ -40,7 +40,7 @@ def main() -> None:
             "num_gpu": 0,
             "temperature": 0,
             "max_concurrent_inference": 1,
-            "max_loaded_models": 2,
+            "max_loaded_models": 3,
         }
         written_specs = [json.loads((specs / row["agent_id"] / "agent.yaml").read_text()) for row in plan["residents"]]
         assert len(written_specs) == 6

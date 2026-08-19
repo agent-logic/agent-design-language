@@ -12,6 +12,7 @@ AGENT_SPEC_DIR=${ADL_ISSUE268_AGENT_SPEC_DIR:-$EVIDENCE_ROOT/agent-specs}
 VOLUME_IDENTITY=${ADL_ISSUE268_RUNTIME_VOLUME_IDENTITY_SHA256:-${ADL_RUNTIME_CONTINUITY_VOLUME_ID_SHA256:?ADL_RUNTIME_CONTINUITY_VOLUME_ID_SHA256 is required}}
 MATERIALIZER=${ADL_ISSUE268_MATERIALIZER:-$ROOT/adl/tools/materialize_issue268_ollama_plan.py}
 ORCHESTRATOR=${ADL_ISSUE268_CONTINUITY_UTS_RUNNER:-$ROOT/adl/tools/run_issue268_continuity_uts_qualification.py}
+MODEL_WARMUP=${ADL_ISSUE268_MODEL_WARMUP:-$ROOT/adl/tools/warm_issue268_ollama_models.py}
 GUARDIAN=${ADL_ISSUE268_GUARDIAN_RUNNER:-$ROOT/adl/tools/validate_v092_runtime_guardian_lifecycle.sh}
 SOURCE_RECEIPT=${ADL_ISSUE268_S3_SOURCE_RECEIPT:-$ROOT/.csdlc/evidence/268/aws/issue268-six-hour-r7i-20260819-01/s3-source-receipt.json}
 INSTALLER=${ADL_ISSUE268_VOLUME_INSTALLER:-$ROOT/adl/tools/install_issue268_runtime_volume.py}
@@ -56,7 +57,7 @@ if [[ -n "$CONTINUITY_BIN_SHA256" && "$installed_continuity_sha" != "$CONTINUITY
   echo "issue268: installed continuity binary provenance mismatch" >&2
   exit 65
 fi
-export OLLAMA_MODELS OLLAMA_HOST=http://127.0.0.1:11434
+export OLLAMA_MODELS OLLAMA_HOST=http://127.0.0.1:11434 OLLAMA_MAX_LOADED_MODELS=3
 OLLAMA_LOG="$EVIDENCE_ROOT/ollama.log"
 "$OLLAMA_BIN" serve >"$OLLAMA_LOG" 2>&1 &
 OLLAMA_PID=$!
@@ -73,6 +74,24 @@ if ! curl -fsS "$OLLAMA_HOST/api/tags" >/dev/null; then
 fi
 materialized="$EVIDENCE_ROOT/materialized-plan.json"
 python3 "$MATERIALIZER" --output "$materialized" --agent-spec-dir "$AGENT_SPEC_DIR" >/dev/null
+PROVIDER_ADAPTER_BIN=${ADL_ISSUE268_PROVIDER_ADAPTER_BIN:-}
+if [[ -z "$PROVIDER_ADAPTER_BIN" ]]; then
+  adapter_install_root="$VOLUME_ROOT/provider-adapter/$SOURCE_REVISION"
+  PROVIDER_ADAPTER_BIN="$adapter_install_root/adl-provider-adapter"
+  if [[ ! -x "$PROVIDER_ADAPTER_BIN" ]]; then
+    cargo build --locked --release --manifest-path "$ROOT/adl/Cargo.toml" --bin adl-provider-adapter
+    mkdir -p "$adapter_install_root"
+    cp "${CARGO_TARGET_DIR:-$ROOT/adl/target}/release/adl-provider-adapter" "$PROVIDER_ADAPTER_BIN.tmp"
+    chmod +x "$PROVIDER_ADAPTER_BIN.tmp"
+    mv "$PROVIDER_ADAPTER_BIN.tmp" "$PROVIDER_ADAPTER_BIN"
+  fi
+fi
+[[ -x "$PROVIDER_ADAPTER_BIN" ]] || { echo "issue268: provider adapter is unavailable" >&2; exit 69; }
+export ADL_PROVIDER_ADAPTER_BIN="$PROVIDER_ADAPTER_BIN"
+python3 "$MODEL_WARMUP" \
+  --plan "$materialized" \
+  --ollama-url "$OLLAMA_HOST" \
+  --receipt "$EVIDENCE_ROOT/model-residency.json"
 python3 "$ORCHESTRATOR" \
   --continuity-bin "$CONTINUITY_BIN" \
   --runtime-root "$RUNTIME_ROOT" \

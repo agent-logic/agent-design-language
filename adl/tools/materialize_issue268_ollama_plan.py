@@ -74,7 +74,7 @@ def main() -> int:
             "num_gpu": 0,
             "temperature": 0,
             "max_concurrent_inference": 1,
-            "max_loaded_models": 2,
+            "max_loaded_models": 3,
             "qwen_think": False if model == "qwen3:8b" else "unsupported",
         }
         resident["model_ref_sha256"] = artifact
@@ -92,7 +92,7 @@ def main() -> int:
             "num_gpu": 0,
             "temperature": 0,
             "max_concurrent_inference": 1,
-            "max_loaded_models": 2,
+            "max_loaded_models": 3,
         },
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)

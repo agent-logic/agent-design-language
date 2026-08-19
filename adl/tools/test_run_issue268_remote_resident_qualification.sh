@@ -5,6 +5,7 @@ grep -Fq 'tail -80 "$OLLAMA_LOG"' "$ROOT/adl/tools/run_issue268_remote_resident_
 scratch=$(mktemp -d "$ROOT/.adl/issue268-remote-test.XXXXXX")
 trap 'rm -rf "$scratch"' EXIT
 touch "$scratch/continuity"; chmod +x "$scratch/continuity"
+touch "$scratch/provider-adapter"; chmod +x "$scratch/provider-adapter"
 cat >"$scratch/ollama" <<'SH'
 #!/usr/bin/env bash
 [[ "$1" == serve ]]
@@ -41,6 +42,11 @@ import json,pathlib,sys
 a=sys.argv; evidence=pathlib.Path(a[a.index('--evidence-dir')+1]); evidence.mkdir(parents=True,exist_ok=True)
 (evidence/'qualification-receipt.json').write_text(json.dumps({'schema':'adl.issue268.continuity_uts_qualification.v1','status':'passed','resident_count':6,'continuation_verified':True,'continuity_generation':1,'signed_population_sha256':'9'*64,'replay_denied':True,'residents':[{'agent_id':str(i)} for i in range(6)]})+'\n')
 PY
+cat >"$scratch/warmup.py" <<'PY'
+import json,pathlib,sys
+a=sys.argv; receipt=pathlib.Path(a[a.index('--receipt')+1])
+receipt.write_text(json.dumps({'status':'passed','resident_model_count':3})+'\n')
+PY
 cat >"$scratch/guardian.sh" <<'SH'
 #!/usr/bin/env bash
 [[ "$1" == --suite && "$2" == six_hour_qualification ]]
@@ -67,6 +73,8 @@ output=$(PATH="$scratch/bin:$PATH" \
   ADL_ISSUE268_CONTINUITY_BIN_SHA256="$continuity_sha" \
   ADL_ISSUE268_MATERIALIZER="$scratch/materializer.py" \
   ADL_ISSUE268_CONTINUITY_UTS_RUNNER="$scratch/orchestrator.py" \
+  ADL_ISSUE268_MODEL_WARMUP="$scratch/warmup.py" \
+  ADL_ISSUE268_PROVIDER_ADAPTER_BIN="$scratch/provider-adapter" \
   ADL_ISSUE268_GUARDIAN_RUNNER="$scratch/guardian.sh" \
   bash "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh")
 [[ "$output" == *ADL_ISSUE268_CONTINUITY_UTS_BEGIN* ]]

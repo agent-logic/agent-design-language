@@ -30,7 +30,7 @@ def main() -> None:
         "memory_mib": 65536,
         "gpu_allowed": False,
         "max_concurrent_inference": 1,
-        "max_loaded_models": 2,
+        "max_loaded_models": 3,
         "compilation_concurrent": False,
     }
     if host != expected_host:
