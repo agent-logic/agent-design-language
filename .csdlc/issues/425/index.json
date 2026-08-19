@@ -6,10 +6,22 @@
   "initialization_digest": "d98a8d900cde7810150f96c65b587a7763b677cf58610771289dd359b4be5b19",
   "phase": "implemented",
   "generation": 6,
-  "digest": "b00a30133592b5f77514c92a74e1d462feb383bd08001a4e5475ba690a6bc183",
+  "digest": "9e0506c243b69428874ab6b5c3ffcf3591fb9099b01690eca39c044fb897aafc",
   "branch": "codex/425-recordless-closeout-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-425-recordless-closeout-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:b7b810e3-a6e4-4657-b01a-69be1c1888db",
+    "assigned_by": "codex-worker-4",
+    "revision": "git-blake3:92933b9b9e36776cca365072dc9c81fd417ad958:7a0fc1065a7803482d38aec92e7defb87522a025fd3231b6ce34da459f03480e",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-finish.rs",
+      "csdlc-v2/src/finish.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/tests/gate_recordless_closeout.rs",
+      ".csdlc/evidence/425-v092-residual-dry-run-result.json",
+      ".csdlc/issues/425"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +57,9 @@
       "ast_digest": "dc064a1b29d4ffce555b1ffa93a65466b5adfe914df83ce7126a441ac99c6e03"
     },
     "srp": {
-      "values_digest": "d84f5a4134d02c69e34f14fa1c77ff1dccb28a3b618d134c5954ad9eb37c6f1b",
-      "rendered_digest": "ac7b89136057e5af0de22d13f0f398940c48a729224586d0373e2328e6f578fd",
-      "ast_digest": "f542a55e0266532978da258547185b7587ee0d0f8956b492f6dbb0a225f25dfd"
+      "values_digest": "d6cc9ad5fa5ea0187f3e9527af91ddf194b0a1873cda8bb91e9f71431fcdadf9",
+      "rendered_digest": "8104e68c08d29a83760c4a0591d513e36d1a3b21ab3fee98216bd5481b2a3ec8",
+      "ast_digest": "6606bf80b5e91946eb5691de27269f1a5913b2a30140f9e883f80c5fc355da79"
     },
     "sor": {
       "values_digest": "2a2d9f55222ea5ab70635e305455b44dd31627a4f59154cb4a478f5fe0cac00c",
@@ -141,6 +153,13 @@
       "actor": "codex-worker-4",
       "reason": "clear stale review assignment after VPP executable-path repair before assigning exact-head review",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex-worker-4",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
