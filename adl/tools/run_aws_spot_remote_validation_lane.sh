@@ -955,19 +955,18 @@ if [[ "$RUN" == true || "$ACTION" == "preflight" ]]; then
 fi
 
 if [[ "$ACTION" == "preflight" ]]; then
-  python3 - "$BUILDER_IMAGE" "$SOURCE_COMMIT" "$EXPECTED_CACHE_VOLUME_ID_SHA256" "$AMI_ID" "$SUBNET_ID" "$ESTIMATED_HOURLY_COST_USD" <<'PY'
+  python3 - "$BUILDER_IMAGE" "$SOURCE_COMMIT" "$EXPECTED_CACHE_VOLUME_ID_SHA256" "$AMI_ID" "$SUBNET_ID" "$ESTIMATED_HOURLY_COST_USD" "$VALIDATION_ENVIRONMENT" <<'PY'
 import hashlib
 import json
 import sys
 
-image, commit, cache_hash, ami, subnet, hourly = sys.argv[1:]
+image, commit, cache_hash, ami, subnet, hourly, environment = sys.argv[1:]
 payload = {
     "schema": "adl.aws_spot_preflight.v1",
     "status": "ready",
     "account_matches_retained_proof": True,
     "source_commit": commit,
-    "builder_image_digest_sha256": hashlib.sha256(image.rsplit("@", 1)[-1].encode()).hexdigest(),
-    "builder_image_immutable": "@sha256:" in image,
+    "validation_environment": environment,
     "retained_cache_volume_id_sha256": cache_hash,
     "retained_cache_available": True,
     "ami_id_sha256": hashlib.sha256(ami.encode()).hexdigest(),
@@ -976,6 +975,11 @@ payload = {
     "estimated_hourly_cost_usd": float(hourly),
     "aws_resources_created": False,
 }
+if environment == "immutable_builder":
+    payload["builder_image_digest_sha256"] = hashlib.sha256(image.rsplit("@", 1)[-1].encode()).hexdigest()
+    payload["builder_image_immutable"] = "@sha256:" in image
+else:
+    payload["direct_host_command_verified"] = True
 print(json.dumps(payload, indent=2, sort_keys=True))
 PY
   exit 0
