@@ -1,0 +1,107 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 341,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18B] Provider-neutral multi-agent proof",
+    "slug": "provider-neutral-multi-agent-proof",
+    "version": "v0.92",
+    "generation": 2
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "provider-positive-matrix",
+          "proof_role": "Run at least two approved real-provider positive columns through the identical scenario and retain redacted receipts.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "deterministic": false,
+          "resource_profile": "large",
+          "budget_seconds": 900,
+          "budget_tokens": 2000,
+          "argv": [
+            "bash",
+            "adl/tools/demo_v092_provider_neutral_birthday.sh",
+            "--mode",
+            "positive"
+          ],
+          "parallel_group": "provider-proof",
+          "defer_reason": null
+        },
+        {
+          "lane": "proof-validator-tests",
+          "proof_role": "Run focused validator and negative-case tests without provider credentials; exact-head review remains SRP/review lifecycle truth.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 300,
+          "budget_tokens": 1000,
+          "argv": [
+            "bash",
+            "adl/tools/test_v092_provider_neutral_proof.sh"
+          ],
+          "parallel_group": "local-proof",
+          "defer_reason": null
+        },
+        {
+          "lane": "proof-matrix-validator",
+          "proof_role": "Validate redaction, parity, outcome classifications, digests, and no fixture/cached substitution.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "python3",
+            "adl/tools/validate_v092_provider_neutral_proof.py",
+            "demos/v0.92/provider-neutral-birthday/proof-matrix-positive.json",
+            "--require-live"
+          ],
+          "parallel_group": "local-proof",
+          "defer_reason": null
+        },
+        {
+          "lane": "private-observatory-demo",
+          "proof_role": "Show several private agents running in the Observatory without public exposure.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": false,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 1000,
+          "argv": [
+            "bash",
+            "adl/tools/demo_v092_provider_neutral_birthday.sh",
+            "--mode",
+            "observatory"
+          ],
+          "parallel_group": "demo",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed on missing provider credentials, stale prerequisite truth, unredacted payloads, cached/fixture substitutions, non-equivalent scenarios, hidden provider failures, unavailable Runtime, or missing exact-head review.",
+      "design_ref": ".csdlc/prepared/issues/341/design.md",
+      "design_digest": "c6789dcf9bdcfa45b396282dd8175bf91e711756696868a609a4445d8909d951",
+      "diagram_ref": ".csdlc/prepared/issues/341/diagram.mmd",
+      "diagram_digest": "78e5efb69a4df4b8c007aa4f1f8652cd675858fcbcdf69417dbd6d35bc79a051"
+    }
+  }
+}

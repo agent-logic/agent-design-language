@@ -1,0 +1,11 @@
+flowchart TD
+  I["#341 WP-18B"] --> G["Gate: #256 and #414 terminal"]
+  G --> H["Provider-neutral birthday harness"]
+  H --> A["Provider A live column"]
+  H --> B["Provider B live column"]
+  H --> N["Negative non-pass cases"]
+  A --> M["Redacted proof matrix"]
+  B --> M
+  N --> M
+  M --> V["Validator"]
+  V --> O["Private Observatory roster"]
