@@ -7,7 +7,7 @@
     "title": "[v0.92][ADR] Author and review the milestone architecture decision record set",
     "slug": "v092-adr-authoring",
     "version": "v0.92",
-    "generation": 23
+    "generation": 24
   },
   "status": "ready",
   "content": {
@@ -70,7 +70,7 @@
           "acceptance_ids": [
             "AC-10"
           ],
-          "status": "in_progress"
+          "status": "completed"
         }
       ],
       "affected_areas": [

@@ -25,3 +25,4 @@
 {"sequence":25,"generation":21,"actor":"codex:143-review-remediation","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":26,"generation":22,"actor":"subagent:019fee2e-41b4-7f33-921e-f0c58f6859ca","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":27,"generation":23,"actor":"codex:143-review-remediation","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":28,"generation":24,"actor":"codex:closeout-sweep","reason":"Materialize historical merged PR #196 terminal truth for #143 closeout.","operation":"materialize_derived_terminal"}
