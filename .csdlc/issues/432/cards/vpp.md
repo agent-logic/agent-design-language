@@ -42,11 +42,11 @@ Diagram: .csdlc/prepared/issues/432/diagram.mmd
       "adl/tools/test_check_no_tracked_adl.sh"
     ],
     "parallel_group": "boundary",
-    "defer_reason": "Deferred until #432 implementation creates the exact repository-boundary validator; validation must fail closed if the target is absent or any tracked or authoritative .adl dependency remains."
+    "defer_reason": null
   },
   {
     "lane": "worktree-policy",
-    "proof_role": "Prove relocated policy resolution and allowed/rejected worktree behavior.",
+    "proof_role": "Run the exact nonzero fastwork_policy module to prove relocated policy resolution and allowed, rejected, required, and bound-topology behavior.",
     "acceptance_ids": [
       "AC-4",
       "AC-7"
@@ -61,7 +61,7 @@ Diagram: .csdlc/prepared/issues/432/diagram.mmd
       "--manifest-path",
       "csdlc-v2/Cargo.toml",
       "--lib",
-      "worktree_policy"
+      "fastwork_policy"
     ],
     "parallel_group": "rust",
     "defer_reason": null
@@ -99,7 +99,7 @@ Tokens: 100000
 ## Commands
 
 - `bash adl/tools/test_check_no_tracked_adl.sh`
-- `cargo test --manifest-path csdlc-v2/Cargo.toml --lib worktree_policy`
+- `cargo test --manifest-path csdlc-v2/Cargo.toml --lib fastwork_policy`
 - `git diff --check`
 
 ## Failure Semantics

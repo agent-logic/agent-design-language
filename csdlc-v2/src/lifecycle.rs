@@ -45,12 +45,12 @@ fn requires_worktree_policy(repository: &str) -> bool {
 }
 
 fn enforce_worktree_policy(root: &Path, requested: &Path, required: bool) -> Result<()> {
-    let policy_path = root.join(".adl/worktree-policy.json");
+    let policy_path = root.join("adl/config/worktree-policy.json");
     if !policy_path.is_file() {
         return if required {
             Err(V2Error::new(
                 ErrorCode::UnsafeCheckout,
-                "canonical ADL repository is missing .adl/worktree-policy.json",
+                "canonical ADL repository is missing adl/config/worktree-policy.json",
             ))
         } else {
             Ok(())
@@ -892,9 +892,9 @@ mod fastwork_policy_tests {
 
     fn policy_root() -> tempfile::TempDir {
         let root = tempfile::tempdir().expect("policy root");
-        fs::create_dir_all(root.path().join(".adl")).expect("policy directory");
+        fs::create_dir_all(root.path().join("adl/config")).expect("policy directory");
         fs::write(
-            root.path().join(".adl/worktree-policy.json"),
+            root.path().join("adl/config/worktree-policy.json"),
             r#"{"schema":"adl.worktree_policy.v1","required_parent":"/Volumes/FastWork/adl-worktrees"}"#,
         )
         .expect("policy file");
@@ -933,7 +933,9 @@ mod fastwork_policy_tests {
             true,
         )
         .expect_err("missing mandatory policy should fail");
-        assert!(error.message.contains("missing .adl/worktree-policy.json"));
+        assert!(error
+            .message
+            .contains("missing adl/config/worktree-policy.json"));
     }
 
     #[test]

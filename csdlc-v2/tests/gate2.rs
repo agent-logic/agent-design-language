@@ -84,9 +84,9 @@ fn copy_directory(source: &Path, destination: &Path) {
 
 fn install_worktree_policy(root: &Path) {
     let required_parent = root.parent().expect("fixture worktree parent");
-    fs::create_dir_all(root.join(".adl")).expect("policy directory");
+    fs::create_dir_all(root.join("adl/config")).expect("policy directory");
     fs::write(
-        root.join(".adl/worktree-policy.json"),
+        root.join("adl/config/worktree-policy.json"),
         serde_json::to_vec_pretty(&serde_json::json!({
             "schema": "adl.worktree_policy.v1",
             "required_parent": required_parent.to_string_lossy()

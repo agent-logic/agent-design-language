@@ -3,11 +3,11 @@
   "issue": 432,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "dcb1c35f0a7d76f3551ff2dda7764b335e7cb5315b055b6acf2fe90e70f33e22",
-  "phase": "initialized",
-  "generation": 5,
-  "digest": "9bfff6423bdc2c5a9f95fc7e53ecf322ace7734c76248ff492125a04ed7ea35d",
-  "branch": null,
-  "worktree": null,
+  "phase": "bound",
+  "generation": 6,
+  "digest": "aa90675ffd55da7dc329730f515293c968858ea20d234dab84ad9d82cb8eb9d8",
+  "branch": "codex/432-remove-tracked-adl",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-432-remove-tracked-adl-execution",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -24,37 +24,52 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "692c2f79e98ffd465393d57cea70031fcd504360e47d177558c6daf246673976",
+      "values_digest": "88306a2fbceb5a1af3ae0a421e7176d87328d44f9160bed4ed6f8573e4ed8a61",
       "rendered_digest": "0afb8f4e64a2a75ec3dacafb21a5f12080b8e344a73b7ab43188448db1201e5d",
       "ast_digest": "ef52cc2fff7204f43a334338886c48b1e7c9e3d13a48166371c404a350f2a8c6"
     },
     "stp": {
-      "values_digest": "0a208b7b3eabac3ba92ba6ca804038710d6f64fb3af82102c6f038af5e8fa171",
+      "values_digest": "2c9da0ca8b09c56433334d12bd9f4d7889b9b55e31c5d552f1d01e8222add735",
       "rendered_digest": "ab01e92998681b5becc5dbda945d1e5fa257ad0fe2df46fe9932f2d3b84dfb34",
       "ast_digest": "361a74d35d7bf008c56f36d0ab507a61a76609eff8573de243bae86fe8fbff68"
     },
     "spp": {
-      "values_digest": "d50b61ba8acbfc9ee13da5ef2e856c01016758d7c57eab555d0b6d32ba257668",
+      "values_digest": "269e4dcba93c22d775bfd5ca13035d78c206fa10f1678de8b3645b7c7ed16ed3",
       "rendered_digest": "9d04d3739d57285fe9e7ad907c95d595d4f2718be8b47a46dcfc456ff14fab8f",
       "ast_digest": "a4e323c4aec9b8c74168afdb5131aa12df943986c3f5e3a2bf2eca2947ebbaeb"
     },
     "vpp": {
-      "values_digest": "884df051d5cdfd21b40765cf5f764c76325ca77522d036725e2712e14bca3db6",
-      "rendered_digest": "564fd7b3a41dd4bfcaf36106dbf113db40d6b5e4b409e5e336e4e5e2b3b01fa1",
-      "ast_digest": "58f7f4b80ba036e4105b7819aa1068d719d4f8115290824b37f2016b4974fa17"
+      "values_digest": "399fd2d13ca0bf83336ccf24fe49bcf98354e001e33744b1c5f522d5295a3e87",
+      "rendered_digest": "4bf14d477fcdb166f3160e2466bd2a438c20f50b8c40ec7f29b0b83dc489e2ab",
+      "ast_digest": "c4201f531300943c2fd8e96bccaac1e16e4fc8f3e0870e99d1b978e2e7179a01"
     },
     "srp": {
-      "values_digest": "4b8a7ebcec79c8e91fe1bf46ac8655ef10452df6cae0e96f422683071c8c0a07",
+      "values_digest": "c7c56851dc9754db8ab0f5e6f8ce4b291ebec248d06da1b95329ff57997c87e5",
       "rendered_digest": "6e6c41e774ad1fdd858e7102c9db7742be5baa2a92a637f1c55f1ba8d536390b",
       "ast_digest": "aeb16f78199df2a10b7c9efabe9d990824262b9fa4953e40b4701a3ea694ef85"
     },
     "sor": {
-      "values_digest": "df09c762a86efe7e04c4e8aa30d8f3a05a8044069b10fc86a961adf73e93aff9",
+      "values_digest": "af8e4d8dc0b7414d5b1ee4af2bf4dbeb27a4a0049b87b5dacac8327ca7034a9e",
       "rendered_digest": "cb4519c1092c1d86a9c45e55a8251a071432a038ac7cccb3f353c11f35df24ba",
       "ast_digest": "a8e89c2e4052d41c4233a7a6337f2d709582970b8f01b428dd8aa646e31ef138"
     }
   },
-  "transitions": [],
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
   "audit": [
     {
       "sequence": 1,
@@ -97,6 +112,20 @@
       "actor": "codex:432-readiness-repair",
       "reason": "Declare only the exact deferred lane target as the required validator deliverable; its helper remains an owned implementation path.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Pre-change migration inventory\",\"Relocated worktree policy and updated consumers\",\"Zero tracked .adl denominator\",\"adl/tools/test_check_no_tracked_adl.sh\",\"Fresh-checkout bind proof\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:432-implementation",
+      "reason": "Activate the implemented boundary validator and correct the Rust filter after the planned worktree_policy substring selected zero tests; fastwork_policy selects the exact six-test module.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"adl-boundary\",\"proof_role\":\"Prove zero tracked paths and zero active authoritative dependencies.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"bash\",\"adl/tools/test_check_no_tracked_adl.sh\"],\"parallel_group\":\"boundary\",\"defer_reason\":null},{\"lane\":\"worktree-policy\",\"proof_role\":\"Run the exact nonzero fastwork_policy module to prove relocated policy resolution and allowed, rejected, required, and bound-topology behavior.\",\"acceptance_ids\":[\"AC-4\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"fastwork_policy\"],\"parallel_group\":\"rust\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject patch whitespace errors.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null}]}"
     }
   ]
 }

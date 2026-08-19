@@ -137,7 +137,7 @@ These rules are mandatory for ADL issue work.
    - Never do tracked issue work on `main`.
    - Every new ADL issue worktree must be created beneath
      `/Volumes/FastWork/adl-worktrees`. The typed v2 bind path enforces the
-     tracked `.adl/worktree-policy.json` contract and fails closed for any
+     tracked `adl/config/worktree-policy.json` contract and fails closed for any
      other parent.
    - Use the v2 `csdlc-bind` flow to bind execution context.
    - Keep the primary checkout clean on `main` for inspection, bootstrap,
