@@ -1041,12 +1041,16 @@ async fn real_four_node_learner_replication() {
         .map(|node| (node, BasicNode::new(format!("memory://voter-{node}"))))
         .collect::<BTreeMap<_, _>>();
     nodes[&1].initialize(voter_routes.clone()).await.unwrap();
-    let leader = loop {
-        if let Some(leader) = nodes[&1].metrics().borrow().current_leader {
-            break leader;
+    let leader = tokio::time::timeout(Duration::from_secs(10), async {
+        loop {
+            if let Some(leader) = nodes[&1].metrics().borrow().current_leader {
+                break leader;
+            }
+            tokio::time::sleep(Duration::from_millis(25)).await;
         }
-        tokio::time::sleep(Duration::from_millis(25)).await;
-    };
+    })
+    .await
+    .expect("leader election did not converge before promotion boundary writes");
     let before_learner = nodes[&leader]
         .client_write(PolisCommand::GovernedMutation {
             mutation_id: "authorized-learner-snapshot".to_owned(),
@@ -1198,12 +1202,16 @@ async fn real_four_node_learner_replication() {
         admission.deadline_unix_seconds,
     )
     .unwrap();
-    let leader = loop {
-        if let Some(leader) = nodes[&1].metrics().borrow().current_leader {
-            break leader;
+    let leader = tokio::time::timeout(Duration::from_secs(10), async {
+        loop {
+            if let Some(leader) = nodes[&1].metrics().borrow().current_leader {
+                break leader;
+            }
+            tokio::time::sleep(Duration::from_millis(25)).await;
         }
-        tokio::time::sleep(Duration::from_millis(25)).await;
-    };
+    })
+    .await
+    .expect("leader election did not converge before learner replication write");
     for sequence in 0..8 {
         nodes[&leader]
             .client_write(PolisCommand::GovernedMutation {
