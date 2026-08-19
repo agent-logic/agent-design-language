@@ -1,0 +1,8 @@
+flowchart LR
+    W["start_CSM.sh"] --> C["CSMctl"]
+    C --> O{"host OS"}
+    O -->|Darwin| L["launchd backend"]
+    O -->|Linux| P["bounded process backend"]
+    O -->|other| F["fail closed"]
+    L --> R["Runtime v3"]
+    P --> R

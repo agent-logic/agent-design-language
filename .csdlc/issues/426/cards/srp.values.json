@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 426,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Add Linux service control to CSMctl",
+    "slug": "linux-csmctl-service-control",
+    "version": "v0.92",
+    "generation": 5
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact changed launcher, focused tests, and Linux runbook sections.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can Linux lifecycle control signal an unrelated process?",
+        "Does any Linux path invoke launchctl?",
+        "Did Darwin behavior change?",
+        "Can test-only overrides affect production operation?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

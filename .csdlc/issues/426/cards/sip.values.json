@@ -1,0 +1,36 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 426,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Add Linux service control to CSMctl",
+    "slug": "linux-csmctl-service-control",
+    "version": "v0.92",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Make the merged CSMctl launcher work safely on Linux while preserving Darwin behavior.",
+      "required_outcome": "start_CSM.sh and CSMctl provide tested start, stop, restart, and status control on Linux/x86 Amazon Linux hosts without invoking launchctl.",
+      "declared_scope": [
+        "CSMctl",
+        "start_CSM.sh compatibility",
+        "focused launcher tests",
+        "docs/tooling/START_CSM_RUNBOOK.md"
+      ],
+      "authority_boundary": [
+        "Issue #426 owns only launcher portability",
+        "Issue #268 owns the paid AWS qualification",
+        "Issue #269 must never execute"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Gemini must review the exact implementation head before merge",
+        "Preserve existing Darwin behavior"
+      ]
+    }
+  }
+}

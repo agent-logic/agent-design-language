@@ -1,0 +1,48 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 426,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Add Linux service control to CSMctl",
+    "slug": "linux-csmctl-service-control",
+    "version": "v0.92",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Add a fail-closed Linux process backend to CSMctl and validate it without mutating real host services.",
+      "deliverables": [
+        "Linux CSMctl backend",
+        "deterministic launcher tests",
+        "Linux runbook instructions",
+        "review evidence"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Darwin selects the existing launchd backend",
+        "AC-2: Linux start/status/restart/stop works with isolated fixtures",
+        "AC-3: unsupported platforms fail closed",
+        "AC-4: stale or foreign PID files cannot signal unrelated processes",
+        "AC-5: Linux operation is documented",
+        "AC-6: exact-head Gemini review has no unresolved actionable findings"
+      ],
+      "dependencies": [
+        "#424"
+      ],
+      "repo_inputs": [
+        "CSMctl",
+        "start_CSM.sh",
+        "docs/tooling/START_CSM_RUNBOOK.md",
+        ".csdlc/prepared/issues/426/design.md"
+      ],
+      "non_goals": [
+        "Runtime redesign",
+        "system-wide service installation",
+        "AWS qualification execution",
+        "issue #269"
+      ]
+    }
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 426,
+    "repository": "agent-logic/agent-design-language",
+    "title": "Add Linux service control to CSMctl",
+    "slug": "linux-csmctl-service-control",
+    "version": "v0.92",
+    "generation": 5
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Implemented Linux process service control for CSMctl while preserving Darwin launchd behavior and continuity-safe shutdown.",
+      "actual_changes": [
+        "Added explicit Darwin launchd and Linux process service backends to CSMctl.",
+        "Added PID ownership validation, stale and foreign PID refusal, and bounded continuity-safe TERM shutdown on Linux.",
+        "Added focused lifecycle, platform-routing, ownership-denial, and shell-syntax proof.",
+        "Documented supported Linux Runtime control and macOS-only Observatory boundaries."
+      ],
+      "artifacts": [
+        "CSMctl",
+        "docs/tooling/START_CSM_RUNBOOK.md",
+        "adl/tools/test_csmctl_linux_backend.sh",
+        ".csdlc/evidence/426"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "purpose": "Run git diff hygiene check.",
+          "outcome": "passed",
+          "evidence_ref": "426-diff-hygiene.log"
+        },
+        {
+          "command": [
+            "bash",
+            "adl/tools/test_csmctl_linux_backend.sh"
+          ],
+          "purpose": "Run the focused CSMctl Linux backend validator.",
+          "outcome": "passed",
+          "evidence_ref": "426-linux-lifecycle.log"
+        }
+      ],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 426,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "4997d7deed63e49f9f51627e90720c043a2c0f87bdfad9170fdc9d7d3870b70e",
+  "phase": "implemented",
+  "generation": 5,
+  "digest": "a1119b022416a696716cf0685179d25e6bfe0be0d44c350cdc83f72874dc528b",
+  "branch": "codex/426-linux-csmctl-service-control",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-426-linux-csmctl-service-control",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/426/design.md",
+  "diagram_path": ".csdlc/prepared/issues/426/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:daniel",
+      "revision": "f464e626e50c98d77584a99bf769237b9dec75943d8daa0e7e9daf7caa13bce5"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "affc163f3db14ed167bec51d274775bc35d7aba8f15545b274c5dbeda6604027",
+      "rendered_digest": "a3cab901aa5c6ca7abaaf6bb8f4649453639cb83fc583f04f6c53c8c5a23830a",
+      "ast_digest": "4a75f069e33d0cf887b1d834c066b5e626d40777d5261cea5e618daff103a140"
+    },
+    "stp": {
+      "values_digest": "9d548455eb6c8be6e3107042ea1e5738eef7a19829fb18c05fd63c53dcf1e81e",
+      "rendered_digest": "37ad1d11c4a4f3e579dfce0d0eb7ccecb55e3194778b234146d2f650c6b77d36",
+      "ast_digest": "e0c72f42587d3b095d80d0ba18548c92efcf4cda8c89eacc0f7eed4e868301aa"
+    },
+    "spp": {
+      "values_digest": "7f4787588a3fdca11c43c25763e290d9b7c12df9da0983facc2c54dac0d61e37",
+      "rendered_digest": "90e6f311e25a0c3404b67e3180fd591ee0a3a0c4476c5beeb4e9c7f76cf7a26d",
+      "ast_digest": "f63d428649e912000242f24bcecd5027dcd5981af777818841675e262f62438f"
+    },
+    "vpp": {
+      "values_digest": "2ddd930e8caa89d8dc5e8d8c837f3178246ace17f75bf21dfeb57644e768e346",
+      "rendered_digest": "183996ac61867cbe90c3d28d613e3b2524799f4d088ff16cbb9184d5db35bc07",
+      "ast_digest": "00b3db6cc7e28f87af36cc1ff5f743f307a9438331b38f696b64b1b80653f720"
+    },
+    "srp": {
+      "values_digest": "a4a439ff580cda7e0c559a5379bf063ca815485c495bf3617d19ad8a18e35abf",
+      "rendered_digest": "1e9f1a30497eedde799f19837cc04eda521af158dcaad1bca4c1d52bd389a557",
+      "ast_digest": "42b712fa47bcb97caf76ce396bfef829994c275e7a3205eea49239744783e755"
+    },
+    "sor": {
+      "values_digest": "8063b2b90e552eed83c88a88fe84be6c7f950e0d2c80566cfa422056dee52c61",
+      "rendered_digest": "8a3c03005b9cce61bfece5c23f567205f1f12c46afc24efe54d0f3f3d007da80",
+      "ast_digest": "acd6de1c574e7213be94955fe0f5984e0a797e5e2922613c880849608aff8b2b"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Use exact repository-owned path denominators for execution readiness",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"CSMctl\",\"start_CSM.sh\",\"docs/tooling/START_CSM_RUNBOOK.md\",\"adl/tools/run_owner_validation_lane.sh\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Route readiness through the existing governed Runtime owner lane; focused launcher proof is added during implementation",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-owner\",\"proof_role\":\"acceptance\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"bash\",\"adl/tools/run_owner_validation_lane.sh\",\"runtime\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Bind the implemented focused Linux launcher validator into exact issue scope",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"CSMctl\",\"start_CSM.sh\",\"docs/tooling/START_CSM_RUNBOOK.md\",\"adl/tools/test_csmctl_linux_backend.sh\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Use the implemented issue-owned Linux lifecycle validator as the exact denominator",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"csmctl-linux-lifecycle\",\"proof_role\":\"acceptance\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":2000,\"argv\":[\"bash\",\"adl/tools/test_csmctl_linux_backend.sh\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}
