@@ -36,3 +36,4 @@
 {"sequence":36,"generation":28,"actor":"codex:/root","reason":"Recover #340 exact-review assignment after fresh-session:a5edd215-f2f5-45ab-a1c5-ab24fe34970c produced no bounded PASS/FAIL verdict; assignment was interrupted and a different fresh reviewer will be assigned against the unchanged immutable substantive revision.","operation":"recover_review"}
 {"sequence":37,"generation":28,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":38,"generation":29,"actor":"codex:/root","reason":"Recover #340 exact-review assignment after fresh-session:19565538-afb0-44c6-97e7-07f8cdf11db1 produced no bounded PASS/FAIL verdict; assignment was interrupted and a different fresh reviewer will be assigned against the unchanged immutable substantive revision.","operation":"recover_review"}
+{"sequence":39,"generation":29,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
