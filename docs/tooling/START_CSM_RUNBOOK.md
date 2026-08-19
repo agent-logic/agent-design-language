@@ -7,7 +7,7 @@ that live Runtime API.
 The intended operator behavior is deliberately simple:
 
 ```sh
-./start_CSM.sh start
+./CSMctl start
 ```
 
 The script starts the Runtime service if it is absent, asks macOS launchd to
@@ -18,9 +18,9 @@ It does not create a throwaway Runtime. It does not invent a second
 Observatory service. It does not print credential values. It does not
 force-kill, surprise-restart, replace, or take over an existing Runtime.
 
-## What `start_CSM.sh` controls
+## What `CSMctl` controls
 
-`start_CSM.sh` controls only the Runtime v3 service process:
+`CSMctl` controls only the Runtime v3 service process:
 
 - Default Runtime API base: `https://localhost:20997`
 - Runtime binary: `.adl/runtime-v3-service/generated/bin/adl-runtime-kernel`
@@ -50,15 +50,15 @@ is a browser/static-hosting concern, not a second Runtime.
 From the repository root:
 
 ```sh
-./start_CSM.sh start
+./CSMctl start
 ```
 
 Successful output includes:
 
 ```text
-start_CSM status=pass runtime_base=https://localhost:20997
-start_CSM runtime=https://localhost:20997
-start_CSM observatory=/path/to/demos/html-observatory/index.html?runtime=v3&runtimeApiBase=https://localhost:20997&live=1
+CSMctl status=pass runtime_base=https://localhost:20997
+CSMctl runtime=https://localhost:20997
+CSMctl observatory=/path/to/demos/html-observatory/index.html?runtime=v3&runtimeApiBase=https://localhost:20997&live=1
 ```
 
 If a compatible Runtime is already running, the script accepts it and prints
@@ -69,38 +69,38 @@ HTTP 200, the script fails closed and refuses to kill or replace that Runtime.
 ## Commands
 
 ```sh
-./start_CSM.sh start
+./CSMctl start
 ```
 
 Start the real Runtime v3 service if needed, probe it, and print the Runtime
 base plus Observatory path.
 
 ```sh
-./start_CSM.sh up
+./CSMctl up
 ```
 
 Alias for `start`.
 
 ```sh
-./start_CSM.sh status
+./CSMctl status
 ```
 
 Probe the Runtime without starting anything.
 
 ```sh
-./start_CSM.sh urls
+./CSMctl urls
 ```
 
 Print the Runtime base and Observatory path without probing.
 
 ```sh
-./start_CSM.sh logs
+./CSMctl logs
 ```
 
 Show recent log lines for the Runtime process started by this script.
 
 ```sh
-./start_CSM.sh stop
+./CSMctl stop
 ```
 
 Gracefully stop the launchd-owned Runtime. The generated runner forwards TERM
@@ -132,6 +132,7 @@ after all three endpoints return HTTP 200.
 The script reads:
 
 - `.adl/runtime-v3-service/runtime.env`
+- `.adl/runtime-v3-service/CSMctl.conf`
 - `adl-runtime/tests/support/tls-fixtures/server-cert.pem`
 - `adl-runtime/tests/support/tls-fixtures/server-key.pem`
 - `adl-runtime/tests/support/tls-fixtures/root-ca.pem`
@@ -148,13 +149,62 @@ files, or logs.
 
 When run from a FastWork issue worktree that lacks ignored `.adl/bin` or
 `.adl/runtime-v3-service` artifacts, the script falls back to the primary
-checkout's repo-local service package and stable binaries through Git
-common-dir discovery.
+checkout's repo-local service package and stable binaries through Git common-dir
+discovery.
+
+## Operator config
+
+Use `.adl/runtime-v3-service/CSMctl.conf` for ordinary local service settings,
+including browser-trusted TLS paths. This is intentionally like an Apache
+startup config: paths and simple settings live in one local file, not in the
+script.
+
+Start by copying the complete template:
+
+```sh
+cp docs/tooling/CSMctl.conf.example .adl/runtime-v3-service/CSMctl.conf
+chmod 600 .adl/runtime-v3-service/CSMctl.conf
+```
+
+The template lists the normal operator-changeable surface:
+
+- repository and service package paths;
+- state, generated, TLS, credential, continuity, quarantine, log, PID, lease,
+  probe, runner, and plist paths;
+- Runtime API port, bind address, public URL, and server name;
+- launchd label, domain, and working directory;
+- Runtime kernel, Vector, Python, and Observatory entrypoint paths;
+- browser-facing API TLS cert/key/trust-root paths;
+- private Runtime continuity TLS paths; and
+- probe/recovery policy toggles.
+
+Minimal local example:
+
+```sh
+ADL_CSM_RUNTIME_PORT=20997
+ADL_CSM_RUNTIME_ADDRESS=127.0.0.1:20997
+ADL_CSM_RUNTIME_BASE=https://localhost:20997
+ADL_CSM_RUNTIME_PUBLIC_BASE_URL=https://localhost:20997
+ADL_CSM_RUNTIME_SERVER_NAME=localhost
+
+ADL_CSM_API_TLS_CERT=/Users/daniel/cert/localhost.pem
+ADL_CSM_API_TLS_KEY=/Users/daniel/cert/localhost-key.pem
+ADL_CSM_API_TLS_TRUST_ROOTS='/Users/daniel/Library/Application Support/mkcert/rootCA.pem'
+```
+
+Keep credential values out of `CSMctl.conf`. Secret tokens and signing keys
+belong only in `.adl/runtime-v3-service/runtime.env`, and that file should not
+be printed.
+
+`CSMctl` copies the configured TLS material into local runtime state before
+starting the service. If `ADL_CSM_API_TLS_TRUST_ROOTS` is present, probes use
+that trust root instead of `curl -k`, so a normal browser and normal `curl`
+should agree about the localhost certificate.
 
 ## TLS and browser note
 
-The local Runtime uses HTTPS on `localhost`. The script probes with `curl -k`
-because this is local operator bring-up using local TLS material.
+The local Runtime uses HTTPS on `localhost`. For local browser trust, put the
+mkcert certificate, key, and CA root paths in `CSMctl.conf` as shown above.
 
 For public or investor-demo hosting with real DNS, use the externally issued
 certificate and exact DNS names for the Runtime and Observatory hosts. This
@@ -163,19 +213,42 @@ Unity, or cloud reachability.
 
 ## Overrides
 
-Use overrides only for local routing:
+Prefer `CSMctl.conf` for repeated local settings. One-shot environment
+overrides are still available:
 
 ```sh
-ADL_CSM_RUNTIME_PORT=20997 ./start_CSM.sh start
-ADL_CSM_RUNTIME_BASE=https://localhost:20997 ./start_CSM.sh status
-ADL_CSM_RUNTIME_ADDRESS=127.0.0.1:20997 ./start_CSM.sh start
-ADL_CSM_SERVICE_DIR=/path/to/.adl/runtime-v3-service ./start_CSM.sh start
-ADL_CSM_KERNEL_BIN=/path/to/adl-runtime-kernel ./start_CSM.sh start
-ADL_CSM_TLS_CERT=/path/to/fullchain.pem ADL_CSM_TLS_KEY=/path/to/privkey.pem ./start_CSM.sh start
-ADL_CSM_OBSERVATORY_ENTRY=/path/to/demos/html-observatory/index.html ./start_CSM.sh urls
+ADL_CSM_RUNTIME_PORT=20997 ./CSMctl start
+ADL_CSM_RUNTIME_BASE=https://localhost:20997 ./CSMctl status
+ADL_CSM_RUNTIME_ADDRESS=127.0.0.1:20997 ./CSMctl start
+ADL_CSM_SERVICE_DIR=/path/to/.adl/runtime-v3-service ./CSMctl start
+ADL_CSM_KERNEL_BIN=/path/to/adl-runtime-kernel ./CSMctl start
+ADL_CSM_API_TLS_CERT=/path/to/fullchain.pem ADL_CSM_API_TLS_KEY=/path/to/privkey.pem ADL_CSM_API_TLS_TRUST_ROOTS=/path/to/ca.pem ./CSMctl start
+ADL_CSM_OBSERVATORY_ENTRY=/path/to/demos/html-observatory/index.html ./CSMctl urls
 ```
 
 Do not put credential values in command arguments or reusable shell history.
+
+## Cert and key rotation
+
+For certificate rotation, edit the three TLS path values in
+`.adl/runtime-v3-service/CSMctl.conf`, then run:
+
+```sh
+./CSMctl stop
+./CSMctl start
+```
+
+For continuity signing-key rotation, update the key in `runtime.env` without
+printing it, then preserve the old signed continuity stores and prepare fresh
+state:
+
+```sh
+./CSMctl rotate-continuity-state
+./CSMctl start
+```
+
+The rotation command moves the old continuity directories into
+`.adl/runtime-v3-service/state/quarantine/`; it does not delete them.
 
 ## Troubleshooting
 
@@ -200,8 +273,8 @@ Something is already answering on one or more Runtime endpoints, but startup is
 not healthy. The script will not replace it. Inspect:
 
 ```sh
-./start_CSM.sh status
-./start_CSM.sh logs
+./CSMctl status
+./CSMctl logs
 ```
 
 ### `runtime_not_ready_or_not_serving`
@@ -209,8 +282,8 @@ not healthy. The script will not replace it. Inspect:
 The Runtime did not satisfy the endpoint contract. Run:
 
 ```sh
-./start_CSM.sh logs
-./start_CSM.sh status
+./CSMctl logs
+./CSMctl status
 ```
 
 If another service owns port `20997`, stop that service or choose another
@@ -221,7 +294,7 @@ Runtime port with `ADL_CSM_RUNTIME_PORT`.
 First confirm the Runtime:
 
 ```sh
-./start_CSM.sh status
+./CSMctl status
 ```
 
 If Runtime probes pass but the browser is not live, the remaining issue is the
@@ -233,9 +306,9 @@ Runtime service itself is already up.
 The branch validated:
 
 ```sh
-bash -n start_CSM.sh
-./start_CSM.sh status
-./start_CSM.sh start
+bash -n CSMctl
+./CSMctl status
+./CSMctl start
 git diff --check
 ```
 
