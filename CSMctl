@@ -77,10 +77,9 @@ if [[ -f "$OBSERVATORY_CONFIG_FILE" ]]; then
   . "$OBSERVATORY_CONFIG_FILE"
 fi
 # The Observatory config may point the browser at a Runtime hosted on another
-# machine (for example AWS). Re-resolve URL-facing Runtime values after sourcing
-# that file, without changing the local Runtime bind defaults used by start/stop.
-RUNTIME_BASE="${ADL_CSM_RUNTIME_BASE:-$RUNTIME_BASE}"
-RUNTIME_PUBLIC_BASE_URL="${ADL_CSM_RUNTIME_PUBLIC_BASE_URL:-$RUNTIME_BASE}"
+# machine (for example AWS). Keep this separate from RUNTIME_BASE so Runtime
+# start/status/stop continue to control only the local configured Runtime.
+OBSERVATORY_RUNTIME_BASE="${ADL_CSM_OBSERVATORY_RUNTIME_BASE:-${ADL_CSM_RUNTIME_BASE:-$RUNTIME_BASE}}"
 OBSERVATORY_REPO_ROOT="${ADL_CSM_OBSERVATORY_REPO_ROOT:-$PRIMARY_REPO_ROOT}"
 OBSERVATORY_ENTRY="${ADL_CSM_OBSERVATORY_ENTRY:-$OBSERVATORY_REPO_ROOT/demos/html-observatory/index.html}"
 OBSERVATORY_DIR="${ADL_CSM_OBSERVATORY_DIR:-$(dirname "$OBSERVATORY_ENTRY")}"
@@ -88,7 +87,7 @@ OBSERVATORY_HOST="${ADL_CSM_OBSERVATORY_HOST:-127.0.0.1}"
 OBSERVATORY_PORT="${ADL_CSM_OBSERVATORY_PORT:-8765}"
 OBSERVATORY_PORTS="${ADL_CSM_OBSERVATORY_PORTS:-$OBSERVATORY_PORT 8766}"
 OBSERVATORY_BASE="${ADL_CSM_OBSERVATORY_BASE:-https://localhost:$OBSERVATORY_PORT}"
-OBSERVATORY_URL="${ADL_CSM_OBSERVATORY_URL:-$OBSERVATORY_BASE/index.html?runtime=v3&runtimeApiBase=$RUNTIME_BASE&live=1}"
+OBSERVATORY_URL="${ADL_CSM_OBSERVATORY_URL:-$OBSERVATORY_BASE/index.html?runtime=v3&runtimeApiBase=$OBSERVATORY_RUNTIME_BASE&live=1}"
 OBSERVATORY_TLS_CERT="${ADL_CSM_OBSERVATORY_TLS_CERT:-${ADL_CSM_API_TLS_CERT:-$CERT_FILE}}"
 OBSERVATORY_TLS_KEY="${ADL_CSM_OBSERVATORY_TLS_KEY:-${ADL_CSM_API_TLS_KEY:-$KEY_FILE}}"
 OBSERVATORY_LAUNCH_LABEL="${ADL_CSM_OBSERVATORY_LAUNCH_LABEL:-com.agentlogic.csm-observatory}"
@@ -773,7 +772,7 @@ start_observatory_server() {
 
   for port in $OBSERVATORY_PORTS; do
     base="https://localhost:$port"
-    url="$base/index.html?runtime=v3&runtimeApiBase=$RUNTIME_BASE&live=1"
+    url="$base/index.html?runtime=v3&runtimeApiBase=$OBSERVATORY_RUNTIME_BASE&live=1"
     OBSERVATORY_BASE="$base"
     OBSERVATORY_URL="$url"
 
@@ -865,7 +864,8 @@ quarantine_continuity_state() {
 urls_cmd() {
   info "runtime=$RUNTIME_BASE"
   info "observatory=$OBSERVATORY_URL"
-  info "observatory_file=$OBSERVATORY_ENTRY?runtime=v3&runtimeApiBase=$RUNTIME_BASE&live=1"
+  info "observatory_runtime_api_base=$OBSERVATORY_RUNTIME_BASE"
+  info "observatory_file=$OBSERVATORY_ENTRY?runtime=v3&runtimeApiBase=$OBSERVATORY_RUNTIME_BASE&live=1"
 }
 
 status_cmd() {
@@ -997,7 +997,7 @@ observatory_status_cmd() {
 observatory_urls_cmd() {
   load_observatory_state || true
   info "observatory=$OBSERVATORY_URL"
-  info "runtime_api_base=$RUNTIME_BASE"
+  info "runtime_api_base=$OBSERVATORY_RUNTIME_BASE"
   info "observatory_dir=$OBSERVATORY_DIR"
 }
 

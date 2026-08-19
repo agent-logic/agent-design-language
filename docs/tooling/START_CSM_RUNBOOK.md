@@ -39,7 +39,8 @@ HTML Observatory server:
 - Default Observatory base: `https://localhost:8765`
 - Fallback local port: `8766`
 - Static document root: `demos/html-observatory/`
-- Runtime API target: `ADL_CSM_RUNTIME_BASE` from `CSMctl.observatory.conf`
+- Runtime API target: `ADL_CSM_OBSERVATORY_RUNTIME_BASE` from
+  `CSMctl.observatory.conf`
 - macOS launchd label: `com.agentlogic.csm-observatory`
 
 The Runtime and Observatory do not need to be on the same machine. For normal
@@ -274,15 +275,13 @@ chmod 600 .adl/runtime-v3-service/CSMctl.observatory.conf
 For local testing:
 
 ```sh
-ADL_CSM_RUNTIME_BASE=https://localhost:20997
-ADL_CSM_RUNTIME_PUBLIC_BASE_URL=https://localhost:20997
+ADL_CSM_OBSERVATORY_RUNTIME_BASE=https://localhost:20997
 ```
 
 For AWS or another remote CSM:
 
 ```sh
-ADL_CSM_RUNTIME_BASE=https://runtime.example.com
-ADL_CSM_RUNTIME_PUBLIC_BASE_URL=https://runtime.example.com
+ADL_CSM_OBSERVATORY_RUNTIME_BASE=https://runtime.example.com
 ```
 
 For the local Observatory static server:
@@ -328,7 +327,7 @@ ADL_CSM_SERVICE_DIR=/path/to/.adl/runtime-v3-service ./CSMctl start
 ADL_CSM_KERNEL_BIN=/path/to/adl-runtime-kernel ./CSMctl start
 ADL_CSM_API_TLS_CERT=/path/to/fullchain.pem ADL_CSM_API_TLS_KEY=/path/to/privkey.pem ADL_CSM_API_TLS_TRUST_ROOTS=/path/to/ca.pem ./CSMctl start
 ADL_CSM_OBSERVATORY_CONFIG_FILE=/path/to/CSMctl.observatory.conf ./CSMctl observatory open
-ADL_CSM_RUNTIME_BASE=https://runtime.example.com ./CSMctl observatory open
+ADL_CSM_OBSERVATORY_RUNTIME_BASE=https://runtime.example.com ./CSMctl observatory open
 ```
 
 Do not put credential values in command arguments or reusable shell history.

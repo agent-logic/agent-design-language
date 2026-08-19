@@ -9,12 +9,10 @@
 
 # Runtime API consumed by the browser Observatory.
 # For local testing:
-ADL_CSM_RUNTIME_BASE=https://localhost:20997
-ADL_CSM_RUNTIME_PUBLIC_BASE_URL=https://localhost:20997
+ADL_CSM_OBSERVATORY_RUNTIME_BASE=https://localhost:20997
 
 # For an AWS Runtime, set these to the Runtime's public HTTPS origin instead:
-# ADL_CSM_RUNTIME_BASE=https://runtime.example.com
-# ADL_CSM_RUNTIME_PUBLIC_BASE_URL=https://runtime.example.com
+# ADL_CSM_OBSERVATORY_RUNTIME_BASE=https://runtime.example.com
 
 # Local static Observatory server.
 ADL_CSM_OBSERVATORY_REPO_ROOT=/path/to/agent-design-language
