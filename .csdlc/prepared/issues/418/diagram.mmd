@@ -1,0 +1,15 @@
+flowchart TD
+    A["Typed owner operation"] --> B{"Reproducible tooling regression?"}
+    B -- "No" --> X["Typed route only"]
+    B -- "Yes" --> C["Durable regression issue"]
+    C --> D["Explicit operation-scoped operator authorization"]
+    D --> E{"Allowlisted non-terminal operation?"}
+    E -- "No" --> Y["Fail closed"]
+    E -- "Yes" --> F["Append immutable intent receipt"]
+    F --> G["Run minimal redacted gh command"]
+    G --> H["Append immutable result receipt"]
+    H --> I["Freeze later lifecycle claims"]
+    I --> J["Typed remote reconciliation"]
+    J --> K{"Exact state reconciled?"}
+    K -- "No" --> Y
+    K -- "Yes" --> L["Resume typed lifecycle"]

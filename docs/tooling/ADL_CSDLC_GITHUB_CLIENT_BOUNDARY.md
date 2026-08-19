@@ -6,8 +6,10 @@ and pull-request operations.
 ## Canonical Entry Points
 
 GitHub work for C-SDLC v2 is owned by repo-native Rust binaries and the shared
-token resolver. Do not use the ChatGPT GitHub connector, raw `gh`, legacy
-wrappers, shell/Python lifecycle mutation, or AWS for covered lifecycle writes.
+token resolver. Do not use the ChatGPT GitHub connector, legacy wrappers,
+shell/Python lifecycle mutation, or AWS for covered lifecycle writes. Raw `gh`
+is also prohibited except for the separately audited break-glass transport
+defined below.
 
 The current command surface is split by responsibility:
 
@@ -16,8 +18,9 @@ Covered C-SDLC GitHub route owners: issue actions =
 `csdlc-publish`; terminal delivery = `csdlc-finish`.
 
 Route rule: the ChatGPT GitHub connector and raw `gh` are prohibited for
-covered lifecycle writes; missing or unavailable owner binaries fail closed
-and never authorize fallback.
+covered lifecycle writes except for the audited break-glass transport below. A
+missing binary, unfamiliar error, timeout, or operator preference is not by
+itself break-glass authority.
 
 - `csdlc-github-issue` owns GitHub issue lifecycle actions:
   `issue_create`, `issue_update`, `issue_comment`, `issue_close`, and
@@ -37,6 +40,29 @@ and never authorize fallback.
 Every issue/comment mutation must carry an `operation_key`. The GitHub command
 surface renders it as a stable marker, reads back remote state, and fails closed
 on missing, duplicated, or mismatched reconciliation.
+
+## Audited Break-Glass Boundary
+
+Typed C-SDLC v2 remains the default and final lifecycle authority. Raw `gh` is
+only emergency transport for a confirmed reproducible regression in the exact
+typed owner, after a durable tooling-regression issue and explicit
+operation-scoped operator authorization. It does not become lifecycle
+authority.
+
+The sole allowed canonical argv shapes, exact identity requirements,
+terminal/destructive denylist, mode-0600 body-file rule, three create-only
+receipt events, redaction contract, and mandatory typed reconciliation freeze
+are defined together in:
+
+- root `AGENTS.md`
+- `docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md`
+
+No merge, issue close, finish, cleanup, deletion, release, administration,
+secret/variable, workflow, force, bulk, API, alias, extension, or issue-create
+operation is in the exception. After a transported write, readiness, review,
+publication, merge-ready, terminal, and finish claims remain denied until the
+typed owner reconciles exact remote state and the immutable reconciliation
+event records success.
 
 ## Machine Output Termination
 
@@ -67,7 +93,7 @@ copied, persisted into tracked artifacts, or committed.
 A connector `403 Resource not accessible by integration` is an integration
 authorization failure. It is not evidence that the shared token resolver or
 operator-approved token failed, and it does not authorize connector retry or
-raw-`gh` fallback.
+the audited raw-`gh` exception.
 
 ## Split Issue And Code Repository Authority
 
