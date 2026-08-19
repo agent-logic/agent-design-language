@@ -60,7 +60,7 @@ concurrency = "group: ${{ github.repository }}:${{ github.workflow }}:${{ github
 errors << ".github/workflows/ci.yaml: concurrency key must unambiguously identify workflow, target, source repository, and source branch" unless ci.include?(concurrency)
 errors << ".github/workflows/ci.yaml: superseded revisions must cancel in progress" unless ci.include?("cancel-in-progress: true")
 
-heavy_selector = "runs-on: ${{ vars.ADL_HEAVY_RUNNER || 'adl-ubuntu-24.04-16core' }}"
+standard_runner = "runs-on: ubuntu-latest"
 light_jobs = %w[adl_path_policy adl_tooling_contracts adl_coverage_hosted adl-ci adl-coverage]
 ci.scan(/^  ([A-Za-z0-9_-]+):\n(.*?)(?=^  [A-Za-z0-9_-]+:\n|\z)/m).each do |job, body|
   runner_line = body.lines.find { |line| line.match?(/^    runs-on:/) }
@@ -69,11 +69,11 @@ ci.scan(/^  ([A-Za-z0-9_-]+):\n(.*?)(?=^  [A-Za-z0-9_-]+:\n|\z)/m).each do |job,
     errors << "ci.yaml #{job}: light classifier/aggregator must use ubuntu-latest" unless runner_line.strip == "runs-on: ubuntu-latest"
     next
   end
-  errors << "ci.yaml #{job}: selected required job must use the configured heavy runner" unless body.include?(heavy_selector)
+  errors << "ci.yaml #{job}: selected required job must use the standard GitHub-hosted runner" unless body.include?(standard_runner)
 
   header = body.split("runs-on:", 2).first
-  errors << "ci.yaml #{job}: required heavy job must depend on adl_path_policy" unless header.include?("adl_path_policy")
-  errors << "ci.yaml #{job}: required heavy job must have a job-level selector" unless header.match?(/^    if:/)
+  errors << "ci.yaml #{job}: required standard-runner job must depend on adl_path_policy" unless header.include?("adl_path_policy")
+  errors << "ci.yaml #{job}: required standard-runner job must have a job-level selector" unless header.match?(/^    if:/)
 end
 
 slow = job_block(ci, "adl-slow-proof")
@@ -113,7 +113,7 @@ result = {
   "schema" => "adl.ci.workflow-policy.v1",
   "status" => errors.empty? ? "pass" : "fail",
   "automatic_pr_entrypoint" => ".github/workflows/ci.yaml",
-  "required_heavy_runner" => "vars.ADL_HEAVY_RUNNER",
+  "required_runner" => "ubuntu-latest",
   "optional_policy" => "explicit_dispatch_only",
   "scheduled_heavy_validation" => "disabled",
   "workflow_count" => inventory.length,
