@@ -7,9 +7,9 @@
     "title": "[v0.92][Sprint 6][tools] Repair adl-review compatibility routing",
     "slug": "repair-adl-review-compatibility-routing",
     "version": "v0.92",
-    "generation": 30
+    "generation": 31
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -176,10 +176,10 @@
           "evidence_ref": ".csdlc/evidence/5913/review-finding-fix-long-fence-contract.log"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }
