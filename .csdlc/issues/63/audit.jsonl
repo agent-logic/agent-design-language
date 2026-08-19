@@ -30,3 +30,4 @@
 {"sequence":30,"generation":25,"actor":"codex:issue-63-post-merge-review","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":31,"generation":26,"actor":"subagent:63-exact-head-review","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":32,"generation":27,"actor":"codex:issue-63-republication","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":33,"generation":28,"actor":"codex:closeout-sweep-closed-merged-v092","reason":"Materialize terminal truth for closed issue #63 from merged PR #71.","operation":"materialize_derived_terminal"}
