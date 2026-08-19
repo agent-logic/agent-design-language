@@ -200,8 +200,8 @@ Current CI posture also includes bounded build acceleration:
 
 - `sccache` is installed in Rust lanes and wired through `RUSTC_WRAPPER`
 - `~/.cache/sccache` is persisted through the existing Rust cache action
-- `lld` is installed and asserted on GitHub-hosted Linux runners before Rust
-  acceleration is configured
+- `lld` is used as optional linker acceleration on GitHub-hosted Linux runners
+  when available; Rust lanes fall back to the default linker when it is absent
 - CI logs emit `sccache --show-stats` so operators can tell whether compiler
   output reuse is actually happening
 
@@ -209,8 +209,8 @@ Skills should treat this as throughput infrastructure, not proof by itself:
 
 - a green run still needs the correct validation lane
 - cache hits are supporting evidence about efficiency, not correctness
-- missing `lld` after the install step is a CI failure because the workflow is
-  explicitly claiming linker acceleration on the hosted runner path
+- missing `lld` is not a CI failure by itself; the workflow records default
+  linker fallback instead of claiming hosted-runner linker acceleration
 
 For local issue worktrees and remote builders, ADL also provides a bounded
 dependency-artifact warmup helper:
