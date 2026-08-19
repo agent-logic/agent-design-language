@@ -8,6 +8,8 @@ Create a coherent Observatory product that explains authentic Runtime authority 
 
 Design and information architecture can begin immediately. Implementation consumes only stable Runtime authority APIs. Runtime v4 changes trigger explicit rebaseline rather than silent adapter drift.
 
+Existing `#251` TLS 1.2 and `#122` Route53/ACM exposure may execute in parallel. Existing `#84` Unity Observatory preparation may proceed concurrently, but its final proving lane must consume terminal #251 and #122 evidence. OBS-A may proceed in parallel; OBS-B waits for OBS-A and the Unity/public-exposure convergence.
+
 ## Experience
 
 The redesign covers navigation, hierarchy, progressive disclosure, accessibility, keyboard use, screen readers, reduced motion, contrast, responsive layouts, and explicit empty, loading, degraded, refused, revoked, and recovery states.

@@ -4,7 +4,7 @@ Deliver a bounded, reviewed transfer package for corporate authority, intellectu
 
 ## Execution packages
 
-The eight prematurely retired planning issues `#153`-`#160` remain source and predecessor truth; they are not reopened. Issue `#433` owns four replacement execution packages:
+The eight prematurely retired planning issues `#153`-`#160` remain source and predecessor truth; they are not reopened. WP-01 will create four replacement execution packages, CORP-A through CORP-D:
 
 1. **CORP-A — IP and provenance:** asset inventory, provenance, licensing, trademark disposition, counsel-reviewed assignment, and corporate acceptance (`#153`-`#155`).
 2. **CORP-B — custody and recovery:** company billing, recovery, MFA, and vault custody (`#156`).

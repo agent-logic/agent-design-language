@@ -17,15 +17,15 @@ Issue #432 removes tracked dependencies on local untracked paths. It is the repo
 
 All six roots depend on #431 after #432. They may execute independently after those gates; no lane silently absorbs another.
 
-The active roots are #433 Corporate and IP, #434 C-SDLC v3, #435 Distributed multi-agent Runtime, the existing #51 podcast graph, #436 Axum configuration hot reload, and #437 Observatory redesign. #438 owns integration and release. #431 itself owns the v0.92.2 handoff.
+The existing executable graph is #432, #431, and podcast #51/#261-#264/#342. Every other execution and release-tail issue in this package is number-free planning truth; WP-01 creates those issues later in the exact catalog and dependency order. Premature placeholders #433-#438 are closed and must not be reused as execution authority. #431 owns the planning-time v0.92.2 handoff.
 
-Closed issues #149–#190 were prematurely retired planning packets, not delivered execution. Their requirements remain in the routing denominator: corporate #153–#160 is consolidated into four packages under #433; C-SDLC v3 #161–#180 into six packages under #434; Runtime #181–#187 under #435; and integration #188–#190 into the canonical release tail under #438. They are not reopened. The v0.92 tooling defect #387 is not part of the active milestone plan even if legacy labeling includes v0.92.1. #439 was closed as redundant with #431.
+Closed issues #149–#190 were prematurely retired planning packets, not delivered execution. Their requirements remain in the routing denominator: corporate #153–#160 is consolidated into CORP-A through CORP-D; C-SDLC v3 #161–#180 into V3-A through V3-F; Runtime #181–#187 into DRT-A through DRT-C; and integration #188–#190 into INT-01 plus the canonical release tail. They are not reopened. The v0.92 tooling defect #387 is not part of the active milestone plan even if legacy labeling includes v0.92.1. #433–#438 were closed as premature placeholders and #439 was closed as redundant with #431.
 
-Open backlog issues #84, #122, #251, and #345 are included explicitly as deferred routing truth. They are not silently promoted: Unity/public exposure remains gated by TLS 1.2, and the GPU Shepherd runner remains outside the CPU/r7i v0.92.1 qualification lane.
+Existing issues #251, #122, #84, and #345 are active v0.92.1 execution scope. #251 TLS 1.2, #122 Route53/ACM exposure, and #345 AWS GPU Shepherd hardening may execute in parallel; #84 Unity Observatory preparation may overlap them, while its final proof consumes #251 and #122. The distributed Runtime production qualification consumes #345 where GPU evidence is required.
 
 ## Canonical release tail
 
-After all six execution roots are terminal, #438 conducts the standard serial tail: demo/proof convergence; quality/coverage; docs/reviewer convergence; internal review; external review; findings remediation or explicit deferral; next-milestone planning; then release ceremony. These are distinct authority gates even where implementation work is consolidated.
+After all six execution roots are terminal, the planned integration conductor starts the same ten-step serial tail used by the preceding milestone standard: quality gate; docs and release-truth pass; publication finalization; internal review; external review; remediation/preflight; next-milestone planning; next-milestone closeout planning; next-milestone planning review; and release ceremony.
 
 ## Boundaries
 
@@ -46,6 +46,17 @@ v0.92.2 is the **CodeFriend Beta 1** milestone. The release train must make Code
 - [Work breakdown](WBS_v0.92.1.md)
 - [Sprint plan](SPRINT_v0.92.1.md)
 - [Issue wave](WP_ISSUE_WAVE_v0.92.1.yaml)
+- [Planned issue catalog](PLANNED_ISSUE_CATALOG_v0.92.1.md)
+- [Canonical document inventory](CANONICAL_DOC_INVENTORY_v0.92.1.md)
 - [Execution specifications](WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml)
+- [Execution readiness](WP_EXECUTION_READINESS_v0.92.1.md)
+- [Retirement ledger](WP_PREMATURE_ISSUE_RETIREMENT_v0.92.1.yaml)
 - [Feature plans](features/README.md)
+- [Feature proof coverage](FEATURE_PROOF_COVERAGE_v0.92.1.md)
+- [Quality gate](QUALITY_GATE_v0.92.1.md)
+- [Demo matrix](DEMO_MATRIX_v0.92.1.md)
+- [Milestone checklist](MILESTONE_CHECKLIST_v0.92.1.md)
+- [ADR plan](ADR_PLAN_v0.92.1.md)
+- [Release plan](RELEASE_PLAN_v0.92.1.md)
+- [Release notes](RELEASE_NOTES_v0.92.1.md)
 - [Next milestone handoff](NEXT_MILESTONE_HANDOFF_v0.92.1.md)

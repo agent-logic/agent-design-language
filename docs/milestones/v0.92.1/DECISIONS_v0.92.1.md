@@ -8,4 +8,6 @@
 6. **Observatory data is authentic.** Invented, mocked, or status-only authority is prohibited from release proof.
 7. **Runtime v4 triggers explicit replanning.** It is a risk and future input, not hidden milestone scope.
 8. **CodeFriend follows.** v0.92.2 owns CodeFriend Beta 1; the product must reach integrated beta availability by v0.95.
-9. **Closed packets are historical.** #149–#190 are reconciliation inputs, not active v0.92.1 execution. #433–#438 are the new lane and integration roots; #439 was closed as redundant because #431 owns the successor handoff.
+9. **Issue creation belongs to WP-01.** Closed packets #149–#190 are reconciliation inputs, not active execution. Premature placeholders #433–#438 are closed, #439 is redundant, and none is used as authority. WP-01 creates the number-free planned catalog only after this package lands.
+10. **Four existing backlog issues are promoted.** #251, #122, #84, and #345 are active v0.92.1 scope. #251, #122, and #345 may execute in parallel; #84 preparation may overlap them, but its final proof consumes #251 and #122.
+11. **The release tail follows the established ten-step standard.** Quality, docs/release truth, publication finalization, internal review, external review, remediation/preflight, next-milestone planning, closeout planning, next-milestone review, and ceremony remain distinct serial issues.

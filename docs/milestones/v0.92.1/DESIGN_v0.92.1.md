@@ -6,6 +6,8 @@
 
 The six roots are parallel after the shared opening gates. Cross-lane dependencies must be explicit issue edges, never assumed from document order.
 
+Within those lanes, #251 TLS 1.2, #122 public exposure, #345 GPU Shepherd hardening, OBS-A, and #84 preparation may proceed concurrently. #84 final proof joins #251 and #122; OBS-B joins OBS-A and #84; GPU-backed distributed qualification consumes #345.
+
 ## Lane contracts
 
 - Corporate and IP produces reviewed transfer, rights, account, and governance records without exposing private material.

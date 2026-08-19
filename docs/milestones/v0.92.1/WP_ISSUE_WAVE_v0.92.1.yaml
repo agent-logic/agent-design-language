@@ -15,7 +15,8 @@ work_packages:
   - id: CORP-01
     lane: corporate
     title: Corporate and IP transfer program
-    issue: 433
+    issue: null
+    creation_owner: WP-01
     depends_on: [WP-01]
     packages:
       - id: CORP-A
@@ -37,7 +38,8 @@ work_packages:
   - id: V3-01
     lane: csdlc_v3
     title: C-SDLC v3 implementation program
-    issue: 434
+    issue: null
+    creation_owner: WP-01
     depends_on: [WP-01]
     packages:
       - id: V3-A
@@ -67,8 +69,10 @@ work_packages:
   - id: DRT-01
     lane: distributed_runtime
     title: Distributed multi-agent Runtime qualification
-    issue: 435
+    issue: null
+    creation_owner: WP-01
     depends_on: [WP-01]
+    existing_issues: [345]
     packages:
       - id: DRT-A
         title: Qualification contract, deterministic ACIP authority, and replay conformance
@@ -77,7 +81,7 @@ work_packages:
       - id: DRT-B
         title: Multi-agent UTS production work and hybrid Spot continuity
         predecessor_issues: [183, 184]
-        depends_on: [DRT-A]
+        depends_on: [DRT-A, issue-345]
       - id: DRT-C
         title: Identity and provider failure, Observatory evidence, soak, cleanup, and synthesis
         predecessor_issues: [185, 186, 187]
@@ -90,30 +94,48 @@ work_packages:
   - id: HOT-01
     lane: runtime_hot_reload
     title: Axum configuration hot reload
-    issue: 436
+    issue: null
+    creation_owner: WP-01
     depends_on: [WP-01]
   - id: OBS-01
     lane: observatory_redesign
     title: Observatory redesign
-    issue: 437
+    issue: null
+    creation_owner: WP-01
     depends_on: [WP-01]
+    existing_issues: [251, 122, 84]
+    existing_issue_order:
+      - issue: 251
+        depends_on: []
+      - issue: 122
+        depends_on: []
+      - issue: 84
+        depends_on: [251, 122]
+    packages:
+      - id: OBS-A
+        title: Observatory information architecture, interaction, and accessibility redesign
+        depends_on: []
+      - id: OBS-B
+        title: Authentic Runtime projections, implementation, and state/failure proof
+        depends_on: [OBS-A, issue-84]
   - id: INT-01
     lane: integration
     title: Release-tail coordination root
-    issue: 438
+    issue: null
+    creation_owner: WP-01
     depends_on: [CORP-01, V3-01, DRT-01, POD-01, HOT-01, OBS-01]
   - id: TAIL-01
     lane: release_tail
-    title: Demo and proof convergence
+    title: Quality gate
     predecessor_issues: [188]
     depends_on: [INT-01]
   - id: TAIL-02
     lane: release_tail
-    title: Quality and coverage gate
+    title: Docs and release-truth pass
     depends_on: [TAIL-01]
   - id: TAIL-03
     lane: release_tail
-    title: Documentation and reviewer-entry convergence
+    title: Publication finalization
     depends_on: [TAIL-02]
   - id: TAIL-04
     lane: release_tail
@@ -135,17 +157,14 @@ work_packages:
     depends_on: [TAIL-06]
   - id: TAIL-08
     lane: release_tail
+    title: Next-milestone closeout planning
+    depends_on: [TAIL-07]
+  - id: TAIL-09
+    lane: release_tail
+    title: Next-milestone planning review
+    depends_on: [TAIL-08]
+  - id: TAIL-10
+    lane: release_tail
     title: Release ceremony, final validation, notes, tag, and cleanup
     predecessor_issues: [189]
-    depends_on: [TAIL-07]
-backlog_disposition:
-  included_deferred:
-    - issue: 84
-      reason: Unity Observatory remains blocked on TLS 1.2 and public exposure prerequisites.
-    - issue: 122
-      reason: Public Route53 and ACM exposure remains deferred with the Unity path.
-    - issue: 251
-      reason: TLS 1.2 support remains a prerequisite backlog item, not v0.92.1 execution scope.
-    - issue: 345
-      reason: AWS GPU Shepherd hardening remains deferred; the v0.92.1 Runtime lane is CPU and r7i focused.
-  rule: Included for milestone routing truth without promotion into active execution.
+    depends_on: [TAIL-09]

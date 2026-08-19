@@ -12,6 +12,7 @@ FEATURE_LIST = ROOT / "docs/planning/ADL_FEATURE_LIST.md"
 surface_names = [
     "README.md", "VISION_v0.92.1.md", "DESIGN_v0.92.1.md",
     "DECISIONS_v0.92.1.md", "WBS_v0.92.1.md", "SPRINT_v0.92.1.md",
+    "CANONICAL_DOC_INVENTORY_v0.92.1.md", "PLANNED_ISSUE_CATALOG_v0.92.1.md",
     "WP_ISSUE_WAVE_v0.92.1.yaml", "WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
     "WP_PREMATURE_ISSUE_RETIREMENT_v0.92.1.yaml",
     "DEMO_MATRIX_v0.92.1.md", "MILESTONE_CHECKLIST_v0.92.1.md",
@@ -20,6 +21,9 @@ surface_names = [
     "WP_EXECUTION_READINESS_v0.92.1.md", "ADR_PLAN_v0.92.1.md",
     "NEXT_MILESTONE_HANDOFF_v0.92.1.md", "features/README.md",
     "features/PODCAST_PUBLICATION_AND_STUDIO_v0.92.1.md",
+    "features/CORPORATE_AND_IP_TRANSFER_v0.92.1.md",
+    "features/CSDLC_V3_v0.92.1.md",
+    "features/DISTRIBUTED_MULTI_AGENT_RUNTIME_QUALIFICATION_v0.92.1.md",
     "features/AXUM_CONFIGURATION_HOT_RELOAD_v0.92.1.md",
     "features/OBSERVATORY_REDESIGN_v0.92.1.md",
     "features/REPOSITORY_AUTHORITY_NO_ADL_PATHS_v0.92.1.md",
@@ -80,13 +84,22 @@ if "REP-01" not in wave_packages.get("WP-01", {}).get("depends_on", []):
 for root_id in ["CORP-01", "V3-01", "DRT-01", "POD-01", "HOT-01", "OBS-01"]:
     if "WP-01" not in wave_packages.get(root_id, {}).get("depends_on", []):
         errors.append(f"ordering:{root_id}-must-depend-on-WP-01")
-expected_issue_routing = {
-    "CORP-01": 433, "V3-01": 434, "DRT-01": 435, "HOT-01": 436,
-    "OBS-01": 437, "INT-01": 438,
-}
-for package_id, issue_number in expected_issue_routing.items():
-    if wave_packages.get(package_id, {}).get("issue") != issue_number:
-        errors.append(f"issue-routing:{package_id}:expected={issue_number}")
+planned_roots = {"CORP-01", "V3-01", "DRT-01", "HOT-01", "OBS-01", "INT-01"}
+for package_id in planned_roots:
+    package = wave_packages.get(package_id, {})
+    if package.get("issue") is not None or package.get("creation_owner") != "WP-01":
+        errors.append(f"issue-routing:{package_id}:must-remain-number-free-for-WP-01")
+if wave_packages.get("DRT-01", {}).get("existing_issues") != [345]:
+    errors.append("active-existing-routing:DRT-01:expected=[345]")
+if wave_packages.get("OBS-01", {}).get("existing_issues") != [251, 122, 84]:
+    errors.append("active-existing-routing:OBS-01:expected=[251,122,84]")
+observatory_order = wave_packages.get("OBS-01", {}).get("existing_issue_order", [])
+if observatory_order != [
+    {"issue": 251, "depends_on": []},
+    {"issue": 122, "depends_on": []},
+    {"issue": 84, "depends_on": [251, 122]},
+]:
+    errors.append("active-existing-order:OBS-01")
 expected_predecessors = {
     "CORP-01": set(range(153, 161)),
     "V3-01": set(range(161, 181)),
@@ -98,12 +111,26 @@ for root_id, expected in expected_predecessors.items():
         actual.update(package.get("predecessor_issues", []))
     if actual != expected:
         errors.append(f"predecessor-denominator:{root_id}:expected={sorted(expected)}:actual={sorted(actual)}")
-tail_ids = [f"TAIL-{number:02d}" for number in range(1, 9)]
+tail_ids = [f"TAIL-{number:02d}" for number in range(1, 11)]
+tail_titles = [
+    "Quality gate",
+    "Docs and release-truth pass",
+    "Publication finalization",
+    "Internal milestone review",
+    "External or third-party review",
+    "Accepted-findings remediation or explicit deferral capture",
+    "Next-milestone planning and CodeFriend Beta 1 handoff",
+    "Next-milestone closeout planning",
+    "Next-milestone planning review",
+    "Release ceremony, final validation, notes, tag, and cleanup",
+]
 for index, tail_id in enumerate(tail_ids):
     if tail_id not in wave_packages:
         errors.append(f"release-tail-missing:{tail_id}")
     elif index and wave_packages[tail_id].get("depends_on") != [tail_ids[index - 1]]:
         errors.append(f"release-tail-order:{tail_id}")
+    if tail_id in wave_packages and wave_packages[tail_id].get("title") != tail_titles[index]:
+        errors.append(f"release-tail-title:{tail_id}")
 
 required_semantics = {
     M / "README.md": ["#432", "WP-28 #316", "Runtime v4", "v0.92.2", "CodeFriend Beta 1"],
@@ -111,6 +138,8 @@ required_semantics = {
     M / "NEXT_MILESTONE_HANDOFF_v0.92.1.md": ["WP-28 #316", "v0.92.2", "CodeFriend Beta 1", "v0.95"],
     FEATURE_LIST: ["`v0.92.1`", "`v0.92.2`", "CodeFriend Beta 1", "v0.95"],
     M / "features/OBSERVATORY_REDESIGN_v0.92.1.md": ["stable", "Runtime", "invented data", "accessibility"],
+    M / "CANONICAL_DOC_INVENTORY_v0.92.1.md": ["WBS_v0.92.1.md", "SPRINT_v0.92.1.md", "#251", "#122", "#84", "#345", "TAIL-10", "number-free"],
+    M / "PLANNED_ISSUE_CATALOG_v0.92.1.md": ["#251", "#122", "#84", "#345", "CORP-A", "CORP-D", "V3-A", "V3-F", "DRT-A", "DRT-C", "HOT-01", "OBS-A", "OBS-B", "INT-01", "TAIL-01", "TAIL-10"],
 }
 for path, markers in required_semantics.items():
     text = texts.get(path, "")
@@ -161,12 +190,12 @@ for issue in [51, 84, 122, 251, 261, 262, 263, 264, 316, 317, 342, 345, 431, 432
         digest = hashlib.sha256((json.dumps(canonical, sort_keys=True, separators=(",", ":")) + "\n").encode()).hexdigest()
         if digest != baseline["issues"][str(issue)]["canonical_json_sha256"]:
             errors.append(f"wp28-drift:{issue}")
-    elif issue == 439:
+    elif issue in (433, 434, 435, 436, 437, 438, 439):
         if payload["state"] != "CLOSED":
-            errors.append("redundant-issue-439-must-remain-closed")
+            errors.append(f"retired-placeholder-must-remain-closed:{issue}")
     elif issue in (84, 122, 251, 345):
-        if payload["state"] != "OPEN" or "track:backlog" not in labels:
-            errors.append(f"backlog-routing-drift:{issue}")
+        if payload["state"] != "OPEN":
+            errors.append(f"active-existing-issue-must-remain-open:{issue}")
     elif payload["state"] != "OPEN" or "version:v0.92.1" not in labels:
         errors.append(f"live-routing-drift:{issue}")
 
