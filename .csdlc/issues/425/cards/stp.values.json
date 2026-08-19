@@ -1,0 +1,60 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 425,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Recover recordless already-merged closeout authority",
+    "slug": "recordless-already-merged-closeout-recovery",
+    "version": "v0.92",
+    "generation": 4
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Implement only #425 C-SDLC v2 tooling recovery/classification for recordless already-merged closeout authority and focused tests; do not perform unrelated closeout/manual card synthesis.",
+      "deliverables": [
+        "csdlc-v2/src/finish.rs",
+        "csdlc-v2/src/cleanup.rs",
+        "csdlc-v2/src/store.rs",
+        "csdlc-v2/src/bin/csdlc-finish.rs",
+        "csdlc-v2/tests/gate_recordless_closeout.rs",
+        ".csdlc/issues/425",
+        ".csdlc/prepared/issues/425"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Typed request requires issue, repository, merged PR, expected head SHA, merge SHA, actor, reason, token source, and recovery mode classify_only or recordless_terminal.",
+        "AC-2: Route proves live GitHub issue is closed by exact merged PR and PR head/merge/linkage/repository match the request.",
+        "AC-3: Route refuses open issue, open/unmerged PR, wrong repository, wrong issue linkage, wrong head SHA, wrong merge SHA, ambiguous closing PRs, missing token source, and contradictory retained evidence.",
+        "AC-4: Route does not mutate product files, edit GitHub state, rewrite historical issue/card records, or claim absent review/implementation evidence.",
+        "AC-5: #248-style contradictory precedence is classified fail-closed with no merged receipt.",
+        "AC-6: No-projection residuals produce safe recordless receipts or machine-readable fail-closed blockers.",
+        "AC-7: Positive tests cover recordless closed-by-merged issue with exact PR evidence and no issue index at PR head.",
+        "AC-8: Negative tests cover contradictory publication precedence, missing closing keyword, wrong head SHA, wrong merge SHA, wrong repository, unmerged PR, and ambiguous closure.",
+        "AC-9: v0.92 closeout sweep can rerun and leave either 92/92 receipts or only irreducible contradictory blockers."
+      ],
+      "dependencies": [
+        "#425 live GitHub issue body updated to current nine-residual truth",
+        "retained blocker packet .git/csdlc-v2/closeout-blockers/v092-closed-merged-no-projection-residuals-20260818T2315Z.json",
+        "current csdlc-v2 typed finish/clean/publication code on main"
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#425",
+        "csdlc-v2/src/finish.rs",
+        "csdlc-v2/src/cleanup.rs",
+        "csdlc-v2/src/store.rs",
+        "csdlc-v2/src/bin/csdlc-finish.rs",
+        "csdlc-v2/tests",
+        "retained v0.92 closeout blocker packets"
+      ],
+      "non_goals": [
+        "Product Runtime, Observatory, provider, Unity, AWS, or documentation behavior changes",
+        "Raw GitHub writes",
+        "Manual lifecycle/card synthesis",
+        "Weakening ordinary active issue publication requirements",
+        "Resolving #248 precedence by assumption"
+      ]
+    }
+  }
+}

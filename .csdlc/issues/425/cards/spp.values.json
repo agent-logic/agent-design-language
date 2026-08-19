@@ -1,0 +1,98 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 425,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Recover recordless already-merged closeout authority",
+    "slug": "recordless-already-merged-closeout-recovery",
+    "version": "v0.92",
+    "generation": 4
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Bootstrap #425, review the design, bind a FastWork worktree, implement typed recordless/no-projection closeout recovery/classification with focused tests, validate, fresh-review, publish if green, then rerun eligible v0.92 residual closeouts.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Bootstrap and design-review the #425 recordless closeout recovery contract.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Implement typed request/result parsing, live authority validation, no-projection classification, contradictory-evidence refusal, and recordless terminal receipt materialization.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Add focused positive and negative tests for recordless closeout recovery and no-projection blockers.",
+          "acceptance_ids": [
+            "AC-7",
+            "AC-8"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Run focused validation, fresh exact-head review, publish if green, and rerun v0.92 residual closeout where safe.",
+          "acceptance_ids": [
+            "AC-9"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "csdlc-v2/src/finish.rs",
+        "csdlc-v2/src/cleanup.rs",
+        "csdlc-v2/src/store.rs",
+        "csdlc-v2/src/bin/csdlc-finish.rs",
+        "csdlc-v2/tests/gate_recordless_closeout.rs",
+        ".csdlc/issues/425",
+        ".csdlc/prepared/issues/425"
+      ],
+      "invariants": [
+        "Recordless recovery cannot claim absent review/implementation/card evidence",
+        "Exact live GitHub state must match requested issue, PR, head SHA, merge SHA, and closing linkage",
+        "Contradictory retained publication evidence fails closed",
+        "Normal publication/finish behavior remains strict for active issues"
+      ],
+      "risks": [
+        "Recordless receipts could be mistaken for normal implementation proof unless explicitly marked",
+        "GitHub closing-linkage parsing could differ from GitHub closure semantics",
+        "Existing retained caches may reveal precedence conflicts that must block closeout"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "Design review rejects recordless terminal semantics",
+        "Implementation would require product or raw GitHub writes",
+        "Focused tests cannot distinguish contradictory precedence",
+        "Validation/review fails"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/425/design.md",
+      "design_digest": "c638a8436ab15d5674274765a3bb846ea607634b0ee7bdbb9e299139f2481e99",
+      "diagram_ref": ".csdlc/prepared/issues/425/diagram.mmd",
+      "diagram_digest": "cead0c7fe405f4400fff0cca3845eb7ea64b4901928414b0ac8be7c06317481a"
+    }
+  }
+}
