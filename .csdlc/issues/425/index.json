@@ -4,42 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d98a8d900cde7810150f96c65b587a7763b677cf58610771289dd359b4be5b19",
-  "phase": "reviewed",
-  "generation": 9,
-  "digest": "03724d46928fc6d66e02b49565f160cc0c8530e394e87cd2ae107b9b5f13afa0",
+  "phase": "implemented",
+  "generation": 10,
+  "digest": "98ffbc09d4a87951f43a48b8420075d5667090cc4b5621396568f1433f560d46",
   "branch": "codex/425-recordless-closeout-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-425-recordless-closeout-recovery",
-  "review_assignment": {
-    "reviewer": "fresh-session:e4d1dfc3-4ad0-4bb1-a21b-ae295968da79",
-    "assigned_by": "codex-worker-4",
-    "revision": "git-blake3:9d308e685ab9b87553683bae2c54c182dae46e6a:e45ff9fd06dcd1be762631510ea9c0fdba24b55211c9f23462759d8cb7c464d4",
-    "scope": [
-      "csdlc-v2/src/bin/csdlc-finish.rs",
-      "csdlc-v2/src/finish.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/tests/gate_recordless_closeout.rs",
-      ".csdlc/evidence/425-v092-residual-dry-run-result.json",
-      ".csdlc/issues/425"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:e4d1dfc3-4ad0-4bb1-a21b-ae295968da79",
-    "scope": [
-      "csdlc-v2/src/bin/csdlc-finish.rs",
-      "csdlc-v2/src/finish.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/tests/gate_recordless_closeout.rs",
-      ".csdlc/evidence/425-v092-residual-dry-run-result.json",
-      ".csdlc/issues/425"
-    ],
-    "reviewed_revision": "git-blake3:9d308e685ab9b87553683bae2c54c182dae46e6a:e45ff9fd06dcd1be762631510ea9c0fdba24b55211c9f23462759d8cb7c464d4",
-    "findings": [],
-    "residual_risks": [
-      "Reviewer did not rerun broader cargo check or live GitHub dry-run; implementer had already run cargo check and refreshed retained live dry-run evidence after the P1 fix."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -54,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "895f7ca60799e20c7d465a7cdbf2ca7c2d57bfd9fff4ee4b415a7a67c2afe658",
+      "values_digest": "9340d6676391fcbf5a7703df1336ca6539e8433fcbc4c80dde6d23fd7c51cafe",
       "rendered_digest": "cc83623a3de6c8063b7db5e0c3a0ba3924aa50ac071e49476c34290fc886bc5a",
       "ast_digest": "1dd75a8295155fbe787c7264ab83bd0f5eaf04da00ce64b71f8d06514a89e325"
     },
     "stp": {
-      "values_digest": "cc323538f2e3d4c5771c009005fc6329cbb816ac49df219cfc707958a2f58678",
+      "values_digest": "018004bf9d0a4854fd5b2955788df9750c0059b4c53fe5ec8681a061dd3b289a",
       "rendered_digest": "bf04bc821ead770f8bb048a8163d3a4d6d74769d4ffba2ddda54e28f33ab2a84",
       "ast_digest": "44c14d7d86cec8e8c7ae792a5b3d8d6dfc3554f3a150984bc7a5b09ba2930571"
     },
     "spp": {
-      "values_digest": "ae6232f49a87de95569822c20c429cf6dda8f2cc5447796eb47fc93e237b6f5b",
+      "values_digest": "3d8ec29024c56600e96cc7ab67d33b4f909eeedc385e5158ab5488a619a6b7c7",
       "rendered_digest": "1a6d536268cc7d3ec39c45272b17ff50736ff2f4e09854cb33a29c193e7e3847",
       "ast_digest": "276c05c7408db0cb043143a4df1b240a8277df6e0cbffcc659efe10f2cec7a5b"
     },
     "vpp": {
-      "values_digest": "e4454ac65869110fe38ec5d09976f445840851719d62c9dd621b89f99d382ec9",
+      "values_digest": "3183c30d996fae4dbf2be601e8b93e3943de509c90736657f5567877cf25daed",
       "rendered_digest": "6c19c5636e13f7135afe61469801392e2a753414aedba2398c792d6db155ab5a",
       "ast_digest": "dc064a1b29d4ffce555b1ffa93a65466b5adfe914df83ce7126a441ac99c6e03"
     },
     "srp": {
-      "values_digest": "9daa1dfcc29bc8e2c0ad74788c68b7e1fc55a0f0598d3b37987d8d35ec79ab17",
-      "rendered_digest": "a36ec85a241d6bc2bdaddda6b66b6fa78c60bcbf989376746ffd310fc0b36688",
-      "ast_digest": "1ded417ccb384fed9061b550e521dbcc2d2672bb33b89dd0436113c813868330"
+      "values_digest": "3e79f78735fa485c4b287f9273a8028d418b159ec4ed3accd93499584ec7cc1e",
+      "rendered_digest": "ac7b89136057e5af0de22d13f0f398940c48a729224586d0373e2328e6f578fd",
+      "ast_digest": "f542a55e0266532978da258547185b7587ee0d0f8956b492f6dbb0a225f25dfd"
     },
     "sor": {
-      "values_digest": "d1bafeb4b4cd2e535d5559278174dd15b8e0c7a21f18ee7ba73b930a571eb6b1",
+      "values_digest": "64ec0b0f1dc0b70cfd9a0a5f8ecd4dd9648283079d666a6de8c7fc36aa4e85ba",
       "rendered_digest": "3927b554d7354e81ba494a379d8d5650e63cfbb91613af8cb47d9877fafe1189",
       "ast_digest": "b9a8e0d35d775cf9ce7629151fbffe8e72898f76d5a5f5cf1baf2ae76ffd1310"
     }
@@ -112,6 +83,13 @@
       "to": "reviewed",
       "actor": "codex-worker-4",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex-worker-4",
+      "reason": "recover reviewed state for exact re-review after publication guard rejected tracked request-file drift"
     }
   ],
   "audit": [
@@ -212,6 +190,13 @@
       "actor": "codex-worker-4",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex-worker-4",
+      "reason": "recover reviewed state for exact re-review after publication guard rejected tracked request-file drift",
+      "operation": "recover_review"
     }
   ]
 }
