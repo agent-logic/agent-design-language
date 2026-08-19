@@ -123,6 +123,11 @@ def main() -> int:
         default="build_cache",
     )
     parser.add_argument("--estimated-hourly-cost-usd", required=True, type=float)
+    parser.add_argument(
+        "--validation-environment",
+        choices=("immutable_builder", "direct_host_runtime"),
+        default="immutable_builder",
+    )
     parser.add_argument("--runner-exit-code", required=True, type=int)
     args = parser.parse_args()
 
@@ -200,14 +205,18 @@ def main() -> int:
     require(launch_surface.get("ssh_debug_enabled") is True, failures, "ssh_debug_not_enabled")
     require("status=ssh_debug_ready" in command_status, failures, "ssh_recovery_not_proven")
     require("status=ssh_tail_started" in command_status, failures, "live_ssh_tail_not_proven")
-    require(builder.get("builder_image_immutable") is True, failures, "builder_image_not_immutable")
-    require(builder.get("builder_image_digest_sha256") == expected_digest_hash, failures, "builder_image_digest_mismatch")
-    require(builder.get("toolchain_verified") is True, failures, "builder_toolchain_not_verified")
-    require(builder.get("source_commit_verified") is True, failures, "source_commit_not_verified")
-    require(builder.get("source_commit") == args.expected_source_commit, failures, "source_commit_mismatch")
-    require(builder.get("cache_mount_verified") is True, failures, "cache_mount_not_verified")
-    require(builder.get("cache_writable") is True, failures, "cache_not_writable")
-    require(builder.get("host_validation_tools_installed") is False, failures, "host_validation_tool_install_detected")
+    if args.validation_environment == "immutable_builder":
+        require(builder.get("builder_image_immutable") is True, failures, "builder_image_not_immutable")
+        require(builder.get("builder_image_digest_sha256") == expected_digest_hash, failures, "builder_image_digest_mismatch")
+        require(builder.get("toolchain_verified") is True, failures, "builder_toolchain_not_verified")
+        require(builder.get("source_commit_verified") is True, failures, "source_commit_not_verified")
+        require(builder.get("source_commit") == args.expected_source_commit, failures, "source_commit_mismatch")
+        require(builder.get("cache_mount_verified") is True, failures, "cache_mount_not_verified")
+        require(builder.get("cache_writable") is True, failures, "cache_not_writable")
+        require(builder.get("host_validation_tools_installed") is False, failures, "host_validation_tool_install_detected")
+    else:
+        require(remote.get("validation_environment") == "direct_host_runtime", failures, "direct_host_runtime_not_verified")
+        require(remote.get("resolved_commit") == args.expected_source_commit, failures, "source_commit_mismatch")
 
     total_seconds = int(timings.get("total_seconds") or 0)
     estimated_cost = round(args.estimated_hourly_cost_usd * total_seconds / 3600.0, 6)
@@ -215,6 +224,7 @@ def main() -> int:
         "passed": not failures,
         "failures": failures,
         "account_verified_by_wrapper": True,
+        "validation_environment": args.validation_environment,
         "spot_purchase_verified": launch.get("purchase_option") == "spot",
         "retained_volume_role": args.expected_retained_volume_role,
         "immutable_builder_image_verified": builder.get("builder_image_immutable") is True,

@@ -99,4 +99,11 @@ PY
 
 # The six-hour guardian begins only after the resident population has proven
 # useful work across a closed-admission dehydration/restore cycle.
+if [[ "$GUARDIAN" == "$ROOT/adl/tools/validate_v092_runtime_guardian_lifecycle.sh" ]] \
+    && [[ ! -x "${ADL_RUNTIME_VECTOR_BIN:-}" ]] \
+    && ! command -v vector >/dev/null 2>&1; then
+  export ADL_VECTOR_INSTALL_ROOT="$BUILD_CACHE_ROOT/vector"
+  bash "$ROOT/adl/tools/install_vector_component.sh"
+  export ADL_RUNTIME_VECTOR_BIN="$ADL_VECTOR_INSTALL_ROOT/bin/vector"
+fi
 bash "$GUARDIAN" --suite six_hour_qualification

@@ -928,8 +928,17 @@ if [[ "$CHECK_ACCOUNT" == true || "$RUN" == true ]]; then
   check_account
 fi
 
+DIRECT_HOST_RUNTIME=false
+VALIDATION_ENVIRONMENT=immutable_builder
+if [[ "$COMMAND" == "bash adl/tools/run_issue268_remote_resident_qualification.sh" ]]; then
+  DIRECT_HOST_RUNTIME=true
+  VALIDATION_ENVIRONMENT=direct_host_runtime
+fi
+
 if [[ "$RUN" == true || "$ACTION" == "preflight" ]]; then
-  resolve_builder_image
+  if [[ "$DIRECT_HOST_RUNTIME" != true ]]; then
+    resolve_builder_image
+  fi
   resolve_spot_hourly_cost
   validate_portable_capacity_and_cost
   resolve_and_verify_retained_topology
@@ -1007,12 +1016,16 @@ fi
 
 if [[ -n "$COMMAND" ]]; then
   if [[ "$RUN" == true ]]; then
-    remote_command="bash adl/tools/run_aws_spot_builder_image_validation.sh"
-    remote_command+=" --image $(shell_quote "$BUILDER_IMAGE")"
-    remote_command+=" --expected-ref $(shell_quote "$SOURCE_COMMIT")"
-    remote_command+=" --expected-architecture $(shell_quote "$EXPECTED_ARCHITECTURE")"
-    remote_command+=" --min-cache-free-gib $(shell_quote "$MIN_CACHE_FREE_GIB")"
-    remote_command+=" --command $(shell_quote "$COMMAND")"
+    if [[ "$DIRECT_HOST_RUNTIME" == true ]]; then
+      remote_command="$COMMAND"
+    else
+      remote_command="bash adl/tools/run_aws_spot_builder_image_validation.sh"
+      remote_command+=" --image $(shell_quote "$BUILDER_IMAGE")"
+      remote_command+=" --expected-ref $(shell_quote "$SOURCE_COMMIT")"
+      remote_command+=" --expected-architecture $(shell_quote "$EXPECTED_ARCHITECTURE")"
+      remote_command+=" --min-cache-free-gib $(shell_quote "$MIN_CACHE_FREE_GIB")"
+      remote_command+=" --command $(shell_quote "$COMMAND")"
+    fi
     cmd+=(--command "$remote_command")
   else
     cmd+=(--command "$COMMAND")
@@ -1095,6 +1108,7 @@ execute_run() {
     --expected-image "$BUILDER_IMAGE" \
     --expected-cache-volume-id-sha256 "$EXPECTED_CACHE_VOLUME_ID_SHA256" \
     --expected-retained-volume-role "$retained_volume_role" \
+    --validation-environment "$VALIDATION_ENVIRONMENT" \
     --estimated-hourly-cost-usd "$ESTIMATED_HOURLY_COST_USD" \
     --runner-exit-code "$runner_status" \
     >"$ARTIFACT_DIR/finalize.out" 2>"$ARTIFACT_DIR/finalize.err" || finalize_status="$?"

@@ -146,7 +146,7 @@ cat >"$out" <<JSON
   "cleanup":{"termination_attempted":true,"final_instance_state":"terminated","termination_error":null},
   "launch_surface":{"ssh_debug_enabled":true,"vpc_id":"vpc-0123456789abcdef0","subnet_id":"subnet-0123456789abcdef0","security_group_id":"sg-0123456789abcdef0"},
   "timings":{"total_seconds":120,"launch_seconds":20,"ssm_ready_seconds":10,"remote_command_seconds":80,"teardown_seconds":10},
-  "remote_summary":{"builder_proof":{"builder_image_immutable":true,"builder_image_digest_sha256":"${ADL_FAKE_EXPECTED_IMAGE_DIGEST_HASH:?}","toolchain_verified":true,"source_commit_verified":true,"source_commit":"${ADL_FAKE_EXPECTED_SOURCE:?}","cache_mount_verified":true,"cache_writable":true,"host_validation_tools_installed":false,"builder_image_architecture":"amd64","cache_target_preexisting_entries":5,"cache_target_preexisting_bytes":4096,"cache_free_bytes":90000000000,"validation_seconds":73}}
+  "remote_summary":{"validation_environment":"direct_host_runtime","resolved_commit":"${ADL_FAKE_EXPECTED_SOURCE:?}","builder_proof":{"builder_image_immutable":true,"builder_image_digest_sha256":"${ADL_FAKE_EXPECTED_IMAGE_DIGEST_HASH:?}","toolchain_verified":true,"source_commit_verified":true,"source_commit":"${ADL_FAKE_EXPECTED_SOURCE:?}","cache_mount_verified":true,"cache_writable":true,"host_validation_tools_installed":false,"builder_image_architecture":"amd64","cache_target_preexisting_entries":5,"cache_target_preexisting_bytes":4096,"cache_free_bytes":90000000000,"validation_seconds":73}}
 }
 JSON
 cat >"$artifact_dir/command-status.log" <<'LOG'
@@ -155,7 +155,7 @@ cat >"$artifact_dir/command-status.log" <<'LOG'
 LOG
 cat >"$artifact_dir/command-stdout.log" <<JSON
 ADL_AWS_REMOTE_SUMMARY_BEGIN
-{"builder_proof":{"builder_image_immutable":true,"builder_image_digest_sha256":"${ADL_FAKE_EXPECTED_IMAGE_DIGEST_HASH}","toolchain_verified":true,"source_commit_verified":true,"source_commit":"${ADL_FAKE_EXPECTED_SOURCE}","cache_mount_verified":true,"cache_writable":true,"host_validation_tools_installed":false,"builder_image_architecture":"amd64","cache_target_preexisting_entries":5,"cache_target_preexisting_bytes":4096,"cache_free_bytes":90000000000,"validation_seconds":73}}
+{"validation_environment":"direct_host_runtime","resolved_commit":"${ADL_FAKE_EXPECTED_SOURCE}","builder_proof":{"builder_image_immutable":true,"builder_image_digest_sha256":"${ADL_FAKE_EXPECTED_IMAGE_DIGEST_HASH}","toolchain_verified":true,"source_commit_verified":true,"source_commit":"${ADL_FAKE_EXPECTED_SOURCE}","cache_mount_verified":true,"cache_writable":true,"host_validation_tools_installed":false,"builder_image_architecture":"amd64","cache_target_preexisting_entries":5,"cache_target_preexisting_bytes":4096,"cache_free_bytes":90000000000,"validation_seconds":73}}
 ADL_AWS_REMOTE_SUMMARY_END
 JSON
 if [[ "$status" == "resumed_after_interruption" ]]; then
@@ -462,6 +462,32 @@ assert len(parts[parts.index("--expected-ref") + 1]) == 40
 assert parts[parts.index("--expected-architecture") + 1] == "x86_64"
 assert parts[parts.index("--min-cache-free-gib") + 1] == "10"
 assert parts[parts.index("--command") + 1].startswith("cargo test")
+PY
+
+ADL_FAKE_AWS_REMOTE_ARGS="$TMP/issue268-args.txt" \
+ADL_FAKE_EXPECTED_SOURCE="$(git -C "$ROOT" rev-parse origin/main)" \
+ADL_FAKE_EXPECTED_IMAGE_DIGEST_HASH="$(python3 -c 'import hashlib; print(hashlib.sha256(b"").hexdigest())')" \
+ADL_AWS_CLI="$fake_bin/aws" \
+bash "$SCRIPT" \
+  --run \
+  --expected-proof "$proof" \
+  --bin "$fake_bin/adl-aws-remote-validation" \
+  --run-id fixture-issue268-direct \
+  --estimated-hourly-cost-usd 0.15 \
+  --ssh-private-key-path "$test_ssh_key" \
+  --command "bash adl/tools/run_issue268_remote_resident_qualification.sh" \
+  --git-ref origin/main \
+  --out "$TMP/issue268-summary.json" \
+  --artifact-dir "$TMP/issue268-artifacts" \
+  --instance-type r7i.2xlarge \
+  --max-run-seconds 900 \
+  --json >"$TMP/issue268-run.out"
+python3 - "$TMP/issue268-args.txt" <<'PY'
+import sys
+args = open(sys.argv[1], encoding="utf-8").read().splitlines()
+command = args[args.index("--command") + 1]
+assert command == "bash adl/tools/run_issue268_remote_resident_qualification.sh"
+assert "run_aws_spot_builder_image_validation.sh" not in command
 PY
 
 if ADL_AWS_REMOTE_VALIDATION_CACHE_VOLUME_SIZE_GIB=999 \
