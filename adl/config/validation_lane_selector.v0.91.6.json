@@ -570,6 +570,34 @@
       "reason": "html_observatory_shell_tooling_changes_require_direct_syntax_proof"
     },
     {
+      "id": "provider_neutral_multi_agent_proof",
+      "lane_class": "cli_workflow",
+      "default_surface": "tooling",
+      "owner": "runtime",
+      "resource_class": "small",
+      "proof_role": "demo_contract",
+      "requirement_ids": [
+        "provider_neutral_multi_agent_proof"
+      ],
+      "path_selectors": [
+        "adl/tools/demo_v092_provider_neutral_birthday.sh",
+        "adl/tools/serve_v092_provider_neutral_observatory_api.py",
+        "adl/tools/test_v092_provider_neutral_proof.sh",
+        "adl/tools/validate_v092_provider_neutral_proof.py",
+        "demos/v0.92/provider-neutral-birthday/**"
+      ],
+      "path_hints": [
+        "adl/tools/demo_v092_provider_neutral_birthday.sh",
+        "adl/tools/serve_v092_provider_neutral_observatory_api.py",
+        "adl/tools/test_v092_provider_neutral_proof.sh",
+        "adl/tools/validate_v092_provider_neutral_proof.py",
+        "demos/v0.92/provider-neutral-birthday/"
+      ],
+      "command": "bash adl/tools/test_v092_provider_neutral_proof.sh",
+      "run_command": "bash adl/tools/test_v092_provider_neutral_proof.sh",
+      "reason": "provider_neutral_multi_agent_proof_surface_requires_focused_demo_packet_validation"
+    },
+    {
       "id": "html_observatory_roster_javascript_syntax",
       "lane_class": "cli_workflow",
       "default_surface": "tooling",
