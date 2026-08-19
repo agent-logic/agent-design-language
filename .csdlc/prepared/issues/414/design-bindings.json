@@ -1,7 +1,7 @@
 {
   "schema": "adl.csdlc.issue414_design_bindings.v1",
   "design_path": ".csdlc/prepared/issues/414/design.md",
-  "design_sha256": "a49422563b723b6eb18bd34418e200320c13d36fd45ab9edf95213c94dd7af4b",
+  "design_sha256": "1a05f3ab36a42c8ce7a4c8f43b9e49845279e69f998de3a79c59e7c25e4d572b",
   "diagram_path": ".csdlc/prepared/issues/414/diagram.mmd",
-  "diagram_sha256": "3566746cc0f22d53bbae7f92e8b9aad16abe91562589199fd6dd36def4aa2876"
+  "diagram_sha256": "bc5f37778c7648a21c58398d21712ead3c2571598b503d360b9b07020a69119f"
 }

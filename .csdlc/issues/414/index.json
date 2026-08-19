@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "9e1cbce390fccdfb4d50654dd520ba265644fc9b5d2e59297e61befe2e6311e5",
   "phase": "implemented",
-  "generation": 36,
-  "digest": "fbe39cdfa187cc2b29470c40a60dad8d84e22e20d34d95381242ac38cbc708ea",
+  "generation": 39,
+  "digest": "db2a393df52a64cf8f25e0743352516c178da6539f2f511b69ed8c04a7ea8a4e",
   "branch": "codex/414-resident-shepherd-spot-continuity",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-414-resident-shepherd-spot-continuity",
   "review_assignment": null,
@@ -16,35 +16,40 @@
   "migration": null,
   "design_path": ".csdlc/prepared/issues/414/design.md",
   "diagram_path": ".csdlc/prepared/issues/414/diagram.mmd",
-  "design_review": "pending",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:f3fb12ce-26cc-48b4-a4b2-bfcb372d6a1f",
+      "revision": "47b8d2d8b93de188292dbc4712dcfdd9cb2d6490ec4b81107139b7de53661d32"
+    }
+  },
   "cards": {
     "sip": {
-      "values_digest": "fa4ca030d868f497fda5d89d7202f952bee2e281e2040f4a6a8819ff095aa70e",
+      "values_digest": "e084b0cf04795bfeaf55cf29716d782a1769ef15029c4cda69993bf3c067f587",
       "rendered_digest": "a46bc46b66ce391e80992efb06f6647b266a69ab272b9d386ee2218c953a0f47",
       "ast_digest": "b00b065288707e4799ea84336611f03bba306bb52bc68f174fb2412bafad8bd8"
     },
     "stp": {
-      "values_digest": "becde397a72730c8b527265591cad35b6c21e72d997bb947391921bc1300dea8",
+      "values_digest": "c25f1a0daf7c2f8fc757ed7a4c3cb17a1180f964c55fcb8d95bc7c1dc3e4ee42",
       "rendered_digest": "0b4757d0195ad48ec6a9ad7291fb31864645ca032009b570c00d3786e86adfe6",
       "ast_digest": "bab631934b03e6d4cc64ab0747d06d57ff160a33cb7291877bd348032c3b68aa"
     },
     "spp": {
-      "values_digest": "48185a4820bd8c46a663ee27cb6da8ce138f90b1eb3ed98704d6bea29ca3fa4e",
-      "rendered_digest": "c6c94abeb31de9f621d81fb6916b5bc0444cdfee31b3eab6fb4968bc0d7aa9fc",
-      "ast_digest": "694579e2a4835bcc252260540cc45891a4dd3fd5de7d6511dd4040c302d6ddd8"
+      "values_digest": "22f1e258dde0d3c164a0c2997362c7a7eb899a6a346c02d5c814660913e3b6f0",
+      "rendered_digest": "e8d09f9e606af7d5df229960b8a5a6d646ae40cdc47621d5ff99138574365963",
+      "ast_digest": "3c42e7876af88944a782cd2c513d2aac4f50663d937151f51dbd8d30142051ea"
     },
     "vpp": {
-      "values_digest": "8e89d7d6835333c8a0cfa2ce1e893153511548e4650209812eafebabebc8cbea",
+      "values_digest": "330178e8644075b706bb8bb315049b576c065ee9bfee6219bb46c04a24f8e78c",
       "rendered_digest": "a1a7323c68e7fd06f4d382d5ef3a048acb15099337eded25c4d1a43e9c78365f",
       "ast_digest": "396921d0280451333aac043dc11a899ab381ad50cc3ef61094ee2057d39ece61"
     },
     "srp": {
-      "values_digest": "0335adb1eb60b24586c90d3ae2ae10ffbe75987375c10baf9da8a85d3da735af",
+      "values_digest": "e04ee289f04e2f3f14595029e2e1631ca450e956328226fef9aa165f7573c232",
       "rendered_digest": "cbb7dd10d44c030c590239976f70bc71790c2b1a634db2ac0d4c6828da2a7351",
       "ast_digest": "848d2046d03e7743382348d73e6a6dad11011baa7544dcfe5351c20a70c64e99"
     },
     "sor": {
-      "values_digest": "dcaa01a45ee3b8058d806136d84088f1a6542a483c2ef92b7d3ccc6c70d499e8",
+      "values_digest": "1b8baac2b8222c8837455078c3014141a8e46e9c436029edda2b4b490a667f75",
       "rendered_digest": "16a60d949b41df26945dde9f5855f1009010119cd95092a39b11f6688bdb9b7a",
       "ast_digest": "1ae6ba98181d62b3ddc2d0131d3d29035724be5651d4475c131875d11d99600c"
     }
@@ -359,6 +364,27 @@
       "actor": "codex:issue-414-r22-remediation",
       "reason": "{\"disposition\":\"superseded_by_fresh_post_parity_authored_review\",\"false_reviewer\":\"fresh-session:8aee5120-00c5-496c-9b2d-37b5e62c1b3b\",\"previous_approval\":{\"reviewer\":\"fresh-session:8aee5120-00c5-496c-9b2d-37b5e62c1b3b\",\"revision\":\"551c6412a9c7d1f7ac09c0d435759497816fa3f30d68de4050b8c25049c29746\"},\"reason\":\"Invalidate the pre-parity design approval after adding the exact owned-path inventory required by R21 and authored R22.\"}",
       "operation": "recover_design_review"
+    },
+    {
+      "sequence": 42,
+      "generation": 37,
+      "actor": "codex:issue-414-r22-remediation",
+      "reason": "Refresh authored design hashes after adding the exact owned-path inventory required by fresh review.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/414/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/414/diagram.mmd\",\"new_design_digest\":\"47b8d2d8b93de188292dbc4712dcfdd9cb2d6490ec4b81107139b7de53661d32\",\"new_diagram_digest\":\"fb2112b7a494342accbb2282156a0610f8f43ebe189a788dc11e1a8b1d3fab8b\",\"old_design_digest\":\"551c6412a9c7d1f7ac09c0d435759497816fa3f30d68de4050b8c25049c29746\",\"old_diagram_digest\":\"fb2112b7a494342accbb2282156a0610f8f43ebe189a788dc11e1a8b1d3fab8b\",\"prior_design_approval\":\"pending\"},\"operation\":{\"operation\":\"refresh_authored_design_after_recovery\"},\"recovery_generation\":33,\"recovery_sequence\":38}"
+    },
+    {
+      "sequence": 43,
+      "generation": 38,
+      "actor": "codex:issue-414-r22-remediation",
+      "reason": "Refresh authored diagram binding after R23 separated idle watcher shutdown from an already accepted Spot transaction.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/414/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/414/diagram.mmd\",\"new_design_digest\":\"47b8d2d8b93de188292dbc4712dcfdd9cb2d6490ec4b81107139b7de53661d32\",\"new_diagram_digest\":\"97445241eeabdd5501fb3ebb3ec598c17a86a17257644537c2a005dd0e56b6cd\",\"old_design_digest\":\"47b8d2d8b93de188292dbc4712dcfdd9cb2d6490ec4b81107139b7de53661d32\",\"old_diagram_digest\":\"fb2112b7a494342accbb2282156a0610f8f43ebe189a788dc11e1a8b1d3fab8b\",\"prior_design_approval\":\"pending\"},\"operation\":{\"operation\":\"refresh_authored_design_after_recovery\"},\"recovery_generation\":33,\"recovery_sequence\":38}"
+    },
+    {
+      "sequence": 44,
+      "generation": 39,
+      "actor": "fresh-session:f3fb12ce-26cc-48b4-a4b2-bfcb372d6a1f",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"47b8d2d8b93de188292dbc4712dcfdd9cb2d6490ec4b81107139b7de53661d32\",\"design_ref\":\".csdlc/prepared/issues/414/design.md\",\"diagram_digest\":\"97445241eeabdd5501fb3ebb3ec598c17a86a17257644537c2a005dd0e56b6cd\",\"diagram_ref\":\".csdlc/prepared/issues/414/diagram.mmd\",\"operation\":\"approve_design\"}"
     }
   ]
 }

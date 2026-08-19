@@ -166,9 +166,11 @@ tool arguments are retained.
 - `adl/src/lib.rs` (additive registration only)
 - `adl/Cargo.toml` and `adl/Cargo.lock` (exact dependency/lock parity)
 - `adl-runtime/src/lib.rs` (minimal existing-kernel API re-export only)
+- `adl-runtime/src/agent_lifecycle.rs`, `adl-runtime/src/bin/adl-runtime-resident-shepherd-continuity.rs`, `adl-runtime/src/resident_shepherd_continuity.rs`, and `adl-runtime/tests/resident_shepherd_spot_continuity.rs` (intentional deletion of rejected parallel lifecycle/capsule authority)
 - `adl-runtime-kernel/src/live_continuity.rs` (signed singleton subrecord API only)
 - `adl/src/runtime_v2/agent_lifecycle_state.rs` (existing transition authority)
 - `adl/src/runtime_v2/citizen.rs` and `adl/src/runtime_v2/contracts.rs` (exact active-population snapshot construction)
+- `adl/src/runtime_v2/snapshot.rs` (actual post-restore rehydration report construction)
 - `tools/aws_remote_validation/src/aws_remote_validation.rs`
 - `tools/aws_remote_validation/scripts/remote_validation_runner.sh`
 - `adl/tools/aws_spot_artifact_finalize.py`
