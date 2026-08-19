@@ -33,6 +33,15 @@ def main() -> None:
         assert {row["model_ref_sha256"] for row in plan["residents"]} == {"a" * 64, "b" * 64, "c" * 64}
         assert all(len(row["configuration_sha256"]) == 64 for row in plan["residents"])
         assert plan["materialization"]["source"] == "ollama_api_tags"
+        assert plan["materialization"]["configuration_contract"] == {
+            "context_tokens": 32768,
+            "num_predict": 1024,
+            "qualification_num_predict": 128,
+            "num_gpu": 0,
+            "temperature": 0,
+            "max_concurrent_inference": 1,
+            "max_loaded_models": 2,
+        }
         written_specs = [json.loads((specs / row["agent_id"] / "agent.yaml").read_text()) for row in plan["residents"]]
         assert len(written_specs) == 6
         assert {row["agent_id"] for row in written_specs} == {row["agent_id"] for row in plan["residents"]}

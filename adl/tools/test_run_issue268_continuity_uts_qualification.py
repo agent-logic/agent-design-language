@@ -20,8 +20,8 @@ def main() -> None:
         assert "from __future__ import annotations" in source
     cycle_source = (ROOT / "adl/tools/run_issue268_six_resident_uts_cycle.py").read_text(encoding="utf-8")
     assert '"--self-check-task-panel-file"' in cycle_source
-    os.environ["ADL_UTS_LOCAL_NUM_PREDICT"] = "64"
-    os.environ["ADL_UTS_LOCAL_NUM_CTX"] = "4096"
+    os.environ["ADL_UTS_LOCAL_NUM_PREDICT"] = "128"
+    os.environ["ADL_UTS_LOCAL_NUM_CTX"] = "32768"
     os.environ["ADL_UTS_OLLAMA_KEEP_ALIVE"] = "-1"
     sys.path.insert(0, str(ROOT / "adl/tools"))
     import uts_benchmark_runner as benchmark_runner
@@ -35,8 +35,8 @@ def main() -> None:
         "test prompt",
         "regular",
     )
-    assert adapter_request["max_output_tokens"] == 64
-    assert adapter_request["context_window_tokens"] == 4096
+    assert adapter_request["max_output_tokens"] == 128
+    assert adapter_request["context_window_tokens"] == 32768
     assert adapter_request["local_keep_alive"] == "-1"
     with tempfile.TemporaryDirectory(prefix="issue268-continuity-uts-") as temporary:
         root = pathlib.Path(temporary)
