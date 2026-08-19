@@ -53,7 +53,7 @@ Diagram: .csdlc/prepared/issues/425/diagram.mmd
   },
   {
     "lane": "retained-v092-residual-dry-run",
-    "proof_role": "Run a retained classify-only dry-run over #204/#207/#211/#248/#266/#267/#373/#374/#401 before applying eligible recordless closeouts, proving exact live evidence and fail-closed #248 precedence.",
+    "proof_role": "Run a retained classify-only dry-run over #204/#207/#211/#248/#266/#267/#373/#374/#401 before applying eligible recordless closeouts, using the built csdlc-finish owner binary through cargo and proving exact live evidence plus fail-closed #248 precedence.",
     "acceptance_ids": [
       "AC-2",
       "AC-3",
@@ -66,10 +66,16 @@ Diagram: .csdlc/prepared/issues/425/diagram.mmd
     "budget_seconds": 180,
     "budget_tokens": 3000,
     "argv": [
-      ".adl/bin/csdlc-v2/csdlc-finish",
+      "cargo",
+      "run",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--bin",
+      "csdlc-finish",
+      "--",
       "recordless-closeout",
       "--request",
-      ".git/csdlc-v2/requests/425-v092-residual-dry-run.json"
+      ".csdlc/requests/425-v092-residual-dry-run.json"
     ],
     "parallel_group": "425-serial-02-live-dry-run",
     "defer_reason": "Deferred until the typed recovery command exists and focused tests pass."
@@ -129,7 +135,7 @@ Tokens: 25000
 ## Commands
 
 - `cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_recordless_closeout`
-- `.adl/bin/csdlc-v2/csdlc-finish recordless-closeout --request .git/csdlc-v2/requests/425-v092-residual-dry-run.json`
+- `cargo run --manifest-path csdlc-v2/Cargo.toml --bin csdlc-finish -- recordless-closeout --request .csdlc/requests/425-v092-residual-dry-run.json`
 - `cargo check --manifest-path csdlc-v2/Cargo.toml`
 - `git diff --check`
 
