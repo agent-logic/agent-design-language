@@ -1,0 +1,118 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 343,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "19c0a2eed502c6fb6462e7da8edd363d305a3b9250b6e2e5df6bb632e7195544",
+  "phase": "implemented",
+  "generation": 3,
+  "digest": "d6257118d9b3cf9d4c5988df7a7d99e35ebd2a830040bc82cdeb9b179a321efe",
+  "branch": "codex/343-sprint5-demonstration-handoff-publication",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-343-sprint5-demonstration-handoff-publication",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/343/design.md",
+  "diagram_path": ".csdlc/prepared/issues/343/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:2440f8c1-cbad-4cf1-87e1-b864accfe7a5",
+      "revision": "1fe373460ee2c82e2870d56865fefc817e20f74b353cae066f4a0d9f105411b0"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "07bf6dfa75fc44d9caab882db83951b573d1bb172042efa40476907d1a5986a5",
+      "rendered_digest": "f35903f5b26a58716be459ea2b58bd15a8351992ad922ff4c362ae3123330875",
+      "ast_digest": "3ffeb75cd1d2d25137c47305cbe2488e9f12571e0a199aa77de3e7175fdb3885"
+    },
+    "stp": {
+      "values_digest": "87f7030b61da513d0fb1652e7faa0bec3587da768410216102ea86c3931a3552",
+      "rendered_digest": "7bae76b7fdc7737141a5b4704c9ea5c34fa1666d3b2f233bd43e1df38e51ac7b",
+      "ast_digest": "cc1792b6015209e2aa497d1e7b107887625ad20f34b52373a6490b21e958cb8c"
+    },
+    "spp": {
+      "values_digest": "608dce666c9234f9abf82df1452fe8723d088d7724f456888a9ce831914ed2fe",
+      "rendered_digest": "a8933a2bc754dce89180d00a4fdfb3a136d979958ab75fd1b63ec11baa00385b",
+      "ast_digest": "f268cc4410e0de8078bd00a59439e71c39ff94c3b4b448578cb07eb070eca7f4"
+    },
+    "vpp": {
+      "values_digest": "4295a3e18c91514305a238bfb446a979bce0206310f40a0eb0c9bbcde6e02bc6",
+      "rendered_digest": "6a58fe841063bc2e315af3058f5c7204ae0c127265c146034554d3cedd1a6311",
+      "ast_digest": "917a6298d474738b9b384fce907c71d5ca7d11f0355b24206a45a262e97b0979"
+    },
+    "srp": {
+      "values_digest": "bbb5e6eaba81c96f4850ff6fb1a521deb2d191faebf03d95ddded4ea7aa9a967",
+      "rendered_digest": "856a922adef2a03ea9c48a172d3a69f60b9c00ae06a7f0e2ae7c1686032fe820",
+      "ast_digest": "a91562c3ae53954d10ccc7c854027f4994b2a4003b20b36a817da98903c698fa"
+    },
+    "sor": {
+      "values_digest": "e421b11fe5a834e17e705770f6ae523498a4b11f98d25bae01bb108f3ecb633a",
+      "rendered_digest": "4a09de49a0cc818897427c73de25a40c6205c2ef381330a1c8365398eb0023e2",
+      "ast_digest": "9a0164a348ea1628ca87fbe4bf0b7bc6081dd4cb9f05b0131fffc4109143bcfb"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:issue-343-sprint-closeout",
+      "reason": "Both #256 and #341 now have terminal canonical derived evidence and ancestral merges; advance the independently approved closeout preparation to binding readiness."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-343-sprint-closeout",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-343-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:2440f8c1-cbad-4cf1-87e1-b864accfe7a5",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"1fe373460ee2c82e2870d56865fefc817e20f74b353cae066f4a0d9f105411b0\",\"design_ref\":\".csdlc/prepared/issues/343/design.md\",\"diagram_digest\":\"3c84452d41ec70827265b114ce8193b65b898182fe1bb19d2a27d2f862e9a884\",\"diagram_ref\":\".csdlc/prepared/issues/343/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:issue-343-sprint-closeout",
+      "reason": "Both #256 and #341 now have terminal canonical derived evidence and ancestral merges; advance the independently approved closeout preparation to binding readiness.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:issue-343-sprint-closeout",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}

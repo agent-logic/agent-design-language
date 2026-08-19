@@ -1,0 +1,57 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 343,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][sprint] Demonstration, handoff, and publication",
+    "slug": "demonstration-handoff-publication",
+    "version": "v0.92",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Assembled the Sprint 5 closeout packet from canonical terminal evidence for #256 and #341 plus validated historical WP-17/WP-19 evidence, preserving the coordination-only boundary and #307/#308 handoff.",
+      "actual_changes": [
+        "Retained canonical typed terminal caches and exact review/check evidence for #256 and #341.",
+        "Reconciled historical WP-17 and WP-19 terminal evidence without absorbing child implementation.",
+        "Authored the Sprint 5 demonstration, handoff, and publication closeout packet.",
+        "Added fail-closed terminal, packet, and exact-scope validators for the closeout boundary."
+      ],
+      "artifacts": [
+        ".csdlc/evidence/343/terminal-children.json",
+        "docs/milestones/v0.92/review/sprint_343/SPRINT_CLOSEOUT_PACKET.md",
+        ".csdlc/prepared/issues/343/validate_sprint_readiness.py",
+        ".csdlc/prepared/issues/343/validate_exact_scope.py"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "python3",
+            ".csdlc/prepared/issues/343/validate_preparation_bundle.py"
+          ],
+          "purpose": "Validate the #343 preparation contract.",
+          "outcome": "passed",
+          "evidence_ref": "preparation-contract.log"
+        },
+        {
+          "command": [
+            "python3",
+            ".csdlc/prepared/issues/343/validate_sprint_readiness.py",
+            "--terminal"
+          ],
+          "purpose": "Validate retained typed terminal evidence.",
+          "outcome": "passed",
+          "evidence_ref": "terminal-child-census.log"
+        }
+      ],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

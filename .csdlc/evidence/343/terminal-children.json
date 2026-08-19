@@ -1,0 +1,94 @@
+{
+  "schema": "adl.issue343.closeout-evidence.v2",
+  "candidate_base_sha": "a213902a63c284c12dd724655860a6fad013180a",
+  "children": {
+    "256": {
+      "issue": 256,
+      "issue_state": "closed",
+      "pull_request": 427,
+      "reviewed_revision": "6791c38c6e2817387629dbb0e899ae6c61f8b887",
+      "merge_sha": "fb4c853bdb9cb140059d2a28af02d70bd36a27a4",
+      "terminal_generation": 22,
+      "terminal_digest": "f96cf1052c911a104f2a8a228cf83ffb345990ca2160b0b70032f002ba5bc671",
+      "terminal_cache_path": ".csdlc/evidence/343/terminal-256.json",
+      "terminal_cache_sha256": "3d06876c9e2e52c321e97937739b412145177be09e9b542aec1931e5ce1bcc92",
+      "canonical_match": true,
+      "merge_ancestral": true,
+      "review_artifact_path": ".csdlc/evidence/343/child-256-review.json",
+      "review_artifact_sha256": "15d56a4bb4a59dbad0a61251ba57f203fd2d0b28245e8dda4dd58537e9937cfa",
+      "checks_artifact_path": ".csdlc/evidence/343/child-256-checks.json",
+      "checks_artifact_sha256": "ffba4be2a23106668e57106ad2b4e7635e91e6df6682c7808d9a5c07ba0ba2d3",
+      "demo_paths": [".csdlc/evidence/256/birthday-contract-rust-tests.log"],
+      "artifact_sha256": {
+        ".csdlc/evidence/256/birthday-contract-rust-tests.log": "9a89c95d52107d38be8d502953214f5d3e6aa028f12fd7a74eacc8568b747193",
+        ".csdlc/evidence/256/issue256-birthday-after-observatory-packet.log": "a0ef4441ab5bdf67c9aa35b8841ed556e465be4dba7fad9d7dc563ab5d210831"
+      }
+    },
+    "341": {
+      "issue": 341,
+      "issue_state": "closed",
+      "pull_request": 442,
+      "reviewed_revision": "8166ab8c333fd8b952bfe878e084887e363a4491",
+      "merge_sha": "0b5aadebd7cff653c2500106d4a4055f1b9b8818",
+      "terminal_generation": 2,
+      "terminal_digest": "31d3e54f171dbd164ef1de1bc4504110e0de1f3de44c206eb667770c4dad1141",
+      "terminal_cache_path": ".csdlc/evidence/343/terminal-341.json",
+      "terminal_cache_sha256": "84866df8ee7070918560f82237c8c95a398f31e2706a7f4fa03c604cfa7f5545",
+      "canonical_match": true,
+      "merge_ancestral": true,
+      "review_artifact_path": ".csdlc/evidence/343/child-341-review.json",
+      "review_artifact_sha256": "40483e2b772beceac9e3e81ae6f75e4ac8f540389284e70571ed1afe1f71cd90",
+      "checks_artifact_path": ".csdlc/evidence/343/child-341-checks.json",
+      "checks_artifact_sha256": "8234a18e868344fe700d46ed90f93aced80d0812ac13cc292a588367ca131ec1",
+      "demo_paths": [".csdlc/evidence/341/proof-matrix-positive.json"],
+      "artifact_sha256": {
+        ".csdlc/evidence/341/proof-matrix-positive.json": "e644c8678a19d02338c567eaef492442ea33b94c264d6f14a11873cd39328393",
+        ".csdlc/evidence/341/proof-matrix-observatory.json": "2b633f002619218086343443ca22a4d1c29a682465df1f94ddceb6e70bf58683"
+      }
+    }
+  },
+  "historical": {
+    "WP-17": {
+      "issue": 5835,
+      "terminal_generation": 58,
+      "terminal_digest": "5ab9ed5c23b8e022b94f421fb0a150205adb1723c45b059112c7cfdc55fcb75d",
+      "canonical_match": true,
+      "merge_sha": "a4c14b4ae51ec5fbc3c3b585b217958972a3246c",
+      "merge_ancestral": true,
+      "validated": true,
+      "evidence_path": ".csdlc/evidence/343/terminal-5835.json",
+      "evidence_sha256": "247cf115932ad43bba9e8a82ca8fd08cdf72ccc2e32ac5b8199033de70dcf3a7"
+    },
+    "WP-19": {
+      "issue": 5839,
+      "terminal_generation": 38,
+      "terminal_digest": "93a28ce3d40b0eb0444c1c7d011401856db489075da1cbf6221f45a74546fa7e",
+      "canonical_match": true,
+      "merge_sha": "7f88697ce82215188af941e15cf02a6220c9ad63",
+      "merge_ancestral": true,
+      "validated": true,
+      "evidence_path": ".csdlc/evidence/343/terminal-5839.json",
+      "evidence_sha256": "e0635f7acbfefa9e9e3dc46394045621bfd87be22da2e9104ecabcd47388cea7"
+    }
+  },
+  "packet": {
+    "sprint_packet_path": "docs/milestones/v0.92/review/sprint_343/SPRINT_CLOSEOUT_PACKET.md",
+    "sprint_packet_sha256": "f15dac766f3aa749d72e964265659ae264ef5c4f8d3ac5ba8eb76b1402af8301",
+    "release_truth_reconciled": true,
+    "redaction_passed": true,
+    "credentials_retained": false,
+    "private_evidence_retained": false,
+    "unsupported_publication_claims": false,
+    "excluded_issues": [342, 340, 84, 251],
+    "handoff_issues": [307, 308],
+    "review": {
+      "result": "pending",
+      "reviewer": "pending",
+      "session_uuid": "pending",
+      "reviewed_revision": "pending",
+      "packet_sha256": "f15dac766f3aa749d72e964265659ae264ef5c4f8d3ac5ba8eb76b1402af8301",
+      "artifact_path": ".csdlc/evidence/343/sprint-review.json",
+      "artifact_sha256": "pending"
+    }
+  }
+}
