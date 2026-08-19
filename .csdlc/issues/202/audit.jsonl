@@ -57,3 +57,4 @@
 {"sequence":57,"generation":52,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":58,"generation":53,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":59,"generation":54,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":60,"generation":55,"actor":"codex:closeout-sweep","reason":"Materialize historical merged PR #236 terminal truth for #202 closeout.","operation":"materialize_derived_terminal"}
