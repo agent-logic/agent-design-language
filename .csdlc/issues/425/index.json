@@ -6,10 +6,22 @@
   "initialization_digest": "d98a8d900cde7810150f96c65b587a7763b677cf58610771289dd359b4be5b19",
   "phase": "implemented",
   "generation": 10,
-  "digest": "98ffbc09d4a87951f43a48b8420075d5667090cc4b5621396568f1433f560d46",
+  "digest": "d238e46ce7f45d3d91c1ab2468052aee56b4c43a406992ac4a6c15779270bc64",
   "branch": "codex/425-recordless-closeout-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-425-recordless-closeout-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:132fc8b5-37fa-4838-bd0e-87883a2030dc",
+    "assigned_by": "codex-worker-4",
+    "revision": "git-blake3:880526694714ad6af1a4d32f45ed6e7ba990acca:b61d7799cb053dc0963dbbf6d3a5523a027935551c3a6a34ef533e443030a1ff",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-finish.rs",
+      "csdlc-v2/src/finish.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/tests/gate_recordless_closeout.rs",
+      ".csdlc/evidence/425-v092-residual-dry-run-result.json",
+      ".csdlc/issues/425"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +57,9 @@
       "ast_digest": "dc064a1b29d4ffce555b1ffa93a65466b5adfe914df83ce7126a441ac99c6e03"
     },
     "srp": {
-      "values_digest": "3e79f78735fa485c4b287f9273a8028d418b159ec4ed3accd93499584ec7cc1e",
-      "rendered_digest": "ac7b89136057e5af0de22d13f0f398940c48a729224586d0373e2328e6f578fd",
-      "ast_digest": "f542a55e0266532978da258547185b7587ee0d0f8956b492f6dbb0a225f25dfd"
+      "values_digest": "11412cbf8b52fddff095a31a211f5020787caab0f38052ffbe46cebc18d28719",
+      "rendered_digest": "8104e68c08d29a83760c4a0591d513e36d1a3b21ab3fee98216bd5481b2a3ec8",
+      "ast_digest": "6606bf80b5e91946eb5691de27269f1a5913b2a30140f9e883f80c5fc355da79"
     },
     "sor": {
       "values_digest": "64ec0b0f1dc0b70cfd9a0a5f8ecd4dd9648283079d666a6de8c7fc36aa4e85ba",
@@ -197,6 +209,13 @@
       "actor": "codex-worker-4",
       "reason": "recover reviewed state for exact re-review after publication guard rejected tracked request-file drift",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "codex-worker-4",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
