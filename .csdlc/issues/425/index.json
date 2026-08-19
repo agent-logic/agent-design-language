@@ -5,23 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d98a8d900cde7810150f96c65b587a7763b677cf58610771289dd359b4be5b19",
   "phase": "implemented",
-  "generation": 14,
-  "digest": "fbec141cd618a1f31dae0d049becdfac28f4a4b71013d5899b7610322a3f9cac",
+  "generation": 16,
+  "digest": "6be80d655a82f0e45aaa6954dd9fcaeb6a15c393a07e61279dfcaceddc3b653c",
   "branch": "codex/425-recordless-closeout-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-425-recordless-closeout-recovery",
-  "review_assignment": {
-    "reviewer": "fresh-session:6366c728-fd54-4958-a103-30f4d6131be2",
-    "assigned_by": "codex-worker-4",
-    "revision": "git-blake3:9a58844b25390622701d8d9cd605ddf0a62d243e:8d6b0088b52b9946e6505338cc2e4f1f04dd1ac32d5cc9808553a93596d3d715",
-    "scope": [
-      "csdlc-v2/src/bin/csdlc-finish.rs",
-      "csdlc-v2/src/finish.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/tests/gate_recordless_closeout.rs",
-      ".csdlc/evidence/425-v092-residual-dry-run-result.json",
-      ".csdlc/issues/425"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -37,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b4c1111425947259c333caac6381a8b94516f01850c6b9bd979c164bdf21fc7d",
+      "values_digest": "1f1811eff06a04db18a09b8fbc4c85b7f1a21ee762fd3fd17e8a896b8a57d7a4",
       "rendered_digest": "cc83623a3de6c8063b7db5e0c3a0ba3924aa50ac071e49476c34290fc886bc5a",
       "ast_digest": "1dd75a8295155fbe787c7264ab83bd0f5eaf04da00ce64b71f8d06514a89e325"
     },
     "stp": {
-      "values_digest": "821ae78dd71a2f75cf444e0d31086256a304cda36ed371e13579b7817b4990a8",
+      "values_digest": "24fdb3457ee0f9d3a0013075d71bfd98381e07461480bfd5522c7fd38be891a3",
       "rendered_digest": "bf04bc821ead770f8bb048a8163d3a4d6d74769d4ffba2ddda54e28f33ab2a84",
       "ast_digest": "44c14d7d86cec8e8c7ae792a5b3d8d6dfc3554f3a150984bc7a5b09ba2930571"
     },
     "spp": {
-      "values_digest": "8f3a6a11bdb19d21ebc4e9bda109d3cde37d6dbfebc72252087e906a9a360097",
+      "values_digest": "6e36d505ff8330900e696cbf58d497960f6367a23fd3a4bd0c5de92705d5aa7d",
       "rendered_digest": "1a6d536268cc7d3ec39c45272b17ff50736ff2f4e09854cb33a29c193e7e3847",
       "ast_digest": "276c05c7408db0cb043143a4df1b240a8277df6e0cbffcc659efe10f2cec7a5b"
     },
     "vpp": {
-      "values_digest": "b456520e5426f78529747a12080cc18c2cfdfc25959799b203bd41922d277616",
+      "values_digest": "a42e21d70067089d23deffa92b856c9ae48c616fff6868169b9144fdcec622f7",
       "rendered_digest": "6c19c5636e13f7135afe61469801392e2a753414aedba2398c792d6db155ab5a",
       "ast_digest": "dc064a1b29d4ffce555b1ffa93a65466b5adfe914df83ce7126a441ac99c6e03"
     },
     "srp": {
-      "values_digest": "ae1ed8e58de4bedfe62af570f699a881eed1bc429248d9da18378331eaaa89fb",
-      "rendered_digest": "8104e68c08d29a83760c4a0591d513e36d1a3b21ab3fee98216bd5481b2a3ec8",
-      "ast_digest": "6606bf80b5e91946eb5691de27269f1a5913b2a30140f9e883f80c5fc355da79"
+      "values_digest": "99b6aa681feacdd46b2a77222fdb89b98f1a243b62cac636b6d4b8fd82d66a58",
+      "rendered_digest": "ac7b89136057e5af0de22d13f0f398940c48a729224586d0373e2328e6f578fd",
+      "ast_digest": "f542a55e0266532978da258547185b7587ee0d0f8956b492f6dbb0a225f25dfd"
     },
     "sor": {
-      "values_digest": "c8c8764b636c6a27ed6d581bc4145bb1b934c80ac0e67669889695336c5b0527",
-      "rendered_digest": "611281945cd7fdae9af052c526f6c260666ec7df084cf13ef120e1a4fedebea0",
-      "ast_digest": "142cfb0d15cf81d6fb9bb10340b44020681b92935c1e038bbc8b1612e2a118b0"
+      "values_digest": "35e9e00966a6ffd0afd42b773d145f4742fd52987ea2230a5bff807ce4804568",
+      "rendered_digest": "bbfd9ec3774de212e683c4771f1fc6c646a43df4c59d40aeb119526a760a12ad",
+      "ast_digest": "eed66d7cbbbef5ce82bb4b52dca092ce457d1ae3352acfa0e9f1a3023bc9c876"
     }
   },
   "transitions": [
@@ -272,6 +260,20 @@
       "actor": "codex-worker-4",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 15,
+      "actor": "codex-worker-4",
+      "reason": "clear r9 finding before clarifying stale PR publication state",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 16,
+      "actor": "codex-worker-4",
+      "reason": "clarify that PR #428 remains open at stale remote head while current repaired local head is not yet republished",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Clarified post-CI publication truth: PR #428 remains open from the earlier publication, but the current repaired local head is intentionally treated as unpublished until csdlc-publish observes and records the updated PR head.\",\"changes\":[\"Preserve audit history that PR #428 was previously published while keeping current generation review/publication reset truthful for the unre-published Clippy repair head\",\"Document that SOR not_published/worktree_only applies to the current repaired local revision, not to historical existence of PR #428\"],\"artifacts\":[\"gh pr view 428 --repo agent-logic/agent-design-language: PR open on codex/425-recordless-closeout-recovery from prior publication\",\"Current local head 2dd5d79a1 is ahead of the last observed publication and requires fresh review plus republish before publication truth is restored\"]}"
     }
   ]
 }

@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Repaired PR #428 CI failure by reducing recordless_blocker argument count below strict Clippy threshold.
+Clarified post-CI publication truth: PR #428 remains open from the earlier publication, but the current repaired local head is intentionally treated as unpublished until csdlc-publish observes and records the updated PR head.
 
 ## Artifacts
 
@@ -28,6 +28,8 @@ Repaired PR #428 CI failure by reducing recordless_blocker argument count below 
 - cargo fmt --manifest-path csdlc-v2/Cargo.toml --check: passed
 - cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_recordless_closeout: 5 passed
 - cargo clippy --manifest-path csdlc-v2/Cargo.toml --all-targets -- -D warnings: passed
+- gh pr view 428 --repo agent-logic/agent-design-language: PR open on codex/425-recordless-closeout-recovery from prior publication
+- Current local head 2dd5d79a1 is ahead of the last observed publication and requires fresh review plus republish before publication truth is restored
 
 ## Execution
 
@@ -40,6 +42,8 @@ Repaired PR #428 CI failure by reducing recordless_blocker argument count below 
 - csdlc-v2/tests/gate_recordless_closeout.rs: added negative test for unavailable expected head before projection check
 - .csdlc/evidence/425-v092-residual-dry-run-result.json: refreshed live dry-run evidence after the fix
 - csdlc-v2/src/finish.rs: grouped recordless_blocker inputs in RecordlessBlockerContext to satisfy clippy::too_many_arguments without changing behavior
+- Preserve audit history that PR #428 was previously published while keeping current generation review/publication reset truthful for the unre-published Clippy repair head
+- Document that SOR not_published/worktree_only applies to the current repaired local revision, not to historical existence of PR #428
 
 ## Validation
 

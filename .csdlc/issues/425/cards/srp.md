@@ -12,12 +12,7 @@ Status: draft
 
 ## Scope
 
-csdlc-v2/src/bin/csdlc-finish.rs
-csdlc-v2/src/finish.rs
-csdlc-v2/src/lib.rs
-csdlc-v2/tests/gate_recordless_closeout.rs
-.csdlc/evidence/425-v092-residual-dry-run-result.json
-.csdlc/issues/425
+
 
 ## Prompts
 
