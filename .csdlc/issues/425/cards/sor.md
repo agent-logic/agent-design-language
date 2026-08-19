@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented recordless closeout classification and receipt retention support in csdlc-finish, with fail-closed handling for contradictory historical publication evidence.
+Repaired #425 review finding: recordless source-projection proof now fails closed when the expected PR head SHA is not available as a local commit object before checking the issue projection path.
 
 ## Artifacts
 
@@ -20,6 +20,11 @@ Implemented recordless closeout classification and receipt retention support in 
 - cargo check --manifest-path csdlc-v2/Cargo.toml: passed
 - git diff --check: passed
 - recordless dry-run: 8 recordless_terminal_eligible, 1 conflicting_historical_publication (#248)
+- r6 review P1 fixed: missing/unfetched PR head no longer collapses to projection-absent false
+- cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_recordless_closeout: 5 passed
+- cargo check --manifest-path csdlc-v2/Cargo.toml: passed
+- git diff --check: passed
+- recordless dry-run refreshed: 8 recordless_terminal_eligible, 1 conflicting_historical_publication (#248)
 
 ## Execution
 
@@ -28,6 +33,9 @@ Implemented recordless closeout classification and receipt retention support in 
 - csdlc-v2/src/lib.rs: export recordless closeout request/result types
 - csdlc-v2/tests/gate_recordless_closeout.rs: add focused fail-closed classifier tests for eligible, source-projection, conflicting publication, and PR identity mismatch paths
 - .csdlc/evidence/425-v092-residual-dry-run-result.json: retained live classify-only evidence over the nine v0.92 residuals
+- csdlc-v2/src/finish.rs: source_projection_at_revision now verifies expected_head_sha resolves to a commit object and returns ReconciliationRequired when missing
+- csdlc-v2/tests/gate_recordless_closeout.rs: added negative test for unavailable expected head before projection check
+- .csdlc/evidence/425-v092-residual-dry-run-result.json: refreshed live dry-run evidence after the fix
 
 ## Validation
 

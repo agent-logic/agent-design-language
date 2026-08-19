@@ -5,23 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d98a8d900cde7810150f96c65b587a7763b677cf58610771289dd359b4be5b19",
   "phase": "implemented",
-  "generation": 6,
-  "digest": "9e0506c243b69428874ab6b5c3ffcf3591fb9099b01690eca39c044fb897aafc",
+  "generation": 8,
+  "digest": "c24b2b2263d190e08bbbce14423183231215b12e192f5ff0f65f1a51048ffabf",
   "branch": "codex/425-recordless-closeout-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-425-recordless-closeout-recovery",
-  "review_assignment": {
-    "reviewer": "fresh-session:b7b810e3-a6e4-4657-b01a-69be1c1888db",
-    "assigned_by": "codex-worker-4",
-    "revision": "git-blake3:92933b9b9e36776cca365072dc9c81fd417ad958:7a0fc1065a7803482d38aec92e7defb87522a025fd3231b6ce34da459f03480e",
-    "scope": [
-      "csdlc-v2/src/bin/csdlc-finish.rs",
-      "csdlc-v2/src/finish.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/tests/gate_recordless_closeout.rs",
-      ".csdlc/evidence/425-v092-residual-dry-run-result.json",
-      ".csdlc/issues/425"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -37,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6192729361ad9da224f92d07546cd1088d5d573d13e617ab1b92422d125fb49f",
+      "values_digest": "84476e40e264cb747fcabe37be73696a4cbde147620492b10cd1dab8a9a7873a",
       "rendered_digest": "cc83623a3de6c8063b7db5e0c3a0ba3924aa50ac071e49476c34290fc886bc5a",
       "ast_digest": "1dd75a8295155fbe787c7264ab83bd0f5eaf04da00ce64b71f8d06514a89e325"
     },
     "stp": {
-      "values_digest": "828da38ccfc329a1bd22e901fe7562b736506cb1306045ae657720ba67dd6fba",
+      "values_digest": "3d1049a3ec6a9a63cb2736e468dc439f7df77b59f0efff6ce26cc333daf2dc3c",
       "rendered_digest": "bf04bc821ead770f8bb048a8163d3a4d6d74769d4ffba2ddda54e28f33ab2a84",
       "ast_digest": "44c14d7d86cec8e8c7ae792a5b3d8d6dfc3554f3a150984bc7a5b09ba2930571"
     },
     "spp": {
-      "values_digest": "09ce98bb4e811b6be00915a2bee7a854fe466a8721fa846237207e3e48c4d285",
+      "values_digest": "9813f2953a8123f14fb7df5048b45c9ce21bbd12c9fdb1bc4b288a6743fa996f",
       "rendered_digest": "1a6d536268cc7d3ec39c45272b17ff50736ff2f4e09854cb33a29c193e7e3847",
       "ast_digest": "276c05c7408db0cb043143a4df1b240a8277df6e0cbffcc659efe10f2cec7a5b"
     },
     "vpp": {
-      "values_digest": "4306691083a2479115ec868191c7839301d0169fc5831e7ef5e74d93d2d5ec0a",
+      "values_digest": "6d6440392cb625615871d1558e0075d7e4b21d09ff1aecc402a3538566fc113c",
       "rendered_digest": "6c19c5636e13f7135afe61469801392e2a753414aedba2398c792d6db155ab5a",
       "ast_digest": "dc064a1b29d4ffce555b1ffa93a65466b5adfe914df83ce7126a441ac99c6e03"
     },
     "srp": {
-      "values_digest": "d6cc9ad5fa5ea0187f3e9527af91ddf194b0a1873cda8bb91e9f71431fcdadf9",
-      "rendered_digest": "8104e68c08d29a83760c4a0591d513e36d1a3b21ab3fee98216bd5481b2a3ec8",
-      "ast_digest": "6606bf80b5e91946eb5691de27269f1a5913b2a30140f9e883f80c5fc355da79"
+      "values_digest": "139601153386aec2532aefb4facd688b13f4d6ae287c9959a284e0fabbdbbbfe",
+      "rendered_digest": "ac7b89136057e5af0de22d13f0f398940c48a729224586d0373e2328e6f578fd",
+      "ast_digest": "f542a55e0266532978da258547185b7587ee0d0f8956b492f6dbb0a225f25dfd"
     },
     "sor": {
-      "values_digest": "2a2d9f55222ea5ab70635e305455b44dd31627a4f59154cb4a478f5fe0cac00c",
-      "rendered_digest": "c9e66c00ae6f7a23861422d38a7cff56035dc533487a25f9702e8194f759899f",
-      "ast_digest": "0bb700513bc69033d2329e1879e44b5cd01683dc45694eacf8adf57abfb83bf2"
+      "values_digest": "0fff77bf0c38d6967a720e6c8179a0d2253d999b94f778149a905355d363f6ec",
+      "rendered_digest": "3927b554d7354e81ba494a379d8d5650e63cfbb91613af8cb47d9877fafe1189",
+      "ast_digest": "b9a8e0d35d775cf9ce7629151fbffe8e72898f76d5a5f5cf1baf2ae76ffd1310"
     }
   },
   "transitions": [
@@ -160,6 +148,20 @@
       "actor": "codex-worker-4",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex-worker-4",
+      "reason": "clear r6 review assignment after actionable P1 finding was repaired before fresh exact review",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex-worker-4",
+      "reason": "record r6 P1 review finding repair before fresh exact review",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Repaired #425 review finding: recordless source-projection proof now fails closed when the expected PR head SHA is not available as a local commit object before checking the issue projection path.\",\"changes\":[\"csdlc-v2/src/finish.rs: source_projection_at_revision now verifies expected_head_sha resolves to a commit object and returns ReconciliationRequired when missing\",\"csdlc-v2/tests/gate_recordless_closeout.rs: added negative test for unavailable expected head before projection check\",\".csdlc/evidence/425-v092-residual-dry-run-result.json: refreshed live dry-run evidence after the fix\"],\"artifacts\":[\"r6 review P1 fixed: missing/unfetched PR head no longer collapses to projection-absent false\",\"cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_recordless_closeout: 5 passed\",\"cargo check --manifest-path csdlc-v2/Cargo.toml: passed\",\"git diff --check: passed\",\"recordless dry-run refreshed: 8 recordless_terminal_eligible, 1 conflicting_historical_publication (#248)\"]}"
     }
   ]
 }

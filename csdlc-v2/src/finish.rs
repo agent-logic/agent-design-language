@@ -503,6 +503,18 @@ fn retain_recordless_terminal_receipt(
 
 fn source_projection_at_revision(root: &Path, revision: &str, issue: u64) -> Result<bool> {
     validate_sha(revision, "expected head SHA")?;
+    let commit_spec = format!("{revision}^{{commit}}");
+    let commit = Command::new("git")
+        .current_dir(root)
+        .args(["cat-file", "-e", &commit_spec])
+        .output()
+        .map_err(|error| V2Error::new(ErrorCode::GitFailure, error.to_string()))?;
+    if !commit.status.success() {
+        return Err(V2Error::new(
+            ErrorCode::ReconciliationRequired,
+            "recordless closeout expected head SHA is not available as a local commit object",
+        ));
+    }
     let spec = format!("{revision}:.csdlc/issues/{issue}/index.json");
     let output = Command::new("git")
         .current_dir(root)

@@ -1,0 +1,25 @@
+{
+  "actor": "codex-worker-4",
+  "card": "sor",
+  "expected_digest": "7715bc3a5595cf96a7d01c28d3e46a3358533e08787a1dadf600907670f1ff3c",
+  "expected_generation": 7,
+  "fail_after_backup": false,
+  "issue": 425,
+  "operation": {
+    "artifacts": [
+      "r6 review P1 fixed: missing/unfetched PR head no longer collapses to projection-absent false",
+      "cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_recordless_closeout: 5 passed",
+      "cargo check --manifest-path csdlc-v2/Cargo.toml: passed",
+      "git diff --check: passed",
+      "recordless dry-run refreshed: 8 recordless_terminal_eligible, 1 conflicting_historical_publication (#248)"
+    ],
+    "changes": [
+      "csdlc-v2/src/finish.rs: source_projection_at_revision now verifies expected_head_sha resolves to a commit object and returns ReconciliationRequired when missing",
+      "csdlc-v2/tests/gate_recordless_closeout.rs: added negative test for unavailable expected head before projection check",
+      ".csdlc/evidence/425-v092-residual-dry-run-result.json: refreshed live dry-run evidence after the fix"
+    ],
+    "operation": "record_execution",
+    "summary": "Repaired #425 review finding: recordless source-projection proof now fails closed when the expected PR head SHA is not available as a local commit object before checking the issue projection path."
+  },
+  "reason": "record r6 P1 review finding repair before fresh exact review"
+}

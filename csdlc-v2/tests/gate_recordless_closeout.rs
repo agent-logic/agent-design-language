@@ -116,6 +116,30 @@ fn recordless_closeout_rejects_mismatched_live_pr_identity() {
     assert_eq!(result.classification, "live_pr_identity_mismatch");
 }
 
+#[test]
+fn recordless_closeout_rejects_unavailable_expected_head_before_projection_check() {
+    let temp = tempfile::tempdir().expect("temp repo");
+    init_repo(temp.path());
+    let missing = "a".repeat(40);
+    let error = classify_recordless_closeout_target(
+        temp.path(),
+        &request(&missing, &"b".repeat(40)),
+        &target(&missing, &"b".repeat(40)),
+        &closed_issue(),
+        &merged_packet(&missing, &"b".repeat(40)),
+        &[closing_candidate()],
+    )
+    .expect_err("missing commit must fail closed");
+    assert_eq!(error.code, csdlc_v2::ErrorCode::ReconciliationRequired);
+    assert!(
+        error
+            .message
+            .contains("expected head SHA is not available as a local commit object"),
+        "{}",
+        error.message
+    );
+}
+
 fn request(head: &str, merge: &str) -> RecordlessCloseoutRequest {
     RecordlessCloseoutRequest {
         schema: "csdlc.recordless_closeout_request.v1".into(),
