@@ -672,11 +672,14 @@ observatory_probe() {
   printf '%s' "$code"
 }
 
+recompute_observatory_url() {
+  OBSERVATORY_URL="${ADL_CSM_OBSERVATORY_URL:-$OBSERVATORY_BASE/index.html?runtime=v3&runtimeApiBase=$OBSERVATORY_RUNTIME_BASE&live=1}"
+}
+
 write_observatory_state() {
   mkdir -p "$STATE_DIR"
   {
     printf 'OBSERVATORY_BASE=%q\n' "$OBSERVATORY_BASE"
-    printf 'OBSERVATORY_URL=%q\n' "$OBSERVATORY_URL"
   } > "$OBSERVATORY_STATE_FILE"
   chmod 600 "$OBSERVATORY_STATE_FILE"
 }
@@ -685,6 +688,7 @@ load_observatory_state() {
   [[ -f "$OBSERVATORY_STATE_FILE" ]] || return 1
   # shellcheck source=/dev/null
   . "$OBSERVATORY_STATE_FILE"
+  recompute_observatory_url
 }
 
 probe_runtime() {
