@@ -34,3 +34,4 @@
 {"sequence":34,"generation":30,"actor":"codex:32-runner-policy-preflight","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":35,"generation":31,"actor":"codex:32-runner-policy-preflight","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":36,"generation":32,"actor":"codex:32-runner-policy-preflight","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":37,"generation":33,"actor":"codex:closeout-sweep-closed-merged-v092","reason":"Materialize terminal truth for closed issue #32 from merged PR #38.","operation":"materialize_derived_terminal"}

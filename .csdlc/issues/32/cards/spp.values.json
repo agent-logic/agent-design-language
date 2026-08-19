@@ -7,7 +7,7 @@
     "title": "[CI][runners] Make larger-runner eligibility branch-independent and observable",
     "slug": "runner-policy-preflight",
     "version": "v0.92",
-    "generation": 32
+    "generation": 33
   },
   "status": "ready",
   "content": {
@@ -55,7 +55,7 @@
           "acceptance_ids": [
             "AC-5"
           ],
-          "status": "in_progress"
+          "status": "completed"
         }
       ],
       "affected_areas": [
