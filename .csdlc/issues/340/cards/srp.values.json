@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-18A] HTML Observatory Runtime restart integration",
     "slug": "html-observatory-runtime-restart-integration",
     "version": "v0.92",
-    "generation": 34
+    "generation": 35
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs\n.csdlc/issues/340",
-      "review_revision": "git-blake3:af5505659de358234d11377682d608c1499df3d7:43d95ccbcd59e3426b043ee863c9eea28129e844cbfb767b172683ff33eccace",
-      "reviewer": "fresh-session:996a1b8c-e785-4a84-a19e-6d1ae2edf6ec",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does #340 prove the live Runtime v3 start/stop/restart path rather than fixture/static rendering only?",
         "Does CSMctl start require /v1/ready, /v1/observatory, and /v1/health HTTP 200 before success?",
@@ -24,12 +24,8 @@
         "Does the change avoid Unity/#84/#122/#251, AWS/public, provider, #341/#343, and HTML child implementation scope?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Reviewer scope was intentionally minimal after prior full #340 reviews and focused only on the R6 P2 repair, lifecycle truth, and scope non-absorption.",
-        "Reviewer did not rerun Cargo or llvm-cov lanes because the review assignment was read-only; retained current proof and source/test contracts were inspected instead.",
-        "This review does not claim Unity, AWS/public hosting, provider credentials, #341, #343, #84, #122, or #251 scope."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

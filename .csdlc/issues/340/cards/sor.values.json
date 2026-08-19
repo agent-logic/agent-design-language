@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-18A] HTML Observatory Runtime restart integration",
     "slug": "html-observatory-runtime-restart-integration",
     "version": "v0.92",
-    "generation": 34
+    "generation": 35
   },
   "status": "pre_phase",
   "content": {
@@ -92,8 +92,8 @@
           "evidence_ref": "exit 0 with no output"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
