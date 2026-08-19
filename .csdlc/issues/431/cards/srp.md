@@ -12,7 +12,11 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/evidence/431
+.csdlc/issues/431
+.csdlc/prepared/issues/431
+docs/milestones/v0.92.1
+docs/planning/ADL_FEATURE_LIST.md
 
 ## Prompts
 
@@ -34,12 +38,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- WP-01 must create the 27 planned issue slots later in the exact catalog order; this planning issue creates none of them.
+- Runtime v4 changes require explicit rebaseline rather than silent absorption.
+- GitHub CI remains the remote integration gate after publication refresh.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:8be51d4888c807ef750524ef200ad6579a39ec1f:5a2c0b18dfcf70a8360fd04adf98283094396dd74276f399d7bc474705e199d3")
 
-Reviewer: None
+Reviewer: Some("fresh-session:3b5e8b38-94b5-4dde-838d-4780516c27d4")
 
-Result: pre_review
+Result: pass

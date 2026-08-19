@@ -3,13 +3,42 @@
   "issue": 431,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "95b5986b4d799d43725ec94cd60cdca6cec37eecc20e979f0cd029e4c4b64cc0",
-  "phase": "implemented",
-  "generation": 12,
-  "digest": "05edf9d59e1c0d4a16a02c53f6d8a489573ad741d639156f2dfb9c3069b5f0aa",
+  "phase": "reviewed",
+  "generation": 13,
+  "digest": "d0f7549a60ccded10ce925112666d2295e8abcef3f0cc53bfd3d36132093eabe",
   "branch": "codex/431-v0921-initial-planning-refresh",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-431-v0921-initial-planning",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:3b5e8b38-94b5-4dde-838d-4780516c27d4",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:8be51d4888c807ef750524ef200ad6579a39ec1f:5a2c0b18dfcf70a8360fd04adf98283094396dd74276f399d7bc474705e199d3",
+    "scope": [
+      ".csdlc/evidence/431",
+      ".csdlc/issues/431",
+      ".csdlc/prepared/issues/431",
+      "docs/milestones/v0.92.1",
+      "docs/planning/ADL_FEATURE_LIST.md"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:3b5e8b38-94b5-4dde-838d-4780516c27d4",
+    "scope": [
+      ".csdlc/evidence/431",
+      ".csdlc/issues/431",
+      ".csdlc/prepared/issues/431",
+      "docs/milestones/v0.92.1",
+      "docs/planning/ADL_FEATURE_LIST.md"
+    ],
+    "reviewed_revision": "git-blake3:8be51d4888c807ef750524ef200ad6579a39ec1f:5a2c0b18dfcf70a8360fd04adf98283094396dd74276f399d7bc474705e199d3",
+    "findings": [],
+    "residual_risks": [
+      "WP-01 must create the 27 planned issue slots later in the exact catalog order; this planning issue creates none of them.",
+      "Runtime v4 changes require explicit rebaseline rather than silent absorption.",
+      "GitHub CI remains the remote integration gate after publication refresh."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +53,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "69c21185f975888ee12293c74d438eb0125ff297413f640afbc1d21dcf80ac61",
+      "values_digest": "b1d3e201e61af3fd5edd9197cbe165ce68a6d4119dc5e11afff111dd3b5ca92b",
       "rendered_digest": "8fb6604eb170d0e4b611b5612a161b6a979503f9e1515c41ad32ee487398f957",
       "ast_digest": "f5e035c1828111cd3f99aeacfdf007876bcb409ec4a4dbd4e4e7a129b23294a5"
     },
     "stp": {
-      "values_digest": "783c9876be66092ef576b2745ff0bb881c7c5c0107a76b2d83caf3d994e006b3",
+      "values_digest": "0fbf522fdcea4599508785cb4d3db4f102a587ccdb4f09738ce3e26f8a38c046",
       "rendered_digest": "925295e87f834a27943ca77b8b4180e85fe5dd93f620e83f8f463705d1f4d7f4",
       "ast_digest": "2a699ab117303345e16ea6ae04e4b9e7530547b2207eaa3a27a34c19210ff354"
     },
     "spp": {
-      "values_digest": "14a0d9f49fb5a46501008287c427c2e7734b4cd8d4b3a4e69a730e7af84cc6f6",
+      "values_digest": "7f823be03c5476925ff9911342695a3ddcf7dea3b9190e4e7cd32147d0789ac6",
       "rendered_digest": "75405c0d66601a5c9c8a4d30db97f64bfc817f1a7f78ce0cac9dd59efe1b10d4",
       "ast_digest": "c4b25c3d4e4e4979f795a4bc24cbca5b057649ea7ddc05f05acebdff8c9ed9e9"
     },
     "vpp": {
-      "values_digest": "62057ee0507cab6dac3665e296f6ee5a2307779dc21822d52aef41c341062fa8",
+      "values_digest": "ab0d4ed561a4f1667ceb27877f12e721ef48fbcf71da9a2e0c1c627d21ac83cb",
       "rendered_digest": "737e870dd27b547ba8a2a3df43d2bd53bafd3f7b34ac1a29982434c7c696a27c",
       "ast_digest": "48c256915223a0c4db0b630c0614223a4b969d0a41c5153e698a8d0b7b981ec3"
     },
     "srp": {
-      "values_digest": "0706fbc9a463a114f0960e03e63931d2c6c1a7cd123af8676175e3b38d635cbf",
-      "rendered_digest": "39ea13a10d39c73fa76819e3027669c39a55f14590f0cbabbd4fde5bda1fa07e",
-      "ast_digest": "001ca82a24d2d4fc0565f0c1c5f0a3cf374f92d4b73dd0ec242efb9b5dce5b67"
+      "values_digest": "02650bcaea93fcdca97c76b11206d3c425aee9d5d8a440bcfd744dda3594449b",
+      "rendered_digest": "091b604ebb564cb3c1ed9b6ac9d57e586e3aa3eafd0d5d02a1dff3722302d799",
+      "ast_digest": "913a7d6dabf911b04d081fcf717d4df4d1e22bbb86656dd4caabc4b84040589a"
     },
     "sor": {
-      "values_digest": "f79df69dea8353bae5d5917c5fd77613bef12c7c9f2ccf41c55bd0219b0c1465",
+      "values_digest": "52a71e7ad0343694750e009e15d68a904a8c4279f5c0588c5f3a8c9bbf26ae6a",
       "rendered_digest": "7754bc04d2f7c4047713a89c7f1dacbb3b02f9388447c4692ac0fbd91c303adc",
       "ast_digest": "683cdaeb5db0353a2f8aae7eea00b150b84dd9c74afcde39837ad18a8f98427b"
     }
@@ -96,6 +125,13 @@
       "to": "implemented",
       "actor": "codex:issue-431-planning-amendment",
       "reason": "Recover the published planning candidate so premature placeholder issue routing can be replaced by the operator-required number-free WP-01 issue catalog and complete canonical document inventory."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -210,6 +246,20 @@
       "actor": "codex:issue-431-final-finding-fixes",
       "reason": "Recover the stale exact-head assignment after applying the bounded final review fixes for the exact 27-slot creation denominator and existing-issue README truth.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
