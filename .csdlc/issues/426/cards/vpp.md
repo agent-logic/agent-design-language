@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/426/diagram.mmd
 [
   {
     "lane": "csmctl-linux-lifecycle",
-    "proof_role": "Prove Darwin routing, Linux start/status/restart/stop, unsupported-platform refusal, foreign and stale process-identity denial, and Linux documentation coverage.",
+    "proof_role": "Prove Darwin routing, native Linux lifecycle and process ownership, stop-timeout refusal, continuity preservation after refusal, unsupported-platform refusal, and documentation coverage.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -45,26 +45,21 @@ Diagram: .csdlc/prepared/issues/426/diagram.mmd
     "defer_reason": null
   },
   {
-    "lane": "gemini-exact-head-review",
-    "proof_role": "Obtain the required hosted Gemini exact-head findings-first review independently from the deterministic shell proof.",
+    "lane": "gemini-exact-head-receipt",
+    "proof_role": "Deterministically validate the redacted Gemini 3.1 Pro exact-head approval receipt without treating provider output as lifecycle authority.",
     "acceptance_ids": [
       "AC-6"
     ],
-    "deterministic": false,
+    "deterministic": true,
     "resource_profile": "small",
-    "budget_seconds": 240,
-    "budget_tokens": 6000,
+    "budget_seconds": 30,
+    "budget_tokens": 500,
     "argv": [
-      ".adl/bin/adl-provider-adapter",
-      "--request",
-      ".csdlc/evidence/426/gemini-review/request.json",
-      "--out",
-      ".csdlc/evidence/426/gemini-review/result.json",
-      "--log",
-      ".csdlc/evidence/426/gemini-review/run.jsonl"
+      "python3",
+      ".csdlc/prepared/issues/426/validate_gemini_review.py"
     ],
-    "parallel_group": "hosted-review",
-    "defer_reason": "Run after the final substantive commit with the approved hosted Gemini credential; typed csdlc-review remains lifecycle authority."
+    "parallel_group": "local",
+    "defer_reason": null
   }
 ]
 
@@ -81,7 +76,7 @@ Tokens: 10000
 ## Commands
 
 - `bash adl/tools/test_csmctl_linux_backend.sh`
-- `.adl/bin/adl-provider-adapter --request .csdlc/evidence/426/gemini-review/request.json --out .csdlc/evidence/426/gemini-review/result.json --log .csdlc/evidence/426/gemini-review/run.jsonl`
+- `python3 .csdlc/prepared/issues/426/validate_gemini_review.py`
 
 ## Failure Semantics
 

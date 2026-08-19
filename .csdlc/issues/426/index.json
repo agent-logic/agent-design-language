@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "4997d7deed63e49f9f51627e90720c043a2c0f87bdfad9170fdc9d7d3870b70e",
   "phase": "implemented",
-  "generation": 17,
-  "digest": "be874038bec84bb0f69fb3c4f67eff6e0bb229ae5071f243211440238a6480ed",
+  "generation": 19,
+  "digest": "8fd1580f0aca5ee4a3d14f0090d7978eed52d9721c650f566867989b43e84e4b",
   "branch": "codex/426-linux-csmctl-service-control",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-426-linux-csmctl-service-control",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "901f17bb1d9f5658188f2ff42e1275ccaabe59a607918a6004998ff7ce3e19dd",
+      "values_digest": "d0c2455625051322ed92d21bb3ea41571f4021e8291b544db85d3234ae2e0e68",
       "rendered_digest": "a3cab901aa5c6ca7abaaf6bb8f4649453639cb83fc583f04f6c53c8c5a23830a",
       "ast_digest": "4a75f069e33d0cf887b1d834c066b5e626d40777d5261cea5e618daff103a140"
     },
     "stp": {
-      "values_digest": "6e2b583e971933b895a7f5a5ce1a64da96fea0a43019a87e542379345737d0ae",
+      "values_digest": "ec4586941b4c1294a4e5c4c0c9585a76a3999649ad290731355a46791a9842b1",
       "rendered_digest": "37ad1d11c4a4f3e579dfce0d0eb7ccecb55e3194778b234146d2f650c6b77d36",
       "ast_digest": "e0c72f42587d3b095d80d0ba18548c92efcf4cda8c89eacc0f7eed4e868301aa"
     },
     "spp": {
-      "values_digest": "98887468d8300af21a54f8ea534e1a42d5dfeb03cce82dafe0b33327759efb27",
-      "rendered_digest": "d324a470a3018ee464f77b3132303b3dca91dcd29b52976310e96a73b36e64ae",
-      "ast_digest": "b4056cb77d97a4de8060e597d2d804fc7b50fa282679ca654a9ed8d700e30540"
+      "values_digest": "c1580f36a2fa849cc38f02d787b349caddc51c9f4861dedd3ebdc5a3796d21fa",
+      "rendered_digest": "332c5a1346d4999babbb8c7587957bc525b4513da46a1eea3a8c500e71b71700",
+      "ast_digest": "585662e00e5268f00ae74001ed7ee80b7592c2dc2adaf7407451a2516e5cc98c"
     },
     "vpp": {
-      "values_digest": "3d5e19552430629a940d7bd0a7bdc72a842f88fa2cbfd70a2b0ed27961aeac60",
-      "rendered_digest": "1a9e890be759865a4722d8547a91da307ef00cbbd7a19ee3846b5ec73ef91cc0",
-      "ast_digest": "554f1fc2241127f3420794a65270c2d05e0497df2d0c18d2c146b067f2ae75b0"
+      "values_digest": "c630c67a269c006b48fa48c10526165b44d3f685dede7efcec713571c2341c1a",
+      "rendered_digest": "3c295b84350ffe26405d980894b07f08c9b48882e59ad4d658dd7002c5abc1e4",
+      "ast_digest": "f7cd0bab2d86fcff67dd89a6c4f75d89032a91197fbfcd201caa50a15e0543b2"
     },
     "srp": {
-      "values_digest": "6da2400bd2d16a3e1036f1dbaf8d271a4f207b90d2a8b5aa43b73b3e9d7b4dc3",
+      "values_digest": "196e41ca60fe1dce726cb62ec33b4d832f459b03b6ba49f3d58218031cb4d4ee",
       "rendered_digest": "97d1c04b74ceb1498b7d483962f7680dcfcc31c603d72016a8d3301e9aaddbd4",
       "ast_digest": "4b782840962021493eb6879319b80860d96d5450dc24c900462809920b1730fa"
     },
     "sor": {
-      "values_digest": "fa9e7586a9e1bfd47f42c53000af72da7833a5e20a4fc0e0d2f530b9af7a916a",
+      "values_digest": "6f3ee8425dea82df5c413d907a162ad61e87f285b30eba01b479037efcd0bde2",
       "rendered_digest": "9aa9bf1fd6f66e6e2e03f5595bc23065d6f67553504379f0ef49044451f8e5aa",
       "ast_digest": "f093c0d325f48b11a9eb631c9956ca7373f8e642669d3072a6519c3b21d9e35c"
     }
@@ -259,6 +259,20 @@
       "actor": "codex:/root",
       "reason": "Recover failed exact-head review r6 to propagate rotate/recovery stop refusal and refresh native Linux evidence before a new exact-head review.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "Bind the deterministic redacted Gemini receipt verifier into the exact issue scope after review recovery.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"CSMctl\",\"start_CSM.sh\",\"docs/tooling/START_CSM_RUNBOOK.md\",\"adl/tools/test_csmctl_linux_backend.sh\",\".csdlc/prepared/issues/426/validate_gemini_review.py\",\".csdlc/evidence/426/gemini-exact-head-review.json\"]}"
+    },
+    {
+      "sequence": 28,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "Use deterministic executable validators for native lifecycle proof and the redacted exact-head Gemini receipt.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"csmctl-linux-lifecycle\",\"proof_role\":\"Prove Darwin routing, native Linux lifecycle and process ownership, stop-timeout refusal, continuity preservation after refusal, unsupported-platform refusal, and documentation coverage.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":2000,\"argv\":[\"bash\",\"adl/tools/test_csmctl_linux_backend.sh\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"gemini-exact-head-receipt\",\"proof_role\":\"Deterministically validate the redacted Gemini 3.1 Pro exact-head approval receipt without treating provider output as lifecycle authority.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"python3\",\".csdlc/prepared/issues/426/validate_gemini_review.py\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
     }
   ]
 }
