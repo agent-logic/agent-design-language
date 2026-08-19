@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": "adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs\n.csdlc/issues/340",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
