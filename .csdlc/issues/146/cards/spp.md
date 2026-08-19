@@ -64,7 +64,7 @@ Revision 5
       "AC-7",
       "AC-8"
     ],
-    "status": "in_progress"
+    "status": "completed"
   }
 ]
 
