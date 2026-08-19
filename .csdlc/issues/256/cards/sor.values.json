@@ -1,0 +1,34 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 256,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18] Birthday demo after Observatory sprint",
+    "slug": "v0-92-wp18-birthday-demo-after-observatory-sprint",
+    "version": "v0.92",
+    "generation": 8
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Recorded current #256 dependency/readiness truth: #110 and #414 are closed/live inputs, #84 and #345 are backlog/deferred for Unity/public-AWS variants, #424 is the active HTML Observatory startup gate, and #256 product demo implementation remains held until #424 is terminal/canonical.",
+      "actual_changes": [
+        "Added issue-owned readiness evidence for current #110/#414/#84/#345/#424 gate truth.",
+        "Updated the issue-owned preparation validator to require #84 backlog routing, #424 local Observatory startup gating, and the preserved typed bound-phase card-edit rejection evidence.",
+        "Preserved non-claims for product birthday-demo implementation, AWS spend, Unity/TLS proof, and sibling Observatory implementation paths."
+      ],
+      "artifacts": [
+        ".csdlc/evidence/256/readiness-refresh-2026-08-19.md",
+        ".csdlc/evidence/256/validate_preparation_gate.py"
+      ],
+      "actual_validation": [],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

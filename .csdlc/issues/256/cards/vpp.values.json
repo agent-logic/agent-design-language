@@ -1,0 +1,52 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 256,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18] Birthday demo after Observatory sprint",
+    "slug": "v0-92-wp18-birthday-demo-after-observatory-sprint",
+    "version": "v0.92",
+    "generation": 8
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "issue256-preparation-gate",
+          "proof_role": "Validate #256 successor authority, packet input-only truth, Observatory/#345 gates, terminal canonical ancestral #414, exact habitable Runtime denominator, excluded predecessor implementation, and #341/#343 serialization.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "python3",
+            ".csdlc/evidence/256/validate_preparation_gate.py"
+          ],
+          "parallel_group": "local",
+          "defer_reason": "#414 terminal evidence and final birthday-demo integration remain deferred; this lane currently proves coordination truth only."
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed before bind/implementation when Observatory, #345, or scope-exclusion gates are unsatisfied.",
+      "design_ref": ".csdlc/prepared/issues/256/design.md",
+      "design_digest": "4a74fa3abdec6027601f8dd8e056ec2bbe7cc61e9042363e7a77d71ff3c19948",
+      "diagram_ref": ".csdlc/prepared/issues/256/diagram.mmd",
+      "diagram_digest": "564b28517279f4f382ecd81e7343ebdd23888ef1471c16e48e6916b096e50041"
+    }
+  }
+}

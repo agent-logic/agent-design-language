@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 256,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18] Birthday demo after Observatory sprint",
+    "slug": "v0-92-wp18-birthday-demo-after-observatory-sprint",
+    "version": "v0.92",
+    "generation": 8
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Current-repository #256 initialized preparation and gate-truth package",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does #256 truthfully replace legacy #5836 as current authority without claiming legacy terminal completion?",
+        "Does the package block terminal birthday-demo acceptance on Observatory visibility?",
+        "Does it avoid #271 and other excluded implementation surfaces?",
+        "Are #341 and #343 correctly serialized behind #256?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
