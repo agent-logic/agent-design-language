@@ -1,0 +1,54 @@
+{
+  "adapter": "aws",
+  "artifact_policy": {
+    "max_total_bytes": 134217728,
+    "paths": [
+      "attempt-0/command-stdout.log"
+    ],
+    "required": true
+  },
+  "cancellation_file": ".csdlc/evidence/268/aws/issue268-six-hour-r7i-20260819-06/cancel",
+  "checkout": ".",
+  "command_profile": {
+    "argv": [
+      "bash",
+      "adl/tools/run_issue268_remote_resident_qualification.sh"
+    ],
+    "environment_allowlist": [
+      "PATH",
+      "CARGO_HOME",
+      "RUSTUP_HOME",
+      "CARGO_TARGET_DIR",
+      "ADL_RUN_ID",
+      "ADL_RUNTIME_VECTOR_BIN",
+      "ADL_RUNTIME_CONTINUITY_ROOT",
+      "ADL_RUNTIME_CONTINUITY_VOLUME_ID_SHA256",
+      "ADL_CACHE_VOLUME_MOUNT_PATH",
+      "ADL_RETAINED_VOLUME_ROLE",
+      "ADL_REGION",
+      "ADL_ISSUE268_REMOTE_EVIDENCE_ROOT",
+      "ADL_ISSUE268_CONTINUITY_BIN",
+      "ADL_ISSUE268_RETAINED_RUNTIME_ROOT",
+      "ADL_ISSUE268_BUILD_CACHE_ROOT",
+      "ADL_ISSUE268_AGENT_SPEC_DIR",
+      "ADL_ISSUE268_RUNTIME_VOLUME_IDENTITY_SHA256",
+      "ADL_ISSUE268_S3_SOURCE_RECEIPT",
+      "ADL_ISSUE268_414_REVIEWED_SHA",
+      "ADL_ISSUE268_CONTINUITY_BIN_SHA256"
+    ],
+    "working_directory": "."
+  },
+  "command_profile_digest": "5fdd6fea3f5f3961e7dd6eec2c6284ff6807183e2e375a422cbd15acdce41661",
+  "fallback": "disabled",
+  "request_id": "issue268-six-hour-r7i-20260819-06",
+  "requested_platform": "linux",
+  "resource_budget": {
+    "cpu_cores": 8,
+    "estimated_max_cost_microusd": 20000000,
+    "memory_mib": 65536,
+    "timeout_seconds": 25200
+  },
+  "revision": "2fb791788d6956501458fb10fa56761161b0c9e1",
+  "schema": "adl.remote_validation.request.v1",
+  "source_ref": "refs/heads/codex/268-six-hour-spot-qualification"
+}

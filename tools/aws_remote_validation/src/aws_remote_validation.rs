@@ -42,6 +42,7 @@ const SPOT_QUOTA_NAME: &str = "All Standard (A, C, D, H, I, M, R, T, Z) Spot Ins
 const ON_DEMAND_QUOTA_NAME: &str =
     "Running On-Demand Standard (A, C, D, H, I, M, R, T, Z) instances";
 const CACHE_ROLE_POLICY_NAME: &str = "AdlAwsRemoteValidationCacheAccess";
+const ISSUE268_BOOTSTRAP_ROLE_POLICY_NAME: &str = "AdlIssue268BootstrapRead";
 const BUILDER_IMAGE_ECR_ROLE_POLICY_NAME: &str = "AdlAwsRemoteValidationBuilderImageEcrRead";
 
 static LIVE_EVENT_LOG_PATH: Lazy<Mutex<Option<PathBuf>>> = Lazy::new(|| Mutex::new(None));
@@ -588,6 +589,20 @@ fn remote_resilience_policy(config: &AwsRemoteValidationConfig) -> AwsRemoteResi
             AwsRemoteResilienceFaultClass::CleanupPartialFailure,
         ],
     }
+}
+
+fn issue268_bootstrap_policy(config: &AwsRemoteValidationConfig) -> Option<String> {
+    (config.issue == Some(268)).then(|| {
+        r#"{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Effect": "Allow",
+    "Action": ["s3:GetObject", "s3:GetObjectVersion"],
+    "Resource": "arn:aws:s3:::adl-shepherd-model-artifacts-b05e1f4379b5c745-us-west-2/shepherd/*"
+  }]
+}"#
+        .to_string()
+    })
 }
 
 fn classify_aws_remote_failure(
@@ -2843,6 +2858,13 @@ impl LiveAwsRemoteValidationAdapter {
                 .iam
                 .delete_role_policy()
                 .role_name(role_name)
+                .policy_name(ISSUE268_BOOTSTRAP_ROLE_POLICY_NAME)
+                .send()
+                .await;
+            let _ = self
+                .iam
+                .delete_role_policy()
+                .role_name(role_name)
                 .policy_name(BUILDER_IMAGE_ECR_ROLE_POLICY_NAME)
                 .send()
                 .await;
@@ -3163,6 +3185,15 @@ impl LiveAwsRemoteValidationAdapter {
                 .put_role_policy()
                 .role_name(role_name)
                 .policy_name(CACHE_ROLE_POLICY_NAME)
+                .policy_document(policy_document)
+                .send()
+                .await?;
+        }
+        if let Some(policy_document) = issue268_bootstrap_policy(config) {
+            self.iam
+                .put_role_policy()
+                .role_name(role_name)
+                .policy_name(ISSUE268_BOOTSTRAP_ROLE_POLICY_NAME)
                 .policy_document(policy_document)
                 .send()
                 .await?;
@@ -4939,6 +4970,24 @@ mod tests {
         assert_eq!(policy.max_launch_attempts, 1);
         assert!(!policy.spot_fallback_enabled);
         assert!(policy.retryable_classes.is_empty());
+    }
+
+    #[test]
+    fn issue268_instance_role_can_read_only_versioned_bootstrap_objects() {
+        let tmp = std::env::temp_dir().join(format!(
+            "adl-aws-remote-validation-issue268-s3-policy-{}",
+            std::process::id()
+        ));
+        let mut config = sample_config(&tmp);
+        config.issue = Some(268);
+        let policy = issue268_bootstrap_policy(&config).expect("issue268 policy");
+        assert!(policy.contains("s3:GetObjectVersion"));
+        assert!(
+            policy.contains("adl-shepherd-model-artifacts-b05e1f4379b5c745-us-west-2/shepherd/*")
+        );
+        assert!(!policy.contains("s3:PutObject"));
+        config.issue = Some(269);
+        assert!(issue268_bootstrap_policy(&config).is_none());
     }
 
     #[test]
