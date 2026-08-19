@@ -24,8 +24,8 @@ Diagram: .csdlc/prepared/issues/256/diagram.mmd
 
 [
   {
-    "lane": "issue256-preparation-gate",
-    "proof_role": "Validate #256 successor authority, packet input-only truth, Observatory/#345 gates, terminal canonical ancestral #414, exact habitable Runtime denominator, excluded predecessor implementation, and #341/#343 serialization.",
+    "lane": "issue256-birthday-after-observatory-packet",
+    "proof_role": "Validate #256 successor authority, legacy #5836 input-only classification, merged #424 HTML Observatory startup surface, accepted #414 local resident Shepherd reference evidence, and explicit public/AWS/Unity non-claims.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -42,10 +42,54 @@ Diagram: .csdlc/prepared/issues/256/diagram.mmd
     "budget_tokens": 1000,
     "argv": [
       "python3",
+      "adl/tools/validate_issue256_birthday_after_observatory.py",
+      "--root",
+      "/Volumes/FastWork/adl-worktrees/adl-issue-256-birthday-demo-after-observatory"
+    ],
+    "parallel_group": "local",
+    "defer_reason": null
+  },
+  {
+    "lane": "birthday-contract-rust-tests",
+    "proof_role": "Run the focused Runtime kernel birthday contract tests covering accepted candidate semantics, lifecycle lookalike rejection, missing evidence rejection, integrity/privacy boundaries, JCS stability, and unknown-field rejection.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 300,
+    "budget_tokens": 1000,
+    "argv": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "/Volumes/FastWork/adl-worktrees/adl-issue-256-birthday-demo-after-observatory/adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "birthday"
+    ],
+    "parallel_group": "local",
+    "defer_reason": null
+  },
+  {
+    "lane": "issue256-preparation-gate",
+    "proof_role": "Retain the prior issue-owned preparation gate as a regression check for scope exclusions, #84 backlog routing, #341/#343 serialization, and current successor authority.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-7",
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 1000,
+    "argv": [
+      "python3",
       ".csdlc/evidence/256/validate_preparation_gate.py"
     ],
     "parallel_group": "local",
-    "defer_reason": "#414 terminal evidence and final birthday-demo integration remain deferred; this lane currently proves coordination truth only."
+    "defer_reason": null
   }
 ]
 
@@ -61,6 +105,8 @@ Tokens: 10000
 
 ## Commands
 
+- `python3 adl/tools/validate_issue256_birthday_after_observatory.py --root /Volumes/FastWork/adl-worktrees/adl-issue-256-birthday-demo-after-observatory`
+- `cargo test --manifest-path /Volumes/FastWork/adl-worktrees/adl-issue-256-birthday-demo-after-observatory/adl-runtime-kernel/Cargo.toml --test birthday`
 - `python3 .csdlc/evidence/256/validate_preparation_gate.py`
 
 ## Failure Semantics

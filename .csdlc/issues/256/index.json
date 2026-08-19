@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "eb5812135d9740223d4c4313299e7c14a05c109b70155d30fbe4d8a1e51ad983",
-  "phase": "bound",
-  "generation": 8,
-  "digest": "58f6c97623af886a1b1448e07c76bb33d26c282c581dba1e39739aa9f9adfc28",
+  "phase": "implemented",
+  "generation": 10,
+  "digest": "c2471bb880aac2f3d3d70b1d95a699e8711943b9d2f7ea8f049cc33553c92ac1",
   "branch": "codex/256-birthday-demo-after-observatory",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-256-birthday-demo-after-observatory",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "781d09be700a35c34facb88ef94b0e627e60f208a427fd3c4e8e636395306f50",
+      "values_digest": "ddc4f24630cf27e5a1a9c05b7653f95ba8b5122aee33cb6bf520944964a3c36c",
       "rendered_digest": "f6cf884697bb08d234a8fc2bc095fad8235c51b4e393e5b58a92c08c0c423a82",
       "ast_digest": "c9095cbb4774793e73792b3b9f0240d5d5209523adeb47a07e5f797282315682"
     },
     "stp": {
-      "values_digest": "a8036fff8f6ba551b634794e29e731abad7a135130f1f89022235cb67d02977e",
+      "values_digest": "c80e9d0b8fb715881da9fe8c7978ad3b927db6962057d49e5ec4a3b4f2973f37",
       "rendered_digest": "6b554472d478caf1dadef40aa129f633a30d914e3adabe6217b6ab7d768bd8bb",
       "ast_digest": "5cbf9a83be96a7eec5c35ae2458c24c1855f6623c101115f845ac735b5919ed5"
     },
     "spp": {
-      "values_digest": "fde5a92af8a567aba76fbfb5bb1d3482f7d9e54e5430a163d6501023437adeac",
+      "values_digest": "a0f4cbf8399112e343a749df041768938ace81a6cd5a4bb1ecf0d14d67b280ab",
       "rendered_digest": "d43353c47da1564d75a8764c24d4a24fa44f88e841fe7be0a896ccefd6df44b1",
       "ast_digest": "5b7041c1146ec7ec42af7d754a7dd3a88f98e9497d2867794cee00d3e7be116e"
     },
     "vpp": {
-      "values_digest": "70d5cede22b6169bc3c52c5d7b029c7e10a782274daac0d56572585193021923",
-      "rendered_digest": "ab845e4ce1d5a1dd8f3bea59244ad0cef50aef632909372aa7c36b920ba0b734",
-      "ast_digest": "e255a2959e0e11b050c119a46a16f987cd0b8d752fe6f301cf8aaa1057d22867"
+      "values_digest": "2bd29f21a0f6266e092666d45a81ac8d6d6a71a837af44ebf5d634cc4d3015d5",
+      "rendered_digest": "f77fbdccd946cafe3470833d9cf2a3e21049f20e703efaf9f18c5ddda8f7cdce",
+      "ast_digest": "4d1480ec771df8858ff0ed239d451a961c8d3a70c8edeb788819a82e67089749"
     },
     "srp": {
-      "values_digest": "3c7249b17f0e9de0d028920b53438f0a3e887ba78dd737b02dcbab1e83011991",
+      "values_digest": "ba0bd10f0756ff37ae428f234066ff8b8b8dc9388ee119596c83ef9933a3dd77",
       "rendered_digest": "b3d2e73fd4b1d06b9f1407d3333dc6e8ecf8888996cc63fc204fe9c91afc287e",
       "ast_digest": "1721c4ea13fd23f01c7f3f3eaad68e0292c46026f9d6b8886557a9708b6e3be9"
     },
     "sor": {
-      "values_digest": "6be80540a2f2ec91bcab53979efd3afd8a748e878b0a103c2a0229f53e191570",
-      "rendered_digest": "90d813e527156823000d4fa6c625b80e02801434103aafa0d170446042f1a09e",
-      "ast_digest": "1c7a95eef77cae83aaf1d98223c4ee5eeae7c17d4f3124190b78cd738d307923"
+      "values_digest": "5fa023a23e9fbd7c29aa82db828a51e16916d15ab1ab1a03978a8d243852074b",
+      "rendered_digest": "328c27400e0f11660310ed9fa158ef12221dd111667cb93319c6618c8cff0ea4",
+      "ast_digest": "c1ecddc962d1ce4ea498b3f13678a6c0ecf1bb7f2b709fc303eb0a886134c130"
     }
   },
   "transitions": [
@@ -69,6 +69,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -141,6 +148,20 @@
       "actor": "codex:/root",
       "reason": "Record #256 bound readiness refresh evidence without claiming product birthday-demo implementation while #424 remains nonterminal.",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Recorded current #256 dependency/readiness truth: #110 and #414 are closed/live inputs, #84 and #345 are backlog/deferred for Unity/public-AWS variants, #424 is the active HTML Observatory startup gate, and #256 product demo implementation remains held until #424 is terminal/canonical.\",\"changes\":[\"Added issue-owned readiness evidence for current #110/#414/#84/#345/#424 gate truth.\",\"Updated the issue-owned preparation validator to require #84 backlog routing, #424 local Observatory startup gating, and the preserved typed bound-phase card-edit rejection evidence.\",\"Preserved non-claims for product birthday-demo implementation, AWS spend, Unity/TLS proof, and sibling Observatory implementation paths.\"],\"artifacts\":[\".csdlc/evidence/256/readiness-refresh-2026-08-19.md\",\".csdlc/evidence/256/validate_preparation_gate.py\"]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Replace #256 validation truth after #424 merged with the local birthday-demo-after-Observatory proof lanes that do not claim AWS/public or Unity execution.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue256-birthday-after-observatory-packet\",\"proof_role\":\"Validate #256 successor authority, legacy #5836 input-only classification, merged #424 HTML Observatory startup surface, accepted #414 local resident Shepherd reference evidence, and explicit public/AWS/Unity non-claims.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"python3\",\"adl/tools/validate_issue256_birthday_after_observatory.py\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-256-birthday-demo-after-observatory\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"birthday-contract-rust-tests\",\"proof_role\":\"Run the focused Runtime kernel birthday contract tests covering accepted candidate semantics, lifecycle lookalike rejection, missing evidence rejection, integrity/privacy boundaries, JCS stability, and unknown-field rejection.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"/Volumes/FastWork/adl-worktrees/adl-issue-256-birthday-demo-after-observatory/adl-runtime-kernel/Cargo.toml\",\"--test\",\"birthday\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"issue256-preparation-gate\",\"proof_role\":\"Retain the prior issue-owned preparation gate as a regression check for scope exclusions, #84 backlog routing, #341/#343 serialization, and current successor authority.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"python3\",\".csdlc/evidence/256/validate_preparation_gate.py\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
     }
   ]
 }

@@ -1,0 +1,13 @@
+
+running 6 tests
+test rejects_unknown_top_level_and_nested_fields_during_parse ... ok
+test accepts_complete_candidate_and_emits_canonical_semantics ... ok
+test decisions_are_stable_across_evidence_order_and_round_trip ... ok
+test rejects_each_missing_evidence_surface ... ok
+test rejects_every_declared_lifecycle_lookalike ... ok
+test rejects_integrity_privacy_path_and_claim_boundary_failures ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.26s
+     Running tests/birthday.rs (adl-runtime-kernel/target/debug/deps/birthday-a591fd2fee477b3f)
