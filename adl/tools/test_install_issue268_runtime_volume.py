@@ -10,6 +10,8 @@ MODULE = importlib.util.module_from_spec(SPEC)
 assert SPEC.loader
 SPEC.loader.exec_module(MODULE)
 
+assert "stdout=subprocess.DEVNULL" in MODULE_PATH.read_text()
+
 
 def fixture(root: pathlib.Path):
     reviewed = "a" * 40

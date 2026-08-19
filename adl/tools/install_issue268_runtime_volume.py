@@ -133,6 +133,7 @@ def install(args: argparse.Namespace) -> dict:
                 "--version-id", source["version_id"], str(archive),
             ],
             check=True,
+            stdout=subprocess.DEVNULL,
         )
         if sha256(archive) != source["sha256"]:
             raise ValueError(f"S3 checksum mismatch: {source['key']}")
