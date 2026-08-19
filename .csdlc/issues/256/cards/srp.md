@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Current-repository #256 initialized preparation and gate-truth package
+
 
 ## Prompts
 

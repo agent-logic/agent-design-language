@@ -7,14 +7,14 @@
     "title": "[v0.92][WP-18] Birthday demo after Observatory sprint",
     "slug": "v0-92-wp18-birthday-demo-after-observatory-sprint",
     "version": "v0.92",
-    "generation": 10
+    "generation": 18
   },
   "status": "ready",
   "content": {
     "card_kind": "sip",
     "values": {
       "goal": "Prepare the current-repository #256 birthday-demo authority so legacy #5836 packet work can be consumed without claiming terminal demo completion before Observatory proof is available.",
-      "required_outcome": "A truthful initialized #256 package records the birthday-demo dependency gates, preserves legacy #5836 as input evidence only, and blocks bind/implementation until Observatory and public/AWS prerequisites are satisfied or explicitly re-scoped.",
+      "required_outcome": "A truthful implemented #256 local birthday-demo-after-Observatory packet consumes legacy #5836 as input evidence only, consumes #414 accepted local resident Shepherd reference evidence, validates the current merged HTML Observatory startup surface, preserves public/AWS and Unity as non-claims, and remains serialized before #341/#343.",
       "declared_scope": [
         ".csdlc/issues/256",
         ".csdlc/prepared/issues/256",

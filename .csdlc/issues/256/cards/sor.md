@@ -86,7 +86,7 @@ Implemented the #256 local birthday-demo-after-Observatory acceptance packet wit
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

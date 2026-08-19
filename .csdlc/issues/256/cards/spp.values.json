@@ -7,14 +7,14 @@
     "title": "[v0.92][WP-18] Birthday demo after Observatory sprint",
     "slug": "v0-92-wp18-birthday-demo-after-observatory-sprint",
     "version": "v0.92",
-    "generation": 10
+    "generation": 18
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 3,
-      "summary": "Initialize #256, review gate truth, then stop before bind until Observatory/#345 gates are satisfied or explicitly re-scoped.",
+      "plan_revision": 4,
+      "summary": "Implement and prove the #256 local birthday-demo-after-Observatory packet after #424 merged: consume legacy #5836 only as input evidence, consume #414 accepted local resident Shepherd reference evidence, validate the current HTML Observatory startup surface, preserve public/AWS and Unity as non-claims, then obtain fresh exact-head review and publish if all typed gates pass.",
       "steps": [
         {
           "id": "S1",
@@ -24,7 +24,7 @@
             "AC-2",
             "AC-8"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S2",
@@ -33,7 +33,7 @@
             "AC-3",
             "AC-7"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S3",
@@ -43,7 +43,7 @@
             "AC-5",
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         },
         {
           "id": "S4",
@@ -58,7 +58,7 @@
             "AC-7",
             "AC-8"
           ],
-          "status": "pending"
+          "status": "in_progress"
         }
       ],
       "affected_areas": [

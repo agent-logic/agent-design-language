@@ -16,7 +16,7 @@ Prepare the current-repository #256 birthday-demo authority so legacy #5836 pack
 
 ## Required Outcome
 
-A truthful initialized #256 package records the birthday-demo dependency gates, preserves legacy #5836 as input evidence only, and blocks bind/implementation until Observatory and public/AWS prerequisites are satisfied or explicitly re-scoped.
+A truthful implemented #256 local birthday-demo-after-Observatory packet consumes legacy #5836 as input evidence only, consumes #414 accepted local resident Shepherd reference evidence, validates the current merged HTML Observatory startup surface, preserves public/AWS and Unity as non-claims, and remains serialized before #341/#343.
 
 ## Scope
 

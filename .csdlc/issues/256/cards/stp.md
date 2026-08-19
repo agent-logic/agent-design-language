@@ -12,14 +12,14 @@ Status: ready
 
 ## Task
 
-Initialize #256 planning and gate truth only; no product/source implementation in this preparation slice.
+Implement and publish-review the narrowed #256 local birthday-demo-after-Observatory packet only: consume legacy #5836 as input evidence, consume #414 accepted local reference evidence, validate the merged #424 HTML Observatory startup surface, and preserve AWS/public launch, Unity, #341, and #343 as out of scope.
 
 ## Deliverables
 
-- Initialized #256 lifecycle package
-- Design and diagram preserving current Sprint 5 gate truth
-- Explicit stop conditions for Observatory/#345 blockers
-- Serialized handoff for #341 and #343
+- Implemented local #256 birthday-demo-after-Observatory acceptance packet
+- Issue-owned validator proving current birthday contract, #424 HTML Observatory startup surface, #414 accepted local resident Shepherd reference evidence, and #5836 input-only classification
+- Focused birthday contract Rust test evidence
+- Typed lifecycle truth and fresh review/publication handoff preserving AWS/public, Unity, #341, and #343 non-claims
 
 ## Acceptance
 

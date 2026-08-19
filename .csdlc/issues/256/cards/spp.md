@@ -12,11 +12,11 @@ Status: ready
 
 ## Summary
 
-Initialize #256, review gate truth, then stop before bind until Observatory/#345 gates are satisfied or explicitly re-scoped.
+Implement and prove the #256 local birthday-demo-after-Observatory packet after #424 merged: consume legacy #5836 only as input evidence, consume #414 accepted local resident Shepherd reference evidence, validate the current HTML Observatory startup surface, preserve public/AWS and Unity as non-claims, then obtain fresh exact-head review and publish if all typed gates pass.
 
 ## Plan
 
-Revision 3
+Revision 4
 
 ## Steps
 
@@ -29,7 +29,7 @@ Revision 3
       "AC-2",
       "AC-8"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
@@ -38,7 +38,7 @@ Revision 3
       "AC-3",
       "AC-7"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
@@ -48,7 +48,7 @@ Revision 3
       "AC-5",
       "AC-6"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S4",
@@ -63,7 +63,7 @@ Revision 3
       "AC-7",
       "AC-8"
     ],
-    "status": "pending"
+    "status": "in_progress"
   }
 ]
 

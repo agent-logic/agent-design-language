@@ -44,8 +44,11 @@ REQUIRED_ISSUE414_FILES = (
     ".csdlc/evidence/414/llama-baseline-reference-validation.json",
 )
 
-LEGACY_INPUT_PATHS = (
+LEGACY_REQUIRED_INPUT_PATHS = (
     "docs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md",
+)
+
+LEGACY_OPTIONAL_INPUT_PATHS = (
     "adl/tools/test_v092_first_birthday_demo.sh",
 )
 
@@ -89,10 +92,14 @@ def require_text(path: pathlib.Path, needles: tuple[str, ...]) -> None:
 
 def validate_legacy_inputs(legacy_root: pathlib.Path) -> list[dict[str, str]]:
     inputs: list[dict[str, str]] = []
-    for rel in LEGACY_INPUT_PATHS:
+    for rel in LEGACY_REQUIRED_INPUT_PATHS:
         path = require_file(legacy_root, rel)
-        inputs.append({"path": str(path), "sha256": sha256(path)})
-    launch_packet = legacy_root / LEGACY_INPUT_PATHS[0]
+        inputs.append({"path": rel, "sha256": sha256(path), "required": "true"})
+    for rel in LEGACY_OPTIONAL_INPUT_PATHS:
+        path = legacy_root / rel
+        if path.is_file():
+            inputs.append({"path": rel, "sha256": sha256(path), "required": "false"})
+    launch_packet = legacy_root / LEGACY_REQUIRED_INPUT_PATHS[0]
     require_text(
         launch_packet,
         (
@@ -176,11 +183,15 @@ def main() -> None:
     parser.add_argument(
         "--legacy-root",
         type=pathlib.Path,
-        default=pathlib.Path("/Volumes/FastWork/adl-worktrees/adl-issue-5836-wp18-first-birthday-demo"),
+        default=None,
+        help=(
+            "Optional legacy #5836 checkout root. Defaults to --root so the "
+            "validator remains reproducible from the current PR checkout."
+        ),
     )
     args = parser.parse_args()
     root = args.root.resolve()
-    legacy_root = args.legacy_root.resolve()
+    legacy_root = args.legacy_root.resolve() if args.legacy_root is not None else root
 
     current_files = validate_current_surface(root)
     legacy_inputs = validate_legacy_inputs(legacy_root)

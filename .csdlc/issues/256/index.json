@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "eb5812135d9740223d4c4313299e7c14a05c109b70155d30fbe4d8a1e51ad983",
   "phase": "implemented",
-  "generation": 10,
-  "digest": "c2471bb880aac2f3d3d70b1d95a699e8711943b9d2f7ea8f049cc33553c92ac1",
+  "generation": 18,
+  "digest": "7c85ec8b4a7bf9d4c16ddbce005bbe8897475bd6af975c608c8a8f171cede7b4",
   "branch": "codex/256-birthday-demo-after-observatory",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-256-birthday-demo-after-observatory",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ddc4f24630cf27e5a1a9c05b7653f95ba8b5122aee33cb6bf520944964a3c36c",
-      "rendered_digest": "f6cf884697bb08d234a8fc2bc095fad8235c51b4e393e5b58a92c08c0c423a82",
-      "ast_digest": "c9095cbb4774793e73792b3b9f0240d5d5209523adeb47a07e5f797282315682"
+      "values_digest": "f7ce71a57fc81b5a435b4fa2c3c021ab993fe03aeace2f445399b833e0422acc",
+      "rendered_digest": "d98919be23c28d764524b0619b2dd084498606c3eee4206daa09ee1c2827410f",
+      "ast_digest": "dace2b72efc1be2bb8c64700bf5ce199907883d1d821647ad4baadfde4584c8a"
     },
     "stp": {
-      "values_digest": "c80e9d0b8fb715881da9fe8c7978ad3b927db6962057d49e5ec4a3b4f2973f37",
-      "rendered_digest": "6b554472d478caf1dadef40aa129f633a30d914e3adabe6217b6ab7d768bd8bb",
-      "ast_digest": "5cbf9a83be96a7eec5c35ae2458c24c1855f6623c101115f845ac735b5919ed5"
+      "values_digest": "a1f31a72ec38f7b08c3f65cc1109ab033cce531d56fb63365e9955ef48ad9a95",
+      "rendered_digest": "f0d77a915caf1ac8732734aeea0530806547d86ba6de98330d4aeca00a46f8f5",
+      "ast_digest": "65705b4ce92df18866b027b025b5b305321a4c67249f4be0828a207603ddeda4"
     },
     "spp": {
-      "values_digest": "a0f4cbf8399112e343a749df041768938ace81a6cd5a4bb1ecf0d14d67b280ab",
-      "rendered_digest": "d43353c47da1564d75a8764c24d4a24fa44f88e841fe7be0a896ccefd6df44b1",
-      "ast_digest": "5b7041c1146ec7ec42af7d754a7dd3a88f98e9497d2867794cee00d3e7be116e"
+      "values_digest": "ba684ec75b82868311f057b768dfd578f9e8dd3c894de56ea79e182a1c49a66c",
+      "rendered_digest": "6f9627e84402cdf3c4e4b1b34c463f0471e2ed1a84091eac0270ae156e231a71",
+      "ast_digest": "cdc9a6bd56989ebdb635b421934f790670593f6fde0abbee27d056c2eaa645df"
     },
     "vpp": {
-      "values_digest": "2bd29f21a0f6266e092666d45a81ac8d6d6a71a837af44ebf5d634cc4d3015d5",
+      "values_digest": "db26724c93e6b51af8dbac935e8ed156d851db9adf72c840f2caa98e30d389a6",
       "rendered_digest": "f77fbdccd946cafe3470833d9cf2a3e21049f20e703efaf9f18c5ddda8f7cdce",
       "ast_digest": "4d1480ec771df8858ff0ed239d451a961c8d3a70c8edeb788819a82e67089749"
     },
     "srp": {
-      "values_digest": "ba0bd10f0756ff37ae428f234066ff8b8b8dc9388ee119596c83ef9933a3dd77",
-      "rendered_digest": "b3d2e73fd4b1d06b9f1407d3333dc6e8ecf8888996cc63fc204fe9c91afc287e",
-      "ast_digest": "1721c4ea13fd23f01c7f3f3eaad68e0292c46026f9d6b8886557a9708b6e3be9"
+      "values_digest": "d3bfb95b3309c7f7610da46fe7da43866848574874eb598f74b59c0b28972152",
+      "rendered_digest": "b24db03bbb6deac021da2bca7662a99d76cbbcec82ddac32d34abb69e07a2bfb",
+      "ast_digest": "846b9e070a0439d765705c7de9bf2c508cd01baed6c9d52350748adef0603448"
     },
     "sor": {
-      "values_digest": "5fa023a23e9fbd7c29aa82db828a51e16916d15ab1ab1a03978a8d243852074b",
-      "rendered_digest": "328c27400e0f11660310ed9fa158ef12221dd111667cb93319c6618c8cff0ea4",
-      "ast_digest": "c1ecddc962d1ce4ea498b3f13678a6c0ecf1bb7f2b709fc303eb0a886134c130"
+      "values_digest": "da5aee4e3c35ac4de9408e7d11a54131c0804824a121066e5480c779a1677eda",
+      "rendered_digest": "80b8a4d81fd99a7e8ff13ca8af3ba5f1e17bf39aebb9ecb073d4dca7e2776f26",
+      "ast_digest": "c07f5481757d572684545673bfd0362e59b45d88e049362555d88c26be31e285"
     }
   },
   "transitions": [
@@ -162,6 +162,76 @@
       "actor": "codex:/root",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Recover #256 after fresh exact review found P2 SPP lifecycle truth drift; implementation and proof remain preserved, but card truth must be repaired before fresh review and publication.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "Recover #256 after recorded fresh review EADD-P2-LIFECYCLE-CARD-TRUTH-DRIFT so supported implemented-phase card truth repairs can resolve stale SIP/STP/SPP publication blockers.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Repair #256 SIP required outcome after recorded review recovery so the implemented local HTML Observatory packet no longer claims initialized/pre-bind blocking truth.",
+      "operation": "{\"new_value\":\"A truthful implemented #256 local birthday-demo-after-Observatory packet consumes legacy #5836 as input evidence only, consumes #414 accepted local resident Shepherd reference evidence, validates the current merged HTML Observatory startup surface, preserves public/AWS and Unity as non-claims, and remains serialized before #341/#343.\",\"operation\":\"correct_required_outcome_after_recovery\",\"previous_value\":\"A truthful initialized #256 package records the birthday-demo dependency gates, preserves legacy #5836 as input evidence only, and blocks bind/implementation until Observatory and public/AWS prerequisites are satisfied or explicitly re-scoped.\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "Repair #256 SPP summary after review recovery so it matches the implemented local HTML Observatory birthday-demo packet and preserves AWS/public and Unity non-claims.",
+      "operation": "{\"new_value\":\"Implement and prove the #256 local birthday-demo-after-Observatory packet after #424 merged: consume legacy #5836 only as input evidence, consume #414 accepted local resident Shepherd reference evidence, validate the current HTML Observatory startup surface, preserve public/AWS and Unity as non-claims, then obtain fresh exact-head review and publish if all typed gates pass.\",\"operation\":\"correct_plan_summary_after_recovery\",\"previous_value\":\"Initialize #256, review gate truth, then stop before bind until Observatory/#345 gates are satisfied or explicitly re-scoped.\",\"recovery_generation\":13,\"recovery_sequence\":17}"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "Repair #256 SPP plan-step lifecycle truth after review recovery: implementation and focused proof are complete; review/publication/CI/finish remain pending.",
+      "operation": "{\"new_steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-8\"],\"action\":\"Record current #256 successor authority, packet input-only truth, and downstream serialization.\",\"id\":\"S1\",\"status\":\"completed\"},{\"acceptance_ids\":[\"AC-3\",\"AC-7\"],\"action\":\"Require Observatory, #345/operator launch gates, and terminal canonical ancestral #414 before birthday-demo acceptance.\",\"id\":\"S2\",\"status\":\"completed\"},{\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\"],\"action\":\"Consume #414 evidence proving the exact existing-lifecycle resident CPU Shepherd useful-task, dehydration, restore, resource, control, and fail-closed denominator.\",\"id\":\"S3\",\"status\":\"completed\"},{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"action\":\"After all gates, run fresh exact-head birthday-demo integration review without absorbing predecessor implementation.\",\"id\":\"S4\",\"status\":\"in_progress\"}],\"operation\":\"correct_plan_steps_after_recovery\",\"previous_steps\":[{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-8\"],\"action\":\"Record current #256 successor authority, packet input-only truth, and downstream serialization.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-3\",\"AC-7\"],\"action\":\"Require Observatory, #345/operator launch gates, and terminal canonical ancestral #414 before birthday-demo acceptance.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\"],\"action\":\"Consume #414 evidence proving the exact existing-lifecycle resident CPU Shepherd useful-task, dehydration, restore, resource, control, and fail-closed denominator.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\"],\"action\":\"After all gates, run fresh exact-head birthday-demo integration review without absorbing predecessor implementation.\",\"id\":\"S4\",\"status\":\"pending\"}],\"recovery_generation\":13,\"recovery_sequence\":17}"
+    },
+    {
+      "sequence": 21,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "Repair #256 STP task boundary after recorded review recovery so it describes the implemented local packet instead of initialized preparation-only work.",
+      "operation": "{\"operation\":\"set_field\",\"field\":\"task_boundary\",\"value\":\"Implement and publish-review the narrowed #256 local birthday-demo-after-Observatory packet only: consume legacy #5836 as input evidence, consume #414 accepted local reference evidence, validate the merged #424 HTML Observatory startup surface, and preserve AWS/public launch, Unity, #341, and #343 as out of scope.\"}"
+    },
+    {
+      "sequence": 22,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "Repair #256 STP deliverables after recorded review recovery so they match the implemented local birthday-demo-after-Observatory packet.",
+      "operation": "{\"new_values\":[\"Implemented local #256 birthday-demo-after-Observatory acceptance packet\",\"Issue-owned validator proving current birthday contract, #424 HTML Observatory startup surface, #414 accepted local resident Shepherd reference evidence, and #5836 input-only classification\",\"Focused birthday contract Rust test evidence\",\"Typed lifecycle truth and fresh review/publication handoff preserving AWS/public, Unity, #341, and #343 non-claims\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\"Initialized #256 lifecycle package\",\"Design and diagram preserving current Sprint 5 gate truth\",\"Explicit stop conditions for Observatory/#345 blockers\",\"Serialized handoff for #341 and #343\"],\"recovery_generation\":13,\"recovery_sequence\":17}"
     }
   ]
 }

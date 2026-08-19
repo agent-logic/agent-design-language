@@ -7,18 +7,18 @@
     "title": "[v0.92][WP-18] Birthday demo after Observatory sprint",
     "slug": "v0-92-wp18-birthday-demo-after-observatory-sprint",
     "version": "v0.92",
-    "generation": 10
+    "generation": 18
   },
   "status": "ready",
   "content": {
     "card_kind": "stp",
     "values": {
-      "task_boundary": "Initialize #256 planning and gate truth only; no product/source implementation in this preparation slice.",
+      "task_boundary": "Implement and publish-review the narrowed #256 local birthday-demo-after-Observatory packet only: consume legacy #5836 as input evidence, consume #414 accepted local reference evidence, validate the merged #424 HTML Observatory startup surface, and preserve AWS/public launch, Unity, #341, and #343 as out of scope.",
       "deliverables": [
-        "Initialized #256 lifecycle package",
-        "Design and diagram preserving current Sprint 5 gate truth",
-        "Explicit stop conditions for Observatory/#345 blockers",
-        "Serialized handoff for #341 and #343"
+        "Implemented local #256 birthday-demo-after-Observatory acceptance packet",
+        "Issue-owned validator proving current birthday contract, #424 HTML Observatory startup surface, #414 accepted local resident Shepherd reference evidence, and #5836 input-only classification",
+        "Focused birthday contract Rust test evidence",
+        "Typed lifecycle truth and fresh review/publication handoff preserving AWS/public, Unity, #341, and #343 non-claims"
       ],
       "acceptance_criteria": [
         "AC-1: #256 is the current successor for the preserved birthday packet without treating legacy issue state as current terminal authority.",

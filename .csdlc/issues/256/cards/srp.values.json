@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-18] Birthday demo after Observatory sprint",
     "slug": "v0-92-wp18-birthday-demo-after-observatory-sprint",
     "version": "v0.92",
-    "generation": 10
+    "generation": 18
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Current-repository #256 initialized preparation and gate-truth package",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
