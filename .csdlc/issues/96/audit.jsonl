@@ -10,3 +10,4 @@
 {"sequence":10,"generation":7,"actor":"codex:issue-96-publication-owner","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":11,"generation":8,"actor":"subagent:/root/review_5863/review_5866_exact","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":12,"generation":9,"actor":"codex:issue-96-publication-owner","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":13,"generation":10,"actor":"codex:closeout-sweep-closed-merged-v092","reason":"Materialize terminal truth for closed issue #96 from merged PR #97.","operation":"materialize_derived_terminal"}
