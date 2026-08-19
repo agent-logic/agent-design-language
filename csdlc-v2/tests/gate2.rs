@@ -891,6 +891,257 @@ fn deferred_rust_path_harness_admission_fails_closed_for_each_missing_predicate(
     }
 }
 
+fn intentional_deletion_request(issue: u64, target: &str) -> BootstrapRequest {
+    let mut value = request();
+    value.issue = issue;
+    value.design_path = format!("design/issue-{issue}.md");
+    value.diagram_path = format!("design/issue-{issue}.mmd");
+    value.initial.title = format!("Intentional deletion validator issue {issue}");
+    value.initial.slug = format!("intentional-deletion-validator-{issue}");
+    value.initial.repo_inputs = vec![value.design_path.clone()];
+    value.initial.affected_areas = vec![target.into()];
+    value.initial.deliverables = vec![
+        target.into(),
+        format!("intentional deletion: {target}"),
+        "Focused deletion readiness proof".into(),
+    ];
+    value.initial.validation_lanes = vec![ValidationLane {
+        lane: "deleted-validator".into(),
+        proof_role: "Classify the issue-owned intentionally deleted validator.".into(),
+        acceptance_ids: vec!["AC-1".into(), "AC-2".into()],
+        deterministic: true,
+        resource_profile: ResourceProfile::Small,
+        budget_seconds: 120,
+        budget_tokens: 1_000,
+        argv: vec![
+            "cargo".into(),
+            "test".into(),
+            "--manifest-path".into(),
+            "csdlc-v2/Cargo.toml".into(),
+            "--test".into(),
+            Path::new(target)
+                .file_stem()
+                .and_then(|value| value.to_str())
+                .expect("validator target stem")
+                .into(),
+        ],
+        parallel_group: "local".into(),
+        defer_reason: None,
+    }];
+    value.initial.failure_policy =
+        "Fail closed on missing targets, invalid deletion proof, or absent review.".into();
+    value
+}
+
+fn create_intentional_deletion_issue(repo: &Path, request_root: &Path, request: &BootstrapRequest) {
+    fs::write(
+        repo.join(&request.design_path),
+        format!("# Approved design for issue {}\n", request.issue),
+    )
+    .expect("intentional deletion design");
+    fs::write(
+        repo.join(&request.diagram_path),
+        "flowchart LR\n  BasePath --> DeletedCandidate\n",
+    )
+    .expect("intentional deletion diagram");
+    let request_path = request_root.join(format!("intentional-deletion-{}.json", request.issue));
+    fs::write(
+        &request_path,
+        serde_json::to_vec_pretty(request).expect("serialize intentional deletion request"),
+    )
+    .expect("intentional deletion request");
+    must_succeed(command(
+        repo,
+        env!("CARGO_BIN_EXE_csdlc-issue"),
+        &[
+            "--root",
+            &repo.to_string_lossy(),
+            "create",
+            "--request",
+            &request_path.to_string_lossy(),
+        ],
+    ));
+}
+
+type IntentionalDeletionMutation = fn(&mut BootstrapRequest);
+
+#[test]
+fn intentional_deletion_deliverable_satisfies_readiness_with_git_proof() {
+    let temp = tempfile::tempdir().expect("tempdir");
+    let repo = temp.path().join("repo");
+    focused_fixture_repo(&repo);
+    fs::write(
+        repo.join("csdlc-v2/Cargo.toml"),
+        "[package]\nname = \"csdlc-v2\"\nversion = \"0.1.0\"\nedition = \"2021\"\n",
+    )
+    .expect("csdlc manifest");
+    let target = "csdlc-v2/tests/deleted_validator.rs";
+    fs::write(
+        repo.join(target),
+        "// validator intentionally removed by issue\n",
+    )
+    .expect("deleted validator baseline");
+    git(&repo, &["add", "."]);
+    git(&repo, &["commit", "-m", "add deletion validator baseline"]);
+    git(&repo, &["switch", "-c", "codex/intentional-deletion"]);
+
+    let request = intentional_deletion_request(42100, target);
+    create_intentional_deletion_issue(&repo, temp.path(), &request);
+    git(&repo, &["rm", target]);
+
+    let diagnosis = csdlc_v2::doctor::diagnose_with_code_repository(
+        &Store::new(&repo),
+        42100,
+        Some("agent-logic/agent-design-language"),
+    );
+    assert_eq!(
+        diagnosis.status,
+        csdlc_v2::doctor::DoctorStatus::Pass,
+        "unexpected findings: {:?}",
+        diagnosis.findings
+    );
+    assert!(diagnosis.findings.is_empty());
+}
+
+#[test]
+fn intentional_deletion_deliverable_fails_closed_without_exact_predicates() {
+    let cases: &[(&str, IntentionalDeletionMutation, bool)] = &[
+        (
+            "missing-marker",
+            |request| {
+                request
+                    .initial
+                    .deliverables
+                    .retain(|deliverable| !deliverable.starts_with("intentional deletion:"));
+            },
+            true,
+        ),
+        (
+            "not-fail-closed",
+            |request| {
+                request.initial.failure_policy =
+                    "Fail closed unless intentional deletion evidence is absent.".into();
+            },
+            true,
+        ),
+        (
+            "unowned-target",
+            |request| {
+                request.initial.affected_areas = vec!["csdlc-v2/src/cards.rs".into()];
+            },
+            true,
+        ),
+        ("base-absent", |_request| {}, false),
+    ];
+
+    for (offset, (name, mutate, create_base_file)) in cases.iter().enumerate() {
+        let temp = tempfile::tempdir().expect("tempdir");
+        let repo = temp.path().join("repo");
+        focused_fixture_repo(&repo);
+        fs::write(
+            repo.join("csdlc-v2/Cargo.toml"),
+            "[package]\nname = \"csdlc-v2\"\nversion = \"0.1.0\"\nedition = \"2021\"\n",
+        )
+        .expect("csdlc manifest");
+        let target = "csdlc-v2/tests/deleted_validator.rs";
+        if *create_base_file {
+            fs::write(
+                repo.join(target),
+                "// validator intentionally removed by issue\n",
+            )
+            .expect("deleted validator baseline");
+        }
+        git(&repo, &["add", "."]);
+        git(
+            &repo,
+            &["commit", "-m", "prepare intentional deletion baseline"],
+        );
+        git(
+            &repo,
+            &[
+                "switch",
+                "-c",
+                &format!("codex/intentional-deletion-{name}"),
+            ],
+        );
+
+        let issue = 42110 + offset as u64;
+        let mut request = intentional_deletion_request(issue, target);
+        mutate(&mut request);
+        create_intentional_deletion_issue(&repo, temp.path(), &request);
+        if *create_base_file {
+            git(&repo, &["rm", target]);
+        }
+
+        let diagnosis = csdlc_v2::doctor::diagnose_with_code_repository(
+            &Store::new(&repo),
+            issue,
+            Some("agent-logic/agent-design-language"),
+        );
+        assert_eq!(
+            diagnosis.status,
+            csdlc_v2::doctor::DoctorStatus::Block,
+            "case {name} unexpectedly passed"
+        );
+        assert!(
+            diagnosis.findings.iter().any(|finding| matches!(
+                finding.code.as_str(),
+                "validator_target_missing"
+                    | "validator_deliverable_unowned"
+                    | "issue_specific_denominator_missing"
+            )),
+            "case {name} lacked a deletion-readiness finding: {:?}",
+            diagnosis.findings
+        );
+    }
+}
+
+#[test]
+fn intentional_deletion_deliverable_rejects_branch_local_add_then_delete() {
+    let temp = tempfile::tempdir().expect("tempdir");
+    let repo = temp.path().join("repo");
+    focused_fixture_repo(&repo);
+    fs::write(
+        repo.join("csdlc-v2/Cargo.toml"),
+        "[package]\nname = \"csdlc-v2\"\nversion = \"0.1.0\"\nedition = \"2021\"\n",
+    )
+    .expect("csdlc manifest");
+    git(&repo, &["add", "."]);
+    git(
+        &repo,
+        &["commit", "-m", "prepare governed base without validator"],
+    );
+    git(&repo, &["switch", "-c", "codex/add-then-delete-validator"]);
+
+    let target = "csdlc-v2/tests/deleted_validator.rs";
+    fs::write(repo.join(target), "// branch-local validator\n").expect("branch-local validator");
+    git(&repo, &["add", target]);
+    git(&repo, &["commit", "-m", "add branch-local validator"]);
+
+    let request = intentional_deletion_request(42120, target);
+    create_intentional_deletion_issue(&repo, temp.path(), &request);
+    git(&repo, &["rm", target]);
+
+    let diagnosis = csdlc_v2::doctor::diagnose_with_code_repository(
+        &Store::new(&repo),
+        42120,
+        Some("agent-logic/agent-design-language"),
+    );
+    assert_eq!(
+        diagnosis.status,
+        csdlc_v2::doctor::DoctorStatus::Block,
+        "branch-local add-then-delete unexpectedly passed"
+    );
+    assert!(
+        diagnosis.findings.iter().any(|finding| matches!(
+            finding.code.as_str(),
+            "validator_target_missing" | "issue_specific_denominator_missing"
+        )),
+        "branch-local add-then-delete lacked deletion proof finding: {:?}",
+        diagnosis.findings
+    );
+}
+
 #[test]
 fn actual_binaries_create_validate_doctor_and_bind_without_claims() {
     let temp = tempfile::tempdir().expect("tempdir");
