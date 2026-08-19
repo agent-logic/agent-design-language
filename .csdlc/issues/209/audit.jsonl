@@ -41,3 +41,4 @@
 {"sequence":41,"generation":31,"actor":"/root/shepherd_pr215_green","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":42,"generation":32,"actor":"/root/shepherd_pr215_green","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":43,"generation":33,"actor":"/root/shepherd_pr215_green","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":44,"generation":34,"actor":"codex:closeout-sweep-closed-merged-v092","reason":"Materialize terminal truth for closed issue #209 from merged PR #215 using retained published generation.","operation":"materialize_derived_terminal"}

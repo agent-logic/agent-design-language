@@ -63,7 +63,7 @@ Revision 3
       "AC-7",
       "AC-8"
     ],
-    "status": "pending"
+    "status": "completed"
   }
 ]
 
