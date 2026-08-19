@@ -80,6 +80,9 @@ AMI_ID="${ADL_AWS_REMOTE_VALIDATION_AMI_ID:-}"
 SUBNET_ID="${ADL_AWS_REMOTE_VALIDATION_SUBNET_ID:-}"
 EXPECTED_CACHE_VOLUME_ID_SHA256="${ADL_AWS_REMOTE_VALIDATION_CACHE_VOLUME_ID_SHA256:-}"
 RETAINED_CACHE_VOLUME_ID=""
+RUNTIME_CONTINUITY_VOLUME_ID="${ADL_AWS_RUNTIME_CONTINUITY_VOLUME_ID:-}"
+RUNTIME_CONTINUITY_VOLUME_NAME="${ADL_AWS_RUNTIME_CONTINUITY_VOLUME_NAME:-}"
+RUNTIME_CONTINUITY_VOLUME_ID_SHA256="${ADL_AWS_RUNTIME_CONTINUITY_VOLUME_ID_SHA256:-}"
 
 usage() {
   cat <<'USAGE'
@@ -118,6 +121,13 @@ Options:
                                 The retained warm EBS cache is forwarded by
                                 default; it is not by itself proof that a
                                 builder image was used.
+  --runtime-continuity-volume-id <id>
+                                Use this pre-provisioned retained volume for
+                                Runtime continuity, never as build cache.
+  --runtime-continuity-volume-name <name>
+                                Exact Name tag for the Runtime volume.
+  --runtime-continuity-volume-id-sha256 <hash>
+                                Expected redacted identity for that volume.
   --ssh-key-name <name>          EC2 key pair for live remote-tail logging.
                                 Defaults to retained Agent Logic debug key.
   --ssh-private-key-path <path>  Private key for live remote-tail logging.
@@ -257,6 +267,18 @@ while [[ $# -gt 0 ]]; do
       ;;
     --cache-volume-mount-path)
       CACHE_VOLUME_MOUNT_PATH="${2:-}"
+      shift 2
+      ;;
+    --runtime-continuity-volume-id)
+      RUNTIME_CONTINUITY_VOLUME_ID="${2:-}"
+      shift 2
+      ;;
+    --runtime-continuity-volume-name)
+      RUNTIME_CONTINUITY_VOLUME_NAME="${2:-}"
+      shift 2
+      ;;
+    --runtime-continuity-volume-id-sha256)
+      RUNTIME_CONTINUITY_VOLUME_ID_SHA256="${2:-}"
       shift 2
       ;;
     --ssh-key-name)
@@ -695,6 +717,45 @@ PY
   }
 }
 
+select_runtime_continuity_volume() {
+  [[ -n "$RUNTIME_CONTINUITY_VOLUME_ID" || -n "$RUNTIME_CONTINUITY_VOLUME_NAME" \
+      || -n "$RUNTIME_CONTINUITY_VOLUME_ID_SHA256" ]] || return 0
+  [[ "$RUNTIME_CONTINUITY_VOLUME_ID" =~ ^vol-[0-9a-f]{8,17}$ \
+      && -n "$RUNTIME_CONTINUITY_VOLUME_NAME" \
+      && "$RUNTIME_CONTINUITY_VOLUME_ID_SHA256" =~ ^[0-9a-f]{64}$ ]] || {
+    echo "run_aws_spot_remote_validation_lane: Runtime continuity volume requires exact id, name, and sha256" >&2
+    return 1
+  }
+  local actual_hash profile_args=() state name az subnet_az count
+  actual_hash="$(python3 -c 'import hashlib,sys; print(hashlib.sha256(sys.argv[1].encode()).hexdigest())' "$RUNTIME_CONTINUITY_VOLUME_ID")"
+  [[ "$actual_hash" == "$RUNTIME_CONTINUITY_VOLUME_ID_SHA256" ]] || {
+    echo "run_aws_spot_remote_validation_lane: Runtime continuity volume identity mismatch" >&2
+    return 1
+  }
+  if [[ "$PROFILE" != "env" && "$PROFILE" != "environment" ]]; then
+    profile_args=(--profile "$PROFILE")
+  fi
+  state="$("$AWS_CLI" ec2 describe-volumes "${profile_args[@]}" --region "$REGION" --volume-ids "$RUNTIME_CONTINUITY_VOLUME_ID" --query 'Volumes[0].State' --output text)"
+  name="$("$AWS_CLI" ec2 describe-volumes "${profile_args[@]}" --region "$REGION" --volume-ids "$RUNTIME_CONTINUITY_VOLUME_ID" --query 'Volumes[0].Tags[?Key==`Name`].Value|[0]' --output text)"
+  az="$("$AWS_CLI" ec2 describe-volumes "${profile_args[@]}" --region "$REGION" --volume-ids "$RUNTIME_CONTINUITY_VOLUME_ID" --query 'Volumes[0].AvailabilityZone' --output text)"
+  subnet_az="$("$AWS_CLI" ec2 describe-subnets "${profile_args[@]}" --region "$REGION" --subnet-ids "$SUBNET_ID" --query 'Subnets[0].AvailabilityZone' --output text)"
+  count="$("$AWS_CLI" ec2 describe-volumes "${profile_args[@]}" --region "$REGION" --filters "Name=tag:Name,Values=$RUNTIME_CONTINUITY_VOLUME_NAME" "Name=availability-zone,Values=$az" --query 'length(Volumes)' --output text)"
+  [[ "$state" == available && "$name" == "$RUNTIME_CONTINUITY_VOLUME_NAME" \
+      && "$az" == "$subnet_az" && "$count" == 1 ]] || {
+    echo "run_aws_spot_remote_validation_lane: Runtime continuity volume is not exclusive, exact, and colocated" >&2
+    return 1
+  }
+  RETAINED_CACHE_VOLUME_ID="$RUNTIME_CONTINUITY_VOLUME_ID"
+  CACHE_VOLUME_NAME="$RUNTIME_CONTINUITY_VOLUME_NAME"
+  EXPECTED_CACHE_VOLUME_ID_SHA256="$RUNTIME_CONTINUITY_VOLUME_ID_SHA256"
+  CACHE_VOLUME_MOUNT_PATH="/mnt/adl-runtime-continuity"
+  CACHE_VOLUME_DEVICE_NAME="/dev/sdg"
+  CACHE_VOLUME_SIZE_GIB="$("$AWS_CLI" ec2 describe-volumes "${profile_args[@]}" --region "$REGION" --volume-ids "$RUNTIME_CONTINUITY_VOLUME_ID" --query 'Volumes[0].Size' --output text)"
+  CACHE_VOLUME_TYPE="$("$AWS_CLI" ec2 describe-volumes "${profile_args[@]}" --region "$REGION" --volume-ids "$RUNTIME_CONTINUITY_VOLUME_ID" --query 'Volumes[0].VolumeType' --output text)"
+  CACHE_VOLUME_IOPS="$("$AWS_CLI" ec2 describe-volumes "${profile_args[@]}" --region "$REGION" --volume-ids "$RUNTIME_CONTINUITY_VOLUME_ID" --query 'Volumes[0].Iops' --output text)"
+  CACHE_VOLUME_THROUGHPUT_MBPS="$("$AWS_CLI" ec2 describe-volumes "${profile_args[@]}" --region "$REGION" --volume-ids "$RUNTIME_CONTINUITY_VOLUME_ID" --query 'Volumes[0].Throughput' --output text)"
+}
+
 shell_quote() {
   printf '%q' "$1"
 }
@@ -862,6 +923,7 @@ if [[ "$RUN" == true || "$ACTION" == "preflight" ]]; then
   resolve_spot_hourly_cost
   validate_portable_capacity_and_cost
   resolve_and_verify_retained_topology
+  select_runtime_continuity_volume
   verify_ssh_recovery_key
 fi
 
@@ -993,6 +1055,10 @@ execute_run() {
   local runner_stdout="$ARTIFACT_DIR/runner.stdout.log"
   local runner_stderr="$ARTIFACT_DIR/runner.stderr.log"
   local runner_status finalize_status wrapper_summary started_unix_ms finished_unix_ms
+  local retained_volume_role="build_cache"
+  if [[ -n "$RUNTIME_CONTINUITY_VOLUME_ID" ]]; then
+    retained_volume_role="runtime_continuity"
+  fi
 
   started_unix_ms="$(python3 -c 'import time; print(time.time_ns() // 1000000)')"
 
@@ -1017,6 +1083,7 @@ execute_run() {
     --expected-source-commit "$SOURCE_COMMIT" \
     --expected-image "$BUILDER_IMAGE" \
     --expected-cache-volume-id-sha256 "$EXPECTED_CACHE_VOLUME_ID_SHA256" \
+    --expected-retained-volume-role "$retained_volume_role" \
     --estimated-hourly-cost-usd "$ESTIMATED_HOURLY_COST_USD" \
     --runner-exit-code "$runner_status" \
     >"$ARTIFACT_DIR/finalize.out" 2>"$ARTIFACT_DIR/finalize.err" || finalize_status="$?"

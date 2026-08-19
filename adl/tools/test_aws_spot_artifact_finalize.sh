@@ -54,6 +54,7 @@ LOG
 
 run_finalizer() {
   local root="$1"
+  local role="${2:-build_cache}"
   python3 "$FINALIZER" \
     --summary "$root/summary.json" \
     --artifact-dir "$root/artifacts" \
@@ -61,6 +62,7 @@ run_finalizer() {
     --expected-source-commit "$source_commit" \
     --expected-image "$image" \
     --expected-cache-volume-id-sha256 "$cache_volume_hash" \
+    --expected-retained-volume-role "$role" \
     --estimated-hourly-cost-usd 0.15 \
     --runner-exit-code 0
 }
@@ -86,6 +88,23 @@ if rg -n '123456789012|arn:aws:|i-0123456789abcdef0|192\.0\.2\.10' "$pass/artifa
   echo "public artifact retained an AWS identity" >&2
   exit 1
 fi
+
+runtime_volume="$TMP/runtime-volume"
+make_fixture "$runtime_volume"
+python3 - "$runtime_volume/summary.json" <<'PY'
+import json, sys
+path = sys.argv[1]
+data = json.load(open(path, encoding="utf-8"))
+data["cache_volume"]["mount_path"] = "/mnt/adl-runtime-continuity"
+open(path, "w", encoding="utf-8").write(json.dumps(data) + "\n")
+PY
+run_finalizer "$runtime_volume" runtime_continuity >"$runtime_volume/out"
+python3 - "$runtime_volume/artifacts/wrapper-final-summary.json" <<'PY'
+import json, sys
+data = json.load(open(sys.argv[1], encoding="utf-8"))
+assert data["self_verification"]["passed"] is True
+assert data["self_verification"]["retained_volume_role"] == "runtime_continuity"
+PY
 
 teardown="$TMP/teardown"
 make_fixture "$teardown"

@@ -60,13 +60,20 @@ if [[ "$1 $2" == "sts get-caller-identity" ]]; then
 }
 JSON
 elif [[ "$1 $2" == "ec2 describe-volumes" ]]; then
-  if [[ "$*" != *"length(Volumes)"* && "$*" != *"--volume-ids vol-0123456789abcdef0"* ]]; then
+  if [[ "$*" != *"length(Volumes)"* && "$*" != *"--volume-ids vol-0123456789abcdef0"* \
+      && "$*" != *"--volume-ids vol-11111111111111111"* ]]; then
     echo "unexpected retained volume identity: $*" >&2
     exit 1
   fi
   case "$*" in
     *'Volumes[0].State'*) echo available ;;
-    *'Volumes[0].Tags'*) echo adl-aws-remote-validation-cache-volume ;;
+    *'Volumes[0].Tags'*)
+      if [[ "$*" == *"vol-11111111111111111"* ]]; then
+        echo adl-runtime-continuity-414
+      else
+        echo adl-aws-remote-validation-cache-volume
+      fi
+      ;;
     *'Volumes[0].AvailabilityZone'*) echo us-west-2a ;;
     *'Volumes[0].Size'*) echo 1000 ;;
     *'Volumes[0].VolumeType'*) echo gp3 ;;
@@ -97,6 +104,8 @@ fi
 printf '%s\n' "$@" >"${ADL_FAKE_AWS_REMOTE_ARGS:?}"
 out=""
 artifact_dir=""
+volume_id=""
+volume_mount=""
 while [[ $# -gt 0 ]]; do
   case "$1" in
     --out)
@@ -105,6 +114,14 @@ while [[ $# -gt 0 ]]; do
       ;;
     --artifact-dir)
       artifact_dir="${2:-}"
+      shift 2
+      ;;
+    --cache-volume-id)
+      volume_id="${2:-}"
+      shift 2
+      ;;
+    --cache-volume-mount-path)
+      volume_mount="${2:-}"
       shift 2
       ;;
     *)
@@ -118,12 +135,14 @@ if [[ "${ADL_SSH_KNOWN_HOSTS_FILE:-}" != "$artifact_dir/.private/ssh-known-hosts
 fi
 mkdir -p "$(dirname "$out")" "$artifact_dir"
 status="${ADL_FAKE_AWS_REMOTE_STATUS:-passed}"
+volume_id="${volume_id:-vol-0123456789abcdef0}"
+volume_mount="${volume_mount:-/mnt/adl-cache}"
 cat >"$out" <<JSON
 {
   "schema_version":"adl.aws_remote_validation_run.v1",
   "status":"$status",
   "launch":{"purchase_option":"spot","instance_id":"i-0123456789abcdef0"},
-  "cache_volume":{"volume_id":"vol-0123456789abcdef0","created":false,"attachment_state":"attached","mount_path":"/mnt/adl-cache"},
+  "cache_volume":{"volume_id":"$volume_id","created":false,"attachment_state":"attached","mount_path":"$volume_mount"},
   "cleanup":{"termination_attempted":true,"final_instance_state":"terminated","termination_error":null},
   "launch_surface":{"ssh_debug_enabled":true,"vpc_id":"vpc-0123456789abcdef0","subnet_id":"subnet-0123456789abcdef0","security_group_id":"sg-0123456789abcdef0"},
   "timings":{"total_seconds":120,"launch_seconds":20,"ssm_ready_seconds":10,"remote_command_seconds":80,"teardown_seconds":10},
@@ -777,6 +796,25 @@ if bash "$SCRIPT" --portable-request "$portable_request" --portable-runner "$por
   exit 1
 fi
 grep -F "conflicts with command/ref overrides" "$TMP/portable-conflict.err" >/dev/null
+
+runtime_volume_id="vol-11111111111111111"
+runtime_volume_hash="$(python3 -c 'import hashlib,sys; print(hashlib.sha256(sys.argv[1].encode()).hexdigest())' "$runtime_volume_id")"
+ADL_FAKE_AWS_REMOTE_ARGS="$TMP/runtime-volume-args.txt" \
+ADL_FAKE_EXPECTED_SOURCE="$(git -C "$ROOT" rev-parse origin/main)" \
+ADL_FAKE_EXPECTED_IMAGE_DIGEST_HASH="$(python3 -c 'import hashlib,sys; print(hashlib.sha256(sys.argv[1].encode()).hexdigest())' "$builder_digest")" \
+ADL_AWS_CLI="$fake_bin/aws" \
+bash "$SCRIPT" --run --expected-proof "$proof" --bin "$fake_bin/adl-aws-remote-validation" \
+  --run-id runtime-volume --builder-image "$builder_image" --estimated-hourly-cost-usd 0.15 \
+  --ssh-private-key-path "$test_ssh_key" --command "true" --git-ref origin/main \
+  --runtime-continuity-volume-id "$runtime_volume_id" \
+  --runtime-continuity-volume-name adl-runtime-continuity-414 \
+  --runtime-continuity-volume-id-sha256 "$runtime_volume_hash" \
+  --out "$TMP/runtime-volume-summary.json" --artifact-dir "$TMP/runtime-volume-artifacts" \
+  >/dev/null
+grep -Fx -- "$runtime_volume_id" "$TMP/runtime-volume-args.txt" >/dev/null
+grep -Fx -- "adl-runtime-continuity-414" "$TMP/runtime-volume-args.txt" >/dev/null
+grep -Fx -- "/dev/sdg" "$TMP/runtime-volume-args.txt" >/dev/null
+grep -Fx -- "/mnt/adl-runtime-continuity" "$TMP/runtime-volume-args.txt" >/dev/null
 
 grep -F -- "if-no-files-found: warn" "$WORKFLOW" >/dev/null
 grep -F -- "ec2:RunInstances" "$SETUP_SCRIPT" >/dev/null

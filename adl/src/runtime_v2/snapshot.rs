@@ -212,6 +212,37 @@ impl RuntimeV2SnapshotManifest {
 }
 
 impl RuntimeV2RehydrationReport {
+    /// Records rehydration only after the caller has restored and validated the
+    /// complete active population represented by `snapshot`.
+    pub fn after_successful_restore(
+        snapshot: &RuntimeV2SnapshotManifest,
+        restored_active_citizens: Vec<String>,
+    ) -> Result<Self> {
+        snapshot.validate()?;
+        let report = Self {
+            schema_version: RUNTIME_V2_REHYDRATION_REPORT_SCHEMA.to_string(),
+            snapshot_id: snapshot.snapshot_id.clone(),
+            manifold_id: snapshot.manifold_id.clone(),
+            report_path: snapshot
+                .manifold_state
+                .snapshot_root
+                .rehydration_report_path
+                .clone(),
+            restored_manifold_id: snapshot.manifold_id.clone(),
+            restored_lifecycle_state: "active".to_string(),
+            trace_resume_sequence: snapshot.last_trace_cursor + 1,
+            invariant_checks_ran_before_resume: true,
+            duplicate_active_citizen_detected: false,
+            restored_active_citizens,
+            wake_allowed: true,
+            wake_refused_reason: None,
+            snapshot_checksum: snapshot.structural_checksum.clone(),
+            rehydrated_at_utc: "recorded_after_successful_restore".to_string(),
+        };
+        report.validate_against_snapshot(snapshot)?;
+        Ok(report)
+    }
+
     pub fn validate_against_snapshot(&self, snapshot: &RuntimeV2SnapshotManifest) -> Result<()> {
         if self.schema_version != RUNTIME_V2_REHYDRATION_REPORT_SCHEMA {
             return Err(anyhow!(

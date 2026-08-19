@@ -1,0 +1,20 @@
+{
+  "schema": "adl.runtime.resident_shepherd_reference_attempt.v1",
+  "status": "failed_non_proving",
+  "attempt": 3,
+  "host_class": "reference",
+  "qualification": false,
+  "cold_useful_work": {
+    "passed": 3,
+    "required": 3
+  },
+  "signed_dehydration": "passed",
+  "restore_before_admission": "passed",
+  "warm_continuation": {
+    "passed": 1,
+    "required": 3
+  },
+  "failure_model": "qwen3:8b",
+  "reason": "The qwen3:8b warm continuation returned zero bytes before the bounded 300-second curl deadline. The runner stopped immediately; phi4-mini warm continuation and final receipt validation did not run.",
+  "remediation": "Disable Qwen3 reasoning mode for this bounded structured JSON task while retaining the same model artifact, quantization, context, seed, and nonqualification boundary."
+}

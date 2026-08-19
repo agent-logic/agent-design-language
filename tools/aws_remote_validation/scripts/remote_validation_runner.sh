@@ -52,30 +52,40 @@ if [ "${ADL_CACHE_VOLUME_ENABLED:-0}" = "1" ]; then
   CACHE_OWNER_USER="$(id -un)"
   CACHE_OWNER_GROUP="$(id -gn)"
   sudo chown "$CACHE_OWNER_USER":"$CACHE_OWNER_GROUP" "$CACHE_VOLUME_MOUNT_PATH"
-  TOOLCHAIN_ROOT="$CACHE_VOLUME_MOUNT_PATH/adl-aws-remote-validation/shared"
-  WORK_ROOT="$CACHE_VOLUME_MOUNT_PATH/adl-aws-remote-validation/runs/${ADL_RUN_ID}"
-  TARGET_DIR="$TOOLCHAIN_ROOT/target"
-  SCCACHE_DIR="$TOOLCHAIN_ROOT/sccache"
-  CARGO_HOME_DIR="$TOOLCHAIN_ROOT/cargo-home"
-  RUSTUP_HOME_DIR="$TOOLCHAIN_ROOT/rustup-home"
+  if [ "${ADL_RETAINED_VOLUME_ROLE:-build_cache}" = "runtime_continuity" ]; then
+    ADL_RUNTIME_CONTINUITY_ROOT="$CACHE_VOLUME_MOUNT_PATH/runtime"
+    mkdir -p "$ADL_RUNTIME_CONTINUITY_ROOT"
+    printf '%s\n' "runtime_continuity" > "$CACHE_VOLUME_MOUNT_PATH/.adl-volume-role"
+    export ADL_RUNTIME_CONTINUITY_ROOT
+    ADL_CACHE_VOLUME_MOUNT_PATH="$WORK_ROOT/build-cache"
+    mkdir -p "$ADL_CACHE_VOLUME_MOUNT_PATH"
+    export ADL_CACHE_VOLUME_MOUNT_PATH
+  else
+    TOOLCHAIN_ROOT="$CACHE_VOLUME_MOUNT_PATH/adl-aws-remote-validation/shared"
+    WORK_ROOT="$CACHE_VOLUME_MOUNT_PATH/adl-aws-remote-validation/runs/${ADL_RUN_ID}"
+    TARGET_DIR="$TOOLCHAIN_ROOT/target"
+    SCCACHE_DIR="$TOOLCHAIN_ROOT/sccache"
+    CARGO_HOME_DIR="$TOOLCHAIN_ROOT/cargo-home"
+    RUSTUP_HOME_DIR="$TOOLCHAIN_ROOT/rustup-home"
 
-  EPHEMERAL_CHECKOUT="$ADL_REMOTE_REPO_DIR"
-  SOURCE_COMMIT="$(git -C "$EPHEMERAL_CHECKOUT" rev-parse HEAD)"
-  PERSISTENT_CHECKOUT="$TOOLCHAIN_ROOT/source/agent-design-language"
-  mkdir -p "$(dirname "$PERSISTENT_CHECKOUT")"
-  if [ ! -d "$PERSISTENT_CHECKOUT/.git" ]; then
-    git clone "$EPHEMERAL_CHECKOUT" "$PERSISTENT_CHECKOUT" >/tmp/adl-persistent-clone.log 2>&1
+    EPHEMERAL_CHECKOUT="$ADL_REMOTE_REPO_DIR"
+    SOURCE_COMMIT="$(git -C "$EPHEMERAL_CHECKOUT" rev-parse HEAD)"
+    PERSISTENT_CHECKOUT="$TOOLCHAIN_ROOT/source/agent-design-language"
+    mkdir -p "$(dirname "$PERSISTENT_CHECKOUT")"
+    if [ ! -d "$PERSISTENT_CHECKOUT/.git" ]; then
+      git clone "$EPHEMERAL_CHECKOUT" "$PERSISTENT_CHECKOUT" >/tmp/adl-persistent-clone.log 2>&1
+    fi
+    CURRENT_PERSISTENT_COMMIT="$(git -C "$PERSISTENT_CHECKOUT" rev-parse HEAD 2>/dev/null || true)"
+    if [ "$CURRENT_PERSISTENT_COMMIT" != "$SOURCE_COMMIT" ]; then
+      git -C "$PERSISTENT_CHECKOUT" fetch "$EPHEMERAL_CHECKOUT" "$SOURCE_COMMIT" \
+        >/tmp/adl-persistent-fetch.log 2>&1
+      git -C "$PERSISTENT_CHECKOUT" checkout --detach --force "$SOURCE_COMMIT" \
+        >/tmp/adl-persistent-checkout.log 2>&1
+    fi
+    git -C "$PERSISTENT_CHECKOUT" clean -ffd >/tmp/adl-persistent-clean.log 2>&1
+    ADL_REMOTE_REPO_DIR="$PERSISTENT_CHECKOUT"
+    export ADL_REMOTE_REPO_DIR
   fi
-  CURRENT_PERSISTENT_COMMIT="$(git -C "$PERSISTENT_CHECKOUT" rev-parse HEAD 2>/dev/null || true)"
-  if [ "$CURRENT_PERSISTENT_COMMIT" != "$SOURCE_COMMIT" ]; then
-    git -C "$PERSISTENT_CHECKOUT" fetch "$EPHEMERAL_CHECKOUT" "$SOURCE_COMMIT" \
-      >/tmp/adl-persistent-fetch.log 2>&1
-    git -C "$PERSISTENT_CHECKOUT" checkout --detach --force "$SOURCE_COMMIT" \
-      >/tmp/adl-persistent-checkout.log 2>&1
-  fi
-  git -C "$PERSISTENT_CHECKOUT" clean -ffd >/tmp/adl-persistent-clean.log 2>&1
-  ADL_REMOTE_REPO_DIR="$PERSISTENT_CHECKOUT"
-  export ADL_REMOTE_REPO_DIR
 fi
 
 mkdir -p "$RUN_ROOT" "$PROGRESS_ROOT" "$WORK_ROOT" "$TARGET_DIR" "$SCCACHE_DIR" "$CARGO_HOME_DIR" "$RUSTUP_HOME_DIR"
@@ -403,16 +413,53 @@ fi
 INTERRUPTION_NOTICE=""
 watch_spot_notice() {
   while true; do
-    TOKEN="$(curl -sS -X PUT http://169.254.169.254/latest/api/token -H 'X-aws-ec2-metadata-token-ttl-seconds: 60' || true)"
-    if [ -n "$TOKEN" ]; then
-      NOTICE="$(curl -fsS -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/spot/instance-action || true)"
-    else
-      NOTICE="$(curl -fsS http://169.254.169.254/latest/meta-data/spot/instance-action || true)"
+    [ -f "$RUN_ROOT/spot-watcher-stop-requested" ] && break
+    TOKEN="$(curl -fsS -X PUT http://169.254.169.254/latest/api/token -H 'X-aws-ec2-metadata-token-ttl-seconds: 60' 2>/dev/null || true)"
+    if [ -z "$TOKEN" ]; then
+      sleep 5
+      continue
     fi
-    if [ -n "$NOTICE" ]; then
-      printf '%s\n' "$NOTICE" > "$RUN_ROOT/spot-interruption.log"
+    NOTICE_FILE="$RUN_ROOT/spot-interruption.pending.json"
+    HTTP_CODE="$(curl -sS -o "$NOTICE_FILE" -w '%{http_code}' -H "X-aws-ec2-metadata-token: $TOKEN" http://169.254.169.254/latest/meta-data/spot/instance-action || printf '000')"
+    if [ "$HTTP_CODE" = "200" ]; then
+      if ! jq -e '(.action == "terminate" or .action == "stop") and (.time | type == "string" and length > 0)' "$NOTICE_FILE" >/dev/null; then
+        printf '%s\n' "invalid IMDSv2 Spot interruption payload" > "$RUN_ROOT/spot-dehydration.failed"
+        break
+      fi
+      # Establish deterministic ordering with normal-command completion: an
+      # idle-stop request observed before acceptance wins over an in-flight
+      # IMDS response.
+      if [ -f "$RUN_ROOT/spot-watcher-stop-requested" ]; then
+        rm -f "$NOTICE_FILE"
+        break
+      fi
+      mv "$NOTICE_FILE" "$RUN_ROOT/spot-interruption.log"
+      printf '%s\n' "accepted" > "$RUN_ROOT/spot-dehydration.active"
+      DEADLINE_UTC="$(jq -r '.time' "$RUN_ROOT/spot-interruption.log")"
+      CALLBACK="${ADL_SPOT_DEHYDRATE_CALLBACK:-}"
+      if [ -z "$CALLBACK" ] || [ ! -x "$CALLBACK" ]; then
+        printf '%s\n' "Spot dehydration callback is missing or not executable" > "$RUN_ROOT/spot-dehydration.failed"
+        rm -f "$RUN_ROOT/spot-dehydration.active"
+        printf '%s\n' "terminal" > "$RUN_ROOT/spot-dehydration.done"
+        break
+      fi
+      if timeout "${ADL_SPOT_DEHYDRATE_TIMEOUT_SECONDS:-90}" "$CALLBACK" \
+        --notice-file "$RUN_ROOT/spot-interruption.log" \
+        --deadline-utc "$DEADLINE_UTC" \
+        --run-root "$RUN_ROOT" \
+        >"$RUN_ROOT/spot-dehydration-receipt.json" \
+        2>"$RUN_ROOT/spot-dehydration.err"; then
+        jq -e '.admission_open == false and .generation > 0' "$RUN_ROOT/spot-dehydration-receipt.json" >/dev/null || {
+          printf '%s\n' "Spot dehydration callback emitted an invalid receipt" > "$RUN_ROOT/spot-dehydration.failed"
+        }
+      else
+        printf '%s\n' "Spot dehydration callback failed or exceeded its deadline" > "$RUN_ROOT/spot-dehydration.failed"
+      fi
+      rm -f "$RUN_ROOT/spot-dehydration.active"
+      printf '%s\n' "terminal" > "$RUN_ROOT/spot-dehydration.done"
       break
     fi
+    rm -f "$NOTICE_FILE"
     sleep 5
   done
 }
@@ -432,14 +479,28 @@ COMMAND_END="$(date +%s)"
 # retained redacted diagnostic on the normal path without changing command,
 # summary, or cleanup authority.
 emit_debug_log builder_toolchain "$RUN_ROOT/builder-toolchain.log" || true
-kill "$WATCH_PID" >/dev/null 2>&1 || true
-wait "$WATCH_PID" >/dev/null 2>&1 || true
+# Request idle watcher shutdown, then wait. A notice already accepted takes
+# precedence and its bounded callback reaches a terminal receipt/failure before
+# this wait returns; normal validation completion can never cancel it.
+printf '%s\n' "validation-command-terminal" > "$RUN_ROOT/spot-watcher-stop-requested"
+WATCH_EXIT=0
+wait "$WATCH_PID" >/dev/null 2>&1 || WATCH_EXIT="$?"
+if [ "$WATCH_EXIT" != "0" ]; then
+  printf '%s\n' "Spot watcher exited unexpectedly" > "$RUN_ROOT/spot-dehydration.failed"
+fi
 if [ -n "$SCCACHE_WATCH_PID" ]; then
   kill "$SCCACHE_WATCH_PID" >/dev/null 2>&1 || true
   wait "$SCCACHE_WATCH_PID" >/dev/null 2>&1 || true
   sccache --show-stats >"$RUN_ROOT/sccache-stats.log" 2>&1 || true
 fi
 [ -f "$RUN_ROOT/spot-interruption.log" ] && INTERRUPTION_NOTICE="$(cat "$RUN_ROOT/spot-interruption.log")"
+if [ -f "$RUN_ROOT/spot-interruption.log" ] && { [ ! -f "$RUN_ROOT/spot-dehydration.done" ] || [ -f "$RUN_ROOT/spot-dehydration.active" ]; }; then
+  printf '%s\n' "Accepted Spot transaction lacks exact terminal state" > "$RUN_ROOT/spot-dehydration.failed"
+fi
+if [ -f "$RUN_ROOT/spot-dehydration.failed" ]; then
+  COMMAND_EXIT=70
+  cat "$RUN_ROOT/spot-dehydration.failed" >> "$RUN_ROOT/command.err"
+fi
 if grep -Fq "sccache: warning: The server looks like it shut down unexpectedly" "$RUN_ROOT/command.err"; then
   SCCACHE_DEGRADED=1
   SCCACHE_DEGRADED_REASON="server_shut_down_unexpectedly"
