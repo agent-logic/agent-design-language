@@ -7,9 +7,9 @@
     "title": "Add first-class Deepgram speech provider",
     "slug": "deepgram-speech-provider",
     "version": "v0.92",
-    "generation": 30
+    "generation": 31
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -109,10 +109,10 @@
           "evidence_ref": "local:issue-66-focused-deepgram-coverage:422-of-510"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }

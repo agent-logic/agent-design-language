@@ -34,3 +34,4 @@
 {"sequence":34,"generation":28,"actor":"codex:66-coverage-remediation","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":35,"generation":29,"actor":"subagent:66-coverage-review","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":36,"generation":30,"actor":"codex:66-coverage-remediation","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":37,"generation":31,"actor":"codex:closeout-sweep-closed-merged-v092","reason":"Materialize terminal truth for closed issue #66 from merged PR #95.","operation":"materialize_derived_terminal"}
