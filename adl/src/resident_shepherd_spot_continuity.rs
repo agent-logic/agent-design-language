@@ -443,10 +443,7 @@ fn capture_all_with(
                 custody_sha256: sha256_file(&bundle_dir.join("custody_manifest.json"))?,
             })
         })();
-        match result {
-            Ok(binding) => bindings.push(binding),
-            Err(error) => return Err(error),
-        }
+        bindings.push(result?);
     }
     bindings.sort_by(|a, b| a.agent_id.cmp(&b.agent_id));
     Ok(bindings)
