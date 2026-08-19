@@ -1,40 +1,38 @@
-# v0.92.1 Milestone
+# ADL v0.92.1 — Integration and Product Readiness
 
-## Status
+v0.92.1 converts the remaining v0.92 planning residue into six independent, reviewable execution lanes. It is a focused integration milestone, not a container for every deferred idea.
 
-Planning-only package under review through v0.92 setup issue `#146`. No
-v0.92.1 child issue is currently executable. Future WP-01 opens the milestone
-and creates the reviewed issue wave after this package merges.
+## Opening gate
 
-## Purpose
+Issue #432 removes tracked dependencies on local untracked paths. It is the repository-authority prerequisite for #431 and every execution lane. WP-28 #316 and WP-28A #317 remain unchanged and outside this package.
 
-v0.92.1 establishes the corporate and operational foundation for Agent Logic through three independently executable lanes:
+## Execution lanes
 
-1. corporate and intellectual property transfer;
-2. C-SDLC v3 implementation and controlled cutover; and
-3. distributed multi-agent Runtime qualification.
+1. **Corporate and IP transfer** — complete the bounded corporate, ownership, licensing, and operational handoff records.
+2. **C-SDLC v3** — convert the reviewed GitHub-inspired architecture into a typed implementation program using the tracked source in `sources/`.
+3. **Distributed multi-agent Runtime qualification** — qualify governed multi-agent work, using UTS as a workload rather than inventing a separate UTS architecture program.
+4. **Podcast publication and Studio** — finish the #51 / #261–#264 / #342 product chain with release evidence and operator-owned external decisions.
+5. **Axum configuration hot reload** — deliver validated last-known-good configuration replacement, beginning with stateless strings and flags.
+6. **Observatory redesign** — redesign the product around authentic Runtime authority, accessibility, and explicit empty/degraded states; invented data is prohibited.
 
-After WP-01 passes its opening gate, the lanes may execute concurrently and
-converge only at the standard nine-step closeout tail. A delay in one lane does
-not block implementation in the others.
+All six roots depend on #431 after #432. They may execute independently after those gates; no lane silently absorbs another.
 
-Issues `#149-#190` were created prematurely during planning and are retired
-without execution. Their detailed work remains preserved in the execution
-specifications; WP-01 will create fresh live issues and must not reopen the
-retired numbers. The exact generated planning packets are also retained in the
-[non-authoritative planning archive](planned-issue-packets/README.md).
+The active roots are #433 Corporate and IP, #434 C-SDLC v3, #435 Distributed multi-agent Runtime, the existing #51 podcast graph, #436 Axum configuration hot reload, and #437 Observatory redesign. #438 owns integration and release. #431 itself owns the v0.92.2 handoff.
 
-## Source Authority
+Closed issues #149–#190 are historical planning and evidence packets. They are inputs for reconciliation, not active v0.92.1 execution issues. The v0.92 tooling defect #387 is likewise not part of the active milestone plan even if legacy labeling includes v0.92.1. #439 was closed as redundant with #431.
 
-- Corporate infrastructure source: [promoted corporate migration requirements](sources/CORPORATE_INFRASTRUCTURE_CONSOLIDATION_SOURCE.md), rerouted from v0.92.5 into this package.
-- C-SDLC v3 source: reviewed Rust architecture in `.adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md`, accepted through PR `#77` merge `413fa9b8588dd25be3785cfe111c4f1df3af36eb`.
-- Runtime qualification source: the future terminal revision and retained proof from issue `#142`, WP-04.16, and the v0.92 distributed Guardian, ACIP, TLS, authority, resilience, and Observatory contracts. This package does not treat `#142` as terminal; live qualification cannot begin until its exact terminal evidence is recorded and verified.
+## Boundaries
 
-## Release Boundary
+- Runtime v4 is a named rebaseline risk, not implicit v0.92.1 scope. Any incompatible authority change must trigger explicit replanning.
+- Observatory implementation depends on stable Runtime authority APIs; its design work can proceed earlier.
+- Paid infrastructure, publication, legal decisions, and external credentials remain operator-controlled.
+- CodeFriend implementation is not part of v0.92.1.
 
-Release requires all three lane gates or an explicit operator-approved milestone rescope. A deferral is not evidence of corporate transfer, C-SDLC cutover, or Runtime qualification.
+## Successor
 
-## Document Map
+v0.92.2 is the **CodeFriend Beta 1** milestone. The release train must make CodeFriend available as an integrated beta by v0.95.
+
+## Package map
 
 - [Vision](VISION_v0.92.1.md)
 - [Design](DESIGN_v0.92.1.md)
@@ -43,13 +41,5 @@ Release requires all three lane gates or an explicit operator-approved milestone
 - [Sprint plan](SPRINT_v0.92.1.md)
 - [Issue wave](WP_ISSUE_WAVE_v0.92.1.yaml)
 - [Execution specifications](WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml)
-- [Premature issue retirement ledger](WP_PREMATURE_ISSUE_RETIREMENT_v0.92.1.yaml)
-- [Demo matrix](DEMO_MATRIX_v0.92.1.md)
-- [Quality gate](QUALITY_GATE_v0.92.1.md)
-- [Feature proof coverage](FEATURE_PROOF_COVERAGE_v0.92.1.md)
-- [Execution readiness](WP_EXECUTION_READINESS_v0.92.1.md)
-- [ADR plan](ADR_PLAN_v0.92.1.md)
-- [Release plan](RELEASE_PLAN_v0.92.1.md)
-- [Milestone checklist](MILESTONE_CHECKLIST_v0.92.1.md)
-- [Next-milestone handoff](NEXT_MILESTONE_HANDOFF_v0.92.1.md)
-- [Features](features/README.md)
+- [Feature plans](features/README.md)
+- [Next milestone handoff](NEXT_MILESTONE_HANDOFF_v0.92.1.md)

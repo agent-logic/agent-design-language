@@ -84,4 +84,4 @@ Complete transition-and-correction table tests, graph reachability for every sup
 
 ## Source Authority
 
-- `.adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md#v3-07`
+- `docs/milestones/v0.92.1/sources/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE_SOURCE.md#v3-07`

@@ -1,0 +1,106 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 431,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][planning][sidecar] Refresh initial milestone plan before WP-28",
+    "slug": "v0921-initial-planning-sidecar",
+    "version": "v0.92.1",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Inventory and validate the existing package, allocate the six authorized lanes plus #432 prerequisite, remove .adl dependencies, record Runtime v4 as risk, refresh the exact planning surfaces, review them, and hand the result to unchanged WP-28 plus v0.92.2 CodeFriend Beta 1.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Inventory existing v0.92.1 documents and live tracked inputs; classify truth and readiness gaps.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-3",
+            "AC-4",
+            "AC-11"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Refresh the complete milestone package and global feature list for exact six-lane, #432, dependency, proof, and routing parity.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-7",
+            "AC-8",
+            "AC-10",
+            "AC-11"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Run focused planning, no-.adl, scope, YAML, link, and review validation; resolve or route findings.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-7",
+            "AC-8",
+            "AC-11"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Produce explicit handoffs for unchanged WP-28 #316 and v0.92.2 CodeFriend Beta 1 through the v0.95 beta gate.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5",
+            "AC-9",
+            "AC-10"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "docs/milestones/v0.92.1",
+        "docs/planning/ADL_FEATURE_LIST.md",
+        ".csdlc/prepared/issues/431",
+        ".csdlc/prepared/issues/431/validate_preparation_bundle.py",
+        ".csdlc/prepared/issues/431/validate_planning_package.py",
+        ".csdlc/issues/431",
+        ".csdlc/evidence/431"
+      ],
+      "invariants": [
+        "WP-28 #316 remains unchanged",
+        "Planning status never implies implementation or release approval",
+        "Backlog candidates remain non-executable without operator promotion",
+        "Unfinished v0.92 evidence remains explicitly pending"
+      ],
+      "risks": [
+        "Existing package surfaces may disagree on old issue identifiers or dependency order",
+        "Backlog candidates could be mistaken for approved execution",
+        "Late v0.92 work may invalidate early assumptions",
+        "The sidecar could accidentally duplicate WP-28 authority"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 21600,
+        "total_tokens": 80000,
+        "validation_seconds": 3600
+      },
+      "stop_conditions": [
+        "Any edit requires changing WP-28 #316",
+        "Any issue move or backlog promotion lacks explicit authority",
+        "The package cannot be reconciled without unresolved architecture or release decisions",
+        "Execution would require non-planning source changes"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/431/design.md",
+      "design_digest": "043d86ae2db56fd31bf3715eb7403c85ef25b9bec049884cee795ed9ed174b27",
+      "diagram_ref": ".csdlc/prepared/issues/431/diagram.mmd",
+      "diagram_digest": "eb2ffdd41815afe996828e271f23be1fc0970dcc549e995585d0c5caf930573e"
+    }
+  }
+}

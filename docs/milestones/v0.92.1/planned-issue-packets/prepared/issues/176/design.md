@@ -87,4 +87,4 @@ Unexpected/unconsumed fixture checks, pagination matrices, rate-limit and retry 
 
 ## Source Authority
 
-- `.adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md#v3-13`
+- `docs/milestones/v0.92.1/sources/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE_SOURCE.md#v3-13`

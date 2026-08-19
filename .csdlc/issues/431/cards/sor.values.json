@@ -1,0 +1,66 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 431,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][planning][sidecar] Refresh initial milestone plan before WP-28",
+    "slug": "v0921-initial-planning-sidecar",
+    "version": "v0.92.1",
+    "generation": 5
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Published the repository-authoritative six-lane v0.92.1 planning package, seeded active issues #433-#438, retained the #51 podcast graph, and kept the v0.92.2 CodeFriend Beta 1 handoff in #431.",
+      "actual_changes": [
+        "docs/milestones/v0.92.1/**",
+        "docs/planning/ADL_FEATURE_LIST.md",
+        ".csdlc/prepared/issues/431/**"
+      ],
+      "artifacts": [
+        "issue wave with exact #433-#438 routing",
+        "six feature lanes",
+        "historical #149-#190 classification",
+        "#439 duplicate closure",
+        "v0.92.2 CodeFriend Beta 1 handoff"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "python3",
+            ".csdlc/prepared/issues/431/validate_preparation_bundle.py"
+          ],
+          "purpose": "Verify the prepared planning contract and WP-28 boundary.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/431/preparation-contract.log"
+        },
+        {
+          "command": [
+            "python3",
+            ".csdlc/prepared/issues/431/validate_planning_package.py"
+          ],
+          "purpose": "Verify exact active issue routing, six-lane package parity, repository authority, links, YAML, and live state.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/431/planning-package.log"
+        },
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "purpose": "Verify candidate diff hygiene.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/evidence/431/diff-hygiene.log"
+        }
+      ],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

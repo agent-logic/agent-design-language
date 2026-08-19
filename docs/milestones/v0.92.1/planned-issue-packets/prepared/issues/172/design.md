@@ -88,4 +88,4 @@ Card schema/structure checks, semantic-edit round trips, matrix-to-command parit
 
 ## Source Authority
 
-- `.adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md#v3-10b`
+- `docs/milestones/v0.92.1/sources/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE_SOURCE.md#v3-10b`
