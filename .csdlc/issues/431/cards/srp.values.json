@@ -7,15 +7,15 @@
     "title": "[v0.92.1][planning][sidecar] Refresh initial milestone plan before WP-28",
     "slug": "v0921-initial-planning-sidecar",
     "version": "v0.92.1",
-    "generation": 14
+    "generation": 15
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/evidence/431\n.csdlc/issues/431\n.csdlc/prepared/issues/431\ndocs/milestones/v0.92.1\ndocs/planning/ADL_FEATURE_LIST.md",
-      "review_revision": "git-blake3:8be51d4888c807ef750524ef200ad6579a39ec1f:5a2c0b18dfcf70a8360fd04adf98283094396dd74276f399d7bc474705e199d3",
-      "reviewer": "fresh-session:3b5e8b38-94b5-4dde-838d-4780516c27d4",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does the package refresh rather than duplicate the existing v0.92.1 plan?",
         "Are tracked work, carryovers, backlog candidates, and provenance clearly separated?",
@@ -26,12 +26,8 @@
         "Does v0.92.2 own CodeFriend Beta 1 with integrated beta availability required by v0.95 while Runtime v4 remains only a rebaseline risk?"
       ],
       "findings": [],
-      "residual_risk": [
-        "WP-01 must create the 27 planned issue slots later in the exact catalog order; this planning issue creates none of them.",
-        "Runtime v4 changes require explicit rebaseline rather than silent absorption.",
-        "GitHub CI remains the remote integration gate after publication refresh."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

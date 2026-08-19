@@ -67,6 +67,7 @@ if wave_text:
     else:
         wave_data = json.loads(parsed.stdout)
 spec_text = texts.get(M / "WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml", "")
+spec_data = {}
 if spec_text:
     parsed_spec = subprocess.run(
         ["ruby", "-ryaml", "-rjson", "-e", "print JSON.generate(YAML.safe_load(STDIN.read, aliases: false))"],
@@ -74,6 +75,8 @@ if spec_text:
     )
     if parsed_spec.returncode != 0 or not isinstance(json.loads(parsed_spec.stdout or "null"), dict):
         errors.append("yaml-structure:WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml")
+    else:
+        spec_data = json.loads(parsed_spec.stdout)
 wave_packages = {item.get("id"): item for item in wave_data.get("work_packages", []) if isinstance(item, dict)}
 wave_lanes = {item.get("lane") for item in wave_packages.values()}
 allowed_wave_lanes = {"repository_authority", "milestone_opening", "integration", "release_tail", *lane_tokens.keys()}
@@ -104,6 +107,19 @@ for package in wave_data.get("work_packages", []):
         actual_creation_ids.append(package.get("id"))
 if actual_creation_ids != expected_creation_ids:
     errors.append(f"issue-creation-denominator:expected={expected_creation_ids}:actual={actual_creation_ids}")
+specifications = spec_data.get("issue_specifications", [])
+actual_spec_ids = [item.get("id") for item in specifications if isinstance(item, dict)]
+if actual_spec_ids != expected_creation_ids:
+    errors.append(f"execution-spec-denominator:expected={expected_creation_ids}:actual={actual_spec_ids}")
+required_spec_fields = ["objective", "acceptance_criteria", "owned_paths", "pvf_lanes", "stop_conditions", "non_goals"]
+if spec_data.get("required_spec_fields") != required_spec_fields:
+    errors.append("execution-spec-required-fields")
+for specification in specifications:
+    spec_id = specification.get("id", "unknown")
+    for field in required_spec_fields:
+        value = specification.get(field)
+        if not value or (isinstance(value, list) and not all(str(item).strip() for item in value)):
+            errors.append(f"execution-spec-incomplete:{spec_id}:{field}")
 if wave_packages.get("DRT-01", {}).get("existing_issues") != [345]:
     errors.append("active-existing-routing:DRT-01:expected=[345]")
 if wave_packages.get("OBS-01", {}).get("existing_issues") != [251, 122, 84]:
@@ -208,6 +224,31 @@ for issue in [51, 84, 122, 251, 261, 262, 263, 264, 316, 317, 342, 345, 431, 432
     elif issue in (433, 434, 435, 436, 437, 438, 439):
         if payload["state"] != "CLOSED":
             errors.append(f"retired-placeholder-must-remain-closed:{issue}")
+    elif issue == 432:
+        if payload["state"] == "OPEN":
+            if "version:v0.92.1" not in labels:
+                errors.append("repository-prerequisite-preterminal-label:432")
+        elif payload["state"] == "CLOSED":
+            full = subprocess.run(
+                ["gh", "issue", "view", "432", "--repo", "agent-logic/agent-design-language", "--json", "closedByPullRequestsReferences"],
+                cwd=ROOT, text=True, capture_output=True, check=False,
+            )
+            closers = json.loads(full.stdout or "{}").get("closedByPullRequestsReferences", []) if full.returncode == 0 else []
+            if len(closers) != 1:
+                errors.append("repository-prerequisite-terminal-linkage:432")
+            else:
+                pr_number = str(closers[0]["number"])
+                pr = subprocess.run(
+                    ["gh", "pr", "view", pr_number, "--repo", "agent-logic/agent-design-language", "--json", "state,mergeCommit"],
+                    cwd=ROOT, text=True, capture_output=True, check=False,
+                )
+                pr_data = json.loads(pr.stdout or "{}") if pr.returncode == 0 else {}
+                merge_sha = (pr_data.get("mergeCommit") or {}).get("oid")
+                ancestry = subprocess.run(["git", "merge-base", "--is-ancestor", merge_sha or "missing", "origin/main"], cwd=ROOT, check=False)
+                if pr_data.get("state") != "MERGED" or not merge_sha or ancestry.returncode != 0:
+                    errors.append("repository-prerequisite-not-terminal-canonical-ancestral:432")
+        else:
+            errors.append("repository-prerequisite-unknown-state:432")
     elif issue in (84, 122, 251, 345):
         if payload["state"] != "OPEN":
             errors.append(f"active-existing-issue-must-remain-open:{issue}")

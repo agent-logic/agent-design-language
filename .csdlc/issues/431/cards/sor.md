@@ -67,11 +67,11 @@ Authored and validated the complete repository-authoritative v0.92.1 planning ca
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
