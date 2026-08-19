@@ -1,0 +1,75 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 421,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Accept intentional deletion deliverables during readiness validation",
+    "slug": "intentional-deletion-deliverables-readiness",
+    "version": "v0.92",
+    "generation": 8
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "intentional-deletion-deliverables-focused",
+          "proof_role": "Prove typed intentional-deletion deliverables, base/candidate deletion proof, and fail-closed false claims.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 8000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--test",
+            "gate2",
+            "intentional_deletion_deliverable"
+          ],
+          "parallel_group": "421-local",
+          "defer_reason": null
+        },
+        {
+          "lane": "csdlc-v2-library-regression",
+          "proof_role": "Prove the readiness classification change preserves the broader typed library contract.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 8000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "csdlc-v2/Cargo.toml",
+            "--lib"
+          ],
+          "parallel_group": "421-local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed unless the intentional deletion is explicitly typed, issue-owned, existed at governed base, and is deleted at exact candidate HEAD; all ordinary missing validator targets remain errors.",
+      "design_ref": ".csdlc/prepared/issues/421/design.md",
+      "design_digest": "d9c2906a6079f9d902d500dff7e938c2fd78dc5d08f60c9dc6b88569e5f17467",
+      "diagram_ref": ".csdlc/prepared/issues/421/diagram.mmd",
+      "diagram_digest": "b11d9df8a22557ceb6e7b970ff21e0533ed86a865c52802d6234ae5c57cb885b"
+    }
+  }
+}

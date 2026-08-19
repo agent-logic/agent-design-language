@@ -1,0 +1,281 @@
+
+running 1 test
+test aws_remote_validation::tests::validation_completion_cannot_cancel_an_accepted_spot_transaction ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.00s
+
+warning: function `portable_aws_adapter_plan` is never used
+   --> src/bin/../aws_remote_validation.rs:228:8
+    |
+228 | pub fn portable_aws_adapter_plan(request: &PortableRequest) -> Result<PortableAdapterPlan> {
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `apply_portable_aws_request` is never used
+   --> src/bin/../aws_remote_validation.rs:232:8
+    |
+232 | pub fn apply_portable_aws_request(
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `validate_portable_aws_result` is never used
+   --> src/bin/../aws_remote_validation.rs:252:8
+    |
+252 | pub fn validate_portable_aws_result(
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: constant `REQUEST_SCHEMA` is never used
+  --> src/bin/../../../remote_validation/src/lib.rs:10:11
+   |
+10 | pub const REQUEST_SCHEMA: &str = "adl.remote_validation.request.v1";
+   |           ^^^^^^^^^^^^^^
+
+warning: constant `RESULT_SCHEMA` is never used
+  --> src/bin/../../../remote_validation/src/lib.rs:11:11
+   |
+11 | pub const RESULT_SCHEMA: &str = "adl.remote_validation.result.v1";
+   |           ^^^^^^^^^^^^^
+
+warning: enum `AdapterKind` is never used
+  --> src/bin/../../../remote_validation/src/lib.rs:15:10
+   |
+15 | pub enum AdapterKind {
+   |          ^^^^^^^^^^^
+
+warning: enum `FallbackPolicy` is never used
+  --> src/bin/../../../remote_validation/src/lib.rs:23:10
+   |
+23 | pub enum FallbackPolicy {
+   |          ^^^^^^^^^^^^^^
+
+warning: struct `CommandProfile` is never constructed
+  --> src/bin/../../../remote_validation/src/lib.rs:30:12
+   |
+30 | pub struct CommandProfile {
+   |            ^^^^^^^^^^^^^^
+
+warning: struct `ResourceBudget` is never constructed
+  --> src/bin/../../../remote_validation/src/lib.rs:37:12
+   |
+37 | pub struct ResourceBudget {
+   |            ^^^^^^^^^^^^^^
+
+warning: struct `ArtifactPolicy` is never constructed
+  --> src/bin/../../../remote_validation/src/lib.rs:45:12
+   |
+45 | pub struct ArtifactPolicy {
+   |            ^^^^^^^^^^^^^^
+
+warning: struct `PortableRequest` is never constructed
+  --> src/bin/../../../remote_validation/src/lib.rs:52:12
+   |
+52 | pub struct PortableRequest {
+   |            ^^^^^^^^^^^^^^^
+
+warning: struct `ArtifactDigest` is never constructed
+  --> src/bin/../../../remote_validation/src/lib.rs:70:12
+   |
+70 | pub struct ArtifactDigest {
+   |            ^^^^^^^^^^^^^^
+
+warning: struct `PlatformRecord` is never constructed
+  --> src/bin/../../../remote_validation/src/lib.rs:77:12
+   |
+77 | pub struct PlatformRecord {
+   |            ^^^^^^^^^^^^^^
+
+warning: enum `RunOutcome` is never used
+  --> src/bin/../../../remote_validation/src/lib.rs:86:10
+   |
+86 | pub enum RunOutcome {
+   |          ^^^^^^^^^^
+
+warning: struct `CleanupStatus` is never constructed
+  --> src/bin/../../../remote_validation/src/lib.rs:98:12
+   |
+98 | pub struct CleanupStatus {
+   |            ^^^^^^^^^^^^^
+
+warning: struct `FallbackStatus` is never constructed
+   --> src/bin/../../../remote_validation/src/lib.rs:105:12
+    |
+105 | pub struct FallbackStatus {
+    |            ^^^^^^^^^^^^^^
+
+warning: struct `PortableResult` is never constructed
+   --> src/bin/../../../remote_validation/src/lib.rs:113:12
+    |
+113 | pub struct PortableResult {
+    |            ^^^^^^^^^^^^^^
+
+warning: struct `AdapterExecutionReceipt` is never constructed
+   --> src/bin/../../../remote_validation/src/lib.rs:134:12
+    |
+134 | pub struct AdapterExecutionReceipt {
+    |            ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: struct `AdapterPlan` is never constructed
+   --> src/bin/../../../remote_validation/src/lib.rs:149:12
+    |
+149 | pub struct AdapterPlan {
+    |            ^^^^^^^^^^^
+
+warning: enum `ProviderFailure` is never used
+   --> src/bin/../../../remote_validation/src/lib.rs:165:10
+    |
+165 | pub enum ProviderFailure {
+    |          ^^^^^^^^^^^^^^^
+
+warning: struct `FallbackDecision` is never constructed
+   --> src/bin/../../../remote_validation/src/lib.rs:175:12
+    |
+175 | pub struct FallbackDecision {
+    |            ^^^^^^^^^^^^^^^^
+
+warning: function `sha256_hex` is never used
+   --> src/bin/../../../remote_validation/src/lib.rs:181:8
+    |
+181 | pub fn sha256_hex(bytes: &[u8]) -> String {
+    |        ^^^^^^^^^^
+
+warning: function `command_profile_digest` is never used
+   --> src/bin/../../../remote_validation/src/lib.rs:185:8
+    |
+185 | pub fn command_profile_digest(profile: &CommandProfile) -> Result<String, String> {
+    |        ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `valid_revision` is never used
+   --> src/bin/../../../remote_validation/src/lib.rs:191:4
+    |
+191 | fn valid_revision(value: &str) -> bool {
+    |    ^^^^^^^^^^^^^^
+
+warning: function `valid_digest` is never used
+   --> src/bin/../../../remote_validation/src/lib.rs:198:4
+    |
+198 | fn valid_digest(value: &str) -> bool {
+    |    ^^^^^^^^^^^^
+
+warning: function `valid_source_ref` is never used
+   --> src/bin/../../../remote_validation/src/lib.rs:205:4
+    |
+205 | fn valid_source_ref(value: &str) -> bool {
+    |    ^^^^^^^^^^^^^^^^
+
+warning: function `repo_relative` is never used
+   --> src/bin/../../../remote_validation/src/lib.rs:213:4
+    |
+213 | fn repo_relative(value: &str, allow_dot: bool) -> bool {
+    |    ^^^^^^^^^^^^^
+
+warning: function `safe_environment_name` is never used
+   --> src/bin/../../../remote_validation/src/lib.rs:225:4
+    |
+225 | fn safe_environment_name(value: &str) -> bool {
+    |    ^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `validate_request` is never used
+   --> src/bin/../../../remote_validation/src/lib.rs:242:8
+    |
+242 | pub fn validate_request(request: &PortableRequest) -> Result<(), String> {
+    |        ^^^^^^^^^^^^^^^^
+
+warning: function `select_adapter` is never used
+   --> src/bin/../../../remote_validation/src/lib.rs:334:8
+    |
+334 | pub fn select_adapter(
+    |        ^^^^^^^^^^^^^^
+
+warning: function `shell_join` is never used
+   --> src/bin/../../../remote_validation/src/lib.rs:352:8
+    |
+352 | pub fn shell_join(argv: &[String]) -> Result<String, String> {
+    |        ^^^^^^^^^^
+
+warning: function `profile_shell_command` is never used
+   --> src/bin/../../../remote_validation/src/lib.rs:367:4
+    |
+367 | fn profile_shell_command(profile: &CommandProfile) -> Result<String, String> {
+    |    ^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `adapter_plan` is never used
+   --> src/bin/../../../remote_validation/src/lib.rs:386:8
+    |
+386 | pub fn adapter_plan(
+    |        ^^^^^^^^^^^^
+
+warning: function `fallback_decision` is never used
+   --> src/bin/../../../remote_validation/src/lib.rs:409:8
+    |
+409 | pub fn fallback_decision(
+    |        ^^^^^^^^^^^^^^^^^
+
+warning: function `validate_result` is never used
+   --> src/bin/../../../remote_validation/src/lib.rs:438:8
+    |
+438 | pub fn validate_result(request: &PortableRequest, result: &PortableResult) -> Result<(), String> {
+    |        ^^^^^^^^^^^^^^^
+
+warning: function `unix_ms` is never used
+   --> src/bin/../../../remote_validation/src/lib.rs:527:4
+    |
+527 | fn unix_ms() -> u128 {
+    |    ^^^^^^^
+
+warning: function `current_revision` is never used
+   --> src/bin/../../../remote_validation/src/lib.rs:534:4
+    |
+534 | fn current_revision(checkout: &Path) -> Result<String, String> {
+    |    ^^^^^^^^^^^^^^^^
+
+warning: function `verify_checkout_revision` is never used
+   --> src/bin/../../../remote_validation/src/lib.rs:546:8
+    |
+546 | pub fn verify_checkout_revision(checkout: &Path, revision: &str) -> Result<(), String> {
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `contains_sensitive_artifact_content` is never used
+   --> src/bin/../../../remote_validation/src/lib.rs:569:4
+    |
+569 | fn contains_sensitive_artifact_content(bytes: &[u8]) -> bool {
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `artifact_digests` is never used
+   --> src/bin/../../../remote_validation/src/lib.rs:614:4
+    |
+614 | fn artifact_digests(
+    |    ^^^^^^^^^^^^^^^^
+
+warning: function `canonicalize_adapter_result` is never used
+   --> src/bin/../../../remote_validation/src/lib.rs:644:8
+    |
+644 | pub fn canonicalize_adapter_result(
+    |        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `run_local` is never used
+   --> src/bin/../../../remote_validation/src/lib.rs:680:8
+    |
+680 | pub fn run_local(
+    |        ^^^^^^^^^
+
+warning: function `read_request` is never used
+   --> src/bin/../../../remote_validation/src/lib.rs:785:8
+    |
+785 | pub fn read_request(path: &Path) -> Result<PortableRequest, String> {
+    |        ^^^^^^^^^^^^
+
+warning: function `read_result` is never used
+   --> src/bin/../../../remote_validation/src/lib.rs:790:8
+    |
+790 | pub fn read_result(path: &Path) -> Result<PortableResult, String> {
+    |        ^^^^^^^^^^^
+
+warning: function `resolve_repository_root` is never used
+   --> src/bin/../../../remote_validation/src/lib.rs:795:8
+    |
+795 | pub fn resolve_repository_root(start: &Path) -> Result<PathBuf, String> {
+    |        ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `adl-aws-remote-validation-tool` (bin "adl-aws-remote-validation" test) generated 45 warnings
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.09s
+     Running unittests src/bin/adl_aws_remote_validation.rs (tools/aws_remote_validation/target/debug/deps/adl_aws_remote_validation-5dd7cadb750b2897)

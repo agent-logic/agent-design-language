@@ -1,0 +1,51 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 418,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC policy] Permit audited gh break-glass during confirmed typed regressions",
+    "slug": "audited-gh-breakglass-policy",
+    "version": "v0.92",
+    "generation": 8
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Issue #418 audited raw-gh break-glass policy only.",
+      "deliverables": [
+        "Fail-closed root break-glass policy in AGENTS.md.",
+        "Three-event create-only receipt and typed reconciliation protocol in docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md.",
+        "Aligned owner boundary in docs/tooling/ADL_CSDLC_GITHUB_CLIENT_BOUNDARY.md.",
+        "Updated exact route contract regression in csdlc-v2/tests/gate_github_route_policy.rs.",
+        ".csdlc/prepared/issues/418/validate_gh_breakglass_policy.sh"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Root policy preserves typed v2 as default and permits raw gh only after a reproducible, durably tracked typed-owner regression plus explicit exact-target operator authorization.",
+        "AC-2: The exception permits only six canonical argv shapes: issue comment/body-file, issue edit/body-file, PR create with exact repo/base/head/title/body-file and optional draft, PR edit/body-file, PR ready, and PR comment/body-file; all other commands, flags, aliases, extensions, APIs, bulk targets, shell expansion, and terminal/destructive operations are denied.",
+        "AC-3: Exact worktree, branch, HEAD, typed generation/digest, remote pre-state, regression issue, authorization reference, redacted argv, result, and later exact reconciliation are retained as three create-only intent/result/reconciliation events without secrets or sensitive bodies.",
+        "AC-4: A raw mutation never becomes lifecycle authority; later readiness, review, publication, merge-ready, terminal, and finish claims remain frozen until typed exact-state reconciliation succeeds and its immutable reconciliation event exists.",
+        "AC-5: Focused validation proves required policy text plus positive fixtures for every allowed argv shape and negative fixtures for missing identity, issue create, close/base/merge/release/workflow/admin/secret/API/alias/extension/bulk/unsafe-body/extra-flag variants.",
+        "AC-6: The exception is not invoked before this issue is reviewed and merged; #414, #268, #269, and AWS remain untouched."
+      ],
+      "dependencies": [
+        "GitHub issue #418.",
+        "Existing typed C-SDLC v2 GitHub owners and lifecycle records."
+      ],
+      "repo_inputs": [
+        "GitHub issue #418",
+        "AGENTS.md",
+        "docs/tooling/SESSION_COORDINATION_AND_ROOT_CHECKOUT_POLICY.md",
+        "csdlc-v2/operator/skills/",
+        "existing typed GitHub owner binaries"
+      ],
+      "non_goals": [
+        "General raw-gh fallback.",
+        "Bypassing review, CI, merge authority, finish, or cleanup.",
+        "Implementing a new lifecycle binary.",
+        "Using the exception on #414, #268, or #269 in this issue."
+      ]
+    }
+  }
+}

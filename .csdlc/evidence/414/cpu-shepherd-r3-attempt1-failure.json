@@ -1,0 +1,15 @@
+{
+  "schema": "adl.runtime.resident_shepherd_reference_attempt.v1",
+  "status": "interrupted_non_proving",
+  "attempt": 1,
+  "host_class": "reference",
+  "qualification": false,
+  "observed_last_loaded_model": "phi4-mini:latest",
+  "completed_denominator": null,
+  "reason": "The first external-server R3 run had no per-request deadline or num_predict bound. The operator interrupted it after it reached phi4-mini rather than allow an unbounded request. Temporary request/response artifacts were cleaned by the runner trap, so this attempt proves no model or continuity denominator.",
+  "replacement_contract": {
+    "request_timeout_seconds": 300,
+    "num_predict": 128,
+    "silent_retry": false
+  }
+}

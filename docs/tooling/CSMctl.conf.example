@@ -1,0 +1,67 @@
+# CSMctl local operator config.
+#
+# Copy to:
+#   .adl/runtime-v3-service/CSMctl.conf
+#
+# This file is intentionally plain shell assignment syntax, like a small
+# Apache-style service config. Put paths, ports, labels, and local TLS material
+# here. Do not put credential values, tokens, or private signing-key bytes here;
+# those belong in runtime.env.
+
+# Repository and service package paths.
+ADL_CSM_REPO_ROOT=/path/to/agent-design-language
+ADL_CSM_SERVICE_DIR=/path/to/agent-design-language/.adl/runtime-v3-service
+ADL_CSM_ENV_FILE=/path/to/agent-design-language/.adl/runtime-v3-service/runtime.env
+ADL_CSM_STATE_DIR=/path/to/agent-design-language/.adl/runtime-v3-service/state
+ADL_CSM_GENERATED_DIR=/path/to/agent-design-language/.adl/runtime-v3-service/generated
+ADL_CSM_GENERATED_BIN_DIR=/path/to/agent-design-language/.adl/runtime-v3-service/generated/bin
+ADL_CSM_STATE_TLS_DIR=/path/to/agent-design-language/.adl/runtime-v3-service/state/tls
+ADL_CSM_CREDENTIAL_DIR=/path/to/agent-design-language/.adl/runtime-v3-service/state/credentials
+ADL_CSM_CONTINUITY_ROOT=/path/to/agent-design-language/.adl/runtime-v3-service/state/private-continuity
+ADL_CSM_CONTINUITY_HISTORY_ROOT=/path/to/agent-design-language/.adl/runtime-v3-service/state/continuity
+ADL_CSM_QUARANTINE_DIR=/path/to/agent-design-language/.adl/runtime-v3-service/state/quarantine
+
+# Runtime API bind and public URL.
+ADL_CSM_RUNTIME_PORT=20997
+ADL_CSM_RUNTIME_ADDRESS=127.0.0.1:20997
+ADL_CSM_RUNTIME_BASE=https://localhost:20997
+ADL_CSM_RUNTIME_PUBLIC_BASE_URL=https://localhost:20997
+ADL_CSM_RUNTIME_SERVER_NAME=localhost
+
+# launchd service identity and local process files.
+ADL_CSM_LAUNCH_LABEL=com.agentlogic.start-csm
+ADL_CSM_LAUNCH_DOMAIN=gui/501
+ADL_CSM_LAUNCH_WORKING_DIR=/path/to/agent-design-language
+ADL_CSM_LOG_FILE=/path/to/agent-design-language/.adl/runtime-v3-service/state/CSMctl.log
+ADL_CSM_PID_FILE=/path/to/agent-design-language/.adl/runtime-v3-service/state/CSMctl.pid
+ADL_CSM_LEASE_PID_FILE=/path/to/agent-design-language/.adl/runtime-v3-service/state/CSMctl.lease.pid
+ADL_CSM_LEASE_INFO_FILE=/path/to/agent-design-language/.adl/runtime-v3-service/state/CSMctl.lease.env
+ADL_CSM_LEASE_SERVER_FILE=/path/to/agent-design-language/.adl/runtime-v3-service/generated/CSMctl_lease_server.py
+ADL_CSM_RUNNER_FILE=/path/to/agent-design-language/.adl/runtime-v3-service/generated/CSMctl_launch_runner.sh
+ADL_CSM_PLIST_FILE=/path/to/agent-design-language/.adl/runtime-v3-service/generated/com.agentlogic.start-csm.plist
+ADL_CSM_PROBE_FILE=/path/to/agent-design-language/.adl/runtime-v3-service/state/CSMctl.probe
+ADL_CSM_READY_PROBE_FILE=/path/to/agent-design-language/.adl/runtime-v3-service/state/CSMctl.ready.json
+
+# Runtime binaries.
+ADL_CSM_PYTHON_BIN=/usr/bin/python3
+ADL_CSM_KERNEL_BIN=/path/to/agent-design-language/.adl/runtime-v3-service/generated/bin/adl-runtime-kernel
+ADL_CSM_VECTOR_BIN=/path/to/agent-design-language/.adl/bin/vector
+
+# Browser-facing Runtime API TLS. For localhost demos, mkcert paths go here.
+ADL_CSM_API_TLS_CERT=/Users/daniel/cert/localhost.pem
+ADL_CSM_API_TLS_KEY=/Users/daniel/cert/localhost-key.pem
+ADL_CSM_API_TLS_TRUST_ROOTS='/Users/daniel/Library/Application Support/mkcert/rootCA.pem'
+
+# Private Runtime continuity TLS. These defaults use repo test fixtures unless
+# an operator intentionally swaps them for another local trust bundle.
+ADL_CSM_TLS_FIXTURE_ROOT=/path/to/agent-design-language/adl-runtime/tests/support/tls-fixtures
+ADL_CSM_TLS_CERT=/path/to/agent-design-language/adl-runtime/tests/support/tls-fixtures/server-cert.pem
+ADL_CSM_TLS_KEY=/path/to/agent-design-language/adl-runtime/tests/support/tls-fixtures/server-key.pem
+ADL_CSM_TLS_TRUST_ROOTS=/path/to/agent-design-language/adl-runtime/tests/support/tls-fixtures/root-ca.pem
+ADL_CSM_TLS_INTERMEDIATE=/path/to/agent-design-language/adl-runtime/tests/support/tls-fixtures/intermediate-ca.pem
+ADL_CSM_GUARDIAN_TLS_CERT=/path/to/agent-design-language/adl-runtime/tests/support/tls-fixtures/client-cert.pem
+ADL_CSM_GUARDIAN_TLS_KEY=/path/to/agent-design-language/adl-runtime/tests/support/tls-fixtures/client-key.pem
+
+# Probe and recovery policy.
+ADL_CSM_PROBE_INSECURE_TLS=0
+ADL_CSM_RECOVER_INVALID_CONTINUITY=1

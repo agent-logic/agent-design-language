@@ -1,0 +1,4 @@
+    Checking adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-414-resident-shepherd-spot-continuity/adl-runtime-kernel)
+    Checking adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-414-resident-shepherd-spot-continuity/adl-runtime)
+    Checking adl v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-414-resident-shepherd-spot-continuity/adl)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 19.38s

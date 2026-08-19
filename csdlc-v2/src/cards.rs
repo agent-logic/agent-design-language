@@ -1,7 +1,7 @@
 use std::collections::{BTreeMap, BTreeSet};
 use std::fs;
 use std::path::{Component, Path, PathBuf};
-use std::process::Command;
+use std::process::{Command, Stdio};
 
 use markdown::mdast::Node;
 use markdown::{to_mdast, ParseOptions};
@@ -2369,6 +2369,102 @@ fn required_validator_deliverable(path: &str) -> bool {
         })
 }
 
+fn intentionally_deleted_validator(
+    root: &Path,
+    path: &str,
+    owned_paths: &[String],
+    deliverables: &[String],
+    failure_policy: &str,
+) -> bool {
+    !root.join(path).exists()
+        && fail_closed_policy(failure_policy)
+        && safe_relative_path(path)
+        && owned_paths.iter().any(|owned| owned == path)
+        && deliverables
+            .iter()
+            .any(|deliverable| intentional_deletion_marker(deliverable, path))
+        && git_path_existed_at_base(root, path)
+        && git_path_deleted_in_candidate(root, path)
+}
+
+fn intentional_deletion_marker(deliverable: &str, path: &str) -> bool {
+    let trimmed = deliverable.trim();
+    let lower = trimmed.to_ascii_lowercase();
+    ["intentional deletion:", "[intentional-deletion]"]
+        .iter()
+        .any(|prefix| lower.starts_with(prefix) && trimmed[prefix.len()..].trim() == path)
+        || lower
+            .strip_prefix("intentional deletion of ")
+            .is_some_and(|_| trimmed["intentional deletion of ".len()..].trim() == path)
+}
+
+fn safe_relative_path(path: &str) -> bool {
+    !path.chars().any(char::is_whitespace)
+        && Path::new(path)
+            .components()
+            .all(|component| matches!(component, Component::Normal(_)))
+}
+
+fn git_path_existed_at_base(root: &Path, path: &str) -> bool {
+    git_merge_base(root).is_some_and(|base| git_path_exists_at_revision(root, &base, path))
+}
+
+fn git_path_deleted_in_candidate(root: &Path, path: &str) -> bool {
+    git_status_deleted(root, path) || git_diff_deleted_from_base(root, path)
+}
+
+fn git_merge_base(root: &Path) -> Option<String> {
+    let output = Command::new("git")
+        .current_dir(root)
+        .args(["merge-base", "HEAD", "main"])
+        .output()
+        .ok()?;
+    output
+        .status
+        .success()
+        .then(|| String::from_utf8_lossy(&output.stdout).trim().to_owned())
+        .filter(|value| !value.is_empty())
+}
+
+fn git_path_exists_at_revision(root: &Path, revision: &str, path: &str) -> bool {
+    Command::new("git")
+        .current_dir(root)
+        .args(["cat-file", "-e", &format!("{revision}:{path}")])
+        .stdout(Stdio::null())
+        .stderr(Stdio::null())
+        .status()
+        .is_ok_and(|status| status.success())
+}
+
+fn git_status_deleted(root: &Path, path: &str) -> bool {
+    let output = Command::new("git")
+        .current_dir(root)
+        .args(["status", "--porcelain=v1", "--", path])
+        .output();
+    output.is_ok_and(|output| {
+        output.status.success()
+            && String::from_utf8_lossy(&output.stdout)
+                .lines()
+                .any(|line| line.starts_with(" D ") || line.starts_with("D  "))
+    })
+}
+
+fn git_diff_deleted_from_base(root: &Path, path: &str) -> bool {
+    let Some(base) = git_merge_base(root) else {
+        return false;
+    };
+    let output = Command::new("git")
+        .current_dir(root)
+        .args(["diff", "--name-status", &base, "HEAD", "--", path])
+        .output();
+    output.is_ok_and(|output| {
+        output.status.success()
+            && String::from_utf8_lossy(&output.stdout)
+                .lines()
+                .any(|line| line == format!("D\t{path}"))
+    })
+}
+
 fn rust_source_crate_root(root: &Path, path: &str) -> Option<PathBuf> {
     let relative = Path::new(path);
     if relative.extension().and_then(|value| value.to_str()) != Some("rs") {
@@ -2727,7 +2823,14 @@ fn execution_readiness_findings(
                 failure_policy,
                 allow_deferred,
             );
-            if !exists && !deferred {
+            let intentional_deletion = intentionally_deleted_validator(
+                root,
+                target,
+                affected_areas,
+                deliverables,
+                failure_policy,
+            );
+            if !exists && !deferred && !intentional_deletion {
                 findings.push(ExecutionReadinessFinding {
                     code: "validator_target_missing",
                     message: format!(
@@ -2736,7 +2839,9 @@ fn execution_readiness_findings(
                     ),
                 });
             }
-            if affected_areas.iter().any(|owned| owned == target) && (exists || deferred) {
+            if affected_areas.iter().any(|owned| owned == target)
+                && (exists || deferred || intentional_deletion)
+            {
                 issue_specific_denominator = true;
             }
         }
@@ -2778,7 +2883,14 @@ fn execution_readiness_findings(
                 allow_deferred,
             )
         });
-        if !exists && !deferred && !selected_targets.contains(validator) {
+        let intentional_deletion = intentionally_deleted_validator(
+            root,
+            validator,
+            affected_areas,
+            deliverables,
+            failure_policy,
+        );
+        if !exists && !deferred && !intentional_deletion && !selected_targets.contains(validator) {
             findings.push(ExecutionReadinessFinding {
                 code: "validator_target_missing",
                 message: format!("required validator deliverable is unavailable: {validator}"),

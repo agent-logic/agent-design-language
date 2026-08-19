@@ -1,0 +1,36 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 417,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Permit authored design refresh after implemented recovery repairs",
+    "slug": "implemented-design-refresh-recovery",
+    "version": "v0.92",
+    "generation": 23
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Remove the typed implemented-recovery deadlock while preserving recovery provenance and downstream authority invalidation.",
+      "required_outcome": "#417 is terminally merged with focused proof that the exact implemented recovery sequence can reach authored design refresh without reviving downstream authority.",
+      "declared_scope": [
+        "Implemented-state authored design recovery eligibility in csdlc-v2/src/store.rs.",
+        "Focused exact-sequence regression tests in csdlc-v2/tests/gate5.rs."
+      ],
+      "authority_boundary": [
+        "Change only typed C-SDLC v2 recovery classification and focused regression coverage.",
+        "Do not mutate issue #414, #268, or #269 lifecycle or product state.",
+        "Do not weaken fresh-session, exact-generation, CAS, review, publication, or terminal gates."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2 lifecycle owners only.",
+        "Implement in a bound FastWork issue worktree.",
+        "Obtain fresh design and exact-head implementation reviews.",
+        "Merge, finish, clean, and install the reviewed owner binary before #414 resumes."
+      ]
+    }
+  }
+}

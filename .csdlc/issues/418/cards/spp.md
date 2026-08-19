@@ -1,0 +1,112 @@
+# Structured Planning Prompt
+
+Template: 1.0.0
+
+Issue: 418
+
+Repository: agent-logic/agent-design-language
+
+Card: spp
+
+Status: ready
+
+## Summary
+
+Review the exact policy design, bind #418, implement the root and coordination contracts plus focused validation, obtain exact-head review, publish through typed owners, shepherd green CI, merge, finish, and clean.
+
+## Plan
+
+Revision 2
+
+## Steps
+
+[
+  {
+    "id": "step-1",
+    "action": "Obtain fresh independent review of the exact canonical-command and three-event fail-closed policy and bind #418.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "step-2",
+    "action": "Implement bounded root and coordination policy with exact argv shapes, three create-only events, redaction, freeze, and reconciliation requirements.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-6"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "step-3",
+    "action": "Run focused textual and behavioral positive/negative fixture validation.",
+    "acceptance_ids": [
+      "AC-5",
+      "AC-6"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "step-4",
+    "action": "Obtain fresh exact-head review, publish, shepherd green CI, merge, finish, and clean.",
+    "acceptance_ids": [
+      "AC-6"
+    ],
+    "status": "pending"
+  }
+]
+
+## Invariants
+
+- Typed v2 remains the default and final lifecycle authority.
+- Every write matches one canonical argv shape, is exact-target, explicitly authorized, non-terminal, and receipt-bound.
+- Secrets and sensitive bodies never enter receipts or command output.
+- No later lifecycle claim proceeds before typed reconciliation.
+- No exception use before merged policy authority.
+
+## Risks
+
+- Broad wording becomes a routine raw-gh bypass.
+- Operator authorization is inferred rather than exact and contemporaneous.
+- Receipts leak credentials or sensitive content.
+- Remote mutation is treated as typed lifecycle truth without reconciliation.
+- Terminal or destructive operations become silently allowed.
+
+## Estimates
+
+{
+  "elapsed_seconds": 7200,
+  "total_tokens": 40000,
+  "validation_seconds": 1200
+}
+
+## Design
+
+.csdlc/prepared/issues/418/design.md
+
+Digest: 1f39b4b28615007d25a1838d419ded9c7e21439ee5d4d802ecdd5c4348802dc1
+
+## Diagram
+
+.csdlc/prepared/issues/418/diagram.mmd
+
+Digest: daeef03b693bef86186037ea1816a9044db352bd499417b2b0e17d5ed130e243
+
+## Stop Conditions
+
+- Any proposed language creates a general raw-gh fallback.
+- Any raw gh exception is invoked before #418 merges.
+- Any operation touches #414, #268, #269, AWS, or unrelated work.
+- Any terminal/destructive operation becomes allowed by default.
+- Typed validation, review, CI, reconciliation, or terminal ancestry fails.
+
+## Handoff
+
+Proceed only after doctor readiness.

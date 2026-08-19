@@ -4457,7 +4457,16 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
         }
         _ if binding_refresh.is_some() => {
             let refresh = binding_refresh.as_ref().expect("pre-bind refresh");
-            serde_json::json!({
+            let recovery = implemented_design_refresh.then(|| {
+                record
+                    .audit
+                    .iter()
+                    .rev()
+                    .find(|event| event.operation == "recover_review")
+                    .map(|event| (event.sequence, event.generation))
+                    .expect("implemented design refresh requires recovery provenance")
+            });
+            let mut operation = serde_json::json!({
                 "operation": request.operation,
                 "design_binding_refresh": {
                     "design_ref": record.design_path,
@@ -4468,8 +4477,15 @@ pub fn edit_issue(store: &Store, request: EditRequest) -> Result<IssueRecord> {
                     "new_diagram_digest": refresh.new_diagram_digest,
                     "prior_design_approval": prior_design_approval,
                 }
-            })
-            .to_string()
+            });
+            if let Some((sequence, generation)) = recovery {
+                let object = operation
+                    .as_object_mut()
+                    .expect("design binding refresh audit is an object");
+                object.insert("recovery_sequence".into(), sequence.into());
+                object.insert("recovery_generation".into(), generation.into());
+            }
+            operation.to_string()
         }
         _ => serde_json::to_string(&request.operation)?,
     };
@@ -4644,31 +4660,7 @@ fn prepare_implemented_design_refresh(
             "authored design refresh requires an implemented SPP recovery operation",
         ));
     }
-    let latest_review = record.audit.iter().rev().find(|event| {
-        matches!(
-            event.operation.as_str(),
-            "assign_review" | "record_review" | "recover_review"
-        )
-    });
-    let current_review_recovery = latest_review.is_some_and(|event| {
-        event.operation == "recover_review" && event.generation == record.generation
-    });
-    let iterative_pending_refresh = latest_review.is_some_and(|event| {
-        event.operation == "recover_review" && event.generation + 1 == record.generation
-    }) && matches!(record.design_review, DesignReview::Pending)
-        && record.audit.last().is_some_and(|event| {
-            event.generation == record.generation
-                && event
-                    .operation
-                    .contains("refresh_authored_design_after_recovery")
-        });
-    if !(current_review_recovery || iterative_pending_refresh)
-        || record.review_assignment.is_some()
-        || record.review.is_some()
-        || record.publication.is_some()
-        || record.readiness.is_some()
-        || record.terminal.is_some()
-    {
+    if !implemented_authored_design_refresh_recovery_is_clear(record) {
         return Err(V2Error::new(
             ErrorCode::InvalidTransition,
             "authored design refresh requires current review recovery and cleared downstream authority",
@@ -6397,6 +6389,69 @@ fn implemented_pre_publication_review_recovery_is_clear(record: &IssueRecord) ->
             .iter()
             .filter(|candidate| candidate.sequence > recovery.sequence)
             .all(|candidate| recovery_epoch_operation_is_allowed(&candidate.operation))
+}
+
+fn implemented_authored_design_refresh_recovery_is_clear(record: &IssueRecord) -> bool {
+    if record.phase != LifecyclePhase::Implemented
+        || record.review_assignment.is_some()
+        || record.review.is_some()
+        || record.publication.is_some()
+        || record.readiness.is_some()
+        || record.terminal.is_some()
+    {
+        return false;
+    }
+    let Some(recovery) = record.audit.iter().rev().find(|event| {
+        matches!(
+            event.operation.as_str(),
+            "assign_review" | "record_review" | "recover_review"
+        )
+    }) else {
+        return false;
+    };
+    let after_recovery = || {
+        record
+            .audit
+            .iter()
+            .filter(|candidate| candidate.sequence > recovery.sequence)
+    };
+    let legacy_refresh_only = after_recovery().all(|candidate| {
+        authored_design_refresh_epoch_operation_name(&candidate.operation).as_deref()
+            == Some("refresh_authored_design_after_recovery")
+    });
+    let recorded_review_repair_epoch = recovery_follows_recorded_review(record, recovery.sequence)
+        && after_recovery().all(|candidate| {
+            recovery_epoch_operation_is_allowed(&candidate.operation)
+                || authored_design_refresh_epoch_operation_is_allowed(&candidate.operation)
+        });
+    recovery.operation == "recover_review" && (legacy_refresh_only || recorded_review_repair_epoch)
+}
+
+fn authored_design_refresh_epoch_operation_is_allowed(operation: &str) -> bool {
+    if operation == "recover_design_review" {
+        return true;
+    }
+    matches!(
+        authored_design_refresh_epoch_operation_name(operation),
+        Some(ref name)
+            if matches!(
+                name.as_str(),
+                "correct_stp_deliverables_after_recovery"
+                    | "refresh_authored_design_after_recovery"
+            )
+    )
+}
+
+fn authored_design_refresh_epoch_operation_name(operation: &str) -> Option<String> {
+    let Ok(value) = serde_json::from_str::<serde_json::Value>(operation) else {
+        return None;
+    };
+    value.get("operation").and_then(|value| {
+        value
+            .as_str()
+            .or_else(|| value.get("operation").and_then(serde_json::Value::as_str))
+            .map(str::to_string)
+    })
 }
 
 fn validate_implemented_identity_title_slug_repair(

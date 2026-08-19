@@ -1,0 +1,50 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 415,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][AWS tooling][defect] Retain exact remote builder preflight failure diagnostics",
+    "slug": "builder-preflight-diagnostics",
+    "version": "v0.92",
+    "generation": 7
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "builder-diagnostics-focused",
+          "proof_role": "Prove labeled preflight success, missing-tool retained diagnostics, runner emission, cleanup compatibility, syntax, exact scope, and lifecycle non-mutation without AWS.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 4000,
+          "argv": [
+            "bash",
+            "adl/tools/test_run_aws_spot_builder_image_validation.sh"
+          ],
+          "parallel_group": "415-local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on any preflight failure, retain exact redacted diagnostics before exit, and preserve existing cleanup ownership without retrying or launching AWS.",
+      "design_ref": ".csdlc/prepared/issues/415/design.md",
+      "design_digest": "464d54f4988eaaeebc78a4cbb18f5d5b67ffe3766b4e68de6725f4e50b264c4d",
+      "diagram_ref": ".csdlc/prepared/issues/415/diagram.mmd",
+      "diagram_digest": "89620afbe9a97d515c3628f684de26709cd53559a5c839ed26ea5df0d30bf463"
+    }
+  }
+}

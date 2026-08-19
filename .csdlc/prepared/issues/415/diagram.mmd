@@ -1,0 +1,10 @@
+flowchart LR
+  A["Immutable builder starts"] --> B["Run labeled preflight checks serially"]
+  B -->|pass| C["Run requested validation command"]
+  B -->|failure| D["Atomically retain redacted stdout and stderr"]
+  D --> E["Remove raw capture and report exact failed check"]
+  E --> F["Normal post-command path emits retained diagnostic best-effort"]
+  C --> G["Existing summary and cleanup path"]
+  F --> G
+  F -->|missing or unreadable log| G
+  G --> H["Exact-owner cleanup and zero-resource proof"]

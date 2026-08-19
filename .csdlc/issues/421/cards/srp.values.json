@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 421,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Accept intentional deletion deliverables during readiness validation",
+    "slug": "intentional-deletion-deliverables-readiness",
+    "version": "v0.92",
+    "generation": 8
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "csdlc-v2/src/cards.rs\ncsdlc-v2/tests/gate2.rs",
+      "review_revision": "git-blake3:7861debb3ac22eb1b33db9df02fc23479d768699:0c23e657acc003695d075cdf17565f5d4e541a299e43a012e5a206d6bfbb5566",
+      "reviewer": "fresh-session:6c9f3f89-4ce4-4f1a-b816-0df6ad1e4a90",
+      "review_prompts": [
+        "Does the implementation require an explicit typed deletion marker rather than accepting arbitrary missing files?",
+        "Does readiness prove base existence and candidate deletion for the claimed path?",
+        "Do ordinary validator deliverables still fail when missing?",
+        "Are #414, #268, #269, AWS, and unrelated lifecycle state untouched?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Review was bounded to the implementation source/test scope; lifecycle metadata and hosted CI publication checks remain separate typed publication evidence."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

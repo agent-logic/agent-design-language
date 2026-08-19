@@ -117,6 +117,11 @@ def main() -> int:
     parser.add_argument("--expected-source-commit", required=True)
     parser.add_argument("--expected-image", required=True)
     parser.add_argument("--expected-cache-volume-id-sha256", required=True)
+    parser.add_argument(
+        "--expected-retained-volume-role",
+        choices=("build_cache", "runtime_continuity"),
+        default="build_cache",
+    )
     parser.add_argument("--estimated-hourly-cost-usd", required=True, type=float)
     parser.add_argument("--runner-exit-code", required=True, type=int)
     args = parser.parse_args()
@@ -183,7 +188,12 @@ def main() -> int:
     cache_volume_id = cache.get("volume_id") if isinstance(cache.get("volume_id"), str) else ""
     require(sha256(cache_volume_id) == args.expected_cache_volume_id_sha256, failures, "retained_cache_identity_mismatch")
     require(cache.get("attachment_state") == "attached", failures, "retained_cache_not_attached")
-    require(cache.get("mount_path") == "/mnt/adl-cache", failures, "retained_cache_mount_mismatch")
+    expected_mount = (
+        "/mnt/adl-runtime-continuity"
+        if args.expected_retained_volume_role == "runtime_continuity"
+        else "/mnt/adl-cache"
+    )
+    require(cache.get("mount_path") == expected_mount, failures, "retained_volume_mount_mismatch")
     require(cleanup.get("termination_attempted") is True, failures, "compute_termination_not_attempted")
     require(cleanup.get("final_instance_state") == "terminated", failures, "compute_not_terminated")
     require(not cleanup.get("termination_error"), failures, "compute_termination_error")
@@ -206,6 +216,7 @@ def main() -> int:
         "failures": failures,
         "account_verified_by_wrapper": True,
         "spot_purchase_verified": launch.get("purchase_option") == "spot",
+        "retained_volume_role": args.expected_retained_volume_role,
         "immutable_builder_image_verified": builder.get("builder_image_immutable") is True,
         "builder_toolchain_verified": builder.get("toolchain_verified") is True,
         "source_commit_verified": builder.get("source_commit") == args.expected_source_commit,
