@@ -35,12 +35,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Review was scoped to the final conflict-resolution delta and retained #340 product/test surfaces; no #341, #343, Unity, AWS/public hosting, provider credential, #84, #122, or #251 scope was claimed.
+- GitHub CI remains the authoritative integration proof for the published PR head.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:0f4f82c36708eee7588e554e5a998fa3e768fdc0:43304ebd1a1ecc12a0e34a8964ec99a143ed8bd9101c04bc51a244a78a7ff773")
 
-Reviewer: None
+Reviewer: Some("issue340_final_conflict_review")
 
-Result: pre_review
+Result: pass
