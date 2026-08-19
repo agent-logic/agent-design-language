@@ -5,10 +5,21 @@
   "initialization_digest": "95b5986b4d799d43725ec94cd60cdca6cec37eecc20e979f0cd029e4c4b64cc0",
   "phase": "implemented",
   "generation": 11,
-  "digest": "22db8a8a6750be7cfe0a785ff90758c29b1ebb7e0eff29fe091f157f0743312b",
+  "digest": "c4b3f5e484f14184fae20dd89a35466912cf884d484bfe73b09ed450f789d639",
   "branch": "codex/431-v0921-initial-planning-refresh",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-431-v0921-initial-planning",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:46e64a11-eae0-423a-8594-21e1f9b7ee7b",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:bbc3fb5e0d79e2f43c7ff74f4efd29eee3a233ea:627ee909bd21777d854b2af8bf053c543c45aeaa18fc9d583c7d6c2452bd36c6",
+    "scope": [
+      ".csdlc/evidence/431",
+      ".csdlc/issues/431",
+      ".csdlc/prepared/issues/431",
+      "docs/milestones/v0.92.1",
+      "docs/planning/ADL_FEATURE_LIST.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -44,9 +55,9 @@
       "ast_digest": "48c256915223a0c4db0b630c0614223a4b969d0a41c5153e698a8d0b7b981ec3"
     },
     "srp": {
-      "values_digest": "cf43fd594007f1bfcf70eebca342caa1e8f32be08ab55d0a9cc8e5ac684afbf1",
-      "rendered_digest": "39ea13a10d39c73fa76819e3027669c39a55f14590f0cbabbd4fde5bda1fa07e",
-      "ast_digest": "001ca82a24d2d4fc0565f0c1c5f0a3cf374f92d4b73dd0ec242efb9b5dce5b67"
+      "values_digest": "e202bec07c5de09b3888dae182cbd522f1181b9dfe014225b9663d4cd81ed5df",
+      "rendered_digest": "ff0a222c44a7822d5a7706dc755d3a5a7a3f086a27ed4b3383f266cc710964b5",
+      "ast_digest": "f2e1d4795433fc61cff827c345475057cdfb97cf79ffda373874bca20e0f39fa"
     },
     "sor": {
       "values_digest": "732228f360160ef4e2fae87947ddbda1d7115dacde7d58e11d3367fb79e15f80",
@@ -196,6 +207,13 @@
       "actor": "codex:issue-431-planning-amendment",
       "reason": "Record the operator-corrected complete v0.92.1 plan before the single final review.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Authored and validated the complete repository-authoritative v0.92.1 planning candidate without creating replacement issues: twelve existing issues, twenty-seven number-free WP-01 issue slots, six parallel execution lanes, promoted #251/#122/#84/#345 scope, complete #153-#190 predecessor retention, and the canonical ten-step release tail.\",\"changes\":[\"docs/milestones/v0.92.1/**\",\"docs/planning/ADL_FEATURE_LIST.md\",\".csdlc/prepared/issues/431/**\"],\"artifacts\":[\"canonical document inventory and complete planned issue catalog\",\"number-free WP-01 issue wave with no #433-#438 authority\",\"four-package corporate and IP decomposition for #153-#160\",\"six-package C-SDLC v3 consolidation for #161-#180\",\"three-package distributed Runtime consolidation for #181-#187 plus active #345\",\"active #251/#122/#84 Observatory prerequisite graph\",\"canonical ten-step release tail matching the preceding milestone standard\",\"v0.92.2 CodeFriend Beta 1 handoff\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/431/validate_preparation_bundle.py\"],\"purpose\":\"Verify the prepared planning contract and WP-28 boundary.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/431/preparation-contract.log\"},{\"command\":[\"python3\",\".csdlc/prepared/issues/431/validate_planning_package.py\"],\"purpose\":\"Verify canonical document completeness, number-free issue routing, active existing issues, complete predecessor denominators, six-lane parity, and the ten-step release tail.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/431/planning-package.log\"},{\"command\":[\"git\",\"diff\",\"--check\",\"72ca2634a56e538e18ab241e9fe1568dc8ad8d7a\"],\"purpose\":\"Verify full candidate diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/431/diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

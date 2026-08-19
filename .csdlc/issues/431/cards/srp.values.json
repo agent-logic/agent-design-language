@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": ".csdlc/evidence/431\n.csdlc/issues/431\n.csdlc/prepared/issues/431\ndocs/milestones/v0.92.1\ndocs/planning/ADL_FEATURE_LIST.md",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

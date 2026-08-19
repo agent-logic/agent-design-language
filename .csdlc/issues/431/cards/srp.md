@@ -12,7 +12,11 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/evidence/431
+.csdlc/issues/431
+.csdlc/prepared/issues/431
+docs/milestones/v0.92.1
+docs/planning/ADL_FEATURE_LIST.md
 
 ## Prompts
 

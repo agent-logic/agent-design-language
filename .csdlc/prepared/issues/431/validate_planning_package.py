@@ -84,11 +84,26 @@ if "REP-01" not in wave_packages.get("WP-01", {}).get("depends_on", []):
 for root_id in ["CORP-01", "V3-01", "DRT-01", "POD-01", "HOT-01", "OBS-01"]:
     if "WP-01" not in wave_packages.get(root_id, {}).get("depends_on", []):
         errors.append(f"ordering:{root_id}-must-depend-on-WP-01")
-planned_roots = {"CORP-01", "V3-01", "DRT-01", "HOT-01", "OBS-01", "INT-01"}
-for package_id in planned_roots:
+aggregation_roots = {"CORP-01", "V3-01", "DRT-01", "OBS-01"}
+for package_id in aggregation_roots:
     package = wave_packages.get(package_id, {})
-    if package.get("issue") is not None or package.get("creation_owner") != "WP-01":
-        errors.append(f"issue-routing:{package_id}:must-remain-number-free-for-WP-01")
+    if package.get("issue_slot") is not False or "issue" in package or "creation_owner" in package:
+        errors.append(f"issue-routing:{package_id}:must-be-aggregation-only")
+expected_creation_ids = [
+    "CORP-A", "CORP-B", "CORP-C", "CORP-D",
+    "V3-A", "V3-B", "V3-C", "V3-D", "V3-E", "V3-F",
+    "DRT-A", "DRT-B", "DRT-C", "HOT-01", "OBS-A", "OBS-B", "INT-01",
+    *[f"TAIL-{number:02d}" for number in range(1, 11)],
+]
+actual_creation_ids = []
+for package in wave_data.get("work_packages", []):
+    for child in package.get("packages", []):
+        if child.get("issue") is None and child.get("creation_owner") == "WP-01":
+            actual_creation_ids.append(child.get("id"))
+    if package.get("issue") is None and package.get("creation_owner") == "WP-01":
+        actual_creation_ids.append(package.get("id"))
+if actual_creation_ids != expected_creation_ids:
+    errors.append(f"issue-creation-denominator:expected={expected_creation_ids}:actual={actual_creation_ids}")
 if wave_packages.get("DRT-01", {}).get("existing_issues") != [345]:
     errors.append("active-existing-routing:DRT-01:expected=[345]")
 if wave_packages.get("OBS-01", {}).get("existing_issues") != [251, 122, 84]:

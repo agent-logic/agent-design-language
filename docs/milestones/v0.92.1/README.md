@@ -17,7 +17,7 @@ Issue #432 removes tracked dependencies on local untracked paths. It is the repo
 
 All six roots depend on #431 after #432. They may execute independently after those gates; no lane silently absorbs another.
 
-The existing executable graph is #432, #431, and podcast #51/#261-#264/#342. Every other execution and release-tail issue in this package is number-free planning truth; WP-01 creates those issues later in the exact catalog and dependency order. Premature placeholders #433-#438 are closed and must not be reused as execution authority. #431 owns the planning-time v0.92.2 handoff.
+The existing executable graph is #432, #431, podcast #51/#261-#264/#342, Observatory prerequisites #251/#122/#84, and GPU Shepherd #345. Every other execution and release-tail issue in this package is number-free planning truth; WP-01 creates those issues later in the exact catalog and dependency order. Premature placeholders #433-#438 are closed and must not be reused as execution authority. #431 owns the planning-time v0.92.2 handoff.
 
 Closed issues #149–#190 were prematurely retired planning packets, not delivered execution. Their requirements remain in the routing denominator: corporate #153–#160 is consolidated into CORP-A through CORP-D; C-SDLC v3 #161–#180 into V3-A through V3-F; Runtime #181–#187 into DRT-A through DRT-C; and integration #188–#190 into INT-01 plus the canonical release tail. They are not reopened. The v0.92 tooling defect #387 is not part of the active milestone plan even if legacy labeling includes v0.92.1. #433–#438 were closed as premature placeholders and #439 was closed as redundant with #431.
 

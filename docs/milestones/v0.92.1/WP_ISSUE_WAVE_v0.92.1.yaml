@@ -15,74 +15,97 @@ work_packages:
   - id: CORP-01
     lane: corporate
     title: Corporate and IP transfer program
-    issue: null
-    creation_owner: WP-01
+    issue_slot: false
     depends_on: [WP-01]
     packages:
       - id: CORP-A
+        issue: null
+        creation_owner: WP-01
         title: Asset inventory, provenance, licensing, trademark, and assignment
         predecessor_issues: [153, 154, 155]
         depends_on: []
       - id: CORP-B
+        issue: null
+        creation_owner: WP-01
         title: Corporate account custody, billing, recovery, MFA, and vault controls
         predecessor_issues: [156]
         depends_on: [CORP-A]
       - id: CORP-C
+        issue: null
+        creation_owner: WP-01
         title: Repository, domain, brand, vendor, AWS, Terraform, CI, and runbook transfer
         predecessor_issues: [157, 158, 159]
         depends_on: [CORP-A, CORP-B]
       - id: CORP-D
+        issue: null
+        creation_owner: WP-01
         title: Chain-of-title, diligence index, counsel review, and corporate acceptance
         predecessor_issues: [160]
         depends_on: [CORP-A, CORP-B, CORP-C]
   - id: V3-01
     lane: csdlc_v3
     title: C-SDLC v3 implementation program
-    issue: null
-    creation_owner: WP-01
+    issue_slot: false
     depends_on: [WP-01]
     packages:
       - id: V3-A
+        issue: null
+        creation_owner: WP-01
         title: Product contract, Rust construction slice, and platform decision
         predecessor_issues: [161, 162, 163]
         depends_on: []
       - id: V3-B
+        issue: null
+        creation_owner: WP-01
         title: Binary foundation, application services, repository context, state, and projections
         predecessor_issues: [164, 165, 166, 167]
         depends_on: [V3-A]
       - id: V3-C
+        issue: null
+        creation_owner: WP-01
         title: Lifecycle kernel, transaction storage, recovery, and typed adapters
         predecessor_issues: [168, 169, 170]
         depends_on: [V3-B]
       - id: V3-D
+        issue: null
+        creation_owner: WP-01
         title: Local issue, bind, card, doctor, and PVF planning commands
         predecessor_issues: [171, 172, 173]
         depends_on: [V3-C]
       - id: V3-E
+        issue: null
+        creation_owner: WP-01
         title: PVF execution, review, publication, GitHub, PR, finish, and cleanup
         predecessor_issues: [174, 175, 176, 177, 178]
         depends_on: [V3-D]
       - id: V3-F
+        issue: null
+        creation_owner: WP-01
         title: Parity, canary migration, authority cutover, observation, and retirement decision
         predecessor_issues: [179, 180]
         depends_on: [V3-E]
   - id: DRT-01
     lane: distributed_runtime
     title: Distributed multi-agent Runtime qualification
-    issue: null
-    creation_owner: WP-01
+    issue_slot: false
     depends_on: [WP-01]
     existing_issues: [345]
     packages:
       - id: DRT-A
+        issue: null
+        creation_owner: WP-01
         title: Qualification contract, deterministic ACIP authority, and replay conformance
         predecessor_issues: [181, 182]
         depends_on: []
       - id: DRT-B
+        issue: null
+        creation_owner: WP-01
         title: Multi-agent UTS production work and hybrid Spot continuity
         predecessor_issues: [183, 184]
         depends_on: [DRT-A, issue-345]
       - id: DRT-C
+        issue: null
+        creation_owner: WP-01
         title: Identity and provider failure, Observatory evidence, soak, cleanup, and synthesis
         predecessor_issues: [185, 186, 187]
         depends_on: [DRT-B]
@@ -100,8 +123,7 @@ work_packages:
   - id: OBS-01
     lane: observatory_redesign
     title: Observatory redesign
-    issue: null
-    creation_owner: WP-01
+    issue_slot: false
     depends_on: [WP-01]
     existing_issues: [251, 122, 84]
     existing_issue_order:
@@ -113,9 +135,13 @@ work_packages:
         depends_on: [251, 122]
     packages:
       - id: OBS-A
+        issue: null
+        creation_owner: WP-01
         title: Observatory information architecture, interaction, and accessibility redesign
         depends_on: []
       - id: OBS-B
+        issue: null
+        creation_owner: WP-01
         title: Authentic Runtime projections, implementation, and state/failure proof
         depends_on: [OBS-A, issue-84]
   - id: INT-01
@@ -126,45 +152,65 @@ work_packages:
     depends_on: [CORP-01, V3-01, DRT-01, POD-01, HOT-01, OBS-01]
   - id: TAIL-01
     lane: release_tail
+    issue: null
+    creation_owner: WP-01
     title: Quality gate
     predecessor_issues: [188]
     depends_on: [INT-01]
   - id: TAIL-02
     lane: release_tail
+    issue: null
+    creation_owner: WP-01
     title: Docs and release-truth pass
     depends_on: [TAIL-01]
   - id: TAIL-03
     lane: release_tail
+    issue: null
+    creation_owner: WP-01
     title: Publication finalization
     depends_on: [TAIL-02]
   - id: TAIL-04
     lane: release_tail
+    issue: null
+    creation_owner: WP-01
     title: Internal milestone review
     depends_on: [TAIL-03]
   - id: TAIL-05
     lane: release_tail
+    issue: null
+    creation_owner: WP-01
     title: External or third-party review
     depends_on: [TAIL-04]
   - id: TAIL-06
     lane: release_tail
+    issue: null
+    creation_owner: WP-01
     title: Accepted-findings remediation or explicit deferral capture
     predecessor_issues: [188]
     depends_on: [TAIL-05]
   - id: TAIL-07
     lane: release_tail
+    issue: null
+    creation_owner: WP-01
     title: Next-milestone planning and CodeFriend Beta 1 handoff
     predecessor_issues: [190]
     depends_on: [TAIL-06]
   - id: TAIL-08
     lane: release_tail
+    issue: null
+    creation_owner: WP-01
     title: Next-milestone closeout planning
     depends_on: [TAIL-07]
   - id: TAIL-09
     lane: release_tail
+    issue: null
+    creation_owner: WP-01
     title: Next-milestone planning review
     depends_on: [TAIL-08]
   - id: TAIL-10
     lane: release_tail
+    issue: null
+    creation_owner: WP-01
     title: Release ceremony, final validation, notes, tag, and cleanup
     predecessor_issues: [189]
     depends_on: [TAIL-09]
