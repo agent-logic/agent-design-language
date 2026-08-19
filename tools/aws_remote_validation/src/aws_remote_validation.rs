@@ -1982,7 +1982,7 @@ set -euo pipefail
 install -d -m 0755 /var/lib/adl
 exec > >(tee -a /var/log/adl-issue268-bootstrap.log) 2>&1
 trap 'status=$?; printf "bootstrap_failed exit=%s\n" "$status"; touch /var/lib/adl/issue268-bootstrap-failed; exit "$status"' ERR
-dnf install -y gcc gcc-c++ make pkgconf-pkg-config openssl-devel rust cargo python3 awscli-2 git tar zstd curl jq
+dnf install -y gcc gcc-c++ make pkgconf-pkg-config openssl-devel rust cargo python3 awscli-2 git tar zstd jq
 for command in cc cargo rustc python3 aws git tar zstd curl jq; do
   command -v "$command" >/dev/null
 done
@@ -4890,7 +4890,7 @@ mod tests {
         assert!(tracked_runner.contains("issue268-bootstrap-ready"));
         assert!(tracked_runner.contains("adl-issue268-bootstrap.log"));
         assert!(tracked_runner.contains("source=foreground_package_manager"));
-        assert!(tracked_runner.contains("awscli-2 git tar zstd curl jq"));
+        assert!(tracked_runner.contains("awscli-2 git tar zstd jq"));
         assert!(tracked_runner.contains("source=user_data_ready"));
         assert!(tracked_runner.contains("immutable_builder_image_only"));
         assert!(tracked_runner
@@ -4909,7 +4909,12 @@ mod tests {
             .expect("base64 user data");
         let script = String::from_utf8(decoded).expect("utf8 user data");
         assert!(script.contains("dnf install -y gcc gcc-c++ make"));
-        assert!(script.contains("rust cargo python3 awscli-2 git tar zstd curl jq"));
+        assert!(script.contains("rust cargo python3 awscli-2 git tar zstd jq"));
+        let install_line = script
+            .lines()
+            .find(|line| line.starts_with("dnf install"))
+            .expect("dnf install line");
+        assert!(!install_line.split_whitespace().any(|value| value == "curl"));
         assert!(!script.contains("python3 awscli git"));
         assert!(script.contains("adl-issue268-bootstrap.log"));
         assert!(script.contains("issue268-bootstrap-failed"));

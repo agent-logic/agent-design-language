@@ -337,7 +337,7 @@ if [ "$ISSUE268_RUNTIME_QUALIFICATION" = "1" ]; then
   cloud-init status --wait >/tmp/adl-cloud-init.log 2>&1 || cloud_init_status=$?
   if [ ! -f /var/lib/adl/issue268-bootstrap-ready ]; then
     log_progress "stage=ensure_build_toolchain source=foreground_package_manager cloud_init_status=$cloud_init_status"
-    if ! sudo dnf install -y gcc gcc-c++ make pkgconf-pkg-config openssl-devel rust cargo python3 awscli-2 git tar zstd curl jq >/tmp/adl-issue268-bootstrap.log 2>&1; then
+    if ! sudo dnf install -y gcc gcc-c++ make pkgconf-pkg-config openssl-devel rust cargo python3 awscli-2 git tar zstd jq >/tmp/adl-issue268-bootstrap.log 2>&1; then
       printf '%s\n' "issue268 foreground package bootstrap failed" >&2
       tail -n 200 /tmp/adl-issue268-bootstrap.log >&2 || true
       sudo tail -n 200 /var/log/cloud-init-output.log 2>/dev/null >&2 || true
