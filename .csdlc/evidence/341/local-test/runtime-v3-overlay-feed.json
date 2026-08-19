@@ -1,11 +1,11 @@
 {
   "agents": {
-    "event_cursor": "issue341.1787171798215",
+    "event_cursor": "issue341.1787172553922",
     "has_more": false,
     "next_page_token": null,
     "population_complete": true,
     "rendered_sample_count": 3,
-    "revision": 1787171798215,
+    "revision": 1787172553922,
     "sample": [
       {
         "activity": "provider-neutral birthday proof",
@@ -16,15 +16,15 @@
         ],
         "communication_eligible": true,
         "detail": "Issue #341 private ACIP TCP roster projection",
-        "freshness_deadline_unix_millis": 1787171808215,
+        "freshness_deadline_unix_millis": 1787172563922,
         "health": "healthy",
         "id": "issue341-openai-reference-agent",
         "label": "Openai Reference Agent",
         "location": "127.0.0.1:58327",
-        "observed_at_unix_millis": 1787171798215,
+        "observed_at_unix_millis": 1787172553922,
         "provenance": "issue341_private_observatory_probe",
         "role": "provider-column",
-        "source_revision": "7d95623d7d712d931e35c8672504c0a6c7e51c3c",
+        "source_revision": "3e4ff7ce926fcb48b3d69212d5e1b72a1626743a",
         "ssm_access": "none",
         "state": "ready"
       },
@@ -37,15 +37,15 @@
         ],
         "communication_eligible": true,
         "detail": "Issue #341 private ACIP TCP roster projection",
-        "freshness_deadline_unix_millis": 1787171808215,
+        "freshness_deadline_unix_millis": 1787172563922,
         "health": "healthy",
         "id": "issue341-gemini-reference-agent",
         "label": "Gemini Reference Agent",
         "location": "127.0.0.1:58328",
-        "observed_at_unix_millis": 1787171798215,
+        "observed_at_unix_millis": 1787172553922,
         "provenance": "issue341_private_observatory_probe",
         "role": "provider-column",
-        "source_revision": "7d95623d7d712d931e35c8672504c0a6c7e51c3c",
+        "source_revision": "3e4ff7ce926fcb48b3d69212d5e1b72a1626743a",
         "ssm_access": "none",
         "state": "ready"
       },
@@ -58,15 +58,15 @@
         ],
         "communication_eligible": true,
         "detail": "Issue #341 private ACIP TCP roster projection",
-        "freshness_deadline_unix_millis": 1787171808215,
+        "freshness_deadline_unix_millis": 1787172563922,
         "health": "healthy",
         "id": "wuji-shepherd",
         "label": "Wuji Shepherd",
         "location": "127.0.0.1:58329",
-        "observed_at_unix_millis": 1787171798215,
+        "observed_at_unix_millis": 1787172553922,
         "provenance": "issue341_private_observatory_probe",
         "role": "shepherd",
-        "source_revision": "7d95623d7d712d931e35c8672504c0a6c7e51c3c",
+        "source_revision": "3e4ff7ce926fcb48b3d69212d5e1b72a1626743a",
         "ssm_access": "maintenance_only",
         "state": "ready"
       }
@@ -77,7 +77,7 @@
   },
   "continuity": {
     "checkpoint": {
-      "accepted_through": 1787171798215,
+      "accepted_through": 1787172553922,
       "generation": 341
     }
   },
@@ -123,25 +123,25 @@
     "snapshot": {
       "agent_admissions": {
         "issue341-gemini-reference-agent": {
-          "freshness_deadline_unix_millis": 1787171808215,
-          "observed_at_unix_millis": 1787171798215,
-          "source_revision": "7d95623d7d712d931e35c8672504c0a6c7e51c3c"
+          "freshness_deadline_unix_millis": 1787172563922,
+          "observed_at_unix_millis": 1787172553922,
+          "source_revision": "3e4ff7ce926fcb48b3d69212d5e1b72a1626743a"
         },
         "issue341-openai-reference-agent": {
-          "freshness_deadline_unix_millis": 1787171808215,
-          "observed_at_unix_millis": 1787171798215,
-          "source_revision": "7d95623d7d712d931e35c8672504c0a6c7e51c3c"
+          "freshness_deadline_unix_millis": 1787172563922,
+          "observed_at_unix_millis": 1787172553922,
+          "source_revision": "3e4ff7ce926fcb48b3d69212d5e1b72a1626743a"
         },
         "wuji-shepherd": {
-          "freshness_deadline_unix_millis": 1787171808215,
-          "observed_at_unix_millis": 1787171798215,
-          "source_revision": "7d95623d7d712d931e35c8672504c0a6c7e51c3c"
+          "freshness_deadline_unix_millis": 1787172563922,
+          "observed_at_unix_millis": 1787172553922,
+          "source_revision": "3e4ff7ce926fcb48b3d69212d5e1b72a1626743a"
         }
       },
       "clock": {
         "source": "local_monotonic",
         "status": "authoritative",
-        "unix_millis": 1787171798215
+        "unix_millis": 1787172553922
       },
       "components": {
         "acip": "running",
@@ -158,7 +158,7 @@
       "observability_ready": true,
       "queues": {},
       "restart_counts": {},
-      "revision": 1787171798215,
+      "revision": 1787172553922,
       "schema": "adl.runtime.control_snapshot.v1",
       "topology_generation": 341
     }
@@ -174,7 +174,7 @@
     "runtime_v2_decommission_authorized": false,
     "sidecar_required": false
   },
-  "runtime_incarnation_id": "issue341-7d95623d7d71",
+  "runtime_incarnation_id": "issue341-3e4ff7ce926f",
   "runtime_instance_id": "issue341-provider-neutral-private-runtime",
   "runtime_process_id": 0,
   "runtime_selection": "runtime_v3_explicit_opt_in",
@@ -186,7 +186,7 @@
   },
   "weather_freshness": {
     "age_millis": 0,
-    "observed_at_unix_millis": 1787171798215,
+    "observed_at_unix_millis": 1787172553922,
     "stale": false,
     "stale_after_millis": 10000
   }

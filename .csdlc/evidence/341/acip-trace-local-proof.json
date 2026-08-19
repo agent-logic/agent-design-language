@@ -4,24 +4,24 @@
     {
       "agent_id": "issue341-openai-reference-agent",
       "event": "agent_listening",
-      "local_address": "127.0.0.1:61716",
-      "observed_at": "monotonic:2226554936228333",
+      "local_address": "127.0.0.1:52836",
+      "observed_at": "monotonic:2227310644303750",
       "provider": "openai-reference",
       "sequence": 1
     },
     {
       "agent_id": "issue341-gemini-reference-agent",
       "event": "agent_listening",
-      "local_address": "127.0.0.1:61717",
-      "observed_at": "monotonic:2226554936335541",
+      "local_address": "127.0.0.1:52837",
+      "observed_at": "monotonic:2227310644377458",
       "provider": "gemini-reference",
       "sequence": 2
     },
     {
       "agent_id": "wuji-shepherd",
       "event": "agent_listening",
-      "local_address": "127.0.0.1:61718",
-      "observed_at": "monotonic:2226554936448416",
+      "local_address": "127.0.0.1:52838",
+      "observed_at": "monotonic:2227310644486625",
       "provider": "wuji-shepherd-reference",
       "sequence": 3
     },
@@ -29,8 +29,8 @@
       "agent_id": "issue341-openai-reference-agent",
       "envelope_sha256": "5508d20db0ed770ac9a07750186c0e2b3f632b2b6b638c6b9ee746471b7e3e4d",
       "event": "acip_request_sent",
-      "local_address": "127.0.0.1:61716",
-      "observed_at": "monotonic:2226554936482125",
+      "local_address": "127.0.0.1:52836",
+      "observed_at": "monotonic:2227310644513916",
       "provider": "openai-reference",
       "sequence": 4
     },
@@ -38,8 +38,8 @@
       "agent_id": "issue341-openai-reference-agent",
       "envelope_sha256": "5508d20db0ed770ac9a07750186c0e2b3f632b2b6b638c6b9ee746471b7e3e4d",
       "event": "acip_request_received",
-      "local_address": "127.0.0.1:61716",
-      "observed_at": "monotonic:2226554938294625",
+      "local_address": "127.0.0.1:52836",
+      "observed_at": "monotonic:2227310646650083",
       "operation_count": 3,
       "provider": "openai-reference",
       "sequence": 5
@@ -47,7 +47,7 @@
     {
       "agent_id": "issue341-openai-reference-agent",
       "event": "acip_response_sent",
-      "observed_at": "monotonic:2226554938325125",
+      "observed_at": "monotonic:2227310646675041",
       "provider": "openai-reference",
       "receipt_sha256": "85be26712d5fc49168dd1256a14e87f02daf43a9917f2ba2c6b4ce093665408a",
       "sequence": 6
@@ -56,8 +56,8 @@
       "agent_id": "issue341-gemini-reference-agent",
       "envelope_sha256": "5508d20db0ed770ac9a07750186c0e2b3f632b2b6b638c6b9ee746471b7e3e4d",
       "event": "acip_request_sent",
-      "local_address": "127.0.0.1:61717",
-      "observed_at": "monotonic:2226554938447958",
+      "local_address": "127.0.0.1:52837",
+      "observed_at": "monotonic:2227310646839708",
       "provider": "gemini-reference",
       "sequence": 7
     },
@@ -65,8 +65,8 @@
       "agent_id": "issue341-gemini-reference-agent",
       "envelope_sha256": "5508d20db0ed770ac9a07750186c0e2b3f632b2b6b638c6b9ee746471b7e3e4d",
       "event": "acip_request_received",
-      "local_address": "127.0.0.1:61717",
-      "observed_at": "monotonic:2226554938735333",
+      "local_address": "127.0.0.1:52837",
+      "observed_at": "monotonic:2227310647458333",
       "operation_count": 3,
       "provider": "gemini-reference",
       "sequence": 8
@@ -74,7 +74,7 @@
     {
       "agent_id": "issue341-gemini-reference-agent",
       "event": "acip_response_sent",
-      "observed_at": "monotonic:2226554938761166",
+      "observed_at": "monotonic:2227310647483750",
       "provider": "gemini-reference",
       "receipt_sha256": "54165284555d6b702bf39ae5dff53266226162dabbf5df0f30a891ac194f356c",
       "sequence": 9
@@ -83,8 +83,8 @@
       "agent_id": "wuji-shepherd",
       "envelope_sha256": "5508d20db0ed770ac9a07750186c0e2b3f632b2b6b638c6b9ee746471b7e3e4d",
       "event": "acip_request_sent",
-      "local_address": "127.0.0.1:61718",
-      "observed_at": "monotonic:2226554938917000",
+      "local_address": "127.0.0.1:52838",
+      "observed_at": "monotonic:2227310647835333",
       "provider": "wuji-shepherd-reference",
       "sequence": 10
     },
@@ -92,8 +92,8 @@
       "agent_id": "wuji-shepherd",
       "envelope_sha256": "5508d20db0ed770ac9a07750186c0e2b3f632b2b6b638c6b9ee746471b7e3e4d",
       "event": "acip_request_received",
-      "local_address": "127.0.0.1:61718",
-      "observed_at": "monotonic:2226554939151416",
+      "local_address": "127.0.0.1:52838",
+      "observed_at": "monotonic:2227310648077958",
       "operation_count": 3,
       "provider": "wuji-shepherd-reference",
       "sequence": 11
@@ -101,7 +101,7 @@
     {
       "agent_id": "wuji-shepherd",
       "event": "acip_response_sent",
-      "observed_at": "monotonic:2226554939174166",
+      "observed_at": "monotonic:2227310648097375",
       "provider": "wuji-shepherd-reference",
       "receipt_sha256": "535dff10e909481fcd66c9f79d9d2ee6020e07c6cc897e766de66549cd6106fe",
       "sequence": 12
@@ -110,8 +110,8 @@
       "agent_id": "issue341-openai-reference-agent",
       "envelope_sha256": "d7ff6913fd322f5dc0059833c1a3b75b221c0696353a0297a7723ec80a5fa17d",
       "event": "acip_request_sent",
-      "local_address": "127.0.0.1:61716",
-      "observed_at": "monotonic:2226554939288250",
+      "local_address": "127.0.0.1:52836",
+      "observed_at": "monotonic:2227310648257958",
       "provider": "openai-reference",
       "sequence": 13
     },
@@ -119,8 +119,8 @@
       "agent_id": "issue341-openai-reference-agent",
       "envelope_sha256": "d7ff6913fd322f5dc0059833c1a3b75b221c0696353a0297a7723ec80a5fa17d",
       "event": "acip_request_received",
-      "local_address": "127.0.0.1:61716",
-      "observed_at": "monotonic:2226554939490541",
+      "local_address": "127.0.0.1:52836",
+      "observed_at": "monotonic:2227310648619250",
       "operation_count": 0,
       "provider": "openai-reference",
       "sequence": 14
@@ -129,7 +129,7 @@
       "agent_id": "issue341-openai-reference-agent",
       "case": "malformed_acip",
       "event": "acip_rejected",
-      "observed_at": "monotonic:2226554939500625",
+      "observed_at": "monotonic:2227310648631041",
       "provider": "openai-reference",
       "receipt_sha256": "6c170b6bc6896b577bee3a46e2482084ba2be16513bab696850fda8d4720fb60",
       "sequence": 15
@@ -138,8 +138,8 @@
       "agent_id": "issue341-openai-reference-agent",
       "envelope_sha256": "448f493aa13c3c2969ee9cf6cd856174725a77cce6fca16cf72229a93dfa1eb0",
       "event": "acip_request_sent",
-      "local_address": "127.0.0.1:61716",
-      "observed_at": "monotonic:2226554939608333",
+      "local_address": "127.0.0.1:52836",
+      "observed_at": "monotonic:2227310648782291",
       "provider": "openai-reference",
       "sequence": 16
     },
@@ -147,8 +147,8 @@
       "agent_id": "issue341-openai-reference-agent",
       "envelope_sha256": "448f493aa13c3c2969ee9cf6cd856174725a77cce6fca16cf72229a93dfa1eb0",
       "event": "acip_request_received",
-      "local_address": "127.0.0.1:61716",
-      "observed_at": "monotonic:2226554939848333",
+      "local_address": "127.0.0.1:52836",
+      "observed_at": "monotonic:2227310649070208",
       "operation_count": 3,
       "provider": "openai-reference",
       "sequence": 17
@@ -157,7 +157,7 @@
       "agent_id": "issue341-openai-reference-agent",
       "case": "denied_authority",
       "event": "acip_rejected",
-      "observed_at": "monotonic:2226554939859000",
+      "observed_at": "monotonic:2227310649078333",
       "provider": "openai-reference",
       "receipt_sha256": "0df220375f2369f11e17f1648e7d4c87ef57d2e6f0266d8dc8ab247d0d5c439d",
       "sequence": 18
@@ -166,8 +166,8 @@
       "agent_id": "issue341-openai-reference-agent",
       "envelope_sha256": "67560f08a2ec2aa5975a400506394a562d869cf1fa6ee7c3f1f29eb5746f6ab4",
       "event": "acip_request_sent",
-      "local_address": "127.0.0.1:61716",
-      "observed_at": "monotonic:2226554939947125",
+      "local_address": "127.0.0.1:52836",
+      "observed_at": "monotonic:2227310649149625",
       "provider": "openai-reference",
       "sequence": 19
     },
@@ -175,8 +175,8 @@
       "agent_id": "issue341-openai-reference-agent",
       "envelope_sha256": "67560f08a2ec2aa5975a400506394a562d869cf1fa6ee7c3f1f29eb5746f6ab4",
       "event": "acip_request_received",
-      "local_address": "127.0.0.1:61716",
-      "observed_at": "monotonic:2226554940187083",
+      "local_address": "127.0.0.1:52836",
+      "observed_at": "monotonic:2227310649339833",
       "operation_count": 3,
       "provider": "openai-reference",
       "sequence": 20
@@ -185,7 +185,7 @@
       "agent_id": "issue341-openai-reference-agent",
       "case": "interrupted_provider",
       "event": "acip_rejected",
-      "observed_at": "monotonic:2226554940194291",
+      "observed_at": "monotonic:2227310649347875",
       "provider": "openai-reference",
       "receipt_sha256": "cc29fcb244e650ed249c5a7acc34d502ecee672a5d00ceaa611ae0f3327145f4",
       "sequence": 21
@@ -194,8 +194,8 @@
       "agent_id": "issue341-openai-reference-agent",
       "envelope_sha256": "28cf681eda3978891eacc7d97b3051c8751800d58531663ff2b8cd6c1be5f022",
       "event": "acip_request_sent",
-      "local_address": "127.0.0.1:61716",
-      "observed_at": "monotonic:2226554940284750",
+      "local_address": "127.0.0.1:52836",
+      "observed_at": "monotonic:2227310649453416",
       "provider": "openai-reference",
       "sequence": 22
     },
@@ -203,8 +203,8 @@
       "agent_id": "issue341-openai-reference-agent",
       "envelope_sha256": "28cf681eda3978891eacc7d97b3051c8751800d58531663ff2b8cd6c1be5f022",
       "event": "acip_request_received",
-      "local_address": "127.0.0.1:61716",
-      "observed_at": "monotonic:2226554940500458",
+      "local_address": "127.0.0.1:52836",
+      "observed_at": "monotonic:2227310649672500",
       "operation_count": 3,
       "provider": "openai-reference",
       "sequence": 23
@@ -213,7 +213,7 @@
       "agent_id": "issue341-openai-reference-agent",
       "case": "provider_unavailable",
       "event": "acip_rejected",
-      "observed_at": "monotonic:2226554940509208",
+      "observed_at": "monotonic:2227310649680625",
       "provider": "openai-reference",
       "receipt_sha256": "b4779870f8de1dd46e781052951b3cfa7ef2b3cd689298ffc84bea9a6f62b97a",
       "sequence": 24
@@ -222,8 +222,8 @@
       "agent_id": "issue341-openai-reference-agent",
       "envelope_sha256": "8ddfb16a123c0b0d1f0054ec2888674232d3ed31ee65ca3f37f8791ba1502521",
       "event": "acip_request_sent",
-      "local_address": "127.0.0.1:61716",
-      "observed_at": "monotonic:2226554940614875",
+      "local_address": "127.0.0.1:52836",
+      "observed_at": "monotonic:2227310649783416",
       "provider": "openai-reference",
       "sequence": 25
     },
@@ -231,8 +231,8 @@
       "agent_id": "issue341-openai-reference-agent",
       "envelope_sha256": "8ddfb16a123c0b0d1f0054ec2888674232d3ed31ee65ca3f37f8791ba1502521",
       "event": "acip_request_received",
-      "local_address": "127.0.0.1:61716",
-      "observed_at": "monotonic:2226554940826791",
+      "local_address": "127.0.0.1:52836",
+      "observed_at": "monotonic:2227310650006958",
       "operation_count": 3,
       "provider": "openai-reference",
       "sequence": 26
@@ -241,7 +241,7 @@
       "agent_id": "issue341-openai-reference-agent",
       "case": "provider_loss",
       "event": "acip_rejected",
-      "observed_at": "monotonic:2226554940837750",
+      "observed_at": "monotonic:2227310650014833",
       "provider": "openai-reference",
       "receipt_sha256": "7d5a803db22a3cf0ff6412bb6eff7ec453345d47be3d3837333a7970eebb90b1",
       "sequence": 27
@@ -250,8 +250,8 @@
       "agent_id": "issue341-openai-reference-agent",
       "envelope_sha256": "07bf1166dcce76172849304095e5b0ba2734f92fbd466a0574047f39a0572097",
       "event": "acip_request_sent",
-      "local_address": "127.0.0.1:61716",
-      "observed_at": "monotonic:2226554940925541",
+      "local_address": "127.0.0.1:52836",
+      "observed_at": "monotonic:2227310650083583",
       "provider": "openai-reference",
       "sequence": 28
     },
@@ -259,8 +259,8 @@
       "agent_id": "issue341-openai-reference-agent",
       "envelope_sha256": "07bf1166dcce76172849304095e5b0ba2734f92fbd466a0574047f39a0572097",
       "event": "acip_request_received",
-      "local_address": "127.0.0.1:61716",
-      "observed_at": "monotonic:2226554941161666",
+      "local_address": "127.0.0.1:52836",
+      "observed_at": "monotonic:2227310650243708",
       "operation_count": 3,
       "provider": "openai-reference",
       "sequence": 29
@@ -269,7 +269,7 @@
       "agent_id": "issue341-openai-reference-agent",
       "case": "substitution_attempt",
       "event": "acip_rejected",
-      "observed_at": "monotonic:2226554941171875",
+      "observed_at": "monotonic:2227310650251666",
       "provider": "openai-reference",
       "receipt_sha256": "f95820d2d0a026912fe035d5ffdfdd42fd8283936b281e79946a6f5abc10a802",
       "sequence": 30
@@ -278,8 +278,8 @@
       "agent_id": "issue341-openai-reference-agent",
       "envelope_sha256": "67560f08a2ec2aa5975a400506394a562d869cf1fa6ee7c3f1f29eb5746f6ab4",
       "event": "acip_request_received",
-      "local_address": "127.0.0.1:61716",
-      "observed_at": "monotonic:2226554941546875",
+      "local_address": "127.0.0.1:52836",
+      "observed_at": "monotonic:2227310650535041",
       "operation_count": 3,
       "provider": "openai-reference",
       "sequence": 31
@@ -288,7 +288,7 @@
       "agent_id": "issue341-openai-reference-agent",
       "case": "interrupted_provider",
       "event": "acip_rejected",
-      "observed_at": "monotonic:2226554941555791",
+      "observed_at": "monotonic:2227310650541416",
       "provider": "openai-reference",
       "receipt_sha256": "cc29fcb244e650ed249c5a7acc34d502ecee672a5d00ceaa611ae0f3327145f4",
       "sequence": 32
@@ -297,8 +297,8 @@
       "agent_id": "issue341-gemini-reference-agent",
       "envelope_sha256": "67560f08a2ec2aa5975a400506394a562d869cf1fa6ee7c3f1f29eb5746f6ab4",
       "event": "acip_request_received",
-      "local_address": "127.0.0.1:61717",
-      "observed_at": "monotonic:2226554941803208",
+      "local_address": "127.0.0.1:52837",
+      "observed_at": "monotonic:2227310650780333",
       "operation_count": 3,
       "provider": "gemini-reference",
       "sequence": 33
@@ -307,7 +307,7 @@
       "agent_id": "issue341-gemini-reference-agent",
       "case": "interrupted_provider",
       "event": "acip_rejected",
-      "observed_at": "monotonic:2226554941811708",
+      "observed_at": "monotonic:2227310650790041",
       "provider": "gemini-reference",
       "receipt_sha256": "046f6adbc76832d98e639ded48f99c410f642c36484afdb8d39362ad2858f8d7",
       "sequence": 34
@@ -316,8 +316,8 @@
       "agent_id": "wuji-shepherd",
       "envelope_sha256": "67560f08a2ec2aa5975a400506394a562d869cf1fa6ee7c3f1f29eb5746f6ab4",
       "event": "acip_request_received",
-      "local_address": "127.0.0.1:61718",
-      "observed_at": "monotonic:2226554942079583",
+      "local_address": "127.0.0.1:52838",
+      "observed_at": "monotonic:2227310650986000",
       "operation_count": 3,
       "provider": "wuji-shepherd-reference",
       "sequence": 35
@@ -326,7 +326,7 @@
       "agent_id": "wuji-shepherd",
       "case": "interrupted_provider",
       "event": "acip_rejected",
-      "observed_at": "monotonic:2226554942087375",
+      "observed_at": "monotonic:2227310650992416",
       "provider": "wuji-shepherd-reference",
       "receipt_sha256": "601070d3f7b499ed975945401e67f6b76ce899065a04d357b1330f31d2e7afe7",
       "sequence": 36
@@ -334,21 +334,21 @@
     {
       "agent_id": "issue341-openai-reference-agent",
       "event": "agent_stopped",
-      "observed_at": "monotonic:2226555442754083",
+      "observed_at": "monotonic:2227311151689833",
       "provider": "openai-reference",
       "sequence": 37
     },
     {
       "agent_id": "issue341-gemini-reference-agent",
       "event": "agent_stopped",
-      "observed_at": "monotonic:2226555442911208",
+      "observed_at": "monotonic:2227311151807291",
       "provider": "gemini-reference",
       "sequence": 38
     },
     {
       "agent_id": "wuji-shepherd",
       "event": "agent_stopped",
-      "observed_at": "monotonic:2226555443172583",
+      "observed_at": "monotonic:2227311152128208",
       "provider": "wuji-shepherd-reference",
       "sequence": 39
     }

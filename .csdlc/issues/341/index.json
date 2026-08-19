@@ -3,11 +3,11 @@
   "issue": 341,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "856115fcb81c8bc7294e1fa19e514bb65f7d9569133521c7e793bf6f8e6798ec",
-  "phase": "ready",
+  "phase": "implemented",
   "generation": 2,
-  "digest": "afe574fc04c3c5c54f27a4c94ea29f919237de51051e8bd3b6a99be15463ff66",
-  "branch": null,
-  "worktree": null,
+  "digest": "133a7dab41608f331434963ede82d80e42ad97d66b5c1d545dff2bf2001d149c",
+  "branch": "codex/341-provider-neutral-multi-agent-proof",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-341-provider-neutral-multi-agent-proof",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -39,9 +39,9 @@
       "ast_digest": "08766b5afaef56942dbe358afe456fc6735ef5b123f79b22a62af6dd4ad6d439"
     },
     "vpp": {
-      "values_digest": "32f978202c4eb769a8c3ef319a5a3a33b26dceeb1294c699d55ed951713ee28a",
-      "rendered_digest": "b7c47bab755fa0d3e6a6551e7dbc640bc87a3e8ae8a72f8effe2bd94fc906a3b",
-      "ast_digest": "5b97fbe1b39678c91a46cd0555cd8eaf082e64432a89d108d648fb22abac86e2"
+      "values_digest": "fae3fcec566b5487d9aa509878f9273027876cc328b61e9170ed7048b63341ac",
+      "rendered_digest": "5e00b6af3d260c08673e0b39097b258085b221c329df0375181ca6d70be982e8",
+      "ast_digest": "bcbb77333f63b61a252a79e95365e7c9154774810effd5664840430bde263e8e"
     },
     "srp": {
       "values_digest": "4dc487bc973309e52aa320bb354fd25a00d2e1a249d695d249dba8ab5d690ce3",
@@ -49,9 +49,9 @@
       "ast_digest": "fc8e97a4f16acd5e7989092a399078ab486924e46912569ce23e3c8d974ef939"
     },
     "sor": {
-      "values_digest": "1c110274b415c2ca0bac83e0ac5d35de42d6e718a567a496a0c5f421d3897ada",
-      "rendered_digest": "7c3a6ca56248c112f7ecfaefb3dccc368f0589994445b18d621b4b8eef58764e",
-      "ast_digest": "69db42e581b1395aaedbe2552f6f637decc109789577df7ce2c5acee787bea97"
+      "values_digest": "7478039c7eb20ad8869958800c1fb800561e335775e43dae3a1848aff0e619da",
+      "rendered_digest": "c4bc1ff807d3599a9caa699798895b6f6ba325bddad3200737c26fd6928d3804",
+      "ast_digest": "7475514c4cc2d0460b632c5dba73e1fc6e05dd67bc69b91bb458316112572b5e"
     }
   },
   "transitions": [
@@ -61,6 +61,20 @@
       "to": "ready",
       "actor": "codex:/root",
       "reason": "Doctor readiness passed for #341 after executable issue-owned VPP targets and current prerequisite gates were established."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "codex:/root",
+      "reason": "Record manual worktree adoption after typed bind refused the existing manually-created #341 worktree."
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Record implemented #341 proof truth after typed bind/adoption refused the existing manually-created worktree."
     }
   ],
   "audit": [
