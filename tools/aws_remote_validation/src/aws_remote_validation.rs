@@ -559,18 +559,29 @@ fn remote_summary_reports_valid_interruption(summary: &RemoteCommandSummary) -> 
 }
 
 fn remote_resilience_policy(config: &AwsRemoteValidationConfig) -> AwsRemoteResiliencePolicyRecord {
-    AwsRemoteResiliencePolicyRecord {
-        policy_id: "adl.aws_remote_validation.resilience.v1".to_string(),
-        max_launch_attempts: (config.instance_types.len() as u32).saturating_mul(2),
-        spot_fallback_enabled: true,
-        cleanup_required: true,
-        cost_evidence_required: true,
-        retryable_classes: vec![
+    let retryable_classes = if config.issue == Some(268) {
+        Vec::new()
+    } else {
+        vec![
             AwsRemoteResilienceFaultClass::CapacityUnavailable,
             AwsRemoteResilienceFaultClass::TransientNetwork,
             AwsRemoteResilienceFaultClass::SsmUnavailable,
             AwsRemoteResilienceFaultClass::Unknown,
-        ],
+        ]
+    };
+    AwsRemoteResiliencePolicyRecord {
+        policy_id: "adl.aws_remote_validation.resilience.v1".to_string(),
+        max_launch_attempts: (config.instance_types.len() as u32).saturating_mul(
+            if config.allow_on_demand_fallback {
+                2
+            } else {
+                1
+            },
+        ),
+        spot_fallback_enabled: config.allow_on_demand_fallback,
+        cleanup_required: true,
+        cost_evidence_required: true,
+        retryable_classes,
         operator_gated_classes: vec![
             AwsRemoteResilienceFaultClass::QuotaBlocked,
             AwsRemoteResilienceFaultClass::AuthPermissionFailure,
@@ -620,8 +631,9 @@ fn classify_aws_remote_failure(
         evidence_refs.push("remote_summary".to_string());
     }
 
-    let (fault_class, disposition, retryable, operator_action, summary) = if !cleanup_complete {
-        (
+    let (fault_class, mut disposition, mut retryable, mut operator_action, mut summary) =
+        if !cleanup_complete {
+            (
             AwsRemoteResilienceFaultClass::CleanupPartialFailure,
             AwsRemoteResilienceDisposition::CleanupReviewRequired,
             false,
@@ -632,108 +644,127 @@ fn classify_aws_remote_failure(
             "cleanup did not reach a complete terminated state; resource state is recorded for review"
                 .to_string(),
         )
-    } else if matches!(
-        status,
-        RemoteRunStatus::Passed | RemoteRunStatus::ResumedAfterInterruption
-    ) {
-        (
-            AwsRemoteResilienceFaultClass::None,
-            AwsRemoteResilienceDisposition::Succeeded,
-            false,
-            None,
-            "remote validation completed and cleanup evidence was recorded".to_string(),
-        )
-    } else if matches!(status, RemoteRunStatus::InterruptedByAws) {
-        (
-            AwsRemoteResilienceFaultClass::SpotInterrupted,
-            AwsRemoteResilienceDisposition::Interrupted,
-            true,
-            None,
-            "AWS Spot interruption was classified separately from implementation failure"
+        } else if matches!(
+            status,
+            RemoteRunStatus::Passed | RemoteRunStatus::ResumedAfterInterruption
+        ) {
+            (
+                AwsRemoteResilienceFaultClass::None,
+                AwsRemoteResilienceDisposition::Succeeded,
+                false,
+                None,
+                "remote validation completed and cleanup evidence was recorded".to_string(),
+            )
+        } else if matches!(status, RemoteRunStatus::InterruptedByAws) {
+            (
+                AwsRemoteResilienceFaultClass::SpotInterrupted,
+                AwsRemoteResilienceDisposition::Interrupted,
+                true,
+                None,
+                "AWS Spot interruption was classified separately from implementation failure"
+                    .to_string(),
+            )
+        } else if failure_text.contains("maxspotinstancecountexceeded")
+            || failure_text.contains("vcpu limit")
+            || failure_text.contains("vCPU limit")
+            || failure_text.contains("quota")
+            || failure_text.contains("limitexceeded")
+        {
+            (
+                AwsRemoteResilienceFaultClass::QuotaBlocked,
+                AwsRemoteResilienceDisposition::OperatorActionRequired,
+                false,
+                Some(
+                    "request quota or choose a smaller validation shape before retrying"
+                        .to_string(),
+                ),
+                "AWS quota or account limit blocked the remote-builder attempt".to_string(),
+            )
+        } else if failure_text.contains("insufficientinstancecapacity")
+            || failure_text.contains("unfulfillablecapacity")
+            || failure_text.contains("spotmaxpricetoolow")
+            || failure_text.contains("capacity")
+        {
+            (
+                AwsRemoteResilienceFaultClass::CapacityUnavailable,
+                AwsRemoteResilienceDisposition::Retryable,
+                true,
+                None,
+                "AWS capacity was unavailable; retry may use fallback or a different instance type"
+                    .to_string(),
+            )
+        } else if failure_text.contains("unauthorized")
+            || failure_text.contains("accessdenied")
+            || failure_text.contains("auth")
+            || failure_text.contains("permission")
+            || failure_text.contains("not authorized")
+        {
+            (
+                AwsRemoteResilienceFaultClass::AuthPermissionFailure,
+                AwsRemoteResilienceDisposition::OperatorActionRequired,
+                false,
+                Some(
+                    "fix Agent Logic AWS permissions or account binding before retrying"
+                        .to_string(),
+                ),
+                "AWS authentication or permission failure requires operator action".to_string(),
+            )
+        } else if failure_text.contains("ssm") {
+            (
+                AwsRemoteResilienceFaultClass::SsmUnavailable,
+                AwsRemoteResilienceDisposition::Retryable,
+                true,
+                None,
+                "SSM readiness or command dispatch failed and is classified separately".to_string(),
+            )
+        } else if failure_text.contains("timeout")
+            || failure_text.contains("timed out")
+            || failure_text.contains("network")
+            || failure_text.contains("connection")
+            || failure_text.contains("temporar")
+        {
+            (
+                AwsRemoteResilienceFaultClass::TransientNetwork,
+                AwsRemoteResilienceDisposition::Retryable,
+                true,
+                None,
+                "transient network or timeout failure is retryable within the bounded policy"
+                    .to_string(),
+            )
+        } else if remote_summary.is_some() {
+            (
+                AwsRemoteResilienceFaultClass::RemoteCommandFailure,
+                AwsRemoteResilienceDisposition::Terminal,
+                false,
+                Some("inspect remote command stdout/stderr artifacts before retrying".to_string()),
+                "remote command failed after infrastructure setup succeeded".to_string(),
+            )
+        } else {
+            (
+                AwsRemoteResilienceFaultClass::Unknown,
+                AwsRemoteResilienceDisposition::Retryable,
+                true,
+                None,
+                "remote-builder failure was recorded but did not match a narrower class"
+                    .to_string(),
+            )
+        };
+
+    let policy = remote_resilience_policy(config);
+    if config.issue == Some(268) && retryable && !policy.retryable_classes.contains(&fault_class) {
+        retryable = false;
+        disposition = AwsRemoteResilienceDisposition::Terminal;
+        operator_action = Some(
+            "obtain fresh operator authorization before any additional provider attempt"
                 .to_string(),
-        )
-    } else if failure_text.contains("maxspotinstancecountexceeded")
-        || failure_text.contains("vcpu limit")
-        || failure_text.contains("vCPU limit")
-        || failure_text.contains("quota")
-        || failure_text.contains("limitexceeded")
-    {
-        (
-            AwsRemoteResilienceFaultClass::QuotaBlocked,
-            AwsRemoteResilienceDisposition::OperatorActionRequired,
-            false,
-            Some("request quota or choose a smaller validation shape before retrying".to_string()),
-            "AWS quota or account limit blocked the remote-builder attempt".to_string(),
-        )
-    } else if failure_text.contains("insufficientinstancecapacity")
-        || failure_text.contains("unfulfillablecapacity")
-        || failure_text.contains("spotmaxpricetoolow")
-        || failure_text.contains("capacity")
-    {
-        (
-            AwsRemoteResilienceFaultClass::CapacityUnavailable,
-            AwsRemoteResilienceDisposition::Retryable,
-            true,
-            None,
-            "AWS capacity was unavailable; retry may use fallback or a different instance type"
-                .to_string(),
-        )
-    } else if failure_text.contains("unauthorized")
-        || failure_text.contains("accessdenied")
-        || failure_text.contains("auth")
-        || failure_text.contains("permission")
-        || failure_text.contains("not authorized")
-    {
-        (
-            AwsRemoteResilienceFaultClass::AuthPermissionFailure,
-            AwsRemoteResilienceDisposition::OperatorActionRequired,
-            false,
-            Some("fix Agent Logic AWS permissions or account binding before retrying".to_string()),
-            "AWS authentication or permission failure requires operator action".to_string(),
-        )
-    } else if failure_text.contains("ssm") {
-        (
-            AwsRemoteResilienceFaultClass::SsmUnavailable,
-            AwsRemoteResilienceDisposition::Retryable,
-            true,
-            None,
-            "SSM readiness or command dispatch failed and is classified separately".to_string(),
-        )
-    } else if failure_text.contains("timeout")
-        || failure_text.contains("timed out")
-        || failure_text.contains("network")
-        || failure_text.contains("connection")
-        || failure_text.contains("temporar")
-    {
-        (
-            AwsRemoteResilienceFaultClass::TransientNetwork,
-            AwsRemoteResilienceDisposition::Retryable,
-            true,
-            None,
-            "transient network or timeout failure is retryable within the bounded policy"
-                .to_string(),
-        )
-    } else if remote_summary.is_some() {
-        (
-            AwsRemoteResilienceFaultClass::RemoteCommandFailure,
-            AwsRemoteResilienceDisposition::Terminal,
-            false,
-            Some("inspect remote command stdout/stderr artifacts before retrying".to_string()),
-            "remote command failed after infrastructure setup succeeded".to_string(),
-        )
-    } else {
-        (
-            AwsRemoteResilienceFaultClass::Unknown,
-            AwsRemoteResilienceDisposition::Retryable,
-            true,
-            None,
-            "remote-builder failure was recorded but did not match a narrower class".to_string(),
-        )
-    };
+        );
+        summary =
+            "failure is terminal under the issue 268 single-attempt authorization".to_string();
+    }
 
     AwsRemoteResilienceRecord {
         schema_version: "adl.aws_remote_validation.resilience.v1".to_string(),
-        policy: remote_resilience_policy(config),
+        policy,
         fault_class,
         disposition,
         retryable,
@@ -4886,6 +4917,23 @@ mod tests {
         assert!(script.contains("issue268-bootstrap-ready"));
         assert!(!script.contains("ruby"));
         assert!(issue268_user_data("cargo test --locked").is_none());
+    }
+
+    #[test]
+    fn issue268_resilience_policy_records_single_spot_attempt() {
+        let tmp = std::env::temp_dir().join(format!(
+            "adl-aws-remote-validation-issue268-policy-{}",
+            std::process::id()
+        ));
+        let mut config = sample_config(&tmp);
+        config.issue = Some(268);
+        config.instance_types = vec!["r7i.2xlarge".to_string()];
+        config.allow_on_demand_fallback = false;
+
+        let policy = remote_resilience_policy(&config);
+        assert_eq!(policy.max_launch_attempts, 1);
+        assert!(!policy.spot_fallback_enabled);
+        assert!(policy.retryable_classes.is_empty());
     }
 
     #[test]
