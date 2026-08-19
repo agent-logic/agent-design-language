@@ -55,13 +55,13 @@ with tempfile.TemporaryDirectory() as value:
         manifest.write_text("{}")
     expected = {
         "schema": MODULE.INSTALL_SCHEMA,
-        "source_revision": "b" * 40,
         "reviewed_414_git_sha": reviewed,
         "volume_identity_sha256": "c" * 64,
         "source_receipt_sha256": "e" * 64,
     }
     installed = {
         **expected,
+        "qualification_source_revision": "b" * 40,
         "ollama_binary": str(ollama),
         "ollama_binary_sha256": MODULE.sha256(ollama),
         "continuity_binary": str(continuity),
@@ -71,6 +71,7 @@ with tempfile.TemporaryDirectory() as value:
     installed_path = root / "installed.json"
     installed_path.write_text(json.dumps(installed))
     assert MODULE.validate_installed(installed_path, expected)["schema"] == MODULE.INSTALL_SCHEMA
+    assert "source_revision" not in expected
     continuity.write_bytes(b"tampered")
     try:
         MODULE.validate_installed(installed_path, expected)
