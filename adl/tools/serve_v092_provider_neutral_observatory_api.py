@@ -3,12 +3,34 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import ssl
+import subprocess
 import time
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any
 from urllib.parse import parse_qs, urlparse
+
+
+SOURCE_REVISION_RE = re.compile(r"^[0-9a-f]{40}$")
+PLACEHOLDER_SOURCE_REVISION = "0123456789abcdef0123456789abcdef01234567"
+
+
+def validate_source_revision(source_revision: str) -> str:
+    if not SOURCE_REVISION_RE.fullmatch(source_revision):
+        raise SystemExit("--source-revision must be a full 40-character lowercase Git commit SHA")
+    if source_revision == PLACEHOLDER_SOURCE_REVISION:
+        raise SystemExit("--source-revision must not use the issue #341 placeholder revision")
+    result = subprocess.run(
+        ["git", "cat-file", "-e", f"{source_revision}^{{commit}}"],
+        check=False,
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+    )
+    if result.returncode != 0:
+        raise SystemExit("--source-revision must name an existing Git commit object")
+    return source_revision
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -199,7 +221,7 @@ def main() -> int:
     parser.add_argument("--emit-feed", action="store_true")
     args = parser.parse_args()
     Handler.matrix = load_json(args.matrix)
-    Handler.source_revision = args.source_revision
+    Handler.source_revision = validate_source_revision(args.source_revision)
     Handler.port = args.port
     if args.emit_feed:
         print(json.dumps(observatory_feed(Handler.matrix, Handler.source_revision, args.port), indent=2, sort_keys=True))

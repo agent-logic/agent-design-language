@@ -3,7 +3,7 @@
     {
       "acip_direct_tcp": true,
       "agent_id": "issue341-openai-reference-agent",
-      "observed_listening_address": "127.0.0.1:58327",
+      "observed_listening_address": "127.0.0.1:61716",
       "role": "provider-column",
       "ssm_access": "none",
       "status": "running"
@@ -11,7 +11,7 @@
     {
       "acip_direct_tcp": true,
       "agent_id": "issue341-gemini-reference-agent",
-      "observed_listening_address": "127.0.0.1:58328",
+      "observed_listening_address": "127.0.0.1:61717",
       "role": "provider-column",
       "ssm_access": "none",
       "status": "running"
@@ -19,7 +19,7 @@
     {
       "acip_direct_tcp": true,
       "agent_id": "wuji-shepherd",
-      "observed_listening_address": "127.0.0.1:58329",
+      "observed_listening_address": "127.0.0.1:61718",
       "role": "shepherd",
       "ssm_access": "maintenance_only",
       "status": "running"

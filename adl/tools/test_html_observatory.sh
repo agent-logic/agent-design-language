@@ -14,6 +14,7 @@ const appPath = process.argv[2];
 const configPath = process.argv[3];
 const source = fs.readFileSync(appPath, "utf8");
 const config = JSON.parse(fs.readFileSync(configPath, "utf8"));
+const sourceRevision = "feed-source-revision-under-test";
 
 (async () => {
 const observatoryFeed = {
@@ -83,7 +84,7 @@ const observatoryFeed = {
       communication_eligible: true,
       observed_at_unix_millis: 1785778500000,
       freshness_deadline_unix_millis: 1785778530000,
-      source_revision: "0123456789abcdef0123456789abcdef01234567",
+      source_revision: sourceRevision,
       provenance: "runtime_component_state"
     }]
   },
@@ -189,7 +190,7 @@ assert.equal(roster[0].state, "ready");
 assert.equal(roster[0].health, "healthy");
 assert.equal(roster[0].communicationEligible, true);
 assert.equal(roster[0].provenance, "runtime_component_state");
-assert.equal(roster[0].sourceRevision, "0123456789abcdef0123456789abcdef01234567");
+assert.equal(roster[0].sourceRevision, sourceRevision);
 assert.deepEqual(
   api.buildRuntimeAgentRows({ status: { schema: observatoryFeed.schema, agent_population: { sample: [], total_count: 0 } } }),
   [],

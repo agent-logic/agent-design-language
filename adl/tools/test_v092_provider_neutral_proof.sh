@@ -7,19 +7,24 @@ MATRIX="demos/v0.92/provider-neutral-birthday/proof-matrix.json"
 mkdir -p "${OUT}"
 
 cd "${ROOT_DIR}"
+SOURCE_REVISION="$(git rev-parse HEAD)"
 bash "adl/tools/demo_v092_provider_neutral_birthday.sh" --mode local-proof >"${OUT}/local-proof.log"
 cp "${ROOT_DIR}/demos/v0.92/provider-neutral-birthday/acip-trace-local-proof.json" "${OUT}/acip-trace-local-proof.json"
 python3 "adl/tools/validate_v092_provider_neutral_proof.py" "${MATRIX}" --require-observatory >"${OUT}/validator-pass.log"
 python3 "adl/tools/serve_v092_provider_neutral_observatory_api.py" \
   --matrix "demos/v0.92/provider-neutral-birthday/proof-matrix-observatory.json" \
-  --source-revision "0123456789abcdef0123456789abcdef01234567" \
+  --source-revision "${SOURCE_REVISION}" \
   --emit-feed >"${OUT}/runtime-v3-overlay-feed.json"
-python3 - "${OUT}/runtime-v3-overlay-feed.json" <<'PY'
+python3 - "${OUT}/runtime-v3-overlay-feed.json" "${SOURCE_REVISION}" <<'PY'
 import json, pathlib, sys
 feed=json.loads(pathlib.Path(sys.argv[1]).read_text())
+source_revision=sys.argv[2]
 assert feed["schema"] == "adl.runtime_v3.observatory_feed.v2"
 assert feed["agents"]["total_count"] == 3
 assert len(feed["agents"]["sample"]) == 3
+assert source_revision != "0123456789abcdef0123456789abcdef01234567"
+assert all(a["source_revision"] == source_revision for a in feed["agents"]["sample"])
+assert all(a["source_revision"] == source_revision for a in feed["health"]["snapshot"]["agent_admissions"].values())
 ordinary=[a for a in feed["agents"]["sample"] if a["role"] != "shepherd"]
 assert ordinary and all(a["communication_eligible"] is True for a in ordinary)
 assert all(a.get("ssm_access") == "none" for a in ordinary)
