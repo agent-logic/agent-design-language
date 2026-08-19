@@ -10,3 +10,4 @@
 {"sequence":10,"generation":5,"actor":"codex:baseline-ci-real-tooling","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":11,"generation":6,"actor":"fresh-session:7a81c032-1c4d-4e2f-a6b9-93d8e75f2041","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":12,"generation":7,"actor":"codex:baseline-ci-real-tooling","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":13,"generation":8,"actor":"codex:closeout-sweep","reason":"Materialize live merged PR #329 terminal truth for #327 closeout.","operation":"materialize_derived_terminal"}
