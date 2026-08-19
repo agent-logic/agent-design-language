@@ -1152,7 +1152,10 @@ fn ollama_request_body(request: &ProviderInvocationRequestV1) -> Value {
         body["options"]["num_ctx"] = json!(context_window_tokens);
     }
     if let Some(local_keep_alive) = request.local_keep_alive.as_deref() {
-        body["keep_alive"] = json!(local_keep_alive);
+        body["keep_alive"] = match local_keep_alive.parse::<i64>() {
+            Ok(seconds) => json!(seconds),
+            Err(_) => json!(local_keep_alive),
+        };
     }
     body
 }
@@ -1991,7 +1994,7 @@ mod tests {
             ollama_request_body(&ollama_req).pointer("/options/num_ctx"),
             Some(&json!(4_096))
         );
-        assert_eq!(ollama_request_body(&ollama_req)["keep_alive"], json!("-1"));
+        assert_eq!(ollama_request_body(&ollama_req)["keep_alive"], json!(-1));
     }
 
     #[test]
