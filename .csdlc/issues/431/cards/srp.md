@@ -12,7 +12,11 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/evidence/431
+.csdlc/issues/431
+.csdlc/prepared/issues/431
+docs/milestones/v0.92.1
+docs/planning/ADL_FEATURE_LIST.md
 
 ## Prompts
 
@@ -34,12 +38,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- WP-01 must still observe terminal canonical ancestral issue 432 before creating or starting the planned execution wave.
+- The 27 specifications are planning inputs and require issue-specific design review when WP-01 creates their issues.
+- Runtime v4 changes require explicit rebaseline rather than silent absorption.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:fb7c45a0c1fae00abb764331196bbf26677b5703:efbe3c96031b0c4830ab121e422868a4253d061cdec65847775a7f987f1968a2")
 
-Reviewer: None
+Reviewer: Some("fresh-session:b56ac5ef-e1cc-4ef0-912d-5ff23092cf14")
 
-Result: pre_review
+Result: pass
