@@ -150,7 +150,7 @@ runner; a stale or foreign PID fails closed.
 
 ## Linux Runtime control
 
-Linux supports `start`, `up`, `status`, `stop`, `logs`, `urls`, and
+Linux supports `start`, `up`, `restart`, `status`, `stop`, `logs`, `urls`, and
 `rotate-continuity-state`. It does not require systemd and is suitable for the
 bounded Amazon Linux qualification host used by #268. The generated runner and
 all Runtime configuration remain under `ADL_CSM_SERVICE_DIR`; secrets remain in

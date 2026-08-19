@@ -78,7 +78,7 @@ Revision 3
 
 .csdlc/prepared/issues/426/design.md
 
-Digest: f464e626e50c98d77584a99bf769237b9dec75943d8daa0e7e9daf7caa13bce5
+Digest: 1a14733786a8e9f3931307940f1b8e78a53ea0c64c9c031f9ee9928d0c63362a
 
 ## Diagram
 

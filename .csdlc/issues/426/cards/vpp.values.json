@@ -7,7 +7,7 @@
     "title": "Add Linux service control to CSMctl",
     "slug": "linux-csmctl-service-control",
     "version": "v0.92",
-    "generation": 8
+    "generation": 9
   },
   "status": "ready",
   "content": {
@@ -63,7 +63,7 @@
       "planned_validation_tokens": 10000,
       "failure_policy": "Fail closed on unsupported OS, ambiguous PID ownership, readiness failure, or review findings.",
       "design_ref": ".csdlc/prepared/issues/426/design.md",
-      "design_digest": "f464e626e50c98d77584a99bf769237b9dec75943d8daa0e7e9daf7caa13bce5",
+      "design_digest": "1a14733786a8e9f3931307940f1b8e78a53ea0c64c9c031f9ee9928d0c63362a",
       "diagram_ref": ".csdlc/prepared/issues/426/diagram.mmd",
       "diagram_digest": "52f17edf80108c10fe5b3a9ac1d3a4b0a9691ea01d07aba76a9e0063255c6224"
     }

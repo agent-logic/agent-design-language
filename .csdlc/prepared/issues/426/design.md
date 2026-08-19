@@ -13,7 +13,7 @@ from the detected operating system. Darwin retains launchd. Linux uses a
 bounded background-process backend with a private PID file and detached
 streams, avoiding an assumption that systemd is PID 1 on qualification hosts.
 It validates PID ownership before signaling, refuses stale or foreign PID
-files, uses bounded TERM then KILL shutdown, and fails closed on unsupported
+files, uses bounded TERM-only shutdown, and fails closed on unsupported
 operating systems. Test overrides are accepted only under explicit test mode.
 
 ## Scope

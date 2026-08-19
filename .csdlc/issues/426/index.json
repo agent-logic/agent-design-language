@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "4997d7deed63e49f9f51627e90720c043a2c0f87bdfad9170fdc9d7d3870b70e",
   "phase": "implemented",
-  "generation": 8,
-  "digest": "e90b37cf6ce9b646b423ce5a799b489a273008d7ce6c4d0357a6e8699108df93",
+  "generation": 9,
+  "digest": "dca6fdafe52fc1b96503350ed4832a399b22c7b1f3767e2e22866d6ee5e1cbd9",
   "branch": "codex/426-linux-csmctl-service-control",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-426-linux-csmctl-service-control",
   "review_assignment": null,
@@ -16,35 +16,40 @@
   "migration": null,
   "design_path": ".csdlc/prepared/issues/426/design.md",
   "diagram_path": ".csdlc/prepared/issues/426/diagram.mmd",
-  "design_review": "pending",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:eac10b56-d925-46a9-bef7-37346341e5dc",
+      "revision": "1a14733786a8e9f3931307940f1b8e78a53ea0c64c9c031f9ee9928d0c63362a"
+    }
+  },
   "cards": {
     "sip": {
-      "values_digest": "86419cb3b25c67df5dfa73f580c8725bb524f8176a7f73bf899f6aae60d97ee8",
+      "values_digest": "9eed5780a7086bbccfcfc93f22911e802b6aa932ee5462273834761e57c8f17f",
       "rendered_digest": "a3cab901aa5c6ca7abaaf6bb8f4649453639cb83fc583f04f6c53c8c5a23830a",
       "ast_digest": "4a75f069e33d0cf887b1d834c066b5e626d40777d5261cea5e618daff103a140"
     },
     "stp": {
-      "values_digest": "a6e3f3e8d4d5d04b335e70596544823352d3dec59f6e3d879833f836e2ba0e8c",
+      "values_digest": "d587412d16fe36a584b51614ad02581ea2d53dbbdfc5e5d11c177b786f85b44e",
       "rendered_digest": "37ad1d11c4a4f3e579dfce0d0eb7ccecb55e3194778b234146d2f650c6b77d36",
       "ast_digest": "e0c72f42587d3b095d80d0ba18548c92efcf4cda8c89eacc0f7eed4e868301aa"
     },
     "spp": {
-      "values_digest": "ed989b16da6f82765252f0b50f921681e16fd8dafbb2c05770b45c153a78c549",
-      "rendered_digest": "90e6f311e25a0c3404b67e3180fd591ee0a3a0c4476c5beeb4e9c7f76cf7a26d",
-      "ast_digest": "f63d428649e912000242f24bcecd5027dcd5981af777818841675e262f62438f"
+      "values_digest": "1e176804ecaf26b672cd68581f44aba6533f849569d6e057ea152f27b32584b4",
+      "rendered_digest": "d324a470a3018ee464f77b3132303b3dca91dcd29b52976310e96a73b36e64ae",
+      "ast_digest": "b4056cb77d97a4de8060e597d2d804fc7b50fa282679ca654a9ed8d700e30540"
     },
     "vpp": {
-      "values_digest": "cc09f8e069fc4603861e237c9bde2bb42f118d368662f5e8a9bd3e3f72901050",
+      "values_digest": "facf00ac4125df2079108c171ba492ed26e849344fb4c8e79af0c6e779d67c34",
       "rendered_digest": "1a9e890be759865a4722d8547a91da307ef00cbbd7a19ee3846b5ec73ef91cc0",
       "ast_digest": "554f1fc2241127f3420794a65270c2d05e0497df2d0c18d2c146b067f2ae75b0"
     },
     "srp": {
-      "values_digest": "dda82733f1976cd5c9fff24c702df83b29e70f85e60ea32c20d35ec73ed3c8b8",
+      "values_digest": "a27c20814039a190fd04dc5399be0ec6e7b7921a670c03ec4516f087f3d98909",
       "rendered_digest": "97d1c04b74ceb1498b7d483962f7680dcfcc31c603d72016a8d3301e9aaddbd4",
       "ast_digest": "4b782840962021493eb6879319b80860d96d5450dc24c900462809920b1730fa"
     },
     "sor": {
-      "values_digest": "b47af7b615b2be0cfe2036d8034eae5b0278d6be7a3977197e3ea9c17b5c35e3",
+      "values_digest": "7df4ba3db65c569da88380853a66cddb95372849ab11b4dc3da3659dacc82784",
       "rendered_digest": "9aa9bf1fd6f66e6e2e03f5595bc23065d6f67553504379f0ef49044451f8e5aa",
       "ast_digest": "f093c0d325f48b11a9eb631c9956ca7373f8e642669d3072a6519c3b21d9e35c"
     }
@@ -149,6 +154,13 @@
       "actor": "codex:/root",
       "reason": "{\"disposition\":\"Refresh the authored design to the implemented TERM-only fail-closed shutdown boundary and require fresh design approval.\",\"false_reviewer\":\"operator:daniel\",\"previous_approval\":{\"reviewer\":\"operator:daniel\",\"revision\":\"f464e626e50c98d77584a99bf769237b9dec75943d8daa0e7e9daf7caa13bce5\"},\"reason\":\"The approved design's TERM-then-KILL sentence conflicts with CSMctl's inherited continuity-safe no-force-kill contract.\"}",
       "operation": "recover_design_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "fresh-session:eac10b56-d925-46a9-bef7-37346341e5dc",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"1a14733786a8e9f3931307940f1b8e78a53ea0c64c9c031f9ee9928d0c63362a\",\"design_ref\":\".csdlc/prepared/issues/426/design.md\",\"diagram_digest\":\"52f17edf80108c10fe5b3a9ac1d3a4b0a9691ea01d07aba76a9e0063255c6224\",\"diagram_ref\":\".csdlc/prepared/issues/426/diagram.mmd\",\"operation\":\"approve_design\"}"
     }
   ]
 }

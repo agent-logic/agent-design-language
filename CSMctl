@@ -1037,8 +1037,10 @@ status_cmd() {
   info "service_dir=$SERVICE_DIR"
   info "kernel_bin=$KERNEL_BIN"
   info "init_file=$INIT_FILE"
-  local launch_pid pid
-  launch_pid="$(launch_service_pid)"
+  local launch_pid="" pid
+  if launch_service_loaded; then
+    launch_pid="$(launch_service_pid)"
+  fi
   if [[ -n "$launch_pid" ]]; then
     info "launch_label=$LAUNCH_LABEL pid=$launch_pid state=running"
   elif pid="$(recorded_pid 2>/dev/null)" && pid_is_alive "$pid"; then

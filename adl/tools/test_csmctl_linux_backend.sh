@@ -74,7 +74,6 @@ common=(
   "PATH=$SCRATCH/bin:$PATH"
   ADL_CSM_TEST_MODE=1
   ADL_CSM_TEST_OS=Linux
-  ADL_CSM_TEST_ALLOW_EMULATED_EXE=1
   "${process_match_env[@]}"
   "ADL_CSM_REPO_ROOT=$ROOT"
   "ADL_CSM_SERVICE_DIR=$SCRATCH/service"
@@ -96,6 +95,14 @@ common=(
   "ADL_CSM_VECTOR_BIN=$SCRATCH/bin/vector"
   "ADL_CSM_LAUNCH_WORKING_DIR=$ROOT"
 )
+if [[ -L "/proc/$$/exe" && "$(basename "$(readlink "/proc/$$/exe")")" == qemu-* ]]; then
+  common+=(ADL_CSM_TEST_ALLOW_EMULATED_EXE=1)
+  [[ " ${common[*]} " == *" ADL_CSM_TEST_ALLOW_EMULATED_EXE=1 "* ]]
+fi
+
+absent_status_output=$("${common[@]}" ADL_CSM_TEST_CURL_ALWAYS_READY=1 "$ROOT/CSMctl" status)
+[[ "$absent_status_output" == *"pid=none state=not_started_by_start_CSM"* ]]
+[[ "$absent_status_output" == *"status=pass"* ]]
 
 start_output=$("${common[@]}" "$ROOT/CSMctl" start)
 [[ "$start_output" == *"backend=linux-process host_os=Linux"* ]]
