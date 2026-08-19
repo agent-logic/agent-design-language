@@ -7,7 +7,7 @@
     "title": "[v0.92][C-SDLC][defect] Permit authored design refresh after implemented recovery repairs",
     "slug": "implemented-design-refresh-recovery",
     "version": "v0.92",
-    "generation": 23
+    "generation": 24
   },
   "status": "ready",
   "content": {
@@ -48,7 +48,7 @@
           "acceptance_ids": [
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [

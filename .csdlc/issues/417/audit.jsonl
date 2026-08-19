@@ -29,3 +29,4 @@
 {"sequence":29,"generation":21,"actor":"codex:issue-417-implementation","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":30,"generation":22,"actor":"codex:issue-417-implementation","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":31,"generation":23,"actor":"codex:issue-417-implementation","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":32,"generation":24,"actor":"codex:closeout-sweep","reason":"Materialize live merged PR #419 terminal truth for #417 closeout.","operation":"materialize_derived_terminal"}
