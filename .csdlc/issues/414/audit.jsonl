@@ -45,3 +45,6 @@
 {"sequence":45,"generation":39,"actor":"codex:issue-414-implementation","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":46,"generation":40,"actor":"codex:issue-414-implementation","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":47,"generation":41,"actor":"codex:issue-414-implementation","reason":"Recover R25 before fixing repeated reclamation lineage advancement and durable admission closure for the newest dehydration generation.","operation":"recover_review"}
+{"sequence":48,"generation":41,"actor":"codex:issue-414-implementation","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":49,"generation":42,"actor":"codex:issue-414-implementation","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":50,"generation":43,"actor":"codex:issue-414-implementation","reason":"Recover R26 before rejecting populated-lineage absence and making admission authority writes crash durable.","operation":"recover_review"}

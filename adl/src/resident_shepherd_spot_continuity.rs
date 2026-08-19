@@ -9,6 +9,7 @@
 use std::{
     collections::BTreeSet,
     fs,
+    io::Write,
     path::{Path, PathBuf},
     time::{Duration, Instant},
 };
@@ -177,14 +178,18 @@ pub async fn dehydrate(input: &DehydrationInput, deadline: Duration) -> Result<D
         .map_err(|error| anyhow!(error))?;
 
     let mut live = live_continuity(&input.retained_runtime_root, 0)?;
-    live.restore_latest_with_resident_population(&RuntimeRecorder::new(32), |prior| {
-        let integration: ResidentContinuityIntegration =
-            serde_json::from_slice(prior).map_err(|error| error.to_string())?;
-        validate_integration(&integration, &input.retained_runtime_root)
-            .map_err(|error| error.to_string())
-    })
-    .await
-    .context("restore existing signed resident lineage before advancing it")?;
+    let prior = live
+        .restore_latest_with_resident_population(&RuntimeRecorder::new(32), |prior| {
+            let integration: ResidentContinuityIntegration =
+                serde_json::from_slice(prior).map_err(|error| error.to_string())?;
+            validate_integration(&integration, &input.retained_runtime_root)
+                .map_err(|error| error.to_string())
+        })
+        .await
+        .context("restore existing signed resident lineage before advancing it")?;
+    if prior.is_some_and(|restored| restored.resident_population.is_none()) {
+        bail!("existing signed continuity generation lacks resident population");
+    }
     let capsules = capture_all(input, deadline_at)?;
     let result: Result<DehydrationReceipt> = async {
         // Each resident is one Runtime-v2 citizen and must have exactly one
@@ -821,8 +826,25 @@ fn write_atomic_json(path: &Path, value: &impl Serialize) -> Result<()> {
     let parent = path.parent().context("receipt path has no parent")?;
     fs::create_dir_all(parent)?;
     let tmp = path.with_extension("json.tmp");
-    fs::write(&tmp, serde_json::to_vec_pretty(value)?)?;
-    fs::rename(tmp, path)?;
+    if fs::symlink_metadata(&tmp).is_ok() {
+        fs::remove_file(&tmp)?;
+    }
+    let result = (|| -> Result<()> {
+        let mut file = fs::OpenOptions::new()
+            .write(true)
+            .create_new(true)
+            .open(&tmp)?;
+        file.write_all(&serde_json::to_vec_pretty(value)?)?;
+        file.sync_all()?;
+        drop(file);
+        fs::rename(&tmp, path)?;
+        fs::File::open(parent)?.sync_all()?;
+        Ok(())
+    })();
+    if result.is_err() && fs::symlink_metadata(&tmp).is_ok() {
+        let _ = fs::remove_file(&tmp);
+    }
+    result?;
     Ok(())
 }
 
@@ -1088,6 +1110,11 @@ mod tests {
         for spec in &specs {
             assert!(long_lived_agent::stop_requested(spec).unwrap());
         }
+        write_atomic_json(&pointer, &serde_json::json!({"generation": 2})).unwrap();
+        drop(fs::File::open(&pointer).unwrap());
+        let reopened: serde_json::Value = read_json(&pointer).unwrap();
+        assert_eq!(reopened["generation"], 2);
+        assert!(!pointer.with_extension("json.tmp").exists());
         fs::remove_dir_all(base).unwrap();
     }
 
@@ -1120,6 +1147,32 @@ mod tests {
         let _ = fs::remove_dir_all(&base);
         let runtime_root = base.join("retained-runtime");
         let build_root = base.join("build-cache");
+        let legacy_root = base.join("legacy-runtime");
+        let mut legacy = live_continuity(&legacy_root, 0).unwrap();
+        legacy
+            .checkpoint(&RuntimeRecorder::new(32), Duration::from_secs(1))
+            .await
+            .unwrap();
+        let legacy_input = DehydrationInput {
+            residents: vec![binding("a"), binding("legacy-b")],
+            existing_agent_specs: vec![
+                existing_agent(&base, "a"),
+                existing_agent(&base, "legacy-b"),
+            ],
+            retained_runtime_root: legacy_root,
+            build_cache_root: base.join("legacy-build-cache"),
+            runtime_volume_identity_sha256: digest("test-volume"),
+            source_host: "test".to_string(),
+            target_host: "local".to_string(),
+            spot_notice: None,
+        };
+        let legacy_error = dehydrate(&legacy_input, Duration::from_secs(1))
+            .await
+            .unwrap_err();
+        assert!(
+            format!("{legacy_error:#}").contains("lacks resident population"),
+            "unexpected legacy error: {legacy_error:#}"
+        );
         let input = DehydrationInput {
             residents: vec![binding("a"), binding("b")],
             existing_agent_specs: vec![existing_agent(&base, "a"), existing_agent(&base, "b")],
