@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented bounded HTML Observatory Runtime v3 launch/start-stop-restart integration and stabilized an existing Runtime distributed learner coverage test that blocked PR #430. The CI-only fix keeps #340 product behavior unchanged and makes the learner replication test write through the currently writable Raft leader instead of assuming the initially observed leader remains current under coverage-mode timing.
+Implemented bounded HTML Observatory Runtime v3 launch/start-stop-restart integration and stabilized the existing Runtime distributed learner coverage test that blocked PR #430. The second CI-only fix keeps #340 product behavior unchanged and makes the removal crash-boundary proof resilient to slow coverage-mode leader/membership timing.
 
 ## Artifacts
 
@@ -31,8 +31,9 @@ Implemented bounded HTML Observatory Runtime v3 launch/start-stop-restart integr
 ## Execution
 
 - Retained the #340 CSMctl/HTML Observatory axum static-server implementation and documented Runtime/Observatory separation unchanged.
-- Added a test-only helper in learner_transport tests that submits governed mutations to whichever node is currently writable, bounded by a 15-second election timeout.
-- Updated the real_four_node_learner_replication test's leader-sensitive writes to use the helper so coverage-mode elections no longer fail with ForwardToLeader from a stale leader.
+- Diagnosed PR #430 standard-hosted runtime coverage failure in job 96172082974: real_four_node_learner_replication panicked because removal boundary AfterJointHistory was not reached under coverage timing.
+- Kept the governed runtime's consensus handles aligned with the currently writable leader before removal crash-boundary replay.
+- Made the removal crash-boundary assertion retry/reopen until the injected boundary is actually reached, preserving the fail-closed StateRegression assertion for each boundary.
 - Kept the change limited to the pre-existing distributed learner test harness failure observed in PR #430 coverage CI; no #341, #343, Unity, AWS/public hosting, provider credential, #84, #122, or #251 scope was added.
 
 ## Validation
@@ -48,7 +49,7 @@ Implemented bounded HTML Observatory Runtime v3 launch/start-stop-restart integr
     ],
     "purpose": "Rust formatting check after bounded learner transport test-harness stabilization.",
     "outcome": "passed",
-    "evidence_ref": "local command exited 0 in /Volumes/FastWork/adl-worktrees/adl-issue-340-html-observatory-runtime-restart-integration"
+    "evidence_ref": "exit 0 with no output in /Volumes/FastWork/adl-worktrees/adl-issue-340-html-observatory-runtime-restart-integration"
   },
   {
     "command": [
@@ -70,14 +71,16 @@ Implemented bounded HTML Observatory Runtime v3 launch/start-stop-restart integr
       "cargo",
       "llvm-cov",
       "test",
+      "--lib",
+      "--no-report",
       "distributed::transport::governed::learner_transport::tests::real_four_node_learner_replication",
       "--",
       "--exact",
       "--nocapture"
     ],
-    "purpose": "Focused local coverage-mode repro for the exact GitHub failing lane.",
+    "purpose": "Focused local coverage-instrumented repro for the exact GitHub failing test without report collection noise.",
     "outcome": "passed",
-    "evidence_ref": "1 passed, 0 failed, 324 filtered out under cargo llvm-cov in adl-runtime"
+    "evidence_ref": "1 passed, 0 failed, 324 filtered out under cargo llvm-cov cfg(coverage); ADL_ISSUE_202_CASE_V1 real_four_node_learner_replication=passed"
   },
   {
     "command": [
@@ -95,11 +98,11 @@ Implemented bounded HTML Observatory Runtime v3 launch/start-stop-restart integr
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

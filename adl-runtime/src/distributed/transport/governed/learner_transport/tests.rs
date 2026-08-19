@@ -1496,6 +1496,12 @@ async fn real_four_node_learner_replication() {
     assert_eq!(voters.len(), 3);
     assert!(!voters.contains_key(&4));
 
+    // Coverage-mode timing can elect a different leader after the promotion
+    // path. Keep the governed runtime's consensus handles aligned with the
+    // current writable leader before proving removal crash-boundary replay, or
+    // the test can observe stale membership history before reaching the
+    // injected boundary under slow instrumentation.
+    runtime.resume_consensus(nodes[&leader].clone(), machines[&leader].clone());
     let removal_old_stable_ids = runtime.authority().raft_ids.clone();
     let mut removal_target_stable_ids = removal_old_stable_ids.clone();
     removal_target_stable_ids.remove(removal_identity.guardian_id.as_bytes());
@@ -1553,25 +1559,32 @@ async fn real_four_node_learner_replication() {
         MembershipCrashBoundary::AfterCheckpoint,
         MembershipCrashBoundary::AfterDurablePublicationBeforeVisibility,
     ] {
-        runtime.inject_crash_boundary(boundary);
-        let removal_attempt = runtime
-            .remove(
-                &removal_result,
-                &removal_identity,
-                voter_cut_sha256,
-                now,
-                &removal_transition,
-            )
-            .await;
-        assert_eq!(
-            removal_attempt,
-            Err(MembershipCoordinatorError::StateRegression),
-            "removal boundary {boundary:?} must fail closed"
-        );
-        assert!(
-            runtime.crash_boundary_hit(),
-            "removal boundary {boundary:?} was not reached"
-        );
+        tokio::time::timeout(Duration::from_secs(20), async {
+            loop {
+                runtime.inject_crash_boundary(boundary);
+                let removal_attempt = runtime
+                    .remove(
+                        &removal_result,
+                        &removal_identity,
+                        voter_cut_sha256,
+                        now,
+                        &removal_transition,
+                    )
+                    .await;
+                assert_eq!(
+                    removal_attempt,
+                    Err(MembershipCoordinatorError::StateRegression),
+                    "removal boundary {boundary:?} must fail closed"
+                );
+                if runtime.crash_boundary_hit() {
+                    break;
+                }
+                runtime.reopen_coordinator(&coordinator_root, checkpoint.clone());
+                tokio::time::sleep(Duration::from_millis(25)).await;
+            }
+        })
+        .await
+        .unwrap_or_else(|_| panic!("removal boundary {boundary:?} was not reached"));
         runtime.reopen_coordinator(&coordinator_root, checkpoint.clone());
     }
     let removed = tokio::time::timeout(

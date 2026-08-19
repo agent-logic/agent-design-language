@@ -4,66 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "8abc247d0a5d650da01bc1639900bba9c3c40370738e752cb2074ddd851f1815",
-  "phase": "published",
-  "generation": 25,
-  "digest": "c9c87e3515fa637a311f7412eade716997342f9a9febb015c1ce932f3c8cb516",
+  "phase": "implemented",
+  "generation": 27,
+  "digest": "0c625a643b8328ca49d497d38d61d55f14ad78b9db97195dd0d5492ffff0115d",
   "branch": "codex/340-html-observatory-runtime-restart-integration",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-340-html-observatory-runtime-restart-integration",
-  "review_assignment": {
-    "reviewer": "fresh-session:fd750059-45b0-438b-9ad3-b6a50389dd7e",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:fd55fc517db7e85f71d0c49a0d1628c04fbafa56:cab96b2306fdb9670fb9ca402a18bfcef3d023a0058b703c98ba8aec54772ba1",
-    "scope": [
-      "CSMctl",
-      "adl-runtime/src/bin/adl-observatory-static.rs",
-      "adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs",
-      "adl-runtime/tests/runtime_api_wss.rs",
-      "adl/tools/test_html_observatory.sh",
-      "adl/tools/validate_v092_observatory_restart_reconnect.sh",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/index.html",
-      ".csdlc/issues/340",
-      ".csdlc/prepared/issues/340",
-      ".csdlc/evidence/340"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:fd750059-45b0-438b-9ad3-b6a50389dd7e",
-    "scope": [
-      "CSMctl",
-      "adl-runtime/src/bin/adl-observatory-static.rs",
-      "adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs",
-      "adl-runtime/tests/runtime_api_wss.rs",
-      "adl/tools/test_html_observatory.sh",
-      "adl/tools/validate_v092_observatory_restart_reconnect.sh",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/index.html",
-      ".csdlc/issues/340",
-      ".csdlc/prepared/issues/340",
-      ".csdlc/evidence/340"
-    ],
-    "reviewed_revision": "git-blake3:fd55fc517db7e85f71d0c49a0d1628c04fbafa56:cab96b2306fdb9670fb9ca402a18bfcef3d023a0058b703c98ba8aec54772ba1",
-    "findings": [],
-    "residual_risks": [
-      "Reviewer did not rerun Cargo or llvm-cov lanes because the review assignment was read-only; retained current proof and source/test contracts were inspected instead.",
-      "The PR #430 coverage fix is test-harness only and scoped to learner_transport::real_four_node_learner_replication leader movement under slow coverage timing.",
-      "This review does not claim Unity, AWS/public hosting, provider credentials, #341, #343, #84, #122, or #251 scope."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 340,
-    "pull_request": 430,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/430",
-    "base": "main",
-    "head": "codex/340-html-observatory-runtime-restart-integration",
-    "revision": "git-blake3:e5142ceb518c064b409a85db3e355026029f34f3:2aa5e769553008a16c74f824d164e62522c12e34fb2ea6a3ef1366dc3327a30a",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -77,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "dbbc9a4189e2462dcbdc60ca20457ec40c307be7c147762003d0073bde431e70",
+      "values_digest": "495126f8613c4622a0201e2a49e193067f264ffb0750f65c17181e66a4f37de9",
       "rendered_digest": "e68242eb9bbe9ef94376f6bcc73e6a402a30b750e374fd44ad2a10c1f64de1d7",
       "ast_digest": "4880fadf87cf773585e07d456e5dbd11a1ec596ac7646ae36f2ce94c09a2caa2"
     },
     "stp": {
-      "values_digest": "0b2f6d4f7ef2bfd9e864ff55a92da989453b2b0644ee74c104c79a46c6bf8dfa",
+      "values_digest": "7e80162775f752bfaad9b2f9764e88b46316fb9bccb5a2f496f329fdccfb3d6a",
       "rendered_digest": "3f94f447d3f0c52feafda63615f0140ef655286ccbdb3fa85163a50ec8e142da",
       "ast_digest": "7a88f55764720014ad1c151a4eedad3e71624b578e52d9fbc2c098ddd4a3173c"
     },
     "spp": {
-      "values_digest": "ffcb0c005ac547e0cf9f9d3897b2f13432d56fac0d9ed0f30b41e6f75f9a968c",
+      "values_digest": "b9f8e30c69ff9591ecebd18e55bc5b1a51be10f3963d74f4c307044443c22d08",
       "rendered_digest": "04ae1a1c6abf369d12f379a3913646c64ac39b790f88c71ba1120b3d749bd517",
       "ast_digest": "ce6d867b2ee2b0fee927916db7f8feec1c4a7c1d1c1a62d3d9dfa679478aab60"
     },
     "vpp": {
-      "values_digest": "7cccd9113d777f107fb49259210fcbe2528fd303afed195f1fd5b187fb1cce7e",
+      "values_digest": "8191e94961c7360202104f36988f97709bf5781641f20b271d66c6f846688142",
       "rendered_digest": "df1a9f32b2ef6ac3388328c6892ce316a924427db54cae87d6837231e01602fc",
       "ast_digest": "120fa996e5aaefe19914a509024f66e1b209c4d0a4ecc01caf1ab4cd64321f64"
     },
     "srp": {
-      "values_digest": "ef7b0a026720fd755582b6e4aafb7434ac5aa259ad0d7e2c54b62ee4a06bb34c",
-      "rendered_digest": "a025e200b5cb302fa3a0a9a0cfe3fe15f0e1a2f4b68ae8475fe65f0650d5f00f",
-      "ast_digest": "ae3a84e8ce361475112f479cd12bb2d52e92275b7094fe13b35cbb1c4ed2d54e"
+      "values_digest": "b231e2651985ceac9e6b070e1a46968f5b1399b48fe59db7a7f457cceb3a6ed0",
+      "rendered_digest": "f1f6ff292fd62b83bf9f75d91f5d6211c7b2f6341ba26a949b41cd7e93077ca7",
+      "ast_digest": "fd174d614c5b9d57ae476912b062c7a85c68c0dd93a7f9995e509a6513a4c1fd"
     },
     "sor": {
-      "values_digest": "92ef3a9d6ea7655e5eb3edce3cb3b433a34329fb89b070c1887c9647ba996cdf",
-      "rendered_digest": "e851f21bcb96f26d6d2b27e91994ecb65da1f73e8cb0dc1df0987c6d8b43bb08",
-      "ast_digest": "26eaa97fdb2a568f7724e9896b8d006ac93ed312923c3bac0ad46537f3566b73"
+      "values_digest": "a689b446ea25c8ebdc961b3cf8c475804c4b27ec543f3e43a483303751e12040",
+      "rendered_digest": "ad70f5ef1a85e71eb9a9f3045ddced8a858ed84de719be5bcfd0aab6f4e7af0d",
+      "ast_digest": "4149050d1613ef31d86f5d50130e9ec9bdcb0f8f40af6634178e1b1b50068f25"
     }
   },
   "transitions": [
@@ -177,6 +125,13 @@
       "to": "published",
       "actor": "codex:/root",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 11,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "PR #430 runtime coverage failed again in the existing real_four_node_learner_replication test after the stale leader-write repair; recover published review truth before a bounded test-harness stabilization for the removal crash-boundary replay under coverage timing."
     }
   ],
   "audit": [
@@ -403,6 +358,20 @@
       "actor": "codex:/root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 33,
+      "generation": 26,
+      "actor": "codex:/root",
+      "reason": "PR #430 runtime coverage failed again in the existing real_four_node_learner_replication test after the stale leader-write repair; recover published review truth before a bounded test-harness stabilization for the removal crash-boundary replay under coverage timing.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 27,
+      "actor": "codex:/root",
+      "reason": "Record bounded PR #430 runtime coverage stabilization after typed review/publication recovery.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented bounded HTML Observatory Runtime v3 launch/start-stop-restart integration and stabilized the existing Runtime distributed learner coverage test that blocked PR #430. The second CI-only fix keeps #340 product behavior unchanged and makes the removal crash-boundary proof resilient to slow coverage-mode leader/membership timing.\",\"changes\":[\"Retained the #340 CSMctl/HTML Observatory axum static-server implementation and documented Runtime/Observatory separation unchanged.\",\"Diagnosed PR #430 standard-hosted runtime coverage failure in job 96172082974: real_four_node_learner_replication panicked because removal boundary AfterJointHistory was not reached under coverage timing.\",\"Kept the governed runtime's consensus handles aligned with the currently writable leader before removal crash-boundary replay.\",\"Made the removal crash-boundary assertion retry/reopen until the injected boundary is actually reached, preserving the fail-closed StateRegression assertion for each boundary.\",\"Kept the change limited to the pre-existing distributed learner test harness failure observed in PR #430 coverage CI; no #341, #343, Unity, AWS/public hosting, provider credential, #84, #122, or #251 scope was added.\"],\"artifacts\":[\"CSMctl\",\"adl-runtime/src/bin/adl-observatory-static.rs\",\"demos/html-observatory/app.js\",\"demos/html-observatory/index.html\",\"adl/tools/test_html_observatory.sh\",\"adl/tools/validate_v092_observatory_restart_reconnect.sh\",\"adl-runtime/tests/runtime_api_wss.rs\",\"adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs\",\".csdlc/issues/340\",\".csdlc/prepared/issues/340\",\".csdlc/evidence/340\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--check\"],\"purpose\":\"Rust formatting check after bounded learner transport test-harness stabilization.\",\"outcome\":\"passed\",\"evidence_ref\":\"exit 0 with no output in /Volumes/FastWork/adl-worktrees/adl-issue-340-html-observatory-runtime-restart-integration\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"distributed::transport::governed::learner_transport::tests::real_four_node_learner_replication\",\"--\",\"--exact\",\"--nocapture\"],\"purpose\":\"Focused non-coverage proof for the exact distributed learner replication test that failed in PR #430 coverage CI.\",\"outcome\":\"passed\",\"evidence_ref\":\"1 passed, 0 failed, 324 filtered out; ADL_ISSUE_202_CASE_V1 real_four_node_learner_replication=passed\"},{\"command\":[\"cargo\",\"llvm-cov\",\"test\",\"--lib\",\"--no-report\",\"distributed::transport::governed::learner_transport::tests::real_four_node_learner_replication\",\"--\",\"--exact\",\"--nocapture\"],\"purpose\":\"Focused local coverage-instrumented repro for the exact GitHub failing test without report collection noise.\",\"outcome\":\"passed\",\"evidence_ref\":\"1 passed, 0 failed, 324 filtered out under cargo llvm-cov cfg(coverage); ADL_ISSUE_202_CASE_V1 real_four_node_learner_replication=passed\"},{\"command\":[\"git\",\"diff\",\"--check\",\"--\",\"adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs\"],\"purpose\":\"Whitespace and conflict-marker hygiene for the narrow CI-stabilization diff.\",\"outcome\":\"passed\",\"evidence_ref\":\"exit 0 with no output\"}]}"
     }
   ]
 }
