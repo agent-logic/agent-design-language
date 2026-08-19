@@ -7,7 +7,7 @@
     "title": "[v0.92][sprint] Demonstration, handoff, and publication",
     "slug": "demonstration-handoff-publication",
     "version": "v0.92",
-    "generation": 4
+    "generation": 5
   },
   "status": "pre_phase",
   "content": {
@@ -47,8 +47,8 @@
           "evidence_ref": "terminal-child-census.log"
         }
       ],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
