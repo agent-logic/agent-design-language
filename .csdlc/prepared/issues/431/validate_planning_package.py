@@ -90,6 +90,7 @@ for package_id, issue_number in expected_issue_routing.items():
 expected_predecessors = {
     "CORP-01": set(range(153, 161)),
     "V3-01": set(range(161, 181)),
+    "DRT-01": set(range(181, 188)),
 }
 for root_id, expected in expected_predecessors.items():
     actual = set()

@@ -69,6 +69,19 @@ work_packages:
     title: Distributed multi-agent Runtime qualification
     issue: 435
     depends_on: [WP-01]
+    packages:
+      - id: DRT-A
+        title: Qualification contract, deterministic ACIP authority, and replay conformance
+        predecessor_issues: [181, 182]
+        depends_on: []
+      - id: DRT-B
+        title: Multi-agent UTS production work and hybrid Spot continuity
+        predecessor_issues: [183, 184]
+        depends_on: [DRT-A]
+      - id: DRT-C
+        title: Identity and provider failure, Observatory evidence, soak, cleanup, and synthesis
+        predecessor_issues: [185, 186, 187]
+        depends_on: [DRT-B]
   - id: POD-01
     lane: podcast
     title: Podcast publication and Studio

@@ -12,17 +12,16 @@ Status: pre_phase
 
 ## Summary
 
-Authored and validated the repository-authoritative v0.92.1 planning candidate, seeded active roots #433-#438, consolidated every retired predecessor without reopening it, classified open backlog, and defined the canonical serial release tail. Publication remains pending exact-head review.
+Authored and validated the repository-authoritative v0.92.1 planning candidate with complete predecessor coverage: four corporate/IP packages, six C-SDLC v3 packages, three distributed Runtime packages, explicit backlog disposition, and the canonical serial release tail. Publication remains pending final exact-head confirmation.
 
 ## Artifacts
 
 - issue wave with exact #433-#438 routing
 - four-package corporate and IP decomposition for #153-#160
 - six-package C-SDLC v3 consolidation for #161-#180
+- three-package distributed Runtime consolidation for #181-#187
 - canonical eight-gate release tail under #438
 - deferred backlog routing for #84, #122, #251, and #345
-- six feature lanes
-- #439 duplicate closure
 - v0.92.2 CodeFriend Beta 1 handoff
 
 ## Execution
@@ -48,7 +47,7 @@ Authored and validated the repository-authoritative v0.92.1 planning candidate, 
       "python3",
       ".csdlc/prepared/issues/431/validate_planning_package.py"
     ],
-    "purpose": "Verify committed and working-tree scope, active and backlog routing, complete predecessor denominators, six-lane parity, canonical release-tail order, links, YAML, and live state.",
+    "purpose": "Verify committed scope, live routing, complete #153-#190 predecessor coverage, backlog disposition, six-lane parity, and canonical release-tail order.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/431/planning-package.log"
   },
@@ -57,7 +56,7 @@ Authored and validated the repository-authoritative v0.92.1 planning candidate, 
       "git",
       "diff",
       "--check",
-      "72ca2634a56e538e18ab241e9fe1568dc8ad8d7a"
+      "72ca2634a56e538e18ab241e9fe1568dc8ad8d7a...HEAD"
     ],
     "purpose": "Verify full candidate diff hygiene.",
     "outcome": "passed",

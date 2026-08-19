@@ -20,6 +20,8 @@ lanes:
     proof: schema, migration, rollback, and focused behavioral tests
   distributed_runtime:
     root: DRT-01
+    packages: [DRT-A, DRT-B, DRT-C]
+    predecessor_issues: [181, 182, 183, 184, 185, 186, 187]
     outcome: governed multi-agent Runtime qualification
     proof: authentic residents, UTS workload receipts, continuity, and resource evidence
   podcast:
