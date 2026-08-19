@@ -7,13 +7,13 @@
     "title": "[v0.92][C-SDLC][defect] Recover recordless already-merged closeout authority",
     "slug": "recordless-already-merged-closeout-recovery",
     "version": "v0.92",
-    "generation": 16
+    "generation": 18
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "csdlc-v2/src/bin/csdlc-finish.rs\ncsdlc-v2/src/finish.rs\ncsdlc-v2/src/lib.rs\ncsdlc-v2/tests/gate_recordless_closeout.rs\n.csdlc/evidence/425-v092-residual-dry-run-result.json\n.csdlc/issues/425",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

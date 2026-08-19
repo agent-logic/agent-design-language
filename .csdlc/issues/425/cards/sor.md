@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Clarified post-CI publication truth: PR #428 remains open from the earlier publication, but the current repaired local head is intentionally treated as unpublished until csdlc-publish observes and records the updated PR head.
+Clarified post-CI publication truth without embedding a stale current-head SHA: PR #428 remains open from the earlier publication, but the current repaired branch head is intentionally treated as unpublished until csdlc-publish observes and records the updated PR head.
 
 ## Artifacts
 
@@ -29,7 +29,7 @@ Clarified post-CI publication truth: PR #428 remains open from the earlier publi
 - cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_recordless_closeout: 5 passed
 - cargo clippy --manifest-path csdlc-v2/Cargo.toml --all-targets -- -D warnings: passed
 - gh pr view 428 --repo agent-logic/agent-design-language: PR open on codex/425-recordless-closeout-recovery from prior publication
-- Current local head 2dd5d79a1 is ahead of the last observed publication and requires fresh review plus republish before publication truth is restored
+- Current repaired branch head is ahead of the last observed publication and requires fresh review plus republish before publication truth is restored; exact publish truth must come from csdlc-publish after review.
 
 ## Execution
 
@@ -44,10 +44,52 @@ Clarified post-CI publication truth: PR #428 remains open from the earlier publi
 - csdlc-v2/src/finish.rs: grouped recordless_blocker inputs in RecordlessBlockerContext to satisfy clippy::too_many_arguments without changing behavior
 - Preserve audit history that PR #428 was previously published while keeping current generation review/publication reset truthful for the unre-published Clippy repair head
 - Document that SOR not_published/worktree_only applies to the current repaired local revision, not to historical existence of PR #428
+- Replace stale exact-SHA wording in the current SOR artifact list with branch-head wording so lifecycle truth does not become stale after review-assignment commits.
 
 ## Validation
 
-[]
+[
+  {
+    "command": [
+      "cargo",
+      "fmt",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--check"
+    ],
+    "purpose": "format proof for touched csdlc-v2 Rust surface",
+    "outcome": "passed",
+    "evidence_ref": "local command output 2026-08-19 after CI repair"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--test",
+      "gate_recordless_closeout"
+    ],
+    "purpose": "focused recordless closeout behavior regression proof",
+    "outcome": "passed",
+    "evidence_ref": "local command output 2026-08-19 after CI repair"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "csdlc-v2/Cargo.toml",
+      "--all-targets",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "strict clippy proof for PR #428 red job",
+    "outcome": "passed",
+    "evidence_ref": "local command output 2026-08-19 after CI repair"
+  }
+]
 
 ## Integration
 
