@@ -6,10 +6,22 @@
   "initialization_digest": "d98a8d900cde7810150f96c65b587a7763b677cf58610771289dd359b4be5b19",
   "phase": "implemented",
   "generation": 14,
-  "digest": "f3de0b7c0c89090c4b6b99a18ef7dbcdeae6db038a19e429a597d519cb80611d",
+  "digest": "fbec141cd618a1f31dae0d049becdfac28f4a4b71013d5899b7610322a3f9cac",
   "branch": "codex/425-recordless-closeout-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-425-recordless-closeout-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:6366c728-fd54-4958-a103-30f4d6131be2",
+    "assigned_by": "codex-worker-4",
+    "revision": "git-blake3:9a58844b25390622701d8d9cd605ddf0a62d243e:8d6b0088b52b9946e6505338cc2e4f1f04dd1ac32d5cc9808553a93596d3d715",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-finish.rs",
+      "csdlc-v2/src/finish.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/tests/gate_recordless_closeout.rs",
+      ".csdlc/evidence/425-v092-residual-dry-run-result.json",
+      ".csdlc/issues/425"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +57,9 @@
       "ast_digest": "dc064a1b29d4ffce555b1ffa93a65466b5adfe914df83ce7126a441ac99c6e03"
     },
     "srp": {
-      "values_digest": "52f7e86fd0fe5a5bd8e234cca124c81754689fe8e67545af9b1af7aad6a9b839",
-      "rendered_digest": "ac7b89136057e5af0de22d13f0f398940c48a729224586d0373e2328e6f578fd",
-      "ast_digest": "f542a55e0266532978da258547185b7587ee0d0f8956b492f6dbb0a225f25dfd"
+      "values_digest": "ae1ed8e58de4bedfe62af570f699a881eed1bc429248d9da18378331eaaa89fb",
+      "rendered_digest": "8104e68c08d29a83760c4a0591d513e36d1a3b21ab3fee98216bd5481b2a3ec8",
+      "ast_digest": "6606bf80b5e91946eb5691de27269f1a5913b2a30140f9e883f80c5fc355da79"
     },
     "sor": {
       "values_digest": "c8c8764b636c6a27ed6d581bc4145bb1b934c80ac0e67669889695336c5b0527",
@@ -253,6 +265,13 @@
       "actor": "codex-worker-4",
       "reason": "record CI strict clippy repair before fresh review",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Repaired PR #428 CI failure by reducing recordless_blocker argument count below strict Clippy threshold.\",\"changes\":[\"csdlc-v2/src/finish.rs: grouped recordless_blocker inputs in RecordlessBlockerContext to satisfy clippy::too_many_arguments without changing behavior\"],\"artifacts\":[\"cargo fmt --manifest-path csdlc-v2/Cargo.toml --check: passed\",\"cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_recordless_closeout: 5 passed\",\"cargo clippy --manifest-path csdlc-v2/Cargo.toml --all-targets -- -D warnings: passed\"]}"
+    },
+    {
+      "sequence": 21,
+      "generation": 14,
+      "actor": "codex-worker-4",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
