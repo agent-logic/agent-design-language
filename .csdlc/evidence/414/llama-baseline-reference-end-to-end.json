@@ -1,0 +1,10 @@
+{
+  "schema": "adl.runtime.resident_shepherd_restore_receipt.v1",
+  "generation": 1,
+  "population_sha256": "0c429c7fdf5673c9ea70dba979c34798260411c277058424e60eedbf128f45dd",
+  "resident_count": 2,
+  "capsule_count": 2,
+  "admission_open": true,
+  "restore_millis": 86,
+  "continuation_verified": true
+}

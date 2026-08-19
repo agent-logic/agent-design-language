@@ -1,0 +1,20 @@
+flowchart LR
+  A["Multiple resident Shepherds admit and perform useful work"] --> N["Confirmed IMDSv2 Spot notice plus real deadline"]
+  N --> C["Recompute notice and outer budgets; bounded TERM then KILL child"]
+  X["Normal validation command exits"] --> W{"Has the watcher accepted a Spot notice?"}
+  W -->|"no"| I["Request idle watcher stop; terminate watcher cleanly"]
+  W -->|"yes"| C
+  C --> Q["Wait for terminal dehydration receipt or failure before classification"]
+  Q --> P["ACTIVE to SUSPENDED to DORMANT; capture every existing CSM capsule"]
+  P --> G["Signed live_kernel subrecord: Runtime-v2 manifest + exact capsule and model bindings"]
+  G --> V["Dedicated retained Runtime volume"]
+  V --> R["Replacement host validates lineage and population"]
+  R --> H["Restore exact CSM capsule set; create and validate actual Runtime-v2 rehydration report"]
+  H --> O["Prepare complete receipt; atomically open global admission; then clear local stops"]
+  O --> T["Only now run deterministic warm continuation per resident"]
+  S["Operator observes and controls admission, lifecycle, checkpoint, restore and task status"] --> C
+  S --> R
+  T --> S
+  P -->|"partial, duplicate, deadline"| F["Fail closed"]
+  F --> B["Preserve closed admission and every stop intent; emit no readiness"]
+  R -->|"missing, tampered, rollback, substituted"| F

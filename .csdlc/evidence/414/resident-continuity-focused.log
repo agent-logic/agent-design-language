@@ -1,0 +1,16 @@
+
+running 6 tests
+test resident_shepherd_spot_continuity::tests::rejects_agent_ids_that_can_escape_population_roots ... ok
+test resident_shepherd_spot_continuity::tests::rejects_duplicate_and_partial_population ... ok
+test resident_shepherd_spot_continuity::tests::uses_existing_runtime_v2_authorities_and_exact_lifecycle ... ok
+test resident_shepherd_spot_continuity::tests::signed_restore_validates_exact_models_before_admission ... ok
+test resident_shepherd_spot_continuity::tests::admission_rollback_restops_current_agent_and_restores_durable_authority ... ok
+test resident_shepherd_spot_continuity::tests::delayed_second_capture_preserves_closed_admission_and_all_stops ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 1935 filtered out; finished in 0.50s
+
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-414-resident-shepherd-spot-continuity/adl-runtime-kernel)
+   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-414-resident-shepherd-spot-continuity/adl-runtime)
+   Compiling adl v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-414-resident-shepherd-spot-continuity/adl)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 16.75s
+     Running unittests src/lib.rs (adl/target/debug/deps/adl-221bca595b6ef502)

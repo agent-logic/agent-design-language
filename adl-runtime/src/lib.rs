@@ -5,6 +5,7 @@
 
 pub use adl_resilience as shared_resilience;
 pub use adl_runtime_kernel::tls;
+pub use adl_runtime_kernel::{LiveContinuity, LiveKernelSnapshot, RuntimeRecorder};
 
 pub mod acip;
 pub mod backpressure;

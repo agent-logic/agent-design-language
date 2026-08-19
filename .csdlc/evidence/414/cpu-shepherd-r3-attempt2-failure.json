@@ -1,0 +1,18 @@
+{
+  "schema": "adl.runtime.resident_shepherd_reference_attempt.v1",
+  "status": "failed_non_proving",
+  "attempt": 2,
+  "host_class": "reference",
+  "qualification": false,
+  "cold_useful_work": {
+    "passed": 3,
+    "required": 3
+  },
+  "signed_dehydration": "failed_before_checkpoint",
+  "warm_continuation": {
+    "passed": 0,
+    "required": 3
+  },
+  "reason": "The bounded replacement reached all three cold useful-work calls, then the continuity binary rejected the runner's 60-hex-character local proof key because the signed live-kernel authority requires exactly 32 bytes. No restore/admission or warm call occurred.",
+  "remediation": "The deterministic local-only proof key literal was corrected to exactly 64 hexadecimal characters. Production remains fail-closed on an explicit secret source."
+}
