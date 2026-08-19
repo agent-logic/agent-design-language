@@ -3,13 +3,52 @@
   "issue": 426,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "4997d7deed63e49f9f51627e90720c043a2c0f87bdfad9170fdc9d7d3870b70e",
-  "phase": "implemented",
-  "generation": 25,
-  "digest": "534bca305f724950b9241b87199f342a70367cf3b5656b2e13ed10c57e327d76",
+  "phase": "reviewed",
+  "generation": 26,
+  "digest": "6997ae9f0aa7dabcf73c7173293392f21e75fa2ecbfc8dce587867e91cb757a9",
   "branch": "codex/426-linux-csmctl-service-control",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-426-linux-csmctl-service-control",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:039b025b-d7db-43ee-984e-9cffc475adf4",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:4a979949358eb2946c15be76d7344d1d95a84956:88f7de9efbbc4a1797ef72a7b263df87e12535fed9ba981efb311a12d875ea94",
+    "scope": [
+      "CSMctl",
+      "start_CSM.sh",
+      ".github/workflows/ci.yaml",
+      "docs/tooling/START_CSM_RUNBOOK.md",
+      "adl/tools/test_csmctl_linux_backend.sh",
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh",
+      ".csdlc/prepared/issues/426/validate_gemini_review.py",
+      ".csdlc/issues/426",
+      ".csdlc/prepared/issues/426",
+      ".csdlc/evidence/426"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:039b025b-d7db-43ee-984e-9cffc475adf4",
+    "scope": [
+      "CSMctl",
+      "start_CSM.sh",
+      ".github/workflows/ci.yaml",
+      "docs/tooling/START_CSM_RUNBOOK.md",
+      "adl/tools/test_csmctl_linux_backend.sh",
+      "adl/tools/run_authoritative_coverage_lane.sh",
+      "adl/tools/test_run_authoritative_coverage_lane.sh",
+      ".csdlc/prepared/issues/426/validate_gemini_review.py",
+      ".csdlc/issues/426",
+      ".csdlc/prepared/issues/426",
+      ".csdlc/evidence/426"
+    ],
+    "reviewed_revision": "git-blake3:4a979949358eb2946c15be76d7344d1d95a84956:88f7de9efbbc4a1797ef72a7b263df87e12535fed9ba981efb311a12d875ea94",
+    "findings": [],
+    "residual_risks": [
+      "Native x86 Amazon Linux AWS qualification remains issue 268 authority; issue 426 retains native Amazon Linux arm64 semantic proof."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +63,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "bc2a188d976a8ae715d9299556705849a4198b91c65dc93547edea678d118ee6",
+      "values_digest": "61c45d0e6d8a7e68a0d84945c0db1a23e9400bcc9b592455c4ac8768c1af1757",
       "rendered_digest": "9d1aaf6750f073616d8c9e515df714a594a87870c82dec3ecf07d10bcdf7648e",
       "ast_digest": "eb02de98fd0b5456c4e462e397562bed67dbab7ab8d7afc2e4e5cde0ae7b071a"
     },
     "stp": {
-      "values_digest": "e2e3537e8d11af1f7dce4276df7160206c29126b4f8182f7978bac5a8ed141d7",
+      "values_digest": "ebbfd5fe1b7b2456f2dd3c2e2bf258a55b73d60be7aee01f9365ac130a1fe997",
       "rendered_digest": "37ad1d11c4a4f3e579dfce0d0eb7ccecb55e3194778b234146d2f650c6b77d36",
       "ast_digest": "e0c72f42587d3b095d80d0ba18548c92efcf4cda8c89eacc0f7eed4e868301aa"
     },
     "spp": {
-      "values_digest": "ee5b8d27d7d5b21084418e27b6adaf4d0600243336697ab84307c90ac329e196",
+      "values_digest": "d57be11ff79a139b8a11258dc7ef367944efb5997762df159661513bcb1e0ea0",
       "rendered_digest": "332c5a1346d4999babbb8c7587957bc525b4513da46a1eea3a8c500e71b71700",
       "ast_digest": "585662e00e5268f00ae74001ed7ee80b7592c2dc2adaf7407451a2516e5cc98c"
     },
     "vpp": {
-      "values_digest": "0383a8fa18714c80ee5aaa982a0317c564e363b7e911133e3188dc786b9b62a8",
+      "values_digest": "7c96d79d59f263761bec1b2090b894d4e70f9eb6867e8c70b36f303a70f4dcd6",
       "rendered_digest": "3c295b84350ffe26405d980894b07f08c9b48882e59ad4d658dd7002c5abc1e4",
       "ast_digest": "f7cd0bab2d86fcff67dd89a6c4f75d89032a91197fbfcd201caa50a15e0543b2"
     },
     "srp": {
-      "values_digest": "35ace7d192526c0043b05172d79f96f0dd68827ed2c1a10450c271263948d22d",
-      "rendered_digest": "97d1c04b74ceb1498b7d483962f7680dcfcc31c603d72016a8d3301e9aaddbd4",
-      "ast_digest": "4b782840962021493eb6879319b80860d96d5450dc24c900462809920b1730fa"
+      "values_digest": "3a63b616035d9e02f107d05c2a26340b6c4592ae8caf1ceb1a252cb963072f76",
+      "rendered_digest": "0bd3988cdd5a313960062c74ab28aed36c75051b7e2742b9a1b77ffe33f30e6b",
+      "ast_digest": "28bcbec30656f490cedd44b6dda7f04ad853b2e81a86be5b9b0e5568b07589a4"
     },
     "sor": {
-      "values_digest": "9e18028c7202b783454a2cb0b0f00b4c67fa068ed7755788d87ce0d07fcdb5c4",
+      "values_digest": "aaa3e9b6461ed19b3ac868bcef6093b205c9907bb394baebc831043cc967e975",
       "rendered_digest": "9aa9bf1fd6f66e6e2e03f5595bc23065d6f67553504379f0ef49044451f8e5aa",
       "ast_digest": "f093c0d325f48b11a9eb631c9956ca7373f8e642669d3072a6519c3b21d9e35c"
     }
@@ -96,6 +135,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover stale published review truth after regular-runner coverage concurrency remediation and before a fresh exact-head integrated review."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -350,6 +396,20 @@
       "actor": "codex:/root",
       "reason": "Recover stale published review truth after regular-runner coverage concurrency remediation and before a fresh exact-head integrated review.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 25,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 26,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

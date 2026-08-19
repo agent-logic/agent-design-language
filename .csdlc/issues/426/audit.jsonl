@@ -34,3 +34,5 @@
 {"sequence":34,"generation":23,"actor":"fresh-session:c4e69196-919e-47c8-94bb-f35a4d2b238d","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":35,"generation":24,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":36,"generation":25,"actor":"codex:/root","reason":"Recover stale published review truth after regular-runner coverage concurrency remediation and before a fresh exact-head integrated review.","operation":"recover_review"}
+{"sequence":37,"generation":25,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":38,"generation":26,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

@@ -7,15 +7,15 @@
     "title": "[v0.92][runtime-v3][20.c1] Add Linux service control to CSMctl",
     "slug": "linux-csmctl-service-control",
     "version": "v0.92",
-    "generation": 25
+    "generation": 26
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "CSMctl\nstart_CSM.sh\n.github/workflows/ci.yaml\ndocs/tooling/START_CSM_RUNBOOK.md\nadl/tools/test_csmctl_linux_backend.sh\nadl/tools/run_authoritative_coverage_lane.sh\nadl/tools/test_run_authoritative_coverage_lane.sh\n.csdlc/prepared/issues/426/validate_gemini_review.py\n.csdlc/issues/426\n.csdlc/prepared/issues/426\n.csdlc/evidence/426",
+      "review_revision": "git-blake3:4a979949358eb2946c15be76d7344d1d95a84956:88f7de9efbbc4a1797ef72a7b263df87e12535fed9ba981efb311a12d875ea94",
+      "reviewer": "fresh-session:039b025b-d7db-43ee-984e-9cffc475adf4",
       "review_prompts": [
         "Can Linux lifecycle control signal an unrelated process?",
         "Does any Linux path invoke launchctl?",
@@ -23,8 +23,10 @@
         "Can test-only overrides affect production operation?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Native x86 Amazon Linux AWS qualification remains issue 268 authority; issue 426 retains native Amazon Linux arm64 semantic proof."
+      ],
+      "review_result": "pass"
     }
   }
 }
