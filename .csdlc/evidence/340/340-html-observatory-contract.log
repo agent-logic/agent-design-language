@@ -1,0 +1,2 @@
+PASS: HTML Observatory Runtime v3, signed command, and roster projection contract
+validate_v092_observatory_restart_reconnect status=pass mode=--contract

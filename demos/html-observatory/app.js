@@ -81,6 +81,7 @@ const OBSERVATORY_PACKET_LABEL = `${OBSERVATORY_VERSION} Observatory proof packe
 const RUNTIME_V3_TRUSTED_HOST = "runtime.dev.agent-logic.ai";
 const RUNTIME_V3_DEFAULT_CONFIG = Object.freeze({
   api_base: `https://${RUNTIME_V3_TRUSTED_HOST}:20997`,
+  health_endpoint: "/v1/health",
   observatory_endpoint: "/v1/observatory",
   readiness_endpoint: "/v1/ready",
   observatory_websocket_endpoint: "/v1/observatory/ws",
@@ -171,6 +172,10 @@ function applyRuntimeV3Config(config = {}) {
   const apiBase = normalizeRuntimeV3ConfigApiBase(config.api_base || config.default_api_base);
   runtimeV3Config = {
     api_base: apiBase || RUNTIME_V3_DEFAULT_CONFIG.api_base,
+    health_endpoint: normalizeRuntimeV3Endpoint(
+      config.health_endpoint,
+      RUNTIME_V3_DEFAULT_CONFIG.health_endpoint
+    ),
     observatory_endpoint: normalizeRuntimeV3Endpoint(
       config.observatory_endpoint,
       RUNTIME_V3_DEFAULT_CONFIG.observatory_endpoint
@@ -1317,15 +1322,16 @@ async function fetchRuntimeSnapshot(apiBase) {
 async function fetchRuntimeV3ObservatorySnapshot(apiBase) {
   const base = normalizeTrustedRuntimeV3ApiBase(apiBase);
   const config = getRuntimeV3Config();
-  const [observatoryResponse, readiness] = await Promise.all([
+  const [observatoryResponse, readiness, health] = await Promise.all([
     fetch(`${base}${config.observatory_endpoint}`, { method: "GET" }),
-    fetchRuntimeV3Readiness(base)
+    fetchRuntimeV3Readiness(base),
+    fetchRuntimeV3Health(base)
   ]);
   if (!observatoryResponse.ok) {
     throw new Error(`${config.observatory_endpoint} returned ${observatoryResponse.status}`);
   }
   const feed = await observatoryResponse.json();
-  return runtimeV3SnapshotFromFeed(feed, readiness);
+  return runtimeV3SnapshotFromFeed(feed, readiness, health);
 }
 
 async function fetchRuntimeV3AgentRosterPage(apiBase, pageToken, eventCursor = null, pageSize = 50) {
@@ -1377,7 +1383,16 @@ async function fetchRuntimeV3AgentDetail(apiBase, agentId) {
 async function fetchRuntimeV3Readiness(base) {
   const endpoint = getRuntimeV3Config().readiness_endpoint;
   const response = await fetch(`${base}${endpoint}`, { method: "GET" });
-  if (![200, 503].includes(response.status)) {
+  if (response.status !== 200) {
+    throw new Error(`${endpoint} returned ${response.status}`);
+  }
+  return response.json();
+}
+
+async function fetchRuntimeV3Health(base) {
+  const endpoint = getRuntimeV3Config().health_endpoint;
+  const response = await fetch(`${base}${endpoint}`, { method: "GET" });
+  if (response.status !== 200) {
     throw new Error(`${endpoint} returned ${response.status}`);
   }
   return response.json();
@@ -1405,7 +1420,7 @@ async function submitRuntimeV3SignedControlCommand(apiBase, command) {
   return payload;
 }
 
-function runtimeV3SnapshotFromFeed(feed, readiness = null) {
+function runtimeV3SnapshotFromFeed(feed, readiness = null, healthReport = null) {
   if (feed.schema !== RUNTIME_V3_OBSERVATORY_SCHEMA) {
     throw new Error(`Unsupported Runtime v3 Observatory schema: ${feed.schema || "missing"}`);
   }
@@ -1436,7 +1451,8 @@ function runtimeV3SnapshotFromFeed(feed, readiness = null) {
       status: feed.health?.observability_ready ? "healthy" : "pending",
       summary: "Runtime v3 observatory feed",
       components: snapshot.components || {},
-      queues: snapshot.queues || {}
+      queues: snapshot.queues || {},
+      runtime_api: healthReport || null
     },
     ready: {
       schema: readiness?.schema,
@@ -3639,6 +3655,7 @@ globalThis.AdlHtmlObservatory = {
   checkEventsEndpoint,
   fetchRuntimeSnapshot,
   fetchRuntimeV3ObservatorySnapshot,
+  fetchRuntimeV3Health,
   fetchRuntimeV3AgentRosterPage,
   fetchRuntimeV3AgentDetail,
   authenticateRuntimeRosterSuccessor,

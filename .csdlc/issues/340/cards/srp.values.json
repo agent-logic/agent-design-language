@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 340,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-18A] HTML Observatory Runtime restart integration",
+    "slug": "html-observatory-runtime-restart-integration",
+    "version": "v0.92",
+    "generation": 12
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact #340 launch/restart/reconnect integration changes across CSMctl, start_CSM.sh, runbook/config examples, runtime_api_wss tests, issue-owned validator, lifecycle cards, and evidence; exclude Unity/TLS/AWS/provider/#341/#343 and HTML child redesign.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does #340 prove the live Runtime v3 start/stop/restart path rather than fixture/static rendering only?",
+        "Does CSMctl start require /v1/ready, /v1/observatory, and /v1/health HTTP 200 before success?",
+        "Does CSMctl stop prove graceful checkpoint/dehydration behavior and script-owned PID/lease cleanup?",
+        "Does the replay/reconnect evidence prove bounded replay, no duplicate application, fresh correlation, unchanged authorization, and redacted projections?",
+        "Does the change avoid Unity/#84/#122/#251, AWS/public, provider, #341/#343, and HTML child implementation scope?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

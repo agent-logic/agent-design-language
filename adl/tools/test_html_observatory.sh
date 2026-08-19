@@ -120,6 +120,17 @@ const context = {
     if (String(url) === `${config.api_base}/v1/ready`) {
       return { ok: true, status: 200, json: async () => readiness };
     }
+    if (String(url) === `${config.api_base}/v1/health`) {
+      return {
+        ok: true,
+        status: 200,
+        json: async () => ({
+          schema: "adl.runtime_v3.health.v1",
+          status: "healthy",
+          runtime_instance_id: "runtime-v3-test"
+        })
+      };
+    }
     if (String(url).startsWith(`${config.api_base}/v1/agents?`)) {
       const pageToken = new URL(String(url)).searchParams.get("page_token");
       if (pageToken === "next-token") {
@@ -172,6 +183,7 @@ api.applyRuntimeV3Config(config);
 
 assert.equal(api.requestedRuntimeSelection(), "v3");
 assert.equal(api.getQueryApiBase(), config.api_base);
+assert.equal(api.getRuntimeV3Config().health_endpoint, "/v1/health");
 assert.equal(api.getRuntimeV3Config().signed_command_endpoint, "/v1/control");
 
 const snapshot = api.runtimeV3SnapshotFromFeed(observatoryFeed, readiness);
@@ -238,6 +250,9 @@ const eventCheck = await api.checkEventsEndpoint(api.getQueryApiBase());
 assert.equal(eventCheck.schema, "adl.html_observatory.runtime_v3_event_check.v1");
 assert.equal(eventCheck.events[0].event, "agent_ready");
 assert.equal(api.normalizeEventEntries(eventCheck).length, 1);
+assert(calls.some((call) => call.url === `${config.api_base}/v1/observatory`), "Runtime v3 Observatory fetch must call /v1/observatory");
+assert(calls.some((call) => call.url === `${config.api_base}/v1/ready`), "Runtime v3 readiness fetch must call /v1/ready");
+assert(calls.some((call) => call.url === `${config.api_base}/v1/health`), "Runtime v3 health fetch must call /v1/health");
 
 const command = {
   schema: "adl.runtime.control_command.v1",

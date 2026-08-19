@@ -231,7 +231,13 @@ cert = sys.argv[4]
 key = sys.argv[5]
 
 signal.signal(signal.SIGHUP, signal.SIG_IGN)
-handler = functools.partial(http.server.SimpleHTTPRequestHandler, directory=str(root))
+class ObservatoryHandler(http.server.SimpleHTTPRequestHandler):
+    def do_GET(self):
+        if self.path in ("", "/"):
+            self.path = "/index.html"
+        return super().do_GET()
+
+handler = functools.partial(ObservatoryHandler, directory=str(root))
 server = http.server.ThreadingHTTPServer((host, port), handler)
 context = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
 context.load_cert_chain(certfile=cert, keyfile=key)
@@ -680,6 +686,8 @@ write_observatory_state() {
   mkdir -p "$STATE_DIR"
   {
     printf 'OBSERVATORY_BASE=%q\n' "$OBSERVATORY_BASE"
+    printf 'OBSERVATORY_RUNTIME_BASE=%q\n' "$OBSERVATORY_RUNTIME_BASE"
+    printf 'OBSERVATORY_URL=%q\n' "$OBSERVATORY_URL"
   } > "$OBSERVATORY_STATE_FILE"
   chmod 600 "$OBSERVATORY_STATE_FILE"
 }
