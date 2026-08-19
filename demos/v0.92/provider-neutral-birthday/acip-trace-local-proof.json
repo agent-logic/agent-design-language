@@ -1,0 +1,361 @@
+{
+  "credential_material_recorded": false,
+  "events": [
+    {
+      "agent_id": "issue341-openai-reference-agent",
+      "event": "agent_listening",
+      "local_address": "127.0.0.1:58238",
+      "observed_at": "monotonic:2226210291716000",
+      "provider": "openai-reference",
+      "sequence": 1
+    },
+    {
+      "agent_id": "issue341-gemini-reference-agent",
+      "event": "agent_listening",
+      "local_address": "127.0.0.1:58239",
+      "observed_at": "monotonic:2226210291830791",
+      "provider": "gemini-reference",
+      "sequence": 2
+    },
+    {
+      "agent_id": "wuji-shepherd",
+      "event": "agent_listening",
+      "local_address": "127.0.0.1:58240",
+      "observed_at": "monotonic:2226210291911791",
+      "provider": "wuji-shepherd-reference",
+      "sequence": 3
+    },
+    {
+      "agent_id": "issue341-openai-reference-agent",
+      "envelope_sha256": "5508d20db0ed770ac9a07750186c0e2b3f632b2b6b638c6b9ee746471b7e3e4d",
+      "event": "acip_request_sent",
+      "local_address": "127.0.0.1:58238",
+      "observed_at": "monotonic:2226210291938500",
+      "provider": "openai-reference",
+      "sequence": 4
+    },
+    {
+      "agent_id": "issue341-openai-reference-agent",
+      "envelope_sha256": "5508d20db0ed770ac9a07750186c0e2b3f632b2b6b638c6b9ee746471b7e3e4d",
+      "event": "acip_request_received",
+      "local_address": "127.0.0.1:58238",
+      "observed_at": "monotonic:2226210294218375",
+      "operation_count": 3,
+      "provider": "openai-reference",
+      "sequence": 5
+    },
+    {
+      "agent_id": "issue341-openai-reference-agent",
+      "event": "acip_response_sent",
+      "observed_at": "monotonic:2226210294247416",
+      "provider": "openai-reference",
+      "receipt_sha256": "85be26712d5fc49168dd1256a14e87f02daf43a9917f2ba2c6b4ce093665408a",
+      "sequence": 6
+    },
+    {
+      "agent_id": "issue341-gemini-reference-agent",
+      "envelope_sha256": "5508d20db0ed770ac9a07750186c0e2b3f632b2b6b638c6b9ee746471b7e3e4d",
+      "event": "acip_request_sent",
+      "local_address": "127.0.0.1:58239",
+      "observed_at": "monotonic:2226210294348125",
+      "provider": "gemini-reference",
+      "sequence": 7
+    },
+    {
+      "agent_id": "issue341-gemini-reference-agent",
+      "envelope_sha256": "5508d20db0ed770ac9a07750186c0e2b3f632b2b6b638c6b9ee746471b7e3e4d",
+      "event": "acip_request_received",
+      "local_address": "127.0.0.1:58239",
+      "observed_at": "monotonic:2226210294617166",
+      "operation_count": 3,
+      "provider": "gemini-reference",
+      "sequence": 8
+    },
+    {
+      "agent_id": "issue341-gemini-reference-agent",
+      "event": "acip_response_sent",
+      "observed_at": "monotonic:2226210294642333",
+      "provider": "gemini-reference",
+      "receipt_sha256": "54165284555d6b702bf39ae5dff53266226162dabbf5df0f30a891ac194f356c",
+      "sequence": 9
+    },
+    {
+      "agent_id": "wuji-shepherd",
+      "envelope_sha256": "5508d20db0ed770ac9a07750186c0e2b3f632b2b6b638c6b9ee746471b7e3e4d",
+      "event": "acip_request_sent",
+      "local_address": "127.0.0.1:58240",
+      "observed_at": "monotonic:2226210294746500",
+      "provider": "wuji-shepherd-reference",
+      "sequence": 10
+    },
+    {
+      "agent_id": "wuji-shepherd",
+      "envelope_sha256": "5508d20db0ed770ac9a07750186c0e2b3f632b2b6b638c6b9ee746471b7e3e4d",
+      "event": "acip_request_received",
+      "local_address": "127.0.0.1:58240",
+      "observed_at": "monotonic:2226210294980625",
+      "operation_count": 3,
+      "provider": "wuji-shepherd-reference",
+      "sequence": 11
+    },
+    {
+      "agent_id": "wuji-shepherd",
+      "event": "acip_response_sent",
+      "observed_at": "monotonic:2226210295000333",
+      "provider": "wuji-shepherd-reference",
+      "receipt_sha256": "535dff10e909481fcd66c9f79d9d2ee6020e07c6cc897e766de66549cd6106fe",
+      "sequence": 12
+    },
+    {
+      "agent_id": "issue341-openai-reference-agent",
+      "envelope_sha256": "d7ff6913fd322f5dc0059833c1a3b75b221c0696353a0297a7723ec80a5fa17d",
+      "event": "acip_request_sent",
+      "local_address": "127.0.0.1:58238",
+      "observed_at": "monotonic:2226210295088958",
+      "provider": "openai-reference",
+      "sequence": 13
+    },
+    {
+      "agent_id": "issue341-openai-reference-agent",
+      "envelope_sha256": "d7ff6913fd322f5dc0059833c1a3b75b221c0696353a0297a7723ec80a5fa17d",
+      "event": "acip_request_received",
+      "local_address": "127.0.0.1:58238",
+      "observed_at": "monotonic:2226210295316375",
+      "operation_count": 0,
+      "provider": "openai-reference",
+      "sequence": 14
+    },
+    {
+      "agent_id": "issue341-openai-reference-agent",
+      "case": "malformed_acip",
+      "event": "acip_rejected",
+      "observed_at": "monotonic:2226210295327625",
+      "provider": "openai-reference",
+      "receipt_sha256": "6c170b6bc6896b577bee3a46e2482084ba2be16513bab696850fda8d4720fb60",
+      "sequence": 15
+    },
+    {
+      "agent_id": "issue341-openai-reference-agent",
+      "envelope_sha256": "448f493aa13c3c2969ee9cf6cd856174725a77cce6fca16cf72229a93dfa1eb0",
+      "event": "acip_request_sent",
+      "local_address": "127.0.0.1:58238",
+      "observed_at": "monotonic:2226210295398541",
+      "provider": "openai-reference",
+      "sequence": 16
+    },
+    {
+      "agent_id": "issue341-openai-reference-agent",
+      "envelope_sha256": "448f493aa13c3c2969ee9cf6cd856174725a77cce6fca16cf72229a93dfa1eb0",
+      "event": "acip_request_received",
+      "local_address": "127.0.0.1:58238",
+      "observed_at": "monotonic:2226210295601833",
+      "operation_count": 3,
+      "provider": "openai-reference",
+      "sequence": 17
+    },
+    {
+      "agent_id": "issue341-openai-reference-agent",
+      "case": "denied_authority",
+      "event": "acip_rejected",
+      "observed_at": "monotonic:2226210295611250",
+      "provider": "openai-reference",
+      "receipt_sha256": "0df220375f2369f11e17f1648e7d4c87ef57d2e6f0266d8dc8ab247d0d5c439d",
+      "sequence": 18
+    },
+    {
+      "agent_id": "issue341-openai-reference-agent",
+      "envelope_sha256": "67560f08a2ec2aa5975a400506394a562d869cf1fa6ee7c3f1f29eb5746f6ab4",
+      "event": "acip_request_sent",
+      "local_address": "127.0.0.1:58238",
+      "observed_at": "monotonic:2226210295711166",
+      "provider": "openai-reference",
+      "sequence": 19
+    },
+    {
+      "agent_id": "issue341-openai-reference-agent",
+      "envelope_sha256": "67560f08a2ec2aa5975a400506394a562d869cf1fa6ee7c3f1f29eb5746f6ab4",
+      "event": "acip_request_received",
+      "local_address": "127.0.0.1:58238",
+      "observed_at": "monotonic:2226210295888375",
+      "operation_count": 3,
+      "provider": "openai-reference",
+      "sequence": 20
+    },
+    {
+      "agent_id": "issue341-openai-reference-agent",
+      "case": "interrupted_provider",
+      "event": "acip_rejected",
+      "observed_at": "monotonic:2226210295896000",
+      "provider": "openai-reference",
+      "receipt_sha256": "cc29fcb244e650ed249c5a7acc34d502ecee672a5d00ceaa611ae0f3327145f4",
+      "sequence": 21
+    },
+    {
+      "agent_id": "issue341-openai-reference-agent",
+      "envelope_sha256": "28cf681eda3978891eacc7d97b3051c8751800d58531663ff2b8cd6c1be5f022",
+      "event": "acip_request_sent",
+      "local_address": "127.0.0.1:58238",
+      "observed_at": "monotonic:2226210295980416",
+      "provider": "openai-reference",
+      "sequence": 22
+    },
+    {
+      "agent_id": "issue341-openai-reference-agent",
+      "envelope_sha256": "28cf681eda3978891eacc7d97b3051c8751800d58531663ff2b8cd6c1be5f022",
+      "event": "acip_request_received",
+      "local_address": "127.0.0.1:58238",
+      "observed_at": "monotonic:2226210296190375",
+      "operation_count": 3,
+      "provider": "openai-reference",
+      "sequence": 23
+    },
+    {
+      "agent_id": "issue341-openai-reference-agent",
+      "case": "provider_unavailable",
+      "event": "acip_rejected",
+      "observed_at": "monotonic:2226210296198666",
+      "provider": "openai-reference",
+      "receipt_sha256": "b4779870f8de1dd46e781052951b3cfa7ef2b3cd689298ffc84bea9a6f62b97a",
+      "sequence": 24
+    },
+    {
+      "agent_id": "issue341-openai-reference-agent",
+      "envelope_sha256": "8ddfb16a123c0b0d1f0054ec2888674232d3ed31ee65ca3f37f8791ba1502521",
+      "event": "acip_request_sent",
+      "local_address": "127.0.0.1:58238",
+      "observed_at": "monotonic:2226210296285708",
+      "provider": "openai-reference",
+      "sequence": 25
+    },
+    {
+      "agent_id": "issue341-openai-reference-agent",
+      "envelope_sha256": "8ddfb16a123c0b0d1f0054ec2888674232d3ed31ee65ca3f37f8791ba1502521",
+      "event": "acip_request_received",
+      "local_address": "127.0.0.1:58238",
+      "observed_at": "monotonic:2226210296546708",
+      "operation_count": 3,
+      "provider": "openai-reference",
+      "sequence": 26
+    },
+    {
+      "agent_id": "issue341-openai-reference-agent",
+      "case": "provider_loss",
+      "event": "acip_rejected",
+      "observed_at": "monotonic:2226210296556583",
+      "provider": "openai-reference",
+      "receipt_sha256": "7d5a803db22a3cf0ff6412bb6eff7ec453345d47be3d3837333a7970eebb90b1",
+      "sequence": 27
+    },
+    {
+      "agent_id": "issue341-openai-reference-agent",
+      "envelope_sha256": "07bf1166dcce76172849304095e5b0ba2734f92fbd466a0574047f39a0572097",
+      "event": "acip_request_sent",
+      "local_address": "127.0.0.1:58238",
+      "observed_at": "monotonic:2226210296650583",
+      "provider": "openai-reference",
+      "sequence": 28
+    },
+    {
+      "agent_id": "issue341-openai-reference-agent",
+      "envelope_sha256": "07bf1166dcce76172849304095e5b0ba2734f92fbd466a0574047f39a0572097",
+      "event": "acip_request_received",
+      "local_address": "127.0.0.1:58238",
+      "observed_at": "monotonic:2226210296910000",
+      "operation_count": 3,
+      "provider": "openai-reference",
+      "sequence": 29
+    },
+    {
+      "agent_id": "issue341-openai-reference-agent",
+      "case": "substitution_attempt",
+      "event": "acip_rejected",
+      "observed_at": "monotonic:2226210296918166",
+      "provider": "openai-reference",
+      "receipt_sha256": "f95820d2d0a026912fe035d5ffdfdd42fd8283936b281e79946a6f5abc10a802",
+      "sequence": 30
+    },
+    {
+      "agent_id": "issue341-openai-reference-agent",
+      "envelope_sha256": "67560f08a2ec2aa5975a400506394a562d869cf1fa6ee7c3f1f29eb5746f6ab4",
+      "event": "acip_request_received",
+      "local_address": "127.0.0.1:58238",
+      "observed_at": "monotonic:2226210297216916",
+      "operation_count": 3,
+      "provider": "openai-reference",
+      "sequence": 31
+    },
+    {
+      "agent_id": "issue341-openai-reference-agent",
+      "case": "interrupted_provider",
+      "event": "acip_rejected",
+      "observed_at": "monotonic:2226210297224333",
+      "provider": "openai-reference",
+      "receipt_sha256": "cc29fcb244e650ed249c5a7acc34d502ecee672a5d00ceaa611ae0f3327145f4",
+      "sequence": 32
+    },
+    {
+      "agent_id": "issue341-gemini-reference-agent",
+      "envelope_sha256": "67560f08a2ec2aa5975a400506394a562d869cf1fa6ee7c3f1f29eb5746f6ab4",
+      "event": "acip_request_received",
+      "local_address": "127.0.0.1:58239",
+      "observed_at": "monotonic:2226210297508208",
+      "operation_count": 3,
+      "provider": "gemini-reference",
+      "sequence": 33
+    },
+    {
+      "agent_id": "issue341-gemini-reference-agent",
+      "case": "interrupted_provider",
+      "event": "acip_rejected",
+      "observed_at": "monotonic:2226210297515833",
+      "provider": "gemini-reference",
+      "receipt_sha256": "046f6adbc76832d98e639ded48f99c410f642c36484afdb8d39362ad2858f8d7",
+      "sequence": 34
+    },
+    {
+      "agent_id": "wuji-shepherd",
+      "envelope_sha256": "67560f08a2ec2aa5975a400506394a562d869cf1fa6ee7c3f1f29eb5746f6ab4",
+      "event": "acip_request_received",
+      "local_address": "127.0.0.1:58240",
+      "observed_at": "monotonic:2226210297731041",
+      "operation_count": 3,
+      "provider": "wuji-shepherd-reference",
+      "sequence": 35
+    },
+    {
+      "agent_id": "wuji-shepherd",
+      "case": "interrupted_provider",
+      "event": "acip_rejected",
+      "observed_at": "monotonic:2226210297737375",
+      "provider": "wuji-shepherd-reference",
+      "receipt_sha256": "601070d3f7b499ed975945401e67f6b76ce899065a04d357b1330f31d2e7afe7",
+      "sequence": 36
+    },
+    {
+      "agent_id": "issue341-openai-reference-agent",
+      "event": "agent_stopped",
+      "observed_at": "monotonic:2226210798414500",
+      "provider": "openai-reference",
+      "sequence": 37
+    },
+    {
+      "agent_id": "issue341-gemini-reference-agent",
+      "event": "agent_stopped",
+      "observed_at": "monotonic:2226211299387083",
+      "provider": "gemini-reference",
+      "sequence": 38
+    },
+    {
+      "agent_id": "wuji-shepherd",
+      "event": "agent_stopped",
+      "observed_at": "monotonic:2226211800569416",
+      "provider": "wuji-shepherd-reference",
+      "sequence": 39
+    }
+  ],
+  "raw_output_recorded": false,
+  "raw_prompt_recorded": false,
+  "scenario_id": "v0.92.wp18b.provider-neutral-birthday.v1",
+  "schema": "adl.issue341.acip_trace.v1",
+  "transport": "localhost_tcp"
+}

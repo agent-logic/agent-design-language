@@ -1,0 +1,262 @@
+{
+  "credential_material_recorded": false,
+  "events": [
+    {
+      "agent_id": "issue341-openai-agent",
+      "event": "agent_listening",
+      "local_address": "127.0.0.1:54011",
+      "observed_at": "monotonic:2225548928362250",
+      "provider": "openai",
+      "sequence": 1
+    },
+    {
+      "agent_id": "issue341-anthropic-agent",
+      "event": "agent_listening",
+      "local_address": "127.0.0.1:54012",
+      "observed_at": "monotonic:2225548928481333",
+      "provider": "anthropic",
+      "sequence": 2
+    },
+    {
+      "agent_id": "issue341-openai-agent",
+      "envelope_sha256": "5508d20db0ed770ac9a07750186c0e2b3f632b2b6b638c6b9ee746471b7e3e4d",
+      "event": "acip_request_sent",
+      "local_address": "127.0.0.1:54011",
+      "observed_at": "monotonic:2225548928510708",
+      "provider": "openai",
+      "sequence": 3
+    },
+    {
+      "agent_id": "issue341-openai-agent",
+      "envelope_sha256": "5508d20db0ed770ac9a07750186c0e2b3f632b2b6b638c6b9ee746471b7e3e4d",
+      "event": "acip_request_received",
+      "local_address": "127.0.0.1:54011",
+      "observed_at": "monotonic:2225548930045041",
+      "operation_count": 3,
+      "provider": "openai",
+      "sequence": 4
+    },
+    {
+      "agent_id": "issue341-openai-agent",
+      "event": "acip_response_sent",
+      "observed_at": "monotonic:2225552916549916",
+      "provider": "openai",
+      "receipt_sha256": "92ebde6fd68db79fae1ed09920df2cec40f801a83c7fa1544df5a7f16ea3353d",
+      "sequence": 5
+    },
+    {
+      "agent_id": "issue341-anthropic-agent",
+      "envelope_sha256": "5508d20db0ed770ac9a07750186c0e2b3f632b2b6b638c6b9ee746471b7e3e4d",
+      "event": "acip_request_sent",
+      "local_address": "127.0.0.1:54012",
+      "observed_at": "monotonic:2225552919433166",
+      "provider": "anthropic",
+      "sequence": 6
+    },
+    {
+      "agent_id": "issue341-anthropic-agent",
+      "envelope_sha256": "5508d20db0ed770ac9a07750186c0e2b3f632b2b6b638c6b9ee746471b7e3e4d",
+      "event": "acip_request_received",
+      "local_address": "127.0.0.1:54012",
+      "observed_at": "monotonic:2225552927030083",
+      "operation_count": 3,
+      "provider": "anthropic",
+      "sequence": 7
+    },
+    {
+      "agent_id": "issue341-anthropic-agent",
+      "event": "acip_response_sent",
+      "observed_at": "monotonic:2225556896112125",
+      "provider": "anthropic",
+      "receipt_sha256": "c532b15a34fefbafd2d5e3d1404739aa49183f32e6a0c933513b6e56ab8138bd",
+      "sequence": 8
+    },
+    {
+      "agent_id": "issue341-openai-agent",
+      "envelope_sha256": "d7ff6913fd322f5dc0059833c1a3b75b221c0696353a0297a7723ec80a5fa17d",
+      "event": "acip_request_sent",
+      "local_address": "127.0.0.1:54011",
+      "observed_at": "monotonic:2225556896246500",
+      "provider": "openai",
+      "sequence": 9
+    },
+    {
+      "agent_id": "issue341-openai-agent",
+      "envelope_sha256": "d7ff6913fd322f5dc0059833c1a3b75b221c0696353a0297a7723ec80a5fa17d",
+      "event": "acip_request_received",
+      "local_address": "127.0.0.1:54011",
+      "observed_at": "monotonic:2225556896560958",
+      "operation_count": 0,
+      "provider": "openai",
+      "sequence": 10
+    },
+    {
+      "agent_id": "issue341-openai-agent",
+      "case": "malformed_acip",
+      "event": "acip_rejected",
+      "observed_at": "monotonic:2225556896572333",
+      "provider": "openai",
+      "receipt_sha256": "2ceae880f213284a1e16c5b1ccb8e9f72f5864922604903911708b566d3811cb",
+      "sequence": 11
+    },
+    {
+      "agent_id": "issue341-openai-agent",
+      "envelope_sha256": "448f493aa13c3c2969ee9cf6cd856174725a77cce6fca16cf72229a93dfa1eb0",
+      "event": "acip_request_sent",
+      "local_address": "127.0.0.1:54011",
+      "observed_at": "monotonic:2225556896691625",
+      "provider": "openai",
+      "sequence": 12
+    },
+    {
+      "agent_id": "issue341-openai-agent",
+      "envelope_sha256": "448f493aa13c3c2969ee9cf6cd856174725a77cce6fca16cf72229a93dfa1eb0",
+      "event": "acip_request_received",
+      "local_address": "127.0.0.1:54011",
+      "observed_at": "monotonic:2225556896920416",
+      "operation_count": 3,
+      "provider": "openai",
+      "sequence": 13
+    },
+    {
+      "agent_id": "issue341-openai-agent",
+      "case": "denied_authority",
+      "event": "acip_rejected",
+      "observed_at": "monotonic:2225556896926916",
+      "provider": "openai",
+      "receipt_sha256": "60931c59fc03719ffac1711dc31b774241f80b6ffec0bcd8bf64965b0a278fc4",
+      "sequence": 14
+    },
+    {
+      "agent_id": "issue341-openai-agent",
+      "envelope_sha256": "67560f08a2ec2aa5975a400506394a562d869cf1fa6ee7c3f1f29eb5746f6ab4",
+      "event": "acip_request_sent",
+      "local_address": "127.0.0.1:54011",
+      "observed_at": "monotonic:2225556897008750",
+      "provider": "openai",
+      "sequence": 15
+    },
+    {
+      "agent_id": "issue341-openai-agent",
+      "envelope_sha256": "67560f08a2ec2aa5975a400506394a562d869cf1fa6ee7c3f1f29eb5746f6ab4",
+      "event": "acip_request_received",
+      "local_address": "127.0.0.1:54011",
+      "observed_at": "monotonic:2225556897225333",
+      "operation_count": 3,
+      "provider": "openai",
+      "sequence": 16
+    },
+    {
+      "agent_id": "issue341-openai-agent",
+      "case": "interrupted_provider",
+      "event": "acip_rejected",
+      "observed_at": "monotonic:2225556897235416",
+      "provider": "openai",
+      "receipt_sha256": "d325736c3db4491b20e1b735a695b5d0589a9e4347c3384e7d06834db4269426",
+      "sequence": 17
+    },
+    {
+      "agent_id": "issue341-openai-agent",
+      "envelope_sha256": "28cf681eda3978891eacc7d97b3051c8751800d58531663ff2b8cd6c1be5f022",
+      "event": "acip_request_sent",
+      "local_address": "127.0.0.1:54011",
+      "observed_at": "monotonic:2225556897372541",
+      "provider": "openai",
+      "sequence": 18
+    },
+    {
+      "agent_id": "issue341-openai-agent",
+      "envelope_sha256": "28cf681eda3978891eacc7d97b3051c8751800d58531663ff2b8cd6c1be5f022",
+      "event": "acip_request_received",
+      "local_address": "127.0.0.1:54011",
+      "observed_at": "monotonic:2225556897630791",
+      "operation_count": 3,
+      "provider": "openai",
+      "sequence": 19
+    },
+    {
+      "agent_id": "issue341-openai-agent",
+      "case": "provider_unavailable",
+      "event": "acip_rejected",
+      "observed_at": "monotonic:2225556897639041",
+      "provider": "openai",
+      "receipt_sha256": "5d2b3bdd124e13491bf80d12ded1eb5db14e056bf4d36cafd82196edac877d20",
+      "sequence": 20
+    },
+    {
+      "agent_id": "issue341-openai-agent",
+      "envelope_sha256": "8ddfb16a123c0b0d1f0054ec2888674232d3ed31ee65ca3f37f8791ba1502521",
+      "event": "acip_request_sent",
+      "local_address": "127.0.0.1:54011",
+      "observed_at": "monotonic:2225556897715791",
+      "provider": "openai",
+      "sequence": 21
+    },
+    {
+      "agent_id": "issue341-openai-agent",
+      "envelope_sha256": "8ddfb16a123c0b0d1f0054ec2888674232d3ed31ee65ca3f37f8791ba1502521",
+      "event": "acip_request_received",
+      "local_address": "127.0.0.1:54011",
+      "observed_at": "monotonic:2225556897931166",
+      "operation_count": 3,
+      "provider": "openai",
+      "sequence": 22
+    },
+    {
+      "agent_id": "issue341-openai-agent",
+      "case": "provider_loss",
+      "event": "acip_rejected",
+      "observed_at": "monotonic:2225556897937333",
+      "provider": "openai",
+      "receipt_sha256": "41d6900d2293443f1cbbbe312dcf02a3aa061e58a5a20991d3317a9e7dd42308",
+      "sequence": 23
+    },
+    {
+      "agent_id": "issue341-openai-agent",
+      "envelope_sha256": "07bf1166dcce76172849304095e5b0ba2734f92fbd466a0574047f39a0572097",
+      "event": "acip_request_sent",
+      "local_address": "127.0.0.1:54011",
+      "observed_at": "monotonic:2225556898041083",
+      "provider": "openai",
+      "sequence": 24
+    },
+    {
+      "agent_id": "issue341-openai-agent",
+      "envelope_sha256": "07bf1166dcce76172849304095e5b0ba2734f92fbd466a0574047f39a0572097",
+      "event": "acip_request_received",
+      "local_address": "127.0.0.1:54011",
+      "observed_at": "monotonic:2225556898271125",
+      "operation_count": 3,
+      "provider": "openai",
+      "sequence": 25
+    },
+    {
+      "agent_id": "issue341-openai-agent",
+      "case": "substitution_attempt",
+      "event": "acip_rejected",
+      "observed_at": "monotonic:2225556898276833",
+      "provider": "openai",
+      "receipt_sha256": "1e17c2c6a922d4e2cde7e32a015bbc25f62956a8bf6fac857b1ef58ce81a768d",
+      "sequence": 26
+    },
+    {
+      "agent_id": "issue341-openai-agent",
+      "event": "agent_stopped",
+      "observed_at": "monotonic:2225557399421208",
+      "provider": "openai",
+      "sequence": 27
+    },
+    {
+      "agent_id": "issue341-anthropic-agent",
+      "event": "agent_stopped",
+      "observed_at": "monotonic:2225557435822583",
+      "provider": "anthropic",
+      "sequence": 28
+    }
+  ],
+  "raw_output_recorded": false,
+  "raw_prompt_recorded": false,
+  "scenario_id": "v0.92.wp18b.provider-neutral-birthday.v1",
+  "schema": "adl.issue341.acip_trace.v1",
+  "transport": "localhost_tcp"
+}

@@ -1,0 +1,37 @@
+{
+  "agents": [
+    {
+      "acip_direct_tcp": true,
+      "agent_id": "issue341-openai-reference-agent",
+      "observed_listening_address": "127.0.0.1:58327",
+      "role": "provider-column",
+      "ssm_access": "none",
+      "status": "running"
+    },
+    {
+      "acip_direct_tcp": true,
+      "agent_id": "issue341-gemini-reference-agent",
+      "observed_listening_address": "127.0.0.1:58328",
+      "role": "provider-column",
+      "ssm_access": "none",
+      "status": "running"
+    },
+    {
+      "acip_direct_tcp": true,
+      "agent_id": "wuji-shepherd",
+      "observed_listening_address": "127.0.0.1:58329",
+      "role": "shepherd",
+      "ssm_access": "maintenance_only",
+      "status": "running"
+    }
+  ],
+  "observation_method": "live_localhost_tcp_listener_probe",
+  "public_exposure": "not_claimed",
+  "schema": "adl.issue341.private_observatory_roster.v1",
+  "summary": {
+    "all_voters_direct_tcp": true,
+    "ordinary_agent_ssm_access": false,
+    "running_agents": 3
+  },
+  "visibility": "private"
+}

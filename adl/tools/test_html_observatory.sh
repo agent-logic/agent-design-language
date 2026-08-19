@@ -234,6 +234,35 @@ assert.equal(api.acceptRuntimeRosterSnapshot(cursorSnapshot("runtime-v3-test", "
 await api.authenticateRuntimeRosterSuccessor(config.api_base, snapshot);
 assert(calls.some((call) => call.url.includes("page_size=100&event_cursor=roster-cursor-6")), "browser returns the prior authenticated cursor to Runtime");
 
+const elements = new Map();
+const elementFor = (id) => {
+  if (!elements.has(id)) {
+    elements.set(id, {
+      id,
+      dataset: {},
+      hidden: false,
+      disabled: false,
+      value: "",
+      textContent: "",
+      innerHTML: "",
+      setAttribute(name, value) {
+        this[name] = value;
+        if (name.startsWith("data-")) {
+          this.dataset[name.slice(5)] = value;
+        }
+      }
+    });
+  }
+  return elements.get(id);
+};
+context.document = { getElementById: elementFor };
+api.renderPanopticon(snapshot, api.FALLBACK_PACKET);
+assert.equal(elements.get("packet-status").textContent, "CSM Runtime");
+assert.equal(elements.get("packet-status").dataset.state, "ok");
+assert.equal(elements.get("evidence-level").textContent, "Runtime v3 Observatory feed");
+assert.equal(elements.get("evidence-level").dataset.tone, "ok");
+assert.match(elements.get("claim-boundary").textContent, /Live Runtime v3 Observatory feed/);
+
 const eventCheck = await api.checkEventsEndpoint(api.getQueryApiBase());
 assert.equal(eventCheck.schema, "adl.html_observatory.runtime_v3_event_check.v1");
 assert.equal(eventCheck.events[0].event, "agent_ready");

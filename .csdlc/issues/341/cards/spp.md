@@ -1,0 +1,132 @@
+# Structured Planning Prompt
+
+Template: 1.0.0
+
+Issue: 341
+
+Repository: agent-logic/agent-design-language
+
+Card: spp
+
+Status: ready
+
+## Summary
+
+Initialize and bind #341, verify prerequisite closure/ancestry and provider availability, implement the provider-neutral harness/validator/test runner and redacted proof packet, run two-provider positive and negative cases, show private Observatory with several agents running, validate, review, and publish a PR that closes #341 without claiming adjacent lanes.
+
+## Plan
+
+Revision 1
+
+## Steps
+
+[
+  {
+    "id": "S1",
+    "action": "Initialize and bind #341, verify current prerequisite and provider-readiness truth, and confirm owned paths.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-6"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S2",
+    "action": "Implement or repair the provider-neutral scenario harness and redacted receipt format.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S3",
+    "action": "Implement or repair the validator and negative-case proof matrix.",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-3"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S4",
+    "action": "Run two-provider positive proof and failure-isolation cases, retaining redacted digests.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S5",
+    "action": "Show private Observatory with several agents running and record non-production demo truth.",
+    "acceptance_ids": [
+      "AC-6"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S6",
+    "action": "Validate, review exact head, fix findings, and publish a PR closing #341.",
+    "acceptance_ids": [
+      "AC-5"
+    ],
+    "status": "pending"
+  }
+]
+
+## Invariants
+
+- the same versioned scenario is used for every provider column
+- receipts retain provider identity and capability truth without secrets or raw private payloads
+- failure cases remain visible non-pass outcomes
+- one provider failure does not kill unrelated Runtime agents
+- proof artifacts are digest-backed and validator-readable
+- no public deployment or Observatory exposure is claimed
+
+## Risks
+
+- provider credentials may be unavailable or insufficient for two real positive columns
+- fixture/cached output could be mistaken for provider-neutral proof
+- redaction could omit important capability truth or leak private payloads
+- negative cases could become prose-only
+- Observatory demo could drift into public exposure scope
+- cloud resources could be left running if teardown is not enforced
+
+## Estimates
+
+{
+  "elapsed_seconds": 43200,
+  "total_tokens": 140000,
+  "validation_seconds": 7200
+}
+
+## Design
+
+.csdlc/prepared/issues/341/design.md
+
+Digest: c6789dcf9bdcfa45b396282dd8175bf91e711756696868a609a4445d8909d951
+
+## Diagram
+
+.csdlc/prepared/issues/341/diagram.mmd
+
+Digest: 78e5efb69a4df4b8c007aa4f1f8652cd675858fcbcdf69417dbd6d35bc79a051
+
+## Stop Conditions
+
+- less than two approved real-provider credential sources are available for positive proof
+- proof would require public Observatory exposure or production ingress work
+- provider output cannot be redacted without losing required proof truth
+- AWS or provider resources cannot be bounded and cleaned up safely
+- exact-head review finds unresolved actionable issues
+
+## Handoff
+
+Proceed only after doctor readiness.

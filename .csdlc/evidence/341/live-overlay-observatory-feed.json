@@ -1,0 +1,193 @@
+{
+  "agents": {
+    "event_cursor": "issue341.1787171211046",
+    "has_more": false,
+    "next_page_token": null,
+    "population_complete": true,
+    "rendered_sample_count": 3,
+    "revision": 1787171211046,
+    "sample": [
+      {
+        "activity": "provider-neutral birthday proof",
+        "availability": "available",
+        "capabilities": [
+          "direct_tcp_acip",
+          "provider_neutral_proof"
+        ],
+        "communication_eligible": true,
+        "detail": "Issue #341 private ACIP TCP roster projection",
+        "freshness_deadline_unix_millis": 1787171221046,
+        "health": "healthy",
+        "id": "issue341-openai-reference-agent",
+        "label": "Openai Reference Agent",
+        "location": "127.0.0.1:55365",
+        "observed_at_unix_millis": 1787171211046,
+        "provenance": "issue341_private_observatory_probe",
+        "role": "provider-column",
+        "source_revision": "942a41253fb7122046090f276668192922cba3c9",
+        "ssm_access": "none",
+        "state": "ready"
+      },
+      {
+        "activity": "provider-neutral birthday proof",
+        "availability": "available",
+        "capabilities": [
+          "direct_tcp_acip",
+          "provider_neutral_proof"
+        ],
+        "communication_eligible": true,
+        "detail": "Issue #341 private ACIP TCP roster projection",
+        "freshness_deadline_unix_millis": 1787171221046,
+        "health": "healthy",
+        "id": "issue341-gemini-reference-agent",
+        "label": "Gemini Reference Agent",
+        "location": "127.0.0.1:55366",
+        "observed_at_unix_millis": 1787171211046,
+        "provenance": "issue341_private_observatory_probe",
+        "role": "provider-column",
+        "source_revision": "942a41253fb7122046090f276668192922cba3c9",
+        "ssm_access": "none",
+        "state": "ready"
+      },
+      {
+        "activity": "provider-neutral birthday proof",
+        "availability": "available",
+        "capabilities": [
+          "direct_tcp_acip",
+          "provider_neutral_proof"
+        ],
+        "communication_eligible": true,
+        "detail": "Issue #341 private ACIP TCP roster projection",
+        "freshness_deadline_unix_millis": 1787171221046,
+        "health": "healthy",
+        "id": "wuji-shepherd",
+        "label": "Wuji Shepherd",
+        "location": "127.0.0.1:55367",
+        "observed_at_unix_millis": 1787171211046,
+        "provenance": "issue341_private_observatory_probe",
+        "role": "shepherd",
+        "source_revision": "942a41253fb7122046090f276668192922cba3c9",
+        "ssm_access": "maintenance_only",
+        "state": "ready"
+      }
+    ],
+    "schema": "adl.runtime_v3.agent_roster_page.v1",
+    "scope": "local_runtime",
+    "total_count": 3
+  },
+  "continuity": {
+    "checkpoint": {
+      "accepted_through": 1787171211046,
+      "generation": 341
+    }
+  },
+  "control": {
+    "bearer_token_required_for_read": false,
+    "browser_mutation_authority": false,
+    "login_required_for_mutation": true,
+    "port": 20998,
+    "public_base_url": "https://localhost:20998",
+    "read_endpoint": "/v1/observatory",
+    "signed_command_endpoint": "/v1/control",
+    "signed_commands_required_for_mutation": true,
+    "websocket_acip_binary_schema": "adl.csm.acip_carrier.websocket_frame.v1",
+    "websocket_endpoint": "/v1/observatory/ws",
+    "websocket_full_duplex": false
+  },
+  "default_runtime_changed": false,
+  "events": [
+    {
+      "component": "issue341-openai-reference-agent",
+      "correlation_id": "issue341-private-observatory",
+      "event": "issue341_agent_observed",
+      "monotonic_millis": 0,
+      "sequence": 0
+    },
+    {
+      "component": "issue341-gemini-reference-agent",
+      "correlation_id": "issue341-private-observatory",
+      "event": "issue341_agent_observed",
+      "monotonic_millis": 1,
+      "sequence": 1
+    },
+    {
+      "component": "wuji-shepherd",
+      "correlation_id": "issue341-private-observatory",
+      "event": "issue341_agent_observed",
+      "monotonic_millis": 2,
+      "sequence": 2
+    }
+  ],
+  "health": {
+    "observability_ready": true,
+    "snapshot": {
+      "agent_admissions": {
+        "issue341-gemini-reference-agent": {
+          "freshness_deadline_unix_millis": 1787171221046,
+          "observed_at_unix_millis": 1787171211046,
+          "source_revision": "942a41253fb7122046090f276668192922cba3c9"
+        },
+        "issue341-openai-reference-agent": {
+          "freshness_deadline_unix_millis": 1787171221046,
+          "observed_at_unix_millis": 1787171211046,
+          "source_revision": "942a41253fb7122046090f276668192922cba3c9"
+        },
+        "wuji-shepherd": {
+          "freshness_deadline_unix_millis": 1787171221046,
+          "observed_at_unix_millis": 1787171211046,
+          "source_revision": "942a41253fb7122046090f276668192922cba3c9"
+        }
+      },
+      "clock": {
+        "source": "local_monotonic",
+        "status": "authoritative",
+        "unix_millis": 1787171211046
+      },
+      "components": {
+        "acip": "running",
+        "agent_runtime": "running",
+        "observability": "running",
+        "provider": "running",
+        "shepherd": "running"
+      },
+      "event_count": 9,
+      "lifecycle": "running",
+      "observability": {
+        "status": "ready"
+      },
+      "observability_ready": true,
+      "queues": {},
+      "restart_counts": {},
+      "revision": 1787171211046,
+      "schema": "adl.runtime.control_snapshot.v1",
+      "topology_generation": 341
+    }
+  },
+  "ingress": {
+    "accepted_through": 0,
+    "completed": {}
+  },
+  "proof": {
+    "default_runtime_switch_authorized": false,
+    "issue": 341,
+    "provider_neutral_private_observatory": true,
+    "runtime_v2_decommission_authorized": false,
+    "sidecar_required": false
+  },
+  "runtime_incarnation_id": "issue341-942a41253fb7",
+  "runtime_instance_id": "issue341-provider-neutral-private-runtime",
+  "runtime_process_id": 0,
+  "runtime_selection": "runtime_v3_explicit_opt_in",
+  "schema": "adl.runtime_v3.observatory_feed.v2",
+  "weather": {
+    "resource_state": "healthy",
+    "schema": "adl.runtime.weather_health.v1",
+    "shutdown_decision": "continue"
+  },
+  "weather_freshness": {
+    "age_millis": 0,
+    "observed_at_unix_millis": 1787171211046,
+    "stale": false,
+    "stale_after_millis": 10000
+  }
+}
