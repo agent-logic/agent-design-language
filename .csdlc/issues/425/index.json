@@ -6,10 +6,22 @@
   "initialization_digest": "d98a8d900cde7810150f96c65b587a7763b677cf58610771289dd359b4be5b19",
   "phase": "implemented",
   "generation": 16,
-  "digest": "6be80d655a82f0e45aaa6954dd9fcaeb6a15c393a07e61279dfcaceddc3b653c",
+  "digest": "c53af3aa47622a367b94023bf7e2f919b5953e6c37939dabf39ee834a5c867cf",
   "branch": "codex/425-recordless-closeout-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-425-recordless-closeout-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:a02c965d-a3b3-4d83-b6ab-218d66aba5e7",
+    "assigned_by": "codex-worker-4",
+    "revision": "git-blake3:7591832b05857a5778231577f84382495a768fe9:35041ef7ef89f2dc915564353800aab906911a6ddaae7f0620ee50a595dadd3f",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-finish.rs",
+      "csdlc-v2/src/finish.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/tests/gate_recordless_closeout.rs",
+      ".csdlc/evidence/425-v092-residual-dry-run-result.json",
+      ".csdlc/issues/425"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +57,9 @@
       "ast_digest": "dc064a1b29d4ffce555b1ffa93a65466b5adfe914df83ce7126a441ac99c6e03"
     },
     "srp": {
-      "values_digest": "99b6aa681feacdd46b2a77222fdb89b98f1a243b62cac636b6d4b8fd82d66a58",
-      "rendered_digest": "ac7b89136057e5af0de22d13f0f398940c48a729224586d0373e2328e6f578fd",
-      "ast_digest": "f542a55e0266532978da258547185b7587ee0d0f8956b492f6dbb0a225f25dfd"
+      "values_digest": "1873ed2a3803cdcff5f864dc4c12a8d97539a697c1f839eefd0e8e150cd531a8",
+      "rendered_digest": "8104e68c08d29a83760c4a0591d513e36d1a3b21ab3fee98216bd5481b2a3ec8",
+      "ast_digest": "6606bf80b5e91946eb5691de27269f1a5913b2a30140f9e883f80c5fc355da79"
     },
     "sor": {
       "values_digest": "35e9e00966a6ffd0afd42b773d145f4742fd52987ea2230a5bff807ce4804568",
@@ -274,6 +286,13 @@
       "actor": "codex-worker-4",
       "reason": "clarify that PR #428 remains open at stale remote head while current repaired local head is not yet republished",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Clarified post-CI publication truth: PR #428 remains open from the earlier publication, but the current repaired local head is intentionally treated as unpublished until csdlc-publish observes and records the updated PR head.\",\"changes\":[\"Preserve audit history that PR #428 was previously published while keeping current generation review/publication reset truthful for the unre-published Clippy repair head\",\"Document that SOR not_published/worktree_only applies to the current repaired local revision, not to historical existence of PR #428\"],\"artifacts\":[\"gh pr view 428 --repo agent-logic/agent-design-language: PR open on codex/425-recordless-closeout-recovery from prior publication\",\"Current local head 2dd5d79a1 is ahead of the last observed publication and requires fresh review plus republish before publication truth is restored\"]}"
+    },
+    {
+      "sequence": 24,
+      "generation": 16,
+      "actor": "codex-worker-4",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
