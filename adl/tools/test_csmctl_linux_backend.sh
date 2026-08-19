@@ -36,7 +36,9 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 code=000
-if [[ "${ADL_CSM_TEST_CURL_ALWAYS_READY:-0}" == "1" ]]; then
+if [[ "${ADL_CSM_TEST_CURL_ALWAYS_UNREADY:-0}" == "1" ]]; then
+  code=000
+elif [[ "${ADL_CSM_TEST_CURL_ALWAYS_READY:-0}" == "1" ]]; then
   code=200
 elif [[ -s "$pid_file" ]]; then
   pid=$(tr -d '[:space:]' < "$pid_file")
@@ -47,11 +49,7 @@ printf '%s' "$code"
 SH
 cat > "$SCRATCH/bin/kernel" <<'SH'
 #!/usr/bin/env bash
-if [[ "${ADL_CSM_TEST_KERNEL_IGNORE_TERM:-0}" == "1" ]]; then
-  trap '' TERM INT
-else
-  trap 'exit 0' TERM INT
-fi
+trap 'exit 0' TERM INT
 while true; do sleep 1; done
 SH
 cat > "$SCRATCH/bin/vector" <<'SH'
@@ -159,19 +157,37 @@ stop_output=$("${common[@]}" "$ROOT/start_CSM.sh" stop)
 [[ "$stop_output" == *"status=stopped"* ]]
 [[ ! -e "$SCRATCH/state/supervisor.pid" ]]
 
-printf '%s\n' 'ADL_CSM_TEST_KERNEL_IGNORE_TERM=1' >> "$SCRATCH/service/runtime.env"
-"${common[@]}" "$ROOT/CSMctl" start >/dev/null
-timeout_supervisor_record=$(<"$SCRATCH/state/supervisor.pid")
+cat > "$SCRATCH/generated/runner.sh" <<'SH'
+#!/usr/bin/env bash
+trap '' TERM INT
+while true; do sleep 1; done
+SH
+chmod +x "$SCRATCH/generated/runner.sh"
+nohup "$SCRATCH/generated/runner.sh" >/dev/null 2>&1 < /dev/null &
+timeout_supervisor_pid=$!
+sleep 0.05
+timeout_supervisor_start=$(python3 - "$timeout_supervisor_pid" <<'PY'
+import sys
+stat = open(f"/proc/{sys.argv[1]}/stat", encoding="utf-8").read()
+print(stat[stat.rfind(")") + 2:].split()[19])
+PY
+)
+timeout_supervisor_record="$timeout_supervisor_pid $timeout_supervisor_start"
+printf '%s\n' "$timeout_supervisor_record" > "$SCRATCH/state/supervisor.pid"
 if "${common[@]}" "$ROOT/CSMctl" stop >"$SCRATCH/timeout-stop.out" 2>&1; then
   echo "TERM-resistant Linux supervisor unexpectedly stopped" >&2
   exit 1
 fi
 grep -F 'linux_supervisor_did_not_stop' "$SCRATCH/timeout-stop.out" >/dev/null
 [[ "$(<"$SCRATCH/state/supervisor.pid")" == "$timeout_supervisor_record" ]]
-read -r timeout_supervisor_pid _ <<<"$timeout_supervisor_record"
+if "${common[@]}" "$ROOT/CSMctl" start >"$SCRATCH/timeout-start.out" 2>&1; then
+  echo "start unexpectedly replaced a TERM-resistant owned supervisor" >&2
+  exit 1
+fi
+grep -F 'linux_supervisor_did_not_stop' "$SCRATCH/timeout-start.out" >/dev/null
+[[ "$(<"$SCRATCH/state/supervisor.pid")" == "$timeout_supervisor_record" ]]
 kill -KILL "$timeout_supervisor_pid" 2>/dev/null || true
-timeout_kernel_pid=$(tr -d '[:space:]' < "$SCRATCH/state/kernel.pid")
-kill -KILL "$timeout_kernel_pid" 2>/dev/null || true
+wait "$timeout_supervisor_pid" 2>/dev/null || true
 rm -f "$SCRATCH/state/supervisor.pid" "$SCRATCH/state/kernel.pid"
 fi
 

@@ -824,11 +824,13 @@ launch_service_pid() {
 
 launch_service_start() {
   if launch_service_loaded; then
-    launch_service_stop >/dev/null 2>&1 || true
+    launch_service_stop
     for _ in $(seq 1 80); do
       launch_service_loaded || break
       sleep 0.25
     done
+    launch_service_loaded \
+      && fail "owned_service_did_not_stop_before_start"
   fi
   case "$SERVICE_BACKEND" in
     launchd)

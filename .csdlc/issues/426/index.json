@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "4997d7deed63e49f9f51627e90720c043a2c0f87bdfad9170fdc9d7d3870b70e",
   "phase": "implemented",
-  "generation": 13,
-  "digest": "6956a77b32f4ac843c0e3437d7e8fed3b0a452672c588b22d786647c06fa5727",
+  "generation": 14,
+  "digest": "adf61610404788548d5c867537521bde7901fdabb66021543a111246fa692166",
   "branch": "codex/426-linux-csmctl-service-control",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-426-linux-csmctl-service-control",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "09f97b1eb9b1afe5d8919671c39cf9043dfce11697a612540c751ec168796ba7",
+      "values_digest": "8dd2d36606e6e850c915fea0749b6136029bdf2ef840a5dccf2353d12667ad59",
       "rendered_digest": "a3cab901aa5c6ca7abaaf6bb8f4649453639cb83fc583f04f6c53c8c5a23830a",
       "ast_digest": "4a75f069e33d0cf887b1d834c066b5e626d40777d5261cea5e618daff103a140"
     },
     "stp": {
-      "values_digest": "d28864c53fbca2a6f83d7aa5f9cd9dc89d93cf742794904b69ec6536a80a6dba",
+      "values_digest": "83b29e281e813b92ff23a9255445fed187fda8e1e6ddd5a0b5b68f0012116c7e",
       "rendered_digest": "37ad1d11c4a4f3e579dfce0d0eb7ccecb55e3194778b234146d2f650c6b77d36",
       "ast_digest": "e0c72f42587d3b095d80d0ba18548c92efcf4cda8c89eacc0f7eed4e868301aa"
     },
     "spp": {
-      "values_digest": "07a308141ab5014c1f15d1832e8f21898240b91796ffc0d6c6ae7a2256ed6378",
+      "values_digest": "c2f50ad5c05ef61d6bdf50060fe37c1d5f917d5df398b9c48bb24487e7bcbb31",
       "rendered_digest": "d324a470a3018ee464f77b3132303b3dca91dcd29b52976310e96a73b36e64ae",
       "ast_digest": "b4056cb77d97a4de8060e597d2d804fc7b50fa282679ca654a9ed8d700e30540"
     },
     "vpp": {
-      "values_digest": "0e462914960b329353358d2d70e08a91c35d1e5bad37624d01f84affbb0675e2",
+      "values_digest": "8b8a20481538e3d55dc98c0735c0cc7f86f0063ffcdf69828be8f1ac12a87ff9",
       "rendered_digest": "1a9e890be759865a4722d8547a91da307ef00cbbd7a19ee3846b5ec73ef91cc0",
       "ast_digest": "554f1fc2241127f3420794a65270c2d05e0497df2d0c18d2c146b067f2ae75b0"
     },
     "srp": {
-      "values_digest": "244cd6ffbea01052a2aec858e8baf68f61d945135229ae104d2c5ff176979b4f",
+      "values_digest": "0994726bae51b21dd49a5579964277731cc9906b7a2f9c6131851a08777a74f1",
       "rendered_digest": "97d1c04b74ceb1498b7d483962f7680dcfcc31c603d72016a8d3301e9aaddbd4",
       "ast_digest": "4b782840962021493eb6879319b80860d96d5450dc24c900462809920b1730fa"
     },
     "sor": {
-      "values_digest": "66d22d84925e6c6bac18f10f8de497d134b228748da1dfec5648df24b8033f9d",
+      "values_digest": "cd393df0f98772ed4bf2f0d86e2d67bf7fb8e6c8bb8ac3ffa4a177ab2a332766",
       "rendered_digest": "9aa9bf1fd6f66e6e2e03f5595bc23065d6f67553504379f0ef49044451f8e5aa",
       "ast_digest": "f093c0d325f48b11a9eb631c9956ca7373f8e642669d3072a6519c3b21d9e35c"
     }
@@ -216,6 +216,20 @@
       "generation": 13,
       "actor": "codex:/root",
       "reason": "Final exact-head review found non-Linux proof ambiguity and missing stop-timeout regression; split the skip signal, prove timeout refusal on native Linux, and terminate the runner lease during graceful shutdown.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Final exact-head review found start could suppress a refused stop and overwrite ownership; propagate refusal and prove a TERM-resistant owned supervisor cannot be replaced.",
       "operation": "recover_review"
     }
   ]
