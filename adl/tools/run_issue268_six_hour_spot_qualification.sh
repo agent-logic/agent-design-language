@@ -3,7 +3,7 @@ set -euo pipefail
 
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd -P)
 MODE=${1:-}
-RUN_ID=issue268-six-hour-r7i-20260819-17
+RUN_ID=issue268-six-hour-r7i-20260819-18
 EVIDENCE_ROOT=${ADL_ISSUE268_EVIDENCE_ROOT:-$ROOT/.csdlc/evidence/268/aws/$RUN_ID}
 REQUEST="$EVIDENCE_ROOT/portable-request.json"
 SUMMARY="$EVIDENCE_ROOT/summary.json"
@@ -74,7 +74,7 @@ profile = {
     "argv": ["bash", "adl/tools/run_issue268_remote_resident_qualification.sh"],
     "working_directory": ".",
     "environment_allowlist": [
-        "PATH", "CARGO_HOME", "RUSTUP_HOME", "CARGO_TARGET_DIR", "ADL_RUN_ID", "ADL_RUNTIME_VECTOR_BIN",
+        "PATH", "HOME", "CARGO_HOME", "RUSTUP_HOME", "CARGO_TARGET_DIR", "ADL_RUN_ID", "ADL_RUNTIME_VECTOR_BIN",
         "ADL_RUNTIME_CONTINUITY_ROOT", "ADL_RUNTIME_CONTINUITY_VOLUME_ID_SHA256",
         "ADL_CACHE_VOLUME_MOUNT_PATH", "ADL_RETAINED_VOLUME_ROLE", "ADL_REGION",
         "ADL_ISSUE268_REMOTE_EVIDENCE_ROOT", "ADL_ISSUE268_CONTINUITY_BIN",
