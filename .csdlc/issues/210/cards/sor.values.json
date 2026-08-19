@@ -7,9 +7,9 @@
     "title": "[v0.92][WP-04.16b3.1d] Stream authenticated continuity bundles between voters",
     "slug": "authenticated-continuity-bundle-transfer",
     "version": "v0.92",
-    "generation": 26
+    "generation": 28
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -17,10 +17,10 @@
       "actual_changes": [],
       "artifacts": [],
       "actual_validation": [],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }

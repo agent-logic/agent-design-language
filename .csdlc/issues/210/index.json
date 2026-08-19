@@ -3,16 +3,35 @@
   "issue": 210,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "dfba2bc7d217926871774238898f8f4e00907bb6a6cf8afc0db1d6b12db39cc0",
-  "phase": "ready",
-  "generation": 26,
-  "digest": "354a5e189532134ce7a5215a961f723d513964c900e9f91906a86704cae2d968",
+  "phase": "closed_out",
+  "generation": 28,
+  "digest": "9090d368797c6df041017a92cb91e4311da02d161150d8a6eae8040bbecd91f9",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
   "review": null,
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 210,
+    "pull_request": 371,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/371",
+    "base": "main",
+    "head": "codex/210-continuity-transfer-preparation",
+    "revision": "git-blake3:a3557dcdc878a0c84f53f86fe1bda12feb930e7b:34e55c0c5e535001615f829e83b3fbf4f7b1b0930b25391405eb8cc39011e34e",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "merged"
+  },
   "readiness": null,
-  "terminal": null,
+  "terminal": {
+    "pull_request": 371,
+    "disposition": "merged",
+    "observed_sha": "a3557dcdc878a0c84f53f86fe1bda12feb930e7b",
+    "observed_state": "merged",
+    "receipt_path": "csdlc-v2/closeout/210.json",
+    "branch": null,
+    "worktree": null
+  },
   "migration": null,
   "design_path": ".csdlc/prepared/issues/210/design.md",
   "diagram_path": ".csdlc/prepared/issues/210/diagram.mmd",
@@ -24,34 +43,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "142893e944541179687f1c939f889734ae07fdcdf9782cead6330189df175c87",
+      "values_digest": "4d4c4bd9d74faeb9f042d66b075c2c50c6b4ae2e461359797336dbfa5f80c114",
       "rendered_digest": "aaa175185df657cdebf2f15c677e3a1c052952278a5ddb470ed993e54f8b39ba",
       "ast_digest": "ba2482c5a445c744a229516d10c88b404bbb841f61d0f0f1c9950462e9e8bbe8"
     },
     "stp": {
-      "values_digest": "ed42978aef03c4fea52154af73365de8808dc4bc47511ba4b978b9241e50c901",
+      "values_digest": "bd18751ddfbb8ac924d4823417ef300434edbc5d03dad7148087034517f32c02",
       "rendered_digest": "8b7aee823b924c1428796012ef88e4b66b6d5424a4ae21a696b44dce80ceeb85",
       "ast_digest": "21afcf5eacbd88e405e23016a1234c32a09dab50eb27d653ba18a657eb6e2d8c"
     },
     "spp": {
-      "values_digest": "900c583136beed896a16c298c2a14dd46239c4ad8ab71325635b715d8a13c874",
-      "rendered_digest": "2a93cac0a7c0d26b0b20bec5e0f644bf11504289941b053a3d7a595551a3d7bf",
-      "ast_digest": "5394d817c2d3d5c725f0d231ef1aa43402563e603669b71ba4b717b054ecad70"
+      "values_digest": "44887c3cce0c1ba3910f0d75305c765f128f384a17037076c3728b675db5b6c5",
+      "rendered_digest": "0169035a8a03e6146be6a1199a375d24dfe4706dd86dd9bdfd592b720f0a9834",
+      "ast_digest": "91c417fee6aae305d92fbe9869622edf640403848c576045b9a753b8fdddd355"
     },
     "vpp": {
-      "values_digest": "8118242f11cc4b86bab64948b221cf342929873f826f06e9dd7d6b57f62f2c34",
+      "values_digest": "54661d99f22da6c14cb3adbf70098de8e71e51fe9589ba952b9639f35f21793c",
       "rendered_digest": "03963fd742e09b9148b09303fb2bff81e0155889e05dc7d5d42798cc52542348",
       "ast_digest": "92e8ba86f24b71437dd48fcb82ffda3e3374ac16a0e93d45eae1e8436e402c2e"
     },
     "srp": {
-      "values_digest": "5bba54bcf258884e95a1ece6ee5498827fd5464c602cfb9c1bd848f2649a7518",
+      "values_digest": "58400dd1c3ade62b357a191a65760103e087ebab5a5555ef1d18a5504cb71ad1",
       "rendered_digest": "c432f11b266ce918924c9acbe68c6ad414e6ef1097132ffdef4303528dee32d4",
       "ast_digest": "9773e53b77d4e312cc4ec4407004f3bfa503b3eaa054c10ee8ca5b7860fea075"
     },
     "sor": {
-      "values_digest": "b1a332eefc686a4f4c309337a1570dd6da3d17852490abb4b23296bf99c6640b",
-      "rendered_digest": "d506c23a8534049e1773e9e4a613070289b6163708bf41fedd90aa90ea36c465",
-      "ast_digest": "f378ae262baafdb4672c0a7194033bfb996d5f4be6c321edbc028619cc2b9b23"
+      "values_digest": "9869b50ce26c3107ef9d7ab53c26bb3ca4f8ed8b9f407e8bba5e4be6e99c2b09",
+      "rendered_digest": "ec12a3d083dea577a0be2196e79aaec0f1bca1fde99069dc49d8cc7b0f50f7c0",
+      "ast_digest": "517dbd276a4b24be7696f370d4c8ff46824bd13d47f1e5489317b08bf5fcb79e"
     }
   },
   "transitions": [
@@ -61,6 +80,34 @@
       "to": "ready",
       "actor": "codex:/root/runtime-authority-sprint",
       "reason": "Advance #210 to ready after typed validation reports initialized gen25 ready=true and all declared prerequisites #191/#201/#203/#208 are live closed."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "published",
+      "actor": "codex:closeout-sweep-closed-merged-v092",
+      "reason": "recovered exact merged PR publication evidence for stale historical projection"
+    },
+    {
+      "sequence": 3,
+      "from": "published",
+      "to": "merge_ready",
+      "actor": "codex:closeout-sweep-closed-merged-v092",
+      "reason": "observed required terminal merge authority for stale historical projection"
+    },
+    {
+      "sequence": 4,
+      "from": "merge_ready",
+      "to": "merged",
+      "actor": "codex:closeout-sweep-closed-merged-v092",
+      "reason": "observed exact PR merged"
+    },
+    {
+      "sequence": 5,
+      "from": "merged",
+      "to": "closed_out",
+      "actor": "codex:closeout-sweep-closed-merged-v092",
+      "reason": "Materialize terminal closeout after exact merged PR #371 historical finish."
     }
   ],
   "audit": [
@@ -252,6 +299,20 @@
       "actor": "codex:/root/runtime-authority-sprint",
       "reason": "Advance #210 to ready after typed validation reports initialized gen25 ready=true and all declared prerequisites #191/#201/#203/#208 are live closed.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 28,
+      "generation": 27,
+      "actor": "codex:closeout-sweep-reconcile-merged",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 29,
+      "generation": 28,
+      "actor": "codex:closeout-sweep-closed-merged-v092",
+      "reason": "Materialize terminal closeout after exact merged PR #371 historical finish.",
+      "operation": "materialize_derived_terminal"
     }
   ]
 }
