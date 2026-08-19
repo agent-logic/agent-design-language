@@ -80,11 +80,11 @@ Make .adl local-only while preserving every local file and relocating tracked wo
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
