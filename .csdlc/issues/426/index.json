@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "4997d7deed63e49f9f51627e90720c043a2c0f87bdfad9170fdc9d7d3870b70e",
   "phase": "implemented",
-  "generation": 14,
-  "digest": "adf61610404788548d5c867537521bde7901fdabb66021543a111246fa692166",
+  "generation": 15,
+  "digest": "533d94f3ee160c2e99be540ac87f2fbd786dcffcd6ef8c605c208e06dbe84e95",
   "branch": "codex/426-linux-csmctl-service-control",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-426-linux-csmctl-service-control",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8dd2d36606e6e850c915fea0749b6136029bdf2ef840a5dccf2353d12667ad59",
+      "values_digest": "e6617c2919309464b4428805db5ab10ed0c8045f0dd21aa150cf6c65dee9a1b6",
       "rendered_digest": "a3cab901aa5c6ca7abaaf6bb8f4649453639cb83fc583f04f6c53c8c5a23830a",
       "ast_digest": "4a75f069e33d0cf887b1d834c066b5e626d40777d5261cea5e618daff103a140"
     },
     "stp": {
-      "values_digest": "83b29e281e813b92ff23a9255445fed187fda8e1e6ddd5a0b5b68f0012116c7e",
+      "values_digest": "80082470d9d005ffa29eb8a3d3b4343d84f8737fcec165f9b1a1943491144070",
       "rendered_digest": "37ad1d11c4a4f3e579dfce0d0eb7ccecb55e3194778b234146d2f650c6b77d36",
       "ast_digest": "e0c72f42587d3b095d80d0ba18548c92efcf4cda8c89eacc0f7eed4e868301aa"
     },
     "spp": {
-      "values_digest": "c2f50ad5c05ef61d6bdf50060fe37c1d5f917d5df398b9c48bb24487e7bcbb31",
+      "values_digest": "318d308178867e712808090bc98991b7d5f1416a64e048ba9e0938699895b0aa",
       "rendered_digest": "d324a470a3018ee464f77b3132303b3dca91dcd29b52976310e96a73b36e64ae",
       "ast_digest": "b4056cb77d97a4de8060e597d2d804fc7b50fa282679ca654a9ed8d700e30540"
     },
     "vpp": {
-      "values_digest": "8b8a20481538e3d55dc98c0735c0cc7f86f0063ffcdf69828be8f1ac12a87ff9",
+      "values_digest": "5d12c23e7474e510272d729be23c2295779aa8a5ab5054024af4f19b1f1c0606",
       "rendered_digest": "1a9e890be759865a4722d8547a91da307ef00cbbd7a19ee3846b5ec73ef91cc0",
       "ast_digest": "554f1fc2241127f3420794a65270c2d05e0497df2d0c18d2c146b067f2ae75b0"
     },
     "srp": {
-      "values_digest": "0994726bae51b21dd49a5579964277731cc9906b7a2f9c6131851a08777a74f1",
+      "values_digest": "d17e60e155b80cfd6d05deb40a16691f6f1ab519ea9cf70b889736281312b095",
       "rendered_digest": "97d1c04b74ceb1498b7d483962f7680dcfcc31c603d72016a8d3301e9aaddbd4",
       "ast_digest": "4b782840962021493eb6879319b80860d96d5450dc24c900462809920b1730fa"
     },
     "sor": {
-      "values_digest": "cd393df0f98772ed4bf2f0d86e2d67bf7fb8e6c8bb8ac3ffa4a177ab2a332766",
+      "values_digest": "4c38ba8c14f94ce2bcf4af66b0c0269fb151503bbf3a8857e966eea713076ef4",
       "rendered_digest": "9aa9bf1fd6f66e6e2e03f5595bc23065d6f67553504379f0ef49044451f8e5aa",
       "ast_digest": "f093c0d325f48b11a9eb631c9956ca7373f8e642669d3072a6519c3b21d9e35c"
     }
@@ -231,6 +231,13 @@
       "actor": "codex:/root",
       "reason": "Final exact-head review found start could suppress a refused stop and overwrite ownership; propagate refusal and prove a TERM-resistant owned supervisor cannot be replaced.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "Synchronize all six card identities with the standards-compliant live issue title.",
+      "operation": "{\"live_issue_evidence\":{\"body_digest\":\"sha256:3cb48dc0c8f3dcf1efffd42d33db4d5615c4a4ff711a2ebfc0ef4c70ed01a7b6\",\"title\":\"[v0.92][runtime-v3][20.c1] Add Linux service control to CSMctl\",\"url\":\"https://github.com/agent-logic/agent-design-language/issues/426\"},\"new_slug\":\"linux-csmctl-service-control\",\"new_title\":\"[v0.92][runtime-v3][20.c1] Add Linux service control to CSMctl\",\"operation\":\"correct_identity_title_slug_after_decomposition\",\"previous_slug\":\"linux-csmctl-service-control\",\"previous_title\":\"Add Linux service control to CSMctl\"}"
     }
   ]
 }
