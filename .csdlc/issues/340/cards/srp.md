@@ -12,7 +12,10 @@ Status: draft
 
 ## Scope
 
-
+Exact clean head 43286fbcb4e525ad2ff0c02e57ded338d033e1e1 after typed recovery projection.
+Product/source/test workflow content remains at reviewed conflict-resolution content from 15240578ff541ca3220513adfd23ed1cbb649178 plus typed lifecycle metadata-only commits.
+Final conflict resolution for .github/workflows/ci.yaml and adl/tools/test_ci_runtime_contracts.sh, including standard runner enforcement and optional linker preservation.
+#340 HTML Observatory / CSMctl product behavior and bounded learner test-harness fixes retained; no #341/#343/Unity/AWS/provider/#84/#122/#251 scope.
 
 ## Prompts
 
@@ -32,12 +35,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Review was scoped to the final conflict-resolution delta and retained #340 product/test surfaces; no #341, #343, Unity, AWS/public hosting, provider credential, #84, #122, or #251 scope was claimed.
+- GitHub CI remains the authoritative integration proof for the published PR head.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:43286fbcb4e525ad2ff0c02e57ded338d033e1e1:e1e0111b48531fd067d4800018290469f295a379594e54e94e2fdc73e8184284")
 
-Reviewer: None
+Reviewer: Some("issue340_final_conflict_review")
 
-Result: pre_review
+Result: pass

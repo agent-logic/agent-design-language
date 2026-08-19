@@ -4,13 +4,39 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "8abc247d0a5d650da01bc1639900bba9c3c40370738e752cb2074ddd851f1815",
-  "phase": "implemented",
-  "generation": 37,
-  "digest": "c5176dc7582709d6ef77ee12c5fe2d42251f5b7dca793646759ac70d16448eee",
+  "phase": "reviewed",
+  "generation": 38,
+  "digest": "7fe7c51d9bafd57f55003aade7b113590e896939c74568312ca55e6e5b1eaf3e",
   "branch": "codex/340-html-observatory-runtime-restart-integration",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-340-html-observatory-runtime-restart-integration",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "issue340_final_conflict_review",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:43286fbcb4e525ad2ff0c02e57ded338d033e1e1:e1e0111b48531fd067d4800018290469f295a379594e54e94e2fdc73e8184284",
+    "scope": [
+      "Exact clean head 43286fbcb4e525ad2ff0c02e57ded338d033e1e1 after typed recovery projection.",
+      "Product/source/test workflow content remains at reviewed conflict-resolution content from 15240578ff541ca3220513adfd23ed1cbb649178 plus typed lifecycle metadata-only commits.",
+      "Final conflict resolution for .github/workflows/ci.yaml and adl/tools/test_ci_runtime_contracts.sh, including standard runner enforcement and optional linker preservation.",
+      "#340 HTML Observatory / CSMctl product behavior and bounded learner test-harness fixes retained; no #341/#343/Unity/AWS/provider/#84/#122/#251 scope."
+    ]
+  },
+  "review": {
+    "reviewer": "issue340_final_conflict_review",
+    "scope": [
+      "Exact clean head 43286fbcb4e525ad2ff0c02e57ded338d033e1e1 after typed recovery projection.",
+      "Product/source/test workflow content remains at reviewed conflict-resolution content from 15240578ff541ca3220513adfd23ed1cbb649178 plus typed lifecycle metadata-only commits.",
+      "Final conflict resolution for .github/workflows/ci.yaml and adl/tools/test_ci_runtime_contracts.sh, including standard runner enforcement and optional linker preservation.",
+      "#340 HTML Observatory / CSMctl product behavior and bounded learner test-harness fixes retained; no #341/#343/Unity/AWS/provider/#84/#122/#251 scope."
+    ],
+    "reviewed_revision": "git-blake3:43286fbcb4e525ad2ff0c02e57ded338d033e1e1:e1e0111b48531fd067d4800018290469f295a379594e54e94e2fdc73e8184284",
+    "findings": [],
+    "residual_risks": [
+      "Review was scoped to the final conflict-resolution delta and retained #340 product/test surfaces; no #341, #343, Unity, AWS/public hosting, provider credential, #84, #122, or #251 scope was claimed.",
+      "GitHub CI remains the authoritative integration proof for the published PR head."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +51,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "dcce00495b3e802661d3668e55879e62c170a04dbd25b90b019abd34fa944066",
+      "values_digest": "2e4074e8f258268a5af467473c7983715db0aea31590b37ef8c732e2e6c495d8",
       "rendered_digest": "e68242eb9bbe9ef94376f6bcc73e6a402a30b750e374fd44ad2a10c1f64de1d7",
       "ast_digest": "4880fadf87cf773585e07d456e5dbd11a1ec596ac7646ae36f2ce94c09a2caa2"
     },
     "stp": {
-      "values_digest": "0db0c546ec7ec8b9eec9b8c75373fa5bc8423e4b04271a6d9a402eabe414094f",
+      "values_digest": "3feffa1f838077192c475555cec80ff49afb3eb8ff310fa3fc4e93c04ca3974d",
       "rendered_digest": "3f94f447d3f0c52feafda63615f0140ef655286ccbdb3fa85163a50ec8e142da",
       "ast_digest": "7a88f55764720014ad1c151a4eedad3e71624b578e52d9fbc2c098ddd4a3173c"
     },
     "spp": {
-      "values_digest": "fc1f4561794ca0ec525ed02afd77ef04b025a35f878ef7f3c6f3710c812339b8",
+      "values_digest": "6a610595a8cce3ad0f24e48b45b825e19bea9c5ed366cff9dae68d00531054f0",
       "rendered_digest": "04ae1a1c6abf369d12f379a3913646c64ac39b790f88c71ba1120b3d749bd517",
       "ast_digest": "ce6d867b2ee2b0fee927916db7f8feec1c4a7c1d1c1a62d3d9dfa679478aab60"
     },
     "vpp": {
-      "values_digest": "6d2ed31b860efc0410c951d6f6eea1dba7f003a6afa17a515bf383e03e6f0303",
+      "values_digest": "2df9ab5fc42b8a0f5bdd260ddf49c2b1e1292658ce64eb947ef1cef688b0f435",
       "rendered_digest": "df1a9f32b2ef6ac3388328c6892ce316a924427db54cae87d6837231e01602fc",
       "ast_digest": "120fa996e5aaefe19914a509024f66e1b209c4d0a4ecc01caf1ab4cd64321f64"
     },
     "srp": {
-      "values_digest": "7a921b79fa0eee38109b810f7f0fbdb4500a0aec96817bb99e077710aa649070",
-      "rendered_digest": "f1f6ff292fd62b83bf9f75d91f5d6211c7b2f6341ba26a949b41cd7e93077ca7",
-      "ast_digest": "fd174d614c5b9d57ae476912b062c7a85c68c0dd93a7f9995e509a6513a4c1fd"
+      "values_digest": "1d02444a11f7f8136317433cdd3193445ab750595870a3b3b2f08b649e1ff2a0",
+      "rendered_digest": "bcf7ae50c24cc2ac8459eafa49f86dcd48520fa1ace83e05ee780527b8e917e3",
+      "ast_digest": "0003bc585452fa8cde60dcc6ec56228c187c90e81721d4bf1638620b33b2f2d1"
     },
     "sor": {
-      "values_digest": "a5a9c2e98969eee658de80a5be0af87165b8bc983a149d6115766482db752845",
+      "values_digest": "b54224e08f48a01afc658fe9584001572b240472398cb2be8268047eaecf656e",
       "rendered_digest": "2e533ada20c5a697d79d4db285e50bb9f121d9303df87bbb43abad8a1d98a3e2",
       "ast_digest": "6964b187950ea374f23e342a4c9226342b75880304793e96ed26b3742aa63570"
     }
@@ -167,6 +193,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover #340 reviewed state because the recorded non-substantive proof used a custom policy string that made csdlc-publish reject with review_stale; re-record review using assignment-exact evidence and the built-in metadata-only publication verifier."
+    },
+    {
+      "sequence": 17,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -519,6 +552,20 @@
       "actor": "codex:/root",
       "reason": "Recover #340 reviewed state because the recorded non-substantive proof used a custom policy string that made csdlc-publish reject with review_stale; re-record review using assignment-exact evidence and the built-in metadata-only publication verifier.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 51,
+      "generation": 37,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 52,
+      "generation": 38,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
