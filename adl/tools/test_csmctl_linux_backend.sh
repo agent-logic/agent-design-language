@@ -9,7 +9,11 @@ SCRATCH=$(mktemp -d "$ROOT/.adl/csmctl-linux-test.XXXXXX")
 cleanup() {
   if [[ -f "$SCRATCH/state/supervisor.pid" ]]; then
     read -r pid _ < "$SCRATCH/state/supervisor.pid" || true
-    [[ "$pid" =~ ^[0-9]+$ ]] && kill -TERM "$pid" 2>/dev/null || true
+    [[ "$pid" =~ ^[0-9]+$ ]] && kill -KILL "$pid" 2>/dev/null || true
+  fi
+  if [[ -f "$SCRATCH/state/kernel.pid" ]]; then
+    kernel_pid=$(tr -d '[:space:]' < "$SCRATCH/state/kernel.pid")
+    [[ "$kernel_pid" =~ ^[0-9]+$ ]] && kill -KILL "$kernel_pid" 2>/dev/null || true
   fi
   if [[ "${ADL_CSM_TEST_KEEP_SCRATCH:-0}" == "1" ]]; then
     printf 'retained scratch: %s\n' "$SCRATCH" >&2
@@ -43,7 +47,11 @@ printf '%s' "$code"
 SH
 cat > "$SCRATCH/bin/kernel" <<'SH'
 #!/usr/bin/env bash
-trap 'exit 0' TERM INT
+if [[ "${ADL_CSM_TEST_KERNEL_IGNORE_TERM:-0}" == "1" ]]; then
+  trap '' TERM INT
+else
+  trap 'exit 0' TERM INT
+fi
 while true; do sleep 1; done
 SH
 cat > "$SCRATCH/bin/vector" <<'SH'
@@ -150,6 +158,21 @@ read -r restarted_pid _ < "$SCRATCH/state/supervisor.pid"
 stop_output=$("${common[@]}" "$ROOT/start_CSM.sh" stop)
 [[ "$stop_output" == *"status=stopped"* ]]
 [[ ! -e "$SCRATCH/state/supervisor.pid" ]]
+
+printf '%s\n' 'ADL_CSM_TEST_KERNEL_IGNORE_TERM=1' >> "$SCRATCH/service/runtime.env"
+"${common[@]}" "$ROOT/CSMctl" start >/dev/null
+timeout_supervisor_record=$(<"$SCRATCH/state/supervisor.pid")
+if "${common[@]}" "$ROOT/CSMctl" stop >"$SCRATCH/timeout-stop.out" 2>&1; then
+  echo "TERM-resistant Linux supervisor unexpectedly stopped" >&2
+  exit 1
+fi
+grep -F 'linux_supervisor_did_not_stop' "$SCRATCH/timeout-stop.out" >/dev/null
+[[ "$(<"$SCRATCH/state/supervisor.pid")" == "$timeout_supervisor_record" ]]
+read -r timeout_supervisor_pid _ <<<"$timeout_supervisor_record"
+kill -KILL "$timeout_supervisor_pid" 2>/dev/null || true
+timeout_kernel_pid=$(tr -d '[:space:]' < "$SCRATCH/state/kernel.pid")
+kill -KILL "$timeout_kernel_pid" 2>/dev/null || true
+rm -f "$SCRATCH/state/supervisor.pid" "$SCRATCH/state/kernel.pid"
 fi
 
 : > "$SCRATCH/launchctl.log"
@@ -174,4 +197,8 @@ if "${common[@]}" "$ROOT/CSMctl" observatory status >"$SCRATCH/observatory.out" 
 fi
 grep -F 'observatory_control_not_supported_on_Linux' "$SCRATCH/observatory.out" >/dev/null
 
-echo "PASS: CSMctl Linux backend lifecycle and platform routing"
+if [[ "$(uname -s)" == "Linux" ]]; then
+  echo "PASS: CSMctl Linux backend lifecycle, timeout refusal, and platform routing"
+else
+  echo "SKIP: Linux lifecycle requires Linux; PASS: Darwin and unsupported-platform routing"
+fi

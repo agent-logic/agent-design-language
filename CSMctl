@@ -318,6 +318,7 @@ graceful_shutdown() {
     wait "\$kernel_pid" || true
   fi
   if [[ -n "\$lease_pid" ]] && kill -0 "\$lease_pid" 2>/dev/null; then
+    kill -TERM "\$lease_pid" 2>/dev/null || true
     wait "\$lease_pid" || true
   fi
   rm -f "$PID_FILE" "$LEASE_PID_FILE" "$LEASE_INFO_FILE"
@@ -645,7 +646,14 @@ ensure_observatory_config() {
 
 pid_is_alive() {
   local pid="$1"
-  [[ "$pid" =~ ^[0-9]+$ ]] && kill -0 "$pid" 2>/dev/null
+  [[ "$pid" =~ ^[0-9]+$ ]] && kill -0 "$pid" 2>/dev/null || return 1
+  if [[ "$HOST_OS" == "Linux" && -r "/proc/$pid/stat" ]]; then
+    local stat rest state
+    stat="$(<"/proc/$pid/stat")"
+    rest="${stat##*) }"
+    state="${rest%% *}"
+    [[ "$state" != "Z" ]] || return 1
+  fi
 }
 
 linux_pid_matches() {

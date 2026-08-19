@@ -16,3 +16,5 @@
 {"sequence":16,"generation":11,"actor":"codex:/root","reason":"Final exact-head review found production test-mode ownership overrides could authorize signaling; remove all synthetic ownership and signal fallbacks from CSMctl.","operation":"recover_review"}
 {"sequence":17,"generation":11,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":18,"generation":12,"actor":"codex:/root","reason":"Final exact-head review found test mode could shorten stop and discard a live supervisor identity; make timeout refusal unconditional.","operation":"recover_review"}
+{"sequence":19,"generation":12,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":20,"generation":13,"actor":"codex:/root","reason":"Final exact-head review found non-Linux proof ambiguity and missing stop-timeout regression; split the skip signal, prove timeout refusal on native Linux, and terminate the runner lease during graceful shutdown.","operation":"recover_review"}
