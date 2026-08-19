@@ -8,10 +8,14 @@ done
 SCRATCH=$(mktemp -d "$ROOT/.adl/csmctl-linux-test.XXXXXX")
 cleanup() {
   if [[ -f "$SCRATCH/state/supervisor.pid" ]]; then
-    pid=$(tr -d '[:space:]' < "$SCRATCH/state/supervisor.pid")
+    read -r pid _ < "$SCRATCH/state/supervisor.pid" || true
     [[ "$pid" =~ ^[0-9]+$ ]] && kill -TERM "$pid" 2>/dev/null || true
   fi
-  rm -rf "$SCRATCH"
+  if [[ "${ADL_CSM_TEST_KEEP_SCRATCH:-0}" == "1" ]]; then
+    printf 'retained scratch: %s\n' "$SCRATCH" >&2
+  else
+    rm -rf "$SCRATCH"
+  fi
 }
 trap cleanup EXIT
 
@@ -70,6 +74,7 @@ common=(
   "PATH=$SCRATCH/bin:$PATH"
   ADL_CSM_TEST_MODE=1
   ADL_CSM_TEST_OS=Linux
+  ADL_CSM_TEST_ALLOW_EMULATED_EXE=1
   "${process_match_env[@]}"
   "ADL_CSM_REPO_ROOT=$ROOT"
   "ADL_CSM_SERVICE_DIR=$SCRATCH/service"
@@ -95,7 +100,8 @@ common=(
 start_output=$("${common[@]}" "$ROOT/CSMctl" start)
 [[ "$start_output" == *"backend=linux-process host_os=Linux"* ]]
 [[ "$start_output" == *"status=pass"* ]]
-supervisor_pid=$(tr -d '[:space:]' < "$SCRATCH/state/supervisor.pid")
+supervisor_record=$(<"$SCRATCH/state/supervisor.pid")
+read -r supervisor_pid supervisor_start_time <<<"$supervisor_record"
 kill -0 "$supervisor_pid"
 if [[ -r "/proc/$supervisor_pid/cmdline" ]]; then
   tr '\0' '\n' < "/proc/$supervisor_pid/cmdline" | grep -Fx "$SCRATCH/generated/runner.sh" >/dev/null
@@ -106,13 +112,38 @@ status_output=$("${common[@]}" "$ROOT/start_CSM.sh" status)
 [[ "$status_output" == *"status=pass"* ]]
 
 foreign_pid=$$
-printf '%s\n' "$foreign_pid" > "$SCRATCH/state/supervisor.pid"
-if "${common[@]}" ADL_CSM_TEST_PROCESS_MATCH=0 "$ROOT/CSMctl" stop >"$SCRATCH/foreign.out" 2>&1; then
+foreign_start_time=1
+foreign_match_override=(ADL_CSM_TEST_PROCESS_MATCH=0)
+if [[ -r "/proc/$foreign_pid/stat" ]]; then
+  foreign_start_time=$(python3 - "$foreign_pid" <<'PY'
+import sys
+stat = open(f"/proc/{sys.argv[1]}/stat", encoding="utf-8").read()
+print(stat[stat.rfind(")") + 2:].split()[19])
+PY
+)
+  foreign_match_override=()
+fi
+printf '%s %s\n' "$foreign_pid" "$foreign_start_time" > "$SCRATCH/state/supervisor.pid"
+if "${common[@]}" "${foreign_match_override[@]}" "$ROOT/CSMctl" stop >"$SCRATCH/foreign.out" 2>&1; then
   echo "foreign Linux PID ownership unexpectedly passed" >&2
   exit 1
 fi
 grep -F 'linux_supervisor_pid_not_owned' "$SCRATCH/foreign.out" >/dev/null
-printf '%s\n' "$supervisor_pid" > "$SCRATCH/state/supervisor.pid"
+if [[ -r "/proc/$supervisor_pid/stat" ]]; then
+  printf '%s %s\n' "$supervisor_pid" "$((supervisor_start_time + 1))" > "$SCRATCH/state/supervisor.pid"
+  if "${common[@]}" "$ROOT/CSMctl" stop >"$SCRATCH/stale.out" 2>&1; then
+    echo "stale Linux process identity unexpectedly passed" >&2
+    exit 1
+  fi
+  grep -F 'linux_supervisor_pid_not_owned' "$SCRATCH/stale.out" >/dev/null
+fi
+printf '%s\n' "$supervisor_record" > "$SCRATCH/state/supervisor.pid"
+
+restart_output=$("${common[@]}" "$ROOT/start_CSM.sh" restart)
+[[ "$restart_output" == *"status=stopped"* ]]
+[[ "$restart_output" == *"status=pass"* ]]
+read -r restarted_pid _ < "$SCRATCH/state/supervisor.pid"
+[[ "$restarted_pid" != "$supervisor_pid" ]]
 
 stop_output=$("${common[@]}" "$ROOT/start_CSM.sh" stop)
 [[ "$stop_output" == *"status=stopped"* ]]

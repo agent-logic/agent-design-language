@@ -54,7 +54,7 @@ Implemented Linux process service control for CSMctl while preserving Darwin lau
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

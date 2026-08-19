@@ -7,13 +7,13 @@
     "title": "Add Linux service control to CSMctl",
     "slug": "linux-csmctl-service-control",
     "version": "v0.92",
-    "generation": 5
+    "generation": 8
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact changed launcher, focused tests, and Linux runbook sections.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

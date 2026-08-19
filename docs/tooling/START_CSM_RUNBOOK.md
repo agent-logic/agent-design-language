@@ -14,7 +14,8 @@ The intended operator behavior is deliberately simple:
 `./CSMctl start` starts only the Runtime service if it is absent and probes the
 documented Runtime v3 `/v1` endpoints. On macOS, launchd owns the generated
 runner. On Linux, `CSMctl` owns a detached runner with an isolated supervisor
-PID file and verifies `/proc/<pid>/cmdline` before it signals that process.
+  PID file and verifies its `/proc` command line and start time before signaling
+  it through a Linux pidfd.
 
 `./CSMctl observatory open` starts only the local HTML Observatory static server
 and opens it with the Runtime API base from `CSMctl.observatory.conf`. That
@@ -158,11 +159,15 @@ the mode-0600 `runtime.env` file.
 ```sh
 ./start_CSM.sh start
 ./start_CSM.sh status
+./start_CSM.sh restart
 ./start_CSM.sh stop
 ```
 
-Linux refuses a supervisor PID unless `/proc/<pid>/cmdline` contains the exact
-generated runner path. Unsupported operating systems fail before lifecycle
+Linux refuses a supervisor PID unless `/proc/<pid>/cmdline` identifies the
+exact generated runner and `/proc/<pid>/stat` retains the recorded start time.
+It opens a pidfd before the final identity check and sends TERM through that
+stable process handle, preventing PID reuse between validation and signaling.
+Unsupported operating systems fail before lifecycle
 control. The local HTML Observatory backend remains macOS/launchd-only; point a
 macOS Observatory at the Linux Runtime with
 `ADL_CSM_OBSERVATORY_RUNTIME_BASE`.

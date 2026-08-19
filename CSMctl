@@ -120,13 +120,14 @@ esac
 
 usage() {
   cat <<'USAGE'
-Usage: ./CSMctl [open|start|up|status|stop|logs|urls|rotate-continuity-state]
+Usage: ./CSMctl [open|start|up|restart|status|stop|logs|urls|rotate-continuity-state]
        ./CSMctl observatory [start|status|stop|open|urls|logs]
 
 Commands:
   open    Local demo convenience: start Runtime, start Observatory, and open it.
   start   Start the real Runtime v3 service if absent, probe it, and print URLs.
   up      Same as start.
+  restart Gracefully stop the owned Runtime service, then start it again.
   status  Probe the Runtime v3 service without starting anything.
   stop    Gracefully stop the owned Runtime service and wait for it to exit.
   logs    Show recent service logs from this script.
@@ -650,12 +651,78 @@ pid_is_alive() {
 linux_pid_matches() {
   local pid="$1"
   local expected="$2"
+  local expected_start_time="${3:-}"
   if [[ "${ADL_CSM_TEST_MODE:-0}" == "1" && -n "${ADL_CSM_TEST_PROCESS_MATCH:-}" ]]; then
-    [[ "$ADL_CSM_TEST_PROCESS_MATCH" == "1" ]]
+    [[ "$ADL_CSM_TEST_PROCESS_MATCH" == "1" ]] || return 1
+    printf '1'
     return
   fi
-  [[ "$HOST_OS" == "Linux" && "$pid" =~ ^[0-9]+$ && -r "/proc/$pid/cmdline" ]] || return 1
-  tr '\0' '\n' < "/proc/$pid/cmdline" | grep -Fx -- "$expected" >/dev/null
+  [[ "$HOST_OS" == "Linux" && "$pid" =~ ^[0-9]+$ ]] || return 1
+  python3 - "$pid" "$expected" "$expected_start_time" <<'PY'
+import os
+import sys
+
+pid, expected, expected_start = sys.argv[1:]
+try:
+    stat = open(f"/proc/{pid}/stat", encoding="utf-8").read()
+    start_time = stat[stat.rfind(")") + 2 :].split()[19]
+    argv = open(f"/proc/{pid}/cmdline", "rb").read().rstrip(b"\0").split(b"\0")
+    exe = os.path.realpath(f"/proc/{pid}/exe")
+except (FileNotFoundError, IndexError, OSError):
+    raise SystemExit(1)
+if expected_start and start_time != expected_start:
+    raise SystemExit(1)
+emulated = os.environ.get("ADL_CSM_TEST_MODE") == "1" and os.environ.get("ADL_CSM_TEST_ALLOW_EMULATED_EXE") == "1"
+if emulated:
+    valid_argv = bool(argv) and os.fsdecode(argv[-1]) == expected and any(os.path.basename(os.fsdecode(arg)) in {"bash", "sh"} for arg in argv[:-1])
+else:
+    valid_argv = len(argv) >= 2 and os.path.basename(exe) in {"bash", "sh"} and os.fsdecode(argv[1]) == expected
+if not valid_argv:
+    raise SystemExit(1)
+print(start_time, end="")
+PY
+}
+
+linux_signal_owned() {
+  local pid="$1"
+  local expected="$2"
+  local expected_start_time="$3"
+  if [[ "${ADL_CSM_TEST_MODE:-0}" == "1" && -n "${ADL_CSM_TEST_PROCESS_MATCH:-}" ]]; then
+    linux_pid_matches "$pid" "$expected" "$expected_start_time" >/dev/null || return 1
+    kill -TERM "$pid"
+    return
+  fi
+  if [[ "${ADL_CSM_TEST_MODE:-0}" == "1" && "${ADL_CSM_TEST_ALLOW_EMULATED_EXE:-0}" == "1" ]]; then
+    linux_pid_matches "$pid" "$expected" "$expected_start_time" >/dev/null || return 1
+    kill -TERM "$pid"
+    return
+  fi
+  python3 - "$pid" "$expected" "$expected_start_time" <<'PY'
+import os
+import signal
+import sys
+
+pid_text, expected, expected_start = sys.argv[1:]
+pid = int(pid_text)
+pidfd = os.pidfd_open(pid)
+try:
+    stat = open(f"/proc/{pid}/stat", encoding="utf-8").read()
+    start_time = stat[stat.rfind(")") + 2 :].split()[19]
+    argv = open(f"/proc/{pid}/cmdline", "rb").read().rstrip(b"\0").split(b"\0")
+    exe = os.path.realpath(f"/proc/{pid}/exe")
+    if start_time != expected_start:
+        raise SystemExit(1)
+    emulated = os.environ.get("ADL_CSM_TEST_MODE") == "1" and os.environ.get("ADL_CSM_TEST_ALLOW_EMULATED_EXE") == "1"
+    if emulated:
+        valid_argv = bool(argv) and os.fsdecode(argv[-1]) == expected and any(os.path.basename(os.fsdecode(arg)) in {"bash", "sh"} for arg in argv[:-1])
+    else:
+        valid_argv = len(argv) >= 2 and os.path.basename(exe) in {"bash", "sh"} and os.fsdecode(argv[1]) == expected
+    if not valid_argv:
+        raise SystemExit(1)
+    signal.pidfd_send_signal(pidfd, signal.SIGTERM)
+finally:
+    os.close(pidfd)
+PY
 }
 
 recorded_pid() {
@@ -741,15 +808,16 @@ launch_service_loaded() {
       launchctl print "$LAUNCH_DOMAIN/$LAUNCH_LABEL" >/dev/null 2>&1
       ;;
     linux-process)
-      local pid
+      local pid start_time
       [[ -f "$SUPERVISOR_PID_FILE" ]] || return 1
-      pid="$(tr -d '[:space:]' < "$SUPERVISOR_PID_FILE")"
-      [[ "$pid" =~ ^[0-9]+$ ]] || fail "invalid_linux_supervisor_pid_file:$SUPERVISOR_PID_FILE"
+      read -r pid start_time < "$SUPERVISOR_PID_FILE" || true
+      [[ "$pid" =~ ^[0-9]+$ && "$start_time" =~ ^[0-9]+$ ]] \
+        || fail "invalid_linux_supervisor_pid_file:$SUPERVISOR_PID_FILE"
       if ! pid_is_alive "$pid"; then
         rm -f "$SUPERVISOR_PID_FILE"
         return 1
       fi
-      linux_pid_matches "$pid" "$RUNNER_FILE" \
+      linux_pid_matches "$pid" "$RUNNER_FILE" "$start_time" >/dev/null \
         || fail "linux_supervisor_pid_not_owned pid=$pid"
       ;;
   esac
@@ -764,7 +832,7 @@ launch_service_pid() {
       ;;
     linux-process)
       launch_service_loaded || return 1
-      tr -d '[:space:]' < "$SUPERVISOR_PID_FILE"
+      awk '{print $1}' "$SUPERVISOR_PID_FILE"
       ;;
   esac
 }
@@ -785,8 +853,11 @@ launch_service_start() {
       mkdir -p "$STATE_DIR"
       nohup "$RUNNER_FILE" >> "$LOG_FILE" 2>&1 < /dev/null &
       local supervisor_pid=$!
-      printf '%s\n' "$supervisor_pid" > "$SUPERVISOR_PID_FILE"
       sleep 0.05
+      local supervisor_start_time
+      supervisor_start_time="$(linux_pid_matches "$supervisor_pid" "$RUNNER_FILE")" \
+        || fail "linux_supervisor_identity_unavailable pid=$supervisor_pid"
+      printf '%s %s\n' "$supervisor_pid" "$supervisor_start_time" > "$SUPERVISOR_PID_FILE"
       launch_service_loaded \
         || fail "linux_supervisor_failed_to_start log=$LOG_FILE"
       ;;
@@ -800,11 +871,12 @@ launch_service_stop() {
       launchctl bootout "$LAUNCH_DOMAIN/$LAUNCH_LABEL"
       ;;
     linux-process)
-      local pid
-      pid="$(tr -d '[:space:]' < "$SUPERVISOR_PID_FILE")"
-      linux_pid_matches "$pid" "$RUNNER_FILE" \
+      local pid start_time
+      read -r pid start_time < "$SUPERVISOR_PID_FILE" || true
+      linux_pid_matches "$pid" "$RUNNER_FILE" "$start_time" >/dev/null \
         || fail "linux_supervisor_pid_not_owned pid=$pid"
-      kill -TERM "$pid"
+      linux_signal_owned "$pid" "$RUNNER_FILE" "$start_time" \
+        || fail "linux_supervisor_pid_not_owned pid=$pid"
       local stop_attempts=80
       [[ "${ADL_CSM_TEST_MODE:-0}" == "1" ]] && stop_attempts=8
       for _ in $(seq 1 "$stop_attempts"); do
@@ -1060,6 +1132,11 @@ stop_cmd() {
   fail "runtime_stop_not_confirmed ready=$LAST_READY_CODE observatory=$LAST_OBSERVATORY_CODE health=$LAST_HEALTH_CODE log=$LOG_FILE"
 }
 
+restart_cmd() {
+  stop_cmd
+  up_cmd
+}
+
 logs_cmd() {
   if [[ -f "$LOG_FILE" ]]; then
     tail -80 "$LOG_FILE"
@@ -1128,6 +1205,7 @@ case "${1:-up}" in
   observatory) shift; observatory_cmd "$@" ;;
   start) up_cmd ;;
   up) up_cmd ;;
+  restart) restart_cmd ;;
   status) status_cmd ;;
   stop) stop_cmd ;;
   logs) logs_cmd ;;
