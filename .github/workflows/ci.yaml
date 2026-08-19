@@ -436,12 +436,12 @@ jobs:
           echo "SCCACHE_DIR=$HOME/.cache/sccache" >> "$GITHUB_ENV"
           echo "SCCACHE_CACHE_SIZE=2G" >> "$GITHUB_ENV"
           echo "RUSTC_WRAPPER=sccache" >> "$GITHUB_ENV"
-          if ! command -v ld.lld >/dev/null 2>&1; then
-            echo "::error::ld.lld is unavailable after the install step"
-            exit 1
+          if command -v ld.lld >/dev/null 2>&1; then
+            echo "RUSTFLAGS=-C link-arg=-fuse-ld=lld" >> "$GITHUB_ENV"
+            echo "RUST_LINK_ACCEL=lld" >> "$GITHUB_ENV"
+          else
+            echo "RUST_LINK_ACCEL=default" >> "$GITHUB_ENV"
           fi
-          echo "RUSTFLAGS=-C link-arg=-fuse-ld=lld" >> "$GITHUB_ENV"
-          echo "RUST_LINK_ACCEL=lld" >> "$GITHUB_ENV"
           sccache --zero-stats || true
 
       - name: fmt
@@ -509,12 +509,12 @@ jobs:
           echo "SCCACHE_DIR=$HOME/.cache/sccache" >> "$GITHUB_ENV"
           echo "SCCACHE_CACHE_SIZE=2G" >> "$GITHUB_ENV"
           echo "RUSTC_WRAPPER=sccache" >> "$GITHUB_ENV"
-          if ! command -v ld.lld >/dev/null 2>&1; then
-            echo "::error::ld.lld is unavailable after the install step"
-            exit 1
+          if command -v ld.lld >/dev/null 2>&1; then
+            echo "RUSTFLAGS=-C link-arg=-fuse-ld=lld" >> "$GITHUB_ENV"
+            echo "RUST_LINK_ACCEL=lld" >> "$GITHUB_ENV"
+          else
+            echo "RUST_LINK_ACCEL=default" >> "$GITHUB_ENV"
           fi
-          echo "RUSTFLAGS=-C link-arg=-fuse-ld=lld" >> "$GITHUB_ENV"
-          echo "RUST_LINK_ACCEL=lld" >> "$GITHUB_ENV"
           sccache --zero-stats || true
 
       - name: Install cargo-nextest

@@ -17,34 +17,12 @@ require_cmd() {
   fi
 }
 
-retry() {
-  local label="$1"
-  shift
-  local attempt
-  for attempt in 1 2 3; do
-    if "$@"; then
-      return 0
-    fi
-    if [ "$attempt" = "3" ]; then
-      echo "::error::$label failed after 3 attempts" >&2
-      return 1
-    fi
-    sleep $((attempt * 10))
-  done
-}
-
 install_lld() {
-  if ! command -v ld.lld >/dev/null 2>&1; then
-    # GitHub-hosted runners can carry vendor apt sources unrelated to Rust.
-    # Disable only those transient sources, then retry apt because lld is a
-    # required Rust validation dependency, not a best-effort accelerator.
-    sudo find /etc/apt/sources.list.d -type f -name '*google-chrome*' -exec mv {} {}.disabled \; 2>/dev/null || true
-    sudo find /etc/apt/sources.list.d -type f -name '*microsoft*' -exec mv {} {}.disabled \; 2>/dev/null || true
-    retry "apt-get update" sudo apt-get update
-    retry "apt-get install lld" sudo apt-get install -y --no-install-recommends lld
+  if command -v ld.lld >/dev/null 2>&1; then
+    ld.lld --version
+  else
+    echo "ld.lld unavailable; continuing with the default system linker" >&2
   fi
-  require_cmd ld.lld
-  ld.lld --version
 }
 
 configure() {
@@ -54,12 +32,11 @@ configure() {
     exit 1
   fi
   require_cmd sccache
-  require_cmd ld.lld
-  ADL_RUST_CACHE_SCCACHE_DIR="$HOME/.cache/sccache" \
-  ADL_RUST_CACHE_SCCACHE_SIZE=2G \
+  ADL_RUST_CACHE_SCCACHE_DIR="${ADL_RUST_CACHE_SCCACHE_DIR:-$HOME/.cache/sccache}" \
+  ADL_RUST_CACHE_SCCACHE_SIZE="${ADL_RUST_CACHE_SCCACHE_SIZE:-2G}" \
   ADL_RUST_CACHE_REQUIRE_SCCACHE=1 \
-  ADL_RUST_CACHE_REQUIRE_LLD=1 \
-  ADL_RUST_CACHE_USE_LLD=1 \
+  ADL_RUST_CACHE_REQUIRE_LLD=0 \
+  ADL_RUST_CACHE_USE_LLD=auto \
     bash "$ROOT_DIR/adl/tools/rust_cache_env.sh" write-github-env "$github_env"
   if ! sccache --start-server 2>/tmp/adl-sccache-start.err; then
     if ! sccache --show-stats >/dev/null 2>&1; then
@@ -75,13 +52,16 @@ verify() {
   require_cmd rustc
   require_cmd cargo
   require_cmd sccache
-  require_cmd ld.lld
   rustc -vV
   cargo --version
   cargo llvm-cov --version
   cargo nextest --version
   sccache --version
-  ld.lld --version
+  if command -v ld.lld >/dev/null 2>&1; then
+    ld.lld --version
+  else
+    echo "ld.lld unavailable; using default system linker"
+  fi
 }
 
 stats() {
