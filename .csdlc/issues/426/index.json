@@ -3,13 +3,46 @@
   "issue": 426,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "4997d7deed63e49f9f51627e90720c043a2c0f87bdfad9170fdc9d7d3870b70e",
-  "phase": "implemented",
-  "generation": 22,
-  "digest": "efa4f1941737e9342871b10c9d7ad838843786b7464f2fa68e031cda83e6862f",
+  "phase": "reviewed",
+  "generation": 23,
+  "digest": "4b3d03239489f1f47fd2305850dd45d2d4c44c1109e3ee227b2dce400470297a",
   "branch": "codex/426-linux-csmctl-service-control",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-426-linux-csmctl-service-control",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:c4e69196-919e-47c8-94bb-f35a4d2b238d",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:8b39badfe24b79f588bd8e2385db1df72564bdee:e67b898d5121a9c28e9f3850b00a98e694eacd8989f029c4b57dcf4d71ae0434",
+    "scope": [
+      "CSMctl",
+      "start_CSM.sh",
+      "docs/tooling/START_CSM_RUNBOOK.md",
+      "adl/tools/test_csmctl_linux_backend.sh",
+      ".csdlc/prepared/issues/426/validate_gemini_review.py",
+      ".csdlc/issues/426",
+      ".csdlc/prepared/issues/426",
+      ".csdlc/evidence/426"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:c4e69196-919e-47c8-94bb-f35a4d2b238d",
+    "scope": [
+      "CSMctl",
+      "start_CSM.sh",
+      "docs/tooling/START_CSM_RUNBOOK.md",
+      "adl/tools/test_csmctl_linux_backend.sh",
+      ".csdlc/prepared/issues/426/validate_gemini_review.py",
+      ".csdlc/issues/426",
+      ".csdlc/prepared/issues/426",
+      ".csdlc/evidence/426"
+    ],
+    "reviewed_revision": "git-blake3:8b39badfe24b79f588bd8e2385db1df72564bdee:e67b898d5121a9c28e9f3850b00a98e694eacd8989f029c4b57dcf4d71ae0434",
+    "findings": [],
+    "residual_risks": [
+      "Native x86 Amazon Linux AWS qualification remains issue 268 authority; issue 426 retains native Amazon Linux arm64 semantic proof."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +57,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "947b00d9594597a1ef4cfc11245639ad840740fc9acefafbf2775028fc6ccaee",
+      "values_digest": "a167a428b37db40d697623eab1344309f008b9dd280151bdb0baf708a3c62d50",
       "rendered_digest": "9d1aaf6750f073616d8c9e515df714a594a87870c82dec3ecf07d10bcdf7648e",
       "ast_digest": "eb02de98fd0b5456c4e462e397562bed67dbab7ab8d7afc2e4e5cde0ae7b071a"
     },
     "stp": {
-      "values_digest": "1d08eebbcd295cb94cf20ae0151ae15c262aac2362b6fcbff335a504256e6981",
+      "values_digest": "51b2e83de6f553a34a3c2f234ea9d47fd0b69145553ddf774f0eaf3d5ceecb91",
       "rendered_digest": "37ad1d11c4a4f3e579dfce0d0eb7ccecb55e3194778b234146d2f650c6b77d36",
       "ast_digest": "e0c72f42587d3b095d80d0ba18548c92efcf4cda8c89eacc0f7eed4e868301aa"
     },
     "spp": {
-      "values_digest": "3eba24bcc0e239ff575218547651bd8fe2715f8c8f1eb0f141837727c3cb5290",
+      "values_digest": "b0ac5384a1d9347d12e45be44bd5b5abc8151d097fba0bcbcf427906a32bd487",
       "rendered_digest": "332c5a1346d4999babbb8c7587957bc525b4513da46a1eea3a8c500e71b71700",
       "ast_digest": "585662e00e5268f00ae74001ed7ee80b7592c2dc2adaf7407451a2516e5cc98c"
     },
     "vpp": {
-      "values_digest": "b9ce57e3023126833cb8bdef162c9e30dec34a03a6416211cb6f5b8ae7eaf115",
+      "values_digest": "c04b3e1e04fb568dd4ce27bb3bc19fb754516aeb6a46906d549c058ff86300b2",
       "rendered_digest": "3c295b84350ffe26405d980894b07f08c9b48882e59ad4d658dd7002c5abc1e4",
       "ast_digest": "f7cd0bab2d86fcff67dd89a6c4f75d89032a91197fbfcd201caa50a15e0543b2"
     },
     "srp": {
-      "values_digest": "1421fb958dcaa97ad92d8324665e286004ce8c94313e0b8210b23514ae7d1159",
-      "rendered_digest": "97d1c04b74ceb1498b7d483962f7680dcfcc31c603d72016a8d3301e9aaddbd4",
-      "ast_digest": "4b782840962021493eb6879319b80860d96d5450dc24c900462809920b1730fa"
+      "values_digest": "652c7f16232a3cf0e82d6b65b4fbd7744bf89c51b1f95bbe15a23332658ac12d",
+      "rendered_digest": "ef50f1e602ec9061be587cfe77bda45d875d89371b4eee0c7a8e90935835c423",
+      "ast_digest": "262b462ee2c982b70307730b5853aaaa7a265734e6feb410213467e9c53b6a16"
     },
     "sor": {
-      "values_digest": "f4b3a460a09f9ab0e318e76f360e1bfbb1287728cea068f4ff3cd165683d8e46",
+      "values_digest": "5a601a5204e7fc5104328af112301a50b138fbd4e98ec03cffa2f3effbbdabdd",
       "rendered_digest": "9aa9bf1fd6f66e6e2e03f5595bc23065d6f67553504379f0ef49044451f8e5aa",
       "ast_digest": "f093c0d325f48b11a9eb631c9956ca7373f8e642669d3072a6519c3b21d9e35c"
     }
@@ -75,6 +108,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:c4e69196-919e-47c8-94bb-f35a4d2b238d",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -301,6 +341,20 @@
       "actor": "codex:/root",
       "reason": "Align the required outcome with the existing authority boundary: issue 426 proves native Linux launcher behavior; issue 268 owns native x86 Amazon Linux AWS qualification.",
       "operation": "{\"new_value\":\"start_CSM.sh and CSMctl provide tested start, stop, restart, and status control on native Linux without invoking launchctl, while issue #268 retains authority for the native x86 Amazon Linux AWS qualification.\",\"operation\":\"correct_required_outcome_after_recovery\",\"previous_value\":\"start_CSM.sh and CSMctl provide tested start, stop, restart, and status control on Linux/x86 Amazon Linux hosts without invoking launchctl.\"}"
+    },
+    {
+      "sequence": 33,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 23,
+      "actor": "fresh-session:c4e69196-919e-47c8-94bb-f35a4d2b238d",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
