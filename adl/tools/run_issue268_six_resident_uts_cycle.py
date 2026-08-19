@@ -163,7 +163,7 @@ def main() -> int:
             environment.setdefault("ADL_UTS_LOCAL_TEST_TIMEOUT_SECONDS", "600")
             environment.setdefault("ADL_UTS_LOCAL_NUM_PREDICT", "64")
             environment.setdefault("ADL_UTS_LOCAL_NUM_CTX", "4096")
-            environment.setdefault("ADL_UTS_OLLAMA_KEEP_ALIVE", "30m")
+            environment.setdefault("ADL_UTS_OLLAMA_KEEP_ALIVE", "-1")
             command = [
                 sys.executable,
                 str(args.runner),

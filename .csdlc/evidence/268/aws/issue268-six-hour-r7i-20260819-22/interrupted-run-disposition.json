@@ -1,0 +1,15 @@
+{
+  "additional_provider_attempt_authorized": true,
+  "authoritative_request_fallback": "disabled",
+  "authoritative_request_sha256": "e39566013425cf1f0e7a85dc30a1b3e48031f038cdbb8d752f6a21c31fe29cf9",
+  "cleanup": {
+    "exact_run_instance_state": "terminated",
+    "exact_run_tagged_volume_count": 0
+  },
+  "continuation_authority": "operator_directed_continue_until_complete_or_usd20_ceiling",
+  "disposition": "operator_interrupted_before_qualification_to_correct_residency_policy",
+  "launch_claim_sha256": "dec80054b13e7b29b590e6d117c8bcb688b2e69be3e6c7d9334fa16b504dcdc4",
+  "provider_attempts_observed": 1,
+  "run_id": "issue268-six-hour-r7i-20260819-22",
+  "schema": "adl.issue268.interrupted_run_disposition.v1"
+}
