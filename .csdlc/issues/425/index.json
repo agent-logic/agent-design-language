@@ -4,54 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d98a8d900cde7810150f96c65b587a7763b677cf58610771289dd359b4be5b19",
-  "phase": "published",
-  "generation": 12,
-  "digest": "8f22786658a1e721b4a7e1c26270944928b05a1c11fccdac3346e631db125a7d",
+  "phase": "implemented",
+  "generation": 14,
+  "digest": "f3de0b7c0c89090c4b6b99a18ef7dbcdeae6db038a19e429a597d519cb80611d",
   "branch": "codex/425-recordless-closeout-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-425-recordless-closeout-recovery",
-  "review_assignment": {
-    "reviewer": "fresh-session:132fc8b5-37fa-4838-bd0e-87883a2030dc",
-    "assigned_by": "codex-worker-4",
-    "revision": "git-blake3:880526694714ad6af1a4d32f45ed6e7ba990acca:b61d7799cb053dc0963dbbf6d3a5523a027935551c3a6a34ef533e443030a1ff",
-    "scope": [
-      "csdlc-v2/src/bin/csdlc-finish.rs",
-      "csdlc-v2/src/finish.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/tests/gate_recordless_closeout.rs",
-      ".csdlc/evidence/425-v092-residual-dry-run-result.json",
-      ".csdlc/issues/425"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:132fc8b5-37fa-4838-bd0e-87883a2030dc",
-    "scope": [
-      "csdlc-v2/src/bin/csdlc-finish.rs",
-      "csdlc-v2/src/finish.rs",
-      "csdlc-v2/src/lib.rs",
-      "csdlc-v2/tests/gate_recordless_closeout.rs",
-      ".csdlc/evidence/425-v092-residual-dry-run-result.json",
-      ".csdlc/issues/425"
-    ],
-    "reviewed_revision": "git-blake3:880526694714ad6af1a4d32f45ed6e7ba990acca:b61d7799cb053dc0963dbbf6d3a5523a027935551c3a6a34ef533e443030a1ff",
-    "findings": [],
-    "residual_risks": [
-      "No residual implementation risks identified in scoped exact-head review."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 425,
-    "pull_request": 428,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/428",
-    "base": "main",
-    "head": "codex/425-recordless-closeout-recovery",
-    "revision": "git-blake3:8a68204abb9c5257ef84ad8b6cd90598913d941e:ad6c23687717625fac8ddb80e41c539581485c517fb961cc933689ac9cf952c4",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -65,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4cc54e324c4f46e59865abb61568d0cbc390ae0213c26f8986b577e16c9a2489",
+      "values_digest": "b4c1111425947259c333caac6381a8b94516f01850c6b9bd979c164bdf21fc7d",
       "rendered_digest": "cc83623a3de6c8063b7db5e0c3a0ba3924aa50ac071e49476c34290fc886bc5a",
       "ast_digest": "1dd75a8295155fbe787c7264ab83bd0f5eaf04da00ce64b71f8d06514a89e325"
     },
     "stp": {
-      "values_digest": "021c7a89de2369071b9920621328f147bbf29f325a8e442a058b2534618e445c",
+      "values_digest": "821ae78dd71a2f75cf444e0d31086256a304cda36ed371e13579b7817b4990a8",
       "rendered_digest": "bf04bc821ead770f8bb048a8163d3a4d6d74769d4ffba2ddda54e28f33ab2a84",
       "ast_digest": "44c14d7d86cec8e8c7ae792a5b3d8d6dfc3554f3a150984bc7a5b09ba2930571"
     },
     "spp": {
-      "values_digest": "f07857e3a14f228eb2aa75596bb3afc6b5e536be9f37223877a386038b8466fc",
+      "values_digest": "8f3a6a11bdb19d21ebc4e9bda109d3cde37d6dbfebc72252087e906a9a360097",
       "rendered_digest": "1a6d536268cc7d3ec39c45272b17ff50736ff2f4e09854cb33a29c193e7e3847",
       "ast_digest": "276c05c7408db0cb043143a4df1b240a8277df6e0cbffcc659efe10f2cec7a5b"
     },
     "vpp": {
-      "values_digest": "85d16229e0048f7225320ec6d1478ec054a810fbdc2001a6f84512fe34b58dd7",
+      "values_digest": "b456520e5426f78529747a12080cc18c2cfdfc25959799b203bd41922d277616",
       "rendered_digest": "6c19c5636e13f7135afe61469801392e2a753414aedba2398c792d6db155ab5a",
       "ast_digest": "dc064a1b29d4ffce555b1ffa93a65466b5adfe914df83ce7126a441ac99c6e03"
     },
     "srp": {
-      "values_digest": "4c8408707fa6af2cc1ce74f1b66028ae877c6a3245e6b6272874dd75c8fb15a9",
-      "rendered_digest": "8d08d69d07d58b37f7fe976ec84a753f1875bc65e6b0f6177e0242dfdf96940e",
-      "ast_digest": "50130e81d337a4366f6320be47f4b00c1ed9f0c6cfdc1bf7e9eaa8bb5e43b856"
+      "values_digest": "52f7e86fd0fe5a5bd8e234cca124c81754689fe8e67545af9b1af7aad6a9b839",
+      "rendered_digest": "ac7b89136057e5af0de22d13f0f398940c48a729224586d0373e2328e6f578fd",
+      "ast_digest": "f542a55e0266532978da258547185b7587ee0d0f8956b492f6dbb0a225f25dfd"
     },
     "sor": {
-      "values_digest": "356c1007c37db0cfa42ee007ea2b2bf2d6089b6198b9f13d9bc8426173dcadd4",
-      "rendered_digest": "46ba99d1fea0c3552a8d2a0a81c310356ec2694d35466d7e7d6176388f1dc05b",
-      "ast_digest": "289b7d0a30508aa524ba165cbf6cff2e049083606283c194c0d78315ccd70019"
+      "values_digest": "c8c8764b636c6a27ed6d581bc4145bb1b934c80ac0e67669889695336c5b0527",
+      "rendered_digest": "611281945cd7fdae9af052c526f6c260666ec7df084cf13ef120e1a4fedebea0",
+      "ast_digest": "142cfb0d15cf81d6fb9bb10340b44020681b92935c1e038bbc8b1612e2a118b0"
     }
   },
   "transitions": [
@@ -144,6 +104,13 @@
       "to": "published",
       "actor": "codex-worker-4",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex-worker-4",
+      "reason": "recover published state after CI strict clippy finding required source repair"
     }
   ],
   "audit": [
@@ -272,6 +239,20 @@
       "actor": "codex-worker-4",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex-worker-4",
+      "reason": "recover published state after CI strict clippy finding required source repair",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex-worker-4",
+      "reason": "record CI strict clippy repair before fresh review",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Repaired PR #428 CI failure by reducing recordless_blocker argument count below strict Clippy threshold.\",\"changes\":[\"csdlc-v2/src/finish.rs: grouped recordless_blocker inputs in RecordlessBlockerContext to satisfy clippy::too_many_arguments without changing behavior\"],\"artifacts\":[\"cargo fmt --manifest-path csdlc-v2/Cargo.toml --check: passed\",\"cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_recordless_closeout: 5 passed\",\"cargo clippy --manifest-path csdlc-v2/Cargo.toml --all-targets -- -D warnings: passed\"]}"
     }
   ]
 }

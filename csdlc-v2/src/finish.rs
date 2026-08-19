@@ -301,7 +301,7 @@ pub fn classify_recordless_closeout_target(
     let existing_closeout_receipt_present = Store::new(root)
         .terminal_receipt_path(target.issue)?
         .exists();
-    let blocker = recordless_blocker(
+    let blocker = recordless_blocker(RecordlessBlockerContext {
         root,
         request,
         target,
@@ -311,7 +311,7 @@ pub fn classify_recordless_closeout_target(
         source_projection_at_pr_head,
         local_projection_present,
         existing_closeout_receipt_present,
-    )?;
+    })?;
     if let Some(blocker) = blocker {
         return Ok(RecordlessCloseoutTargetResult {
             schema: "csdlc.recordless_closeout_target_result.v1".into(),
@@ -346,17 +346,30 @@ pub fn classify_recordless_closeout_target(
     })
 }
 
-fn recordless_blocker(
-    root: &Path,
-    request: &RecordlessCloseoutRequest,
-    target: &RecordlessCloseoutTarget,
-    issue: &IssueTerminalObservation,
-    packet: &PrStatePacket,
-    candidates: &[ClosingPullRequestIdentity],
+struct RecordlessBlockerContext<'a> {
+    root: &'a Path,
+    request: &'a RecordlessCloseoutRequest,
+    target: &'a RecordlessCloseoutTarget,
+    issue: &'a IssueTerminalObservation,
+    packet: &'a PrStatePacket,
+    candidates: &'a [ClosingPullRequestIdentity],
     source_projection_at_pr_head: bool,
     local_projection_present: bool,
     existing_closeout_receipt_present: bool,
-) -> Result<Option<String>> {
+}
+
+fn recordless_blocker(context: RecordlessBlockerContext<'_>) -> Result<Option<String>> {
+    let RecordlessBlockerContext {
+        root,
+        request,
+        target,
+        issue,
+        packet,
+        candidates,
+        source_projection_at_pr_head,
+        local_projection_present,
+        existing_closeout_receipt_present,
+    } = context;
     if issue.state != "closed" {
         return Ok(Some("live_issue_not_closed".into()));
     }

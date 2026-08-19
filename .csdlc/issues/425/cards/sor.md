@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Repaired #425 review finding: recordless source-projection proof now fails closed when the expected PR head SHA is not available as a local commit object before checking the issue projection path.
+Repaired PR #428 CI failure by reducing recordless_blocker argument count below strict Clippy threshold.
 
 ## Artifacts
 
@@ -25,6 +25,9 @@ Repaired #425 review finding: recordless source-projection proof now fails close
 - cargo check --manifest-path csdlc-v2/Cargo.toml: passed
 - git diff --check: passed
 - recordless dry-run refreshed: 8 recordless_terminal_eligible, 1 conflicting_historical_publication (#248)
+- cargo fmt --manifest-path csdlc-v2/Cargo.toml --check: passed
+- cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_recordless_closeout: 5 passed
+- cargo clippy --manifest-path csdlc-v2/Cargo.toml --all-targets -- -D warnings: passed
 
 ## Execution
 
@@ -36,6 +39,7 @@ Repaired #425 review finding: recordless source-projection proof now fails close
 - csdlc-v2/src/finish.rs: source_projection_at_revision now verifies expected_head_sha resolves to a commit object and returns ReconciliationRequired when missing
 - csdlc-v2/tests/gate_recordless_closeout.rs: added negative test for unavailable expected head before projection check
 - .csdlc/evidence/425-v092-residual-dry-run-result.json: refreshed live dry-run evidence after the fix
+- csdlc-v2/src/finish.rs: grouped recordless_blocker inputs in RecordlessBlockerContext to satisfy clippy::too_many_arguments without changing behavior
 
 ## Validation
 
@@ -43,11 +47,11 @@ Repaired #425 review finding: recordless source-projection proof now fails close
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
