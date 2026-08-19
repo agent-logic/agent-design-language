@@ -12,7 +12,20 @@ Status: pre_phase
 
 ## Scope
 
-Issue #343 lifecycle, preparation, evidence, and sprint_343 review packet only; child implementation and release-tail paths are read-only.
+docs/milestones/v0.92/review/sprint_343/SPRINT_CLOSEOUT_PACKET.md
+.csdlc/prepared/issues/343/design.md
+.csdlc/prepared/issues/343/diagram.mmd
+.csdlc/prepared/issues/343/validate_preparation_bundle.py
+.csdlc/prepared/issues/343/validate_sprint_readiness.py
+.csdlc/prepared/issues/343/validate_exact_scope.py
+.csdlc/evidence/343/terminal-256.json
+.csdlc/evidence/343/terminal-341.json
+.csdlc/evidence/343/terminal-5835.json
+.csdlc/evidence/343/terminal-5839.json
+.csdlc/evidence/343/child-256-review.json
+.csdlc/evidence/343/child-256-checks.json
+.csdlc/evidence/343/child-341-review.json
+.csdlc/evidence/343/child-341-checks.json
 
 ## Prompts
 
@@ -31,12 +44,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Publication, hosted checks, merge, and typed terminal reconciliation remain pending until the reviewed packet is published.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:f15160b51166f015b26ef7e1ae8257a4d6a5efda:a516da4dd705e717f40947187a76938bf0e59d09a17dbf523489dd9eadd71515")
 
-Reviewer: None
+Reviewer: Some("fresh-session:8f4f1d2e-6a0b-4e74-9f1c-2d9a7c6b8a93")
 
-Result: pre_review
+Result: pass

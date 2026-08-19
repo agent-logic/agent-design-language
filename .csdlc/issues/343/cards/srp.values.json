@@ -7,15 +7,15 @@
     "title": "[v0.92][sprint] Demonstration, handoff, and publication",
     "slug": "demonstration-handoff-publication",
     "version": "v0.92",
-    "generation": 3
+    "generation": 4
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #343 lifecycle, preparation, evidence, and sprint_343 review packet only; child implementation and release-tail paths are read-only.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "docs/milestones/v0.92/review/sprint_343/SPRINT_CLOSEOUT_PACKET.md\n.csdlc/prepared/issues/343/design.md\n.csdlc/prepared/issues/343/diagram.mmd\n.csdlc/prepared/issues/343/validate_preparation_bundle.py\n.csdlc/prepared/issues/343/validate_sprint_readiness.py\n.csdlc/prepared/issues/343/validate_exact_scope.py\n.csdlc/evidence/343/terminal-256.json\n.csdlc/evidence/343/terminal-341.json\n.csdlc/evidence/343/terminal-5835.json\n.csdlc/evidence/343/terminal-5839.json\n.csdlc/evidence/343/child-256-review.json\n.csdlc/evidence/343/child-256-checks.json\n.csdlc/evidence/343/child-341-review.json\n.csdlc/evidence/343/child-341-checks.json",
+      "review_revision": "git-blake3:f15160b51166f015b26ef7e1ae8257a4d6a5efda:a516da4dd705e717f40947187a76938bf0e59d09a17dbf523489dd9eadd71515",
+      "reviewer": "fresh-session:8f4f1d2e-6a0b-4e74-9f1c-2d9a7c6b8a93",
       "review_prompts": [
         "Does the packet require terminal/canonical/ancestral #256 and #341 without absorbing their work?",
         "Are historical WP-17/WP-19 authorities validated without being recreated?",
@@ -23,8 +23,10 @@
         "Does #343 stop at handoff to #307/#308?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Publication, hosted checks, merge, and typed terminal reconciliation remain pending until the reviewed packet is published."
+      ],
+      "review_result": "pass"
     }
   }
 }

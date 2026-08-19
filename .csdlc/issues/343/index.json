@@ -4,13 +4,58 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "19c0a2eed502c6fb6462e7da8edd363d305a3b9250b6e2e5df6bb632e7195544",
-  "phase": "implemented",
-  "generation": 3,
-  "digest": "d6257118d9b3cf9d4c5988df7a7d99e35ebd2a830040bc82cdeb9b179a321efe",
+  "phase": "reviewed",
+  "generation": 4,
+  "digest": "e44294aff90384321f8b9bd923a63797bd43b3e2bcd59dbb1a839e5b85a26117",
   "branch": "codex/343-sprint5-demonstration-handoff-publication",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-343-sprint5-demonstration-handoff-publication",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:8f4f1d2e-6a0b-4e74-9f1c-2d9a7c6b8a93",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:f15160b51166f015b26ef7e1ae8257a4d6a5efda:a516da4dd705e717f40947187a76938bf0e59d09a17dbf523489dd9eadd71515",
+    "scope": [
+      "docs/milestones/v0.92/review/sprint_343/SPRINT_CLOSEOUT_PACKET.md",
+      ".csdlc/prepared/issues/343/design.md",
+      ".csdlc/prepared/issues/343/diagram.mmd",
+      ".csdlc/prepared/issues/343/validate_preparation_bundle.py",
+      ".csdlc/prepared/issues/343/validate_sprint_readiness.py",
+      ".csdlc/prepared/issues/343/validate_exact_scope.py",
+      ".csdlc/evidence/343/terminal-256.json",
+      ".csdlc/evidence/343/terminal-341.json",
+      ".csdlc/evidence/343/terminal-5835.json",
+      ".csdlc/evidence/343/terminal-5839.json",
+      ".csdlc/evidence/343/child-256-review.json",
+      ".csdlc/evidence/343/child-256-checks.json",
+      ".csdlc/evidence/343/child-341-review.json",
+      ".csdlc/evidence/343/child-341-checks.json"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:8f4f1d2e-6a0b-4e74-9f1c-2d9a7c6b8a93",
+    "scope": [
+      "docs/milestones/v0.92/review/sprint_343/SPRINT_CLOSEOUT_PACKET.md",
+      ".csdlc/prepared/issues/343/design.md",
+      ".csdlc/prepared/issues/343/diagram.mmd",
+      ".csdlc/prepared/issues/343/validate_preparation_bundle.py",
+      ".csdlc/prepared/issues/343/validate_sprint_readiness.py",
+      ".csdlc/prepared/issues/343/validate_exact_scope.py",
+      ".csdlc/evidence/343/terminal-256.json",
+      ".csdlc/evidence/343/terminal-341.json",
+      ".csdlc/evidence/343/terminal-5835.json",
+      ".csdlc/evidence/343/terminal-5839.json",
+      ".csdlc/evidence/343/child-256-review.json",
+      ".csdlc/evidence/343/child-256-checks.json",
+      ".csdlc/evidence/343/child-341-review.json",
+      ".csdlc/evidence/343/child-341-checks.json"
+    ],
+    "reviewed_revision": "git-blake3:f15160b51166f015b26ef7e1ae8257a4d6a5efda:a516da4dd705e717f40947187a76938bf0e59d09a17dbf523489dd9eadd71515",
+    "findings": [],
+    "residual_risks": [
+      "Publication, hosted checks, merge, and typed terminal reconciliation remain pending until the reviewed packet is published."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +70,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "07bf6dfa75fc44d9caab882db83951b573d1bb172042efa40476907d1a5986a5",
+      "values_digest": "c1f72b88f732e0c74dcb923b627a74b8c4eed2ec8d86aa15ddbe529c825c5580",
       "rendered_digest": "f35903f5b26a58716be459ea2b58bd15a8351992ad922ff4c362ae3123330875",
       "ast_digest": "3ffeb75cd1d2d25137c47305cbe2488e9f12571e0a199aa77de3e7175fdb3885"
     },
     "stp": {
-      "values_digest": "87f7030b61da513d0fb1652e7faa0bec3587da768410216102ea86c3931a3552",
+      "values_digest": "ff2817bfd3160a7334c38ceab2f059decfa254d37c510ef91b349bc61dfcdc5e",
       "rendered_digest": "7bae76b7fdc7737141a5b4704c9ea5c34fa1666d3b2f233bd43e1df38e51ac7b",
       "ast_digest": "cc1792b6015209e2aa497d1e7b107887625ad20f34b52373a6490b21e958cb8c"
     },
     "spp": {
-      "values_digest": "608dce666c9234f9abf82df1452fe8723d088d7724f456888a9ce831914ed2fe",
+      "values_digest": "67b471e2dc72b8bb15e2ad8ccd4ea2803e37683015838e093374cf65152bcd53",
       "rendered_digest": "a8933a2bc754dce89180d00a4fdfb3a136d979958ab75fd1b63ec11baa00385b",
       "ast_digest": "f268cc4410e0de8078bd00a59439e71c39ff94c3b4b448578cb07eb070eca7f4"
     },
     "vpp": {
-      "values_digest": "4295a3e18c91514305a238bfb446a979bce0206310f40a0eb0c9bbcde6e02bc6",
+      "values_digest": "b3d1c0d54f59de799a733641ef108b2fe979446abc502891d8f603ffe995ef73",
       "rendered_digest": "6a58fe841063bc2e315af3058f5c7204ae0c127265c146034554d3cedd1a6311",
       "ast_digest": "917a6298d474738b9b384fce907c71d5ca7d11f0355b24206a45a262e97b0979"
     },
     "srp": {
-      "values_digest": "bbb5e6eaba81c96f4850ff6fb1a521deb2d191faebf03d95ddded4ea7aa9a967",
-      "rendered_digest": "856a922adef2a03ea9c48a172d3a69f60b9c00ae06a7f0e2ae7c1686032fe820",
-      "ast_digest": "a91562c3ae53954d10ccc7c854027f4994b2a4003b20b36a817da98903c698fa"
+      "values_digest": "00aac5332644dddec96a812c87e82af7554521089bc69ad8d76338da79c94bca",
+      "rendered_digest": "76871b93a8c6fd52b9ff483bdc9f23d713a98c273dec9e471a36908db08b3c82",
+      "ast_digest": "898eb1cb9269a42bc740f723653d3ebe8d02f40b32d751da3900162ec7221e3d"
     },
     "sor": {
-      "values_digest": "e421b11fe5a834e17e705770f6ae523498a4b11f98d25bae01bb108f3ecb633a",
+      "values_digest": "b0fcedee9e18017659b354bc8811a05cb0c4a9f1e8a232bf76025fe6ae3dc438",
       "rendered_digest": "4a09de49a0cc818897427c73de25a40c6205c2ef381330a1c8365398eb0023e2",
       "ast_digest": "9a0164a348ea1628ca87fbe4bf0b7bc6081dd4cb9f05b0131fffc4109143bcfb"
     }
@@ -76,6 +121,13 @@
       "to": "implemented",
       "actor": "codex:issue-343-sprint-closeout",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -113,6 +165,20 @@
       "actor": "codex:issue-343-sprint-closeout",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "schema": "adl.issue343.closeout-evidence.v2",
-  "candidate_base_sha": "a213902a63c284c12dd724655860a6fad013180a",
+  "candidate_base_sha": "f15160b51166f015b26ef7e1ae8257a4d6a5efda",
   "children": {
     "256": {
       "issue": 256,
@@ -82,13 +82,13 @@
     "excluded_issues": [342, 340, 84, 251],
     "handoff_issues": [307, 308],
     "review": {
-      "result": "pending",
-      "reviewer": "pending",
-      "session_uuid": "pending",
-      "reviewed_revision": "pending",
+      "result": "passed",
+      "reviewer": "fresh-session:8f4f1d2e-6a0b-4e74-9f1c-2d9a7c6b8a93",
+      "session_uuid": "8f4f1d2e-6a0b-4e74-9f1c-2d9a7c6b8a93",
+      "reviewed_revision": "f15160b51166f015b26ef7e1ae8257a4d6a5efda",
       "packet_sha256": "f15dac766f3aa749d72e964265659ae264ef5c4f8d3ac5ba8eb76b1402af8301",
       "artifact_path": ".csdlc/evidence/343/sprint-review.json",
-      "artifact_sha256": "pending"
+      "artifact_sha256": "1dbf97f41f8bd5c1e9b724ed483d655125bfc85e262ff5decad971c48c8ed71e"
     }
   }
 }
