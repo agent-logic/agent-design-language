@@ -8,6 +8,6 @@
   "title": "[v0.92][WP-24A deployment] Deploy the podcast page to the preview URL",
   "body": "Closes #19\n\nDeploys the Synthetic Minds podcast preview through the existing Agent Logic S3 and CloudFront website infrastructure. The page is now static HTML using only same-origin assets, native audio controls, and native FAQ controls, with no framework runtime, scripts, external fonts, or EC2/compute operations.\n\nValidation:\n- repository podcast launch packet: PASS\n- retained deployment evidence and exact live digest parity for HTML, RSS, WAV, and logo: PASS\n- desktop and mobile browser proof: no console errors, no horizontal overflow, native audio ready\n- production /podcast/ route remains HTTP 403 and preview retains noindex,nofollow\n- independent exact-head review: APPROVE with no actionable findings\n\nFive unreferenced diagnostic S3 objects are disclosed in the evidence and intentionally retained pending explicit deletion authorization.",
   "draft": false,
-  "revision": "git-blake3:5ee4a56fa5d7c8a9c2bbc0b8415fa0d31e0cc9e4:ae3e98fedde768d51f32f0b2bed3f7b17d24233553f0b0509683e1488e41e32b",
-  "commit_sha": "5ee4a56fa5d7c8a9c2bbc0b8415fa0d31e0cc9e4"
+  "revision": "git-blake3:02b05d4faabdf906cff5a35fa9b0dad9eaeccd5f:0e7236af8ef275b40b74767d40b29ef80493e1a59e3177e847a51144b09c58a7",
+  "commit_sha": "02b05d4faabdf906cff5a35fa9b0dad9eaeccd5f"
 }

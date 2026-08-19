@@ -7,9 +7,9 @@
     "title": "[v0.92][WP-24A deployment] Deploy the podcast page to the preview URL",
     "slug": "v0-92-wp-24a-deploy-podcast-preview",
     "version": "v0.92",
-    "generation": 15
+    "generation": 17
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -54,10 +54,10 @@
           "evidence_ref": ".csdlc/evidence/19/live-verification.json"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }
