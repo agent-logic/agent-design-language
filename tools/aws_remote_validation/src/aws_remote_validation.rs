@@ -4889,9 +4889,9 @@ mod tests {
         assert!(tracked_runner.contains("cloud-init status --wait"));
         assert!(tracked_runner.contains("issue268-bootstrap-ready"));
         assert!(tracked_runner.contains("adl-issue268-bootstrap.log"));
-        assert!(
-            tracked_runner.contains("issue268 package bootstrap did not publish its ready marker")
-        );
+        assert!(tracked_runner.contains("source=foreground_package_manager"));
+        assert!(tracked_runner.contains("awscli-2 git tar zstd curl jq"));
+        assert!(tracked_runner.contains("source=user_data_ready"));
         assert!(tracked_runner.contains("immutable_builder_image_only"));
         assert!(tracked_runner
             .contains("PERSISTENT_CHECKOUT=\"$TOOLCHAIN_ROOT/source/agent-design-language\""));
