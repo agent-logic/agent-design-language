@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": "CSMctl\nadl-runtime/src/bin/adl-observatory-static.rs\nadl-runtime/src/distributed/transport/governed/learner_transport/tests.rs\nadl-runtime/tests/runtime_api_wss.rs\nadl/tools/test_html_observatory.sh\nadl/tools/validate_v092_observatory_restart_reconnect.sh\ndemos/html-observatory/app.js\ndemos/html-observatory/index.html\n.csdlc/issues/340\n.csdlc/prepared/issues/340\n.csdlc/evidence/340",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
