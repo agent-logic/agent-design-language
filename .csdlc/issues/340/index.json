@@ -5,28 +5,11 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "8abc247d0a5d650da01bc1639900bba9c3c40370738e752cb2074ddd851f1815",
   "phase": "implemented",
-  "generation": 27,
-  "digest": "0389b85144e443c5c6657563ac8eba87a46d153e4507e86b8a56ab9e47de46a6",
+  "generation": 28,
+  "digest": "e21ca27865b2ee9ec318f3ab602dcba2e35073973a61644ec4010c725d727ac1",
   "branch": "codex/340-html-observatory-runtime-restart-integration",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-340-html-observatory-runtime-restart-integration",
-  "review_assignment": {
-    "reviewer": "fresh-session:a5edd215-f2f5-45ab-a1c5-ab24fe34970c",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:995ef865435e2bea2a34f8126494f2c9139ed3dc:5bc0eb11a11ad1b6325ed32cdc76f627c614393cf11a044f6ae46427d6907fb4",
-    "scope": [
-      "CSMctl",
-      "adl-runtime/src/bin/adl-observatory-static.rs",
-      "adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs",
-      "adl-runtime/tests/runtime_api_wss.rs",
-      "adl/tools/test_html_observatory.sh",
-      "adl/tools/validate_v092_observatory_restart_reconnect.sh",
-      "demos/html-observatory/app.js",
-      "demos/html-observatory/index.html",
-      ".csdlc/issues/340",
-      ".csdlc/prepared/issues/340",
-      ".csdlc/evidence/340"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -42,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "495126f8613c4622a0201e2a49e193067f264ffb0750f65c17181e66a4f37de9",
+      "values_digest": "1fcc40f6c21b1717e4dac1294f74e74f05fd9dcb2ae6e6408c37fd644dbba85d",
       "rendered_digest": "e68242eb9bbe9ef94376f6bcc73e6a402a30b750e374fd44ad2a10c1f64de1d7",
       "ast_digest": "4880fadf87cf773585e07d456e5dbd11a1ec596ac7646ae36f2ce94c09a2caa2"
     },
     "stp": {
-      "values_digest": "7e80162775f752bfaad9b2f9764e88b46316fb9bccb5a2f496f329fdccfb3d6a",
+      "values_digest": "7e8750bbef00f60709b8914938bec552b29ed98eb20c2e48ca7076a6d0da9c4d",
       "rendered_digest": "3f94f447d3f0c52feafda63615f0140ef655286ccbdb3fa85163a50ec8e142da",
       "ast_digest": "7a88f55764720014ad1c151a4eedad3e71624b578e52d9fbc2c098ddd4a3173c"
     },
     "spp": {
-      "values_digest": "b9f8e30c69ff9591ecebd18e55bc5b1a51be10f3963d74f4c307044443c22d08",
+      "values_digest": "0e55f2dc45d18f801a79a2ea201a65f6692fab9bd96c8d5f0f5f2ab09f008eb3",
       "rendered_digest": "04ae1a1c6abf369d12f379a3913646c64ac39b790f88c71ba1120b3d749bd517",
       "ast_digest": "ce6d867b2ee2b0fee927916db7f8feec1c4a7c1d1c1a62d3d9dfa679478aab60"
     },
     "vpp": {
-      "values_digest": "8191e94961c7360202104f36988f97709bf5781641f20b271d66c6f846688142",
+      "values_digest": "af17921383e87e1348e7554c6f4cb0be3934e09fdb83e483683c6acdcfed2469",
       "rendered_digest": "df1a9f32b2ef6ac3388328c6892ce316a924427db54cae87d6837231e01602fc",
       "ast_digest": "120fa996e5aaefe19914a509024f66e1b209c4d0a4ecc01caf1ab4cd64321f64"
     },
     "srp": {
-      "values_digest": "4555f456ee59d7f08cef88297a18c71856d6f0d07eda3dcdb5c2f483c9b71022",
-      "rendered_digest": "56f97c99ac6a64e8a8849578a479e25a40770b295f1de938c5f28a2dca935b70",
-      "ast_digest": "769afb2323b6824e21dff7e8ec2635cb78edb15bd0d48ab6b7b05e6742bdc894"
+      "values_digest": "3d792caede388bf352884d9fe320cc17562442e589308b8259107d6c50f27838",
+      "rendered_digest": "f1f6ff292fd62b83bf9f75d91f5d6211c7b2f6341ba26a949b41cd7e93077ca7",
+      "ast_digest": "fd174d614c5b9d57ae476912b062c7a85c68c0dd93a7f9995e509a6513a4c1fd"
     },
     "sor": {
-      "values_digest": "a689b446ea25c8ebdc961b3cf8c475804c4b27ec543f3e43a483303751e12040",
+      "values_digest": "08638600cc7015e737b0de1ed8297e03220f98a72ad6092705655ade44420439",
       "rendered_digest": "ad70f5ef1a85e71eb9a9f3045ddced8a858ed84de719be5bcfd0aab6f4e7af0d",
       "ast_digest": "4149050d1613ef31d86f5d50130e9ec9bdcb0f8f40af6634178e1b1b50068f25"
     }
@@ -396,6 +379,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 28,
+      "actor": "codex:/root",
+      "reason": "Recover #340 exact-review assignment after fresh-session:a5edd215-f2f5-45ab-a1c5-ab24fe34970c produced no bounded PASS/FAIL verdict; assignment was interrupted and a different fresh reviewer will be assigned against the unchanged immutable substantive revision.",
+      "operation": "recover_review"
     }
   ]
 }

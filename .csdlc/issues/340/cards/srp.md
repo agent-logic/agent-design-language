@@ -12,17 +12,7 @@ Status: draft
 
 ## Scope
 
-CSMctl
-adl-runtime/src/bin/adl-observatory-static.rs
-adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs
-adl-runtime/tests/runtime_api_wss.rs
-adl/tools/test_html_observatory.sh
-adl/tools/validate_v092_observatory_restart_reconnect.sh
-demos/html-observatory/app.js
-demos/html-observatory/index.html
-.csdlc/issues/340
-.csdlc/prepared/issues/340
-.csdlc/evidence/340
+
 
 ## Prompts
 
