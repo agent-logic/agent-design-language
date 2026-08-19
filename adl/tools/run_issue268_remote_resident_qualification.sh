@@ -76,14 +76,49 @@ materialized="$EVIDENCE_ROOT/materialized-plan.json"
 python3 "$MATERIALIZER" --output "$materialized" --agent-spec-dir "$AGENT_SPEC_DIR" >/dev/null
 PROVIDER_ADAPTER_BIN=${ADL_ISSUE268_PROVIDER_ADAPTER_BIN:-}
 if [[ -z "$PROVIDER_ADAPTER_BIN" ]]; then
-  adapter_install_root="$VOLUME_ROOT/provider-adapter/$SOURCE_REVISION"
+  adapter_inputs=(
+    adl/Cargo.toml
+    adl/Cargo.lock
+    adl/tools/adl_provider_adapter.rs
+    adl/src/lib.rs
+    adl/src/provider_adapter.rs
+    adl/src/provider_adapter_cli.rs
+    adl/src/provider_communication.rs
+    adl/src/resilience.rs
+  )
+  adapter_input_identity=$(
+    {
+      git -C "$ROOT" rev-parse "${adapter_inputs[@]/#/HEAD:}"
+      rustc -Vv
+    } | sha256sum | awk '{print $1}'
+  )
+  [[ "$adapter_input_identity" =~ ^[0-9a-f]{64}$ ]] || {
+    echo "issue268: provider adapter build identity is invalid" >&2
+    exit 69
+  }
+  adapter_install_root="$VOLUME_ROOT/provider-adapter/by-build-input/$adapter_input_identity"
   PROVIDER_ADAPTER_BIN="$adapter_install_root/adl-provider-adapter"
   if [[ ! -x "$PROVIDER_ADAPTER_BIN" ]]; then
-    cargo build --locked --release --manifest-path "$ROOT/adl/Cargo.toml" --bin adl-provider-adapter
     mkdir -p "$adapter_install_root"
-    cp "${CARGO_TARGET_DIR:-$ROOT/adl/target}/release/adl-provider-adapter" "$PROVIDER_ADAPTER_BIN.tmp"
+    adopted=false
+    for candidate in "$VOLUME_ROOT"/provider-adapter/*/adl-provider-adapter; do
+      [[ -x "$candidate" ]] || continue
+      candidate_revision=$(basename "$(dirname "$candidate")")
+      [[ "$candidate_revision" =~ ^[0-9a-f]{40}$ ]] || continue
+      if git -C "$ROOT" cat-file -e "$candidate_revision^{commit}" 2>/dev/null \
+          && git -C "$ROOT" diff --quiet "$candidate_revision" "$SOURCE_REVISION" -- "${adapter_inputs[@]}"; then
+        cp "$candidate" "$PROVIDER_ADAPTER_BIN.tmp"
+        adopted=true
+        break
+      fi
+    done
+    if [[ "$adopted" != true ]]; then
+      cargo build --locked --release --manifest-path "$ROOT/adl/Cargo.toml" --bin adl-provider-adapter
+      cp "${CARGO_TARGET_DIR:-$ROOT/adl/target}/release/adl-provider-adapter" "$PROVIDER_ADAPTER_BIN.tmp"
+    fi
     chmod +x "$PROVIDER_ADAPTER_BIN.tmp"
     mv "$PROVIDER_ADAPTER_BIN.tmp" "$PROVIDER_ADAPTER_BIN"
+    printf '%s\n' "$adapter_input_identity" >"$adapter_install_root/build-input.sha256"
   fi
 fi
 [[ -x "$PROVIDER_ADAPTER_BIN" ]] || { echo "issue268: provider adapter is unavailable" >&2; exit 69; }
