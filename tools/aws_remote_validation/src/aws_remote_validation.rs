@@ -1948,8 +1948,13 @@ fn issue268_user_data(command: &str) -> Option<String> {
     }
     let script = r#"#!/bin/bash
 set -euo pipefail
-dnf install -y gcc gcc-c++ make pkgconf-pkg-config openssl-devel rust cargo python3 awscli git tar zstd curl jq
 install -d -m 0755 /var/lib/adl
+exec > >(tee -a /var/log/adl-issue268-bootstrap.log) 2>&1
+trap 'status=$?; printf "bootstrap_failed exit=%s\n" "$status"; touch /var/lib/adl/issue268-bootstrap-failed; exit "$status"' ERR
+dnf install -y gcc gcc-c++ make pkgconf-pkg-config openssl-devel rust cargo python3 awscli-2 git tar zstd curl jq
+for command in cc cargo rustc python3 aws git tar zstd curl jq; do
+  command -v "$command" >/dev/null
+done
 touch /var/lib/adl/issue268-bootstrap-ready
 "#;
     Some(base64::engine::general_purpose::STANDARD.encode(script))
@@ -4852,6 +4857,10 @@ mod tests {
         assert!(tracked_runner.contains("amazon_linux_packages_and_pinned_runtime_components"));
         assert!(tracked_runner.contains("cloud-init status --wait"));
         assert!(tracked_runner.contains("issue268-bootstrap-ready"));
+        assert!(tracked_runner.contains("adl-issue268-bootstrap.log"));
+        assert!(
+            tracked_runner.contains("issue268 package bootstrap did not publish its ready marker")
+        );
         assert!(tracked_runner.contains("immutable_builder_image_only"));
         assert!(tracked_runner
             .contains("PERSISTENT_CHECKOUT=\"$TOOLCHAIN_ROOT/source/agent-design-language\""));
@@ -4869,7 +4878,11 @@ mod tests {
             .expect("base64 user data");
         let script = String::from_utf8(decoded).expect("utf8 user data");
         assert!(script.contains("dnf install -y gcc gcc-c++ make"));
-        assert!(script.contains("rust cargo python3 awscli git tar zstd curl jq"));
+        assert!(script.contains("rust cargo python3 awscli-2 git tar zstd curl jq"));
+        assert!(!script.contains("python3 awscli git"));
+        assert!(script.contains("adl-issue268-bootstrap.log"));
+        assert!(script.contains("issue268-bootstrap-failed"));
+        assert!(script.contains("command -v \"$command\""));
         assert!(script.contains("issue268-bootstrap-ready"));
         assert!(!script.contains("ruby"));
         assert!(issue268_user_data("cargo test --locked").is_none());

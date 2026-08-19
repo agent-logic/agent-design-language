@@ -189,6 +189,7 @@ allowed={
 "adl/tools/run_aws_spot_builder_image_validation.sh",
 "adl/tools/test_run_aws_spot_builder_image_validation.sh",
 "tools/aws_remote_validation/src/aws_remote_validation.rs",
+"tools/aws_remote_validation/scripts/remote_validation_runner.sh",
 "adl/tools/run_issue268_six_hour_spot_qualification.sh",
 "adl/tools/test_run_issue268_six_hour_spot_qualification.sh",
 "adl/tools/issue268_six_resident_uts_plan.json",

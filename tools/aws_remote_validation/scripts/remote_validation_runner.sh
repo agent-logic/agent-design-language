@@ -218,7 +218,7 @@ ensure_aws_cli() {
   if command -v aws >/dev/null 2>&1; then
     return 0
   fi
-  sudo dnf install -y awscli >/tmp/adl-awscli-install.log 2>&1 \
+  sudo dnf install -y awscli-2 >/tmp/adl-awscli-install.log 2>&1 \
     || sudo yum install -y awscli >/tmp/adl-awscli-install.log 2>&1
 }
 
@@ -333,8 +333,18 @@ REGION="${ADL_REGION:-us-west-2}"
 CURRENT_STAGE="ensure_build_toolchain"
 log_progress "stage=ensure_build_toolchain"
 if [ "$ISSUE268_RUNTIME_QUALIFICATION" = "1" ]; then
-  cloud-init status --wait >/tmp/adl-cloud-init.log 2>&1
-  test -f /var/lib/adl/issue268-bootstrap-ready
+  if ! cloud-init status --wait >/tmp/adl-cloud-init.log 2>&1; then
+    printf '%s\n' "issue268 cloud-init failed" >&2
+    sudo tail -n 200 /var/log/adl-issue268-bootstrap.log 2>/dev/null >&2 || true
+    tail -n 200 /tmp/adl-cloud-init.log >&2 || true
+    exit 1
+  fi
+  if [ ! -f /var/lib/adl/issue268-bootstrap-ready ]; then
+    printf '%s\n' "issue268 package bootstrap did not publish its ready marker" >&2
+    sudo tail -n 200 /var/log/adl-issue268-bootstrap.log 2>/dev/null >&2 || true
+    tail -n 200 /tmp/adl-cloud-init.log >&2 || true
+    exit 1
+  fi
 elif [ "$CONTAINERIZED_VALIDATION" = "0" ] && ! command -v cc >/dev/null 2>&1; then
   sudo dnf install -y gcc gcc-c++ make pkgconf-pkg-config openssl-devel >/tmp/adl-build-toolchain.log 2>&1 \
     || sudo yum install -y gcc gcc-c++ make pkgconfig openssl-devel >/tmp/adl-build-toolchain.log 2>&1
