@@ -7,7 +7,7 @@
     "title": "[v0.92][runtime-v3][20.c] Run six-hour Agent Logic Spot qualification only after operator and cost authorization",
     "slug": "six-hour-agent-logic-spot-qualification",
     "version": "v0.92",
-    "generation": 3
+    "generation": 4
   },
   "status": "ready",
   "content": {
@@ -94,9 +94,9 @@
       ],
       "replan_triggers": [],
       "design_ref": ".csdlc/prepared/issues/268/design.md",
-      "design_digest": "51903b24a8f56c962864f8aed232e7a10bb82b0f6a6ae15a0db42ae87a976159",
+      "design_digest": "a42f7692521819e48c78754aed05c6ce6d0137931ee2d610334a4a3540ea8c95",
       "diagram_ref": ".csdlc/prepared/issues/268/diagram.mmd",
-      "diagram_digest": "b113de31c6a95217ed837f2aee2efe3386f09af4ee3c62667cc2ade0718f1af7"
+      "diagram_digest": "5bb8a4cb51b4f7d3751b7993b0d73773af70e32cdf3b9a51dabfb13117a76fe7"
     }
   }
 }

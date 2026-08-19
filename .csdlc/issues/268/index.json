@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "e16999c52566cfad58e38b96e519a2754f6059234981629e0562b9739d05d765",
   "phase": "bound",
-  "generation": 3,
-  "digest": "021c5f2c311f4f1ba993afd3dbacb8cdf2e03b38a92065e7b6afbb07bd4009a3",
+  "generation": 4,
+  "digest": "905205f698f15930b28bd8f4ffae6b63389b9a28ff784c68aeb9ce35dd2ae914",
   "branch": "codex/268-six-hour-spot-qualification",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-268-six-hour-spot-qualification",
   "review_assignment": null,
@@ -18,38 +18,38 @@
   "diagram_path": ".csdlc/prepared/issues/268/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "fresh-session:952ab212-38d1-49c2-b2db-6b38ad0dbef3",
-      "revision": "51903b24a8f56c962864f8aed232e7a10bb82b0f6a6ae15a0db42ae87a976159"
+      "reviewer": "fresh-session:32ba613b-68c8-4769-a255-8ed4148d9ab5",
+      "revision": "a42f7692521819e48c78754aed05c6ce6d0137931ee2d610334a4a3540ea8c95"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "fe8579415a49cae028178824342c6ea61d2343910210a721364079376af433b1",
+      "values_digest": "d28962fb28e51a21e002c68411f1ee6a0c86a2a917f54a641866ed49ebcf7cfc",
       "rendered_digest": "e908ddb3f4ac18811a0da0eb292961f74259aafbeb5db8379d621e5c588ff0fb",
       "ast_digest": "2a9b71de360fc425b63b2eb2c411aa70d46f94ab9b252366f57c4a595d73b980"
     },
     "stp": {
-      "values_digest": "546ac6f859f24afde46f38582828a7b223901d11821695fad03cd4fc63ccf876",
+      "values_digest": "7eed6ca114727fea5abad8e3044db6cc943813be301383f6258cc674722300db",
       "rendered_digest": "777d15780947d169759eb205c3e3a5ab79ab1d0f0e3b9f4ae466c31df0461d17",
       "ast_digest": "0fb96aa0d0b8e0bfdeee07f21d4a7bc18c1654b216cff4e7668f338e814c1101"
     },
     "spp": {
-      "values_digest": "3492c073656b5fb6df56d5eb5c54ced25fa33c33c1c9468558ab8011e8f9170d",
-      "rendered_digest": "72f97178c61145ec4ddcfd61ec96eecaf0bed92930cba31e9b43f2d19df114c5",
-      "ast_digest": "14694e0a8dffdfbb37ee0ae380230724a066425b1ebab58547811925a12d5537"
+      "values_digest": "de430628daa295c7a1457cd7e63fe0adcc478114e7c25cd419eabc3e2124b694",
+      "rendered_digest": "9f3c4579e8040d789cb1ce146d4586f01cb1a495b6d1dad3bc6187c4830b0174",
+      "ast_digest": "3945560b6f84633dd243e48336bb72b3f3de46e3c7c2cea84ee5c1f9bf8f2e1d"
     },
     "vpp": {
-      "values_digest": "53a677ed7b98bc379cf0c3163a35a2d7d2b80e83a89f9edcbec41837758edded",
+      "values_digest": "3583b9adf2ca355f183e8af520a8e3eccda43b1b0bc048a79e291e8f305b5cf2",
       "rendered_digest": "04733e63e705ac994fa75756ded65168979dca0721b1a212afce2db4364f8524",
       "ast_digest": "2c8e7bd850832367056428b97713927b9160f719b5bcb692a83ec7626626ec93"
     },
     "srp": {
-      "values_digest": "09aacdf5c01aa21f3551a11f97091dcd302c0a0959eac7d25688ae8b0418d0a8",
+      "values_digest": "2cd5c2465baa5050f2b7c79dce20fe11779bd720b6d7f5832eab838ef5ea2e9e",
       "rendered_digest": "0f88d33c42f5ff8ea843514fb071c0d4141cfff63127ba469785508ed3252cb8",
       "ast_digest": "44626787cff7609a27119771d93cd0b2207ade67558684d6414d628f8ca0eabe"
     },
     "sor": {
-      "values_digest": "652982e91a4d5e08d5e29170e399717a27644ead3ed6023450552735d3b25e45",
+      "values_digest": "dce3d1ef7d775f5bf794f4aa53ea94d802469a71d2023daa7ce1ed0283b0ab1b",
       "rendered_digest": "6a4d64d47619a4483cb718a6156b6300d78e570804e6b2ad9e90eae145120c58",
       "ast_digest": "3ef4188b607f283cb0d1074627f7415356c3eeb1961fcc3ef3d39315ec6e13f3"
     }
@@ -105,6 +105,13 @@
       "actor": "fresh-session:952ab212-38d1-49c2-b2db-6b38ad0dbef3",
       "reason": "reapprove changed issue design",
       "operation": "{\"design_digest\":\"51903b24a8f56c962864f8aed232e7a10bb82b0f6a6ae15a0db42ae87a976159\",\"design_ref\":\".csdlc/prepared/issues/268/design.md\",\"diagram_digest\":\"b113de31c6a95217ed837f2aee2efe3386f09af4ee3c62667cc2ade0718f1af7\",\"diagram_ref\":\".csdlc/prepared/issues/268/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "fresh-session:32ba613b-68c8-4769-a255-8ed4148d9ab5",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"a42f7692521819e48c78754aed05c6ce6d0137931ee2d610334a4a3540ea8c95\",\"design_ref\":\".csdlc/prepared/issues/268/design.md\",\"diagram_digest\":\"5bb8a4cb51b4f7d3751b7993b0d73773af70e32cdf3b9a51dabfb13117a76fe7\",\"diagram_ref\":\".csdlc/prepared/issues/268/diagram.mmd\",\"operation\":\"approve_design\"}"
     }
   ]
 }

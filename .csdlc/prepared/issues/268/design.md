@@ -8,8 +8,8 @@ hard total cost ceiling of USD 20. Issue #269 is excluded and requires a new
 decision.
 
 The repository-native Spot owner remains the only AWS mutation surface. It
-must verify the `agent-logic-admin` account proof, immutable source revision and
-builder image, Standard Spot quota, price estimate, task tags, deadline, kill
+must verify the `agent-logic-admin` account proof, immutable source revision,
+Standard Spot quota, price estimate, task tags, deadline, kill
 switch, and exact-owner cleanup before launch. No personal/default account,
 GPU, On-Demand fallback, second attempt, or unrelated-resource mutation is
 allowed.
@@ -39,7 +39,7 @@ Add an issue-owned shell entrypoint that:
 
 1. fails closed unless issue, revision, profile, region, Spot-only posture,
    authorization marker, USD 20-or-lower ceiling, deadline, cancellation path,
-   output root, and immutable builder image are resolved;
+   output root, and direct-host Runtime qualification command are resolved;
 2. performs a no-mutation preflight and records current Spot prices;
 3. consumes a portable AWS request whose immutable revision, 25,200-second
    provider timeout, disabled fallback, and `estimated_max_cost_microusd` of
@@ -47,11 +47,12 @@ Add an issue-owned shell entrypoint that:
 4. launches exactly one repository-native asynchronous Spot run using only
    `r7i.2xlarge` (8 vCPU/64 GiB); capacity failure is terminal and cannot select
    another type;
-5. mounts one issue-owned persistent EBS Runtime volume, installs the reviewed
-   Linux/x86 runtime stack there exactly once using the host package manager
-   wherever packages are available, builds only the canonical ADL Runtime from
-   the pinned source revision, and materializes the pinned model stores from
-   immutable, version-pinned S3 objects onto that volume before executing the
+5. uses EC2 user data to install ordinary Amazon Linux package prerequisites,
+   mounts one issue-owned persistent EBS Runtime volume, validates and reuses
+   the reviewed Linux/x86 Runtime installation when present, builds only the
+   canonical ADL Runtime when that installation is absent, and materializes the
+   pinned Linux/x86 Ollama runtime plus model stores from immutable,
+   version-pinned S3 objects onto that volume before executing the
    fixed six-hour suite;
 6. retains time-series, workload, fault, lifecycle, redacted launch, and final
    digest-bound evidence;
@@ -67,12 +68,13 @@ layer is permitted. Cloud/frontier escalation is optional and non-authoritative;
 credentials are never checkpointed and local work/recovery cannot depend on it.
 S3 remains the canonical bootstrap authority for model bytes: no model is
 rebuilt, repackaged, or republished by #268. The persistent EBS Runtime volume
-contains only the checksum-verified installed/materialized copy plus the
-package-managed Ollama/dependency installation, the pinned ADL Runtime build,
+contains only the checksum-verified installed/materialized Ollama and model
+copy plus package-managed ordinary prerequisites, the pinned ADL Runtime build,
 and continuity state. Its installation receipt makes subsequent mounts
 idempotent and fail closed on any VersionId, checksum, architecture, source
 revision, or package-set drift. Build cache is a separate ephemeral filesystem
-and is never treated as Runtime continuity authority.
+and is never treated as Runtime continuity authority. Qualification source
+revision changes outside the reviewed Runtime inputs do not force a rebuild.
 
 The six distinct resident identities are fixed by
 `adl/tools/issue268_six_resident_uts_plan.json`: Shepherd/controller and
@@ -132,7 +134,7 @@ publication and finish.
 - resolved AWS identity is not the retained Agent Logic account;
 - Standard Spot quota is insufficient;
 - current estimated total exceeds USD 20;
-- immutable source or builder-image resolution fails;
+- immutable source, direct-host command, or retained Runtime resolution fails;
 - task-owned resources already exist for the run id;
 - any required production/fault receipt is absent;
 - cleanup cannot prove zero remaining task-owned instances;
