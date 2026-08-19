@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-18A] HTML Observatory Runtime restart integration",
     "slug": "html-observatory-runtime-restart-integration",
     "version": "v0.92",
-    "generation": 16
+    "generation": 17
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "CSMctl\ndemos/html-observatory/app.js\ndemos/html-observatory/index.html\nadl/tools/test_html_observatory.sh\nadl/tools/validate_v092_observatory_restart_reconnect.sh\nadl-runtime/tests/runtime_api_wss.rs\n.csdlc/issues/340\n.csdlc/prepared/issues/340\n.csdlc/evidence/340",
+      "review_revision": "git-blake3:d14444e7dee84e6c9c6083001e4f16f8f355b592:d18f9477f76fa49cd144cb0005f569b9dfc3512ebd7a04b2cc86d8132279d8e1",
+      "reviewer": "fresh-session:27248fe4-c276-4d73-a47a-78801635fca4",
       "review_prompts": [
         "Does #340 prove the live Runtime v3 start/stop/restart path rather than fixture/static rendering only?",
         "Does CSMctl start require /v1/ready, /v1/observatory, and /v1/health HTTP 200 before success?",
@@ -24,8 +24,12 @@
         "Does the change avoid Unity/#84/#122/#251, AWS/public, provider, #341/#343, and HTML child implementation scope?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Reviewer did not rerun live CSMctl/start-stop-restart validation; retained current logs and validator source were inspected instead.",
+        "This review does not claim Unity, #84, #122, #251, AWS/public hosting, provider credentials, #341, or #343 proof.",
+        "The reviewer observed post-HEAD review-assignment metadata dirt and treated the verdict as pinned to immutable assigned revision d14444e7dee84e6c9c6083001e4f16f8f355b592."
+      ],
+      "review_result": "pass"
     }
   }
 }
