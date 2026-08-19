@@ -42,11 +42,10 @@ ADL_CSM_PLIST_FILE=/path/to/agent-design-language/.adl/runtime-v3-service/genera
 ADL_CSM_PROBE_FILE=/path/to/agent-design-language/.adl/runtime-v3-service/state/CSMctl.probe
 ADL_CSM_READY_PROBE_FILE=/path/to/agent-design-language/.adl/runtime-v3-service/state/CSMctl.ready.json
 
-# Runtime binaries and Observatory entrypoint.
+# Runtime binaries.
 ADL_CSM_PYTHON_BIN=/usr/bin/python3
 ADL_CSM_KERNEL_BIN=/path/to/agent-design-language/.adl/runtime-v3-service/generated/bin/adl-runtime-kernel
 ADL_CSM_VECTOR_BIN=/path/to/agent-design-language/.adl/bin/vector
-ADL_CSM_OBSERVATORY_ENTRY=/path/to/agent-design-language/demos/html-observatory/index.html
 
 # Browser-facing Runtime API TLS. For localhost demos, mkcert paths go here.
 ADL_CSM_API_TLS_CERT=/Users/daniel/cert/localhost.pem
