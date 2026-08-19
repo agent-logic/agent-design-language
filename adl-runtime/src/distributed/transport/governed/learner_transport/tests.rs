@@ -71,12 +71,12 @@ fn assertion(case_name: &str, assertion_name: &str) {
 async fn write_on_writable_leader(
     nodes: &BTreeMap<u64, PolisRaft>,
     command: PolisCommand,
-) -> openraft::raft::ClientWriteResponse<PolisTypeConfig> {
+) -> (u64, openraft::raft::ClientWriteResponse<PolisTypeConfig>) {
     tokio::time::timeout(Duration::from_secs(15), async {
         loop {
-            for raft in nodes.values() {
+            for (node, raft) in nodes {
                 if let Ok(response) = raft.client_write(command.clone()).await {
-                    return response;
+                    return (*node, response);
                 }
             }
             tokio::time::sleep(Duration::from_millis(25)).await;
@@ -1069,7 +1069,7 @@ async fn real_four_node_learner_replication() {
     })
     .await
     .expect("leader election did not converge before promotion boundary writes");
-    let before_learner = write_on_writable_leader(
+    let (_, before_learner) = write_on_writable_leader(
         &nodes,
         PolisCommand::GovernedMutation {
             mutation_id: "authorized-learner-snapshot".to_owned(),
@@ -1232,7 +1232,7 @@ async fn real_four_node_learner_replication() {
     .await
     .expect("leader election did not converge before learner replication write");
     for sequence in 0..8 {
-        write_on_writable_leader(
+        let _ = write_on_writable_leader(
             &nodes,
             PolisCommand::GovernedMutation {
                 mutation_id: format!("promotion-authority-boundary-{sequence}"),
@@ -1381,17 +1381,7 @@ async fn real_four_node_learner_replication() {
         !learner_server.is_finished(),
         "learner server ended during catch-up"
     );
-    let leader = tokio::time::timeout(Duration::from_secs(10), async {
-        loop {
-            if let Some(leader) = nodes[&1].metrics().borrow().current_leader {
-                break leader;
-            }
-            tokio::time::sleep(Duration::from_millis(25)).await;
-        }
-    })
-    .await
-    .expect("leader election did not converge before learner replication write");
-    let replicated = write_on_writable_leader(
+    let (_, replicated) = write_on_writable_leader(
         &nodes,
         PolisCommand::GovernedMutation {
             mutation_id: "authorized-learner-replicated".to_owned(),
@@ -1442,7 +1432,7 @@ async fn real_four_node_learner_replication() {
         "expiry crossed an in-flight learner Raft effect/response lease"
     );
     hook.release.notify_one();
-    let response = effect.await.unwrap();
+    let (latest_writable_leader, response) = effect.await.unwrap();
     assert!(response.data.accepted);
     expiry.await.unwrap().unwrap();
     assertion(
@@ -1470,7 +1460,11 @@ async fn real_four_node_learner_replication() {
         .await
         .mutation_ids
         .contains("authorized-learner-snapshot"));
-    let membership = nodes[&leader].metrics().borrow().membership_config.clone();
+    let membership = nodes[&latest_writable_leader]
+        .metrics()
+        .borrow()
+        .membership_config
+        .clone();
     let voters = membership
         .membership()
         .get_joint_config()
@@ -1497,11 +1491,14 @@ async fn real_four_node_learner_replication() {
     assert!(!voters.contains_key(&4));
 
     // Coverage-mode timing can elect a different leader after the promotion
-    // path. Keep the governed runtime's consensus handles aligned with the
-    // current writable leader before proving removal crash-boundary replay, or
-    // the test can observe stale membership history before reaching the
-    // injected boundary under slow instrumentation.
-    runtime.resume_consensus(nodes[&leader].clone(), machines[&leader].clone());
+    // path. Keep the governed runtime's consensus handles aligned with the node
+    // that accepted the latest governed write before proving removal
+    // crash-boundary replay, or the test can observe stale membership history
+    // before reaching the injected boundary under slow instrumentation.
+    runtime.resume_consensus(
+        nodes[&latest_writable_leader].clone(),
+        machines[&latest_writable_leader].clone(),
+    );
     let removal_old_stable_ids = runtime.authority().raft_ids.clone();
     let mut removal_target_stable_ids = removal_old_stable_ids.clone();
     removal_target_stable_ids.remove(removal_identity.guardian_id.as_bytes());
@@ -1522,7 +1519,7 @@ async fn real_four_node_learner_replication() {
         "real-four-node-remove-3",
     )
     .unwrap();
-    let removal_authority_index = nodes[&leader]
+    let removal_authority_index = nodes[&latest_writable_leader]
         .metrics()
         .borrow()
         .last_applied

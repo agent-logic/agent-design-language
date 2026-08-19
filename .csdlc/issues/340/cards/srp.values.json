@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-18A] HTML Observatory Runtime restart integration",
     "slug": "html-observatory-runtime-restart-integration",
     "version": "v0.92",
-    "generation": 29
+    "generation": 31
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "CSMctl\nadl-runtime/src/bin/adl-observatory-static.rs\nadl-runtime/src/distributed/transport/governed/learner_transport/tests.rs\nadl-runtime/tests/runtime_api_wss.rs\nadl/tools/test_html_observatory.sh\nadl/tools/validate_v092_observatory_restart_reconnect.sh\ndemos/html-observatory/app.js\ndemos/html-observatory/index.html\n.csdlc/issues/340\n.csdlc/prepared/issues/340\n.csdlc/evidence/340",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

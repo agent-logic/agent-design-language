@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Implemented bounded HTML Observatory Runtime v3 launch/start-stop-restart integration and stabilized the existing Runtime distributed learner coverage test that blocked PR #430. The second CI-only fix keeps #340 product behavior unchanged and makes the removal crash-boundary proof resilient to slow coverage-mode leader/membership timing.
+Implemented bounded HTML Observatory Runtime v3 launch/start-stop-restart integration and completed the second PR #430 runtime coverage stabilization. The latest test-only repair resolves the fresh-review P2 by making the writable-leader helper return the node that actually accepted the latest write, then using that accepted node for membership inspection, runtime consensus alignment, and removal authority-index capture.
 
 ## Artifacts
 
@@ -32,8 +32,9 @@ Implemented bounded HTML Observatory Runtime v3 launch/start-stop-restart integr
 
 - Retained the #340 CSMctl/HTML Observatory axum static-server implementation and documented Runtime/Observatory separation unchanged.
 - Diagnosed PR #430 standard-hosted runtime coverage failure in job 96172082974: real_four_node_learner_replication panicked because removal boundary AfterJointHistory was not reached under coverage timing.
-- Kept the governed runtime's consensus handles aligned with the currently writable leader before removal crash-boundary replay.
-- Made the removal crash-boundary assertion retry/reopen until the injected boundary is actually reached, preserving the fail-closed StateRegression assertion for each boundary.
+- Resolved fresh-session:8dc4d176-e204-40f5-9719-62a0198f6319 P2 by changing write_on_writable_leader to return the accepted node id with the write response.
+- Used the latest accepted writable node for membership inspection, runtime.resume_consensus, and removal_authority_index instead of a previously captured leader id.
+- Kept the removal crash-boundary retry/reopen loop fail-closed: every boundary must still return StateRegression and must actually trip the injected boundary before the test proceeds.
 - Kept the change limited to the pre-existing distributed learner test harness failure observed in PR #430 coverage CI; no #341, #343, Unity, AWS/public hosting, provider credential, #84, #122, or #251 scope was added.
 
 ## Validation
@@ -47,9 +48,9 @@ Implemented bounded HTML Observatory Runtime v3 launch/start-stop-restart integr
       "adl-runtime/Cargo.toml",
       "--check"
     ],
-    "purpose": "Rust formatting check after bounded learner transport test-harness stabilization.",
+    "purpose": "Rust formatting check after accepted-writable-node test-harness repair.",
     "outcome": "passed",
-    "evidence_ref": "exit 0 with no output in /Volumes/FastWork/adl-worktrees/adl-issue-340-html-observatory-runtime-restart-integration"
+    "evidence_ref": "exit 0 in /Volumes/FastWork/adl-worktrees/adl-issue-340-html-observatory-runtime-restart-integration"
   },
   {
     "command": [
