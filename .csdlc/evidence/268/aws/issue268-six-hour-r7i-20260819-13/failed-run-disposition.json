@@ -1,0 +1,12 @@
+{
+  "additional_provider_attempt_authorized": true,
+  "authoritative_request_fallback": "disabled",
+  "authoritative_request_sha256": "28cfa234951c5d31afbd2233d999b6060b68987504c184d656550539c87826cb",
+  "continuation_authority": "operator_directed_continue_until_complete_or_usd20_ceiling",
+  "disposition": "terminal_failed_attempt_retained",
+  "failure_class": "original_us_west_2a_volume_contains_unsealed_historical_installation",
+  "provider_attempts_observed": 1,
+  "run_id": "issue268-six-hour-r7i-20260819-13",
+  "schema": "adl.issue268.failed_run_disposition.v1",
+  "summary_sha256": "09fd9588bd0d79f8b0dde16070f3ef57ee9a787ddfcdcbadf4e73b733205f4bb"
+}
