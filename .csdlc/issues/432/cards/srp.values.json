@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 432,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][repository] Remove all tracked .adl paths and relocate required policy authority",
+    "slug": "remove-tracked-adl-and-relocate-policy",
+    "version": "v0.92.1",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "The complete tracked .adl migration, relocated policy consumers, guards, inventories, and focused proof.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any active path still treat .adl as authority?",
+        "Does policy relocation preserve exact behavior?",
+        "Are historical mentions excluded without becoming fallback authority?",
+        "Was any sensitive local material promoted?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

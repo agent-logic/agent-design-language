@@ -1,0 +1,8 @@
+flowchart TD
+  A["Inventory 27 tracked .adl paths and active references"] --> B["Classify authority, provenance, and local residue"]
+  B --> C["Move policy to config/worktree-policy.json"]
+  C --> D["Update active consumers and tests"]
+  D --> E["Remove all tracked .adl paths"]
+  E --> F["Run zero-denominator and dependency guard"]
+  F --> G["Fresh checkout FastWork accept and non-FastWork reject"]
+

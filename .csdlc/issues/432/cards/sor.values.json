@@ -1,0 +1,27 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 432,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92.1][repository] Remove all tracked .adl paths and relocate required policy authority",
+    "slug": "remove-tracked-adl-and-relocate-policy",
+    "version": "v0.92.1",
+    "generation": 0
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Pre-execution output record.",
+      "actual_changes": [],
+      "artifacts": [],
+      "actual_validation": [],
+      "integration_state": "not_started",
+      "publication_state": "not_published",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

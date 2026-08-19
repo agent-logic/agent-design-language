@@ -1,0 +1,45 @@
+{
+  "issue": 432,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:432",
+  "design_path": ".csdlc/prepared/issues/432/design.md",
+  "diagram_path": ".csdlc/prepared/issues/432/diagram.mmd",
+  "design_reviewer": "codex:432-design",
+  "design_approved": true,
+  "initial": {
+    "title": "[v0.92.1][repository] Remove all tracked .adl paths and relocate required policy authority",
+    "slug": "remove-tracked-adl-and-relocate-policy",
+    "version": "v0.92.1",
+    "goal": "Make .adl strictly local-only while preserving worktree-placement enforcement outside .adl.",
+    "required_outcome": "Zero tracked .adl paths, zero active repository dependencies on .adl authority, relocated worktree policy, and deterministic regression guards.",
+    "declared_scope": ["The exact 27 tracked .adl paths", "All active tracked references that require .adl authority", "Worktree policy relocation and focused guards"],
+    "authority_boundary": [".csdlc remains lifecycle authority", "config/worktree-policy.json becomes worktree placement authority", "Historical evidence may mention .adl but cannot act as executable authority"],
+    "operator_constraints": ["Never delete unrelated operator-local .adl content", "Do not publish logs, credentials, provider output, or private state", "Use the new agent-logic repository and typed v2 lifecycle"],
+    "task_boundary": "Remove tracked and authoritative repository dependence on .adl without redesigning worktree policy or moving .csdlc.",
+    "deliverables": ["Pre-change migration inventory", "Relocated worktree policy and updated consumers", "Zero tracked .adl denominator", "Deterministic reintroduction guard", "Fresh-checkout bind proof"],
+    "acceptance_criteria": ["AC-1: Exact pre-change tracked-path and active-reference inventories have one disposition per entry", "AC-2: git ls-files .adl returns zero paths at the implementation head and in a fresh checkout", "AC-3: Active source, build, test, documentation, CI, schema, manifest, policy, and fallback scans contain no authoritative .adl dependency", "AC-4: One canonical policy outside .adl preserves allowed and rejected worktree behavior", "AC-5: Git ignore and deterministic guards reject reintroduction", "AC-6: No sensitive or local-only data is promoted", "AC-7: Focused tests, fresh-checkout proof, diff hygiene, and exact-head review pass"],
+    "dependencies": ["None beyond current origin/main"],
+    "repo_inputs": [".adl/worktree-policy.json", "csdlc-v2/src/lifecycle.rs", "csdlc-v2/tests/gate2.rs", "AGENTS.md", ".gitignore", "git ls-files .adl"],
+    "non_goals": ["Deleting operator-local .adl content", "Moving .csdlc authority", "Redesigning worktree placement policy", "Broad unrelated documentation cleanup"],
+    "plan_summary": "Inventory, relocate authority, remove tracked residue, add guards, and prove fresh-checkout behavior.",
+    "steps": [
+      {"id":"S1","action":"Retain exact tracked-path and active-reference inventories with dispositions.","acceptance_ids":["AC-1","AC-6"],"status":"pending"},
+      {"id":"S2","action":"Relocate worktree policy and update every active consumer and focused test.","acceptance_ids":["AC-3","AC-4"],"status":"pending"},
+      {"id":"S3","action":"Remove every tracked .adl path and add deterministic reintroduction guards.","acceptance_ids":["AC-2","AC-3","AC-5","AC-6"],"status":"pending"},
+      {"id":"S4","action":"Run focused and fresh-checkout proof, then obtain exact-head review.","acceptance_ids":["AC-4","AC-7"],"status":"pending"}
+    ],
+    "affected_areas": [".adl", "config/worktree-policy.json", "csdlc-v2/src/lifecycle.rs", "csdlc-v2/tests/gate2.rs", "AGENTS.md", ".gitignore", "adl/tools/check_no_tracked_adl.sh", "adl/tools/test_check_no_tracked_adl.sh", ".csdlc/evidence/432"],
+    "invariants": ["The FastWork parent remains unchanged", ".csdlc remains canonical", "No .adl fallback authority exists", "Operator-local state is preserved"],
+    "risks": ["Historical mentions may be confused with active dependencies", "Removing local logs from the index must not promote them elsewhere", "Fresh-checkout bind behavior may drift if policy resolution is incomplete"],
+    "planning_profile": "migration",
+    "stop_conditions": ["Any active consumer still resolves .adl authority", "The tracked denominator is nonzero", "A replacement would expose local or sensitive data", "Fresh-checkout positive or negative policy proof fails"],
+    "validation_lanes": [
+      {"lane":"adl-boundary","proof_role":"Prove zero tracked paths and zero active authoritative dependencies.","acceptance_ids":["AC-1","AC-2","AC-3","AC-5","AC-6"],"deterministic":true,"resource_profile":"small","budget_seconds":120,"budget_tokens":1500,"argv":["bash","adl/tools/test_check_no_tracked_adl.sh"],"parallel_group":"boundary","defer_reason":null},
+      {"lane":"worktree-policy","proof_role":"Prove relocated policy resolution and allowed/rejected worktree behavior.","acceptance_ids":["AC-4","AC-7"],"deterministic":true,"resource_profile":"medium","budget_seconds":600,"budget_tokens":2500,"argv":["cargo","test","--manifest-path","csdlc-v2/Cargo.toml","--lib","worktree_policy"],"parallel_group":"rust","defer_reason":null},
+      {"lane":"diff-hygiene","proof_role":"Reject patch whitespace errors.","acceptance_ids":["AC-7"],"deterministic":true,"resource_profile":"small","budget_seconds":30,"budget_tokens":500,"argv":["git","diff","--check"],"parallel_group":"hygiene","defer_reason":null}
+    ],
+    "failure_policy": "Fail closed on any tracked .adl path, active .adl authority reference, sensitive promotion, policy drift, or failed fresh-checkout proof.",
+    "review_prompts": ["Can any active path still treat .adl as authority?", "Does policy relocation preserve exact behavior?", "Are historical mentions excluded without becoming fallback authority?", "Was any sensitive local material promoted?"],
+    "review_scope": "The complete tracked .adl migration, relocated policy consumers, guards, inventories, and focused proof."
+  }
+}
