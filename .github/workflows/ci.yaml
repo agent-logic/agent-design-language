@@ -878,6 +878,9 @@ jobs:
         working-directory: .
 
       - name: Runtime coverage run and summary (json)
+        env:
+          ADL_AUTHORITATIVE_COVERAGE_PARTITIONS: "1"
+          ADL_AUTHORITATIVE_COVERAGE_TEST_THREADS: "1"
         run: bash adl/tools/run_ci_step_with_log.sh --name "coverage-runtime-summary-json" --log-root ci-step-logs -- bash adl/tools/run_authoritative_coverage_lane.sh --profile adl-runtime --authority "${{ needs.adl_path_policy.outputs.coverage_authority }}" --event-name "${{ github.event_name }}"
         working-directory: .
 

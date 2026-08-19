@@ -1,0 +1,12 @@
+schema=adl.issue426.linux_lifecycle_evidence.v1
+substantive_revision=097b10b89825b4968e47b97d318a34a0386ee8d6
+image=amazonlinux@sha256:694092ae18877ed4e3cb9b643759ba95df1f12af12528fefa18f60f79d4c1568
+os=linux
+architecture=arm64
+csmctl_sha256=71e501d3091d8e05f4a7290e0eef5ca10e32e5eec3be0e4b0cc78d7fcd7cf022
+test_sha256=0e3bc31931c0e8f0718ee5637d3ba9a76b5ffe42a299633ef2a5d9183273a9e2
+command=bash adl/tools/test_csmctl_linux_backend.sh
+result=PASS
+output=PASS: CSMctl Linux backend lifecycle, timeout refusal, and platform routing
+scope=start/status/restart/stop; foreign and stale PID refusal; pidfd TERM; retained ownership on timeout; no replacement after stop refusal; rotation and automatic recovery preserve continuity state after stop refusal; Darwin routing; unsupported OS refusal
+limitation=Native Amazon Linux arm64 semantic proof only; Linux x86_64 AWS qualification remains issue 268.

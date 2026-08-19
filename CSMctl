@@ -51,6 +51,7 @@ RUNTIME_SERVER_NAME="${ADL_CSM_RUNTIME_SERVER_NAME:-localhost}"
 LAUNCH_WORKING_DIR="${ADL_CSM_LAUNCH_WORKING_DIR:-$PRIMARY_REPO_ROOT}"
 INIT_FILE="${ADL_CSM_RUNTIME_INIT:-$GENERATED_DIR/runtime-init.current.toml}"
 PID_FILE="${ADL_CSM_PID_FILE:-$STATE_DIR/start_CSM.pid}"
+SUPERVISOR_PID_FILE="${ADL_CSM_SUPERVISOR_PID_FILE:-$STATE_DIR/start_CSM.supervisor.pid}"
 LEASE_PID_FILE="${ADL_CSM_LEASE_PID_FILE:-$STATE_DIR/start_CSM.lease.pid}"
 LEASE_INFO_FILE="${ADL_CSM_LEASE_INFO_FILE:-$STATE_DIR/start_CSM.lease.env}"
 LEASE_SERVER_FILE="${ADL_CSM_LEASE_SERVER_FILE:-$GENERATED_DIR/start_CSM_lease_server.py}"
@@ -98,17 +99,36 @@ OBSERVATORY_PID_FILE="${ADL_CSM_OBSERVATORY_PID_FILE:-$STATE_DIR/CSMctl.observat
 OBSERVATORY_STATE_FILE="${ADL_CSM_OBSERVATORY_STATE_FILE:-$STATE_DIR/CSMctl.observatory.env}"
 OBSERVATORY_LOG_FILE="${ADL_CSM_OBSERVATORY_LOG_FILE:-$STATE_DIR/CSMctl.observatory.log}"
 
+detect_host_os() {
+  if [[ "${ADL_CSM_TEST_MODE:-0}" == "1" && -n "${ADL_CSM_TEST_OS:-}" ]]; then
+    printf '%s' "$ADL_CSM_TEST_OS"
+  else
+    uname -s
+  fi
+}
+
+HOST_OS="$(detect_host_os)"
+case "$HOST_OS" in
+  Darwin) SERVICE_BACKEND="launchd" ;;
+  Linux) SERVICE_BACKEND="linux-process" ;;
+  *)
+    printf 'CSMctl status=failed reason=unsupported_operating_system:%s\n' "$HOST_OS" >&2
+    exit 1
+    ;;
+esac
+
 usage() {
   cat <<'USAGE'
-Usage: ./CSMctl [open|start|up|status|stop|logs|urls|rotate-continuity-state]
+Usage: ./CSMctl [open|start|up|restart|status|stop|logs|urls|rotate-continuity-state]
        ./CSMctl observatory [start|status|stop|open|urls|logs]
 
 Commands:
   open    Local demo convenience: start Runtime, start Observatory, and open it.
   start   Start the real Runtime v3 service if absent, probe it, and print URLs.
   up      Same as start.
+  restart Gracefully stop the owned Runtime service, then start it again.
   status  Probe the Runtime v3 service without starting anything.
-  stop    Gracefully stop the launchd-owned Runtime and wait for it to exit.
+  stop    Gracefully stop the owned Runtime service and wait for it to exit.
   logs    Show recent service logs from this script.
   urls    Print Runtime and Observatory URLs/paths.
   observatory
@@ -234,6 +254,7 @@ graceful_shutdown() {
     wait "\$kernel_pid" || true
   fi
   if [[ -n "\$lease_pid" ]] && kill -0 "\$lease_pid" 2>/dev/null; then
+    kill -TERM "\$lease_pid" 2>/dev/null || true
     wait "\$lease_pid" || true
   fi
   rm -f "$PID_FILE" "$LEASE_PID_FILE" "$LEASE_INFO_FILE"
@@ -566,7 +587,68 @@ ensure_observatory_config() {
 
 pid_is_alive() {
   local pid="$1"
-  [[ "$pid" =~ ^[0-9]+$ ]] && kill -0 "$pid" 2>/dev/null
+  [[ "$pid" =~ ^[0-9]+$ ]] && kill -0 "$pid" 2>/dev/null || return 1
+  if [[ "$HOST_OS" == "Linux" && -r "/proc/$pid/stat" ]]; then
+    local stat rest state
+    stat="$(<"/proc/$pid/stat")"
+    rest="${stat##*) }"
+    state="${rest%% *}"
+    [[ "$state" != "Z" ]] || return 1
+  fi
+}
+
+linux_pid_matches() {
+  local pid="$1"
+  local expected="$2"
+  local expected_start_time="${3:-}"
+  [[ "$HOST_OS" == "Linux" && "$pid" =~ ^[0-9]+$ ]] || return 1
+  python3 - "$pid" "$expected" "$expected_start_time" <<'PY'
+import os
+import sys
+
+pid, expected, expected_start = sys.argv[1:]
+try:
+    stat = open(f"/proc/{pid}/stat", encoding="utf-8").read()
+    start_time = stat[stat.rfind(")") + 2 :].split()[19]
+    argv = open(f"/proc/{pid}/cmdline", "rb").read().rstrip(b"\0").split(b"\0")
+    exe = os.path.realpath(f"/proc/{pid}/exe")
+except (FileNotFoundError, IndexError, OSError):
+    raise SystemExit(1)
+if expected_start and start_time != expected_start:
+    raise SystemExit(1)
+valid_argv = len(argv) >= 2 and os.path.basename(exe) in {"bash", "sh"} and os.fsdecode(argv[1]) == expected
+if not valid_argv:
+    raise SystemExit(1)
+print(start_time, end="")
+PY
+}
+
+linux_signal_owned() {
+  local pid="$1"
+  local expected="$2"
+  local expected_start_time="$3"
+  python3 - "$pid" "$expected" "$expected_start_time" <<'PY'
+import os
+import signal
+import sys
+
+pid_text, expected, expected_start = sys.argv[1:]
+pid = int(pid_text)
+pidfd = os.pidfd_open(pid)
+try:
+    stat = open(f"/proc/{pid}/stat", encoding="utf-8").read()
+    start_time = stat[stat.rfind(")") + 2 :].split()[19]
+    argv = open(f"/proc/{pid}/cmdline", "rb").read().rstrip(b"\0").split(b"\0")
+    exe = os.path.realpath(f"/proc/{pid}/exe")
+    if start_time != expected_start:
+        raise SystemExit(1)
+    valid_argv = len(argv) >= 2 and os.path.basename(exe) in {"bash", "sh"} and os.fsdecode(argv[1]) == expected
+    if not valid_argv:
+        raise SystemExit(1)
+    signal.pidfd_send_signal(pidfd, signal.SIGTERM)
+finally:
+    os.close(pidfd)
+PY
 }
 
 recorded_pid() {
@@ -649,32 +731,93 @@ runtime_is_responding() {
 }
 
 launch_service_loaded() {
-  launchctl print "$LAUNCH_DOMAIN/$LAUNCH_LABEL" >/dev/null 2>&1
+  case "$SERVICE_BACKEND" in
+    launchd)
+      launchctl print "$LAUNCH_DOMAIN/$LAUNCH_LABEL" >/dev/null 2>&1
+      ;;
+    linux-process)
+      local pid start_time
+      [[ -f "$SUPERVISOR_PID_FILE" ]] || return 1
+      read -r pid start_time < "$SUPERVISOR_PID_FILE" || true
+      [[ "$pid" =~ ^[0-9]+$ && "$start_time" =~ ^[0-9]+$ ]] \
+        || fail "invalid_linux_supervisor_pid_file:$SUPERVISOR_PID_FILE"
+      if ! pid_is_alive "$pid"; then
+        rm -f "$SUPERVISOR_PID_FILE"
+        return 1
+      fi
+      linux_pid_matches "$pid" "$RUNNER_FILE" "$start_time" >/dev/null \
+        || fail "linux_supervisor_pid_not_owned pid=$pid"
+      ;;
+  esac
 }
 
 launch_service_pid() {
-  launchctl print "$LAUNCH_DOMAIN/$LAUNCH_LABEL" 2>/dev/null \
-    | sed -n 's/^[[:space:]]*pid = //p' \
-    | head -1
+  case "$SERVICE_BACKEND" in
+    launchd)
+      launchctl print "$LAUNCH_DOMAIN/$LAUNCH_LABEL" 2>/dev/null \
+        | sed -n 's/^[[:space:]]*pid = //p' \
+        | head -1
+      ;;
+    linux-process)
+      launch_service_loaded || return 1
+      awk '{print $1}' "$SUPERVISOR_PID_FILE"
+      ;;
+  esac
 }
 
 launch_service_start() {
   if launch_service_loaded; then
-    launchctl bootout "$LAUNCH_DOMAIN/$LAUNCH_LABEL" >/dev/null 2>&1 || true
+    launch_service_stop
     for _ in $(seq 1 80); do
       launch_service_loaded || break
       sleep 0.25
     done
+    launch_service_loaded \
+      && fail "owned_service_did_not_stop_before_start"
   fi
-  launchctl bootstrap "$LAUNCH_DOMAIN" "$PLIST_FILE"
+  case "$SERVICE_BACKEND" in
+    launchd)
+      launchctl bootstrap "$LAUNCH_DOMAIN" "$PLIST_FILE"
+      ;;
+    linux-process)
+      mkdir -p "$STATE_DIR"
+      nohup "$RUNNER_FILE" >> "$LOG_FILE" 2>&1 < /dev/null &
+      local supervisor_pid=$!
+      sleep 0.05
+      local supervisor_start_time
+      supervisor_start_time="$(linux_pid_matches "$supervisor_pid" "$RUNNER_FILE")" \
+        || fail "linux_supervisor_identity_unavailable pid=$supervisor_pid"
+      printf '%s %s\n' "$supervisor_pid" "$supervisor_start_time" > "$SUPERVISOR_PID_FILE"
+      launch_service_loaded \
+        || fail "linux_supervisor_failed_to_start log=$LOG_FILE"
+      ;;
+  esac
 }
 
 launch_service_stop() {
-  if launch_service_loaded; then
-    launchctl bootout "$LAUNCH_DOMAIN/$LAUNCH_LABEL"
-  else
-    return 1
-  fi
+  launch_service_loaded || return 1
+  case "$SERVICE_BACKEND" in
+    launchd)
+      launchctl bootout "$LAUNCH_DOMAIN/$LAUNCH_LABEL"
+      ;;
+    linux-process)
+      local pid start_time
+      read -r pid start_time < "$SUPERVISOR_PID_FILE" || true
+      linux_pid_matches "$pid" "$RUNNER_FILE" "$start_time" >/dev/null \
+        || fail "linux_supervisor_pid_not_owned pid=$pid"
+      linux_signal_owned "$pid" "$RUNNER_FILE" "$start_time" \
+        || fail "linux_supervisor_pid_not_owned pid=$pid"
+      local stop_attempts=80
+      for _ in $(seq 1 "$stop_attempts"); do
+        pid_is_alive "$pid" || break
+        sleep 0.25
+      done
+      if pid_is_alive "$pid"; then
+        fail "linux_supervisor_did_not_stop pid=$pid"
+      fi
+      rm -f "$SUPERVISOR_PID_FILE"
+      ;;
+  esac
 }
 
 start_observatory_process() {
@@ -792,6 +935,7 @@ quarantine_continuity_state() {
 
 urls_cmd() {
   load_observatory_state || true
+  info "backend=$SERVICE_BACKEND host_os=$HOST_OS"
   info "runtime=$RUNTIME_BASE"
   info "observatory=$OBSERVATORY_URL"
   info "observatory_runtime_api_base=$OBSERVATORY_RUNTIME_BASE"
@@ -803,8 +947,10 @@ status_cmd() {
   info "service_dir=$SERVICE_DIR"
   info "kernel_bin=$KERNEL_BIN"
   info "init_file=$INIT_FILE"
-  local launch_pid pid
-  launch_pid="$(launch_service_pid)"
+  local launch_pid="" pid
+  if launch_service_loaded; then
+    launch_pid="$(launch_service_pid)"
+  fi
   if [[ -n "$launch_pid" ]]; then
     info "launch_label=$LAUNCH_LABEL pid=$launch_pid state=running"
   elif pid="$(recorded_pid 2>/dev/null)" && pid_is_alive "$pid"; then
@@ -844,7 +990,7 @@ up_cmd() {
   done
   if [[ "${ADL_CSM_RECOVER_INVALID_CONTINUITY:-1}" == "1" ]] && checkpoint_signature_failed; then
     info "event=checkpoint_signature_verification_failed action=quarantine_and_retry_once"
-    launch_service_stop >/dev/null 2>&1 || true
+    launch_service_stop >/dev/null 2>&1
     quarantine_continuity_state "signature-failed"
     ensure_current_init
     : > "$LOG_FILE"
@@ -863,13 +1009,15 @@ up_cmd() {
 }
 
 rotate_continuity_state_cmd() {
-  stop_cmd || true
+  stop_cmd
   quarantine_continuity_state "operator-rotation"
   ensure_current_init
   info "status=pass action=continuity_state_rotated next=start"
 }
 
 open_cmd() {
+  [[ "$SERVICE_BACKEND" == "launchd" ]] \
+    || fail "observatory_control_not_supported_on_$HOST_OS"
   up_cmd
   start_observatory_server
   info "opening=$OBSERVATORY_URL"
@@ -894,6 +1042,12 @@ stop_cmd() {
     sleep 0.25
   done
   fail "runtime_stop_not_confirmed ready=$LAST_READY_CODE observatory=$LAST_OBSERVATORY_CODE health=$LAST_HEALTH_CODE log=$LOG_FILE"
+}
+
+restart_cmd() {
+  launch_service_loaded || fail "restart_requires_owned_runtime_service"
+  stop_cmd
+  up_cmd
 }
 
 logs_cmd() {
@@ -939,6 +1093,8 @@ observatory_open_cmd() {
 }
 
 observatory_cmd() {
+  [[ "$SERVICE_BACKEND" == "launchd" ]] \
+    || fail "observatory_control_not_supported_on_$HOST_OS"
   case "${1:-start}" in
     start) start_observatory_server ;;
     status) observatory_status_cmd ;;
@@ -955,6 +1111,7 @@ case "${1:-up}" in
   observatory) shift; observatory_cmd "$@" ;;
   start) up_cmd ;;
   up) up_cmd ;;
+  restart) restart_cmd ;;
   status) status_cmd ;;
   stop) stop_cmd ;;
   logs) logs_cmd ;;
