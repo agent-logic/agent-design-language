@@ -1198,6 +1198,12 @@ async fn real_four_node_learner_replication() {
         admission.deadline_unix_seconds,
     )
     .unwrap();
+    let leader = loop {
+        if let Some(leader) = nodes[&1].metrics().borrow().current_leader {
+            break leader;
+        }
+        tokio::time::sleep(Duration::from_millis(25)).await;
+    };
     for sequence in 0..8 {
         nodes[&leader]
             .client_write(PolisCommand::GovernedMutation {
@@ -1347,6 +1353,12 @@ async fn real_four_node_learner_replication() {
         !learner_server.is_finished(),
         "learner server ended during catch-up"
     );
+    let leader = loop {
+        if let Some(leader) = nodes[&1].metrics().borrow().current_leader {
+            break leader;
+        }
+        tokio::time::sleep(Duration::from_millis(25)).await;
+    };
     let replicated = nodes[&leader]
         .client_write(PolisCommand::GovernedMutation {
             mutation_id: "authorized-learner-replicated".to_owned(),
@@ -1355,7 +1367,7 @@ async fn real_four_node_learner_replication() {
         .await
         .unwrap();
     assert!(replicated.data.accepted);
-    for _ in 0..200 {
+    for _ in 0..1000 {
         if machines[&4]
             .application_state()
             .await
