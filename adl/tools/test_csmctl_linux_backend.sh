@@ -103,6 +103,11 @@ fi
 absent_status_output=$("${common[@]}" ADL_CSM_TEST_CURL_ALWAYS_READY=1 "$ROOT/CSMctl" status)
 [[ "$absent_status_output" == *"pid=none state=not_started_by_start_CSM"* ]]
 [[ "$absent_status_output" == *"status=pass"* ]]
+if "${common[@]}" ADL_CSM_TEST_CURL_ALWAYS_READY=1 "$ROOT/CSMctl" restart >"$SCRATCH/unowned-restart.out" 2>&1; then
+  echo "unowned Linux restart unexpectedly passed" >&2
+  exit 1
+fi
+grep -F 'restart_requires_owned_runtime_service' "$SCRATCH/unowned-restart.out" >/dev/null
 
 start_output=$("${common[@]}" "$ROOT/CSMctl" start)
 [[ "$start_output" == *"backend=linux-process host_os=Linux"* ]]

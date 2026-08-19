@@ -1135,6 +1135,7 @@ stop_cmd() {
 }
 
 restart_cmd() {
+  launch_service_loaded || fail "restart_requires_owned_runtime_service"
   stop_cmd
   up_cmd
 }

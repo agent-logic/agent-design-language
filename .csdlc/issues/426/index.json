@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "4997d7deed63e49f9f51627e90720c043a2c0f87bdfad9170fdc9d7d3870b70e",
   "phase": "implemented",
-  "generation": 9,
-  "digest": "dca6fdafe52fc1b96503350ed4832a399b22c7b1f3767e2e22866d6ee5e1cbd9",
+  "generation": 10,
+  "digest": "4d8c8ef3729b70252805116c97fb265ecc08dd2d2c311f7d00da3007dd3ea85a",
   "branch": "codex/426-linux-csmctl-service-control",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-426-linux-csmctl-service-control",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9eed5780a7086bbccfcfc93f22911e802b6aa932ee5462273834761e57c8f17f",
+      "values_digest": "118e07b24ccfb464e99de3d8f29dbf070fddff19428369ff5df581903c8c71bc",
       "rendered_digest": "a3cab901aa5c6ca7abaaf6bb8f4649453639cb83fc583f04f6c53c8c5a23830a",
       "ast_digest": "4a75f069e33d0cf887b1d834c066b5e626d40777d5261cea5e618daff103a140"
     },
     "stp": {
-      "values_digest": "d587412d16fe36a584b51614ad02581ea2d53dbbdfc5e5d11c177b786f85b44e",
+      "values_digest": "7232bafb2562bc832e33370ccfb825bb68b095b91e95504e0a9e926a67070264",
       "rendered_digest": "37ad1d11c4a4f3e579dfce0d0eb7ccecb55e3194778b234146d2f650c6b77d36",
       "ast_digest": "e0c72f42587d3b095d80d0ba18548c92efcf4cda8c89eacc0f7eed4e868301aa"
     },
     "spp": {
-      "values_digest": "1e176804ecaf26b672cd68581f44aba6533f849569d6e057ea152f27b32584b4",
+      "values_digest": "b3a4ec5286dd9371dec4ecc7bf670b55a9241e0d12ce17c1ca30bfd13663b05a",
       "rendered_digest": "d324a470a3018ee464f77b3132303b3dca91dcd29b52976310e96a73b36e64ae",
       "ast_digest": "b4056cb77d97a4de8060e597d2d804fc7b50fa282679ca654a9ed8d700e30540"
     },
     "vpp": {
-      "values_digest": "facf00ac4125df2079108c171ba492ed26e849344fb4c8e79af0c6e779d67c34",
+      "values_digest": "f7a8b357a50cdebf4a908b4f8ca7f8f6056b9878aaa1d4bb4c9ec6ba22ceb9a5",
       "rendered_digest": "1a9e890be759865a4722d8547a91da307ef00cbbd7a19ee3846b5ec73ef91cc0",
       "ast_digest": "554f1fc2241127f3420794a65270c2d05e0497df2d0c18d2c146b067f2ae75b0"
     },
     "srp": {
-      "values_digest": "a27c20814039a190fd04dc5399be0ec6e7b7921a670c03ec4516f087f3d98909",
+      "values_digest": "035062f31fb05db8de9c0a4097f8319ec9d8fa90d434b6e3f1c7b46dcf455b60",
       "rendered_digest": "97d1c04b74ceb1498b7d483962f7680dcfcc31c603d72016a8d3301e9aaddbd4",
       "ast_digest": "4b782840962021493eb6879319b80860d96d5450dc24c900462809920b1730fa"
     },
     "sor": {
-      "values_digest": "7df4ba3db65c569da88380853a66cddb95372849ab11b4dc3da3659dacc82784",
+      "values_digest": "8f8766e304179f4c73cc35d9cb4011c98d56f9b99f524b75a20bb15b1062f69c",
       "rendered_digest": "9aa9bf1fd6f66e6e2e03f5595bc23065d6f67553504379f0ef49044451f8e5aa",
       "ast_digest": "f093c0d325f48b11a9eb631c9956ca7373f8e642669d3072a6519c3b21d9e35c"
     }
@@ -161,6 +161,20 @@
       "actor": "fresh-session:eac10b56-d925-46a9-bef7-37346341e5dc",
       "reason": "reapprove changed issue design",
       "operation": "{\"design_digest\":\"1a14733786a8e9f3931307940f1b8e78a53ea0c64c9c031f9ee9928d0c63362a\",\"design_ref\":\".csdlc/prepared/issues/426/design.md\",\"diagram_digest\":\"52f17edf80108c10fe5b3a9ac1d3a4b0a9691ea01d07aba76a9e0063255c6224\",\"diagram_ref\":\".csdlc/prepared/issues/426/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Final exact-head review found that restart could report success for a healthy but unowned Runtime; recover for fail-closed ownership enforcement and regression proof.",
+      "operation": "recover_review"
     }
   ]
 }
