@@ -1064,7 +1064,7 @@ up_cmd() {
   done
   if [[ "${ADL_CSM_RECOVER_INVALID_CONTINUITY:-1}" == "1" ]] && checkpoint_signature_failed; then
     info "event=checkpoint_signature_verification_failed action=quarantine_and_retry_once"
-    launch_service_stop >/dev/null 2>&1 || true
+    launch_service_stop >/dev/null 2>&1
     quarantine_continuity_state "signature-failed"
     ensure_current_init
     : > "$LOG_FILE"
@@ -1083,7 +1083,7 @@ up_cmd() {
 }
 
 rotate_continuity_state_cmd() {
-  stop_cmd || true
+  stop_cmd
   quarantine_continuity_state "operator-rotation"
   ensure_current_init
   info "status=pass action=continuity_state_rotated next=start"

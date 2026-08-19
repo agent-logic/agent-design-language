@@ -7,7 +7,7 @@
     "title": "[v0.92][runtime-v3][20.c1] Add Linux service control to CSMctl",
     "slug": "linux-csmctl-service-control",
     "version": "v0.92",
-    "generation": 15
+    "generation": 17
   },
   "status": "ready",
   "content": {

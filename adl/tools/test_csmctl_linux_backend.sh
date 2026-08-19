@@ -186,9 +186,44 @@ if "${common[@]}" "$ROOT/CSMctl" start >"$SCRATCH/timeout-start.out" 2>&1; then
 fi
 grep -F 'linux_supervisor_did_not_stop' "$SCRATCH/timeout-start.out" >/dev/null
 [[ "$(<"$SCRATCH/state/supervisor.pid")" == "$timeout_supervisor_record" ]]
+mkdir -p "$SCRATCH/state/private-continuity/guardian"
+printf 'retain-on-refusal\n' > "$SCRATCH/state/private-continuity/guardian/marker"
+if "${common[@]}" "$ROOT/CSMctl" rotate-continuity-state >"$SCRATCH/timeout-rotate.out" 2>&1; then
+  echo "continuity rotation unexpectedly ignored a TERM-resistant supervisor" >&2
+  exit 1
+fi
+grep -F 'linux_supervisor_did_not_stop' "$SCRATCH/timeout-rotate.out" >/dev/null
+[[ "$(<"$SCRATCH/state/supervisor.pid")" == "$timeout_supervisor_record" ]]
+[[ -f "$SCRATCH/state/private-continuity/guardian/marker" ]]
+[[ ! -d "$SCRATCH/state/quarantine" ]]
 kill -KILL "$timeout_supervisor_pid" 2>/dev/null || true
 wait "$timeout_supervisor_pid" 2>/dev/null || true
 rm -f "$SCRATCH/state/supervisor.pid" "$SCRATCH/state/kernel.pid"
+
+cat > "$SCRATCH/bin/kernel" <<'SH'
+#!/usr/bin/env bash
+echo 'checkpoint signature verification failed'
+trap '' TERM INT
+while true; do sleep 1; done
+SH
+chmod +x "$SCRATCH/bin/kernel"
+if "${common[@]}" ADL_CSM_TEST_CURL_ALWAYS_UNREADY=1 "$ROOT/CSMctl" start >"$SCRATCH/timeout-recovery.out" 2>&1; then
+  echo "signature recovery unexpectedly mutated state after stop refusal" >&2
+  exit 1
+fi
+grep -F 'event=checkpoint_signature_verification_failed action=quarantine_and_retry_once' "$SCRATCH/timeout-recovery.out" >/dev/null
+[[ -f "$SCRATCH/state/private-continuity/guardian/marker" ]]
+[[ ! -d "$SCRATCH/state/quarantine" ]]
+read -r recovery_supervisor_pid _ < "$SCRATCH/state/supervisor.pid"
+kill -KILL "$recovery_supervisor_pid" 2>/dev/null || true
+wait "$recovery_supervisor_pid" 2>/dev/null || true
+for pid_file in "$SCRATCH/state/kernel.pid" "$SCRATCH/state/lease.pid"; do
+  if [[ -f "$pid_file" ]]; then
+    retained_pid=$(tr -d '[:space:]' < "$pid_file")
+    [[ "$retained_pid" =~ ^[0-9]+$ ]] && kill -KILL "$retained_pid" 2>/dev/null || true
+  fi
+done
+rm -f "$SCRATCH/state/supervisor.pid" "$SCRATCH/state/kernel.pid" "$SCRATCH/state/lease.pid"
 fi
 
 : > "$SCRATCH/launchctl.log"
