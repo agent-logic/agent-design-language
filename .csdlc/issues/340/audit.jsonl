@@ -50,3 +50,4 @@
 {"sequence":50,"generation":37,"actor":"codex:/root","reason":"Recover #340 reviewed state because the recorded non-substantive proof used a custom policy string that made csdlc-publish reject with review_stale; re-record review using assignment-exact evidence and the built-in metadata-only publication verifier.","operation":"recover_review"}
 {"sequence":51,"generation":37,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":52,"generation":38,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":53,"generation":39,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
