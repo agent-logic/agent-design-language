@@ -45,3 +45,4 @@
 {"sequence":45,"generation":33,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":46,"generation":34,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":47,"generation":35,"actor":"codex:/root","reason":"Recover stale publication/review truth after forward conflict-resolution commit 15240578ff541ca3220513adfd23ed1cbb649178; typed finish refused with reconciliation_required because publication drift is not governed metadata-only change.","operation":"recover_review"}
+{"sequence":48,"generation":35,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
