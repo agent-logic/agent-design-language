@@ -949,8 +949,28 @@ if [[ "$RUN" == true || "$ACTION" == "preflight" ]]; then
   fi
   resolve_spot_hourly_cost
   validate_portable_capacity_and_cost
-  resolve_and_verify_retained_topology
-  select_runtime_continuity_volume
+  if [[ -n "$RUNTIME_CONTINUITY_VOLUME_ID" ]]; then
+    [[ "$SUBNET_ID" =~ ^subnet-[0-9a-f]{8,17}$ ]] || {
+      echo "run_aws_spot_remote_validation_lane: Runtime continuity volume requires an explicit colocated subnet" >&2
+      exit 1
+    }
+    if [[ -z "$AMI_ID" ]]; then
+      profile_args=()
+      if [[ "$PROFILE" != "env" && "$PROFILE" != "environment" ]]; then
+        profile_args=(--profile "$PROFILE")
+      fi
+      AMI_ID="$("$AWS_CLI" ssm get-parameter "${profile_args[@]}" --region "$REGION" \
+        --name /aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64 \
+        --query 'Parameter.Value' --output text)"
+    fi
+    [[ "$AMI_ID" =~ ^ami-[0-9a-f]{8,17}$ ]] || {
+      echo "run_aws_spot_remote_validation_lane: Runtime continuity AMI resolution failed" >&2
+      exit 1
+    }
+    select_runtime_continuity_volume
+  else
+    resolve_and_verify_retained_topology
+  fi
   verify_ssh_recovery_key
 fi
 
