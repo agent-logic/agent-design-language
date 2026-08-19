@@ -1146,12 +1146,13 @@ fn ollama_request_body(request: &ProviderInvocationRequestV1) -> Value {
         "think": false,
     });
     if let Some(max_output_tokens) = request.max_output_tokens {
-        body.as_object_mut()
-            .expect("ollama request body is object")
-            .insert(
-                "options".to_string(),
-                json!({"num_predict": max_output_tokens}),
-            );
+        body["options"]["num_predict"] = json!(max_output_tokens);
+    }
+    if let Some(context_window_tokens) = request.context_window_tokens {
+        body["options"]["num_ctx"] = json!(context_window_tokens);
+    }
+    if let Some(local_keep_alive) = request.local_keep_alive.as_deref() {
+        body["keep_alive"] = json!(local_keep_alive);
     }
     body
 }
@@ -1807,6 +1808,8 @@ mod tests {
             },
             input_text: Some("secret prompt should not enter logs".to_string()),
             max_output_tokens: None,
+            context_window_tokens: None,
+            local_keep_alive: None,
             inference_parameter_fingerprint: None,
             tool_surface: None,
             governance_surface: None,
@@ -1978,10 +1981,17 @@ mod tests {
             "http://127.0.0.1:11434".to_string(),
         );
         ollama_req.max_output_tokens = Some(1_024);
+        ollama_req.context_window_tokens = Some(4_096);
+        ollama_req.local_keep_alive = Some("-1".to_string());
         assert_eq!(
             ollama_request_body(&ollama_req).pointer("/options/num_predict"),
             Some(&json!(1_024))
         );
+        assert_eq!(
+            ollama_request_body(&ollama_req).pointer("/options/num_ctx"),
+            Some(&json!(4_096))
+        );
+        assert_eq!(ollama_request_body(&ollama_req)["keep_alive"], json!("-1"));
     }
 
     #[test]

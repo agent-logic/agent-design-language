@@ -688,6 +688,9 @@ def adapter_request(entry: dict[str, Any], prompt: str, lane_ref: str = "benchma
             "retry_backoff_ms": 1000,
         },
         "input_text": prompt,
+        "max_output_tokens": LOCAL_NUM_PREDICT,
+        "context_window_tokens": LOCAL_NUM_CTX,
+        "local_keep_alive": LOCAL_KEEP_ALIVE,
     }
 
 
