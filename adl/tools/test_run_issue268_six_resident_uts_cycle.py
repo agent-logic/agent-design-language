@@ -20,6 +20,10 @@ def main() -> None:
             """#!/usr/bin/env python3
 import json,pathlib,sys
 args=sys.argv[1:]
+assert __import__('os').environ['ADL_UTS_LOCAL_TEST_TIMEOUT_SECONDS']=='600'
+assert __import__('os').environ['ADL_UTS_LOCAL_NUM_PREDICT']=='64'
+assert __import__('os').environ['ADL_UTS_LOCAL_NUM_CTX']=='4096'
+assert __import__('os').environ['ADL_UTS_OLLAMA_KEEP_ALIVE']=='30m'
 models=pathlib.Path(args[1]).read_text().strip()
 out=pathlib.Path(args[2])
 task_panel=pathlib.Path(args[args.index('--task-panel-file')+1])

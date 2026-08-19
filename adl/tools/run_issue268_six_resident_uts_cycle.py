@@ -160,10 +160,10 @@ def main() -> int:
             model_list.write_text(agent_id + "\n", encoding="utf-8")
             report_path = args.evidence_dir / f"{args.phase}-{agent_id}.json"
             environment = os.environ.copy()
-            environment.setdefault("ADL_UTS_LOCAL_TEST_TIMEOUT_SECONDS", "300")
-            environment.setdefault("ADL_UTS_LOCAL_NUM_PREDICT", "128")
-            environment.setdefault("ADL_UTS_LOCAL_NUM_CTX", "8192")
-            environment.setdefault("ADL_UTS_OLLAMA_KEEP_ALIVE", "0")
+            environment.setdefault("ADL_UTS_LOCAL_TEST_TIMEOUT_SECONDS", "600")
+            environment.setdefault("ADL_UTS_LOCAL_NUM_PREDICT", "64")
+            environment.setdefault("ADL_UTS_LOCAL_NUM_CTX", "4096")
+            environment.setdefault("ADL_UTS_OLLAMA_KEEP_ALIVE", "30m")
             command = [
                 sys.executable,
                 str(args.runner),
@@ -180,6 +180,17 @@ def main() -> int:
             ]
             completed = subprocess.run(command, cwd=ROOT, env=environment, check=False)
             if completed.returncode != 0:
+                if report_path.is_file():
+                    failed_report = json.loads(report_path.read_text(encoding="utf-8"))
+                    for model in failed_report.get("models", []):
+                        for lane_name, lane in (model.get("lanes") or {}).items():
+                            if lane.get("status") != "evaluated":
+                                print(
+                                    f"{agent_id}: lane={lane_name} status={lane.get('status')} "
+                                    f"failure_kind={lane.get('provider_failure_kind')} "
+                                    f"note={lane.get('note')}",
+                                    file=sys.stderr,
+                                )
                 self_check_path = report_path.with_name(f"{report_path.stem}_self_check.json")
                 if self_check_path.is_file():
                     self_check = json.loads(self_check_path.read_text(encoding="utf-8"))
