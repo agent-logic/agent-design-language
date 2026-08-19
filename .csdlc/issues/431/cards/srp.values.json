@@ -7,13 +7,13 @@
     "title": "[v0.92.1][planning][sidecar] Refresh initial milestone plan before WP-28",
     "slug": "v0921-initial-planning-sidecar",
     "version": "v0.92.1",
-    "generation": 11
+    "generation": 12
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/evidence/431\n.csdlc/issues/431\n.csdlc/prepared/issues/431\ndocs/milestones/v0.92.1\ndocs/planning/ADL_FEATURE_LIST.md",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
