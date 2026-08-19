@@ -35,7 +35,7 @@ Implemented recordless closeout classification and receipt retention support in 
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

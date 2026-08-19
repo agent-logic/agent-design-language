@@ -7,7 +7,7 @@
     "title": "[v0.92][C-SDLC][defect] Recover recordless already-merged closeout authority",
     "slug": "recordless-already-merged-closeout-recovery",
     "version": "v0.92",
-    "generation": 5
+    "generation": 6
   },
   "status": "pre_phase",
   "content": {
@@ -28,7 +28,7 @@
         "recordless dry-run: 8 recordless_terminal_eligible, 1 conflicting_historical_publication (#248)"
       ],
       "actual_validation": [],
-      "integration_state": "not_started",
+      "integration_state": "worktree_only",
       "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
