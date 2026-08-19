@@ -14,3 +14,5 @@
 {"sequence":14,"generation":10,"actor":"codex:/root","reason":"Final exact-head review found that restart could report success for a healthy but unowned Runtime; recover for fail-closed ownership enforcement and regression proof.","operation":"recover_review"}
 {"sequence":15,"generation":10,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":16,"generation":11,"actor":"codex:/root","reason":"Final exact-head review found production test-mode ownership overrides could authorize signaling; remove all synthetic ownership and signal fallbacks from CSMctl.","operation":"recover_review"}
+{"sequence":17,"generation":11,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":18,"generation":12,"actor":"codex:/root","reason":"Final exact-head review found test mode could shorten stop and discard a live supervisor identity; make timeout refusal unconditional.","operation":"recover_review"}

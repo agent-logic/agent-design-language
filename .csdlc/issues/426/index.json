@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "4997d7deed63e49f9f51627e90720c043a2c0f87bdfad9170fdc9d7d3870b70e",
   "phase": "implemented",
-  "generation": 11,
-  "digest": "fad2ce947cd291aa5f55593e13bc72bb41b1a5beb6d2aa326c9e6b8a95bd370f",
+  "generation": 12,
+  "digest": "007d70012885af769f9360dd54040489905817eb5327b68f9de4aa19e4984396",
   "branch": "codex/426-linux-csmctl-service-control",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-426-linux-csmctl-service-control",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "49a77ede77c259a0df5f7755b8b88622da8c03e7516b1a66415904a8ea02942e",
+      "values_digest": "05b13b86f70bd4964a84d59a0579a2279796a163802a0512548bb1fdc27aa997",
       "rendered_digest": "a3cab901aa5c6ca7abaaf6bb8f4649453639cb83fc583f04f6c53c8c5a23830a",
       "ast_digest": "4a75f069e33d0cf887b1d834c066b5e626d40777d5261cea5e618daff103a140"
     },
     "stp": {
-      "values_digest": "a6c975a0127757baa1f1b4990df6a709fbc95b9fb897e05b07ea14b40443aa68",
+      "values_digest": "5b098f2d7ae6c2e78e5daf19f4757711286ebc9d6bbca33c0bdf62b71a873a75",
       "rendered_digest": "37ad1d11c4a4f3e579dfce0d0eb7ccecb55e3194778b234146d2f650c6b77d36",
       "ast_digest": "e0c72f42587d3b095d80d0ba18548c92efcf4cda8c89eacc0f7eed4e868301aa"
     },
     "spp": {
-      "values_digest": "ef8c973123ffe39105d4cf38cc1c67693ddbb3f8145b48c3c36ba47aac32bb6f",
+      "values_digest": "d03176f533fbc586ca9c02567181f5d8022c388f4f451f2ec879121677a309c2",
       "rendered_digest": "d324a470a3018ee464f77b3132303b3dca91dcd29b52976310e96a73b36e64ae",
       "ast_digest": "b4056cb77d97a4de8060e597d2d804fc7b50fa282679ca654a9ed8d700e30540"
     },
     "vpp": {
-      "values_digest": "e8ea3f5924ef2f69de389c3d2c032826f61101b1cf2e70eae11fd36daf983f64",
+      "values_digest": "5f5bfc75f26f87ba43472cfc6c23a3f607c817e8e6bf6f66e768f7ec0a3e90d7",
       "rendered_digest": "1a9e890be759865a4722d8547a91da307ef00cbbd7a19ee3846b5ec73ef91cc0",
       "ast_digest": "554f1fc2241127f3420794a65270c2d05e0497df2d0c18d2c146b067f2ae75b0"
     },
     "srp": {
-      "values_digest": "27bc29ec282f50f2578c7e8005c4d4cd10f1a780b215627f3993d535f6fead3d",
+      "values_digest": "583b6668ebb9d0e7499e5ff96cc064cb3ae9004ee5e3daf5ec2e6bd51b0d75f8",
       "rendered_digest": "97d1c04b74ceb1498b7d483962f7680dcfcc31c603d72016a8d3301e9aaddbd4",
       "ast_digest": "4b782840962021493eb6879319b80860d96d5450dc24c900462809920b1730fa"
     },
     "sor": {
-      "values_digest": "db59379a94570745560dede9569b4363aac58dd20c3a556b945556fc60c29b74",
+      "values_digest": "f0ce968350bb355cee4d6841970bd10e2f5806647bc8006a87a899d6fae120e0",
       "rendered_digest": "9aa9bf1fd6f66e6e2e03f5595bc23065d6f67553504379f0ef49044451f8e5aa",
       "ast_digest": "f093c0d325f48b11a9eb631c9956ca7373f8e642669d3072a6519c3b21d9e35c"
     }
@@ -188,6 +188,20 @@
       "generation": 11,
       "actor": "codex:/root",
       "reason": "Final exact-head review found production test-mode ownership overrides could authorize signaling; remove all synthetic ownership and signal fallbacks from CSMctl.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Final exact-head review found test mode could shorten stop and discard a live supervisor identity; make timeout refusal unconditional.",
       "operation": "recover_review"
     }
   ]
