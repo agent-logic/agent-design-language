@@ -1045,11 +1045,11 @@ mod tests {
         let mut calls = 0;
         let result = capture_all_with(
             &input,
-            Instant::now() + Duration::from_millis(100),
+            Instant::now() + Duration::from_secs(30),
             |options| {
                 calls += 1;
                 if calls == 2 {
-                    thread::sleep(Duration::from_millis(150));
+                    bail!("simulated second capture failure after admission closed");
                 }
                 fs::create_dir_all(&options.out_dir)?;
                 fs::write(
