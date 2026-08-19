@@ -9,3 +9,4 @@
 {"sequence":9,"generation":5,"actor":"codex:issue-415","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":10,"generation":6,"actor":"codex:issue-415","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":11,"generation":7,"actor":"codex:issue-415","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":12,"generation":8,"actor":"codex:closeout-sweep","reason":"Materialize live merged PR #416 terminal truth for #415 closeout.","operation":"materialize_derived_terminal"}
