@@ -8,7 +8,7 @@ Repository: agent-logic/agent-design-language
 
 Card: sor
 
-Status: pre_phase
+Status: complete
 
 ## Summary
 
@@ -114,17 +114,17 @@ Rebased issue #200 onto exact merged-main 5e25dccebde3bdd608e3ecb80d3d60a0c40e3a
 
 ## Integration
 
-pr_open
+merged
 
 ## Publication
 
-Publication: ready
+Publication: closed
 
-Merge: not_merged
+Merge: merged
 
 ## Closeout
 
-not_started
+complete
 
 ## Follow Ups
 

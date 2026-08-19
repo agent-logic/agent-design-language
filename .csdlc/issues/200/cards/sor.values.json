@@ -7,9 +7,9 @@
     "title": "[v0.92][WP-04.16b3] Add crash-safe authority reconciliation barrier",
     "slug": "crash-safe-authority-reconciliation-barrier",
     "version": "v0.92",
-    "generation": 22
+    "generation": 23
   },
-  "status": "pre_phase",
+  "status": "complete",
   "content": {
     "card_kind": "sor",
     "values": {
@@ -107,10 +107,10 @@
           "evidence_ref": ".csdlc/evidence/200/v5/execution-proof.json"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
-      "merge_state": "not_merged",
-      "closeout_state": "not_started",
+      "integration_state": "merged",
+      "publication_state": "closed",
+      "merge_state": "merged",
+      "closeout_state": "complete",
       "follow_ups": []
     }
   }
