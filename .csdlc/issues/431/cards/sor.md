@@ -66,11 +66,11 @@ Authored and validated the repository-authoritative v0.92.1 planning candidate w
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
