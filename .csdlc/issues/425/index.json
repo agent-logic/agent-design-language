@@ -6,10 +6,22 @@
   "initialization_digest": "d98a8d900cde7810150f96c65b587a7763b677cf58610771289dd359b4be5b19",
   "phase": "implemented",
   "generation": 8,
-  "digest": "c24b2b2263d190e08bbbce14423183231215b12e192f5ff0f65f1a51048ffabf",
+  "digest": "98e1adb8d74bd6ddc5ebbcba90ffb4e0bdcc5614a5d8d7e094b5f16a39263ade",
   "branch": "codex/425-recordless-closeout-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-425-recordless-closeout-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:e4d1dfc3-4ad0-4bb1-a21b-ae295968da79",
+    "assigned_by": "codex-worker-4",
+    "revision": "git-blake3:9d308e685ab9b87553683bae2c54c182dae46e6a:e45ff9fd06dcd1be762631510ea9c0fdba24b55211c9f23462759d8cb7c464d4",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-finish.rs",
+      "csdlc-v2/src/finish.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/tests/gate_recordless_closeout.rs",
+      ".csdlc/evidence/425-v092-residual-dry-run-result.json",
+      ".csdlc/issues/425"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +57,9 @@
       "ast_digest": "dc064a1b29d4ffce555b1ffa93a65466b5adfe914df83ce7126a441ac99c6e03"
     },
     "srp": {
-      "values_digest": "139601153386aec2532aefb4facd688b13f4d6ae287c9959a284e0fabbdbbbfe",
-      "rendered_digest": "ac7b89136057e5af0de22d13f0f398940c48a729224586d0373e2328e6f578fd",
-      "ast_digest": "f542a55e0266532978da258547185b7587ee0d0f8956b492f6dbb0a225f25dfd"
+      "values_digest": "f5d8f99fb510c9b46d794a7fba1b4e202e6fa813254eac8e594252eca2ee9d64",
+      "rendered_digest": "8104e68c08d29a83760c4a0591d513e36d1a3b21ab3fee98216bd5481b2a3ec8",
+      "ast_digest": "6606bf80b5e91946eb5691de27269f1a5913b2a30140f9e883f80c5fc355da79"
     },
     "sor": {
       "values_digest": "0fff77bf0c38d6967a720e6c8179a0d2253d999b94f778149a905355d363f6ec",
@@ -162,6 +174,13 @@
       "actor": "codex-worker-4",
       "reason": "record r6 P1 review finding repair before fresh exact review",
       "operation": "{\"operation\":\"record_execution\",\"summary\":\"Repaired #425 review finding: recordless source-projection proof now fails closed when the expected PR head SHA is not available as a local commit object before checking the issue projection path.\",\"changes\":[\"csdlc-v2/src/finish.rs: source_projection_at_revision now verifies expected_head_sha resolves to a commit object and returns ReconciliationRequired when missing\",\"csdlc-v2/tests/gate_recordless_closeout.rs: added negative test for unavailable expected head before projection check\",\".csdlc/evidence/425-v092-residual-dry-run-result.json: refreshed live dry-run evidence after the fix\"],\"artifacts\":[\"r6 review P1 fixed: missing/unfetched PR head no longer collapses to projection-absent false\",\"cargo test --manifest-path csdlc-v2/Cargo.toml --test gate_recordless_closeout: 5 passed\",\"cargo check --manifest-path csdlc-v2/Cargo.toml: passed\",\"git diff --check: passed\",\"recordless dry-run refreshed: 8 recordless_terminal_eligible, 1 conflicting_historical_publication (#248)\"]}"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex-worker-4",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
