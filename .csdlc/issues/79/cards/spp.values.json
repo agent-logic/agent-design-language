@@ -7,7 +7,7 @@
     "title": "[v0.92][C-SDLC v2][blocker] Permit bind-safe deferred new module and test targets",
     "slug": "bind-safe-deferred-targets",
     "version": "v0.92",
-    "generation": 10
+    "generation": 11
   },
   "status": "ready",
   "content": {
@@ -57,7 +57,7 @@
           "acceptance_ids": [
             "AC-6"
           ],
-          "status": "pending"
+          "status": "completed"
         }
       ],
       "affected_areas": [
