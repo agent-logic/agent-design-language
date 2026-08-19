@@ -6,10 +6,22 @@
   "initialization_digest": "d98a8d900cde7810150f96c65b587a7763b677cf58610771289dd359b4be5b19",
   "phase": "implemented",
   "generation": 4,
-  "digest": "1a41170d67115608fd35ce7ae7da9adda4bb1727599181d33086edcaeefc341c",
+  "digest": "d2dfb6c36a91a4127025479d49b1c91cf3f65a041b9ddbded9cf5552f75d248e",
   "branch": "codex/425-recordless-closeout-recovery",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-425-recordless-closeout-recovery",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:9e42d06d-16db-420f-b7f8-29a0ed63738b",
+    "assigned_by": "codex-worker-4",
+    "revision": "git-blake3:3578c4519328b382a9060db9a09fe6c9deceb678:51fc78950066e440783b9b75b568295d289193da187c06444344bed7c068532c",
+    "scope": [
+      "csdlc-v2/src/bin/csdlc-finish.rs",
+      "csdlc-v2/src/finish.rs",
+      "csdlc-v2/src/lib.rs",
+      "csdlc-v2/tests/gate_recordless_closeout.rs",
+      ".csdlc/evidence/425-v092-residual-dry-run-result.json",
+      ".csdlc/issues/425"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +57,9 @@
       "ast_digest": "5d0e1445c8350d17658b56148b73746712418ee86de306e09674916b377ca632"
     },
     "srp": {
-      "values_digest": "8140f172efed4a444222325f9a65f793adb7c89c1464aeb20a9fdbf08236e0a8",
-      "rendered_digest": "0260f3e36da228e4778c4cfe1dba1c3038d8f4ca96cf974a8c0148ee3adb4814",
-      "ast_digest": "11cc76a494c3ba6f9a455f0f6d7d849957aac38cd68df1d15f29f0d60628c4f6"
+      "values_digest": "5c9070a1a93fc46616d70cec2a4879475b115f6b55ccc6d88a5dc05c96c165ef",
+      "rendered_digest": "8975bd84e263e1adf963ac30915c031f4087ea6f1ac9b0e328ab491be1483ef7",
+      "ast_digest": "ce80f4290934b3471ebbdbfa467cd1eb8ec7e2acc18d6e4827900be1c869adc7"
     },
     "sor": {
       "values_digest": "425654ec09c86e4a805ca8f311961362a0406d2d342c1ad64457d77f9785d898",
@@ -120,6 +132,13 @@
       "actor": "codex-worker-4",
       "reason": "advance #425 to implemented after typed execution evidence and green focused validation",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "codex-worker-4",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
