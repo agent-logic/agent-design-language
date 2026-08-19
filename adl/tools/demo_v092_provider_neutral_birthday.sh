@@ -2,8 +2,8 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-DEMO_DIR="${ROOT_DIR}/demos/v0.92/provider-neutral-birthday"
-EVIDENCE_DIR="${ROOT_DIR}/.csdlc/evidence/341"
+DEMO_DIR="${ADL_ISSUE341_DEMO_DIR:-$ROOT_DIR/demos/v0.92/provider-neutral-birthday}"
+EVIDENCE_DIR="${ADL_ISSUE341_EVIDENCE_DIR:-$ROOT_DIR/.csdlc/evidence/341}"
 MODE="all"
 HOSTED_KEYS_FILE="${ADL_HOSTED_PROVIDER_KEYS_FILE:-$ROOT_DIR/adl/tools/benchmark/hosted_provider_key_files.json}"
 
@@ -80,7 +80,7 @@ load_optional_key OPENAI_API_KEY "$(resolve_key_file OPENAI_API_KEY "${ADL_OPENA
 load_optional_key GEMINI_API_KEY "$(resolve_key_file GEMINI_API_KEY "${ADL_GEMINI_API_KEY_FILE:-${ADL_GEMINI_KEY_FILE:-}}")"
 load_optional_key ANTHROPIC_API_KEY "$(resolve_key_file ANTHROPIC_API_KEY "${ADL_ANTHROPIC_API_KEY_FILE:-${ADL_ANTHROPIC_KEY_FILE:-}}")"
 
-python3 - "$ROOT_DIR" "$MODE" <<'PY'
+python3 - "$ROOT_DIR" "$MODE" "$DEMO_DIR" "$EVIDENCE_DIR" <<'PY'
 from __future__ import annotations
 
 import hashlib
@@ -99,8 +99,8 @@ from typing import Any
 
 root = pathlib.Path(sys.argv[1])
 mode = sys.argv[2]
-demo_dir = root / "demos/v0.92/provider-neutral-birthday"
-evidence_dir = root / ".csdlc/evidence/341"
+demo_dir = pathlib.Path(sys.argv[3])
+evidence_dir = pathlib.Path(sys.argv[4])
 
 prompt = (
     "ADL v0.92 WP-18B provider-neutral birthday proof. Do not include secrets. "
@@ -499,5 +499,8 @@ write(evidence_dir / "proof-matrix.json", matrix)
 write(evidence_dir / f"proof-matrix-{mode}.json", matrix)
 if roster:
     write(evidence_dir / "private-observatory-roster.json", roster)
-print(pathlib.Path("demos/v0.92/provider-neutral-birthday/proof-matrix.json"))
+try:
+    print((demo_dir / "proof-matrix.json").relative_to(root))
+except ValueError:
+    print(demo_dir / "proof-matrix.json")
 PY

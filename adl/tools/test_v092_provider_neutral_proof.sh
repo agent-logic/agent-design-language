@@ -2,17 +2,19 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
-OUT="${ROOT_DIR}/.csdlc/evidence/341/local-test"
-MATRIX="demos/v0.92/provider-neutral-birthday/proof-matrix.json"
+OUT="${ROOT_DIR}/adl/target/issue341-local-test"
+DEMO_OUT="${OUT}/demo"
+EVIDENCE_OUT="${OUT}/evidence"
+MATRIX="${DEMO_OUT}/proof-matrix.json"
 mkdir -p "${OUT}"
 
 cd "${ROOT_DIR}"
 SOURCE_REVISION="$(git rev-parse HEAD)"
-bash "adl/tools/demo_v092_provider_neutral_birthday.sh" --mode local-proof >"${OUT}/local-proof.log"
-cp "${ROOT_DIR}/demos/v0.92/provider-neutral-birthday/acip-trace-local-proof.json" "${OUT}/acip-trace-local-proof.json"
+ADL_ISSUE341_DEMO_DIR="${DEMO_OUT}" ADL_ISSUE341_EVIDENCE_DIR="${EVIDENCE_OUT}" \
+  bash "adl/tools/demo_v092_provider_neutral_birthday.sh" --mode local-proof >"${OUT}/local-proof.log"
 python3 "adl/tools/validate_v092_provider_neutral_proof.py" "${MATRIX}" --require-observatory >"${OUT}/validator-pass.log"
 python3 "adl/tools/serve_v092_provider_neutral_observatory_api.py" \
-  --matrix "demos/v0.92/provider-neutral-birthday/proof-matrix-observatory.json" \
+  --matrix "${DEMO_OUT}/proof-matrix-local-proof.json" \
   --source-revision "${SOURCE_REVISION}" \
   --emit-feed >"${OUT}/runtime-v3-overlay-feed.json"
 python3 - "${OUT}/runtime-v3-overlay-feed.json" "${SOURCE_REVISION}" <<'PY'

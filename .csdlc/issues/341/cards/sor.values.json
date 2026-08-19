@@ -37,9 +37,9 @@
             "bash",
             "adl/tools/test_v092_provider_neutral_proof.sh"
           ],
-          "purpose": "Run focused provider-neutral proof tests including validator denial cases and three-agent Runtime-v3 overlay feed generation from the current Git HEAD.",
+          "purpose": "Run focused provider-neutral proof tests including validator denial cases and three-agent Runtime-v3 overlay feed generation from the current Git HEAD into ignored repo-local target output.",
           "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/341/local-test/validator-pass.log"
+          "evidence_ref": "adl/target/issue341-local-test/validator-pass.log"
         },
         {
           "command": [

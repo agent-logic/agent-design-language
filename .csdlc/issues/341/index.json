@@ -5,7 +5,7 @@
   "initialization_digest": "856115fcb81c8bc7294e1fa19e514bb65f7d9569133521c7e793bf6f8e6798ec",
   "phase": "implemented",
   "generation": 2,
-  "digest": "133a7dab41608f331434963ede82d80e42ad97d66b5c1d545dff2bf2001d149c",
+  "digest": "31d3e54f171dbd164ef1de1bc4504110e0de1f3de44c206eb667770c4dad1141",
   "branch": "codex/341-provider-neutral-multi-agent-proof",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-341-provider-neutral-multi-agent-proof",
   "review_assignment": null,
@@ -49,9 +49,9 @@
       "ast_digest": "fc8e97a4f16acd5e7989092a399078ab486924e46912569ce23e3c8d974ef939"
     },
     "sor": {
-      "values_digest": "7478039c7eb20ad8869958800c1fb800561e335775e43dae3a1848aff0e619da",
-      "rendered_digest": "c4bc1ff807d3599a9caa699798895b6f6ba325bddad3200737c26fd6928d3804",
-      "ast_digest": "7475514c4cc2d0460b632c5dba73e1fc6e05dd67bc69b91bb458316112572b5e"
+      "values_digest": "5188eef54ba1097ae1666ace6e134a70d742fe388c80008c02348025ef0e6c23",
+      "rendered_digest": "0f4db38df3a882fb396984339c1aebf5082a089697abdacc54370ebf78cbbb2c",
+      "ast_digest": "3294a163aa1372d7493591e5f35529c65905dcfe1f43428c4f4498a54973a4e1"
     }
   },
   "transitions": [
