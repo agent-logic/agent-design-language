@@ -167,7 +167,7 @@ fn content_type(path: &Path) -> Option<&'static str> {
     }
 }
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 struct Config {
     addr: SocketAddr,
     cert: PathBuf,
@@ -254,4 +254,251 @@ impl Config {
 
 fn usage() -> String {
     "usage: adl-observatory-static [--daemon --pid-file PID --log-file LOG] --host 127.0.0.1 --port 8765 --cert cert.pem --key key.pem --root demos/html-observatory".to_string()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use axum::body::to_bytes;
+    use axum::http::Uri;
+    use tempfile::TempDir;
+
+    fn temp_root() -> TempDir {
+        tempfile::tempdir().expect("temp root")
+    }
+
+    #[test]
+    fn adl_observatory_static_config_requires_tls_and_root() {
+        let error = Config::parse(vec![]).expect_err("missing cert must fail");
+        assert_eq!(error, "missing --cert");
+
+        let root = temp_root();
+        let config = Config::parse(vec![
+            "--host".to_owned(),
+            "0.0.0.0".to_owned(),
+            "--port".to_owned(),
+            "20997".to_owned(),
+            "--cert".to_owned(),
+            "/cert/localhost.pem".to_owned(),
+            "--key".to_owned(),
+            "/cert/localhost-key.pem".to_owned(),
+            "--root".to_owned(),
+            root.path().display().to_string(),
+            "--daemon".to_owned(),
+            "--pid-file".to_owned(),
+            "/tmp/csm-observatory.pid".to_owned(),
+            "--log-file".to_owned(),
+            "/tmp/csm-observatory.log".to_owned(),
+        ])
+        .expect("valid config");
+
+        assert_eq!(config.addr, "0.0.0.0:20997".parse().expect("addr"));
+        assert_eq!(config.cert, PathBuf::from("/cert/localhost.pem"));
+        assert_eq!(config.key, PathBuf::from("/cert/localhost-key.pem"));
+        assert!(config.daemon);
+        assert_eq!(
+            config.pid_file.as_deref(),
+            Some(Path::new("/tmp/csm-observatory.pid"))
+        );
+        assert_eq!(
+            config.log_file.as_deref(),
+            Some(Path::new("/tmp/csm-observatory.log"))
+        );
+        assert_eq!(config.root, root.path());
+    }
+
+    #[test]
+    fn adl_observatory_static_config_rejects_bad_arguments() {
+        let missing_value =
+            Config::parse(vec!["--cert".to_owned()]).expect_err("missing cert value must fail");
+        assert_eq!(missing_value, "missing --cert value");
+
+        let unknown =
+            Config::parse(vec!["--surprise".to_owned()]).expect_err("unknown option must fail");
+        assert!(unknown.contains("unknown argument: --surprise"));
+        assert!(unknown.contains("usage: adl-observatory-static"));
+
+        let nonexistent_root = Config::parse(vec![
+            "--cert".to_owned(),
+            "cert.pem".to_owned(),
+            "--key".to_owned(),
+            "key.pem".to_owned(),
+            "--root".to_owned(),
+            "/definitely/not/a/csm/root".to_owned(),
+        ])
+        .expect_err("non-directory root must fail");
+        assert!(nonexistent_root.contains("root is not a directory"));
+
+        let invalid_addr = Config::parse(vec![
+            "--host".to_owned(),
+            "not a host".to_owned(),
+            "--port".to_owned(),
+            "nope".to_owned(),
+            "--cert".to_owned(),
+            "cert.pem".to_owned(),
+            "--key".to_owned(),
+            "key.pem".to_owned(),
+            "--root".to_owned(),
+            ".".to_owned(),
+        ])
+        .expect_err("invalid address must fail");
+        assert!(invalid_addr.contains("invalid address"));
+
+        let missing_key = Config::parse(vec![
+            "--cert".to_owned(),
+            "cert.pem".to_owned(),
+            "--root".to_owned(),
+            ".".to_owned(),
+        ])
+        .expect_err("missing key must fail");
+        assert_eq!(missing_key, "missing --key");
+
+        let missing_root = Config::parse(vec![
+            "--cert".to_owned(),
+            "cert.pem".to_owned(),
+            "--key".to_owned(),
+            "key.pem".to_owned(),
+        ])
+        .expect_err("missing root must fail");
+        assert_eq!(missing_root, "missing --root");
+    }
+
+    #[test]
+    fn adl_observatory_static_usage_and_foreground_daemon_path_are_safe() {
+        let root = temp_root();
+        let config = Config::parse(vec![
+            "--cert".to_owned(),
+            "cert.pem".to_owned(),
+            "--key".to_owned(),
+            "key.pem".to_owned(),
+            "--root".to_owned(),
+            root.path().display().to_string(),
+        ])
+        .expect("foreground config");
+
+        assert_eq!(config.addr, "127.0.0.1:8765".parse().expect("default addr"));
+        assert!(!config.daemon);
+        assert!(config.pid_file.is_none());
+        assert!(config.log_file.is_none());
+        daemonize_if_requested(&config).expect("foreground path must not daemonize");
+
+        let help = Config::parse(vec!["--help".to_owned()]).expect_err("help exits via usage");
+        assert_eq!(help, usage());
+        assert!(help.contains("--cert cert.pem --key key.pem --root"));
+    }
+
+    #[test]
+    fn adl_observatory_static_path_resolution_serves_index_and_blocks_escape() {
+        let root = temp_root();
+        let nested = root.path().join("assets");
+        std::fs::create_dir_all(&nested).expect("nested dir");
+
+        assert_eq!(
+            resolve_path(root.path(), "/"),
+            Some(root.path().join("index.html"))
+        );
+        assert_eq!(
+            resolve_path(root.path(), "/assets/"),
+            Some(nested.join("index.html"))
+        );
+        assert_eq!(
+            resolve_path(root.path(), "/assets/app.js"),
+            Some(nested.join("app.js"))
+        );
+        assert!(resolve_path(root.path(), "/../secret").is_none());
+        assert!(resolve_path(root.path(), "/assets/../../secret").is_none());
+    }
+
+    #[test]
+    fn adl_observatory_static_content_types_are_browser_safe() {
+        assert_eq!(
+            content_type(Path::new("index.html")),
+            Some("text/html; charset=utf-8")
+        );
+        assert_eq!(
+            content_type(Path::new("app.js")),
+            Some("text/javascript; charset=utf-8")
+        );
+        assert_eq!(
+            content_type(Path::new("style.css")),
+            Some("text/css; charset=utf-8")
+        );
+        assert_eq!(
+            content_type(Path::new("manifest.json")),
+            Some("application/json; charset=utf-8")
+        );
+        assert_eq!(content_type(Path::new("icon.svg")), Some("image/svg+xml"));
+        assert_eq!(
+            content_type(Path::new("README.md")),
+            Some("text/plain; charset=utf-8")
+        );
+        assert_eq!(content_type(Path::new("binary.wasm")), None);
+    }
+
+    #[tokio::test]
+    async fn adl_observatory_static_serves_files_and_status_codes() {
+        let root = temp_root();
+        std::fs::write(root.path().join("index.html"), "<h1>observatory</h1>").expect("index");
+        std::fs::write(root.path().join("app.js"), "console.log('ok');").expect("app");
+
+        let state = AppState {
+            root: root.path().to_path_buf(),
+        };
+        let index = serve_static(
+            State(state.clone()),
+            OriginalUri(Uri::from_static("https://localhost:20997/")),
+        )
+        .await;
+        assert_eq!(index.status(), StatusCode::OK);
+        assert_eq!(
+            index.headers().get(header::CONTENT_TYPE),
+            Some(&HeaderValue::from_static("text/html; charset=utf-8"))
+        );
+        let bytes = to_bytes(index.into_body(), 1024).await.expect("index body");
+        assert_eq!(&bytes[..], b"<h1>observatory</h1>");
+
+        let script = serve_static(
+            State(state.clone()),
+            OriginalUri(Uri::from_static("https://localhost:20997/app.js")),
+        )
+        .await;
+        assert_eq!(script.status(), StatusCode::OK);
+        assert_eq!(
+            script.headers().get(header::CONTENT_TYPE),
+            Some(&HeaderValue::from_static("text/javascript; charset=utf-8"))
+        );
+
+        let missing = serve_static(
+            State(state.clone()),
+            OriginalUri(Uri::from_static("https://localhost:20997/missing.html")),
+        )
+        .await;
+        assert_eq!(missing.status(), StatusCode::NOT_FOUND);
+
+        let forbidden = serve_static(
+            State(state),
+            OriginalUri(Uri::from_static("https://localhost:20997/../secret")),
+        )
+        .await;
+        assert_eq!(forbidden.status(), StatusCode::FORBIDDEN);
+    }
+
+    #[tokio::test]
+    async fn adl_observatory_static_reports_tls_load_errors_before_binding() {
+        let root = temp_root();
+        let config = Config {
+            addr: "127.0.0.1:0".parse().expect("addr"),
+            cert: root.path().join("missing-cert.pem"),
+            daemon: false,
+            key: root.path().join("missing-key.pem"),
+            log_file: None,
+            pid_file: None,
+            root: root.path().to_path_buf(),
+        };
+
+        let error = serve(config)
+            .await
+            .expect_err("missing TLS files must fail");
+        assert!(error.contains("load_tls_failed"));
+    }
 }

@@ -144,6 +144,14 @@ if grep -F "cli_basics" <<<"$csmctl_expression" >/dev/null; then
   exit 1
 fi
 
+observatory_static_changed="$TMP/observatory-static-changed.txt"
+printf 'A\tadl-runtime/src/bin/adl-observatory-static.rs\n' >"$observatory_static_changed"
+observatory_static_filters="$TMP/observatory-static-filters.txt"
+bash "$SCRIPT" --changed-files "$observatory_static_changed" --print-risk-filters >"$observatory_static_filters"
+grep -Fx "runtime_v3_observatory_static" "$observatory_static_filters" >/dev/null
+observatory_static_expression="$(bash "$SCRIPT" --changed-files "$observatory_static_changed" --print-risk-nextest-expression)"
+grep -Fx "test(adl_observatory_static)" <<<"$observatory_static_expression" >/dev/null
+
 long_lived_agent_storage_changed="$TMP/long-lived-agent-storage-changed.txt"
 printf 'M\tadl/src/long_lived_agent/storage.rs\n' >"$long_lived_agent_storage_changed"
 long_lived_agent_storage_filters="$TMP/long-lived-agent-storage-filters.txt"
@@ -447,6 +455,14 @@ grep -Fx "pr_shepherd" "$shepherd_bin_filters" >/dev/null
 shepherd_bin_expression="$(bash "$SCRIPT" --changed-files "$shepherd_bin_changed" --print-risk-nextest-expression)"
 grep -F "binary_id(adl::bin/adl-pr-shepherd) and test(/^cli::pr_cmd::/)" <<<"$shepherd_bin_expression" >/dev/null
 grep -F "binary_id(adl::bin/adl-pr-shepherd) and test(/^tests::adl_pr_shepherd_/)" <<<"$shepherd_bin_expression" >/dev/null
+
+resident_shepherd_spot_continuity_changed="$TMP/resident-shepherd-spot-continuity-changed.txt"
+printf 'M\tadl/src/resident_shepherd_spot_continuity.rs\n' >"$resident_shepherd_spot_continuity_changed"
+resident_shepherd_spot_continuity_filters="$TMP/resident-shepherd-spot-continuity-filters.txt"
+bash "$SCRIPT" --changed-files "$resident_shepherd_spot_continuity_changed" --print-risk-filters >"$resident_shepherd_spot_continuity_filters"
+grep -Fx "resident_shepherd_spot_continuity" "$resident_shepherd_spot_continuity_filters" >/dev/null
+resident_shepherd_spot_continuity_expression="$(bash "$SCRIPT" --changed-files "$resident_shepherd_spot_continuity_changed" --print-risk-nextest-expression)"
+grep -Fx "binary_id(adl) and test(/^resident_shepherd_spot_continuity::/)" <<<"$resident_shepherd_spot_continuity_expression" >/dev/null
 
 split_runtime_changed="$TMP/split-runtime-changed.txt"
 printf 'A\tadl/src/runtime_v2/cultivating_intelligence_parts/builder.rs\n' >"$split_runtime_changed"
