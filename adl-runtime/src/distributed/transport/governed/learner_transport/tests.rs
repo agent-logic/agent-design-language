@@ -1361,12 +1361,16 @@ async fn real_four_node_learner_replication() {
         !learner_server.is_finished(),
         "learner server ended during catch-up"
     );
-    let leader = loop {
-        if let Some(leader) = nodes[&1].metrics().borrow().current_leader {
-            break leader;
+    let leader = tokio::time::timeout(Duration::from_secs(10), async {
+        loop {
+            if let Some(leader) = nodes[&1].metrics().borrow().current_leader {
+                break leader;
+            }
+            tokio::time::sleep(Duration::from_millis(25)).await;
         }
-        tokio::time::sleep(Duration::from_millis(25)).await;
-    };
+    })
+    .await
+    .expect("leader election did not converge before learner replication write");
     let replicated = nodes[&leader]
         .client_write(PolisCommand::GovernedMutation {
             mutation_id: "authorized-learner-replicated".to_owned(),
