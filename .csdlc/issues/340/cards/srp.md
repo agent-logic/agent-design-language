@@ -12,12 +12,7 @@ Status: draft
 
 ## Scope
 
-CSMctl
-adl-runtime/src/bin/adl-observatory-static.rs
-adl-runtime/tests/runtime_api_wss.rs
-adl/tools/validate_v092_observatory_restart_reconnect.sh
-.csdlc/issues/340
-.csdlc/evidence/340
+
 
 ## Prompts
 
@@ -37,14 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Reviewer did not rerun live launchctl/Runtime restart or Cargo tests because the review assignment was read-only; retained current evidence and source/test contracts were inspected instead.
-- This review does not claim publication, merge, terminal closeout, Unity, AWS/public hosting, provider credentials, #341, #343, #84, #122, or #251 scope.
-- The reviewer observed post-HEAD review-assignment metadata dirt and treated the verdict as pinned to immutable assigned revision e42b61e8187e7d5cc176a023ecbc69026c2ebbdc.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:e42b61e8187e7d5cc176a023ecbc69026c2ebbdc:fd1c26da0be4963b2703812a678ef374ff81b8ccbdd9337f56e50b8e7715160e")
+Revision: None
 
-Reviewer: Some("fresh-session:b6bbd209-0ef7-4778-8127-e5d654461703")
+Reviewer: None
 
-Result: pass
+Result: pre_review

@@ -7,21 +7,18 @@
     "title": "[v0.92][WP-18A] HTML Observatory Runtime restart integration",
     "slug": "html-observatory-runtime-restart-integration",
     "version": "v0.92",
-    "generation": 21
+    "generation": 23
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Implemented bounded HTML Observatory Runtime v3 launch/start-stop-restart integration with a simple repo-native axum static server. CSMctl now starts the HTML Observatory through adl-observatory-static using configured cert/key/docroot/ports, owns a pid file, preserves Runtime/Observatory separation, and proves live Runtime restart plus Observatory root/index 200 behavior without Unity, AWS/public hosting, provider credentials, #341, #343, #84, #122, or #251 scope.",
+      "summary": "Implemented bounded HTML Observatory Runtime v3 launch/start-stop-restart integration and stabilized an existing Runtime distributed learner coverage test that blocked PR #430. The CI-only fix keeps #340 product behavior unchanged and makes the learner replication test write through the currently writable Raft leader instead of assuming the initially observed leader remains current under coverage-mode timing.",
       "actual_changes": [
-        "Added adl-runtime/src/bin/adl-observatory-static.rs, a tiny axum/axum-server HTTPS static-file server using dependencies already present in adl-runtime.",
-        "CSMctl observatory start now builds adl-observatory-static if needed, launches it with --daemon/--pid-file/--log-file, and reports success only when both HTTP 200 and a live pid-file process are present.",
-        "CSMctl observatory stop now terminates the exact Observatory pid-file process and removes Observatory pid/state files.",
-        "Removed the generated Python Observatory server, generated runner, and Observatory launchd plist path from CSMctl; no Node/http-server or OpenSSL s_server serving path is used.",
-        "Kept the Apache-style config boundary: cert path, key path, host, port list, document root, Runtime API base, pid/state/log paths, and separate Runtime versus Observatory startup.",
-        "The live validator now starts from a clean CSMctl-owned Observatory state, verifies root/index HTTP 200, probes every documented read/preflight/WSS route in scope, proves Runtime graceful stop/restart, and verifies post-restart CSMctl URL/base output is current.",
-        "Focused Rust tests pin the zero-new-dependency axum static-server contract, forbid old generated Python/Node/launchd helper names in CSMctl, and retain the exact live Runtime API label and 200-gating contracts."
+        "Retained the #340 CSMctl/HTML Observatory axum static-server implementation and documented Runtime/Observatory separation unchanged.",
+        "Added a test-only helper in learner_transport tests that submits governed mutations to whichever node is currently writable, bounded by a 15-second election timeout.",
+        "Updated the real_four_node_learner_replication test's leader-sensitive writes to use the helper so coverage-mode elections no longer fail with ForwardToLeader from a stale leader.",
+        "Kept the change limited to the pre-existing distributed learner test harness failure observed in PR #430 coverage CI; no #341, #343, Unity, AWS/public hosting, provider credential, #84, #122, or #251 scope was added."
       ],
       "artifacts": [
         "CSMctl",
@@ -31,40 +28,12 @@
         "adl/tools/test_html_observatory.sh",
         "adl/tools/validate_v092_observatory_restart_reconnect.sh",
         "adl-runtime/tests/runtime_api_wss.rs",
-        ".csdlc/evidence/340/proof-summary.md",
-        ".csdlc/evidence/340/340-html-observatory-contract.log",
-        ".csdlc/evidence/340/340-runtime-api-wss-contract.log",
-        ".csdlc/evidence/340/340-rust-format.log",
-        ".csdlc/evidence/340/340-diff-hygiene.log",
-        ".csdlc/evidence/340/340-live-start-stop-restart.log",
-        ".csdlc/evidence/340/340-typed-validate.log",
+        "adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs",
         ".csdlc/issues/340",
-        ".csdlc/prepared/issues/340"
+        ".csdlc/prepared/issues/340",
+        ".csdlc/evidence/340"
       ],
       "actual_validation": [
-        {
-          "command": [
-            "bash",
-            "adl/tools/validate_v092_observatory_restart_reconnect.sh",
-            "--contract"
-          ],
-          "purpose": "Static contract proof for HTML Observatory Runtime v3 live labels, exact /v1/observatory HTTP 200 gating, zero-new-dependency axum static serving, CSMctl persisted-state reload, and post-restart validator assertions.",
-          "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/340/340-html-observatory-contract.log"
-        },
-        {
-          "command": [
-            "cargo",
-            "test",
-            "--manifest-path",
-            "adl-runtime/Cargo.toml",
-            "--test",
-            "runtime_api_wss"
-          ],
-          "purpose": "Focused Runtime API/WSS and CSMctl contract tests for exposed route coverage, strict live-data gating, axum static server root/index behavior, pid-owned startup, and no generated Python/Node/launchd Observatory helper regression.",
-          "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/340/340-runtime-api-wss-contract.log"
-        },
         {
           "command": [
             "cargo",
@@ -73,9 +42,38 @@
             "adl-runtime/Cargo.toml",
             "--check"
           ],
-          "purpose": "Rust formatting check for the focused integration test and axum static server binary.",
+          "purpose": "Rust formatting check after bounded learner transport test-harness stabilization.",
           "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/340/340-rust-format.log"
+          "evidence_ref": "local command exited 0 in /Volumes/FastWork/adl-worktrees/adl-issue-340-html-observatory-runtime-restart-integration"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "distributed::transport::governed::learner_transport::tests::real_four_node_learner_replication",
+            "--",
+            "--exact",
+            "--nocapture"
+          ],
+          "purpose": "Focused non-coverage proof for the exact distributed learner replication test that failed in PR #430 coverage CI.",
+          "outcome": "passed",
+          "evidence_ref": "1 passed, 0 failed, 324 filtered out; ADL_ISSUE_202_CASE_V1 real_four_node_learner_replication=passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "llvm-cov",
+            "test",
+            "distributed::transport::governed::learner_transport::tests::real_four_node_learner_replication",
+            "--",
+            "--exact",
+            "--nocapture"
+          ],
+          "purpose": "Focused local coverage-mode repro for the exact GitHub failing lane.",
+          "outcome": "passed",
+          "evidence_ref": "1 passed, 0 failed, 324 filtered out under cargo llvm-cov in adl-runtime"
         },
         {
           "command": [
@@ -83,47 +81,15 @@
             "diff",
             "--check",
             "--",
-            "CSMctl",
-            "adl/tools/test_html_observatory.sh",
-            "demos/html-observatory/app.js",
-            "demos/html-observatory/index.html",
-            "adl/tools/validate_v092_observatory_restart_reconnect.sh",
-            "adl-runtime/tests/runtime_api_wss.rs",
-            "adl-runtime/src/bin/adl-observatory-static.rs",
-            ".csdlc/issues/340",
-            ".csdlc/prepared/issues/340",
-            ".csdlc/evidence/340"
+            "adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs"
           ],
-          "purpose": "Whitespace and conflict-marker hygiene across #340 source, tests, validator, new axum static server, lifecycle card projections, and retained evidence.",
+          "purpose": "Whitespace and conflict-marker hygiene for the narrow CI-stabilization diff.",
           "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/340/340-diff-hygiene.log"
-        },
-        {
-          "command": [
-            "bash",
-            "adl/tools/validate_v092_observatory_restart_reconnect.sh",
-            "--live"
-          ],
-          "purpose": "Live local CSMctl/Runtime/Observatory proof for HTTP 200 startup gates, axum-served Observatory root/index, graceful Runtime stop cleanup, restart, and post-restart current URL/base reporting.",
-          "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/340/340-live-start-stop-restart.log"
-        },
-        {
-          "command": [
-            "/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate",
-            "--root",
-            "/Volumes/FastWork/adl-worktrees/adl-issue-340-html-observatory-runtime-restart-integration",
-            "issue",
-            "--issue",
-            "340"
-          ],
-          "purpose": "Typed lifecycle validation after final axum static-server evidence refresh.",
-          "outcome": "passed",
-          "evidence_ref": ".csdlc/evidence/340/340-typed-validate.log"
+          "evidence_ref": "exit 0 with no output"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

@@ -68,6 +68,24 @@ fn assertion(case_name: &str, assertion_name: &str) {
     eprintln!("ADL_ISSUE_202_ASSERTION_V1 {case_name} {assertion_name}");
 }
 
+async fn write_on_writable_leader(
+    nodes: &BTreeMap<u64, PolisRaft>,
+    command: PolisCommand,
+) -> openraft::raft::ClientWriteResponse<PolisTypeConfig> {
+    tokio::time::timeout(Duration::from_secs(15), async {
+        loop {
+            for raft in nodes.values() {
+                if let Ok(response) = raft.client_write(command.clone()).await {
+                    return response;
+                }
+            }
+            tokio::time::sleep(Duration::from_millis(25)).await;
+        }
+    })
+    .await
+    .expect("cluster elected a writable leader")
+}
+
 fn identity() -> LearnerIdentity {
     LearnerIdentity {
         trust_domain: "runtime-prod".to_owned(),
@@ -1047,13 +1065,14 @@ async fn real_four_node_learner_replication() {
         }
         tokio::time::sleep(Duration::from_millis(25)).await;
     };
-    let before_learner = nodes[&leader]
-        .client_write(PolisCommand::GovernedMutation {
+    let before_learner = write_on_writable_leader(
+        &nodes,
+        PolisCommand::GovernedMutation {
             mutation_id: "authorized-learner-snapshot".to_owned(),
             payload_sha256: "33".repeat(32),
-        })
-        .await
-        .unwrap();
+        },
+    )
+    .await;
     assert!(before_learner.data.accepted);
     nodes[&leader].trigger().snapshot().await.unwrap();
     let purge_upto = nodes[&leader]
@@ -1199,13 +1218,14 @@ async fn real_four_node_learner_replication() {
     )
     .unwrap();
     for sequence in 0..8 {
-        nodes[&leader]
-            .client_write(PolisCommand::GovernedMutation {
+        write_on_writable_leader(
+            &nodes,
+            PolisCommand::GovernedMutation {
                 mutation_id: format!("promotion-authority-boundary-{sequence}"),
                 payload_sha256: format!("{:064x}", sequence + 100),
-            })
-            .await
-            .unwrap();
+            },
+        )
+        .await;
     }
     let authority_index = nodes[&leader]
         .metrics()
@@ -1347,13 +1367,14 @@ async fn real_four_node_learner_replication() {
         !learner_server.is_finished(),
         "learner server ended during catch-up"
     );
-    let replicated = nodes[&leader]
-        .client_write(PolisCommand::GovernedMutation {
+    let replicated = write_on_writable_leader(
+        &nodes,
+        PolisCommand::GovernedMutation {
             mutation_id: "authorized-learner-replicated".to_owned(),
             payload_sha256: "44".repeat(32),
-        })
-        .await
-        .unwrap();
+        },
+    )
+    .await;
     assert!(replicated.data.accepted);
     for _ in 0..200 {
         if machines[&4]
@@ -1372,14 +1393,16 @@ async fn real_four_node_learner_replication() {
         .mutation_ids
         .contains("authorized-learner-replicated"));
     let hook = learner_effect_authority.install_dispatch_pause_for_test("learner_raft_effect");
-    let effect_raft = nodes[&leader].clone();
+    let effect_nodes = nodes.clone();
     let effect = tokio::spawn(async move {
-        effect_raft
-            .client_write(PolisCommand::GovernedMutation {
+        write_on_writable_leader(
+            &effect_nodes,
+            PolisCommand::GovernedMutation {
                 mutation_id: "authorized-learner-fenced-effect".to_owned(),
                 payload_sha256: "45".repeat(32),
-            })
-            .await
+            },
+        )
+        .await
     });
     tokio::time::timeout(Duration::from_secs(10), hook.reached.notified())
         .await
@@ -1395,7 +1418,7 @@ async fn real_four_node_learner_replication() {
         "expiry crossed an in-flight learner Raft effect/response lease"
     );
     hook.release.notify_one();
-    let response = effect.await.unwrap().unwrap();
+    let response = effect.await.unwrap();
     assert!(response.data.accepted);
     expiry.await.unwrap().unwrap();
     assertion(
