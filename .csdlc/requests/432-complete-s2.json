@@ -1,0 +1,1 @@
+{"issue":432,"card":"spp","expected_generation":10,"expected_digest":"54fefb4fbb9d3c867a1e1f28a07180a4fc57652bad157a5ff861d59d6432bb6d","actor":"codex:432-review-fix","reason":"All .adl paths are absent from the Git index while the local files remain present.","operation":{"operation":"update_plan_step","step_id":"S2","status":"completed"},"fail_after_backup":false}

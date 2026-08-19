@@ -62,6 +62,7 @@ run_step "issue lifecycle shepherd contract check" bash "$ROOT/adl/tools/test_is
 run_step "CCC v0 instrumentation check" bash "$ROOT/adl/tools/test_ccc_v0_instrumentation.sh"
 run_step "skill documentation completeness check" bash "$ROOT/adl/tools/test_skill_documentation_completeness.sh"
 run_step "tracked .adl issue-record residue guard" bash "$ROOT/adl/tools/check_no_tracked_adl_issue_record_residue.sh"
+run_step "local-only .adl repository boundary" bash "$ROOT/adl/tools/test_check_no_tracked_adl.sh"
 echo "• Running adl checks (batched)…"
 (
   cd "$ROOT/adl"

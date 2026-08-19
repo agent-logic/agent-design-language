@@ -1,0 +1,1 @@
+{"issue":432,"card":"spp","expected_generation":9,"expected_digest":"5692c6be491e0752ce7931a4e5b12635a47d419ae6576a410783a3cd86ca65d1","actor":"codex:432-review-fix","reason":"Inventory and per-entry disposition are recorded in issue evidence.","operation":{"operation":"update_plan_step","step_id":"S1","status":"completed"},"fail_after_backup":false}

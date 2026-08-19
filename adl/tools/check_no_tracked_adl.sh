@@ -17,11 +17,19 @@ if [[ ! -f "$canonical_policy" ]]; then
   exit 1
 fi
 
-legacy_policy_path=".adl/""worktree-policy.json"
-legacy_policy_refs="$(git grep -n -F "$legacy_policy_path" -- ':!.csdlc/**' || true)"
-if [[ -n "$legacy_policy_refs" ]]; then
-  echo "active references to the legacy worktree-policy path are forbidden:" >&2
-  echo "$legacy_policy_refs" >&2
+legacy_policy_refs=()
+while IFS= read -r path; do
+  case "$path" in
+    adl/tools/check_no_tracked_adl.sh|adl/tools/test_check_no_tracked_adl.sh) continue ;;
+  esac
+  match="$(perl -0777 -ne \
+    'print "$ARGV\n" if /\.adl.{0,160}worktree[-_ .]*policy/is || /worktree[-_ .]*policy.{0,160}\.adl/is' \
+    "$path")"
+  [[ -z "$match" ]] || legacy_policy_refs+=("$match")
+done < <(git grep -l -F '.adl' -- AGENTS.md csdlc-v2 adl/src adl/tools .github 2>/dev/null || true)
+if [[ "${#legacy_policy_refs[@]}" -ne 0 ]]; then
+  echo "active reconstruction of legacy .adl worktree-policy authority is forbidden:" >&2
+  printf '%s\n' "${legacy_policy_refs[@]}" >&2
   exit 1
 fi
 

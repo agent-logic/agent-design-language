@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "dcb1c35f0a7d76f3551ff2dda7764b335e7cb5315b055b6acf2fe90e70f33e22",
   "phase": "implemented",
-  "generation": 8,
-  "digest": "af69866e4c5d2030268be0017fc5e94d8c334c7828c38c33901915cefd83273d",
+  "generation": 12,
+  "digest": "f14d2633844d06ee6924392a9e646dc92831348f83233e0419932dc659a55335",
   "branch": "codex/432-remove-tracked-adl",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-432-remove-tracked-adl-execution",
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c192bccfb260c36c8224244015b60e26021669d575387867faefe63e7b82c125",
+      "values_digest": "0bd900e12a14ea3dbae653942f91fabb443617ca461316be2d3cf4234ae4c603",
       "rendered_digest": "0afb8f4e64a2a75ec3dacafb21a5f12080b8e344a73b7ab43188448db1201e5d",
       "ast_digest": "ef52cc2fff7204f43a334338886c48b1e7c9e3d13a48166371c404a350f2a8c6"
     },
     "stp": {
-      "values_digest": "d5a642d212857658a4ac4bf0bdd5c4bf97ce8f01de06a2764c795b8017a73b9e",
+      "values_digest": "638fcaabc3bf469c889d3a3019636f3b305b7b9eea8853dc8d33c1972a481495",
       "rendered_digest": "ab01e92998681b5becc5dbda945d1e5fa257ad0fe2df46fe9932f2d3b84dfb34",
       "ast_digest": "361a74d35d7bf008c56f36d0ab507a61a76609eff8573de243bae86fe8fbff68"
     },
     "spp": {
-      "values_digest": "be3e787242126b7b36bfcf490c6256c0ced96f7567c9f2cb922f4eedf3bbe65c",
-      "rendered_digest": "9d04d3739d57285fe9e7ad907c95d595d4f2718be8b47a46dcfc456ff14fab8f",
-      "ast_digest": "a4e323c4aec9b8c74168afdb5131aa12df943986c3f5e3a2bf2eca2947ebbaeb"
+      "values_digest": "63311c803d35e7a8cfd5687603396ef953ca7bc2129cad399ef9edea1405e57d",
+      "rendered_digest": "07ca1deb943fb80ac30de1e9130952a47637407c81098e9df5e8b72be0cb34e1",
+      "ast_digest": "605bb1d0af956b3cd4574b943b6fb4c5da69b1c397ec83f22db8e691137c1a74"
     },
     "vpp": {
-      "values_digest": "42c89f93dfb96c37eaa4afc06bc0e9e0e6253623783f20ae7c2449912d1b7cc8",
+      "values_digest": "22abd64f337cbd814dcf88c3b1b2d35365d1b0ea85b77ef1f66f9863159e69eb",
       "rendered_digest": "ec00bf46b03faa3af929bbfaa38e6bf4051a82a01b5983f6a46dba79c372ef5d",
       "ast_digest": "92600fea7ff715ab0e255651ba69a4f34cd58964595993e1d3611ddb3046f45c"
     },
     "srp": {
-      "values_digest": "05259c9a9a2d3994c3e67f5d513f4cc935d31f7555ba74ff1f792f7ce32c1901",
+      "values_digest": "3beec32cde896823b3e3390afe51c5f2a91adbb760434b3d77fe79185932be6a",
       "rendered_digest": "6e6c41e774ad1fdd858e7102c9db7742be5baa2a92a637f1c55f1ba8d536390b",
       "ast_digest": "aeb16f78199df2a10b7c9efabe9d990824262b9fa4953e40b4701a3ea694ef85"
     },
     "sor": {
-      "values_digest": "55ccdf98b0a21cf8d6348247bb3513ae7a18862d6ca3daf48d78487c13998720",
+      "values_digest": "ee7a4a23350c488fae963d6accd70baba6b88a619fdd214af8fcffda711fe057",
       "rendered_digest": "9de22c7acb2b02a44172ad9389aa5356be29e743faa3025e41bbf22b042b42dc",
       "ast_digest": "5aaf1e05c198bf03d4bc58899259f4b6d403e74102da47f62bcf11533a5d3f67"
     }
@@ -147,6 +147,34 @@
       "actor": "codex:/root",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex:432-review-fix",
+      "reason": "Include the normal batched-check entrypoint required to make the repository-boundary guard durable.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/config/worktree-policy.json\",\"csdlc-v2/src/lifecycle.rs\",\"csdlc-v2/tests/gate2.rs\",\"AGENTS.md\",\".gitignore\",\"adl/tools/batched_checks.sh\",\"adl/tools/check_no_tracked_adl.sh\",\"adl/tools/test_check_no_tracked_adl.sh\",\".csdlc/evidence/432\"]}"
+    },
+    {
+      "sequence": 12,
+      "generation": 10,
+      "actor": "codex:432-review-fix",
+      "reason": "Inventory and per-entry disposition are recorded in issue evidence.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 13,
+      "generation": 11,
+      "actor": "codex:432-review-fix",
+      "reason": "All .adl paths are absent from the Git index while the local files remain present.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 14,
+      "generation": 12,
+      "actor": "codex:432-review-fix",
+      "reason": "Policy consumers use the relocated authority and the reintroduction guard is wired into batched checks.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
     }
   ]
 }

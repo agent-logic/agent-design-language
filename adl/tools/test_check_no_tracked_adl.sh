@@ -23,10 +23,11 @@ if bash -c "cd '$fixture_root' && bash adl/tools/check_no_tracked_adl.sh" >/dev/
 fi
 
 git -C "$fixture_root" rm --cached -q .adl/forbidden.txt
-printf '%s%s\n' '.adl/' 'worktree-policy.json' > "$fixture_root/legacy-reference.txt"
-git -C "$fixture_root" add legacy-reference.txt
+mkdir -p "$fixture_root/csdlc-v2/src"
+printf '%s\n' 'let path = Path::new(".adl").join("worktree-policy.json");' > "$fixture_root/csdlc-v2/src/legacy.rs"
+git -C "$fixture_root" add csdlc-v2/src/legacy.rs
 if bash -c "cd '$fixture_root' && bash adl/tools/check_no_tracked_adl.sh" >/dev/null 2>&1; then
-  echo "checker accepted an active legacy policy reference" >&2
+  echo "checker accepted reconstructed legacy policy authority" >&2
   exit 1
 fi
 

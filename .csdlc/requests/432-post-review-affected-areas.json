@@ -1,0 +1,24 @@
+{
+  "issue": 432,
+  "card": "spp",
+  "expected_generation": 8,
+  "expected_digest": "af69866e4c5d2030268be0017fc5e94d8c334c7828c38c33901915cefd83273d",
+  "actor": "codex:432-review-fix",
+  "reason": "Include the normal batched-check entrypoint required to make the repository-boundary guard durable.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "adl/config/worktree-policy.json",
+      "csdlc-v2/src/lifecycle.rs",
+      "csdlc-v2/tests/gate2.rs",
+      "AGENTS.md",
+      ".gitignore",
+      "adl/tools/batched_checks.sh",
+      "adl/tools/check_no_tracked_adl.sh",
+      "adl/tools/test_check_no_tracked_adl.sh",
+      ".csdlc/evidence/432"
+    ]
+  },
+  "fail_after_backup": false
+}
