@@ -294,6 +294,8 @@ live_check() {
   [[ "${OBSERVATORY_URL:-}" == *"runtimeApiBase="* ]] || fail "observatory_url_missing_runtime_api_base"
   [[ "$(curl_code "${OBSERVATORY_BASE:-}/")" == "200" ]] || fail "observatory_root_not_200"
   [[ "$(curl_code "${OBSERVATORY_BASE:-}/index.html")" == "200" ]] || fail "observatory_index_not_200"
+  local expected_observatory_url="$OBSERVATORY_URL"
+  local expected_observatory_runtime_base="$OBSERVATORY_RUNTIME_BASE"
 
   local first_incarnation_id=""
   [[ -f "$ready_file" ]] && first_incarnation_id="$(json_field "$ready_file" runtime_incarnation_id || true)"
@@ -304,7 +306,12 @@ live_check() {
     "${ADL_CSM_LEASE_INFO_FILE:-$state_dir/start_CSM.lease.env}"; do
     [[ ! -e "$pid_path" ]] || fail "runtime_stop_left_state_file:$pid_path"
   done
-  "$CSMCTL" start
+  local restart_output="$state_dir/CSMctl.restart.out"
+  "$CSMCTL" start > "$restart_output"
+  grep -F "observatory=$expected_observatory_url" "$restart_output" >/dev/null \
+    || fail "observatory_restart_cmd_stale_url"
+  grep -F "observatory_runtime_api_base=$expected_observatory_runtime_base" "$restart_output" >/dev/null \
+    || fail "observatory_restart_cmd_stale_runtime_api_base"
   assert_exposed_read_routes "$runtime_base" "$state_dir"
   local second_incarnation_id=""
   [[ -f "$ready_file" ]] && second_incarnation_id="$(json_field "$ready_file" runtime_incarnation_id || true)"

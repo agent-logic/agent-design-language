@@ -117,12 +117,22 @@ fn csmctl_observatory_serves_index_at_root_and_persists_runtime_target() {
         "self.path = \"/index.html\"",
         "OBSERVATORY_RUNTIME_BASE=%q",
         "OBSERVATORY_URL=%q",
+        "OBSERVATORY_LAUNCH_WORKING_DIR",
         "load_observatory_state || true",
         "runtimeApiBase=$OBSERVATORY_RUNTIME_BASE",
     ] {
         assert!(
             CSMCTL.contains(required),
             "CSMctl must preserve simple root launch and Runtime target evidence: {required}"
+        );
+    }
+    for required in [
+        "observatory_restart_cmd_stale_url",
+        "observatory_restart_cmd_stale_runtime_api_base",
+    ] {
+        assert!(
+            RESTART_VALIDATOR.contains(required),
+            "restart validator must prove CSMctl start reports the current Observatory URL after restart: {required}"
         );
     }
 }

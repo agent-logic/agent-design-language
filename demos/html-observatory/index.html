@@ -108,7 +108,7 @@
             </select>
           </label>
           <div class="top-readout">
-            <span>Runtime Mirror</span>
+            <span id="runtime-source-label">Runtime Source</span>
             <strong id="packet-status">Loading packet</strong>
           </div>
           <div class="top-readout">
@@ -696,8 +696,8 @@
         </p>
       </section>
 
-      <footer class="dashboard-statusbar" aria-label="Observatory mirror status">
-        <span><b id="statusbar-indicator"></b>Runtime Mirror</span>
+      <footer class="dashboard-statusbar" aria-label="Observatory runtime status">
+        <span><b id="statusbar-indicator"></b><strong id="statusbar-runtime-label">Runtime Source</strong></span>
         <span id="statusbar-source">retained packet</span>
         <span>WSS <strong id="statusbar-websocket">idle</strong></span>
         <span>Last Update <strong id="statusbar-updated">pending</strong></span>

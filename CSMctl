@@ -83,6 +83,7 @@ OBSERVATORY_RUNTIME_BASE="${ADL_CSM_OBSERVATORY_RUNTIME_BASE:-${ADL_CSM_RUNTIME_
 OBSERVATORY_REPO_ROOT="${ADL_CSM_OBSERVATORY_REPO_ROOT:-$PRIMARY_REPO_ROOT}"
 OBSERVATORY_ENTRY="${ADL_CSM_OBSERVATORY_ENTRY:-$OBSERVATORY_REPO_ROOT/demos/html-observatory/index.html}"
 OBSERVATORY_DIR="${ADL_CSM_OBSERVATORY_DIR:-$(dirname "$OBSERVATORY_ENTRY")}"
+OBSERVATORY_LAUNCH_WORKING_DIR="${ADL_CSM_OBSERVATORY_LAUNCH_WORKING_DIR:-$OBSERVATORY_DIR}"
 OBSERVATORY_HOST="${ADL_CSM_OBSERVATORY_HOST:-127.0.0.1}"
 OBSERVATORY_PORT="${ADL_CSM_OBSERVATORY_PORT:-8765}"
 OBSERVATORY_PORTS="${ADL_CSM_OBSERVATORY_PORTS:-$OBSERVATORY_PORT 8766}"
@@ -273,7 +274,7 @@ EOF
     <string>$(xml_escape "$OBSERVATORY_RUNNER_FILE")</string>
   </array>
   <key>WorkingDirectory</key>
-  <string>$(xml_escape "$OBSERVATORY_DIR")</string>
+  <string>$(xml_escape "$OBSERVATORY_LAUNCH_WORKING_DIR")</string>
   <key>StandardOutPath</key>
   <string>$(xml_escape "$OBSERVATORY_LOG_FILE")</string>
   <key>StandardErrorPath</key>
@@ -625,6 +626,7 @@ ensure_observatory_config() {
   require_file "$OBSERVATORY_TLS_CERT" "observatory_tls_certificate"
   require_file "$OBSERVATORY_TLS_KEY" "observatory_tls_private_key"
   [[ -d "$OBSERVATORY_DIR" ]] || fail "missing_observatory_dir: $OBSERVATORY_DIR"
+  [[ -d "$OBSERVATORY_LAUNCH_WORKING_DIR" ]] || fail "missing_observatory_launch_working_dir: $OBSERVATORY_LAUNCH_WORKING_DIR"
   mkdir -p "$STATE_DIR" "$GENERATED_DIR"
   write_observatory_server
 }

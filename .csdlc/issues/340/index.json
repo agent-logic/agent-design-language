@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "8abc247d0a5d650da01bc1639900bba9c3c40370738e752cb2074ddd851f1815",
   "phase": "implemented",
-  "generation": 14,
-  "digest": "dd32afb8fea09bcac8018ad20c2df9a048405d7f7f02cb9805a0e5ee219e2654",
+  "generation": 16,
+  "digest": "704f66fc9b98c4267313eaecd76f649775505cf6f5dbfe1c0069b075b9970d12",
   "branch": "codex/340-html-observatory-runtime-restart-integration",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-340-html-observatory-runtime-restart-integration",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e695f051e09cc5085d0e1ea5907883f89648074c5a818f944b45cca8c8fe6110",
+      "values_digest": "82220448631aa7de9dca1dc97997f61302163b2459aa5bb7de98406d0942c2c9",
       "rendered_digest": "e68242eb9bbe9ef94376f6bcc73e6a402a30b750e374fd44ad2a10c1f64de1d7",
       "ast_digest": "4880fadf87cf773585e07d456e5dbd11a1ec596ac7646ae36f2ce94c09a2caa2"
     },
     "stp": {
-      "values_digest": "4a2507c491130488fe70ba00ffcd1c9efadd904796d4756dbef9dc7e2172b745",
+      "values_digest": "9b5af5e09dd780b2b22d88179cc598caac51dcc9fc59f2525ca023b9b67675cd",
       "rendered_digest": "3f94f447d3f0c52feafda63615f0140ef655286ccbdb3fa85163a50ec8e142da",
       "ast_digest": "7a88f55764720014ad1c151a4eedad3e71624b578e52d9fbc2c098ddd4a3173c"
     },
     "spp": {
-      "values_digest": "ef60d5e1a24e2829dc9ec3ee0ff7001e254a0c806e413726fb6c478badb45b31",
+      "values_digest": "a9b1d3c3df1dfb34e91dc87fd1646bec90befe14628c1c74a45e0c5a2adcb436",
       "rendered_digest": "04ae1a1c6abf369d12f379a3913646c64ac39b790f88c71ba1120b3d749bd517",
       "ast_digest": "ce6d867b2ee2b0fee927916db7f8feec1c4a7c1d1c1a62d3d9dfa679478aab60"
     },
     "vpp": {
-      "values_digest": "73aeac085c320e03ddfa932760df9fe20500dc25877b58eb171f74d2568b10c8",
+      "values_digest": "159dd787b81ad9c384f81ae3bb40ee08f636c7f0fded02b2d148a0371900df05",
       "rendered_digest": "df1a9f32b2ef6ac3388328c6892ce316a924427db54cae87d6837231e01602fc",
       "ast_digest": "120fa996e5aaefe19914a509024f66e1b209c4d0a4ecc01caf1ab4cd64321f64"
     },
     "srp": {
-      "values_digest": "eb32b311b91ee417aec80a559aad7d8585c76b0d975d1b7e2a982d736ab2c46f",
+      "values_digest": "aa8ed0a903a7204f40ecfaf11464f80a1cb31d4754a341fb3df6ed478d29e911",
       "rendered_digest": "f1f6ff292fd62b83bf9f75d91f5d6211c7b2f6341ba26a949b41cd7e93077ca7",
       "ast_digest": "fd174d614c5b9d57ae476912b062c7a85c68c0dd93a7f9995e509a6513a4c1fd"
     },
     "sor": {
-      "values_digest": "a715567bb7aad4efc565ca47a24312de1c4781397fdd1e84558d25fbfc77a815",
-      "rendered_digest": "9498a3f8123c55694df76566ca925f53ac146e8708d063e0cc2508516bed2bb3",
-      "ast_digest": "57ccb9126f39e31a255f9b551be54ec6e367fe019ac9396de2d1126fe7c6a301"
+      "values_digest": "bf8c5fdb758719b76be0fa7ec79b4cedb65bdfe6d38a0d914846aec8684cc7cf",
+      "rendered_digest": "dea254ef1238ebcdb52a2b327eef026f789f3aa3a30acb0740e52cb85a417725",
+      "ast_digest": "06715f5568b9b53eb67fde7b210b5a514b2644faa3549f9dfc51447557c38c2c"
     }
   },
   "transitions": [
@@ -197,6 +197,27 @@
       "actor": "codex:/root",
       "reason": "Record #340 post-review P2/P3 repairs and refreshed focused validation before a second immutable exact-head review.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented bounded HTML Observatory Runtime v3 launch/start-stop-restart integration, then repaired fresh-review findings requiring exact HTTP 200 live Observatory gating and persisted fallback Observatory URL reporting.\",\"changes\":[\"CSMctl static Observatory serving maps '/' to '/index.html', persists Runtime/Observatory URL state, and reloads that state before printing URLs so fallback ports are reported truthfully.\",\"HTML Observatory Runtime v3 live mode now requires /v1/observatory, /v1/ready, and /v1/health to return exact HTTP 200 before live data is shown.\",\"The #340 validator proves static contract mode, live local CSMctl startup, graceful stop cleanup, restart recovery, local TLS probing, documented exposed route categories, and persisted fallback URL reporting.\",\"Focused Runtime API/WSS tests bind OpenAPI docs, validator route coverage, strict live-data gating, CSMctl root/runtime-base behavior, and CSMctl persisted-state URL reload behavior.\",\"Post-review P2/P3 findings from fresh-session:07a4715e-f5e9-496c-a48e-ef3d04488ac8 were repaired without absorbing Unity, AWS/public, provider, #341, #343, #84, #122, or #251 scope.\"],\"artifacts\":[\"CSMctl\",\"demos/html-observatory/app.js\",\"adl/tools/test_html_observatory.sh\",\"adl/tools/validate_v092_observatory_restart_reconnect.sh\",\"adl-runtime/tests/runtime_api_wss.rs\",\".csdlc/evidence/340/proof-summary.md\",\".csdlc/issues/340\",\".csdlc/prepared/issues/340\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/validate_v092_observatory_restart_reconnect.sh\",\"--contract\"],\"purpose\":\"Post-review contract proof for exact /v1/observatory HTTP 200 live gating and CSMctl persisted-state reload contract.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/340/proof-summary.md\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"runtime_api_wss\"],\"purpose\":\"Post-review focused Runtime API/WSS contract tests for OpenAPI route split, validator route coverage, strict live-data gating, and CSMctl persisted-state URL reload behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/340/proof-summary.md\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--check\"],\"purpose\":\"Post-review Rust formatting check for the focused integration test.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/340/proof-summary.md\"},{\"command\":[\"git\",\"diff\",\"--check\",\"--\",\"CSMctl\",\"adl/tools/test_html_observatory.sh\",\"demos/html-observatory/app.js\",\"adl/tools/validate_v092_observatory_restart_reconnect.sh\",\"adl-runtime/tests/runtime_api_wss.rs\",\".csdlc/issues/340\",\".csdlc/prepared/issues/340\"],\"purpose\":\"Post-review whitespace and conflict-marker hygiene across #340 touched paths.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/340/proof-summary.md\"},{\"command\":[\"bash\",\"adl/tools/validate_v092_observatory_restart_reconnect.sh\",\"--live\"],\"purpose\":\"Post-review live proof that CSMctl reports the persisted fallback Observatory URL while start/stop/restart and exposed route coverage remain green.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/340/proof-summary.md\"}]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "Recover #340 review assignment after fresh-session:e7044db6-30ab-465c-b65b-5e31f0e2e8b5 returned FAIL with P2 stale retained live evidence and P3 missing post-restart CSMctl start URL assertion; implementation will update validator and retained evidence before a distinct fresh review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "Record #340 second exact-review evidence repair and live-label correction before a new immutable exact-head review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented bounded HTML Observatory Runtime v3 launch/start-stop-restart integration and repaired exact-review findings: live mode now distinguishes real Runtime API data from retained mirror evidence, the live validator proves post-restart CSMctl start output is current, CSMctl separates Observatory document root from launch working directory, and retained proof logs were refreshed after the repair.\",\"changes\":[\"CSMctl static Observatory launch now has an explicit ADL_CSM_OBSERVATORY_LAUNCH_WORKING_DIR so the configured document root remains Apache-simple while launchd cwd access is not conflated with the served HTML path.\",\"HTML Observatory visible chrome now renders Live Runtime API for live Runtime v3 mode and reserves retained/published mirror language for retained evidence paths.\",\"The #340 validator captures post-restart CSMctl start output and fails closed if the restarted command reports a stale Observatory URL or stale Runtime API base.\",\"Retained evidence logs under .csdlc/evidence/340 were refreshed after the second review finding instead of relying on stale pre-repair live output.\",\"Focused HTML and Runtime API/WSS tests pin the live-label, exact HTTP 200, CSMctl root/runtime-base, launch working directory, and post-restart URL assertion contracts.\",\"The work remains limited to #340 HTML Observatory Runtime restart/reconnect integration and excludes Unity, AWS/public hosting, provider credentials, #341, #343, #84, #122, and #251.\"],\"artifacts\":[\"CSMctl\",\"demos/html-observatory/app.js\",\"demos/html-observatory/index.html\",\"adl/tools/test_html_observatory.sh\",\"adl/tools/validate_v092_observatory_restart_reconnect.sh\",\"adl-runtime/tests/runtime_api_wss.rs\",\".csdlc/evidence/340/proof-summary.md\",\".csdlc/evidence/340/340-html-observatory-contract.log\",\".csdlc/evidence/340/340-runtime-api-wss-contract.log\",\".csdlc/evidence/340/340-rust-format.log\",\".csdlc/evidence/340/340-diff-hygiene.log\",\".csdlc/evidence/340/340-live-start-stop-restart.log\",\".csdlc/evidence/340/340-typed-validate.log\",\".csdlc/issues/340\",\".csdlc/prepared/issues/340\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/validate_v092_observatory_restart_reconnect.sh\",\"--contract\"],\"purpose\":\"Static contract proof for HTML Observatory Runtime v3 live labels, exact /v1/observatory HTTP 200 gating, CSMctl persisted-state reload, and post-restart validator assertions.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/340/340-html-observatory-contract.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--test\",\"runtime_api_wss\"],\"purpose\":\"Focused Runtime API/WSS contract tests for OpenAPI route split, validator route coverage, strict live-data gating, CSMctl root/runtime-base behavior, launch working directory, and post-restart URL assertions.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/340/340-runtime-api-wss-contract.log\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--check\"],\"purpose\":\"Rust formatting check for the focused integration test.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/340/340-rust-format.log\"},{\"command\":[\"git\",\"diff\",\"--check\",\"--\",\"CSMctl\",\"adl/tools/test_html_observatory.sh\",\"demos/html-observatory/app.js\",\"demos/html-observatory/index.html\",\"adl/tools/validate_v092_observatory_restart_reconnect.sh\",\"adl-runtime/tests/runtime_api_wss.rs\",\".csdlc/issues/340\",\".csdlc/prepared/issues/340\"],\"purpose\":\"Whitespace and conflict-marker hygiene across #340 source, tests, validator, and lifecycle card projections.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/340/340-diff-hygiene.log\"},{\"command\":[\"bash\",\"adl/tools/validate_v092_observatory_restart_reconnect.sh\",\"--live\"],\"purpose\":\"Live local CSMctl/Runtime/Observatory proof for HTTP 200 startup gates, Observatory root/index serving, graceful stop cleanup, restart, and post-restart current URL/base reporting.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/340/340-live-start-stop-restart.log\"},{\"command\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-340-html-observatory-runtime-restart-integration\",\"issue\",\"--issue\",\"340\"],\"purpose\":\"Typed lifecycle validation after evidence refresh.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/340/340-typed-validate.log\"}]}"
     }
   ]
 }
