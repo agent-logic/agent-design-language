@@ -1,2 +1,0 @@
-PASS: .adl is untracked and worktree-policy authority is canonical
-PASS: repository-boundary guard positive and negative cases
