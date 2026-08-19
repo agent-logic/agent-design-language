@@ -155,7 +155,9 @@ PY
       echo "issue268: another launch invocation owns the one-attempt claim" >&2
       exit 75
     }
-    "$OWNER" launch "${common[@]}" --estimated-hourly-cost-usd "$HOURLY"
+    # Keep the paid owner in this foreground process. Desktop task boundaries
+    # do not preserve the detached manager used by the generic `launch` action.
+    "$OWNER" run --run "${common[@]}" --estimated-hourly-cost-usd "$HOURLY"
     ;;
   terminal-status)
     [[ -s "$SUMMARY" ]] || { echo "issue268: run summary absent" >&2; exit 75; }

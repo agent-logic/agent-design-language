@@ -57,7 +57,10 @@ cat >"$test_root/owner" <<'EOF'
 #!/usr/bin/env bash
 printf '%s\n' "$*" >>"${ADL_ISSUE268_FAKE_OWNER_LOG:?}"
 case "$1" in
-  launch) exit 0 ;;
+  run)
+    [[ " $* " == *" --run "* ]] || exit 98
+    exit 0
+    ;;
   status)
     if [[ "${ADL_ISSUE268_FAKE_MANAGER_STATE:-dead}" == active ]]; then
       printf 'status=running run_id=issue268-six-hour-r7i-20260819-03\n'
@@ -114,6 +117,7 @@ assert "ADL_ISSUE268_S3_SOURCE_RECEIPT" in request["command_profile"]["environme
 PY
 grep -F -- '--runtime-continuity-volume-id vol-12345678' "$test_root/owner.log" >/dev/null
 grep -F -- '--runtime-continuity-volume-name adl-issue268-runtime' "$test_root/owner.log" >/dev/null
+grep -F -- 'run --run ' "$test_root/owner.log" >/dev/null
 
 if ADL_ISSUE268_EVIDENCE_ROOT="$test_root" \
   ADL_ISSUE268_OWNER="$test_root/owner" \
