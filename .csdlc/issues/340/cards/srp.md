@@ -12,7 +12,17 @@ Status: draft
 
 ## Scope
 
-
+CSMctl
+adl-runtime/src/bin/adl-observatory-static.rs
+adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs
+adl-runtime/tests/runtime_api_wss.rs
+adl/tools/test_html_observatory.sh
+adl/tools/validate_v092_observatory_restart_reconnect.sh
+demos/html-observatory/app.js
+demos/html-observatory/index.html
+.csdlc/issues/340
+.csdlc/prepared/issues/340
+.csdlc/evidence/340
 
 ## Prompts
 
@@ -32,12 +42,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Reviewer did not rerun Cargo or llvm-cov lanes because the review assignment was read-only; retained current proof and source/test contracts were inspected instead.
+- The PR #430 coverage fix is test-harness only and scoped to learner_transport::real_four_node_learner_replication leader movement under slow coverage timing.
+- This review does not claim Unity, AWS/public hosting, provider credentials, #341, #343, #84, #122, or #251 scope.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:fd55fc517db7e85f71d0c49a0d1628c04fbafa56:cab96b2306fdb9670fb9ca402a18bfcef3d023a0058b703c98ba8aec54772ba1")
 
-Reviewer: None
+Reviewer: Some("fresh-session:fd750059-45b0-438b-9ad3-b6a50389dd7e")
 
-Result: pre_review
+Result: pass
