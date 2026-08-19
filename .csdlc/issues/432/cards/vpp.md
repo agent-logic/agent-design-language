@@ -42,7 +42,7 @@ Diagram: .csdlc/prepared/issues/432/diagram.mmd
       "adl/tools/test_check_no_tracked_adl.sh"
     ],
     "parallel_group": "boundary",
-    "defer_reason": null
+    "defer_reason": "Deferred until #432 implementation creates the exact repository-boundary validator; validation must fail closed if the target is absent or any tracked or authoritative .adl dependency remains."
   },
   {
     "lane": "worktree-policy",

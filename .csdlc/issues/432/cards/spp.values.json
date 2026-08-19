@@ -7,13 +7,13 @@
     "title": "[v0.92.1][repository] Remove all tracked .adl paths and relocate required policy authority",
     "slug": "remove-tracked-adl-and-relocate-policy",
     "version": "v0.92.1",
-    "generation": 0
+    "generation": 5
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 1,
+      "plan_revision": 3,
       "summary": "Inventory, relocate authority, remove tracked residue, add guards, and prove fresh-checkout behavior.",
       "steps": [
         {
@@ -56,8 +56,7 @@
         }
       ],
       "affected_areas": [
-        ".adl",
-        "config/worktree-policy.json",
+        "adl/config/worktree-policy.json",
         "csdlc-v2/src/lifecycle.rs",
         "csdlc-v2/tests/gate2.rs",
         "AGENTS.md",

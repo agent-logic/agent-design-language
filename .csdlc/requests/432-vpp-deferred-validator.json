@@ -1,0 +1,50 @@
+{
+  "issue": 432,
+  "card": "vpp",
+  "expected_generation": 3,
+  "expected_digest": "61c0623aa1183aaf351e51e9ac8b9c1ef2fc60de4fc1507780d7093a73954866",
+  "actor": "codex:432-readiness-repair",
+  "reason": "Mark the issue-owned boundary validator as explicitly deferred until implementation while preserving fail-closed exact-target proof.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "adl-boundary",
+        "proof_role": "Prove zero tracked paths and zero active authoritative dependencies.",
+        "acceptance_ids": ["AC-1", "AC-2", "AC-3", "AC-5", "AC-6"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 120,
+        "budget_tokens": 1500,
+        "argv": ["bash", "adl/tools/test_check_no_tracked_adl.sh"],
+        "parallel_group": "boundary",
+        "defer_reason": "Deferred until #432 implementation creates the exact repository-boundary validator; validation must fail closed if the target is absent or any tracked or authoritative .adl dependency remains."
+      },
+      {
+        "lane": "worktree-policy",
+        "proof_role": "Prove relocated policy resolution and allowed/rejected worktree behavior.",
+        "acceptance_ids": ["AC-4", "AC-7"],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 600,
+        "budget_tokens": 2500,
+        "argv": ["cargo", "test", "--manifest-path", "csdlc-v2/Cargo.toml", "--lib", "worktree_policy"],
+        "parallel_group": "rust",
+        "defer_reason": null
+      },
+      {
+        "lane": "diff-hygiene",
+        "proof_role": "Reject patch whitespace errors.",
+        "acceptance_ids": ["AC-7"],
+        "deterministic": true,
+        "resource_profile": "small",
+        "budget_seconds": 30,
+        "budget_tokens": 500,
+        "argv": ["git", "diff", "--check"],
+        "parallel_group": "hygiene",
+        "defer_reason": null
+      }
+    ]
+  },
+  "fail_after_backup": false
+}

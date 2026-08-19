@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "dcb1c35f0a7d76f3551ff2dda7764b335e7cb5315b055b6acf2fe90e70f33e22",
   "phase": "initialized",
-  "generation": 0,
-  "digest": "0597e7740b647ccf719768820860f2d1f0584cd0cd1244457eaf1f9aef898774",
+  "generation": 5,
+  "digest": "9bfff6423bdc2c5a9f95fc7e53ecf322ace7734c76248ff492125a04ed7ea35d",
   "branch": null,
   "worktree": null,
   "review_assignment": null,
@@ -24,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "cb3c1fddb47f8f7d326b3556d7633d6fd78f16bf451fe2eb423150bc8624bf11",
+      "values_digest": "692c2f79e98ffd465393d57cea70031fcd504360e47d177558c6daf246673976",
       "rendered_digest": "0afb8f4e64a2a75ec3dacafb21a5f12080b8e344a73b7ab43188448db1201e5d",
       "ast_digest": "ef52cc2fff7204f43a334338886c48b1e7c9e3d13a48166371c404a350f2a8c6"
     },
     "stp": {
-      "values_digest": "998da5c061c56f2914ec1e27fd9aa8ae27d661eee68f9155f8565d236adea85b",
-      "rendered_digest": "30af3d0d6899e8a3a0442438404f8c2a3d79f7a5cc89e18f6b158ff8c68f820a",
-      "ast_digest": "776837427da5f7e91dcd651d7f9bbc3962f7a2bc13b2904f142e468bdc747aff"
+      "values_digest": "0a208b7b3eabac3ba92ba6ca804038710d6f64fb3af82102c6f038af5e8fa171",
+      "rendered_digest": "ab01e92998681b5becc5dbda945d1e5fa257ad0fe2df46fe9932f2d3b84dfb34",
+      "ast_digest": "361a74d35d7bf008c56f36d0ab507a61a76609eff8573de243bae86fe8fbff68"
     },
     "spp": {
-      "values_digest": "be2066a9e72e189b581bbf49703689feb494178c5ecfa24cb0686cdc3384d5ec",
-      "rendered_digest": "fbbf15dee333ca37a4ceec16ea9a68669e1586cb36418c0dae1c94afd6a6a4df",
-      "ast_digest": "e394a39c61ead938ee9932fa9176d6f5233ef346f5294714f3a49aa25d5095b3"
+      "values_digest": "d50b61ba8acbfc9ee13da5ef2e856c01016758d7c57eab555d0b6d32ba257668",
+      "rendered_digest": "9d04d3739d57285fe9e7ad907c95d595d4f2718be8b47a46dcfc456ff14fab8f",
+      "ast_digest": "a4e323c4aec9b8c74168afdb5131aa12df943986c3f5e3a2bf2eca2947ebbaeb"
     },
     "vpp": {
-      "values_digest": "7b681f65a208190aec8897822cb7e52c704d4b7bab9630a8df89de4a6714642e",
-      "rendered_digest": "bd8e86e756643609d2b4b9d8c631cbbecfb1fa023654aa85fac70c8eb6fd414e",
-      "ast_digest": "51563ac7af988cef6ebed627cd46d66fa06195c0a65d464a517f29e7cac57612"
+      "values_digest": "884df051d5cdfd21b40765cf5f764c76325ca77522d036725e2712e14bca3db6",
+      "rendered_digest": "564fd7b3a41dd4bfcaf36106dbf113db40d6b5e4b409e5e336e4e5e2b3b01fa1",
+      "ast_digest": "58f7f4b80ba036e4105b7819aa1068d719d4f8115290824b37f2016b4974fa17"
     },
     "srp": {
-      "values_digest": "b12bd7a7f5ba588fae489dc4a35a508427bea34389a1508aedd06f4ae8772cc7",
+      "values_digest": "4b8a7ebcec79c8e91fe1bf46ac8655ef10452df6cae0e96f422683071c8c0a07",
       "rendered_digest": "6e6c41e774ad1fdd858e7102c9db7742be5baa2a92a637f1c55f1ba8d536390b",
       "ast_digest": "aeb16f78199df2a10b7c9efabe9d990824262b9fa4953e40b4701a3ea694ef85"
     },
     "sor": {
-      "values_digest": "2065a10a95cce4c0016efec9c862a0b0ff835300eb9ea494b3b1c53ee33d6c11",
+      "values_digest": "df09c762a86efe7e04c4e8aa30d8f3a05a8044069b10fc86a961adf73e93aff9",
       "rendered_digest": "cb4519c1092c1d86a9c45e55a8251a071432a038ac7cccb3f353c11f35df24ba",
       "ast_digest": "a8e89c2e4052d41c4233a7a6337f2d709582970b8f01b428dd8aa646e31ef138"
     }
@@ -62,6 +62,41 @@
       "actor": "codex:432",
       "reason": "initialize issue record and all six cards",
       "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:432-readiness-repair",
+      "reason": "Replace the unsafe directory-wide ownership declaration with exact repository-owned migration and proof paths.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".adl/TBD/OPUS_REVIEW_RUNBOOK.md\",\".adl/docs/TBD/ADL_RUNTIME_SEMANTIC_ABI_AND_TRANSFER_PLAN.md\",\".adl/docs/TBD/AGENT_LOGIC_ACCOUNT_REPO_MIGRATION_PLAN.md\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_ARCHITECTURE.md\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.md\",\".adl/docs/TBD/CSDLC_V3_GH_INSPIRED_RUST_ARCHITECTURE.mmd\",\".adl/docs/TBD/CSDLC_V3_RUST_PLAN_REVIEW.md\",\".adl/docs/TBD/PODCAST_STUDIO_NEXT_WEEK_LAUNCH_PLAN_5702.md\",\".adl/docs/TBD/RUNTIME_TLS_ACIP_SIMPLIFICATION_GEMINI_REVIEW.md\",\".adl/docs/TBD/RUNTIME_TLS_ACIP_SIMPLIFICATION_REVIEW.md\",\".adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md\",\".adl/docs/TBD/V092_SPRINT_5855_RUNTIME_OBSERVATORY_SESSION_PROMPT.md\",\".adl/docs/TBD/V092_SPRINT_5856_QUALITY_RELEASE_SESSION_PROMPT.md\",\".adl/docs/TBD/V092_SPRINT_5857_BIRTHDAY_CORE_SESSION_PROMPT.md\",\".adl/docs/TBD/V092_SPRINT_5858_FOUNDATION_SESSION_PROMPT.md\",\".adl/docs/TBD/V092_SPRINT_5862_DISTRIBUTED_GUARDIAN_SESSION_PROMPT.md\",\".adl/docs/TBD/VOCECHAT_REFERENCE_EVALUATION.md\",\".adl/docs/TBD/session-handoffs/ISSUE_84_UNITY_OBSERVATORY_SESSION_HANDOFF.md\",\".adl/docs/TBD/session-handoffs/README.md\",\".adl/docs/TBD/session-handoffs/V092_PLANNING_AND_RECOVERY_SESSION_HANDOFF.md\",\".adl/docs/TBD/session-handoffs/V092_SPRINT_5_BIRTHDAY_CONTINUITY_SESSION_HANDOFF.md\",\".adl/docs/TBD/session-handoffs/V092_WP18C_UMBRELLA_110_SESSION_HANDOFF.md\",\".adl/docs/TBD/session-handoffs/V092_WP_04_16_RUNTIME_REMEDIATION_SESSION_HANDOFF.md\",\".adl/live-provider-probe-disposition.md\",\".adl/provider-adapter-focused-tests.log\",\".adl/v0.91.7/tasks/issue-4630__v0-91-7-wp-03-consume-c-sdlc-integration-control-plane-truth/vpp.md\",\".adl/worktree-policy.json\",\"config/worktree-policy.json\",\"csdlc-v2/src/lifecycle.rs\",\"csdlc-v2/tests/gate2.rs\",\"AGENTS.md\",\".gitignore\",\"adl/tools/check_no_tracked_adl.sh\",\"adl/tools/test_check_no_tracked_adl.sh\",\".csdlc/evidence/432\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:432-readiness-repair",
+      "reason": "Declare the absent issue-owned repository-boundary validator as an implementation deliverable so readiness records exact deferred proof instead of requiring a pre-existing target.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Pre-change migration inventory\",\"Relocated worktree policy and updated consumers\",\"Zero tracked .adl denominator\",\"adl/tools/check_no_tracked_adl.sh\",\"adl/tools/test_check_no_tracked_adl.sh\",\"Fresh-checkout bind proof\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:432-readiness-repair",
+      "reason": "Keep execution ownership on safe durable targets; the tracked .adl cohort remains an explicit deletion denominator rather than writable execution ownership.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/config/worktree-policy.json\",\"csdlc-v2/src/lifecycle.rs\",\"csdlc-v2/tests/gate2.rs\",\"AGENTS.md\",\".gitignore\",\"adl/tools/check_no_tracked_adl.sh\",\"adl/tools/test_check_no_tracked_adl.sh\",\".csdlc/evidence/432\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:432-readiness-repair",
+      "reason": "Mark the issue-owned boundary validator as explicitly deferred until implementation while preserving fail-closed exact-target proof.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"adl-boundary\",\"proof_role\":\"Prove zero tracked paths and zero active authoritative dependencies.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"bash\",\"adl/tools/test_check_no_tracked_adl.sh\"],\"parallel_group\":\"boundary\",\"defer_reason\":\"Deferred until #432 implementation creates the exact repository-boundary validator; validation must fail closed if the target is absent or any tracked or authoritative .adl dependency remains.\"},{\"lane\":\"worktree-policy\",\"proof_role\":\"Prove relocated policy resolution and allowed/rejected worktree behavior.\",\"acceptance_ids\":[\"AC-4\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"worktree_policy\"],\"parallel_group\":\"rust\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject patch whitespace errors.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:432-readiness-repair",
+      "reason": "Declare only the exact deferred lane target as the required validator deliverable; its helper remains an owned implementation path.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Pre-change migration inventory\",\"Relocated worktree policy and updated consumers\",\"Zero tracked .adl denominator\",\"adl/tools/test_check_no_tracked_adl.sh\",\"Fresh-checkout bind proof\"]}"
     }
   ]
 }

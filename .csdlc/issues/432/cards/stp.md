@@ -19,7 +19,7 @@ Remove tracked and authoritative repository dependence on .adl without redesigni
 - Pre-change migration inventory
 - Relocated worktree policy and updated consumers
 - Zero tracked .adl denominator
-- Deterministic reintroduction guard
+- adl/tools/test_check_no_tracked_adl.sh
 - Fresh-checkout bind proof
 
 ## Acceptance

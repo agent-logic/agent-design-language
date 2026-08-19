@@ -16,7 +16,7 @@ Inventory, relocate authority, remove tracked residue, add guards, and prove fre
 
 ## Plan
 
-Revision 1
+Revision 3
 
 ## Steps
 

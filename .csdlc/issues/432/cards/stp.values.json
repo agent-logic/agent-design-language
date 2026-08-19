@@ -7,7 +7,7 @@
     "title": "[v0.92.1][repository] Remove all tracked .adl paths and relocate required policy authority",
     "slug": "remove-tracked-adl-and-relocate-policy",
     "version": "v0.92.1",
-    "generation": 0
+    "generation": 5
   },
   "status": "ready",
   "content": {
@@ -18,7 +18,7 @@
         "Pre-change migration inventory",
         "Relocated worktree policy and updated consumers",
         "Zero tracked .adl denominator",
-        "Deterministic reintroduction guard",
+        "adl/tools/test_check_no_tracked_adl.sh",
         "Fresh-checkout bind proof"
       ],
       "acceptance_criteria": [
