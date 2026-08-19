@@ -2,7 +2,6 @@
 set -euo pipefail
 
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd -P)
-PRIMARY_ROOT=$(dirname "$(git -C "$ROOT" rev-parse --path-format=absolute --git-common-dir)")
 MODE=${1:-}
 RUN_ID=issue268-six-hour-r7i-20260819-01
 EVIDENCE_ROOT=${ADL_ISSUE268_EVIDENCE_ROOT:-$ROOT/.csdlc/evidence/268/aws/$RUN_ID}
@@ -11,8 +10,8 @@ SUMMARY="$EVIDENCE_ROOT/summary.json"
 ARTIFACTS="$EVIDENCE_ROOT/artifacts"
 CANCEL="$EVIDENCE_ROOT/cancel"
 LAUNCH_CLAIM="$EVIDENCE_ROOT/launch-claimed.json"
-REMOTE_BIN=${ADL_AWS_REMOTE_VALIDATION_BIN:-$PRIMARY_ROOT/tools/aws_remote_validation/target/debug/adl-aws-remote-validation}
-PORTABLE_BIN=${ADL_REMOTE_VALIDATION_BIN:-$PRIMARY_ROOT/tools/remote_validation/target/debug/adl-remote-validation}
+REMOTE_BIN=${ADL_AWS_REMOTE_VALIDATION_BIN:-$ROOT/tools/aws_remote_validation/target/debug/adl-aws-remote-validation}
+PORTABLE_BIN=${ADL_REMOTE_VALIDATION_BIN:-$ROOT/tools/remote_validation/target/debug/adl-remote-validation}
 OWNER=${ADL_ISSUE268_OWNER:-$ROOT/adl/tools/run_aws_spot_remote_validation_lane.sh}
 UTS_PLAN_VALIDATOR="$ROOT/adl/tools/validate_issue268_six_resident_uts_plan.py"
 AWS_CLI=${ADL_ISSUE268_AWS_CLI:-aws}
