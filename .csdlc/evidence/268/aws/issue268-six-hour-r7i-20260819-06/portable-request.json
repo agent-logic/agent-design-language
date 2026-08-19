@@ -48,7 +48,7 @@
     "memory_mib": 65536,
     "timeout_seconds": 25200
   },
-  "revision": "2fb791788d6956501458fb10fa56761161b0c9e1",
+  "revision": "244772b5d28b668ab165eefb8bee7173b5bd44f4",
   "schema": "adl.remote_validation.request.v1",
   "source_ref": "refs/heads/codex/268-six-hour-spot-qualification"
 }
