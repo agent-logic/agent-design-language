@@ -1,0 +1,13 @@
+
+running 6 tests
+test lifecycle::fastwork_policy_tests::fastwork_policy_is_required_for_github_equivalent_repository_casing ... ok
+test lifecycle::fastwork_policy_tests::ready_issue_local_checkout_cannot_bypass_policy ... ok
+test lifecycle::fastwork_policy_tests::matching_legacy_bound_topology_is_idempotent ... ok
+test lifecycle::fastwork_policy_tests::fastwork_policy_fails_closed_when_required_policy_is_missing ... ok
+test lifecycle::fastwork_policy_tests::fastwork_policy_refuses_other_parent ... ok
+test lifecycle::fastwork_policy_tests::fastwork_policy_accepts_child_of_required_parent ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 80 filtered out; finished in 0.01s
+
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.19s
+     Running unittests src/lib.rs (csdlc-v2/target/debug/deps/csdlc_v2-f2a972c8df5c63a7)

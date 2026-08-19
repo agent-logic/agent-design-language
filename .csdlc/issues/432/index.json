@@ -3,9 +3,9 @@
   "issue": 432,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "dcb1c35f0a7d76f3551ff2dda7764b335e7cb5315b055b6acf2fe90e70f33e22",
-  "phase": "bound",
-  "generation": 7,
-  "digest": "3da870271738d8aa940ca81455c598eb44e7434904b0d07fe1f7cd1399ac4b06",
+  "phase": "implemented",
+  "generation": 8,
+  "digest": "af69866e4c5d2030268be0017fc5e94d8c334c7828c38c33901915cefd83273d",
   "branch": "codex/432-remove-tracked-adl",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-432-remove-tracked-adl-execution",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "649f0fa519fdbd0a88399b39a7535610918837077afabe5810a7e66e2f95dc6b",
+      "values_digest": "c192bccfb260c36c8224244015b60e26021669d575387867faefe63e7b82c125",
       "rendered_digest": "0afb8f4e64a2a75ec3dacafb21a5f12080b8e344a73b7ab43188448db1201e5d",
       "ast_digest": "ef52cc2fff7204f43a334338886c48b1e7c9e3d13a48166371c404a350f2a8c6"
     },
     "stp": {
-      "values_digest": "14c8a0cb09852c0eea0ae8e93cb251f9cdd2c49af96883fc2028d304ffa51dba",
+      "values_digest": "d5a642d212857658a4ac4bf0bdd5c4bf97ce8f01de06a2764c795b8017a73b9e",
       "rendered_digest": "ab01e92998681b5becc5dbda945d1e5fa257ad0fe2df46fe9932f2d3b84dfb34",
       "ast_digest": "361a74d35d7bf008c56f36d0ab507a61a76609eff8573de243bae86fe8fbff68"
     },
     "spp": {
-      "values_digest": "c222b1dda2affbebf0c5a4f9bb8a5dfe523017de5fcbfae99b363577dcec1454",
+      "values_digest": "be3e787242126b7b36bfcf490c6256c0ced96f7567c9f2cb922f4eedf3bbe65c",
       "rendered_digest": "9d04d3739d57285fe9e7ad907c95d595d4f2718be8b47a46dcfc456ff14fab8f",
       "ast_digest": "a4e323c4aec9b8c74168afdb5131aa12df943986c3f5e3a2bf2eca2947ebbaeb"
     },
     "vpp": {
-      "values_digest": "64766b078355decaa483180cfc1e2de188599b23e2ff4eacc29886f71608f263",
+      "values_digest": "42c89f93dfb96c37eaa4afc06bc0e9e0e6253623783f20ae7c2449912d1b7cc8",
       "rendered_digest": "ec00bf46b03faa3af929bbfaa38e6bf4051a82a01b5983f6a46dba79c372ef5d",
       "ast_digest": "92600fea7ff715ab0e255651ba69a4f34cd58964595993e1d3611ddb3046f45c"
     },
     "srp": {
-      "values_digest": "8b29e944df7c980a253f6b69ca001075a8d5e3549f63539f5ef7279213be0fb8",
+      "values_digest": "05259c9a9a2d3994c3e67f5d513f4cc935d31f7555ba74ff1f792f7ce32c1901",
       "rendered_digest": "6e6c41e774ad1fdd858e7102c9db7742be5baa2a92a637f1c55f1ba8d536390b",
       "ast_digest": "aeb16f78199df2a10b7c9efabe9d990824262b9fa4953e40b4701a3ea694ef85"
     },
     "sor": {
-      "values_digest": "d7e48e42179bacd9a93323c2fa39624c2a1e4c292618d71022ed8ca1f4ffb525",
-      "rendered_digest": "cb4519c1092c1d86a9c45e55a8251a071432a038ac7cccb3f353c11f35df24ba",
-      "ast_digest": "a8e89c2e4052d41c4233a7a6337f2d709582970b8f01b428dd8aa646e31ef138"
+      "values_digest": "55ccdf98b0a21cf8d6348247bb3513ae7a18862d6ca3daf48d78487c13998720",
+      "rendered_digest": "9de22c7acb2b02a44172ad9389aa5356be29e743faa3025e41bbf22b042b42dc",
+      "ast_digest": "5aaf1e05c198bf03d4bc58899259f4b6d403e74102da47f62bcf11533a5d3f67"
     }
   },
   "transitions": [
@@ -68,6 +68,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
     }
   ],
   "audit": [
@@ -133,6 +140,13 @@
       "actor": "codex:432-implementation",
       "reason": "Replace the free Rust substring with the exact lifecycle::fastwork_policy_tests module path after confirming that it selects the intended six tests.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"adl-boundary\",\"proof_role\":\"Prove zero tracked paths and zero active authoritative dependencies.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1500,\"argv\":[\"bash\",\"adl/tools/test_check_no_tracked_adl.sh\"],\"parallel_group\":\"boundary\",\"defer_reason\":null},{\"lane\":\"worktree-policy\",\"proof_role\":\"Run the exact nonzero fastwork_policy module to prove relocated policy resolution and allowed, rejected, required, and bound-topology behavior.\",\"acceptance_ids\":[\"AC-4\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":2500,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"csdlc-v2/Cargo.toml\",\"--lib\",\"lifecycle::fastwork_policy_tests\"],\"parallel_group\":\"rust\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject patch whitespace errors.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"hygiene\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
     }
   ]
 }
