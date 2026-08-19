@@ -4,13 +4,56 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "eb5812135d9740223d4c4313299e7c14a05c109b70155d30fbe4d8a1e51ad983",
-  "phase": "implemented",
-  "generation": 20,
-  "digest": "3ec0407bbb96685cf4caf37d23517a83ba3c82e97dae777cf61c5a1247462b11",
+  "phase": "reviewed",
+  "generation": 21,
+  "digest": "de2db8dfda05b2bb988d0c64afd3cedfd426544e17a0ace88c20f4dfd10174d3",
   "branch": "codex/256-birthday-demo-after-observatory",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-256-birthday-demo-after-observatory",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:dae21e65-2687-4c2a-bdac-27ed3ff28ec2",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:683e38f1680535af8ad6aa012ad3fc6699339b88:1ac332d06430ee9f12afef6754f6fcee4e30867f6727f806e36cf87db99be7aa",
+    "scope": [
+      "adl/tools/validate_issue256_birthday_after_observatory.py",
+      ".csdlc/issues/256",
+      ".csdlc/evidence/256",
+      ".csdlc/evidence/414/EVIDENCE_CLASSIFICATION.json",
+      "CSMctl",
+      "start_CSM.sh",
+      "docs/tooling/START_CSM_RUNBOOK.md",
+      "docs/tooling/CSMctl.conf.example",
+      "docs/tooling/CSMctl.observatory.conf.example",
+      "demos/html-observatory",
+      "adl-runtime-kernel/src/birthday.rs",
+      "adl-runtime-kernel/tests/birthday.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:dae21e65-2687-4c2a-bdac-27ed3ff28ec2",
+    "scope": [
+      "adl/tools/validate_issue256_birthday_after_observatory.py",
+      ".csdlc/issues/256",
+      ".csdlc/evidence/256",
+      ".csdlc/evidence/414/EVIDENCE_CLASSIFICATION.json",
+      "CSMctl",
+      "start_CSM.sh",
+      "docs/tooling/START_CSM_RUNBOOK.md",
+      "docs/tooling/CSMctl.conf.example",
+      "docs/tooling/CSMctl.observatory.conf.example",
+      "demos/html-observatory",
+      "adl-runtime-kernel/src/birthday.rs",
+      "adl-runtime-kernel/tests/birthday.rs"
+    ],
+    "reviewed_revision": "git-blake3:683e38f1680535af8ad6aa012ad3fc6699339b88:1ac332d06430ee9f12afef6754f6fcee4e30867f6727f806e36cf87db99be7aa",
+    "findings": [],
+    "residual_risks": [
+      "No AWS, Unity, public launch, browser/live Observatory, publication, cleanup, GitHub mutation, or lifecycle finish was performed during review.",
+      "The reviewed packet intentionally preserves public/AWS launch, Unity/#84/#122/#251, #341/#343, #271, credential/spend, and sibling implementation surfaces as non-claims.",
+      "Minor non-blocking note: readiness prose names the composite schema without the _validation suffix while retained JSON/live validator output use the exact schema."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +68,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5af16844fdfd3750ca7c1d2509e32dfc27ff6f0c8c0d0e51cc135d0bb6740cfb",
+      "values_digest": "38fb95e79986b6a30c5bfb8339742a3a27359856d9ce41d7b6b0479cb1c6ed53",
       "rendered_digest": "d98919be23c28d764524b0619b2dd084498606c3eee4206daa09ee1c2827410f",
       "ast_digest": "dace2b72efc1be2bb8c64700bf5ce199907883d1d821647ad4baadfde4584c8a"
     },
     "stp": {
-      "values_digest": "fbc13ccadf181d1d7ce133078ba143963b37b930a6810144a5bb4d57cad9faeb",
+      "values_digest": "9117bb5e712d18f138485985e590d4e8bb181bf285a7b7cd5b7f8623550474ea",
       "rendered_digest": "f0d77a915caf1ac8732734aeea0530806547d86ba6de98330d4aeca00a46f8f5",
       "ast_digest": "65705b4ce92df18866b027b025b5b305321a4c67249f4be0828a207603ddeda4"
     },
     "spp": {
-      "values_digest": "1d2fa2aff1ebbb460c82f12f6f79aa977f73ea97adebcf1b70a3db5e0eca23ca",
+      "values_digest": "1fd3e396447f8a65c6d3973648317b4a774b6eb021e4bb5807a28211196e53e0",
       "rendered_digest": "6f9627e84402cdf3c4e4b1b34c463f0471e2ed1a84091eac0270ae156e231a71",
       "ast_digest": "cdc9a6bd56989ebdb635b421934f790670593f6fde0abbee27d056c2eaa645df"
     },
     "vpp": {
-      "values_digest": "ea3aff026a5e38cae0a641a963473dcba1fb271a1910de4c81e8ee1c75eba750",
+      "values_digest": "b59c94670da262e65916a11fb1915546cca892a89540b9a930d42296a07968a6",
       "rendered_digest": "f77fbdccd946cafe3470833d9cf2a3e21049f20e703efaf9f18c5ddda8f7cdce",
       "ast_digest": "4d1480ec771df8858ff0ed239d451a961c8d3a70c8edeb788819a82e67089749"
     },
     "srp": {
-      "values_digest": "3c9ce4f88f45ebd8768afd4ae91d3addee2efc96e40030ede938c81b40f86ff6",
-      "rendered_digest": "b24db03bbb6deac021da2bca7662a99d76cbbcec82ddac32d34abb69e07a2bfb",
-      "ast_digest": "846b9e070a0439d765705c7de9bf2c508cd01baed6c9d52350748adef0603448"
+      "values_digest": "4dc22a16c419bcfe02c0d8b476c3b5d0dd74e12a5835487194904bad5f022aa2",
+      "rendered_digest": "915e77197e2e8804dc057be95491fdd4ce84c09305bf2ac49d0e13e35d1e1d94",
+      "ast_digest": "f64131e036b1a81d767d412f67f8785f64eee66d36b53acbe3e71bca74a7c273"
     },
     "sor": {
-      "values_digest": "e2e6437ce22eb9ed50e27c3ea77523df382697fb86644eee2db76018341a9b89",
+      "values_digest": "e3e46cbf736839cc7a435b86af920e0d9e4bb363db158c0bfdbca5a4b7e2df42",
       "rendered_digest": "80b8a4d81fd99a7e8ff13ca8af3ba5f1e17bf39aebb9ecb073d4dca7e2776f26",
       "ast_digest": "c07f5481757d572684545673bfd0362e59b45d88e049362555d88c26be31e285"
     }
@@ -76,6 +119,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -253,6 +303,20 @@
       "actor": "codex:/root",
       "reason": "Recover #256 after recorded review 41F2-P2-STALE-PREPARATION-EVIDENCE so retained readiness evidence and preparation validator can be updated to current post-#424 truth.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

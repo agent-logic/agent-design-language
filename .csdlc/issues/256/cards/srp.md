@@ -12,7 +12,18 @@ Status: draft
 
 ## Scope
 
-
+adl/tools/validate_issue256_birthday_after_observatory.py
+.csdlc/issues/256
+.csdlc/evidence/256
+.csdlc/evidence/414/EVIDENCE_CLASSIFICATION.json
+CSMctl
+start_CSM.sh
+docs/tooling/START_CSM_RUNBOOK.md
+docs/tooling/CSMctl.conf.example
+docs/tooling/CSMctl.observatory.conf.example
+demos/html-observatory
+adl-runtime-kernel/src/birthday.rs
+adl-runtime-kernel/tests/birthday.rs
 
 ## Prompts
 
@@ -31,12 +42,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- No AWS, Unity, public launch, browser/live Observatory, publication, cleanup, GitHub mutation, or lifecycle finish was performed during review.
+- The reviewed packet intentionally preserves public/AWS launch, Unity/#84/#122/#251, #341/#343, #271, credential/spend, and sibling implementation surfaces as non-claims.
+- Minor non-blocking note: readiness prose names the composite schema without the _validation suffix while retained JSON/live validator output use the exact schema.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:683e38f1680535af8ad6aa012ad3fc6699339b88:1ac332d06430ee9f12afef6754f6fcee4e30867f6727f806e36cf87db99be7aa")
 
-Reviewer: None
+Reviewer: Some("fresh-session:dae21e65-2687-4c2a-bdac-27ed3ff28ec2")
 
-Result: pre_review
+Result: pass
