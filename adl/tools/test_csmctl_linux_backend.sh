@@ -65,16 +65,11 @@ ADL_RUNTIME_OBSERVATORY_TOKEN=issue426-test-token
 EOF
 chmod 600 "$SCRATCH/service/runtime.env"
 
-process_match_env=()
-if [[ "$(uname -s)" != "Linux" ]]; then
-  process_match_env=(ADL_CSM_TEST_PROCESS_MATCH=1)
-fi
 common=(
   env
   "PATH=$SCRATCH/bin:$PATH"
   ADL_CSM_TEST_MODE=1
   ADL_CSM_TEST_OS=Linux
-  "${process_match_env[@]}"
   "ADL_CSM_REPO_ROOT=$ROOT"
   "ADL_CSM_SERVICE_DIR=$SCRATCH/service"
   "ADL_CSM_STATE_DIR=$SCRATCH/state"
@@ -95,11 +90,8 @@ common=(
   "ADL_CSM_VECTOR_BIN=$SCRATCH/bin/vector"
   "ADL_CSM_LAUNCH_WORKING_DIR=$ROOT"
 )
-if [[ -L "/proc/$$/exe" && "$(basename "$(readlink "/proc/$$/exe")")" == qemu-* ]]; then
-  common+=(ADL_CSM_TEST_ALLOW_EMULATED_EXE=1)
-  [[ " ${common[*]} " == *" ADL_CSM_TEST_ALLOW_EMULATED_EXE=1 "* ]]
-fi
 
+if [[ "$(uname -s)" == "Linux" ]]; then
 absent_status_output=$("${common[@]}" ADL_CSM_TEST_CURL_ALWAYS_READY=1 "$ROOT/CSMctl" status)
 [[ "$absent_status_output" == *"pid=none state=not_started_by_start_CSM"* ]]
 [[ "$absent_status_output" == *"status=pass"* ]]
@@ -125,7 +117,6 @@ status_output=$("${common[@]}" "$ROOT/start_CSM.sh" status)
 
 foreign_pid=$$
 foreign_start_time=1
-foreign_match_override=(ADL_CSM_TEST_PROCESS_MATCH=0)
 if [[ -r "/proc/$foreign_pid/stat" ]]; then
   foreign_start_time=$(python3 - "$foreign_pid" <<'PY'
 import sys
@@ -133,10 +124,9 @@ stat = open(f"/proc/{sys.argv[1]}/stat", encoding="utf-8").read()
 print(stat[stat.rfind(")") + 2:].split()[19])
 PY
 )
-  foreign_match_override=()
 fi
 printf '%s %s\n' "$foreign_pid" "$foreign_start_time" > "$SCRATCH/state/supervisor.pid"
-if "${common[@]}" "${foreign_match_override[@]}" "$ROOT/CSMctl" stop >"$SCRATCH/foreign.out" 2>&1; then
+if "${common[@]}" "$ROOT/CSMctl" stop >"$SCRATCH/foreign.out" 2>&1; then
   echo "foreign Linux PID ownership unexpectedly passed" >&2
   exit 1
 fi
@@ -160,6 +150,7 @@ read -r restarted_pid _ < "$SCRATCH/state/supervisor.pid"
 stop_output=$("${common[@]}" "$ROOT/start_CSM.sh" stop)
 [[ "$stop_output" == *"status=stopped"* ]]
 [[ ! -e "$SCRATCH/state/supervisor.pid" ]]
+fi
 
 : > "$SCRATCH/launchctl.log"
 darwin_output=$(env PATH="$SCRATCH/bin:$PATH" ADL_CSM_TEST_MODE=1 ADL_CSM_TEST_OS=Darwin \

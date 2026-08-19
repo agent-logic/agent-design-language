@@ -652,11 +652,6 @@ linux_pid_matches() {
   local pid="$1"
   local expected="$2"
   local expected_start_time="${3:-}"
-  if [[ "${ADL_CSM_TEST_MODE:-0}" == "1" && -n "${ADL_CSM_TEST_PROCESS_MATCH:-}" ]]; then
-    [[ "$ADL_CSM_TEST_PROCESS_MATCH" == "1" ]] || return 1
-    printf '1'
-    return
-  fi
   [[ "$HOST_OS" == "Linux" && "$pid" =~ ^[0-9]+$ ]] || return 1
   python3 - "$pid" "$expected" "$expected_start_time" <<'PY'
 import os
@@ -672,11 +667,7 @@ except (FileNotFoundError, IndexError, OSError):
     raise SystemExit(1)
 if expected_start and start_time != expected_start:
     raise SystemExit(1)
-emulated = os.environ.get("ADL_CSM_TEST_MODE") == "1" and os.environ.get("ADL_CSM_TEST_ALLOW_EMULATED_EXE") == "1"
-if emulated:
-    valid_argv = bool(argv) and os.fsdecode(argv[-1]) == expected and any(os.path.basename(os.fsdecode(arg)) in {"bash", "sh"} for arg in argv[:-1])
-else:
-    valid_argv = len(argv) >= 2 and os.path.basename(exe) in {"bash", "sh"} and os.fsdecode(argv[1]) == expected
+valid_argv = len(argv) >= 2 and os.path.basename(exe) in {"bash", "sh"} and os.fsdecode(argv[1]) == expected
 if not valid_argv:
     raise SystemExit(1)
 print(start_time, end="")
@@ -687,16 +678,6 @@ linux_signal_owned() {
   local pid="$1"
   local expected="$2"
   local expected_start_time="$3"
-  if [[ "${ADL_CSM_TEST_MODE:-0}" == "1" && -n "${ADL_CSM_TEST_PROCESS_MATCH:-}" ]]; then
-    linux_pid_matches "$pid" "$expected" "$expected_start_time" >/dev/null || return 1
-    kill -TERM "$pid"
-    return
-  fi
-  if [[ "${ADL_CSM_TEST_MODE:-0}" == "1" && "${ADL_CSM_TEST_ALLOW_EMULATED_EXE:-0}" == "1" ]]; then
-    linux_pid_matches "$pid" "$expected" "$expected_start_time" >/dev/null || return 1
-    kill -TERM "$pid"
-    return
-  fi
   python3 - "$pid" "$expected" "$expected_start_time" <<'PY'
 import os
 import signal
@@ -712,11 +693,7 @@ try:
     exe = os.path.realpath(f"/proc/{pid}/exe")
     if start_time != expected_start:
         raise SystemExit(1)
-    emulated = os.environ.get("ADL_CSM_TEST_MODE") == "1" and os.environ.get("ADL_CSM_TEST_ALLOW_EMULATED_EXE") == "1"
-    if emulated:
-        valid_argv = bool(argv) and os.fsdecode(argv[-1]) == expected and any(os.path.basename(os.fsdecode(arg)) in {"bash", "sh"} for arg in argv[:-1])
-    else:
-        valid_argv = len(argv) >= 2 and os.path.basename(exe) in {"bash", "sh"} and os.fsdecode(argv[1]) == expected
+    valid_argv = len(argv) >= 2 and os.path.basename(exe) in {"bash", "sh"} and os.fsdecode(argv[1]) == expected
     if not valid_argv:
         raise SystemExit(1)
     signal.pidfd_send_signal(pidfd, signal.SIGTERM)
