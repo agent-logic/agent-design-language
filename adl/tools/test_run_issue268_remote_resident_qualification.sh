@@ -4,8 +4,12 @@ ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd -P)
 grep -Fq 'tail -80 "$OLLAMA_LOG"' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq 'OLLAMA_KEEP_ALIVE=-1' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq 'Ollama preload failed; server diagnostics follow' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
-grep -Fq 'provider-adapter/by-build-input/$adapter_input_identity' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
-grep -Fq 'git -C "$ROOT" diff --quiet "$candidate_revision" "$SOURCE_REVISION"' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
+grep -Fq 'provider-adapter/runtime-v1' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
+grep -Fq 'adapter_baseline_revision=179253eebade8c5e24c992aa0c4dd35b020aee83' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
+if grep -Fq 'git -C "$ROOT" diff' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"; then
+  echo "issue268: Runtime startup must not inspect Git history for adapter reuse" >&2
+  exit 1
+fi
 scratch=$(mktemp -d "$ROOT/.adl/issue268-remote-test.XXXXXX")
 trap 'rm -rf "$scratch"' EXIT
 touch "$scratch/continuity"; chmod +x "$scratch/continuity"
