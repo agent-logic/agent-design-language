@@ -1,0 +1,47 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 421,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][C-SDLC][defect] Accept intentional deletion deliverables during readiness validation",
+    "slug": "intentional-deletion-deliverables-readiness",
+    "version": "v0.92",
+    "generation": 8
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Issue #421 typed C-SDLC intentional-deletion deliverables readiness defect only.",
+      "deliverables": [
+        "Typed intentional-deletion marker or classification accepted by readiness.",
+        "Base-vs-candidate deletion proof for exact governed paths.",
+        "Negative missing-path regressions that remain fail-closed.",
+        "Focused validation lane proving ordinary validator deliverables remain required-present."
+      ],
+      "acceptance_criteria": [
+        "AC-1: A typed intentional-deletion deliverable can remain in exact affected-area, deliverable, and review scope without requiring the deleted file to exist at candidate HEAD.",
+        "AC-2: Validation proves the path existed at the governed base and is deleted in the exact candidate; absent, renamed, untracked, unrelated, or mistyped missing paths still fail closed.",
+        "AC-3: Ordinary test and validator deliverables retain current required-present behavior.",
+        "AC-4: Focused positive and adversarial regressions cover the #414-style deleted test and false deletion claims.",
+        "AC-5: Exact-head review, publication, topology, and terminal authority are not weakened."
+      ],
+      "dependencies": [
+        "Issue #414 is blocked until #421 is terminal, canonical, ancestral, and installed."
+      ],
+      "repo_inputs": [
+        "GitHub issue #421",
+        "GitHub issue #414 reproduction",
+        "csdlc-v2/src/cards.rs",
+        "csdlc-v2/tests/gate2.rs"
+      ],
+      "non_goals": [
+        "Changing #414 product code, evidence, design, publication, or AWS behavior.",
+        "Changing #268 or #269.",
+        "Treating arbitrary missing files as deferred or accepted.",
+        "Broad redesign of C-SDLC validation or review scope."
+      ]
+    }
+  }
+}
