@@ -4,8 +4,8 @@ set -euo pipefail
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd -P)
 PRIMARY_ROOT=$(dirname "$(git -C "$ROOT" rev-parse --path-format=absolute --git-common-dir)")
 MODE=${1:-}
-RUN_ID=issue268-six-hour-20260817
-EVIDENCE_ROOT=${ADL_ISSUE268_EVIDENCE_ROOT:-$ROOT/.csdlc/evidence/268/aws}
+RUN_ID=issue268-six-hour-r7i-20260819-01
+EVIDENCE_ROOT=${ADL_ISSUE268_EVIDENCE_ROOT:-$ROOT/.csdlc/evidence/268/aws/$RUN_ID}
 REQUEST="$EVIDENCE_ROOT/portable-request.json"
 SUMMARY="$EVIDENCE_ROOT/summary.json"
 ARTIFACTS="$EVIDENCE_ROOT/artifacts"
@@ -14,10 +14,15 @@ LAUNCH_CLAIM="$EVIDENCE_ROOT/launch-claimed.json"
 REMOTE_BIN=${ADL_AWS_REMOTE_VALIDATION_BIN:-$PRIMARY_ROOT/tools/aws_remote_validation/target/debug/adl-aws-remote-validation}
 PORTABLE_BIN=${ADL_REMOTE_VALIDATION_BIN:-$PRIMARY_ROOT/tools/remote_validation/target/debug/adl-remote-validation}
 OWNER=${ADL_ISSUE268_OWNER:-$ROOT/adl/tools/run_aws_spot_remote_validation_lane.sh}
+UTS_PLAN_VALIDATOR="$ROOT/adl/tools/validate_issue268_six_resident_uts_plan.py"
 AWS_CLI=${ADL_ISSUE268_AWS_CLI:-aws}
 PROFILE=agent-logic-admin
 REGION=us-west-2
 EXCLUDED_ISSUE=269
+REMOTE_QUALIFICATION=adl/tools/run_issue268_remote_resident_qualification.sh
+RUNTIME_VOLUME_ID=${ADL_AWS_RUNTIME_CONTINUITY_VOLUME_ID:-}
+RUNTIME_VOLUME_NAME=${ADL_AWS_RUNTIME_CONTINUITY_VOLUME_NAME:-}
+RUNTIME_VOLUME_ID_SHA256=${ADL_AWS_RUNTIME_CONTINUITY_VOLUME_ID_SHA256:-}
 
 usage() {
   echo "usage: $0 preflight|authorized-launch|terminal-status|validate" >&2
@@ -36,6 +41,23 @@ PY
 [[ -x "$OWNER" ]] || { echo "issue268: Spot owner wrapper missing" >&2; exit 69; }
 [[ -x "$REMOTE_BIN" ]] || { echo "issue268: tools AWS owner binary missing" >&2; exit 69; }
 [[ -x "$PORTABLE_BIN" ]] || { echo "issue268: portable validation binary missing" >&2; exit 69; }
+[[ -f "$UTS_PLAN_VALIDATOR" ]] || { echo "issue268: six-resident UTS plan validator missing" >&2; exit 69; }
+[[ -f "$ROOT/$REMOTE_QUALIFICATION" ]] || { echo "issue268: coupled remote qualification wrapper missing" >&2; exit 69; }
+python3 "$UTS_PLAN_VALIDATOR" >/dev/null
+
+if [[ "$MODE" == preflight || "$MODE" == authorized-launch ]]; then
+  [[ "$RUNTIME_VOLUME_ID" =~ ^vol-[0-9a-f]{8,17}$ \
+      && -n "$RUNTIME_VOLUME_NAME" \
+      && "$RUNTIME_VOLUME_ID_SHA256" =~ ^[0-9a-f]{64}$ ]] || {
+    echo "issue268: exact persistent Runtime EBS volume id, name, and identity digest required" >&2
+    exit 77
+  }
+  actual_volume_hash=$(python3 -c 'import hashlib,sys; print(hashlib.sha256(sys.argv[1].encode()).hexdigest())' "$RUNTIME_VOLUME_ID")
+  [[ "$actual_volume_hash" == "$RUNTIME_VOLUME_ID_SHA256" ]] || {
+    echo "issue268: persistent Runtime EBS volume identity mismatch" >&2
+    exit 77
+  }
+fi
 
 mkdir -p "$EVIDENCE_ROOT" "$ARTIFACTS"
 REVISION=$(git -C "$ROOT" rev-parse HEAD)
@@ -46,18 +68,27 @@ BRANCH=$(git -C "$ROOT" symbolic-ref --quiet --short HEAD || true)
   exit 65
 }
 
-python3 - "$REQUEST" "$REVISION" "$CANCEL" <<'PY'
+python3 - "$REQUEST" "$REVISION" "$CANCEL" "$RUN_ID" "$ROOT" <<'PY'
 import hashlib, json, os, pathlib, sys
-request_path, revision, cancel = sys.argv[1:]
+request_path, revision, cancel, run_id, root = sys.argv[1:]
 profile = {
-    "argv": ["bash", "adl/tools/validate_v092_runtime_guardian_lifecycle.sh", "--suite", "six_hour_qualification"],
+    "argv": ["bash", "adl/tools/run_issue268_remote_resident_qualification.sh"],
     "working_directory": ".",
-    "environment_allowlist": ["PATH", "CARGO_HOME", "RUSTUP_HOME", "CARGO_TARGET_DIR", "ADL_RUNTIME_VECTOR_BIN"],
+    "environment_allowlist": [
+        "PATH", "CARGO_HOME", "RUSTUP_HOME", "CARGO_TARGET_DIR", "ADL_RUNTIME_VECTOR_BIN",
+        "ADL_RUNTIME_CONTINUITY_ROOT", "ADL_RUNTIME_CONTINUITY_VOLUME_ID_SHA256",
+        "ADL_CACHE_VOLUME_MOUNT_PATH", "ADL_RETAINED_VOLUME_ROLE", "ADL_REGION",
+        "ADL_ISSUE268_REMOTE_EVIDENCE_ROOT", "ADL_ISSUE268_CONTINUITY_BIN",
+        "ADL_ISSUE268_RETAINED_RUNTIME_ROOT", "ADL_ISSUE268_BUILD_CACHE_ROOT",
+        "ADL_ISSUE268_AGENT_SPEC_DIR", "ADL_ISSUE268_RUNTIME_VOLUME_IDENTITY_SHA256",
+        "ADL_ISSUE268_S3_SOURCE_RECEIPT", "ADL_ISSUE268_414_REVIEWED_SHA",
+        "ADL_ISSUE268_CONTINUITY_BIN_SHA256",
+    ],
 }
 digest = hashlib.sha256(json.dumps(profile, separators=(",", ":")).encode()).hexdigest()
 request = {
     "schema": "adl.remote_validation.request.v1",
-    "request_id": "issue268-six-hour-20260817",
+    "request_id": run_id,
     "checkout": ".",
     "revision": revision,
     "source_ref": "refs/heads/codex/268-six-hour-spot-qualification",
@@ -66,8 +97,8 @@ request = {
     "adapter": "aws",
     "requested_platform": "linux",
     "resource_budget": {
-        "cpu_cores": 4,
-        "memory_mib": 8192,
+        "cpu_cores": 8,
+        "memory_mib": 65536,
         "timeout_seconds": 25200,
         "estimated_max_cost_microusd": 20000000,
     },
@@ -76,7 +107,7 @@ request = {
         "required": True,
         "max_total_bytes": 134217728,
     },
-    "cancellation_file": os.path.relpath(cancel, pathlib.Path(request_path).parents[4]),
+    "cancellation_file": os.path.relpath(cancel, root),
     "fallback": "disabled",
 }
 path = pathlib.Path(request_path)
@@ -90,8 +121,11 @@ PY
 common=(
   --profile "$PROFILE" --region "$REGION" --issue 268 --run-id "$RUN_ID"
   --portable-request "$REQUEST" --portable-runner "$PORTABLE_BIN"
-  --bin "$REMOTE_BIN" --instance-types c7i.2xlarge
+  --bin "$REMOTE_BIN" --instance-types r7i.2xlarge
   --max-spot-retries 0 --out "$SUMMARY" --artifact-dir "$ARTIFACTS" --json
+  --runtime-continuity-volume-id "$RUNTIME_VOLUME_ID"
+  --runtime-continuity-volume-name "$RUNTIME_VOLUME_NAME"
+  --runtime-continuity-volume-id-sha256 "$RUNTIME_VOLUME_ID_SHA256"
 )
 
 case "$MODE" in
@@ -172,11 +206,11 @@ PY
       echo "issue268: cleanup recovery completed but terminal run summary is absent" >&2
       exit 75
     }
-    python3 - "$SUMMARY" "$ARTIFACTS" "$ZERO_JSON" "$EVIDENCE_ROOT/validation.json" "$REVISION" <<'PY'
+python3 - "$SUMMARY" "$ARTIFACTS" "$ZERO_JSON" "$EVIDENCE_ROOT/validation.json" "$REVISION" "$RUN_ID" <<'PY'
 import hashlib, json, os, pathlib, re, sys
-summary_path, artifacts, zero_json, output, revision = sys.argv[1:]
+summary_path, artifacts, zero_json, output, revision, run_id = sys.argv[1:]
 d=json.load(open(summary_path))
-if d.get("issue") != 268 or d.get("run_id") != "issue268-six-hour-20260817": raise SystemExit("issue268: summary identity mismatch")
+if d.get("issue") != 268 or d.get("run_id") != run_id: raise SystemExit("issue268: summary identity mismatch")
 if d.get("status") != "passed": raise SystemExit(f"issue268: paid qualification did not pass: {d.get('status')}")
 attempts=d.get("attempts") or []
 if len(attempts) != 1 or attempts[0].get("purchase_option") != "spot": raise SystemExit("issue268: not exactly one Spot attempt")

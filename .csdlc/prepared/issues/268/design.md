@@ -18,8 +18,13 @@ allowed.
 
 Issue #266 supplied the bounded soak configuration, sampler, evaluator,
 evidence, receipt, cancellation, and cleanup contracts. Issue #267 plus #373
-and #374 supplied the production Guardian/kernel workload and all required
-fault/recovery receipts. Their squash merges are present on the exact base.
+and #374 supplied the production Guardian/kernel workload and required
+fault/recovery receipts. Terminal #414 supplies the existing Runtime-v2-backed
+resident dehydration/rehydration bridge, signed complete-population
+LiveContinuity binding, retained Runtime-volume contract, IMDSv2 callback, and
+Linux Ollama bootstrap contract. Terminal #415 supplies exact early builder
+failure diagnostics. #268 must consume those authorities from their ancestral
+merge commits and must not recreate them.
 
 Extend `adl-runtime-lifecycle-soak` with one fixed `six_hour_qualification`
 suite. Qualification requires at least 21,600 monotonic seconds of production
@@ -40,17 +45,55 @@ Add an issue-owned shell entrypoint that:
    provider timeout, disabled fallback, and `estimated_max_cost_microusd` of
    20,000,000 are verified before launch;
 4. launches exactly one repository-native asynchronous Spot run using only
-   `c7i.2xlarge`; capacity failure is terminal and cannot select another type;
-5. executes the fixed six-hour suite against the canonical production binaries;
+   `r7i.2xlarge` (8 vCPU/64 GiB); capacity failure is terminal and cannot select
+   another type;
+5. mounts one issue-owned persistent EBS Runtime volume, installs the reviewed
+   Linux/x86 runtime stack there exactly once using the host package manager
+   wherever packages are available, builds only the canonical ADL Runtime from
+   the pinned source revision, and materializes the pinned model stores from
+   immutable, version-pinned S3 objects onto that volume before executing the
+   fixed six-hour suite;
 6. retains time-series, workload, fault, lifecycle, redacted launch, and final
    digest-bound evidence;
 7. on success, failure, interruption, timeout, or cancellation, terminates only
    the exact run-tag-owned instance and independently proves zero remaining
 task-owned instances.
 
-Extend the shared Spot wrapper only to expose and forward a validated
-`--max-spot-retries` value to its existing owner binary; #268 always supplies
-zero. No other provider policy changes.
+The existing Ollama provider remains the sole Runtime model-server boundary.
+Ollama owns model loading, unloading, scheduling, local inference, and optional
+cloud routing. ADL owns resident identity, role, tool authority, task state,
+admission, continuity, and recovery. No parallel provider or model-management
+layer is permitted. Cloud/frontier escalation is optional and non-authoritative;
+credentials are never checkpointed and local work/recovery cannot depend on it.
+S3 remains the canonical bootstrap authority for model bytes: no model is
+rebuilt, repackaged, or republished by #268. The persistent EBS Runtime volume
+contains only the checksum-verified installed/materialized copy plus the
+package-managed Ollama/dependency installation, the pinned ADL Runtime build,
+and continuity state. Its installation receipt makes subsequent mounts
+idempotent and fail closed on any VersionId, checksum, architecture, source
+revision, or package-set drift. Build cache is a separate ephemeral filesystem
+and is never treated as Runtime continuity authority.
+
+The six distinct resident identities are fixed by
+`adl/tools/issue268_six_resident_uts_plan.json`: Shepherd/controller and
+reviewer/escalation use `llama3.1:8b`; planner and tool executor use `qwen3:8b`;
+Runtime observer and recovery custodian use `phi4-mini:latest`. They share
+Ollama weights but retain distinct identity, role digest, tool authority,
+sequence, completed/pending UTS cases, task/report digests, and checkpoint
+lineage. Inference is serial (`max_concurrent_inference=1`) and compilation is
+not concurrent.
+
+Their real workload is the repository UTS v1.1 conformance and governed
+UTS+ACC benchmark cycle through `adl/tools/uts_benchmark_runner.py` and the
+canonical 33-task panel. Every resident completes a named case before
+dehydration, resumes a distinct named case only after validated restore, and
+retains exact completed/pending case identities. A completed side effect or
+case may not replay after recovery. The final receipt binds all six resident
+identities to their pre/post UTS reports and the signed continuity generation.
+
+Extend the shared Spot wrapper only where the reviewed #414/#415 integration
+requires it and keep `--max-spot-retries` at zero. No other provider policy
+change is authorized.
 
 The wrapper passes zero Spot retries and never retries under a new instance or
 run identity. The owner validates projected maximum cost as hourly price times
@@ -67,10 +110,12 @@ private identifier list, and repeats the independent zero-instance query.
 ## Proof
 
 Local proof covers the fixed minimum 21,600-second monotonic denominator,
-bounded final-cycle overshoot, rejection of any duration override, mandatory
-authorization/cost/Spot-only fields, stale or
-missing evidence, cancellation, cleanup, redaction, and exact scope without
-provider mutation. An explicitly authorized idempotent launch operation starts
+bounded final-cycle overshoot, rejection of any duration override, exact
+`r7i.2xlarge` resources, the six unique roles/model allocation, real UTS task
+membership, completed-case replay denial, exact continuity checkpoint fields,
+mandatory authorization/cost/Spot-only fields, stale or missing evidence,
+cancellation, cleanup, redaction, and exact scope without provider mutation.
+An explicitly authorized idempotent launch operation starts
 the one asynchronous run and returns after ownership is established; repeated
 invocation may only resolve that same run identity and cannot create a second
 instance. It is not itself a claim that six hours passed. A separate

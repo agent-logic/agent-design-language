@@ -76,11 +76,34 @@ fi
 CURRENT_STAGE="verify_cache"
 stage "$CURRENT_STAGE"
 CACHE_MOUNT="$ADL_CACHE_VOLUME_MOUNT_PATH"
-mountpoint -q "$CACHE_MOUNT" || {
-  echo "spot_builder_image_validation: retained cache path is not a mountpoint" >&2
-  exit 1
-}
-CACHE_SOURCE="$(findmnt -n -o SOURCE --target "$CACHE_MOUNT")"
+RETAINED_VOLUME_ROLE="${ADL_RETAINED_VOLUME_ROLE:-build_cache}"
+RUNTIME_CONTAINER_ARGS=()
+if [[ "$RETAINED_VOLUME_ROLE" == runtime_continuity ]]; then
+  : "${ADL_RUNTIME_CONTINUITY_ROOT:?ADL_RUNTIME_CONTINUITY_ROOT is required for the Runtime volume role}"
+  : "${ADL_RUNTIME_CONTINUITY_VOLUME_ID_SHA256:?ADL_RUNTIME_CONTINUITY_VOLUME_ID_SHA256 is required for the Runtime volume role}"
+  [[ "$ADL_RUNTIME_CONTINUITY_VOLUME_ID_SHA256" =~ ^[0-9a-f]{64}$ ]] || {
+    echo "spot_builder_image_validation: Runtime volume identity digest is invalid" >&2
+    exit 1
+  }
+  RUNTIME_VOLUME_ROOT="$(dirname "$ADL_RUNTIME_CONTINUITY_ROOT")"
+  mountpoint -q "$RUNTIME_VOLUME_ROOT" || {
+    echo "spot_builder_image_validation: Runtime continuity root is not on the retained mount" >&2
+    exit 1
+  }
+  CACHE_SOURCE="$(findmnt -n -o SOURCE --target "$RUNTIME_VOLUME_ROOT")"
+  mkdir -p "$CACHE_MOUNT" "$ADL_RUNTIME_CONTINUITY_ROOT"
+  RUNTIME_CONTAINER_ARGS=(
+    --volume "$ADL_RUNTIME_CONTINUITY_ROOT:/runtime-continuity"
+    --env ADL_RUNTIME_CONTINUITY_ROOT=/runtime-continuity
+    --env "ADL_ISSUE268_RUNTIME_VOLUME_IDENTITY_SHA256=$ADL_RUNTIME_CONTINUITY_VOLUME_ID_SHA256"
+  )
+else
+  mountpoint -q "$CACHE_MOUNT" || {
+    echo "spot_builder_image_validation: retained cache path is not a mountpoint" >&2
+    exit 1
+  }
+  CACHE_SOURCE="$(findmnt -n -o SOURCE --target "$CACHE_MOUNT")"
+fi
 ROOT_SOURCE="$(findmnt -n -o SOURCE --target /)"
 if [[ -z "$CACHE_SOURCE" || "$CACHE_SOURCE" == "$ROOT_SOURCE" ]]; then
   echo "spot_builder_image_validation: retained cache mount resolves to the root filesystem" >&2
@@ -103,7 +126,11 @@ if [[ ! "$CACHE_FREE_BYTES" =~ ^[0-9]+$ ]] || [[ "$CACHE_FREE_BYTES" -lt "$MIN_C
   fi
 fi
 
-CACHE_ROOT="$CACHE_MOUNT/adl-aws-remote-validation/shared"
+if [[ "$RETAINED_VOLUME_ROLE" == runtime_continuity ]]; then
+  CACHE_ROOT="$CACHE_MOUNT"
+else
+  CACHE_ROOT="$CACHE_MOUNT/adl-aws-remote-validation/shared"
+fi
 # Keep the original warm-EBS identity established by #4837. A container is an
 # execution environment, not a reason to fork Cargo's retained cache layout.
 TARGET_DIR="$CACHE_ROOT/target"
@@ -241,23 +268,31 @@ VALIDATION_START="$(date +%s)"
 VALIDATION_UID="$(id -u)"
 VALIDATION_GID="$(id -g)"
 VALIDATION_STATUS=0
-"${DOCKER[@]}" run --rm \
-  --user "$VALIDATION_UID:$VALIDATION_GID" \
-  --workdir /workspace \
-  --volume "$ADL_REMOTE_REPO_DIR:/workspace" \
-  --volume "$CACHE_ROOT:/cache-root" \
-  --volume "$TMP_DIR:/tmp" \
-  --volume "$ADL_RUN_ROOT:/run-output" \
-  --env CARGO_HOME=/cache-root/cargo-home \
-  --env CARGO_TARGET_DIR=/cache-root/target \
-  --env SCCACHE_DIR=/cache-root/sccache \
-  --env AWS_EC2_METADATA_DISABLED=true \
-  --env TMPDIR=/tmp \
-  --env RUSTC_WRAPPER=sccache \
-  --env RUSTFLAGS= \
-  --env CARGO_INCREMENTAL=0 \
-  --entrypoint /bin/bash \
-  "$IMAGE" -lc "set +e; $COMMAND; status=\$?; sccache --show-stats > /run-output/sccache-stats.log 2>&1 || true; exit \$status" \
+VALIDATION_DOCKER_ARGS=(
+  run --rm
+  --user "$VALIDATION_UID:$VALIDATION_GID"
+  --workdir /workspace
+  --volume "$ADL_REMOTE_REPO_DIR:/workspace"
+  --volume "$CACHE_ROOT:/cache-root"
+  --volume "$TMP_DIR:/tmp"
+  --volume "$ADL_RUN_ROOT:/run-output"
+)
+if [[ "$RETAINED_VOLUME_ROLE" == runtime_continuity ]]; then
+  VALIDATION_DOCKER_ARGS+=("${RUNTIME_CONTAINER_ARGS[@]}")
+fi
+VALIDATION_DOCKER_ARGS+=(
+  --env CARGO_HOME=/cache-root/cargo-home
+  --env CARGO_TARGET_DIR=/cache-root/target
+  --env SCCACHE_DIR=/cache-root/sccache
+  --env "AWS_EC2_METADATA_DISABLED=$([[ "$RETAINED_VOLUME_ROLE" == runtime_continuity ]] && printf false || printf true)"
+  --env TMPDIR=/tmp
+  --env RUSTC_WRAPPER=sccache
+  --env RUSTFLAGS=
+  --env CARGO_INCREMENTAL=0
+  --entrypoint /bin/bash
+  "$IMAGE" -lc "set +e; $COMMAND; status=\$?; sccache --show-stats > /run-output/sccache-stats.log 2>&1 || true; exit \$status"
+)
+"${DOCKER[@]}" "${VALIDATION_DOCKER_ARGS[@]}" \
   || VALIDATION_STATUS=$?
 VALIDATION_END="$(date +%s)"
 

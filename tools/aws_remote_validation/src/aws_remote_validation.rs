@@ -1981,6 +1981,11 @@ fn build_remote_command_script(config: &AwsRemoteValidationConfig) -> String {
         } else {
             "build_cache"
         };
+    let retained_volume_id_sha256 = config
+        .cache_volume_id
+        .as_deref()
+        .map(sha256_hex)
+        .unwrap_or_default();
     format!(
         r#"set -euo pipefail
 RUN_ROOT={run_root}
@@ -2039,6 +2044,7 @@ export ADL_CACHE_VOLUME_ENABLED="{cache_volume_enabled}"
 export ADL_CACHE_VOLUME_DEVICE_NAME={cache_volume_device_name}
 export ADL_CACHE_VOLUME_MOUNT_PATH={cache_volume_mount_path}
 export ADL_RETAINED_VOLUME_ROLE={retained_volume_role}
+export ADL_RUNTIME_CONTINUITY_VOLUME_ID_SHA256={retained_volume_id_sha256}
 export ADL_NEEDS_NEXTEST="{needs_nextest}"
 export ADL_REGION={region}
 
@@ -2058,6 +2064,7 @@ bash "$CHECKOUT_DIR/tools/aws_remote_validation/scripts/remote_validation_runner
         cache_volume_device_name = escaped_cache_volume_device_name,
         cache_volume_mount_path = escaped_cache_volume_mount_path,
         retained_volume_role = shell_single_quote(retained_volume_role),
+        retained_volume_id_sha256 = shell_single_quote(&retained_volume_id_sha256),
         needs_nextest = needs_nextest,
         command = escaped_command,
         region = shell_single_quote(&config.region),
@@ -4832,6 +4839,7 @@ mod tests {
         config.cache_volume_mount_path = Some("/mnt/adl-runtime-continuity".to_string());
         let script = build_remote_command_script(&config);
         assert!(script.contains("export ADL_RETAINED_VOLUME_ROLE='runtime_continuity'"));
+        assert!(script.contains("export ADL_RUNTIME_CONTINUITY_VOLUME_ID_SHA256="));
 
         let tracked_runner = include_str!("../scripts/remote_validation_runner.sh");
         assert!(tracked_runner.contains("ADL_RUNTIME_CONTINUITY_ROOT"));
@@ -4844,7 +4852,8 @@ mod tests {
         let tracked_runner = include_str!("../scripts/remote_validation_runner.sh");
         assert!(tracked_runner.contains("/latest/api/token"));
         assert!(tracked_runner.contains("X-aws-ec2-metadata-token"));
-        assert!(!tracked_runner.contains("curl -fsS http://169.254.169.254/latest/meta-data/spot/instance-action"));
+        assert!(!tracked_runner
+            .contains("curl -fsS http://169.254.169.254/latest/meta-data/spot/instance-action"));
         assert!(tracked_runner.contains("ADL_SPOT_DEHYDRATE_CALLBACK"));
         assert!(tracked_runner.contains("ADL_SPOT_DEHYDRATE_TIMEOUT_SECONDS"));
         assert!(tracked_runner.contains("--notice-file \"$RUN_ROOT/spot-interruption.log\""));

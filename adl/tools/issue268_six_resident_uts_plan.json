@@ -1,0 +1,108 @@
+{
+  "schema": "adl.issue268.six_resident_uts_plan.v1",
+  "host": {
+    "instance_type": "r7i.2xlarge",
+    "vcpus": 8,
+    "memory_mib": 65536,
+    "gpu_allowed": false,
+    "max_concurrent_inference": 1,
+    "max_loaded_models": 2,
+    "compilation_concurrent": false
+  },
+  "provider": {
+    "kind": "ollama",
+    "runtime_surface": "ollama_http",
+    "local_required": true,
+    "cloud_escalation_optional": true,
+    "cloud_escalation_authoritative": false,
+    "credentials_checkpointed": false
+  },
+  "uts": {
+    "schema_version": "uts.v1.1",
+    "runner": "adl/tools/uts_benchmark_runner.py",
+    "task_panel": "adl/tools/benchmark/uts_33_task_panel.json",
+    "include_governed": true,
+    "resume_rule": "completed cases are never replayed; only the exact pending case resumes after validated restore"
+  },
+  "residents": [
+    {
+      "agent_id": "issue268-shepherd-controller",
+      "role": "shepherd_controller",
+      "tool_authority": ["uts.read", "continuity.coordinate"],
+      "model": "llama3.1:8b",
+      "model_ref_sha256": "REPLACE_WITH_OLLAMA_ARTIFACT_SHA256",
+      "quantization": "Q4_K_M",
+      "configuration_sha256": "REPLACE_WITH_EXECUTION_CONFIGURATION_SHA256",
+      "pre_recovery_case": "get_time_basic",
+      "post_recovery_case": "read_document_basic"
+    },
+    {
+      "agent_id": "issue268-planner",
+      "role": "planner",
+      "tool_authority": ["uts.read", "plan.propose"],
+      "model": "qwen3:8b",
+      "model_ref_sha256": "REPLACE_WITH_OLLAMA_ARTIFACT_SHA256",
+      "quantization": "Q4_K_M",
+      "configuration_sha256": "REPLACE_WITH_EXECUTION_CONFIGURATION_SHA256",
+      "pre_recovery_case": "get_weather_basic",
+      "post_recovery_case": "batch_weather_lookup_basic"
+    },
+    {
+      "agent_id": "issue268-tool-executor",
+      "role": "tool_executor",
+      "tool_authority": ["uts.execute", "artifact.write"],
+      "model": "qwen3:8b",
+      "model_ref_sha256": "REPLACE_WITH_OLLAMA_ARTIFACT_SHA256",
+      "quantization": "Q4_K_M",
+      "configuration_sha256": "REPLACE_WITH_EXECUTION_CONFIGURATION_SHA256",
+      "pre_recovery_case": "query_database_basic",
+      "post_recovery_case": "update_inventory_basic"
+    },
+    {
+      "agent_id": "issue268-runtime-observer",
+      "role": "runtime_observer",
+      "tool_authority": ["runtime.observe", "uts.read"],
+      "model": "phi4-mini:latest",
+      "model_ref_sha256": "REPLACE_WITH_OLLAMA_ARTIFACT_SHA256",
+      "quantization": "Q4_K_M",
+      "configuration_sha256": "REPLACE_WITH_EXECUTION_CONFIGURATION_SHA256",
+      "pre_recovery_case": "convert_currency_basic",
+      "post_recovery_case": "search_contacts_basic"
+    },
+    {
+      "agent_id": "issue268-recovery-custodian",
+      "role": "recovery_custodian",
+      "tool_authority": ["continuity.restore", "artifact.verify"],
+      "model": "phi4-mini:latest",
+      "model_ref_sha256": "REPLACE_WITH_OLLAMA_ARTIFACT_SHA256",
+      "quantization": "Q4_K_M",
+      "configuration_sha256": "REPLACE_WITH_EXECUTION_CONFIGURATION_SHA256",
+      "pre_recovery_case": "append_log_basic",
+      "post_recovery_case": "external_send_risk"
+    },
+    {
+      "agent_id": "issue268-reviewer-escalation",
+      "role": "reviewer_escalation",
+      "tool_authority": ["evidence.review", "escalation.request"],
+      "model": "llama3.1:8b",
+      "model_ref_sha256": "REPLACE_WITH_OLLAMA_ARTIFACT_SHA256",
+      "quantization": "Q4_K_M",
+      "configuration_sha256": "REPLACE_WITH_EXECUTION_CONFIGURATION_SHA256",
+      "pre_recovery_case": "send_email_basic",
+      "post_recovery_case": "get_time_basic"
+    }
+  ],
+  "checkpoint_fields": [
+    "agent_id",
+    "role_digest",
+    "tool_authority_digest",
+    "model_artifact_digest",
+    "model_configuration_digest",
+    "sequence",
+    "completed_case_ids",
+    "pending_case_ids",
+    "uts_report_digest",
+    "continuation_request_digest",
+    "checkpoint_lineage"
+  ]
+}
