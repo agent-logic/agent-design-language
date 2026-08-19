@@ -144,7 +144,9 @@ def main() -> int:
     missing_specs = [str(path) for path in specs if not path.is_file()]
     if missing_specs:
         raise SystemExit(f"six existing-agent specs are required: {missing_specs}")
-    for resident, spec_path in zip(residents, specs, strict=True):
+    if len(residents) != len(specs):
+        raise SystemExit("resident and durable agent-spec populations differ")
+    for resident, spec_path in zip(residents, specs):
         spec = read_json(spec_path)
         expected = {
             "schema": "adl.issue268.resident_agent_spec.v1",
@@ -228,7 +230,9 @@ def main() -> int:
         raise SystemExit("post-restore UTS continuation is incomplete")
     continuations = []
     resident_receipts = []
-    for resident, binding in zip(residents, bindings, strict=True):
+    if len(residents) != len(bindings):
+        raise SystemExit("resident and continuity-binding populations differ")
+    for resident, binding in zip(residents, bindings):
         retained = state["residents"][resident["agent_id"]]
         continuations.append(
             {

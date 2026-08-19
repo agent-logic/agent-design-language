@@ -13,6 +13,7 @@ ORCHESTRATOR = ROOT / "adl/tools/run_issue268_continuity_uts_qualification.py"
 
 
 def main() -> None:
+    assert "strict=True" not in ORCHESTRATOR.read_text(encoding="utf-8")
     with tempfile.TemporaryDirectory(prefix="issue268-continuity-uts-") as temporary:
         root = pathlib.Path(temporary)
         fake_uts = root / "fake_uts.py"
