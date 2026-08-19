@@ -89,11 +89,12 @@ if [ "${ADL_CACHE_VOLUME_ENABLED:-0}" = "1" ]; then
 fi
 
 if [ "${ADL_RETAINED_VOLUME_ROLE:-build_cache}" = "runtime_continuity" ] \
-    && [[ "$ADL_REMOTE_COMMAND" == *"adl/tools/run_issue268_remote_resident_qualification.sh"* ]]; then
+    && [ "${ADL_ISSUE268_RUNTIME_QUALIFICATION:-0}" = "1" ]; then
   export ADL_ISSUE268_REMOTE_EVIDENCE_ROOT="$RUN_ROOT/issue268"
   export ADL_SPOT_DEHYDRATE_CALLBACK="$ADL_REMOTE_REPO_DIR/adl/tools/issue414_spot_dehydrate_callback.sh"
   export ADL_ISSUE414_CONTINUITY_BIN="$ADL_RUNTIME_CONTINUITY_ROOT/install/current/bin/adl_resident_shepherd_continuity"
   export ADL_SPOT_RESIDENT_INPUT="$ADL_ISSUE268_REMOTE_EVIDENCE_ROOT/continuity-uts/dehydration-input.json"
+  export ADL_SPOT_DEHYDRATE_READY="$ADL_ISSUE268_REMOTE_EVIDENCE_ROOT/continuity-ready"
   export ADL_SPOT_RETAINED_RUNTIME_ROOT="$ADL_RUNTIME_CONTINUITY_ROOT/state"
   export ADL_SPOT_RUNTIME_VOLUME_ID_SHA256="${ADL_RUNTIME_CONTINUITY_VOLUME_ID_SHA256:?runtime volume identity is required}"
 fi
@@ -146,15 +147,16 @@ trap on_error ERR
 
 TOOL_INSTALL_POLICY="package_manager_or_prebuilt_only"
 CONTAINERIZED_VALIDATION=0
-ISSUE268_RUNTIME_QUALIFICATION=0
+ISSUE268_RUNTIME_QUALIFICATION="${ADL_ISSUE268_RUNTIME_QUALIFICATION:-0}"
 case "$ADL_REMOTE_COMMAND" in
   "bash adl/tools/run_aws_spot_builder_image_validation.sh "*)
     CONTAINERIZED_VALIDATION=1
     TOOL_INSTALL_POLICY="immutable_builder_image_only"
     ;;
-  *"adl/tools/run_issue268_remote_resident_qualification.sh"*)
-    ISSUE268_RUNTIME_QUALIFICATION=1
-    TOOL_INSTALL_POLICY="amazon_linux_packages_and_pinned_runtime_components"
+  *)
+    if [ "$ISSUE268_RUNTIME_QUALIFICATION" = "1" ]; then
+      TOOL_INSTALL_POLICY="amazon_linux_packages_and_pinned_runtime_components"
+    fi
     ;;
 esac
 
@@ -331,8 +333,8 @@ REGION="${ADL_REGION:-us-west-2}"
 CURRENT_STAGE="ensure_build_toolchain"
 log_progress "stage=ensure_build_toolchain"
 if [ "$ISSUE268_RUNTIME_QUALIFICATION" = "1" ]; then
-  sudo dnf install -y gcc gcc-c++ make pkgconf-pkg-config openssl-devel rust cargo python3 awscli tar zstd curl jq >/tmp/adl-build-toolchain.log 2>&1 \
-    || sudo yum install -y gcc gcc-c++ make pkgconfig openssl-devel rust cargo python3 awscli tar zstd curl jq >/tmp/adl-build-toolchain.log 2>&1
+  cloud-init status --wait >/tmp/adl-cloud-init.log 2>&1
+  test -f /var/lib/adl/issue268-bootstrap-ready
 elif [ "$CONTAINERIZED_VALIDATION" = "0" ] && ! command -v cc >/dev/null 2>&1; then
   sudo dnf install -y gcc gcc-c++ make pkgconf-pkg-config openssl-devel >/tmp/adl-build-toolchain.log 2>&1 \
     || sudo yum install -y gcc gcc-c++ make pkgconfig openssl-devel >/tmp/adl-build-toolchain.log 2>&1
@@ -457,6 +459,13 @@ watch_spot_notice() {
       printf '%s\n' "accepted" > "$RUN_ROOT/spot-dehydration.active"
       DEADLINE_UTC="$(jq -r '.time' "$RUN_ROOT/spot-interruption.log")"
       CALLBACK="${ADL_SPOT_DEHYDRATE_CALLBACK:-}"
+      READY="${ADL_SPOT_DEHYDRATE_READY:-}"
+      if [ -z "$READY" ] || [ ! -f "$READY" ]; then
+        printf '%s\n' "Spot interruption arrived before resident continuity was ready" > "$RUN_ROOT/spot-interruption-before-ready"
+        rm -f "$RUN_ROOT/spot-dehydration.active"
+        printf '%s\n' "terminal" > "$RUN_ROOT/spot-dehydration.done"
+        break
+      fi
       if [ -z "$CALLBACK" ] || [ ! -x "$CALLBACK" ]; then
         printf '%s\n' "Spot dehydration callback is missing or not executable" > "$RUN_ROOT/spot-dehydration.failed"
         rm -f "$RUN_ROOT/spot-dehydration.active"
@@ -520,6 +529,10 @@ fi
 if [ -f "$RUN_ROOT/spot-dehydration.failed" ]; then
   COMMAND_EXIT=70
   cat "$RUN_ROOT/spot-dehydration.failed" >> "$RUN_ROOT/command.err"
+fi
+if [ -f "$RUN_ROOT/spot-interruption-before-ready" ]; then
+  COMMAND_EXIT=75
+  cat "$RUN_ROOT/spot-interruption-before-ready" >> "$RUN_ROOT/command.err"
 fi
 if grep -Fq "sccache: warning: The server looks like it shut down unexpectedly" "$RUN_ROOT/command.err"; then
   SCCACHE_DEGRADED=1

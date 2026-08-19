@@ -9,6 +9,7 @@ use aws_sdk_iam as iam;
 use aws_sdk_servicequotas as servicequotas;
 use aws_sdk_ssm as ssm;
 use aws_sdk_sts as sts;
+use base64::Engine;
 use chrono::{DateTime, Datelike, Duration as ChronoDuration, Timelike, Utc};
 use ip_network::IpNetwork;
 use once_cell::sync::Lazy;
@@ -764,6 +765,7 @@ pub struct LaunchSpec {
     pub instance_profile_name: String,
     pub ssh_key_name: Option<String>,
     pub cache_volume: Option<CacheVolumeRequest>,
+    pub user_data: Option<String>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -1025,6 +1027,7 @@ pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
             instance_profile_name: config.instance_profile_name.clone(),
             ssh_key_name: config.ssh_key_name.clone(),
             cache_volume: cache_volume_request.clone(),
+            user_data: issue268_user_data(&config.command),
         };
         record_event(
             &mut events,
@@ -1937,6 +1940,21 @@ fn start_of_month(now: DateTime<Utc>) -> DateTime<Utc> {
         .unwrap_or(now)
 }
 
+fn issue268_user_data(command: &str) -> Option<String> {
+    if !command.contains("'bash' 'adl/tools/run_issue268_remote_resident_qualification.sh'")
+        && command != "bash adl/tools/run_issue268_remote_resident_qualification.sh"
+    {
+        return None;
+    }
+    let script = r#"#!/bin/bash
+set -euo pipefail
+dnf install -y gcc gcc-c++ make pkgconf-pkg-config openssl-devel rust cargo python3 awscli git tar zstd curl jq
+install -d -m 0755 /var/lib/adl
+touch /var/lib/adl/issue268-bootstrap-ready
+"#;
+    Some(base64::engine::general_purpose::STANDARD.encode(script))
+}
+
 fn build_remote_command_script(config: &AwsRemoteValidationConfig) -> String {
     let escaped_command = shell_single_quote(&config.command);
     let escaped_repo_url = shell_single_quote(&config.repo_url);
@@ -1986,6 +2004,11 @@ fn build_remote_command_script(config: &AwsRemoteValidationConfig) -> String {
         .as_deref()
         .map(sha256_hex)
         .unwrap_or_default();
+    let issue268_runtime_qualification = if issue268_user_data(&config.command).is_some() {
+        "1"
+    } else {
+        "0"
+    };
     format!(
         r#"set -euo pipefail
 RUN_ROOT={run_root}
@@ -2047,6 +2070,7 @@ export ADL_RETAINED_VOLUME_ROLE={retained_volume_role}
 export ADL_RUNTIME_CONTINUITY_VOLUME_ID_SHA256={retained_volume_id_sha256}
 export ADL_NEEDS_NEXTEST="{needs_nextest}"
 export ADL_REGION={region}
+export ADL_ISSUE268_RUNTIME_QUALIFICATION="{issue268_runtime_qualification}"
 
 CURRENT_STAGE="tracked_remote_runner"
 log_progress "stage=tracked_remote_runner"
@@ -2068,6 +2092,7 @@ bash "$CHECKOUT_DIR/tools/aws_remote_validation/scripts/remote_validation_runner
         needs_nextest = needs_nextest,
         command = escaped_command,
         region = shell_single_quote(&config.region),
+        issue268_runtime_qualification = issue268_runtime_qualification,
     )
 }
 
@@ -3261,6 +3286,9 @@ impl AwsRemoteValidationAdapter for LiveAwsRemoteValidationAdapter {
             );
         if let Some(key_name) = spec.ssh_key_name.as_deref() {
             builder = builder.key_name(key_name);
+        }
+        if let Some(user_data) = spec.user_data.as_deref() {
+            builder = builder.user_data(user_data);
         }
         if spec.purchase_option == PurchaseOption::Spot {
             builder = builder.instance_market_options(
@@ -4822,13 +4850,29 @@ mod tests {
             "if [ \"$CONTAINERIZED_VALIDATION\" = \"0\" ] && [ \"$ISSUE268_RUNTIME_QUALIFICATION\" = \"0\" ] && [ \"$NEEDS_NEXTEST\" = \"1\" ]"
         ));
         assert!(tracked_runner.contains("amazon_linux_packages_and_pinned_runtime_components"));
-        assert!(tracked_runner.contains("sudo dnf install -y gcc gcc-c++ make pkgconf-pkg-config openssl-devel rust cargo"));
+        assert!(tracked_runner.contains("cloud-init status --wait"));
+        assert!(tracked_runner.contains("issue268-bootstrap-ready"));
         assert!(tracked_runner.contains("immutable_builder_image_only"));
         assert!(tracked_runner
             .contains("PERSISTENT_CHECKOUT=\"$TOOLCHAIN_ROOT/source/agent-design-language\""));
         assert!(
             tracked_runner.contains("if [ \"$CURRENT_PERSISTENT_COMMIT\" != \"$SOURCE_COMMIT\" ]")
         );
+    }
+
+    #[test]
+    fn issue268_bootstrap_uses_user_data_packages() {
+        let command = "cd -- '.' && env -i PATH=\"${PATH-}\" 'bash' 'adl/tools/run_issue268_remote_resident_qualification.sh'";
+        let encoded = issue268_user_data(command).expect("issue268 user data");
+        let decoded = base64::engine::general_purpose::STANDARD
+            .decode(encoded)
+            .expect("base64 user data");
+        let script = String::from_utf8(decoded).expect("utf8 user data");
+        assert!(script.contains("dnf install -y gcc gcc-c++ make"));
+        assert!(script.contains("rust cargo python3 awscli git tar zstd curl jq"));
+        assert!(script.contains("issue268-bootstrap-ready"));
+        assert!(!script.contains("ruby"));
+        assert!(issue268_user_data("cargo test --locked").is_none());
     }
 
     #[test]

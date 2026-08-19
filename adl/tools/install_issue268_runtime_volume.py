@@ -113,7 +113,6 @@ def install(args: argparse.Namespace) -> dict:
     receipt_path = install_root / "installation-receipt.json"
     expected = {
         "schema": INSTALL_SCHEMA,
-        "source_revision": args.source_revision,
         "reviewed_414_git_sha": args.reviewed_git_sha,
         "volume_identity_sha256": args.volume_identity_sha256,
         "source_receipt_sha256": sha256(args.source_receipt),
@@ -165,6 +164,7 @@ def install(args: argparse.Namespace) -> dict:
     continuity = final_root / continuity.relative_to(staging)
     installed = {
         **expected,
+        "qualification_source_revision": args.source_revision,
         "ollama_binary": str(ollama),
         "ollama_binary_sha256": sha256(ollama),
         "continuity_binary": str(continuity),

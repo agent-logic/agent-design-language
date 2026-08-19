@@ -97,6 +97,10 @@ print(json.dumps(value, sort_keys=True))
 print("ADL_ISSUE268_CONTINUITY_UTS_END")
 PY
 
+ready_tmp="$EVIDENCE_ROOT/.continuity-ready.tmp"
+printf '%s\n' "$installed_continuity_sha" >"$ready_tmp"
+mv "$ready_tmp" "$EVIDENCE_ROOT/continuity-ready"
+
 # The six-hour guardian begins only after the resident population has proven
 # useful work across a closed-admission dehydration/restore cycle.
 if [[ "$GUARDIAN" == "$ROOT/adl/tools/validate_v092_runtime_guardian_lifecycle.sh" ]] \
