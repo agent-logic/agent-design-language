@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "8abc247d0a5d650da01bc1639900bba9c3c40370738e752cb2074ddd851f1815",
-  "phase": "implemented",
-  "generation": 32,
-  "digest": "696b3ae5696d2c28e0925bd07b63440a78679e07e5e065a43f0f943d9fee4ec7",
+  "phase": "reviewed",
+  "generation": 33,
+  "digest": "1d4d5d3ac7002f8ac7d35363f7fd8373f19cf93b4386bb2f4fad979b4056cd7f",
   "branch": "codex/340-html-observatory-runtime-restart-integration",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-340-html-observatory-runtime-restart-integration",
   "review_assignment": {
@@ -18,7 +18,22 @@
       ".csdlc/issues/340"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:996a1b8c-e785-4a84-a19e-6d1ae2edf6ec",
+    "scope": [
+      "adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs",
+      ".csdlc/issues/340"
+    ],
+    "reviewed_revision": "git-blake3:af5505659de358234d11377682d608c1499df3d7:43d95ccbcd59e3426b043ee863c9eea28129e844cbfb767b172683ff33eccace",
+    "findings": [],
+    "residual_risks": [
+      "Reviewer scope was intentionally minimal after prior full #340 reviews and focused only on the R6 P2 repair, lifecycle truth, and scope non-absorption.",
+      "Reviewer did not rerun Cargo or llvm-cov lanes because the review assignment was read-only; retained current proof and source/test contracts were inspected instead.",
+      "This review does not claim Unity, AWS/public hosting, provider credentials, #341, #343, #84, #122, or #251 scope."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -33,32 +48,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ad4496fe49a1b4faf4ed0905530cd24aa2d24cec810759c173443316c9620434",
+      "values_digest": "9f95b8d8f6454e18625be1955f31c3aa325e80ca18073d2ce09e1a2094376d3d",
       "rendered_digest": "e68242eb9bbe9ef94376f6bcc73e6a402a30b750e374fd44ad2a10c1f64de1d7",
       "ast_digest": "4880fadf87cf773585e07d456e5dbd11a1ec596ac7646ae36f2ce94c09a2caa2"
     },
     "stp": {
-      "values_digest": "670b9f7bb1d95043213e2b038cd50942353a468acc56a48c66041239fafcce6a",
+      "values_digest": "aaad06def1a2652805ca5fed3bf6c3ef196e3e2026ed322ab443ec8c9734bc2e",
       "rendered_digest": "3f94f447d3f0c52feafda63615f0140ef655286ccbdb3fa85163a50ec8e142da",
       "ast_digest": "7a88f55764720014ad1c151a4eedad3e71624b578e52d9fbc2c098ddd4a3173c"
     },
     "spp": {
-      "values_digest": "c4ff9eee0c38a7bd18e95ba3729e003f1a427da77294b6dae60a2bb937c7a364",
+      "values_digest": "4b162cb1bdb885fe6338b42b0d372fe0ba9022d127a43456c56593adc3786765",
       "rendered_digest": "04ae1a1c6abf369d12f379a3913646c64ac39b790f88c71ba1120b3d749bd517",
       "ast_digest": "ce6d867b2ee2b0fee927916db7f8feec1c4a7c1d1c1a62d3d9dfa679478aab60"
     },
     "vpp": {
-      "values_digest": "4165e48a10fc55ae0bc47e93f112f3dea9181dc45c7742e6d6e900344d4e0b68",
+      "values_digest": "051218c0fa94b4d8f70050adab8c587b946c4f65111278b9647d3a76779405dc",
       "rendered_digest": "df1a9f32b2ef6ac3388328c6892ce316a924427db54cae87d6837231e01602fc",
       "ast_digest": "120fa996e5aaefe19914a509024f66e1b209c4d0a4ecc01caf1ab4cd64321f64"
     },
     "srp": {
-      "values_digest": "cd578c9f955173c9b3c376a6874d75791d4914d6dee83604470f630ad677278c",
-      "rendered_digest": "26f0d9343748107b4a2658d1e9215ce43c77cdb01e0a62bcfb6163a36932e2b0",
-      "ast_digest": "82fa1023dd598a97f3aa8900e9204061594ad7031ea8127d2a54690c2d49a441"
+      "values_digest": "b6b81aefa9b9332f4691a7473fef8deb09a77c1fa1a9de11d3709c29a6e212ef",
+      "rendered_digest": "851597d5de453a84bd0d7296da14cb09a10e0aa9485652b43a25190794c189ef",
+      "ast_digest": "b411a79ffb36a403871b3ff46dbf7eaf50dfb71752d6bc566e7af659e2f0cc88"
     },
     "sor": {
-      "values_digest": "71ce19336dd94cbf3047c5a87a56220d025bf2af84fd6701a9431f0411559416",
+      "values_digest": "bde97b537765b87e01127400674a349f744f2289dbe2ee988178ecdd37d0c559",
       "rendered_digest": "2e533ada20c5a697d79d4db285e50bb9f121d9303df87bbb43abad8a1d98a3e2",
       "ast_digest": "6964b187950ea374f23e342a4c9226342b75880304793e96ed26b3742aa63570"
     }
@@ -140,6 +155,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "PR #430 runtime coverage failed again in the existing real_four_node_learner_replication test after the stale leader-write repair; recover published review truth before a bounded test-harness stabilization for the removal crash-boundary replay under coverage timing."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -450,6 +472,13 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 45,
+      "generation": 33,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

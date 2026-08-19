@@ -42,3 +42,4 @@
 {"sequence":42,"generation":31,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":43,"generation":32,"actor":"codex:/root","reason":"Recover #340 exact-review assignment after fresh-session:59c1d5ec-64bf-4cae-ac5f-94daae0f7497 produced no bounded PASS/FAIL verdict; assignment was interrupted and a different fresh reviewer will be assigned against the unchanged immutable substantive revision.","operation":"recover_review"}
 {"sequence":44,"generation":32,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":45,"generation":33,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
