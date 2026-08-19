@@ -130,6 +130,10 @@ impl LiveContinuity {
         self
     }
 
+    pub fn set_resident_population(&mut self, resident_population: Vec<u8>) {
+        self.resident_population = Some(resident_population);
+    }
+
     pub fn signing_key_from_hex(value: &str) -> Result<[u8; 32], LiveContinuityError> {
         let bytes = hex::decode(value).map_err(|_| LiveContinuityError::SigningKey)?;
         bytes

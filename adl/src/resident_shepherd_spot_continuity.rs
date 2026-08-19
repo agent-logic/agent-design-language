@@ -158,6 +158,7 @@ pub async fn dehydrate(input: &DehydrationInput, deadline: Duration) -> Result<D
     validate_roots(input)?;
     validate_models(&input.residents)?;
     fs::create_dir_all(&input.retained_runtime_root)?;
+    close_admission_for_dehydration(&input.retained_runtime_root)?;
 
     let lifecycle = runtime_v2_agent_lifecycle_state_model()?;
     lifecycle.validate()?;
@@ -175,6 +176,15 @@ pub async fn dehydrate(input: &DehydrationInput, deadline: Duration) -> Result<D
         .transition(RuntimeV2AgentLifecycleState::Dormant)
         .map_err(|error| anyhow!(error))?;
 
+    let mut live = live_continuity(&input.retained_runtime_root, 0)?;
+    live.restore_latest_with_resident_population(&RuntimeRecorder::new(32), |prior| {
+        let integration: ResidentContinuityIntegration =
+            serde_json::from_slice(prior).map_err(|error| error.to_string())?;
+        validate_integration(&integration, &input.retained_runtime_root)
+            .map_err(|error| error.to_string())
+    })
+    .await
+    .context("restore existing signed resident lineage before advancing it")?;
     let capsules = capture_all(input, deadline_at)?;
     let result: Result<DehydrationReceipt> = async {
         // Each resident is one Runtime-v2 citizen and must have exactly one
@@ -209,8 +219,7 @@ pub async fn dehydrate(input: &DehydrationInput, deadline: Duration) -> Result<D
         validate_integration(&integration, &input.retained_runtime_root)?;
         let bytes = serde_jcs::to_vec(&integration)?;
         let population_sha256 = digest(&bytes);
-        let mut live =
-            live_continuity(&input.retained_runtime_root, 0)?.with_resident_population(bytes);
+        live.set_resident_population(bytes);
         let remaining = deadline_at
             .checked_duration_since(Instant::now())
             .context("Spot dehydration deadline expired before signed checkpoint")?;
@@ -231,6 +240,7 @@ pub async fn dehydrate(input: &DehydrationInput, deadline: Duration) -> Result<D
             &input.retained_runtime_root.join("dehydration-receipt.json"),
             &receipt,
         )?;
+        write_closed_admission(&input.retained_runtime_root, checkpoint.generation)?;
         Ok(receipt)
     }
     .await;
@@ -519,6 +529,8 @@ pub async fn validate_completed_continuation(
     retained_runtime_root: &Path,
     continuation: &ContinuationInput,
 ) -> Result<RestoreReceipt> {
+    let latest: DehydrationReceipt =
+        read_json(&retained_runtime_root.join("dehydration-receipt.json"))?;
     let pointer: serde_json::Value =
         read_json(&retained_runtime_root.join("active-population.json"))?;
     if pointer
@@ -533,11 +545,18 @@ pub async fn validate_completed_continuation(
     if !receipt.admission_open {
         bail!("admission is closed; warm continuation is forbidden");
     }
+    if pointer
+        .get("generation")
+        .and_then(serde_json::Value::as_u64)
+        != Some(latest.generation)
+        || receipt.generation != latest.generation
+        || receipt.population_sha256 != latest.population_sha256
+    {
+        bail!("admission authority does not match the latest dehydration generation");
+    }
     let integration: ResidentContinuityIntegration = {
         let mut found = None;
-        let prior: DehydrationReceipt =
-            read_json(&retained_runtime_root.join("dehydration-receipt.json"))?;
-        let mut live = live_continuity(retained_runtime_root, prior.generation)?;
+        let mut live = live_continuity(retained_runtime_root, latest.generation)?;
         live.restore_latest_with_resident_population(&RuntimeRecorder::new(32), |bytes| {
             found = serde_json::from_slice(bytes).ok();
             Ok(())
@@ -575,6 +594,33 @@ pub async fn validate_completed_continuation(
         &receipt,
     )?;
     Ok(receipt)
+}
+
+fn close_admission_for_dehydration(retained_runtime_root: &Path) -> Result<()> {
+    let prior_generation =
+        read_json::<DehydrationReceipt>(&retained_runtime_root.join("dehydration-receipt.json"))
+            .map(|receipt| receipt.generation)
+            .unwrap_or(0);
+    write_closed_admission(retained_runtime_root, prior_generation)
+}
+
+fn write_closed_admission(retained_runtime_root: &Path, generation: u64) -> Result<()> {
+    write_atomic_json(
+        &retained_runtime_root.join("active-population.json"),
+        &serde_json::json!({
+            "generation": generation,
+            "path": null,
+            "admission_open": false
+        }),
+    )?;
+    let receipt_path = retained_runtime_root.join("restore-receipt.json");
+    if receipt_path.is_file() {
+        let mut receipt: RestoreReceipt = read_json(&receipt_path)?;
+        receipt.admission_open = false;
+        receipt.continuation_verified = false;
+        write_atomic_json(&receipt_path, &receipt)?;
+    }
+    Ok(())
 }
 
 pub fn validate_habitability_receipt(path: &Path) -> Result<serde_json::Value> {
@@ -1117,6 +1163,52 @@ mod tests {
             .join("restored-populations/generation-1")
             .is_dir());
         assert!(runtime_root.join("active-population.json").is_file());
+        let continuation = ContinuationInput {
+            residents: input
+                .residents
+                .iter()
+                .map(|resident| ContinuationResident {
+                    agent_id: resident.agent_id.clone(),
+                    model: resident.model.clone(),
+                    artifact_sha256: resident.artifact_sha256.clone(),
+                    quantization: resident.quantization.clone(),
+                    configuration_sha256: resident.configuration_sha256.clone(),
+                    completed_task_sha256: resident.completed_task_sha256.clone(),
+                    continuation_request_sha256: resident.continuation_request_sha256.clone(),
+                    next_task_sha256: digest(format!("next-{}", resident.agent_id)),
+                })
+                .collect(),
+        };
+        assert!(
+            validate_completed_continuation(&runtime_root, &continuation)
+                .await
+                .unwrap()
+                .continuation_verified
+        );
+
+        let second_dehydration = dehydrate(&input, Duration::from_secs(2)).await.unwrap();
+        assert_eq!(second_dehydration.generation, 2);
+        assert!(!second_dehydration.admission_open);
+        assert!(
+            validate_completed_continuation(&runtime_root, &continuation)
+                .await
+                .is_err()
+        );
+        let second_restore = restore_and_admit(
+            &runtime_root,
+            &RestoreInput {
+                residents: input.residents.clone(),
+                retained_runtime_root: runtime_root.clone(),
+                build_cache_root: build_root.clone(),
+                runtime_volume_identity_sha256: digest("test-volume"),
+            },
+        )
+        .await
+        .unwrap();
+        assert_eq!(second_restore.generation, 2);
+        assert!(runtime_root
+            .join("restored-populations/generation-2")
+            .is_dir());
         let mut substituted = input.residents.clone();
         substituted[0].artifact_sha256 = digest("substituted");
         assert!(restore_and_admit(
