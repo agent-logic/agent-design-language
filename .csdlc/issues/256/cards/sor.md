@@ -86,11 +86,11 @@ Implemented the #256 local birthday-demo-after-Observatory acceptance packet wit
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
