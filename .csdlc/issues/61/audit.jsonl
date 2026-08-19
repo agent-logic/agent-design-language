@@ -7,3 +7,4 @@
 {"sequence":7,"generation":5,"actor":"codex:issue-61","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
 {"sequence":8,"generation":6,"actor":"subagent:review-61-final","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":9,"generation":7,"actor":"codex:issue-61","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":10,"generation":8,"actor":"codex:closeout-sweep-closed-merged-v092","reason":"Materialize terminal truth for closed issue #61 from merged PR #70.","operation":"materialize_derived_terminal"}
