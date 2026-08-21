@@ -6,7 +6,10 @@ RUN_ID=${ADL_RUN_ID:?ADL_RUN_ID is required}
 EVIDENCE_ROOT=${ADL_ISSUE268_REMOTE_EVIDENCE_ROOT:-$ROOT/.adl/issue268-remote}
 VOLUME_ROOT=${ADL_RUNTIME_CONTINUITY_ROOT:?ADL_RUNTIME_CONTINUITY_ROOT is required}
 CONTINUITY_BIN=${ADL_ISSUE268_CONTINUITY_BIN:-$VOLUME_ROOT/install/current/bin/adl_resident_shepherd_continuity}
-RUNTIME_ROOT=${ADL_ISSUE268_RETAINED_RUNTIME_ROOT:-$VOLUME_ROOT/state}
+# Keep installed binaries and models persistent, but isolate mutable agent and
+# checkpoint state by qualification run. A failed attempt must not make the
+# next authorized run replay its proposals or inherit a stale locked spec.
+RUNTIME_ROOT=${ADL_ISSUE268_RETAINED_RUNTIME_ROOT:-$VOLUME_ROOT/state/$RUN_ID}
 BUILD_CACHE_ROOT=${ADL_ISSUE268_BUILD_CACHE_ROOT:-${ADL_CACHE_VOLUME_MOUNT_PATH:?ADL_CACHE_VOLUME_MOUNT_PATH is required}}
 AGENT_SPEC_DIR=${ADL_ISSUE268_AGENT_SPEC_DIR:-$EVIDENCE_ROOT/agent-specs}
 VOLUME_IDENTITY=${ADL_ISSUE268_RUNTIME_VOLUME_IDENTITY_SHA256:-${ADL_RUNTIME_CONTINUITY_VOLUME_ID_SHA256:?ADL_RUNTIME_CONTINUITY_VOLUME_ID_SHA256 is required}}

@@ -3,6 +3,7 @@ set -euo pipefail
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd -P)
 grep -Fq 'tail -80 "$OLLAMA_LOG"' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq 'OLLAMA_KEEP_ALIVE=-1' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
+grep -Fq 'RUNTIME_ROOT=${ADL_ISSUE268_RETAINED_RUNTIME_ROOT:-$VOLUME_ROOT/state/$RUN_ID}' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq 'OLLAMA_LLM_LIBRARY=cpu_avx2' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq 'ADL_UTS_ALLOW_MULTI_MODEL_RESIDENCY=true' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq "libggml-cpu-sapphirerapids.so' -print" "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
@@ -57,6 +58,7 @@ PY
 cat >"$scratch/orchestrator.py" <<'PY'
 import json,pathlib,sys
 a=sys.argv; evidence=pathlib.Path(a[a.index('--evidence-dir')+1]); evidence.mkdir(parents=True,exist_ok=True)
+(evidence/'runtime-root.txt').write_text(a[a.index('--runtime-root')+1]+'\n')
 (evidence/'qualification-receipt.json').write_text(json.dumps({'schema':'adl.issue268.continuity_uts_qualification.v1','status':'passed','resident_count':6,'continuation_verified':True,'continuity_generation':1,'signed_population_sha256':'9'*64,'replay_denied':True,'residents':[{'agent_id':str(i)} for i in range(6)]})+'\n')
 PY
 cat >"$scratch/warmup.py" <<'PY'
@@ -81,7 +83,6 @@ output=$(PATH="$scratch/bin:$PATH" \
   ADL_RUNTIME_CONTINUITY_ROOT="$scratch/volume/runtime" \
   ADL_RUNTIME_CONTINUITY_VOLUME_ID_SHA256="$(printf 'f%.0s' {1..64})" \
   ADL_ISSUE268_CONTINUITY_BIN="$scratch/continuity" \
-  ADL_ISSUE268_RETAINED_RUNTIME_ROOT="$scratch/runtime" \
   ADL_ISSUE268_BUILD_CACHE_ROOT="$scratch/build" \
   ADL_ISSUE268_AGENT_SPEC_DIR="$scratch/agents" \
   ADL_ISSUE268_RUNTIME_VOLUME_IDENTITY_SHA256="$(printf 'f%.0s' {1..64})" \
@@ -98,6 +99,7 @@ output=$(PATH="$scratch/bin:$PATH" \
 [[ "$output" == *ADL_ISSUE268_CONTINUITY_UTS_END* ]]
 [[ "$output" == *ADL_ISSUE268_REPORT_BEGIN* ]]
 [[ "${output%%ADL_ISSUE268_REPORT_BEGIN*}" == *ADL_ISSUE268_CONTINUITY_UTS_END* ]]
+[[ "$(cat "$scratch/evidence/continuity-uts/runtime-root.txt")" == "$scratch/volume/runtime/state/issue268-test-run" ]]
 
 if PATH="$scratch/bin:$PATH" \
   ADL_RUN_ID=issue268-test-run \

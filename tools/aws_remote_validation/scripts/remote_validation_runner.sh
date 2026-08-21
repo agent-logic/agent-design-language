@@ -109,7 +109,7 @@ if [ "${ADL_RETAINED_VOLUME_ROLE:-build_cache}" = "runtime_continuity" ] \
   export ADL_ISSUE414_CONTINUITY_BIN="$ADL_RUNTIME_CONTINUITY_ROOT/install/current/bin/adl_resident_shepherd_continuity"
   export ADL_SPOT_RESIDENT_INPUT="$ADL_ISSUE268_REMOTE_EVIDENCE_ROOT/continuity-uts/dehydration-input.json"
   export ADL_SPOT_DEHYDRATE_READY="$ADL_ISSUE268_REMOTE_EVIDENCE_ROOT/continuity-ready"
-  export ADL_SPOT_RETAINED_RUNTIME_ROOT="$ADL_RUNTIME_CONTINUITY_ROOT/state"
+  export ADL_SPOT_RETAINED_RUNTIME_ROOT="$ADL_RUNTIME_CONTINUITY_ROOT/state/$ADL_RUN_ID"
   export ADL_SPOT_RUNTIME_VOLUME_ID_SHA256="${ADL_RUNTIME_CONTINUITY_VOLUME_ID_SHA256:?runtime volume identity is required}"
 fi
 
