@@ -7,15 +7,15 @@
     "title": "[v0.92][Runtime] Wire governed Adaptive Learning into resident execution",
     "slug": "449-governed-adaptive-learning-resident-integration",
     "version": "v0.92.0",
-    "generation": 9
+    "generation": 10
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl-runtime-kernel/src/adaptive_learning.rs\nadl-runtime-kernel/tests/adaptive_learning.rs\nadl-runtime-kernel/src/live_continuity.rs\ndocs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md\n.csdlc/evidence/449\n.csdlc/issues/449\n.csdlc/prepared/issues/449/design.md\n.csdlc/prepared/issues/449/diagram.mmd",
+      "review_revision": "git-blake3:2e41a165ed7350b2ca1f6917a9b8b3f86c2131b0:f13e0c0b15fb7c4f28c76b5d5d9ef40d84675b1ebdb79caa9101ca5510902ed9",
+      "reviewer": "fresh-session:6e82c3a5-9a2a-4d0e-8701-4db48bc4b2bd",
       "review_prompts": [
         "Verify that #449 keeps MutationGate as the only mutation authority.",
         "Verify that capability/profile handles are dependency-gated production inputs and not fabricated.",
@@ -24,8 +24,12 @@
         "Verify that evidence/observability avoids private profile/provider leakage."
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Review was read-only and bounded to assigned paths at immutable commit 2e41a165ed7350b2ca1f6917a9b8b3f86c2131b0.",
+        "Native hosted CI, publication, and merge readiness are not claimed by this review.",
+        "Later source or substantive lifecycle changes require a fresh exact-head review."
+      ],
+      "review_result": "pass"
     }
   }
 }
