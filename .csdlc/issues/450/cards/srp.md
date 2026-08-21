@@ -69,12 +69,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Post-fix review was read-only and relied on scoped inspection plus local passing evidence, not a fresh broad coverage rerun.
+- CI workspace coverage failure reproduced before the fix and the specific failing test passed locally after the fix.
+- Worktree retained one untracked local lock file: .csdlc/locks/450.lock.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:758fab9892e9b1ee1613de4a9169f0425b274525:6508bd581fbd7c732da25e43c0e778c2b73699b37fb47296dfb8df3e66ead7e5")
 
-Reviewer: None
+Reviewer: Some("fresh-session:1d8d12b7-620a-4bc7-815a-bebcc3c5f23c")
 
-Result: pre_review
+Result: pass

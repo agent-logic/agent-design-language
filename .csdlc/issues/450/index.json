@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "2ba84a82b33fdb23b6c516a95a7dcd1b9311eefaea6b2e4c9c9ab1391c925625",
-  "phase": "implemented",
-  "generation": 10,
-  "digest": "1dd87a97571b453d61eebb2b249fe1ec7d8b1cb04721e4b4783ffd1280f48aa7",
+  "phase": "reviewed",
+  "generation": 11,
+  "digest": "424f348db43c33bcbe2ee3831944a5cb267846d88ab50c5f38a80e6d9f1caaba",
   "branch": "codex/450-memory-palace-production-authority",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-450-memory-palace-production-authority",
   "review_assignment": {
@@ -54,7 +54,58 @@
       "adl/tests/memory_palace_tests.rs"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "fresh-session:1d8d12b7-620a-4bc7-815a-bebcc3c5f23c",
+    "scope": [
+      ".csdlc/issues/450/audit.jsonl",
+      ".csdlc/issues/450/cards/sip.md",
+      ".csdlc/issues/450/cards/sip.values.json",
+      ".csdlc/issues/450/cards/sor.md",
+      ".csdlc/issues/450/cards/sor.values.json",
+      ".csdlc/issues/450/cards/spp.md",
+      ".csdlc/issues/450/cards/spp.values.json",
+      ".csdlc/issues/450/cards/srp.md",
+      ".csdlc/issues/450/cards/srp.values.json",
+      ".csdlc/issues/450/cards/stp.md",
+      ".csdlc/issues/450/cards/stp.values.json",
+      ".csdlc/issues/450/cards/vpp.md",
+      ".csdlc/issues/450/cards/vpp.values.json",
+      ".csdlc/issues/450/index.json",
+      ".csdlc/evidence/450/adl_memory_palace_projection.log",
+      ".csdlc/evidence/450/csm_memory_palace_readiness.log",
+      ".csdlc/evidence/450/kernel_memory_palace_packet.log",
+      ".csdlc/evidence/450/runtime_broad_lib_regression.log",
+      ".csdlc/evidence/450/runtime_memory_palace_service.log",
+      ".csdlc/prepared/issues/450/design.md",
+      ".csdlc/prepared/issues/450/diagram.mmd",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/governed_operations.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/memory_palace.rs",
+      "adl-runtime-kernel/src/memory_palace_authority.rs",
+      "adl-runtime-kernel/tests/assembly.rs",
+      "adl-runtime-kernel/tests/memory_palace.rs",
+      "adl-runtime/src/lib.rs",
+      "adl-runtime/src/memory_palace.rs",
+      "adl-runtime/src/supervision.rs",
+      "adl-runtime/src/topology.rs",
+      "adl/Cargo.lock",
+      "adl/Cargo.toml",
+      "adl/src/csm_runtime_api.rs",
+      "adl/src/memory_palace.rs",
+      "adl/tests/memory_palace_tests.rs"
+    ],
+    "reviewed_revision": "git-blake3:758fab9892e9b1ee1613de4a9169f0425b274525:6508bd581fbd7c732da25e43c0e778c2b73699b37fb47296dfb8df3e66ead7e5",
+    "findings": [],
+    "residual_risks": [
+      "Post-fix review was read-only and relied on scoped inspection plus local passing evidence, not a fresh broad coverage rerun.",
+      "CI workspace coverage failure reproduced before the fix and the specific failing test passed locally after the fix.",
+      "Worktree retained one untracked local lock file: .csdlc/locks/450.lock."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -69,32 +120,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "e41dec78685376c9f5f893345d4dbeb2616a76477ede12071d26fe7e8130edfb",
+      "values_digest": "51a90624e82a3574ea55189f059a69f4571169e3281dfc99c3b40f35f8b9f951",
       "rendered_digest": "bc05390fa59e1fdfd58f2a28c97735cbab105c0abd7922757f7e189e7294d71c",
       "ast_digest": "d07f704144b9191f595ce437134d39e0dbc0193195493e4825550db98d9c49f1"
     },
     "stp": {
-      "values_digest": "a80bf10b2b4bd0121ddd650fe8ccb31dd34c73ed35ad60ca13522f9cf2aa67c7",
+      "values_digest": "1ab10d191a5af827dba548231aa6bfe3d817255fddf5769708691fa81b4f0e1a",
       "rendered_digest": "085979d3227cb2fb241df3c7b7921904b1e6ddaf0aa9bc4f17742f416098087c",
       "ast_digest": "cf4959ce1996b71005f67c579e4d6acdc3e9ec8ccfc1a30ce4141821988a63db"
     },
     "spp": {
-      "values_digest": "e01c933d30da6f8263b84f69b83d03ff9da9d9de4ae1738dde1a572c98e761c3",
+      "values_digest": "da9faa60f81939bda992afca872aaa1460b7b71a3024c65847e94c21fd2a52b7",
       "rendered_digest": "948f106d0030483b54120316f4337b5973bde103f0005718f269c1a159c01968",
       "ast_digest": "8d7b09c325b4f31bd00467499e5577f56d4fcdd6fe6bfc369a83e8c802463990"
     },
     "vpp": {
-      "values_digest": "055674a954b54b51f1981cd55605cddf2a2ad84e2ec2402bde64367adfc7909d",
+      "values_digest": "71ddaf79c7572cad124fbcc13bf2bf10f57fb1e95f74ec8956c7087010beee88",
       "rendered_digest": "de962a78c6125bbd3abc1116e974ab6584dcf0a48ce16568b7bf903a592921e5",
       "ast_digest": "542b9447dd7c09de1122382bc923af80c88364cf6ac5240bed7eec2370f5637e"
     },
     "srp": {
-      "values_digest": "cd0090634279818d578e43d3798b3a78858d8225015f135dc3e6f85979b9acc6",
-      "rendered_digest": "5f262b35d84362e7b5b759191b67ed9445b5dc47ceeb7c43521aa3384ea4c79e",
-      "ast_digest": "996353fea7af91da68b35ffb69fa1037d2249ae31e0fb4419f9986667d25e3dc"
+      "values_digest": "017cbd676cadb886d5e10a867703cb6c2e81b1de23d641c325263fa1cd25ec6e",
+      "rendered_digest": "23810fc5f5331638caf7b50381a7e69375ff55078071445c74d54e3d53af2354",
+      "ast_digest": "cbe6dce8ef481c25db0f591fdf410124f5a269dc3c37eb7ee665b653cfb54c7f"
     },
     "sor": {
-      "values_digest": "5e27922647905876ad2b28bb0ae69d78501c3304d17225573329322e953da033",
+      "values_digest": "c843b717aa01df5b6f375a8a29401560f913b130bb7e6235710e5078a57f4363",
       "rendered_digest": "40aac76f3e60d8cf448265868da1d1b9a0a61a5bc746f73fc7e3b87a4ca63665",
       "ast_digest": "f15978f55389fc681717c8d3e9cf76461e5393c64cc47ec7e9d47dd8677ea72a"
     }
@@ -162,6 +213,13 @@
       "to": "implemented",
       "actor": "codex",
       "reason": "recover review after CI workspace coverage exposed read-only retained-status mutation and the fix changed the published head"
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -276,6 +334,13 @@
       "actor": "codex",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "codex",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
