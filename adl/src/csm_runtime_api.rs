@@ -2634,7 +2634,18 @@ mod tests {
         CSM_CONSTRUCTABILITY_EVIDENCE_SCHEMA, CSM_CONSTRUCTABILITY_REQUEST_SCHEMA,
         CSM_CONSTRUCTABILITY_STATUS_REF,
     };
+    use adl_runtime::memory_palace::{
+        RuntimeMemoryPalaceCheckpoint, RuntimeMemoryPalaceJournalEntry, RuntimeMemoryPalaceLatest,
+    };
+    use adl_runtime_kernel::{
+        birthday_identity, build_memory_palace, build_memory_palace_context_cache,
+        continuity_record_digest, BirthdayContinuityRecord, BirthdayIdentityRecord,
+        MemoryPalaceInput, MemoryReference, MemoryTemporalAnchor, MemoryVisibility,
+        ObsMemContextRecord,
+    };
     use axum::body::to_bytes;
+    use serde::Serialize;
+    use sha2::{Digest, Sha256};
     use std::cell::RefCell;
     use std::net::TcpListener;
     use std::sync::atomic::{AtomicU64, Ordering};
@@ -2803,6 +2814,212 @@ memory: {}
             .unwrap(),
         )
         .unwrap();
+        write_validated_memory_palace_status(state);
+    }
+
+    fn memory_palace_hash() -> &'static str {
+        "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+
+    fn test_birthday_identity() -> BirthdayIdentityRecord {
+        let mut record: BirthdayIdentityRecord = serde_json::from_value(json!({
+            "schema": "adl.birthday.identity_record.v2",
+            "stable_name": "Aster",
+            "identity_root": memory_palace_hash(),
+            "aliases": [],
+            "origin": {
+                "event_id": "origin",
+                "provenance_id": "origin",
+                "reference": {
+                    "id": "origin",
+                    "path": "evidence/origin.json",
+                    "sha256": memory_palace_hash()
+                }
+            },
+            "continuity": {
+                "identity_root": memory_palace_hash(),
+                "head_sha256": memory_palace_hash(),
+                "reference": {
+                    "id": "continuity",
+                    "path": "evidence/continuity.json",
+                    "sha256": memory_palace_hash()
+                }
+            },
+            "provenance": [{
+                "id": "origin",
+                "path": "evidence/origin.json",
+                "sha256": memory_palace_hash()
+            }],
+            "witnesses": [{
+                "id": "witness",
+                "path": "evidence/witness.json",
+                "sha256": memory_palace_hash()
+            }],
+            "governed_projection": {
+                "id": "projection",
+                "path": "evidence/projection.json",
+                "sha256": memory_palace_hash()
+            },
+            "projection_receipt": {
+                "schema": "adl.birthday.verified_projection_receipt.v1",
+                "subject_id": "Aster",
+                "lineage_id": "lineage",
+                "generation": 1,
+                "signing_key_id": "key",
+                "accepted_record_hash": memory_palace_hash(),
+                "projection_sha256": memory_palace_hash(),
+                "visible_fields": {},
+                "redacted_fields": []
+            },
+            "record_sha256": ""
+        }))
+        .unwrap();
+        record.record_sha256 = birthday_identity::record_digest(&record).unwrap();
+        record
+    }
+
+    fn test_birthday_continuity(identity: &BirthdayIdentityRecord) -> BirthdayContinuityRecord {
+        let mut record: BirthdayContinuityRecord = serde_json::from_value(json!({
+            "schema": "adl.birthday.continuity_record.v1",
+            "identity_root": identity.identity_root,
+            "identity_record_sha256": identity.record_sha256,
+            "predecessor_head": memory_palace_hash(),
+            "authority_context_sha256": memory_palace_hash(),
+            "cycles": [{
+                "generation": 1,
+                "accepted_through": 1,
+                "previous_integrity": memory_palace_hash(),
+                "integrity": memory_palace_hash(),
+                "signing_key_id": "key",
+                "reference": {
+                    "id": "cycle-1",
+                    "path": "evidence/continuity/cycle-1.json",
+                    "sha256": memory_palace_hash()
+                }
+            }],
+            "grade": "evidence_backed",
+            "continuity_head": memory_palace_hash(),
+            "record_sha256": ""
+        }))
+        .unwrap();
+        record.record_sha256 = continuity_record_digest(&record).unwrap();
+        record
+    }
+
+    fn test_memory_palace_packet() -> adl_runtime_kernel::MemoryPalaceContextPacket {
+        let identity = test_birthday_identity();
+        let continuity = test_birthday_continuity(&identity);
+        let trace_reference = MemoryReference {
+            id: "trace:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa".to_owned(),
+            path: ".adl/runtime-v3/observability/trace.json".to_owned(),
+            sha256: memory_palace_hash().to_owned(),
+        };
+        build_memory_palace(
+            &identity,
+            &continuity,
+            &MemoryPalaceInput {
+                schema: adl_runtime_kernel::MEMORY_PALACE_INPUT_SCHEMA.to_owned(),
+                identity_record_sha256: identity.record_sha256.clone(),
+                continuity_record_sha256: continuity.record_sha256.clone(),
+                trace_reference: trace_reference.clone(),
+                redaction_policy_sha256: memory_palace_hash().to_owned(),
+                observed_epoch_ms: 4_102_444_800_500,
+                stale_after_ms: 1_000,
+                max_working_set_items: 8,
+                records: vec![ObsMemContextRecord {
+                    id: "memory-palace-api-proof".to_owned(),
+                    run_id: "run-memory-palace-api-proof".to_owned(),
+                    workflow_id: "workflow-api-proof".to_owned(),
+                    payload: "Validated Memory Palace retained status for Runtime API readiness."
+                        .to_owned(),
+                    visibility: MemoryVisibility::Public,
+                    identity_root: identity.identity_root.clone(),
+                    continuity_head: continuity.continuity_head.clone(),
+                    trace_id: trace_reference.id.clone(),
+                    citations: vec![trace_reference],
+                    temporal_anchor: MemoryTemporalAnchor {
+                        created_epoch_ms: 4_102_444_800_000,
+                        observed_epoch_ms: 4_102_444_800_000,
+                        effective_epoch_ms: 4_102_444_800_000,
+                        continuity_head: continuity.continuity_head.clone(),
+                        event_sequence: 1,
+                    },
+                }],
+            },
+        )
+        .unwrap()
+    }
+
+    fn write_validated_memory_palace_status(state: &Path) {
+        let packet = test_memory_palace_packet();
+        let generation = 1;
+        let service_root = state.join("memory-palace");
+        let packet_ref = MemoryReference {
+            id: "memory-palace-packet:00000000000000000001".to_owned(),
+            path: "memory-palace/generations/00000000000000000001/packet.json".to_owned(),
+            sha256: packet.packet_sha256.clone(),
+        };
+        let cache = build_memory_palace_context_cache(generation, 1, packet_ref.clone(), &packet)
+            .expect("build Runtime API test Memory Palace context cache");
+        let mut checkpoint = RuntimeMemoryPalaceCheckpoint {
+            schema: "adl.runtime.memory_palace.checkpoint.v1".to_owned(),
+            memory_palace_generation: generation,
+            birthday_continuity_generation: 1,
+            predecessor_packet_sha256: None,
+            identity_root: packet.identity_root.clone(),
+            identity_record_sha256: packet.identity_record_sha256.clone(),
+            continuity_head: packet.continuity_head.clone(),
+            continuity_record_sha256: packet.continuity_record_sha256.clone(),
+            topology_sha256: sha256_jcs(&packet.rooms),
+            working_set_sha256: sha256_jcs(&packet.working_set),
+            source_packet_ref: packet_ref,
+            canonical_input_sha256: packet.canonical_input_sha256.clone(),
+            packet_sha256: packet.packet_sha256.clone(),
+            context_cache_sha256: cache.cache_sha256.clone(),
+            trace_reference: packet.trace_reference.clone(),
+            redaction_policy_sha256: packet.redaction_policy_sha256.clone(),
+            checkpoint_sha256: String::new(),
+        };
+        checkpoint.checkpoint_sha256 = sha256_jcs(&checkpoint);
+        let mut journal = RuntimeMemoryPalaceJournalEntry {
+            schema: "adl.runtime.memory_palace.journal_entry.v1".to_owned(),
+            generation,
+            predecessor_packet_sha256: None,
+            packet_sha256: packet.packet_sha256.clone(),
+            context_cache_sha256: cache.cache_sha256.clone(),
+            checkpoint_sha256: checkpoint.checkpoint_sha256.clone(),
+            entry_sha256: String::new(),
+        };
+        journal.entry_sha256 = sha256_jcs(&journal);
+        let latest = RuntimeMemoryPalaceLatest {
+            schema: "adl.runtime.memory_palace.latest.v1".to_owned(),
+            generation,
+            packet_sha256: packet.packet_sha256.clone(),
+            checkpoint_sha256: checkpoint.checkpoint_sha256.clone(),
+        };
+        let generation_dir = service_root.join("generations/00000000000000000001");
+        write_jcs(&generation_dir.join("packet.json"), &packet);
+        write_jcs(&generation_dir.join("context-cache.json"), &cache);
+        write_jcs(&generation_dir.join("checkpoint.json"), &checkpoint);
+        write_jcs(
+            &service_root.join("journal/00000000000000000001.json"),
+            &journal,
+        );
+        write_jcs(&service_root.join("latest.json"), &latest);
+    }
+
+    fn sha256_jcs<T: Serialize>(value: &T) -> String {
+        format!(
+            "{:x}",
+            Sha256::digest(serde_jcs::to_vec(value).expect("serialize JCS"))
+        )
+    }
+
+    fn write_jcs<T: Serialize>(path: &Path, value: &T) {
+        if let Some(parent) = path.parent() {
+            fs::create_dir_all(parent).unwrap();
+        }
+        fs::write(path, serde_jcs::to_vec(value).expect("serialize JCS")).unwrap();
     }
 
     fn write_active_constructability_status(state: &Path) {
