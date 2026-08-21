@@ -1,0 +1,16 @@
+{
+  "schema": "adl.runtime.feature_wiring_audit.v1",
+  "issue": 451,
+  "source_revision": "4e23796ba1cdf89cb5f4121a01915d31f16e167b",
+  "rows": [
+    {"feature":"identity","construction":"adl-runtime-kernel/src/birthday_identity.rs","production_consumption":"adl-runtime-kernel/src/memory_palace_authority.rs","behavioral_proof":"adl-runtime-kernel/tests/identity_memory.rs","negative_proof":"adl-runtime-kernel/tests/identity_memory.rs","disposition":"live"},
+    {"feature":"continuity","construction":"adl-runtime-kernel/src/birthday_continuity.rs","production_consumption":"adl-runtime-kernel/src/production_birthday.rs","behavioral_proof":"adl-runtime-kernel/tests/continuity.rs","negative_proof":"adl-runtime-kernel/tests/production_birthday.rs","disposition":"live"},
+    {"feature":"birthday_decision","construction":"adl-runtime-kernel/src/birthday.rs","production_consumption":"adl-runtime-kernel/src/production_birthday.rs","behavioral_proof":"adl-runtime-kernel/tests/birthday.rs","negative_proof":"adl-runtime-kernel/tests/birthday.rs","disposition":"live"},
+    {"feature":"birth_witness","construction":"adl-runtime-kernel/src/birth_witness.rs","production_consumption":"adl-runtime-kernel/src/production_birthday.rs","behavioral_proof":"adl-runtime-kernel/tests/birth_witness.rs","negative_proof":"adl-runtime-kernel/tests/birth_witness.rs","disposition":"live"},
+    {"feature":"memory_palace","construction":"adl-runtime-kernel/src/memory_palace_authority.rs","production_consumption":"adl/src/production_birthday.rs","behavioral_proof":"adl-runtime-kernel/tests/memory_palace.rs","negative_proof":"adl-runtime-kernel/tests/memory_palace.rs","disposition":"live"},
+    {"feature":"capability_envelope","construction":"adl-runtime-kernel/src/resident_cycle.rs","production_consumption":"adl/src/production_birthday.rs","behavioral_proof":"adl-runtime-kernel/src/resident_cycle.rs","negative_proof":"adl-runtime-kernel/src/resident_cycle.rs","disposition":"live"},
+    {"feature":"governed_cognitive_profile","construction":"adl-runtime-kernel/src/resident_cycle.rs","production_consumption":"adl/src/production_birthday.rs","behavioral_proof":"adl-runtime-kernel/src/resident_cycle.rs","negative_proof":"adl-runtime-kernel/src/resident_cycle.rs","disposition":"live"},
+    {"feature":"adaptive_learning","construction":"adl-runtime-kernel/src/adaptive_learning.rs","production_consumption":"adl/src/production_birthday.rs","behavioral_proof":"adl-runtime-kernel/tests/adaptive_learning.rs","negative_proof":"adl-runtime-kernel/tests/adaptive_learning.rs","disposition":"live"},
+    {"feature":"acc_tool_authority","construction":"adl/src/resident_tool_execution.rs","production_consumption":"adl/src/long_lived_agent.rs","behavioral_proof":"adl/tests/production_birthday_runtime.rs","negative_proof":"adl/tests/production_birthday_runtime.rs","disposition":"live"}
+  ]
+}
