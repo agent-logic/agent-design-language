@@ -7,16 +7,147 @@
     "title": "[v0.92][Runtime] Compose the production birthday and witness activation path",
     "slug": "451-production-birthday-witness-activation",
     "version": "v0.92",
-    "generation": 8
+    "generation": 9
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Pre-execution output record.",
-      "actual_changes": [],
-      "artifacts": [],
-      "actual_validation": [],
+      "summary": "Activate the production birthday aggregate and re-audit all nine Runtime feature bindings.",
+      "actual_changes": [
+        "Compose verified birthday, witness, memory, resident-cycle, adaptive-learning, and authenticated ACC authority into one durable exactly-once aggregate",
+        "Recover deterministic crash boundaries and reject duplicate, conflicting, denied, tampered, or cross-bound inputs",
+        "Retain a source-bound nine-feature Runtime wiring audit and redacted production evidence"
+      ],
+      "artifacts": [
+        "adl-runtime-kernel/src/production_birthday.rs",
+        "adl-runtime-kernel/tests/production_birthday.rs",
+        "adl/src/production_birthday.rs",
+        "adl/tests/production_birthday_runtime.rs",
+        ".csdlc/evidence/451/runtime-feature-wiring-audit.json",
+        ".csdlc/evidence/451/production-birthday-evidence.json"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check",
+            "46eab3aa2a877917c96b1ac2948648a40dcfc82a...HEAD"
+          ],
+          "purpose": "Exact diff hygiene.",
+          "outcome": "passed",
+          "evidence_ref": "diff_hygiene.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--test",
+            "production_birthday",
+            "--",
+            "--nocapture"
+          ],
+          "purpose": "Exact kernel birthday matrix.",
+          "outcome": "passed",
+          "evidence_ref": "production_birthday_kernel.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "--test",
+            "production_birthday_runtime",
+            "--",
+            "--nocapture"
+          ],
+          "purpose": "Exact resident integration matrix.",
+          "outcome": "passed",
+          "evidence_ref": "production_birthday_resident_path.log"
+        },
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/451/validate_retained_evidence.rb"
+          ],
+          "purpose": "Validate retained evidence.",
+          "outcome": "passed",
+          "evidence_ref": "retained_evidence_contract.log"
+        },
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/451/validate_runtime_feature_wiring.rb"
+          ],
+          "purpose": "Validate renewed feature-wiring audit.",
+          "outcome": "passed",
+          "evidence_ref": "runtime_feature_wiring_audit.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "fmt",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "--",
+            "--check"
+          ],
+          "purpose": "ADL formatting.",
+          "outcome": "passed",
+          "evidence_ref": "rust_format_adl.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "fmt",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--",
+            "--check"
+          ],
+          "purpose": "Kernel formatting.",
+          "outcome": "passed",
+          "evidence_ref": "rust_format_runtime_kernel.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "ADL strict Clippy.",
+          "outcome": "passed",
+          "evidence_ref": "strict_clippy_adl.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Kernel strict Clippy.",
+          "outcome": "passed",
+          "evidence_ref": "strict_clippy_runtime_kernel.log"
+        }
+      ],
       "integration_state": "not_started",
       "publication_state": "not_published",
       "merge_state": "not_merged",
