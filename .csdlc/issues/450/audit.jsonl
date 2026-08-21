@@ -12,3 +12,4 @@
 {"sequence":12,"generation":7,"actor":"codex","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":13,"generation":8,"actor":"codex","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":14,"generation":9,"actor":"codex","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":15,"generation":10,"actor":"codex","reason":"recover review after CI workspace coverage exposed read-only retained-status mutation and the fix changed the published head","operation":"recover_review"}
