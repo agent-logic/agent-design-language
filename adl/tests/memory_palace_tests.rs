@@ -3,15 +3,22 @@ use std::path::{Path, PathBuf};
 
 use ::adl::long_lived_agent::{self, RunOptions};
 use ::adl::memory_palace::{
-    context_packet_bytes, project_runtime_packet, MemoryPalaceAgentConfig, MemoryPalaceInput,
-    MEMORY_PALACE_CONTEXT_REF, MEMORY_PALACE_CONTEXT_SCHEMA,
+    build_context_from_agent_memory, context_packet_bytes, project_runtime_packet,
+    MemoryPalaceAgentConfig, MemoryPalaceInput, MEMORY_PALACE_CONTEXT_REF,
+    MEMORY_PALACE_CONTEXT_SCHEMA,
+};
+use adl_runtime::memory_palace::{
+    RuntimeMemoryPalaceCheckpoint, RuntimeMemoryPalaceJournalEntry, RuntimeMemoryPalaceLatest,
 };
 use adl_runtime_kernel::{
-    birthday_identity, build_memory_palace, continuity_record_digest, BirthdayContinuityRecord,
-    BirthdayIdentityRecord, MemoryPalaceInput as KernelMemoryPalaceInput, MemoryReference,
+    birthday_identity, build_memory_palace, build_memory_palace_context_cache,
+    continuity_record_digest, BirthdayContinuityRecord, BirthdayIdentityRecord,
+    MemoryPalaceInput as KernelMemoryPalaceInput, MemoryReference,
     MemoryTemporalAnchor as KernelMemoryTemporalAnchor, MemoryVisibility, ObsMemContextRecord,
 };
+use serde::Serialize;
 use serde_json::json;
+use sha2::{Digest, Sha256};
 
 mod helpers;
 use helpers::unique_test_temp_dir;
@@ -28,7 +35,7 @@ fn memory_palace_fixture() -> MemoryPalaceInput {
 
 fn memory_palace_config(max_working_set_items: usize) -> MemoryPalaceAgentConfig {
     MemoryPalaceAgentConfig {
-        input_ref: "memory_palace_packet.json".to_string(),
+        input_ref: "memory-palace/latest.json".to_string(),
         max_working_set_items,
         stale_after_ms: 1000,
         required_continuity_id: Some(h().to_string()),
@@ -132,6 +139,77 @@ fn runtime_packet_from_fixture(
     .unwrap()
 }
 
+fn sha256_jcs<T: Serialize>(value: &T) -> String {
+    format!("{:x}", Sha256::digest(serde_jcs::to_vec(value).unwrap()))
+}
+
+fn write_jcs<T: Serialize>(path: &Path, value: &T) {
+    if let Some(parent) = path.parent() {
+        fs::create_dir_all(parent).unwrap();
+    }
+    fs::write(path, serde_jcs::to_vec(value).unwrap()).unwrap();
+}
+
+fn write_runtime_memory_palace_service(
+    spec_dir: &Path,
+    packet: &adl_runtime_kernel::MemoryPalaceContextPacket,
+) {
+    let generation = 1;
+    let service_root = spec_dir.join("memory-palace");
+    let packet_ref = MemoryReference {
+        id: "memory-palace-packet:00000000000000000001".to_owned(),
+        path: "memory-palace/generations/00000000000000000001/packet.json".to_owned(),
+        sha256: packet.packet_sha256.clone(),
+    };
+    let cache = build_memory_palace_context_cache(generation, 1, packet_ref.clone(), packet)
+        .expect("build Runtime Memory Palace context cache");
+    let mut checkpoint = RuntimeMemoryPalaceCheckpoint {
+        schema: "adl.runtime.memory_palace.checkpoint.v1".to_owned(),
+        memory_palace_generation: generation,
+        birthday_continuity_generation: 1,
+        predecessor_packet_sha256: None,
+        identity_root: packet.identity_root.clone(),
+        identity_record_sha256: packet.identity_record_sha256.clone(),
+        continuity_head: packet.continuity_head.clone(),
+        continuity_record_sha256: packet.continuity_record_sha256.clone(),
+        topology_sha256: sha256_jcs(&packet.rooms),
+        working_set_sha256: sha256_jcs(&packet.working_set),
+        source_packet_ref: packet_ref,
+        canonical_input_sha256: packet.canonical_input_sha256.clone(),
+        packet_sha256: packet.packet_sha256.clone(),
+        context_cache_sha256: cache.cache_sha256.clone(),
+        trace_reference: packet.trace_reference.clone(),
+        redaction_policy_sha256: packet.redaction_policy_sha256.clone(),
+        checkpoint_sha256: String::new(),
+    };
+    checkpoint.checkpoint_sha256 = sha256_jcs(&checkpoint);
+    let mut journal = RuntimeMemoryPalaceJournalEntry {
+        schema: "adl.runtime.memory_palace.journal_entry.v1".to_owned(),
+        generation,
+        predecessor_packet_sha256: None,
+        packet_sha256: packet.packet_sha256.clone(),
+        context_cache_sha256: cache.cache_sha256.clone(),
+        checkpoint_sha256: checkpoint.checkpoint_sha256.clone(),
+        entry_sha256: String::new(),
+    };
+    journal.entry_sha256 = sha256_jcs(&journal);
+    let latest = RuntimeMemoryPalaceLatest {
+        schema: "adl.runtime.memory_palace.latest.v1".to_owned(),
+        generation,
+        packet_sha256: packet.packet_sha256.clone(),
+        checkpoint_sha256: checkpoint.checkpoint_sha256.clone(),
+    };
+    let generation_dir = service_root.join("generations/00000000000000000001");
+    write_jcs(&generation_dir.join("packet.json"), packet);
+    write_jcs(&generation_dir.join("context-cache.json"), &cache);
+    write_jcs(&generation_dir.join("checkpoint.json"), &checkpoint);
+    write_jcs(
+        &service_root.join("journal/00000000000000000001.json"),
+        &journal,
+    );
+    write_jcs(&service_root.join("latest.json"), &latest);
+}
+
 #[test]
 fn memory_palace_fixture_builds_deterministic_obs_mem_handoff() {
     let input = memory_palace_fixture();
@@ -179,15 +257,38 @@ fn memory_palace_fixture_builds_deterministic_obs_mem_handoff() {
 }
 
 #[test]
-fn long_lived_agent_cycle_consumes_memory_palace_context_ref() {
-    let root = unique_test_temp_dir("memory-palace-agent");
+fn memory_palace_adapter_rejects_direct_packet_file_without_runtime_service() {
+    let root = unique_test_temp_dir("memory-palace-direct-packet-rejected");
     let legacy = memory_palace_fixture();
     let runtime_packet = runtime_packet_from_fixture(&legacy, 1);
     fs::write(
         root.join("memory_palace_packet.json"),
         serde_jcs::to_vec(&runtime_packet).unwrap(),
     )
-    .expect("write Runtime Memory Palace packet fixture");
+    .expect("write self-consistent Runtime Memory Palace packet fixture");
+    let memory = json!({
+        "memory_palace": {
+            "input_ref": "memory_palace_packet.json",
+            "max_working_set_items": 1,
+            "stale_after_ms": 1000,
+            "required_continuity_id": h(),
+            "observed_epoch_ms": 4102444800500u64
+        }
+    });
+
+    let error = build_context_from_agent_memory(&memory, &root, "cycle-000001", 4102444800500)
+        .expect_err("direct packet file must not be accepted as Runtime service authority");
+    assert!(error
+        .to_string()
+        .contains("input_ref must point to Runtime service latest.json"));
+}
+
+#[test]
+fn long_lived_agent_cycle_consumes_memory_palace_context_ref() {
+    let root = unique_test_temp_dir("memory-palace-agent");
+    let legacy = memory_palace_fixture();
+    let runtime_packet = runtime_packet_from_fixture(&legacy, 1);
+    write_runtime_memory_palace_service(&root, &runtime_packet);
     let spec = root.join("agent.yaml");
     fs::write(
         &spec,
@@ -215,7 +316,7 @@ memory:
   namespace: smoke/memory-palace
   write_policy: append_only
   memory_palace:
-    input_ref: memory_palace_packet.json
+    input_ref: memory-palace/latest.json
     max_working_set_items: 1
     stale_after_ms: 1000
     required_continuity_id: aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa

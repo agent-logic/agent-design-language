@@ -12,7 +12,6 @@ use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
 #[cfg(test)]
 use std::collections::BTreeSet;
-use std::fs;
 use std::path::{Component, Path, PathBuf};
 
 pub const MEMORY_PALACE_CONTEXT_SCHEMA: &str = "adl.memory_palace_context.v1";
@@ -128,21 +127,22 @@ pub fn build_context_from_agent_memory(
     let config: MemoryPalaceAgentConfig = serde_json::from_value(raw_config.clone())
         .context("memory.memory_palace must be an object with input_ref and bounds")?;
     let observed = config.observed_epoch_ms.unwrap_or(observed_epoch_ms);
-    let input_path = resolve_declared_input(spec_dir, &config.input_ref)?;
-    let raw = fs::read(&input_path).with_context(|| {
-        format!(
-            "failed reading Memory Palace input {}",
-            input_path.display()
-        )
+    let latest_path = resolve_declared_input(spec_dir, &config.input_ref)?;
+    if latest_path.file_name().and_then(|name| name.to_str()) != Some("latest.json") {
+        return Err(anyhow!(
+            "Memory Palace input_ref must point to Runtime service latest.json"
+        ));
+    }
+    let service_root = latest_path.parent().ok_or_else(|| {
+        anyhow!("Memory Palace Runtime service latest.json must have a service directory")
     })?;
-    let packet: KernelMemoryPalaceContextPacket =
-        serde_json::from_slice(&raw).with_context(|| {
-            format!(
-                "failed parsing Runtime Memory Palace packet {}",
-                input_path.display()
-            )
-        })?;
-    project_runtime_packet(cycle_id, &config, &packet, observed).map(Some)
+    let commit = adl_runtime::memory_palace::RuntimeMemoryPalaceService::new(service_root)
+        .load_latest()
+        .map_err(|error| {
+            anyhow!("Runtime Memory Palace service failed durable latest validation: {error:?}")
+        })?
+        .ok_or_else(|| anyhow!("Runtime Memory Palace service has no validated latest packet"))?;
+    project_runtime_packet(cycle_id, &config, &commit.packet, observed).map(Some)
 }
 
 pub fn project_runtime_packet(
