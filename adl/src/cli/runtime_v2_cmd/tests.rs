@@ -56,7 +56,7 @@ const RUNTIME_V2_CLI_REGRESSION_SMOKES: &[&str] = &[
     "godel-agent-runtime:write-json",
     "godel-agent-runtime:arg-validation",
     "contract-market-demo:arg-validation",
-    "governed-tools-flagship-demo:write-bundle",
+    "governed-tools-flagship-demo:production-fixture-refusal",
     "governed-tools-flagship-demo:arg-validation",
     "runtime-v2:path-hygiene",
 ];
@@ -1805,7 +1805,7 @@ fn trace_runtime_v2_governed_tools_flagship_demo_writes_proof_bundle() {
     let repo = temp_repo("governed-tools-flagship-demo");
     let out_dir = repo.join("out/governed-tools-flagship");
 
-    real_runtime_v2_in_repo(
+    let err = real_runtime_v2_in_repo(
         &[
             "governed-tools-flagship-demo".to_string(),
             "--out".to_string(),
@@ -1813,41 +1813,14 @@ fn trace_runtime_v2_governed_tools_flagship_demo_writes_proof_bundle() {
         ],
         &repo,
     )
-    .expect("governed-tools flagship demo");
-
-    assert!(out_dir
-        .join("runtime_v2/governed_tools/flagship_proof_packet.json")
-        .is_file());
-    assert!(out_dir
-        .join("runtime_v2/governed_tools/flagship_operator_report.md")
-        .is_file());
-    assert!(out_dir
-        .join("runtime_v2/governed_tools/flagship_public_report.md")
-        .is_file());
-    assert!(out_dir
-        .join("runtime_v2/governed_tools/support/model_proposal_benchmark_report.json")
-        .is_file());
-    assert!(out_dir
-        .join("runtime_v2/governed_tools/support/dangerous_negative_suite_report.json")
-        .is_file());
-    assert!(out_dir
-        .join("artifacts/runtime-v2-wp18-allowed-read/logs/activation_log.json")
-        .is_file());
-    assert!(out_dir
-        .join("artifacts/runtime-v2-wp18-allowed-read/governed/proposal_arguments.redacted.json")
-        .is_file());
-
-    let json: serde_json::Value = serde_json::from_slice(
-        &fs::read(out_dir.join("runtime_v2/governed_tools/flagship_proof_packet.json"))
-            .expect("proof packet should exist"),
-    )
-    .expect("valid json");
-    assert_eq!(
-        json["schema_version"],
-        "runtime_v2.governed_tools_flagship_proof_packet.v1"
+    .expect_err("production CLI must not actuate the historical fixture adapter");
+    assert!(err
+        .to_string()
+        .contains("wp18.allowed_read executor_outcome must equal \"executed\", found \"refused\""));
+    assert!(
+        !out_dir.exists(),
+        "fixture-backed demo refusal must occur before artifact publication"
     );
-    assert_eq!(json["demo_id"], "D11");
-    assert_eq!(json["proof_classification"], "proving");
 
     fs::remove_dir_all(repo).ok();
 }
@@ -1856,8 +1829,11 @@ fn trace_runtime_v2_governed_tools_flagship_demo_writes_proof_bundle() {
 fn trace_runtime_v2_governed_tools_flagship_demo_validates_stdout_help_and_output_path_rules() {
     let repo = temp_repo("governed-tools-flagship-demo-branches");
 
-    real_runtime_v2_in_repo(&["governed-tools-flagship-demo".to_string()], &repo)
-        .expect("stdout governed-tools flagship demo");
+    let err = real_runtime_v2_in_repo(&["governed-tools-flagship-demo".to_string()], &repo)
+        .expect_err("production stdout demo must refuse the historical fixture adapter");
+    assert!(err
+        .to_string()
+        .contains("wp18.allowed_read executor_outcome must equal \"executed\", found \"refused\""));
     real_runtime_v2_in_repo(
         &[
             "governed-tools-flagship-demo".to_string(),
@@ -1876,10 +1852,10 @@ fn trace_runtime_v2_governed_tools_flagship_demo_validates_stdout_help_and_outpu
         ],
         &repo,
     )
-    .expect_err("absolute output path should fail");
-    assert!(err.to_string().contains(
-        "runtime-v2 governed-tools-flagship-demo --out path must be repository-relative"
-    ));
+    .expect_err("production fixture refusal must precede output publication");
+    assert!(err
+        .to_string()
+        .contains("wp18.allowed_read executor_outcome must equal \"executed\", found \"refused\""));
 
     let err = real_runtime_v2_in_repo(
         &[
