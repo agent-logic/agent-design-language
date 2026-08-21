@@ -24,13 +24,19 @@ def main() -> None:
         fake_uts.write_text(
             """#!/usr/bin/env python3
 import json,pathlib,sys
-a=sys.argv; state=pathlib.Path(a[a.index('--state')+1]); evidence=pathlib.Path(a[a.index('--evidence-dir')+1]); plan=json.load(open(a[a.index('--plan')+1])); phase=a[a.index('--phase')+1]; evidence.mkdir(parents=True,exist_ok=True)
+a=sys.argv
+if a[1:3]==['agent','status']:
+ spec=pathlib.Path(a[a.index('--spec')+1]); locked=spec.parent/'state'/'agent_spec.locked.json'
+ assert json.load(open(spec))==json.load(open(locked)); print(json.dumps({'state':'idle'})); raise SystemExit(0)
+state=pathlib.Path(a[a.index('--state')+1]); evidence=pathlib.Path(a[a.index('--evidence-dir')+1]); plan=json.load(open(a[a.index('--plan')+1])); phase=a[a.index('--phase')+1]; evidence.mkdir(parents=True,exist_ok=True)
 if phase=='pre':
  import hashlib
  digest=lambda x:hashlib.sha256(json.dumps(x,separators=(',',':'),sort_keys=True).encode()).hexdigest()
  runtime=pathlib.Path(a[a.index('--runtime-root')+1]); r={}
  for x in plan['residents']:
-  spec=runtime/'agent-specs'/x['agent_id']/'agent.json'; spec.parent.mkdir(parents=True,exist_ok=True); spec.write_text('{}\\n')
+  spec=runtime/'agent-specs'/x['agent_id']/'agent.json'; spec.parent.mkdir(parents=True,exist_ok=True)
+  body={'schema':'adl.long_lived_agent_spec.v1','agent_instance_id':x['agent_id'],'state_root':'state'}; spec.write_text(json.dumps(body)+'\\n')
+  (spec.parent/'state').mkdir(); (spec.parent/'state'/'agent_spec.locked.json').write_text(json.dumps(body)+'\\n')
   r[x['agent_id']]={'role':x['role'],'model':x['model'],'role_digest':digest({'agent_id':x['agent_id'],'role':x['role']}),'tool_authority_digest':digest({'agent_id':x['agent_id'],'tool_authority':x['tool_authority']}),'runtime_agent_spec':str(spec),'sequence':1,'completed_case_ids':[x['pre_recovery_case']],'pending_case_ids':[x['post_recovery_case']],'uts_report_sha256':'a'*64,'continuation_request_sha256':'b'*64,'checkpoint_lineage':['f'*64],'pre_agent_test_outcome':'denied' if x['agent_id'].endswith('executor') else 'executed'}
  value={'schema':'adl.issue268.six_resident_uts_state.v2','phase':'pre_complete','residents':r}
 elif phase=='replay':
@@ -56,7 +62,7 @@ elif command=='dehydrate': value={'generation':1,'population_sha256':'9'*64,'res
 elif command=='restore':
  root=pathlib.Path(a[a.index('--runtime-root')+1]); restored=root/'restored-populations'/'generation-1'
  for x in residents:
-  source=root/'agent-specs'/x['agent_id']/'agent.json'; target=restored/x['agent_id']/'agent.yaml'; target.parent.mkdir(parents=True,exist_ok=True); target.write_text(source.read_text())
+  source=root/'agent-specs'/x['agent_id']/'agent.continuity.json'; target=restored/x['agent_id']/'agent.yaml'; target.parent.mkdir(parents=True,exist_ok=True); target.write_text(source.read_text())
  (root/'active-population.json').write_text(json.dumps({'generation':1,'path':str(restored),'admission_open':True})+'\\n')
  value={'schema':'adl.runtime.resident_shepherd_restore_receipt.v1','generation':1,'population_sha256':'9'*64,'resident_count':6,'admission_open':True}
 elif command=='complete':
@@ -114,6 +120,8 @@ out.write_text(json.dumps(value)+'\\n')
         assert receipt["status"] == "passed" and receipt["resident_count"] == 6
         assert json.loads((root / "state.json").read_text())["phase"] == "post_complete"
         assert (evidence / "dehydration-input.json").is_file()
+        dehydration = json.loads((evidence / "dehydration-input.json").read_text())
+        assert all(pathlib.Path(path).name == "agent.continuity.json" for path in dehydration["existing_agent_specs"])
         assert (evidence / "continuation-input.json").is_file()
         assert len(list((evidence / "uts").glob("replay-*.json"))) == 6
 

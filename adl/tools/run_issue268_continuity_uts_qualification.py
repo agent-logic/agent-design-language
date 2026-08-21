@@ -101,6 +101,20 @@ def binding_for(resident: dict[str, Any], retained: dict[str, Any]) -> dict[str,
     }
 
 
+def continuity_spec(runtime_bin: pathlib.Path, runtime_spec: pathlib.Path, agent_id: str) -> pathlib.Path:
+    """Create an immutable existing-agent view from Runtime's locked authority."""
+    locked_path = runtime_spec.parent / "state" / "agent_spec.locked.json"
+    if not locked_path.is_file():
+        raise SystemExit(f"{agent_id}: Runtime locked spec is absent before #414 dehydration")
+    locked = read_json(locked_path)
+    if locked.get("agent_instance_id") != agent_id:
+        raise SystemExit(f"{agent_id}: Runtime locked spec identity mismatch")
+    target = runtime_spec.parent / "agent.continuity.json"
+    write_json(target, locked)
+    run([str(runtime_bin), "agent", "status", "--spec", str(target), "--json"])
+    return target
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--continuity-bin", required=True, type=pathlib.Path)
@@ -183,8 +197,8 @@ def main() -> int:
     run(uts_command + ["--phase", "pre"])
 
     state = read_json(args.state)
-    specs = [pathlib.Path(state["residents"][resident["agent_id"]]["runtime_agent_spec"]) for resident in residents]
-    if any(not path.is_file() for path in specs):
+    runtime_specs = [pathlib.Path(state["residents"][resident["agent_id"]]["runtime_agent_spec"]) for resident in residents]
+    if any(not path.is_file() for path in runtime_specs):
         raise SystemExit("six retained Runtime agent specs are required after pre-cycle execution")
     for resident in residents:
         retained = state["residents"][resident["agent_id"]]
@@ -192,6 +206,10 @@ def main() -> int:
             raise SystemExit(f"{resident['agent_id']}: pre-cycle role binding drifted")
         if retained.get("tool_authority_digest") != canonical_digest({"agent_id": resident["agent_id"], "tool_authority": resident["tool_authority"]}):
             raise SystemExit(f"{resident['agent_id']}: pre-cycle tool authority binding drifted")
+    specs = [
+        continuity_spec(args.runtime_bin, spec_path, resident["agent_id"])
+        for resident, spec_path in zip(residents, runtime_specs)
+    ]
     bindings = [binding_for(resident, state["residents"][resident["agent_id"]]) for resident in residents]
     dehydration_input = {
         "residents": bindings,
