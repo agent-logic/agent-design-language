@@ -12,7 +12,7 @@ SPEC.loader.exec_module(MODULE)
 
 assert "stdout=subprocess.DEVNULL" in MODULE_PATH.read_text()
 source_text = MODULE_PATH.read_text()
-assert source_text.count('"--bin", "adl_resident_shepherd_continuity", "--bin", "adl"') == 2
+assert source_text.count('"--bin", "adl_resident_shepherd_continuity", "--bin", "adl", "--bin", "csm"') == 2
 assert 'installed["continuity_binary_sha256"] = sha256(continuity)' in source_text
 
 
@@ -51,10 +51,12 @@ with tempfile.TemporaryDirectory() as value:
     ollama = root / "ollama"
     continuity = root / "continuity"
     runtime = root / "adl"
+    csm = root / "csm"
     models = root / "models"
     ollama.write_bytes(b"ollama")
     continuity.write_bytes(b"continuity")
     runtime.write_bytes(b"runtime")
+    csm.write_bytes(b"csm")
     models.mkdir()
     for relative in MODULE.MODEL_MANIFESTS:
         manifest = models / relative
@@ -67,6 +69,7 @@ with tempfile.TemporaryDirectory() as value:
         "source_receipt_sha256": "e" * 64,
         "runtime_source_identity_sha256": "f" * 64,
         "continuity_runtime_source_identity_sha256": "f" * 64,
+        "csm_runtime_source_identity_sha256": "f" * 64,
     }
     installed = {
         **expected,
@@ -77,6 +80,8 @@ with tempfile.TemporaryDirectory() as value:
         "continuity_binary_sha256": MODULE.sha256(continuity),
         "runtime_binary": str(runtime),
         "runtime_binary_sha256": MODULE.sha256(runtime),
+        "csm_binary": str(csm),
+        "csm_binary_sha256": MODULE.sha256(csm),
         "ollama_models": str(models),
     }
     installed_path = root / "installed.json"

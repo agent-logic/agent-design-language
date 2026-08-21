@@ -93,7 +93,7 @@ def validate_installed(
     for key, value in expected.items():
         if installed.get(key) != value:
             raise ValueError(f"installed Runtime receipt mismatch: {key}")
-    for field in ("ollama_binary", "continuity_binary", "runtime_binary"):
+    for field in ("ollama_binary", "continuity_binary", "runtime_binary", "csm_binary"):
         path = pathlib.Path(installed.get(field, ""))
         if not path.is_file() or sha256(path) != installed.get(f"{field}_sha256"):
             raise ValueError(f"installed Runtime binary mismatch: {field}")
@@ -138,6 +138,7 @@ def install(args: argparse.Namespace) -> dict:
         "source_receipt_sha256": sha256(args.source_receipt),
         "runtime_source_identity_sha256": required_runtime_source_identity,
         "continuity_runtime_source_identity_sha256": required_runtime_source_identity,
+        "csm_runtime_source_identity_sha256": required_runtime_source_identity,
     }
     if receipt_path.exists():
         installed = json.loads(receipt_path.read_text())
@@ -145,21 +146,23 @@ def install(args: argparse.Namespace) -> dict:
         if (not runtime.is_file()
                 or installed.get("runtime_source_identity_sha256") != required_runtime_source_identity
                 or installed.get("continuity_runtime_source_identity_sha256") != required_runtime_source_identity
+                or installed.get("csm_runtime_source_identity_sha256") != required_runtime_source_identity
                 or (runtime.is_file() and sha256(runtime) != installed.get("runtime_binary_sha256"))):
             build_cache.mkdir(parents=True, exist_ok=True)
             environment = os.environ.copy()
             environment["CARGO_TARGET_DIR"] = str(build_cache / "target")
             subprocess.run(
                 ["cargo", "build", "--locked", "--release", "--manifest-path", str(source_root / "adl/Cargo.toml"),
-                 "--bin", "adl_resident_shepherd_continuity", "--bin", "adl"],
+                 "--bin", "adl_resident_shepherd_continuity", "--bin", "adl", "--bin", "csm"],
                 cwd=source_root,
                 env=environment,
                 check=True,
             )
             built_continuity = build_cache / "target/release/adl_resident_shepherd_continuity"
             built_runtime = build_cache / "target/release/adl"
-            if not built_continuity.is_file() or not built_runtime.is_file():
-                raise ValueError("canonical Runtime/continuity binary build output is absent")
+            built_csm = build_cache / "target/release/csm"
+            if not built_continuity.is_file() or not built_runtime.is_file() or not built_csm.is_file():
+                raise ValueError("canonical Runtime/continuity/CSM binary build output is absent")
             continuity = pathlib.Path(installed["continuity_binary"])
             temporary_continuity = continuity.with_suffix(".tmp")
             shutil.copy2(built_continuity, temporary_continuity)
@@ -170,12 +173,20 @@ def install(args: argparse.Namespace) -> dict:
             shutil.copy2(built_runtime, temporary_runtime)
             temporary_runtime.chmod(0o755)
             os.replace(temporary_runtime, runtime)
+            csm = continuity.parent / "csm"
+            temporary_csm = csm.with_suffix(".tmp")
+            shutil.copy2(built_csm, temporary_csm)
+            temporary_csm.chmod(0o755)
+            os.replace(temporary_csm, csm)
             installed["continuity_binary"] = str(continuity)
             installed["continuity_binary_sha256"] = sha256(continuity)
             installed["runtime_binary"] = str(runtime)
             installed["runtime_binary_sha256"] = sha256(runtime)
+            installed["csm_binary"] = str(csm)
+            installed["csm_binary_sha256"] = sha256(csm)
             installed["runtime_source_identity_sha256"] = required_runtime_source_identity
             installed["continuity_runtime_source_identity_sha256"] = required_runtime_source_identity
+            installed["csm_runtime_source_identity_sha256"] = required_runtime_source_identity
             installed["qualification_source_revision"] = args.source_revision
             temporary_receipt = receipt_path.with_suffix(".tmp")
             temporary_receipt.write_text(json.dumps(installed, indent=2, sort_keys=True) + "\n")
@@ -209,26 +220,30 @@ def install(args: argparse.Namespace) -> dict:
     environment["CARGO_TARGET_DIR"] = str(build_cache / "target")
     subprocess.run(
         ["cargo", "build", "--locked", "--release", "--manifest-path", str(source_root / "adl/Cargo.toml"),
-         "--bin", "adl_resident_shepherd_continuity", "--bin", "adl"],
+         "--bin", "adl_resident_shepherd_continuity", "--bin", "adl", "--bin", "csm"],
         cwd=source_root,
         env=environment,
         check=True,
     )
     built = build_cache / "target/release/adl_resident_shepherd_continuity"
     built_runtime = build_cache / "target/release/adl"
-    if not built.is_file() or not built_runtime.is_file():
+    built_csm = build_cache / "target/release/csm"
+    if not built.is_file() or not built_runtime.is_file() or not built_csm.is_file():
         raise ValueError("canonical Runtime build output is absent")
     binary_dir = staging / "bin"
     binary_dir.mkdir()
     continuity = binary_dir / built.name
     runtime = binary_dir / built_runtime.name
+    csm = binary_dir / built_csm.name
     shutil.copy2(built, continuity)
     shutil.copy2(built_runtime, runtime)
+    shutil.copy2(built_csm, csm)
     final_root.parent.mkdir(parents=True, exist_ok=True)
     os.replace(staging, final_root)
     ollama = final_root / ollama_candidates[0].relative_to(staging)
     continuity = final_root / continuity.relative_to(staging)
     runtime = final_root / runtime.relative_to(staging)
+    csm = final_root / csm.relative_to(staging)
     installed = {
         **expected,
         "qualification_source_revision": args.source_revision,
@@ -238,6 +253,8 @@ def install(args: argparse.Namespace) -> dict:
         "continuity_binary_sha256": sha256(continuity),
         "runtime_binary": str(runtime),
         "runtime_binary_sha256": sha256(runtime),
+        "csm_binary": str(csm),
+        "csm_binary_sha256": sha256(csm),
         "ollama_models": str(final_root / "ollama-models/models"),
         "s3_bootstrap_only": True,
         "build_cache_separate": True,

@@ -29,10 +29,12 @@ if args[:2] == ['agent','status']:
     assert spec == locked
     print(json.dumps({'state':'idle'}))
     raise SystemExit(0)
-assert args[:2] == ['agent','tick']
+assert args[:2] == ['agent','tick'] or args[0] == 'daemon'
 cycles=state/'cycles'
 cycles.mkdir(parents=True,exist_ok=True)
 (state/'agent_spec.locked.json').write_text(json.dumps(spec,separators=(',',':'))+'\\n')
+if args[0] == 'daemon':
+ (state/'daemon_status.json').write_text(json.dumps({'schema':'adl.long_lived_agent_daemon_status.v1','state':'completed','bounded_test_mode':True})+'\\n')
 number=len(list(cycles.glob('cycle-*')))+1
 cycle=cycles/f'cycle-{number:06d}'
 cycle.mkdir()
@@ -50,6 +52,7 @@ raise SystemExit(0 if decision=='executed' else 1)
             encoding="utf-8",
         )
         fake.chmod(0o755)
+        shutil.copy2(fake, root / "csm")
         state = root / "state.json"
         evidence = root / "evidence"
         common = [
@@ -79,6 +82,7 @@ raise SystemExit(0 if decision=='executed' else 1)
         workflows = list((root / "runtime" / "agent-specs").glob("*/workflow.adl.yaml"))
         assert len(workflows) == 6
         assert all("timeout_secs: 900" in workflow.read_text() for workflow in workflows)
+        assert len(list((root / "runtime" / "agent-specs").glob("*/state/daemon_status.json"))) == 6
         replay = subprocess.run(common + ["--phase", "pre"], cwd=ROOT, capture_output=True, text=True)
         assert replay.returncode != 0 and "refusing replay" in replay.stderr
         restore_receipt = root / "restore.json"

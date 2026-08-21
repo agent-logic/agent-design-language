@@ -168,6 +168,15 @@ def run_agent(runtime_bin: pathlib.Path, spec: pathlib.Path) -> int:
     return completed.returncode
 
 
+def run_daemon(csm_bin: pathlib.Path, spec: pathlib.Path) -> int:
+    completed = subprocess.run([
+        str(csm_bin), "daemon", "--spec", str(spec),
+        "--checkpoint-interval-secs", "1", "--interval-secs", "1",
+        "--api-bind", "127.0.0.1:0", "--no-sleep", "--json",
+    ], cwd=ROOT, check=False)
+    return completed.returncode
+
+
 def normalize_and_validate_runtime_spec(runtime_bin: pathlib.Path, spec: pathlib.Path, agent_dir: pathlib.Path) -> None:
     """Use the Runtime-owned locked spec as #414's exact existing-agent input."""
     locked_path = agent_dir / "state" / "agent_spec.locked.json"
@@ -200,6 +209,9 @@ def main() -> int:
     args = parser.parse_args()
     if not args.runtime_bin.is_file():
         raise SystemExit("real Runtime binary is required")
+    csm_bin = args.runtime_bin.parent / "csm"
+    if not csm_bin.is_file():
+        raise SystemExit("real CSM daemon binary is required")
     plan = json.loads(args.plan.read_text(encoding="utf-8"))
     panel = json.loads(args.task_panel.read_text(encoding="utf-8"))
     if panel.get("schema") != "adl.issue268.runtime_uts_task_panel.v1" or panel.get("tool") != "runtime.observe":
@@ -297,7 +309,7 @@ def main() -> int:
             if binding.get("authority_sha256") != retained.get("runtime_authority_sha256"):
                 raise SystemExit(f"{agent_id}: restored #414 tool authority mismatch")
         write_workflow(agent_dir / "workflow.adl.yaml", resident, args.phase, task)
-        runtime_exit_code = run_agent(args.runtime_bin, spec_path)
+        runtime_exit_code = run_daemon(csm_bin, spec_path) if args.phase == "pre" else run_agent(args.runtime_bin, spec_path)
         if args.phase == "pre":
             normalize_and_validate_runtime_spec(args.runtime_bin, spec_path, agent_dir)
         cycle_dirs = sorted((agent_dir / "state" / "cycles").glob("cycle-*"))
