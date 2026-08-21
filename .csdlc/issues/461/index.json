@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "c3772d9c4f3292d1eb16999797038d6bc5c89cda26f7d3cf00f3bdd501aefc8c",
   "phase": "implemented",
-  "generation": 11,
-  "digest": "5b21faef5ddcfc9cac95f2beb6ddca0c861d85114cec71add85ea5471fede74c",
+  "generation": 12,
+  "digest": "ff295fb1e123ee5d31d5a91880ac45658ed2830e8da25507fa4312964edb2a2b",
   "branch": "codex/461-runtime-lifecycle-tls-config-only",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-461-runtime-lifecycle-tls-config-only",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f19969ff8ffe213ed7f186c37918a71c6e427d44a552742db97f50d25dda96c3",
+      "values_digest": "1b52726abc05b4124f52d3645c92912847c7ddb56fe2d07532183a203276a00b",
       "rendered_digest": "8a9fbfce0d69f1910ca948878ba44a0ed1a27dc347aea5bcda1970e19aab5739",
       "ast_digest": "26a15fdc1672fa0189ff9832c8f1e7ee65d433eb087bb9bb47008db0d56fbe20"
     },
     "stp": {
-      "values_digest": "fbad4bc03a1d1b2d73fefa2992c09cf2c71d8409709e5fe6f576e67b22f46eb0",
+      "values_digest": "08d0ef78497fccc6b1056ba877e906d02dbde1029df40913efd361f492426b6c",
       "rendered_digest": "4ce1e9873090a53138f6d839f5e8671d698b8daf3c33233396500ec87c6c9efc",
       "ast_digest": "88dbeb732474d45c8e8f6449cb1e1a9b93d66cea7851f51a080a74a9ade7e1f7"
     },
     "spp": {
-      "values_digest": "91763ee73a218c2262a9d1811d600832a4e05c6f599c48bcaf79fbd068752c46",
+      "values_digest": "c4f3c7192c5cd260294a1530766f9fa9dadd1f5a0c44803b18fa5f5d019cfc07",
       "rendered_digest": "dc6a0376f7c799fd51e817b38d7c5d127a4333d909b1ae05dc90d018a7f606b6",
       "ast_digest": "0a12c0d5428d828b25a9132d5d5d6e05a62844891dcb4fba7d8c2ff90715333f"
     },
     "vpp": {
-      "values_digest": "77c2181d848cb75c0ab3dd3c45779ef14ebdc668c6ac1354fca3c2940a7318d2",
+      "values_digest": "14f5335657eabe62f8aab434d07066303b33578621a8919fa477a825f736e4dd",
       "rendered_digest": "36fbf6002ff5cfab2daffd2947e93f99865d0fcb06083b41f144d64e249ea8b9",
       "ast_digest": "686a90346eb7ef2cca2da2554889e3e2a978a91b5bce607a522b277bf2cd07ce"
     },
     "srp": {
-      "values_digest": "53057a13c4a16939b3e64a6cbb69b355ad4dafa3217d45a608ff56ac53d469b5",
+      "values_digest": "3f85e8b99f24db7d29e03630281ff32ff7921a80fbd86971a37a7502e96ab429",
       "rendered_digest": "753d2b9caf226e98f05afb094f89151dcd6d3cbfebd210b14906a5c89be313a9",
       "ast_digest": "ca544fbab6db0a750ee02d5fc1e6125ac50e4e988ca36feb128c62ad89423481"
     },
     "sor": {
-      "values_digest": "74c7710ce2522bff8e096aaa88cdbf04c79948eb4a3ec35ce1f35787c3c2b8ea",
-      "rendered_digest": "f8cb061785d99856b6c41370fb4ef691a3604464e9e02f8a69f765b639f13df6",
-      "ast_digest": "4f8981ff87bc7bd9880da95cba877997d93678923b9ab20bbcfb5fb7c9afb863"
+      "values_digest": "20caba3279c517e17bf2ac1691812f7f267a558bd6d13761cfc2050193e0ba25",
+      "rendered_digest": "bace8994a6db50a62fae3fca9f027995cd03a3194e991a39645536d0db3c053d",
+      "ast_digest": "430a65d524eea656e44e35e121f82d5ff0334c87001b658c506bda691b9c3191"
     }
   },
   "transitions": [
@@ -189,6 +189,13 @@
       "actor": "codex",
       "reason": "Recover the failing review before adding fail-closed Runtime state path containment and refreshing the exact focused test evidence.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex",
+      "reason": "Refresh execution truth after enforcing Runtime-owned state path containment and retaining exact complete lifecycle-soak test evidence.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Make lifecycle TLS authority config-only, snapshot validated opened-file bytes into Runtime-owned state, redact external paths, and prove real HTTPS/WSS Guardian lifecycle and recovered Vector operation.\",\"changes\":[\"Removed lifecycle TLS command inputs and load certificate, private-key, trust-root, and private-continuity TLS authority only from Runtime configuration.\",\"Opened and identity-checked configured TLS files once, captured bytes from the validated handles, and copied them into protected Runtime-owned snapshots before downstream use.\",\"Removed configured external paths from PEM and Guardian diagnostics and added adversarial path-substitution coverage.\",\"Updated the Guardian harness to generate config-owned API and private-continuity TLS, exercise 50 HTTPS and 50 authenticated WSS connections, dependency degradation, Vector recovery, and Runtime restart.\",\"Classified automatically recovered Vector child exits as warnings while preserving errors for recovery persistence or restart failure.\",\"Made the Guardian validator reject nested fail-closed bounded-soak evidence, assigned collision-safe sample slots, and excluded the active proof directory from its own zero-residue contract.\",\"Rejected absolute, traversal, non-directory, and symlink escape in configured Runtime state roots before TLS snapshots or observability files are created.\"],\"artifacts\":[\"adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\",\"adl-runtime-kernel/src/observability.rs\",\"adl-runtime-kernel/tests/observability.rs\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\",\".csdlc/evidence/461/runtime-guardian-config-owned-tls.log\",\".csdlc/evidence/461/runtime-lifecycle-soak-tests.log\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--bin\",\"adl-runtime-lifecycle-soak\",\"short_qualification\",\"--\",\"--nocapture\"],\"purpose\":\"Prove collision-safe short-qualification sampling and fail-closed bounded-soak semantics.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-lifecycle-soak-tests.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--bin\",\"adl-runtime-lifecycle-soak\",\"runtime_state_directories\",\"--\",\"--nocapture\"],\"purpose\":\"Prove absolute, traversal, and symlinked configured state roots cannot escape Runtime-owned state.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-lifecycle-soak-tests.log\"},{\"command\":[\"bash\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\",\"--suite\",\"preflight_1x\"],\"purpose\":\"Execute the real config-owned TLS Guardian lifecycle with HTTPS, WSS, continuity TLS, Vector recovery, and restart.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-guardian-config-owned-tls.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"observability\",\"runtime_vector_pipeline_restarts_child_after_sustained_master_log_stagnation\",\"--\",\"--exact\",\"--nocapture\"],\"purpose\":\"Prove a recovered Vector restart is warning-classified and retains service continuity.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-kernel-vector-recovery.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--bin\",\"adl-runtime-lifecycle-soak\",\"configured_tls\",\"--\",\"--nocapture\"],\"purpose\":\"Prove config-owned TLS permission, symlink, and identity-substitution denial.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-tls-configured-files.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--bin\",\"adl-runtime-lifecycle-soak\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run focused lifecycle-soak Clippy with warnings denied.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-lifecycle-soak-clippy.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run Runtime-kernel Clippy with warnings denied.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-kernel-clippy.log\"},{\"command\":[\"bash\",\"-n\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\",\"adl/tools/run_runtime_v3_operational_proof.sh\"],\"purpose\":\"Validate the lifecycle launch scripts syntactically.\",\"outcome\":\"passed\",\"evidence_ref\":\"tls-launch-shell-syntax.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Verify diff whitespace hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"diff-hygiene.log\"}]}"
     }
   ]
 }

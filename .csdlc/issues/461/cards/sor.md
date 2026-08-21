@@ -21,6 +21,7 @@ Make lifecycle TLS authority config-only, snapshot validated opened-file bytes i
 - adl-runtime-kernel/tests/observability.rs
 - adl/tools/validate_v092_runtime_guardian_lifecycle.sh
 - .csdlc/evidence/461/runtime-guardian-config-owned-tls.log
+- .csdlc/evidence/461/runtime-lifecycle-soak-tests.log
 
 ## Execution
 
@@ -30,6 +31,7 @@ Make lifecycle TLS authority config-only, snapshot validated opened-file bytes i
 - Updated the Guardian harness to generate config-owned API and private-continuity TLS, exercise 50 HTTPS and 50 authenticated WSS connections, dependency degradation, Vector recovery, and Runtime restart.
 - Classified automatically recovered Vector child exits as warnings while preserving errors for recovery persistence or restart failure.
 - Made the Guardian validator reject nested fail-closed bounded-soak evidence, assigned collision-safe sample slots, and excluded the active proof directory from its own zero-residue contract.
+- Rejected absolute, traversal, non-directory, and symlink escape in configured Runtime state roots before TLS snapshots or observability files are created.
 
 ## Validation
 
@@ -48,7 +50,23 @@ Make lifecycle TLS authority config-only, snapshot validated opened-file bytes i
     ],
     "purpose": "Prove collision-safe short-qualification sampling and fail-closed bounded-soak semantics.",
     "outcome": "passed",
-    "evidence_ref": "runtime-guardian-config-owned-tls.log"
+    "evidence_ref": "runtime-lifecycle-soak-tests.log"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--bin",
+      "adl-runtime-lifecycle-soak",
+      "runtime_state_directories",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Prove absolute, traversal, and symlinked configured state roots cannot escape Runtime-owned state.",
+    "outcome": "passed",
+    "evidence_ref": "runtime-lifecycle-soak-tests.log"
   },
   {
     "command": [

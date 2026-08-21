@@ -7,7 +7,7 @@
     "title": "[v0.92][Runtime Security] Make lifecycle TLS authority config-only",
     "slug": "runtime-lifecycle-tls-config-only",
     "version": "v0.92",
-    "generation": 11
+    "generation": 12
   },
   "status": "pre_phase",
   "content": {
@@ -20,14 +20,16 @@
         "Removed configured external paths from PEM and Guardian diagnostics and added adversarial path-substitution coverage.",
         "Updated the Guardian harness to generate config-owned API and private-continuity TLS, exercise 50 HTTPS and 50 authenticated WSS connections, dependency degradation, Vector recovery, and Runtime restart.",
         "Classified automatically recovered Vector child exits as warnings while preserving errors for recovery persistence or restart failure.",
-        "Made the Guardian validator reject nested fail-closed bounded-soak evidence, assigned collision-safe sample slots, and excluded the active proof directory from its own zero-residue contract."
+        "Made the Guardian validator reject nested fail-closed bounded-soak evidence, assigned collision-safe sample slots, and excluded the active proof directory from its own zero-residue contract.",
+        "Rejected absolute, traversal, non-directory, and symlink escape in configured Runtime state roots before TLS snapshots or observability files are created."
       ],
       "artifacts": [
         "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
         "adl-runtime-kernel/src/observability.rs",
         "adl-runtime-kernel/tests/observability.rs",
         "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
-        ".csdlc/evidence/461/runtime-guardian-config-owned-tls.log"
+        ".csdlc/evidence/461/runtime-guardian-config-owned-tls.log",
+        ".csdlc/evidence/461/runtime-lifecycle-soak-tests.log"
       ],
       "actual_validation": [
         {
@@ -44,7 +46,23 @@
           ],
           "purpose": "Prove collision-safe short-qualification sampling and fail-closed bounded-soak semantics.",
           "outcome": "passed",
-          "evidence_ref": "runtime-guardian-config-owned-tls.log"
+          "evidence_ref": "runtime-lifecycle-soak-tests.log"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml",
+            "--bin",
+            "adl-runtime-lifecycle-soak",
+            "runtime_state_directories",
+            "--",
+            "--nocapture"
+          ],
+          "purpose": "Prove absolute, traversal, and symlinked configured state roots cannot escape Runtime-owned state.",
+          "outcome": "passed",
+          "evidence_ref": "runtime-lifecycle-soak-tests.log"
         },
         {
           "command": [

@@ -1,26 +1,23 @@
-
-running 16 tests
-test tests::rejects_removed_tls_command_inputs ... ok
-test tests::accepts_only_the_three_exact_acceptance_suites ... ok
-test tests::pre_restart_probe_barrier_requires_paired_absolute_paths ... ok
-test tests::rejects_partial_or_mixed_acceptance_suites ... ok
-test tests::short_qualification_evidence_fails_closed_when_fanout_is_under_counted ... ok
-test tests::preflight_is_real_but_never_acceptance_eligible ... ok
-test tests::short_qualification_fails_closed_without_dependency_degradation_receipt ... ok
-test tests::toml_path_preserves_windows_paths_through_serializer_round_trip ... ok
-test tests::nonzero_guardian_diagnostic_preserves_child_exit_cause ... ok
-test tests::checked_observability_is_discarded_between_timed_runs ... ok
-test tests::configured_tls_files_fail_closed_on_permissions_and_symlinks ... ok
-test tests::short_qualification_report_binds_production_workload_to_soak_evidence ... ok
-test tests::vector_recovery_receipt_requires_restart_and_recovered_master_log_records_after_baseline ... ok
-test tests::qualification_lock_serializes_the_configured_api_address ... ok
-test tests::aggregates_four_exact_lifecycle_reports_with_compact_clean_logs ... ok
-test tests::init_fixture_uses_config_owned_tls ... ok
-
-test result: ok. 16 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
-
-    Blocking waiting for file lock on build directory
-   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-461-runtime-lifecycle-tls-config-only/adl-runtime-kernel)
-   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-461-runtime-lifecycle-tls-config-only/adl-runtime)
-    Finished `test` profile [unoptimized + debuginfo] target(s) in 16.71s
-     Running unittests src/bin/adl-runtime-lifecycle-soak.rs (adl-runtime/target/debug/deps/adl_runtime_lifecycle_soak-fdc15fc010d0475a)
+command=cargo test --manifest-path adl-runtime/Cargo.toml --bin adl-runtime-lifecycle-soak -- --nocapture
+revision=9da9da02a68f8084d5315c7cd1f4b19a4bcc3c93
+running=19
+accepts_only_the_three_exact_acceptance_suites=ok
+checked_observability_is_discarded_between_timed_runs=ok
+runtime_state_directories_reject_absolute_and_traversal_escape=ok
+rejects_partial_or_mixed_acceptance_suites=ok
+runtime_state_directories_reject_symlink_escape=ok
+pre_restart_probe_barrier_requires_paired_absolute_paths=ok
+short_qualification_samples_keep_identity_when_phases_share_a_second=ok
+short_qualification_fails_closed_without_dependency_degradation_receipt=ok
+short_qualification_evidence_fails_closed_when_fanout_is_under_counted=ok
+toml_path_preserves_windows_paths_through_serializer_round_trip=ok
+nonzero_guardian_diagnostic_preserves_child_exit_cause=ok
+preflight_is_real_but_never_acceptance_eligible=ok
+short_qualification_report_binds_production_workload_to_soak_evidence=ok
+rejects_removed_tls_command_inputs=ok
+configured_tls_files_fail_closed_on_permissions_and_symlinks=ok
+vector_recovery_receipt_requires_restart_and_recovered_master_log_records_after_baseline=ok
+aggregates_four_exact_lifecycle_reports_with_compact_clean_logs=ok
+init_fixture_uses_config_owned_tls=ok
+qualification_lock_serializes_the_configured_api_address=ok
+result=19 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out
