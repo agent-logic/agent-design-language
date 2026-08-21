@@ -59,12 +59,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The prior hosted Runtime coverage run failed once in an unrelated distributed learner test that passed immediately at this exact product tree; the retry commit changes no bytes and exists only to obtain a fresh hosted observation.
 
 ## Review Result
 
-Revision: Some("git-blake3:6da917c6b7c9b9dc7b51ed32ce78f2b541db8487:f94af6b0a6e2c2779010e1230ed8855a811234fde70aa668e2d48aa989c6e895")
+Revision: Some("git-blake3:3c612a0c302d1a34562b9e0c160b12aca91222e3:b7d47241fd7a007546de44ef5ab1d515da64a7e91aedbc16622c99e40e4cb2eb")
 
-Reviewer: Some("fresh-session:2c2aa3f3-aadd-4860-97c4-5921379e14d4")
+Reviewer: Some("fresh-session:ee38a5f5-8c0f-4622-9790-0d460f513298")
 
 Result: pass

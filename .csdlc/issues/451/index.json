@@ -5,14 +5,14 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b9c2d7027cdbbd3b729c65e5834eb5a267bdfd975d7bfa5524071e7831956e5e",
   "phase": "published",
-  "generation": 19,
-  "digest": "82feb261d4febb84e8bd60afe75808df7a6f9f61270053f2971cd998a27adb6f",
+  "generation": 22,
+  "digest": "6cf7abf62055ea6a6542fad609e8f3271f18acce2df7facb595557e6f11ddc26",
   "branch": "codex/451-production-birthday-witness-activation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-451-production-birthday-witness-activation",
   "review_assignment": {
-    "reviewer": "fresh-session:2c2aa3f3-aadd-4860-97c4-5921379e14d4",
+    "reviewer": "fresh-session:ee38a5f5-8c0f-4622-9790-0d460f513298",
     "assigned_by": "codex:/root",
-    "revision": "git-blake3:6da917c6b7c9b9dc7b51ed32ce78f2b541db8487:f94af6b0a6e2c2779010e1230ed8855a811234fde70aa668e2d48aa989c6e895",
+    "revision": "git-blake3:3c612a0c302d1a34562b9e0c160b12aca91222e3:b7d47241fd7a007546de44ef5ab1d515da64a7e91aedbc16622c99e40e4cb2eb",
     "scope": [
       ".csdlc/evidence/451",
       ".csdlc/issues/451",
@@ -44,7 +44,7 @@
     ]
   },
   "review": {
-    "reviewer": "fresh-session:2c2aa3f3-aadd-4860-97c4-5921379e14d4",
+    "reviewer": "fresh-session:ee38a5f5-8c0f-4622-9790-0d460f513298",
     "scope": [
       ".csdlc/evidence/451",
       ".csdlc/issues/451",
@@ -74,9 +74,11 @@
       "docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md",
       "docs/planning/ADL_FEATURE_LIST.md"
     ],
-    "reviewed_revision": "git-blake3:6da917c6b7c9b9dc7b51ed32ce78f2b541db8487:f94af6b0a6e2c2779010e1230ed8855a811234fde70aa668e2d48aa989c6e895",
+    "reviewed_revision": "git-blake3:3c612a0c302d1a34562b9e0c160b12aca91222e3:b7d47241fd7a007546de44ef5ab1d515da64a7e91aedbc16622c99e40e4cb2eb",
     "findings": [],
-    "residual_risks": [],
+    "residual_risks": [
+      "The prior hosted Runtime coverage run failed once in an unrelated distributed learner test that passed immediately at this exact product tree; the retry commit changes no bytes and exists only to obtain a fresh hosted observation."
+    ],
     "completed": true,
     "non_substantive_proof": null
   },
@@ -87,7 +89,7 @@
     "url": "https://github.com/agent-logic/agent-design-language/pull/459",
     "base": "main",
     "head": "codex/451-production-birthday-witness-activation",
-    "revision": "git-blake3:6703241d628a39d1dd4552f779c7a39b6b9173d1:b4f549ebf4a05e9a7a3fcf0e153dec6a2c7657efe1a0233eac6ba7cc0e7d4023",
+    "revision": "git-blake3:3c612a0c302d1a34562b9e0c160b12aca91222e3:b7d47241fd7a007546de44ef5ab1d515da64a7e91aedbc16622c99e40e4cb2eb",
     "linkage_mode": "closing",
     "draft": false,
     "observed_state": "open"
@@ -105,32 +107,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "967aae9467c83417342a64775608428adadc9d14e14b64980b683d6ae8bd117d",
+      "values_digest": "4d354e1827a10f0a1470d5933064481ccfe4e6a2671bc4a2c364cc48a7969ed8",
       "rendered_digest": "eadb6c2cc3035ca4dae94df535e206a938d256fc5937c858408cc5b86cb4ea99",
       "ast_digest": "f0cea1e2c58d406c14f2a0978ea405f57bce122026f1fc085589993f55ab3a8b"
     },
     "stp": {
-      "values_digest": "fc6e2ad43a2913e716a29d9f859e6dcdac0f7280c414d96fb1685f603863f012",
+      "values_digest": "e12175d0cbab6d596e9d8fc1f536fec37b99dc1f54797b383906069731646a53",
       "rendered_digest": "9ae8e31a25c4344bd5564591ee81b983e5b7876e818723169f1fe5b4a71d8f4d",
       "ast_digest": "08e42884cb056fc338f9e5cbb8ab232743375906d9334fa1726ee60bb4698bce"
     },
     "spp": {
-      "values_digest": "392266a78594d7255ca946e5e248e5172efc942d167076d62fbc3e2c932f3b9d",
+      "values_digest": "a30826bbcefb5cbd12596045184676de1e01ef096dbede6e5949796777477647",
       "rendered_digest": "39293630a529338dfa900dc1eab24bf5eac2165766972942527543457466610d",
       "ast_digest": "8ad451dc30bbe8a4a23a3804b94d8390828f02e0469e1e9e63b0d889857a48cb"
     },
     "vpp": {
-      "values_digest": "3906d439c85bc50a196418c85d2fe308aa3d68d5ff6f42fa0afb44f6e7b08901",
+      "values_digest": "58270a33d3631fe896e511ebc70156c1144ab6b8ce447c113151d34461270169",
       "rendered_digest": "5dd80157e09af02d07bb352c64895f5778b98719516a2637641046258e0d0e5f",
       "ast_digest": "9ccf9013c0ee0a0efd4ecde2bd167f2e696adb6aa07a550792074fddfd188371"
     },
     "srp": {
-      "values_digest": "188954c9511d1ecff88b324e688ae35be8d80da779b353ba4cbdd85a00df3346",
-      "rendered_digest": "351b6d2451bc51f8a9e3e54320b1256b3ccbd7abff1c4a989b3a15a649d65601",
-      "ast_digest": "c074402f47f1ba325c9e5167ae6a6dd571f4d6d8d149cc02e60af657adbb889a"
+      "values_digest": "f8c7f8a153c21353448c5b9d2be03c0631bc7058182762b55d26cc94567a8be7",
+      "rendered_digest": "d3486c02ea9eb89f2f165fd833fccc6ee38e58902aafc48cc58104786181bd34",
+      "ast_digest": "a453b8bf21693a90358a5f1c47d40f45e9130937f989b12dad79e3c589578d58"
     },
     "sor": {
-      "values_digest": "3f4e6802d7469243bbb1a267b9a41088cffd8c5428f0f229914f56db19a2ee79",
+      "values_digest": "dd8959e1ab442537fc1cefeac55a977c4f8a2ca78a29ee24575d3ba198a2e06a",
       "rendered_digest": "f5d2ed8beaed167e3a596229ea965cae27f9819d8a3cbf6dff24c5e779211412",
       "ast_digest": "4347901178a397ff068a5d1aa5467b70ddc5680a553e0fcc6695c8dcd9ed79ae"
     }
@@ -166,6 +168,27 @@
     },
     {
       "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover exact-head review authority after a review-neutral empty commit used solely to retrigger the transiently failed hosted Runtime coverage lane; no source, test, evidence, or card bytes changed."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
       "from": "reviewed",
       "to": "published",
       "actor": "codex:/root",
@@ -344,6 +367,34 @@
     {
       "sequence": 25,
       "generation": 19,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 26,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "Recover exact-head review authority after a review-neutral empty commit used solely to retrigger the transiently failed hosted Runtime coverage lane; no source, test, evidence, or card bytes changed.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 22,
       "actor": "codex:/root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
