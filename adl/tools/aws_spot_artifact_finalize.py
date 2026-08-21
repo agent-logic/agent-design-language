@@ -202,18 +202,26 @@ def main() -> int:
     cache_volume_id = cache.get("volume_id") if isinstance(cache.get("volume_id"), str) else ""
     require(sha256(cache_volume_id) == args.expected_cache_volume_id_sha256, failures, "retained_cache_identity_mismatch")
     require(cache.get("attachment_state") == "attached", failures, "retained_cache_not_attached")
+    cloudformation_adoption = launch_surface.get("provisioning_mode") == "cloudformation_existing_instance"
     expected_mount = (
-        "/mnt/adl-runtime-continuity"
-        if args.expected_retained_volume_role == "runtime_continuity"
-        else "/mnt/adl-cache"
+        "/opt/adl-runtime"
+        if cloudformation_adoption
+        else (
+            "/mnt/adl-runtime-continuity"
+            if args.expected_retained_volume_role == "runtime_continuity"
+            else "/mnt/adl-cache"
+        )
     )
     require(cache.get("mount_path") == expected_mount, failures, "retained_volume_mount_mismatch")
     require(cleanup.get("termination_attempted") is True, failures, "compute_termination_not_attempted")
     require(cleanup.get("final_instance_state") == "terminated", failures, "compute_not_terminated")
     require(not cleanup.get("termination_error"), failures, "compute_termination_error")
-    require(launch_surface.get("ssh_debug_enabled") is True, failures, "ssh_debug_not_enabled")
-    require("status=ssh_debug_ready" in command_status, failures, "ssh_recovery_not_proven")
-    require("status=ssh_tail_started" in command_status, failures, "live_ssh_tail_not_proven")
+    if cloudformation_adoption:
+        require(launch_surface.get("ssh_debug_enabled") is False, failures, "cloudformation_no_ingress_drifted")
+    else:
+        require(launch_surface.get("ssh_debug_enabled") is True, failures, "ssh_debug_not_enabled")
+        require("status=ssh_debug_ready" in command_status, failures, "ssh_recovery_not_proven")
+        require("status=ssh_tail_started" in command_status, failures, "live_ssh_tail_not_proven")
     if args.validation_environment == "immutable_builder":
         require(builder.get("builder_image_immutable") is True, failures, "builder_image_not_immutable")
         require(builder.get("builder_image_digest_sha256") == expected_digest_hash, failures, "builder_image_digest_mismatch")
@@ -250,8 +258,8 @@ def main() -> int:
         "retained_cache_verified": cache.get("created") is False and cache.get("attachment_state") == "attached",
         "retained_cache_identity_verified": sha256(cache_volume_id) == args.expected_cache_volume_id_sha256,
         "cache_mount_health_verified": (builder.get("cache_mount_verified") is True and builder.get("cache_writable") is True) if args.validation_environment == "immutable_builder" else (cache.get("attachment_state") == "attached" and cache.get("mount_path") == expected_mount),
-        "ssh_recovery_verified": "status=ssh_debug_ready" in command_status,
-        "live_logs_verified": "status=ssh_tail_started" in command_status,
+        "ssh_recovery_verified": None if cloudformation_adoption else "status=ssh_debug_ready" in command_status,
+        "live_logs_verified": None if cloudformation_adoption else "status=ssh_tail_started" in command_status,
         "compute_teardown_verified": cleanup.get("final_instance_state") == "terminated" and not cleanup.get("termination_error"),
         "host_validation_tools_installed": builder.get("host_validation_tools_installed") if args.validation_environment == "immutable_builder" else True,
     }

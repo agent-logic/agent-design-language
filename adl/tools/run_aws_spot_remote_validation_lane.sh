@@ -85,6 +85,8 @@ RETAINED_CACHE_VOLUME_ID=""
 RUNTIME_CONTINUITY_VOLUME_ID="${ADL_AWS_RUNTIME_CONTINUITY_VOLUME_ID:-}"
 RUNTIME_CONTINUITY_VOLUME_NAME="${ADL_AWS_RUNTIME_CONTINUITY_VOLUME_NAME:-}"
 RUNTIME_CONTINUITY_VOLUME_ID_SHA256="${ADL_AWS_RUNTIME_CONTINUITY_VOLUME_ID_SHA256:-}"
+EXISTING_INSTANCE_ID="${ADL_AWS_EXISTING_INSTANCE_ID:-}"
+PRE_MOUNTED_RUNTIME_ROOT="${ADL_AWS_PRE_MOUNTED_RUNTIME_ROOT:-}"
 
 usage() {
   cat <<'USAGE'
@@ -965,7 +967,22 @@ if [[ "$RUN" == true || "$ACTION" == "preflight" ]]; then
   fi
   resolve_spot_hourly_cost
   validate_portable_capacity_and_cost
-  if [[ -n "$RUNTIME_CONTINUITY_VOLUME_ID" ]]; then
+  if [[ -n "$EXISTING_INSTANCE_ID" ]]; then
+    [[ "$ISSUE" == 268 && "$ON_DEMAND_ONLY" == true && "$MAX_SPOT_RETRIES" == 0 \
+        && "$EXISTING_INSTANCE_ID" =~ ^i-[0-9a-f]{8,17}$ \
+        && "$RUNTIME_CONTINUITY_VOLUME_ID" =~ ^vol-[0-9a-f]{8,17}$ \
+        && "$RUNTIME_CONTINUITY_VOLUME_ID_SHA256" =~ ^[0-9a-f]{64}$ \
+        && "$PRE_MOUNTED_RUNTIME_ROOT" == /opt/adl-runtime ]] || {
+      echo "run_aws_spot_remote_validation_lane: invalid CloudFormation adoption contract" >&2
+      exit 1
+    }
+    actual_runtime_hash="$(python3 -c 'import hashlib,sys; print(hashlib.sha256(sys.argv[1].encode()).hexdigest())' "$RUNTIME_CONTINUITY_VOLUME_ID")"
+    [[ "$actual_runtime_hash" == "$RUNTIME_CONTINUITY_VOLUME_ID_SHA256" ]] || {
+      echo "run_aws_spot_remote_validation_lane: adopted Runtime volume identity mismatch" >&2
+      exit 1
+    }
+    EXPECTED_CACHE_VOLUME_ID_SHA256="$RUNTIME_CONTINUITY_VOLUME_ID_SHA256"
+  elif [[ -n "$RUNTIME_CONTINUITY_VOLUME_ID" ]]; then
     [[ "$SUBNET_ID" =~ ^subnet-[0-9a-f]{8,17}$ ]] || {
       echo "run_aws_spot_remote_validation_lane: Runtime continuity volume requires an explicit colocated subnet" >&2
       exit 1
@@ -987,7 +1004,9 @@ if [[ "$RUN" == true || "$ACTION" == "preflight" ]]; then
   else
     resolve_and_verify_retained_topology
   fi
-  verify_ssh_recovery_key
+  if [[ -z "$EXISTING_INSTANCE_ID" ]]; then
+    verify_ssh_recovery_key
+  fi
 fi
 
 if [[ "$ACTION" == "preflight" ]]; then
@@ -1040,24 +1059,35 @@ cmd=(
   --out "$OUT_PATH"
   --artifact-dir "$ARTIFACT_DIR"
   --max-spot-retries "$MAX_SPOT_RETRIES"
-  --cache-volume-id "$RETAINED_CACHE_VOLUME_ID"
-  --cache-volume-name "$CACHE_VOLUME_NAME"
-  --cache-volume-size-gib "$CACHE_VOLUME_SIZE_GIB"
-  --cache-volume-type "$CACHE_VOLUME_TYPE"
-  --cache-volume-iops "$CACHE_VOLUME_IOPS"
-  --cache-volume-throughput-mbps "$CACHE_VOLUME_THROUGHPUT_MBPS"
-  --cache-volume-device-name "$CACHE_VOLUME_DEVICE_NAME"
-  --cache-volume-mount-path "$CACHE_VOLUME_MOUNT_PATH"
   --ami-id "$AMI_ID"
   --subnet-id "$SUBNET_ID"
 )
+if [[ -n "$EXISTING_INSTANCE_ID" ]]; then
+  cmd+=(
+    --existing-instance-id "$EXISTING_INSTANCE_ID"
+    --pre-mounted-runtime-volume-id "$RUNTIME_CONTINUITY_VOLUME_ID"
+    --pre-mounted-runtime-root "$PRE_MOUNTED_RUNTIME_ROOT"
+    --pre-mounted-runtime-volume-id-sha256 "$RUNTIME_CONTINUITY_VOLUME_ID_SHA256"
+  )
+else
+  cmd+=(
+    --cache-volume-id "$RETAINED_CACHE_VOLUME_ID"
+    --cache-volume-name "$CACHE_VOLUME_NAME"
+    --cache-volume-size-gib "$CACHE_VOLUME_SIZE_GIB"
+    --cache-volume-type "$CACHE_VOLUME_TYPE"
+    --cache-volume-iops "$CACHE_VOLUME_IOPS"
+    --cache-volume-throughput-mbps "$CACHE_VOLUME_THROUGHPUT_MBPS"
+    --cache-volume-device-name "$CACHE_VOLUME_DEVICE_NAME"
+    --cache-volume-mount-path "$CACHE_VOLUME_MOUNT_PATH"
+  )
+fi
 if [[ "$ON_DEMAND_ONLY" == true ]]; then
   cmd+=(--on-demand-only)
 else
   cmd+=(--spot-only)
 fi
 
-if [[ -n "$SSH_KEY_NAME" ]]; then
+if [[ -z "$EXISTING_INSTANCE_ID" && -n "$SSH_KEY_NAME" ]]; then
   cmd+=(--ssh-key-name "$SSH_KEY_NAME")
   cmd+=(--ssh-private-key-path "$SSH_PRIVATE_KEY_PATH")
   cmd+=(--ssh-user "$SSH_USER")

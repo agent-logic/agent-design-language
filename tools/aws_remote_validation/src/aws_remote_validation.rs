@@ -1120,6 +1120,24 @@ pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
                     initial_state: result.initial_state,
                 });
                 instance_id = Some(result.instance_id);
+                cache_volume = Some(CacheVolumeRecord {
+                    name: "cloudformation-retained-runtime".to_string(),
+                    volume_id: config
+                        .pre_mounted_runtime_volume_id
+                        .clone()
+                        .unwrap_or_default(),
+                    // Shape and placement remain CloudFormation authority; this
+                    // record binds only the adopted attachment and mount role.
+                    availability_zone: "cloudformation-managed".to_string(),
+                    size_gib: 0,
+                    volume_type: "cloudformation-managed".to_string(),
+                    iops: None,
+                    throughput_mbps: None,
+                    device_name: "cloudformation-managed".to_string(),
+                    mount_path: config.pre_mounted_runtime_root.clone().unwrap_or_default(),
+                    created: false,
+                    attachment_state: "attached".to_string(),
+                });
                 attempts.push(AttemptRecord {
                     instance_type,
                     purchase_option: PurchaseOption::OnDemand,

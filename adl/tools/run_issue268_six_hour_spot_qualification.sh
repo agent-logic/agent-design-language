@@ -3,7 +3,7 @@ set -euo pipefail
 
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd -P)
 MODE=${1:-}
-RUN_ID=issue268-six-hour-r7i-20260821-53
+RUN_ID=issue268-six-hour-r7i-20260821-54
 EVIDENCE_ROOT=${ADL_ISSUE268_EVIDENCE_ROOT:-$ROOT/.csdlc/evidence/268/aws/$RUN_ID}
 REQUEST="$EVIDENCE_ROOT/portable-request.json"
 SUMMARY="$EVIDENCE_ROOT/summary.json"
@@ -23,6 +23,14 @@ RUNTIME_VOLUME_ID=${ADL_AWS_RUNTIME_CONTINUITY_VOLUME_ID:-}
 RUNTIME_VOLUME_NAME=${ADL_AWS_RUNTIME_CONTINUITY_VOLUME_NAME:-}
 RUNTIME_VOLUME_ID_SHA256=${ADL_AWS_RUNTIME_CONTINUITY_VOLUME_ID_SHA256:-}
 HOURLY=${ADL_ISSUE268_ESTIMATED_HOURLY_COST_USD:-}
+CFN_TEMPLATE="$ROOT/adl/tools/issue268_runtime_qualification.cloudformation.yaml"
+CFN_STACK_NAME="adl-issue268-runtime-54"
+CFN_SUBNET_ID=${ADL_ISSUE268_SUBNET_ID:-${ADL_AWS_REMOTE_VALIDATION_SUBNET_ID:-}}
+CFN_SECURITY_GROUP_ID=${ADL_ISSUE268_SECURITY_GROUP_ID:-}
+CFN_AVAILABILITY_ZONE=${ADL_ISSUE268_AVAILABILITY_ZONE:-}
+CFN_RUNTIME_SNAPSHOT_ID=${ADL_ISSUE268_RUNTIME_SNAPSHOT_ID:-}
+CFN_BOOTSTRAP_BUCKET=${ADL_ISSUE268_BOOTSTRAP_BUCKET:-adl-shepherd-model-artifacts-b05e1f4379b5c745-us-west-2}
+CFN_BOOTSTRAP_PREFIX=${ADL_ISSUE268_BOOTSTRAP_PREFIX:-shepherd/}
 
 usage() {
   echo "usage: $0 preflight|authorized-launch|terminal-status|validate" >&2
@@ -52,15 +60,12 @@ PY
 python3 "$UTS_PLAN_VALIDATOR" >/dev/null
 
 if [[ "$MODE" == preflight || "$MODE" == authorized-launch ]]; then
-  [[ "$RUNTIME_VOLUME_ID" =~ ^vol-[0-9a-f]{8,17}$ \
-      && -n "$RUNTIME_VOLUME_NAME" \
-      && "$RUNTIME_VOLUME_ID_SHA256" =~ ^[0-9a-f]{64}$ ]] || {
-    echo "issue268: exact persistent Runtime EBS volume id, name, and identity digest required" >&2
-    exit 77
-  }
-  actual_volume_hash=$(python3 -c 'import hashlib,sys; print(hashlib.sha256(sys.argv[1].encode()).hexdigest())' "$RUNTIME_VOLUME_ID")
-  [[ "$actual_volume_hash" == "$RUNTIME_VOLUME_ID_SHA256" ]] || {
-    echo "issue268: persistent Runtime EBS volume identity mismatch" >&2
+  [[ -f "$CFN_TEMPLATE" \
+      && "$CFN_SUBNET_ID" =~ ^subnet-[0-9a-f]{8,17}$ \
+      && "$CFN_SECURITY_GROUP_ID" =~ ^sg-[0-9a-f]{8,17}$ \
+      && "$CFN_RUNTIME_SNAPSHOT_ID" =~ ^snap-[0-9a-f]{8,17}$ \
+      && -n "$CFN_AVAILABILITY_ZONE" ]] || {
+    echo "issue268: exact CloudFormation subnet, no-ingress security group, availability zone, and Runtime snapshot are required" >&2
     exit 77
   }
   [[ "$HOURLY" =~ ^[0-9]+([.][0-9]+)?$ ]] || {
@@ -141,14 +146,56 @@ common=(
   --max-spot-retries 0 --out "$SUMMARY" --artifact-dir "$ARTIFACTS" --json
   --on-demand-only
   --estimated-hourly-cost-usd "$HOURLY"
-  --runtime-continuity-volume-id "$RUNTIME_VOLUME_ID"
-  --runtime-continuity-volume-name "$RUNTIME_VOLUME_NAME"
-  --runtime-continuity-volume-id-sha256 "$RUNTIME_VOLUME_ID_SHA256"
 )
+
+profile_args=()
+if [[ "$PROFILE" != env && "$PROFILE" != environment ]]; then
+  profile_args=(--profile "$PROFILE")
+fi
+
+validate_cloudformation_inputs() {
+  "$AWS_CLI" "${profile_args[@]}" --region "$REGION" cloudformation validate-template \
+    --template-body "file://$CFN_TEMPLATE" >/dev/null
+  local subnet_az ingress_count
+  subnet_az=$("$AWS_CLI" "${profile_args[@]}" --region "$REGION" ec2 describe-subnets \
+    --subnet-ids "$CFN_SUBNET_ID" --query 'Subnets[0].AvailabilityZone' --output text)
+  ingress_count=$("$AWS_CLI" "${profile_args[@]}" --region "$REGION" ec2 describe-security-groups \
+    --group-ids "$CFN_SECURITY_GROUP_ID" --query 'length(SecurityGroups[0].IpPermissions)' --output text)
+  [[ "$subnet_az" == "$CFN_AVAILABILITY_ZONE" && "$ingress_count" == 0 ]] || {
+    echo "issue268: CloudFormation subnet/AZ or no-ingress security-group contract failed" >&2
+    return 1
+  }
+}
+
+delete_cloudformation_stack() {
+  "$AWS_CLI" "${profile_args[@]}" --region "$REGION" cloudformation delete-stack \
+    --stack-name "$CFN_STACK_NAME" >/dev/null 2>&1 || return 1
+  "$AWS_CLI" "${profile_args[@]}" --region "$REGION" cloudformation wait stack-delete-complete \
+    --stack-name "$CFN_STACK_NAME" >/dev/null 2>&1
+}
 
 case "$MODE" in
   preflight)
-    "$OWNER" preflight --check-account "${common[@]}"
+    validate_cloudformation_inputs
+    python3 - "$RUN_ID" "$REVISION" "$CFN_STACK_NAME" "$HOURLY" <<'PY'
+import hashlib, json, sys
+run_id, revision, stack_name, hourly = sys.argv[1:]
+print(json.dumps({
+    "schema":"adl.issue268.cloudformation_preflight.v1",
+    "status":"ready",
+    "run_id":run_id,
+    "revision":revision,
+    "stack_name_sha256":hashlib.sha256(stack_name.encode()).hexdigest(),
+    "instance_type":"r7i.2xlarge",
+    "purchase_option":"on_demand",
+    "max_attempts":1,
+    "fallback":"disabled",
+    "timeout_seconds":25200,
+    "expected_max_cost_usd":20.0,
+    "estimated_hourly_cost_usd":float(hourly),
+    "aws_resources_created":False,
+},sort_keys=True))
+PY
     ;;
   authorized-launch)
     if [[ -e "$LAUNCH_CLAIM" ]]; then
@@ -165,9 +212,57 @@ PY
       echo "issue268: another launch invocation owns the one-attempt claim" >&2
       exit 75
     }
-    # Keep the paid owner in this foreground process. Desktop task boundaries
-    # do not preserve the detached manager used by the generic `launch` action.
-    "$OWNER" run --run "${common[@]}"
+    validate_cloudformation_inputs
+    "$AWS_CLI" "${profile_args[@]}" --region "$REGION" cloudformation create-stack \
+      --stack-name "$CFN_STACK_NAME" \
+      --template-body "file://$CFN_TEMPLATE" \
+      --capabilities CAPABILITY_IAM \
+      --parameters \
+        "ParameterKey=RunId,ParameterValue=$RUN_ID" \
+        "ParameterKey=AvailabilityZone,ParameterValue=$CFN_AVAILABILITY_ZONE" \
+        "ParameterKey=SubnetId,ParameterValue=$CFN_SUBNET_ID" \
+        "ParameterKey=SecurityGroupId,ParameterValue=$CFN_SECURITY_GROUP_ID" \
+        "ParameterKey=RuntimeSnapshotId,ParameterValue=$CFN_RUNTIME_SNAPSHOT_ID" \
+        "ParameterKey=BootstrapBucket,ParameterValue=$CFN_BOOTSTRAP_BUCKET" \
+        "ParameterKey=BootstrapPrefix,ParameterValue=$CFN_BOOTSTRAP_PREFIX" \
+      --tags "Key=adl:issue,Value=268" "Key=adl:run_id,Value=$RUN_ID" >/dev/null
+    "$AWS_CLI" "${profile_args[@]}" --region "$REGION" cloudformation wait stack-create-complete \
+      --stack-name "$CFN_STACK_NAME"
+    RUNTIME_INSTANCE_ID=$("$AWS_CLI" "${profile_args[@]}" --region "$REGION" cloudformation describe-stacks \
+      --stack-name "$CFN_STACK_NAME" --query 'Stacks[0].Outputs[?OutputKey==`InstanceId`].OutputValue|[0]' --output text)
+    RUNTIME_VOLUME_ID=$("$AWS_CLI" "${profile_args[@]}" --region "$REGION" cloudformation describe-stacks \
+      --stack-name "$CFN_STACK_NAME" --query 'Stacks[0].Outputs[?OutputKey==`RuntimeVolumeId`].OutputValue|[0]' --output text)
+    [[ "$RUNTIME_INSTANCE_ID" =~ ^i-[0-9a-f]{8,17}$ && "$RUNTIME_VOLUME_ID" =~ ^vol-[0-9a-f]{8,17}$ ]] || {
+      delete_cloudformation_stack || true
+      echo "issue268: CloudFormation outputs were incomplete" >&2
+      exit 70
+    }
+    RUNTIME_VOLUME_ID_SHA256=$(python3 -c 'import hashlib,sys; print(hashlib.sha256(sys.argv[1].encode()).hexdigest())' "$RUNTIME_VOLUME_ID")
+    RUNTIME_VOLUME_NAME="$RUN_ID-runtime"
+    python3 - "$EVIDENCE_ROOT/cloudformation.json" "$CFN_STACK_NAME" "$RUNTIME_INSTANCE_ID" "$RUNTIME_VOLUME_ID" <<'PY'
+import hashlib, json, os, pathlib, sys
+path, stack, instance, volume = sys.argv[1:]
+payload={"schema":"adl.issue268.cloudformation.v1","status":"created","stack_name_sha256":hashlib.sha256(stack.encode()).hexdigest(),"instance_id_sha256":hashlib.sha256(instance.encode()).hexdigest(),"runtime_volume_id_sha256":hashlib.sha256(volume.encode()).hexdigest()}
+p=pathlib.Path(path); t=p.with_suffix('.tmp'); t.write_text(json.dumps(payload,sort_keys=True)+'\n'); os.replace(t,p)
+PY
+    set +e
+    ADL_AWS_EXISTING_INSTANCE_ID="$RUNTIME_INSTANCE_ID" \
+    ADL_AWS_PRE_MOUNTED_RUNTIME_ROOT=/opt/adl-runtime \
+    ADL_AWS_RUNTIME_CONTINUITY_VOLUME_ID="$RUNTIME_VOLUME_ID" \
+    ADL_AWS_RUNTIME_CONTINUITY_VOLUME_NAME="$RUNTIME_VOLUME_NAME" \
+    ADL_AWS_RUNTIME_CONTINUITY_VOLUME_ID_SHA256="$RUNTIME_VOLUME_ID_SHA256" \
+    ADL_AWS_REMOTE_VALIDATION_SUBNET_ID="$CFN_SUBNET_ID" \
+      "$OWNER" run --run "${common[@]}" \
+        --runtime-continuity-volume-id "$RUNTIME_VOLUME_ID" \
+        --runtime-continuity-volume-name "$RUNTIME_VOLUME_NAME" \
+        --runtime-continuity-volume-id-sha256 "$RUNTIME_VOLUME_ID_SHA256"
+    owner_status=$?
+    set -e
+    delete_cloudformation_stack || {
+      echo "issue268: CloudFormation stack cleanup failed" >&2
+      exit 70
+    }
+    exit "$owner_status"
     ;;
   terminal-status)
     [[ -s "$SUMMARY" ]] || { echo "issue268: run summary absent" >&2; exit 75; }
