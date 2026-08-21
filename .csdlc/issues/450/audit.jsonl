@@ -9,3 +9,4 @@
 {"sequence":9,"generation":5,"actor":"codex","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":10,"generation":6,"actor":"codex","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":11,"generation":7,"actor":"codex","reason":"recover review after post-publication main merge conflict resolution changed the PR head","operation":"recover_review"}
+{"sequence":12,"generation":7,"actor":"codex","reason":"assign bounded exact-revision review","operation":"assign_review"}
