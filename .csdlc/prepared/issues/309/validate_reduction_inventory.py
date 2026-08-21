@@ -258,6 +258,45 @@ def main() -> int:
         fail(errors, "reduction report baseline mismatch")
     if report.get("removed_files", -1) < 0 or report.get("removed_physical_lines", -1) < 0:
         fail(errors, "reduction report values invalid")
+    source_commit = str(report.get("candidate_source_commit", ""))
+    if not HEX40.fullmatch(source_commit):
+        fail(errors, "reduction source commit identity invalid")
+    else:
+        try:
+            git(root, "merge-base", "--is-ancestor", source_commit, "HEAD")
+            if git(root, "diff", "--name-only", source_commit, "HEAD", "--", "adl/src"):
+                fail(errors, "candidate source changed after the pinned reduction commit")
+        except subprocess.CalledProcessError:
+            fail(errors, "pinned reduction commit is not an ancestor of candidate HEAD")
+
+    diff_rows = git(root, "diff", "--name-status", BASE, "HEAD", "--", "adl/src").splitlines()
+    deleted_paths: set[str] = set()
+    modified_paths: set[str] = set()
+    for line in diff_rows:
+        fields = line.split("\t")
+        if len(fields) != 2:
+            fail(errors, f"unsupported candidate diff row: {line}")
+            continue
+        status, path = fields
+        if status == "D":
+            deleted_paths.add(path)
+        elif status == "M":
+            modified_paths.add(path)
+        else:
+            fail(errors, f"unclassified candidate source change: {line}")
+    declared_deleted = {
+        path
+        for band in report.get("bands", []) if isinstance(band, dict)
+        for path in band.get("paths", []) if isinstance(path, str)
+    }
+    declared_modified = set(report.get("modified_files", [])) if isinstance(report.get("modified_files"), list) else set()
+    if deleted_paths != declared_deleted or modified_paths != declared_modified:
+        fail(errors, "candidate Git diff differs from declared deleted/modified paths")
+    removed_lines = sum(len(git_bytes(root, "show", f"{BASE}:{path}").splitlines()) for path in deleted_paths)
+    if report.get("removed_files") != len(deleted_paths) or report.get("removed_physical_lines") != removed_lines:
+        fail(errors, "reduction counts differ from candidate Git diff")
+    if any((root / path).exists() for path in deleted_paths):
+        fail(errors, "declared deleted source path remains in candidate worktree")
 
     result = {
         "status": "pass" if not errors else "fail",

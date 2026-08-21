@@ -21,6 +21,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("receipt", nargs="?", default=".csdlc/evidence/309/rollback-proof.json")
     parser.add_argument("--root", default=".")
+    parser.add_argument("--report", default=".csdlc/evidence/309/reduction-report.json")
     args = parser.parse_args()
     root = pathlib.Path(args.root).resolve()
     path = pathlib.Path(args.receipt)
@@ -30,6 +31,19 @@ def main() -> int:
         print(json.dumps({"status": "blocked", "missing": str(path)}))
         return 2
     receipt = json.loads(path.read_text(encoding="utf-8"))
+    report_path = pathlib.Path(args.report)
+    if not report_path.is_absolute():
+        report_path = root / report_path
+    if not report_path.is_file():
+        print(json.dumps({"status": "blocked", "missing": str(report_path)}))
+        return 2
+    report = json.loads(report_path.read_text(encoding="utf-8"))
+    report_bands = {
+        row.get("band"): set(row.get("paths", []))
+        for row in report.get("bands", []) if isinstance(row, dict)
+    }
+    declared_modified = set(report.get("modified_files", [])) if isinstance(report.get("modified_files"), list) else set()
+    supporting_paths = set(report.get("band_supporting_paths", [])) if isinstance(report.get("band_supporting_paths"), list) else set()
     errors: list[str] = []
     if receipt.get("schema") != "adl.issue309.rollback_proof.v1":
         errors.append("schema mismatch")
@@ -81,12 +95,22 @@ def main() -> int:
                 errors.append(f"{name}: revert parent is not band commit")
             if git(root, "rev-parse", f"{reapply}^") != revert:
                 errors.append(f"{name}: reapply parent is not revert commit")
+            try:
+                git(root, "merge-base", "--is-ancestor", commit, "HEAD")
+            except subprocess.CalledProcessError:
+                errors.append(f"{name}: band commit is not an ancestor of candidate HEAD")
             path_sets = [
                 set(git(root, "diff", "--name-only", f"{oid}^", oid).splitlines())
                 for oid in (commit, revert, reapply)
             ]
             if not path_sets[0] or path_sets[0] != path_sets[1] or path_sets[0] != path_sets[2]:
                 errors.append(f"{name}: band/revert/reapply changed-path sets differ")
+            declared_paths = report_bands.get(name, set()) | declared_modified | supporting_paths
+            if path_sets[0] != declared_paths:
+                errors.append(f"{name}: Git changed paths differ from reduction report")
+            derived_unrelated = sorted(path_sets[0] - declared_paths)
+            if band.get("unrelated_paths_changed") != derived_unrelated:
+                errors.append(f"{name}: unrelated-path receipt differs from Git/report")
         except subprocess.CalledProcessError:
             errors.append(f"{name}: Git object/topology verification failed")
     print(json.dumps({"status": "pass" if not errors else "fail", "bands": len(bands), "errors": errors}, sort_keys=True))
