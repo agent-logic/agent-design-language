@@ -12,7 +12,7 @@ use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
 use crate::{
-    authority_context_payload_digest, build_capability_envelope_with_continuity,
+    authority_context_payload_digest, build_capability_envelope_with_continuity, envelope_digest,
     build_governed_cognitive_profile_with_continuity, profile_digest, public_projection_digest,
     validate_capability_envelope_with_continuity,
     validate_governed_cognitive_profile_with_continuity, BirthdayCandidate, BirthdayIdentityRecord,
@@ -278,6 +278,8 @@ pub fn validate_resident_cycle_record(
         || record.continuity_record_sha256 != profile.continuity_record_sha256
         || record.capability_envelope_sha256 != capability.envelope_sha256
         || record.capability_policy_sha256 != capability.policy_sha256
+        || envelope_digest(capability).map_err(ResidentCycleError::Capability)?
+            != capability.envelope_sha256
         || record.cognitive_profile_sha256 != profile.profile_sha256
         || record.cognitive_profile_revision != profile.revision
         || record.cognitive_public_projection_sha256 != profile.public_projection.projection_sha256
@@ -982,6 +984,15 @@ mod tests {
         assert!(rehydrate_verified_resident_cycle(
             &invalid_revision,
             cycle.capability.envelope().clone(),
+            cycle.cognitive_profile.profile().clone(),
+        )
+        .is_err());
+
+        let mut forged_capability = cycle.capability.envelope().clone();
+        forged_capability.resource_limits.max_tool_calls += 1;
+        assert!(rehydrate_verified_resident_cycle(
+            &cycle.record,
+            forged_capability,
             cycle.cognitive_profile.profile().clone(),
         )
         .is_err());
