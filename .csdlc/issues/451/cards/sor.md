@@ -155,11 +155,11 @@ Activate the production birthday aggregate and re-audit all nine Runtime feature
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

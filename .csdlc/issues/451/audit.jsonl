@@ -22,3 +22,4 @@
 {"sequence":22,"generation":17,"actor":"codex:/root","reason":"Recover R3 after coupling verified Birthday activation to an actual long-lived tick, reconstructing verified authorities after restart before a second successful cycle, and proving an ordinary tick does not auto-activate Birthday.","operation":"recover_review"}
 {"sequence":23,"generation":17,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":24,"generation":18,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":25,"generation":19,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
