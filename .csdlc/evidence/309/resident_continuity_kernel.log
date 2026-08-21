@@ -1,0 +1,17 @@
+
+running 8 tests
+test live_snapshot_schema_is_stable ... ok
+test minimum_generation_refuses_rollback_or_missing_state ... ok
+test remote_shutdown_request_cannot_bypass_checkpoint ... ok
+test forged_manifest_is_refused ... ok
+test renamed_checkpoint_cannot_spoof_the_signed_generation ... ok
+test legacy_generation_can_upgrade_into_a_current_signed_lineage ... ok
+test signed_live_checkpoint_round_trips ... ok
+test validly_signed_broken_predecessor_chain_is_refused ... ok
+
+test result: ok. 8 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.12s
+
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-309-repository-wide-code-reduction/adl-runtime-kernel)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 4.76s
+     Running tests/live_continuity.rs (adl-runtime-kernel/target/debug/deps/live_continuity-1690476c0584992b)
+adl_event schema=adl.runtime.event.v1 sequence=0 component=agent_runtime event=state:Running correlation_id=none
