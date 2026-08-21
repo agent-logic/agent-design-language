@@ -1,0 +1,10 @@
+issue=446
+revision_base=2a173e8d50adc66066daae90127afcc3e04209d6
+model=gemma4:12b-mlx
+transport=ollama_http
+command=ADL_TEST_LIVE_RESIDENT_MODEL=gemma4:12b-mlx cargo test --manifest-path adl/Cargo.toml tick_routes_provider_output_through_runtime_acc_and_adapter --lib --no-fail-fast -- --nocapture
+result=passed
+tests=1
+failures=0
+runtime_path=long_lived_tick_to_provider_output_to_uts_acc_to_freedom_gate_to_runtime_observe_adapter_to_checkpoint_bound_receipt
+aws_compute_started=false

@@ -2516,13 +2516,22 @@ fn write_cycle_artifacts(loaded: &LoadedAgentSpec, cycle_id: &str) -> Result<()>
 
     if let Some(run) = adl_run.as_ref() {
         let checkpoint_lineage = exact_checkpoint_lineage(loaded)?;
+        let runtime_observer = resident_tool_execution::RuntimeObserveAdapterV1::new(json!({
+            "kind": "runtime_observation",
+            "status": "running_cycle",
+            "resident_id": loaded.spec.agent_instance_id,
+            "cycle_id": cycle_id,
+            "checkpoint_lineage": checkpoint_lineage,
+            "redaction": "aggregate_only"
+        }))
+        .map_err(|error| anyhow!(error))?;
         write_resident_tool_receipts(
             loaded,
             cycle_id,
             &checkpoint_lineage,
             &cycle_dir,
             &run.outputs,
-            &resident_tool_execution::RuntimeObserveAdapterV1,
+            &runtime_observer,
         )?;
     }
 

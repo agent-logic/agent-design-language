@@ -134,7 +134,36 @@ pub struct ResidentToolReceiptV1 {
     pub reason_code: String,
 }
 
-pub struct RuntimeObserveAdapterV1;
+pub struct RuntimeObserveAdapterV1 {
+    snapshot: Value,
+}
+
+impl RuntimeObserveAdapterV1 {
+    pub fn new(snapshot: Value) -> Result<Self, String> {
+        let object = snapshot
+            .as_object()
+            .ok_or_else(|| "runtime_observation_must_be_object".to_string())?;
+        let allowed = [
+            "kind",
+            "status",
+            "resident_id",
+            "cycle_id",
+            "checkpoint_lineage",
+            "redaction",
+        ];
+        if object.keys().any(|key| !allowed.contains(&key.as_str()))
+            || object.values().any(|value| {
+                value
+                    .as_str()
+                    .map(|text| text.len() > 256 || text.contains(['{', '}', '\n', '\r']))
+                    .unwrap_or(true)
+            })
+        {
+            return Err("runtime_observation_not_redacted".to_string());
+        }
+        Ok(Self { snapshot })
+    }
+}
 
 impl GovernedToolAdapterV1 for RuntimeObserveAdapterV1 {
     fn execute(
@@ -148,11 +177,7 @@ impl GovernedToolAdapterV1 for RuntimeObserveAdapterV1 {
         if !arguments.is_empty() {
             return Err("runtime_observe_arguments_not_allowed".to_string());
         }
-        Ok(serde_json::json!({
-            "kind": "runtime_observation",
-            "status": "available",
-            "redaction": "aggregate_only"
-        }))
+        Ok(self.snapshot.clone())
     }
 }
 
@@ -169,6 +194,27 @@ pub struct ResidentToolExecutionContextV1<'a> {
     pub gate_context: FreedomGateToolGateContextV1,
 }
 
+fn extract_single_proposal_envelope(output: &str) -> Option<ResidentToolProposalEnvelopeV1> {
+    let trimmed = output.strip_prefix("USER:\n").unwrap_or(output).trim();
+    if let Ok(envelope) = serde_json::from_str(trimmed) {
+        return Some(envelope);
+    }
+    let mut envelopes = Vec::new();
+    for (start, byte) in trimmed.bytes().enumerate() {
+        if byte != b'{' || !trimmed.is_char_boundary(start) {
+            continue;
+        }
+        let mut stream = serde_json::Deserializer::from_str(&trimmed[start..])
+            .into_iter::<ResidentToolProposalEnvelopeV1>();
+        if let Some(Ok(envelope)) = stream.next() {
+            if !envelopes.contains(&envelope) {
+                envelopes.push(envelope);
+            }
+        }
+    }
+    (envelopes.len() == 1).then(|| envelopes.remove(0))
+}
+
 pub fn govern_resident_tool_output_v1(
     output: &str,
     context: ResidentToolExecutionContextV1<'_>,
@@ -183,7 +229,8 @@ pub fn govern_resident_tool_output_v1(
         cycle_id: context.cycle_id.to_string(),
         checkpoint_lineage: context.checkpoint_lineage.to_string(),
         proposal_sha256: proposal_sha256.clone(),
-        proposal_id,
+        proposal_id: proposal_id
+            .map(|value| format!("sha256:{}", hex::encode(Sha256::digest(value.as_bytes())))),
         acc_contract_id: None,
         gate_reason_code: None,
         adapter_id: None,
@@ -198,10 +245,9 @@ pub fn govern_resident_tool_output_v1(
     {
         return denied("resident_authority_mismatch", None);
     }
-    let proposal_payload = output.strip_prefix("USER:\n").unwrap_or(output).trim();
-    let envelope: ResidentToolProposalEnvelopeV1 = match serde_json::from_str(proposal_payload) {
-        Ok(value) => value,
-        Err(_) => return denied("invalid_or_multiple_tool_proposals", None),
+    let envelope = match extract_single_proposal_envelope(output) {
+        Some(value) => value,
+        None => return denied("invalid_or_multiple_tool_proposals", None),
     };
     let proposal = envelope.tool_proposal;
     if context
@@ -261,7 +307,10 @@ pub fn govern_resident_tool_output_v1(
         cycle_id: context.cycle_id.to_string(),
         checkpoint_lineage: context.checkpoint_lineage.to_string(),
         proposal_sha256,
-        proposal_id: Some(proposal.proposal_id),
+        proposal_id: Some(format!(
+            "sha256:{}",
+            hex::encode(Sha256::digest(proposal.proposal_id.as_bytes()))
+        )),
         acc_contract_id: Some(acc.contract_id),
         gate_reason_code: Some(gate.reason_code),
         adapter_id: Some(acc.tool.adapter_id),
@@ -383,8 +432,17 @@ mod tests {
 
     #[test]
     fn runtime_observe_adapter_rejects_every_unlisted_adapter() {
+        let adapter = RuntimeObserveAdapterV1::new(serde_json::json!({
+            "kind": "runtime_observation",
+            "status": "available",
+            "resident_id": "resident.test",
+            "cycle_id": "cycle.test",
+            "checkpoint_lineage": "checkpoint.test",
+            "redaction": "aggregate_only"
+        }))
+        .unwrap();
         assert_eq!(
-            RuntimeObserveAdapterV1
+            adapter
                 .execute("adapter.shell", &BTreeMap::new())
                 .unwrap_err(),
             "unsupported_runtime_adapter"
@@ -429,7 +487,15 @@ mod tests {
                 citizen_boundary_ref: "runtime.resident.boundary",
                 gate_context: allowed_gate(),
             },
-            &RuntimeObserveAdapterV1,
+            &RuntimeObserveAdapterV1::new(serde_json::json!({
+                "kind": "runtime_observation",
+                "status": "available",
+                "resident_id": resident_id,
+                "cycle_id": "cycle.runtime.1",
+                "checkpoint_lineage": "checkpoint.runtime.1",
+                "redaction": "aggregate_only"
+            }))
+            .unwrap(),
         );
         assert_eq!(receipt.decision, ResidentToolReceiptDecisionV1::Executed);
         assert_eq!(
@@ -467,5 +533,44 @@ mod tests {
         );
         assert_eq!(receipt.decision, ResidentToolReceiptDecisionV1::Denied);
         assert_eq!(receipt.gate_reason_code.as_deref(), Some("policy_denied"));
+    }
+
+    #[test]
+    fn denial_receipt_hashes_secret_shaped_model_proposal_id() {
+        let compiler = wp09_compiler_input_fixture("fixture.safe_read");
+        let binding = authority(&compiler.proposal.tool_name);
+        let role = compiler.policy_context.role.clone();
+        let secret = "secret=/private/keys/operator-token";
+        let mut proposal = compiler.proposal;
+        proposal.proposal_id = secret.to_string();
+        proposal.tool_name = "unauthorized.tool".to_string();
+        let output = serde_json::to_string(&ResidentToolProposalEnvelopeV1 {
+            tool_proposal: proposal,
+        })
+        .unwrap();
+        let receipt = govern_resident_tool_output_v1(
+            &output,
+            ResidentToolExecutionContextV1 {
+                resident_id: "actor.operator.alice",
+                role: &role,
+                authority: &binding,
+                cycle_id: "cycle.redaction",
+                checkpoint_lineage: "checkpoint.redaction",
+                registry: compiler.registry,
+                policy: compiler.policy_context,
+                risk_class: "low",
+                citizen_boundary_ref: "runtime.resident.boundary",
+                gate_context: allowed_gate(),
+            },
+            &AllowFixtureAdapter,
+        );
+        let encoded = serde_json::to_string(&receipt).unwrap();
+        assert_eq!(receipt.reason_code, "tool_not_authorized");
+        assert!(!encoded.contains(secret));
+        assert!(receipt
+            .proposal_id
+            .as_deref()
+            .unwrap()
+            .starts_with("sha256:"));
     }
 }

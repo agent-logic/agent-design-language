@@ -200,7 +200,7 @@ fn actual_runtime_step_output_creates_acc_governed_receipt() {
 }
 
 #[test]
-fn tick_routes_mock_provider_output_through_runtime_acc_and_adapter() {
+fn tick_routes_provider_output_through_runtime_acc_and_adapter() {
     let root = temp_dir("resident-acc-full-cycle");
     let workflow = root.join("workflow.adl.yaml");
     let proposal = crate::resident_tool_execution::ResidentToolProposalEnvelopeV1 {
@@ -215,20 +215,32 @@ fn tick_routes_mock_provider_output_through_runtime_acc_and_adapter() {
         },
     };
     let proposal_json = serde_json::to_string(&proposal).unwrap();
+    let live_model = env::var("ADL_TEST_LIVE_RESIDENT_MODEL").ok();
+    let provider_yaml = live_model.as_deref().map_or_else(
+        || "    profile: \"mock:echo-v1\"\n".to_string(),
+        |model| format!("    type: \"ollama\"\n    base_url: \"http://127.0.0.1:11434\"\n    config:\n      model: \"{model}\"\n"),
+    );
+    let model = live_model.as_deref().unwrap_or("echo-v1");
+    let system_yaml = if live_model.is_some() {
+        "      system: 'Return exactly the supplied JSON object and no commentary, markdown, or code fence.'\n"
+    } else {
+        ""
+    };
     fs::write(
         &workflow,
         format!(
             r#"version: "0.5"
 providers:
   local_mock:
-    profile: "mock:echo-v1"
+{provider_yaml}
 agents:
   resident:
     provider: "local_mock"
-    model: "echo-v1"
+    model: "{model}"
 tasks:
   propose:
     prompt:
+{system_yaml}
       user: '{proposal_json}'
 run:
   name: "runtime-acc-full-cycle"
