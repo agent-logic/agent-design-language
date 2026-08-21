@@ -7,15 +7,15 @@
     "title": "[v0.92][Runtime] Converge Memory Palace production authority",
     "slug": "450-memory-palace-production-authority",
     "version": "v0.92",
-    "generation": 13
+    "generation": 14
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": ".csdlc/issues/450/audit.jsonl\n.csdlc/issues/450/cards/sip.md\n.csdlc/issues/450/cards/sip.values.json\n.csdlc/issues/450/cards/sor.md\n.csdlc/issues/450/cards/sor.values.json\n.csdlc/issues/450/cards/spp.md\n.csdlc/issues/450/cards/spp.values.json\n.csdlc/issues/450/cards/srp.md\n.csdlc/issues/450/cards/srp.values.json\n.csdlc/issues/450/cards/stp.md\n.csdlc/issues/450/cards/stp.values.json\n.csdlc/issues/450/cards/vpp.md\n.csdlc/issues/450/cards/vpp.values.json\n.csdlc/issues/450/index.json\n.csdlc/evidence/450/adl_memory_palace_projection.log\n.csdlc/evidence/450/csm_memory_palace_readiness.log\n.csdlc/evidence/450/kernel_memory_palace_packet.log\n.csdlc/evidence/450/runtime_broad_lib_regression.log\n.csdlc/evidence/450/runtime_memory_palace_service.log\n.csdlc/prepared/issues/450/design.md\n.csdlc/prepared/issues/450/diagram.mmd\nadl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/governed_operations.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/src/memory_palace.rs\nadl-runtime-kernel/src/memory_palace_authority.rs\nadl-runtime-kernel/tests/assembly.rs\nadl-runtime-kernel/tests/memory_palace.rs\nadl-runtime/src/lib.rs\nadl-runtime/src/memory_palace.rs\nadl-runtime/src/supervision.rs\nadl-runtime/src/topology.rs\nadl/Cargo.lock\nadl/Cargo.toml\nadl/src/csm_runtime_api.rs\nadl/src/memory_palace.rs\nadl/tests/memory_palace_tests.rs",
-      "review_revision": null,
-      "reviewer": null,
+      "review_revision": "git-blake3:bce7cee75ba4830838fb7475ebcd38dae1ee7a57:3a24f3d97c3be9b3399f3be61b7bf8fc6907bf32efbc814240439b3443c22335",
+      "reviewer": "fresh-session:348f34cf-17d8-4b5c-adf9-c9a177396ac2",
       "review_prompts": [
         "Verify that the kernel is the only topology and working-set authority.",
         "Verify exact identity continuity generation source-reference and digest agreement across the adapter.",
@@ -24,8 +24,12 @@
         "Verify #446 and unrelated ObsMem/Runtime redesign remain out of scope."
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Review was bounded to the Memory Palace readiness fixture repair and typed recovery state; hosted workspace coverage must rerun after publication.",
+        "Independent Codex review was used because no Gemini CLI/tool was available on PATH in this session.",
+        "Worktree retains the existing untracked local lock file .csdlc/locks/450.lock."
+      ],
+      "review_result": "pass"
     }
   }
 }
