@@ -50,6 +50,10 @@ adl/Cargo.toml
 adl/src/csm_runtime_api.rs
 adl/src/memory_palace.rs
 adl/tests/memory_palace_tests.rs
+adl/tools/check_coverage_impact.sh
+adl/tools/run_pr_fast_coverage_lane.sh
+adl/tools/test_check_coverage_impact.sh
+adl/tools/test_run_pr_fast_coverage_lane.sh
 
 ## Prompts
 
@@ -69,14 +73,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Review was bounded to the Memory Palace readiness fixture repair and typed recovery state; hosted workspace coverage must rerun after publication.
-- Independent Codex review was used because no Gemini CLI/tool was available on PATH in this session.
-- Worktree retains the existing untracked local lock file .csdlc/locks/450.lock.
+- Review was scoped to #450 assignment surfaces and did not inspect PR #455 or protected #446 implementation paths.
+- Reviewer reran focused runtime Memory Palace and coverage-route contract tests; broad workspace coverage remains delegated to PR CI.
+- Worktree retained one untracked local lock file: .csdlc/locks/450.lock.
 
 ## Review Result
 
-Revision: Some("git-blake3:bce7cee75ba4830838fb7475ebcd38dae1ee7a57:3a24f3d97c3be9b3399f3be61b7bf8fc6907bf32efbc814240439b3443c22335")
+Revision: Some("git-blake3:658024ffe6423ffe21a03ea588a4a8eb0d2f23c3:ac0f4e438a1dd0e0f1c28ff1f08ad771f9047ba83b4be0c90407f43fc986f738")
 
-Reviewer: Some("fresh-session:348f34cf-17d8-4b5c-adf9-c9a177396ac2")
+Reviewer: Some("fresh-session:81586dc8-2e52-412f-a08b-e2134af9fbee")
 
 Result: pass
