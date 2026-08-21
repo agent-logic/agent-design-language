@@ -4,15 +4,15 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "2ba84a82b33fdb23b6c516a95a7dcd1b9311eefaea6b2e4c9c9ab1391c925625",
-  "phase": "published",
-  "generation": 18,
-  "digest": "e1f34c065759e511d15d82d24197ab405c9842037598c301f2c372b2dc2d9e51",
+  "phase": "reviewed",
+  "generation": 20,
+  "digest": "ce1ad105e34c56a6d4d720538175d2f17f8e51849ccea4488b26c8cf4f6bd640",
   "branch": "codex/450-memory-palace-production-authority",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-450-memory-palace-production-authority",
   "review_assignment": {
-    "reviewer": "fresh-session:81586dc8-2e52-412f-a08b-e2134af9fbee",
+    "reviewer": "fresh-session:32d5317e-5309-461b-8725-3ff669d6adfe",
     "assigned_by": "codex",
-    "revision": "git-blake3:658024ffe6423ffe21a03ea588a4a8eb0d2f23c3:ac0f4e438a1dd0e0f1c28ff1f08ad771f9047ba83b4be0c90407f43fc986f738",
+    "revision": "git-blake3:9770c6bb8c88acb449a3d7927ef001bd7c5d54ce:339e3f74c3e7cf20e85e28cdc734dc21e7b8b3971085762530d811d31671f20e",
     "scope": [
       ".csdlc/issues/450/audit.jsonl",
       ".csdlc/issues/450/cards/sip.md",
@@ -59,7 +59,7 @@
     ]
   },
   "review": {
-    "reviewer": "fresh-session:81586dc8-2e52-412f-a08b-e2134af9fbee",
+    "reviewer": "fresh-session:32d5317e-5309-461b-8725-3ff669d6adfe",
     "scope": [
       ".csdlc/issues/450/audit.jsonl",
       ".csdlc/issues/450/cards/sip.md",
@@ -104,28 +104,17 @@
       "adl/tools/test_check_coverage_impact.sh",
       "adl/tools/test_run_pr_fast_coverage_lane.sh"
     ],
-    "reviewed_revision": "git-blake3:658024ffe6423ffe21a03ea588a4a8eb0d2f23c3:ac0f4e438a1dd0e0f1c28ff1f08ad771f9047ba83b4be0c90407f43fc986f738",
+    "reviewed_revision": "git-blake3:9770c6bb8c88acb449a3d7927ef001bd7c5d54ce:339e3f74c3e7cf20e85e28cdc734dc21e7b8b3971085762530d811d31671f20e",
     "findings": [],
     "residual_risks": [
-      "Review was scoped to #450 assignment surfaces and did not inspect PR #455 or protected #446 implementation paths.",
-      "Reviewer reran focused runtime Memory Palace and coverage-route contract tests; broad workspace coverage remains delegated to PR CI.",
-      "Worktree retained one untracked local lock file: .csdlc/locks/450.lock."
+      "Review was scoped to #450 Memory Palace runtime/coverage surfaces and the post-publication clippy/fmt repair commit.",
+      "Reviewer did not inspect or touch PR #455 or #446; protected #446 paths were checked only by diff name and had no diff.",
+      "Typed review assignment initially failed in published phase; the issue was recovered through typed csdlc-review recover before assignment and review recording."
     ],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 450,
-    "pull_request": 458,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/458",
-    "base": "main",
-    "head": "codex/450-memory-palace-production-authority",
-    "revision": "git-blake3:cf39af29fbc84a8b764c8ae82a9caf9bf87aadef:3271a2155f95eb31f8ac4da0f70eeded8e6d3797630538e64811f43a09962346",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -139,34 +128,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8b15bedc1210607491486452fe58a7ab8f144a0ca903ef8e19c838092124dc39",
+      "values_digest": "4755b3c286bebf12b594c96f6ab9fa07e27100dbf255872c75876036fefe9a4f",
       "rendered_digest": "bc05390fa59e1fdfd58f2a28c97735cbab105c0abd7922757f7e189e7294d71c",
       "ast_digest": "d07f704144b9191f595ce437134d39e0dbc0193195493e4825550db98d9c49f1"
     },
     "stp": {
-      "values_digest": "7da4ac8fe4b63525975534e3fd41fb06092297989e5cdf77945f30e16bea61c4",
+      "values_digest": "251515a970636f37ce508563bbe9d838e1e7dc76f62e05cc7baf40d10f67d81c",
       "rendered_digest": "085979d3227cb2fb241df3c7b7921904b1e6ddaf0aa9bc4f17742f416098087c",
       "ast_digest": "cf4959ce1996b71005f67c579e4d6acdc3e9ec8ccfc1a30ce4141821988a63db"
     },
     "spp": {
-      "values_digest": "a319e4163d65b3443c84a92253210e99fb74cd80995978a2365c318adcc08232",
+      "values_digest": "ad86b0a3ffde342a6e03454f33025eb27b0e52a437d92bff34f91509c0da480f",
       "rendered_digest": "948f106d0030483b54120316f4337b5973bde103f0005718f269c1a159c01968",
       "ast_digest": "8d7b09c325b4f31bd00467499e5577f56d4fcdd6fe6bfc369a83e8c802463990"
     },
     "vpp": {
-      "values_digest": "f2d6b872be86be702647f38b65c044946ac5323250ce48312a760e2c1bcffe8b",
+      "values_digest": "5b72b144a605d37e6cdfabd832d4956e0079c2c855f52556e9945f151fee8ff1",
       "rendered_digest": "de962a78c6125bbd3abc1116e974ab6584dcf0a48ce16568b7bf903a592921e5",
       "ast_digest": "542b9447dd7c09de1122382bc923af80c88364cf6ac5240bed7eec2370f5637e"
     },
     "srp": {
-      "values_digest": "96cea47e90ff2a070fcf9ba4ed52feee0799a7a6e195cfa8148291d45e1f43ce",
-      "rendered_digest": "839dbbb19fe59821b9d31cebe97d0143348f8e4138a0c93e64049abe6aec499a",
-      "ast_digest": "8e5963d1a2777b849fd93ef535f97bb3a98ebcf398f62eeee4cac14facdc3b1d"
+      "values_digest": "cec25c5ad3756318a73ba3763f617cf33239b184b5f75ae5724c186e15c86906",
+      "rendered_digest": "52cf186cd2b2f0951fa4d0439239b84175014d2491adea52d3dfe01571340a3b",
+      "ast_digest": "ca0a2f6cfce969f0f1c8ecae2a55511d3186c738d3d28fbd99bade1c6c24cadb"
     },
     "sor": {
-      "values_digest": "c68a667a3e122ef5fd230c9bf84dc07dbc86ada7ac19e097355f9ebefd1c81a2",
-      "rendered_digest": "46ff9c72a36a3ed2426563f3b2a36c5d6914aea6f096d6e842a5f2bf382dad1c",
-      "ast_digest": "45727f2ca8947fcb43a5e1ac7eb6a5d99527291d4a19dfdcf078254a3660e8cc"
+      "values_digest": "b17514044ef22766f32dee89394fda03a598bb62eb2b06b5ca802f9710a353bc",
+      "rendered_digest": "40aac76f3e60d8cf448265868da1d1b9a0a61a5bc746f73fc7e3b87a4ca63665",
+      "ast_digest": "f15978f55389fc681717c8d3e9cf76461e5393c64cc47ec7e9d47dd8677ea72a"
     }
   },
   "transitions": [
@@ -288,6 +277,20 @@
       "to": "published",
       "actor": "codex:/root",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 18,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "recover review after post-publication CI fmt/clippy exposed a Memory Palace runtime lock/open-options lint and formatting drift; typed post-publication review assignment is unavailable in published phase, so recover to implemented before recording the reserved fresh-session review for exact head 9770c6bb8c88acb449a3d7927ef001bd7c5d54ce"
+    },
+    {
+      "sequence": 19,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -479,6 +482,27 @@
       "actor": "codex:/root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 28,
+      "generation": 19,
+      "actor": "codex",
+      "reason": "recover review after post-publication CI fmt/clippy exposed a Memory Palace runtime lock/open-options lint and formatting drift; typed post-publication review assignment is unavailable in published phase, so recover to implemented before recording the reserved fresh-session review for exact head 9770c6bb8c88acb449a3d7927ef001bd7c5d54ce",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 29,
+      "generation": 19,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 20,
+      "actor": "codex",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

@@ -7,15 +7,15 @@
     "title": "[v0.92][Runtime] Converge Memory Palace production authority",
     "slug": "450-memory-palace-production-authority",
     "version": "v0.92",
-    "generation": 18
+    "generation": 20
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": ".csdlc/issues/450/audit.jsonl\n.csdlc/issues/450/cards/sip.md\n.csdlc/issues/450/cards/sip.values.json\n.csdlc/issues/450/cards/sor.md\n.csdlc/issues/450/cards/sor.values.json\n.csdlc/issues/450/cards/spp.md\n.csdlc/issues/450/cards/spp.values.json\n.csdlc/issues/450/cards/srp.md\n.csdlc/issues/450/cards/srp.values.json\n.csdlc/issues/450/cards/stp.md\n.csdlc/issues/450/cards/stp.values.json\n.csdlc/issues/450/cards/vpp.md\n.csdlc/issues/450/cards/vpp.values.json\n.csdlc/issues/450/index.json\n.csdlc/evidence/450/adl_memory_palace_projection.log\n.csdlc/evidence/450/csm_memory_palace_readiness.log\n.csdlc/evidence/450/kernel_memory_palace_packet.log\n.csdlc/evidence/450/runtime_broad_lib_regression.log\n.csdlc/evidence/450/runtime_memory_palace_service.log\n.csdlc/prepared/issues/450/design.md\n.csdlc/prepared/issues/450/diagram.mmd\nadl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/governed_operations.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/src/memory_palace.rs\nadl-runtime-kernel/src/memory_palace_authority.rs\nadl-runtime-kernel/tests/assembly.rs\nadl-runtime-kernel/tests/memory_palace.rs\nadl-runtime/src/lib.rs\nadl-runtime/src/memory_palace.rs\nadl-runtime/src/supervision.rs\nadl-runtime/src/topology.rs\nadl/Cargo.lock\nadl/Cargo.toml\nadl/src/csm_runtime_api.rs\nadl/src/memory_palace.rs\nadl/tests/memory_palace_tests.rs\nadl/tools/check_coverage_impact.sh\nadl/tools/run_pr_fast_coverage_lane.sh\nadl/tools/test_check_coverage_impact.sh\nadl/tools/test_run_pr_fast_coverage_lane.sh",
-      "review_revision": "git-blake3:658024ffe6423ffe21a03ea588a4a8eb0d2f23c3:ac0f4e438a1dd0e0f1c28ff1f08ad771f9047ba83b4be0c90407f43fc986f738",
-      "reviewer": "fresh-session:81586dc8-2e52-412f-a08b-e2134af9fbee",
+      "review_revision": "git-blake3:9770c6bb8c88acb449a3d7927ef001bd7c5d54ce:339e3f74c3e7cf20e85e28cdc734dc21e7b8b3971085762530d811d31671f20e",
+      "reviewer": "fresh-session:32d5317e-5309-461b-8725-3ff669d6adfe",
       "review_prompts": [
         "Verify that the kernel is the only topology and working-set authority.",
         "Verify exact identity continuity generation source-reference and digest agreement across the adapter.",
@@ -25,9 +25,9 @@
       ],
       "findings": [],
       "residual_risk": [
-        "Review was scoped to #450 assignment surfaces and did not inspect PR #455 or protected #446 implementation paths.",
-        "Reviewer reran focused runtime Memory Palace and coverage-route contract tests; broad workspace coverage remains delegated to PR CI.",
-        "Worktree retained one untracked local lock file: .csdlc/locks/450.lock."
+        "Review was scoped to #450 Memory Palace runtime/coverage surfaces and the post-publication clippy/fmt repair commit.",
+        "Reviewer did not inspect or touch PR #455 or #446; protected #446 paths were checked only by diff name and had no diff.",
+        "Typed review assignment initially failed in published phase; the issue was recovered through typed csdlc-review recover before assignment and review recording."
       ],
       "review_result": "pass"
     }

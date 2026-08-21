@@ -73,14 +73,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Review was scoped to #450 assignment surfaces and did not inspect PR #455 or protected #446 implementation paths.
-- Reviewer reran focused runtime Memory Palace and coverage-route contract tests; broad workspace coverage remains delegated to PR CI.
-- Worktree retained one untracked local lock file: .csdlc/locks/450.lock.
+- Review was scoped to #450 Memory Palace runtime/coverage surfaces and the post-publication clippy/fmt repair commit.
+- Reviewer did not inspect or touch PR #455 or #446; protected #446 paths were checked only by diff name and had no diff.
+- Typed review assignment initially failed in published phase; the issue was recovered through typed csdlc-review recover before assignment and review recording.
 
 ## Review Result
 
-Revision: Some("git-blake3:658024ffe6423ffe21a03ea588a4a8eb0d2f23c3:ac0f4e438a1dd0e0f1c28ff1f08ad771f9047ba83b4be0c90407f43fc986f738")
+Revision: Some("git-blake3:9770c6bb8c88acb449a3d7927ef001bd7c5d54ce:339e3f74c3e7cf20e85e28cdc734dc21e7b8b3971085762530d811d31671f20e")
 
-Reviewer: Some("fresh-session:81586dc8-2e52-412f-a08b-e2134af9fbee")
+Reviewer: Some("fresh-session:32d5317e-5309-461b-8725-3ff669d6adfe")
 
 Result: pass
