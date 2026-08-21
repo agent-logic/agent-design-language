@@ -1,0 +1,34 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 308,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-20] Demo matrix, AEE proof, and proof coverage",
+    "slug": "v0-92-wp-20-demo-matrix-aee-proof-and-proof-coverage",
+    "version": "v0.92",
+    "generation": 17
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/evidence/308\n.csdlc/issues/308\n.csdlc/prepared/issues/308\n.csdlc/locks/308.lock\nadl/src/governed_executor_parts/tests.rs\nadl/tools/validate_v092_demo_proof_coverage.py\nadl/tools/test_v092_demo_proof_coverage.sh\ndocs/milestones/v0.92/DEMO_MATRIX_v0.92.md\ndocs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md\ndocs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md\ndocs/milestones/v0.92/review/V092_DEMO_AEE_ARTIFACT_INDEX.md",
+      "review_revision": "git-blake3:67c735d96ea2b6aa1aeb5edcea8f0c410399db55:46e1eb8f82afabb60eb08560d0d134e9fc4b7adbe4d227242d26827b770a84bc",
+      "reviewer": "fresh-session:codex-cli-issue-308-review-67c735d9",
+      "review_prompts": [
+        "Do all accepted rows agree across matrix, coverage, activation, and artifact index at one exact revision?",
+        "Does every accepted claim retain required positive and negative proof plus platform, credential, review, and non-claim truth?",
+        "Does the validator reject every declared invalid class without manufacturing proof?",
+        "Does the patch preserve WP-21/WP-21A and child ownership boundaries?",
+        "Is the predecessor gate terminal, reconciled, and ancestral at the execution base?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Review was read-only and bounded to exact commit 67c735d96ea2b6aa1aeb5edcea8f0c410399db55; reviewer ignored post-HEAD review-assignment metadata dirt.",
+        "Reviewer did not rerun broad mutating validation; local pre-review validation passed focused validator, negative suite, git diff --check, cargo fmt --check, and cargo clippy --all-targets -D warnings."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

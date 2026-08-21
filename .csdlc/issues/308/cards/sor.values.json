@@ -1,0 +1,67 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 308,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-20] Demo matrix, AEE proof, and proof coverage",
+    "slug": "v0-92-wp-20-demo-matrix-aee-proof-and-proof-coverage",
+    "version": "v0.92",
+    "generation": 17
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Reconciled the v0.92 WP-20 demo matrix, feature proof coverage, activation ledger, AEE artifact index, and fail-closed validator without absorbing WP-21 or release-tail work.",
+      "actual_changes": [
+        "docs/milestones/v0.92/DEMO_MATRIX_v0.92.md",
+        "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+        "docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md",
+        "docs/milestones/v0.92/review/V092_DEMO_AEE_ARTIFACT_INDEX.md",
+        "adl/tools/validate_v092_demo_proof_coverage.py",
+        "adl/tools/test_v092_demo_proof_coverage.sh"
+      ],
+      "artifacts": [
+        ".csdlc/evidence/308"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "purpose": "Run Git diff hygiene on the #308 patch.",
+          "outcome": "passed",
+          "evidence_ref": "patch-structure.log"
+        },
+        {
+          "command": [
+            "bash",
+            "adl/tools/test_v092_demo_proof_coverage.sh"
+          ],
+          "purpose": "Run the issue-owned negative harness for WP-20 validator rejection classes.",
+          "outcome": "passed",
+          "evidence_ref": "wp20-demo-proof-negative-suite.log"
+        },
+        {
+          "command": [
+            "python3",
+            "adl/tools/validate_v092_demo_proof_coverage.py",
+            "--root",
+            "."
+          ],
+          "purpose": "Run the issue-owned fail-closed WP-20 proof coverage validator.",
+          "outcome": "passed",
+          "evidence_ref": "wp20-demo-proof-validator.log"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}
