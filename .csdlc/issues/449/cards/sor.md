@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-#449 wires governed Adaptive Learning into a Runtime-owned resident-cycle path and remediates exact-review P1 by retaining redacted terminal evidence for invalid resident precondition failures before returning, while preserving MutationGate-only mutation for accepted paths. Current proof was rerun after merging origin/main at 9f373f5f04b0f8c9dc6e3e6cbf348fddec98486c.
+#449 wires governed Adaptive Learning into a Runtime-owned resident-cycle path and remediates PR #456 CI by aligning the integrated HTML Observatory proof fixture with the current Runtime v3 /v1/health fetch and Runtime Source label.
 
 ## Artifacts
 
@@ -20,6 +20,7 @@ Status: pre_phase
 - adl-runtime-kernel/tests/adaptive_learning.rs
 - adl-runtime-kernel/src/live_continuity.rs
 - docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md
+- adl/tools/validate_v0917_html_observatory.py
 - .csdlc/issues/449
 
 ## Execution
@@ -29,11 +30,21 @@ Status: pre_phase
 - Added redacted ResidentAdaptiveLearningTerminalEvidence retained in a separate governed durable domain for invalid resident binding/precondition failures, so rejected invalid inputs leave terminal proof without creating normal adaptive-learning history or mutating the graph/state.
 - Added resident_cycle integration tests inside adl-runtime-kernel/tests/adaptive_learning.rs covering accepted MutationGate-only mutation, rejected non-mutation, invalid binding terminal-evidence retention, restart restoration, and deterministic continuation.
 - Updated docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md from library-only/local contract wording to resident-cycle integration proof truth.
-- Merged current origin/main cleanly after #447/#308 and reran focused #449 proof; no #450 scope was touched.
+- Fixed adl/tools/validate_v0917_html_observatory.py so the integrated Runtime v3 Observatory proof provides the current /v1/health mock payload and validates the current Runtime Source label instead of the stale Runtime Mirror label.
+- Preserved #450 and sibling Runtime/Observatory work out of #449 scope; this CI-proof fix only restores the required proof lane selected for PR #456.
 
 ## Validation
 
 [
+  {
+    "command": [
+      "bash",
+      "adl/tools/test_v0917_html_observatory_integrated_proof.sh"
+    ],
+    "purpose": "Reproduce and fix the exact PR #456 failing Runtime v3 Observatory proof lane; proves /v1/health fixture and Runtime Source label truth.",
+    "outcome": "passed",
+    "evidence_ref": "root-turn-live-output:2026-08-20:pr456-observatory-proof-pass"
+  },
   {
     "command": [
       "cargo",
@@ -42,9 +53,9 @@ Status: pre_phase
       "adl-runtime-kernel/Cargo.toml",
       "--check"
     ],
-    "purpose": "Reject rustfmt drift in the touched Runtime kernel package after merging current origin/main.",
+    "purpose": "Reject rustfmt drift in the touched Runtime kernel package after PR #456 CI remediation.",
     "outcome": "passed",
-    "evidence_ref": "root-turn-live-output:2026-08-20-post-main-merge:fmt-check"
+    "evidence_ref": "root-turn-live-output:2026-08-20:post-pr456-fmt-check"
   },
   {
     "command": [
@@ -56,9 +67,9 @@ Status: pre_phase
       "adaptive_learning",
       "resident_cycle"
     ],
-    "purpose": "Prove #449 resident-cycle accepted mutation, rejected non-mutation, invalid binding terminal-evidence retention, restart, and deterministic continuation behavior after merging current origin/main.",
+    "purpose": "Prove #449 resident-cycle accepted mutation, rejected non-mutation, invalid binding terminal-evidence retention, restart, and deterministic continuation behavior after PR #456 CI remediation.",
     "outcome": "passed",
-    "evidence_ref": "root-turn-live-output:2026-08-20-post-main-merge:resident-cycle-3-pass"
+    "evidence_ref": "root-turn-live-output:2026-08-20:post-pr456-resident-cycle-3-pass"
   },
   {
     "command": [
@@ -69,9 +80,9 @@ Status: pre_phase
       "--test",
       "adaptive_learning"
     ],
-    "purpose": "Run the complete adaptive_learning integration target after merging current origin/main.",
+    "purpose": "Run the complete adaptive_learning integration target after PR #456 CI remediation.",
     "outcome": "passed",
-    "evidence_ref": "root-turn-live-output:2026-08-20-post-main-merge:adaptive-learning-18-pass"
+    "evidence_ref": "root-turn-live-output:2026-08-20:post-pr456-adaptive-learning-18-pass"
   },
   {
     "command": [
@@ -84,20 +95,22 @@ Status: pre_phase
       "-D",
       "warnings"
     ],
-    "purpose": "Run strict clippy for the touched Runtime kernel package/tests after merging current origin/main.",
+    "purpose": "Run strict clippy for the touched Runtime kernel package/tests after PR #456 CI remediation.",
     "outcome": "passed",
-    "evidence_ref": "root-turn-live-output:2026-08-20-post-main-merge:strict-clippy-pass"
+    "evidence_ref": "root-turn-live-output:2026-08-20:post-pr456-strict-clippy-pass"
   },
   {
     "command": [
-      "rg",
-      "Adaptive Learning|adaptive learning|production-integrated|library-only",
-      ".adl",
-      "docs"
+      ".adl/bin/csdlc-v2/csdlc-validate",
+      "--root",
+      "/Volumes/FastWork/adl-worktrees/adl-issue-449-governed-adaptive-learning-resident-integration",
+      "issue",
+      "--issue",
+      "449"
     ],
-    "purpose": "Confirm feature/evidence docs contain adaptive-learning truth surfaces and no stale library-only claim is used as #449 completion proof after merging current origin/main.",
+    "purpose": "Validate typed #449 lifecycle truth after publication recovery and PR #456 CI remediation.",
     "outcome": "passed",
-    "evidence_ref": "root-turn-live-output:2026-08-20-post-main-merge:feature-evidence-truth-check"
+    "evidence_ref": "root-turn-live-output:2026-08-20:post-pr456-csdlc-validate-pass"
   },
   {
     "command": [
@@ -105,31 +118,19 @@ Status: pre_phase
       "diff",
       "--check"
     ],
-    "purpose": "Reject whitespace and malformed diff defects after merging current origin/main.",
+    "purpose": "Reject whitespace and malformed diff defects after PR #456 CI remediation.",
     "outcome": "passed",
-    "evidence_ref": "root-turn-live-output:2026-08-20-post-main-merge:diff-hygiene-pass"
-  },
-  {
-    "command": [
-      "rg",
-      "resident_cycle_invalid_bindings",
-      ".csdlc/evidence/449/runtime-resident-cycle-integration-proof.log",
-      ".csdlc/evidence/449/adaptive-learning-regression-tests.log",
-      "adl-runtime-kernel/tests/adaptive_learning.rs"
-    ],
-    "purpose": "Prove retained #449 evidence logs and source use the current terminal-evidence invalid-binding regression test name after the R3 evidence-truth finding.",
-    "outcome": "passed",
-    "evidence_ref": "root-turn-live-output:2026-08-20:r3-evidence-name-alignment"
+    "evidence_ref": "root-turn-live-output:2026-08-20:post-pr456-diff-hygiene-pass"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

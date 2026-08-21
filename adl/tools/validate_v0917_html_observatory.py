@@ -188,6 +188,19 @@ def run_js_view_model(
             stale: false
           }}
         }});
+        const runtimeV3Health = JSON.stringify({{
+          schema: "adl.runtime_v3.health.v1",
+          status: "healthy",
+          observability_ready: true,
+          runtime_instance_id: "runtime-v3-test",
+          components: {{ runtime_api: "running", checkpoint: "running" }},
+          weather_freshness: {{
+            observed_at_unix_millis: 1789000000,
+            age_millis: 250,
+            stale_after_millis: 2000,
+            stale: false
+          }}
+        }});
         const livePayloads = new Map([
           ["http://localhost:49210/status", retainedFiles.get(retainedRefs.statusRef)],
           ["http://localhost:49210/health", retainedFiles.get(retainedRefs.healthRef)],
@@ -195,6 +208,7 @@ def run_js_view_model(
           ["http://localhost:49210/metrics", retainedFiles.get(retainedRefs.metricsRef)],
           ["http://localhost:49210/events", retainedFiles.get(retainedRefs.eventsRef)],
           ["https://runtime.dev.agent-logic.ai:20997/v1/observatory", runtimeV3Feed],
+          ["https://runtime.dev.agent-logic.ai:20997/v1/health", runtimeV3Health],
           ["https://runtime.dev.agent-logic.ai:20997/v1/ready", runtimeV3Readiness]
         ]);
         const textWrites = [];
@@ -734,7 +748,7 @@ def main() -> int:
     assert_contains("HTML published mirror default mode", html, '<option value="published">Published Mirror</option>')
     assert_contains("HTML retained mirror mode", html, '<option value="retained">Retained Mirror</option>')
     assert_contains("HTML live loopback mode", html, '<option value="live">Live Loopback</option>')
-    assert_contains("HTML truthful runtime mirror label", html, "<span>Runtime Mirror</span>")
+    assert_contains("HTML truthful runtime source label", html, '<span id="runtime-source-label">Runtime Source</span>')
     assert_contains("HTML source-driven event title", html, 'id="hero-event-title">Event Stream</h2>')
     assert_contains("HTML dashboard truthful operator CTA", html, "Draft operator probe")
     assert_contains("HTML dashboard focus action", html, "Focus panopticon")
