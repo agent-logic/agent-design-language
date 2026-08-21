@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-#446 Runtime authority, UTS-to-ACC, Freedom Gate, dispatch, receipts, and tests.
+
 
 ## Prompts
 

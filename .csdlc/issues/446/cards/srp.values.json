@@ -7,13 +7,13 @@
     "title": "[v0.92][Runtime] Wire ACC-governed tool execution into resident-agent cycles",
     "slug": "runtime-acc-resident-tool-execution",
     "version": "v0.92",
-    "generation": 3
+    "generation": 7
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "#446 Runtime authority, UTS-to-ACC, Freedom Gate, dispatch, receipts, and tests.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
