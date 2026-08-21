@@ -132,6 +132,7 @@ pub struct AwsRemoteValidationConfig {
     pub security_group_id: String,
     pub instance_profile_name: String,
     pub instance_types: Vec<String>,
+    pub on_demand_only: bool,
     pub allow_on_demand_fallback: bool,
     pub budget_name: Option<String>,
     pub expected_max_cost_usd: Option<f64>,
@@ -573,13 +574,13 @@ fn remote_resilience_policy(config: &AwsRemoteValidationConfig) -> AwsRemoteResi
     AwsRemoteResiliencePolicyRecord {
         policy_id: "adl.aws_remote_validation.resilience.v1".to_string(),
         max_launch_attempts: (config.instance_types.len() as u32).saturating_mul(
-            if config.allow_on_demand_fallback {
+            if config.allow_on_demand_fallback && !config.on_demand_only {
                 2
             } else {
                 1
             },
         ),
-        spot_fallback_enabled: config.allow_on_demand_fallback,
+        spot_fallback_enabled: config.allow_on_demand_fallback && !config.on_demand_only,
         cleanup_required: true,
         cost_evidence_required: true,
         retryable_classes,
@@ -1063,10 +1064,15 @@ pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
             );
             break 'launch;
         }
+        let primary_purchase_option = if config.on_demand_only {
+            PurchaseOption::OnDemand
+        } else {
+            PurchaseOption::Spot
+        };
         let spot_spec = LaunchSpec {
             run_id: config.run_id.clone(),
             instance_type: instance_type.clone(),
-            purchase_option: PurchaseOption::Spot,
+            purchase_option: primary_purchase_option.clone(),
             ami_id: config.ami_id.clone(),
             subnet_id: config.subnet_id.clone(),
             security_group_id: config.security_group_id.clone(),
@@ -1079,14 +1085,17 @@ pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
             &mut events,
             "launch_attempt",
             "started",
-            format!("instance_type={} market=spot", instance_type),
+            format!(
+                "instance_type={} market={}",
+                instance_type, primary_purchase_option
+            ),
         );
         match adapter.launch_instance(&spot_spec).await {
             Ok(result) => {
                 let launched_at = Utc::now();
                 let hashed = sha256_hex(&result.instance_id);
                 launch = Some(LaunchRecord {
-                    purchase_option: PurchaseOption::Spot,
+                    purchase_option: primary_purchase_option.clone(),
                     instance_type: instance_type.clone(),
                     instance_id: result.instance_id.clone(),
                     instance_id_sha256: hashed,
@@ -1097,15 +1106,18 @@ pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
                 cache_volume = result.cache_volume;
                 attempts.push(AttemptRecord {
                     instance_type: instance_type.clone(),
-                    purchase_option: PurchaseOption::Spot,
+                    purchase_option: primary_purchase_option.clone(),
                     status: "launched".to_string(),
-                    message: "spot launch succeeded".to_string(),
+                    message: format!("{} launch succeeded", primary_purchase_option),
                 });
                 record_event(
                     &mut events,
                     "launch_attempt",
                     "ok",
-                    format!("instance_type={} market=spot launched", instance_type),
+                    format!(
+                        "instance_type={} market={} launched",
+                        instance_type, primary_purchase_option
+                    ),
                 );
                 if cancellation_requested() {
                     failure_reason =
@@ -1133,7 +1145,7 @@ pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
             Err(err) => {
                 attempts.push(AttemptRecord {
                     instance_type: instance_type.clone(),
-                    purchase_option: PurchaseOption::Spot,
+                    purchase_option: primary_purchase_option.clone(),
                     status: "failed".to_string(),
                     message: err.to_string(),
                 });
@@ -1142,20 +1154,21 @@ pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
                     "launch_attempt",
                     "warn",
                     format!(
-                        "instance_type={} market=spot failed: {}",
-                        instance_type, err
+                        "instance_type={} market={} failed: {}",
+                        instance_type, primary_purchase_option, err
                     ),
                 );
-                if !err.spot_fallback_permitted {
+                if config.on_demand_only || !err.spot_fallback_permitted {
                     failure_reason = Some(format!(
-                        "spot launch failed without permitted fallback: {err}"
+                        "{} launch failed without permitted fallback: {err}",
+                        primary_purchase_option
                     ));
                     break 'launch;
                 }
             }
         }
 
-        if !config.allow_on_demand_fallback {
+        if config.on_demand_only || !config.allow_on_demand_fallback {
             continue 'launch;
         }
         let on_demand_spec = LaunchSpec {
@@ -4224,6 +4237,7 @@ mod tests {
             security_group_id: "sg-test".to_string(),
             instance_profile_name: "profile-test".to_string(),
             instance_types: vec!["c7i.large".to_string()],
+            on_demand_only: false,
             allow_on_demand_fallback: true,
             budget_name: Some("Agent Logic Monthly".to_string()),
             expected_max_cost_usd: Some(20.0),
@@ -4572,6 +4586,62 @@ mod tests {
             PurchaseOption::OnDemand
         );
         assert_eq!(summary.attempts[1].status, "launched");
+    }
+
+    #[tokio::test]
+    async fn remote_validation_launches_on_demand_without_a_spot_attempt() {
+        let tmp = std::env::temp_dir().join(format!(
+            "adl-aws-remote-validation-on-demand-{}",
+            std::process::id()
+        ));
+        let adapter = FakeAdapter {
+            quota: QuotaSnapshot {
+                spot_vcpu_quota: Some(0.0),
+                on_demand_vcpu_quota: Some(64.0),
+                notes: vec![],
+            },
+            identity: AwsAccountIdentity {
+                account_id: Some("123456789012".to_string()),
+                account_id_sha256: Some("hash".to_string()),
+                arn: None,
+                user_id: None,
+            },
+            launch_results: Mutex::new(VecDeque::from(vec![Ok(LaunchResult {
+                instance_id: "i-on-demand".to_string(),
+                initial_state: "pending".to_string(),
+                cache_volume: None,
+            })])),
+            ssm_ready: Ok(SsmReadyResult {
+                status: "Online".to_string(),
+            }),
+            command_result: Ok(CommandExecutionResult {
+                command_id: "cmd-on-demand".to_string(),
+                status: "Success".to_string(),
+                response_code: Some(0),
+                stdout: "ADL_AWS_REMOTE_SUMMARY_BEGIN\n{\"status\":\"passed\",\"bootstrap_seconds\":1,\"command_seconds\":2,\"interruption_detected\":false,\"interruption_notice\":null,\"resolved_commit\":\"abc\",\"rustc_version\":null,\"cargo_version\":null,\"sccache_version\":null,\"sccache_degraded\":false,\"sccache_degraded_reason\":null,\"sccache_stats\":null}\nADL_AWS_REMOTE_SUMMARY_END\n".to_string(),
+                stderr: String::new(),
+            }),
+            terminate_result: Ok(()),
+            final_state: Ok(Some("terminated".to_string())),
+            cost: None,
+            budget: None,
+        };
+        let mut config = sample_config(&tmp);
+        config.on_demand_only = true;
+        config.allow_on_demand_fallback = false;
+
+        let (summary, _) = run_aws_remote_validation(&adapter, &config)
+            .await
+            .expect("summary");
+
+        assert_eq!(summary.status, RemoteRunStatus::Passed);
+        assert_eq!(summary.attempts.len(), 1);
+        assert_eq!(
+            summary.attempts[0].purchase_option,
+            PurchaseOption::OnDemand
+        );
+        assert_eq!(summary.resilience.policy.max_launch_attempts, 1);
+        assert!(!summary.resilience.policy.spot_fallback_enabled);
     }
 
     #[tokio::test]

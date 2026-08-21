@@ -124,6 +124,11 @@ def main() -> int:
     )
     parser.add_argument("--estimated-hourly-cost-usd", required=True, type=float)
     parser.add_argument(
+        "--expected-purchase-option",
+        choices=("spot", "on_demand"),
+        default="spot",
+    )
+    parser.add_argument(
         "--validation-environment",
         choices=("immutable_builder", "direct_host_runtime"),
         default="immutable_builder",
@@ -188,7 +193,11 @@ def main() -> int:
     failures: list[str] = []
     require(args.runner_exit_code == 0, failures, "runner_exit_nonzero")
     require(str(raw.get("status", "")).lower() in {"passed", "resumed_after_interruption"}, failures, "run_status_not_passed")
-    require(launch.get("purchase_option") == "spot", failures, "purchase_option_not_spot")
+    require(
+        launch.get("purchase_option") == args.expected_purchase_option,
+        failures,
+        "purchase_option_mismatch",
+    )
     require(cache.get("created") is False, failures, "retained_cache_was_created_or_unproven")
     cache_volume_id = cache.get("volume_id") if isinstance(cache.get("volume_id"), str) else ""
     require(sha256(cache_volume_id) == args.expected_cache_volume_id_sha256, failures, "retained_cache_identity_mismatch")
@@ -226,7 +235,13 @@ def main() -> int:
         "failures": failures,
         "account_verified_by_wrapper": True,
         "validation_environment": args.validation_environment,
-        "spot_purchase_verified": launch.get("purchase_option") == "spot",
+        "expected_purchase_option": args.expected_purchase_option,
+        "purchase_option_verified": launch.get("purchase_option") == args.expected_purchase_option,
+        "spot_purchase_verified": (
+            launch.get("purchase_option") == "spot"
+            if args.expected_purchase_option == "spot"
+            else None
+        ),
         "retained_volume_role": args.expected_retained_volume_role,
         "immutable_builder_image_verified": builder.get("builder_image_immutable") is True if args.validation_environment == "immutable_builder" else None,
         "builder_toolchain_verified": builder.get("toolchain_verified") is True if args.validation_environment == "immutable_builder" else None,
@@ -262,7 +277,7 @@ def main() -> int:
         "cost": {
             "estimated_hourly_usd": args.estimated_hourly_cost_usd,
             "estimated_compute_cost_usd": estimated_cost,
-            "estimate_basis": "observed_instance_lifetime_seconds_x_pre_run_spot_hourly_price",
+            "estimate_basis": "observed_instance_lifetime_seconds_x_pre_run_hourly_price",
         },
         "private_recovery_state_retained": True,
         "private_recovery_state_uploaded": False,

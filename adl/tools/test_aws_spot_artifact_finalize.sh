@@ -55,6 +55,7 @@ LOG
 run_finalizer() {
   local root="$1"
   local role="${2:-build_cache}"
+  local purchase_option="${3:-spot}"
   python3 "$FINALIZER" \
     --summary "$root/summary.json" \
     --artifact-dir "$root/artifacts" \
@@ -64,6 +65,7 @@ run_finalizer() {
     --expected-cache-volume-id-sha256 "$cache_volume_hash" \
     --expected-retained-volume-role "$role" \
     --estimated-hourly-cost-usd 0.15 \
+    --expected-purchase-option "$purchase_option" \
     --runner-exit-code 0
 }
 
@@ -83,11 +85,32 @@ assert "123456789012" in private
 assert wrapper["self_verification"]["passed"] is True
 assert wrapper["cache_target_preexisting_entries"] == 42
 assert wrapper["cost"]["estimated_compute_cost_usd"] == 0.005
+assert wrapper["self_verification"]["purchase_option_verified"] is True
 PY
 if rg -n '123456789012|arn:aws:|i-0123456789abcdef0|192\.0\.2\.10' "$pass/artifacts" -g '!control-summary.json' >/dev/null; then
   echo "public artifact retained an AWS identity" >&2
   exit 1
 fi
+
+on_demand="$TMP/on-demand"
+make_fixture "$on_demand"
+python3 - "$on_demand/summary.json" <<'PY'
+import json, sys
+path = sys.argv[1]
+data = json.load(open(path, encoding="utf-8"))
+data["launch"]["purchase_option"] = "on_demand"
+open(path, "w", encoding="utf-8").write(json.dumps(data) + "\n")
+PY
+run_finalizer "$on_demand" build_cache on_demand >"$on_demand/out"
+python3 - "$on_demand/artifacts/wrapper-final-summary.json" <<'PY'
+import json, sys
+data = json.load(open(sys.argv[1], encoding="utf-8"))
+verification = data["self_verification"]
+assert verification["passed"] is True
+assert verification["expected_purchase_option"] == "on_demand"
+assert verification["purchase_option_verified"] is True
+assert verification["spot_purchase_verified"] is None
+PY
 
 runtime_volume="$TMP/runtime-volume"
 make_fixture "$runtime_volume"

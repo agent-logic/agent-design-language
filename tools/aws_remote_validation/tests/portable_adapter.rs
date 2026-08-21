@@ -74,6 +74,7 @@ fn config() -> AwsRemoteValidationConfig {
         security_group_id: "sg-fixture".into(),
         instance_profile_name: "profile-fixture".into(),
         instance_types: vec!["m7a.2xlarge".into()],
+        on_demand_only: false,
         allow_on_demand_fallback: false,
         budget_name: None,
         expected_max_cost_usd: Some(1.0),

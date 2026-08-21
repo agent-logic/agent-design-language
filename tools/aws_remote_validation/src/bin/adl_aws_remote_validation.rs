@@ -133,7 +133,7 @@ impl Drop for EnvVarGuard {
 }
 
 fn usage() -> &'static str {
-    "adl-aws-remote-validation run --issue <number> --command <shell-command> --ami-id <ami> --subnet-id <subnet> --security-group-id <sg> --instance-profile-name <name> --out <summary.json> [--artifact-dir <dir>] [--instance-type <type> ...] [--spot-only] [--budget-name <name>] [--expected-max-cost-usd <usd>] [--estimated-hourly-cost-usd <usd>] [--total-run-timeout-seconds <seconds>] [--repo-url <url>] [--git-ref <ref>] [--cache-bucket <bucket>] [--cache-prefix <prefix>] [--sccache-tarball-url <url>] [--nextest-tarball-url <url>] [--ssh-key-name <name>] [--ssh-private-key-path <path>] [--ssh-user <user>] [--ssh-allowed-cidr <cidr>] [--cache-volume-id <id>] [--cache-volume-name <name>] [--cache-volume-size-gib <gib>] [--cache-volume-type <type>] [--cache-volume-iops <iops>] [--cache-volume-throughput-mbps <mbps>] [--cache-volume-device-name <device>] [--cache-volume-mount-path <path>] [--command-timeout-seconds <seconds>] [--region <region>] [--profile <profile>] [--json]"
+    "adl-aws-remote-validation run --issue <number> --command <shell-command> --ami-id <ami> --subnet-id <subnet> --security-group-id <sg> --instance-profile-name <name> --out <summary.json> [--artifact-dir <dir>] [--instance-type <type> ...] [--spot-only|--on-demand-only] [--budget-name <name>] [--expected-max-cost-usd <usd>] [--estimated-hourly-cost-usd <usd>] [--total-run-timeout-seconds <seconds>] [--repo-url <url>] [--git-ref <ref>] [--cache-bucket <bucket>] [--cache-prefix <prefix>] [--sccache-tarball-url <url>] [--nextest-tarball-url <url>] [--ssh-key-name <name>] [--ssh-private-key-path <path>] [--ssh-user <user>] [--ssh-allowed-cidr <cidr>] [--cache-volume-id <id>] [--cache-volume-name <name>] [--cache-volume-size-gib <gib>] [--cache-volume-type <type>] [--cache-volume-iops <iops>] [--cache-volume-throughput-mbps <mbps>] [--cache-volume-device-name <device>] [--cache-volume-mount-path <path>] [--command-timeout-seconds <seconds>] [--region <region>] [--profile <profile>] [--json]"
 }
 
 fn local_git_stdout(args: &[&str]) -> Option<String> {
@@ -243,6 +243,8 @@ fn parse_args(args: &[String]) -> Result<ParsedArgs> {
     let mut security_group_id = None;
     let mut instance_profile_name = None;
     let mut instance_types: Vec<String> = Vec::new();
+    let mut spot_only = false;
+    let mut on_demand_only = false;
     let mut allow_on_demand_fallback = true;
     let mut budget_name = None;
     let mut expected_max_cost_usd = None;
@@ -494,7 +496,14 @@ fn parse_args(args: &[String]) -> Result<ParsedArgs> {
                         .to_string(),
                 );
             }
-            "--spot-only" => allow_on_demand_fallback = false,
+            "--spot-only" => {
+                spot_only = true;
+                allow_on_demand_fallback = false;
+            }
+            "--on-demand-only" => {
+                on_demand_only = true;
+                allow_on_demand_fallback = false;
+            }
             "--budget-name" => {
                 i += 1;
                 budget_name = Some(
@@ -567,6 +576,9 @@ fn parse_args(args: &[String]) -> Result<ParsedArgs> {
             "c7i.2xlarge".to_string(),
         ];
     }
+    if spot_only && on_demand_only {
+        bail!("--spot-only and --on-demand-only are mutually exclusive");
+    }
     let run_id =
         run_id.unwrap_or_else(|| format!("adl-aws-remote-{}", Utc::now().format("%Y%m%d%H%M%S")));
     let out_path = out_path.ok_or_else(|| anyhow!("--out is required"))?;
@@ -609,6 +621,7 @@ fn parse_args(args: &[String]) -> Result<ParsedArgs> {
             security_group_id: security_group_id.unwrap_or_default(),
             instance_profile_name: instance_profile_name.unwrap_or_default(),
             instance_types,
+            on_demand_only,
             allow_on_demand_fallback,
             budget_name,
             expected_max_cost_usd,
@@ -1096,6 +1109,7 @@ mod tests {
             vec!["c7i.large".to_string(), "c7i.xlarge".to_string()]
         );
         assert!(!parsed.config.allow_on_demand_fallback);
+        assert!(!parsed.config.on_demand_only);
         assert_eq!(
             parsed.config.cache_bucket.as_deref(),
             Some("adl-aws-remote-tool-cache-agentlogic")
@@ -1122,6 +1136,20 @@ mod tests {
         );
         assert_eq!(parsed.config.artifact_dir, PathBuf::from("artifacts"));
         assert!(parsed.json_output);
+    }
+
+    #[test]
+    fn parse_args_selects_direct_on_demand_mode() {
+        let parsed = parse_ok(&[
+            "run",
+            "--command",
+            "true",
+            "--out",
+            "summary.json",
+            "--on-demand-only",
+        ]);
+        assert!(parsed.config.on_demand_only);
+        assert!(!parsed.config.allow_on_demand_fallback);
     }
 
     #[test]

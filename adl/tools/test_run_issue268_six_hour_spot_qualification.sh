@@ -16,7 +16,7 @@ done
 python3 - "$wrapper" "$spot" "$soak" "$validator" <<'PY'
 import pathlib, sys
 w,s,r,v=(pathlib.Path(p).read_text() for p in sys.argv[1:])
-required_wrapper=("authorized-usd20-20260817","estimated_max_cost_microusd\": 20000000","timeout_seconds\": 25200","--max-spot-retries","--runtime-continuity-volume-id","remaining_task_instances","ADL_ISSUE268_REPORT_BEGIN","r7i.2xlarge","#269")
+required_wrapper=("authorized-on-demand-usd20-20260820","estimated_max_cost_microusd\": 20000000","timeout_seconds\": 25200","--on-demand-only","--runtime-continuity-volume-id","remaining_task_instances","ADL_ISSUE268_REPORT_BEGIN","r7i.2xlarge","#269")
 for marker in required_wrapper:
     if marker not in w: raise SystemExit(f"wrapper marker missing: {marker}")
 for marker in ("SIX_HOUR_MINIMUM_SECONDS: u64 = 21_600","SIX_HOUR_MAX_OVERSHOOT_SECONDS: u64 = 600","tokio::time::timeout_at","six_hour_qualification"):
@@ -94,8 +94,8 @@ chmod +x "$test_root/owner" "$test_root/aws"
 ADL_ISSUE268_EVIDENCE_ROOT="$test_root" \
 ADL_ISSUE268_OWNER="$test_root/owner" \
 ADL_ISSUE268_FAKE_OWNER_LOG="$test_root/owner.log" \
-ADL_ISSUE268_AUTHORIZATION=authorized-usd20-20260817 \
-ADL_ISSUE268_ESTIMATED_HOURLY_COST_USD=0.1763 \
+ADL_ISSUE268_AUTHORIZATION=authorized-on-demand-usd20-20260820 \
+ADL_ISSUE268_ESTIMATED_HOURLY_COST_USD=0.5292 \
 ADL_AWS_RUNTIME_CONTINUITY_VOLUME_ID=vol-12345678 \
 ADL_AWS_RUNTIME_CONTINUITY_VOLUME_NAME=adl-issue268-runtime \
 ADL_AWS_RUNTIME_CONTINUITY_VOLUME_ID_SHA256="$(python3 -c 'import hashlib; print(hashlib.sha256(b"vol-12345678").hexdigest())')" \
@@ -119,6 +119,7 @@ PY
 grep -F -- '--runtime-continuity-volume-id vol-12345678' "$test_root/owner.log" >/dev/null
 grep -F -- '--runtime-continuity-volume-name adl-issue268-runtime' "$test_root/owner.log" >/dev/null
 grep -F -- 'run --run ' "$test_root/owner.log" >/dev/null
+grep -F -- '--on-demand-only' "$test_root/owner.log" >/dev/null
 
 if ADL_ISSUE268_EVIDENCE_ROOT="$test_root" \
   ADL_ISSUE268_OWNER="$test_root/owner" \
@@ -160,7 +161,7 @@ cat >"$test_root/summary.json" <<'EOF'
   "issue": 268,
   "run_id": "issue268-six-hour-r7i-20260820-34",
   "status": "passed",
-  "attempts": [{"purchase_option": "spot", "status": "launched"}],
+  "attempts": [{"purchase_option": "on_demand", "status": "launched"}],
   "expected_max_cost_usd": 20.0,
   "cleanup": {"termination_attempted": true, "final_instance_state": "terminated"}
 }
@@ -194,9 +195,14 @@ allowed={
 "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
 "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
 "adl/tools/run_aws_spot_remote_validation_lane.sh",
+"adl/tools/aws_spot_artifact_finalize.py",
+"adl/tools/test_aws_spot_artifact_finalize.sh",
+"adl/tools/test_run_aws_spot_remote_validation_lane.sh",
 "adl/tools/run_aws_spot_builder_image_validation.sh",
 "adl/tools/test_run_aws_spot_builder_image_validation.sh",
 "tools/aws_remote_validation/src/aws_remote_validation.rs",
+"tools/aws_remote_validation/src/bin/adl_aws_remote_validation.rs",
+"tools/aws_remote_validation/tests/portable_adapter.rs",
 "tools/aws_remote_validation/scripts/remote_validation_runner.sh",
 "adl/tools/run_issue268_six_hour_spot_qualification.sh",
 "adl/tools/test_run_issue268_six_hour_spot_qualification.sh",

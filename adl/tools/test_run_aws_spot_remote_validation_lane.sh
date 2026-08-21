@@ -8,7 +8,7 @@ WORKFLOW="$ROOT/.github/workflows/aws-spot-remote-validation.yaml"
 TMP_PARENT="${TMPDIR:?TMPDIR must be set to an approved external volume}/adl-aws-spot-remote-validation-tests"
 
 grep -F 'LANE_BIN="$ROOT/tools/aws_remote_validation/target/debug/adl-aws-remote-validation"' "$SCRIPT" >/dev/null
-grep -F 'selected binary does not implement the required Spot contract' "$SCRIPT" >/dev/null
+grep -F 'selected binary does not implement the required purchase contract' "$SCRIPT" >/dev/null
 mkdir -p "$TMP_PARENT"
 TMP="$(mktemp -d "$TMP_PARENT/test.XXXXXX")"
 trap 'rm -rf "$TMP"' EXIT

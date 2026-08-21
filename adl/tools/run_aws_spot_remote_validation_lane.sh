@@ -77,6 +77,7 @@ MIN_CACHE_FREE_GIB="${ADL_AWS_SPOT_MIN_CACHE_FREE_GIB:-10}"
 ESTIMATED_HOURLY_COST_USD="${ADL_AWS_SPOT_ESTIMATED_HOURLY_COST_USD:-}"
 MAX_RUN_SECONDS=""
 MAX_SPOT_RETRIES="${ADL_AWS_SPOT_MAX_RETRIES:-2}"
+ON_DEMAND_ONLY=false
 AMI_ID="${ADL_AWS_REMOTE_VALIDATION_AMI_ID:-}"
 SUBNET_ID="${ADL_AWS_REMOTE_VALIDATION_SUBNET_ID:-}"
 EXPECTED_CACHE_VOLUME_ID_SHA256="${ADL_AWS_REMOTE_VALIDATION_CACHE_VOLUME_ID_SHA256:-}"
@@ -145,6 +146,7 @@ Options:
                                 Override the pre-run Spot hourly price estimate.
   --max-run-seconds <seconds>   Remote validation command timeout in seconds.
   --max-spot-retries <count>    Maximum additional Spot instance attempts. Defaults to 2.
+  --on-demand-only              Launch one On-Demand instance directly; never try Spot.
   --ami-id <id>                 Explicit AMI. Defaults to the current AL2023 SSM image.
   --subnet-id <id>              Explicit subnet. Defaults to retained hot-cache proof topology.
   --expected-cache-volume-id-sha256 <hash>
@@ -331,6 +333,10 @@ while [[ $# -gt 0 ]]; do
       MAX_SPOT_RETRIES="${2:-}"
       shift 2
       ;;
+    --on-demand-only)
+      ON_DEMAND_ONLY=true
+      shift
+      ;;
     --ami-id)
       AMI_ID="${2:-}"
       shift 2
@@ -483,8 +489,12 @@ if [[ ! -x "$LANE_BIN" ]]; then
   echo "build it with: cargo build --locked --manifest-path tools/aws_remote_validation/Cargo.toml --bin adl-aws-remote-validation" >&2
   exit 2
 fi
-if ! "$LANE_BIN" --help 2>&1 | grep -F -- "--spot-only" >/dev/null; then
-  echo "run_aws_spot_remote_validation_lane: selected binary does not implement the required Spot contract: $LANE_BIN" >&2
+required_purchase_flag=--spot-only
+[[ "$ON_DEMAND_ONLY" == true ]] && required_purchase_flag=--on-demand-only
+expected_purchase_option=spot
+[[ "$ON_DEMAND_ONLY" == true ]] && expected_purchase_option=on_demand
+if ! "$LANE_BIN" --help 2>&1 | grep -F -- "$required_purchase_flag" >/dev/null; then
+  echo "run_aws_spot_remote_validation_lane: selected binary does not implement the required purchase contract: $LANE_BIN" >&2
   exit 2
 fi
 
@@ -1023,7 +1033,6 @@ cmd=(
   --git-ref "$GIT_REF"
   --out "$OUT_PATH"
   --artifact-dir "$ARTIFACT_DIR"
-  --spot-only
   --max-spot-retries "$MAX_SPOT_RETRIES"
   --cache-volume-id "$RETAINED_CACHE_VOLUME_ID"
   --cache-volume-name "$CACHE_VOLUME_NAME"
@@ -1036,6 +1045,11 @@ cmd=(
   --ami-id "$AMI_ID"
   --subnet-id "$SUBNET_ID"
 )
+if [[ "$ON_DEMAND_ONLY" == true ]]; then
+  cmd+=(--on-demand-only)
+else
+  cmd+=(--spot-only)
+fi
 
 if [[ -n "$SSH_KEY_NAME" ]]; then
   cmd+=(--ssh-key-name "$SSH_KEY_NAME")
@@ -1073,7 +1087,6 @@ if [[ -n "$PORTABLE_MAX_COST_USD" ]]; then
     --expected-max-cost-usd "$PORTABLE_MAX_COST_USD"
     --estimated-hourly-cost-usd "$ESTIMATED_HOURLY_COST_USD"
     --total-run-timeout-seconds "$MAX_RUN_SECONDS"
-    --spot-only
   )
 fi
 if [[ -n "$PORTABLE_CANCELLATION_FILE" ]]; then
@@ -1142,6 +1155,7 @@ execute_run() {
     --expected-retained-volume-role "$retained_volume_role" \
     --validation-environment "$VALIDATION_ENVIRONMENT" \
     --estimated-hourly-cost-usd "$ESTIMATED_HOURLY_COST_USD" \
+    --expected-purchase-option "$expected_purchase_option" \
     --runner-exit-code "$runner_status" \
     >"$ARTIFACT_DIR/finalize.out" 2>"$ARTIFACT_DIR/finalize.err" || finalize_status="$?"
   finished_unix_ms="$(python3 -c 'import time; print(time.time_ns() // 1000000)')"

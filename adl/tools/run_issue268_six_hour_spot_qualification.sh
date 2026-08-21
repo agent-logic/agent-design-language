@@ -37,7 +37,7 @@ allowed=(root/".csdlc/evidence/268", root/".adl")
 if not any(candidate == base or base in candidate.parents for base in allowed):
     raise SystemExit("issue268: evidence root escaped governed repository paths")
 PY
-[[ -x "$OWNER" ]] || { echo "issue268: Spot owner wrapper missing" >&2; exit 69; }
+[[ -x "$OWNER" ]] || { echo "issue268: AWS owner wrapper missing" >&2; exit 69; }
 [[ -x "$REMOTE_BIN" ]] || { echo "issue268: tools AWS owner binary missing" >&2; exit 69; }
 [[ -x "$PORTABLE_BIN" ]] || { echo "issue268: portable validation binary missing" >&2; exit 69; }
 [[ -f "$UTS_PLAN_VALIDATOR" ]] || { echo "issue268: six-resident UTS plan validator missing" >&2; exit 69; }
@@ -122,6 +122,7 @@ common=(
   --portable-request "$REQUEST" --portable-runner "$PORTABLE_BIN"
   --bin "$REMOTE_BIN" --instance-types r7i.2xlarge
   --max-spot-retries 0 --out "$SUMMARY" --artifact-dir "$ARTIFACTS" --json
+  --on-demand-only
   --runtime-continuity-volume-id "$RUNTIME_VOLUME_ID"
   --runtime-continuity-volume-name "$RUNTIME_VOLUME_NAME"
   --runtime-continuity-volume-id-sha256 "$RUNTIME_VOLUME_ID_SHA256"
@@ -132,13 +133,13 @@ case "$MODE" in
     "$OWNER" preflight --check-account "${common[@]}"
     ;;
   authorized-launch)
-    [[ "${ADL_ISSUE268_AUTHORIZATION:-}" == "authorized-usd20-20260817" ]] || {
+    [[ "${ADL_ISSUE268_AUTHORIZATION:-}" == "authorized-on-demand-usd20-20260820" ]] || {
       echo "issue268: exact operator authorization marker missing" >&2
       exit 77
     }
     HOURLY=${ADL_ISSUE268_ESTIMATED_HOURLY_COST_USD:-}
     [[ "$HOURLY" =~ ^[0-9]+([.][0-9]+)?$ ]] || {
-      echo "issue268: current estimated hourly Spot cost required" >&2
+      echo "issue268: current estimated hourly On-Demand cost required" >&2
       exit 77
     }
     if [[ -e "$LAUNCH_CLAIM" ]]; then
@@ -214,7 +215,7 @@ d=json.load(open(summary_path))
 if d.get("issue") != 268 or d.get("run_id") != run_id: raise SystemExit("issue268: summary identity mismatch")
 if d.get("status") != "passed": raise SystemExit(f"issue268: paid qualification did not pass: {d.get('status')}")
 attempts=d.get("attempts") or []
-if len(attempts) != 1 or attempts[0].get("purchase_option") != "spot": raise SystemExit("issue268: not exactly one Spot attempt")
+if len(attempts) != 1 or attempts[0].get("purchase_option") != "on_demand": raise SystemExit("issue268: not exactly one On-Demand attempt")
 if d.get("expected_max_cost_usd") != 20.0: raise SystemExit("issue268: USD 20 ceiling missing")
 cleanup=d.get("cleanup") or {}
 if cleanup.get("termination_attempted") is not True or cleanup.get("final_instance_state") != "terminated": raise SystemExit("issue268: owner cleanup incomplete")
@@ -232,7 +233,7 @@ if measured < 21600 or over != measured-21600 or over > 600: raise SystemExit("i
 receipt={
  "schema":"adl.issue268.validation.v1","status":"pass","revision":revision,
  "minimum_exposure_seconds":21600,"measured_exposure_seconds":measured,"overshoot_seconds":over,
- "attempt_count":1,"purchase_option":"spot","remaining_task_instances":0,
+ "attempt_count":1,"purchase_option":"on_demand","remaining_task_instances":0,
  "summary_sha256":hashlib.sha256(pathlib.Path(summary_path).read_bytes()).hexdigest(),
  "command_stdout_sha256":hashlib.sha256(logs[0].read_bytes()).hexdigest(),
 }
