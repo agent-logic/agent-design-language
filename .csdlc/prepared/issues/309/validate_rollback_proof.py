@@ -42,7 +42,16 @@ def main() -> int:
         row.get("band"): set(row.get("paths", []))
         for row in report.get("bands", []) if isinstance(row, dict)
     }
-    declared_modified = set(report.get("modified_files", [])) if isinstance(report.get("modified_files"), list) else set()
+    band_supporting_paths = {
+        row.get("band"): set(row.get("supporting_paths", []))
+        for row in report.get("bands", [])
+        if isinstance(row, dict) and isinstance(row.get("supporting_paths"), list)
+    }
+    band_modified_paths = {
+        row.get("band"): set(row.get("modified_paths", []))
+        for row in report.get("bands", [])
+        if isinstance(row, dict) and isinstance(row.get("modified_paths"), list)
+    }
     supporting_paths = set(report.get("band_supporting_paths", [])) if isinstance(report.get("band_supporting_paths"), list) else set()
     errors: list[str] = []
     if receipt.get("schema") != "adl.issue309.rollback_proof.v1":
@@ -105,7 +114,11 @@ def main() -> int:
             ]
             if not path_sets[0] or path_sets[0] != path_sets[1] or path_sets[0] != path_sets[2]:
                 errors.append(f"{name}: band/revert/reapply changed-path sets differ")
-            declared_paths = report_bands.get(name, set()) | declared_modified | supporting_paths
+            declared_paths = (
+                report_bands.get(name, set())
+                | band_modified_paths.get(name, set())
+                | band_supporting_paths.get(name, supporting_paths)
+            )
             if path_sets[0] != declared_paths:
                 errors.append(f"{name}: Git changed paths differ from reduction report")
             derived_unrelated = sorted(path_sets[0] - declared_paths)

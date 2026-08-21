@@ -4,49 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "1aac31d526ec88733274957b08d6a077e4b1c251c3c859ce9de45efa648636ad",
-  "phase": "published",
-  "generation": 10,
-  "digest": "11d06cb17bf62519f45857b5a1cfc295f08a3eba6cd7accff6fd66671573fa1f",
+  "phase": "implemented",
+  "generation": 14,
+  "digest": "848e74e676385fa5f6b7efa43e867f0de732f7b3c3708bcc737cb6bd570cf9d3",
   "branch": "codex/309-repository-wide-code-reduction",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-309-repository-wide-code-reduction",
-  "review_assignment": {
-    "reviewer": "fresh-session:a1f95d5c-bd55-409c-8bfc-ac43b96ca252",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:34a26d382ebde47c58f5eae6c4a3c41e11c00a74:44e9808f4ae8914a38ecff56764549f4a6f8d32da8bc69b4b850ba27e4fbb6ff",
-    "scope": [
-      "Exact candidate 34a26d382",
-      "Complete #309 base-to-candidate source, evidence, rollback, and validator diff",
-      "Focused remediation of exact nonempty report-to-receipt rollback band coverage"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:a1f95d5c-bd55-409c-8bfc-ac43b96ca252",
-    "scope": [
-      "Exact candidate 34a26d382",
-      "Complete #309 base-to-candidate source, evidence, rollback, and validator diff",
-      "Focused remediation of exact nonempty report-to-receipt rollback band coverage"
-    ],
-    "reviewed_revision": "git-blake3:34a26d382ebde47c58f5eae6c4a3c41e11c00a74:44e9808f4ae8914a38ecff56764549f4a6f8d32da8bc69b4b850ba27e4fbb6ff",
-    "findings": [],
-    "residual_risks": [
-      "Hosted Linux validation remains deferred until the reviewed candidate is published and exact-head CI receipts exist.",
-      "This first reduction band removes only two superseded evaluation modules; later WP-21 bands remain separate work and require their own proof and rollback rehearsals."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 309,
-    "pull_request": 460,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/460",
-    "base": "main",
-    "head": "codex/309-repository-wide-code-reduction",
-    "revision": "git-blake3:d4058ff9bb3f8bd8dd3b548da1b22ce462239850:5a082e8d0e9a4228984a96ecbd8333ff3f7ace05ffdb9ce508e62e6a340cd67d",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -60,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "dfc3d1b90d8c7eafa3a1af20839ca9de7e83eec98be4add37264e19e37b31b0a",
+      "values_digest": "e52ee249c934934bd15da29eb63e2fbe388bcff00794808e658a0e06920ef612",
       "rendered_digest": "3bca781149156bfb4be59a4d4c03a7c473410842d4ec0dade2b308f7af6a1f0b",
       "ast_digest": "f55ce5dd36489108eba3c951314648669937c36c1270f8988282ee5b6d4c7d94"
     },
     "stp": {
-      "values_digest": "a198bd341d6ebf3e07af7dcf8a9ca381f65750a552b0bc6d4f38598df983dfcf",
-      "rendered_digest": "7a72a9bcb8fa0bd1b14da2e8a85ea8e76b695bd0324a2b6570d86e87d9975bb0",
-      "ast_digest": "de23dbaf4f54e6667bc4b220972034908306dafbca730aeb99daabd21fd924e7"
+      "values_digest": "a994575c5b027378ec80b684d34bb229d4fa8ce720a1de95ed3db7c48a6bd990",
+      "rendered_digest": "2b655146b587217f273ed1192b58583eb9b2c3fc48cc3f091c1fea04444b1af1",
+      "ast_digest": "30de68a4ae1efe02fb7f6e51a3fa071e20eb7b81accb6bb649049a4166a2fbf8"
     },
     "spp": {
-      "values_digest": "8ce90bd6c5dd7d53b2e0f8b3804d0c80f08a35feedd20c8f3feeefbffc84476c",
-      "rendered_digest": "bec787bafe31df61b313e6a0f3c823d7995b4a9617d413ffa5de7555597c64a8",
-      "ast_digest": "57df70a9933fc6fb12738d66d8bab3e9f2427c6a99535fc8ae06811aaad00fe0"
+      "values_digest": "4231fb2e17ac61bb488f3c8ff9656a6eae82c5f9b9647c2ab3d16dafe5a441fc",
+      "rendered_digest": "69efcf87d90f60dd7adbbafce17cf87715f265e6d1918ed4257441da792e3977",
+      "ast_digest": "4f455482a7c42a749f74da7f0cbca60e7c1a867b2ef73715a07bbf1a7914a924"
     },
     "vpp": {
-      "values_digest": "5f65c57ef3497d168ecbd99f2e07a6fd30b16d10c24b574be0ea9b26be71ef37",
+      "values_digest": "1cb7add09424cd42ac1efeb378d3c6845180287f8b8feb83818f1a78391fbc6b",
       "rendered_digest": "7cfe24289d97dd2a45ed3eda904868a79bd625a54f207499c763de9d505f88c9",
       "ast_digest": "8c9c18dce40471e4ef19d9dd0846065bd45c95ac68f4c7930fbe04e785b6d29d"
     },
     "srp": {
-      "values_digest": "9d97861f1b7e4b735279a6fe70b5b9bb2a317aca5f5022f0235cdaf3d3cbb63a",
-      "rendered_digest": "66ec82dd2c9396cdad69614a0018f4dc773d6e486b81232d9ea943c36a6ea9bb",
-      "ast_digest": "39c2d363eb7aad38fda62b0ac1523549af27c0599b4106eb31464dc8bc70d902"
+      "values_digest": "454cfe0cb74ff782bce125fe626d3dd2c9aab0b63ee841092dcd394cb124455c",
+      "rendered_digest": "f40ed553b2b99feeb0f28f9335038c934e11be0cbd2d22c0d431ad009f294885",
+      "ast_digest": "c656e086e8f4da10bb62a4696c7e891aaffd532401eb28b901819877d7d9174c"
     },
     "sor": {
-      "values_digest": "fdd5b9f16fcd88bd65c8c7ee9a25bb4d00312dd694f8e2da1eaf80ce8148f83a",
-      "rendered_digest": "ca13397f9aa72b168dc34e81f1a084efdcaa1f63c8dea9ee0879fbdaf5db906a",
-      "ast_digest": "ff150a43f7ecde54c3f06775fadd2e0d48b3f7a29170376da46be351ffdee8f7"
+      "values_digest": "ae5ef8ce5c4bdb558c3d592d49e2e1a33d9d65c3127f00259b89e042e634f3a8",
+      "rendered_digest": "2b352a2c009db9b8fd5340ccec0508bb726ad76c80dc9cc42c8533e963812fc7",
+      "ast_digest": "a319652d1eb77c0aef817337e342c4c81da169f4e01c25b5e71c3066e0cd0a63"
     }
   },
   "transitions": [
@@ -125,6 +90,13 @@
       "to": "published",
       "actor": "codex:/root",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover the published #309 candidate after hosted CI proved that the PR-fast changed-file detector excluded deleted Rust paths; add deletion-aware routing proof and strengthen the reverse-reference census without widening source deletion."
     }
   ],
   "audit": [
@@ -232,6 +204,34 @@
       "actor": "codex:/root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Recover the published #309 candidate after hosted CI proved that the PR-fast changed-file detector excluded deleted Rust paths; add deletion-aware routing proof and strengthen the reverse-reference census without widening source deletion.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Declare the expanded dead-code census, Gemini advisory audit, deterministic evidence refreshers, and deletion-aware hosted CI routing required by the recovered #309 candidate.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/src\",\"adl/Cargo.toml\",\"adl/Cargo.lock\",\"adl/tools/test_owner_binary_install.sh\",\"adl/tools/run_pr_fast_test_lane.sh\",\"adl/tools/test_run_pr_fast_test_lane.sh\",\".csdlc/prepared/issues/309/design.md\",\".csdlc/prepared/issues/309/diagram.mmd\",\".csdlc/prepared/issues/309/refresh_crate_reference_edges.py\",\".csdlc/prepared/issues/309/refresh_dead_code_band.py\",\".csdlc/prepared/issues/309/run_gemini_dead_code_audit.py\",\".csdlc/prepared/issues/309/validate_reduction_inventory.py\",\".csdlc/prepared/issues/309/validate_rollback_proof.py\",\".csdlc/prepared/issues/309/validate_hosted_linux_receipt.py\",\".csdlc/evidence/309/baseline-manifest.json\",\".csdlc/evidence/309/reference-edge-manifest.json\",\".csdlc/evidence/309/disposition-manifest.json\",\".csdlc/evidence/309/reduction-report.json\",\".csdlc/evidence/309/rollback-proof.json\",\".csdlc/evidence/309/gemini-dead-code-audit.md\",\".csdlc/evidence/309/github-linux-ci.json\"]}"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "Align the task deliverable denominator with the expanded dead-code census, advisory Gemini audit, deterministic refreshers, and deletion-aware CI repair.",
+      "operation": "{\"new_values\":[\"Proof-led independently reversible dead-code reductions under adl/src\",\"adl/tools/run_pr_fast_test_lane.sh\",\"adl/tools/test_run_pr_fast_test_lane.sh\",\".csdlc/prepared/issues/309/refresh_crate_reference_edges.py\",\".csdlc/prepared/issues/309/refresh_dead_code_band.py\",\".csdlc/prepared/issues/309/run_gemini_dead_code_audit.py\",\".csdlc/prepared/issues/309/validate_reduction_inventory.py\",\".csdlc/prepared/issues/309/validate_rollback_proof.py\",\".csdlc/prepared/issues/309/validate_hosted_linux_receipt.py\",\".csdlc/evidence/309/baseline-manifest.json\",\".csdlc/evidence/309/reference-edge-manifest.json\",\".csdlc/evidence/309/disposition-manifest.json\",\".csdlc/evidence/309/reduction-report.json\",\".csdlc/evidence/309/rollback-proof.json\",\".csdlc/evidence/309/gemini-dead-code-audit.md\",\".csdlc/evidence/309/github-linux-ci.json\",\"Exact-head macOS and hosted Linux proof\"],\"operation\":\"correct_stp_deliverables_after_recovery\",\"previous_values\":[\".csdlc/evidence/309/baseline-manifest.json\",\".csdlc/evidence/309/reference-edge-manifest.json\",\".csdlc/evidence/309/disposition-manifest.json\",\".csdlc/evidence/309/reduction-report.json\",\".csdlc/evidence/309/rollback-proof.json\",\".csdlc/prepared/issues/309/validate_reduction_inventory.py\",\".csdlc/prepared/issues/309/validate_rollback_proof.py\",\".csdlc/prepared/issues/309/validate_hosted_linux_receipt.py\",\"Reviewed Band A/B deletion commits and bounded Band C decision\",\"Exact-head macOS and hosted Linux proof\"],\"recovery_generation\":11,\"recovery_sequence\":16}"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Record the expanded dead-code-only Band B, protected authority retention, exact reduction denominator, rollback proof, and focused validation before fresh review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Removed 20 reviewed dead or superseded Rust files across independently reversible Bands A and B, totaling 11,571 deleted physical lines from the pinned 485-file/265,633-line baseline. Retained Runtime v2, #414 continuity, policy authority, current providers, ACC/capability surfaces, supported CLI routes, and every candidate lacking complete deletion proof.\",\"changes\":[\"Recomputed the pinned baseline and 2,216 normalized reference edges, with every deleted target and deleted-source edge explicitly removal-disposed.\",\"Kept Band A's two retired evaluation modules and added Band B's pre-v0.92 skill schema, speculative-decoding prototype, retired GWS demo implementations, local-Gemma evaluator, and UTS/ACC benchmark-only cluster.\",\"Restored policy_authority byte-for-byte after the advisory audit proposed it incorrectly; retained cognitive-transition, AWS #268, Runtime v2/#414, active provider, capability, ACC, current demo, and supported CLI surfaces.\",\"Normalized Band B into one independently reversible commit and proved exact Git tree restoration and reapplication without unrelated path changes.\",\"Made PR-fast Rust routing deletion-aware and added a regression fixture proving deleted Rust paths select a focused lane instead of the forbidden full fallback.\"],\"artifacts\":[\"adl/src/lib.rs\",\"adl/src/gws_live_test_support.rs\",\"adl/tools/run_pr_fast_test_lane.sh\",\"adl/tools/test_run_pr_fast_test_lane.sh\",\".csdlc/prepared/issues/309/refresh_crate_reference_edges.py\",\".csdlc/prepared/issues/309/refresh_dead_code_band.py\",\".csdlc/prepared/issues/309/run_gemini_dead_code_audit.py\",\".csdlc/prepared/issues/309/validate_reduction_inventory.py\",\".csdlc/prepared/issues/309/validate_rollback_proof.py\",\".csdlc/evidence/309/baseline-manifest.json\",\".csdlc/evidence/309/reference-edge-manifest.json\",\".csdlc/evidence/309/disposition-manifest.json\",\".csdlc/evidence/309/reduction-report.json\",\".csdlc/evidence/309/rollback-proof.json\",\".csdlc/evidence/309/gemini-dead-code-audit.md\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/309/validate_reduction_inventory.py\",\"--root\",\".\"],\"purpose\":\"Recompute the exact baseline, reference, disposition, historical-retirement, candidate-diff, and reduction denominator.\",\"outcome\":\"passed\",\"evidence_ref\":\"485 files; 265633 baseline lines; 2216 edges; 20 deleted files; 11571 deleted lines\"},{\"command\":[\"python3\",\".csdlc/prepared/issues/309/validate_rollback_proof.py\",\"--root\",\".\"],\"purpose\":\"Prove exact per-band Git revert and reapply topology, trees, and path isolation.\",\"outcome\":\"passed\",\"evidence_ref\":\"2 bands; 0 errors\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\",\"resident_shepherd_spot_continuity\",\"--\",\"--nocapture\"],\"purpose\":\"Protect #414 resident dehydration, restore, admission, and useful-continuation behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"6 passed; 0 failed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"live_continuity\",\"--\",\"--nocapture\"],\"purpose\":\"Protect signed Runtime-kernel continuity behavior consumed by #414.\",\"outcome\":\"passed\",\"evidence_ref\":\"8 passed; 0 failed\"},{\"command\":[\"cargo\",\"check\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--all-targets\"],\"purpose\":\"Compile every ADL target after removing the orphan clusters.\",\"outcome\":\"passed\",\"evidence_ref\":\"all targets compiled\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings and residual references across every ADL target.\",\"outcome\":\"passed\",\"evidence_ref\":\"strict Clippy passed\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl/Cargo.toml\",\"--\",\"--check\"],\"purpose\":\"Verify canonical Rust formatting.\",\"outcome\":\"passed\",\"evidence_ref\":\"format check passed\"},{\"command\":[\"bash\",\"adl/tools/test_owner_binary_install.sh\"],\"purpose\":\"Prove supported clean owner-binary installation remains intact.\",\"outcome\":\"passed\",\"evidence_ref\":\"owner binary stable install: ok\"},{\"command\":[\"bash\",\"adl/tools/test_run_pr_fast_test_lane.sh\"],\"purpose\":\"Prove deleted Rust paths trigger focused PR-fast routing.\",\"outcome\":\"passed\",\"evidence_ref\":\"PASS test_run_pr_fast_test_lane\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and patch hygiene defects.\",\"outcome\":\"passed\",\"evidence_ref\":\"no findings\"}]}"
     }
   ]
 }

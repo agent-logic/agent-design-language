@@ -12,9 +12,7 @@ Status: draft
 
 ## Scope
 
-Exact candidate 34a26d382
-Complete #309 base-to-candidate source, evidence, rollback, and validator diff
-Focused remediation of exact nonempty report-to-receipt rollback band coverage
+
 
 ## Prompts
 
@@ -35,13 +33,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Hosted Linux validation remains deferred until the reviewed candidate is published and exact-head CI receipts exist.
-- This first reduction band removes only two superseded evaluation modules; later WP-21 bands remain separate work and require their own proof and rollback rehearsals.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:34a26d382ebde47c58f5eae6c4a3c41e11c00a74:44e9808f4ae8914a38ecff56764549f4a6f8d32da8bc69b4b850ba27e4fbb6ff")
+Revision: None
 
-Reviewer: Some("fresh-session:a1f95d5c-bd55-409c-8bfc-ac43b96ca252")
+Reviewer: None
 
-Result: pass
+Result: pre_review

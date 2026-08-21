@@ -16,15 +16,22 @@ Inventory the complete current denominator, execute only proof-supported deletio
 
 ## Deliverables
 
+- Proof-led independently reversible dead-code reductions under adl/src
+- adl/tools/run_pr_fast_test_lane.sh
+- adl/tools/test_run_pr_fast_test_lane.sh
+- .csdlc/prepared/issues/309/refresh_crate_reference_edges.py
+- .csdlc/prepared/issues/309/refresh_dead_code_band.py
+- .csdlc/prepared/issues/309/run_gemini_dead_code_audit.py
+- .csdlc/prepared/issues/309/validate_reduction_inventory.py
+- .csdlc/prepared/issues/309/validate_rollback_proof.py
+- .csdlc/prepared/issues/309/validate_hosted_linux_receipt.py
 - .csdlc/evidence/309/baseline-manifest.json
 - .csdlc/evidence/309/reference-edge-manifest.json
 - .csdlc/evidence/309/disposition-manifest.json
 - .csdlc/evidence/309/reduction-report.json
 - .csdlc/evidence/309/rollback-proof.json
-- .csdlc/prepared/issues/309/validate_reduction_inventory.py
-- .csdlc/prepared/issues/309/validate_rollback_proof.py
-- .csdlc/prepared/issues/309/validate_hosted_linux_receipt.py
-- Reviewed Band A/B deletion commits and bounded Band C decision
+- .csdlc/evidence/309/gemini-dead-code-audit.md
+- .csdlc/evidence/309/github-linux-ci.json
 - Exact-head macOS and hosted Linux proof
 
 ## Acceptance

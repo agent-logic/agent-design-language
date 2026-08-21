@@ -7,46 +7,59 @@
     "title": "[v0.92][WP-21] Repository-wide code reduction cleanup",
     "slug": "309-repository-wide-code-reduction",
     "version": "v0.92",
-    "generation": 10
+    "generation": 14
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Remove two superseded evaluation-only Rust modules after a complete 485-file disposition census and exact per-band rollback rehearsal.",
+      "summary": "Removed 20 reviewed dead or superseded Rust files across independently reversible Bands A and B, totaling 11,571 deleted physical lines from the pinned 485-file/265,633-line baseline. Retained Runtime v2, #414 continuity, policy authority, current providers, ACC/capability surfaces, supported CLI routes, and every candidate lacking complete deletion proof.",
       "actual_changes": [
-        "Captured the immutable 485-file 265633-line baseline and 1742 active reference edges",
-        "Removed the retired DSpark and provider-native comparison evaluation modules plus their public exports after #5347 had already retired their executable demos",
-        "Proved Band A restores and reapplies exact Git trees without unrelated path changes"
+        "Recomputed the pinned baseline and 2,216 normalized reference edges, with every deleted target and deleted-source edge explicitly removal-disposed.",
+        "Kept Band A's two retired evaluation modules and added Band B's pre-v0.92 skill schema, speculative-decoding prototype, retired GWS demo implementations, local-Gemma evaluator, and UTS/ACC benchmark-only cluster.",
+        "Restored policy_authority byte-for-byte after the advisory audit proposed it incorrectly; retained cognitive-transition, AWS #268, Runtime v2/#414, active provider, capability, ACC, current demo, and supported CLI surfaces.",
+        "Normalized Band B into one independently reversible commit and proved exact Git tree restoration and reapplication without unrelated path changes.",
+        "Made PR-fast Rust routing deletion-aware and added a regression fixture proving deleted Rust paths select a focused lane instead of the forbidden full fallback."
       ],
       "artifacts": [
         "adl/src/lib.rs",
+        "adl/src/gws_live_test_support.rs",
+        "adl/tools/run_pr_fast_test_lane.sh",
+        "adl/tools/test_run_pr_fast_test_lane.sh",
+        ".csdlc/prepared/issues/309/refresh_crate_reference_edges.py",
+        ".csdlc/prepared/issues/309/refresh_dead_code_band.py",
+        ".csdlc/prepared/issues/309/run_gemini_dead_code_audit.py",
+        ".csdlc/prepared/issues/309/validate_reduction_inventory.py",
+        ".csdlc/prepared/issues/309/validate_rollback_proof.py",
         ".csdlc/evidence/309/baseline-manifest.json",
         ".csdlc/evidence/309/reference-edge-manifest.json",
         ".csdlc/evidence/309/disposition-manifest.json",
         ".csdlc/evidence/309/reduction-report.json",
-        ".csdlc/evidence/309/rollback-proof.json"
+        ".csdlc/evidence/309/rollback-proof.json",
+        ".csdlc/evidence/309/gemini-dead-code-audit.md"
       ],
       "actual_validation": [
         {
           "command": [
-            "git",
-            "diff",
-            "--check",
-            "e926e3bca0ab1981d77b4658d2feb4059bdf33a6...HEAD"
+            "python3",
+            ".csdlc/prepared/issues/309/validate_reduction_inventory.py",
+            "--root",
+            "."
           ],
-          "purpose": "Diff hygiene.",
+          "purpose": "Recompute the exact baseline, reference, disposition, historical-retirement, candidate-diff, and reduction denominator.",
           "outcome": "passed",
-          "evidence_ref": "diff_hygiene.log"
+          "evidence_ref": "485 files; 265633 baseline lines; 2216 edges; 20 deleted files; 11571 deleted lines"
         },
         {
           "command": [
             "python3",
-            ".csdlc/prepared/issues/309/validate_reduction_inventory.py"
+            ".csdlc/prepared/issues/309/validate_rollback_proof.py",
+            "--root",
+            "."
           ],
-          "purpose": "Reduction inventory proof.",
+          "purpose": "Prove exact per-band Git revert and reapply topology, trees, and path isolation.",
           "outcome": "passed",
-          "evidence_ref": "reduction_inventory.log"
+          "evidence_ref": "2 bands; 0 errors"
         },
         {
           "command": [
@@ -60,9 +73,9 @@
             "--",
             "--nocapture"
           ],
-          "purpose": "ADL continuity proof.",
+          "purpose": "Protect #414 resident dehydration, restore, admission, and useful-continuation behavior.",
           "outcome": "passed",
-          "evidence_ref": "resident_continuity_adl.log"
+          "evidence_ref": "6 passed; 0 failed"
         },
         {
           "command": [
@@ -76,31 +89,22 @@
             "--",
             "--nocapture"
           ],
-          "purpose": "Kernel continuity proof.",
+          "purpose": "Protect signed Runtime-kernel continuity behavior consumed by #414.",
           "outcome": "passed",
-          "evidence_ref": "resident_continuity_kernel.log"
-        },
-        {
-          "command": [
-            "python3",
-            ".csdlc/prepared/issues/309/validate_rollback_proof.py"
-          ],
-          "purpose": "Rollback proof.",
-          "outcome": "passed",
-          "evidence_ref": "rollback_proof.log"
+          "evidence_ref": "8 passed; 0 failed"
         },
         {
           "command": [
             "cargo",
-            "fmt",
+            "check",
+            "--locked",
             "--manifest-path",
             "adl/Cargo.toml",
-            "--",
-            "--check"
+            "--all-targets"
           ],
-          "purpose": "Rust formatting.",
+          "purpose": "Compile every ADL target after removing the orphan clusters.",
           "outcome": "passed",
-          "evidence_ref": "rust_format.log"
+          "evidence_ref": "all targets compiled"
         },
         {
           "command": [
@@ -114,22 +118,54 @@
             "-D",
             "warnings"
           ],
-          "purpose": "Strict Clippy.",
+          "purpose": "Reject warnings and residual references across every ADL target.",
           "outcome": "passed",
-          "evidence_ref": "strict_clippy.log"
+          "evidence_ref": "strict Clippy passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "fmt",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "--",
+            "--check"
+          ],
+          "purpose": "Verify canonical Rust formatting.",
+          "outcome": "passed",
+          "evidence_ref": "format check passed"
         },
         {
           "command": [
             "bash",
             "adl/tools/test_owner_binary_install.sh"
           ],
-          "purpose": "Clean-install owner proof.",
+          "purpose": "Prove supported clean owner-binary installation remains intact.",
           "outcome": "passed",
-          "evidence_ref": "supported_cli_clean_install.log"
+          "evidence_ref": "owner binary stable install: ok"
+        },
+        {
+          "command": [
+            "bash",
+            "adl/tools/test_run_pr_fast_test_lane.sh"
+          ],
+          "purpose": "Prove deleted Rust paths trigger focused PR-fast routing.",
+          "outcome": "passed",
+          "evidence_ref": "PASS test_run_pr_fast_test_lane"
+        },
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "purpose": "Reject whitespace and patch hygiene defects.",
+          "outcome": "passed",
+          "evidence_ref": "no findings"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

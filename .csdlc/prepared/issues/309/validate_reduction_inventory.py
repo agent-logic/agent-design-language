@@ -32,6 +32,7 @@ REFERENCE_CLASSES = {
 }
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
+CRATE_PATH = re.compile(rb"(?:crate|adl)::([A-Za-z_][A-Za-z0-9_]*)")
 
 
 def load(path: pathlib.Path) -> object:
@@ -152,6 +153,29 @@ def main() -> int:
             fail(errors, f"missing replacement: {path}")
     if set(by_path) != set(observed):
         fail(errors, "disposition denominator differs from baseline")
+    policy_row = by_path.get("adl/src/policy_authority.rs", {})
+    if policy_row.get("disposition") != "retain_active" or not (root / "adl/src/policy_authority.rs").is_file():
+        fail(errors, "current policy authority must remain retained and present")
+
+    historical_path = root / "docs/milestones/v0.91.8/evidence/wp13-external-bands/external-band-deletion-manifest.json"
+    if not historical_path.is_file():
+        fail(errors, "reviewed v0.91.8 external-band deletion manifest missing")
+    else:
+        historical = load(historical_path)
+        historical_paths = {
+            row.get("path") for row in historical.get("deleted_files", []) if isinstance(row, dict)
+        }
+        required_retired_entrypoints = {
+            "adl/src/bin/demo_v0905_local_gemma_model_evaluation.rs",
+            "adl/src/bin/demo_v0912_gws_live_capability_execution_surface.rs",
+            "adl/src/bin/demo_v0912_gws_live_content_card_roundtrip.rs",
+            "adl/src/bin/demo_v0912_gws_live_safety_package.rs",
+            "adl/src/bin/demo_v0912_rust_native_gws_adapter_boundary.rs",
+            "adl/src/bin/demo_v0912_speculative_decoding_prototype.rs",
+            "adl/src/bin/demo_v0912_uts_acc_multi_model_benchmark.rs",
+        }
+        if not required_retired_entrypoints.issubset(historical_paths):
+            fail(errors, "historical deletion authority lacks a required retired demo entrypoint")
 
     edge_rows = edges.get("edges")
     scan = edges.get("scan_denominator")
@@ -239,18 +263,49 @@ def main() -> int:
             target = match.decode()
             if target in observed and target != source_path:
                 expected_pairs.add((source_path, target))
+    # A single canonical edge may be discovered by more than one deterministic
+    # scanner (for example both an exact path string and a Rust crate path).
+    # Edge identity intentionally excludes the evidence label, so prove that
+    # every exact-path observation resolves to a retained canonical edge rather
+    # than requiring one scanner's label to win deduplication.
     actual_pairs = {
         (str(edge["source"]["path"]), str(edge["target"]))
         for edge in edge_rows
         if isinstance(edge, dict)
-        and edge.get("evidence") == "exact tracked path reference"
         and isinstance(edge.get("source"), dict)
         and edge["source"].get("path")
     }
-    if expected_pairs != actual_pairs:
+    if not expected_pairs.issubset(actual_pairs):
         missing_pairs = sorted(expected_pairs - actual_pairs)[:5]
-        extra_pairs = sorted(actual_pairs - expected_pairs)[:5]
-        fail(errors, f"exact tracked-path reference census differs from pinned Git scan: missing={missing_pairs!r} extra={extra_pairs!r}")
+        fail(errors, f"exact tracked-path reference census differs from pinned Git scan: missing={missing_pairs!r}")
+
+    module_targets: dict[str, str] = {}
+    for path in observed:
+        relative = path.removeprefix("adl/src/")
+        if "/" not in relative and relative.endswith(".rs"):
+            module_targets[relative[:-3]] = path
+        elif relative.endswith("/mod.rs") and relative.count("/") == 1:
+            module_targets[relative.split("/", 1)[0]] = path
+    expected_crate_pairs: set[tuple[str, str]] = set()
+    for source_path in sorted(path for path in tree_rows if path.endswith(".rs")):
+        content = git_bytes(root, "show", f"{BASE}:{source_path}")
+        for match in CRATE_PATH.findall(content):
+            target = module_targets.get(match.decode())
+            if target and target != source_path:
+                expected_crate_pairs.add((source_path, target))
+    actual_crate_pairs = {
+        (str(edge["source"]["path"]), str(edge["target"]))
+        for edge in edge_rows
+        if isinstance(edge, dict)
+        and edge.get("reference_class") == "module"
+        and isinstance(edge.get("source"), dict)
+        and edge["source"].get("path")
+    }
+    if not expected_crate_pairs.issubset(actual_crate_pairs):
+        missing_pairs = sorted(expected_crate_pairs - actual_crate_pairs)[:5]
+        fail(errors, f"Rust crate-path reference census differs from pinned Git scan: missing={missing_pairs!r}")
+    if scan.get("rust_crate_path_edges") != len(expected_crate_pairs):
+        fail(errors, "Rust crate-path edge denominator mismatch")
 
     if report.get("schema") != "adl.issue309.reduction.v1" or report.get("baseline_commit") != BASE:
         fail(errors, "reduction report identity invalid")
@@ -290,6 +345,7 @@ def main() -> int:
         report_bands = []
     report_band_ids: set[str] = set()
     declared_deleted: set[str] = set()
+    declared_band_modified: set[str] = set()
     for band in report_bands:
         if not isinstance(band, dict):
             fail(errors, "reduction report band is not an object")
@@ -307,7 +363,14 @@ def main() -> int:
         if overlap:
             fail(errors, f"deleted paths appear in multiple bands: {sorted(overlap)!r}")
         declared_deleted.update(band_paths)
+        band_modified = band.get("modified_paths")
+        if not isinstance(band_modified, list) or not all(isinstance(path, str) for path in band_modified):
+            fail(errors, f"reduction report band modified paths missing: {band_id}")
+        else:
+            declared_band_modified.update(band_modified)
     declared_modified = set(report.get("modified_files", [])) if isinstance(report.get("modified_files"), list) else set()
+    if declared_band_modified != declared_modified:
+        fail(errors, "per-band modified path coverage differs from reduction report")
     if deleted_paths != declared_deleted or modified_paths != declared_modified:
         fail(errors, "candidate Git diff differs from declared deleted/modified paths")
     removed_lines = sum(len(git_bytes(root, "show", f"{BASE}:{path}").splitlines()) for path in deleted_paths)

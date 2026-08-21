@@ -99,10 +99,10 @@ changed_rows() {
     echo "run_pr_fast_test_lane: --base and --head are required unless --changed-files is supplied" >&2
     exit 2
   fi
-  if git -C "$ROOT_DIR" diff --name-status --diff-filter=ACMR "$BASE_SHA...$HEAD_SHA" 2>/dev/null; then
+  if git -C "$ROOT_DIR" diff --name-status --diff-filter=ACDMR "$BASE_SHA...$HEAD_SHA" 2>/dev/null; then
     return
   fi
-  if git -C "$ROOT_DIR" diff --name-status --diff-filter=ACMR "$BASE_SHA" "$HEAD_SHA" 2>/dev/null; then
+  if git -C "$ROOT_DIR" diff --name-status --diff-filter=ACDMR "$BASE_SHA" "$HEAD_SHA" 2>/dev/null; then
     return
   fi
   echo "run_pr_fast_test_lane: failed to determine changed files for $BASE_SHA..$HEAD_SHA" >&2

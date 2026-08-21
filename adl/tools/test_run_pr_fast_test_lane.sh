@@ -202,6 +202,19 @@ assert_has "$structural_companion_runtime_output" "structural_surface_count=1"
 assert_has "$structural_companion_runtime_output" "filter_tokens=speculative_decoding_prototype"
 assert_has "$structural_companion_runtime_output" "filter_expression=test(speculative_decoding_prototype)"
 
+deleted_structural_companion="$TMP/deleted_structural_companion.txt"
+cat >"$deleted_structural_companion" <<'EOF'
+D	adl/src/provider_native_tool_call_comparison.rs
+M	adl/src/lib.rs
+EOF
+deleted_structural_companion_output="$(bash "$SCRIPT" --changed-files "$deleted_structural_companion" --print-plan)"
+assert_has "$deleted_structural_companion_output" "mode=focused"
+assert_has "$deleted_structural_companion_output" "reason=bounded_rust_surface_runs_focused_nextest"
+assert_has "$deleted_structural_companion_output" "rust_surface_count=1"
+assert_has "$deleted_structural_companion_output" "structural_surface_count=1"
+assert_has "$deleted_structural_companion_output" "filter_tokens=provider_native_tool_call_comparison"
+assert_has "$deleted_structural_companion_output" "filter_expression=test(provider_native_tool_call_comparison)"
+
 runtime_family="$TMP/runtime_family.txt"
 printf 'M\tadl/src/runtime_v2/mod.rs\n' >"$runtime_family"
 runtime_family_output="$(bash "$SCRIPT" --changed-files "$runtime_family" --print-plan)"

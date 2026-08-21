@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-21] Repository-wide code reduction cleanup",
     "slug": "309-repository-wide-code-reduction",
     "version": "v0.92",
-    "generation": 10
+    "generation": 14
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 3,
+      "plan_revision": 4,
       "summary": "Pin the exact baseline and rollback source; generate the complete disposition inventory; execute dead-code, superseded-compatibility, and only safe Runtime-v2 deletion bands as separate reversible commits; prove behavior, continuity, platform, accounting, and rollback; then obtain exact-head review and publish the truthful achieved reduction.",
       "steps": [
         {
@@ -70,8 +70,13 @@
         "adl/Cargo.toml",
         "adl/Cargo.lock",
         "adl/tools/test_owner_binary_install.sh",
+        "adl/tools/run_pr_fast_test_lane.sh",
+        "adl/tools/test_run_pr_fast_test_lane.sh",
         ".csdlc/prepared/issues/309/design.md",
         ".csdlc/prepared/issues/309/diagram.mmd",
+        ".csdlc/prepared/issues/309/refresh_crate_reference_edges.py",
+        ".csdlc/prepared/issues/309/refresh_dead_code_band.py",
+        ".csdlc/prepared/issues/309/run_gemini_dead_code_audit.py",
         ".csdlc/prepared/issues/309/validate_reduction_inventory.py",
         ".csdlc/prepared/issues/309/validate_rollback_proof.py",
         ".csdlc/prepared/issues/309/validate_hosted_linux_receipt.py",
@@ -80,6 +85,7 @@
         ".csdlc/evidence/309/disposition-manifest.json",
         ".csdlc/evidence/309/reduction-report.json",
         ".csdlc/evidence/309/rollback-proof.json",
+        ".csdlc/evidence/309/gemini-dead-code-audit.md",
         ".csdlc/evidence/309/github-linux-ci.json"
       ],
       "invariants": [
