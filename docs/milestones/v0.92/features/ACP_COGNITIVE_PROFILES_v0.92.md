@@ -105,6 +105,9 @@ echo attacker-controlled strings.
 
 - v0.91.1 memory/identity, ToM, intelligence, and learning evidence.
 - v0.92 birthday packet and capability envelope.
+- v0.92 issue `#448` Runtime resident-cycle integration, which builds the
+  governed profile from the exact verified capability envelope and continuity
+  token and returns typed verified handles to downstream runtime consumers.
 - v0.93 governance handoff as a consumer, not an owner.
 
 ## Validation
@@ -124,6 +127,15 @@ records its exact structured test inventory and semantic digest, binds source
 and producer digests to the candidate head, normalizes checkout paths, and
 rejects retained machine-local paths. Native receipts are integration evidence;
 they are not claimed until the GitHub workflow produces and validates them.
+
+Issue `#448` adds a distinct production-consumption proof in
+`adl-runtime-kernel/src/resident_cycle.rs`. That lane exercises
+`LiveAssembly::build_verified_resident_cycle`, initial governed profile
+construction, governed update with authority rotation, restart/rehydration
+record validation, tamper rejection, stale continuity rejection, and invalid
+rotation rejection. This proof is intentionally separate from the lower-level
+profile fixture lane: the fixture proves the substrate contract; `#448` proves
+the Runtime resident cycle consumes it.
 
 ## Source Inputs
 

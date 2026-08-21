@@ -1,0 +1,12 @@
+flowchart TD
+  G256["#256 WP-18 terminal + reconciled + ancestral"] --> Gate{"WP-20 entry gate"}
+  G340["#340 WP-18A terminal + reconciled + ancestral"] --> Gate
+  G341["#341 WP-18B terminal + reconciled + ancestral"] --> Gate
+  G5839["Legacy #5839 WP-19 validated terminal authority"] --> Gate
+  Gate -->|"not proven"| Stop["Stop before bind or execution"]
+  Gate -->|"proven at selected base"| Inventory["Inventory child-owned proof read-only"]
+  Inventory --> Join["Join matrix + coverage + activation + AEE index"]
+  Join --> Validate{"Fail-closed coverage validator"}
+  Validate -->|"missing, duplicate, synthetic, planned, or revision drift"| Reject["Retain rejected coverage report"]
+  Validate -->|"consistent exact-revision proof"| Review["Independent exact-head review"]
+  Review --> Terminal["WP-20 terminal truth; unlock #309 ordering gate"]

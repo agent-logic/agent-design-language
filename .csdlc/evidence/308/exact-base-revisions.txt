@@ -1,0 +1,56 @@
+#308 WP-20 predecessor gate evidence
+
+issue: #256
+work_package: WP-18
+repository: agent-logic/agent-design-language
+pull_request: 427
+disposition: merged
+terminal_state: closed_by_merged_pr
+reconciled_state: typed_derived_terminal_reconciled
+canonical_generation: 22
+canonical_digest: f96cf1052c911a104f2a8a228cf83ffb345990ca2160b0b70032f002ba5bc671
+merge_sha: fb4c853bdb9cb140059d2a28af02d70bd36a27a4
+ancestor_of_308_base: true
+retained_evidence_ref: .csdlc/evidence/308/predecessors/256-derived-terminal.json
+
+issue: #340
+work_package: WP-18A
+repository: agent-logic/agent-design-language
+pull_request: 430
+disposition: merged
+terminal_state: closed_by_merged_pr
+reconciled_state: typed_derived_terminal_reconciled
+canonical_generation: 39
+canonical_digest: b59cd71fa9399f166366e42b84503b78e7dfce46f93096f116f2c613f5cc3bd8
+merge_sha: aa36a828793366f92d0d9e16247bd3fb1cce7878
+ancestor_of_308_base: true
+retained_evidence_ref: .csdlc/evidence/308/predecessors/340-derived-terminal.json
+
+issue: #341
+work_package: WP-18B
+repository: agent-logic/agent-design-language
+pull_request: 442
+disposition: merged
+terminal_state: closed_by_merged_pr
+reconciled_state: typed_derived_terminal_reconciled
+canonical_generation: 2
+canonical_digest: 31d3e54f171dbd164ef1de1bc4504110e0de1f3de44c206eb667770c4dad1141
+merge_sha: 0b5aadebd7cff653c2500106d4a4055f1b9b8818
+ancestor_of_308_base: true
+retained_evidence_ref: .csdlc/evidence/308/predecessors/341-derived-terminal.json
+
+issue: #5839
+work_package: WP-19
+repository: danielbaustin/agent-design-language
+pull_request: 289
+disposition: merged
+terminal_state: closed_by_merged_pr
+reconciled_state: typed_derived_terminal_reconciled
+canonical_generation: 38
+canonical_digest: 93a28ce3d40b0eb0444c1c7d011401856db489075da1cbf6221f45a74546fa7e
+merge_sha: 7f88697ce82215188af941e15cf02a6220c9ad63
+ancestor_of_308_base: true
+retained_evidence_ref: .csdlc/evidence/308/predecessors/5839-derived-terminal.json
+
+supporting_sprint_closeout_merge_sha: f3fae960ce02e9bc2149e76a658359a46a819a47
+supporting_sprint_closeout_ancestor_of_308_base: true

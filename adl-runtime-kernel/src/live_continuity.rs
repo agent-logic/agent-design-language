@@ -20,6 +20,8 @@ use crate::{
 pub const LIVE_KERNEL_SNAPSHOT_SCHEMA: &str = "adl.runtime.live_kernel_snapshot.v1";
 pub const LIVE_KERNEL_CHECKPOINT_SCHEMA: &str = "adl.runtime.live_kernel_checkpoint.v1";
 
+type ResidentPopulationValidator<'a> = &'a mut dyn FnMut(&[u8]) -> Result<(), String>;
+
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub struct LiveKernelSnapshot {
     pub schema: String,
@@ -164,7 +166,7 @@ impl LiveContinuity {
     async fn restore_latest_inner(
         &mut self,
         recorder: &RuntimeRecorder,
-        mut resident_validator: Option<&mut dyn FnMut(&[u8]) -> Result<(), String>>,
+        mut resident_validator: Option<ResidentPopulationValidator<'_>>,
     ) -> Result<Option<RestoredLiveContinuity>, LiveContinuityError> {
         let Some(generation) = latest_generation(&self.root).await? else {
             if self.minimum_generation > 0 {
