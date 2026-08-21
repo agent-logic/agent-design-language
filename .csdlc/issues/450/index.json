@@ -5,12 +5,117 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "2ba84a82b33fdb23b6c516a95a7dcd1b9311eefaea6b2e4c9c9ab1391c925625",
   "phase": "implemented",
-  "generation": 2,
-  "digest": "1d41fb43548e394c12e99c5c129d62b43f225e2545bae511f6f9d8d92d3096dc",
+  "generation": 3,
+  "digest": "87495a9e2e5608b14ecdbd2ad56dda17cbc908d586cd740ae7f0cba89a64f46c",
   "branch": "codex/450-memory-palace-production-authority",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-450-memory-palace-production-authority",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:5f5aa88a-08ac-41c8-878e-ae84a36e8b07",
+    "assigned_by": "codex",
+    "revision": "git-blake3:f6bdd3298afdfc8d58b223a244bc3b4dc2172136:4f62751112875d07875a675ba361f2c6b0da0bf22cb0dfdc649c45b6a25a80cb",
+    "scope": [
+      ".csdlc/issues/450/audit.jsonl",
+      ".csdlc/issues/450/cards/sip.md",
+      ".csdlc/issues/450/cards/sip.values.json",
+      ".csdlc/issues/450/cards/sor.md",
+      ".csdlc/issues/450/cards/sor.values.json",
+      ".csdlc/issues/450/cards/spp.md",
+      ".csdlc/issues/450/cards/spp.values.json",
+      ".csdlc/issues/450/cards/srp.md",
+      ".csdlc/issues/450/cards/srp.values.json",
+      ".csdlc/issues/450/cards/stp.md",
+      ".csdlc/issues/450/cards/stp.values.json",
+      ".csdlc/issues/450/cards/vpp.md",
+      ".csdlc/issues/450/cards/vpp.values.json",
+      ".csdlc/issues/450/index.json",
+      ".csdlc/evidence/450/adl_memory_palace_projection.log",
+      ".csdlc/evidence/450/csm_memory_palace_readiness.log",
+      ".csdlc/evidence/450/kernel_memory_palace_packet.log",
+      ".csdlc/evidence/450/runtime_broad_lib_regression.log",
+      ".csdlc/evidence/450/runtime_memory_palace_service.log",
+      ".csdlc/prepared/issues/450/design.md",
+      ".csdlc/prepared/issues/450/diagram.mmd",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/governed_operations.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/memory_palace.rs",
+      "adl-runtime-kernel/src/memory_palace_authority.rs",
+      "adl-runtime-kernel/tests/assembly.rs",
+      "adl-runtime-kernel/tests/memory_palace.rs",
+      "adl-runtime/src/lib.rs",
+      "adl-runtime/src/memory_palace.rs",
+      "adl-runtime/src/supervision.rs",
+      "adl-runtime/src/topology.rs",
+      "adl/Cargo.lock",
+      "adl/Cargo.toml",
+      "adl/src/csm_runtime_api.rs",
+      "adl/src/memory_palace.rs",
+      "adl/tests/memory_palace_tests.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:5f5aa88a-08ac-41c8-878e-ae84a36e8b07",
+    "scope": [
+      ".csdlc/issues/450/audit.jsonl",
+      ".csdlc/issues/450/cards/sip.md",
+      ".csdlc/issues/450/cards/sip.values.json",
+      ".csdlc/issues/450/cards/sor.md",
+      ".csdlc/issues/450/cards/sor.values.json",
+      ".csdlc/issues/450/cards/spp.md",
+      ".csdlc/issues/450/cards/spp.values.json",
+      ".csdlc/issues/450/cards/srp.md",
+      ".csdlc/issues/450/cards/srp.values.json",
+      ".csdlc/issues/450/cards/stp.md",
+      ".csdlc/issues/450/cards/stp.values.json",
+      ".csdlc/issues/450/cards/vpp.md",
+      ".csdlc/issues/450/cards/vpp.values.json",
+      ".csdlc/issues/450/index.json",
+      ".csdlc/evidence/450/adl_memory_palace_projection.log",
+      ".csdlc/evidence/450/csm_memory_palace_readiness.log",
+      ".csdlc/evidence/450/kernel_memory_palace_packet.log",
+      ".csdlc/evidence/450/runtime_broad_lib_regression.log",
+      ".csdlc/evidence/450/runtime_memory_palace_service.log",
+      ".csdlc/prepared/issues/450/design.md",
+      ".csdlc/prepared/issues/450/diagram.mmd",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/governed_operations.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/memory_palace.rs",
+      "adl-runtime-kernel/src/memory_palace_authority.rs",
+      "adl-runtime-kernel/tests/assembly.rs",
+      "adl-runtime-kernel/tests/memory_palace.rs",
+      "adl-runtime/src/lib.rs",
+      "adl-runtime/src/memory_palace.rs",
+      "adl-runtime/src/supervision.rs",
+      "adl-runtime/src/topology.rs",
+      "adl/Cargo.lock",
+      "adl/Cargo.toml",
+      "adl/src/csm_runtime_api.rs",
+      "adl/src/memory_palace.rs",
+      "adl/tests/memory_palace_tests.rs"
+    ],
+    "reviewed_revision": "git-blake3:f6bdd3298afdfc8d58b223a244bc3b4dc2172136:4f62751112875d07875a675ba361f2c6b0da0bf22cb0dfdc649c45b6a25a80cb",
+    "findings": [
+      {
+        "id": "issue450-direct-packet-bypass",
+        "severity": "p1",
+        "summary": "ADL handoff accepted a caller-supplied self-consistent Runtime Memory Palace packet file instead of loading a durable Runtime service latest/checkpoint/journal proof.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": "Fix #450 adapter so input_ref resolves to RuntimeMemoryPalaceService latest.json and add a direct-packet rejection test."
+      }
+    ],
+    "residual_risks": [
+      "Reviewer did not rerun validators; reviewed exact committed tree and retained validation logs only.",
+      "Reviewer reported an accidental broad grep may have scanned the forbidden adl-runtime/src/resident_agent.rs path, but no output or reasoning used that file."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +130,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c9e901427b96c009ec7e4fb469396cb352e3cb39cc734f449e95e21b1915dc93",
+      "values_digest": "1dadad8025bd47c6ded6aae9012b823dd584b352cd9f87d605eb28d383648603",
       "rendered_digest": "bc05390fa59e1fdfd58f2a28c97735cbab105c0abd7922757f7e189e7294d71c",
       "ast_digest": "d07f704144b9191f595ce437134d39e0dbc0193195493e4825550db98d9c49f1"
     },
     "stp": {
-      "values_digest": "5567bfbd1ecaca684a3e93533f89bddea121fc7cf0b409cf0cfc364cad231238",
+      "values_digest": "7ad3922fc8b7f580078489e9bc0ed40ec919a318b2b429adb912d985ae2406b4",
       "rendered_digest": "085979d3227cb2fb241df3c7b7921904b1e6ddaf0aa9bc4f17742f416098087c",
       "ast_digest": "cf4959ce1996b71005f67c579e4d6acdc3e9ec8ccfc1a30ce4141821988a63db"
     },
     "spp": {
-      "values_digest": "0ad3fdb0682cf63436e81afd69eb6d7fd8b8addc86b12dda346ff5bdd939fac8",
+      "values_digest": "b696e297c49b4a678672784ddf535dcde43186ee31b4e2478ad50395e790af61",
       "rendered_digest": "948f106d0030483b54120316f4337b5973bde103f0005718f269c1a159c01968",
       "ast_digest": "8d7b09c325b4f31bd00467499e5577f56d4fcdd6fe6bfc369a83e8c802463990"
     },
     "vpp": {
-      "values_digest": "3cc301a526796fa5e73bd10782a898a0b4b3c6712c2eb179131230de8f7e53e3",
+      "values_digest": "498cfae49738e578aee1402bed18a46cc565be90ca6bd6fdc5d9349fdeb1bb6c",
       "rendered_digest": "de962a78c6125bbd3abc1116e974ab6584dcf0a48ce16568b7bf903a592921e5",
       "ast_digest": "542b9447dd7c09de1122382bc923af80c88364cf6ac5240bed7eec2370f5637e"
     },
     "srp": {
-      "values_digest": "55d467e8229c3134273d56d4f76132ec81e227138d4fd98ffeb89023742316f2",
-      "rendered_digest": "65f1c35940f071a261d9fed177c7aac0019d9906e49fd53459bd795a56e77d7b",
-      "ast_digest": "c73b6f3def396365360c44eecb590d24371ca2edb2726a977100605fe6ab41d3"
+      "values_digest": "cd833ba2e15c62dfb7265276f989ce4bfbc47a7703463e79fbd8ca3990185b08",
+      "rendered_digest": "35c09f1038c6473a7add4de8edca8c5edb606ffb7953f20cded3ad7b869ab536",
+      "ast_digest": "d9e3355c9f60047ee16a69c9f5a19bc61a80c989c0fd3f5b927856b78202f5ab"
     },
     "sor": {
-      "values_digest": "d623b4a89964dae7f4cb8390e6eb0db660842b11afaf9f6aa60ee47eac65e210",
+      "values_digest": "053e4dbd9e2711a026f946236fab5c35fd536b2a9ea7f73acc05d5d1e3f49bf9",
       "rendered_digest": "db37c0c1cf97b3cd6d9705325e84c01c0f992ee6f6e23631e63e837ac46e4503",
       "ast_digest": "d9542b1d6cf18eaa28d3a0e376ac27f28ffd6f03d1d1c189432fb284f8d2cdca"
     }
@@ -106,6 +211,20 @@
       "actor": "codex",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 5,
+      "generation": 2,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
