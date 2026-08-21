@@ -3,13 +3,53 @@
   "issue": 308,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "b71a21ec664bc745058f14d570b7b0024b62162323b6d5def698cbe827292525",
-  "phase": "implemented",
-  "generation": 15,
-  "digest": "bd05cb58a5e828e320cec67c4543410e6d4053abeaa7335d046b006816a95419",
+  "phase": "reviewed",
+  "generation": 16,
+  "digest": "ab20eb4098f4d2c8512cabf48193ad1c19e2d0445478d5e72e013e36d537e561",
   "branch": "codex/308-demo-proof-coverage",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-308-demo-proof-coverage",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:codex-cli-issue-308-review-67c735d9",
+    "assigned_by": "codex:issue-308-ci-clippy-unblock",
+    "revision": "git-blake3:67c735d96ea2b6aa1aeb5edcea8f0c410399db55:46e1eb8f82afabb60eb08560d0d134e9fc4b7adbe4d227242d26827b770a84bc",
+    "scope": [
+      ".csdlc/evidence/308",
+      ".csdlc/issues/308",
+      ".csdlc/prepared/issues/308",
+      ".csdlc/locks/308.lock",
+      "adl/src/governed_executor_parts/tests.rs",
+      "adl/tools/validate_v092_demo_proof_coverage.py",
+      "adl/tools/test_v092_demo_proof_coverage.sh",
+      "docs/milestones/v0.92/DEMO_MATRIX_v0.92.md",
+      "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md",
+      "docs/milestones/v0.92/review/V092_DEMO_AEE_ARTIFACT_INDEX.md"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:codex-cli-issue-308-review-67c735d9",
+    "scope": [
+      ".csdlc/evidence/308",
+      ".csdlc/issues/308",
+      ".csdlc/prepared/issues/308",
+      ".csdlc/locks/308.lock",
+      "adl/src/governed_executor_parts/tests.rs",
+      "adl/tools/validate_v092_demo_proof_coverage.py",
+      "adl/tools/test_v092_demo_proof_coverage.sh",
+      "docs/milestones/v0.92/DEMO_MATRIX_v0.92.md",
+      "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md",
+      "docs/milestones/v0.92/review/V092_DEMO_AEE_ARTIFACT_INDEX.md"
+    ],
+    "reviewed_revision": "git-blake3:67c735d96ea2b6aa1aeb5edcea8f0c410399db55:46e1eb8f82afabb60eb08560d0d134e9fc4b7adbe4d227242d26827b770a84bc",
+    "findings": [],
+    "residual_risks": [
+      "Review was read-only and bounded to exact commit 67c735d96ea2b6aa1aeb5edcea8f0c410399db55; reviewer ignored post-HEAD review-assignment metadata dirt.",
+      "Reviewer did not rerun broad mutating validation; local pre-review validation passed focused validator, negative suite, git diff --check, cargo fmt --check, and cargo clippy --all-targets -D warnings."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +64,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ee972c997bc8062e3d7594af479915797d01fe8b56cb27ba8f12d81a8b426e7e",
+      "values_digest": "8d4774ccac3e5c86989376f6c42014d67d370d7ae6520fc0b2a8558a54917828",
       "rendered_digest": "cb55925f2472f45ca6386cfee375de0c4902ec6c3ab85f3229b6b5e5b89e8d57",
       "ast_digest": "3435b3bd1e49ebcb8894c63af3b1450b0776da7a75419409d74a670109bdc75c"
     },
     "stp": {
-      "values_digest": "0a08bea8b6ae6f3d4dfd74eaa38dd03173f639a9642f4a5dcd2692c0c6641b72",
+      "values_digest": "54f5b9b06ccd680a0ecf534b13aa48191e234ba48745b2ba87e29d6a22c6a5f6",
       "rendered_digest": "a858d8b299db2f2ad806e9073e1ed32a6caaeb6cea054ec2ed06c57d75fdf406",
       "ast_digest": "16b0f2d4769f79fe6de0ea45effc459efb38a8642c718c4f9137cfa2547f2729"
     },
     "spp": {
-      "values_digest": "1f88efdfe1f249ef39030193dd8f5642ab2d4bc4e2f55b283df5f526ca314a47",
+      "values_digest": "7320ee53c158ea4ce810aa10182851cc23d58997b3eeda4b4b97c4707c21cb9d",
       "rendered_digest": "399212b0c2e5fb22de1357d7107303b26268078fce84e2a1a20eb287bca39905",
       "ast_digest": "b031d43e65ae2803059c35bc18820e29ff139dadca7ab5d0f2ec450e15d6179f"
     },
     "vpp": {
-      "values_digest": "05cacd00b216d7df09f4ad5f6c4618150a5261975e7ee4ffb96b7b023f2441e7",
+      "values_digest": "652b403eb0d5596a6c2e35754227331a9c3f015e0c56fba113b29261c26c7329",
       "rendered_digest": "d0d0590688e421ae4ae90cd95cad4ebfbe25abd842349eec2396e341ed53aa94",
       "ast_digest": "b1628e42176d953479f71193b2ac8af7587ca4c40ca4bcdbfce4dab54a3d40f3"
     },
     "srp": {
-      "values_digest": "bed4bd60cbc3f24d901de734f07c5f3c59d2d0e347954aa62e8ec462ecb3af74",
-      "rendered_digest": "48ac6678ddca44923623167889db657aafd83a58b2243fe05b755251320302a7",
-      "ast_digest": "c527a75ebd21bc2913b8306373f0f6e150df6f6d97140ef10a8b16e26c274905"
+      "values_digest": "971f283d7b9134bad406a196b9eb0880365c7c4356385b496b8b66eaa6bee4fb",
+      "rendered_digest": "a54f657919f4891acdf709a1eee48e728c1250eb64713599fb7d19bf34c0e5bf",
+      "ast_digest": "2190aa650ac227b9dc7fc5ac51323a63e90b6c138fbe6045cce9b52e48301b53"
     },
     "sor": {
-      "values_digest": "4a8bb3d96a1a67126504a7af77165ba90527f4062331fd0120b5bcc892ebe7ce",
+      "values_digest": "64c691906f590d36e1d21c2c8090279a33701d4ed1259d8d1d872e8b2523bda4",
       "rendered_digest": "d4eaa132c028645974594a98bf21f51a0d0300c385dddf2806e670bfe14b5802",
       "ast_digest": "adc560b0f0c08e6ab8a47e426e9327c481734a999df0f726311e074157239580"
     }
@@ -96,6 +136,13 @@
       "to": "implemented",
       "actor": "codex:issue-308-ci-clippy-unblock",
       "reason": "Recover stale published review/publication truth after a post-publication hosted-Clippy unblock commit f06722e81a261afe177ae6105610fcfddc75a748 changed the PR head; exact-head review must be re-assigned and re-recorded before publication can authorize merge."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:codex-cli-issue-308-review-67c735d9",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -252,6 +299,20 @@
       "actor": "codex:issue-308-ci-clippy-unblock",
       "reason": "Recover stale published review/publication truth after a post-publication hosted-Clippy unblock commit f06722e81a261afe177ae6105610fcfddc75a748 changed the PR head; exact-head review must be re-assigned and re-recorded before publication can authorize merge.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 15,
+      "actor": "codex:issue-308-ci-clippy-unblock",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 16,
+      "actor": "fresh-session:codex-cli-issue-308-review-67c735d9",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
