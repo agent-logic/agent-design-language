@@ -1,9 +1,9 @@
 {
   "schema": "adl.runtime.production_birthday_evidence.v1",
   "issue": 451,
-  "source_revision": "4e23796ba1cdf89cb5f4121a01915d31f16e167b",
+  "source_revision": "06989cadc69294742905a27082266786c20ecc6a",
   "kernel_tests": {"selected": 5, "passed": 5, "failed": 0, "target": "production_birthday"},
   "resident_tests": {"selected": 2, "passed": 2, "failed": 0, "target": "production_birthday_runtime"},
-  "proof": {"authenticated_tool_binding": true, "exactly_once": true, "restart": true, "two_store_contention": true, "cross_binding_denial": true, "ordinary_path_unchanged": true},
+  "proof": {"runtime_trusted_tool_binding": true, "runtime_verified_witness_binding": true, "trusted_time_binding": true, "exactly_once": true, "restart": true, "stale_lock_recovery": true, "seven_failpoints": true, "two_store_contention": true, "full_input_replay_denial": true, "cross_binding_denial": true, "ordinary_path_unchanged": true},
   "redaction": {"private_state_retained": false, "provider_content_retained": false, "tool_arguments_retained": false, "repository_relative_paths": true}
 }
