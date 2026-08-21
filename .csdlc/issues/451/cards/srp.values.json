@@ -7,15 +7,15 @@
     "title": "[v0.92][Runtime] Compose the production birthday and witness activation path",
     "slug": "451-production-birthday-witness-activation",
     "version": "v0.92",
-    "generation": 13
+    "generation": 15
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/evidence/451\n.csdlc/issues/451\n.csdlc/prepared/issues/451\nadl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/birth_witness.rs\nadl-runtime-kernel/src/config.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/src/memory_palace_authority.rs\nadl-runtime-kernel/src/production_birthday.rs\nadl-runtime-kernel/src/resident_cycle.rs\nadl-runtime-kernel/tests/production_birthday.rs\nadl/Cargo.toml\nadl/Cargo.lock\nadl/src/lib.rs\nadl/src/long_lived_agent.rs\nadl/src/production_birthday.rs\nadl/src/resident_tool_execution.rs\nadl/tests/production_birthday_runtime.rs\ndocs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md\ndocs/milestones/v0.92/QUALITY_GATE_v0.92.md\ndocs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md\ndocs/planning/ADL_FEATURE_LIST.md",
-      "review_revision": "git-blake3:05b975fa699cb40032cd91a7f4433f71f1a05d39:dc9bb15d3383ad209fc8486a0e9e618998dff87c62373e1b7291d19ef917a1e3",
-      "reviewer": "fresh-session:434eae87-3ac4-4279-a431-cc3e9ca16de5",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does one production path consume every existing domain authority without duplicating writable truth?",
         "Can any missing stale copied rolled-back or conflicting input create or validate a receipt?",
@@ -24,40 +24,9 @@
         "Does the renewed audit prove real construction consumption and behavior for all nine features rather than citing modules or fixtures?",
         "Are private data and subjective/public claims excluded?"
       ],
-      "findings": [
-        {
-          "id": "451-R2-P1-PRODUCTION-PATH",
-          "severity": "p1",
-          "summary": "Long-lived entrypoint remained uncalled and the integration test bypassed real prerequisite handles.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": null
-        },
-        {
-          "id": "451-R2-P1-LOCK-UNLINK",
-          "severity": "p1",
-          "summary": "Unlock then unlink could split ownership across lock-file inodes.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": null
-        },
-        {
-          "id": "451-R2-P1-RECOVERY-LOCK",
-          "severity": "p1",
-          "summary": "Pending recovery mutated transaction files without acquiring the ownership lock.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": null
-        }
-      ],
+      "findings": [],
       "residual_risk": [],
-      "review_result": "changes_required"
+      "review_result": "pre_review"
     }
   }
 }

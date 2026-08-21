@@ -5,102 +5,12 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b9c2d7027cdbbd3b729c65e5834eb5a267bdfd975d7bfa5524071e7831956e5e",
   "phase": "implemented",
-  "generation": 13,
-  "digest": "74094ad3e351ce084e40a2981827a780abfc22e25be354311d1f38e203fa4c1b",
+  "generation": 15,
+  "digest": "43fc75f5f7703bca146d93b779f89573e8e933896c211a8909993d51d3e353da",
   "branch": "codex/451-production-birthday-witness-activation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-451-production-birthday-witness-activation",
-  "review_assignment": {
-    "reviewer": "fresh-session:434eae87-3ac4-4279-a431-cc3e9ca16de5",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:05b975fa699cb40032cd91a7f4433f71f1a05d39:dc9bb15d3383ad209fc8486a0e9e618998dff87c62373e1b7291d19ef917a1e3",
-    "scope": [
-      ".csdlc/evidence/451",
-      ".csdlc/issues/451",
-      ".csdlc/prepared/issues/451",
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/birth_witness.rs",
-      "adl-runtime-kernel/src/config.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/src/memory_palace_authority.rs",
-      "adl-runtime-kernel/src/production_birthday.rs",
-      "adl-runtime-kernel/src/resident_cycle.rs",
-      "adl-runtime-kernel/tests/production_birthday.rs",
-      "adl/Cargo.toml",
-      "adl/Cargo.lock",
-      "adl/src/lib.rs",
-      "adl/src/long_lived_agent.rs",
-      "adl/src/production_birthday.rs",
-      "adl/src/resident_tool_execution.rs",
-      "adl/tests/production_birthday_runtime.rs",
-      "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
-      "docs/milestones/v0.92/QUALITY_GATE_v0.92.md",
-      "docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md",
-      "docs/planning/ADL_FEATURE_LIST.md"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:434eae87-3ac4-4279-a431-cc3e9ca16de5",
-    "scope": [
-      ".csdlc/evidence/451",
-      ".csdlc/issues/451",
-      ".csdlc/prepared/issues/451",
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/birth_witness.rs",
-      "adl-runtime-kernel/src/config.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/src/memory_palace_authority.rs",
-      "adl-runtime-kernel/src/production_birthday.rs",
-      "adl-runtime-kernel/src/resident_cycle.rs",
-      "adl-runtime-kernel/tests/production_birthday.rs",
-      "adl/Cargo.toml",
-      "adl/Cargo.lock",
-      "adl/src/lib.rs",
-      "adl/src/long_lived_agent.rs",
-      "adl/src/production_birthday.rs",
-      "adl/src/resident_tool_execution.rs",
-      "adl/tests/production_birthday_runtime.rs",
-      "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
-      "docs/milestones/v0.92/QUALITY_GATE_v0.92.md",
-      "docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md",
-      "docs/planning/ADL_FEATURE_LIST.md"
-    ],
-    "reviewed_revision": "git-blake3:05b975fa699cb40032cd91a7f4433f71f1a05d39:dc9bb15d3383ad209fc8486a0e9e618998dff87c62373e1b7291d19ef917a1e3",
-    "findings": [
-      {
-        "id": "451-R2-P1-PRODUCTION-PATH",
-        "severity": "p1",
-        "summary": "Long-lived entrypoint remained uncalled and the integration test bypassed real prerequisite handles.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "451-R2-P1-LOCK-UNLINK",
-        "severity": "p1",
-        "summary": "Unlock then unlink could split ownership across lock-file inodes.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "451-R2-P1-RECOVERY-LOCK",
-        "severity": "p1",
-        "summary": "Pending recovery mutated transaction files without acquiring the ownership lock.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -115,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8df037929620ca854010b4e129a80d7cd56557f5d96930893b0444996cb15253",
+      "values_digest": "ff022dd09937d622ac9b0e0101b3edd75d8c7b361ee47243c28cf8de06e1c60b",
       "rendered_digest": "eadb6c2cc3035ca4dae94df535e206a938d256fc5937c858408cc5b86cb4ea99",
       "ast_digest": "f0cea1e2c58d406c14f2a0978ea405f57bce122026f1fc085589993f55ab3a8b"
     },
     "stp": {
-      "values_digest": "ee79907a0c5a474a55e6a05be962c112d08189606cebfacb3076ec83327a6fdd",
+      "values_digest": "8ba804a2ba2a3e0ff0f6c8d9266236e73ad70bcdec3a98555fdbc2d67722d93b",
       "rendered_digest": "9ae8e31a25c4344bd5564591ee81b983e5b7876e818723169f1fe5b4a71d8f4d",
       "ast_digest": "08e42884cb056fc338f9e5cbb8ab232743375906d9334fa1726ee60bb4698bce"
     },
     "spp": {
-      "values_digest": "0083b036f808c4d9cfb41eeb1e0807465ee30a9a99cde37a54864be7114449fb",
-      "rendered_digest": "367fabbe25db85ace494f423736e7df9673e62cd0da0ecc03fe03ba77ca6cfce",
-      "ast_digest": "c69d98e039da495b61d4da241805fb5b3585fc7f19f1219e08efa414732eebe0"
+      "values_digest": "af19dc3e78bffc3fc7fcc3174d85d9e735d4d8c0ed307e17c0cfaeb7913a60ed",
+      "rendered_digest": "39293630a529338dfa900dc1eab24bf5eac2165766972942527543457466610d",
+      "ast_digest": "8ad451dc30bbe8a4a23a3804b94d8390828f02e0469e1e9e63b0d889857a48cb"
     },
     "vpp": {
-      "values_digest": "8f888d67f2b43fe00edd487c818159812a9139ea0dc0f86c996e2a34668168d6",
+      "values_digest": "de3fa34318f14a29c53d17aaeeed8922001a6bb7d86708b588a6aa572d9723c9",
       "rendered_digest": "5dd80157e09af02d07bb352c64895f5778b98719516a2637641046258e0d0e5f",
       "ast_digest": "9ccf9013c0ee0a0efd4ecde2bd167f2e696adb6aa07a550792074fddfd188371"
     },
     "srp": {
-      "values_digest": "29d091e2e90e8f8c359c1174899f9bd9cd89e989135fd4ea003b52fb763dd4d8",
-      "rendered_digest": "ccdd3511b3308b5cb14cc38981bbee09c8ea4abc126631c84523f738f657b2b5",
-      "ast_digest": "b1c0576f10523d80cd285e6558410532b7fce49e496aaa862c0182965c09e7c2"
+      "values_digest": "f506ddb976ec900d8c550fc1d37bc8942f77fa3880f730e398619051bde3835d",
+      "rendered_digest": "0471834d3c00d92a3dcd91bd799953836987d3b72b1de21001ebc4a7c3aa919e",
+      "ast_digest": "c5c83eceded6bf18d963181de47765cd7189e5aad2fbeb284dd42559622446c9"
     },
     "sor": {
-      "values_digest": "37babd749c150ad4403486ba0f3ee32035bc0f753e9c4d2aec9fe07b1ead1725",
+      "values_digest": "f74c87deb839461b5131bd40793f19e982764e9d52822ba1b7f9dc519e5c1bf8",
       "rendered_digest": "ebe7be97b9d16f493058b5531d9752d2f1dc883e78fbf214839dde9d380d50f5",
       "ast_digest": "9692b0fcb42fa801ce6f5d87086d02d60ce70ae4c25a98995e005e39cf3b9e7f"
     }
@@ -287,6 +197,20 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Recover the failed R2 exact-head review after serializing recovery ownership and replacing the synthetic proof with the real long-lived production entrypoint over verified Runtime authority handles.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "Record the narrow test-only kernel authority fixture and existing validation fixture surfaces required to exercise the real long-lived production Birthday entrypoint without opening production constructors.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/Cargo.toml\",\"adl-runtime-kernel/src/production_birthday.rs\",\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/src/memory_palace_authority.rs\",\"adl-runtime-kernel/src/resident_cycle.rs\",\"adl-runtime-kernel/src/birth_witness.rs\",\"adl-runtime-kernel/src/config.rs\",\"adl-runtime-kernel/src/birthday_continuity.rs\",\"adl-runtime-kernel/src/cognitive_profile.rs\",\"adl-runtime-kernel/src/test_support.rs\",\"adl-runtime-kernel/tests/production_birthday.rs\",\"adl-runtime-kernel/tests/fixtures/production_birthday\",\"adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs\",\"adl/src/resident_tool_execution.rs\",\"adl/src/production_birthday.rs\",\"adl/src/lib.rs\",\"adl/src/long_lived_agent.rs\",\"adl/src/long_lived_agent/tests.rs\",\"adl/tests/production_birthday_runtime.rs\",\"adl/Cargo.toml\",\"adl/Cargo.lock\",\".csdlc/prepared/issues/451/validate_runtime_feature_wiring.rb\",\".csdlc/prepared/issues/451/validate_retained_evidence.rb\",\".csdlc/evidence/451\",\"docs/planning/ADL_FEATURE_LIST.md\",\"docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md\",\"docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md\",\"docs/milestones/v0.92/QUALITY_GATE_v0.92.md\"]}"
     }
   ]
 }
