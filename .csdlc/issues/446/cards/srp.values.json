@@ -7,15 +7,15 @@
     "title": "[v0.92][Runtime] Wire ACC-governed tool execution into resident-agent cycles",
     "slug": "runtime-acc-resident-tool-execution",
     "version": "v0.92",
-    "generation": 17
+    "generation": 19
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/evidence/446\n.csdlc/issues/446\n.csdlc/prepared/issues/446/design.md\n.csdlc/prepared/issues/446/diagram.mmd\n.csdlc/prepared/issues/446/validate_issue446.sh\nadl-runtime/src/resident_agent.rs\nadl/src/csm_resident_agents.rs\nadl/src/cli/runtime_v2_cmd/tests.rs\nadl/src/governed_executor_parts/logic.rs\nadl/src/lib.rs\nadl/src/long_lived_agent.rs\nadl/src/long_lived_agent/storage.rs\nadl/src/long_lived_agent/tests.rs\nadl/src/long_lived_agent/types.rs\nadl/src/resident_tool_execution.rs\nadl/src/runtime_aws_signal.rs",
-      "review_revision": "git-blake3:6bb58627458a8e1e2ec114529723392f8fe73752:2fb0072b4ade858b51ce0cdbb9bce05ddf3802ee592f53ba675527f0cf0f1c26",
-      "reviewer": "fresh-session:7a2e0de1-d560-4146-99e6-eb47bedaf47d",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Can provider output bypass authority?",
         "Can fixtures enter production?",
@@ -24,10 +24,8 @@
         "Is dependency direction acyclic?"
       ],
       "findings": [],
-      "residual_risk": [
-        "The retained live proof is local Ollama gemma4:12b-mlx evidence; Linux/AWS six-resident qualification remains owned by dependent issue #268."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

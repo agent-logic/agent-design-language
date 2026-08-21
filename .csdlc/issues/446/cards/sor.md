@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Wired six-resident Runtime tool authority and actual long-lived provider output through single-proposal extraction, UTS-to-ACC compilation, configured Freedom Gate evaluation, production Runtime observation dispatch, and checkpoint-bound redacted terminal receipts; production CLI regression proof now requires historical fixture-backed demo actuation to refuse before artifact publication while library-only fixture tests remain executable.
+Wired six-resident Runtime tool authority and actual long-lived provider output through single-proposal extraction, UTS-to-ACC compilation, configured Freedom Gate evaluation, production Runtime observation dispatch, and checkpoint-bound redacted terminal receipts; all historical fixture-backed production demo commands now refuse deterministically before artifact publication while library-only fixture tests remain executable.
 
 ## Artifacts
 
@@ -20,6 +20,7 @@ Wired six-resident Runtime tool authority and actual long-lived provider output 
 - commit:e040eb35020fd4673422cc41841a44b5143345be
 - evidence-commit:ac01f0181344e7571e706ed35366e4c619faecf6
 - ci-repair-commit:2ba8feae04bef2f2151d0b094851d0b421390138
+- post-ci-repair-commit:523d76da2
 - .csdlc/evidence/446/live-gemma4-runtime-acc.log
 - adl-runtime/src/resident_agent.rs
 - adl/src/resident_tool_execution.rs
@@ -35,7 +36,8 @@ Wired six-resident Runtime tool authority and actual long-lived provider output 
 - Added the production runtime.observe registry and bounded redacted Runtime snapshot adapter; fixture dispatch remains test-only and production fallback fails closed.
 - Bound every terminal execution or denial receipt to resident identity, cycle, and exact checkpoint digest.
 - Added deterministic full-tick and opt-in live Ollama gemma4:12b-mlx proof without changing generic provider configuration or expanding v0.92 scope.
-- Corrected the causal workspace-coverage regression so production CLI tests assert fail-closed refusal of the historical fixture adapter, while cfg(test) library demo coverage still proves the bounded fixture behavior.
+- Corrected the causal workspace-coverage regression so all five fixture-backed production demo surfaces refuse deterministically before artifact publication, while cfg(test) library demo coverage still proves the bounded fixture behavior.
+- Kept the merged affect-model legacy-artifact test isolated by supplying valid ACC tool authority and continuing to assert the intended missing-affect-model denial.
 
 ## Validation
 
@@ -198,16 +200,63 @@ Wired six-resident Runtime tool authority and actual long-lived provider output 
     "purpose": "Prove the bounded fixture-backed historical demo remains available only inside cfg(test) library validation.",
     "outcome": "passed",
     "evidence_ref": "local CI repair: 3 passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "trace_runtime_v2_",
+      "--bin",
+      "adl",
+      "--quiet"
+    ],
+    "purpose": "Prove the complete production Runtime-v2 CLI regression surface, including deterministic refusal of every historical fixture-backed demo.",
+    "outcome": "passed",
+    "evidence_ref": "local post-CI repair: 40 passed, 1 ignored"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "csm_runtime_api::tests::runtime_api_rejects_legacy_resident_agent_artifact_without_affect_model",
+      "--lib",
+      "--",
+      "--exact",
+      "--nocapture"
+    ],
+    "purpose": "Prove the merged affect-model compatibility fixture carries valid ACC authority and still denies the exact missing affect-model boundary.",
+    "outcome": "passed",
+    "evidence_ref": "local post-CI repair: 1 passed"
+  },
+  {
+    "command": [
+      "cargo",
+      "clippy",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "--bin",
+      "adl",
+      "--",
+      "-D",
+      "warnings"
+    ],
+    "purpose": "Prove strict lint cleanliness for the production CLI retirement repair.",
+    "outcome": "passed",
+    "evidence_ref": "local post-CI repair"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
