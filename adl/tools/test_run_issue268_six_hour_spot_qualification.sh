@@ -220,6 +220,7 @@ allowed={
 "adl/tools/run_issue268_six_hour_spot_qualification.sh",
 "adl/tools/test_run_issue268_six_hour_spot_qualification.sh",
 "adl/tools/issue268_six_resident_uts_plan.json",
+"adl/tools/issue268_runtime_uts_task_panel.json",
 "adl/tools/validate_issue268_six_resident_uts_plan.py",
 "adl/tools/run_issue268_six_resident_uts_cycle.py",
 "adl/tools/test_run_issue268_six_resident_uts_cycle.py",
@@ -247,4 +248,4 @@ for path in filter(None,sys.argv[1].splitlines()):
 print("PASS: issue268 exact scope")
 PY
 
-echo "PASS: issue268 six-hour Spot qualification contracts"
+echo "PASS: issue268 six-hour On-Demand qualification contracts"

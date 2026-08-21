@@ -20,7 +20,7 @@
   "uts": {
     "schema_version": "uts.v1.1",
     "runner": "adl agent tick (real long-lived Runtime)",
-    "task_panel": "adl/tools/benchmark/uts_33_task_panel.json",
+    "task_panel": "adl/tools/issue268_runtime_uts_task_panel.json",
     "include_governed": true,
     "governed_lane_disposition": "runtime_owned_uts_acc_freedom_gate_and_runtime_observe_adapter",
     "resume_rule": "completed cases are never replayed; only the exact pending case resumes after validated restore"
@@ -34,8 +34,8 @@
       "model_ref_sha256": "REPLACE_WITH_OLLAMA_ARTIFACT_SHA256",
       "quantization": "Q4_K_M",
       "configuration_sha256": "REPLACE_WITH_EXECUTION_CONFIGURATION_SHA256",
-      "pre_recovery_case": "get_time_basic",
-      "post_recovery_case": "read_document_basic"
+      "pre_recovery_case": "shepherd_pre_observe",
+      "post_recovery_case": "shepherd_post_observe"
     },
     {
       "agent_id": "issue268-planner",
@@ -45,8 +45,8 @@
       "model_ref_sha256": "REPLACE_WITH_OLLAMA_ARTIFACT_SHA256",
       "quantization": "Q4_K_M",
       "configuration_sha256": "REPLACE_WITH_EXECUTION_CONFIGURATION_SHA256",
-      "pre_recovery_case": "get_weather_basic",
-      "post_recovery_case": "batch_weather_lookup_basic"
+      "pre_recovery_case": "planner_pre_observe",
+      "post_recovery_case": "planner_post_observe"
     },
     {
       "agent_id": "issue268-tool-executor",
@@ -56,8 +56,8 @@
       "model_ref_sha256": "REPLACE_WITH_OLLAMA_ARTIFACT_SHA256",
       "quantization": "Q4_K_M",
       "configuration_sha256": "REPLACE_WITH_EXECUTION_CONFIGURATION_SHA256",
-      "pre_recovery_case": "query_database_basic",
-      "post_recovery_case": "update_inventory_basic"
+      "pre_recovery_case": "executor_pre_observe",
+      "post_recovery_case": "executor_post_observe"
     },
     {
       "agent_id": "issue268-runtime-observer",
@@ -67,8 +67,8 @@
       "model_ref_sha256": "REPLACE_WITH_OLLAMA_ARTIFACT_SHA256",
       "quantization": "Q4_K_M",
       "configuration_sha256": "REPLACE_WITH_EXECUTION_CONFIGURATION_SHA256",
-      "pre_recovery_case": "convert_currency_basic",
-      "post_recovery_case": "search_contacts_basic"
+      "pre_recovery_case": "observer_pre_observe",
+      "post_recovery_case": "observer_post_observe"
     },
     {
       "agent_id": "issue268-recovery-custodian",
@@ -78,8 +78,8 @@
       "model_ref_sha256": "REPLACE_WITH_OLLAMA_ARTIFACT_SHA256",
       "quantization": "Q4_K_M",
       "configuration_sha256": "REPLACE_WITH_EXECUTION_CONFIGURATION_SHA256",
-      "pre_recovery_case": "append_log_basic",
-      "post_recovery_case": "external_send_risk"
+      "pre_recovery_case": "custodian_pre_observe",
+      "post_recovery_case": "custodian_post_observe"
     },
     {
       "agent_id": "issue268-reviewer-escalation",
@@ -89,8 +89,8 @@
       "model_ref_sha256": "REPLACE_WITH_OLLAMA_ARTIFACT_SHA256",
       "quantization": "Q4_K_M",
       "configuration_sha256": "REPLACE_WITH_EXECUTION_CONFIGURATION_SHA256",
-      "pre_recovery_case": "send_email_basic",
-      "post_recovery_case": "get_time_basic"
+      "pre_recovery_case": "reviewer_pre_observe",
+      "post_recovery_case": "reviewer_post_observe"
     }
   ],
   "checkpoint_fields": [

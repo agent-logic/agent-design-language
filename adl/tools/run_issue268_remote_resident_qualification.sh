@@ -102,33 +102,8 @@ if ! curl -fsS "$OLLAMA_HOST/api/tags" >/dev/null; then
 fi
 materialized="$EVIDENCE_ROOT/materialized-plan.json"
 python3 "$MATERIALIZER" --output "$materialized" --agent-spec-dir "$AGENT_SPEC_DIR" >/dev/null
-PROVIDER_ADAPTER_BIN=${ADL_ISSUE268_PROVIDER_ADAPTER_BIN:-}
-if [[ -z "$PROVIDER_ADAPTER_BIN" ]]; then
-  adapter_baseline_revision=179253eebade8c5e24c992aa0c4dd35b020aee83
-  adapter_install_root="$VOLUME_ROOT/provider-adapter/runtime-v1"
-  PROVIDER_ADAPTER_BIN="$adapter_install_root/adl-provider-adapter"
-  adapter_checksum="$adapter_install_root/adl-provider-adapter.sha256"
-  if [[ ! -x "$PROVIDER_ADAPTER_BIN" ]]; then
-    mkdir -p "$adapter_install_root"
-    legacy_adapter="$VOLUME_ROOT/provider-adapter/$adapter_baseline_revision/adl-provider-adapter"
-    if [[ -x "$legacy_adapter" ]]; then
-      cp "$legacy_adapter" "$PROVIDER_ADAPTER_BIN.tmp"
-    else
-      cargo build --locked --release --manifest-path "$ROOT/adl/Cargo.toml" --bin adl-provider-adapter
-      cp "${CARGO_TARGET_DIR:-$ROOT/adl/target}/release/adl-provider-adapter" "$PROVIDER_ADAPTER_BIN.tmp"
-    fi
-    chmod +x "$PROVIDER_ADAPTER_BIN.tmp"
-    mv "$PROVIDER_ADAPTER_BIN.tmp" "$PROVIDER_ADAPTER_BIN"
-    sha256sum "$PROVIDER_ADAPTER_BIN" | awk '{print $1}' >"$adapter_checksum"
-  fi
-  [[ -f "$adapter_checksum" ]] || { echo "issue268: provider adapter checksum is missing" >&2; exit 69; }
-  [[ "$(sha256sum "$PROVIDER_ADAPTER_BIN" | awk '{print $1}')" == "$(tr -d '[:space:]' <"$adapter_checksum")" ]] || {
-    echo "issue268: provider adapter checksum mismatch" >&2
-    exit 69
-  }
-fi
-[[ -x "$PROVIDER_ADAPTER_BIN" ]] || { echo "issue268: provider adapter is unavailable" >&2; exit 69; }
-export ADL_PROVIDER_ADAPTER_BIN="$PROVIDER_ADAPTER_BIN"
+# The Runtime owns provider execution and ACC dispatch in-process. Do not build
+# or reuse the retired standalone provider-adapter binary on this path.
 if ! python3 "$MODEL_WARMUP" \
   --plan "$materialized" \
   --ollama-url "$OLLAMA_HOST" \

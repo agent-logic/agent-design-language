@@ -231,7 +231,19 @@ def main() -> int:
     if restored.get("generation") != dehydrated["generation"] or restored.get("population_sha256") != population_sha256:
         raise SystemExit("#414 restore does not match the signed dehydration generation")
 
-    run(uts_command + ["--phase", "post"])
+    active_population = read_json(args.runtime_root / "active-population.json")
+    if (active_population.get("generation") != restored["generation"]
+            or active_population.get("admission_open") is not True):
+        raise SystemExit("#414 active population does not expose the restored generation")
+    restored_population_root = pathlib.Path(active_population.get("path", ""))
+    if not restored_population_root.is_dir():
+        raise SystemExit("#414 restored population path is absent")
+    recovery_args = [
+        "--restore-receipt", str(args.evidence_dir / "restore.json"),
+        "--restored-population-root", str(restored_population_root),
+    ]
+    run(uts_command + ["--phase", "replay"] + recovery_args)
+    run(uts_command + ["--phase", "post"] + recovery_args)
     state = read_json(args.state)
     if state.get("phase") != "post_complete" or state.get("all_pending_empty") is not True:
         raise SystemExit("post-restore UTS continuation is incomplete")
@@ -257,8 +269,12 @@ def main() -> int:
                 "pending_case_ids": retained["pending_case_ids"],
                 "pre_uts_report_sha256": retained["uts_report_sha256"],
                 "post_uts_report_sha256": retained["post_restore_uts_report_sha256"],
+                "pre_agent_test_outcome": retained["pre_agent_test_outcome"],
+                "post_agent_test_outcome": retained["post_agent_test_outcome"],
+                "restored_runtime_agent_spec_sha256": retained["restored_runtime_agent_spec_sha256"],
                 "checkpoint_lineage": retained["checkpoint_lineage"],
-                "replay_denied": resident["pre_recovery_case"] != resident["post_recovery_case"],
+                "replay_denial_receipt_sha256": retained["replay_denial_receipt_sha256"],
+                "replay_denied": True,
             }
         )
     continuation_path = args.evidence_dir / "continuation-input.json"

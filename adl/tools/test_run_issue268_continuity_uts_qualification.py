@@ -31,11 +31,16 @@ if phase=='pre':
  runtime=pathlib.Path(a[a.index('--runtime-root')+1]); r={}
  for x in plan['residents']:
   spec=runtime/'agent-specs'/x['agent_id']/'agent.json'; spec.parent.mkdir(parents=True,exist_ok=True); spec.write_text('{}\\n')
-  r[x['agent_id']]={'role':x['role'],'model':x['model'],'role_digest':digest({'agent_id':x['agent_id'],'role':x['role']}),'tool_authority_digest':digest({'agent_id':x['agent_id'],'tool_authority':x['tool_authority']}),'runtime_agent_spec':str(spec),'sequence':1,'completed_case_ids':[x['pre_recovery_case']],'pending_case_ids':[x['post_recovery_case']],'uts_report_sha256':'a'*64,'continuation_request_sha256':'b'*64,'checkpoint_lineage':['f'*64]}
+  r[x['agent_id']]={'role':x['role'],'model':x['model'],'role_digest':digest({'agent_id':x['agent_id'],'role':x['role']}),'tool_authority_digest':digest({'agent_id':x['agent_id'],'tool_authority':x['tool_authority']}),'runtime_agent_spec':str(spec),'sequence':1,'completed_case_ids':[x['pre_recovery_case']],'pending_case_ids':[x['post_recovery_case']],'uts_report_sha256':'a'*64,'continuation_request_sha256':'b'*64,'checkpoint_lineage':['f'*64],'pre_agent_test_outcome':'denied' if x['agent_id'].endswith('executor') else 'executed'}
  value={'schema':'adl.issue268.six_resident_uts_state.v2','phase':'pre_complete','residents':r}
+elif phase=='replay':
+ value=json.load(open(state))
+ import hashlib
+ for agent_id,x in value['residents'].items():
+  p=evidence/f'replay-{agent_id}.json'; p.write_text(json.dumps({'decision':'denied','reason_code':'completed_case_replay_denied'})+'\\n'); x['replay_denial_receipt_sha256']=hashlib.sha256(p.read_bytes()).hexdigest()
 else:
  value=json.load(open(state)); value['phase']='post_complete'; value['all_pending_empty']=True
- for x in value['residents'].values(): x['sequence']=2; x['completed_case_ids']+=x['pending_case_ids']; x['pending_case_ids']=[]; x['post_restore_uts_report_sha256']='c'*64; x['checkpoint_lineage'].append('1'*64)
+ for x in value['residents'].values(): x['sequence']=2; x['completed_case_ids']+=x['pending_case_ids']; x['pending_case_ids']=[]; x['post_restore_uts_report_sha256']='c'*64; x['post_agent_test_outcome']='executed'; x['restored_runtime_agent_spec_sha256']='2'*64; x['checkpoint_lineage'].append('1'*64)
 state.write_text(json.dumps(value)+'\\n')
 """,
             encoding="utf-8",
@@ -48,7 +53,12 @@ import json,pathlib,sys
 a=sys.argv; command=a[1]; inp=json.load(open(a[a.index('--input')+1])); out=pathlib.Path(a[a.index('--output')+1]); residents=inp['residents']; assert len(residents)==6; assert len({x['agent_id'] for x in residents})==6
 if command=='preflight': value={'status':'passed','resident_count':6}
 elif command=='dehydrate': value={'generation':1,'population_sha256':'9'*64,'resident_count':6,'admission_open':False}
-elif command=='restore': value={'generation':1,'population_sha256':'9'*64,'resident_count':6,'admission_open':True}
+elif command=='restore':
+ root=pathlib.Path(a[a.index('--runtime-root')+1]); restored=root/'restored-populations'/'generation-1'
+ for x in residents:
+  source=root/'agent-specs'/x['agent_id']/'agent.json'; target=restored/x['agent_id']/'agent.yaml'; target.parent.mkdir(parents=True,exist_ok=True); target.write_text(source.read_text())
+ (root/'active-population.json').write_text(json.dumps({'generation':1,'path':str(restored),'admission_open':True})+'\\n')
+ value={'schema':'adl.runtime.resident_shepherd_restore_receipt.v1','generation':1,'population_sha256':'9'*64,'resident_count':6,'admission_open':True}
 elif command=='complete':
  assert all(len(x['completed_task_sha256'])==64 and len(x['continuation_request_sha256'])==64 and x['next_task_sha256']=='c'*64 for x in residents); value={'generation':1,'population_sha256':'9'*64,'resident_count':6,'admission_open':True,'continuation_verified':True}
 else: raise SystemExit(2)
@@ -105,6 +115,7 @@ out.write_text(json.dumps(value)+'\\n')
         assert json.loads((root / "state.json").read_text())["phase"] == "post_complete"
         assert (evidence / "dehydration-input.json").is_file()
         assert (evidence / "continuation-input.json").is_file()
+        assert len(list((evidence / "uts").glob("replay-*.json"))) == 6
 
         missing = root / "agents" / plan[0]["agent_id"] if False else root / "agents" / plan["residents"][0]["agent_id"] / "agent.yaml"
         missing.unlink()

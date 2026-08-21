@@ -10,7 +10,7 @@ import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 PLAN = ROOT / "adl/tools/issue268_six_resident_uts_plan.json"
-TASK_PANEL = ROOT / "adl/tools/benchmark/uts_33_task_panel.json"
+TASK_PANEL = ROOT / "adl/tools/issue268_runtime_uts_task_panel.json"
 
 
 def fail(message: str) -> None:
@@ -53,8 +53,8 @@ def main() -> None:
         fail("UTS schema version")
     if uts.get("runner") != "adl agent tick (real long-lived Runtime)":
         fail("real Runtime UTS runner")
-    if uts.get("task_panel") != "adl/tools/benchmark/uts_33_task_panel.json":
-        fail("repo UTS task panel")
+    if uts.get("task_panel") != "adl/tools/issue268_runtime_uts_task_panel.json":
+        fail("issue-owned Runtime UTS task panel")
     if uts.get("include_governed") is not True:
         fail("Runtime-governed UTS+ACC lane must execute")
     if uts.get("governed_lane_disposition") != "runtime_owned_uts_acc_freedom_gate_and_runtime_observe_adapter":
@@ -93,6 +93,8 @@ def main() -> None:
     pre_cases: list[str] = []
     post_cases: list[str] = []
     task_ids = {row.get("id") for row in task_panel.get("tasks", [])}
+    if task_panel.get("schema") != "adl.issue268.runtime_uts_task_panel.v1" or task_panel.get("tool") != "runtime.observe" or len(task_ids) != 12:
+        fail("exact twelve-task runtime.observe panel")
     for resident in residents:
         model = resident.get("model")
         observed_models[model] = observed_models.get(model, 0) + 1
@@ -100,6 +102,10 @@ def main() -> None:
         after = resident.get("post_recovery_case")
         if before not in task_ids or after not in task_ids or before == after:
             fail(f"real distinct pre/post UTS cases for {resident.get('agent_id')}")
+        for case_id, phase in ((before, "pre"), (after, "post")):
+            task = next(row for row in task_panel["tasks"] if row["id"] == case_id)
+            if task.get("resident") != resident.get("agent_id") or task.get("phase") != phase or not task.get("objective"):
+                fail(f"task identity/phase/objective binding for {resident.get('agent_id')}")
         pre_cases.append(before)
         post_cases.append(after)
         if resident.get("quantization") != "Q4_K_M":

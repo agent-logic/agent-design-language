@@ -62,6 +62,7 @@ with tempfile.TemporaryDirectory() as value:
         "reviewed_414_git_sha": reviewed,
         "volume_identity_sha256": "c" * 64,
         "source_receipt_sha256": "e" * 64,
+        "runtime_source_identity_sha256": "f" * 64,
     }
     installed = {
         **expected,
@@ -84,6 +85,15 @@ with tempfile.TemporaryDirectory() as value:
     assert cloned["installation_volume_identity_sha256"] == "c" * 64
     assert cloned["attached_volume_identity_sha256"] == "d" * 64
     assert "source_revision" not in expected
+    stale = dict(installed)
+    stale["runtime_source_identity_sha256"] = "0" * 64
+    installed_path.write_text(json.dumps(stale))
+    try:
+        MODULE.validate_installed(installed_path, expected, "c" * 64)
+        raise AssertionError("stale pre-ACC Runtime identity unexpectedly accepted")
+    except ValueError as error:
+        assert "runtime_source_identity_sha256" in str(error)
+    installed_path.write_text(json.dumps(installed))
     continuity.write_bytes(b"tampered")
     try:
         MODULE.validate_installed(installed_path, expected, "c" * 64)

@@ -44,6 +44,17 @@ def exact_digest(value: object, label: str) -> str:
     return value
 
 
+def runtime_source_identity(source_root: pathlib.Path, revision: str) -> str:
+    """Bind only Runtime/ACC build inputs so evidence-only commits reuse safely."""
+    paths = ("adl/src", "adl-runtime/src", "adl-runtime-kernel/src", "adl/Cargo.toml", "adl/Cargo.lock")
+    objects = {}
+    for relative in paths:
+        objects[relative] = subprocess.check_output(
+            ["git", "-C", str(source_root), "rev-parse", f"{revision}:{relative}"], text=True
+        ).strip()
+    return hashlib.sha256(json.dumps(objects, separators=(",", ":"), sort_keys=True).encode()).hexdigest()
+
+
 def load_contract(source_receipt_path: pathlib.Path, reviewed_sha: str) -> dict:
     receipt = json.loads(source_receipt_path.read_text())
     if receipt.get("schema") != SOURCE_SCHEMA or receipt.get("reviewed_git_sha") != reviewed_sha:
@@ -116,6 +127,7 @@ def install(args: argparse.Namespace) -> dict:
     if head != args.source_revision:
         raise ValueError("source checkout does not match requested #268 revision")
     source_receipt = load_contract(args.source_receipt, args.reviewed_git_sha)
+    required_runtime_source_identity = runtime_source_identity(source_root, args.source_revision)
     install_root = volume_root / "install"
     final_root = install_root / "current"
     staging = install_root / ".staging"
@@ -124,11 +136,14 @@ def install(args: argparse.Namespace) -> dict:
         "schema": INSTALL_SCHEMA,
         "reviewed_414_git_sha": args.reviewed_git_sha,
         "source_receipt_sha256": sha256(args.source_receipt),
+        "runtime_source_identity_sha256": required_runtime_source_identity,
     }
     if receipt_path.exists():
         installed = json.loads(receipt_path.read_text())
         runtime = pathlib.Path(installed.get("runtime_binary", ""))
-        if not runtime.is_file():
+        if (not runtime.is_file()
+                or installed.get("runtime_source_identity_sha256") != required_runtime_source_identity
+                or (runtime.is_file() and sha256(runtime) != installed.get("runtime_binary_sha256"))):
             build_cache.mkdir(parents=True, exist_ok=True)
             environment = os.environ.copy()
             environment["CARGO_TARGET_DIR"] = str(build_cache / "target")
@@ -148,6 +163,8 @@ def install(args: argparse.Namespace) -> dict:
             os.replace(temporary_runtime, runtime)
             installed["runtime_binary"] = str(runtime)
             installed["runtime_binary_sha256"] = sha256(runtime)
+            installed["runtime_source_identity_sha256"] = required_runtime_source_identity
+            installed["qualification_source_revision"] = args.source_revision
             temporary_receipt = receipt_path.with_suffix(".tmp")
             temporary_receipt.write_text(json.dumps(installed, indent=2, sort_keys=True) + "\n")
             os.replace(temporary_receipt, receipt_path)

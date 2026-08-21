@@ -9,8 +9,10 @@ grep -Fq "libggml-cpu-sapphirerapids.so' -print" "$ROOT/adl/tools/run_issue268_r
 grep -Fq 'SAPPHIRE_BACKEND.disabled-issue268' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq 'ollama-cpu-backend.txt' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq 'Ollama preload failed; server diagnostics follow' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
-grep -Fq 'provider-adapter/runtime-v1' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
-grep -Fq 'adapter_baseline_revision=179253eebade8c5e24c992aa0c4dd35b020aee83' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
+if grep -Fq 'provider-adapter/runtime-v1' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"; then
+  echo "issue268: retired standalone provider adapter unexpectedly remains" >&2
+  exit 1
+fi
 if grep -Fq 'git -C "$ROOT" diff' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"; then
   echo "issue268: Runtime startup must not inspect Git history for adapter reuse" >&2
   exit 1
@@ -18,7 +20,6 @@ fi
 scratch=$(mktemp -d "$ROOT/.adl/issue268-remote-test.XXXXXX")
 trap 'rm -rf "$scratch"' EXIT
 touch "$scratch/continuity"; chmod +x "$scratch/continuity"
-touch "$scratch/provider-adapter"; chmod +x "$scratch/provider-adapter"
 touch "$scratch/adl"; chmod +x "$scratch/adl"
 cat >"$scratch/ollama" <<'SH'
 #!/usr/bin/env bash
@@ -91,7 +92,6 @@ output=$(PATH="$scratch/bin:$PATH" \
   ADL_ISSUE268_MATERIALIZER="$scratch/materializer.py" \
   ADL_ISSUE268_CONTINUITY_UTS_RUNNER="$scratch/orchestrator.py" \
   ADL_ISSUE268_MODEL_WARMUP="$scratch/warmup.py" \
-  ADL_ISSUE268_PROVIDER_ADAPTER_BIN="$scratch/provider-adapter" \
   ADL_ISSUE268_GUARDIAN_RUNNER="$scratch/guardian.sh" \
   bash "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh")
 [[ "$output" == *ADL_ISSUE268_CONTINUITY_UTS_BEGIN* ]]
