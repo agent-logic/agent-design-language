@@ -15,10 +15,11 @@ use adl_runtime_kernel::layer8_authority::{
     Layer8ConversationAuthority, Layer8SignedExchange,
 };
 use adl_runtime_kernel::{
-    bootstrap_reasoning_services, build_live_assembly, build_live_continuity_registry,
-    build_mutual_tls_server_config, build_production_operation_executors_with_recorder,
-    load_control_tls, load_identity, load_or_create_runtime_instance_id, load_trust_roots,
-    monitor_until_stop, serve_control_listener_until_ready, serve_private_continuity_listener,
+    birthday_authority_bootstrap_from_runtime_keys, bootstrap_reasoning_services,
+    build_live_assembly, build_live_continuity_registry, build_mutual_tls_server_config,
+    build_production_operation_executors_with_recorder, load_control_tls, load_identity,
+    load_or_create_runtime_instance_id, load_trust_roots, monitor_until_stop,
+    serve_control_listener_until_ready, serve_private_continuity_listener,
     validate_production_operation_executors, verifying_key_from_hex, AdapterKind,
     AgentPopulationFeed, CatalogSigningAuthority, CheckpointShutdownRequest, CheckpointingControl,
     ContinuityControlService, ControlApiPolicy, ControlAuthority, ControlCapability,
@@ -297,6 +298,8 @@ async fn main() -> ExitCode {
             let migration_decision_key_id = init.credentials.migration_decision_key_id.clone();
             let migration_decision_key_generation =
                 init.credentials.migration_decision_key_generation;
+            let continuity_public_key =
+                ed25519_dalek::SigningKey::from_bytes(&continuity_secret).verifying_key();
             let time_source_identity = format!("sntp:{}", init.credentials.sntp_server);
             let time_source: Arc<dyn TimeSampleSource> = Arc::new(RsntpTimeSampleSource::new(
                 init.credentials.sntp_server.clone(),
@@ -306,6 +309,17 @@ async fn main() -> ExitCode {
                 canonical_ingress_capacity: init.kernel.canonical_ingress_capacity,
                 operation_executors,
                 permit_keys: BTreeMap::from([(operation_key_id.clone(), operation_key)]),
+                birthday_authority: birthday_authority_bootstrap_from_runtime_keys(
+                    operation_key_id.clone(),
+                    operation_key,
+                    migration_decision_key_id.clone(),
+                    migration_decision_key,
+                    init.credentials.continuity_key_id.clone(),
+                    continuity_public_key,
+                    migration_decision_key_generation,
+                    init.credentials.continuity_min_generation.max(1),
+                    1,
+                ),
                 reasoning,
                 time_source,
                 time_bounds: TimeQualificationBounds {
@@ -424,8 +438,6 @@ async fn main() -> ExitCode {
                     return ExitCode::from(78);
                 }
             };
-            let continuity_public_key =
-                ed25519_dalek::SigningKey::from_bytes(&continuity_secret).verifying_key();
             if public_key == operation_key
                 || public_key == continuity_public_key
                 || public_key == migration_decision_key

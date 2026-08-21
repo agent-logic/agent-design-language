@@ -1,0 +1,19 @@
+flowchart LR
+    TB["Trusted Runtime bootstrap fixes birthday key registries and policies"] --> LA["LiveAssembly private Memory Palace provisioner"]
+    RB["Per-request candidate birthday evidence only"] --> LA
+    TR["Runtime trace and redaction authority"] --> LA
+    LA --> VT["Opaque verified Memory Palace authority"]
+    OM["Normalized ObsMem records"] --> RS["adl-runtime resident Memory Palace service"]
+    VT --> RS
+    RS --> KP["Validated kernel packet"]
+    KP --> CC["Deterministic context cache"]
+    KP --> CK["Generation and predecessor checkpoint"]
+    CC --> CK
+    CK --> J["Append-only committed-generation journal and rollback floor"]
+    J --> LP["Atomic latest.json selection pointer"]
+    LP --> RR["Lock-protected journal and restart validation"]
+    RR -->|"exact authority lineage and digests"| RA["Resident agent context"]
+    RR -->|"rollback gap conflict forgery or schema drift"| FC["Fail closed"]
+    KP --> RI["Kernel v2 complete record index"]
+    RI --> CA["Read-only exact legacy-schema projection"]
+    CA --> LL["Existing long-lived-agent hook unchanged"]

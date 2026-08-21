@@ -12,8 +12,9 @@ use crate::{
 };
 
 pub const MEMORY_PALACE_INPUT_SCHEMA: &str = "adl.memory_palace.input.v1";
-pub const MEMORY_PALACE_PACKET_SCHEMA: &str = "adl.memory_palace.context_packet.v1";
+pub const MEMORY_PALACE_PACKET_SCHEMA: &str = "adl.memory_palace.context_packet.v2";
 const MEMORY_PALACE_AUTHORITY_SCHEMA: &str = "adl.memory_palace.authority.v1";
+pub const MEMORY_PALACE_CONTEXT_CACHE_SCHEMA: &str = "adl.memory_palace.context_cache.v1";
 
 #[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -268,6 +269,29 @@ pub struct MemoryPalaceOverflow {
     pub record_sha256: String,
 }
 
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum MemoryPalaceRecordStatus {
+    Selected,
+    Excluded,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct MemoryPalaceRecordIndexEntry {
+    pub record_id: String,
+    pub run_id: String,
+    pub workflow_id: String,
+    pub room_id: String,
+    pub anchor_id: String,
+    pub visibility: MemoryVisibility,
+    pub citations: Vec<MemoryReference>,
+    pub temporal_anchor: MemoryTemporalAnchor,
+    pub status: MemoryPalaceRecordStatus,
+    pub disposition_reason: String,
+    pub record_sha256: String,
+}
+
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct MemoryPalaceContextPacket {
@@ -285,9 +309,27 @@ pub struct MemoryPalaceContextPacket {
     pub authority_sha256: String,
     pub canonical_input_sha256: String,
     pub rooms: Vec<MemoryPalaceRoom>,
+    pub record_index: Vec<MemoryPalaceRecordIndexEntry>,
     pub working_set: Vec<MemoryPalaceItem>,
     pub overflow: Vec<MemoryPalaceOverflow>,
     pub packet_sha256: String,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct MemoryPalaceContextCache {
+    pub schema: String,
+    pub memory_palace_generation: u64,
+    pub birthday_continuity_generation: u64,
+    pub identity_root: String,
+    pub identity_record_sha256: String,
+    pub continuity_head: String,
+    pub continuity_record_sha256: String,
+    pub packet_sha256: String,
+    pub canonical_input_sha256: String,
+    pub source_packet_ref: MemoryReference,
+    pub working_set: Vec<MemoryPalaceItem>,
+    pub cache_sha256: String,
 }
 
 #[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd, Serialize, Deserialize)]
@@ -492,10 +534,13 @@ pub fn build_memory_palace(
     ))?;
     let canonical_input_sha256 = digest(&records)?;
     let mut room_records = BTreeMap::<String, Vec<String>>::new();
+    let mut record_index = Vec::new();
     let mut working_set = Vec::new();
     let mut overflow = Vec::new();
     for record in records {
         let room_id = format!("room:{}", stable_id(&record.workflow_id));
+        let anchor_id = anchor_id(&record.workflow_id, &record.id);
+        let record_sha256 = digest(&record)?;
         room_records
             .entry(record.workflow_id.clone())
             .or_default()
@@ -510,6 +555,20 @@ pub fn build_memory_palace(
             &authority_sha256,
         ))?;
         if working_set.len() < input.max_working_set_items {
+            record_index.push(MemoryPalaceRecordIndexEntry {
+                record_id: record.id.clone(),
+                run_id: record.run_id.clone(),
+                workflow_id: record.workflow_id.clone(),
+                room_id: room_id.clone(),
+                anchor_id,
+                visibility: record.visibility,
+                citations: record.citations.clone(),
+                temporal_anchor: record.temporal_anchor.clone(),
+                status: MemoryPalaceRecordStatus::Selected,
+                disposition_reason: "canonical traversal within configured working-set bound"
+                    .to_owned(),
+                record_sha256: record_sha256.clone(),
+            });
             working_set.push(MemoryPalaceItem {
                 record_id: record.id,
                 room_id,
@@ -520,10 +579,26 @@ pub fn build_memory_palace(
                 item_sha256,
             });
         } else {
+            record_index.push(MemoryPalaceRecordIndexEntry {
+                record_id: record.id.clone(),
+                run_id: record.run_id.clone(),
+                workflow_id: record.workflow_id.clone(),
+                room_id: room_id.clone(),
+                anchor_id,
+                visibility: record.visibility,
+                citations: record.citations.clone(),
+                temporal_anchor: record.temporal_anchor.clone(),
+                status: MemoryPalaceRecordStatus::Excluded,
+                disposition_reason: format!(
+                    "excluded after max_working_set_items={}",
+                    input.max_working_set_items
+                ),
+                record_sha256: record_sha256.clone(),
+            });
             overflow.push(MemoryPalaceOverflow {
                 record_id: record.id,
                 reason: format!("bounded_after_{}", input.max_working_set_items),
-                record_sha256: item_sha256,
+                record_sha256,
             });
         }
     }
@@ -539,6 +614,7 @@ pub fn build_memory_palace(
         })
         .collect();
     rooms.sort_by(|a, b| a.workflow_id.cmp(&b.workflow_id));
+    record_index.sort_by(|a, b| a.record_id.cmp(&b.record_id));
     working_set.sort_by(|a, b| a.record_id.cmp(&b.record_id));
     overflow.sort_by(|a, b| a.record_id.cmp(&b.record_id));
     let mut packet = MemoryPalaceContextPacket {
@@ -556,6 +632,7 @@ pub fn build_memory_palace(
         authority_sha256,
         canonical_input_sha256,
         rooms,
+        record_index,
         working_set,
         overflow,
         packet_sha256: String::new(),
@@ -624,11 +701,124 @@ pub fn validate_memory_palace_packet(
             .windows(2)
             .all(|pair| pair[0].record_id < pair[1].record_id)
         || !packet
+            .record_index
+            .windows(2)
+            .all(|pair| pair[0].record_id < pair[1].record_id)
+        || !packet
             .overflow
             .windows(2)
             .all(|pair| pair[0].record_id < pair[1].record_id)
     {
         return Err(MemoryPalaceRejection::EncodingFailure);
+    }
+    let working_by_id: BTreeMap<_, _> = packet
+        .working_set
+        .iter()
+        .map(|item| (item.record_id.as_str(), item))
+        .collect();
+    let overflow_by_id: BTreeMap<_, _> = packet
+        .overflow
+        .iter()
+        .map(|overflow| (overflow.record_id.as_str(), overflow))
+        .collect();
+    let mut indexed_records = BTreeSet::new();
+    for entry in &packet.record_index {
+        if !valid_identifier(&entry.record_id)
+            || !valid_identifier(&entry.run_id)
+            || !valid_identifier(&entry.workflow_id)
+            || !indexed_records.insert(entry.record_id.as_str())
+            || entry.room_id != format!("room:{}", stable_id(&entry.workflow_id))
+            || entry.anchor_id != anchor_id(&entry.workflow_id, &entry.record_id)
+            || matches!(
+                entry.visibility,
+                MemoryVisibility::Private | MemoryVisibility::RawPrivate
+            )
+            || entry.citations.is_empty()
+            || entry
+                .citations
+                .iter()
+                .any(|citation| !valid_reference(citation))
+            || !entry
+                .citations
+                .iter()
+                .any(|citation| citation == &packet.trace_reference)
+            || !entry.citations.windows(2).all(|pair| pair[0] < pair[1])
+            || entry.temporal_anchor.continuity_head != packet.continuity_head
+            || entry.temporal_anchor.created_epoch_ms > entry.temporal_anchor.observed_epoch_ms
+            || entry.temporal_anchor.effective_epoch_ms < entry.temporal_anchor.created_epoch_ms
+            || entry.temporal_anchor.effective_epoch_ms > entry.temporal_anchor.observed_epoch_ms
+            || entry.temporal_anchor.event_sequence == 0
+            || entry.temporal_anchor.observed_epoch_ms > packet.observed_epoch_ms
+            || packet
+                .observed_epoch_ms
+                .saturating_sub(entry.temporal_anchor.effective_epoch_ms)
+                > packet.stale_after_ms
+            || !room_records
+                .get(entry.room_id.as_str())
+                .is_some_and(|records| records.contains(entry.record_id.as_str()))
+            || !is_sha256(&entry.record_sha256)
+        {
+            return Err(MemoryPalaceRejection::InvalidRecord {
+                id: entry.record_id.clone(),
+            });
+        }
+        match entry.status {
+            MemoryPalaceRecordStatus::Selected => {
+                let Some(item) = working_by_id.get(entry.record_id.as_str()) else {
+                    return Err(MemoryPalaceRejection::InvalidRecord {
+                        id: entry.record_id.clone(),
+                    });
+                };
+                if item.room_id != entry.room_id
+                    || item.visibility != entry.visibility
+                    || item.citations != entry.citations
+                    || item.temporal_anchor != entry.temporal_anchor
+                    || entry.disposition_reason
+                        != "canonical traversal within configured working-set bound"
+                {
+                    return Err(MemoryPalaceRejection::InvalidRecord {
+                        id: entry.record_id.clone(),
+                    });
+                }
+                let expected_record_sha256 = digest(&ObsMemContextRecord {
+                    id: entry.record_id.clone(),
+                    run_id: entry.run_id.clone(),
+                    workflow_id: entry.workflow_id.clone(),
+                    payload: item.payload.clone(),
+                    visibility: entry.visibility,
+                    identity_root: packet.identity_root.clone(),
+                    continuity_head: packet.continuity_head.clone(),
+                    trace_id: packet.trace_id.clone(),
+                    citations: entry.citations.clone(),
+                    temporal_anchor: entry.temporal_anchor.clone(),
+                })
+                .map_err(|_| MemoryPalaceRejection::EncodingFailure)?;
+                if entry.record_sha256 != expected_record_sha256 {
+                    return Err(MemoryPalaceRejection::InvalidRecord {
+                        id: entry.record_id.clone(),
+                    });
+                }
+            }
+            MemoryPalaceRecordStatus::Excluded => {
+                let Some(overflow) = overflow_by_id.get(entry.record_id.as_str()) else {
+                    return Err(MemoryPalaceRejection::InvalidRecord {
+                        id: entry.record_id.clone(),
+                    });
+                };
+                if overflow.record_sha256 != entry.record_sha256
+                    || overflow.reason != format!("bounded_after_{}", packet.max_working_set_items)
+                    || entry.disposition_reason
+                        != format!(
+                            "excluded after max_working_set_items={}",
+                            packet.max_working_set_items
+                        )
+                {
+                    return Err(MemoryPalaceRejection::InvalidRecord {
+                        id: entry.record_id.clone(),
+                    });
+                }
+            }
+        }
     }
     let mut seen_records = BTreeSet::new();
     for item in &packet.working_set {
@@ -697,7 +887,56 @@ pub fn validate_memory_palace_packet(
         .values()
         .flat_map(|records| records.iter().copied())
         .collect();
-    if declared != seen_records {
+    if declared != seen_records || declared != indexed_records {
+        return Err(MemoryPalaceRejection::EncodingFailure);
+    }
+    Ok(())
+}
+
+pub fn build_memory_palace_context_cache(
+    memory_palace_generation: u64,
+    birthday_continuity_generation: u64,
+    source_packet_ref: MemoryReference,
+    packet: &MemoryPalaceContextPacket,
+) -> Result<MemoryPalaceContextCache, Vec<MemoryPalaceRejection>> {
+    validate_memory_palace_packet(packet).map_err(|error| vec![error])?;
+    if memory_palace_generation == 0 || birthday_continuity_generation == 0 {
+        return Err(vec![MemoryPalaceRejection::InvalidAuthority]);
+    }
+    let mut cache = MemoryPalaceContextCache {
+        schema: MEMORY_PALACE_CONTEXT_CACHE_SCHEMA.to_owned(),
+        memory_palace_generation,
+        birthday_continuity_generation,
+        identity_root: packet.identity_root.clone(),
+        identity_record_sha256: packet.identity_record_sha256.clone(),
+        continuity_head: packet.continuity_head.clone(),
+        continuity_record_sha256: packet.continuity_record_sha256.clone(),
+        packet_sha256: packet.packet_sha256.clone(),
+        canonical_input_sha256: packet.canonical_input_sha256.clone(),
+        source_packet_ref,
+        working_set: packet.working_set.clone(),
+        cache_sha256: String::new(),
+    };
+    cache.cache_sha256 = digest(&cache)?;
+    Ok(cache)
+}
+
+pub fn validate_memory_palace_context_cache(
+    cache: &MemoryPalaceContextCache,
+    packet: &MemoryPalaceContextPacket,
+) -> Result<(), MemoryPalaceRejection> {
+    validate_memory_palace_packet(packet)?;
+    let expected = build_memory_palace_context_cache(
+        cache.memory_palace_generation,
+        cache.birthday_continuity_generation,
+        cache.source_packet_ref.clone(),
+        packet,
+    )
+    .map_err(|_| MemoryPalaceRejection::EncodingFailure)?;
+    if cache.schema != MEMORY_PALACE_CONTEXT_CACHE_SCHEMA
+        || cache.cache_sha256 != expected.cache_sha256
+        || cache != &expected
+    {
         return Err(MemoryPalaceRejection::EncodingFailure);
     }
     Ok(())
@@ -770,6 +1009,10 @@ fn stable_id(value: &str) -> String {
         .collect();
     let suffix = format!("{:x}", Sha256::digest(value.as_bytes()));
     format!("{slug}-{}", &suffix[..16])
+}
+
+fn anchor_id(workflow_id: &str, record_id: &str) -> String {
+    format!("anchor:{}:{}", stable_id(workflow_id), stable_id(record_id))
 }
 
 fn digest<T: Serialize>(value: &T) -> Result<String, Vec<MemoryPalaceRejection>> {

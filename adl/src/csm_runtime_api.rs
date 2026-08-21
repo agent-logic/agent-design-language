@@ -522,6 +522,19 @@ fn status_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
         "not_ready"
     };
     let persistence = persistence_response(loaded)?;
+    let mut runtime_stack = adl_runtime::topology::runtime_stack_json();
+    if let Some(memory_palace) = runtime_stack
+        .get_mut("memory_palace")
+        .and_then(Value::as_object_mut)
+    {
+        memory_palace.insert(
+            "retained_status".to_owned(),
+            adl_runtime::memory_palace::RuntimeMemoryPalaceService::new(
+                loaded.state_root.join("memory-palace"),
+            )
+            .retained_status(),
+        );
+    }
     let mut response = json!({
         "schema": CSM_RUNTIME_API_STATUS_SCHEMA,
         "runtime_owner": "csm",
@@ -529,7 +542,7 @@ fn status_response(loaded: &LoadedAgentSpec, options: &CsmRuntimeApiOptions) -> 
         "networking": csm_listener_registry_json(),
         "pooling_plan": csm_connection_pooling_plan(),
         "connection_pool_status": csm_runtime_connection_pool_status(),
-        "runtime_stack": adl_runtime::topology::runtime_stack_json(),
+        "runtime_stack": runtime_stack,
         "agent_instance_id": loaded.spec.agent_instance_id,
         "status": health,
         "ready": ready,
@@ -1909,6 +1922,30 @@ fn component_health_projection(status: &Value) -> Value {
                 "/reasoning_runtime/value/health",
                 state_when_eq(status, "/reasoning_runtime/value/health", "ready"),
             ),
+            ComponentId::MemoryPalace => (
+                "/runtime_stack/memory_palace/retained_status",
+                if state_is(
+                    status,
+                    "/runtime_stack/memory_palace/component",
+                    &[adl_runtime::memory_palace::CSM_MEMORY_PALACE_COMPONENT],
+                ) && state_is(
+                    status,
+                    "/runtime_stack/memory_palace/authority",
+                    &["adl-runtime-kernel Memory Palace packet v2"],
+                ) && state_is(
+                    status,
+                    "/runtime_stack/memory_palace/retained_status/status",
+                    &["validated"],
+                ) && state_is(
+                    status,
+                    "/runtime_stack/memory_palace/retained_status/packet_schema",
+                    &[adl_runtime_kernel::MEMORY_PALACE_PACKET_SCHEMA],
+                ) {
+                    "ready"
+                } else {
+                    "not_ready"
+                },
+            ),
             ComponentId::ResidentAgents => (
                 "/resident_agents/status",
                 state_when_eq(status, "/resident_agents/status", "available"),
@@ -2632,6 +2669,36 @@ mod tests {
         let _ = fs::remove_dir_all(&root);
         fs::create_dir_all(&root).unwrap();
         root
+    }
+
+    #[test]
+    fn memory_palace_component_health_requires_validated_retained_status() {
+        let mut status = json!({
+            "runtime_stack": {
+                "memory_palace": {
+                    "component": adl_runtime::memory_palace::CSM_MEMORY_PALACE_COMPONENT,
+                    "authority": "adl-runtime-kernel Memory Palace packet v2",
+                    "retained_status": {
+                        "schema": adl_runtime::memory_palace::CSM_MEMORY_PALACE_STATUS_SCHEMA,
+                        "component": adl_runtime::memory_palace::CSM_MEMORY_PALACE_COMPONENT,
+                        "status": "unvalidated",
+                        "packet_schema": adl_runtime_kernel::MEMORY_PALACE_PACKET_SCHEMA,
+                        "source": "durable_memory_palace_service"
+                    }
+                }
+            }
+        });
+
+        let projected = component_health_projection(&status);
+        assert_eq!(projected["memory_palace"]["state"], "not_ready");
+        assert_eq!(
+            projected["memory_palace"]["source"],
+            "/runtime_stack/memory_palace/retained_status"
+        );
+
+        status["runtime_stack"]["memory_palace"]["retained_status"]["status"] = json!("validated");
+        let projected = component_health_projection(&status);
+        assert_eq!(projected["memory_palace"]["state"], "ready");
     }
 
     #[test]
