@@ -4,13 +4,51 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d8e1f3dca77fcf7b936ed705f16684f757477c7a35ec6e1ee4d0f7facd456b0a",
-  "phase": "implemented",
-  "generation": 24,
-  "digest": "025f9d3c29a571b987c3117e5ddcff96ca0289a586969ab43a9951baebde6c82",
+  "phase": "reviewed",
+  "generation": 25,
+  "digest": "5fb2e28d4fef345cba78e70bd5e0bb80990426d87948284033eecc33465bd98c",
   "branch": "codex/449-governed-adaptive-learning-resident-integration",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-449-governed-adaptive-learning-resident-integration",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:990023e4-bb30-4fda-96cd-c0dcc2c84c03",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:08e0eb740060355c709e9d5da20642f29610dfa9:c1d705b75009bba16f9c171113e4f73d6bd117f30f431cffab1fbcd7bcc5067e",
+    "scope": [
+      "adl-runtime-kernel/src/adaptive_learning.rs",
+      "adl-runtime-kernel/tests/adaptive_learning.rs",
+      "adl-runtime-kernel/src/live_continuity.rs",
+      "docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md",
+      "adl/tools/validate_v0917_html_observatory.py",
+      ".csdlc/evidence/449",
+      ".csdlc/issues/449",
+      ".csdlc/prepared/issues/449/design.md",
+      ".csdlc/prepared/issues/449/diagram.mmd"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:990023e4-bb30-4fda-96cd-c0dcc2c84c03",
+    "scope": [
+      "adl-runtime-kernel/src/adaptive_learning.rs",
+      "adl-runtime-kernel/tests/adaptive_learning.rs",
+      "adl-runtime-kernel/src/live_continuity.rs",
+      "docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md",
+      "adl/tools/validate_v0917_html_observatory.py",
+      ".csdlc/evidence/449",
+      ".csdlc/issues/449",
+      ".csdlc/prepared/issues/449/design.md",
+      ".csdlc/prepared/issues/449/diagram.mmd"
+    ],
+    "reviewed_revision": "git-blake3:08e0eb740060355c709e9d5da20642f29610dfa9:c1d705b75009bba16f9c171113e4f73d6bd117f30f431cffab1fbcd7bcc5067e",
+    "findings": [],
+    "residual_risks": [
+      "Review was read-only and bounded to assigned paths at immutable commit 08e0eb740060355c709e9d5da20642f29610dfa9.",
+      "Reviewer reran the focused resident_cycle proof, full adaptive_learning regression target, OpenAPI/HTML Observatory validation, csdlc-validate, and diff hygiene locally; hosted CI, publication, and merge readiness are not claimed by this review.",
+      "Dirty live worktree metadata observed after assignment was treated separately from the immutable reviewed commit.",
+      "Later source or substantive lifecycle changes require a fresh exact-head review."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +63,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "73bca1c3066068c0774dfbb301fcd56d0e8ed7de7def41c0e69a086bfe8d9ee0",
+      "values_digest": "8794b93160bea5c7db4301d281f39158900720a8c2624990afcc2865b21780b2",
       "rendered_digest": "2cfd28e6c6a6879f7e6c50c55739e047518d76c09cda80b9ebafc4403b793865",
       "ast_digest": "f464cd78ec8bddeabb30d93fddafa24b1062b4cec61a141464249d3a05f2cd41"
     },
     "stp": {
-      "values_digest": "64197f48403508f3b9bf5ea73252d09d9f0d4059d354a912b9a2748f628c31d9",
+      "values_digest": "c21858de0cc56a729953a8f14258fa8d9074d37a52396f4e6b53e77e6315cfea",
       "rendered_digest": "7b54454bbd83510eb034ffe2a2271617f0602cade7d3c6b59f4ac3d137227169",
       "ast_digest": "c6928d84219a13b3766acc4b90f7c8cfb71ba2f86c3092bf2246fe41523990e7"
     },
     "spp": {
-      "values_digest": "d675a27e22ce4c3bea76e0072248c76fe85d302793c3a803a45f46e07e171366",
+      "values_digest": "dfb4fb17ac19a962f9bdeef57a56b625a18359c3f999b4b158c5611cf945a029",
       "rendered_digest": "bffc41af02fb2bde8fdbeee9bb86b0844d389e801cec9206ad674efc0dadcef5",
       "ast_digest": "c4ab178aa7012df674d6ec98c645f586c6e07ae5cd2a58fe689862f744ef001b"
     },
     "vpp": {
-      "values_digest": "2e8058723743b887446ca61b772182dca9579799ec25fbabc237187dc2313057",
+      "values_digest": "1cf07b7d9c5b9eae3d407f3df3a66a1c010e59f00b54b768d4eb4fb40ccfbd2e",
       "rendered_digest": "29b34386e79734d7df12f5860df83c84e13b42f22c4304b38539705e954c05ac",
       "ast_digest": "800bad4e472866aa40314c9753028f43e11b4961676430d90d974b85d927fb8d"
     },
     "srp": {
-      "values_digest": "d905cf098dfddb0255f60710a0e904b0f1900dc30fca978a30ec8d079cb1961a",
-      "rendered_digest": "3a8abb044fd02d026b1c6abd0393ba034ef34c8c2a2d4cb537496abcda46d04a",
-      "ast_digest": "13b21242e8fcf9b816e12eee09996417e5f70724d617c0eaaf8a5c370caeb090"
+      "values_digest": "44bf2571cf738a0cfda279224c9fbb91c2266aa18c555d2f51a9a2197cad8055",
+      "rendered_digest": "b8893ae8353009e6c6852eeda79a0552241e8f56acf56d249da77179402a58ee",
+      "ast_digest": "6867414731798e9cb016e2652efdf7bb67ed567ac61f07b82560b5823749a2b2"
     },
     "sor": {
-      "values_digest": "fb1a481799cae7d3f606aead564ac28e1bc19f8343a3469c48f7261ac5acb68e",
+      "values_digest": "a08049a830cf6c2ed0451a24e724023eb9a3590657234a3062c34e18f897cfda",
       "rendered_digest": "fe43168039e875a9b581807fee9a8a161e0fb801d17fde4132b13c2cb755cc0e",
       "ast_digest": "2c481338502941a19a8a803a32526b1a3d677b0c98eec06af478decd3cad4785"
     }
@@ -111,6 +149,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover published #449 after PR #456 CI failed in the Runtime v3 Observatory proof because the integrated HTML Observatory validator lacked the current /v1/health Runtime v3 mock and still asserted the stale Runtime Mirror label. Repair proof truth, rerun validation, obtain fresh exact review, and republish."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -344,6 +389,20 @@
       "actor": "codex:/root",
       "reason": "Record remediation of exact-review R7 P2 feature-doc truth: canonical v0.92 Adaptive Learning feature doc now matches retained evidence by saying the adaptive_learning target contains nineteen focused tests.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"rg\",\"nineteen focused|running 19 tests|19 passed\",\"docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md\",\".csdlc/evidence/449/adaptive-learning-regression-tests.log\"],\"purpose\":\"Prove feature-doc denominator truth matches retained adaptive_learning evidence after the R7 stale-doc finding.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20:r7-feature-doc-denominator-alignment\"}}"
+    },
+    {
+      "sequence": 34,
+      "generation": 24,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 25,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
