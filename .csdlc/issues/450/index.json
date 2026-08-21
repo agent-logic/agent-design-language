@@ -4,130 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "2ba84a82b33fdb23b6c516a95a7dcd1b9311eefaea6b2e4c9c9ab1391c925625",
-  "phase": "published",
-  "generation": 24,
-  "digest": "c4c198d48a58cff340854f8269ac1644b1e0b09f901dfb60f815ecf782f14968",
+  "phase": "implemented",
+  "generation": 25,
+  "digest": "429a6990995bac5777e1587dd211395142648c04e848869c7456a36b0c7488c8",
   "branch": "codex/450-memory-palace-production-authority",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-450-memory-palace-production-authority",
-  "review_assignment": {
-    "reviewer": "fresh-session:e5c4e1e5-ad18-4838-bfa5-b955dc4e834c",
-    "assigned_by": "codex",
-    "revision": "git-blake3:ebf4a508d50d37378e20450ccd284c66fc35df98:ad6731ca52cdb0c1ad033718b98e292bf8abcab5c927727e0b4b9e6a7102e849",
-    "scope": [
-      ".csdlc/issues/450/audit.jsonl",
-      ".csdlc/issues/450/cards/sip.md",
-      ".csdlc/issues/450/cards/sip.values.json",
-      ".csdlc/issues/450/cards/sor.md",
-      ".csdlc/issues/450/cards/sor.values.json",
-      ".csdlc/issues/450/cards/spp.md",
-      ".csdlc/issues/450/cards/spp.values.json",
-      ".csdlc/issues/450/cards/srp.md",
-      ".csdlc/issues/450/cards/srp.values.json",
-      ".csdlc/issues/450/cards/stp.md",
-      ".csdlc/issues/450/cards/stp.values.json",
-      ".csdlc/issues/450/cards/vpp.md",
-      ".csdlc/issues/450/cards/vpp.values.json",
-      ".csdlc/issues/450/index.json",
-      ".csdlc/evidence/450/adl_memory_palace_projection.log",
-      ".csdlc/evidence/450/csm_memory_palace_readiness.log",
-      ".csdlc/evidence/450/kernel_memory_palace_packet.log",
-      ".csdlc/evidence/450/runtime_broad_lib_regression.log",
-      ".csdlc/evidence/450/runtime_memory_palace_service.log",
-      ".csdlc/prepared/issues/450/design.md",
-      ".csdlc/prepared/issues/450/diagram.mmd",
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/governed_operations.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/src/memory_palace.rs",
-      "adl-runtime-kernel/src/memory_palace_authority.rs",
-      "adl-runtime-kernel/tests/assembly.rs",
-      "adl-runtime-kernel/tests/memory_palace.rs",
-      "adl-runtime/src/lib.rs",
-      "adl-runtime/src/memory_palace.rs",
-      "adl-runtime/src/supervision.rs",
-      "adl-runtime/src/topology.rs",
-      "adl/Cargo.lock",
-      "adl/Cargo.toml",
-      "adl/src/csm_runtime_api.rs",
-      "adl/src/memory_palace.rs",
-      "adl/tests/cli_smoke/agent.rs",
-      "adl/tests/memory_palace_tests.rs",
-      "adl/tools/check_coverage_impact.sh",
-      "adl/tools/run_pr_fast_coverage_lane.sh",
-      "adl/tools/test_check_coverage_impact.sh",
-      "adl/tools/test_run_pr_fast_coverage_lane.sh"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:e5c4e1e5-ad18-4838-bfa5-b955dc4e834c",
-    "scope": [
-      ".csdlc/issues/450/audit.jsonl",
-      ".csdlc/issues/450/cards/sip.md",
-      ".csdlc/issues/450/cards/sip.values.json",
-      ".csdlc/issues/450/cards/sor.md",
-      ".csdlc/issues/450/cards/sor.values.json",
-      ".csdlc/issues/450/cards/spp.md",
-      ".csdlc/issues/450/cards/spp.values.json",
-      ".csdlc/issues/450/cards/srp.md",
-      ".csdlc/issues/450/cards/srp.values.json",
-      ".csdlc/issues/450/cards/stp.md",
-      ".csdlc/issues/450/cards/stp.values.json",
-      ".csdlc/issues/450/cards/vpp.md",
-      ".csdlc/issues/450/cards/vpp.values.json",
-      ".csdlc/issues/450/index.json",
-      ".csdlc/evidence/450/adl_memory_palace_projection.log",
-      ".csdlc/evidence/450/csm_memory_palace_readiness.log",
-      ".csdlc/evidence/450/kernel_memory_palace_packet.log",
-      ".csdlc/evidence/450/runtime_broad_lib_regression.log",
-      ".csdlc/evidence/450/runtime_memory_palace_service.log",
-      ".csdlc/prepared/issues/450/design.md",
-      ".csdlc/prepared/issues/450/diagram.mmd",
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
-      "adl-runtime-kernel/src/governed_operations.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/src/memory_palace.rs",
-      "adl-runtime-kernel/src/memory_palace_authority.rs",
-      "adl-runtime-kernel/tests/assembly.rs",
-      "adl-runtime-kernel/tests/memory_palace.rs",
-      "adl-runtime/src/lib.rs",
-      "adl-runtime/src/memory_palace.rs",
-      "adl-runtime/src/supervision.rs",
-      "adl-runtime/src/topology.rs",
-      "adl/Cargo.lock",
-      "adl/Cargo.toml",
-      "adl/src/csm_runtime_api.rs",
-      "adl/src/memory_palace.rs",
-      "adl/tests/cli_smoke/agent.rs",
-      "adl/tests/memory_palace_tests.rs",
-      "adl/tools/check_coverage_impact.sh",
-      "adl/tools/run_pr_fast_coverage_lane.sh",
-      "adl/tools/test_check_coverage_impact.sh",
-      "adl/tools/test_run_pr_fast_coverage_lane.sh"
-    ],
-    "reviewed_revision": "git-blake3:ebf4a508d50d37378e20450ccd284c66fc35df98:ad6731ca52cdb0c1ad033718b98e292bf8abcab5c927727e0b4b9e6a7102e849",
-    "findings": [],
-    "residual_risks": [
-      "Review was scoped to the #450 startup-window readiness test-truth fix and supporting Memory Palace readiness semantics.",
-      "Reviewer explicitly did not inspect, touch, read, search, or open PR #455 or the protected #446 paths.",
-      "The local validation reran the exact failing cli-smoke test and passed."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 450,
-    "pull_request": 458,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/458",
-    "base": "main",
-    "head": "codex/450-memory-palace-production-authority",
-    "revision": "git-blake3:5b8afc732feb4c9c9299248ba1f76f821bdace83:fb358467e209c8ccbfe5d3967bc359b227bdda55e536037785976c632d7c7908",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -141,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d8e39c5ce66d1fb172572265a743246aa6162f279871ccccc6fbd75592a0e5ee",
+      "values_digest": "ed67a53058bc0e5a414f0e1d512c1e3fcac6e8b1a1e15f26f4b315b2f5f101c3",
       "rendered_digest": "bc05390fa59e1fdfd58f2a28c97735cbab105c0abd7922757f7e189e7294d71c",
       "ast_digest": "d07f704144b9191f595ce437134d39e0dbc0193195493e4825550db98d9c49f1"
     },
     "stp": {
-      "values_digest": "a5ede07a866d76e55a8046c2792b4f2484f67a90b66d25e326e81405b95b522c",
+      "values_digest": "0011dfe55d70d10648e66255d50fcb5043cc0783e8e0f44aa8788e658bb4b565",
       "rendered_digest": "085979d3227cb2fb241df3c7b7921904b1e6ddaf0aa9bc4f17742f416098087c",
       "ast_digest": "cf4959ce1996b71005f67c579e4d6acdc3e9ec8ccfc1a30ce4141821988a63db"
     },
     "spp": {
-      "values_digest": "07639523bb414793e9b84b28b94232e0385688587e3ebf3b7a65f29f4ebb0973",
+      "values_digest": "3f2f189daeb9eaeaffab98a6f47061631de732ad0c2e0ba7ac61ea476c199e50",
       "rendered_digest": "948f106d0030483b54120316f4337b5973bde103f0005718f269c1a159c01968",
       "ast_digest": "8d7b09c325b4f31bd00467499e5577f56d4fcdd6fe6bfc369a83e8c802463990"
     },
     "vpp": {
-      "values_digest": "ee0acade7c170c97535c0ad981db84e9a5b6c3b167e33f993ccb6c93a3ced093",
+      "values_digest": "e82be1a399992747f25f648516f64462993835b9c94881b5b66eb2dc90d8e417",
       "rendered_digest": "de962a78c6125bbd3abc1116e974ab6584dcf0a48ce16568b7bf903a592921e5",
       "ast_digest": "542b9447dd7c09de1122382bc923af80c88364cf6ac5240bed7eec2370f5637e"
     },
     "srp": {
-      "values_digest": "05ee0db686bac6eb35d5fbfb33556d37a55d61fd24224d5a06c9fe41963ddbd2",
-      "rendered_digest": "305b030dd2846a572347b664c70fa6362f680aae55ea07d7e8ec0afeecdadea5",
-      "ast_digest": "35828c6af518355072e08d748077d6f572abecdcc92ed238de065ae0f071666f"
+      "values_digest": "2f3fa6c74ff71889338913d813912b448453ba32aaf6a28196adf882a1294255",
+      "rendered_digest": "9345d905e33988500276b438b92d8ecbd22b9d96839c65f12e01cd5bd9c21ef2",
+      "ast_digest": "3d958497c4ba9ccd258735de396c7fd3821c755533a1713ff90745d98c3f6c65"
     },
     "sor": {
-      "values_digest": "3c395cbc7e705601b5a0197c6065a4dbb6dc10a57aa796dfb1e6a673399e05d9",
-      "rendered_digest": "46ff9c72a36a3ed2426563f3b2a36c5d6914aea6f096d6e842a5f2bf382dad1c",
-      "ast_digest": "45727f2ca8947fcb43a5e1ac7eb6a5d99527291d4a19dfdcf078254a3660e8cc"
+      "values_digest": "6a53c89d9f6063d5b4c940553a8525bb3e1aa5aaea0f2d7cfc9d3ca520a95e3f",
+      "rendered_digest": "40aac76f3e60d8cf448265868da1d1b9a0a61a5bc746f73fc7e3b87a4ca63665",
+      "ast_digest": "f15978f55389fc681717c8d3e9cf76461e5393c64cc47ec7e9d47dd8677ea72a"
     }
   },
   "transitions": [
@@ -332,6 +216,13 @@
       "to": "published",
       "actor": "codex:/root",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 24,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "recover review after completion audit found AC8 feature-list and v0.92 evidence-matrix language did not yet name the #450 Memory Palace Runtime-kernel production authority or guard against broad completion overclaim"
     }
   ],
   "audit": [
@@ -586,6 +477,13 @@
       "actor": "codex:/root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 37,
+      "generation": 25,
+      "actor": "codex:/root",
+      "reason": "recover review after completion audit found AC8 feature-list and v0.92 evidence-matrix language did not yet name the #450 Memory Palace Runtime-kernel production authority or guard against broad completion overclaim",
+      "operation": "recover_review"
     }
   ]
 }
