@@ -170,11 +170,11 @@ Wired six-resident Runtime tool authority and actual long-lived provider output 
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
