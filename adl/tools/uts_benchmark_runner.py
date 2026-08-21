@@ -572,6 +572,13 @@ def local_runtime_busy_note(entry: dict[str, Any]) -> str | None:
     except Exception as exc:  # noqa: BLE001
         return f"local_runtime_unverified: could not inspect Ollama residency: {exc}"
     expected = entry["model_id"]
+    if os.getenv("ADL_UTS_ALLOW_MULTI_MODEL_RESIDENCY", "").lower() == "true":
+        if expected not in resident:
+            return (
+                "local_runtime_unverified: target model is not resident while "
+                f"testing {expected}: {', '.join(resident) or 'none'}"
+            )
+        return None
     foreign = [name for name in resident if name != expected]
     if foreign:
         return (

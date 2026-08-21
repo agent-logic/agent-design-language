@@ -4,6 +4,7 @@ ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd -P)
 grep -Fq 'tail -80 "$OLLAMA_LOG"' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq 'OLLAMA_KEEP_ALIVE=-1' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq 'OLLAMA_LLM_LIBRARY=cpu_avx2' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
+grep -Fq 'ADL_UTS_ALLOW_MULTI_MODEL_RESIDENCY=true' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq "libggml-cpu-sapphirerapids.so' -print" "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq 'SAPPHIRE_BACKEND.disabled-issue268' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq 'ollama-cpu-backend.txt' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"

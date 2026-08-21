@@ -61,6 +61,7 @@ export OLLAMA_MODELS OLLAMA_HOST=http://127.0.0.1:11434 OLLAMA_MAX_LOADED_MODELS
 # Ollama 0.31.1's autodetected AMX runner segfaults on virtualized Sapphire
 # Rapids during its first warmup. Use Ollama's packaged AVX2 CPU runner.
 export OLLAMA_LLM_LIBRARY=cpu_avx2
+export ADL_UTS_ALLOW_MULTI_MODEL_RESIDENCY=true
 # Ollama 0.31.1's new CPU loader can still select the Sapphire Rapids shared
 # library even when the legacy runner override is set. That backend is known
 # to fault on virtualized Sapphire Rapids, including AWS m7i/r7i. Disable only
