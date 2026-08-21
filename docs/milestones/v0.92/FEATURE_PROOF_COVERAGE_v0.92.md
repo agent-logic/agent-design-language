@@ -29,7 +29,7 @@
 | Resilient local Runtime | WP-03 | Start, stop, recovery, configuration, clean-log, and failure injection proof | blocked_with_evidence | AEE-005 |
 | Distributed Guardian/polis | WP-04 | Architecture/security review and distributed child proof receipts | blocked_with_evidence | AEE-006 |
 | Faster C-SDLC and remote validation | WP-05, WP-06, WP-07 | Cycle-time comparison, portable runner proof, typed-card parity | blocked_with_evidence | AEE-007 |
-| Birthday and identity | WP-08, WP-09, WP-10 | Birth negative cases, stable identity, bounded-cycle continuity | blocked_with_evidence | AEE-008 |
+| Birthday and identity | WP-08, WP-09, WP-10 | Birth negative cases, stable identity, bounded-cycle continuity, and #451 authenticated exactly-once production composition/restart proof | implemented_with_evidence | AEE-008 |
 | Memory and capability | WP-11, WP-12 | Grounded/redacted memory and capability-envelope validation | blocked_with_evidence | AEE-009 |
 | Memory Palace production authority | WP-11 | `adl-runtime-kernel::memory_palace` production authority, `adl-runtime::memory_palace` retained checkpoint/latest/journal service, `adl::memory_palace` compatibility adapter, issue `#450`, PR `#458`, C-SDLC generation 24 digest `c4c198d48a58cff340854f8269ac1644b1e0b09f901dfb60f815ecf782f14968`, and CI run `32456967817` | blocked_with_evidence | AEE-009 |
 | Cognitive profile and adaptation queue | WP-13, WP-13A | Evidence-grounded profile fixtures and current Runtime loop qualification | blocked_with_evidence | AEE-010 |

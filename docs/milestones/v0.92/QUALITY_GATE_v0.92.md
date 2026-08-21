@@ -40,3 +40,11 @@ plan, not evidence that a gate has passed.
   constitutional governance remain non-claims.
 - Any issue that fails these rules blocks WP-22 and cannot enter internal
   review as completed work.
+
+# Production birthday composition gate
+
+The first production birthday gate is satisfied only by the #451 exact-head
+kernel and resident-path tests plus the retained nine-feature wiring audit and
+redaction/schema validator. A library-only, fixture-only, metadata-only,
+documentation-only, or unreachable feature disposition blocks the gate. Paid
+AWS qualification is not part of this local composition gate.

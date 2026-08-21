@@ -77,6 +77,21 @@ pub struct LiveAssembly {
 }
 
 impl LiveAssembly {
+    /// Final Runtime-owned production birthday commit boundary.
+    ///
+    /// All prerequisite authorities must already have produced the exact
+    /// cross-bound input. The store revalidates those bindings and owns the
+    /// durable exactly-once transaction; ordinary assembly/startup paths do
+    /// not call this method.
+    pub fn activate_production_birthday(
+        &self,
+        store: &crate::ProductionBirthdayStore,
+        input: &crate::ProductionBirthdayInput,
+    ) -> Result<crate::ProductionBirthdayReceipt, crate::ProductionBirthdayError> {
+        let _ = self;
+        store.activate(input)
+    }
+
     /// Explicit Runtime-owned reauthorization boundary for capability policy.
     pub fn provision_capability_authority(
         &self,

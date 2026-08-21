@@ -1,0 +1,74 @@
+# Structured Task Prompt
+
+Template: 1.0.0
+
+Issue: 451
+
+Repository: agent-logic/agent-design-language
+
+Card: stp
+
+Status: ready
+
+## Task
+
+Design, implement, validate, review, and publish only the production birthday composition and renewed Runtime wiring audit. Stop on fabricated authority, unreachable required features, dependency drift, or scope expansion into Runtime v4/provider redesign.
+
+## Deliverables
+
+- adl-runtime-kernel/src/production_birthday.rs
+- adl-runtime-kernel/tests/production_birthday.rs
+- adl/src/resident_tool_execution.rs
+- adl/src/production_birthday.rs
+- adl/tests/production_birthday_runtime.rs
+- .csdlc/prepared/issues/451/validate_runtime_feature_wiring.rb
+- .csdlc/prepared/issues/451/validate_retained_evidence.rb
+- .csdlc/evidence/451/runtime-feature-wiring-audit.json
+- .csdlc/evidence/451/production-birthday-evidence.json
+- docs/planning/ADL_FEATURE_LIST.md
+- docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md
+- docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md
+- docs/milestones/v0.92/QUALITY_GATE_v0.92.md
+
+## Acceptance
+
+1. AC1: One actual Runtime resident progresses through verified identity/continuity, Memory Palace, capability/profile, governed adaptation, ACC tool authority, readiness, birthday decision, and witnesses.
+2. AC2: Missing or stale prerequisites deny activation before mutation and emit no success receipt.
+3. AC3: A successful transaction emits one durable receipt bound to every exact authority, implementation revision, and trusted timestamp.
+4. AC4: Sequential/concurrent duplicate, retry, restart, stale, copied, rollback, replay, and conflicting witness attempts cannot create a second birthday.
+5. AC5: Rehydration restores complete post-birthday lineage and continues useful resident work without rerunning activation or losing governed authorities.
+6. AC6: Negative proof covers every issue-body rejection surface and incomplete/corrupt durable state.
+7. AC7: Focused production-path integration proves denial, one success, durable restart, duplicate denial, and useful post-restore continuation with a nonzero exact test denominator.
+8. AC8: Retained evidence is redacted, schema-valid, exact-revision-bound, and consumable by #311.
+9. AC9: Canonical feature and quality-gate documents claim completion only after the production proof passes.
+10. AC10: The renewed audit proves construction, production consumption, and behavioral exercise for all nine required feature surfaces; any non-live disposition blocks completion.
+
+## Dependencies
+
+- #446 / PR #455 merged and ancestral ACC resident tool execution
+- #448 / PR #453 merged and ancestral capability/profile resident cycle
+- #449 / PR #456 merged and ancestral governed Adaptive Learning
+- #450 / PR #458 merged and ancestral Memory Palace production authority
+- Existing birthday identity, continuity, decision, and witness contracts
+- #311 quality-gate consumer
+
+## Inputs
+
+- GitHub issue #451
+- adl-runtime-kernel/src/assembly.rs
+- adl-runtime-kernel/src/resident_cycle.rs
+- adl-runtime-kernel/src/adaptive_learning.rs
+- adl-runtime-kernel/src/memory_palace_authority.rs
+- adl-runtime-kernel/src/birthday.rs
+- adl-runtime-kernel/src/birth_witness.rs
+- adl/src/long_lived_agent.rs
+- adl/src/resident_tool_execution.rs
+- merged #446/#448-#450 proofs and canonical v0.92 documents
+
+## Non Goals
+
+- Runtime v4 or provider redesign
+- Restoring retired demo-only binaries
+- Subjective consciousness emotion suffering personhood citizenship or public-reputation claims
+- Broad repository cleanup or refactoring
+- AWS or paid validation

@@ -1,0 +1,15 @@
+flowchart LR
+  I[Identity + continuity] --> G[Production birthday gate]
+  M[Verified Memory Palace] --> G
+  C[Capability + cognitive profile] --> G
+  A[Adaptive learning receipt] --> G
+  T[Canonically validated ACC authority receipt] --> G
+  W[Witness authorities] --> G
+  G -->|not ready| D[Fail closed; no receipt]
+  G -->|ready| X[CAS owner + synced intent]
+  X --> W2[Synced witness packet]
+  W2 --> B[Atomic generation commit + directory sync]
+  B --> R[Restart validation]
+  R --> P[Post-restore useful resident continuation]
+  B --> U[Feature-wiring audit]
+  U -->|any unreachable surface| D

@@ -47,6 +47,41 @@ use crate::runtime_aws_signal::{
 };
 use crate::{adl, execute, resident_tool_execution, resolve, trace};
 
+/// Explicit long-lived Runtime transition from verified resident authorities
+/// into the one-time production birthday commit. Ordinary tick/start paths do
+/// not invoke this boundary.
+#[allow(clippy::too_many_arguments)]
+pub fn activate_long_lived_resident_birthday(
+    durable_root: &Path,
+    transaction_id: &str,
+    implementation_revision_sha256: &str,
+    memory_palace: &adl_runtime_kernel::VerifiedMemoryPalaceAuthority,
+    resident_cycle: &adl_runtime_kernel::VerifiedResidentCycle,
+    adaptive_learning: &adl_runtime_kernel::ResidentAdaptiveLearningReceipt,
+    tool_authority: adl_runtime_kernel::VerifiedToolAuthorityBinding,
+    birth_witness: adl_runtime_kernel::VerifiedBirthWitnessBinding,
+    trusted_time: &dyn adl_runtime_kernel::TrustedTime,
+    candidate: adl_runtime_kernel::BirthdayCandidate,
+    decision: adl_runtime_kernel::BirthdayDecision,
+) -> Result<
+    adl_runtime_kernel::ProductionBirthdayReceipt,
+    adl_runtime_kernel::ProductionBirthdayError,
+> {
+    crate::production_birthday::activate_verified_resident_birthday(
+        durable_root,
+        transaction_id,
+        implementation_revision_sha256,
+        memory_palace,
+        resident_cycle,
+        adaptive_learning,
+        tool_authority,
+        birth_witness,
+        trusted_time,
+        candidate,
+        decision,
+    )
+}
+
 mod inspection;
 mod schema;
 mod storage;
@@ -148,6 +183,50 @@ pub fn tick(spec_path: &Path, options: TickOptions) -> Result<StatusRecord> {
             Err(err)
         }
     }
+}
+
+/// Production resident-cycle boundary: commit Birthday from Runtime-verified
+/// authorities, then execute one ordinary long-lived-agent tick. Runtime
+/// assembly callers inject the opaque handles; serialized agent specs cannot
+/// self-nominate them.
+#[allow(clippy::too_many_arguments)]
+pub fn tick_with_verified_birthday(
+    spec_path: &Path,
+    options: TickOptions,
+    birthday_root: &Path,
+    transaction_id: &str,
+    implementation_revision_sha256: &str,
+    memory_palace: &adl_runtime_kernel::VerifiedMemoryPalaceAuthority,
+    resident_cycle: &adl_runtime_kernel::VerifiedResidentCycle,
+    adaptive_learning: &adl_runtime_kernel::ResidentAdaptiveLearningReceipt,
+    tool_authority: adl_runtime_kernel::VerifiedToolAuthorityBinding,
+    birth_witness: adl_runtime_kernel::VerifiedBirthWitnessBinding,
+    trusted_time: &dyn adl_runtime_kernel::TrustedTime,
+    candidate: adl_runtime_kernel::BirthdayCandidate,
+    decision: adl_runtime_kernel::BirthdayDecision,
+) -> Result<(adl_runtime_kernel::ProductionBirthdayReceipt, StatusRecord)> {
+    let loaded = load_spec(spec_path)?;
+    if loaded.spec.agent_instance_id != resident_cycle.resident_id {
+        return Err(anyhow!(
+            "Birthday resident does not match long-lived agent spec"
+        ));
+    }
+    let receipt = activate_long_lived_resident_birthday(
+        birthday_root,
+        transaction_id,
+        implementation_revision_sha256,
+        memory_palace,
+        resident_cycle,
+        adaptive_learning,
+        tool_authority,
+        birth_witness,
+        trusted_time,
+        candidate,
+        decision,
+    )
+    .map_err(|error| anyhow!("production Birthday activation failed: {error:?}"))?;
+    let status = tick(spec_path, options)?;
+    Ok((receipt, status))
 }
 
 pub fn run(spec_path: &Path, options: RunOptions) -> Result<StatusRecord> {

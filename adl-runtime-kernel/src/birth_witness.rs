@@ -304,6 +304,24 @@ pub struct BirthWitnessPacket {
     pub packet_sha256: String,
 }
 
+/// Opaque proof that a packet was emitted by the Runtime-provisioned witness
+/// owner after signature, roster, freshness, policy, and receipt validation.
+#[derive(Clone, Debug, Eq, PartialEq, Serialize)]
+pub struct VerifiedBirthWitnessBinding {
+    pub(crate) packet: BirthWitnessPacket,
+    pub(crate) observed_generation: u64,
+}
+
+impl VerifiedBirthWitnessBinding {
+    pub fn packet(&self) -> &BirthWitnessPacket {
+        &self.packet
+    }
+
+    pub fn observed_generation(&self) -> u64 {
+        self.observed_generation
+    }
+}
+
 #[derive(Clone, Debug, Eq, PartialEq, Error)]
 pub enum BirthWitnessError {
     #[error("invalid provisioned witness policy")]

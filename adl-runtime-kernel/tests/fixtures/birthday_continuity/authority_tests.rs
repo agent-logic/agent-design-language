@@ -26,7 +26,8 @@ use crate::{
 const H: &str = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 const GENESIS: &str = "0000000000000000000000000000000000000000000000000000000000000000";
 
-fn verified_identity_fixture() -> (BirthdayIdentityRecord, crate::VerifiedBirthdayEvidence) {
+pub(crate) fn verified_identity_fixture(
+) -> (BirthdayIdentityRecord, crate::VerifiedBirthdayEvidence) {
     let identity_authority = IdentityAuthority::from_bytes("identity-birthday-key", &[11_u8; 32]);
     let identity_keys = BTreeMap::from([(
         "identity-birthday-key".to_owned(),
@@ -212,7 +213,7 @@ fn signed_manifest(
     manifest
 }
 
-fn material() -> (
+pub(crate) fn material() -> (
     BirthdayIdentityRecord,
     BirthdayContinuityAuthorityPolicy,
     Vec<CheckpointManifest>,

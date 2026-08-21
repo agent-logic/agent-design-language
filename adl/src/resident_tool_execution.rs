@@ -1,6 +1,8 @@
-use std::collections::BTreeMap;
+use std::{collections::BTreeMap, path::Path};
 
 use adl_runtime::resident_agent::CsmResidentAgentToolAuthorityBinding;
+use adl_runtime_kernel::{VerifiedToolAuthorityBinding, PRODUCTION_BIRTHDAY_TOOL_BINDING_SCHEMA};
+use ed25519_dalek::{Signer, SigningKey, Verifier, VerifyingKey};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use sha2::{Digest, Sha256};
@@ -118,6 +120,7 @@ pub enum ResidentToolReceiptDecisionV1 {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[serde(deny_unknown_fields)]
 pub struct ResidentToolReceiptV1 {
     pub schema: String,
     pub resident_id: String,
@@ -132,6 +135,175 @@ pub struct ResidentToolReceiptV1 {
     pub adapter_id: Option<String>,
     pub decision: ResidentToolReceiptDecisionV1,
     pub reason_code: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(deny_unknown_fields)]
+pub struct AuthenticatedResidentToolReceiptV1 {
+    pub schema: String,
+    pub implementation_revision_sha256: String,
+    pub capability_envelope_sha256: String,
+    pub cognitive_profile_sha256: String,
+    pub receipt_sha256: String,
+    pub key_id: String,
+    pub signature_hex: String,
+}
+
+#[derive(Serialize)]
+struct ResidentToolAuthenticationMaterial<'a> {
+    receipt: &'a ResidentToolReceiptV1,
+    implementation_revision_sha256: &'a str,
+    capability_envelope_sha256: &'a str,
+    cognitive_profile_sha256: &'a str,
+    key_id: &'a str,
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct RuntimeResidentToolTrustManifest {
+    schema: String,
+    authorities: Vec<RuntimeResidentToolTrustAuthority>,
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct RuntimeResidentToolTrustAuthority {
+    key_id: String,
+    verifying_key_hex: String,
+}
+
+/// Runtime-loaded ACC receipt trust. Verification keys can only enter through
+/// the dedicated trusted manifest, never through an execution request.
+#[derive(Clone)]
+pub struct RuntimeResidentToolTrust {
+    keys: BTreeMap<String, VerifyingKey>,
+}
+
+impl RuntimeResidentToolTrust {
+    pub fn load_trusted_manifest(path: &Path) -> Result<Self, String> {
+        let bytes = std::fs::read(path).map_err(|_| "resident_tool_trust_read_failed")?;
+        let manifest: RuntimeResidentToolTrustManifest =
+            serde_json::from_slice(&bytes).map_err(|_| "resident_tool_trust_invalid")?;
+        if manifest.schema != "adl.runtime.resident_tool_trust.v1"
+            || manifest.authorities.is_empty()
+        {
+            return Err("resident_tool_trust_invalid".to_string());
+        }
+        let mut keys = BTreeMap::new();
+        for authority in manifest.authorities {
+            if authority.key_id.trim().is_empty() || keys.contains_key(&authority.key_id) {
+                return Err("resident_tool_trust_invalid".to_string());
+            }
+            let bytes: [u8; 32] = hex::decode(authority.verifying_key_hex)
+                .map_err(|_| "resident_tool_trust_invalid")?
+                .try_into()
+                .map_err(|_| "resident_tool_trust_invalid")?;
+            let key = VerifyingKey::from_bytes(&bytes)
+                .map_err(|_| "resident_tool_trust_invalid".to_string())?;
+            keys.insert(authority.key_id, key);
+        }
+        Ok(Self { keys })
+    }
+
+    fn key(&self, key_id: &str) -> Result<&VerifyingKey, String> {
+        self.keys
+            .get(key_id)
+            .ok_or_else(|| "resident_tool_receipt_authority_untrusted".to_string())
+    }
+}
+
+pub fn authenticate_resident_tool_receipt_v1(
+    receipt: &ResidentToolReceiptV1,
+    implementation_revision_sha256: &str,
+    capability_envelope_sha256: &str,
+    cognitive_profile_sha256: &str,
+    key_id: &str,
+    signing_key: &SigningKey,
+) -> Result<AuthenticatedResidentToolReceiptV1, String> {
+    if !is_sha256(implementation_revision_sha256)
+        || !is_sha256(capability_envelope_sha256)
+        || !is_sha256(cognitive_profile_sha256)
+        || key_id.trim().is_empty()
+    {
+        return Err("invalid_resident_tool_authentication_binding".to_string());
+    }
+    let material = ResidentToolAuthenticationMaterial {
+        receipt,
+        implementation_revision_sha256,
+        capability_envelope_sha256,
+        cognitive_profile_sha256,
+        key_id,
+    };
+    let bytes = serde_jcs::to_vec(&material).map_err(|error| error.to_string())?;
+    let receipt_sha256 = hex::encode(Sha256::digest(&bytes));
+    Ok(AuthenticatedResidentToolReceiptV1 {
+        schema: "adl.runtime.authenticated_resident_tool_receipt.v1".to_string(),
+        implementation_revision_sha256: implementation_revision_sha256.to_string(),
+        capability_envelope_sha256: capability_envelope_sha256.to_string(),
+        cognitive_profile_sha256: cognitive_profile_sha256.to_string(),
+        receipt_sha256,
+        key_id: key_id.to_string(),
+        signature_hex: hex::encode(signing_key.sign(&bytes).to_bytes()),
+    })
+}
+
+pub fn validate_resident_tool_receipt_for_birthday_v1(
+    receipt: &ResidentToolReceiptV1,
+    authenticated: &AuthenticatedResidentToolReceiptV1,
+    trust: &RuntimeResidentToolTrust,
+) -> Result<VerifiedToolAuthorityBinding, String> {
+    if authenticated.schema != "adl.runtime.authenticated_resident_tool_receipt.v1"
+        || receipt.schema != "adl.runtime.resident_tool_receipt.v1"
+        || !is_sha256(&authenticated.implementation_revision_sha256)
+        || !is_sha256(&authenticated.capability_envelope_sha256)
+        || !is_sha256(&authenticated.cognitive_profile_sha256)
+    {
+        return Err("invalid_authenticated_resident_tool_receipt".to_string());
+    }
+    let material = ResidentToolAuthenticationMaterial {
+        receipt,
+        implementation_revision_sha256: &authenticated.implementation_revision_sha256,
+        capability_envelope_sha256: &authenticated.capability_envelope_sha256,
+        cognitive_profile_sha256: &authenticated.cognitive_profile_sha256,
+        key_id: &authenticated.key_id,
+    };
+    let bytes = serde_jcs::to_vec(&material).map_err(|error| error.to_string())?;
+    if authenticated.receipt_sha256 != hex::encode(Sha256::digest(&bytes)) {
+        return Err("resident_tool_receipt_digest_mismatch".to_string());
+    }
+    let signature_bytes: [u8; 64] = hex::decode(&authenticated.signature_hex)
+        .map_err(|_| "resident_tool_receipt_signature_invalid".to_string())?
+        .try_into()
+        .map_err(|_| "resident_tool_receipt_signature_invalid".to_string())?;
+    let signature = ed25519_dalek::Signature::from_bytes(&signature_bytes);
+    trust
+        .key(&authenticated.key_id)?
+        .verify(&bytes, &signature)
+        .map_err(|_| "resident_tool_receipt_signature_invalid".to_string())?;
+    Ok(VerifiedToolAuthorityBinding {
+        schema: PRODUCTION_BIRTHDAY_TOOL_BINDING_SCHEMA.to_string(),
+        resident_id: receipt.resident_id.clone(),
+        cycle_id: receipt.cycle_id.clone(),
+        continuity_head_sha256: receipt.checkpoint_lineage.clone(),
+        capability_envelope_sha256: authenticated.capability_envelope_sha256.clone(),
+        cognitive_profile_sha256: authenticated.cognitive_profile_sha256.clone(),
+        implementation_revision_sha256: authenticated.implementation_revision_sha256.clone(),
+        decision: match receipt.decision {
+            ResidentToolReceiptDecisionV1::Executed => "executed",
+            ResidentToolReceiptDecisionV1::Denied => "denied",
+        }
+        .to_string(),
+        authentication_key_id: authenticated.key_id.clone(),
+        receipt_sha256: authenticated.receipt_sha256.clone(),
+        authentication_sha256: hex::encode(Sha256::digest(authenticated.signature_hex.as_bytes())),
+    })
+}
+
+fn is_sha256(value: &str) -> bool {
+    value.len() == 64
+        && value
+            .bytes()
+            .all(|byte| byte.is_ascii_hexdigit() && !byte.is_ascii_uppercase())
 }
 
 pub struct RuntimeObserveAdapterV1 {
