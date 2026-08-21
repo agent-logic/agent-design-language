@@ -4,78 +4,12 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "b71a21ec664bc745058f14d570b7b0024b62162323b6d5def698cbe827292525",
   "phase": "implemented",
-  "generation": 7,
-  "digest": "17b3abff7738e435d370a8dc4606ec5480a49a482cd36e41dd6d45b7bc4cd340",
+  "generation": 8,
+  "digest": "4695295d40576a4e428b373cd5d68e275c88d3dd4ee1fb9f7eeeac64f5e01b5d",
   "branch": "codex/308-demo-proof-coverage",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-308-demo-proof-coverage",
-  "review_assignment": {
-    "reviewer": "fresh-session:codex-cli-issue-308-review-b9e8d454",
-    "assigned_by": "codex:issue-308-delivery",
-    "revision": "git-blake3:b9e8d45444d3d757950ec9b309ea531dcb06940b:e523b73e20a2fa02257dbbc0234ff7d94df5904740d41579da38bf1c2930f911",
-    "scope": [
-      ".csdlc/evidence/308",
-      ".csdlc/issues/308",
-      ".csdlc/prepared/issues/308",
-      ".csdlc/locks/308.lock",
-      "adl/tools/validate_v092_demo_proof_coverage.py",
-      "adl/tools/test_v092_demo_proof_coverage.sh",
-      "docs/milestones/v0.92/DEMO_MATRIX_v0.92.md",
-      "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
-      "docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md",
-      "docs/milestones/v0.92/review/V092_DEMO_AEE_ARTIFACT_INDEX.md"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:codex-cli-issue-308-review-b9e8d454",
-    "scope": [
-      ".csdlc/evidence/308",
-      ".csdlc/issues/308",
-      ".csdlc/prepared/issues/308",
-      ".csdlc/locks/308.lock",
-      "adl/tools/validate_v092_demo_proof_coverage.py",
-      "adl/tools/test_v092_demo_proof_coverage.sh",
-      "docs/milestones/v0.92/DEMO_MATRIX_v0.92.md",
-      "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
-      "docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md",
-      "docs/milestones/v0.92/review/V092_DEMO_AEE_ARTIFACT_INDEX.md"
-    ],
-    "reviewed_revision": "git-blake3:b9e8d45444d3d757950ec9b309ea531dcb06940b:e523b73e20a2fa02257dbbc0234ff7d94df5904740d41579da38bf1c2930f911",
-    "findings": [
-      {
-        "id": "R1-P1-exact-revision-placeholder",
-        "severity": "p1",
-        "summary": "Accepted AEE-018 row uses current-issue-head instead of an immutable exact revision while the validator accepts any non-pending value.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "R1-P1-review-state-premature",
-        "severity": "p1",
-        "summary": "Accepted AEE-018 row records pre-pr-review-required even though the exact-commit SRP is still pre_review with no reviewer or revision.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "R1-P2-proof-validation-too-weak",
-        "severity": "p2",
-        "summary": "Accepted proof validation is path-existence-only and does not reject non-proof docs/scripts as retained run evidence or placeholder exact/review fields.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -90,32 +24,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "293f8bf57ed6c9012e3ed73db5be7a40983ff97bddc82fcb730b8338207a44c2",
+      "values_digest": "6e4b4a03199df7c3ec0985d9ab8faf2ba3a0deb25c592cca2986cdcc74d287bc",
       "rendered_digest": "cb55925f2472f45ca6386cfee375de0c4902ec6c3ab85f3229b6b5e5b89e8d57",
       "ast_digest": "3435b3bd1e49ebcb8894c63af3b1450b0776da7a75419409d74a670109bdc75c"
     },
     "stp": {
-      "values_digest": "29c9c630a0879a4aa4a9ae3688c26f2cf447b2cc20c69844e22b4124da1d4f06",
+      "values_digest": "29c7409f7ac3d5876b096c06636e330e1980e1382320618bb2898a43566a09cf",
       "rendered_digest": "a858d8b299db2f2ad806e9073e1ed32a6caaeb6cea054ec2ed06c57d75fdf406",
       "ast_digest": "16b0f2d4769f79fe6de0ea45effc459efb38a8642c718c4f9137cfa2547f2729"
     },
     "spp": {
-      "values_digest": "4d710b49121363c702146357e74aff19f8485f163ea4a4dd0c1d0c66c0016a05",
+      "values_digest": "a9879fd3c333efef034ab01f63b3f4dae6a5b62e2acb2bda3e3ec6bab57a97ee",
       "rendered_digest": "399212b0c2e5fb22de1357d7107303b26268078fce84e2a1a20eb287bca39905",
       "ast_digest": "b031d43e65ae2803059c35bc18820e29ff139dadca7ab5d0f2ec450e15d6179f"
     },
     "vpp": {
-      "values_digest": "a28f42a467ea223699f11817fee6e37442d16bc0e25e419b4dc1b710e3e27cb2",
+      "values_digest": "fb69c685aa76c0ed8225842641d93e2c3ebb2cfebd822b34fb8686d83db0486d",
       "rendered_digest": "d0d0590688e421ae4ae90cd95cad4ebfbe25abd842349eec2396e341ed53aa94",
       "ast_digest": "b1628e42176d953479f71193b2ac8af7587ca4c40ca4bcdbfce4dab54a3d40f3"
     },
     "srp": {
-      "values_digest": "43fd058fb19cd5fe1cb81a8e5fccc5e49265ffe7d1a0763dcaae2e842eb29413",
-      "rendered_digest": "8643070c905c88564ac33b734a435b579aec16faa2c9eb167f9dc460ecbf214f",
-      "ast_digest": "ee3cd92c459433c12d8104b2ac378c1ae2fad59ddcfd5d478a8b764cca8bc3e0"
+      "values_digest": "91fbf6f806ccbcee0af6cfeaae8314f054c7725dceec97a04809c1b49d25ccee",
+      "rendered_digest": "48ac6678ddca44923623167889db657aafd83a58b2243fe05b755251320302a7",
+      "ast_digest": "c527a75ebd21bc2913b8306373f0f6e150df6f6d97140ef10a8b16e26c274905"
     },
     "sor": {
-      "values_digest": "b8f5655681c860ec8e6b817af51d51cebe737632e2e04205390eba4219d8923b",
+      "values_digest": "cbc1f0b30697f2c02659a1cfbaea6a4289e3c67ee090f85185a7e571c3051215",
       "rendered_digest": "d4eaa132c028645974594a98bf21f51a0d0300c385dddf2806e670bfe14b5802",
       "ast_digest": "adc560b0f0c08e6ab8a47e426e9327c481734a999df0f726311e074157239580"
     }
@@ -220,6 +154,13 @@
       "actor": "fresh-session:codex-cli-issue-308-review-b9e8d454",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:issue-308-review-finding-repair",
+      "reason": "Recover failed exact-head review fresh-session:codex-cli-issue-308-review-b9e8d454 after committing repairs for R1-P1 exact revision placeholder, R1-P1 premature review state, and R1-P2 weak proof validation at 24bcb1b9965a165f1a5c384071aee46a4bb350c0; assign a fresh reviewer to the clean repaired head.",
+      "operation": "recover_review"
     }
   ]
 }

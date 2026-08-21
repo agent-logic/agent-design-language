@@ -9,3 +9,4 @@
 {"sequence":9,"generation":6,"actor":"codex:issue-308-delivery","reason":"clear stale review assignment after design tuple repair before assigning exact-head review","operation":"recover_review"}
 {"sequence":10,"generation":6,"actor":"codex:issue-308-delivery","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":11,"generation":7,"actor":"fresh-session:codex-cli-issue-308-review-b9e8d454","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":12,"generation":8,"actor":"codex:issue-308-review-finding-repair","reason":"Recover failed exact-head review fresh-session:codex-cli-issue-308-review-b9e8d454 after committing repairs for R1-P1 exact revision placeholder, R1-P1 premature review state, and R1-P2 weak proof validation at 24bcb1b9965a165f1a5c384071aee46a4bb350c0; assign a fresh reviewer to the clean repaired head.","operation":"recover_review"}
