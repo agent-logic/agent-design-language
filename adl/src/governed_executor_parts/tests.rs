@@ -541,7 +541,7 @@ fn dangerous_negative_suite_wp14_trace_refuses_actor_and_registry_paths() {
     registry_input.gate_decision.trace_links = vec![
         format!("proposal:{}", registry_input.proposal_id),
         format!("acc:{}", acc.contract_id),
-        format!("action:fixture.unknown"),
+        "action:fixture.unknown".to_string(),
     ];
     registry_input
         .acc
