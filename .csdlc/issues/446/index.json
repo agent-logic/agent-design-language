@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "6d45794ff8f47d6ed78c0e8e6925c8384a89dbcd8abc3c23872a6da0c508da8e",
   "phase": "implemented",
-  "generation": 7,
-  "digest": "542952baa067eb8fab4127bd22f50da48d44d06023e50337db38ee1b31e4ee30",
+  "generation": 11,
+  "digest": "fca21b6359b1b68e804764f86a702746594aab54fde9828d6173340e7e35f00e",
   "branch": "codex/446-runtime-acc-resident-wiring",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-446-runtime-acc-resident-wiring",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "81aab9d2315c1e67307d282fd5f4e47fbbd831d0a27c776b010e3a34c757ca53",
+      "values_digest": "5f8235b37fd2ee14ad4ee0cb9e99fce43d42320058988742e1bffa3a4ebe6fdd",
       "rendered_digest": "a4f6027a21a820c30c5134ba1567511d9f52f1d5bf5daadcc61a51c2a3a353d1",
       "ast_digest": "27a5f3a4b5e8abc714ad563d22a2d322243d75dd8703dc01b35b75f6cb7a856f"
     },
     "stp": {
-      "values_digest": "7646cf7624bb2c0171b1c089f1b4c034a544f060ed9a2abc7950f2a578968276",
+      "values_digest": "83b5f7b249325c2688566f3201ad8cf27b0726d01bd898ff5f72ff36d6403ef2",
       "rendered_digest": "8d82f119907a31b0a1a34692ad2979d48898cd5d871d1e6c11bd709b6260ed84",
       "ast_digest": "71286082e6509974f68f38220eb27a1a60afa250f1505e1938fe34e8b3fa8fc0"
     },
     "spp": {
-      "values_digest": "ca07b7bb433a4de2e2f1c0d5cce6f0b9b75bd7963276d575bb7b141a36efe8f9",
+      "values_digest": "4b46e7e885155b5cb51feaf7659460a829801ea9cb9e7624cbf3c543fb90517b",
       "rendered_digest": "328a3e601f844ec99ad9fa6a87596d3ba6aa56744dc052e25995bf3f2e2973e6",
       "ast_digest": "d889dc54057773a4840ce3e9b02d800d3588e21ff8d7ca34ebace795dfc547e3"
     },
     "vpp": {
-      "values_digest": "3887d055cb102fe0a1139d708af9cebd4e12687034f4d4b0bfefceea84b31650",
-      "rendered_digest": "35f64f00c81116d2d96b82da6d4a3b438211ca408e392dc986b74132a02fd6a1",
-      "ast_digest": "e6a5b2cc17073d7b052007dd4c198ac726aa3e27bcf0f0b6b39031954017f7f3"
+      "values_digest": "50c1cc2c80561d5e266460fd9af03fe39b24bc28445878d765ad94aa67bd59b0",
+      "rendered_digest": "6f3e9bf007826f50192e601366097281f25502bb443c44c3beac1abb0c9e8a83",
+      "ast_digest": "412ae3243fe05dac1680b82cc49a116dc46812fa50747b1bd801789c8eda63c1"
     },
     "srp": {
-      "values_digest": "dd5c7678456620a5c7c72d14df5725ba183a0a88ba077969f8d9a5a033b84cdb",
+      "values_digest": "95619469fe321986936a22d63eb8366c413552248ee2670889ea79e8264d8048",
       "rendered_digest": "0299c43e56a3fd8735645ac048e212400c704d8c387029d22def9b25c2b3beb6",
       "ast_digest": "91b696ad302f8ead39ac6c5a8af2999e81d83b3a93e0fa4ff94242edfa49ab17"
     },
     "sor": {
-      "values_digest": "1b43760b828b3564ed10f81ef82614a703eef54a3f4d87811966488032efd8f7",
-      "rendered_digest": "f824d9fccc108de13b50f6571aed69d37a8ced05fd5434622756f8aa92ba6e6e",
-      "ast_digest": "dfc8216e6376c66aff0401134d6ce59a78146105c7535514215ccf7918ba61cf"
+      "values_digest": "6d386ca5b62914e7d24259be4f244d6675503cf389dd97158893fcef98f5390b",
+      "rendered_digest": "cac047176b42861c46aa91f07c4b6a00840953ce069ebe7464e2a354dc953af3",
+      "ast_digest": "1ca7616c49d27f06f7a8db123b17c4535ca71274e4a41c4cd79a0c5374c3b61c"
     }
   },
   "transitions": [
@@ -147,6 +147,41 @@
       "actor": "codex:issue-446-review-repair",
       "reason": "Replace the stale compiler-only Runtime lane with the exact deterministic and live Runtime ACC validation denominator required by AC-1 through AC-7.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue446-contract\",\"proof_role\":\"Prove exact issue-owned Runtime and ACC surfaces.\",\"acceptance_ids\":[\"AC-1\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"bash\",\".csdlc/prepared/issues/446/validate_issue446.sh\"],\"parallel_group\":\"contract\",\"defer_reason\":null},{\"lane\":\"resident-tool-governance\",\"proof_role\":\"Prove single-proposal extraction, authority binding, UTS-to-ACC compilation, gate and adapter denial, receipt redaction, and duplicate-proposal denial.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"resident_tool_execution\",\"--lib\",\"--\",\"--nocapture\"],\"parallel_group\":\"runtime\",\"defer_reason\":null},{\"lane\":\"runtime-full-tick\",\"proof_role\":\"Prove an actual long-lived Runtime provider StepOutput crosses ACC, Freedom Gate, production adapter dispatch, and exact checkpoint receipt creation.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"long_lived_agent::tests::provider_tool_output_is_governed_and_checkpoint_bound\",\"--lib\",\"--\",\"--exact\",\"--nocapture\"],\"parallel_group\":\"runtime\",\"defer_reason\":null},{\"lane\":\"runtime-compile-lint\",\"proof_role\":\"Prove integrated crate compilation and strict lint cleanliness.\",\"acceptance_ids\":[\"AC-1\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"compile\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:issue-446-final-runtime-acc-review-r2",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "fresh-session:78e91a49-7e0b-47f1-88fa-b0ee424a871f",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:issue-446-selector-repair",
+      "reason": "Recover the zero-test selector finding so VPP and SOR can name the actual fully qualified Runtime full-tick test and retain nonzero proof.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:issue-446-review-repair",
+      "reason": "Replace stale initial-commit execution truth with the exact implemented Runtime ACC behavior and all current passing validation before fresh review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Wired six-resident Runtime tool authority and actual long-lived provider output through single-proposal extraction, UTS-to-ACC compilation, configured Freedom Gate evaluation, production Runtime observation dispatch, and checkpoint-bound redacted terminal receipts; exact implementation tree 48075df8480802ed6629069c57ce795e39281d09 is proven by deterministic and live gemma4:12b-mlx Runtime cycles.\",\"changes\":[\"Added canonical digest-bound resident tool authority metadata and tamper denial in adl-runtime.\",\"Added Runtime-owned single-proposal extraction, including duplicate-proposal denial and redacted proposal identifiers.\",\"Routed actual long-lived Runtime provider output through UTS-to-ACC compilation and configured Freedom Gate policy before adapter dispatch.\",\"Added the production runtime.observe registry and bounded redacted Runtime snapshot adapter; fixture dispatch remains test-only and production fallback fails closed.\",\"Bound every terminal execution or denial receipt to resident identity, cycle, and exact checkpoint digest.\",\"Added deterministic full-tick and opt-in live Ollama gemma4:12b-mlx proof without changing generic provider configuration or expanding v0.92 scope.\"],\"artifacts\":[\"implementation-tree:48075df8480802ed6629069c57ce795e39281d09\",\"commit:e040eb35020fd4673422cc41841a44b5143345be\",\"evidence-commit:ac01f0181344e7571e706ed35366e4c619faecf6\",\".csdlc/evidence/446/live-gemma4-runtime-acc.log\",\"adl-runtime/src/resident_agent.rs\",\"adl/src/resident_tool_execution.rs\",\"adl/src/long_lived_agent.rs\",\"adl/src/governed_executor_parts/logic.rs\",\"adl/src/lib.rs\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"resident_tool_execution\",\"--lib\",\"--\",\"--nocapture\"],\"purpose\":\"Prove allow, authority mismatch, compiler denial, gate denial, unsupported adapter denial, receipt redaction, and identical duplicate-proposal denial.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree: 7 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"long_lived_agent::tests::tick_routes_provider_output_through_runtime_acc_and_adapter\",\"--lib\",\"--\",\"--exact\",\"--nocapture\"],\"purpose\":\"Prove a full deterministic Runtime tick routes real provider StepOutput through ACC, Freedom Gate, production adapter, and checkpoint-bound receipt creation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree: 1 passed\"},{\"command\":[\"env\",\"ADL_TEST_LIVE_RESIDENT_MODEL=gemma4:12b-mlx\",\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"long_lived_agent::tests::tick_routes_provider_output_through_runtime_acc_and_adapter\",\"--lib\",\"--\",\"--exact\",\"--nocapture\"],\"purpose\":\"Prove the same full Runtime ACC path using a real local Ollama gemma4:12b-mlx agent response over HTTP.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/446/live-gemma4-runtime-acc.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"governed_executor\",\"--lib\",\"--\",\"--nocapture\"],\"purpose\":\"Prove governed executor behavior and test-only fixture isolation after injected adapter refactor.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree: 25 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"resident_agent\",\"--lib\",\"--\",\"--nocapture\"],\"purpose\":\"Prove canonical resident authority construction, validation, and tamper denial.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree: 5 passed\"},{\"command\":[\"cargo\",\"check\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\"],\"purpose\":\"Prove the Runtime library compiles across the integrated implementation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove strict lint cleanliness for the integrated Runtime ACC path.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl/Cargo.toml\",\"--check\"],\"purpose\":\"Prove Rust formatting hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove whitespace and conflict-marker hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree\"}]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:issue-446-review-repair",
+      "reason": "Replace the stale compiler-only Runtime lane with the exact deterministic and live Runtime ACC validation denominator required by AC-1 through AC-7.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue446-contract\",\"proof_role\":\"Prove exact issue-owned Runtime and ACC surfaces.\",\"acceptance_ids\":[\"AC-1\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"bash\",\".csdlc/prepared/issues/446/validate_issue446.sh\"],\"parallel_group\":\"contract\",\"defer_reason\":null},{\"lane\":\"resident-tool-governance\",\"proof_role\":\"Prove single-proposal extraction, authority binding, UTS-to-ACC compilation, gate and adapter denial, receipt redaction, and duplicate-proposal denial.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"resident_tool_execution\",\"--lib\",\"--\",\"--nocapture\"],\"parallel_group\":\"runtime\",\"defer_reason\":null},{\"lane\":\"runtime-full-tick\",\"proof_role\":\"Prove an actual long-lived Runtime provider StepOutput crosses ACC, Freedom Gate, production adapter dispatch, and exact checkpoint receipt creation.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"long_lived_agent::tests::tick_routes_provider_output_through_runtime_acc_and_adapter\",\"--lib\",\"--\",\"--exact\",\"--nocapture\"],\"parallel_group\":\"runtime\",\"defer_reason\":null},{\"lane\":\"runtime-compile-lint\",\"proof_role\":\"Prove integrated crate compilation and strict lint cleanliness.\",\"acceptance_ids\":[\"AC-1\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"compile\",\"defer_reason\":null}]}"
     }
   ]
 }

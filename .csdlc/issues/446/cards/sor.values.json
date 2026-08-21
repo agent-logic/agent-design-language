@@ -7,7 +7,7 @@
     "title": "[v0.92][Runtime] Wire ACC-governed tool execution into resident-agent cycles",
     "slug": "runtime-acc-resident-tool-execution",
     "version": "v0.92",
-    "generation": 7
+    "generation": 11
   },
   "status": "pre_phase",
   "content": {
@@ -55,7 +55,7 @@
             "test",
             "--manifest-path",
             "adl/Cargo.toml",
-            "long_lived_agent::tests::provider_tool_output_is_governed_and_checkpoint_bound",
+            "long_lived_agent::tests::tick_routes_provider_output_through_runtime_acc_and_adapter",
             "--lib",
             "--",
             "--exact",
@@ -73,7 +73,7 @@
             "test",
             "--manifest-path",
             "adl/Cargo.toml",
-            "long_lived_agent::tests::provider_tool_output_is_governed_and_checkpoint_bound",
+            "long_lived_agent::tests::tick_routes_provider_output_through_runtime_acc_and_adapter",
             "--lib",
             "--",
             "--exact",

@@ -89,7 +89,7 @@ Diagram: .csdlc/prepared/issues/446/diagram.mmd
       "test",
       "--manifest-path",
       "adl/Cargo.toml",
-      "long_lived_agent::tests::provider_tool_output_is_governed_and_checkpoint_bound",
+      "long_lived_agent::tests::tick_routes_provider_output_through_runtime_acc_and_adapter",
       "--lib",
       "--",
       "--exact",
@@ -139,7 +139,7 @@ Tokens: 50000
 
 - `bash .csdlc/prepared/issues/446/validate_issue446.sh`
 - `cargo test --manifest-path adl/Cargo.toml resident_tool_execution --lib -- --nocapture`
-- `cargo test --manifest-path adl/Cargo.toml long_lived_agent::tests::provider_tool_output_is_governed_and_checkpoint_bound --lib -- --exact --nocapture`
+- `cargo test --manifest-path adl/Cargo.toml long_lived_agent::tests::tick_routes_provider_output_through_runtime_acc_and_adapter --lib -- --exact --nocapture`
 - `cargo clippy --manifest-path adl/Cargo.toml --lib -- -D warnings`
 
 ## Failure Semantics
