@@ -7,15 +7,15 @@
     "title": "[v0.92][Runtime Security] Make lifecycle TLS authority config-only",
     "slug": "runtime-lifecycle-tls-config-only",
     "version": "v0.92",
-    "generation": 14
+    "generation": 15
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/evidence/461\n.csdlc/issues/461\n.csdlc/prepared/issues/461\nadl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\nadl-runtime-kernel/src/observability.rs\nadl-runtime-kernel/tests/observability.rs\nadl/tools/run_runtime_v3_operational_proof.sh\nadl/tools/validate_v092_runtime_guardian_lifecycle.sh",
+      "review_revision": "git-blake3:4418f6c8f318309f34271dc2ecbe27d658c5e395:0378a8f532789147be33a6771e6ffb58080cf346809c44022d86e4e325018b22",
+      "reviewer": "/root/review_461_r4",
       "review_prompts": [
         "Verify no TLS path remains accepted through argv or environment.",
         "Verify config path validation and redaction are fail closed.",
@@ -23,7 +23,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }

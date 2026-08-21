@@ -12,7 +12,14 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/evidence/461
+.csdlc/issues/461
+.csdlc/prepared/issues/461
+adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs
+adl-runtime-kernel/src/observability.rs
+adl-runtime-kernel/tests/observability.rs
+adl/tools/run_runtime_v3_operational_proof.sh
+adl/tools/validate_v092_runtime_guardian_lifecycle.sh
 
 ## Prompts
 
@@ -34,8 +41,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:4418f6c8f318309f34271dc2ecbe27d658c5e395:0378a8f532789147be33a6771e6ffb58080cf346809c44022d86e4e325018b22")
 
-Reviewer: None
+Reviewer: Some("/root/review_461_r4")
 
-Result: pre_review
+Result: pass
