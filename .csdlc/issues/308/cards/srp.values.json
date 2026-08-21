@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-20] Demo matrix, AEE proof, and proof coverage",
     "slug": "v0-92-wp-20-demo-matrix-aee-proof-and-proof-coverage",
     "version": "v0.92",
-    "generation": 11
+    "generation": 13
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": ".csdlc/evidence/308\n.csdlc/issues/308\n.csdlc/prepared/issues/308\n.csdlc/locks/308.lock\nadl/tools/validate_v092_demo_proof_coverage.py\nadl/tools/test_v092_demo_proof_coverage.sh\ndocs/milestones/v0.92/DEMO_MATRIX_v0.92.md\ndocs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md\ndocs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md\ndocs/milestones/v0.92/review/V092_DEMO_AEE_ARTIFACT_INDEX.md",
-      "review_revision": "git-blake3:bcf420ec823682f86a2c713ddf1575c98c094398:1df0b08259eae1f8506f9680ae7e34e76a8c1360be9f5ce7682c32dca4b75491",
-      "reviewer": "fresh-session:codex-cli-issue-308-review-bcf420ec",
+      "review_revision": "git-blake3:dae062e1267de2a783aa20e739b8d1caca19e78e:0a56c91f01b013f01046e5beaf0ddd30647ff32713b09ad13637374b456a7626",
+      "reviewer": "fresh-session:codex-cli-issue-308-review-dae062e1",
       "review_prompts": [
         "Do all accepted rows agree across matrix, coverage, activation, and artifact index at one exact revision?",
         "Does every accepted claim retain required positive and negative proof plus platform, credential, review, and non-claim truth?",
@@ -23,32 +23,12 @@
         "Does the patch preserve WP-21/WP-21A and child ownership boundaries?",
         "Is the predecessor gate terminal, reconciled, and ancestral at the execution base?"
       ],
-      "findings": [
-        {
-          "id": "R3-P1-predecessor-gate-reconciled-evidence-missing",
-          "severity": "p1",
-          "summary": "The predecessor gate evidence and validator prove terminal/ancestor facts but not labeled reconciled state or retained terminal evidence artifacts for #256, #340, #341, and legacy #5839.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": null
-        },
-        {
-          "id": "R3-P1-demo-matrix-owner-revision-command-underchecked",
-          "severity": "p1",
-          "summary": "The demo matrix lacks owner, exact revision, and command columns, so the validator cannot enforce the promised four-surface owner/status/revision/command join.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": null
-        }
-      ],
+      "findings": [],
       "residual_risk": [
-        "Review was read-only and bounded to exact commit bcf420ec823682f86a2c713ddf1575c98c094398; reviewer ignored post-HEAD review-assignment metadata dirt and did not rerun mutating negative-suite fixtures."
+        "Review was read-only and bounded to exact commit dae062e1267de2a783aa20e739b8d1caca19e78e; reviewer ignored post-HEAD review-assignment metadata dirt.",
+        "Reviewer did not rerun the mutating shell negative suite in read-only review mode; checked-in validator logs and local pre-review validation record the passing run."
       ],
-      "review_result": "changes_required"
+      "review_result": "pass"
     }
   }
 }

@@ -3,15 +3,15 @@
   "issue": 308,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "b71a21ec664bc745058f14d570b7b0024b62162323b6d5def698cbe827292525",
-  "phase": "implemented",
-  "generation": 11,
-  "digest": "db95be3fd3c7fbbe1586cbd5cdd611f1d2653638216cd15a5342bd1f459edce3",
+  "phase": "reviewed",
+  "generation": 13,
+  "digest": "b74868a21cdc1ce5692438d7680bc30af7fed4c2b2fbbbf7af9d4cff503252f8",
   "branch": "codex/308-demo-proof-coverage",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-308-demo-proof-coverage",
   "review_assignment": {
-    "reviewer": "fresh-session:codex-cli-issue-308-review-bcf420ec",
+    "reviewer": "fresh-session:codex-cli-issue-308-review-dae062e1",
     "assigned_by": "codex:issue-308-review-finding-repair",
-    "revision": "git-blake3:bcf420ec823682f86a2c713ddf1575c98c094398:1df0b08259eae1f8506f9680ae7e34e76a8c1360be9f5ce7682c32dca4b75491",
+    "revision": "git-blake3:dae062e1267de2a783aa20e739b8d1caca19e78e:0a56c91f01b013f01046e5beaf0ddd30647ff32713b09ad13637374b456a7626",
     "scope": [
       ".csdlc/evidence/308",
       ".csdlc/issues/308",
@@ -26,7 +26,7 @@
     ]
   },
   "review": {
-    "reviewer": "fresh-session:codex-cli-issue-308-review-bcf420ec",
+    "reviewer": "fresh-session:codex-cli-issue-308-review-dae062e1",
     "scope": [
       ".csdlc/evidence/308",
       ".csdlc/issues/308",
@@ -39,31 +39,11 @@
       "docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md",
       "docs/milestones/v0.92/review/V092_DEMO_AEE_ARTIFACT_INDEX.md"
     ],
-    "reviewed_revision": "git-blake3:bcf420ec823682f86a2c713ddf1575c98c094398:1df0b08259eae1f8506f9680ae7e34e76a8c1360be9f5ce7682c32dca4b75491",
-    "findings": [
-      {
-        "id": "R3-P1-predecessor-gate-reconciled-evidence-missing",
-        "severity": "p1",
-        "summary": "The predecessor gate evidence and validator prove terminal/ancestor facts but not labeled reconciled state or retained terminal evidence artifacts for #256, #340, #341, and legacy #5839.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "R3-P1-demo-matrix-owner-revision-command-underchecked",
-        "severity": "p1",
-        "summary": "The demo matrix lacks owner, exact revision, and command columns, so the validator cannot enforce the promised four-surface owner/status/revision/command join.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
+    "reviewed_revision": "git-blake3:dae062e1267de2a783aa20e739b8d1caca19e78e:0a56c91f01b013f01046e5beaf0ddd30647ff32713b09ad13637374b456a7626",
+    "findings": [],
     "residual_risks": [
-      "Review was read-only and bounded to exact commit bcf420ec823682f86a2c713ddf1575c98c094398; reviewer ignored post-HEAD review-assignment metadata dirt and did not rerun mutating negative-suite fixtures."
+      "Review was read-only and bounded to exact commit dae062e1267de2a783aa20e739b8d1caca19e78e; reviewer ignored post-HEAD review-assignment metadata dirt.",
+      "Reviewer did not rerun the mutating shell negative suite in read-only review mode; checked-in validator logs and local pre-review validation record the passing run."
     ],
     "completed": true,
     "non_substantive_proof": null
@@ -82,32 +62,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "adb3f1e0e3fa04f26dd1bd1467f400b8e5ce98906f63d788fc13e02307a1bc65",
+      "values_digest": "7c5b0c13d0c8105cd43eefc13c99e1b6dca5f3cd2419afc487526c96e33f13f9",
       "rendered_digest": "cb55925f2472f45ca6386cfee375de0c4902ec6c3ab85f3229b6b5e5b89e8d57",
       "ast_digest": "3435b3bd1e49ebcb8894c63af3b1450b0776da7a75419409d74a670109bdc75c"
     },
     "stp": {
-      "values_digest": "983bf19c75551ca833e78fa62e6194d1fdcc3caf163b407f4b96edd8e878e24b",
+      "values_digest": "8eaf7a1b7e78b723fdcfdc2a1da86d676f4b03dc3e9dfedb00821b5a04dad051",
       "rendered_digest": "a858d8b299db2f2ad806e9073e1ed32a6caaeb6cea054ec2ed06c57d75fdf406",
       "ast_digest": "16b0f2d4769f79fe6de0ea45effc459efb38a8642c718c4f9137cfa2547f2729"
     },
     "spp": {
-      "values_digest": "dcf2ea68c6cf1f4e12478e580598d5d4b6e7a776b8a5298800096f00f21a034a",
+      "values_digest": "80f6cc028530a5b2ed509647aca651083e008169bebb4a7e9a9375d2e157a6fb",
       "rendered_digest": "399212b0c2e5fb22de1357d7107303b26268078fce84e2a1a20eb287bca39905",
       "ast_digest": "b031d43e65ae2803059c35bc18820e29ff139dadca7ab5d0f2ec450e15d6179f"
     },
     "vpp": {
-      "values_digest": "9b9e30e1bfe7d39006fb96cc870ef8dd4cca8b29b6d6c7eb96ee4c96b638efc9",
+      "values_digest": "f68c28c94207593f4d31bfc6342e6b0cd2e65acf6479537f9787cf1a992ae242",
       "rendered_digest": "d0d0590688e421ae4ae90cd95cad4ebfbe25abd842349eec2396e341ed53aa94",
       "ast_digest": "b1628e42176d953479f71193b2ac8af7587ca4c40ca4bcdbfce4dab54a3d40f3"
     },
     "srp": {
-      "values_digest": "8bfec3b0c5f77cbdca7b47bd20f7ed636370b91f64f3f52382a1fc52528a4e1d",
-      "rendered_digest": "8333c95d1c7f4ebbccf2ddf6d21a948d37a6e0c9791e9c6ce359553061d3b6d1",
-      "ast_digest": "49adcb12db2ff347391e0c3f33af4283d792650ab02d955108dbd306af047d38"
+      "values_digest": "e7ee82071aa8c9a14eb35bbe9134c7b865dce9ceb7bcf31d53bc695abed4c684",
+      "rendered_digest": "5c6280ecda631dea300d5d3fc0bcfb282b3b9f98f585a5703d2c8091b4601072",
+      "ast_digest": "6c12f7ee3a3ac0e6c17d25c5c3d50d12ff8ebda096775a47934e7cec713c90ad"
     },
     "sor": {
-      "values_digest": "49cf4c197f409f8dbd633ba151c56bcf2f7f989df21c8554adb06285ecae8b87",
+      "values_digest": "8104b86da30d4a46d3494149d570e66ff4bb7803a499cda42b74393ebda4901e",
       "rendered_digest": "d4eaa132c028645974594a98bf21f51a0d0300c385dddf2806e670bfe14b5802",
       "ast_digest": "adc560b0f0c08e6ab8a47e426e9327c481734a999df0f726311e074157239580"
     }
@@ -133,6 +113,13 @@
       "to": "implemented",
       "actor": "codex:issue-308-delivery",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:codex-cli-issue-308-review-dae062e1",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -252,6 +239,27 @@
       "sequence": 17,
       "generation": 11,
       "actor": "fresh-session:codex-cli-issue-308-review-bcf420ec",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 12,
+      "actor": "codex:issue-308-review-finding-repair",
+      "reason": "Recover failed exact-head review fresh-session:codex-cli-issue-308-review-bcf420ec after committing repairs for R3-P1 predecessor reconciled retained evidence and R3-P1 demo matrix owner/revision/command join enforcement at dae062e1267de2a783aa20e739b8d1caca19e78e; assign a fresh reviewer to the clean repaired head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 12,
+      "actor": "codex:issue-308-review-finding-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 13,
+      "actor": "fresh-session:codex-cli-issue-308-review-dae062e1",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
     }
