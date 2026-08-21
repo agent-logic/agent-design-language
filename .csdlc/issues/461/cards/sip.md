@@ -22,7 +22,8 @@ The lifecycle soak and Guardian path read validated TLS certificate, private-key
 
 - adl-runtime lifecycle soak TLS argument and configuration handling
 - bounded Guardian lifecycle harness
-- focused config-only TLS regression tests
+- Runtime-kernel observability classification for automatically recovered Vector restarts
+- focused config-only TLS and recovered-observability regression tests
 
 ## Authority
 

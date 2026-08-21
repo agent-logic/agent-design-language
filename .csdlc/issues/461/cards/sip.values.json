@@ -7,7 +7,7 @@
     "title": "[v0.92][Runtime Security] Make lifecycle TLS authority config-only",
     "slug": "runtime-lifecycle-tls-config-only",
     "version": "v0.92",
-    "generation": 4
+    "generation": 8
   },
   "status": "ready",
   "content": {
@@ -18,7 +18,8 @@
       "declared_scope": [
         "adl-runtime lifecycle soak TLS argument and configuration handling",
         "bounded Guardian lifecycle harness",
-        "focused config-only TLS regression tests"
+        "Runtime-kernel observability classification for automatically recovered Vector restarts",
+        "focused config-only TLS and recovered-observability regression tests"
       ],
       "authority_boundary": [
         "Runtime init configuration is the sole TLS path authority",

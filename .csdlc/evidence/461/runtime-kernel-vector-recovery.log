@@ -1,0 +1,9 @@
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-461-runtime-lifecycle-tls-config-only/adl-runtime-kernel)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 5.54s
+     Running tests/observability.rs (adl-runtime-kernel/target/debug/deps/observability-e1f040bfc2be7dfc)
+
+running 1 test
+test runtime_vector_pipeline_restarts_child_after_sustained_master_log_stagnation ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 29 filtered out; finished in 0.56s
+

@@ -1,3 +1,3 @@
-   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-461-runtime-lifecycle-tls-config-only/adl-runtime-kernel)
+    Checking adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-461-runtime-lifecycle-tls-config-only/adl-runtime-kernel)
     Checking adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-461-runtime-lifecycle-tls-config-only/adl-runtime)
-    Finished `dev` profile [unoptimized + debuginfo] target(s) in 9.12s
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 8.17s
