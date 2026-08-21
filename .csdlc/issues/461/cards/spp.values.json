@@ -1,0 +1,70 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 461,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][Runtime Security] Make lifecycle TLS authority config-only",
+    "slug": "runtime-lifecycle-tls-config-only",
+    "version": "v0.92",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Remove TLS argv fields, validate config-owned paths, update the Guardian-generated config, and prove the config-only lifecycle path.",
+      "steps": [
+        {
+          "id": "step-1",
+          "action": "remove lifecycle TLS command flags and consume validated config fields",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "step-2",
+          "action": "update Guardian config generation and regression coverage",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
+        "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
+        "adl/tools/test_validate_v092_runtime_guardian_lifecycle.sh"
+      ],
+      "invariants": [
+        "Runtime configuration remains the sole TLS authority",
+        "TLS material and sensitive paths never enter command argv",
+        "invalid or ambiguous TLS configuration fails closed"
+      ],
+      "risks": [
+        "fixture configuration may diverge from production schema",
+        "path validation may regress HTTPS or WSS lifecycle startup"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 7200,
+        "total_tokens": 40000,
+        "validation_seconds": 1200
+      },
+      "stop_conditions": [
+        "the fix requires certificate issuance or public DNS changes",
+        "the Runtime configuration cannot represent required TLS authority"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/461/design.md",
+      "design_digest": "d900815e5a20e2406883bde10ba970d7e0e1083a737a14d96a7b4709b2c43246",
+      "diagram_ref": ".csdlc/prepared/issues/461/diagram.mmd",
+      "diagram_digest": "7708a92f20db0256d0d15f5690a029e2a705848c1729de336f54c8b7da95b2ec"
+    }
+  }
+}

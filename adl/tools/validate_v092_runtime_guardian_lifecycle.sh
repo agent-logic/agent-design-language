@@ -130,20 +130,50 @@ PY
 init_template="$qualification_root/5820-runtime-init-$api_port.toml"
 mkdir -p "$(dirname "$init_template")"
 python3 - "$repo_root/infra/runtime-v3/runtime-init.toml" "$init_template" "$api_port" <<'PY'
+import os
 import pathlib
+import shutil
 import sys
 
 source, destination, port = sys.argv[1:]
-text = pathlib.Path(source).read_text(encoding="utf-8")
+source_path = pathlib.Path(source)
+destination_path = pathlib.Path(destination)
+repo_root = source_path.parents[2]
+fixture_root = repo_root / "adl-runtime" / "tests" / "support" / "tls-fixtures"
+tls_root = destination_path.parent / "tls"
+tls_root.mkdir(mode=0o700, exist_ok=True)
+certificate = tls_root / "server-cert.pem"
+private_key = tls_root / "server-key.pem"
+trust_roots = tls_root / "root-ca.pem"
+shutil.copyfile(fixture_root / "server-cert.pem", certificate)
+shutil.copyfile(fixture_root / "server-key.pem", private_key)
+shutil.copyfile(fixture_root / "root-ca.pem", trust_roots)
+os.chmod(certificate, 0o600)
+os.chmod(private_key, 0o600)
+os.chmod(trust_roots, 0o600)
+
+text = source_path.read_text(encoding="utf-8")
 address = 'address = "127.0.0.1:20997"'
 public_url = 'public_base_url = "https://localhost:20997"'
+tls_fields = {
+    'certificate_chain_path = "/var/lib/adl/runtime-v3/tls/fullchain.pem"':
+        f'certificate_chain_path = "{certificate}"',
+    'private_key_path = "/var/lib/adl/runtime-v3/tls/private-key.pem"':
+        f'private_key_path = "{private_key}"',
+    'trust_roots_path = "/var/lib/adl/runtime-v3/tls/trust-roots.pem"':
+        f'trust_roots_path = "{trust_roots}"',
+}
 if text.count(address) != 1:
     raise SystemExit("canonical API address missing")
 if text.count(public_url) != 1:
     raise SystemExit("canonical public URL missing")
 text = text.replace(address, f'address = "127.0.0.1:{port}"', 1)
 text = text.replace(public_url, f'public_base_url = "https://localhost:{port}"', 1)
-pathlib.Path(destination).write_text(text, encoding="utf-8")
+for canonical, localized in tls_fields.items():
+    if text.count(canonical) != 1:
+        raise SystemExit("canonical TLS configuration field missing or ambiguous")
+    text = text.replace(canonical, localized, 1)
+destination_path.write_text(text, encoding="utf-8")
 PY
 
 python3 - "$state_root" "$wss_proof" "$https_transcript" "$wss_transcript" \

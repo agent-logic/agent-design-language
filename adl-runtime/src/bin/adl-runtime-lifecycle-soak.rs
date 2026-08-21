@@ -94,9 +94,6 @@ async fn main() -> ExitCode {
         &args.init_template,
         &args.kernel,
         &args.vector,
-        &args.tls_certificate_chain,
-        &args.tls_private_key,
-        &args.tls_trust_roots,
         args.suite,
         &args.revision,
     )
@@ -136,9 +133,6 @@ struct Args {
     guardian: PathBuf,
     kernel: PathBuf,
     vector: PathBuf,
-    tls_certificate_chain: PathBuf,
-    tls_private_key: PathBuf,
-    tls_trust_roots: PathBuf,
     init_template: PathBuf,
     state_root: PathBuf,
     report: PathBuf,
@@ -239,15 +233,11 @@ impl Drop for QualificationLock {
 }
 
 impl ProductionFixture {
-    #[allow(clippy::too_many_arguments)]
     async fn create(
         state_root: &Path,
         init_template: &Path,
         kernel: &Path,
         vector: &Path,
-        tls_certificate_chain: &Path,
-        tls_private_key: &Path,
-        tls_trust_roots: &Path,
         suite: Suite,
         revision: &str,
     ) -> Result<Self, String> {
@@ -309,15 +299,22 @@ impl ProductionFixture {
                 .map_err(|error| format!("could not create {}: {error}", path.display()))?;
         }
 
-        let certificate = tls_certificate_chain
-            .canonicalize()
-            .map_err(|error| format!("TLS certificate chain is unavailable: {error}"))?;
-        let private_key = tls_private_key
-            .canonicalize()
-            .map_err(|error| format!("TLS private key is unavailable: {error}"))?;
-        let trust_roots = tls_trust_roots
-            .canonicalize()
-            .map_err(|error| format!("TLS trust roots are unavailable: {error}"))?;
+        let certificate = configured_tls_file(
+            &init_document,
+            "certificate_chain_path",
+            "TLS certificate chain",
+            false,
+        )?;
+        let private_key =
+            configured_tls_file(&init_document, "private_key_path", "TLS private key", true)?;
+        let trust_roots =
+            configured_tls_file(&init_document, "trust_roots_path", "TLS trust roots", false)?;
+        if certificate == private_key || certificate == trust_roots || private_key == trust_roots {
+            return Err(
+                "configured TLS certificate chain, private key, and trust roots must be distinct"
+                    .to_owned(),
+            );
+        }
         let tls_server_name =
             toml_string(&init_document, &["api", "tls", "server_name"])?.to_owned();
 
@@ -406,21 +403,6 @@ impl ProductionFixture {
             &mut init_document,
             &["observability_pipeline", "vector_binary_path"],
             toml_path(vector)?,
-        )?;
-        set_toml_string(
-            &mut init_document,
-            &["api", "tls", "certificate_chain_path"],
-            toml_path(&certificate)?,
-        )?;
-        set_toml_string(
-            &mut init_document,
-            &["api", "tls", "private_key_path"],
-            toml_path(&private_key)?,
-        )?;
-        set_toml_string(
-            &mut init_document,
-            &["api", "tls", "trust_roots_path"],
-            toml_path(&trust_roots)?,
         )?;
         for (field, path) in [
             ("control_public_key_path", &control_public_key_path),
@@ -552,6 +534,45 @@ fn toml_string<'a>(document: &'a toml::Value, path: &[&str]) -> Result<&'a str, 
         })
 }
 
+fn configured_tls_file(
+    document: &toml::Value,
+    field: &str,
+    label: &str,
+    private_key: bool,
+) -> Result<PathBuf, String> {
+    let configured = PathBuf::from(toml_string(document, &["api", "tls", field])?);
+    if !configured.is_absolute() {
+        return Err(format!("configured {label} must be an absolute path"));
+    }
+    let metadata = std::fs::symlink_metadata(&configured)
+        .map_err(|_| format!("configured {label} is unavailable"))?;
+    if metadata.file_type().is_symlink() || !metadata.is_file() {
+        return Err(format!(
+            "configured {label} must be a regular non-symlink file"
+        ));
+    }
+    let canonical = configured
+        .canonicalize()
+        .map_err(|_| format!("configured {label} is unavailable"))?;
+    if canonical != configured {
+        return Err(format!(
+            "configured {label} path must not traverse a symlink"
+        ));
+    }
+    #[cfg(unix)]
+    if private_key {
+        use std::os::unix::fs::PermissionsExt;
+
+        if metadata.permissions().mode() & 0o077 != 0 {
+            return Err(
+                "configured TLS private key permissions must deny group and other access"
+                    .to_owned(),
+            );
+        }
+    }
+    Ok(canonical)
+}
+
 fn toml_u64(document: &toml::Value, path: &[&str]) -> Result<u64, String> {
     let mut value = document;
     for segment in path {
@@ -643,9 +664,6 @@ impl Args {
         let mut guardian = None;
         let mut kernel = None;
         let mut vector = None;
-        let mut tls_certificate_chain = None;
-        let mut tls_private_key = None;
-        let mut tls_trust_roots = None;
         let mut init_template = None;
         let mut state_root = None;
         let mut report = None;
@@ -662,16 +680,6 @@ impl Args {
                 "--guardian" => guardian = Some(PathBuf::from(value(&mut args, "--guardian")?)),
                 "--kernel" => kernel = Some(PathBuf::from(value(&mut args, "--kernel")?)),
                 "--vector" => vector = Some(PathBuf::from(value(&mut args, "--vector")?)),
-                "--tls-certificate-chain" => {
-                    tls_certificate_chain =
-                        Some(PathBuf::from(value(&mut args, "--tls-certificate-chain")?))
-                }
-                "--tls-private-key" => {
-                    tls_private_key = Some(PathBuf::from(value(&mut args, "--tls-private-key")?))
-                }
-                "--tls-trust-roots" => {
-                    tls_trust_roots = Some(PathBuf::from(value(&mut args, "--tls-trust-roots")?))
-                }
                 "--init-template" => {
                     init_template = Some(PathBuf::from(value(&mut args, "--init-template")?))
                 }
@@ -714,12 +722,6 @@ impl Args {
         let guardian = guardian.ok_or_else(|| "--guardian is required".to_owned())?;
         let kernel = kernel.ok_or_else(|| "--kernel is required".to_owned())?;
         let vector = vector.ok_or_else(|| "--vector is required".to_owned())?;
-        let tls_certificate_chain = tls_certificate_chain
-            .ok_or_else(|| "--tls-certificate-chain is required".to_owned())?;
-        let tls_private_key =
-            tls_private_key.ok_or_else(|| "--tls-private-key is required".to_owned())?;
-        let tls_trust_roots =
-            tls_trust_roots.ok_or_else(|| "--tls-trust-roots is required".to_owned())?;
         let init_template =
             init_template.ok_or_else(|| "--init-template is required".to_owned())?;
         let state_root = state_root.ok_or_else(|| "--state-root is required".to_owned())?;
@@ -733,23 +735,6 @@ impl Args {
         }
         if !vector.is_absolute() || !vector.is_file() {
             return Err("--vector must be an absolute existing file".to_owned());
-        }
-        for (name, path) in [
-            ("--tls-certificate-chain", &tls_certificate_chain),
-            ("--tls-private-key", &tls_private_key),
-            ("--tls-trust-roots", &tls_trust_roots),
-        ] {
-            if !path.is_absolute() || !path.is_file() {
-                return Err(format!("{name} must be an absolute existing file"));
-            }
-        }
-        if tls_certificate_chain == tls_private_key
-            || tls_certificate_chain == tls_trust_roots
-            || tls_private_key == tls_trust_roots
-        {
-            return Err(
-                "TLS certificate chain, private key, and trust roots must be distinct".to_owned(),
-            );
         }
         if !init_template.is_absolute() || !init_template.is_file() {
             return Err("--init-template must be an absolute existing file".to_owned());
@@ -815,9 +800,6 @@ impl Args {
             guardian,
             kernel,
             vector,
-            tls_certificate_chain,
-            tls_private_key,
-            tls_trust_roots,
             init_template,
             state_root,
             report,
@@ -3385,11 +3367,11 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn init_fixture_uses_externally_provisioned_tls() {
+    async fn init_fixture_uses_config_owned_tls() {
         let current_dir = std::env::current_dir().expect("current directory");
         let directory = tempfile::tempdir_in(current_dir).expect("repo-local temporary directory");
         let executable = std::env::current_exe().expect("current executable");
-        let init_template = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        let canonical_init_template = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
             .join("..")
             .join("infra")
             .join("runtime-v3")
@@ -3398,18 +3380,50 @@ mod tests {
             .join("tests")
             .join("support")
             .join("tls-fixtures");
-        let certificate_chain = fixtures.join("server-cert.pem");
-        let private_key = fixtures.join("server-key.pem");
-        let trust_roots = fixtures.join("root-ca.pem");
+        let certificate_chain = directory.path().join("server-cert.pem");
+        let private_key = directory.path().join("server-key.pem");
+        let trust_roots = directory.path().join("root-ca.pem");
+        std::fs::copy(fixtures.join("server-cert.pem"), &certificate_chain)
+            .expect("copy certificate");
+        std::fs::copy(fixtures.join("server-key.pem"), &private_key).expect("copy private key");
+        std::fs::copy(fixtures.join("root-ca.pem"), &trust_roots).expect("copy trust roots");
+        #[cfg(unix)]
+        {
+            use std::os::unix::fs::PermissionsExt;
+            std::fs::set_permissions(&private_key, std::fs::Permissions::from_mode(0o600))
+                .expect("protect private key");
+        }
+        let mut document = toml::from_str::<toml::Value>(
+            &std::fs::read_to_string(canonical_init_template).expect("canonical init"),
+        )
+        .expect("parse canonical init");
+        set_toml_string(
+            &mut document,
+            &["api", "tls", "certificate_chain_path"],
+            toml_path(&certificate_chain).unwrap(),
+        )
+        .unwrap();
+        set_toml_string(
+            &mut document,
+            &["api", "tls", "private_key_path"],
+            toml_path(&private_key).unwrap(),
+        )
+        .unwrap();
+        set_toml_string(
+            &mut document,
+            &["api", "tls", "trust_roots_path"],
+            toml_path(&trust_roots).unwrap(),
+        )
+        .unwrap();
+        let init_template = directory.path().join("runtime-init.toml");
+        std::fs::write(&init_template, toml::to_string_pretty(&document).unwrap())
+            .expect("write config-owned TLS init");
 
         let fixture = ProductionFixture::create(
             directory.path(),
             &init_template,
             &executable,
             &executable,
-            &certificate_chain,
-            &private_key,
-            &trust_roots,
             Suite::Preflight,
             "0123456789abcdef0123456789abcdef01234567",
         )
@@ -3443,10 +3457,6 @@ mod tests {
             .join("infra")
             .join("runtime-v3")
             .join("runtime-init.toml");
-        let fixtures = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .join("tests")
-            .join("support")
-            .join("tls-fixtures");
         let mut values = vec![
             "--guardian".to_owned(),
             executable.clone(),
@@ -3454,18 +3464,6 @@ mod tests {
             executable.clone(),
             "--vector".to_owned(),
             executable,
-            "--tls-certificate-chain".to_owned(),
-            fixtures
-                .join("server-cert.pem")
-                .to_string_lossy()
-                .into_owned(),
-            "--tls-private-key".to_owned(),
-            fixtures
-                .join("server-key.pem")
-                .to_string_lossy()
-                .into_owned(),
-            "--tls-trust-roots".to_owned(),
-            fixtures.join("root-ca.pem").to_string_lossy().into_owned(),
             "--init-template".to_owned(),
             init_template.to_string_lossy().into_owned(),
             "--state-root".to_owned(),
@@ -3477,6 +3475,67 @@ mod tests {
         ];
         values.extend(mode.iter().map(|value| (*value).to_owned()));
         values
+    }
+
+    #[test]
+    fn rejects_removed_tls_command_inputs() {
+        for option in [
+            "--tls-certificate-chain",
+            "--tls-private-key",
+            "--tls-trust-roots",
+        ] {
+            let mut values = arguments(&[]);
+            values.extend([option.to_owned(), "/sensitive/tls/path".to_owned()]);
+            let error = Args::parse(values.into_iter())
+                .err()
+                .expect("TLS argv must be rejected");
+            assert_eq!(error, format!("unknown lifecycle soak option: {option}"));
+        }
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn configured_tls_files_fail_closed_on_permissions_and_symlinks() {
+        use std::os::unix::fs::{symlink, PermissionsExt};
+
+        let current_dir = std::env::current_dir().expect("current directory");
+        let directory = tempfile::tempdir_in(current_dir).expect("repo-local temporary directory");
+        let key = directory.path().join("private-key.pem");
+        std::fs::write(&key, b"private key fixture").expect("write key");
+        std::fs::set_permissions(&key, std::fs::Permissions::from_mode(0o644))
+            .expect("set permissive mode");
+        let document = toml::from_str::<toml::Value>(&format!(
+            "[api.tls]\nprivate_key_path = {:?}\n",
+            key.to_string_lossy()
+        ))
+        .expect("parse config");
+        let error = configured_tls_file(&document, "private_key_path", "TLS private key", true)
+            .expect_err("permissive key must fail");
+        assert_eq!(
+            error,
+            "configured TLS private key permissions must deny group and other access"
+        );
+
+        std::fs::set_permissions(&key, std::fs::Permissions::from_mode(0o600))
+            .expect("protect key");
+        let linked_key = directory.path().join("linked-private-key.pem");
+        symlink(&key, &linked_key).expect("create symlink");
+        let linked_document = toml::from_str::<toml::Value>(&format!(
+            "[api.tls]\nprivate_key_path = {:?}\n",
+            linked_key.to_string_lossy()
+        ))
+        .expect("parse linked config");
+        let error = configured_tls_file(
+            &linked_document,
+            "private_key_path",
+            "TLS private key",
+            true,
+        )
+        .expect_err("symlinked key must fail");
+        assert_eq!(
+            error,
+            "configured TLS private key must be a regular non-symlink file"
+        );
     }
 
     #[test]

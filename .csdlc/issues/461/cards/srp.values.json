@@ -1,0 +1,29 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 461,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][Runtime Security] Make lifecycle TLS authority config-only",
+    "slug": "runtime-lifecycle-tls-config-only",
+    "version": "v0.92",
+    "generation": 3
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "lifecycle soak TLS configuration authority, Guardian integration, and focused regression proof",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Verify no TLS path remains accepted through argv or environment.",
+        "Verify config path validation and redaction are fail closed.",
+        "Verify the Guardian fixture exercises the same config-only path as production."
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 461,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][Runtime Security] Make lifecycle TLS authority config-only",
+    "slug": "runtime-lifecycle-tls-config-only",
+    "version": "v0.92",
+    "generation": 3
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "runtime-tls-config-only-focused",
+          "proof_role": "prove config-owned TLS through the executable Guardian lifecycle validator",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 900,
+          "budget_tokens": 4000,
+          "argv": [
+            "bash",
+            "adl/tools/validate_v092_runtime_guardian_lifecycle.sh"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 1200,
+      "planned_validation_tokens": 10000,
+      "failure_policy": "Fail closed on missing, invalid, ambiguous, or command-supplied TLS authority and retain the exact causal test result.",
+      "design_ref": ".csdlc/prepared/issues/461/design.md",
+      "design_digest": "d900815e5a20e2406883bde10ba970d7e0e1083a737a14d96a7b4709b2c43246",
+      "diagram_ref": ".csdlc/prepared/issues/461/diagram.mmd",
+      "diagram_digest": "7708a92f20db0256d0d15f5690a029e2a705848c1729de336f54c8b7da95b2ec"
+    }
+  }
+}

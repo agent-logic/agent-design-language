@@ -1,0 +1,110 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 461,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "c3772d9c4f3292d1eb16999797038d6bc5c89cda26f7d3cf00f3bdd501aefc8c",
+  "phase": "bound",
+  "generation": 3,
+  "digest": "01e70b27f240512789bcef5d8af7a66ccebb981cf81fc1c66c16cd4eaef9ea63",
+  "branch": "codex/461-runtime-lifecycle-tls-config-only",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-461-runtime-lifecycle-tls-config-only",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/461/design.md",
+  "diagram_path": ".csdlc/prepared/issues/461/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:01a01755-c400-7050-a049-b98e947a5684",
+      "revision": "d900815e5a20e2406883bde10ba970d7e0e1083a737a14d96a7b4709b2c43246"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "ae1861951b76d4cd49a68612eb75b3fae5f3b6ba0ce9aa4944c5ba4008858d6c",
+      "rendered_digest": "ebd7231eae4339835e5d241e6f761f67872a8cff4c175930d130e52536bb4a0d",
+      "ast_digest": "e98f29b5c0131597f8a452359dd06df70e820273e8ce5a86beb79b9ca6d90f8f"
+    },
+    "stp": {
+      "values_digest": "6a68463c5f31a3ae0f2fea7363d72b24a98846abcbd5e7b920f58a0741455956",
+      "rendered_digest": "4ce1e9873090a53138f6d839f5e8671d698b8daf3c33233396500ec87c6c9efc",
+      "ast_digest": "88dbeb732474d45c8e8f6449cb1e1a9b93d66cea7851f51a080a74a9ade7e1f7"
+    },
+    "spp": {
+      "values_digest": "876a4c013e92e026658e465e5c9a1605f410e7d23de5c97d52311e9106483c1e",
+      "rendered_digest": "dc6a0376f7c799fd51e817b38d7c5d127a4333d909b1ae05dc90d018a7f606b6",
+      "ast_digest": "0a12c0d5428d828b25a9132d5d5d6e05a62844891dcb4fba7d8c2ff90715333f"
+    },
+    "vpp": {
+      "values_digest": "f34f5afef2f87b7da1fdd45aac4fa1af4a8aec8c04bbd2ececa9c020a27ed7f9",
+      "rendered_digest": "36fbf6002ff5cfab2daffd2947e93f99865d0fcb06083b41f144d64e249ea8b9",
+      "ast_digest": "686a90346eb7ef2cca2da2554889e3e2a978a91b5bce607a522b277bf2cd07ce"
+    },
+    "srp": {
+      "values_digest": "47ea67dcc0a2a5b086016a48e6b04f585dbca07ed654f2232a0f1976f9702e50",
+      "rendered_digest": "1670774c26dec59830781167cff0d257893478745f39c3d5055d0fb12b0f1587",
+      "ast_digest": "6bdab8d3e38730fada40148e839eafafedd7d75aa3d6446d815afe973a501a87"
+    },
+    "sor": {
+      "values_digest": "3ea7726647aae28c00c104b35a5127678cfbfb72dcee80846bd76ff809b9245e",
+      "rendered_digest": "7e9a1fca68103bdb196e4f3bfa1e589c8dee987d9280fec5c09da7158d6643d2",
+      "ast_digest": "3f0e2acd7ccb0a9ba525b807e392dfcbc09b003e3045f3c1616749a0dbff6aa7"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex",
+      "reason": "typed doctor reports the approved issue design and validation plan execution-ready"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:01a01755-c400-7050-a049-b98e947a5684",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"d900815e5a20e2406883bde10ba970d7e0e1083a737a14d96a7b4709b2c43246\",\"design_ref\":\".csdlc/prepared/issues/461/design.md\",\"diagram_digest\":\"7708a92f20db0256d0d15f5690a029e2a705848c1729de336f54c8b7da95b2ec\",\"diagram_ref\":\".csdlc/prepared/issues/461/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex",
+      "reason": "bind validation planning to the existing issue-owned executable Guardian lifecycle validator",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-tls-config-only-focused\",\"proof_role\":\"prove config-owned TLS through the executable Guardian lifecycle validator\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"bash\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex",
+      "reason": "typed doctor reports the approved issue design and validation plan execution-ready",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    }
+  ]
+}

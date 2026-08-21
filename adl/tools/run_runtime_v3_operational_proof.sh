@@ -6,13 +6,10 @@ fast_root=${ADL_RUNTIME_V3_PROOF_ROOT:-/Volumes/FastWork/adl-runtime-v3-proof}
 export CARGO_HOME=${CARGO_HOME:-$fast_root/cargo-home}
 export CARGO_TARGET_DIR=${CARGO_TARGET_DIR:-$fast_root/target}
 
-certificate_chain=${ADL_RUNTIME_V3_TLS_CERT_CHAIN:?set ADL_RUNTIME_V3_TLS_CERT_CHAIN to an external CA-issued full chain}
-private_key=${ADL_RUNTIME_V3_TLS_PRIVATE_KEY:?set ADL_RUNTIME_V3_TLS_PRIVATE_KEY to its private key}
-trust_roots=${ADL_RUNTIME_V3_TLS_TRUST_ROOTS:?set ADL_RUNTIME_V3_TLS_TRUST_ROOTS to the issuing CA roots}
 vector_binary=${ADL_RUNTIME_V3_VECTOR_BINARY:?set ADL_RUNTIME_V3_VECTOR_BINARY to the production Vector binary}
 init_template=${ADL_RUNTIME_V3_INIT_TEMPLATE:-$repo_root/infra/runtime-v3/runtime-init.toml}
 
-for path in "$certificate_chain" "$private_key" "$trust_roots" "$vector_binary" "$init_template"; do
+for path in "$vector_binary" "$init_template"; do
   test -f "$path" || { echo "required proof input is not a file: $path" >&2; exit 64; }
 done
 
@@ -29,9 +26,6 @@ revision=$(git -C "$repo_root" rev-parse HEAD)
   --guardian "$CARGO_TARGET_DIR/debug/adl-runtime-guardian" \
   --kernel "$CARGO_TARGET_DIR/debug/adl-runtime-kernel" \
   --vector "$vector_binary" \
-  --tls-certificate-chain "$certificate_chain" \
-  --tls-private-key "$private_key" \
-  --tls-trust-roots "$trust_roots" \
   --init-template "$init_template" \
   --state-root "$proof_root/state" \
   --report "$proof_root/report.json" \
