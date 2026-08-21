@@ -282,6 +282,8 @@ pub fn validate_resident_cycle_record(
         || record.cognitive_profile_revision != profile.revision
         || record.cognitive_public_projection_sha256 != profile.public_projection.projection_sha256
         || record.cognitive_authority_context_sha256 != profile.authority.context.context_sha256
+        || !is_sha256(&record.implementation_revision_sha256)
+        || record.evidence != profile.evidence
         || profile_digest(profile).map_err(ResidentCycleError::Cognitive)? != profile.profile_sha256
         || public_projection_digest(&profile.public_projection)
             .map_err(ResidentCycleError::Cognitive)?
@@ -959,6 +961,26 @@ mod tests {
         tampered.cognitive_profile_revision = 999;
         assert!(rehydrate_verified_resident_cycle(
             &tampered,
+            cycle.capability.envelope().clone(),
+            cycle.cognitive_profile.profile().clone(),
+        )
+        .is_err());
+
+        let mut tampered_evidence = cycle.record.clone();
+        tampered_evidence.evidence[0].visibility = crate::CognitiveEvidenceVisibility::Public;
+        tampered_evidence.record_sha256 = resident_cycle_record_digest(&tampered_evidence).unwrap();
+        assert!(rehydrate_verified_resident_cycle(
+            &tampered_evidence,
+            cycle.capability.envelope().clone(),
+            cycle.cognitive_profile.profile().clone(),
+        )
+        .is_err());
+
+        let mut invalid_revision = cycle.record.clone();
+        invalid_revision.implementation_revision_sha256 = "not-a-sha256".to_owned();
+        invalid_revision.record_sha256 = resident_cycle_record_digest(&invalid_revision).unwrap();
+        assert!(rehydrate_verified_resident_cycle(
+            &invalid_revision,
             cycle.capability.envelope().clone(),
             cycle.cognitive_profile.profile().clone(),
         )
