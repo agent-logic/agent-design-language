@@ -364,7 +364,11 @@ impl RuntimeVectorPipeline {
             &self.accepting,
             &self.config,
             StructuredEvent {
-                severity: "ERROR",
+                // A detected child exit is a recoverable pipeline event: the
+                // Runtime retains service authority, records the restart, and
+                // immediately attempts bounded recovery. Reserve ERROR for a
+                // restart that cannot be persisted or completed.
+                severity: "WARN",
                 target: "adl_runtime_kernel",
                 component: "observability",
                 operation: "vector_pipeline_restarting",

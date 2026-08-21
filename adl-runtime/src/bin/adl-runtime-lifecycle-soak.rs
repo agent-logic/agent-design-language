@@ -1,7 +1,7 @@
 use std::{
     collections::{BTreeMap, BTreeSet},
     fs::File,
-    io::Write,
+    io::{Read, Write},
     net::{SocketAddr, ToSocketAddrs},
     path::{Path, PathBuf},
     process::{ExitCode, Stdio},
@@ -24,7 +24,6 @@ use adl_runtime_kernel::verify_live_continuity_lineage;
 use base64::Engine;
 use ed25519_dalek::{SigningKey, VerifyingKey};
 use fs2::FileExt;
-use futures::future::join_all;
 use sha2::{Digest, Sha256};
 use tokio::io::{AsyncRead, AsyncReadExt, AsyncWrite, AsyncWriteExt};
 use tokio::process::{Child, ChildStderr, ChildStdout, Command};
@@ -152,6 +151,7 @@ struct ProductionFixture {
     log_audit: PathBuf,
     tls_connector: tokio_rustls::TlsConnector,
     tls_server_name: String,
+    observatory_origin: String,
     continuity_verifying_key: VerifyingKey,
     observatory_token: String,
     readiness_timeout: Duration,
@@ -309,7 +309,10 @@ impl ProductionFixture {
             configured_tls_file(&init_document, "private_key_path", "TLS private key", true)?;
         let trust_roots =
             configured_tls_file(&init_document, "trust_roots_path", "TLS trust roots", false)?;
-        if certificate == private_key || certificate == trust_roots || private_key == trust_roots {
+        if certificate.same_identity(&private_key)
+            || certificate.same_identity(&trust_roots)
+            || private_key.same_identity(&trust_roots)
+        {
             return Err(
                 "configured TLS certificate chain, private key, and trust roots must be distinct"
                     .to_owned(),
@@ -317,6 +320,93 @@ impl ProductionFixture {
         }
         let tls_server_name =
             toml_string(&init_document, &["api", "tls", "server_name"])?.to_owned();
+        let observatory_origins = init_document
+            .get("observatory")
+            .and_then(|value| value.get("allowed_origins"))
+            .and_then(toml::Value::as_array)
+            .ok_or_else(|| "init template is missing observatory.allowed_origins".to_owned())?;
+        if observatory_origins.len() != 1 {
+            return Err(
+                "lifecycle qualification requires exactly one Observatory origin".to_owned(),
+            );
+        }
+        let observatory_origin = observatory_origins[0]
+            .as_str()
+            .ok_or_else(|| "configured Observatory origin must be a string".to_owned())?
+            .to_owned();
+        let certificate_snapshot = tls_root.join("certificate-chain.pem");
+        let private_key_snapshot = tls_root.join("private-key.pem");
+        let trust_roots_snapshot = tls_root.join("trust-roots.pem");
+        write_secret(&certificate_snapshot, &certificate.bytes)
+            .map_err(|_| "could not snapshot configured TLS certificate chain".to_owned())?;
+        write_secret(&private_key_snapshot, &private_key.bytes)
+            .map_err(|_| "could not snapshot configured TLS private key".to_owned())?;
+        write_secret(&trust_roots_snapshot, &trust_roots.bytes)
+            .map_err(|_| "could not snapshot configured TLS trust roots".to_owned())?;
+        for (field, file_name, label, is_private_key) in [
+            (
+                "server_certificate_chain_path",
+                "continuity-server-certificate.pem",
+                "continuity server certificate",
+                false,
+            ),
+            (
+                "server_private_key_path",
+                "continuity-server-private-key.pem",
+                "continuity server private key",
+                true,
+            ),
+            (
+                "server_trust_roots_path",
+                "continuity-server-trust-roots.pem",
+                "continuity server trust roots",
+                false,
+            ),
+            (
+                "guardian_certificate_chain_path",
+                "continuity-guardian-certificate.pem",
+                "continuity Guardian certificate",
+                false,
+            ),
+            (
+                "guardian_private_key_path",
+                "continuity-guardian-private-key.pem",
+                "continuity Guardian private key",
+                true,
+            ),
+            (
+                "guardian_trust_roots_path",
+                "continuity-guardian-trust-roots.pem",
+                "continuity Guardian trust roots",
+                false,
+            ),
+        ] {
+            let configured = configured_tls_file_with_path(
+                &init_document,
+                &["continuity_control", "tls", field],
+                label,
+                is_private_key,
+                || {},
+            )?;
+            let snapshot = tls_root.join(file_name);
+            write_secret(&snapshot, &configured.bytes)
+                .map_err(|_| format!("could not snapshot configured {label}"))?;
+            set_toml_string(
+                &mut init_document,
+                &["continuity_control", "tls", field],
+                toml_path(&snapshot)?,
+            )?;
+        }
+        for field in ["guardian_state_dir", "state_dir", "staging_dir"] {
+            let path = PathBuf::from(toml_string(&init_document, &["continuity_control", field])?);
+            if !path.is_absolute() || path == state_root || !path.starts_with(&state_root) {
+                return Err(
+                    "configured private continuity state must remain under state_root".to_owned(),
+                );
+            }
+            std::fs::create_dir_all(path)
+                .map_err(|_| "could not create private continuity state".to_owned())?;
+        }
 
         let control_key = SigningKey::from_bytes(&[17_u8; 32]);
         let operation_key = SigningKey::from_bytes(&[29_u8; 32]);
@@ -404,6 +494,21 @@ impl ProductionFixture {
             &["observability_pipeline", "vector_binary_path"],
             toml_path(vector)?,
         )?;
+        set_toml_string(
+            &mut init_document,
+            &["api", "tls", "certificate_chain_path"],
+            toml_path(&certificate_snapshot)?,
+        )?;
+        set_toml_string(
+            &mut init_document,
+            &["api", "tls", "private_key_path"],
+            toml_path(&private_key_snapshot)?,
+        )?;
+        set_toml_string(
+            &mut init_document,
+            &["api", "tls", "trust_roots_path"],
+            toml_path(&trust_roots_snapshot)?,
+        )?;
         for (field, path) in [
             ("control_public_key_path", &control_public_key_path),
             ("operation_public_key_path", &operation_public_key_path),
@@ -456,7 +561,9 @@ impl ProductionFixture {
 
         let mut roots = RootCertStore::empty();
         roots
-            .add(CertificateDer::from(read_pem_der(&trust_roots)?))
+            .add(CertificateDer::from(read_pem_der_bytes(
+                &trust_roots.bytes,
+            )?))
             .map_err(|error| error.to_string())?;
         let client_config = Arc::new(
             ClientConfig::builder()
@@ -473,6 +580,7 @@ impl ProductionFixture {
             log_audit,
             tls_connector: tokio_rustls::TlsConnector::from(client_config),
             tls_server_name,
+            observatory_origin,
             continuity_verifying_key: continuity_key.verifying_key(),
             observatory_token,
             readiness_timeout,
@@ -534,13 +642,63 @@ fn toml_string<'a>(document: &'a toml::Value, path: &[&str]) -> Result<&'a str, 
         })
 }
 
+struct ConfiguredTlsFile {
+    #[cfg(not(unix))]
+    canonical: PathBuf,
+    bytes: Vec<u8>,
+    #[cfg(unix)]
+    device: u64,
+    #[cfg(unix)]
+    inode: u64,
+}
+
+impl ConfiguredTlsFile {
+    fn same_identity(&self, other: &Self) -> bool {
+        #[cfg(unix)]
+        {
+            self.device == other.device && self.inode == other.inode
+        }
+        #[cfg(not(unix))]
+        {
+            self.canonical == other.canonical
+        }
+    }
+}
+
 fn configured_tls_file(
     document: &toml::Value,
     field: &str,
     label: &str,
     private_key: bool,
-) -> Result<PathBuf, String> {
-    let configured = PathBuf::from(toml_string(document, &["api", "tls", field])?);
+) -> Result<ConfiguredTlsFile, String> {
+    configured_tls_file_with_path(document, &["api", "tls", field], label, private_key, || {})
+}
+
+#[cfg(test)]
+fn configured_tls_file_with_pre_open(
+    document: &toml::Value,
+    field: &str,
+    label: &str,
+    private_key: bool,
+    pre_open: impl FnOnce(),
+) -> Result<ConfiguredTlsFile, String> {
+    configured_tls_file_with_path(
+        document,
+        &["api", "tls", field],
+        label,
+        private_key,
+        pre_open,
+    )
+}
+
+fn configured_tls_file_with_path(
+    document: &toml::Value,
+    path: &[&str],
+    label: &str,
+    private_key: bool,
+    pre_open: impl FnOnce(),
+) -> Result<ConfiguredTlsFile, String> {
+    let configured = PathBuf::from(toml_string(document, path)?);
     if !configured.is_absolute() {
         return Err(format!("configured {label} must be an absolute path"));
     }
@@ -559,18 +717,55 @@ fn configured_tls_file(
             "configured {label} path must not traverse a symlink"
         ));
     }
+    pre_open();
+    let mut file =
+        File::open(&configured).map_err(|_| format!("configured {label} could not be opened"))?;
+    let opened_metadata = file
+        .metadata()
+        .map_err(|_| format!("configured {label} identity is unavailable"))?;
     #[cfg(unix)]
-    if private_key {
-        use std::os::unix::fs::PermissionsExt;
+    {
+        use std::os::unix::fs::{MetadataExt, PermissionsExt};
 
-        if metadata.permissions().mode() & 0o077 != 0 {
+        if metadata.dev() != opened_metadata.dev() || metadata.ino() != opened_metadata.ino() {
+            return Err(format!("configured {label} changed while being opened"));
+        }
+        if private_key && opened_metadata.permissions().mode() & 0o077 != 0 {
             return Err(
                 "configured TLS private key permissions must deny group and other access"
                     .to_owned(),
             );
         }
     }
-    Ok(canonical)
+    let mut bytes = Vec::new();
+    file.read_to_end(&mut bytes)
+        .map_err(|_| format!("configured {label} could not be read"))?;
+    if bytes.is_empty() {
+        return Err(format!("configured {label} must not be empty"));
+    }
+    let after_metadata = file
+        .metadata()
+        .map_err(|_| format!("configured {label} identity became unavailable"))?;
+    if opened_metadata.len() != after_metadata.len()
+        || opened_metadata.modified().ok() != after_metadata.modified().ok()
+    {
+        return Err(format!("configured {label} changed while being read"));
+    }
+    Ok(ConfiguredTlsFile {
+        #[cfg(not(unix))]
+        canonical,
+        bytes,
+        #[cfg(unix)]
+        device: {
+            use std::os::unix::fs::MetadataExt;
+            opened_metadata.dev()
+        },
+        #[cfg(unix)]
+        inode: {
+            use std::os::unix::fs::MetadataExt;
+            opened_metadata.ino()
+        },
+    })
 }
 
 fn toml_u64(document: &toml::Value, path: &[&str]) -> Result<u64, String> {
@@ -1314,6 +1509,7 @@ async fn execute_cycle(
             .await;
             return Err(error);
         }
+        wait_for_process_exit(first_runtime_process_id, fixture.readiness_timeout).await?;
         let restarted = match wait_for_restarted_observatory(
             fixture,
             &mut guardian,
@@ -1626,7 +1822,13 @@ async fn wait_for_restarted_observatory(
                 Ok(()) => {
                     let instance_id = runtime_instance_id(&observatory)?;
                     let process_id = runtime_process_id(&observatory)?;
-                    if instance_id != previous_instance_id && process_id != previous_process_id {
+                    if instance_id != previous_instance_id {
+                        return Err(
+                            "Guardian restart changed the persisted Runtime instance identity"
+                                .to_owned(),
+                        );
+                    }
+                    if process_id != previous_process_id {
                         return Ok(observatory);
                     }
                     format!(
@@ -1691,6 +1893,45 @@ fn force_process_exit(pid: u32, label: &str) -> Result<(), String> {
             std::io::Error::last_os_error()
         ))
     }
+}
+
+#[cfg(unix)]
+async fn wait_for_process_exit(pid: u32, bound: Duration) -> Result<(), String> {
+    let deadline = Instant::now() + bound;
+    loop {
+        if unsafe { libc::kill(pid as i32, 0) } != 0 {
+            return Ok(());
+        }
+        if Instant::now() >= deadline {
+            return Err(
+                "externally terminated kernel remained live beyond the bounded wait".to_owned(),
+            );
+        }
+        tokio::time::sleep(Duration::from_millis(25)).await;
+    }
+}
+
+#[cfg(windows)]
+async fn wait_for_process_exit(pid: u32, bound: Duration) -> Result<(), String> {
+    let deadline = Instant::now() + bound;
+    loop {
+        let handle = unsafe { OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, 0, pid) };
+        if handle.is_null() {
+            return Ok(());
+        }
+        unsafe { CloseHandle(handle) };
+        if Instant::now() >= deadline {
+            return Err(
+                "externally terminated kernel remained live beyond the bounded wait".to_owned(),
+            );
+        }
+        tokio::time::sleep(Duration::from_millis(25)).await;
+    }
+}
+
+#[cfg(not(any(unix, windows)))]
+async fn wait_for_process_exit(_pid: u32, _bound: Duration) -> Result<(), String> {
+    Err("external kernel liveness verification is unsupported on this platform".to_owned())
 }
 
 #[cfg(windows)]
@@ -1808,20 +2049,28 @@ async fn authenticated_observatory(
         .write_all(request.as_bytes())
         .await
         .map_err(|error| error.to_string())?;
-    let mut response = Vec::new();
-    stream
-        .read_to_end(&mut response)
-        .await
-        .map_err(|error| error.to_string())?;
-    let response = String::from_utf8(response).map_err(|error| error.to_string())?;
-    if !response.starts_with("HTTP/1.1 200 OK") {
+    let headers = read_http_headers(&mut stream).await?;
+    if !headers.starts_with("HTTP/1.1 200 OK") {
         return Err("authenticated Observatory request did not return HTTP 200".to_owned());
     }
-    let body = response
-        .split_once("\r\n\r\n")
-        .map(|(_, body)| body)
-        .ok_or_else(|| "authenticated Observatory response had no body".to_owned())?;
-    serde_json::from_str(body).map_err(|error| error.to_string())
+    let content_length = headers
+        .lines()
+        .find_map(|line| {
+            let (name, value) = line.split_once(':')?;
+            name.eq_ignore_ascii_case("content-length")
+                .then(|| value.trim().parse::<usize>().ok())
+                .flatten()
+        })
+        .ok_or_else(|| "authenticated Observatory response omitted Content-Length".to_owned())?;
+    if content_length == 0 || content_length > 1024 * 1024 {
+        return Err("authenticated Observatory response length was outside bounds".to_owned());
+    }
+    let mut body = vec![0_u8; content_length];
+    stream
+        .read_exact(&mut body)
+        .await
+        .map_err(|error| error.to_string())?;
+    serde_json::from_slice(&body).map_err(|error| error.to_string())
 }
 
 async fn authenticated_observatory_ws(fixture: &ProductionFixture) -> Result<(), String> {
@@ -1838,13 +2087,14 @@ async fn authenticated_observatory_ws(fixture: &ProductionFixture) -> Result<(),
     let request = format!(
         "GET {OBSERVATORY_WS_PATH} HTTP/1.1\r\n\
          Host: {}:{}\r\n\
-         Origin: https://observatory.example.test\r\n\
+         Origin: {}\r\n\
          Connection: Upgrade\r\n\
          Upgrade: websocket\r\n\
          Sec-WebSocket-Version: 13\r\n\
          Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==\r\n\r\n",
         fixture.tls_server_name,
         fixture.address.port(),
+        fixture.observatory_origin,
     );
     stream
         .write_all(request.as_bytes())
@@ -1853,14 +2103,6 @@ async fn authenticated_observatory_ws(fixture: &ProductionFixture) -> Result<(),
     let headers = read_http_headers(&mut stream).await?;
     if !headers.starts_with("HTTP/1.1 101") {
         return Err("authenticated WSS Observatory request did not upgrade".to_owned());
-    }
-    let initial = read_ws_text_frame(&mut stream).await?;
-    if initial["schema"] != OBSERVATORY_FEED_SCHEMA
-        || initial["control"]["websocket_full_duplex"] != true
-    {
-        return Err(
-            "authenticated WSS Observatory feed did not prove full-duplex control".to_owned(),
-        );
     }
     write_ws_text_frame(
         &mut stream,
@@ -1871,11 +2113,25 @@ async fn authenticated_observatory_ws(fixture: &ProductionFixture) -> Result<(),
         .to_string(),
     )
     .await?;
-    let auth = read_ws_text_frame(&mut stream).await?;
-    if auth["schema"] != OBSERVATORY_WS_CONTROL_RESULT_SCHEMA || auth["status"] != "authenticated" {
-        return Err("authenticated WSS Observatory control result did not authenticate".to_owned());
+    let mut observed_feed = false;
+    let mut authenticated = false;
+    for _ in 0..4 {
+        let frame = read_ws_text_frame(&mut stream).await?;
+        if frame["schema"] == OBSERVATORY_FEED_SCHEMA
+            && frame["control"]["websocket_full_duplex"] == true
+        {
+            observed_feed = true;
+        }
+        if frame["schema"] == OBSERVATORY_WS_CONTROL_RESULT_SCHEMA
+            && frame["status"] == "authenticated"
+        {
+            authenticated = true;
+        }
+        if observed_feed && authenticated {
+            return Ok(());
+        }
     }
-    Ok(())
+    Err("authenticated WSS Observatory did not prove feed and control authentication".to_owned())
 }
 
 async fn read_http_headers<S>(stream: &mut S) -> Result<String, String>
@@ -1995,21 +2251,20 @@ async fn observe_short_qualification_workload(
     fixture: &ProductionFixture,
     observation_clock: &mut u64,
 ) -> Result<WorkloadProof, String> {
-    let https =
-        join_all((0..SHORT_QUALIFICATION_CONNECTIONS).map(|_| authenticated_observatory(fixture)))
-            .await;
-    for observation in &https {
-        validate_observatory(observation.as_ref().map_err(|error| error.to_owned())?)?;
+    eprintln!("guardian_runtime_preflight_stage=https_fanout");
+    for _ in 0..SHORT_QUALIFICATION_CONNECTIONS {
+        validate_observatory(&authenticated_observatory(fixture).await?)?;
     }
-    let wss = join_all(
-        (0..SHORT_QUALIFICATION_CONNECTIONS).map(|_| authenticated_observatory_ws(fixture)),
-    )
-    .await;
-    if let Some(error) = wss.into_iter().find_map(Result::err) {
-        return Err(format!("authenticated WSS fanout failed: {error}"));
+    eprintln!("guardian_runtime_preflight_stage=wss_fanout");
+    for _ in 0..SHORT_QUALIFICATION_CONNECTIONS {
+        authenticated_observatory_ws(fixture)
+            .await
+            .map_err(|error| format!("authenticated WSS fanout failed: {error}"))?;
     }
+    eprintln!("guardian_runtime_preflight_stage=dependency_degradation");
     let dependency_degradation = observe_dependency_degradation(fixture, observation_clock).await?;
     let mut observed_phases = vec![dependency_degradation];
+    eprintln!("guardian_runtime_preflight_stage=vector_recovery");
     observed_phases.extend(observe_vector_liveness_recovery(fixture, observation_clock).await?);
     Ok(WorkloadProof {
         authenticated_https_connections: SHORT_QUALIFICATION_CONNECTIONS,
@@ -2494,9 +2749,9 @@ fn read_soak_report(path: &Path, expected_suite: &str) -> Result<SoakReport, Str
             "{expected_suite} runtime start count does not reconcile with restarts"
         ));
     }
-    if u64_field(&value, "runtime_instance_count")? != u64_field(&value, "runtime_start_count")? {
+    if u64_field(&value, "runtime_instance_count")? != 1 {
         return Err(format!(
-            "{expected_suite} reused a runtime instance identity"
+            "{expected_suite} did not preserve one Runtime identity across supervised restarts"
         ));
     }
     require_bool(&value, "restart_budget_exercised", true)?;
@@ -3287,9 +3542,8 @@ fn write_secret(path: &Path, bytes: &[u8]) -> std::io::Result<()> {
     file.sync_all()
 }
 
-fn read_pem_der(path: &Path) -> Result<Vec<u8>, String> {
-    let text = std::fs::read_to_string(path)
-        .map_err(|error| format!("could not read PEM {}: {error}", path.display()))?;
+fn read_pem_der_bytes(bytes: &[u8]) -> Result<Vec<u8>, String> {
+    let text = std::str::from_utf8(bytes).map_err(|_| "configured PEM is not UTF-8".to_owned())?;
     let mut in_certificate = false;
     let mut body = String::new();
     for line in text.lines() {
@@ -3301,16 +3555,13 @@ fn read_pem_der(path: &Path) -> Result<Vec<u8>, String> {
             "-----END CERTIFICATE-----" if in_certificate => {
                 return base64::engine::general_purpose::STANDARD
                     .decode(body.as_bytes())
-                    .map_err(|error| format!("could not decode PEM {}: {error}", path.display()));
+                    .map_err(|_| "configured PEM certificate body is invalid".to_owned());
             }
             _ if in_certificate => body.push_str(line.trim()),
             _ => {}
         }
     }
-    Err(format!(
-        "PEM {} did not contain a certificate block",
-        path.display()
-    ))
+    Err("configured PEM did not contain a certificate block".to_owned())
 }
 
 #[cfg(test)]
@@ -3383,15 +3634,29 @@ mod tests {
         let certificate_chain = directory.path().join("server-cert.pem");
         let private_key = directory.path().join("server-key.pem");
         let trust_roots = directory.path().join("root-ca.pem");
+        let guardian_certificate = directory.path().join("client-cert.pem");
+        let guardian_private_key = directory.path().join("client-key.pem");
+        let guardian_trust_roots = directory.path().join("guardian-root-ca.pem");
         std::fs::copy(fixtures.join("server-cert.pem"), &certificate_chain)
             .expect("copy certificate");
         std::fs::copy(fixtures.join("server-key.pem"), &private_key).expect("copy private key");
         std::fs::copy(fixtures.join("root-ca.pem"), &trust_roots).expect("copy trust roots");
+        std::fs::copy(fixtures.join("client-cert.pem"), &guardian_certificate)
+            .expect("copy Guardian certificate");
+        std::fs::copy(fixtures.join("client-key.pem"), &guardian_private_key)
+            .expect("copy Guardian private key");
+        std::fs::copy(fixtures.join("root-ca.pem"), &guardian_trust_roots)
+            .expect("copy Guardian trust roots");
         #[cfg(unix)]
         {
             use std::os::unix::fs::PermissionsExt;
             std::fs::set_permissions(&private_key, std::fs::Permissions::from_mode(0o600))
                 .expect("protect private key");
+            std::fs::set_permissions(
+                &guardian_private_key,
+                std::fs::Permissions::from_mode(0o600),
+            )
+            .expect("protect Guardian private key");
         }
         let mut document = toml::from_str::<toml::Value>(
             &std::fs::read_to_string(canonical_init_template).expect("canonical init"),
@@ -3416,8 +3681,48 @@ mod tests {
         )
         .unwrap();
         let init_template = directory.path().join("runtime-init.toml");
-        std::fs::write(&init_template, toml::to_string_pretty(&document).unwrap())
-            .expect("write config-owned TLS init");
+        let mut rendered = toml::to_string_pretty(&document).unwrap();
+        rendered.push_str(&format!(
+            r#"
+[continuity_control]
+address = "127.0.0.1:20998"
+guardian_state_dir = {guardian_state:?}
+state_dir = {kernel_state:?}
+staging_dir = {staging:?}
+trust_domain = "agent-logic.lifecycle"
+polis = "lifecycle-polis"
+source_node = "lifecycle-source"
+target_node = "lifecycle-target"
+guardian_id = "lifecycle-guardian"
+kernel_control_id = "lifecycle-kernel-control"
+channel_epoch = 1
+
+[continuity_control.tls]
+server_certificate_chain_path = {certificate_chain:?}
+server_private_key_path = {private_key:?}
+server_trust_roots_path = {trust_roots:?}
+server_name = "localhost"
+guardian_certificate_chain_path = {guardian_certificate:?}
+guardian_private_key_path = {guardian_private_key:?}
+guardian_trust_roots_path = {guardian_trust_roots:?}
+guardian_spki_sha256 = "{digest}"
+server_spki_sha256 = "{digest}"
+certificate_generation = 1
+
+[continuity_control.bounds]
+max_frame_bytes = 65536
+max_blob_bytes = 65536
+max_total_bytes = 524288
+max_services = 5
+max_journal_entries = 64
+max_open_handles = 8
+"#,
+            guardian_state = directory.path().join("guardian-continuity"),
+            kernel_state = directory.path().join("kernel-continuity"),
+            staging = directory.path().join("continuity-staging"),
+            digest = "00".repeat(32),
+        ));
+        std::fs::write(&init_template, rendered).expect("write config-owned TLS init");
 
         let fixture = ProductionFixture::create(
             directory.path(),
@@ -3442,8 +3747,19 @@ mod tests {
                 .as_str()
                 .expect("private key path"),
         );
-        assert_eq!(certificate, certificate_chain.canonicalize().unwrap());
-        assert_eq!(private_key, private_key.canonicalize().unwrap());
+        assert_eq!(
+            certificate,
+            directory.path().join("tls/certificate-chain.pem")
+        );
+        assert_eq!(private_key, directory.path().join("tls/private-key.pem"));
+        assert_eq!(
+            std::fs::read(certificate).unwrap(),
+            std::fs::read(certificate_chain).unwrap()
+        );
+        assert_eq!(
+            std::fs::read(private_key).unwrap(),
+            std::fs::read(directory.path().join("server-key.pem")).unwrap()
+        );
     }
 
     fn arguments(mode: &[&str]) -> Vec<String> {
@@ -3510,7 +3826,8 @@ mod tests {
         ))
         .expect("parse config");
         let error = configured_tls_file(&document, "private_key_path", "TLS private key", true)
-            .expect_err("permissive key must fail");
+            .err()
+            .expect("permissive key must fail");
         assert_eq!(
             error,
             "configured TLS private key permissions must deny group and other access"
@@ -3531,10 +3848,38 @@ mod tests {
             "TLS private key",
             true,
         )
-        .expect_err("symlinked key must fail");
+        .err()
+        .expect("symlinked key must fail");
         assert_eq!(
             error,
             "configured TLS private key must be a regular non-symlink file"
+        );
+
+        let swappable = directory.path().join("swappable.pem");
+        let replacement = directory.path().join("replacement.pem");
+        std::fs::write(&swappable, b"first identity").expect("write first identity");
+        std::fs::write(&replacement, b"replacement identity").expect("write replacement");
+        std::fs::set_permissions(&swappable, std::fs::Permissions::from_mode(0o600))
+            .expect("protect first identity");
+        std::fs::set_permissions(&replacement, std::fs::Permissions::from_mode(0o600))
+            .expect("protect replacement identity");
+        let swap_document = toml::from_str::<toml::Value>(&format!(
+            "[api.tls]\nprivate_key_path = {:?}\n",
+            swappable.to_string_lossy()
+        ))
+        .expect("parse swap config");
+        let error = configured_tls_file_with_pre_open(
+            &swap_document,
+            "private_key_path",
+            "TLS private key",
+            true,
+            || std::fs::rename(&replacement, &swappable).expect("swap path identity"),
+        )
+        .err()
+        .expect("identity substitution must fail");
+        assert_eq!(
+            error,
+            "configured TLS private key changed while being opened"
         );
     }
 
@@ -4102,7 +4447,7 @@ mod tests {
             "minimum_cycles_per_run": completed_cycles.max(1),
             "guardian_process_count": 1,
             "guardian_launch_count": completed_cycles,
-            "runtime_instance_count": completed_cycles + 1,
+            "runtime_instance_count": 1,
             "runtime_start_count": completed_cycles + 1,
             "anti_rollback_minimum_enforced": suite != "preflight_1x",
             "restart_budget_exercised": true,
