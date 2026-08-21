@@ -7,15 +7,15 @@
     "title": "[v0.92][Runtime] Converge Memory Palace production authority",
     "slug": "450-memory-palace-production-authority",
     "version": "v0.92",
-    "generation": 3
+    "generation": 4
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/450/audit.jsonl\n.csdlc/issues/450/cards/sip.md\n.csdlc/issues/450/cards/sip.values.json\n.csdlc/issues/450/cards/sor.md\n.csdlc/issues/450/cards/sor.values.json\n.csdlc/issues/450/cards/spp.md\n.csdlc/issues/450/cards/spp.values.json\n.csdlc/issues/450/cards/srp.md\n.csdlc/issues/450/cards/srp.values.json\n.csdlc/issues/450/cards/stp.md\n.csdlc/issues/450/cards/stp.values.json\n.csdlc/issues/450/cards/vpp.md\n.csdlc/issues/450/cards/vpp.values.json\n.csdlc/issues/450/index.json\n.csdlc/evidence/450/adl_memory_palace_projection.log\n.csdlc/evidence/450/csm_memory_palace_readiness.log\n.csdlc/evidence/450/kernel_memory_palace_packet.log\n.csdlc/evidence/450/runtime_broad_lib_regression.log\n.csdlc/evidence/450/runtime_memory_palace_service.log\n.csdlc/prepared/issues/450/design.md\n.csdlc/prepared/issues/450/diagram.mmd\nadl-runtime-kernel/src/assembly.rs\nadl-runtime-kernel/src/bin/adl-runtime-kernel.rs\nadl-runtime-kernel/src/governed_operations.rs\nadl-runtime-kernel/src/lib.rs\nadl-runtime-kernel/src/memory_palace.rs\nadl-runtime-kernel/src/memory_palace_authority.rs\nadl-runtime-kernel/tests/assembly.rs\nadl-runtime-kernel/tests/memory_palace.rs\nadl-runtime/src/lib.rs\nadl-runtime/src/memory_palace.rs\nadl-runtime/src/supervision.rs\nadl-runtime/src/topology.rs\nadl/Cargo.lock\nadl/Cargo.toml\nadl/src/csm_runtime_api.rs\nadl/src/memory_palace.rs\nadl/tests/memory_palace_tests.rs",
-      "review_revision": "git-blake3:f6bdd3298afdfc8d58b223a244bc3b4dc2172136:4f62751112875d07875a675ba361f2c6b0da0bf22cb0dfdc649c45b6a25a80cb",
-      "reviewer": "fresh-session:5f5aa88a-08ac-41c8-878e-ae84a36e8b07",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Verify that the kernel is the only topology and working-set authority.",
         "Verify exact identity continuity generation source-reference and digest agreement across the adapter.",
@@ -23,23 +23,9 @@
         "Verify existing resident behavior and no-configuration behavior remain intact.",
         "Verify #446 and unrelated ObsMem/Runtime redesign remain out of scope."
       ],
-      "findings": [
-        {
-          "id": "issue450-direct-packet-bypass",
-          "severity": "p1",
-          "summary": "ADL handoff accepted a caller-supplied self-consistent Runtime Memory Palace packet file instead of loading a durable Runtime service latest/checkpoint/journal proof.",
-          "actionable": true,
-          "in_scope": true,
-          "disposition": "open",
-          "fix_revision": null,
-          "route": "Fix #450 adapter so input_ref resolves to RuntimeMemoryPalaceService latest.json and add a direct-packet rejection test."
-        }
-      ],
-      "residual_risk": [
-        "Reviewer did not rerun validators; reviewed exact committed tree and retained validation logs only.",
-        "Reviewer reported an accidental broad grep may have scanned the forbidden adl-runtime/src/resident_agent.rs path, but no output or reasoning used that file."
-      ],
-      "review_result": "changes_required"
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

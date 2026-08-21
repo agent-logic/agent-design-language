@@ -102,7 +102,7 @@ Implemented Memory Palace production authority convergence with kernel packet v2
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
