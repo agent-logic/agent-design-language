@@ -82,6 +82,115 @@ impl LiveAssembly {
     ) -> Result<crate::CapabilityAuthorityPolicy, Vec<crate::CapabilityEnvelopeRejection>> {
         self.capability_provisioner.provision(policy, continuity)
     }
+
+    /// Runtime-owned resident-cycle integration for capability envelopes and
+    /// governed cognitive profiles.
+    ///
+    /// The live assembly provisions capability authority first, then builds and
+    /// revalidates the resident's governed profile from the exact verified
+    /// continuity token. Downstream consumers receive verified handles instead
+    /// of caller-authored digest/status metadata.
+    #[allow(clippy::too_many_arguments)]
+    pub fn build_verified_resident_cycle(
+        &self,
+        resident_id: &str,
+        cycle_id: &str,
+        implementation_revision_sha256: &str,
+        birthday: &crate::BirthdayCandidate,
+        identity: &crate::BirthdayIdentityRecord,
+        continuity: &crate::VerifiedBirthdayContinuity,
+        capability_input: &crate::CapabilityEnvelopeInput,
+        capability_policy: &crate::CapabilityEnvelopePolicy,
+        cognitive_input: &crate::CognitiveProfileInput,
+        cognitive_policy: &crate::CognitiveProfilePolicy,
+        complete_history: &[crate::CognitiveProfile],
+        authority: crate::ResidentCycleAuthority,
+        rotation: Option<crate::ResidentCycleAuthorityRotation>,
+    ) -> Result<crate::VerifiedResidentCycle, crate::ResidentCycleError> {
+        let capability_authority = self
+            .provision_capability_authority(capability_policy, continuity)
+            .map_err(crate::ResidentCycleError::Capability)?;
+        crate::build_verified_resident_cycle(
+            resident_id,
+            cycle_id,
+            implementation_revision_sha256,
+            birthday,
+            identity,
+            continuity,
+            &capability_authority,
+            capability_input,
+            capability_policy,
+            cognitive_input,
+            cognitive_policy,
+            complete_history,
+            authority,
+            rotation,
+        )
+    }
+
+    /// Runtime-owned restart boundary for durable resident-cycle records.
+    ///
+    /// Rehydration is deliberately not a public self-certifying struct check:
+    /// the assembly replays capability and cognitive validation from the exact
+    /// continuity, policy, complete history, and sealed resident authority
+    /// inputs before returning verified handles.
+    #[allow(clippy::too_many_arguments)]
+    pub fn rehydrate_verified_resident_cycle(
+        &self,
+        record: &crate::ResidentCycleRecord,
+        capability: crate::CapabilityEnvelope,
+        profile: crate::CognitiveProfile,
+        birthday: &crate::BirthdayCandidate,
+        identity: &crate::BirthdayIdentityRecord,
+        continuity: &crate::VerifiedBirthdayContinuity,
+        capability_policy: &crate::CapabilityEnvelopePolicy,
+        cognitive_policy: &crate::CognitiveProfilePolicy,
+        complete_history: &[crate::CognitiveProfile],
+        authority: crate::ResidentCycleAuthority,
+    ) -> Result<crate::VerifiedResidentCycle, crate::ResidentCycleError> {
+        let capability_authority = self
+            .provision_capability_authority(capability_policy, continuity)
+            .map_err(crate::ResidentCycleError::Capability)?;
+        crate::rehydrate_verified_resident_cycle(
+            record,
+            capability,
+            profile,
+            birthday,
+            identity,
+            continuity,
+            &capability_authority,
+            capability_policy,
+            cognitive_policy,
+            complete_history,
+            authority,
+        )
+    }
+
+    /// Create an opaque resident-cycle signing authority token through the
+    /// live assembly boundary. External callers can hold the token but cannot
+    /// construct or rewrite its fields directly.
+    pub fn provision_resident_cycle_authority(
+        &self,
+        authority_id: String,
+        key_id: String,
+        epoch: u64,
+        signing_key: ed25519_dalek::SigningKey,
+    ) -> Result<crate::ResidentCycleAuthority, crate::ResidentCycleError> {
+        let _ = self;
+        crate::ResidentCycleAuthority::new(authority_id, key_id, epoch, signing_key)
+    }
+
+    /// Create an opaque resident-cycle rotation token through the live assembly
+    /// boundary.
+    pub fn provision_resident_cycle_authority_rotation(
+        &self,
+        key_id: String,
+        epoch: u64,
+        signing_key: ed25519_dalek::SigningKey,
+    ) -> Result<crate::ResidentCycleAuthorityRotation, crate::ResidentCycleError> {
+        let _ = self;
+        crate::ResidentCycleAuthorityRotation::new(key_id, epoch, signing_key)
+    }
 }
 
 /// Construct the continuity registry from the same live handles and durable
