@@ -137,33 +137,45 @@ def install(args: argparse.Namespace) -> dict:
         "reviewed_414_git_sha": args.reviewed_git_sha,
         "source_receipt_sha256": sha256(args.source_receipt),
         "runtime_source_identity_sha256": required_runtime_source_identity,
+        "continuity_runtime_source_identity_sha256": required_runtime_source_identity,
     }
     if receipt_path.exists():
         installed = json.loads(receipt_path.read_text())
         runtime = pathlib.Path(installed.get("runtime_binary", ""))
         if (not runtime.is_file()
                 or installed.get("runtime_source_identity_sha256") != required_runtime_source_identity
+                or installed.get("continuity_runtime_source_identity_sha256") != required_runtime_source_identity
                 or (runtime.is_file() and sha256(runtime) != installed.get("runtime_binary_sha256"))):
             build_cache.mkdir(parents=True, exist_ok=True)
             environment = os.environ.copy()
             environment["CARGO_TARGET_DIR"] = str(build_cache / "target")
             subprocess.run(
-                ["cargo", "build", "--locked", "--release", "--manifest-path", str(source_root / "adl/Cargo.toml"), "--bin", "adl"],
+                ["cargo", "build", "--locked", "--release", "--manifest-path", str(source_root / "adl/Cargo.toml"),
+                 "--bin", "adl_resident_shepherd_continuity", "--bin", "adl"],
                 cwd=source_root,
                 env=environment,
                 check=True,
             )
+            built_continuity = build_cache / "target/release/adl_resident_shepherd_continuity"
             built_runtime = build_cache / "target/release/adl"
-            if not built_runtime.is_file():
-                raise ValueError("canonical Runtime binary build output is absent")
+            if not built_continuity.is_file() or not built_runtime.is_file():
+                raise ValueError("canonical Runtime/continuity binary build output is absent")
+            continuity = pathlib.Path(installed["continuity_binary"])
+            temporary_continuity = continuity.with_suffix(".tmp")
+            shutil.copy2(built_continuity, temporary_continuity)
+            temporary_continuity.chmod(0o755)
+            os.replace(temporary_continuity, continuity)
             runtime = pathlib.Path(installed["continuity_binary"]).parent / "adl"
             temporary_runtime = runtime.with_suffix(".tmp")
             shutil.copy2(built_runtime, temporary_runtime)
             temporary_runtime.chmod(0o755)
             os.replace(temporary_runtime, runtime)
+            installed["continuity_binary"] = str(continuity)
+            installed["continuity_binary_sha256"] = sha256(continuity)
             installed["runtime_binary"] = str(runtime)
             installed["runtime_binary_sha256"] = sha256(runtime)
             installed["runtime_source_identity_sha256"] = required_runtime_source_identity
+            installed["continuity_runtime_source_identity_sha256"] = required_runtime_source_identity
             installed["qualification_source_revision"] = args.source_revision
             temporary_receipt = receipt_path.with_suffix(".tmp")
             temporary_receipt.write_text(json.dumps(installed, indent=2, sort_keys=True) + "\n")

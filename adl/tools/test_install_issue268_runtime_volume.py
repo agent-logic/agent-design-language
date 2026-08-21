@@ -11,6 +11,9 @@ assert SPEC.loader
 SPEC.loader.exec_module(MODULE)
 
 assert "stdout=subprocess.DEVNULL" in MODULE_PATH.read_text()
+source_text = MODULE_PATH.read_text()
+assert source_text.count('"--bin", "adl_resident_shepherd_continuity", "--bin", "adl"') == 2
+assert 'installed["continuity_binary_sha256"] = sha256(continuity)' in source_text
 
 
 def fixture(root: pathlib.Path):
@@ -63,6 +66,7 @@ with tempfile.TemporaryDirectory() as value:
         "volume_identity_sha256": "c" * 64,
         "source_receipt_sha256": "e" * 64,
         "runtime_source_identity_sha256": "f" * 64,
+        "continuity_runtime_source_identity_sha256": "f" * 64,
     }
     installed = {
         **expected,
@@ -93,6 +97,14 @@ with tempfile.TemporaryDirectory() as value:
         raise AssertionError("stale pre-ACC Runtime identity unexpectedly accepted")
     except ValueError as error:
         assert "runtime_source_identity_sha256" in str(error)
+    stale = dict(installed)
+    stale["continuity_runtime_source_identity_sha256"] = "0" * 64
+    installed_path.write_text(json.dumps(stale))
+    try:
+        MODULE.validate_installed(installed_path, expected, "c" * 64)
+        raise AssertionError("stale continuity Runtime identity unexpectedly accepted")
+    except ValueError as error:
+        assert "continuity_runtime_source_identity_sha256" in str(error)
     installed_path.write_text(json.dumps(installed))
     continuity.write_bytes(b"tampered")
     try:
