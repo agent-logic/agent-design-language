@@ -22,3 +22,4 @@
 {"sequence":22,"generation":15,"actor":"codex:issue-308-ci-clippy-unblock","reason":"Recover stale published review/publication truth after a post-publication hosted-Clippy unblock commit f06722e81a261afe177ae6105610fcfddc75a748 changed the PR head; exact-head review must be re-assigned and re-recorded before publication can authorize merge.","operation":"recover_review"}
 {"sequence":23,"generation":15,"actor":"codex:issue-308-ci-clippy-unblock","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":24,"generation":16,"actor":"fresh-session:codex-cli-issue-308-review-67c735d9","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":25,"generation":17,"actor":"codex:issue-308-publication-refresh","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

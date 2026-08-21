@@ -64,11 +64,11 @@ Reconciled the v0.92 WP-20 demo matrix, feature proof coverage, activation ledge
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
