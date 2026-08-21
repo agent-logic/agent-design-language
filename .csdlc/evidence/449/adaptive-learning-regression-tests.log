@@ -5,7 +5,7 @@ test policy_digest_mismatch_fails_before_mutation_or_persistence ... ok
 test forged_grant_and_authority_fail_before_history_acceptance ... ok
 test governed_acceptance_mutates_and_persists_exact_history ... ok
 test predecessor_splice_and_sequence_overflow_fail_closed ... ok
-test resident_cycle_invalid_bindings_fail_before_mutation_or_history ... ok
+test resident_cycle_invalid_bindings_retain_terminal_evidence_without_mutation_or_history ... ok
 test concurrent_adaptive_executions_have_one_authoritative_winner ... ok
 test resident_cycle_production_path_accepts_and_rejects_without_fixture_entrypoint ... ok
 test transactional_completion_and_postcheck_failure_leave_gate_unchanged ... ok

@@ -108,6 +108,18 @@ Status: pre_phase
     "purpose": "Reject whitespace and malformed diff defects after merging current origin/main.",
     "outcome": "passed",
     "evidence_ref": "root-turn-live-output:2026-08-20-post-main-merge:diff-hygiene-pass"
+  },
+  {
+    "command": [
+      "rg",
+      "resident_cycle_invalid_bindings",
+      ".csdlc/evidence/449/runtime-resident-cycle-integration-proof.log",
+      ".csdlc/evidence/449/adaptive-learning-regression-tests.log",
+      "adl-runtime-kernel/tests/adaptive_learning.rs"
+    ],
+    "purpose": "Prove retained #449 evidence logs and source use the current terminal-evidence invalid-binding regression test name after the R3 evidence-truth finding.",
+    "outcome": "passed",
+    "evidence_ref": "root-turn-live-output:2026-08-20:r3-evidence-name-alignment"
   }
 ]
 

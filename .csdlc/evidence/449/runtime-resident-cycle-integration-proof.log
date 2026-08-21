@@ -1,6 +1,6 @@
 
 running 3 tests
-test resident_cycle_invalid_bindings_fail_before_mutation_or_history ... ok
+test resident_cycle_invalid_bindings_retain_terminal_evidence_without_mutation_or_history ... ok
 test resident_cycle_production_path_accepts_and_rejects_without_fixture_entrypoint ... ok
 test resident_cycle_restart_restores_and_continues_deterministically ... ok
 

@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d8e1f3dca77fcf7b936ed705f16684f757477c7a35ec6e1ee4d0f7facd456b0a",
   "phase": "implemented",
-  "generation": 12,
-  "digest": "59464cdbee13665058a1872be15a4a7374737a409788a075196f0a5b63727c91",
+  "generation": 14,
+  "digest": "f3078fc48c694c9ce45e720efb887586cd6e67c9f4eff7f3f4aee653ee1fdafb",
   "branch": "codex/449-governed-adaptive-learning-resident-integration",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-449-governed-adaptive-learning-resident-integration",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "22e8288b2e3e9fbee477e25e58b1011eddc7a04f1d122ba1b89fcebd9389293c",
+      "values_digest": "44cecc802d2512b535da7b3bb364355ab50641c6a7fce0189f1382f6999b1a59",
       "rendered_digest": "2cfd28e6c6a6879f7e6c50c55739e047518d76c09cda80b9ebafc4403b793865",
       "ast_digest": "f464cd78ec8bddeabb30d93fddafa24b1062b4cec61a141464249d3a05f2cd41"
     },
     "stp": {
-      "values_digest": "9f6a1572ac2bd89e1e02e875449e25a6d7a2ca6b5ca1dc5f5bf1141e32a4ef58",
+      "values_digest": "ab58c836031f48806170769fdccc26511510e2911c90a3d744820be6bc9edd38",
       "rendered_digest": "7b54454bbd83510eb034ffe2a2271617f0602cade7d3c6b59f4ac3d137227169",
       "ast_digest": "c6928d84219a13b3766acc4b90f7c8cfb71ba2f86c3092bf2246fe41523990e7"
     },
     "spp": {
-      "values_digest": "12fdc0b5ad2561b69fb6b0c9137ef32d7406e1bf54b8a035db884f67d25dfdf8",
+      "values_digest": "a723a74cc0ffa2fbfc6c1b77251118b8e64ef534ec34caa94720557ee59bccba",
       "rendered_digest": "bffc41af02fb2bde8fdbeee9bb86b0844d389e801cec9206ad674efc0dadcef5",
       "ast_digest": "c4ab178aa7012df674d6ec98c645f586c6e07ae5cd2a58fe689862f744ef001b"
     },
     "vpp": {
-      "values_digest": "032afafe86c815fde0a99c934af2c2fa802d0647ed1462def84e0d13b8e13efb",
+      "values_digest": "c789d66a0fe772390aebd3b0d22972adf0078caada985b3a2087c9fda9ea6383",
       "rendered_digest": "29b34386e79734d7df12f5860df83c84e13b42f22c4304b38539705e954c05ac",
       "ast_digest": "800bad4e472866aa40314c9753028f43e11b4961676430d90d974b85d927fb8d"
     },
     "srp": {
-      "values_digest": "229387991f6fe0e6661d3f9fcc1dce2577e8904a79d2a863906f75077ac41084",
+      "values_digest": "c7093e81b0a73b8858e2f6ca60671ac49cfd75ef8d9a22ef68b6eb0e7bbd13b6",
       "rendered_digest": "3a8abb044fd02d026b1c6abd0393ba034ef34c8c2a2d4cb537496abcda46d04a",
       "ast_digest": "13b21242e8fcf9b816e12eee09996417e5f70724d617c0eaaf8a5c370caeb090"
     },
     "sor": {
-      "values_digest": "13f6749701265bea4bf75796151dba352cd41f0f2e1b9e327c7cd70fcc2ca96c",
-      "rendered_digest": "51174413f990b1cdcbf58ba2b0d02fcaa5c57e9db7b626f33ec954eda5a72280",
-      "ast_digest": "58facb2f7b71c4292555aeaa25592bd0dc7069a4a1bb15c15c4d71c2e894f539"
+      "values_digest": "f6e1207a3c50fd5c246c95f99b8948fd2da23de7d0451d58f49a9f84e620cd79",
+      "rendered_digest": "2e1268535f9bffc1166e45174bc1fbf2c1b0161c0e19151400e3233553741b50",
+      "ast_digest": "ffad99fb7d0a39c372ba68c73dde05ce95cd0214427a66eabe2ab7936d12b33b"
     }
   },
   "transitions": [
@@ -204,6 +204,27 @@
       "actor": "codex:/root",
       "reason": "Record post-origin/main merge #449 proof before assigning the next exact-head review.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"#449 wires governed Adaptive Learning into a Runtime-owned resident-cycle path and remediates exact-review P1 by retaining redacted terminal evidence for invalid resident precondition failures before returning, while preserving MutationGate-only mutation for accepted paths. Current proof was rerun after merging origin/main at 9f373f5f04b0f8c9dc6e3e6cbf348fddec98486c.\",\"changes\":[\"Added resident-cycle production entrypoints in adl-runtime-kernel/src/adaptive_learning.rs for execute and startup reconciliation.\",\"Added redacted ResidentAdaptiveLearningReceipt evidence that distinguishes accepted, rejected, cancelled, and restored outcomes without exposing private profile/provider content.\",\"Added redacted ResidentAdaptiveLearningTerminalEvidence retained in a separate governed durable domain for invalid resident binding/precondition failures, so rejected invalid inputs leave terminal proof without creating normal adaptive-learning history or mutating the graph/state.\",\"Added resident_cycle integration tests inside adl-runtime-kernel/tests/adaptive_learning.rs covering accepted MutationGate-only mutation, rejected non-mutation, invalid binding terminal-evidence retention, restart restoration, and deterministic continuation.\",\"Updated docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md from library-only/local contract wording to resident-cycle integration proof truth.\",\"Merged current origin/main cleanly after #447/#308 and reran focused #449 proof; no #450 scope was touched.\"],\"artifacts\":[\"adl-runtime-kernel/src/adaptive_learning.rs\",\"adl-runtime-kernel/tests/adaptive_learning.rs\",\"adl-runtime-kernel/src/live_continuity.rs\",\"docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md\",\".csdlc/issues/449\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--check\"],\"purpose\":\"Reject rustfmt drift in the touched Runtime kernel package after merging current origin/main.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20-post-main-merge:fmt-check\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"adaptive_learning\",\"resident_cycle\"],\"purpose\":\"Prove #449 resident-cycle accepted mutation, rejected non-mutation, invalid binding terminal-evidence retention, restart, and deterministic continuation behavior after merging current origin/main.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20-post-main-merge:resident-cycle-3-pass\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"adaptive_learning\"],\"purpose\":\"Run the complete adaptive_learning integration target after merging current origin/main.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20-post-main-merge:adaptive-learning-18-pass\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--tests\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict clippy for the touched Runtime kernel package/tests after merging current origin/main.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20-post-main-merge:strict-clippy-pass\"},{\"command\":[\"rg\",\"Adaptive Learning|adaptive learning|production-integrated|library-only\",\".adl\",\"docs\"],\"purpose\":\"Confirm feature/evidence docs contain adaptive-learning truth surfaces and no stale library-only claim is used as #449 completion proof after merging current origin/main.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20-post-main-merge:feature-evidence-truth-check\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and malformed diff defects after merging current origin/main.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20-post-main-merge:diff-hygiene-pass\"}]}"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "Recover failed exact review fresh-session:0eaf4ba4-a8be-4893-b21a-4b3794587b88 before remediating P2 evidence truth: retained #449 proof logs still used the old invalid-binding test name instead of the current terminal-evidence test name.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Record remediation of exact-review R3 P2 evidence truth: retained proof logs now name the current invalid-binding terminal-evidence test.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"rg\",\"resident_cycle_invalid_bindings\",\".csdlc/evidence/449/runtime-resident-cycle-integration-proof.log\",\".csdlc/evidence/449/adaptive-learning-regression-tests.log\",\"adl-runtime-kernel/tests/adaptive_learning.rs\"],\"purpose\":\"Prove retained #449 evidence logs and source use the current terminal-evidence invalid-binding regression test name after the R3 evidence-truth finding.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20:r3-evidence-name-alignment\"}}"
     }
   ]
 }
