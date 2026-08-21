@@ -1,0 +1,125 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 309,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "1aac31d526ec88733274957b08d6a077e4b1c251c3c859ce9de45efa648636ad",
+  "phase": "bound",
+  "generation": 5,
+  "digest": "7b1173c85111724d5495955da9b989daf3b92243f58dad3a7be12dc25185e84d",
+  "branch": "codex/309-repository-wide-code-reduction",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-309-repository-wide-code-reduction",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/309/design.md",
+  "diagram_path": ".csdlc/prepared/issues/309/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:bf5a8e80-1aa2-484d-ad43-8caec13bdc57",
+      "revision": "9b509902cb90ee78e72276403ef9e443432b3630c29ca460d50286a923c990e4"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "ff6a6a3127e1c1668b96dbe427d9daa66bfa5f9bea324db985218571c4eb9eec",
+      "rendered_digest": "3bca781149156bfb4be59a4d4c03a7c473410842d4ec0dade2b308f7af6a1f0b",
+      "ast_digest": "f55ce5dd36489108eba3c951314648669937c36c1270f8988282ee5b6d4c7d94"
+    },
+    "stp": {
+      "values_digest": "da4b3f73afdcade6c2b8ff9f59d9e076fdc0a84e5ae0c12b99e8bfeb921b7eeb",
+      "rendered_digest": "7a72a9bcb8fa0bd1b14da2e8a85ea8e76b695bd0324a2b6570d86e87d9975bb0",
+      "ast_digest": "de23dbaf4f54e6667bc4b220972034908306dafbca730aeb99daabd21fd924e7"
+    },
+    "spp": {
+      "values_digest": "6159f876ce7f85e768d19e15ef6b4e4645c272ebdd80d7a3bc5a4374447e104f",
+      "rendered_digest": "bec787bafe31df61b313e6a0f3c823d7995b4a9617d413ffa5de7555597c64a8",
+      "ast_digest": "57df70a9933fc6fb12738d66d8bab3e9f2427c6a99535fc8ae06811aaad00fe0"
+    },
+    "vpp": {
+      "values_digest": "45891529585245141746858e2507d606061c63e7e2f38749650c42ca31d99e96",
+      "rendered_digest": "7cfe24289d97dd2a45ed3eda904868a79bd625a54f207499c763de9d505f88c9",
+      "ast_digest": "8c9c18dce40471e4ef19d9dd0846065bd45c95ac68f4c7930fbe04e785b6d29d"
+    },
+    "srp": {
+      "values_digest": "86a59a5d9a870aa838fb2a94d38374aa3b90c1e1c59190178d2d97ddd4016c74",
+      "rendered_digest": "a2bad7ae050ad8e3dc0d46c1bc75ceb17ecd05b585d966e0ad298c02f05046fe",
+      "ast_digest": "b49e6c708f6987a0386b3b222872e6f393702b0e8b43f9f800eb56595e41e160"
+    },
+    "sor": {
+      "values_digest": "f2c875db03b26e4e4a5fca3a0dfde14e341a3b7e88c9cc619ad6f8fb3110c8b2",
+      "rendered_digest": "62c3d5c49d181066531d1df73da5e00820c8b337c0b48a60798e587ab3836da7",
+      "ast_digest": "d20d497d6555e77102e1ce5091285b71e23a8eedebfd53c32f0d0e2ec73c0333"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "Advance #309 after fresh design PASS and a clean typed readiness report."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:bf5a8e80-1aa2-484d-ad43-8caec13bdc57",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"9b509902cb90ee78e72276403ef9e443432b3630c29ca460d50286a923c990e4\",\"design_ref\":\".csdlc/prepared/issues/309/design.md\",\"diagram_digest\":\"53609f25156db701cde3505b92446c763a5abff23a915730ac20a99e9061d9a4\",\"diagram_ref\":\".csdlc/prepared/issues/309/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Declare the exact reduction source, validators, and retained evidence surfaces required by the approved #309 design.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/src\",\"adl/Cargo.toml\",\"adl/Cargo.lock\",\".csdlc/prepared/issues/309/design.md\",\".csdlc/prepared/issues/309/diagram.mmd\",\".csdlc/prepared/issues/309/validate_reduction_inventory.py\",\".csdlc/prepared/issues/309/validate_rollback_proof.py\",\".csdlc/prepared/issues/309/validate_hosted_linux_receipt.py\",\".csdlc/evidence/309/baseline-manifest.json\",\".csdlc/evidence/309/reference-edge-manifest.json\",\".csdlc/evidence/309/disposition-manifest.json\",\".csdlc/evidence/309/reduction-report.json\",\".csdlc/evidence/309/rollback-proof.json\",\".csdlc/evidence/309/github-linux-ci.json\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Replace the generic owner lane with the focused clean-install contract while retaining the reviewed inventory, rollback, continuity, quality, Linux, and hygiene proofs.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"reduction_inventory\",\"proof_role\":\"Validate exact baseline file/blob/line denominator, normalized reference-edge denominator, complete dispositions, owners, replacements, exceptions, and reduction accounting.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-4\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":6000,\"argv\":[\"python3\",\".csdlc/prepared/issues/309/validate_reduction_inventory.py\"],\"parallel_group\":\"309-inventory\",\"defer_reason\":\"Created in the bound worktree before the first deletion.\"},{\"lane\":\"rollback_proof\",\"proof_role\":\"Prove each band reverts to exact baseline blobs and reapplies cleanly without touching unrelated paths.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":600,\"budget_tokens\":4000,\"argv\":[\"python3\",\".csdlc/prepared/issues/309/validate_rollback_proof.py\"],\"parallel_group\":\"309-rollback\",\"defer_reason\":\"Created after band commits exist.\"},{\"lane\":\"supported_cli_clean_install\",\"proof_role\":\"Prove the supported owner-binary installation contract from a clean destination, including installed command inventory and executable behavior.\",\"acceptance_ids\":[\"AC-3\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"bash\",\"adl/tools/test_owner_binary_install.sh\"],\"parallel_group\":\"309-runtime\",\"defer_reason\":null},{\"lane\":\"resident_continuity_adl\",\"proof_role\":\"Prove the retained #414 resident dehydration, restoration, admission, and useful continuation module behavior in the ADL library.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\",\"resident_shepherd_spot_continuity\",\"--\",\"--nocapture\"],\"parallel_group\":\"309-runtime\",\"defer_reason\":null},{\"lane\":\"resident_continuity_kernel\",\"proof_role\":\"Prove signed Runtime-kernel live-continuity checkpoint and restore behavior consumed by #414 remains intact.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":4000,\"argv\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"live_continuity\",\"--\",\"--nocapture\"],\"parallel_group\":\"309-runtime\",\"defer_reason\":null},{\"lane\":\"rust_format\",\"proof_role\":\"Prove formatting remains canonical for the touched ADL workspace.\",\"acceptance_ids\":[\"AC-5\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":1000,\"argv\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl/Cargo.toml\",\"--\",\"--check\"],\"parallel_group\":\"309-quality\",\"defer_reason\":null},{\"lane\":\"strict_clippy\",\"proof_role\":\"Reject warnings in the touched ADL workspace after deletion.\",\"acceptance_ids\":[\"AC-5\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"large\",\"budget_seconds\":1800,\"budget_tokens\":8000,\"argv\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"309-quality\",\"defer_reason\":null},{\"lane\":\"hosted_linux_receipt\",\"proof_role\":\"After publication, validate the exact PR head, Ubuntu runner identity, required hosted Linux jobs, conclusions, test denominators, and artifact digests from a retained machine-readable CI receipt.\",\"acceptance_ids\":[\"AC-5\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":180,\"budget_tokens\":2000,\"argv\":[\"python3\",\".csdlc/prepared/issues/309/validate_hosted_linux_receipt.py\",\".csdlc/evidence/309/github-linux-ci.json\"],\"parallel_group\":\"309-hosted\",\"defer_reason\":\"Runs after the reviewed exact head is published and GitHub-hosted Linux checks produce an immutable receipt.\"},{\"lane\":\"diff_hygiene\",\"proof_role\":\"Reject malformed candidate changes and out-of-band scope drift.\",\"acceptance_ids\":[\"AC-7\",\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\",\"e926e3bca0ab1981d77b4658d2feb4059bdf33a6...HEAD\"],\"parallel_group\":\"309-quality\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Declare the focused clean-install proof script as a governed #309 validation input.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl/src\",\"adl/Cargo.toml\",\"adl/Cargo.lock\",\"adl/tools/test_owner_binary_install.sh\",\".csdlc/prepared/issues/309/design.md\",\".csdlc/prepared/issues/309/diagram.mmd\",\".csdlc/prepared/issues/309/validate_reduction_inventory.py\",\".csdlc/prepared/issues/309/validate_rollback_proof.py\",\".csdlc/prepared/issues/309/validate_hosted_linux_receipt.py\",\".csdlc/evidence/309/baseline-manifest.json\",\".csdlc/evidence/309/reference-edge-manifest.json\",\".csdlc/evidence/309/disposition-manifest.json\",\".csdlc/evidence/309/reduction-report.json\",\".csdlc/evidence/309/rollback-proof.json\",\".csdlc/evidence/309/github-linux-ci.json\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "Advance #309 after fresh design PASS and a clean typed readiness report.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    }
+  ]
+}

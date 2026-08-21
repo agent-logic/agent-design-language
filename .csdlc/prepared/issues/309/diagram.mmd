@@ -1,0 +1,22 @@
+flowchart TD
+    D308["#308 terminal / canonical / ancestral / cleaned"] --> B["Pin base e926e3bc and tree c57bae97"]
+    B --> I["Inventory 485 Rust files / 265633 lines / reverse references"]
+    I --> C{"Exactly one accountable disposition per file?"}
+    C -- No --> STOP["Stop: repair inventory or route migration"]
+    C -- Yes --> A["Band A: dead and unreachable deletion"]
+    A --> AP["Focused parity + rollback/reapply proof"]
+    AP --> AB{"Pass?"}
+    AB -- No --> AR["git revert Band A; verify baseline blobs; retain failure"]
+    AB -- Yes --> S["Band B: superseded compatibility deletion"]
+    S --> SP["Replacement/authority parity + rollback/reapply proof"]
+    SP --> SB{"Pass?"}
+    SB -- No --> SR["git revert Band B; verify baseline blobs; retain failure"]
+    SB -- Yes --> R["Band C: Runtime v2 consumer classification"]
+    R --> RP{"Unconsumed with landed replacement?"}
+    RP -- No --> KEEP["Retain active or record migrate_then_delete boundary"]
+    RP -- Yes --> RD["Delete bounded Runtime v2 subtree"]
+    KEEP --> FINAL["Combined macOS/Linux, CLI, artifact, trace, #414, scope proof"]
+    RD --> FINAL
+    FINAL --> REVIEW["Exact-head independent review"]
+    REVIEW --> PR["PR with exact reduction and Closes #309"]
+    PR --> T["Typed finish and cleanup"]

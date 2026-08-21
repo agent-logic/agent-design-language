@@ -1,0 +1,219 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 309,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-21] Repository-wide code reduction cleanup",
+    "slug": "309-repository-wide-code-reduction",
+    "version": "v0.92",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "reduction_inventory",
+          "proof_role": "Validate exact baseline file/blob/line denominator, normalized reference-edge denominator, complete dispositions, owners, replacements, exceptions, and reduction accounting.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-4",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 6000,
+          "argv": [
+            "python3",
+            ".csdlc/prepared/issues/309/validate_reduction_inventory.py"
+          ],
+          "parallel_group": "309-inventory",
+          "defer_reason": "Created in the bound worktree before the first deletion."
+        },
+        {
+          "lane": "rollback_proof",
+          "proof_role": "Prove each band reverts to exact baseline blobs and reapplies cleanly without touching unrelated paths.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 4000,
+          "argv": [
+            "python3",
+            ".csdlc/prepared/issues/309/validate_rollback_proof.py"
+          ],
+          "parallel_group": "309-rollback",
+          "defer_reason": "Created after band commits exist."
+        },
+        {
+          "lane": "supported_cli_clean_install",
+          "proof_role": "Prove the supported owner-binary installation contract from a clean destination, including installed command inventory and executable behavior.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 1800,
+          "budget_tokens": 8000,
+          "argv": [
+            "bash",
+            "adl/tools/test_owner_binary_install.sh"
+          ],
+          "parallel_group": "309-runtime",
+          "defer_reason": null
+        },
+        {
+          "lane": "resident_continuity_adl",
+          "proof_role": "Prove the retained #414 resident dehydration, restoration, admission, and useful continuation module behavior in the ADL library.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 4000,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "--lib",
+            "resident_shepherd_spot_continuity",
+            "--",
+            "--nocapture"
+          ],
+          "parallel_group": "309-runtime",
+          "defer_reason": null
+        },
+        {
+          "lane": "resident_continuity_kernel",
+          "proof_role": "Prove signed Runtime-kernel live-continuity checkpoint and restore behavior consumed by #414 remains intact.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 4000,
+          "argv": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--test",
+            "live_continuity",
+            "--",
+            "--nocapture"
+          ],
+          "parallel_group": "309-runtime",
+          "defer_reason": null
+        },
+        {
+          "lane": "rust_format",
+          "proof_role": "Prove formatting remains canonical for the touched ADL workspace.",
+          "acceptance_ids": [
+            "AC-5",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 180,
+          "budget_tokens": 1000,
+          "argv": [
+            "cargo",
+            "fmt",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "--",
+            "--check"
+          ],
+          "parallel_group": "309-quality",
+          "defer_reason": null
+        },
+        {
+          "lane": "strict_clippy",
+          "proof_role": "Reject warnings in the touched ADL workspace after deletion.",
+          "acceptance_ids": [
+            "AC-5",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "large",
+          "budget_seconds": 1800,
+          "budget_tokens": 8000,
+          "argv": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "parallel_group": "309-quality",
+          "defer_reason": null
+        },
+        {
+          "lane": "hosted_linux_receipt",
+          "proof_role": "After publication, validate the exact PR head, Ubuntu runner identity, required hosted Linux jobs, conclusions, test denominators, and artifact digests from a retained machine-readable CI receipt.",
+          "acceptance_ids": [
+            "AC-5",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 180,
+          "budget_tokens": 2000,
+          "argv": [
+            "python3",
+            ".csdlc/prepared/issues/309/validate_hosted_linux_receipt.py",
+            ".csdlc/evidence/309/github-linux-ci.json"
+          ],
+          "parallel_group": "309-hosted",
+          "defer_reason": "Runs after the reviewed exact head is published and GitHub-hosted Linux checks produce an immutable receipt."
+        },
+        {
+          "lane": "diff_hygiene",
+          "proof_role": "Reject malformed candidate changes and out-of-band scope drift.",
+          "acceptance_ids": [
+            "AC-7",
+            "AC-8"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check",
+            "e926e3bca0ab1981d77b4658d2feb4059bdf33a6...HEAD"
+          ],
+          "parallel_group": "309-quality",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed and revert only the failing band. Retain the failure receipt. Do not publish while any disposition, active reference, behavior/authority proof, platform proof, rollback proof, accounting, or exact-head review is incomplete.",
+      "design_ref": ".csdlc/prepared/issues/309/design.md",
+      "design_digest": "9b509902cb90ee78e72276403ef9e443432b3630c29ca460d50286a923c990e4",
+      "diagram_ref": ".csdlc/prepared/issues/309/diagram.mmd",
+      "diagram_digest": "53609f25156db701cde3505b92446c763a5abff23a915730ac20a99e9061d9a4"
+    }
+  }
+}

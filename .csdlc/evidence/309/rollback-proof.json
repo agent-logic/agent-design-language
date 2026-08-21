@@ -1,0 +1,7 @@
+{
+  "schema": "adl.issue309.rollback_proof.v1",
+  "status": "pending",
+  "base_revision": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6",
+  "bands": [],
+  "note": "No reduction band has been committed; exact revert and reapply proof is required before publication."
+}
