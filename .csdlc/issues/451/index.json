@@ -5,112 +5,12 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b9c2d7027cdbbd3b729c65e5834eb5a267bdfd975d7bfa5524071e7831956e5e",
   "phase": "implemented",
-  "generation": 16,
-  "digest": "c105af8dd05ff4cec54505a522a1d324ecc36fe450c39a6b18fbcf358519a970",
+  "generation": 17,
+  "digest": "1c81a00189611bb85362ea6519f07403a4d17e2df7371e0e307657135366e997",
   "branch": "codex/451-production-birthday-witness-activation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-451-production-birthday-witness-activation",
-  "review_assignment": {
-    "reviewer": "fresh-session:f3e009ac-af6e-4e5b-aa55-38596a549782",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:569128f10039f0ec74e152f19e7932fee7441ecf:7737068789b304a5992fcda26824e9a49e2ddb0c3a4c3dc462953241b956cec5",
-    "scope": [
-      ".csdlc/evidence/451",
-      ".csdlc/issues/451",
-      ".csdlc/prepared/issues/451",
-      "adl-runtime-kernel/Cargo.toml",
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/birth_witness.rs",
-      "adl-runtime-kernel/src/birthday_continuity.rs",
-      "adl-runtime-kernel/src/cognitive_profile.rs",
-      "adl-runtime-kernel/src/config.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/src/memory_palace_authority.rs",
-      "adl-runtime-kernel/src/production_birthday.rs",
-      "adl-runtime-kernel/src/resident_cycle.rs",
-      "adl-runtime-kernel/src/test_support.rs",
-      "adl-runtime-kernel/tests/production_birthday.rs",
-      "adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs",
-      "adl/Cargo.toml",
-      "adl/Cargo.lock",
-      "adl/src/lib.rs",
-      "adl/src/long_lived_agent.rs",
-      "adl/src/production_birthday.rs",
-      "adl/src/resident_tool_execution.rs",
-      "adl/tests/production_birthday_runtime.rs",
-      "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
-      "docs/milestones/v0.92/QUALITY_GATE_v0.92.md",
-      "docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md",
-      "docs/planning/ADL_FEATURE_LIST.md"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:f3e009ac-af6e-4e5b-aa55-38596a549782",
-    "scope": [
-      ".csdlc/evidence/451",
-      ".csdlc/issues/451",
-      ".csdlc/prepared/issues/451",
-      "adl-runtime-kernel/Cargo.toml",
-      "adl-runtime-kernel/src/assembly.rs",
-      "adl-runtime-kernel/src/birth_witness.rs",
-      "adl-runtime-kernel/src/birthday_continuity.rs",
-      "adl-runtime-kernel/src/cognitive_profile.rs",
-      "adl-runtime-kernel/src/config.rs",
-      "adl-runtime-kernel/src/lib.rs",
-      "adl-runtime-kernel/src/memory_palace_authority.rs",
-      "adl-runtime-kernel/src/production_birthday.rs",
-      "adl-runtime-kernel/src/resident_cycle.rs",
-      "adl-runtime-kernel/src/test_support.rs",
-      "adl-runtime-kernel/tests/production_birthday.rs",
-      "adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs",
-      "adl/Cargo.toml",
-      "adl/Cargo.lock",
-      "adl/src/lib.rs",
-      "adl/src/long_lived_agent.rs",
-      "adl/src/production_birthday.rs",
-      "adl/src/resident_tool_execution.rs",
-      "adl/tests/production_birthday_runtime.rs",
-      "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
-      "docs/milestones/v0.92/QUALITY_GATE_v0.92.md",
-      "docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md",
-      "docs/planning/ADL_FEATURE_LIST.md"
-    ],
-    "reviewed_revision": "git-blake3:569128f10039f0ec74e152f19e7932fee7441ecf:7737068789b304a5992fcda26824e9a49e2ddb0c3a4c3dc462953241b956cec5",
-    "findings": [
-      {
-        "id": "451-R3-P1-RUNTIME-REACHABILITY",
-        "severity": "p1",
-        "summary": "Birthday activation was not coupled to an actual long-lived Runtime tick path.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "451-R3-P1-RESTART-CONTINUATION",
-        "severity": "p1",
-        "summary": "Restart restored only the receipt and did not rebuild authorities or execute useful resident continuation.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "451-R3-P2-ORDINARY-PATH",
-        "severity": "p2",
-        "summary": "Ordinary resident non-activation proof did not execute an ordinary tick.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      }
-    ],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -125,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "bc8a9650384f51b479891b56c52ec3773fd32176318d2153ce23ba1a8e26c475",
+      "values_digest": "509a51e94a1eb8e701539b199d0716448cb6684b9f43128ca60374f9e144b0b5",
       "rendered_digest": "eadb6c2cc3035ca4dae94df535e206a938d256fc5937c858408cc5b86cb4ea99",
       "ast_digest": "f0cea1e2c58d406c14f2a0978ea405f57bce122026f1fc085589993f55ab3a8b"
     },
     "stp": {
-      "values_digest": "f49217dcffb07aa87b6387c2406be4f34aaefd8968ea9e4c5a49b18640811bff",
+      "values_digest": "7d4350b0bd9cf0d6b69cbf9a0f6db969ba82961183d47693897e20ed3018e5ff",
       "rendered_digest": "9ae8e31a25c4344bd5564591ee81b983e5b7876e818723169f1fe5b4a71d8f4d",
       "ast_digest": "08e42884cb056fc338f9e5cbb8ab232743375906d9334fa1726ee60bb4698bce"
     },
     "spp": {
-      "values_digest": "41430f47a82fd1e1f7ba5c61c2e6260887ffcd511ccb4876898baea598462dc5",
+      "values_digest": "cc58abb63162ac96c876d1ca4f202c56e029d914189ee0638571bfa50276c5b5",
       "rendered_digest": "39293630a529338dfa900dc1eab24bf5eac2165766972942527543457466610d",
       "ast_digest": "8ad451dc30bbe8a4a23a3804b94d8390828f02e0469e1e9e63b0d889857a48cb"
     },
     "vpp": {
-      "values_digest": "10a535a57dc2fa0842da07797751bde4bb4fdb0a5eed3d10f07ae86937042828",
+      "values_digest": "31f15d543e07355d556bd7b5f89f44d26289fd69b65f90f7520f172b9729982d",
       "rendered_digest": "5dd80157e09af02d07bb352c64895f5778b98719516a2637641046258e0d0e5f",
       "ast_digest": "9ccf9013c0ee0a0efd4ecde2bd167f2e696adb6aa07a550792074fddfd188371"
     },
     "srp": {
-      "values_digest": "513f29a1bf3d0488dec2a4d99049548c83bcd75ee1ac71c44710d142b72a8d82",
-      "rendered_digest": "1d5af0abbcf4a840c813427b62d3bc0ed8589c8834696335dc0683ba929c967a",
-      "ast_digest": "84fa070748ce22721485ac942b9ebf5b52d1345daa4170c5b7eb537c6a188189"
+      "values_digest": "254f149e754026c7109604e31e564b09d599f339d2c45891e1c87a9ded6aa8ee",
+      "rendered_digest": "0471834d3c00d92a3dcd91bd799953836987d3b72b1de21001ebc4a7c3aa919e",
+      "ast_digest": "c5c83eceded6bf18d963181de47765cd7189e5aad2fbeb284dd42559622446c9"
     },
     "sor": {
-      "values_digest": "34249b5aa0e346f7c52911a46879963627d72560b33dce79f42aff85816271bd",
+      "values_digest": "b82e1fc7e18c43bd0a907909c69f97249b0309f7b7d3f58ddb93e781df8176ed",
       "rendered_digest": "ebe7be97b9d16f493058b5531d9752d2f1dc883e78fbf214839dde9d380d50f5",
       "ast_digest": "9692b0fcb42fa801ce6f5d87086d02d60ce70ae4c25a98995e005e39cf3b9e7f"
     }
@@ -325,6 +225,13 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "Recover R3 after coupling verified Birthday activation to an actual long-lived tick, reconstructing verified authorities after restart before a second successful cycle, and proving an ordinary tick does not auto-activate Birthday.",
+      "operation": "recover_review"
     }
   ]
 }
