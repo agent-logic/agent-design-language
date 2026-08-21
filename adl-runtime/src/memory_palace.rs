@@ -1,8 +1,8 @@
 use std::{
-	fs::{self, File, OpenOptions},
-	io::{self, ErrorKind, Write},
-	path::{Path, PathBuf},
-	sync::atomic::{AtomicU64, Ordering},
+    fs::{self, File, OpenOptions},
+    io::{self, ErrorKind, Write},
+    path::{Path, PathBuf},
+    sync::atomic::{AtomicU64, Ordering},
 };
 
 use adl_runtime_kernel::{
@@ -162,6 +162,7 @@ impl RuntimeMemoryPalaceService {
             .read(true)
             .write(true)
             .create(true)
+            .truncate(false)
             .open(self.root.join("writer.lock"))?;
         lock.lock_exclusive()?;
         let head = self.validated_journal_head_locked()?;
@@ -306,7 +307,7 @@ impl RuntimeMemoryPalaceService {
             predecessor_head: continuity.predecessor_head.clone(),
             authority_context_sha256: continuity.authority_context_sha256.clone(),
             cycles: prefix_cycles,
-            grade: continuity.grade.clone(),
+            grade: continuity.grade,
             continuity_head: previous.continuity_head.clone(),
             record_sha256: String::new(),
         };
@@ -330,6 +331,7 @@ impl RuntimeMemoryPalaceService {
             .read(true)
             .write(true)
             .create(true)
+            .truncate(false)
             .open(self.root.join("writer.lock"))?;
         lock.lock_exclusive()?;
         let Some(head) = self.validated_journal_head_locked()? else {
@@ -637,34 +639,34 @@ fn read_json<T: for<'de> Deserialize<'de>>(path: &Path) -> Result<T, RuntimeMemo
 }
 
 fn write_json_atomic<T: Serialize>(path: &Path, value: &T) -> Result<(), RuntimeMemoryPalaceError> {
-	let bytes = serde_jcs::to_vec(value)
-		.map_err(|error| RuntimeMemoryPalaceError::Corrupt(error.to_string()))?;
-	for _ in 0..1024 {
-		let temp = unique_atomic_temp_path(path);
-		match OpenOptions::new().write(true).create_new(true).open(&temp) {
-			Ok(mut file) => {
-				if let Err(error) = file.write_all(&bytes).and_then(|_| file.sync_all()) {
-					let _ = fs::remove_file(&temp);
-					return Err(error.into());
-				}
-				if let Err(error) = fs::rename(&temp, path) {
-					let _ = fs::remove_file(&temp);
-					return Err(error.into());
-				}
-				return Ok(());
-			}
-			Err(error) if error.kind() == ErrorKind::AlreadyExists => continue,
-			Err(error) => return Err(error.into()),
-		}
-	}
-	Err(RuntimeMemoryPalaceError::Io(
-		"could not allocate unique Memory Palace atomic temp file".to_owned(),
-	))
+    let bytes = serde_jcs::to_vec(value)
+        .map_err(|error| RuntimeMemoryPalaceError::Corrupt(error.to_string()))?;
+    for _ in 0..1024 {
+        let temp = unique_atomic_temp_path(path);
+        match OpenOptions::new().write(true).create_new(true).open(&temp) {
+            Ok(mut file) => {
+                if let Err(error) = file.write_all(&bytes).and_then(|_| file.sync_all()) {
+                    let _ = fs::remove_file(&temp);
+                    return Err(error.into());
+                }
+                if let Err(error) = fs::rename(&temp, path) {
+                    let _ = fs::remove_file(&temp);
+                    return Err(error.into());
+                }
+                return Ok(());
+            }
+            Err(error) if error.kind() == ErrorKind::AlreadyExists => continue,
+            Err(error) => return Err(error.into()),
+        }
+    }
+    Err(RuntimeMemoryPalaceError::Io(
+        "could not allocate unique Memory Palace atomic temp file".to_owned(),
+    ))
 }
 
 fn unique_atomic_temp_path(path: &Path) -> PathBuf {
-	let sequence = ATOMIC_WRITE_TEMP_COUNTER.fetch_add(1, Ordering::Relaxed);
-	path.with_extension(format!("tmp.{}.{}", std::process::id(), sequence))
+    let sequence = ATOMIC_WRITE_TEMP_COUNTER.fetch_add(1, Ordering::Relaxed);
+    path.with_extension(format!("tmp.{}.{}", std::process::id(), sequence))
 }
 
 fn write_json_create_new<T: Serialize>(
@@ -977,7 +979,10 @@ mod tests {
         assert!(!root.path().join("memory-palace/latest.json").exists());
 
         let loaded = service.load_latest().unwrap().unwrap();
-        assert_eq!(loaded.checkpoint.checkpoint_sha256, second.checkpoint.checkpoint_sha256);
+        assert_eq!(
+            loaded.checkpoint.checkpoint_sha256,
+            second.checkpoint.checkpoint_sha256
+        );
     }
 
     #[test]
@@ -1042,8 +1047,11 @@ mod tests {
             .commit_validated_packet(packet("b", "second"), 1)
             .unwrap();
 
-        fs::remove_file(root.path().join("memory-palace/journal/00000000000000000001.json"))
-            .unwrap();
+        fs::remove_file(
+            root.path()
+                .join("memory-palace/journal/00000000000000000001.json"),
+        )
+        .unwrap();
         assert!(service.load_latest().is_err());
 
         let root = tempfile::tempdir().unwrap();
@@ -1055,7 +1063,9 @@ mod tests {
         invalid.generation = 0;
         invalid.entry_sha256 = sha256_jcs(&invalid).unwrap();
         write_json_atomic(
-            &root.path().join("memory-palace/journal/00000000000000000001.json"),
+            &root
+                .path()
+                .join("memory-palace/journal/00000000000000000001.json"),
             &invalid,
         )
         .unwrap();
