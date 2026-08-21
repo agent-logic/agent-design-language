@@ -7,7 +7,7 @@
     "title": "[v0.92][Runtime] Converge Memory Palace production authority",
     "slug": "450-memory-palace-production-authority",
     "version": "v0.92",
-    "generation": 17
+    "generation": 18
   },
   "status": "pre_phase",
   "content": {
@@ -95,8 +95,8 @@
           "evidence_ref": "runtime_memory_palace_service.log"
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
