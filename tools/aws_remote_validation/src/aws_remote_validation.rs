@@ -124,6 +124,10 @@ pub struct AwsRemoteValidationConfig {
     pub cache_volume_throughput_mbps: Option<i32>,
     pub cache_volume_device_name: Option<String>,
     pub cache_volume_mount_path: Option<String>,
+    pub existing_instance_id: Option<String>,
+    pub pre_mounted_runtime_volume_id: Option<String>,
+    pub pre_mounted_runtime_root: Option<String>,
+    pub pre_mounted_runtime_volume_id_sha256: Option<String>,
     pub command: String,
     pub out_path: PathBuf,
     pub artifact_dir: PathBuf,
@@ -214,6 +218,39 @@ impl AwsRemoteValidationConfig {
             return Err(anyhow!(
                 "cache_volume_name is required when cache-volume options are set"
             ));
+        }
+        let adoption_enabled = self.existing_instance_id.is_some()
+            || self.pre_mounted_runtime_volume_id.is_some()
+            || self.pre_mounted_runtime_root.is_some()
+            || self.pre_mounted_runtime_volume_id_sha256.is_some();
+        if adoption_enabled {
+            let instance_id = self.existing_instance_id.as_deref().unwrap_or("");
+            let volume_id = self.pre_mounted_runtime_volume_id.as_deref().unwrap_or("");
+            let root = self.pre_mounted_runtime_root.as_deref().unwrap_or("");
+            let digest = self
+                .pre_mounted_runtime_volume_id_sha256
+                .as_deref()
+                .unwrap_or("");
+            if self.issue != Some(268)
+                || !self.on_demand_only
+                || self.allow_on_demand_fallback
+                || self.instance_types.len() != 1
+                || instance_id.is_empty()
+                || volume_id.is_empty()
+                || root != "/opt/adl-runtime"
+                || digest.len() != 64
+                || !digest.bytes().all(|byte| byte.is_ascii_hexdigit())
+                || sha256_hex(volume_id) != digest
+            {
+                return Err(anyhow!(
+                    "existing-instance adoption requires issue 268, one on-demand-only instance type, and exact /opt/adl-runtime volume identity"
+                ));
+            }
+            if cache_volume_enabled {
+                return Err(anyhow!(
+                    "existing-instance adoption cannot use cache-volume attachment options"
+                ));
+            }
         }
         if self.ami_id.trim().is_empty()
             || self.subnet_id.trim().is_empty()
@@ -823,6 +860,15 @@ pub struct LaunchResult {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+pub struct AdoptInstanceSpec {
+    pub instance_id: String,
+    pub run_id: String,
+    pub issue: u32,
+    pub instance_type: String,
+    pub runtime_volume_id: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct SsmReadyResult {
     pub status: String,
 }
@@ -861,6 +907,10 @@ pub trait AwsRemoteValidationAdapter {
     async fn launch_instance(
         &self,
         spec: &LaunchSpec,
+    ) -> std::result::Result<LaunchResult, AwsAdapterError>;
+    async fn adopt_instance(
+        &self,
+        spec: &AdoptInstanceSpec,
     ) -> std::result::Result<LaunchResult, AwsAdapterError>;
     async fn wait_for_ssm_online(
         &self,
@@ -1040,7 +1090,67 @@ pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
     let mut instance_id: Option<String> = None;
     let mut cache_volume: Option<CacheVolumeRecord> = None;
     let launch_timer = Instant::now();
-    'launch: for instance_type in &config.instance_types {
+    if let Some(existing_instance_id) = config.existing_instance_id.as_deref() {
+        let instance_type = config.instance_types[0].clone();
+        let adoption = AdoptInstanceSpec {
+            instance_id: existing_instance_id.to_string(),
+            run_id: config.run_id.clone(),
+            issue: config.issue.unwrap_or_default(),
+            instance_type: instance_type.clone(),
+            runtime_volume_id: config
+                .pre_mounted_runtime_volume_id
+                .clone()
+                .unwrap_or_default(),
+        };
+        record_event(
+            &mut events,
+            "launch_attempt",
+            "started",
+            format!("instance_type={instance_type} market=on_demand source=cloudformation"),
+        );
+        match adapter.adopt_instance(&adoption).await {
+            Ok(result) => {
+                let launched_at = Utc::now();
+                launch = Some(LaunchRecord {
+                    purchase_option: PurchaseOption::OnDemand,
+                    instance_type: instance_type.clone(),
+                    instance_id: result.instance_id.clone(),
+                    instance_id_sha256: sha256_hex(&result.instance_id),
+                    launched_at: launched_at.to_rfc3339(),
+                    initial_state: result.initial_state,
+                });
+                instance_id = Some(result.instance_id);
+                attempts.push(AttemptRecord {
+                    instance_type,
+                    purchase_option: PurchaseOption::OnDemand,
+                    status: "launched".to_string(),
+                    message: "adopted verified CloudFormation instance".to_string(),
+                });
+                record_event(
+                    &mut events,
+                    "launch_attempt",
+                    "ok",
+                    "verified existing CloudFormation On-Demand instance".to_string(),
+                );
+            }
+            Err(err) => {
+                attempts.push(AttemptRecord {
+                    instance_type,
+                    purchase_option: PurchaseOption::OnDemand,
+                    status: "failed".to_string(),
+                    message: err.to_string(),
+                });
+                failure_reason = Some(format!("existing instance adoption failed: {err}"));
+                record_event(&mut events, "launch_attempt", "failed", err.to_string());
+            }
+        }
+    }
+    let provider_instance_types: &[String] = if config.existing_instance_id.is_some() {
+        &[]
+    } else {
+        &config.instance_types
+    };
+    'launch: for instance_type in provider_instance_types {
         if cancellation_requested() {
             failure_reason = Some("portable cancellation requested before launch".to_string());
             record_event(
@@ -2057,17 +2167,26 @@ fn build_remote_command_script(config: &AwsRemoteValidationConfig) -> String {
     } else {
         "0"
     };
-    let retained_volume_role =
-        if config.cache_volume_mount_path.as_deref() == Some("/mnt/adl-runtime-continuity") {
-            "runtime_continuity"
-        } else {
-            "build_cache"
-        };
+    let pre_mounted_runtime = config.existing_instance_id.is_some();
+    let retained_volume_role = if pre_mounted_runtime
+        || config.cache_volume_mount_path.as_deref() == Some("/mnt/adl-runtime-continuity")
+    {
+        "runtime_continuity"
+    } else {
+        "build_cache"
+    };
     let retained_volume_id_sha256 = config
-        .cache_volume_id
-        .as_deref()
-        .map(sha256_hex)
+        .pre_mounted_runtime_volume_id_sha256
+        .clone()
+        .or_else(|| config.cache_volume_id.as_deref().map(sha256_hex))
         .unwrap_or_default();
+    let runtime_continuity_root =
+        shell_single_quote(config.pre_mounted_runtime_root.as_deref().unwrap_or(""));
+    let build_cache_root = shell_single_quote(if pre_mounted_runtime {
+        "/opt/adl-build-cache"
+    } else {
+        ""
+    });
     let issue268_runtime_qualification = if issue268_user_data(&config.command).is_some() {
         "1"
     } else {
@@ -2132,6 +2251,8 @@ export ADL_CACHE_VOLUME_DEVICE_NAME={cache_volume_device_name}
 export ADL_CACHE_VOLUME_MOUNT_PATH={cache_volume_mount_path}
 export ADL_RETAINED_VOLUME_ROLE={retained_volume_role}
 export ADL_RUNTIME_CONTINUITY_VOLUME_ID_SHA256={retained_volume_id_sha256}
+export ADL_RUNTIME_CONTINUITY_ROOT={runtime_continuity_root}
+export ADL_ISSUE268_BUILD_CACHE_ROOT={build_cache_root}
 export ADL_NEEDS_NEXTEST="{needs_nextest}"
 export ADL_REGION={region}
 export ADL_ISSUE268_RUNTIME_QUALIFICATION="{issue268_runtime_qualification}"
@@ -2153,6 +2274,8 @@ bash "$CHECKOUT_DIR/tools/aws_remote_validation/scripts/remote_validation_runner
         cache_volume_mount_path = escaped_cache_volume_mount_path,
         retained_volume_role = shell_single_quote(retained_volume_role),
         retained_volume_id_sha256 = shell_single_quote(&retained_volume_id_sha256),
+        runtime_continuity_root = runtime_continuity_root,
+        build_cache_root = build_cache_root,
         needs_nextest = needs_nextest,
         command = escaped_command,
         region = shell_single_quote(&config.region),
@@ -2716,6 +2839,58 @@ impl LiveAwsRemoteValidationAdapter {
         &self,
         config: &AwsRemoteValidationConfig,
     ) -> Result<PreparedLaunchSurface> {
+        if let Some(instance_id) = config.existing_instance_id.as_deref() {
+            let response = self
+                .ec2
+                .describe_instances()
+                .instance_ids(instance_id)
+                .send()
+                .await?;
+            let instance = response
+                .reservations()
+                .iter()
+                .flat_map(|reservation| reservation.instances())
+                .next()
+                .ok_or_else(|| anyhow!("existing CloudFormation instance was not found"))?;
+            let instance_profile_name = instance
+                .iam_instance_profile()
+                .and_then(|profile| profile.arn())
+                .and_then(|arn| arn.rsplit('/').next())
+                .unwrap_or_default()
+                .to_string();
+            return Ok(PreparedLaunchSurface {
+                record: LaunchSurfaceRecord {
+                    provisioning_mode: "cloudformation_existing_instance".to_string(),
+                    ami_id: instance.image_id().unwrap_or_default().to_string(),
+                    ami_source: "cloudformation_stack".to_string(),
+                    vpc_id: instance.vpc_id().unwrap_or_default().to_string(),
+                    subnet_id: instance.subnet_id().unwrap_or_default().to_string(),
+                    availability_zone: instance
+                        .placement()
+                        .and_then(|placement| placement.availability_zone())
+                        .map(ToOwned::to_owned),
+                    security_group_id: instance
+                        .security_groups()
+                        .first()
+                        .and_then(|group| group.group_id())
+                        .unwrap_or_default()
+                        .to_string(),
+                    security_group_name: None,
+                    security_group_created: false,
+                    instance_profile_name,
+                    role_name: None,
+                    instance_profile_created: false,
+                    ssh_debug_enabled: false,
+                    ssh_allowed_cidr: None,
+                    notes: vec![
+                        "Adopted an issue-bound CloudFormation launch surface; no secondary AWS surface was created"
+                            .to_string(),
+                    ],
+                },
+                created_role_name: None,
+                created_instance_profile_name: None,
+            });
+        }
         let (vpc_id, subnet_id, availability_zone, mut notes) =
             self.resolve_vpc_and_subnet(config).await?;
         let ami_id = if config.ami_id.trim().is_empty() {
@@ -3485,6 +3660,78 @@ impl AwsRemoteValidationAdapter for LiveAwsRemoteValidationAdapter {
         })
     }
 
+    async fn adopt_instance(
+        &self,
+        spec: &AdoptInstanceSpec,
+    ) -> std::result::Result<LaunchResult, AwsAdapterError> {
+        let fail = |message: String| AwsAdapterError {
+            code: Some("ExistingInstanceMismatch".to_string()),
+            message,
+            spot_fallback_permitted: false,
+        };
+        let response = self
+            .ec2
+            .describe_instances()
+            .instance_ids(&spec.instance_id)
+            .send()
+            .await
+            .map_err(|err| fail(format!("describe existing instance failed: {err}")))?;
+        let instance = response
+            .reservations()
+            .iter()
+            .flat_map(|reservation| reservation.instances())
+            .next()
+            .ok_or_else(|| fail("existing instance was not found".to_string()))?;
+        let actual_type = instance
+            .instance_type()
+            .map(|value| value.as_str())
+            .unwrap_or_default();
+        if actual_type != spec.instance_type {
+            return Err(fail(format!(
+                "existing instance type mismatch: expected {} got {}",
+                spec.instance_type, actual_type
+            )));
+        }
+        let state = instance
+            .state()
+            .and_then(|value| value.name())
+            .map(|value| value.as_str().to_string())
+            .unwrap_or_else(|| "unknown".to_string());
+        if !matches!(state.as_str(), "pending" | "running") {
+            return Err(fail(format!("existing instance state is {state}")));
+        }
+        if instance.spot_instance_request_id().is_some() {
+            return Err(fail("existing instance is Spot, not On-Demand".to_string()));
+        }
+        let tag = |key: &str| {
+            instance
+                .tags()
+                .iter()
+                .find(|tag| tag.key() == Some(key))
+                .and_then(|tag| tag.value())
+        };
+        let expected_issue = spec.issue.to_string();
+        if tag("adl:issue") != Some(expected_issue.as_str()) {
+            return Err(fail("existing instance issue tag mismatch".to_string()));
+        }
+        if tag("adl:run_id") != Some(spec.run_id.as_str()) {
+            return Err(fail("existing instance run-id tag mismatch".to_string()));
+        }
+        let attached = instance.block_device_mappings().iter().any(|mapping| {
+            mapping.ebs().and_then(|ebs| ebs.volume_id()) == Some(spec.runtime_volume_id.as_str())
+        });
+        if !attached {
+            return Err(fail(
+                "pre-mounted Runtime volume is not attached".to_string(),
+            ));
+        }
+        Ok(LaunchResult {
+            instance_id: spec.instance_id.clone(),
+            initial_state: state,
+            cache_volume: None,
+        })
+    }
+
     async fn wait_for_ssm_online(
         &self,
         instance_id: &str,
@@ -4119,6 +4366,17 @@ mod tests {
                 .expect("launch result")
         }
 
+        async fn adopt_instance(
+            &self,
+            _spec: &AdoptInstanceSpec,
+        ) -> std::result::Result<LaunchResult, AwsAdapterError> {
+            self.launch_results
+                .lock()
+                .expect("launch results mutex")
+                .pop_front()
+                .expect("adoption result")
+        }
+
         async fn wait_for_ssm_online(
             &self,
             _instance_id: &str,
@@ -4227,6 +4485,10 @@ mod tests {
             cache_volume_throughput_mbps: None,
             cache_volume_device_name: None,
             cache_volume_mount_path: None,
+            existing_instance_id: None,
+            pre_mounted_runtime_volume_id: None,
+            pre_mounted_runtime_root: None,
+            pre_mounted_runtime_volume_id_sha256: None,
             command:
                 "cargo test --manifest-path tools/aws_remote_validation/Cargo.toml --bin adl-aws-remote-validation -- --nocapture"
                     .to_string(),
@@ -5030,6 +5292,56 @@ mod tests {
         assert!(script.contains("issue268-bootstrap-ready"));
         assert!(!script.contains("ruby"));
         assert!(issue268_user_data("cargo test --locked").is_none());
+    }
+
+    #[test]
+    fn existing_instance_command_uses_pre_mounted_runtime_without_cache_attachment() {
+        let tmp = std::env::temp_dir().join("adl-existing-instance-command");
+        let mut config = sample_config(&tmp);
+        let volume_id = "vol-0123456789abcdef0";
+        config.issue = Some(268);
+        config.instance_types = vec!["r7i.2xlarge".to_string()];
+        config.on_demand_only = true;
+        config.allow_on_demand_fallback = false;
+        config.existing_instance_id = Some("i-0123456789abcdef0".to_string());
+        config.pre_mounted_runtime_volume_id = Some(volume_id.to_string());
+        config.pre_mounted_runtime_root = Some("/opt/adl-runtime".to_string());
+        config.pre_mounted_runtime_volume_id_sha256 = Some(sha256_hex(volume_id));
+        let script = build_remote_command_script(&config);
+        assert!(config.validate().is_ok());
+        assert!(script.contains("export ADL_CACHE_VOLUME_ENABLED=\"0\""));
+        assert!(script.contains("export ADL_RETAINED_VOLUME_ROLE='runtime_continuity'"));
+        assert!(script.contains("export ADL_RUNTIME_CONTINUITY_ROOT='/opt/adl-runtime'"));
+        assert!(script.contains("export ADL_ISSUE268_BUILD_CACHE_ROOT='/opt/adl-build-cache'"));
+    }
+
+    #[tokio::test]
+    async fn existing_instance_is_one_on_demand_attempt_and_is_terminated() {
+        let tmp = std::env::temp_dir().join("adl-existing-instance-run");
+        let mut config = sample_config(&tmp);
+        let volume_id = "vol-0123456789abcdef0";
+        config.issue = Some(268);
+        config.instance_types = vec!["r7i.2xlarge".to_string()];
+        config.on_demand_only = true;
+        config.allow_on_demand_fallback = false;
+        config.existing_instance_id = Some("i-existing".to_string());
+        config.pre_mounted_runtime_volume_id = Some(volume_id.to_string());
+        config.pre_mounted_runtime_root = Some("/opt/adl-runtime".to_string());
+        config.pre_mounted_runtime_volume_id_sha256 = Some(sha256_hex(volume_id));
+        let adapter = cancellable_adapter();
+        let (summary, _) = run_aws_remote_validation(&adapter, &config)
+            .await
+            .expect("existing instance summary");
+        assert_eq!(summary.attempts.len(), 1);
+        assert_eq!(
+            summary.attempts[0].purchase_option,
+            PurchaseOption::OnDemand
+        );
+        assert_eq!(summary.attempts[0].status, "launched");
+        assert_eq!(
+            summary.cleanup.final_instance_state.as_deref(),
+            Some("terminated")
+        );
     }
 
     #[test]
