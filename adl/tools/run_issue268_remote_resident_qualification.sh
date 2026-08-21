@@ -61,6 +61,26 @@ export OLLAMA_MODELS OLLAMA_HOST=http://127.0.0.1:11434 OLLAMA_MAX_LOADED_MODELS
 # Ollama 0.31.1's autodetected AMX runner segfaults on virtualized Sapphire
 # Rapids during its first warmup. Use Ollama's packaged AVX2 CPU runner.
 export OLLAMA_LLM_LIBRARY=cpu_avx2
+# Ollama 0.31.1's new CPU loader can still select the Sapphire Rapids shared
+# library even when the legacy runner override is set. That backend is known
+# to fault on virtualized Sapphire Rapids, including AWS m7i/r7i. Disable only
+# that optional optimized library so Ollama deterministically falls back to a
+# compatible packaged CPU backend; keep the immutable binary and model store.
+OLLAMA_RUNTIME_ROOT=$(cd "$(dirname "$OLLAMA_BIN")/.." && pwd -P)
+SAPPHIRE_BACKEND=$(find "$OLLAMA_RUNTIME_ROOT" -type f -name 'libggml-cpu-sapphirerapids.so' -print)
+SAPPHIRE_BACKEND_COUNT=$(printf '%s\n' "$SAPPHIRE_BACKEND" | awk 'NF { count += 1 } END { print count + 0 }')
+if [[ "$SAPPHIRE_BACKEND_COUNT" -gt 1 ]]; then
+  echo "issue268: multiple Sapphire Rapids Ollama backends found; refusing ambiguous mutation" >&2
+  exit 65
+fi
+if [[ "$SAPPHIRE_BACKEND_COUNT" -eq 1 ]]; then
+  mv "$SAPPHIRE_BACKEND" "$SAPPHIRE_BACKEND.disabled-issue268"
+fi
+if find "$OLLAMA_RUNTIME_ROOT" -type f -name 'libggml-cpu-sapphirerapids.so' -print -quit | grep -q .; then
+  echo "issue268: incompatible Sapphire Rapids Ollama backend remains enabled" >&2
+  exit 70
+fi
+printf 'cpu_backend=sapphirerapids_disabled compatible_fallback=required\n' >"$EVIDENCE_ROOT/ollama-cpu-backend.txt"
 OLLAMA_LOG="$EVIDENCE_ROOT/ollama.log"
 "$OLLAMA_BIN" serve >"$OLLAMA_LOG" 2>&1 &
 OLLAMA_PID=$!
