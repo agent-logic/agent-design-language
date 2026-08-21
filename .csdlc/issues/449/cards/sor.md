@@ -109,6 +109,17 @@ Status: pre_phase
     "purpose": "Reject whitespace and malformed diff defects after R5 P1 remediation.",
     "outcome": "passed",
     "evidence_ref": "root-turn-live-output:2026-08-20:r5-diff-hygiene-pass"
+  },
+  {
+    "command": [
+      "rg",
+      "running 4 tests|resident_cycle_executor_failures_retain_terminal_evidence_without_mutation_or_history|4 passed|running 19 tests|19 passed",
+      ".csdlc/evidence/449/runtime-resident-cycle-integration-proof.log",
+      ".csdlc/evidence/449/adaptive-learning-regression-tests.log"
+    ],
+    "purpose": "Prove retained #449 evidence logs match the current resident terminal-evidence remediation proof denominators after the R6 stale-evidence finding.",
+    "outcome": "passed",
+    "evidence_ref": "root-turn-live-output:2026-08-20:r6-retained-evidence-denominator-alignment"
   }
 ]
 
