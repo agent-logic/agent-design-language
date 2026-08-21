@@ -1,0 +1,62 @@
+
+running 6 tests
+test memory_palace::tests::retained_status_reports_only_validated_durable_state_as_ready_source ... ok
+test memory_palace::tests::ahead_or_differently_bound_latest_fails_closed ... ok
+test memory_palace::tests::forged_artifact_digest_fails_restart_validation ... ok
+test memory_palace::tests::successor_binding_rejects_identity_swap_same_generation_fork_and_rollback ... ok
+test memory_palace::tests::commits_two_generations_and_loads_latest_from_journal ... ok
+test memory_palace::tests::stale_or_missing_latest_repairs_from_valid_journal_head ... ok
+
+test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 325 filtered out; finished in 0.41s
+
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+    Blocking waiting for file lock on package cache
+   Compiling ring v0.17.14
+   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-450-memory-palace-production-authority/adl-runtime-kernel)
+   Compiling rcgen v0.14.8
+   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-450-memory-palace-production-authority/adl-runtime)
+warning: method `seed_floor_for_snapshot_test` is never used
+   --> src/distributed/fencing.rs:495:19
+    |
+334 | impl FencingStore {
+    | ----------------- method in this implementation
+...
+495 |     pub(crate) fn seed_floor_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: methods `seed_lease_for_snapshot_test` and `set_counters_for_test` are never used
+   --> src/distributed/lease.rs:922:19
+    |
+840 | impl AuthorityLedger {
+    | -------------------- methods in this implementation
+...
+922 |     pub(crate) fn seed_lease_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+...
+935 |     pub(crate) fn set_counters_for_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `seed_record_for_snapshot_test` is never used
+   --> src/distributed/migration.rs:673:19
+    |
+535 | impl MigrationStore {
+    | ------------------- method in this implementation
+...
+673 |     pub(crate) fn seed_record_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: method `seed_decision_for_snapshot_test` is never used
+   --> src/distributed/placement.rs:674:19
+    |
+571 | impl<C: PlacementClock> PlacementService<C> {
+    | ------------------------------------------- method in this implementation
+...
+674 |     pub(crate) fn seed_decision_for_snapshot_test(
+    |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `adl-runtime` (lib test) generated 4 warnings
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 10.97s
+     Running unittests src/lib.rs (adl-runtime/target/debug/deps/adl_runtime-d16dea22ed45c1eb)

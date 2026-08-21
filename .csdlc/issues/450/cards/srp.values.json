@@ -1,0 +1,36 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 450,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][Runtime] Converge Memory Palace production authority",
+    "slug": "450-memory-palace-production-authority",
+    "version": "v0.92",
+    "generation": 27
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/450/audit.jsonl\n.csdlc/issues/450/cards/sip.values.json\n.csdlc/issues/450/cards/sor.md\n.csdlc/issues/450/cards/sor.values.json\n.csdlc/issues/450/cards/spp.values.json\n.csdlc/issues/450/cards/srp.md\n.csdlc/issues/450/cards/srp.values.json\n.csdlc/issues/450/cards/stp.values.json\n.csdlc/issues/450/cards/vpp.values.json\n.csdlc/issues/450/index.json\nadl/tests/memory_palace_tests.rs\ndocs/planning/ADL_FEATURE_LIST.md\ndocs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md\ndocs/milestones/v0.92/README.md\ndocs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md",
+      "review_revision": "git-blake3:c33e65009d105b27f7f1dc557f5d95b3aca305af:4c74b3c9dad4579ebb7a47b1c6170e1ea93b03f8ed106009a42d41976ed7c379",
+      "reviewer": "fresh-session:e14a6aa9-a471-4d29-9120-75cd4c0e96f9",
+      "review_prompts": [
+        "Verify that the kernel is the only topology and working-set authority.",
+        "Verify exact identity continuity generation source-reference and digest agreement across the adapter.",
+        "Verify restart rejects rollback gaps duplicates forgery and incompatible schema.",
+        "Verify existing resident behavior and no-configuration behavior remain intact.",
+        "Verify #446 and unrelated ObsMem/Runtime redesign remain out of scope."
+      ],
+      "findings": [],
+      "residual_risk": [
+        "Review was scoped to the #450 AC8 docs/assertion repair and lifecycle metadata only.",
+        "Reviewer reported PASS with no actionable P1/P2 findings.",
+        "Reviewer explicitly did not inspect PR #455 or the protected #446 paths.",
+        "Local validation passed: cargo fmt --manifest-path adl/Cargo.toml --all -- --check; cargo test --manifest-path adl/Cargo.toml --test memory_palace_tests -- --nocapture."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

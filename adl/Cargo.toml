@@ -75,6 +75,7 @@ slow-finish-tests = []
 
 [dependencies]
 adl-runtime = { path = "../adl-runtime" }
+adl-runtime-kernel = { path = "../adl-runtime-kernel" }
 
 # CLI
 clap = { version = "4.5", features = ["derive"] }

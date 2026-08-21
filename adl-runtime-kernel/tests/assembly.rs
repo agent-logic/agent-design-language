@@ -10,12 +10,13 @@ use std::{
 };
 
 use adl_runtime_kernel::{
-    bootstrap_reasoning_services, build_live_assembly,
-    build_production_operation_executors_with_recorder, AdapterKind, AdapterPolicy, AuthorityMode,
-    ClockAuthority, ComponentRegistry, DomainWork, ExecutorError, FailureClass,
-    InProcessOperationExecutor, LiveBindings, OperationError, OperationExecutor, OperationRequest,
-    OperationalAdapter, OperationalFactory, RuntimeRecorder, TimeQualificationBounds, TimeSample,
-    TimeSampleError, TimeSampleSource, DOMAIN_WORK_SCHEMA, KERNEL_DURABLE_STATE_DB_FILE,
+    birthday_authority_bootstrap_from_runtime_keys, bootstrap_reasoning_services,
+    build_live_assembly, build_production_operation_executors_with_recorder, AdapterKind,
+    AdapterPolicy, AuthorityMode, ClockAuthority, ComponentRegistry, DomainWork, ExecutorError,
+    FailureClass, InProcessOperationExecutor, LiveBindings, OperationError, OperationExecutor,
+    OperationRequest, OperationalAdapter, OperationalFactory, RuntimeRecorder,
+    TimeQualificationBounds, TimeSample, TimeSampleError, TimeSampleSource, DOMAIN_WORK_SCHEMA,
+    KERNEL_DURABLE_STATE_DB_FILE,
 };
 use async_trait::async_trait;
 use ed25519_dalek::SigningKey;
@@ -100,6 +101,8 @@ impl OperationExecutor for NonCooperativeExecutor {
 
 fn bindings(recorder: RuntimeRecorder, state_root: &Path) -> LiveBindings {
     let key = SigningKey::from_bytes(&[31; 32]);
+    let private_key = SigningKey::from_bytes(&[23; 32]);
+    let continuity_key = SigningKey::from_bytes(&[19; 32]);
     LiveBindings {
         recorder: recorder.clone(),
         canonical_ingress_capacity: 64,
@@ -109,6 +112,17 @@ fn bindings(recorder: RuntimeRecorder, state_root: &Path) -> LiveBindings {
         )
         .unwrap(),
         permit_keys: BTreeMap::from([("operator".to_owned(), key.verifying_key())]),
+        birthday_authority: birthday_authority_bootstrap_from_runtime_keys(
+            "operator",
+            key.verifying_key(),
+            "memory-palace-private",
+            private_key.verifying_key(),
+            "runtime-continuity",
+            continuity_key.verifying_key(),
+            1,
+            1,
+            1,
+        ),
         reasoning: bootstrap_reasoning_services(recorder).unwrap(),
         time_source: Arc::new(FixedTime),
         time_bounds: TimeQualificationBounds {

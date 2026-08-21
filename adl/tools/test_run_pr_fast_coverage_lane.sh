@@ -255,6 +255,21 @@ grep -F "PR-fast coverage companion: adl-runtime Runtime v3 API auth tests" "$te
 grep -F "cmd=llvm-cov nextest --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml" "$runtime_auth_only_cargo_log" >/dev/null
 grep -F "test(/^runtime_api_auth::tests::/)" "$runtime_auth_only_cargo_log" >/dev/null
 
+runtime_memory_palace_cargo_log="$temp_root/cargo-runtime-memory-palace.log"
+runtime_memory_palace_expression='binary_id(adl-runtime) and test(/^memory_palace::tests::/)'
+PATH="$bin_dir:$PATH" \
+PR_FAST_COVERAGE_CARGO_LOG="$runtime_memory_palace_cargo_log" \
+ADL_RUST_WARM_CACHE=0 \
+ADL_PR_FAST_COVERAGE_BUILD_ROOT="$scratch_root-runtime-memory-palace" \
+  bash "$SCRIPT" --filter-expression "$runtime_memory_palace_expression" >"$temp_root/pr-fast-coverage-runtime-memory-palace-run.out"
+if grep -Fq "cmd=llvm-cov nextest --workspace" "$runtime_memory_palace_cargo_log"; then
+  echo "runtime-memory-palace coverage must not send an adl-runtime selector to the adl workspace" >&2
+  exit 1
+fi
+grep -F "PR-fast coverage companion: adl-runtime Memory Palace tests" "$temp_root/pr-fast-coverage-runtime-memory-palace-run.out" >/dev/null
+grep -F "cmd=llvm-cov nextest --manifest-path $ROOT_DIR/adl-runtime/Cargo.toml" "$runtime_memory_palace_cargo_log" >/dev/null
+grep -F "binary_id(adl-runtime) and test(/^memory_palace::tests::/)" "$runtime_memory_palace_cargo_log" >/dev/null
+
 runtime_authority_cargo_log="$temp_root/cargo-runtime-authority.log"
 runtime_authority_expression='package(adl-runtime) and not (test(/^observability::/) or test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state))'
 PATH="$bin_dir:$PATH" \

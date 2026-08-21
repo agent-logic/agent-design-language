@@ -42,6 +42,7 @@ pub enum ComponentId {
     Cav,
     FreedomGate,
     ReasoningRuntime,
+    MemoryPalace,
     ResidentAgents,
     ConstructabilityGate,
     Aee,
@@ -52,7 +53,7 @@ pub enum ComponentId {
 }
 
 impl ComponentId {
-    pub const ALL: [ComponentId; 16] = [
+    pub const ALL: [ComponentId; 17] = [
         ComponentId::RuntimeApi,
         ComponentId::Chronosense,
         ComponentId::Scheduler,
@@ -62,6 +63,7 @@ impl ComponentId {
         ComponentId::Cav,
         ComponentId::FreedomGate,
         ComponentId::ReasoningRuntime,
+        ComponentId::MemoryPalace,
         ComponentId::ResidentAgents,
         ComponentId::ConstructabilityGate,
         ComponentId::Aee,
@@ -71,7 +73,7 @@ impl ComponentId {
         ComponentId::Observability,
     ];
 
-    pub const CSM: [ComponentId; 15] = [
+    pub const CSM: [ComponentId; 16] = [
         ComponentId::RuntimeApi,
         ComponentId::Chronosense,
         ComponentId::Scheduler,
@@ -80,6 +82,7 @@ impl ComponentId {
         ComponentId::Cav,
         ComponentId::FreedomGate,
         ComponentId::ReasoningRuntime,
+        ComponentId::MemoryPalace,
         ComponentId::ResidentAgents,
         ComponentId::ConstructabilityGate,
         ComponentId::Aee,
@@ -100,6 +103,7 @@ impl ComponentId {
             ComponentId::Cav => "cav",
             ComponentId::FreedomGate => "freedom_gate",
             ComponentId::ReasoningRuntime => "reasoning_runtime",
+            ComponentId::MemoryPalace => crate::memory_palace::CSM_MEMORY_PALACE_COMPONENT,
             ComponentId::ResidentAgents => "resident_agents",
             ComponentId::ConstructabilityGate => "constructability_gate",
             ComponentId::Aee => "aee",
@@ -306,6 +310,18 @@ pub fn default_component_supervision() -> Vec<ComponentSupervisionPolicy> {
             escalation_target: "recoverable_agent_state_with_quarantine_notice",
             readiness_impact: "ready_true_when_unaffected_graphs_continue",
             critical_for_continuity: false,
+            telemetry_can_degrade: false,
+        },
+        ComponentSupervisionPolicy {
+            component: ComponentId::MemoryPalace,
+            restart_policy: ComponentRestartPolicy::EscalateFailClosed,
+            backoff_base_ms: 250,
+            backoff_cap_ms: 5_000,
+            escalation_interval_failures: 1,
+            degradation_behavior: "block_agent_context_handoff_until_memory_palace_restores",
+            escalation_target: "runtime_continuity_and_operator_review",
+            readiness_impact: "ready_false_for_long_lived_agent_context_handoff",
+            critical_for_continuity: true,
             telemetry_can_degrade: false,
         },
         ComponentSupervisionPolicy {

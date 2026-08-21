@@ -148,6 +148,31 @@ fn bounded_selection_records_overflow_without_loading_it() {
     assert_eq!(packet.working_set.len(), 1);
     assert_eq!(packet.overflow.len(), 1);
     assert_eq!(packet.overflow[0].record_id, "b");
+    assert_eq!(packet.record_index.len(), 2);
+    assert_eq!(packet.record_index[0].record_id, "a");
+    assert_eq!(
+        packet.record_index[0].status,
+        MemoryPalaceRecordStatus::Selected
+    );
+    assert_eq!(packet.record_index[1].record_id, "b");
+    assert_eq!(
+        packet.record_index[1].status,
+        MemoryPalaceRecordStatus::Excluded
+    );
+    assert_eq!(
+        packet.record_index[1].record_sha256,
+        packet.overflow[0].record_sha256
+    );
+    let mut forged = packet.clone();
+    forged.record_index[1].disposition_reason = "selected somewhere else".to_owned();
+    forged.packet_sha256.clear();
+    forged.packet_sha256 = format!("{:x}", Sha256::digest(serde_jcs::to_vec(&forged).unwrap()));
+    assert!(validate_memory_palace_packet(&forged).is_err());
+    let mut forged = packet;
+    forged.record_index[0].record_sha256 = "c".repeat(64);
+    forged.packet_sha256.clear();
+    forged.packet_sha256 = format!("{:x}", Sha256::digest(serde_jcs::to_vec(&forged).unwrap()));
+    assert!(validate_memory_palace_packet(&forged).is_err());
 }
 
 #[test]

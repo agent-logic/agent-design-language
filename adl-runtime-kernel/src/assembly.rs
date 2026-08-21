@@ -32,10 +32,11 @@ use crate::{
     MutationAuthority, MutationGate, OperationError, OperationExecutor, OperationRequest,
     OperationalAdapter, OperationalFactory, QualifiedTimeFactory, ReasoningGraphDefinition,
     ReasoningNode, ReasoningServices, RecordedObservation, RecorderTrustedTime, RuntimeConfig,
-    RuntimeRecorder, ServiceContract, SysinfoWeatherObserver, TimeQualificationBounds,
-    TimeSampleSource, TopologyError, TrustedTime, ValidatedContracts, ValidatedReasoningGraph,
-    ValidatedTopology, WeatherConfig, WeatherObserver, OPERATION_REQUEST_SCHEMA,
-    REASONING_GRAPH_SCHEMA, RUNTIME_CONFIG_SCHEMA, SERVICE_CONTRACT_SCHEMA,
+    RuntimeMemoryPalaceProvisioner, RuntimeRecorder, ServiceContract, SysinfoWeatherObserver,
+    TimeQualificationBounds, TimeSampleSource, TopologyError, TrustedTime, ValidatedContracts,
+    ValidatedReasoningGraph, ValidatedTopology, WeatherConfig, WeatherObserver,
+    OPERATION_REQUEST_SCHEMA, REASONING_GRAPH_SCHEMA, RUNTIME_CONFIG_SCHEMA,
+    SERVICE_CONTRACT_SCHEMA,
 };
 
 pub const REQUIRED_OPERATIONAL_ADAPTERS: [AdapterKind; 10] = [
@@ -57,6 +58,7 @@ pub struct LiveBindings {
     pub canonical_ingress_capacity: usize,
     pub operation_executors: BTreeMap<AdapterKind, Arc<dyn OperationExecutor>>,
     pub permit_keys: BTreeMap<String, ed25519_dalek::VerifyingKey>,
+    pub birthday_authority: crate::BirthdayAuthorityBootstrap,
     pub reasoning: Arc<ReasoningServices>,
     pub time_source: Arc<dyn TimeSampleSource>,
     pub time_bounds: TimeQualificationBounds,
@@ -71,6 +73,7 @@ pub struct LiveAssembly {
     pub canonical_ingress: CanonicalIngress,
     pub(crate) operation_continuity: crate::LiveOperationContinuity,
     capability_provisioner: crate::RuntimeCapabilityProvisioner,
+    memory_palace_provisioner: RuntimeMemoryPalaceProvisioner,
 }
 
 impl LiveAssembly {
@@ -81,6 +84,14 @@ impl LiveAssembly {
         continuity: &crate::VerifiedBirthdayContinuity,
     ) -> Result<crate::CapabilityAuthorityPolicy, Vec<crate::CapabilityEnvelopeRejection>> {
         self.capability_provisioner.provision(policy, continuity)
+    }
+
+    /// Runtime-owned provisioning boundary for Memory Palace Birthday authority.
+    pub fn provision_memory_palace_authority(
+        &self,
+        evidence: crate::MemoryPalaceAuthorityEvidence<'_>,
+    ) -> Result<crate::VerifiedMemoryPalaceAuthority, crate::MemoryPalaceAuthorityError> {
+        self.memory_palace_provisioner.provision(evidence)
     }
 
     /// Runtime-owned resident-cycle integration for capability envelopes and
@@ -246,6 +257,8 @@ pub enum AssemblyError {
     Topology(#[from] TopologyError),
     #[error("live topology could not be encoded: {0}")]
     Encoding(String),
+    #[error("memory palace authority bootstrap invalid: {0}")]
+    MemoryPalaceAuthority(String),
 }
 
 /// Reject placeholder executors before a production listener can report ready.
@@ -419,6 +432,12 @@ pub fn build_live_assembly(bindings: LiveBindings) -> Result<LiveAssembly, Assem
     let config_hash = blake3::hash(effective_config.as_bytes())
         .to_hex()
         .to_string();
+    let memory_palace_provisioner = RuntimeMemoryPalaceProvisioner::from_bootstrap(
+        bindings.birthday_authority,
+        topology_hash.clone(),
+        config_hash.clone(),
+    )
+    .map_err(|error| AssemblyError::MemoryPalaceAuthority(format!("{error:?}")))?;
     let (topology, contracts, _) = configured.into_parts();
     Ok(LiveAssembly {
         topology,
@@ -430,6 +449,7 @@ pub fn build_live_assembly(bindings: LiveBindings) -> Result<LiveAssembly, Assem
         operation_continuity: crate::LiveOperationContinuity::from_factories(continuity_factories)
             .map_err(|error| AssemblyError::Encoding(error.to_string()))?,
         capability_provisioner: crate::RuntimeCapabilityProvisioner::new(),
+        memory_palace_provisioner,
     })
 }
 
@@ -484,6 +504,8 @@ mod capability_authority_tests {
         let root = tempfile::tempdir().unwrap();
         let recorder = RuntimeRecorder::new(16);
         let key = SigningKey::from_bytes(&[31; 32]);
+        let private_key = SigningKey::from_bytes(&[23; 32]);
+        let continuity_key = SigningKey::from_bytes(&[19; 32]);
         let assembly = build_live_assembly(LiveBindings {
             recorder: recorder.clone(),
             canonical_ingress_capacity: 64,
@@ -493,6 +515,17 @@ mod capability_authority_tests {
             )
             .unwrap(),
             permit_keys: BTreeMap::from([("operator".to_owned(), key.verifying_key())]),
+            birthday_authority: crate::birthday_authority_bootstrap_from_runtime_keys(
+                "operator",
+                key.verifying_key(),
+                "memory-palace-private",
+                private_key.verifying_key(),
+                "runtime-continuity",
+                continuity_key.verifying_key(),
+                1,
+                1,
+                1,
+            ),
             reasoning: crate::bootstrap_reasoning_services(recorder).unwrap(),
             time_source: Arc::new(FixedTime),
             time_bounds: TimeQualificationBounds {

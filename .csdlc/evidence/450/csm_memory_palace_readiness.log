@@ -1,0 +1,9 @@
+
+running 1 test
+test csm_runtime_api::tests::memory_palace_component_health_requires_validated_retained_status ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1941 filtered out; finished in 0.00s
+
+   Compiling adl v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-450-memory-palace-production-authority/adl)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 10.47s
+     Running unittests src/lib.rs (adl/target/debug/deps/adl-d3349ee19ce93dd8)
