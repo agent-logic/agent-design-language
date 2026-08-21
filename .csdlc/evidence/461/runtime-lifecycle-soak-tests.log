@@ -1,5 +1,5 @@
 command=cargo test --manifest-path adl-runtime/Cargo.toml --bin adl-runtime-lifecycle-soak -- --nocapture
-revision=9da9da02a68f8084d5315c7cd1f4b19a4bcc3c93
+revision=1e1d8aa87f87aa6c924f02dc127febda97b8461c
 running=19
 accepts_only_the_three_exact_acceptance_suites=ok
 checked_observability_is_discarded_between_timed_runs=ok
