@@ -4,7 +4,7 @@
 
 - Feature Name: Memory Palace Context Topology
 - Milestone Target: `v0.92`
-- Status: implementation required in WP-11
+- Status: Implemented Runtime-kernel production-authority slice under `#450`
 - Owner: ADL maintainers
 - Doc Role: primary
 - Supporting Docs:
@@ -20,9 +20,14 @@ tests, and retained proof are required before the feature is complete.
 
 ## Status
 
-Implemented by WP-11 as an additive Runtime v3 kernel boundary. The contract
-remains incomplete until exact-head local and native proof, independent review,
-and publication are recorded; planning text alone cannot satisfy WP-11.
+WP-11's Runtime-kernel production-authority slice is implemented by `#450` /
+PR `#458`. It makes `adl-runtime-kernel::memory_palace` the production
+authority for admission, topology, working-set selection, context-cache
+derivation, and canonical digest validation; `adl-runtime::memory_palace` owns
+the durable retained checkpoint/latest/journal service; and `adl::memory_palace`
+is a compatibility adapter that consumes Runtime-produced authority instead of
+deriving writable truth. The broader distributed or unbounded Memory Palace
+product remains later work.
 
 ## Purpose
 
@@ -62,8 +67,9 @@ Related / supporting docs:
 
 ## Overview
 
-Memory Palace should provide a navigable map of durable context anchors,
-working-set references, and retrieval paths that can be reviewed and resumed.
+Memory Palace now has a bounded production-authority slice that provides a
+reviewable map of durable context anchors, working-set references, context-cache
+material, and retrieval paths that can be validated and resumed.
 
 ## Scope
 
@@ -127,7 +133,9 @@ valid.
 - Outputs: topology records, context packets, stale-context warnings, and
   review notes.
 - Interfaces: versioned topology and working-set packets, validator, Runtime
-  memory/continuity services, and v0.92 issue-wave records.
+  memory/continuity services, the `adl-runtime::memory_palace` retained
+  checkpoint/latest/journal service, the `adl::memory_palace` compatibility
+  adapter, and v0.92 issue-wave records.
 - Invariants: raw private state must not leak; generated summaries must name
   their provenance; stale context must be detectable.
 
@@ -182,7 +190,7 @@ valid.
 
 ## Non-goals
 
-- later distributed or unbounded Memory Palace expansion
+- later distributed, unbounded, or product-complete Memory Palace expansion
 - raw private-state exposure
 - replacing ObsMem, trace, or memory-grounding contracts
 - approving v0.92 activation before implementation proof exists
@@ -190,8 +198,11 @@ valid.
 ## v0.92 Consumption
 
 `v0.92` consumes this document as WP-11's required first working Memory Palace
-slice. Birthday work may reference Memory Palace only after that issue lands
-real behavior and exact-revision proof.
+slice. Birthday work may reference the `#450` Runtime-kernel production
+authority only for the bounded, reviewed behavior it proves: authority-bound
+topology, working-set selection, context-cache derivation, retained Runtime
+restart state, and ADL compatibility projection. It must not treat that slice
+as distributed or unbounded Memory Palace completion.
 
 ## Acceptance Criteria
 
@@ -200,7 +211,8 @@ real behavior and exact-revision proof.
   local notes.
 - The boundary among ObsMem, memory grounding, working set, context cache, and
   Memory Palace is explicit.
-- WP-11 lands the first working deterministic slice and its negative proof.
+- WP-11 lands the first working deterministic production-authority slice and
+  its negative proof.
 
 ## Risks
 

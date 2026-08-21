@@ -196,7 +196,8 @@ The likely `v0.92` tranche is:
 - Full constitutional governance.
 - Economics, payments, or markets.
 - Governed-tool substrate implementation.
-- Full memory palace implementation.
+- Distributed, unbounded, or product-complete Memory Palace expansion beyond
+  the `#450` Runtime-kernel production-authority slice.
 - v0.93 cross-polis key lifecycle and mesh-wide transport-security authority.
 - v0.93 ACIP key lifecycle, encryption, signing, rotation, or revocation.
 - v0.94 signed/queryable trace completion.

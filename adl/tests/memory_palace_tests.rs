@@ -368,3 +368,52 @@ memory:
         MEMORY_PALACE_CONTEXT_REF
     );
 }
+
+#[test]
+fn v092_docs_name_memory_palace_production_authority_without_broad_completion_claim() {
+    let repo_root = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .parent()
+        .expect("adl crate has repository parent");
+    let feature_list = fs::read_to_string(repo_root.join("docs/planning/ADL_FEATURE_LIST.md"))
+        .expect("read ADL feature list");
+    let feature_list_flat = feature_list
+        .split_whitespace()
+        .collect::<Vec<_>>()
+        .join(" ");
+    assert!(feature_list.contains("Memory Palace navigable context topology"));
+    assert!(feature_list.contains("Implemented Runtime-kernel production-authority slice"));
+    assert!(feature_list_flat
+        .contains("`adl-runtime-kernel::memory_palace` as the production authority"));
+    assert!(feature_list.contains("`adl-runtime::memory_palace`"));
+    assert!(feature_list_flat.contains("owns durable retained checkpoint/latest/journal state"));
+    assert!(feature_list_flat
+        .contains("`adl` consumes that authority through a compatibility projection"));
+
+    let proof_coverage =
+        fs::read_to_string(repo_root.join("docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md"))
+            .expect("read v0.92 feature proof coverage");
+    let proof_coverage_flat = proof_coverage
+        .split_whitespace()
+        .collect::<Vec<_>>()
+        .join(" ");
+    assert!(proof_coverage.contains("Memory Palace production authority"));
+    assert!(proof_coverage_flat.contains("issue `#450`, PR `#458`"));
+    assert!(proof_coverage.contains("C-SDLC generation 24 digest"));
+
+    let milestone_readme = fs::read_to_string(repo_root.join("docs/milestones/v0.92/README.md"))
+        .expect("read v0.92 README");
+    assert!(!milestone_readme.contains("- Full memory palace implementation."));
+    assert!(milestone_readme.contains("Runtime-kernel production-authority slice"));
+
+    let feature_doc = fs::read_to_string(
+        repo_root.join("docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md"),
+    )
+    .expect("read Memory Palace feature doc");
+    let feature_doc_flat = feature_doc.split_whitespace().collect::<Vec<_>>().join(" ");
+    assert!(feature_doc_flat
+        .contains("WP-11's Runtime-kernel production-authority slice is implemented by `#450`"));
+    assert!(feature_doc.contains("`adl-runtime-kernel::memory_palace`"));
+    assert!(feature_doc_flat.contains("the production authority"));
+    assert!(feature_doc_flat
+        .contains("broader distributed or unbounded Memory Palace product remains later work"));
+}
