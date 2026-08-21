@@ -3,13 +3,60 @@
   "issue": 446,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "6d45794ff8f47d6ed78c0e8e6925c8384a89dbcd8abc3c23872a6da0c508da8e",
-  "phase": "implemented",
-  "generation": 11,
-  "digest": "fca21b6359b1b68e804764f86a702746594aab54fde9828d6173340e7e35f00e",
+  "phase": "reviewed",
+  "generation": 12,
+  "digest": "d2a5b94c2b897a684223dcdb92f18e426687b0bd7ba526c0174be05a066a13b9",
   "branch": "codex/446-runtime-acc-resident-wiring",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-446-runtime-acc-resident-wiring",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:e51eef1c-8183-41ca-9e4d-8002de2069df",
+    "assigned_by": "codex:issue-446-final-runtime-acc-review-r3",
+    "revision": "git-blake3:238dacac15939362740f769cf4236506afa7c16b:43fb9b1a3b27b82f5f29a33f89d14eb6db6c9c248361aecc6463bf4553efea6e",
+    "scope": [
+      ".csdlc/evidence/446",
+      ".csdlc/issues/446",
+      ".csdlc/prepared/issues/446/design.md",
+      ".csdlc/prepared/issues/446/diagram.mmd",
+      ".csdlc/prepared/issues/446/validate_issue446.sh",
+      "adl-runtime/src/resident_agent.rs",
+      "adl/src/csm_resident_agents.rs",
+      "adl/src/governed_executor_parts/logic.rs",
+      "adl/src/lib.rs",
+      "adl/src/long_lived_agent.rs",
+      "adl/src/long_lived_agent/storage.rs",
+      "adl/src/long_lived_agent/tests.rs",
+      "adl/src/long_lived_agent/types.rs",
+      "adl/src/resident_tool_execution.rs",
+      "adl/src/runtime_aws_signal.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:e51eef1c-8183-41ca-9e4d-8002de2069df",
+    "scope": [
+      ".csdlc/evidence/446",
+      ".csdlc/issues/446",
+      ".csdlc/prepared/issues/446/design.md",
+      ".csdlc/prepared/issues/446/diagram.mmd",
+      ".csdlc/prepared/issues/446/validate_issue446.sh",
+      "adl-runtime/src/resident_agent.rs",
+      "adl/src/csm_resident_agents.rs",
+      "adl/src/governed_executor_parts/logic.rs",
+      "adl/src/lib.rs",
+      "adl/src/long_lived_agent.rs",
+      "adl/src/long_lived_agent/storage.rs",
+      "adl/src/long_lived_agent/tests.rs",
+      "adl/src/long_lived_agent/types.rs",
+      "adl/src/resident_tool_execution.rs",
+      "adl/src/runtime_aws_signal.rs"
+    ],
+    "reviewed_revision": "git-blake3:238dacac15939362740f769cf4236506afa7c16b:43fb9b1a3b27b82f5f29a33f89d14eb6db6c9c248361aecc6463bf4553efea6e",
+    "findings": [],
+    "residual_risks": [
+      "The retained live proof is local Ollama gemma4:12b-mlx evidence; Linux/AWS six-resident qualification remains owned by dependent issue #268."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +71,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "5f8235b37fd2ee14ad4ee0cb9e99fce43d42320058988742e1bffa3a4ebe6fdd",
+      "values_digest": "68b68e2920e26a1cf1864de96cda8ae49c5dcc35f3d90e5f506c208229a630f9",
       "rendered_digest": "a4f6027a21a820c30c5134ba1567511d9f52f1d5bf5daadcc61a51c2a3a353d1",
       "ast_digest": "27a5f3a4b5e8abc714ad563d22a2d322243d75dd8703dc01b35b75f6cb7a856f"
     },
     "stp": {
-      "values_digest": "83b5f7b249325c2688566f3201ad8cf27b0726d01bd898ff5f72ff36d6403ef2",
+      "values_digest": "175245f902e96b0c0533589b9845ce3d93fb47a48076750ae777db96e5142244",
       "rendered_digest": "8d82f119907a31b0a1a34692ad2979d48898cd5d871d1e6c11bd709b6260ed84",
       "ast_digest": "71286082e6509974f68f38220eb27a1a60afa250f1505e1938fe34e8b3fa8fc0"
     },
     "spp": {
-      "values_digest": "4b46e7e885155b5cb51feaf7659460a829801ea9cb9e7624cbf3c543fb90517b",
+      "values_digest": "0410dcb54b5d793b41ef509ce4045b612053086a628ec925c02c10ad3c4bc3e8",
       "rendered_digest": "328a3e601f844ec99ad9fa6a87596d3ba6aa56744dc052e25995bf3f2e2973e6",
       "ast_digest": "d889dc54057773a4840ce3e9b02d800d3588e21ff8d7ca34ebace795dfc547e3"
     },
     "vpp": {
-      "values_digest": "50c1cc2c80561d5e266460fd9af03fe39b24bc28445878d765ad94aa67bd59b0",
+      "values_digest": "e991f872bbd7df78cf869e3d128224afe9c4cfb7d13fb0fc1b537feb925b5f1a",
       "rendered_digest": "6f3e9bf007826f50192e601366097281f25502bb443c44c3beac1abb0c9e8a83",
       "ast_digest": "412ae3243fe05dac1680b82cc49a116dc46812fa50747b1bd801789c8eda63c1"
     },
     "srp": {
-      "values_digest": "95619469fe321986936a22d63eb8366c413552248ee2670889ea79e8264d8048",
-      "rendered_digest": "0299c43e56a3fd8735645ac048e212400c704d8c387029d22def9b25c2b3beb6",
-      "ast_digest": "91b696ad302f8ead39ac6c5a8af2999e81d83b3a93e0fa4ff94242edfa49ab17"
+      "values_digest": "4767b92da58e4ea37799623017a12089ca8e41a46c84a9d511c501fc454a8e05",
+      "rendered_digest": "48840c2d9016830db28aa9aba4eb952060d3ac1e8422b0219ba7fc81be214fc1",
+      "ast_digest": "2a8ac3f8e26a46483022459d922dcd9b836433636a500e8b966f1ae599dc6c34"
     },
     "sor": {
-      "values_digest": "6d386ca5b62914e7d24259be4f244d6675503cf389dd97158893fcef98f5390b",
+      "values_digest": "134a0c5b218d71e6eef80b6b65079d97ce15f40e4402f2cd95e07bdcfe10cd97",
       "rendered_digest": "cac047176b42861c46aa91f07c4b6a00840953ce069ebe7464e2a354dc953af3",
       "ast_digest": "1ca7616c49d27f06f7a8db123b17c4535ca71274e4a41c4cd79a0c5374c3b61c"
     }
@@ -75,6 +122,13 @@
       "to": "implemented",
       "actor": "codex",
       "reason": "Implementation commit 0bc8df3ff contains typed authority, Runtime UTS-to-ACC and Freedom Gate routing, injected governed dispatch, terminal receipts, and focused passing proof."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:e51eef1c-8183-41ca-9e4d-8002de2069df",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -182,6 +236,20 @@
       "actor": "codex:issue-446-review-repair",
       "reason": "Replace the stale compiler-only Runtime lane with the exact deterministic and live Runtime ACC validation denominator required by AC-1 through AC-7.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue446-contract\",\"proof_role\":\"Prove exact issue-owned Runtime and ACC surfaces.\",\"acceptance_ids\":[\"AC-1\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"bash\",\".csdlc/prepared/issues/446/validate_issue446.sh\"],\"parallel_group\":\"contract\",\"defer_reason\":null},{\"lane\":\"resident-tool-governance\",\"proof_role\":\"Prove single-proposal extraction, authority binding, UTS-to-ACC compilation, gate and adapter denial, receipt redaction, and duplicate-proposal denial.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"resident_tool_execution\",\"--lib\",\"--\",\"--nocapture\"],\"parallel_group\":\"runtime\",\"defer_reason\":null},{\"lane\":\"runtime-full-tick\",\"proof_role\":\"Prove an actual long-lived Runtime provider StepOutput crosses ACC, Freedom Gate, production adapter dispatch, and exact checkpoint receipt creation.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"long_lived_agent::tests::tick_routes_provider_output_through_runtime_acc_and_adapter\",\"--lib\",\"--\",\"--exact\",\"--nocapture\"],\"parallel_group\":\"runtime\",\"defer_reason\":null},{\"lane\":\"runtime-compile-lint\",\"proof_role\":\"Prove integrated crate compilation and strict lint cleanliness.\",\"acceptance_ids\":[\"AC-1\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"compile\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:issue-446-final-runtime-acc-review-r3",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "fresh-session:e51eef1c-8183-41ca-9e4d-8002de2069df",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
