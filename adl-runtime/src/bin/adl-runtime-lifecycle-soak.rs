@@ -3,7 +3,7 @@ use std::{
     fs::File,
     io::{Read, Write},
     net::{SocketAddr, ToSocketAddrs},
-    path::{Path, PathBuf},
+    path::{Component, Path, PathBuf},
     process::{ExitCode, Stdio},
     sync::Arc,
     time::{Duration, Instant, SystemTime, UNIX_EPOCH},
@@ -272,32 +272,39 @@ impl ProductionFixture {
         let state_root = state_root
             .canonicalize()
             .map_err(|error| format!("state root could not be canonicalized: {error}"))?;
-        let tls_root = state_root.join(toml_string(&init_document, &["paths", "tls_dir"])?);
-        let continuity_root =
-            state_root.join(toml_string(&init_document, &["paths", "continuity_dir"])?);
-        let credentials_root =
-            state_root.join(toml_string(&init_document, &["paths", "credentials_dir"])?);
-        let observability_root = state_root.join(toml_string(
-            &init_document,
-            &["paths", "observability_dir"],
-        )?);
-        let master_log = observability_root.join(toml_string(
-            &init_document,
-            &["observability_pipeline", "master_log_path"],
-        )?);
-        let log_audit = observability_root.join(toml_string(
-            &init_document,
-            &["observability_pipeline", "audit_path"],
-        )?);
-        for path in [
-            &tls_root,
-            &continuity_root,
-            &credentials_root,
+        let tls_root = create_contained_state_dir(
+            &state_root,
+            &toml_string(&init_document, &["paths", "tls_dir"])?,
+            "TLS state directory",
+        )?;
+        let continuity_root = create_contained_state_dir(
+            &state_root,
+            &toml_string(&init_document, &["paths", "continuity_dir"])?,
+            "continuity state directory",
+        )?;
+        let credentials_root = create_contained_state_dir(
+            &state_root,
+            &toml_string(&init_document, &["paths", "credentials_dir"])?,
+            "credentials state directory",
+        )?;
+        let observability_root = create_contained_state_dir(
+            &state_root,
+            &toml_string(&init_document, &["paths", "observability_dir"])?,
+            "observability state directory",
+        )?;
+        let master_log = contained_relative_path(
             &observability_root,
-        ] {
-            std::fs::create_dir_all(path)
-                .map_err(|error| format!("could not create {}: {error}", path.display()))?;
-        }
+            &toml_string(
+                &init_document,
+                &["observability_pipeline", "master_log_path"],
+            )?,
+            "master log path",
+        )?;
+        let log_audit = contained_relative_path(
+            &observability_root,
+            &toml_string(&init_document, &["observability_pipeline", "audit_path"])?,
+            "log audit path",
+        )?;
 
         let certificate = configured_tls_file(
             &init_document,
@@ -1163,6 +1170,70 @@ struct CycleObservation {
     restarts: u64,
     log_proof: LogProof,
     workload_proof: Option<WorkloadProof>,
+}
+
+fn contained_relative_path(base: &Path, configured: &str, label: &str) -> Result<PathBuf, String> {
+    let configured = Path::new(configured);
+    if configured.as_os_str().is_empty()
+        || configured
+            .components()
+            .any(|component| !matches!(component, Component::Normal(_)))
+    {
+        return Err(format!("{label} must be a non-empty relative path"));
+    }
+    let candidate = base.join(configured);
+    let parent = candidate
+        .parent()
+        .ok_or_else(|| format!("{label} omitted a parent directory"))?;
+    let canonical_parent = parent
+        .canonicalize()
+        .map_err(|error| format!("{label} parent could not be canonicalized: {error}"))?;
+    if canonical_parent != base && !canonical_parent.starts_with(base) {
+        return Err(format!("{label} escaped Runtime-owned state"));
+    }
+    Ok(candidate)
+}
+
+fn create_contained_state_dir(
+    state_root: &Path,
+    configured: &str,
+    label: &str,
+) -> Result<PathBuf, String> {
+    let configured = Path::new(configured);
+    if configured.as_os_str().is_empty()
+        || configured
+            .components()
+            .any(|component| !matches!(component, Component::Normal(_)))
+    {
+        return Err(format!("{label} must be a non-empty relative path"));
+    }
+    let mut current = state_root.to_path_buf();
+    for component in configured.components() {
+        let Component::Normal(name) = component else {
+            unreachable!("validated normal path component")
+        };
+        current.push(name);
+        match std::fs::symlink_metadata(&current) {
+            Ok(metadata) => {
+                if metadata.file_type().is_symlink() || !metadata.is_dir() {
+                    return Err(format!("{label} traversed a symlink or non-directory"));
+                }
+            }
+            Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
+                std::fs::create_dir(&current)
+                    .map_err(|error| format!("could not create {label}: {error}"))?;
+            }
+            Err(error) => return Err(format!("could not inspect {label}: {error}")),
+        }
+        let canonical = current
+            .canonicalize()
+            .map_err(|error| format!("{label} could not be canonicalized: {error}"))?;
+        if !canonical.starts_with(state_root) {
+            return Err(format!("{label} escaped Runtime-owned state"));
+        }
+        current = canonical;
+    }
+    Ok(current)
 }
 
 struct CapturedOutput {
@@ -4225,6 +4296,30 @@ max_open_handles = 8
             samples[2].observed_unix_seconds,
             samples[1].observed_unix_seconds + SHORT_QUALIFICATION_SAMPLE_INTERVAL_SECONDS
         );
+    }
+
+    #[test]
+    fn runtime_state_directories_reject_absolute_and_traversal_escape() {
+        let directory = tempfile::tempdir().expect("state root");
+        let root = directory.path().canonicalize().expect("canonical root");
+
+        assert!(create_contained_state_dir(&root, "/tmp/external", "TLS state").is_err());
+        assert!(create_contained_state_dir(&root, "../external", "TLS state").is_err());
+        assert!(create_contained_state_dir(&root, "tls/../../external", "TLS state").is_err());
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn runtime_state_directories_reject_symlink_escape() {
+        use std::os::unix::fs::symlink;
+
+        let directory = tempfile::tempdir().expect("state root");
+        let external = tempfile::tempdir().expect("external root");
+        let root = directory.path().canonicalize().expect("canonical root");
+        symlink(external.path(), root.join("tls")).expect("escape symlink");
+
+        assert!(create_contained_state_dir(&root, "tls/snapshots", "TLS state").is_err());
+        assert!(!external.path().join("snapshots").exists());
     }
 
     fn test_observed_phases() -> Vec<ObservedPhase> {
