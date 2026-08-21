@@ -172,6 +172,7 @@ def run_daemon(csm_bin: pathlib.Path, spec: pathlib.Path) -> int:
     completed = subprocess.run([
         str(csm_bin), "daemon", "--spec", str(spec),
         "--checkpoint-interval-secs", "1", "--interval-secs", "1",
+        "--test-supervisor-failure-after-restarts", "1",
         "--api-bind", "127.0.0.1:0", "--no-sleep", "--json",
     ], cwd=ROOT, check=False)
     return completed.returncode

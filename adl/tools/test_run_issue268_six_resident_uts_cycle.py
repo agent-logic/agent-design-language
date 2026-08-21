@@ -83,6 +83,7 @@ raise SystemExit(0 if decision=='executed' else 1)
         assert len(workflows) == 6
         assert all("timeout_secs: 900" in workflow.read_text() for workflow in workflows)
         assert len(list((root / "runtime" / "agent-specs").glob("*/state/daemon_status.json"))) == 6
+        assert '"--test-supervisor-failure-after-restarts", "1"' in RUNNER.read_text()
         replay = subprocess.run(common + ["--phase", "pre"], cwd=ROOT, capture_output=True, text=True)
         assert replay.returncode != 0 and "refusing replay" in replay.stderr
         restore_receipt = root / "restore.json"
