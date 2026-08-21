@@ -4,13 +4,49 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d8e1f3dca77fcf7b936ed705f16684f757477c7a35ec6e1ee4d0f7facd456b0a",
-  "phase": "implemented",
-  "generation": 14,
-  "digest": "f3078fc48c694c9ce45e720efb887586cd6e67c9f4eff7f3f4aee653ee1fdafb",
+  "phase": "reviewed",
+  "generation": 15,
+  "digest": "57c08aec1944e9d7a7e30f848c7ee63bad7d25a042b85a9d838b1dc70a2aa92d",
   "branch": "codex/449-governed-adaptive-learning-resident-integration",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-449-governed-adaptive-learning-resident-integration",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:61a9dc79-77c3-4ff0-93df-9362a9f9a947",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:625dd0afa0058cdfce122fa2a711a310d873f9d6:37744a8aadcb9f76ed853f8a5c275dd489260a5c73de71c810a006df75471f7f",
+    "scope": [
+      "adl-runtime-kernel/src/adaptive_learning.rs",
+      "adl-runtime-kernel/tests/adaptive_learning.rs",
+      "adl-runtime-kernel/src/live_continuity.rs",
+      "docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md",
+      ".csdlc/evidence/449",
+      ".csdlc/issues/449",
+      ".csdlc/prepared/issues/449/design.md",
+      ".csdlc/prepared/issues/449/diagram.mmd"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:61a9dc79-77c3-4ff0-93df-9362a9f9a947",
+    "scope": [
+      "adl-runtime-kernel/src/adaptive_learning.rs",
+      "adl-runtime-kernel/tests/adaptive_learning.rs",
+      "adl-runtime-kernel/src/live_continuity.rs",
+      "docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md",
+      ".csdlc/evidence/449",
+      ".csdlc/issues/449",
+      ".csdlc/prepared/issues/449/design.md",
+      ".csdlc/prepared/issues/449/diagram.mmd"
+    ],
+    "reviewed_revision": "git-blake3:625dd0afa0058cdfce122fa2a711a310d873f9d6:37744a8aadcb9f76ed853f8a5c275dd489260a5c73de71c810a006df75471f7f",
+    "findings": [],
+    "residual_risks": [
+      "Review was read-only and bounded to assigned paths at immutable commit 625dd0afa0058cdfce122fa2a711a310d873f9d6.",
+      "Reviewer reran only the focused resident_cycle proof locally; hosted CI, publication, and merge readiness are not claimed by this review.",
+      "Dirty live worktree metadata observed after assignment was treated separately from the immutable reviewed commit.",
+      "Later source or substantive lifecycle changes require a fresh exact-head review."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +61,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "44cecc802d2512b535da7b3bb364355ab50641c6a7fce0189f1382f6999b1a59",
+      "values_digest": "90cede0fc8bfdb8cbd4f0e1217c42408414cc0ca53979b1c7bdae79072b9af7e",
       "rendered_digest": "2cfd28e6c6a6879f7e6c50c55739e047518d76c09cda80b9ebafc4403b793865",
       "ast_digest": "f464cd78ec8bddeabb30d93fddafa24b1062b4cec61a141464249d3a05f2cd41"
     },
     "stp": {
-      "values_digest": "ab58c836031f48806170769fdccc26511510e2911c90a3d744820be6bc9edd38",
+      "values_digest": "4f2e86a56c55a77b1c5d3abc867af6616f22e1fdcd66694e1319f065f335b9a9",
       "rendered_digest": "7b54454bbd83510eb034ffe2a2271617f0602cade7d3c6b59f4ac3d137227169",
       "ast_digest": "c6928d84219a13b3766acc4b90f7c8cfb71ba2f86c3092bf2246fe41523990e7"
     },
     "spp": {
-      "values_digest": "a723a74cc0ffa2fbfc6c1b77251118b8e64ef534ec34caa94720557ee59bccba",
+      "values_digest": "41558ba9b47de0f111febaa5691e0eae4ddfdd8a7223e8cec694fbbc830e42b2",
       "rendered_digest": "bffc41af02fb2bde8fdbeee9bb86b0844d389e801cec9206ad674efc0dadcef5",
       "ast_digest": "c4ab178aa7012df674d6ec98c645f586c6e07ae5cd2a58fe689862f744ef001b"
     },
     "vpp": {
-      "values_digest": "c789d66a0fe772390aebd3b0d22972adf0078caada985b3a2087c9fda9ea6383",
+      "values_digest": "00edeb846ea3afd6a5a34775d780422646b15a3697b95ab14371ef4ffc2415d9",
       "rendered_digest": "29b34386e79734d7df12f5860df83c84e13b42f22c4304b38539705e954c05ac",
       "ast_digest": "800bad4e472866aa40314c9753028f43e11b4961676430d90d974b85d927fb8d"
     },
     "srp": {
-      "values_digest": "c7093e81b0a73b8858e2f6ca60671ac49cfd75ef8d9a22ef68b6eb0e7bbd13b6",
-      "rendered_digest": "3a8abb044fd02d026b1c6abd0393ba034ef34c8c2a2d4cb537496abcda46d04a",
-      "ast_digest": "13b21242e8fcf9b816e12eee09996417e5f70724d617c0eaaf8a5c370caeb090"
+      "values_digest": "e510a268f7b3d1d6f7cc252d7b2a502f5387d91647fb08303258cae5064a4c27",
+      "rendered_digest": "9f2ba1860cb289a28c418bd4a2a2418a2279e512f46e99dd2e01f925afe2da69",
+      "ast_digest": "946dda7b4d014b7b6d8ff07108f8ae6c3005fcfd29dd57735f7d10ff96cc2ba3"
     },
     "sor": {
-      "values_digest": "f6e1207a3c50fd5c246c95f99b8948fd2da23de7d0451d58f49a9f84e620cd79",
+      "values_digest": "c1c83990dcfe73b1e4454d056ab9954aca5f8657f09106a4ed1732a35b327e58",
       "rendered_digest": "2e1268535f9bffc1166e45174bc1fbf2c1b0161c0e19151400e3233553741b50",
       "ast_digest": "ffad99fb7d0a39c372ba68c73dde05ce95cd0214427a66eabe2ab7936d12b33b"
     }
@@ -90,6 +126,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover exact review after clean merge of current origin/main into #449 worktree advanced HEAD to 3fc9970cadf47f795db701359916198109f8d8e2; #449 proof still passes but publication requires fresh exact-head review truth."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -225,6 +268,20 @@
       "actor": "codex:/root",
       "reason": "Record remediation of exact-review R3 P2 evidence truth: retained proof logs now name the current invalid-binding terminal-evidence test.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"rg\",\"resident_cycle_invalid_bindings\",\".csdlc/evidence/449/runtime-resident-cycle-integration-proof.log\",\".csdlc/evidence/449/adaptive-learning-regression-tests.log\",\"adl-runtime-kernel/tests/adaptive_learning.rs\"],\"purpose\":\"Prove retained #449 evidence logs and source use the current terminal-evidence invalid-binding regression test name after the R3 evidence-truth finding.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20:r3-evidence-name-alignment\"}}"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
