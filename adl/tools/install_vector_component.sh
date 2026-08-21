@@ -9,6 +9,17 @@ DOWNLOAD_DIR="$INSTALL_ROOT/downloads/vector"
 COMPONENT_DIR="$INSTALL_ROOT/components/vector"
 PROVENANCE_DIR="$BIN_DIR/.provenance"
 
+sha256_file() {
+  if command -v sha256sum >/dev/null 2>&1; then
+    sha256sum "$1" | awk '{print $1}'
+  elif command -v shasum >/dev/null 2>&1; then
+    shasum -a 256 "$1" | awk '{print $1}'
+  else
+    echo "install_vector_component: sha256sum or shasum is required" >&2
+    return 127
+  fi
+}
+
 case "$(uname -s)-$(uname -m)" in
   Darwin-arm64)
     ARCHIVE_ARCH="arm64-apple-darwin"
@@ -41,7 +52,7 @@ PROVENANCE="$PROVENANCE_DIR/vector.json"
 if [[ -x "$TARGET" && -f "$PROVENANCE" ]] &&
   "$TARGET" --version 2>/dev/null | grep -q "vector ${VERSION}" &&
   grep -q "\"archive_sha256\":\"${ARCHIVE_SHA256}\"" "$PROVENANCE" &&
-  [[ "$(shasum -a 256 "$TARGET" | awk '{print $1}')" == "$(sed -n 's/.*"binary_sha256":"\([^"]*\)".*/\1/p' "$PROVENANCE")" ]]; then
+  [[ "$(sha256_file "$TARGET")" == "$(sed -n 's/.*"binary_sha256":"\([^"]*\)".*/\1/p' "$PROVENANCE")" ]]; then
   echo "vector component unchanged: $TARGET"
   exit 0
 fi
@@ -62,12 +73,12 @@ cleanup() {
 trap cleanup EXIT
 
 if [[ ! -f "$ARCHIVE_PATH" ]] ||
-  [[ "$(shasum -a 256 "$ARCHIVE_PATH" | awk '{print $1}')" != "$ARCHIVE_SHA256" ]]; then
+  [[ "$(sha256_file "$ARCHIVE_PATH")" != "$ARCHIVE_SHA256" ]]; then
   rm -f "$ARCHIVE_PATH"
   curl --proto '=https' --tlsv1.2 -sSfL "$URL" -o "$ARCHIVE_PATH"
 fi
 
-ACTUAL_SHA256="$(shasum -a 256 "$ARCHIVE_PATH" | awk '{print $1}')"
+ACTUAL_SHA256="$(sha256_file "$ARCHIVE_PATH")"
 if [[ "$ACTUAL_SHA256" != "$ARCHIVE_SHA256" ]]; then
   echo "install_vector_component: checksum mismatch for $ARCHIVE" >&2
   exit 1
@@ -85,7 +96,7 @@ NEW_BINARY="$(mktemp "$BIN_DIR/.vector.XXXXXX")"
 cp "$SOURCE" "$NEW_BINARY"
 chmod 0755 "$NEW_BINARY"
 "$NEW_BINARY" --version | grep -q "vector ${VERSION}"
-BINARY_SHA256="$(shasum -a 256 "$NEW_BINARY" | awk '{print $1}')"
+BINARY_SHA256="$(sha256_file "$NEW_BINARY")"
 mv "$NEW_BINARY" "$TARGET"
 
 LICENSE_SOURCE="$(find "$STAGE" -type f -name LICENSE -print -quit)"

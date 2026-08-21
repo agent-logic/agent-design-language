@@ -69,10 +69,10 @@ case "$1" in
     ;;
   status)
     if [[ "${ADL_ISSUE268_FAKE_MANAGER_STATE:-dead}" == active ]]; then
-      printf 'status=running run_id=issue268-six-hour-r7i-20260821-49\n'
+      printf 'status=running run_id=issue268-six-hour-r7i-20260821-50\n'
       exit 0
     fi
-    printf 'status=incomplete run_id=issue268-six-hour-r7i-20260821-49 action=inspect_logs_or_cleanup\n'
+    printf 'status=incomplete run_id=issue268-six-hour-r7i-20260821-50 action=inspect_logs_or_cleanup\n'
     exit 1
     ;;
   cleanup) exit 0 ;;
@@ -122,7 +122,7 @@ ADL_AWS_RUNTIME_CONTINUITY_VOLUME_ID_SHA256="$(python3 -c 'import hashlib; print
 python3 - "$test_root/portable-request.json" <<'PY'
 import json, pathlib, sys
 request=json.loads(pathlib.Path(sys.argv[1]).read_text())
-assert request["request_id"] == "issue268-six-hour-r7i-20260821-49"
+assert request["request_id"] == "issue268-six-hour-r7i-20260821-50"
 assert "HOME" in request["command_profile"]["environment_allowlist"]
 assert "ADL_RUN_ID" in request["command_profile"]["environment_allowlist"]
 assert "ADL_ISSUE414_SIGNING_KEY_HEX" in request["command_profile"]["environment_allowlist"]
@@ -173,13 +173,13 @@ fi
 grep -F -- '--region us-west-2 ec2 terminate-instances --instance-ids i-test-owned' "$test_root/aws.log" >/dev/null
 grep -F -- '--region us-west-2 ec2 wait instance-terminated --instance-ids i-test-owned' "$test_root/aws.log" >/dev/null
 [[ $(grep -c 'Name=tag:adl:issue,Values=268' "$test_root/aws.log") == 2 ]]
-[[ $(grep -c 'Name=tag:adl:run_id,Values=issue268-six-hour-r7i-20260821-49' "$test_root/aws.log") == 2 ]]
+[[ $(grep -c 'Name=tag:adl:run_id,Values=issue268-six-hour-r7i-20260821-50' "$test_root/aws.log") == 2 ]]
 : >"$test_root/aws.log"
 
 cat >"$test_root/summary.json" <<'EOF'
 {
   "issue": 268,
-  "run_id": "issue268-six-hour-r7i-20260821-49",
+  "run_id": "issue268-six-hour-r7i-20260821-50",
   "status": "passed",
   "attempts": [{"purchase_option": "on_demand", "status": "launched"}],
   "expected_max_cost_usd": 20.0,
@@ -203,12 +203,14 @@ import json,sys
 d=json.load(open(sys.argv[1])); assert d["status"]=="pass" and d["overshoot_seconds"]==7
 PY
 [[ $(grep -c 'Name=tag:adl:issue,Values=268' "$test_root/aws.log") == 1 ]]
-[[ $(grep -c 'Name=tag:adl:run_id,Values=issue268-six-hour-r7i-20260821-49' "$test_root/aws.log") == 1 ]]
+[[ $(grep -c 'Name=tag:adl:run_id,Values=issue268-six-hour-r7i-20260821-50' "$test_root/aws.log") == 1 ]]
 
 grep -Fq 'ADL_ISSUE414_SIGNING_KEY_HEX",' "$wrapper"
 grep -Fq 'od -An -N32 -tx1 /dev/urandom' "$ROOT/tools/aws_remote_validation/scripts/remote_validation_runner.sh"
 grep -Fq 'export ADL_ISSUE414_SIGNING_KEY_HEX' "$ROOT/tools/aws_remote_validation/scripts/remote_validation_runner.sh"
 grep -Fq 'ADL_SPOT_RETAINED_RUNTIME_ROOT="$ADL_RUNTIME_CONTINUITY_ROOT/state/$ADL_RUN_ID"' "$ROOT/tools/aws_remote_validation/scripts/remote_validation_runner.sh"
+grep -Fq 'command -v sha256sum' "$ROOT/adl/tools/install_vector_component.sh"
+[[ $(rg -c 'shasum -a 256' "$ROOT/adl/tools/install_vector_component.sh") == 1 ]]
 
 grep -Fq 'if [[ -n "$RUNTIME_CONTINUITY_VOLUME_ID" ]]' "$ROOT/adl/tools/run_aws_spot_remote_validation_lane.sh"
 grep -Fq 'Runtime continuity volume requires an explicit colocated subnet' "$ROOT/adl/tools/run_aws_spot_remote_validation_lane.sh"
@@ -255,6 +257,7 @@ allowed={
 "adl/tools/test_run_issue268_remote_resident_qualification.sh",
 "adl/tools/install_issue268_runtime_volume.py",
 "adl/tools/test_install_issue268_runtime_volume.py",
+"adl/tools/install_vector_component.sh",
 }
 for path in filter(None,sys.argv[1].splitlines()):
     if path.startswith((".csdlc/issues/268/",".csdlc/prepared/issues/268/",".csdlc/evidence/268/")) or path==".csdlc/locks/268.lock": continue
