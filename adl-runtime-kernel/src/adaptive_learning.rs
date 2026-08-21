@@ -249,7 +249,7 @@ pub fn execute_resident_adaptive_learning_cycle(
         }
         return Err(errors);
     }
-    let history = execute_governed_adaptive_learning(
+    let history = match execute_governed_adaptive_learning(
         gate,
         durable,
         profile,
@@ -259,7 +259,25 @@ pub fn execute_resident_adaptive_learning_cycle(
         loop_outcome,
         cancellation,
         mutation,
-    )?;
+    ) {
+        Ok(history) => history,
+        Err(mut errors) => {
+            if let Err(evidence_error) = retain_resident_adaptive_learning_terminal_evidence(
+                durable,
+                resident_id,
+                continuity_head_sha256,
+                input,
+                profile,
+                ResidentAdaptiveLearningStatus::Rejected,
+                "governed_executor_rejection",
+            ) {
+                errors.extend(evidence_error);
+            }
+            errors.sort();
+            errors.dedup();
+            return Err(errors);
+        }
+    };
     resident_adaptive_learning_receipt(
         resident_id,
         continuity_head_sha256,

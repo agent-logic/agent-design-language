@@ -1028,6 +1028,56 @@ fn resident_cycle_invalid_bindings_retain_terminal_evidence_without_mutation_or_
 }
 
 #[test]
+fn resident_cycle_executor_failures_retain_terminal_evidence_without_mutation_or_history() {
+    let h = harness();
+    let patch_set = patches();
+    let mismatched_grant = grant(&h.graph, &h.key, &patch_set, R);
+    let input = input(&h.graph, &h.outcome, &h.profile, &h.policy);
+    let before_graph = h.gate.graph().hash().to_owned();
+    let before_state = h.gate.adaptation().state().hash().unwrap();
+    let error = execute_resident_adaptive_learning_cycle(
+        "resident-agent",
+        &h.profile.continuity_head,
+        &h.gate,
+        &h.durable,
+        &h.profile,
+        &input,
+        &h.policy,
+        None,
+        &h.outcome,
+        &CancellationToken::new(),
+        Some((&mismatched_grant, &patch_set)),
+    )
+    .unwrap_err();
+    assert!(error.contains(&AdaptiveLearningRejection::InvalidAuthority));
+    assert_eq!(h.gate.graph().hash(), before_graph);
+    assert_eq!(h.gate.adaptation().state().hash().unwrap(), before_state);
+    assert!(h.gate.evidence().is_empty());
+    assert!(h
+        .durable
+        .load_governed_state(ADAPTIVE_LEARNING_DURABLE_DOMAIN)
+        .unwrap()
+        .is_none());
+    let terminal = load_resident_adaptive_learning_terminal_evidence(&h.durable, "history", 1)
+        .unwrap()
+        .unwrap();
+    assert_eq!(terminal.status, ResidentAdaptiveLearningStatus::Rejected);
+    assert_eq!(terminal.reason_code, "governed_executor_rejection");
+    assert_eq!(terminal.resident_id, "resident-agent");
+    assert_eq!(
+        terminal.requested_continuity_head_sha256.as_deref(),
+        Some(h.profile.continuity_head.as_str())
+    );
+    assert_eq!(terminal.profile_sha256, h.profile.profile_sha256);
+    assert_eq!(
+        terminal.capability_envelope_sha256,
+        h.profile.capability_envelope_sha256
+    );
+    assert!(!terminal.mutation_evidence_retained);
+    assert_eq!(terminal.terminal_evidence_sha256.len(), 64);
+}
+
+#[test]
 fn resident_cycle_restart_restores_and_continues_deterministically() {
     let h = harness();
     let patch_set = patches();

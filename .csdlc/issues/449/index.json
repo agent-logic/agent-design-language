@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d8e1f3dca77fcf7b936ed705f16684f757477c7a35ec6e1ee4d0f7facd456b0a",
   "phase": "implemented",
-  "generation": 18,
-  "digest": "531d3ca57c819e4a084084bb8c850ea88491ddf5acce9e86d629a73c0107b4f0",
+  "generation": 20,
+  "digest": "f2c0795547b53f4ffe16a66d3147f3e504e60d31dcb01786d8c9a7eb509e8616",
   "branch": "codex/449-governed-adaptive-learning-resident-integration",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-449-governed-adaptive-learning-resident-integration",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2255d5e9ac6f6c256da00a370fa84cc4a99820ea85d66946ab195a8234561cde",
+      "values_digest": "861a7f824a0f143147f3d2766e478aa44d18a85d24aa05c71dfdf0e1afd959e3",
       "rendered_digest": "2cfd28e6c6a6879f7e6c50c55739e047518d76c09cda80b9ebafc4403b793865",
       "ast_digest": "f464cd78ec8bddeabb30d93fddafa24b1062b4cec61a141464249d3a05f2cd41"
     },
     "stp": {
-      "values_digest": "1f59438102a2fc36beb9271f2dc2ee5d0461189c2084b3e66c0d4948b378b37c",
+      "values_digest": "f54fec9498c6b30009cf3b752b27197668ca3a131ee1e31a5adf1aa46c13a873",
       "rendered_digest": "7b54454bbd83510eb034ffe2a2271617f0602cade7d3c6b59f4ac3d137227169",
       "ast_digest": "c6928d84219a13b3766acc4b90f7c8cfb71ba2f86c3092bf2246fe41523990e7"
     },
     "spp": {
-      "values_digest": "c1a0d18c8565b400f0e0e463366674701785453649be6242fb3312444f0da1cf",
+      "values_digest": "1e3047b664c982d16f884ed0ead3a6095215ea8ee3498541389e538755644e91",
       "rendered_digest": "bffc41af02fb2bde8fdbeee9bb86b0844d389e801cec9206ad674efc0dadcef5",
       "ast_digest": "c4ab178aa7012df674d6ec98c645f586c6e07ae5cd2a58fe689862f744ef001b"
     },
     "vpp": {
-      "values_digest": "01333400b53c86342e32fb260e39f0b8e545da54e1e00b986095d88c4abd0114",
+      "values_digest": "8425673e61934b2d737aaffe536a5bc78b86325b5ccd307cd684c1deac2e971c",
       "rendered_digest": "29b34386e79734d7df12f5860df83c84e13b42f22c4304b38539705e954c05ac",
       "ast_digest": "800bad4e472866aa40314c9753028f43e11b4961676430d90d974b85d927fb8d"
     },
     "srp": {
-      "values_digest": "327c39a8abf24105beb018715f46d0b8eb000ec7ed377f21bc1d213764560cc2",
+      "values_digest": "37f18b60a62a501a88e0dc06f0adf45c1a07c1efd8c859e6a56e6104b4bbe6d4",
       "rendered_digest": "3a8abb044fd02d026b1c6abd0393ba034ef34c8c2a2d4cb537496abcda46d04a",
       "ast_digest": "13b21242e8fcf9b816e12eee09996417e5f70724d617c0eaaf8a5c370caeb090"
     },
     "sor": {
-      "values_digest": "36c085c7d9a48b92ea70bad751b417b2003a735a527038181bb8c5ab185e8393",
-      "rendered_digest": "0806e01d63281969bc1d8ccc0ccbaf11a25280c9f080e0f4262389911ebb0b0d",
-      "ast_digest": "cf84167aa0bb8bf90725fc80a24f48cd9d7563dc4ac3d44f9a2816522092db13"
+      "values_digest": "a25a923913f7ddd56fff044bff98d8b60a718f4f751a88069c585f6fedf13199",
+      "rendered_digest": "08558661c39dc56bace31f11795bf086dfc09fadd37da5c9692c61e089870ee1",
+      "ast_digest": "c727bdcbcf92d01cdc10f5d2fe746996bda8bcf498c1bc65f6260062497ea7c5"
     }
   },
   "transitions": [
@@ -281,6 +281,27 @@
       "actor": "codex:/root",
       "reason": "Record #449 PR #456 CI remediation after typed publication recovery: the Runtime v3 Observatory integrated proof now serves /v1/health in its fixture and checks the current Runtime Source label.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"#449 wires governed Adaptive Learning into a Runtime-owned resident-cycle path and remediates PR #456 CI by aligning the integrated HTML Observatory proof fixture with the current Runtime v3 /v1/health fetch and Runtime Source label.\",\"changes\":[\"Added resident-cycle production entrypoints in adl-runtime-kernel/src/adaptive_learning.rs for execute and startup reconciliation.\",\"Added redacted ResidentAdaptiveLearningReceipt evidence that distinguishes accepted, rejected, cancelled, and restored outcomes without exposing private profile/provider content.\",\"Added redacted ResidentAdaptiveLearningTerminalEvidence retained in a separate governed durable domain for invalid resident binding/precondition failures, so rejected invalid inputs leave terminal proof without creating normal adaptive-learning history or mutating the graph/state.\",\"Added resident_cycle integration tests inside adl-runtime-kernel/tests/adaptive_learning.rs covering accepted MutationGate-only mutation, rejected non-mutation, invalid binding terminal-evidence retention, restart restoration, and deterministic continuation.\",\"Updated docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md from library-only/local contract wording to resident-cycle integration proof truth.\",\"Fixed adl/tools/validate_v0917_html_observatory.py so the integrated Runtime v3 Observatory proof provides the current /v1/health mock payload and validates the current Runtime Source label instead of the stale Runtime Mirror label.\",\"Preserved #450 and sibling Runtime/Observatory work out of #449 scope; this CI-proof fix only restores the required proof lane selected for PR #456.\"],\"artifacts\":[\"adl-runtime-kernel/src/adaptive_learning.rs\",\"adl-runtime-kernel/tests/adaptive_learning.rs\",\"adl-runtime-kernel/src/live_continuity.rs\",\"docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md\",\"adl/tools/validate_v0917_html_observatory.py\",\".csdlc/issues/449\"],\"validation\":[{\"command\":[\"bash\",\"adl/tools/test_v0917_html_observatory_integrated_proof.sh\"],\"purpose\":\"Reproduce and fix the exact PR #456 failing Runtime v3 Observatory proof lane; proves /v1/health fixture and Runtime Source label truth.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20:pr456-observatory-proof-pass\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--check\"],\"purpose\":\"Reject rustfmt drift in the touched Runtime kernel package after PR #456 CI remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20:post-pr456-fmt-check\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"adaptive_learning\",\"resident_cycle\"],\"purpose\":\"Prove #449 resident-cycle accepted mutation, rejected non-mutation, invalid binding terminal-evidence retention, restart, and deterministic continuation behavior after PR #456 CI remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20:post-pr456-resident-cycle-3-pass\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"adaptive_learning\"],\"purpose\":\"Run the complete adaptive_learning integration target after PR #456 CI remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20:post-pr456-adaptive-learning-18-pass\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--tests\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict clippy for the touched Runtime kernel package/tests after PR #456 CI remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20:post-pr456-strict-clippy-pass\"},{\"command\":[\".adl/bin/csdlc-v2/csdlc-validate\",\"--root\",\"/Volumes/FastWork/adl-worktrees/adl-issue-449-governed-adaptive-learning-resident-integration\",\"issue\",\"--issue\",\"449\"],\"purpose\":\"Validate typed #449 lifecycle truth after publication recovery and PR #456 CI remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20:post-pr456-csdlc-validate-pass\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and malformed diff defects after PR #456 CI remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20:post-pr456-diff-hygiene-pass\"}]}"
+    },
+    {
+      "sequence": 25,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "Recover failed exact review fresh-session:2d596c3e-cc64-4493-a59e-0a53960514a7 before remediating P1: resident terminal evidence was retained for pre-binding validation failures only, while governed executor errors such as malformed, stale, unbounded, unauthorized, or invalid proposals could return without durable resident terminal evidence despite #449 AC/design claims.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "Record #449 R5 P1 remediation and PR #456 CI proof remediation: resident wrapper now retains terminal evidence for governed executor failures and the Runtime v3 Observatory integrated proof serves /v1/health plus checks Runtime Source label truth.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"#449 wires governed Adaptive Learning into a Runtime-owned resident-cycle path, retains durable resident terminal evidence for both binding and governed-executor rejection paths, and remediates PR #456 CI by aligning the integrated HTML Observatory proof fixture with the current Runtime v3 /v1/health fetch and Runtime Source label.\",\"changes\":[\"Added resident-cycle production entrypoints in adl-runtime-kernel/src/adaptive_learning.rs for execute and startup reconciliation.\",\"Added redacted ResidentAdaptiveLearningReceipt evidence that distinguishes accepted, rejected, cancelled, and restored outcomes without exposing private profile/provider content.\",\"Added redacted ResidentAdaptiveLearningTerminalEvidence retained in a separate governed durable domain for invalid resident binding/precondition failures, so rejected invalid inputs leave terminal proof without creating normal adaptive-learning history or mutating the graph/state.\",\"Remediated R5 P1 by retaining ResidentAdaptiveLearningTerminalEvidence when execute_governed_adaptive_learning returns executor-level errors such as malformed, stale, unbounded, unauthorized, invalid proposal, or mutation-preview failures.\",\"Added resident_cycle integration tests inside adl-runtime-kernel/tests/adaptive_learning.rs covering accepted MutationGate-only mutation, rejected non-mutation, invalid binding terminal-evidence retention, governed-executor failure terminal-evidence retention, restart restoration, and deterministic continuation.\",\"Updated docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md from library-only/local contract wording to resident-cycle integration proof truth.\",\"Fixed adl/tools/validate_v0917_html_observatory.py so the integrated Runtime v3 Observatory proof provides the current /v1/health mock payload and validates the current Runtime Source label instead of the stale Runtime Mirror label.\",\"Preserved #450 and sibling Runtime/Observatory work out of #449 scope; this remediation only restores #449 terminal-evidence truth and the required proof lane selected for PR #456.\"],\"artifacts\":[\"adl-runtime-kernel/src/adaptive_learning.rs\",\"adl-runtime-kernel/tests/adaptive_learning.rs\",\"adl-runtime-kernel/src/live_continuity.rs\",\"docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md\",\"adl/tools/validate_v0917_html_observatory.py\",\".csdlc/issues/449\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--check\"],\"purpose\":\"Reject rustfmt drift in the touched Runtime kernel package after R5 P1 remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20:r5-fmt-check\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"adaptive_learning\",\"resident_cycle\"],\"purpose\":\"Prove #449 resident-cycle accepted mutation, rejected non-mutation, invalid binding terminal-evidence retention, governed-executor failure terminal-evidence retention, restart, and deterministic continuation behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20:r5-resident-cycle-4-pass\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"adaptive_learning\"],\"purpose\":\"Run the complete adaptive_learning integration target after resident terminal-evidence remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20:r5-adaptive-learning-19-pass\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--tests\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict clippy for the touched Runtime kernel package/tests after R5 P1 remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20:r5-strict-clippy-pass\"},{\"command\":[\"bash\",\"adl/tools/test_v0917_html_observatory_integrated_proof.sh\"],\"purpose\":\"Reproduce and fix the exact PR #456 failing Runtime v3 Observatory proof lane; proves /v1/health fixture and Runtime Source label truth.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20:r5-pr456-observatory-proof-pass\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and malformed diff defects after R5 P1 remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20:r5-diff-hygiene-pass\"}]}"
     }
   ]
 }
