@@ -1,5 +1,6 @@
 issue=446
-revision_base=2a173e8d50adc66066daae90127afcc3e04209d6
+tested_revision=e040eb35020fd4673422cc41841a44b5143345be
+tested_tree=48075df8480802ed6629069c57ce795e39281d09
 model=gemma4:12b-mlx
 transport=ollama_http
 command=ADL_TEST_LIVE_RESIDENT_MODEL=gemma4:12b-mlx cargo test --manifest-path adl/Cargo.toml tick_routes_provider_output_through_runtime_acc_and_adapter --lib --no-fail-fast -- --nocapture
