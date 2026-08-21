@@ -164,12 +164,11 @@ fn resident_agent(
         provider_binding: provider_binding_from_target(target),
         channels: channels(&agent_instance_id),
         policy_gates: policy_gates(),
-        tool_authority: CsmResidentAgentToolAuthorityBinding {
-            authority_id: format!("authority.{agent_instance_id}"),
-            authority_ref: format!("runtime://resident/{agent_instance_id}/tool-authority"),
-            authority_sha256: "0".repeat(64),
-            allowed_tools: vec!["runtime.observe".to_string()],
-        },
+        tool_authority: CsmResidentAgentToolAuthorityBinding::new(
+            format!("authority.{agent_instance_id}"),
+            format!("runtime://resident/{agent_instance_id}/tool-authority"),
+            vec!["runtime.observe".to_string()],
+        ),
         affect_model: affect_model()?,
         checkpoint_policy: "periodic_and_agent_requested_with_runtime_min_interval".to_string(),
         lifelog_policy:

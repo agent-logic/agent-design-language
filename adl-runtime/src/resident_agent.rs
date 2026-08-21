@@ -4,6 +4,7 @@
 //! through one runtime-owned shape rather than bespoke component policies.
 
 use serde::{Deserialize, Serialize};
+use sha2::{Digest, Sha256};
 
 pub const CSM_RESIDENT_AGENT_SCHEMA: &str = "adl.csm.resident_agent.v2";
 pub const CSM_RESIDENT_AGENT_SET_SCHEMA: &str = "adl.csm.resident_agent_set.v2";
@@ -159,6 +160,38 @@ impl CsmResidentAgentSpec {
 }
 
 impl CsmResidentAgentToolAuthorityBinding {
+    pub fn new(
+        authority_id: impl Into<String>,
+        authority_ref: impl Into<String>,
+        mut allowed_tools: Vec<String>,
+    ) -> Self {
+        allowed_tools.sort();
+        allowed_tools.dedup();
+        let authority_id = authority_id.into();
+        let authority_ref = authority_ref.into();
+        let authority_sha256 = Self::compute_sha256(&authority_id, &authority_ref, &allowed_tools);
+        Self {
+            authority_id,
+            authority_ref,
+            authority_sha256,
+            allowed_tools,
+        }
+    }
+
+    pub fn compute_sha256(
+        authority_id: &str,
+        authority_ref: &str,
+        allowed_tools: &[String],
+    ) -> String {
+        let canonical = serde_jcs::to_vec(&serde_json::json!({
+            "authority_id": authority_id,
+            "authority_ref": authority_ref,
+            "allowed_tools": allowed_tools,
+        }))
+        .expect("resident tool authority canonicalization must succeed");
+        hex::encode(Sha256::digest(canonical))
+    }
+
     pub fn validate(&self) -> Result<(), String> {
         require_non_empty(&self.authority_id, "tool_authority.authority_id")?;
         require_non_empty(&self.authority_ref, "tool_authority.authority_ref")?;
@@ -188,6 +221,14 @@ impl CsmResidentAgentToolAuthorityBinding {
         {
             return Err(
                 "tool_authority.allowed_tools must be sorted unique lowercase identifiers"
+                    .to_string(),
+            );
+        }
+        let expected =
+            Self::compute_sha256(&self.authority_id, &self.authority_ref, &self.allowed_tools);
+        if self.authority_sha256 != expected {
+            return Err(
+                "tool_authority.authority_sha256 does not bind authority identity, reference, and allowed tools"
                     .to_string(),
             );
         }
@@ -382,12 +423,11 @@ mod tests {
             provider_binding: binding("local_ollama", "gemma4:12b-mlx"),
             channels: channels(id),
             policy_gates: gates(),
-            tool_authority: CsmResidentAgentToolAuthorityBinding {
-                authority_id: format!("authority.{id}"),
-                authority_ref: format!("runtime://resident/{id}/tool-authority"),
-                authority_sha256: "0".repeat(64),
-                allowed_tools: vec!["runtime.observe".to_string()],
-            },
+            tool_authority: CsmResidentAgentToolAuthorityBinding::new(
+                format!("authority.{id}"),
+                format!("runtime://resident/{id}/tool-authority"),
+                vec!["runtime.observe".to_string()],
+            ),
             affect_model: affect_model(),
             checkpoint_policy: "periodic_and_agent_requested".to_string(),
             lifelog_policy: "append_lifecycle_provider_events".to_string(),
@@ -417,6 +457,17 @@ mod tests {
         let mut shepherd = agent("shepherd", CsmResidentAgentAuthority::ShepherdOperator);
         shepherd.policy_gates.cav_required = false;
         assert!(shepherd.validate().is_err());
+    }
+
+    #[test]
+    fn tool_authority_digest_rejects_allowlist_tampering() {
+        let mut resident = agent("digest-bound", CsmResidentAgentAuthority::Ordinary);
+        resident
+            .tool_authority
+            .allowed_tools
+            .push("runtime.second-tool".to_string());
+        resident.tool_authority.allowed_tools.sort();
+        assert!(resident.validate().is_err());
     }
 
     #[test]

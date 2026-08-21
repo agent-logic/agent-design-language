@@ -13,12 +13,96 @@ use crate::governed_executor::{
     execute_governed_action_with_adapter_v1, GovernedExecutorInputV1, GovernedExecutorSourceV1,
     GovernedToolAdapterV1,
 };
-use crate::tool_registry::ToolRegistryV1;
+use crate::tool_registry::{RegisteredToolV1, ToolAdapterCapabilityV1, ToolRegistryV1};
+use crate::uts::{
+    UniversalToolSchemaV1_1, UtsAuthenticationModeV1, UtsAuthenticationRequirementV1,
+    UtsCategoryV1, UtsCompatibleVersionV1, UtsDataSensitivityV1, UtsDeterminismV1, UtsErrorModelV1,
+    UtsExecutionEnvironmentKindV1, UtsExecutionEnvironmentV1, UtsExfiltrationRiskV1,
+    UtsIdempotenceV1, UtsJsonSchemaFragmentV1, UtsObservabilityV1, UtsPlanningMetadataV1,
+    UtsReplaySafetyV1, UtsResourceRequirementV1, UtsSideEffectClassV1, UtsSideEffectTagV1,
+    UTS_SCHEMA_VERSION_V1_1,
+};
 use crate::uts_acc_compiler::{
     compile_uts_to_acc_v1, ToolProposalV1, UtsAccCompilerInputV1, UtsAccPolicyContextV1,
 };
 
 pub const RUNTIME_OBSERVE_ADAPTER_V1: &str = "adapter.runtime.observe.dry_run";
+
+pub fn runtime_observe_registry_v1() -> ToolRegistryV1 {
+    let empty_object = || UtsJsonSchemaFragmentV1 {
+        schema_type: "object".to_string(),
+        keywords: BTreeMap::from([
+            ("properties".to_string(), serde_json::json!({})),
+            ("required".to_string(), serde_json::json!([])),
+            ("additionalProperties".to_string(), serde_json::json!(false)),
+        ]),
+    };
+    let uts = UniversalToolSchemaV1_1 {
+        schema_version: UTS_SCHEMA_VERSION_V1_1.to_string(),
+        compatible_versions: vec![UtsCompatibleVersionV1::V1, UtsCompatibleVersionV1::V1_1],
+        name: "runtime.observe".to_string(),
+        version: "1.0.0".to_string(),
+        description: "Return a redacted aggregate observation of the current Runtime.".to_string(),
+        categories: Some(vec![
+            UtsCategoryV1::ReadOnly,
+            UtsCategoryV1::ObservabilitySensitive,
+        ]),
+        input_schema: empty_object(),
+        output_schema: empty_object(),
+        side_effect_class: UtsSideEffectClassV1::Read,
+        side_effects: Some(vec![UtsSideEffectTagV1::None]),
+        determinism: UtsDeterminismV1::BoundedNondeterministic,
+        replay_safety: UtsReplaySafetyV1::ReplaySafe,
+        idempotence: UtsIdempotenceV1::Idempotent,
+        resources: vec![UtsResourceRequirementV1 {
+            resource_type: "runtime".to_string(),
+            scope: "aggregate-observation".to_string(),
+        }],
+        authentication: UtsAuthenticationRequirementV1 {
+            mode: UtsAuthenticationModeV1::None,
+            required: false,
+        },
+        data_sensitivity: UtsDataSensitivityV1::Internal,
+        exfiltration_risk: UtsExfiltrationRiskV1::None,
+        execution_environment: UtsExecutionEnvironmentV1 {
+            kind: UtsExecutionEnvironmentKindV1::DryRun,
+            isolation: "runtime-owned aggregate-only adapter".to_string(),
+        },
+        errors: vec![UtsErrorModelV1 {
+            code: "runtime_observation_unavailable".to_string(),
+            message: "The redacted Runtime observation is unavailable.".to_string(),
+            retryable: false,
+        }],
+        observability: Some(UtsObservabilityV1::Governance),
+        planning: Some(UtsPlanningMetadataV1 {
+            review_recommended: Some(false),
+            ..UtsPlanningMetadataV1::default()
+        }),
+        extensions: BTreeMap::new(),
+    };
+    ToolRegistryV1 {
+        schema_version: "tool_registry.v1".to_string(),
+        registry_id: "runtime.resident.tools".to_string(),
+        tools: vec![RegisteredToolV1::new(
+            "runtime.observe.v1".to_string(),
+            "runtime.observe".to_string(),
+            "1.0.0".to_string(),
+            true,
+            uts,
+            vec![RUNTIME_OBSERVE_ADAPTER_V1.to_string()],
+        )],
+        adapters: vec![ToolAdapterCapabilityV1 {
+            adapter_id: RUNTIME_OBSERVE_ADAPTER_V1.to_string(),
+            tool_name: "runtime.observe".to_string(),
+            tool_version: "1.0.0".to_string(),
+            capability_id: "capability.runtime.observe.v1".to_string(),
+            side_effect_class: UtsSideEffectClassV1::Read,
+            execution_environment: UtsExecutionEnvironmentKindV1::DryRun,
+            supports_dry_run: true,
+            approved_for_binding: true,
+        }],
+    }
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(deny_unknown_fields)]
@@ -80,6 +164,9 @@ pub struct ResidentToolExecutionContextV1<'a> {
     pub checkpoint_lineage: &'a str,
     pub registry: ToolRegistryV1,
     pub policy: UtsAccPolicyContextV1,
+    pub risk_class: &'a str,
+    pub citizen_boundary_ref: &'a str,
+    pub gate_context: FreedomGateToolGateContextV1,
 }
 
 pub fn govern_resident_tool_output_v1(
@@ -111,7 +198,8 @@ pub fn govern_resident_tool_output_v1(
     {
         return denied("resident_authority_mismatch", None);
     }
-    let envelope: ResidentToolProposalEnvelopeV1 = match serde_json::from_str(output) {
+    let proposal_payload = output.strip_prefix("USER:\n").unwrap_or(output).trim();
+    let envelope: ResidentToolProposalEnvelopeV1 = match serde_json::from_str(proposal_payload) {
         Ok(value) => value,
         Err(_) => return denied("invalid_or_multiple_tool_proposals", None),
     };
@@ -146,23 +234,12 @@ pub fn govern_resident_tool_output_v1(
         acc_contract_id: acc.contract_id.clone(),
         policy_evidence_ref: context.authority.authority_id.clone(),
         action_kind: proposal.tool_name.clone(),
-        risk_class: "low".to_string(),
+        risk_class: context.risk_class.to_string(),
         operator_actor_id: context.resident_id.to_string(),
-        citizen_boundary_ref: "runtime.resident.boundary".to_string(),
+        citizen_boundary_ref: context.citizen_boundary_ref.to_string(),
         private_argument_digest,
     };
-    let gate = evaluate_tool_candidate_freedom_gate_v1(
-        &candidate,
-        &FreedomGateToolGateContextV1 {
-            policy_decision: "allowed".to_string(),
-            requires_operator_review: false,
-            requires_human_challenge: false,
-            escalation_available: false,
-            citizen_action_boundary_intact: true,
-            operator_action_boundary_intact: true,
-            private_arguments_redacted: true,
-        },
-    );
+    let gate = evaluate_tool_candidate_freedom_gate_v1(&candidate, &context.gate_context);
     let execution = execute_governed_action_with_adapter_v1(
         &GovernedExecutorInputV1 {
             source: GovernedExecutorSourceV1::RegistryCompiler,
@@ -223,11 +300,22 @@ mod tests {
     }
 
     fn authority(tool_name: &str) -> CsmResidentAgentToolAuthorityBinding {
-        CsmResidentAgentToolAuthorityBinding {
-            authority_id: "grant.compiler.fixture".to_string(),
-            authority_ref: "runtime://resident/actor.operator.alice/tool-authority".to_string(),
-            authority_sha256: "a".repeat(64),
-            allowed_tools: vec![tool_name.to_string()],
+        CsmResidentAgentToolAuthorityBinding::new(
+            "grant.compiler.fixture",
+            "runtime://resident/actor.operator.alice/tool-authority",
+            vec![tool_name.to_string()],
+        )
+    }
+
+    fn allowed_gate() -> FreedomGateToolGateContextV1 {
+        FreedomGateToolGateContextV1 {
+            policy_decision: "allowed".to_string(),
+            requires_operator_review: false,
+            requires_human_challenge: false,
+            escalation_available: false,
+            citizen_action_boundary_intact: true,
+            operator_action_boundary_intact: true,
+            private_arguments_redacted: true,
         }
     }
 
@@ -251,6 +339,9 @@ mod tests {
                 checkpoint_lineage: "checkpoint.1",
                 registry: compiler.registry,
                 policy: compiler.policy_context,
+                risk_class: "low",
+                citizen_boundary_ref: "runtime.resident.boundary",
+                gate_context: allowed_gate(),
             },
             &AllowFixtureAdapter,
         );
@@ -279,6 +370,9 @@ mod tests {
                 checkpoint_lineage: "checkpoint.2",
                 registry: compiler.registry,
                 policy: compiler.policy_context,
+                risk_class: "low",
+                citizen_boundary_ref: "runtime.resident.boundary",
+                gate_context: allowed_gate(),
             },
             &AllowFixtureAdapter,
         );
@@ -295,5 +389,83 @@ mod tests {
                 .unwrap_err(),
             "unsupported_runtime_adapter"
         );
+    }
+
+    #[test]
+    fn production_runtime_observe_compiles_gates_and_executes() {
+        let mut policy = crate::uts_acc_compiler::wp09_policy_context_fixture();
+        policy.allowed_side_effects = vec![UtsSideEffectClassV1::Read];
+        policy.allowed_resource_scopes = vec!["aggregate-observation".to_string()];
+        let resident_id = policy.actor_id.clone();
+        let role = policy.role.clone();
+        let binding = CsmResidentAgentToolAuthorityBinding::new(
+            policy.grant_id.clone(),
+            format!("runtime://resident/{resident_id}/tool-authority"),
+            vec!["runtime.observe".to_string()],
+        );
+        let output = serde_json::to_string(&ResidentToolProposalEnvelopeV1 {
+            tool_proposal: ToolProposalV1 {
+                proposal_id: "proposal.runtime-observe".to_string(),
+                tool_name: "runtime.observe".to_string(),
+                tool_version: "1.0.0".to_string(),
+                adapter_id: RUNTIME_OBSERVE_ADAPTER_V1.to_string(),
+                arguments: BTreeMap::new(),
+                dry_run_requested: true,
+                ambiguous: false,
+            },
+        })
+        .unwrap();
+        let receipt = govern_resident_tool_output_v1(
+            &output,
+            ResidentToolExecutionContextV1 {
+                resident_id: &resident_id,
+                role: &role,
+                authority: &binding,
+                cycle_id: "cycle.runtime.1",
+                checkpoint_lineage: "checkpoint.runtime.1#sha256:abc",
+                registry: runtime_observe_registry_v1(),
+                policy,
+                risk_class: "low",
+                citizen_boundary_ref: "runtime.resident.boundary",
+                gate_context: allowed_gate(),
+            },
+            &RuntimeObserveAdapterV1,
+        );
+        assert_eq!(receipt.decision, ResidentToolReceiptDecisionV1::Executed);
+        assert_eq!(
+            receipt.adapter_id.as_deref(),
+            Some(RUNTIME_OBSERVE_ADAPTER_V1)
+        );
+    }
+
+    #[test]
+    fn configured_freedom_gate_denial_stops_before_adapter() {
+        let compiler = wp09_compiler_input_fixture("fixture.safe_read");
+        let binding = authority(&compiler.proposal.tool_name);
+        let role = compiler.policy_context.role.clone();
+        let output = serde_json::to_string(&ResidentToolProposalEnvelopeV1 {
+            tool_proposal: compiler.proposal,
+        })
+        .unwrap();
+        let mut gate = allowed_gate();
+        gate.policy_decision = "denied".to_string();
+        let receipt = govern_resident_tool_output_v1(
+            &output,
+            ResidentToolExecutionContextV1 {
+                resident_id: "actor.operator.alice",
+                role: &role,
+                authority: &binding,
+                cycle_id: "cycle.denied",
+                checkpoint_lineage: "checkpoint.denied",
+                registry: compiler.registry,
+                policy: compiler.policy_context,
+                risk_class: "low",
+                citizen_boundary_ref: "runtime.resident.boundary",
+                gate_context: gate,
+            },
+            &AllowFixtureAdapter,
+        );
+        assert_eq!(receipt.decision, ResidentToolReceiptDecisionV1::Denied);
+        assert_eq!(receipt.gate_reason_code.as_deref(), Some("policy_denied"));
     }
 }

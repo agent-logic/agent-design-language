@@ -7,15 +7,31 @@
     "title": "[v0.92][Runtime] Wire ACC-governed tool execution into resident-agent cycles",
     "slug": "runtime-acc-resident-tool-execution",
     "version": "v0.92",
-    "generation": 1
+    "generation": 3
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Pre-execution output record.",
-      "actual_changes": [],
-      "artifacts": [],
+      "summary": "Wired typed resident tool authority and actual long-lived Runtime provider outputs through UTS-to-ACC compilation, Freedom Gate evaluation, injected governed adapter dispatch, and lineage-bound terminal receipts.",
+      "actual_changes": [
+        "Added typed resident authority id/ref/digest and sorted allowlist validation.",
+        "Added a Runtime-owned resident proposal service using the real UTS-to-ACC compiler and Freedom Gate.",
+        "Refactored governed execution to accept an injected adapter while keeping fixture dispatch test-only.",
+        "Integrated provider StepOutput processing into long-lived Runtime cycles and fail-closed denial receipts."
+      ],
+      "artifacts": [
+        "commit:0bc8df3ff",
+        "adl/src/resident_tool_execution.rs",
+        "adl/src/long_lived_agent.rs",
+        "adl-runtime/src/resident_agent.rs",
+        "resident_tool_execution: 3 passed",
+        "governed_executor: 25 passed",
+        "resident_agent: 4 passed",
+        "actual Runtime receipt integration: 1 passed",
+        "cargo check: passed",
+        "git diff --check: passed"
+      ],
       "actual_validation": [],
       "integration_state": "not_started",
       "publication_state": "not_published",

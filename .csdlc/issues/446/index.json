@@ -3,9 +3,9 @@
   "issue": 446,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "6d45794ff8f47d6ed78c0e8e6925c8384a89dbcd8abc3c23872a6da0c508da8e",
-  "phase": "bound",
-  "generation": 1,
-  "digest": "901f2d84f721d761ca2e54f20ef3a7f8ffe98325699bd22ff22b6a728811c70c",
+  "phase": "implemented",
+  "generation": 3,
+  "digest": "7eeb1508a9910efc8b7d1c1b8c3ca7b17fb951c06b74e9dd6bf33271f09e29d6",
   "branch": "codex/446-runtime-acc-resident-wiring",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-446-runtime-acc-resident-wiring",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "7be7213ff4f57c6893b9e05888758a8f9438a9dcb81d5b4117fddec596eda6bb",
+      "values_digest": "c1bac7464a28e3008c6838a3d51f73d28d63a02547ba97cbad1dfbead7e69860",
       "rendered_digest": "a4f6027a21a820c30c5134ba1567511d9f52f1d5bf5daadcc61a51c2a3a353d1",
       "ast_digest": "27a5f3a4b5e8abc714ad563d22a2d322243d75dd8703dc01b35b75f6cb7a856f"
     },
     "stp": {
-      "values_digest": "28b66ad415db1afe0ef820ca4bf541b228224c6bc72546d62c59234b8965d5b9",
+      "values_digest": "cca71111bcfcb8ce4cbc581618cb832404ba96d157bcf6a4bc3bf375574a3f6e",
       "rendered_digest": "8d82f119907a31b0a1a34692ad2979d48898cd5d871d1e6c11bd709b6260ed84",
       "ast_digest": "71286082e6509974f68f38220eb27a1a60afa250f1505e1938fe34e8b3fa8fc0"
     },
     "spp": {
-      "values_digest": "eb40220360c3c05ef2c36decb907834d2cffb5e7fe6ad0231bf7d75f166cf3ad",
+      "values_digest": "6941841c6391cd617804f91ecbc2e0228d6e95c4bf370d01e79bfe7848a15fc4",
       "rendered_digest": "328a3e601f844ec99ad9fa6a87596d3ba6aa56744dc052e25995bf3f2e2973e6",
       "ast_digest": "d889dc54057773a4840ce3e9b02d800d3588e21ff8d7ca34ebace795dfc547e3"
     },
     "vpp": {
-      "values_digest": "78005e89435a1da93f1189594c3ffeb17916c91d2a0a5031bd5b8658c646e3b6",
+      "values_digest": "7841805f34378557e8bba9c981790924ab3dc341deb5a2d76a354e8a295ff83e",
       "rendered_digest": "220ddae81452c5c2af091d9e694f02fed7ad8e1499b67ede4b5c37477b379549",
       "ast_digest": "5b3088a79fb06d9efefb3cdeecaaa3de493382c07eac86d660ee453aa48affa8"
     },
     "srp": {
-      "values_digest": "66db916ebbf689b97897826672bbeefe46c1754e684f2a8cb3ab5cbe3dfa2c72",
+      "values_digest": "0882fd184a96110598cbf55cb5a5a76efe05087f0ec1f8128dbd401abb78a752",
       "rendered_digest": "31ae50ed032d80690199bb3fe281d85d69985952b25928585d4e397607f7175d",
       "ast_digest": "b3c617e2f7ef89eb29ab7ed4bdccb41b22fcd4145eff8090239ecc7841686ea6"
     },
     "sor": {
-      "values_digest": "0f09cca52ff0999101ad3ea176c6b6f74ef158b2a43c011f63baa5ef13a5481c",
-      "rendered_digest": "855fda86f441ddb56f1850346808b5da12416d2329f6d9cd622052f60bcd1c89",
-      "ast_digest": "0f712b9eaed24880ae288de5bed02a1c15929015f6e170ed10595a18e5fa1ad2"
+      "values_digest": "aa143e4d879c8b193fb26d3cd61a224a1e0b336639b784586e07c275806780a4",
+      "rendered_digest": "9ed287daebea28fe18d809be584fda19bc5ff97c598fa63c7e9db045ca68df45",
+      "ast_digest": "07fd68939a553df2bbb698ff13474f00a6d1e3bd78318ba0328f9a07c35607e3"
     }
   },
   "transitions": [
@@ -68,6 +68,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "Implementation commit 0bc8df3ff contains typed authority, Runtime UTS-to-ACC and Freedom Gate routing, injected governed dispatch, terminal receipts, and focused passing proof."
     }
   ],
   "audit": [
@@ -91,6 +98,20 @@
       "actor": "csdlc-bind",
       "reason": "record Git branch/worktree topology",
       "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex",
+      "reason": "Record the exact implementation and focused proof before independent review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Wired typed resident tool authority and actual long-lived Runtime provider outputs through UTS-to-ACC compilation, Freedom Gate evaluation, injected governed adapter dispatch, and lineage-bound terminal receipts.\",\"changes\":[\"Added typed resident authority id/ref/digest and sorted allowlist validation.\",\"Added a Runtime-owned resident proposal service using the real UTS-to-ACC compiler and Freedom Gate.\",\"Refactored governed execution to accept an injected adapter while keeping fixture dispatch test-only.\",\"Integrated provider StepOutput processing into long-lived Runtime cycles and fail-closed denial receipts.\"],\"artifacts\":[\"commit:0bc8df3ff\",\"adl/src/resident_tool_execution.rs\",\"adl/src/long_lived_agent.rs\",\"adl-runtime/src/resident_agent.rs\",\"resident_tool_execution: 3 passed\",\"governed_executor: 25 passed\",\"resident_agent: 4 passed\",\"actual Runtime receipt integration: 1 passed\",\"cargo check: passed\",\"git diff --check: passed\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex",
+      "reason": "Implementation commit 0bc8df3ff contains typed authority, Runtime UTS-to-ACC and Freedom Gate routing, injected governed dispatch, terminal receipts, and focused passing proof.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
     }
   ]
 }

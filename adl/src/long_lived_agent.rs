@@ -1773,7 +1773,13 @@ fn validate_spec(spec: &AgentSpec) -> Result<()> {
                 return Err(anyhow!("resident_role must not be empty"));
             }
             authority.validate().map_err(|error| anyhow!(error))?;
-            for field in ["tool_registry", "tool_policy_context"] {
+            for field in [
+                "tool_registry",
+                "tool_policy_context",
+                "tool_gate_context",
+                "tool_risk_class",
+                "citizen_boundary_ref",
+            ] {
                 if spec.workflow.run_args.get(field).is_none() {
                     return Err(anyhow!(
                         "ACC-enabled resident workflow requires workflow.run_args.{field}"
@@ -2509,10 +2515,11 @@ fn write_cycle_artifacts(loaded: &LoadedAgentSpec, cycle_id: &str) -> Result<()>
     };
 
     if let Some(run) = adl_run.as_ref() {
+        let checkpoint_lineage = exact_checkpoint_lineage(loaded)?;
         write_resident_tool_receipts(
             loaded,
             cycle_id,
-            previous_cycle_id.as_deref().unwrap_or("genesis"),
+            &checkpoint_lineage,
             &cycle_dir,
             &run.outputs,
             &resident_tool_execution::RuntimeObserveAdapterV1,
@@ -2918,6 +2925,19 @@ fn write_cycle_artifacts(loaded: &LoadedAgentSpec, cycle_id: &str) -> Result<()>
     Ok(())
 }
 
+fn exact_checkpoint_lineage(loaded: &LoadedAgentSpec) -> Result<String> {
+    let path = continuity_checkpoint_path(loaded);
+    if !path.exists() {
+        return Ok("genesis".to_string());
+    }
+    let bytes = fs::read(&path)
+        .with_context(|| format!("failed reading continuity checkpoint {}", path.display()))?;
+    Ok(format!(
+        "continuity_checkpoint.json#sha256:{}",
+        hex::encode(Sha256::digest(bytes))
+    ))
+}
+
 fn write_resident_tool_receipts(
     loaded: &LoadedAgentSpec,
     cycle_id: &str,
@@ -2952,6 +2972,30 @@ fn write_resident_tool_receipts(
             .ok_or_else(|| anyhow!("missing Runtime tool policy context"))?,
     )
     .context("invalid Runtime tool policy context")?;
+    let gate_context: crate::freedom_gate::FreedomGateToolGateContextV1 = serde_json::from_value(
+        loaded
+            .spec
+            .workflow
+            .run_args
+            .get("tool_gate_context")
+            .cloned()
+            .ok_or_else(|| anyhow!("missing Runtime tool gate context"))?,
+    )
+    .context("invalid Runtime tool gate context")?;
+    let risk_class = loaded
+        .spec
+        .workflow
+        .run_args
+        .get("tool_risk_class")
+        .and_then(Value::as_str)
+        .ok_or_else(|| anyhow!("missing Runtime tool risk class"))?;
+    let citizen_boundary_ref = loaded
+        .spec
+        .workflow
+        .run_args
+        .get("citizen_boundary_ref")
+        .and_then(Value::as_str)
+        .ok_or_else(|| anyhow!("missing Runtime citizen boundary reference"))?;
     let receipts = outputs
         .iter()
         .map(|output| {
@@ -2965,6 +3009,9 @@ fn write_resident_tool_receipts(
                     checkpoint_lineage,
                     registry: registry.clone(),
                     policy: policy.clone(),
+                    risk_class,
+                    citizen_boundary_ref,
+                    gate_context: gate_context.clone(),
                 },
                 adapter,
             )
