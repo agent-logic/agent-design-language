@@ -1181,17 +1181,16 @@ fn contained_relative_path(base: &Path, configured: &str, label: &str) -> Result
     {
         return Err(format!("{label} must be a non-empty relative path"));
     }
-    let candidate = base.join(configured);
-    let parent = candidate
-        .parent()
-        .ok_or_else(|| format!("{label} omitted a parent directory"))?;
-    let canonical_parent = parent
-        .canonicalize()
-        .map_err(|error| format!("{label} parent could not be canonicalized: {error}"))?;
-    if canonical_parent != base && !canonical_parent.starts_with(base) {
-        return Err(format!("{label} escaped Runtime-owned state"));
-    }
-    Ok(candidate)
+    let file_name = configured
+        .file_name()
+        .ok_or_else(|| format!("{label} omitted a file name"))?;
+    let parent = configured.parent().unwrap_or_else(|| Path::new(""));
+    let parent = if parent.as_os_str().is_empty() {
+        base.to_path_buf()
+    } else {
+        create_contained_state_dir(base, &parent.to_string_lossy(), label)?
+    };
+    Ok(parent.join(file_name))
 }
 
 fn create_contained_state_dir(
