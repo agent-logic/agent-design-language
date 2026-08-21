@@ -7,13 +7,13 @@
     "title": "[v0.92][Runtime] Compose the production birthday and witness activation path",
     "slug": "451-production-birthday-witness-activation",
     "version": "v0.92",
-    "generation": 7
+    "generation": 8
   },
   "status": "ready",
   "content": {
     "card_kind": "spp",
     "values": {
-      "plan_revision": 3,
+      "plan_revision": 4,
       "summary": "Verify dependency ancestry and the source baseline, implement one Runtime-owned exactly-once birthday composition with a narrow live-resident adapter, run the renewed feature audit and focused production proof, update truth documents, then complete exact-head review and publication.",
       "steps": [
         {
@@ -66,6 +66,8 @@
         "adl-runtime-kernel/src/production_birthday.rs",
         "adl-runtime-kernel/src/assembly.rs",
         "adl-runtime-kernel/src/lib.rs",
+        "adl-runtime-kernel/src/memory_palace_authority.rs",
+        "adl-runtime-kernel/src/resident_cycle.rs",
         "adl-runtime-kernel/tests/production_birthday.rs",
         "adl-runtime-kernel/tests/fixtures/production_birthday",
         "adl/src/resident_tool_execution.rs",

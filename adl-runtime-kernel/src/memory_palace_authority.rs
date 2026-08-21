@@ -26,6 +26,7 @@ pub struct BirthdayAuthorityBootstrap {
     pub first_previous_integrity: Option<String>,
 }
 
+#[allow(clippy::too_many_arguments)]
 pub fn birthday_authority_bootstrap_from_runtime_keys(
     identity_key_id: impl Into<String>,
     identity_key: ed25519_dalek::VerifyingKey,

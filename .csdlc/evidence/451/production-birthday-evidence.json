@@ -1,0 +1,9 @@
+{
+  "schema": "adl.runtime.production_birthday_evidence.v1",
+  "issue": 451,
+  "source_revision": "280f3e34387092a396d5c21a3e6fe8bf6d6b4ee8",
+  "kernel_tests": {"selected": 5, "passed": 5, "failed": 0, "target": "production_birthday"},
+  "resident_tests": {"selected": 2, "passed": 2, "failed": 0, "target": "production_birthday_runtime"},
+  "proof": {"authenticated_tool_binding": true, "exactly_once": true, "restart": true, "two_store_contention": true, "cross_binding_denial": true, "ordinary_path_unchanged": true},
+  "redaction": {"private_state_retained": false, "provider_content_retained": false, "tool_arguments_retained": false, "repository_relative_paths": true}
+}

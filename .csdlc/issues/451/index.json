@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b9c2d7027cdbbd3b729c65e5834eb5a267bdfd975d7bfa5524071e7831956e5e",
   "phase": "bound",
-  "generation": 7,
-  "digest": "c21ccfa4013184ea0ea6b2205fa9fb1e28379752976ed369c054d980fe0bc6cd",
+  "generation": 8,
+  "digest": "ddefe1a1825b316230cdce969afa27fe3986faeb07ec21d056483b5f55d9a577",
   "branch": "codex/451-production-birthday-witness-activation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-451-production-birthday-witness-activation",
   "review_assignment": null,
@@ -25,32 +25,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2cedc0d7334fc3e6ac8d19599f5b61263b8b4ca9ffbc76463c54252d2f7879eb",
+      "values_digest": "2cdfd1495f2050fed4f82ea4572cccd45501adba98e1355cf9b2038ffdd3c196",
       "rendered_digest": "eadb6c2cc3035ca4dae94df535e206a938d256fc5937c858408cc5b86cb4ea99",
       "ast_digest": "f0cea1e2c58d406c14f2a0978ea405f57bce122026f1fc085589993f55ab3a8b"
     },
     "stp": {
-      "values_digest": "c2aa3c44b795a2e0e7119c32fa07511bb65b00a63993e8f74d626694525d03ee",
+      "values_digest": "918a63593e45cb46339fca171afafc638dd710a7e677dc5356ed9cd84510f4b0",
       "rendered_digest": "9ae8e31a25c4344bd5564591ee81b983e5b7876e818723169f1fe5b4a71d8f4d",
       "ast_digest": "08e42884cb056fc338f9e5cbb8ab232743375906d9334fa1726ee60bb4698bce"
     },
     "spp": {
-      "values_digest": "ae33b9e1e695feb7dd9bb6192def31377a199b7e0f8ded67699df13d3807583a",
-      "rendered_digest": "b921f86aba741348f18698d5d0e37003f4728220346af02e265a9809fa277ca7",
-      "ast_digest": "05d22061845ae0d9680e183aa9b446577a890cdcc9c7f9abf5a0e17ce3935aee"
+      "values_digest": "6a8713c6bd486a45196a577d598cf1d3095fb8d9631cc92a46e81ce55b2c3323",
+      "rendered_digest": "8ac23eec192307f767f6a0a3cccad87abc6640725e347b30178da0a518fd4b8e",
+      "ast_digest": "acb00b87193010adbef3685132f9cd51f1de02c45126e6fd848a6dcfb7c2d3cf"
     },
     "vpp": {
-      "values_digest": "4f719e7533eff3f83d02bf072cc85b3b74321e53aed087cd81eaa14514c46e9b",
+      "values_digest": "93b0a3f40f9b45eca3062b27a3d8e1af4cb9bd8092c1260a156900effb501835",
       "rendered_digest": "5dd80157e09af02d07bb352c64895f5778b98719516a2637641046258e0d0e5f",
       "ast_digest": "9ccf9013c0ee0a0efd4ecde2bd167f2e696adb6aa07a550792074fddfd188371"
     },
     "srp": {
-      "values_digest": "d6e9bfd7acc3fa8b28a4b24eccc458fe4c696f8c0c8b71ad5e31dff5a2d6d6cc",
+      "values_digest": "eb9d278140028de825695ccc4dcf82df73caa2640f8e35580878cee28da66013",
       "rendered_digest": "abe53fd3e5373848c81a065c9534881e09e819224ca7f039712eee1367b3459e",
       "ast_digest": "376df298ea3cc877ce1eac823784513b48246ba68fef818b25c0688864bd984e"
     },
     "sor": {
-      "values_digest": "e08f96abd0b9f29a7d569173828db4aba997a67f38e7b8e22578859989dae16f",
+      "values_digest": "e1e1ca3d7a9744a4fef4588f2041c855b5ebff3ca75e76724d07d73fca36ac4b",
       "rendered_digest": "4ec2e5158fbf99ed763f5b60d508fbb4aaec9779c09decf7a8b69b32cd2edfe0",
       "ast_digest": "3d2c95ef477fdb72d9eac47976939c90cb1e15ec879f3cca23f6b14e54a2e8b6"
     }
@@ -134,6 +134,13 @@
       "actor": "csdlc-bind",
       "reason": "record Git branch/worktree topology",
       "operation": "bind"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Record the two source-grounded Runtime-kernel compatibility repairs required for the reviewed all-target strict-Clippy denominator.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/production_birthday.rs\",\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/src/memory_palace_authority.rs\",\"adl-runtime-kernel/src/resident_cycle.rs\",\"adl-runtime-kernel/tests/production_birthday.rs\",\"adl-runtime-kernel/tests/fixtures/production_birthday\",\"adl/src/resident_tool_execution.rs\",\"adl/src/production_birthday.rs\",\"adl/src/lib.rs\",\"adl/src/long_lived_agent.rs\",\"adl/src/long_lived_agent/tests.rs\",\"adl/tests/production_birthday_runtime.rs\",\".csdlc/prepared/issues/451/validate_runtime_feature_wiring.rb\",\".csdlc/prepared/issues/451/validate_retained_evidence.rb\",\".csdlc/evidence/451\",\"docs/planning/ADL_FEATURE_LIST.md\",\"docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md\",\"docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md\",\"docs/milestones/v0.92/QUALITY_GATE_v0.92.md\"]}"
     }
   ]
 }

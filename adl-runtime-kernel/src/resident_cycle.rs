@@ -792,6 +792,17 @@ mod tests {
             )
             .unwrap(),
             permit_keys: BTreeMap::from([("operator".to_owned(), key.verifying_key())]),
+            birthday_authority: crate::birthday_authority_bootstrap_from_runtime_keys(
+                "resident-cycle-identity",
+                key.verifying_key(),
+                "resident-cycle-private",
+                key.verifying_key(),
+                "resident-cycle-continuity",
+                key.verifying_key(),
+                1,
+                1,
+                1,
+            ),
             reasoning: bootstrap_reasoning_services(recorder).unwrap(),
             time_source: Arc::new(FixedTime),
             time_bounds: TimeQualificationBounds {
