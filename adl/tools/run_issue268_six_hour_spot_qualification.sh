@@ -3,7 +3,7 @@ set -euo pipefail
 
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd -P)
 MODE=${1:-}
-RUN_ID=issue268-six-hour-r7i-20260821-48
+RUN_ID=issue268-six-hour-r7i-20260821-49
 EVIDENCE_ROOT=${ADL_ISSUE268_EVIDENCE_ROOT:-$ROOT/.csdlc/evidence/268/aws/$RUN_ID}
 REQUEST="$EVIDENCE_ROOT/portable-request.json"
 SUMMARY="$EVIDENCE_ROOT/summary.json"
@@ -98,6 +98,7 @@ profile = {
         "ADL_ISSUE268_AGENT_SPEC_DIR", "ADL_ISSUE268_RUNTIME_VOLUME_IDENTITY_SHA256",
         "ADL_ISSUE268_S3_SOURCE_RECEIPT", "ADL_ISSUE268_414_REVIEWED_SHA",
         "ADL_ISSUE268_CONTINUITY_BIN_SHA256", "ADL_ISSUE414_SIGNING_KEY_HEX",
+        "ADL_ISSUE268_CUSTODY_ENV_FILE",
     ],
 }
 digest = hashlib.sha256(json.dumps(profile, separators=(",", ":")).encode()).hexdigest()

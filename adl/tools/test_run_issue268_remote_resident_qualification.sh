@@ -75,6 +75,9 @@ chmod +x "$scratch/guardian.sh"
 
 output=$(PATH="$scratch/bin:$PATH" \
   ADL_RUN_ID=issue268-test-run \
+  ADL_CSM_CUSTODY_P256_SIGNING_PRIVATE_KEY_B64=test-private \
+  ADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64=test-public \
+  ADL_CSM_CUSTODY_SIGNING_KEY_ID=test-key \
   ADL_TEST_CONTINUITY="$scratch/continuity" \
   ADL_TEST_OLLAMA="$scratch/ollama" \
   ADL_TEST_MODELS="$scratch/models" \
@@ -103,6 +106,9 @@ output=$(PATH="$scratch/bin:$PATH" \
 
 if PATH="$scratch/bin:$PATH" \
   ADL_RUN_ID=issue268-test-run \
+  ADL_CSM_CUSTODY_P256_SIGNING_PRIVATE_KEY_B64=test-private \
+  ADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64=test-public \
+  ADL_CSM_CUSTODY_SIGNING_KEY_ID=test-key \
   ADL_TEST_CONTINUITY="$scratch/continuity" \
   ADL_TEST_OLLAMA="$scratch/ollama" \
   ADL_TEST_MODELS="$scratch/models" \

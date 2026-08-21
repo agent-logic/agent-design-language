@@ -2,6 +2,23 @@
 set -euo pipefail
 
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd -P)
+if [[ -n "${ADL_ISSUE268_CUSTODY_ENV_FILE:-}" ]]; then
+  [[ "$ADL_ISSUE268_CUSTODY_ENV_FILE" == /tmp/adl-issue268-custody-env.* \
+      && -f "$ADL_ISSUE268_CUSTODY_ENV_FILE" \
+      && "$(stat -c '%a' "$ADL_ISSUE268_CUSTODY_ENV_FILE")" == 600 ]] || {
+    echo "issue268: invalid ephemeral custody handoff" >&2
+    exit 70
+  }
+  set -a
+  # Generated locally by the tracked remote runner with base64/key-id values.
+  source "$ADL_ISSUE268_CUSTODY_ENV_FILE"
+  set +a
+  rm -f "$ADL_ISSUE268_CUSTODY_ENV_FILE"
+  unset ADL_ISSUE268_CUSTODY_ENV_FILE
+fi
+: "${ADL_CSM_CUSTODY_P256_SIGNING_PRIVATE_KEY_B64:?ephemeral custody private key is required}"
+: "${ADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64:?ephemeral custody public key is required}"
+: "${ADL_CSM_CUSTODY_SIGNING_KEY_ID:?ephemeral custody key id is required}"
 RUN_ID=${ADL_RUN_ID:?ADL_RUN_ID is required}
 EVIDENCE_ROOT=${ADL_ISSUE268_REMOTE_EVIDENCE_ROOT:-$ROOT/.adl/issue268-remote}
 VOLUME_ROOT=${ADL_RUNTIME_CONTINUITY_ROOT:?ADL_RUNTIME_CONTINUITY_ROOT is required}

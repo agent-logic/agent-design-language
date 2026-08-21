@@ -104,6 +104,40 @@ if [ "${ADL_RETAINED_VOLUME_ROLE:-build_cache}" = "runtime_continuity" ] \
     exit 70
   }
   export ADL_ISSUE414_SIGNING_KEY_HEX
+  # Generate a process-scoped P-256 custody keypair for #414 capsule signing.
+  # Private material is removed from disk before qualification starts.
+  custody_key_file="$(mktemp /tmp/adl-issue268-custody-key.XXXXXX)"
+  chmod 600 "$custody_key_file"
+  openssl genpkey -algorithm EC -pkeyopt ec_paramgen_curve:P-256 \
+    -out "$custody_key_file" >/dev/null 2>&1
+  custody_key_text="$(openssl pkey -in "$custody_key_file" -text -noout)"
+  custody_private_hex="$(printf '%s\n' "$custody_key_text" | awk '/^priv:/{capture=1;next}/^pub:/{capture=0}capture{gsub(/[^0-9a-fA-F]/,"");printf "%s",$0}')"
+  custody_public_hex="$(printf '%s\n' "$custody_key_text" | awk '/^pub:/{capture=1;next}/^ASN1 OID:/{capture=0}capture{gsub(/[^0-9a-fA-F]/,"");printf "%s",$0}')"
+  ADL_CSM_CUSTODY_P256_SIGNING_PRIVATE_KEY_B64="$(printf '%s' "$custody_private_hex" | python3 -c 'import base64,sys; print(base64.b64encode(bytes.fromhex(sys.stdin.read())).decode())')"
+  ADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64="$(printf '%s' "$custody_public_hex" | python3 -c 'import base64,sys; print(base64.b64encode(bytes.fromhex(sys.stdin.read())).decode())')"
+  rm -f "$custody_key_file"
+  unset custody_key_file custody_key_text custody_private_hex custody_public_hex
+  [ "${#ADL_CSM_CUSTODY_P256_SIGNING_PRIVATE_KEY_B64}" -eq 44 ] || {
+    echo "issue268: invalid ephemeral custody private key" >&2
+    exit 70
+  }
+  [ "${#ADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64}" -eq 88 ] || {
+    echo "issue268: invalid ephemeral custody public key" >&2
+    exit 70
+  }
+  custody_public_fingerprint="$(printf '%s' "$ADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64" | sha256sum | awk '{print substr($1,1,12)}')"
+  ADL_CSM_CUSTODY_SIGNING_KEY_ID="issue268-ephemeral-${ADL_RUN_ID}-${custody_public_fingerprint}"
+  unset custody_public_fingerprint
+  ADL_ISSUE268_CUSTODY_ENV_FILE="$(mktemp /tmp/adl-issue268-custody-env.XXXXXX)"
+  chmod 600 "$ADL_ISSUE268_CUSTODY_ENV_FILE"
+  printf 'ADL_CSM_CUSTODY_P256_SIGNING_PRIVATE_KEY_B64=%s\nADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64=%s\nADL_CSM_CUSTODY_SIGNING_KEY_ID=%s\n' \
+    "$ADL_CSM_CUSTODY_P256_SIGNING_PRIVATE_KEY_B64" \
+    "$ADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64" \
+    "$ADL_CSM_CUSTODY_SIGNING_KEY_ID" >"$ADL_ISSUE268_CUSTODY_ENV_FILE"
+  export ADL_CSM_CUSTODY_P256_SIGNING_PRIVATE_KEY_B64
+  export ADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64
+  export ADL_CSM_CUSTODY_SIGNING_KEY_ID
+  export ADL_ISSUE268_CUSTODY_ENV_FILE
   export ADL_ISSUE268_REMOTE_EVIDENCE_ROOT="$RUN_ROOT/issue268"
   export ADL_SPOT_DEHYDRATE_CALLBACK="$ADL_REMOTE_REPO_DIR/adl/tools/issue414_spot_dehydrate_callback.sh"
   export ADL_ISSUE414_CONTINUITY_BIN="$ADL_RUNTIME_CONTINUITY_ROOT/install/current/bin/adl_resident_shepherd_continuity"
@@ -357,7 +391,7 @@ if [ "$ISSUE268_RUNTIME_QUALIFICATION" = "1" ]; then
       sudo tail -n 200 /var/log/cloud-init-output.log 2>/dev/null >&2 || true
       exit 1
     fi
-    for required_command in cc cargo rustc python3 aws git tar zstd curl jq; do
+    for required_command in cc cargo rustc python3 aws git tar zstd curl jq openssl; do
       if ! command -v "$required_command" >/dev/null 2>&1; then
         printf 'issue268 package bootstrap missing command: %s\n' "$required_command" >&2
         exit 1

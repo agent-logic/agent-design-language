@@ -2011,7 +2011,7 @@ install -d -m 0755 /var/lib/adl
 exec > >(tee -a /var/log/adl-issue268-bootstrap.log) 2>&1
 trap 'status=$?; printf "bootstrap_failed exit=%s\n" "$status"; touch /var/lib/adl/issue268-bootstrap-failed; exit "$status"' ERR
 dnf install -y gcc gcc-c++ make pkgconf-pkg-config openssl-devel rust cargo python3 awscli-2 git tar zstd jq
-for command in cc cargo rustc python3 aws git tar zstd curl jq; do
+for command in cc cargo rustc python3 aws git tar zstd curl jq openssl; do
   command -v "$command" >/dev/null
 done
 touch /var/lib/adl/issue268-bootstrap-ready
@@ -4996,6 +4996,10 @@ mod tests {
         assert!(tracked_runner.contains("od -An -N32 -tx1 /dev/urandom"));
         assert!(tracked_runner.contains("export ADL_ISSUE414_SIGNING_KEY_HEX"));
         assert!(!tracked_runner.contains("printf '%s' \"$ADL_ISSUE414_SIGNING_KEY_HEX\""));
+        assert!(tracked_runner.contains("export ADL_CSM_CUSTODY_P256_SIGNING_PRIVATE_KEY_B64"));
+        assert!(tracked_runner.contains("export ADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64"));
+        assert!(tracked_runner.contains("export ADL_CSM_CUSTODY_SIGNING_KEY_ID"));
+        assert!(tracked_runner.contains("openssl genpkey -algorithm EC"));
         assert!(tracked_runner.contains("immutable_builder_image_only"));
         assert!(tracked_runner
             .contains("PERSISTENT_CHECKOUT=\"$TOOLCHAIN_ROOT/source/agent-design-language\""));
