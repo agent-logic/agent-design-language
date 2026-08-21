@@ -13,7 +13,7 @@
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
+      "review_scope": ".csdlc/issues/450/audit.jsonl\n.csdlc/issues/450/cards/sip.values.json\n.csdlc/issues/450/cards/sor.md\n.csdlc/issues/450/cards/sor.values.json\n.csdlc/issues/450/cards/spp.values.json\n.csdlc/issues/450/cards/srp.md\n.csdlc/issues/450/cards/srp.values.json\n.csdlc/issues/450/cards/stp.values.json\n.csdlc/issues/450/cards/vpp.values.json\n.csdlc/issues/450/index.json\nadl/tests/memory_palace_tests.rs\ndocs/planning/ADL_FEATURE_LIST.md\ndocs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md\ndocs/milestones/v0.92/README.md\ndocs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

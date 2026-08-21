@@ -6,10 +6,31 @@
   "initialization_digest": "2ba84a82b33fdb23b6c516a95a7dcd1b9311eefaea6b2e4c9c9ab1391c925625",
   "phase": "implemented",
   "generation": 25,
-  "digest": "429a6990995bac5777e1587dd211395142648c04e848869c7456a36b0c7488c8",
+  "digest": "16717b7d9ac59ffd1507c09c68b05329fec68322c87dc727a3a055086a537663",
   "branch": "codex/450-memory-palace-production-authority",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-450-memory-palace-production-authority",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:e14a6aa9-a471-4d29-9120-75cd4c0e96f9",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:c33e65009d105b27f7f1dc557f5d95b3aca305af:4c74b3c9dad4579ebb7a47b1c6170e1ea93b03f8ed106009a42d41976ed7c379",
+    "scope": [
+      ".csdlc/issues/450/audit.jsonl",
+      ".csdlc/issues/450/cards/sip.values.json",
+      ".csdlc/issues/450/cards/sor.md",
+      ".csdlc/issues/450/cards/sor.values.json",
+      ".csdlc/issues/450/cards/spp.values.json",
+      ".csdlc/issues/450/cards/srp.md",
+      ".csdlc/issues/450/cards/srp.values.json",
+      ".csdlc/issues/450/cards/stp.values.json",
+      ".csdlc/issues/450/cards/vpp.values.json",
+      ".csdlc/issues/450/index.json",
+      "adl/tests/memory_palace_tests.rs",
+      "docs/planning/ADL_FEATURE_LIST.md",
+      "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "docs/milestones/v0.92/README.md",
+      "docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +66,9 @@
       "ast_digest": "542b9447dd7c09de1122382bc923af80c88364cf6ac5240bed7eec2370f5637e"
     },
     "srp": {
-      "values_digest": "2f3fa6c74ff71889338913d813912b448453ba32aaf6a28196adf882a1294255",
-      "rendered_digest": "9345d905e33988500276b438b92d8ecbd22b9d96839c65f12e01cd5bd9c21ef2",
-      "ast_digest": "3d958497c4ba9ccd258735de396c7fd3821c755533a1713ff90745d98c3f6c65"
+      "values_digest": "8a6cc5118d6d5cceb8c5752fed3a3f6cfe91af06d7857989af751dfa384c92c6",
+      "rendered_digest": "9621978dfc6838a725cbf7a1e18337a4aee0cd948586d7fae38570729465eb52",
+      "ast_digest": "c1bc75048c7af2dc6c9ff14900b176658301cdd2b1af4d270dd7f95244aecab9"
     },
     "sor": {
       "values_digest": "6a53c89d9f6063d5b4c940553a8525bb3e1aa5aaea0f2d7cfc9d3ca520a95e3f",
@@ -484,6 +505,13 @@
       "actor": "codex:/root",
       "reason": "recover review after completion audit found AC8 feature-list and v0.92 evidence-matrix language did not yet name the #450 Memory Palace Runtime-kernel production authority or guard against broad completion overclaim",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 25,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

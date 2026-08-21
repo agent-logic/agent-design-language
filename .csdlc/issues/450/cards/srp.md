@@ -12,7 +12,21 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/issues/450/audit.jsonl
+.csdlc/issues/450/cards/sip.values.json
+.csdlc/issues/450/cards/sor.md
+.csdlc/issues/450/cards/sor.values.json
+.csdlc/issues/450/cards/spp.values.json
+.csdlc/issues/450/cards/srp.md
+.csdlc/issues/450/cards/srp.values.json
+.csdlc/issues/450/cards/stp.values.json
+.csdlc/issues/450/cards/vpp.values.json
+.csdlc/issues/450/index.json
+adl/tests/memory_palace_tests.rs
+docs/planning/ADL_FEATURE_LIST.md
+docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md
+docs/milestones/v0.92/README.md
+docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md
 
 ## Prompts
 
