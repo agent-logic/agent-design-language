@@ -6,10 +6,54 @@
   "initialization_digest": "2ba84a82b33fdb23b6c516a95a7dcd1b9311eefaea6b2e4c9c9ab1391c925625",
   "phase": "implemented",
   "generation": 13,
-  "digest": "94557fc373d536b4e9fef1f2fdf0695faeb6d1060e33e138abbd4493d6df7585",
+  "digest": "09301b1cd1c520ff59d09169795e02fb8ffe85746cf6e5d2052a24e88ec3b7a4",
   "branch": "codex/450-memory-palace-production-authority",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-450-memory-palace-production-authority",
-  "review_assignment": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:348f34cf-17d8-4b5c-adf9-c9a177396ac2",
+    "assigned_by": "codex",
+    "revision": "git-blake3:bce7cee75ba4830838fb7475ebcd38dae1ee7a57:3a24f3d97c3be9b3399f3be61b7bf8fc6907bf32efbc814240439b3443c22335",
+    "scope": [
+      ".csdlc/issues/450/audit.jsonl",
+      ".csdlc/issues/450/cards/sip.md",
+      ".csdlc/issues/450/cards/sip.values.json",
+      ".csdlc/issues/450/cards/sor.md",
+      ".csdlc/issues/450/cards/sor.values.json",
+      ".csdlc/issues/450/cards/spp.md",
+      ".csdlc/issues/450/cards/spp.values.json",
+      ".csdlc/issues/450/cards/srp.md",
+      ".csdlc/issues/450/cards/srp.values.json",
+      ".csdlc/issues/450/cards/stp.md",
+      ".csdlc/issues/450/cards/stp.values.json",
+      ".csdlc/issues/450/cards/vpp.md",
+      ".csdlc/issues/450/cards/vpp.values.json",
+      ".csdlc/issues/450/index.json",
+      ".csdlc/evidence/450/adl_memory_palace_projection.log",
+      ".csdlc/evidence/450/csm_memory_palace_readiness.log",
+      ".csdlc/evidence/450/kernel_memory_palace_packet.log",
+      ".csdlc/evidence/450/runtime_broad_lib_regression.log",
+      ".csdlc/evidence/450/runtime_memory_palace_service.log",
+      ".csdlc/prepared/issues/450/design.md",
+      ".csdlc/prepared/issues/450/diagram.mmd",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/bin/adl-runtime-kernel.rs",
+      "adl-runtime-kernel/src/governed_operations.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/memory_palace.rs",
+      "adl-runtime-kernel/src/memory_palace_authority.rs",
+      "adl-runtime-kernel/tests/assembly.rs",
+      "adl-runtime-kernel/tests/memory_palace.rs",
+      "adl-runtime/src/lib.rs",
+      "adl-runtime/src/memory_palace.rs",
+      "adl-runtime/src/supervision.rs",
+      "adl-runtime/src/topology.rs",
+      "adl/Cargo.lock",
+      "adl/Cargo.toml",
+      "adl/src/csm_runtime_api.rs",
+      "adl/src/memory_palace.rs",
+      "adl/tests/memory_palace_tests.rs"
+    ]
+  },
   "review": null,
   "publication": null,
   "readiness": null,
@@ -45,9 +89,9 @@
       "ast_digest": "542b9447dd7c09de1122382bc923af80c88364cf6ac5240bed7eec2370f5637e"
     },
     "srp": {
-      "values_digest": "55c1bac3da532867022a891e52001c040a913b9548ea2748c4718d84970246e2",
-      "rendered_digest": "9345d905e33988500276b438b92d8ecbd22b9d96839c65f12e01cd5bd9c21ef2",
-      "ast_digest": "3d958497c4ba9ccd258735de396c7fd3821c755533a1713ff90745d98c3f6c65"
+      "values_digest": "85c48969989d106115936744d876b7f04b9a25545bcd6787620bc837e3548b28",
+      "rendered_digest": "5f262b35d84362e7b5b759191b67ed9445b5dc47ceeb7c43521aa3384ea4c79e",
+      "ast_digest": "996353fea7af91da68b35ffb69fa1037d2249ae31e0fb4419f9986667d25e3dc"
     },
     "sor": {
       "values_digest": "e3689b601953d66ea86c2d9b9ed6e77f23b70119c6b4e4826d806f0739b96a95",
@@ -274,6 +318,13 @@
       "actor": "codex",
       "reason": "recover review after CI workspace coverage exposed CSM Runtime API ready fixtures missing the required validated Memory Palace retained service",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 13,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }
