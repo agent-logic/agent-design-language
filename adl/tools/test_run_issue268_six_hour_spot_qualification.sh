@@ -14,7 +14,7 @@ for file in "$wrapper" "$spot" "$soak" "$validator" "$uts_plan" "$uts_plan_valid
 done
 
 python3 - "$wrapper" "$spot" "$soak" "$validator" <<'PY'
-import pathlib, sys
+import pathlib, subprocess, sys, tempfile
 w,s,r,v=(pathlib.Path(p).read_text() for p in sys.argv[1:])
 required_wrapper=("authorized-on-demand-usd20-20260820","estimated_max_cost_microusd\": 20000000","timeout_seconds\": 25200","--on-demand-only","--runtime-continuity-volume-id","remaining_task_instances","ADL_ISSUE268_REPORT_BEGIN","r7i.2xlarge","#269")
 for marker in required_wrapper:
@@ -25,6 +25,26 @@ if '--max-spot-retries "$MAX_SPOT_RETRIES"' not in s: raise SystemExit("Spot ret
 if 'overshoot > 600' not in v: raise SystemExit("six-hour receipt validation missing")
 if 'public_url_pattern = re.compile' not in v: raise SystemExit("structural Runtime URL adaptation missing")
 if 'https://runtime.dev.agent-logic.ai:20997' in v: raise SystemExit("Guardian must not depend on public DNS")
+prefix = 'python3 - "$repo_root/infra/runtime-v3/runtime-init.toml" "$init_template" "$api_port"'
+if v.count(prefix) != 1: raise SystemExit("Runtime init localization block is missing or ambiguous")
+snippet = v.split(prefix, 1)[1].split("<<'PY'\n", 1)[1].split("\nPY\n", 1)[0]
+with tempfile.TemporaryDirectory() as tmp:
+    tmp = pathlib.Path(tmp)
+    source = tmp / "source.toml"
+    output = tmp / "output.toml"
+    canonical = 'address = "127.0.0.1:20997"\npublic_base_url = "https://runtime.dev.agent-logic.ai:20997"\n'
+    source.write_text(canonical)
+    result = subprocess.run([sys.executable, "-", str(source), str(output), "34567"], input=snippet, text=True, capture_output=True)
+    if result.returncode != 0: raise SystemExit(f"Runtime init localization failed: {result.stderr}")
+    localized = output.read_text()
+    if 'address = "127.0.0.1:34567"' not in localized or 'public_base_url = "https://localhost:34567"' not in localized:
+        raise SystemExit("Runtime init localization produced the wrong local endpoint")
+    source.write_text('address = "127.0.0.1:20997"\n')
+    if subprocess.run([sys.executable, "-", str(source), str(output), "34567"], input=snippet, text=True, capture_output=True).returncode == 0:
+        raise SystemExit("missing public URL unexpectedly localized")
+    source.write_text(canonical + 'public_base_url = "https://duplicate.invalid:20997"\n')
+    if subprocess.run([sys.executable, "-", str(source), str(output), "34567"], input=snippet, text=True, capture_output=True).returncode == 0:
+        raise SystemExit("duplicate public URLs unexpectedly localized")
 print("PASS: issue268 contract markers")
 PY
 
