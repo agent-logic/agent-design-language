@@ -247,6 +247,9 @@ candidate_filter_for_path() {
     adl/src/long_lived_agent/types.rs)
       printf 'csm_runtime_agent'
       ;;
+    adl/src/memory_palace.rs)
+      printf 'memory_palace'
+      ;;
     adl/src/long_lived_agent/storage.rs)
       printf 'long_lived_agent_storage'
       ;;
@@ -353,6 +356,9 @@ candidate_filter_for_path() {
       ;;
     adl-runtime/src/runtime_api_auth.rs)
       printf 'runtime_v3_auth'
+      ;;
+    adl-runtime/src/memory_palace.rs)
+      printf 'runtime_memory_palace'
       ;;
     adl/src/csdlc_prompt_editor.rs)
       printf 'csdlc_prompt_editor'
@@ -498,6 +504,9 @@ nextest_expression_for_filter() {
     csm_runtime_agent)
       printf '(binary_id(adl) and (test(/^csm_runtime_api::/) or test(/^csm_networking::/) or test(/^csm_backpressure::/) or test(/^csm_cav::/) or test(/^csm_constructability_gate::/) or test(/^csm_freedom_gate::/) or test(/^csm_godel_snapshot::/) or test(/^csm_shepherd_agent::/) or test(/^long_lived_agent::/) or test(/^cli::csm_service_cmd::/) or test(/^cli::csm_cmd::tests::/)) or binary_id(adl::cli_smoke) and test(/^agent::csm_/)) and not test(governed_notice_retains_spool_and_cursor_for_ambiguous_timeout)'
       ;;
+    memory_palace)
+      printf 'test(memory_palace)'
+      ;;
     long_lived_agent_storage)
       printf 'binary_id(adl) and test(long_lived_agent::storage)'
       ;;
@@ -539,6 +548,9 @@ nextest_expression_for_filter() {
       ;;
     runtime_v3_auth)
       printf 'test(/^runtime_api_auth::tests::/)'
+      ;;
+    runtime_memory_palace)
+      printf 'binary_id(adl-runtime) and test(/^memory_palace::tests::/)'
       ;;
     v086_review_surface)
       printf 'binary_id(adl) and test(/^demo::tests::v086_review_surface_demo_marks_retired_external_entries$/)'

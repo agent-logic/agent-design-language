@@ -224,6 +224,22 @@ if grep -F "test(long_lived_agent)" <<<"$csm_runtime_agent_expression" >/dev/nul
   exit 1
 fi
 
+runtime_memory_palace_changed="$TMP/runtime-memory-palace-changed.txt"
+printf 'M\tadl-runtime/src/memory_palace.rs\t177\n' >"$runtime_memory_palace_changed"
+runtime_memory_palace_filters="$TMP/runtime-memory-palace-filters.txt"
+bash "$SCRIPT" --changed-files "$runtime_memory_palace_changed" --print-risk-filters >"$runtime_memory_palace_filters"
+grep -Fx "runtime_memory_palace" "$runtime_memory_palace_filters" >/dev/null
+runtime_memory_palace_expression="$(bash "$SCRIPT" --changed-files "$runtime_memory_palace_changed" --print-risk-nextest-expression)"
+grep -Fx "binary_id(adl-runtime) and test(/^memory_palace::tests::/)" <<<"$runtime_memory_palace_expression" >/dev/null
+
+adl_memory_palace_changed="$TMP/adl-memory-palace-changed.txt"
+printf 'M\tadl/src/memory_palace.rs\t177\n' >"$adl_memory_palace_changed"
+adl_memory_palace_filters="$TMP/adl-memory-palace-filters.txt"
+bash "$SCRIPT" --changed-files "$adl_memory_palace_changed" --print-risk-filters >"$adl_memory_palace_filters"
+grep -Fx "memory_palace" "$adl_memory_palace_filters" >/dev/null
+adl_memory_palace_expression="$(bash "$SCRIPT" --changed-files "$adl_memory_palace_changed" --print-risk-nextest-expression)"
+grep -Fx "test(memory_palace)" <<<"$adl_memory_palace_expression" >/dev/null
+
 csm_runtime_cli_companion_changed="$TMP/csm-runtime-cli-companion-changed.txt"
 cat >"$csm_runtime_cli_companion_changed" <<'EOF'
 M	adl/src/cli/csm_cmd.rs	2

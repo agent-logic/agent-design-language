@@ -66,6 +66,7 @@ printf 'PR-fast coverage expression: %s\n' "$FILTER_EXPRESSION"
 printf 'PR-fast coverage target: %s\n' "$CARGO_TARGET_DIR"
 guardian_filter='test(/^guardian::tests::/)'
 runtime_auth_filter='test(/^runtime_api_auth::tests::/)'
+runtime_memory_palace_filter='binary_id(adl-runtime) and test(/^memory_palace::tests::/)'
 runtime_authority_filter='package(adl-runtime) and not (test(/^observability::/) or test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state))'
 runtime_authority_store_boundary_filter='package(adl-runtime) and ((binary_id(adl-runtime) and test(/^distributed::authority_store_adapters::/)) or binary_id(adl-runtime::distributed_authority_protocol) or binary_id(adl-runtime::distributed_authority_reconciliation) or binary_id(adl-runtime::distributed_authority_snapshots) or binary_id(adl-runtime::distributed_capability_advertisement) or binary_id(adl-runtime::distributed_certificates) or binary_id(adl-runtime::distributed_fencing) or binary_id(adl-runtime::distributed_identity_lease_authority) or binary_id(adl-runtime::distributed_lease) or binary_id(adl-runtime::distributed_migration) or binary_id(adl-runtime::distributed_placement) or binary_id(adl-runtime::distributed_recovery) or binary_id(adl-runtime::distributed_resource_weather) or binary_id(adl-runtime::distributed_snapshot_catalog) or (binary_id(adl-runtime::distributed_transport) and not test(three_secure_voters_commit_with_two_halt_with_one_and_restart_snapshot_state)))'
 runtime_shepherd_serving_eligibility_filter='binary_id(adl-runtime::distributed_shepherd_serving_eligibility)'
@@ -83,6 +84,7 @@ fi
 adl_coverage_ran=false
 if [ "$FILTER_EXPRESSION" != "$guardian_filter" ] \
   && [ "$FILTER_EXPRESSION" != "$runtime_auth_filter" ] \
+  && [ "$FILTER_EXPRESSION" != "$runtime_memory_palace_filter" ] \
   && [ "$FILTER_EXPRESSION" != "$runtime_authority_filter" ] \
   && [ "$FILTER_EXPRESSION" != "$runtime_authority_store_boundary_filter" ] \
   && [ "$FILTER_EXPRESSION" != "$runtime_shepherd_serving_eligibility_filter" ] \
@@ -121,6 +123,9 @@ runtime_companion=""
 if [ "$FILTER_EXPRESSION" = "$runtime_authority_filter" ]; then
   runtime_expression="$FILTER_EXPRESSION"
   runtime_companion="adl-runtime committed authority protocol tests"
+elif [ "$FILTER_EXPRESSION" = "$runtime_memory_palace_filter" ]; then
+  runtime_expression="$FILTER_EXPRESSION"
+  runtime_companion="adl-runtime Memory Palace tests"
 elif [ "$FILTER_EXPRESSION" = "$runtime_authority_store_boundary_filter" ]; then
   runtime_expression="$FILTER_EXPRESSION"
   runtime_companion="adl-runtime authority store boundary tests"

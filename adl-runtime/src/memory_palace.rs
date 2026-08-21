@@ -823,6 +823,17 @@ mod tests {
     }
 
     #[test]
+    fn retained_status_fails_closed_when_service_root_is_not_a_directory() {
+        let root = tempfile::tempdir().unwrap();
+        let service_root = root.path().join("memory-palace");
+        fs::write(&service_root, "not a directory").unwrap();
+        let status = RuntimeMemoryPalaceService::new(&service_root).retained_status();
+        assert_eq!(status["status"], "invalid");
+        assert_eq!(status["error_class"], "corrupt");
+        assert_eq!(status["source"], "durable_memory_palace_service");
+    }
+
+    #[test]
     fn stale_or_missing_latest_repairs_from_valid_journal_head() {
         let root = tempfile::tempdir().unwrap();
         let service = RuntimeMemoryPalaceService::new(root.path().join("memory-palace"));
@@ -903,6 +914,104 @@ mod tests {
             },
         )
         .unwrap();
+        assert!(service.load_latest().is_err());
+    }
+
+    #[test]
+    fn read_only_status_never_repairs_missing_or_stale_latest() {
+        let root = tempfile::tempdir().unwrap();
+        let service = RuntimeMemoryPalaceService::new(root.path().join("memory-palace"));
+        let first = service
+            .commit_validated_packet(packet("a", "first"), 1)
+            .unwrap();
+        let second = service
+            .commit_validated_packet(packet("b", "second"), 1)
+            .unwrap();
+
+        write_json_atomic(
+            &root.path().join("memory-palace/latest.json"),
+            &RuntimeMemoryPalaceLatest {
+                schema: LATEST_SCHEMA.to_owned(),
+                generation: 1,
+                packet_sha256: first.packet.packet_sha256.clone(),
+                checkpoint_sha256: first.checkpoint.checkpoint_sha256.clone(),
+            },
+        )
+        .unwrap();
+        let retained = service.retained_status();
+        assert_eq!(retained["status"], "unvalidated");
+        let unchanged: RuntimeMemoryPalaceLatest =
+            read_json(&root.path().join("memory-palace/latest.json")).unwrap();
+        assert_eq!(unchanged.generation, 1);
+        assert_eq!(unchanged.packet_sha256, first.packet.packet_sha256);
+
+        fs::remove_file(root.path().join("memory-palace/latest.json")).unwrap();
+        let retained = service.retained_status();
+        assert_eq!(retained["status"], "unvalidated");
+        assert!(!root.path().join("memory-palace/latest.json").exists());
+
+        let loaded = service.load_latest().unwrap().unwrap();
+        assert_eq!(loaded.checkpoint.checkpoint_sha256, second.checkpoint.checkpoint_sha256);
+    }
+
+    #[test]
+    fn retained_status_marks_non_directory_root_invalid() {
+        let root = tempfile::tempdir().unwrap();
+        let palace_path = root.path().join("memory-palace");
+        fs::write(&palace_path, b"not a directory").unwrap();
+        let service = RuntimeMemoryPalaceService::new(&palace_path);
+
+        let retained = service.retained_status();
+        assert_eq!(retained["status"], "invalid");
+        assert_eq!(retained["error_class"], "corrupt");
+    }
+
+    #[test]
+    fn journal_gap_or_invalid_entry_fails_restart_validation() {
+        let root = tempfile::tempdir().unwrap();
+        let service = RuntimeMemoryPalaceService::new(root.path().join("memory-palace"));
+        service
+            .commit_validated_packet(packet("a", "first"), 1)
+            .unwrap();
+        service
+            .commit_validated_packet(packet("b", "second"), 1)
+            .unwrap();
+
+        fs::remove_file(root.path().join("memory-palace/journal/00000000000000000001.json"))
+            .unwrap();
+        assert!(service.load_latest().is_err());
+
+        let root = tempfile::tempdir().unwrap();
+        let service = RuntimeMemoryPalaceService::new(root.path().join("memory-palace"));
+        let committed = service
+            .commit_validated_packet(packet("a", "first"), 1)
+            .unwrap();
+        let mut invalid = journal_entry(&committed.checkpoint);
+        invalid.generation = 0;
+        invalid.entry_sha256 = sha256_jcs(&invalid).unwrap();
+        write_json_atomic(
+            &root.path().join("memory-palace/journal/00000000000000000001.json"),
+            &invalid,
+        )
+        .unwrap();
+        assert!(service.load_latest().is_err());
+    }
+
+    #[test]
+    fn corrupt_checkpoint_fails_restart_validation() {
+        let root = tempfile::tempdir().unwrap();
+        let service = RuntimeMemoryPalaceService::new(root.path().join("memory-palace"));
+        service
+            .commit_validated_packet(packet("a", "first"), 1)
+            .unwrap();
+        let checkpoint_path = root
+            .path()
+            .join("memory-palace/generations/00000000000000000001/checkpoint.json");
+        let mut value: serde_json::Value =
+            serde_json::from_slice(&fs::read(&checkpoint_path).unwrap()).unwrap();
+        value["source_packet_ref"]["sha256"] = json!(H);
+        fs::write(&checkpoint_path, serde_json::to_vec(&value).unwrap()).unwrap();
+
         assert!(service.load_latest().is_err());
     }
 }
