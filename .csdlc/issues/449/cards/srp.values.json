@@ -7,13 +7,13 @@
     "title": "[v0.92][Runtime] Wire governed Adaptive Learning into resident execution",
     "slug": "449-governed-adaptive-learning-resident-integration",
     "version": "v0.92.0",
-    "generation": 7
+    "generation": 9
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Design/readiness review for #449 governed Adaptive Learning resident integration, including dependency gates, actual resident-cycle proof target, and non-overlap with #446.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
@@ -24,9 +24,7 @@
         "Verify that evidence/observability avoids private profile/provider leakage."
       ],
       "findings": [],
-      "residual_risk": [
-        "Full AC2 production binding remains dependency-gated until sibling capability/profile handles are terminal."
-      ],
+      "residual_risk": [],
       "review_result": "pre_review"
     }
   }

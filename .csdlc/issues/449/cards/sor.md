@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-#449 wires governed Adaptive Learning into a Runtime-owned resident-cycle path that validates resident identity, continuity, profile, capability, policy, predecessor, loop outcome, cancellation, and optional signed mutation before invoking execute_governed_adaptive_learning.
+#449 wires governed Adaptive Learning into a Runtime-owned resident-cycle path and remediates exact-review P1 by retaining redacted terminal evidence for invalid resident precondition failures before returning, while preserving MutationGate-only mutation for accepted paths.
 
 ## Artifacts
 
@@ -26,7 +26,8 @@ Status: pre_phase
 
 - Added resident-cycle production entrypoints in adl-runtime-kernel/src/adaptive_learning.rs for execute and startup reconciliation.
 - Added redacted ResidentAdaptiveLearningReceipt evidence that distinguishes accepted, rejected, cancelled, and restored outcomes without exposing private profile/provider content.
-- Added resident_cycle integration tests inside adl-runtime-kernel/tests/adaptive_learning.rs covering accepted MutationGate-only mutation, rejected non-mutation, invalid binding fail-closed behavior, restart restoration, and deterministic continuation.
+- Added redacted ResidentAdaptiveLearningTerminalEvidence retained in a separate governed durable domain for invalid resident binding/precondition failures, so rejected invalid inputs leave terminal proof without creating normal adaptive-learning history or mutating the graph/state.
+- Added resident_cycle integration tests inside adl-runtime-kernel/tests/adaptive_learning.rs covering accepted MutationGate-only mutation, rejected non-mutation, invalid binding terminal-evidence retention, restart restoration, and deterministic continuation.
 - Updated docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md from library-only/local contract wording to resident-cycle integration proof truth.
 - Added a mechanical live_continuity.rs type alias required for strict clippy on the touched package.
 
@@ -36,48 +37,14 @@ Status: pre_phase
   {
     "command": [
       "cargo",
-      "test",
-      "--manifest-path",
-      "adl-runtime-kernel/Cargo.toml",
-      "--test",
-      "adaptive_learning"
-    ],
-    "purpose": "Run the complete adaptive_learning integration target.",
-    "outcome": "passed",
-    "evidence_ref": "adaptive-learning-regression-tests.log"
-  },
-  {
-    "command": [
-      "git",
-      "diff",
-      "--check"
-    ],
-    "purpose": "Run git diff --check.",
-    "outcome": "passed",
-    "evidence_ref": "diff-hygiene.log"
-  },
-  {
-    "command": [
-      "rg",
-      "Adaptive Learning|adaptive learning|production-integrated|library-only",
-      ".adl",
-      "docs"
-    ],
-    "purpose": "Run the declared rg evidence lane.",
-    "outcome": "passed",
-    "evidence_ref": "feature-evidence-truth-check.log"
-  },
-  {
-    "command": [
-      "cargo",
       "fmt",
       "--manifest-path",
       "adl-runtime-kernel/Cargo.toml",
       "--check"
     ],
-    "purpose": "Run cargo fmt check.",
+    "purpose": "Reject rustfmt drift in the touched Runtime kernel package after the terminal-evidence fix.",
     "outcome": "passed",
-    "evidence_ref": "fmt-check.log"
+    "evidence_ref": "root-turn-live-output:2026-08-20:fmt-check"
   },
   {
     "command": [
@@ -89,9 +56,22 @@ Status: pre_phase
       "adaptive_learning",
       "resident_cycle"
     ],
-    "purpose": "Run the #449 resident_cycle selector.",
+    "purpose": "Prove #449 resident-cycle accepted mutation, rejected non-mutation, invalid binding terminal-evidence retention, restart, and deterministic continuation behavior.",
     "outcome": "passed",
-    "evidence_ref": "runtime-resident-cycle-integration-proof.log"
+    "evidence_ref": "root-turn-live-output:2026-08-20:resident-cycle-3-pass"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime-kernel/Cargo.toml",
+      "--test",
+      "adaptive_learning"
+    ],
+    "purpose": "Run the complete adaptive_learning integration target after the resident terminal-evidence remediation.",
+    "outcome": "passed",
+    "evidence_ref": "root-turn-live-output:2026-08-20:adaptive-learning-18-pass"
   },
   {
     "command": [
@@ -104,15 +84,36 @@ Status: pre_phase
       "-D",
       "warnings"
     ],
-    "purpose": "Reject clippy warnings before exact review.",
+    "purpose": "Run strict clippy for the touched Runtime kernel package/tests after the terminal-evidence fix.",
     "outcome": "passed",
-    "evidence_ref": "strict-clippy.log"
+    "evidence_ref": "root-turn-live-output:2026-08-20:strict-clippy-pass"
+  },
+  {
+    "command": [
+      "rg",
+      "Adaptive Learning|adaptive learning|production-integrated|library-only",
+      ".adl",
+      "docs"
+    ],
+    "purpose": "Confirm feature/evidence docs contain adaptive-learning truth surfaces and no stale library-only claim is used as #449 completion proof.",
+    "outcome": "passed",
+    "evidence_ref": "root-turn-live-output:2026-08-20:feature-evidence-truth-check"
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "purpose": "Reject whitespace and malformed diff defects before immutable commit and exact review.",
+    "outcome": "passed",
+    "evidence_ref": "root-turn-live-output:2026-08-20:diff-hygiene-pass"
   }
 ]
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

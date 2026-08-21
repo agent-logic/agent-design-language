@@ -14,8 +14,12 @@ pub const ADAPTIVE_LEARNING_POLICY_SCHEMA: &str = "adl.adaptive_learning.policy.
 pub const ADAPTIVE_LEARNING_HISTORY_SCHEMA: &str = "adl.adaptive_learning.history.v1";
 pub const ADAPTIVE_LEARNING_DURABLE_DOMAIN: &str = "runtime-v3-adaptive-learning";
 const ADAPTIVE_LEARNING_HISTORY_DOMAIN_PREFIX: &str = "runtime-v3-adaptive-learning-history";
+const RESIDENT_ADAPTIVE_LEARNING_TERMINAL_DOMAIN_PREFIX: &str =
+    "runtime-v3-resident-adaptive-learning-terminal";
 const ADAPTIVE_LEARNING_PENDING_DOMAIN: &str = "runtime-v3-adaptive-learning-pending";
 const ADAPTIVE_LEARNING_PENDING_SCHEMA: &str = "adl.adaptive_learning.pending.v1";
+const RESIDENT_ADAPTIVE_LEARNING_TERMINAL_SCHEMA: &str =
+    "adl.resident_adaptive_learning.terminal_evidence.v1";
 const MAX_POLICY_EVIDENCE: usize = 256;
 const MAX_FEEDBACK_SOURCES: usize = 64;
 const MAX_RATIONALE_BYTES: usize = 512;
@@ -192,6 +196,22 @@ pub struct ResidentAdaptiveLearningReceipt {
     pub mutation_evidence_retained: bool,
 }
 
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ResidentAdaptiveLearningTerminalEvidence {
+    pub schema: String,
+    pub resident_id: String,
+    pub requested_continuity_head_sha256: Option<String>,
+    pub status: ResidentAdaptiveLearningStatus,
+    pub reason_code: String,
+    pub history_id: String,
+    pub sequence: u64,
+    pub profile_sha256: String,
+    pub capability_envelope_sha256: String,
+    pub mutation_evidence_retained: bool,
+    pub terminal_evidence_sha256: String,
+}
+
 #[allow(clippy::too_many_arguments)]
 pub fn execute_resident_adaptive_learning_cycle(
     resident_id: &str,
@@ -206,14 +226,29 @@ pub fn execute_resident_adaptive_learning_cycle(
     cancellation: &CancellationToken,
     mutation: Option<(&MutationGrant, &[GraphPatch])>,
 ) -> Result<ResidentAdaptiveLearningReceipt, Vec<AdaptiveLearningRejection>> {
-    validate_resident_adaptive_learning_bindings(
+    if let Err(mut errors) = validate_resident_adaptive_learning_bindings(
         resident_id,
         continuity_head_sha256,
         profile,
         input,
         policy,
         previous,
-    )?;
+    ) {
+        if let Err(evidence_error) = retain_resident_adaptive_learning_terminal_evidence(
+            durable,
+            resident_id,
+            continuity_head_sha256,
+            input,
+            profile,
+            ResidentAdaptiveLearningStatus::Rejected,
+            "invalid_resident_binding",
+        ) {
+            errors.extend(evidence_error);
+            errors.sort();
+            errors.dedup();
+        }
+        return Err(errors);
+    }
     let history = execute_governed_adaptive_learning(
         gate,
         durable,
@@ -340,6 +375,95 @@ fn resident_adaptive_learning_receipt(
         cancellation_observed: history.loop_binding.cancellation_observed,
         mutation_evidence_retained: history.mutation_evidence.is_some(),
     })
+}
+
+fn retain_resident_adaptive_learning_terminal_evidence(
+    durable: &KernelDurableState,
+    resident_id: &str,
+    continuity_head_sha256: &str,
+    input: &AdaptiveLearningInput,
+    profile: &CognitiveProfile,
+    status: ResidentAdaptiveLearningStatus,
+    reason_code: &str,
+) -> Result<ResidentAdaptiveLearningTerminalEvidence, Vec<AdaptiveLearningRejection>> {
+    let safe_history_id = safe_evidence_id(&input.history_id, "history");
+    let sequence = input.sequence.max(1);
+    let mut evidence = ResidentAdaptiveLearningTerminalEvidence {
+        schema: RESIDENT_ADAPTIVE_LEARNING_TERMINAL_SCHEMA.into(),
+        resident_id: safe_evidence_id(resident_id, "resident"),
+        requested_continuity_head_sha256: is_sha(continuity_head_sha256)
+            .then(|| continuity_head_sha256.to_owned()),
+        status,
+        reason_code: safe_evidence_id(reason_code, "invalid_resident_binding"),
+        history_id: safe_history_id.clone(),
+        sequence,
+        profile_sha256: profile.profile_sha256.clone(),
+        capability_envelope_sha256: profile.capability_envelope_sha256.clone(),
+        mutation_evidence_retained: false,
+        terminal_evidence_sha256: String::new(),
+    };
+    evidence.terminal_evidence_sha256 = resident_terminal_evidence_digest(&evidence)?;
+    let bytes = serde_jcs::to_vec(&evidence)
+        .map_err(|_| vec![AdaptiveLearningRejection::EncodingFailure])?;
+    let domain = resident_adaptive_learning_terminal_domain(&safe_history_id, sequence);
+    if durable
+        .compare_and_set_governed_state(&domain, None, &bytes)
+        .map_err(|_| vec![AdaptiveLearningRejection::DurableWriteFailed])?
+    {
+        return Ok(evidence);
+    }
+    let current = durable
+        .load_governed_state(&domain)
+        .map_err(|_| vec![AdaptiveLearningRejection::DurableWriteFailed])?
+        .ok_or_else(|| vec![AdaptiveLearningRejection::DurableWriteFailed])?;
+    if current == bytes {
+        Ok(evidence)
+    } else {
+        Err(vec![AdaptiveLearningRejection::DurableWriteFailed])
+    }
+}
+
+pub fn load_resident_adaptive_learning_terminal_evidence(
+    durable: &KernelDurableState,
+    history_id: &str,
+    sequence: u64,
+) -> Result<Option<ResidentAdaptiveLearningTerminalEvidence>, AdaptiveLearningRejection> {
+    if !safe_id(history_id) || sequence == 0 {
+        return Err(AdaptiveLearningRejection::InvalidHistoryPrefix);
+    }
+    durable
+        .load_governed_state(&resident_adaptive_learning_terminal_domain(
+            history_id, sequence,
+        ))
+        .map_err(|_| AdaptiveLearningRejection::DurableWriteFailed)?
+        .map(|bytes| {
+            serde_json::from_slice(&bytes)
+                .map_err(|_| AdaptiveLearningRejection::NonCanonicalHistory)
+        })
+        .transpose()
+}
+
+pub fn resident_adaptive_learning_terminal_domain(history_id: &str, sequence: u64) -> String {
+    format!("{RESIDENT_ADAPTIVE_LEARNING_TERMINAL_DOMAIN_PREFIX}:{history_id}:{sequence:020}")
+}
+
+fn resident_terminal_evidence_digest(
+    evidence: &ResidentAdaptiveLearningTerminalEvidence,
+) -> Result<String, Vec<AdaptiveLearningRejection>> {
+    let mut canonical = evidence.clone();
+    canonical.terminal_evidence_sha256.clear();
+    digest(&canonical)
+}
+
+fn safe_evidence_id(value: &str, fallback_prefix: &str) -> String {
+    if safe_id(value) && safe_text(value) {
+        value.to_owned()
+    } else {
+        format!(
+            "{fallback_prefix}-{}",
+            format!("{:x}", Sha256::digest(value.as_bytes()))[..16].to_owned()
+        )
+    }
 }
 
 pub fn build_adaptive_learning_history(

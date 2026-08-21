@@ -978,7 +978,7 @@ fn resident_cycle_production_path_accepts_and_rejects_without_fixture_entrypoint
 }
 
 #[test]
-fn resident_cycle_invalid_bindings_fail_before_mutation_or_history() {
+fn resident_cycle_invalid_bindings_retain_terminal_evidence_without_mutation_or_history() {
     let h = harness();
     let patch_set = patches();
     let grant = grant(&h.graph, &h.key, &patch_set, &policy_sha(&h.policy));
@@ -1008,6 +1008,23 @@ fn resident_cycle_invalid_bindings_fail_before_mutation_or_history() {
         .load_governed_state(ADAPTIVE_LEARNING_DURABLE_DOMAIN)
         .unwrap()
         .is_none());
+    let terminal = load_resident_adaptive_learning_terminal_evidence(&h.durable, "history", 1)
+        .unwrap()
+        .unwrap();
+    assert_eq!(terminal.status, ResidentAdaptiveLearningStatus::Rejected);
+    assert_eq!(terminal.reason_code, "invalid_resident_binding");
+    assert_eq!(terminal.resident_id, "resident-agent");
+    assert_eq!(
+        terminal.requested_continuity_head_sha256.as_deref(),
+        Some(R)
+    );
+    assert_eq!(terminal.profile_sha256, h.profile.profile_sha256);
+    assert_eq!(
+        terminal.capability_envelope_sha256,
+        h.profile.capability_envelope_sha256
+    );
+    assert!(!terminal.mutation_evidence_retained);
+    assert_eq!(terminal.terminal_evidence_sha256.len(), 64);
 }
 
 #[test]

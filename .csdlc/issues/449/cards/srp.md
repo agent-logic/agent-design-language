@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Design/readiness review for #449 governed Adaptive Learning resident integration, including dependency gates, actual resident-cycle proof target, and non-overlap with #446.
+
 
 ## Prompts
 
@@ -32,7 +32,7 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Full AC2 production binding remains dependency-gated until sibling capability/profile handles are terminal.
+- none
 
 ## Review Result
 

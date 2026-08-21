@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d8e1f3dca77fcf7b936ed705f16684f757477c7a35ec6e1ee4d0f7facd456b0a",
   "phase": "implemented",
-  "generation": 7,
-  "digest": "9f8835065c09313a6c8aa61876b2257314958706927a5c2793b1501d93764da3",
+  "generation": 9,
+  "digest": "17ac0fce3871c0be91257a0d8ee18806cd1291248c4bfc0ef59faab163343cbc",
   "branch": "codex/449-governed-adaptive-learning-resident-integration",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-449-governed-adaptive-learning-resident-integration",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2be9510f155bd62c70010af4f63f6c1f0aa2d963a3acf0c6e3a5b9e10663c2f2",
+      "values_digest": "5084b660957cde0cbbf2dfa29aed5118f76b2334dce5210d307a7dacc56c6182",
       "rendered_digest": "2cfd28e6c6a6879f7e6c50c55739e047518d76c09cda80b9ebafc4403b793865",
       "ast_digest": "f464cd78ec8bddeabb30d93fddafa24b1062b4cec61a141464249d3a05f2cd41"
     },
     "stp": {
-      "values_digest": "d40a1d19d641b2e8f33bd6d2164be6caed2c5e86905c681636b812fea6c9b3e8",
+      "values_digest": "3ac0e7006a69323588e7e5249ea872adc08f6533bfac556ba3923db638c64661",
       "rendered_digest": "7b54454bbd83510eb034ffe2a2271617f0602cade7d3c6b59f4ac3d137227169",
       "ast_digest": "c6928d84219a13b3766acc4b90f7c8cfb71ba2f86c3092bf2246fe41523990e7"
     },
     "spp": {
-      "values_digest": "b265446ed3ca43cbec7d67501a625a1a98fb4560eaa3030063772c3161ac91f9",
+      "values_digest": "0eff13cd9f4a000b0574df0bd4308a226854d5b5a96cba33a0525af5b802f726",
       "rendered_digest": "bffc41af02fb2bde8fdbeee9bb86b0844d389e801cec9206ad674efc0dadcef5",
       "ast_digest": "c4ab178aa7012df674d6ec98c645f586c6e07ae5cd2a58fe689862f744ef001b"
     },
     "vpp": {
-      "values_digest": "fdab59ca563080c00b2728330b7290bbf9d1b89fccdb032dc1468a10483266c5",
+      "values_digest": "e978a157f9dadf83f2497b614b35551be2de169ff26e6f18eb9fddc108722cc3",
       "rendered_digest": "29b34386e79734d7df12f5860df83c84e13b42f22c4304b38539705e954c05ac",
       "ast_digest": "800bad4e472866aa40314c9753028f43e11b4961676430d90d974b85d927fb8d"
     },
     "srp": {
-      "values_digest": "ed2b873382cf9658081a6824c3e8b8728d4c5ceeb8a25cc79a802b9ff246cf05",
-      "rendered_digest": "a08daf5dd7828c9cf76f932a33330193ba499938e3ae5e1e8f2a92f35156a5ca",
-      "ast_digest": "1e208a690448a3d6762ef337f406784072adceb703820f1d6d080af6878582b4"
+      "values_digest": "02b99a0e243fc4cacf92867fe5c950747750fbdb1750c0b2fbc15073fe0b4904",
+      "rendered_digest": "3a8abb044fd02d026b1c6abd0393ba034ef34c8c2a2d4cb537496abcda46d04a",
+      "ast_digest": "13b21242e8fcf9b816e12eee09996417e5f70724d617c0eaaf8a5c370caeb090"
     },
     "sor": {
-      "values_digest": "a533a7f638dc7f0152502d9961e3562c25b5529a8d76c8c2fd040c5a46a1082b",
-      "rendered_digest": "06ca182a2b2e72cf7ccd853caee02c04f2124a5fbfefb65b72ef495a6723bf93",
-      "ast_digest": "95769104564ab05144ea1a1e8e87fc327afdecf563ea49d4c2c500b1fee90854"
+      "values_digest": "880895b72328148a3886b3dfa18552345495a37f8d0e8b50955a69943ecba8d7",
+      "rendered_digest": "4b5be8676bc9ef5ff2c4dc34cdf0d7105f9f395214a17a4c2890bec05b8c258a",
+      "ast_digest": "a842610f5b0e3a61ca01cc649a072ac2cd42bc0a2124bc3a07c891a6ca670734"
     }
   },
   "transitions": [
@@ -141,6 +141,27 @@
       "actor": "codex:/root",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Recover failed exact review fresh-session:a50aaf81-15d7-436d-867d-8998964c0d3b before remediating P1: invalid resident adaptive-learning precondition paths returned before retaining durable redacted terminal evidence.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Record #449 exact-review P1 remediation before a new immutable exact-head review: invalid resident precondition paths now retain durable redacted terminal evidence without graph/state mutation.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"#449 wires governed Adaptive Learning into a Runtime-owned resident-cycle path and remediates exact-review P1 by retaining redacted terminal evidence for invalid resident precondition failures before returning, while preserving MutationGate-only mutation for accepted paths.\",\"changes\":[\"Added resident-cycle production entrypoints in adl-runtime-kernel/src/adaptive_learning.rs for execute and startup reconciliation.\",\"Added redacted ResidentAdaptiveLearningReceipt evidence that distinguishes accepted, rejected, cancelled, and restored outcomes without exposing private profile/provider content.\",\"Added redacted ResidentAdaptiveLearningTerminalEvidence retained in a separate governed durable domain for invalid resident binding/precondition failures, so rejected invalid inputs leave terminal proof without creating normal adaptive-learning history or mutating the graph/state.\",\"Added resident_cycle integration tests inside adl-runtime-kernel/tests/adaptive_learning.rs covering accepted MutationGate-only mutation, rejected non-mutation, invalid binding terminal-evidence retention, restart restoration, and deterministic continuation.\",\"Updated docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md from library-only/local contract wording to resident-cycle integration proof truth.\",\"Added a mechanical live_continuity.rs type alias required for strict clippy on the touched package.\"],\"artifacts\":[\"adl-runtime-kernel/src/adaptive_learning.rs\",\"adl-runtime-kernel/tests/adaptive_learning.rs\",\"adl-runtime-kernel/src/live_continuity.rs\",\"docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md\",\".csdlc/issues/449\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--check\"],\"purpose\":\"Reject rustfmt drift in the touched Runtime kernel package after the terminal-evidence fix.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20:fmt-check\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"adaptive_learning\",\"resident_cycle\"],\"purpose\":\"Prove #449 resident-cycle accepted mutation, rejected non-mutation, invalid binding terminal-evidence retention, restart, and deterministic continuation behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20:resident-cycle-3-pass\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"adaptive_learning\"],\"purpose\":\"Run the complete adaptive_learning integration target after the resident terminal-evidence remediation.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20:adaptive-learning-18-pass\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--tests\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict clippy for the touched Runtime kernel package/tests after the terminal-evidence fix.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20:strict-clippy-pass\"},{\"command\":[\"rg\",\"Adaptive Learning|adaptive learning|production-integrated|library-only\",\".adl\",\"docs\"],\"purpose\":\"Confirm feature/evidence docs contain adaptive-learning truth surfaces and no stale library-only claim is used as #449 completion proof.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20:feature-evidence-truth-check\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and malformed diff defects before immutable commit and exact review.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20:diff-hygiene-pass\"}]}"
     }
   ]
 }
