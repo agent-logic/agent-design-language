@@ -1,7 +1,25 @@
 {
   "schema": "adl.issue309.rollback_proof.v1",
-  "status": "pending",
-  "base_revision": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6",
-  "bands": [],
-  "note": "No reduction band has been committed; exact revert and reapply proof is required before publication."
+  "baseline_commit": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6",
+  "bands": [
+    {
+      "band": "A",
+      "commit": "addd311c32d0a7d0a4dc0e038c3c235c38c5c64f",
+      "tree_before": "3bf3ec7d63192e51737912e225c7e9d6f045f269",
+      "tree_after": "fca59a16b1f2d17a614836fb989e29944cc96f30",
+      "revert_commit": "86d62049e42d6375b068149ee1fd0c473fda18b4",
+      "reverted_tree": "3bf3ec7d63192e51737912e225c7e9d6f045f269",
+      "reapply_commit": "ca9b7356ffb78170acde69f0cbd1836a30700c10",
+      "reapplied_tree": "fca59a16b1f2d17a614836fb989e29944cc96f30",
+      "unrelated_paths_changed": [],
+      "focused_validation_passed": true,
+      "validation": [
+        "cargo check --locked --manifest-path adl/Cargo.toml",
+        "bash adl/tools/test_owner_binary_install.sh",
+        "cargo test --locked --manifest-path adl/Cargo.toml --lib resident_shepherd_spot_continuity -- --nocapture: 6 passed",
+        "cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --test live_continuity -- --nocapture: 8 passed",
+        "validate_reduction_inventory.py after reapply: pass"
+      ]
+    }
+  ]
 }
