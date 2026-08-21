@@ -15,29 +15,9 @@ ORCHESTRATOR = ROOT / "adl/tools/run_issue268_continuity_uts_qualification.py"
 
 def main() -> None:
     assert "strict=True" not in ORCHESTRATOR.read_text(encoding="utf-8")
-    for helper in ("uts_benchmark_panel.py", "uts_benchmark_tasks.py"):
-        source = (ROOT / "adl/tools/benchmark" / helper).read_text(encoding="utf-8")
-        assert "from __future__ import annotations" in source
     cycle_source = (ROOT / "adl/tools/run_issue268_six_resident_uts_cycle.py").read_text(encoding="utf-8")
-    assert '"--self-check-task-panel-file"' in cycle_source
-    os.environ["ADL_UTS_LOCAL_NUM_PREDICT"] = "128"
-    os.environ["ADL_UTS_LOCAL_NUM_CTX"] = "32768"
-    os.environ["ADL_UTS_OLLAMA_KEEP_ALIVE"] = "-1"
-    sys.path.insert(0, str(ROOT / "adl/tools"))
-    import uts_benchmark_runner as benchmark_runner
-    adapter_request = benchmark_runner.adapter_request(
-        {
-            "id": "issue268-test",
-            "provider_kind": "local",
-            "provider": "ollama-local",
-            "model_id": "llama3.1:8b",
-        },
-        "test prompt",
-        "regular",
-    )
-    assert adapter_request["max_output_tokens"] == 128
-    assert adapter_request["context_window_tokens"] == 32768
-    assert adapter_request["local_keep_alive"] == "-1"
+    assert '"agent", "tick"' in cycle_source
+    assert "resident_tool_receipts.json" in cycle_source
     with tempfile.TemporaryDirectory(prefix="issue268-continuity-uts-") as temporary:
         root = pathlib.Path(temporary)
         fake_uts = root / "fake_uts.py"
@@ -48,7 +28,11 @@ a=sys.argv; state=pathlib.Path(a[a.index('--state')+1]); evidence=pathlib.Path(a
 if phase=='pre':
  import hashlib
  digest=lambda x:hashlib.sha256(json.dumps(x,separators=(',',':'),sort_keys=True).encode()).hexdigest()
- r={x['agent_id']:{'role':x['role'],'model':x['model'],'role_digest':digest({'agent_id':x['agent_id'],'role':x['role']}),'tool_authority_digest':digest({'agent_id':x['agent_id'],'tool_authority':x['tool_authority']}),'sequence':1,'completed_case_ids':[x['pre_recovery_case']],'pending_case_ids':[x['post_recovery_case']],'uts_report_sha256':'a'*64,'continuation_request_sha256':'b'*64,'checkpoint_lineage':['f'*64]} for x in plan['residents']}; value={'schema':'adl.issue268.six_resident_uts_state.v1','phase':'pre_complete','residents':r}
+ runtime=pathlib.Path(a[a.index('--runtime-root')+1]); r={}
+ for x in plan['residents']:
+  spec=runtime/'agent-specs'/x['agent_id']/'agent.json'; spec.parent.mkdir(parents=True,exist_ok=True); spec.write_text('{}\\n')
+  r[x['agent_id']]={'role':x['role'],'model':x['model'],'role_digest':digest({'agent_id':x['agent_id'],'role':x['role']}),'tool_authority_digest':digest({'agent_id':x['agent_id'],'tool_authority':x['tool_authority']}),'runtime_agent_spec':str(spec),'sequence':1,'completed_case_ids':[x['pre_recovery_case']],'pending_case_ids':[x['post_recovery_case']],'uts_report_sha256':'a'*64,'continuation_request_sha256':'b'*64,'checkpoint_lineage':['f'*64]}
+ value={'schema':'adl.issue268.six_resident_uts_state.v2','phase':'pre_complete','residents':r}
 else:
  value=json.load(open(state)); value['phase']='post_complete'; value['all_pending_empty']=True
  for x in value['residents'].values(): x['sequence']=2; x['completed_case_ids']+=x['pending_case_ids']; x['pending_case_ids']=[]; x['post_restore_uts_report_sha256']='c'*64; x['checkpoint_lineage'].append('1'*64)
@@ -105,6 +89,7 @@ out.write_text(json.dumps(value)+'\\n')
         command = [
             sys.executable, str(ORCHESTRATOR),
             "--continuity-bin", str(fake_continuity),
+            "--runtime-bin", str(fake_uts),
             "--runtime-root", str(root / "runtime"),
             "--build-cache-root", str(root / "build-cache"),
             "--agent-spec-dir", str(root / "agents"),

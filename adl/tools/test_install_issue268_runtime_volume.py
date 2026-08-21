@@ -47,9 +47,11 @@ with tempfile.TemporaryDirectory() as value:
 
     ollama = root / "ollama"
     continuity = root / "continuity"
+    runtime = root / "adl"
     models = root / "models"
     ollama.write_bytes(b"ollama")
     continuity.write_bytes(b"continuity")
+    runtime.write_bytes(b"runtime")
     models.mkdir()
     for relative in MODULE.MODEL_MANIFESTS:
         manifest = models / relative
@@ -68,6 +70,8 @@ with tempfile.TemporaryDirectory() as value:
         "ollama_binary_sha256": MODULE.sha256(ollama),
         "continuity_binary": str(continuity),
         "continuity_binary_sha256": MODULE.sha256(continuity),
+        "runtime_binary": str(runtime),
+        "runtime_binary_sha256": MODULE.sha256(runtime),
         "ollama_models": str(models),
     }
     installed_path = root / "installed.json"

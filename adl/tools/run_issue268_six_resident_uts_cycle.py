@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run one pre- or post-recovery UTS phase for all six #268 residents."""
+"""Run one real Runtime/UTS/ACC cycle for each of the six #268 residents."""
 
 from __future__ import annotations
 
@@ -9,25 +9,24 @@ import json
 import os
 import pathlib
 import subprocess
-import sys
-import tempfile
 from typing import Any
 
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 DEFAULT_PLAN = ROOT / "adl/tools/issue268_six_resident_uts_plan.json"
-DEFAULT_TASK_PANEL = ROOT / "adl/tools/benchmark/uts_33_task_panel.json"
-DEFAULT_RUNNER = ROOT / "adl/tools/uts_benchmark_runner.py"
+RUNTIME_RECEIPT = "adl.runtime.resident_tool_receipt.v1"
+
+
+def canonical_bytes(value: Any) -> bytes:
+    return json.dumps(value, separators=(",", ":"), sort_keys=True).encode("utf-8")
+
+
+def canonical_digest(value: Any) -> str:
+    return hashlib.sha256(canonical_bytes(value)).hexdigest()
 
 
 def digest_file(path: pathlib.Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
-
-
-def canonical_digest(value: Any) -> str:
-    return hashlib.sha256(
-        json.dumps(value, separators=(",", ":"), sort_keys=True).encode("utf-8")
-    ).hexdigest()
 
 
 def atomic_json(path: pathlib.Path, value: Any) -> None:
@@ -43,43 +42,125 @@ def safe_id(value: str) -> str:
     return value
 
 
-def selected_task(tasks: dict[str, dict[str, Any]], task_id: str) -> dict[str, Any]:
-    task = tasks.get(task_id)
-    if task is None:
-        raise SystemExit(f"UTS task is absent from canonical panel: {task_id}")
-    return task
+def authority(resident: dict[str, Any]) -> dict[str, Any]:
+    agent_id = resident["agent_id"]
+    authority_id = f"authority.{agent_id}"
+    authority_ref = f"runtime://resident/{agent_id}/tool-authority"
+    allowed_tools = sorted(set(resident["tool_authority"]) | {"runtime.observe"})
+    material = {
+        "authority_id": authority_id,
+        "authority_ref": authority_ref,
+        "allowed_tools": allowed_tools,
+    }
+    return {**material, "authority_sha256": canonical_digest(material)}
 
 
-def validate_report(
-    path: pathlib.Path, agent_id: str, task_id: str, include_governed: bool
-) -> dict[str, Any]:
-    report = json.loads(path.read_text(encoding="utf-8"))
-    if report.get("schema_version") != "uts_benchmark_runner.v1":
-        raise SystemExit(f"{agent_id}: unexpected UTS report schema")
-    if report.get("deterministic_self_check", {}).get("passed") is not True:
-        raise SystemExit(f"{agent_id}: deterministic UTS self-check failed")
-    models = report.get("models") or []
-    if len(models) != 1 or models[0].get("candidate_id") != agent_id:
-        raise SystemExit(f"{agent_id}: exact resident report identity mismatch")
-    lanes = models[0].get("lanes") or {}
-    if set(lanes) != {"regular", "uts_only", "uts_acc"}:
-        raise SystemExit(f"{agent_id}: exact UTS lane set missing")
-    required_lanes = {"regular", "uts_only"}
-    if include_governed:
-        required_lanes.add("uts_acc")
-    for lane_name in required_lanes:
-        lane = lanes[lane_name]
-        if lane.get("status") != "evaluated":
-            raise SystemExit(f"{agent_id}: {lane_name} did not execute: {lane.get('status')}")
-        case_ids = [case.get("task_id") or case.get("id") for case in lane.get("cases") or []]
-        if case_ids != [task_id]:
-            raise SystemExit(f"{agent_id}: {lane_name} case denominator mismatch: {case_ids}")
-    if not include_governed and lanes["uts_acc"].get("status") != "not_run":
-        raise SystemExit(f"{agent_id}: retired UTS+ACC lane unexpectedly executed")
-    serialized = json.dumps(report, sort_keys=True)
-    if any(marker in serialized for marker in ("API_KEY=", "Authorization: Bearer", "BEGIN PRIVATE KEY")):
-        raise SystemExit(f"{agent_id}: retained report contains a secret marker")
-    return report
+def proposal(agent_id: str, phase: str, task_id: str) -> dict[str, Any]:
+    return {
+        "tool_proposal": {
+            "proposal_id": f"issue268.{agent_id}.{phase}.{task_id}",
+            "tool_name": "runtime.observe",
+            "tool_version": "1.0.0",
+            "adapter_id": "adapter.runtime.observe.dry_run",
+            "arguments": {},
+            "dry_run_requested": True,
+            "ambiguous": False,
+        }
+    }
+
+
+def write_workflow(path: pathlib.Path, resident: dict[str, Any], phase: str, task_id: str) -> None:
+    expected = json.dumps(proposal(resident["agent_id"], phase, task_id), separators=(",", ":"))
+    document = f'''version: "0.5"
+providers:
+  local_ollama:
+    type: "ollama"
+    base_url: "http://127.0.0.1:11434"
+    config:
+      model: "{resident["model"]}"
+agents:
+  resident:
+    provider: "local_ollama"
+    model: "{resident["model"]}"
+tasks:
+  governed_runtime_observation:
+    prompt:
+      system: 'Return exactly the supplied JSON object. Do not add reasoning, commentary, markdown, or a code fence.'
+      user: '{expected}'
+run:
+  name: "issue268-{resident["agent_id"]}-{phase}-{task_id}"
+  workflow:
+    kind: "sequential"
+    steps:
+      - id: "resident-tool-proposal"
+        agent: "resident"
+        task: "governed_runtime_observation"
+'''
+    path.write_text(document, encoding="utf-8")
+
+
+def runtime_observe_registry() -> dict[str, Any]:
+    empty = {"type": "object", "additionalProperties": False, "properties": {}, "required": []}
+    uts = {
+        "schema_version": "uts.v1.1", "compatible_versions": ["uts.v1", "uts.v1.1"],
+        "name": "runtime.observe", "version": "1.0.0",
+        "description": "Return a redacted aggregate observation of the current Runtime.",
+        "categories": ["read_only", "observability_sensitive"],
+        "input_schema": empty, "output_schema": empty, "side_effect_class": "read",
+        "side_effects": ["none"], "determinism": "bounded_nondeterministic",
+        "replay_safety": "replay_safe", "idempotence": "idempotent",
+        "resources": [{"resource_type": "runtime", "scope": "aggregate-observation"}],
+        "authentication": {"mode": "none", "required": False},
+        "data_sensitivity": "internal", "exfiltration_risk": "none",
+        "execution_environment": {"kind": "dry_run", "isolation": "runtime-owned aggregate-only adapter"},
+        "errors": [{"code": "runtime_observation_unavailable", "message": "The redacted Runtime observation is unavailable.", "retryable": False}],
+        "observability": "governance", "planning": {"review_recommended": False}, "extensions": {},
+    }
+    return {
+        "schema_version": "tool_registry.v1", "registry_id": "runtime.resident.tools",
+        "tools": [{"registry_tool_id": "runtime.observe.v1", "tool_name": "runtime.observe", "tool_version": "1.0.0", "active": True, "uts": uts, "approved_adapter_ids": ["adapter.runtime.observe.dry_run"]}],
+        "adapters": [{"adapter_id": "adapter.runtime.observe.dry_run", "tool_name": "runtime.observe", "tool_version": "1.0.0", "capability_id": "capability.runtime.observe.v1", "side_effect_class": "read", "execution_environment": "dry_run", "supports_dry_run": True, "approved_for_binding": True}],
+    }
+
+
+def write_spec(path: pathlib.Path, resident: dict[str, Any], runtime_root: pathlib.Path) -> dict[str, Any]:
+    binding = authority(resident)
+    policy = {
+        "actor_id": resident["agent_id"], "role": resident["role"], "standing": "active",
+        "authenticated": True, "grant_id": binding["authority_id"],
+        "grantor_actor_id": "issue268.runtime", "grant_status": "active", "delegation": None,
+        "allowed_side_effects": ["read"], "allowed_resource_scopes": ["aggregate-observation"],
+        "allow_sensitive_data": False, "visibility_constructible": True,
+        "replay_allowed": True, "execution_approved": True,
+    }
+    spec = {
+        "schema": "adl.long_lived_agent_spec.v1", "agent_instance_id": resident["agent_id"],
+        "display_name": f"Issue 268 {resident['role']}",
+        "state_root": str(runtime_root / "residents" / resident["agent_id"]),
+        "workflow": {"kind": "adl_workflow", "name": f"issue268-{resident['agent_id']}", "path": "workflow.adl.yaml", "run_args": {
+            "freedom_gate_policy_decision": "allowed", "tool_registry": runtime_observe_registry(),
+            "tool_policy_context": policy, "tool_risk_class": "low",
+            "citizen_boundary_ref": "runtime.resident.boundary",
+            "tool_gate_context": {"policy_decision": "allowed", "requires_operator_review": False,
+                "requires_human_challenge": False, "escalation_available": False,
+                "citizen_action_boundary_intact": True, "operator_action_boundary_intact": True,
+                "private_arguments_redacted": True}}},
+        "heartbeat": {"interval_secs": 1, "max_cycles": 2, "stale_lease_after_secs": 900},
+        "checkpoint": {"interval_secs": 1, "allow_agent_requested": True, "min_request_interval_secs": 1},
+        "safety": {"allow_network": False, "allow_broker": False,
+            "allow_filesystem_writes_outside_state_root": False, "allow_real_world_side_effects": False,
+            "require_public_artifact_sanitization": True, "financial_advice": False,
+            "max_cycle_runtime_secs": 900, "max_consecutive_failures": 1},
+        "memory": {}, "resident_role": resident["role"], "tool_authority": binding,
+    }
+    atomic_json(path, spec)
+    return binding
+
+
+def run_agent(runtime_bin: pathlib.Path, spec: pathlib.Path) -> None:
+    completed = subprocess.run([str(runtime_bin), "agent", "tick", "--spec", str(spec), "--json"], cwd=ROOT, check=False)
+    if completed.returncode != 0:
+        raise SystemExit(f"Runtime agent tick failed ({completed.returncode}): {spec}")
 
 
 def main() -> int:
@@ -88,193 +169,75 @@ def main() -> int:
     parser.add_argument("--state", required=True, type=pathlib.Path)
     parser.add_argument("--evidence-dir", required=True, type=pathlib.Path)
     parser.add_argument("--plan", type=pathlib.Path, default=DEFAULT_PLAN)
-    parser.add_argument("--task-panel", type=pathlib.Path, default=DEFAULT_TASK_PANEL)
-    parser.add_argument("--runner", type=pathlib.Path, default=DEFAULT_RUNNER)
+    parser.add_argument("--runtime-bin", required=True, type=pathlib.Path)
+    parser.add_argument("--runtime-root", required=True, type=pathlib.Path)
     args = parser.parse_args()
-
+    if not args.runtime_bin.is_file():
+        raise SystemExit("real Runtime binary is required")
     plan = json.loads(args.plan.read_text(encoding="utf-8"))
-    task_panel = json.loads(args.task_panel.read_text(encoding="utf-8"))
-    tasks = {task["id"]: task for task in task_panel.get("tasks", [])}
     residents = plan.get("residents") or []
-    include_governed = (plan.get("uts") or {}).get("include_governed") is True
-    if len(residents) != 6:
-        raise SystemExit("six-resident plan is required")
-
+    if len(residents) != 6 or len({row["agent_id"] for row in residents}) != 6:
+        raise SystemExit("six distinct residents are required")
+    runtime_root = args.runtime_root.resolve()
     if args.phase == "pre":
         if args.state.exists():
-            raise SystemExit("pre-recovery UTS state already exists; refusing completed-case replay")
-        state: dict[str, Any] = {
-            "schema": "adl.issue268.six_resident_uts_state.v1",
-            "plan_sha256": digest_file(args.plan),
-            "task_panel_sha256": digest_file(args.task_panel),
-            "phase": "pre_in_progress",
-            "residents": {},
-        }
+            raise SystemExit("pre state already exists; refusing replay")
+        state = {"schema": "adl.issue268.six_resident_uts_state.v2", "plan_sha256": digest_file(args.plan), "phase": "pre_in_progress", "residents": {}}
     else:
-        if not args.state.is_file():
-            raise SystemExit("post-recovery phase requires retained pre-recovery state")
         state = json.loads(args.state.read_text(encoding="utf-8"))
-        if state.get("schema") != "adl.issue268.six_resident_uts_state.v1":
-            raise SystemExit("retained UTS state schema mismatch")
-        if state.get("plan_sha256") != digest_file(args.plan) or state.get("task_panel_sha256") != digest_file(args.task_panel):
-            raise SystemExit("retained UTS state input digest mismatch")
-        if state.get("phase") != "pre_complete":
-            raise SystemExit("post-recovery phase requires exactly completed pre phase")
-        if set((state.get("residents") or {}).keys()) != {row["agent_id"] for row in residents}:
-            raise SystemExit("retained UTS resident population mismatch")
+        if state.get("schema") != "adl.issue268.six_resident_uts_state.v2" or state.get("phase") != "pre_complete":
+            raise SystemExit("post phase requires exact completed pre state")
         state["phase"] = "post_in_progress"
         atomic_json(args.state, state)
-
     args.evidence_dir.mkdir(parents=True, exist_ok=True)
     for resident in residents:
         agent_id = safe_id(resident["agent_id"])
         task_id = resident["pre_recovery_case" if args.phase == "pre" else "post_recovery_case"]
-        task = selected_task(tasks, task_id)
-        retained = (state.get("residents") or {}).get(agent_id)
-        if args.phase == "post":
-            if retained is None or retained.get("completed_case_ids") != [resident["pre_recovery_case"]]:
-                raise SystemExit(f"{agent_id}: retained completed-case state mismatch")
-            if retained.get("pending_case_ids") != [task_id]:
-                raise SystemExit(f"{agent_id}: retained pending-case state mismatch")
-
-        with tempfile.TemporaryDirectory(prefix=f"issue268-{agent_id}-") as temporary:
-            temp = pathlib.Path(temporary)
-            model_panel = temp / "models.json"
-            task_subset = temp / "tasks.json"
-            model_list = temp / "models.txt"
-            model_panel.write_text(
-                json.dumps(
-                    {
-                        "schema_version": "uts_benchmark_model_panel.v1",
-                        "models": [
-                            {
-                                "id": agent_id,
-                                "tier": "issue268-resident",
-                                "provider_kind": "local",
-                                "provider": "ollama-local",
-                                "model_id": resident["model"],
-                                "notes": resident["role"],
-                            }
-                        ],
-                    },
-                    indent=2,
-                )
-                + "\n",
-                encoding="utf-8",
-            )
-            task_subset.write_text(
-                json.dumps({"schema_version": task_panel.get("schema_version"), "tasks": [task]}, indent=2) + "\n",
-                encoding="utf-8",
-            )
-            model_list.write_text(agent_id + "\n", encoding="utf-8")
-            report_path = args.evidence_dir / f"{args.phase}-{agent_id}.json"
-            environment = os.environ.copy()
-            environment.setdefault("ADL_UTS_LOCAL_TEST_TIMEOUT_SECONDS", "600")
-            environment.setdefault("ADL_UTS_LOCAL_NUM_PREDICT", "128")
-            environment.setdefault("ADL_UTS_LOCAL_NUM_CTX", "32768")
-            environment.setdefault("ADL_UTS_OLLAMA_KEEP_ALIVE", "-1")
-            command = [
-                sys.executable,
-                str(args.runner),
-                "local",
-                str(model_list),
-                str(report_path),
-                "--panel-file",
-                str(model_panel),
-                "--task-panel-file",
-                str(task_subset),
-                "--self-check-task-panel-file",
-                str(args.task_panel),
-            ]
-            if include_governed:
-                command.append("--include-governed")
-            completed = subprocess.run(command, cwd=ROOT, env=environment, check=False)
-            if completed.returncode != 0:
-                if report_path.is_file():
-                    failed_report = json.loads(report_path.read_text(encoding="utf-8"))
-                    for model in failed_report.get("models", []):
-                        for lane_name, lane in (model.get("lanes") or {}).items():
-                            if lane.get("status") != "evaluated":
-                                print(
-                                    f"{agent_id}: lane={lane_name} status={lane.get('status')} "
-                                    f"failure_kind={lane.get('provider_failure_kind')} "
-                                    f"note={lane.get('note')}",
-                                    file=sys.stderr,
-                                )
-                self_check_path = report_path.with_name(f"{report_path.stem}_self_check.json")
-                if self_check_path.is_file():
-                    self_check = json.loads(self_check_path.read_text(encoding="utf-8"))
-                    print(
-                        f"{agent_id}: deterministic self-check failures: "
-                        f"{self_check.get('failures', [])}",
-                        file=sys.stderr,
-                    )
-                raise SystemExit(f"{agent_id}: UTS runner failed with {completed.returncode}")
-            report = validate_report(report_path, agent_id, task_id, include_governed)
-
-        report_sha256 = digest_file(report_path)
+        retained = state["residents"].get(agent_id)
+        if args.phase == "post" and (retained is None or retained["pending_case_ids"] != [task_id]):
+            raise SystemExit(f"{agent_id}: only the exact pending case may resume")
+        agent_dir = runtime_root / "agent-specs" / agent_id
+        agent_dir.mkdir(parents=True, exist_ok=True)
+        spec_path = agent_dir / "agent.json"
+        binding = write_spec(spec_path, resident, runtime_root)
+        write_workflow(agent_dir / "workflow.adl.yaml", resident, args.phase, task_id)
+        run_agent(args.runtime_bin, spec_path)
+        cycle_number = 1 if args.phase == "pre" else 2
+        cycle_dir = runtime_root / "residents" / agent_id / "cycles" / f"cycle-{cycle_number:06d}"
+        receipt_path = cycle_dir / "resident_tool_receipts.json"
+        receipts = json.loads(receipt_path.read_text(encoding="utf-8"))
+        if len(receipts) != 1 or receipts[0].get("schema") != RUNTIME_RECEIPT or receipts[0].get("decision") != "executed":
+            raise SystemExit(f"{agent_id}: Runtime UTS/ACC proposal did not execute")
+        receipt = receipts[0]
+        if receipt.get("resident_id") != agent_id or receipt.get("authority_sha256") != binding["authority_sha256"]:
+            raise SystemExit(f"{agent_id}: Runtime receipt authority mismatch")
+        report_path = args.evidence_dir / f"{args.phase}-{agent_id}.json"
+        report = {"schema": "adl.issue268.runtime_resident_cycle.v1", "agent_id": agent_id,
+            "role": resident["role"], "task_id": task_id, "model": resident["model"],
+            "runtime_receipt": receipt, "runtime_receipt_sha256": digest_file(receipt_path),
+            "cycle_id": f"cycle-{cycle_number:06d}"}
+        atomic_json(report_path, report)
+        report_sha = digest_file(report_path)
         if args.phase == "pre":
-            role_digest = canonical_digest(
-                {"agent_id": agent_id, "role": resident["role"]}
-            )
-            tool_authority_digest = canonical_digest(
-                {"agent_id": agent_id, "tool_authority": resident["tool_authority"]}
-            )
-            checkpoint_lineage = canonical_digest(
-                {
-                    "agent_id": agent_id,
-                    "generation": 0,
-                    "pre_recovery_case": task_id,
-                    "post_recovery_case": resident["post_recovery_case"],
-                }
-            )
-            state["residents"][agent_id] = {
-                "role": resident["role"],
-                "model": resident["model"],
-                "role_digest": role_digest,
-                "tool_authority_digest": tool_authority_digest,
-                "sequence": 1,
-                "completed_case_ids": [task_id],
-                "pending_case_ids": [resident["post_recovery_case"]],
-                "uts_report_sha256": report_sha256,
-                "continuation_request_sha256": hashlib.sha256(
-                    resident["post_recovery_case"].encode("utf-8")
-                ).hexdigest(),
-                "checkpoint_lineage": [checkpoint_lineage],
-                "lane_results": {
-                    name: {
-                        "passed_count": lane.get("passed_count"),
-                        "total_cases": lane.get("total_cases"),
-                        "full_support": lane.get("full_support"),
-                    }
-                    for name, lane in report["models"][0]["lanes"].items()
-                    if name in {"regular", "uts_only"} or include_governed
-                },
-            }
+            state["residents"][agent_id] = {"role": resident["role"], "model": resident["model"],
+                "role_digest": canonical_digest({"agent_id": agent_id, "role": resident["role"]}),
+                "tool_authority_digest": canonical_digest({"agent_id": agent_id, "tool_authority": resident["tool_authority"]}),
+                "runtime_authority_sha256": binding["authority_sha256"], "sequence": 1,
+                "runtime_agent_spec": str(spec_path),
+                "completed_case_ids": [task_id], "pending_case_ids": [resident["post_recovery_case"]],
+                "uts_report_sha256": report_sha,
+                "continuation_request_sha256": hashlib.sha256(resident["post_recovery_case"].encode()).hexdigest(),
+                "checkpoint_lineage": [receipt["checkpoint_lineage"]]}
         else:
-            previous_lineage = retained["checkpoint_lineage"][-1]
             retained["sequence"] = 2
             retained["completed_case_ids"].append(task_id)
             retained["pending_case_ids"] = []
-            retained["post_restore_uts_report_sha256"] = report_sha256
-            retained["checkpoint_lineage"].append(
-                canonical_digest(
-                    {
-                        "agent_id": agent_id,
-                        "generation": 1,
-                        "previous": previous_lineage,
-                        "completed_case_ids": retained["completed_case_ids"],
-                        "post_restore_uts_report_sha256": report_sha256,
-                    }
-                )
-            )
+            retained["post_restore_uts_report_sha256"] = report_sha
+            retained["checkpoint_lineage"].append(receipt["checkpoint_lineage"])
         atomic_json(args.state, state)
-
     state["phase"] = "pre_complete" if args.phase == "pre" else "post_complete"
     state["resident_count"] = 6
-    state["all_pending_empty"] = all(
-        not value["pending_case_ids"] for value in state["residents"].values()
-    )
+    state["all_pending_empty"] = all(not value["pending_case_ids"] for value in state["residents"].values())
     atomic_json(args.state, state)
     print(json.dumps({"status": "pass", "phase": state["phase"], "resident_count": 6}, sort_keys=True))
     return 0

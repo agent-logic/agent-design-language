@@ -13,27 +13,29 @@ RUNNER = ROOT / "adl/tools/run_issue268_six_resident_uts_cycle.py"
 
 
 def main() -> None:
-    with tempfile.TemporaryDirectory(prefix="issue268-uts-cycle-") as temporary:
+    with tempfile.TemporaryDirectory(prefix="issue268-runtime-cycle-") as temporary:
         root = pathlib.Path(temporary)
-        fake = root / "fake_runner.py"
+        fake = root / "fake_adl.py"
         fake.write_text(
             """#!/usr/bin/env python3
 import json,pathlib,sys
 args=sys.argv[1:]
-assert __import__('os').environ['ADL_UTS_LOCAL_TEST_TIMEOUT_SECONDS']=='600'
-assert __import__('os').environ['ADL_UTS_LOCAL_NUM_PREDICT']=='128'
-assert __import__('os').environ['ADL_UTS_LOCAL_NUM_CTX']=='32768'
-assert __import__('os').environ['ADL_UTS_OLLAMA_KEEP_ALIVE']=='-1'
-models=pathlib.Path(args[1]).read_text().strip()
-out=pathlib.Path(args[2])
-task_panel=pathlib.Path(args[args.index('--task-panel-file')+1])
-task=json.loads(task_panel.read_text())['tasks'][0]['id']
-self_check_panel=pathlib.Path(args[args.index('--self-check-task-panel-file')+1])
-assert len(json.loads(self_check_panel.read_text())['tasks']) == 11
-lane=lambda: {'status':'evaluated','passed_count':1,'total_cases':1,'full_support':True,'cases':[{'task_id':task}]}
-assert '--include-governed' not in args
-retired={'status':'not_run','passed_count':0,'total_cases':0,'full_support':False,'cases':[]}
-out.write_text(json.dumps({'schema_version':'uts_benchmark_runner.v1','deterministic_self_check':{'passed':True},'models':[{'candidate_id':models,'lanes':{'regular':lane(),'uts_only':lane(),'uts_acc':retired}}]})+'\\n')
+assert args[:2] == ['agent','tick']
+spec=json.loads(pathlib.Path(args[args.index('--spec')+1]).read_text())
+state=pathlib.Path(spec['state_root'])
+cycles=state/'cycles'
+cycles.mkdir(parents=True,exist_ok=True)
+number=len(list(cycles.glob('cycle-*')))+1
+cycle=cycles/f'cycle-{number:06d}'
+cycle.mkdir()
+receipt={'schema':'adl.runtime.resident_tool_receipt.v1','resident_id':spec['agent_instance_id'],
+ 'authority_id':spec['tool_authority']['authority_id'],'authority_sha256':spec['tool_authority']['authority_sha256'],
+ 'cycle_id':f'cycle-{number:06d}','checkpoint_lineage':f'continuity_checkpoint.json#sha256:{number:064x}',
+ 'proposal_sha256':'a'*64,'proposal_id':'sha256:'+'b'*64,'acc_contract_id':'acc.runtime.observe',
+ 'gate_reason_code':'allowed','adapter_id':'adapter.runtime.observe.dry_run','decision':'executed',
+ 'reason_code':'governed_execution_completed'}
+(cycle/'resident_tool_receipts.json').write_text(json.dumps([receipt])+'\\n')
+print(json.dumps({'state':'idle','completed_cycle_count':number}))
 """,
             encoding="utf-8",
         )
@@ -47,11 +49,14 @@ out.write_text(json.dumps({'schema_version':'uts_benchmark_runner.v1','determini
             str(state),
             "--evidence-dir",
             str(evidence),
-            "--runner",
+            "--runtime-bin",
             str(fake),
+            "--runtime-root",
+            str(root / "runtime"),
         ]
         subprocess.run(common + ["--phase", "pre"], cwd=ROOT, check=True)
         pre = json.loads(state.read_text())
+        assert pre["schema"] == "adl.issue268.six_resident_uts_state.v2"
         assert pre["phase"] == "pre_complete"
         assert len(pre["residents"]) == 6
         assert all(row["sequence"] == 1 for row in pre["residents"].values())
@@ -59,9 +64,9 @@ out.write_text(json.dumps({'schema_version':'uts_benchmark_runner.v1','determini
         assert all(len(row["pending_case_ids"]) == 1 for row in pre["residents"].values())
         assert len({row["role_digest"] for row in pre["residents"].values()}) == 6
         assert len({row["tool_authority_digest"] for row in pre["residents"].values()}) == 6
-        assert all(len(row["checkpoint_lineage"]) == 1 for row in pre["residents"].values())
+        assert len({row["runtime_authority_sha256"] for row in pre["residents"].values()}) == 6
         replay = subprocess.run(common + ["--phase", "pre"], cwd=ROOT, capture_output=True, text=True)
-        assert replay.returncode != 0 and "refusing completed-case replay" in replay.stderr
+        assert replay.returncode != 0 and "refusing replay" in replay.stderr
         subprocess.run(common + ["--phase", "post"], cwd=ROOT, check=True)
         post = json.loads(state.read_text())
         assert post["phase"] == "post_complete"
@@ -72,7 +77,7 @@ out.write_text(json.dumps({'schema_version':'uts_benchmark_runner.v1','determini
         assert all(len(row["checkpoint_lineage"]) == 2 for row in post["residents"].values())
         assert len(list(evidence.glob("pre-*.json"))) == 6
         assert len(list(evidence.glob("post-*.json"))) == 6
-    print("PASS: issue268 six-resident UTS cycle")
+    print("PASS: issue268 six real Runtime resident cycles")
 
 
 if __name__ == "__main__":

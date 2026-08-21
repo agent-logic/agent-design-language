@@ -51,14 +51,14 @@ def main() -> None:
     uts = plan.get("uts") or {}
     if uts.get("schema_version") != "uts.v1.1":
         fail("UTS schema version")
-    if uts.get("runner") != "adl/tools/uts_benchmark_runner.py":
-        fail("repo UTS runner")
+    if uts.get("runner") != "adl agent tick (real long-lived Runtime)":
+        fail("real Runtime UTS runner")
     if uts.get("task_panel") != "adl/tools/benchmark/uts_33_task_panel.json":
         fail("repo UTS task panel")
-    if uts.get("include_governed") is not False:
-        fail("retired governed UTS+ACC lane must remain disabled")
-    if uts.get("governed_lane_disposition") != "not_run_retired_by_5347_non_authoritative":
-        fail("retired governed UTS+ACC lane disposition")
+    if uts.get("include_governed") is not True:
+        fail("Runtime-governed UTS+ACC lane must execute")
+    if uts.get("governed_lane_disposition") != "runtime_owned_uts_acc_freedom_gate_and_runtime_observe_adapter":
+        fail("Runtime-governed UTS+ACC lane disposition")
     if "never replayed" not in str(uts.get("resume_rule")):
         fail("completed-case replay denial")
 

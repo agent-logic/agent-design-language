@@ -104,6 +104,7 @@ def binding_for(resident: dict[str, Any], retained: dict[str, Any]) -> dict[str,
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--continuity-bin", required=True, type=pathlib.Path)
+    parser.add_argument("--runtime-bin", required=True, type=pathlib.Path)
     parser.add_argument("--runtime-root", required=True, type=pathlib.Path)
     parser.add_argument("--build-cache-root", required=True, type=pathlib.Path)
     parser.add_argument("--agent-spec-dir", required=True, type=pathlib.Path)
@@ -112,11 +113,12 @@ def main() -> int:
     parser.add_argument("--evidence-dir", required=True, type=pathlib.Path)
     parser.add_argument("--plan", type=pathlib.Path, default=DEFAULT_PLAN)
     parser.add_argument("--uts-runner", type=pathlib.Path, default=DEFAULT_UTS_RUNNER)
-    parser.add_argument("--benchmark-runner", type=pathlib.Path)
     args = parser.parse_args()
 
     if not args.continuity_bin.is_file():
         raise SystemExit("#414 continuity binary is absent")
+    if not args.runtime_bin.is_file():
+        raise SystemExit("Runtime agent binary is absent")
     if len(args.runtime_volume_identity_sha256) != 64:
         raise SystemExit("retained Runtime volume identity must be an exact SHA-256")
 
@@ -173,12 +175,17 @@ def main() -> int:
         str(uts_evidence),
         "--plan",
         str(args.plan),
+        "--runtime-bin",
+        str(args.runtime_bin),
+        "--runtime-root",
+        str(args.runtime_root),
     ]
-    if args.benchmark_runner:
-        uts_command.extend(["--runner", str(args.benchmark_runner)])
     run(uts_command + ["--phase", "pre"])
 
     state = read_json(args.state)
+    specs = [pathlib.Path(state["residents"][resident["agent_id"]]["runtime_agent_spec"]) for resident in residents]
+    if any(not path.is_file() for path in specs):
+        raise SystemExit("six retained Runtime agent specs are required after pre-cycle execution")
     for resident in residents:
         retained = state["residents"][resident["agent_id"]]
         if retained.get("role") != resident["role"] or retained.get("role_digest") != canonical_digest({"agent_id": resident["agent_id"], "role": resident["role"]}):

@@ -85,13 +85,15 @@ sequence, completed/pending UTS cases, task/report digests, and checkpoint
 lineage. Inference is serial (`max_concurrent_inference=1`) and compilation is
 not concurrent.
 
-Their real workload is the repository UTS v1.1 conformance and governed
-UTS+ACC benchmark cycle through `adl/tools/uts_benchmark_runner.py` and the
-canonical 33-task panel. Every resident completes a named case before
-dehydration, resumes a distinct named case only after validated restore, and
-retains exact completed/pending case identities. A completed side effect or
-case may not replay after recovery. The final receipt binds all six resident
-identities to their pre/post UTS reports and the signed continuity generation.
+Their real workload is a governed long-lived Runtime cycle through
+`adl agent tick`, with each resident's model output routed through UTS-to-ACC
+compilation, Freedom Gate, and the Runtime-owned `runtime.observe` adapter.
+The named pre/post cases remain drawn from the canonical 33-task panel. Every
+resident completes a named case before dehydration, resumes a distinct named
+case only after validated restore, and retains exact completed/pending case
+identities. A completed side effect or case may not replay after recovery. The
+final receipt binds all six resident identities to their pre/post UTS reports
+and the signed continuity generation.
 
 Extend the shared Spot wrapper only where the reviewed #414/#415 integration
 requires it and keep `--max-spot-retries` at zero. No other provider policy

@@ -19,6 +19,7 @@ scratch=$(mktemp -d "$ROOT/.adl/issue268-remote-test.XXXXXX")
 trap 'rm -rf "$scratch"' EXIT
 touch "$scratch/continuity"; chmod +x "$scratch/continuity"
 touch "$scratch/provider-adapter"; chmod +x "$scratch/provider-adapter"
+touch "$scratch/adl"; chmod +x "$scratch/adl"
 cat >"$scratch/ollama" <<'SH'
 #!/usr/bin/env bash
 [[ "$1" == serve ]]
@@ -37,6 +38,8 @@ print(json.dumps({
   'ollama_models':os.environ['ADL_TEST_MODELS'],
   'continuity_binary':str(continuity),
   'continuity_binary_sha256':hashlib.sha256(continuity.read_bytes()).hexdigest(),
+  'runtime_binary':os.environ['ADL_TEST_RUNTIME'],
+  'runtime_binary_sha256':hashlib.sha256(pathlib.Path(os.environ['ADL_TEST_RUNTIME']).read_bytes()).hexdigest(),
 }))
 PY
 mkdir -p "$scratch/models" "$scratch/bin"
@@ -72,6 +75,7 @@ output=$(PATH="$scratch/bin:$PATH" \
   ADL_TEST_CONTINUITY="$scratch/continuity" \
   ADL_TEST_OLLAMA="$scratch/ollama" \
   ADL_TEST_MODELS="$scratch/models" \
+  ADL_TEST_RUNTIME="$scratch/adl" \
   ADL_ISSUE268_REMOTE_EVIDENCE_ROOT="$scratch/evidence" \
   ADL_RUNTIME_CONTINUITY_ROOT="$scratch/volume/runtime" \
   ADL_RUNTIME_CONTINUITY_VOLUME_ID_SHA256="$(printf 'f%.0s' {1..64})" \
@@ -100,6 +104,7 @@ if PATH="$scratch/bin:$PATH" \
   ADL_TEST_CONTINUITY="$scratch/continuity" \
   ADL_TEST_OLLAMA="$scratch/ollama" \
   ADL_TEST_MODELS="$scratch/models" \
+  ADL_TEST_RUNTIME="$scratch/adl" \
   ADL_ISSUE268_REMOTE_EVIDENCE_ROOT="$scratch/provenance-failure" \
   ADL_RUNTIME_CONTINUITY_ROOT="$scratch/volume-failure/runtime" \
   ADL_RUNTIME_CONTINUITY_VOLUME_ID_SHA256="$(printf 'f%.0s' {1..64})" \

@@ -19,10 +19,10 @@
   },
   "uts": {
     "schema_version": "uts.v1.1",
-    "runner": "adl/tools/uts_benchmark_runner.py",
+    "runner": "adl agent tick (real long-lived Runtime)",
     "task_panel": "adl/tools/benchmark/uts_33_task_panel.json",
-    "include_governed": false,
-    "governed_lane_disposition": "not_run_retired_by_5347_non_authoritative",
+    "include_governed": true,
+    "governed_lane_disposition": "runtime_owned_uts_acc_freedom_gate_and_runtime_observe_adapter",
     "resume_rule": "completed cases are never replayed; only the exact pending case resumes after validated restore"
   },
   "residents": [

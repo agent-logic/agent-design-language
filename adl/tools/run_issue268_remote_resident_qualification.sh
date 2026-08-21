@@ -47,12 +47,16 @@ print(d["ollama_binary"])
 print(d["ollama_models"])
 print(d["continuity_binary"])
 print(d["continuity_binary_sha256"])
+print(d["runtime_binary"])
+print(d["runtime_binary_sha256"])
 PY
 OLLAMA_BIN=$(sed -n '1p' "$installed_paths_file")
 OLLAMA_MODELS=$(sed -n '2p' "$installed_paths_file")
 CONTINUITY_BIN=$(sed -n '3p' "$installed_paths_file")
 installed_continuity_sha=$(sed -n '4p' "$installed_paths_file")
-[[ -x "$OLLAMA_BIN" && -x "$CONTINUITY_BIN" ]] || { echo "issue268: installed Runtime binaries missing" >&2; exit 69; }
+RUNTIME_BIN=$(sed -n '5p' "$installed_paths_file")
+installed_runtime_sha=$(sed -n '6p' "$installed_paths_file")
+[[ -x "$OLLAMA_BIN" && -x "$CONTINUITY_BIN" && -x "$RUNTIME_BIN" ]] || { echo "issue268: installed Runtime binaries missing" >&2; exit 69; }
 if [[ -n "$CONTINUITY_BIN_SHA256" && "$installed_continuity_sha" != "$CONTINUITY_BIN_SHA256" ]]; then
   echo "issue268: installed continuity binary provenance mismatch" >&2
   exit 65
@@ -135,6 +139,7 @@ if ! python3 "$MODEL_WARMUP" \
 fi
 python3 "$ORCHESTRATOR" \
   --continuity-bin "$CONTINUITY_BIN" \
+  --runtime-bin "$RUNTIME_BIN" \
   --runtime-root "$RUNTIME_ROOT" \
   --build-cache-root "$BUILD_CACHE_ROOT" \
   --agent-spec-dir "$AGENT_SPEC_DIR" \
