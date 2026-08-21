@@ -7,7 +7,7 @@
     "title": "[v0.92][runtime-v3][20.c] Run six-hour Agent Logic Spot qualification only after operator and cost authorization",
     "slug": "six-hour-agent-logic-spot-qualification",
     "version": "v0.92",
-    "generation": 4
+    "generation": 7
   },
   "status": "ready",
   "content": {
@@ -144,7 +144,7 @@
       "planned_validation_tokens": 50000,
       "failure_policy": "Fail closed before provider mutation on identity, revision, image, Spot, quota, cost, deadline, kill-switch, ownership, or residue failure; after launch preserve the first causal failure, clean exact resources, and require zero-instance proof.",
       "design_ref": ".csdlc/prepared/issues/268/design.md",
-      "design_digest": "a42f7692521819e48c78754aed05c6ce6d0137931ee2d610334a4a3540ea8c95",
+      "design_digest": "f5e66f3aa4a3ef080e85576351615f1242786af5929e9d4747315ba9ce759f34",
       "diagram_ref": ".csdlc/prepared/issues/268/diagram.mmd",
       "diagram_digest": "5bb8a4cb51b4f7d3751b7993b0d73773af70e32cdf3b9a51dabfb13117a76fe7"
     }

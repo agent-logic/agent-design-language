@@ -3,9 +3,9 @@
   "issue": 268,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "e16999c52566cfad58e38b96e519a2754f6059234981629e0562b9739d05d765",
-  "phase": "bound",
-  "generation": 4,
-  "digest": "905205f698f15930b28bd8f4ffae6b63389b9a28ff784c68aeb9ce35dd2ae914",
+  "phase": "implemented",
+  "generation": 7,
+  "digest": "3da1255d1af4bbae10e1505c3b2c9253da3b62dccb6e1c724748c4c0f8e8e913",
   "branch": "codex/268-six-hour-spot-qualification",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-268-six-hour-spot-qualification",
   "review_assignment": null,
@@ -18,40 +18,40 @@
   "diagram_path": ".csdlc/prepared/issues/268/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "fresh-session:32ba613b-68c8-4769-a255-8ed4148d9ab5",
-      "revision": "a42f7692521819e48c78754aed05c6ce6d0137931ee2d610334a4a3540ea8c95"
+      "reviewer": "fresh-session:01a01755-c400-7050-a049-b98e947a5684",
+      "revision": "f5e66f3aa4a3ef080e85576351615f1242786af5929e9d4747315ba9ce759f34"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "d28962fb28e51a21e002c68411f1ee6a0c86a2a917f54a641866ed49ebcf7cfc",
+      "values_digest": "c412f27818f721878995a8051698f48c7745b8d552306e5534e2469bf8dc4835",
       "rendered_digest": "e908ddb3f4ac18811a0da0eb292961f74259aafbeb5db8379d621e5c588ff0fb",
       "ast_digest": "2a9b71de360fc425b63b2eb2c411aa70d46f94ab9b252366f57c4a595d73b980"
     },
     "stp": {
-      "values_digest": "7eed6ca114727fea5abad8e3044db6cc943813be301383f6258cc674722300db",
+      "values_digest": "849819444f9d2772f46e90bcb2f99fb62da8a8167ae2b4a78c9b70f0f2260659",
       "rendered_digest": "777d15780947d169759eb205c3e3a5ab79ab1d0f0e3b9f4ae466c31df0461d17",
       "ast_digest": "0fb96aa0d0b8e0bfdeee07f21d4a7bc18c1654b216cff4e7668f338e814c1101"
     },
     "spp": {
-      "values_digest": "de430628daa295c7a1457cd7e63fe0adcc478114e7c25cd419eabc3e2124b694",
-      "rendered_digest": "9f3c4579e8040d789cb1ce146d4586f01cb1a495b6d1dad3bc6187c4830b0174",
-      "ast_digest": "3945560b6f84633dd243e48336bb72b3f3de46e3c7c2cea84ee5c1f9bf8f2e1d"
+      "values_digest": "80f78df5c59460b8d650e756876517845f9fd4913e13f48b74a0785d90d74dbe",
+      "rendered_digest": "dc49fa00ed4408739f456e0696fe86f3650fb907408902168a87329c0241b900",
+      "ast_digest": "dc0a074d1b6fec15970bd7a5016f7124d76f7fd3cdee82a3336a099621c5d318"
     },
     "vpp": {
-      "values_digest": "3583b9adf2ca355f183e8af520a8e3eccda43b1b0bc048a79e291e8f305b5cf2",
+      "values_digest": "71ec23e29cdd3c8cbc0d1119d060ca771198f51cec051a53705a920291f83faf",
       "rendered_digest": "04733e63e705ac994fa75756ded65168979dca0721b1a212afce2db4364f8524",
       "ast_digest": "2c8e7bd850832367056428b97713927b9160f719b5bcb692a83ec7626626ec93"
     },
     "srp": {
-      "values_digest": "2cd5c2465baa5050f2b7c79dce20fe11779bd720b6d7f5832eab838ef5ea2e9e",
+      "values_digest": "898c9f9f9c0658c9538e920736a4b6619960b45fad2bc6ae3f0705bd74337660",
       "rendered_digest": "0f88d33c42f5ff8ea843514fb071c0d4141cfff63127ba469785508ed3252cb8",
       "ast_digest": "44626787cff7609a27119771d93cd0b2207ade67558684d6414d628f8ca0eabe"
     },
     "sor": {
-      "values_digest": "dce3d1ef7d775f5bf794f4aa53ea94d802469a71d2023daa7ce1ed0283b0ab1b",
-      "rendered_digest": "6a4d64d47619a4483cb718a6156b6300d78e570804e6b2ad9e90eae145120c58",
-      "ast_digest": "3ef4188b607f283cb0d1074627f7415356c3eeb1961fcc3ef3d39315ec6e13f3"
+      "values_digest": "81eb19b675688e19793cf1582b41b814087647a6549c97347c0b59ba48ba8612",
+      "rendered_digest": "1cb732f531cd919d668b97c56071480ca8e2a4429c8d427b49029ebf64974781",
+      "ast_digest": "64b734340aab03377d70eafdff293a3d6a479cefbaea26dd8a7623afa57ba080"
     }
   },
   "transitions": [
@@ -68,6 +68,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex-root",
+      "reason": "Record that the bounded #268 implementation exists at exact committed head before validation and paid execution."
     }
   ],
   "audit": [
@@ -112,6 +119,27 @@
       "actor": "fresh-session:32ba613b-68c8-4769-a255-8ed4148d9ab5",
       "reason": "reapprove changed issue design",
       "operation": "{\"design_digest\":\"a42f7692521819e48c78754aed05c6ce6d0137931ee2d610334a4a3540ea8c95\",\"design_ref\":\".csdlc/prepared/issues/268/design.md\",\"diagram_digest\":\"5bb8a4cb51b4f7d3751b7993b0d73773af70e32cdf3b9a51dabfb13117a76fe7\",\"diagram_ref\":\".csdlc/prepared/issues/268/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "fresh-session:01a01755-c400-7050-a049-b98e947a5684",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"f5e66f3aa4a3ef080e85576351615f1242786af5929e9d4747315ba9ce759f34\",\"design_ref\":\".csdlc/prepared/issues/268/design.md\",\"diagram_digest\":\"5bb8a4cb51b4f7d3751b7993b0d73773af70e32cdf3b9a51dabfb13117a76fe7\",\"diagram_ref\":\".csdlc/prepared/issues/268/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex-root",
+      "reason": "Record the exact implemented Runtime resident, continuity, replay, and On-Demand launch surfaces before paid validation.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented the six-resident Ollama Runtime/ACC qualification, signed #414 dehydration and restored-spec continuation, Runtime-owned replay denial, retained EBS installation provenance, and one-attempt On-Demand wrapper.\",\"changes\":[\"Six distinct resident identities execute issue-owned runtime.observe tasks through Runtime UTS-to-ACC, Freedom Gate, and the Runtime adapter.\",\"Post-recovery work consumes the #414 restored population and Runtime denies attempted replay before adapter dispatch.\",\"Retained Runtime binaries are rebuilt only when stable Runtime/ACC source identity changes; the retired standalone provider adapter is absent.\",\"The launch design and wrapper bind one On-Demand r7i.2xlarge attempt to the USD 20 and 25,200-second ceilings.\"],\"artifacts\":[\"adl/tools/issue268_runtime_uts_task_panel.json\",\"adl/tools/run_issue268_six_resident_uts_cycle.py\",\"adl/tools/run_issue268_continuity_uts_qualification.py\",\"adl/tools/install_issue268_runtime_volume.py\",\"adl/src/resident_tool_execution.rs\",\"adl/src/long_lived_agent.rs\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex-root",
+      "reason": "Record that the bounded #268 implementation exists at exact committed head before validation and paid execution.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
     }
   ]
 }
