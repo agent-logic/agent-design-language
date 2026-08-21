@@ -153,6 +153,7 @@ impl ProductionBirthdayStore {
         input: &ProductionBirthdayInput,
     ) -> Result<ProductionBirthdayReceipt, ProductionBirthdayError> {
         validate_input(input)?;
+        let _ownership = Ownership::acquire(self.lock_path(&input.resident_id))?;
         if let Some(receipt) = self.restore(&input.resident_id)? {
             if !receipt_matches_input(&receipt, input) {
                 return Err(ProductionBirthdayError::AlreadyCommitted);
@@ -190,7 +191,7 @@ impl ProductionBirthdayStore {
             fs::remove_file(witness).map_err(|_| ProductionBirthdayError::DurableWrite)?;
         }
         sync_directory(&self.root)?;
-        self.activate(input)
+        self.activate_owned(input, None)
     }
 
     pub fn activate_with_failpoint(
@@ -200,6 +201,14 @@ impl ProductionBirthdayStore {
     ) -> Result<ProductionBirthdayReceipt, ProductionBirthdayError> {
         validate_input(input)?;
         let _ownership = Ownership::acquire(self.lock_path(&input.resident_id))?;
+        self.activate_owned(input, failpoint)
+    }
+
+    fn activate_owned(
+        &self,
+        input: &ProductionBirthdayInput,
+        failpoint: Option<ProductionBirthdayFailpoint>,
+    ) -> Result<ProductionBirthdayReceipt, ProductionBirthdayError> {
         if let Some(receipt) = self.restore(&input.resident_id)? {
             return if receipt_matches_input(&receipt, input) {
                 Ok(receipt)
@@ -278,7 +287,6 @@ impl ProductionBirthdayStore {
 
 struct Ownership {
     file: File,
-    path: PathBuf,
 }
 impl Ownership {
     fn acquire(path: PathBuf) -> Result<Self, ProductionBirthdayError> {
@@ -293,13 +301,12 @@ impl Ownership {
             .map_err(|_| ProductionBirthdayError::ConflictingTransaction)?;
         file.sync_all()
             .map_err(|_| ProductionBirthdayError::DurableWrite)?;
-        Ok(Self { file, path })
+        Ok(Self { file })
     }
 }
 impl Drop for Ownership {
     fn drop(&mut self) {
         let _ = self.file.unlock();
-        let _ = fs::remove_file(&self.path);
     }
 }
 

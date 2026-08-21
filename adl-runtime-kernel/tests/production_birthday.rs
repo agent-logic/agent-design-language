@@ -12,6 +12,7 @@ use adl_runtime_kernel::{
     BIRTH_WITNESS_ATTESTATION_SCHEMA, PRODUCTION_BIRTHDAY_TOOL_BINDING_SCHEMA,
 };
 use ed25519_dalek::{Signer, SigningKey};
+use fs2::FileExt;
 
 #[path = "support/runtime_init.rs"]
 mod runtime_init;
@@ -161,6 +162,26 @@ fn recovers_each_durable_interruption_boundary() {
     fs::write(temp.path().join("resident-one.lock"), b"abandoned").unwrap();
     let store = ProductionBirthdayStore::open(temp.path()).unwrap();
     assert!(store.activate(&input("tx-stale-lock")).is_ok());
+
+    let temp = tempfile::tempdir().unwrap();
+    let store = ProductionBirthdayStore::open(temp.path()).unwrap();
+    let value = input("tx-live-owner");
+    assert_eq!(
+        store.activate_with_failpoint(&value, Some(ProductionBirthdayFailpoint::AfterIntentSync)),
+        Err(ProductionBirthdayError::InjectedInterruption)
+    );
+    let live_lock = fs::OpenOptions::new()
+        .read(true)
+        .write(true)
+        .open(temp.path().join("resident-one.lock"))
+        .unwrap();
+    live_lock.lock_exclusive().unwrap();
+    assert_eq!(
+        store.recover_pending(&value),
+        Err(ProductionBirthdayError::ConflictingTransaction)
+    );
+    assert!(temp.path().join("resident-one.pending.json").exists());
+    live_lock.unlock().unwrap();
 }
 
 #[test]
