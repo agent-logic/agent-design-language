@@ -582,8 +582,9 @@ fn is_canonical_digest(value: &str) -> bool {
     is_sha256(value)
 }
 
-#[cfg(test)]
+#[cfg(any(test, feature = "test-support"))]
 #[path = "../tests/fixtures/birthday_continuity/authority_tests.rs"]
+#[cfg_attr(feature = "test-support", allow(dead_code, unused_imports))]
 pub(crate) mod authority_tests;
 
 fn safe_path(value: &str) -> bool {

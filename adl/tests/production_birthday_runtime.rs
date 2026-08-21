@@ -7,8 +7,9 @@ use adl::resident_tool_execution::{
 use adl_runtime_kernel::{
     candidate_digest, decide_birthday, reviewed_evidence_set_digest, witness_signing_bytes,
     BirthWitnessAttestation, BirthWitnessRole, BirthdayCandidate, EvidenceKind,
-    ProductionBirthdayInput, ProductionBirthdayStore, RuntimeInitConfig,
-    VerifiedBirthWitnessBinding, WitnessDecision, BIRTH_WITNESS_ATTESTATION_SCHEMA,
+    ProductionBirthdayStore, ResidentAdaptiveLearningReceipt, ResidentAdaptiveLearningStatus,
+    RuntimeInitConfig, TrustedTime, VerifiedBirthWitnessBinding, WitnessDecision,
+    BIRTH_WITNESS_ATTESTATION_SCHEMA,
 };
 use ed25519_dalek::{Signer, SigningKey};
 
@@ -53,6 +54,14 @@ fn tool_trust(key_id: &str, signing_key: &SigningKey) -> RuntimeResidentToolTrus
     )
     .unwrap();
     RuntimeResidentToolTrust::load_trusted_manifest(&path).unwrap()
+}
+
+struct FixedTrustedTime;
+
+impl TrustedTime for FixedTrustedTime {
+    fn now_unix_millis(&self) -> u64 {
+        1_725_000_000_000
+    }
 }
 
 fn witness(candidate: &mut BirthdayCandidate) -> VerifiedBirthWitnessBinding {
@@ -108,21 +117,22 @@ fn witness(candidate: &mut BirthdayCandidate) -> VerifiedBirthWitnessBinding {
 
 #[test]
 fn authenticated_runtime_receipt_drives_exactly_once_birthday_and_restart() {
-    let candidate_path = format!(
-        "{}/../adl-runtime-kernel/tests/fixtures/birthday/valid.json",
-        env!("CARGO_MANIFEST_DIR")
-    );
-    let mut candidate: BirthdayCandidate =
-        serde_json::from_str(&fs::read_to_string(candidate_path).unwrap()).unwrap();
+    let implementation_revision = hash('a');
+    let (memory_palace, resident_cycle, mut candidate) =
+        adl_runtime_kernel::test_support::verified_production_birthday_authorities(
+            "resident-one",
+            "cycle-one",
+            &implementation_revision,
+        );
     let birth_witness = witness(&mut candidate);
     let decision = decide_birthday(&candidate);
     let receipt = governed_receipt(&candidate);
     let signing_key = SigningKey::from_bytes(&[17_u8; 32]);
     let authenticated = authenticate_resident_tool_receipt_v1(
         &receipt,
-        &hash('a'),
-        &hash('c'),
-        &hash('d'),
+        &implementation_revision,
+        resident_cycle.capability.envelope_sha256(),
+        resident_cycle.cognitive_profile.profile_sha256(),
         "birthday-tool-key",
         &signing_key,
     )
@@ -130,35 +140,68 @@ fn authenticated_runtime_receipt_drives_exactly_once_birthday_and_restart() {
     let trust = tool_trust("birthday-tool-key", &signing_key);
     let verified =
         validate_resident_tool_receipt_for_birthday_v1(&receipt, &authenticated, &trust).unwrap();
-    let input = ProductionBirthdayInput {
+    let adaptive_learning = ResidentAdaptiveLearningReceipt {
+        schema: "adl.resident_adaptive_learning.receipt.v1".into(),
         resident_id: "resident-one".into(),
-        cycle_id: "cycle-one".into(),
-        transaction_id: "birthday-one".into(),
-        implementation_revision_sha256: hash('a'),
-        identity_root_sha256: candidate.identity_root.clone(),
         continuity_head_sha256: candidate.continuity_head.clone(),
-        memory_palace_authority_sha256: hash('b'),
-        capability_envelope_sha256: hash('c'),
-        cognitive_profile_sha256: hash('d'),
-        adaptive_learning_receipt_sha256: hash('e'),
-        birth_witness,
-        trusted_time_unix_millis: 1_725_000_000_000,
-        candidate,
-        decision,
-        tool_authority: verified,
+        status: ResidentAdaptiveLearningStatus::Accepted,
+        history_id: "birthday-learning-history".into(),
+        sequence: 1,
+        history_sha256: hash('e'),
+        profile_sha256: resident_cycle.cognitive_profile.profile_sha256().into(),
+        capability_envelope_sha256: resident_cycle.capability.envelope_sha256().into(),
+        before_graph_sha256: hash('6'),
+        resulting_graph_sha256: hash('7'),
+        resulting_state_sha256: hash('8'),
+        policy_sha256: hash('9'),
+        cancellation_observed: false,
+        mutation_evidence_retained: true,
     };
     let root = std::env::temp_dir().join(format!("adl-451-{}", std::process::id()));
     let _ = fs::remove_dir_all(&root);
-    let first = ProductionBirthdayStore::open(&root)
-        .unwrap()
-        .activate(&input)
-        .unwrap();
+    assert!(
+        !root.exists(),
+        "ordinary resident path does not auto-activate Birthday"
+    );
+    let first = adl::long_lived_agent::activate_long_lived_resident_birthday(
+        &root,
+        "birthday-one",
+        &implementation_revision,
+        &memory_palace,
+        &resident_cycle,
+        &adaptive_learning,
+        verified.clone(),
+        birth_witness.clone(),
+        &FixedTrustedTime,
+        candidate.clone(),
+        decision.clone(),
+    )
+    .unwrap();
     let restarted = ProductionBirthdayStore::open(&root).unwrap();
     assert_eq!(
         restarted.restore("resident-one").unwrap(),
         Some(first.clone())
     );
-    assert_eq!(restarted.activate(&input).unwrap(), first);
+    let duplicate = adl::long_lived_agent::activate_long_lived_resident_birthday(
+        &root,
+        "birthday-one",
+        &implementation_revision,
+        &memory_palace,
+        &resident_cycle,
+        &adaptive_learning,
+        verified,
+        birth_witness,
+        &FixedTrustedTime,
+        candidate,
+        decision,
+    )
+    .unwrap();
+    assert_eq!(duplicate, first);
+    assert_eq!(
+        resident_cycle.cognitive_profile.profile().fields.len(),
+        2,
+        "verified resident authority remains usable for continuation after restore"
+    );
     fs::remove_dir_all(root).unwrap();
 }
 

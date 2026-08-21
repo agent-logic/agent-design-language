@@ -88,6 +88,19 @@ impl VerifiedMemoryPalaceAuthority {
     pub fn continuity(&self) -> &VerifiedBirthdayContinuity {
         &self.continuity
     }
+
+    #[cfg(feature = "test-support")]
+    pub(crate) fn from_verified_components(
+        identity: BirthdayIdentityRecord,
+        identity_evidence: VerifiedBirthdayEvidence,
+        continuity: VerifiedBirthdayContinuity,
+    ) -> Self {
+        Self {
+            identity,
+            identity_evidence,
+            continuity,
+        }
+    }
 }
 
 #[derive(Clone)]

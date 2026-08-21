@@ -805,8 +805,9 @@ fn verify_rotation_signature(
     verify_canonical_signature(&unsigned, &signature, key)
 }
 
-#[cfg(test)]
+#[cfg(any(test, feature = "test-support"))]
 #[path = "../tests/fixtures/cognitive_profile/authority_tests.rs"]
+#[cfg_attr(feature = "test-support", allow(dead_code, unused_imports))]
 pub(crate) mod authority_tests;
 
 fn verify_canonical_signature<T: Serialize>(

@@ -159,6 +159,7 @@ ntp-daemon = "0.3.7"
 rsntp = "4.1.2"
 
 [dev-dependencies]
+adl-runtime-kernel = { path = "../adl-runtime-kernel", features = ["test-support"] }
 loom = "0.7"
 aws-smithy-http-client = { version = "1", features = ["test-util"] }
 aws-smithy-runtime-api = "1"

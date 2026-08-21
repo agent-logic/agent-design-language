@@ -34,7 +34,10 @@ pub fn activate_verified_resident_birthday(
         transaction_id: transaction_id.to_string(),
         implementation_revision_sha256: implementation_revision_sha256.to_string(),
         identity_root_sha256: memory_palace.identity().identity_root.clone(),
-        continuity_head_sha256: memory_palace.continuity().continuity_head().to_string(),
+        // Birthday continuity is the verified identity checkpoint head carried
+        // by the accepted candidate. The broader continuity record remains
+        // bound through `memory_palace_authority_sha256`.
+        continuity_head_sha256: candidate.continuity_head.clone(),
         memory_palace_authority_sha256,
         capability_envelope_sha256: resident_cycle.capability.envelope_sha256().to_string(),
         cognitive_profile_sha256: resident_cycle

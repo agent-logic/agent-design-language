@@ -48,6 +48,10 @@ pub mod tls;
 pub mod topology;
 pub mod weather;
 
+#[cfg(feature = "test-support")]
+#[doc(hidden)]
+pub mod test_support;
+
 #[cfg(test)]
 mod conversation_sessions_tests;
 
