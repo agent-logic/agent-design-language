@@ -120,6 +120,17 @@ Status: pre_phase
     "purpose": "Prove retained #449 evidence logs match the current resident terminal-evidence remediation proof denominators after the R6 stale-evidence finding.",
     "outcome": "passed",
     "evidence_ref": "root-turn-live-output:2026-08-20:r6-retained-evidence-denominator-alignment"
+  },
+  {
+    "command": [
+      "rg",
+      "nineteen focused|running 19 tests|19 passed",
+      "docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md",
+      ".csdlc/evidence/449/adaptive-learning-regression-tests.log"
+    ],
+    "purpose": "Prove feature-doc denominator truth matches retained adaptive_learning evidence after the R7 stale-doc finding.",
+    "outcome": "passed",
+    "evidence_ref": "root-turn-live-output:2026-08-20:r7-feature-doc-denominator-alignment"
   }
 ]
 

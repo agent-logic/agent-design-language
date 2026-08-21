@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d8e1f3dca77fcf7b936ed705f16684f757477c7a35ec6e1ee4d0f7facd456b0a",
   "phase": "implemented",
-  "generation": 22,
-  "digest": "9597841e7ea5d92f7fadf213f355d2d2fd1ae29dd6e673ad5f3cb1a6d55e9422",
+  "generation": 24,
+  "digest": "025f9d3c29a571b987c3117e5ddcff96ca0289a586969ab43a9951baebde6c82",
   "branch": "codex/449-governed-adaptive-learning-resident-integration",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-449-governed-adaptive-learning-resident-integration",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "45241a42b80f7ec86061c47d667ae589ca877be2eb4a272fc57b8cca89584968",
+      "values_digest": "73bca1c3066068c0774dfbb301fcd56d0e8ed7de7def41c0e69a086bfe8d9ee0",
       "rendered_digest": "2cfd28e6c6a6879f7e6c50c55739e047518d76c09cda80b9ebafc4403b793865",
       "ast_digest": "f464cd78ec8bddeabb30d93fddafa24b1062b4cec61a141464249d3a05f2cd41"
     },
     "stp": {
-      "values_digest": "bd902a90f5f92a93cec6be0d87acd2782dcd41c7203da71cb5f0f610611b07e4",
+      "values_digest": "64197f48403508f3b9bf5ea73252d09d9f0d4059d354a912b9a2748f628c31d9",
       "rendered_digest": "7b54454bbd83510eb034ffe2a2271617f0602cade7d3c6b59f4ac3d137227169",
       "ast_digest": "c6928d84219a13b3766acc4b90f7c8cfb71ba2f86c3092bf2246fe41523990e7"
     },
     "spp": {
-      "values_digest": "6a0b65a636615d66c5880253ff965d642c219ad1ae1f6c495b141267cdbd9b51",
+      "values_digest": "d675a27e22ce4c3bea76e0072248c76fe85d302793c3a803a45f46e07e171366",
       "rendered_digest": "bffc41af02fb2bde8fdbeee9bb86b0844d389e801cec9206ad674efc0dadcef5",
       "ast_digest": "c4ab178aa7012df674d6ec98c645f586c6e07ae5cd2a58fe689862f744ef001b"
     },
     "vpp": {
-      "values_digest": "1a486345f46c3ac26d1f434c024e14aae1ff890ef0a82daae74aa3aa45daef28",
+      "values_digest": "2e8058723743b887446ca61b772182dca9579799ec25fbabc237187dc2313057",
       "rendered_digest": "29b34386e79734d7df12f5860df83c84e13b42f22c4304b38539705e954c05ac",
       "ast_digest": "800bad4e472866aa40314c9753028f43e11b4961676430d90d974b85d927fb8d"
     },
     "srp": {
-      "values_digest": "b8d05a09f0d2416218d5a024bdfee626ddd94cad2cfecb1579654956b45ec68c",
+      "values_digest": "d905cf098dfddb0255f60710a0e904b0f1900dc30fca978a30ec8d079cb1961a",
       "rendered_digest": "3a8abb044fd02d026b1c6abd0393ba034ef34c8c2a2d4cb537496abcda46d04a",
       "ast_digest": "13b21242e8fcf9b816e12eee09996417e5f70724d617c0eaaf8a5c370caeb090"
     },
     "sor": {
-      "values_digest": "5356ce4a3c04f8812b6e1117605b4579730577c9fe55c3867c304f428f07dea2",
-      "rendered_digest": "b06bc4b8914d4bc1dab0163f160fe6352a7a56d66b6eff185c92e2e70a042097",
-      "ast_digest": "8c9a3647b7ef162eb4c16f131bf4a875a688057e81285c5aa754d91e8b854f7e"
+      "values_digest": "fb1a481799cae7d3f606aead564ac28e1bc19f8343a3469c48f7261ac5acb68e",
+      "rendered_digest": "fe43168039e875a9b581807fee9a8a161e0fb801d17fde4132b13c2cb755cc0e",
+      "ast_digest": "2c481338502941a19a8a803a32526b1a3d677b0c98eec06af478decd3cad4785"
     }
   },
   "transitions": [
@@ -323,6 +323,27 @@
       "actor": "codex:/root",
       "reason": "Record remediation of exact-review R6 P1 evidence truth: retained #449 evidence logs now show the current R5 remediation denominators of 4 resident-cycle tests and 19 adaptive_learning tests.",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"rg\",\"running 4 tests|resident_cycle_executor_failures_retain_terminal_evidence_without_mutation_or_history|4 passed|running 19 tests|19 passed\",\".csdlc/evidence/449/runtime-resident-cycle-integration-proof.log\",\".csdlc/evidence/449/adaptive-learning-regression-tests.log\"],\"purpose\":\"Prove retained #449 evidence logs match the current resident terminal-evidence remediation proof denominators after the R6 stale-evidence finding.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20:r6-retained-evidence-denominator-alignment\"}}"
+    },
+    {
+      "sequence": 31,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "Recover failed exact review fresh-session:465d9416-4cc7-4182-8a05-d1e74601fef3 before remediating P2 feature-doc truth: docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md still claimed the adaptive_learning target had eighteen tests while retained evidence now proves nineteen tests after the R5 remediation.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 24,
+      "actor": "codex:/root",
+      "reason": "Record remediation of exact-review R7 P2 feature-doc truth: canonical v0.92 Adaptive Learning feature doc now matches retained evidence by saying the adaptive_learning target contains nineteen focused tests.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"rg\",\"nineteen focused|running 19 tests|19 passed\",\"docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md\",\".csdlc/evidence/449/adaptive-learning-regression-tests.log\"],\"purpose\":\"Prove feature-doc denominator truth matches retained adaptive_learning evidence after the R7 stale-doc finding.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20:r7-feature-doc-denominator-alignment\"}}"
     }
   ]
 }

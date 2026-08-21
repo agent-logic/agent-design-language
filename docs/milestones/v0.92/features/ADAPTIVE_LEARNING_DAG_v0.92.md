@@ -130,7 +130,7 @@ WP-01 validated the prerequisite by checking:
 - WP-13A owns the opened adaptive-learning implementation issue;
 - no v0.92 birthday claim depends on unproved graph mutation.
 
-The issue-owned `adaptive_learning` integration target contains eighteen focused
+The issue-owned `adaptive_learning` integration target contains nineteen focused
 tests using real Runtime v3 loop outcomes, cancellation tokens, signed mutation
 grants, `MutationGate`, `AdaptationStore`, and `KernelDurableState`. Accepted
 history requires the canonical adaptive-learning policy digest to match the
