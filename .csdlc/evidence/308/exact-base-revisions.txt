@@ -1,4 +1,40 @@
-aa36a828793366f92d0d9e16247bd3fb1cce7878
-aa36a828793366f92d0d9e16247bd3fb1cce7878
-aa36a828793366f92d0d9e16247bd3fb1cce7878
-issue-343-pr-445-merge f3fae960ce02e9bc2149e76a658359a46a819a47 is ancestor of current #308 base HEAD
+#308 WP-20 predecessor gate evidence
+
+issue: #256
+work_package: WP-18
+repository: agent-logic/agent-design-language
+pull_request: 427
+disposition: merged
+terminal_state: closed_by_merged_pr
+merge_sha: fb4c853bdb9cb140059d2a28af02d70bd36a27a4
+ancestor_of_308_base: true
+
+issue: #340
+work_package: WP-18A
+repository: agent-logic/agent-design-language
+pull_request: 430
+disposition: merged
+terminal_state: closed_by_merged_pr
+merge_sha: aa36a828793366f92d0d9e16247bd3fb1cce7878
+ancestor_of_308_base: true
+
+issue: #341
+work_package: WP-18B
+repository: agent-logic/agent-design-language
+pull_request: 442
+disposition: merged
+terminal_state: closed_by_merged_pr
+merge_sha: 0b5aadebd7cff653c2500106d4a4055f1b9b8818
+ancestor_of_308_base: true
+
+issue: #5839
+work_package: WP-19
+repository: danielbaustin/agent-design-language
+pull_request: 289
+disposition: merged
+terminal_state: closed_by_merged_pr
+merge_sha: 7f88697ce82215188af941e15cf02a6220c9ad63
+ancestor_of_308_base: true
+
+supporting_sprint_closeout_merge_sha: f3fae960ce02e9bc2149e76a658359a46a819a47
+supporting_sprint_closeout_ancestor_of_308_base: true

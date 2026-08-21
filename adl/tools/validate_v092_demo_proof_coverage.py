@@ -23,6 +23,30 @@ DEMO = Path("docs/milestones/v0.92/DEMO_MATRIX_v0.92.md")
 COVERAGE = Path("docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md")
 LEDGER = Path("docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md")
 INDEX = Path("docs/milestones/v0.92/review/V092_DEMO_AEE_ARTIFACT_INDEX.md")
+BASE_REVISIONS = Path(".csdlc/evidence/308/exact-base-revisions.txt")
+
+PREDECESSOR_GATE = {
+    "#256": {
+        "repository": "agent-logic/agent-design-language",
+        "pull_request": "427",
+        "merge_sha": "fb4c853bdb9cb140059d2a28af02d70bd36a27a4",
+    },
+    "#340": {
+        "repository": "agent-logic/agent-design-language",
+        "pull_request": "430",
+        "merge_sha": "aa36a828793366f92d0d9e16247bd3fb1cce7878",
+    },
+    "#341": {
+        "repository": "agent-logic/agent-design-language",
+        "pull_request": "442",
+        "merge_sha": "0b5aadebd7cff653c2500106d4a4055f1b9b8818",
+    },
+    "#5839": {
+        "repository": "danielbaustin/agent-design-language",
+        "pull_request": "289",
+        "merge_sha": "7f88697ce82215188af941e15cf02a6220c9ad63",
+    },
+}
 
 
 def fail(message: str) -> None:
@@ -142,11 +166,37 @@ def validate_accepted_review_state(value: str, context: str) -> None:
         fail(f"{context} review state must be one of {sorted(ACCEPTED_REVIEW_STATES)}, got {value!r}")
 
 
+def validate_predecessor_gate(root: Path) -> None:
+    evidence = read(root / BASE_REVISIONS)
+    for issue, required in PREDECESSOR_GATE.items():
+        header = f"issue: {issue}"
+        if header not in evidence:
+            fail(f"predecessor gate evidence does not label {issue}")
+        for field, expected in required.items():
+            needle = f"{field}: {expected}"
+            if needle not in evidence:
+                fail(f"predecessor gate evidence for {issue} lacks {needle}")
+        for needle in (
+            "disposition: merged",
+            "terminal_state: closed_by_merged_pr",
+            "ancestor_of_308_base: true",
+        ):
+            issue_section = evidence.split(header, 1)[1].split("\n\n", 1)[0]
+            if needle not in issue_section:
+                fail(f"predecessor gate evidence for {issue} lacks {needle}")
+
+
+def normalized_command(value: str) -> str:
+    return " ".join(value.strip("` ").split())
+
+
 def validate(root: Path) -> None:
     paths = [DEMO, COVERAGE, LEDGER, INDEX]
     for rel in paths:
         read(root / rel)
         ensure_no_forbidden_claims(root / rel)
+
+    validate_predecessor_gate(root)
 
     index_rows = table_with_columns(
         root / INDEX,
@@ -212,12 +262,38 @@ def validate(root: Path) -> None:
         if status != "accepted" and index_status == "accepted" and demo_id != "D9":
             fail(f"demo row {demo_id} is non-accepted but artifact index row {row_id} is accepted")
 
+    ledger_rows = table_with_columns(
+        root / LEDGER,
+        {"Artifact index row", "Owner", "Status", "Exact revision", "Command"},
+    )
+    seen_ledger_rows: set[str] = set()
+    for row in ledger_rows:
+        row_id = row["Artifact index row"]
+        if row_id in seen_ledger_rows:
+            fail(f"duplicate activation ledger row: {row_id}")
+        seen_ledger_rows.add(row_id)
+        if row_id not in by_row:
+            fail(f"activation ledger row references missing artifact row {row_id}")
+        ledger_status = normalize_status(row["Status"], f"activation ledger row {row_id}")
+        index_status = normalize_status(by_row[row_id]["Status"], f"artifact index {row_id}")
+        if ledger_status != index_status:
+            fail(f"activation ledger row {row_id} status {ledger_status} does not match artifact index status {index_status}")
+        if row["Owner"] != by_row[row_id]["Owner"]:
+            fail(f"activation ledger row {row_id} owner {row['Owner']!r} does not match artifact index owner {by_row[row_id]['Owner']!r}")
+        if row["Exact revision"] != by_row[row_id]["Exact revision"]:
+            fail(
+                f"activation ledger row {row_id} exact revision {row['Exact revision']!r} "
+                f"does not match artifact index exact revision {by_row[row_id]['Exact revision']!r}"
+            )
+        if normalized_command(row["Command"]) != normalized_command(by_row[row_id]["Command"]):
+            fail(f"activation ledger row {row_id} command does not match artifact index command")
+
     if "agent-logic/agent-design-language#308" not in read(root / DEMO):
         fail("demo matrix does not bind current issue #308")
     if "agent-logic/agent-design-language#308" not in read(root / INDEX):
         fail("artifact index does not bind current issue #308")
-    if "WP-20" not in read(root / LEDGER):
-        fail("activation ledger does not mention WP-20")
+    if "AEE-018" not in seen_ledger_rows:
+        fail("activation ledger does not bind WP-20 artifact row AEE-018")
 
 
 def main() -> int:

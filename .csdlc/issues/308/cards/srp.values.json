@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-20] Demo matrix, AEE proof, and proof coverage",
     "slug": "v0-92-wp-20-demo-matrix-aee-proof-and-proof-coverage",
     "version": "v0.92",
-    "generation": 8
+    "generation": 9
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/evidence/308\n.csdlc/issues/308\n.csdlc/prepared/issues/308\n.csdlc/locks/308.lock\nadl/tools/validate_v092_demo_proof_coverage.py\nadl/tools/test_v092_demo_proof_coverage.sh\ndocs/milestones/v0.92/DEMO_MATRIX_v0.92.md\ndocs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md\ndocs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md\ndocs/milestones/v0.92/review/V092_DEMO_AEE_ARTIFACT_INDEX.md",
+      "review_revision": "git-blake3:5b4992ab6d97c79f141c22369f8f1a2f9eef6f9a:667cac397d879c31afab79b9c38c0b56565cb02fc84cb6a01676485dbb8dbd41",
+      "reviewer": "fresh-session:codex-cli-issue-308-review-5b4992ab",
       "review_prompts": [
         "Do all accepted rows agree across matrix, coverage, activation, and artifact index at one exact revision?",
         "Does every accepted claim retain required positive and negative proof plus platform, credential, review, and non-claim truth?",
@@ -23,9 +23,32 @@
         "Does the patch preserve WP-21/WP-21A and child ownership boundaries?",
         "Is the predecessor gate terminal, reconciled, and ancestral at the execution base?"
       ],
-      "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "findings": [
+        {
+          "id": "R2-P1-predecessor-gate-evidence-unlabeled",
+          "severity": "p1",
+          "summary": "Retained predecessor gate evidence does not label or prove terminal/reconciled/ancestral truth for #256, #340, #341, and legacy #5839 as required by the issue design.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        },
+        {
+          "id": "R2-P1-activation-ledger-not-structured",
+          "severity": "p1",
+          "summary": "The validator only checks that the activation ledger mentions WP-20 instead of parsing and comparing activation ledger ownership/status/revision against the matrix, coverage, and artifact index.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        }
+      ],
+      "residual_risk": [
+        "Review was read-only and bounded to exact commit 5b4992ab6d97c79f141c22369f8f1a2f9eef6f9a; reviewer ignored post-HEAD review-assignment metadata dirt."
+      ],
+      "review_result": "changes_required"
     }
   }
 }

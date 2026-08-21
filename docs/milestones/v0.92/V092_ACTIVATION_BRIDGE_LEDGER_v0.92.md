@@ -262,6 +262,10 @@ artifact index are internally consistent and fail closed against missing proof,
 planned-as-passed rows, synthetic proof, unsupported platform claims, duplicate
 row identifiers, and divergent owners.
 
+| Artifact index row | Owner | Status | Exact revision | Command |
+| --- | --- | --- | --- | --- |
+| AEE-018 | WP-20 | blocked_with_evidence | pending-typed-review-publication | python3 adl/tools/validate_v092_demo_proof_coverage.py --root . |
+
 This is not activation evidence by itself. It does not mark WP-18, WP-18A,
 WP-18B, WP-19, Observatory, cloud qualification, WP-21 reduction, or release
 ceremony work complete.

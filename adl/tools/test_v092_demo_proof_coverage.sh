@@ -18,6 +18,8 @@ cp .csdlc/evidence/308/wp20-demo-proof-validator.log \
   "${RUN_ROOT}/.csdlc/evidence/308/wp20-demo-proof-validator.log"
 cp .csdlc/evidence/308/wp20-demo-proof-negative-suite.log \
   "${RUN_ROOT}/.csdlc/evidence/308/wp20-demo-proof-negative-suite.log"
+cp .csdlc/evidence/308/exact-base-revisions.txt \
+  "${RUN_ROOT}/.csdlc/evidence/308/exact-base-revisions.txt"
 cp docs/milestones/v0.92/DEMO_MATRIX_v0.92.md \
   "${RUN_ROOT}/docs/milestones/v0.92/DEMO_MATRIX_v0.92.md"
 cp docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md \
@@ -43,6 +45,26 @@ fi
 cp docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md \
   "${RUN_ROOT}/docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md"
 
+python3 - "$RUN_ROOT/.csdlc/evidence/308/exact-base-revisions.txt" <<'PY'
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+text = path.read_text()
+text = text.replace("issue: #340\nwork_package: WP-18A", "issue: #340\nwork_package: WP-18A")
+text = text.replace("issue: #340\nwork_package: WP-18A\nrepository: agent-logic/agent-design-language\npull_request: 430\ndisposition: merged\nterminal_state: closed_by_merged_pr\nmerge_sha: aa36a828793366f92d0d9e16247bd3fb1cce7878\nancestor_of_308_base: true",
+                    "issue: #340\nwork_package: WP-18A\nrepository: agent-logic/agent-design-language\npull_request: 430\ndisposition: merged\nterminal_state: open\nmerge_sha: aa36a828793366f92d0d9e16247bd3fb1cce7878\nancestor_of_308_base: true")
+path.write_text(text)
+PY
+
+if python3 adl/tools/validate_v092_demo_proof_coverage.py --root "${RUN_ROOT}"; then
+  echo "expected predecessor gate fixture to fail" >&2
+  exit 1
+fi
+
+cp .csdlc/evidence/308/exact-base-revisions.txt \
+  "${RUN_ROOT}/.csdlc/evidence/308/exact-base-revisions.txt"
+
 python3 - "$RUN_ROOT/docs/milestones/v0.92/DEMO_MATRIX_v0.92.md" <<'PY'
 import pathlib
 import sys
@@ -58,6 +80,26 @@ if python3 adl/tools/validate_v092_demo_proof_coverage.py --root "${RUN_ROOT}"; 
   echo "expected planned-as-passed fixture to fail" >&2
   exit 1
 fi
+
+cp docs/milestones/v0.92/DEMO_MATRIX_v0.92.md "${RUN_ROOT}/docs/milestones/v0.92/DEMO_MATRIX_v0.92.md"
+python3 - "$RUN_ROOT/docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md" <<'PY'
+import pathlib
+import sys
+
+path = pathlib.Path(sys.argv[1])
+text = path.read_text()
+text = text.replace("| AEE-018 | WP-20 | blocked_with_evidence | pending-typed-review-publication | python3 adl/tools/validate_v092_demo_proof_coverage.py --root . |",
+                    "| AEE-018 | WP-99 | blocked_with_evidence | pending-typed-review-publication | python3 adl/tools/validate_v092_demo_proof_coverage.py --root . |")
+path.write_text(text)
+PY
+
+if python3 adl/tools/validate_v092_demo_proof_coverage.py --root "${RUN_ROOT}"; then
+  echo "expected activation ledger owner drift fixture to fail" >&2
+  exit 1
+fi
+
+cp docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md \
+  "${RUN_ROOT}/docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md"
 
 cp docs/milestones/v0.92/DEMO_MATRIX_v0.92.md "${RUN_ROOT}/docs/milestones/v0.92/DEMO_MATRIX_v0.92.md"
 python3 - "$RUN_ROOT/docs/milestones/v0.92/review/V092_DEMO_AEE_ARTIFACT_INDEX.md" <<'PY'
