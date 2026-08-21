@@ -1,7 +1,7 @@
 {
   "schema": "adl.runtime.feature_wiring_audit.v1",
   "issue": 451,
-  "source_revision": "280f3e34387092a396d5c21a3e6fe8bf6d6b4ee8",
+  "source_revision": "4e23796ba1cdf89cb5f4121a01915d31f16e167b",
   "rows": [
     {"feature":"identity","construction":"adl-runtime-kernel/src/birthday_identity.rs","production_consumption":"adl-runtime-kernel/src/memory_palace_authority.rs","behavioral_proof":"adl-runtime-kernel/tests/identity_memory.rs","negative_proof":"adl-runtime-kernel/tests/identity_memory.rs","disposition":"live"},
     {"feature":"continuity","construction":"adl-runtime-kernel/src/birthday_continuity.rs","production_consumption":"adl-runtime-kernel/src/production_birthday.rs","behavioral_proof":"adl-runtime-kernel/tests/continuity.rs","negative_proof":"adl-runtime-kernel/tests/production_birthday.rs","disposition":"live"},
