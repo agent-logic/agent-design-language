@@ -1,0 +1,114 @@
+# Structured Planning Prompt
+
+Template: 1.0.0
+
+Issue: 446
+
+Repository: agent-logic/agent-design-language
+
+Card: spp
+
+Status: ready
+
+## Summary
+
+Add typed authority, a Runtime proposal service, injected dispatch, long-lived-cycle integration, and allow/denial proof.
+
+## Plan
+
+Revision 1
+
+## Steps
+
+[
+  {
+    "id": "S1",
+    "action": "Add typed resident authority.",
+    "acceptance_ids": [
+      "AC-2",
+      "AC-5"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S2",
+    "action": "Implement compile, gate, and receipts.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S3",
+    "action": "Inject sealed governed dispatch.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-4",
+      "AC-6"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S4",
+    "action": "Integrate Runtime cycles and prove paths.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2",
+      "AC-3",
+      "AC-4",
+      "AC-5",
+      "AC-7"
+    ],
+    "status": "pending"
+  }
+]
+
+## Invariants
+
+- Models never actuate directly
+- Every proposal has one terminal receipt
+- Authority is typed and digest-bound
+- Receipts are redacted and lineage-bound
+- Fixtures stay non-production
+
+## Risks
+
+- Crate dependency cycle
+- Fixture policy leakage
+- Receipt data leakage
+- Ambiguous multiple proposals
+
+## Estimates
+
+{
+  "elapsed_seconds": 43200,
+  "total_tokens": 140000,
+  "validation_seconds": 7200
+}
+
+## Design
+
+.csdlc/prepared/issues/446/design.md
+
+Digest: 0988bb2c7399868ad22d44cc12802f01d71ba6461eb8699c5620aa052180f580
+
+## Diagram
+
+.csdlc/prepared/issues/446/diagram.mmd
+
+Digest: a7dfc52842d0222dfc387e1171e78faa12bd8d108fbfc774c1b2761862708657
+
+## Stop Conditions
+
+- Reverse crate dependency required
+- Production policy identity cannot bind
+- Adapter exceeds allowlist
+- Redaction cannot be proven
+
+## Handoff
+
+Proceed only after doctor readiness.

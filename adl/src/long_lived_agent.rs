@@ -45,7 +45,7 @@ use crate::memory_palace::{build_context_from_agent_memory, MEMORY_PALACE_CONTEX
 use crate::runtime_aws_signal::{
     preflight_csm_governed_notice_signal, publish_csm_governed_notice_signal_for_channel,
 };
-use crate::{adl, execute, resolve, trace};
+use crate::{adl, execute, resident_tool_execution, resolve, trace};
 
 mod inspection;
 mod schema;
@@ -1766,6 +1766,33 @@ fn validate_spec(spec: &AgentSpec) -> Result<()> {
     if spec.workflow.kind.trim().is_empty() {
         return Err(anyhow!("agent spec requires workflow.kind"));
     }
+    match (&spec.resident_role, &spec.tool_authority) {
+        (None, None) => {}
+        (Some(role), Some(authority)) => {
+            if role.trim().is_empty() {
+                return Err(anyhow!("resident_role must not be empty"));
+            }
+            authority.validate().map_err(|error| anyhow!(error))?;
+            for field in [
+                "tool_registry",
+                "tool_policy_context",
+                "tool_gate_context",
+                "tool_risk_class",
+                "citizen_boundary_ref",
+            ] {
+                if spec.workflow.run_args.get(field).is_none() {
+                    return Err(anyhow!(
+                        "ACC-enabled resident workflow requires workflow.run_args.{field}"
+                    ));
+                }
+            }
+        }
+        _ => {
+            return Err(anyhow!(
+                "resident_role and tool_authority must be configured together"
+            ))
+        }
+    }
     let stale = spec.heartbeat.stale_lease_after_secs.unwrap_or(900);
     if stale == 0 {
         return Err(anyhow!(
@@ -2487,6 +2514,27 @@ fn write_cycle_artifacts(loaded: &LoadedAgentSpec, cycle_id: &str) -> Result<()>
         None
     };
 
+    if let Some(run) = adl_run.as_ref() {
+        let checkpoint_lineage = exact_checkpoint_lineage(loaded)?;
+        let runtime_observer = resident_tool_execution::RuntimeObserveAdapterV1::new(json!({
+            "kind": "runtime_observation",
+            "status": "running_cycle",
+            "resident_id": loaded.spec.agent_instance_id,
+            "cycle_id": cycle_id,
+            "checkpoint_lineage": checkpoint_lineage,
+            "redaction": "aggregate_only"
+        }))
+        .map_err(|error| anyhow!(error))?;
+        write_resident_tool_receipts(
+            loaded,
+            cycle_id,
+            &checkpoint_lineage,
+            &cycle_dir,
+            &run.outputs,
+            &runtime_observer,
+        )?;
+    }
+
     let provider_result_raw = match &adl_run {
         Some(_) => read_json_required(&cycle_dir.join("csm_adl_run_status.json"))?,
         None => provider_binding.clone(),
@@ -2886,10 +2934,115 @@ fn write_cycle_artifacts(loaded: &LoadedAgentSpec, cycle_id: &str) -> Result<()>
     Ok(())
 }
 
+fn exact_checkpoint_lineage(loaded: &LoadedAgentSpec) -> Result<String> {
+    let path = continuity_checkpoint_path(loaded);
+    if !path.exists() {
+        return Ok("genesis".to_string());
+    }
+    let bytes = fs::read(&path)
+        .with_context(|| format!("failed reading continuity checkpoint {}", path.display()))?;
+    Ok(format!(
+        "continuity_checkpoint.json#sha256:{}",
+        hex::encode(Sha256::digest(bytes))
+    ))
+}
+
+fn write_resident_tool_receipts(
+    loaded: &LoadedAgentSpec,
+    cycle_id: &str,
+    checkpoint_lineage: &str,
+    cycle_dir: &Path,
+    outputs: &[execute::StepOutput],
+    adapter: &dyn crate::governed_executor::GovernedToolAdapterV1,
+) -> Result<()> {
+    let (Some(role), Some(authority)) = (
+        loaded.spec.resident_role.as_deref(),
+        loaded.spec.tool_authority.as_ref(),
+    ) else {
+        return Ok(());
+    };
+    let registry: crate::tool_registry::ToolRegistryV1 = serde_json::from_value(
+        loaded
+            .spec
+            .workflow
+            .run_args
+            .get("tool_registry")
+            .cloned()
+            .ok_or_else(|| anyhow!("missing Runtime tool registry"))?,
+    )
+    .context("invalid Runtime tool registry")?;
+    let policy: crate::uts_acc_compiler::UtsAccPolicyContextV1 = serde_json::from_value(
+        loaded
+            .spec
+            .workflow
+            .run_args
+            .get("tool_policy_context")
+            .cloned()
+            .ok_or_else(|| anyhow!("missing Runtime tool policy context"))?,
+    )
+    .context("invalid Runtime tool policy context")?;
+    let gate_context: crate::freedom_gate::FreedomGateToolGateContextV1 = serde_json::from_value(
+        loaded
+            .spec
+            .workflow
+            .run_args
+            .get("tool_gate_context")
+            .cloned()
+            .ok_or_else(|| anyhow!("missing Runtime tool gate context"))?,
+    )
+    .context("invalid Runtime tool gate context")?;
+    let risk_class = loaded
+        .spec
+        .workflow
+        .run_args
+        .get("tool_risk_class")
+        .and_then(Value::as_str)
+        .ok_or_else(|| anyhow!("missing Runtime tool risk class"))?;
+    let citizen_boundary_ref = loaded
+        .spec
+        .workflow
+        .run_args
+        .get("citizen_boundary_ref")
+        .and_then(Value::as_str)
+        .ok_or_else(|| anyhow!("missing Runtime citizen boundary reference"))?;
+    let receipts = outputs
+        .iter()
+        .map(|output| {
+            resident_tool_execution::govern_resident_tool_output_v1(
+                &output.model_output,
+                resident_tool_execution::ResidentToolExecutionContextV1 {
+                    resident_id: &loaded.spec.agent_instance_id,
+                    role,
+                    authority,
+                    cycle_id,
+                    checkpoint_lineage,
+                    registry: registry.clone(),
+                    policy: policy.clone(),
+                    risk_class,
+                    citizen_boundary_ref,
+                    gate_context: gate_context.clone(),
+                },
+                adapter,
+            )
+        })
+        .collect::<Vec<_>>();
+    write_json_pretty(&cycle_dir.join("resident_tool_receipts.json"), &receipts)?;
+    if receipts.iter().any(|receipt| {
+        receipt.decision == resident_tool_execution::ResidentToolReceiptDecisionV1::Denied
+    }) {
+        return Err(anyhow!(
+            "resident tool proposal denied; see {}",
+            cycle_dir.join("resident_tool_receipts.json").display()
+        ));
+    }
+    Ok(())
+}
+
 #[derive(Debug)]
 struct AdlWorkflowRunSummary {
     status_ref: String,
     trace_ref: String,
+    outputs: Vec<execute::StepOutput>,
 }
 
 fn run_adl_workflow_cycle(
@@ -2984,6 +3137,7 @@ fn run_adl_workflow_cycle(
     Ok(AdlWorkflowRunSummary {
         status_ref: "csm_adl_run_status.json".to_string(),
         trace_ref: "csm_adl_run_status.json#trace_events".to_string(),
+        outputs: result.outputs,
     })
 }
 

@@ -1,0 +1,33 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 446,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][Runtime] Wire ACC-governed tool execution into resident-agent cycles",
+    "slug": "runtime-acc-resident-tool-execution",
+    "version": "v0.92",
+    "generation": 27
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/446\nadl/src/cli/runtime_v2_cmd/commands.rs\nadl/src/cli/runtime_v2_cmd/tests.rs",
+      "review_revision": "git-blake3:bd388bdd576311815d5a1b5187385ba5b24edc77:2bc26ca30951bf6ff596c31ede7dae7cc6ccbcf888099672d106495619fc5639",
+      "reviewer": "fresh-session:01a02286-7c5e-7c90-a69f-0d51d64c3428",
+      "review_prompts": [
+        "Can provider output bypass authority?",
+        "Can fixtures enter production?",
+        "Does every proposal have one receipt?",
+        "Are receipts redacted and lineage-bound?",
+        "Is dependency direction acyclic?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "This exact-head review covers the C-SDLC metadata commit and confirms it does not change Runtime code. Linux/AWS six-resident qualification remains owned by dependent issue #268."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

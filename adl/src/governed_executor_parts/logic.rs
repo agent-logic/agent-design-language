@@ -60,6 +60,42 @@ pub struct GovernedExecutorInputV1 {
     pub gate_decision: FreedomGateToolDecisionEventV1,
 }
 
+pub trait GovernedToolAdapterV1 {
+    fn execute(
+        &self,
+        adapter_id: &str,
+        arguments: &BTreeMap<String, JsonValue>,
+    ) -> Result<JsonValue, String>;
+}
+
+#[cfg(test)]
+struct FixtureGovernedToolAdapterV1;
+
+#[cfg(test)]
+impl GovernedToolAdapterV1 for FixtureGovernedToolAdapterV1 {
+    fn execute(
+        &self,
+        adapter_id: &str,
+        arguments: &BTreeMap<String, JsonValue>,
+    ) -> Result<JsonValue, String> {
+        fixture_execute_adapter(adapter_id, arguments).map_err(str::to_string)
+    }
+}
+
+#[cfg(not(test))]
+struct UnconfiguredGovernedToolAdapterV1;
+
+#[cfg(not(test))]
+impl GovernedToolAdapterV1 for UnconfiguredGovernedToolAdapterV1 {
+    fn execute(
+        &self,
+        _adapter_id: &str,
+        _arguments: &BTreeMap<String, JsonValue>,
+    ) -> Result<JsonValue, String> {
+        Err("production_adapter_not_configured".to_string())
+    }
+}
+
 fn unknown_identity(
     action_id: &str,
     acc: Option<&AdlCapabilityContractV1>,
@@ -121,6 +157,7 @@ fn selected_record(
     }
 }
 
+#[cfg(test)]
 fn fixture_execute_safe_read(arguments: &BTreeMap<String, JsonValue>) -> Option<JsonValue> {
     let fixture_id = arguments.get("fixture_id")?.as_str()?;
     if fixture_id.trim().is_empty() {
@@ -134,6 +171,7 @@ fn fixture_execute_safe_read(arguments: &BTreeMap<String, JsonValue>) -> Option<
     }))
 }
 
+#[cfg(test)]
 fn fixture_execute_adapter(
     adapter_id: &str,
     arguments: &BTreeMap<String, JsonValue>,
@@ -395,7 +433,18 @@ fn emit_governed_trace_context(
 pub fn execute_governed_action_v1(
     input: &GovernedExecutorInputV1,
 ) -> GovernedExecutorExecutionOutcomeV1 {
-    execute_governed_action_with_trace_v1(input, None)
+    #[cfg(test)]
+    let adapter = &FixtureGovernedToolAdapterV1 as &dyn GovernedToolAdapterV1;
+    #[cfg(not(test))]
+    let adapter = &UnconfiguredGovernedToolAdapterV1 as &dyn GovernedToolAdapterV1;
+    execute_governed_action_internal_v1(input, adapter, None)
+}
+
+pub fn execute_governed_action_with_adapter_v1(
+    input: &GovernedExecutorInputV1,
+    adapter: &dyn GovernedToolAdapterV1,
+) -> GovernedExecutorExecutionOutcomeV1 {
+    execute_governed_action_internal_v1(input, adapter, None)
 }
 
 pub fn fixture_safe_read_input_v1() -> GovernedExecutorInputV1 {
@@ -460,6 +509,18 @@ pub fn emit_fixture_safe_read_trace_v1(trace: &mut Trace) -> GovernedExecutorExe
 
 pub fn execute_governed_action_with_trace_v1(
     input: &GovernedExecutorInputV1,
+    trace: Option<&mut Trace>,
+) -> GovernedExecutorExecutionOutcomeV1 {
+    #[cfg(test)]
+    let adapter = &FixtureGovernedToolAdapterV1 as &dyn GovernedToolAdapterV1;
+    #[cfg(not(test))]
+    let adapter = &UnconfiguredGovernedToolAdapterV1 as &dyn GovernedToolAdapterV1;
+    execute_governed_action_internal_v1(input, adapter, trace)
+}
+
+fn execute_governed_action_internal_v1(
+    input: &GovernedExecutorInputV1,
+    adapter: &dyn GovernedToolAdapterV1,
     mut trace: Option<&mut Trace>,
 ) -> GovernedExecutorExecutionOutcomeV1 {
     let mut selected_actions = Vec::new();
@@ -891,7 +952,7 @@ pub fn execute_governed_action_with_trace_v1(
         };
     }
 
-    let payload = match fixture_execute_adapter(&acc.tool.adapter_id, &input.arguments) {
+    let payload = match adapter.execute(&acc.tool.adapter_id, &input.arguments) {
         Ok(payload) => payload,
         Err(reason_code) => {
             let reason = if reason_code == "unsupported_fixture_adapter" {

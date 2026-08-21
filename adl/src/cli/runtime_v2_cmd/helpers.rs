@@ -4,41 +4,8 @@ use std::{
     path::{Path, PathBuf},
 };
 
-use super::super::run_artifacts::write_governed_trace_artifacts_for_run_paths;
 use super::commands;
 use crate::cli::usage;
-use ::adl::{artifacts, governed_executor, instrumentation, trace};
-
-const RUNTIME_V2_GOVERNED_TRACE_RUN_ID: &str = "runtime-v2-governed-demo-run";
-const RUNTIME_V2_GOVERNED_TRACE_WORKFLOW_ID: &str = "runtime_v2.integrated_csm_run_demo";
-const RUNTIME_V2_GOVERNED_TRACE_VERSION: &str = "0.90.5";
-
-pub(crate) fn write_runtime_v2_governed_trace_demo(root: &Path) -> Result<()> {
-    let mut governed_trace = trace::Trace::new(
-        RUNTIME_V2_GOVERNED_TRACE_RUN_ID.to_string(),
-        RUNTIME_V2_GOVERNED_TRACE_WORKFLOW_ID.to_string(),
-        RUNTIME_V2_GOVERNED_TRACE_VERSION.to_string(),
-    );
-    let outcome = governed_executor::emit_fixture_safe_read_trace_v1(&mut governed_trace);
-    if outcome.selected_actions.is_empty() {
-        return Err(anyhow!(
-            "runtime-v2 governed trace demo must emit one selected governed action"
-        ));
-    }
-
-    let run_paths = artifacts::RunArtifactPaths::for_run_in_root(
-        RUNTIME_V2_GOVERNED_TRACE_RUN_ID,
-        root.join("artifacts"),
-    )?;
-    run_paths.ensure_layout()?;
-    run_paths.write_model_marker()?;
-    instrumentation::write_trace_artifact(
-        &run_paths.activation_log_json(),
-        &governed_trace.events,
-    )?;
-    write_governed_trace_artifacts_for_run_paths(&run_paths, &governed_trace)?;
-    Ok(())
-}
 
 pub(crate) fn real_runtime_v2(args: &[String]) -> Result<()> {
     let repo_root = env::current_dir().context("resolve current working directory")?;

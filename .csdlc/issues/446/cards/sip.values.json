@@ -1,0 +1,40 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 446,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][Runtime] Wire ACC-governed tool execution into resident-agent cycles",
+    "slug": "runtime-acc-resident-tool-execution",
+    "version": "v0.92",
+    "generation": 27
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Make ACC-governed tool execution a production Runtime capability for long-lived resident agents.",
+      "required_outcome": "Every resident tool proposal is compiled, authority-checked, Freedom-Gate evaluated, governed-dispatched or denied, and retained as a Runtime-owned terminal receipt.",
+      "declared_scope": [
+        "Typed resident tool authority",
+        "Runtime proposal processing",
+        "UTS-to-ACC and Freedom Gate routing",
+        "Sealed adapter dispatch",
+        "Redacted lineage-bound receipts"
+      ],
+      "authority_boundary": [
+        "Provider output is proposal data only",
+        "Runtime-loaded authority is canonical",
+        "Only governed adapters may actuate",
+        "#268 consumes this capability"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Implement before resuming #268",
+        "Use the #446 worktree",
+        "Never execute #269",
+        "Do not restore #5347 demo"
+      ]
+    }
+  }
+}

@@ -1,0 +1,477 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 446,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "6d45794ff8f47d6ed78c0e8e6925c8384a89dbcd8abc3c23872a6da0c508da8e",
+  "phase": "published",
+  "generation": 27,
+  "digest": "08920ca78de2fd562879ec8873bd010d3a623124c8a37f411e2cc220a0c1fdd8",
+  "branch": "codex/446-runtime-acc-resident-wiring",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-446-runtime-acc-resident-wiring",
+  "review_assignment": {
+    "reviewer": "fresh-session:01a02286-7c5e-7c90-a69f-0d51d64c3428",
+    "assigned_by": "codex:issue-446-metadata-head-review",
+    "revision": "git-blake3:bd388bdd576311815d5a1b5187385ba5b24edc77:2bc26ca30951bf6ff596c31ede7dae7cc6ccbcf888099672d106495619fc5639",
+    "scope": [
+      ".csdlc/issues/446",
+      "adl/src/cli/runtime_v2_cmd/commands.rs",
+      "adl/src/cli/runtime_v2_cmd/tests.rs"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:01a02286-7c5e-7c90-a69f-0d51d64c3428",
+    "scope": [
+      ".csdlc/issues/446",
+      "adl/src/cli/runtime_v2_cmd/commands.rs",
+      "adl/src/cli/runtime_v2_cmd/tests.rs"
+    ],
+    "reviewed_revision": "git-blake3:bd388bdd576311815d5a1b5187385ba5b24edc77:2bc26ca30951bf6ff596c31ede7dae7cc6ccbcf888099672d106495619fc5639",
+    "findings": [],
+    "residual_risks": [
+      "This exact-head review covers the C-SDLC metadata commit and confirms it does not change Runtime code. Linux/AWS six-resident qualification remains owned by dependent issue #268."
+    ],
+    "completed": true,
+    "non_substantive_proof": {
+      "policy": "review_metadata_only_v1",
+      "from_revision": "git-blake3:2f40024e543fb9e64bf25af61c4c0ee91f19e550:31a6556e4aa00d370984477c5b6aa19c4e2e23421d56a605342aa36b1024ed32",
+      "to_revision": "git-blake3:bd388bdd576311815d5a1b5187385ba5b24edc77:2bc26ca30951bf6ff596c31ede7dae7cc6ccbcf888099672d106495619fc5639",
+      "from_commit": "2f40024e543fb9e64bf25af61c4c0ee91f19e550",
+      "to_commit": "bd388bdd576311815d5a1b5187385ba5b24edc77",
+      "changed_paths": [
+        ".csdlc/issues/446/audit.jsonl",
+        ".csdlc/issues/446/cards/sip.values.json",
+        ".csdlc/issues/446/cards/sor.md",
+        ".csdlc/issues/446/cards/sor.values.json",
+        ".csdlc/issues/446/cards/spp.values.json",
+        ".csdlc/issues/446/cards/srp.md",
+        ".csdlc/issues/446/cards/srp.values.json",
+        ".csdlc/issues/446/cards/stp.values.json",
+        ".csdlc/issues/446/cards/vpp.values.json",
+        ".csdlc/issues/446/index.json"
+      ]
+    }
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 446,
+    "pull_request": 455,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/455",
+    "base": "main",
+    "head": "codex/446-runtime-acc-resident-wiring",
+    "revision": "git-blake3:bd388bdd576311815d5a1b5187385ba5b24edc77:2bc26ca30951bf6ff596c31ede7dae7cc6ccbcf888099672d106495619fc5639",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/446/design.md",
+  "diagram_path": ".csdlc/prepared/issues/446/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator",
+      "revision": "0988bb2c7399868ad22d44cc12802f01d71ba6461eb8699c5620aa052180f580"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "4829ca51fee2070247abd8f89c2707f34ae8256663e7721ac3209601e4c76057",
+      "rendered_digest": "a4f6027a21a820c30c5134ba1567511d9f52f1d5bf5daadcc61a51c2a3a353d1",
+      "ast_digest": "27a5f3a4b5e8abc714ad563d22a2d322243d75dd8703dc01b35b75f6cb7a856f"
+    },
+    "stp": {
+      "values_digest": "0cab76e7d5641c62689c896a2363af2829ddc5c881485dd5a3011000ac3165bd",
+      "rendered_digest": "8d82f119907a31b0a1a34692ad2979d48898cd5d871d1e6c11bd709b6260ed84",
+      "ast_digest": "71286082e6509974f68f38220eb27a1a60afa250f1505e1938fe34e8b3fa8fc0"
+    },
+    "spp": {
+      "values_digest": "ebc44c49577438007727de7646b5e8ebf8fc48bc9050242abfc3bc51356dbb3d",
+      "rendered_digest": "328a3e601f844ec99ad9fa6a87596d3ba6aa56744dc052e25995bf3f2e2973e6",
+      "ast_digest": "d889dc54057773a4840ce3e9b02d800d3588e21ff8d7ca34ebace795dfc547e3"
+    },
+    "vpp": {
+      "values_digest": "733f16098e567d72c7293393a864c4dec7587965c10797695ec9a7e51ca7de7b",
+      "rendered_digest": "6f3e9bf007826f50192e601366097281f25502bb443c44c3beac1abb0c9e8a83",
+      "ast_digest": "412ae3243fe05dac1680b82cc49a116dc46812fa50747b1bd801789c8eda63c1"
+    },
+    "srp": {
+      "values_digest": "58b825be5edd2290808fdb686f05d6acfcdfbdc619e6dd98a772093c4c8f5246",
+      "rendered_digest": "fe24daba33b8a6e9615619b08bdee824f2ee41297939858201611158b1e26251",
+      "ast_digest": "28fa5667bc9bccc1f3d1c3296b426cf2a0c462e441a28f3756ccc482bf805f07"
+    },
+    "sor": {
+      "values_digest": "4b7f0c2d0e649c593e6441bb167ae628f74d3a1dd47967e4922b3ad65676fb3f",
+      "rendered_digest": "c5737af561369b9a269fa4b3c11c72c1ad7721dea7a5178b46bdc4c34d694d32",
+      "ast_digest": "a03f14b767358e443b22046e7719e1bf7b99b6ba5e2aefab11ce30ff09a1bebf"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex",
+      "reason": "Doctor passed with exact owned paths and an issue-specific validation denominator; advance the operator-approved Runtime prerequisite to execution readiness."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "Implementation commit 0bc8df3ff contains typed authority, Runtime UTS-to-ACC and Freedom Gate routing, injected governed dispatch, terminal receipts, and focused passing proof."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:e51eef1c-8183-41ca-9e4d-8002de2069df",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-446-ci-repair",
+      "reason": "Recover reviewed and published authority after merging current main and correcting the causal CI regression so production CLI tests prove historical fixture dispatch is refused while library fixtures remain test-only."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:7a2e0de1-d560-4146-99e6-eb47bedaf47d",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-446-ci-repair",
+      "reason": "Recover reviewed and published authority after the authoritative workspace lane exposed four additional historical fixture-backed production demos and one merged affect-model fixture whose exact fail-closed expectations required correction."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:ea462fa6-83cf-4c8f-9d44-4f96510de907",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 11,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 12,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-446-governed-tools-p1-repair",
+      "reason": "Recover reviewed and published authority after independent review found the governed-tools production command still depended on fixture validation instead of an explicit test-only command-boundary refusal."
+    },
+    {
+      "sequence": 13,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:01a0227f-d655-7191-b038-aa8f073dd181",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 14,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:issue-446-metadata-head-review",
+      "reason": "Recover reviewed authority after the C-SDLC metadata commit advanced PR head beyond the reviewed Runtime code revision; refresh exact-head review for publication without changing Runtime code."
+    },
+    {
+      "sequence": 15,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:01a02286-7c5e-7c90-a69f-0d51d64c3428",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 16,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex",
+      "reason": "Doctor passed with exact owned paths and an issue-specific validation denominator; advance the operator-approved Runtime prerequisite to execution readiness.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 1,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "codex",
+      "reason": "Record the exact implementation and focused proof before independent review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Wired typed resident tool authority and actual long-lived Runtime provider outputs through UTS-to-ACC compilation, Freedom Gate evaluation, injected governed adapter dispatch, and lineage-bound terminal receipts.\",\"changes\":[\"Added typed resident authority id/ref/digest and sorted allowlist validation.\",\"Added a Runtime-owned resident proposal service using the real UTS-to-ACC compiler and Freedom Gate.\",\"Refactored governed execution to accept an injected adapter while keeping fixture dispatch test-only.\",\"Integrated provider StepOutput processing into long-lived Runtime cycles and fail-closed denial receipts.\"],\"artifacts\":[\"commit:0bc8df3ff\",\"adl/src/resident_tool_execution.rs\",\"adl/src/long_lived_agent.rs\",\"adl-runtime/src/resident_agent.rs\",\"resident_tool_execution: 3 passed\",\"governed_executor: 25 passed\",\"resident_agent: 4 passed\",\"actual Runtime receipt integration: 1 passed\",\"cargo check: passed\",\"git diff --check: passed\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex",
+      "reason": "Implementation commit 0bc8df3ff contains typed authority, Runtime UTS-to-ACC and Freedom Gate routing, injected governed dispatch, terminal receipts, and focused passing proof.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 3,
+      "actor": "codex:issue-446-final-runtime-acc-review",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 7,
+      "generation": 4,
+      "actor": "fresh-session:51314fcc-6c43-49cd-aad6-8601bfc00125",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:issue-446-review-repair",
+      "reason": "Recover the recorded changes-required review so the complete scope and current SOR validation truth can be corrected before a fresh exact-head assignment.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:issue-446-review-repair",
+      "reason": "Replace stale initial-commit execution truth with the exact implemented Runtime ACC behavior and all current passing validation before fresh review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Wired six-resident Runtime tool authority and actual long-lived provider output through single-proposal extraction, UTS-to-ACC compilation, configured Freedom Gate evaluation, production Runtime observation dispatch, and checkpoint-bound redacted terminal receipts; exact implementation tree 48075df8480802ed6629069c57ce795e39281d09 is proven by deterministic and live gemma4:12b-mlx Runtime cycles.\",\"changes\":[\"Added canonical digest-bound resident tool authority metadata and tamper denial in adl-runtime.\",\"Added Runtime-owned single-proposal extraction, including duplicate-proposal denial and redacted proposal identifiers.\",\"Routed actual long-lived Runtime provider output through UTS-to-ACC compilation and configured Freedom Gate policy before adapter dispatch.\",\"Added the production runtime.observe registry and bounded redacted Runtime snapshot adapter; fixture dispatch remains test-only and production fallback fails closed.\",\"Bound every terminal execution or denial receipt to resident identity, cycle, and exact checkpoint digest.\",\"Added deterministic full-tick and opt-in live Ollama gemma4:12b-mlx proof without changing generic provider configuration or expanding v0.92 scope.\"],\"artifacts\":[\"implementation-tree:48075df8480802ed6629069c57ce795e39281d09\",\"commit:e040eb35020fd4673422cc41841a44b5143345be\",\"evidence-commit:ac01f0181344e7571e706ed35366e4c619faecf6\",\".csdlc/evidence/446/live-gemma4-runtime-acc.log\",\"adl-runtime/src/resident_agent.rs\",\"adl/src/resident_tool_execution.rs\",\"adl/src/long_lived_agent.rs\",\"adl/src/governed_executor_parts/logic.rs\",\"adl/src/lib.rs\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"resident_tool_execution\",\"--lib\",\"--\",\"--nocapture\"],\"purpose\":\"Prove allow, authority mismatch, compiler denial, gate denial, unsupported adapter denial, receipt redaction, and identical duplicate-proposal denial.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree: 7 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"long_lived_agent::tests::provider_tool_output_is_governed_and_checkpoint_bound\",\"--lib\",\"--\",\"--exact\",\"--nocapture\"],\"purpose\":\"Prove a full deterministic Runtime tick routes real provider StepOutput through ACC, Freedom Gate, production adapter, and checkpoint-bound receipt creation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree: 1 passed\"},{\"command\":[\"env\",\"ADL_TEST_LIVE_RESIDENT_MODEL=gemma4:12b-mlx\",\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"long_lived_agent::tests::provider_tool_output_is_governed_and_checkpoint_bound\",\"--lib\",\"--\",\"--exact\",\"--nocapture\"],\"purpose\":\"Prove the same full Runtime ACC path using a real local Ollama gemma4:12b-mlx agent response over HTTP.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/446/live-gemma4-runtime-acc.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"governed_executor\",\"--lib\",\"--\",\"--nocapture\"],\"purpose\":\"Prove governed executor behavior and test-only fixture isolation after injected adapter refactor.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree: 25 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"resident_agent\",\"--lib\",\"--\",\"--nocapture\"],\"purpose\":\"Prove canonical resident authority construction, validation, and tamper denial.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree: 5 passed\"},{\"command\":[\"cargo\",\"check\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\"],\"purpose\":\"Prove the Runtime library compiles across the integrated implementation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove strict lint cleanliness for the integrated Runtime ACC path.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl/Cargo.toml\",\"--check\"],\"purpose\":\"Prove Rust formatting hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove whitespace and conflict-marker hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree\"}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:issue-446-review-repair",
+      "reason": "Replace the stale compiler-only Runtime lane with the exact deterministic and live Runtime ACC validation denominator required by AC-1 through AC-7.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue446-contract\",\"proof_role\":\"Prove exact issue-owned Runtime and ACC surfaces.\",\"acceptance_ids\":[\"AC-1\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"bash\",\".csdlc/prepared/issues/446/validate_issue446.sh\"],\"parallel_group\":\"contract\",\"defer_reason\":null},{\"lane\":\"resident-tool-governance\",\"proof_role\":\"Prove single-proposal extraction, authority binding, UTS-to-ACC compilation, gate and adapter denial, receipt redaction, and duplicate-proposal denial.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"resident_tool_execution\",\"--lib\",\"--\",\"--nocapture\"],\"parallel_group\":\"runtime\",\"defer_reason\":null},{\"lane\":\"runtime-full-tick\",\"proof_role\":\"Prove an actual long-lived Runtime provider StepOutput crosses ACC, Freedom Gate, production adapter dispatch, and exact checkpoint receipt creation.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"long_lived_agent::tests::provider_tool_output_is_governed_and_checkpoint_bound\",\"--lib\",\"--\",\"--exact\",\"--nocapture\"],\"parallel_group\":\"runtime\",\"defer_reason\":null},{\"lane\":\"runtime-compile-lint\",\"proof_role\":\"Prove integrated crate compilation and strict lint cleanliness.\",\"acceptance_ids\":[\"AC-1\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"compile\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:issue-446-final-runtime-acc-review-r2",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "fresh-session:78e91a49-7e0b-47f1-88fa-b0ee424a871f",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:issue-446-selector-repair",
+      "reason": "Recover the zero-test selector finding so VPP and SOR can name the actual fully qualified Runtime full-tick test and retain nonzero proof.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:issue-446-review-repair",
+      "reason": "Replace stale initial-commit execution truth with the exact implemented Runtime ACC behavior and all current passing validation before fresh review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Wired six-resident Runtime tool authority and actual long-lived provider output through single-proposal extraction, UTS-to-ACC compilation, configured Freedom Gate evaluation, production Runtime observation dispatch, and checkpoint-bound redacted terminal receipts; exact implementation tree 48075df8480802ed6629069c57ce795e39281d09 is proven by deterministic and live gemma4:12b-mlx Runtime cycles.\",\"changes\":[\"Added canonical digest-bound resident tool authority metadata and tamper denial in adl-runtime.\",\"Added Runtime-owned single-proposal extraction, including duplicate-proposal denial and redacted proposal identifiers.\",\"Routed actual long-lived Runtime provider output through UTS-to-ACC compilation and configured Freedom Gate policy before adapter dispatch.\",\"Added the production runtime.observe registry and bounded redacted Runtime snapshot adapter; fixture dispatch remains test-only and production fallback fails closed.\",\"Bound every terminal execution or denial receipt to resident identity, cycle, and exact checkpoint digest.\",\"Added deterministic full-tick and opt-in live Ollama gemma4:12b-mlx proof without changing generic provider configuration or expanding v0.92 scope.\"],\"artifacts\":[\"implementation-tree:48075df8480802ed6629069c57ce795e39281d09\",\"commit:e040eb35020fd4673422cc41841a44b5143345be\",\"evidence-commit:ac01f0181344e7571e706ed35366e4c619faecf6\",\".csdlc/evidence/446/live-gemma4-runtime-acc.log\",\"adl-runtime/src/resident_agent.rs\",\"adl/src/resident_tool_execution.rs\",\"adl/src/long_lived_agent.rs\",\"adl/src/governed_executor_parts/logic.rs\",\"adl/src/lib.rs\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"resident_tool_execution\",\"--lib\",\"--\",\"--nocapture\"],\"purpose\":\"Prove allow, authority mismatch, compiler denial, gate denial, unsupported adapter denial, receipt redaction, and identical duplicate-proposal denial.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree: 7 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"long_lived_agent::tests::tick_routes_provider_output_through_runtime_acc_and_adapter\",\"--lib\",\"--\",\"--exact\",\"--nocapture\"],\"purpose\":\"Prove a full deterministic Runtime tick routes real provider StepOutput through ACC, Freedom Gate, production adapter, and checkpoint-bound receipt creation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree: 1 passed\"},{\"command\":[\"env\",\"ADL_TEST_LIVE_RESIDENT_MODEL=gemma4:12b-mlx\",\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"long_lived_agent::tests::tick_routes_provider_output_through_runtime_acc_and_adapter\",\"--lib\",\"--\",\"--exact\",\"--nocapture\"],\"purpose\":\"Prove the same full Runtime ACC path using a real local Ollama gemma4:12b-mlx agent response over HTTP.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/446/live-gemma4-runtime-acc.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"governed_executor\",\"--lib\",\"--\",\"--nocapture\"],\"purpose\":\"Prove governed executor behavior and test-only fixture isolation after injected adapter refactor.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree: 25 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"resident_agent\",\"--lib\",\"--\",\"--nocapture\"],\"purpose\":\"Prove canonical resident authority construction, validation, and tamper denial.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree: 5 passed\"},{\"command\":[\"cargo\",\"check\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\"],\"purpose\":\"Prove the Runtime library compiles across the integrated implementation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove strict lint cleanliness for the integrated Runtime ACC path.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl/Cargo.toml\",\"--check\"],\"purpose\":\"Prove Rust formatting hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove whitespace and conflict-marker hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree\"}]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:issue-446-review-repair",
+      "reason": "Replace the stale compiler-only Runtime lane with the exact deterministic and live Runtime ACC validation denominator required by AC-1 through AC-7.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"issue446-contract\",\"proof_role\":\"Prove exact issue-owned Runtime and ACC surfaces.\",\"acceptance_ids\":[\"AC-1\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":30,\"budget_tokens\":500,\"argv\":[\"bash\",\".csdlc/prepared/issues/446/validate_issue446.sh\"],\"parallel_group\":\"contract\",\"defer_reason\":null},{\"lane\":\"resident-tool-governance\",\"proof_role\":\"Prove single-proposal extraction, authority binding, UTS-to-ACC compilation, gate and adapter denial, receipt redaction, and duplicate-proposal denial.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"resident_tool_execution\",\"--lib\",\"--\",\"--nocapture\"],\"parallel_group\":\"runtime\",\"defer_reason\":null},{\"lane\":\"runtime-full-tick\",\"proof_role\":\"Prove an actual long-lived Runtime provider StepOutput crosses ACC, Freedom Gate, production adapter dispatch, and exact checkpoint receipt creation.\",\"acceptance_ids\":[\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":900,\"budget_tokens\":6000,\"argv\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"long_lived_agent::tests::tick_routes_provider_output_through_runtime_acc_and_adapter\",\"--lib\",\"--\",\"--exact\",\"--nocapture\"],\"parallel_group\":\"runtime\",\"defer_reason\":null},{\"lane\":\"runtime-compile-lint\",\"proof_role\":\"Prove integrated crate compilation and strict lint cleanliness.\",\"acceptance_ids\":[\"AC-1\",\"AC-6\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":1200,\"budget_tokens\":5000,\"argv\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"parallel_group\":\"compile\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:issue-446-final-runtime-acc-review-r3",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "fresh-session:e51eef1c-8183-41ca-9e4d-8002de2069df",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 19,
+      "generation": 14,
+      "actor": "codex:issue-446-ci-repair",
+      "reason": "Recover reviewed and published authority after merging current main and correcting the causal CI regression so production CLI tests prove historical fixture dispatch is refused while library fixtures remain test-only.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 15,
+      "actor": "codex:issue-446-review-repair",
+      "reason": "Replace stale initial-commit execution truth with the exact implemented Runtime ACC behavior and all current passing validation before fresh review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Wired six-resident Runtime tool authority and actual long-lived provider output through single-proposal extraction, UTS-to-ACC compilation, configured Freedom Gate evaluation, production Runtime observation dispatch, and checkpoint-bound redacted terminal receipts; production CLI regression proof now requires historical fixture-backed demo actuation to refuse before artifact publication while library-only fixture tests remain executable.\",\"changes\":[\"Added canonical digest-bound resident tool authority metadata and tamper denial in adl-runtime.\",\"Added Runtime-owned single-proposal extraction, including duplicate-proposal denial and redacted proposal identifiers.\",\"Routed actual long-lived Runtime provider output through UTS-to-ACC compilation and configured Freedom Gate policy before adapter dispatch.\",\"Added the production runtime.observe registry and bounded redacted Runtime snapshot adapter; fixture dispatch remains test-only and production fallback fails closed.\",\"Bound every terminal execution or denial receipt to resident identity, cycle, and exact checkpoint digest.\",\"Added deterministic full-tick and opt-in live Ollama gemma4:12b-mlx proof without changing generic provider configuration or expanding v0.92 scope.\",\"Corrected the causal workspace-coverage regression so production CLI tests assert fail-closed refusal of the historical fixture adapter, while cfg(test) library demo coverage still proves the bounded fixture behavior.\"],\"artifacts\":[\"implementation-tree:48075df8480802ed6629069c57ce795e39281d09\",\"commit:e040eb35020fd4673422cc41841a44b5143345be\",\"evidence-commit:ac01f0181344e7571e706ed35366e4c619faecf6\",\"ci-repair-commit:2ba8feae04bef2f2151d0b094851d0b421390138\",\".csdlc/evidence/446/live-gemma4-runtime-acc.log\",\"adl-runtime/src/resident_agent.rs\",\"adl/src/resident_tool_execution.rs\",\"adl/src/long_lived_agent.rs\",\"adl/src/governed_executor_parts/logic.rs\",\"adl/src/lib.rs\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"resident_tool_execution\",\"--lib\",\"--\",\"--nocapture\"],\"purpose\":\"Prove allow, authority mismatch, compiler denial, gate denial, unsupported adapter denial, receipt redaction, and identical duplicate-proposal denial.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree: 7 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"long_lived_agent::tests::tick_routes_provider_output_through_runtime_acc_and_adapter\",\"--lib\",\"--\",\"--exact\",\"--nocapture\"],\"purpose\":\"Prove a full deterministic Runtime tick routes real provider StepOutput through ACC, Freedom Gate, production adapter, and checkpoint-bound receipt creation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree: 1 passed\"},{\"command\":[\"env\",\"ADL_TEST_LIVE_RESIDENT_MODEL=gemma4:12b-mlx\",\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"long_lived_agent::tests::tick_routes_provider_output_through_runtime_acc_and_adapter\",\"--lib\",\"--\",\"--exact\",\"--nocapture\"],\"purpose\":\"Prove the same full Runtime ACC path using a real local Ollama gemma4:12b-mlx agent response over HTTP.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/446/live-gemma4-runtime-acc.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"governed_executor\",\"--lib\",\"--\",\"--nocapture\"],\"purpose\":\"Prove governed executor behavior and test-only fixture isolation after injected adapter refactor.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree: 25 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"resident_agent\",\"--lib\",\"--\",\"--nocapture\"],\"purpose\":\"Prove canonical resident authority construction, validation, and tamper denial.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree: 5 passed\"},{\"command\":[\"cargo\",\"check\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\"],\"purpose\":\"Prove the Runtime library compiles across the integrated implementation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove strict lint cleanliness for the integrated Runtime ACC path.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl/Cargo.toml\",\"--check\"],\"purpose\":\"Prove Rust formatting hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove whitespace and conflict-marker hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"cli::runtime_v2_cmd::tests::trace_runtime_v2_governed_tools_flagship_demo\",\"--bin\",\"adl\",\"--\",\"--nocapture\"],\"purpose\":\"Prove production CLI paths refuse historical fixture adapter actuation before artifact publication while preserving argument/help behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"local CI repair: 2 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"runtime_v2_governed_tools_flagship_demo\",\"--lib\",\"--\",\"--nocapture\"],\"purpose\":\"Prove the bounded fixture-backed historical demo remains available only inside cfg(test) library validation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local CI repair: 3 passed\"}]}"
+    },
+    {
+      "sequence": 21,
+      "generation": 15,
+      "actor": "codex:issue-446-final-runtime-acc-review-r4",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 16,
+      "actor": "fresh-session:7a2e0de1-d560-4146-99e6-eb47bedaf47d",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 24,
+      "generation": 18,
+      "actor": "codex:issue-446-ci-repair",
+      "reason": "Recover reviewed and published authority after the authoritative workspace lane exposed four additional historical fixture-backed production demos and one merged affect-model fixture whose exact fail-closed expectations required correction.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 19,
+      "actor": "codex:issue-446-review-repair",
+      "reason": "Record the exact post-CI Runtime ACC implementation and the complete causal workspace-coverage repair before fresh review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Wired six-resident Runtime tool authority and actual long-lived provider output through single-proposal extraction, UTS-to-ACC compilation, configured Freedom Gate evaluation, production Runtime observation dispatch, and checkpoint-bound redacted terminal receipts; all historical fixture-backed production demo commands now refuse deterministically before artifact publication while library-only fixture tests remain executable.\",\"changes\":[\"Added canonical digest-bound resident tool authority metadata and tamper denial in adl-runtime.\",\"Added Runtime-owned single-proposal extraction, including duplicate-proposal denial and redacted proposal identifiers.\",\"Routed actual long-lived Runtime provider output through UTS-to-ACC compilation and configured Freedom Gate policy before adapter dispatch.\",\"Added the production runtime.observe registry and bounded redacted Runtime snapshot adapter; fixture dispatch remains test-only and production fallback fails closed.\",\"Bound every terminal execution or denial receipt to resident identity, cycle, and exact checkpoint digest.\",\"Added deterministic full-tick and opt-in live Ollama gemma4:12b-mlx proof without changing generic provider configuration or expanding v0.92 scope.\",\"Corrected the causal workspace-coverage regression so all five fixture-backed production demo surfaces refuse deterministically before artifact publication, while cfg(test) library demo coverage still proves the bounded fixture behavior.\",\"Kept the merged affect-model legacy-artifact test isolated by supplying valid ACC tool authority and continuing to assert the intended missing-affect-model denial.\"],\"artifacts\":[\"implementation-tree:48075df8480802ed6629069c57ce795e39281d09\",\"commit:e040eb35020fd4673422cc41841a44b5143345be\",\"evidence-commit:ac01f0181344e7571e706ed35366e4c619faecf6\",\"ci-repair-commit:2ba8feae04bef2f2151d0b094851d0b421390138\",\"post-ci-repair-commit:523d76da2\",\".csdlc/evidence/446/live-gemma4-runtime-acc.log\",\"adl-runtime/src/resident_agent.rs\",\"adl/src/resident_tool_execution.rs\",\"adl/src/long_lived_agent.rs\",\"adl/src/governed_executor_parts/logic.rs\",\"adl/src/lib.rs\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"resident_tool_execution\",\"--lib\",\"--\",\"--nocapture\"],\"purpose\":\"Prove allow, authority mismatch, compiler denial, gate denial, unsupported adapter denial, receipt redaction, and identical duplicate-proposal denial.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree: 7 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"long_lived_agent::tests::tick_routes_provider_output_through_runtime_acc_and_adapter\",\"--lib\",\"--\",\"--exact\",\"--nocapture\"],\"purpose\":\"Prove a full deterministic Runtime tick routes real provider StepOutput through ACC, Freedom Gate, production adapter, and checkpoint-bound receipt creation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree: 1 passed\"},{\"command\":[\"env\",\"ADL_TEST_LIVE_RESIDENT_MODEL=gemma4:12b-mlx\",\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"long_lived_agent::tests::tick_routes_provider_output_through_runtime_acc_and_adapter\",\"--lib\",\"--\",\"--exact\",\"--nocapture\"],\"purpose\":\"Prove the same full Runtime ACC path using a real local Ollama gemma4:12b-mlx agent response over HTTP.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/446/live-gemma4-runtime-acc.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"governed_executor\",\"--lib\",\"--\",\"--nocapture\"],\"purpose\":\"Prove governed executor behavior and test-only fixture isolation after injected adapter refactor.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree: 25 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"resident_agent\",\"--lib\",\"--\",\"--nocapture\"],\"purpose\":\"Prove canonical resident authority construction, validation, and tamper denial.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree: 5 passed\"},{\"command\":[\"cargo\",\"check\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\"],\"purpose\":\"Prove the Runtime library compiles across the integrated implementation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove strict lint cleanliness for the integrated Runtime ACC path.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl/Cargo.toml\",\"--check\"],\"purpose\":\"Prove Rust formatting hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove whitespace and conflict-marker hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"cli::runtime_v2_cmd::tests::trace_runtime_v2_governed_tools_flagship_demo\",\"--bin\",\"adl\",\"--\",\"--nocapture\"],\"purpose\":\"Prove production CLI paths refuse historical fixture adapter actuation before artifact publication while preserving argument/help behavior.\",\"outcome\":\"passed\",\"evidence_ref\":\"local CI repair: 2 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"runtime_v2_governed_tools_flagship_demo\",\"--lib\",\"--\",\"--nocapture\"],\"purpose\":\"Prove the bounded fixture-backed historical demo remains available only inside cfg(test) library validation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local CI repair: 3 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"trace_runtime_v2_\",\"--bin\",\"adl\",\"--quiet\"],\"purpose\":\"Prove the complete production Runtime-v2 CLI regression surface, including deterministic refusal of every historical fixture-backed demo.\",\"outcome\":\"passed\",\"evidence_ref\":\"local post-CI repair: 40 passed, 1 ignored\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"csm_runtime_api::tests::runtime_api_rejects_legacy_resident_agent_artifact_without_affect_model\",\"--lib\",\"--\",\"--exact\",\"--nocapture\"],\"purpose\":\"Prove the merged affect-model compatibility fixture carries valid ACC authority and still denies the exact missing affect-model boundary.\",\"outcome\":\"passed\",\"evidence_ref\":\"local post-CI repair: 1 passed\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove strict lint cleanliness for the production CLI retirement repair.\",\"outcome\":\"passed\",\"evidence_ref\":\"local post-CI repair\"}]}"
+    },
+    {
+      "sequence": 26,
+      "generation": 19,
+      "actor": "codex:issue-446-final-runtime-acc-review-r5",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 20,
+      "actor": "fresh-session:ea462fa6-83cf-4c8f-9d44-4f96510de907",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 29,
+      "generation": 22,
+      "actor": "codex:issue-446-governed-tools-p1-repair",
+      "reason": "Recover reviewed and published authority after independent review found the governed-tools production command still depended on fixture validation instead of an explicit test-only command-boundary refusal.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 23,
+      "actor": "codex:issue-446-governed-tools-p1-repair",
+      "reason": "Record the final causal Runtime ACC implementation and governed-tools command-boundary P1 repair before fresh exact-head review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Wired six-resident Runtime tool authority and actual long-lived provider output through single-proposal extraction, UTS-to-ACC compilation, configured Freedom Gate evaluation, production Runtime observation dispatch, and checkpoint-bound redacted terminal receipts; all historical fixture-backed production demo commands now refuse deterministically before artifact publication while library-only fixture tests remain executable.\",\"changes\":[\"Added canonical digest-bound resident tool authority metadata and tamper denial in adl-runtime.\",\"Added Runtime-owned single-proposal extraction, including duplicate-proposal denial and redacted proposal identifiers.\",\"Routed actual long-lived Runtime provider output through UTS-to-ACC compilation and configured Freedom Gate policy before adapter dispatch.\",\"Added the production runtime.observe registry and bounded redacted Runtime snapshot adapter; fixture dispatch remains test-only and production fallback fails closed.\",\"Bound every terminal execution or denial receipt to resident identity, cycle, and exact checkpoint digest.\",\"Added deterministic full-tick and opt-in live Ollama gemma4:12b-mlx proof without changing generic provider configuration or expanding v0.92 scope.\",\"Retired all five historical fixture-backed production demo surfaces so production commands refuse deterministically before artifact publication while cfg(test) library demo coverage still proves the bounded fixture behavior.\",\"Hard-disabled runtime-v2 governed-tools-flagship-demo production execution before fixture construction after independent review found the previous refusal still depended on fixture validation.\",\"Kept the merged affect-model legacy-artifact test isolated by supplying valid ACC tool authority and continuing to assert the intended missing-affect-model denial.\"],\"artifacts\":[\"implementation-tree:48075df8480802ed6629069c57ce795e39281d09\",\"commit:e040eb35020fd4673422cc41841a44b5143345be\",\"evidence-commit:ac01f0181344e7571e706ed35366e4c619faecf6\",\"ci-repair-commit:2ba8feae04bef2f2151d0b094851d0b421390138\",\"post-ci-repair-commit:523d76da2\",\"governed-tools-p1-fix-commit:2f40024e543fb9e64bf25af61c4c0ee91f19e550\",\".csdlc/evidence/446/live-gemma4-runtime-acc.log\",\"adl-runtime/src/resident_agent.rs\",\"adl/src/resident_tool_execution.rs\",\"adl/src/long_lived_agent.rs\",\"adl/src/governed_executor_parts/logic.rs\",\"adl/src/cli/runtime_v2_cmd/commands.rs\",\"adl/src/cli/runtime_v2_cmd/helpers.rs\",\"adl/src/cli/runtime_v2_cmd/tests.rs\",\"adl/src/lib.rs\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"resident_tool_execution\",\"--lib\",\"--\",\"--nocapture\"],\"purpose\":\"Prove allow, authority mismatch, compiler denial, gate denial, unsupported adapter denial, receipt redaction, and identical duplicate-proposal denial.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree: 7 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"long_lived_agent::tests::tick_routes_provider_output_through_runtime_acc_and_adapter\",\"--lib\",\"--\",\"--exact\",\"--nocapture\"],\"purpose\":\"Prove a full deterministic Runtime tick routes real provider StepOutput through ACC, Freedom Gate, production adapter, and checkpoint-bound receipt creation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree: 1 passed\"},{\"command\":[\"env\",\"ADL_TEST_LIVE_RESIDENT_MODEL=gemma4:12b-mlx\",\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"long_lived_agent::tests::tick_routes_provider_output_through_runtime_acc_and_adapter\",\"--lib\",\"--\",\"--exact\",\"--nocapture\"],\"purpose\":\"Prove the same full Runtime ACC path using a real local Ollama gemma4:12b-mlx agent response over HTTP.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/446/live-gemma4-runtime-acc.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"governed_executor\",\"--lib\",\"--\",\"--nocapture\"],\"purpose\":\"Prove governed executor behavior and test-only fixture isolation after injected adapter refactor.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree: 25 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"resident_agent\",\"--lib\",\"--\",\"--nocapture\"],\"purpose\":\"Prove canonical resident authority construction, validation, and tamper denial.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree: 5 passed\"},{\"command\":[\"cargo\",\"check\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\"],\"purpose\":\"Prove the Runtime library compiles across the integrated implementation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove strict lint cleanliness for the integrated Runtime ACC path.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl/Cargo.toml\",\"--check\"],\"purpose\":\"Prove Rust formatting hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove whitespace and conflict-marker hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"trace_runtime_v2\",\"--bin\",\"adl\",\"--\",\"--nocapture\"],\"purpose\":\"Prove the complete production Runtime-v2 CLI regression surface, including deterministic refusal of every historical fixture-backed demo.\",\"outcome\":\"passed\",\"evidence_ref\":\"local post-P1 repair: 40 passed, 1 ignored\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"cli::runtime_v2_cmd::tests::trace_runtime_v2_governed_tools\",\"--bin\",\"adl\",\"--\",\"--nocapture\"],\"purpose\":\"Prove governed-tools production CLI paths now refuse before fixture construction while preserving help and path validation.\",\"outcome\":\"passed\",\"evidence_ref\":\"independent focused review: 2 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"runtime_v2_governed_tools_flagship_demo\",\"--lib\",\"--\",\"--nocapture\"],\"purpose\":\"Prove the bounded fixture-backed historical demo remains available only inside cfg(test) library validation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local post-CI repair: 3 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"csm_runtime_api::tests::runtime_api_rejects_legacy_resident_agent_artifact_without_affect_model\",\"--lib\",\"--\",\"--exact\",\"--nocapture\"],\"purpose\":\"Prove the merged affect-model compatibility fixture carries valid ACC authority and still denies the exact missing affect-model boundary.\",\"outcome\":\"passed\",\"evidence_ref\":\"local post-CI repair: 1 passed\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"--tests\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove strict lint cleanliness for the production CLI retirement repair and tests.\",\"outcome\":\"passed\",\"evidence_ref\":\"local post-P1 repair\"}]}"
+    },
+    {
+      "sequence": 31,
+      "generation": 23,
+      "actor": "codex:issue-446-governed-tools-p1-final-review",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 24,
+      "actor": "fresh-session:01a0227f-d655-7191-b038-aa8f073dd181",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 25,
+      "actor": "codex:issue-446-metadata-head-review",
+      "reason": "Recover reviewed authority after the C-SDLC metadata commit advanced PR head beyond the reviewed Runtime code revision; refresh exact-head review for publication without changing Runtime code.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 25,
+      "actor": "codex:issue-446-metadata-head-review",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 26,
+      "actor": "fresh-session:01a02286-7c5e-7c90-a69f-0d51d64c3428",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 27,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}

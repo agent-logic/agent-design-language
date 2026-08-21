@@ -1,4 +1,5 @@
 //! Serializable configuration and state types for long-lived agents.
+use adl_runtime::resident_agent::CsmResidentAgentToolAuthorityBinding;
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -19,6 +20,10 @@ pub struct AgentSpec {
     pub safety: Value,
     #[serde(default)]
     pub memory: Value,
+    #[serde(default)]
+    pub resident_role: Option<String>,
+    #[serde(default)]
+    pub tool_authority: Option<CsmResidentAgentToolAuthorityBinding>,
 }
 
 /// Workflow selection for a long-lived agent spec.
