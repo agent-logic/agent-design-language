@@ -38,6 +38,7 @@ pub mod private_state;
 pub mod proof;
 pub mod protocol_adapters;
 pub mod reasoning;
+pub mod resident_cycle;
 pub mod shepherd;
 pub mod supervisor;
 pub mod telemetry;
@@ -94,6 +95,7 @@ pub use protocol_adapters::{
     MAX_PROTOCOL_RESPONSE_BYTES, PROTOCOL_FRAME_SCHEMA, PROTOCOL_RESPONSE_SCHEMA,
 };
 pub use reasoning::*;
+pub use resident_cycle::*;
 pub use shepherd::*;
 pub use supervisor::{Kernel, KernelControl, KernelError, KernelExit, KernelHandle};
 pub use telemetry::*;

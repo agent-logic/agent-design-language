@@ -120,6 +120,24 @@ the packet digest and reconstructs the complete expected envelope from the
 original Birthday authorities plus the provisioned policy, so a caller cannot
 make a forged packet acceptable merely by recomputing its digest.
 
+## #448 Runtime Resident-Cycle Consumption
+
+Issue `#448` wires the capability-envelope substrate into the live Runtime
+resident cycle at `adl-runtime-kernel/src/resident_cycle.rs` and
+`LiveAssembly::build_verified_resident_cycle`. The resident cycle provisions
+capability authority through the live assembly, consumes exact Birthday
+identity and verified continuity, builds the envelope from provider/model,
+tool, skill, grant, denial, resource-limit, evidence, policy, and runtime
+authority inputs, and returns a typed `VerifiedCapabilityEnvelopeHandle`.
+
+This is a production integration slice, not a new capability-envelope
+definition. It does not claim provider execution, ACC execution, birthday
+ceremony completion, Adaptive Learning mutation execution, or broad Runtime v4
+redesign. The retained proof for the slice is the focused resident-cycle test
+lane in `adl-runtime-kernel/src/resident_cycle.rs`, including live-assembly
+construction, restart/rehydration record validation, stale-continuity denial,
+and authority-rotation denial.
+
 ## WP-15 Exact-Candidate Birth Witnesses
 
 Issue `#5833` adds the versioned runtime contract at

@@ -911,6 +911,261 @@ fn concurrent_adaptive_executions_have_one_authoritative_winner() {
 }
 
 #[test]
+fn resident_cycle_production_path_accepts_and_rejects_without_fixture_entrypoint() {
+    let h = harness();
+    let patch_set = patches();
+    let grant = grant(&h.graph, &h.key, &patch_set, &policy_sha(&h.policy));
+    let initial = input(&h.graph, &h.outcome, &h.profile, &h.policy);
+    let accepted = execute_resident_adaptive_learning_cycle(
+        "resident-agent",
+        &h.profile.continuity_head,
+        &h.gate,
+        &h.durable,
+        &h.profile,
+        &initial,
+        &h.policy,
+        None,
+        &h.outcome,
+        &CancellationToken::new(),
+        Some((&grant, &patch_set)),
+    )
+    .unwrap();
+    assert_eq!(accepted.status, ResidentAdaptiveLearningStatus::Accepted);
+    assert_eq!(accepted.resident_id, "resident-agent");
+    assert_eq!(accepted.profile_sha256, h.profile.profile_sha256);
+    assert_eq!(
+        accepted.capability_envelope_sha256,
+        h.profile.capability_envelope_sha256
+    );
+    assert_eq!(accepted.continuity_head_sha256, h.profile.continuity_head);
+    assert!(accepted.mutation_evidence_retained);
+    assert_eq!(h.gate.evidence().len(), 1);
+
+    let mut next_outcome = h.outcome.clone();
+    next_outcome.state = h.gate.adaptation().state();
+    let current_graph = h.gate.graph();
+    let mut rejected_input = input(&current_graph, &next_outcome, &h.profile, &h.policy);
+    let previous = load_adaptive_learning_history(&h.durable, "history", 1)
+        .unwrap()
+        .unwrap();
+    rejected_input.sequence = 2;
+    rejected_input.previous_history_sha256 = Some(previous.history_sha256.clone());
+    rejected_input.adaptation.before_state_sha256 = previous.resulting_state_sha256.clone();
+    rejected_input.adaptation.after_state_sha256 = previous.resulting_state_sha256.clone();
+    rejected_input.proposal.before_graph_sha256 = current_graph.hash().into();
+    rejected_input.decision.disposition = LearningDisposition::Rejected;
+    rejected_input.decision.authority_sha256 = h.policy.authority_sha256.clone();
+    let before_graph = h.gate.graph().hash().to_owned();
+    let before_state = h.gate.adaptation().state().hash().unwrap();
+    let rejected = execute_resident_adaptive_learning_cycle(
+        "resident-agent",
+        &h.profile.continuity_head,
+        &h.gate,
+        &h.durable,
+        &h.profile,
+        &rejected_input,
+        &h.policy,
+        Some(&previous),
+        &next_outcome,
+        &CancellationToken::new(),
+        None,
+    )
+    .unwrap();
+    assert_eq!(rejected.status, ResidentAdaptiveLearningStatus::Rejected);
+    assert!(!rejected.mutation_evidence_retained);
+    assert_eq!(h.gate.graph().hash(), before_graph);
+    assert_eq!(h.gate.adaptation().state().hash().unwrap(), before_state);
+}
+
+#[test]
+fn resident_cycle_invalid_bindings_retain_terminal_evidence_without_mutation_or_history() {
+    let h = harness();
+    let patch_set = patches();
+    let grant = grant(&h.graph, &h.key, &patch_set, &policy_sha(&h.policy));
+    let input = input(&h.graph, &h.outcome, &h.profile, &h.policy);
+    let before_graph = h.gate.graph().hash().to_owned();
+    let before_state = h.gate.adaptation().state().hash().unwrap();
+    let error = execute_resident_adaptive_learning_cycle(
+        "resident-agent",
+        R,
+        &h.gate,
+        &h.durable,
+        &h.profile,
+        &input,
+        &h.policy,
+        None,
+        &h.outcome,
+        &CancellationToken::new(),
+        Some((&grant, &patch_set)),
+    )
+    .unwrap_err();
+    assert!(error.contains(&AdaptiveLearningRejection::InvalidAuthority));
+    assert_eq!(h.gate.graph().hash(), before_graph);
+    assert_eq!(h.gate.adaptation().state().hash().unwrap(), before_state);
+    assert!(h.gate.evidence().is_empty());
+    assert!(h
+        .durable
+        .load_governed_state(ADAPTIVE_LEARNING_DURABLE_DOMAIN)
+        .unwrap()
+        .is_none());
+    let terminal = load_resident_adaptive_learning_terminal_evidence(&h.durable, "history", 1)
+        .unwrap()
+        .unwrap();
+    assert_eq!(terminal.status, ResidentAdaptiveLearningStatus::Rejected);
+    assert_eq!(terminal.reason_code, "invalid_resident_binding");
+    assert_eq!(terminal.resident_id, "resident-agent");
+    assert_eq!(
+        terminal.requested_continuity_head_sha256.as_deref(),
+        Some(R)
+    );
+    assert_eq!(terminal.profile_sha256, h.profile.profile_sha256);
+    assert_eq!(
+        terminal.capability_envelope_sha256,
+        h.profile.capability_envelope_sha256
+    );
+    assert!(!terminal.mutation_evidence_retained);
+    assert_eq!(terminal.terminal_evidence_sha256.len(), 64);
+}
+
+#[test]
+fn resident_cycle_executor_failures_retain_terminal_evidence_without_mutation_or_history() {
+    let h = harness();
+    let patch_set = patches();
+    let mismatched_grant = grant(&h.graph, &h.key, &patch_set, R);
+    let input = input(&h.graph, &h.outcome, &h.profile, &h.policy);
+    let before_graph = h.gate.graph().hash().to_owned();
+    let before_state = h.gate.adaptation().state().hash().unwrap();
+    let error = execute_resident_adaptive_learning_cycle(
+        "resident-agent",
+        &h.profile.continuity_head,
+        &h.gate,
+        &h.durable,
+        &h.profile,
+        &input,
+        &h.policy,
+        None,
+        &h.outcome,
+        &CancellationToken::new(),
+        Some((&mismatched_grant, &patch_set)),
+    )
+    .unwrap_err();
+    assert!(error.contains(&AdaptiveLearningRejection::InvalidAuthority));
+    assert_eq!(h.gate.graph().hash(), before_graph);
+    assert_eq!(h.gate.adaptation().state().hash().unwrap(), before_state);
+    assert!(h.gate.evidence().is_empty());
+    assert!(h
+        .durable
+        .load_governed_state(ADAPTIVE_LEARNING_DURABLE_DOMAIN)
+        .unwrap()
+        .is_none());
+    let terminal = load_resident_adaptive_learning_terminal_evidence(&h.durable, "history", 1)
+        .unwrap()
+        .unwrap();
+    assert_eq!(terminal.status, ResidentAdaptiveLearningStatus::Rejected);
+    assert_eq!(terminal.reason_code, "governed_executor_rejection");
+    assert_eq!(terminal.resident_id, "resident-agent");
+    assert_eq!(
+        terminal.requested_continuity_head_sha256.as_deref(),
+        Some(h.profile.continuity_head.as_str())
+    );
+    assert_eq!(terminal.profile_sha256, h.profile.profile_sha256);
+    assert_eq!(
+        terminal.capability_envelope_sha256,
+        h.profile.capability_envelope_sha256
+    );
+    assert!(!terminal.mutation_evidence_retained);
+    assert_eq!(terminal.terminal_evidence_sha256.len(), 64);
+}
+
+#[test]
+fn resident_cycle_restart_restores_and_continues_deterministically() {
+    let h = harness();
+    let patch_set = patches();
+    let first_grant = grant(&h.graph, &h.key, &patch_set, &policy_sha(&h.policy));
+    let first = execute_resident_adaptive_learning_cycle(
+        "resident-agent",
+        &h.profile.continuity_head,
+        &h.gate,
+        &h.durable,
+        &h.profile,
+        &input(&h.graph, &h.outcome, &h.profile, &h.policy),
+        &h.policy,
+        None,
+        &h.outcome,
+        &CancellationToken::new(),
+        Some((&first_grant, &patch_set)),
+    )
+    .unwrap();
+    let after_snapshot = h.gate.snapshot_bytes().unwrap();
+    drop(h.gate);
+    drop(h.durable);
+
+    let durable = KernelDurableState::open(h._durable_dir.path()).unwrap();
+    let mut gate = MutationGate::restore(
+        &after_snapshot,
+        h.authority.clone(),
+        Arc::new(FixedTime),
+        16,
+    )
+    .unwrap();
+    let restored = reconcile_resident_adaptive_learning_startup(
+        "resident-agent",
+        &h.profile.continuity_head,
+        &durable,
+        &mut gate,
+        &h.profile,
+        &h.policy,
+        &h.authority,
+    )
+    .unwrap()
+    .unwrap();
+    assert_eq!(restored.status, ResidentAdaptiveLearningStatus::Restored);
+    assert_eq!(restored.history_sha256, first.history_sha256);
+
+    let previous = load_adaptive_learning_history(&durable, "history", 1)
+        .unwrap()
+        .unwrap();
+    let second_graph = gate.graph();
+    let mut second_outcome = h.outcome.clone();
+    second_outcome.state = gate.adaptation().state();
+    let second_patches = patches_with_score(3);
+    let mut second_grant = grant(
+        &second_graph,
+        &h.key,
+        &second_patches,
+        &policy_sha(&h.policy),
+    );
+    second_grant.grant_id = "resident-grant-2".into();
+    second_grant = second_grant.sign(&h.key).unwrap();
+    let mut second_input = input(&second_graph, &second_outcome, &h.profile, &h.policy);
+    second_input.sequence = 2;
+    second_input.previous_history_sha256 = Some(previous.history_sha256.clone());
+    let continued = execute_resident_adaptive_learning_cycle(
+        "resident-agent",
+        &h.profile.continuity_head,
+        &gate,
+        &durable,
+        &h.profile,
+        &second_input,
+        &h.policy,
+        Some(&previous),
+        &second_outcome,
+        &CancellationToken::new(),
+        Some((&second_grant, &second_patches)),
+    )
+    .unwrap();
+    assert_eq!(continued.status, ResidentAdaptiveLearningStatus::Accepted);
+    assert_eq!(continued.sequence, 2);
+    assert_eq!(
+        load_adaptive_learning_history(&durable, "history", 2)
+            .unwrap()
+            .unwrap()
+            .history_sha256,
+        continued.history_sha256
+    );
+}
+
+#[test]
 fn two_sequence_history_survives_restart_and_supports_authoritative_rollback() {
     let Harness {
         graph,

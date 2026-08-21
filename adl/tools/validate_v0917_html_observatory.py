@@ -188,6 +188,33 @@ def run_js_view_model(
             stale: false
           }}
         }});
+        const runtimeV3Health = JSON.stringify({{
+          schema: "adl.runtime_v3.health.v1",
+          status: "healthy",
+          observability_ready: true,
+          runtime_instance_id: "runtime-v3-test",
+          components: {{ runtime_api: "running", checkpoint: "running" }},
+          weather_freshness: {{
+            observed_at_unix_millis: 1789000000,
+            age_millis: 250,
+            stale_after_millis: 2000,
+            stale: false
+          }},
+          snapshot: {{
+            schema: "adl.runtime.control_snapshot.v1",
+            revision: 7,
+            topology_generation: 3,
+            components: {{ runtime_api: "running", checkpoint: "running" }},
+            restart_counts: {{}},
+            queues: {{}},
+            clock: {{ status: "authoritative", source: "sntp", unix_millis: 1789000000 }},
+            continuity_head: {{ generation: 2, accepted_through: 19, topology_hash: "topology", config_hash: "config", integrity: "snapshot" }},
+            lifecycle: "running",
+            event_count: 2,
+            observability: {{ status: "ready" }},
+            observability_ready: true
+          }}
+        }});
         const livePayloads = new Map([
           ["http://localhost:49210/status", retainedFiles.get(retainedRefs.statusRef)],
           ["http://localhost:49210/health", retainedFiles.get(retainedRefs.healthRef)],
@@ -195,6 +222,7 @@ def run_js_view_model(
           ["http://localhost:49210/metrics", retainedFiles.get(retainedRefs.metricsRef)],
           ["http://localhost:49210/events", retainedFiles.get(retainedRefs.eventsRef)],
           ["https://runtime.dev.agent-logic.ai:20997/v1/observatory", runtimeV3Feed],
+          ["https://runtime.dev.agent-logic.ai:20997/v1/health", runtimeV3Health],
           ["https://runtime.dev.agent-logic.ai:20997/v1/ready", runtimeV3Readiness]
         ]);
         const textWrites = [];
@@ -734,7 +762,12 @@ def main() -> int:
     assert_contains("HTML published mirror default mode", html, '<option value="published">Published Mirror</option>')
     assert_contains("HTML retained mirror mode", html, '<option value="retained">Retained Mirror</option>')
     assert_contains("HTML live loopback mode", html, '<option value="live">Live Loopback</option>')
-    assert_contains("HTML truthful runtime mirror label", html, "<span>Runtime Mirror</span>")
+    assert_contains("HTML truthful runtime source label", html, '<span id="runtime-source-label">Runtime Source</span>')
+    assert_contains(
+        "HTML truthful runtime mirror label",
+        html,
+        '<h3 id="dashboard-focus-title">Runtime mirror</h3>',
+    )
     assert_contains("HTML source-driven event title", html, 'id="hero-event-title">Event Stream</h2>')
     assert_contains("HTML dashboard truthful operator CTA", html, "Draft operator probe")
     assert_contains("HTML dashboard focus action", html, "Focus panopticon")
@@ -810,6 +843,8 @@ def main() -> int:
       fail("Runtime v3 Observatory config schema mismatch")
     if runtime_v3_config.get("api_base") != "https://runtime.dev.agent-logic.ai:20997":
       fail("Runtime v3 Observatory config must declare the trusted public HTTPS API base")
+    if runtime_v3_config.get("health_endpoint") != "/v1/health":
+      fail("Runtime v3 Observatory config must declare /v1/health")
     if runtime_v3_config.get("observatory_endpoint") != "/v1/observatory":
       fail("Runtime v3 Observatory config must declare /v1/observatory")
     if runtime_v3_config.get("readiness_endpoint") != "/v1/ready":

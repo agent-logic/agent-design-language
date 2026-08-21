@@ -10,12 +10,13 @@ use std::{
 };
 
 use adl_runtime_kernel::{
-    bootstrap_reasoning_services, build_live_assembly,
-    build_production_operation_executors_with_recorder, AdapterKind, AdapterPolicy, AuthorityMode,
-    ClockAuthority, ComponentRegistry, DomainWork, ExecutorError, FailureClass,
-    InProcessOperationExecutor, LiveBindings, OperationError, OperationExecutor, OperationRequest,
-    OperationalAdapter, OperationalFactory, RuntimeRecorder, TimeQualificationBounds, TimeSample,
-    TimeSampleError, TimeSampleSource, DOMAIN_WORK_SCHEMA, KERNEL_DURABLE_STATE_DB_FILE,
+    birthday_authority_bootstrap_from_runtime_keys, bootstrap_reasoning_services,
+    build_live_assembly, build_production_operation_executors_with_recorder, AdapterKind,
+    AdapterPolicy, AuthorityMode, ClockAuthority, ComponentRegistry, DomainWork, ExecutorError,
+    FailureClass, InProcessOperationExecutor, LiveBindings, OperationError, OperationExecutor,
+    OperationRequest, OperationalAdapter, OperationalFactory, RuntimeRecorder,
+    TimeQualificationBounds, TimeSample, TimeSampleError, TimeSampleSource, DOMAIN_WORK_SCHEMA,
+    KERNEL_DURABLE_STATE_DB_FILE,
 };
 use async_trait::async_trait;
 use ed25519_dalek::SigningKey;
