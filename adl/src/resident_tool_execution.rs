@@ -207,9 +207,7 @@ fn extract_single_proposal_envelope(output: &str) -> Option<ResidentToolProposal
         let mut stream = serde_json::Deserializer::from_str(&trimmed[start..])
             .into_iter::<ResidentToolProposalEnvelopeV1>();
         if let Some(Ok(envelope)) = stream.next() {
-            if !envelopes.contains(&envelope) {
-                envelopes.push(envelope);
-            }
+            envelopes.push(envelope);
         }
     }
     (envelopes.len() == 1).then(|| envelopes.remove(0))
@@ -428,6 +426,35 @@ mod tests {
         assert_eq!(receipt.decision, ResidentToolReceiptDecisionV1::Denied);
         assert_eq!(receipt.reason_code, "resident_authority_mismatch");
         assert!(receipt.acc_contract_id.is_none());
+    }
+
+    #[test]
+    fn identical_duplicate_proposals_are_multiple_and_denied() {
+        let compiler = wp09_compiler_input_fixture("fixture.safe_read");
+        let binding = authority(&compiler.proposal.tool_name);
+        let role = compiler.policy_context.role.clone();
+        let envelope = serde_json::to_string(&ResidentToolProposalEnvelopeV1 {
+            tool_proposal: compiler.proposal,
+        })
+        .unwrap();
+        let receipt = govern_resident_tool_output_v1(
+            &format!("{envelope}\n{envelope}"),
+            ResidentToolExecutionContextV1 {
+                resident_id: "actor.operator.alice",
+                role: &role,
+                authority: &binding,
+                cycle_id: "cycle.duplicate",
+                checkpoint_lineage: "checkpoint.duplicate",
+                registry: compiler.registry,
+                policy: compiler.policy_context,
+                risk_class: "low",
+                citizen_boundary_ref: "runtime.resident.boundary",
+                gate_context: allowed_gate(),
+            },
+            &AllowFixtureAdapter,
+        );
+        assert_eq!(receipt.decision, ResidentToolReceiptDecisionV1::Denied);
+        assert_eq!(receipt.reason_code, "invalid_or_multiple_tool_proposals");
     }
 
     #[test]
