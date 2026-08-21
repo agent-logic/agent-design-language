@@ -1,0 +1,3403 @@
+{
+  "files": [
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/acc.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/acc/fixtures.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/acc/tests.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/acc/types.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/acc/validation.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/adl.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/adl/loading.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/adl/tests.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/adl/types.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/adl/validation.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/adl_gws_context_mirror.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/adl_gws_drive_sync.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/adl_gws_native.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/adl_skill_v1.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/adversarial_execution_runner.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/adversarial_runtime.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/agent_comms.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/artifacts.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/aws_remote_validation.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/bin/adl_aws_remote_validation.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/bin/adl_process.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/bin/adl_remote.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/bin/adl_resident_shepherd_continuity.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/bin/adl_review.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/bin/adl_runtime.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/bin/csm.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/bin/csmctl.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/bin/demo_adl_gws_context_mirror.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/bin/demo_adl_gws_native_drive_sync.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/bin/run_wp08_acip_sns_live_proof.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/bounded_executor.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/capability_aptitude_testing.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/chronosense.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/chronosense/causality.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/chronosense/commitments.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/chronosense/continuity.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/chronosense/foundation.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/chronosense/instinct.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/chronosense/long_running_proof.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/chronosense/phi.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/chronosense/policy_cost.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/chronosense/retrieval.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/chronosense/service.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/chronosense/temporal_schema.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/chronosense/tests.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/agent_cmd.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/artifact_cmd.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/commands.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/csm_cmd.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/csm_service_cmd.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/csmctl_cmd.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/demo_cmd.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/github_token.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/godel_cmd.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/identity_cmd.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/identity_cmd/contracts.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/identity_cmd/dispatch.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/identity_cmd/helpers.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/identity_cmd/profile.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/identity_cmd/tests.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/identity_cmd/tests/adversarial_contracts.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/identity_cmd/tests/dispatch.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/identity_cmd/tests/helper_functions.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/identity_cmd/tests/profile.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/identity_cmd/tests/skill_contracts.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/identity_cmd/tests/temporal_contracts.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/mod.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/observability.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/open.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/process_cmd.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/provider_cmd.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/run.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/run_artifacts/cognitive.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/run_artifacts/cognitive/control_path.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/run_artifacts/cognitive/security_summary.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/run_artifacts/cognitive/state_artifacts.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/run_artifacts/cognitive/state_artifacts/agency_execution.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/run_artifacts/cognitive/state_artifacts/decision_artifacts.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/run_artifacts/mod.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/run_artifacts/runtime.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/run_artifacts/runtime/resume_state.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/run_artifacts/runtime/trace_envelope.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/run_artifacts/runtime/trace_validation.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/run_artifacts/runtime/writer.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/run_artifacts/summary.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/run_artifacts_types.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/run_artifacts_types/state.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/runtime_v2_cmd.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/runtime_v2_cmd/commands.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/runtime_v2_cmd/helpers.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/runtime_v2_cmd/tests.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/runtime_v3_cmd.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/scheduler_cmd.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/session_cmd.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/tests/artifact_builders/agency_execution.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/tests/artifact_builders/cognitive.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/tests/artifact_builders/learning_runtime.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/tests/artifact_builders/learning_runtime/artifact_models.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/tests/artifact_builders/learning_runtime/decision_surfaces.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/tests/artifact_builders/learning_runtime/run_status.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/tests/artifact_builders/learning_runtime/scores_io.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/tests/artifact_builders/mod.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/tests/artifact_builders/summary.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/tests/godel.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/tests/internal_commands.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/tests/internal_commands/control_path.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/tests/internal_commands/demo.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/tests/internal_commands/instrumentation.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/tests/internal_commands/learn.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/tests/internal_commands/runtime_state.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/tests/internal_commands/signing.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/tests/open_usage.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/tests/run_state/basics.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/tests/run_state/failure_taxonomy.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/tests/run_state/mod.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/tests/run_state/persistence.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/tests/run_state/runtime_control.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/tokio_runtime.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cli/usage.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/cognitive_transition_schema.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/continuous_verification_self_attack.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/control_plane.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/csm_api_gateway_bridge.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/csm_backpressure.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/csm_cav.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/csm_cav_red_blue.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/csm_cloud_control.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/csm_constructability_gate.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/csm_continuity_capsule.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/csm_credential_policy.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/csm_curiosity_engine.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/csm_freedom_gate.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/csm_godel_snapshot.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/csm_networking.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/csm_observatory.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/csm_polis_storage.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/csm_resident_agents.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/csm_runtime_api.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/csm_shepherd_agent.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/dangerous_negative_suite.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/delegation_policy.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/delegation_refusal_coordination.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/demo.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/demo/adversarial_self_attack.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/demo/obsmem.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/demo/pipeline.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/demo/stock_league.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/demo/stock_league/files.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/demo/stock_league/model.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/demo/stock_league/reports.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/demo/stock_league/shared.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/demo/stock_league/steps.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/demo/v086_review_surface.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/demo_proof_entry_points.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "delete_superseded",
+      "evidence": "no current Rust execution consumer; former demo binary was deleted by #5347; all repository references are classified in reference-edge-manifest.json",
+      "owner": "#309 Band A historical evaluation cleanup",
+      "path": "adl/src/dspark_speculative_decoding_evaluation.rs",
+      "replacement": "retained milestone review report and feature documentation",
+      "validation": "cargo check, focused library tests, clean-install owner proof, exact revert/reapply proof"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/execute/mod.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/execute/runner.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/execute/state/contracts.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/execute/state/mod.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/execute/state/policy.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/execute/state/runtime_control.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/execute/state/runtime_control/model.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/execute/state/runtime_control/tests.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/execute/state/steering.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/execute/support.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/execute/tests.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/execution_plan.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/exploit_artifact_replay.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/failure_taxonomy.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/freedom_gate.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/godel/affect_slice.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/godel/canonical_evidence.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/godel/cross_workflow.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/godel/evaluation.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/godel/experiment_record.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/godel/ghb_loop.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/godel/hypothesis.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/godel/mod.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/godel/mutation.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/godel/obsmem_index.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/godel/policy.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/godel/prioritization.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/godel/promotion.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/godel/stage_loop.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/godel/surface_status.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/godel/workflow_template.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/governed_executor.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/governed_executor_parts/logic.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/governed_executor_parts/tests.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/gws_live_capability_execution_surface.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/gws_live_content_card_roundtrip.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/gws_live_content_card_roundtrip/logic.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/gws_live_content_card_roundtrip/tests.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/gws_live_content_card_roundtrip/types.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/gws_live_safety_package.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/gws_live_test_support.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/instrumentation.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/instrumentation/action_log.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/instrumentation/graph.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/instrumentation/trace_formatting.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/instrumentation/trace_normalization.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/learning_export/bundle_v1.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/learning_export/dataset.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/learning_export/mod.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/learning_export/shared.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/learning_export/tests.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/learning_export/trace_bundle_v2.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/learning_guardrails.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/lib.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/local_gemma_model_evaluation.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/long_lived_agent.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/long_lived_agent/inspection.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/long_lived_agent/schema.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/long_lived_agent/storage.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/long_lived_agent/tests.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/long_lived_agent/types.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/main.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/memory_palace.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/model_identity.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/model_proposal_benchmark.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/observability.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/obsmem_adapter.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/obsmem_contract/client.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/obsmem_contract/error.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/obsmem_contract/mod.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/obsmem_contract/models.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/obsmem_contract/tests.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/obsmem_contract/validation.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/obsmem_demo.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/obsmem_indexing.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/obsmem_retrieval_policy.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/obsmem_store.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/obsmem_transition_memory.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/operational_skills_substrate.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/overlay.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/plan.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/policy_authority.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/production_birthday.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/prompt.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/provider/deepgram.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/provider/http_family.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/provider/http_family/config.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/provider/http_family/tests.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/provider/local.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/provider/mod.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/provider/profiles.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/provider_adapter.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/provider_adapter_cli.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/provider_communication.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/provider_extension_packaging.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "delete_superseded",
+      "evidence": "no current Rust execution consumer; former demo binary was deleted by #5347; all repository references are classified in reference-edge-manifest.json",
+      "owner": "#309 Band A historical evaluation cleanup",
+      "path": "adl/src/provider_native_tool_call_comparison.rs",
+      "replacement": "retained milestone review report and feature documentation",
+      "validation": "cargo check, focused library tests, clean-install owner proof, exact revert/reapply proof"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/provider_substrate.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/red_blue_agent_architecture.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/remote_exec.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/remote_exec/errors.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/remote_exec/security.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/remote_exec/signing_support.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/remote_exec/types.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/resident_shepherd_spot_continuity.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/resident_tool_execution.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/resilience.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/resolve.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_aws_signal.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_environment.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/a2a_adapter_boundary.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/access_control.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/acip_hardening.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/aee_obsmem_pvf_trace_handoff.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/affect_reasoning_control.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/agent_lifecycle_state.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/anti_harm_trajectory_constraints.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/bid_schema.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/boot_admission.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/challenge.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/citizen.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/citizen_state_substrate.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/codefriend_adapter_obligations.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/cognitive_being_flagship_demo.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/constructability_anchor_validator.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/contract_lifecycle_state.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/contract_market_demo.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/contract_schema.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/contracts.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/csm_run.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/cultivating_intelligence.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/cultivating_intelligence_parts/builder.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/cultivating_intelligence_parts/models.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/cultivating_intelligence_parts/validation.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/curiosity_engine.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/delegation_subcontract.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/economics_civilization_boundary.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/evaluation_selection.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/external_counterparty.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/feature_proof_coverage.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/foundation.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/godel_agent_runtime.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/godel_constructability_boundary.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/governed_episode.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/governed_episode/model.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/governed_episode/records.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/governed_learning_substrate.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/governed_tools_flagship_demo.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/governed_tools_flagship_demo_parts/cases.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/governed_tools_flagship_demo_parts/constants.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/governed_tools_flagship_demo_parts/core.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/governed_tools_flagship_demo_parts/helpers.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/governed_tools_flagship_demo_parts/models.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/governed_tools_flagship_demo_parts/reports.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/governed_tools_flagship_demo_parts/trace_support.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/guild_foundation_boundary.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/hardening.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/humor_and_absurdity.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/integrated_csm_run.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/intelligence_metric_architecture.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/invariant.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/invariant_contract.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/kernel_loop.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/kindness_model.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/loop_runtime.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/manifold.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/memory_identity_architecture.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/minimal_integrated_runtime_path.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/mod.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/moral_event_validation.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/moral_metrics.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/moral_resources.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/moral_trace_schema.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/moral_trajectory_review.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/observatory.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/observatory_flagship.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/observatory_flagship/builders.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/observatory_flagship/report.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/observatory_flagship/types.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/observatory_flagship/validation.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/operator.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/outcome_linkage_attribution.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/private_state.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/private_state_envelope.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/private_state_equivocation.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/private_state_lineage.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/private_state_observatory.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/private_state_sanctuary.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/private_state_sanctuary/helpers.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/private_state_sanctuary/policy.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/private_state_sanctuary/reports.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/private_state_sealing.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/private_state_witness.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/quarantine.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/reasoning_graph.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/reasoning_runtime_bridge.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/recovery.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/resource_stewardship_bridge.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/runtime_inhabitant_integration.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/security.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/shutdown_dag.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/snapshot.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/standing/artifacts.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/standing/communication.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/standing/constants.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/standing/events.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/standing/mod.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/standing/negative.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/standing/policy.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/standing/transition.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/standing/validation.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/a2a_adapter_boundary.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/access_control.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/acip_hardening.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/aee_obsmem_pvf_trace_handoff.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/affect_reasoning_control.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/agent_lifecycle_state.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/anti_harm_trajectory_constraints.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/bid_schema.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/boot_admission.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/challenge.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/citizen_lifecycle.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/citizen_state_substrate.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/codefriend_adapter_obligations.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/cognitive_being_flagship_demo.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/common.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/constructability_anchor_validator.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/contract_lifecycle_state.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/contract_market_demo.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/contract_registry_accessors.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/contract_schema.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/csm_run_packet.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/cultivating_intelligence.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/curiosity_engine.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/delegation_subcontract.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/economics_civilization_boundary.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/evaluation_selection.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/external_counterparty.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/feature_proof_coverage.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/freedom_gate_mediation.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/godel_agent_runtime.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/godel_constructability_boundary.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/governed_episode.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/governed_learning_substrate.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/governed_tools_flagship_demo.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/guild_foundation_boundary.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/hardening.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/humor_and_absurdity.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/integrated_csm_run.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/intelligence_metric_architecture.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/invalid_action_rejection.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/invariant_contract.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/invariant_violation.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/kernel_loop.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/kindness_model.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/loop_runtime.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/manifold.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/memory_identity_architecture.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/minimal_integrated_runtime_path.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/moral_event_validation.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/moral_metrics.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/moral_resources.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/moral_trace_schema.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/moral_trajectory_review.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/observatory.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/observatory_flagship.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/operator_control.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/outcome_linkage_attribution.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/private_state.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/private_state_envelope.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/private_state_equivocation.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/private_state_lineage.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/private_state_observatory.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/private_state_sanctuary.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/private_state_sealing.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/private_state_witness.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/quarantine.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/reasoning_graph.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/recovery_eligibility.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/resource_stewardship_bridge.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/runtime_inhabitant_integration.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/security_boundary.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/shutdown_dag.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/snapshot_rehydration.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/standing.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/theory_of_mind_foundation.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/transition_authority.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/unified_runtime_kernel.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/wake_continuity.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/tests/wellbeing_metrics.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/theory_of_mind_foundation.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/transition_authority.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/types.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/unified_runtime_kernel.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/validators.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/wellbeing_metrics.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/wellbeing_metrics_parts/builder.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/wellbeing_metrics_parts/models.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/runtime_v2/wellbeing_metrics_parts/validation.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/rust_native_gws_adapter_boundary.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/sandbox.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/scheduler.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/schema.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/session_ledger.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/signing.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/skill_composition_model.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/speculative_decoding_prototype.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/tool_registry.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/tool_result.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/trace/mod.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/trace/report.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/trace/store.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/trace/tests.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/trace_schema_v1.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/uts.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/uts_acc_compiler.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/uts_acc_compiler/core.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/uts_acc_compiler/fixtures.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/uts_acc_compiler/frontend.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/uts_acc_compiler/tests.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/uts_acc_multi_model_benchmark/evaluation.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/uts_acc_multi_model_benchmark/execution.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/uts_acc_multi_model_benchmark/mod.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/uts_acc_multi_model_benchmark/parsing.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/uts_acc_multi_model_benchmark/runtime.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/uts_acc_multi_model_benchmark/task_fixtures.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/uts_acc_multi_model_benchmark/tests.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/uts_acc_multi_model_benchmark/types.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/uts_conformance.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    },
+    {
+      "disposition": "retain_active",
+      "evidence": "baseline blob captured; reference census pending",
+      "owner": "#309 inventory pending file-specific classification",
+      "path": "adl/src/wp08_acip_sns_proof.rs",
+      "validation": "must be reclassified with complete edge evidence before deletion"
+    }
+  ],
+  "schema": "adl.issue309.dispositions.v1",
+  "status": "band_a_candidate_classified"
+}

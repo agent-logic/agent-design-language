@@ -1,0 +1,720 @@
+{
+  "edges": [
+    {
+      "disposition": "replace",
+      "edge_id": "8720e8d362d932b31fdbde73ff9616b9e8e9819c0e482b9b71339017ece6b28e",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "86af1b94c2c7f730452b60bb286e028d19700fc8",
+        "path": ".csdlc/evidence/4760/memory-palace-focused-runtime.log"
+      },
+      "target": "adl/src/dspark_speculative_decoding_evaluation.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "b89855d8a2bba63f9c14828d4920a0315a510daf04a7d39c08dcbeee54d8bb88",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "61fc5d41165594f58c481b7f0a394462de8844ed",
+        "path": ".csdlc/evidence/5346/5347-external-band-deletion-manifest.json"
+      },
+      "target": "adl/src/dspark_speculative_decoding_evaluation.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "5c812072af5093a758cdffe4bc0388b21f3c1aebef1169ee836e9c1d6f2604d4",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "1be3de4b567ddc88b3b35067899c1fb7bc3840a1",
+        "path": ".csdlc/evidence/5671/provider-profile-focused.log"
+      },
+      "target": "adl/src/dspark_speculative_decoding_evaluation.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "7c49ac1cba6c4485ae8b983630e04f3379ad0f9d51b65e2b91b37e4560b38186",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "d9de8cfd9e7831227d6df3859e7f828baa24c916",
+        "path": ".csdlc/evidence/5860/V092_CHILD_READINESS_MATRIX.md"
+      },
+      "target": "adl/src/dspark_speculative_decoding_evaluation.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "780dc6dbd95e766a3ec0287dcb77745f22112e42b993f2adf253663ad65f8d42",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "a0d42eaf8ba5f1b4905f838722e4547febbddda1",
+        "path": ".csdlc/evidence/5860/live-issue-bodies/5786.md"
+      },
+      "target": "adl/src/dspark_speculative_decoding_evaluation.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "b4ad6e3cc45b05e5d60f477401f6a984762387a56f739e82a9533ba868a2a54b",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "74c75da35ff86c58c65eb6b7f94353165bd48eae",
+        "path": ".csdlc/issues/5347/audit.jsonl"
+      },
+      "target": "adl/src/dspark_speculative_decoding_evaluation.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "30ea4df5d140fa17d861956ee2746453171db3a8b14c22d572019e0d47d0ec11",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "02d61697fb211fd60988b84a22036a669ba35f4d",
+        "path": ".csdlc/issues/5347/cards/sor.md"
+      },
+      "target": "adl/src/dspark_speculative_decoding_evaluation.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "8c91cf5efd15be94dd089e40bb5863be6e54f02996752a352b157bb0d6467de5",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "9c0731117f94e76c3be52ffe64c172d121441eac",
+        "path": ".csdlc/issues/5347/cards/sor.values.json"
+      },
+      "target": "adl/src/dspark_speculative_decoding_evaluation.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "289e67d7ce488af578a06058e4b0435a97e3fbc431e08e5d0621c74a96e60750",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "6e13b39674a854d67f5efd9a42e26979c4901b0e",
+        "path": ".csdlc/issues/5347/cards/srp.md"
+      },
+      "target": "adl/src/dspark_speculative_decoding_evaluation.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "a5cd2eb1072f52bcc0cbcec23494494627f5af83c91d415cbe956a9f4b152647",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "c088a5fa03865868d1059b9d40d1f5eb8f6f80f2",
+        "path": ".csdlc/issues/5347/cards/srp.values.json"
+      },
+      "target": "adl/src/dspark_speculative_decoding_evaluation.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "65c683b7d7cd3be2916d65a3f25059dd80079af0001aa89e2f57677c771019b0",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "ec602a58b0a160f839133be136d436b9b08fbf15",
+        "path": ".csdlc/issues/5347/index.json"
+      },
+      "target": "adl/src/dspark_speculative_decoding_evaluation.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "5b3c4f7faa10bcb55c8180e08e9578c2ba7a57112a135368b0287e35765c750b",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "1a7ca49d70e0dd68a7058bcb6d66bd6c8bdccb91",
+        "path": ".csdlc/issues/5786/audit.jsonl"
+      },
+      "target": "adl/src/dspark_speculative_decoding_evaluation.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "865787337f46bf512a461022948d7ed436e6854cca59c50aa7bba70481ae115b",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "66bb189b23db7e11c942c639d51ae47476634319",
+        "path": ".csdlc/issues/5786/cards/sip.md"
+      },
+      "target": "adl/src/dspark_speculative_decoding_evaluation.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "0345e0e8f8a8438d5c1dc7798fe086851dff1a56c1c365dc2b33d47f3a525919",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "21cc8edadf16daa25e05ee0f38f29fe98c328478",
+        "path": ".csdlc/issues/5786/cards/sip.values.json"
+      },
+      "target": "adl/src/dspark_speculative_decoding_evaluation.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "8ad0dff6c97558178ef2b319af989aeb71e1dbf1b1680b9e00d452ecf7f02a88",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "077f120f8ae44ef781f21c5d5b5cee20de01f396",
+        "path": ".csdlc/issues/5786/cards/spp.values.json"
+      },
+      "target": "adl/src/dspark_speculative_decoding_evaluation.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "f3e36cb007dac8d68a7ed89fe3b58d1e5238bf0f9f7fb6c476a5043780a62870",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "c65662f590b36b58a2976f568b3c397d85e87a45",
+        "path": ".csdlc/issues/5786/index.json"
+      },
+      "target": "adl/src/dspark_speculative_decoding_evaluation.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "c6d905d1ffbed1437ceca189516bb9f3c010cdee40d427ea15d87330d720fb69",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "e64cd31e5b1540bcf7c1228cc1e6e1fc699b64ff",
+        "path": ".csdlc/prepared/issues/5347/amend-review-finding-library-validation-scope.json"
+      },
+      "target": "adl/src/dspark_speculative_decoding_evaluation.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "58502b5ed1833621b51cf0e3c8e0d3703475f2f6c91fd2e9dcb30a17b7808c14",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "6285bfa69f1bb3e39d684e4c452ad6771b70fb63",
+        "path": ".csdlc/prepared/issues/5347/reacquire-execution-claim.json"
+      },
+      "target": "adl/src/dspark_speculative_decoding_evaluation.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "3e80f0652125cb60a58b885d048939619bb1968d32c5d38da3afa9c436f284e0",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "e3d044eb7f9f5185e17a923b94470eeff3f7a4d2",
+        "path": ".csdlc/prepared/issues/5347/record-execution.json"
+      },
+      "target": "adl/src/dspark_speculative_decoding_evaluation.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "72dfdbbbcc9a5e1f3965c6c5329999976bccae7f2cd93ba49215d96338805125",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "f79f9f9bc9e3d6a9c9af68882a8953a0ac641545",
+        "path": ".csdlc/prepared/issues/5347/transition-execution-claim.json"
+      },
+      "target": "adl/src/dspark_speculative_decoding_evaluation.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "3b5b9d2f0d3b4a2200018ce881e92f44db632dd47414a31c59dd2b68ed981d94",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "7eb7c288d58107f58d53236ae98bbd1d1fdf5f0f",
+        "path": ".csdlc/prepared/issues/5786/design.md"
+      },
+      "target": "adl/src/dspark_speculative_decoding_evaluation.rs"
+    },
+    {
+      "disposition": "remove",
+      "edge_id": "3ee1fc2e2be62bd1319b5df1dfcc81dd88f37e09ae5772558b6a784a053715ae",
+      "evidence": "module export removed with deleted implementation",
+      "owner": "#309",
+      "reference_class": "module",
+      "source": {
+        "blob": "94f7b7921254a774dab2809d9eab9c19ec5fc4e6",
+        "path": "adl/src/lib.rs"
+      },
+      "target": "adl/src/dspark_speculative_decoding_evaluation.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "1a067eda7295a8ab88068bf98a7344cc390770681c4a277ba2179a449e718b28",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "documentation",
+      "source": {
+        "blob": "963d29ea819446023bab45f62d4b9c53ce84d256",
+        "path": "docs/milestones/v0.91.7/review/provider/DSPARK_SPECULATIVE_DECODING_EVALUATION_4653.json"
+      },
+      "target": "adl/src/dspark_speculative_decoding_evaluation.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "1a6ae7bcbe5e266fdd260e3ca3388ff46ae5b68f71bbbc6c442aa3893d8df9b3",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "documentation",
+      "source": {
+        "blob": "5f6ed843900a7ed147390a2f3f1427e7b251f756",
+        "path": "docs/milestones/v0.91.7/review/provider/DSPARK_SPECULATIVE_DECODING_EVALUATION_4653.md"
+      },
+      "target": "adl/src/dspark_speculative_decoding_evaluation.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "44791cc9e20eb978176848d2cc3436b3381335bedb455cb3faf3fdf5f2b12255",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "documentation",
+      "source": {
+        "blob": "bd874217c03667576d2b057816bbf68b4534a492",
+        "path": "docs/milestones/v0.91.8/evidence/wp13-external-bands/deletion-accounting.json"
+      },
+      "target": "adl/src/dspark_speculative_decoding_evaluation.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "477d261074f36a7c5710fa38781ca0d9c14ecb3e516177f9d4d699a64ca8d990",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "documentation",
+      "source": {
+        "blob": "61fc5d41165594f58c481b7f0a394462de8844ed",
+        "path": "docs/milestones/v0.91.8/evidence/wp13-external-bands/external-band-deletion-manifest.json"
+      },
+      "target": "adl/src/dspark_speculative_decoding_evaluation.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "25087dee3ecc510f71dc53ae1d300354eaef72e920866fe3b36518b347c05716",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "86af1b94c2c7f730452b60bb286e028d19700fc8",
+        "path": ".csdlc/evidence/4760/memory-palace-focused-runtime.log"
+      },
+      "target": "adl/src/provider_native_tool_call_comparison.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "2a17dc5bf7e203cfb90a1ba2fc4b288c11bb3bf075b1dc07bf1fb4fcf17e0087",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "61fc5d41165594f58c481b7f0a394462de8844ed",
+        "path": ".csdlc/evidence/5346/5347-external-band-deletion-manifest.json"
+      },
+      "target": "adl/src/provider_native_tool_call_comparison.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "0684f71e9487e9d9ee0289bbf41126e459a4c5cf9c38e187f82abb17246cccc0",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "1be3de4b567ddc88b3b35067899c1fb7bc3840a1",
+        "path": ".csdlc/evidence/5671/provider-profile-focused.log"
+      },
+      "target": "adl/src/provider_native_tool_call_comparison.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "7e58f39785e7f00c17996d559831f688a68b659057f7f3cdc9e9e9710cef02e0",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "d9de8cfd9e7831227d6df3859e7f828baa24c916",
+        "path": ".csdlc/evidence/5860/V092_CHILD_READINESS_MATRIX.md"
+      },
+      "target": "adl/src/provider_native_tool_call_comparison.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "6d90b024419f3e24eb39c367bff35e38804f21936b1d315e5492cd062482e24c",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "a0d42eaf8ba5f1b4905f838722e4547febbddda1",
+        "path": ".csdlc/evidence/5860/live-issue-bodies/5786.md"
+      },
+      "target": "adl/src/provider_native_tool_call_comparison.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "ad3c80bdd4cec89787777a490382f832999d540eb6b3cb1a6f0dfa13e06ded1b",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "74c75da35ff86c58c65eb6b7f94353165bd48eae",
+        "path": ".csdlc/issues/5347/audit.jsonl"
+      },
+      "target": "adl/src/provider_native_tool_call_comparison.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "bc74c40801e219ccc959c504a58b6f152bbc7a6e85c8124f419b118dae9d169f",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "02d61697fb211fd60988b84a22036a669ba35f4d",
+        "path": ".csdlc/issues/5347/cards/sor.md"
+      },
+      "target": "adl/src/provider_native_tool_call_comparison.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "3ae1eb7b6a731fd7b4fb811cd8f99e39b0969121c0036f530875c9bc284c0c5a",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "9c0731117f94e76c3be52ffe64c172d121441eac",
+        "path": ".csdlc/issues/5347/cards/sor.values.json"
+      },
+      "target": "adl/src/provider_native_tool_call_comparison.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "e65fc6f8169d37a2a54bc0ef253b24de1e24da9e3b781adff842de04a6c77774",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "6e13b39674a854d67f5efd9a42e26979c4901b0e",
+        "path": ".csdlc/issues/5347/cards/srp.md"
+      },
+      "target": "adl/src/provider_native_tool_call_comparison.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "321cb49af0603f03ed0e845f0423e855974c0099b4def0f537d0927dda5e4547",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "c088a5fa03865868d1059b9d40d1f5eb8f6f80f2",
+        "path": ".csdlc/issues/5347/cards/srp.values.json"
+      },
+      "target": "adl/src/provider_native_tool_call_comparison.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "9cd661ede48e8c743fa83bbeb8233d9e45bc1f83f9722ec02e56f57ddb2b4e13",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "ec602a58b0a160f839133be136d436b9b08fbf15",
+        "path": ".csdlc/issues/5347/index.json"
+      },
+      "target": "adl/src/provider_native_tool_call_comparison.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "f264a6ffaaac318cc065c3df6aad272b3f699660b4a3d5bd454c5370cd25f341",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "1a7ca49d70e0dd68a7058bcb6d66bd6c8bdccb91",
+        "path": ".csdlc/issues/5786/audit.jsonl"
+      },
+      "target": "adl/src/provider_native_tool_call_comparison.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "e824ba4db148d4e66d2d3b87834c629fb85d26b880c67c9910102492bfbf16f7",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "66bb189b23db7e11c942c639d51ae47476634319",
+        "path": ".csdlc/issues/5786/cards/sip.md"
+      },
+      "target": "adl/src/provider_native_tool_call_comparison.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "72a7876ffa42f42e777ade7da0bf62219cd11b312ebce3fad832695c7df54486",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "21cc8edadf16daa25e05ee0f38f29fe98c328478",
+        "path": ".csdlc/issues/5786/cards/sip.values.json"
+      },
+      "target": "adl/src/provider_native_tool_call_comparison.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "5de355d384cba76403f985237a96b4139d41c343cb2950967928b257c438978b",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "077f120f8ae44ef781f21c5d5b5cee20de01f396",
+        "path": ".csdlc/issues/5786/cards/spp.values.json"
+      },
+      "target": "adl/src/provider_native_tool_call_comparison.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "b444b9b5871d322676d6012a5f0b0bad8686b2d01592381c0f158c733c2e5b52",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "c65662f590b36b58a2976f568b3c397d85e87a45",
+        "path": ".csdlc/issues/5786/index.json"
+      },
+      "target": "adl/src/provider_native_tool_call_comparison.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "b0d14c01dc67381bb8af69d51dd58e2b7e137c1bdb4787748be11e4b2fa5bbaf",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "14421f6deefaf259c145cc6b034fa5d2bada3b6c",
+        "path": ".csdlc/issues/66/cards/srp.md"
+      },
+      "target": "adl/src/provider_native_tool_call_comparison.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "feb61a49104547f7cb4b09fb30def8c4c6878025bdc9b5f04a64a35a78218c88",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "069938fd6139980879f2a888830edbea9a766def",
+        "path": ".csdlc/issues/66/cards/srp.values.json"
+      },
+      "target": "adl/src/provider_native_tool_call_comparison.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "6f249057fff82807e063ff79770d509c7e4ea04a20c5af8edb617bdecace0720",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "7a34278f8e453254f98bf979557e0b5d829d5d72",
+        "path": ".csdlc/issues/66/index.json"
+      },
+      "target": "adl/src/provider_native_tool_call_comparison.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "f79285bdea55705de7a36ab721474881f5bf7dd275bcbde4fcbb89add2010134",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "6285bfa69f1bb3e39d684e4c452ad6771b70fb63",
+        "path": ".csdlc/prepared/issues/5347/reacquire-execution-claim.json"
+      },
+      "target": "adl/src/provider_native_tool_call_comparison.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "2618691888f7180cc7c909cba310ba3a699ecc813b2e86fc15250a7392769c6d",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "e3d044eb7f9f5185e17a923b94470eeff3f7a4d2",
+        "path": ".csdlc/prepared/issues/5347/record-execution.json"
+      },
+      "target": "adl/src/provider_native_tool_call_comparison.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "5e5f028cb4e2b923714f8e296ff083da414080cf3daa8c8ef594c3ffe145cfe5",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "f79f9f9bc9e3d6a9c9af68882a8953a0ac641545",
+        "path": ".csdlc/prepared/issues/5347/transition-execution-claim.json"
+      },
+      "target": "adl/src/provider_native_tool_call_comparison.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "a686f7650ca368f92b3e65c5c4d799fd59050944714d214e51755de45e797632",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "7eb7c288d58107f58d53236ae98bbd1d1fdf5f0f",
+        "path": ".csdlc/prepared/issues/5786/design.md"
+      },
+      "target": "adl/src/provider_native_tool_call_comparison.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "972d49ccd85920586838738b97e8432ef55980c6cb5ccde3f90cff5fcbedb16c",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "4875ea3c81ded2a47c30f1586716e45e9cf6887f",
+        "path": ".csdlc/prepared/issues/66/assign-ci-snapshot-review.json"
+      },
+      "target": "adl/src/provider_native_tool_call_comparison.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "3420d8e899183edfc502d395da35ed126a94546c54518fe99f892c13540642bd",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "31d4258e3fd883812d9c32ccaf34d9367ae8761f",
+        "path": ".csdlc/prepared/issues/66/assign-coverage-review.json"
+      },
+      "target": "adl/src/provider_native_tool_call_comparison.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "dd9cc29034b927445f12665a240243dae891ac342bdb419ce9d5df2bde4effc2",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "01915e34cee45e75952bf465a2f96e81c90be5b0",
+        "path": ".csdlc/prepared/issues/66/record-ci-snapshot-review.json"
+      },
+      "target": "adl/src/provider_native_tool_call_comparison.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "663b9cb3e1f41aa1ce17ac1ba38100fc5fcf1e042717ad41bda581a3309b325e",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "artifact",
+      "source": {
+        "blob": "8b93fb59192421faf188486c0d498526ca068e96",
+        "path": ".csdlc/prepared/issues/66/record-coverage-review.json"
+      },
+      "target": "adl/src/provider_native_tool_call_comparison.rs"
+    },
+    {
+      "disposition": "remove",
+      "edge_id": "3c59c13df339ec2ac2e4eb2136133561366a2952deaef6a72e6d7a3b09c61d5d",
+      "evidence": "module export removed with deleted implementation",
+      "owner": "#309",
+      "reference_class": "module",
+      "source": {
+        "blob": "94f7b7921254a774dab2809d9eab9c19ec5fc4e6",
+        "path": "adl/src/lib.rs"
+      },
+      "target": "adl/src/provider_native_tool_call_comparison.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "8e6b5538b24d12e4b9699ab93cb3d35a02cb70944bf1bbabf9dfe3ac7d700b55",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "documentation",
+      "source": {
+        "blob": "4a3b422c5d984867ef63a085ef7e39fe9da90e3e",
+        "path": "docs/milestones/v0.91.2/ADL_v0.91.2_THIRD_PARTY_REVIEW_HANDOFF.md"
+      },
+      "target": "adl/src/provider_native_tool_call_comparison.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "f1236037629348ae5d11b1c58f7c040724c69679aaaa50ee2273f1cd17b40251",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "documentation",
+      "source": {
+        "blob": "839ba214f3e2baaa6ce87f11edce02b2ab20b650",
+        "path": "docs/milestones/v0.91.2/review/demo_proof_convergence/DEMO_PROOF_CONVERGENCE_PACKET_v0.91.2.md"
+      },
+      "target": "adl/src/provider_native_tool_call_comparison.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "b504b98f0f3763be0eb5c1a35534cb73da2a6f814b1d40da3518edc8a5fb409a",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "documentation",
+      "source": {
+        "blob": "72dbec7373d339526058ab2cbeec7964fc6aa1ab",
+        "path": "docs/milestones/v0.91.2/review/internal_review_full/FINDINGS_REGISTER.md"
+      },
+      "target": "adl/src/provider_native_tool_call_comparison.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "ac39c039aa39481d49339b2782022eabde1325326af735b3294ab3f2c1e7e9e2",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "documentation",
+      "source": {
+        "blob": "2e1076fae3ca75dbb139b9a86c205de2ad7ee694",
+        "path": "docs/milestones/v0.91.2/review/provider_native_tool_call_comparison_report.json"
+      },
+      "target": "adl/src/provider_native_tool_call_comparison.rs"
+    },
+    {
+      "disposition": "replace",
+      "edge_id": "f7756c0a71774fbc695e84426920b2c0c4c26c8080cdc24676b91a8dacdc744a",
+      "evidence": "reference retained as historical evidence; no live executable owner is claimed",
+      "owner": "#309",
+      "reference_class": "documentation",
+      "source": {
+        "blob": "61fc5d41165594f58c481b7f0a394462de8844ed",
+        "path": "docs/milestones/v0.91.8/evidence/wp13-external-bands/external-band-deletion-manifest.json"
+      },
+      "target": "adl/src/provider_native_tool_call_comparison.rs"
+    }
+  ],
+  "scan_denominator": {
+    "candidate_commit": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6",
+    "scope": "all Git-tracked paths at pinned base plus declared external contracts",
+    "tracked_path_blob_digest_sha256": "e5f8633b950cbc3023c3d9ceac024a4ffb025ead16a205e2a7e8589c562d6df2",
+    "tracked_paths": 23125
+  },
+  "schema": "adl.issue309.reference_edges.v1",
+  "status": "band_a_candidate_complete"
+}
