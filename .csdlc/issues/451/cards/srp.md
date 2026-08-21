@@ -12,7 +12,33 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/evidence/451
+.csdlc/issues/451
+.csdlc/prepared/issues/451
+adl-runtime-kernel/Cargo.toml
+adl-runtime-kernel/src/assembly.rs
+adl-runtime-kernel/src/birth_witness.rs
+adl-runtime-kernel/src/birthday_continuity.rs
+adl-runtime-kernel/src/cognitive_profile.rs
+adl-runtime-kernel/src/config.rs
+adl-runtime-kernel/src/lib.rs
+adl-runtime-kernel/src/memory_palace_authority.rs
+adl-runtime-kernel/src/production_birthday.rs
+adl-runtime-kernel/src/resident_cycle.rs
+adl-runtime-kernel/src/test_support.rs
+adl-runtime-kernel/tests/production_birthday.rs
+adl-runtime-kernel/tests/fixtures/birthday_continuity/authority_tests.rs
+adl/Cargo.toml
+adl/Cargo.lock
+adl/src/lib.rs
+adl/src/long_lived_agent.rs
+adl/src/production_birthday.rs
+adl/src/resident_tool_execution.rs
+adl/tests/production_birthday_runtime.rs
+docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md
+docs/milestones/v0.92/QUALITY_GATE_v0.92.md
+docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md
+docs/planning/ADL_FEATURE_LIST.md
 
 ## Prompts
 
@@ -37,8 +63,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:6da917c6b7c9b9dc7b51ed32ce78f2b541db8487:f94af6b0a6e2c2779010e1230ed8855a811234fde70aa668e2d48aa989c6e895")
 
-Reviewer: None
+Reviewer: Some("fresh-session:2c2aa3f3-aadd-4860-97c4-5921379e14d4")
 
-Result: pre_review
+Result: pass
