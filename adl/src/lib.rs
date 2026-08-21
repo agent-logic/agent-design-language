@@ -81,6 +81,7 @@ pub mod operational_skills_substrate;
 pub mod overlay;
 pub mod plan;
 pub mod policy_authority;
+pub mod production_birthday;
 pub mod prompt;
 pub mod provider;
 pub mod provider_adapter;

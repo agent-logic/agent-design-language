@@ -35,6 +35,7 @@ pub mod operator_attention;
 pub mod parity;
 pub mod parity_b;
 pub mod private_state;
+pub mod production_birthday;
 pub mod proof;
 pub mod protocol_adapters;
 pub mod reasoning;
@@ -87,6 +88,7 @@ pub use operator_attention::*;
 pub use parity::*;
 pub use parity_b::*;
 pub use private_state::*;
+pub use production_birthday::*;
 pub use protocol_adapters::{
     build_production_operation_executors as build_protocol_production_operation_executors,
     protocol_operation_executors, protocol_operation_executors_from_env, ProtocolAdapter,

@@ -17,7 +17,7 @@ claim that the first birthday has happened.
 
 The deterministic WP-08 birthday decision and its fail-closed negative matrix
 are implemented by `#5825`. This establishes the decision boundary only. It
-does not claim that a birth has occurred, that downstream Birthday evidence is
+does not by itself claim that a birth has occurred, that downstream Birthday evidence is
 complete, or that public launch is ready.
 
 Related readiness issue: `#3377`.
@@ -74,6 +74,18 @@ fail closed.
 ## Integration Points
 
 - Identity/stable-name feature.
+
+## Production activation composition
+
+Issue #451 adds the production composition boundary without weakening any
+prerequisite authority. The Runtime accepts only a complete birthday decision,
+verified Memory Palace identity and continuity, verified capability and
+cognitive-profile handles, an Adaptive Learning receipt, an authenticated ACC
+tool receipt, and the witness packet. It commits one canonical receipt with a
+create-new ownership intent, synced staging, atomic rename, directory sync, and
+restart recovery. Duplicate, copied, conflicting, denied, unauthenticated, or
+cross-bound inputs fail closed. Ordinary resident startup and task execution do
+not enter this path.
 - Memory/capability/witness feature.
 - ACP profile feature.
 - First-birthday external launch surface:

@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 451,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][Runtime] Compose the production birthday and witness activation path",
+    "slug": "451-production-birthday-witness-activation",
+    "version": "v0.92",
+    "generation": 7
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Exact design and implementation boundary for #451 production birthday composition, exactly-once recovery, live resident continuation, and complete renewed feature-wiring audit only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does one production path consume every existing domain authority without duplicating writable truth?",
+        "Can any missing stale copied rolled-back or conflicting input create or validate a receipt?",
+        "Can concurrency interruption or restart create a second birthday or lose the first?",
+        "Does useful post-restore work retain Memory Palace capability profile Adaptive Learning and ACC authority?",
+        "Does the renewed audit prove real construction consumption and behavior for all nine features rather than citing modules or fixtures?",
+        "Are private data and subjective/public claims excluded?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
