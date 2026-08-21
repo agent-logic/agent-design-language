@@ -22,6 +22,7 @@ REMOTE_QUALIFICATION=adl/tools/run_issue268_remote_resident_qualification.sh
 RUNTIME_VOLUME_ID=${ADL_AWS_RUNTIME_CONTINUITY_VOLUME_ID:-}
 RUNTIME_VOLUME_NAME=${ADL_AWS_RUNTIME_CONTINUITY_VOLUME_NAME:-}
 RUNTIME_VOLUME_ID_SHA256=${ADL_AWS_RUNTIME_CONTINUITY_VOLUME_ID_SHA256:-}
+HOURLY=${ADL_ISSUE268_ESTIMATED_HOURLY_COST_USD:-}
 
 usage() {
   echo "usage: $0 preflight|authorized-launch|terminal-status|validate" >&2
@@ -54,6 +55,10 @@ if [[ "$MODE" == preflight || "$MODE" == authorized-launch ]]; then
   actual_volume_hash=$(python3 -c 'import hashlib,sys; print(hashlib.sha256(sys.argv[1].encode()).hexdigest())' "$RUNTIME_VOLUME_ID")
   [[ "$actual_volume_hash" == "$RUNTIME_VOLUME_ID_SHA256" ]] || {
     echo "issue268: persistent Runtime EBS volume identity mismatch" >&2
+    exit 77
+  }
+  [[ "$HOURLY" =~ ^[0-9]+([.][0-9]+)?$ ]] || {
+    echo "issue268: current estimated hourly On-Demand cost required" >&2
     exit 77
   }
 fi
@@ -123,6 +128,7 @@ common=(
   --bin "$REMOTE_BIN" --instance-types r7i.2xlarge
   --max-spot-retries 0 --out "$SUMMARY" --artifact-dir "$ARTIFACTS" --json
   --on-demand-only
+  --estimated-hourly-cost-usd "$HOURLY"
   --runtime-continuity-volume-id "$RUNTIME_VOLUME_ID"
   --runtime-continuity-volume-name "$RUNTIME_VOLUME_NAME"
   --runtime-continuity-volume-id-sha256 "$RUNTIME_VOLUME_ID_SHA256"
@@ -135,11 +141,6 @@ case "$MODE" in
   authorized-launch)
     [[ "${ADL_ISSUE268_AUTHORIZATION:-}" == "authorized-on-demand-usd20-20260820" ]] || {
       echo "issue268: exact operator authorization marker missing" >&2
-      exit 77
-    }
-    HOURLY=${ADL_ISSUE268_ESTIMATED_HOURLY_COST_USD:-}
-    [[ "$HOURLY" =~ ^[0-9]+([.][0-9]+)?$ ]] || {
-      echo "issue268: current estimated hourly On-Demand cost required" >&2
       exit 77
     }
     if [[ -e "$LAUNCH_CLAIM" ]]; then
@@ -158,7 +159,7 @@ PY
     }
     # Keep the paid owner in this foreground process. Desktop task boundaries
     # do not preserve the detached manager used by the generic `launch` action.
-    "$OWNER" run --run "${common[@]}" --estimated-hourly-cost-usd "$HOURLY"
+    "$OWNER" run --run "${common[@]}"
     ;;
   terminal-status)
     [[ -s "$SUMMARY" ]] || { echo "issue268: run summary absent" >&2; exit 75; }

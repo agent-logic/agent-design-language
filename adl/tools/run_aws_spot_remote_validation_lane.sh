@@ -568,6 +568,10 @@ resolve_spot_hourly_cost() {
   if [[ -n "$ESTIMATED_HOURLY_COST_USD" ]]; then
     return 0
   fi
+  if [[ "$ON_DEMAND_ONLY" == true ]]; then
+    echo "run_aws_spot_remote_validation_lane: On-Demand mode requires an explicit pre-run hourly price" >&2
+    return 1
+  fi
   local profile_args=()
   if [[ "$PROFILE" != "env" && "$PROFILE" != "environment" ]]; then
     profile_args=(--profile "$PROFILE")
