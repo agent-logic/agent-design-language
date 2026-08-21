@@ -90,6 +90,20 @@ fi
 
 if [ "${ADL_RETAINED_VOLUME_ROLE:-build_cache}" = "runtime_continuity" ] \
     && [ "${ADL_ISSUE268_RUNTIME_QUALIFICATION:-0}" = "1" ]; then
+  # Generate the ephemeral #414 signing key on the remote host before either
+  # the qualification command or interruption watcher starts. The key is
+  # process-scoped: it is never placed in user data or retained evidence/logs.
+  if [ -z "${ADL_ISSUE414_SIGNING_KEY_HEX:-}" ]; then
+    ADL_ISSUE414_SIGNING_KEY_HEX="$(od -An -N32 -tx1 /dev/urandom | tr -d ' \n')"
+  fi
+  case "$ADL_ISSUE414_SIGNING_KEY_HEX" in
+    (*[!0-9a-f]*|'') echo "issue268: failed to generate the #414 signing key" >&2; exit 70 ;;
+  esac
+  [ "${#ADL_ISSUE414_SIGNING_KEY_HEX}" -eq 64 ] || {
+    echo "issue268: invalid #414 signing key length" >&2
+    exit 70
+  }
+  export ADL_ISSUE414_SIGNING_KEY_HEX
   export ADL_ISSUE268_REMOTE_EVIDENCE_ROOT="$RUN_ROOT/issue268"
   export ADL_SPOT_DEHYDRATE_CALLBACK="$ADL_REMOTE_REPO_DIR/adl/tools/issue414_spot_dehydrate_callback.sh"
   export ADL_ISSUE414_CONTINUITY_BIN="$ADL_RUNTIME_CONTINUITY_ROOT/install/current/bin/adl_resident_shepherd_continuity"

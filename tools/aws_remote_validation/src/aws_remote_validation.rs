@@ -4993,6 +4993,9 @@ mod tests {
         assert!(tracked_runner.contains("source=foreground_package_manager"));
         assert!(tracked_runner.contains("awscli-2 git tar zstd jq"));
         assert!(tracked_runner.contains("source=user_data_ready"));
+        assert!(tracked_runner.contains("od -An -N32 -tx1 /dev/urandom"));
+        assert!(tracked_runner.contains("export ADL_ISSUE414_SIGNING_KEY_HEX"));
+        assert!(!tracked_runner.contains("printf '%s' \"$ADL_ISSUE414_SIGNING_KEY_HEX\""));
         assert!(tracked_runner.contains("immutable_builder_image_only"));
         assert!(tracked_runner
             .contains("PERSISTENT_CHECKOUT=\"$TOOLCHAIN_ROOT/source/agent-design-language\""));

@@ -3,7 +3,7 @@ set -euo pipefail
 
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd -P)
 MODE=${1:-}
-RUN_ID=issue268-six-hour-r7i-20260821-39
+RUN_ID=issue268-six-hour-r7i-20260821-40
 EVIDENCE_ROOT=${ADL_ISSUE268_EVIDENCE_ROOT:-$ROOT/.csdlc/evidence/268/aws/$RUN_ID}
 REQUEST="$EVIDENCE_ROOT/portable-request.json"
 SUMMARY="$EVIDENCE_ROOT/summary.json"
@@ -31,6 +31,12 @@ usage() {
 
 [[ "$MODE" =~ ^(preflight|authorized-launch|terminal-status|validate)$ ]] || usage
 [[ "$EXCLUDED_ISSUE" == 269 ]] || { echo "issue268: #269 boundary drifted" >&2; exit 65; }
+if [[ "$MODE" == authorized-launch ]]; then
+  [[ "${ADL_ISSUE268_AUTHORIZATION:-}" == "authorized-on-demand-usd20-20260820" ]] || {
+    echo "issue268: exact operator authorization marker missing" >&2
+    exit 77
+  }
+fi
 python3 - "$ROOT" "$EVIDENCE_ROOT" <<'PY'
 import os, pathlib, sys
 root=pathlib.Path(sys.argv[1]).resolve(); candidate=pathlib.Path(sys.argv[2]).resolve()
@@ -91,7 +97,7 @@ profile = {
         "ADL_ISSUE268_RETAINED_RUNTIME_ROOT", "ADL_ISSUE268_BUILD_CACHE_ROOT",
         "ADL_ISSUE268_AGENT_SPEC_DIR", "ADL_ISSUE268_RUNTIME_VOLUME_IDENTITY_SHA256",
         "ADL_ISSUE268_S3_SOURCE_RECEIPT", "ADL_ISSUE268_414_REVIEWED_SHA",
-        "ADL_ISSUE268_CONTINUITY_BIN_SHA256",
+        "ADL_ISSUE268_CONTINUITY_BIN_SHA256", "ADL_ISSUE414_SIGNING_KEY_HEX",
     ],
 }
 digest = hashlib.sha256(json.dumps(profile, separators=(",", ":")).encode()).hexdigest()
@@ -144,10 +150,6 @@ case "$MODE" in
     "$OWNER" preflight --check-account "${common[@]}"
     ;;
   authorized-launch)
-    [[ "${ADL_ISSUE268_AUTHORIZATION:-}" == "authorized-on-demand-usd20-20260820" ]] || {
-      echo "issue268: exact operator authorization marker missing" >&2
-      exit 77
-    }
     if [[ -e "$LAUNCH_CLAIM" ]]; then
       python3 - "$LAUNCH_CLAIM" "$RUN_ID" "$REVISION" <<'PY'
 import json, sys
