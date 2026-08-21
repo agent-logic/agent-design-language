@@ -4,13 +4,57 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d8e1f3dca77fcf7b936ed705f16684f757477c7a35ec6e1ee4d0f7facd456b0a",
-  "phase": "implemented",
-  "generation": 26,
-  "digest": "14fcf665e2268ea70b7ebc2360f3e6df479fc7e349903d94d0d4ce1db9db5da5",
+  "phase": "reviewed",
+  "generation": 27,
+  "digest": "57123467023701ad9cb5d0c7798a1ac7637786fa784adb4734d51cc8caaaf145",
   "branch": "codex/449-governed-adaptive-learning-resident-integration",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-449-governed-adaptive-learning-resident-integration",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:b8286cbc-9ffc-44de-abf0-27a74315a1b4",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:43b9cf33c58c2091223684e32efca9b15db135e6:85417661321cbc99f8f460ccf4ec639fe582469623d0d9e56dc9c07895a8577a",
+    "scope": [
+      "adl-runtime-kernel/src/adaptive_learning.rs",
+      "adl-runtime-kernel/tests/adaptive_learning.rs",
+      "adl-runtime-kernel/src/live_continuity.rs",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/resident_cycle.rs",
+      "docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md",
+      "adl/tools/validate_v0917_html_observatory.py",
+      ".csdlc/evidence/449",
+      ".csdlc/issues/449",
+      ".csdlc/prepared/issues/449/design.md",
+      ".csdlc/prepared/issues/449/diagram.mmd"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:b8286cbc-9ffc-44de-abf0-27a74315a1b4",
+    "scope": [
+      "adl-runtime-kernel/src/adaptive_learning.rs",
+      "adl-runtime-kernel/tests/adaptive_learning.rs",
+      "adl-runtime-kernel/src/live_continuity.rs",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/resident_cycle.rs",
+      "docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md",
+      "adl/tools/validate_v0917_html_observatory.py",
+      ".csdlc/evidence/449",
+      ".csdlc/issues/449",
+      ".csdlc/prepared/issues/449/design.md",
+      ".csdlc/prepared/issues/449/diagram.mmd"
+    ],
+    "reviewed_revision": "git-blake3:43b9cf33c58c2091223684e32efca9b15db135e6:85417661321cbc99f8f460ccf4ec639fe582469623d0d9e56dc9c07895a8577a",
+    "findings": [],
+    "residual_risks": [
+      "Review was read-only and bounded to assigned paths at immutable commit 43b9cf33c58c2091223684e32efca9b15db135e6.",
+      "Reviewer reran focused local validation including resident_cycle, full adaptive_learning target, strict clippy, Observatory integrated proof, diff hygiene, and repo-local csdlc-validate; hosted CI, publication, and merge readiness are not claimed by this review.",
+      "The Observatory proof regenerates unrelated shared-localhost-certificate evidence; those generated files were restored by the implementation session before recording review truth.",
+      "Later source or substantive lifecycle changes require a fresh exact-head review."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +69,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "627a7f894cf0e487621a2c76c9b2a9f924373c90e99587dbc1f5857ebd17fc21",
+      "values_digest": "cac9e0586fd60e4c05c6354bbae570cb0b5f54ae0cb86f03ae0f7cec58479def",
       "rendered_digest": "2cfd28e6c6a6879f7e6c50c55739e047518d76c09cda80b9ebafc4403b793865",
       "ast_digest": "f464cd78ec8bddeabb30d93fddafa24b1062b4cec61a141464249d3a05f2cd41"
     },
     "stp": {
-      "values_digest": "f6bfe8c6d7500d4b73dece5d66a8ca650c70f16c4df2e41552aa45b2bdbadf7a",
+      "values_digest": "214bac77493ac2401a96cb47d0ea13a71c7d69e503c99aee408747b99c0e076a",
       "rendered_digest": "7b54454bbd83510eb034ffe2a2271617f0602cade7d3c6b59f4ac3d137227169",
       "ast_digest": "c6928d84219a13b3766acc4b90f7c8cfb71ba2f86c3092bf2246fe41523990e7"
     },
     "spp": {
-      "values_digest": "56bda608ab593e4a5f38758892620fc36bba4caee7de9dbe0d21199c2a4546e1",
+      "values_digest": "b630ef368a8f065c394f0c8f8342819e6f22c44f28475c8271045743273a36ad",
       "rendered_digest": "bffc41af02fb2bde8fdbeee9bb86b0844d389e801cec9206ad674efc0dadcef5",
       "ast_digest": "c4ab178aa7012df674d6ec98c645f586c6e07ae5cd2a58fe689862f744ef001b"
     },
     "vpp": {
-      "values_digest": "fbf6b30783230f9416a0c4e86af467d7cd329d877ef26c180e268eb58af67507",
+      "values_digest": "df563b3e16ed878e4b37d2a858d3b093368ad773f50b8c4db8ae6fb164ea97ec",
       "rendered_digest": "29b34386e79734d7df12f5860df83c84e13b42f22c4304b38539705e954c05ac",
       "ast_digest": "800bad4e472866aa40314c9753028f43e11b4961676430d90d974b85d927fb8d"
     },
     "srp": {
-      "values_digest": "c5a447184362f4e97c8c885df246c91e6dd160e4887ff7688abbca1a8edd8d8c",
-      "rendered_digest": "3a8abb044fd02d026b1c6abd0393ba034ef34c8c2a2d4cb537496abcda46d04a",
-      "ast_digest": "13b21242e8fcf9b816e12eee09996417e5f70724d617c0eaaf8a5c370caeb090"
+      "values_digest": "bf7115c0993bb96a92fbdcb25b0c03fb205bad63ba0045b38325136e00aea633",
+      "rendered_digest": "20dc48c4311d3365cd0d0decea41b724292552c7bec9b844e4dddba24700c448",
+      "ast_digest": "f5c4b9fee178d8056f225197f0fe2407bfd5f07e4e59011788d7e7677867d9b8"
     },
     "sor": {
-      "values_digest": "3ef45b01da86c6b4e193f02726067b553a493a3619ec54ca2002cef756899f33",
+      "values_digest": "e1b51d6e7796d2648853e0e7f4a8d0203efa2350298397564967baad75834b34",
       "rendered_digest": "fe43168039e875a9b581807fee9a8a161e0fb801d17fde4132b13c2cb755cc0e",
       "ast_digest": "2c481338502941a19a8a803a32526b1a3d677b0c98eec06af478decd3cad4785"
     }
@@ -125,6 +169,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover exact review after merging current origin/main 42838ac100388dd7c43bddd3d0003e606bc3ef97 into #449 advanced HEAD to f35a04af93ce49f8d9e40f07a37e85a2a5742185. Focused #449 proof passes after the narrow Observatory validator conflict resolution, but publication requires fresh exact-head review truth."
+    },
+    {
+      "sequence": 11,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -379,6 +430,20 @@
       "actor": "codex:/root",
       "reason": "Recover exact review after merging current origin/main 42838ac100388dd7c43bddd3d0003e606bc3ef97 into #449 advanced HEAD to f35a04af93ce49f8d9e40f07a37e85a2a5742185. Focused #449 proof passes after the narrow Observatory validator conflict resolution, but publication requires fresh exact-head review truth.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 26,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 27,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
