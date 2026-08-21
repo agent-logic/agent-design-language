@@ -406,13 +406,11 @@ impl ProductionFixture {
         }
         for field in ["guardian_state_dir", "state_dir", "staging_dir"] {
             let path = PathBuf::from(toml_string(&init_document, &["continuity_control", field])?);
-            if !path.is_absolute() || path == state_root || !path.starts_with(&state_root) {
-                return Err(
-                    "configured private continuity state must remain under state_root".to_owned(),
-                );
-            }
-            std::fs::create_dir_all(path)
-                .map_err(|_| "could not create private continuity state".to_owned())?;
+            create_contained_absolute_state_dir(
+                &state_root,
+                &path,
+                "configured private continuity state",
+            )?;
         }
 
         let control_key = SigningKey::from_bytes(&[17_u8; 32]);
@@ -1233,6 +1231,22 @@ fn create_contained_state_dir(
         current = canonical;
     }
     Ok(current)
+}
+
+fn create_contained_absolute_state_dir(
+    state_root: &Path,
+    configured: &Path,
+    label: &str,
+) -> Result<PathBuf, String> {
+    if !configured.is_absolute() || configured == state_root {
+        return Err(format!(
+            "{label} must be an absolute descendant of state_root"
+        ));
+    }
+    let relative = configured
+        .strip_prefix(state_root)
+        .map_err(|_| format!("{label} escaped Runtime-owned state"))?;
+    create_contained_state_dir(state_root, &relative.to_string_lossy(), label)
 }
 
 struct CapturedOutput {
@@ -4305,6 +4319,12 @@ max_open_handles = 8
         assert!(create_contained_state_dir(&root, "/tmp/external", "TLS state").is_err());
         assert!(create_contained_state_dir(&root, "../external", "TLS state").is_err());
         assert!(create_contained_state_dir(&root, "tls/../../external", "TLS state").is_err());
+        assert!(create_contained_absolute_state_dir(
+            &root,
+            &root.join("continuity/../external"),
+            "private continuity state"
+        )
+        .is_err());
     }
 
     #[cfg(unix)]
@@ -4318,6 +4338,12 @@ max_open_handles = 8
         symlink(external.path(), root.join("tls")).expect("escape symlink");
 
         assert!(create_contained_state_dir(&root, "tls/snapshots", "TLS state").is_err());
+        assert!(create_contained_absolute_state_dir(
+            &root,
+            &root.join("tls/continuity"),
+            "private continuity state"
+        )
+        .is_err());
         assert!(!external.path().join("snapshots").exists());
     }
 
