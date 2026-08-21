@@ -113,6 +113,8 @@ def main() -> int:
                 errors.append(f"{name}: unrelated-path receipt differs from Git/report")
         except subprocess.CalledProcessError:
             errors.append(f"{name}: Git object/topology verification failed")
+    if seen != set(report_bands):
+        errors.append("rollback receipt bands differ from reduction report bands")
     print(json.dumps({"status": "pass" if not errors else "fail", "bands": len(bands), "errors": errors}, sort_keys=True))
     return 0 if not errors else 1
 

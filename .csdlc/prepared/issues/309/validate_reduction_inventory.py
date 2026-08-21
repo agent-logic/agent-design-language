@@ -284,11 +284,29 @@ def main() -> int:
             modified_paths.add(path)
         else:
             fail(errors, f"unclassified candidate source change: {line}")
-    declared_deleted = {
-        path
-        for band in report.get("bands", []) if isinstance(band, dict)
-        for path in band.get("paths", []) if isinstance(path, str)
-    }
+    report_bands = report.get("bands")
+    if not isinstance(report_bands, list) or not report_bands:
+        fail(errors, "reduction report bands missing")
+        report_bands = []
+    report_band_ids: set[str] = set()
+    declared_deleted: set[str] = set()
+    for band in report_bands:
+        if not isinstance(band, dict):
+            fail(errors, "reduction report band is not an object")
+            continue
+        band_id = band.get("band")
+        band_paths = band.get("paths")
+        if band_id not in {"A", "B", "C"} or band_id in report_band_ids:
+            fail(errors, f"invalid or duplicate reduction report band: {band_id}")
+        else:
+            report_band_ids.add(band_id)
+        if not isinstance(band_paths, list) or not band_paths or not all(isinstance(path, str) for path in band_paths):
+            fail(errors, f"reduction report band paths missing: {band_id}")
+            continue
+        overlap = declared_deleted & set(band_paths)
+        if overlap:
+            fail(errors, f"deleted paths appear in multiple bands: {sorted(overlap)!r}")
+        declared_deleted.update(band_paths)
     declared_modified = set(report.get("modified_files", [])) if isinstance(report.get("modified_files"), list) else set()
     if deleted_paths != declared_deleted or modified_paths != declared_modified:
         fail(errors, "candidate Git diff differs from declared deleted/modified paths")
