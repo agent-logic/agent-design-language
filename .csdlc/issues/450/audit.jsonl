@@ -37,3 +37,4 @@
 {"sequence":37,"generation":25,"actor":"codex:/root","reason":"recover review after completion audit found AC8 feature-list and v0.92 evidence-matrix language did not yet name the #450 Memory Palace Runtime-kernel production authority or guard against broad completion overclaim","operation":"recover_review"}
 {"sequence":38,"generation":25,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":39,"generation":26,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":40,"generation":27,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
