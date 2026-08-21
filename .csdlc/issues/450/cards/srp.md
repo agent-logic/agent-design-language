@@ -49,6 +49,7 @@ adl/Cargo.lock
 adl/Cargo.toml
 adl/src/csm_runtime_api.rs
 adl/src/memory_palace.rs
+adl/tests/cli_smoke/agent.rs
 adl/tests/memory_palace_tests.rs
 adl/tools/check_coverage_impact.sh
 adl/tools/run_pr_fast_coverage_lane.sh
@@ -73,14 +74,14 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Review was scoped to #450 Memory Palace runtime/coverage surfaces and the post-publication clippy/fmt repair commit.
-- Reviewer did not inspect or touch PR #455 or #446; protected #446 paths were checked only by diff name and had no diff.
-- Typed review assignment initially failed in published phase; the issue was recovered through typed csdlc-review recover before assignment and review recording.
+- Review was scoped to the #450 startup-window readiness test-truth fix and supporting Memory Palace readiness semantics.
+- Reviewer explicitly did not inspect, touch, read, search, or open PR #455 or the protected #446 paths.
+- The local validation reran the exact failing cli-smoke test and passed.
 
 ## Review Result
 
-Revision: Some("git-blake3:9770c6bb8c88acb449a3d7927ef001bd7c5d54ce:339e3f74c3e7cf20e85e28cdc734dc21e7b8b3971085762530d811d31671f20e")
+Revision: Some("git-blake3:ebf4a508d50d37378e20450ccd284c66fc35df98:ad6731ca52cdb0c1ad033718b98e292bf8abcab5c927727e0b4b9e6a7102e849")
 
-Reviewer: Some("fresh-session:32d5317e-5309-461b-8725-3ff669d6adfe")
+Reviewer: Some("fresh-session:e5c4e1e5-ad18-4838-bfa5-b955dc4e834c")
 
 Result: pass

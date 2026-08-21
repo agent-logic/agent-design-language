@@ -4,15 +4,15 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "2ba84a82b33fdb23b6c516a95a7dcd1b9311eefaea6b2e4c9c9ab1391c925625",
-  "phase": "published",
-  "generation": 21,
-  "digest": "39c3187e5e297268a8402f44c1440bf94229d0a8c3ca0db05a99dc50e2f7af65",
+  "phase": "reviewed",
+  "generation": 23,
+  "digest": "2d688a0d6f94ffe8e60ca97ddb0972ed22f942877296fbaa15fc105fe7c93082",
   "branch": "codex/450-memory-palace-production-authority",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-450-memory-palace-production-authority",
   "review_assignment": {
-    "reviewer": "fresh-session:32d5317e-5309-461b-8725-3ff669d6adfe",
+    "reviewer": "fresh-session:e5c4e1e5-ad18-4838-bfa5-b955dc4e834c",
     "assigned_by": "codex",
-    "revision": "git-blake3:9770c6bb8c88acb449a3d7927ef001bd7c5d54ce:339e3f74c3e7cf20e85e28cdc734dc21e7b8b3971085762530d811d31671f20e",
+    "revision": "git-blake3:ebf4a508d50d37378e20450ccd284c66fc35df98:ad6731ca52cdb0c1ad033718b98e292bf8abcab5c927727e0b4b9e6a7102e849",
     "scope": [
       ".csdlc/issues/450/audit.jsonl",
       ".csdlc/issues/450/cards/sip.md",
@@ -51,6 +51,7 @@
       "adl/Cargo.toml",
       "adl/src/csm_runtime_api.rs",
       "adl/src/memory_palace.rs",
+      "adl/tests/cli_smoke/agent.rs",
       "adl/tests/memory_palace_tests.rs",
       "adl/tools/check_coverage_impact.sh",
       "adl/tools/run_pr_fast_coverage_lane.sh",
@@ -59,7 +60,7 @@
     ]
   },
   "review": {
-    "reviewer": "fresh-session:32d5317e-5309-461b-8725-3ff669d6adfe",
+    "reviewer": "fresh-session:e5c4e1e5-ad18-4838-bfa5-b955dc4e834c",
     "scope": [
       ".csdlc/issues/450/audit.jsonl",
       ".csdlc/issues/450/cards/sip.md",
@@ -98,34 +99,24 @@
       "adl/Cargo.toml",
       "adl/src/csm_runtime_api.rs",
       "adl/src/memory_palace.rs",
+      "adl/tests/cli_smoke/agent.rs",
       "adl/tests/memory_palace_tests.rs",
       "adl/tools/check_coverage_impact.sh",
       "adl/tools/run_pr_fast_coverage_lane.sh",
       "adl/tools/test_check_coverage_impact.sh",
       "adl/tools/test_run_pr_fast_coverage_lane.sh"
     ],
-    "reviewed_revision": "git-blake3:9770c6bb8c88acb449a3d7927ef001bd7c5d54ce:339e3f74c3e7cf20e85e28cdc734dc21e7b8b3971085762530d811d31671f20e",
+    "reviewed_revision": "git-blake3:ebf4a508d50d37378e20450ccd284c66fc35df98:ad6731ca52cdb0c1ad033718b98e292bf8abcab5c927727e0b4b9e6a7102e849",
     "findings": [],
     "residual_risks": [
-      "Review was scoped to #450 Memory Palace runtime/coverage surfaces and the post-publication clippy/fmt repair commit.",
-      "Reviewer did not inspect or touch PR #455 or #446; protected #446 paths were checked only by diff name and had no diff.",
-      "Typed review assignment initially failed in published phase; the issue was recovered through typed csdlc-review recover before assignment and review recording."
+      "Review was scoped to the #450 startup-window readiness test-truth fix and supporting Memory Palace readiness semantics.",
+      "Reviewer explicitly did not inspect, touch, read, search, or open PR #455 or the protected #446 paths.",
+      "The local validation reran the exact failing cli-smoke test and passed."
     ],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 450,
-    "pull_request": 458,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/458",
-    "base": "main",
-    "head": "codex/450-memory-palace-production-authority",
-    "revision": "git-blake3:51ba40951cdaafe1a399716dfa313b9a453a89ea:e70506c9cb4c5af14ca248960e74082446f8bbe3be75a72760ab9c3da4338530",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -139,34 +130,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "41ea74fb2ec47b7d40850d9a1057bc69628757fb091d3e9fcd1010fd62778675",
+      "values_digest": "26200db19698d6966ccc5c4664c343025f91b0500a5fa4a5d4149d4698ad3881",
       "rendered_digest": "bc05390fa59e1fdfd58f2a28c97735cbab105c0abd7922757f7e189e7294d71c",
       "ast_digest": "d07f704144b9191f595ce437134d39e0dbc0193195493e4825550db98d9c49f1"
     },
     "stp": {
-      "values_digest": "a3f6a5e80814037461058a1ae543060a5ab4e3a2e11c93e8fa86ddbbd7655391",
+      "values_digest": "4b30ca30594747d8f3317a6b9e5882cd661ac6a63ca25ed609bc9305d651e6f7",
       "rendered_digest": "085979d3227cb2fb241df3c7b7921904b1e6ddaf0aa9bc4f17742f416098087c",
       "ast_digest": "cf4959ce1996b71005f67c579e4d6acdc3e9ec8ccfc1a30ce4141821988a63db"
     },
     "spp": {
-      "values_digest": "c239e984b8e98027110bd12dbaa15102888e8667c62bf554c99301c386ac842a",
+      "values_digest": "1906e583bf15f06671fabc082092378abc43a91039d4798d41b578833fb0e0fc",
       "rendered_digest": "948f106d0030483b54120316f4337b5973bde103f0005718f269c1a159c01968",
       "ast_digest": "8d7b09c325b4f31bd00467499e5577f56d4fcdd6fe6bfc369a83e8c802463990"
     },
     "vpp": {
-      "values_digest": "a0bcdb8176a7c57d40ec4bdd407e5705f62d00375ba60049fe7709b37e142d26",
+      "values_digest": "24f43bdaf79d68b9d2f38936d461c4d625b2c5e955cec611700e2b9a6ea877c7",
       "rendered_digest": "de962a78c6125bbd3abc1116e974ab6584dcf0a48ce16568b7bf903a592921e5",
       "ast_digest": "542b9447dd7c09de1122382bc923af80c88364cf6ac5240bed7eec2370f5637e"
     },
     "srp": {
-      "values_digest": "ae1c692a620a8730c30849bbb8cb9f4a741341d8d70af3985ced53ca3008817f",
-      "rendered_digest": "52cf186cd2b2f0951fa4d0439239b84175014d2491adea52d3dfe01571340a3b",
-      "ast_digest": "ca0a2f6cfce969f0f1c8ecae2a55511d3186c738d3d28fbd99bade1c6c24cadb"
+      "values_digest": "394bb2eda23274acb2eec128bb64ff47aa164cfafd039072f6ef9d6bb378ab74",
+      "rendered_digest": "305b030dd2846a572347b664c70fa6362f680aae55ea07d7e8ec0afeecdadea5",
+      "ast_digest": "35828c6af518355072e08d748077d6f572abecdcc92ed238de065ae0f071666f"
     },
     "sor": {
-      "values_digest": "e5b7861648348315e4858ac7eba8fbae06f2eb45a7c7e109e3fb42d4ad49b1bb",
-      "rendered_digest": "46ff9c72a36a3ed2426563f3b2a36c5d6914aea6f096d6e842a5f2bf382dad1c",
-      "ast_digest": "45727f2ca8947fcb43a5e1ac7eb6a5d99527291d4a19dfdcf078254a3660e8cc"
+      "values_digest": "add0cd80569d9088526c04c9f9618aebe81f2ab90ecf5a5fe1d78edb63d9a912",
+      "rendered_digest": "40aac76f3e60d8cf448265868da1d1b9a0a61a5bc746f73fc7e3b87a4ca63665",
+      "ast_digest": "f15978f55389fc681717c8d3e9cf76461e5393c64cc47ec7e9d47dd8677ea72a"
     }
   },
   "transitions": [
@@ -309,6 +300,20 @@
       "to": "published",
       "actor": "codex:/root",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 21,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "recover review after post-publication CI rust-test canary exposed the service-local startup smoke test needed to classify memory_palace_not_ready as an allowed startup-window readiness blocker for exact head ebf4a508d"
+    },
+    {
+      "sequence": 22,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -528,6 +533,34 @@
       "actor": "codex:/root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 32,
+      "generation": 22,
+      "actor": "codex",
+      "reason": "recover review after post-publication CI rust-test canary exposed the service-local startup smoke test needed to classify memory_palace_not_ready as an allowed startup-window readiness blocker for exact head ebf4a508d",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 22,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 22,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 23,
+      "actor": "codex",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
