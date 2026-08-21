@@ -7,7 +7,7 @@
     "title": "[v0.92][Runtime] Wire ACC-governed tool execution into resident-agent cycles",
     "slug": "runtime-acc-resident-tool-execution",
     "version": "v0.92",
-    "generation": 15
+    "generation": 16
   },
   "status": "pre_phase",
   "content": {
