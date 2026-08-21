@@ -1,0 +1,108 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 308,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-20] Demo matrix, AEE proof, and proof coverage",
+    "slug": "v0-92-wp-20-demo-matrix-aee-proof-and-proof-coverage",
+    "version": "v0.92",
+    "generation": 6
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "Reverify the predecessor gate, freeze the exact-revision denominator, inventory child proof read-only, reconcile owned proof surfaces, implement fail-closed coverage checks, validate, and complete exact-head review.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Reverify #256, #340, #341, and legacy #5839 terminal reconciliation and ancestry, then freeze the exact revision denominator",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Inventory child-owned demo, AEE, activation, positive, and negative proof artifacts read-only",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Reconcile the matrix, coverage, activation ledger, and artifact index at the frozen revision",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Implement and exercise the fail-closed coverage validator and focused negative cases",
+          "acceptance_ids": [
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S5",
+          "action": "Retain exact-revision validation evidence and complete independent exact-head review",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "docs/milestones/v0.92/DEMO_MATRIX_v0.92.md",
+        "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+        "docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md",
+        "docs/milestones/v0.92/review/V092_DEMO_AEE_ARTIFACT_INDEX.md",
+        "adl/tools/validate_v092_demo_proof_coverage.py",
+        "adl/tools/test_v092_demo_proof_coverage.sh",
+        ".csdlc/evidence/308"
+      ],
+      "invariants": [
+        "Missing evidence remains missing evidence",
+        "Unaccepted statuses never become accepted proof",
+        "Child proof retains its producing owner and exact revision",
+        "WP-20 does not absorb feature, reduction, refactoring, or release authority"
+      ],
+      "risks": [
+        "Predecessor terminal truth may be stale, unreconciled, or non-ancestral",
+        "Existing proof documents may disagree on owner, status, command, or revision",
+        "Platform or credential limitations may make a claimed demo non-portable",
+        "A proof row may cite synthetic, missing, or insufficient negative evidence"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 43200,
+        "total_tokens": 140000,
+        "validation_seconds": 7200
+      },
+      "stop_conditions": [
+        "Any predecessor is not terminal, reconciled, and ancestral",
+        "The exact revision denominator cannot be frozen consistently",
+        "Required positive or negative proof is missing or synthetic",
+        "Ownership correction would require modifying child or WP-21/WP-21A surfaces",
+        "Exact-head review reports an unresolved actionable finding"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/308/design.md",
+      "design_digest": "be86c5e4be6fb6a41ea1de95ee310062a9b437e1918db6c5dd097a7d717ecfa1",
+      "diagram_ref": ".csdlc/prepared/issues/308/diagram.mmd",
+      "diagram_digest": "7548efae5b547b96c3ba721da45cf698601d9146c67e997a3bfa0257fef1c27c"
+    }
+  }
+}

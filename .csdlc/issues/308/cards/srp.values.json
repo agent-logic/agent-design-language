@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 308,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-20] Demo matrix, AEE proof, and proof coverage",
+    "slug": "v0-92-wp-20-demo-matrix-aee-proof-and-proof-coverage",
+    "version": "v0.92",
+    "generation": 6
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Do all accepted rows agree across matrix, coverage, activation, and artifact index at one exact revision?",
+        "Does every accepted claim retain required positive and negative proof plus platform, credential, review, and non-claim truth?",
+        "Does the validator reject every declared invalid class without manufacturing proof?",
+        "Does the patch preserve WP-21/WP-21A and child ownership boundaries?",
+        "Is the predecessor gate terminal, reconciled, and ancestral at the execution base?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

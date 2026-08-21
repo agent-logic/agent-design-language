@@ -1,0 +1,145 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 308,
+  "repository": "agent-logic/agent-design-language",
+  "initialization_digest": "b71a21ec664bc745058f14d570b7b0024b62162323b6d5def698cbe827292525",
+  "phase": "implemented",
+  "generation": 6,
+  "digest": "9bdd40b17cebf05db9360f9a07fcd76862f5ac63cf2fc6012a65bf5366c970db",
+  "branch": "codex/308-demo-proof-coverage",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-308-demo-proof-coverage",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/308/design.md",
+  "diagram_path": ".csdlc/prepared/issues/308/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:efd0fc2b-7e93-4365-b958-854d2c85ce5c",
+      "revision": "be86c5e4be6fb6a41ea1de95ee310062a9b437e1918db6c5dd097a7d717ecfa1"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "f809e7e46354ee64db381ba5bd008a6c6a873a8da6f1c0a34a41cb4b0c2a280d",
+      "rendered_digest": "cb55925f2472f45ca6386cfee375de0c4902ec6c3ab85f3229b6b5e5b89e8d57",
+      "ast_digest": "3435b3bd1e49ebcb8894c63af3b1450b0776da7a75419409d74a670109bdc75c"
+    },
+    "stp": {
+      "values_digest": "b834adaa2bb851415d71e020955b7c6a9beaa6010121ba520a369e4035422bbc",
+      "rendered_digest": "a858d8b299db2f2ad806e9073e1ed32a6caaeb6cea054ec2ed06c57d75fdf406",
+      "ast_digest": "16b0f2d4769f79fe6de0ea45effc459efb38a8642c718c4f9137cfa2547f2729"
+    },
+    "spp": {
+      "values_digest": "0cfb69b4ab4bebbdbe41a2eca21d27d9138855423ad2aecf136eb9346f15d3a9",
+      "rendered_digest": "399212b0c2e5fb22de1357d7107303b26268078fce84e2a1a20eb287bca39905",
+      "ast_digest": "b031d43e65ae2803059c35bc18820e29ff139dadca7ab5d0f2ec450e15d6179f"
+    },
+    "vpp": {
+      "values_digest": "4cb0d57660151f215d2bd8b3f8a997cd350cc7a988a9233e6a5d3229eaebca7e",
+      "rendered_digest": "d0d0590688e421ae4ae90cd95cad4ebfbe25abd842349eec2396e341ed53aa94",
+      "ast_digest": "b1628e42176d953479f71193b2ac8af7587ca4c40ca4bcdbfce4dab54a3d40f3"
+    },
+    "srp": {
+      "values_digest": "5cba53c1285a86324829e4fba9865f95647e7db143971ee4333a6383ba14e353",
+      "rendered_digest": "48ac6678ddca44923623167889db657aafd83a58b2243fe05b755251320302a7",
+      "ast_digest": "c527a75ebd21bc2913b8306373f0f6e150df6f6d97140ef10a8b16e26c274905"
+    },
+    "sor": {
+      "values_digest": "f1e165d05ef690e4a165d134c3a86a9d8ae1bd4236a58c48100353fbdbb1178f",
+      "rendered_digest": "d4eaa132c028645974594a98bf21f51a0d0300c385dddf2806e670bfe14b5802",
+      "ast_digest": "adc560b0f0c08e6ab8a47e426e9327c481734a999df0f726311e074157239580"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-308-delivery",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex-prep-308",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex-prep-308",
+      "reason": "Replace descriptive area labels with exact safe repository-owned paths for execution readiness.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92/DEMO_MATRIX_v0.92.md\",\"docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md\",\"docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md\",\"docs/milestones/v0.92/review/V092_DEMO_AEE_ARTIFACT_INDEX.md\",\"adl/tools/validate_v092_demo_proof_coverage.py\",\"adl/tools/test_v092_demo_proof_coverage.sh\",\".csdlc/evidence/308\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex-prep-308",
+      "reason": "Name the issue-owned validator and focused harness as exact deliverable paths so deferred pre-execution validation remains fail-closed.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"docs/milestones/v0.92/DEMO_MATRIX_v0.92.md\",\"docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md\",\"docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md\",\"docs/milestones/v0.92/review/V092_DEMO_AEE_ARTIFACT_INDEX.md\",\"adl/tools/validate_v092_demo_proof_coverage.py\",\"adl/tools/test_v092_demo_proof_coverage.sh\",\".csdlc/evidence/308\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex-prep-308",
+      "reason": "Declare both issue-owned validator targets explicitly so initialized readiness can defer their creation without losing the exact denominator.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"wp20-demo-proof-validator\",\"proof_role\":\"Prove the reconciled demo and AEE coverage surfaces agree at one exact revision\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"python3\",\"adl/tools/validate_v092_demo_proof_coverage.py\"],\"parallel_group\":\"wp20-focused\",\"defer_reason\":\"The issue-owned validator is created during execution and must exist before the ready issue may advance beyond implementation.\"},{\"lane\":\"wp20-demo-proof-negative-suite\",\"proof_role\":\"Prove missing, duplicate, synthetic, planned, unsupported-platform, and revision-drift rows fail closed\",\"acceptance_ids\":[\"AC-4\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":3000,\"argv\":[\"bash\",\"adl/tools/test_v092_demo_proof_coverage.sh\"],\"parallel_group\":\"wp20-focused\",\"defer_reason\":\"The issue-owned focused harness is created during execution and must prove all declared rejection classes.\"},{\"lane\":\"patch-structure\",\"proof_role\":\"Prove the bounded patch has no whitespace or conflict-marker defects\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"wp20-focused\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:issue-308-delivery",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "fresh-session:efd0fc2b-7e93-4365-b958-854d2c85ce5c",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"be86c5e4be6fb6a41ea1de95ee310062a9b437e1918db6c5dd097a7d717ecfa1\",\"design_ref\":\".csdlc/prepared/issues/308/design.md\",\"diagram_digest\":\"7548efae5b547b96c3ba721da45cf698601d9146c67e997a3bfa0257fef1c27c\",\"diagram_ref\":\".csdlc/prepared/issues/308/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:issue-308-delivery",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:issue-308-delivery",
+      "reason": "clear stale review assignment after design tuple repair before assigning exact-head review",
+      "operation": "recover_review"
+    }
+  ]
+}

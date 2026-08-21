@@ -1,0 +1,9 @@
+v0.92 demo proof coverage validation: PASS
+v0.92 demo proof coverage validation: PASS
+v0.92 demo proof coverage negative tests: PASS
+v0.92 demo proof coverage validation failed: missing required file: /Volumes/FastWork/adl-worktrees/adl-issue-308-demo-proof-coverage/.csdlc/evidence/308/validator-negative-fixtures/docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md
+v0.92 demo proof coverage validation failed: demo row D1 is accepted but artifact index row AEE-014 is blocked_with_evidence
+v0.92 demo proof coverage validation failed: accepted artifact index rows AEE-018 and AEE-019 duplicate owner/surface ('WP-20', 'Demo matrix and proof coverage')
+v0.92 demo proof coverage validation failed: accepted artifact index AEE-018 negative proof points at missing artifact missing-negative-proof.log
+v0.92 demo proof coverage validation failed: /Volumes/FastWork/adl-worktrees/adl-issue-308-demo-proof-coverage/.csdlc/evidence/308/validator-negative-fixtures/docs/milestones/v0.92/review/V092_DEMO_AEE_ARTIFACT_INDEX.md contains unguarded forbidden claim phrase: unsupported platform claim
+v0.92 demo proof coverage validation failed: /Volumes/FastWork/adl-worktrees/adl-issue-308-demo-proof-coverage/.csdlc/evidence/308/validator-negative-fixtures/docs/milestones/v0.92/review/V092_DEMO_AEE_ARTIFACT_INDEX.md contains unguarded forbidden claim phrase: synthetic proof

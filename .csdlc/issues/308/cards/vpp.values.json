@@ -1,0 +1,83 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 308,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-20] Demo matrix, AEE proof, and proof coverage",
+    "slug": "v0-92-wp-20-demo-matrix-aee-proof-and-proof-coverage",
+    "version": "v0.92",
+    "generation": 6
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "wp20-demo-proof-validator",
+          "proof_role": "Prove the reconciled demo and AEE coverage surfaces agree at one exact revision",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 300,
+          "budget_tokens": 2000,
+          "argv": [
+            "python3",
+            "adl/tools/validate_v092_demo_proof_coverage.py"
+          ],
+          "parallel_group": "wp20-focused",
+          "defer_reason": "The issue-owned validator is created during execution and must exist before the ready issue may advance beyond implementation."
+        },
+        {
+          "lane": "wp20-demo-proof-negative-suite",
+          "proof_role": "Prove missing, duplicate, synthetic, planned, unsupported-platform, and revision-drift rows fail closed",
+          "acceptance_ids": [
+            "AC-4"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 600,
+          "budget_tokens": 3000,
+          "argv": [
+            "bash",
+            "adl/tools/test_v092_demo_proof_coverage.sh"
+          ],
+          "parallel_group": "wp20-focused",
+          "defer_reason": "The issue-owned focused harness is created during execution and must prove all declared rejection classes."
+        },
+        {
+          "lane": "patch-structure",
+          "proof_role": "Prove the bounded patch has no whitespace or conflict-marker defects",
+          "acceptance_ids": [
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1000,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "wp20-focused",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed on unmet predecessor gates, missing or contradictory evidence, duplicate ownership, synthetic proof, planned-as-passed status, unsupported platform claims, revision drift, or unresolved review findings.",
+      "design_ref": ".csdlc/prepared/issues/308/design.md",
+      "design_digest": "be86c5e4be6fb6a41ea1de95ee310062a9b437e1918db6c5dd097a7d717ecfa1",
+      "diagram_ref": ".csdlc/prepared/issues/308/diagram.mmd",
+      "diagram_digest": "7548efae5b547b96c3ba721da45cf698601d9146c67e997a3bfa0257fef1c27c"
+    }
+  }
+}

@@ -245,3 +245,23 @@ until each required row is integrated_proven, operator-scoped-out with evidence,
 or blocked_with_evidence and operator approval. `v0.92` can use this ledger as
 a consumption map only after upstream work produces reviewed evidence or
 explicit blockers.
+
+## WP-20 Demo / AEE Proof Coverage Consumption
+
+Current issue `agent-logic/agent-design-language#308` owns the WP-20
+reconciliation surface that connects this activation ledger to:
+
+- `docs/milestones/v0.92/DEMO_MATRIX_v0.92.md`
+- `docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md`
+- `docs/milestones/v0.92/review/V092_DEMO_AEE_ARTIFACT_INDEX.md`
+- `adl/tools/validate_v092_demo_proof_coverage.py`
+- `adl/tools/test_v092_demo_proof_coverage.sh`
+
+The WP-20 validator may prove that the matrix, coverage table, ledger, and
+artifact index are internally consistent and fail closed against missing proof,
+planned-as-passed rows, synthetic proof, unsupported platform claims, duplicate
+row identifiers, and divergent owners.
+
+This is not activation evidence by itself. It does not mark WP-18, WP-18A,
+WP-18B, WP-19, Observatory, cloud qualification, WP-21 reduction, or release
+ceremony work complete.

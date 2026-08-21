@@ -1,82 +1,60 @@
-# v0.92 Demo Matrix: Candidate Birthday Proofs
+# v0.92 Demo Matrix
 
 ## Metadata
 
 - Milestone: `v0.92`
-- Version: `v0.92`
-- Date: `2026-05-27`
-- Owner: ADL maintainers
-- Related issues / work packages: `#3377`, `#3434`, active WP sequence in `WP_ISSUE_WAVE_v0.92.yaml`
-- Planning template set: `docs/templates/planning/1.0.0`
+- WP owner: `WP-20`
+- Current issue: `agent-logic/agent-design-language#308`
+- Legacy predecessor: `danielbaustin/agent-design-language#5840`
+- Reconciled after legacy gate closure for `#5836`, `#5837`, `#5838`, and
+  `#5839`.
 
 ## Status
 
-Candidate demo planning only. Commands and artifacts will be finalized when the
-v0.92 implementation WPs exist.
-
-## Purpose
-
-The v0.92 demo program should prove that the first true Gödel-agent birthday is
-evidence-bearing runtime behavior, not a ceremonial label.
-
-v0.91.5 supplies demo-readiness and Unity Observatory routing inputs. Issue
-`#3377` supplies required demo rehearsal and negative-suite readiness inputs.
-WP-01 should reconcile those inputs before opening the final demo WPs.
-
-## How To Use
-
-Use this matrix as candidate demo coverage for WP-01 and later demo WPs. It
-does not prove any demo has run.
+This matrix is release-gate truth, not demo execution proof. It records which
+demo claims have accepted exact-revision evidence and which remain blocked,
+planned, or non-claimed. Planned rows must not be read as passed demos.
 
 ## Scope
 
-The scope is birthday proof, negative cases, continuity, memory grounding,
-capability, ACP/cognitive-profile evidence, adaptive-learning boundaries, ACIP
-schema-public transport readiness, and governance handoff.
-
-## Runtime Preconditions
-
-Runtime preconditions are intentionally pending. WP-01 and the demo WPs must
-replace this planning text with concrete commands, fixtures, and environment
-requirements once implementation exists.
+The matrix covers birthday proof, negative cases, continuity, memory grounding,
+capability, cognitive-profile evidence, adaptive-learning boundaries, ACIP
+schema/public transport readiness, governance handoff, and the WP-20 proof
+coverage validator.
 
 ## Demo Coverage Summary
 
-| Demo ID | Candidate demo | Milestone claim | Primary proof surface | Status |
-| --- | --- | --- | --- | --- |
-| D1 | First birthday rehearsal | A named identity can cross the birth boundary with required evidence. | Birthday record, witness set, receipt, and [`FIRST_BIRTHDAY_REVIEW_PACKET_v0.92.md`](review/FIRST_BIRTHDAY_REVIEW_PACKET_v0.92.md). | Reviewer packet assembled by WP-16; runtime demo remains planned |
-| D2 | Not-a-birthday negative suite | Startup, wake, snapshot, admission, and copied state are not birth. | Negative fixtures and validation report. | Planned candidate |
-| D3 | Continuity across bounded cycles | Identity persists across multiple bounded cycles with evidence. | Cycle artifacts, continuity record, witness links. | Planned candidate |
-| D4 | Memory grounding proof | Birth references witnessed memory artifacts without exposing raw private memory. | Memory-grounding fixture and redacted packet. | Planned candidate |
-| D5 | Capability envelope proof | The birth record declares provider, model, tool, skill, authority, and limit context. | #4761 capability envelope and fail-closed validation report. | Pre-v0.92 envelope input available; demo still planned |
-| D6 | ACP / cognitive profile proof | Birth packet includes a bounded profile record grounded in evidence. | ACP/profile fixture, update rationale, redacted reviewer packet, and validation report. | Planned candidate |
-| D7A | Adaptive Learning DAG execution proof | v0.92 executes evaluated adaptation and policy-governed graph mutation with durable deltas and deterministic replay. | Runtime execution packet, evaluation bindings, accepted and rejected graph deltas, and negative replay cases. | Planned |
-| D7 | ACIP binary schema and WebSocket carrier proof | Binary ACIP remains inspectable through public schemas while message contents remain governed. | ACIP `.proto`, schema catalog fixture, JSON projection report, denied-access case, and authenticated full-duplex Runtime WebSocket trace. | Planned |
-| D8 | Birthday-to-governance handoff | v0.93 governance can consume v0.92 identity evidence without redefining birth. | Handoff packet mapping identity evidence to future governance. | Planned candidate |
+| Demo ID | Demo / proof surface | Milestone claim | Primary proof surface | Status | Artifact index row |
+| --- | --- | --- | --- | --- | --- |
+| D1 | First birthday proof | A named identity can cross the birth boundary with required evidence. | Birthday record, witness set, receipt, and review packet. | blocked_with_evidence | AEE-014 |
+| D2 | Not-a-birthday negative suite | Startup, wake, snapshot, admission, copied state, and fixtures are not birth. | Negative fixtures and validation report. | blocked_with_evidence | AEE-014 |
+| D3 | Continuity across bounded cycles | Identity persists across multiple bounded cycles with evidence. | Cycle artifacts, continuity record, witness links. | blocked_with_evidence | AEE-014 |
+| D4 | Memory grounding proof | Birth references witnessed memory artifacts without exposing raw private memory. | Memory-grounding packet, redacted projection, and denial proof. | blocked_with_evidence | AEE-009 |
+| D5 | Capability envelope proof | The birth record declares provider, model, tool, skill, authority, and limit context. | Capability envelope inputs, validation, and missing-envelope denial. | blocked_with_evidence | AEE-009 |
+| D6 | ACP / cognitive profile proof | Birth packet includes a bounded profile record grounded in evidence. | Profile fixture, update rationale, redacted reviewer packet, validation. | blocked_with_evidence | AEE-010 |
+| D7A | Adaptive Learning DAG boundary proof | Adaptive learning is distinguished from bounded loop execution. | Evaluation bindings, accepted/rejected graph deltas, and replay negatives. | blocked_with_evidence | AEE-010 |
+| D7 | ACIP binary schema and WebSocket carrier proof | Binary ACIP remains inspectable through public schemas while message contents remain governed. | Schema catalog, JSON projection, denied-access case, authenticated WSS trace. | blocked_with_evidence | AEE-011 |
+| D8 | Birthday-to-governance handoff | v0.93 governance can consume v0.92 identity evidence without redefining birth. | Handoff packet mapping identity evidence to future governance. | blocked_with_evidence | AEE-017 |
+| D9 | WP-20 coverage validator | Demo/proof rows cannot be passed without exact evidence and negative proof. | `adl/tools/validate_v092_demo_proof_coverage.py` and shell test harness. | accepted | AEE-018 |
 
 ## Coverage Rules
 
-- Every demo must distinguish birth from ordinary runtime activity.
-- Every birthday claim must cite evidence.
+- Every accepted demo must distinguish birth from ordinary runtime activity.
+- Every accepted birthday claim must cite exact-revision evidence.
 - Every private-state boundary must have a redaction or denial proof.
 - Every capability claim must include limits and authority context.
 - Every cognitive-profile claim must cite evidence and remain distinct from
-  identity, reputation, and standing.
+  identity, reputation, standing, or consciousness claims.
 - Every adaptive-learning claim must distinguish bounded loop execution,
   evaluated adaptation, policy-governed graph modification, and future Adaptive
   Learning DAG proof.
-- Every binary ACIP claim must prove public-schema decodeability, deterministic
-  JSON projection, and separate message-content authorization.
-- Demo outputs should distinguish engineering evidence from philosophical or
-  governance context.
+- Every binary ACIP claim must prove public-schema decodeability,
+  deterministic JSON projection, and separate message-content authorization.
+- Planned or blocked rows are non-claims and must not support release approval.
 
 ## Demo Details
 
-### D1) First Birthday Rehearsal
-
-The demo must emit a structurally complete birthday packet produced by the
-integrated Runtime path. A synthetic or fixture packet receives no release
-credit.
+### D1) First Birthday Proof
 
 Expected proof:
 
@@ -89,10 +67,9 @@ Expected proof:
 - citizen-facing receipt
 - reviewer finding
 
-### D2) Not-A-Birthday Negative Suite
+Current state: blocked with evidence pending accepted WP-18 proof.
 
-The demo should prove that the milestone does not overclaim ordinary runtime
-events.
+### D2) Not-A-Birthday Negative Suite
 
 Expected rejected cases:
 
@@ -103,9 +80,9 @@ Expected rejected cases:
 - copied state
 - named test fixture without continuity evidence
 
-### D3) Continuity Across Bounded Cycles
+Current state: blocked with evidence pending accepted WP-18 negative proof.
 
-The demo should show identity continuity across more than one bounded cycle.
+### D3) Continuity Across Bounded Cycles
 
 Expected proof:
 
@@ -114,37 +91,29 @@ Expected proof:
 - witness links
 - ambiguity handling or clear continuity grade
 
-### D4) Memory Grounding Proof
+Current state: blocked with evidence pending accepted WP-18 continuity proof.
 
-The demo should show memory grounding through references and witnesses rather
-than raw private memory exposure.
+### D4) Memory Grounding Proof
 
 Expected proof:
 
 - witnessed memory-artifact references
 - redacted projection
-- reviewer packet that can inspect grounding without private-state disclosure
+- reviewer packet that can inspect grounding without raw private-state exposure
+
+Current state: blocked with evidence pending accepted memory-grounding proof.
 
 ### D5) Capability Envelope Proof
 
-The demo should show that the birthday record includes bounded capability
-claims.
-
 Expected proof:
 
-- `.csdlc/evidence/4761/capability-envelope/envelope.v1.json`
-- `.csdlc/evidence/4761/capability-envelope/inputs.v1.json`
-- `.csdlc/evidence/4761/capability-envelope/non-claims.v1.md`
-- `.csdlc/evidence/4761/capability-envelope/validation.v1.log`
+- capability envelope inputs
+- bounded authority and limit context
+- missing-envelope or missing-limit denial proof
 
-The D5 demo remains a planned candidate until later v0.92 birthday work emits a
-birth record that consumes the #4761 envelope and rejects missing-envelope or
-missing-limit fixtures.
+Current state: blocked with evidence pending accepted capability proof.
 
 ### D6) ACP / Cognitive Profile Proof
-
-The demo should show that a cognitive profile is a bounded runtime record, not
-a personality label or reputation score.
 
 Expected proof:
 
@@ -154,26 +123,22 @@ Expected proof:
 - privacy/redaction policy
 - validation report
 
-### D7A) Adaptive Learning DAG Boundary Proof
+Current state: blocked with evidence pending accepted profile proof.
 
-The demo should show that loops are control flow, while adaptive learning
-requires additional evaluation, state-delta, policy, graph-delta, and replay
-evidence.
+### D7A) Adaptive Learning DAG Boundary Proof
 
 Expected proof:
 
-- verified loop-runtime status checklist from `#5104`
+- loop-runtime status checklist
 - evaluation-binding fixture
 - bounded state-delta fixture
 - policy decision for a proposed graph modification
 - accepted and rejected graph-delta examples
-- negative replay cases for forged history, discontinuous prefix, invalid
-  binding, unauthorized mutation, and unbounded recurrence
+- negative replay cases
+
+Current state: blocked with evidence pending accepted adaptive-learning proof.
 
 ### D7) ACIP Binary Schema And WebSocket Carrier Proof
-
-The demo should show that binary ACIP is efficient without becoming opaque or
-authority-conferring.
 
 Expected proof:
 
@@ -182,12 +147,11 @@ Expected proof:
 - deterministic JSON projection
 - governed message-content access decision
 - denied unauthorized inspection case
-- authenticated full-duplex WebSocket session trace from the real Runtime
-  carrier
+- authenticated full-duplex WebSocket session trace from the real Runtime carrier
+
+Current state: blocked with evidence pending accepted ACIP/A2A proof.
 
 ### D8) Birthday-To-Governance Handoff
-
-The demo should show how v0.93 can consume identity evidence.
 
 Expected proof:
 
@@ -195,39 +159,44 @@ Expected proof:
 - standing/governance handoff notes
 - explicit non-claim that governance is not completed by the birthday itself
 
+Current state: blocked with evidence pending accepted WP-19 proof.
+
+### D9) WP-20 Coverage Validator
+
+Expected proof:
+
+- matrix, coverage, activation-ledger, and artifact-index rows agree on owner,
+  command, status, and exact revision
+- validator rejects missing artifact paths, duplicate owners, planned-as-passed
+  status, synthetic proof, and unsupported platform claims
+
+Current state: accepted only for WP-20's own reconciliation/validator surface.
+
 ## Non-Claims
 
-- These demos do not prove legal personhood.
-- These demos do not prove production citizenship.
-- These demos do not complete constitutional governance.
-- These demos do not expose raw private state.
-- These demos do not turn cognitive profiles into public reputation or
+- This matrix does not prove legal personhood.
+- This matrix does not prove production citizenship.
+- This matrix does not complete constitutional governance.
+- This matrix does not expose raw private state.
+- This matrix does not turn cognitive profiles into public reputation or
   consciousness claims.
-- These demos do not prove full autonomous adaptive learning or unconstrained
+- This matrix does not prove full autonomous adaptive learning or unconstrained
   graph mutation.
-- These demos do not prove production WebSocket security, cross-polis
+- This matrix does not prove production WebSocket security, cross-polis
   networking, or signed/queryable trace completion.
-
-## Cross-Demo Validation
-
-The final demo set should cross-check that the birthday packet, negative suite,
-continuity proof, memory grounding, capability envelope, ACP profile,
-adaptive-learning boundary proof, ACIP carrier proof, and governance handoff
-all tell one consistent story.
-
-## Determinism Evidence
-
-Determinism evidence is pending implementation. Final demos should record
-commands, fixtures, expected outputs, and any allowed nondeterminism.
+- This matrix does not claim Observatory-owned work; Observatory integration is
+  handled by its separate component/session.
 
 ## Reviewer Sign-Off Surface
 
-Reviewers should receive the birthday packet, demo outputs, validation logs,
-negative-case report, and residual-risk notes.
+Reviewers should receive this matrix, the feature coverage table, the activation
+ledger, the AEE artifact index, validator output, negative-case report, and
+residual-risk notes.
 
 ## Exit Criteria
 
-- Every milestone claim has at least one planned demo or explicit non-demo
-  proof surface.
-- No demo claims completion before v0.92 implementation produces evidence.
-- The final matrix can be reviewed without chat context.
+- Every milestone claim has an accepted, blocked, deferred, or planned proof
+  row with an artifact-index owner.
+- No demo claims completion before exact-revision evidence and required
+  negative proof exist.
+- The validator rejects release-credit substitutions and synthetic proof.
