@@ -103,11 +103,11 @@
     },
     {
       "id": "agents.providers_scheduler",
-      "sources": ["adl-runtime/src/resident_agent.rs", "adl/src/runtime_v2/godel_agent_runtime.rs", "adl/src/runtime_v2/csm_run.rs"],
+      "sources": ["adl-runtime/src/resident_agent.rs", "adl-runtime-kernel/src/resident_cycle.rs", "adl/src/runtime_v2/godel_agent_runtime.rs", "adl/src/runtime_v2/csm_run.rs"],
       "runtime_v3_owner": "agent, provider, and scheduler services",
       "disposition": "implemented_5183",
-      "parity": "resident lifecycle, provider binding, admission, shepherd coordination",
-      "proof": "adl-runtime-kernel/tests/operations.rs representative topology fixture"
+      "parity": "resident lifecycle, provider binding, admission, shepherd coordination, and #448 verified capability/profile resident-cycle consumption",
+      "proof": "adl-runtime-kernel/tests/operations.rs representative topology fixture; adl-runtime-kernel/src/resident_cycle.rs focused live-assembly resident-cycle proof"
     },
     {
       "id": "network.acip_a2a_cloud",

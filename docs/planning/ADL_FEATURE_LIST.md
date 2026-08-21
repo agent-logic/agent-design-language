@@ -310,10 +310,10 @@ ADL already provides a serious platform baseline:
 | Curiosity Engine and Discovery Substrate | Bounded Runtime v2 cycle implemented/proven | closed `#4692`, `docs/milestones/v0.91.7/features/CURIOSITY_ENGINE_DISCOVERY_SUBSTRATE_v0.91.7.md`, and the WP-10 review packet | One governed discovery cycle is retained; autonomous or unbounded discovery is not claimed. |
 | Constructability Gate for shared ADL reality | Bounded Runtime v2 validator implemented/proven | closed `#4693`, `docs/milestones/v0.91.7/features/CONSTRUCTABILITY_GATE_v0.91.7.md`, and the WP-10 review packet | Construction-event, anchor, admissibility, and fail-closed proof is retained; broader shared-reality authority is not claimed. |
 | Reasoning graph, loop runtime, and `adl.skill.v1` | Bounded Runtime v2 implementation/proof retained; Runtime v3 parity proof retained | closed `#4694`-`#4697`, WP-11 review and cognitive-control evidence packets, follow-ons `#4912`, `#5096`, `#5136`, v0.91.8 `#5592`, and WP-16 issue-outcome audit | Runtime v3 receives no parity credit from metadata or fixtures; #5592 supplies the bounded live kernel parity path. Full adaptive-learning and final-standard convergence remain later work. |
-| ACP / cognitive profiles runtime surface | Planned | `docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md` | `v0.92` |
+| ACP / cognitive profiles runtime surface | Runtime resident-cycle integration in progress | `docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md`, issue `#448` | `v0.92` now distinguishes the implemented governed profile substrate from the Runtime resident-cycle consumer that builds verified handles |
 | ACIP binary schema and WebSocket carrier | Planned | `docs/milestones/v0.91.6/features/ACIP_A2A_PROVIDER_COMMUNICATIONS_v0.91.6.md`, `docs/milestones/v0.91.7/features/ACIP_A2A_PROTOBUF_RESIDUALS_v0.91.7.md`, and `docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md` | `v0.92` binary/schema carrier; `v0.93` security; `v0.94` signed trace |
 | Identity, stable name, and continuity substrate | Planned | `docs/milestones/v0.91.6/features/IDENTITY_CONTINUITY_CAPABILITY_SELECTOR_BRIDGE_v0.91.6.md`, `docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md`, and `docs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md` | `v0.92` |
-| Memory grounding, capability envelope, and birth witnesses/receipt | Planned | `docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md` | `v0.92` |
+| Memory grounding, capability envelope, and birth witnesses/receipt | Runtime resident-cycle capability integration in progress | `docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md`, issue `#448` | Capability-envelope substrate is implemented; #448 wires it into the live resident cycle with verified continuity and typed handles |
 | Memory Palace navigable context topology | Required v0.92 implementation/proof slice under development | `docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md` plus context-problem planning | v0.92 must include the smallest implemented/proven slice that distinguishes ObsMem, palace topology, working set, and context cache. |
 | First true Gödel-agent birthday | Planned | `docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md` and `docs/milestones/v0.92/features/FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md` | `v0.92` |
 | Constitutional citizenship, rights/duties, and governance review | Planned | `docs/milestones/v0.93/features/CITIZENSHIP_RIGHTS_DUTIES_AND_SOCIAL_CONTRACT_v0.93.md` plus the `v0.93` citizenship/governance allocation plan | `v0.93` |
@@ -700,8 +700,12 @@ constitutional/social-governance band.
 `v0.92` is the move from bounded cognitive behavior to identity-bearing
 agents:
 - first-class identity
-- ACP / cognitive profiles runtime surface
-- provider/model capability contracts
+- ACP / cognitive profiles runtime surface, with `#448` as the Runtime
+  resident-cycle integration slice that consumes verified handles rather than
+  caller-authored profile metadata
+- provider/model capability contracts, with `#448` as the resident-cycle
+  capability-envelope consumption slice rather than the lower-level envelope
+  substrate alone
 - stable names
 - continuity hooks across runs
 - Memory Palace proof slice for navigable long-running context, after the
