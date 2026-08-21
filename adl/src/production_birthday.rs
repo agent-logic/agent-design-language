@@ -3,7 +3,8 @@ use std::path::Path;
 use adl_runtime_kernel::{
     BirthdayCandidate, BirthdayDecision, ProductionBirthdayError, ProductionBirthdayInput,
     ProductionBirthdayReceipt, ProductionBirthdayStore, ResidentAdaptiveLearningReceipt,
-    VerifiedMemoryPalaceAuthority, VerifiedResidentCycle, VerifiedToolAuthorityBinding,
+    VerifiedBirthWitnessBinding, VerifiedMemoryPalaceAuthority, VerifiedResidentCycle,
+    VerifiedToolAuthorityBinding,
 };
 use serde::Serialize;
 use sha2::{Digest, Sha256};
@@ -17,7 +18,8 @@ pub fn activate_verified_resident_birthday(
     resident_cycle: &VerifiedResidentCycle,
     adaptive_learning: &ResidentAdaptiveLearningReceipt,
     tool_authority: VerifiedToolAuthorityBinding,
-    witness_packet_sha256: &str,
+    birth_witness: VerifiedBirthWitnessBinding,
+    trusted_time: &dyn adl_runtime_kernel::TrustedTime,
     candidate: BirthdayCandidate,
     decision: BirthdayDecision,
 ) -> Result<ProductionBirthdayReceipt, ProductionBirthdayError> {
@@ -40,7 +42,8 @@ pub fn activate_verified_resident_birthday(
             .profile_sha256()
             .to_string(),
         adaptive_learning_receipt_sha256,
-        witness_packet_sha256: witness_packet_sha256.to_string(),
+        birth_witness,
+        trusted_time_unix_millis: trusted_time.now_unix_millis(),
         candidate,
         decision,
         tool_authority,

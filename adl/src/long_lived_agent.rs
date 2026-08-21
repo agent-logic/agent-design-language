@@ -47,6 +47,41 @@ use crate::runtime_aws_signal::{
 };
 use crate::{adl, execute, resident_tool_execution, resolve, trace};
 
+/// Explicit long-lived Runtime transition from verified resident authorities
+/// into the one-time production birthday commit. Ordinary tick/start paths do
+/// not invoke this boundary.
+#[allow(clippy::too_many_arguments)]
+pub fn activate_long_lived_resident_birthday(
+    durable_root: &Path,
+    transaction_id: &str,
+    implementation_revision_sha256: &str,
+    memory_palace: &adl_runtime_kernel::VerifiedMemoryPalaceAuthority,
+    resident_cycle: &adl_runtime_kernel::VerifiedResidentCycle,
+    adaptive_learning: &adl_runtime_kernel::ResidentAdaptiveLearningReceipt,
+    tool_authority: adl_runtime_kernel::VerifiedToolAuthorityBinding,
+    birth_witness: adl_runtime_kernel::VerifiedBirthWitnessBinding,
+    trusted_time: &dyn adl_runtime_kernel::TrustedTime,
+    candidate: adl_runtime_kernel::BirthdayCandidate,
+    decision: adl_runtime_kernel::BirthdayDecision,
+) -> Result<
+    adl_runtime_kernel::ProductionBirthdayReceipt,
+    adl_runtime_kernel::ProductionBirthdayError,
+> {
+    crate::production_birthday::activate_verified_resident_birthday(
+        durable_root,
+        transaction_id,
+        implementation_revision_sha256,
+        memory_palace,
+        resident_cycle,
+        adaptive_learning,
+        tool_authority,
+        birth_witness,
+        trusted_time,
+        candidate,
+        decision,
+    )
+}
+
 mod inspection;
 mod schema;
 mod storage;

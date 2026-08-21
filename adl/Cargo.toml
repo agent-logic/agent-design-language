@@ -164,3 +164,6 @@ aws-smithy-http-client = { version = "1", features = ["test-util"] }
 aws-smithy-runtime-api = "1"
 aws-smithy-types = "1"
 http = "1"
+rcgen = "0.14"
+tempfile = "3"
+x509-parser = "0.18.1"

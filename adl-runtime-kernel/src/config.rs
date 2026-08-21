@@ -10,7 +10,7 @@ use thiserror::Error;
 use crate::{
     candidate_digest, BirthWitnessAttestation, BirthWitnessError, BirthWitnessPacket,
     BirthWitnessRole, BirthdayCandidate, BirthdayDecision, ComponentId,
-    RuntimeBirthWitnessAuthority, RuntimeBirthWitnessService,
+    RuntimeBirthWitnessAuthority, RuntimeBirthWitnessService, VerifiedBirthWitnessBinding,
 };
 
 pub const RUNTIME_CONFIG_SCHEMA: &str = "adl.runtime.config.v1";
@@ -98,6 +98,31 @@ impl RuntimeBirthWitnessOwner {
         self.trust
             .provision(candidate_sha256, current_generation)?
             .build_validate_and_emit(candidate, decision, attestations, prepare_receipt)
+    }
+
+    pub fn build_validate_and_emit_verified<F, C>(
+        &self,
+        candidate: &BirthdayCandidate,
+        decision: &BirthdayDecision,
+        current_generation: u64,
+        attestations: &[BirthWitnessAttestation],
+        prepare_receipt: F,
+    ) -> Result<VerifiedBirthWitnessBinding, BirthWitnessError>
+    where
+        F: FnOnce(&[u8]) -> Result<C, ()>,
+        C: FnOnce(),
+    {
+        self.build_validate_and_emit(
+            candidate,
+            decision,
+            current_generation,
+            attestations,
+            prepare_receipt,
+        )
+        .map(|packet| VerifiedBirthWitnessBinding {
+            packet,
+            observed_generation: current_generation,
+        })
     }
 }
 

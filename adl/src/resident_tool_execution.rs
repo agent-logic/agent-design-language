@@ -1,4 +1,4 @@
-use std::collections::BTreeMap;
+use std::{collections::BTreeMap, path::Path};
 
 use adl_runtime::resident_agent::CsmResidentAgentToolAuthorityBinding;
 use adl_runtime_kernel::{VerifiedToolAuthorityBinding, PRODUCTION_BIRTHDAY_TOOL_BINDING_SCHEMA};
@@ -158,6 +158,60 @@ struct ResidentToolAuthenticationMaterial<'a> {
     key_id: &'a str,
 }
 
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct RuntimeResidentToolTrustManifest {
+    schema: String,
+    authorities: Vec<RuntimeResidentToolTrustAuthority>,
+}
+
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct RuntimeResidentToolTrustAuthority {
+    key_id: String,
+    verifying_key_hex: String,
+}
+
+/// Runtime-loaded ACC receipt trust. Verification keys can only enter through
+/// the dedicated trusted manifest, never through an execution request.
+#[derive(Clone)]
+pub struct RuntimeResidentToolTrust {
+    keys: BTreeMap<String, VerifyingKey>,
+}
+
+impl RuntimeResidentToolTrust {
+    pub fn load_trusted_manifest(path: &Path) -> Result<Self, String> {
+        let bytes = std::fs::read(path).map_err(|_| "resident_tool_trust_read_failed")?;
+        let manifest: RuntimeResidentToolTrustManifest =
+            serde_json::from_slice(&bytes).map_err(|_| "resident_tool_trust_invalid")?;
+        if manifest.schema != "adl.runtime.resident_tool_trust.v1"
+            || manifest.authorities.is_empty()
+        {
+            return Err("resident_tool_trust_invalid".to_string());
+        }
+        let mut keys = BTreeMap::new();
+        for authority in manifest.authorities {
+            if authority.key_id.trim().is_empty() || keys.contains_key(&authority.key_id) {
+                return Err("resident_tool_trust_invalid".to_string());
+            }
+            let bytes: [u8; 32] = hex::decode(authority.verifying_key_hex)
+                .map_err(|_| "resident_tool_trust_invalid")?
+                .try_into()
+                .map_err(|_| "resident_tool_trust_invalid")?;
+            let key = VerifyingKey::from_bytes(&bytes)
+                .map_err(|_| "resident_tool_trust_invalid".to_string())?;
+            keys.insert(authority.key_id, key);
+        }
+        Ok(Self { keys })
+    }
+
+    fn key(&self, key_id: &str) -> Result<&VerifyingKey, String> {
+        self.keys
+            .get(key_id)
+            .ok_or_else(|| "resident_tool_receipt_authority_untrusted".to_string())
+    }
+}
+
 pub fn authenticate_resident_tool_receipt_v1(
     receipt: &ResidentToolReceiptV1,
     implementation_revision_sha256: &str,
@@ -196,7 +250,7 @@ pub fn authenticate_resident_tool_receipt_v1(
 pub fn validate_resident_tool_receipt_for_birthday_v1(
     receipt: &ResidentToolReceiptV1,
     authenticated: &AuthenticatedResidentToolReceiptV1,
-    verifying_key: &VerifyingKey,
+    trust: &RuntimeResidentToolTrust,
 ) -> Result<VerifiedToolAuthorityBinding, String> {
     if authenticated.schema != "adl.runtime.authenticated_resident_tool_receipt.v1"
         || receipt.schema != "adl.runtime.resident_tool_receipt.v1"
@@ -222,7 +276,8 @@ pub fn validate_resident_tool_receipt_for_birthday_v1(
         .try_into()
         .map_err(|_| "resident_tool_receipt_signature_invalid".to_string())?;
     let signature = ed25519_dalek::Signature::from_bytes(&signature_bytes);
-    verifying_key
+    trust
+        .key(&authenticated.key_id)?
         .verify(&bytes, &signature)
         .map_err(|_| "resident_tool_receipt_signature_invalid".to_string())?;
     Ok(VerifiedToolAuthorityBinding {
