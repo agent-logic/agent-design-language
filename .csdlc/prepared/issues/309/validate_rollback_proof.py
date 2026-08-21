@@ -7,16 +7,25 @@ import argparse
 import json
 import pathlib
 import re
+import subprocess
 import sys
 
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 
 
+def git(root: pathlib.Path, *argv: str) -> str:
+    return subprocess.check_output(["git", "-C", str(root), *argv], text=True).strip()
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("receipt", nargs="?", default=".csdlc/evidence/309/rollback-proof.json")
+    parser.add_argument("--root", default=".")
     args = parser.parse_args()
+    root = pathlib.Path(args.root).resolve()
     path = pathlib.Path(args.receipt)
+    if not path.is_absolute():
+        path = root / path
     if not path.is_file():
         print(json.dumps({"status": "blocked", "missing": str(path)}))
         return 2
@@ -50,6 +59,36 @@ def main() -> int:
             errors.append(f"{name}: unrelated paths changed")
         if not band.get("focused_validation_passed"):
             errors.append(f"{name}: focused validation not passed")
+        commit = str(band.get("commit", ""))
+        revert = str(band.get("revert_commit", ""))
+        reapply = str(band.get("reapply_commit", ""))
+        if not HEX40.fullmatch(revert) or not HEX40.fullmatch(reapply):
+            errors.append(f"{name}: invalid revert/reapply commit")
+            continue
+        try:
+            for oid in (commit, revert, reapply):
+                git(root, "cat-file", "-e", f"{oid}^{{commit}}")
+            derived = {
+                "tree_before": git(root, "rev-parse", f"{commit}^^{{tree}}"),
+                "tree_after": git(root, "rev-parse", f"{commit}^{{tree}}"),
+                "reverted_tree": git(root, "rev-parse", f"{revert}^{{tree}}"),
+                "reapplied_tree": git(root, "rev-parse", f"{reapply}^{{tree}}"),
+            }
+            for key, value in derived.items():
+                if band.get(key) != value:
+                    errors.append(f"{name}: recorded {key} differs from Git")
+            if git(root, "rev-parse", f"{revert}^") != commit:
+                errors.append(f"{name}: revert parent is not band commit")
+            if git(root, "rev-parse", f"{reapply}^") != revert:
+                errors.append(f"{name}: reapply parent is not revert commit")
+            path_sets = [
+                set(git(root, "diff", "--name-only", f"{oid}^", oid).splitlines())
+                for oid in (commit, revert, reapply)
+            ]
+            if not path_sets[0] or path_sets[0] != path_sets[1] or path_sets[0] != path_sets[2]:
+                errors.append(f"{name}: band/revert/reapply changed-path sets differ")
+        except subprocess.CalledProcessError:
+            errors.append(f"{name}: Git object/topology verification failed")
     print(json.dumps({"status": "pass" if not errors else "fail", "bands": len(bands), "errors": errors}, sort_keys=True))
     return 0 if not errors else 1
 

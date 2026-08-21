@@ -43,6 +43,16 @@ def git(root: pathlib.Path, *argv: str) -> str:
     return subprocess.check_output(["git", "-C", str(root), *argv], text=True).strip()
 
 
+def git_bytes(root: pathlib.Path, *argv: str) -> bytes:
+    return subprocess.check_output(["git", "-C", str(root), *argv])
+
+
+def canonical_edge_id(edge: dict) -> str:
+    identity = [edge.get("source"), edge.get("target"), edge.get("reference_class"), edge.get("disposition")]
+    encoded = json.dumps(identity, sort_keys=True, separators=(",", ":")).encode()
+    return hashlib.sha256(encoded).hexdigest()
+
+
 def fail(errors: list[str], message: str) -> None:
     errors.append(message)
 
@@ -99,12 +109,24 @@ def main() -> int:
             if key not in row:
                 fail(errors, f"missing {key}: {path}")
 
-    tracked = git(root, "ls-tree", "-r", "--name-only", BASE, "--", "adl/src").splitlines()
+    raw_tree = git_bytes(root, "ls-tree", "-r", BASE)
+    tree_rows: dict[str, str] = {}
+    for raw in raw_tree.decode().splitlines():
+        meta, path = raw.split("\t", 1)
+        _mode, _kind, blob = meta.split()
+        tree_rows[path] = blob
+    tracked = [path for path in tree_rows if path.startswith("adl/src/")]
     tracked_rs = sorted(path for path in tracked if path.endswith(".rs"))
     if sorted(observed) != tracked_rs:
         fail(errors, "baseline path denominator differs from Git tree")
     if len(tracked_rs) != 485 or sum(int(row.get("physical_lines", 0)) for row in observed.values()) != 265633:
         fail(errors, "baseline 485-file/265633-line denominator mismatch")
+    for path, row in observed.items():
+        if row.get("blob") != tree_rows.get(path):
+            fail(errors, f"baseline blob differs from Git tree: {path}")
+        actual_lines = len(git_bytes(root, "show", f"{BASE}:{path}").splitlines())
+        if row.get("physical_lines") != actual_lines:
+            fail(errors, f"baseline line count differs from Git blob: {path}")
 
     disposition_rows = dispositions.get("files")
     if dispositions.get("schema") != "adl.issue309.dispositions.v1" or not isinstance(disposition_rows, list):
@@ -140,6 +162,14 @@ def main() -> int:
         fail(errors, "reference scan identity invalid")
     if not isinstance(scan.get("tracked_paths"), int) or scan.get("tracked_paths", 0) <= 0:
         fail(errors, "reference tracked-path denominator missing")
+    if scan.get("scan_revision") != BASE:
+        fail(errors, "reference scan revision differs from pinned baseline")
+    if scan.get("tracked_paths") != len(tree_rows):
+        fail(errors, "reference tracked-path count differs from Git tree")
+    if scan.get("rust_targets") != len(tracked_rs):
+        fail(errors, "reference Rust-target count differs from baseline")
+    if scan.get("tracked_path_blob_digest_sha256") != hashlib.sha256(raw_tree).hexdigest():
+        fail(errors, "reference tracked-path/blob digest differs from Git tree")
     edge_ids: set[str] = set()
     incoming: dict[str, list[dict]] = {}
     for edge in edge_rows:
@@ -150,21 +180,77 @@ def main() -> int:
         if not isinstance(edge_id, str) or not HEX64.fullmatch(edge_id) or edge_id in edge_ids:
             fail(errors, f"invalid or duplicate edge identity: {edge_id!r}")
         edge_ids.add(str(edge_id))
+        if isinstance(edge_id, str) and edge_id != canonical_edge_id(edge):
+            fail(errors, f"edge identity does not bind source/target/class/disposition: {edge_id}")
         if edge.get("reference_class") not in REFERENCE_CLASSES or not edge.get("owner") or not edge.get("evidence"):
             fail(errors, f"unclassified reference edge: {edge_id}")
         source = edge.get("source")
         if not isinstance(source, dict) or not (source.get("path") and HEX40.fullmatch(str(source.get("blob", ""))) or source.get("external_contract")):
             fail(errors, f"invalid edge source: {edge_id}")
         target = edge.get("target")
-        if not isinstance(target, str) or not target:
+        if not isinstance(target, str) or target not in observed:
             fail(errors, f"invalid edge target: {edge_id}")
         else:
             incoming.setdefault(target, []).append(edge)
+        if isinstance(source, dict) and source.get("path"):
+            source_path = source["path"]
+            if source_path not in tree_rows or source.get("blob") != tree_rows[source_path]:
+                fail(errors, f"edge source does not bind pinned Git blob: {edge_id}")
     for path, row in by_path.items():
+        expected_ids = set(row.get("reference_edge_ids", [])) if isinstance(row.get("reference_edge_ids"), list) else set()
+        actual_ids = {str(edge.get("edge_id")) for edge in incoming.get(path, [])}
+        if not actual_ids:
+            fail(errors, f"baseline target has no normalized incoming edge: {path}")
+        if expected_ids != actual_ids:
+            fail(errors, f"disposition/reference edge denominator mismatch: {path}")
         if row.get("disposition") in {"delete_dead", "delete_superseded"}:
             for edge in incoming.get(path, []):
                 if edge.get("disposition") not in {"remove", "replace"}:
                     fail(errors, f"active incoming edge blocks deletion: {path}")
+
+    referenced_ids = {
+        edge_id
+        for row in by_path.values()
+        if isinstance(row.get("reference_edge_ids"), list)
+        for edge_id in row["reference_edge_ids"]
+    }
+    if referenced_ids != edge_ids:
+        fail(errors, "orphan or unreferenced normalized edge identity")
+
+    # Recompute the active exact-path reference denominator independently from
+    # the retained edge rows. Missing active consumers must fail closed.
+    active_prefixes = (
+        ".github/",
+        "adl/tools/",
+        "docs/planning/",
+        "docs/milestones/v0.92/",
+        "docs/architecture/",
+        "docs/templates/",
+    )
+    active_paths = [
+        path for path in tree_rows
+        if path.endswith(".rs") or path == "adl/Cargo.toml" or path.startswith(active_prefixes)
+    ]
+    exact_reference = re.compile(rb"adl/src/[A-Za-z0-9_./-]+\.rs")
+    expected_pairs: set[tuple[str, str]] = set()
+    for source_path in active_paths:
+        content = git_bytes(root, "show", f"{BASE}:{source_path}")
+        for match in exact_reference.findall(content):
+            target = match.decode()
+            if target in observed and target != source_path:
+                expected_pairs.add((source_path, target))
+    actual_pairs = {
+        (str(edge["source"]["path"]), str(edge["target"]))
+        for edge in edge_rows
+        if isinstance(edge, dict)
+        and edge.get("evidence") == "exact tracked path reference"
+        and isinstance(edge.get("source"), dict)
+        and edge["source"].get("path")
+    }
+    if expected_pairs != actual_pairs:
+        missing_pairs = sorted(expected_pairs - actual_pairs)[:5]
+        extra_pairs = sorted(actual_pairs - expected_pairs)[:5]
+        fail(errors, f"exact tracked-path reference census differs from pinned Git scan: missing={missing_pairs!r} extra={extra_pairs!r}")
 
     if report.get("schema") != "adl.issue309.reduction.v1" or report.get("baseline_commit") != BASE:
         fail(errors, "reduction report identity invalid")
