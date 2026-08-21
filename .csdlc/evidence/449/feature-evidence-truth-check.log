@@ -1,0 +1,78 @@
+docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md:| Reasoning graphs, bounded loops, adaptive learning, affect control, and governed cognition | #5592, #5107 | `retained_proof` | #5592 is closed as the Runtime v3 parity owner with tracked lifecycle evidence in `.csdlc/issues/5592/index.json`; #5107 is closed as the downstream Adaptive Learning DAG queue with `.csdlc/issues/5107/index.json`. The matrix preserves #5107 as queued follow-on rather than runtime proof for every future adaptive-learning feature. | Runtime v3 parity and queued downstream planning; not full v0.92 adaptive-learning implementation. |
+docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md:| WP-21 through WP-23 handoff and release tail | #5362, #5355, #5359, #5348, #5352, #4758, #4759, #4760, #4761, #4762, #4763, #5007, #5107 | `ceremony_ready` | `.csdlc/evidence/5362/dependency-verification.v1.json` retains execution-time truth; `.csdlc/evidence/5362/dependency-verification-publication-base.v1.json` pins the WP-21 publication base. WP-21, WP-21A, and WP-22 are closed; WP-23 owns only the final ceremony. | Handoff/planning/release-tail proof only; not v0.92 activation, birthday implementation, or Adaptive Learning runtime. |
+docs/milestones/v0.91.8/MILESTONE_CHECKLIST_v0.91.8.md:- [x] WP-21 owns exact handoff, Memory Palace, launch/identity, capability, and Adaptive Learning planning.
+docs/milestones/v0.91.8/V092_ACTIVATION_TEST_MAP_v0.91.8.md:| Reasoning graphs, loops, affect control, and adaptive cognition | #5592, #5107 | `accepted_bridge_input`: #5592 and #5107 are closed retained inputs. Consume `docs/milestones/v0.91.8/FEATURE_PROOF_COVERAGE_v0.91.8.md`; #5107 is a downstream Adaptive Learning DAG plan and does not by itself prove learning-driven graph mutation. |
+docs/milestones/v0.91.8/V092_ACTIVATION_TEST_MAP_v0.91.8.md:| Adaptive Learning DAG | #5107 | `accepted_bridge_input`: #5107 is closed/merged/closed_out as a retained downstream plan; bounded loop/runtime evidence still does not prove learning-driven graph mutation or v0.92 adaptive-learning implementation. |
+docs/milestones/v0.91.8/NEXT_MILESTONE_CLOSEOUT_PLAN_v0.91.8.md:- Unity, Memory Palace, Adaptive Learning, public launch, or production
+docs/milestones/v0.91.8/RUNTIME_V3_FUNCTIONAL_PARITY_PLAN_v0.91.8.md:| 5. Reasoning and adaptive learning | reasoning fixture plus adaptive fixture | Submitted graph/loop execution, bounded termination, signed mutation, durable evidence, rollback | #5592 |
+docs/milestones/v0.91.8/WBS_v0.91.8.md:| WP-21 | #5362 | Feature-list and v0.92 planning truth | Prepare exact-revision handoff, launch/activation, Memory Palace, identity/birthday, capability-envelope, and Adaptive Learning inputs from reviewed deployed truth. | WP-20 |
+docs/milestones/v0.91.8/WBS_v0.91.8.md:documentation `#4762` and `#4763`; and Adaptive Learning planning `#5107`
+docs/architecture/runtime_v3_live_black_box_parity_5248.v1.json:      "proof": "#5281 records direct Runtime v3 adaptive learning DAG proof covering bounded canonical graph validation, deterministic graph execution, bounded adaptive loops, replay/resume integrity, checkpointed adaptation state, signed one-shot graph mutation grants, durable mutation evidence, fail-closed mutation authority, and typed reasoning topology in docs/architecture/runtime_v3_adaptive_learning_dag_5281.v1.json."
+docs/milestones/v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md:public launch, and Adaptive Learning runtime behavior as non-claims.
+docs/milestones/v0.91.8/NEXT_MILESTONE_HANDOFF_v0.91.8.md:packet, or Adaptive Learning runtime implementation. Missing proof remains a
+docs/milestones/v0.91.8/handoff/issue-5352-v092-consumption-handoff.md:approval, Adaptive Learning implementation, or release approval. Issue #5352 is
+docs/milestones/v0.91.8/handoff/issue-5352-v092-consumption-handoff.md:| Adaptive Learning queue | #5107 / #5742 | `8bf36c9d214a54212e7c483fb29872e9be9e92b3` | `b77d020c5c5274e7b64b6ef8f36eed888f34fb4c` | `docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md` |
+docs/milestones/v0.91.8/handoff/issue-5352-v092-consumption-handoff.md:| Adaptive Learning planning may be mistaken for runtime behavior | Keep #5107 as queue/planning truth only |
+docs/milestones/v0.91.8/handoff/issue-5352-v092-consumption-handoff.md:- No Adaptive Learning runtime, learning-driven graph mutation, AWS, GPU, or
+docs/milestones/v0.91.8/review/V0918_WP01_EXECUTION_READINESS_5594.md:   adaptive learning, affect reasoning-control, governed operations, secure
+docs/milestones/v0.91.8/evidence/wp13-external-bands/current-truth-ledger.json:      "accepted_owner": "Runtime v3 Parity-B #5592; downstream Adaptive Learning DAG queue #5107 for future v0.92 work",
+docs/milestones/v0.91.8/features/RUNTIME_V3_ADAPTER_v0.91.8.md:   bounded loops, adaptive learning, affect reasoning-control, and governed
+docs/milestones/v0.91.8/features/V092_HANDOFF_v0.91.8.md:birthday documentation; and `#5107` owns Adaptive Learning planning.
+docs/architecture/runtime_v3_parity_matrix.v1.json:      "runtime_v3_owner": "adaptive learning service",
+docs/milestones/v0.91.8/features/PLATFORM_ACCEPTANCE_AND_DEPLOYMENT_v0.91.8.md:capability, and Adaptive Learning planning belong to WP-21 `#5362`.
+docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml:  - {issue: 5592, live_wp: WP-14, parent_issue: 5361, assignment: "Runtime v3 Parity-B reasoning adaptive learning and governed cognition"}
+docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml:  - {issue: 5107, live_wp: WP-21, parent_issue: 5362, assignment: "Adaptive Learning DAG downstream queue"}
+docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml:    outcome: Prepare exact-revision v0.92 handoff, launch/activation, Memory Palace, identity/birthday, capability, and Adaptive Learning inputs from reviewed deployed truth.
+docs/milestones/v0.91.8/WP_ISSUE_WAVE_v0.91.8.yaml:    deliverables: ["handoff #5352", "launch and activation #4758/#4759/#4761", "Memory Palace #4760/#5007", "identity and birthday #4762/#4763", "Adaptive Learning plan #5107"]
+docs/milestones/v0.91.8/FEATURE_PRESERVATION_CROSSWALK_v0.91.8.md:evidence into birthday, launch, or Adaptive Learning runtime claims.
+docs/milestones/v0.91.8/PARALLEL_EXECUTION_PLAN_v0.91.8.md:Adaptive Learning inputs after WP-14A accepts the platform.
+docs/milestones/v0.85/VISION_v0.85.md:- bounded adaptive learning
+docs/milestones/v0.8/GODEL_AGENT_NOTES.md:The long-term vision is that the Gödel–Hadamard–Bayes loop, backed by deterministic replay and ObsMem indexing, will allow ADL agents to improve their strategies over time while remaining transparent, inspectable, and scientifically grounded. Current v0.8 repo truth includes bounded evidence-adjusted retrieval, not a broad adaptive learning subsystem.
+docs/milestones/v0.91.7/review/V0917_CLOSED_ISSUE_CLOSEOUT_REGISTER.json:      "title": "[v0.91.7][runtime-v3][parity] Prove adaptive learning DAG parity",
+docs/milestones/v0.91.7/review/V0917_CLOSED_ISSUE_CLOSEOUT_REGISTER.json:      "title": "[v0.91.7][runtime-v3] Implement reasoning loops and adaptive learning DAGs",
+docs/milestones/v0.6/RELEASE_PLAN_v0.6.md:It does not introduce adaptive learning or distributed systems.
+docs/architecture/RUNTIME_V3_CUTOVER_DECISION.md:| Reasoning loops and adaptive learning DAGs | #5180 | closed | Runtime v3 reasoning components are implemented with bounded loop/adaptation proof. |
+docs/milestones/v0.91.7/review/V0917_WP17_DOCS_ALIGNMENT_4644.md:adaptive learning, or general product readiness.
+docs/architecture/adr/0064-adaptive-learning-dag-governance-boundary.md:# ADR 0064: Adaptive Learning DAG Governance Boundary
+docs/architecture/adr/0064-adaptive-learning-dag-governance-boundary.md:No unrestricted adaptive learning, autonomous self-modification, unbounded
+docs/milestones/v0.91.7/review/runtime/csm_runtime_rearchitecture_5068.md:- Reasoning objects need a native runtime home. Reasoning graphs, loop runtime work, and adaptive learning DAGs should not float above CSM as external orchestration; they should be supervised runtime components that communicate through typed channels and feed AEE as governed execution.
+docs/milestones/v0.91.7/review/wp13_closeout_4640.md:- live hosted Godel invocation or completed adaptive learning DAG;
+docs/milestones/v0.92/SPRINT_v0.92.md:- Keep identity, continuity, memory, capability, ACP, Adaptive Learning DAG,
+docs/milestones/v0.92/SPRINT_v0.92.md:memory grounding, capability envelope, ACP/cognitive profile, Adaptive Learning
+docs/milestones/v0.92/SPRINT_v0.92.md:| 7 | Adaptive learning and ACIP/A2A readiness | Adaptive Learning DAG queue plus reconciled protocol semantics, protobuf schema, public catalog, JSON projection, and authenticated full-duplex WSS proof. |
+docs/milestones/v0.92/SPRINT_v0.92.md:  v3 objects without treating adaptive learning or graph mutation as complete.
+docs/milestones/v0.92/DEMO_MATRIX_v0.92.md:| D7A | Adaptive Learning DAG execution proof | v0.92 executes evaluated adaptation and policy-governed graph mutation with durable deltas and deterministic replay. | Runtime execution packet, evaluation bindings, accepted and rejected graph deltas, and negative replay cases. | Planned |
+docs/milestones/v0.92/DEMO_MATRIX_v0.92.md:### D7A) Adaptive Learning DAG Boundary Proof
+docs/milestones/v0.92/DEMO_MATRIX_v0.92.md:The demo should show that loops are control flow, while adaptive learning
+docs/milestones/v0.92/DEMO_MATRIX_v0.92.md:- These demos do not prove full autonomous adaptive learning or unconstrained
+docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md:| Adaptive Learning DAG | implementation_required | `v0.92` WP-13A after WP-01 Runtime v3 loop requalification | WP-13A must implement evaluation bindings, stateful adaptation, policy-governed graph modification, accepted/rejected mutation evidence, and integrated replay proof. Bounded loop proof alone does not establish learning-driven graph mutation. |
+docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md:- Adaptive Learning DAG implementation after verified loop-runtime evidence
+docs/milestones/v0.92/WBS_v0.92.md:| WP-13A | Implement the Adaptive Learning DAG | Build evaluation bindings, durable adaptation deltas, policy-governed graph modification, and replay-safe execution on the requalified Runtime v3 loop substrate. | Working Runtime v3 implementation, deterministic replay proof, accepted/rejected mutation paths, and required negative tests. | WP-01, WP-13, `#5104` merge evidence, current Runtime v3 qualification. |
+docs/milestones/v0.92/WBS_v0.92.md:  reasoning graphs as a consumed prerequisite for the Adaptive Learning DAG
+docs/milestones/v0.92/ADR_PLAN_v0.92.md:| ADR 0064 | Adaptive Learning DAG Governance Boundary | Proposed | Adaptive graph mutations are authority-bound, bounded, replayable, and fail closed. | WP-13A |
+docs/milestones/v0.92/README.md:- Adaptive Learning DAG implementation as the WP-13A post-loop-runtime path from
+docs/milestones/v0.92/README.md:- Adaptive Learning DAG implementation and proof, built on WP-01's verified
+docs/milestones/v0.92/README.md:- Adaptive Learning DAG:
+docs/milestones/v0.92/README.md:  ACP/cognitive profile, Adaptive Learning DAG queue/proof planning, ACIP
+docs/milestones/v0.92/publication/articles/10-whats-next-for-adl/SOURCE_PACKET.md:- Planned: first true Gödel-agent birthday, fuller inhabited runtime, Adaptive Learning DAG, CodeFriend alpha, and broader ecosystem work.
+docs/milestones/v0.92/publication/articles/10-whats-next-for-adl/EDITORIAL_REVIEW.md:- The first birthday, Adaptive Learning DAG, broader transport, CAV integration, and CodeFriend alpha remain active or planned.
+docs/milestones/v0.92/publication/articles/10-whats-next-for-adl/ARTICLE.md:The Gödel-Hadamard-Bayes loop and bounded experiment system create a basis for learning, but fuller adaptive learning requires more.
+docs/milestones/v0.92/publication/articles/10-whats-next-for-adl/ARTICLE.md:ADL's roadmap includes an Adaptive Learning DAG: a governed path from evaluation feedback to stateful adaptation and policy-controlled reasoning-graph change. The design challenge is to preserve provenance and rollback as learning becomes more structural.
+docs/milestones/v0.92/features/README.md:profiles, Adaptive Learning DAG implementation, ACIP/A2A transport readiness,
+docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md:# Adaptive Learning DAG
+docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md:- Feature Name: Adaptive Learning DAG
+docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md:  -> Adaptive Learning DAG
+docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md:upgrade adaptive learning or graph mutation to implementation truth.
+docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md:- an Adaptive Learning DAG proof packet that connects loop events, feedback,
+docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md:- claims that adaptive learning proves consciousness, personhood, or
+docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md:| 5 | Adaptive Learning DAG | Integrated DAG packet linking prompt, loop, adaptive loop, reasoning graph, feedback, state delta, graph delta, and replay events. |
+docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md:- v0.92 planning names adaptive learning as WP-13A and preserves its explicit
+docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md:- Evaluation, adaptation, graph modification, and Adaptive Learning DAG proof
+docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md:  adaptive learning before it is implemented.
+docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md:- Current Runtime v3 loop proof may be overstated as adaptive learning unless
+docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md:Future milestones may connect the v0.92 Adaptive Learning DAG implementation
+docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml:    write_surface: birthday contract, identity, continuity, memory, capability, cognitive profile, adaptive learning, witnesses, and review packet
+docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml:    title: Implement the Adaptive Learning DAG
+docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml:    primary_deliverable: working evaluation bindings, durable adaptation deltas, governed graph mutation, and replay-safe Adaptive Learning DAG execution
+docs/milestones/v0.86/features/FAST_SLOW_THINKING_MODEL.md:- support adaptive learning (Gödel loop)
+docs/milestones/v0.86/features/COGNITIVE_STACK.md:- adaptive learning surfaces
