@@ -135,11 +135,11 @@ Remove two superseded evaluation-only Rust modules after a complete 485-file dis
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
