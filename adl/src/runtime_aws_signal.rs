@@ -2192,6 +2192,8 @@ mod tests {
                 checkpoint: AgentCheckpointSpec::default(),
                 safety: json!({}),
                 memory: json!({}),
+                resident_role: None,
+                tool_authority: None,
             },
             spec_path,
             state_root: root.join("state"),

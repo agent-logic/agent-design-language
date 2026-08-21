@@ -47,6 +47,8 @@ fn governed_stop_requires_spec_bound_ed25519_authorization() {
                 }
             }),
             memory: Value::Null,
+            resident_role: None,
+            tool_authority: None,
         },
         spec_path: PathBuf::from("agent.yaml"),
         state_root,
@@ -99,6 +101,92 @@ fn governed_stop_requires_spec_bound_ed25519_authorization() {
         }
     });
     assert!(validate_governed_stop_request(&mismatch_loaded, &mismatch_request).is_err());
+}
+
+#[test]
+fn actual_runtime_step_output_creates_acc_governed_receipt() {
+    struct TestAdapter;
+    impl crate::governed_executor::GovernedToolAdapterV1 for TestAdapter {
+        fn execute(
+            &self,
+            _adapter_id: &str,
+            _arguments: &BTreeMap<String, Value>,
+        ) -> std::result::Result<Value, String> {
+            Ok(json!({"status":"redacted_runtime_test"}))
+        }
+    }
+
+    let compiler = crate::uts_acc_compiler::wp09_compiler_input_fixture("fixture.safe_read");
+    let role = compiler.policy_context.role.clone();
+    let resident_id = compiler.policy_context.actor_id.clone();
+    let authority = adl_runtime::resident_agent::CsmResidentAgentToolAuthorityBinding {
+        authority_id: compiler.policy_context.grant_id.clone(),
+        authority_ref: format!("runtime://resident/{resident_id}/tool-authority"),
+        authority_sha256: "b".repeat(64),
+        allowed_tools: vec![compiler.proposal.tool_name.clone()],
+    };
+    let output = serde_json::to_string(
+        &crate::resident_tool_execution::ResidentToolProposalEnvelopeV1 {
+            tool_proposal: compiler.proposal,
+        },
+    )
+    .unwrap();
+    let root = temp_dir("resident-acc-runtime-receipt");
+    let cycle_dir = root.join("cycle.1");
+    fs::create_dir_all(&cycle_dir).unwrap();
+    let loaded = LoadedAgentSpec {
+        spec: AgentSpec {
+            schema: SPEC_SCHEMA.to_string(),
+            agent_instance_id: resident_id,
+            display_name: "ACC resident".to_string(),
+            state_root: root.join("state"),
+            workflow: WorkflowSpec {
+                kind: "adl_workflow".to_string(),
+                name: Some("acc-runtime-test".to_string()),
+                path: Some(PathBuf::from("workflow.adl.yaml")),
+                run_args: json!({
+                    "tool_registry": compiler.registry,
+                    "tool_policy_context": compiler.policy_context
+                }),
+            },
+            heartbeat: HeartbeatSpec {
+                interval_secs: Some(1),
+                max_cycles: Some(1),
+                stale_lease_after_secs: Some(60),
+            },
+            checkpoint: AgentCheckpointSpec::default(),
+            safety: json!({}),
+            memory: json!({}),
+            resident_role: Some(role),
+            tool_authority: Some(authority),
+        },
+        spec_path: root.join("agent.yaml"),
+        state_root: root.join("state"),
+    };
+    validate_spec(&loaded.spec).unwrap();
+    write_resident_tool_receipts(
+        &loaded,
+        "cycle.1",
+        "checkpoint.0",
+        &cycle_dir,
+        &[execute::StepOutput {
+            step_id: "provider-step".to_string(),
+            provider_id: "test-provider".to_string(),
+            model_output: output,
+        }],
+        &TestAdapter,
+    )
+    .unwrap();
+    let receipts: Vec<crate::resident_tool_execution::ResidentToolReceiptV1> =
+        serde_json::from_slice(&fs::read(cycle_dir.join("resident_tool_receipts.json")).unwrap())
+            .unwrap();
+    assert_eq!(receipts.len(), 1);
+    assert_eq!(
+        receipts[0].decision,
+        crate::resident_tool_execution::ResidentToolReceiptDecisionV1::Executed
+    );
+    assert_eq!(receipts[0].cycle_id, "cycle.1");
+    assert_eq!(receipts[0].checkpoint_lineage, "checkpoint.0");
 }
 
 #[test]

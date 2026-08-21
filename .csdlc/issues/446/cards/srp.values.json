@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 446,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][Runtime] Wire ACC-governed tool execution into resident-agent cycles",
+    "slug": "runtime-acc-resident-tool-execution",
+    "version": "v0.92",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "#446 Runtime authority, UTS-to-ACC, Freedom Gate, dispatch, receipts, and tests.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can provider output bypass authority?",
+        "Can fixtures enter production?",
+        "Does every proposal have one receipt?",
+        "Are receipts redacted and lineage-bound?",
+        "Is dependency direction acyclic?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

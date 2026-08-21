@@ -67,6 +67,14 @@ pub struct CsmResidentAgentPolicyGates {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+pub struct CsmResidentAgentToolAuthorityBinding {
+    pub authority_id: String,
+    pub authority_ref: String,
+    pub authority_sha256: String,
+    pub allowed_tools: Vec<String>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 pub struct CsmResidentAgentAffectModel {
     pub schema_version: String,
     pub model_id: String,
@@ -90,6 +98,7 @@ pub struct CsmResidentAgentSpec {
     pub provider_binding: CsmResidentAgentProviderBinding,
     pub channels: CsmResidentAgentChannels,
     pub policy_gates: CsmResidentAgentPolicyGates,
+    pub tool_authority: CsmResidentAgentToolAuthorityBinding,
     pub affect_model: CsmResidentAgentAffectModel,
     pub checkpoint_policy: String,
     pub lifelog_policy: String,
@@ -132,6 +141,7 @@ impl CsmResidentAgentSpec {
             "provider_target_resolved",
             "provider_binding.binding_status",
         )?;
+        self.tool_authority.validate()?;
         if self.authority == CsmResidentAgentAuthority::ShepherdOperator
             && (!self.policy_gates.freedom_gate_required
                 || !self.policy_gates.cav_required
@@ -144,6 +154,43 @@ impl CsmResidentAgentSpec {
             );
         }
         self.affect_model.validate()?;
+        Ok(())
+    }
+}
+
+impl CsmResidentAgentToolAuthorityBinding {
+    pub fn validate(&self) -> Result<(), String> {
+        require_non_empty(&self.authority_id, "tool_authority.authority_id")?;
+        require_non_empty(&self.authority_ref, "tool_authority.authority_ref")?;
+        if self.authority_sha256.len() != 64
+            || !self
+                .authority_sha256
+                .bytes()
+                .all(|byte| byte.is_ascii_hexdigit() && !byte.is_ascii_uppercase())
+        {
+            return Err("tool_authority.authority_sha256 must be lowercase SHA-256".to_string());
+        }
+        if self.allowed_tools.is_empty() {
+            return Err("tool_authority.allowed_tools must not be empty".to_string());
+        }
+        let mut tools = self.allowed_tools.clone();
+        tools.sort();
+        tools.dedup();
+        if tools != self.allowed_tools
+            || tools.iter().any(|tool| {
+                tool.is_empty()
+                    || !tool.bytes().all(|byte| {
+                        byte.is_ascii_lowercase()
+                            || byte.is_ascii_digit()
+                            || matches!(byte, b'.' | b'_' | b'-')
+                    })
+            })
+        {
+            return Err(
+                "tool_authority.allowed_tools must be sorted unique lowercase identifiers"
+                    .to_string(),
+            );
+        }
         Ok(())
     }
 }
@@ -335,6 +382,12 @@ mod tests {
             provider_binding: binding("local_ollama", "gemma4:12b-mlx"),
             channels: channels(id),
             policy_gates: gates(),
+            tool_authority: CsmResidentAgentToolAuthorityBinding {
+                authority_id: format!("authority.{id}"),
+                authority_ref: format!("runtime://resident/{id}/tool-authority"),
+                authority_sha256: "0".repeat(64),
+                allowed_tools: vec!["runtime.observe".to_string()],
+            },
             affect_model: affect_model(),
             checkpoint_policy: "periodic_and_agent_requested".to_string(),
             lifelog_policy: "append_lifecycle_provider_events".to_string(),
@@ -398,5 +451,19 @@ mod tests {
             .validate()
             .expect_err("wrong affect signal count")
             .contains("affect_model.affect_signal_count"));
+    }
+
+    #[test]
+    fn resident_agent_rejects_missing_or_ambiguous_tool_authority() {
+        let mut resident = agent("worker", CsmResidentAgentAuthority::Ordinary);
+        resident.tool_authority.authority_sha256 = "not-a-digest".to_string();
+        assert!(resident.validate().is_err());
+
+        let mut resident = agent("worker", CsmResidentAgentAuthority::Ordinary);
+        resident
+            .tool_authority
+            .allowed_tools
+            .push("runtime.observe".to_string());
+        assert!(resident.validate().is_err());
     }
 }

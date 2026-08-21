@@ -60,6 +60,26 @@ pub struct GovernedExecutorInputV1 {
     pub gate_decision: FreedomGateToolDecisionEventV1,
 }
 
+pub trait GovernedToolAdapterV1 {
+    fn execute(
+        &self,
+        adapter_id: &str,
+        arguments: &BTreeMap<String, JsonValue>,
+    ) -> Result<JsonValue, String>;
+}
+
+struct FixtureGovernedToolAdapterV1;
+
+impl GovernedToolAdapterV1 for FixtureGovernedToolAdapterV1 {
+    fn execute(
+        &self,
+        adapter_id: &str,
+        arguments: &BTreeMap<String, JsonValue>,
+    ) -> Result<JsonValue, String> {
+        fixture_execute_adapter(adapter_id, arguments).map_err(str::to_string)
+    }
+}
+
 fn unknown_identity(
     action_id: &str,
     acc: Option<&AdlCapabilityContractV1>,
@@ -395,7 +415,14 @@ fn emit_governed_trace_context(
 pub fn execute_governed_action_v1(
     input: &GovernedExecutorInputV1,
 ) -> GovernedExecutorExecutionOutcomeV1 {
-    execute_governed_action_with_trace_v1(input, None)
+    execute_governed_action_internal_v1(input, &FixtureGovernedToolAdapterV1, None)
+}
+
+pub fn execute_governed_action_with_adapter_v1(
+    input: &GovernedExecutorInputV1,
+    adapter: &dyn GovernedToolAdapterV1,
+) -> GovernedExecutorExecutionOutcomeV1 {
+    execute_governed_action_internal_v1(input, adapter, None)
 }
 
 pub fn fixture_safe_read_input_v1() -> GovernedExecutorInputV1 {
@@ -460,6 +487,14 @@ pub fn emit_fixture_safe_read_trace_v1(trace: &mut Trace) -> GovernedExecutorExe
 
 pub fn execute_governed_action_with_trace_v1(
     input: &GovernedExecutorInputV1,
+    trace: Option<&mut Trace>,
+) -> GovernedExecutorExecutionOutcomeV1 {
+    execute_governed_action_internal_v1(input, &FixtureGovernedToolAdapterV1, trace)
+}
+
+fn execute_governed_action_internal_v1(
+    input: &GovernedExecutorInputV1,
+    adapter: &dyn GovernedToolAdapterV1,
     mut trace: Option<&mut Trace>,
 ) -> GovernedExecutorExecutionOutcomeV1 {
     let mut selected_actions = Vec::new();
@@ -891,7 +926,7 @@ pub fn execute_governed_action_with_trace_v1(
         };
     }
 
-    let payload = match fixture_execute_adapter(&acc.tool.adapter_id, &input.arguments) {
+    let payload = match adapter.execute(&acc.tool.adapter_id, &input.arguments) {
         Ok(payload) => payload,
         Err(reason_code) => {
             let reason = if reason_code == "unsupported_fixture_adapter" {

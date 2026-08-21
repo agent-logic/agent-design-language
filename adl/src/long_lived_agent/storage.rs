@@ -811,6 +811,8 @@ mod tests {
                 checkpoint: AgentCheckpointSpec::default(),
                 safety: json!({}),
                 memory: json!({}),
+                resident_role: None,
+                tool_authority: None,
             },
             spec_path: root.join("agent.yaml"),
             state_root: root.join("state"),

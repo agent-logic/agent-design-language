@@ -1,0 +1,94 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 446,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][Runtime] Wire ACC-governed tool execution into resident-agent cycles",
+    "slug": "runtime-acc-resident-tool-execution",
+    "version": "v0.92",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "issue446-contract",
+          "proof_role": "Prove exact owned Runtime surfaces before implementation.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 500,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/446/validate_issue446.sh"
+          ],
+          "parallel_group": "contract",
+          "defer_reason": null
+        },
+        {
+          "lane": "runtime-unit",
+          "proof_role": "Prove compiler, gate, dispatch, denial, and Runtime integration.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 6000,
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "--lib",
+            "uts_acc_compiler"
+          ],
+          "parallel_group": "runtime",
+          "defer_reason": null
+        },
+        {
+          "lane": "runtime-compile",
+          "proof_role": "Prove crate boundaries.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 600,
+          "budget_tokens": 2000,
+          "argv": [
+            "cargo",
+            "check",
+            "--manifest-path",
+            "adl-runtime/Cargo.toml"
+          ],
+          "parallel_group": "compile",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed before actuation on parse, authority, compiler, policy, gate, adapter, identity, or receipt errors.",
+      "design_ref": ".csdlc/prepared/issues/446/design.md",
+      "design_digest": "0988bb2c7399868ad22d44cc12802f01d71ba6461eb8699c5620aa052180f580",
+      "diagram_ref": ".csdlc/prepared/issues/446/diagram.mmd",
+      "diagram_digest": "a7dfc52842d0222dfc387e1171e78faa12bd8d108fbfc774c1b2761862708657"
+    }
+  }
+}

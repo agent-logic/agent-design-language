@@ -92,6 +92,7 @@ pub mod provider_substrate;
 pub mod red_blue_agent_architecture;
 pub mod remote_exec;
 pub mod resident_shepherd_spot_continuity;
+pub mod resident_tool_execution;
 pub mod resilience;
 pub mod resolve;
 pub mod runtime_aws_signal;
