@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "c3772d9c4f3292d1eb16999797038d6bc5c89cda26f7d3cf00f3bdd501aefc8c",
   "phase": "implemented",
-  "generation": 9,
-  "digest": "c71700d5ba91436cb9fa2a6dd3e73a1aace4c0f249cce1f48f5a1dba51da961f",
+  "generation": 10,
+  "digest": "6ad0572acfb1e75b7c39b9ca02a4faa4fdc0bf4d95b4d53854b4e7daec2814da",
   "branch": "codex/461-runtime-lifecycle-tls-config-only",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-461-runtime-lifecycle-tls-config-only",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9549e7235701956e27ec69b9d6bf6ca49e67d1004130f29b8ee81571d5377147",
+      "values_digest": "0ae27701e4cc027fa81959f99eb69965258c47a8799761eadeaf68fe5d3f6d3f",
       "rendered_digest": "8a9fbfce0d69f1910ca948878ba44a0ed1a27dc347aea5bcda1970e19aab5739",
       "ast_digest": "26a15fdc1672fa0189ff9832c8f1e7ee65d433eb087bb9bb47008db0d56fbe20"
     },
     "stp": {
-      "values_digest": "1fc0f5dba7f557e60911d5b44bfdb60c24ed48f84ff097e8287d3e4599474d0c",
+      "values_digest": "0c7ffef3591aca90bae79ce03495dba082c62a963c1fccb9a0100e318ec18466",
       "rendered_digest": "4ce1e9873090a53138f6d839f5e8671d698b8daf3c33233396500ec87c6c9efc",
       "ast_digest": "88dbeb732474d45c8e8f6449cb1e1a9b93d66cea7851f51a080a74a9ade7e1f7"
     },
     "spp": {
-      "values_digest": "6d294bc76aca3442961b5f92e45f6451e6fcfac4037787a59f42d136bd9fb2c4",
+      "values_digest": "90324b1b22c174ef7f5f1b7f24ae1086e5fae8bcecf08b0cf2443ec9ba54d13d",
       "rendered_digest": "dc6a0376f7c799fd51e817b38d7c5d127a4333d909b1ae05dc90d018a7f606b6",
       "ast_digest": "0a12c0d5428d828b25a9132d5d5d6e05a62844891dcb4fba7d8c2ff90715333f"
     },
     "vpp": {
-      "values_digest": "6c909558730f621c5414641e35f19bba73211b300f7f6e505dd37d448e982c28",
+      "values_digest": "5a932dc1689bc5158082c0b01f7751cbe39d356f3de35d66bee8cae5673b35c1",
       "rendered_digest": "36fbf6002ff5cfab2daffd2947e93f99865d0fcb06083b41f144d64e249ea8b9",
       "ast_digest": "686a90346eb7ef2cca2da2554889e3e2a978a91b5bce607a522b277bf2cd07ce"
     },
     "srp": {
-      "values_digest": "d26f22b01e29780d512b460caa50668ab5a9b0a2b9c6189043586925d8bcf684",
+      "values_digest": "6da3daf117b38e577729b04c12fd41046e6189d0895f2d755661c86f83377af7",
       "rendered_digest": "753d2b9caf226e98f05afb094f89151dcd6d3cbfebd210b14906a5c89be313a9",
       "ast_digest": "ca544fbab6db0a750ee02d5fc1e6125ac50e4e988ca36feb128c62ad89423481"
     },
     "sor": {
-      "values_digest": "166ed83f99d3ce6f3d763d683b84d39c8ed0b744cfbd9e94023094b21c0fd1cf",
-      "rendered_digest": "09073052568089036fb5aa8950de917b39b68b2252a63cc7ddf18c3253056fb9",
-      "ast_digest": "63b14f21f9b7ff8386d4d7b8be0e0be0de51ae708ebb67d1d1053875831224f1"
+      "values_digest": "50c18d92b39f8e7eb3a338748ba5851cc5805dfe3f2094430a6ce4e119de5793",
+      "rendered_digest": "f8cb061785d99856b6c41370fb4ef691a3604464e9e02f8a69f765b639f13df6",
+      "ast_digest": "4f8981ff87bc7bd9880da95cba877997d93678923b9ab20bbcfb5fb7c9afb863"
     }
   },
   "transitions": [
@@ -168,6 +168,13 @@
       "actor": "codex",
       "reason": "Recover the failing exact-head review before correcting bounded-soak evaluation propagation, duplicate sample scheduling, cleanup truth, and retained diff evidence.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex",
+      "reason": "Refresh execution truth after enforcing nested bounded-soak verdict propagation, collision-safe sampling, and exact branch diff hygiene.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Make lifecycle TLS authority config-only, snapshot validated opened-file bytes into Runtime-owned state, redact external paths, and prove real HTTPS/WSS Guardian lifecycle and recovered Vector operation.\",\"changes\":[\"Removed lifecycle TLS command inputs and load certificate, private-key, trust-root, and private-continuity TLS authority only from Runtime configuration.\",\"Opened and identity-checked configured TLS files once, captured bytes from the validated handles, and copied them into protected Runtime-owned snapshots before downstream use.\",\"Removed configured external paths from PEM and Guardian diagnostics and added adversarial path-substitution coverage.\",\"Updated the Guardian harness to generate config-owned API and private-continuity TLS, exercise 50 HTTPS and 50 authenticated WSS connections, dependency degradation, Vector recovery, and Runtime restart.\",\"Classified automatically recovered Vector child exits as warnings while preserving errors for recovery persistence or restart failure.\",\"Made the Guardian validator reject nested fail-closed bounded-soak evidence, assigned collision-safe sample slots, and excluded the active proof directory from its own zero-residue contract.\"],\"artifacts\":[\"adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs\",\"adl-runtime-kernel/src/observability.rs\",\"adl-runtime-kernel/tests/observability.rs\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\",\".csdlc/evidence/461/runtime-guardian-config-owned-tls.log\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--bin\",\"adl-runtime-lifecycle-soak\",\"short_qualification\",\"--\",\"--nocapture\"],\"purpose\":\"Prove collision-safe short-qualification sampling and fail-closed bounded-soak semantics.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-guardian-config-owned-tls.log\"},{\"command\":[\"bash\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\",\"--suite\",\"preflight_1x\"],\"purpose\":\"Execute the real config-owned TLS Guardian lifecycle with HTTPS, WSS, continuity TLS, Vector recovery, and restart.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-guardian-config-owned-tls.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"observability\",\"runtime_vector_pipeline_restarts_child_after_sustained_master_log_stagnation\",\"--\",\"--exact\",\"--nocapture\"],\"purpose\":\"Prove a recovered Vector restart is warning-classified and retains service continuity.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-kernel-vector-recovery.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--bin\",\"adl-runtime-lifecycle-soak\",\"configured_tls\",\"--\",\"--nocapture\"],\"purpose\":\"Prove config-owned TLS permission, symlink, and identity-substitution denial.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-tls-configured-files.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"--bin\",\"adl-runtime-lifecycle-soak\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run focused lifecycle-soak Clippy with warnings denied.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-lifecycle-soak-clippy.log\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run Runtime-kernel Clippy with warnings denied.\",\"outcome\":\"passed\",\"evidence_ref\":\"runtime-kernel-clippy.log\"},{\"command\":[\"bash\",\"-n\",\"adl/tools/validate_v092_runtime_guardian_lifecycle.sh\",\"adl/tools/run_runtime_v3_operational_proof.sh\"],\"purpose\":\"Validate the lifecycle launch scripts syntactically.\",\"outcome\":\"passed\",\"evidence_ref\":\"tls-launch-shell-syntax.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Verify diff whitespace hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"diff-hygiene.log\"}]}"
     }
   ]
 }

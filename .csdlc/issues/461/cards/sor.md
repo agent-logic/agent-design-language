@@ -29,10 +29,27 @@ Make lifecycle TLS authority config-only, snapshot validated opened-file bytes i
 - Removed configured external paths from PEM and Guardian diagnostics and added adversarial path-substitution coverage.
 - Updated the Guardian harness to generate config-owned API and private-continuity TLS, exercise 50 HTTPS and 50 authenticated WSS connections, dependency degradation, Vector recovery, and Runtime restart.
 - Classified automatically recovered Vector child exits as warnings while preserving errors for recovery persistence or restart failure.
+- Made the Guardian validator reject nested fail-closed bounded-soak evidence, assigned collision-safe sample slots, and excluded the active proof directory from its own zero-residue contract.
 
 ## Validation
 
 [
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl-runtime/Cargo.toml",
+      "--bin",
+      "adl-runtime-lifecycle-soak",
+      "short_qualification",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Prove collision-safe short-qualification sampling and fail-closed bounded-soak semantics.",
+    "outcome": "passed",
+    "evidence_ref": "runtime-guardian-config-owned-tls.log"
+  },
   {
     "command": [
       "bash",
