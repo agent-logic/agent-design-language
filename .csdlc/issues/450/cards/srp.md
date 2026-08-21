@@ -69,12 +69,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Post-merge review was read-only and relied on scoped inspection plus retained evidence logs, not a fresh broad test run.
+- Worktree retained one untracked local lock file: .csdlc/locks/450.lock.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:4e85952cc932e4d3c0a56835e2358ca3e4dbce0d:f0fe90d05a36377bf7566759dbc7af67ae23e9f10f911c99762849385baed63c")
 
-Reviewer: None
+Reviewer: Some("fresh-session:ea480c56-5606-4517-aeca-42ce0780b71a")
 
-Result: pre_review
+Result: pass
