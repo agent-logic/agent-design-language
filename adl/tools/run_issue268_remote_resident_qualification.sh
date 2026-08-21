@@ -174,5 +174,5 @@ if [[ "$GUARDIAN" == "$ROOT/adl/tools/validate_v092_runtime_guardian_lifecycle.s
   bash "$ROOT/adl/tools/install_vector_component.sh"
   export ADL_RUNTIME_VECTOR_BIN="$ADL_VECTOR_INSTALL_ROOT/bin/vector"
 fi
-export ADL_RUNTIME_GUARDIAN_TARGET_ROOT="$BUILD_CACHE_ROOT"
+export ADL_RUNTIME_GUARDIAN_TARGET_ROOT="$(dirname "${CARGO_TARGET_DIR:?CARGO_TARGET_DIR is required}")"
 bash "$GUARDIAN" --suite six_hour_qualification

@@ -69,11 +69,13 @@ PY
 cat >"$scratch/guardian.sh" <<'SH'
 #!/usr/bin/env bash
 [[ "$1" == --suite && "$2" == six_hour_qualification ]]
+[[ "$ADL_RUNTIME_GUARDIAN_TARGET_ROOT" == "$(dirname "$CARGO_TARGET_DIR")" ]]
 printf 'ADL_ISSUE268_REPORT_BEGIN\n{"suite":"six_hour_qualification","measured_exposure_seconds":21600}\nADL_ISSUE268_REPORT_END\n'
 SH
 chmod +x "$scratch/guardian.sh"
 
 output=$(PATH="$scratch/bin:$PATH" \
+  CARGO_TARGET_DIR="$scratch/cargo/target" \
   ADL_RUN_ID=issue268-test-run \
   ADL_CSM_CUSTODY_P256_SIGNING_PRIVATE_KEY_B64=test-private \
   ADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64=test-public \
