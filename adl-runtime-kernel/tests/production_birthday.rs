@@ -21,6 +21,7 @@ fn input(transaction: &str) -> ProductionBirthdayInput {
     let hash = |byte: char| byte.to_string().repeat(64);
     ProductionBirthdayInput {
         resident_id: "resident-one".into(),
+        cycle_id: "cycle-one".into(),
         transaction_id: transaction.into(),
         implementation_revision_sha256: hash('a'),
         identity_root_sha256: candidate.identity_root.clone(),
@@ -39,6 +40,7 @@ fn input(transaction: &str) -> ProductionBirthdayInput {
             cognitive_profile_sha256: hash('d'),
             implementation_revision_sha256: hash('a'),
             decision: "executed".into(),
+            authentication_key_id: "birthday-key-one".into(),
             receipt_sha256: hash('1'),
             authentication_sha256: hash('2'),
         },

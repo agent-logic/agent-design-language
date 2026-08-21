@@ -24,6 +24,7 @@ pub struct VerifiedToolAuthorityBinding {
     pub cognitive_profile_sha256: String,
     pub implementation_revision_sha256: String,
     pub decision: String,
+    pub authentication_key_id: String,
     pub receipt_sha256: String,
     pub authentication_sha256: String,
 }
@@ -32,6 +33,7 @@ pub struct VerifiedToolAuthorityBinding {
 #[serde(deny_unknown_fields)]
 pub struct ProductionBirthdayInput {
     pub resident_id: String,
+    pub cycle_id: String,
     pub transaction_id: String,
     pub implementation_revision_sha256: String,
     pub identity_root_sha256: String,
@@ -52,6 +54,7 @@ pub struct ProductionBirthdayReceipt {
     pub schema: String,
     pub generation: u64,
     pub resident_id: String,
+    pub cycle_id: String,
     pub transaction_id: String,
     pub identity_root_sha256: String,
     pub continuity_head_sha256: String,
@@ -263,7 +266,9 @@ impl Drop for Ownership {
 
 fn validate_input(input: &ProductionBirthdayInput) -> Result<(), ProductionBirthdayError> {
     validate_identifier(&input.resident_id)?;
+    validate_identifier(&input.cycle_id)?;
     validate_identifier(&input.transaction_id)?;
+    validate_identifier(&input.tool_authority.authentication_key_id)?;
     let hashes = [
         &input.implementation_revision_sha256,
         &input.identity_root_sha256,
@@ -290,11 +295,13 @@ fn validate_input(input: &ProductionBirthdayInput) -> Result<(), ProductionBirth
                 .map_err(|_| ProductionBirthdayError::InvalidInput)?
         || input.tool_authority.schema != PRODUCTION_BIRTHDAY_TOOL_BINDING_SCHEMA
         || input.tool_authority.resident_id != input.resident_id
+        || input.tool_authority.cycle_id != input.cycle_id
         || input.tool_authority.continuity_head_sha256 != input.continuity_head_sha256
         || input.tool_authority.capability_envelope_sha256 != input.capability_envelope_sha256
         || input.tool_authority.cognitive_profile_sha256 != input.cognitive_profile_sha256
         || input.tool_authority.implementation_revision_sha256
             != input.implementation_revision_sha256
+        || input.tool_authority.decision != "executed"
     {
         return Err(ProductionBirthdayError::CrossBindingMismatch);
     }
@@ -306,6 +313,7 @@ fn receipt_from_input(input: &ProductionBirthdayInput) -> ProductionBirthdayRece
         schema: PRODUCTION_BIRTHDAY_SCHEMA.to_owned(),
         generation: 1,
         resident_id: input.resident_id.clone(),
+        cycle_id: input.cycle_id.clone(),
         transaction_id: input.transaction_id.clone(),
         identity_root_sha256: input.identity_root_sha256.clone(),
         continuity_head_sha256: input.continuity_head_sha256.clone(),
@@ -326,6 +334,7 @@ fn receipt_matches_input(
     input: &ProductionBirthdayInput,
 ) -> bool {
     receipt.resident_id == input.resident_id
+        && receipt.cycle_id == input.cycle_id
         && receipt.transaction_id == input.transaction_id
         && receipt.candidate_packet_sha256 == input.candidate.packet_sha256
         && receipt.implementation_revision_sha256 == input.implementation_revision_sha256

@@ -59,6 +59,7 @@ fn authenticated_runtime_receipt_drives_exactly_once_birthday_and_restart() {
     .unwrap();
     let input = ProductionBirthdayInput {
         resident_id: "resident-one".into(),
+        cycle_id: "cycle-one".into(),
         transaction_id: "birthday-one".into(),
         implementation_revision_sha256: hash('a'),
         identity_root_sha256: candidate.identity_root.clone(),

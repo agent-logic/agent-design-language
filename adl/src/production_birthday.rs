@@ -28,6 +28,7 @@ pub fn activate_verified_resident_birthday(
     let adaptive_learning_receipt_sha256 = canonical_sha256(adaptive_learning)?;
     let input = ProductionBirthdayInput {
         resident_id: resident_cycle.resident_id.clone(),
+        cycle_id: resident_cycle.cycle_id.clone(),
         transaction_id: transaction_id.to_string(),
         implementation_revision_sha256: implementation_revision_sha256.to_string(),
         identity_root_sha256: memory_palace.identity().identity_root.clone(),

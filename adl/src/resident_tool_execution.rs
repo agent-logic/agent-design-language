@@ -238,6 +238,7 @@ pub fn validate_resident_tool_receipt_for_birthday_v1(
             ResidentToolReceiptDecisionV1::Denied => "denied",
         }
         .to_string(),
+        authentication_key_id: authenticated.key_id.clone(),
         receipt_sha256: authenticated.receipt_sha256.clone(),
         authentication_sha256: hex::encode(Sha256::digest(authenticated.signature_hex.as_bytes())),
     })
