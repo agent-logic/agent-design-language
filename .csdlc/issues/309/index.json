@@ -4,13 +4,37 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "1aac31d526ec88733274957b08d6a077e4b1c251c3c859ce9de45efa648636ad",
-  "phase": "implemented",
-  "generation": 6,
-  "digest": "b1563fde75ef9ee3bb2e1adff0b998d22ff6e82e8538d44e6eeaa369e39ae7dc",
+  "phase": "reviewed",
+  "generation": 9,
+  "digest": "e767e3824fe8796b7f759e387eec292183a378b677bcdcb93173ea0d5aa99e4b",
   "branch": "codex/309-repository-wide-code-reduction",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-309-repository-wide-code-reduction",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:a1f95d5c-bd55-409c-8bfc-ac43b96ca252",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:34a26d382ebde47c58f5eae6c4a3c41e11c00a74:44e9808f4ae8914a38ecff56764549f4a6f8d32da8bc69b4b850ba27e4fbb6ff",
+    "scope": [
+      "Exact candidate 34a26d382",
+      "Complete #309 base-to-candidate source, evidence, rollback, and validator diff",
+      "Focused remediation of exact nonempty report-to-receipt rollback band coverage"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:a1f95d5c-bd55-409c-8bfc-ac43b96ca252",
+    "scope": [
+      "Exact candidate 34a26d382",
+      "Complete #309 base-to-candidate source, evidence, rollback, and validator diff",
+      "Focused remediation of exact nonempty report-to-receipt rollback band coverage"
+    ],
+    "reviewed_revision": "git-blake3:34a26d382ebde47c58f5eae6c4a3c41e11c00a74:44e9808f4ae8914a38ecff56764549f4a6f8d32da8bc69b4b850ba27e4fbb6ff",
+    "findings": [],
+    "residual_risks": [
+      "Hosted Linux validation remains deferred until the reviewed candidate is published and exact-head CI receipts exist.",
+      "This first reduction band removes only two superseded evaluation modules; later WP-21 bands remain separate work and require their own proof and rollback rehearsals."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,34 +49,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "769149e338c3d014424c7f443d041ad2a5152e066d1d67f2b71845ffd41508a1",
+      "values_digest": "7d60367049bb0f5f79c3e199935df7755444766cd1d408b3943274b46f30d4a7",
       "rendered_digest": "3bca781149156bfb4be59a4d4c03a7c473410842d4ec0dade2b308f7af6a1f0b",
       "ast_digest": "f55ce5dd36489108eba3c951314648669937c36c1270f8988282ee5b6d4c7d94"
     },
     "stp": {
-      "values_digest": "8a61818255f0353fcc00599f80b627436aaa9481c5481bab6783fc7cab4f6735",
+      "values_digest": "6fa351b44293997bd50265ae5bda14efefd4f3a7e7f8b2a7455308b9101374bf",
       "rendered_digest": "7a72a9bcb8fa0bd1b14da2e8a85ea8e76b695bd0324a2b6570d86e87d9975bb0",
       "ast_digest": "de23dbaf4f54e6667bc4b220972034908306dafbca730aeb99daabd21fd924e7"
     },
     "spp": {
-      "values_digest": "cdaa229f593f1dd5d9919902c6206f6878c29eb45c7b546fb87e30f48361adfc",
+      "values_digest": "d50ff4cf4fd1de4c6d42e2678b6ab581afa960ad6ab816daafcd51985709ca57",
       "rendered_digest": "bec787bafe31df61b313e6a0f3c823d7995b4a9617d413ffa5de7555597c64a8",
       "ast_digest": "57df70a9933fc6fb12738d66d8bab3e9f2427c6a99535fc8ae06811aaad00fe0"
     },
     "vpp": {
-      "values_digest": "d760523a9c23a2af0e7860b44a83306a044342e9b6dd299403a4d527a1116777",
+      "values_digest": "1541229d7016245ee3c828d24e2abe1e2cabf73dc31e455f2cd078e78ba329e8",
       "rendered_digest": "7cfe24289d97dd2a45ed3eda904868a79bd625a54f207499c763de9d505f88c9",
       "ast_digest": "8c9c18dce40471e4ef19d9dd0846065bd45c95ac68f4c7930fbe04e785b6d29d"
     },
     "srp": {
-      "values_digest": "c8d5873234e363525cfbce18e11b563f0856051ff20a0e9a08cf6007bc82890e",
-      "rendered_digest": "a2bad7ae050ad8e3dc0d46c1bc75ceb17ecd05b585d966e0ad298c02f05046fe",
-      "ast_digest": "b49e6c708f6987a0386b3b222872e6f393702b0e8b43f9f800eb56595e41e160"
+      "values_digest": "1e87b07f9299184846e75e7e4a7c4175872dd5235493f22ed881a328f3bd7f7b",
+      "rendered_digest": "66ec82dd2c9396cdad69614a0018f4dc773d6e486b81232d9ea943c36a6ea9bb",
+      "ast_digest": "39c2d363eb7aad38fda62b0ac1523549af27c0599b4106eb31464dc8bc70d902"
     },
     "sor": {
-      "values_digest": "df9084a9fcb1e45d6f092c7c89d678ecacbd97e20180a717b452f2cd1fed871e",
-      "rendered_digest": "cc219958347cf38a321042db1a7cb6ba08aca42f980a87d03c43c2f70c0764c2",
-      "ast_digest": "183f201646c01962624344cbdbf662831d2487550fe569d261b575f9ded0ef59"
+      "values_digest": "05b3799b1dbe649281fc28c3647de89df18b1d1c48f7161629116c1e42825f14",
+      "rendered_digest": "be3c53df5de7f757928b441b3a205c053ad94b901e949b3a2c57d99f96497240",
+      "ast_digest": "1bb7203826fd8fe3302e69c906b57e0f740e1d03c1276cf6ddec5cab129e3ff4"
     }
   },
   "transitions": [
@@ -76,6 +100,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -134,6 +165,48 @@
       "actor": "codex:/root",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Recover the failed remediation review after binding the claimed reduction to the pinned source commit and candidate Git diff, and binding rollback changed paths to the declared reduction and evidence scope.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Recover the failed final review after requiring exact one-to-one nonempty Band A/B/C identity and path coverage between the reduction report and rollback receipt.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

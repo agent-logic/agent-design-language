@@ -135,7 +135,7 @@ Remove two superseded evaluation-only Rust modules after a complete 485-file dis
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-21] Repository-wide code reduction cleanup",
     "slug": "309-repository-wide-code-reduction",
     "version": "v0.92",
-    "generation": 6
+    "generation": 9
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Exact #309 baseline, inventory, independently reversible deletion bands, behavior/authority parity, achieved reduction, and retained/migration boundary only.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "Exact candidate 34a26d382\nComplete #309 base-to-candidate source, evidence, rollback, and validator diff\nFocused remediation of exact nonempty report-to-receipt rollback band coverage",
+      "review_revision": "git-blake3:34a26d382ebde47c58f5eae6c4a3c41e11c00a74:44e9808f4ae8914a38ecff56764549f4a6f8d32da8bc69b4b850ba27e4fbb6ff",
+      "reviewer": "fresh-session:a1f95d5c-bd55-409c-8bfc-ac43b96ca252",
       "review_prompts": [
         "Does every removed path have complete reachability and reverse-reference evidence?",
         "Does every superseded path map to a merged owner with positive negative artifact trace persistence and error parity?",
@@ -25,8 +25,11 @@
         "Does the candidate stop cleanly at migration/refactoring boundaries owned elsewhere?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Hosted Linux validation remains deferred until the reviewed candidate is published and exact-head CI receipts exist.",
+        "This first reduction band removes only two superseded evaluation modules; later WP-21 bands remain separate work and require their own proof and rollback rehearsals."
+      ],
+      "review_result": "pass"
     }
   }
 }

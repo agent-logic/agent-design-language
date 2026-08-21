@@ -6,3 +6,9 @@
 {"sequence":6,"generation":5,"actor":"codex:/root","reason":"Advance #309 after fresh design PASS and a clean typed readiness report.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"}
 {"sequence":7,"generation":5,"actor":"csdlc-bind","reason":"record Git branch/worktree topology","operation":"bind"}
 {"sequence":8,"generation":6,"actor":"codex:/root","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
+{"sequence":9,"generation":6,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":10,"generation":7,"actor":"codex:/root","reason":"Recover the failed remediation review after binding the claimed reduction to the pinned source commit and candidate Git diff, and binding rollback changed paths to the declared reduction and evidence scope.","operation":"recover_review"}
+{"sequence":11,"generation":7,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":12,"generation":8,"actor":"codex:/root","reason":"Recover the failed final review after requiring exact one-to-one nonempty Band A/B/C identity and path coverage between the reduction report and rollback receipt.","operation":"recover_review"}
+{"sequence":13,"generation":8,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":14,"generation":9,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
