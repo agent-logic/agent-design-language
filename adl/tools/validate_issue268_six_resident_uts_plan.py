@@ -55,8 +55,10 @@ def main() -> None:
         fail("repo UTS runner")
     if uts.get("task_panel") != "adl/tools/benchmark/uts_33_task_panel.json":
         fail("repo UTS task panel")
-    if uts.get("include_governed") is not True:
-        fail("governed UTS+ACC lane")
+    if uts.get("include_governed") is not False:
+        fail("retired governed UTS+ACC lane must remain disabled")
+    if uts.get("governed_lane_disposition") != "not_run_retired_by_5347_non_authoritative":
+        fail("retired governed UTS+ACC lane disposition")
     if "never replayed" not in str(uts.get("resume_rule")):
         fail("completed-case replay denial")
 

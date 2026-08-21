@@ -21,7 +21,8 @@
     "schema_version": "uts.v1.1",
     "runner": "adl/tools/uts_benchmark_runner.py",
     "task_panel": "adl/tools/benchmark/uts_33_task_panel.json",
-    "include_governed": true,
+    "include_governed": false,
+    "governed_lane_disposition": "not_run_retired_by_5347_non_authoritative",
     "resume_rule": "completed cases are never replayed; only the exact pending case resumes after validated restore"
   },
   "residents": [

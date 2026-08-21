@@ -50,7 +50,9 @@ def selected_task(tasks: dict[str, dict[str, Any]], task_id: str) -> dict[str, A
     return task
 
 
-def validate_report(path: pathlib.Path, agent_id: str, task_id: str) -> dict[str, Any]:
+def validate_report(
+    path: pathlib.Path, agent_id: str, task_id: str, include_governed: bool
+) -> dict[str, Any]:
     report = json.loads(path.read_text(encoding="utf-8"))
     if report.get("schema_version") != "uts_benchmark_runner.v1":
         raise SystemExit(f"{agent_id}: unexpected UTS report schema")
@@ -62,12 +64,18 @@ def validate_report(path: pathlib.Path, agent_id: str, task_id: str) -> dict[str
     lanes = models[0].get("lanes") or {}
     if set(lanes) != {"regular", "uts_only", "uts_acc"}:
         raise SystemExit(f"{agent_id}: exact UTS lane set missing")
-    for lane_name, lane in lanes.items():
+    required_lanes = {"regular", "uts_only"}
+    if include_governed:
+        required_lanes.add("uts_acc")
+    for lane_name in required_lanes:
+        lane = lanes[lane_name]
         if lane.get("status") != "evaluated":
             raise SystemExit(f"{agent_id}: {lane_name} did not execute: {lane.get('status')}")
         case_ids = [case.get("task_id") or case.get("id") for case in lane.get("cases") or []]
         if case_ids != [task_id]:
             raise SystemExit(f"{agent_id}: {lane_name} case denominator mismatch: {case_ids}")
+    if not include_governed and lanes["uts_acc"].get("status") != "not_run":
+        raise SystemExit(f"{agent_id}: retired UTS+ACC lane unexpectedly executed")
     serialized = json.dumps(report, sort_keys=True)
     if any(marker in serialized for marker in ("API_KEY=", "Authorization: Bearer", "BEGIN PRIVATE KEY")):
         raise SystemExit(f"{agent_id}: retained report contains a secret marker")
@@ -88,6 +96,7 @@ def main() -> int:
     task_panel = json.loads(args.task_panel.read_text(encoding="utf-8"))
     tasks = {task["id"]: task for task in task_panel.get("tasks", [])}
     residents = plan.get("residents") or []
+    include_governed = (plan.get("uts") or {}).get("include_governed") is True
     if len(residents) != 6:
         raise SystemExit("six-resident plan is required")
 
@@ -176,8 +185,9 @@ def main() -> int:
                 str(task_subset),
                 "--self-check-task-panel-file",
                 str(args.task_panel),
-                "--include-governed",
             ]
+            if include_governed:
+                command.append("--include-governed")
             completed = subprocess.run(command, cwd=ROOT, env=environment, check=False)
             if completed.returncode != 0:
                 if report_path.is_file():
@@ -200,7 +210,7 @@ def main() -> int:
                         file=sys.stderr,
                     )
                 raise SystemExit(f"{agent_id}: UTS runner failed with {completed.returncode}")
-            report = validate_report(report_path, agent_id, task_id)
+            report = validate_report(report_path, agent_id, task_id, include_governed)
 
         report_sha256 = digest_file(report_path)
         if args.phase == "pre":
@@ -238,6 +248,7 @@ def main() -> int:
                         "full_support": lane.get("full_support"),
                     }
                     for name, lane in report["models"][0]["lanes"].items()
+                    if name in {"regular", "uts_only"} or include_governed
                 },
             }
         else:
