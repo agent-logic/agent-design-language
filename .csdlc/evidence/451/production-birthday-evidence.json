@@ -1,7 +1,7 @@
 {
   "schema": "adl.runtime.production_birthday_evidence.v1",
   "issue": 451,
-  "source_revision": "52a605af593a31ce736ef5ce92e0d06e4f75c6cc",
+  "source_revision": "8d738e144e14a39c4791fce5cf826f8d60287688",
   "kernel_tests": {"selected": 5, "passed": 5, "failed": 0, "target": "production_birthday"},
   "resident_tests": {"selected": 2, "passed": 2, "failed": 0, "target": "production_birthday_runtime"},
   "proof": {"runtime_trusted_tool_binding": true, "runtime_verified_witness_binding": true, "trusted_time_binding": true, "exactly_once": true, "restart": true, "stale_lock_recovery": true, "seven_failpoints": true, "two_store_contention": true, "full_input_replay_denial": true, "cross_binding_denial": true, "ordinary_path_unchanged": true},
