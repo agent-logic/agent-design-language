@@ -12,9 +12,9 @@ use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
 use crate::{
-    authority_context_payload_digest, build_capability_envelope_with_continuity, envelope_digest,
-    build_governed_cognitive_profile_with_continuity, profile_digest, public_projection_digest,
-    validate_capability_envelope_with_continuity,
+    authority_context_payload_digest, build_capability_envelope_with_continuity,
+    build_governed_cognitive_profile_with_continuity, envelope_digest, profile_digest,
+    public_projection_digest, validate_capability_envelope_with_continuity,
     validate_governed_cognitive_profile_with_continuity, BirthdayCandidate, BirthdayIdentityRecord,
     CapabilityAuthorityPolicy, CapabilityEnvelope, CapabilityEnvelopeInput,
     CapabilityEnvelopePolicy, CognitiveAuthorityContext, CognitiveAuthorityPolicy,
@@ -246,12 +246,51 @@ pub(crate) fn build_verified_resident_cycle(
 }
 
 #[allow(clippy::too_many_arguments)]
-pub fn rehydrate_verified_resident_cycle(
+pub(crate) fn rehydrate_verified_resident_cycle(
     record: &ResidentCycleRecord,
     capability: CapabilityEnvelope,
     profile: CognitiveProfile,
+    birthday: &BirthdayCandidate,
+    identity: &BirthdayIdentityRecord,
+    continuity: &crate::VerifiedBirthdayContinuity,
+    capability_authority: &CapabilityAuthorityPolicy,
+    capability_policy: &CapabilityEnvelopePolicy,
+    cognitive_policy: &CognitiveProfilePolicy,
+    complete_history: &[CognitiveProfile],
+    authority: ResidentCycleAuthority,
 ) -> Result<VerifiedResidentCycle, ResidentCycleError> {
     validate_resident_cycle_record(record, &capability, &profile)?;
+    validate_capability_envelope_with_continuity(
+        &capability,
+        birthday,
+        identity,
+        continuity,
+        capability_authority,
+        capability_policy,
+    )
+    .map_err(ResidentCycleError::Capability)?;
+    let profile_input = cognitive_input_from_profile(&profile);
+    let authority_policy = CognitiveAuthorityPolicy::establish(
+        authority.authority_id,
+        authority.key_id,
+        authority.epoch,
+        authority.signing_key.verifying_key(),
+        cognitive_policy_sha256(cognitive_policy)?,
+        cognitive_evidence_sha256(&profile_input.evidence)?,
+    )
+    .map_err(ResidentCycleError::Cognitive)?;
+    validate_governed_cognitive_profile_with_continuity(
+        &profile,
+        birthday,
+        identity,
+        continuity,
+        capability_authority,
+        &capability,
+        cognitive_policy,
+        complete_history,
+        &authority_policy,
+    )
+    .map_err(ResidentCycleError::Cognitive)?;
     Ok(VerifiedResidentCycle {
         resident_id: record.resident_id.clone(),
         cycle_id: record.cycle_id.clone(),
@@ -269,6 +308,8 @@ pub fn validate_resident_cycle_record(
     profile: &CognitiveProfile,
 ) -> Result<(), ResidentCycleError> {
     if record.schema != RESIDENT_CYCLE_RECORD_SCHEMA
+        || record.resident_id.trim().is_empty()
+        || record.cycle_id.trim().is_empty()
         || resident_cycle_record_digest(record)? != record.record_sha256
         || record.identity_root != capability.identity_root
         || record.identity_root != profile.identity_root
@@ -294,6 +335,27 @@ pub fn validate_resident_cycle_record(
         return Err(ResidentCycleError::InvalidResidentCycle);
     }
     Ok(())
+}
+
+fn cognitive_input_from_profile(profile: &CognitiveProfile) -> CognitiveProfileInput {
+    CognitiveProfileInput {
+        schema: crate::COGNITIVE_PROFILE_INPUT_SCHEMA.to_owned(),
+        profile_id: profile.profile_id.clone(),
+        revision: profile.revision,
+        previous_profile_sha256: profile.previous_profile_sha256.clone(),
+        birthday_candidate_sha256: profile.birthday_candidate_sha256.clone(),
+        identity_record_sha256: profile.identity_record_sha256.clone(),
+        continuity_record_sha256: profile.continuity_record_sha256.clone(),
+        capability_envelope_sha256: profile.capability_envelope_sha256.clone(),
+        update_actor: profile.update_actor.clone(),
+        update_reason: profile.update_reason.clone(),
+        added_fields: profile.added_fields.clone(),
+        removed_fields: profile.removed_fields.clone(),
+        evidence: profile.evidence.clone(),
+        fields: profile.fields.clone(),
+        nonclaims: profile.nonclaims.clone(),
+        redaction_policy_sha256: profile.redaction_policy_sha256.clone(),
+    }
 }
 
 #[derive(Debug, thiserror::Error)]
@@ -929,6 +991,13 @@ mod tests {
         let capability_authority = crate::RuntimeCapabilityProvisioner::new()
             .provision(&capability_policy, &continuity)
             .unwrap();
+        let assembly = live_assembly().await;
+        let authority = || ResidentCycleAuthority {
+            authority_id: "runtime-cognitive-board".to_owned(),
+            key_id: "runtime-cognitive-key-1".to_owned(),
+            epoch: 1,
+            signing_key: SigningKey::from_bytes(&[7; 32]),
+        };
         let cycle = build_verified_resident_cycle(
             "resident-1",
             "cycle-1",
@@ -951,13 +1020,36 @@ mod tests {
             None,
         )
         .unwrap();
-        let restored = rehydrate_verified_resident_cycle(
+        let restored = assembly
+            .rehydrate_verified_resident_cycle(
+                &cycle.record,
+                cycle.capability.envelope().clone(),
+                cycle.cognitive_profile.profile().clone(),
+                &birthday,
+                &identity,
+                &continuity,
+                &capability_policy,
+                &cognitive_policy,
+                &[],
+                authority(),
+            )
+            .unwrap();
+        assert_eq!(restored.record.record_sha256, cycle.record.record_sha256);
+
+        assert!(rehydrate_verified_resident_cycle(
             &cycle.record,
             cycle.capability.envelope().clone(),
             cycle.cognitive_profile.profile().clone(),
+            &birthday,
+            &identity,
+            &continuity,
+            &capability_authority,
+            &capability_policy,
+            &cognitive_policy,
+            &[],
+            authority(),
         )
-        .unwrap();
-        assert_eq!(restored.record.record_sha256, cycle.record.record_sha256);
+        .is_ok());
 
         let mut tampered = cycle.record.clone();
         tampered.cognitive_profile_revision = 999;
@@ -965,6 +1057,14 @@ mod tests {
             &tampered,
             cycle.capability.envelope().clone(),
             cycle.cognitive_profile.profile().clone(),
+            &birthday,
+            &identity,
+            &continuity,
+            &capability_authority,
+            &capability_policy,
+            &cognitive_policy,
+            &[],
+            authority(),
         )
         .is_err());
 
@@ -975,6 +1075,14 @@ mod tests {
             &tampered_evidence,
             cycle.capability.envelope().clone(),
             cycle.cognitive_profile.profile().clone(),
+            &birthday,
+            &identity,
+            &continuity,
+            &capability_authority,
+            &capability_policy,
+            &cognitive_policy,
+            &[],
+            authority(),
         )
         .is_err());
 
@@ -985,6 +1093,14 @@ mod tests {
             &invalid_revision,
             cycle.capability.envelope().clone(),
             cycle.cognitive_profile.profile().clone(),
+            &birthday,
+            &identity,
+            &continuity,
+            &capability_authority,
+            &capability_policy,
+            &cognitive_policy,
+            &[],
+            authority(),
         )
         .is_err());
 
@@ -994,6 +1110,14 @@ mod tests {
             &cycle.record,
             forged_capability,
             cycle.cognitive_profile.profile().clone(),
+            &birthday,
+            &identity,
+            &continuity,
+            &capability_authority,
+            &capability_policy,
+            &cognitive_policy,
+            &[],
+            authority(),
         )
         .is_err());
     }
