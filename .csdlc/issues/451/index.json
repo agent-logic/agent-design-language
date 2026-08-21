@@ -5,12 +5,122 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b9c2d7027cdbbd3b729c65e5834eb5a267bdfd975d7bfa5524071e7831956e5e",
   "phase": "implemented",
-  "generation": 9,
-  "digest": "908c46276410c8e9f9254d6ac100b96d6f67374125725c2067b274220722e196",
+  "generation": 10,
+  "digest": "d84b8f865adb2f0bb3c41b814e098c3dcd776dedcdba927d8cf20c059f4c6a0b",
   "branch": "codex/451-production-birthday-witness-activation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-451-production-birthday-witness-activation",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:53c5985c-edb8-4f3b-b100-9782bd474a91",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:4f0e705cc8364f9035662f10134f9702b82aac46:a5dd6b74d3d6cbee9c4b85014511c03237145b695947dbdab9c070deb6f667ae",
+    "scope": [
+      ".csdlc/evidence/451",
+      ".csdlc/issues/451",
+      ".csdlc/prepared/issues/451",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/memory_palace_authority.rs",
+      "adl-runtime-kernel/src/production_birthday.rs",
+      "adl-runtime-kernel/src/resident_cycle.rs",
+      "adl-runtime-kernel/tests/production_birthday.rs",
+      "adl/src/lib.rs",
+      "adl/src/production_birthday.rs",
+      "adl/src/resident_tool_execution.rs",
+      "adl/tests/production_birthday_runtime.rs",
+      "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "docs/milestones/v0.92/QUALITY_GATE_v0.92.md",
+      "docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md",
+      "docs/planning/ADL_FEATURE_LIST.md"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:53c5985c-edb8-4f3b-b100-9782bd474a91",
+    "scope": [
+      ".csdlc/evidence/451",
+      ".csdlc/issues/451",
+      ".csdlc/prepared/issues/451",
+      "adl-runtime-kernel/src/assembly.rs",
+      "adl-runtime-kernel/src/lib.rs",
+      "adl-runtime-kernel/src/memory_palace_authority.rs",
+      "adl-runtime-kernel/src/production_birthday.rs",
+      "adl-runtime-kernel/src/resident_cycle.rs",
+      "adl-runtime-kernel/tests/production_birthday.rs",
+      "adl/src/lib.rs",
+      "adl/src/production_birthday.rs",
+      "adl/src/resident_tool_execution.rs",
+      "adl/tests/production_birthday_runtime.rs",
+      "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "docs/milestones/v0.92/QUALITY_GATE_v0.92.md",
+      "docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md",
+      "docs/planning/ADL_FEATURE_LIST.md"
+    ],
+    "reviewed_revision": "git-blake3:4f0e705cc8364f9035662f10134f9702b82aac46:a5dd6b74d3d6cbee9c4b85014511c03237145b695947dbdab9c070deb6f667ae",
+    "findings": [
+      {
+        "id": "451-P1-PRODUCTION-PATH",
+        "severity": "p1",
+        "summary": "Production adapter and actual authority path were not exercised.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "451-P1-CRASH-LOCK",
+        "severity": "p1",
+        "summary": "Process death could strand create-new ownership lock.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "451-P1-REPLAY-BINDINGS",
+        "severity": "p1",
+        "summary": "Idempotent replay omitted authoritative bindings.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "451-P1-WITNESS-TIME",
+        "severity": "p1",
+        "summary": "Witness and trusted-time authority were not composed.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "451-P1-ACC-TRUST",
+        "severity": "p1",
+        "summary": "ACC signing key was caller-nominated.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "451-P2-FAILPOINTS",
+        "severity": "p2",
+        "summary": "Only three of seven durable boundaries were tested.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +135,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "d2132a6447171797060c483b1e3b16a56af5006383354b10b3415e8a5e8cc7af",
+      "values_digest": "734662472b884967a39316d91844e9e3d7a4d14cd7f086b3e48e2cd9401db9f4",
       "rendered_digest": "eadb6c2cc3035ca4dae94df535e206a938d256fc5937c858408cc5b86cb4ea99",
       "ast_digest": "f0cea1e2c58d406c14f2a0978ea405f57bce122026f1fc085589993f55ab3a8b"
     },
     "stp": {
-      "values_digest": "596806c2248d0cb989e223339b75c918efd6b9bfbbe2379dbf5d3489245ed0b3",
+      "values_digest": "3d7f3d6a3c150598ecd4d735110dcdb0bca48a3a877c3d8b5a43894f2c6fd9cf",
       "rendered_digest": "9ae8e31a25c4344bd5564591ee81b983e5b7876e818723169f1fe5b4a71d8f4d",
       "ast_digest": "08e42884cb056fc338f9e5cbb8ab232743375906d9334fa1726ee60bb4698bce"
     },
     "spp": {
-      "values_digest": "c82da3e42181a5db39ebf3551d83027eb78ca36c47f34cd985e89e560a257ca0",
+      "values_digest": "d2770850e3564ce2afa2f8ad9fac303f227ff28d52b20c1f570d459fb7c9c91d",
       "rendered_digest": "8ac23eec192307f767f6a0a3cccad87abc6640725e347b30178da0a518fd4b8e",
       "ast_digest": "acb00b87193010adbef3685132f9cd51f1de02c45126e6fd848a6dcfb7c2d3cf"
     },
     "vpp": {
-      "values_digest": "2c45a4cb84d81b2282eb1e7ad0090555abcbd1bf1d5fece8e3e6d4f787459abe",
+      "values_digest": "4b824b4c66a9f721b1e9bb2d7811ba4307b06bb59f28986ec7938d4c10d0be49",
       "rendered_digest": "5dd80157e09af02d07bb352c64895f5778b98719516a2637641046258e0d0e5f",
       "ast_digest": "9ccf9013c0ee0a0efd4ecde2bd167f2e696adb6aa07a550792074fddfd188371"
     },
     "srp": {
-      "values_digest": "56b8051541a7b34db3c40782464fd776693f0ad6c399e70efb1448fee93c5606",
-      "rendered_digest": "abe53fd3e5373848c81a065c9534881e09e819224ca7f039712eee1367b3459e",
-      "ast_digest": "376df298ea3cc877ce1eac823784513b48246ba68fef818b25c0688864bd984e"
+      "values_digest": "241d6dc6b44c47bbe70e566ee6e9d1054733fc0d46114f866e82b8147eaed383",
+      "rendered_digest": "784aee234eefade6866766f5080dc1a9e00acf86535816f123eb6737c8bea1cd",
+      "ast_digest": "bf63899f72015d9a361421ede0c9e46e6c42ca29e6ec3368b4ec674147783e74"
     },
     "sor": {
-      "values_digest": "1fba3bfded77c30491f84f8eba03eadf3ce54b57b5561948ee66d2b19548db37",
+      "values_digest": "c83de9911ad61fadd33cce80fe2909c6f51ff7d89709b16afadc26241d566529",
       "rendered_digest": "c3fba5e09d8c1dd164bbf1c41a8af65e717b7c47d6580b8f7486e58771fda265",
       "ast_digest": "d0a982de2172927bdb1887b8e50da600c609f90e29ae1ef0edb1da98ef8614df"
     }
@@ -155,6 +265,20 @@
       "actor": "codex:issue-451-production-birthday-implementation",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
