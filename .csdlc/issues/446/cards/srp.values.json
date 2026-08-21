@@ -7,15 +7,15 @@
     "title": "[v0.92][Runtime] Wire ACC-governed tool execution into resident-agent cycles",
     "slug": "runtime-acc-resident-tool-execution",
     "version": "v0.92",
-    "generation": 24
+    "generation": 27
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/evidence/446\n.csdlc/issues/446\n.csdlc/prepared/issues/446/design.md\n.csdlc/prepared/issues/446/diagram.mmd\n.csdlc/prepared/issues/446/validate_issue446.sh\nadl-runtime/src/resident_agent.rs\nadl/src/csm_resident_agents.rs\nadl/src/csm_runtime_api.rs\nadl/src/cli/runtime_v2_cmd/commands.rs\nadl/src/cli/runtime_v2_cmd/helpers.rs\nadl/src/cli/runtime_v2_cmd/tests.rs\nadl/src/governed_executor_parts/logic.rs\nadl/src/lib.rs\nadl/src/long_lived_agent.rs\nadl/src/long_lived_agent/storage.rs\nadl/src/long_lived_agent/tests.rs\nadl/src/long_lived_agent/types.rs\nadl/src/resident_tool_execution.rs\nadl/src/runtime_aws_signal.rs",
-      "review_revision": "git-blake3:2f40024e543fb9e64bf25af61c4c0ee91f19e550:31a6556e4aa00d370984477c5b6aa19c4e2e23421d56a605342aa36b1024ed32",
-      "reviewer": "fresh-session:01a0227f-d655-7191-b038-aa8f073dd181",
+      "review_scope": ".csdlc/issues/446\nadl/src/cli/runtime_v2_cmd/commands.rs\nadl/src/cli/runtime_v2_cmd/tests.rs",
+      "review_revision": "git-blake3:bd388bdd576311815d5a1b5187385ba5b24edc77:2bc26ca30951bf6ff596c31ede7dae7cc6ccbcf888099672d106495619fc5639",
+      "reviewer": "fresh-session:01a02286-7c5e-7c90-a69f-0d51d64c3428",
       "review_prompts": [
         "Can provider output bypass authority?",
         "Can fixtures enter production?",
@@ -25,7 +25,7 @@
       ],
       "findings": [],
       "residual_risk": [
-        "The retained live proof is local Ollama gemma4:12b-mlx evidence; Linux/AWS six-resident qualification remains owned by dependent issue #268."
+        "This exact-head review covers the C-SDLC metadata commit and confirms it does not change Runtime code. Linux/AWS six-resident qualification remains owned by dependent issue #268."
       ],
       "review_result": "pass"
     }

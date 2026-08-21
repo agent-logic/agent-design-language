@@ -12,25 +12,9 @@ Status: draft
 
 ## Scope
 
-.csdlc/evidence/446
 .csdlc/issues/446
-.csdlc/prepared/issues/446/design.md
-.csdlc/prepared/issues/446/diagram.mmd
-.csdlc/prepared/issues/446/validate_issue446.sh
-adl-runtime/src/resident_agent.rs
-adl/src/csm_resident_agents.rs
-adl/src/csm_runtime_api.rs
 adl/src/cli/runtime_v2_cmd/commands.rs
-adl/src/cli/runtime_v2_cmd/helpers.rs
 adl/src/cli/runtime_v2_cmd/tests.rs
-adl/src/governed_executor_parts/logic.rs
-adl/src/lib.rs
-adl/src/long_lived_agent.rs
-adl/src/long_lived_agent/storage.rs
-adl/src/long_lived_agent/tests.rs
-adl/src/long_lived_agent/types.rs
-adl/src/resident_tool_execution.rs
-adl/src/runtime_aws_signal.rs
 
 ## Prompts
 
@@ -50,12 +34,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The retained live proof is local Ollama gemma4:12b-mlx evidence; Linux/AWS six-resident qualification remains owned by dependent issue #268.
+- This exact-head review covers the C-SDLC metadata commit and confirms it does not change Runtime code. Linux/AWS six-resident qualification remains owned by dependent issue #268.
 
 ## Review Result
 
-Revision: Some("git-blake3:2f40024e543fb9e64bf25af61c4c0ee91f19e550:31a6556e4aa00d370984477c5b6aa19c4e2e23421d56a605342aa36b1024ed32")
+Revision: Some("git-blake3:bd388bdd576311815d5a1b5187385ba5b24edc77:2bc26ca30951bf6ff596c31ede7dae7cc6ccbcf888099672d106495619fc5639")
 
-Reviewer: Some("fresh-session:01a0227f-d655-7191-b038-aa8f073dd181")
+Reviewer: Some("fresh-session:01a02286-7c5e-7c90-a69f-0d51d64c3428")
 
 Result: pass
