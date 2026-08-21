@@ -3,63 +3,14 @@
   "issue": 308,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "b71a21ec664bc745058f14d570b7b0024b62162323b6d5def698cbe827292525",
-  "phase": "published",
-  "generation": 14,
-  "digest": "5787b67bcff2b7c56d27318c37e554db60ddeb4100d00829193cc9efd6c635a7",
+  "phase": "implemented",
+  "generation": 15,
+  "digest": "bd05cb58a5e828e320cec67c4543410e6d4053abeaa7335d046b006816a95419",
   "branch": "codex/308-demo-proof-coverage",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-308-demo-proof-coverage",
-  "review_assignment": {
-    "reviewer": "fresh-session:codex-cli-issue-308-review-dae062e1",
-    "assigned_by": "codex:issue-308-review-finding-repair",
-    "revision": "git-blake3:dae062e1267de2a783aa20e739b8d1caca19e78e:0a56c91f01b013f01046e5beaf0ddd30647ff32713b09ad13637374b456a7626",
-    "scope": [
-      ".csdlc/evidence/308",
-      ".csdlc/issues/308",
-      ".csdlc/prepared/issues/308",
-      ".csdlc/locks/308.lock",
-      "adl/tools/validate_v092_demo_proof_coverage.py",
-      "adl/tools/test_v092_demo_proof_coverage.sh",
-      "docs/milestones/v0.92/DEMO_MATRIX_v0.92.md",
-      "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
-      "docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md",
-      "docs/milestones/v0.92/review/V092_DEMO_AEE_ARTIFACT_INDEX.md"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:codex-cli-issue-308-review-dae062e1",
-    "scope": [
-      ".csdlc/evidence/308",
-      ".csdlc/issues/308",
-      ".csdlc/prepared/issues/308",
-      ".csdlc/locks/308.lock",
-      "adl/tools/validate_v092_demo_proof_coverage.py",
-      "adl/tools/test_v092_demo_proof_coverage.sh",
-      "docs/milestones/v0.92/DEMO_MATRIX_v0.92.md",
-      "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
-      "docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md",
-      "docs/milestones/v0.92/review/V092_DEMO_AEE_ARTIFACT_INDEX.md"
-    ],
-    "reviewed_revision": "git-blake3:dae062e1267de2a783aa20e739b8d1caca19e78e:0a56c91f01b013f01046e5beaf0ddd30647ff32713b09ad13637374b456a7626",
-    "findings": [],
-    "residual_risks": [
-      "Review was read-only and bounded to exact commit dae062e1267de2a783aa20e739b8d1caca19e78e; reviewer ignored post-HEAD review-assignment metadata dirt.",
-      "Reviewer did not rerun the mutating shell negative suite in read-only review mode; checked-in validator logs and local pre-review validation record the passing run."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 308,
-    "pull_request": 447,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/447",
-    "base": "main",
-    "head": "codex/308-demo-proof-coverage",
-    "revision": "git-blake3:8fdbe3b99c1a1dd87a206be45e6d821833be2914:247e0ddf4e30e6a6755cd0fb4394056cfafa67b83a893f6f92d77df36d3aaee9",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -73,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2ce153ff55d688ca2bad1be5f40c4ab4b0004a8ef2837be9bd640165a5750212",
+      "values_digest": "ee972c997bc8062e3d7594af479915797d01fe8b56cb27ba8f12d81a8b426e7e",
       "rendered_digest": "cb55925f2472f45ca6386cfee375de0c4902ec6c3ab85f3229b6b5e5b89e8d57",
       "ast_digest": "3435b3bd1e49ebcb8894c63af3b1450b0776da7a75419409d74a670109bdc75c"
     },
     "stp": {
-      "values_digest": "1e9a5dfe36cfbc9a6b6a9a386074a43b80636a9a44a9cd9b3ddca1fe128171a1",
+      "values_digest": "0a08bea8b6ae6f3d4dfd74eaa38dd03173f639a9642f4a5dcd2692c0c6641b72",
       "rendered_digest": "a858d8b299db2f2ad806e9073e1ed32a6caaeb6cea054ec2ed06c57d75fdf406",
       "ast_digest": "16b0f2d4769f79fe6de0ea45effc459efb38a8642c718c4f9137cfa2547f2729"
     },
     "spp": {
-      "values_digest": "fa34647d05bd2e5c47a9ccf71272f3abcd3bbeba4a3a3f5d597374a4d30817b4",
+      "values_digest": "1f88efdfe1f249ef39030193dd8f5642ab2d4bc4e2f55b283df5f526ca314a47",
       "rendered_digest": "399212b0c2e5fb22de1357d7107303b26268078fce84e2a1a20eb287bca39905",
       "ast_digest": "b031d43e65ae2803059c35bc18820e29ff139dadca7ab5d0f2ec450e15d6179f"
     },
     "vpp": {
-      "values_digest": "f52e3377e19b04dfd5afbe841a3d72d2cf1e5fca63121a6bab59e0260a3ec847",
+      "values_digest": "05cacd00b216d7df09f4ad5f6c4618150a5261975e7ee4ffb96b7b023f2441e7",
       "rendered_digest": "d0d0590688e421ae4ae90cd95cad4ebfbe25abd842349eec2396e341ed53aa94",
       "ast_digest": "b1628e42176d953479f71193b2ac8af7587ca4c40ca4bcdbfce4dab54a3d40f3"
     },
     "srp": {
-      "values_digest": "c4f2299ae91fce05e353e47d7695a326da6f70928d83797d015f474e76e87ae1",
-      "rendered_digest": "5c6280ecda631dea300d5d3fc0bcfb282b3b9f98f585a5703d2c8091b4601072",
-      "ast_digest": "6c12f7ee3a3ac0e6c17d25c5c3d50d12ff8ebda096775a47934e7cec713c90ad"
+      "values_digest": "bed4bd60cbc3f24d901de734f07c5f3c59d2d0e347954aa62e8ec462ecb3af74",
+      "rendered_digest": "48ac6678ddca44923623167889db657aafd83a58b2243fe05b755251320302a7",
+      "ast_digest": "c527a75ebd21bc2913b8306373f0f6e150df6f6d97140ef10a8b16e26c274905"
     },
     "sor": {
-      "values_digest": "375c883175b57e5a4429a1cc0fc31d252ffe353997ce03f43ed45e5723d507d9",
-      "rendered_digest": "17394479fb73462bb09464b888acfd0e4cd967cc4e473251ebba2f20108f1973",
-      "ast_digest": "f17b40bcf3e62b8e8f9e7f176d239c3531c8642864e3b78edc330daa42f0d904"
+      "values_digest": "4a8bb3d96a1a67126504a7af77165ba90527f4062331fd0120b5bcc892ebe7ce",
+      "rendered_digest": "d4eaa132c028645974594a98bf21f51a0d0300c385dddf2806e670bfe14b5802",
+      "ast_digest": "adc560b0f0c08e6ab8a47e426e9327c481734a999df0f726311e074157239580"
     }
   },
   "transitions": [
@@ -138,6 +89,13 @@
       "to": "published",
       "actor": "codex:issue-308-publication",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-308-ci-clippy-unblock",
+      "reason": "Recover stale published review/publication truth after a post-publication hosted-Clippy unblock commit f06722e81a261afe177ae6105610fcfddc75a748 changed the PR head; exact-head review must be re-assigned and re-recorded before publication can authorize merge."
     }
   ],
   "audit": [
@@ -287,6 +245,13 @@
       "actor": "codex:issue-308-publication",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 22,
+      "generation": 15,
+      "actor": "codex:issue-308-ci-clippy-unblock",
+      "reason": "Recover stale published review/publication truth after a post-publication hosted-Clippy unblock commit f06722e81a261afe177ae6105610fcfddc75a748 changed the PR head; exact-head review must be re-assigned and re-recorded before publication can authorize merge.",
+      "operation": "recover_review"
     }
   ]
 }

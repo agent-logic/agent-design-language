@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-20] Demo matrix, AEE proof, and proof coverage",
     "slug": "v0-92-wp-20-demo-matrix-aee-proof-and-proof-coverage",
     "version": "v0.92",
-    "generation": 14
+    "generation": 15
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/evidence/308\n.csdlc/issues/308\n.csdlc/prepared/issues/308\n.csdlc/locks/308.lock\nadl/tools/validate_v092_demo_proof_coverage.py\nadl/tools/test_v092_demo_proof_coverage.sh\ndocs/milestones/v0.92/DEMO_MATRIX_v0.92.md\ndocs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md\ndocs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md\ndocs/milestones/v0.92/review/V092_DEMO_AEE_ARTIFACT_INDEX.md",
-      "review_revision": "git-blake3:dae062e1267de2a783aa20e739b8d1caca19e78e:0a56c91f01b013f01046e5beaf0ddd30647ff32713b09ad13637374b456a7626",
-      "reviewer": "fresh-session:codex-cli-issue-308-review-dae062e1",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Do all accepted rows agree across matrix, coverage, activation, and artifact index at one exact revision?",
         "Does every accepted claim retain required positive and negative proof plus platform, credential, review, and non-claim truth?",
@@ -24,11 +24,8 @@
         "Is the predecessor gate terminal, reconciled, and ancestral at the execution base?"
       ],
       "findings": [],
-      "residual_risk": [
-        "Review was read-only and bounded to exact commit dae062e1267de2a783aa20e739b8d1caca19e78e; reviewer ignored post-HEAD review-assignment metadata dirt.",
-        "Reviewer did not rerun the mutating shell negative suite in read-only review mode; checked-in validator logs and local pre-review validation record the passing run."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }
