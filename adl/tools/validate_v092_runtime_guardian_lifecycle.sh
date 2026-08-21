@@ -631,6 +631,12 @@ if report.get("schema") != "adl.runtime_v3.lifecycle_soak.v1":
     fail("wrong lifecycle report schema")
 if report.get("status") != "pass":
     fail("lifecycle preflight failed")
+runtime_soak = report.get("runtime_v3_soak") or {}
+if runtime_soak.get("status") != "pass":
+    fail("bounded Runtime soak evaluation did not pass")
+evaluation = (runtime_soak.get("evidence") or {}).get("evaluation") or {}
+if evaluation.get("status") != "pass" or evaluation.get("violations"):
+    fail("bounded Runtime soak evidence remained fail-closed")
 if report.get("revision") != revision:
     fail("lifecycle revision drifted")
 completed_cycles = int(report.get("completed_cycles", 0))

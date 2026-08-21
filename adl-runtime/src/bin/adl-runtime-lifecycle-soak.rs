@@ -3256,7 +3256,7 @@ fn build_short_qualification_soak_evidence(
     let faults = short_qualification_fault_records(workload);
     let config = short_qualification_soak_config(args, kernel_sha256, &faults, started_seconds);
     build_runner_plan(&config)?;
-    let samples = short_qualification_samples(workload, started_seconds);
+    let samples = short_qualification_samples(workload);
     let cleanup = CleanupOutcome {
         cancellation_requested: false,
         cancellation_receipt: None,
@@ -3338,7 +3338,6 @@ fn short_qualification_soak_config(
         cleanup: CleanupContract {
             required: true,
             zero_residue_paths: vec![
-                ".adl/runtime-v3/qualification".to_owned(),
                 ".adl/runtime-v3/soak/instances".to_owned(),
                 ".adl/runtime-v3/soak/locks".to_owned(),
             ],
@@ -3359,25 +3358,42 @@ fn short_qualification_soak_config(
     }
 }
 
-fn short_qualification_samples(
-    workload: &WorkloadProof,
-    started_unix_seconds: u64,
-) -> Vec<SoakSample> {
+fn short_qualification_samples(workload: &WorkloadProof) -> Vec<SoakSample> {
+    let started_unix_seconds = workload
+        .observed_phases
+        .iter()
+        .map(|phase| phase.injected_unix_seconds)
+        .min()
+        .unwrap_or(0);
+    let mut previous_sequence = None;
     workload
         .observed_phases
         .iter()
-        .map(|phase| SoakSample {
-            sequence: phase
+        .map(|phase| {
+            let scheduled_sequence = phase
                 .injected_unix_seconds
                 .saturating_sub(started_unix_seconds)
-                / SHORT_QUALIFICATION_SAMPLE_INTERVAL_SECONDS,
-            observed_unix_seconds: phase.injected_unix_seconds,
-            observability_cursor_unix_seconds: Some(phase.injected_unix_seconds),
-            resource_growth_percent: phase.resource_growth_percent,
-            restart_count: (phase.name == "restart") as u64,
-            backoff_seconds: phase.backoff_seconds,
-            transport_error_count: phase.transport_error_count,
-            recovery_seconds: Some(phase.recovery_seconds),
+                / SHORT_QUALIFICATION_SAMPLE_INTERVAL_SECONDS;
+            let sequence = previous_sequence
+                .map(|previous| scheduled_sequence.max(previous + 1))
+                .unwrap_or(scheduled_sequence);
+            previous_sequence = Some(sequence);
+            SoakSample {
+                // More than one governed phase can occur in the same wall-clock
+                // second. Preserve the real schedule when possible and advance
+                // colliding observations to the next unique sample slot. The
+                // phase record below retains its actual injection timestamp.
+                sequence,
+                observed_unix_seconds: started_unix_seconds.saturating_add(
+                    sequence.saturating_mul(SHORT_QUALIFICATION_SAMPLE_INTERVAL_SECONDS),
+                ),
+                observability_cursor_unix_seconds: Some(phase.injected_unix_seconds),
+                resource_growth_percent: phase.resource_growth_percent,
+                restart_count: (phase.name == "restart") as u64,
+                backoff_seconds: phase.backoff_seconds,
+                transport_error_count: phase.transport_error_count,
+                recovery_seconds: Some(phase.recovery_seconds),
+            }
         })
         .collect()
 }
@@ -4184,6 +4200,31 @@ max_open_handles = 8
             .expect("violations")
             .iter()
             .any(|violation| violation["code"] == "missing_observation"));
+    }
+
+    #[test]
+    fn short_qualification_samples_keep_identity_when_phases_share_a_second() {
+        let mut phases = test_observed_phases();
+        phases[2].injected_unix_seconds = phases[1].injected_unix_seconds;
+        let workload = WorkloadProof {
+            authenticated_https_connections: SHORT_QUALIFICATION_CONNECTIONS,
+            authenticated_wss_connections: SHORT_QUALIFICATION_CONNECTIONS,
+            websocket_full_duplex_observed: true,
+            observed_phases: phases,
+        };
+
+        let samples = short_qualification_samples(&workload);
+        assert_eq!(samples.len(), short_qualification_fault_names().len());
+        assert_eq!(samples[1].sequence, 2);
+        assert_eq!(samples[2].sequence, 3);
+        assert_eq!(
+            samples[1].observability_cursor_unix_seconds,
+            samples[2].observability_cursor_unix_seconds
+        );
+        assert_eq!(
+            samples[2].observed_unix_seconds,
+            samples[1].observed_unix_seconds + SHORT_QUALIFICATION_SAMPLE_INTERVAL_SECONDS
+        );
     }
 
     fn test_observed_phases() -> Vec<ObservedPhase> {
