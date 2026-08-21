@@ -302,7 +302,7 @@ pub(crate) fn rehydrate_verified_resident_cycle(
     })
 }
 
-pub fn validate_resident_cycle_record(
+pub(crate) fn validate_resident_cycle_record(
     record: &ResidentCycleRecord,
     capability: &CapabilityEnvelope,
     profile: &CognitiveProfile,
