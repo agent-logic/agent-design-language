@@ -9,8 +9,7 @@ from pathlib import Path
 import subprocess
 import urllib.request
 
-ROOT = Path("/Volumes/FastWork/adl-worktrees/adl-issue-309-repository-wide-code-reduction")
-PRIMARY = Path("/Users/daniel/git/agent-design-language")
+ROOT = Path(__file__).resolve().parents[4]
 BASE = "e926e3bca0ab1981d77b4658d2feb4059bdf33a6"
 
 
@@ -101,8 +100,9 @@ recommend a percentage target. Be findings-first and specific.
 
 parts = [
     instructions,
-    "===== CURRENT WP-21 PLAN =====\n" + read(PRIMARY / ".adl/docs/TBD/WP_21_REPOSITORY_REDUCTION_PLAN.md"),
-    "===== HISTORICAL REPOSITORY REDUCTION PLAN =====\n" + read(PRIMARY / ".adl/docs/TBD/rust_refactoring/ADL_REPOSITORY_CODE_REDUCTION_PLAN_v0.91.8.md"),
+    "===== ISSUE DESIGN =====\n" + read(ROOT / ".csdlc/prepared/issues/309/design.md"),
+    "===== REVIEWED HISTORICAL DELETION MANIFEST =====\n"
+    + read(ROOT / "docs/milestones/v0.91.8/evidence/wp13-external-bands/external-band-deletion-manifest.json"),
     "===== BASELINE MANIFEST =====\n" + read(ROOT / ".csdlc/evidence/309/baseline-manifest.json"),
     "===== DISPOSITION MANIFEST =====\n" + read(ROOT / ".csdlc/evidence/309/disposition-manifest.json"),
     "===== REFERENCE EDGE MANIFEST =====\n" + read(ROOT / ".csdlc/evidence/309/reference-edge-manifest.json"),
@@ -130,11 +130,6 @@ text = "".join(
 )
 if not text.strip():
     raise SystemExit(json.dumps(result, sort_keys=True)[:2000])
-output_path = Path(
-    os.environ.get(
-        "GEMINI_OUTPUT_FILE",
-        str(ROOT / ".csdlc/evidence/309/gemini-dead-code-audit.md"),
-    )
-)
+output_path = ROOT / ".csdlc/evidence/309/gemini-dead-code-audit.md"
 output_path.write_text(text.rstrip() + "\n", encoding="utf-8")
 print(json.dumps({"status": "pass", "output": str(output_path), "characters": len(text)}, sort_keys=True))
