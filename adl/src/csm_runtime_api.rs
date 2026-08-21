@@ -3581,6 +3581,11 @@ memory: {}
                             "constitutional_policy_required": true,
                             "model_output_advisory_only": true
                         },
+                        "tool_authority": adl_runtime::resident_agent::CsmResidentAgentToolAuthorityBinding::new(
+                            "authority.api-agent:polis_shepherd_agent",
+                            "runtime://resident/api-agent:polis_shepherd_agent/tool-authority",
+                            vec!["runtime.observe".to_string()],
+                        ),
                         "checkpoint_policy": "periodic_and_agent_requested_with_runtime_min_interval",
                         "lifelog_policy": "append_admission_lifecycle_provider_invocation_refusal_and_recovery_events",
                         "observability_policy": "emit_resident_agent_provider_lifecycle_metrics_traces_logs_and_runtime_events",
