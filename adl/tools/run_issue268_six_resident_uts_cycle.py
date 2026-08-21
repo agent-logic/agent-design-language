@@ -150,7 +150,7 @@ def write_spec(path: pathlib.Path, resident: dict[str, Any], runtime_root: pathl
                 "requires_human_challenge": False, "escalation_available": False,
                 "citizen_action_boundary_intact": True, "operator_action_boundary_intact": True,
                 "private_arguments_redacted": True}}},
-        "heartbeat": {"interval_secs": 1, "max_cycles": 2, "stale_lease_after_secs": 900},
+        "heartbeat": {"interval_secs": 1, "max_cycles": 3, "stale_lease_after_secs": 900},
         "checkpoint": {"interval_secs": 1, "allow_agent_requested": True, "min_request_interval_secs": 1},
         "safety": {"allow_network": False, "allow_broker": False,
             "allow_filesystem_writes_outside_state_root": False, "allow_real_world_side_effects": False,
@@ -218,12 +218,31 @@ def main() -> int:
                 retained = state["residents"].get(agent_id) or {}
                 if attempted not in retained.get("completed_case_ids", []):
                     raise SystemExit(f"{agent_id}: replay probe does not target a completed case")
+                task = task_by_id.get(attempted)
+                agent_dir = restored_root / agent_id
+                spec_path = agent_dir / "agent.yaml"
+                locked = json.loads((agent_dir / "state" / "agent_spec.locked.json").read_text(encoding="utf-8"))
+                if locked.get("agent_instance_id") != agent_id:
+                    raise SystemExit(f"{agent_id}: restored replay identity mismatch")
+                write_workflow(agent_dir / "workflow.adl.yaml", resident, "pre", task)
+                runtime_exit_code = run_agent(args.runtime_bin, spec_path)
+                cycles = sorted((agent_dir / "state" / "cycles").glob("cycle-*"))
+                if not cycles:
+                    raise SystemExit(f"{agent_id}: replay attempt produced no Runtime cycle")
+                runtime_receipts_path = cycles[-1] / "resident_tool_receipts.json"
+                runtime_receipts = json.loads(runtime_receipts_path.read_text(encoding="utf-8"))
+                if (runtime_exit_code == 0 or len(runtime_receipts) != 1
+                        or runtime_receipts[0].get("decision") != "denied"
+                        or runtime_receipts[0].get("reason_code") != "proposal_replay_denied"):
+                    raise SystemExit(f"{agent_id}: Runtime did not deny the completed proposal replay")
                 atomic_json(args.evidence_dir / f"replay-{agent_id}.json", {
                     "schema": "adl.issue268.runtime_uts_replay_denial.v1",
                     "agent_id": agent_id,
                     "attempted_case_id": attempted,
-                    "decision": "denied",
-                    "reason_code": "completed_case_replay_denied",
+                    "decision": runtime_receipts[0]["decision"],
+                    "reason_code": runtime_receipts[0]["reason_code"],
+                    "runtime_receipt_sha256": digest_file(runtime_receipts_path),
+                    "runtime_exit_code": runtime_exit_code,
                     "restore_receipt_sha256": state["restore_receipt_sha256"],
                 })
                 retained["replay_denial_receipt_sha256"] = digest_file(args.evidence_dir / f"replay-{agent_id}.json")
@@ -260,8 +279,10 @@ def main() -> int:
                 raise SystemExit(f"{agent_id}: restored #414 tool authority mismatch")
         write_workflow(agent_dir / "workflow.adl.yaml", resident, args.phase, task)
         runtime_exit_code = run_agent(args.runtime_bin, spec_path)
-        cycle_number = 1 if args.phase == "pre" else 2
-        cycle_dir = agent_dir / "state" / "cycles" / f"cycle-{cycle_number:06d}"
+        cycle_dirs = sorted((agent_dir / "state" / "cycles").glob("cycle-*"))
+        if not cycle_dirs:
+            raise SystemExit(f"{agent_id}: Runtime agent tick produced no cycle")
+        cycle_dir = cycle_dirs[-1]
         receipt_path = cycle_dir / "resident_tool_receipts.json"
         receipts = json.loads(receipt_path.read_text(encoding="utf-8"))
         if len(receipts) != 1 or receipts[0].get("schema") != RUNTIME_RECEIPT or receipts[0].get("decision") not in {"executed", "denied"}:
@@ -277,7 +298,7 @@ def main() -> int:
             "task_definition_sha256": canonical_digest(task),
             "runtime_receipt": receipt, "runtime_receipt_sha256": digest_file(receipt_path),
             "agent_test_outcome": receipt["decision"], "runtime_exit_code": runtime_exit_code,
-            "cycle_id": f"cycle-{cycle_number:06d}"}
+            "cycle_id": receipt["cycle_id"]}
         atomic_json(report_path, report)
         report_sha = digest_file(report_path)
         if args.phase == "pre":

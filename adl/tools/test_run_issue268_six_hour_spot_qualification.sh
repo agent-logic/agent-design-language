@@ -228,6 +228,8 @@ allowed={
 "adl/tools/test_uts_benchmark_runner_contracts.sh",
 "adl/src/provider_adapter.rs",
 "adl/src/provider_communication.rs",
+"adl/src/resident_tool_execution.rs",
+"adl/src/long_lived_agent.rs",
 "adl/src/agent_comms/dispatch/coding.inc",
 "adl/tools/run_issue268_continuity_uts_qualification.py",
 "adl/tools/test_run_issue268_continuity_uts_qualification.py",

@@ -30,13 +30,13 @@ cycles.mkdir(parents=True,exist_ok=True)
 number=len(list(cycles.glob('cycle-*')))+1
 cycle=cycles/f'cycle-{number:06d}'
 cycle.mkdir()
-decision='denied' if spec['agent_instance_id']=='issue268-tool-executor' and number==1 else 'executed'
+decision='denied' if number==2 or (spec['agent_instance_id']=='issue268-tool-executor' and number==1) else 'executed'
 receipt={'schema':'adl.runtime.resident_tool_receipt.v1','resident_id':spec['agent_instance_id'],
  'authority_id':spec['tool_authority']['authority_id'],'authority_sha256':spec['tool_authority']['authority_sha256'],
  'cycle_id':f'cycle-{number:06d}','checkpoint_lineage':f'continuity_checkpoint.json#sha256:{number:064x}',
  'proposal_sha256':'a'*64,'proposal_id':'sha256:'+'b'*64,'acc_contract_id':'acc.runtime.observe',
  'gate_reason_code':'allowed','adapter_id':'adapter.runtime.observe.dry_run','decision':decision,
- 'reason_code':'governed_execution_completed' if decision=='executed' else 'tool_not_authorized'}
+ 'reason_code':'governed_execution_completed' if decision=='executed' else ('proposal_replay_denied' if number==2 else 'tool_not_authorized')}
 (cycle/'resident_tool_receipts.json').write_text(json.dumps([receipt])+'\\n')
 print(json.dumps({'state':'idle','completed_cycle_count':number}))
 raise SystemExit(0 if decision=='executed' else 1)
