@@ -377,7 +377,7 @@ impl RuntimeMemoryPalaceService {
     }
 
     pub fn retained_status(&self) -> Value {
-        match self.load_latest() {
+        match self.load_latest_read_only() {
             Ok(Some(commit)) => json!({
                 "schema": CSM_MEMORY_PALACE_STATUS_SCHEMA,
                 "component": CSM_MEMORY_PALACE_COMPONENT,
@@ -406,6 +406,48 @@ impl RuntimeMemoryPalaceService {
                 "error_class": error.status_error_class(),
                 "source": "durable_memory_palace_service"
             }),
+        }
+    }
+
+    fn load_latest_read_only(
+        &self,
+    ) -> Result<Option<RuntimeMemoryPalaceCommit>, RuntimeMemoryPalaceError> {
+        if !self.root.exists() {
+            return Ok(None);
+        }
+        if !self.root.is_dir() {
+            return Err(RuntimeMemoryPalaceError::Corrupt(
+                "Memory Palace service root is not a directory".to_owned(),
+            ));
+        }
+        if !self.root.join("journal").is_dir() || !self.root.join("generations").is_dir() {
+            return Ok(None);
+        }
+        let Some(head) = self.validated_journal_head_locked()? else {
+            return Ok(None);
+        };
+        if !self.root.join("latest.json").is_file() {
+            return Ok(None);
+        }
+        match read_json::<RuntimeMemoryPalaceLatest>(&self.root.join("latest.json")) {
+            Ok(latest)
+                if latest.schema == LATEST_SCHEMA
+                    && latest.generation == head.generation
+                    && latest.packet_sha256 == head.packet_sha256
+                    && latest.checkpoint_sha256 == head.checkpoint_sha256 =>
+            {
+                self.load_generation_locked(head.generation).map(Some)
+            }
+            Ok(latest)
+                if latest.generation < head.generation
+                    && latest.packet_sha256 != head.packet_sha256 =>
+            {
+                Ok(None)
+            }
+            Ok(_) => Err(RuntimeMemoryPalaceError::Corrupt(
+                "latest pointer is ahead of or differently bound from journal head".to_owned(),
+            )),
+            Err(error) => Err(error),
         }
     }
 
