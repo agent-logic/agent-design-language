@@ -10,10 +10,10 @@ use ::adl::runtime_v2::{
     runtime_v2_constructability_anchor_validator_contract,
     runtime_v2_contract_market_demo_contract, runtime_v2_curiosity_engine_contract,
     runtime_v2_feature_proof_coverage_contract, runtime_v2_foundation_demo_contract,
-    runtime_v2_godel_agent_runtime_contract_for, runtime_v2_governed_tools_flagship_demo_contract,
-    runtime_v2_loop_runtime_contract, runtime_v2_observatory_flagship_contract,
-    runtime_v2_operator_control_report_contract, runtime_v2_reasoning_graph_contract,
-    runtime_v2_security_boundary_proof_contract, RuntimeV2ConstructabilityAnchorValidatorPacket,
+    runtime_v2_godel_agent_runtime_contract_for, runtime_v2_loop_runtime_contract,
+    runtime_v2_observatory_flagship_contract, runtime_v2_operator_control_report_contract,
+    runtime_v2_reasoning_graph_contract, runtime_v2_security_boundary_proof_contract,
+    RuntimeV2ConstructabilityAnchorValidatorPacket,
 };
 
 pub(crate) fn real_runtime_v2_operator_controls(repo_root: &Path, args: &[String]) -> Result<()> {
@@ -833,26 +833,12 @@ pub(crate) fn real_runtime_v2_governed_tools_flagship_demo(
         i += 1;
     }
 
-    let artifacts = runtime_v2_governed_tools_flagship_demo_contract()?;
-    let Some(out_path) = out_path else {
-        println!("{}", to_string_pretty(&artifacts.proof_packet)?);
-        return Ok(());
-    };
-    let resolved =
+    if let Some(out_path) = out_path {
         resolve_relative_output_path(repo_root, &out_path, "governed-tools-flagship-demo")?;
-    fs::create_dir_all(&resolved).with_context(|| {
-        format!(
-            "failed to create Runtime v2 governed-tools flagship demo root {}",
-            resolved.display()
-        )
-    })?;
-    artifacts.write_to_root(&resolved)?;
-    println!("{}", governed_tools_flagship_demo_stdout_line(&out_path));
-    println!();
-    println!("{}", artifacts.execution_summary()?);
-    println!();
-    println!("{}", artifacts.operator_report_markdown);
-    Ok(())
+    }
+    Err(anyhow!(
+        "runtime-v2 governed-tools-flagship-demo production execution is unavailable: its historical governed adapter is test-only"
+    ))
 }
 
 pub(crate) fn observatory_flagship_demo_stdout_line(out_path: &Path) -> String {
@@ -906,6 +892,7 @@ pub(crate) fn contract_market_demo_stdout_line(out_path: &Path) -> String {
     )
 }
 
+#[cfg(test)]
 pub(crate) fn governed_tools_flagship_demo_stdout_line(out_path: &Path) -> String {
     format!(
         "RUNTIME_V2_GOVERNED_TOOLS_FLAGSHIP_DEMO_ROOT={}",

@@ -76,8 +76,7 @@ fn assert_production_fixture_refusal(result: anyhow::Result<()>, out_dir: &Path)
     let err = result.expect_err("production CLI must not actuate the historical fixture adapter");
     let message = err.to_string();
     assert!(
-        message.contains("historical governed adapter is test-only")
-            || message.contains("executor_outcome must equal \"executed\", found \"refused\""),
+        message.contains("historical governed adapter is test-only"),
         "unexpected production fixture refusal: {message}"
     );
     assert!(
@@ -1715,7 +1714,7 @@ fn trace_runtime_v2_governed_tools_flagship_demo_validates_stdout_help_and_outpu
         .expect_err("production stdout demo must refuse the historical fixture adapter");
     assert!(err
         .to_string()
-        .contains("wp18.allowed_read executor_outcome must equal \"executed\", found \"refused\""));
+        .contains("historical governed adapter is test-only"));
     real_runtime_v2_in_repo(
         &[
             "governed-tools-flagship-demo".to_string(),
@@ -1734,10 +1733,10 @@ fn trace_runtime_v2_governed_tools_flagship_demo_validates_stdout_help_and_outpu
         ],
         &repo,
     )
-    .expect_err("production fixture refusal must precede output publication");
-    assert!(err
-        .to_string()
-        .contains("wp18.allowed_read executor_outcome must equal \"executed\", found \"refused\""));
+    .expect_err("absolute output path should fail");
+    assert!(err.to_string().contains(
+        "runtime-v2 governed-tools-flagship-demo --out path must be repository-relative"
+    ));
 
     let err = real_runtime_v2_in_repo(
         &[
