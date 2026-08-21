@@ -7,25 +7,27 @@
     "title": "[v0.92][Runtime] Wire ACC-governed tool execution into resident-agent cycles",
     "slug": "runtime-acc-resident-tool-execution",
     "version": "v0.92",
-    "generation": 13
+    "generation": 15
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Wired six-resident Runtime tool authority and actual long-lived provider output through single-proposal extraction, UTS-to-ACC compilation, configured Freedom Gate evaluation, production Runtime observation dispatch, and checkpoint-bound redacted terminal receipts; exact implementation tree 48075df8480802ed6629069c57ce795e39281d09 is proven by deterministic and live gemma4:12b-mlx Runtime cycles.",
+      "summary": "Wired six-resident Runtime tool authority and actual long-lived provider output through single-proposal extraction, UTS-to-ACC compilation, configured Freedom Gate evaluation, production Runtime observation dispatch, and checkpoint-bound redacted terminal receipts; production CLI regression proof now requires historical fixture-backed demo actuation to refuse before artifact publication while library-only fixture tests remain executable.",
       "actual_changes": [
         "Added canonical digest-bound resident tool authority metadata and tamper denial in adl-runtime.",
         "Added Runtime-owned single-proposal extraction, including duplicate-proposal denial and redacted proposal identifiers.",
         "Routed actual long-lived Runtime provider output through UTS-to-ACC compilation and configured Freedom Gate policy before adapter dispatch.",
         "Added the production runtime.observe registry and bounded redacted Runtime snapshot adapter; fixture dispatch remains test-only and production fallback fails closed.",
         "Bound every terminal execution or denial receipt to resident identity, cycle, and exact checkpoint digest.",
-        "Added deterministic full-tick and opt-in live Ollama gemma4:12b-mlx proof without changing generic provider configuration or expanding v0.92 scope."
+        "Added deterministic full-tick and opt-in live Ollama gemma4:12b-mlx proof without changing generic provider configuration or expanding v0.92 scope.",
+        "Corrected the causal workspace-coverage regression so production CLI tests assert fail-closed refusal of the historical fixture adapter, while cfg(test) library demo coverage still proves the bounded fixture behavior."
       ],
       "artifacts": [
         "implementation-tree:48075df8480802ed6629069c57ce795e39281d09",
         "commit:e040eb35020fd4673422cc41841a44b5143345be",
         "evidence-commit:ac01f0181344e7571e706ed35366e4c619faecf6",
+        "ci-repair-commit:2ba8feae04bef2f2151d0b094851d0b421390138",
         ".csdlc/evidence/446/live-gemma4-runtime-acc.log",
         "adl-runtime/src/resident_agent.rs",
         "adl/src/resident_tool_execution.rs",
@@ -161,10 +163,41 @@
           "purpose": "Prove whitespace and conflict-marker hygiene.",
           "outcome": "passed",
           "evidence_ref": "local exact implementation tree"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "cli::runtime_v2_cmd::tests::trace_runtime_v2_governed_tools_flagship_demo",
+            "--bin",
+            "adl",
+            "--",
+            "--nocapture"
+          ],
+          "purpose": "Prove production CLI paths refuse historical fixture adapter actuation before artifact publication while preserving argument/help behavior.",
+          "outcome": "passed",
+          "evidence_ref": "local CI repair: 2 passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "runtime_v2_governed_tools_flagship_demo",
+            "--lib",
+            "--",
+            "--nocapture"
+          ],
+          "purpose": "Prove the bounded fixture-backed historical demo remains available only inside cfg(test) library validation.",
+          "outcome": "passed",
+          "evidence_ref": "local CI repair: 3 passed"
         }
       ],
-      "integration_state": "pr_open",
-      "publication_state": "ready",
+      "integration_state": "worktree_only",
+      "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
