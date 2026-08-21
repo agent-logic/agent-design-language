@@ -4,7 +4,7 @@
 
 - Feature Name: Adaptive Learning DAG
 - Milestone Target: `v0.92`
-- Status: WP-13A contract implemented locally; native proof pending CI
+- Status: WP-13A contract implemented locally with resident-cycle integration proof; native proof pending CI
 - Owner: ADL maintainers
 - Doc Role: primary
 - Feature Types: architecture, runtime, validation
@@ -130,7 +130,7 @@ WP-01 validated the prerequisite by checking:
 - WP-13A owns the opened adaptive-learning implementation issue;
 - no v0.92 birthday claim depends on unproved graph mutation.
 
-The issue-owned `adaptive_learning` integration target contains fifteen focused
+The issue-owned `adaptive_learning` integration target contains eighteen focused
 tests using real Runtime v3 loop outcomes, cancellation tokens, signed mutation
 grants, `MutationGate`, `AdaptationStore`, and `KernelDurableState`. Accepted
 history requires the canonical adaptive-learning policy digest to match the
@@ -151,6 +151,19 @@ policy, capability, mutation evidence, exact predecessor, and rollback authority
 Every sequence remains reloadable after restart; rollback requires the exact
 sequence-addressed durable history plus matching gate and signature evidence and
 cannot return caller-selected hashes.
+
+Issue `#449` wires that governed executor into a Runtime-owned resident-cycle
+entrypoint. The resident path validates the resident id, continuity head,
+profile digest, capability envelope, policy digest, predecessor history, loop
+outcome, cancellation token, and optional signed mutation grant before invoking
+`execute_governed_adaptive_learning`. Accepted resident adaptations still mutate
+only through `MutationGate`; rejected, cancelled, malformed, stale, or
+mismatched resident bindings retain terminal evidence without graph/state
+mutation. Startup reconciliation has a resident wrapper that revalidates the
+same continuity/profile/policy authority before returning redacted restored
+receipt evidence. The `resident_cycle` proof covers accepted mutation, rejected
+non-mutation, invalid binding fail-closed behavior, restart restoration, and
+deterministic continuation from the restored durable head.
 Native macOS/Linux receipts remain CI integration proof and are not claimed by
 the local implementation result.
 

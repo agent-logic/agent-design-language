@@ -163,6 +163,185 @@ pub enum AdaptiveLearningRejection {
     EncodingFailure,
 }
 
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ResidentAdaptiveLearningStatus {
+    Accepted,
+    Rejected,
+    Cancelled,
+    Restored,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ResidentAdaptiveLearningReceipt {
+    pub schema: String,
+    pub resident_id: String,
+    pub continuity_head_sha256: String,
+    pub status: ResidentAdaptiveLearningStatus,
+    pub history_id: String,
+    pub sequence: u64,
+    pub history_sha256: String,
+    pub profile_sha256: String,
+    pub capability_envelope_sha256: String,
+    pub before_graph_sha256: String,
+    pub resulting_graph_sha256: String,
+    pub resulting_state_sha256: String,
+    pub policy_sha256: String,
+    pub cancellation_observed: bool,
+    pub mutation_evidence_retained: bool,
+}
+
+#[allow(clippy::too_many_arguments)]
+pub fn execute_resident_adaptive_learning_cycle(
+    resident_id: &str,
+    continuity_head_sha256: &str,
+    gate: &MutationGate,
+    durable: &KernelDurableState,
+    profile: &CognitiveProfile,
+    input: &AdaptiveLearningInput,
+    policy: &AdaptiveLearningPolicy,
+    previous: Option<&AdaptiveLearningHistory>,
+    loop_outcome: &LoopOutcome,
+    cancellation: &CancellationToken,
+    mutation: Option<(&MutationGrant, &[GraphPatch])>,
+) -> Result<ResidentAdaptiveLearningReceipt, Vec<AdaptiveLearningRejection>> {
+    validate_resident_adaptive_learning_bindings(
+        resident_id,
+        continuity_head_sha256,
+        profile,
+        input,
+        policy,
+        previous,
+    )?;
+    let history = execute_governed_adaptive_learning(
+        gate,
+        durable,
+        profile,
+        input,
+        policy,
+        previous,
+        loop_outcome,
+        cancellation,
+        mutation,
+    )?;
+    resident_adaptive_learning_receipt(
+        resident_id,
+        continuity_head_sha256,
+        &history,
+        resident_status_from_history(&history),
+    )
+}
+
+pub fn reconcile_resident_adaptive_learning_startup(
+    resident_id: &str,
+    continuity_head_sha256: &str,
+    durable: &KernelDurableState,
+    gate: &mut MutationGate,
+    profile: &CognitiveProfile,
+    policy: &AdaptiveLearningPolicy,
+    authority: &MutationAuthority,
+) -> Result<Option<ResidentAdaptiveLearningReceipt>, AdaptiveLearningRejection> {
+    validate_resident_identity(resident_id, continuity_head_sha256, profile)
+        .map_err(|_| AdaptiveLearningRejection::InvalidAuthority)?;
+    reconcile_adaptive_learning_startup(durable, gate, profile, policy, authority)?
+        .map(|history| {
+            resident_adaptive_learning_receipt(
+                resident_id,
+                continuity_head_sha256,
+                &history,
+                ResidentAdaptiveLearningStatus::Restored,
+            )
+            .map_err(|_| AdaptiveLearningRejection::InvalidAuthority)
+        })
+        .transpose()
+}
+
+fn validate_resident_adaptive_learning_bindings(
+    resident_id: &str,
+    continuity_head_sha256: &str,
+    profile: &CognitiveProfile,
+    input: &AdaptiveLearningInput,
+    policy: &AdaptiveLearningPolicy,
+    previous: Option<&AdaptiveLearningHistory>,
+) -> Result<(), Vec<AdaptiveLearningRejection>> {
+    validate_resident_identity(resident_id, continuity_head_sha256, profile)?;
+    let mut canonical_policy_value = policy.clone();
+    canonical_policy(&mut canonical_policy_value);
+    let policy_sha256 = digest(&canonical_policy_value)?;
+    if input.profile_sha256 != profile.profile_sha256
+        || policy.profile_sha256 != profile.profile_sha256
+        || input.capability_envelope_sha256 != profile.capability_envelope_sha256
+        || policy.capability_envelope_sha256 != profile.capability_envelope_sha256
+        || input.decision.policy_sha256 != policy_sha256
+        || previous.is_some_and(|prior| {
+            input.previous_history_sha256.as_deref() != Some(prior.history_sha256.as_str())
+                || prior.profile_sha256 != profile.profile_sha256
+                || prior.capability_envelope_sha256 != profile.capability_envelope_sha256
+                || prior.history_id != input.history_id
+        })
+    {
+        return Err(vec![AdaptiveLearningRejection::InvalidAuthority]);
+    }
+    Ok(())
+}
+
+fn validate_resident_identity(
+    resident_id: &str,
+    continuity_head_sha256: &str,
+    profile: &CognitiveProfile,
+) -> Result<(), Vec<AdaptiveLearningRejection>> {
+    if !safe_id(resident_id)
+        || !safe_text(resident_id)
+        || !is_sha(continuity_head_sha256)
+        || continuity_head_sha256 != profile.continuity_head
+    {
+        return Err(vec![AdaptiveLearningRejection::InvalidAuthority]);
+    }
+    Ok(())
+}
+
+fn resident_status_from_history(
+    history: &AdaptiveLearningHistory,
+) -> ResidentAdaptiveLearningStatus {
+    if history.loop_binding.cancellation_observed {
+        ResidentAdaptiveLearningStatus::Cancelled
+    } else {
+        match history.decision.disposition {
+            LearningDisposition::Accepted => ResidentAdaptiveLearningStatus::Accepted,
+            LearningDisposition::Rejected => ResidentAdaptiveLearningStatus::Rejected,
+        }
+    }
+}
+
+fn resident_adaptive_learning_receipt(
+    resident_id: &str,
+    continuity_head_sha256: &str,
+    history: &AdaptiveLearningHistory,
+    status: ResidentAdaptiveLearningStatus,
+) -> Result<ResidentAdaptiveLearningReceipt, Vec<AdaptiveLearningRejection>> {
+    if !safe_id(resident_id) || !safe_text(resident_id) || !is_sha(continuity_head_sha256) {
+        return Err(vec![AdaptiveLearningRejection::InvalidAuthority]);
+    }
+    Ok(ResidentAdaptiveLearningReceipt {
+        schema: "adl.resident_adaptive_learning.receipt.v1".into(),
+        resident_id: resident_id.into(),
+        continuity_head_sha256: continuity_head_sha256.into(),
+        status,
+        history_id: history.history_id.clone(),
+        sequence: history.sequence,
+        history_sha256: history.history_sha256.clone(),
+        profile_sha256: history.profile_sha256.clone(),
+        capability_envelope_sha256: history.capability_envelope_sha256.clone(),
+        before_graph_sha256: history.before_graph_sha256.clone(),
+        resulting_graph_sha256: history.resulting_graph_sha256.clone(),
+        resulting_state_sha256: history.resulting_state_sha256.clone(),
+        policy_sha256: history.policy_sha256.clone(),
+        cancellation_observed: history.loop_binding.cancellation_observed,
+        mutation_evidence_retained: history.mutation_evidence.is_some(),
+    })
+}
+
 pub fn build_adaptive_learning_history(
     graph: &ValidatedReasoningGraph,
     profile: &CognitiveProfile,
