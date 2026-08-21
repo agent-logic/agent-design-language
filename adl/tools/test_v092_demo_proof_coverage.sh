@@ -12,6 +12,7 @@ rm -rf "${RUN_ROOT}"
 trap 'rm -rf "${RUN_ROOT}"' EXIT
 mkdir -p \
   "${RUN_ROOT}/.csdlc/evidence/308" \
+  "${RUN_ROOT}/.csdlc/evidence/308/predecessors" \
   "${RUN_ROOT}/docs/milestones/v0.92/review" \
   "${RUN_ROOT}/adl/tools"
 cp .csdlc/evidence/308/wp20-demo-proof-validator.log \
@@ -20,6 +21,8 @@ cp .csdlc/evidence/308/wp20-demo-proof-negative-suite.log \
   "${RUN_ROOT}/.csdlc/evidence/308/wp20-demo-proof-negative-suite.log"
 cp .csdlc/evidence/308/exact-base-revisions.txt \
   "${RUN_ROOT}/.csdlc/evidence/308/exact-base-revisions.txt"
+cp .csdlc/evidence/308/predecessors/*.json \
+  "${RUN_ROOT}/.csdlc/evidence/308/predecessors/"
 cp docs/milestones/v0.92/DEMO_MATRIX_v0.92.md \
   "${RUN_ROOT}/docs/milestones/v0.92/DEMO_MATRIX_v0.92.md"
 cp docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md \
@@ -51,9 +54,9 @@ import sys
 
 path = pathlib.Path(sys.argv[1])
 text = path.read_text()
-text = text.replace("issue: #340\nwork_package: WP-18A", "issue: #340\nwork_package: WP-18A")
-text = text.replace("issue: #340\nwork_package: WP-18A\nrepository: agent-logic/agent-design-language\npull_request: 430\ndisposition: merged\nterminal_state: closed_by_merged_pr\nmerge_sha: aa36a828793366f92d0d9e16247bd3fb1cce7878\nancestor_of_308_base: true",
-                    "issue: #340\nwork_package: WP-18A\nrepository: agent-logic/agent-design-language\npull_request: 430\ndisposition: merged\nterminal_state: open\nmerge_sha: aa36a828793366f92d0d9e16247bd3fb1cce7878\nancestor_of_308_base: true")
+text = text.replace("terminal_state: closed_by_merged_pr",
+                    "terminal_state: open",
+                    1)
 path.write_text(text)
 PY
 
@@ -65,14 +68,24 @@ fi
 cp .csdlc/evidence/308/exact-base-revisions.txt \
   "${RUN_ROOT}/.csdlc/evidence/308/exact-base-revisions.txt"
 
+rm "${RUN_ROOT}/.csdlc/evidence/308/predecessors/340-derived-terminal.json"
+
+if python3 adl/tools/validate_v092_demo_proof_coverage.py --root "${RUN_ROOT}"; then
+  echo "expected missing retained predecessor evidence fixture to fail" >&2
+  exit 1
+fi
+
+cp .csdlc/evidence/308/predecessors/340-derived-terminal.json \
+  "${RUN_ROOT}/.csdlc/evidence/308/predecessors/340-derived-terminal.json"
+
 python3 - "$RUN_ROOT/docs/milestones/v0.92/DEMO_MATRIX_v0.92.md" <<'PY'
 import pathlib
 import sys
 
 path = pathlib.Path(sys.argv[1])
 text = path.read_text()
-text = text.replace("| D1 | First birthday proof | A named identity can cross the birth boundary with required evidence. | Birthday record, witness set, receipt, and review packet. | blocked_with_evidence | AEE-014 |",
-                    "| D1 | First birthday proof | A named identity can cross the birth boundary with required evidence. | Birthday record, witness set, receipt, and review packet. | accepted | AEE-014 |")
+text = text.replace("| D1 | First birthday proof | A named identity can cross the birth boundary with required evidence. | Birthday record, witness set, receipt, and review packet. | WP-18 | blocked_with_evidence | pending-owner-evidence | pending-owner-command | AEE-014 |",
+                    "| D1 | First birthday proof | A named identity can cross the birth boundary with required evidence. | Birthday record, witness set, receipt, and review packet. | WP-18 | accepted | pending-owner-evidence | pending-owner-command | AEE-014 |")
 path.write_text(text)
 PY
 

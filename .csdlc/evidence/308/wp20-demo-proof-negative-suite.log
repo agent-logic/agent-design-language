@@ -1,7 +1,8 @@
 v0.92 demo proof coverage validation: PASS
 v0.92 demo proof coverage validation: PASS
 v0.92 demo proof coverage validation failed: missing required file: /Volumes/FastWork/adl-worktrees/adl-issue-308-demo-proof-coverage/.csdlc/evidence/308/validator-negative-fixtures/docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md
-v0.92 demo proof coverage validation failed: predecessor gate evidence for #340 lacks terminal_state: closed_by_merged_pr
+v0.92 demo proof coverage validation failed: predecessor gate evidence for #256 lacks terminal_state: closed_by_merged_pr
+v0.92 demo proof coverage validation failed: missing required file: /Volumes/FastWork/adl-worktrees/adl-issue-308-demo-proof-coverage/.csdlc/evidence/308/validator-negative-fixtures/.csdlc/evidence/308/predecessors/340-derived-terminal.json
 v0.92 demo proof coverage validation failed: demo row D1 is accepted but artifact index row AEE-014 is blocked_with_evidence
 v0.92 demo proof coverage validation failed: activation ledger row AEE-018 owner 'WP-99' does not match artifact index owner 'WP-20'
 v0.92 demo proof coverage validation failed: accepted artifact index rows AEE-018 and AEE-019 duplicate owner/surface ('WP-20', 'Demo matrix and proof coverage')

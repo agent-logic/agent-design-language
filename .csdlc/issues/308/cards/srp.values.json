@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-20] Demo matrix, AEE proof, and proof coverage",
     "slug": "v0-92-wp-20-demo-matrix-aee-proof-and-proof-coverage",
     "version": "v0.92",
-    "generation": 9
+    "generation": 11
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": ".csdlc/evidence/308\n.csdlc/issues/308\n.csdlc/prepared/issues/308\n.csdlc/locks/308.lock\nadl/tools/validate_v092_demo_proof_coverage.py\nadl/tools/test_v092_demo_proof_coverage.sh\ndocs/milestones/v0.92/DEMO_MATRIX_v0.92.md\ndocs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md\ndocs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md\ndocs/milestones/v0.92/review/V092_DEMO_AEE_ARTIFACT_INDEX.md",
-      "review_revision": "git-blake3:5b4992ab6d97c79f141c22369f8f1a2f9eef6f9a:667cac397d879c31afab79b9c38c0b56565cb02fc84cb6a01676485dbb8dbd41",
-      "reviewer": "fresh-session:codex-cli-issue-308-review-5b4992ab",
+      "review_revision": "git-blake3:bcf420ec823682f86a2c713ddf1575c98c094398:1df0b08259eae1f8506f9680ae7e34e76a8c1360be9f5ce7682c32dca4b75491",
+      "reviewer": "fresh-session:codex-cli-issue-308-review-bcf420ec",
       "review_prompts": [
         "Do all accepted rows agree across matrix, coverage, activation, and artifact index at one exact revision?",
         "Does every accepted claim retain required positive and negative proof plus platform, credential, review, and non-claim truth?",
@@ -25,9 +25,9 @@
       ],
       "findings": [
         {
-          "id": "R2-P1-predecessor-gate-evidence-unlabeled",
+          "id": "R3-P1-predecessor-gate-reconciled-evidence-missing",
           "severity": "p1",
-          "summary": "Retained predecessor gate evidence does not label or prove terminal/reconciled/ancestral truth for #256, #340, #341, and legacy #5839 as required by the issue design.",
+          "summary": "The predecessor gate evidence and validator prove terminal/ancestor facts but not labeled reconciled state or retained terminal evidence artifacts for #256, #340, #341, and legacy #5839.",
           "actionable": true,
           "in_scope": true,
           "disposition": "open",
@@ -35,9 +35,9 @@
           "route": null
         },
         {
-          "id": "R2-P1-activation-ledger-not-structured",
+          "id": "R3-P1-demo-matrix-owner-revision-command-underchecked",
           "severity": "p1",
-          "summary": "The validator only checks that the activation ledger mentions WP-20 instead of parsing and comparing activation ledger ownership/status/revision against the matrix, coverage, and artifact index.",
+          "summary": "The demo matrix lacks owner, exact revision, and command columns, so the validator cannot enforce the promised four-surface owner/status/revision/command join.",
           "actionable": true,
           "in_scope": true,
           "disposition": "open",
@@ -46,7 +46,7 @@
         }
       ],
       "residual_risk": [
-        "Review was read-only and bounded to exact commit 5b4992ab6d97c79f141c22369f8f1a2f9eef6f9a; reviewer ignored post-HEAD review-assignment metadata dirt."
+        "Review was read-only and bounded to exact commit bcf420ec823682f86a2c713ddf1575c98c094398; reviewer ignored post-HEAD review-assignment metadata dirt and did not rerun mutating negative-suite fixtures."
       ],
       "review_result": "changes_required"
     }

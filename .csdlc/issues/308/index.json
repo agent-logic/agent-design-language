@@ -4,14 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "b71a21ec664bc745058f14d570b7b0024b62162323b6d5def698cbe827292525",
   "phase": "implemented",
-  "generation": 9,
-  "digest": "9f83b9a1ebaa2aeb2c5c96c860baa2ab8d5de09110597828e15852c45ce28d32",
+  "generation": 11,
+  "digest": "db95be3fd3c7fbbe1586cbd5cdd611f1d2653638216cd15a5342bd1f459edce3",
   "branch": "codex/308-demo-proof-coverage",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-308-demo-proof-coverage",
   "review_assignment": {
-    "reviewer": "fresh-session:codex-cli-issue-308-review-5b4992ab",
+    "reviewer": "fresh-session:codex-cli-issue-308-review-bcf420ec",
     "assigned_by": "codex:issue-308-review-finding-repair",
-    "revision": "git-blake3:5b4992ab6d97c79f141c22369f8f1a2f9eef6f9a:667cac397d879c31afab79b9c38c0b56565cb02fc84cb6a01676485dbb8dbd41",
+    "revision": "git-blake3:bcf420ec823682f86a2c713ddf1575c98c094398:1df0b08259eae1f8506f9680ae7e34e76a8c1360be9f5ce7682c32dca4b75491",
     "scope": [
       ".csdlc/evidence/308",
       ".csdlc/issues/308",
@@ -26,7 +26,7 @@
     ]
   },
   "review": {
-    "reviewer": "fresh-session:codex-cli-issue-308-review-5b4992ab",
+    "reviewer": "fresh-session:codex-cli-issue-308-review-bcf420ec",
     "scope": [
       ".csdlc/evidence/308",
       ".csdlc/issues/308",
@@ -39,12 +39,12 @@
       "docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md",
       "docs/milestones/v0.92/review/V092_DEMO_AEE_ARTIFACT_INDEX.md"
     ],
-    "reviewed_revision": "git-blake3:5b4992ab6d97c79f141c22369f8f1a2f9eef6f9a:667cac397d879c31afab79b9c38c0b56565cb02fc84cb6a01676485dbb8dbd41",
+    "reviewed_revision": "git-blake3:bcf420ec823682f86a2c713ddf1575c98c094398:1df0b08259eae1f8506f9680ae7e34e76a8c1360be9f5ce7682c32dca4b75491",
     "findings": [
       {
-        "id": "R2-P1-predecessor-gate-evidence-unlabeled",
+        "id": "R3-P1-predecessor-gate-reconciled-evidence-missing",
         "severity": "p1",
-        "summary": "Retained predecessor gate evidence does not label or prove terminal/reconciled/ancestral truth for #256, #340, #341, and legacy #5839 as required by the issue design.",
+        "summary": "The predecessor gate evidence and validator prove terminal/ancestor facts but not labeled reconciled state or retained terminal evidence artifacts for #256, #340, #341, and legacy #5839.",
         "actionable": true,
         "in_scope": true,
         "disposition": "open",
@@ -52,9 +52,9 @@
         "route": null
       },
       {
-        "id": "R2-P1-activation-ledger-not-structured",
+        "id": "R3-P1-demo-matrix-owner-revision-command-underchecked",
         "severity": "p1",
-        "summary": "The validator only checks that the activation ledger mentions WP-20 instead of parsing and comparing activation ledger ownership/status/revision against the matrix, coverage, and artifact index.",
+        "summary": "The demo matrix lacks owner, exact revision, and command columns, so the validator cannot enforce the promised four-surface owner/status/revision/command join.",
         "actionable": true,
         "in_scope": true,
         "disposition": "open",
@@ -63,7 +63,7 @@
       }
     ],
     "residual_risks": [
-      "Review was read-only and bounded to exact commit 5b4992ab6d97c79f141c22369f8f1a2f9eef6f9a; reviewer ignored post-HEAD review-assignment metadata dirt."
+      "Review was read-only and bounded to exact commit bcf420ec823682f86a2c713ddf1575c98c094398; reviewer ignored post-HEAD review-assignment metadata dirt and did not rerun mutating negative-suite fixtures."
     ],
     "completed": true,
     "non_substantive_proof": null
@@ -82,32 +82,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6ac6a25cfb8ff7935d6388f28bd7998b837f757eb89f370ae217b9a117f1028b",
+      "values_digest": "adb3f1e0e3fa04f26dd1bd1467f400b8e5ce98906f63d788fc13e02307a1bc65",
       "rendered_digest": "cb55925f2472f45ca6386cfee375de0c4902ec6c3ab85f3229b6b5e5b89e8d57",
       "ast_digest": "3435b3bd1e49ebcb8894c63af3b1450b0776da7a75419409d74a670109bdc75c"
     },
     "stp": {
-      "values_digest": "847e351476d3bc97ad9a3bfc2fbe7c7a71fe57bf79f96e788cdcd4a00479ba7c",
+      "values_digest": "983bf19c75551ca833e78fa62e6194d1fdcc3caf163b407f4b96edd8e878e24b",
       "rendered_digest": "a858d8b299db2f2ad806e9073e1ed32a6caaeb6cea054ec2ed06c57d75fdf406",
       "ast_digest": "16b0f2d4769f79fe6de0ea45effc459efb38a8642c718c4f9137cfa2547f2729"
     },
     "spp": {
-      "values_digest": "ee5553024f37a4cff7000a2e4c4a72f9e9ce83b20fc922eaafe3776e5e8d990d",
+      "values_digest": "dcf2ea68c6cf1f4e12478e580598d5d4b6e7a776b8a5298800096f00f21a034a",
       "rendered_digest": "399212b0c2e5fb22de1357d7107303b26268078fce84e2a1a20eb287bca39905",
       "ast_digest": "b031d43e65ae2803059c35bc18820e29ff139dadca7ab5d0f2ec450e15d6179f"
     },
     "vpp": {
-      "values_digest": "4a8e5d9c63d3c12e37f33868fb30cc4a9b2e2cd51fa54ac8f4870f9a810a9cc1",
+      "values_digest": "9b9e30e1bfe7d39006fb96cc870ef8dd4cca8b29b6d6c7eb96ee4c96b638efc9",
       "rendered_digest": "d0d0590688e421ae4ae90cd95cad4ebfbe25abd842349eec2396e341ed53aa94",
       "ast_digest": "b1628e42176d953479f71193b2ac8af7587ca4c40ca4bcdbfce4dab54a3d40f3"
     },
     "srp": {
-      "values_digest": "a69794d60a7c1f53cbc06d7d585f48f09e6a4afe62366578047bd8037cb1259d",
-      "rendered_digest": "123e2e593f98070eec4b0772ccbcf136c0546532b0427eaea2d841b05655f684",
-      "ast_digest": "16978a802018635a960e4e19e49c2c77091ae201abeb3581834224fa4e4607fc"
+      "values_digest": "8bfec3b0c5f77cbdca7b47bd20f7ed636370b91f64f3f52382a1fc52528a4e1d",
+      "rendered_digest": "8333c95d1c7f4ebbccf2ddf6d21a948d37a6e0c9791e9c6ce359553061d3b6d1",
+      "ast_digest": "49adcb12db2ff347391e0c3f33af4283d792650ab02d955108dbd306af047d38"
     },
     "sor": {
-      "values_digest": "8dd901c116086d51bc9ae060251d79fc0ae48b9b87e12309d1ec8155772700ef",
+      "values_digest": "49cf4c197f409f8dbd633ba151c56bcf2f7f989df21c8554adb06285ecae8b87",
       "rendered_digest": "d4eaa132c028645974594a98bf21f51a0d0300c385dddf2806e670bfe14b5802",
       "ast_digest": "adc560b0f0c08e6ab8a47e426e9327c481734a999df0f726311e074157239580"
     }
@@ -231,6 +231,27 @@
       "sequence": 14,
       "generation": 9,
       "actor": "fresh-session:codex-cli-issue-308-review-5b4992ab",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:issue-308-review-finding-repair",
+      "reason": "Recover failed exact-head review fresh-session:codex-cli-issue-308-review-5b4992ab after committing repairs for R2-P1 predecessor gate evidence and R2-P1 activation ledger structured validation at bcf420ec823682f86a2c713ddf1575c98c094398; assign a fresh reviewer to the clean repaired head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "codex:issue-308-review-finding-repair",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 11,
+      "actor": "fresh-session:codex-cli-issue-308-review-bcf420ec",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
     }

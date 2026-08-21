@@ -29,22 +29,34 @@ PREDECESSOR_GATE = {
     "#256": {
         "repository": "agent-logic/agent-design-language",
         "pull_request": "427",
+        "canonical_generation": "22",
+        "canonical_digest": "f96cf1052c911a104f2a8a228cf83ffb345990ca2160b0b70032f002ba5bc671",
         "merge_sha": "fb4c853bdb9cb140059d2a28af02d70bd36a27a4",
+        "retained_evidence_ref": ".csdlc/evidence/308/predecessors/256-derived-terminal.json",
     },
     "#340": {
         "repository": "agent-logic/agent-design-language",
         "pull_request": "430",
+        "canonical_generation": "39",
+        "canonical_digest": "b59cd71fa9399f166366e42b84503b78e7dfce46f93096f116f2c613f5cc3bd8",
         "merge_sha": "aa36a828793366f92d0d9e16247bd3fb1cce7878",
+        "retained_evidence_ref": ".csdlc/evidence/308/predecessors/340-derived-terminal.json",
     },
     "#341": {
         "repository": "agent-logic/agent-design-language",
         "pull_request": "442",
+        "canonical_generation": "2",
+        "canonical_digest": "31d3e54f171dbd164ef1de1bc4504110e0de1f3de44c206eb667770c4dad1141",
         "merge_sha": "0b5aadebd7cff653c2500106d4a4055f1b9b8818",
+        "retained_evidence_ref": ".csdlc/evidence/308/predecessors/341-derived-terminal.json",
     },
     "#5839": {
         "repository": "danielbaustin/agent-design-language",
         "pull_request": "289",
+        "canonical_generation": "38",
+        "canonical_digest": "93a28ce3d40b0eb0444c1c7d011401856db489075da1cbf6221f45a74546fa7e",
         "merge_sha": "7f88697ce82215188af941e15cf02a6220c9ad63",
+        "retained_evidence_ref": ".csdlc/evidence/308/predecessors/5839-derived-terminal.json",
     },
 }
 
@@ -172,18 +184,34 @@ def validate_predecessor_gate(root: Path) -> None:
         header = f"issue: {issue}"
         if header not in evidence:
             fail(f"predecessor gate evidence does not label {issue}")
+        issue_section = evidence.split(header, 1)[1].split("\n\n", 1)[0]
         for field, expected in required.items():
             needle = f"{field}: {expected}"
-            if needle not in evidence:
+            if needle not in issue_section:
                 fail(f"predecessor gate evidence for {issue} lacks {needle}")
         for needle in (
             "disposition: merged",
             "terminal_state: closed_by_merged_pr",
+            "reconciled_state: typed_derived_terminal_reconciled",
             "ancestor_of_308_base: true",
         ):
-            issue_section = evidence.split(header, 1)[1].split("\n\n", 1)[0]
             if needle not in issue_section:
                 fail(f"predecessor gate evidence for {issue} lacks {needle}")
+        retained_ref = required["retained_evidence_ref"]
+        retained_text = read(root / retained_ref)
+        for needle in (
+            '"schema": "csdlc.derived_terminal.v1"',
+            f'"issue": {issue.strip("#")}',
+            f'"repository": "{required["repository"]}"',
+            f'"canonical_generation": {required["canonical_generation"]}',
+            f'"canonical_digest": "{required["canonical_digest"]}"',
+            f'"pull_request": {required["pull_request"]}',
+            '"disposition": "merged"',
+            f'"merge_sha": "{required["merge_sha"]}"',
+            '"issue_state": "closed_by_merged_pr"',
+        ):
+            if needle not in retained_text:
+                fail(f"retained predecessor evidence {retained_ref} for {issue} lacks {needle}")
 
 
 def normalized_command(value: str) -> str:
@@ -244,7 +272,17 @@ def validate(root: Path) -> None:
 
     demo_rows = table_with_columns(
         root / DEMO,
-        {"Demo ID", "Demo / proof surface", "Milestone claim", "Primary proof surface", "Status", "Artifact index row"},
+        {
+            "Demo ID",
+            "Demo / proof surface",
+            "Milestone claim",
+            "Primary proof surface",
+            "Owner",
+            "Status",
+            "Exact revision",
+            "Command",
+            "Artifact index row",
+        },
     )
     seen_demo_ids: set[str] = set()
     for row in demo_rows:
@@ -261,6 +299,15 @@ def validate(root: Path) -> None:
             fail(f"demo row {demo_id} is accepted but artifact index row {row_id} is {index_status}")
         if status != "accepted" and index_status == "accepted" and demo_id != "D9":
             fail(f"demo row {demo_id} is non-accepted but artifact index row {row_id} is accepted")
+        if row["Owner"] != by_row[row_id]["Owner"]:
+            fail(f"demo row {demo_id} owner {row['Owner']!r} does not match artifact index owner {by_row[row_id]['Owner']!r}")
+        if row["Exact revision"] != by_row[row_id]["Exact revision"]:
+            fail(
+                f"demo row {demo_id} exact revision {row['Exact revision']!r} "
+                f"does not match artifact index exact revision {by_row[row_id]['Exact revision']!r}"
+            )
+        if normalized_command(row["Command"]) != normalized_command(by_row[row_id]["Command"]):
+            fail(f"demo row {demo_id} command does not match artifact index command")
 
     ledger_rows = table_with_columns(
         root / LEDGER,

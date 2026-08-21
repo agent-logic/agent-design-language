@@ -24,18 +24,18 @@ coverage validator.
 
 ## Demo Coverage Summary
 
-| Demo ID | Demo / proof surface | Milestone claim | Primary proof surface | Status | Artifact index row |
-| --- | --- | --- | --- | --- | --- |
-| D1 | First birthday proof | A named identity can cross the birth boundary with required evidence. | Birthday record, witness set, receipt, and review packet. | blocked_with_evidence | AEE-014 |
-| D2 | Not-a-birthday negative suite | Startup, wake, snapshot, admission, copied state, and fixtures are not birth. | Negative fixtures and validation report. | blocked_with_evidence | AEE-014 |
-| D3 | Continuity across bounded cycles | Identity persists across multiple bounded cycles with evidence. | Cycle artifacts, continuity record, witness links. | blocked_with_evidence | AEE-014 |
-| D4 | Memory grounding proof | Birth references witnessed memory artifacts without exposing raw private memory. | Memory-grounding packet, redacted projection, and denial proof. | blocked_with_evidence | AEE-009 |
-| D5 | Capability envelope proof | The birth record declares provider, model, tool, skill, authority, and limit context. | Capability envelope inputs, validation, and missing-envelope denial. | blocked_with_evidence | AEE-009 |
-| D6 | ACP / cognitive profile proof | Birth packet includes a bounded profile record grounded in evidence. | Profile fixture, update rationale, redacted reviewer packet, validation. | blocked_with_evidence | AEE-010 |
-| D7A | Adaptive Learning DAG boundary proof | Adaptive learning is distinguished from bounded loop execution. | Evaluation bindings, accepted/rejected graph deltas, and replay negatives. | blocked_with_evidence | AEE-010 |
-| D7 | ACIP binary schema and WebSocket carrier proof | Binary ACIP remains inspectable through public schemas while message contents remain governed. | Schema catalog, JSON projection, denied-access case, authenticated WSS trace. | blocked_with_evidence | AEE-011 |
-| D8 | Birthday-to-governance handoff | v0.93 governance can consume v0.92 identity evidence without redefining birth. | Handoff packet mapping identity evidence to future governance. | blocked_with_evidence | AEE-017 |
-| D9 | WP-20 coverage validator | Demo/proof rows cannot be passed without exact evidence and negative proof. | `adl/tools/validate_v092_demo_proof_coverage.py` and shell test harness. | blocked_with_evidence | AEE-018 |
+| Demo ID | Demo / proof surface | Milestone claim | Primary proof surface | Owner | Status | Exact revision | Command | Artifact index row |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| D1 | First birthday proof | A named identity can cross the birth boundary with required evidence. | Birthday record, witness set, receipt, and review packet. | WP-18 | blocked_with_evidence | pending-owner-evidence | pending-owner-command | AEE-014 |
+| D2 | Not-a-birthday negative suite | Startup, wake, snapshot, admission, copied state, and fixtures are not birth. | Negative fixtures and validation report. | WP-18 | blocked_with_evidence | pending-owner-evidence | pending-owner-command | AEE-014 |
+| D3 | Continuity across bounded cycles | Identity persists across multiple bounded cycles with evidence. | Cycle artifacts, continuity record, witness links. | WP-18 | blocked_with_evidence | pending-owner-evidence | pending-owner-command | AEE-014 |
+| D4 | Memory grounding proof | Birth references witnessed memory artifacts without exposing raw private memory. | Memory-grounding packet, redacted projection, and denial proof. | WP-11, WP-12 | blocked_with_evidence | pending-owner-evidence | pending-owner-command | AEE-009 |
+| D5 | Capability envelope proof | The birth record declares provider, model, tool, skill, authority, and limit context. | Capability envelope inputs, validation, and missing-envelope denial. | WP-11, WP-12 | blocked_with_evidence | pending-owner-evidence | pending-owner-command | AEE-009 |
+| D6 | ACP / cognitive profile proof | Birth packet includes a bounded profile record grounded in evidence. | Profile fixture, update rationale, redacted reviewer packet, validation. | WP-13, WP-13A | blocked_with_evidence | pending-owner-evidence | pending-owner-command | AEE-010 |
+| D7A | Adaptive Learning DAG boundary proof | Adaptive learning is distinguished from bounded loop execution. | Evaluation bindings, accepted/rejected graph deltas, and replay negatives. | WP-13, WP-13A | blocked_with_evidence | pending-owner-evidence | pending-owner-command | AEE-010 |
+| D7 | ACIP binary schema and WebSocket carrier proof | Binary ACIP remains inspectable through public schemas while message contents remain governed. | Schema catalog, JSON projection, denied-access case, authenticated WSS trace. | WP-14 | blocked_with_evidence | pending-owner-evidence | pending-owner-command | AEE-011 |
+| D8 | Birthday-to-governance handoff | v0.93 governance can consume v0.92 identity evidence without redefining birth. | Handoff packet mapping identity evidence to future governance. | WP-19 | blocked_with_evidence | pending-owner-evidence | pending-owner-command | AEE-017 |
+| D9 | WP-20 coverage validator | Demo/proof rows cannot be passed without exact evidence and negative proof. | `adl/tools/validate_v092_demo_proof_coverage.py` and shell test harness. | WP-20 | blocked_with_evidence | pending-typed-review-publication | python3 adl/tools/validate_v092_demo_proof_coverage.py --root . | AEE-018 |
 
 ## Coverage Rules
 
