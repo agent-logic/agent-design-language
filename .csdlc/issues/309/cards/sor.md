@@ -38,8 +38,8 @@ Removed 20 reviewed dead/orphan Rust files across independently reversible Bands
 
 ## Execution
 
-- Recomputed the pinned baseline and 1,619 normalized reference edges, independently rejecting retained sources that still contain a removed reference.
-- Kept Band A's two retired evaluation modules and added only characterized orphan implementations from retired pre-v0.92 demo and benchmark clusters in Band B.
+- Recomputed the pinned baseline and 1,613 normalized reference edges, independently rejecting retained sources that still contain a removed reference and validating Cargo target-discovery edges against the candidate manifest and auto-discovered binaries.
+- Classified Band A's two retired evaluation modules and Band B's characterized orphan implementations as dead or unreachable only; no superseded-code credit remains.
 - Restored policy_authority byte-for-byte after the advisory audit proposed it incorrectly; retained cognitive-transition, AWS #268, Runtime v2/#414, providers, capability, ACC, current demos, and supported CLI surfaces.
 - Pinned Band B source, revert, and reapply Git identities and proved exact tree restoration without unrelated path changes.
 - Bound PR-fast routing to the exact reviewed status/path manifest; any manifest drift uses the ordinary fail-closed router.
@@ -56,7 +56,7 @@ Removed 20 reviewed dead/orphan Rust files across independently reversible Bands
     ],
     "purpose": "Recompute exact baseline, normalized reference census, candidate diff, dispositions, and reduction.",
     "outcome": "passed",
-    "evidence_ref": "485 files; 265633 baseline lines; 1619 edges; 20 deleted files; 11571 deleted lines"
+    "evidence_ref": "485 files; 265633 baseline lines; 1613 edges; 20 deleted files; 11571 deleted lines; complete_dead_code_reduction"
   },
   {
     "command": [

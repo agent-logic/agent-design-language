@@ -91,6 +91,10 @@ BAND_B = {
 BAND_B_REVERT = "6ad24bc19"
 BAND_B_REAPPLY = "29093a166"
 BAND_B_COMMIT = "f3cf4c937cbd55beb5e78b73b838033ff63bae66"
+BAND_A = {
+    "adl/src/dspark_speculative_decoding_evaluation.rs",
+    "adl/src/provider_native_tool_call_comparison.rs",
+}
 
 
 def load(path: pathlib.Path) -> dict:
@@ -167,6 +171,15 @@ def main() -> int:
         "reviewed v0.91.8 external-band deletion manifest; deterministic reference census; "
         "cargo check --locked --all-targets; Runtime v2 and #414 focused regressions; exact rollback proof"
     )
+    for path in BAND_A:
+        row = rows[path]
+        row.update({
+            "disposition": "delete_dead",
+            "owner": "#309 Band A",
+            "evidence": "complete repository consumer census proves the retired evaluation module unreachable",
+            "validation": "deterministic reference census; all-target compile; clean-install owner proof; exact rollback proof",
+        })
+        row.pop("replacement", None)
     for path, (_previous_disposition, replacement, reason) in BAND_B.items():
         row = rows[path]
         row.update({
@@ -181,6 +194,11 @@ def main() -> int:
     canonical: dict[str, dict] = {}
     for edge in references["edges"]:
         source_path = edge.get("source", {}).get("path")
+        external_contract = edge.get("source", {}).get("external_contract")
+        if external_contract and external_contract != "adl/Cargo.toml target discovery":
+            # Absence markers and retained historical artifacts are scan
+            # observations, not incoming consumer edges.
+            continue
         if source_path:
             baseline_content = subprocess.check_output(
                 ["git", "-C", str(root), "show", f"{BASE}:{source_path}"]
@@ -232,7 +250,7 @@ def main() -> int:
         for line in git(root, "diff", "--name-status", BASE, "HEAD", "--", "adl/src").splitlines()
         if line.startswith("M\t")
     )
-    expected = sorted({"adl/src/dspark_speculative_decoding_evaluation.rs", "adl/src/provider_native_tool_call_comparison.rs", *BAND_B})
+    expected = sorted({*BAND_A, *BAND_B})
     if deleted != expected:
         raise SystemExit(f"candidate deletion set differs from reviewed bands: {deleted!r}")
     removed_lines = sum(len(subprocess.check_output(["git", "-C", str(root), "show", f"{BASE}:{path}"]).splitlines()) for path in deleted)
@@ -241,9 +259,14 @@ def main() -> int:
         "removed_files": len(deleted),
         "removed_physical_lines": removed_lines,
         "modified_files": modified,
-        "status": "band_b_candidate_pending_rollback_review",
+        "status": "complete_dead_code_reduction",
     })
     band_a = report["bands"][0]
+    band_a.update({
+        "classification": "delete_dead_unreachable_evaluations",
+        "replacement": "none required; complete consumer census proves both evaluation modules unreachable",
+        "supporting_paths": list(report.get("band_supporting_paths", [])),
+    })
     band_a["modified_paths"] = ["adl/src/lib.rs"]
     report["bands"] = [
         band_a,

@@ -9,6 +9,7 @@ import json
 import pathlib
 import re
 import subprocess
+import tomllib
 import sys
 
 BASE = "e926e3bca0ab1981d77b4658d2feb4059bdf33a6"
@@ -225,6 +226,14 @@ def main() -> int:
         fail(errors, "reference tracked-path/blob digest differs from Git tree")
     edge_ids: set[str] = set()
     incoming: dict[str, list[dict]] = {}
+    cargo = tomllib.loads((root / "adl/Cargo.toml").read_text(encoding="utf-8"))
+    cargo_targets = {f"adl/{row['path']}" for row in cargo.get("bin", []) if isinstance(row, dict) and row.get("path")}
+    cargo_targets.add(f"adl/{cargo.get('lib', {}).get('path', 'src/lib.rs')}")
+    cargo_targets.update(
+        path.relative_to(root).as_posix()
+        for path in (root / "adl/src/bin").glob("*.rs")
+        if path.is_file()
+    )
     for edge in edge_rows:
         if not isinstance(edge, dict):
             fail(errors, "reference edge is not an object")
@@ -257,6 +266,13 @@ def main() -> int:
                 and source_path == "adl/tools/test_run_pr_fast_test_lane.sh"
             ):
                 fail(errors, f"unapproved replacement edge classification: {edge_id}")
+        elif isinstance(source, dict) and source.get("external_contract"):
+            if (
+                source.get("external_contract") != "adl/Cargo.toml target discovery"
+                or edge.get("disposition") != "retain"
+                or target not in cargo_targets
+            ):
+                fail(errors, f"unproved external-contract edge: {edge_id}")
     for path, row in by_path.items():
         expected_ids = set(row.get("reference_edge_ids", [])) if isinstance(row.get("reference_edge_ids"), list) else set()
         actual_ids = {str(edge.get("edge_id")) for edge in incoming.get(path, [])}
@@ -361,6 +377,8 @@ def main() -> int:
 
     if report.get("schema") != "adl.issue309.reduction.v1" or report.get("baseline_commit") != BASE:
         fail(errors, "reduction report identity invalid")
+    if report.get("status") != "complete_dead_code_reduction":
+        fail(errors, "reduction report status is not complete")
     if report.get("baseline_files") != 485 or report.get("baseline_physical_lines") != 265633:
         fail(errors, "reduction report baseline mismatch")
     if report.get("removed_files", -1) < 0 or report.get("removed_physical_lines", -1) < 0:
