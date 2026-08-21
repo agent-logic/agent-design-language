@@ -218,7 +218,7 @@ def main() -> int:
         "build_cache_root": str(args.build_cache_root),
         "runtime_volume_identity_sha256": args.runtime_volume_identity_sha256,
         "source_host": "issue268-r7i-qualification",
-        "target_host": "issue268-r7i-qualification",
+        "target_host": "ec2",
         "spot_notice": None,
     }
     dehydration_input_path = args.evidence_dir / "dehydration-input.json"

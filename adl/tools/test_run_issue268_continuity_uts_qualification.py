@@ -122,6 +122,7 @@ out.write_text(json.dumps(value)+'\\n')
         assert (evidence / "dehydration-input.json").is_file()
         dehydration = json.loads((evidence / "dehydration-input.json").read_text())
         assert all(pathlib.Path(path).name == "agent.continuity.json" for path in dehydration["existing_agent_specs"])
+        assert dehydration["target_host"] == "ec2"
         assert (evidence / "continuation-input.json").is_file()
         assert len(list((evidence / "uts").glob("replay-*.json"))) == 6
 
