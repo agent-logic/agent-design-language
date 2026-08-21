@@ -168,6 +168,24 @@ def run_agent(runtime_bin: pathlib.Path, spec: pathlib.Path) -> int:
     return completed.returncode
 
 
+def normalize_and_validate_runtime_spec(runtime_bin: pathlib.Path, spec: pathlib.Path, agent_dir: pathlib.Path) -> None:
+    """Use the Runtime-owned locked spec as #414's exact existing-agent input."""
+    locked_path = agent_dir / "state" / "agent_spec.locked.json"
+    if not locked_path.is_file():
+        raise SystemExit(f"{agent_dir.name}: Runtime locked agent spec is absent")
+    locked = json.loads(locked_path.read_text(encoding="utf-8"))
+    if locked.get("agent_instance_id") != agent_dir.name:
+        raise SystemExit(f"{agent_dir.name}: Runtime locked agent identity mismatch")
+    atomic_json(spec, locked)
+    completed = subprocess.run(
+        [str(runtime_bin), "agent", "status", "--spec", str(spec), "--json"],
+        cwd=ROOT,
+        check=False,
+    )
+    if completed.returncode != 0:
+        raise SystemExit(f"{agent_dir.name}: canonical Runtime spec failed locked-spec validation")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--phase", required=True, choices=("pre", "replay", "post"))
@@ -280,6 +298,8 @@ def main() -> int:
                 raise SystemExit(f"{agent_id}: restored #414 tool authority mismatch")
         write_workflow(agent_dir / "workflow.adl.yaml", resident, args.phase, task)
         runtime_exit_code = run_agent(args.runtime_bin, spec_path)
+        if args.phase == "pre":
+            normalize_and_validate_runtime_spec(args.runtime_bin, spec_path, agent_dir)
         cycle_dirs = sorted((agent_dir / "state" / "cycles").glob("cycle-*"))
         if not cycle_dirs:
             raise SystemExit(f"{agent_id}: Runtime agent tick produced no cycle")

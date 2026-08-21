@@ -21,12 +21,18 @@ def main() -> None:
             """#!/usr/bin/env python3
 import json,pathlib,sys
 args=sys.argv[1:]
-assert args[:2] == ['agent','tick']
 spec=json.loads(pathlib.Path(args[args.index('--spec')+1]).read_text())
 state_value=pathlib.Path(spec['state_root'])
 state=state_value if state_value.is_absolute() else pathlib.Path(args[args.index('--spec')+1]).parent/state_value
+if args[:2] == ['agent','status']:
+    locked=json.loads((state/'agent_spec.locked.json').read_text())
+    assert spec == locked
+    print(json.dumps({'state':'idle'}))
+    raise SystemExit(0)
+assert args[:2] == ['agent','tick']
 cycles=state/'cycles'
 cycles.mkdir(parents=True,exist_ok=True)
+(state/'agent_spec.locked.json').write_text(json.dumps(spec,separators=(',',':'))+'\\n')
 number=len(list(cycles.glob('cycle-*')))+1
 cycle=cycles/f'cycle-{number:06d}'
 cycle.mkdir()
