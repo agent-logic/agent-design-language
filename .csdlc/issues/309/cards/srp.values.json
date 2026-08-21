@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-21] Repository-wide code reduction cleanup",
     "slug": "309-repository-wide-code-reduction",
     "version": "v0.92",
-    "generation": 14
+    "generation": 26
   },
   "status": "draft",
   "content": {
@@ -17,12 +17,12 @@
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [
-        "Does every removed path have complete reachability and reverse-reference evidence?",
-        "Does every superseded path map to a merged owner with positive negative artifact trace persistence and error parity?",
-        "Could any deletion weaken Runtime v2 authority still consumed by Runtime v3 or #414?",
-        "Can each band be reverted and reapplied exactly without touching unrelated work?",
-        "Are physical reduction numbers exact and free of movement/exclusion credit?",
-        "Does the candidate stop cleanly at migration/refactoring boundaries owned elsewhere?"
+        "Does every removed path have complete deterministic reachability and reverse-reference evidence, with retained references either absent in the candidate or explicitly classified as non-consumer fixtures?",
+        "Does Band B prove characterized orphan/dead status rather than relying on historical artifacts as replacement parity?",
+        "Does the PR-fast exception match only the exact reviewed status/path manifest and fall closed for every changed manifest?",
+        "Could any deletion weaken Runtime v2 authority, policy authority, ACC, providers, supported CLI behavior, or #414 continuity?",
+        "Can each band be reverted and reapplied exactly from the pinned Git identities without touching unrelated work?",
+        "Are physical reduction numbers, the exact PR #460 Linux six-job receipt, and residual migration claims current and evidence-bound?"
       ],
       "findings": [],
       "residual_risk": [],

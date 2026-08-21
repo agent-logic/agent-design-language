@@ -9,9 +9,9 @@ test resident_shepherd_spot_continuity::tests::signed_restore_validates_exact_mo
 
 test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 1932 filtered out; finished in 26.01s
 
-   Compiling adl-runtime-kernel v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-309-repository-wide-code-reduction/adl-runtime-kernel)
-   Compiling adl-runtime v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-309-repository-wide-code-reduction/adl-runtime)
-   Compiling adl v0.92.0 (/Volumes/FastWork/adl-worktrees/adl-issue-309-repository-wide-code-reduction/adl)
+   Compiling adl-runtime-kernel v0.92.0 (<repo>/adl-runtime-kernel)
+   Compiling adl-runtime v0.92.0 (<repo>/adl-runtime)
+   Compiling adl v0.92.0 (<repo>/adl)
     Finished `test` profile [unoptimized + debuginfo] target(s) in 19.67s
      Running unittests src/lib.rs (adl/target/debug/deps/adl-0668445b47f2912f)
 adl_event schema=adl.observability.event.v1 command=csm stage=daemon_started result=started process_class=csm_runtime_daemon agent_instance_id=restored-a trace_id=agent.restored-a.daemon span_id=daemon:daemon_started:0 parent_span_id=daemon:restored-a:supervisor otel_service_name=csm-runtime-daemon runtime_role=csm_runtime adl_role=tooling_control_plane chronosense=integrated chronosense_time_sync=synced chronosense_time_sync_reason=runtime_sntp_client_reports_active_source aee_recovery=integrated scheduler_watcher=integrated resilience_middleware=integrated observability=integrated restart_count=0

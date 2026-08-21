@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-21] Repository-wide code reduction cleanup",
     "slug": "309-repository-wide-code-reduction",
     "version": "v0.92",
-    "generation": 14
+    "generation": 26
   },
   "status": "ready",
   "content": {
@@ -16,11 +16,11 @@
       "goal": "Reduce the current ADL source surface by deleting every path proven dead or superseded while preserving supported behavior, active Runtime authority, and executable per-band rollback.",
       "required_outcome": "A complete baseline inventory gives every adl/src Rust file and active reverse reference one accountable disposition; independently reversible deletion bands remove all currently provable dead or superseded code; exact behavior, authority, platform, and rollback proof passes; achieved reduction is reported without a quota.",
       "declared_scope": [
-        "Immutable adl/src baseline and reverse-reference inventory",
+        "Immutable adl/src baseline and complete normalized reverse-reference inventory",
         "Band A dead and unreachable source deletion",
-        "Band B superseded compatibility deletion",
+        "Band B characterized orphan implementation deletion with exact path-manifest and pinned Git identities",
         "Band C Runtime v2 contraction decision and only already-proven deletions",
-        "Clean-install, parity, continuity, platform, accounting, and rollback proof",
+        "Clean-install, exact PR-fast routing, parity, continuity, platform, accounting, and rollback proof",
         "Exact retained-authority and residual-migration reporting"
       ],
       "authority_boundary": [

@@ -399,7 +399,7 @@ candidate_filter_for_path() {
     adl/src/runtime_v2/shutdown_dag.rs)
       printf 'runtime_v2_csm_shutdown_dag'
       ;;
-    adl/src/gws_live_capability_execution_surface.rs|adl/src/gws_live_content_card_roundtrip.rs|adl/src/gws_live_content_card_roundtrip/*.rs|adl/src/gws_live_safety_package.rs|adl/src/gws_live_test_support.rs)
+    adl/src/gws_live_test_support.rs)
       printf 'gws_live'
       ;;
     adl/src/adl_gws_context_mirror.rs)
@@ -410,9 +410,6 @@ candidate_filter_for_path() {
       ;;
     adl/src/adl_gws_native.rs)
       printf 'adl_gws_native'
-      ;;
-    adl/src/uts_acc_multi_model_benchmark.rs|adl/src/uts_acc_multi_model_benchmark/*.rs|adl/src/uts_acc_multi_model_benchmark/*/*.rs)
-      printf 'uts_acc_multi_model_benchmark::'
       ;;
     adl/src/bin/adl_lint_prompt_spec.rs|adl/src/bin/adl_prompt_template.rs|adl/src/bin/adl_validate_structured_prompt.rs)
       printf 'tooling_cmd'

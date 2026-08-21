@@ -20,11 +20,11 @@ A complete baseline inventory gives every adl/src Rust file and active reverse r
 
 ## Scope
 
-- Immutable adl/src baseline and reverse-reference inventory
+- Immutable adl/src baseline and complete normalized reverse-reference inventory
 - Band A dead and unreachable source deletion
-- Band B superseded compatibility deletion
+- Band B characterized orphan implementation deletion with exact path-manifest and pinned Git identities
 - Band C Runtime v2 contraction decision and only already-proven deletions
-- Clean-install, parity, continuity, platform, accounting, and rollback proof
+- Clean-install, exact PR-fast routing, parity, continuity, platform, accounting, and rollback proof
 - Exact retained-authority and residual-migration reporting
 
 ## Authority

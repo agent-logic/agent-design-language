@@ -72,12 +72,22 @@ CLI routing, documentation/artifact contracts, tests, and repository-wide
 reverse references all show no active consumer. Preserve negative command
 behavior and exact restoration evidence.
 
-### Band B — Superseded Compatibility
+### Band B — Characterized Orphan Implementations
 
-Delete only after mapping every removed route to a merged current owner and
-proving positive, negative, artifact, trace, persistence, error, and clean-
-install parity. No authority may silently move between legacy and replacement
-owners.
+Delete a second independently reversible dead-code wave only after correcting
+false-positive module/path edges and proving each implementation has no active
+runtime, CLI, build, workflow, test-contract, artifact, documentation, or
+external consumer. A retained historical demo artifact explains provenance but
+does not substitute for consumer proof. If any candidate is actually
+superseded rather than unreachable, stop and require a merged current owner
+plus positive, negative, artifact, trace, persistence, error, and clean-install
+parity; #309 does not delete it as dead code.
+
+Band B source authority is commit
+`f3cf4c937cbd55beb5e78b73b838033ff63bae66`; its rollback proof is the exact
+revert `6ad24bc198fdab7d3b908955ba57b48836ae8ec1` and reapply
+`29093a1668ca6a7f0db2f64d6f1b1361205a7620` topology. Evidence refresh must
+derive from those objects and fail if later `adl/src` drift exists.
 
 ### Band C — Runtime V2 Contraction Decision
 
@@ -119,7 +129,17 @@ retention is not sufficient without this executable rollback proof.
 - #414 resident continuity regression;
 - applicable Runtime v3 and owner lanes;
 - strict format and Clippy for touched workspaces;
-- native macOS proof and required hosted Linux proof;
+- the issue-specific PR-fast exception must match the exact sorted status/path
+  manifest SHA-256
+  `5b86080fd99cc41c0a25fd7d892cedfd0ae2eb0e4f8a2cfa04bc9a9be2aa48ac`;
+  any added, omitted, renamed, or differently modified Rust path uses the
+  ordinary fail-closed router, while the exact match runs protected
+  `resident_shepherd_spot_continuity` and `adl::cli_smoke` proof;
+- native macOS proof and hosted Linux proof bound to PR #460, the checked-out
+  exact head, Linux/X64, and exactly `adl-path-policy`,
+  `adl-tooling-contracts`, `adl-rust-fmt-clippy`, `adl-rust-tests`,
+  `adl-coverage`, and `adl-ci`, with successful conclusions, per-job artifact
+  digests, and a nonzero parsed test denominator for `adl-rust-tests`;
 - exact base-to-candidate scope and diff hygiene;
 - executable per-band Git rollback/reapply proof;
 - one exact-head independent review.

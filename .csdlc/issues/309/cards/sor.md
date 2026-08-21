@@ -12,12 +12,14 @@ Status: pre_phase
 
 ## Summary
 
-Removed 20 reviewed dead or superseded Rust files across independently reversible Bands A and B, totaling 11,571 deleted physical lines from the pinned 485-file/265,633-line baseline. Retained Runtime v2, #414 continuity, policy authority, current providers, ACC/capability surfaces, supported CLI routes, and every candidate lacking complete deletion proof.
+Removed 20 reviewed dead/orphan Rust files across independently reversible Bands A and B, totaling 11,571 deleted physical lines from the pinned 485-file/265,633-line baseline. Retained Runtime v2, #414 continuity, policy authority, current providers, ACC/capability surfaces, supported CLI routes, and every candidate lacking complete dead-code proof.
 
 ## Artifacts
 
 - adl/src/lib.rs
 - adl/src/gws_live_test_support.rs
+- adl/tools/check_coverage_impact.sh
+- adl/tools/test_check_coverage_impact.sh
 - adl/tools/run_pr_fast_test_lane.sh
 - adl/tools/test_run_pr_fast_test_lane.sh
 - .csdlc/prepared/issues/309/refresh_crate_reference_edges.py
@@ -25,6 +27,8 @@ Removed 20 reviewed dead or superseded Rust files across independently reversibl
 - .csdlc/prepared/issues/309/run_gemini_dead_code_audit.py
 - .csdlc/prepared/issues/309/validate_reduction_inventory.py
 - .csdlc/prepared/issues/309/validate_rollback_proof.py
+- .csdlc/prepared/issues/309/validate_hosted_linux_receipt.py
+- .csdlc/prepared/issues/309/test_validate_hosted_linux_receipt.py
 - .csdlc/evidence/309/baseline-manifest.json
 - .csdlc/evidence/309/reference-edge-manifest.json
 - .csdlc/evidence/309/disposition-manifest.json
@@ -34,11 +38,11 @@ Removed 20 reviewed dead or superseded Rust files across independently reversibl
 
 ## Execution
 
-- Recomputed the pinned baseline and 2,216 normalized reference edges, with every deleted target and deleted-source edge explicitly removal-disposed.
-- Kept Band A's two retired evaluation modules and added Band B's pre-v0.92 skill schema, speculative-decoding prototype, retired GWS demo implementations, local-Gemma evaluator, and UTS/ACC benchmark-only cluster.
-- Restored policy_authority byte-for-byte after the advisory audit proposed it incorrectly; retained cognitive-transition, AWS #268, Runtime v2/#414, active provider, capability, ACC, current demo, and supported CLI surfaces.
-- Normalized Band B into one independently reversible commit and proved exact Git tree restoration and reapplication without unrelated path changes.
-- Made PR-fast Rust routing deletion-aware and added a regression fixture proving deleted Rust paths select a focused lane instead of the forbidden full fallback.
+- Recomputed the pinned baseline and 1,619 normalized reference edges, independently rejecting retained sources that still contain a removed reference.
+- Kept Band A's two retired evaluation modules and added only characterized orphan implementations from retired pre-v0.92 demo and benchmark clusters in Band B.
+- Restored policy_authority byte-for-byte after the advisory audit proposed it incorrectly; retained cognitive-transition, AWS #268, Runtime v2/#414, providers, capability, ACC, current demos, and supported CLI surfaces.
+- Pinned Band B source, revert, and reapply Git identities and proved exact tree restoration without unrelated path changes.
+- Bound PR-fast routing to the exact reviewed status/path manifest; any manifest drift uses the ordinary fail-closed router.
 
 ## Validation
 
@@ -50,9 +54,9 @@ Removed 20 reviewed dead or superseded Rust files across independently reversibl
       "--root",
       "."
     ],
-    "purpose": "Recompute the exact baseline, reference, disposition, historical-retirement, candidate-diff, and reduction denominator.",
+    "purpose": "Recompute exact baseline, normalized reference census, candidate diff, dispositions, and reduction.",
     "outcome": "passed",
-    "evidence_ref": "485 files; 265633 baseline lines; 2216 edges; 20 deleted files; 11571 deleted lines"
+    "evidence_ref": "485 files; 265633 baseline lines; 1619 edges; 20 deleted files; 11571 deleted lines"
   },
   {
     "command": [
@@ -61,7 +65,7 @@ Removed 20 reviewed dead or superseded Rust files across independently reversibl
       "--root",
       "."
     ],
-    "purpose": "Prove exact per-band Git revert and reapply topology, trees, and path isolation.",
+    "purpose": "Prove exact per-band Git revert/reapply topology, trees, and isolation.",
     "outcome": "passed",
     "evidence_ref": "2 bands; 0 errors"
   },
@@ -77,7 +81,7 @@ Removed 20 reviewed dead or superseded Rust files across independently reversibl
       "--",
       "--nocapture"
     ],
-    "purpose": "Protect #414 resident dehydration, restore, admission, and useful-continuation behavior.",
+    "purpose": "Protect #414 ADL continuity.",
     "outcome": "passed",
     "evidence_ref": "6 passed; 0 failed"
   },
@@ -93,7 +97,7 @@ Removed 20 reviewed dead or superseded Rust files across independently reversibl
       "--",
       "--nocapture"
     ],
-    "purpose": "Protect signed Runtime-kernel continuity behavior consumed by #414.",
+    "purpose": "Protect #414 kernel continuity.",
     "outcome": "passed",
     "evidence_ref": "8 passed; 0 failed"
   },
@@ -106,7 +110,7 @@ Removed 20 reviewed dead or superseded Rust files across independently reversibl
       "adl/Cargo.toml",
       "--all-targets"
     ],
-    "purpose": "Compile every ADL target after removing the orphan clusters.",
+    "purpose": "Compile all ADL targets.",
     "outcome": "passed",
     "evidence_ref": "all targets compiled"
   },
@@ -122,7 +126,7 @@ Removed 20 reviewed dead or superseded Rust files across independently reversibl
       "-D",
       "warnings"
     ],
-    "purpose": "Reject warnings and residual references across every ADL target.",
+    "purpose": "Reject warnings/residual references.",
     "outcome": "passed",
     "evidence_ref": "strict Clippy passed"
   },
@@ -135,7 +139,7 @@ Removed 20 reviewed dead or superseded Rust files across independently reversibl
       "--",
       "--check"
     ],
-    "purpose": "Verify canonical Rust formatting.",
+    "purpose": "Verify formatting.",
     "outcome": "passed",
     "evidence_ref": "format check passed"
   },
@@ -144,18 +148,36 @@ Removed 20 reviewed dead or superseded Rust files across independently reversibl
       "bash",
       "adl/tools/test_owner_binary_install.sh"
     ],
-    "purpose": "Prove supported clean owner-binary installation remains intact.",
+    "purpose": "Prove supported clean owner install.",
     "outcome": "passed",
     "evidence_ref": "owner binary stable install: ok"
   },
   {
     "command": [
       "bash",
+      "adl/tools/test_check_coverage_impact.sh"
+    ],
+    "purpose": "Reject stale coverage mappings for deleted paths.",
+    "outcome": "passed",
+    "evidence_ref": "PASS test_check_coverage_impact"
+  },
+  {
+    "command": [
+      "bash",
       "adl/tools/test_run_pr_fast_test_lane.sh"
     ],
-    "purpose": "Prove deleted Rust paths trigger focused PR-fast routing.",
+    "purpose": "Prove exact-manifest routing and manifest-drift rejection.",
     "outcome": "passed",
     "evidence_ref": "PASS test_run_pr_fast_test_lane"
+  },
+  {
+    "command": [
+      "python3",
+      ".csdlc/prepared/issues/309/test_validate_hosted_linux_receipt.py"
+    ],
+    "purpose": "Reject stale head, wrong PR, and underspecified hosted job receipts.",
+    "outcome": "passed",
+    "evidence_ref": "PASS test_validate_hosted_linux_receipt"
   },
   {
     "command": [
@@ -163,7 +185,7 @@ Removed 20 reviewed dead or superseded Rust files across independently reversibl
       "diff",
       "--check"
     ],
-    "purpose": "Reject whitespace and patch hygiene defects.",
+    "purpose": "Reject patch hygiene defects.",
     "outcome": "passed",
     "evidence_ref": "no findings"
   }

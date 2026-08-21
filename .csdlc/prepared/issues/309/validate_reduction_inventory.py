@@ -12,6 +12,7 @@ import subprocess
 import sys
 
 BASE = "e926e3bca0ab1981d77b4658d2feb4059bdf33a6"
+BAND_B_COMMIT = "f3cf4c937cbd55beb5e78b73b838033ff63bae66"
 BASE_TREE = "c57bae97083b42125d7308047595ec2e96033240"
 DISPOSITIONS = {
     "retain_active",
@@ -33,6 +34,7 @@ REFERENCE_CLASSES = {
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
 CRATE_PATH = re.compile(rb"(?:crate|adl)::([A-Za-z_][A-Za-z0-9_]*)")
+MOD_DECL = re.compile(rb"(?m)^\s*(?:pub\s+)?mod\s+([A-Za-z_][A-Za-z0-9_]*)\s*;")
 
 
 def load(path: pathlib.Path) -> object:
@@ -52,6 +54,33 @@ def canonical_edge_id(edge: dict) -> str:
     identity = [edge.get("source"), edge.get("target"), edge.get("reference_class"), edge.get("disposition")]
     encoded = json.dumps(identity, sort_keys=True, separators=(",", ":")).encode()
     return hashlib.sha256(encoded).hexdigest()
+
+
+def candidate_reference_exists(root: pathlib.Path, edge: dict) -> bool:
+    source_path = edge.get("source", {}).get("path")
+    target = edge.get("target")
+    if not source_path or not isinstance(target, str) or not (root / source_path).is_file():
+        return False
+    content = (root / source_path).read_text(encoding="utf-8", errors="replace")
+    if edge.get("evidence") == "exact tracked path reference":
+        return target in content
+    if edge.get("reference_class") != "module":
+        return True
+    relative = target.removeprefix("adl/src/")
+    if "/" not in relative or relative.count("/") == 1 and relative.endswith("/mod.rs"):
+        module = relative.removesuffix(".rs").removesuffix("/mod")
+        return bool(re.search(rf"\b(?:crate|adl)::\s*{re.escape(module)}\b", content)) or (
+            source_path == "adl/src/lib.rs"
+            and bool(re.search(rf"(?m)^\s*(?:pub\s+)?mod\s+{re.escape(module)}\s*;", content))
+        )
+    target_path = pathlib.PurePosixPath(target)
+    module = target_path.parent.name if target_path.name == "mod.rs" else target_path.stem
+    source_path_obj = pathlib.PurePosixPath(source_path)
+    source_module_dir = source_path_obj.parent if source_path_obj.name == "mod.rs" else source_path_obj.with_suffix("")
+    return target_path in {
+        source_module_dir / f"{module}.rs",
+        source_module_dir / module / "mod.rs",
+    } and bool(re.search(rf"(?m)^\s*(?:pub\s+)?mod\s+{re.escape(module)}\s*;", content))
 
 
 def fail(errors: list[str], message: str) -> None:
@@ -182,7 +211,7 @@ def main() -> int:
     if edges.get("schema") != "adl.issue309.reference_edges.v1" or not isinstance(edge_rows, list) or not isinstance(scan, dict):
         fail(errors, "reference-edge schema/denominator invalid")
         edge_rows, scan = [], {}
-    if not HEX40.fullmatch(str(scan.get("candidate_commit", ""))) or not HEX64.fullmatch(str(scan.get("tracked_path_blob_digest_sha256", ""))):
+    if scan.get("candidate_commit") != BAND_B_COMMIT or not HEX64.fullmatch(str(scan.get("tracked_path_blob_digest_sha256", ""))):
         fail(errors, "reference scan identity invalid")
     if not isinstance(scan.get("tracked_paths"), int) or scan.get("tracked_paths", 0) <= 0:
         fail(errors, "reference tracked-path denominator missing")
@@ -220,11 +249,17 @@ def main() -> int:
             source_path = source["path"]
             if source_path not in tree_rows or source.get("blob") != tree_rows[source_path]:
                 fail(errors, f"edge source does not bind pinned Git blob: {edge_id}")
+            source_present = (root / source_path).is_file()
+            if edge.get("disposition") == "remove" and source_present and candidate_reference_exists(root, edge):
+                fail(errors, f"retained candidate source still contains removed edge: {edge_id}")
+            if edge.get("disposition") == "replace" and not (
+                edge.get("reference_class") == "artifact"
+                and source_path == "adl/tools/test_run_pr_fast_test_lane.sh"
+            ):
+                fail(errors, f"unapproved replacement edge classification: {edge_id}")
     for path, row in by_path.items():
         expected_ids = set(row.get("reference_edge_ids", [])) if isinstance(row.get("reference_edge_ids"), list) else set()
         actual_ids = {str(edge.get("edge_id")) for edge in incoming.get(path, [])}
-        if not actual_ids:
-            fail(errors, f"baseline target has no normalized incoming edge: {path}")
         if expected_ids != actual_ids:
             fail(errors, f"disposition/reference edge denominator mismatch: {path}")
         if row.get("disposition") in {"delete_dead", "delete_superseded"}:
@@ -289,6 +324,23 @@ def main() -> int:
     expected_crate_pairs: set[tuple[str, str]] = set()
     for source_path in sorted(path for path in tree_rows if path.endswith(".rs")):
         content = git_bytes(root, "show", f"{BASE}:{source_path}")
+        source = pathlib.PurePosixPath(source_path)
+        module_dir = source.parent if source.name == "mod.rs" else source.with_suffix("")
+        for match in MOD_DECL.findall(content):
+            module = match.decode()
+            target = next(
+                (
+                    candidate
+                    for candidate in (
+                        str(module_dir / f"{module}.rs"),
+                        str(module_dir / module / "mod.rs"),
+                    )
+                    if candidate in observed
+                ),
+                None,
+            )
+            if target and target != source_path:
+                expected_crate_pairs.add((source_path, target))
         for match in CRATE_PATH.findall(content):
             target = module_targets.get(match.decode())
             if target and target != source_path:

@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/309/diagram.mmd
 [
   {
     "lane": "reduction_inventory",
-    "proof_role": "Validate exact baseline file/blob/line denominator, normalized reference-edge denominator, complete dispositions, owners, replacements, exceptions, and reduction accounting.",
+    "proof_role": "Validate exact baseline file/blob/line denominator, independently regenerated normalized reference edges, complete dispositions, exact candidate diff, and reduction accounting.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -41,11 +41,11 @@ Diagram: .csdlc/prepared/issues/309/diagram.mmd
       ".csdlc/prepared/issues/309/validate_reduction_inventory.py"
     ],
     "parallel_group": "309-inventory",
-    "defer_reason": "Created in the bound worktree before the first deletion."
+    "defer_reason": null
   },
   {
     "lane": "rollback_proof",
-    "proof_role": "Prove each band reverts to exact baseline blobs and reapplies cleanly without touching unrelated paths.",
+    "proof_role": "Prove both pinned bands revert to exact baseline trees and reapply cleanly without unrelated paths.",
     "acceptance_ids": [
       "AC-6"
     ],
@@ -58,11 +58,11 @@ Diagram: .csdlc/prepared/issues/309/diagram.mmd
       ".csdlc/prepared/issues/309/validate_rollback_proof.py"
     ],
     "parallel_group": "309-rollback",
-    "defer_reason": "Created after band commits exist."
+    "defer_reason": null
   },
   {
     "lane": "supported_cli_clean_install",
-    "proof_role": "Prove the supported owner-binary installation contract from a clean destination, including installed command inventory and executable behavior.",
+    "proof_role": "Prove supported owner-binary installation and executable inventory from a clean destination.",
     "acceptance_ids": [
       "AC-3",
       "AC-5"
@@ -80,7 +80,7 @@ Diagram: .csdlc/prepared/issues/309/diagram.mmd
   },
   {
     "lane": "resident_continuity_adl",
-    "proof_role": "Prove the retained #414 resident dehydration, restoration, admission, and useful continuation module behavior in the ADL library.",
+    "proof_role": "Protect #414 resident dehydration, restoration, admission, and useful continuation.",
     "acceptance_ids": [
       "AC-4",
       "AC-5"
@@ -105,7 +105,7 @@ Diagram: .csdlc/prepared/issues/309/diagram.mmd
   },
   {
     "lane": "resident_continuity_kernel",
-    "proof_role": "Prove signed Runtime-kernel live-continuity checkpoint and restore behavior consumed by #414 remains intact.",
+    "proof_role": "Protect signed Runtime-kernel live-continuity behavior consumed by #414.",
     "acceptance_ids": [
       "AC-4",
       "AC-5"
@@ -129,8 +129,27 @@ Diagram: .csdlc/prepared/issues/309/diagram.mmd
     "defer_reason": null
   },
   {
+    "lane": "pr_fast_exact_manifest",
+    "proof_role": "Require exact status/path manifest SHA-256 5b86080f... and reject drift before selecting protected continuity plus CLI-smoke nextest filters.",
+    "acceptance_ids": [
+      "AC-3",
+      "AC-5",
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 180,
+    "budget_tokens": 1000,
+    "argv": [
+      "bash",
+      "adl/tools/test_run_pr_fast_test_lane.sh"
+    ],
+    "parallel_group": "309-quality",
+    "defer_reason": null
+  },
+  {
     "lane": "rust_format",
-    "proof_role": "Prove formatting remains canonical for the touched ADL workspace.",
+    "proof_role": "Prove canonical Rust formatting.",
     "acceptance_ids": [
       "AC-5",
       "AC-8"
@@ -152,7 +171,7 @@ Diagram: .csdlc/prepared/issues/309/diagram.mmd
   },
   {
     "lane": "strict_clippy",
-    "proof_role": "Reject warnings in the touched ADL workspace after deletion.",
+    "proof_role": "Reject warnings across all ADL targets after deletion.",
     "acceptance_ids": [
       "AC-5",
       "AC-8"
@@ -176,8 +195,26 @@ Diagram: .csdlc/prepared/issues/309/diagram.mmd
     "defer_reason": null
   },
   {
+    "lane": "hosted_receipt_contract",
+    "proof_role": "Reject stale head, wrong PR, and any missing canonical job before hosted evidence is accepted.",
+    "acceptance_ids": [
+      "AC-5",
+      "AC-8"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 30,
+    "budget_tokens": 500,
+    "argv": [
+      "python3",
+      ".csdlc/prepared/issues/309/test_validate_hosted_linux_receipt.py"
+    ],
+    "parallel_group": "309-quality",
+    "defer_reason": null
+  },
+  {
     "lane": "hosted_linux_receipt",
-    "proof_role": "After publication, validate the exact PR head, Ubuntu runner identity, required hosted Linux jobs, conclusions, test denominators, and artifact digests from a retained machine-readable CI receipt.",
+    "proof_role": "Validate PR #460 checked-out exact head on Linux/X64 with exactly adl-path-policy, adl-tooling-contracts, adl-rust-fmt-clippy, adl-rust-tests, adl-coverage, and adl-ci; require success, per-job digests, and a nonzero adl-rust-tests denominator.",
     "acceptance_ids": [
       "AC-5",
       "AC-8"
@@ -192,18 +229,18 @@ Diagram: .csdlc/prepared/issues/309/diagram.mmd
       ".csdlc/evidence/309/github-linux-ci.json"
     ],
     "parallel_group": "309-hosted",
-    "defer_reason": "Runs after the reviewed exact head is published and GitHub-hosted Linux checks produce an immutable receipt."
+    "defer_reason": "Runs after the reviewed exact head is published and the canonical Linux jobs produce an immutable receipt."
   },
   {
     "lane": "diff_hygiene",
-    "proof_role": "Reject malformed candidate changes and out-of-band scope drift.",
+    "proof_role": "Reject malformed candidate changes and scope drift.",
     "acceptance_ids": [
       "AC-7",
       "AC-8"
     ],
     "deterministic": true,
     "resource_profile": "small",
-    "budget_seconds": 60,
+    "budget_seconds": 30,
     "budget_tokens": 500,
     "argv": [
       "git",
@@ -233,8 +270,10 @@ Tokens: 50000
 - `bash adl/tools/test_owner_binary_install.sh`
 - `cargo test --locked --manifest-path adl/Cargo.toml --lib resident_shepherd_spot_continuity -- --nocapture`
 - `cargo test --locked --manifest-path adl-runtime-kernel/Cargo.toml --test live_continuity -- --nocapture`
+- `bash adl/tools/test_run_pr_fast_test_lane.sh`
 - `cargo fmt --manifest-path adl/Cargo.toml -- --check`
 - `cargo clippy --locked --manifest-path adl/Cargo.toml --all-targets -- -D warnings`
+- `python3 .csdlc/prepared/issues/309/test_validate_hosted_linux_receipt.py`
 - `python3 .csdlc/prepared/issues/309/validate_hosted_linux_receipt.py .csdlc/evidence/309/github-linux-ci.json`
 - `git diff --check e926e3bca0ab1981d77b4658d2feb4059bdf33a6...HEAD`
 

@@ -16,7 +16,7 @@ Pin the exact baseline and rollback source; generate the complete disposition in
 
 ## Plan
 
-Revision 4
+Revision 6
 
 ## Steps
 
@@ -41,7 +41,7 @@ Revision 4
   },
   {
     "id": "S3",
-    "action": "Execute Band B superseded-compatibility deletion as one commit with replacement/authority parity and rollback proof.",
+    "action": "Execute Band B characterized-orphan deletion at pinned source commit f3cf4c with corrected no-consumer proof, exact path-manifest routing, and rollback/reapply proof.",
     "acceptance_ids": [
       "AC-3",
       "AC-5",
@@ -51,7 +51,7 @@ Revision 4
   },
   {
     "id": "S4",
-    "action": "Classify Runtime v2 consumers, execute only already-proven safe contraction, and record retained authority or migrate-then-delete boundaries.",
+    "action": "Classify Runtime v2 consumers, retain every active authority, and record safe-contraction or migrate-then-delete boundaries without deleting unproven code.",
     "acceptance_ids": [
       "AC-4",
       "AC-5",
@@ -61,7 +61,7 @@ Revision 4
   },
   {
     "id": "S5",
-    "action": "Run combined macOS/Linux, clean-install, behavior, artifact, trace, continuity, accounting, scope, and rollback proof; obtain exact-head review and publish.",
+    "action": "Run exact-manifest PR-fast, macOS/Linux canonical six-job, clean-install, behavior, continuity, accounting, scope, and rollback proof; obtain exact-head review and publish.",
     "acceptance_ids": [
       "AC-5",
       "AC-7",
@@ -100,13 +100,13 @@ Revision 4
 
 .csdlc/prepared/issues/309/design.md
 
-Digest: 9b509902cb90ee78e72276403ef9e443432b3630c29ca460d50286a923c990e4
+Digest: b5cef735bf1d20a2bdeb255b85e17ca9415f6fe7f2c8338d52b25ed0318b4e91
 
 ## Diagram
 
 .csdlc/prepared/issues/309/diagram.mmd
 
-Digest: 53609f25156db701cde3505b92446c763a5abff23a915730ac20a99e9061d9a4
+Digest: 77747b0f141e025d5fa06472701c2acdfb954128c3e80577408adc0d05e18fcf
 
 ## Stop Conditions
 

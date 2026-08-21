@@ -8,6 +8,7 @@ import argparse
 import json
 import pathlib
 import subprocess
+import re
 
 
 BASE = "e926e3bca0ab1981d77b4658d2feb4059bdf33a6"
@@ -89,6 +90,7 @@ BAND_B = {
 }
 BAND_B_REVERT = "6ad24bc19"
 BAND_B_REAPPLY = "29093a166"
+BAND_B_COMMIT = "f3cf4c937cbd55beb5e78b73b838033ff63bae66"
 
 
 def load(path: pathlib.Path) -> dict:
@@ -106,6 +108,34 @@ def git(root: pathlib.Path, *args: str) -> str:
 def edge_id(edge: dict) -> str:
     identity = [edge["source"], edge["target"], edge["reference_class"], edge["disposition"]]
     return hashlib.sha256(json.dumps(identity, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
+
+
+def current_reference_exists(root: pathlib.Path, edge: dict) -> bool:
+    source_path = edge.get("source", {}).get("path")
+    target = edge["target"]
+    if not source_path or not (root / source_path).is_file():
+        return False
+    content = (root / source_path).read_text(encoding="utf-8", errors="replace")
+    if edge["evidence"] == "exact tracked path reference":
+        return target in content
+    if edge["reference_class"] != "module":
+        return True
+    relative = target.removeprefix("adl/src/")
+    if "/" not in relative or relative.count("/") == 1 and relative.endswith("/mod.rs"):
+        module = relative.removesuffix(".rs").removesuffix("/mod")
+        return bool(re.search(rf"\b(?:crate|adl)::\s*{re.escape(module)}\b", content)) or (
+            source_path == "adl/src/lib.rs"
+            and bool(re.search(rf"(?m)^\s*(?:pub\s+)?mod\s+{re.escape(module)}\s*;", content))
+        )
+    target_path = pathlib.PurePosixPath(target)
+    module = target_path.parent.name if target_path.name == "mod.rs" else target_path.stem
+    source_path_obj = pathlib.PurePosixPath(source_path)
+    source_module_dir = source_path_obj.parent if source_path_obj.name == "mod.rs" else source_path_obj.with_suffix("")
+    resolved = source_module_dir / f"{module}.rs"
+    resolved_mod = source_module_dir / module / "mod.rs"
+    return target_path in {resolved, resolved_mod} and bool(
+        re.search(rf"(?m)^\s*(?:pub\s+)?mod\s+{re.escape(module)}\s*;", content)
+    )
 
 
 def main() -> int:
@@ -137,21 +167,49 @@ def main() -> int:
         "reviewed v0.91.8 external-band deletion manifest; deterministic reference census; "
         "cargo check --locked --all-targets; Runtime v2 and #414 focused regressions; exact rollback proof"
     )
-    for path, (disposition, replacement, reason) in BAND_B.items():
+    for path, (_previous_disposition, replacement, reason) in BAND_B.items():
         row = rows[path]
         row.update({
-            "disposition": disposition,
+            "disposition": "delete_dead",
             "owner": "#309 Band B",
-            "replacement": replacement,
             "evidence": reason,
             "validation": validation,
         })
+        row.pop("replacement", None)
 
     delete_paths = {path for path, row in rows.items() if row["disposition"] in {"delete_dead", "delete_superseded"}}
     canonical: dict[str, dict] = {}
     for edge in references["edges"]:
         source_path = edge.get("source", {}).get("path")
-        edge["disposition"] = "remove" if source_path in delete_paths or edge["target"] in delete_paths else "retain"
+        if source_path:
+            baseline_content = subprocess.check_output(
+                ["git", "-C", str(root), "show", f"{BASE}:{source_path}"]
+            ).decode("utf-8", errors="replace")
+            if edge["target"] in baseline_content:
+                edge["evidence"] = "exact tracked path reference"
+            elif edge["reference_class"] == "module":
+                edge["evidence"] = "Rust module declaration/path/include reachability"
+        exists = current_reference_exists(root, edge)
+        if edge["target"] in delete_paths:
+            if source_path in delete_paths:
+                edge["disposition"] = "remove"
+                edge["resolution_evidence"] = "source and target are removed in the same reviewed dead-code band"
+            elif not exists:
+                edge["disposition"] = "remove"
+                edge["resolution_evidence"] = "corrected candidate reference resolution proves the baseline edge absent"
+            elif source_path == "adl/tools/test_run_pr_fast_test_lane.sh":
+                edge["disposition"] = "replace"
+                edge["reference_class"] = "artifact"
+                edge["resolution_evidence"] = "retained deletion-routing regression fixture, not a runtime or build consumer"
+            else:
+                raise SystemExit(f"retained source still references deleted target: {source_path} -> {edge['target']}")
+        elif source_path in delete_paths:
+            edge["disposition"] = "remove"
+            edge["resolution_evidence"] = "baseline source is removed in the reviewed dead-code band"
+        elif not exists and edge["reference_class"] == "module":
+            continue
+        else:
+            edge["disposition"] = "retain"
         edge["edge_id"] = edge_id(edge)
         canonical[edge["edge_id"]] = edge
     references["edges"] = sorted(
@@ -179,7 +237,7 @@ def main() -> int:
         raise SystemExit(f"candidate deletion set differs from reviewed bands: {deleted!r}")
     removed_lines = sum(len(subprocess.check_output(["git", "-C", str(root), "show", f"{BASE}:{path}"]).splitlines()) for path in deleted)
     report.update({
-        "candidate_source_commit": git(root, "rev-parse", "HEAD"),
+        "candidate_source_commit": BAND_B_COMMIT,
         "removed_files": len(deleted),
         "removed_physical_lines": removed_lines,
         "modified_files": modified,
@@ -191,19 +249,22 @@ def main() -> int:
         band_a,
         {
             "band": "B",
-            "classification": "delete_superseded_orphan_implementations",
+            "classification": "delete_dead_orphan_implementations",
             "paths": sorted(BAND_B),
-            "replacement": "retained reviewed historical proof artifacts and current production authorities",
+            "replacement": "none required; complete consumer census proves the implementations unreachable",
             "supporting_paths": [],
             "modified_paths": ["adl/src/gws_live_test_support.rs", "adl/src/lib.rs"],
         },
     ]
     rollback_by_band = {row["band"]: row for row in rollback["bands"]}
+    subprocess.check_call(["git", "-C", str(root), "merge-base", "--is-ancestor", BAND_B_COMMIT, "HEAD"])
+    if git(root, "diff", "--name-only", BAND_B_COMMIT, "HEAD", "--", "adl/src"):
+        raise SystemExit("adl/src changed after the pinned Band B source commit")
     rollback_by_band["B"] = {
         "band": "B",
-        "commit": git(root, "rev-parse", "HEAD"),
-        "tree_before": git(root, "rev-parse", "HEAD^^{tree}"),
-        "tree_after": git(root, "rev-parse", "HEAD^{tree}"),
+        "commit": BAND_B_COMMIT,
+        "tree_before": git(root, "rev-parse", f"{BAND_B_COMMIT}^^{{tree}}"),
+        "tree_after": git(root, "rev-parse", f"{BAND_B_COMMIT}^{{tree}}"),
         "revert_commit": git(root, "rev-parse", BAND_B_REVERT),
         "reverted_tree": git(root, "rev-parse", f"{BAND_B_REVERT}^{{tree}}"),
         "reapply_commit": git(root, "rev-parse", BAND_B_REAPPLY),

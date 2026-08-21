@@ -17,6 +17,8 @@ Inventory the complete current denominator, execute only proof-supported deletio
 ## Deliverables
 
 - Proof-led independently reversible dead-code reductions under adl/src
+- adl/tools/check_coverage_impact.sh
+- adl/tools/test_check_coverage_impact.sh
 - adl/tools/run_pr_fast_test_lane.sh
 - adl/tools/test_run_pr_fast_test_lane.sh
 - .csdlc/prepared/issues/309/refresh_crate_reference_edges.py
@@ -25,6 +27,7 @@ Inventory the complete current denominator, execute only proof-supported deletio
 - .csdlc/prepared/issues/309/validate_reduction_inventory.py
 - .csdlc/prepared/issues/309/validate_rollback_proof.py
 - .csdlc/prepared/issues/309/validate_hosted_linux_receipt.py
+- .csdlc/prepared/issues/309/test_validate_hosted_linux_receipt.py
 - .csdlc/evidence/309/baseline-manifest.json
 - .csdlc/evidence/309/reference-edge-manifest.json
 - .csdlc/evidence/309/disposition-manifest.json

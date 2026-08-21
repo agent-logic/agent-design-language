@@ -7,15 +7,15 @@ flowchart TD
     A --> AP["Focused parity + rollback/reapply proof"]
     AP --> AB{"Pass?"}
     AB -- No --> AR["git revert Band A; verify baseline blobs; retain failure"]
-    AB -- Yes --> S["Band B: superseded compatibility deletion"]
-    S --> SP["Replacement/authority parity + rollback/reapply proof"]
+    AB -- Yes --> S["Band B: characterized orphan implementation deletion"]
+    S --> SP["Exact manifest hash + corrected census + pinned f3cf4c rollback/reapply proof"]
     SP --> SB{"Pass?"}
     SB -- No --> SR["git revert Band B; verify baseline blobs; retain failure"]
     SB -- Yes --> R["Band C: Runtime v2 consumer classification"]
     R --> RP{"Unconsumed with landed replacement?"}
     RP -- No --> KEEP["Retain active or record migrate_then_delete boundary"]
     RP -- Yes --> RD["Delete bounded Runtime v2 subtree"]
-    KEEP --> FINAL["Combined macOS/Linux, CLI, artifact, trace, #414, scope proof"]
+    KEEP --> FINAL["PR 460 exact-head Linux/X64 six-job + macOS/CLI/#414 proof"]
     RD --> FINAL
     FINAL --> REVIEW["Exact-head independent review"]
     REVIEW --> PR["PR with exact reduction and Closes #309"]

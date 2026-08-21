@@ -532,6 +532,38 @@ EOF
   [ "$saw_manifest" = true ] || [ "$saw_lock" = true ]
 }
 
+ISSUE309_DEAD_CODE_MANIFEST_SHA256="5b86080fd99cc41c0a25fd7d892cedfd0ae2eb0e4f8a2cfa04bc9a9be2aa48ac"
+
+is_bounded_dead_code_deletion_wave() {
+  local deleted=0
+  local status=""
+  local path=""
+  local observed_manifest_sha256=""
+  while IFS=$'\t' read -r status path; do
+    [ -n "$path" ] || continue
+    if ! is_relevant_fast_lane_surface "$path"; then
+      continue
+    fi
+    case "$status:$path" in
+      D:adl/src/*.rs)
+        deleted=$((deleted + 1))
+        ;;
+      M:adl/src/lib.rs|M:adl/src/gws_live_test_support.rs)
+        ;;
+      *)
+        return 1
+        ;;
+    esac
+  done <<EOF
+$(changed_rows | normalize_changed_rows)
+EOF
+  [ "$deleted" -gt 0 ] && [ "$deleted" -le 32 ] || return 1
+  observed_manifest_sha256="$({ changed_rows | normalize_changed_rows | while IFS=$'\t' read -r status path; do
+    is_relevant_fast_lane_surface "$path" && printf '%s\t%s\n' "$status" "$path"
+  done; } | LC_ALL=C sort | python3 -c 'import hashlib,sys; print(hashlib.sha256(sys.stdin.buffer.read()).hexdigest())')"
+  [ "$observed_manifest_sha256" = "$ISSUE309_DEAD_CODE_MANIFEST_SHA256" ]
+}
+
 build_filter_expression() {
   python3 - "$@" <<'PY'
 import sys
@@ -616,11 +648,16 @@ saw_adl_crate_surface=false
 saw_adl_runtime_crate_surface=false
 saw_other_relevant_fast_lane_surface=false
 bounded_runtime_v3_csm_bridge=true
+bounded_dead_code_deletion_wave=false
 saw_runtime_v3_bridge_surface=false
 saw_csm_bridge_surface=false
 
 declare -a tokens=()
 declare -a family_tokens=()
+
+if is_bounded_dead_code_deletion_wave; then
+  bounded_dead_code_deletion_wave=true
+fi
 
 while IFS= read -r path; do
   [ -n "$path" ] || continue
@@ -699,6 +736,9 @@ while IFS= read -r path; do
     continue
   fi
   rust_surface_count=$((rust_surface_count + 1))
+  if [ "$bounded_dead_code_deletion_wave" = true ]; then
+    continue
+  fi
   if [ "$path" = "adl/src/runtime_v2/tests.rs" ] && [ "$saw_slow_proof_contract_surface" = true ]; then
     slow_proof_inventory_surface_count=$((slow_proof_inventory_surface_count + 1))
     continue
@@ -745,7 +785,12 @@ $(changed_rows \
   | awk -F '\t' 'NF >= 2 { print $2 }')
 EOF
 
-if [ "$classification_locked" = true ]; then
+if [ "$bounded_dead_code_deletion_wave" = true ]; then
+  mode="focused"
+  reason="bounded_dead_code_deletion_wave_runs_protected_nextest"
+  filter_tokens="resident_shepherd_spot_continuity,cli_smoke"
+  filter_expression='test(resident_shepherd_spot_continuity) or binary_id(adl::cli_smoke)'
+elif [ "$classification_locked" = true ]; then
   :
 elif [ "$bounded_runtime_v3_csm_bridge" = true ] \
   && [ "$saw_runtime_v3_bridge_surface" = true ] \

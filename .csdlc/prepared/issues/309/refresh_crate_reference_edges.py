@@ -11,7 +11,9 @@ import re
 import subprocess
 
 BASE = "e926e3bca0ab1981d77b4658d2feb4059bdf33a6"
+BAND_B_COMMIT = "f3cf4c937cbd55beb5e78b73b838033ff63bae66"
 CRATE_PATH = re.compile(rb"(?:crate|adl)::([A-Za-z_][A-Za-z0-9_]*)")
+MOD_DECL = re.compile(rb"(?m)^\s*(?:pub\s+)?mod\s+([A-Za-z_][A-Za-z0-9_]*)\s*;")
 
 
 def git_bytes(root: pathlib.Path, *argv: str) -> bytes:
@@ -59,6 +61,34 @@ def main() -> int:
     crate_pairs: set[tuple[str, str]] = set()
     for source_path in sorted(path for path in blobs if path.endswith(".rs")):
         content = git_bytes(root, "show", f"{BASE}:{source_path}")
+        source = pathlib.PurePosixPath(source_path)
+        module_dir = source.parent if source.name == "mod.rs" else source.with_suffix("")
+        for module in sorted(set(match.decode() for match in MOD_DECL.findall(content))):
+            candidates = (
+                str(module_dir / f"{module}.rs"),
+                str(module_dir / module / "mod.rs"),
+            )
+            target = next((candidate for candidate in candidates if candidate in baseline_rows), None)
+            if not target or target == source_path:
+                continue
+            crate_pairs.add((source_path, target))
+            source_disposition = disposition_rows.get(source_path, {}).get("disposition")
+            target_disposition = disposition_rows[target]["disposition"]
+            edge = {
+                "source": {"path": source_path, "blob": blobs[source_path]},
+                "target": target,
+                "reference_class": "module",
+                "owner": "#309",
+                "disposition": "remove"
+                if source_disposition in {"delete_dead", "delete_superseded"}
+                or target_disposition in {"delete_dead", "delete_superseded"}
+                else "retain",
+                "evidence": "Rust module declaration/path/include reachability",
+            }
+            edge["edge_id"] = edge_id(edge)
+            if edge["edge_id"] not in existing:
+                existing[edge["edge_id"]] = edge
+                added += 1
         for module in sorted(set(match.decode() for match in CRATE_PATH.findall(content))):
             target = module_targets.get(module)
             if not target or target == source_path:
@@ -94,6 +124,7 @@ def main() -> int:
             row["evidence"] = f"{active} normalized active incoming edges plus exact baseline blob"
 
     reference["edges"] = edges
+    reference["scan_denominator"]["candidate_commit"] = BAND_B_COMMIT
     reference["scan_denominator"]["rust_crate_path_edges"] = len(crate_pairs)
     reference["scan_denominator"]["reference_algorithm"] = "module-declaration + exact-path + crate/adl top-level path v2"
     write(evidence / "reference-edge-manifest.json", reference)
