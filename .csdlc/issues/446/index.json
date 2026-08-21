@@ -3,15 +3,15 @@
   "issue": 446,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "6d45794ff8f47d6ed78c0e8e6925c8384a89dbcd8abc3c23872a6da0c508da8e",
-  "phase": "published",
-  "generation": 21,
-  "digest": "ede50eace9b57b08f8e9199d21997d4969ec97bad3eb4c08af25ae65e177657a",
+  "phase": "reviewed",
+  "generation": 24,
+  "digest": "2501f162d2516a38a745db98efee2a8d4734e627346bc6ebcff3c3802b52568c",
   "branch": "codex/446-runtime-acc-resident-wiring",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-446-runtime-acc-resident-wiring",
   "review_assignment": {
-    "reviewer": "fresh-session:ea462fa6-83cf-4c8f-9d44-4f96510de907",
-    "assigned_by": "codex:issue-446-final-runtime-acc-review-r5",
-    "revision": "git-blake3:bd1dac268f1dd7b61644f2ffad96a6623ee3f97c:c3b2480f28eecd92cf98b0e7f38cf92689d22a2595589d440ca5e42b96b86265",
+    "reviewer": "fresh-session:01a0227f-d655-7191-b038-aa8f073dd181",
+    "assigned_by": "codex:issue-446-governed-tools-p1-final-review",
+    "revision": "git-blake3:2f40024e543fb9e64bf25af61c4c0ee91f19e550:31a6556e4aa00d370984477c5b6aa19c4e2e23421d56a605342aa36b1024ed32",
     "scope": [
       ".csdlc/evidence/446",
       ".csdlc/issues/446",
@@ -35,7 +35,7 @@
     ]
   },
   "review": {
-    "reviewer": "fresh-session:ea462fa6-83cf-4c8f-9d44-4f96510de907",
+    "reviewer": "fresh-session:01a0227f-d655-7191-b038-aa8f073dd181",
     "scope": [
       ".csdlc/evidence/446",
       ".csdlc/issues/446",
@@ -57,26 +57,25 @@
       "adl/src/resident_tool_execution.rs",
       "adl/src/runtime_aws_signal.rs"
     ],
-    "reviewed_revision": "git-blake3:bd1dac268f1dd7b61644f2ffad96a6623ee3f97c:c3b2480f28eecd92cf98b0e7f38cf92689d22a2595589d440ca5e42b96b86265",
+    "reviewed_revision": "git-blake3:2f40024e543fb9e64bf25af61c4c0ee91f19e550:31a6556e4aa00d370984477c5b6aa19c4e2e23421d56a605342aa36b1024ed32",
     "findings": [],
     "residual_risks": [
       "The retained live proof is local Ollama gemma4:12b-mlx evidence; Linux/AWS six-resident qualification remains owned by dependent issue #268."
     ],
     "completed": true,
-    "non_substantive_proof": null
+    "non_substantive_proof": {
+      "policy": "review_metadata_only_v1",
+      "from_revision": "git-blake3:2f40024e543fb9e64bf25af61c4c0ee91f19e550:31a6556e4aa00d370984477c5b6aa19c4e2e23421d56a605342aa36b1024ed32",
+      "to_revision": "git-blake3:2f40024e543fb9e64bf25af61c4c0ee91f19e550:31a6556e4aa00d370984477c5b6aa19c4e2e23421d56a605342aa36b1024ed32",
+      "from_commit": "2f40024e543fb9e64bf25af61c4c0ee91f19e550",
+      "to_commit": "2f40024e543fb9e64bf25af61c4c0ee91f19e550",
+      "changed_paths": [
+        "adl/src/cli/runtime_v2_cmd/commands.rs",
+        "adl/src/cli/runtime_v2_cmd/tests.rs"
+      ]
+    }
   },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 446,
-    "pull_request": 455,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/455",
-    "base": "main",
-    "head": "codex/446-runtime-acc-resident-wiring",
-    "revision": "git-blake3:b161684fa9eacafa6397c3c836b257bd9c1705ab:01c3c63d529d2a72a5d0bdc9920c7f7dfaf1ae9bafed09d9eb89d8808c7f6889",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -90,34 +89,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "541caed313e69e0d91d7938afdab61710ec9738bb5f771e2322afa66307d1212",
+      "values_digest": "a7ec87d3398d0222e03900a229d73d39541d4d3218386ca34af385467d1ec2bd",
       "rendered_digest": "a4f6027a21a820c30c5134ba1567511d9f52f1d5bf5daadcc61a51c2a3a353d1",
       "ast_digest": "27a5f3a4b5e8abc714ad563d22a2d322243d75dd8703dc01b35b75f6cb7a856f"
     },
     "stp": {
-      "values_digest": "469d8010b13a79865ee21d3055304e9146437ebedf198052f4f3dfb7c8a19223",
+      "values_digest": "89ce8b0e8e418aedbe7657f9909e7696982b0485cd6f1d5b361fe207044d0bb1",
       "rendered_digest": "8d82f119907a31b0a1a34692ad2979d48898cd5d871d1e6c11bd709b6260ed84",
       "ast_digest": "71286082e6509974f68f38220eb27a1a60afa250f1505e1938fe34e8b3fa8fc0"
     },
     "spp": {
-      "values_digest": "d8630f3f392bdab78deed0b94a6d989794068882f575f3c87d5ee4897ad6c025",
+      "values_digest": "90ff037511a9d52229a7939919860fc0fda075c2f4b440c27efcdd4decc09f8e",
       "rendered_digest": "328a3e601f844ec99ad9fa6a87596d3ba6aa56744dc052e25995bf3f2e2973e6",
       "ast_digest": "d889dc54057773a4840ce3e9b02d800d3588e21ff8d7ca34ebace795dfc547e3"
     },
     "vpp": {
-      "values_digest": "e2ea53329ef9d78ade739e1150f67bd149eb8eaf017ba6e7b05370a7aa592d0b",
+      "values_digest": "a9feb29c68add45d60322b5da2dbeb7c42a639d5bf5e185ae97da9812e4f0ce0",
       "rendered_digest": "6f3e9bf007826f50192e601366097281f25502bb443c44c3beac1abb0c9e8a83",
       "ast_digest": "412ae3243fe05dac1680b82cc49a116dc46812fa50747b1bd801789c8eda63c1"
     },
     "srp": {
-      "values_digest": "f40b92156aee83eba36198651055c3c53d4ee77cdd5e410cdf687813f7738b0f",
-      "rendered_digest": "e77b61f5748905b01142cc662ec0869cbebf603bfac2011996a750a2eb5164d7",
-      "ast_digest": "86068b7d8bf87c2312fc88275307ebd677e0df5cce191dbcb5dea19bfc1ce6fc"
+      "values_digest": "2622af3b2106f95431ea04404b796337aff044a449df8a242e609db4d495e207",
+      "rendered_digest": "7313154cc8b7f254f0ff84675e120f30f91b92ff6befcacd740ce4cb7529e0af",
+      "ast_digest": "8c440457c287c629e9dea710d29e01be302edf503c9e5ec8683b28ba6fa17e7b"
     },
     "sor": {
-      "values_digest": "ae804b84f63326d8fa634e2a418098b5787ed5041c7f347401d30f89b9358115",
-      "rendered_digest": "69fb7550385dc4ab93ec7166ab19cc449fa18f315d5a77e04e897e84cfc4678e",
-      "ast_digest": "81777a89a1d090c9f22e2eb7e4cb8a8795c265d25661f0136a966834ac6f1246"
+      "values_digest": "5c41467061e9db687d06ce3cdb0ff7a49eac5b468f036aab787c4bf59315d695",
+      "rendered_digest": "38246f11f4f1abe1dce30d23b2c0340c17ffa3a1e774e3897263202426306d89",
+      "ast_digest": "4a87f88860cc670b0306fb09aceb16824eb3c3bf05fde12d25b56aa545934b82"
     }
   },
   "transitions": [
@@ -197,6 +196,20 @@
       "to": "published",
       "actor": "codex:/root",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 12,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-446-governed-tools-p1-repair",
+      "reason": "Recover reviewed and published authority after independent review found the governed-tools production command still depended on fixture validation instead of an explicit test-only command-boundary refusal."
+    },
+    {
+      "sequence": 13,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:01a0227f-d655-7191-b038-aa8f073dd181",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -395,6 +408,34 @@
       "actor": "codex:/root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 29,
+      "generation": 22,
+      "actor": "codex:issue-446-governed-tools-p1-repair",
+      "reason": "Recover reviewed and published authority after independent review found the governed-tools production command still depended on fixture validation instead of an explicit test-only command-boundary refusal.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 23,
+      "actor": "codex:issue-446-governed-tools-p1-repair",
+      "reason": "Record the final causal Runtime ACC implementation and governed-tools command-boundary P1 repair before fresh exact-head review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Wired six-resident Runtime tool authority and actual long-lived provider output through single-proposal extraction, UTS-to-ACC compilation, configured Freedom Gate evaluation, production Runtime observation dispatch, and checkpoint-bound redacted terminal receipts; all historical fixture-backed production demo commands now refuse deterministically before artifact publication while library-only fixture tests remain executable.\",\"changes\":[\"Added canonical digest-bound resident tool authority metadata and tamper denial in adl-runtime.\",\"Added Runtime-owned single-proposal extraction, including duplicate-proposal denial and redacted proposal identifiers.\",\"Routed actual long-lived Runtime provider output through UTS-to-ACC compilation and configured Freedom Gate policy before adapter dispatch.\",\"Added the production runtime.observe registry and bounded redacted Runtime snapshot adapter; fixture dispatch remains test-only and production fallback fails closed.\",\"Bound every terminal execution or denial receipt to resident identity, cycle, and exact checkpoint digest.\",\"Added deterministic full-tick and opt-in live Ollama gemma4:12b-mlx proof without changing generic provider configuration or expanding v0.92 scope.\",\"Retired all five historical fixture-backed production demo surfaces so production commands refuse deterministically before artifact publication while cfg(test) library demo coverage still proves the bounded fixture behavior.\",\"Hard-disabled runtime-v2 governed-tools-flagship-demo production execution before fixture construction after independent review found the previous refusal still depended on fixture validation.\",\"Kept the merged affect-model legacy-artifact test isolated by supplying valid ACC tool authority and continuing to assert the intended missing-affect-model denial.\"],\"artifacts\":[\"implementation-tree:48075df8480802ed6629069c57ce795e39281d09\",\"commit:e040eb35020fd4673422cc41841a44b5143345be\",\"evidence-commit:ac01f0181344e7571e706ed35366e4c619faecf6\",\"ci-repair-commit:2ba8feae04bef2f2151d0b094851d0b421390138\",\"post-ci-repair-commit:523d76da2\",\"governed-tools-p1-fix-commit:2f40024e543fb9e64bf25af61c4c0ee91f19e550\",\".csdlc/evidence/446/live-gemma4-runtime-acc.log\",\"adl-runtime/src/resident_agent.rs\",\"adl/src/resident_tool_execution.rs\",\"adl/src/long_lived_agent.rs\",\"adl/src/governed_executor_parts/logic.rs\",\"adl/src/cli/runtime_v2_cmd/commands.rs\",\"adl/src/cli/runtime_v2_cmd/helpers.rs\",\"adl/src/cli/runtime_v2_cmd/tests.rs\",\"adl/src/lib.rs\"],\"validation\":[{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"resident_tool_execution\",\"--lib\",\"--\",\"--nocapture\"],\"purpose\":\"Prove allow, authority mismatch, compiler denial, gate denial, unsupported adapter denial, receipt redaction, and identical duplicate-proposal denial.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree: 7 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"long_lived_agent::tests::tick_routes_provider_output_through_runtime_acc_and_adapter\",\"--lib\",\"--\",\"--exact\",\"--nocapture\"],\"purpose\":\"Prove a full deterministic Runtime tick routes real provider StepOutput through ACC, Freedom Gate, production adapter, and checkpoint-bound receipt creation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree: 1 passed\"},{\"command\":[\"env\",\"ADL_TEST_LIVE_RESIDENT_MODEL=gemma4:12b-mlx\",\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"long_lived_agent::tests::tick_routes_provider_output_through_runtime_acc_and_adapter\",\"--lib\",\"--\",\"--exact\",\"--nocapture\"],\"purpose\":\"Prove the same full Runtime ACC path using a real local Ollama gemma4:12b-mlx agent response over HTTP.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/446/live-gemma4-runtime-acc.log\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"governed_executor\",\"--lib\",\"--\",\"--nocapture\"],\"purpose\":\"Prove governed executor behavior and test-only fixture isolation after injected adapter refactor.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree: 25 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime/Cargo.toml\",\"resident_agent\",\"--lib\",\"--\",\"--nocapture\"],\"purpose\":\"Prove canonical resident authority construction, validation, and tamper denial.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree: 5 passed\"},{\"command\":[\"cargo\",\"check\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\"],\"purpose\":\"Prove the Runtime library compiles across the integrated implementation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove strict lint cleanliness for the integrated Runtime ACC path.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl/Cargo.toml\",\"--check\"],\"purpose\":\"Prove Rust formatting hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove whitespace and conflict-marker hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"local exact implementation tree\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"trace_runtime_v2\",\"--bin\",\"adl\",\"--\",\"--nocapture\"],\"purpose\":\"Prove the complete production Runtime-v2 CLI regression surface, including deterministic refusal of every historical fixture-backed demo.\",\"outcome\":\"passed\",\"evidence_ref\":\"local post-P1 repair: 40 passed, 1 ignored\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"cli::runtime_v2_cmd::tests::trace_runtime_v2_governed_tools\",\"--bin\",\"adl\",\"--\",\"--nocapture\"],\"purpose\":\"Prove governed-tools production CLI paths now refuse before fixture construction while preserving help and path validation.\",\"outcome\":\"passed\",\"evidence_ref\":\"independent focused review: 2 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"runtime_v2_governed_tools_flagship_demo\",\"--lib\",\"--\",\"--nocapture\"],\"purpose\":\"Prove the bounded fixture-backed historical demo remains available only inside cfg(test) library validation.\",\"outcome\":\"passed\",\"evidence_ref\":\"local post-CI repair: 3 passed\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl/Cargo.toml\",\"csm_runtime_api::tests::runtime_api_rejects_legacy_resident_agent_artifact_without_affect_model\",\"--lib\",\"--\",\"--exact\",\"--nocapture\"],\"purpose\":\"Prove the merged affect-model compatibility fixture carries valid ACC authority and still denies the exact missing affect-model boundary.\",\"outcome\":\"passed\",\"evidence_ref\":\"local post-CI repair: 1 passed\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl/Cargo.toml\",\"--bin\",\"adl\",\"--tests\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Prove strict lint cleanliness for the production CLI retirement repair and tests.\",\"outcome\":\"passed\",\"evidence_ref\":\"local post-P1 repair\"}]}"
+    },
+    {
+      "sequence": 31,
+      "generation": 23,
+      "actor": "codex:issue-446-governed-tools-p1-final-review",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 24,
+      "actor": "fresh-session:01a0227f-d655-7191-b038-aa8f073dd181",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

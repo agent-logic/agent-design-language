@@ -21,11 +21,15 @@ Wired six-resident Runtime tool authority and actual long-lived provider output 
 - evidence-commit:ac01f0181344e7571e706ed35366e4c619faecf6
 - ci-repair-commit:2ba8feae04bef2f2151d0b094851d0b421390138
 - post-ci-repair-commit:523d76da2
+- governed-tools-p1-fix-commit:2f40024e543fb9e64bf25af61c4c0ee91f19e550
 - .csdlc/evidence/446/live-gemma4-runtime-acc.log
 - adl-runtime/src/resident_agent.rs
 - adl/src/resident_tool_execution.rs
 - adl/src/long_lived_agent.rs
 - adl/src/governed_executor_parts/logic.rs
+- adl/src/cli/runtime_v2_cmd/commands.rs
+- adl/src/cli/runtime_v2_cmd/helpers.rs
+- adl/src/cli/runtime_v2_cmd/tests.rs
 - adl/src/lib.rs
 
 ## Execution
@@ -36,7 +40,8 @@ Wired six-resident Runtime tool authority and actual long-lived provider output 
 - Added the production runtime.observe registry and bounded redacted Runtime snapshot adapter; fixture dispatch remains test-only and production fallback fails closed.
 - Bound every terminal execution or denial receipt to resident identity, cycle, and exact checkpoint digest.
 - Added deterministic full-tick and opt-in live Ollama gemma4:12b-mlx proof without changing generic provider configuration or expanding v0.92 scope.
-- Corrected the causal workspace-coverage regression so all five fixture-backed production demo surfaces refuse deterministically before artifact publication, while cfg(test) library demo coverage still proves the bounded fixture behavior.
+- Retired all five historical fixture-backed production demo surfaces so production commands refuse deterministically before artifact publication while cfg(test) library demo coverage still proves the bounded fixture behavior.
+- Hard-disabled runtime-v2 governed-tools-flagship-demo production execution before fixture construction after independent review found the previous refusal still depended on fixture validation.
 - Kept the merged affect-model legacy-artifact test isolated by supplying valid ACC tool authority and continuing to assert the intended missing-affect-model denial.
 
 ## Validation
@@ -176,15 +181,31 @@ Wired six-resident Runtime tool authority and actual long-lived provider output 
       "test",
       "--manifest-path",
       "adl/Cargo.toml",
-      "cli::runtime_v2_cmd::tests::trace_runtime_v2_governed_tools_flagship_demo",
+      "trace_runtime_v2",
       "--bin",
       "adl",
       "--",
       "--nocapture"
     ],
-    "purpose": "Prove production CLI paths refuse historical fixture adapter actuation before artifact publication while preserving argument/help behavior.",
+    "purpose": "Prove the complete production Runtime-v2 CLI regression surface, including deterministic refusal of every historical fixture-backed demo.",
     "outcome": "passed",
-    "evidence_ref": "local CI repair: 2 passed"
+    "evidence_ref": "local post-P1 repair: 40 passed, 1 ignored"
+  },
+  {
+    "command": [
+      "cargo",
+      "test",
+      "--manifest-path",
+      "adl/Cargo.toml",
+      "cli::runtime_v2_cmd::tests::trace_runtime_v2_governed_tools",
+      "--bin",
+      "adl",
+      "--",
+      "--nocapture"
+    ],
+    "purpose": "Prove governed-tools production CLI paths now refuse before fixture construction while preserving help and path validation.",
+    "outcome": "passed",
+    "evidence_ref": "independent focused review: 2 passed"
   },
   {
     "command": [
@@ -199,22 +220,7 @@ Wired six-resident Runtime tool authority and actual long-lived provider output 
     ],
     "purpose": "Prove the bounded fixture-backed historical demo remains available only inside cfg(test) library validation.",
     "outcome": "passed",
-    "evidence_ref": "local CI repair: 3 passed"
-  },
-  {
-    "command": [
-      "cargo",
-      "test",
-      "--manifest-path",
-      "adl/Cargo.toml",
-      "trace_runtime_v2_",
-      "--bin",
-      "adl",
-      "--quiet"
-    ],
-    "purpose": "Prove the complete production Runtime-v2 CLI regression surface, including deterministic refusal of every historical fixture-backed demo.",
-    "outcome": "passed",
-    "evidence_ref": "local post-CI repair: 40 passed, 1 ignored"
+    "evidence_ref": "local post-CI repair: 3 passed"
   },
   {
     "command": [
@@ -240,23 +246,24 @@ Wired six-resident Runtime tool authority and actual long-lived provider output 
       "adl/Cargo.toml",
       "--bin",
       "adl",
+      "--tests",
       "--",
       "-D",
       "warnings"
     ],
-    "purpose": "Prove strict lint cleanliness for the production CLI retirement repair.",
+    "purpose": "Prove strict lint cleanliness for the production CLI retirement repair and tests.",
     "outcome": "passed",
-    "evidence_ref": "local post-CI repair"
+    "evidence_ref": "local post-P1 repair"
   }
 ]
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

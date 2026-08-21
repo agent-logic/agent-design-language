@@ -7,15 +7,15 @@
     "title": "[v0.92][Runtime] Wire ACC-governed tool execution into resident-agent cycles",
     "slug": "runtime-acc-resident-tool-execution",
     "version": "v0.92",
-    "generation": 21
+    "generation": 24
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
       "review_scope": ".csdlc/evidence/446\n.csdlc/issues/446\n.csdlc/prepared/issues/446/design.md\n.csdlc/prepared/issues/446/diagram.mmd\n.csdlc/prepared/issues/446/validate_issue446.sh\nadl-runtime/src/resident_agent.rs\nadl/src/csm_resident_agents.rs\nadl/src/csm_runtime_api.rs\nadl/src/cli/runtime_v2_cmd/commands.rs\nadl/src/cli/runtime_v2_cmd/helpers.rs\nadl/src/cli/runtime_v2_cmd/tests.rs\nadl/src/governed_executor_parts/logic.rs\nadl/src/lib.rs\nadl/src/long_lived_agent.rs\nadl/src/long_lived_agent/storage.rs\nadl/src/long_lived_agent/tests.rs\nadl/src/long_lived_agent/types.rs\nadl/src/resident_tool_execution.rs\nadl/src/runtime_aws_signal.rs",
-      "review_revision": "git-blake3:bd1dac268f1dd7b61644f2ffad96a6623ee3f97c:c3b2480f28eecd92cf98b0e7f38cf92689d22a2595589d440ca5e42b96b86265",
-      "reviewer": "fresh-session:ea462fa6-83cf-4c8f-9d44-4f96510de907",
+      "review_revision": "git-blake3:2f40024e543fb9e64bf25af61c4c0ee91f19e550:31a6556e4aa00d370984477c5b6aa19c4e2e23421d56a605342aa36b1024ed32",
+      "reviewer": "fresh-session:01a0227f-d655-7191-b038-aa8f073dd181",
       "review_prompts": [
         "Can provider output bypass authority?",
         "Can fixtures enter production?",
