@@ -70,6 +70,9 @@ raise SystemExit(0 if decision=='executed' else 1)
         assert len({row["tool_authority_digest"] for row in pre["residents"].values()}) == 6
         assert len({row["runtime_authority_sha256"] for row in pre["residents"].values()}) == 6
         assert {row["pre_agent_test_outcome"] for row in pre["residents"].values()} == {"executed", "denied"}
+        workflows = list((root / "runtime" / "agent-specs").glob("*/workflow.adl.yaml"))
+        assert len(workflows) == 6
+        assert all("timeout_secs: 900" in workflow.read_text() for workflow in workflows)
         replay = subprocess.run(common + ["--phase", "pre"], cwd=ROOT, capture_output=True, text=True)
         assert replay.returncode != 0 and "refusing replay" in replay.stderr
         restore_receipt = root / "restore.json"

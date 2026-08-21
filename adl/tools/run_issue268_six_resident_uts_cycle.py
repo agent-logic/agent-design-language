@@ -80,6 +80,7 @@ providers:
     base_url: "http://127.0.0.1:11434"
     config:
       model: "{resident["model"]}"
+      timeout_secs: 900
 agents:
   resident:
     provider: "local_ollama"
