@@ -16,6 +16,9 @@ VALID_STATUSES = {
     "planned",
 }
 
+EXACT_REVISION = re.compile(r"[0-9a-f]{40}")
+ACCEPTED_REVIEW_STATES = {"reviewed_pass"}
+
 DEMO = Path("docs/milestones/v0.92/DEMO_MATRIX_v0.92.md")
 COVERAGE = Path("docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md")
 LEDGER = Path("docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md")
@@ -120,9 +123,23 @@ def artifact_exists(root: Path, artifact_cell: str, context: str) -> None:
             fail(f"{context} has non-concrete artifact value {value!r}")
         if value.startswith("http://") or value.startswith("https://"):
             continue
+        if not value.startswith(".csdlc/evidence/"):
+            fail(f"{context} must cite retained evidence, not source/docs path {value!r}")
         candidate = root / value
         if not candidate.exists():
             fail(f"{context} points at missing artifact {value}")
+
+
+def validate_accepted_revision(value: str, context: str) -> None:
+    revision = value.strip().strip("`")
+    if not EXACT_REVISION.fullmatch(revision):
+        fail(f"{context} exact revision must be an immutable 40-hex commit, got {value!r}")
+
+
+def validate_accepted_review_state(value: str, context: str) -> None:
+    state = value.strip("` ").lower()
+    if state not in ACCEPTED_REVIEW_STATES:
+        fail(f"{context} review state must be one of {sorted(ACCEPTED_REVIEW_STATES)}, got {value!r}")
 
 
 def validate(root: Path) -> None:
@@ -155,6 +172,8 @@ def validate(root: Path) -> None:
                 value = row[column].strip()
                 if not value or value.startswith("pending-"):
                     fail(f"accepted artifact index {row_id} lacks concrete {column}")
+            validate_accepted_revision(row["Exact revision"], f"accepted artifact index {row_id}")
+            validate_accepted_review_state(row["Review state"], f"accepted artifact index {row_id}")
             artifact_exists(root, row["Positive artifact"], f"accepted artifact index {row_id} positive proof")
             artifact_exists(root, row["Negative artifact"], f"accepted artifact index {row_id} negative proof")
 

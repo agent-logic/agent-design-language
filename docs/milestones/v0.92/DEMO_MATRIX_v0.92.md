@@ -35,7 +35,7 @@ coverage validator.
 | D7A | Adaptive Learning DAG boundary proof | Adaptive learning is distinguished from bounded loop execution. | Evaluation bindings, accepted/rejected graph deltas, and replay negatives. | blocked_with_evidence | AEE-010 |
 | D7 | ACIP binary schema and WebSocket carrier proof | Binary ACIP remains inspectable through public schemas while message contents remain governed. | Schema catalog, JSON projection, denied-access case, authenticated WSS trace. | blocked_with_evidence | AEE-011 |
 | D8 | Birthday-to-governance handoff | v0.93 governance can consume v0.92 identity evidence without redefining birth. | Handoff packet mapping identity evidence to future governance. | blocked_with_evidence | AEE-017 |
-| D9 | WP-20 coverage validator | Demo/proof rows cannot be passed without exact evidence and negative proof. | `adl/tools/validate_v092_demo_proof_coverage.py` and shell test harness. | accepted | AEE-018 |
+| D9 | WP-20 coverage validator | Demo/proof rows cannot be passed without exact evidence and negative proof. | `adl/tools/validate_v092_demo_proof_coverage.py` and shell test harness. | blocked_with_evidence | AEE-018 |
 
 ## Coverage Rules
 
@@ -170,7 +170,8 @@ Expected proof:
 - validator rejects missing artifact paths, duplicate owners, planned-as-passed
   status, synthetic proof, and unsupported platform claims
 
-Current state: accepted only for WP-20's own reconciliation/validator surface.
+Current state: blocked with evidence until typed exact-head review and
+publication make the validator evidence consumable outside the issue branch.
 
 ## Non-Claims
 

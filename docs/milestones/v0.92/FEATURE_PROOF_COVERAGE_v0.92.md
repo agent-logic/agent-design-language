@@ -39,7 +39,7 @@
 | Observatory and Unity consumers | WP-18A | Real versioned API/WSS interactions, compatibility matrix, and consumer failures | blocked_with_evidence | AEE-015 |
 | Provider-neutral multi-agent execution | WP-18B | Real multi-provider runs, ACIP traces, negative cases, and no-substitution proof | blocked_with_evidence | AEE-016 |
 | v0.93 governance handoff | WP-19 | Traceable downstream evidence map | blocked_with_evidence | AEE-017 |
-| Demo matrix and proof coverage | WP-20 | This matrix, AEE artifact index, activation ledger, and fail-closed validator | accepted | AEE-018 |
+| Demo matrix and proof coverage | WP-20 | This matrix, AEE artifact index, activation ledger, and fail-closed validator | blocked_with_evidence | AEE-018 |
 | Reduction and refactoring | WP-21, WP-21A | Deletion eligibility, net reduction, behavior-preserving Rust checks | planned | AEE-019 |
 | Quality, release, and publication | WP-22 through WP-30 | Review packets, remediation, release evidence, articles, podcasts, ceremony | planned | AEE-020 |
 
@@ -56,7 +56,9 @@ synthetic success, provider substitution, or unreviewed local-only claims.
 
 ## WP-20 Boundary
 
-WP-20 may mark its own reconciliation and validator row accepted when the
-validator passes at the exact #308 head and review has no actionable findings.
-It must not convert WP-18, WP-18A, WP-18B, WP-19, WP-21, or release-tail rows
-to accepted unless their own issue evidence is exact, reviewed, and linked.
+WP-20 may mark its own reconciliation and validator row accepted only after the
+exact-head typed review and publication loop records terminal review truth. The
+pre-publication working copy remains `blocked_with_evidence` so downstream gates
+cannot consume a local branch as release evidence. WP-20 must not convert WP-18,
+WP-18A, WP-18B, WP-19, WP-21, or release-tail rows to accepted unless their own
+issue evidence is exact, reviewed, and linked.

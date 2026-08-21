@@ -36,7 +36,7 @@ release gates. Rows marked `blocked_with_evidence`, `deferred_non_claim`, or
 | AEE-015 | WP-18A | Observatory and Unity consumers | blocked_with_evidence | pending-owner-evidence | pending-owner-evidence | pending-owner-evidence | pending-owner-review | pending-owner-command | Separate Observatory component/session; not accepted release evidence here. |
 | AEE-016 | WP-18B | Provider-neutral multi-agent execution | blocked_with_evidence | pending-owner-evidence | pending-owner-evidence | pending-owner-evidence | pending-owner-review | pending-owner-command | Scheduling only; not accepted release evidence. |
 | AEE-017 | WP-19 | v0.93 governance handoff | blocked_with_evidence | pending-owner-evidence | pending-owner-evidence | pending-owner-evidence | pending-owner-review | pending-owner-command | Scheduling only; not accepted release evidence. |
-| AEE-018 | WP-20 | Demo matrix and proof coverage | accepted | current-issue-head | docs/milestones/v0.92/DEMO_MATRIX_v0.92.md; docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md; docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md; docs/milestones/v0.92/review/V092_DEMO_AEE_ARTIFACT_INDEX.md; adl/tools/validate_v092_demo_proof_coverage.py | adl/tools/test_v092_demo_proof_coverage.sh | pre-pr-review-required | python3 adl/tools/validate_v092_demo_proof_coverage.py --root . | Accepted only for WP-20 validator/matrix reconciliation, not for product demos. |
+| AEE-018 | WP-20 | Demo matrix and proof coverage | blocked_with_evidence | pending-typed-review-publication | pending-typed-review-publication | pending-typed-review-publication | pending-typed-review-publication | python3 adl/tools/validate_v092_demo_proof_coverage.py --root . | WP-20 reconciliation is complete only after exact-head typed review and publication; not accepted release evidence in the pre-publication artifact index. |
 | AEE-019 | WP-21, WP-21A | Reduction and refactoring | planned | pending-#309 | pending-#309 | pending-#309 | pending-#309-review | pending-#309-command | Blocked until #308 is terminal; not accepted release evidence. |
 | AEE-020 | WP-22 through WP-30 | Quality, release, and publication | planned | pending-release-tail | pending-release-tail | pending-release-tail | pending-release-tail-review | pending-release-tail-command | Not accepted release evidence. |
 
@@ -46,6 +46,8 @@ The validator must fail closed when:
 
 - an accepted row lacks exact revision, positive artifact, negative artifact,
   review state, or command
+- an accepted row uses mutable revision prose, pre-review state, or docs/scripts
+  as proof in place of retained evidence artifacts
 - a matrix or feature-coverage row points at a missing artifact-index row
 - a row is planned or blocked in one surface but accepted in another
 - a row relies on synthetic proof, provider substitution, or unsupported

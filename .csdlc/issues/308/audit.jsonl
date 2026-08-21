@@ -7,3 +7,5 @@
 {"sequence":7,"generation":5,"actor":"fresh-session:efd0fc2b-7e93-4365-b958-854d2c85ce5c","reason":"reapprove changed issue design","operation":"{\"design_digest\":\"be86c5e4be6fb6a41ea1de95ee310062a9b437e1918db6c5dd097a7d717ecfa1\",\"design_ref\":\".csdlc/prepared/issues/308/design.md\",\"diagram_digest\":\"7548efae5b547b96c3ba721da45cf698601d9146c67e997a3bfa0257fef1c27c\",\"diagram_ref\":\".csdlc/prepared/issues/308/diagram.mmd\",\"operation\":\"approve_design\"}"}
 {"sequence":8,"generation":5,"actor":"codex:issue-308-delivery","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":9,"generation":6,"actor":"codex:issue-308-delivery","reason":"clear stale review assignment after design tuple repair before assigning exact-head review","operation":"recover_review"}
+{"sequence":10,"generation":6,"actor":"codex:issue-308-delivery","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":11,"generation":7,"actor":"fresh-session:codex-cli-issue-308-review-b9e8d454","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
