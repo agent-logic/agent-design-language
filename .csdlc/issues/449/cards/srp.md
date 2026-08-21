@@ -12,14 +12,7 @@ Status: draft
 
 ## Scope
 
-adl-runtime-kernel/src/adaptive_learning.rs
-adl-runtime-kernel/tests/adaptive_learning.rs
-adl-runtime-kernel/src/live_continuity.rs
-docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md
-.csdlc/evidence/449
-.csdlc/issues/449
-.csdlc/prepared/issues/449/design.md
-.csdlc/prepared/issues/449/diagram.mmd
+
 
 ## Prompts
 
@@ -39,14 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- Review was read-only and bounded to assigned paths at immutable commit 2e41a165ed7350b2ca1f6917a9b8b3f86c2131b0.
-- Native hosted CI, publication, and merge readiness are not claimed by this review.
-- Later source or substantive lifecycle changes require a fresh exact-head review.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:2e41a165ed7350b2ca1f6917a9b8b3f86c2131b0:f13e0c0b15fb7c4f28c76b5d5d9ef40d84675b1ebdb79caa9101ca5510902ed9")
+Revision: None
 
-Reviewer: Some("fresh-session:6e82c3a5-9a2a-4d0e-8701-4db48bc4b2bd")
+Reviewer: None
 
-Result: pass
+Result: pre_review

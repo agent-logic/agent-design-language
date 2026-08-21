@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-#449 wires governed Adaptive Learning into a Runtime-owned resident-cycle path and remediates exact-review P1 by retaining redacted terminal evidence for invalid resident precondition failures before returning, while preserving MutationGate-only mutation for accepted paths.
+#449 wires governed Adaptive Learning into a Runtime-owned resident-cycle path and remediates exact-review P1 by retaining redacted terminal evidence for invalid resident precondition failures before returning, while preserving MutationGate-only mutation for accepted paths. Current proof was rerun after merging origin/main at 9f373f5f04b0f8c9dc6e3e6cbf348fddec98486c.
 
 ## Artifacts
 
@@ -29,7 +29,7 @@ Status: pre_phase
 - Added redacted ResidentAdaptiveLearningTerminalEvidence retained in a separate governed durable domain for invalid resident binding/precondition failures, so rejected invalid inputs leave terminal proof without creating normal adaptive-learning history or mutating the graph/state.
 - Added resident_cycle integration tests inside adl-runtime-kernel/tests/adaptive_learning.rs covering accepted MutationGate-only mutation, rejected non-mutation, invalid binding terminal-evidence retention, restart restoration, and deterministic continuation.
 - Updated docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md from library-only/local contract wording to resident-cycle integration proof truth.
-- Added a mechanical live_continuity.rs type alias required for strict clippy on the touched package.
+- Merged current origin/main cleanly after #447/#308 and reran focused #449 proof; no #450 scope was touched.
 
 ## Validation
 
@@ -42,9 +42,9 @@ Status: pre_phase
       "adl-runtime-kernel/Cargo.toml",
       "--check"
     ],
-    "purpose": "Reject rustfmt drift in the touched Runtime kernel package after the terminal-evidence fix.",
+    "purpose": "Reject rustfmt drift in the touched Runtime kernel package after merging current origin/main.",
     "outcome": "passed",
-    "evidence_ref": "root-turn-live-output:2026-08-20:fmt-check"
+    "evidence_ref": "root-turn-live-output:2026-08-20-post-main-merge:fmt-check"
   },
   {
     "command": [
@@ -56,9 +56,9 @@ Status: pre_phase
       "adaptive_learning",
       "resident_cycle"
     ],
-    "purpose": "Prove #449 resident-cycle accepted mutation, rejected non-mutation, invalid binding terminal-evidence retention, restart, and deterministic continuation behavior.",
+    "purpose": "Prove #449 resident-cycle accepted mutation, rejected non-mutation, invalid binding terminal-evidence retention, restart, and deterministic continuation behavior after merging current origin/main.",
     "outcome": "passed",
-    "evidence_ref": "root-turn-live-output:2026-08-20:resident-cycle-3-pass"
+    "evidence_ref": "root-turn-live-output:2026-08-20-post-main-merge:resident-cycle-3-pass"
   },
   {
     "command": [
@@ -69,9 +69,9 @@ Status: pre_phase
       "--test",
       "adaptive_learning"
     ],
-    "purpose": "Run the complete adaptive_learning integration target after the resident terminal-evidence remediation.",
+    "purpose": "Run the complete adaptive_learning integration target after merging current origin/main.",
     "outcome": "passed",
-    "evidence_ref": "root-turn-live-output:2026-08-20:adaptive-learning-18-pass"
+    "evidence_ref": "root-turn-live-output:2026-08-20-post-main-merge:adaptive-learning-18-pass"
   },
   {
     "command": [
@@ -84,9 +84,9 @@ Status: pre_phase
       "-D",
       "warnings"
     ],
-    "purpose": "Run strict clippy for the touched Runtime kernel package/tests after the terminal-evidence fix.",
+    "purpose": "Run strict clippy for the touched Runtime kernel package/tests after merging current origin/main.",
     "outcome": "passed",
-    "evidence_ref": "root-turn-live-output:2026-08-20:strict-clippy-pass"
+    "evidence_ref": "root-turn-live-output:2026-08-20-post-main-merge:strict-clippy-pass"
   },
   {
     "command": [
@@ -95,9 +95,9 @@ Status: pre_phase
       ".adl",
       "docs"
     ],
-    "purpose": "Confirm feature/evidence docs contain adaptive-learning truth surfaces and no stale library-only claim is used as #449 completion proof.",
+    "purpose": "Confirm feature/evidence docs contain adaptive-learning truth surfaces and no stale library-only claim is used as #449 completion proof after merging current origin/main.",
     "outcome": "passed",
-    "evidence_ref": "root-turn-live-output:2026-08-20:feature-evidence-truth-check"
+    "evidence_ref": "root-turn-live-output:2026-08-20-post-main-merge:feature-evidence-truth-check"
   },
   {
     "command": [
@@ -105,9 +105,9 @@ Status: pre_phase
       "diff",
       "--check"
     ],
-    "purpose": "Reject whitespace and malformed diff defects before immutable commit and exact review.",
+    "purpose": "Reject whitespace and malformed diff defects after merging current origin/main.",
     "outcome": "passed",
-    "evidence_ref": "root-turn-live-output:2026-08-20:diff-hygiene-pass"
+    "evidence_ref": "root-turn-live-output:2026-08-20-post-main-merge:diff-hygiene-pass"
   }
 ]
 

@@ -4,48 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "d8e1f3dca77fcf7b936ed705f16684f757477c7a35ec6e1ee4d0f7facd456b0a",
-  "phase": "reviewed",
-  "generation": 10,
-  "digest": "dff9bfbc098ab096b21b126e4d76a507738d506a505d4202d4b65d580d29910e",
+  "phase": "implemented",
+  "generation": 12,
+  "digest": "59464cdbee13665058a1872be15a4a7374737a409788a075196f0a5b63727c91",
   "branch": "codex/449-governed-adaptive-learning-resident-integration",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-449-governed-adaptive-learning-resident-integration",
-  "review_assignment": {
-    "reviewer": "fresh-session:6e82c3a5-9a2a-4d0e-8701-4db48bc4b2bd",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:2e41a165ed7350b2ca1f6917a9b8b3f86c2131b0:f13e0c0b15fb7c4f28c76b5d5d9ef40d84675b1ebdb79caa9101ca5510902ed9",
-    "scope": [
-      "adl-runtime-kernel/src/adaptive_learning.rs",
-      "adl-runtime-kernel/tests/adaptive_learning.rs",
-      "adl-runtime-kernel/src/live_continuity.rs",
-      "docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md",
-      ".csdlc/evidence/449",
-      ".csdlc/issues/449",
-      ".csdlc/prepared/issues/449/design.md",
-      ".csdlc/prepared/issues/449/diagram.mmd"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:6e82c3a5-9a2a-4d0e-8701-4db48bc4b2bd",
-    "scope": [
-      "adl-runtime-kernel/src/adaptive_learning.rs",
-      "adl-runtime-kernel/tests/adaptive_learning.rs",
-      "adl-runtime-kernel/src/live_continuity.rs",
-      "docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md",
-      ".csdlc/evidence/449",
-      ".csdlc/issues/449",
-      ".csdlc/prepared/issues/449/design.md",
-      ".csdlc/prepared/issues/449/diagram.mmd"
-    ],
-    "reviewed_revision": "git-blake3:2e41a165ed7350b2ca1f6917a9b8b3f86c2131b0:f13e0c0b15fb7c4f28c76b5d5d9ef40d84675b1ebdb79caa9101ca5510902ed9",
-    "findings": [],
-    "residual_risks": [
-      "Review was read-only and bounded to assigned paths at immutable commit 2e41a165ed7350b2ca1f6917a9b8b3f86c2131b0.",
-      "Native hosted CI, publication, and merge readiness are not claimed by this review.",
-      "Later source or substantive lifecycle changes require a fresh exact-head review."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review_assignment": null,
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -60,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c88ce24bf5acd81a147d6664e28106fcc85cc42a9703c982124ab55c476eae68",
+      "values_digest": "22e8288b2e3e9fbee477e25e58b1011eddc7a04f1d122ba1b89fcebd9389293c",
       "rendered_digest": "2cfd28e6c6a6879f7e6c50c55739e047518d76c09cda80b9ebafc4403b793865",
       "ast_digest": "f464cd78ec8bddeabb30d93fddafa24b1062b4cec61a141464249d3a05f2cd41"
     },
     "stp": {
-      "values_digest": "2f6820d4baf412404b4b737842dc77ae3b79d829d8400f2e6d316443706165ec",
+      "values_digest": "9f6a1572ac2bd89e1e02e875449e25a6d7a2ca6b5ca1dc5f5bf1141e32a4ef58",
       "rendered_digest": "7b54454bbd83510eb034ffe2a2271617f0602cade7d3c6b59f4ac3d137227169",
       "ast_digest": "c6928d84219a13b3766acc4b90f7c8cfb71ba2f86c3092bf2246fe41523990e7"
     },
     "spp": {
-      "values_digest": "b5657a89e146b6967231cbd73197e6c3a40dee9b916ec35f5f62f05d367f67a3",
+      "values_digest": "12fdc0b5ad2561b69fb6b0c9137ef32d7406e1bf54b8a035db884f67d25dfdf8",
       "rendered_digest": "bffc41af02fb2bde8fdbeee9bb86b0844d389e801cec9206ad674efc0dadcef5",
       "ast_digest": "c4ab178aa7012df674d6ec98c645f586c6e07ae5cd2a58fe689862f744ef001b"
     },
     "vpp": {
-      "values_digest": "6ca2f51e963f617d88cc10372fd72ae751449a080b1f29d3dac0ffe4d1659e3f",
+      "values_digest": "032afafe86c815fde0a99c934af2c2fa802d0647ed1462def84e0d13b8e13efb",
       "rendered_digest": "29b34386e79734d7df12f5860df83c84e13b42f22c4304b38539705e954c05ac",
       "ast_digest": "800bad4e472866aa40314c9753028f43e11b4961676430d90d974b85d927fb8d"
     },
     "srp": {
-      "values_digest": "bacd33933de80d71b2843f128567595ea752c5e7015704aa68c41be5fb13ffef",
-      "rendered_digest": "e4f84a93c6e223a120dd5c97dde53bff8ce050e413e1b44f234f5f991c086b48",
-      "ast_digest": "88d193165f13789e1dac665a2aee127e1238791ec58bf689dd6fdabb64bf4e84"
+      "values_digest": "229387991f6fe0e6661d3f9fcc1dce2577e8904a79d2a863906f75077ac41084",
+      "rendered_digest": "3a8abb044fd02d026b1c6abd0393ba034ef34c8c2a2d4cb537496abcda46d04a",
+      "ast_digest": "13b21242e8fcf9b816e12eee09996417e5f70724d617c0eaaf8a5c370caeb090"
     },
     "sor": {
-      "values_digest": "ce22544764b61fe31f7ea930d1078aa0889245aa7fe02b821e585bfd853e2a27",
-      "rendered_digest": "4b5be8676bc9ef5ff2c4dc34cdf0d7105f9f395214a17a4c2890bec05b8c258a",
-      "ast_digest": "a842610f5b0e3a61ca01cc649a072ac2cd42bc0a2124bc3a07c891a6ca670734"
+      "values_digest": "13f6749701265bea4bf75796151dba352cd41f0f2e1b9e327c7cd70fcc2ca96c",
+      "rendered_digest": "51174413f990b1cdcbf58ba2b0d02fcaa5c57e9db7b626f33ec954eda5a72280",
+      "ast_digest": "58facb2f7b71c4292555aeaa25592bd0dc7069a4a1bb15c15c4d71c2e894f539"
     }
   },
   "transitions": [
@@ -118,6 +83,13 @@
       "to": "reviewed",
       "actor": "codex:/root",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover exact review after clean merge of current origin/main into #449 worktree advanced HEAD to 3fc9970cadf47f795db701359916198109f8d8e2; #449 proof still passes but publication requires fresh exact-head review truth."
     }
   ],
   "audit": [
@@ -218,6 +190,20 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "Recover exact review after clean merge of current origin/main into #449 worktree advanced HEAD to 3fc9970cadf47f795db701359916198109f8d8e2; #449 proof still passes but publication requires fresh exact-head review truth.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Record post-origin/main merge #449 proof before assigning the next exact-head review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"#449 wires governed Adaptive Learning into a Runtime-owned resident-cycle path and remediates exact-review P1 by retaining redacted terminal evidence for invalid resident precondition failures before returning, while preserving MutationGate-only mutation for accepted paths. Current proof was rerun after merging origin/main at 9f373f5f04b0f8c9dc6e3e6cbf348fddec98486c.\",\"changes\":[\"Added resident-cycle production entrypoints in adl-runtime-kernel/src/adaptive_learning.rs for execute and startup reconciliation.\",\"Added redacted ResidentAdaptiveLearningReceipt evidence that distinguishes accepted, rejected, cancelled, and restored outcomes without exposing private profile/provider content.\",\"Added redacted ResidentAdaptiveLearningTerminalEvidence retained in a separate governed durable domain for invalid resident binding/precondition failures, so rejected invalid inputs leave terminal proof without creating normal adaptive-learning history or mutating the graph/state.\",\"Added resident_cycle integration tests inside adl-runtime-kernel/tests/adaptive_learning.rs covering accepted MutationGate-only mutation, rejected non-mutation, invalid binding terminal-evidence retention, restart restoration, and deterministic continuation.\",\"Updated docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md from library-only/local contract wording to resident-cycle integration proof truth.\",\"Merged current origin/main cleanly after #447/#308 and reran focused #449 proof; no #450 scope was touched.\"],\"artifacts\":[\"adl-runtime-kernel/src/adaptive_learning.rs\",\"adl-runtime-kernel/tests/adaptive_learning.rs\",\"adl-runtime-kernel/src/live_continuity.rs\",\"docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md\",\".csdlc/issues/449\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--check\"],\"purpose\":\"Reject rustfmt drift in the touched Runtime kernel package after merging current origin/main.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20-post-main-merge:fmt-check\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"adaptive_learning\",\"resident_cycle\"],\"purpose\":\"Prove #449 resident-cycle accepted mutation, rejected non-mutation, invalid binding terminal-evidence retention, restart, and deterministic continuation behavior after merging current origin/main.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20-post-main-merge:resident-cycle-3-pass\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"adaptive_learning\"],\"purpose\":\"Run the complete adaptive_learning integration target after merging current origin/main.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20-post-main-merge:adaptive-learning-18-pass\"},{\"command\":[\"cargo\",\"clippy\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--tests\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Run strict clippy for the touched Runtime kernel package/tests after merging current origin/main.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20-post-main-merge:strict-clippy-pass\"},{\"command\":[\"rg\",\"Adaptive Learning|adaptive learning|production-integrated|library-only\",\".adl\",\"docs\"],\"purpose\":\"Confirm feature/evidence docs contain adaptive-learning truth surfaces and no stale library-only claim is used as #449 completion proof after merging current origin/main.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20-post-main-merge:feature-evidence-truth-check\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace and malformed diff defects after merging current origin/main.\",\"outcome\":\"passed\",\"evidence_ref\":\"root-turn-live-output:2026-08-20-post-main-merge:diff-hygiene-pass\"}]}"
     }
   ]
 }
