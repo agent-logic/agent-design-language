@@ -61,6 +61,11 @@ if [[ "$MODE" == preflight || "$MODE" == authorized-launch ]]; then
     echo "issue268: current estimated hourly On-Demand cost required" >&2
     exit 77
   }
+  python3 - "$HOURLY" <<'PY' || exit 77
+import sys
+if float(sys.argv[1]) <= 0:
+    raise SystemExit("issue268: estimated hourly On-Demand cost must be greater than zero")
+PY
 fi
 
 mkdir -p "$EVIDENCE_ROOT" "$ARTIFACTS"

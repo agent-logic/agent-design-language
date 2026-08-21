@@ -599,6 +599,8 @@ ceiling, hourly, seconds = float(sys.argv[1]), float(sys.argv[2]), int(sys.argv[
 projected = hourly * seconds / 3600.0
 if ceiling <= 0:
     raise SystemExit("run_aws_spot_remote_validation_lane: portable AWS cost ceiling must be greater than zero")
+if hourly <= 0:
+    raise SystemExit("run_aws_spot_remote_validation_lane: estimated hourly cost must be greater than zero")
 if projected > ceiling:
     raise SystemExit(
         f"run_aws_spot_remote_validation_lane: projected cost ${projected:.6f} exceeds portable ceiling ${ceiling:.6f}"

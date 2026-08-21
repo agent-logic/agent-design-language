@@ -91,6 +91,19 @@ fi
 EOF
 chmod +x "$test_root/owner" "$test_root/aws"
 
+if ADL_ISSUE268_EVIDENCE_ROOT="$test_root" \
+  ADL_ISSUE268_OWNER="$test_root/owner" \
+  ADL_ISSUE268_FAKE_OWNER_LOG="$test_root/owner.log" \
+  ADL_ISSUE268_ESTIMATED_HOURLY_COST_USD=0 \
+  ADL_AWS_RUNTIME_CONTINUITY_VOLUME_ID=vol-12345678 \
+  ADL_AWS_RUNTIME_CONTINUITY_VOLUME_NAME=adl-issue268-runtime \
+  ADL_AWS_RUNTIME_CONTINUITY_VOLUME_ID_SHA256="$(python3 -c 'import hashlib; print(hashlib.sha256(b"vol-12345678").hexdigest())')" \
+    "$wrapper" preflight >/dev/null 2>&1; then
+  echo "zero On-Demand price unexpectedly passed preflight" >&2
+  exit 1
+fi
+[[ ! -s "$test_root/owner.log" ]]
+
 ADL_ISSUE268_EVIDENCE_ROOT="$test_root" \
 ADL_ISSUE268_OWNER="$test_root/owner" \
 ADL_ISSUE268_FAKE_OWNER_LOG="$test_root/owner.log" \
