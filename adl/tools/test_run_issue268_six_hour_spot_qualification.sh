@@ -322,7 +322,7 @@ if ADL_ISSUE268_EVIDENCE_ROOT="$test_root" \
   echo "active manager validation unexpectedly succeeded" >&2
   exit 1
 fi
-grep -F 'cloudformation describe-stacks --stack-name adl-issue268-runtime-70' "$test_root/aws.log" >/dev/null
+grep -F 'cloudformation describe-stacks --stack-name adl-issue268-runtime-71' "$test_root/aws.log" >/dev/null
 [[ ! -s "$test_root/owner.log" ]]
 if grep -F 'cleanup ' "$test_root/owner.log" >/dev/null; then
   echo "active manager validation invoked cleanup" >&2
@@ -341,7 +341,7 @@ if ADL_ISSUE268_EVIDENCE_ROOT="$test_root" \
   echo "active CloudFormation stack validation unexpectedly succeeded" >&2
   exit 1
 fi
-grep -F 'cloudformation describe-stacks --stack-name adl-issue268-runtime-70' "$test_root/aws.log" >/dev/null
+grep -F 'cloudformation describe-stacks --stack-name adl-issue268-runtime-71' "$test_root/aws.log" >/dev/null
 [[ ! -s "$test_root/owner.log" ]]
 if grep -F 'terminate-instances' "$test_root/aws.log" >/dev/null; then
   echo "active CloudFormation validation terminated an instance" >&2
