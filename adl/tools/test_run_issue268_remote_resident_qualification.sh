@@ -4,6 +4,7 @@ ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd -P)
 grep -Fq 'tail -80 "$OLLAMA_LOG"' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq 'OLLAMA_KEEP_ALIVE=-1' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq 'OLLAMA_LOAD_TIMEOUT=15m' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
+grep -Fq 'find "$OLLAMA_BLOBS" -type f -print0 | LC_ALL=C sort -z | xargs -0 cat >/dev/null' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq 'RUNTIME_ROOT=${ADL_ISSUE268_RETAINED_RUNTIME_ROOT:-$VOLUME_ROOT/state/$RUN_ID}' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq 'OLLAMA_LLM_LIBRARY=cpu_avx2' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq 'ADL_UTS_ALLOW_MULTI_MODEL_RESIDENCY=true' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
@@ -45,7 +46,8 @@ print(json.dumps({
   'runtime_binary_sha256':hashlib.sha256(pathlib.Path(os.environ['ADL_TEST_RUNTIME']).read_bytes()).hexdigest(),
 }))
 PY
-mkdir -p "$scratch/models" "$scratch/bin"
+mkdir -p "$scratch/models/blobs" "$scratch/bin"
+printf 'fixture-model-blob\n' >"$scratch/models/blobs/sha256-fixture"
 cat >"$scratch/bin/curl" <<'SH'
 #!/usr/bin/env bash
 exit 0

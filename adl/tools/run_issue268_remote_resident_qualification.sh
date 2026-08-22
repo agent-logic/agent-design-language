@@ -81,6 +81,13 @@ if [[ -n "$CONTINUITY_BIN_SHA256" && "$installed_continuity_sha" != "$CONTINUITY
   echo "issue268: installed continuity binary provenance mismatch" >&2
   exit 65
 fi
+# EBS volumes created from snapshots hydrate blocks lazily. Read the immutable
+# model blobs once, sequentially, before Ollama starts so its CPU tensor loader
+# does not mistake cold snapshot I/O for a stalled model process.
+OLLAMA_BLOBS="$OLLAMA_MODELS/blobs"
+[[ -d "$OLLAMA_BLOBS" ]] || { echo "issue268: installed Ollama blob store missing" >&2; exit 69; }
+find "$OLLAMA_BLOBS" -type f -print -quit | grep -q . || { echo "issue268: installed Ollama blob store is empty" >&2; exit 69; }
+find "$OLLAMA_BLOBS" -type f -print0 | LC_ALL=C sort -z | xargs -0 cat >/dev/null
 export OLLAMA_MODELS OLLAMA_HOST=http://127.0.0.1:11434 OLLAMA_MAX_LOADED_MODELS=3 OLLAMA_KEEP_ALIVE=-1 OLLAMA_LOAD_TIMEOUT=15m
 # Ollama 0.31.1's autodetected AMX runner segfaults on virtualized Sapphire
 # Rapids during its first warmup. Use Ollama's packaged AVX2 CPU runner.

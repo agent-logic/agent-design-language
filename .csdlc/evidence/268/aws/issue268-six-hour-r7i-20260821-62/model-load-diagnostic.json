@@ -1,0 +1,13 @@
+{
+  "diagnostic": {
+    "elapsed": "15m8s",
+    "failure": "timed out waiting for llama-server to start",
+    "model_size_gib": 4.58,
+    "qualification_install_reused": true,
+    "stage": "load_tensors"
+  },
+  "raw_private_command_stderr_sha256": "505d4ce747da11a1bfac2ecfd724664bb15c42644a3b41538f685cc6e296ff5e",
+  "redacted": true,
+  "run_id": "issue268-six-hour-r7i-20260821-62",
+  "schema": "adl.issue268.model_load_diagnostic.v1"
+}
