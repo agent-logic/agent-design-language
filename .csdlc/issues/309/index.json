@@ -4,13 +4,41 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "1aac31d526ec88733274957b08d6a077e4b1c251c3c859ce9de45efa648636ad",
-  "phase": "implemented",
-  "generation": 33,
-  "digest": "26144025327987475338639dbde0aa7463a7431a45377249053258521da23dab",
+  "phase": "reviewed",
+  "generation": 34,
+  "digest": "215ad35f32b71eb577b5ab74886c3fbcb292d47a5a87acf611c943efc12e7a67",
   "branch": "codex/309-repository-wide-code-reduction",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-309-repository-wide-code-reduction",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:0f8d6a68-f7ac-4e38-bba6-93a0340a3fc5",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:2f031ce2a8e6db9048cdb9ba98089ffce548d17e:4540cbd1bec6e9c7530582ee5c4a291a9e1bac453e7fe646c27a2c03be5ebc99",
+    "scope": [
+      "Exact immutable candidate 2f031ce2a8e6db9048cdb9ba98089ffce548d17e over base e926e3bca0ab1981d77b4658d2feb4059bdf33a6",
+      "Full #309 20-file/11571-line dead-code-only reduction and two reversible bands",
+      "Live GitHub workflow/job/log provenance validator, tracked receipt, five tamper negatives, and explicit evidence/typed-projection descendant allowlist",
+      "Verify Runtime v2 and #414 continuity evidence remains preserved and no product source changed after the hosted-tested source revision",
+      "Verify all three reported hosted-proof and stale-review findings are closed"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:0f8d6a68-f7ac-4e38-bba6-93a0340a3fc5",
+    "scope": [
+      "Exact immutable candidate 2f031ce2a8e6db9048cdb9ba98089ffce548d17e over base e926e3bca0ab1981d77b4658d2feb4059bdf33a6",
+      "Full #309 20-file/11571-line dead-code-only reduction and two reversible bands",
+      "Live GitHub workflow/job/log provenance validator, tracked receipt, five tamper negatives, and explicit evidence/typed-projection descendant allowlist",
+      "Verify Runtime v2 and #414 continuity evidence remains preserved and no product source changed after the hosted-tested source revision",
+      "Verify all three reported hosted-proof and stale-review findings are closed"
+    ],
+    "reviewed_revision": "git-blake3:2f031ce2a8e6db9048cdb9ba98089ffce548d17e:4540cbd1bec6e9c7530582ee5c4a291a9e1bac453e7fe646c27a2c03be5ebc99",
+    "findings": [],
+    "residual_risks": [
+      "The next commit contains only the typed review projection for this exact PASS; no product, validator, receipt, or reduction evidence may change without fresh review.",
+      "PR #460 must complete the required hosted checks at the final metadata head before merge and terminal finish."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +53,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "57856c4da6d32d23b92362c3f1b6bf37e3190a5518ee98819ea72e7ee3f4b3a4",
+      "values_digest": "f128deb7e3857c2d25b770cb5f885b2646274468b71ba0769c13f41011ec921c",
       "rendered_digest": "f610e1b9271578eedfab1b985238494fa5c08d9ddd8df483adb2aa6375564b3a",
       "ast_digest": "73a9a20d02b6492e2e00df33af13b603c1ae1d97ab041b611ef8885088729242"
     },
     "stp": {
-      "values_digest": "842ed11db7291e8cd504a6ef2a480d9970fbb0531f49a1de5ddc901395afe2eb",
+      "values_digest": "fc6c215b2866ff700800e1a411ea0c67d4637c89a7130230149c5c757edae0f8",
       "rendered_digest": "a469bc600ccd25918f73bd661c9a04c397592b9dcbe51e4876c7bb61be451299",
       "ast_digest": "00774e64929c26df4a90bae4b38835bf7c1520a06ecc6d7d3ae0423239fed416"
     },
     "spp": {
-      "values_digest": "19fdb5f3ad95ae62520d56a1ff3447b98d0eed7fb7962c8d1636e3e179a8af1f",
+      "values_digest": "e012167a527a9e73100ae64c0982fd026549ce3f03609ec802546bfa4db509f3",
       "rendered_digest": "cab3f8355e1ca071ae5a17ebf1f6753f260d24400cde323ccc184e03b52cecb7",
       "ast_digest": "7afd712b14dc42ec54db99efa33ac3df4d5326979921def1d286ef3030f6536d"
     },
     "vpp": {
-      "values_digest": "cba9dd3ab67402c59c55e2970bf647cb76ea82c7eead02c1ef3f412082c2b01d",
+      "values_digest": "6240a050a092563b31b2717e2572c856c3c8aa80b9e8c1c78277cebd044a2c77",
       "rendered_digest": "8fd190146e15f493fff91d51982e468c09147ef07195faf212080f90664049a8",
       "ast_digest": "db2df873444242436a1311a1c901e50520f97b516a328e96428a923d67157c2b"
     },
     "srp": {
-      "values_digest": "0bdccbf93977dcad235936e8f3b611641123025de9048178547da24dbed7d969",
-      "rendered_digest": "8c621a8abdff1f086f1d77da1fc7856fc1db3d429c2be0900913973f8b649836",
-      "ast_digest": "b743ea5de345e0eebe3311f620a553f69d9cb00bfff6b1402a989da9961d0904"
+      "values_digest": "7b9833cf4e779021e97dc23d7cfa36f477167a13701a3013b7a0ee1788cacb00",
+      "rendered_digest": "7c70b5b79a43d199cdd38b99180f696a300bea529797fe0d279ea7f786c2efdc",
+      "ast_digest": "371a0b6be50debfc349f2c694c656118afefdd3010cd1b70c39afba4a605bb3b"
     },
     "sor": {
-      "values_digest": "7d40a97864b6c41508fa6ba195fd58bcbc299554a5c3d45db09b2cf4f1a943be",
+      "values_digest": "a0daee592a8ab326415937654dd652e57fead28ebb8e752f61960b79cf4cb261",
       "rendered_digest": "5525153a315d1fadfb038d050b582a397e51ddc2d17637c0a75e3d9e4958cdaf",
       "ast_digest": "3401b45ed6ef37cc7ac1276a8644b773eae19a897dd06f27e89dd8e6ffef74bb"
     }
@@ -139,6 +167,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover #309 after exact-head review found the prior hosted receipt source-to-candidate allowance omitted the exact typed review/publication projection paths; validate the bounded explicit projection allowlist at head 2d56e543832373811b8d3f9c55135f313c4851ac."
+    },
+    {
+      "sequence": 13,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -428,6 +463,20 @@
       "actor": "codex:/root",
       "reason": "Recover #309 after exact-head review found the prior hosted receipt source-to-candidate allowance omitted the exact typed review/publication projection paths; validate the bounded explicit projection allowlist at head 2d56e543832373811b8d3f9c55135f313c4851ac.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 42,
+      "generation": 33,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 43,
+      "generation": 34,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

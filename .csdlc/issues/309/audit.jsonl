@@ -39,3 +39,5 @@
 {"sequence":39,"generation":31,"actor":"fresh-session:b04a60f8-37f7-4b83-80d6-2d172b64ad9f","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":40,"generation":32,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":41,"generation":33,"actor":"codex:/root","reason":"Recover #309 after exact-head review found the prior hosted receipt source-to-candidate allowance omitted the exact typed review/publication projection paths; validate the bounded explicit projection allowlist at head 2d56e543832373811b8d3f9c55135f313c4851ac.","operation":"recover_review"}
+{"sequence":42,"generation":33,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":43,"generation":34,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
