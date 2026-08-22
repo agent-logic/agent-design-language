@@ -151,11 +151,11 @@ Make lifecycle TLS authority config-only, snapshot validated opened-file bytes i
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

@@ -3,15 +3,15 @@
   "issue": 461,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "c3772d9c4f3292d1eb16999797038d6bc5c89cda26f7d3cf00f3bdd501aefc8c",
-  "phase": "published",
-  "generation": 16,
-  "digest": "21a9393b74b8c147f6b70810c1eb762743e109616a951c11f69c3a352622baa9",
+  "phase": "reviewed",
+  "generation": 18,
+  "digest": "147da143ae5a6e7baaf4dc5f28d876bb75e87fdbe149859933a381a8f6d4f1d1",
   "branch": "codex/461-runtime-lifecycle-tls-config-only",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-461-runtime-lifecycle-tls-config-only",
   "review_assignment": {
-    "reviewer": "/root/review_461_r4",
+    "reviewer": "/root/review_461_flake_fix",
     "assigned_by": "codex",
-    "revision": "git-blake3:4418f6c8f318309f34271dc2ecbe27d658c5e395:0378a8f532789147be33a6771e6ffb58080cf346809c44022d86e4e325018b22",
+    "revision": "git-blake3:8ec49d91017599db89c85c545683095f7e7ad47c:9d739f59b73f9db821f049aa0902d0a37dc76a5d826560a2d9a553b7d898cab9",
     "scope": [
       ".csdlc/evidence/461",
       ".csdlc/issues/461",
@@ -20,11 +20,12 @@
       "adl-runtime-kernel/src/observability.rs",
       "adl-runtime-kernel/tests/observability.rs",
       "adl/tools/run_runtime_v3_operational_proof.sh",
-      "adl/tools/validate_v092_runtime_guardian_lifecycle.sh"
+      "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
+      "adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs"
     ]
   },
   "review": {
-    "reviewer": "/root/review_461_r4",
+    "reviewer": "/root/review_461_flake_fix",
     "scope": [
       ".csdlc/evidence/461",
       ".csdlc/issues/461",
@@ -33,26 +34,16 @@
       "adl-runtime-kernel/src/observability.rs",
       "adl-runtime-kernel/tests/observability.rs",
       "adl/tools/run_runtime_v3_operational_proof.sh",
-      "adl/tools/validate_v092_runtime_guardian_lifecycle.sh"
+      "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
+      "adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs"
     ],
-    "reviewed_revision": "git-blake3:4418f6c8f318309f34271dc2ecbe27d658c5e395:0378a8f532789147be33a6771e6ffb58080cf346809c44022d86e4e325018b22",
+    "reviewed_revision": "git-blake3:8ec49d91017599db89c85c545683095f7e7ad47c:9d739f59b73f9db821f049aa0902d0a37dc76a5d826560a2d9a553b7d898cab9",
     "findings": [],
     "residual_risks": [],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 461,
-    "pull_request": 462,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/462",
-    "base": "main",
-    "head": "codex/461-runtime-lifecycle-tls-config-only",
-    "revision": "git-blake3:09eedf5e7abbc8269072becbe1f5aa1e5e72fa2a:70e024011f3a08c924541264885676d13a6d2bff6cff9075fcb3b4a6062da274",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -66,34 +57,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "074d25146befd55b6d7e7c578759212e0d5536742bb030d091695de62b5d0f1d",
+      "values_digest": "514b1395206dea094dcefa6705983447efad73a47dada3cb83542966d48ace4d",
       "rendered_digest": "8a9fbfce0d69f1910ca948878ba44a0ed1a27dc347aea5bcda1970e19aab5739",
       "ast_digest": "26a15fdc1672fa0189ff9832c8f1e7ee65d433eb087bb9bb47008db0d56fbe20"
     },
     "stp": {
-      "values_digest": "e575f9f163223002e81a06287c6dc7b70b8ef2f210d2d5b2805eeea17bc4b868",
+      "values_digest": "372101ae65d7b229a43bae4877e816854bb853e47c2410356168bbd5dc16faed",
       "rendered_digest": "4ce1e9873090a53138f6d839f5e8671d698b8daf3c33233396500ec87c6c9efc",
       "ast_digest": "88dbeb732474d45c8e8f6449cb1e1a9b93d66cea7851f51a080a74a9ade7e1f7"
     },
     "spp": {
-      "values_digest": "bd13180cf5e52b36d58d92ee3b32291001cac831a624903d08351ad32cd5a8ad",
+      "values_digest": "610ad18de7a65ec60c209c83488c55ed574e60bc3ef066ecc9addca76bd5f67a",
       "rendered_digest": "dc6a0376f7c799fd51e817b38d7c5d127a4333d909b1ae05dc90d018a7f606b6",
       "ast_digest": "0a12c0d5428d828b25a9132d5d5d6e05a62844891dcb4fba7d8c2ff90715333f"
     },
     "vpp": {
-      "values_digest": "8d434d9a60f739040d72f150f60c0ff4acea87a4cd2dd36a4a3189a233bb7850",
+      "values_digest": "8deefe39f02361c04811e291821e976f0371b50b40ad2344c5ddd43a1faec8db",
       "rendered_digest": "36fbf6002ff5cfab2daffd2947e93f99865d0fcb06083b41f144d64e249ea8b9",
       "ast_digest": "686a90346eb7ef2cca2da2554889e3e2a978a91b5bce607a522b277bf2cd07ce"
     },
     "srp": {
-      "values_digest": "fdce12b532194eec11b65ee5d044d5b5afee9968ce65ddad531869bdc32905ce",
-      "rendered_digest": "3ca56589bfeb99ca69956a8f439b0e86738f69942eca4a50faae87c6651cff6d",
-      "ast_digest": "0971554a41e553f00c749aa0027102f983fe38235c5def17dad401cb78e854b8"
+      "values_digest": "25297a401adb6ad3239cd1a9fe1111f82b729b29b19b532876d5eb9fffa31b06",
+      "rendered_digest": "eeff15cfe34241f6c9e9eb98ff79ca1ee2047fa9895ac7157c25e984f48ccf9e",
+      "ast_digest": "a0435d394759139e1015f814df201f4ead689c12c1944281e9a66c8aac339236"
     },
     "sor": {
-      "values_digest": "7297dbf15f048b8d34caf67340d5a4f544f9ba1336501394bddbc54e3261b004",
-      "rendered_digest": "90f06104f3fe116cb2db71cede7ce4356d7aaddaa51a97c1ee375e6eb686fddd",
-      "ast_digest": "54e07527e1529dc83bcf054d5d9b98c74d6db71f966f1c5874723ae6d4ce7d74"
+      "values_digest": "343183f6a43c06497a8ef6ad8ed6901a1d470680337e47926526aeabe12dbf96",
+      "rendered_digest": "74370b71f5e86ccaf001916bb08c6b944f873f8ca4094c0fd5ed0737cb17589e",
+      "ast_digest": "e85a71d9ae97d48290f2f9357d5cf92e72109d7dbca61d5485f434b61f708e5a"
     }
   },
   "transitions": [
@@ -131,6 +122,20 @@
       "to": "published",
       "actor": "codex",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex",
+      "reason": "Recover reviewed publication truth after the hosted runtime lane exposed a flaky learner convergence assertion and the bounded exact-head repair was reviewed."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -294,6 +299,27 @@
       "actor": "codex",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 24,
+      "generation": 17,
+      "actor": "codex",
+      "reason": "Recover reviewed publication truth after the hosted runtime lane exposed a flaky learner convergence assertion and the bounded exact-head repair was reviewed.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 17,
+      "actor": "codex",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 18,
+      "actor": "codex",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

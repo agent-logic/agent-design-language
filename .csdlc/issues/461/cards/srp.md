@@ -20,6 +20,7 @@ adl-runtime-kernel/src/observability.rs
 adl-runtime-kernel/tests/observability.rs
 adl/tools/run_runtime_v3_operational_proof.sh
 adl/tools/validate_v092_runtime_guardian_lifecycle.sh
+adl-runtime/src/distributed/transport/governed/learner_transport/tests.rs
 
 ## Prompts
 
@@ -41,8 +42,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:4418f6c8f318309f34271dc2ecbe27d658c5e395:0378a8f532789147be33a6771e6ffb58080cf346809c44022d86e4e325018b22")
+Revision: Some("git-blake3:8ec49d91017599db89c85c545683095f7e7ad47c:9d739f59b73f9db821f049aa0902d0a37dc76a5d826560a2d9a553b7d898cab9")
 
-Reviewer: Some("/root/review_461_r4")
+Reviewer: Some("/root/review_461_flake_fix")
 
 Result: pass
