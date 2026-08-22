@@ -349,11 +349,11 @@ def sha256_file(path):
     return digest.hexdigest()
 
 
-def tls_socket(address, certificate):
+def tls_socket(address, trust_roots):
     host, port = address.rsplit(":", 1)
     remaining = max(0.1, deadline - time.monotonic())
     tcp = socket.create_connection((host, int(port)), timeout=remaining)
-    context = ssl.create_default_context(cafile=certificate)
+    context = ssl.create_default_context(cafile=trust_roots)
     context.check_hostname = True
     context.verify_mode = ssl.CERT_REQUIRED
     try:
@@ -365,8 +365,8 @@ def tls_socket(address, certificate):
     return tls
 
 
-def authenticated_https(address, certificate, token):
-    with tls_socket(address, certificate) as tls:
+def authenticated_https(address, trust_roots, token):
+    with tls_socket(address, trust_roots) as tls:
         request = (
             "GET /v1/observatory HTTP/1.1\r\n"
             "Host: localhost\r\n"
@@ -426,8 +426,8 @@ def write_frame(stream, opcode, payload):
     stream.sendall(prefix + mask + masked)
 
 
-def authenticated_wss(address, certificate, token):
-    with tls_socket(address, certificate) as tls:
+def authenticated_wss(address, trust_roots, token):
+    with tls_socket(address, trust_roots) as tls:
         key = base64.b64encode(secrets.token_bytes(16)).decode("ascii")
         upgrade_request = (
             "GET /v1/observatory/ws HTTP/1.1\r\n"
@@ -490,6 +490,7 @@ probe_nonce = pathlib.Path(probe_ready_path).read_text(encoding="utf-8").strip()
 if not probe_nonce:
     raise RuntimeError("lifecycle harness published an empty pre-restart nonce")
 deadline = time.monotonic() + 180.0
+observed_error_types = []
 
 while True:
     try:
@@ -501,19 +502,19 @@ while True:
         init = safe_existing(os.path.join(state_root, "runtime-init.toml"), state_root, "runtime init")
         text = pathlib.Path(init).read_text(encoding="utf-8")
         address_match = re.search(r'^address = "([^"]+)"$', text, re.MULTILINE)
-        certificate_match = re.search(r'^certificate_chain_path = "([^"]+)"$', text, re.MULTILINE)
+        trust_roots_match = re.search(r'^trust_roots_path = "([^"]+)"$', text, re.MULTILINE)
         token_match = re.search(r'^observatory_token_path = "([^"]+)"$', text, re.MULTILINE)
         if not address_match:
             raise RuntimeError("API address missing")
-        if not certificate_match:
-            raise RuntimeError("certificate path missing")
+        if not trust_roots_match:
+            raise RuntimeError("trust roots path missing")
         if not token_match:
             raise RuntimeError("token path missing")
-        certificate = safe_existing(certificate_match.group(1), state_root, "certificate")
+        trust_roots = safe_existing(trust_roots_match.group(1), state_root, "trust roots")
         token_file = safe_existing(token_match.group(1), state_root, "observatory token")
         token = pathlib.Path(token_file).read_text(encoding="utf-8").strip()
-        observatory, https_sha256 = authenticated_https(address_match.group(1), certificate, token)
-        headers, hello, request, response = authenticated_wss(address_match.group(1), certificate, token)
+        observatory, https_sha256 = authenticated_https(address_match.group(1), trust_roots, token)
+        headers, hello, request, response = authenticated_wss(address_match.group(1), trust_roots, token)
         https_value = {
             "schema": "adl.runtime_v3.guardian_https_transcript.v1",
             "request": {"method": "GET", "path": "/v1/observatory", "authentication": "bearer_redacted"},
@@ -556,10 +557,16 @@ while True:
         os.replace(probe_ack_temporary, probe_ack_path)
         break
     except Exception as error:
+        error_type = type(error).__name__
+        if error_type not in observed_error_types:
+            observed_error_types.append(error_type)
         if os.environ.get("ADL_RUNTIME_WSS_DEBUG") == "1":
             print(error, file=sys.stderr)
         if time.monotonic() >= deadline:
-            raise
+            raise RuntimeError(
+                "authenticated probe failed before deadline; observed_error_types="
+                + ",".join(observed_error_types)
+            ) from error
         time.sleep(0.01)
 PY
 wss_probe_pid=$!

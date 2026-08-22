@@ -1,0 +1,13 @@
+{
+  "additional_attempt_authority": "standing_operator_authorization_up_to_usd20",
+  "authoritative_failure_class": "external_probe_used_server_chain_as_ca_source",
+  "estimated_compute_cost_usd": 0.145089,
+  "fallback": "disabled",
+  "portable_request_sha256": "5ebf9be632bccc20629e213212355f81146922050d6ff05a99594167442191cc",
+  "provider_attempts": 1,
+  "run_id": "issue268-six-hour-r7i-20260821-68",
+  "schema": "adl.issue268.failed_run_disposition.v1",
+  "status": "terminal_partial_qualification",
+  "summary_sha256": "5ecbd9b1f1a585a5d8291675a152682073df51f37672988524776c944e474ac2",
+  "truth": "The six-resident Runtime/UTS/ACC/continuity proof and Guardian's internal authenticated workload completed before exposure. The separate Python probe did not acknowledge the barrier; it used the server certificate chain as its CA input rather than the configured trust roots, and its retry loop retained only the final post-shutdown connection refusal. Compute and stack cleanup completed, fallback did not run, and the six-hour exposure did not start."
+}
