@@ -4,51 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "1aac31d526ec88733274957b08d6a077e4b1c251c3c859ce9de45efa648636ad",
-  "phase": "published",
-  "generation": 29,
-  "digest": "aa68a0c4fdbfcb97c97bd9da1560f4ecfcb34c450cb286a817411c8296fa2530",
+  "phase": "implemented",
+  "generation": 30,
+  "digest": "8bc8e8deb46c314274cffbcea34852bc7fba74dfe894c8567e4a9a44491ba2e2",
   "branch": "codex/309-repository-wide-code-reduction",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-309-repository-wide-code-reduction",
-  "review_assignment": {
-    "reviewer": "fresh-session:5f59a01e-7849-4de7-9c15-875fa93da6271",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:ef1d925c7c4638f5d6ce7c338b1776ae0a625a99:378342501e8b6bd864bbe0ecd7c2bc27f8819b85d2a37cd40c5bb67201ec0e7e",
-    "scope": [
-      "Exact immutable candidate ef1d925c7c4638f5d6ce7c338b1776ae0a625a99 over base e926e3bca0ab1981d77b4658d2feb4059bdf33a6",
-      "Complete #309 dead-code-only source, typed cards, evidence, reference census, rollback, validator, advisory Gemini, and deletion-aware CI-router diff",
-      "Verify Runtime v2, #414 continuity, policy authority, active providers, ACC/capability, supported CLI, AWS #268, and current demos remain protected",
-      "Verify exact 20-file and 11571-physical-line reduction, 1613 independently validated reference edges, two independently reversible dead/unreachable bands, portable evidence, exact-manifest PR-fast routing, and no undeclared scope"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:5f59a01e-7849-4de7-9c15-875fa93da6271",
-    "scope": [
-      "Exact immutable candidate ef1d925c7c4638f5d6ce7c338b1776ae0a625a99 over base e926e3bca0ab1981d77b4658d2feb4059bdf33a6",
-      "Complete #309 dead-code-only source, typed cards, evidence, reference census, rollback, validator, advisory Gemini, and deletion-aware CI-router diff",
-      "Verify Runtime v2, #414 continuity, policy authority, active providers, ACC/capability, supported CLI, AWS #268, and current demos remain protected",
-      "Verify exact 20-file and 11571-physical-line reduction, 1613 independently validated reference edges, two independently reversible dead/unreachable bands, portable evidence, exact-manifest PR-fast routing, and no undeclared scope"
-    ],
-    "reviewed_revision": "git-blake3:ef1d925c7c4638f5d6ce7c338b1776ae0a625a99:378342501e8b6bd864bbe0ecd7c2bc27f8819b85d2a37cd40c5bb67201ec0e7e",
-    "findings": [],
-    "residual_risks": [
-      "Hosted Linux validation remains deferred until the reviewed candidate is published and exact-head CI receipts exist.",
-      "This issue removes only 20 independently proven dead or unreachable files; every retained or unproven candidate remains outside the deletion set."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 309,
-    "pull_request": 460,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/460",
-    "base": "main",
-    "head": "codex/309-repository-wide-code-reduction",
-    "revision": "git-blake3:eaf66b2b8e4a10a6a105020195a7cf8399e66eb3:4874d12e1e0b2c3ab570eb4bfb1615d537f0a0d9084032288c0b8624222b49bb",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -62,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a6a85e62a14c003f542d82e359c9e26dbc1301fe8b2d0b1d0b4662c0d9f6867c",
+      "values_digest": "3623b8eed485e63d48d5cb113579a17c2235c46083e7a4f200da2006d3ae5a3d",
       "rendered_digest": "f610e1b9271578eedfab1b985238494fa5c08d9ddd8df483adb2aa6375564b3a",
       "ast_digest": "73a9a20d02b6492e2e00df33af13b603c1ae1d97ab041b611ef8885088729242"
     },
     "stp": {
-      "values_digest": "982d0ff65c5d9ed33f4132c20be45b353e5c0c6e26402a2a40b9d350459a261a",
+      "values_digest": "d5b34709f65a669a63af3a5d374ad08edc1592a90032255d0b6b6a7a709ca683",
       "rendered_digest": "a469bc600ccd25918f73bd661c9a04c397592b9dcbe51e4876c7bb61be451299",
       "ast_digest": "00774e64929c26df4a90bae4b38835bf7c1520a06ecc6d7d3ae0423239fed416"
     },
     "spp": {
-      "values_digest": "feb4e7f9e5f2a248d6d85c75207cc0f5724b38c087bfb5c9a4f6262fbbd38e40",
+      "values_digest": "3fcc9a89820ed68acecb1e0a185d123e4dbd2901652902235f5dd3547e3cc23a",
       "rendered_digest": "cab3f8355e1ca071ae5a17ebf1f6753f260d24400cde323ccc184e03b52cecb7",
       "ast_digest": "7afd712b14dc42ec54db99efa33ac3df4d5326979921def1d286ef3030f6536d"
     },
     "vpp": {
-      "values_digest": "1a0396ae78225ccae14da3bf067a91964fdc2deb178a3f2f0090d840e7201b00",
+      "values_digest": "a2c34db40603bacd82a424dce9babbead7fc5d16fcebc5369bddf9d81df03f67",
       "rendered_digest": "8fd190146e15f493fff91d51982e468c09147ef07195faf212080f90664049a8",
       "ast_digest": "db2df873444242436a1311a1c901e50520f97b516a328e96428a923d67157c2b"
     },
     "srp": {
-      "values_digest": "2b0eabfa36e79d06161c28cfc9a62900aca6cdb02d71f3162bff70effca0a427",
-      "rendered_digest": "44f6b33eedeeb173de199b61f6ee7c35ffad120304949cc39e296b3c7051e815",
-      "ast_digest": "a17a1271ade56777d283fcdfca8ef5bece1e48cc7ea97ffd32d1b8c2d47e56f6"
+      "values_digest": "9530d6258512add9b5530fcb9523cfd8995cb9d1a890bc85f3a69a9441ac8c63",
+      "rendered_digest": "8c621a8abdff1f086f1d77da1fc7856fc1db3d429c2be0900913973f8b649836",
+      "ast_digest": "b743ea5de345e0eebe3311f620a553f69d9cb00bfff6b1402a989da9961d0904"
     },
     "sor": {
-      "values_digest": "ebcf3ebf51081ecc929acc6460eb2d9e0c89e369956ff7a0c1cc51d5a2df3218",
-      "rendered_digest": "818712703dd37646b541937db61b308c6b0c7ca810cc112c1cf63a0275e4b892",
-      "ast_digest": "afa40680bb5d5401b8506b9487b3fa00b637aebc73a86d4f447aac82f69797eb"
+      "values_digest": "a089c446df2b1e11b8ddd498c9bb8614a1edde94f8c83471b440ede695ca211a",
+      "rendered_digest": "5525153a315d1fadfb038d050b582a397e51ddc2d17637c0a75e3d9e4958cdaf",
+      "ast_digest": "3401b45ed6ef37cc7ac1276a8644b773eae19a897dd06f27e89dd8e6ffef74bb"
     }
   },
   "transitions": [
@@ -148,6 +111,13 @@
       "to": "published",
       "actor": "codex:/root",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 9,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover published #309 after review found the hosted Linux receipt validator trusted self-declared fields, the receipt was untracked, and the recorded reviewed revision was stale; reconcile the bounded three-file live-GitHub provenance remediation at exact head 82ea5d258b4aedee34146fec9ed5639872908f91."
     }
   ],
   "audit": [
@@ -402,6 +372,13 @@
       "actor": "codex:/root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 37,
+      "generation": 30,
+      "actor": "codex:/root",
+      "reason": "Recover published #309 after review found the hosted Linux receipt validator trusted self-declared fields, the receipt was untracked, and the recorded reviewed revision was stale; reconcile the bounded three-file live-GitHub provenance remediation at exact head 82ea5d258b4aedee34146fec9ed5639872908f91.",
+      "operation": "recover_review"
     }
   ]
 }
