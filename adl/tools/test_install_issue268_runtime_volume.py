@@ -30,6 +30,15 @@ rebased, changed = MODULE.rebase_snapshot_paths(
 assert changed
 assert rebased["runtime_binary"] == "/opt/adl-runtime/runtime/install/current/bin/adl"
 assert rebased["ollama_models"] == "/opt/adl-runtime/runtime/install/current/ollama-models/models"
+legacy_paths = dict(installed_paths)
+legacy_paths.pop("runtime_binary")
+legacy_paths.pop("csm_binary")
+legacy_rebased, legacy_changed = MODULE.rebase_snapshot_paths(
+    legacy_paths, pathlib.Path("/opt/adl-runtime/runtime/install/current")
+)
+assert legacy_changed
+assert legacy_rebased["runtime_binary"] == "/opt/adl-runtime/runtime/install/current/bin/adl"
+assert legacy_rebased["csm_binary"] == "/opt/adl-runtime/runtime/install/current/bin/csm"
 try:
     MODULE.rebase_snapshot_paths(
         {field: "/tmp/unsealed" for field in installed_paths},

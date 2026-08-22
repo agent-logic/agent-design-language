@@ -128,6 +128,10 @@ def rebase_snapshot_paths(installed: dict, final_root: pathlib.Path) -> tuple[di
     }
     for field, expected_suffix in expected_suffixes.items():
         original = pathlib.Path(str(installed.get(field, "")))
+        if not str(installed.get(field, "")) and field in ("runtime_binary", "csm_binary"):
+            rebased[field] = str(final_root / pathlib.Path(*expected_suffix))
+            changed = True
+            continue
         parts = original.parts
         anchors = [index for index in range(1, len(parts)) if parts[index - 1 : index + 1] == ("install", "current")]
         if len(anchors) != 1 or parts.count("current") != 1:
