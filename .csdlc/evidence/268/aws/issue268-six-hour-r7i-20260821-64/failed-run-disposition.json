@@ -1,6 +1,6 @@
 {
   "additional_attempt_authority": "standing_operator_authorization_up_to_usd20",
-  "authoritative_failure_class": "runtime_observability_shutdown_coupling",
+  "authoritative_failure_class": "guardian_authenticated_readiness_timeout",
   "estimated_compute_cost_usd": 0.437766,
   "fallback": "disabled",
   "portable_request_sha256": "13af25bd5c372f6f64b350f487322a1c301596ec0d294660fd34fad714717b26",
@@ -8,6 +8,6 @@
   "run_id": "issue268-six-hour-r7i-20260821-64",
   "schema": "adl.issue268.failed_run_disposition.v1",
   "status": "terminal_partial_qualification",
-  "summary_sha256": "5eb646a32b7312444fb91e1ecb1005f3dcc9effd81417dcd0a30ae93bb5bf353",
-  "truth": "Six distinct Runtime residents completed Runtime-owned UTS-to-ACC work, signed dehydration and restore, actual replay denial, pending-only continuation, and six-resident verification. Guardian then stopped before the six-hour exposure interval because Vector's incomplete master-log drain was propagated as a Runtime exit. The repair makes observability startup and shutdown failures degrade logging without terminating Runtime. Compute and stack cleanup completed and fallback did not run."
+  "summary_sha256": "f37ef4e9382d19cbb590c8f54d0221adaa4afb2cc93f043f905b9e8c9b1fd819",
+  "truth": "Six distinct Runtime residents completed Runtime-owned UTS-to-ACC work, signed dehydration and restore, actual replay denial, pending-only continuation, and six-resident verification. Guardian then stopped before the exposure interval because its authenticated HTTPS/WSS probe received connection refusal until the 30-second Runtime readiness deadline. Vector's incomplete drain occurred during the resulting shutdown and was secondary. Compute and stack cleanup completed and fallback did not run."
 }

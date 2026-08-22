@@ -88,7 +88,7 @@ OLLAMA_BLOBS="$OLLAMA_MODELS/blobs"
 find "$OLLAMA_BLOBS" -type f -print -quit | grep -q . || { echo "issue268: installed Ollama blob store is empty" >&2; exit 69; }
 # Remove only the exact one-time backup created while converting run 65 from a
 # cold snapshot store to the pinned S3-hydrated store.
-STALE_MODEL_BACKUP="$(dirname "$OLLAMA_MODELS")/ollama-models.snapshot-65"
+STALE_MODEL_BACKUP="$(dirname "$(dirname "$OLLAMA_MODELS")")/ollama-models.snapshot-65"
 if [[ -d "$STALE_MODEL_BACKUP" ]]; then
   rm -rf -- "$STALE_MODEL_BACKUP"
 fi

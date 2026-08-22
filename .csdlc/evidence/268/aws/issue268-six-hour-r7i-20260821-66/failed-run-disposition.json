@@ -1,0 +1,13 @@
+{
+  "additional_attempt_authority": "standing_operator_authorization_up_to_usd20",
+  "authoritative_failure_class": "guardian_authenticated_readiness_timeout",
+  "estimated_compute_cost_usd": 0.133329,
+  "fallback": "disabled",
+  "portable_request_sha256": "45d844d85822d30ac15a165fb8df0ce9f9ab47efea7d72911a62c8c83f45845d",
+  "provider_attempts": 1,
+  "run_id": "issue268-six-hour-r7i-20260821-66",
+  "schema": "adl.issue268.failed_run_disposition.v1",
+  "status": "terminal_partial_qualification",
+  "summary_sha256": "149d7138a75be98e6dec688c5621a860af39fa765d1483eda54e38fefeee5441",
+  "truth": "The persistent warm-volume path passed with 10x capacity headroom, three resident models, six Runtime residents, UTS-to-ACC work, signed dehydration and restore, six actual replay denials, and pending-only continuation. Guardian stopped before exposure because its authenticated HTTPS/WSS probe received connection refusal until the 30-second Runtime readiness deadline. A real local HTTPS/WSS Guardian preflight passes with the bounded 120-second Runtime readiness and 180-second probe deadlines. Compute and stack cleanup completed and fallback did not run."
+}

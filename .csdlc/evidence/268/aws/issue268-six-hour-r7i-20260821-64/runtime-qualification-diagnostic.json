@@ -4,9 +4,10 @@
   "continuation_verified": true,
   "continuity_generation": 1,
   "guardian_failure": {
-    "observed_error": "master_log_drain_incomplete",
-    "reason_code": "shutdown_child_failed",
+    "observed_error": "authenticated HTTPS/WSS readiness connection refused until deadline",
+    "reason_code": "pre_restart_probe_timeout",
     "runtime_exit_code": 70,
+    "secondary_shutdown_error": "master_log_drain_incomplete",
     "six_hour_exposure_started": false
   },
   "resident_count": 6,
@@ -15,5 +16,5 @@
   "runtime_qualification": "passed",
   "schema": "adl.issue268.runtime_qualification_diagnostic.v1",
   "signed_population_sha256": "fe86baf9cfe3e918574e8ff2025396d03609a71aed67efaf926238c8c719ae23",
-  "status": "guardian_observability_coupling_failure"
+  "status": "guardian_authenticated_readiness_timeout"
 }

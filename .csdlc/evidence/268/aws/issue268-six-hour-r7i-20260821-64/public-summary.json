@@ -5,7 +5,7 @@
     "stack_state": "deleted"
   },
   "estimated_compute_cost_usd": 0.437766,
-  "failure_reason": "Six Runtime residents completed the UTS, ACC, signed continuity, restored continuation, and actual replay-denial qualification. The subsequent Guardian lane stopped before its exposure interval because Vector reported master_log_drain_incomplete during Runtime shutdown and the Runtime process propagated that logging failure as exit 70.",
+  "failure_reason": "Six Runtime residents completed the UTS, ACC, signed continuity, restored continuation, and actual replay-denial qualification. Guardian then failed before its exposure interval because the authenticated HTTPS/WSS probe could not connect before the 30-second Runtime readiness deadline. During harness-initiated shutdown, Vector also reported master_log_drain_incomplete; that secondary logging failure was preserved but was not the primary readiness failure.",
   "fallback": "disabled",
   "instance_type": "r7i.2xlarge",
   "issue": 268,
@@ -15,7 +15,7 @@
   "runtime_qualification_started": true,
   "runtime_qualification_status": "passed",
   "schema": "adl.issue268.failed_run_summary.v1",
-  "status": "terminal_observability_coupling_failure",
+  "status": "terminal_guardian_readiness_timeout",
   "timing": {
     "remote_command_seconds": 2944,
     "total_seconds": 2978

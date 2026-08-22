@@ -9,6 +9,7 @@ if grep -Fq 'xargs -0 cat >/dev/null' "$ROOT/adl/tools/run_issue268_remote_resid
   exit 1
 fi
 grep -Fq 'ollama-models.snapshot-65' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
+grep -Fq 'dirname "$(dirname "$OLLAMA_MODELS")"' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq 'minimum_available_kib=$((model_store_kib * 10))' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq 'tail -120 "$orchestrator_log"' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq 'tail -120 "$guardian_stderr"' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"

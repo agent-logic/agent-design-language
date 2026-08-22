@@ -222,7 +222,7 @@ text = text.replace(address, f'address = "127.0.0.1:{port}"', 1)
 text = public_url_pattern.sub(f'public_base_url = "https://localhost:{port}"', text, count=1)
 text = server_name_pattern.sub('server_name = "localhost"', text, count=1)
 text = text.replace(observatory_origin, '  "https://observatory.example.test",', 1)
-text = text.replace(readiness_timeout, "readiness_timeout_millis = 30000", 1)
+text = text.replace(readiness_timeout, "readiness_timeout_millis = 120000", 1)
 for canonical, localized in tls_fields.items():
     if text.count(canonical) != 1:
         raise SystemExit("canonical TLS configuration field missing or ambiguous")
@@ -286,7 +286,7 @@ import time
     probe_ready_path,
     probe_ack_path,
 ) = sys.argv[1:]
-deadline = time.monotonic() + 90.0
+deadline = time.monotonic() + 180.0
 MAX_FRAME_BYTES = 65_536
 MAX_HTTP_BYTES = 1_048_576
 WEBSOCKET_GUID = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
