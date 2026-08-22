@@ -3,6 +3,7 @@ import importlib.util
 import json
 import pathlib
 import tempfile
+from unittest import mock
 
 MODULE_PATH = pathlib.Path(__file__).with_name("install_issue268_runtime_volume.py")
 SPEC = importlib.util.spec_from_file_location("issue268_install", MODULE_PATH)
@@ -53,6 +54,20 @@ for invalid in (
         raise AssertionError(f"invalid sealed snapshot path unexpectedly accepted: {invalid}")
     except ValueError:
         pass
+
+with tempfile.TemporaryDirectory() as value:
+    receipt_path = pathlib.Path(value) / "installation-receipt.json"
+    original = b'{"sealed":"original"}\n'
+    receipt_path.write_bytes(original)
+    with mock.patch.object(MODULE, "validate_installed", side_effect=ValueError("late validation failure")):
+        try:
+            MODULE.validate_and_persist_existing_receipt(
+                receipt_path, {"sealed": "replacement"}, {}, "a" * 64, True
+            )
+            raise AssertionError("late validation failure unexpectedly accepted")
+        except ValueError as error:
+            assert "late validation failure" in str(error)
+    assert receipt_path.read_bytes() == original
 
 
 def fixture(root: pathlib.Path):

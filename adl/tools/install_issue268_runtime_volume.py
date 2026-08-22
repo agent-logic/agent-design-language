@@ -143,6 +143,23 @@ def rebase_snapshot_paths(installed: dict, final_root: pathlib.Path) -> tuple[di
     return rebased, changed
 
 
+def validate_and_persist_existing_receipt(
+    receipt_path: pathlib.Path,
+    installed: dict,
+    expected: dict,
+    attached_volume_identity_sha256: str,
+    receipt_changed: bool,
+) -> dict:
+    validated = validate_installed(
+        receipt_path, expected, attached_volume_identity_sha256, installed_override=installed
+    )
+    if receipt_changed:
+        temporary_receipt = receipt_path.with_suffix(".tmp")
+        temporary_receipt.write_text(json.dumps(installed, indent=2, sort_keys=True) + "\n")
+        os.replace(temporary_receipt, receipt_path)
+    return validated
+
+
 def install(args: argparse.Namespace) -> dict:
     if platform.system() != "Linux" or platform.machine() not in ("x86_64", "amd64"):
         raise ValueError("Runtime-volume installation requires Linux/x86_64")
@@ -174,6 +191,7 @@ def install(args: argparse.Namespace) -> dict:
     if receipt_path.exists():
         installed = json.loads(receipt_path.read_text())
         installed, paths_rebased = rebase_snapshot_paths(installed, final_root)
+        receipt_changed = paths_rebased
         runtime = pathlib.Path(installed.get("runtime_binary", ""))
         if (not runtime.is_file()
                 or installed.get("runtime_source_identity_sha256") != required_runtime_source_identity
@@ -220,17 +238,10 @@ def install(args: argparse.Namespace) -> dict:
             installed["continuity_runtime_source_identity_sha256"] = required_runtime_source_identity
             installed["csm_runtime_source_identity_sha256"] = required_runtime_source_identity
             installed["qualification_source_revision"] = args.source_revision
-            temporary_receipt = receipt_path.with_suffix(".tmp")
-            temporary_receipt.write_text(json.dumps(installed, indent=2, sort_keys=True) + "\n")
-            os.replace(temporary_receipt, receipt_path)
-        validated = validate_installed(
-            receipt_path, expected, args.volume_identity_sha256, installed_override=installed
+            receipt_changed = True
+        return validate_and_persist_existing_receipt(
+            receipt_path, installed, expected, args.volume_identity_sha256, receipt_changed
         )
-        if paths_rebased:
-            temporary_receipt = receipt_path.with_suffix(".tmp")
-            temporary_receipt.write_text(json.dumps(installed, indent=2, sort_keys=True) + "\n")
-            os.replace(temporary_receipt, receipt_path)
-        return validated
     if staging.exists() or final_root.exists():
         raise ValueError("partial or unsealed Runtime-volume installation exists")
     staging.mkdir(parents=True)
