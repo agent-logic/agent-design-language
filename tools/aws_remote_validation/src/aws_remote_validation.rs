@@ -196,14 +196,13 @@ impl AwsRemoteValidationConfig {
                 ));
             }
         }
-        if self.command_timeout_seconds == Some(0) {
-            return Err(anyhow!("command timeout must be greater than zero"));
-        }
         if self
             .command_timeout_seconds
-            .is_some_and(|value| value > i32::MAX as u64)
+            .is_some_and(|value| !(30..=2_592_000).contains(&value))
         {
-            return Err(anyhow!("command timeout exceeds the SSM API limit"));
+            return Err(anyhow!(
+                "command timeout must be within the SSM API range 30..=2592000 seconds"
+            ));
         }
         let cache_volume_enabled = self.cache_volume_id.is_some()
             || self.cache_volume_name.is_some()
@@ -4307,11 +4306,14 @@ fn ssm_command_timeout_seconds(
                 .to_string(),
             spot_fallback_permitted: false,
         })?;
-    i32::try_from(seconds).map_err(|_| AwsAdapterError {
-        code: Some("CommandTimeoutInvalid".to_string()),
-        message: "SSM command timeout exceeds the API limit".to_string(),
-        spot_fallback_permitted: false,
-    })
+    if !(30..=2_592_000).contains(&seconds) {
+        return Err(AwsAdapterError {
+            code: Some("CommandTimeoutInvalid".to_string()),
+            message: "SSM command timeout must be within 30..=2592000 seconds".to_string(),
+            spot_fallback_permitted: false,
+        });
+    }
+    Ok(seconds as i32)
 }
 
 fn ssm_command_status_is_terminal(status: &str) -> bool {
@@ -4324,10 +4326,14 @@ fn ssm_command_status_is_terminal(status: &str) -> bool {
             | "Cancelling"
             | "DeliveryTimedOut"
             | "ExecutionTimedOut"
+            | "Delivery Timed Out"
+            | "Execution Timed Out"
             | "Undeliverable"
             | "Terminated"
             | "InvalidPlatform"
             | "AccessDenied"
+            | "Invalid Platform"
+            | "Access Denied"
     )
 }
 
@@ -4590,12 +4596,14 @@ mod tests {
             25_200
         );
         assert!(ssm_command_timeout_seconds(None).is_err());
+        assert!(ssm_command_timeout_seconds(Some(Duration::from_secs(29))).is_err());
+        assert!(ssm_command_timeout_seconds(Some(Duration::from_secs(2_592_001))).is_err());
     }
 
     #[test]
     fn ssm_execution_timeout_is_terminal() {
-        assert!(ssm_command_status_is_terminal("ExecutionTimedOut"));
-        assert!(ssm_command_status_is_terminal("DeliveryTimedOut"));
+        assert!(ssm_command_status_is_terminal("Execution Timed Out"));
+        assert!(ssm_command_status_is_terminal("Delivery Timed Out"));
         assert!(!ssm_command_status_is_terminal("InProgress"));
     }
 
