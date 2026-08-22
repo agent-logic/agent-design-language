@@ -1,0 +1,20 @@
+{
+  "architecture": "x86_64",
+  "authenticated_https_connections": 50,
+  "authenticated_wss_connections": 50,
+  "completed_cycles": 21594,
+  "continuation_verified": true,
+  "continuity_generation": 1,
+  "logging_complete": true,
+  "master_log_status": "clean",
+  "measured_exposure_seconds": 21601,
+  "minimum_exposure_seconds": 21600,
+  "platform": "linux",
+  "replay_denied": true,
+  "resident_count": 6,
+  "revision": "8947231b6549f6b43f76c5d4656b333868a032ae",
+  "schema": "adl.issue268.qualification_proof.v1",
+  "status": "passed",
+  "total_restarts": 1,
+  "websocket_full_duplex_observed": true
+}

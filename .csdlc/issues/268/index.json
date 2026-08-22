@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "e16999c52566cfad58e38b96e519a2754f6059234981629e0562b9739d05d765",
   "phase": "implemented",
-  "generation": 7,
-  "digest": "3da1255d1af4bbae10e1505c3b2c9253da3b62dccb6e1c724748c4c0f8e8e913",
+  "generation": 9,
+  "digest": "7e2a1986fa4959e32aeb015e1129e94d8abcdb630588632c1a566a04293c2a02",
   "branch": "codex/268-six-hour-spot-qualification",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-268-six-hour-spot-qualification",
   "review_assignment": null,
@@ -24,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c412f27818f721878995a8051698f48c7745b8d552306e5534e2469bf8dc4835",
+      "values_digest": "cdd15b5ac374dc5a3946686237bd9eefc9d2e1c2e13a2cf47bb4c3e04612935b",
       "rendered_digest": "e908ddb3f4ac18811a0da0eb292961f74259aafbeb5db8379d621e5c588ff0fb",
       "ast_digest": "2a9b71de360fc425b63b2eb2c411aa70d46f94ab9b252366f57c4a595d73b980"
     },
     "stp": {
-      "values_digest": "849819444f9d2772f46e90bcb2f99fb62da8a8167ae2b4a78c9b70f0f2260659",
+      "values_digest": "035d9feb3188f2c20fe162af9337fa9a00d027184f57833bd27af93ec4a1a09b",
       "rendered_digest": "777d15780947d169759eb205c3e3a5ab79ab1d0f0e3b9f4ae466c31df0461d17",
       "ast_digest": "0fb96aa0d0b8e0bfdeee07f21d4a7bc18c1654b216cff4e7668f338e814c1101"
     },
     "spp": {
-      "values_digest": "80f78df5c59460b8d650e756876517845f9fd4913e13f48b74a0785d90d74dbe",
+      "values_digest": "19ee1efe46d10c6f838938903785bc64bec6a06f12c499e4253c4bab7a81fb94",
       "rendered_digest": "dc49fa00ed4408739f456e0696fe86f3650fb907408902168a87329c0241b900",
       "ast_digest": "dc0a074d1b6fec15970bd7a5016f7124d76f7fd3cdee82a3336a099621c5d318"
     },
     "vpp": {
-      "values_digest": "71ec23e29cdd3c8cbc0d1119d060ca771198f51cec051a53705a920291f83faf",
+      "values_digest": "9c92974655e24345a535c6de959f1eb5fb7e6699e51894b8804b41f2841a0283",
       "rendered_digest": "04733e63e705ac994fa75756ded65168979dca0721b1a212afce2db4364f8524",
       "ast_digest": "2c8e7bd850832367056428b97713927b9160f719b5bcb692a83ec7626626ec93"
     },
     "srp": {
-      "values_digest": "898c9f9f9c0658c9538e920736a4b6619960b45fad2bc6ae3f0705bd74337660",
+      "values_digest": "cdecae28cb1856f863befc015e56ab9bc954276fc54d5d6ca2c46d5e2837d682",
       "rendered_digest": "0f88d33c42f5ff8ea843514fb071c0d4141cfff63127ba469785508ed3252cb8",
       "ast_digest": "44626787cff7609a27119771d93cd0b2207ade67558684d6414d628f8ca0eabe"
     },
     "sor": {
-      "values_digest": "81eb19b675688e19793cf1582b41b814087647a6549c97347c0b59ba48ba8612",
-      "rendered_digest": "1cb732f531cd919d668b97c56071480ca8e2a4429c8d427b49029ebf64974781",
-      "ast_digest": "64b734340aab03377d70eafdff293a3d6a479cefbaea26dd8a7623afa57ba080"
+      "values_digest": "80b22ff285a2aac8b8b73b51f3aa48e9b1aaea45a0cd71af3c7360eb5125d37e",
+      "rendered_digest": "e29fcc1e10fdc65d1e2c95e1cea7a182a4c26d42143f9d05d7771ecac3d7e2de",
+      "ast_digest": "a8075cbc03483ffebac9c315b8c85fa7c8811dbf5df843a74d4f51813a0d9e07"
     }
   },
   "transitions": [
@@ -140,6 +140,20 @@
       "actor": "codex-root",
       "reason": "Record that the bounded #268 implementation exists at exact committed head before validation and paid execution.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex-root",
+      "reason": "Record terminal run72 AWS qualification evidence and timeout-fix validation before exact-head review and publication.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and remotely qualified the #268 Runtime/ACC six-resident AWS qualification at exact head 8947231b6549f6b43f76c5d4656b333868a032ae. Run72 completed on Linux/x86_64 On-Demand r7i.2xlarge with status passed, measured exposure 21,601 seconds, 21,594 completed cycles, six resident continuity/UTS verification, replay denial, authenticated HTTPS/WSS proof, clean logs, and wrapper cleanup complete.\",\"changes\":[\"Runtime-owned six resident identities execute issue-owned UTS runtime.observe tasks through ACC and the Runtime adapter.\",\"Continuity qualification verifies signed dehydration with admission closed, restore with admission open, pending-only post-cycle continuation, continuation verification, and replay denial.\",\"AWS launch path uses the CloudFormation runtime template, retained Runtime volume, Agent Logic business profile, Linux/x86_64 package-manager bootstrap, no GPU, no On-Demand fallback from Spot, and an explicit one-attempt On-Demand run72 authorized under the USD 20 ceiling.\",\"Remote validation wrapper now binds both SendCommand TimeoutSeconds and AWS-RunShellScript executionTimeout to the 25,200-second provider deadline so six-hour runs are not killed by the default one-hour plugin timeout.\",\"Run72 passed with redaction enabled, interruption not detected, exact revision 8947231b6549f6b43f76c5d4656b333868a032ae, command_seconds 22,474, wrapper exit code 0, cleanup complete, final instance state terminated, deleted stack, and no run72-tagged residual volumes.\"],\"artifacts\":[\"adl/tools/issue268_runtime_uts_task_panel.json\",\"adl/tools/run_issue268_six_resident_uts_cycle.py\",\"adl/tools/run_issue268_continuity_uts_qualification.py\",\"adl/tools/install_issue268_runtime_volume.py\",\"adl/tools/issue268_runtime_qualification.cloudformation.yaml\",\"adl/tools/run_issue268_remote_resident_qualification.sh\",\"adl/tools/run_issue268_six_hour_spot_qualification.sh\",\"adl/tools/test_run_issue268_six_hour_spot_qualification.sh\",\"tools/aws_remote_validation/src/aws_remote_validation.rs\",\".csdlc/evidence/268/aws/issue268-six-hour-r7i-20260821-72/summary.json\",\".csdlc/evidence/268/aws/issue268-six-hour-r7i-20260821-72/artifacts/attempt-0/command-stdout.log\",\".csdlc/evidence/268/aws/issue268-six-hour-r7i-20260821-72/artifacts/attempt-0/command-stderr.log\",\".csdlc/evidence/268/aws/issue268-six-hour-r7i-20260821-72/artifacts/attempt-0/command-status.log\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"tools/aws_remote_validation/Cargo.toml\"],\"purpose\":\"Format the AWS remote validation timeout fix before installing the stable owner binary.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/268/local-operator-session/run72-timeout-fix\"},{\"command\":[\"bash\",\"adl/tools/test_run_issue268_six_hour_spot_qualification.sh\"],\"purpose\":\"Prove issue268 wrapper contracts, exact scope, On-Demand posture, and explicit executionTimeout marker.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/268/local-operator-session/run72-timeout-fix\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"tools/aws_remote_validation/Cargo.toml\",\"--bin\",\"adl-aws-remote-validation\",\"ssm_command_timeout_is_explicitly_bound_to_full_provider_budget\"],\"purpose\":\"Prove the SSM command document execution timeout is explicitly bound to the full provider budget.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/268/local-operator-session/run72-timeout-fix\"},{\"command\":[\"cargo\",\"check\",\"--manifest-path\",\"tools/aws_remote_validation/Cargo.toml\",\"--bin\",\"adl-aws-remote-validation\"],\"purpose\":\"Compile-check the AWS remote validation binary after the timeout fix.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/268/local-operator-session/run72-timeout-fix\"},{\"command\":[\"bash\",\"adl/tools/install_aws_remote_validation_tool.sh\"],\"purpose\":\"Install the patched stable owner binary used by run72.\",\"outcome\":\"passed\",\"evidence_ref\":\".adl/bin/adl-aws-remote-validation-tool\"},{\"command\":[\"bash\",\"adl/tools/run_issue268_six_hour_spot_qualification.sh\",\"preflight\"],\"purpose\":\"Preflight Agent Logic AWS profile, r7i.2xlarge, 8 vCPU/64 GiB, 25,200-second deadline, USD 20 budget, one attempt, no GPU, retained Runtime volume, and no fallback before mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/268/aws/issue268-six-hour-r7i-20260821-72/portable-request.json\"},{\"command\":[\"bash\",\"adl/tools/run_issue268_six_hour_spot_qualification.sh\",\"authorized-launch\"],\"purpose\":\"Run the authorized paid AWS qualification once and verify pass, redaction, six-hour exposure, and cleanup.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/268/aws/issue268-six-hour-r7i-20260821-72/summary.json\"}]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 9,
+      "actor": "codex-root",
+      "reason": "Replace private run72 references with bounded redacted terminal qualification evidence before exact-head review and publication.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Implemented and remotely qualified the #268 Runtime/ACC six-resident AWS qualification at exact head 8947231b6549f6b43f76c5d4656b333868a032ae. Run72 completed on Linux/x86_64 On-Demand r7i.2xlarge with status passed, measured exposure 21,601 seconds, 21,594 completed cycles, six resident continuity/UTS verification, replay denial, authenticated HTTPS/WSS proof, clean logs, and wrapper cleanup complete.\",\"changes\":[\"Runtime-owned six resident identities execute issue-owned UTS runtime.observe tasks through ACC and the Runtime adapter.\",\"Continuity qualification verifies signed dehydration with admission closed, restore with admission open, pending-only post-cycle continuation, continuation verification, and replay denial.\",\"AWS launch path uses the CloudFormation runtime template, retained Runtime volume, Agent Logic business profile, Linux/x86_64 package-manager bootstrap, no GPU, no On-Demand fallback from Spot, and an explicit one-attempt On-Demand run72 authorized under the USD 20 ceiling.\",\"Remote validation wrapper now binds both SendCommand TimeoutSeconds and AWS-RunShellScript executionTimeout to the 25,200-second provider deadline so six-hour runs are not killed by the default one-hour plugin timeout.\",\"Run72 passed with redaction enabled, interruption not detected, exact revision 8947231b6549f6b43f76c5d4656b333868a032ae, command_seconds 22,474, wrapper exit code 0, cleanup complete, final instance state terminated, deleted stack, and no run72-tagged residual volumes.\"],\"artifacts\":[\"adl/tools/issue268_runtime_uts_task_panel.json\",\"adl/tools/run_issue268_six_resident_uts_cycle.py\",\"adl/tools/run_issue268_continuity_uts_qualification.py\",\"adl/tools/install_issue268_runtime_volume.py\",\"adl/tools/issue268_runtime_qualification.cloudformation.yaml\",\"adl/tools/run_issue268_remote_resident_qualification.sh\",\"adl/tools/run_issue268_six_hour_spot_qualification.sh\",\"adl/tools/test_run_issue268_six_hour_spot_qualification.sh\",\"tools/aws_remote_validation/src/aws_remote_validation.rs\",\".csdlc/evidence/268/aws/issue268-six-hour-r7i-20260821-72/portable-request.json\",\".csdlc/evidence/268/aws/issue268-six-hour-r7i-20260821-72/launch-claimed.json\",\".csdlc/evidence/268/aws/issue268-six-hour-r7i-20260821-72/cloudformation.json\",\".csdlc/evidence/268/aws/issue268-six-hour-r7i-20260821-72/public-summary.json\",\".csdlc/evidence/268/aws/issue268-six-hour-r7i-20260821-72/qualification-proof.json\",\".csdlc/evidence/268/aws/issue268-six-hour-r7i-20260821-72/successful-run-disposition.json\"],\"validation\":[{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"tools/aws_remote_validation/Cargo.toml\"],\"purpose\":\"Format the AWS remote validation timeout fix before installing the stable owner binary.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/268/local-operator-session/run72-timeout-fix\"},{\"command\":[\"bash\",\"adl/tools/test_run_issue268_six_hour_spot_qualification.sh\"],\"purpose\":\"Prove issue268 wrapper contracts, exact scope, On-Demand posture, and explicit executionTimeout marker.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/268/local-operator-session/run72-timeout-fix\"},{\"command\":[\"cargo\",\"test\",\"--manifest-path\",\"tools/aws_remote_validation/Cargo.toml\",\"--bin\",\"adl-aws-remote-validation\",\"ssm_command_timeout_is_explicitly_bound_to_full_provider_budget\"],\"purpose\":\"Prove the SSM command document execution timeout is explicitly bound to the full provider budget.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/268/local-operator-session/run72-timeout-fix\"},{\"command\":[\"cargo\",\"check\",\"--manifest-path\",\"tools/aws_remote_validation/Cargo.toml\",\"--bin\",\"adl-aws-remote-validation\"],\"purpose\":\"Compile-check the AWS remote validation binary after the timeout fix.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/268/local-operator-session/run72-timeout-fix\"},{\"command\":[\"bash\",\"adl/tools/install_aws_remote_validation_tool.sh\"],\"purpose\":\"Install the patched stable owner binary used by run72.\",\"outcome\":\"passed\",\"evidence_ref\":\".adl/bin/adl-aws-remote-validation-tool\"},{\"command\":[\"bash\",\"adl/tools/run_issue268_six_hour_spot_qualification.sh\",\"preflight\"],\"purpose\":\"Preflight Agent Logic AWS profile, r7i.2xlarge, 8 vCPU/64 GiB, 25,200-second deadline, USD 20 budget, one attempt, no GPU, retained Runtime volume, and no fallback before mutation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/268/aws/issue268-six-hour-r7i-20260821-72/portable-request.json\"},{\"command\":[\"bash\",\"adl/tools/run_issue268_six_hour_spot_qualification.sh\",\"authorized-launch\"],\"purpose\":\"Run the authorized paid AWS qualification once and verify pass, redaction, six-hour exposure, and cleanup.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/268/aws/issue268-six-hour-r7i-20260821-72/successful-run-disposition.json\"}]}"
     }
   ]
 }
