@@ -3861,6 +3861,7 @@ impl AwsRemoteValidationAdapter for LiveAwsRemoteValidationAdapter {
             None
         };
         let ssm_timeout_seconds = ssm_command_timeout_seconds(timeout)?;
+        let ssm_execution_timeout_seconds = ssm_timeout_seconds.to_string();
         let output = self
             .ssm
             .send_command()
@@ -3874,6 +3875,7 @@ impl AwsRemoteValidationAdapter for LiveAwsRemoteValidationAdapter {
                     .map(|line| line.to_string())
                     .collect::<Vec<_>>(),
             )
+            .parameters("executionTimeout", vec![ssm_execution_timeout_seconds])
             .send()
             .await
             .map_err(classify_ssm_error)?;
