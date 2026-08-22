@@ -1,0 +1,13 @@
+{
+  "additional_attempt_authority": "standing_operator_authorization_up_to_usd20",
+  "authoritative_failure_class": "memory_palace_generation_domain_confusion",
+  "estimated_compute_cost_usd": 0.126126,
+  "fallback": "disabled",
+  "portable_request_sha256": "d641b829b78936b91bec86a132fbd971962e5b06b58621680782dd0e60b4afbb",
+  "provider_attempts": 1,
+  "run_id": "issue268-six-hour-r7i-20260821-69",
+  "schema": "adl.issue268.failed_run_disposition.v1",
+  "status": "terminal_partial_qualification",
+  "summary_sha256": "83c69c11d89084b8fda71761f03223cf06061c929b9f49add732035ecdc43d98",
+  "truth": "The external authenticated HTTPS/WSS probe passed after the trust-roots repair. Guardian then completed two cycles before cycle three supplied the live-continuity anti-rollback minimum as a separate Memory Palace birthday-authority generation, producing PolicyInvalid because no birthday-lineage predecessor exists. Compute and stack cleanup completed, fallback did not run, and the six-hour exposure did not start."
+}

@@ -305,6 +305,10 @@ async fn main() -> ExitCode {
             let time_source: Arc<dyn TimeSampleSource> = Arc::new(RsntpTimeSampleSource::new(
                 init.credentials.sntp_server.clone(),
             ));
+            let birthday_generations = birthday_authority_generations(
+                migration_decision_key_generation,
+                init.credentials.continuity_min_generation,
+            );
             let assembly = match build_live_assembly(LiveBindings {
                 recorder: recorder.clone(),
                 canonical_ingress_capacity: init.kernel.canonical_ingress_capacity,
@@ -317,9 +321,9 @@ async fn main() -> ExitCode {
                     migration_decision_key,
                     init.credentials.continuity_key_id.clone(),
                     continuity_public_key,
-                    migration_decision_key_generation,
-                    init.credentials.continuity_min_generation.max(1),
-                    1,
+                    birthday_generations.0,
+                    birthday_generations.1,
+                    birthday_generations.2,
                 ),
                 reasoning,
                 time_source,
@@ -1317,6 +1321,17 @@ fn preserve_runtime_result_after_observability<T>(
     runtime_result
 }
 
+/// Memory Palace birthday authority begins its own signed lineage at genesis.
+/// The live-continuity minimum is an anti-rollback floor enforced separately by
+/// `LiveContinuity`; treating that floor as a birthday generation greater than
+/// one would require a predecessor digest that does not belong to this lineage.
+fn birthday_authority_generations(
+    identity_generation: u64,
+    _live_continuity_minimum_generation: u64,
+) -> (u64, u64, u64) {
+    (identity_generation, 1, 1)
+}
+
 async fn drain_control_api(
     api: &mut tokio::task::JoinHandle<Result<(), adl_runtime_kernel::ControlApiError>>,
     timeout: std::time::Duration,
@@ -1337,7 +1352,16 @@ async fn drain_private_api(
 
 #[cfg(test)]
 mod tests {
-    use super::{bind_control_listener, preserve_runtime_result_after_observability};
+    use super::{
+        bind_control_listener, birthday_authority_generations,
+        preserve_runtime_result_after_observability,
+    };
+
+    #[test]
+    fn live_continuity_floor_does_not_rebase_birthday_authority_genesis() {
+        assert_eq!(birthday_authority_generations(7, 0), (7, 1, 1));
+        assert_eq!(birthday_authority_generations(7, 41), (7, 1, 1));
+    }
 
     #[test]
     fn observability_shutdown_failure_preserves_runtime_result() {
