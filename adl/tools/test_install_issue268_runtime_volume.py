@@ -15,6 +15,29 @@ source_text = MODULE_PATH.read_text()
 assert source_text.count('"--bin", "adl_resident_shepherd_continuity", "--bin", "adl", "--bin", "csm"') == 2
 assert 'installed["continuity_binary_sha256"] = sha256(continuity)' in source_text
 
+old_root = "/mnt/adl-runtime-continuity/runtime/install/current"
+installed_paths = {
+    "ollama_binary": f"{old_root}/ollama/bin/ollama",
+    "ollama_models": f"{old_root}/ollama-models",
+    "continuity_binary": f"{old_root}/bin/adl_resident_shepherd_continuity",
+    "runtime_binary": f"{old_root}/bin/adl",
+    "csm_binary": f"{old_root}/bin/csm",
+}
+rebased, changed = MODULE.rebase_snapshot_paths(
+    installed_paths, pathlib.Path("/opt/adl-runtime/runtime/install/current")
+)
+assert changed
+assert rebased["runtime_binary"] == "/opt/adl-runtime/runtime/install/current/bin/adl"
+assert rebased["ollama_models"] == "/opt/adl-runtime/runtime/install/current/ollama-models"
+try:
+    MODULE.rebase_snapshot_paths(
+        {field: "/tmp/unsealed" for field in installed_paths},
+        pathlib.Path("/opt/adl-runtime/runtime/install/current"),
+    )
+    raise AssertionError("unsealed snapshot path unexpectedly accepted")
+except ValueError as error:
+    assert "lacks sealed current root" in str(error)
+
 
 def fixture(root: pathlib.Path):
     reviewed = "a" * 40

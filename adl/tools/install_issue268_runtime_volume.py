@@ -112,6 +112,27 @@ def validate_installed(
     return installed
 
 
+def rebase_snapshot_paths(installed: dict, final_root: pathlib.Path) -> tuple[dict, bool]:
+    """Rebind sealed install paths when an EBS snapshot is mounted elsewhere."""
+    rebased = dict(installed)
+    changed = False
+    for field in ("ollama_binary", "ollama_models", "continuity_binary", "runtime_binary", "csm_binary"):
+        original = pathlib.Path(str(installed.get(field, "")))
+        parts = original.parts
+        try:
+            current_index = parts.index("current")
+        except ValueError as error:
+            raise ValueError(f"installed Runtime path lacks sealed current root: {field}") from error
+        relative = pathlib.Path(*parts[current_index + 1 :])
+        if not relative.parts:
+            raise ValueError(f"installed Runtime path lacks sealed relative path: {field}")
+        rebound = final_root / relative
+        if rebound != original:
+            rebased[field] = str(rebound)
+            changed = True
+    return rebased, changed
+
+
 def install(args: argparse.Namespace) -> dict:
     if platform.system() != "Linux" or platform.machine() not in ("x86_64", "amd64"):
         raise ValueError("Runtime-volume installation requires Linux/x86_64")
@@ -142,6 +163,11 @@ def install(args: argparse.Namespace) -> dict:
     }
     if receipt_path.exists():
         installed = json.loads(receipt_path.read_text())
+        installed, paths_rebased = rebase_snapshot_paths(installed, final_root)
+        if paths_rebased:
+            temporary_receipt = receipt_path.with_suffix(".tmp")
+            temporary_receipt.write_text(json.dumps(installed, indent=2, sort_keys=True) + "\n")
+            os.replace(temporary_receipt, receipt_path)
         runtime = pathlib.Path(installed.get("runtime_binary", ""))
         if (not runtime.is_file()
                 or installed.get("runtime_source_identity_sha256") != required_runtime_source_identity
