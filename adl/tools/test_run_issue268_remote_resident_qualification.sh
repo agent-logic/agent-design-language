@@ -5,6 +5,8 @@ grep -Fq 'tail -80 "$OLLAMA_LOG"' "$ROOT/adl/tools/run_issue268_remote_resident_
 grep -Fq 'OLLAMA_KEEP_ALIVE=-1' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq 'OLLAMA_LOAD_TIMEOUT=15m' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq 'find "$OLLAMA_BLOBS" -type f -print0 | LC_ALL=C sort -z | xargs -0 cat >/dev/null' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
+grep -Fq '>"$EVIDENCE_ROOT/continuity-uts/orchestrator.log" 2>&1' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
+grep -Fq 'tail -120 "$guardian_stderr"' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq 'RUNTIME_ROOT=${ADL_ISSUE268_RETAINED_RUNTIME_ROOT:-$VOLUME_ROOT/state/$RUN_ID}' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq 'OLLAMA_LLM_LIBRARY=cpu_avx2' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq 'ADL_UTS_ALLOW_MULTI_MODEL_RESIDENCY=true' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"

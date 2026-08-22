@@ -140,6 +140,7 @@ if ! python3 "$MODEL_WARMUP" \
   tail -120 "$OLLAMA_LOG" >&2 || true
   exit 70
 fi
+mkdir -p "$EVIDENCE_ROOT/continuity-uts"
 python3 "$ORCHESTRATOR" \
   --continuity-bin "$CONTINUITY_BIN" \
   --runtime-bin "$RUNTIME_BIN" \
@@ -149,7 +150,8 @@ python3 "$ORCHESTRATOR" \
   --runtime-volume-identity-sha256 "$VOLUME_IDENTITY" \
   --state "$EVIDENCE_ROOT/uts-state.json" \
   --evidence-dir "$EVIDENCE_ROOT/continuity-uts" \
-  --plan "$materialized"
+  --plan "$materialized" \
+  >"$EVIDENCE_ROOT/continuity-uts/orchestrator.log" 2>&1
 
 receipt="$EVIDENCE_ROOT/continuity-uts/qualification-receipt.json"
 python3 - "$receipt" <<'PY'
@@ -165,7 +167,16 @@ if (value.get("status") != "passed" or value.get("resident_count") != 6
     or len({row.get("agent_id") for row in residents}) != 6):
     raise SystemExit("issue268: continuity/UTS receipt is not proving")
 print("ADL_ISSUE268_CONTINUITY_UTS_BEGIN")
-print(json.dumps(value, sort_keys=True))
+print(json.dumps({
+    "schema": value.get("schema"),
+    "status": value.get("status"),
+    "resident_count": value.get("resident_count"),
+    "continuation_verified": value.get("continuation_verified"),
+    "continuity_generation": value.get("continuity_generation"),
+    "replay_denied": value.get("replay_denied"),
+    "signed_population_sha256": population,
+    "completion_receipt_sha256": value.get("completion_receipt_sha256"),
+}, sort_keys=True))
 print("ADL_ISSUE268_CONTINUITY_UTS_END")
 PY
 
@@ -183,4 +194,11 @@ if [[ "$GUARDIAN" == "$ROOT/adl/tools/validate_v092_runtime_guardian_lifecycle.s
   export ADL_RUNTIME_VECTOR_BIN="$ADL_VECTOR_INSTALL_ROOT/bin/vector"
 fi
 export ADL_RUNTIME_GUARDIAN_TARGET_ROOT="$(dirname "${CARGO_TARGET_DIR:?CARGO_TARGET_DIR is required}")"
-bash "$GUARDIAN" --suite six_hour_qualification
+guardian_stdout="$EVIDENCE_ROOT/guardian.stdout.log"
+guardian_stderr="$EVIDENCE_ROOT/guardian.stderr.log"
+if ! bash "$GUARDIAN" --suite six_hour_qualification >"$guardian_stdout" 2>"$guardian_stderr"; then
+  echo "issue268: six-hour Guardian qualification failed; bounded diagnostics follow" >&2
+  tail -120 "$guardian_stderr" >&2 || true
+  exit 1
+fi
+cat "$guardian_stdout"
