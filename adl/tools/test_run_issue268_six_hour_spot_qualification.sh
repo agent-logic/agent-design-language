@@ -338,6 +338,8 @@ grep -Fq 'ADL_ISSUE414_SIGNING_KEY_HEX",' "$wrapper"
 grep -Fq 'od -An -N32 -tx1 /dev/urandom' "$ROOT/tools/aws_remote_validation/scripts/remote_validation_runner.sh"
 grep -Fq 'export ADL_ISSUE414_SIGNING_KEY_HEX' "$ROOT/tools/aws_remote_validation/scripts/remote_validation_runner.sh"
 grep -Fq 'ADL_SPOT_RETAINED_RUNTIME_ROOT="$ADL_RUNTIME_CONTINUITY_ROOT/state/$ADL_RUN_ID"' "$ROOT/tools/aws_remote_validation/scripts/remote_validation_runner.sh"
+grep -Fq 'REMOTE_BIN=${ADL_AWS_REMOTE_VALIDATION_BIN:-$ROOT/.adl/bin/adl-aws-remote-validation-tool}' "$ROOT/adl/tools/run_issue268_six_hour_spot_qualification.sh"
+grep -Fq '.provenance/adl-aws-remote-validation-tool.sha256' "$ROOT/adl/tools/run_issue268_six_hour_spot_qualification.sh"
 grep -Fq 'command -v sha256sum' "$ROOT/adl/tools/install_vector_component.sh"
 [[ $(rg -c 'shasum -a 256' "$ROOT/adl/tools/install_vector_component.sh") == 1 ]]
 grep -Fq 'ADL_RUNTIME_GUARDIAN_TARGET_ROOT="$(dirname "${CARGO_TARGET_DIR:?CARGO_TARGET_DIR is required}")"' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
@@ -362,6 +364,7 @@ allowed={
 "tools/aws_remote_validation/tests/portable_adapter.rs",
 "tools/aws_remote_validation/scripts/remote_validation_runner.sh",
 "adl/tools/run_issue268_six_hour_spot_qualification.sh",
+"adl/tools/install_aws_remote_validation_tool.sh",
 "adl/tools/test_run_issue268_six_hour_spot_qualification.sh",
 "adl/tools/issue268_runtime_qualification.cloudformation.yaml",
 "adl/tools/test_issue268_runtime_qualification_cloudformation.py",

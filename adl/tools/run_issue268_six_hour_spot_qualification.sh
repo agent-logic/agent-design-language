@@ -10,7 +10,7 @@ SUMMARY="$EVIDENCE_ROOT/summary.json"
 ARTIFACTS="$EVIDENCE_ROOT/artifacts"
 CANCEL="$EVIDENCE_ROOT/cancel"
 LAUNCH_CLAIM="$EVIDENCE_ROOT/launch-claimed.json"
-REMOTE_BIN=${ADL_AWS_REMOTE_VALIDATION_BIN:-$ROOT/tools/aws_remote_validation/target/debug/adl-aws-remote-validation}
+REMOTE_BIN=${ADL_AWS_REMOTE_VALIDATION_BIN:-$ROOT/.adl/bin/adl-aws-remote-validation-tool}
 PORTABLE_BIN=${ADL_REMOTE_VALIDATION_BIN:-$ROOT/tools/remote_validation/target/debug/adl-remote-validation}
 OWNER=${ADL_ISSUE268_OWNER:-$ROOT/adl/tools/run_aws_spot_remote_validation_lane.sh}
 UTS_PLAN_VALIDATOR="$ROOT/adl/tools/validate_issue268_six_resident_uts_plan.py"
@@ -53,6 +53,12 @@ if not any(candidate == base or base in candidate.parents for base in allowed):
 PY
 [[ -x "$OWNER" ]] || { echo "issue268: AWS owner wrapper missing" >&2; exit 69; }
 [[ -x "$REMOTE_BIN" ]] || { echo "issue268: tools AWS owner binary missing" >&2; exit 69; }
+if [[ -z "${ADL_AWS_REMOTE_VALIDATION_BIN:-}" ]]; then
+  [[ -f "$ROOT/.adl/bin/.provenance/adl-aws-remote-validation-tool.sha256" ]] || {
+    echo "issue268: tools AWS owner binary provenance missing" >&2
+    exit 69
+  }
+fi
 [[ -x "$PORTABLE_BIN" ]] || { echo "issue268: portable validation binary missing" >&2; exit 69; }
 [[ -f "$UTS_PLAN_VALIDATOR" ]] || { echo "issue268: six-resident UTS plan validator missing" >&2; exit 69; }
 [[ -f "$ROOT/$REMOTE_QUALIFICATION" ]] || { echo "issue268: coupled remote qualification wrapper missing" >&2; exit 69; }
