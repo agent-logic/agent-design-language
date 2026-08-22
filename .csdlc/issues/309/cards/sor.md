@@ -193,11 +193,11 @@ Removed 20 reviewed dead/orphan Rust files across independently reversible Bands
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
