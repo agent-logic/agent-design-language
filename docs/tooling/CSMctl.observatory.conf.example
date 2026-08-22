@@ -20,7 +20,7 @@ ADL_CSM_OBSERVATORY_DIR=/path/to/agent-design-language/demos/html-observatory
 ADL_CSM_OBSERVATORY_ENTRY=/path/to/agent-design-language/demos/html-observatory/index.html
 ADL_CSM_OBSERVATORY_HOST=127.0.0.1
 ADL_CSM_OBSERVATORY_PORT=8765
-ADL_CSM_OBSERVATORY_PORTS='8765 8766'
+ADL_CSM_OBSERVATORY_PORTS='8765'
 ADL_CSM_OBSERVATORY_BASE=https://localhost:8765
 
 # Local TLS for the browser-facing Observatory static server.
