@@ -121,7 +121,7 @@ def rebase_snapshot_paths(installed: dict, final_root: pathlib.Path) -> tuple[di
     changed = False
     expected_suffixes = {
         "ollama_binary": ("ollama", "bin", "ollama"),
-        "ollama_models": ("ollama-models",),
+        "ollama_models": ("ollama-models", "models"),
         "continuity_binary": ("bin", "adl_resident_shepherd_continuity"),
         "runtime_binary": ("bin", "adl"),
         "csm_binary": ("bin", "csm"),

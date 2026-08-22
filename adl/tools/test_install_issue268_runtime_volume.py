@@ -19,7 +19,7 @@ assert 'installed["continuity_binary_sha256"] = sha256(continuity)' in source_te
 old_root = "/mnt/adl-runtime-continuity/runtime/install/current"
 installed_paths = {
     "ollama_binary": f"{old_root}/ollama/bin/ollama",
-    "ollama_models": f"{old_root}/ollama-models",
+    "ollama_models": f"{old_root}/ollama-models/models",
     "continuity_binary": f"{old_root}/bin/adl_resident_shepherd_continuity",
     "runtime_binary": f"{old_root}/bin/adl",
     "csm_binary": f"{old_root}/bin/csm",
@@ -29,7 +29,7 @@ rebased, changed = MODULE.rebase_snapshot_paths(
 )
 assert changed
 assert rebased["runtime_binary"] == "/opt/adl-runtime/runtime/install/current/bin/adl"
-assert rebased["ollama_models"] == "/opt/adl-runtime/runtime/install/current/ollama-models"
+assert rebased["ollama_models"] == "/opt/adl-runtime/runtime/install/current/ollama-models/models"
 try:
     MODULE.rebase_snapshot_paths(
         {field: "/tmp/unsealed" for field in installed_paths},
