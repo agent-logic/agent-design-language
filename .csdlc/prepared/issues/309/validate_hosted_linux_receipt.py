@@ -10,6 +10,16 @@ EVIDENCE_PATHS = {
     ".csdlc/evidence/309/github-linux-ci.json",
     ".csdlc/prepared/issues/309/test_validate_hosted_linux_receipt.py",
     ".csdlc/prepared/issues/309/validate_hosted_linux_receipt.py",
+    ".csdlc/issues/309/audit.jsonl",
+    ".csdlc/issues/309/cards/sip.values.json",
+    ".csdlc/issues/309/cards/sor.md",
+    ".csdlc/issues/309/cards/sor.values.json",
+    ".csdlc/issues/309/cards/spp.values.json",
+    ".csdlc/issues/309/cards/srp.md",
+    ".csdlc/issues/309/cards/srp.values.json",
+    ".csdlc/issues/309/cards/stp.values.json",
+    ".csdlc/issues/309/cards/vpp.values.json",
+    ".csdlc/issues/309/index.json",
 }
 HEX40 = re.compile(r"^[0-9a-f]{40}$")
 HEX64 = re.compile(r"^[0-9a-f]{64}$")
