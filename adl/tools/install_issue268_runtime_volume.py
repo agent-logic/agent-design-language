@@ -86,10 +86,13 @@ def extract(archive: pathlib.Path, destination: pathlib.Path) -> None:
 
 
 def validate_installed(
-    receipt_path: pathlib.Path, expected: dict, attached_volume_identity_sha256: str
+    receipt_path: pathlib.Path,
+    expected: dict,
+    attached_volume_identity_sha256: str,
+    installed_override: dict | None = None,
 ) -> dict:
     exact_digest(attached_volume_identity_sha256, "attached Runtime volume identity SHA-256")
-    installed = json.loads(receipt_path.read_text())
+    installed = installed_override if installed_override is not None else json.loads(receipt_path.read_text())
     for key, value in expected.items():
         if installed.get(key) != value:
             raise ValueError(f"installed Runtime receipt mismatch: {key}")
@@ -116,16 +119,23 @@ def rebase_snapshot_paths(installed: dict, final_root: pathlib.Path) -> tuple[di
     """Rebind sealed install paths when an EBS snapshot is mounted elsewhere."""
     rebased = dict(installed)
     changed = False
-    for field in ("ollama_binary", "ollama_models", "continuity_binary", "runtime_binary", "csm_binary"):
+    expected_suffixes = {
+        "ollama_binary": ("ollama", "bin", "ollama"),
+        "ollama_models": ("ollama-models",),
+        "continuity_binary": ("bin", "adl_resident_shepherd_continuity"),
+        "runtime_binary": ("bin", "adl"),
+        "csm_binary": ("bin", "csm"),
+    }
+    for field, expected_suffix in expected_suffixes.items():
         original = pathlib.Path(str(installed.get(field, "")))
         parts = original.parts
-        try:
-            current_index = parts.index("current")
-        except ValueError as error:
-            raise ValueError(f"installed Runtime path lacks sealed current root: {field}") from error
+        anchors = [index for index in range(1, len(parts)) if parts[index - 1 : index + 1] == ("install", "current")]
+        if len(anchors) != 1 or parts.count("current") != 1:
+            raise ValueError(f"installed Runtime path lacks unique sealed install/current root: {field}")
+        current_index = anchors[0]
         relative = pathlib.Path(*parts[current_index + 1 :])
-        if not relative.parts:
-            raise ValueError(f"installed Runtime path lacks sealed relative path: {field}")
+        if relative.parts != expected_suffix:
+            raise ValueError(f"installed Runtime path has unexpected sealed suffix: {field}")
         rebound = final_root / relative
         if rebound != original:
             rebased[field] = str(rebound)
@@ -164,10 +174,6 @@ def install(args: argparse.Namespace) -> dict:
     if receipt_path.exists():
         installed = json.loads(receipt_path.read_text())
         installed, paths_rebased = rebase_snapshot_paths(installed, final_root)
-        if paths_rebased:
-            temporary_receipt = receipt_path.with_suffix(".tmp")
-            temporary_receipt.write_text(json.dumps(installed, indent=2, sort_keys=True) + "\n")
-            os.replace(temporary_receipt, receipt_path)
         runtime = pathlib.Path(installed.get("runtime_binary", ""))
         if (not runtime.is_file()
                 or installed.get("runtime_source_identity_sha256") != required_runtime_source_identity
@@ -217,7 +223,14 @@ def install(args: argparse.Namespace) -> dict:
             temporary_receipt = receipt_path.with_suffix(".tmp")
             temporary_receipt.write_text(json.dumps(installed, indent=2, sort_keys=True) + "\n")
             os.replace(temporary_receipt, receipt_path)
-        return validate_installed(receipt_path, expected, args.volume_identity_sha256)
+        validated = validate_installed(
+            receipt_path, expected, args.volume_identity_sha256, installed_override=installed
+        )
+        if paths_rebased:
+            temporary_receipt = receipt_path.with_suffix(".tmp")
+            temporary_receipt.write_text(json.dumps(installed, indent=2, sort_keys=True) + "\n")
+            os.replace(temporary_receipt, receipt_path)
+        return validated
     if staging.exists() or final_root.exists():
         raise ValueError("partial or unsealed Runtime-volume installation exists")
     staging.mkdir(parents=True)

@@ -36,7 +36,23 @@ try:
     )
     raise AssertionError("unsealed snapshot path unexpectedly accepted")
 except ValueError as error:
-    assert "lacks sealed current root" in str(error)
+    assert "lacks unique sealed install/current root" in str(error)
+
+for invalid in (
+    "/tmp/current/bin/adl",
+    "/tmp/other/current/bin/adl",
+    "/tmp/install/current/other/current/bin/adl",
+    "/tmp/install/current/bin/csm",
+):
+    invalid_paths = dict(installed_paths)
+    invalid_paths["runtime_binary"] = invalid
+    try:
+        MODULE.rebase_snapshot_paths(
+            invalid_paths, pathlib.Path("/opt/adl-runtime/runtime/install/current")
+        )
+        raise AssertionError(f"invalid sealed snapshot path unexpectedly accepted: {invalid}")
+    except ValueError:
+        pass
 
 
 def fixture(root: pathlib.Path):
