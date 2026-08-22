@@ -1,0 +1,13 @@
+{
+  "additional_attempt_authority": "standing_operator_authorization_up_to_usd20",
+  "authoritative_failure_class": "stale_operational_owner_binary",
+  "estimated_compute_cost_usd": 0.106575,
+  "fallback": "disabled",
+  "portable_request_sha256": "1b5babf3228e620f468d583fd3e6d7d8fc586db1d83d31fff7bc36d600cf9241",
+  "provider_attempts": 1,
+  "run_id": "issue268-six-hour-r7i-20260821-57",
+  "schema": "adl.issue268.failed_run_disposition.v1",
+  "status": "terminal_pre_runtime_failure",
+  "summary_sha256": "a48fe81cadfa4452d14e9227ef30bf6ad9b9479a1fa761c72ec859941dea4837",
+  "truth": "The exact-head Runtime release build completed, but the stable AWS owner binary had not been refreshed after its source changed and generated the prior retained-volume root. The owner binary is now refreshed from reviewed source. Compute and stack cleanup completed, the retained Runtime volume detached, and fallback did not run."
+}
