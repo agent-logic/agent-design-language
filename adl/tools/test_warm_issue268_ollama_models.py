@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import http.server
+import importlib.util
 import json
 import pathlib
 import subprocess
@@ -12,6 +13,12 @@ import threading
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 WARMUP = ROOT / "adl/tools/warm_issue268_ollama_models.py"
+
+SPEC = importlib.util.spec_from_file_location("issue268_warmup", WARMUP)
+MODULE = importlib.util.module_from_spec(SPEC)
+assert SPEC.loader
+SPEC.loader.exec_module(MODULE)
+assert MODULE.WARMUP_HTTP_TIMEOUT_SECONDS > MODULE.MODEL_LOAD_TIMEOUT_SECONDS
 
 
 def main() -> None:

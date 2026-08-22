@@ -127,6 +127,7 @@ python3 "$MATERIALIZER" --output "$materialized" --agent-spec-dir "$AGENT_SPEC_D
 if ! python3 "$MODEL_WARMUP" \
   --plan "$materialized" \
   --ollama-url "$OLLAMA_HOST" \
+  --request-timeout-seconds 1200 \
   --receipt "$EVIDENCE_ROOT/model-residency.json"; then
   echo "issue268: Ollama preload failed; server diagnostics follow" >&2
   tail -120 "$OLLAMA_LOG" >&2 || true

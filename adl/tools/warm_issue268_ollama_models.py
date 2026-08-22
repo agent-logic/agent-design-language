@@ -10,7 +10,11 @@ import urllib.error
 import urllib.request
 
 
-def request_json(url: str, payload: dict | None = None, timeout: int = 900) -> dict:
+MODEL_LOAD_TIMEOUT_SECONDS = 900
+WARMUP_HTTP_TIMEOUT_SECONDS = 1200
+
+
+def request_json(url: str, payload: dict | None = None, timeout: int = WARMUP_HTTP_TIMEOUT_SECONDS) -> dict:
     data = None if payload is None else json.dumps(payload).encode("utf-8")
     request = urllib.request.Request(
         url,
@@ -31,7 +35,10 @@ def main() -> None:
     parser.add_argument("--plan", required=True, type=pathlib.Path)
     parser.add_argument("--ollama-url", required=True)
     parser.add_argument("--receipt", required=True, type=pathlib.Path)
+    parser.add_argument("--request-timeout-seconds", type=int, default=WARMUP_HTTP_TIMEOUT_SECONDS)
     args = parser.parse_args()
+    if args.request_timeout_seconds <= MODEL_LOAD_TIMEOUT_SECONDS:
+        raise SystemExit("issue268: warmup HTTP timeout must exceed the Ollama model-load timeout")
 
     plan = json.loads(args.plan.read_text(encoding="utf-8"))
     models = list(dict.fromkeys(row["model"] for row in plan.get("residents") or []))
@@ -53,6 +60,7 @@ def main() -> None:
                 "think": False,
                 "options": {"num_predict": 8, "num_ctx": context_tokens, "temperature": 0},
             },
+            timeout=args.request_timeout_seconds,
         )
         if not isinstance(result.get("response"), str):
             raise SystemExit(f"issue268: model warmup returned no response for {model}")
