@@ -4,53 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "1aac31d526ec88733274957b08d6a077e4b1c251c3c859ce9de45efa648636ad",
-  "phase": "published",
-  "generation": 32,
-  "digest": "9387d3198bc156697c4160b4c93c165281df6572f743054538b8442be1996477",
+  "phase": "implemented",
+  "generation": 33,
+  "digest": "26144025327987475338639dbde0aa7463a7431a45377249053258521da23dab",
   "branch": "codex/309-repository-wide-code-reduction",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-309-repository-wide-code-reduction",
-  "review_assignment": {
-    "reviewer": "fresh-session:b04a60f8-37f7-4b83-80d6-2d172b64ad9f",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:482d6a81eb3815253c36c33d0f5b69e17cc2fb33:004e2b724461802a02e0d1853c9182e85d18874437ab04ec29bb3303f8205b12",
-    "scope": [
-      "Exact immutable candidate 482d6a81eb3815253c36c33d0f5b69e17cc2fb33 over base e926e3bca0ab1981d77b4658d2feb4059bdf33a6",
-      "Full #309 dead-code-only reduction and independently reversible Band A/B evidence",
-      "Three-file hosted Linux remediation: live GitHub workflow/job/log provenance, tracked receipt, and tamper-negative tests",
-      "Metadata-only typed recovery after the previously reviewed remediation commit 82ea5d258b4aedee34146fec9ed5639872908f91",
-      "Verify Runtime v2 and #414 continuity preservation, exact 20-file/11571-line reduction, and no undeclared source drift"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:b04a60f8-37f7-4b83-80d6-2d172b64ad9f",
-    "scope": [
-      "Exact immutable candidate 482d6a81eb3815253c36c33d0f5b69e17cc2fb33 over base e926e3bca0ab1981d77b4658d2feb4059bdf33a6",
-      "Full #309 dead-code-only reduction and independently reversible Band A/B evidence",
-      "Three-file hosted Linux remediation: live GitHub workflow/job/log provenance, tracked receipt, and tamper-negative tests",
-      "Metadata-only typed recovery after the previously reviewed remediation commit 82ea5d258b4aedee34146fec9ed5639872908f91",
-      "Verify Runtime v2 and #414 continuity preservation, exact 20-file/11571-line reduction, and no undeclared source drift"
-    ],
-    "reviewed_revision": "git-blake3:482d6a81eb3815253c36c33d0f5b69e17cc2fb33:004e2b724461802a02e0d1853c9182e85d18874437ab04ec29bb3303f8205b12",
-    "findings": [],
-    "residual_risks": [
-      "The current working tree contains only typed review-assignment projection metadata and the issue lock after the assigned commit; no source, receipt, or validator code changed after the reviewed revision.",
-      "PR #460 must be republished at the reviewed metadata head and allowed to complete hosted required checks before terminal finish."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 309,
-    "pull_request": 460,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/460",
-    "base": "main",
-    "head": "codex/309-repository-wide-code-reduction",
-    "revision": "git-blake3:9ab7865547868929c30e1691c42fc539ccde2660:932da7b382b3d5bbe0d4d1d6407a973b699bca1cc300c0c776bd82673fde8bcd",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -64,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "743f7ba0500fa9f7ef9b6c03e8b01d8cb055aa5eb1a671c8f553f39bc299aa49",
+      "values_digest": "57856c4da6d32d23b92362c3f1b6bf37e3190a5518ee98819ea72e7ee3f4b3a4",
       "rendered_digest": "f610e1b9271578eedfab1b985238494fa5c08d9ddd8df483adb2aa6375564b3a",
       "ast_digest": "73a9a20d02b6492e2e00df33af13b603c1ae1d97ab041b611ef8885088729242"
     },
     "stp": {
-      "values_digest": "ec138023d77f52b0f47ebb9d48ba9df80ec33a22d6632bbb41b5fc22e405cdd7",
+      "values_digest": "842ed11db7291e8cd504a6ef2a480d9970fbb0531f49a1de5ddc901395afe2eb",
       "rendered_digest": "a469bc600ccd25918f73bd661c9a04c397592b9dcbe51e4876c7bb61be451299",
       "ast_digest": "00774e64929c26df4a90bae4b38835bf7c1520a06ecc6d7d3ae0423239fed416"
     },
     "spp": {
-      "values_digest": "7ca03408b9db9428e56e3ff043b0e147d7e3544b41994f1d08a70cf5704ab4db",
+      "values_digest": "19fdb5f3ad95ae62520d56a1ff3447b98d0eed7fb7962c8d1636e3e179a8af1f",
       "rendered_digest": "cab3f8355e1ca071ae5a17ebf1f6753f260d24400cde323ccc184e03b52cecb7",
       "ast_digest": "7afd712b14dc42ec54db99efa33ac3df4d5326979921def1d286ef3030f6536d"
     },
     "vpp": {
-      "values_digest": "249ba13ae426b58bcade55b26d6c1dd87df061ddf3069faafbceb0c06e5048f9",
+      "values_digest": "cba9dd3ab67402c59c55e2970bf647cb76ea82c7eead02c1ef3f412082c2b01d",
       "rendered_digest": "8fd190146e15f493fff91d51982e468c09147ef07195faf212080f90664049a8",
       "ast_digest": "db2df873444242436a1311a1c901e50520f97b516a328e96428a923d67157c2b"
     },
     "srp": {
-      "values_digest": "50a32cfb991d6e51655d020e3dbc82be21559c7d86e97431f248171848b3f958",
-      "rendered_digest": "dc029342f730918a5bf375078dd0c9217178242ab6da56ad77ffaf55c835c302",
-      "ast_digest": "b04588ea9fa6770a3cd4108643e9b50fb3e95569a346716ebb45bb55e704e462"
+      "values_digest": "0bdccbf93977dcad235936e8f3b611641123025de9048178547da24dbed7d969",
+      "rendered_digest": "8c621a8abdff1f086f1d77da1fc7856fc1db3d429c2be0900913973f8b649836",
+      "ast_digest": "b743ea5de345e0eebe3311f620a553f69d9cb00bfff6b1402a989da9961d0904"
     },
     "sor": {
-      "values_digest": "509ab977f919fa296cf3fea4fbe8ab63b056697a09a6c8d4297d668016dd8aaa",
-      "rendered_digest": "818712703dd37646b541937db61b308c6b0c7ca810cc112c1cf63a0275e4b892",
-      "ast_digest": "afa40680bb5d5401b8506b9487b3fa00b637aebc73a86d4f447aac82f69797eb"
+      "values_digest": "7d40a97864b6c41508fa6ba195fd58bcbc299554a5c3d45db09b2cf4f1a943be",
+      "rendered_digest": "5525153a315d1fadfb038d050b582a397e51ddc2d17637c0a75e3d9e4958cdaf",
+      "ast_digest": "3401b45ed6ef37cc7ac1276a8644b773eae19a897dd06f27e89dd8e6ffef74bb"
     }
   },
   "transitions": [
@@ -171,6 +132,13 @@
       "to": "published",
       "actor": "codex:/root",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 12,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover #309 after exact-head review found the prior hosted receipt source-to-candidate allowance omitted the exact typed review/publication projection paths; validate the bounded explicit projection allowlist at head 2d56e543832373811b8d3f9c55135f313c4851ac."
     }
   ],
   "audit": [
@@ -453,6 +421,13 @@
       "actor": "codex:/root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 41,
+      "generation": 33,
+      "actor": "codex:/root",
+      "reason": "Recover #309 after exact-head review found the prior hosted receipt source-to-candidate allowance omitted the exact typed review/publication projection paths; validate the bounded explicit projection allowlist at head 2d56e543832373811b8d3f9c55135f313c4851ac.",
+      "operation": "recover_review"
     }
   ]
 }
