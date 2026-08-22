@@ -101,10 +101,10 @@ case "$1" in
     ;;
   status)
     if [[ "${ADL_ISSUE268_FAKE_MANAGER_STATE:-dead}" == active ]]; then
-      printf 'status=running run_id=issue268-six-hour-r7i-20260821-65\n'
+      printf 'status=running run_id=issue268-six-hour-r7i-20260821-66\n'
       exit 0
     fi
-    printf 'status=incomplete run_id=issue268-six-hour-r7i-20260821-65 action=inspect_logs_or_cleanup\n'
+    printf 'status=incomplete run_id=issue268-six-hour-r7i-20260821-66 action=inspect_logs_or_cleanup\n'
     exit 1
     ;;
   cleanup) exit 0 ;;
@@ -149,7 +149,16 @@ else
   printf '{}\n'
 fi
 EOF
-chmod +x "$test_root/owner" "$test_root/aws"
+cat >"$test_root/dig" <<'EOF'
+#!/usr/bin/env bash
+printf '198.51.100.23\n'
+EOF
+cat >"$test_root/ssh.pub" <<'EOF'
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGnkt3LxZc993FoDA+PKq9udeUClS0RXSfgV9ahTWsPt test
+EOF
+chmod +x "$test_root/owner" "$test_root/aws" "$test_root/dig"
+export ADL_ISSUE268_DIG="$test_root/dig"
+export ADL_ISSUE268_SSH_PUBLIC_KEY_FILE="$test_root/ssh.pub"
 
 if ADL_ISSUE268_EVIDENCE_ROOT="$test_root" \
   ADL_ISSUE268_OWNER="$test_root/owner" \
@@ -157,7 +166,7 @@ if ADL_ISSUE268_EVIDENCE_ROOT="$test_root" \
   ADL_ISSUE268_ESTIMATED_HOURLY_COST_USD=0 \
   ADL_ISSUE268_SUBNET_ID=subnet-12345678 \
   ADL_ISSUE268_AVAILABILITY_ZONE=us-west-2a \
-  ADL_ISSUE268_RUNTIME_SNAPSHOT_ID=snap-12345678 \
+  ADL_ISSUE268_RUNTIME_VOLUME_ID=vol-12345678 \
   ADL_ISSUE268_AWS_CLI="$test_root/aws" \
   ADL_AWS_RUNTIME_CONTINUITY_VOLUME_ID=vol-12345678 \
   ADL_AWS_RUNTIME_CONTINUITY_VOLUME_NAME=adl-issue268-runtime \
@@ -175,7 +184,7 @@ ADL_ISSUE268_AUTHORIZATION=authorized-on-demand-usd20-20260820 \
 ADL_ISSUE268_ESTIMATED_HOURLY_COST_USD=0.5292 \
 ADL_ISSUE268_SUBNET_ID=subnet-12345678 \
 ADL_ISSUE268_AVAILABILITY_ZONE=us-west-2a \
-ADL_ISSUE268_RUNTIME_SNAPSHOT_ID=snap-12345678 \
+ADL_ISSUE268_RUNTIME_VOLUME_ID=vol-12345678 \
 ADL_ISSUE268_AWS_CLI="$test_root/aws" \
 ADL_ISSUE268_FAKE_AWS_LOG="$test_root/aws.log" \
 ADL_AWS_RUNTIME_CONTINUITY_VOLUME_ID=vol-12345678 \
@@ -185,7 +194,7 @@ ADL_AWS_RUNTIME_CONTINUITY_VOLUME_ID_SHA256="$(python3 -c 'import hashlib; print
 python3 - "$test_root/portable-request.json" <<'PY'
 import json, pathlib, sys
 request=json.loads(pathlib.Path(sys.argv[1]).read_text())
-assert request["request_id"] == "issue268-six-hour-r7i-20260821-65"
+assert request["request_id"] == "issue268-six-hour-r7i-20260821-66"
 assert "HOME" in request["command_profile"]["environment_allowlist"]
 assert "ADL_RUN_ID" in request["command_profile"]["environment_allowlist"]
 assert "ADL_ISSUE414_SIGNING_KEY_HEX" in request["command_profile"]["environment_allowlist"]
@@ -200,7 +209,7 @@ assert request["fallback"] == "disabled"
 assert "ADL_ISSUE268_S3_SOURCE_RECEIPT" in request["command_profile"]["environment_allowlist"]
 PY
 grep -F -- '--runtime-continuity-volume-id vol-12345678' "$test_root/owner.log" >/dev/null
-grep -F -- '--runtime-continuity-volume-name issue268-six-hour-r7i-20260821-65-runtime' "$test_root/owner.log" >/dev/null
+grep -F -- '--runtime-continuity-volume-name issue268-six-hour-r7i-20260821-66-runtime' "$test_root/owner.log" >/dev/null
 grep -F -- 'preflight --check-account --profile agent-logic-admin --region us-west-2' "$test_root/owner.log" >/dev/null
 grep -F -- 'run --run ' "$test_root/owner.log" >/dev/null
 grep -F -- '--on-demand-only' "$test_root/owner.log" >/dev/null
@@ -215,6 +224,10 @@ for marker in need:
 assert positions == sorted(positions), (need, positions)
 assert sum("cloudformation create-stack" in line for line in lines) == 1
 assert any("ParameterKey=VpcId,ParameterValue=vpc-12345678" in line for line in lines)
+assert any("ParameterKey=RuntimeVolumeId,ParameterValue=vol-12345678" in line for line in lines)
+assert any("ParameterKey=SshIngressCidr,ParameterValue=198.51.100.23/32" in line for line in lines)
+assert any("ParameterKey=SshPublicKey,ParameterValue=ssh-ed25519 " in line for line in lines)
+assert not any("RuntimeSnapshotId" in line for line in lines)
 PY
 
 failure_root=$(mktemp -d "$ROOT/.adl/issue268-wrapper-create-failure.XXXXXX")
@@ -227,7 +240,7 @@ if ADL_ISSUE268_EVIDENCE_ROOT="$failure_root" \
   ADL_ISSUE268_ESTIMATED_HOURLY_COST_USD=0.5292 \
   ADL_ISSUE268_SUBNET_ID=subnet-12345678 \
   ADL_ISSUE268_AVAILABILITY_ZONE=us-west-2a \
-  ADL_ISSUE268_RUNTIME_SNAPSHOT_ID=snap-12345678 \
+  ADL_ISSUE268_RUNTIME_VOLUME_ID=vol-12345678 \
   ADL_ISSUE268_AWS_CLI="$test_root/aws" \
   ADL_ISSUE268_FAKE_AWS_LOG="$failure_aws_log" \
   ADL_ISSUE268_FAKE_CREATE_WAIT_FAIL=1 \
@@ -258,7 +271,7 @@ if ADL_ISSUE268_EVIDENCE_ROOT="$test_root" \
   echo "active manager validation unexpectedly succeeded" >&2
   exit 1
 fi
-grep -F 'cloudformation describe-stacks --stack-name adl-issue268-runtime-65' "$test_root/aws.log" >/dev/null
+grep -F 'cloudformation describe-stacks --stack-name adl-issue268-runtime-66' "$test_root/aws.log" >/dev/null
 [[ ! -s "$test_root/owner.log" ]]
 if grep -F 'cleanup ' "$test_root/owner.log" >/dev/null; then
   echo "active manager validation invoked cleanup" >&2
@@ -277,7 +290,7 @@ if ADL_ISSUE268_EVIDENCE_ROOT="$test_root" \
   echo "active CloudFormation stack validation unexpectedly succeeded" >&2
   exit 1
 fi
-grep -F 'cloudformation describe-stacks --stack-name adl-issue268-runtime-65' "$test_root/aws.log" >/dev/null
+grep -F 'cloudformation describe-stacks --stack-name adl-issue268-runtime-66' "$test_root/aws.log" >/dev/null
 [[ ! -s "$test_root/owner.log" ]]
 if grep -F 'terminate-instances' "$test_root/aws.log" >/dev/null; then
   echo "active CloudFormation validation terminated an instance" >&2
@@ -301,13 +314,13 @@ if grep -F 'terminate-instances' "$test_root/aws.log" >/dev/null; then
   exit 1
 fi
 [[ $(grep -c 'Name=tag:adl:issue,Values=268' "$test_root/aws.log") == 1 ]]
-[[ $(grep -c 'Name=tag:adl:run_id,Values=issue268-six-hour-r7i-20260821-65' "$test_root/aws.log") == 1 ]]
+[[ $(grep -c 'Name=tag:adl:run_id,Values=issue268-six-hour-r7i-20260821-66' "$test_root/aws.log") == 1 ]]
 : >"$test_root/aws.log"
 
 cat >"$test_root/summary.json" <<'EOF'
 {
   "issue": 268,
-  "run_id": "issue268-six-hour-r7i-20260821-65",
+  "run_id": "issue268-six-hour-r7i-20260821-66",
   "status": "passed",
   "attempts": [{"purchase_option": "on_demand", "status": "launched"}],
   "expected_max_cost_usd": 20.0,
@@ -332,7 +345,7 @@ import json,sys
 d=json.load(open(sys.argv[1])); assert d["status"]=="pass" and d["overshoot_seconds"]==7
 PY
 [[ $(grep -c 'Name=tag:adl:issue,Values=268' "$test_root/aws.log") == 1 ]]
-[[ $(grep -c 'Name=tag:adl:run_id,Values=issue268-six-hour-r7i-20260821-65' "$test_root/aws.log") == 1 ]]
+[[ $(grep -c 'Name=tag:adl:run_id,Values=issue268-six-hour-r7i-20260821-66' "$test_root/aws.log") == 1 ]]
 
 grep -Fq 'ADL_ISSUE414_SIGNING_KEY_HEX",' "$wrapper"
 grep -Fq 'od -An -N32 -tx1 /dev/urandom' "$ROOT/tools/aws_remote_validation/scripts/remote_validation_runner.sh"

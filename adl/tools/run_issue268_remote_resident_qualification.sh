@@ -81,13 +81,30 @@ if [[ -n "$CONTINUITY_BIN_SHA256" && "$installed_continuity_sha" != "$CONTINUITY
   echo "issue268: installed continuity binary provenance mismatch" >&2
   exit 65
 fi
-# EBS volumes created from snapshots hydrate blocks lazily. Read the immutable
-# model blobs once, sequentially, before Ollama starts so its CPU tensor loader
-# does not mistake cold snapshot I/O for a stalled model process.
+# Normal launches attach a persistent, already-hydrated Runtime volume. Validate
+# the immutable model store in place; never reread every model byte at startup.
 OLLAMA_BLOBS="$OLLAMA_MODELS/blobs"
 [[ -d "$OLLAMA_BLOBS" ]] || { echo "issue268: installed Ollama blob store missing" >&2; exit 69; }
 find "$OLLAMA_BLOBS" -type f -print -quit | grep -q . || { echo "issue268: installed Ollama blob store is empty" >&2; exit 69; }
-find "$OLLAMA_BLOBS" -type f -print0 | LC_ALL=C sort -z | xargs -0 cat >/dev/null
+# Remove only the exact one-time backup created while converting run 65 from a
+# cold snapshot store to the pinned S3-hydrated store.
+STALE_MODEL_BACKUP="$(dirname "$OLLAMA_MODELS")/ollama-models.snapshot-65"
+if [[ -d "$STALE_MODEL_BACKUP" ]]; then
+  rm -rf -- "$STALE_MODEL_BACKUP"
+fi
+model_store_kib=$(du -sk "$OLLAMA_MODELS" | awk '{print $1}')
+runtime_available_kib=$(df -Pk "$OLLAMA_MODELS" | awk 'NR == 2 {print $4}')
+[[ "$model_store_kib" =~ ^[0-9]+$ && "$runtime_available_kib" =~ ^[0-9]+$ ]] || {
+  echo "issue268: Runtime capacity measurement failed" >&2
+  exit 70
+}
+minimum_available_kib=$((model_store_kib * 10))
+if (( runtime_available_kib < minimum_available_kib )); then
+  echo "issue268: Runtime volume lacks required 10x model-store free capacity" >&2
+  exit 70
+fi
+printf 'model_store_kib=%s available_kib=%s minimum_multiplier=10\n' \
+  "$model_store_kib" "$runtime_available_kib" >"$EVIDENCE_ROOT/runtime-capacity.txt"
 export OLLAMA_MODELS OLLAMA_HOST=http://127.0.0.1:11434 OLLAMA_MAX_LOADED_MODELS=3 OLLAMA_KEEP_ALIVE=-1 OLLAMA_LOAD_TIMEOUT=15m
 # Ollama 0.31.1's autodetected AMX runner segfaults on virtualized Sapphire
 # Rapids during its first warmup. Use Ollama's packaged AVX2 CPU runner.

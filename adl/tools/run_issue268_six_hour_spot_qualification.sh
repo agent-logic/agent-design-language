@@ -3,7 +3,7 @@ set -euo pipefail
 
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd -P)
 MODE=${1:-}
-RUN_ID=issue268-six-hour-r7i-20260821-65
+RUN_ID=issue268-six-hour-r7i-20260821-66
 EVIDENCE_ROOT=${ADL_ISSUE268_EVIDENCE_ROOT:-$ROOT/.csdlc/evidence/268/aws/$RUN_ID}
 REQUEST="$EVIDENCE_ROOT/portable-request.json"
 SUMMARY="$EVIDENCE_ROOT/summary.json"
@@ -15,6 +15,7 @@ PORTABLE_BIN=${ADL_REMOTE_VALIDATION_BIN:-$ROOT/tools/remote_validation/target/d
 OWNER=${ADL_ISSUE268_OWNER:-$ROOT/adl/tools/run_aws_spot_remote_validation_lane.sh}
 UTS_PLAN_VALIDATOR="$ROOT/adl/tools/validate_issue268_six_resident_uts_plan.py"
 AWS_CLI=${ADL_ISSUE268_AWS_CLI:-aws}
+DIG=${ADL_ISSUE268_DIG:-dig}
 PROFILE=agent-logic-admin
 REGION=us-west-2
 EXCLUDED_ISSUE=269
@@ -24,10 +25,12 @@ RUNTIME_VOLUME_NAME=${ADL_AWS_RUNTIME_CONTINUITY_VOLUME_NAME:-}
 RUNTIME_VOLUME_ID_SHA256=${ADL_AWS_RUNTIME_CONTINUITY_VOLUME_ID_SHA256:-}
 HOURLY=${ADL_ISSUE268_ESTIMATED_HOURLY_COST_USD:-}
 CFN_TEMPLATE="$ROOT/adl/tools/issue268_runtime_qualification.cloudformation.yaml"
-CFN_STACK_NAME="adl-issue268-runtime-65"
+CFN_STACK_NAME="adl-issue268-runtime-66"
 CFN_SUBNET_ID=${ADL_ISSUE268_SUBNET_ID:-${ADL_AWS_REMOTE_VALIDATION_SUBNET_ID:-}}
 CFN_AVAILABILITY_ZONE=${ADL_ISSUE268_AVAILABILITY_ZONE:-}
-CFN_RUNTIME_SNAPSHOT_ID=${ADL_ISSUE268_RUNTIME_SNAPSHOT_ID:-}
+CFN_RUNTIME_VOLUME_ID=${ADL_ISSUE268_RUNTIME_VOLUME_ID:-$RUNTIME_VOLUME_ID}
+CFN_SSH_PUBLIC_KEY_FILE=${ADL_ISSUE268_SSH_PUBLIC_KEY_FILE:-$HOME/keys/adl-aws-runtime-ed25519.pub}
+CFN_SSH_DDNS_NAME=${ADL_ISSUE268_SSH_DDNS_NAME:-wuji.agent-logic.ai}
 CFN_BOOTSTRAP_BUCKET=${ADL_ISSUE268_BOOTSTRAP_BUCKET:-adl-shepherd-model-artifacts-b05e1f4379b5c745-us-west-2}
 CFN_BOOTSTRAP_PREFIX=${ADL_ISSUE268_BOOTSTRAP_PREFIX:-shepherd/}
 
@@ -67,11 +70,23 @@ python3 "$UTS_PLAN_VALIDATOR" >/dev/null
 if [[ "$MODE" == preflight || "$MODE" == authorized-launch ]]; then
   [[ -f "$CFN_TEMPLATE" \
       && "$CFN_SUBNET_ID" =~ ^subnet-[0-9a-f]{8,17}$ \
-      && "$CFN_RUNTIME_SNAPSHOT_ID" =~ ^snap-[0-9a-f]{8,17}$ \
+      && "$CFN_RUNTIME_VOLUME_ID" =~ ^vol-[0-9a-f]{8,17}$ \
+      && -f "$CFN_SSH_PUBLIC_KEY_FILE" \
       && -n "$CFN_AVAILABILITY_ZONE" ]] || {
-    echo "issue268: exact CloudFormation subnet, availability zone, and Runtime snapshot are required" >&2
+    echo "issue268: exact CloudFormation subnet, availability zone, warm Runtime volume, and SSH public key are required" >&2
     exit 77
   }
+  CFN_SSH_PUBLIC_KEY=$(sed -n '1p' "$CFN_SSH_PUBLIC_KEY_FILE")
+  [[ "$CFN_SSH_PUBLIC_KEY" =~ ^ssh-ed25519\ [A-Za-z0-9+/=]+(\ [A-Za-z0-9._@-]+)?$ ]] || {
+    echo "issue268: SSH public key is invalid" >&2
+    exit 77
+  }
+  CFN_SSH_PUBLIC_IP=$("$DIG" +short A "$CFN_SSH_DDNS_NAME" | awk 'NF {print; exit}')
+  [[ "$CFN_SSH_PUBLIC_IP" =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]] || {
+    echo "issue268: operator SSH public IPv4 resolution failed" >&2
+    exit 77
+  }
+  CFN_SSH_INGRESS_CIDR="$CFN_SSH_PUBLIC_IP/32"
   [[ "$HOURLY" =~ ^[0-9]+([.][0-9]+)?$ ]] || {
     echo "issue268: current estimated hourly On-Demand cost required" >&2
     exit 77
@@ -244,7 +259,9 @@ PY
         "ParameterKey=AvailabilityZone,ParameterValue=$CFN_AVAILABILITY_ZONE" \
         "ParameterKey=SubnetId,ParameterValue=$CFN_SUBNET_ID" \
         "ParameterKey=VpcId,ParameterValue=$CFN_VPC_ID" \
-        "ParameterKey=RuntimeSnapshotId,ParameterValue=$CFN_RUNTIME_SNAPSHOT_ID" \
+        "ParameterKey=RuntimeVolumeId,ParameterValue=$CFN_RUNTIME_VOLUME_ID" \
+        "ParameterKey=SshPublicKey,ParameterValue=$CFN_SSH_PUBLIC_KEY" \
+        "ParameterKey=SshIngressCidr,ParameterValue=$CFN_SSH_INGRESS_CIDR" \
         "ParameterKey=BootstrapBucket,ParameterValue=$CFN_BOOTSTRAP_BUCKET" \
         "ParameterKey=BootstrapPrefix,ParameterValue=$CFN_BOOTSTRAP_PREFIX" \
       --tags "Key=adl:issue,Value=268" "Key=adl:run_id,Value=$RUN_ID" >/dev/null

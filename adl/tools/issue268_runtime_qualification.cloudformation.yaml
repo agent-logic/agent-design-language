@@ -1,8 +1,8 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: >-
   ADL issue #268 reproducible single-host Runtime qualification environment.
-  Creates one On-Demand r7i.2xlarge, a retained Runtime EBS volume cloned from
-  an approved snapshot, and an SSM-managed no-ingress execution surface.
+  Creates one On-Demand r7i.2xlarge, attaches an existing warm Runtime EBS
+  volume, and exposes an SSM-managed execution surface.
 
 Parameters:
   RunId:
@@ -16,14 +16,18 @@ Parameters:
   VpcId:
     Type: AWS::EC2::VPC::Id
     Description: VPC containing SubnetId; used for the template-owned no-ingress group.
-  RuntimeSnapshotId:
+  RuntimeVolumeId:
     Type: String
-    AllowedPattern: '^snap-[0-9a-f]{8,17}$'
-    Description: Approved Runtime snapshot distributed to the selected region.
-  RuntimeVolumeType:
+    AllowedPattern: '^vol-[0-9a-f]{8,17}$'
+    Description: Fully hydrated persistent Runtime volume in AvailabilityZone.
+  SshPublicKey:
     Type: String
-    Default: gp3
-    AllowedValues: [gp3]
+    AllowedPattern: '^ssh-ed25519 [A-Za-z0-9+/=]+(?: [A-Za-z0-9._@-]+)?$'
+    Description: Operator public key installed for break-glass SSH access.
+  SshIngressCidr:
+    Type: String
+    AllowedPattern: '^(?:[0-9]{1,3}\.){3}[0-9]{1,3}/32$'
+    Description: Current operator public IPv4 address restricted to a single host.
   AmiId:
     Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
     Default: /aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64
@@ -40,9 +44,13 @@ Resources:
   RuntimeSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: !Sub 'No-ingress SSM Runtime host for ${RunId}'
+      GroupDescription: !Sub 'SSM Runtime host with operator-only SSH for ${RunId}'
       VpcId: !Ref VpcId
-      SecurityGroupIngress: []
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: !Ref SshIngressCidr
       SecurityGroupEgress:
         - IpProtocol: '-1'
           CidrIp: 0.0.0.0/0
@@ -86,27 +94,6 @@ Resources:
     Properties:
       Roles: [!Ref RuntimeRole]
 
-  RuntimeVolume:
-    Type: AWS::EC2::Volume
-    DeletionPolicy: Retain
-    UpdateReplacePolicy: Retain
-    Properties:
-      AvailabilityZone: !Ref AvailabilityZone
-      Encrypted: true
-      SnapshotId: !Ref RuntimeSnapshotId
-      VolumeType: !Ref RuntimeVolumeType
-      Tags:
-        - Key: Name
-          Value: !Sub '${RunId}-runtime'
-        - Key: adl:issue
-          Value: "268"
-        - Key: adl:run_id
-          Value: !Ref RunId
-        - Key: adl:volume_role
-          Value: retained-runtime
-        - Key: adl:cleanup_required
-          Value: "false"
-
   RuntimeHost:
     Type: AWS::EC2::Instance
     Properties:
@@ -147,13 +134,18 @@ Resources:
           exec > >(tee -a /var/log/adl-issue268-bootstrap.log) 2>&1
           trap 'status=$?; printf "bootstrap_failed exit=%s\n" "$status"; touch /var/lib/adl/issue268-bootstrap-failed; exit "$status"' ERR
 
-          dnf install -y gcc gcc-c++ make pkgconf-pkg-config openssl-devel rust cargo python3 awscli-2 git tar zstd jq xfsprogs
+          dnf install -y gcc gcc-c++ make pkgconf-pkg-config openssl-devel rust cargo python3 awscli-2 git tar zstd jq xfsprogs e2fsprogs
           for required_command in cc cargo rustc python3 aws git tar zstd curl jq openssl; do
             command -v "$required_command" >/dev/null
           done
 
           install -d -m 0755 /opt/adl-runtime
           install -d -m 0755 /etc/adl
+          install -d -m 0700 -o ec2-user -g ec2-user /home/ec2-user/.ssh
+          printf '%s\n' '${SshPublicKey}' >/home/ec2-user/.ssh/authorized_keys
+          chown ec2-user:ec2-user /home/ec2-user/.ssh/authorized_keys
+          chmod 0600 /home/ec2-user/.ssh/authorized_keys
+          systemctl enable --now sshd
           cat >/etc/adl/issue268-runtime.env <<'EOF'
           ADL_RUNTIME_CONTINUITY_ROOT=/opt/adl-runtime/runtime
           ADL_ISSUE268_RETAINED_RUNTIME_ROOT=/opt/adl-runtime/runtime/state/${RunId}
@@ -167,7 +159,7 @@ Resources:
           cat >/usr/local/sbin/adl-issue268-mount-runtime <<'EOF'
           #!/bin/bash
           set -euo pipefail
-          volume_id='${RuntimeVolume}'
+          volume_id='${RuntimeVolumeId}'
           volume_serial=$(printf '%s' "$volume_id" | tr -d -)
           device=$(lsblk -ndo NAME,SERIAL | awk -v expected="$volume_serial" '$2 == expected { print "/dev/" $1; exit }')
           [ -n "$device" ]
@@ -178,6 +170,11 @@ Resources:
           [ -n "$uuid" ]
           grep -qF "UUID=$uuid /opt/adl-runtime " /etc/fstab || printf 'UUID=%s /opt/adl-runtime %s defaults,nofail 0 2\n' "$uuid" "$filesystem" >>/etc/fstab
           mountpoint -q /opt/adl-runtime || mount /opt/adl-runtime
+          if [ "$filesystem" = xfs ]; then
+            xfs_growfs /opt/adl-runtime
+          else
+            resize2fs "$device"
+          fi
           test -d /opt/adl-runtime/runtime/install
           touch /var/lib/adl/issue268-bootstrap-ready
           EOF
@@ -225,13 +222,13 @@ Resources:
       # volume under an unrelated NVMe name; bootstrap resolves its EBS serial.
       Device: /dev/sdf
       InstanceId: !Ref RuntimeHost
-      VolumeId: !Ref RuntimeVolume
+      VolumeId: !Ref RuntimeVolumeId
 
 Outputs:
   InstanceId:
     Value: !Ref RuntimeHost
   RuntimeVolumeId:
-    Value: !Ref RuntimeVolume
+    Value: !Ref RuntimeVolumeId
   RuntimeMountPath:
     Value: /opt/adl-runtime
   BuildCachePath:
