@@ -2198,8 +2198,14 @@ fn build_remote_command_script(config: &AwsRemoteValidationConfig) -> String {
         .clone()
         .or_else(|| config.cache_volume_id.as_deref().map(sha256_hex))
         .unwrap_or_default();
-    let runtime_continuity_root =
-        shell_single_quote(config.pre_mounted_runtime_root.as_deref().unwrap_or(""));
+    let runtime_continuity_root = shell_single_quote(
+        config
+            .pre_mounted_runtime_root
+            .as_deref()
+            .map(|root| format!("{root}/runtime"))
+            .as_deref()
+            .unwrap_or(""),
+    );
     let build_cache_root = shell_single_quote(if pre_mounted_runtime {
         "/opt/adl-build-cache"
     } else {
@@ -5270,7 +5276,7 @@ mod tests {
         assert!(tracked_runner.contains("cloud-init status --wait"));
         assert!(tracked_runner.contains("issue268-bootstrap-ready"));
         assert!(tracked_runner.contains("mountpoint -q /opt/adl-runtime"));
-        assert!(tracked_runner.contains("[ -d /opt/adl-runtime/install ]"));
+        assert!(tracked_runner.contains("[ -d /opt/adl-runtime/runtime/install ]"));
         assert!(tracked_runner.contains("for _ in $(seq 1 450); do"));
         assert!(tracked_runner.contains("adl-issue268-runtime-volume.service"));
         assert!(!tracked_runner.contains("touch /var/lib/adl/issue268-bootstrap-ready"));
@@ -5332,7 +5338,7 @@ mod tests {
         assert!(config.validate().is_ok());
         assert!(script.contains("export ADL_CACHE_VOLUME_ENABLED=\"0\""));
         assert!(script.contains("export ADL_RETAINED_VOLUME_ROLE='runtime_continuity'"));
-        assert!(script.contains("export ADL_RUNTIME_CONTINUITY_ROOT='/opt/adl-runtime'"));
+        assert!(script.contains("export ADL_RUNTIME_CONTINUITY_ROOT='/opt/adl-runtime/runtime'"));
         assert!(script.contains("export ADL_ISSUE268_BUILD_CACHE_ROOT='/opt/adl-build-cache'"));
     }
 

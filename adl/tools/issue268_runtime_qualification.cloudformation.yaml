@@ -155,12 +155,12 @@ Resources:
           install -d -m 0755 /opt/adl-runtime
           install -d -m 0755 /etc/adl
           cat >/etc/adl/issue268-runtime.env <<'EOF'
-          ADL_RUNTIME_CONTINUITY_ROOT=/opt/adl-runtime
-          ADL_ISSUE268_RETAINED_RUNTIME_ROOT=/opt/adl-runtime/state/${RunId}
+          ADL_RUNTIME_CONTINUITY_ROOT=/opt/adl-runtime/runtime
+          ADL_ISSUE268_RETAINED_RUNTIME_ROOT=/opt/adl-runtime/runtime/state/${RunId}
           ADL_ISSUE268_BUILD_CACHE_ROOT=/opt/adl-build-cache
           ADL_ISSUE268_BOOTSTRAP_BUCKET=${BootstrapBucket}
           ADL_ISSUE268_BOOTSTRAP_PREFIX=${BootstrapPrefix}
-          OLLAMA_MODELS=/opt/adl-runtime/install/current/ollama-models
+          OLLAMA_MODELS=/opt/adl-runtime/runtime/install/current/ollama-models
           EOF
           chmod 0644 /etc/adl/issue268-runtime.env
 
@@ -178,7 +178,7 @@ Resources:
           [ -n "$uuid" ]
           grep -qF "UUID=$uuid /opt/adl-runtime " /etc/fstab || printf 'UUID=%s /opt/adl-runtime %s defaults,nofail 0 2\n' "$uuid" "$filesystem" >>/etc/fstab
           mountpoint -q /opt/adl-runtime || mount /opt/adl-runtime
-          test -d /opt/adl-runtime/install
+          test -d /opt/adl-runtime/runtime/install
           touch /var/lib/adl/issue268-bootstrap-ready
           EOF
           chmod 0755 /usr/local/sbin/adl-issue268-mount-runtime
@@ -209,7 +209,7 @@ Resources:
           for attempt in $(seq 1 450); do
             if test -f /var/lib/adl/issue268-bootstrap-ready \
                 && mountpoint -q /opt/adl-runtime \
-                && test -d /opt/adl-runtime/install; then
+                && test -d /opt/adl-runtime/runtime/install; then
               exit 0
             fi
             sleep 2

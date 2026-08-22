@@ -390,7 +390,7 @@ if [ "$ISSUE268_RUNTIME_QUALIFICATION" = "1" ]; then
     fi
     if [ -f /var/lib/adl/issue268-bootstrap-ready ] \
         && mountpoint -q /opt/adl-runtime \
-        && [ -d /opt/adl-runtime/install ]; then
+        && [ -d /opt/adl-runtime/runtime/install ]; then
       runtime_ready=true
       break
     fi
