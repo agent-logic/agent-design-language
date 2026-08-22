@@ -4,13 +4,41 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "1aac31d526ec88733274957b08d6a077e4b1c251c3c859ce9de45efa648636ad",
-  "phase": "implemented",
-  "generation": 30,
-  "digest": "8bc8e8deb46c314274cffbcea34852bc7fba74dfe894c8567e4a9a44491ba2e2",
+  "phase": "reviewed",
+  "generation": 31,
+  "digest": "c72cd6cba197efe7295d1249641020fb9f8cf78f119c5b724ff6ff40ac4cf229",
   "branch": "codex/309-repository-wide-code-reduction",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-309-repository-wide-code-reduction",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:b04a60f8-37f7-4b83-80d6-2d172b64ad9f",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:482d6a81eb3815253c36c33d0f5b69e17cc2fb33:004e2b724461802a02e0d1853c9182e85d18874437ab04ec29bb3303f8205b12",
+    "scope": [
+      "Exact immutable candidate 482d6a81eb3815253c36c33d0f5b69e17cc2fb33 over base e926e3bca0ab1981d77b4658d2feb4059bdf33a6",
+      "Full #309 dead-code-only reduction and independently reversible Band A/B evidence",
+      "Three-file hosted Linux remediation: live GitHub workflow/job/log provenance, tracked receipt, and tamper-negative tests",
+      "Metadata-only typed recovery after the previously reviewed remediation commit 82ea5d258b4aedee34146fec9ed5639872908f91",
+      "Verify Runtime v2 and #414 continuity preservation, exact 20-file/11571-line reduction, and no undeclared source drift"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:b04a60f8-37f7-4b83-80d6-2d172b64ad9f",
+    "scope": [
+      "Exact immutable candidate 482d6a81eb3815253c36c33d0f5b69e17cc2fb33 over base e926e3bca0ab1981d77b4658d2feb4059bdf33a6",
+      "Full #309 dead-code-only reduction and independently reversible Band A/B evidence",
+      "Three-file hosted Linux remediation: live GitHub workflow/job/log provenance, tracked receipt, and tamper-negative tests",
+      "Metadata-only typed recovery after the previously reviewed remediation commit 82ea5d258b4aedee34146fec9ed5639872908f91",
+      "Verify Runtime v2 and #414 continuity preservation, exact 20-file/11571-line reduction, and no undeclared source drift"
+    ],
+    "reviewed_revision": "git-blake3:482d6a81eb3815253c36c33d0f5b69e17cc2fb33:004e2b724461802a02e0d1853c9182e85d18874437ab04ec29bb3303f8205b12",
+    "findings": [],
+    "residual_risks": [
+      "The current working tree contains only typed review-assignment projection metadata and the issue lock after the assigned commit; no source, receipt, or validator code changed after the reviewed revision.",
+      "PR #460 must be republished at the reviewed metadata head and allowed to complete hosted required checks before terminal finish."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +53,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3623b8eed485e63d48d5cb113579a17c2235c46083e7a4f200da2006d3ae5a3d",
+      "values_digest": "e167c9c4e01480eada205fa720d59c6c7c530346dcf415ae40534e1bd73fd406",
       "rendered_digest": "f610e1b9271578eedfab1b985238494fa5c08d9ddd8df483adb2aa6375564b3a",
       "ast_digest": "73a9a20d02b6492e2e00df33af13b603c1ae1d97ab041b611ef8885088729242"
     },
     "stp": {
-      "values_digest": "d5b34709f65a669a63af3a5d374ad08edc1592a90032255d0b6b6a7a709ca683",
+      "values_digest": "df36938ef6c096e3b8cd09bd259face1c49501e51a62622a913e8d8f94e67b74",
       "rendered_digest": "a469bc600ccd25918f73bd661c9a04c397592b9dcbe51e4876c7bb61be451299",
       "ast_digest": "00774e64929c26df4a90bae4b38835bf7c1520a06ecc6d7d3ae0423239fed416"
     },
     "spp": {
-      "values_digest": "3fcc9a89820ed68acecb1e0a185d123e4dbd2901652902235f5dd3547e3cc23a",
+      "values_digest": "446d8f227e84a14512c0f6e72336bd223f05664739b5d3168457c3b23b88764e",
       "rendered_digest": "cab3f8355e1ca071ae5a17ebf1f6753f260d24400cde323ccc184e03b52cecb7",
       "ast_digest": "7afd712b14dc42ec54db99efa33ac3df4d5326979921def1d286ef3030f6536d"
     },
     "vpp": {
-      "values_digest": "a2c34db40603bacd82a424dce9babbead7fc5d16fcebc5369bddf9d81df03f67",
+      "values_digest": "46ba84e2250245156d427523323b37a9d102080717d13afb008219227050ab2f",
       "rendered_digest": "8fd190146e15f493fff91d51982e468c09147ef07195faf212080f90664049a8",
       "ast_digest": "db2df873444242436a1311a1c901e50520f97b516a328e96428a923d67157c2b"
     },
     "srp": {
-      "values_digest": "9530d6258512add9b5530fcb9523cfd8995cb9d1a890bc85f3a69a9441ac8c63",
-      "rendered_digest": "8c621a8abdff1f086f1d77da1fc7856fc1db3d429c2be0900913973f8b649836",
-      "ast_digest": "b743ea5de345e0eebe3311f620a553f69d9cb00bfff6b1402a989da9961d0904"
+      "values_digest": "ed9a2a6c645c6e5081ee41afefcbaaddc49699fed26e71eaf954f7f2b471b23f",
+      "rendered_digest": "dc029342f730918a5bf375078dd0c9217178242ab6da56ad77ffaf55c835c302",
+      "ast_digest": "b04588ea9fa6770a3cd4108643e9b50fb3e95569a346716ebb45bb55e704e462"
     },
     "sor": {
-      "values_digest": "a089c446df2b1e11b8ddd498c9bb8614a1edde94f8c83471b440ede695ca211a",
+      "values_digest": "0aa2106e259273aa3d0180a3df27e51621740fcbea6bcf7351ea14be76a8f052",
       "rendered_digest": "5525153a315d1fadfb038d050b582a397e51ddc2d17637c0a75e3d9e4958cdaf",
       "ast_digest": "3401b45ed6ef37cc7ac1276a8644b773eae19a897dd06f27e89dd8e6ffef74bb"
     }
@@ -118,6 +146,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover published #309 after review found the hosted Linux receipt validator trusted self-declared fields, the receipt was untracked, and the recorded reviewed revision was stale; reconcile the bounded three-file live-GitHub provenance remediation at exact head 82ea5d258b4aedee34146fec9ed5639872908f91."
+    },
+    {
+      "sequence": 10,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:b04a60f8-37f7-4b83-80d6-2d172b64ad9f",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -379,6 +414,20 @@
       "actor": "codex:/root",
       "reason": "Recover published #309 after review found the hosted Linux receipt validator trusted self-declared fields, the receipt was untracked, and the recorded reviewed revision was stale; reconcile the bounded three-file live-GitHub provenance remediation at exact head 82ea5d258b4aedee34146fec9ed5639872908f91.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 30,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 31,
+      "actor": "fresh-session:b04a60f8-37f7-4b83-80d6-2d172b64ad9f",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

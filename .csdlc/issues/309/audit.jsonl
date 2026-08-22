@@ -35,3 +35,5 @@
 {"sequence":35,"generation":28,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":36,"generation":29,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
 {"sequence":37,"generation":30,"actor":"codex:/root","reason":"Recover published #309 after review found the hosted Linux receipt validator trusted self-declared fields, the receipt was untracked, and the recorded reviewed revision was stale; reconcile the bounded three-file live-GitHub provenance remediation at exact head 82ea5d258b4aedee34146fec9ed5639872908f91.","operation":"recover_review"}
+{"sequence":38,"generation":30,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":39,"generation":31,"actor":"fresh-session:b04a60f8-37f7-4b83-80d6-2d172b64ad9f","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

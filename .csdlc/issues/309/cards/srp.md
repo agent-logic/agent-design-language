@@ -12,7 +12,11 @@ Status: draft
 
 ## Scope
 
-
+Exact immutable candidate 482d6a81eb3815253c36c33d0f5b69e17cc2fb33 over base e926e3bca0ab1981d77b4658d2feb4059bdf33a6
+Full #309 dead-code-only reduction and independently reversible Band A/B evidence
+Three-file hosted Linux remediation: live GitHub workflow/job/log provenance, tracked receipt, and tamper-negative tests
+Metadata-only typed recovery after the previously reviewed remediation commit 82ea5d258b4aedee34146fec9ed5639872908f91
+Verify Runtime v2 and #414 continuity preservation, exact 20-file/11571-line reduction, and no undeclared source drift
 
 ## Prompts
 
@@ -33,12 +37,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The current working tree contains only typed review-assignment projection metadata and the issue lock after the assigned commit; no source, receipt, or validator code changed after the reviewed revision.
+- PR #460 must be republished at the reviewed metadata head and allowed to complete hosted required checks before terminal finish.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:482d6a81eb3815253c36c33d0f5b69e17cc2fb33:004e2b724461802a02e0d1853c9182e85d18874437ab04ec29bb3303f8205b12")
 
-Reviewer: None
+Reviewer: Some("fresh-session:b04a60f8-37f7-4b83-80d6-2d172b64ad9f")
 
-Result: pre_review
+Result: pass

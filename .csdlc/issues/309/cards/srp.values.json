@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-21] Repository-wide code reduction cleanup",
     "slug": "309-repository-wide-code-reduction",
     "version": "v0.92",
-    "generation": 30
+    "generation": 31
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "Exact immutable candidate 482d6a81eb3815253c36c33d0f5b69e17cc2fb33 over base e926e3bca0ab1981d77b4658d2feb4059bdf33a6\nFull #309 dead-code-only reduction and independently reversible Band A/B evidence\nThree-file hosted Linux remediation: live GitHub workflow/job/log provenance, tracked receipt, and tamper-negative tests\nMetadata-only typed recovery after the previously reviewed remediation commit 82ea5d258b4aedee34146fec9ed5639872908f91\nVerify Runtime v2 and #414 continuity preservation, exact 20-file/11571-line reduction, and no undeclared source drift",
+      "review_revision": "git-blake3:482d6a81eb3815253c36c33d0f5b69e17cc2fb33:004e2b724461802a02e0d1853c9182e85d18874437ab04ec29bb3303f8205b12",
+      "reviewer": "fresh-session:b04a60f8-37f7-4b83-80d6-2d172b64ad9f",
       "review_prompts": [
         "Does every removed path have complete deterministic reachability and reverse-reference evidence, with retained references either absent in the candidate or explicitly classified as non-consumer fixtures?",
         "Does Band B prove characterized orphan/dead status rather than relying on historical artifacts as replacement parity?",
@@ -25,8 +25,11 @@
         "Are physical reduction numbers, the exact PR #460 Linux six-job receipt, and residual migration claims current and evidence-bound?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The current working tree contains only typed review-assignment projection metadata and the issue lock after the assigned commit; no source, receipt, or validator code changed after the reviewed revision.",
+        "PR #460 must be republished at the reviewed metadata head and allowed to complete hosted required checks before terminal finish."
+      ],
+      "review_result": "pass"
     }
   }
 }
