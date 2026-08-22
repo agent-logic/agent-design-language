@@ -5,7 +5,7 @@
     "stack_state": "deleted"
   },
   "estimated_compute_cost_usd": 0.146853,
-  "failure_reason": "The refreshed Runtime snapshot skipped rebuilding, but lazy snapshot reads kept the 4.58 GiB Q4 tensor load stalled until the configured 15-minute Ollama deadline.",
+  "failure_reason": "The refreshed Runtime snapshot skipped rebuilding, but the 4.58 GiB Q4 tensor load remained in load_tensors until the configured 15-minute Ollama deadline; lazy snapshot block hydration is the leading hypothesis.",
   "fallback": "disabled",
   "instance_type": "r7i.2xlarge",
   "issue": 268,

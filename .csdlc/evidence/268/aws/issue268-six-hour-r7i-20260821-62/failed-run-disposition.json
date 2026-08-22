@@ -1,6 +1,6 @@
 {
   "additional_attempt_authority": "standing_operator_authorization_up_to_usd20",
-  "authoritative_failure_class": "lazy_snapshot_model_block_hydration",
+  "authoritative_failure_class": "model_tensor_load_timeout",
   "estimated_compute_cost_usd": 0.146853,
   "fallback": "disabled",
   "portable_request_sha256": "4972c24a86b79700c66ef74765fbdcc83856ab180acb76940bc18633e07f539c",
@@ -8,6 +8,6 @@
   "run_id": "issue268-six-hour-r7i-20260821-62",
   "schema": "adl.issue268.failed_run_disposition.v1",
   "status": "terminal_pre_runtime_failure",
-  "summary_sha256": "54d5cca82a4ec1be118762b21b8296c3654c2cb736cec39ca09e06dbbe98b911",
-  "truth": "The refreshed snapshot reused the exact Runtime installation without rebuilding. The model remained blocked in tensor loading for 15m08s while memory stayed mostly unallocated, consistent with lazy EBS snapshot block hydration. The next run sequentially reads the immutable model blobs before Ollama starts. Compute and stack cleanup completed and fallback did not run."
+  "summary_sha256": "272bf943fbb24a28926ee418c223ca7d25470b26c8899ee8d4e2dcb081ac6700",
+  "truth": "The refreshed snapshot reused the exact Runtime installation without rebuilding. The model remained in tensor loading for 15m08s. Lazy EBS snapshot block hydration is the leading hypothesis, so the next run sequentially reads the immutable model blobs before Ollama starts. Compute and stack cleanup completed and fallback did not run."
 }

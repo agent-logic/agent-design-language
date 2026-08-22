@@ -27,6 +27,7 @@ touch "$scratch/adl"; chmod +x "$scratch/adl"
 cat >"$scratch/ollama" <<'SH'
 #!/usr/bin/env bash
 [[ "$1" == serve ]]
+[[ -z "${ADL_TEST_OLLAMA_STARTED:-}" ]] || touch "$ADL_TEST_OLLAMA_STARTED"
 while :; do sleep 60; done
 SH
 chmod +x "$scratch/ollama"
@@ -108,6 +109,41 @@ output=$(PATH="$scratch/bin:$PATH" \
 [[ "$output" == *ADL_ISSUE268_REPORT_BEGIN* ]]
 [[ "${output%%ADL_ISSUE268_REPORT_BEGIN*}" == *ADL_ISSUE268_CONTINUITY_UTS_END* ]]
 [[ "$(cat "$scratch/evidence/continuity-uts/runtime-root.txt")" == "$scratch/volume/runtime/state/issue268-test-run" ]]
+
+assert_blob_store_denied() {
+  local models=$1 expected=$2
+  local started="$models.ollama-started"
+  set +e
+  PATH="$scratch/bin:$PATH" \
+    CARGO_TARGET_DIR="$scratch/cargo/negative-target" \
+    ADL_RUN_ID="issue268-blob-negative-$expected" \
+    ADL_CSM_CUSTODY_P256_SIGNING_PRIVATE_KEY_B64=test-private \
+    ADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64=test-public \
+    ADL_CSM_CUSTODY_SIGNING_KEY_ID=test-key \
+    ADL_TEST_CONTINUITY="$scratch/continuity" \
+    ADL_TEST_OLLAMA="$scratch/ollama" \
+    ADL_TEST_OLLAMA_STARTED="$started" \
+    ADL_TEST_MODELS="$models" \
+    ADL_TEST_RUNTIME="$scratch/adl" \
+    ADL_ISSUE268_REMOTE_EVIDENCE_ROOT="$scratch/blob-negative-$expected" \
+    ADL_RUNTIME_CONTINUITY_ROOT="$scratch/volume-blob-$expected/runtime" \
+    ADL_RUNTIME_CONTINUITY_VOLUME_ID_SHA256="$(printf 'f%.0s' {1..64})" \
+    ADL_ISSUE268_BUILD_CACHE_ROOT="$scratch/build-blob-$expected" \
+    ADL_ISSUE268_RUNTIME_VOLUME_IDENTITY_SHA256="$(printf 'f%.0s' {1..64})" \
+    ADL_ISSUE268_S3_SOURCE_RECEIPT="$scratch/source-receipt.json" \
+    ADL_ISSUE268_VOLUME_INSTALLER="$scratch/installer.py" \
+    ADL_ISSUE268_414_REVIEWED_SHA="$(printf 'a%.0s' {1..40})" \
+    ADL_ISSUE268_CONTINUITY_BIN_SHA256="$continuity_sha" \
+    bash "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh" >/dev/null 2>&1
+  local rc=$?
+  set -e
+  [[ "$rc" == 69 ]]
+  [[ ! -e "$started" ]]
+}
+
+mkdir -p "$scratch/models-missing" "$scratch/models-empty/blobs"
+assert_blob_store_denied "$scratch/models-missing" missing
+assert_blob_store_denied "$scratch/models-empty" empty
 
 if PATH="$scratch/bin:$PATH" \
   ADL_RUN_ID=issue268-test-run \
