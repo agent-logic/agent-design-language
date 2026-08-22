@@ -1,0 +1,36 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 461,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][Runtime Security] Make lifecycle TLS authority config-only",
+    "slug": "runtime-lifecycle-tls-config-only",
+    "version": "v0.92",
+    "generation": 19
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Make Runtime lifecycle TLS authority config-only before issue #268 resumes paid AWS qualification.",
+      "required_outcome": "The lifecycle soak and Guardian path read validated TLS certificate, private-key, and trust-root paths only from Runtime configuration and expose no TLS path command flags.",
+      "declared_scope": [
+        "adl-runtime lifecycle soak TLS argument and configuration handling",
+        "bounded Guardian lifecycle harness",
+        "Runtime-kernel observability classification for automatically recovered Vector restarts",
+        "focused config-only TLS and recovered-observability regression tests"
+      ],
+      "authority_boundary": [
+        "Runtime init configuration is the sole TLS path authority",
+        "issue #268 remains blocked until this issue is merged"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "never expose TLS material or sensitive paths in argv, logs, or receipts",
+        "never execute issue #269",
+        "do not expand into certificate issuance, DNS, or CloudFormation"
+      ]
+    }
+  }
+}

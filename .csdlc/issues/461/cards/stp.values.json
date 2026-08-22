@@ -1,0 +1,47 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 461,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][Runtime Security] Make lifecycle TLS authority config-only",
+    "slug": "runtime-lifecycle-tls-config-only",
+    "version": "v0.92",
+    "generation": 19
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Remove duplicated lifecycle TLS command inputs and preserve the existing Runtime lifecycle behavior through config-only authority.",
+      "deliverables": [
+        "config-only lifecycle soak implementation",
+        "Guardian config localization repair",
+        "focused Rust and executable lifecycle regression coverage"
+      ],
+      "acceptance_criteria": [
+        "lifecycle soak rejects the removed TLS path flags",
+        "certificate chain, private key, and trust roots are loaded only from Runtime init configuration",
+        "configured TLS files are validated fail closed without leaking path or key material",
+        "Guardian fixture places TLS paths only in generated configuration",
+        "HTTPS and WSS lifecycle proof passes with config-owned TLS",
+        "issue #268 can consume the merged fix without a TLS argv surface"
+      ],
+      "dependencies": [
+        "current Runtime v3 init configuration schema",
+        "issue #268 paid AWS qualification waits for this merge"
+      ],
+      "repo_inputs": [
+        "adl-runtime/src/bin/adl-runtime-lifecycle-soak.rs",
+        "adl/tools/validate_v092_runtime_guardian_lifecycle.sh",
+        "infra/runtime-v3/runtime-init.toml"
+      ],
+      "non_goals": [
+        "certificate issuance or rotation",
+        "public DNS configuration",
+        "CloudFormation provisioning",
+        "issue #269"
+      ]
+    }
+  }
+}

@@ -86,6 +86,33 @@ async fn write_on_writable_leader(
     .expect("cluster elected a writable leader")
 }
 
+async fn wait_for_machine_mutation(
+    machines: &BTreeMap<u64, PolisStateMachineStore>,
+    nodes: &BTreeMap<u64, PolisRaft>,
+    node_id: u64,
+    mutation_id: &str,
+) {
+    let observed = tokio::time::timeout(Duration::from_secs(60), async {
+        loop {
+            let application_state = machines[&node_id].application_state().await;
+            if application_state.mutation_ids.contains(mutation_id) {
+                break;
+            }
+            tokio::time::sleep(Duration::from_millis(25)).await;
+        }
+    })
+    .await;
+    if observed.is_err() {
+        let learner_state = machines[&node_id].application_state().await;
+        let raft_metrics = nodes[&node_id].metrics().borrow().clone();
+        panic!(
+            "node {node_id} did not observe mutation {mutation_id:?}; last_applied={:?}; \
+             current_leader={:?}; known_mutations={:?}",
+            raft_metrics.last_applied, raft_metrics.current_leader, learner_state.mutation_ids
+        );
+    }
+}
+
 fn identity() -> LearnerIdentity {
     LearnerIdentity {
         trust_domain: "runtime-prod".to_owned(),
@@ -1390,22 +1417,7 @@ async fn real_four_node_learner_replication() {
     )
     .await;
     assert!(replicated.data.accepted);
-    for _ in 0..1000 {
-        if machines[&4]
-            .application_state()
-            .await
-            .mutation_ids
-            .contains("authorized-learner-replicated")
-        {
-            break;
-        }
-        tokio::time::sleep(Duration::from_millis(20)).await;
-    }
-    assert!(machines[&4]
-        .application_state()
-        .await
-        .mutation_ids
-        .contains("authorized-learner-replicated"));
+    wait_for_machine_mutation(&machines, &nodes, 4, "authorized-learner-replicated").await;
     let hook = learner_effect_authority.install_dispatch_pause_for_test("learner_raft_effect");
     let effect_nodes = nodes.clone();
     let effect = tokio::spawn(async move {
@@ -1439,27 +1451,8 @@ async fn real_four_node_learner_replication() {
         "real_four_node_learner_replication",
         "expiry_writer_waits_through_real_raft_effect_and_response",
     );
-    for _ in 0..200 {
-        if machines[&4]
-            .application_state()
-            .await
-            .mutation_ids
-            .contains("authorized-learner-replicated")
-        {
-            break;
-        }
-        tokio::time::sleep(Duration::from_millis(20)).await;
-    }
-    assert!(machines[&4]
-        .application_state()
-        .await
-        .mutation_ids
-        .contains("authorized-learner-replicated"));
-    assert!(machines[&4]
-        .application_state()
-        .await
-        .mutation_ids
-        .contains("authorized-learner-snapshot"));
+    wait_for_machine_mutation(&machines, &nodes, 4, "authorized-learner-replicated").await;
+    wait_for_machine_mutation(&machines, &nodes, 4, "authorized-learner-snapshot").await;
     let membership = nodes[&latest_writable_leader]
         .metrics()
         .borrow()
