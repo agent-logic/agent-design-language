@@ -3,7 +3,7 @@
   "fallback": "disabled",
   "portable_request_sha256": "5fcc658220931561b70a1727436cd1a96c1e1dc316c1603f40fc43235116b525",
   "provider_attempts": 1,
-  "qualification_proof_sha256": "0dff0fcb26ec8b5b4a1d8743628ef3080a6dac2aa98a5003ea3d8f825d8b0b4e",
+  "qualification_proof_sha256": "e1e97c3adf621c8ec3686695fe6ef27600bd1e0e4b06f81deea2ef8ca0a52fef",
   "run_id": "issue268-six-hour-r7i-20260821-72",
   "schema": "adl.issue268.successful_run_disposition.v1",
   "status": "terminal_pass",
