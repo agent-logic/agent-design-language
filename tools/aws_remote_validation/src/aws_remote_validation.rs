@@ -9,6 +9,7 @@ use aws_sdk_iam as iam;
 use aws_sdk_servicequotas as servicequotas;
 use aws_sdk_ssm as ssm;
 use aws_sdk_sts as sts;
+use base64::Engine;
 use chrono::{DateTime, Datelike, Duration as ChronoDuration, Timelike, Utc};
 use ip_network::IpNetwork;
 use once_cell::sync::Lazy;
@@ -41,6 +42,7 @@ const SPOT_QUOTA_NAME: &str = "All Standard (A, C, D, H, I, M, R, T, Z) Spot Ins
 const ON_DEMAND_QUOTA_NAME: &str =
     "Running On-Demand Standard (A, C, D, H, I, M, R, T, Z) instances";
 const CACHE_ROLE_POLICY_NAME: &str = "AdlAwsRemoteValidationCacheAccess";
+const ISSUE268_BOOTSTRAP_ROLE_POLICY_NAME: &str = "AdlIssue268BootstrapRead";
 const BUILDER_IMAGE_ECR_ROLE_POLICY_NAME: &str = "AdlAwsRemoteValidationBuilderImageEcrRead";
 
 static LIVE_EVENT_LOG_PATH: Lazy<Mutex<Option<PathBuf>>> = Lazy::new(|| Mutex::new(None));
@@ -122,6 +124,10 @@ pub struct AwsRemoteValidationConfig {
     pub cache_volume_throughput_mbps: Option<i32>,
     pub cache_volume_device_name: Option<String>,
     pub cache_volume_mount_path: Option<String>,
+    pub existing_instance_id: Option<String>,
+    pub pre_mounted_runtime_volume_id: Option<String>,
+    pub pre_mounted_runtime_root: Option<String>,
+    pub pre_mounted_runtime_volume_id_sha256: Option<String>,
     pub command: String,
     pub out_path: PathBuf,
     pub artifact_dir: PathBuf,
@@ -130,6 +136,7 @@ pub struct AwsRemoteValidationConfig {
     pub security_group_id: String,
     pub instance_profile_name: String,
     pub instance_types: Vec<String>,
+    pub on_demand_only: bool,
     pub allow_on_demand_fallback: bool,
     pub budget_name: Option<String>,
     pub expected_max_cost_usd: Option<f64>,
@@ -189,8 +196,13 @@ impl AwsRemoteValidationConfig {
                 ));
             }
         }
-        if self.command_timeout_seconds == Some(0) {
-            return Err(anyhow!("command timeout must be greater than zero"));
+        if self
+            .command_timeout_seconds
+            .is_some_and(|value| !(30..=2_592_000).contains(&value))
+        {
+            return Err(anyhow!(
+                "command timeout must be within the SSM API range 30..=2592000 seconds"
+            ));
         }
         let cache_volume_enabled = self.cache_volume_id.is_some()
             || self.cache_volume_name.is_some()
@@ -211,6 +223,39 @@ impl AwsRemoteValidationConfig {
             return Err(anyhow!(
                 "cache_volume_name is required when cache-volume options are set"
             ));
+        }
+        let adoption_enabled = self.existing_instance_id.is_some()
+            || self.pre_mounted_runtime_volume_id.is_some()
+            || self.pre_mounted_runtime_root.is_some()
+            || self.pre_mounted_runtime_volume_id_sha256.is_some();
+        if adoption_enabled {
+            let instance_id = self.existing_instance_id.as_deref().unwrap_or("");
+            let volume_id = self.pre_mounted_runtime_volume_id.as_deref().unwrap_or("");
+            let root = self.pre_mounted_runtime_root.as_deref().unwrap_or("");
+            let digest = self
+                .pre_mounted_runtime_volume_id_sha256
+                .as_deref()
+                .unwrap_or("");
+            if self.issue != Some(268)
+                || !self.on_demand_only
+                || self.allow_on_demand_fallback
+                || self.instance_types.len() != 1
+                || instance_id.is_empty()
+                || volume_id.is_empty()
+                || root != "/opt/adl-runtime"
+                || digest.len() != 64
+                || !digest.bytes().all(|byte| byte.is_ascii_hexdigit())
+                || sha256_hex(volume_id) != digest
+            {
+                return Err(anyhow!(
+                    "existing-instance adoption requires issue 268, one on-demand-only instance type, and exact /opt/adl-runtime volume identity"
+                ));
+            }
+            if cache_volume_enabled {
+                return Err(anyhow!(
+                    "existing-instance adoption cannot use cache-volume attachment options"
+                ));
+            }
         }
         if self.ami_id.trim().is_empty()
             || self.subnet_id.trim().is_empty()
@@ -558,24 +603,49 @@ fn remote_summary_reports_valid_interruption(summary: &RemoteCommandSummary) -> 
 }
 
 fn remote_resilience_policy(config: &AwsRemoteValidationConfig) -> AwsRemoteResiliencePolicyRecord {
-    AwsRemoteResiliencePolicyRecord {
-        policy_id: "adl.aws_remote_validation.resilience.v1".to_string(),
-        max_launch_attempts: (config.instance_types.len() as u32).saturating_mul(2),
-        spot_fallback_enabled: true,
-        cleanup_required: true,
-        cost_evidence_required: true,
-        retryable_classes: vec![
+    let retryable_classes = if config.issue == Some(268) {
+        Vec::new()
+    } else {
+        vec![
             AwsRemoteResilienceFaultClass::CapacityUnavailable,
             AwsRemoteResilienceFaultClass::TransientNetwork,
             AwsRemoteResilienceFaultClass::SsmUnavailable,
             AwsRemoteResilienceFaultClass::Unknown,
-        ],
+        ]
+    };
+    AwsRemoteResiliencePolicyRecord {
+        policy_id: "adl.aws_remote_validation.resilience.v1".to_string(),
+        max_launch_attempts: (config.instance_types.len() as u32).saturating_mul(
+            if config.allow_on_demand_fallback && !config.on_demand_only {
+                2
+            } else {
+                1
+            },
+        ),
+        spot_fallback_enabled: config.allow_on_demand_fallback && !config.on_demand_only,
+        cleanup_required: true,
+        cost_evidence_required: true,
+        retryable_classes,
         operator_gated_classes: vec![
             AwsRemoteResilienceFaultClass::QuotaBlocked,
             AwsRemoteResilienceFaultClass::AuthPermissionFailure,
             AwsRemoteResilienceFaultClass::CleanupPartialFailure,
         ],
     }
+}
+
+fn issue268_bootstrap_policy(config: &AwsRemoteValidationConfig) -> Option<String> {
+    (config.issue == Some(268)).then(|| {
+        r#"{
+  "Version": "2012-10-17",
+  "Statement": [{
+    "Effect": "Allow",
+    "Action": ["s3:GetObject", "s3:GetObjectVersion"],
+    "Resource": "arn:aws:s3:::adl-shepherd-model-artifacts-b05e1f4379b5c745-us-west-2/shepherd/*"
+  }]
+}"#
+        .to_string()
+    })
 }
 
 fn classify_aws_remote_failure(
@@ -619,8 +689,9 @@ fn classify_aws_remote_failure(
         evidence_refs.push("remote_summary".to_string());
     }
 
-    let (fault_class, disposition, retryable, operator_action, summary) = if !cleanup_complete {
-        (
+    let (fault_class, mut disposition, mut retryable, mut operator_action, mut summary) =
+        if !cleanup_complete {
+            (
             AwsRemoteResilienceFaultClass::CleanupPartialFailure,
             AwsRemoteResilienceDisposition::CleanupReviewRequired,
             false,
@@ -631,108 +702,127 @@ fn classify_aws_remote_failure(
             "cleanup did not reach a complete terminated state; resource state is recorded for review"
                 .to_string(),
         )
-    } else if matches!(
-        status,
-        RemoteRunStatus::Passed | RemoteRunStatus::ResumedAfterInterruption
-    ) {
-        (
-            AwsRemoteResilienceFaultClass::None,
-            AwsRemoteResilienceDisposition::Succeeded,
-            false,
-            None,
-            "remote validation completed and cleanup evidence was recorded".to_string(),
-        )
-    } else if matches!(status, RemoteRunStatus::InterruptedByAws) {
-        (
-            AwsRemoteResilienceFaultClass::SpotInterrupted,
-            AwsRemoteResilienceDisposition::Interrupted,
-            true,
-            None,
-            "AWS Spot interruption was classified separately from implementation failure"
+        } else if matches!(
+            status,
+            RemoteRunStatus::Passed | RemoteRunStatus::ResumedAfterInterruption
+        ) {
+            (
+                AwsRemoteResilienceFaultClass::None,
+                AwsRemoteResilienceDisposition::Succeeded,
+                false,
+                None,
+                "remote validation completed and cleanup evidence was recorded".to_string(),
+            )
+        } else if matches!(status, RemoteRunStatus::InterruptedByAws) {
+            (
+                AwsRemoteResilienceFaultClass::SpotInterrupted,
+                AwsRemoteResilienceDisposition::Interrupted,
+                true,
+                None,
+                "AWS Spot interruption was classified separately from implementation failure"
+                    .to_string(),
+            )
+        } else if failure_text.contains("maxspotinstancecountexceeded")
+            || failure_text.contains("vcpu limit")
+            || failure_text.contains("vCPU limit")
+            || failure_text.contains("quota")
+            || failure_text.contains("limitexceeded")
+        {
+            (
+                AwsRemoteResilienceFaultClass::QuotaBlocked,
+                AwsRemoteResilienceDisposition::OperatorActionRequired,
+                false,
+                Some(
+                    "request quota or choose a smaller validation shape before retrying"
+                        .to_string(),
+                ),
+                "AWS quota or account limit blocked the remote-builder attempt".to_string(),
+            )
+        } else if failure_text.contains("insufficientinstancecapacity")
+            || failure_text.contains("unfulfillablecapacity")
+            || failure_text.contains("spotmaxpricetoolow")
+            || failure_text.contains("capacity")
+        {
+            (
+                AwsRemoteResilienceFaultClass::CapacityUnavailable,
+                AwsRemoteResilienceDisposition::Retryable,
+                true,
+                None,
+                "AWS capacity was unavailable; retry may use fallback or a different instance type"
+                    .to_string(),
+            )
+        } else if failure_text.contains("unauthorized")
+            || failure_text.contains("accessdenied")
+            || failure_text.contains("auth")
+            || failure_text.contains("permission")
+            || failure_text.contains("not authorized")
+        {
+            (
+                AwsRemoteResilienceFaultClass::AuthPermissionFailure,
+                AwsRemoteResilienceDisposition::OperatorActionRequired,
+                false,
+                Some(
+                    "fix Agent Logic AWS permissions or account binding before retrying"
+                        .to_string(),
+                ),
+                "AWS authentication or permission failure requires operator action".to_string(),
+            )
+        } else if failure_text.contains("ssm") {
+            (
+                AwsRemoteResilienceFaultClass::SsmUnavailable,
+                AwsRemoteResilienceDisposition::Retryable,
+                true,
+                None,
+                "SSM readiness or command dispatch failed and is classified separately".to_string(),
+            )
+        } else if failure_text.contains("timeout")
+            || failure_text.contains("timed out")
+            || failure_text.contains("network")
+            || failure_text.contains("connection")
+            || failure_text.contains("temporar")
+        {
+            (
+                AwsRemoteResilienceFaultClass::TransientNetwork,
+                AwsRemoteResilienceDisposition::Retryable,
+                true,
+                None,
+                "transient network or timeout failure is retryable within the bounded policy"
+                    .to_string(),
+            )
+        } else if remote_summary.is_some() {
+            (
+                AwsRemoteResilienceFaultClass::RemoteCommandFailure,
+                AwsRemoteResilienceDisposition::Terminal,
+                false,
+                Some("inspect remote command stdout/stderr artifacts before retrying".to_string()),
+                "remote command failed after infrastructure setup succeeded".to_string(),
+            )
+        } else {
+            (
+                AwsRemoteResilienceFaultClass::Unknown,
+                AwsRemoteResilienceDisposition::Retryable,
+                true,
+                None,
+                "remote-builder failure was recorded but did not match a narrower class"
+                    .to_string(),
+            )
+        };
+
+    let policy = remote_resilience_policy(config);
+    if config.issue == Some(268) && retryable && !policy.retryable_classes.contains(&fault_class) {
+        retryable = false;
+        disposition = AwsRemoteResilienceDisposition::Terminal;
+        operator_action = Some(
+            "obtain fresh operator authorization before any additional provider attempt"
                 .to_string(),
-        )
-    } else if failure_text.contains("maxspotinstancecountexceeded")
-        || failure_text.contains("vcpu limit")
-        || failure_text.contains("vCPU limit")
-        || failure_text.contains("quota")
-        || failure_text.contains("limitexceeded")
-    {
-        (
-            AwsRemoteResilienceFaultClass::QuotaBlocked,
-            AwsRemoteResilienceDisposition::OperatorActionRequired,
-            false,
-            Some("request quota or choose a smaller validation shape before retrying".to_string()),
-            "AWS quota or account limit blocked the remote-builder attempt".to_string(),
-        )
-    } else if failure_text.contains("insufficientinstancecapacity")
-        || failure_text.contains("unfulfillablecapacity")
-        || failure_text.contains("spotmaxpricetoolow")
-        || failure_text.contains("capacity")
-    {
-        (
-            AwsRemoteResilienceFaultClass::CapacityUnavailable,
-            AwsRemoteResilienceDisposition::Retryable,
-            true,
-            None,
-            "AWS capacity was unavailable; retry may use fallback or a different instance type"
-                .to_string(),
-        )
-    } else if failure_text.contains("unauthorized")
-        || failure_text.contains("accessdenied")
-        || failure_text.contains("auth")
-        || failure_text.contains("permission")
-        || failure_text.contains("not authorized")
-    {
-        (
-            AwsRemoteResilienceFaultClass::AuthPermissionFailure,
-            AwsRemoteResilienceDisposition::OperatorActionRequired,
-            false,
-            Some("fix Agent Logic AWS permissions or account binding before retrying".to_string()),
-            "AWS authentication or permission failure requires operator action".to_string(),
-        )
-    } else if failure_text.contains("ssm") {
-        (
-            AwsRemoteResilienceFaultClass::SsmUnavailable,
-            AwsRemoteResilienceDisposition::Retryable,
-            true,
-            None,
-            "SSM readiness or command dispatch failed and is classified separately".to_string(),
-        )
-    } else if failure_text.contains("timeout")
-        || failure_text.contains("timed out")
-        || failure_text.contains("network")
-        || failure_text.contains("connection")
-        || failure_text.contains("temporar")
-    {
-        (
-            AwsRemoteResilienceFaultClass::TransientNetwork,
-            AwsRemoteResilienceDisposition::Retryable,
-            true,
-            None,
-            "transient network or timeout failure is retryable within the bounded policy"
-                .to_string(),
-        )
-    } else if remote_summary.is_some() {
-        (
-            AwsRemoteResilienceFaultClass::RemoteCommandFailure,
-            AwsRemoteResilienceDisposition::Terminal,
-            false,
-            Some("inspect remote command stdout/stderr artifacts before retrying".to_string()),
-            "remote command failed after infrastructure setup succeeded".to_string(),
-        )
-    } else {
-        (
-            AwsRemoteResilienceFaultClass::Unknown,
-            AwsRemoteResilienceDisposition::Retryable,
-            true,
-            None,
-            "remote-builder failure was recorded but did not match a narrower class".to_string(),
-        )
-    };
+        );
+        summary =
+            "failure is terminal under the issue 268 single-attempt authorization".to_string();
+    }
 
     AwsRemoteResilienceRecord {
         schema_version: "adl.aws_remote_validation.resilience.v1".to_string(),
-        policy: remote_resilience_policy(config),
+        policy,
         fault_class,
         disposition,
         retryable,
@@ -764,6 +854,7 @@ pub struct LaunchSpec {
     pub instance_profile_name: String,
     pub ssh_key_name: Option<String>,
     pub cache_volume: Option<CacheVolumeRequest>,
+    pub user_data: Option<String>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -771,6 +862,15 @@ pub struct LaunchResult {
     pub instance_id: String,
     pub initial_state: String,
     pub cache_volume: Option<CacheVolumeRecord>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct AdoptInstanceSpec {
+    pub instance_id: String,
+    pub run_id: String,
+    pub issue: u32,
+    pub instance_type: String,
+    pub runtime_volume_id: String,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -812,6 +912,10 @@ pub trait AwsRemoteValidationAdapter {
     async fn launch_instance(
         &self,
         spec: &LaunchSpec,
+    ) -> std::result::Result<LaunchResult, AwsAdapterError>;
+    async fn adopt_instance(
+        &self,
+        spec: &AdoptInstanceSpec,
     ) -> std::result::Result<LaunchResult, AwsAdapterError>;
     async fn wait_for_ssm_online(
         &self,
@@ -991,7 +1095,85 @@ pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
     let mut instance_id: Option<String> = None;
     let mut cache_volume: Option<CacheVolumeRecord> = None;
     let launch_timer = Instant::now();
-    'launch: for instance_type in &config.instance_types {
+    if let Some(existing_instance_id) = config.existing_instance_id.as_deref() {
+        let instance_type = config.instance_types[0].clone();
+        let adoption = AdoptInstanceSpec {
+            instance_id: existing_instance_id.to_string(),
+            run_id: config.run_id.clone(),
+            issue: config.issue.unwrap_or_default(),
+            instance_type: instance_type.clone(),
+            runtime_volume_id: config
+                .pre_mounted_runtime_volume_id
+                .clone()
+                .unwrap_or_default(),
+        };
+        record_event(
+            &mut events,
+            "launch_attempt",
+            "started",
+            format!("instance_type={instance_type} market=on_demand source=cloudformation"),
+        );
+        match adapter.adopt_instance(&adoption).await {
+            Ok(result) => {
+                let launched_at = Utc::now();
+                launch = Some(LaunchRecord {
+                    purchase_option: PurchaseOption::OnDemand,
+                    instance_type: instance_type.clone(),
+                    instance_id: result.instance_id.clone(),
+                    instance_id_sha256: sha256_hex(&result.instance_id),
+                    launched_at: launched_at.to_rfc3339(),
+                    initial_state: result.initial_state,
+                });
+                instance_id = Some(result.instance_id);
+                cache_volume = Some(CacheVolumeRecord {
+                    name: "cloudformation-retained-runtime".to_string(),
+                    volume_id: config
+                        .pre_mounted_runtime_volume_id
+                        .clone()
+                        .unwrap_or_default(),
+                    // Shape and placement remain CloudFormation authority; this
+                    // record binds only the adopted attachment and mount role.
+                    availability_zone: "cloudformation-managed".to_string(),
+                    size_gib: 0,
+                    volume_type: "cloudformation-managed".to_string(),
+                    iops: None,
+                    throughput_mbps: None,
+                    device_name: "cloudformation-managed".to_string(),
+                    mount_path: config.pre_mounted_runtime_root.clone().unwrap_or_default(),
+                    created: false,
+                    attachment_state: "attached".to_string(),
+                });
+                attempts.push(AttemptRecord {
+                    instance_type,
+                    purchase_option: PurchaseOption::OnDemand,
+                    status: "launched".to_string(),
+                    message: "adopted verified CloudFormation instance".to_string(),
+                });
+                record_event(
+                    &mut events,
+                    "launch_attempt",
+                    "ok",
+                    "verified existing CloudFormation On-Demand instance".to_string(),
+                );
+            }
+            Err(err) => {
+                attempts.push(AttemptRecord {
+                    instance_type,
+                    purchase_option: PurchaseOption::OnDemand,
+                    status: "failed".to_string(),
+                    message: err.to_string(),
+                });
+                failure_reason = Some(format!("existing instance adoption failed: {err}"));
+                record_event(&mut events, "launch_attempt", "failed", err.to_string());
+            }
+        }
+    }
+    let provider_instance_types: &[String] = if config.existing_instance_id.is_some() {
+        &[]
+    } else {
+        &config.instance_types
+    };
+    'launch: for instance_type in provider_instance_types {
         if cancellation_requested() {
             failure_reason = Some("portable cancellation requested before launch".to_string());
             record_event(
@@ -1015,29 +1197,38 @@ pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
             );
             break 'launch;
         }
+        let primary_purchase_option = if config.on_demand_only {
+            PurchaseOption::OnDemand
+        } else {
+            PurchaseOption::Spot
+        };
         let spot_spec = LaunchSpec {
             run_id: config.run_id.clone(),
             instance_type: instance_type.clone(),
-            purchase_option: PurchaseOption::Spot,
+            purchase_option: primary_purchase_option.clone(),
             ami_id: config.ami_id.clone(),
             subnet_id: config.subnet_id.clone(),
             security_group_id: config.security_group_id.clone(),
             instance_profile_name: config.instance_profile_name.clone(),
             ssh_key_name: config.ssh_key_name.clone(),
             cache_volume: cache_volume_request.clone(),
+            user_data: issue268_user_data(&config.command),
         };
         record_event(
             &mut events,
             "launch_attempt",
             "started",
-            format!("instance_type={} market=spot", instance_type),
+            format!(
+                "instance_type={} market={}",
+                instance_type, primary_purchase_option
+            ),
         );
         match adapter.launch_instance(&spot_spec).await {
             Ok(result) => {
                 let launched_at = Utc::now();
                 let hashed = sha256_hex(&result.instance_id);
                 launch = Some(LaunchRecord {
-                    purchase_option: PurchaseOption::Spot,
+                    purchase_option: primary_purchase_option.clone(),
                     instance_type: instance_type.clone(),
                     instance_id: result.instance_id.clone(),
                     instance_id_sha256: hashed,
@@ -1048,15 +1239,18 @@ pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
                 cache_volume = result.cache_volume;
                 attempts.push(AttemptRecord {
                     instance_type: instance_type.clone(),
-                    purchase_option: PurchaseOption::Spot,
+                    purchase_option: primary_purchase_option.clone(),
                     status: "launched".to_string(),
-                    message: "spot launch succeeded".to_string(),
+                    message: format!("{} launch succeeded", primary_purchase_option),
                 });
                 record_event(
                     &mut events,
                     "launch_attempt",
                     "ok",
-                    format!("instance_type={} market=spot launched", instance_type),
+                    format!(
+                        "instance_type={} market={} launched",
+                        instance_type, primary_purchase_option
+                    ),
                 );
                 if cancellation_requested() {
                     failure_reason =
@@ -1084,7 +1278,7 @@ pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
             Err(err) => {
                 attempts.push(AttemptRecord {
                     instance_type: instance_type.clone(),
-                    purchase_option: PurchaseOption::Spot,
+                    purchase_option: primary_purchase_option.clone(),
                     status: "failed".to_string(),
                     message: err.to_string(),
                 });
@@ -1093,20 +1287,21 @@ pub async fn run_aws_remote_validation<A: AwsRemoteValidationAdapter>(
                     "launch_attempt",
                     "warn",
                     format!(
-                        "instance_type={} market=spot failed: {}",
-                        instance_type, err
+                        "instance_type={} market={} failed: {}",
+                        instance_type, primary_purchase_option, err
                     ),
                 );
-                if !err.spot_fallback_permitted {
+                if config.on_demand_only || !err.spot_fallback_permitted {
                     failure_reason = Some(format!(
-                        "spot launch failed without permitted fallback: {err}"
+                        "{} launch failed without permitted fallback: {err}",
+                        primary_purchase_option
                     ));
                     break 'launch;
                 }
             }
         }
 
-        if !config.allow_on_demand_fallback {
+        if config.on_demand_only || !config.allow_on_demand_fallback {
             continue 'launch;
         }
         let on_demand_spec = LaunchSpec {
@@ -1937,6 +2132,26 @@ fn start_of_month(now: DateTime<Utc>) -> DateTime<Utc> {
         .unwrap_or(now)
 }
 
+fn issue268_user_data(command: &str) -> Option<String> {
+    if !command.contains("'bash' 'adl/tools/run_issue268_remote_resident_qualification.sh'")
+        && command != "bash adl/tools/run_issue268_remote_resident_qualification.sh"
+    {
+        return None;
+    }
+    let script = r#"#!/bin/bash
+set -euo pipefail
+install -d -m 0755 /var/lib/adl
+exec > >(tee -a /var/log/adl-issue268-bootstrap.log) 2>&1
+trap 'status=$?; printf "bootstrap_failed exit=%s\n" "$status"; touch /var/lib/adl/issue268-bootstrap-failed; exit "$status"' ERR
+dnf install -y gcc gcc-c++ make pkgconf-pkg-config openssl-devel rust cargo python3 awscli-2 git tar zstd jq
+for command in cc cargo rustc python3 aws git tar zstd curl jq openssl; do
+  command -v "$command" >/dev/null
+done
+touch /var/lib/adl/issue268-bootstrap-ready
+"#;
+    Some(base64::engine::general_purpose::STANDARD.encode(script))
+}
+
 fn build_remote_command_script(config: &AwsRemoteValidationConfig) -> String {
     let escaped_command = shell_single_quote(&config.command);
     let escaped_repo_url = shell_single_quote(&config.repo_url);
@@ -1975,12 +2190,37 @@ fn build_remote_command_script(config: &AwsRemoteValidationConfig) -> String {
     } else {
         "0"
     };
-    let retained_volume_role =
-        if config.cache_volume_mount_path.as_deref() == Some("/mnt/adl-runtime-continuity") {
-            "runtime_continuity"
-        } else {
-            "build_cache"
-        };
+    let pre_mounted_runtime = config.existing_instance_id.is_some();
+    let retained_volume_role = if pre_mounted_runtime
+        || config.cache_volume_mount_path.as_deref() == Some("/mnt/adl-runtime-continuity")
+    {
+        "runtime_continuity"
+    } else {
+        "build_cache"
+    };
+    let retained_volume_id_sha256 = config
+        .pre_mounted_runtime_volume_id_sha256
+        .clone()
+        .or_else(|| config.cache_volume_id.as_deref().map(sha256_hex))
+        .unwrap_or_default();
+    let runtime_continuity_root = shell_single_quote(
+        config
+            .pre_mounted_runtime_root
+            .as_deref()
+            .map(|root| format!("{root}/runtime"))
+            .as_deref()
+            .unwrap_or(""),
+    );
+    let build_cache_root = shell_single_quote(if pre_mounted_runtime {
+        "/opt/adl-build-cache"
+    } else {
+        ""
+    });
+    let issue268_runtime_qualification = if issue268_user_data(&config.command).is_some() {
+        "1"
+    } else {
+        "0"
+    };
     format!(
         r#"set -euo pipefail
 RUN_ROOT={run_root}
@@ -2039,8 +2279,12 @@ export ADL_CACHE_VOLUME_ENABLED="{cache_volume_enabled}"
 export ADL_CACHE_VOLUME_DEVICE_NAME={cache_volume_device_name}
 export ADL_CACHE_VOLUME_MOUNT_PATH={cache_volume_mount_path}
 export ADL_RETAINED_VOLUME_ROLE={retained_volume_role}
+export ADL_RUNTIME_CONTINUITY_VOLUME_ID_SHA256={retained_volume_id_sha256}
+export ADL_RUNTIME_CONTINUITY_ROOT={runtime_continuity_root}
+export ADL_ISSUE268_BUILD_CACHE_ROOT={build_cache_root}
 export ADL_NEEDS_NEXTEST="{needs_nextest}"
 export ADL_REGION={region}
+export ADL_ISSUE268_RUNTIME_QUALIFICATION="{issue268_runtime_qualification}"
 
 CURRENT_STAGE="tracked_remote_runner"
 log_progress "stage=tracked_remote_runner"
@@ -2058,9 +2302,13 @@ bash "$CHECKOUT_DIR/tools/aws_remote_validation/scripts/remote_validation_runner
         cache_volume_device_name = escaped_cache_volume_device_name,
         cache_volume_mount_path = escaped_cache_volume_mount_path,
         retained_volume_role = shell_single_quote(retained_volume_role),
+        retained_volume_id_sha256 = shell_single_quote(&retained_volume_id_sha256),
+        runtime_continuity_root = runtime_continuity_root,
+        build_cache_root = build_cache_root,
         needs_nextest = needs_nextest,
         command = escaped_command,
         region = shell_single_quote(&config.region),
+        issue268_runtime_qualification = issue268_runtime_qualification,
     )
 }
 
@@ -2620,6 +2868,58 @@ impl LiveAwsRemoteValidationAdapter {
         &self,
         config: &AwsRemoteValidationConfig,
     ) -> Result<PreparedLaunchSurface> {
+        if let Some(instance_id) = config.existing_instance_id.as_deref() {
+            let response = self
+                .ec2
+                .describe_instances()
+                .instance_ids(instance_id)
+                .send()
+                .await?;
+            let instance = response
+                .reservations()
+                .iter()
+                .flat_map(|reservation| reservation.instances())
+                .next()
+                .ok_or_else(|| anyhow!("existing CloudFormation instance was not found"))?;
+            let instance_profile_name = instance
+                .iam_instance_profile()
+                .and_then(|profile| profile.arn())
+                .and_then(|arn| arn.rsplit('/').next())
+                .unwrap_or_default()
+                .to_string();
+            return Ok(PreparedLaunchSurface {
+                record: LaunchSurfaceRecord {
+                    provisioning_mode: "cloudformation_existing_instance".to_string(),
+                    ami_id: instance.image_id().unwrap_or_default().to_string(),
+                    ami_source: "cloudformation_stack".to_string(),
+                    vpc_id: instance.vpc_id().unwrap_or_default().to_string(),
+                    subnet_id: instance.subnet_id().unwrap_or_default().to_string(),
+                    availability_zone: instance
+                        .placement()
+                        .and_then(|placement| placement.availability_zone())
+                        .map(ToOwned::to_owned),
+                    security_group_id: instance
+                        .security_groups()
+                        .first()
+                        .and_then(|group| group.group_id())
+                        .unwrap_or_default()
+                        .to_string(),
+                    security_group_name: None,
+                    security_group_created: false,
+                    instance_profile_name,
+                    role_name: None,
+                    instance_profile_created: false,
+                    ssh_debug_enabled: false,
+                    ssh_allowed_cidr: None,
+                    notes: vec![
+                        "Adopted an issue-bound CloudFormation launch surface; no secondary AWS surface was created"
+                            .to_string(),
+                    ],
+                },
+                created_role_name: None,
+                created_instance_profile_name: None,
+            });
+        }
         let (vpc_id, subnet_id, availability_zone, mut notes) =
             self.resolve_vpc_and_subnet(config).await?;
         let ami_id = if config.ami_id.trim().is_empty() {
@@ -2769,6 +3069,13 @@ impl LiveAwsRemoteValidationAdapter {
                 .delete_role_policy()
                 .role_name(role_name)
                 .policy_name(CACHE_ROLE_POLICY_NAME)
+                .send()
+                .await;
+            let _ = self
+                .iam
+                .delete_role_policy()
+                .role_name(role_name)
+                .policy_name(ISSUE268_BOOTSTRAP_ROLE_POLICY_NAME)
                 .send()
                 .await;
             let _ = self
@@ -3099,6 +3406,15 @@ impl LiveAwsRemoteValidationAdapter {
                 .send()
                 .await?;
         }
+        if let Some(policy_document) = issue268_bootstrap_policy(config) {
+            self.iam
+                .put_role_policy()
+                .role_name(role_name)
+                .policy_name(ISSUE268_BOOTSTRAP_ROLE_POLICY_NAME)
+                .policy_document(policy_document)
+                .send()
+                .await?;
+        }
         let account_id = self
             .sts
             .get_caller_identity()
@@ -3255,6 +3571,9 @@ impl AwsRemoteValidationAdapter for LiveAwsRemoteValidationAdapter {
         if let Some(key_name) = spec.ssh_key_name.as_deref() {
             builder = builder.key_name(key_name);
         }
+        if let Some(user_data) = spec.user_data.as_deref() {
+            builder = builder.user_data(user_data);
+        }
         if spec.purchase_option == PurchaseOption::Spot {
             builder = builder.instance_market_options(
                 ec2::types::InstanceMarketOptionsRequest::builder()
@@ -3370,6 +3689,78 @@ impl AwsRemoteValidationAdapter for LiveAwsRemoteValidationAdapter {
         })
     }
 
+    async fn adopt_instance(
+        &self,
+        spec: &AdoptInstanceSpec,
+    ) -> std::result::Result<LaunchResult, AwsAdapterError> {
+        let fail = |message: String| AwsAdapterError {
+            code: Some("ExistingInstanceMismatch".to_string()),
+            message,
+            spot_fallback_permitted: false,
+        };
+        let response = self
+            .ec2
+            .describe_instances()
+            .instance_ids(&spec.instance_id)
+            .send()
+            .await
+            .map_err(|err| fail(format!("describe existing instance failed: {err}")))?;
+        let instance = response
+            .reservations()
+            .iter()
+            .flat_map(|reservation| reservation.instances())
+            .next()
+            .ok_or_else(|| fail("existing instance was not found".to_string()))?;
+        let actual_type = instance
+            .instance_type()
+            .map(|value| value.as_str())
+            .unwrap_or_default();
+        if actual_type != spec.instance_type {
+            return Err(fail(format!(
+                "existing instance type mismatch: expected {} got {}",
+                spec.instance_type, actual_type
+            )));
+        }
+        let state = instance
+            .state()
+            .and_then(|value| value.name())
+            .map(|value| value.as_str().to_string())
+            .unwrap_or_else(|| "unknown".to_string());
+        if !matches!(state.as_str(), "pending" | "running") {
+            return Err(fail(format!("existing instance state is {state}")));
+        }
+        if instance.spot_instance_request_id().is_some() {
+            return Err(fail("existing instance is Spot, not On-Demand".to_string()));
+        }
+        let tag = |key: &str| {
+            instance
+                .tags()
+                .iter()
+                .find(|tag| tag.key() == Some(key))
+                .and_then(|tag| tag.value())
+        };
+        let expected_issue = spec.issue.to_string();
+        if tag("adl:issue") != Some(expected_issue.as_str()) {
+            return Err(fail("existing instance issue tag mismatch".to_string()));
+        }
+        if tag("adl:run_id") != Some(spec.run_id.as_str()) {
+            return Err(fail("existing instance run-id tag mismatch".to_string()));
+        }
+        let attached = instance.block_device_mappings().iter().any(|mapping| {
+            mapping.ebs().and_then(|ebs| ebs.volume_id()) == Some(spec.runtime_volume_id.as_str())
+        });
+        if !attached {
+            return Err(fail(
+                "pre-mounted Runtime volume is not attached".to_string(),
+            ));
+        }
+        Ok(LaunchResult {
+            instance_id: spec.instance_id.clone(),
+            initial_state: state,
+            cache_volume: None,
+        })
+    }
+
     async fn wait_for_ssm_online(
         &self,
         instance_id: &str,
@@ -3469,10 +3860,13 @@ impl AwsRemoteValidationAdapter for LiveAwsRemoteValidationAdapter {
         } else {
             None
         };
+        let ssm_timeout_seconds = ssm_command_timeout_seconds(timeout)?;
+        let ssm_execution_timeout_seconds = ssm_timeout_seconds.to_string();
         let output = self
             .ssm
             .send_command()
             .document_name("AWS-RunShellScript")
+            .timeout_seconds(ssm_timeout_seconds)
             .instance_ids(instance_id)
             .parameters(
                 "commands",
@@ -3481,6 +3875,7 @@ impl AwsRemoteValidationAdapter for LiveAwsRemoteValidationAdapter {
                     .map(|line| line.to_string())
                     .collect::<Vec<_>>(),
             )
+            .parameters("executionTimeout", vec![ssm_execution_timeout_seconds])
             .send()
             .await
             .map_err(classify_ssm_error)?;
@@ -3564,10 +3959,13 @@ impl AwsRemoteValidationAdapter for LiveAwsRemoteValidationAdapter {
                     invocation.response_code()
                 ),
             );
-            let terminal = matches!(
-                status.as_str(),
-                "Success" | "Cancelled" | "TimedOut" | "Failed" | "Cancelling"
-            );
+            let terminal = ssm_command_status_is_terminal(&status)
+                || invocation.status().is_some_and(|value| {
+                    matches!(
+                        value.as_str(),
+                        "Success" | "Cancelled" | "TimedOut" | "Failed" | "Cancelling"
+                    )
+                });
             if terminal {
                 if let Some(child) = ssh_tail_child.as_mut() {
                     let _ = child.start_kill();
@@ -3899,6 +4297,48 @@ fn classify_run_instances_error(
     }
 }
 
+fn ssm_command_timeout_seconds(
+    timeout: Option<Duration>,
+) -> std::result::Result<i32, AwsAdapterError> {
+    let seconds = timeout
+        .map(|value| value.as_secs())
+        .ok_or_else(|| AwsAdapterError {
+            code: Some("CommandTimeoutMissing".to_string()),
+            message: "SSM command timeout must be explicitly bound to the provider request"
+                .to_string(),
+            spot_fallback_permitted: false,
+        })?;
+    if !(30..=2_592_000).contains(&seconds) {
+        return Err(AwsAdapterError {
+            code: Some("CommandTimeoutInvalid".to_string()),
+            message: "SSM command timeout must be within 30..=2592000 seconds".to_string(),
+            spot_fallback_permitted: false,
+        });
+    }
+    Ok(seconds as i32)
+}
+
+fn ssm_command_status_is_terminal(status: &str) -> bool {
+    matches!(
+        status,
+        "Success"
+            | "Cancelled"
+            | "TimedOut"
+            | "Failed"
+            | "Cancelling"
+            | "DeliveryTimedOut"
+            | "ExecutionTimedOut"
+            | "Delivery Timed Out"
+            | "Execution Timed Out"
+            | "Undeliverable"
+            | "Terminated"
+            | "InvalidPlatform"
+            | "AccessDenied"
+            | "Invalid Platform"
+            | "Access Denied"
+    )
+}
+
 fn classify_ssm_error<E: fmt::Display>(err: E) -> AwsAdapterError {
     AwsAdapterError {
         code: Some("SsmError".to_string()),
@@ -4002,6 +4442,17 @@ mod tests {
                 .expect("launch results mutex")
                 .pop_front()
                 .expect("launch result")
+        }
+
+        async fn adopt_instance(
+            &self,
+            _spec: &AdoptInstanceSpec,
+        ) -> std::result::Result<LaunchResult, AwsAdapterError> {
+            self.launch_results
+                .lock()
+                .expect("launch results mutex")
+                .pop_front()
+                .expect("adoption result")
         }
 
         async fn wait_for_ssm_online(
@@ -4112,6 +4563,10 @@ mod tests {
             cache_volume_throughput_mbps: None,
             cache_volume_device_name: None,
             cache_volume_mount_path: None,
+            existing_instance_id: None,
+            pre_mounted_runtime_volume_id: None,
+            pre_mounted_runtime_root: None,
+            pre_mounted_runtime_volume_id_sha256: None,
             command:
                 "cargo test --manifest-path tools/aws_remote_validation/Cargo.toml --bin adl-aws-remote-validation -- --nocapture"
                     .to_string(),
@@ -4122,6 +4577,7 @@ mod tests {
             security_group_id: "sg-test".to_string(),
             instance_profile_name: "profile-test".to_string(),
             instance_types: vec!["c7i.large".to_string()],
+            on_demand_only: false,
             allow_on_demand_fallback: true,
             budget_name: Some("Agent Logic Monthly".to_string()),
             expected_max_cost_usd: Some(20.0),
@@ -4130,9 +4586,27 @@ mod tests {
             total_run_timeout_seconds: Some(60),
             poll_interval_seconds: 1,
             ssm_ready_timeout_seconds: 10,
-            command_timeout_seconds: Some(20),
+            command_timeout_seconds: Some(30),
             termination_timeout_seconds: 10,
         }
+    }
+
+    #[test]
+    fn ssm_command_timeout_is_explicitly_bound_to_full_provider_budget() {
+        assert_eq!(
+            ssm_command_timeout_seconds(Some(Duration::from_secs(25_200))).unwrap(),
+            25_200
+        );
+        assert!(ssm_command_timeout_seconds(None).is_err());
+        assert!(ssm_command_timeout_seconds(Some(Duration::from_secs(29))).is_err());
+        assert!(ssm_command_timeout_seconds(Some(Duration::from_secs(2_592_001))).is_err());
+    }
+
+    #[test]
+    fn ssm_execution_timeout_is_terminal() {
+        assert!(ssm_command_status_is_terminal("Execution Timed Out"));
+        assert!(ssm_command_status_is_terminal("Delivery Timed Out"));
+        assert!(!ssm_command_status_is_terminal("InProgress"));
     }
 
     fn cancellable_adapter() -> FakeAdapter {
@@ -4470,6 +4944,62 @@ mod tests {
             PurchaseOption::OnDemand
         );
         assert_eq!(summary.attempts[1].status, "launched");
+    }
+
+    #[tokio::test]
+    async fn remote_validation_launches_on_demand_without_a_spot_attempt() {
+        let tmp = std::env::temp_dir().join(format!(
+            "adl-aws-remote-validation-on-demand-{}",
+            std::process::id()
+        ));
+        let adapter = FakeAdapter {
+            quota: QuotaSnapshot {
+                spot_vcpu_quota: Some(0.0),
+                on_demand_vcpu_quota: Some(64.0),
+                notes: vec![],
+            },
+            identity: AwsAccountIdentity {
+                account_id: Some("123456789012".to_string()),
+                account_id_sha256: Some("hash".to_string()),
+                arn: None,
+                user_id: None,
+            },
+            launch_results: Mutex::new(VecDeque::from(vec![Ok(LaunchResult {
+                instance_id: "i-on-demand".to_string(),
+                initial_state: "pending".to_string(),
+                cache_volume: None,
+            })])),
+            ssm_ready: Ok(SsmReadyResult {
+                status: "Online".to_string(),
+            }),
+            command_result: Ok(CommandExecutionResult {
+                command_id: "cmd-on-demand".to_string(),
+                status: "Success".to_string(),
+                response_code: Some(0),
+                stdout: "ADL_AWS_REMOTE_SUMMARY_BEGIN\n{\"status\":\"passed\",\"bootstrap_seconds\":1,\"command_seconds\":2,\"interruption_detected\":false,\"interruption_notice\":null,\"resolved_commit\":\"abc\",\"rustc_version\":null,\"cargo_version\":null,\"sccache_version\":null,\"sccache_degraded\":false,\"sccache_degraded_reason\":null,\"sccache_stats\":null}\nADL_AWS_REMOTE_SUMMARY_END\n".to_string(),
+                stderr: String::new(),
+            }),
+            terminate_result: Ok(()),
+            final_state: Ok(Some("terminated".to_string())),
+            cost: None,
+            budget: None,
+        };
+        let mut config = sample_config(&tmp);
+        config.on_demand_only = true;
+        config.allow_on_demand_fallback = false;
+
+        let (summary, _) = run_aws_remote_validation(&adapter, &config)
+            .await
+            .expect("summary");
+
+        assert_eq!(summary.status, RemoteRunStatus::Passed);
+        assert_eq!(summary.attempts.len(), 1);
+        assert_eq!(
+            summary.attempts[0].purchase_option,
+            PurchaseOption::OnDemand
+        );
+        assert_eq!(summary.resilience.policy.max_launch_attempts, 1);
+        assert!(!summary.resilience.policy.spot_fallback_enabled);
     }
 
     #[tokio::test]
@@ -4812,14 +5342,140 @@ mod tests {
 
         let tracked_runner = include_str!("../scripts/remote_validation_runner.sh");
         assert!(tracked_runner.contains(
-            "if [ \"$CONTAINERIZED_VALIDATION\" = \"0\" ] && [ \"$NEEDS_NEXTEST\" = \"1\" ]"
+            "if [ \"$CONTAINERIZED_VALIDATION\" = \"0\" ] && [ \"$ISSUE268_RUNTIME_QUALIFICATION\" = \"0\" ] && [ \"$NEEDS_NEXTEST\" = \"1\" ]"
         ));
+        assert!(tracked_runner.contains("amazon_linux_packages_and_pinned_runtime_components"));
+        assert!(tracked_runner.contains("cloud-init status --wait"));
+        assert!(tracked_runner.contains("issue268-bootstrap-ready"));
+        assert!(tracked_runner.contains("mountpoint -q /opt/adl-runtime"));
+        assert!(tracked_runner.contains("[ -d /opt/adl-runtime/runtime/install ]"));
+        assert!(tracked_runner.contains("for _ in $(seq 1 450); do"));
+        assert!(tracked_runner.contains("adl-issue268-runtime-volume.service"));
+        assert!(!tracked_runner.contains("touch /var/lib/adl/issue268-bootstrap-ready"));
+        assert!(!tracked_runner.contains("source=foreground_package_manager"));
+        assert!(tracked_runner.contains("source=user_data_ready"));
+        assert!(tracked_runner.contains("od -An -N32 -tx1 /dev/urandom"));
+        assert!(tracked_runner.contains("export ADL_ISSUE414_SIGNING_KEY_HEX"));
+        assert!(!tracked_runner.contains("printf '%s' \"$ADL_ISSUE414_SIGNING_KEY_HEX\""));
+        assert!(tracked_runner.contains("export ADL_CSM_CUSTODY_P256_SIGNING_PRIVATE_KEY_B64"));
+        assert!(tracked_runner.contains("export ADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64"));
+        assert!(tracked_runner.contains("export ADL_CSM_CUSTODY_SIGNING_KEY_ID"));
+        assert!(tracked_runner.contains("openssl genpkey -algorithm EC"));
         assert!(tracked_runner.contains("immutable_builder_image_only"));
         assert!(tracked_runner
             .contains("PERSISTENT_CHECKOUT=\"$TOOLCHAIN_ROOT/source/agent-design-language\""));
         assert!(
             tracked_runner.contains("if [ \"$CURRENT_PERSISTENT_COMMIT\" != \"$SOURCE_COMMIT\" ]")
         );
+    }
+
+    #[test]
+    fn issue268_bootstrap_uses_user_data_packages() {
+        let command = "cd -- '.' && env -i PATH=\"${PATH-}\" 'bash' 'adl/tools/run_issue268_remote_resident_qualification.sh'";
+        let encoded = issue268_user_data(command).expect("issue268 user data");
+        let decoded = base64::engine::general_purpose::STANDARD
+            .decode(encoded)
+            .expect("base64 user data");
+        let script = String::from_utf8(decoded).expect("utf8 user data");
+        assert!(script.contains("dnf install -y gcc gcc-c++ make"));
+        assert!(script.contains("rust cargo python3 awscli-2 git tar zstd jq"));
+        let install_line = script
+            .lines()
+            .find(|line| line.starts_with("dnf install"))
+            .expect("dnf install line");
+        assert!(!install_line.split_whitespace().any(|value| value == "curl"));
+        assert!(!script.contains("python3 awscli git"));
+        assert!(script.contains("adl-issue268-bootstrap.log"));
+        assert!(script.contains("issue268-bootstrap-failed"));
+        assert!(script.contains("command -v \"$command\""));
+        assert!(script.contains("issue268-bootstrap-ready"));
+        assert!(!script.contains("ruby"));
+        assert!(issue268_user_data("cargo test --locked").is_none());
+    }
+
+    #[test]
+    fn existing_instance_command_uses_pre_mounted_runtime_without_cache_attachment() {
+        let tmp = std::env::temp_dir().join("adl-existing-instance-command");
+        let mut config = sample_config(&tmp);
+        let volume_id = "vol-0123456789abcdef0";
+        config.issue = Some(268);
+        config.instance_types = vec!["r7i.2xlarge".to_string()];
+        config.on_demand_only = true;
+        config.allow_on_demand_fallback = false;
+        config.existing_instance_id = Some("i-0123456789abcdef0".to_string());
+        config.pre_mounted_runtime_volume_id = Some(volume_id.to_string());
+        config.pre_mounted_runtime_root = Some("/opt/adl-runtime".to_string());
+        config.pre_mounted_runtime_volume_id_sha256 = Some(sha256_hex(volume_id));
+        let script = build_remote_command_script(&config);
+        assert!(config.validate().is_ok());
+        assert!(script.contains("export ADL_CACHE_VOLUME_ENABLED=\"0\""));
+        assert!(script.contains("export ADL_RETAINED_VOLUME_ROLE='runtime_continuity'"));
+        assert!(script.contains("export ADL_RUNTIME_CONTINUITY_ROOT='/opt/adl-runtime/runtime'"));
+        assert!(script.contains("export ADL_ISSUE268_BUILD_CACHE_ROOT='/opt/adl-build-cache'"));
+    }
+
+    #[tokio::test]
+    async fn existing_instance_is_one_on_demand_attempt_and_is_terminated() {
+        let tmp = std::env::temp_dir().join("adl-existing-instance-run");
+        let mut config = sample_config(&tmp);
+        let volume_id = "vol-0123456789abcdef0";
+        config.issue = Some(268);
+        config.instance_types = vec!["r7i.2xlarge".to_string()];
+        config.on_demand_only = true;
+        config.allow_on_demand_fallback = false;
+        config.existing_instance_id = Some("i-existing".to_string());
+        config.pre_mounted_runtime_volume_id = Some(volume_id.to_string());
+        config.pre_mounted_runtime_root = Some("/opt/adl-runtime".to_string());
+        config.pre_mounted_runtime_volume_id_sha256 = Some(sha256_hex(volume_id));
+        let adapter = cancellable_adapter();
+        let (summary, _) = run_aws_remote_validation(&adapter, &config)
+            .await
+            .expect("existing instance summary");
+        assert_eq!(summary.attempts.len(), 1);
+        assert_eq!(
+            summary.attempts[0].purchase_option,
+            PurchaseOption::OnDemand
+        );
+        assert_eq!(summary.attempts[0].status, "launched");
+        assert_eq!(
+            summary.cleanup.final_instance_state.as_deref(),
+            Some("terminated")
+        );
+    }
+
+    #[test]
+    fn issue268_resilience_policy_records_single_spot_attempt() {
+        let tmp = std::env::temp_dir().join(format!(
+            "adl-aws-remote-validation-issue268-policy-{}",
+            std::process::id()
+        ));
+        let mut config = sample_config(&tmp);
+        config.issue = Some(268);
+        config.instance_types = vec!["r7i.2xlarge".to_string()];
+        config.allow_on_demand_fallback = false;
+
+        let policy = remote_resilience_policy(&config);
+        assert_eq!(policy.max_launch_attempts, 1);
+        assert!(!policy.spot_fallback_enabled);
+        assert!(policy.retryable_classes.is_empty());
+    }
+
+    #[test]
+    fn issue268_instance_role_can_read_only_versioned_bootstrap_objects() {
+        let tmp = std::env::temp_dir().join(format!(
+            "adl-aws-remote-validation-issue268-s3-policy-{}",
+            std::process::id()
+        ));
+        let mut config = sample_config(&tmp);
+        config.issue = Some(268);
+        let policy = issue268_bootstrap_policy(&config).expect("issue268 policy");
+        assert!(policy.contains("s3:GetObjectVersion"));
+        assert!(
+            policy.contains("adl-shepherd-model-artifacts-b05e1f4379b5c745-us-west-2/shepherd/*")
+        );
+        assert!(!policy.contains("s3:PutObject"));
+        config.issue = Some(269);
+        assert!(issue268_bootstrap_policy(&config).is_none());
     }
 
     #[test]
@@ -4832,6 +5488,7 @@ mod tests {
         config.cache_volume_mount_path = Some("/mnt/adl-runtime-continuity".to_string());
         let script = build_remote_command_script(&config);
         assert!(script.contains("export ADL_RETAINED_VOLUME_ROLE='runtime_continuity'"));
+        assert!(script.contains("export ADL_RUNTIME_CONTINUITY_VOLUME_ID_SHA256="));
 
         let tracked_runner = include_str!("../scripts/remote_validation_runner.sh");
         assert!(tracked_runner.contains("ADL_RUNTIME_CONTINUITY_ROOT"));
@@ -4844,8 +5501,13 @@ mod tests {
         let tracked_runner = include_str!("../scripts/remote_validation_runner.sh");
         assert!(tracked_runner.contains("/latest/api/token"));
         assert!(tracked_runner.contains("X-aws-ec2-metadata-token"));
-        assert!(!tracked_runner.contains("curl -fsS http://169.254.169.254/latest/meta-data/spot/instance-action"));
+        assert!(!tracked_runner
+            .contains("curl -fsS http://169.254.169.254/latest/meta-data/spot/instance-action"));
         assert!(tracked_runner.contains("ADL_SPOT_DEHYDRATE_CALLBACK"));
+        assert!(tracked_runner.contains("issue414_spot_dehydrate_callback.sh"));
+        assert!(tracked_runner.contains("ADL_SPOT_RESIDENT_INPUT"));
+        assert!(tracked_runner.contains("ADL_SPOT_RETAINED_RUNTIME_ROOT"));
+        assert!(tracked_runner.contains("ADL_SPOT_RUNTIME_VOLUME_ID_SHA256"));
         assert!(tracked_runner.contains("ADL_SPOT_DEHYDRATE_TIMEOUT_SECONDS"));
         assert!(tracked_runner.contains("--notice-file \"$RUN_ROOT/spot-interruption.log\""));
         assert!(tracked_runner.contains("--deadline-utc \"$DEADLINE_UTC\""));

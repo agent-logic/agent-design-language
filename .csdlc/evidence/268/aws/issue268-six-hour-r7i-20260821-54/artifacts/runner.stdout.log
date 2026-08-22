@@ -1,0 +1,152 @@
+{
+  "schema_version": "adl.aws_remote_validation_run.v1",
+  "issue": 268,
+  "run_id": "issue268-six-hour-r7i-20260821-54",
+  "status": "interrupted_by_aws",
+  "region": "us-west-2",
+  "profile": "agent-logic-admin",
+  "started_at": "2026-08-22T01:14:52.762449+00:00",
+  "finished_at": "2026-08-22T01:15:56.910074+00:00",
+  "account_identity": {
+    "account_id": null,
+    "account_id_sha256": "b05e1f4379b5c7457d1de357e21447526ecf418ed47176ead2868d0a2d6589c9",
+    "arn": null,
+    "user_id": null
+  },
+  "quota_snapshot": {
+    "spot_vcpu_quota": null,
+    "on_demand_vcpu_quota": null,
+    "notes": [
+      "spot quota 'All Standard (A, C, D, H, I, M, R, T, Z) Spot Instance Requests' not found",
+      "on-demand quota 'Running On-Demand Standard (A, C, D, H, I, M, R, T, Z) instances' not found"
+    ]
+  },
+  "attempts": [
+    {
+      "instance_type": "r7i.2xlarge",
+      "purchase_option": "on_demand",
+      "status": "launched",
+      "message": "adopted verified CloudFormation instance"
+    }
+  ],
+  "launch": {
+    "purchase_option": "on_demand",
+    "instance_type": "r7i.2xlarge",
+    "instance_id": "<redacted>",
+    "instance_id_sha256": "9666fea9303f459d1b4d70c1f2a64a31fbd3ad117abf740204b7b1ca4ae00895",
+    "launched_at": "2026-08-22T01:14:53.685371+00:00",
+    "initial_state": "running"
+  },
+  "cache_volume": {
+    "name": "cloudformation-retained-runtime",
+    "volume_id": "<redacted>",
+    "availability_zone": "cloudformation-managed",
+    "size_gib": 0,
+    "volume_type": "cloudformation-managed",
+    "iops": null,
+    "throughput_mbps": null,
+    "device_name": "cloudformation-managed",
+    "mount_path": "<machine-path-redacted>",
+    "created": false,
+    "attachment_state": "attached"
+  },
+  "command": null,
+  "cleanup": {
+    "termination_attempted": true,
+    "final_instance_state": "terminated",
+    "termination_error": null
+  },
+  "launch_surface": {
+    "provisioning_mode": "cloudformation_existing_instance",
+    "ami_id": "<redacted>",
+    "ami_source": "cloudformation_stack",
+    "vpc_id": "<redacted>",
+    "subnet_id": "<redacted>",
+    "availability_zone": "us-west-2a",
+    "security_group_id": "<redacted>",
+    "security_group_name": null,
+    "security_group_created": false,
+    "instance_profile_name": "<redacted>",
+    "role_name": null,
+    "instance_profile_created": false,
+    "ssh_debug_enabled": false,
+    "ssh_allowed_cidr": null,
+    "notes": [
+      "Adopted an issue-bound CloudFormation launch surface; no secondary AWS surface was created"
+    ]
+  },
+  "launch_surface_cleanup": {
+    "security_group_deleted": null,
+    "instance_profile_deleted": null,
+    "role_deleted": null,
+    "notes": []
+  },
+  "resilience": {
+    "schema_version": "adl.aws_remote_validation.resilience.v1",
+    "policy": {
+      "policy_id": "adl.aws_remote_validation.resilience.v1",
+      "max_launch_attempts": 1,
+      "spot_fallback_enabled": false,
+      "cleanup_required": true,
+      "cost_evidence_required": true,
+      "retryable_classes": [],
+      "operator_gated_classes": [
+        "quota_blocked",
+        "auth_permission_failure",
+        "cleanup_partial_failure"
+      ]
+    },
+    "fault_class": "spot_interrupted",
+    "disposition": "terminal",
+    "retryable": false,
+    "cleanup_recorded": true,
+    "cleanup_complete": true,
+    "cost_evidence_recorded": true,
+    "summary": "failure is terminal under the issue 268 single-attempt authorization",
+    "evidence_refs": [
+      "attempts",
+      "cleanup",
+      "timings",
+      "cost_or_budget"
+    ],
+    "operator_action": "obtain fresh operator authorization before any additional provider attempt"
+  },
+  "spot_termination_evidence": {
+    "instance_id": "<redacted>",
+    "instance_lifecycle": null,
+    "state_reason_code": "Client.UserInitiatedShutdown",
+    "state_reason_message": "Client.UserInitiatedShutdown: User initiated shutdown",
+    "state_transition_reason": "User initiated (2026-08-22 01:15:19 GMT)",
+    "spot_instance_request_id": null,
+    "spot_request_status_code": null,
+    "spot_request_status_message": null,
+    "provider_interruption_confirmed": false
+  },
+  "timings": {
+    "total_seconds": 64,
+    "launch_seconds": 0,
+    "ssm_ready_seconds": 0,
+    "remote_command_seconds": null,
+    "teardown_seconds": 31
+  },
+  "remote_summary": null,
+  "cost_explorer": {
+    "start": "2026-08-01T00:00:00+00:00",
+    "end": "2026-08-23T01:15:56.197492+00:00",
+    "service": "Amazon Elastic Compute Cloud - Compute",
+    "amount": "1.5419307648",
+    "unit": "USD",
+    "delayed_billing_boundary": true,
+    "note": "Cost Explorer reflects account spend on AWS delay; treat this as supporting cost evidence rather than exact per-run billing."
+  },
+  "budget_snapshot": null,
+  "expected_max_cost_usd": 20.0,
+  "artifact_dir": "artifacts",
+  "event_log_path": "events.jsonl",
+  "non_claims": [
+    "This summary does not claim broad CI migration to EC2.",
+    "This summary does not claim Spot savings unless a Spot-backed run retained cost and timing evidence.",
+    "This summary does not claim per-run final AWS billing line items when Cost Explorer data is delayed."
+  ],
+  "failure_reason": "remote command dispatch failed: InstanceUnavailableDuringCommand: instance <aws-identifier-redacted> entered state 'shutting-down' while command 18c0fd95-3aea-41cb-9ae2-1223b64ceb4a was still running"
+}

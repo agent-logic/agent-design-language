@@ -1,0 +1,15 @@
+{
+  "diagnostic": {
+    "elapsed": "5m7s",
+    "failure": "timed out waiting for llama-server to start",
+    "file_format": "GGUF V3",
+    "model_family": "Meta Llama 3.1 8B Instruct",
+    "model_size_gib": 4.58,
+    "quantization": "Q4_K_M",
+    "stage": "load_tensors"
+  },
+  "raw_private_command_stderr_sha256": "14aca2a3c76532202346cce0b1e201bb9f3ddc6ca9274e1faec29b0e82d19503",
+  "redacted": true,
+  "run_id": "issue268-six-hour-r7i-20260821-61",
+  "schema": "adl.issue268.model_load_diagnostic.v1"
+}

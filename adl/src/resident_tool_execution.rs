@@ -1,4 +1,7 @@
-use std::{collections::BTreeMap, path::Path};
+use std::{
+    collections::{BTreeMap, BTreeSet},
+    path::Path,
+};
 
 use adl_runtime::resident_agent::CsmResidentAgentToolAuthorityBinding;
 use adl_runtime_kernel::{VerifiedToolAuthorityBinding, PRODUCTION_BIRTHDAY_TOOL_BINDING_SCHEMA};
@@ -364,6 +367,9 @@ pub struct ResidentToolExecutionContextV1<'a> {
     pub risk_class: &'a str,
     pub citizen_boundary_ref: &'a str,
     pub gate_context: FreedomGateToolGateContextV1,
+    /// Redacted proposal identifiers already terminally handled by this
+    /// restored resident. A match denies before compiler, gate, or adapter.
+    pub prior_proposal_ids: &'a BTreeSet<String>,
 }
 
 fn extract_single_proposal_envelope(output: &str) -> Option<ResidentToolProposalEnvelopeV1> {
@@ -420,6 +426,13 @@ pub fn govern_resident_tool_output_v1(
         None => return denied("invalid_or_multiple_tool_proposals", None),
     };
     let proposal = envelope.tool_proposal;
+    let proposal_id_sha256 = format!(
+        "sha256:{}",
+        hex::encode(Sha256::digest(proposal.proposal_id.as_bytes()))
+    );
+    if context.prior_proposal_ids.contains(&proposal_id_sha256) {
+        return denied("proposal_replay_denied", Some(proposal.proposal_id));
+    }
     if context
         .authority
         .allowed_tools
@@ -538,6 +551,10 @@ mod tests {
         }
     }
 
+    fn no_prior_proposals() -> BTreeSet<String> {
+        BTreeSet::new()
+    }
+
     #[test]
     fn authorized_proposal_compiles_gates_dispatches_and_receipts() {
         let compiler = wp09_compiler_input_fixture("fixture.safe_read");
@@ -561,6 +578,7 @@ mod tests {
                 risk_class: "low",
                 citizen_boundary_ref: "runtime.resident.boundary",
                 gate_context: allowed_gate(),
+                prior_proposal_ids: &no_prior_proposals(),
             },
             &AllowFixtureAdapter,
         );
@@ -592,6 +610,7 @@ mod tests {
                 risk_class: "low",
                 citizen_boundary_ref: "runtime.resident.boundary",
                 gate_context: allowed_gate(),
+                prior_proposal_ids: &no_prior_proposals(),
             },
             &AllowFixtureAdapter,
         );
@@ -622,6 +641,7 @@ mod tests {
                 risk_class: "low",
                 citizen_boundary_ref: "runtime.resident.boundary",
                 gate_context: allowed_gate(),
+                prior_proposal_ids: &no_prior_proposals(),
             },
             &AllowFixtureAdapter,
         );
@@ -685,6 +705,7 @@ mod tests {
                 risk_class: "low",
                 citizen_boundary_ref: "runtime.resident.boundary",
                 gate_context: allowed_gate(),
+                prior_proposal_ids: &no_prior_proposals(),
             },
             &RuntimeObserveAdapterV1::new(serde_json::json!({
                 "kind": "runtime_observation",
@@ -727,11 +748,47 @@ mod tests {
                 risk_class: "low",
                 citizen_boundary_ref: "runtime.resident.boundary",
                 gate_context: gate,
+                prior_proposal_ids: &no_prior_proposals(),
             },
             &AllowFixtureAdapter,
         );
         assert_eq!(receipt.decision, ResidentToolReceiptDecisionV1::Denied);
         assert_eq!(receipt.gate_reason_code.as_deref(), Some("policy_denied"));
+    }
+
+    #[test]
+    fn restored_prior_proposal_is_denied_before_dispatch() {
+        let compiler = wp09_compiler_input_fixture("fixture.safe_read");
+        let proposal_id = compiler.proposal.proposal_id.clone();
+        let binding = authority(&compiler.proposal.tool_name);
+        let role = compiler.policy_context.role.clone();
+        let output = serde_json::to_string(&ResidentToolProposalEnvelopeV1 {
+            tool_proposal: compiler.proposal,
+        })
+        .unwrap();
+        let prior = BTreeSet::from([format!(
+            "sha256:{}",
+            hex::encode(Sha256::digest(proposal_id.as_bytes()))
+        )]);
+        let receipt = govern_resident_tool_output_v1(
+            &output,
+            ResidentToolExecutionContextV1 {
+                resident_id: "actor.operator.alice",
+                role: &role,
+                authority: &binding,
+                cycle_id: "cycle.replay",
+                checkpoint_lineage: "checkpoint.restored",
+                registry: compiler.registry,
+                policy: compiler.policy_context,
+                risk_class: "low",
+                citizen_boundary_ref: "runtime.resident.boundary",
+                gate_context: allowed_gate(),
+                prior_proposal_ids: &prior,
+            },
+            &AllowFixtureAdapter,
+        );
+        assert_eq!(receipt.decision, ResidentToolReceiptDecisionV1::Denied);
+        assert_eq!(receipt.reason_code, "proposal_replay_denied");
     }
 
     #[test]
@@ -760,6 +817,7 @@ mod tests {
                 risk_class: "low",
                 citizen_boundary_ref: "runtime.resident.boundary",
                 gate_context: allowed_gate(),
+                prior_proposal_ids: &no_prior_proposals(),
             },
             &AllowFixtureAdapter,
         );

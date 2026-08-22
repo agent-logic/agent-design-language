@@ -1,0 +1,12 @@
+{
+  "estimated_compute_cost_usd": 3.312498,
+  "fallback": "disabled",
+  "portable_request_sha256": "5fcc658220931561b70a1727436cd1a96c1e1dc316c1603f40fc43235116b525",
+  "provider_attempts": 1,
+  "qualification_proof_sha256": "e1e97c3adf621c8ec3686695fe6ef27600bd1e0e4b06f81deea2ef8ca0a52fef",
+  "run_id": "issue268-six-hour-r7i-20260821-72",
+  "schema": "adl.issue268.successful_run_disposition.v1",
+  "status": "terminal_pass",
+  "summary_sha256": "7e1563ac4d46c1ca0a68ea872311f2fe45d5d6da5fc4f3fa9a08ee75989ac2d6",
+  "truth": "The exact-revision Linux/x86_64 On-Demand qualification completed one 21,601-second Runtime exposure with six resident continuity and replay verification, authenticated HTTPS/WSS traffic, clean logging, and successful provider cleanup. The instance terminated, the CloudFormation stack was deleted, the persistent warm Runtime volume was detached and retained, and fallback did not run."
+}

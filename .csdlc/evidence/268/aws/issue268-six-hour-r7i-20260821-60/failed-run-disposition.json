@@ -1,0 +1,13 @@
+{
+  "additional_attempt_authority": "standing_operator_authorization_up_to_usd20",
+  "authoritative_failure_class": "legacy_snapshot_receipt_missing_paired_binary_paths",
+  "estimated_compute_cost_usd": 0.006909,
+  "fallback": "disabled",
+  "portable_request_sha256": "823edcd9315c1c5fc133d2d2b7cd96a426873ac266e51ac365c2a883049b94fa",
+  "provider_attempts": 1,
+  "run_id": "issue268-six-hour-r7i-20260821-60",
+  "schema": "adl.issue268.failed_run_disposition.v1",
+  "status": "terminal_pre_runtime_failure",
+  "summary_sha256": "8d8371fc5794c85f8e4bb9ba6af7a14525ba860dc4c0579017d3c773c3ac0c67",
+  "truth": "The legacy snapshot receipt lacks Runtime and CSM binary path fields added by the paired installer. Missing legacy fields now map only to their canonical sealed destinations and force the existing rebuild path; present paths remain strictly validated. Compute and stack cleanup completed, the retained volume detached, and fallback did not run."
+}

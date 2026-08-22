@@ -3084,6 +3084,36 @@ fn write_resident_tool_receipts(
         .get("citizen_boundary_ref")
         .and_then(Value::as_str)
         .ok_or_else(|| anyhow!("missing Runtime citizen boundary reference"))?;
+    let mut prior_proposal_ids = std::collections::BTreeSet::new();
+    if let Some(cycles_root) = cycle_dir.parent() {
+        for entry in fs::read_dir(cycles_root)
+            .with_context(|| format!("read resident cycle history {}", cycles_root.display()))?
+        {
+            let prior_cycle = entry?.path();
+            if prior_cycle == cycle_dir || !prior_cycle.is_dir() {
+                continue;
+            }
+            let prior_path = prior_cycle.join("resident_tool_receipts.json");
+            if !prior_path.is_file() {
+                continue;
+            }
+            let prior_receipts: Vec<resident_tool_execution::ResidentToolReceiptV1> =
+                serde_json::from_slice(&fs::read(&prior_path).with_context(|| {
+                    format!("read prior resident tool receipts {}", prior_path.display())
+                })?)
+                .with_context(|| {
+                    format!(
+                        "parse prior resident tool receipts {}",
+                        prior_path.display()
+                    )
+                })?;
+            prior_proposal_ids.extend(
+                prior_receipts
+                    .into_iter()
+                    .filter_map(|receipt| receipt.proposal_id),
+            );
+        }
+    }
     let receipts = outputs
         .iter()
         .map(|output| {
@@ -3100,6 +3130,7 @@ fn write_resident_tool_receipts(
                     risk_class,
                     citizen_boundary_ref,
                     gate_context: gate_context.clone(),
+                    prior_proposal_ids: &prior_proposal_ids,
                 },
                 adapter,
             )

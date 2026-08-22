@@ -1,0 +1,13 @@
+{
+  "additional_attempt_authority": "standing_operator_authorization_up_to_usd20",
+  "authoritative_failure_class": "snapshot_model_store_suffix_mismatch",
+  "estimated_compute_cost_usd": 0.006909,
+  "fallback": "disabled",
+  "portable_request_sha256": "12a239f6961305048b056c448005c69fee7c3ceb5c87cc0cd500984c89b29f9b",
+  "provider_attempts": 1,
+  "run_id": "issue268-six-hour-r7i-20260821-59",
+  "schema": "adl.issue268.failed_run_disposition.v1",
+  "status": "terminal_pre_runtime_failure",
+  "summary_sha256": "1cecb497f6489198bf435641b23f862a9e5c386d07780871e829745cf77742a2",
+  "truth": "The relocation guard failed closed before build or receipt mutation because the expected Ollama model-store suffix omitted its models directory. The suffix now matches the installer-authored sealed receipt. Compute and stack cleanup completed, the retained volume detached, and fallback did not run."
+}

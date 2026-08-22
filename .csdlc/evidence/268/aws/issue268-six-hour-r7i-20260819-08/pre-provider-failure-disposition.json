@@ -1,0 +1,9 @@
+{
+  "additional_provider_attempt_authorized": true,
+  "continuation_authority": "operator_directed_continue_until_complete_or_usd20_ceiling",
+  "disposition": "pre_provider_launch_failure_retained",
+  "failure_class": "generic_retained_cache_topology_checked_before_runtime_continuity_volume",
+  "provider_attempts_observed": 0,
+  "run_id": "issue268-six-hour-r7i-20260819-08",
+  "schema": "adl.issue268.pre_provider_failure_disposition.v1"
+}

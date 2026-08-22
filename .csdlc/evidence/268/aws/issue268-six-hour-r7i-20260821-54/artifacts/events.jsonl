@@ -1,0 +1,9 @@
+{"timestamp":"2026-08-22T01:14:52.762457+00:00","stage":"start","status":"started","detail":"issue=Some(268) region=us-west-2 instance_types=r7i.2xlarge out=<machine-path-redacted>"}
+{"timestamp":"2026-08-22T01:14:53.102563+00:00","stage":"identity","status":"ok","detail":"caller identity resolved"}
+{"timestamp":"2026-08-22T01:14:53.560686+00:00","stage":"quota","status":"ok","detail":"quota snapshot captured"}
+{"timestamp":"2026-08-22T01:14:53.560945+00:00","stage":"launch_attempt","status":"started","detail":"instance_type=r7i.2xlarge market=on_demand source=cloudformation"}
+{"timestamp":"2026-08-22T01:14:53.685406+00:00","stage":"launch_attempt","status":"ok","detail":"verified existing CloudFormation On-Demand instance"}
+{"timestamp":"2026-08-22T01:14:54.070619+00:00","stage":"ssm","status":"ok","detail":"instance became SSM-ready with status Online"}
+{"timestamp":"2026-08-22T01:15:25.141775+00:00","stage":"remote_command","status":"interrupted","detail":"dispatch failed while instance_state=shutting-down provider_interruption_confirmed=false: InstanceUnavailableDuringCommand: instance <aws-identifier-redacted> entered state 'shutting-down' while command 18c0fd95-3aea-41cb-9ae2-1223b64ceb4a was still running"}
+{"timestamp":"2026-08-22T01:15:25.594320+00:00","stage":"cleanup","status":"started","detail":"termination requested"}
+{"timestamp":"2026-08-22T01:15:56.196969+00:00","stage":"cleanup","status":"ok","detail":"termination observed state=terminated"}

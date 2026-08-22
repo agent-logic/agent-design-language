@@ -1,0 +1,12 @@
+{
+  "additional_provider_attempt_authorized": true,
+  "authoritative_request_fallback": "disabled",
+  "authoritative_request_sha256": "5301b3f776305ecbd1a0014271da12ef342ed1382db3ef10ee8a76449d19a3c3",
+  "continuation_authority": "operator_directed_continue_until_complete_or_usd20_ceiling",
+  "disposition": "terminal_failed_attempt_retained",
+  "failure_class": "ollama_home_missing_from_sanitized_remote_environment",
+  "provider_attempts_observed": 1,
+  "run_id": "issue268-six-hour-r7i-20260819-17",
+  "schema": "adl.issue268.failed_run_disposition.v1",
+  "summary_sha256": "06e8a46fb8edea974a70a1473189db5d3b8d28eeac94e3469bcfae6490262b00"
+}

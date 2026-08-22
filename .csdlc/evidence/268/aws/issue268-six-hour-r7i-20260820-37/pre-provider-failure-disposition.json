@@ -1,0 +1,12 @@
+{
+  "additional_provider_attempt_authorized": true,
+  "authoritative_request_sha256": "642dcb46ca9ebca8eaf17815d1e342aeb3db7384b3bd08af32b130e8a973d180",
+  "continuation_authority": "operator_directed_continue_until_complete_or_usd20_ceiling",
+  "disposition": "pre_provider_launch_failure_retained",
+  "failure_class": "client_launch_invocation_aborted_before_provider_resource_creation",
+  "launch_claim_sha256": "a69f83646a0a2bff4fad2565c47e9e6de5c9ad1d1c34f26aea5ed4dc026dd4d4",
+  "provider_attempts_observed": 0,
+  "run_id": "issue268-six-hour-r7i-20260820-37",
+  "schema": "adl.issue268.pre_provider_failure_disposition.v1",
+  "zero_launch_surface_residue_verified": true
+}

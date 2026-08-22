@@ -1,0 +1,23 @@
+{
+  "cleanup": {
+    "compute_state": "terminated",
+    "runtime_volume_attachment_state": "detached",
+    "stack_state": "deleted"
+  },
+  "estimated_compute_cost_usd": 0.172872,
+  "failure_reason": "The retained EBS volume mounted successfully, but the launch contract checked /opt/adl-runtime/install while the snapshot stores the persistent Runtime at /opt/adl-runtime/runtime/install.",
+  "fallback": "disabled",
+  "instance_type": "r7i.2xlarge",
+  "issue": 268,
+  "provider_attempts": 1,
+  "purchase_option": "on_demand",
+  "run_id": "issue268-six-hour-r7i-20260821-56",
+  "runtime_qualification_started": false,
+  "schema": "adl.issue268.failed_run_summary.v1",
+  "status": "operator_cancelled_after_causal_diagnosis",
+  "timing": {
+    "launched_at": "2026-08-22T01:38:39Z",
+    "terminated_at": "2026-08-22T01:58:15Z",
+    "total_seconds": 1176
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "additional_provider_attempt_authorized": true,
+  "authoritative_request_fallback": "disabled",
+  "authoritative_request_sha256": "5e643c5c4bbb2257bc98099641708d377c8ab83596bcc3b1231e4940c4cfbc66",
+  "continuation_authority": "operator_directed_continue_until_complete_or_usd20_ceiling",
+  "disposition": "terminal_failed_attempt_retained",
+  "failure_class": "amazon_linux_python39_evaluated_pep604_annotation",
+  "provider_attempts_observed": 1,
+  "run_id": "issue268-six-hour-r7i-20260819-19",
+  "schema": "adl.issue268.failed_run_disposition.v1",
+  "summary_sha256": "3e5c3cd8e56208bd3e2f18e448a5b025f3c9a563bebb620e69646174ed502e57"
+}

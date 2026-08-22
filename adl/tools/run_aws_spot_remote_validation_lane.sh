@@ -76,6 +76,8 @@ EXPECTED_ARCHITECTURE="${ADL_AWS_SPOT_EXPECTED_ARCHITECTURE:-x86_64}"
 MIN_CACHE_FREE_GIB="${ADL_AWS_SPOT_MIN_CACHE_FREE_GIB:-10}"
 ESTIMATED_HOURLY_COST_USD="${ADL_AWS_SPOT_ESTIMATED_HOURLY_COST_USD:-}"
 MAX_RUN_SECONDS=""
+MAX_SPOT_RETRIES="${ADL_AWS_SPOT_MAX_RETRIES:-2}"
+ON_DEMAND_ONLY=false
 AMI_ID="${ADL_AWS_REMOTE_VALIDATION_AMI_ID:-}"
 SUBNET_ID="${ADL_AWS_REMOTE_VALIDATION_SUBNET_ID:-}"
 EXPECTED_CACHE_VOLUME_ID_SHA256="${ADL_AWS_REMOTE_VALIDATION_CACHE_VOLUME_ID_SHA256:-}"
@@ -83,6 +85,8 @@ RETAINED_CACHE_VOLUME_ID=""
 RUNTIME_CONTINUITY_VOLUME_ID="${ADL_AWS_RUNTIME_CONTINUITY_VOLUME_ID:-}"
 RUNTIME_CONTINUITY_VOLUME_NAME="${ADL_AWS_RUNTIME_CONTINUITY_VOLUME_NAME:-}"
 RUNTIME_CONTINUITY_VOLUME_ID_SHA256="${ADL_AWS_RUNTIME_CONTINUITY_VOLUME_ID_SHA256:-}"
+EXISTING_INSTANCE_ID="${ADL_AWS_EXISTING_INSTANCE_ID:-}"
+PRE_MOUNTED_RUNTIME_ROOT="${ADL_AWS_PRE_MOUNTED_RUNTIME_ROOT:-}"
 
 usage() {
   cat <<'USAGE'
@@ -143,6 +147,8 @@ Options:
   --estimated-hourly-cost-usd <usd>
                                 Override the pre-run Spot hourly price estimate.
   --max-run-seconds <seconds>   Remote validation command timeout in seconds.
+  --max-spot-retries <count>    Maximum additional Spot instance attempts. Defaults to 2.
+  --on-demand-only              Launch one On-Demand instance directly; never try Spot.
   --ami-id <id>                 Explicit AMI. Defaults to the current AL2023 SSM image.
   --subnet-id <id>              Explicit subnet. Defaults to retained hot-cache proof topology.
   --expected-cache-volume-id-sha256 <hash>
@@ -325,6 +331,14 @@ while [[ $# -gt 0 ]]; do
       MAX_RUN_SECONDS="${2:-}"
       shift 2
       ;;
+    --max-spot-retries)
+      MAX_SPOT_RETRIES="${2:-}"
+      shift 2
+      ;;
+    --on-demand-only)
+      ON_DEMAND_ONLY=true
+      shift
+      ;;
     --ami-id)
       AMI_ID="${2:-}"
       shift 2
@@ -389,6 +403,13 @@ if [[ -n "$PORTABLE_REQUEST" ]]; then
   PORTABLE_FALLBACK="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["fallback"])')"
   PORTABLE_PROFILE_DIGEST="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.load(sys.stdin)["command_profile_digest"])')"
   PORTABLE_ARTIFACT_POLICY_JSON="$(printf '%s' "$PORTABLE_PLAN" | python3 -c 'import json,sys; print(json.dumps(json.load(sys.stdin)["artifact_policy"], separators=(",", ":")))')"
+  PORTABLE_ISSUE268_RUNTIME="$(python3 - "$PORTABLE_REQUEST" <<'PY'
+import json, sys
+request = json.load(open(sys.argv[1], encoding="utf-8"))
+argv = (request.get("command_profile") or {}).get("argv") or []
+print("true" if argv == ["bash", "adl/tools/run_issue268_remote_resident_qualification.sh"] else "false")
+PY
+)"
 fi
 
 if [[ -n "$PORTABLE_MAX_COST_USD" && -z "$ESTIMATED_HOURLY_COST_USD" && "$RUN" != true && "$ACTION" != "preflight" ]]; then
@@ -425,6 +446,10 @@ if [[ ! "$MIN_CACHE_FREE_GIB" =~ ^[0-9]+$ ]] || [[ "$MIN_CACHE_FREE_GIB" -lt 1 ]
 fi
 if [[ -n "$ESTIMATED_HOURLY_COST_USD" ]] && [[ ! "$ESTIMATED_HOURLY_COST_USD" =~ ^[0-9]+([.][0-9]+)?$ ]]; then
   echo "run_aws_spot_remote_validation_lane: --estimated-hourly-cost-usd must be numeric" >&2
+  exit 2
+fi
+if [[ ! "$MAX_SPOT_RETRIES" =~ ^[0-9]+$ ]]; then
+  echo "run_aws_spot_remote_validation_lane: --max-spot-retries must be a non-negative integer" >&2
   exit 2
 fi
 
@@ -466,8 +491,12 @@ if [[ ! -x "$LANE_BIN" ]]; then
   echo "build it with: cargo build --locked --manifest-path tools/aws_remote_validation/Cargo.toml --bin adl-aws-remote-validation" >&2
   exit 2
 fi
-if ! "$LANE_BIN" --help 2>&1 | grep -F -- "--spot-only" >/dev/null; then
-  echo "run_aws_spot_remote_validation_lane: selected binary does not implement the required Spot contract: $LANE_BIN" >&2
+required_purchase_flag=--spot-only
+[[ "$ON_DEMAND_ONLY" == true ]] && required_purchase_flag=--on-demand-only
+expected_purchase_option=spot
+[[ "$ON_DEMAND_ONLY" == true ]] && expected_purchase_option=on_demand
+if ! "$LANE_BIN" --help 2>&1 | grep -F -- "$required_purchase_flag" >/dev/null; then
+  echo "run_aws_spot_remote_validation_lane: selected binary does not implement the required purchase contract: $LANE_BIN" >&2
   exit 2
 fi
 
@@ -541,6 +570,10 @@ resolve_spot_hourly_cost() {
   if [[ -n "$ESTIMATED_HOURLY_COST_USD" ]]; then
     return 0
   fi
+  if [[ "$ON_DEMAND_ONLY" == true ]]; then
+    echo "run_aws_spot_remote_validation_lane: On-Demand mode requires an explicit pre-run hourly price" >&2
+    return 1
+  fi
   local profile_args=()
   if [[ "$PROFILE" != "env" && "$PROFILE" != "environment" ]]; then
     profile_args=(--profile "$PROFILE")
@@ -568,6 +601,8 @@ ceiling, hourly, seconds = float(sys.argv[1]), float(sys.argv[2]), int(sys.argv[
 projected = hourly * seconds / 3600.0
 if ceiling <= 0:
     raise SystemExit("run_aws_spot_remote_validation_lane: portable AWS cost ceiling must be greater than zero")
+if hourly <= 0:
+    raise SystemExit("run_aws_spot_remote_validation_lane: estimated hourly cost must be greater than zero")
 if projected > ceiling:
     raise SystemExit(
         f"run_aws_spot_remote_validation_lane: projected cost ${projected:.6f} exceeds portable ceiling ${ceiling:.6f}"
@@ -918,29 +953,75 @@ if [[ "$CHECK_ACCOUNT" == true || "$RUN" == true ]]; then
   check_account
 fi
 
+DIRECT_HOST_RUNTIME=false
+VALIDATION_ENVIRONMENT=immutable_builder
+if [[ "$COMMAND" == "bash adl/tools/run_issue268_remote_resident_qualification.sh" \
+    || "${PORTABLE_ISSUE268_RUNTIME:-false}" == true ]]; then
+  DIRECT_HOST_RUNTIME=true
+  VALIDATION_ENVIRONMENT=direct_host_runtime
+fi
+
 if [[ "$RUN" == true || "$ACTION" == "preflight" ]]; then
-  resolve_builder_image
+  if [[ "$DIRECT_HOST_RUNTIME" != true ]]; then
+    resolve_builder_image
+  fi
   resolve_spot_hourly_cost
   validate_portable_capacity_and_cost
-  resolve_and_verify_retained_topology
-  select_runtime_continuity_volume
-  verify_ssh_recovery_key
+  if [[ -n "$EXISTING_INSTANCE_ID" ]]; then
+    [[ "$ISSUE" == 268 && "$ON_DEMAND_ONLY" == true && "$MAX_SPOT_RETRIES" == 0 \
+        && "$EXISTING_INSTANCE_ID" =~ ^i-[0-9a-f]{8,17}$ \
+        && "$RUNTIME_CONTINUITY_VOLUME_ID" =~ ^vol-[0-9a-f]{8,17}$ \
+        && "$RUNTIME_CONTINUITY_VOLUME_ID_SHA256" =~ ^[0-9a-f]{64}$ \
+        && "$PRE_MOUNTED_RUNTIME_ROOT" == /opt/adl-runtime ]] || {
+      echo "run_aws_spot_remote_validation_lane: invalid CloudFormation adoption contract" >&2
+      exit 1
+    }
+    actual_runtime_hash="$(python3 -c 'import hashlib,sys; print(hashlib.sha256(sys.argv[1].encode()).hexdigest())' "$RUNTIME_CONTINUITY_VOLUME_ID")"
+    [[ "$actual_runtime_hash" == "$RUNTIME_CONTINUITY_VOLUME_ID_SHA256" ]] || {
+      echo "run_aws_spot_remote_validation_lane: adopted Runtime volume identity mismatch" >&2
+      exit 1
+    }
+    EXPECTED_CACHE_VOLUME_ID_SHA256="$RUNTIME_CONTINUITY_VOLUME_ID_SHA256"
+  elif [[ -n "$RUNTIME_CONTINUITY_VOLUME_ID" ]]; then
+    [[ "$SUBNET_ID" =~ ^subnet-[0-9a-f]{8,17}$ ]] || {
+      echo "run_aws_spot_remote_validation_lane: Runtime continuity volume requires an explicit colocated subnet" >&2
+      exit 1
+    }
+    if [[ -z "$AMI_ID" ]]; then
+      profile_args=()
+      if [[ "$PROFILE" != "env" && "$PROFILE" != "environment" ]]; then
+        profile_args=(--profile "$PROFILE")
+      fi
+      AMI_ID="$("$AWS_CLI" ssm get-parameter "${profile_args[@]}" --region "$REGION" \
+        --name /aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64 \
+        --query 'Parameter.Value' --output text)"
+    fi
+    [[ "$AMI_ID" =~ ^ami-[0-9a-f]{8,17}$ ]] || {
+      echo "run_aws_spot_remote_validation_lane: Runtime continuity AMI resolution failed" >&2
+      exit 1
+    }
+    select_runtime_continuity_volume
+  else
+    resolve_and_verify_retained_topology
+  fi
+  if [[ -z "$EXISTING_INSTANCE_ID" ]]; then
+    verify_ssh_recovery_key
+  fi
 fi
 
 if [[ "$ACTION" == "preflight" ]]; then
-  python3 - "$BUILDER_IMAGE" "$SOURCE_COMMIT" "$EXPECTED_CACHE_VOLUME_ID_SHA256" "$AMI_ID" "$SUBNET_ID" "$ESTIMATED_HOURLY_COST_USD" <<'PY'
+  python3 - "$BUILDER_IMAGE" "$SOURCE_COMMIT" "$EXPECTED_CACHE_VOLUME_ID_SHA256" "$AMI_ID" "$SUBNET_ID" "$ESTIMATED_HOURLY_COST_USD" "$VALIDATION_ENVIRONMENT" <<'PY'
 import hashlib
 import json
 import sys
 
-image, commit, cache_hash, ami, subnet, hourly = sys.argv[1:]
+image, commit, cache_hash, ami, subnet, hourly, environment = sys.argv[1:]
 payload = {
     "schema": "adl.aws_spot_preflight.v1",
     "status": "ready",
     "account_matches_retained_proof": True,
     "source_commit": commit,
-    "builder_image_digest_sha256": hashlib.sha256(image.rsplit("@", 1)[-1].encode()).hexdigest(),
-    "builder_image_immutable": "@sha256:" in image,
+    "validation_environment": environment,
     "retained_cache_volume_id_sha256": cache_hash,
     "retained_cache_available": True,
     "ami_id_sha256": hashlib.sha256(ami.encode()).hexdigest(),
@@ -949,6 +1030,11 @@ payload = {
     "estimated_hourly_cost_usd": float(hourly),
     "aws_resources_created": False,
 }
+if environment == "immutable_builder":
+    payload["builder_image_digest_sha256"] = hashlib.sha256(image.rsplit("@", 1)[-1].encode()).hexdigest()
+    payload["builder_image_immutable"] = "@sha256:" in image
+else:
+    payload["direct_host_command_verified"] = True
 print(json.dumps(payload, indent=2, sort_keys=True))
 PY
   exit 0
@@ -972,20 +1058,36 @@ cmd=(
   --git-ref "$GIT_REF"
   --out "$OUT_PATH"
   --artifact-dir "$ARTIFACT_DIR"
-  --spot-only
-  --cache-volume-id "$RETAINED_CACHE_VOLUME_ID"
-  --cache-volume-name "$CACHE_VOLUME_NAME"
-  --cache-volume-size-gib "$CACHE_VOLUME_SIZE_GIB"
-  --cache-volume-type "$CACHE_VOLUME_TYPE"
-  --cache-volume-iops "$CACHE_VOLUME_IOPS"
-  --cache-volume-throughput-mbps "$CACHE_VOLUME_THROUGHPUT_MBPS"
-  --cache-volume-device-name "$CACHE_VOLUME_DEVICE_NAME"
-  --cache-volume-mount-path "$CACHE_VOLUME_MOUNT_PATH"
+  --max-spot-retries "$MAX_SPOT_RETRIES"
   --ami-id "$AMI_ID"
   --subnet-id "$SUBNET_ID"
 )
+if [[ -n "$EXISTING_INSTANCE_ID" ]]; then
+  cmd+=(
+    --existing-instance-id "$EXISTING_INSTANCE_ID"
+    --pre-mounted-runtime-volume-id "$RUNTIME_CONTINUITY_VOLUME_ID"
+    --pre-mounted-runtime-root "$PRE_MOUNTED_RUNTIME_ROOT"
+    --pre-mounted-runtime-volume-id-sha256 "$RUNTIME_CONTINUITY_VOLUME_ID_SHA256"
+  )
+else
+  cmd+=(
+    --cache-volume-id "$RETAINED_CACHE_VOLUME_ID"
+    --cache-volume-name "$CACHE_VOLUME_NAME"
+    --cache-volume-size-gib "$CACHE_VOLUME_SIZE_GIB"
+    --cache-volume-type "$CACHE_VOLUME_TYPE"
+    --cache-volume-iops "$CACHE_VOLUME_IOPS"
+    --cache-volume-throughput-mbps "$CACHE_VOLUME_THROUGHPUT_MBPS"
+    --cache-volume-device-name "$CACHE_VOLUME_DEVICE_NAME"
+    --cache-volume-mount-path "$CACHE_VOLUME_MOUNT_PATH"
+  )
+fi
+if [[ "$ON_DEMAND_ONLY" == true ]]; then
+  cmd+=(--on-demand-only)
+else
+  cmd+=(--spot-only)
+fi
 
-if [[ -n "$SSH_KEY_NAME" ]]; then
+if [[ -z "$EXISTING_INSTANCE_ID" && -n "$SSH_KEY_NAME" ]]; then
   cmd+=(--ssh-key-name "$SSH_KEY_NAME")
   cmd+=(--ssh-private-key-path "$SSH_PRIVATE_KEY_PATH")
   cmd+=(--ssh-user "$SSH_USER")
@@ -996,12 +1098,16 @@ fi
 
 if [[ -n "$COMMAND" ]]; then
   if [[ "$RUN" == true ]]; then
-    remote_command="bash adl/tools/run_aws_spot_builder_image_validation.sh"
-    remote_command+=" --image $(shell_quote "$BUILDER_IMAGE")"
-    remote_command+=" --expected-ref $(shell_quote "$SOURCE_COMMIT")"
-    remote_command+=" --expected-architecture $(shell_quote "$EXPECTED_ARCHITECTURE")"
-    remote_command+=" --min-cache-free-gib $(shell_quote "$MIN_CACHE_FREE_GIB")"
-    remote_command+=" --command $(shell_quote "$COMMAND")"
+    if [[ "$DIRECT_HOST_RUNTIME" == true ]]; then
+      remote_command="$COMMAND"
+    else
+      remote_command="bash adl/tools/run_aws_spot_builder_image_validation.sh"
+      remote_command+=" --image $(shell_quote "$BUILDER_IMAGE")"
+      remote_command+=" --expected-ref $(shell_quote "$SOURCE_COMMIT")"
+      remote_command+=" --expected-architecture $(shell_quote "$EXPECTED_ARCHITECTURE")"
+      remote_command+=" --min-cache-free-gib $(shell_quote "$MIN_CACHE_FREE_GIB")"
+      remote_command+=" --command $(shell_quote "$COMMAND")"
+    fi
     cmd+=(--command "$remote_command")
   else
     cmd+=(--command "$COMMAND")
@@ -1017,7 +1123,6 @@ if [[ -n "$PORTABLE_MAX_COST_USD" ]]; then
     --expected-max-cost-usd "$PORTABLE_MAX_COST_USD"
     --estimated-hourly-cost-usd "$ESTIMATED_HOURLY_COST_USD"
     --total-run-timeout-seconds "$MAX_RUN_SECONDS"
-    --spot-only
   )
 fi
 if [[ -n "$PORTABLE_CANCELLATION_FILE" ]]; then
@@ -1084,7 +1189,9 @@ execute_run() {
     --expected-image "$BUILDER_IMAGE" \
     --expected-cache-volume-id-sha256 "$EXPECTED_CACHE_VOLUME_ID_SHA256" \
     --expected-retained-volume-role "$retained_volume_role" \
+    --validation-environment "$VALIDATION_ENVIRONMENT" \
     --estimated-hourly-cost-usd "$ESTIMATED_HOURLY_COST_USD" \
+    --expected-purchase-option "$expected_purchase_option" \
     --runner-exit-code "$runner_status" \
     >"$ARTIFACT_DIR/finalize.out" 2>"$ARTIFACT_DIR/finalize.err" || finalize_status="$?"
   finished_unix_ms="$(python3 -c 'import time; print(time.time_ns() // 1000000)')"

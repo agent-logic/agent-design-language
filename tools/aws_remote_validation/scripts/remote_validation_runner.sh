@@ -88,6 +88,65 @@ if [ "${ADL_CACHE_VOLUME_ENABLED:-0}" = "1" ]; then
   fi
 fi
 
+if [ "${ADL_RETAINED_VOLUME_ROLE:-build_cache}" = "runtime_continuity" ] \
+    && [ "${ADL_ISSUE268_RUNTIME_QUALIFICATION:-0}" = "1" ]; then
+  # Generate the ephemeral #414 signing key on the remote host before either
+  # the qualification command or interruption watcher starts. The key is
+  # process-scoped: it is never placed in user data or retained evidence/logs.
+  if [ -z "${ADL_ISSUE414_SIGNING_KEY_HEX:-}" ]; then
+    ADL_ISSUE414_SIGNING_KEY_HEX="$(od -An -N32 -tx1 /dev/urandom | tr -d ' \n')"
+  fi
+  case "$ADL_ISSUE414_SIGNING_KEY_HEX" in
+    (*[!0-9a-f]*|'') echo "issue268: failed to generate the #414 signing key" >&2; exit 70 ;;
+  esac
+  [ "${#ADL_ISSUE414_SIGNING_KEY_HEX}" -eq 64 ] || {
+    echo "issue268: invalid #414 signing key length" >&2
+    exit 70
+  }
+  export ADL_ISSUE414_SIGNING_KEY_HEX
+  # Generate a process-scoped P-256 custody keypair for #414 capsule signing.
+  # Private material is removed from disk before qualification starts.
+  custody_key_file="$(mktemp /tmp/adl-issue268-custody-key.XXXXXX)"
+  chmod 600 "$custody_key_file"
+  openssl genpkey -algorithm EC -pkeyopt ec_paramgen_curve:P-256 \
+    -out "$custody_key_file" >/dev/null 2>&1
+  custody_key_text="$(openssl pkey -in "$custody_key_file" -text -noout)"
+  custody_private_hex="$(printf '%s\n' "$custody_key_text" | awk '/^priv:/{capture=1;next}/^pub:/{capture=0}capture{gsub(/[^0-9a-fA-F]/,"");printf "%s",$0}')"
+  custody_public_hex="$(printf '%s\n' "$custody_key_text" | awk '/^pub:/{capture=1;next}/^ASN1 OID:/{capture=0}capture{gsub(/[^0-9a-fA-F]/,"");printf "%s",$0}')"
+  ADL_CSM_CUSTODY_P256_SIGNING_PRIVATE_KEY_B64="$(printf '%s' "$custody_private_hex" | python3 -c 'import base64,sys; print(base64.b64encode(bytes.fromhex(sys.stdin.read())).decode())')"
+  ADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64="$(printf '%s' "$custody_public_hex" | python3 -c 'import base64,sys; print(base64.b64encode(bytes.fromhex(sys.stdin.read())).decode())')"
+  rm -f "$custody_key_file"
+  unset custody_key_file custody_key_text custody_private_hex custody_public_hex
+  [ "${#ADL_CSM_CUSTODY_P256_SIGNING_PRIVATE_KEY_B64}" -eq 44 ] || {
+    echo "issue268: invalid ephemeral custody private key" >&2
+    exit 70
+  }
+  [ "${#ADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64}" -eq 88 ] || {
+    echo "issue268: invalid ephemeral custody public key" >&2
+    exit 70
+  }
+  custody_public_fingerprint="$(printf '%s' "$ADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64" | sha256sum | awk '{print substr($1,1,12)}')"
+  ADL_CSM_CUSTODY_SIGNING_KEY_ID="issue268-ephemeral-${ADL_RUN_ID}-${custody_public_fingerprint}"
+  unset custody_public_fingerprint
+  ADL_ISSUE268_CUSTODY_ENV_FILE="$(mktemp /tmp/adl-issue268-custody-env.XXXXXX)"
+  chmod 600 "$ADL_ISSUE268_CUSTODY_ENV_FILE"
+  printf 'ADL_CSM_CUSTODY_P256_SIGNING_PRIVATE_KEY_B64=%s\nADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64=%s\nADL_CSM_CUSTODY_SIGNING_KEY_ID=%s\n' \
+    "$ADL_CSM_CUSTODY_P256_SIGNING_PRIVATE_KEY_B64" \
+    "$ADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64" \
+    "$ADL_CSM_CUSTODY_SIGNING_KEY_ID" >"$ADL_ISSUE268_CUSTODY_ENV_FILE"
+  export ADL_CSM_CUSTODY_P256_SIGNING_PRIVATE_KEY_B64
+  export ADL_CSM_CUSTODY_TRUSTED_P256_PUBLIC_KEY_B64
+  export ADL_CSM_CUSTODY_SIGNING_KEY_ID
+  export ADL_ISSUE268_CUSTODY_ENV_FILE
+  export ADL_ISSUE268_REMOTE_EVIDENCE_ROOT="$RUN_ROOT/issue268"
+  export ADL_SPOT_DEHYDRATE_CALLBACK="$ADL_REMOTE_REPO_DIR/adl/tools/issue414_spot_dehydrate_callback.sh"
+  export ADL_ISSUE414_CONTINUITY_BIN="$ADL_RUNTIME_CONTINUITY_ROOT/install/current/bin/adl_resident_shepherd_continuity"
+  export ADL_SPOT_RESIDENT_INPUT="$ADL_ISSUE268_REMOTE_EVIDENCE_ROOT/continuity-uts/dehydration-input.json"
+  export ADL_SPOT_DEHYDRATE_READY="$ADL_ISSUE268_REMOTE_EVIDENCE_ROOT/continuity-ready"
+  export ADL_SPOT_RETAINED_RUNTIME_ROOT="$ADL_RUNTIME_CONTINUITY_ROOT/state/$ADL_RUN_ID"
+  export ADL_SPOT_RUNTIME_VOLUME_ID_SHA256="${ADL_RUNTIME_CONTINUITY_VOLUME_ID_SHA256:?runtime volume identity is required}"
+fi
+
 mkdir -p "$RUN_ROOT" "$PROGRESS_ROOT" "$WORK_ROOT" "$TARGET_DIR" "$SCCACHE_DIR" "$CARGO_HOME_DIR" "$RUSTUP_HOME_DIR"
 CARGO_BIN_DIR="$CARGO_HOME_DIR/bin"
 mkdir -p "$CARGO_BIN_DIR"
@@ -136,10 +195,16 @@ trap on_error ERR
 
 TOOL_INSTALL_POLICY="package_manager_or_prebuilt_only"
 CONTAINERIZED_VALIDATION=0
+ISSUE268_RUNTIME_QUALIFICATION="${ADL_ISSUE268_RUNTIME_QUALIFICATION:-0}"
 case "$ADL_REMOTE_COMMAND" in
   "bash adl/tools/run_aws_spot_builder_image_validation.sh "*)
     CONTAINERIZED_VALIDATION=1
     TOOL_INSTALL_POLICY="immutable_builder_image_only"
+    ;;
+  *)
+    if [ "$ISSUE268_RUNTIME_QUALIFICATION" = "1" ]; then
+      TOOL_INSTALL_POLICY="amazon_linux_packages_and_pinned_runtime_components"
+    fi
     ;;
 esac
 
@@ -201,7 +266,7 @@ ensure_aws_cli() {
   if command -v aws >/dev/null 2>&1; then
     return 0
   fi
-  sudo dnf install -y awscli >/tmp/adl-awscli-install.log 2>&1 \
+  sudo dnf install -y awscli-2 >/tmp/adl-awscli-install.log 2>&1 \
     || sudo yum install -y awscli >/tmp/adl-awscli-install.log 2>&1
 }
 
@@ -315,14 +380,40 @@ REGION="${ADL_REGION:-us-west-2}"
 
 CURRENT_STAGE="ensure_build_toolchain"
 log_progress "stage=ensure_build_toolchain"
-if [ "$CONTAINERIZED_VALIDATION" = "0" ] && ! command -v cc >/dev/null 2>&1; then
+if [ "$ISSUE268_RUNTIME_QUALIFICATION" = "1" ]; then
+  cloud_init_status=0
+  cloud-init status --wait >/tmp/adl-cloud-init.log 2>&1 || cloud_init_status=$?
+  runtime_ready=false
+  for _ in $(seq 1 450); do
+    if [ -f /var/lib/adl/issue268-bootstrap-failed ]; then
+      break
+    fi
+    if [ -f /var/lib/adl/issue268-bootstrap-ready ] \
+        && mountpoint -q /opt/adl-runtime \
+        && [ -d /opt/adl-runtime/runtime/install ]; then
+      runtime_ready=true
+      break
+    fi
+    sleep 2
+  done
+  if [ "$runtime_ready" != true ]; then
+    printf '%s\n' "issue268 retained Runtime mount did not become ready" >&2
+    sudo systemctl status adl-issue268-runtime-volume.service --no-pager 2>/dev/null >&2 || true
+    sudo journalctl -u adl-issue268-runtime-volume.service -n 200 --no-pager 2>/dev/null >&2 || true
+    sudo tail -n 200 /var/log/cloud-init-output.log 2>/dev/null >&2 || true
+    exit 1
+  fi
+  if [ "$cloud_init_status" -ne 0 ]; then
+    log_progress "stage=ensure_build_toolchain source=user_data_ready cloud_init_status=$cloud_init_status"
+  fi
+elif [ "$CONTAINERIZED_VALIDATION" = "0" ] && ! command -v cc >/dev/null 2>&1; then
   sudo dnf install -y gcc gcc-c++ make pkgconf-pkg-config openssl-devel >/tmp/adl-build-toolchain.log 2>&1 \
     || sudo yum install -y gcc gcc-c++ make pkgconfig openssl-devel >/tmp/adl-build-toolchain.log 2>&1
 fi
 
 CURRENT_STAGE="ensure_rustup"
 log_progress "stage=ensure_rustup"
-if [ "$CONTAINERIZED_VALIDATION" = "0" ] && ! command -v cargo >/dev/null 2>&1; then
+if [ "$CONTAINERIZED_VALIDATION" = "0" ] && [ "$ISSUE268_RUNTIME_QUALIFICATION" = "0" ] && ! command -v cargo >/dev/null 2>&1; then
   curl https://sh.rustup.rs -sSf | sh -s -- -y --profile minimal >/tmp/adl-rustup.log 2>&1
 fi
 if [ "$CONTAINERIZED_VALIDATION" = "0" ] && [ -f "$HOME/.cargo/env" ]; then
@@ -340,7 +431,7 @@ fi
 CURRENT_STAGE="ensure_sccache"
 log_progress "stage=ensure_sccache"
 log_progress "tool_install_policy=$TOOL_INSTALL_POLICY tool=sccache"
-if [ "$CONTAINERIZED_VALIDATION" = "0" ] && ! command -v sccache >/dev/null 2>&1; then
+if [ "$CONTAINERIZED_VALIDATION" = "0" ] && [ "$ISSUE268_RUNTIME_QUALIFICATION" = "0" ] && ! command -v sccache >/dev/null 2>&1; then
   SCCACHE_CACHE_HIT=0
   if install_package_manager_binary sccache >>/tmp/adl-sccache-install.log 2>&1 && verify_sccache_binary >>/tmp/adl-sccache-install.log 2>&1; then
     SCCACHE_CACHE_HIT=1
@@ -363,7 +454,7 @@ fi
 CURRENT_STAGE="ensure_nextest"
 log_progress "stage=ensure_nextest"
 log_progress "tool_install_policy=$TOOL_INSTALL_POLICY tool=cargo-nextest"
-if [ "$CONTAINERIZED_VALIDATION" = "0" ] && [ "$NEEDS_NEXTEST" = "1" ] && ! cargo nextest --version >/dev/null 2>&1; then
+if [ "$CONTAINERIZED_VALIDATION" = "0" ] && [ "$ISSUE268_RUNTIME_QUALIFICATION" = "0" ] && [ "$NEEDS_NEXTEST" = "1" ] && ! cargo nextest --version >/dev/null 2>&1; then
   NEXTEST_CACHE_HIT=0
   if install_package_manager_binary cargo-nextest >>/tmp/adl-nextest-install.log 2>&1 && verify_nextest_binary >>/tmp/adl-nextest-install.log 2>&1; then
     NEXTEST_CACHE_HIT=1
@@ -382,8 +473,10 @@ if [ "$CONTAINERIZED_VALIDATION" = "0" ] && [ "$NEEDS_NEXTEST" = "1" ] && ! carg
     upload_binary_to_s3_cache cargo-nextest "$CACHE_BUCKET" "$CACHE_PREFIX" >>/tmp/adl-nextest-install.log 2>&1 || true
   fi
 fi
-if [ "$CONTAINERIZED_VALIDATION" = "0" ]; then
+if [ "$CONTAINERIZED_VALIDATION" = "0" ] && [ "$ISSUE268_RUNTIME_QUALIFICATION" = "0" ]; then
   export RUSTC_WRAPPER="sccache"
+else
+  unset RUSTC_WRAPPER
 fi
 
 RESOLVED_COMMIT="$(git -C "$ADL_REMOTE_REPO_DIR" rev-parse HEAD)"
@@ -405,7 +498,7 @@ watch_sccache_health() {
   done
 }
 SCCACHE_WATCH_PID=""
-if [ "$CONTAINERIZED_VALIDATION" = "0" ]; then
+if [ "$CONTAINERIZED_VALIDATION" = "0" ] && [ "$ISSUE268_RUNTIME_QUALIFICATION" = "0" ]; then
   watch_sccache_health >/tmp/adl-sccache-watch.log 2>&1 &
   SCCACHE_WATCH_PID="$!"
 fi
@@ -437,6 +530,13 @@ watch_spot_notice() {
       printf '%s\n' "accepted" > "$RUN_ROOT/spot-dehydration.active"
       DEADLINE_UTC="$(jq -r '.time' "$RUN_ROOT/spot-interruption.log")"
       CALLBACK="${ADL_SPOT_DEHYDRATE_CALLBACK:-}"
+      READY="${ADL_SPOT_DEHYDRATE_READY:-}"
+      if [ -z "$READY" ] || [ ! -f "$READY" ]; then
+        printf '%s\n' "Spot interruption arrived before resident continuity was ready" > "$RUN_ROOT/spot-interruption-before-ready"
+        rm -f "$RUN_ROOT/spot-dehydration.active"
+        printf '%s\n' "terminal" > "$RUN_ROOT/spot-dehydration.done"
+        break
+      fi
       if [ -z "$CALLBACK" ] || [ ! -x "$CALLBACK" ]; then
         printf '%s\n' "Spot dehydration callback is missing or not executable" > "$RUN_ROOT/spot-dehydration.failed"
         rm -f "$RUN_ROOT/spot-dehydration.active"
@@ -501,6 +601,10 @@ if [ -f "$RUN_ROOT/spot-dehydration.failed" ]; then
   COMMAND_EXIT=70
   cat "$RUN_ROOT/spot-dehydration.failed" >> "$RUN_ROOT/command.err"
 fi
+if [ -f "$RUN_ROOT/spot-interruption-before-ready" ]; then
+  COMMAND_EXIT=75
+  cat "$RUN_ROOT/spot-interruption-before-ready" >> "$RUN_ROOT/command.err"
+fi
 if grep -Fq "sccache: warning: The server looks like it shut down unexpectedly" "$RUN_ROOT/command.err"; then
   SCCACHE_DEGRADED=1
   SCCACHE_DEGRADED_REASON="server_shut_down_unexpectedly"
@@ -508,7 +612,7 @@ elif grep -Fq "sccache: error:" "$RUN_ROOT/command.err"; then
   SCCACHE_DEGRADED=1
   SCCACHE_DEGRADED_REASON="client_or_server_error"
 fi
-if [ "$CONTAINERIZED_VALIDATION" = "0" ] && [ ! -s "$RUN_ROOT/sccache-stats.log" ]; then
+if [ "$CONTAINERIZED_VALIDATION" = "0" ] && [ "$ISSUE268_RUNTIME_QUALIFICATION" = "0" ] && [ ! -s "$RUN_ROOT/sccache-stats.log" ]; then
   SCCACHE_DEGRADED=1
   if [ -z "$SCCACHE_DEGRADED_REASON" ]; then
     SCCACHE_DEGRADED_REASON="missing_stats"
@@ -520,6 +624,7 @@ export COMMAND_EXIT BOOTSTRAP_START BOOTSTRAP_END COMMAND_START COMMAND_END
 export INTERRUPTION_NOTICE RESOLVED_COMMIT RUSTC_VERSION CARGO_VERSION SCCACHE_VERSION
 export SCCACHE_DEGRADED SCCACHE_DEGRADED_REASON
 export CONTAINERIZED_VALIDATION
+export ISSUE268_RUNTIME_QUALIFICATION
 python3 - <<'PY'
 import json
 import os
@@ -543,6 +648,8 @@ builder_summary = run_root.joinpath("spot-builder-summary.json")
 if builder_summary.exists():
   payload["builder_proof"] = json.loads(builder_summary.read_text(encoding="utf-8"))
 payload["host_validation_tools_installed"] = os.environ.get("CONTAINERIZED_VALIDATION") != "1"
+payload["validation_environment"] = "direct_host_runtime" if os.environ.get("ISSUE268_RUNTIME_QUALIFICATION") == "1" else ("immutable_builder" if os.environ.get("CONTAINERIZED_VALIDATION") == "1" else "direct_host")
+payload["runtime_toolchain_verified"] = bool(os.environ.get("ISSUE268_RUNTIME_QUALIFICATION") == "1" and payload["rustc_version"] and payload["cargo_version"])
 print("ADL_AWS_REMOTE_SUMMARY_BEGIN")
 print(json.dumps(payload))
 print("ADL_AWS_REMOTE_SUMMARY_END")

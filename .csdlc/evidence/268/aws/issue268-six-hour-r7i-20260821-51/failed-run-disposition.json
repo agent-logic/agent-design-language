@@ -1,0 +1,13 @@
+{
+  "additional_provider_attempt_authorized": true,
+  "authoritative_request_fallback": "disabled",
+  "authoritative_request_sha256": "5971288b3f5a5d026afee91637827a44b526b459a522c761a54c4937930539cb",
+  "continuation_authority": "operator_authorized_on_demand_until_completion_or_usd20_budget",
+  "disposition": "terminal_failed_attempt_retained",
+  "failure_class": "guardian_target_root_bound_to_sibling_cache_not_cargo_parent",
+  "provider_attempts_observed": 1,
+  "purchase_option": "on_demand",
+  "run_id": "issue268-six-hour-r7i-20260821-51",
+  "schema": "adl.issue268.failed_run_disposition.v1",
+  "summary_sha256": "5e76d69265f045a486e0adf9ef50c9c5c7c2f9224a869147cdf092094933674a"
+}

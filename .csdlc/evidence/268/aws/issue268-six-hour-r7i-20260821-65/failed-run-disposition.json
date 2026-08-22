@@ -1,0 +1,13 @@
+{
+  "additional_attempt_authority": "standing_operator_authorization_up_to_usd20",
+  "authoritative_failure_class": "runtime_volume_capacity_guard",
+  "estimated_compute_cost_usd": 0.465402,
+  "fallback": "disabled",
+  "portable_request_sha256": "3fbc57706fff110c26ff515aeaa62bd006fe5379a9bdfe9e51b69188844caed3",
+  "provider_attempts": 1,
+  "run_id": "issue268-six-hour-r7i-20260821-65",
+  "schema": "adl.issue268.failed_run_disposition.v1",
+  "status": "terminal_partial_qualification",
+  "summary_sha256": "432ad88256362f70fc688fe75d6ec4e5fe7391655ab3a5bd8d6f5e444a9c6b71",
+  "truth": "All six Runtime residents completed their pre-cycle work. Signed dehydration correctly failed because low free disk blocked continuity checkpoint advancement. The retained volume was expanded to 256 GiB, the exact one-time duplicate model store is removed before startup, the filesystem is grown after attachment, 10x model-store free capacity is required, and future launches reuse the warm volume without cold snapshot cloning or a full-store reread. Compute and stack cleanup completed and fallback did not run."
+}

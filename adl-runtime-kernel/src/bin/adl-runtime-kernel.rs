@@ -24,10 +24,11 @@ use adl_runtime_kernel::{
     AgentPopulationFeed, CatalogSigningAuthority, CheckpointShutdownRequest, CheckpointingControl,
     ContinuityControlService, ControlApiPolicy, ControlAuthority, ControlCapability,
     ControlService, DurableContinuityJournal, Kernel, KernelExit, LiveBindings, LiveContinuity,
-    LiveKernelSnapshot, OperationRequest, RecorderTrustedTime, RsntpTimeSampleSource, RunningState,
-    RuntimeInitConfig, RuntimeRecorder, SysinfoWeatherObserver, TargetContinuityCoordinator,
-    TimeQualificationBounds, TimeSampleSource, TlsIdentityPaths, TrustedControlKey, TrustedTime,
-    AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS, OPERATION_REQUEST_SCHEMA, PRIVATE_ALPN,
+    LiveKernelSnapshot, ObservabilityDegradation, ObservabilityHealth, OperationRequest,
+    RecorderTrustedTime, RsntpTimeSampleSource, RunningState, RuntimeInitConfig, RuntimeRecorder,
+    SysinfoWeatherObserver, TargetContinuityCoordinator, TimeQualificationBounds, TimeSampleSource,
+    TlsIdentityPaths, TrustedControlKey, TrustedTime, AGENT_ADMISSION_HEARTBEAT_TTL_MILLIS,
+    OPERATION_REQUEST_SCHEMA, PRIVATE_ALPN,
 };
 use observability::{RuntimeVectorConfig, RuntimeVectorPipeline};
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
@@ -304,6 +305,10 @@ async fn main() -> ExitCode {
             let time_source: Arc<dyn TimeSampleSource> = Arc::new(RsntpTimeSampleSource::new(
                 init.credentials.sntp_server.clone(),
             ));
+            let birthday_generations = birthday_authority_generations(
+                migration_decision_key_generation,
+                init.credentials.continuity_min_generation,
+            );
             let assembly = match build_live_assembly(LiveBindings {
                 recorder: recorder.clone(),
                 canonical_ingress_capacity: init.kernel.canonical_ingress_capacity,
@@ -316,9 +321,9 @@ async fn main() -> ExitCode {
                     migration_decision_key,
                     init.credentials.continuity_key_id.clone(),
                     continuity_public_key,
-                    migration_decision_key_generation,
-                    init.credentials.continuity_min_generation.max(1),
-                    1,
+                    birthday_generations.0,
+                    birthday_generations.1,
+                    birthday_generations.2,
                 ),
                 reasoning,
                 time_source,
@@ -666,30 +671,31 @@ async fn main() -> ExitCode {
             let pressure_checkpoint_deadline =
                 std::time::Duration::from_millis(init.weather.checkpoint_deadline_millis);
             let api_shutdown = tokio_util::sync::CancellationToken::new();
-            let vector_config = match RuntimeVectorConfig::from_init_config(
+            let vector_config = RuntimeVectorConfig::from_init_config(
                 init.runtime_observability(),
                 init.paths.observability_root(&operation_state_identity),
                 instance_id.clone(),
-            ) {
-                Ok(config) => config,
+            );
+            let mut observability = match vector_config.and_then(RuntimeVectorPipeline::start) {
+                Ok(pipeline) => Some(pipeline),
                 Err(error) => {
-                    eprintln!("runtime observability configuration invalid: {error}");
-                    return ExitCode::from(78);
+                    eprintln!("runtime observability degraded; Runtime remains available: {error}");
+                    recorder.initialize_observability(ObservabilityHealth::Degraded {
+                        reason: ObservabilityDegradation::ExporterUnavailable,
+                    });
+                    None
                 }
             };
-            let mut observability = match RuntimeVectorPipeline::start(vector_config) {
-                Ok(pipeline) => pipeline,
-                Err(error) => {
-                    eprintln!("runtime observability pipeline unavailable: {error}");
-                    return ExitCode::from(78);
-                }
-            };
-            recorder.set_observability_pipeline(observability.snapshot());
+            if let Some(observability) = observability.as_ref() {
+                recorder.set_observability_pipeline(observability.snapshot());
+            }
             let mut shutdown_signal = match ShutdownSignalReceiver::register() {
                 Ok(signal) => signal,
                 Err(error) => {
                     eprintln!("runtime signal handler registration failed: {error}");
-                    let _ = observability.shutdown().await;
+                    if let Some(observability) = observability.as_mut() {
+                        let _ = observability.shutdown().await;
+                    }
                     return ExitCode::from(78);
                 }
             };
@@ -703,7 +709,9 @@ async fn main() -> ExitCode {
                 Ok(listener) => listener,
                 Err(error) => {
                     eprintln!("runtime control API bind failed: {error}");
-                    let _ = observability.shutdown().await;
+                    if let Some(observability) = observability.as_mut() {
+                        let _ = observability.shutdown().await;
+                    }
                     return ExitCode::from(70);
                 }
             };
@@ -717,7 +725,9 @@ async fn main() -> ExitCode {
                 Ok(handle) => handle,
                 Err(error) => {
                     eprintln!("runtime kernel failed to start: {error}");
-                    let _ = observability.shutdown().await;
+                    if let Some(observability) = observability.as_mut() {
+                        let _ = observability.shutdown().await;
+                    }
                     return ExitCode::from(70);
                 }
             };
@@ -736,7 +746,9 @@ async fn main() -> ExitCode {
             {
                 eprintln!("runtime resident Shepherd admission failed: {error}");
                 let _ = handle.shutdown(kernel_shutdown_grace).await;
-                let _ = observability.shutdown().await;
+                if let Some(observability) = observability.as_mut() {
+                    let _ = observability.shutdown().await;
+                }
                 return ExitCode::from(70);
             }
             let mut private_api = tokio::spawn(serve_private_continuity_listener(
@@ -761,7 +773,9 @@ async fn main() -> ExitCode {
                     let _ = handle.shutdown(kernel_shutdown_grace).await;
                     drain_control_api(&mut api, api_drain_timeout).await;
                     drain_private_api(&mut private_api, api_drain_timeout).await;
-                    let _ = observability.shutdown().await;
+                    if let Some(observability) = observability.as_mut() {
+                        let _ = observability.shutdown().await;
+                    }
                     return ExitCode::from(70);
                 }
             };
@@ -780,11 +794,13 @@ async fn main() -> ExitCode {
                 tokio::time::interval(std::time::Duration::from_millis(1_000));
             shepherd_heartbeat.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Delay);
             let serve_result = 'serve: loop {
-                if let Err(error) = observability.poll_health() {
+                if let Some(observability) = observability.as_mut() {
+                    if let Err(error) = observability.poll_health() {
+                        recorder.set_observability_pipeline(observability.snapshot());
+                        eprintln!("runtime observability pipeline failed: {error}");
+                    }
                     recorder.set_observability_pipeline(observability.snapshot());
-                    eprintln!("runtime observability pipeline failed: {error}");
                 }
-                recorder.set_observability_pipeline(observability.snapshot());
                 let weather_service = service.clone();
                 let pressure_delay = pressure_retry_at.take();
                 let pressure_monitor = async {
@@ -807,11 +823,13 @@ async fn main() -> ExitCode {
                         break 'wait TerminalTrigger::Pressure;
                     },
                     _ = observability_tick.tick() => {
-                        if let Err(error) = observability.poll_health() {
+                        if let Some(observability) = observability.as_mut() {
+                            if let Err(error) = observability.poll_health() {
+                                recorder.set_observability_pipeline(observability.snapshot());
+                                eprintln!("runtime observability pipeline failed: {error}");
+                            }
                             recorder.set_observability_pipeline(observability.snapshot());
-                            eprintln!("runtime observability pipeline failed: {error}");
                         }
-                        recorder.set_observability_pipeline(observability.snapshot());
                     },
                     _ = shepherd_heartbeat.tick() => {
                         let snapshot = recorder.snapshot();
@@ -979,18 +997,18 @@ async fn main() -> ExitCode {
                 drain_private_api(&mut private_api, api_drain_timeout).await;
                 break 'serve terminal;
             };
-            recorder.set_observability_pipeline(observability.snapshot());
-            match observability.shutdown().await {
-                Ok(()) => {
+            let mut observability_shutdown_error = None;
+            if let Some(observability) = observability.as_mut() {
+                recorder.set_observability_pipeline(observability.snapshot());
+                if let Err(error) = observability.shutdown().await {
+                    observability_shutdown_error = Some(error.to_string());
                     recorder.set_observability_pipeline(observability.snapshot());
-                    serve_result
-                }
-                Err(error) => {
-                    eprintln!("runtime observability shutdown failed: {error}");
-                    recorder.set_observability_pipeline(observability.snapshot());
-                    ExitCode::from(70)
                 }
             }
+            preserve_runtime_result_after_observability(
+                serve_result,
+                observability_shutdown_error.as_deref(),
+            )
         }
         _ => {
             eprintln!("{}", usage());
@@ -1293,6 +1311,27 @@ fn process_exit(exit: KernelExit) -> ExitCode {
     }
 }
 
+fn preserve_runtime_result_after_observability<T>(
+    runtime_result: T,
+    observability_shutdown_error: Option<&str>,
+) -> T {
+    if let Some(error) = observability_shutdown_error {
+        eprintln!("runtime observability shutdown failed; Runtime result preserved: {error}");
+    }
+    runtime_result
+}
+
+/// Memory Palace birthday authority begins its own signed lineage at genesis.
+/// The live-continuity minimum is an anti-rollback floor enforced separately by
+/// `LiveContinuity`; treating that floor as a birthday generation greater than
+/// one would require a predecessor digest that does not belong to this lineage.
+fn birthday_authority_generations(
+    identity_generation: u64,
+    _live_continuity_minimum_generation: u64,
+) -> (u64, u64, u64) {
+    (identity_generation, 1, 1)
+}
+
 async fn drain_control_api(
     api: &mut tokio::task::JoinHandle<Result<(), adl_runtime_kernel::ControlApiError>>,
     timeout: std::time::Duration,
@@ -1313,7 +1352,27 @@ async fn drain_private_api(
 
 #[cfg(test)]
 mod tests {
-    use super::bind_control_listener;
+    use super::{
+        bind_control_listener, birthday_authority_generations,
+        preserve_runtime_result_after_observability,
+    };
+
+    #[test]
+    fn live_continuity_floor_does_not_rebase_birthday_authority_genesis() {
+        assert_eq!(birthday_authority_generations(7, 0), (7, 1, 1));
+        assert_eq!(birthday_authority_generations(7, 41), (7, 1, 1));
+    }
+
+    #[test]
+    fn observability_shutdown_failure_preserves_runtime_result() {
+        assert_eq!(
+            preserve_runtime_result_after_observability(
+                "runtime-clean-exit",
+                Some("master_log_drain_incomplete")
+            ),
+            "runtime-clean-exit"
+        );
+    }
 
     #[tokio::test]
     async fn control_listener_rebinds_immediately_after_a_connection_closes() {

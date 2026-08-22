@@ -1,0 +1,23 @@
+{
+  "cleanup": {
+    "compute_state": "terminated",
+    "runtime_volume_attachment_state": "detached",
+    "stack_state": "deleted"
+  },
+  "estimated_compute_cost_usd": 0.448203,
+  "failure_reason": "The six-resident Runtime/ACC/continuity qualification passed, then the command failed while entering the six-hour Guardian lane. The SSM terminal diagnostic was truncated behind oversized receipt output, so no narrower causal claim is made.",
+  "fallback": "disabled",
+  "instance_type": "r7i.2xlarge",
+  "issue": 268,
+  "provider_attempts": 1,
+  "purchase_option": "on_demand",
+  "run_id": "issue268-six-hour-r7i-20260821-63",
+  "runtime_qualification_started": true,
+  "runtime_qualification_status": "passed",
+  "schema": "adl.issue268.failed_run_summary.v1",
+  "status": "terminal_guardian_entry_failure",
+  "timing": {
+    "remote_command_seconds": 3016,
+    "total_seconds": 3049
+  }
+}

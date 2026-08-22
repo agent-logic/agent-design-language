@@ -1,0 +1,23 @@
+{
+  "cleanup": {
+    "compute_state": "terminated",
+    "runtime_volume_attachment_state": "detached",
+    "stack_state": "deleted"
+  },
+  "estimated_compute_cost_usd": 0.133329,
+  "failure_reason": "The warm-volume path completed in place: capacity validation passed, all three Ollama models became resident, and six Runtime residents completed UTS, ACC, signed dehydration, restore, six actual replay denials, and pending-only continuation. Guardian then failed before its exposure interval because the authenticated HTTPS/WSS probe could not connect before the 30-second Runtime readiness deadline.",
+  "fallback": "disabled",
+  "instance_type": "r7i.2xlarge",
+  "issue": 268,
+  "provider_attempts": 1,
+  "purchase_option": "on_demand",
+  "run_id": "issue268-six-hour-r7i-20260821-66",
+  "runtime_qualification_started": true,
+  "runtime_qualification_status": "passed_before_guardian",
+  "schema": "adl.issue268.failed_run_summary.v1",
+  "status": "terminal_guardian_readiness_timeout",
+  "timing": {
+    "remote_command_seconds": 874,
+    "total_seconds": 907
+  }
+}

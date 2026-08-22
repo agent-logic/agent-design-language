@@ -133,15 +133,24 @@ case "$1" in
       echo "validation container did not preserve the known-good Rust flags" >&2
       exit 2
     }
-    [[ "$args" == *"--user "* && "$args" == *"AWS_EC2_METADATA_DISABLED=true"* ]] || {
-      echo "validation container did not isolate root permissions and EC2 role discovery" >&2
-      exit 2
-    }
+    if [[ "$args" == *":/runtime-continuity"* ]]; then
+      [[ "$args" == *"--user "* && "$args" == *"AWS_EC2_METADATA_DISABLED=false"* \
+          && "$args" == *"ADL_RUNTIME_CONTINUITY_ROOT=/runtime-continuity"* \
+          && "$args" == *"ADL_ISSUE268_RUNTIME_VOLUME_IDENTITY_SHA256="* ]] || {
+        echo "validation container did not mount the Runtime volume with instance-role S3 access" >&2
+        exit 2
+      }
+    else
+      [[ "$args" == *"--user "* && "$args" == *"AWS_EC2_METADATA_DISABLED=true"* ]] || {
+        echo "validation container did not isolate root permissions and EC2 role discovery" >&2
+        exit 2
+      }
+    fi
     [[ "$args" == *":/cache-root"* && "$args" == *"CARGO_TARGET_DIR=/cache-root/target"* && "$args" == *"SCCACHE_DIR=/cache-root/sccache"* && "$args" == *"CARGO_HOME=/cache-root/cargo-home"* ]] || {
       echo "validation container did not preserve the known-good cache layout" >&2
       exit 2
     }
-    [[ "$args" == *"/adl-aws-remote-validation/shared/tmp:/tmp"* && "$args" == *"TMPDIR=/tmp"* ]] || {
+    [[ "$args" == *"/tmp:/tmp"* && "$args" == *"TMPDIR=/tmp"* ]] || {
       echo "validation container did not mount EBS-backed temp space" >&2
       exit 2
     }
@@ -208,6 +217,26 @@ assert payload["cache_mount_verified"] is True
 assert payload["host_validation_tools_installed"] is False
 assert payload["cache_mount_source_sha256"]
 PY
+
+RUNTIME_ROOT="$TMP/runtime-volume/runtime"
+mkdir -p "$RUNTIME_ROOT"
+PATH="$FAKE_BIN:$PATH" \
+TMPDIR="$TMP/raw" \
+ADL_FAKE_TOOLCHAIN_BIN="$TOOLCHAIN_BIN" \
+ADL_REMOTE_REPO_DIR="$ROOT" \
+ADL_RUN_ROOT="$RUN_ROOT" \
+ADL_CACHE_VOLUME_MOUNT_PATH="$TMP/ephemeral-build-cache" \
+ADL_RETAINED_VOLUME_ROLE=runtime_continuity \
+ADL_RUNTIME_CONTINUITY_ROOT="$RUNTIME_ROOT" \
+ADL_RUNTIME_CONTINUITY_VOLUME_ID_SHA256="$(printf 'd%.0s' {1..64})" \
+ADL_REGION=us-west-2 \
+ADL_FAKE_DOCKER_CALLS="$TMP/docker-calls.log" \
+bash "$SCRIPT" \
+  --image "$image" \
+  --expected-ref "$commit" \
+  --command 'bash adl/tools/run_issue268_remote_resident_qualification.sh' \
+  >"$TMP/runtime-volume.out" 2>"$TMP/runtime-volume.err"
+grep -F 'ADL_SPOT_BUILDER_PROOF=' "$TMP/runtime-volume.out" >/dev/null
 
 if PATH="$FAKE_BIN:$PATH" ADL_REMOTE_REPO_DIR="$ROOT" ADL_RUN_ROOT="$RUN_ROOT" \
   ADL_CACHE_VOLUME_MOUNT_PATH="$CACHE_MOUNT" bash "$SCRIPT" \

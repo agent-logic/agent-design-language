@@ -1,0 +1,13 @@
+{
+  "additional_attempt_authority": "standing_operator_authorization_up_to_usd20",
+  "authoritative_failure_class": "snapshot_receipt_absolute_path_drift",
+  "estimated_compute_cost_usd": 0.112749,
+  "fallback": "disabled",
+  "portable_request_sha256": "13abc81ff699fd16e718424dd9170d6acd12248e3fc7cc08a5e298804f20d56e",
+  "provider_attempts": 1,
+  "run_id": "issue268-six-hour-r7i-20260821-58",
+  "schema": "adl.issue268.failed_run_disposition.v1",
+  "status": "terminal_pre_runtime_failure",
+  "summary_sha256": "e1d58684f5014fa120d9a5f6b40bc2267e0377e532f57a2c5de3a0a62f6d8763",
+  "truth": "The mounted snapshot was healthy and the exact-head Runtime build completed. Its retained installation receipt still named the original mount path, so atomic replacement failed before Runtime qualification. The installer now rebases only sealed install/current paths to the current mount and rejects unsealed paths. Compute and stack cleanup completed, the retained volume detached, and fallback did not run."
+}

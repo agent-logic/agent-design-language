@@ -1,0 +1,12 @@
+{
+  "command_stderr_sha256": "2a57fe49f17fed2e3bdcc5f702eb85ec8bf9e374fff2aa1e82e28057b05e7105",
+  "continuation_verified": true,
+  "continuity_generation": 1,
+  "diagnostic_limit": "SSM retained only the first 24024 bytes of command stderr",
+  "guardian_terminal_diagnostic_retained": false,
+  "resident_count": 6,
+  "replay_denied": true,
+  "runtime_qualification": "passed",
+  "schema": "adl.issue268.runtime_qualification_diagnostic.v1",
+  "status": "guardian_entry_failure_with_truncated_terminal_diagnostic"
+}

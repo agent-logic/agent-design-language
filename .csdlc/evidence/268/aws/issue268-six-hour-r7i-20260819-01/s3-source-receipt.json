@@ -1,0 +1,28 @@
+{
+  "schema": "adl.issue268.s3_source_receipt.v1",
+  "reviewed_git_sha": "6b1a4ee66f838e612d58c7b396851a610470190f",
+  "bucket": "adl-shepherd-model-artifacts-b05e1f4379b5c745-us-west-2",
+  "region": "us-west-2",
+  "objects": [
+    {
+      "key": "shepherd/runtime/ollama/0.31.1/ollama-linux-amd64.tar.zst",
+      "version_id": "nNSGKnrDr8zNKPXAUUTqIiAarM9euK0w",
+      "sha256": "d297381efc136451f6fabb9dd644a67f70fe51c16815a0c4a95ff0e327a3afb4"
+    },
+    {
+      "key": "shepherd/phi4-mini/ollama-0.31.1/78fad5d182a7c33065e153a5f8ba210754207ba9d91973f57dffa7f487363753/model-store/store.tar.zst",
+      "version_id": "o3TddBAzq0RFOxGJVUrbyPWQ6QfOqzgk",
+      "sha256": "18b4fa95d97d844e7308065e436f717fdd982c52a7fb8979c6faccb1514662c2"
+    },
+    {
+      "key": "shepherd/qwen3-8b/ollama-0.31.1/500a1f067a9f782620b40bee6f7b0c89e17ae61f686b92c24933e4ca4b2b8b41/model-store/store.tar.zst",
+      "version_id": "7Qs2uDGR.g2PBtoL4cR4.y9pqE4TAWns",
+      "sha256": "16ea63c0b606675f3e082ddd3ab160822f0a89575d0d71ebba6be9462f081813"
+    },
+    {
+      "key": "shepherd/llama3.1-8b/ollama-0.31.1/46e0c10c039e019119339687c3c1757cc81b9da49709a3b3924863ba87ca666e/model-store/store.tar.zst",
+      "version_id": "nJ.9Z7g3Dgc8GSTV9ezxGivzQ6z7qCFO",
+      "sha256": "9783005a6af2bbc6ee43b7ede49aa0787d14a9a83b7e9e40ce17e6d2284f33de"
+    }
+  ]
+}

@@ -76,6 +76,10 @@ pub struct ProviderInvocationRequestV1 {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub max_output_tokens: Option<u64>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub context_window_tokens: Option<u64>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub local_keep_alive: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
     pub inference_parameter_fingerprint: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub tool_surface: Option<String>,
@@ -1212,6 +1216,8 @@ mod tests {
             },
             input_text: Some("test prompt".to_string()),
             max_output_tokens: None,
+            context_window_tokens: None,
+            local_keep_alive: None,
             inference_parameter_fingerprint: None,
             tool_surface: None,
             governance_surface: None,
@@ -1251,6 +1257,8 @@ mod tests {
             },
             input_text: None,
             max_output_tokens: None,
+            context_window_tokens: None,
+            local_keep_alive: None,
             inference_parameter_fingerprint: Some("sha256:test".to_string()),
             tool_surface: None,
             governance_surface: Some("codefriend.synthesis_required.v1".to_string()),
