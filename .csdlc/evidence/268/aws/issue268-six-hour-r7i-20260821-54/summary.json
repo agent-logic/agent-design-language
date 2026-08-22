@@ -14,7 +14,7 @@
       "sha256": "f51eca20d9c0df8567d47828dbd5f5cc9305822517decf930708b406c61df3c1"
     }
   },
-  "artifact_dir": "/Volumes/FastWork/adl-worktrees/adl-issue-268-six-hour-spot-qualification/.csdlc/evidence/268/aws/issue268-six-hour-r7i-20260821-54/artifacts/attempt-0",
+  "artifact_dir": "artifacts/attempt-0",
   "attempts": [
     {
       "instance_type": "r7i.2xlarge",
@@ -55,9 +55,9 @@
     "start": "2026-08-01T00:00:00+00:00",
     "unit": "USD"
   },
-  "event_log_path": "/Volumes/FastWork/adl-worktrees/adl-issue-268-six-hour-spot-qualification/.csdlc/evidence/268/aws/issue268-six-hour-r7i-20260821-54/artifacts/attempt-0/events.jsonl",
+  "event_log_path": "artifacts/attempt-0/events.jsonl",
   "expected_max_cost_usd": 20.0,
-  "failure_reason": "remote command dispatch failed: InstanceUnavailableDuringCommand: instance <ec2-instance-id-redacted> entered state 'shutting-down' while command 18c0fd95-3aea-41cb-9ae2-1223b64ceb4a was still running",
+  "failure_reason": "passive monitor invoked the mutating validate recovery path while the On-Demand command was starting; Runtime qualification had not begun",
   "finished_at": "2026-08-22T01:15:56.910074+00:00",
   "issue": 268,
   "launch": {
@@ -72,7 +72,10 @@
     "purchase_option": "on_demand"
   },
   "launch_surface": {
-    "ami_id": "ami-08b7b9fdd7a1edf3d",
+    "ami_id": {
+      "redacted": true,
+      "sha256": "769e9bedc776405acb6bbba0c79dab7ab882a976e33c101d4d7b415db52f06fb"
+    },
     "ami_source": "cloudformation_stack",
     "availability_zone": "us-west-2a",
     "instance_profile_created": false,
@@ -132,8 +135,8 @@
       "timings",
       "cost_or_budget"
     ],
-    "fault_class": "spot_interrupted",
-    "operator_action": "obtain fresh operator authorization before any additional provider attempt",
+    "fault_class": "operator_monitor_termination",
+    "operator_action": "continue only under the existing standing operator authorization and with read-only monitoring",
     "policy": {
       "cleanup_required": true,
       "cost_evidence_required": true,
@@ -149,7 +152,7 @@
     },
     "retryable": false,
     "schema_version": "adl.aws_remote_validation.resilience.v1",
-    "summary": "failure is terminal under the issue 268 single-attempt authorization"
+    "summary": "attempt is terminal and non-authoritative because the passive monitor terminated it before Runtime qualification began"
   },
   "run_id": "issue268-six-hour-r7i-20260821-54",
   "schema_version": "adl.aws_remote_validation_run.v1",
@@ -168,7 +171,7 @@
     "state_transition_reason": "User initiated (2026-08-22 01:15:19 GMT)"
   },
   "started_at": "2026-08-22T01:14:52.762449+00:00",
-  "status": "interrupted_by_aws",
+  "status": "failed",
   "timings": {
     "launch_seconds": 0,
     "remote_command_seconds": null,
