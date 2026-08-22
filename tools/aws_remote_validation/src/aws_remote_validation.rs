@@ -199,6 +199,12 @@ impl AwsRemoteValidationConfig {
         if self.command_timeout_seconds == Some(0) {
             return Err(anyhow!("command timeout must be greater than zero"));
         }
+        if self
+            .command_timeout_seconds
+            .is_some_and(|value| value > i32::MAX as u64)
+        {
+            return Err(anyhow!("command timeout exceeds the SSM API limit"));
+        }
         let cache_volume_enabled = self.cache_volume_id.is_some()
             || self.cache_volume_name.is_some()
             || self.cache_volume_size_gib.is_some()
@@ -3855,10 +3861,12 @@ impl AwsRemoteValidationAdapter for LiveAwsRemoteValidationAdapter {
         } else {
             None
         };
+        let ssm_timeout_seconds = ssm_command_timeout_seconds(timeout)?;
         let output = self
             .ssm
             .send_command()
             .document_name("AWS-RunShellScript")
+            .timeout_seconds(ssm_timeout_seconds)
             .instance_ids(instance_id)
             .parameters(
                 "commands",
@@ -3950,10 +3958,13 @@ impl AwsRemoteValidationAdapter for LiveAwsRemoteValidationAdapter {
                     invocation.response_code()
                 ),
             );
-            let terminal = matches!(
-                status.as_str(),
-                "Success" | "Cancelled" | "TimedOut" | "Failed" | "Cancelling"
-            );
+            let terminal = ssm_command_status_is_terminal(&status)
+                || invocation.status().is_some_and(|value| {
+                    matches!(
+                        value.as_str(),
+                        "Success" | "Cancelled" | "TimedOut" | "Failed" | "Cancelling"
+                    )
+                });
             if terminal {
                 if let Some(child) = ssh_tail_child.as_mut() {
                     let _ = child.start_kill();
@@ -4285,6 +4296,41 @@ fn classify_run_instances_error(
     }
 }
 
+fn ssm_command_timeout_seconds(
+    timeout: Option<Duration>,
+) -> std::result::Result<i32, AwsAdapterError> {
+    let seconds = timeout
+        .map(|value| value.as_secs())
+        .ok_or_else(|| AwsAdapterError {
+            code: Some("CommandTimeoutMissing".to_string()),
+            message: "SSM command timeout must be explicitly bound to the provider request"
+                .to_string(),
+            spot_fallback_permitted: false,
+        })?;
+    i32::try_from(seconds).map_err(|_| AwsAdapterError {
+        code: Some("CommandTimeoutInvalid".to_string()),
+        message: "SSM command timeout exceeds the API limit".to_string(),
+        spot_fallback_permitted: false,
+    })
+}
+
+fn ssm_command_status_is_terminal(status: &str) -> bool {
+    matches!(
+        status,
+        "Success"
+            | "Cancelled"
+            | "TimedOut"
+            | "Failed"
+            | "Cancelling"
+            | "DeliveryTimedOut"
+            | "ExecutionTimedOut"
+            | "Undeliverable"
+            | "Terminated"
+            | "InvalidPlatform"
+            | "AccessDenied"
+    )
+}
+
 fn classify_ssm_error<E: fmt::Display>(err: E) -> AwsAdapterError {
     AwsAdapterError {
         code: Some("SsmError".to_string()),
@@ -4535,6 +4581,22 @@ mod tests {
             command_timeout_seconds: Some(20),
             termination_timeout_seconds: 10,
         }
+    }
+
+    #[test]
+    fn ssm_command_timeout_is_explicitly_bound_to_full_provider_budget() {
+        assert_eq!(
+            ssm_command_timeout_seconds(Some(Duration::from_secs(25_200))).unwrap(),
+            25_200
+        );
+        assert!(ssm_command_timeout_seconds(None).is_err());
+    }
+
+    #[test]
+    fn ssm_execution_timeout_is_terminal() {
+        assert!(ssm_command_status_is_terminal("ExecutionTimedOut"));
+        assert!(ssm_command_status_is_terminal("DeliveryTimedOut"));
+        assert!(!ssm_command_status_is_terminal("InProgress"));
     }
 
     fn cancellable_adapter() -> FakeAdapter {
