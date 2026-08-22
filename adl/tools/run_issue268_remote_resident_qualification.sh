@@ -141,7 +141,8 @@ if ! python3 "$MODEL_WARMUP" \
   exit 70
 fi
 mkdir -p "$EVIDENCE_ROOT/continuity-uts"
-python3 "$ORCHESTRATOR" \
+orchestrator_log="$EVIDENCE_ROOT/continuity-uts/orchestrator.log"
+if ! python3 "$ORCHESTRATOR" \
   --continuity-bin "$CONTINUITY_BIN" \
   --runtime-bin "$RUNTIME_BIN" \
   --runtime-root "$RUNTIME_ROOT" \
@@ -151,7 +152,11 @@ python3 "$ORCHESTRATOR" \
   --state "$EVIDENCE_ROOT/uts-state.json" \
   --evidence-dir "$EVIDENCE_ROOT/continuity-uts" \
   --plan "$materialized" \
-  >"$EVIDENCE_ROOT/continuity-uts/orchestrator.log" 2>&1
+  >"$orchestrator_log" 2>&1; then
+  echo "issue268: resident continuity/UTS orchestration failed; bounded diagnostics follow" >&2
+  tail -120 "$orchestrator_log" >&2 || true
+  exit 1
+fi
 
 receipt="$EVIDENCE_ROOT/continuity-uts/qualification-receipt.json"
 python3 - "$receipt" <<'PY'
