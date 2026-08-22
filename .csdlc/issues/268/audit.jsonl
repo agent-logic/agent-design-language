@@ -12,3 +12,4 @@
 {"sequence":12,"generation":9,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":13,"generation":10,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":14,"generation":11,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":15,"generation":12,"actor":"codex:/root","reason":"Recover review and publication after the lease-protected branch rewrite removed an accidentally published private raw-evidence add/delete pair. Preserve the public PR, clear stale revision metadata, and obtain a fresh exact-head review before typed republication.","operation":"recover_review"}

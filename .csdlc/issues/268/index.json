@@ -3,69 +3,14 @@
   "issue": 268,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "e16999c52566cfad58e38b96e519a2754f6059234981629e0562b9739d05d765",
-  "phase": "published",
-  "generation": 11,
-  "digest": "d097178c076b15817eb6b11861611dc05e375d147ac5d380e03cea67f5aaef93",
+  "phase": "implemented",
+  "generation": 12,
+  "digest": "e0e79b06c52d507ace6d1941c05c44fda4106f73fd1d950abf3870b4d952dcc8",
   "branch": "codex/268-six-hour-spot-qualification",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-268-six-hour-spot-qualification",
-  "review_assignment": {
-    "reviewer": "fresh-session:01a01755-c400-7050-a049-b98e947a5684",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:503e3d00f859ad3198e7c4853d0d3c049871ac5c:86e549c88c170fdc2466fc4e87074ed2e9648078bfb74e4069e51b14749fc9a9",
-    "scope": [
-      ".csdlc/issues/268",
-      ".csdlc/prepared/issues/268",
-      ".csdlc/evidence/268/aws/issue268-six-hour-r7i-20260821-72",
-      "adl/src",
-      "adl-runtime/src",
-      "adl/tools/issue268_runtime_uts_task_panel.json",
-      "adl/tools/issue268_runtime_qualification.cloudformation.yaml",
-      "adl/tools/run_issue268_continuity_uts_qualification.py",
-      "adl/tools/run_issue268_remote_resident_qualification.sh",
-      "adl/tools/run_issue268_six_hour_spot_qualification.sh",
-      "adl/tools/run_issue268_six_resident_uts_cycle.py",
-      "adl/tools/install_issue268_runtime_volume.py",
-      "tools/aws_remote_validation"
-    ]
-  },
-  "review": {
-    "reviewer": "fresh-session:01a01755-c400-7050-a049-b98e947a5684",
-    "scope": [
-      ".csdlc/issues/268",
-      ".csdlc/prepared/issues/268",
-      ".csdlc/evidence/268/aws/issue268-six-hour-r7i-20260821-72",
-      "adl/src",
-      "adl-runtime/src",
-      "adl/tools/issue268_runtime_uts_task_panel.json",
-      "adl/tools/issue268_runtime_qualification.cloudformation.yaml",
-      "adl/tools/run_issue268_continuity_uts_qualification.py",
-      "adl/tools/run_issue268_remote_resident_qualification.sh",
-      "adl/tools/run_issue268_six_hour_spot_qualification.sh",
-      "adl/tools/run_issue268_six_resident_uts_cycle.py",
-      "adl/tools/install_issue268_runtime_volume.py",
-      "tools/aws_remote_validation"
-    ],
-    "reviewed_revision": "git-blake3:503e3d00f859ad3198e7c4853d0d3c049871ac5c:86e549c88c170fdc2466fc4e87074ed2e9648078bfb74e4069e51b14749fc9a9",
-    "findings": [],
-    "residual_risks": [
-      "Raw provider and continuity receipts remain private, local, and untracked; publication relies on the redacted digest-bound proof packet.",
-      "The retained warm Runtime EBS volume remains intentionally available and detached for later governed reuse."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 268,
-    "pull_request": 464,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/464",
-    "base": "main",
-    "head": "codex/268-six-hour-spot-qualification",
-    "revision": "git-blake3:29ce6a37d9d5ee4a03e66cda49661ac8ea9b6bea:5806f66802075437c796b53b607005a3d1b1c33a77716649fde4562a8903bac8",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -79,34 +24,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "231d6b52c7057cb9a7543dd2a9f59fd03d701d334f653f60e1dff197bfa0eaff",
+      "values_digest": "a9613c8950f02bc01d7ca78f916b61287d7d5e0ddba8aab0fa2c8c668c469b5f",
       "rendered_digest": "e908ddb3f4ac18811a0da0eb292961f74259aafbeb5db8379d621e5c588ff0fb",
       "ast_digest": "2a9b71de360fc425b63b2eb2c411aa70d46f94ab9b252366f57c4a595d73b980"
     },
     "stp": {
-      "values_digest": "a2606ea6f0f91a5c67f56ff0258d7c54caf0f5892c6a5feb383b9763811ee125",
+      "values_digest": "19d7dd907af7a7b021be58c62d198bd384b083a667d26f216ef133a3d5cab435",
       "rendered_digest": "777d15780947d169759eb205c3e3a5ab79ab1d0f0e3b9f4ae466c31df0461d17",
       "ast_digest": "0fb96aa0d0b8e0bfdeee07f21d4a7bc18c1654b216cff4e7668f338e814c1101"
     },
     "spp": {
-      "values_digest": "bc46b22add84a6f1ab2f9ef2dbe0a9fba4dd08270939d61d12fbc4858b07025f",
+      "values_digest": "a52b9df8e44ecbd25bd9e422d291b2ed1cd9f7044a2d9c375f7831475bbfd115",
       "rendered_digest": "dc49fa00ed4408739f456e0696fe86f3650fb907408902168a87329c0241b900",
       "ast_digest": "dc0a074d1b6fec15970bd7a5016f7124d76f7fd3cdee82a3336a099621c5d318"
     },
     "vpp": {
-      "values_digest": "5d63f2eeeb5c037efeea9bf2d86706fb0d7d2245bb6c350ae909334af80046cf",
+      "values_digest": "7f12d48d771556f2935aad1cd237e8f94e3fd35a3ad111f87a709f9492f3b0d1",
       "rendered_digest": "04733e63e705ac994fa75756ded65168979dca0721b1a212afce2db4364f8524",
       "ast_digest": "2c8e7bd850832367056428b97713927b9160f719b5bcb692a83ec7626626ec93"
     },
     "srp": {
-      "values_digest": "bf4cb584257d9ff0e17d2ad8c7a7afd969e61a964855d4acb0cb862a9543bc63",
-      "rendered_digest": "d2ca3859b319360ff5c842bebaa64a89631413daaae5fb3fd44f56848f133a79",
-      "ast_digest": "bed9e68ce3d52eb9003c84531410fd3f4b14c0cc6f257b8629c12555d94f4bba"
+      "values_digest": "2e27a9b0ad6ab54e17669c8eb5f1dcc08ffc5532c59f835ceeda1de689a2532b",
+      "rendered_digest": "a62f87c2be0065b1b6431157df3687a34f550c228c982d209ba0abf5c97525ab",
+      "ast_digest": "73df1f418b5bd3187427b262b73f1b096f6dc6f7eaaccb6704fd34216a53d707"
     },
     "sor": {
-      "values_digest": "89e6bfe36049e539e3520df42dbb7b912df91801ec96251edbc5c447964b5627",
-      "rendered_digest": "d457da13471df82fc7f8974b4394bb214b33c3f7ffb8b6b8ec6fb1b77db91a28",
-      "ast_digest": "21ff710fc96bef111f505a452d05402c85c265a6b84ecb81562cf42405a17d6a"
+      "values_digest": "f7e3a8a15b4f21d8a219700cbf5b4c0c65556af93cfef9e429c50d0da4ae4ad3",
+      "rendered_digest": "6e8b3773ab2620cc9df86972598ad6e97b8721e06885e696cf8c9e7e58957b24",
+      "ast_digest": "74f9fd2ad26e41352f056ac3c2612b1cfad0e2708a866ceece6750d3b0dc887a"
     }
   },
   "transitions": [
@@ -144,6 +89,13 @@
       "to": "published",
       "actor": "codex:/root",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover review and publication after the lease-protected branch rewrite removed an accidentally published private raw-evidence add/delete pair. Preserve the public PR, clear stale revision metadata, and obtain a fresh exact-head review before typed republication."
     }
   ],
   "audit": [
@@ -244,6 +196,13 @@
       "actor": "codex:/root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Recover review and publication after the lease-protected branch rewrite removed an accidentally published private raw-evidence add/delete pair. Preserve the public PR, clear stale revision metadata, and obtain a fresh exact-head review before typed republication.",
+      "operation": "recover_review"
     }
   ]
 }
