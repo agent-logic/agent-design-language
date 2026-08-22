@@ -32,18 +32,25 @@ with tempfile.TemporaryDirectory() as tmp:
     tmp = pathlib.Path(tmp)
     source = tmp / "source.toml"
     output = tmp / "output.toml"
-    canonical = 'address = "127.0.0.1:20997"\npublic_base_url = "https://runtime.dev.agent-logic.ai:20997"\n'
+    repo_root = pathlib.Path(sys.argv[1]).resolve().parents[2]
+    snippet = snippet.replace(
+        'repo_root = source_path.parents[2]',
+        f'repo_root = pathlib.Path({str(repo_root)!r})',
+        1,
+    )
+    canonical = (repo_root / "infra/runtime-v3/runtime-init.toml").read_text()
     source.write_text(canonical)
-    result = subprocess.run([sys.executable, "-", str(source), str(output), "34567"], input=snippet, text=True, capture_output=True)
+    snippet_args = [sys.executable, "-", str(source), str(output), "34567", "34568", str(tmp / "state")]
+    result = subprocess.run(snippet_args, input=snippet, text=True, capture_output=True)
     if result.returncode != 0: raise SystemExit(f"Runtime init localization failed: {result.stderr}")
     localized = output.read_text()
     if 'address = "127.0.0.1:34567"' not in localized or 'public_base_url = "https://localhost:34567"' not in localized:
         raise SystemExit("Runtime init localization produced the wrong local endpoint")
-    source.write_text('address = "127.0.0.1:20997"\n')
-    if subprocess.run([sys.executable, "-", str(source), str(output), "34567"], input=snippet, text=True, capture_output=True).returncode == 0:
+    source.write_text(canonical.replace('public_base_url = "https://runtime.dev.agent-logic.ai:20997"\n', '', 1))
+    if subprocess.run(snippet_args, input=snippet, text=True, capture_output=True).returncode == 0:
         raise SystemExit("missing public URL unexpectedly localized")
     source.write_text(canonical + 'public_base_url = "https://duplicate.invalid:20997"\n')
-    if subprocess.run([sys.executable, "-", str(source), str(output), "34567"], input=snippet, text=True, capture_output=True).returncode == 0:
+    if subprocess.run(snippet_args, input=snippet, text=True, capture_output=True).returncode == 0:
         raise SystemExit("duplicate public URLs unexpectedly localized")
 print("PASS: issue268 contract markers")
 PY
