@@ -173,7 +173,8 @@ if [[ "$PROFILE" != env && "$PROFILE" != environment ]]; then
 fi
 
 validate_cloudformation_inputs() {
-  "$OWNER" preflight --check-account --profile "$PROFILE" --region "$REGION" >/dev/null
+  ADL_AWS_REMOTE_VALIDATION_SUBNET_ID="$CFN_SUBNET_ID" \
+    "$OWNER" preflight --check-account --profile "$PROFILE" --region "$REGION" >/dev/null
   "$AWS_CLI" "${profile_args[@]}" --region "$REGION" cloudformation validate-template \
     --template-body "file://$CFN_TEMPLATE" >/dev/null
   local subnet_az
@@ -185,6 +186,27 @@ validate_cloudformation_inputs() {
     echo "issue268: CloudFormation subnet/AZ/VPC contract failed" >&2
     return 1
   }
+  local volume_json
+  volume_json=$("$AWS_CLI" "${profile_args[@]}" --region "$REGION" ec2 describe-volumes \
+    --volume-ids "$CFN_RUNTIME_VOLUME_ID" --output json)
+  VOLUME_JSON="$volume_json" python3 - "$CFN_AVAILABILITY_ZONE" <<'PY' || return 1
+import json, os, sys
+volumes = json.loads(os.environ["VOLUME_JSON"]).get("Volumes", [])
+if len(volumes) != 1:
+    raise SystemExit("issue268: warm Runtime volume identity is not unique")
+volume = volumes[0]
+tags = {item.get("Key"): item.get("Value") for item in volume.get("Tags", [])}
+if volume.get("State") != "available":
+    raise SystemExit("issue268: warm Runtime volume is not available")
+if volume.get("AvailabilityZone") != sys.argv[1]:
+    raise SystemExit("issue268: warm Runtime volume is in the wrong availability zone")
+if volume.get("Encrypted") is not True:
+    raise SystemExit("issue268: warm Runtime volume is not encrypted")
+if not isinstance(volume.get("Size"), int) or volume["Size"] < 256:
+    raise SystemExit("issue268: warm Runtime volume is smaller than 256 GiB")
+if tags.get("adl:issue") != "268" or tags.get("adl:volume_role") != "retained-runtime":
+    raise SystemExit("issue268: warm Runtime volume identity tags are invalid")
+PY
 }
 
 delete_cloudformation_stack() {
@@ -231,6 +253,7 @@ print(json.dumps({
 PY
     ;;
   authorized-launch)
+    validate_cloudformation_inputs
     if [[ -e "$LAUNCH_CLAIM" ]]; then
       python3 - "$LAUNCH_CLAIM" "$RUN_ID" "$REVISION" <<'PY'
 import json, sys
@@ -245,7 +268,6 @@ PY
       echo "issue268: another launch invocation owns the one-attempt claim" >&2
       exit 75
     }
-    validate_cloudformation_inputs
     CFN_STACK_OWNED=true
     trap 'cleanup_cloudformation_on_exit $?' EXIT
     trap 'cleanup_cloudformation_on_exit 130' INT

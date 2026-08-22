@@ -110,6 +110,7 @@ case "$1" in
   cleanup) exit 0 ;;
   preflight)
     [[ " $* " == *" --check-account "* ]] || exit 97
+    [[ "${ADL_AWS_REMOTE_VALIDATION_SUBNET_ID:-}" == subnet-12345678 ]] || exit 96
     exit 0
     ;;
   *) echo "unexpected owner mutation" >&2; exit 99 ;;
@@ -132,6 +133,10 @@ elif [[ "$*" == *"describe-stacks"* && "$*" == *"InstanceId"* ]]; then
   printf 'i-12345678\n'
 elif [[ "$*" == *"describe-stacks"* && "$*" == *"RuntimeVolumeId"* ]]; then
   printf 'vol-12345678\n'
+elif [[ "$*" == *"describe-volumes"* ]]; then
+  state=${ADL_ISSUE268_FAKE_VOLUME_STATE:-available}
+  az=${ADL_ISSUE268_FAKE_VOLUME_AZ:-us-west-2a}
+  printf '{"Volumes":[{"VolumeId":"vol-12345678","State":"%s","AvailabilityZone":"%s","Encrypted":true,"Size":256,"Tags":[{"Key":"adl:issue","Value":"268"},{"Key":"adl:volume_role","Value":"retained-runtime"}]}]}\n' "$state" "$az"
 elif [[ "$*" == *"describe-instances"* ]]; then
   if [[ "${ADL_ISSUE268_FAKE_ACTIVE_INSTANCES:-0}" == 1 ]]; then
     printf '["i-test-owned"]\n'
@@ -176,6 +181,40 @@ if ADL_ISSUE268_EVIDENCE_ROOT="$test_root" \
   exit 1
 fi
 [[ ! -s "$test_root/owner.log" ]]
+
+for volume_case in in-use wrong-az; do
+  volume_failure_root=$(mktemp -d "$ROOT/.adl/issue268-wrapper-volume-failure.XXXXXX")
+  volume_failure_aws_log="$volume_failure_root/aws.log"
+  volume_state=available
+  volume_az=us-west-2a
+  if [[ "$volume_case" == in-use ]]; then
+    volume_state=in-use
+  else
+    volume_az=us-west-2b
+  fi
+  if ADL_ISSUE268_EVIDENCE_ROOT="$volume_failure_root" \
+    ADL_ISSUE268_OWNER="$test_root/owner" \
+    ADL_ISSUE268_FAKE_OWNER_LOG="$volume_failure_root/owner.log" \
+    ADL_ISSUE268_AUTHORIZATION=authorized-on-demand-usd20-20260820 \
+    ADL_ISSUE268_ESTIMATED_HOURLY_COST_USD=0.5292 \
+    ADL_ISSUE268_SUBNET_ID=subnet-12345678 \
+    ADL_ISSUE268_AVAILABILITY_ZONE=us-west-2a \
+    ADL_ISSUE268_RUNTIME_VOLUME_ID=vol-12345678 \
+    ADL_ISSUE268_AWS_CLI="$test_root/aws" \
+    ADL_ISSUE268_FAKE_AWS_LOG="$volume_failure_aws_log" \
+    ADL_ISSUE268_FAKE_VOLUME_STATE="$volume_state" \
+    ADL_ISSUE268_FAKE_VOLUME_AZ="$volume_az" \
+      "$wrapper" authorized-launch >/dev/null 2>&1; then
+    echo "$volume_case warm-volume preflight unexpectedly passed" >&2
+    exit 1
+  fi
+  [[ ! -e "$volume_failure_root/launch-claimed.json" ]]
+  if grep -F 'cloudformation create-stack' "$volume_failure_aws_log" >/dev/null; then
+    echo "$volume_case warm-volume failure created a stack" >&2
+    exit 1
+  fi
+  rm -rf "$volume_failure_root"
+done
 
 ADL_ISSUE268_EVIDENCE_ROOT="$test_root" \
 ADL_ISSUE268_OWNER="$test_root/owner" \
