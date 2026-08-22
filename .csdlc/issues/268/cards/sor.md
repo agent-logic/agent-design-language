@@ -123,11 +123,11 @@ Implemented and remotely qualified the #268 Runtime/ACC six-resident AWS qualifi
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
