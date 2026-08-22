@@ -7,15 +7,15 @@
     "title": "[v0.92][runtime-v3][20.c] Run six-hour Agent Logic Spot qualification only after operator and cost authorization",
     "slug": "six-hour-agent-logic-spot-qualification",
     "version": "v0.92",
-    "generation": 12
+    "generation": 13
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/268\n.csdlc/prepared/issues/268\n.csdlc/evidence/268/aws/issue268-six-hour-r7i-20260821-72\nadl/src\nadl-runtime/src\nadl/tools/issue268_runtime_uts_task_panel.json\nadl/tools/issue268_runtime_qualification.cloudformation.yaml\nadl/tools/run_issue268_continuity_uts_qualification.py\nadl/tools/run_issue268_remote_resident_qualification.sh\nadl/tools/run_issue268_six_hour_spot_qualification.sh\nadl/tools/run_issue268_six_resident_uts_cycle.py\nadl/tools/install_issue268_runtime_volume.py\ntools/aws_remote_validation",
+      "review_revision": "git-blake3:5a4a9bca656412afbb105b70ead7ac343e6c1dbc:bb8667768ae362f27fc5149c747faa4d2acfd9400f0c174db6e19ae9b9a11930",
+      "reviewer": "fresh-session:01a01755-c400-7050-a049-b98e947a5684",
       "review_prompts": [
         "Can any caller weaken the minimum 21,600-second monotonic denominator or hide final-cycle overshoot?",
         "Can any path launch outside Agent Logic, exceed USD 20, use On-Demand/GPU, retry, or touch unrelated resources?",
@@ -23,8 +23,11 @@
         "Do every exit path and interruption preserve evidence, clean exact ownership, and independently prove zero instances?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Historical failed-run receipts remain local untracked evidence and are intentionally excluded from the public PR after the privacy rewrite.",
+        "The retained warm Runtime EBS volume remains intentionally available and detached for later governed reuse."
+      ],
+      "review_result": "pass"
     }
   }
 }

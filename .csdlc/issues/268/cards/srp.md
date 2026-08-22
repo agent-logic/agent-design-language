@@ -12,7 +12,19 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/issues/268
+.csdlc/prepared/issues/268
+.csdlc/evidence/268/aws/issue268-six-hour-r7i-20260821-72
+adl/src
+adl-runtime/src
+adl/tools/issue268_runtime_uts_task_panel.json
+adl/tools/issue268_runtime_qualification.cloudformation.yaml
+adl/tools/run_issue268_continuity_uts_qualification.py
+adl/tools/run_issue268_remote_resident_qualification.sh
+adl/tools/run_issue268_six_hour_spot_qualification.sh
+adl/tools/run_issue268_six_resident_uts_cycle.py
+adl/tools/install_issue268_runtime_volume.py
+tools/aws_remote_validation
 
 ## Prompts
 
@@ -31,12 +43,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Historical failed-run receipts remain local untracked evidence and are intentionally excluded from the public PR after the privacy rewrite.
+- The retained warm Runtime EBS volume remains intentionally available and detached for later governed reuse.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:5a4a9bca656412afbb105b70ead7ac343e6c1dbc:bb8667768ae362f27fc5149c747faa4d2acfd9400f0c174db6e19ae9b9a11930")
 
-Reviewer: None
+Reviewer: Some("fresh-session:01a01755-c400-7050-a049-b98e947a5684")
 
-Result: pre_review
+Result: pass

@@ -3,13 +3,57 @@
   "issue": 268,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "e16999c52566cfad58e38b96e519a2754f6059234981629e0562b9739d05d765",
-  "phase": "implemented",
-  "generation": 12,
-  "digest": "e0e79b06c52d507ace6d1941c05c44fda4106f73fd1d950abf3870b4d952dcc8",
+  "phase": "reviewed",
+  "generation": 13,
+  "digest": "79ef300035b541311bf2365141228a9d70571c670d044eb5fb80180b3cf447b9",
   "branch": "codex/268-six-hour-spot-qualification",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-268-six-hour-spot-qualification",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:01a01755-c400-7050-a049-b98e947a5684",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:5a4a9bca656412afbb105b70ead7ac343e6c1dbc:bb8667768ae362f27fc5149c747faa4d2acfd9400f0c174db6e19ae9b9a11930",
+    "scope": [
+      ".csdlc/issues/268",
+      ".csdlc/prepared/issues/268",
+      ".csdlc/evidence/268/aws/issue268-six-hour-r7i-20260821-72",
+      "adl/src",
+      "adl-runtime/src",
+      "adl/tools/issue268_runtime_uts_task_panel.json",
+      "adl/tools/issue268_runtime_qualification.cloudformation.yaml",
+      "adl/tools/run_issue268_continuity_uts_qualification.py",
+      "adl/tools/run_issue268_remote_resident_qualification.sh",
+      "adl/tools/run_issue268_six_hour_spot_qualification.sh",
+      "adl/tools/run_issue268_six_resident_uts_cycle.py",
+      "adl/tools/install_issue268_runtime_volume.py",
+      "tools/aws_remote_validation"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:01a01755-c400-7050-a049-b98e947a5684",
+    "scope": [
+      ".csdlc/issues/268",
+      ".csdlc/prepared/issues/268",
+      ".csdlc/evidence/268/aws/issue268-six-hour-r7i-20260821-72",
+      "adl/src",
+      "adl-runtime/src",
+      "adl/tools/issue268_runtime_uts_task_panel.json",
+      "adl/tools/issue268_runtime_qualification.cloudformation.yaml",
+      "adl/tools/run_issue268_continuity_uts_qualification.py",
+      "adl/tools/run_issue268_remote_resident_qualification.sh",
+      "adl/tools/run_issue268_six_hour_spot_qualification.sh",
+      "adl/tools/run_issue268_six_resident_uts_cycle.py",
+      "adl/tools/install_issue268_runtime_volume.py",
+      "tools/aws_remote_validation"
+    ],
+    "reviewed_revision": "git-blake3:5a4a9bca656412afbb105b70ead7ac343e6c1dbc:bb8667768ae362f27fc5149c747faa4d2acfd9400f0c174db6e19ae9b9a11930",
+    "findings": [],
+    "residual_risks": [
+      "Historical failed-run receipts remain local untracked evidence and are intentionally excluded from the public PR after the privacy rewrite.",
+      "The retained warm Runtime EBS volume remains intentionally available and detached for later governed reuse."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +68,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "a9613c8950f02bc01d7ca78f916b61287d7d5e0ddba8aab0fa2c8c668c469b5f",
+      "values_digest": "73a23f38a713d8834a7e58cf18cbe0d28deb48c149fb9188f4ff2dcc9f5b2484",
       "rendered_digest": "e908ddb3f4ac18811a0da0eb292961f74259aafbeb5db8379d621e5c588ff0fb",
       "ast_digest": "2a9b71de360fc425b63b2eb2c411aa70d46f94ab9b252366f57c4a595d73b980"
     },
     "stp": {
-      "values_digest": "19d7dd907af7a7b021be58c62d198bd384b083a667d26f216ef133a3d5cab435",
+      "values_digest": "89fe73bdc9d7bfbf91cf53ae2a7dd9e151b01b753f872399e24c4218d1b25580",
       "rendered_digest": "777d15780947d169759eb205c3e3a5ab79ab1d0f0e3b9f4ae466c31df0461d17",
       "ast_digest": "0fb96aa0d0b8e0bfdeee07f21d4a7bc18c1654b216cff4e7668f338e814c1101"
     },
     "spp": {
-      "values_digest": "a52b9df8e44ecbd25bd9e422d291b2ed1cd9f7044a2d9c375f7831475bbfd115",
+      "values_digest": "ca6cc670c61fbe206191094945865ade4a531c83aef65d059e994fe71849c8b1",
       "rendered_digest": "dc49fa00ed4408739f456e0696fe86f3650fb907408902168a87329c0241b900",
       "ast_digest": "dc0a074d1b6fec15970bd7a5016f7124d76f7fd3cdee82a3336a099621c5d318"
     },
     "vpp": {
-      "values_digest": "7f12d48d771556f2935aad1cd237e8f94e3fd35a3ad111f87a709f9492f3b0d1",
+      "values_digest": "a59dd5a1894403180873997dbde64f29d5732f4f870163a53b813032fbba5cb5",
       "rendered_digest": "04733e63e705ac994fa75756ded65168979dca0721b1a212afce2db4364f8524",
       "ast_digest": "2c8e7bd850832367056428b97713927b9160f719b5bcb692a83ec7626626ec93"
     },
     "srp": {
-      "values_digest": "2e27a9b0ad6ab54e17669c8eb5f1dcc08ffc5532c59f835ceeda1de689a2532b",
-      "rendered_digest": "a62f87c2be0065b1b6431157df3687a34f550c228c982d209ba0abf5c97525ab",
-      "ast_digest": "73df1f418b5bd3187427b262b73f1b096f6dc6f7eaaccb6704fd34216a53d707"
+      "values_digest": "069a321aceb972a9ed5a8c89b115debc62e03c16fadba59f0cba0a6ab3f02820",
+      "rendered_digest": "717da4596e0c8bcd5ba9211b7c58ae925582c009fba2e567925c4e8a81ef3f4a",
+      "ast_digest": "b9af97e4e348eecfd9b6c73e15b3aad1d8d53af0c2d1aa3c5eff3748244c78df"
     },
     "sor": {
-      "values_digest": "f7e3a8a15b4f21d8a219700cbf5b4c0c65556af93cfef9e429c50d0da4ae4ad3",
+      "values_digest": "350d4608f086c33ebf2afa27c256b6d0b8b76ab5d7d1f5316c0b0596661e4728",
       "rendered_digest": "6e8b3773ab2620cc9df86972598ad6e97b8721e06885e696cf8c9e7e58957b24",
       "ast_digest": "74f9fd2ad26e41352f056ac3c2612b1cfad0e2708a866ceece6750d3b0dc887a"
     }
@@ -96,6 +140,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover review and publication after the lease-protected branch rewrite removed an accidentally published private raw-evidence add/delete pair. Preserve the public PR, clear stale revision metadata, and obtain a fresh exact-head review before typed republication."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:01a01755-c400-7050-a049-b98e947a5684",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -203,6 +254,20 @@
       "actor": "codex:/root",
       "reason": "Recover review and publication after the lease-protected branch rewrite removed an accidentally published private raw-evidence add/delete pair. Preserve the public PR, clear stale revision metadata, and obtain a fresh exact-head review before typed republication.",
       "operation": "recover_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 13,
+      "actor": "fresh-session:01a01755-c400-7050-a049-b98e947a5684",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
