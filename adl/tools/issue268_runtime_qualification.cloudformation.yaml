@@ -13,9 +13,9 @@ Parameters:
   SubnetId:
     Type: AWS::EC2::Subnet::Id
     Description: Private subnet in AvailabilityZone with SSM and S3 connectivity.
-  SecurityGroupId:
-    Type: AWS::EC2::SecurityGroup::Id
-    Description: Existing no-ingress security group with SSM and S3 egress.
+  VpcId:
+    Type: AWS::EC2::VPC::Id
+    Description: VPC containing SubnetId; used for the template-owned no-ingress group.
   RuntimeSnapshotId:
     Type: String
     AllowedPattern: '^snap-[0-9a-f]{8,17}$'
@@ -37,6 +37,21 @@ Parameters:
     AllowedPattern: '^shepherd/[A-Za-z0-9._/-]*$'
 
 Resources:
+  RuntimeSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: !Sub 'No-ingress SSM Runtime host for ${RunId}'
+      VpcId: !Ref VpcId
+      SecurityGroupIngress: []
+      SecurityGroupEgress:
+        - IpProtocol: '-1'
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: adl:issue
+          Value: "268"
+        - Key: adl:run_id
+          Value: !Ref RunId
+
   RuntimeRole:
     Type: AWS::IAM::Role
     Properties:
@@ -100,7 +115,7 @@ Resources:
       InstanceType: r7i.2xlarge
       IamInstanceProfile: !Ref RuntimeInstanceProfile
       SubnetId: !Ref SubnetId
-      SecurityGroupIds: [!Ref SecurityGroupId]
+      SecurityGroupIds: [!Ref RuntimeSecurityGroup]
       MetadataOptions:
         HttpEndpoint: enabled
         HttpTokens: required

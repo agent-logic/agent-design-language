@@ -119,9 +119,13 @@ cat >"$test_root/aws" <<'EOF'
 #!/usr/bin/env bash
 printf '%s\n' "$*" >>"${ADL_ISSUE268_FAKE_AWS_LOG:?}"
 if [[ "$*" == *"describe-subnets"* ]]; then
-  printf 'us-west-2a\n'
-elif [[ "$*" == *"describe-security-groups"* ]]; then
-  printf '0\n'
+  if [[ "$*" == *"VpcId"* ]]; then
+    printf 'vpc-12345678\n'
+  else
+    printf 'us-west-2a\n'
+  fi
+elif [[ "$*" == *"wait stack-create-complete"* && "${ADL_ISSUE268_FAKE_CREATE_WAIT_FAIL:-0}" == 1 ]]; then
+  exit 42
 elif [[ "$*" == *"describe-stacks"* && "$*" == *"InstanceId"* ]]; then
   printf 'i-12345678\n'
 elif [[ "$*" == *"describe-stacks"* && "$*" == *"RuntimeVolumeId"* ]]; then
@@ -146,7 +150,6 @@ if ADL_ISSUE268_EVIDENCE_ROOT="$test_root" \
   ADL_ISSUE268_FAKE_OWNER_LOG="$test_root/owner.log" \
   ADL_ISSUE268_ESTIMATED_HOURLY_COST_USD=0 \
   ADL_ISSUE268_SUBNET_ID=subnet-12345678 \
-  ADL_ISSUE268_SECURITY_GROUP_ID=sg-12345678 \
   ADL_ISSUE268_AVAILABILITY_ZONE=us-west-2a \
   ADL_ISSUE268_RUNTIME_SNAPSHOT_ID=snap-12345678 \
   ADL_ISSUE268_AWS_CLI="$test_root/aws" \
@@ -165,7 +168,6 @@ ADL_ISSUE268_FAKE_OWNER_LOG="$test_root/owner.log" \
 ADL_ISSUE268_AUTHORIZATION=authorized-on-demand-usd20-20260820 \
 ADL_ISSUE268_ESTIMATED_HOURLY_COST_USD=0.5292 \
 ADL_ISSUE268_SUBNET_ID=subnet-12345678 \
-ADL_ISSUE268_SECURITY_GROUP_ID=sg-12345678 \
 ADL_ISSUE268_AVAILABILITY_ZONE=us-west-2a \
 ADL_ISSUE268_RUNTIME_SNAPSHOT_ID=snap-12345678 \
 ADL_ISSUE268_AWS_CLI="$test_root/aws" \
@@ -206,7 +208,38 @@ for marker in need:
     positions.append(next(i for i,line in enumerate(lines) if marker in line))
 assert positions == sorted(positions), (need, positions)
 assert sum("cloudformation create-stack" in line for line in lines) == 1
+assert any("ParameterKey=VpcId,ParameterValue=vpc-12345678" in line for line in lines)
 PY
+
+failure_root=$(mktemp -d "$ROOT/.adl/issue268-wrapper-create-failure.XXXXXX")
+failure_owner_log="$failure_root/owner.log"
+failure_aws_log="$failure_root/aws.log"
+if ADL_ISSUE268_EVIDENCE_ROOT="$failure_root" \
+  ADL_ISSUE268_OWNER="$test_root/owner" \
+  ADL_ISSUE268_FAKE_OWNER_LOG="$failure_owner_log" \
+  ADL_ISSUE268_AUTHORIZATION=authorized-on-demand-usd20-20260820 \
+  ADL_ISSUE268_ESTIMATED_HOURLY_COST_USD=0.5292 \
+  ADL_ISSUE268_SUBNET_ID=subnet-12345678 \
+  ADL_ISSUE268_AVAILABILITY_ZONE=us-west-2a \
+  ADL_ISSUE268_RUNTIME_SNAPSHOT_ID=snap-12345678 \
+  ADL_ISSUE268_AWS_CLI="$test_root/aws" \
+  ADL_ISSUE268_FAKE_AWS_LOG="$failure_aws_log" \
+  ADL_ISSUE268_FAKE_CREATE_WAIT_FAIL=1 \
+    "$wrapper" authorized-launch >/dev/null 2>&1; then
+  echo "CloudFormation create-wait failure unexpectedly passed" >&2
+  exit 1
+fi
+python3 - "$failure_aws_log" <<'PY'
+import pathlib, sys
+lines=pathlib.Path(sys.argv[1]).read_text().splitlines()
+create_wait=next(i for i,line in enumerate(lines) if "cloudformation wait stack-create-complete" in line)
+delete=next(i for i,line in enumerate(lines) if "cloudformation delete-stack" in line)
+delete_wait=next(i for i,line in enumerate(lines) if "cloudformation wait stack-delete-complete" in line)
+assert create_wait < delete < delete_wait
+assert not any("cloudformation describe-stacks" in line for line in lines)
+PY
+[[ ! -s "$failure_owner_log" ]]
+rm -rf "$failure_root"
 
 if ADL_ISSUE268_EVIDENCE_ROOT="$test_root" \
   ADL_ISSUE268_OWNER="$test_root/owner" \
@@ -301,6 +334,8 @@ allowed={
 "tools/aws_remote_validation/scripts/remote_validation_runner.sh",
 "adl/tools/run_issue268_six_hour_spot_qualification.sh",
 "adl/tools/test_run_issue268_six_hour_spot_qualification.sh",
+"adl/tools/issue268_runtime_qualification.cloudformation.yaml",
+"adl/tools/test_issue268_runtime_qualification_cloudformation.py",
 "adl/tools/issue268_six_resident_uts_plan.json",
 "adl/tools/issue268_runtime_uts_task_panel.json",
 "adl/tools/validate_issue268_six_resident_uts_plan.py",

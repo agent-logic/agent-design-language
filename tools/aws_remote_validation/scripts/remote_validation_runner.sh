@@ -383,23 +383,27 @@ log_progress "stage=ensure_build_toolchain"
 if [ "$ISSUE268_RUNTIME_QUALIFICATION" = "1" ]; then
   cloud_init_status=0
   cloud-init status --wait >/tmp/adl-cloud-init.log 2>&1 || cloud_init_status=$?
-  if [ ! -f /var/lib/adl/issue268-bootstrap-ready ]; then
-    log_progress "stage=ensure_build_toolchain source=foreground_package_manager cloud_init_status=$cloud_init_status"
-    if ! sudo dnf install -y gcc gcc-c++ make pkgconf-pkg-config openssl-devel rust cargo python3 awscli-2 git tar zstd jq >/tmp/adl-issue268-bootstrap.log 2>&1; then
-      printf '%s\n' "issue268 foreground package bootstrap failed" >&2
-      tail -n 200 /tmp/adl-issue268-bootstrap.log >&2 || true
-      sudo tail -n 200 /var/log/cloud-init-output.log 2>/dev/null >&2 || true
-      exit 1
+  runtime_ready=false
+  for _ in $(seq 1 120); do
+    if [ -f /var/lib/adl/issue268-bootstrap-failed ]; then
+      break
     fi
-    for required_command in cc cargo rustc python3 aws git tar zstd curl jq openssl; do
-      if ! command -v "$required_command" >/dev/null 2>&1; then
-        printf 'issue268 package bootstrap missing command: %s\n' "$required_command" >&2
-        exit 1
-      fi
-    done
-    sudo install -d -m 0755 /var/lib/adl
-    sudo touch /var/lib/adl/issue268-bootstrap-ready
-  elif [ "$cloud_init_status" -ne 0 ]; then
+    if [ -f /var/lib/adl/issue268-bootstrap-ready ] \
+        && mountpoint -q /opt/adl-runtime \
+        && [ -d /opt/adl-runtime/install ]; then
+      runtime_ready=true
+      break
+    fi
+    sleep 2
+  done
+  if [ "$runtime_ready" != true ]; then
+    printf '%s\n' "issue268 retained Runtime mount did not become ready" >&2
+    sudo systemctl status adl-issue268-runtime-volume.service --no-pager 2>/dev/null >&2 || true
+    sudo journalctl -u adl-issue268-runtime-volume.service -n 200 --no-pager 2>/dev/null >&2 || true
+    sudo tail -n 200 /var/log/cloud-init-output.log 2>/dev/null >&2 || true
+    exit 1
+  fi
+  if [ "$cloud_init_status" -ne 0 ]; then
     log_progress "stage=ensure_build_toolchain source=user_data_ready cloud_init_status=$cloud_init_status"
   fi
 elif [ "$CONTAINERIZED_VALIDATION" = "0" ] && ! command -v cc >/dev/null 2>&1; then

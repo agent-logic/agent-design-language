@@ -5269,9 +5269,11 @@ mod tests {
         assert!(tracked_runner.contains("amazon_linux_packages_and_pinned_runtime_components"));
         assert!(tracked_runner.contains("cloud-init status --wait"));
         assert!(tracked_runner.contains("issue268-bootstrap-ready"));
-        assert!(tracked_runner.contains("adl-issue268-bootstrap.log"));
-        assert!(tracked_runner.contains("source=foreground_package_manager"));
-        assert!(tracked_runner.contains("awscli-2 git tar zstd jq"));
+        assert!(tracked_runner.contains("mountpoint -q /opt/adl-runtime"));
+        assert!(tracked_runner.contains("[ -d /opt/adl-runtime/install ]"));
+        assert!(tracked_runner.contains("adl-issue268-runtime-volume.service"));
+        assert!(!tracked_runner.contains("touch /var/lib/adl/issue268-bootstrap-ready"));
+        assert!(!tracked_runner.contains("source=foreground_package_manager"));
         assert!(tracked_runner.contains("source=user_data_ready"));
         assert!(tracked_runner.contains("od -An -N32 -tx1 /dev/urandom"));
         assert!(tracked_runner.contains("export ADL_ISSUE414_SIGNING_KEY_HEX"));

@@ -26,7 +26,6 @@ HOURLY=${ADL_ISSUE268_ESTIMATED_HOURLY_COST_USD:-}
 CFN_TEMPLATE="$ROOT/adl/tools/issue268_runtime_qualification.cloudformation.yaml"
 CFN_STACK_NAME="adl-issue268-runtime-54"
 CFN_SUBNET_ID=${ADL_ISSUE268_SUBNET_ID:-${ADL_AWS_REMOTE_VALIDATION_SUBNET_ID:-}}
-CFN_SECURITY_GROUP_ID=${ADL_ISSUE268_SECURITY_GROUP_ID:-}
 CFN_AVAILABILITY_ZONE=${ADL_ISSUE268_AVAILABILITY_ZONE:-}
 CFN_RUNTIME_SNAPSHOT_ID=${ADL_ISSUE268_RUNTIME_SNAPSHOT_ID:-}
 CFN_BOOTSTRAP_BUCKET=${ADL_ISSUE268_BOOTSTRAP_BUCKET:-adl-shepherd-model-artifacts-b05e1f4379b5c745-us-west-2}
@@ -62,10 +61,9 @@ python3 "$UTS_PLAN_VALIDATOR" >/dev/null
 if [[ "$MODE" == preflight || "$MODE" == authorized-launch ]]; then
   [[ -f "$CFN_TEMPLATE" \
       && "$CFN_SUBNET_ID" =~ ^subnet-[0-9a-f]{8,17}$ \
-      && "$CFN_SECURITY_GROUP_ID" =~ ^sg-[0-9a-f]{8,17}$ \
       && "$CFN_RUNTIME_SNAPSHOT_ID" =~ ^snap-[0-9a-f]{8,17}$ \
       && -n "$CFN_AVAILABILITY_ZONE" ]] || {
-    echo "issue268: exact CloudFormation subnet, no-ingress security group, availability zone, and Runtime snapshot are required" >&2
+    echo "issue268: exact CloudFormation subnet, availability zone, and Runtime snapshot are required" >&2
     exit 77
   }
   [[ "$HOURLY" =~ ^[0-9]+([.][0-9]+)?$ ]] || {
@@ -157,13 +155,13 @@ validate_cloudformation_inputs() {
   "$OWNER" plan --check-account --profile "$PROFILE" --region "$REGION" >/dev/null
   "$AWS_CLI" "${profile_args[@]}" --region "$REGION" cloudformation validate-template \
     --template-body "file://$CFN_TEMPLATE" >/dev/null
-  local subnet_az ingress_count
+  local subnet_az
   subnet_az=$("$AWS_CLI" "${profile_args[@]}" --region "$REGION" ec2 describe-subnets \
     --subnet-ids "$CFN_SUBNET_ID" --query 'Subnets[0].AvailabilityZone' --output text)
-  ingress_count=$("$AWS_CLI" "${profile_args[@]}" --region "$REGION" ec2 describe-security-groups \
-    --group-ids "$CFN_SECURITY_GROUP_ID" --query 'length(SecurityGroups[0].IpPermissions)' --output text)
-  [[ "$subnet_az" == "$CFN_AVAILABILITY_ZONE" && "$ingress_count" == 0 ]] || {
-    echo "issue268: CloudFormation subnet/AZ or no-ingress security-group contract failed" >&2
+  CFN_VPC_ID=$("$AWS_CLI" "${profile_args[@]}" --region "$REGION" ec2 describe-subnets \
+    --subnet-ids "$CFN_SUBNET_ID" --query 'Subnets[0].VpcId' --output text)
+  [[ "$subnet_az" == "$CFN_AVAILABILITY_ZONE" && "$CFN_VPC_ID" =~ ^vpc-[0-9a-f]{8,17}$ ]] || {
+    echo "issue268: CloudFormation subnet/AZ/VPC contract failed" >&2
     return 1
   }
 }
@@ -173,6 +171,19 @@ delete_cloudformation_stack() {
     --stack-name "$CFN_STACK_NAME" >/dev/null 2>&1 || return 1
   "$AWS_CLI" "${profile_args[@]}" --region "$REGION" cloudformation wait stack-delete-complete \
     --stack-name "$CFN_STACK_NAME" >/dev/null 2>&1
+}
+
+CFN_STACK_OWNED=false
+cleanup_cloudformation_on_exit() {
+  local status=${1:-$?}
+  trap - EXIT INT TERM
+  if [[ "$CFN_STACK_OWNED" == true ]]; then
+    if ! delete_cloudformation_stack; then
+      echo "issue268: CloudFormation stack cleanup failed" >&2
+      status=70
+    fi
+  fi
+  exit "$status"
 }
 
 case "$MODE" in
@@ -214,6 +225,10 @@ PY
       exit 75
     }
     validate_cloudformation_inputs
+    CFN_STACK_OWNED=true
+    trap 'cleanup_cloudformation_on_exit $?' EXIT
+    trap 'cleanup_cloudformation_on_exit 130' INT
+    trap 'cleanup_cloudformation_on_exit 143' TERM
     "$AWS_CLI" "${profile_args[@]}" --region "$REGION" cloudformation create-stack \
       --stack-name "$CFN_STACK_NAME" \
       --template-body "file://$CFN_TEMPLATE" \
@@ -222,7 +237,7 @@ PY
         "ParameterKey=RunId,ParameterValue=$RUN_ID" \
         "ParameterKey=AvailabilityZone,ParameterValue=$CFN_AVAILABILITY_ZONE" \
         "ParameterKey=SubnetId,ParameterValue=$CFN_SUBNET_ID" \
-        "ParameterKey=SecurityGroupId,ParameterValue=$CFN_SECURITY_GROUP_ID" \
+        "ParameterKey=VpcId,ParameterValue=$CFN_VPC_ID" \
         "ParameterKey=RuntimeSnapshotId,ParameterValue=$CFN_RUNTIME_SNAPSHOT_ID" \
         "ParameterKey=BootstrapBucket,ParameterValue=$CFN_BOOTSTRAP_BUCKET" \
         "ParameterKey=BootstrapPrefix,ParameterValue=$CFN_BOOTSTRAP_PREFIX" \
@@ -234,7 +249,6 @@ PY
     RUNTIME_VOLUME_ID=$("$AWS_CLI" "${profile_args[@]}" --region "$REGION" cloudformation describe-stacks \
       --stack-name "$CFN_STACK_NAME" --query 'Stacks[0].Outputs[?OutputKey==`RuntimeVolumeId`].OutputValue|[0]' --output text)
     [[ "$RUNTIME_INSTANCE_ID" =~ ^i-[0-9a-f]{8,17}$ && "$RUNTIME_VOLUME_ID" =~ ^vol-[0-9a-f]{8,17}$ ]] || {
-      delete_cloudformation_stack || true
       echo "issue268: CloudFormation outputs were incomplete" >&2
       exit 70
     }
@@ -263,6 +277,8 @@ PY
       echo "issue268: CloudFormation stack cleanup failed" >&2
       exit 70
     }
+    CFN_STACK_OWNED=false
+    trap - EXIT INT TERM
     exit "$owner_status"
     ;;
   terminal-status)

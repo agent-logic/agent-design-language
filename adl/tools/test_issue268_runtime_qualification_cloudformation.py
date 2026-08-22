@@ -35,12 +35,16 @@ require('touch /var/lib/adl/issue268-bootstrap-ready')
 require('stack completion alone is insufficient')
 require("s3:GetObjectVersion")
 require("HttpTokens: required")
+require("Type: AWS::EC2::SecurityGroup")
+require("VpcId: !Ref VpcId")
+require("SecurityGroupIngress: []")
+require("SecurityGroupIds: [!Ref RuntimeSecurityGroup]")
 
 for forbidden in (
     "MarketOptions",
     "SpotOptions",
     "KeyName:",
-    "SecurityGroupIngress",
+    "SecurityGroupId:",
     "AWS::CertificateManager",
     "CertificateArn",
     "TlsCertificate",
