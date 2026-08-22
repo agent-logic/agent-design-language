@@ -1,0 +1,19 @@
+{
+  "command_stderr_sha256": "16a3b2751e8c5de88036c279cf968cd5cdae332d8b755275d273b0c49fbf40334",
+  "completion_receipt_sha256": "3eaccdd221fcd8bcee6477409405bb9ccce7ba230d51602b4b8fae6386e7cd58",
+  "continuation_verified": true,
+  "continuity_generation": 1,
+  "guardian_failure": {
+    "observed_error": "master_log_drain_incomplete",
+    "reason_code": "shutdown_child_failed",
+    "runtime_exit_code": 70,
+    "six_hour_exposure_started": false
+  },
+  "resident_count": 6,
+  "resident_model_count": 3,
+  "replay_denied": true,
+  "runtime_qualification": "passed",
+  "schema": "adl.issue268.runtime_qualification_diagnostic.v1",
+  "signed_population_sha256": "fe86baf9cfe3e918574e8ff2025396d03609a71aed67efaf926238c8c719ae23",
+  "status": "guardian_observability_coupling_failure"
+}

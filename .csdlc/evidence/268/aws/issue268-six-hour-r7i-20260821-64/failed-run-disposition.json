@@ -1,0 +1,13 @@
+{
+  "additional_attempt_authority": "standing_operator_authorization_up_to_usd20",
+  "authoritative_failure_class": "runtime_observability_shutdown_coupling",
+  "estimated_compute_cost_usd": 0.437766,
+  "fallback": "disabled",
+  "portable_request_sha256": "13af25bd5c372f6f64b350f487322a1c301596ec0d294660fd34fad714717b26",
+  "provider_attempts": 1,
+  "run_id": "issue268-six-hour-r7i-20260821-64",
+  "schema": "adl.issue268.failed_run_disposition.v1",
+  "status": "terminal_partial_qualification",
+  "summary_sha256": "5eb646a32b7312444fb91e1ecb1005f3dcc9effd81417dcd0a30ae93bb5bf353",
+  "truth": "Six distinct Runtime residents completed Runtime-owned UTS-to-ACC work, signed dehydration and restore, actual replay denial, pending-only continuation, and six-resident verification. Guardian then stopped before the six-hour exposure interval because Vector's incomplete master-log drain was propagated as a Runtime exit. The repair makes observability startup and shutdown failures degrade logging without terminating Runtime. Compute and stack cleanup completed and fallback did not run."
+}

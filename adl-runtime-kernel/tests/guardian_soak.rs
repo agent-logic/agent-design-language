@@ -282,6 +282,21 @@ fn runtime_kernel_command(init: &Path, lease: &TestGuardianLease) -> Command {
 }
 
 #[cfg(unix)]
+fn replace_vector_binary(init: &Path, vector_binary: &Path) {
+    let text = std::fs::read_to_string(init).unwrap();
+    let mut document = toml::from_str::<toml::Value>(&text).unwrap();
+    document
+        .get_mut("observability_pipeline")
+        .and_then(toml::Value::as_table_mut)
+        .unwrap()
+        .insert(
+            "vector_binary_path".to_owned(),
+            toml::Value::String(vector_binary.display().to_string()),
+        );
+    std::fs::write(init, toml::to_string_pretty(&document).unwrap()).unwrap();
+}
+
+#[cfg(unix)]
 fn copy_directory(from: &Path, to: &Path) {
     std::fs::create_dir_all(to).unwrap();
     for entry in std::fs::read_dir(from).unwrap() {
@@ -376,6 +391,69 @@ async fn guardian_lease_loss_checkpoints_and_stops_the_real_kernel() {
     .unwrap();
     assert_eq!(manifest["generation"], 1);
     assert_eq!(manifest["signing_algorithm"], "ed25519");
+}
+
+#[cfg(unix)]
+#[test]
+fn missing_vector_keeps_the_real_runtime_available_until_operator_shutdown() {
+    let directory = tempfile::tempdir().unwrap();
+    let state_root = local_state_root(directory.path(), "vector-degraded-state");
+    let api_probe = std::net::TcpListener::bind("127.0.0.1:0").unwrap();
+    let api_address = api_probe.local_addr().unwrap();
+    drop(api_probe);
+    let init = write_test_runtime_init_for_state(directory.path(), api_address, &state_root);
+    let missing_vector = directory.path().join("missing-vector");
+    replace_vector_binary(&init, &missing_vector);
+    let lease = TestGuardianLease::new("vector-degraded");
+    let mut command = runtime_kernel_command(&init, &lease);
+    command.stdout(Stdio::null()).stderr(Stdio::piped());
+    let mut child = command.spawn().unwrap();
+    let stderr = child.stderr.take().unwrap();
+    let (ready_tx, ready_rx) = std::sync::mpsc::channel();
+    let stderr_reader = std::thread::spawn(move || {
+        let mut output = String::new();
+        for line in BufReader::new(stderr).lines() {
+            let line = line.unwrap();
+            if line.contains("event=control_ready") {
+                let _ = ready_tx.send(());
+            }
+            output.push_str(&line);
+            output.push('\n');
+        }
+        output
+    });
+
+    ready_rx
+        .recv_timeout(Duration::from_secs(10))
+        .expect("Runtime did not become ready after Vector startup failure");
+    assert!(
+        child.try_wait().unwrap().is_none(),
+        "Vector startup failure must not terminate Runtime"
+    );
+    assert!(
+        std::net::TcpStream::connect(api_address).is_ok(),
+        "Vector startup failure must leave the control API reachable"
+    );
+    assert_eq!(unsafe { libc::kill(child.id() as i32, libc::SIGTERM) }, 0);
+    let deadline = std::time::Instant::now() + Duration::from_secs(15);
+    let status = loop {
+        if let Some(status) = child.try_wait().unwrap() {
+            break status;
+        }
+        if std::time::Instant::now() >= deadline {
+            let _ = child.kill();
+            panic!("Runtime did not stop after the operator signal");
+        }
+        std::thread::sleep(Duration::from_millis(10));
+    };
+    let stderr = stderr_reader.join().unwrap();
+
+    assert!(
+        status.success(),
+        "Runtime shutdown after Vector degradation failed ({status}): {stderr}"
+    );
+    assert!(stderr.contains("runtime observability degraded; Runtime remains available"));
+    assert!(stderr.contains("event=control_ready"));
 }
 
 #[cfg(unix)]
