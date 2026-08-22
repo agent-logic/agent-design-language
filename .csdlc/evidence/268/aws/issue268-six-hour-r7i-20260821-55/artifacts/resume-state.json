@@ -1,0 +1,34 @@
+{
+  "schema_version": "adl.aws_remote_validation_resume_state.v1",
+  "issue": 268,
+  "run_id": "issue268-six-hour-r7i-20260821-55",
+  "repo_url": "https://github.com/agent-logic/agent-design-language.git",
+  "git_ref": "refs/heads/codex/268-six-hour-spot-qualification",
+  "command": "cd -- '.' && env -i PATH=\"${PATH-}\" HOME=\"${HOME-}\" CARGO_HOME=\"${CARGO_HOME-}\" RUSTUP_HOME=\"${RUSTUP_HOME-}\" CARGO_TARGET_DIR=\"${CARGO_TARGET_DIR-}\" ADL_RUN_ID=\"${ADL_RUN_ID-}\" ADL_RUNTIME_VECTOR_BIN=\"${ADL_RUNTIME_VECTOR_BIN-}\" ADL_RUNTIME_CONTINUITY_ROOT=\"${ADL_RUNTIME_CONTINUITY_ROOT-}\" ADL_RUNTIME_CONTINUITY_VOLUME_ID_SHA256=\"${ADL_RUNTIME_CONTINUITY_VOLUME_ID_SHA256-}\" ADL_CACHE_VOLUME_MOUNT_PATH=\"${ADL_CACHE_VOLUME_MOUNT_PATH-}\" ADL_RETAINED_VOLUME_ROLE=\"${ADL_RETAINED_VOLUME_ROLE-}\" ADL_REGION=\"${ADL_REGION-}\" ADL_ISSUE268_REMOTE_EVIDENCE_ROOT=\"${ADL_ISSUE268_REMOTE_EVIDENCE_ROOT-}\" ADL_ISSUE268_CONTINUITY_BIN=\"${ADL_ISSUE268_CONTINUITY_BIN-}\" ADL_ISSUE268_RETAINED_RUNTIME_ROOT=\"${ADL_ISSUE268_RETAINED_RUNTIME_ROOT-}\" ADL_ISSUE268_BUILD_CACHE_ROOT=\"${ADL_ISSUE268_BUILD_CACHE_ROOT-}\" ADL_ISSUE268_AGENT_SPEC_DIR=\"${ADL_ISSUE268_AGENT_SPEC_DIR-}\" ADL_ISSUE268_RUNTIME_VOLUME_IDENTITY_SHA256=\"${ADL_ISSUE268_RUNTIME_VOLUME_IDENTITY_SHA256-}\" ADL_ISSUE268_S3_SOURCE_RECEIPT=\"${ADL_ISSUE268_S3_SOURCE_RECEIPT-}\" ADL_ISSUE268_414_REVIEWED_SHA=\"${ADL_ISSUE268_414_REVIEWED_SHA-}\" ADL_ISSUE268_CONTINUITY_BIN_SHA256=\"${ADL_ISSUE268_CONTINUITY_BIN_SHA256-}\" ADL_ISSUE414_SIGNING_KEY_HEX=\"${ADL_ISSUE414_SIGNING_KEY_HEX-}\" ADL_ISSUE268_CUSTODY_ENV_FILE=\"${ADL_ISSUE268_CUSTODY_ENV_FILE-}\" 'bash' 'adl/tools/run_issue268_remote_resident_qualification.sh'",
+  "output_summary_ref": "summary.json",
+  "artifact_root_ref": ".",
+  "started_at": "2026-08-22T01:26:31.907499+00:00",
+  "updated_at": "2026-08-22T01:31:29.078040+00:00",
+  "max_spot_retries": 0,
+  "attempts": [
+    {
+      "attempt_index": 0,
+      "started_at": "2026-08-22T01:26:31.909073+00:00",
+      "finished_at": "2026-08-22T01:31:29.077848+00:00",
+      "summary_path": "attempt-0/summary.json",
+      "artifact_dir": "attempt-0",
+      "status": "failed",
+      "failure_reason": "remote command failed with status=Failed response_code=Some(1)",
+      "launch_purchase_option": "on_demand",
+      "launch_instance_type": "r7i.2xlarge",
+      "launch_initial_state": "running",
+      "launch_instance_id_sha256": "b7af8e2b613e30225e73a855bf9cbc30c1a1ce9330c5a243dd8880a08fd76d80",
+      "provider_interruption_confirmed": false,
+      "retryable": false,
+      "next_action": "finalize"
+    }
+  ],
+  "interrupted_attempts": 0,
+  "next_action": "complete",
+  "final_status": "failed"
+}

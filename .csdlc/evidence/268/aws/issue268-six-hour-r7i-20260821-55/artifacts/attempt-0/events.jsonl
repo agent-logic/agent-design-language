@@ -1,0 +1,9 @@
+{"timestamp":"2026-08-22T01:26:31.911402+00:00","stage":"start","status":"started","detail":"issue=Some(268) region=us-west-2 instance_types=r7i.2xlarge out=<machine-path-redacted>"}
+{"timestamp":"2026-08-22T01:26:33.837157+00:00","stage":"identity","status":"ok","detail":"caller identity resolved"}
+{"timestamp":"2026-08-22T01:26:36.051624+00:00","stage":"quota","status":"ok","detail":"quota snapshot captured"}
+{"timestamp":"2026-08-22T01:26:36.052058+00:00","stage":"launch_attempt","status":"started","detail":"instance_type=r7i.2xlarge market=on_demand source=cloudformation"}
+{"timestamp":"2026-08-22T01:26:37.193497+00:00","stage":"launch_attempt","status":"ok","detail":"verified existing CloudFormation On-Demand instance"}
+{"timestamp":"2026-08-22T01:26:39.205818+00:00","stage":"ssm","status":"ok","detail":"instance became SSM-ready with status Online"}
+{"timestamp":"2026-08-22T01:30:57.396366+00:00","stage":"remote_command","status":"failed","detail":"remote command failed with status=Failed response_code=Some(1)"}
+{"timestamp":"2026-08-22T01:30:57.951161+00:00","stage":"cleanup","status":"started","detail":"termination requested"}
+{"timestamp":"2026-08-22T01:31:28.480600+00:00","stage":"cleanup","status":"ok","detail":"termination observed state=terminated"}

@@ -1,0 +1,80 @@
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=started issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=0
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=5006
+2026-08-22T01:26:39.205518+00:00 status=ssm_online instance_id=<aws-identifier-redacted> ping_status=Online
+2026-08-22T01:26:39.957739+00:00 status=command_sent instance_id=<aws-identifier-redacted> command_id=faa606de-fd94-4db6-a200-d325d3b54d38
+2026-08-22T01:26:40.688040+00:00 status=command_poll instance_id=<aws-identifier-redacted> command_id=faa606de-fd94-4db6-a200-d325d3b54d38 status=InProgress response_code=-1
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=10008
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=15011
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=20014
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=25016
+2026-08-22T01:26:58.309048+00:00 status=command_poll instance_id=<aws-identifier-redacted> command_id=faa606de-fd94-4db6-a200-d325d3b54d38 status=InProgress response_code=-1
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=30018
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=35021
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=40026
+2026-08-22T01:27:16.370050+00:00 status=command_poll instance_id=<aws-identifier-redacted> command_id=faa606de-fd94-4db6-a200-d325d3b54d38 status=InProgress response_code=-1
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=45031
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=50033
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=55035
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=60037
+2026-08-22T01:27:34.275160+00:00 status=command_poll instance_id=<aws-identifier-redacted> command_id=faa606de-fd94-4db6-a200-d325d3b54d38 status=InProgress response_code=-1
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=65042
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=70045
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=75049
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=80054
+2026-08-22T01:27:52.621046+00:00 status=command_poll instance_id=<aws-identifier-redacted> command_id=faa606de-fd94-4db6-a200-d325d3b54d38 status=InProgress response_code=-1
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=85061
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=90063
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=95068
+2026-08-22T01:28:08.964468+00:00 status=command_poll instance_id=<aws-identifier-redacted> command_id=faa606de-fd94-4db6-a200-d325d3b54d38 status=InProgress response_code=-1
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=100072
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=105077
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=110083
+2026-08-22T01:28:24.290315+00:00 status=command_poll instance_id=<aws-identifier-redacted> command_id=faa606de-fd94-4db6-a200-d325d3b54d38 status=InProgress response_code=-1
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=115085
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=120089
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=125094
+2026-08-22T01:28:39.564565+00:00 status=command_poll instance_id=<aws-identifier-redacted> command_id=faa606de-fd94-4db6-a200-d325d3b54d38 status=InProgress response_code=-1
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=130095
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=135096
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=140100
+2026-08-22T01:28:54.854850+00:00 status=command_poll instance_id=<aws-identifier-redacted> command_id=faa606de-fd94-4db6-a200-d325d3b54d38 status=InProgress response_code=-1
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=145105
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=150109
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=155112
+2026-08-22T01:29:10.101977+00:00 status=command_poll instance_id=<aws-identifier-redacted> command_id=faa606de-fd94-4db6-a200-d325d3b54d38 status=InProgress response_code=-1
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=160114
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=165118
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=170121
+2026-08-22T01:29:25.359445+00:00 status=command_poll instance_id=<aws-identifier-redacted> command_id=faa606de-fd94-4db6-a200-d325d3b54d38 status=InProgress response_code=-1
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=175121
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=180125
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=185127
+2026-08-22T01:29:40.610711+00:00 status=command_poll instance_id=<aws-identifier-redacted> command_id=faa606de-fd94-4db6-a200-d325d3b54d38 status=InProgress response_code=-1
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=190128
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=195131
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=200136
+2026-08-22T01:29:55.927486+00:00 status=command_poll instance_id=<aws-identifier-redacted> command_id=faa606de-fd94-4db6-a200-d325d3b54d38 status=InProgress response_code=-1
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=205141
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=210143
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=215145
+2026-08-22T01:30:11.312283+00:00 status=command_poll instance_id=<aws-identifier-redacted> command_id=faa606de-fd94-4db6-a200-d325d3b54d38 status=InProgress response_code=-1
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=220150
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=225153
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=230158
+2026-08-22T01:30:26.561757+00:00 status=command_poll instance_id=<aws-identifier-redacted> command_id=faa606de-fd94-4db6-a200-d325d3b54d38 status=InProgress response_code=-1
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=235162
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=240168
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=245171
+2026-08-22T01:30:41.764165+00:00 status=command_poll instance_id=<aws-identifier-redacted> command_id=faa606de-fd94-4db6-a200-d325d3b54d38 status=InProgress response_code=-1
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=250172
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=255177
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=260182
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=265185
+2026-08-22T01:30:57.394818+00:00 status=command_poll instance_id=<aws-identifier-redacted> command_id=faa606de-fd94-4db6-a200-d325d3b54d38 status=Failed response_code=1
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=270190
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=275195
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=280200
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=285201
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=290202
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=heartbeat issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=295206
+adl_event schema=adl.observability.event.v1 command=adl-aws-remote-validation stage=attempt result=completed issue=268 run_id=issue268-six-hour-r7i-20260821-55 attempt=0 elapsed_ms=297165 result=completed

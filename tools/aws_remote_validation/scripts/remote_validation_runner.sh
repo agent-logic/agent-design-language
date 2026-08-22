@@ -384,7 +384,7 @@ if [ "$ISSUE268_RUNTIME_QUALIFICATION" = "1" ]; then
   cloud_init_status=0
   cloud-init status --wait >/tmp/adl-cloud-init.log 2>&1 || cloud_init_status=$?
   runtime_ready=false
-  for _ in $(seq 1 120); do
+  for _ in $(seq 1 450); do
     if [ -f /var/lib/adl/issue268-bootstrap-failed ]; then
       break
     fi

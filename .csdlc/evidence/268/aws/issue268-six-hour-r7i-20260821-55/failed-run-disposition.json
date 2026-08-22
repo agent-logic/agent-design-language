@@ -1,0 +1,13 @@
+{
+  "additional_attempt_authority": "standing_operator_authorization_up_to_usd20",
+  "authoritative_failure_class": "runtime_mount_readiness_timeout",
+  "estimated_compute_cost_usd": 0.043659,
+  "fallback": "disabled",
+  "portable_request_sha256": "7bb32e60cc2c044baed6a608fc4cab58800d3ca2f08b5dab2b75a4e6156fd1d9",
+  "provider_attempts": 1,
+  "run_id": "issue268-six-hour-r7i-20260821-55",
+  "schema": "adl.issue268.failed_run_disposition.v1",
+  "status": "terminal_pre_runtime_failure",
+  "summary_sha256": "dfdaa012f00aac6ebc8dca6522db296c54daec9d8f304b6c184c737b2941fb25",
+  "truth": "The remote runner reached the host but its 240-second readiness window expired before the asynchronous template mount proved the retained Runtime install. Runtime qualification did not begin. Compute and stack cleanup completed and fallback did not run."
+}

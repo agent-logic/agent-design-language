@@ -1,0 +1,9 @@
+2026-08-22T01:26:40Z stage=ensure_git
+2026-08-22T01:26:40Z stage=ensure_curl
+2026-08-22T01:26:40Z stage=clone_repo
+2026-08-22T01:26:48Z stage=fetch_repo
+2026-08-22T01:26:48Z stage=checkout_ref ref='refs/heads/codex/268-six-hour-spot-qualification'
+2026-08-22T01:26:49Z stage=tracked_remote_runner
+2026-08-22T01:26:49Z stage=ensure_build_toolchain
+issue268 retained Runtime mount did not become ready
+failed to run commands: exit status 1

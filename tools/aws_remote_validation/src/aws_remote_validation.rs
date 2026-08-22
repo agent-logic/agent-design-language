@@ -5271,6 +5271,7 @@ mod tests {
         assert!(tracked_runner.contains("issue268-bootstrap-ready"));
         assert!(tracked_runner.contains("mountpoint -q /opt/adl-runtime"));
         assert!(tracked_runner.contains("[ -d /opt/adl-runtime/install ]"));
+        assert!(tracked_runner.contains("for _ in $(seq 1 450); do"));
         assert!(tracked_runner.contains("adl-issue268-runtime-volume.service"));
         assert!(!tracked_runner.contains("touch /var/lib/adl/issue268-bootstrap-ready"));
         assert!(!tracked_runner.contains("source=foreground_package_manager"));

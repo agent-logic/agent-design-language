@@ -206,6 +206,17 @@ Resources:
           systemctl enable adl-issue268-runtime-volume.service
           systemctl start --no-block adl-issue268-runtime-volume.service
           systemctl enable --now amazon-ssm-agent
+          for attempt in $(seq 1 450); do
+            if test -f /var/lib/adl/issue268-bootstrap-ready \
+                && mountpoint -q /opt/adl-runtime \
+                && test -d /opt/adl-runtime/install; then
+              exit 0
+            fi
+            sleep 2
+          done
+          systemctl status adl-issue268-runtime-volume.service --no-pager || true
+          journalctl -u adl-issue268-runtime-volume.service -n 200 --no-pager || true
+          exit 1
 
   RuntimeVolumeAttachment:
     Type: AWS::EC2::VolumeAttachment
