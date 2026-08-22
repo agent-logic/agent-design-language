@@ -108,7 +108,7 @@ case "$1" in
     exit 1
     ;;
   cleanup) exit 0 ;;
-  plan)
+  preflight)
     [[ " $* " == *" --check-account "* ]] || exit 97
     exit 0
     ;;
@@ -195,7 +195,7 @@ assert "ADL_ISSUE268_S3_SOURCE_RECEIPT" in request["command_profile"]["environme
 PY
 grep -F -- '--runtime-continuity-volume-id vol-12345678' "$test_root/owner.log" >/dev/null
 grep -F -- '--runtime-continuity-volume-name issue268-six-hour-r7i-20260821-54-runtime' "$test_root/owner.log" >/dev/null
-grep -F -- 'plan --check-account --profile agent-logic-admin --region us-west-2' "$test_root/owner.log" >/dev/null
+grep -F -- 'preflight --check-account --profile agent-logic-admin --region us-west-2' "$test_root/owner.log" >/dev/null
 grep -F -- 'run --run ' "$test_root/owner.log" >/dev/null
 grep -F -- '--on-demand-only' "$test_root/owner.log" >/dev/null
 grep -F -- 'existing_instance=i-12345678 runtime_root=/opt/adl-runtime runtime_volume=vol-12345678' "$test_root/owner.log" >/dev/null

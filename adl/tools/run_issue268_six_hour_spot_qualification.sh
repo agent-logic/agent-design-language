@@ -152,7 +152,7 @@ if [[ "$PROFILE" != env && "$PROFILE" != environment ]]; then
 fi
 
 validate_cloudformation_inputs() {
-  "$OWNER" plan --check-account --profile "$PROFILE" --region "$REGION" >/dev/null
+  "$OWNER" preflight --check-account --profile "$PROFILE" --region "$REGION" >/dev/null
   "$AWS_CLI" "${profile_args[@]}" --region "$REGION" cloudformation validate-template \
     --template-body "file://$CFN_TEMPLATE" >/dev/null
   local subnet_az
