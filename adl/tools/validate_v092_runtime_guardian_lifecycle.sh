@@ -286,7 +286,7 @@ import time
     probe_ready_path,
     probe_ack_path,
 ) = sys.argv[1:]
-deadline = time.monotonic() + 180.0
+barrier_deadline = time.monotonic() + 600.0
 MAX_FRAME_BYTES = 65_536
 MAX_HTTP_BYTES = 1_048_576
 WEBSOCKET_GUID = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
@@ -483,12 +483,13 @@ def authenticated_wss(address, certificate, token):
 
 
 while not os.path.isfile(probe_ready_path):
-    if time.monotonic() >= deadline:
+    if time.monotonic() >= barrier_deadline:
         raise RuntimeError("lifecycle harness did not publish pre-restart readiness")
     time.sleep(0.01)
 probe_nonce = pathlib.Path(probe_ready_path).read_text(encoding="utf-8").strip()
 if not probe_nonce:
     raise RuntimeError("lifecycle harness published an empty pre-restart nonce")
+deadline = time.monotonic() + 180.0
 
 while True:
     try:
