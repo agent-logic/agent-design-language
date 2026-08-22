@@ -3,7 +3,7 @@ set -euo pipefail
 
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd -P)
 MODE=${1:-}
-RUN_ID=issue268-six-hour-r7i-20260821-54
+RUN_ID=issue268-six-hour-r7i-20260821-55
 EVIDENCE_ROOT=${ADL_ISSUE268_EVIDENCE_ROOT:-$ROOT/.csdlc/evidence/268/aws/$RUN_ID}
 REQUEST="$EVIDENCE_ROOT/portable-request.json"
 SUMMARY="$EVIDENCE_ROOT/summary.json"
@@ -24,7 +24,7 @@ RUNTIME_VOLUME_NAME=${ADL_AWS_RUNTIME_CONTINUITY_VOLUME_NAME:-}
 RUNTIME_VOLUME_ID_SHA256=${ADL_AWS_RUNTIME_CONTINUITY_VOLUME_ID_SHA256:-}
 HOURLY=${ADL_ISSUE268_ESTIMATED_HOURLY_COST_USD:-}
 CFN_TEMPLATE="$ROOT/adl/tools/issue268_runtime_qualification.cloudformation.yaml"
-CFN_STACK_NAME="adl-issue268-runtime-54"
+CFN_STACK_NAME="adl-issue268-runtime-55"
 CFN_SUBNET_ID=${ADL_ISSUE268_SUBNET_ID:-${ADL_AWS_REMOTE_VALIDATION_SUBNET_ID:-}}
 CFN_AVAILABILITY_ZONE=${ADL_ISSUE268_AVAILABILITY_ZONE:-}
 CFN_RUNTIME_SNAPSHOT_ID=${ADL_ISSUE268_RUNTIME_SNAPSHOT_ID:-}
@@ -294,6 +294,19 @@ PY
     ;;
   validate)
     if [[ ! -s "$SUMMARY" ]]; then
+      stack_status=$("$AWS_CLI" --profile "$PROFILE" --region "$REGION" cloudformation describe-stacks \
+        --stack-name "$CFN_STACK_NAME" --query 'Stacks[0].StackStatus' --output text 2>/dev/null || true)
+      if [[ "$stack_status" =~ ^(CREATE|UPDATE|IMPORT|ROLLBACK)_IN_PROGRESS$ || "$stack_status" == "CREATE_COMPLETE" ]]; then
+        echo "issue268: CloudFormation runtime stack is active without terminal summary; refusing validation cleanup" >&2
+        exit 75
+      fi
+      active_instance_json=$("$AWS_CLI" --profile "$PROFILE" --region "$REGION" ec2 describe-instances \
+        --filters "Name=tag:adl:issue,Values=268" "Name=tag:adl:run_id,Values=$RUN_ID" "Name=instance-state-name,Values=pending,running,stopping,stopped,shutting-down" \
+        --query 'Reservations[].Instances[].InstanceId' --output json)
+      if [[ "$active_instance_json" != "[]" ]]; then
+        echo "issue268: task-owned instance is active without terminal summary; refusing validation cleanup" >&2
+        exit 75
+      fi
       owner_status_rc=0
       owner_status=$("$OWNER" status --profile "$PROFILE" --region "$REGION" --issue 268 --run-id "$RUN_ID" --out "$SUMMARY" --artifact-dir "$ARTIFACTS" --bin "$REMOTE_BIN" --json 2>&1) || owner_status_rc=$?
       if [[ "$owner_status" == *"status=running"* ]]; then
@@ -303,28 +316,14 @@ PY
       if [[ $owner_status_rc -eq 0 ]]; then
         echo "issue268: owner reported a terminal state without the required summary" >&2
       fi
-    else
-      "$OWNER" cleanup --profile "$PROFILE" --region "$REGION" --issue 268 --run-id "$RUN_ID" --out "$SUMMARY" --artifact-dir "$ARTIFACTS" --bin "$REMOTE_BIN" --json
     fi
     ZERO_JSON=$("$AWS_CLI" --profile "$PROFILE" --region "$REGION" ec2 describe-instances \
       --filters "Name=tag:adl:issue,Values=268" "Name=tag:adl:run_id,Values=$RUN_ID" "Name=instance-state-name,Values=pending,running,stopping,stopped,shutting-down" \
       --query 'Reservations[].Instances[].InstanceId' --output json)
-    if [[ "$ZERO_JSON" != "[]" ]]; then
-      python3 - "$ZERO_JSON" <<'PY' >"$EVIDENCE_ROOT/residual-instance-ids.txt"
-import json, sys
-for value in json.loads(sys.argv[1]): print(value)
-PY
-      residual_ids=()
-      while IFS= read -r residual_id; do
-        residual_ids+=("$residual_id")
-      done <"$EVIDENCE_ROOT/residual-instance-ids.txt"
-      "$AWS_CLI" --profile "$PROFILE" --region "$REGION" ec2 terminate-instances --instance-ids "${residual_ids[@]}" >/dev/null
-      "$AWS_CLI" --profile "$PROFILE" --region "$REGION" ec2 wait instance-terminated --instance-ids "${residual_ids[@]}"
-      ZERO_JSON=$("$AWS_CLI" --profile "$PROFILE" --region "$REGION" ec2 describe-instances \
-        --filters "Name=tag:adl:issue,Values=268" "Name=tag:adl:run_id,Values=$RUN_ID" "Name=instance-state-name,Values=pending,running,stopping,stopped,shutting-down" \
-        --query 'Reservations[].Instances[].InstanceId' --output json)
-      : >"$EVIDENCE_ROOT/residual-instance-ids.txt"
-    fi
+    [[ "$ZERO_JSON" == "[]" ]] || {
+      echo "issue268: validation is read-only and refuses while task-owned compute remains" >&2
+      exit 75
+    }
     [[ -s "$SUMMARY" ]] || {
       echo "issue268: cleanup recovery completed but terminal run summary is absent" >&2
       exit 75

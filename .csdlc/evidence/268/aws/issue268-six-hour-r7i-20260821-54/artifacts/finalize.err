@@ -1,0 +1,1 @@
+aws_spot_artifact_finalize: self-verification failed: runner_exit_nonzero, run_status_not_passed, direct_host_runtime_not_verified, source_commit_mismatch, runtime_toolchain_not_verified
