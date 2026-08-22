@@ -90,7 +90,7 @@ OBSERVATORY_DIR="${ADL_CSM_OBSERVATORY_DIR:-$(dirname "$OBSERVATORY_ENTRY")}"
 OBSERVATORY_LAUNCH_WORKING_DIR="${ADL_CSM_OBSERVATORY_LAUNCH_WORKING_DIR:-$OBSERVATORY_DIR}"
 OBSERVATORY_HOST="${ADL_CSM_OBSERVATORY_HOST:-127.0.0.1}"
 OBSERVATORY_PORT="${ADL_CSM_OBSERVATORY_PORT:-8765}"
-OBSERVATORY_PORTS="${ADL_CSM_OBSERVATORY_PORTS:-$OBSERVATORY_PORT 8766}"
+OBSERVATORY_PORTS="${ADL_CSM_OBSERVATORY_PORTS:-$OBSERVATORY_PORT}"
 OBSERVATORY_BASE="${ADL_CSM_OBSERVATORY_BASE:-https://localhost:$OBSERVATORY_PORT}"
 OBSERVATORY_URL="${ADL_CSM_OBSERVATORY_URL:-$OBSERVATORY_BASE/index.html?runtime=v3&runtimeApiBase=$OBSERVATORY_RUNTIME_BASE&live=1}"
 OBSERVATORY_TLS_CERT="${ADL_CSM_OBSERVATORY_TLS_CERT:-${ADL_CSM_API_TLS_CERT:-$CERT_FILE}}"
@@ -443,7 +443,7 @@ trust_roots_path = "$STATE_TLS_DIR/api-trust-roots.pem"
 server_name = "$RUNTIME_SERVER_NAME"
 
 [observatory]
-allowed_origins = ["https://localhost:8765", "https://localhost:8766", "https://observatory.dev.agent-logic.ai"]
+allowed_origins = ["https://localhost:8765", "https://observatory.dev.agent-logic.ai"]
 
 [kernel]
 recorder_capacity = 1024
@@ -582,6 +582,8 @@ ensure_observatory_config() {
   require_file "$OBSERVATORY_SERVER_BIN" "observatory_server_binary"
   [[ -d "$OBSERVATORY_DIR" ]] || fail "missing_observatory_dir: $OBSERVATORY_DIR"
   [[ -d "$OBSERVATORY_LAUNCH_WORKING_DIR" ]] || fail "missing_observatory_launch_working_dir: $OBSERVATORY_LAUNCH_WORKING_DIR"
+  [[ "$OBSERVATORY_PORT" == "8765" ]] || fail "observatory_fixed_port_violation configured_port=$OBSERVATORY_PORT expected=8765"
+  [[ "$OBSERVATORY_PORTS" == "8765" ]] || fail "observatory_fixed_port_violation configured_ports='$OBSERVATORY_PORTS' expected=8765"
   mkdir -p "$STATE_DIR" "$GENERATED_DIR"
 }
 

@@ -42,7 +42,7 @@ surprise-restart, replace, or take over an existing Runtime.
 HTML Observatory server:
 
 - Default Observatory base: `https://localhost:8765`
-- Fallback local port: `8766`
+- Fixed local port: `8765`
 - Static document root: `demos/html-observatory/`
 - Runtime API target: `ADL_CSM_OBSERVATORY_RUNTIME_BASE` from
   `CSMctl.observatory.conf`
@@ -97,13 +97,13 @@ HTTP 200, the script fails closed and refuses to kill or replace that Runtime.
 Successful Observatory output includes a browser URL similar to:
 
 ```text
-CSMctl observatory_server=running url=https://localhost:8766/index.html?runtime=v3&runtimeApiBase=https://localhost:20997&live=1
-CSMctl opening=https://localhost:8766/index.html?runtime=v3&runtimeApiBase=https://localhost:20997&live=1
+CSMctl observatory_server=running url=https://localhost:8765/index.html?runtime=v3&runtimeApiBase=https://localhost:20997&live=1
+CSMctl opening=https://localhost:8765/index.html?runtime=v3&runtimeApiBase=https://localhost:20997&live=1
 ```
 
-The selected Observatory port may be `8766` if `8765` is already occupied. Use
-the URL printed by `./CSMctl observatory urls`; do not assume the first
-configured port is the live one.
+The Observatory port is fixed at `8765`. If that port is already occupied,
+`CSMctl observatory start` fails closed instead of serving the dashboard on a
+different local port.
 
 ## Commands
 
@@ -323,7 +323,7 @@ ADL_CSM_OBSERVATORY_DIR=/path/to/agent-design-language/demos/html-observatory
 ADL_CSM_OBSERVATORY_ENTRY=/path/to/agent-design-language/demos/html-observatory/index.html
 ADL_CSM_OBSERVATORY_HOST=127.0.0.1
 ADL_CSM_OBSERVATORY_PORT=8765
-ADL_CSM_OBSERVATORY_PORTS='8765 8766'
+ADL_CSM_OBSERVATORY_PORTS='8765'
 ADL_CSM_OBSERVATORY_TLS_CERT=/Users/daniel/cert/localhost.pem
 ADL_CSM_OBSERVATORY_TLS_KEY=/Users/daniel/cert/localhost-key.pem
 ADL_CSM_OBSERVATORY_LAUNCH_LABEL=com.agentlogic.csm-observatory
@@ -484,12 +484,9 @@ Ask `CSMctl` for the selected live URL:
 ./CSMctl observatory urls
 ```
 
-If the script reports `observatory_port_unavailable port=8765 action=try_next`,
-open the printed fallback URL, commonly:
-
-```text
-https://localhost:8766/index.html?runtime=v3&runtimeApiBase=https://localhost:20997&live=1
-```
+If the script reports `observatory_port_unavailable port=8765`, stop the
+conflicting local process and restart the Observatory. ADL software must not
+serve the local Observatory on port `8000` or fallback to port `8766`.
 
 ## Validation used while authoring
 

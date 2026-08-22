@@ -123,6 +123,10 @@ fn csmctl_observatory_serves_index_at_root_and_persists_runtime_target() {
         "OBSERVATORY_LAUNCH_WORKING_DIR",
         "load_observatory_state || true",
         "runtimeApiBase=$OBSERVATORY_RUNTIME_BASE",
+        "OBSERVATORY_PORTS=\"${ADL_CSM_OBSERVATORY_PORTS:-$OBSERVATORY_PORT}\"",
+        "observatory_fixed_port_violation configured_port=$OBSERVATORY_PORT expected=8765",
+        "observatory_fixed_port_violation configured_ports='$OBSERVATORY_PORTS' expected=8765",
+        "allowed_origins = [\"https://localhost:8765\", \"https://observatory.dev.agent-logic.ai\"]",
     ] {
         assert!(
             CSMCTL.contains(required),
@@ -135,6 +139,9 @@ fn csmctl_observatory_serves_index_at_root_and_persists_runtime_target() {
         "com.agentlogic.csm-observatory.plist",
         "npx",
         "http-server",
+        "8766",
+        "localhost:8000",
+        ":8000",
     ] {
         assert!(
             !CSMCTL.contains(forbidden),
