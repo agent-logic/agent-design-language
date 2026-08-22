@@ -4584,7 +4584,7 @@ mod tests {
             total_run_timeout_seconds: Some(60),
             poll_interval_seconds: 1,
             ssm_ready_timeout_seconds: 10,
-            command_timeout_seconds: Some(20),
+            command_timeout_seconds: Some(30),
             termination_timeout_seconds: 10,
         }
     }
