@@ -3,6 +3,7 @@ set -euo pipefail
 ROOT=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd -P)
 grep -Fq 'tail -80 "$OLLAMA_LOG"' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq 'OLLAMA_KEEP_ALIVE=-1' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
+grep -Fq 'OLLAMA_LOAD_TIMEOUT=15m' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq 'RUNTIME_ROOT=${ADL_ISSUE268_RETAINED_RUNTIME_ROOT:-$VOLUME_ROOT/state/$RUN_ID}' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq 'OLLAMA_LLM_LIBRARY=cpu_avx2' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
 grep -Fq 'ADL_UTS_ALLOW_MULTI_MODEL_RESIDENCY=true' "$ROOT/adl/tools/run_issue268_remote_resident_qualification.sh"
