@@ -4,13 +4,39 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "1aac31d526ec88733274957b08d6a077e4b1c251c3c859ce9de45efa648636ad",
-  "phase": "implemented",
-  "generation": 27,
-  "digest": "fffe5ed406cf6f7755e2f01235af56496add8cce0e94cf234f96a975e8592c4a",
+  "phase": "reviewed",
+  "generation": 28,
+  "digest": "96c6070bfe5aff649ca56579381aae5eb9ca8fcc609fe21dfcd8d56c13fcd676",
   "branch": "codex/309-repository-wide-code-reduction",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-309-repository-wide-code-reduction",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:5f59a01e-7849-4de7-9c15-875fa93da6271",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:ef1d925c7c4638f5d6ce7c338b1776ae0a625a99:378342501e8b6bd864bbe0ecd7c2bc27f8819b85d2a37cd40c5bb67201ec0e7e",
+    "scope": [
+      "Exact immutable candidate ef1d925c7c4638f5d6ce7c338b1776ae0a625a99 over base e926e3bca0ab1981d77b4658d2feb4059bdf33a6",
+      "Complete #309 dead-code-only source, typed cards, evidence, reference census, rollback, validator, advisory Gemini, and deletion-aware CI-router diff",
+      "Verify Runtime v2, #414 continuity, policy authority, active providers, ACC/capability, supported CLI, AWS #268, and current demos remain protected",
+      "Verify exact 20-file and 11571-physical-line reduction, 1613 independently validated reference edges, two independently reversible dead/unreachable bands, portable evidence, exact-manifest PR-fast routing, and no undeclared scope"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:5f59a01e-7849-4de7-9c15-875fa93da6271",
+    "scope": [
+      "Exact immutable candidate ef1d925c7c4638f5d6ce7c338b1776ae0a625a99 over base e926e3bca0ab1981d77b4658d2feb4059bdf33a6",
+      "Complete #309 dead-code-only source, typed cards, evidence, reference census, rollback, validator, advisory Gemini, and deletion-aware CI-router diff",
+      "Verify Runtime v2, #414 continuity, policy authority, active providers, ACC/capability, supported CLI, AWS #268, and current demos remain protected",
+      "Verify exact 20-file and 11571-physical-line reduction, 1613 independently validated reference edges, two independently reversible dead/unreachable bands, portable evidence, exact-manifest PR-fast routing, and no undeclared scope"
+    ],
+    "reviewed_revision": "git-blake3:ef1d925c7c4638f5d6ce7c338b1776ae0a625a99:378342501e8b6bd864bbe0ecd7c2bc27f8819b85d2a37cd40c5bb67201ec0e7e",
+    "findings": [],
+    "residual_risks": [
+      "Hosted Linux validation remains deferred until the reviewed candidate is published and exact-head CI receipts exist.",
+      "This issue removes only 20 independently proven dead or unreachable files; every retained or unproven candidate remains outside the deletion set."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +51,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8b8aefc695a8e81db9c20aa04c17392876ecdc55d54d842019c898b701290814",
+      "values_digest": "8685d00ae3d9616c5323a07263fd84e03ad2536287e610a2dc6395336865a142",
       "rendered_digest": "f610e1b9271578eedfab1b985238494fa5c08d9ddd8df483adb2aa6375564b3a",
       "ast_digest": "73a9a20d02b6492e2e00df33af13b603c1ae1d97ab041b611ef8885088729242"
     },
     "stp": {
-      "values_digest": "9323c75c2e65e68cd597d32d9aecaf1f0285e263009ce80b817b77160a5f2018",
+      "values_digest": "ffd04381a3de60f6ddcc53d4a7ac7f09edf614533d2bc9a3e4493a6a848e0de0",
       "rendered_digest": "a469bc600ccd25918f73bd661c9a04c397592b9dcbe51e4876c7bb61be451299",
       "ast_digest": "00774e64929c26df4a90bae4b38835bf7c1520a06ecc6d7d3ae0423239fed416"
     },
     "spp": {
-      "values_digest": "4fec22caf23545b441ca280136a53086cc979bd53270fe3c739420e4ed9caf93",
+      "values_digest": "bd4176b8757bdc4140371c9c961ee1576741a658b7c1f7599ae9f1262bc56573",
       "rendered_digest": "cab3f8355e1ca071ae5a17ebf1f6753f260d24400cde323ccc184e03b52cecb7",
       "ast_digest": "7afd712b14dc42ec54db99efa33ac3df4d5326979921def1d286ef3030f6536d"
     },
     "vpp": {
-      "values_digest": "b898e41d9d555d59ed9c3803611a1b178a7074d8ea59965794e0b76c6b209360",
+      "values_digest": "691bf4b97ce8672f63b50bebccb977d63e28bd11a05f77d4e14a6383c172724a",
       "rendered_digest": "8fd190146e15f493fff91d51982e468c09147ef07195faf212080f90664049a8",
       "ast_digest": "db2df873444242436a1311a1c901e50520f97b516a328e96428a923d67157c2b"
     },
     "srp": {
-      "values_digest": "3e23efafc254105cec9280ea4dde8589d4a48b082b4995b41d51fa8c1dc79e64",
-      "rendered_digest": "8c621a8abdff1f086f1d77da1fc7856fc1db3d429c2be0900913973f8b649836",
-      "ast_digest": "b743ea5de345e0eebe3311f620a553f69d9cb00bfff6b1402a989da9961d0904"
+      "values_digest": "5903cdfa233741f2d6369aadcfc818594fdd7254cccc864bfedb2bf59d4a7b45",
+      "rendered_digest": "44f6b33eedeeb173de199b61f6ee7c35ffad120304949cc39e296b3c7051e815",
+      "ast_digest": "a17a1271ade56777d283fcdfca8ef5bece1e48cc7ea97ffd32d1b8c2d47e56f6"
     },
     "sor": {
-      "values_digest": "9de01b27831a9ece4d5a45a00d3aa7ad7639b8e1f69acea374832599f81b0399",
+      "values_digest": "16a3cd221d2390ffcf7f444b158ed2e2311a3d68b06be20503582488a0c99d24",
       "rendered_digest": "5525153a315d1fadfb038d050b582a397e51ddc2d17637c0a75e3d9e4958cdaf",
       "ast_digest": "3401b45ed6ef37cc7ac1276a8644b773eae19a897dd06f27e89dd8e6ffef74bb"
     }
@@ -97,6 +123,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Recover the published #309 candidate after hosted CI proved that the PR-fast changed-file detector excluded deleted Rust paths; add deletion-aware routing proof and strengthen the reverse-reference census without widening source deletion."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -330,6 +363,20 @@
       "actor": "codex:/root",
       "reason": "Record current dead-only classification, corrected reference denominator, exact CI manifest guard, and current focused proof truth.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Removed 20 reviewed dead/orphan Rust files across independently reversible Bands A and B, totaling 11,571 deleted physical lines from the pinned 485-file/265,633-line baseline. Retained Runtime v2, #414 continuity, policy authority, current providers, ACC/capability surfaces, supported CLI routes, and every candidate lacking complete dead-code proof.\",\"changes\":[\"Recomputed the pinned baseline and 1,613 normalized reference edges, independently rejecting retained sources that still contain a removed reference and validating Cargo target-discovery edges against the candidate manifest and auto-discovered binaries.\",\"Classified Band A's two retired evaluation modules and Band B's characterized orphan implementations as dead or unreachable only; no superseded-code credit remains.\",\"Restored policy_authority byte-for-byte after the advisory audit proposed it incorrectly; retained cognitive-transition, AWS #268, Runtime v2/#414, providers, capability, ACC, current demos, and supported CLI surfaces.\",\"Pinned Band B source, revert, and reapply Git identities and proved exact tree restoration without unrelated path changes.\",\"Bound PR-fast routing to the exact reviewed status/path manifest; any manifest drift uses the ordinary fail-closed router.\"],\"artifacts\":[\"adl/src/lib.rs\",\"adl/src/gws_live_test_support.rs\",\"adl/tools/check_coverage_impact.sh\",\"adl/tools/test_check_coverage_impact.sh\",\"adl/tools/run_pr_fast_test_lane.sh\",\"adl/tools/test_run_pr_fast_test_lane.sh\",\".csdlc/prepared/issues/309/refresh_crate_reference_edges.py\",\".csdlc/prepared/issues/309/refresh_dead_code_band.py\",\".csdlc/prepared/issues/309/run_gemini_dead_code_audit.py\",\".csdlc/prepared/issues/309/validate_reduction_inventory.py\",\".csdlc/prepared/issues/309/validate_rollback_proof.py\",\".csdlc/prepared/issues/309/validate_hosted_linux_receipt.py\",\".csdlc/prepared/issues/309/test_validate_hosted_linux_receipt.py\",\".csdlc/evidence/309/baseline-manifest.json\",\".csdlc/evidence/309/reference-edge-manifest.json\",\".csdlc/evidence/309/disposition-manifest.json\",\".csdlc/evidence/309/reduction-report.json\",\".csdlc/evidence/309/rollback-proof.json\",\".csdlc/evidence/309/gemini-dead-code-audit.md\"],\"validation\":[{\"command\":[\"python3\",\".csdlc/prepared/issues/309/validate_reduction_inventory.py\",\"--root\",\".\"],\"purpose\":\"Recompute exact baseline, normalized reference census, candidate diff, dispositions, and reduction.\",\"outcome\":\"passed\",\"evidence_ref\":\"485 files; 265633 baseline lines; 1613 edges; 20 deleted files; 11571 deleted lines; complete_dead_code_reduction\"},{\"command\":[\"python3\",\".csdlc/prepared/issues/309/validate_rollback_proof.py\",\"--root\",\".\"],\"purpose\":\"Prove exact per-band Git revert/reapply topology, trees, and isolation.\",\"outcome\":\"passed\",\"evidence_ref\":\"2 bands; 0 errors\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--lib\",\"resident_shepherd_spot_continuity\",\"--\",\"--nocapture\"],\"purpose\":\"Protect #414 ADL continuity.\",\"outcome\":\"passed\",\"evidence_ref\":\"6 passed; 0 failed\"},{\"command\":[\"cargo\",\"test\",\"--locked\",\"--manifest-path\",\"adl-runtime-kernel/Cargo.toml\",\"--test\",\"live_continuity\",\"--\",\"--nocapture\"],\"purpose\":\"Protect #414 kernel continuity.\",\"outcome\":\"passed\",\"evidence_ref\":\"8 passed; 0 failed\"},{\"command\":[\"cargo\",\"check\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--all-targets\"],\"purpose\":\"Compile all ADL targets.\",\"outcome\":\"passed\",\"evidence_ref\":\"all targets compiled\"},{\"command\":[\"cargo\",\"clippy\",\"--locked\",\"--manifest-path\",\"adl/Cargo.toml\",\"--all-targets\",\"--\",\"-D\",\"warnings\"],\"purpose\":\"Reject warnings/residual references.\",\"outcome\":\"passed\",\"evidence_ref\":\"strict Clippy passed\"},{\"command\":[\"cargo\",\"fmt\",\"--manifest-path\",\"adl/Cargo.toml\",\"--\",\"--check\"],\"purpose\":\"Verify formatting.\",\"outcome\":\"passed\",\"evidence_ref\":\"format check passed\"},{\"command\":[\"bash\",\"adl/tools/test_owner_binary_install.sh\"],\"purpose\":\"Prove supported clean owner install.\",\"outcome\":\"passed\",\"evidence_ref\":\"owner binary stable install: ok\"},{\"command\":[\"bash\",\"adl/tools/test_check_coverage_impact.sh\"],\"purpose\":\"Reject stale coverage mappings for deleted paths.\",\"outcome\":\"passed\",\"evidence_ref\":\"PASS test_check_coverage_impact\"},{\"command\":[\"bash\",\"adl/tools/test_run_pr_fast_test_lane.sh\"],\"purpose\":\"Prove exact-manifest routing and manifest-drift rejection.\",\"outcome\":\"passed\",\"evidence_ref\":\"PASS test_run_pr_fast_test_lane\"},{\"command\":[\"python3\",\".csdlc/prepared/issues/309/test_validate_hosted_linux_receipt.py\"],\"purpose\":\"Reject stale head, wrong PR, and underspecified hosted job receipts.\",\"outcome\":\"passed\",\"evidence_ref\":\"PASS test_validate_hosted_linux_receipt\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject patch hygiene defects.\",\"outcome\":\"passed\",\"evidence_ref\":\"no findings\"}]}"
+    },
+    {
+      "sequence": 34,
+      "generation": 27,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 28,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

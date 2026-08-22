@@ -12,7 +12,10 @@ Status: draft
 
 ## Scope
 
-
+Exact immutable candidate ef1d925c7c4638f5d6ce7c338b1776ae0a625a99 over base e926e3bca0ab1981d77b4658d2feb4059bdf33a6
+Complete #309 dead-code-only source, typed cards, evidence, reference census, rollback, validator, advisory Gemini, and deletion-aware CI-router diff
+Verify Runtime v2, #414 continuity, policy authority, active providers, ACC/capability, supported CLI, AWS #268, and current demos remain protected
+Verify exact 20-file and 11571-physical-line reduction, 1613 independently validated reference edges, two independently reversible dead/unreachable bands, portable evidence, exact-manifest PR-fast routing, and no undeclared scope
 
 ## Prompts
 
@@ -33,12 +36,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Hosted Linux validation remains deferred until the reviewed candidate is published and exact-head CI receipts exist.
+- This issue removes only 20 independently proven dead or unreachable files; every retained or unproven candidate remains outside the deletion set.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:ef1d925c7c4638f5d6ce7c338b1776ae0a625a99:378342501e8b6bd864bbe0ecd7c2bc27f8819b85d2a37cd40c5bb67201ec0e7e")
 
-Reviewer: None
+Reviewer: Some("fresh-session:5f59a01e-7849-4de7-9c15-875fa93da6271")
 
-Result: pre_review
+Result: pass

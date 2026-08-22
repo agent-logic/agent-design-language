@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-21] Repository-wide code reduction cleanup",
     "slug": "309-repository-wide-code-reduction",
     "version": "v0.92",
-    "generation": 27
+    "generation": 28
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "Exact immutable candidate ef1d925c7c4638f5d6ce7c338b1776ae0a625a99 over base e926e3bca0ab1981d77b4658d2feb4059bdf33a6\nComplete #309 dead-code-only source, typed cards, evidence, reference census, rollback, validator, advisory Gemini, and deletion-aware CI-router diff\nVerify Runtime v2, #414 continuity, policy authority, active providers, ACC/capability, supported CLI, AWS #268, and current demos remain protected\nVerify exact 20-file and 11571-physical-line reduction, 1613 independently validated reference edges, two independently reversible dead/unreachable bands, portable evidence, exact-manifest PR-fast routing, and no undeclared scope",
+      "review_revision": "git-blake3:ef1d925c7c4638f5d6ce7c338b1776ae0a625a99:378342501e8b6bd864bbe0ecd7c2bc27f8819b85d2a37cd40c5bb67201ec0e7e",
+      "reviewer": "fresh-session:5f59a01e-7849-4de7-9c15-875fa93da6271",
       "review_prompts": [
         "Does every removed path have complete deterministic reachability and reverse-reference evidence, with retained references either absent in the candidate or explicitly classified as non-consumer fixtures?",
         "Does Band B prove characterized orphan/dead status rather than relying on historical artifacts as replacement parity?",
@@ -25,8 +25,11 @@
         "Are physical reduction numbers, the exact PR #460 Linux six-job receipt, and residual migration claims current and evidence-bound?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "Hosted Linux validation remains deferred until the reviewed candidate is published and exact-head CI receipts exist.",
+        "This issue removes only 20 independently proven dead or unreachable files; every retained or unproven candidate remains outside the deletion set."
+      ],
+      "review_result": "pass"
     }
   }
 }
