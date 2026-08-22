@@ -202,6 +202,54 @@ assert_has "$structural_companion_runtime_output" "structural_surface_count=1"
 assert_has "$structural_companion_runtime_output" "filter_tokens=speculative_decoding_prototype"
 assert_has "$structural_companion_runtime_output" "filter_expression=test(speculative_decoding_prototype)"
 
+deleted_structural_companion="$TMP/deleted_structural_companion.txt"
+cat >"$deleted_structural_companion" <<'EOF'
+D	adl/src/provider_native_tool_call_comparison.rs
+M	adl/src/lib.rs
+EOF
+deleted_structural_companion_output="$(bash "$SCRIPT" --changed-files "$deleted_structural_companion" --print-plan)"
+assert_has "$deleted_structural_companion_output" "mode=focused"
+assert_has "$deleted_structural_companion_output" "reason=bounded_rust_surface_runs_focused_nextest"
+assert_has "$deleted_structural_companion_output" "rust_surface_count=1"
+assert_has "$deleted_structural_companion_output" "structural_surface_count=1"
+assert_has "$deleted_structural_companion_output" "filter_tokens=provider_native_tool_call_comparison"
+
+reviewed_dead_code_wave="$TMP/reviewed_dead_code_wave.txt"
+cat >"$reviewed_dead_code_wave" <<'EOF'
+D	adl/src/dspark_speculative_decoding_evaluation.rs
+D	adl/src/provider_native_tool_call_comparison.rs
+D	adl/src/adl_skill_v1.rs
+D	adl/src/gws_live_capability_execution_surface.rs
+D	adl/src/gws_live_content_card_roundtrip.rs
+D	adl/src/gws_live_content_card_roundtrip/logic.rs
+D	adl/src/gws_live_content_card_roundtrip/tests.rs
+D	adl/src/gws_live_content_card_roundtrip/types.rs
+D	adl/src/gws_live_safety_package.rs
+D	adl/src/local_gemma_model_evaluation.rs
+D	adl/src/rust_native_gws_adapter_boundary.rs
+D	adl/src/speculative_decoding_prototype.rs
+D	adl/src/uts_acc_multi_model_benchmark/evaluation.rs
+D	adl/src/uts_acc_multi_model_benchmark/execution.rs
+D	adl/src/uts_acc_multi_model_benchmark/mod.rs
+D	adl/src/uts_acc_multi_model_benchmark/parsing.rs
+D	adl/src/uts_acc_multi_model_benchmark/runtime.rs
+D	adl/src/uts_acc_multi_model_benchmark/task_fixtures.rs
+D	adl/src/uts_acc_multi_model_benchmark/tests.rs
+D	adl/src/uts_acc_multi_model_benchmark/types.rs
+M	adl/src/gws_live_test_support.rs
+M	adl/src/lib.rs
+EOF
+reviewed_dead_code_wave_output="$(bash "$SCRIPT" --changed-files "$reviewed_dead_code_wave" --print-plan)"
+assert_has "$reviewed_dead_code_wave_output" "mode=focused"
+assert_has "$reviewed_dead_code_wave_output" "reason=bounded_dead_code_deletion_wave_runs_protected_nextest"
+assert_has "$reviewed_dead_code_wave_output" "rust_surface_count=21"
+assert_has "$reviewed_dead_code_wave_output" "structural_surface_count=1"
+
+printf 'D\tadl/src/acc.rs\n' >>"$reviewed_dead_code_wave"
+unreviewed_dead_code_wave_output="$(bash "$SCRIPT" --changed-files "$reviewed_dead_code_wave" --print-plan)"
+assert_has "$unreviewed_dead_code_wave_output" "mode=full"
+assert_has "$unreviewed_dead_code_wave_output" "reason=broad_rust_surface_requires_full_nextest"
+
 runtime_family="$TMP/runtime_family.txt"
 printf 'M\tadl/src/runtime_v2/mod.rs\n' >"$runtime_family"
 runtime_family_output="$(bash "$SCRIPT" --changed-files "$runtime_family" --print-plan)"

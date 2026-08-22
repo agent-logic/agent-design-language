@@ -1,0 +1,44 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 309,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-21] Repository-wide code reduction cleanup",
+    "slug": "309-repository-wide-code-reduction",
+    "version": "v0.92",
+    "generation": 35
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Reduce the current ADL source surface by deleting every path proven dead or superseded while preserving supported behavior, active Runtime authority, and executable per-band rollback.",
+      "required_outcome": "A complete baseline inventory gives every adl/src Rust file and active reverse reference one accountable disposition; independently reversible deletion bands remove all currently provable dead or superseded code; exact behavior, authority, platform, and rollback proof passes; achieved reduction is reported without a quota.",
+      "declared_scope": [
+        "Immutable adl/src baseline and complete normalized reverse-reference inventory",
+        "Band A dead and unreachable source deletion",
+        "Band B characterized orphan implementation deletion with exact path-manifest and pinned Git identities",
+        "Band C Runtime v2 contraction decision and only already-proven deletions",
+        "Clean-install, exact PR-fast routing, parity, continuity, platform, accounting, and rollback proof",
+        "Exact retained-authority and residual-migration reporting"
+      ],
+      "authority_boundary": [
+        "Current Runtime v2 authorities consumed by Runtime v3, #414 continuity, or supported commands remain protected without a merged parity-proven replacement",
+        "Movement, build exclusion, feature gating, or compatibility copying earns no reduction credit",
+        "Issue #309 owns deletion and its proof; #310 owns later refactoring",
+        "Every baseline file and active reference receives exactly one disposition",
+        "The operator-local planning file is not execution authority or a dependency"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Use typed C-SDLC v2 and an issue-bound FastWork worktree",
+        "Pin execution and rollback to base e926e3bca0ab1981d77b4658d2feb4059bdf33a6",
+        "Use one independently reversible commit per deletion band",
+        "No mandatory percentage, file-count, or line-count target",
+        "Preserve unrelated worktrees and clean primary main",
+        "No AWS or paid validation"
+      ]
+    }
+  }
+}

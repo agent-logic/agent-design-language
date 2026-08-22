@@ -1,0 +1,17 @@
+{
+  "schema":"adl.issue309.github_linux_ci.v2",
+  "repository":"agent-logic/agent-design-language",
+  "pull_request":460,
+  "source_head_sha":"d2eb06486e80ab3f5bc193361da37d6ecdbf712c",
+  "workflow_run_id":32539380163,
+  "workflow_run_url":"https://github.com/agent-logic/agent-design-language/actions/runs/32539380163",
+  "required_jobs":["adl-path-policy","adl-tooling-contracts","adl-rust-fmt-clippy","adl-rust-tests","adl-coverage","adl-ci"],
+  "jobs":[
+    {"name":"adl-path-policy","job_id":96946351828,"job_url":"https://github.com/agent-logic/agent-design-language/actions/runs/32539380163/job/96946351828","conclusion":"success","log_sha256":"ec604ae35527c7fc2b3531ed9bf67e3fb922c29d3b42602c6530a0b117993086"},
+    {"name":"adl-tooling-contracts","job_id":96946413245,"job_url":"https://github.com/agent-logic/agent-design-language/actions/runs/32539380163/job/96946413245","conclusion":"success","log_sha256":"664c7369bfdcc8877096e0bd4b942d26affe929baab8ff2e60d42b5a929253d7"},
+    {"name":"adl-rust-fmt-clippy","job_id":96946413235,"job_url":"https://github.com/agent-logic/agent-design-language/actions/runs/32539380163/job/96946413235","conclusion":"success","log_sha256":"1b42154125f5e5f122ce1626cfdf738839765a1d47d308eb98e89d587932ead2"},
+    {"name":"adl-rust-tests","job_id":96946413263,"job_url":"https://github.com/agent-logic/agent-design-language/actions/runs/32539380163/job/96946413263","conclusion":"success","tests_passed":2466,"log_sha256":"1130c0d31ee412445f68e28c423b0708a8171a1cae70ae4a9975cd39915d78af"},
+    {"name":"adl-coverage","job_id":96950645798,"job_url":"https://github.com/agent-logic/agent-design-language/actions/runs/32539380163/job/96950645798","conclusion":"success","log_sha256":"33bd7ec2e3a8f3dd05edf1c18a3dc80156d4288e18b654e1a27558b9872f8360"},
+    {"name":"adl-ci","job_id":96950309792,"job_url":"https://github.com/agent-logic/agent-design-language/actions/runs/32539380163/job/96950309792","conclusion":"success","log_sha256":"b7cae895dfae0baa63f58baa479c883124d19cd4338380fe1130540323e36ea4"}
+  ]
+}
