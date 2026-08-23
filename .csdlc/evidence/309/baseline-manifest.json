@@ -1,0 +1,4859 @@
+{
+  "base_revision": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6",
+  "base_tree": "c57bae97083b42125d7308047595ec2e96033240",
+  "file_count": 485,
+  "files": [
+    {
+      "blob": "93efb0df4fc9d2a34279678a086bd579e086ad8f",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/acc.rs",
+      "physical_lines": 36,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/acc.rs"
+    },
+    {
+      "blob": "87714f6f5de9add368ec173c6fe79b0d8b0eda90",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/acc/fixtures.rs",
+      "physical_lines": 245,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/acc/fixtures.rs"
+    },
+    {
+      "blob": "b6806d4f63e36fc1bed5665453274a60022ffe7d",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/acc/tests.rs",
+      "physical_lines": 385,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/acc/tests.rs"
+    },
+    {
+      "blob": "d0a8c1598ab383eb457b5b09c3b690d42845cf06",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/acc/types.rs",
+      "physical_lines": 335,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/acc/types.rs"
+    },
+    {
+      "blob": "5b6fcea21de90f2ff647079f23b8f86627ef82aa",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/acc/validation.rs",
+      "physical_lines": 637,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/acc/validation.rs"
+    },
+    {
+      "blob": "c2cb21894d1edbdee4685061b23d49d96128c1b0",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/adl.rs",
+      "physical_lines": 95,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/adl.rs"
+    },
+    {
+      "blob": "98a8c00ecd329c0266185ea802d82030a5354972",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/adl/loading.rs",
+      "physical_lines": 269,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/adl/loading.rs"
+    },
+    {
+      "blob": "277da4ec05096455621a1e526d612b9ec8245317",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/adl/tests.rs",
+      "physical_lines": 1157,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/adl/tests.rs"
+    },
+    {
+      "blob": "b4e5ad295e15b6e5850e1d8f5f5616e12d83c645",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/adl/types.rs",
+      "physical_lines": 715,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/adl/types.rs"
+    },
+    {
+      "blob": "f09c1c7d4e8f513ac54ba40b4f9eb6b9b1fffbfa",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/adl/validation.rs",
+      "physical_lines": 366,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/adl/validation.rs"
+    },
+    {
+      "blob": "e962daa32ce485b4261f4a30a8237e33e1094ecf",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/adl_gws_context_mirror.rs",
+      "physical_lines": 1193,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/adl_gws_context_mirror.rs"
+    },
+    {
+      "blob": "979b7fbccf5a1a6810eba576bae226541ff91199",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/adl_gws_drive_sync.rs",
+      "physical_lines": 2021,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/adl_gws_drive_sync.rs"
+    },
+    {
+      "blob": "3391133614ac3b03cd183c3ff16d634edcbce186",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/adl_gws_native.rs",
+      "physical_lines": 796,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/adl_gws_native.rs"
+    },
+    {
+      "blob": "a9fc37f0c3b019500d40eb1efaff160e69b626e7",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/adl_skill_v1.rs",
+      "physical_lines": 1501,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/adl_skill_v1.rs"
+    },
+    {
+      "blob": "d6f34698e427837bdf406dec7789d6ceaadfb25a",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/adversarial_execution_runner.rs",
+      "physical_lines": 336,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/adversarial_execution_runner.rs"
+    },
+    {
+      "blob": "485bc21b47605fddc7791f5f187383735c1b867a",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/adversarial_runtime.rs",
+      "physical_lines": 185,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/adversarial_runtime.rs"
+    },
+    {
+      "blob": "4966fef9a13e436151b10b5c9de6e18b58708d1d",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/agent_comms.rs",
+      "physical_lines": 1213,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/agent_comms.rs"
+    },
+    {
+      "blob": "9ffea91cb107d4986bca84d82863a493e8c003bb",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/artifacts.rs",
+      "physical_lines": 633,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/artifacts.rs"
+    },
+    {
+      "blob": "a3df3ab80886601b4e82b820adbb127b40a9a504",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/aws_remote_validation.rs",
+      "physical_lines": 5144,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/aws_remote_validation.rs"
+    },
+    {
+      "blob": "ed4f68d77d855c4f4495268bf04aaa0af09df0ee",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/bin/adl_aws_remote_validation.rs",
+      "physical_lines": 1234,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/bin/adl_aws_remote_validation.rs"
+    },
+    {
+      "blob": "08a2a78fe9eea4090ccc3a25d9b896fbe5784828",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/bin/adl_process.rs",
+      "physical_lines": 32,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/bin/adl_process.rs"
+    },
+    {
+      "blob": "ea37e7b010fba6f0f69f24c9c95efa0301381dcb",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/bin/adl_remote.rs",
+      "physical_lines": 41,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/bin/adl_remote.rs"
+    },
+    {
+      "blob": "b3c4f07bd32ee9c1dd436e4466e441895ac4e0a1",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/bin/adl_resident_shepherd_continuity.rs",
+      "physical_lines": 73,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/bin/adl_resident_shepherd_continuity.rs"
+    },
+    {
+      "blob": "40e34e399ca67b7d2832da4a008f88edb72e247d",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/bin/adl_review.rs",
+      "physical_lines": 9,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/bin/adl_review.rs"
+    },
+    {
+      "blob": "1e98b79d1e5ffadb5d92bb274475a74c06e42a7e",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/bin/adl_runtime.rs",
+      "physical_lines": 9,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/bin/adl_runtime.rs"
+    },
+    {
+      "blob": "c5d6326ba34c3ea86f40d860932170a795876d83",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/bin/csm.rs",
+      "physical_lines": 9,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/bin/csm.rs"
+    },
+    {
+      "blob": "133ae6d27fdc4b440e41b838efc3fe41edf9a0dd",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/bin/csmctl.rs",
+      "physical_lines": 9,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/bin/csmctl.rs"
+    },
+    {
+      "blob": "46798427f6e0ec56c46744051c12a1f186631835",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/bin/demo_adl_gws_context_mirror.rs",
+      "physical_lines": 342,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/bin/demo_adl_gws_context_mirror.rs"
+    },
+    {
+      "blob": "53012f2d40862b6246c8b929779d01d25f4fe984",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/bin/demo_adl_gws_native_drive_sync.rs",
+      "physical_lines": 235,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/bin/demo_adl_gws_native_drive_sync.rs"
+    },
+    {
+      "blob": "8d50a48a39b2a8f9bca524c526951ceddbd36ba3",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/bin/run_wp08_acip_sns_live_proof.rs",
+      "physical_lines": 6,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/bin/run_wp08_acip_sns_live_proof.rs"
+    },
+    {
+      "blob": "b6536aaccb88c9dd76db7ffa201a3ac9779279da",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/bounded_executor.rs",
+      "physical_lines": 358,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/bounded_executor.rs"
+    },
+    {
+      "blob": "bc1325340f68c691c8e4486005905528e7cb29cb",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/capability_aptitude_testing.rs",
+      "physical_lines": 710,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/capability_aptitude_testing.rs"
+    },
+    {
+      "blob": "0a310bf30dc545390b0bed0c4688db99e096e835",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/chronosense.rs",
+      "physical_lines": 82,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/chronosense.rs"
+    },
+    {
+      "blob": "8e0b2234be87874854b22aa632ad1deaacef0f48",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/chronosense/causality.rs",
+      "physical_lines": 353,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/chronosense/causality.rs"
+    },
+    {
+      "blob": "de2a79cb3c2f4308e68a9f2b2b129809bb522c86",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/chronosense/commitments.rs",
+      "physical_lines": 158,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/chronosense/commitments.rs"
+    },
+    {
+      "blob": "ab9fab36868762db9bf358c52da951b621f48d1b",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/chronosense/continuity.rs",
+      "physical_lines": 111,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/chronosense/continuity.rs"
+    },
+    {
+      "blob": "befdc026ad53e5d8893ee4061194d223946d4e84",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/chronosense/foundation.rs",
+      "physical_lines": 216,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/chronosense/foundation.rs"
+    },
+    {
+      "blob": "728db7b21d5f9e4f4b07fdc834bc58d164cb0547",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/chronosense/instinct.rs",
+      "physical_lines": 287,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/chronosense/instinct.rs"
+    },
+    {
+      "blob": "f64ffc36dd8b0a56e2d23e4750f121f561fc2661",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/chronosense/long_running_proof.rs",
+      "physical_lines": 674,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/chronosense/long_running_proof.rs"
+    },
+    {
+      "blob": "c83f7af2464ef2f80792d729d261de829d0dceeb",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/chronosense/phi.rs",
+      "physical_lines": 250,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/chronosense/phi.rs"
+    },
+    {
+      "blob": "5e3d58bda6585dfaca6ab66ddfb91397df80fc5c",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/chronosense/policy_cost.rs",
+      "physical_lines": 149,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/chronosense/policy_cost.rs"
+    },
+    {
+      "blob": "0735e838b565eef584e67ea2b2ac68dee2551885",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/chronosense/retrieval.rs",
+      "physical_lines": 143,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/chronosense/retrieval.rs"
+    },
+    {
+      "blob": "782f446a15e327b2617dbc1bbebdb2bb49382a62",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/chronosense/service.rs",
+      "physical_lines": 520,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/chronosense/service.rs"
+    },
+    {
+      "blob": "2a098356b2e536a996a479112344eb33dad76ac7",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/chronosense/temporal_schema.rs",
+      "physical_lines": 157,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/chronosense/temporal_schema.rs"
+    },
+    {
+      "blob": "d9fe23fd0d6bad16693fa29bfcd4b8afe1fd27c8",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/chronosense/tests.rs",
+      "physical_lines": 1241,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/chronosense/tests.rs"
+    },
+    {
+      "blob": "9ba746e53133447319bcb57071e3a978724e2173",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/agent_cmd.rs",
+      "physical_lines": 901,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/agent_cmd.rs"
+    },
+    {
+      "blob": "3d7eda0624118e94d7ed80c9d2388150032fb157",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/artifact_cmd.rs",
+      "physical_lines": 58,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/artifact_cmd.rs"
+    },
+    {
+      "blob": "1c479853faeee3e530166caf8fd33611dbebe933",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/commands.rs",
+      "physical_lines": 413,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/commands.rs"
+    },
+    {
+      "blob": "fcbc136ff1b373cb8257165d31c6d77f7f3facf8",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/csm_cmd.rs",
+      "physical_lines": 1874,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/csm_cmd.rs"
+    },
+    {
+      "blob": "8a03c799dc7e64f81d195e40016968e8ebf5147f",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/csm_service_cmd.rs",
+      "physical_lines": 2144,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/csm_service_cmd.rs"
+    },
+    {
+      "blob": "e69d86f6c1e4f101f4847acf871eb1976e267f38",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/csmctl_cmd.rs",
+      "physical_lines": 694,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/csmctl_cmd.rs"
+    },
+    {
+      "blob": "55f70873f9abb2478023ca0e9493dd345e9139bb",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/demo_cmd.rs",
+      "physical_lines": 236,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/demo_cmd.rs"
+    },
+    {
+      "blob": "67bc7aa4d7cb72021edce806c8a6cf6c738e579a",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/github_token.rs",
+      "physical_lines": 606,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/github_token.rs"
+    },
+    {
+      "blob": "c1e38f067032c23849f7f05e5cbe9303e34c69d2",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/godel_cmd.rs",
+      "physical_lines": 1174,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/godel_cmd.rs"
+    },
+    {
+      "blob": "a522cc34b0a52cea96ba45b9ec59a5db4c393041",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/identity_cmd.rs",
+      "physical_lines": 9,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/identity_cmd.rs"
+    },
+    {
+      "blob": "2ab24f7e1d95c8a1a10e107d3534bd31969a161b",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/identity_cmd/contracts.rs",
+      "physical_lines": 321,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/identity_cmd/contracts.rs"
+    },
+    {
+      "blob": "641f4346ece27c49fee6bf504ead93e9a933ea6f",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/identity_cmd/dispatch.rs",
+      "physical_lines": 65,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/identity_cmd/dispatch.rs"
+    },
+    {
+      "blob": "8a887a6aeefeff2463fe12fd76cdba19900de424",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/identity_cmd/helpers.rs",
+      "physical_lines": 54,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/identity_cmd/helpers.rs"
+    },
+    {
+      "blob": "7440498e9057b129e4cce614c24becaf9dc3e254",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/identity_cmd/profile.rs",
+      "physical_lines": 152,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/identity_cmd/profile.rs"
+    },
+    {
+      "blob": "4fd5f1b84bd20de0e6f1da986be2c8899fb659ea",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/identity_cmd/tests.rs",
+      "physical_lines": 49,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/identity_cmd/tests.rs"
+    },
+    {
+      "blob": "f09dab10b332a8c8b7058553f15659521d14523e",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/identity_cmd/tests/adversarial_contracts.rs",
+      "physical_lines": 398,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/identity_cmd/tests/adversarial_contracts.rs"
+    },
+    {
+      "blob": "8a60b6e65ecad602b7e33d0fa1410bb070162e4f",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/identity_cmd/tests/dispatch.rs",
+      "physical_lines": 70,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/identity_cmd/tests/dispatch.rs"
+    },
+    {
+      "blob": "4d1a999b2084585d8cae7c351f3eeda493f677a5",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/identity_cmd/tests/helper_functions.rs",
+      "physical_lines": 112,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/identity_cmd/tests/helper_functions.rs"
+    },
+    {
+      "blob": "39c330b9ec7b19b9c8e135596ea7713fef8e3d93",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/identity_cmd/tests/profile.rs",
+      "physical_lines": 278,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/identity_cmd/tests/profile.rs"
+    },
+    {
+      "blob": "69e68e7bbbe65a8648fdff8fd0baaf7b08c476ab",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/identity_cmd/tests/skill_contracts.rs",
+      "physical_lines": 383,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/identity_cmd/tests/skill_contracts.rs"
+    },
+    {
+      "blob": "b195a1fac559ab64d0637b5c015b3bf8786c15d7",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/identity_cmd/tests/temporal_contracts.rs",
+      "physical_lines": 544,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/identity_cmd/tests/temporal_contracts.rs"
+    },
+    {
+      "blob": "f3dfc94ac8bb15ef3db195e674d07759c80da0dc",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/mod.rs",
+      "physical_lines": 729,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/mod.rs"
+    },
+    {
+      "blob": "5887345d589e43c25f86067183780047ad578c9a",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/observability.rs",
+      "physical_lines": 1609,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/observability.rs"
+    },
+    {
+      "blob": "841cfae87f09eadfac17b4ddeac1ddf33ca42349",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/open.rs",
+      "physical_lines": 82,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/open.rs"
+    },
+    {
+      "blob": "05874e2914b7fec89650697a77da7666cff29ab7",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/process_cmd.rs",
+      "physical_lines": 482,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/process_cmd.rs"
+    },
+    {
+      "blob": "1d1fa8b7b2cc59bf4a34f78a389b276f833ae8f3",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/provider_cmd.rs",
+      "physical_lines": 763,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/provider_cmd.rs"
+    },
+    {
+      "blob": "d81cbe5f5580aa63bafd4f0ebae7e5207148c220",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/run.rs",
+      "physical_lines": 656,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/run.rs"
+    },
+    {
+      "blob": "29ed531a9eeb7187a9c1bd6c530cec8dc5bfa6e4",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/run_artifacts/cognitive.rs",
+      "physical_lines": 7,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/run_artifacts/cognitive.rs"
+    },
+    {
+      "blob": "ef3217022a128bf34c4a78a55f1064ab9b782df4",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/run_artifacts/cognitive/control_path.rs",
+      "physical_lines": 710,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/run_artifacts/cognitive/control_path.rs"
+    },
+    {
+      "blob": "3061d032f21a46369446216e0967895ba509644a",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/run_artifacts/cognitive/security_summary.rs",
+      "physical_lines": 339,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/run_artifacts/cognitive/security_summary.rs"
+    },
+    {
+      "blob": "53daa36bcf48f52dd93dad8e733187d3d0461246",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/run_artifacts/cognitive/state_artifacts.rs",
+      "physical_lines": 727,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/run_artifacts/cognitive/state_artifacts.rs"
+    },
+    {
+      "blob": "ab564235756fd2bc92161bd1bd91fd7cd73b359d",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/run_artifacts/cognitive/state_artifacts/agency_execution.rs",
+      "physical_lines": 346,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/run_artifacts/cognitive/state_artifacts/agency_execution.rs"
+    },
+    {
+      "blob": "77e929214d2db56558057cd5d667c915c6d890cc",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/run_artifacts/cognitive/state_artifacts/decision_artifacts.rs",
+      "physical_lines": 486,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/run_artifacts/cognitive/state_artifacts/decision_artifacts.rs"
+    },
+    {
+      "blob": "4dd9aee9379ad5be8691e701c218c0e7d319cc89",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/run_artifacts/mod.rs",
+      "physical_lines": 36,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/run_artifacts/mod.rs"
+    },
+    {
+      "blob": "8724e6a0439887eaa8b38656f52fd27e714fae49",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/run_artifacts/runtime.rs",
+      "physical_lines": 8,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/run_artifacts/runtime.rs"
+    },
+    {
+      "blob": "0f9e9eb5cd39f37659403a9829793c445908273f",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/run_artifacts/runtime/resume_state.rs",
+      "physical_lines": 169,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/run_artifacts/runtime/resume_state.rs"
+    },
+    {
+      "blob": "52027f48f928ad13dce705ff0f3514ee408daaff",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/run_artifacts/runtime/trace_envelope.rs",
+      "physical_lines": 1517,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/run_artifacts/runtime/trace_envelope.rs"
+    },
+    {
+      "blob": "ccbeaaa9f4d3046c35bef6ac74af429ada9ef5d3",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/run_artifacts/runtime/trace_validation.rs",
+      "physical_lines": 908,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/run_artifacts/runtime/trace_validation.rs"
+    },
+    {
+      "blob": "7c70364e84beabad3624f22eadefd698027be813",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/run_artifacts/runtime/writer.rs",
+      "physical_lines": 743,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/run_artifacts/runtime/writer.rs"
+    },
+    {
+      "blob": "10012bca00f494b3c729d4078fd0e287cc16da76",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/run_artifacts/summary.rs",
+      "physical_lines": 692,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/run_artifacts/summary.rs"
+    },
+    {
+      "blob": "8e734131142c41ddf33b250b1f2e34b170e6c3c9",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/run_artifacts_types.rs",
+      "physical_lines": 1485,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/run_artifacts_types.rs"
+    },
+    {
+      "blob": "62abf5e3c1b5cf730a9f6124ad2717e33a27d76c",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/run_artifacts_types/state.rs",
+      "physical_lines": 75,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/run_artifacts_types/state.rs"
+    },
+    {
+      "blob": "acd653e6111a3756a9382e92a2f3f7e4e37b28b5",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/runtime_v2_cmd.rs",
+      "physical_lines": 7,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/runtime_v2_cmd.rs"
+    },
+    {
+      "blob": "a5813ddd9fab8186bc743eb436286642d88da0c7",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/runtime_v2_cmd/commands.rs",
+      "physical_lines": 901,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/runtime_v2_cmd/commands.rs"
+    },
+    {
+      "blob": "9d4a2225c61ee140669b226eccb1b65208f6efab",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/runtime_v2_cmd/helpers.rs",
+      "physical_lines": 165,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/runtime_v2_cmd/helpers.rs"
+    },
+    {
+      "blob": "fa911266561a280471a88c88b0ce7b5bb8e7f6e2",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/runtime_v2_cmd/tests.rs",
+      "physical_lines": 1899,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/runtime_v2_cmd/tests.rs"
+    },
+    {
+      "blob": "9241da203d6b2649a4ae93a60d615bee81314963",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/runtime_v3_cmd.rs",
+      "physical_lines": 274,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/runtime_v3_cmd.rs"
+    },
+    {
+      "blob": "2aab374c5a9e42001cf52e9193a8d5a93762354e",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/scheduler_cmd.rs",
+      "physical_lines": 149,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/scheduler_cmd.rs"
+    },
+    {
+      "blob": "fcae715847d7f4037368bfc9c7dd92d82f9fda85",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/session_cmd.rs",
+      "physical_lines": 804,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/session_cmd.rs"
+    },
+    {
+      "blob": "f806ca160b0078cba50edb40b7328e1473b3dc3f",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/tests/artifact_builders/agency_execution.rs",
+      "physical_lines": 821,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/tests/artifact_builders/agency_execution.rs"
+    },
+    {
+      "blob": "209e50e6c4d4641eeea3ec92eac203ad263b16ca",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/tests/artifact_builders/cognitive.rs",
+      "physical_lines": 664,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/tests/artifact_builders/cognitive.rs"
+    },
+    {
+      "blob": "1cd0afec1820a1d7629d2694825757eb251dadc5",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/tests/artifact_builders/learning_runtime.rs",
+      "physical_lines": 6,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/tests/artifact_builders/learning_runtime.rs"
+    },
+    {
+      "blob": "ad4eb1e4eb111162a70cc52be4c5efe49467639a",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/tests/artifact_builders/learning_runtime/artifact_models.rs",
+      "physical_lines": 1176,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/tests/artifact_builders/learning_runtime/artifact_models.rs"
+    },
+    {
+      "blob": "ad7121d59ba51d75c1828fa0cf5cbe1b1a86e01f",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/tests/artifact_builders/learning_runtime/decision_surfaces.rs",
+      "physical_lines": 718,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/tests/artifact_builders/learning_runtime/decision_surfaces.rs"
+    },
+    {
+      "blob": "1dd5413decf62b92d672b6f44896a88c059465ab",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/tests/artifact_builders/learning_runtime/run_status.rs",
+      "physical_lines": 220,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/tests/artifact_builders/learning_runtime/run_status.rs"
+    },
+    {
+      "blob": "765703764dff6e81e8b56cff16946a596fff0b1e",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/tests/artifact_builders/learning_runtime/scores_io.rs",
+      "physical_lines": 126,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/tests/artifact_builders/learning_runtime/scores_io.rs"
+    },
+    {
+      "blob": "f870f08dc81d0299a2506d68969865358a6df7aa",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/tests/artifact_builders/mod.rs",
+      "physical_lines": 9,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/tests/artifact_builders/mod.rs"
+    },
+    {
+      "blob": "a7543fe8139a0b36b7c2a04f8a118ef97eea610a",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/tests/artifact_builders/summary.rs",
+      "physical_lines": 265,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/tests/artifact_builders/summary.rs"
+    },
+    {
+      "blob": "24a4bc20c5343dbbf4ec886f68a1f5790cede9dc",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/tests/godel.rs",
+      "physical_lines": 921,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/tests/godel.rs"
+    },
+    {
+      "blob": "0ced1633db9aac77e2a0ab534f270160e7b2f314",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/tests/internal_commands.rs",
+      "physical_lines": 6,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/tests/internal_commands.rs"
+    },
+    {
+      "blob": "90d4d880d146adcd9c1cb3d2c1ad60fec639486d",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/tests/internal_commands/control_path.rs",
+      "physical_lines": 1178,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/tests/internal_commands/control_path.rs"
+    },
+    {
+      "blob": "d8a62880e4b8b3ffadb4cf45e29a4460baff07a1",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/tests/internal_commands/demo.rs",
+      "physical_lines": 66,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/tests/internal_commands/demo.rs"
+    },
+    {
+      "blob": "7d5a86fa7da202240c9ee05db4dd9361536e3c3d",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/tests/internal_commands/instrumentation.rs",
+      "physical_lines": 107,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/tests/internal_commands/instrumentation.rs"
+    },
+    {
+      "blob": "52979723e4b577e33ceef844c99f584efbe15229",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/tests/internal_commands/learn.rs",
+      "physical_lines": 72,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/tests/internal_commands/learn.rs"
+    },
+    {
+      "blob": "f42990a274959f3defb39f601d617bd0c9300090",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/tests/internal_commands/runtime_state.rs",
+      "physical_lines": 46,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/tests/internal_commands/runtime_state.rs"
+    },
+    {
+      "blob": "88018b8b0b25d801ab10759d59c177b573bd03a0",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/tests/internal_commands/signing.rs",
+      "physical_lines": 46,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/tests/internal_commands/signing.rs"
+    },
+    {
+      "blob": "228aca3756b957b87c3c088581d5fb5b9c2bb24d",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/tests/open_usage.rs",
+      "physical_lines": 126,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/tests/open_usage.rs"
+    },
+    {
+      "blob": "c0c52bfe48fdd6fa35162e5a961ef65408f1299e",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/tests/run_state/basics.rs",
+      "physical_lines": 53,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/tests/run_state/basics.rs"
+    },
+    {
+      "blob": "4d610b89ce62b1d128afb8bc42cfd18de41006c8",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/tests/run_state/failure_taxonomy.rs",
+      "physical_lines": 101,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/tests/run_state/failure_taxonomy.rs"
+    },
+    {
+      "blob": "49e5b36a9696895c6e75f92a9879a867e2ecd9fc",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/tests/run_state/mod.rs",
+      "physical_lines": 255,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/tests/run_state/mod.rs"
+    },
+    {
+      "blob": "d17b6532fb3bb3981077b43b12f4f8cee97c05c0",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/tests/run_state/persistence.rs",
+      "physical_lines": 1434,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/tests/run_state/persistence.rs"
+    },
+    {
+      "blob": "66df6f0f1aa361564e52fbb271e2773297dddee4",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/tests/run_state/runtime_control.rs",
+      "physical_lines": 59,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/tests/run_state/runtime_control.rs"
+    },
+    {
+      "blob": "9f19c77fed670253e07420839c29daa246c823e5",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/tokio_runtime.rs",
+      "physical_lines": 17,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/tokio_runtime.rs"
+    },
+    {
+      "blob": "a6b68cf443c1602fa4927a526b5bbed0d8656d1f",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cli/usage.rs",
+      "physical_lines": 185,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cli/usage.rs"
+    },
+    {
+      "blob": "cc703d797078550f36c317530b13e8f4a6c6063d",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/cognitive_transition_schema.rs",
+      "physical_lines": 571,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/cognitive_transition_schema.rs"
+    },
+    {
+      "blob": "532bd4a9cbb2311a6af6a192ede58778d5e1577e",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/continuous_verification_self_attack.rs",
+      "physical_lines": 904,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/continuous_verification_self_attack.rs"
+    },
+    {
+      "blob": "ace24a204f37de2bf2a1688b8c08ca39f73dca8e",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/control_plane.rs",
+      "physical_lines": 424,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/control_plane.rs"
+    },
+    {
+      "blob": "be63f1585704636fb517118c32c01acce26edc30",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/csm_api_gateway_bridge.rs",
+      "physical_lines": 1331,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/csm_api_gateway_bridge.rs"
+    },
+    {
+      "blob": "caf87295a6b5625f1b8da79110524600a6c823a2",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/csm_backpressure.rs",
+      "physical_lines": 750,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/csm_backpressure.rs"
+    },
+    {
+      "blob": "2e2750bd527e20ead00962baa56c32281562652b",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/csm_cav.rs",
+      "physical_lines": 356,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/csm_cav.rs"
+    },
+    {
+      "blob": "f33507fd25b134b693bca3f829607c1b3cfbe05d",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/csm_cav_red_blue.rs",
+      "physical_lines": 768,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/csm_cav_red_blue.rs"
+    },
+    {
+      "blob": "49417c696918463998f875209a8e87c7ae9d5898",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/csm_cloud_control.rs",
+      "physical_lines": 483,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/csm_cloud_control.rs"
+    },
+    {
+      "blob": "8ca80baf52e5c0806f843655f6cdf2154b175b77",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/csm_constructability_gate.rs",
+      "physical_lines": 841,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/csm_constructability_gate.rs"
+    },
+    {
+      "blob": "ee837c5f22c7ad5c81a7c7189a5cc2b7153e3d15",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/csm_continuity_capsule.rs",
+      "physical_lines": 1962,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/csm_continuity_capsule.rs"
+    },
+    {
+      "blob": "592cf65f5959a0cc4e93a771274be54fe637c775",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/csm_credential_policy.rs",
+      "physical_lines": 480,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/csm_credential_policy.rs"
+    },
+    {
+      "blob": "ddd320b3e8c30139aa3e24efb77f96965542c35f",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/csm_curiosity_engine.rs",
+      "physical_lines": 433,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/csm_curiosity_engine.rs"
+    },
+    {
+      "blob": "c863141503f20e38daa0ca0fa80ac0b0f9165f3d",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/csm_freedom_gate.rs",
+      "physical_lines": 549,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/csm_freedom_gate.rs"
+    },
+    {
+      "blob": "c707f9bd068f3313a1e701d5c82fbc60f14f0457",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/csm_godel_snapshot.rs",
+      "physical_lines": 1419,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/csm_godel_snapshot.rs"
+    },
+    {
+      "blob": "31e717d71cf81beb1b12c3e345c0ad3f783cf59f",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/csm_networking.rs",
+      "physical_lines": 529,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/csm_networking.rs"
+    },
+    {
+      "blob": "a67e39fa87be29179044b19034cc482d9f8d10d7",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/csm_observatory.rs",
+      "physical_lines": 1420,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/csm_observatory.rs"
+    },
+    {
+      "blob": "4d6e3201f6dcb49ace56207363bd987916c825c3",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/csm_polis_storage.rs",
+      "physical_lines": 716,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/csm_polis_storage.rs"
+    },
+    {
+      "blob": "b0aa5f456619a33830eabd7d4a7d12d5725b4fb1",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/csm_resident_agents.rs",
+      "physical_lines": 341,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/csm_resident_agents.rs"
+    },
+    {
+      "blob": "52dd7297d3c1d0b2e1be1855a568152642a10450",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/csm_runtime_api.rs",
+      "physical_lines": 5573,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/csm_runtime_api.rs"
+    },
+    {
+      "blob": "5b2ddcdd03ac3abe3e04a8960b520b46922bc4a2",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/csm_shepherd_agent.rs",
+      "physical_lines": 300,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/csm_shepherd_agent.rs"
+    },
+    {
+      "blob": "79b9d43513d7b4725724d68a3a9919f2a9a2dce5",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/dangerous_negative_suite.rs",
+      "physical_lines": 543,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/dangerous_negative_suite.rs"
+    },
+    {
+      "blob": "af16d24efbc5afda08a6710d038d0a5a4ddaf6c9",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/delegation_policy.rs",
+      "physical_lines": 230,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/delegation_policy.rs"
+    },
+    {
+      "blob": "b65458548c514bd93daf5eb5e9dd8cc879085fbf",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/delegation_refusal_coordination.rs",
+      "physical_lines": 469,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/delegation_refusal_coordination.rs"
+    },
+    {
+      "blob": "ade31df92dce9e10bbf8e845a2164377bd5fdb5a",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/demo.rs",
+      "physical_lines": 1209,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/demo.rs"
+    },
+    {
+      "blob": "d0ebb5d03ab5ecc8b30b3aad74a8fd3400febcff",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/demo/adversarial_self_attack.rs",
+      "physical_lines": 678,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/demo/adversarial_self_attack.rs"
+    },
+    {
+      "blob": "8a8b4f0b9c8348199b4e8b54ea3e0fa78f82e369",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/demo/obsmem.rs",
+      "physical_lines": 341,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/demo/obsmem.rs"
+    },
+    {
+      "blob": "b96340c7bcd530d764265ee1334efbf5bc600e4d",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/demo/pipeline.rs",
+      "physical_lines": 85,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/demo/pipeline.rs"
+    },
+    {
+      "blob": "aca4c51c970e1f4f69a8e864b5dbd771f76d6b1d",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/demo/stock_league.rs",
+      "physical_lines": 39,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/demo/stock_league.rs"
+    },
+    {
+      "blob": "938a043c4880896b754b278c72a094be526d7a3d",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/demo/stock_league/files.rs",
+      "physical_lines": 38,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/demo/stock_league/files.rs"
+    },
+    {
+      "blob": "f7d0cffa4114031e51bcfbe1b7f02791534affc8",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/demo/stock_league/model.rs",
+      "physical_lines": 1307,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/demo/stock_league/model.rs"
+    },
+    {
+      "blob": "f3b6ddbd1e338d112ea989191cb1fc3a7988172e",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/demo/stock_league/reports.rs",
+      "physical_lines": 126,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/demo/stock_league/reports.rs"
+    },
+    {
+      "blob": "7fe61fec8e1551d51006c0bd545d4f9cba6d59fc",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/demo/stock_league/shared.rs",
+      "physical_lines": 89,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/demo/stock_league/shared.rs"
+    },
+    {
+      "blob": "5024bcaaf93cb8eeec8547216e46fed69600eb27",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/demo/stock_league/steps.rs",
+      "physical_lines": 379,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/demo/stock_league/steps.rs"
+    },
+    {
+      "blob": "d9175413668a960cf70dfb0715e059559c73f19b",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/demo/v086_review_surface.rs",
+      "physical_lines": 1207,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/demo/v086_review_surface.rs"
+    },
+    {
+      "blob": "5aada69f3e451e97fb8846e1f0e8d2304a6baaa4",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/demo_proof_entry_points.rs",
+      "physical_lines": 518,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/demo_proof_entry_points.rs"
+    },
+    {
+      "blob": "4e36ed06742f7647fb5cb1276f33d95c43789fa1",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/dspark_speculative_decoding_evaluation.rs",
+      "physical_lines": 501,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/dspark_speculative_decoding_evaluation.rs"
+    },
+    {
+      "blob": "7d99179d815cae2154ab350b0a0ccaa0e734c3aa",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/execute/mod.rs",
+      "physical_lines": 479,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/execute/mod.rs"
+    },
+    {
+      "blob": "4650aaf249ad648e32bb4c6da998b145607bd6ee",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/execute/runner.rs",
+      "physical_lines": 1371,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/execute/runner.rs"
+    },
+    {
+      "blob": "331d055ce048e78dbd8454dbd99b225288630840",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/execute/state/contracts.rs",
+      "physical_lines": 203,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/execute/state/contracts.rs"
+    },
+    {
+      "blob": "0dca1bc3550e9e3e6b7e71760bf149cbd35d8543",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/execute/state/mod.rs",
+      "physical_lines": 27,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/execute/state/mod.rs"
+    },
+    {
+      "blob": "2af5df0c38706452d5ded67d60700626490e89a4",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/execute/state/policy.rs",
+      "physical_lines": 73,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/execute/state/policy.rs"
+    },
+    {
+      "blob": "848a5d318047135aae5a5ca1cdf70f35b7a8671d",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/execute/state/runtime_control.rs",
+      "physical_lines": 952,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/execute/state/runtime_control.rs"
+    },
+    {
+      "blob": "ddf5ae29c8efab879ec0f2029a96e5a18369f491",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/execute/state/runtime_control/model.rs",
+      "physical_lines": 364,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/execute/state/runtime_control/model.rs"
+    },
+    {
+      "blob": "0ad0ad293d8562e04c4895b3b29dc125fd2968f6",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/execute/state/runtime_control/tests.rs",
+      "physical_lines": 115,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/execute/state/runtime_control/tests.rs"
+    },
+    {
+      "blob": "57f03db5f22314cd74189640ab46cbfdd9aa0483",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/execute/state/steering.rs",
+      "physical_lines": 158,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/execute/state/steering.rs"
+    },
+    {
+      "blob": "8d19d2385d93dc5a686773e4039260f920eddefa",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/execute/support.rs",
+      "physical_lines": 278,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/execute/support.rs"
+    },
+    {
+      "blob": "948a93e66c90318bf779abc5bfb425a2f35945d2",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/execute/tests.rs",
+      "physical_lines": 2320,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/execute/tests.rs"
+    },
+    {
+      "blob": "9b6ecfcfc5b9ece81fdf3883d0966f13a960022d",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/execution_plan.rs",
+      "physical_lines": 771,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/execution_plan.rs"
+    },
+    {
+      "blob": "00f52cf3569f2d8a6a97dfd26031753e8cfb8872",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/exploit_artifact_replay.rs",
+      "physical_lines": 575,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/exploit_artifact_replay.rs"
+    },
+    {
+      "blob": "da22519beab5eb2fc4955d2440252bbd583ec6b9",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/failure_taxonomy.rs",
+      "physical_lines": 69,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/failure_taxonomy.rs"
+    },
+    {
+      "blob": "7d64f9923914c2e1c9b68265ae7fbc48a61fe546",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/freedom_gate.rs",
+      "physical_lines": 760,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/freedom_gate.rs"
+    },
+    {
+      "blob": "b3006134962e5427f5e2a1550c83257aa712b941",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/godel/affect_slice.rs",
+      "physical_lines": 606,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/godel/affect_slice.rs"
+    },
+    {
+      "blob": "46f3717311472d09c465a6160152bbc326dcd743",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/godel/canonical_evidence.rs",
+      "physical_lines": 383,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/godel/canonical_evidence.rs"
+    },
+    {
+      "blob": "2b7ace125999c0fca199a00cf8ee3d10ee6a2971",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/godel/cross_workflow.rs",
+      "physical_lines": 455,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/godel/cross_workflow.rs"
+    },
+    {
+      "blob": "a0b8b5fb4157f8a8163ecc11287ec28f50133445",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/godel/evaluation.rs",
+      "physical_lines": 630,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/godel/evaluation.rs"
+    },
+    {
+      "blob": "b5ad1054cd25949d9936f7bb14a222457e009099",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/godel/experiment_record.rs",
+      "physical_lines": 745,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/godel/experiment_record.rs"
+    },
+    {
+      "blob": "2ba2d7fdf34ddeb978c755853d8577b9ec5dcff6",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/godel/ghb_loop.rs",
+      "physical_lines": 904,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/godel/ghb_loop.rs"
+    },
+    {
+      "blob": "21b7ac34bd844f8358b9725881079cc546e83d16",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/godel/hypothesis.rs",
+      "physical_lines": 284,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/godel/hypothesis.rs"
+    },
+    {
+      "blob": "669d4cb6f22d6f392cf52ce58a0d78c3df62c5d0",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/godel/mod.rs",
+      "physical_lines": 34,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/godel/mod.rs"
+    },
+    {
+      "blob": "cb695e1b71827a824b9d75cbdc7cd4ec60149a26",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/godel/mutation.rs",
+      "physical_lines": 674,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/godel/mutation.rs"
+    },
+    {
+      "blob": "020e9f8286f746508f95e036ba2a1a84cff527f8",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/godel/obsmem_index.rs",
+      "physical_lines": 297,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/godel/obsmem_index.rs"
+    },
+    {
+      "blob": "e2f6df0c2defd202a808bd5ad41f0b4ae6b37377",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/godel/policy.rs",
+      "physical_lines": 306,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/godel/policy.rs"
+    },
+    {
+      "blob": "c999847277f1bde1d75361a1518e041f35920dd4",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/godel/prioritization.rs",
+      "physical_lines": 302,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/godel/prioritization.rs"
+    },
+    {
+      "blob": "329999018bacec615cad7e77c88bdc764ad1263a",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/godel/promotion.rs",
+      "physical_lines": 380,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/godel/promotion.rs"
+    },
+    {
+      "blob": "b8fc46f3e5e07c67744f568e9caa90b2d7ec2055",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/godel/stage_loop.rs",
+      "physical_lines": 962,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/godel/stage_loop.rs"
+    },
+    {
+      "blob": "59bb12045fd03d6ec6e0f4ab88cbc4211c62ee49",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/godel/surface_status.rs",
+      "physical_lines": 745,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/godel/surface_status.rs"
+    },
+    {
+      "blob": "f0cd245c64242ce26464d64b19e95db486c3a517",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/godel/workflow_template.rs",
+      "physical_lines": 223,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/godel/workflow_template.rs"
+    },
+    {
+      "blob": "d20238abca73ea6bc3a9a08d064110b50e3c2e72",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/governed_executor.rs",
+      "physical_lines": 10,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/governed_executor.rs"
+    },
+    {
+      "blob": "08199b64fe918cc545e393b6b9857dfa0e9a7581",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/governed_executor_parts/logic.rs",
+      "physical_lines": 1032,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/governed_executor_parts/logic.rs"
+    },
+    {
+      "blob": "d5c5979df9a1b8030ed02c7b1a6eabd85f7569dd",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/governed_executor_parts/tests.rs",
+      "physical_lines": 620,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/governed_executor_parts/tests.rs"
+    },
+    {
+      "blob": "3d99ce0b33af77e60ab41ecb38a26e55710e25cb",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/gws_live_capability_execution_surface.rs",
+      "physical_lines": 1156,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/gws_live_capability_execution_surface.rs"
+    },
+    {
+      "blob": "0f1fe792507033af54c601fcf0634c30a33d62de",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/gws_live_content_card_roundtrip.rs",
+      "physical_lines": 7,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/gws_live_content_card_roundtrip.rs"
+    },
+    {
+      "blob": "03147cdbeef280f616eb5d35e50401095ed5e08c",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/gws_live_content_card_roundtrip/logic.rs",
+      "physical_lines": 1237,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/gws_live_content_card_roundtrip/logic.rs"
+    },
+    {
+      "blob": "69f70a93b4e03555e0bc43bc1879dc44f2407d3f",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/gws_live_content_card_roundtrip/tests.rs",
+      "physical_lines": 877,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/gws_live_content_card_roundtrip/tests.rs"
+    },
+    {
+      "blob": "1d4bcede21c0b3f9b9bbe987ebfa2c8b6241d05c",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/gws_live_content_card_roundtrip/types.rs",
+      "physical_lines": 123,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/gws_live_content_card_roundtrip/types.rs"
+    },
+    {
+      "blob": "bd4fbd1df975c5f5a84dc40ea561ebf459565a00",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/gws_live_safety_package.rs",
+      "physical_lines": 482,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/gws_live_safety_package.rs"
+    },
+    {
+      "blob": "4a274c2bc882e3c7d061cf135dfbc78ea1adca72",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/gws_live_test_support.rs",
+      "physical_lines": 45,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/gws_live_test_support.rs"
+    },
+    {
+      "blob": "cbd07f3110214bb2a2ff091bc694411658da2eae",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/instrumentation.rs",
+      "physical_lines": 1438,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/instrumentation.rs"
+    },
+    {
+      "blob": "df52157b4f4233a07c1cfd0634c56b85b56a36ea",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/instrumentation/action_log.rs",
+      "physical_lines": 1036,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/instrumentation/action_log.rs"
+    },
+    {
+      "blob": "7010af19a862896232171676fc4033f26ae19085",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/instrumentation/graph.rs",
+      "physical_lines": 100,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/instrumentation/graph.rs"
+    },
+    {
+      "blob": "c40892f003f2f3cc73ae4b1fa806072bb248dde4",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/instrumentation/trace_formatting.rs",
+      "physical_lines": 486,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/instrumentation/trace_formatting.rs"
+    },
+    {
+      "blob": "bb4cfc25d157865f7e4ca5ce58bff49f1d754ee4",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/instrumentation/trace_normalization.rs",
+      "physical_lines": 335,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/instrumentation/trace_normalization.rs"
+    },
+    {
+      "blob": "198856e3349a088f4dae28a9fb5f83613e2c0805",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/learning_export/bundle_v1.rs",
+      "physical_lines": 143,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/learning_export/bundle_v1.rs"
+    },
+    {
+      "blob": "2ab911a6d2509fa3894a0fad0e0db12c1b05bee0",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/learning_export/dataset.rs",
+      "physical_lines": 177,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/learning_export/dataset.rs"
+    },
+    {
+      "blob": "93286561644d53230cf2ac7af2c8ee0cfd3e051a",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/learning_export/mod.rs",
+      "physical_lines": 44,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/learning_export/mod.rs"
+    },
+    {
+      "blob": "51d7082c5b5bae066c8ead8248ab4cf0b78b95c8",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/learning_export/shared.rs",
+      "physical_lines": 200,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/learning_export/shared.rs"
+    },
+    {
+      "blob": "950547176d45bd6c1c67121cc98c3eb776c093af",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/learning_export/tests.rs",
+      "physical_lines": 480,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/learning_export/tests.rs"
+    },
+    {
+      "blob": "2f00924c231a42bcc1313de96ca219922fd1504c",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/learning_export/trace_bundle_v2.rs",
+      "physical_lines": 337,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/learning_export/trace_bundle_v2.rs"
+    },
+    {
+      "blob": "e8f6d2181084feef49bba84756acf6400e65d55f",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/learning_guardrails.rs",
+      "physical_lines": 190,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/learning_guardrails.rs"
+    },
+    {
+      "blob": "94f7b7921254a774dab2809d9eab9c19ec5fc4e6",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/lib.rs",
+      "physical_lines": 120,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/lib.rs"
+    },
+    {
+      "blob": "1e312163813f726ac561207258c4961c8310eff0",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/local_gemma_model_evaluation.rs",
+      "physical_lines": 1212,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/local_gemma_model_evaluation.rs"
+    },
+    {
+      "blob": "ee02c2a965543252c458cfee2dd9cd51c610bfc1",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/long_lived_agent.rs",
+      "physical_lines": 5985,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/long_lived_agent.rs"
+    },
+    {
+      "blob": "624877933a41756cdc9f60257534093eb163db4f",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/long_lived_agent/inspection.rs",
+      "physical_lines": 216,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/long_lived_agent/inspection.rs"
+    },
+    {
+      "blob": "7d9d75c32827b33d836763f7b5505b836b8469a4",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/long_lived_agent/schema.rs",
+      "physical_lines": 28,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/long_lived_agent/schema.rs"
+    },
+    {
+      "blob": "2a41f88387db667899e0094381897e8e7446b26f",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/long_lived_agent/storage.rs",
+      "physical_lines": 1162,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/long_lived_agent/storage.rs"
+    },
+    {
+      "blob": "2cce9fe5df04d78ae48095d415ea400499ac0932",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/long_lived_agent/tests.rs",
+      "physical_lines": 3232,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/long_lived_agent/tests.rs"
+    },
+    {
+      "blob": "140c812971b99e5a0c4397456cad2181199ab7d2",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/long_lived_agent/types.rs",
+      "physical_lines": 225,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/long_lived_agent/types.rs"
+    },
+    {
+      "blob": "37b6421279b0141b9344a8cffc0fcb2840df9f08",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/main.rs",
+      "physical_lines": 5,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/main.rs"
+    },
+    {
+      "blob": "a1d2cd3b3f42e0f7077fdf819f47fafde096f3d8",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/memory_palace.rs",
+      "physical_lines": 877,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/memory_palace.rs"
+    },
+    {
+      "blob": "429047dbcca9035f17e70e5a26ac467dc24ba61a",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/model_identity.rs",
+      "physical_lines": 222,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/model_identity.rs"
+    },
+    {
+      "blob": "e5069b931dc0c0c1ae654ba55dfe480453cacd95",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/model_proposal_benchmark.rs",
+      "physical_lines": 982,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/model_proposal_benchmark.rs"
+    },
+    {
+      "blob": "f82c5d9c57c6f28d8c1cd58c8efb5bdcffaec95c",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/observability.rs",
+      "physical_lines": 1,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/observability.rs"
+    },
+    {
+      "blob": "da5a190a4ef9f6542f12dc2976c9d0b00b532de0",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/obsmem_adapter.rs",
+      "physical_lines": 636,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/obsmem_adapter.rs"
+    },
+    {
+      "blob": "e01583e9ca4853648508885093b8650b7a6f4292",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/obsmem_contract/client.rs",
+      "physical_lines": 21,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/obsmem_contract/client.rs"
+    },
+    {
+      "blob": "c51495744c3138a1a51385c96409d286f94948be",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/obsmem_contract/error.rs",
+      "physical_lines": 47,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/obsmem_contract/error.rs"
+    },
+    {
+      "blob": "c43c6d23815d18c33e6d1dd455c7c674b037144b",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/obsmem_contract/mod.rs",
+      "physical_lines": 15,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/obsmem_contract/mod.rs"
+    },
+    {
+      "blob": "8b0117d6343a11d4794f0f9b6d20a313fc66b76a",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/obsmem_contract/models.rs",
+      "physical_lines": 395,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/obsmem_contract/models.rs"
+    },
+    {
+      "blob": "ca8bd17b9b360a18e4c2b02547ff1705b061da95",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/obsmem_contract/tests.rs",
+      "physical_lines": 516,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/obsmem_contract/tests.rs"
+    },
+    {
+      "blob": "71f1e5ac2c117841c4182867996a86490d37d3a3",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/obsmem_contract/validation.rs",
+      "physical_lines": 24,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/obsmem_contract/validation.rs"
+    },
+    {
+      "blob": "f7a7f9cfe0c207b234a47c27a08fc9aa2418fdda",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/obsmem_demo.rs",
+      "physical_lines": 262,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/obsmem_demo.rs"
+    },
+    {
+      "blob": "fda3818c0fdfc9ddef127ce6554040285bf9ee8b",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/obsmem_indexing.rs",
+      "physical_lines": 991,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/obsmem_indexing.rs"
+    },
+    {
+      "blob": "6a7c41732dd7533dc9ab76681150fa8cc6a272f2",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/obsmem_retrieval_policy.rs",
+      "physical_lines": 799,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/obsmem_retrieval_policy.rs"
+    },
+    {
+      "blob": "6232ace4545655a490bda8a8eb053d405c0cc8dd",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/obsmem_store.rs",
+      "physical_lines": 657,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/obsmem_store.rs"
+    },
+    {
+      "blob": "722e194d1ce1bc7e8fad89e072b2a403be4c9ba5",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/obsmem_transition_memory.rs",
+      "physical_lines": 638,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/obsmem_transition_memory.rs"
+    },
+    {
+      "blob": "ec97d2d394afb32d33c8305e44421edc21167e9d",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/operational_skills_substrate.rs",
+      "physical_lines": 540,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/operational_skills_substrate.rs"
+    },
+    {
+      "blob": "61b192bb364e85992453fb577e00063df4405445",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/overlay.rs",
+      "physical_lines": 464,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/overlay.rs"
+    },
+    {
+      "blob": "038e0a012d2c7a1b451ad4be3192a0d6c331a893",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/plan.rs",
+      "physical_lines": 25,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/plan.rs"
+    },
+    {
+      "blob": "697b669b0594d2fa71b59afe5d09ef7358d41b0b",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/policy_authority.rs",
+      "physical_lines": 448,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/policy_authority.rs"
+    },
+    {
+      "blob": "9cdb7f89a5028f9b08a224aff91fd05108277533",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/production_birthday.rs",
+      "physical_lines": 61,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/production_birthday.rs"
+    },
+    {
+      "blob": "dbfcdd7d4e25eec88dc0b560e9ea26411a105d68",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/prompt.rs",
+      "physical_lines": 146,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/prompt.rs"
+    },
+    {
+      "blob": "745bca3de7a28e0810b3b5c389c0423ee007a8ff",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/provider/deepgram.rs",
+      "physical_lines": 889,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/provider/deepgram.rs"
+    },
+    {
+      "blob": "c664d168451a9e90dfeb90a60efb56f4eba13e2f",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/provider/http_family.rs",
+      "physical_lines": 1443,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/provider/http_family.rs"
+    },
+    {
+      "blob": "c88c95588ab0058dd70fbf3bf617a837e16917ab",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/provider/http_family/config.rs",
+      "physical_lines": 271,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/provider/http_family/config.rs"
+    },
+    {
+      "blob": "765b0a733fcba5e26ac21c6c83092d93efb8f094",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/provider/http_family/tests.rs",
+      "physical_lines": 2148,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/provider/http_family/tests.rs"
+    },
+    {
+      "blob": "13a90f83243bcaa2ed5dde2f5c6f4293986de87f",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/provider/local.rs",
+      "physical_lines": 317,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/provider/local.rs"
+    },
+    {
+      "blob": "ac0f15c40b72eee5e91491d39c27786100f89acd",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/provider/mod.rs",
+      "physical_lines": 570,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/provider/mod.rs"
+    },
+    {
+      "blob": "e3ce16180e54cce51bd99c2d467746261581b7b9",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/provider/profiles.rs",
+      "physical_lines": 419,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/provider/profiles.rs"
+    },
+    {
+      "blob": "fecff7297e50e13924a1cfe8c91f16e247ef282b",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/provider_adapter.rs",
+      "physical_lines": 3382,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/provider_adapter.rs"
+    },
+    {
+      "blob": "c5f71419f23592f77699ccde09edd9950bec9cb3",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/provider_adapter_cli.rs",
+      "physical_lines": 577,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/provider_adapter_cli.rs"
+    },
+    {
+      "blob": "45f688ca69ec014397f7fa8c950a62016c1aee3a",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/provider_communication.rs",
+      "physical_lines": 1605,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/provider_communication.rs"
+    },
+    {
+      "blob": "a0467c3884e656669e3f6354c6f122fae4f09ba5",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/provider_extension_packaging.rs",
+      "physical_lines": 260,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/provider_extension_packaging.rs"
+    },
+    {
+      "blob": "f5fe6459f81cd880b990124633d9c79d744886a7",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/provider_native_tool_call_comparison.rs",
+      "physical_lines": 664,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/provider_native_tool_call_comparison.rs"
+    },
+    {
+      "blob": "d3b6cf42f285c27fc01b2e81c9b2965673d330a8",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/provider_substrate.rs",
+      "physical_lines": 1043,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/provider_substrate.rs"
+    },
+    {
+      "blob": "917b894daf30445ad31884662a1efdb2eeb8ab21",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/red_blue_agent_architecture.rs",
+      "physical_lines": 232,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/red_blue_agent_architecture.rs"
+    },
+    {
+      "blob": "1cbce73859794a5399e52d30d333e830db1c599f",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/remote_exec.rs",
+      "physical_lines": 1207,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/remote_exec.rs"
+    },
+    {
+      "blob": "87ba9cf978eb612eb882e09b33c58cefc4902e77",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/remote_exec/errors.rs",
+      "physical_lines": 399,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/remote_exec/errors.rs"
+    },
+    {
+      "blob": "f55009fe9828e216351ffd8d2b0caee923b19cc3",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/remote_exec/security.rs",
+      "physical_lines": 176,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/remote_exec/security.rs"
+    },
+    {
+      "blob": "ab28acdeba1e9f5629539aafc7e76e4c0515e0c4",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/remote_exec/signing_support.rs",
+      "physical_lines": 511,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/remote_exec/signing_support.rs"
+    },
+    {
+      "blob": "eea8d8bce5ffb8a39db114d544c3b5f2ff14b5a6",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/remote_exec/types.rs",
+      "physical_lines": 147,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/remote_exec/types.rs"
+    },
+    {
+      "blob": "14249d9c9486c2695b620b59dadf22bb952c00d5",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/resident_shepherd_spot_continuity.rs",
+      "physical_lines": 1277,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/resident_shepherd_spot_continuity.rs"
+    },
+    {
+      "blob": "a207db35a5a949828ccb8ff876bdffd89002407e",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/resident_tool_execution.rs",
+      "physical_lines": 775,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/resident_tool_execution.rs"
+    },
+    {
+      "blob": "ef411bf7b71cdb012dd6400f3ee930f067064bf8",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/resilience.rs",
+      "physical_lines": 5278,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/resilience.rs"
+    },
+    {
+      "blob": "25f335f46ce401328285a58455d26724405ec1ab",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/resolve.rs",
+      "physical_lines": 778,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/resolve.rs"
+    },
+    {
+      "blob": "5fb16c8f6867d8f35308ba93d726e03a58f8993b",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_aws_signal.rs",
+      "physical_lines": 3352,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_aws_signal.rs"
+    },
+    {
+      "blob": "f5c17733131c5ac627ba99b137d85232dd18a56b",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_environment.rs",
+      "physical_lines": 267,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_environment.rs"
+    },
+    {
+      "blob": "04b62ce30e942f8247fc8cfcf58d464245550a36",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/a2a_adapter_boundary.rs",
+      "physical_lines": 430,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/a2a_adapter_boundary.rs"
+    },
+    {
+      "blob": "b2b8cfe585f7502133c437a03ff4be11d8508032",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/access_control.rs",
+      "physical_lines": 1115,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/access_control.rs"
+    },
+    {
+      "blob": "f53ea01d7b8322cbb658929572f5aec6a4aa37c6",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/acip_hardening.rs",
+      "physical_lines": 676,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/acip_hardening.rs"
+    },
+    {
+      "blob": "32810f4b50544d0ff0ee32d5e54630420b47b831",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/aee_obsmem_pvf_trace_handoff.rs",
+      "physical_lines": 481,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/aee_obsmem_pvf_trace_handoff.rs"
+    },
+    {
+      "blob": "09c6686bc8abf2f8e97a95dc08e2838cc8d14253",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/affect_reasoning_control.rs",
+      "physical_lines": 1314,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/affect_reasoning_control.rs"
+    },
+    {
+      "blob": "f4a4193cd1f4245a53c902eb7575d1a5ce186afb",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/agent_lifecycle_state.rs",
+      "physical_lines": 826,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/agent_lifecycle_state.rs"
+    },
+    {
+      "blob": "8d1ea8a216e21e8dc50ac794fb66b5107b945186",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/anti_harm_trajectory_constraints.rs",
+      "physical_lines": 925,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/anti_harm_trajectory_constraints.rs"
+    },
+    {
+      "blob": "c620eadcb725d07e99436d7ec15c4686d74cacd1",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/bid_schema.rs",
+      "physical_lines": 726,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/bid_schema.rs"
+    },
+    {
+      "blob": "e4696fb381cb6370e31b3820fd9c531fd5413031",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/boot_admission.rs",
+      "physical_lines": 574,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/boot_admission.rs"
+    },
+    {
+      "blob": "182b32982b5e62040405991e4ed30ccb9b5bd09f",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/challenge.rs",
+      "physical_lines": 1217,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/challenge.rs"
+    },
+    {
+      "blob": "b2bea943bf4e0f5b774d6149d9ca018290ae1b69",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/citizen.rs",
+      "physical_lines": 392,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/citizen.rs"
+    },
+    {
+      "blob": "d1afe2ad3b8e3fba2b15903ed851b193ccb2d485",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/citizen_state_substrate.rs",
+      "physical_lines": 586,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/citizen_state_substrate.rs"
+    },
+    {
+      "blob": "5e5b5d7b6065dab1143d2282947fce868ac0d1db",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/codefriend_adapter_obligations.rs",
+      "physical_lines": 463,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/codefriend_adapter_obligations.rs"
+    },
+    {
+      "blob": "8deead75b21804d720d782dcf4d1b107589b95c7",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/cognitive_being_flagship_demo.rs",
+      "physical_lines": 782,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/cognitive_being_flagship_demo.rs"
+    },
+    {
+      "blob": "c4fd79f512c52f16c325ff2571d372b30fcb0edb",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/constructability_anchor_validator.rs",
+      "physical_lines": 791,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/constructability_anchor_validator.rs"
+    },
+    {
+      "blob": "664ab0007c0bab4223cedd0f5894b7bc36f38379",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/contract_lifecycle_state.rs",
+      "physical_lines": 1088,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/contract_lifecycle_state.rs"
+    },
+    {
+      "blob": "e07896a32c4a0907683d13fc9eed3167a38f4ffe",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/contract_market_demo.rs",
+      "physical_lines": 1382,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/contract_market_demo.rs"
+    },
+    {
+      "blob": "f36b510ddfbafae6800efda2953839caafdbc989",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/contract_schema.rs",
+      "physical_lines": 567,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/contract_schema.rs"
+    },
+    {
+      "blob": "15cb0d7f87733589b6ebbd30ebd34314e3571be6",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/contracts.rs",
+      "physical_lines": 314,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/contracts.rs"
+    },
+    {
+      "blob": "99d48e06693ea13d3c2bc01742379d2513c8d3cf",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/csm_run.rs",
+      "physical_lines": 797,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/csm_run.rs"
+    },
+    {
+      "blob": "cb6ea9216c38a32dc4846e93f1243b3804974ff3",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/cultivating_intelligence.rs",
+      "physical_lines": 23,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/cultivating_intelligence.rs"
+    },
+    {
+      "blob": "193fa36a34def7b177931308574d8a98dab78525",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/cultivating_intelligence_parts/builder.rs",
+      "physical_lines": 561,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/cultivating_intelligence_parts/builder.rs"
+    },
+    {
+      "blob": "8179f6ec54b94452a7c5cc6fc2d12eba5590dfbd",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/cultivating_intelligence_parts/models.rs",
+      "physical_lines": 92,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/cultivating_intelligence_parts/models.rs"
+    },
+    {
+      "blob": "c239fd7d850381efcbe4044da1b8bd2cb7826aca",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/cultivating_intelligence_parts/validation.rs",
+      "physical_lines": 895,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/cultivating_intelligence_parts/validation.rs"
+    },
+    {
+      "blob": "cbd8f6dcc2a300202c778b457698744d67646862",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/curiosity_engine.rs",
+      "physical_lines": 617,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/curiosity_engine.rs"
+    },
+    {
+      "blob": "d61d3fcf5cf56ae6ee49a20d2b44f60eaa3dac72",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/delegation_subcontract.rs",
+      "physical_lines": 1268,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/delegation_subcontract.rs"
+    },
+    {
+      "blob": "32b9b47c86c90f59169e168912dd679adf807085",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/economics_civilization_boundary.rs",
+      "physical_lines": 389,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/economics_civilization_boundary.rs"
+    },
+    {
+      "blob": "1a4672312837e9d81e2baf5293e6319c2e843fec",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/evaluation_selection.rs",
+      "physical_lines": 934,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/evaluation_selection.rs"
+    },
+    {
+      "blob": "d7ff70c2f33507ad8faace0d2aa22dd91f1c9403",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/external_counterparty.rs",
+      "physical_lines": 1071,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/external_counterparty.rs"
+    },
+    {
+      "blob": "a0298752a6b9514f44f11b292d0ff8d3eb3f9c78",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/feature_proof_coverage.rs",
+      "physical_lines": 470,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/feature_proof_coverage.rs"
+    },
+    {
+      "blob": "1798a73dbf3a1ce176592d81bbc839855a8ed0ac",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/foundation.rs",
+      "physical_lines": 511,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/foundation.rs"
+    },
+    {
+      "blob": "7ce1bc082645fc93e415845c62fc73fa6e94a1fc",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/godel_agent_runtime.rs",
+      "physical_lines": 1087,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/godel_agent_runtime.rs"
+    },
+    {
+      "blob": "0bf79e166f371416c6d04da2ac08c54212ab926c",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/godel_constructability_boundary.rs",
+      "physical_lines": 451,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/godel_constructability_boundary.rs"
+    },
+    {
+      "blob": "79709290f064c3fde186c98e86c3ebd102452fa0",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/governed_episode.rs",
+      "physical_lines": 878,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/governed_episode.rs"
+    },
+    {
+      "blob": "d92fe772ad79097703f5b996fee54d1ce9db5f68",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/governed_episode/model.rs",
+      "physical_lines": 217,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/governed_episode/model.rs"
+    },
+    {
+      "blob": "a70a96fe52255a25bb4be15ee1cb1aaefb67235e",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/governed_episode/records.rs",
+      "physical_lines": 764,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/governed_episode/records.rs"
+    },
+    {
+      "blob": "e2d9fcfc6f8cbc53bfd0d07f568b93d0becf0706",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/governed_learning_substrate.rs",
+      "physical_lines": 769,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/governed_learning_substrate.rs"
+    },
+    {
+      "blob": "28b9508f559b65267aac076e952abb1a781fd817",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/governed_tools_flagship_demo.rs",
+      "physical_lines": 11,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/governed_tools_flagship_demo.rs"
+    },
+    {
+      "blob": "452c1e1178b21ceb8967a74dd775b3b9b1911fe9",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/governed_tools_flagship_demo_parts/cases.rs",
+      "physical_lines": 401,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/governed_tools_flagship_demo_parts/cases.rs"
+    },
+    {
+      "blob": "288598261b15701f4df893c4da789b618aac7e5c",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/governed_tools_flagship_demo_parts/constants.rs",
+      "physical_lines": 29,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/governed_tools_flagship_demo_parts/constants.rs"
+    },
+    {
+      "blob": "a8e08ea2c57b06ba4e6730081d5c93b694dd3d9a",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/governed_tools_flagship_demo_parts/core.rs",
+      "physical_lines": 19,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/governed_tools_flagship_demo_parts/core.rs"
+    },
+    {
+      "blob": "affdf886b9920b859f91f1b0af2ef9faf69c8ee5",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/governed_tools_flagship_demo_parts/helpers.rs",
+      "physical_lines": 46,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/governed_tools_flagship_demo_parts/helpers.rs"
+    },
+    {
+      "blob": "78080c514c98da4729b17db0d6b50f41be891a66",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/governed_tools_flagship_demo_parts/models.rs",
+      "physical_lines": 634,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/governed_tools_flagship_demo_parts/models.rs"
+    },
+    {
+      "blob": "8fc847e17c725373d013b7f49960c611a8e2a71c",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/governed_tools_flagship_demo_parts/reports.rs",
+      "physical_lines": 168,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/governed_tools_flagship_demo_parts/reports.rs"
+    },
+    {
+      "blob": "7cc279e3a149a87e2272ec8535a2afd4251aa926",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/governed_tools_flagship_demo_parts/trace_support.rs",
+      "physical_lines": 154,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/governed_tools_flagship_demo_parts/trace_support.rs"
+    },
+    {
+      "blob": "e7bcdf3191915528df651da68becd8bfcea2dd6f",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/guild_foundation_boundary.rs",
+      "physical_lines": 423,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/guild_foundation_boundary.rs"
+    },
+    {
+      "blob": "c9a1e85ad0f38b3e8ca5e778fa6eb29dde002cad",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/hardening.rs",
+      "physical_lines": 701,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/hardening.rs"
+    },
+    {
+      "blob": "8c4fa816b6a72d774076fb4f6144dfc117a8dbb6",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/humor_and_absurdity.rs",
+      "physical_lines": 1370,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/humor_and_absurdity.rs"
+    },
+    {
+      "blob": "78392419f01547f5e16b1baf0ccd0f97589876ee",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/integrated_csm_run.rs",
+      "physical_lines": 551,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/integrated_csm_run.rs"
+    },
+    {
+      "blob": "94620072e237cad13218b8e732ea622e8eae69f6",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/intelligence_metric_architecture.rs",
+      "physical_lines": 743,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/intelligence_metric_architecture.rs"
+    },
+    {
+      "blob": "48aba1030202c6969676c23fdaba7000eb2a1078",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/invariant.rs",
+      "physical_lines": 209,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/invariant.rs"
+    },
+    {
+      "blob": "caf58f76bf3e8385de2f4d10dd763b92ff75bf64",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/invariant_contract.rs",
+      "physical_lines": 581,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/invariant_contract.rs"
+    },
+    {
+      "blob": "daf3671f751c2c953ec04970163868a71eaeec43",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/kernel_loop.rs",
+      "physical_lines": 278,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/kernel_loop.rs"
+    },
+    {
+      "blob": "4b6e526c103dc5728a5b9634d2b48c41dd02d9c3",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/kindness_model.rs",
+      "physical_lines": 1315,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/kindness_model.rs"
+    },
+    {
+      "blob": "c0d1570d282a8d13f3f035cb51a328c446931d83",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/loop_runtime.rs",
+      "physical_lines": 742,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/loop_runtime.rs"
+    },
+    {
+      "blob": "7d32815d67d5d25c51757bd4df8248ea470088fe",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/manifold.rs",
+      "physical_lines": 150,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/manifold.rs"
+    },
+    {
+      "blob": "c8a4d71d86eede8a0df389a583b67737d5b33c3c",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/memory_identity_architecture.rs",
+      "physical_lines": 721,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/memory_identity_architecture.rs"
+    },
+    {
+      "blob": "a3c9d515143061e23023a64c408b3f6e7e990c17",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/minimal_integrated_runtime_path.rs",
+      "physical_lines": 450,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/minimal_integrated_runtime_path.rs"
+    },
+    {
+      "blob": "d601d6d5f1931a63c0ef8375ac69b6e09a0c8e69",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/mod.rs",
+      "physical_lines": 250,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/mod.rs"
+    },
+    {
+      "blob": "5fd78df5a7e46f53ef4a9ae9a200fe3fc4f910c7",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/moral_event_validation.rs",
+      "physical_lines": 404,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/moral_event_validation.rs"
+    },
+    {
+      "blob": "a9729cc1e01c3f776fadc3d03d422daf11d3f9fa",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/moral_metrics.rs",
+      "physical_lines": 686,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/moral_metrics.rs"
+    },
+    {
+      "blob": "abab7f0c974887c74ca63e4f19c8c7e86dd6229c",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/moral_resources.rs",
+      "physical_lines": 1314,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/moral_resources.rs"
+    },
+    {
+      "blob": "c3e2b9b6bd3d553548b2e9b674da1c4c41c797c9",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/moral_trace_schema.rs",
+      "physical_lines": 828,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/moral_trace_schema.rs"
+    },
+    {
+      "blob": "57f85fb86c4ed82fa572d1221acfc1f4dbc44691",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/moral_trajectory_review.rs",
+      "physical_lines": 1027,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/moral_trajectory_review.rs"
+    },
+    {
+      "blob": "00fe5c196e8f2a55d5e1bcebcf1bcf7808bb206c",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/observatory.rs",
+      "physical_lines": 625,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/observatory.rs"
+    },
+    {
+      "blob": "bf261bf20d88e4c1acbbcc00d3c6431a458441dc",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/observatory_flagship.rs",
+      "physical_lines": 19,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/observatory_flagship.rs"
+    },
+    {
+      "blob": "51020b1773b5d11f28a0c2fd8f638798fa515263",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/observatory_flagship/builders.rs",
+      "physical_lines": 1062,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/observatory_flagship/builders.rs"
+    },
+    {
+      "blob": "868c91f4ecd6cc3e358d8f1b478a084f02c3e451",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/observatory_flagship/report.rs",
+      "physical_lines": 100,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/observatory_flagship/report.rs"
+    },
+    {
+      "blob": "666165d9ede2bdf0aeba4449be9fb7f819036371",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/observatory_flagship/types.rs",
+      "physical_lines": 87,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/observatory_flagship/types.rs"
+    },
+    {
+      "blob": "1b42fee2baffe408dd6f7afd84ee6384137dc95e",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/observatory_flagship/validation.rs",
+      "physical_lines": 195,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/observatory_flagship/validation.rs"
+    },
+    {
+      "blob": "304704d0ab60012b29edb614d79be32b3f405dec",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/operator.rs",
+      "physical_lines": 248,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/operator.rs"
+    },
+    {
+      "blob": "5ce98faee93ad0cb2262a12e18b0e720dd3f3543",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/outcome_linkage_attribution.rs",
+      "physical_lines": 626,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/outcome_linkage_attribution.rs"
+    },
+    {
+      "blob": "7e6721eda472d22a83e2343bad245d7592c9caba",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/private_state.rs",
+      "physical_lines": 795,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/private_state.rs"
+    },
+    {
+      "blob": "67997ebc825a1d5e71b1d17544379e521e906ad4",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/private_state_envelope.rs",
+      "physical_lines": 686,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/private_state_envelope.rs"
+    },
+    {
+      "blob": "3a6f8e53989d5e390ebd6441a006216acacf7a32",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/private_state_equivocation.rs",
+      "physical_lines": 1073,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/private_state_equivocation.rs"
+    },
+    {
+      "blob": "6e75058af938f4a581f1dac40f3f133bf0293755",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/private_state_lineage.rs",
+      "physical_lines": 926,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/private_state_lineage.rs"
+    },
+    {
+      "blob": "a323a35f55a194c5fb455b50610acc8108bc7f11",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/private_state_observatory.rs",
+      "physical_lines": 1271,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/private_state_observatory.rs"
+    },
+    {
+      "blob": "d3cdb23bcb3cee0d9fa08ea0ab2c2f4b750d8842",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/private_state_sanctuary.rs",
+      "physical_lines": 135,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/private_state_sanctuary.rs"
+    },
+    {
+      "blob": "26f7d825913927bfaf2aa80264ce5978dccdcf75",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/private_state_sanctuary/helpers.rs",
+      "physical_lines": 202,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/private_state_sanctuary/helpers.rs"
+    },
+    {
+      "blob": "864d4b7593fbaab9e1ac5e9663e0bc61f747c629",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/private_state_sanctuary/policy.rs",
+      "physical_lines": 376,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/private_state_sanctuary/policy.rs"
+    },
+    {
+      "blob": "d31e9dd2b093f61113a3282bc93dc0194406d50b",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/private_state_sanctuary/reports.rs",
+      "physical_lines": 709,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/private_state_sanctuary/reports.rs"
+    },
+    {
+      "blob": "28814acf199a645770debf069ab17bea3b70b175",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/private_state_sealing.rs",
+      "physical_lines": 1036,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/private_state_sealing.rs"
+    },
+    {
+      "blob": "d405f15d89512e4d506bea5c0b5fc736ca0409b9",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/private_state_witness.rs",
+      "physical_lines": 981,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/private_state_witness.rs"
+    },
+    {
+      "blob": "f8fa624b7bead9cfc7d9e607eb1bd026876dd36b",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/quarantine.rs",
+      "physical_lines": 755,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/quarantine.rs"
+    },
+    {
+      "blob": "426895959b8b7c7db5a8cd7cdc3382c5bcf04bc2",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/reasoning_graph.rs",
+      "physical_lines": 677,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/reasoning_graph.rs"
+    },
+    {
+      "blob": "5e37f66b402dfee4f55bd911a4873a994534e6f1",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/reasoning_runtime_bridge.rs",
+      "physical_lines": 113,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/reasoning_runtime_bridge.rs"
+    },
+    {
+      "blob": "f0b789eef8efc84f89b7d19a2c8228534ebbf2d3",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/recovery.rs",
+      "physical_lines": 567,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/recovery.rs"
+    },
+    {
+      "blob": "2c12a7725c13cfbfcf7aaa39f2da6045113e4ddc",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/resource_stewardship_bridge.rs",
+      "physical_lines": 839,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/resource_stewardship_bridge.rs"
+    },
+    {
+      "blob": "251f87bdf15a9e69e831224d71629484295409fe",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/runtime_inhabitant_integration.rs",
+      "physical_lines": 757,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/runtime_inhabitant_integration.rs"
+    },
+    {
+      "blob": "c797c76f076d9f420371d2e077b90036138838e3",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/security.rs",
+      "physical_lines": 190,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/security.rs"
+    },
+    {
+      "blob": "c43579357e6fae075e01540f3669058887b5f1dd",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/shutdown_dag.rs",
+      "physical_lines": 937,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/shutdown_dag.rs"
+    },
+    {
+      "blob": "4f5100e04dd7cbcfa46e3f117308bf1ca9c4e77c",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/snapshot.rs",
+      "physical_lines": 339,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/snapshot.rs"
+    },
+    {
+      "blob": "5aa1274b34dd90c42b52b136a9ab51429a25fab2",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/standing/artifacts.rs",
+      "physical_lines": 73,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/standing/artifacts.rs"
+    },
+    {
+      "blob": "7a9b7dcf77776122142ef84383e9e6c1ab250860",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/standing/communication.rs",
+      "physical_lines": 187,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/standing/communication.rs"
+    },
+    {
+      "blob": "3bd15e831a8f8873e2a3659f1116890305cc0a09",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/standing/constants.rs",
+      "physical_lines": 16,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/standing/constants.rs"
+    },
+    {
+      "blob": "cb26a0c787536011826e915aa0fcecb61940e793",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/standing/events.rs",
+      "physical_lines": 254,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/standing/events.rs"
+    },
+    {
+      "blob": "a5c3983182551a07f5cf5f72c5948c30ab457cbd",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/standing/mod.rs",
+      "physical_lines": 23,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/standing/mod.rs"
+    },
+    {
+      "blob": "18b780abd61815f1df213145118d709757ef55d8",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/standing/negative.rs",
+      "physical_lines": 143,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/standing/negative.rs"
+    },
+    {
+      "blob": "c15188e669b847779fed5a7513deee090d17145e",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/standing/policy.rs",
+      "physical_lines": 240,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/standing/policy.rs"
+    },
+    {
+      "blob": "182566c5bf5fe2aca18b260954f500e11d96cd9e",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/standing/transition.rs",
+      "physical_lines": 218,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/standing/transition.rs"
+    },
+    {
+      "blob": "81af6b020233ea554ecc9022a47ea1b0d3bc2837",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/standing/validation.rs",
+      "physical_lines": 498,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/standing/validation.rs"
+    },
+    {
+      "blob": "90bd53dc88da56c4c57915975f46e5d8d5663c60",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests.rs",
+      "physical_lines": 93,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests.rs"
+    },
+    {
+      "blob": "2386cfca6aa13aef3eaf73d5baa6490dfe487b48",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/a2a_adapter_boundary.rs",
+      "physical_lines": 200,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/a2a_adapter_boundary.rs"
+    },
+    {
+      "blob": "189434222ab3228ec75fb7985ff812d975abda91",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/access_control.rs",
+      "physical_lines": 198,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/access_control.rs"
+    },
+    {
+      "blob": "bf6922bc726a46bea0b315a78dc60e7ad6625ace",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/acip_hardening.rs",
+      "physical_lines": 133,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/acip_hardening.rs"
+    },
+    {
+      "blob": "d75ed167bc4159e26c81ddeea48eb6b23ffc613e",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/aee_obsmem_pvf_trace_handoff.rs",
+      "physical_lines": 84,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/aee_obsmem_pvf_trace_handoff.rs"
+    },
+    {
+      "blob": "2a5c3e228f2047ac728372a7979989ec707660b8",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/affect_reasoning_control.rs",
+      "physical_lines": 263,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/affect_reasoning_control.rs"
+    },
+    {
+      "blob": "8dfd6e9ce2157cdbd84962fa56f005c2208bb07e",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/agent_lifecycle_state.rs",
+      "physical_lines": 179,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/agent_lifecycle_state.rs"
+    },
+    {
+      "blob": "4877a64c1299f88fcd0caea7c48a54c78df3758b",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/anti_harm_trajectory_constraints.rs",
+      "physical_lines": 162,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/anti_harm_trajectory_constraints.rs"
+    },
+    {
+      "blob": "5b713ae9e2b1219756fd53a513de90acd0266a7a",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/bid_schema.rs",
+      "physical_lines": 167,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/bid_schema.rs"
+    },
+    {
+      "blob": "33075d400b9115bb4a860fbeade250ccae04e1db",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/boot_admission.rs",
+      "physical_lines": 153,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/boot_admission.rs"
+    },
+    {
+      "blob": "14b8e86eca68dcfccc4a4c9338218a5ad9c5b895",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/challenge.rs",
+      "physical_lines": 184,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/challenge.rs"
+    },
+    {
+      "blob": "cc9a26e1f63b3f87be286c4e6de0ab3483d49194",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/citizen_lifecycle.rs",
+      "physical_lines": 152,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/citizen_lifecycle.rs"
+    },
+    {
+      "blob": "e52bcd48da9a965e6a830a5e6553b8d806441de7",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/citizen_state_substrate.rs",
+      "physical_lines": 329,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/citizen_state_substrate.rs"
+    },
+    {
+      "blob": "cfc04c4de5052995477fbe829dedce103eaeee2a",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/codefriend_adapter_obligations.rs",
+      "physical_lines": 162,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/codefriend_adapter_obligations.rs"
+    },
+    {
+      "blob": "ee43631411cf82d8ec37092256b2e5ac1d73391b",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/cognitive_being_flagship_demo.rs",
+      "physical_lines": 191,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/cognitive_being_flagship_demo.rs"
+    },
+    {
+      "blob": "8b5cea616e0c99fb0ce6c9092d3720e0ac51521c",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/common.rs",
+      "physical_lines": 13,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/common.rs"
+    },
+    {
+      "blob": "2434c6c663ab259e858581eacf5f96f4b2c7ea03",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/constructability_anchor_validator.rs",
+      "physical_lines": 229,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/constructability_anchor_validator.rs"
+    },
+    {
+      "blob": "3e7b3c3fd4ccd9d8d084b9fe18b18901e331dc60",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/contract_lifecycle_state.rs",
+      "physical_lines": 160,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/contract_lifecycle_state.rs"
+    },
+    {
+      "blob": "46f8fc3ffd485df402fee2aea42565fb441571dd",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/contract_market_demo.rs",
+      "physical_lines": 186,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/contract_market_demo.rs"
+    },
+    {
+      "blob": "027f083fe10b4832d82e6f7b11cde9c1f559c13d",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/contract_registry_accessors.rs",
+      "physical_lines": 52,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/contract_registry_accessors.rs"
+    },
+    {
+      "blob": "ba696c2b1747a46b8a8fbc444c9a9663b9efc407",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/contract_schema.rs",
+      "physical_lines": 146,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/contract_schema.rs"
+    },
+    {
+      "blob": "b0a0cf61cf3be01720e6de8423634be929b20e5f",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/csm_run_packet.rs",
+      "physical_lines": 209,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/csm_run_packet.rs"
+    },
+    {
+      "blob": "d1ff0dca87609f0dd3b33afef3379e453a1933a9",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/cultivating_intelligence.rs",
+      "physical_lines": 211,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/cultivating_intelligence.rs"
+    },
+    {
+      "blob": "be96add00aca5f4ed93190f03ffdcebcace63b00",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/curiosity_engine.rs",
+      "physical_lines": 97,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/curiosity_engine.rs"
+    },
+    {
+      "blob": "30b6e3faae1148747b7aa15e9ca27d13c3ca6c2f",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/delegation_subcontract.rs",
+      "physical_lines": 379,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/delegation_subcontract.rs"
+    },
+    {
+      "blob": "d2bfa3fd248f41fbfd57a27911085e2a2cf32dcd",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/economics_civilization_boundary.rs",
+      "physical_lines": 175,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/economics_civilization_boundary.rs"
+    },
+    {
+      "blob": "a68d7f55275742a7e0f5ea0eab02c3dbf5129743",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/evaluation_selection.rs",
+      "physical_lines": 304,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/evaluation_selection.rs"
+    },
+    {
+      "blob": "fd3c06e5e40e35234eab69a8a68f8ebe96148267",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/external_counterparty.rs",
+      "physical_lines": 741,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/external_counterparty.rs"
+    },
+    {
+      "blob": "e75bbba287c733b05fee634fe26e4c4a6f1401d9",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/feature_proof_coverage.rs",
+      "physical_lines": 101,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/feature_proof_coverage.rs"
+    },
+    {
+      "blob": "2d985dbe25a8377a41d40e76f270e3ce1c693301",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/freedom_gate_mediation.rs",
+      "physical_lines": 231,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/freedom_gate_mediation.rs"
+    },
+    {
+      "blob": "e2e3b568a447ea9a8d4523281fea14cb283fe927",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/godel_agent_runtime.rs",
+      "physical_lines": 220,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/godel_agent_runtime.rs"
+    },
+    {
+      "blob": "a3f03f8d748f68be66736fe08299cb961944808c",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/godel_constructability_boundary.rs",
+      "physical_lines": 154,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/godel_constructability_boundary.rs"
+    },
+    {
+      "blob": "9a691fe07666c48a25195474cfaeaff15e6f641e",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/governed_episode.rs",
+      "physical_lines": 263,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/governed_episode.rs"
+    },
+    {
+      "blob": "4656ed5f0a974cfe2a562b10e9906aec15416a33",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/governed_learning_substrate.rs",
+      "physical_lines": 527,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/governed_learning_substrate.rs"
+    },
+    {
+      "blob": "fe6e7f77a15f67928a869931340be9d855a5ddc4",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/governed_tools_flagship_demo.rs",
+      "physical_lines": 200,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/governed_tools_flagship_demo.rs"
+    },
+    {
+      "blob": "45c9ba956db80bca2670ef2771e6d81ab31ff64e",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/guild_foundation_boundary.rs",
+      "physical_lines": 205,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/guild_foundation_boundary.rs"
+    },
+    {
+      "blob": "b062fbe44481428e6751c243f6fff667e0123c4b",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/hardening.rs",
+      "physical_lines": 183,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/hardening.rs"
+    },
+    {
+      "blob": "b3040c4cbe2c79d29b3ec8896ea8c34917a93252",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/humor_and_absurdity.rs",
+      "physical_lines": 210,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/humor_and_absurdity.rs"
+    },
+    {
+      "blob": "1aa739b95f8879562bf47aaebdc95b5716ce321f",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/integrated_csm_run.rs",
+      "physical_lines": 132,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/integrated_csm_run.rs"
+    },
+    {
+      "blob": "4075723979e24bd8a548f5a50267f220d611f7f3",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/intelligence_metric_architecture.rs",
+      "physical_lines": 192,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/intelligence_metric_architecture.rs"
+    },
+    {
+      "blob": "55452a9092a8fcc71891327d95a0bda7f9ba4b3d",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/invalid_action_rejection.rs",
+      "physical_lines": 215,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/invalid_action_rejection.rs"
+    },
+    {
+      "blob": "f3c2bbe1d534ff5a033aeffbde7d7b0b99c2ae67",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/invariant_contract.rs",
+      "physical_lines": 179,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/invariant_contract.rs"
+    },
+    {
+      "blob": "b16d9130cad47ef98f7fb04d95fb8fc532f54ef2",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/invariant_violation.rs",
+      "physical_lines": 106,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/invariant_violation.rs"
+    },
+    {
+      "blob": "24b7305f76250d62247f47dcc7cf91195af20abd",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/kernel_loop.rs",
+      "physical_lines": 179,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/kernel_loop.rs"
+    },
+    {
+      "blob": "e2db5c7d878a2da8f6ce63a07ad6f41dfaa4e49b",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/kindness_model.rs",
+      "physical_lines": 195,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/kindness_model.rs"
+    },
+    {
+      "blob": "0c9ea7301257f7a9c5bb934d8aec665865e7757a",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/loop_runtime.rs",
+      "physical_lines": 200,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/loop_runtime.rs"
+    },
+    {
+      "blob": "4419da46a301e7ac23cfd02d528f35da89b188e3",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/manifold.rs",
+      "physical_lines": 93,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/manifold.rs"
+    },
+    {
+      "blob": "a4a70f1da578ce2e57977d27201a090b2ee0e09b",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/memory_identity_architecture.rs",
+      "physical_lines": 245,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/memory_identity_architecture.rs"
+    },
+    {
+      "blob": "b356919f8c46d5e0a901a6a78eebe8596d646b3b",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/minimal_integrated_runtime_path.rs",
+      "physical_lines": 120,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/minimal_integrated_runtime_path.rs"
+    },
+    {
+      "blob": "8b06bd4d5444961fa562d2a57d5d70b76e505147",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/moral_event_validation.rs",
+      "physical_lines": 308,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/moral_event_validation.rs"
+    },
+    {
+      "blob": "b3d63559039d966ae22203ce386bd125f1388d01",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/moral_metrics.rs",
+      "physical_lines": 181,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/moral_metrics.rs"
+    },
+    {
+      "blob": "03893a6aae8a87da8ed4dd85f6d1cc343b253e31",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/moral_resources.rs",
+      "physical_lines": 206,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/moral_resources.rs"
+    },
+    {
+      "blob": "edf9534a13628c6cde192b0233be27f946a686fc",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/moral_trace_schema.rs",
+      "physical_lines": 153,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/moral_trace_schema.rs"
+    },
+    {
+      "blob": "8da27f0b062d6761f697536b6fff9dcc5d5ccc24",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/moral_trajectory_review.rs",
+      "physical_lines": 141,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/moral_trajectory_review.rs"
+    },
+    {
+      "blob": "ade781cea1aa389a201d7bc4d824bb4f1bec76f1",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/observatory.rs",
+      "physical_lines": 172,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/observatory.rs"
+    },
+    {
+      "blob": "2c70782251d06fe8341fccb87404408a63c0463b",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/observatory_flagship.rs",
+      "physical_lines": 493,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/observatory_flagship.rs"
+    },
+    {
+      "blob": "f10603fae04817bd69f2021bb5b1151ba583ff13",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/operator_control.rs",
+      "physical_lines": 114,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/operator_control.rs"
+    },
+    {
+      "blob": "e2afc45309431f220a0f1c864ad309ee182683f8",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/outcome_linkage_attribution.rs",
+      "physical_lines": 175,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/outcome_linkage_attribution.rs"
+    },
+    {
+      "blob": "3b1bea657679b1653189ee9dbf6bd2eac35c3941",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/private_state.rs",
+      "physical_lines": 222,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/private_state.rs"
+    },
+    {
+      "blob": "9691c50644be8aab2b7c873dd4b8197b0c8a4710",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/private_state_envelope.rs",
+      "physical_lines": 202,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/private_state_envelope.rs"
+    },
+    {
+      "blob": "d644822ea1db069fcd8c4c60b37e788d7d819690",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/private_state_equivocation.rs",
+      "physical_lines": 217,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/private_state_equivocation.rs"
+    },
+    {
+      "blob": "68d0b27cbfae55896d11f49e38b6813ded98d4d6",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/private_state_lineage.rs",
+      "physical_lines": 230,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/private_state_lineage.rs"
+    },
+    {
+      "blob": "c758bcdee115bc822839afe1bf0753940aca4f2e",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/private_state_observatory.rs",
+      "physical_lines": 252,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/private_state_observatory.rs"
+    },
+    {
+      "blob": "a6d18900065c281cd71cb6a61c16b466683c360f",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/private_state_sanctuary.rs",
+      "physical_lines": 243,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/private_state_sanctuary.rs"
+    },
+    {
+      "blob": "08ce5d6881f5ea9d8b8ecf3161996977b233d2d0",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/private_state_sealing.rs",
+      "physical_lines": 316,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/private_state_sealing.rs"
+    },
+    {
+      "blob": "cd4eb2d54914c1ac654af209f98fce9924ecf139",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/private_state_witness.rs",
+      "physical_lines": 229,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/private_state_witness.rs"
+    },
+    {
+      "blob": "6d05003a88f61015a22a7688e232045f325b736c",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/quarantine.rs",
+      "physical_lines": 161,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/quarantine.rs"
+    },
+    {
+      "blob": "52e117d0a87a4a3fb89ab061b47c5efdcd707f23",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/reasoning_graph.rs",
+      "physical_lines": 140,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/reasoning_graph.rs"
+    },
+    {
+      "blob": "071e85e4204e15a594390d24d5d6cc951184daab",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/recovery_eligibility.rs",
+      "physical_lines": 185,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/recovery_eligibility.rs"
+    },
+    {
+      "blob": "7969ae557a8a2fab712475ca84f8dca81a8be0fe",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/resource_stewardship_bridge.rs",
+      "physical_lines": 199,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/resource_stewardship_bridge.rs"
+    },
+    {
+      "blob": "3a829810716ee6443e8791f852ed697c16250d13",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/runtime_inhabitant_integration.rs",
+      "physical_lines": 262,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/runtime_inhabitant_integration.rs"
+    },
+    {
+      "blob": "b4e5a348ebebaf5509038bb06e2d5a23af59a8c1",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/security_boundary.rs",
+      "physical_lines": 106,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/security_boundary.rs"
+    },
+    {
+      "blob": "b990cc693dd45b01a5d91c07bba91afe75a3e732",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/shutdown_dag.rs",
+      "physical_lines": 165,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/shutdown_dag.rs"
+    },
+    {
+      "blob": "93cff739b0dc75d04efb6a50e9a5a757d9062202",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/snapshot_rehydration.rs",
+      "physical_lines": 173,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/snapshot_rehydration.rs"
+    },
+    {
+      "blob": "7bc0dddfc02e868260343515565d954ef375bdfe",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/standing.rs",
+      "physical_lines": 335,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/standing.rs"
+    },
+    {
+      "blob": "173c26bb39b5f0abe912dce05bf65516bb36a0eb",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/theory_of_mind_foundation.rs",
+      "physical_lines": 239,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/theory_of_mind_foundation.rs"
+    },
+    {
+      "blob": "8cd400c5a859f0037ee993a9d2d90f67a02d16ff",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/transition_authority.rs",
+      "physical_lines": 169,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/transition_authority.rs"
+    },
+    {
+      "blob": "147eeef4cec4ddbb501c3c5ff539398e0880d405",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/unified_runtime_kernel.rs",
+      "physical_lines": 230,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/unified_runtime_kernel.rs"
+    },
+    {
+      "blob": "8159f529c913efe837d960742276bf55b7ef87e0",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/wake_continuity.rs",
+      "physical_lines": 377,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/wake_continuity.rs"
+    },
+    {
+      "blob": "292f9b3896969db8aba656bc991b955594168d48",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/tests/wellbeing_metrics.rs",
+      "physical_lines": 243,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/tests/wellbeing_metrics.rs"
+    },
+    {
+      "blob": "1213a40f438835cd7085ac70b9b88b167e069d75",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/theory_of_mind_foundation.rs",
+      "physical_lines": 888,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/theory_of_mind_foundation.rs"
+    },
+    {
+      "blob": "e23e7ddc5848e6df813cc8456cba7090aa00402d",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/transition_authority.rs",
+      "physical_lines": 1203,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/transition_authority.rs"
+    },
+    {
+      "blob": "719cc76bf2fc901199977aa4ef7a7e3248bf5bac",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/types.rs",
+      "physical_lines": 364,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/types.rs"
+    },
+    {
+      "blob": "73552a7f6d44f6dc627823701be30c298aeb80ca",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/unified_runtime_kernel.rs",
+      "physical_lines": 754,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/unified_runtime_kernel.rs"
+    },
+    {
+      "blob": "1834231a28f8ab174f893c1dcb16aded25992963",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/validators.rs",
+      "physical_lines": 478,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/validators.rs"
+    },
+    {
+      "blob": "8930b962a0daaf754f449d8079dd5b3e250deddf",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/wellbeing_metrics.rs",
+      "physical_lines": 22,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/wellbeing_metrics.rs"
+    },
+    {
+      "blob": "d34892a7a6f908af7cde7a73cb03453b8d1817b0",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/wellbeing_metrics_parts/builder.rs",
+      "physical_lines": 647,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/wellbeing_metrics_parts/builder.rs"
+    },
+    {
+      "blob": "1dc54315a76bfbde0ede74dd5babf91a8676540e",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/wellbeing_metrics_parts/models.rs",
+      "physical_lines": 89,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/wellbeing_metrics_parts/models.rs"
+    },
+    {
+      "blob": "2fdd4049d0662fe0b3835c48657fbadcfef1aa28",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/runtime_v2/wellbeing_metrics_parts/validation.rs",
+      "physical_lines": 883,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/runtime_v2/wellbeing_metrics_parts/validation.rs"
+    },
+    {
+      "blob": "6e99e711525c2be14f7303fb9474273a8c49ff8a",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/rust_native_gws_adapter_boundary.rs",
+      "physical_lines": 785,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/rust_native_gws_adapter_boundary.rs"
+    },
+    {
+      "blob": "c8986743800e84ec25813141a38905a3b7f9f145",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/sandbox.rs",
+      "physical_lines": 887,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/sandbox.rs"
+    },
+    {
+      "blob": "e3e5766488c83b8bc5599334d89dc6db586d627f",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/scheduler.rs",
+      "physical_lines": 4121,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/scheduler.rs"
+    },
+    {
+      "blob": "0c3089b038a89cd2f9ae913d53aa3c488ffd26c9",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/schema.rs",
+      "physical_lines": 132,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/schema.rs"
+    },
+    {
+      "blob": "cf64b10e1fd3a51cd269aea7a4b59f3eaee51064",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/session_ledger.rs",
+      "physical_lines": 1013,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/session_ledger.rs"
+    },
+    {
+      "blob": "81ef00f6b881a63b8bd9620b263299485e2e9ad5",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/signing.rs",
+      "physical_lines": 929,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/signing.rs"
+    },
+    {
+      "blob": "e97ec280a123de7f1df46e9a27be86daead2f329",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/skill_composition_model.rs",
+      "physical_lines": 428,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/skill_composition_model.rs"
+    },
+    {
+      "blob": "9a803826b16e10b241ae3db0722eb9762c35633e",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/speculative_decoding_prototype.rs",
+      "physical_lines": 604,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/speculative_decoding_prototype.rs"
+    },
+    {
+      "blob": "2c0e21838070fd000386c3021aa0734797b4c7c1",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/tool_registry.rs",
+      "physical_lines": 848,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/tool_registry.rs"
+    },
+    {
+      "blob": "d9a9f3406658e22c12ad15b91f77e4a61a8fbef0",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/tool_result.rs",
+      "physical_lines": 284,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/tool_result.rs"
+    },
+    {
+      "blob": "0073e7c8d89f6816e6eb768f5708cf2584bd47a1",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/trace/mod.rs",
+      "physical_lines": 272,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/trace/mod.rs"
+    },
+    {
+      "blob": "5f227ab9d25cf10586d16c191bef1e87f514b31e",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/trace/report.rs",
+      "physical_lines": 863,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/trace/report.rs"
+    },
+    {
+      "blob": "02e36c5086f64f68a99f3c5b48a52ce2cc075451",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/trace/store.rs",
+      "physical_lines": 692,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/trace/store.rs"
+    },
+    {
+      "blob": "0742ce92c9f5d9fcf478468e4cfb9e78751cc8e8",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/trace/tests.rs",
+      "physical_lines": 367,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/trace/tests.rs"
+    },
+    {
+      "blob": "b57f701aa52fa2c6aa9269af282d9788d2894d77",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/trace_schema_v1.rs",
+      "physical_lines": 1551,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/trace_schema_v1.rs"
+    },
+    {
+      "blob": "98e6ac0a2071f2c5429b75d1d87d474a5eed2240",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/uts.rs",
+      "physical_lines": 1252,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/uts.rs"
+    },
+    {
+      "blob": "52040e36fae07e765569acbefe933c009ce1757f",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/uts_acc_compiler.rs",
+      "physical_lines": 217,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/uts_acc_compiler.rs"
+    },
+    {
+      "blob": "950049754d00d64f5eb452b6d4d78e8c406f7187",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/uts_acc_compiler/core.rs",
+      "physical_lines": 497,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/uts_acc_compiler/core.rs"
+    },
+    {
+      "blob": "5ca20ef7294ab82a71ab391d5f80c342763a4915",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/uts_acc_compiler/fixtures.rs",
+      "physical_lines": 623,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/uts_acc_compiler/fixtures.rs"
+    },
+    {
+      "blob": "a147007d44a204fafc4fc46108d2259768ad1495",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/uts_acc_compiler/frontend.rs",
+      "physical_lines": 280,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/uts_acc_compiler/frontend.rs"
+    },
+    {
+      "blob": "61f9b64fd8d54d762546da59b545ddc094ab9afe",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/uts_acc_compiler/tests.rs",
+      "physical_lines": 643,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/uts_acc_compiler/tests.rs"
+    },
+    {
+      "blob": "b898a5713ba15b2aa60845410ed71478af090677",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/uts_acc_multi_model_benchmark/evaluation.rs",
+      "physical_lines": 330,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/uts_acc_multi_model_benchmark/evaluation.rs"
+    },
+    {
+      "blob": "8a6bb739875c6ffd24ce5e51cada6e7b4405c6d7",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/uts_acc_multi_model_benchmark/execution.rs",
+      "physical_lines": 371,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/uts_acc_multi_model_benchmark/execution.rs"
+    },
+    {
+      "blob": "56bbd824e9386a75d4d595783d27d081985a1e4c",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/uts_acc_multi_model_benchmark/mod.rs",
+      "physical_lines": 54,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/uts_acc_multi_model_benchmark/mod.rs"
+    },
+    {
+      "blob": "1be0a4081d0562dfc71499d6eb0aa210beada269",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/uts_acc_multi_model_benchmark/parsing.rs",
+      "physical_lines": 83,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/uts_acc_multi_model_benchmark/parsing.rs"
+    },
+    {
+      "blob": "0ce9e2d9401edef193877312edfd06bed581de42",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/uts_acc_multi_model_benchmark/runtime.rs",
+      "physical_lines": 347,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/uts_acc_multi_model_benchmark/runtime.rs"
+    },
+    {
+      "blob": "d862ec902f39de0d4f5af1fc3f4bb6fa861372f2",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/uts_acc_multi_model_benchmark/task_fixtures.rs",
+      "physical_lines": 147,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/uts_acc_multi_model_benchmark/task_fixtures.rs"
+    },
+    {
+      "blob": "b7e497323f29925f355ade56cc935cc662bf8ac5",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/uts_acc_multi_model_benchmark/tests.rs",
+      "physical_lines": 911,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/uts_acc_multi_model_benchmark/tests.rs"
+    },
+    {
+      "blob": "94bea8edfeca9e612ce9f6a00ebb7384646066ae",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/uts_acc_multi_model_benchmark/types.rs",
+      "physical_lines": 179,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/uts_acc_multi_model_benchmark/types.rs"
+    },
+    {
+      "blob": "ba584cf806b749216ced3f8535684bbce0207013",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/uts_conformance.rs",
+      "physical_lines": 743,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/uts_conformance.rs"
+    },
+    {
+      "blob": "11092cbc2c16d7e8ae1aa44102cf0048873d29ee",
+      "consumers": [
+        "classification pending complete reference-edge census"
+      ],
+      "owner": "adl crate module graph",
+      "path": "adl/src/wp08_acip_sns_proof.rs",
+      "physical_lines": 188,
+      "rollback_source": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6:adl/src/wp08_acip_sns_proof.rs"
+    }
+  ],
+  "physical_lines": 265633,
+  "schema": "adl.issue309.baseline.v1"
+}

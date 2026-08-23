@@ -1,0 +1,196 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 309,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-21] Repository-wide code reduction cleanup",
+    "slug": "309-repository-wide-code-reduction",
+    "version": "v0.92",
+    "generation": 35
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Removed 20 reviewed dead/orphan Rust files across independently reversible Bands A and B, totaling 11,571 deleted physical lines from the pinned 485-file/265,633-line baseline. Retained Runtime v2, #414 continuity, policy authority, current providers, ACC/capability surfaces, supported CLI routes, and every candidate lacking complete dead-code proof.",
+      "actual_changes": [
+        "Recomputed the pinned baseline and 1,613 normalized reference edges, independently rejecting retained sources that still contain a removed reference and validating Cargo target-discovery edges against the candidate manifest and auto-discovered binaries.",
+        "Classified Band A's two retired evaluation modules and Band B's characterized orphan implementations as dead or unreachable only; no superseded-code credit remains.",
+        "Restored policy_authority byte-for-byte after the advisory audit proposed it incorrectly; retained cognitive-transition, AWS #268, Runtime v2/#414, providers, capability, ACC, current demos, and supported CLI surfaces.",
+        "Pinned Band B source, revert, and reapply Git identities and proved exact tree restoration without unrelated path changes.",
+        "Bound PR-fast routing to the exact reviewed status/path manifest; any manifest drift uses the ordinary fail-closed router."
+      ],
+      "artifacts": [
+        "adl/src/lib.rs",
+        "adl/src/gws_live_test_support.rs",
+        "adl/tools/check_coverage_impact.sh",
+        "adl/tools/test_check_coverage_impact.sh",
+        "adl/tools/run_pr_fast_test_lane.sh",
+        "adl/tools/test_run_pr_fast_test_lane.sh",
+        ".csdlc/prepared/issues/309/refresh_crate_reference_edges.py",
+        ".csdlc/prepared/issues/309/refresh_dead_code_band.py",
+        ".csdlc/prepared/issues/309/run_gemini_dead_code_audit.py",
+        ".csdlc/prepared/issues/309/validate_reduction_inventory.py",
+        ".csdlc/prepared/issues/309/validate_rollback_proof.py",
+        ".csdlc/prepared/issues/309/validate_hosted_linux_receipt.py",
+        ".csdlc/prepared/issues/309/test_validate_hosted_linux_receipt.py",
+        ".csdlc/evidence/309/baseline-manifest.json",
+        ".csdlc/evidence/309/reference-edge-manifest.json",
+        ".csdlc/evidence/309/disposition-manifest.json",
+        ".csdlc/evidence/309/reduction-report.json",
+        ".csdlc/evidence/309/rollback-proof.json",
+        ".csdlc/evidence/309/gemini-dead-code-audit.md"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "python3",
+            ".csdlc/prepared/issues/309/validate_reduction_inventory.py",
+            "--root",
+            "."
+          ],
+          "purpose": "Recompute exact baseline, normalized reference census, candidate diff, dispositions, and reduction.",
+          "outcome": "passed",
+          "evidence_ref": "485 files; 265633 baseline lines; 1613 edges; 20 deleted files; 11571 deleted lines; complete_dead_code_reduction"
+        },
+        {
+          "command": [
+            "python3",
+            ".csdlc/prepared/issues/309/validate_rollback_proof.py",
+            "--root",
+            "."
+          ],
+          "purpose": "Prove exact per-band Git revert/reapply topology, trees, and isolation.",
+          "outcome": "passed",
+          "evidence_ref": "2 bands; 0 errors"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "--lib",
+            "resident_shepherd_spot_continuity",
+            "--",
+            "--nocapture"
+          ],
+          "purpose": "Protect #414 ADL continuity.",
+          "outcome": "passed",
+          "evidence_ref": "6 passed; 0 failed"
+        },
+        {
+          "command": [
+            "cargo",
+            "test",
+            "--locked",
+            "--manifest-path",
+            "adl-runtime-kernel/Cargo.toml",
+            "--test",
+            "live_continuity",
+            "--",
+            "--nocapture"
+          ],
+          "purpose": "Protect #414 kernel continuity.",
+          "outcome": "passed",
+          "evidence_ref": "8 passed; 0 failed"
+        },
+        {
+          "command": [
+            "cargo",
+            "check",
+            "--locked",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "--all-targets"
+          ],
+          "purpose": "Compile all ADL targets.",
+          "outcome": "passed",
+          "evidence_ref": "all targets compiled"
+        },
+        {
+          "command": [
+            "cargo",
+            "clippy",
+            "--locked",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "--all-targets",
+            "--",
+            "-D",
+            "warnings"
+          ],
+          "purpose": "Reject warnings/residual references.",
+          "outcome": "passed",
+          "evidence_ref": "strict Clippy passed"
+        },
+        {
+          "command": [
+            "cargo",
+            "fmt",
+            "--manifest-path",
+            "adl/Cargo.toml",
+            "--",
+            "--check"
+          ],
+          "purpose": "Verify formatting.",
+          "outcome": "passed",
+          "evidence_ref": "format check passed"
+        },
+        {
+          "command": [
+            "bash",
+            "adl/tools/test_owner_binary_install.sh"
+          ],
+          "purpose": "Prove supported clean owner install.",
+          "outcome": "passed",
+          "evidence_ref": "owner binary stable install: ok"
+        },
+        {
+          "command": [
+            "bash",
+            "adl/tools/test_check_coverage_impact.sh"
+          ],
+          "purpose": "Reject stale coverage mappings for deleted paths.",
+          "outcome": "passed",
+          "evidence_ref": "PASS test_check_coverage_impact"
+        },
+        {
+          "command": [
+            "bash",
+            "adl/tools/test_run_pr_fast_test_lane.sh"
+          ],
+          "purpose": "Prove exact-manifest routing and manifest-drift rejection.",
+          "outcome": "passed",
+          "evidence_ref": "PASS test_run_pr_fast_test_lane"
+        },
+        {
+          "command": [
+            "python3",
+            ".csdlc/prepared/issues/309/test_validate_hosted_linux_receipt.py"
+          ],
+          "purpose": "Reject stale head, wrong PR, and underspecified hosted job receipts.",
+          "outcome": "passed",
+          "evidence_ref": "PASS test_validate_hosted_linux_receipt"
+        },
+        {
+          "command": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "purpose": "Reject patch hygiene defects.",
+          "outcome": "passed",
+          "evidence_ref": "no findings"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}
