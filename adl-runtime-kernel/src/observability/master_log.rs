@@ -6,9 +6,7 @@ use std::{
     sync::atomic::{AtomicU64, Ordering},
 };
 
-use adl_runtime_kernel::{
-    RUNTIME_MASTER_LOG_AUDIT_SCHEMA, RUNTIME_MASTER_LOG_RECORD_SCHEMA,
-};
+use adl_runtime_kernel::{RUNTIME_MASTER_LOG_AUDIT_SCHEMA, RUNTIME_MASTER_LOG_RECORD_SCHEMA};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use time::{format_description::well_known::Rfc3339, OffsetDateTime};
@@ -409,7 +407,7 @@ fn prune_rotated_files(path: &Path, retain: usize) -> std::io::Result<()> {
     Ok(())
 }
 
-pub(super) fn absolute_path(path: &Path) -> std::io::Result<PathBuf> {
+pub(crate) fn absolute_path(path: &Path) -> std::io::Result<PathBuf> {
     if path.is_absolute() {
         Ok(path.to_path_buf())
     } else {
@@ -417,7 +415,7 @@ pub(super) fn absolute_path(path: &Path) -> std::io::Result<PathBuf> {
     }
 }
 
-pub(super) fn vector_path(path: &Path) -> String {
+pub(crate) fn vector_path(path: &Path) -> String {
     let mut value = path.to_string_lossy().replace('\\', "/");
     if let Some(stripped) = value.strip_prefix("//?/") {
         value = stripped.to_owned();
