@@ -93,6 +93,8 @@ pub use feeds::{
     ObservatoryFeed, ObservatoryHealthFeed, ObservatoryProofFeed, ObservatoryWeatherFreshness,
     RuntimeReadinessReport, RUNTIME_READINESS_SCHEMA,
 };
+#[cfg(test)]
+use replay::ACIP_MAX_SEQUENCE_ADVANCE;
 use replay::{
     commit_replay_sequence, reserve_replay_sequence, rollback_replay_sequence, AcipReplayDomain,
     AcipReplayState, AcipSequenceReservation,
@@ -3228,6 +3230,7 @@ mod layer8_conversation_ingress_tests {
         CommunicationVerifyingDescriptor, ConversationAuthorityProfile, ConversationSigningProfile,
         Layer8AuthorityStore, Layer8Capability, Layer8Policy, RuntimeIdentityEvidence,
     };
+    use crate::{AgentRosterPolicy, ComponentId, RunningState};
 
     struct FakeLifecycle;
 

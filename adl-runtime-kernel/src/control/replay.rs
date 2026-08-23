@@ -1,6 +1,6 @@
 use std::collections::{BTreeMap, BTreeSet};
 
-const ACIP_MAX_SEQUENCE_ADVANCE: u64 = 1_000_000;
+pub(super) const ACIP_MAX_SEQUENCE_ADVANCE: u64 = 1_000_000;
 
 #[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd)]
 pub(super) struct AcipReplayDomain {
