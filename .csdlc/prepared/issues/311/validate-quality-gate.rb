@@ -791,12 +791,12 @@ def validate_complete_packet(matrix, errors)
     errors << "packet:lane:#{name}:log_digest_mismatch" unless path && lane["sha256"] == sha256(ROOT / path)
   end
   errors << "packet:lane:semantic:gate_result_mismatch" unless lane_by_name.dig("semantic-quality-matrix", "gate_result") == result
-  errors << "packet:lane:negative:cases_mismatch" unless lane_by_name.dig("quality-negative-suite", "cases") == 65
+  errors << "packet:lane:negative:cases_mismatch" unless lane_by_name.dig("quality-negative-suite", "cases") == 76
 
   semantic_log = JSON.parse((ROOT / lane_by_name.dig("semantic-quality-matrix", "log")).read)
   negative_log = JSON.parse((ROOT / lane_by_name.dig("quality-negative-suite", "log")).read)
   errors << "packet:semantic_log_mismatch" unless semantic_log["status"] == "passed" && semantic_log["rows"] == 33 && semantic_log["blocked_rows"] == blocked_rows.length && semantic_log["gate_result"] == result && semantic_log["candidate_source_sha"] == candidate && semantic_log["candidate_source_tree"] == candidate_tree
-  errors << "packet:negative_log_mismatch" unless negative_log["schema"] == "adl.v0.92.quality_gate_negative_suite.v2" && negative_log["status"] == "passed" && negative_log["cases"] == 65 && negative_log["authority_substitution_ignored"] == true && negative_log["candidate_source_sha"] == candidate && negative_log["candidate_source_tree"] == candidate_tree
+  errors << "packet:negative_log_mismatch" unless negative_log["schema"] == "adl.v0.92.quality_gate_negative_suite.v2" && negative_log["status"] == "passed" && negative_log["cases"] == 76 && negative_log["authority_substitution_ignored"] == true && negative_log["candidate_source_sha"] == candidate && negative_log["candidate_source_tree"] == candidate_tree
   diff_log = ROOT / lane_by_name.dig("docs-schema-diff", "log")
   errors << "packet:diff_log_not_clean" unless diff_log.read.empty?
 

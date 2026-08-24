@@ -14,10 +14,10 @@
     {"name": "docs-schema-diff", "result": "passed", "log": ".csdlc/evidence/311/docs-schema-diff.log", "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"}
   ],
   "artifacts": {
-    "validator_sha256": "f9dad3e50464891470225d692dc8214ef3aafb2a3af30b9852f04f04817e831b",
+    "validator_sha256": "56145114c9282901451180d5056120499a257a04a5bfb51afef62f2cb3cf2e25",
     "negative_suite_sha256": "6739a78b648067c304243dad70bc738ba566371f807df13b1d279f3b5dadfd01",
     "matrix_sha256": "05fc542d34e2d4019c0a987e0cde101cfafa75570c5131acc5cdf0573c825949",
-    "gate_record_sha256": "156b1e0d687eb289a2626a31f3c82042df68d881e79e0ff26840fde16e5b0bf4",
+    "gate_record_sha256": "92e72d342c5405242a5e3ddb839e238fbf39eba03cabc7dace744cfcc8374cec",
     "blocker_report_sha256": "32c51d7465a455bcae4394472720b25251de3dba0b43075af013f5b0311fa48a",
     "semantic_log_sha256": "0c8d082136e6aab718c6d2952c745f91432f3fa55ceb865e0709442deb251cb8",
     "negative_log_sha256": "aa8f3bdbb2ceaa445a276775a0742e1b1a036af628bb9741d24bd23787dda65f",
