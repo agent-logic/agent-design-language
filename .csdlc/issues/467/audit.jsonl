@@ -6,3 +6,4 @@
 {"sequence":6,"generation":4,"actor":"codex:/root/issue467_quality_gate_fix","reason":"atomically record execution, validation, and implemented phase","operation":"finalize_implementation"}
 {"sequence":7,"generation":4,"actor":"codex:/root/issue467_quality_gate_fix","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":8,"generation":5,"actor":"fresh-session:bc87db90-6f30-4e8e-a391-3a353eb9f95e","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":9,"generation":6,"actor":"codex:/root/issue467_quality_gate_fix","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

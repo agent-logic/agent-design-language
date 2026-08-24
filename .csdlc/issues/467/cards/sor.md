@@ -103,11 +103,11 @@ Implemented the #467 corrective v0.92 quality-gate hydration packet, validator, 
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
