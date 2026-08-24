@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Executed the canonical v0.92 quality gate after #310 recordless terminal reconciliation, live-main ancestry verification, and exact branch-worktree cleanup. The exact 13-feature plus 20-critical-path denominator validates, all 33 rows remain truthful release blockers, downstream unlock is false, and no alternate matrix can emit release authority.
+Executed the canonical v0.92 quality gate after #310 recordless terminal reconciliation, live issue and merged-PR closure verification, live-main ancestry verification, and exact branch-worktree cleanup. The exact 13-feature plus 20-critical-path denominator validates, all 33 rows remain truthful release blockers, downstream unlock is false, and no alternate matrix can emit release authority.
 
 ## Artifacts
 
@@ -27,13 +27,11 @@ Executed the canonical v0.92 quality gate after #310 recordless terminal reconci
 
 ## Execution
 
-- Removed the public alternate-matrix release path; production validation accepts only the canonical packet, while row mutation tests use an isolated non-release function.
-- Replaced generic proof parsing with an explicit reviewed canonical-row profile that binds exact issue, implementation paths, proof paths, test targets and denominators, denial claims, audit features, and ancestral source revisions; unprofiled rows fail closed.
-- Added GitHub-compatible branch-pattern evaluation, exclusion handling, all-page discovery, filter=all check enumeration, timestamp-based newest-run selection, and ambiguous-latest denial.
-- Pinned /usr/bin/git and sanitized all inherited GIT_* authority plus PATH and Git config inputs before repository, object, topology, remote, and worktree observations.
-- Bound the packet, gate, logs, and receipt to exact candidate source commit 9b43fc535e864155b7c97b0e1b266c0787875bde and tree 181093683ad06a62f5b6fc2469791f685cc11ce3, with exact post-source path and dirty-state denial.
-- Expanded the adversarial suite to 58 cases, including wildcard/excluded/unsupported rulesets and real Git/PATH/config/object substitution attempts.
-- Pinned the approved candidate source SHA/tree as validator constants, rejected all same-time check-run ties, and applied the sanitized authority environment to stable C-SDLC terminal subprocesses.
+- Re-observed canonical issue #310 and PR #465 during prerequisite validation, requiring closed/completed issue state, merged main PR, exact head and merge identities, and canonical closing linkage.
+- Made live GitHub authority use a direct non-proxy connection and the OpenSSL installation's fixed system trust locations, ignoring caller-controlled proxy and TLS trust environment variables.
+- Paginated GraphQL closing issue references through every cursor with cursor-stall denial.
+- Expanded the adversarial suite to 76 cases, including reopened #310, every mismatched PR identity, missing closing linkage, hostile proxy/custom-CA substitution, and linkage beyond the first 100 results.
+- Retained the pinned candidate source SHA/tree, canonical-only execution path, row-specific proof profiles, sanitized Git/C-SDLC authority, complete ruleset semantics, and ambiguous-check denial.
 
 ## Validation
 
@@ -44,7 +42,7 @@ Executed the canonical v0.92 quality gate after #310 recordless terminal reconci
       ".csdlc/prepared/issues/311/validate-quality-gate.rb",
       "matrix"
     ],
-    "purpose": "Validate the canonical 33-row denominator, #310 prerequisite, candidate source identity, and complete retained packet atomically.",
+    "purpose": "Validate the canonical 33-row denominator, live #310 prerequisite, pinned candidate source identity, and complete retained packet atomically.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/311/semantic-quality-matrix.log"
   },
@@ -53,7 +51,7 @@ Executed the canonical v0.92 quality gate after #310 recordless terminal reconci
       "ruby",
       ".csdlc/prepared/issues/311/test-validate-quality-gate.rb"
     ],
-    "purpose": "Run the real canonical accepted control and 65 adversarial authority, semantic, routing, tie, candidate-rebinding, and substitution cases.",
+    "purpose": "Run the real canonical accepted control and 76 adversarial authority, semantic, routing, tie, candidate-rebinding, proxy/TLS-substitution, live-closure, and pagination cases.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/311/quality-negative-suite.log"
   },
