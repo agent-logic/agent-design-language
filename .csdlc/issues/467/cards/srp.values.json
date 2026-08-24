@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-22A] Repair quality-gate evidence hydration and release-credit semantics",
     "slug": "v092-wp22a-quality-gate-evidence-hydration",
     "version": "v0.92",
-    "generation": 4
+    "generation": 5
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/prepared/issues/467\n.csdlc/evidence/467\ndocs/reviews/v0.92/quality-gate-467\ndocs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md\ndocs/milestones/v0.92/QUALITY_GATE_v0.92.md\ndocs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/467\n.csdlc/prepared/issues/467\n.csdlc/evidence/467\ndocs/reviews/v0.92/quality-gate-467\ndocs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md\ndocs/milestones/v0.92/QUALITY_GATE_v0.92.md\ndocs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md",
+      "review_revision": "git-blake3:3e03769a1c81539f8952dfa1bc3baab4b93e9964:46277af45d48ff6384e9db354f07118836eb807172da41df1322fd624ed8ac65",
+      "reviewer": "fresh-session:bc87db90-6f30-4e8e-a391-3a353eb9f95e",
       "review_prompts": [
         "Does the generator deterministically discover and hydrate all 33 canonical rows without defaulting to packet-missing blockers?",
         "Do accepted rows carry exact repository, PR, merge, ancestry, check, proof, claim-boundary, and terminal authority evidence?",
@@ -24,8 +24,10 @@
         "Do corrected docs and evidence agree without rewriting #311 history or unlocking downstream work beyond concrete accepted rows?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The quality gate intentionally remains blocked: 30 rows lack canonical accepted release-credit evidence and downstream work must not treat #467 as a release unlock."
+      ],
+      "review_result": "pass"
     }
   }
 }

@@ -12,6 +12,7 @@ Status: pre_phase
 
 ## Scope
 
+.csdlc/issues/467
 .csdlc/prepared/issues/467
 .csdlc/evidence/467
 docs/reviews/v0.92/quality-gate-467
@@ -37,12 +38,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The quality gate intentionally remains blocked: 30 rows lack canonical accepted release-credit evidence and downstream work must not treat #467 as a release unlock.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:3e03769a1c81539f8952dfa1bc3baab4b93e9964:46277af45d48ff6384e9db354f07118836eb807172da41df1322fd624ed8ac65")
 
-Reviewer: None
+Reviewer: Some("fresh-session:bc87db90-6f30-4e8e-a391-3a353eb9f95e")
 
-Result: pre_review
+Result: pass
