@@ -1,10 +1,10 @@
 {
-  "schema": "adl.v0.92.quality_gate_validation_receipt.v3",
+  "schema": "adl.v0.92.quality_gate_validation_receipt.v4",
   "issue": 467,
-  "matrix_sha256": "51123ec190151a11fa44c88e0beafaf5fab6b8b37a4da418c5b664a1c77c2af6",
-  "gate_sha256": "d9d80b2e94f2cedd79979a58166bbdce5bff6693e15fe79fa3e921d4db1e527a",
-  "validator_sha256": "f1d9aa1a24df0ee5b847c1c8164f0114e5c7ad04bae8fed7fe82b925d3bd0c71",
-  "blocker_report_sha256": "f4200f6ea4cd982447e3b2f69f645b340d44d9902fdbd0c5616f8aa938beb437",
+  "matrix_sha256": "92f6f0babaa26ddb07484dfdd4d786be40b2e6bccc5400ceaa7c9f761f62a7fd",
+  "gate_sha256": "c782b83eb08f12dabb0476d2742316d431e44426ed09aa7c25695cbb644f824d",
+  "validator_sha256": "575f89674dc39588f8529692e7c7d28396f52bb4ef4af7b06d2dbd9dccc0ab0f",
+  "blocker_report_sha256": "886fb1c971afbaf6c158f3a80568077d212d0ee71dfe5a605de53bc0fc04d270",
   "quality_gate_result": "passed",
   "downstream_unlock": true,
   "denominator": {

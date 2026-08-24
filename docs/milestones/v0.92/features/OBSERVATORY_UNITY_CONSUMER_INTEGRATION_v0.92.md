@@ -2,8 +2,11 @@
 
 ## Status
 
-Planned for WP-18A after the Runtime API, ACIP/WSS contract, and first-birthday
-proof surfaces are available. The Observatory remains a separate application.
+Explicitly removed from the `v0.92` completion claim by operator scope authority.
+Remaining Unity work is owned by backlog issue `#84`; its public exposure
+dependency `#122` is scheduled for `v0.92.1`, while TLS 1.2 dependency `#251`
+remains backlog. The Observatory remains a separate application. This document
+is retained as the later-work contract, not as a planned `v0.92` deliverable.
 
 ## Purpose
 
@@ -29,10 +32,13 @@ inside Runtime v3.
 
 ## Proof
 
-WP-18A must run both clients against the actual Runtime API and WSS stream,
+When `#84` is executed, it must run both clients against the actual Runtime API and WSS stream,
 exercise reads and authenticated writes, prove redaction and refusal cases,
 verify reconnect after Guardian-owned restart, and retain browser plus native
 Unity evidence without fixture substitution.
+
+No part of this proof is required for `v0.92` release credit. `#84`, `#122`,
+and `#251` remain authoritative for later execution.
 
 ## Non-Goals
 
