@@ -12,7 +12,12 @@ Status: pre_phase
 
 ## Scope
 
-Complete feature and supporting-critical-path denominator; canonical/legacy repository authority separation; semantic positive validation and forged-evidence negatives; all row dispositions and blocker/downstream semantics; exact changed-path and retained-evidence truth.
+.csdlc/issues/311
+.csdlc/prepared/issues/311
+.csdlc/evidence/311
+docs/milestones/v0.92/QUALITY_GATE_v0.92.md
+docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md
+docs/reviews/v0.92/quality-gate-311
 
 ## Prompts
 
@@ -24,7 +29,28 @@ Complete feature and supporting-critical-path denominator; canonical/legacy repo
 
 ## Findings
 
-[]
+[
+  {
+    "id": "311-R1-P1-ACCEPTED-AUTHORITY",
+    "severity": "p1",
+    "summary": "Accepted rows did not independently authenticate typed terminal, GitHub, review, check, implementation-path, and proof-artifact authority.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "311-R1-P1-NEGATIVE-DENOMINATOR",
+    "severity": "p1",
+    "summary": "The negative suite did not independently exercise every forged-evidence class promised by the design.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  }
+]
 
 ## Dispositions
 
@@ -36,8 +62,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:02f86001a1936bf2e333f58e843e49fd9028cdaf:337195baca0d96511375a3b5ff2d54578d48f7a0f50d6df85c16194b20b8f6b5")
 
-Reviewer: None
+Reviewer: Some("fresh-session:3c216425-3a6e-47e4-a2d8-f11d4e0495aa")
 
-Result: pre_review
+Result: changes_required

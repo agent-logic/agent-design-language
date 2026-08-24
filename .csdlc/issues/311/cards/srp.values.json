@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-22] Quality gate",
     "slug": "311-v092-quality-gate",
     "version": "v0.92",
-    "generation": 7
+    "generation": 9
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Complete feature and supporting-critical-path denominator; canonical/legacy repository authority separation; semantic positive validation and forged-evidence negatives; all row dispositions and blocker/downstream semantics; exact changed-path and retained-evidence truth.",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/311\n.csdlc/prepared/issues/311\n.csdlc/evidence/311\ndocs/milestones/v0.92/QUALITY_GATE_v0.92.md\ndocs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md\ndocs/reviews/v0.92/quality-gate-311",
+      "review_revision": "git-blake3:02f86001a1936bf2e333f58e843e49fd9028cdaf:337195baca0d96511375a3b5ff2d54578d48f7a0f50d6df85c16194b20b8f6b5",
+      "reviewer": "fresh-session:3c216425-3a6e-47e4-a2d8-f11d4e0495aa",
       "review_prompts": [
         "Does the matrix enumerate every indexed v0.92 feature and required supporting critical path exactly once?",
         "Does each accepted row independently prove repository identity, implementation, review, merge, ancestry, validation, negative, integration, platform, and typed-terminal truth?",
@@ -23,9 +23,30 @@
         "Does any unresolved blocker incorrectly unlock WP-23, WP-25, or a release claim?",
         "Are all changed paths within #311 ownership and all dependency work read-only?"
       ],
-      "findings": [],
+      "findings": [
+        {
+          "id": "311-R1-P1-ACCEPTED-AUTHORITY",
+          "severity": "p1",
+          "summary": "Accepted rows did not independently authenticate typed terminal, GitHub, review, check, implementation-path, and proof-artifact authority.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        },
+        {
+          "id": "311-R1-P1-NEGATIVE-DENOMINATOR",
+          "severity": "p1",
+          "summary": "The negative suite did not independently exercise every forged-evidence class promised by the design.",
+          "actionable": true,
+          "in_scope": true,
+          "disposition": "open",
+          "fix_revision": null,
+          "route": null
+        }
+      ],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "changes_required"
     }
   }
 }

@@ -16,9 +16,16 @@ DEFAULT_REPORT = ROOT / "docs/reviews/v0.92/quality-gate-311/blocker-report.md"
 ALLOWED_DISPOSITIONS = %w[accepted blocked].freeze
 PROHIBITED_AUTHORITY = %w[fixture receipt_only demo synthetic substituted_provider self_asserted_json].freeze
 REQUIRED_ACCEPTED_EVIDENCE = %w[
-  implementation_paths reviewed_head pull_request merge_sha positive negative integration
+  repository issue implementation_paths reviewed_head pull_request merge_sha positive negative integration
   platform typed_terminal review_artifact required_checks
 ].freeze
+REPOSITORY = "agent-logic/agent-design-language"
+PROOF_CLASSES = %w[positive negative integration platform].freeze
+CANONICAL_REQUIRED_CHECKS = %w[
+  adl-ci adl-coverage adl-coverage-hosted adl-coverage-runtime-hosted
+  adl-coverage-workspace-hosted adl-tooling-contracts adl-rust-fmt-clippy
+  adl-rust-tests adl-path-policy
+].sort.freeze
 
 def run_git(*argv)
   stdout, stderr, status = Open3.capture3("git", "-C", ROOT.to_s, *argv)
@@ -75,6 +82,84 @@ def validate_hex(value, length, label, errors)
   errors << "#{label}:invalid" unless value.is_a?(String) && value.match?(/\A[0-9a-f]{#{length}}\z/)
 end
 
+def retained_json(value, label, errors)
+  unless value.is_a?(Hash) && value.keys.sort == %w[path sha256]
+    errors << "#{label}:reference_invalid"
+    return nil
+  end
+  relative = value["path"]
+  unless relative.is_a?(String) && !relative.start_with?("/") && !Pathname.new(relative).each_filename.include?("..")
+    errors << "#{label}:path_invalid"
+    return nil
+  end
+  path = ROOT / relative
+  unless path.file?
+    errors << "#{label}:missing"
+    return nil
+  end
+  validate_hex(value["sha256"], 64, "#{label}:sha256", errors)
+  errors << "#{label}:digest_mismatch" unless value["sha256"] == sha256(path)
+  JSON.parse(path.read)
+rescue JSON::ParserError
+  errors << "#{label}:json_invalid"
+  nil
+end
+
+def canonical_terminal(issue, errors)
+  bin_dir = ENV["CSDLC_V2_BIN_DIR"]
+  unless bin_dir && Pathname.new(bin_dir).absolute?
+    errors << "typed_terminal_owner_missing"
+    return nil
+  end
+  installer = Pathname.new(bin_dir) / "csdlc-install"
+  owner = Pathname.new(bin_dir) / "csdlc-finish"
+  unless installer.file? && owner.file?
+    errors << "typed_terminal_owner_missing"
+    return nil
+  end
+  resolved, resolved_status = Open3.capture2e(installer.to_s, "resolve", "--repo", ROOT.to_s, "--issue", issue.to_s)
+  unless resolved_status.success? && resolved.strip == '"v2"'
+    errors << "typed_terminal_owner_not_v2"
+    return nil
+  end
+  stdout, owner_status = Open3.capture2e(owner.to_s, "--root", ROOT.to_s, "--validate-cached-issue", issue.to_s)
+  unless owner_status.success?
+    errors << "typed_terminal_validation_failed"
+    return nil
+  end
+  receipt = JSON.parse(stdout)
+  unless receipt["schema"] == "csdlc.derived_terminal_validation.v1" && receipt["canonical_match"] == true
+    errors << "typed_terminal_noncanonical"
+    return nil
+  end
+  receipt["terminal"]
+rescue JSON::ParserError
+  errors << "typed_terminal_output_invalid"
+  nil
+end
+
+def live_github(pr, errors)
+  gh = ENV.fetch("QUALITY_GATE_GH_BIN", "gh")
+  stdout, stderr, status = Open3.capture3(gh, "pr", "view", pr.to_s, "--repo", REPOSITORY,
+    "--json", "number,state,headRefOid,mergeCommit,closingIssuesReferences,statusCheckRollup")
+  unless status.success?
+    errors << "github_observation_failed:#{stderr.strip}"
+    return nil
+  end
+  JSON.parse(stdout)
+rescue JSON::ParserError
+  errors << "github_observation_invalid"
+  nil
+end
+
+def validate_proof(proof_ref, proof_class, reviewed_head, row_id, errors)
+  proof = retained_json(proof_ref, "#{row_id}:#{proof_class}", errors)
+  return unless proof
+  expected = { "schema" => "adl.v0.92.quality_gate_proof.v1", "class" => proof_class,
+               "result" => "passed", "revision" => reviewed_head }
+  expected.each { |key, value| errors << "#{row_id}:#{proof_class}:#{key}_mismatch" unless proof[key] == value }
+end
+
 def validate_accepted(row, errors)
   evidence = row["evidence"]
   unless evidence.is_a?(Hash)
@@ -89,8 +174,15 @@ def validate_accepted(row, errors)
 
   validate_hex(evidence["reviewed_head"], 40, "#{row['id']}:reviewed_head", errors)
   validate_hex(evidence["merge_sha"], 40, "#{row['id']}:merge_sha", errors)
+  errors << "#{row['id']}:repository_mismatch" unless evidence["repository"] == REPOSITORY
+  errors << "#{row['id']}:issue_invalid" unless evidence["issue"].is_a?(Integer) && evidence["issue"].positive?
+  errors << "#{row['id']}:pull_request_invalid" unless evidence["pull_request"].is_a?(Integer) && evidence["pull_request"].positive?
+  unless evidence["implementation_paths"].is_a?(Array) && !evidence["implementation_paths"].empty? &&
+      evidence["implementation_paths"].all? { |path| path.is_a?(String) && !path.start_with?("/") && !Pathname.new(path).each_filename.include?("..") }
+    errors << "#{row['id']}:implementation_paths_invalid"
+  end
   terminal = evidence["typed_terminal"]
-  unless terminal.is_a?(Hash) && terminal["generation"].is_a?(Integer) && terminal["generation"].positive?
+  unless terminal.is_a?(Hash) && terminal.keys.sort == %w[cache digest generation] && terminal["generation"].is_a?(Integer) && terminal["generation"].positive?
     errors << "#{row['id']}:typed_terminal_generation_invalid"
   end
   validate_hex(terminal.is_a?(Hash) ? terminal["digest"] : nil, 64, "#{row['id']}:typed_terminal_digest", errors)
@@ -103,10 +195,46 @@ def validate_accepted(row, errors)
   begin
     run_git("cat-file", "-e", "#{evidence['reviewed_head']}^{commit}")
     run_git("cat-file", "-e", "#{evidence['merge_sha']}^{commit}")
+    evidence["implementation_paths"].each { |path| run_git("cat-file", "-e", "#{evidence['reviewed_head']}:#{path}") }
+    _stdout, _stderr, status = Open3.capture3("git", "-C", ROOT.to_s, "merge-base", "--is-ancestor", evidence["reviewed_head"], evidence["merge_sha"])
+    errors << "#{row['id']}:reviewed_head_not_merged" unless status.success?
     _stdout, _stderr, status = Open3.capture3("git", "-C", ROOT.to_s, "merge-base", "--is-ancestor", evidence["merge_sha"], "HEAD")
     errors << "#{row['id']}:merge_not_ancestral" unless status.success?
   rescue StandardError
     errors << "#{row['id']}:git_identity_unresolvable"
+  end
+
+  terminal_cache = terminal.is_a?(Hash) ? retained_json(terminal["cache"], "#{row['id']}:typed_terminal_cache", errors) : nil
+  canonical = evidence["issue"].is_a?(Integer) ? canonical_terminal(evidence["issue"], errors) : nil
+  if terminal_cache && canonical
+    %w[issue pull_request head_sha merge_sha canonical_generation canonical_digest].each do |key|
+      expected = { "issue" => evidence["issue"], "pull_request" => evidence["pull_request"],
+        "head_sha" => evidence["reviewed_head"], "merge_sha" => evidence["merge_sha"],
+        "canonical_generation" => terminal["generation"], "canonical_digest" => terminal["digest"] }[key]
+      errors << "#{row['id']}:typed_terminal:#{key}_mismatch" unless canonical[key] == expected && terminal_cache.dig("terminal", key) == expected
+    end
+    errors << "#{row['id']}:typed_terminal_cache_noncanonical" unless terminal_cache["canonical_match"] == true
+  end
+
+  review = retained_json(evidence["review_artifact"], "#{row['id']}:review_artifact", errors)
+  if review
+    expected = { "schema" => "adl.v0.92.quality_gate_review.v1", "result" => "passed",
+      "repository" => REPOSITORY, "issue" => evidence["issue"], "pull_request" => evidence["pull_request"],
+      "reviewed_head" => evidence["reviewed_head"], "findings" => [] }
+    expected.each { |key, value| errors << "#{row['id']}:review_artifact:#{key}_mismatch" unless review[key] == value }
+  end
+  PROOF_CLASSES.each { |proof_class| validate_proof(evidence[proof_class], proof_class, evidence["reviewed_head"], row["id"], errors) }
+
+  live = evidence["pull_request"].is_a?(Integer) ? live_github(evidence["pull_request"], errors) : nil
+  if live
+    errors << "#{row['id']}:github_pr_not_merged" unless live["state"] == "MERGED"
+    errors << "#{row['id']}:github_reviewed_head_mismatch" unless live["headRefOid"] == evidence["reviewed_head"]
+    errors << "#{row['id']}:github_merge_sha_mismatch" unless live.dig("mergeCommit", "oid") == evidence["merge_sha"]
+    closing = Array(live["closingIssuesReferences"]).map { |item| item["number"] }
+    errors << "#{row['id']}:github_closing_link_missing" unless closing.include?(evidence["issue"])
+    checks = Array(live["statusCheckRollup"]).to_h { |item| [item["name"] || item["context"], item["conclusion"] || item["state"]] }
+    errors << "#{row['id']}:required_checks_not_canonical" unless Array(evidence["required_checks"]).sort == CANONICAL_REQUIRED_CHECKS
+    CANONICAL_REQUIRED_CHECKS.each { |name| errors << "#{row['id']}:required_check_not_successful:#{name}" unless checks[name] == "SUCCESS" }
   end
 end
 

@@ -5,12 +5,60 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b86263883d2f9fb6ce7d5fa5190ca61881a7d49a954bbe46c134b8c3aa9da98c",
   "phase": "implemented",
-  "generation": 7,
-  "digest": "92d064379992490b3d4e4e104016ba2e34180fda2842ae24cae7390cd736db86",
+  "generation": 9,
+  "digest": "b38e13d97d803b63531227b072526e5b30da185de17a64d7bbe0d04b4f8d9e65",
   "branch": "codex/311-v092-quality-gate",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-311-v092-quality-gate",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:3c216425-3a6e-47e4-a2d8-f11d4e0495aa",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:02f86001a1936bf2e333f58e843e49fd9028cdaf:337195baca0d96511375a3b5ff2d54578d48f7a0f50d6df85c16194b20b8f6b5",
+    "scope": [
+      ".csdlc/issues/311",
+      ".csdlc/prepared/issues/311",
+      ".csdlc/evidence/311",
+      "docs/milestones/v0.92/QUALITY_GATE_v0.92.md",
+      "docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md",
+      "docs/reviews/v0.92/quality-gate-311"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:3c216425-3a6e-47e4-a2d8-f11d4e0495aa",
+    "scope": [
+      ".csdlc/issues/311",
+      ".csdlc/prepared/issues/311",
+      ".csdlc/evidence/311",
+      "docs/milestones/v0.92/QUALITY_GATE_v0.92.md",
+      "docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md",
+      "docs/reviews/v0.92/quality-gate-311"
+    ],
+    "reviewed_revision": "git-blake3:02f86001a1936bf2e333f58e843e49fd9028cdaf:337195baca0d96511375a3b5ff2d54578d48f7a0f50d6df85c16194b20b8f6b5",
+    "findings": [
+      {
+        "id": "311-R1-P1-ACCEPTED-AUTHORITY",
+        "severity": "p1",
+        "summary": "Accepted rows did not independently authenticate typed terminal, GitHub, review, check, implementation-path, and proof-artifact authority.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "311-R1-P1-NEGATIVE-DENOMINATOR",
+        "severity": "p1",
+        "summary": "The negative suite did not independently exercise every forged-evidence class promised by the design.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      }
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,34 +73,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9c99be3f2f4d04e5548e4160510ffe89384cbff98f127f29c3469d39b3995bd1",
+      "values_digest": "4a3dfe73f229c5e53f789a1bf3b7376ea73094c4bf4bc3c27e328458df5d58b7",
       "rendered_digest": "b1c0911fc6a227d0ba229185e1c36e858733223971a364604a99b92eb0a352d5",
       "ast_digest": "8a2e49295edbd23107ac83440b809a31e649dd5ebb23869f3af17fad3b4518f4"
     },
     "stp": {
-      "values_digest": "3b46b869f39862e1b5b3faeeb8760bc94774d1fd2f966b503f1bd883bedea421",
+      "values_digest": "e3ee93e6c8ff2b2ea77f4d7d9151c602bc0abda5b31f67a4a2bb23a659aaf9a1",
       "rendered_digest": "f793cb9183e8527acec0fd8cf26e1997d079d599d791ddb1f03996e9b92209a2",
       "ast_digest": "50869a8bb645edaa6aa3d4555ec1318a1dc733fd95ae0860a5d245e58e4172eb"
     },
     "spp": {
-      "values_digest": "01b6a4ec2c2a91566d2990d60781277dee58d298155760a2fe641f10ba5ed29a",
+      "values_digest": "3a7334590cebdac80097f2ee34ce46817f7e0c48c00fb07ec3e817f22d022ad0",
       "rendered_digest": "5cd73cd5c1f4b04e2840e6685840923c1941d3a0768ac7cf6ddd6928fcac77b0",
       "ast_digest": "7b0e641d0f7253dcddb9228a1b3ceb904085bd7fb60de1cab95bf3121c685a76"
     },
     "vpp": {
-      "values_digest": "0ae74dc5c796060e88c06d9d224d04f5c07893d7e2426265123d3570c11e60f0",
+      "values_digest": "3b526aac88be773a0ebc8d7906e10778dd16ea7e18748fe0028c24aa7a9dc268",
       "rendered_digest": "4d5f3ec18d5fcc530c196e13f96fa69febc401a60d9c82528f820028e7dd7831",
       "ast_digest": "0db9710fa2f00ec2cd4017d2b1ae36ce10af870e419b31a8376556f09b10a411"
     },
     "srp": {
-      "values_digest": "3a325611d9e9d5bd0c2ae9935c6a6deb4ba8abfe497f2f7cf606b2d6784ff305",
-      "rendered_digest": "fa2dfd32ea7c805236b5bed747e3a66945639aab2d410c9171de3ba8285e292b",
-      "ast_digest": "fa8f50fc63b93a9cfc5d3554cefdc1f2f687d70e5c234f3da989478f6ec8fdbb"
+      "values_digest": "f27f2347c7e1c4dd8e11dabee6e6cdec52e265d5693dc31559929f637f1152ec",
+      "rendered_digest": "dac0723fee88b673037b0b7f56ffdcff7905235eb4fbd4784a06b775c0bfe07f",
+      "ast_digest": "84641bec07f1336aacd64d11819ee49dd4ccdce66a7eec42597341d2dfa5d075"
     },
     "sor": {
-      "values_digest": "83f111a7bdda61f1e1ed48403c2073ff61e93aea638bcf67f29b19c39e392c41",
-      "rendered_digest": "2987fbb614974a8826f1d9e118b1494dc7bb8870a784d4cfba1de9b7e54c7f84",
-      "ast_digest": "e06dd3a5a0f9031ec0558b0b7759057faf9cfa8299ea9a48024ca9390d38db4c"
+      "values_digest": "1dcd583034735e395ecfaee61cf4bb295a45409a59799399b7ac4849473bf098",
+      "rendered_digest": "d48f3fb48bda8afe63022d843f8f243cea8d892b402dfffaff6a9bd8963d1899",
+      "ast_digest": "3bb93a1012aa2fc942f4f3beb56733e2372d13a3487eefe0bca2c6b959d61e47"
     }
   },
   "transitions": [
@@ -141,6 +189,27 @@
       "actor": "codex:/root",
       "reason": "Normalize implemented WP-22 execution truth to the exact approved path set after removing an out-of-scope source-document edit.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Executed the canonical v0.92 quality gate over 13 indexed feature contracts and 20 supporting AEE critical paths; structural validation passed, all 33 rows remain release blockers, and downstream unlock is false.\",\"changes\":[\"Added a deterministic denominator generator and fail-closed matrix validator for issue #311.\",\"Added eight negative cases for missing, duplicate, extra, stale, invalid, blockerless, self-attested, and unresolvable evidence.\",\"Generated the 33-row matrix, gate record, findings-first blocker report, and retained validation receipt.\",\"Updated only the approved v0.92 quality-gate and execution-readiness documents; coverage remains read-only input.\"],\"artifacts\":[\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\",\".csdlc/evidence/311/validation.json\",\"docs/reviews/v0.92/quality-gate-311/feature-completion-matrix.json\",\"docs/reviews/v0.92/quality-gate-311/quality-gate-record.json\",\"docs/reviews/v0.92/quality-gate-311/blocker-report.md\",\"docs/milestones/v0.92/QUALITY_GATE_v0.92.md\",\"docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\"matrix\"],\"purpose\":\"Validate exact denominator and dispositions.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/semantic-quality-matrix.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\"],\"purpose\":\"Reject forged and incomplete evidence.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/quality-negative-suite.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/docs-schema-diff.log\"}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Record the bounded R1 remediation: authenticate every accepted-row authority and expand the independent forged-evidence denominator.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Executed the canonical v0.92 quality gate over 13 indexed feature contracts and 20 supporting AEE critical paths; structural validation passed, all 33 rows remain release blockers, downstream unlock is false, and the accepted-row path now fails closed on canonical GitHub, Git, typed-terminal, review, check, implementation-path, and proof-artifact authority.\",\"changes\":[\"Added a deterministic denominator generator and fail-closed matrix validator for issue #311.\",\"Authenticated accepted rows against stable typed terminal validation, retained digest-bound cache/review/proof artifacts, exact implementation paths, Git topology, and live GitHub closing/check truth.\",\"Expanded the negative suite to 21 cases, including a valid canonical control and independent stale-head, non-ancestral, fabricated-check, malformed-cache, cache-digest, cross-repository, missing-platform, prohibited-authority, review-digest, and implementation-path failures.\",\"Generated the 33-row matrix, gate record, findings-first blocker report, and retained validation receipt.\",\"Updated only the approved v0.92 quality-gate and execution-readiness documents; coverage remains read-only input.\"],\"artifacts\":[\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\",\".csdlc/evidence/311/validation.json\",\"docs/reviews/v0.92/quality-gate-311/feature-completion-matrix.json\",\"docs/reviews/v0.92/quality-gate-311/quality-gate-record.json\",\"docs/reviews/v0.92/quality-gate-311/blocker-report.md\",\"docs/milestones/v0.92/QUALITY_GATE_v0.92.md\",\"docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\"matrix\"],\"purpose\":\"Validate the exact 33-row denominator and fail-closed dispositions.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/semantic-quality-matrix.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\"],\"purpose\":\"Prove a valid canonical accepted control and reject 21 incomplete or forged authority cases.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/quality-negative-suite.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove exact candidate diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/docs-schema-diff.log\"}]}"
     }
   ]
 }
