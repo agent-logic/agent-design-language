@@ -3,8 +3,10 @@
 
 require "digest"
 require "json"
+require "net/http"
 require "open3"
 require "pathname"
+require "uri"
 
 ROOT = Pathname.new(ENV.fetch("QUALITY_GATE_ROOT", File.expand_path("../../../..", __dir__))).realpath
 FEATURE_INDEX = ROOT / "docs/milestones/v0.92/features/README.md"
@@ -16,22 +18,23 @@ DEFAULT_REPORT = ROOT / "docs/reviews/v0.92/quality-gate-311/blocker-report.md"
 ALLOWED_DISPOSITIONS = %w[accepted blocked].freeze
 PROHIBITED_AUTHORITY = %w[fixture receipt_only demo synthetic substituted_provider self_asserted_json].freeze
 REQUIRED_ACCEPTED_EVIDENCE = %w[
-  repository issue implementation_paths reviewed_head pull_request merge_sha positive negative integration
+  repository issue implementation_paths reviewed_head pr_head pull_request merge_sha positive negative integration
   platform typed_terminal review_artifact required_checks
 ].freeze
 REPOSITORY = "agent-logic/agent-design-language"
 PROOF_CLASSES = %w[positive negative integration platform].freeze
-CANONICAL_REQUIRED_CHECKS = %w[
-  adl-ci adl-coverage adl-coverage-hosted adl-coverage-runtime-hosted
-  adl-coverage-workspace-hosted adl-tooling-contracts adl-rust-fmt-clippy
-  adl-rust-tests adl-path-policy
-].sort.freeze
 
 def run_git(*argv)
   stdout, stderr, status = Open3.capture3("git", "-C", ROOT.to_s, *argv)
   raise "git #{argv.join(' ')} failed: #{stderr.strip}" unless status.success?
 
   stdout.strip
+end
+
+def run_git_bytes(*argv)
+  stdout, stderr, status = Open3.capture3("git", "-C", ROOT.to_s, *argv)
+  raise "git #{argv.join(' ')} failed: #{stderr.strip}" unless status.success?
+  stdout
 end
 
 def denominator
@@ -78,6 +81,10 @@ def sha256(path)
   Digest::SHA256.file(path).hexdigest
 end
 
+def sha256_bytes(value)
+  Digest::SHA256.hexdigest(value)
+end
+
 def validate_hex(value, length, label, errors)
   errors << "#{label}:invalid" unless value.is_a?(String) && value.match?(/\A[0-9a-f]{#{length}}\z/)
 end
@@ -105,14 +112,43 @@ rescue JSON::ParserError
   nil
 end
 
-def canonical_terminal(issue, errors)
-  bin_dir = ENV["CSDLC_V2_BIN_DIR"]
-  unless bin_dir && Pathname.new(bin_dir).absolute?
-    errors << "typed_terminal_owner_missing"
+def safe_relative(value, label, errors)
+  unless value.is_a?(String) && !value.start_with?("/") && !Pathname.new(value).each_filename.include?("..")
+    errors << "#{label}:path_invalid"
     return nil
   end
-  installer = Pathname.new(bin_dir) / "csdlc-install"
-  owner = Pathname.new(bin_dir) / "csdlc-finish"
+  value
+end
+
+def retained_blob(value, label, commit, errors)
+  unless value.is_a?(Hash) && value.keys.sort == %w[path sha256]
+    errors << "#{label}:reference_invalid"
+    return nil
+  end
+  relative = safe_relative(value["path"], label, errors)
+  return nil unless relative
+  validate_hex(value["sha256"], 64, "#{label}:sha256", errors)
+  begin
+    candidate_bytes = run_git_bytes("show", "#{commit}:#{relative}")
+    retained_bytes = run_git_bytes("show", "HEAD:#{relative}")
+    errors << "#{label}:candidate_digest_mismatch" unless sha256_bytes(candidate_bytes) == value["sha256"]
+    errors << "#{label}:retained_digest_mismatch" unless sha256_bytes(retained_bytes) == value["sha256"]
+    candidate_bytes
+  rescue StandardError
+    errors << "#{label}:blob_unresolvable"
+    nil
+  end
+end
+
+def stable_bin_dir
+  common = Pathname.new(run_git("rev-parse", "--git-common-dir")).realpath
+  common.parent / ".adl/bin/csdlc-v2"
+end
+
+def canonical_terminal(issue, errors)
+  bin_dir = stable_bin_dir
+  installer = bin_dir / "csdlc-install"
+  owner = bin_dir / "csdlc-finish"
   unless installer.file? && owner.file?
     errors << "typed_terminal_owner_missing"
     return nil
@@ -138,26 +174,108 @@ rescue JSON::ParserError
   nil
 end
 
-def live_github(pr, errors)
-  gh = ENV.fetch("QUALITY_GATE_GH_BIN", "gh")
-  stdout, stderr, status = Open3.capture3(gh, "pr", "view", pr.to_s, "--repo", REPOSITORY,
-    "--json", "number,state,headRefOid,mergeCommit,closingIssuesReferences,statusCheckRollup")
-  unless status.success?
-    errors << "github_observation_failed:#{stderr.strip}"
-    return nil
+def github_token
+  path = Pathname.new(ENV.fetch("ADL_GITHUB_TOKEN_FILE", File.join(Dir.home, "keys/github.token")))
+  raise "github_token_path_invalid" unless path.absolute? && path.file? && !path.symlink?
+  raise "github_token_permissions_invalid" unless (path.stat.mode & 0o077).zero?
+  token = path.read.strip
+  raise "github_token_empty" if token.empty?
+  token
+end
+
+def github_request(path, method: :get, body: nil)
+  uri = URI("https://api.github.com#{path}")
+  request = method == :post ? Net::HTTP::Post.new(uri) : Net::HTTP::Get.new(uri)
+  request["Authorization"] = "Bearer #{github_token}"
+  request["Accept"] = "application/vnd.github+json"
+  request["X-GitHub-Api-Version"] = "2022-11-28"
+  request["User-Agent"] = "adl-wp22-quality-gate"
+  if body
+    request["Content-Type"] = "application/json"
+    request.body = JSON.generate(body)
   end
-  JSON.parse(stdout)
-rescue JSON::ParserError
-  errors << "github_observation_invalid"
+  response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true, open_timeout: 10, read_timeout: 30) { |http| http.request(request) }
+  raise "github_http_#{response.code}" unless response.is_a?(Net::HTTPSuccess)
+  JSON.parse(response.body)
+end
+
+def live_github(pr, pr_head, errors)
+  query = <<~GRAPHQL
+    query($owner:String!, $name:String!, $number:Int!) {
+      repository(owner:$owner, name:$name) {
+        pullRequest(number:$number) {
+          number state merged baseRefName headRefOid mergeCommit { oid }
+          closingIssuesReferences(first:100) { nodes { number repository { nameWithOwner } } }
+        }
+      }
+    }
+  GRAPHQL
+  graph = github_request("/graphql", method: :post, body: { query: query, variables: { owner: "agent-logic", name: "agent-design-language", number: pr } })
+  raise "github_graphql_errors" unless Array(graph["errors"]).empty?
+  pull = graph.dig("data", "repository", "pullRequest")
+  checks = github_request("/repos/#{REPOSITORY}/commits/#{pr_head}/check-runs?per_page=100")
+  rulesets = github_request("/repos/#{REPOSITORY}/rulesets")
+  active = rulesets.select { |item| item["name"] == "main-protection" && item["enforcement"] == "active" && item["target"] == "branch" }
+  raise "github_main_ruleset_ambiguous" unless active.length == 1
+  ruleset = github_request("/repos/#{REPOSITORY}/rulesets/#{active.first.fetch('id')}")
+  [pull, checks, ruleset]
+rescue StandardError => error
+  errors << "github_observation_failed:#{error.message}"
   nil
 end
 
-def validate_proof(proof_ref, proof_class, reviewed_head, row_id, errors)
-  proof = retained_json(proof_ref, "#{row_id}:#{proof_class}", errors)
-  return unless proof
-  expected = { "schema" => "adl.v0.92.quality_gate_proof.v1", "class" => proof_class,
-               "result" => "passed", "revision" => reviewed_head }
-  expected.each { |key, value| errors << "#{row_id}:#{proof_class}:#{key}_mismatch" unless proof[key] == value }
+def required_checks_from_ruleset(ruleset, base_branch, errors)
+  unless ruleset["name"] == "main-protection" && ruleset["enforcement"] == "active" && ruleset["target"] == "branch"
+    errors << "ruleset_authority_invalid"
+    return []
+  end
+  includes = ruleset.dig("conditions", "ref_name", "include")
+  unless includes.is_a?(Array) && (includes.include?("~DEFAULT_BRANCH") || includes.include?("refs/heads/#{base_branch}"))
+    errors << "ruleset_base_branch_mismatch"
+    return []
+  end
+  rule = Array(ruleset["rules"]).find { |item| item["type"] == "required_status_checks" }
+  checks = Array(rule&.dig("parameters", "required_status_checks")).map { |item| item["context"] }.compact.sort
+  errors << "canonical_required_checks_empty" if checks.empty?
+  checks
+end
+
+def reviewed_scope_includes?(scope, path)
+  Array(scope).any? { |entry| entry == path || path.start_with?("#{entry}/") }
+end
+
+def validate_proof(proof_ref, proof_class, pr_head, review_scope, validations, row_id, errors)
+  unless proof_ref.is_a?(Hash) && proof_ref.keys.sort == %w[path sha256 validation_index]
+    errors << "#{row_id}:#{proof_class}:reference_invalid"
+    return
+  end
+  bytes = retained_blob({ "path" => proof_ref["path"], "sha256" => proof_ref["sha256"] }, "#{row_id}:#{proof_class}", pr_head, errors)
+  return unless bytes
+  errors << "#{row_id}:#{proof_class}:outside_review_scope" unless reviewed_scope_includes?(review_scope, proof_ref["path"])
+  index = proof_ref["validation_index"]
+  unless index.is_a?(Integer) && index >= 0 && index < validations.length
+    errors << "#{row_id}:#{proof_class}:validation_index_invalid"
+    return
+  end
+  lane = validations[index]
+  errors << "#{row_id}:#{proof_class}:lane_not_passed" unless lane["outcome"] == "passed"
+  errors << "#{row_id}:#{proof_class}:command_missing" unless lane["command"].is_a?(Array) && !lane["command"].empty?
+  evidence_name = lane["evidence_ref"]
+  errors << "#{row_id}:#{proof_class}:evidence_ref_mismatch" unless evidence_name.is_a?(String) && File.basename(proof_ref["path"]) == File.basename(evidence_name)
+end
+
+def validate_live_authority(evidence, pull, check_payload, ruleset, row_id, errors)
+  errors << "#{row_id}:github_pr_not_merged" unless pull["state"] == "MERGED" && pull["merged"] == true
+  errors << "#{row_id}:github_base_branch_mismatch" unless pull["baseRefName"] == "main"
+  errors << "#{row_id}:github_pr_head_mismatch" unless pull["headRefOid"] == evidence["pr_head"]
+  errors << "#{row_id}:github_merge_sha_mismatch" unless pull.dig("mergeCommit", "oid") == evidence["merge_sha"]
+  closing = Array(pull.dig("closingIssuesReferences", "nodes"))
+  linked = closing.any? { |item| item["number"] == evidence["issue"] && item.dig("repository", "nameWithOwner") == REPOSITORY }
+  errors << "#{row_id}:github_closing_link_missing" unless linked
+  canonical_checks = required_checks_from_ruleset(ruleset, pull["baseRefName"], errors)
+  errors << "#{row_id}:required_checks_not_canonical" unless Array(evidence["required_checks"]).sort == canonical_checks
+  checks = Array(check_payload["check_runs"]).to_h { |item| [item["name"], item["conclusion"]] }
+  canonical_checks.each { |name| errors << "#{row_id}:required_check_not_successful:#{name}" unless checks[name] == "success" }
 end
 
 def validate_accepted(row, errors)
@@ -173,6 +291,7 @@ def validate_accepted(row, errors)
   return unless errors.none? { |error| error.start_with?("#{row['id']}:") }
 
   validate_hex(evidence["reviewed_head"], 40, "#{row['id']}:reviewed_head", errors)
+  validate_hex(evidence["pr_head"], 40, "#{row['id']}:pr_head", errors)
   validate_hex(evidence["merge_sha"], 40, "#{row['id']}:merge_sha", errors)
   errors << "#{row['id']}:repository_mismatch" unless evidence["repository"] == REPOSITORY
   errors << "#{row['id']}:issue_invalid" unless evidence["issue"].is_a?(Integer) && evidence["issue"].positive?
@@ -190,14 +309,18 @@ def validate_accepted(row, errors)
   errors << "#{row['id']}:prohibited_authority:#{source_kind}" if PROHIBITED_AUTHORITY.include?(source_kind)
   errors << "#{row['id']}:canonical_authority_missing" unless source_kind == "canonical_observation"
 
-  return unless evidence["reviewed_head"].to_s.match?(/\A[0-9a-f]{40}\z/) && evidence["merge_sha"].to_s.match?(/\A[0-9a-f]{40}\z/)
+  return unless %w[reviewed_head pr_head merge_sha].all? { |key| evidence[key].to_s.match?(/\A[0-9a-f]{40}\z/) }
 
   begin
     run_git("cat-file", "-e", "#{evidence['reviewed_head']}^{commit}")
+    run_git("cat-file", "-e", "#{evidence['pr_head']}^{commit}")
     run_git("cat-file", "-e", "#{evidence['merge_sha']}^{commit}")
     evidence["implementation_paths"].each { |path| run_git("cat-file", "-e", "#{evidence['reviewed_head']}:#{path}") }
-    _stdout, _stderr, status = Open3.capture3("git", "-C", ROOT.to_s, "merge-base", "--is-ancestor", evidence["reviewed_head"], evidence["merge_sha"])
-    errors << "#{row['id']}:reviewed_head_not_merged" unless status.success?
+    _stdout, _stderr, status = Open3.capture3("git", "-C", ROOT.to_s, "merge-base", "--is-ancestor", evidence["reviewed_head"], evidence["pr_head"])
+    errors << "#{row['id']}:reviewed_head_not_in_pr_head" unless status.success?
+    _stdout, _stderr, status = Open3.capture3("git", "-C", ROOT.to_s, "merge-base", "--is-ancestor", evidence["pr_head"], evidence["merge_sha"])
+    tree_equal = run_git("rev-parse", "#{evidence['pr_head']}^{tree}") == run_git("rev-parse", "#{evidence['merge_sha']}^{tree}")
+    errors << "#{row['id']}:pr_head_not_merged" unless status.success? || tree_equal
     _stdout, _stderr, status = Open3.capture3("git", "-C", ROOT.to_s, "merge-base", "--is-ancestor", evidence["merge_sha"], "HEAD")
     errors << "#{row['id']}:merge_not_ancestral" unless status.success?
   rescue StandardError
@@ -207,35 +330,118 @@ def validate_accepted(row, errors)
   terminal_cache = terminal.is_a?(Hash) ? retained_json(terminal["cache"], "#{row['id']}:typed_terminal_cache", errors) : nil
   canonical = evidence["issue"].is_a?(Integer) ? canonical_terminal(evidence["issue"], errors) : nil
   if terminal_cache && canonical
-    %w[issue pull_request head_sha merge_sha canonical_generation canonical_digest].each do |key|
-      expected = { "issue" => evidence["issue"], "pull_request" => evidence["pull_request"],
-        "head_sha" => evidence["reviewed_head"], "merge_sha" => evidence["merge_sha"],
-        "canonical_generation" => terminal["generation"], "canonical_digest" => terminal["digest"] }[key]
+    expected_terminal = { "repository" => REPOSITORY, "issue" => evidence["issue"], "issue_state" => "closed_by_merged_pr",
+        "pull_request" => evidence["pull_request"], "head_sha" => evidence["pr_head"], "merge_sha" => evidence["merge_sha"],
+        "canonical_generation" => terminal["generation"], "canonical_digest" => terminal["digest"] }
+    expected_terminal.each do |key, expected|
       errors << "#{row['id']}:typed_terminal:#{key}_mismatch" unless canonical[key] == expected && terminal_cache.dig("terminal", key) == expected
     end
     errors << "#{row['id']}:typed_terminal_cache_noncanonical" unless terminal_cache["canonical_match"] == true
   end
 
-  review = retained_json(evidence["review_artifact"], "#{row['id']}:review_artifact", errors)
+  review_bytes = retained_blob(evidence["review_artifact"], "#{row['id']}:review_artifact", evidence["pr_head"], errors)
+  review_index = review_bytes ? JSON.parse(review_bytes) : nil
+  review = review_index&.dig("review")
+  expected_review_path = ".csdlc/issues/#{evidence['issue']}/index.json"
+  errors << "#{row['id']}:review_artifact_path_mismatch" unless evidence.dig("review_artifact", "path") == expected_review_path
   if review
-    expected = { "schema" => "adl.v0.92.quality_gate_review.v1", "result" => "passed",
-      "repository" => REPOSITORY, "issue" => evidence["issue"], "pull_request" => evidence["pull_request"],
-      "reviewed_head" => evidence["reviewed_head"], "findings" => [] }
-    expected.each { |key, value| errors << "#{row['id']}:review_artifact:#{key}_mismatch" unless review[key] == value }
+    errors << "#{row['id']}:review_incomplete" unless review["completed"] == true
+    errors << "#{row['id']}:review_findings_present" unless Array(review["findings"]).empty?
+    revision_match = review["reviewed_revision"].to_s.match(/\Agit-blake3:([0-9a-f]{40}):([0-9a-f]{64})\z/)
+    errors << "#{row['id']}:review_revision_invalid" unless revision_match && revision_match[1] == evidence["reviewed_head"]
+    metadata_paths = run_git("diff", "--name-only", evidence["reviewed_head"], evidence["pr_head"]).lines.map(&:strip).reject(&:empty?)
+    allowed_prefix = ".csdlc/issues/#{evidence['issue']}/"
+    errors << "#{row['id']}:post_review_product_drift" unless metadata_paths.all? { |path| path.start_with?(allowed_prefix) }
+  else
+    errors << "#{row['id']}:review_authority_missing"
   end
-  PROOF_CLASSES.each { |proof_class| validate_proof(evidence[proof_class], proof_class, evidence["reviewed_head"], row["id"], errors) }
+  sor_bytes = begin
+    run_git_bytes("show", "#{evidence['pr_head']}:.csdlc/issues/#{evidence['issue']}/cards/sor.values.json")
+  rescue StandardError
+    errors << "#{row['id']}:typed_sor_missing"
+    nil
+  end
+  validations = sor_bytes ? Array(JSON.parse(sor_bytes).dig("content", "values", "actual_validation")) : []
+  review_scope = review ? review["scope"] : []
+  PROOF_CLASSES.each { |proof_class| validate_proof(evidence[proof_class], proof_class, evidence["pr_head"], review_scope, validations, row["id"], errors) }
+  proof_paths = PROOF_CLASSES.map { |proof_class| evidence.dig(proof_class, "path") }
+  errors << "#{row['id']}:proof_paths_not_distinct" unless proof_paths.compact.uniq.length == PROOF_CLASSES.length
 
-  live = evidence["pull_request"].is_a?(Integer) ? live_github(evidence["pull_request"], errors) : nil
+  live = evidence["pull_request"].is_a?(Integer) ? live_github(evidence["pull_request"], evidence["pr_head"], errors) : nil
   if live
-    errors << "#{row['id']}:github_pr_not_merged" unless live["state"] == "MERGED"
-    errors << "#{row['id']}:github_reviewed_head_mismatch" unless live["headRefOid"] == evidence["reviewed_head"]
-    errors << "#{row['id']}:github_merge_sha_mismatch" unless live.dig("mergeCommit", "oid") == evidence["merge_sha"]
-    closing = Array(live["closingIssuesReferences"]).map { |item| item["number"] }
-    errors << "#{row['id']}:github_closing_link_missing" unless closing.include?(evidence["issue"])
-    checks = Array(live["statusCheckRollup"]).to_h { |item| [item["name"] || item["context"], item["conclusion"] || item["state"]] }
-    errors << "#{row['id']}:required_checks_not_canonical" unless Array(evidence["required_checks"]).sort == CANONICAL_REQUIRED_CHECKS
-    CANONICAL_REQUIRED_CHECKS.each { |name| errors << "#{row['id']}:required_check_not_successful:#{name}" unless checks[name] == "SUCCESS" }
+    pull, check_payload, ruleset = live
+    validate_live_authority(evidence, pull, check_payload, ruleset, row["id"], errors)
   end
+rescue JSON::ParserError
+  errors << "#{row['id']}:typed_artifact_json_invalid"
+end
+
+def validate_complete_packet(matrix, errors)
+  gate = JSON.parse(DEFAULT_GATE.read)
+  receipt_path = ROOT / ".csdlc/evidence/311/validation.json"
+  receipt = JSON.parse(receipt_path.read)
+  report = DEFAULT_REPORT.read
+  rows = matrix.fetch("rows")
+  accepted = rows.count { |row| row["disposition"] == "accepted" }
+  blocked_rows = rows.select { |row| row["disposition"] == "blocked" }
+  result = blocked_rows.empty? ? "passed" : "blocked"
+  unlock = result == "passed"
+
+  gate_expected = {
+    "schema" => "adl.v0.92.quality_gate_record.v1", "issue" => 311,
+    "evaluation_base_sha" => matrix["evaluation_base_sha"], "matrix_sha256" => sha256(DEFAULT_MATRIX),
+    "validator_sha256" => sha256(Pathname.new(__FILE__)), "feature_rows" => 13,
+    "critical_path_rows" => 20, "accepted_rows" => accepted,
+    "blocked_rows" => blocked_rows.length, "result" => result, "downstream_unlock" => unlock
+  }
+  gate_expected.each { |key, value| errors << "packet:gate:#{key}_mismatch" unless gate[key] == value }
+
+  receipt_expected = {
+    "schema" => "adl.v0.92.quality_gate_validation_receipt.v1", "issue" => 311,
+    "evaluation_base_sha" => matrix["evaluation_base_sha"], "structural_validation" => "passed",
+    "quality_gate_result" => result, "downstream_unlock" => unlock
+  }
+  receipt_expected.each { |key, value| errors << "packet:receipt:#{key}_mismatch" unless receipt[key] == value }
+  denominator_expected = { "feature_rows" => 13, "critical_path_rows" => 20, "total_rows" => 33,
+                           "accepted_rows" => accepted, "blocked_rows" => blocked_rows.length }
+  errors << "packet:receipt:denominator_mismatch" unless receipt["denominator"] == denominator_expected
+
+  lane_by_name = Array(receipt["lanes"]).to_h { |lane| [lane["name"], lane] }
+  expected_lanes = %w[semantic-quality-matrix quality-negative-suite docs-schema-diff]
+  errors << "packet:receipt:lane_set_mismatch" unless lane_by_name.keys.sort == expected_lanes.sort
+  expected_lanes.each do |name|
+    lane = lane_by_name[name]
+    next errors << "packet:lane:#{name}:missing" unless lane
+    errors << "packet:lane:#{name}:result_mismatch" unless lane["result"] == "passed"
+    path = safe_relative(lane["log"], "packet:lane:#{name}", errors)
+    errors << "packet:lane:#{name}:log_missing" unless path && (ROOT / path).file?
+  end
+  errors << "packet:lane:semantic:gate_result_mismatch" unless lane_by_name.dig("semantic-quality-matrix", "gate_result") == result
+  errors << "packet:lane:negative:cases_mismatch" unless lane_by_name.dig("quality-negative-suite", "cases") == 36
+
+  semantic_log = JSON.parse((ROOT / lane_by_name.dig("semantic-quality-matrix", "log")).read)
+  negative_log = JSON.parse((ROOT / lane_by_name.dig("quality-negative-suite", "log")).read)
+  errors << "packet:semantic_log_mismatch" unless semantic_log["status"] == "passed" && semantic_log["rows"] == 33 && semantic_log["blocked_rows"] == blocked_rows.length && semantic_log["gate_result"] == result
+  errors << "packet:negative_log_mismatch" unless negative_log["schema"] == "adl.v0.92.quality_gate_negative_suite.v2" && negative_log["status"] == "passed" && negative_log["cases"] == 36 && negative_log["authority_substitution_ignored"] == true
+  diff_log = ROOT / lane_by_name.dig("docs-schema-diff", "log")
+  errors << "packet:diff_log_not_clean" unless diff_log.read.empty?
+
+  artifacts = receipt["artifacts"]
+  expected_artifacts = {
+    "validator_sha256" => sha256(Pathname.new(__FILE__)),
+    "negative_suite_sha256" => sha256(ROOT / ".csdlc/prepared/issues/311/test-validate-quality-gate.rb"),
+    "matrix_sha256" => sha256(DEFAULT_MATRIX), "gate_record_sha256" => sha256(DEFAULT_GATE),
+    "blocker_report_sha256" => sha256(DEFAULT_REPORT)
+  }
+  errors << "packet:receipt:artifact_set_mismatch" unless artifacts.is_a?(Hash) && artifacts.keys.sort == expected_artifacts.keys.sort
+  expected_artifacts.each { |key, value| errors << "packet:receipt:#{key}_mismatch" unless artifacts&.[](key) == value }
+
+  errors << "packet:report:result_mismatch" unless report.include?("Result: **#{result.upcase}**")
+  blocked_rows.each do |row|
+    errors << "packet:report:missing_row:#{row['id']}" unless report.scan("`#{row['id']}`").length == 1
+  end
+rescue JSON::ParserError, KeyError, Errno::ENOENT => error
+  errors << "packet:invalid:#{error.class}"
 end
 
 def validate_matrix(path)
@@ -281,6 +487,7 @@ def validate_matrix(path)
       errors << "#{id}:blocked_without_reason" if Array(row["blockers"]).empty?
     end
   end
+  validate_complete_packet(matrix, errors) if path.expand_path == DEFAULT_MATRIX.expand_path
   [matrix, errors]
 end
 
@@ -352,6 +559,7 @@ end
 
 command = ARGV.shift || "matrix"
 matrix_arg = ARGV.each_cons(2).find { |left, _right| left == "--matrix" }&.last
+input_arg = ARGV.each_cons(2).find { |left, _right| left == "--input" }&.last
 case command
 when "generate"
   write_generated_packet
@@ -366,7 +574,17 @@ when "matrix"
     warn JSON.generate(schema: "adl.v0.92.quality_gate_validation.v1", status: "failed", errors: errors)
     exit 1
   end
+when "observation"
+  payload = JSON.parse(Pathname.new(input_arg.to_s).read)
+  errors = []
+  validate_live_authority(payload.fetch("evidence"), payload.fetch("pull"), payload.fetch("checks"), payload.fetch("ruleset"), "observation", errors)
+  if errors.empty?
+    puts JSON.generate(schema: "adl.v0.92.quality_gate_observation_validation.v1", status: "passed")
+  else
+    warn JSON.generate(schema: "adl.v0.92.quality_gate_observation_validation.v1", status: "failed", errors: errors)
+    exit 1
+  end
 else
-  warn "usage: validate-quality-gate.rb generate|matrix [--matrix PATH]"
+  warn "usage: validate-quality-gate.rb generate|matrix [--matrix PATH]|observation --input PATH"
   exit 2
 end

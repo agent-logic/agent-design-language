@@ -1,1 +1,1 @@
-{"schema":"adl.v0.92.quality_gate_negative_suite.v1","status":"passed","cases":21}
+{"schema":"adl.v0.92.quality_gate_negative_suite.v2","status":"passed","cases":36,"canonical_control":{"issue":451,"pull_request":459,"reviewed_head":"3c612a0c302d1a34562b9e0c160b12aca91222e3","pr_head":"414777b543bf5df295a41eacc9c4fd19735c413b","merge_sha":"e926e3bca0ab1981d77b4658d2feb4059bdf33a6"},"authority_substitution_ignored":true}

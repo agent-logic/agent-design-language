@@ -8,14 +8,14 @@
   "denominator": {"feature_rows": 13, "critical_path_rows": 20, "total_rows": 33, "accepted_rows": 0, "blocked_rows": 33},
   "lanes": [
     {"name": "semantic-quality-matrix", "result": "passed", "gate_result": "blocked", "log": ".csdlc/evidence/311/semantic-quality-matrix.log"},
-    {"name": "quality-negative-suite", "result": "passed", "cases": 21, "log": ".csdlc/evidence/311/quality-negative-suite.log"},
+    {"name": "quality-negative-suite", "result": "passed", "cases": 36, "log": ".csdlc/evidence/311/quality-negative-suite.log"},
     {"name": "docs-schema-diff", "result": "passed", "log": ".csdlc/evidence/311/docs-schema-diff.log"}
   ],
   "artifacts": {
-    "validator_sha256": "377f038ed2668573b78fabc9038ff9625703e0502ea6dbdb25bc722a4240d39c",
-    "negative_suite_sha256": "9b0caee1fca51726c242d593ba7a52a8d9115b3239ae3a82460f834767a92e69",
+    "validator_sha256": "7ddcb02c115dac22858d519ad294884a93e668125c946993e10b29309ebd7e45",
+    "negative_suite_sha256": "f55c8f731b547cd726b8ef45b1500e986748c5f21b297540a0bca97b52f5531f",
     "matrix_sha256": "5c6e7f588fbfead4bc46f4b8f91703da8c0a5898322cb0620afd61b3be9c4728",
-    "gate_record_sha256": "f4ad62f1cb0692567717e99b47c07407964a12424f3cb11e1394d5acbe589094",
+    "gate_record_sha256": "5e2f62e734e2a8b32a48eec3172d6785cfcfcc9663b0180b5b44ed699968e93c",
     "blocker_report_sha256": "32c51d7465a455bcae4394472720b25251de3dba0b43075af013f5b0311fa48a"
   },
   "dependency_observation": {

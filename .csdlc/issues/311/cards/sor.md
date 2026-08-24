@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Executed the canonical v0.92 quality gate over 13 indexed feature contracts and 20 supporting AEE critical paths; structural validation passed, all 33 rows remain release blockers, downstream unlock is false, and the accepted-row path now fails closed on canonical GitHub, Git, typed-terminal, review, check, implementation-path, and proof-artifact authority.
+Executed the canonical v0.92 quality gate over 13 indexed feature contracts and 20 supporting critical paths. Structural and authority validation pass, all 33 rows remain truthful release blockers, downstream unlock is false, and accepted-row validation now consumes stable typed authority, reviewed Git blobs, live GitHub closing/check truth, and the active main-protection ruleset.
 
 ## Artifacts
 
@@ -27,11 +27,11 @@ Executed the canonical v0.92 quality gate over 13 indexed feature contracts and 
 
 ## Execution
 
-- Added a deterministic denominator generator and fail-closed matrix validator for issue #311.
-- Authenticated accepted rows against stable typed terminal validation, retained digest-bound cache/review/proof artifacts, exact implementation paths, Git topology, and live GitHub closing/check truth.
-- Expanded the negative suite to 21 cases, including a valid canonical control and independent stale-head, non-ancestral, fabricated-check, malformed-cache, cache-digest, cross-repository, missing-platform, prohibited-authority, review-digest, and implementation-path failures.
-- Generated the 33-row matrix, gate record, findings-first blocker report, and retained validation receipt.
-- Updated only the approved v0.92 quality-gate and execution-readiness documents; coverage remains read-only input.
+- Removed caller-controlled GitHub and C-SDLC executable hooks from the production acceptance path; stable C-SDLC owners derive from the Git common directory and GitHub observations use the authenticated API directly.
+- Derived canonical required checks from the live active main-protection ruleset instead of an implementation-owned or row-selected list.
+- Required review authority from the exact typed issue index and required proof blobs to be committed at the PR head, retained unchanged, included in review scope, and bound to passed typed SOR validation lanes.
+- Added atomic cross-validation of the matrix, gate record, validation receipt, lane logs, artifact digests, blocker report, counts, result, and downstream unlock semantics.
+- Expanded the fail-closed suite to 36 cases around a real canonical #451/PR #459 control, including authority substitution, live closing/check/ruleset failures, typed-terminal mutations, proof/review mutations, and exact Git topology.
 
 ## Validation
 
@@ -42,7 +42,7 @@ Executed the canonical v0.92 quality gate over 13 indexed feature contracts and 
       ".csdlc/prepared/issues/311/validate-quality-gate.rb",
       "matrix"
     ],
-    "purpose": "Validate the exact 33-row denominator and fail-closed dispositions.",
+    "purpose": "Validate the exact 33-row denominator plus the complete retained packet atomically.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/311/semantic-quality-matrix.log"
   },
@@ -51,7 +51,7 @@ Executed the canonical v0.92 quality gate over 13 indexed feature contracts and 
       "ruby",
       ".csdlc/prepared/issues/311/test-validate-quality-gate.rb"
     ],
-    "purpose": "Prove a valid canonical accepted control and reject 21 incomplete or forged authority cases.",
+    "purpose": "Run the real canonical accepted control and reject 36 incomplete, stale, forged, or authority-substituted cases.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/311/quality-negative-suite.log"
   },
