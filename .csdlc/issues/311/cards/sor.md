@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Executed the canonical v0.92 quality gate after #310 recordless terminal reconciliation, merge ancestry verification, and clean-worktree removal. The exact 13-feature plus 20-critical-path denominator validates, all 33 rows remain truthful release blockers, downstream unlock is false, and accepted evidence is contract-bound to canonical typed, Git, GitHub, review, check-app, and retained-proof authority.
+Executed the canonical v0.92 quality gate after #310 recordless terminal reconciliation, live-main ancestry verification, and exact branch-worktree cleanup. The exact 13-feature plus 20-critical-path denominator validates, all 33 rows remain truthful release blockers, downstream unlock is false, and accepted evidence is bound to reviewed row semantics plus complete canonical GitHub ruleset/check authority.
 
 ## Artifacts
 
@@ -27,11 +27,11 @@ Executed the canonical v0.92 quality gate after #310 recordless terminal reconci
 
 ## Execution
 
-- Consumed #310 recordless closeout receipt, exact PR-head/merge tree equality, main ancestry, and registered clean-worktree removal as hard WP-21A prerequisites.
-- Bound accepted evidence to the exact row source contract, explicit issue reference, reviewed source and implementation paths, canonical typed generation/digest, matching assignment/reviewer/revision/scope, and passed SOR evidence lanes.
-- Required live issue closure plus active ruleset check contexts and matching GitHub App integration IDs, preventing same-name checks from an unauthorized app.
-- Strengthened the complete packet with exact issue/denominator/evaluation-base identity, unique lanes, digest-bound logs, exact artifact sets, and exact blocker-reason lines.
-- Expanded the fail-closed suite to 39 cases around the real #451/PR #459 canonical control, including unrelated-row evidence reuse, reopened issue, and wrong-check-app denial.
+- Pinned validation to the physical bound repository and its exact agent-logic/agent-design-language origin, removing caller-controlled root substitution.
+- Bound every accepted row to exact owner, reviewed source bytes, implementation paths, issue identity, proof artifacts, SOR lane commands and purposes, and independently parsed nonzero or structured proof semantics; duplicate accepted packets across rows fail closed.
+- Enumerated every applicable active branch ruleset and every check-run page, required positive GitHub App integration identities, combined the complete required-check set, and selected the newest authorized run so stale success cannot mask later failure.
+- Validated #310 against the live main SHA and exact origin/main equality, and detect its canonical branch independently of any renamed worktree path.
+- Expanded the fail-closed suite to 50 cases around the real #451/PR #459 canonical control, including semantic-proof substitution, second-ruleset omission, missing app identity, newer failed duplicate, live-main ancestry, and renamed-worktree denial.
 
 ## Validation
 
@@ -51,7 +51,7 @@ Executed the canonical v0.92 quality gate after #310 recordless terminal reconci
       "ruby",
       ".csdlc/prepared/issues/311/test-validate-quality-gate.rb"
     ],
-    "purpose": "Run the real canonical accepted control and reject 39 incomplete, stale, cross-row, forged, or authority-substituted cases.",
+    "purpose": "Run the real canonical accepted control and reject 50 incomplete, stale, cross-row, semantically non-proving, forged, or authority-substituted cases.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/311/quality-negative-suite.log"
   },

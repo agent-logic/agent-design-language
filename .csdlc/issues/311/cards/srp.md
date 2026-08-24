@@ -31,9 +31,9 @@ docs/reviews/v0.92/quality-gate-311
 
 [
   {
-    "id": "311-API-R3-P1-ROW-BINDING",
+    "id": "311-API-R4-P1-ROW-CONTRACT",
     "severity": "p1",
-    "summary": "Accepted evidence was reusable across unrelated feature and critical-path rows without proving the reviewed contract or owner binding.",
+    "summary": "Accepted-row contracts did not bind exact owner, reviewed source bytes, implementation paths, proof semantics, or prevent packet reuse across rows.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -41,9 +41,9 @@ docs/reviews/v0.92/quality-gate-311
     "route": null
   },
   {
-    "id": "311-API-R3-P1-TYPED-AUTHORITY",
+    "id": "311-API-R4-P1-CHECK-AUTHORITY",
     "severity": "p1",
-    "summary": "The accepted path did not sufficiently bind the canonical typed index, review assignment, reviewer, revision, and SOR authority.",
+    "summary": "Required-check validation used only one ruleset, omitted pagination and integration identity strictness, and allowed older successes to mask newer failures.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -51,9 +51,9 @@ docs/reviews/v0.92/quality-gate-311
     "route": null
   },
   {
-    "id": "311-API-R3-P1-GITHUB-AUTHORITY",
+    "id": "311-API-R4-P1-ROOT-SUBSTITUTION",
     "severity": "p1",
-    "summary": "Live GitHub validation omitted issue closure and required-check GitHub App identity.",
+    "summary": "QUALITY_GATE_ROOT permitted repository-authority substitution.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -61,19 +61,19 @@ docs/reviews/v0.92/quality-gate-311
     "route": null
   },
   {
-    "id": "311-API-R3-P1-PACKET-ATOMICITY",
-    "severity": "p1",
-    "summary": "The complete packet did not fully bind lane uniqueness, log digests, exact denominator identity, blocker reasons, and the WP-21A source revision.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  },
-  {
-    "id": "311-API-R3-P2-WP21A-PREREQUISITE",
+    "id": "311-API-R4-P2-WP21A-IDENTITY",
     "severity": "p2",
-    "summary": "Execution evidence had not consumed #310 terminal reconciliation and cleanup as the approved hard prerequisite.",
+    "summary": "The #310 prerequisite checked ancestry against the candidate rather than live main and matched worktree state by ambiguous substrings.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "311-API-R4-P2-NEGATIVE-SEAM",
+    "severity": "p2",
+    "summary": "Reopened-issue and wrong-check-app negatives exercised a synthetic production observation command instead of the accepted-row authority function.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -92,8 +92,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:ce99e1736bb2ccd2979e3ba38a7b4983f1f198e6:2dc74e203ec42fb7c1420d6fbd9d044ce9a28bedfad17394cec6668593c04d98")
+Revision: Some("git-blake3:54c9a3dd08bc943d51f5ff854bf75c4bf6084440:7ad7d42647bc55d5f9f14ad055cc9e8660bf6cbf517e63b6a2aa64e33dadfac6")
 
-Reviewer: Some("fresh-session:89119b99-dc15-475a-8908-3740b9c649fe")
+Reviewer: Some("fresh-session:de89f81c-82d1-415d-bc53-a6f9cd142297")
 
 Result: changes_required

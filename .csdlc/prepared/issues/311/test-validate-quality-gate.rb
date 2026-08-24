@@ -7,19 +7,20 @@ require "json"
 require "open3"
 require "pathname"
 
-ROOT = Pathname.new(File.expand_path("../../../..", __dir__)).realpath
-VALIDATOR = ROOT / ".csdlc/prepared/issues/311/validate-quality-gate.rb"
-MATRIX = ROOT / "docs/reviews/v0.92/quality-gate-311/feature-completion-matrix.json"
-WORK = ROOT / ".csdlc/evidence/311/negative-fixtures"
+TEST_ROOT = Pathname.new(File.expand_path("../../../..", __dir__)).realpath
+VALIDATOR = TEST_ROOT / ".csdlc/prepared/issues/311/validate-quality-gate.rb"
+MATRIX = TEST_ROOT / "docs/reviews/v0.92/quality-gate-311/feature-completion-matrix.json"
+WORK = TEST_ROOT / ".csdlc/evidence/311/negative-fixtures"
+load VALIDATOR
 
 def git(*argv)
-  stdout, stderr, status = Open3.capture3("git", "-C", ROOT.to_s, *argv)
+  stdout, stderr, status = Open3.capture3("git", "-C", TEST_ROOT.to_s, *argv)
   raise stderr unless status.success?
   stdout
 end
 
 def invoke(path, env = {})
-  Open3.capture3(env, "ruby", VALIDATOR.to_s, "matrix", "--matrix", path.to_s, chdir: ROOT.to_s)
+  Open3.capture3(env, "ruby", VALIDATOR.to_s, "matrix", "--matrix", path.to_s, chdir: TEST_ROOT.to_s)
 end
 
 def expect_failure(name, matrix, expected)
@@ -30,16 +31,30 @@ def expect_failure(name, matrix, expected)
   raise "#{name} did not prove #{expected}: #{stdout} #{stderr}" unless stderr.include?(expected)
 end
 
-def expect_observation_failure(name, payload, expected)
-  path = WORK / "observation-#{name}.json"
-  path.write(JSON.pretty_generate(payload) + "\n")
-  stdout, stderr, status = Open3.capture3("ruby", VALIDATOR.to_s, "observation", "--input", path.to_s, chdir: ROOT.to_s)
-  raise "observation #{name} unexpectedly passed" if status.success?
-  raise "observation #{name} did not prove #{expected}: #{stdout} #{stderr}" unless stderr.include?(expected)
-end
-
 def clone(value)
   Marshal.load(Marshal.dump(value))
+end
+
+def bind_row_contract(row, reviewed_head, validations)
+  source_bytes = git("show", "#{reviewed_head}:#{row.fetch('source')}")
+  bindings = %w[positive negative integration platform].map do |proof_class|
+    proof = row.fetch("evidence").fetch(proof_class)
+    lane = validations.fetch(proof.fetch("validation_index"))
+    {
+      "class" => proof_class, "path" => proof["path"], "sha256" => proof["sha256"],
+      "validation_index" => proof["validation_index"], "command" => lane["command"],
+      "purpose" => lane["purpose"], "evidence_ref" => lane["evidence_ref"],
+      "semantic_observation" => proof_semantic_observation(proof_class,
+        git("show", "#{row.fetch('evidence').fetch('pr_head')}:#{proof.fetch('path')}"), row.fetch("evidence").fetch("issue"))
+    }
+  end
+  row["evidence"]["row_contract"] = {
+    "schema" => "adl.v0.92.quality_gate_row_contract.v1", "row_id" => row["id"],
+    "owner" => row["owner"], "source_path" => row["source"],
+    "source_sha256" => Digest::SHA256.hexdigest(source_bytes), "issue" => row["evidence"]["issue"],
+    "implementation_paths" => row["evidence"]["implementation_paths"].sort,
+    "proof_binding_sha256" => Digest::SHA256.hexdigest(JSON.generate(bindings))
+  }
 end
 
 def accepted_row(matrix)
@@ -49,7 +64,7 @@ end
 def retain(name, payload)
   path = WORK / name
   path.write(JSON.pretty_generate(payload) + "\n")
-  { "path" => path.relative_path_from(ROOT).to_s, "sha256" => Digest::SHA256.file(path).hexdigest }
+  { "path" => path.relative_path_from(TEST_ROOT).to_s, "sha256" => Digest::SHA256.file(path).hexdigest }
 end
 
 def blob_ref(commit, path)
@@ -92,7 +107,7 @@ pr_head = "414777b543bf5df295a41eacc9c4fd19735c413b"
 merge_sha = "e926e3bca0ab1981d77b4658d2feb4059bdf33a6"
 common = Pathname.new(git("rev-parse", "--git-common-dir").strip).realpath
 bin_dir = common.parent / ".adl/bin/csdlc-v2"
-terminal_stdout, terminal_stderr, terminal_status = Open3.capture3((bin_dir / "csdlc-finish").to_s, "--root", ROOT.to_s, "--validate-cached-issue", issue.to_s)
+terminal_stdout, terminal_stderr, terminal_status = Open3.capture3((bin_dir / "csdlc-finish").to_s, "--root", TEST_ROOT.to_s, "--validate-cached-issue", issue.to_s)
 raise "canonical terminal unavailable: #{terminal_stderr}" unless terminal_status.success?
 terminal_receipt = JSON.parse(terminal_stdout)
 terminal = terminal_receipt.fetch("terminal")
@@ -121,6 +136,9 @@ row["evidence"] = {
   "review_artifact" => blob_ref(pr_head, ".csdlc/issues/451/index.json"),
   "required_checks" => ["adl-ci", "adl-coverage"]
 }
+sor = JSON.parse(git("show", "#{pr_head}:.csdlc/issues/451/cards/sor.values.json"))
+validations = sor.dig("content", "values", "actual_validation")
+bind_row_contract(row, reviewed_head, validations)
 accepted_path = WORK / "canonical-accepted.json"
 accepted_path.write(JSON.pretty_generate(accepted) + "\n")
 accepted_stdout, accepted_stderr, accepted_status = invoke(accepted_path, { "CSDLC_V2_BIN_DIR" => "/nonexistent", "QUALITY_GATE_GH_BIN" => "/nonexistent" })
@@ -136,6 +154,24 @@ birthday["disposition"] = "blocked"
 birthday["blockers"] = ["accepted_evidence_packet_missing"]
 birthday["evidence"] = {}
 expect_failure("unrelated-row-evidence", tampered, "source_outside_review_scope")
+
+tampered = clone(accepted); accepted_row(tampered)["owner"] = "WP-INVENTED"
+expect_failure("owner-mismatch", tampered, "owner_mismatch")
+tampered = clone(accepted); accepted_row(tampered)["evidence"]["row_contract"]["source_sha256"] = "0" * 64
+expect_failure("reviewed-source-contract", tampered, "row_contract_mismatch")
+tampered = clone(accepted); accepted_row(tampered)["evidence"]["implementation_paths"] = ["adl/src/long_lived_agent.rs"]
+expect_failure("implementation-contract", tampered, "row_contract_mismatch")
+tampered = clone(accepted); accepted_row(tampered)["evidence"]["positive"] = clone(accepted_row(tampered)["evidence"]["integration"])
+expect_failure("proof-content-contract", tampered, "row_contract_mismatch")
+tampered = clone(accepted)
+tampered_positive = blob_ref(pr_head, ".csdlc/evidence/451/diff_hygiene.log").merge("validation_index" => 0)
+accepted_row(tampered)["evidence"]["positive"] = tampered_positive
+expect_failure("nonsemantic-positive-proof", tampered, "positive:semantic_proof_invalid")
+tampered = clone(accepted)
+duplicate = tampered["rows"].find { |item| item["id"] == "critical:AEE-008" }
+duplicate["disposition"] = "accepted"; duplicate["blockers"] = []; duplicate["evidence"] = clone(accepted_row(tampered)["evidence"])
+bind_row_contract(duplicate, reviewed_head, validations)
+expect_failure("duplicate-accepted-packet", tampered, "accepted_packet_reused_from")
 
 cases = {
   "cross-repository-substitution" => ["repository_mismatch", ->(m) { accepted_row(m)["evidence"]["repository"] = "danielbaustin/agent-design-language" }],
@@ -175,32 +211,59 @@ observation = {
               "mergeCommit" => { "oid" => merge_sha },
               "closingIssuesReferences" => { "nodes" => [{ "number" => issue, "repository" => { "nameWithOwner" => "agent-logic/agent-design-language" } }] } },
   "issue" => { "number" => issue, "state" => "closed", "state_reason" => "completed" },
-  "checks" => { "check_runs" => [{ "name" => "adl-ci", "conclusion" => "success", "app" => { "id" => 15_368 } }, { "name" => "adl-coverage", "conclusion" => "success", "app" => { "id" => 15_368 } }] },
-  "ruleset" => { "name" => "main-protection", "enforcement" => "active", "target" => "branch",
+  "checks" => { "check_runs" => [{ "id" => 10, "name" => "adl-ci", "conclusion" => "success", "app" => { "id" => 15_368 } }, { "id" => 11, "name" => "adl-coverage", "conclusion" => "success", "app" => { "id" => 15_368 } }] },
+  "rulesets" => [{ "name" => "main-protection", "enforcement" => "active", "target" => "branch",
                  "conditions" => { "ref_name" => { "include" => ["~DEFAULT_BRANCH"] } },
-                 "rules" => [{ "type" => "required_status_checks", "parameters" => { "required_status_checks" => [{ "context" => "adl-ci", "integration_id" => 15_368 }, { "context" => "adl-coverage", "integration_id" => 15_368 }] } }] }
+                 "rules" => [{ "type" => "required_status_checks", "parameters" => { "required_status_checks" => [{ "context" => "adl-ci", "integration_id" => 15_368 }, { "context" => "adl-coverage", "integration_id" => 15_368 }] } }] }]
 }
-path = WORK / "observation-valid.json"
-path.write(JSON.pretty_generate(observation) + "\n")
-observation_stdout, observation_stderr, observation_status = Open3.capture3("ruby", VALIDATOR.to_s, "observation", "--input", path.to_s, chdir: ROOT.to_s)
-raise "observation control failed: #{observation_stdout} #{observation_stderr}" unless observation_status.success?
+
+def validate_observation(payload)
+  errors = []
+  validate_live_authority(payload.fetch("evidence"), payload.fetch("pull"), payload.fetch("issue"), payload.fetch("checks"), payload.fetch("rulesets"), "observation", errors)
+  errors
+end
+
+def expect_live_failure(name, payload, expected)
+  errors = validate_observation(payload)
+  raise "observation #{name} unexpectedly passed" if errors.empty?
+  raise "observation #{name} did not prove #{expected}: #{errors.inspect}" unless errors.any? { |error| error.include?(expected) }
+end
+
+raise "observation control failed: #{validate_observation(observation).inspect}" unless validate_observation(observation).empty?
 
 tampered = clone(observation); tampered["checks"]["check_runs"].find { |item| item["name"] == "adl-coverage" }["conclusion"] = "failure"
-expect_observation_failure("failed-required-check", tampered, "required_check_not_successful:adl-coverage")
+expect_live_failure("failed-required-check", tampered, "required_check_not_successful:adl-coverage")
 tampered = clone(observation); tampered["pull"]["baseRefName"] = "feature"
-expect_observation_failure("wrong-base-branch", tampered, "github_base_branch_mismatch")
+expect_live_failure("wrong-base-branch", tampered, "github_base_branch_mismatch")
 tampered = clone(observation); tampered["pull"]["closingIssuesReferences"]["nodes"] = []
-expect_observation_failure("missing-closing-link", tampered, "github_closing_link_missing")
-tampered = clone(observation); tampered["ruleset"]["enforcement"] = "disabled"
-expect_observation_failure("inactive-ruleset", tampered, "ruleset_authority_invalid")
-tampered = clone(observation); tampered["ruleset"]["rules"].first["parameters"]["required_status_checks"].pop
-expect_observation_failure("ruleset-check-omission", tampered, "required_checks_not_canonical")
+expect_live_failure("missing-closing-link", tampered, "github_closing_link_missing")
+tampered = clone(observation); tampered["rulesets"].first["enforcement"] = "disabled"
+expect_live_failure("inactive-ruleset", tampered, "ruleset_authority_invalid")
+tampered = clone(observation); tampered["rulesets"].first["rules"].first["parameters"]["required_status_checks"].pop
+expect_live_failure("ruleset-check-omission", tampered, "required_checks_not_canonical")
 tampered = clone(observation); tampered["issue"]["state"] = "open"; tampered["issue"]["state_reason"] = "reopened"
-expect_observation_failure("reopened-issue", tampered, "github_issue_not_closed")
+expect_live_failure("reopened-issue", tampered, "github_issue_not_closed")
 tampered = clone(observation); tampered["checks"]["check_runs"].find { |item| item["name"] == "adl-ci" }["app"]["id"] = 1
-expect_observation_failure("wrong-check-app", tampered, "required_check_not_successful:adl-ci")
+expect_live_failure("wrong-check-app", tampered, "required_check_not_successful:adl-ci")
+tampered = clone(observation); tampered["checks"]["check_runs"] << { "id" => 99, "name" => "adl-ci", "conclusion" => "failure", "app" => { "id" => 15_368 } }
+expect_live_failure("newer-failed-duplicate", tampered, "required_check_not_successful:adl-ci")
+tampered = clone(observation); tampered["rulesets"].first["rules"].first["parameters"]["required_status_checks"].first.delete("integration_id")
+expect_live_failure("missing-check-integration", tampered, "required_check_integration_missing:adl-ci")
+tampered = clone(observation)
+tampered["rulesets"] << { "name" => "release-safety", "enforcement" => "active", "target" => "branch",
+                          "conditions" => { "ref_name" => { "include" => ["refs/heads/main"] } },
+                          "rules" => [{ "type" => "required_status_checks", "parameters" => { "required_status_checks" => [{ "context" => "release-proof", "integration_id" => 15_368 }] } }] }
+expect_live_failure("second-applicable-ruleset", tampered, "required_checks_not_canonical")
+
+wp21a_errors = []
+validate_wp21a_observation({ "merge_sha" => "unused" }, reviewed_head, reviewed_head, [], wp21a_errors)
+raise "main-only ancestry negative did not fail closed: #{wp21a_errors.inspect}" unless wp21a_errors.include?("wp21a_merge_not_on_live_main")
+wp21a_errors = []
+validate_wp21a_observation({ "merge_sha" => "unused" }, merge_sha, merge_sha,
+                           ["worktree /renamed/path\nHEAD #{WP21A_HEAD}\nbranch refs/heads/codex/310-rust-refactoring\n"], wp21a_errors)
+raise "renamed worktree negative did not fail closed: #{wp21a_errors.inspect}" unless wp21a_errors.include?("wp21a_worktree_not_cleaned")
 
 FileUtils.rm_rf(WORK)
-puts JSON.generate(schema: "adl.v0.92.quality_gate_negative_suite.v2", status: "passed", cases: 39,
+puts JSON.generate(schema: "adl.v0.92.quality_gate_negative_suite.v2", status: "passed", cases: 50,
                    canonical_control: { issue: issue, pull_request: pr, reviewed_head: reviewed_head, pr_head: pr_head, merge_sha: merge_sha },
                    authority_substitution_ignored: true)

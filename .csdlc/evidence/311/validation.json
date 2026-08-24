@@ -8,17 +8,17 @@
   "denominator": {"feature_rows": 13, "critical_path_rows": 20, "total_rows": 33, "accepted_rows": 0, "blocked_rows": 33},
   "lanes": [
     {"name": "semantic-quality-matrix", "result": "passed", "gate_result": "blocked", "log": ".csdlc/evidence/311/semantic-quality-matrix.log", "sha256": "bf077f59969286445e5850b3fb9003e3b05208586bda694bff24704d2915f4d4"},
-    {"name": "quality-negative-suite", "result": "passed", "cases": 39, "log": ".csdlc/evidence/311/quality-negative-suite.log", "sha256": "75b1fca6c0be2d0a58e7527254c34daa87d8c2621d24507db44a1cfea9ae7faf"},
+    {"name": "quality-negative-suite", "result": "passed", "cases": 50, "log": ".csdlc/evidence/311/quality-negative-suite.log", "sha256": "25559a920db6bf92a2947dad4bdcb1c6cef6b7a22fc7bce0eb4a19765e7ef233"},
     {"name": "docs-schema-diff", "result": "passed", "log": ".csdlc/evidence/311/docs-schema-diff.log", "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"}
   ],
   "artifacts": {
-    "validator_sha256": "1784f9c96b545d72568a2dfca69be0f9da2a697a90e575439ebbdccb75864822",
-    "negative_suite_sha256": "361d5d10ad08f31923878202f399273965918f079e72a997dbe8855b7c71b8a1",
+    "validator_sha256": "bfc08ffb514cce50303d7b56dfc5231e00f26b9d6012bd5cbe29a7396a5e6473",
+    "negative_suite_sha256": "060add1dc04617924443bacec6e2f574efc4c41c27e88b4a9db7c033ea66c3bf",
     "matrix_sha256": "5c6e7f588fbfead4bc46f4b8f91703da8c0a5898322cb0620afd61b3be9c4728",
-    "gate_record_sha256": "07864aa43ae5900f0fef3a4cf98d226999b22f3e02622a855dd2315e9ec11e9f",
+    "gate_record_sha256": "82c83c04063e0df232399603e11322daac7e7632369d15ce811c1fe07f18f172",
     "blocker_report_sha256": "32c51d7465a455bcae4394472720b25251de3dba0b43075af013f5b0311fa48a",
     "semantic_log_sha256": "bf077f59969286445e5850b3fb9003e3b05208586bda694bff24704d2915f4d4",
-    "negative_log_sha256": "75b1fca6c0be2d0a58e7527254c34daa87d8c2621d24507db44a1cfea9ae7faf",
+    "negative_log_sha256": "25559a920db6bf92a2947dad4bdcb1c6cef6b7a22fc7bce0eb4a19765e7ef233",
     "diff_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   },
   "dependency_observation": {
