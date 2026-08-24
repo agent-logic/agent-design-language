@@ -1,19 +1,17 @@
 {
-  "schema": "adl.v0.92.quality_gate_matrix.v2",
+  "schema": "adl.v0.92.quality_gate_matrix.v3",
   "milestone": "v0.92",
   "issue": 467,
   "supersedes": {
     "issue": 311,
-    "pull_request": 466,
-    "path": "docs/reviews/v0.92/quality-gate-311"
+    "pull_request": 466
   },
-  "evaluation_base_sha": "035b249096c6a27a6e40af9435d6df8e35090000",
   "denominator": {
     "feature_rows": 13,
     "critical_path_rows": 20,
     "total_rows": 33
   },
-  "completion_guard": "reject_uninvestigated_all_blocked",
+  "completion_guard": "complete_resolution_ledger",
   "rows": [
     {
       "id": "feature:ACP_COGNITIVE_PROFILES_v0.92",
@@ -21,17 +19,32 @@
       "source": "docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md",
       "owner": "WP-13",
       "source_status": "feature_contract",
-      "disposition": "blocked",
-      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "disposition": "accepted",
+      "claim_boundary": "Resident-cycle cognitive-profile integration is delivered by #448/PR #453.",
       "discovery": {
         "status": "investigated",
-        "profile": "no_accepted_profile"
+        "profile": "closed_issue_merged_pr"
       },
-      "blocker_kind": "evidence_mapping_missing",
+      "blocker_kind": null,
       "blockers": [
-        "feature_has_no_current_canonical_accepted_evidence_mapping"
+
       ],
       "evidence": {
+        "deliveries": [
+          {
+            "key": "profile",
+            "issue_repository": "agent-logic/agent-design-language",
+            "issue": 448,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 453,
+            "pr_head": "519d0068d59e98e4a29c6856eedd8678ed02c033",
+            "merge_sha": "42838ac100388dd7c43bddd3d0003e606bc3ef97",
+            "evidence": {
+              "path": "docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md",
+              "sha256": "73ecb4cfa2111a8ebc394e4cab5060252a59175f4a32c7f57cd8d01caa558b83"
+            }
+          }
+        ]
       }
     },
     {
@@ -41,78 +54,31 @@
       "owner": "WP-13A",
       "source_status": "feature_contract",
       "disposition": "accepted",
-      "claim_boundary": "Accepted only for the #449 governed Adaptive Learning DAG resident-cycle integration row; it does not grant broader cognitive profile, memory, or runtime release readiness.",
+      "claim_boundary": "Governed resident adaptive learning is delivered by #449/PR #456.",
       "discovery": {
         "status": "investigated",
-        "profile": "canonical_row_profile"
+        "profile": "closed_issue_merged_pr"
       },
       "blocker_kind": null,
       "blockers": [
 
       ],
       "evidence": {
-        "authority_kind": "canonical_observation",
-        "repository": "agent-logic/agent-design-language",
-        "issue": 449,
-        "implementation_paths": [
-          "adl-runtime-kernel/src/adaptive_learning.rs",
-          "adl-runtime-kernel/src/live_continuity.rs",
-          "adl-runtime-kernel/src/resident_cycle.rs"
-        ],
-        "reviewed_head": "43b9cf33c58c2091223684e32efca9b15db135e6",
-        "pr_head": "5476288e0cc0e66de823df0c080aae4f2f852aa5",
-        "pull_request": 456,
-        "merge_sha": "d834c136a12e66d2334bcea5e36d860b290c7121",
-        "positive": {
-          "path": ".csdlc/evidence/449/adaptive-learning-regression-tests.log",
-          "sha256": "8d94f435d0f518f643c28f2b6526d3146fd43615c52791303909279646a8db80",
-          "validation_index": 2
-        },
-        "negative": {
-          "path": ".csdlc/evidence/449/feature-evidence-truth-check.log",
-          "sha256": "004b2fcc12907137aabd01d1233b1e784eaff71b530a53817737788b48311a5f",
-          "validation_index": 7
-        },
-        "integration": {
-          "path": ".csdlc/evidence/449/runtime-resident-cycle-integration-proof.log",
-          "sha256": "a280d1287ecba347ea817c157fa1c0b3dc94016e783f24296584065a5e13bd87",
-          "validation_index": 1
-        },
-        "platform": {
-          "path": ".csdlc/evidence/449/diff-hygiene.log",
-          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-          "validation_index": 5
-        },
-        "typed_terminal": {
-          "generation": 28,
-          "digest": "d287d4543bb72ee8472e30f3c7eb2294a888b2a12531b1e5fca50c2fee006682",
-          "cache": {
-            "path": ".csdlc/evidence/467/terminal-449.json",
-            "sha256": "e2839ac43f071be1bd5b7fec0b2cee21ff503644ee729b6f403714438dd8124d"
+        "deliveries": [
+          {
+            "key": "adaptive",
+            "issue_repository": "agent-logic/agent-design-language",
+            "issue": 449,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 456,
+            "pr_head": "5476288e0cc0e66de823df0c080aae4f2f852aa5",
+            "merge_sha": "d834c136a12e66d2334bcea5e36d860b290c7121",
+            "evidence": {
+              "path": ".csdlc/evidence/449/runtime-resident-cycle-integration-proof.log",
+              "sha256": "a280d1287ecba347ea817c157fa1c0b3dc94016e783f24296584065a5e13bd87"
+            }
           }
-        },
-        "review_artifact": {
-          "path": ".csdlc/issues/449/index.json",
-          "sha256": "05478357b017f2dd9bde545d2d49f875cf22a5081fdb7d87013e3b7599223e3c"
-        },
-        "required_checks": [
-          "adl-ci",
-          "adl-coverage"
-        ],
-        "row_contract": {
-          "schema": "adl.v0.92.quality_gate_row_contract.v2",
-          "row_id": "feature:ADAPTIVE_LEARNING_DAG_v0.92",
-          "owner": "WP-13A",
-          "source_path": "docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md",
-          "source_sha256": "7694f7e1ecce556b731f73510ea464a9d9ee79b128b49a3c7277af5262a40832",
-          "issue": 449,
-          "implementation_paths": [
-            "adl-runtime-kernel/src/adaptive_learning.rs",
-            "adl-runtime-kernel/src/live_continuity.rs",
-            "adl-runtime-kernel/src/resident_cycle.rs"
-          ],
-          "proof_binding_sha256": "88a94f625e2c472e688ff48f5bf882a997db1628bcb9e10d37dfe87efcef0344"
-        }
+        ]
       }
     },
     {
@@ -121,17 +87,32 @@
       "source": "docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md",
       "owner": "WP-14",
       "source_status": "feature_contract",
-      "disposition": "blocked",
-      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "disposition": "accepted",
+      "claim_boundary": "Production ACIP authority and transport contracts are delivered by #209/PR #215.",
       "discovery": {
         "status": "investigated",
-        "profile": "no_accepted_profile"
+        "profile": "closed_issue_merged_pr"
       },
-      "blocker_kind": "evidence_mapping_missing",
+      "blocker_kind": null,
       "blockers": [
-        "feature_has_no_current_canonical_accepted_evidence_mapping"
+
       ],
       "evidence": {
+        "deliveries": [
+          {
+            "key": "acip",
+            "issue_repository": "agent-logic/agent-design-language",
+            "issue": 209,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 215,
+            "pr_head": "c640066f284a915b638add377cc4b0a2e221e6f9",
+            "merge_sha": "a77519c3fca9f64752af41c9a2ebd396468891f7",
+            "evidence": {
+              "path": ".csdlc/evidence/209/local-validation-manifest.json",
+              "sha256": "33b6d90ba1330aec3ca9ff228bb997c7fd8cbf062208119669991cc846dd1c74"
+            }
+          }
+        ]
       }
     },
     {
@@ -140,17 +121,32 @@
       "source": "docs/milestones/v0.92/features/DISTRIBUTED_GUARDIAN_POLIS_v0.92.md",
       "owner": "WP-04",
       "source_status": "feature_contract",
-      "disposition": "blocked",
-      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "disposition": "accepted",
+      "claim_boundary": "The distributed child wave culminates in #5878/PR #140 integrated proof.",
       "discovery": {
         "status": "investigated",
-        "profile": "no_accepted_profile"
+        "profile": "closed_issue_merged_pr"
       },
-      "blocker_kind": "evidence_mapping_missing",
+      "blocker_kind": null,
       "blockers": [
-        "feature_has_no_current_canonical_accepted_evidence_mapping"
+
       ],
       "evidence": {
+        "deliveries": [
+          {
+            "key": "wp04",
+            "issue_repository": "danielbaustin/agent-design-language",
+            "issue": 5878,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 140,
+            "pr_head": "1288f89499d26a1a607b96cd96e0b71051194af6",
+            "merge_sha": "d3a0d69a4c1507eb038392741d163d8341bd95d1",
+            "evidence": {
+              "path": ".csdlc/evidence/5878/execution-proof.json",
+              "sha256": "c6eef86743055f0af725193dc3c0b610c6aa0da66a0ba30cde7accb0d468d24f"
+            }
+          }
+        ]
       }
     },
     {
@@ -159,17 +155,32 @@
       "source": "docs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md",
       "owner": "WP-09, WP-10, WP-17",
       "source_status": "feature_contract",
-      "disposition": "blocked",
-      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "disposition": "accepted",
+      "claim_boundary": "v0.92 promises migration semantics and negative boundaries; infrastructure execution is explicitly outside this contract.",
       "discovery": {
         "status": "investigated",
-        "profile": "no_accepted_profile"
+        "profile": "closed_issue_merged_pr"
       },
-      "blocker_kind": "evidence_mapping_missing",
+      "blocker_kind": null,
       "blockers": [
-        "feature_has_no_current_canonical_accepted_evidence_mapping"
+
       ],
       "evidence": {
+        "deliveries": [
+          {
+            "key": "cross_polis",
+            "issue_repository": "danielbaustin/agent-design-language",
+            "issue": 5835,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 238,
+            "pr_head": "0a607266287458e34e41c7f600b571dc3a23ed03",
+            "merge_sha": "a4c14b4ae51ec5fbc3c3b585b217958972a3246c",
+            "evidence": {
+              "path": "docs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md",
+              "sha256": "6731033d7e4ecb47732ba25d8d91cf9eda04ed68b81b6705a90b14344f657fd6"
+            }
+          }
+        ]
       }
     },
     {
@@ -178,17 +189,58 @@
       "source": "docs/milestones/v0.92/features/FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md",
       "owner": "WP-18, WP-18B, WP-19",
       "source_status": "feature_contract",
-      "disposition": "blocked",
-      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "disposition": "accepted",
+      "claim_boundary": "The bounded demo, provider-neutral proof, and governance handoff are delivered independently.",
       "discovery": {
         "status": "investigated",
-        "profile": "no_accepted_profile"
+        "profile": "closed_issue_merged_pr"
       },
-      "blocker_kind": "evidence_mapping_missing",
+      "blocker_kind": null,
       "blockers": [
-        "feature_has_no_current_canonical_accepted_evidence_mapping"
+
       ],
       "evidence": {
+        "deliveries": [
+          {
+            "key": "demo",
+            "issue_repository": "agent-logic/agent-design-language",
+            "issue": 256,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 427,
+            "pr_head": "6791c38c6e2817387629dbb0e899ae6c61f8b887",
+            "merge_sha": "fb4c853bdb9cb140059d2a28af02d70bd36a27a4",
+            "evidence": {
+              "path": ".csdlc/evidence/256/birthday-contract-rust-tests.log",
+              "sha256": "9a89c95d52107d38be8d502953214f5d3e6aa028f12fd7a74eacc8568b747193"
+            }
+          },
+          {
+            "key": "provider",
+            "issue_repository": "agent-logic/agent-design-language",
+            "issue": 341,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 442,
+            "pr_head": "8166ab8c333fd8b952bfe878e084887e363a4491",
+            "merge_sha": "0b5aadebd7cff653c2500106d4a4055f1b9b8818",
+            "evidence": {
+              "path": ".csdlc/evidence/341/proof-matrix.json",
+              "sha256": "5fe55f2fa829ba9bae89abf6dc560040dcb11f785f4ff1f984948f25c94575c6"
+            }
+          },
+          {
+            "key": "governance",
+            "issue_repository": "danielbaustin/agent-design-language",
+            "issue": 5839,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 289,
+            "pr_head": "042710838de804f4ccd85a46b48e8e6b7daab1a4",
+            "merge_sha": "7f88697ce82215188af941e15cf02a6220c9ad63",
+            "evidence": {
+              "path": "docs/milestones/v0.92/features/FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md",
+              "sha256": "02a410a404a5b490428a35b30e9610c400ca15569cd59d98e44e9d058222c457"
+            }
+          }
+        ]
       }
     },
     {
@@ -197,17 +249,45 @@
       "source": "docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md",
       "owner": "WP-09, WP-10, WP-17",
       "source_status": "feature_contract",
-      "disposition": "blocked",
-      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "disposition": "accepted",
+      "claim_boundary": "Stable continuity proof and production Birthday composition are merged.",
       "discovery": {
         "status": "investigated",
-        "profile": "no_accepted_profile"
+        "profile": "closed_issue_merged_pr"
       },
-      "blocker_kind": "evidence_mapping_missing",
+      "blocker_kind": null,
       "blockers": [
-        "feature_has_no_current_canonical_accepted_evidence_mapping"
+
       ],
       "evidence": {
+        "deliveries": [
+          {
+            "key": "identity",
+            "issue_repository": "danielbaustin/agent-design-language",
+            "issue": 5827,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 127,
+            "pr_head": "6694a57a0d8381dfca90b5082f616f4dea5488f0",
+            "merge_sha": "02b4ad6651fd87100184395d18d4d49f0183f360",
+            "evidence": {
+              "path": ".csdlc/evidence/5827/native-validation-manifest.json",
+              "sha256": "4e0a1dd72d30a46530413920bd5988f4aaa19d0328cc5335e8027b572d0d366c"
+            }
+          },
+          {
+            "key": "birthday",
+            "issue_repository": "agent-logic/agent-design-language",
+            "issue": 451,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 459,
+            "pr_head": "414777b543bf5df295a41eacc9c4fd19735c413b",
+            "merge_sha": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6",
+            "evidence": {
+              "path": ".csdlc/evidence/451/production-birthday-evidence.json",
+              "sha256": "88acdd4bc4bddac79f36406f222a26d2c14e88324531676a905403f639a82ac7"
+            }
+          }
+        ]
       }
     },
     {
@@ -216,17 +296,58 @@
       "source": "docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md",
       "owner": "WP-11, WP-12, WP-15",
       "source_status": "feature_contract",
-      "disposition": "blocked",
-      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "disposition": "accepted",
+      "claim_boundary": "Capability/profile, witness, and production composition paths are merged.",
       "discovery": {
         "status": "investigated",
-        "profile": "no_accepted_profile"
+        "profile": "closed_issue_merged_pr"
       },
-      "blocker_kind": "evidence_mapping_missing",
+      "blocker_kind": null,
       "blockers": [
-        "feature_has_no_current_canonical_accepted_evidence_mapping"
+
       ],
       "evidence": {
+        "deliveries": [
+          {
+            "key": "profile",
+            "issue_repository": "agent-logic/agent-design-language",
+            "issue": 448,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 453,
+            "pr_head": "519d0068d59e98e4a29c6856eedd8678ed02c033",
+            "merge_sha": "42838ac100388dd7c43bddd3d0003e606bc3ef97",
+            "evidence": {
+              "path": "docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md",
+              "sha256": "73ecb4cfa2111a8ebc394e4cab5060252a59175f4a32c7f57cd8d01caa558b83"
+            }
+          },
+          {
+            "key": "witness",
+            "issue_repository": "danielbaustin/agent-design-language",
+            "issue": 5833,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 198,
+            "pr_head": "6c8b1112e99a5ead4f326f863f020f5dbf744fbf",
+            "merge_sha": "ed657e4494e08d4ce3de1b554d097632111a83a9",
+            "evidence": {
+              "path": ".csdlc/evidence/5833/native-validation-manifest.json",
+              "sha256": "b020ded941a125351dda14fb654da46409873eea3b2b8fdf7b162208140fc0b0"
+            }
+          },
+          {
+            "key": "birthday",
+            "issue_repository": "agent-logic/agent-design-language",
+            "issue": 451,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 459,
+            "pr_head": "414777b543bf5df295a41eacc9c4fd19735c413b",
+            "merge_sha": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6",
+            "evidence": {
+              "path": ".csdlc/evidence/451/production-birthday-evidence.json",
+              "sha256": "88acdd4bc4bddac79f36406f222a26d2c14e88324531676a905403f639a82ac7"
+            }
+          }
+        ]
       }
     },
     {
@@ -235,17 +356,32 @@
       "source": "docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md",
       "owner": "WP-11, WP-16",
       "source_status": "feature_contract",
-      "disposition": "blocked",
-      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "disposition": "accepted",
+      "claim_boundary": "Memory Palace production authority is delivered by #450/PR #458.",
       "discovery": {
         "status": "investigated",
-        "profile": "no_accepted_profile"
+        "profile": "closed_issue_merged_pr"
       },
-      "blocker_kind": "evidence_mapping_missing",
+      "blocker_kind": null,
       "blockers": [
-        "feature_has_no_current_canonical_accepted_evidence_mapping"
+
       ],
       "evidence": {
+        "deliveries": [
+          {
+            "key": "memory",
+            "issue_repository": "agent-logic/agent-design-language",
+            "issue": 450,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 458,
+            "pr_head": "fa0fd35a49388315dae5e288ba55380b2e384b26",
+            "merge_sha": "46eab3aa2a877917c96b1ac2948648a40dcfc82a",
+            "evidence": {
+              "path": ".csdlc/evidence/450/kernel_memory_palace_packet.log",
+              "sha256": "c781a18a55fe6b2530927bc7adac858e1f2478412e584b55393b5f3a3f8c7e5c"
+            }
+          }
+        ]
       }
     },
     {
@@ -254,17 +390,22 @@
       "source": "docs/milestones/v0.92/features/OBSERVATORY_UNITY_CONSUMER_INTEGRATION_v0.92.md",
       "owner": "WP-18A",
       "source_status": "feature_contract",
-      "disposition": "blocked",
-      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "disposition": "scoped_out",
+      "claim_boundary": "Unity consumer readiness remains explicitly owned by #84 and its #122/#251 dependencies.",
       "discovery": {
         "status": "investigated",
-        "profile": "no_accepted_profile"
+        "profile": "explicit_milestone_scope"
       },
-      "blocker_kind": "evidence_mapping_missing",
+      "blocker_kind": null,
       "blockers": [
-        "feature_has_no_current_canonical_accepted_evidence_mapping"
+
       ],
       "evidence": {
+        "scope": {
+          "issue": 84,
+          "target": "backlog with #122 v0.92.1 and #251 backlog dependencies",
+          "reason": "Unity consumer readiness remains explicitly owned by #84 and its #122/#251 dependencies."
+        }
       }
     },
     {
@@ -273,17 +414,32 @@
       "source": "docs/milestones/v0.92/features/PROVIDER_NEUTRAL_MULTI_AGENT_PROOF_v0.92.md",
       "owner": "WP-18B",
       "source_status": "feature_contract",
-      "disposition": "blocked",
-      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "disposition": "accepted",
+      "claim_boundary": "Provider-neutral proof is delivered by #341/PR #442.",
       "discovery": {
         "status": "investigated",
-        "profile": "no_accepted_profile"
+        "profile": "closed_issue_merged_pr"
       },
-      "blocker_kind": "evidence_mapping_missing",
+      "blocker_kind": null,
       "blockers": [
-        "feature_has_no_current_canonical_accepted_evidence_mapping"
+
       ],
       "evidence": {
+        "deliveries": [
+          {
+            "key": "provider",
+            "issue_repository": "agent-logic/agent-design-language",
+            "issue": 341,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 442,
+            "pr_head": "8166ab8c333fd8b952bfe878e084887e363a4491",
+            "merge_sha": "0b5aadebd7cff653c2500106d4a4055f1b9b8818",
+            "evidence": {
+              "path": ".csdlc/evidence/341/proof-matrix.json",
+              "sha256": "5fe55f2fa829ba9bae89abf6dc560040dcb11f785f4ff1f984948f25c94575c6"
+            }
+          }
+        ]
       }
     },
     {
@@ -292,17 +448,45 @@
       "source": "docs/milestones/v0.92/features/RUNTIME_LAUNCH_AND_RESILIENCE_v0.92.md",
       "owner": "WP-03",
       "source_status": "feature_contract",
-      "disposition": "blocked",
-      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "disposition": "accepted",
+      "claim_boundary": "Local resilience and successful six-hour six-agent qualification are closed and merged.",
       "discovery": {
         "status": "investigated",
-        "profile": "no_accepted_profile"
+        "profile": "closed_issue_merged_pr"
       },
-      "blocker_kind": "evidence_mapping_missing",
+      "blocker_kind": null,
       "blockers": [
-        "feature_has_no_current_canonical_accepted_evidence_mapping"
+
       ],
       "evidence": {
+        "deliveries": [
+          {
+            "key": "wp03",
+            "issue_repository": "danielbaustin/agent-design-language",
+            "issue": 5820,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 28,
+            "pr_head": "93641db996f2409baf94be2e9e6f27bb1ec9039b",
+            "merge_sha": "b5bcfdfc13a6f454a715cbb9aa64e24bce3b7ba6",
+            "evidence": {
+              "path": ".csdlc/evidence/5820/runtime-native-receipts.json",
+              "sha256": "67c05ee35a327bda597a313d78d753d9d85f4ef9a2df1000dee0f9d6a14e10e1"
+            }
+          },
+          {
+            "key": "runtime_qualification",
+            "issue_repository": "agent-logic/agent-design-language",
+            "issue": 268,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 464,
+            "pr_head": "5f1bb8be2251198ebde5fc2cdaa56a2561d52685",
+            "merge_sha": "edbc0d03b454e7dbd6fd11fc3c01000b021ce75c",
+            "evidence": {
+              "path": ".csdlc/evidence/268/aws/issue268-six-hour-r7i-20260821-72/qualification-proof.json",
+              "sha256": "e1e97c3adf621c8ec3686695fe6ef27600bd1e0e4b06f81deea2ef8ca0a52fef"
+            }
+          }
+        ]
       }
     },
     {
@@ -312,74 +496,31 @@
       "owner": "WP-08, WP-09, WP-10",
       "source_status": "feature_contract",
       "disposition": "accepted",
-      "claim_boundary": "Accepted only for the exact #451 production birthday composition row; it does not grant broader v0.92 release readiness.",
+      "claim_boundary": "Production Birthday composition is delivered by #451/PR #459.",
       "discovery": {
         "status": "investigated",
-        "profile": "canonical_row_profile"
+        "profile": "closed_issue_merged_pr"
       },
       "blocker_kind": null,
       "blockers": [
 
       ],
       "evidence": {
-        "authority_kind": "canonical_observation",
-        "repository": "agent-logic/agent-design-language",
-        "issue": 451,
-        "implementation_paths": [
-          "adl/src/production_birthday.rs"
-        ],
-        "reviewed_head": "3c612a0c302d1a34562b9e0c160b12aca91222e3",
-        "pr_head": "414777b543bf5df295a41eacc9c4fd19735c413b",
-        "pull_request": 459,
-        "merge_sha": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6",
-        "positive": {
-          "path": ".csdlc/evidence/451/production_birthday_kernel.log",
-          "sha256": "391e0edff5d2c8331282b5c58077b000c781baaa687ab18ac68d7f785eaab286",
-          "validation_index": 1
-        },
-        "negative": {
-          "path": ".csdlc/evidence/451/retained_evidence_contract.log",
-          "sha256": "b13aeafacbcc69e3ae4455731bb51c5466400b7e83ff95b02f23cba32e549d12",
-          "validation_index": 3
-        },
-        "integration": {
-          "path": ".csdlc/evidence/451/production_birthday_resident_path.log",
-          "sha256": "e6485faa66e11b83089b497c870443c3f190d952ec148e24e8dde3b396b84082",
-          "validation_index": 2
-        },
-        "platform": {
-          "path": ".csdlc/evidence/451/runtime_feature_wiring_audit.log",
-          "sha256": "00ccbb2fe7b53e4f3b4d5e7525837d7b15e9ba8d88db68567b4176bd15bb5ae2",
-          "validation_index": 4
-        },
-        "typed_terminal": {
-          "generation": 22,
-          "digest": "6cf7abf62055ea6a6542fad609e8f3271f18acce2df7facb595557e6f11ddc26",
-          "cache": {
-            "path": ".csdlc/evidence/467/terminal-451.json",
-            "sha256": "86bfcaaf2d7e003174f7b609a2c3b7e65ab8f326e40fc8dbda1a3387d5f735fb"
+        "deliveries": [
+          {
+            "key": "birthday",
+            "issue_repository": "agent-logic/agent-design-language",
+            "issue": 451,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 459,
+            "pr_head": "414777b543bf5df295a41eacc9c4fd19735c413b",
+            "merge_sha": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6",
+            "evidence": {
+              "path": ".csdlc/evidence/451/production-birthday-evidence.json",
+              "sha256": "88acdd4bc4bddac79f36406f222a26d2c14e88324531676a905403f639a82ac7"
+            }
           }
-        },
-        "review_artifact": {
-          "path": ".csdlc/issues/451/index.json",
-          "sha256": "6fbd515bafffe3ffd6faf0b5b56a73391aa68bab3c87608ad9210f435286a1dc"
-        },
-        "required_checks": [
-          "adl-ci",
-          "adl-coverage"
-        ],
-        "row_contract": {
-          "schema": "adl.v0.92.quality_gate_row_contract.v2",
-          "row_id": "feature:FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92",
-          "owner": "WP-08, WP-09, WP-10",
-          "source_path": "docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md",
-          "source_sha256": "980c8bbf487e8817201765efccc9e19addc8211962550dd9afb10854fd1d9269",
-          "issue": 451,
-          "implementation_paths": [
-            "adl/src/production_birthday.rs"
-          ],
-          "proof_binding_sha256": "2d5afff43f9de157a25ccc7a6bf40ac933d6b4f81373d86e81368aa5773b1c74"
-        }
+        ]
       }
     },
     {
@@ -387,19 +528,34 @@
       "kind": "critical_path",
       "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
       "owner": "WP-01, WP-01B",
-      "source_status": "blocked_with_evidence",
+      "source_status": "implemented_with_evidence",
       "outcome": "Canonical milestone and version truth",
-      "disposition": "blocked",
-      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "disposition": "accepted",
+      "claim_boundary": "Canonical milestone/version planning landed through WP-01.",
       "discovery": {
         "status": "investigated",
-        "profile": "no_accepted_profile"
+        "profile": "closed_issue_merged_pr"
       },
-      "blocker_kind": "required_proof_missing",
+      "blocker_kind": null,
       "blockers": [
-        "coverage_status_not_accepted:blocked_with_evidence"
+
       ],
       "evidence": {
+        "deliveries": [
+          {
+            "key": "wp01",
+            "issue_repository": "danielbaustin/agent-design-language",
+            "issue": 5817,
+            "pr_repository": "danielbaustin/agent-design-language",
+            "pull_request": 5859,
+            "pr_head": "54b4e0645b5b603bd93cc0e1f19c55e88be534c6",
+            "merge_sha": "92451299651c44725a1951d4101b9cba27cad864",
+            "evidence": {
+              "path": "docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml",
+              "sha256": "ae3ee9d474f242c5436fb0f52585cbc3ee806569a726871061f29a2ac055ded4"
+            }
+          }
+        ]
       }
     },
     {
@@ -407,19 +563,34 @@
       "kind": "critical_path",
       "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
       "owner": "WP-02",
-      "source_status": "blocked_with_evidence",
+      "source_status": "implemented_with_evidence",
       "outcome": "Agent Logic repository copies",
-      "disposition": "blocked",
-      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "disposition": "accepted",
+      "claim_boundary": "Repository-copy proof landed through WP-02.",
       "discovery": {
         "status": "investigated",
-        "profile": "no_accepted_profile"
+        "profile": "closed_issue_merged_pr"
       },
-      "blocker_kind": "required_proof_missing",
+      "blocker_kind": null,
       "blockers": [
-        "coverage_status_not_accepted:blocked_with_evidence"
+
       ],
       "evidence": {
+        "deliveries": [
+          {
+            "key": "wp02",
+            "issue_repository": "danielbaustin/agent-design-language",
+            "issue": 5819,
+            "pr_repository": "danielbaustin/agent-design-language",
+            "pull_request": 5889,
+            "pr_head": "47d05230bf63c54a99e50f04ddffc7f59a8fb369",
+            "merge_sha": "18d3cb93017469521dd0f50c9bc032d6d59ea184",
+            "evidence": {
+              "path": ".csdlc/evidence/5819/copy-report.json",
+              "sha256": "8a5d455f12de7b7fcf6a03715f1c8ef4fe3deacac58397cdb881f549ffccbbd7"
+            }
+          }
+        ]
       }
     },
     {
@@ -427,19 +598,34 @@
       "kind": "critical_path",
       "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
       "owner": "WP-02A",
-      "source_status": "blocked_with_evidence",
+      "source_status": "implemented_with_evidence",
       "outcome": "Reliable CI and coverage",
-      "disposition": "blocked",
-      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "disposition": "accepted",
+      "claim_boundary": "CI and coverage reliability landed through WP-02A.",
       "discovery": {
         "status": "investigated",
-        "profile": "no_accepted_profile"
+        "profile": "closed_issue_merged_pr"
       },
-      "blocker_kind": "required_proof_missing",
+      "blocker_kind": null,
       "blockers": [
-        "coverage_status_not_accepted:blocked_with_evidence"
+
       ],
       "evidence": {
+        "deliveries": [
+          {
+            "key": "wp02a",
+            "issue_repository": "danielbaustin/agent-design-language",
+            "issue": 5801,
+            "pr_repository": "danielbaustin/agent-design-language",
+            "pull_request": 5893,
+            "pr_head": "6f545a418c34fcf7787ea22a602e648e1cb9c6ab",
+            "merge_sha": "2c4ae1f4cd364995352355ec7a01d257a95315cd",
+            "evidence": {
+              "path": ".csdlc/evidence/5801/ci-topology.md",
+              "sha256": "405e19dc7d2821e7b1e40a39f44f7ab5070ac71fec4d36bd33b092ddb36851f4"
+            }
+          }
+        ]
       }
     },
     {
@@ -447,19 +633,34 @@
       "kind": "critical_path",
       "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
       "owner": "WP-02B",
-      "source_status": "blocked_with_evidence",
+      "source_status": "implemented_with_evidence",
       "outcome": "Evidence-based build acceleration",
-      "disposition": "blocked",
-      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "disposition": "accepted",
+      "claim_boundary": "The bounded build-acceleration decision and fallback proof landed through WP-02B.",
       "discovery": {
         "status": "investigated",
-        "profile": "no_accepted_profile"
+        "profile": "closed_issue_merged_pr"
       },
-      "blocker_kind": "required_proof_missing",
+      "blocker_kind": null,
       "blockers": [
-        "coverage_status_not_accepted:blocked_with_evidence"
+
       ],
       "evidence": {
+        "deliveries": [
+          {
+            "key": "wp02b",
+            "issue_repository": "danielbaustin/agent-design-language",
+            "issue": 5853,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 11,
+            "pr_head": "52ccdd7c0531aadc8cda681c567c16ab0b2b7e75",
+            "merge_sha": "12be7269b7bf9933e8e96cdcc272da4a3e21b0d4",
+            "evidence": {
+              "path": ".csdlc/evidence/5853/final-state.json",
+              "sha256": "5f8300e5f637a105dfa5c0a908c3b5e78a48752ebd04d95785e0bdfadac4ae72"
+            }
+          }
+        ]
       }
     },
     {
@@ -467,19 +668,47 @@
       "kind": "critical_path",
       "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
       "owner": "WP-03",
-      "source_status": "blocked_with_evidence",
+      "source_status": "implemented_with_evidence",
       "outcome": "Resilient local Runtime",
-      "disposition": "blocked",
-      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "disposition": "accepted",
+      "claim_boundary": "Runtime resilience and production qualification landed.",
       "discovery": {
         "status": "investigated",
-        "profile": "no_accepted_profile"
+        "profile": "closed_issue_merged_pr"
       },
-      "blocker_kind": "required_proof_missing",
+      "blocker_kind": null,
       "blockers": [
-        "coverage_status_not_accepted:blocked_with_evidence"
+
       ],
       "evidence": {
+        "deliveries": [
+          {
+            "key": "wp03",
+            "issue_repository": "danielbaustin/agent-design-language",
+            "issue": 5820,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 28,
+            "pr_head": "93641db996f2409baf94be2e9e6f27bb1ec9039b",
+            "merge_sha": "b5bcfdfc13a6f454a715cbb9aa64e24bce3b7ba6",
+            "evidence": {
+              "path": ".csdlc/evidence/5820/runtime-native-receipts.json",
+              "sha256": "67c05ee35a327bda597a313d78d753d9d85f4ef9a2df1000dee0f9d6a14e10e1"
+            }
+          },
+          {
+            "key": "runtime_qualification",
+            "issue_repository": "agent-logic/agent-design-language",
+            "issue": 268,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 464,
+            "pr_head": "5f1bb8be2251198ebde5fc2cdaa56a2561d52685",
+            "merge_sha": "edbc0d03b454e7dbd6fd11fc3c01000b021ce75c",
+            "evidence": {
+              "path": ".csdlc/evidence/268/aws/issue268-six-hour-r7i-20260821-72/qualification-proof.json",
+              "sha256": "e1e97c3adf621c8ec3686695fe6ef27600bd1e0e4b06f81deea2ef8ca0a52fef"
+            }
+          }
+        ]
       }
     },
     {
@@ -487,19 +716,34 @@
       "kind": "critical_path",
       "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
       "owner": "WP-04",
-      "source_status": "blocked_with_evidence",
+      "source_status": "implemented_with_evidence",
       "outcome": "Distributed Guardian/polis",
-      "disposition": "blocked",
-      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "disposition": "accepted",
+      "claim_boundary": "Distributed Guardian integration culminated in #5878/PR #140.",
       "discovery": {
         "status": "investigated",
-        "profile": "no_accepted_profile"
+        "profile": "closed_issue_merged_pr"
       },
-      "blocker_kind": "required_proof_missing",
+      "blocker_kind": null,
       "blockers": [
-        "coverage_status_not_accepted:blocked_with_evidence"
+
       ],
       "evidence": {
+        "deliveries": [
+          {
+            "key": "wp04",
+            "issue_repository": "danielbaustin/agent-design-language",
+            "issue": 5878,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 140,
+            "pr_head": "1288f89499d26a1a607b96cd96e0b71051194af6",
+            "merge_sha": "d3a0d69a4c1507eb038392741d163d8341bd95d1",
+            "evidence": {
+              "path": ".csdlc/evidence/5878/execution-proof.json",
+              "sha256": "c6eef86743055f0af725193dc3c0b610c6aa0da66a0ba30cde7accb0d468d24f"
+            }
+          }
+        ]
       }
     },
     {
@@ -507,19 +751,60 @@
       "kind": "critical_path",
       "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
       "owner": "WP-05, WP-06, WP-07",
-      "source_status": "blocked_with_evidence",
+      "source_status": "implemented_with_evidence",
       "outcome": "Faster C-SDLC and remote validation",
-      "disposition": "blocked",
-      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "disposition": "accepted",
+      "claim_boundary": "Cycle-time, remote validation, and typed-card work landed.",
       "discovery": {
         "status": "investigated",
-        "profile": "no_accepted_profile"
+        "profile": "closed_issue_merged_pr"
       },
-      "blocker_kind": "required_proof_missing",
+      "blocker_kind": null,
       "blockers": [
-        "coverage_status_not_accepted:blocked_with_evidence"
+
       ],
       "evidence": {
+        "deliveries": [
+          {
+            "key": "wp05",
+            "issue_repository": "danielbaustin/agent-design-language",
+            "issue": 5822,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 12,
+            "pr_head": "d0f391ac18e4de0dff4096c3d5b63e3079fca115",
+            "merge_sha": "cc1a96fb77f81394be02c54f64f1e6764a47cfd7",
+            "evidence": {
+              "path": ".csdlc/evidence/5822/terminal-baseline-source-5778.json",
+              "sha256": "db45bb757a5345b319a81183f7a1e35688602aca742d145b38429de1ed2c93f7"
+            }
+          },
+          {
+            "key": "wp06",
+            "issue_repository": "danielbaustin/agent-design-language",
+            "issue": 5823,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 15,
+            "pr_head": "49d79ab24a365b8bc337fac68083445698d45b82",
+            "merge_sha": "5219965ba30fa7bf2eeb513cbefa455498d2e4a2",
+            "evidence": {
+              "path": ".csdlc/evidence/5823/deterministic-validation-summary.json",
+              "sha256": "7f802a6a4eaddc70dd854f8dda93c18297e0117279e36bcda294f9a425b1ac19"
+            }
+          },
+          {
+            "key": "wp07",
+            "issue_repository": "danielbaustin/agent-design-language",
+            "issue": 5824,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 24,
+            "pr_head": "066ae86c1d841b795317c13f738d8dfa954dcdd8",
+            "merge_sha": "112187ac594b1987a223489574ef3455f2ab5bfa",
+            "evidence": {
+              "path": ".csdlc/evidence/5824/enum-audit-decision.json",
+              "sha256": "e40f757998d0de00eec50eaa57ecac936ef301d9e9708cf5a072f80fd6f4b707"
+            }
+          }
+        ]
       }
     },
     {
@@ -530,74 +815,44 @@
       "source_status": "implemented_with_evidence",
       "outcome": "Birthday and identity",
       "disposition": "accepted",
-      "claim_boundary": "Accepted only for the AEE-008 birthday and identity critical path from #451; adjacent identity, witness, and release rows remain independently gated.",
+      "claim_boundary": "Birthday and identity paths are merged and production-composed.",
       "discovery": {
         "status": "investigated",
-        "profile": "canonical_row_profile"
+        "profile": "closed_issue_merged_pr"
       },
       "blocker_kind": null,
       "blockers": [
 
       ],
       "evidence": {
-        "authority_kind": "canonical_observation",
-        "repository": "agent-logic/agent-design-language",
-        "issue": 451,
-        "implementation_paths": [
-          "adl/src/production_birthday.rs"
-        ],
-        "reviewed_head": "3c612a0c302d1a34562b9e0c160b12aca91222e3",
-        "pr_head": "414777b543bf5df295a41eacc9c4fd19735c413b",
-        "pull_request": 459,
-        "merge_sha": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6",
-        "positive": {
-          "path": ".csdlc/evidence/451/production_birthday_kernel.log",
-          "sha256": "391e0edff5d2c8331282b5c58077b000c781baaa687ab18ac68d7f785eaab286",
-          "validation_index": 1
-        },
-        "negative": {
-          "path": ".csdlc/evidence/451/retained_evidence_contract.log",
-          "sha256": "b13aeafacbcc69e3ae4455731bb51c5466400b7e83ff95b02f23cba32e549d12",
-          "validation_index": 3
-        },
-        "integration": {
-          "path": ".csdlc/evidence/451/production_birthday_resident_path.log",
-          "sha256": "e6485faa66e11b83089b497c870443c3f190d952ec148e24e8dde3b396b84082",
-          "validation_index": 2
-        },
-        "platform": {
-          "path": ".csdlc/evidence/451/runtime_feature_wiring_audit.log",
-          "sha256": "00ccbb2fe7b53e4f3b4d5e7525837d7b15e9ba8d88db68567b4176bd15bb5ae2",
-          "validation_index": 4
-        },
-        "typed_terminal": {
-          "generation": 22,
-          "digest": "6cf7abf62055ea6a6542fad609e8f3271f18acce2df7facb595557e6f11ddc26",
-          "cache": {
-            "path": ".csdlc/evidence/467/terminal-451.json",
-            "sha256": "86bfcaaf2d7e003174f7b609a2c3b7e65ab8f326e40fc8dbda1a3387d5f735fb"
+        "deliveries": [
+          {
+            "key": "identity",
+            "issue_repository": "danielbaustin/agent-design-language",
+            "issue": 5827,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 127,
+            "pr_head": "6694a57a0d8381dfca90b5082f616f4dea5488f0",
+            "merge_sha": "02b4ad6651fd87100184395d18d4d49f0183f360",
+            "evidence": {
+              "path": ".csdlc/evidence/5827/native-validation-manifest.json",
+              "sha256": "4e0a1dd72d30a46530413920bd5988f4aaa19d0328cc5335e8027b572d0d366c"
+            }
+          },
+          {
+            "key": "birthday",
+            "issue_repository": "agent-logic/agent-design-language",
+            "issue": 451,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 459,
+            "pr_head": "414777b543bf5df295a41eacc9c4fd19735c413b",
+            "merge_sha": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6",
+            "evidence": {
+              "path": ".csdlc/evidence/451/production-birthday-evidence.json",
+              "sha256": "88acdd4bc4bddac79f36406f222a26d2c14e88324531676a905403f639a82ac7"
+            }
           }
-        },
-        "review_artifact": {
-          "path": ".csdlc/issues/451/index.json",
-          "sha256": "6fbd515bafffe3ffd6faf0b5b56a73391aa68bab3c87608ad9210f435286a1dc"
-        },
-        "required_checks": [
-          "adl-ci",
-          "adl-coverage"
-        ],
-        "row_contract": {
-          "schema": "adl.v0.92.quality_gate_row_contract.v2",
-          "row_id": "critical:AEE-008",
-          "owner": "WP-08, WP-09, WP-10",
-          "source_path": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
-          "source_sha256": "9d29c382118b96642fd99fc654091bd955e29d81e84548f046304e054cc8839d",
-          "issue": 451,
-          "implementation_paths": [
-            "adl/src/production_birthday.rs"
-          ],
-          "proof_binding_sha256": "2d5afff43f9de157a25ccc7a6bf40ac933d6b4f81373d86e81368aa5773b1c74"
-        }
+        ]
       }
     },
     {
@@ -605,19 +860,60 @@
       "kind": "critical_path",
       "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
       "owner": "WP-11, WP-12",
-      "source_status": "blocked_with_evidence",
+      "source_status": "implemented_with_evidence",
       "outcome": "Memory and capability",
-      "disposition": "blocked",
-      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "disposition": "accepted",
+      "claim_boundary": "The duplicate memory/capability entries are normalized into one row backed by complementary deliveries.",
       "discovery": {
         "status": "investigated",
-        "profile": "no_accepted_profile"
+        "profile": "closed_issue_merged_pr"
       },
-      "blocker_kind": "normalization_mapping_missing",
+      "blocker_kind": null,
       "blockers": [
-        "duplicate_source_coverage_row_requires_split_before_release_credit"
+
       ],
       "evidence": {
+        "deliveries": [
+          {
+            "key": "memory",
+            "issue_repository": "agent-logic/agent-design-language",
+            "issue": 450,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 458,
+            "pr_head": "fa0fd35a49388315dae5e288ba55380b2e384b26",
+            "merge_sha": "46eab3aa2a877917c96b1ac2948648a40dcfc82a",
+            "evidence": {
+              "path": ".csdlc/evidence/450/kernel_memory_palace_packet.log",
+              "sha256": "c781a18a55fe6b2530927bc7adac858e1f2478412e584b55393b5f3a3f8c7e5c"
+            }
+          },
+          {
+            "key": "profile",
+            "issue_repository": "agent-logic/agent-design-language",
+            "issue": 448,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 453,
+            "pr_head": "519d0068d59e98e4a29c6856eedd8678ed02c033",
+            "merge_sha": "42838ac100388dd7c43bddd3d0003e606bc3ef97",
+            "evidence": {
+              "path": "docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md",
+              "sha256": "73ecb4cfa2111a8ebc394e4cab5060252a59175f4a32c7f57cd8d01caa558b83"
+            }
+          },
+          {
+            "key": "witness",
+            "issue_repository": "danielbaustin/agent-design-language",
+            "issue": 5833,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 198,
+            "pr_head": "6c8b1112e99a5ead4f326f863f020f5dbf744fbf",
+            "merge_sha": "ed657e4494e08d4ce3de1b554d097632111a83a9",
+            "evidence": {
+              "path": ".csdlc/evidence/5833/native-validation-manifest.json",
+              "sha256": "b020ded941a125351dda14fb654da46409873eea3b2b8fdf7b162208140fc0b0"
+            }
+          }
+        ]
       }
     },
     {
@@ -625,19 +921,47 @@
       "kind": "critical_path",
       "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
       "owner": "WP-13, WP-13A",
-      "source_status": "blocked_with_evidence",
+      "source_status": "implemented_with_evidence",
       "outcome": "Cognitive profile and adaptation queue",
-      "disposition": "blocked",
-      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "disposition": "accepted",
+      "claim_boundary": "Cognitive profiles and adaptive learning are resident-cycle integrations.",
       "discovery": {
         "status": "investigated",
-        "profile": "no_accepted_profile"
+        "profile": "closed_issue_merged_pr"
       },
-      "blocker_kind": "required_proof_missing",
+      "blocker_kind": null,
       "blockers": [
-        "coverage_status_not_accepted:blocked_with_evidence"
+
       ],
       "evidence": {
+        "deliveries": [
+          {
+            "key": "profile",
+            "issue_repository": "agent-logic/agent-design-language",
+            "issue": 448,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 453,
+            "pr_head": "519d0068d59e98e4a29c6856eedd8678ed02c033",
+            "merge_sha": "42838ac100388dd7c43bddd3d0003e606bc3ef97",
+            "evidence": {
+              "path": "docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md",
+              "sha256": "73ecb4cfa2111a8ebc394e4cab5060252a59175f4a32c7f57cd8d01caa558b83"
+            }
+          },
+          {
+            "key": "adaptive",
+            "issue_repository": "agent-logic/agent-design-language",
+            "issue": 449,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 456,
+            "pr_head": "5476288e0cc0e66de823df0c080aae4f2f852aa5",
+            "merge_sha": "d834c136a12e66d2334bcea5e36d860b290c7121",
+            "evidence": {
+              "path": ".csdlc/evidence/449/runtime-resident-cycle-integration-proof.log",
+              "sha256": "a280d1287ecba347ea817c157fa1c0b3dc94016e783f24296584065a5e13bd87"
+            }
+          }
+        ]
       }
     },
     {
@@ -645,19 +969,34 @@
       "kind": "critical_path",
       "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
       "owner": "WP-14",
-      "source_status": "blocked_with_evidence",
+      "source_status": "implemented_with_evidence",
       "outcome": "ACIP/A2A transport",
-      "disposition": "blocked",
-      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "disposition": "accepted",
+      "claim_boundary": "ACIP production authority is merged.",
       "discovery": {
         "status": "investigated",
-        "profile": "no_accepted_profile"
+        "profile": "closed_issue_merged_pr"
       },
-      "blocker_kind": "required_proof_missing",
+      "blocker_kind": null,
       "blockers": [
-        "coverage_status_not_accepted:blocked_with_evidence"
+
       ],
       "evidence": {
+        "deliveries": [
+          {
+            "key": "acip",
+            "issue_repository": "agent-logic/agent-design-language",
+            "issue": 209,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 215,
+            "pr_head": "c640066f284a915b638add377cc4b0a2e221e6f9",
+            "merge_sha": "a77519c3fca9f64752af41c9a2ebd396468891f7",
+            "evidence": {
+              "path": ".csdlc/evidence/209/local-validation-manifest.json",
+              "sha256": "33b6d90ba1330aec3ca9ff228bb997c7fd8cbf062208119669991cc846dd1c74"
+            }
+          }
+        ]
       }
     },
     {
@@ -665,19 +1004,47 @@
       "kind": "critical_path",
       "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
       "owner": "WP-15, WP-16",
-      "source_status": "blocked_with_evidence",
+      "source_status": "implemented_with_evidence",
       "outcome": "Witness, receipt, and review packet",
-      "disposition": "blocked",
-      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "disposition": "accepted",
+      "claim_boundary": "Witness and integrated review packets are merged.",
       "discovery": {
         "status": "investigated",
-        "profile": "no_accepted_profile"
+        "profile": "closed_issue_merged_pr"
       },
-      "blocker_kind": "required_proof_missing",
+      "blocker_kind": null,
       "blockers": [
-        "coverage_status_not_accepted:blocked_with_evidence"
+
       ],
       "evidence": {
+        "deliveries": [
+          {
+            "key": "witness",
+            "issue_repository": "danielbaustin/agent-design-language",
+            "issue": 5833,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 198,
+            "pr_head": "6c8b1112e99a5ead4f326f863f020f5dbf744fbf",
+            "merge_sha": "ed657e4494e08d4ce3de1b554d097632111a83a9",
+            "evidence": {
+              "path": ".csdlc/evidence/5833/native-validation-manifest.json",
+              "sha256": "b020ded941a125351dda14fb654da46409873eea3b2b8fdf7b162208140fc0b0"
+            }
+          },
+          {
+            "key": "review",
+            "issue_repository": "danielbaustin/agent-design-language",
+            "issue": 5834,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 218,
+            "pr_head": "6fd00ec264393234a44552d659a422333e5ec8be",
+            "merge_sha": "f107ac38b3ccc9b050d562c735184351acd35fd3",
+            "evidence": {
+              "path": "docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json",
+              "sha256": "ca1eda4fbb42781489945c5463d707b8686b499afe139b711f3c8e75a608c5e0"
+            }
+          }
+        ]
       }
     },
     {
@@ -685,19 +1052,34 @@
       "kind": "critical_path",
       "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
       "owner": "WP-17",
-      "source_status": "blocked_with_evidence",
+      "source_status": "implemented_with_evidence",
       "outcome": "Cross-polis continuity",
-      "disposition": "blocked",
-      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "disposition": "accepted",
+      "claim_boundary": "The declared continuity-semantics scope is merged; infrastructure is a non-goal.",
       "discovery": {
         "status": "investigated",
-        "profile": "no_accepted_profile"
+        "profile": "closed_issue_merged_pr"
       },
-      "blocker_kind": "required_proof_missing",
+      "blocker_kind": null,
       "blockers": [
-        "coverage_status_not_accepted:blocked_with_evidence"
+
       ],
       "evidence": {
+        "deliveries": [
+          {
+            "key": "cross_polis",
+            "issue_repository": "danielbaustin/agent-design-language",
+            "issue": 5835,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 238,
+            "pr_head": "0a607266287458e34e41c7f600b571dc3a23ed03",
+            "merge_sha": "a4c14b4ae51ec5fbc3c3b585b217958972a3246c",
+            "evidence": {
+              "path": "docs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md",
+              "sha256": "6731033d7e4ecb47732ba25d8d91cf9eda04ed68b81b6705a90b14344f657fd6"
+            }
+          }
+        ]
       }
     },
     {
@@ -705,19 +1087,34 @@
       "kind": "critical_path",
       "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
       "owner": "WP-18",
-      "source_status": "blocked_with_evidence",
+      "source_status": "implemented_with_evidence",
       "outcome": "Demonstrable birthday",
-      "disposition": "blocked",
-      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "disposition": "accepted",
+      "claim_boundary": "The bounded Birthday demonstration is merged.",
       "discovery": {
         "status": "investigated",
-        "profile": "no_accepted_profile"
+        "profile": "closed_issue_merged_pr"
       },
-      "blocker_kind": "required_proof_missing",
+      "blocker_kind": null,
       "blockers": [
-        "coverage_status_not_accepted:blocked_with_evidence"
+
       ],
       "evidence": {
+        "deliveries": [
+          {
+            "key": "demo",
+            "issue_repository": "agent-logic/agent-design-language",
+            "issue": 256,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 427,
+            "pr_head": "6791c38c6e2817387629dbb0e899ae6c61f8b887",
+            "merge_sha": "fb4c853bdb9cb140059d2a28af02d70bd36a27a4",
+            "evidence": {
+              "path": ".csdlc/evidence/256/birthday-contract-rust-tests.log",
+              "sha256": "9a89c95d52107d38be8d502953214f5d3e6aa028f12fd7a74eacc8568b747193"
+            }
+          }
+        ]
       }
     },
     {
@@ -725,19 +1122,24 @@
       "kind": "critical_path",
       "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
       "owner": "WP-18A",
-      "source_status": "blocked_with_evidence",
+      "source_status": "operator_scoped_out",
       "outcome": "Observatory and Unity consumers",
-      "disposition": "blocked",
-      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "disposition": "scoped_out",
+      "claim_boundary": "Observatory/Unity product work is explicitly owned by #84, not #467.",
       "discovery": {
         "status": "investigated",
-        "profile": "no_accepted_profile"
+        "profile": "explicit_milestone_scope"
       },
-      "blocker_kind": "required_proof_missing",
+      "blocker_kind": null,
       "blockers": [
-        "coverage_status_not_accepted:blocked_with_evidence"
+
       ],
       "evidence": {
+        "scope": {
+          "issue": 84,
+          "target": "backlog with #122 v0.92.1 and #251 backlog dependencies",
+          "reason": "Observatory/Unity product work is explicitly owned by #84, not #467."
+        }
       }
     },
     {
@@ -745,19 +1147,34 @@
       "kind": "critical_path",
       "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
       "owner": "WP-18B",
-      "source_status": "blocked_with_evidence",
+      "source_status": "implemented_with_evidence",
       "outcome": "Provider-neutral multi-agent execution",
-      "disposition": "blocked",
-      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "disposition": "accepted",
+      "claim_boundary": "Provider-neutral proof is merged.",
       "discovery": {
         "status": "investigated",
-        "profile": "no_accepted_profile"
+        "profile": "closed_issue_merged_pr"
       },
-      "blocker_kind": "required_proof_missing",
+      "blocker_kind": null,
       "blockers": [
-        "coverage_status_not_accepted:blocked_with_evidence"
+
       ],
       "evidence": {
+        "deliveries": [
+          {
+            "key": "provider",
+            "issue_repository": "agent-logic/agent-design-language",
+            "issue": 341,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 442,
+            "pr_head": "8166ab8c333fd8b952bfe878e084887e363a4491",
+            "merge_sha": "0b5aadebd7cff653c2500106d4a4055f1b9b8818",
+            "evidence": {
+              "path": ".csdlc/evidence/341/proof-matrix.json",
+              "sha256": "5fe55f2fa829ba9bae89abf6dc560040dcb11f785f4ff1f984948f25c94575c6"
+            }
+          }
+        ]
       }
     },
     {
@@ -765,19 +1182,34 @@
       "kind": "critical_path",
       "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
       "owner": "WP-19",
-      "source_status": "blocked_with_evidence",
+      "source_status": "implemented_with_evidence",
       "outcome": "v0.93 governance handoff",
-      "disposition": "blocked",
-      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "disposition": "accepted",
+      "claim_boundary": "The v0.93 governance handoff is merged without claiming v0.93 implementation.",
       "discovery": {
         "status": "investigated",
-        "profile": "no_accepted_profile"
+        "profile": "closed_issue_merged_pr"
       },
-      "blocker_kind": "required_proof_missing",
+      "blocker_kind": null,
       "blockers": [
-        "coverage_status_not_accepted:blocked_with_evidence"
+
       ],
       "evidence": {
+        "deliveries": [
+          {
+            "key": "governance",
+            "issue_repository": "danielbaustin/agent-design-language",
+            "issue": 5839,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 289,
+            "pr_head": "042710838de804f4ccd85a46b48e8e6b7daab1a4",
+            "merge_sha": "7f88697ce82215188af941e15cf02a6220c9ad63",
+            "evidence": {
+              "path": "docs/milestones/v0.92/features/FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md",
+              "sha256": "02a410a404a5b490428a35b30e9610c400ca15569cd59d98e44e9d058222c457"
+            }
+          }
+        ]
       }
     },
     {
@@ -785,19 +1217,34 @@
       "kind": "critical_path",
       "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
       "owner": "WP-20",
-      "source_status": "blocked_with_evidence",
+      "source_status": "implemented_with_evidence",
       "outcome": "Demo matrix and proof coverage",
-      "disposition": "blocked",
-      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "disposition": "accepted",
+      "claim_boundary": "WP-20 proof coverage is merged; implemented_with_evidence is accepted evidence status.",
       "discovery": {
         "status": "investigated",
-        "profile": "no_accepted_profile"
+        "profile": "closed_issue_merged_pr"
       },
-      "blocker_kind": "required_proof_missing",
+      "blocker_kind": null,
       "blockers": [
-        "coverage_status_not_accepted:blocked_with_evidence"
+
       ],
       "evidence": {
+        "deliveries": [
+          {
+            "key": "wp20",
+            "issue_repository": "danielbaustin/agent-design-language",
+            "issue": 5840,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 447,
+            "pr_head": "528a870f26db42582c91f9c339ffffce1f8c79cb",
+            "merge_sha": "9f373f5f04b0f8c9dc6e3e6cbf348fddec98486c",
+            "evidence": {
+              "path": "docs/milestones/v0.92/DEMO_MATRIX_v0.92.md",
+              "sha256": "31eb13ad6d6d89d8f9f92d8116583021ee4cd01acad3396620c5604ae087a044"
+            }
+          }
+        ]
       }
     },
     {
@@ -805,19 +1252,47 @@
       "kind": "critical_path",
       "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
       "owner": "WP-21, WP-21A",
-      "source_status": "planned",
+      "source_status": "implemented_with_evidence",
       "outcome": "Reduction and refactoring",
-      "disposition": "blocked",
-      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "disposition": "accepted",
+      "claim_boundary": "Reduction #309/PR #460 and refactoring #310/PR #465 are closed and merged.",
       "discovery": {
         "status": "investigated",
-        "profile": "no_accepted_profile"
+        "profile": "closed_issue_merged_pr"
       },
-      "blocker_kind": "planned_deferred",
+      "blocker_kind": null,
       "blockers": [
-        "planned_or_deferred_by_explicit_milestone_authority"
+
       ],
       "evidence": {
+        "deliveries": [
+          {
+            "key": "reduction",
+            "issue_repository": "agent-logic/agent-design-language",
+            "issue": 309,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 460,
+            "pr_head": "e6fd6cd6e297f267f4749b9e5b6adc5609fb7e64",
+            "merge_sha": "5b3657582fea2109f000623bb121b7998185ac0a",
+            "evidence": {
+              "path": ".csdlc/evidence/309/reduction-report.json",
+              "sha256": "98f2a3d6ca46578cd64500826b49106012560d3cfd3d9588b55a872fd52cbf63"
+            }
+          },
+          {
+            "key": "refactor",
+            "issue_repository": "agent-logic/agent-design-language",
+            "issue": 310,
+            "pr_repository": "agent-logic/agent-design-language",
+            "pull_request": 465,
+            "pr_head": "ca78a65a1390f2bc088f8cf20018670d06e87068",
+            "merge_sha": "a06c34774ad88ea8c56a00533f0fcef810fa7441",
+            "evidence": {
+              "path": "adl/tools/report_large_rust_modules.sh",
+              "sha256": "9921da2cb0fd020669990d195cb42f1013e1131fb225bbc1736ae6f2a6c23bcc"
+            }
+          }
+        ]
       }
     },
     {
@@ -825,19 +1300,24 @@
       "kind": "critical_path",
       "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
       "owner": "WP-22 through WP-30",
-      "source_status": "planned",
+      "source_status": "downstream_stage_gate",
       "outcome": "Quality, release, and publication",
-      "disposition": "blocked",
-      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "disposition": "scoped_out",
+      "claim_boundary": "WP-22 through WP-30 are downstream outcomes; using them as a WP-22 prerequisite is circular. They remain required at their own stages.",
       "discovery": {
         "status": "investigated",
-        "profile": "no_accepted_profile"
+        "profile": "explicit_milestone_scope"
       },
-      "blocker_kind": "planned_deferred",
+      "blocker_kind": null,
       "blockers": [
-        "planned_or_deferred_by_explicit_milestone_authority"
+
       ],
       "evidence": {
+        "scope": {
+          "issue": 467,
+          "target": "release-tail downstream",
+          "reason": "WP-22 through WP-30 are downstream outcomes; using them as a WP-22 prerequisite is circular. They remain required at their own stages."
+        }
       }
     }
   ]

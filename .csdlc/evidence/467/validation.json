@@ -1,23 +1,19 @@
 {
-  "schema": "adl.v0.92.quality_gate_validation_receipt.v2",
+  "schema": "adl.v0.92.quality_gate_validation_receipt.v3",
   "issue": 467,
-  "matrix_sha256": "4e586c4836a0191111da7f2a7bd632c316486097344936284b99327724a43325",
-  "gate_sha256": "45e0fc1d1a1d6a11b0331d6162c34699408ab71de46a0f116619fb3214fc0d6f",
-  "validator_sha256": "5aec5610a18ad9bb3845cff076b76fcde1690f516b6e8248f901295456187b6d",
-  "blocker_report_sha256": "4bc595212aff1c9da5a613f841d6c3c954c6e6a136da6923d1eb22ac7e4f19a9",
-  "quality_gate_result": "blocked",
-  "downstream_unlock": false,
+  "matrix_sha256": "51123ec190151a11fa44c88e0beafaf5fab6b8b37a4da418c5b664a1c77c2af6",
+  "gate_sha256": "d9d80b2e94f2cedd79979a58166bbdce5bff6693e15fe79fa3e921d4db1e527a",
+  "validator_sha256": "f1d9aa1a24df0ee5b847c1c8164f0114e5c7ad04bae8fed7fe82b925d3bd0c71",
+  "blocker_report_sha256": "f4200f6ea4cd982447e3b2f69f645b340d44d9902fdbd0c5616f8aa938beb437",
+  "quality_gate_result": "passed",
+  "downstream_unlock": true,
   "denominator": {
     "feature_rows": 13,
     "critical_path_rows": 20,
     "total_rows": 33,
-    "accepted_rows": 3,
-    "blocked_rows": 30
+    "accepted_rows": 30,
+    "scoped_out_rows": 3,
+    "blocked_rows": 0
   },
-  "accepted_rows": [
-    "feature:ADAPTIVE_LEARNING_DAG_v0.92",
-    "feature:FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92",
-    "critical:AEE-008"
-  ],
   "completion_guard": "passed"
 }

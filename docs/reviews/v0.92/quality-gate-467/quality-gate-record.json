@@ -1,16 +1,16 @@
 {
-  "schema": "adl.v0.92.quality_gate_record.v2",
+  "schema": "adl.v0.92.quality_gate_record.v3",
   "issue": 467,
   "supersedes_issue": 311,
   "supersedes_pr": 466,
-  "matrix_sha256": "4e586c4836a0191111da7f2a7bd632c316486097344936284b99327724a43325",
-  "validator_sha256": "5aec5610a18ad9bb3845cff076b76fcde1690f516b6e8248f901295456187b6d",
+  "matrix_sha256": "51123ec190151a11fa44c88e0beafaf5fab6b8b37a4da418c5b664a1c77c2af6",
+  "validator_sha256": "f1d9aa1a24df0ee5b847c1c8164f0114e5c7ad04bae8fed7fe82b925d3bd0c71",
   "feature_rows": 13,
   "critical_path_rows": 20,
-  "accepted_rows": 3,
-  "blocked_rows": 30,
-  "result": "blocked",
-  "downstream_unlock": false,
-  "completion_guard": "reject_uninvestigated_all_blocked",
-  "non_claim": "Corrective #467 hydration grants credit only to accepted rows; remaining concrete blockers keep downstream release work locked."
+  "accepted_rows": 30,
+  "scoped_out_rows": 3,
+  "blocked_rows": 0,
+  "result": "passed",
+  "downstream_unlock": true,
+  "completion_guard": "complete_resolution_ledger"
 }

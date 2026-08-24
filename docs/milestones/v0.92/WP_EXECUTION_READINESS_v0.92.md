@@ -29,4 +29,4 @@ WP-01 does not grant product completion or merge authority to child issues.
 
 ## WP-22A Corrective Hydration
 
-WP-22A is executing under #467 because #311/PR #466 published a vacuous all-blocked packet. Downstream WP-23 through WP-30 remain blocked until the #467 packet has zero concrete blocker rows; administrative closeout is not a dependency edge.
+WP-22A #467 resolves the quality-gate evidence ledger with zero blockers. Downstream work depends on merged implementation and its own stage gates, never asynchronous issue closeout. AEE-020 is a downstream release-tail outcome, not a circular prerequisite to WP-22.

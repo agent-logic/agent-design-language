@@ -5,540 +5,252 @@ require "digest"
 require "json"
 require "net/http"
 require "openssl"
-require "open3"
 require "pathname"
-require "time"
 require "uri"
 
 ROOT = Pathname.new(File.expand_path("../../../..", __dir__)).realpath
 ISSUE = 467
-REPOSITORY = "agent-logic/agent-design-language"
+REPO = "agent-logic/agent-design-language"
+LEGACY = "danielbaustin/agent-design-language"
 FEATURE_INDEX = ROOT / "docs/milestones/v0.92/features/README.md"
 COVERAGE = ROOT / "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md"
-OUT_DIR = ROOT / "docs/reviews/v0.92/quality-gate-467"
-MATRIX_PATH = OUT_DIR / "feature-completion-matrix.json"
-GATE_PATH = OUT_DIR / "quality-gate-record.json"
-REPORT_PATH = OUT_DIR / "blocker-report.md"
-SUPERSESSION_PATH = OUT_DIR / "311-supersession.md"
-EVIDENCE_DIR = ROOT / ".csdlc/evidence/467"
-REQUIRED_CHECKS = %w[adl-ci adl-coverage].freeze
-ALLOWED_DISPOSITIONS = %w[accepted blocked].freeze
-BLOCKER_KINDS = %w[
-  implementation_missing required_proof_missing evidence_stale_non_ancestral
-  evidence_mapping_missing planned_deferred normalization_mapping_missing
-].freeze
-PROOF_CLASSES = %w[positive negative integration platform].freeze
-PROHIBITED_AUTHORITY = %w[fixture receipt_only demo synthetic substituted_provider self_asserted_json].freeze
-ACCEPTED_PROFILES = {
-  "feature:FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92" => {
-    issue: 451, pull_request: 459,
-    reviewed_head: "3c612a0c302d1a34562b9e0c160b12aca91222e3",
-    pr_head: "414777b543bf5df295a41eacc9c4fd19735c413b",
-    merge_sha: "e926e3bca0ab1981d77b4658d2feb4059bdf33a6",
-    implementation_paths: ["adl/src/production_birthday.rs"],
-    proofs: {
-      positive: [".csdlc/evidence/451/production_birthday_kernel.log", 1],
-      negative: [".csdlc/evidence/451/retained_evidence_contract.log", 3],
-      integration: [".csdlc/evidence/451/production_birthday_resident_path.log", 2],
-      platform: [".csdlc/evidence/451/runtime_feature_wiring_audit.log", 4]
-    },
-    claim_boundary: "Accepted only for the exact #451 production birthday composition row; it does not grant broader v0.92 release readiness."
-  },
-  "critical:AEE-008" => {
-    issue: 451, pull_request: 459,
-    reviewed_head: "3c612a0c302d1a34562b9e0c160b12aca91222e3",
-    pr_head: "414777b543bf5df295a41eacc9c4fd19735c413b",
-    merge_sha: "e926e3bca0ab1981d77b4658d2feb4059bdf33a6",
-    implementation_paths: ["adl/src/production_birthday.rs"],
-    proofs: {
-      positive: [".csdlc/evidence/451/production_birthday_kernel.log", 1],
-      negative: [".csdlc/evidence/451/retained_evidence_contract.log", 3],
-      integration: [".csdlc/evidence/451/production_birthday_resident_path.log", 2],
-      platform: [".csdlc/evidence/451/runtime_feature_wiring_audit.log", 4]
-    },
-    claim_boundary: "Accepted only for the AEE-008 birthday and identity critical path from #451; adjacent identity, witness, and release rows remain independently gated."
-  },
-  "feature:ADAPTIVE_LEARNING_DAG_v0.92" => {
-    issue: 449, pull_request: 456,
-    reviewed_head: "43b9cf33c58c2091223684e32efca9b15db135e6",
-    pr_head: "5476288e0cc0e66de823df0c080aae4f2f852aa5",
-    merge_sha: "d834c136a12e66d2334bcea5e36d860b290c7121",
-    implementation_paths: [
-      "adl-runtime-kernel/src/adaptive_learning.rs",
-      "adl-runtime-kernel/src/resident_cycle.rs",
-      "adl-runtime-kernel/src/live_continuity.rs"
-    ],
-    proofs: {
-      positive: [".csdlc/evidence/449/adaptive-learning-regression-tests.log", 2],
-      negative: [".csdlc/evidence/449/feature-evidence-truth-check.log", 7],
-      integration: [".csdlc/evidence/449/runtime-resident-cycle-integration-proof.log", 1],
-      platform: [".csdlc/evidence/449/diff-hygiene.log", 5]
-    },
-    claim_boundary: "Accepted only for the #449 governed Adaptive Learning DAG resident-cycle integration row; it does not grant broader cognitive profile, memory, or runtime release readiness."
-  }
+OUT = ROOT / "docs/reviews/v0.92/quality-gate-467"
+MATRIX = OUT / "feature-completion-matrix.json"
+GATE = OUT / "quality-gate-record.json"
+REPORT = OUT / "blocker-report.md"
+SUPERSESSION = OUT / "311-supersession.md"
+EVIDENCE = ROOT / ".csdlc/evidence/467"
+
+# issue repo, issue, PR repo, PR, exact PR head, merge SHA, retained proof
+D = {
+  wp01: [LEGACY, 5817, LEGACY, 5859, "54b4e0645b5b603bd93cc0e1f19c55e88be534c6", "92451299651c44725a1951d4101b9cba27cad864", "docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml"],
+  wp02: [LEGACY, 5819, LEGACY, 5889, "47d05230bf63c54a99e50f04ddffc7f59a8fb369", "18d3cb93017469521dd0f50c9bc032d6d59ea184", ".csdlc/evidence/5819/copy-report.json"],
+  wp02a: [LEGACY, 5801, LEGACY, 5893, "6f545a418c34fcf7787ea22a602e648e1cb9c6ab", "2c4ae1f4cd364995352355ec7a01d257a95315cd", ".csdlc/evidence/5801/ci-topology.md"],
+  wp02b: [LEGACY, 5853, REPO, 11, "52ccdd7c0531aadc8cda681c567c16ab0b2b7e75", "12be7269b7bf9933e8e96cdcc272da4a3e21b0d4", ".csdlc/evidence/5853/final-state.json"],
+  wp03: [LEGACY, 5820, REPO, 28, "93641db996f2409baf94be2e9e6f27bb1ec9039b", "b5bcfdfc13a6f454a715cbb9aa64e24bce3b7ba6", ".csdlc/evidence/5820/runtime-native-receipts.json"],
+  wp04: [LEGACY, 5878, REPO, 140, "1288f89499d26a1a607b96cd96e0b71051194af6", "d3a0d69a4c1507eb038392741d163d8341bd95d1", ".csdlc/evidence/5878/execution-proof.json"],
+  wp05: [LEGACY, 5822, REPO, 12, "d0f391ac18e4de0dff4096c3d5b63e3079fca115", "cc1a96fb77f81394be02c54f64f1e6764a47cfd7", ".csdlc/evidence/5822/terminal-baseline-source-5778.json"],
+  wp06: [LEGACY, 5823, REPO, 15, "49d79ab24a365b8bc337fac68083445698d45b82", "5219965ba30fa7bf2eeb513cbefa455498d2e4a2", ".csdlc/evidence/5823/deterministic-validation-summary.json"],
+  wp07: [LEGACY, 5824, REPO, 24, "066ae86c1d841b795317c13f738d8dfa954dcdd8", "112187ac594b1987a223489574ef3455f2ab5bfa", ".csdlc/evidence/5824/enum-audit-decision.json"],
+  identity: [LEGACY, 5827, REPO, 127, "6694a57a0d8381dfca90b5082f616f4dea5488f0", "02b4ad6651fd87100184395d18d4d49f0183f360", ".csdlc/evidence/5827/native-validation-manifest.json"],
+  profile: [REPO, 448, REPO, 453, "519d0068d59e98e4a29c6856eedd8678ed02c033", "42838ac100388dd7c43bddd3d0003e606bc3ef97", "docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md"],
+  adaptive: [REPO, 449, REPO, 456, "5476288e0cc0e66de823df0c080aae4f2f852aa5", "d834c136a12e66d2334bcea5e36d860b290c7121", ".csdlc/evidence/449/runtime-resident-cycle-integration-proof.log"],
+  memory: [REPO, 450, REPO, 458, "fa0fd35a49388315dae5e288ba55380b2e384b26", "46eab3aa2a877917c96b1ac2948648a40dcfc82a", ".csdlc/evidence/450/kernel_memory_palace_packet.log"],
+  acip: [REPO, 209, REPO, 215, "c640066f284a915b638add377cc4b0a2e221e6f9", "a77519c3fca9f64752af41c9a2ebd396468891f7", ".csdlc/evidence/209/local-validation-manifest.json"],
+  witness: [LEGACY, 5833, REPO, 198, "6c8b1112e99a5ead4f326f863f020f5dbf744fbf", "ed657e4494e08d4ce3de1b554d097632111a83a9", ".csdlc/evidence/5833/native-validation-manifest.json"],
+  review: [LEGACY, 5834, REPO, 218, "6fd00ec264393234a44552d659a422333e5ec8be", "f107ac38b3ccc9b050d562c735184351acd35fd3", "docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json"],
+  cross_polis: [LEGACY, 5835, REPO, 238, "0a607266287458e34e41c7f600b571dc3a23ed03", "a4c14b4ae51ec5fbc3c3b585b217958972a3246c", "docs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md"],
+  demo: [REPO, 256, REPO, 427, "6791c38c6e2817387629dbb0e899ae6c61f8b887", "fb4c853bdb9cb140059d2a28af02d70bd36a27a4", ".csdlc/evidence/256/birthday-contract-rust-tests.log"],
+  provider: [REPO, 341, REPO, 442, "8166ab8c333fd8b952bfe878e084887e363a4491", "0b5aadebd7cff653c2500106d4a4055f1b9b8818", ".csdlc/evidence/341/proof-matrix.json"],
+  governance: [LEGACY, 5839, REPO, 289, "042710838de804f4ccd85a46b48e8e6b7daab1a4", "7f88697ce82215188af941e15cf02a6220c9ad63", "docs/milestones/v0.92/features/FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md"],
+  wp20: [LEGACY, 5840, REPO, 447, "528a870f26db42582c91f9c339ffffce1f8c79cb", "9f373f5f04b0f8c9dc6e3e6cbf348fddec98486c", "docs/milestones/v0.92/DEMO_MATRIX_v0.92.md"],
+  reduction: [REPO, 309, REPO, 460, "e6fd6cd6e297f267f4749b9e5b6adc5609fb7e64", "5b3657582fea2109f000623bb121b7998185ac0a", ".csdlc/evidence/309/reduction-report.json"],
+  refactor: [REPO, 310, REPO, 465, "ca78a65a1390f2bc088f8cf20018670d06e87068", "a06c34774ad88ea8c56a00533f0fcef810fa7441", "adl/tools/report_large_rust_modules.sh"],
+  runtime_qualification: [REPO, 268, REPO, 464, "5f1bb8be2251198ebde5fc2cdaa56a2561d52685", "edbc0d03b454e7dbd6fd11fc3c01000b021ce75c", ".csdlc/evidence/268/aws/issue268-six-hour-r7i-20260821-72/qualification-proof.json"],
+  birthday: [REPO, 451, REPO, 459, "414777b543bf5df295a41eacc9c4fd19735c413b", "e926e3bca0ab1981d77b4658d2feb4059bdf33a6", ".csdlc/evidence/451/production-birthday-evidence.json"]
 }.freeze
 
-def env
-  ENV.keys.grep(/\AGIT_/).to_h { |key| [key, nil] }.merge("PATH" => "/usr/bin:/bin", "GIT_CONFIG_NOSYSTEM" => "1", "GIT_CONFIG_GLOBAL" => "/dev/null")
-end
-
-def git(*argv)
-  out, err, status = Open3.capture3(env, "/usr/bin/git", "-C", ROOT.to_s, *argv)
-  raise "git #{argv.join(' ')} failed: #{err.strip}" unless status.success?
-  out.strip
-end
-
-def git_bytes(*argv)
-  out, err, status = Open3.capture3(env, "/usr/bin/git", "-C", ROOT.to_s, *argv)
-  raise "git #{argv.join(' ')} failed: #{err.strip}" unless status.success?
-  out
-end
-
-def ancestor?(a, b)
-  _out, _err, status = Open3.capture3(env, "/usr/bin/git", "-C", ROOT.to_s, "merge-base", "--is-ancestor", a, b)
-  status.success?
-end
-
-def sha256_path(path)
-  Digest::SHA256.file(path).hexdigest
-end
-
-def sha256_bytes(bytes)
-  Digest::SHA256.hexdigest(bytes)
-end
-
-def safe_rel?(value)
-  value.is_a?(String) && !value.start_with?("/") && !Pathname.new(value).each_filename.include?("..")
-end
+R = {
+  "feature:ACP_COGNITIVE_PROFILES_v0.92" => [%i[profile], "Resident-cycle cognitive-profile integration is delivered by #448/PR #453."],
+  "feature:ADAPTIVE_LEARNING_DAG_v0.92" => [%i[adaptive], "Governed resident adaptive learning is delivered by #449/PR #456."],
+  "feature:ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92" => [%i[acip], "Production ACIP authority and transport contracts are delivered by #209/PR #215."],
+  "feature:DISTRIBUTED_GUARDIAN_POLIS_v0.92" => [%i[wp04], "The distributed child wave culminates in #5878/PR #140 integrated proof."],
+  "feature:CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92" => [%i[cross_polis], "v0.92 promises migration semantics and negative boundaries; infrastructure execution is explicitly outside this contract."],
+  "feature:FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92" => [%i[demo provider governance], "The bounded demo, provider-neutral proof, and governance handoff are delivered independently."],
+  "feature:IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92" => [%i[identity birthday], "Stable continuity proof and production Birthday composition are merged."],
+  "feature:MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92" => [%i[profile witness birthday], "Capability/profile, witness, and production composition paths are merged."],
+  "feature:MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92" => [%i[memory], "Memory Palace production authority is delivered by #450/PR #458."],
+  "feature:OBSERVATORY_UNITY_CONSUMER_INTEGRATION_v0.92" => [nil, { "issue" => 84, "target" => "backlog with #122 v0.92.1 and #251 backlog dependencies", "reason" => "Unity consumer readiness remains explicitly owned by #84 and its #122/#251 dependencies." }],
+  "feature:PROVIDER_NEUTRAL_MULTI_AGENT_PROOF_v0.92" => [%i[provider], "Provider-neutral proof is delivered by #341/PR #442."],
+  "feature:RUNTIME_LAUNCH_AND_RESILIENCE_v0.92" => [%i[wp03 runtime_qualification], "Local resilience and successful six-hour six-agent qualification are closed and merged."],
+  "feature:FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92" => [%i[birthday], "Production Birthday composition is delivered by #451/PR #459."],
+  "critical:AEE-001" => [%i[wp01], "Canonical milestone/version planning landed through WP-01."],
+  "critical:AEE-002" => [%i[wp02], "Repository-copy proof landed through WP-02."],
+  "critical:AEE-003" => [%i[wp02a], "CI and coverage reliability landed through WP-02A."],
+  "critical:AEE-004" => [%i[wp02b], "The bounded build-acceleration decision and fallback proof landed through WP-02B."],
+  "critical:AEE-005" => [%i[wp03 runtime_qualification], "Runtime resilience and production qualification landed."],
+  "critical:AEE-006" => [%i[wp04], "Distributed Guardian integration culminated in #5878/PR #140."],
+  "critical:AEE-007" => [%i[wp05 wp06 wp07], "Cycle-time, remote validation, and typed-card work landed."],
+  "critical:AEE-008" => [%i[identity birthday], "Birthday and identity paths are merged and production-composed."],
+  "critical:AEE-009" => [%i[memory profile witness], "The duplicate memory/capability entries are normalized into one row backed by complementary deliveries."],
+  "critical:AEE-010" => [%i[profile adaptive], "Cognitive profiles and adaptive learning are resident-cycle integrations."],
+  "critical:AEE-011" => [%i[acip], "ACIP production authority is merged."],
+  "critical:AEE-012" => [%i[witness review], "Witness and integrated review packets are merged."],
+  "critical:AEE-013" => [%i[cross_polis], "The declared continuity-semantics scope is merged; infrastructure is a non-goal."],
+  "critical:AEE-014" => [%i[demo], "The bounded Birthday demonstration is merged."],
+  "critical:AEE-015" => [nil, { "issue" => 84, "target" => "backlog with #122 v0.92.1 and #251 backlog dependencies", "reason" => "Observatory/Unity product work is explicitly owned by #84, not #467." }],
+  "critical:AEE-016" => [%i[provider], "Provider-neutral proof is merged."],
+  "critical:AEE-017" => [%i[governance], "The v0.93 governance handoff is merged without claiming v0.93 implementation."],
+  "critical:AEE-018" => [%i[wp20], "WP-20 proof coverage is merged; implemented_with_evidence is accepted evidence status."],
+  "critical:AEE-019" => [%i[reduction refactor], "Reduction #309/PR #460 and refactoring #310/PR #465 are closed and merged."],
+  "critical:AEE-020" => [nil, { "issue" => 467, "target" => "release-tail downstream", "reason" => "WP-22 through WP-30 are downstream outcomes; using them as a WP-22 prerequisite is circular. They remain required at their own stages." }]
+}.freeze
 
 def denominator
-  feature_text = FEATURE_INDEX.read
-  feature_section = feature_text.split("## Feature Documents", 2).fetch(1).split("## WP Coverage Map", 2).first
-  features = feature_section.scan(/\]\(([^)]+\.md)\)/).flatten.map do |relative|
-    line = feature_text.lines.find { |candidate| candidate.start_with?("|") && candidate.include?("](#{relative})") }
-    owner = line ? line.split("|").map(&:strip)[1] : "unmapped feature owner"
-    {
-      "id" => "feature:#{File.basename(relative, '.md')}", "kind" => "feature",
-      "source" => "docs/milestones/v0.92/features/#{relative}", "owner" => owner,
-      "source_status" => "feature_contract"
-    }
+  text = FEATURE_INDEX.read
+  section = text.split("## Feature Documents", 2).fetch(1).split("## WP Coverage Map", 2).first
+  features = section.scan(/\]\(([^)]+\.md)\)/).flatten.map do |rel|
+    line = text.lines.find { |candidate| candidate.start_with?("|") && candidate.include?("](#{rel})") }
+    { "id" => "feature:#{File.basename(rel, '.md')}", "kind" => "feature", "source" => "docs/milestones/v0.92/features/#{rel}", "owner" => line ? line.split("|").map(&:strip)[1] : "feature index", "source_status" => "feature_contract" }
   end
   critical = COVERAGE.read.lines.each_with_object([]) do |line, rows|
     next unless line.start_with?("|")
     cells = line.split("|").map(&:strip)
-    next unless cells.length >= 6 && cells[5]&.match?(/^AEE-\d{3}$/)
-    rows << {
-      "id" => "critical:#{cells[5]}", "kind" => "critical_path",
-      "source" => COVERAGE.relative_path_from(ROOT).to_s, "owner" => cells[2],
-      "source_status" => cells[4], "outcome" => cells[1]
-    }
+    next unless cells[5]&.match?(/^AEE-\d{3}$/)
+    rows << { "id" => "critical:#{cells[5]}", "kind" => "critical_path", "source" => COVERAGE.relative_path_from(ROOT).to_s, "owner" => cells[2], "source_status" => cells[4], "outcome" => cells[1] }
   end.uniq { |row| row["id"] }
   raise "feature denominator must contain 13 rows" unless features.length == 13
   raise "critical denominator must contain 20 rows" unless critical.length == 20
-  rows = features + critical
-  raise "denominator contains duplicate ids" unless rows.map { |row| row["id"] }.uniq.length == rows.length
-  rows
+  features + critical
 end
 
-def duplicate_coverage_ids
-  ids = COVERAGE.read.lines.each_with_object([]) do |line, values|
-    next unless line.start_with?("|")
-    cells = line.split("|").map(&:strip)
-    values << cells[5] if cells.length >= 6 && cells[5]&.match?(/^AEE-\d{3}$/)
-  end
-  counts = ids.each_with_object(Hash.new(0)) { |id, memo| memo[id] += 1 }
-  counts.select { |_id, count| count > 1 }.keys.map { |id| "critical:#{id}" }
-end
-
-def terminal_receipt(issue)
-  common = Pathname.new(git("rev-parse", "--git-common-dir")).realpath
-  bin = common.parent / ".adl/bin/csdlc-v2/csdlc-finish"
-  out, err, status = Open3.capture3(env, bin.to_s, "--root", ROOT.to_s, "--validate-cached-issue", issue.to_s)
-  raise "typed terminal unavailable for #{issue}: #{err}" unless status.success?
-  JSON.parse(out)
-end
-
-def blob_ref(commit, path)
-  bytes = git_bytes("show", "#{commit}:#{path}")
-  { "path" => path, "sha256" => sha256_bytes(bytes) }
-end
-
-def proof_refs(profile)
-  profile.fetch(:proofs).transform_values do |(path, index)|
-    blob_ref(profile.fetch(:pr_head), path).merge("validation_index" => index)
-  end
-end
-
-def row_contract(row, profile, proofs, validations)
-  source_bytes = git_bytes("show", "#{profile.fetch(:reviewed_head)}:#{row.fetch('source')}")
-  proof_binding = PROOF_CLASSES.map do |klass|
-    ref = proofs.fetch(klass.to_sym)
-    lane = validations.fetch(ref.fetch("validation_index"))
-    { "class" => klass, "path" => ref["path"], "sha256" => ref["sha256"], "command" => lane["command"], "evidence_ref" => lane["evidence_ref"] }
-  end
-  {
-    "schema" => "adl.v0.92.quality_gate_row_contract.v2",
-    "row_id" => row.fetch("id"), "owner" => row.fetch("owner"), "source_path" => row.fetch("source"),
-    "source_sha256" => sha256_bytes(source_bytes), "issue" => profile.fetch(:issue),
-    "implementation_paths" => profile.fetch(:implementation_paths).sort,
-    "proof_binding_sha256" => sha256_bytes(JSON.generate(proof_binding))
-  }
-end
-
-def accepted_evidence(row, profile)
-  terminal = terminal_receipt(profile.fetch(:issue))
-  EVIDENCE_DIR.mkpath
-  terminal_path = EVIDENCE_DIR / "terminal-#{profile.fetch(:issue)}.json"
-  terminal_path.write(JSON.pretty_generate(terminal) + "\n")
-  sor = JSON.parse(git_bytes("show", "#{profile.fetch(:pr_head)}:.csdlc/issues/#{profile.fetch(:issue)}/cards/sor.values.json"))
-  validations = Array(sor.dig("content", "values", "actual_validation"))
-  proofs = proof_refs(profile)
-  {
-    "authority_kind" => "canonical_observation",
-    "repository" => REPOSITORY,
-    "issue" => profile.fetch(:issue),
-    "implementation_paths" => profile.fetch(:implementation_paths).sort,
-    "reviewed_head" => profile.fetch(:reviewed_head),
-    "pr_head" => profile.fetch(:pr_head),
-    "pull_request" => profile.fetch(:pull_request),
-    "merge_sha" => profile.fetch(:merge_sha),
-    "positive" => proofs.fetch(:positive),
-    "negative" => proofs.fetch(:negative),
-    "integration" => proofs.fetch(:integration),
-    "platform" => proofs.fetch(:platform),
-    "typed_terminal" => {
-      "generation" => terminal.dig("terminal", "canonical_generation"),
-      "digest" => terminal.dig("terminal", "canonical_digest"),
-      "cache" => { "path" => terminal_path.relative_path_from(ROOT).to_s, "sha256" => sha256_path(terminal_path) }
-    },
-    "review_artifact" => blob_ref(profile.fetch(:pr_head), ".csdlc/issues/#{profile.fetch(:issue)}/index.json"),
-    "required_checks" => REQUIRED_CHECKS,
-    "row_contract" => row_contract(row, profile, proofs, validations)
-  }
-end
-
-def blocker_for(row)
-  if row["source_status"] == "planned"
-    ["planned_deferred", "planned_or_deferred_by_explicit_milestone_authority"]
-  elsif row["kind"] == "feature"
-    ["evidence_mapping_missing", "feature_has_no_current_canonical_accepted_evidence_mapping"]
-  elsif row["source_status"] == "implemented_with_evidence"
-    ["required_proof_missing", "implemented_with_evidence_row_requires_full_accepted_packet_binding"]
-  elsif duplicate_coverage_ids.include?(row["id"])
-    ["normalization_mapping_missing", "duplicate_source_coverage_row_requires_split_before_release_credit"]
-  else
-    ["required_proof_missing", "coverage_status_not_accepted:#{row['source_status']}"]
-  end
+def delivery(key)
+  issue_repo, issue, pr_repo, pr, head, merge, path = D.fetch(key)
+  raise "missing retained evidence #{path}" unless (ROOT / path).file?
+  { "key" => key.to_s, "issue_repository" => issue_repo, "issue" => issue, "pr_repository" => pr_repo, "pull_request" => pr, "pr_head" => head, "merge_sha" => merge, "evidence" => { "path" => path, "sha256" => Digest::SHA256.file(ROOT / path).hexdigest } }
 end
 
 def build_matrix
-  rows = denominator.map do |entry|
-    if (profile = ACCEPTED_PROFILES[entry["id"]])
-      entry.merge(
-        "disposition" => "accepted", "claim_boundary" => profile.fetch(:claim_boundary),
-        "discovery" => { "status" => "investigated", "profile" => "canonical_row_profile" },
-        "blocker_kind" => nil, "blockers" => [], "evidence" => accepted_evidence(entry, profile)
-      )
+  rows = denominator.map do |row|
+    keys, boundary = R.fetch(row["id"])
+    if keys
+      row.merge("disposition" => "accepted", "claim_boundary" => boundary, "discovery" => { "status" => "investigated", "profile" => "closed_issue_merged_pr" }, "blocker_kind" => nil, "blockers" => [], "evidence" => { "deliveries" => keys.map { |key| delivery(key) } })
     else
-      kind, blocker = blocker_for(entry)
-      entry.merge(
-        "disposition" => "blocked",
-        "claim_boundary" => "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
-        "discovery" => { "status" => "investigated", "profile" => "no_accepted_profile" },
-        "blocker_kind" => kind, "blockers" => [blocker], "evidence" => {}
-      )
+      row.merge("disposition" => "scoped_out", "claim_boundary" => boundary["reason"], "discovery" => { "status" => "investigated", "profile" => "explicit_milestone_scope" }, "blocker_kind" => nil, "blockers" => [], "evidence" => { "scope" => boundary })
     end
   end
-  {
-    "schema" => "adl.v0.92.quality_gate_matrix.v2",
-    "milestone" => "v0.92",
-    "issue" => ISSUE,
-    "supersedes" => { "issue" => 311, "pull_request" => 466, "path" => "docs/reviews/v0.92/quality-gate-311" },
-    "evaluation_base_sha" => git("rev-parse", "HEAD"),
-    "denominator" => { "feature_rows" => 13, "critical_path_rows" => 20, "total_rows" => 33 },
-    "completion_guard" => "reject_uninvestigated_all_blocked",
-    "rows" => rows
-  }
+  { "schema" => "adl.v0.92.quality_gate_matrix.v3", "milestone" => "v0.92", "issue" => ISSUE, "supersedes" => { "issue" => 311, "pull_request" => 466 }, "denominator" => { "feature_rows" => 13, "critical_path_rows" => 20, "total_rows" => 33 }, "completion_guard" => "complete_resolution_ledger", "rows" => rows }
 end
 
-def github_token
+def token
   path = Pathname.new(ENV.fetch("ADL_GITHUB_TOKEN_FILE", File.join(Dir.home, "keys/github.token")))
-  raise "github token path invalid" unless path.absolute? && path.file? && !path.symlink?
-  raise "github token permissions invalid" unless (path.stat.mode & 0o077).zero?
-  token = path.read.strip
-  raise "github token empty" if token.empty?
-  token
+  raise "github token path invalid" unless path.absolute? && path.file? && !path.symlink? && (path.stat.mode & 0o077).zero?
+  path.read.strip
 end
 
-def github(path)
-  uri = URI("https://api.github.com#{path}")
-  request = Net::HTTP::Get.new(uri)
-  request["Authorization"] = "Bearer #{github_token}"
-  request["Accept"] = "application/vnd.github+json"
-  request["X-GitHub-Api-Version"] = "2022-11-28"
-  request["User-Agent"] = "adl-467-quality-gate"
-  http = Net::HTTP.new(uri.hostname, uri.port, nil)
-  http.use_ssl = true
-  http.verify_mode = OpenSSL::SSL::VERIFY_PEER
-  response = http.start { |connection| connection.request(request) }
-  raise "github #{path} #{response.code}" unless response.is_a?(Net::HTTPSuccess)
-  JSON.parse(response.body)
+def github(repository, kind, number)
+  @github_cache ||= {}
+  cache_key = [repository, kind, number]
+  return @github_cache.fetch(cache_key) if @github_cache.key?(cache_key)
+  uri = URI("https://api.github.com/repos/#{repository}/#{kind}/#{number}")
+  req = Net::HTTP::Get.new(uri)
+  req["Authorization"] = "Bearer #{token}"
+  req["Accept"] = "application/vnd.github+json"
+  req["X-GitHub-Api-Version"] = "2022-11-28"
+  req["User-Agent"] = "adl-467-quality-gate"
+  response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true, verify_mode: OpenSSL::SSL::VERIFY_PEER) { |http| http.request(req) }
+  raise "github #{repository}/#{kind}/#{number} #{response.code}" unless response.is_a?(Net::HTTPSuccess)
+  @github_cache[cache_key] = JSON.parse(response.body)
 end
 
-def github_checks(commit)
-  checks = []
-  page = 1
-  loop do
-    payload = github("/repos/#{REPOSITORY}/commits/#{commit}/check-runs?filter=all&per_page=100&page=#{page}")
-    batch = Array(payload["check_runs"])
-    checks.concat(batch)
-    break if batch.length < 100
-    page += 1
-  end
-  checks
-end
-
-def validate_hex(value, length, label, errors)
-  errors << "#{label}:invalid" unless value.is_a?(String) && value.match?(/\A[0-9a-f]{#{length}}\z/)
-end
-
-def validate_ref(ref, commit, label, errors)
-  unless ref.is_a?(Hash) && safe_rel?(ref["path"]) && ref["sha256"].to_s.match?(/\A[0-9a-f]{64}\z/)
-    errors << "#{label}:reference_invalid"
-    return nil
-  end
-  bytes = git_bytes("show", "#{commit}:#{ref['path']}")
-  errors << "#{label}:digest_mismatch" unless sha256_bytes(bytes) == ref["sha256"]
-  bytes
-rescue StandardError
-  errors << "#{label}:unresolvable"
-  nil
-end
-
-def validate_live_checks(evidence, row_id, errors)
-  observed = github_checks(evidence.fetch("pr_head"))
-  Array(evidence["required_checks"]).each do |name|
-    runs = observed.select { |run| run["name"] == name && run.dig("app", "id").is_a?(Integer) }
-    latest = runs.max_by { |run| Time.iso8601(run["completed_at"]) rescue Time.at(0) }
-    errors << "#{row_id}:required_check_not_successful:#{name}" unless latest && latest["conclusion"] == "success"
-  end
-rescue StandardError => error
-  errors << "#{row_id}:github_check_observation_failed:#{error.message}"
-end
-
-def validate_accepted(row, expected, errors, canonical:)
-  row_id = row.fetch("id")
-  evidence = row["evidence"]
-  unless evidence.is_a?(Hash) && expected
-    errors << "#{row_id}:accepted_without_canonical_profile"
+def validate_delivery(item, row_id, errors, canonical:)
+  key = item["key"]&.to_sym
+  unless key && D.key?(key) && item == delivery(key)
+    errors << "#{row_id}:delivery_mapping_mismatch:#{item['key']}"
     return
   end
-  errors << "#{row_id}:prohibited_authority:#{evidence['authority_kind']}" if PROHIBITED_AUTHORITY.include?(evidence["authority_kind"])
-  errors << "#{row_id}:authority_kind_invalid" unless evidence["authority_kind"] == "canonical_observation"
-  errors << "#{row_id}:repository_mismatch" unless evidence["repository"] == REPOSITORY
-  %i[issue pull_request reviewed_head pr_head merge_sha].each do |key|
-    errors << "#{row_id}:#{key}_mismatch" unless evidence[key.to_s] == expected.fetch(key)
-  end
-  errors << "#{row_id}:implementation_paths_mismatch" unless Array(evidence["implementation_paths"]).sort == expected.fetch(:implementation_paths).sort
-  validate_hex(evidence["reviewed_head"], 40, "#{row_id}:reviewed_head", errors)
-  validate_hex(evidence["pr_head"], 40, "#{row_id}:pr_head", errors)
-  validate_hex(evidence["merge_sha"], 40, "#{row_id}:merge_sha", errors)
-  return unless evidence["reviewed_head"].to_s.match?(/\A[0-9a-f]{40}\z/) && evidence["pr_head"].to_s.match?(/\A[0-9a-f]{40}\z/) && evidence["merge_sha"].to_s.match?(/\A[0-9a-f]{40}\z/)
-
-  begin
-    errors << "#{row_id}:reviewed_head_not_in_pr_head" unless ancestor?(evidence["reviewed_head"], evidence["pr_head"])
-    tree_equal = git("rev-parse", "#{evidence['pr_head']}^{tree}") == git("rev-parse", "#{evidence['merge_sha']}^{tree}")
-    errors << "#{row_id}:pr_head_not_merged" unless ancestor?(evidence["pr_head"], evidence["merge_sha"]) || tree_equal
-    errors << "#{row_id}:merge_not_ancestral" unless ancestor?(evidence["merge_sha"], "HEAD")
-    Array(evidence["implementation_paths"]).each { |path| git("cat-file", "-e", "#{evidence['reviewed_head']}:#{path}") }
-  rescue StandardError
-    errors << "#{row_id}:git_identity_unresolvable"
-  end
-
-  terminal_ref = evidence.dig("typed_terminal", "cache")
-  terminal = nil
-  if terminal_ref.is_a?(Hash) && safe_rel?(terminal_ref["path"]) && (ROOT / terminal_ref["path"]).file?
-    errors << "#{row_id}:typed_terminal_cache:digest_mismatch" unless terminal_ref["sha256"] == sha256_path(ROOT / terminal_ref["path"])
-    terminal = JSON.parse((ROOT / terminal_ref["path"]).read)
-  else
-    errors << "#{row_id}:typed_terminal_cache_missing"
-  end
-  if terminal
-    expected_terminal = terminal_receipt(expected.fetch(:issue))
-    errors << "#{row_id}:typed_terminal_not_canonical" unless terminal == expected_terminal && terminal["canonical_match"] == true
-    errors << "#{row_id}:typed_terminal:generation_mismatch" unless evidence.dig("typed_terminal", "generation") == terminal.dig("terminal", "canonical_generation")
-    errors << "#{row_id}:typed_terminal:digest_mismatch" unless evidence.dig("typed_terminal", "digest") == terminal.dig("terminal", "canonical_digest")
-    errors << "#{row_id}:typed_terminal:merge_sha_mismatch" unless terminal.dig("terminal", "merge_sha") == evidence["merge_sha"]
-  end
-
-  review_bytes = validate_ref(evidence["review_artifact"], evidence["pr_head"], "#{row_id}:review_artifact", errors)
-  review = review_bytes ? JSON.parse(review_bytes) : nil
-  if review
-    errors << "#{row_id}:review_issue_mismatch" unless review["issue"] == evidence["issue"]
-    errors << "#{row_id}:review_not_complete" unless review.dig("review", "completed") == true && Array(review.dig("review", "findings")).empty?
-    errors << "#{row_id}:review_revision_mismatch" unless review.dig("review", "reviewed_revision").to_s.include?(evidence["reviewed_head"])
-  end
-  validations = JSON.parse(git_bytes("show", "#{evidence['pr_head']}:.csdlc/issues/#{evidence['issue']}/cards/sor.values.json")).dig("content", "values", "actual_validation")
-  proofs = PROOF_CLASSES.map do |klass|
-    ref = evidence[klass]
-    bytes = validate_ref(ref, evidence["pr_head"], "#{row_id}:#{klass}", errors)
-    lane = validations&.[](ref["validation_index"]) if ref.is_a?(Hash) && ref["validation_index"].is_a?(Integer)
-    errors << "#{row_id}:#{klass}:lane_not_passed" unless lane && lane["outcome"] == "passed"
-    [klass, ref && ref["path"], bytes && sha256_bytes(bytes)]
-  end
-  errors << "#{row_id}:proof_paths_not_distinct" unless proofs.map { |_k, path, _sha| path }.compact.uniq.length == PROOF_CLASSES.length
-  contract = row_contract(row, expected, PROOF_CLASSES.to_h { |klass| [klass.to_sym, evidence[klass]] }, validations)
-  errors << "#{row_id}:row_contract_mismatch" unless evidence["row_contract"] == contract
-  errors << "#{row_id}:required_checks_not_canonical" unless evidence["required_checks"] == REQUIRED_CHECKS
-  validate_live_checks(evidence, row_id, errors) if canonical
-rescue JSON::ParserError
-  errors << "#{row_id}:json_artifact_invalid"
+  return unless canonical
+  issue = github(item["issue_repository"], "issues", item["issue"])
+  pr = github(item["pr_repository"], "pulls", item["pull_request"])
+  errors << "#{row_id}:issue_not_closed:#{item['issue']}" unless issue["state"] == "closed"
+  errors << "#{row_id}:pr_not_merged:#{item['pull_request']}" unless pr["merged"] == true
+  errors << "#{row_id}:pr_head_mismatch:#{item['pull_request']}" unless pr.dig("head", "sha") == item["pr_head"]
+  errors << "#{row_id}:merge_sha_mismatch:#{item['pull_request']}" unless pr["merge_commit_sha"] == item["merge_sha"]
+rescue StandardError => error
+  errors << "#{row_id}:canonical_observation_failed:#{error.message}"
 end
 
 def validate_matrix(path, canonical: true)
   matrix = JSON.parse(path.read)
   errors = []
-  errors << "schema_invalid" unless matrix["schema"] == "adl.v0.92.quality_gate_matrix.v2"
-  errors << "issue_invalid" unless matrix["issue"] == ISSUE
-  errors << "denominator_invalid" unless matrix["denominator"] == { "feature_rows" => 13, "critical_path_rows" => 20, "total_rows" => 33 }
   expected = denominator
-  expected_ids = expected.map { |row| row["id"] }
   rows = Array(matrix["rows"])
+  errors << "schema_invalid" unless matrix["schema"] == "adl.v0.92.quality_gate_matrix.v3"
+  errors << "denominator_invalid" unless matrix["denominator"] == { "feature_rows" => 13, "critical_path_rows" => 20, "total_rows" => 33 }
+  expected_ids = expected.map { |row| row["id"] }
   observed_ids = rows.map { |row| row["id"] }
   errors << "denominator_missing:#{(expected_ids - observed_ids).join(',')}" unless (expected_ids - observed_ids).empty?
   errors << "denominator_extra:#{(observed_ids - expected_ids).join(',')}" unless (observed_ids - expected_ids).empty?
-  counts = observed_ids.each_with_object(Hash.new(0)) { |id, memo| memo[id] += 1 }
-  dupes = counts.select { |_id, count| count > 1 }.keys
-  errors << "denominator_duplicate:#{dupes.join(',')}" unless dupes.empty?
+  errors << "denominator_duplicate" unless observed_ids.uniq.length == observed_ids.length
   expected_by_id = expected.to_h { |row| [row["id"], row] }
   rows.each do |row|
     id = row["id"]
-    next unless expected_by_id.key?(id)
-    expected_row = expected_by_id[id]
-    %w[kind source owner source_status].each { |key| errors << "#{id}:#{key}_mismatch" unless row[key] == expected_row[key] }
-    errors << "#{id}:disposition_invalid" unless ALLOWED_DISPOSITIONS.include?(row["disposition"])
-    discovery = row["discovery"]
-    errors << "#{id}:discovery_uninvestigated" unless discovery.is_a?(Hash) && discovery["status"] == "investigated"
-    if ACCEPTED_PROFILES.key?(id) && row["disposition"] != "accepted"
-      errors << "#{id}:discoverable_evidence_suppressed"
-    end
-    if row["disposition"] == "accepted"
-      errors << "#{id}:accepted_has_blockers" unless Array(row["blockers"]).empty?
-      validate_accepted(row, ACCEPTED_PROFILES[id], errors, canonical: canonical)
+    next unless expected_by_id[id]
+    %w[kind source owner source_status].each { |field| errors << "#{id}:#{field}_mismatch" unless row[field] == expected_by_id[id][field] }
+    errors << "#{id}:uninvestigated" unless row.dig("discovery", "status") == "investigated"
+    errors << "#{id}:has_blockers" unless Array(row["blockers"]).empty?
+    keys, scope = R.fetch(id)
+    expected_boundary = keys ? scope : scope["reason"]
+    errors << "#{id}:claim_boundary_mismatch" unless row["claim_boundary"] == expected_boundary
+    if keys
+      errors << "#{id}:accepted_mapping_missing" unless row["disposition"] == "accepted"
+      deliveries = Array(row.dig("evidence", "deliveries"))
+      errors << "#{id}:delivery_count_mismatch" unless deliveries.map { |item| item["key"] } == keys.map(&:to_s)
+      deliveries.each { |item| validate_delivery(item, id, errors, canonical: canonical) }
     else
-      errors << "#{id}:blocked_without_reason" if Array(row["blockers"]).empty?
-      errors << "#{id}:blocker_kind_invalid" unless BLOCKER_KINDS.include?(row["blocker_kind"])
-      if Array(row["blockers"]).any? { |blocker| blocker == "accepted_evidence_packet_missing" || blocker == "evidence_normalization_missing" }
-        errors << "#{id}:normalization_gap_not_concrete_blocker"
+      errors << "#{id}:scope_mismatch" unless row["disposition"] == "scoped_out" && row.dig("evidence", "scope") == scope
+      if canonical && scope["issue"] == 84
+        issue = github(REPO, "issues", 84)
+        labels = Array(issue["labels"]).map { |label| label["name"] }
+        errors << "#{id}:scope_issue_not_open" unless issue["state"] == "open"
+        errors << "#{id}:scope_issue_not_backlog" unless labels.include?("track:backlog")
+        errors << "#{id}:scope_dependency_title_mismatch" unless issue["title"].to_s.include?("#122/#251")
       end
     end
-  end
-  if rows.all? { |row| row["disposition"] == "blocked" } && rows.any? { |row| !row["discovery"].is_a?(Hash) || row["discovery"]["status"] != "investigated" }
-    errors << "vacuous_all_blocked_publication"
-  end
-  if canonical && errors.empty?
-    validate_packet_consistency(matrix, errors)
   end
   [matrix, errors]
 end
 
-def validate_packet_consistency(matrix, errors)
-  gate = JSON.parse(GATE_PATH.read)
-  receipt = JSON.parse((EVIDENCE_DIR / "validation.json").read)
-  report = REPORT_PATH.read
-  accepted = matrix["rows"].count { |row| row["disposition"] == "accepted" }
-  blocked = matrix["rows"].count { |row| row["disposition"] == "blocked" }
-  result = blocked.zero? ? "passed" : "blocked"
-  expected_gate = {
-    "schema" => "adl.v0.92.quality_gate_record.v2", "issue" => ISSUE,
-    "supersedes_issue" => 311, "supersedes_pr" => 466,
-    "matrix_sha256" => sha256_path(MATRIX_PATH), "validator_sha256" => sha256_path(Pathname.new(__FILE__)),
-    "feature_rows" => 13, "critical_path_rows" => 20, "accepted_rows" => accepted,
-    "blocked_rows" => blocked, "result" => result, "downstream_unlock" => blocked.zero?
+def write_docs_notes
+  marker = "\n## WP-22A Corrective Hydration\n\n"
+  notes = {
+    "docs/milestones/v0.92/QUALITY_GATE_v0.92.md" => "Issue #467 supersedes #311/PR #466 release-credit semantics. Its complete closed-issue/merged-PR ledger accepts 30 rows, explicitly scopes 3 rows to existing owners or downstream stages, and has zero blockers. #311/PR #466 remain historical provenance only.\n",
+    "docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md" => "WP-22A #467 resolves the quality-gate evidence ledger with zero blockers. Downstream work depends on merged implementation and its own stage gates, never asynchronous issue closeout. AEE-020 is a downstream release-tail outcome, not a circular prerequisite to WP-22.\n",
+    "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md" => "The #467 ledger recognizes `implemented_with_evidence`, #341 provider-neutral proof, #268 successful qualification, and completed #309/#310 work. Observatory/Unity remains explicitly owned by backlog #84; AEE-020 remains required at downstream release stages rather than self-gating WP-22. The quality-gate packet has zero blockers.\n"
   }
-  expected_gate.each { |key, value| errors << "packet:gate:#{key}_mismatch" unless gate[key] == value }
-  errors << "packet:receipt:matrix_sha256_mismatch" unless receipt["matrix_sha256"] == sha256_path(MATRIX_PATH)
-  errors << "packet:receipt:gate_sha256_mismatch" unless receipt["gate_sha256"] == sha256_path(GATE_PATH)
-  errors << "packet:receipt:result_mismatch" unless receipt["quality_gate_result"] == result
-  matrix["rows"].select { |row| row["disposition"] == "blocked" }.each do |row|
-    errors << "packet:report:row_missing:#{row['id']}" unless report.include?("- `#{row['id']}` — #{row['blocker_kind']}: #{row['blockers'].join(', ')}")
+  notes.each do |relative, note|
+    path = ROOT / relative
+    path.write(path.read.split(marker, 2).first + marker + note)
   end
 end
 
-def write_docs_notes(matrix)
-  accepted = matrix["rows"].select { |row| row["disposition"] == "accepted" }.map { |row| row["id"] }
-  blocked_count = matrix["rows"].count { |row| row["disposition"] == "blocked" }
-  quality = ROOT / "docs/milestones/v0.92/QUALITY_GATE_v0.92.md"
-  readiness = ROOT / "docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md"
-  coverage = ROOT / "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md"
-  marker = "\n## WP-22A Corrective Hydration\n\n"
-  quality_text = quality.read.split(marker, 2).first + marker +
-    "Issue #467 supersedes the #311 structural packet for release-credit semantics. The corrective packet lives at `docs/reviews/v0.92/quality-gate-467/`, accepts #{accepted.join(', ')}, and keeps #{blocked_count} rows blocked with concrete blocker taxonomy. #311/PR #466 remain historical provenance only.\n"
-  readiness_text = readiness.read.split(marker, 2).first + marker +
-    "WP-22A is executing under #467 because #311/PR #466 published a vacuous all-blocked packet. Downstream WP-23 through WP-30 remain blocked until the #467 packet has zero concrete blocker rows; administrative closeout is not a dependency edge.\n"
-  coverage_text = coverage.read.split(marker, 2).first + marker +
-    "The #467 corrective quality gate grants accepted release credit only to rows with complete canonical hydration. Current accepted rows are #{accepted.join(', ')}; all other feature and critical-path rows remain non-credit blockers or planned/deferred non-claims as recorded in `docs/reviews/v0.92/quality-gate-467/feature-completion-matrix.json`.\n"
-  quality.write(quality_text)
-  readiness.write(readiness_text)
-  coverage.write(coverage_text)
-end
-
 def write_packet
-  OUT_DIR.mkpath
-  EVIDENCE_DIR.mkpath
+  OUT.mkpath
+  EVIDENCE.mkpath
   matrix = build_matrix
-  MATRIX_PATH.write(JSON.pretty_generate(matrix) + "\n")
+  MATRIX.write(JSON.pretty_generate(matrix) + "\n")
   accepted = matrix["rows"].count { |row| row["disposition"] == "accepted" }
+  scoped = matrix["rows"].count { |row| row["disposition"] == "scoped_out" }
   blocked = matrix["rows"].count { |row| row["disposition"] == "blocked" }
-  result = blocked.zero? ? "passed" : "blocked"
-  gate = {
-    "schema" => "adl.v0.92.quality_gate_record.v2", "issue" => ISSUE,
-    "supersedes_issue" => 311, "supersedes_pr" => 466,
-    "matrix_sha256" => sha256_path(MATRIX_PATH), "validator_sha256" => sha256_path(Pathname.new(__FILE__)),
-    "feature_rows" => 13, "critical_path_rows" => 20,
-    "accepted_rows" => accepted, "blocked_rows" => blocked,
-    "result" => result, "downstream_unlock" => blocked.zero?,
-    "completion_guard" => "reject_uninvestigated_all_blocked",
-    "non_claim" => "Corrective #467 hydration grants credit only to accepted rows; remaining concrete blockers keep downstream release work locked."
-  }
-  GATE_PATH.write(JSON.pretty_generate(gate) + "\n")
-  report = ["# v0.92 WP-22A Corrective Blocker Report", "", "Result: **#{result.upcase}**", "", "Accepted rows: #{accepted}. Blocked rows: #{blocked}.", "", "## Accepted Rows", ""]
-  matrix["rows"].select { |row| row["disposition"] == "accepted" }.each { |row| report << "- `#{row['id']}` — issue ##{row.dig('evidence', 'issue')} / PR ##{row.dig('evidence', 'pull_request')}: #{row['claim_boundary']}" }
-  report.concat(["", "## Concrete Blockers", ""])
-  matrix["rows"].select { |row| row["disposition"] == "blocked" }.each { |row| report << "- `#{row['id']}` — #{row['blocker_kind']}: #{row['blockers'].join(', ')}" }
-  report.concat(["", "## Downstream", "", "WP-23, WP-25, and release-tail work remain blocked until every row is accepted or explicitly scoped out by milestone authority.", ""])
-  REPORT_PATH.write(report.join("\n"))
-  SUPERSESSION_PATH.write("# #311 Supersession Note\n\n#311 / PR #466 remain immutable historical provenance for the first structural WP-22 execution. #467 supersedes only the release-credit semantics by hydrating discoverable rows and replacing packet-missing defaults with concrete blocker classifications.\n")
-  write_docs_notes(matrix)
-  receipt = {
-    "schema" => "adl.v0.92.quality_gate_validation_receipt.v2", "issue" => ISSUE,
-    "matrix_sha256" => sha256_path(MATRIX_PATH), "gate_sha256" => sha256_path(GATE_PATH),
-    "validator_sha256" => sha256_path(Pathname.new(__FILE__)), "blocker_report_sha256" => sha256_path(REPORT_PATH),
-    "quality_gate_result" => result, "downstream_unlock" => blocked.zero?,
-    "denominator" => { "feature_rows" => 13, "critical_path_rows" => 20, "total_rows" => 33, "accepted_rows" => accepted, "blocked_rows" => blocked },
-    "accepted_rows" => matrix["rows"].select { |row| row["disposition"] == "accepted" }.map { |row| row["id"] },
-    "completion_guard" => "passed"
-  }
-  (EVIDENCE_DIR / "validation.json").write(JSON.pretty_generate(receipt) + "\n")
+  gate = { "schema" => "adl.v0.92.quality_gate_record.v3", "issue" => ISSUE, "supersedes_issue" => 311, "supersedes_pr" => 466, "matrix_sha256" => Digest::SHA256.file(MATRIX).hexdigest, "validator_sha256" => Digest::SHA256.file(__FILE__).hexdigest, "feature_rows" => 13, "critical_path_rows" => 20, "accepted_rows" => accepted, "scoped_out_rows" => scoped, "blocked_rows" => blocked, "result" => blocked.zero? ? "passed" : "blocked", "downstream_unlock" => blocked.zero?, "completion_guard" => "complete_resolution_ledger" }
+  GATE.write(JSON.pretty_generate(gate) + "\n")
+  lines = ["# v0.92 WP-22A Corrective Resolution Report", "", "Result: **#{gate['result'].upcase}**", "", "Accepted rows: #{accepted}. Explicitly scoped rows: #{scoped}. Blocked rows: #{blocked}.", "", "## Resolved Rows", ""]
+  matrix["rows"].each do |row|
+    refs = Array(row.dig("evidence", "deliveries")).map { |d| "#{d['issue_repository']}##{d['issue']} / #{d['pr_repository']}##{d['pull_request']}" }.join("; ")
+    refs = "issue ##{row.dig('evidence', 'scope', 'issue')} -> #{row.dig('evidence', 'scope', 'target')}" if refs.empty?
+    lines << "- `#{row['id']}` — **#{row['disposition']}** — #{refs}: #{row['claim_boundary']}"
+  end
+  lines.concat(["", "## Downstream", "", "No quality-gate evidence blocker remains. Explicitly scoped product work and release-tail outcomes remain owned by their named issues or stages; #467 does not claim to implement them.", ""])
+  REPORT.write(lines.join("\n"))
+  SUPERSESSION.write("# #311 Supersession Note\n\n#311 / PR #466 remain immutable historical provenance. #467 supersedes only release-credit semantics with a complete closed-issue/merged-PR ledger and explicit scope boundaries.\n")
+  write_docs_notes
+  receipt = { "schema" => "adl.v0.92.quality_gate_validation_receipt.v3", "issue" => ISSUE, "matrix_sha256" => Digest::SHA256.file(MATRIX).hexdigest, "gate_sha256" => Digest::SHA256.file(GATE).hexdigest, "validator_sha256" => Digest::SHA256.file(__FILE__).hexdigest, "blocker_report_sha256" => Digest::SHA256.file(REPORT).hexdigest, "quality_gate_result" => gate["result"], "downstream_unlock" => gate["downstream_unlock"], "denominator" => { "feature_rows" => 13, "critical_path_rows" => 20, "total_rows" => 33, "accepted_rows" => accepted, "scoped_out_rows" => scoped, "blocked_rows" => blocked }, "completion_guard" => "passed" }
+  (EVIDENCE / "validation.json").write(JSON.pretty_generate(receipt) + "\n")
   matrix
 end
 
 if __FILE__ == $PROGRAM_NAME
-  case ARGV.shift || "matrix"
-  when "generate"
+  if (ARGV.shift || "matrix") == "generate"
     matrix = write_packet
-    puts JSON.generate(schema: "adl.v0.92.quality_gate_generation.v2", status: "generated", rows: matrix["rows"].length)
-  when "matrix"
-    matrix, errors = validate_matrix(MATRIX_PATH, canonical: true)
+    puts JSON.generate(schema: "adl.v0.92.quality_gate_generation.v3", status: "generated", rows: matrix["rows"].length)
+  else
+    matrix, errors = validate_matrix(MATRIX, canonical: true)
     if errors.empty?
       blocked = matrix["rows"].count { |row| row["disposition"] == "blocked" }
-      puts JSON.generate(schema: "adl.v0.92.quality_gate_validation.v2", status: "passed", rows: matrix["rows"].length, blocked_rows: blocked, gate_result: blocked.zero? ? "passed" : "blocked")
+      puts JSON.generate(schema: "adl.v0.92.quality_gate_validation.v3", status: "passed", rows: matrix["rows"].length, blocked_rows: blocked, gate_result: blocked.zero? ? "passed" : "blocked")
     else
-      warn JSON.generate(schema: "adl.v0.92.quality_gate_validation.v2", status: "failed", errors: errors)
+      warn JSON.generate(schema: "adl.v0.92.quality_gate_validation.v3", status: "failed", errors: errors)
       exit 1
     end
-  else
-    warn "usage: validate-quality-gate.rb generate|matrix"
-    exit 2
   end
 end

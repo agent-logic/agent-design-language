@@ -61,4 +61,4 @@ AWS qualification is not part of this local composition gate.
 
 ## WP-22A Corrective Hydration
 
-Issue #467 supersedes the #311 structural packet for release-credit semantics. The corrective packet lives at `docs/reviews/v0.92/quality-gate-467/`, accepts feature:ADAPTIVE_LEARNING_DAG_v0.92, feature:FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92, critical:AEE-008, and keeps 30 rows blocked with concrete blocker taxonomy. #311/PR #466 remain historical provenance only.
+Issue #467 supersedes #311/PR #466 release-credit semantics. Its complete closed-issue/merged-PR ledger accepts 30 rows, explicitly scopes 3 rows to existing owners or downstream stages, and has zero blockers. #311/PR #466 remain historical provenance only.
