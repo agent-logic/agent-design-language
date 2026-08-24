@@ -31,9 +31,9 @@ docs/reviews/v0.92/quality-gate-311
 
 [
   {
-    "id": "311-API-R6-P1-CANDIDATE-REBIND",
+    "id": "311-API-R7-P1-WP21A-LIVE-CLOSURE",
     "severity": "p1",
-    "summary": "Candidate-source authority was packet-selected rather than pinned to the approved commit and tree.",
+    "summary": "The #310 prerequisite trusted retained receipt fields without re-observing live issue closure, merged PR identity, or closing linkage.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -41,9 +41,9 @@ docs/reviews/v0.92/quality-gate-311
     "route": null
   },
   {
-    "id": "311-API-R6-P1-CHECK-TIE",
+    "id": "311-API-R7-P1-GITHUB-TRANSPORT-SUBSTITUTION",
     "severity": "p1",
-    "summary": "Same-timestamp authorized check runs with equal conclusions were not rejected as ambiguous.",
+    "summary": "Live GitHub authority inherited proxy and caller-selected TLS trust environment variables.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -51,9 +51,9 @@ docs/reviews/v0.92/quality-gate-311
     "route": null
   },
   {
-    "id": "311-API-R6-P1-TYPED-SUBPROCESS-ENV",
-    "severity": "p1",
-    "summary": "Typed terminal authority subprocesses inherited Git and PATH substitution state.",
+    "id": "311-API-R7-P3-CLOSING-LINK-PAGINATION",
+    "severity": "p3",
+    "summary": "GraphQL closing issue linkage stopped after the first 100 references.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -72,8 +72,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:b67e7529306c909f32b8545170ad306fcc4f888d:2c2d21bd30250725522b108c8e236bf0914f78fbe677e219319ee2b69be538d6")
+Revision: Some("git-blake3:4d4af2f8166b7e422cba5fa491dfb9ad33d69487:f206b2fd600c7adf87efcaf96d0b37d45f8b5d59102cc1baf595a8f11485b999")
 
-Reviewer: Some("fresh-session:da06b704-9a43-4b67-8935-8fcf1eba0eec")
+Reviewer: Some("fresh-session:db316397-1872-48de-9b12-85bb0564ee1f")
 
 Result: changes_required

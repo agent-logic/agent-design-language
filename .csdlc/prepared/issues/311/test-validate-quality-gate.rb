@@ -185,9 +185,25 @@ hostile_git_env = {
   "GIT_DIR" => "/nonexistent/substitute.git", "GIT_WORK_TREE" => "/nonexistent/substitute",
   "GIT_OBJECT_DIRECTORY" => "/nonexistent/objects", "GIT_ALTERNATE_OBJECT_DIRECTORIES" => "/nonexistent/alternate",
   "GIT_CONFIG_COUNT" => "1", "GIT_CONFIG_KEY_0" => "remote.origin.url", "GIT_CONFIG_VALUE_0" => "https://github.com/attacker/substitute",
-  "PATH" => "#{shim_dir}:#{ENV.fetch('PATH')}"
+  "PATH" => "#{shim_dir}:#{ENV.fetch('PATH')}",
+  "HTTP_PROXY" => "http://127.0.0.1:9", "HTTPS_PROXY" => "http://127.0.0.1:9",
+  "ALL_PROXY" => "http://127.0.0.1:9", "SSL_CERT_FILE" => "/nonexistent/hostile-ca.pem",
+  "SSL_CERT_DIR" => "/nonexistent/hostile-ca-dir"
 }
 expect_success("accepted-authority-environment-isolated", accepted, hostile_git_env)
+
+saved_authority_env = %w[HTTP_PROXY HTTPS_PROXY ALL_PROXY SSL_CERT_FILE SSL_CERT_DIR].to_h { |key| [key, ENV[key]] }
+begin
+  ENV.update("HTTP_PROXY" => "http://127.0.0.1:9", "HTTPS_PROXY" => "http://127.0.0.1:9",
+             "ALL_PROXY" => "http://127.0.0.1:9", "SSL_CERT_FILE" => "/nonexistent/hostile-ca.pem",
+             "SSL_CERT_DIR" => "/nonexistent/hostile-ca-dir")
+  authority_http = github_http(URI("https://api.github.com/repos/#{REPOSITORY}"))
+  raise "github authority inherited proxy" if authority_http.proxy?
+  raise "github authority did not require peer verification" unless authority_http.verify_mode == OpenSSL::SSL::VERIFY_PEER
+  raise "github authority did not pin a system trust store" unless authority_http.cert_store.is_a?(OpenSSL::X509::Store)
+ensure
+  saved_authority_env.each { |key, value| value.nil? ? ENV.delete(key) : ENV[key] = value }
+end
 
 tampered = clone(base); tampered["candidate_source_sha"] = reviewed_head; tampered["candidate_source_tree"] = git("rev-parse", "#{reviewed_head}^{tree}").strip
 expect_canonical_failure("alternate-ancestral-candidate", tampered, "candidate_source_sha_mismatch")
@@ -332,8 +348,51 @@ validate_wp21a_observation({ "merge_sha" => "unused" }, merge_sha, merge_sha,
                            ["worktree /renamed/path\nHEAD #{WP21A_HEAD}\nbranch refs/heads/codex/310-rust-refactoring\n"], wp21a_errors)
 raise "renamed worktree negative did not fail closed: #{wp21a_errors.inspect}" unless wp21a_errors.include?("wp21a_worktree_not_cleaned")
 
+wp21a_issue = { "number" => 310, "state" => "closed", "state_reason" => "completed" }
+wp21a_pull = {
+  "number" => 465, "state" => "MERGED", "merged" => true, "baseRefName" => "main",
+  "headRefOid" => WP21A_HEAD, "mergeCommit" => { "oid" => WP21A_MERGE },
+  "closingIssuesReferences" => { "nodes" => [{ "number" => 310, "repository" => { "nameWithOwner" => REPOSITORY } }] }
+}
+raise "wp21a live authority control failed" unless (control = []; validate_wp21a_live_authority(wp21a_issue, wp21a_pull, control); control.empty?)
+{
+  "reopened" => [->(issue_payload, _pull) { issue_payload["state"] = "open" }, "wp21a_live_issue_not_closed"],
+  "wrong-pr" => [->(_issue_payload, pull_payload) { pull_payload["number"] = 466 }, "wp21a_live_pr_mismatch"],
+  "unmerged-pr" => [->(_issue_payload, pull_payload) { pull_payload["merged"] = false }, "wp21a_live_pr_not_merged"],
+  "wrong-base" => [->(_issue_payload, pull_payload) { pull_payload["baseRefName"] = "feature" }, "wp21a_live_pr_base_mismatch"],
+  "wrong-head" => [->(_issue_payload, pull_payload) { pull_payload["headRefOid"] = reviewed_head }, "wp21a_live_pr_head_mismatch"],
+  "wrong-merge" => [->(_issue_payload, pull_payload) { pull_payload["mergeCommit"]["oid"] = reviewed_head }, "wp21a_live_pr_merge_mismatch"],
+  "missing-link" => [->(_issue_payload, pull_payload) { pull_payload["closingIssuesReferences"]["nodes"] = [] }, "wp21a_live_closing_link_missing"]
+}.each do |name, (mutate, expected)|
+  issue_payload = clone(wp21a_issue); pull_payload = clone(wp21a_pull); mutate.call(issue_payload, pull_payload)
+  errors = []; validate_wp21a_live_authority(issue_payload, pull_payload, errors)
+  raise "wp21a #{name} did not fail closed: #{errors.inspect}" unless errors.include?(expected)
+end
+
+graphql_pages = [
+  { "data" => { "repository" => { "pullRequest" => wp21a_pull.merge("closingIssuesReferences" => {
+      "nodes" => Array.new(100) { |index| { "number" => 1_000 + index, "repository" => { "nameWithOwner" => REPOSITORY } } },
+      "pageInfo" => { "hasNextPage" => true, "endCursor" => "page-2" }
+  }) } } },
+  { "data" => { "repository" => { "pullRequest" => wp21a_pull.merge("closingIssuesReferences" => {
+      "nodes" => wp21a_pull.dig("closingIssuesReferences", "nodes"),
+      "pageInfo" => { "hasNextPage" => false, "endCursor" => nil }
+  }) } } }
+]
+observed_cursors = []
+requester = lambda do |_path, method:, body:|
+  raise "pagination did not use GraphQL POST" unless method == :post
+  observed_cursors << body.fetch(:variables).fetch(:cursor)
+  graphql_pages.shift
+end
+paginated_pull = github_pull_with_closing_issues(465, requester: requester)
+raise "closing linkage pagination incomplete" unless paginated_pull.dig("closingIssuesReferences", "nodes").length == 101
+raise "closing linkage cursor sequence invalid" unless observed_cursors == [nil, "page-2"]
+pagination_errors = []; validate_wp21a_live_authority(wp21a_issue, paginated_pull, pagination_errors)
+raise "closing linkage after page 100 was not recognized: #{pagination_errors.inspect}" unless pagination_errors.empty?
+
 FileUtils.rm_rf(WORK)
-puts JSON.generate(schema: "adl.v0.92.quality_gate_negative_suite.v2", status: "passed", cases: 65,
+puts JSON.generate(schema: "adl.v0.92.quality_gate_negative_suite.v2", status: "passed", cases: 76,
                    canonical_control: { issue: issue, pull_request: pr, reviewed_head: reviewed_head, pr_head: pr_head, merge_sha: merge_sha },
                    candidate_source_sha: CANDIDATE_SOURCE_SHA, candidate_source_tree: CANDIDATE_SOURCE_TREE,
                    authority_substitution_ignored: true)

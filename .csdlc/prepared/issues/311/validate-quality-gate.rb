@@ -4,6 +4,7 @@
 require "digest"
 require "json"
 require "net/http"
+require "openssl"
 require "open3"
 require "pathname"
 require "time"
@@ -260,10 +261,26 @@ def validate_wp21a_prerequisite(errors)
   errors << "wp21a_head_mismatch" unless terminal["head_sha"] == WP21A_HEAD
   errors << "wp21a_merge_mismatch" unless terminal["merge_sha"] == WP21A_MERGE
   errors << "wp21a_terminal_digest_mismatch" unless terminal["digest"] == WP21A_TERMINAL_DIGEST
+  issue_payload = github_request("/repos/#{REPOSITORY}/issues/310")
+  pull = github_pull_with_closing_issues(465)
+  validate_wp21a_live_authority(issue_payload, pull, errors)
   main = github_request("/repos/#{REPOSITORY}/branches/main").dig("commit", "sha")
   origin_main = run_git("rev-parse", "refs/remotes/origin/main")
   worktrees = run_git("worktree", "list", "--porcelain").split("\n\n")
   validate_wp21a_observation(terminal, main, origin_main, worktrees, errors)
+end
+
+def validate_wp21a_live_authority(issue_payload, pull, errors)
+  errors << "wp21a_live_issue_mismatch" unless issue_payload["number"] == 310
+  errors << "wp21a_live_issue_not_closed" unless issue_payload["state"] == "closed" && issue_payload["state_reason"] == "completed"
+  errors << "wp21a_live_pr_mismatch" unless pull["number"] == 465
+  errors << "wp21a_live_pr_not_merged" unless pull["state"] == "MERGED" && pull["merged"] == true
+  errors << "wp21a_live_pr_base_mismatch" unless pull["baseRefName"] == "main"
+  errors << "wp21a_live_pr_head_mismatch" unless pull["headRefOid"] == WP21A_HEAD
+  errors << "wp21a_live_pr_merge_mismatch" unless pull.dig("mergeCommit", "oid") == WP21A_MERGE
+  closing = Array(pull.dig("closingIssuesReferences", "nodes"))
+  linked = closing.any? { |item| item["number"] == 310 && item.dig("repository", "nameWithOwner") == REPOSITORY }
+  errors << "wp21a_live_closing_link_missing" unless linked
 end
 
 def validate_wp21a_observation(terminal, main, origin_main, worktrees, errors)
@@ -301,9 +318,29 @@ def github_request(path, method: :get, body: nil)
     request["Content-Type"] = "application/json"
     request.body = JSON.generate(body)
   end
-  response = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true, open_timeout: 10, read_timeout: 30) { |http| http.request(request) }
+  http = github_http(uri)
+  response = http.start { |connection| connection.request(request) }
   raise "github_http_#{response.code}" unless response.is_a?(Net::HTTPSuccess)
   JSON.parse(response.body)
+end
+
+def github_http(uri)
+  # Do not inherit proxy routing or caller-selected TLS trust. GitHub authority
+  # is observed directly and verified against the OpenSSL installation's fixed
+  # system trust locations.
+  http = Net::HTTP.new(uri.hostname, uri.port, nil)
+  http.use_ssl = true
+  http.open_timeout = 10
+  http.read_timeout = 30
+  http.verify_mode = OpenSSL::SSL::VERIFY_PEER
+  store = OpenSSL::X509::Store.new
+  cert_file = OpenSSL::X509::DEFAULT_CERT_FILE
+  cert_dir = OpenSSL::X509::DEFAULT_CERT_DIR
+  store.add_file(cert_file) if File.file?(cert_file)
+  store.add_path(cert_dir) if File.directory?(cert_dir)
+  raise "github_system_trust_unavailable" unless File.file?(cert_file) || File.directory?(cert_dir)
+  http.cert_store = store
+  http
 end
 
 def github_paginated(path, collection: nil)
@@ -320,20 +357,44 @@ def github_paginated(path, collection: nil)
   values
 end
 
-def live_github(issue, pr, pr_head, errors)
-  query = <<~GRAPHQL
-    query($owner:String!, $name:String!, $number:Int!) {
-      repository(owner:$owner, name:$name) {
-        pullRequest(number:$number) {
-          number state merged baseRefName headRefOid mergeCommit { oid }
-          closingIssuesReferences(first:100) { nodes { number repository { nameWithOwner } } }
+def github_pull_with_closing_issues(pr, requester: method(:github_request))
+  nodes = []
+  cursor = nil
+  pull = nil
+  loop do
+    query = <<~GRAPHQL
+      query($owner:String!, $name:String!, $number:Int!, $cursor:String) {
+        repository(owner:$owner, name:$name) {
+          pullRequest(number:$number) {
+            number state merged baseRefName headRefOid mergeCommit { oid }
+            closingIssuesReferences(first:100, after:$cursor) {
+              nodes { number repository { nameWithOwner } }
+              pageInfo { hasNextPage endCursor }
+            }
+          }
         }
       }
-    }
-  GRAPHQL
-  graph = github_request("/graphql", method: :post, body: { query: query, variables: { owner: "agent-logic", name: "agent-design-language", number: pr } })
-  raise "github_graphql_errors" unless Array(graph["errors"]).empty?
-  pull = graph.dig("data", "repository", "pullRequest")
+    GRAPHQL
+    graph = requester.call("/graphql", method: :post, body: {
+      query: query, variables: { owner: "agent-logic", name: "agent-design-language", number: pr, cursor: cursor }
+    })
+    raise "github_graphql_errors" unless Array(graph["errors"]).empty?
+    page_pull = graph.dig("data", "repository", "pullRequest")
+    raise "github_pull_request_missing" unless page_pull.is_a?(Hash)
+    pull ||= page_pull.reject { |key, _value| key == "closingIssuesReferences" }
+    connection = page_pull.fetch("closingIssuesReferences")
+    nodes.concat(Array(connection["nodes"]))
+    page_info = connection.fetch("pageInfo")
+    break unless page_info["hasNextPage"] == true
+    next_cursor = page_info["endCursor"]
+    raise "github_closing_link_cursor_invalid" unless next_cursor.is_a?(String) && !next_cursor.empty? && next_cursor != cursor
+    cursor = next_cursor
+  end
+  pull.merge("closingIssuesReferences" => { "nodes" => nodes })
+end
+
+def live_github(issue, pr, pr_head, errors)
+  pull = github_pull_with_closing_issues(pr)
   issue_payload = github_request("/repos/#{REPOSITORY}/issues/#{issue}")
   checks = { "check_runs" => github_paginated("/repos/#{REPOSITORY}/commits/#{pr_head}/check-runs?filter=all", collection: "check_runs") }
   summaries = github_paginated("/repos/#{REPOSITORY}/rulesets")
