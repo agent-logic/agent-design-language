@@ -1,0 +1,59 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 313,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-25] Internal review",
+    "slug": "v0-92-wp-25-internal-review",
+    "version": "v0.92",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Prepare the complete internal-review contract now without starting the issue; execute later only after WP-23 and WP-24 are terminal, reconciled, ancestral, and clean, with WP-24A truthfully deferred to v0.92.1.",
+      "deliverables": [
+        "Internal review report and stable findings register",
+        "Exact-SHA review packet and machine-readable digest manifest",
+        "Nine specialist lane results with reviewer identity and completion truth",
+        "Findings-first synthesis preserving duplicates and disagreements",
+        "Validation, redaction, and independent meta-review records"
+      ],
+      "acceptance_criteria": [
+        "WP-23 #312 and WP-24 #10 are terminal, reconciled, ancestral, and cleaned before review execution; WP-24A is recorded as deferred to v0.92.1 and non-blocking",
+        "The packet pins agent-logic/agent-design-language and one clean exact target SHA",
+        "Included, excluded, unknown, local-only, generated, vendored, private, and redacted surfaces are explicitly inventoried",
+        "All nine independent specialist lanes record reviewer identity, scope, method, evidence, limitations, and findings or a defensible zero-finding result",
+        "Every finding has stable ID, severity, exact evidence, invariant or failure mode, reproduction or proof gap, owner route, duplicate links, disagreement state, and open disposition",
+        "Synthesis preserves source provenance, duplicates, disagreements, and residual risks without remediation",
+        "Packet identity, manifest digests, evidence links, lane completion, finding schema, redaction, and private-path hygiene validate fail-closed",
+        "An independent meta-review reports no actionable review-quality gap",
+        "The result makes no remediation, external-approval, release-readiness, publication, or deployment claim"
+      ],
+      "dependencies": [
+        "Canonical WP-23 issue #312 terminal, reconciled, ancestral, and clean",
+        "Canonical WP-24 issue #10 terminal, reconciled, ancestral, and clean",
+        "Operator disposition deferring WP-24A to v0.92.1, reconciled into #313 and its cards before issue start",
+        "Sprint 6 umbrella #307 graph reconciled with the canonical dependency identities"
+      ],
+      "repo_inputs": [
+        "docs/milestones/v0.92/",
+        "docs/reviews/v0.91.8/internal-review-5356/",
+        "docs/reviews/v0.91.8/internal-review-5791/",
+        "docs/milestones/v0.91.2/review/internal_review_full/",
+        "docs/tooling/OPUS_REVIEW_RUNBOOK.md",
+        ".csdlc/issues/",
+        ".csdlc/evidence/"
+      ],
+      "non_goals": [
+        "Fixing or suppressing findings",
+        "Dispatching external review",
+        "Approving release, deployment, publication, or submission",
+        "Creating one issue per finding without a separate routing decision",
+        "Crediting predecessor artifacts as acceptance without exact-revision proof"
+      ]
+    }
+  }
+}

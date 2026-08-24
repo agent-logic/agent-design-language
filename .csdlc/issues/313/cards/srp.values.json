@@ -1,0 +1,32 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 313,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-25] Internal review",
+    "slug": "v0-92-wp-25-internal-review",
+    "version": "v0.92",
+    "generation": 1
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "The complete v0.92 internal-review packet contract, all nine specialist outputs, findings register, synthesis, validator evidence, redaction boundary, and independent meta-review at the frozen exact SHA.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the entry gate prove every predecessor is canonical, terminal, ancestral, and cleaned rather than merely closed?",
+        "Do all nine lanes share one exact packet and SHA with independent reviewer identity?",
+        "Can any zero-finding lane pass without an evidence-backed denominator and stated limitations?",
+        "Does synthesis preserve every duplicate, disagreement, severity rationale, and original reviewer claim?",
+        "Can any artifact leak secrets, private state, raw prompts, or host-absolute paths?",
+        "Does any wording overclaim remediation, external approval, or release readiness?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

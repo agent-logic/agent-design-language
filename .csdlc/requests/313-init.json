@@ -1,0 +1,157 @@
+{
+  "issue": 313,
+  "repository": "agent-logic/agent-design-language",
+  "actor": "codex:wp25-preparation",
+  "design_path": ".csdlc/prepared/issues/313/design.md",
+  "diagram_path": ".csdlc/prepared/issues/313/diagram.mmd",
+  "design_reviewer": "unassigned",
+  "design_approved": false,
+  "initial": {
+    "title": "[v0.92][WP-25] Internal review",
+    "slug": "v0-92-wp-25-internal-review",
+    "version": "v0.92",
+    "goal": "Prepare and execute a findings-first internal review of the exact terminal v0.92 milestone candidate through nine independent specialist lanes.",
+    "required_outcome": "A digest-bound internal review packet, findings register, synthesis, validation record, and independent meta-review at one exact revision.",
+    "declared_scope": [
+      "Canonical v0.92 code, docs, tests, lifecycle evidence, demos, launch assets, and release surfaces at one exact SHA",
+      "Nine independent specialist lanes and provenance-preserving synthesis",
+      "Packet validation, redaction audit, and independent review-quality meta-review"
+    ],
+    "authority_boundary": [
+      "Canonical issue authority is agent-logic/agent-design-language#313",
+      "Typed C-SDLC v2 records remain lifecycle authority",
+      "WP-25 records findings but does not remediate, approve external review, or authorize release"
+    ],
+    "operator_constraints": [
+      "Prepare before dependencies close but do not bind or execute early",
+      "Use the new agent-logic repository for issue and PR identity",
+      "Preserve reviewer-authored findings, duplicates, disagreements, and limitations",
+      "Do not expose credentials, raw private state, provider prompts, or host-absolute paths"
+    ],
+    "task_boundary": "Prepare the complete internal-review contract now without starting the issue; execute later only after WP-23 and WP-24 are terminal, reconciled, ancestral, and clean, with WP-24A truthfully deferred to v0.92.1.",
+    "deliverables": [
+      "Internal review report and stable findings register",
+      "Exact-SHA review packet and machine-readable digest manifest",
+      "Nine specialist lane results with reviewer identity and completion truth",
+      "Findings-first synthesis preserving duplicates and disagreements",
+      "Validation, redaction, and independent meta-review records"
+    ],
+    "acceptance_criteria": [
+      "WP-23 #312 and WP-24 #10 are terminal, reconciled, ancestral, and cleaned before review execution; WP-24A is recorded as deferred to v0.92.1 and non-blocking",
+      "The packet pins agent-logic/agent-design-language and one clean exact target SHA",
+      "Included, excluded, unknown, local-only, generated, vendored, private, and redacted surfaces are explicitly inventoried",
+      "All nine independent specialist lanes record reviewer identity, scope, method, evidence, limitations, and findings or a defensible zero-finding result",
+      "Every finding has stable ID, severity, exact evidence, invariant or failure mode, reproduction or proof gap, owner route, duplicate links, disagreement state, and open disposition",
+      "Synthesis preserves source provenance, duplicates, disagreements, and residual risks without remediation",
+      "Packet identity, manifest digests, evidence links, lane completion, finding schema, redaction, and private-path hygiene validate fail-closed",
+      "An independent meta-review reports no actionable review-quality gap",
+      "The result makes no remediation, external-approval, release-readiness, publication, or deployment claim"
+    ],
+    "dependencies": [
+      "Canonical WP-23 issue #312 terminal, reconciled, ancestral, and clean",
+      "Canonical WP-24 issue #10 terminal, reconciled, ancestral, and clean",
+      "Operator disposition deferring WP-24A to v0.92.1, reconciled into #313 and its cards before issue start",
+      "Sprint 6 umbrella #307 graph reconciled with the canonical dependency identities"
+    ],
+    "repo_inputs": [
+      "docs/milestones/v0.92/",
+      "docs/reviews/v0.91.8/internal-review-5356/",
+      "docs/reviews/v0.91.8/internal-review-5791/",
+      "docs/milestones/v0.91.2/review/internal_review_full/",
+      "docs/tooling/OPUS_REVIEW_RUNBOOK.md",
+      ".csdlc/issues/",
+      ".csdlc/evidence/"
+    ],
+    "non_goals": [
+      "Fixing or suppressing findings",
+      "Dispatching external review",
+      "Approving release, deployment, publication, or submission",
+      "Creating one issue per finding without a separate routing decision",
+      "Crediting predecessor artifacts as acceptance without exact-revision proof"
+    ],
+    "plan_summary": "Verify terminal entry gates, freeze one clean exact SHA, build the review packet, run nine independent specialist lanes, synthesize findings without remediation, validate identity/digests/redaction, and obtain independent meta-review before handoff.",
+    "steps": [
+      {"id":"S1","action":"Reconcile canonical dependency, issue, PR, lifecycle, ancestry, worktree, and candidate-SHA truth.","acceptance_ids":["AC-1","AC-2"],"status":"pending"},
+      {"id":"S2","action":"Build the exact-SHA packet manifest and explicit included, excluded, unknown, private, generated, and redacted scope inventory.","acceptance_ids":["AC-2","AC-3"],"status":"pending"},
+      {"id":"S3","action":"Run all nine independent specialist lanes against the identical packet and exact SHA.","acceptance_ids":["AC-4"],"status":"pending"},
+      {"id":"S4","action":"Create the provenance-preserving findings register and findings-first synthesis without remediation.","acceptance_ids":["AC-5","AC-6","AC-9"],"status":"pending"},
+      {"id":"S5","action":"Run packet schema, identity, digest, link, redaction, path-hygiene, and negative validation.","acceptance_ids":["AC-7","AC-9"],"status":"pending"},
+      {"id":"S6","action":"Obtain independent meta-review, correct actionable packet-quality findings, and retain the bounded WP-26 handoff disposition.","acceptance_ids":["AC-8","AC-9"],"status":"pending"}
+    ],
+    "affected_areas": [
+      "docs/reviews/v0.92/internal-review-5846",
+      "docs/milestones/v0.92/review/V092_INTERNAL_REVIEW_5846.md",
+      ".csdlc/evidence/5846",
+      ".csdlc/prepared/issues/5846/validate-internal-review.rb"
+    ],
+    "invariants": [
+      "Every lane reviews the same repository, manifest, and exact SHA",
+      "A source or manifest change makes all dependent review evidence stale",
+      "Missing evidence, lane identity, or dependency truth blocks review",
+      "Synthesis cannot erase finding provenance, duplicates, or disagreement",
+      "WP-25 never converts review evidence into remediation or release authority"
+    ],
+    "risks": [
+      "Typed initialization could regress the already-correct #313 WP-24A deferral unless live issue truth is preserved",
+      "Large scope can produce superficial lanes unless evidence denominators are explicit",
+      "Self-referential packet commits can stale exact-head claims",
+      "Historical evidence may contain host-local paths or private data requiring careful boundary treatment"
+    ],
+    "planning_profile": "large",
+    "stop_conditions": [
+      "Any active v0.92 dependency is nonterminal, noncanonical, nonancestral, or has active worktree topology at execution time",
+      "The candidate checkout is dirty or the target SHA changes after packet generation",
+      "Any specialist lane is missing, incomplete, stale, or lacks reviewer identity",
+      "Manifest digest, evidence link, finding schema, redaction, or private-path validation fails",
+      "Independent meta-review reports an unresolved actionable quality gap"
+    ],
+    "validation_lanes": [
+      {
+        "lane":"internal-review-packet",
+        "proof_role":"Validate exact repository and SHA identity, dependency gates, nine lane completions, finding schema, digests, links, redaction, and claim boundaries.",
+        "acceptance_ids":["AC-1","AC-2","AC-3","AC-4","AC-5","AC-7","AC-9"],
+        "deterministic":true,
+        "resource_profile":"medium",
+        "budget_seconds":300,
+        "budget_tokens":3000,
+        "argv":["ruby",".csdlc/prepared/issues/5846/validate-internal-review.rb"],
+        "parallel_group":"packet",
+        "defer_reason":"The issue-owned validator is an execution deliverable and runs only after the exact target SHA and review packet exist."
+      },
+      {
+        "lane":"review-quality-meta-review-receipt",
+        "proof_role":"Validate the retained independent meta-review identity, exact packet and target digests, coverage and severity evaluation, limitations, and zero unresolved actionable review-quality findings.",
+        "acceptance_ids":["AC-6","AC-8","AC-9"],
+        "deterministic":true,
+        "resource_profile":"small",
+        "budget_seconds":120,
+        "budget_tokens":1500,
+        "argv":["ruby",".csdlc/prepared/issues/5846/validate-internal-review.rb","--require-meta-review"],
+        "parallel_group":"meta-review-receipt",
+        "defer_reason":"Runs only after an independent reviewer has produced the retained meta-review; the validator does not author or approve that review."
+      },
+      {
+        "lane":"diff-hygiene",
+        "proof_role":"Reject whitespace and patch hygiene errors in the review packet, validator, and milestone entrypoint.",
+        "acceptance_ids":["AC-7"],
+        "deterministic":true,
+        "resource_profile":"small",
+        "budget_seconds":30,
+        "budget_tokens":500,
+        "argv":["git","diff","--check"],
+        "parallel_group":"hygiene",
+        "defer_reason":null
+      }
+    ],
+    "failure_policy": "Fail closed before review authority on dependency drift, wrong repository or SHA, incomplete lane coverage, invalid finding provenance, digest mismatch, evidence-link failure, private-data leakage, or unresolved meta-review findings.",
+    "review_prompts": [
+      "Does the entry gate prove every predecessor is canonical, terminal, ancestral, and cleaned rather than merely closed?",
+      "Do all nine lanes share one exact packet and SHA with independent reviewer identity?",
+      "Can any zero-finding lane pass without an evidence-backed denominator and stated limitations?",
+      "Does synthesis preserve every duplicate, disagreement, severity rationale, and original reviewer claim?",
+      "Can any artifact leak secrets, private state, raw prompts, or host-absolute paths?",
+      "Does any wording overclaim remediation, external approval, or release readiness?"
+    ],
+    "review_scope": "The complete v0.92 internal-review packet contract, all nine specialist outputs, findings register, synthesis, validator evidence, redaction boundary, and independent meta-review at the frozen exact SHA."
+  }
+}

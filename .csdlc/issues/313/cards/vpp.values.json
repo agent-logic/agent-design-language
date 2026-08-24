@@ -1,0 +1,89 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 313,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-25] Internal review",
+    "slug": "v0-92-wp-25-internal-review",
+    "version": "v0.92",
+    "generation": 1
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "internal-review-packet",
+          "proof_role": "Validate exact repository and SHA identity, dependency gates, nine lane completions, finding schema, digests, links, redaction, and claim boundaries.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-7",
+            "AC-9"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 300,
+          "budget_tokens": 3000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/5846/validate-internal-review.rb"
+          ],
+          "parallel_group": "packet",
+          "defer_reason": "Runs after the exact target SHA and review packet exist."
+        },
+        {
+          "lane": "review-quality-meta-review-receipt",
+          "proof_role": "Validate the retained independent meta-review identity, exact packet and target digests, coverage and severity evaluation, limitations, and zero unresolved actionable review-quality findings.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-8",
+            "AC-9"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 120,
+          "budget_tokens": 1500,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/5846/validate-internal-review.rb",
+            "--require-meta-review"
+          ],
+          "parallel_group": "meta-review-receipt",
+          "defer_reason": "Runs only after an independent reviewer has produced the retained meta-review; the validator does not author or approve that review."
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Reject whitespace and patch hygiene errors in the review packet, validator, and milestone entrypoint.",
+          "acceptance_ids": [
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 30,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "hygiene",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed before review authority on dependency drift, wrong repository or SHA, incomplete lane coverage, invalid finding provenance, digest mismatch, evidence-link failure, private-data leakage, or unresolved meta-review findings.",
+      "design_ref": ".csdlc/prepared/issues/313/design.md",
+      "design_digest": "02b1d0666e26fc4ab6dc8fe91007659b2acc4a0116dff20ac8c5f78ac3fe845a",
+      "diagram_ref": ".csdlc/prepared/issues/313/diagram.mmd",
+      "diagram_digest": "94c6240fafa592052a8d45e548757a7452fe6b966faea144948828c7134e5b7c"
+    }
+  }
+}
