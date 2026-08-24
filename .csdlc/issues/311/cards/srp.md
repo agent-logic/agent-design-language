@@ -29,38 +29,7 @@ docs/reviews/v0.92/quality-gate-311
 
 ## Findings
 
-[
-  {
-    "id": "311-API-R7-P1-WP21A-LIVE-CLOSURE",
-    "severity": "p1",
-    "summary": "The #310 prerequisite trusted retained receipt fields without re-observing live issue closure, merged PR identity, or closing linkage.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  },
-  {
-    "id": "311-API-R7-P1-GITHUB-TRANSPORT-SUBSTITUTION",
-    "severity": "p1",
-    "summary": "Live GitHub authority inherited proxy and caller-selected TLS trust environment variables.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  },
-  {
-    "id": "311-API-R7-P3-CLOSING-LINK-PAGINATION",
-    "severity": "p3",
-    "summary": "GraphQL closing issue linkage stopped after the first 100 references.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  }
-]
+[]
 
 ## Dispositions
 
@@ -68,12 +37,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- The canonical v0.92 feature matrix remains truthfully blocked at 33 of 33 rows; this reviewed structural gate does not grant release credit or downstream unlock.
 
 ## Review Result
 
-Revision: Some("git-blake3:4d4af2f8166b7e422cba5fa491dfb9ad33d69487:f206b2fd600c7adf87efcaf96d0b37d45f8b5d59102cc1baf595a8f11485b999")
+Revision: Some("git-blake3:b0c9b0f57a06c7c1e0f5ff69ec1be19909ad82ce:d07e9d59929e23ce6956429b8bf9fc91705c324490b47d64ffda5c3182c94a15")
 
-Reviewer: Some("fresh-session:db316397-1872-48de-9b12-85bb0564ee1f")
+Reviewer: Some("fresh-session:e1788896-09cd-4ec7-be1e-e5e8a39a465a")
 
-Result: changes_required
+Result: pass
