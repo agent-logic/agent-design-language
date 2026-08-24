@@ -31,7 +31,7 @@ Executed the canonical v0.92 quality gate after #310 recordless terminal reconci
 - Replaced generic proof parsing with an explicit reviewed canonical-row profile that binds exact issue, implementation paths, proof paths, test targets and denominators, denial claims, audit features, and ancestral source revisions; unprofiled rows fail closed.
 - Added GitHub-compatible branch-pattern evaluation, exclusion handling, all-page discovery, filter=all check enumeration, timestamp-based newest-run selection, and ambiguous-latest denial.
 - Pinned /usr/bin/git and sanitized all inherited GIT_* authority plus PATH and Git config inputs before repository, object, topology, remote, and worktree observations.
-- Bound the packet, gate, logs, and receipt to exact candidate source commit d1be63d3bded67ec238a12beed7f00b2dae0a2f8 and tree 0e5b3fd36217d2002179b082e20b95a4950e46cc, with exact post-source path and dirty-state denial.
+- Bound the packet, gate, logs, and receipt to exact candidate source commit 9b43fc535e864155b7c97b0e1b266c0787875bde and tree 181093683ad06a62f5b6fc2469791f685cc11ce3, with exact post-source path and dirty-state denial.
 - Expanded the adversarial suite to 58 cases, including wildcard/excluded/unsupported rulesets and real Git/PATH/config/object substitution attempts.
 
 ## Validation

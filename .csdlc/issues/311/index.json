@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b86263883d2f9fb6ce7d5fa5190ca61881a7d49a954bbe46c134b8c3aa9da98c",
   "phase": "implemented",
-  "generation": 16,
-  "digest": "5e7a222375839cfc35e1229ae2473116c871192c0a2b089e2d6acaca9d0da3d7",
+  "generation": 17,
+  "digest": "2e4fbf7ac1fc5677cdc403a5d5bd6cb5b424757676c3d659c4326b87b023cfe0",
   "branch": "codex/311-v092-quality-gate",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-311-v092-quality-gate",
   "review_assignment": {
@@ -103,34 +103,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "b7e56583a0f6aa5f7b5f403264dabe8e761484950e2e33b028b8641c5b03c5cb",
+      "values_digest": "c38b787cb1b928cc1f9f1d6688e9049365bb8ced58e401273a5b4833bb51e3a2",
       "rendered_digest": "b1c0911fc6a227d0ba229185e1c36e858733223971a364604a99b92eb0a352d5",
       "ast_digest": "8a2e49295edbd23107ac83440b809a31e649dd5ebb23869f3af17fad3b4518f4"
     },
     "stp": {
-      "values_digest": "6ae3899ee458af81bdc8c7f290eedb5c0c9ed00f8af5dafea7ee1870c94111ca",
+      "values_digest": "b4d2a65d8e18210ed0916ad27f174ea7cf927b01f6a8e4970b2091254c93cf55",
       "rendered_digest": "f793cb9183e8527acec0fd8cf26e1997d079d599d791ddb1f03996e9b92209a2",
       "ast_digest": "50869a8bb645edaa6aa3d4555ec1318a1dc733fd95ae0860a5d245e58e4172eb"
     },
     "spp": {
-      "values_digest": "28e0b0a11cefd373e9f38d7b4c86b395e7f3bcaf2788f10eb83024d18eb1487f",
+      "values_digest": "93e609b8515bf7fc3416e74b623f5a9c583a1fcae1db0e19465f2eacdc5c35d9",
       "rendered_digest": "5cd73cd5c1f4b04e2840e6685840923c1941d3a0768ac7cf6ddd6928fcac77b0",
       "ast_digest": "7b0e641d0f7253dcddb9228a1b3ceb904085bd7fb60de1cab95bf3121c685a76"
     },
     "vpp": {
-      "values_digest": "f03ca706013e19b1e7e5ca9663afa2a8065a72e7057a05f7f91d0262fc90dd22",
+      "values_digest": "da3d40d7917baa326184702608465cffc98c5bb9c19d778b2e84615f322ccdab",
       "rendered_digest": "4d5f3ec18d5fcc530c196e13f96fa69febc401a60d9c82528f820028e7dd7831",
       "ast_digest": "0db9710fa2f00ec2cd4017d2b1ae36ce10af870e419b31a8376556f09b10a411"
     },
     "srp": {
-      "values_digest": "51cd6266c7f2b2f851d603f89ff73ecbe88839359ffb94639f6f9eb8cf6b673e",
+      "values_digest": "417b5c6c7922387410d92e7f611cfbea74983f3b9d885f068e7acbed12ef38cd",
       "rendered_digest": "9953f0bb5bed0b23b4667abd7b3c0c4234b58c1007595cfd8bf96ffffc48518a",
       "ast_digest": "8bde355e2af329139ddf78c14708164f01d0f00a43652b7fa12c183cbf23778e"
     },
     "sor": {
-      "values_digest": "0091ade64318bff05b129c8b592de27b8358b2593126129f9bc0c16d55b8ccb2",
-      "rendered_digest": "140aa7671e2194f13aa37ab17f6f84ba95d7206a04497b61b70ac8ee33110bc8",
-      "ast_digest": "e4a432b3ceae33321f46afa14018a9a0209936685067b788c46e8bc84af7b60b"
+      "values_digest": "02612046686a78a3b56158de2a08fc7f77b01621507d4ee9c0d97a98d452701c",
+      "rendered_digest": "b3f5e8ac29e55727faabfc2f6240f6be96eed11ec3d919294f41357747d6e381",
+      "ast_digest": "ed4ba8fa4dd7468f2ae8987c6d40a5f530128960d75e886c7c0ccbc7a5043df0"
     }
   },
   "transitions": [
@@ -310,6 +310,13 @@
       "actor": "codex:/root",
       "reason": "Record the bounded API R5 remediation with canonical-only execution, row-specific profiles, sanitized Git, complete ruleset semantics, and candidate-source binding.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Executed the canonical v0.92 quality gate after #310 recordless terminal reconciliation, live-main ancestry verification, and exact branch-worktree cleanup. The exact 13-feature plus 20-critical-path denominator validates, all 33 rows remain truthful release blockers, downstream unlock is false, and no alternate matrix can emit release authority.\",\"changes\":[\"Removed the public alternate-matrix release path; production validation accepts only the canonical packet, while row mutation tests use an isolated non-release function.\",\"Replaced generic proof parsing with an explicit reviewed canonical-row profile that binds exact issue, implementation paths, proof paths, test targets and denominators, denial claims, audit features, and ancestral source revisions; unprofiled rows fail closed.\",\"Added GitHub-compatible branch-pattern evaluation, exclusion handling, all-page discovery, filter=all check enumeration, timestamp-based newest-run selection, and ambiguous-latest denial.\",\"Pinned /usr/bin/git and sanitized all inherited GIT_* authority plus PATH and Git config inputs before repository, object, topology, remote, and worktree observations.\",\"Bound the packet, gate, logs, and receipt to exact candidate source commit d1be63d3bded67ec238a12beed7f00b2dae0a2f8 and tree 0e5b3fd36217d2002179b082e20b95a4950e46cc, with exact post-source path and dirty-state denial.\",\"Expanded the adversarial suite to 58 cases, including wildcard/excluded/unsupported rulesets and real Git/PATH/config/object substitution attempts.\"],\"artifacts\":[\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\",\".csdlc/evidence/311/validation.json\",\"docs/reviews/v0.92/quality-gate-311/feature-completion-matrix.json\",\"docs/reviews/v0.92/quality-gate-311/quality-gate-record.json\",\"docs/reviews/v0.92/quality-gate-311/blocker-report.md\",\"docs/milestones/v0.92/QUALITY_GATE_v0.92.md\",\"docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\"matrix\"],\"purpose\":\"Validate the canonical 33-row denominator, #310 prerequisite, candidate source identity, and complete retained packet atomically.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/semantic-quality-matrix.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\"],\"purpose\":\"Run the real canonical accepted control and 58 adversarial authority, semantic, routing, and substitution cases.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/quality-negative-suite.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove exact candidate diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/docs-schema-diff.log\"}]}"
+    },
+    {
+      "sequence": 23,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "Record the bounded API R5 remediation with canonical-only execution, row-specific profiles, sanitized Git, complete ruleset semantics, and candidate-source binding.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Executed the canonical v0.92 quality gate after #310 recordless terminal reconciliation, live-main ancestry verification, and exact branch-worktree cleanup. The exact 13-feature plus 20-critical-path denominator validates, all 33 rows remain truthful release blockers, downstream unlock is false, and no alternate matrix can emit release authority.\",\"changes\":[\"Removed the public alternate-matrix release path; production validation accepts only the canonical packet, while row mutation tests use an isolated non-release function.\",\"Replaced generic proof parsing with an explicit reviewed canonical-row profile that binds exact issue, implementation paths, proof paths, test targets and denominators, denial claims, audit features, and ancestral source revisions; unprofiled rows fail closed.\",\"Added GitHub-compatible branch-pattern evaluation, exclusion handling, all-page discovery, filter=all check enumeration, timestamp-based newest-run selection, and ambiguous-latest denial.\",\"Pinned /usr/bin/git and sanitized all inherited GIT_* authority plus PATH and Git config inputs before repository, object, topology, remote, and worktree observations.\",\"Bound the packet, gate, logs, and receipt to exact candidate source commit 9b43fc535e864155b7c97b0e1b266c0787875bde and tree 181093683ad06a62f5b6fc2469791f685cc11ce3, with exact post-source path and dirty-state denial.\",\"Expanded the adversarial suite to 58 cases, including wildcard/excluded/unsupported rulesets and real Git/PATH/config/object substitution attempts.\"],\"artifacts\":[\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\",\".csdlc/evidence/311/validation.json\",\"docs/reviews/v0.92/quality-gate-311/feature-completion-matrix.json\",\"docs/reviews/v0.92/quality-gate-311/quality-gate-record.json\",\"docs/reviews/v0.92/quality-gate-311/blocker-report.md\",\"docs/milestones/v0.92/QUALITY_GATE_v0.92.md\",\"docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\"matrix\"],\"purpose\":\"Validate the canonical 33-row denominator, #310 prerequisite, candidate source identity, and complete retained packet atomically.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/semantic-quality-matrix.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\"],\"purpose\":\"Run the real canonical accepted control and 58 adversarial authority, semantic, routing, and substitution cases.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/quality-negative-suite.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove exact candidate diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/docs-schema-diff.log\"}]}"
     }
   ]
 }
