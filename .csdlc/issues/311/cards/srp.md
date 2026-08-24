@@ -31,9 +31,9 @@ docs/reviews/v0.92/quality-gate-311
 
 [
   {
-    "id": "311-API-R4-P1-ROW-CONTRACT",
+    "id": "311-API-R5-P1-CUSTOM-MATRIX",
     "severity": "p1",
-    "summary": "Accepted-row contracts did not bind exact owner, reviewed source bytes, implementation paths, proof semantics, or prevent packet reuse across rows.",
+    "summary": "The public alternate-matrix path could emit a release pass without the #310 prerequisite or complete canonical packet.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -41,9 +41,9 @@ docs/reviews/v0.92/quality-gate-311
     "route": null
   },
   {
-    "id": "311-API-R4-P1-CHECK-AUTHORITY",
+    "id": "311-API-R5-P1-PROOF-SEMANTICS",
     "severity": "p1",
-    "summary": "Required-check validation used only one ruleset, omitted pagination and integration identity strictness, and allowed older successes to mask newer failures.",
+    "summary": "Generic proof parsing did not bind behavior, commands, claims, revisions, and implementation paths to the exact row.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -51,9 +51,9 @@ docs/reviews/v0.92/quality-gate-311
     "route": null
   },
   {
-    "id": "311-API-R4-P1-ROOT-SUBSTITUTION",
+    "id": "311-API-R5-P1-RULESET-MATCHING",
     "severity": "p1",
-    "summary": "QUALITY_GATE_ROOT permitted repository-authority substitution.",
+    "summary": "Ruleset wildcard applicability and authoritative check ordering were incomplete.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -61,19 +61,19 @@ docs/reviews/v0.92/quality-gate-311
     "route": null
   },
   {
-    "id": "311-API-R4-P2-WP21A-IDENTITY",
+    "id": "311-API-R5-P1-GIT-ENVIRONMENT",
+    "severity": "p1",
+    "summary": "Inherited Git and PATH environment could substitute repository authority.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "311-API-R5-P2-CANDIDATE-BINDING",
     "severity": "p2",
-    "summary": "The #310 prerequisite checked ancestry against the candidate rather than live main and matched worktree state by ambiguous substrings.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  },
-  {
-    "id": "311-API-R4-P2-NEGATIVE-SEAM",
-    "severity": "p2",
-    "summary": "Reopened-issue and wrong-check-app negatives exercised a synthetic production observation command instead of the accepted-row authority function.",
+    "summary": "The retained packet did not bind the evaluated candidate source commit/tree or reject product drift.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -92,8 +92,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:54c9a3dd08bc943d51f5ff854bf75c4bf6084440:7ad7d42647bc55d5f9f14ad055cc9e8660bf6cbf517e63b6a2aa64e33dadfac6")
+Revision: Some("git-blake3:5a900f6100370e8f21d500cd7f39a2b73704fe69:c726a0e3b885c8935b0e100a16e15ee90a09cfb6c06ef358398c66f4fa83c637")
 
-Reviewer: Some("fresh-session:de89f81c-82d1-415d-bc53-a6f9cd142297")
+Reviewer: Some("fresh-session:9923e49d-ccc8-4078-996c-76968d15e736")
 
 Result: changes_required

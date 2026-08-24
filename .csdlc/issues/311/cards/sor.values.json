@@ -7,19 +7,20 @@
     "title": "[v0.92][WP-22] Quality gate",
     "slug": "311-v092-quality-gate",
     "version": "v0.92",
-    "generation": 14
+    "generation": 16
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "sor",
     "values": {
-      "summary": "Executed the canonical v0.92 quality gate after #310 recordless terminal reconciliation, live-main ancestry verification, and exact branch-worktree cleanup. The exact 13-feature plus 20-critical-path denominator validates, all 33 rows remain truthful release blockers, downstream unlock is false, and accepted evidence is bound to reviewed row semantics plus complete canonical GitHub ruleset/check authority.",
+      "summary": "Executed the canonical v0.92 quality gate after #310 recordless terminal reconciliation, live-main ancestry verification, and exact branch-worktree cleanup. The exact 13-feature plus 20-critical-path denominator validates, all 33 rows remain truthful release blockers, downstream unlock is false, and no alternate matrix can emit release authority.",
       "actual_changes": [
-        "Pinned validation to the physical bound repository and its exact agent-logic/agent-design-language origin, removing caller-controlled root substitution.",
-        "Bound every accepted row to exact owner, reviewed source bytes, implementation paths, issue identity, proof artifacts, SOR lane commands and purposes, and independently parsed nonzero or structured proof semantics; duplicate accepted packets across rows fail closed.",
-        "Enumerated every applicable active branch ruleset and every check-run page, required positive GitHub App integration identities, combined the complete required-check set, and selected the newest authorized run so stale success cannot mask later failure.",
-        "Validated #310 against the live main SHA and exact origin/main equality, and detect its canonical branch independently of any renamed worktree path.",
-        "Expanded the fail-closed suite to 50 cases around the real #451/PR #459 canonical control, including semantic-proof substitution, second-ruleset omission, missing app identity, newer failed duplicate, live-main ancestry, and renamed-worktree denial."
+        "Removed the public alternate-matrix release path; production validation accepts only the canonical packet, while row mutation tests use an isolated non-release function.",
+        "Replaced generic proof parsing with an explicit reviewed canonical-row profile that binds exact issue, implementation paths, proof paths, test targets and denominators, denial claims, audit features, and ancestral source revisions; unprofiled rows fail closed.",
+        "Added GitHub-compatible branch-pattern evaluation, exclusion handling, all-page discovery, filter=all check enumeration, timestamp-based newest-run selection, and ambiguous-latest denial.",
+        "Pinned /usr/bin/git and sanitized all inherited GIT_* authority plus PATH and Git config inputs before repository, object, topology, remote, and worktree observations.",
+        "Bound the packet, gate, logs, and receipt to exact candidate source commit d1be63d3bded67ec238a12beed7f00b2dae0a2f8 and tree 0e5b3fd36217d2002179b082e20b95a4950e46cc, with exact post-source path and dirty-state denial.",
+        "Expanded the adversarial suite to 58 cases, including wildcard/excluded/unsupported rulesets and real Git/PATH/config/object substitution attempts."
       ],
       "artifacts": [
         ".csdlc/prepared/issues/311/validate-quality-gate.rb",
@@ -38,7 +39,7 @@
             ".csdlc/prepared/issues/311/validate-quality-gate.rb",
             "matrix"
           ],
-          "purpose": "Validate the exact 33-row denominator, #310 prerequisite, and complete retained packet atomically.",
+          "purpose": "Validate the canonical 33-row denominator, #310 prerequisite, candidate source identity, and complete retained packet atomically.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/311/semantic-quality-matrix.log"
         },
@@ -47,7 +48,7 @@
             "ruby",
             ".csdlc/prepared/issues/311/test-validate-quality-gate.rb"
           ],
-          "purpose": "Run the real canonical accepted control and reject 50 incomplete, stale, cross-row, semantically non-proving, forged, or authority-substituted cases.",
+          "purpose": "Run the real canonical accepted control and 58 adversarial authority, semantic, routing, and substitution cases.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/evidence/311/quality-negative-suite.log"
         },

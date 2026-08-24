@@ -671,7 +671,10 @@ def validate_complete_packet(matrix, errors)
       "docs/reviews/v0.92/quality-gate-311/quality-gate-record.json"
     ]
     post_candidate = run_git("diff", "--name-only", candidate, "HEAD").lines.map(&:strip).reject(&:empty?)
-    errors << "packet:post_candidate_scope_mismatch" unless (post_candidate - allowed_after_candidate).empty?
+    unexpected_after_candidate = post_candidate.reject do |path|
+      allowed_after_candidate.include?(path) || path.start_with?(".csdlc/issues/311/")
+    end
+    errors << "packet:post_candidate_scope_mismatch" unless unexpected_after_candidate.empty?
     dirty = run_git("status", "--porcelain=v1").lines.map(&:strip).reject do |line|
       line.end_with?(".csdlc/locks/311.lock") || line.match?(/\.csdlc\/issues\/311\//)
     end

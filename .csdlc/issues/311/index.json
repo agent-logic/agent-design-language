@@ -5,14 +5,14 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b86263883d2f9fb6ce7d5fa5190ca61881a7d49a954bbe46c134b8c3aa9da98c",
   "phase": "implemented",
-  "generation": 14,
-  "digest": "9cae3e79f7404f46a0a55cc9cd9cd11b18cc10b00b358331ab193d5a27403791",
+  "generation": 16,
+  "digest": "5e7a222375839cfc35e1229ae2473116c871192c0a2b089e2d6acaca9d0da3d7",
   "branch": "codex/311-v092-quality-gate",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-311-v092-quality-gate",
   "review_assignment": {
-    "reviewer": "fresh-session:de89f81c-82d1-415d-bc53-a6f9cd142297",
+    "reviewer": "fresh-session:9923e49d-ccc8-4078-996c-76968d15e736",
     "assigned_by": "codex:/root-api-review",
-    "revision": "git-blake3:54c9a3dd08bc943d51f5ff854bf75c4bf6084440:7ad7d42647bc55d5f9f14ad055cc9e8660bf6cbf517e63b6a2aa64e33dadfac6",
+    "revision": "git-blake3:5a900f6100370e8f21d500cd7f39a2b73704fe69:c726a0e3b885c8935b0e100a16e15ee90a09cfb6c06ef358398c66f4fa83c637",
     "scope": [
       ".csdlc/issues/311",
       ".csdlc/prepared/issues/311",
@@ -23,7 +23,7 @@
     ]
   },
   "review": {
-    "reviewer": "fresh-session:de89f81c-82d1-415d-bc53-a6f9cd142297",
+    "reviewer": "fresh-session:9923e49d-ccc8-4078-996c-76968d15e736",
     "scope": [
       ".csdlc/issues/311",
       ".csdlc/prepared/issues/311",
@@ -32,12 +32,12 @@
       "docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md",
       "docs/reviews/v0.92/quality-gate-311"
     ],
-    "reviewed_revision": "git-blake3:54c9a3dd08bc943d51f5ff854bf75c4bf6084440:7ad7d42647bc55d5f9f14ad055cc9e8660bf6cbf517e63b6a2aa64e33dadfac6",
+    "reviewed_revision": "git-blake3:5a900f6100370e8f21d500cd7f39a2b73704fe69:c726a0e3b885c8935b0e100a16e15ee90a09cfb6c06ef358398c66f4fa83c637",
     "findings": [
       {
-        "id": "311-API-R4-P1-ROW-CONTRACT",
+        "id": "311-API-R5-P1-CUSTOM-MATRIX",
         "severity": "p1",
-        "summary": "Accepted-row contracts did not bind exact owner, reviewed source bytes, implementation paths, proof semantics, or prevent packet reuse across rows.",
+        "summary": "The public alternate-matrix path could emit a release pass without the #310 prerequisite or complete canonical packet.",
         "actionable": true,
         "in_scope": true,
         "disposition": "open",
@@ -45,9 +45,9 @@
         "route": null
       },
       {
-        "id": "311-API-R4-P1-CHECK-AUTHORITY",
+        "id": "311-API-R5-P1-PROOF-SEMANTICS",
         "severity": "p1",
-        "summary": "Required-check validation used only one ruleset, omitted pagination and integration identity strictness, and allowed older successes to mask newer failures.",
+        "summary": "Generic proof parsing did not bind behavior, commands, claims, revisions, and implementation paths to the exact row.",
         "actionable": true,
         "in_scope": true,
         "disposition": "open",
@@ -55,9 +55,9 @@
         "route": null
       },
       {
-        "id": "311-API-R4-P1-ROOT-SUBSTITUTION",
+        "id": "311-API-R5-P1-RULESET-MATCHING",
         "severity": "p1",
-        "summary": "QUALITY_GATE_ROOT permitted repository-authority substitution.",
+        "summary": "Ruleset wildcard applicability and authoritative check ordering were incomplete.",
         "actionable": true,
         "in_scope": true,
         "disposition": "open",
@@ -65,19 +65,19 @@
         "route": null
       },
       {
-        "id": "311-API-R4-P2-WP21A-IDENTITY",
+        "id": "311-API-R5-P1-GIT-ENVIRONMENT",
+        "severity": "p1",
+        "summary": "Inherited Git and PATH environment could substitute repository authority.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "311-API-R5-P2-CANDIDATE-BINDING",
         "severity": "p2",
-        "summary": "The #310 prerequisite checked ancestry against the candidate rather than live main and matched worktree state by ambiguous substrings.",
-        "actionable": true,
-        "in_scope": true,
-        "disposition": "open",
-        "fix_revision": null,
-        "route": null
-      },
-      {
-        "id": "311-API-R4-P2-NEGATIVE-SEAM",
-        "severity": "p2",
-        "summary": "Reopened-issue and wrong-check-app negatives exercised a synthetic production observation command instead of the accepted-row authority function.",
+        "summary": "The retained packet did not bind the evaluated candidate source commit/tree or reject product drift.",
         "actionable": true,
         "in_scope": true,
         "disposition": "open",
@@ -103,34 +103,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "1137a7c15ad491e9bd114742794ad346bfb5dd32d41623d5180e31e5f1702325",
+      "values_digest": "b7e56583a0f6aa5f7b5f403264dabe8e761484950e2e33b028b8641c5b03c5cb",
       "rendered_digest": "b1c0911fc6a227d0ba229185e1c36e858733223971a364604a99b92eb0a352d5",
       "ast_digest": "8a2e49295edbd23107ac83440b809a31e649dd5ebb23869f3af17fad3b4518f4"
     },
     "stp": {
-      "values_digest": "3a7d59e50378472b26e332fa9d390039175abbde816496f3650ad47adb88f75a",
+      "values_digest": "6ae3899ee458af81bdc8c7f290eedb5c0c9ed00f8af5dafea7ee1870c94111ca",
       "rendered_digest": "f793cb9183e8527acec0fd8cf26e1997d079d599d791ddb1f03996e9b92209a2",
       "ast_digest": "50869a8bb645edaa6aa3d4555ec1318a1dc733fd95ae0860a5d245e58e4172eb"
     },
     "spp": {
-      "values_digest": "c2a66032009c63c82c64248c70a2e1f5396b229e8cb0b8a81779086ac26e12e8",
+      "values_digest": "28e0b0a11cefd373e9f38d7b4c86b395e7f3bcaf2788f10eb83024d18eb1487f",
       "rendered_digest": "5cd73cd5c1f4b04e2840e6685840923c1941d3a0768ac7cf6ddd6928fcac77b0",
       "ast_digest": "7b0e641d0f7253dcddb9228a1b3ceb904085bd7fb60de1cab95bf3121c685a76"
     },
     "vpp": {
-      "values_digest": "e8586b8ec11f15f3aacf79c746b9c5de7158c0b74f038a8ad0a1c172c9741d13",
+      "values_digest": "f03ca706013e19b1e7e5ca9663afa2a8065a72e7057a05f7f91d0262fc90dd22",
       "rendered_digest": "4d5f3ec18d5fcc530c196e13f96fa69febc401a60d9c82528f820028e7dd7831",
       "ast_digest": "0db9710fa2f00ec2cd4017d2b1ae36ce10af870e419b31a8376556f09b10a411"
     },
     "srp": {
-      "values_digest": "a275dd05be79646ab8e9a12484d0346c95b708438214fc10496459c21b0e4e1e",
-      "rendered_digest": "b4a0f89d898089045def25c1ba00109e6420b717b158257a655ca049649e13cc",
-      "ast_digest": "5e5be30f71469a5d77da49506dc29a7243db3a4ea59ac2acac546538265889af"
+      "values_digest": "51cd6266c7f2b2f851d603f89ff73ecbe88839359ffb94639f6f9eb8cf6b673e",
+      "rendered_digest": "9953f0bb5bed0b23b4667abd7b3c0c4234b58c1007595cfd8bf96ffffc48518a",
+      "ast_digest": "8bde355e2af329139ddf78c14708164f01d0f00a43652b7fa12c183cbf23778e"
     },
     "sor": {
-      "values_digest": "93c7da38c8ba50511fb2b6d5ca9d016e1329022c7a93533ae71c536a107f714e",
-      "rendered_digest": "ff55625a98c56991048f1a6ad42963d6de98628df3bf6362372187c2dda93d0a",
-      "ast_digest": "4ae79c4b53e50dd96df2997930e9190fc190d5b95d9a8835005051a3a867132c"
+      "values_digest": "0091ade64318bff05b129c8b592de27b8358b2593126129f9bc0c16d55b8ccb2",
+      "rendered_digest": "140aa7671e2194f13aa37ab17f6f84ba95d7206a04497b61b70ac8ee33110bc8",
+      "ast_digest": "e4a432b3ceae33321f46afa14018a9a0209936685067b788c46e8bc84af7b60b"
     }
   },
   "transitions": [
@@ -289,6 +289,27 @@
       "actor": "codex:/root",
       "reason": "Record the bounded API R4 remediation for row semantics, complete GitHub check authority, repository pinning, and exact WP-21A state.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Executed the canonical v0.92 quality gate after #310 recordless terminal reconciliation, live-main ancestry verification, and exact branch-worktree cleanup. The exact 13-feature plus 20-critical-path denominator validates, all 33 rows remain truthful release blockers, downstream unlock is false, and accepted evidence is bound to reviewed row semantics plus complete canonical GitHub ruleset/check authority.\",\"changes\":[\"Pinned validation to the physical bound repository and its exact agent-logic/agent-design-language origin, removing caller-controlled root substitution.\",\"Bound every accepted row to exact owner, reviewed source bytes, implementation paths, issue identity, proof artifacts, SOR lane commands and purposes, and independently parsed nonzero or structured proof semantics; duplicate accepted packets across rows fail closed.\",\"Enumerated every applicable active branch ruleset and every check-run page, required positive GitHub App integration identities, combined the complete required-check set, and selected the newest authorized run so stale success cannot mask later failure.\",\"Validated #310 against the live main SHA and exact origin/main equality, and detect its canonical branch independently of any renamed worktree path.\",\"Expanded the fail-closed suite to 50 cases around the real #451/PR #459 canonical control, including semantic-proof substitution, second-ruleset omission, missing app identity, newer failed duplicate, live-main ancestry, and renamed-worktree denial.\"],\"artifacts\":[\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\",\".csdlc/evidence/311/validation.json\",\"docs/reviews/v0.92/quality-gate-311/feature-completion-matrix.json\",\"docs/reviews/v0.92/quality-gate-311/quality-gate-record.json\",\"docs/reviews/v0.92/quality-gate-311/blocker-report.md\",\"docs/milestones/v0.92/QUALITY_GATE_v0.92.md\",\"docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\"matrix\"],\"purpose\":\"Validate the exact 33-row denominator, #310 prerequisite, and complete retained packet atomically.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/semantic-quality-matrix.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\"],\"purpose\":\"Run the real canonical accepted control and reject 50 incomplete, stale, cross-row, semantically non-proving, forged, or authority-substituted cases.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/quality-negative-suite.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove exact candidate diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/docs-schema-diff.log\"}]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex:/root-api-review",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "Record the bounded API R5 remediation with canonical-only execution, row-specific profiles, sanitized Git, complete ruleset semantics, and candidate-source binding.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Executed the canonical v0.92 quality gate after #310 recordless terminal reconciliation, live-main ancestry verification, and exact branch-worktree cleanup. The exact 13-feature plus 20-critical-path denominator validates, all 33 rows remain truthful release blockers, downstream unlock is false, and no alternate matrix can emit release authority.\",\"changes\":[\"Removed the public alternate-matrix release path; production validation accepts only the canonical packet, while row mutation tests use an isolated non-release function.\",\"Replaced generic proof parsing with an explicit reviewed canonical-row profile that binds exact issue, implementation paths, proof paths, test targets and denominators, denial claims, audit features, and ancestral source revisions; unprofiled rows fail closed.\",\"Added GitHub-compatible branch-pattern evaluation, exclusion handling, all-page discovery, filter=all check enumeration, timestamp-based newest-run selection, and ambiguous-latest denial.\",\"Pinned /usr/bin/git and sanitized all inherited GIT_* authority plus PATH and Git config inputs before repository, object, topology, remote, and worktree observations.\",\"Bound the packet, gate, logs, and receipt to exact candidate source commit d1be63d3bded67ec238a12beed7f00b2dae0a2f8 and tree 0e5b3fd36217d2002179b082e20b95a4950e46cc, with exact post-source path and dirty-state denial.\",\"Expanded the adversarial suite to 58 cases, including wildcard/excluded/unsupported rulesets and real Git/PATH/config/object substitution attempts.\"],\"artifacts\":[\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\",\".csdlc/evidence/311/validation.json\",\"docs/reviews/v0.92/quality-gate-311/feature-completion-matrix.json\",\"docs/reviews/v0.92/quality-gate-311/quality-gate-record.json\",\"docs/reviews/v0.92/quality-gate-311/blocker-report.md\",\"docs/milestones/v0.92/QUALITY_GATE_v0.92.md\",\"docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\"matrix\"],\"purpose\":\"Validate the canonical 33-row denominator, #310 prerequisite, candidate source identity, and complete retained packet atomically.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/semantic-quality-matrix.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\"],\"purpose\":\"Run the real canonical accepted control and 58 adversarial authority, semantic, routing, and substitution cases.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/quality-negative-suite.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove exact candidate diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/docs-schema-diff.log\"}]}"
     }
   ]
 }
