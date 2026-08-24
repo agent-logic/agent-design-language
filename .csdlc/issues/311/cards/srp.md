@@ -31,9 +31,9 @@ docs/reviews/v0.92/quality-gate-311
 
 [
   {
-    "id": "311-API-R5-P1-CUSTOM-MATRIX",
+    "id": "311-API-R6-P1-CANDIDATE-REBIND",
     "severity": "p1",
-    "summary": "The public alternate-matrix path could emit a release pass without the #310 prerequisite or complete canonical packet.",
+    "summary": "Candidate-source authority was packet-selected rather than pinned to the approved commit and tree.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -41,9 +41,9 @@ docs/reviews/v0.92/quality-gate-311
     "route": null
   },
   {
-    "id": "311-API-R5-P1-PROOF-SEMANTICS",
+    "id": "311-API-R6-P1-CHECK-TIE",
     "severity": "p1",
-    "summary": "Generic proof parsing did not bind behavior, commands, claims, revisions, and implementation paths to the exact row.",
+    "summary": "Same-timestamp authorized check runs with equal conclusions were not rejected as ambiguous.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -51,29 +51,9 @@ docs/reviews/v0.92/quality-gate-311
     "route": null
   },
   {
-    "id": "311-API-R5-P1-RULESET-MATCHING",
+    "id": "311-API-R6-P1-TYPED-SUBPROCESS-ENV",
     "severity": "p1",
-    "summary": "Ruleset wildcard applicability and authoritative check ordering were incomplete.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  },
-  {
-    "id": "311-API-R5-P1-GIT-ENVIRONMENT",
-    "severity": "p1",
-    "summary": "Inherited Git and PATH environment could substitute repository authority.",
-    "actionable": true,
-    "in_scope": true,
-    "disposition": "open",
-    "fix_revision": null,
-    "route": null
-  },
-  {
-    "id": "311-API-R5-P2-CANDIDATE-BINDING",
-    "severity": "p2",
-    "summary": "The retained packet did not bind the evaluated candidate source commit/tree or reject product drift.",
+    "summary": "Typed terminal authority subprocesses inherited Git and PATH substitution state.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -92,8 +72,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:5a900f6100370e8f21d500cd7f39a2b73704fe69:c726a0e3b885c8935b0e100a16e15ee90a09cfb6c06ef358398c66f4fa83c637")
+Revision: Some("git-blake3:b67e7529306c909f32b8545170ad306fcc4f888d:2c2d21bd30250725522b108c8e236bf0914f78fbe677e219319ee2b69be538d6")
 
-Reviewer: Some("fresh-session:9923e49d-ccc8-4078-996c-76968d15e736")
+Reviewer: Some("fresh-session:da06b704-9a43-4b67-8935-8fcf1eba0eec")
 
 Result: changes_required
