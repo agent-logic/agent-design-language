@@ -41,11 +41,10 @@ use crate::{
         GovernedRoomParticipantState, GovernedRoomRoute, GovernedRoomTurnIntent,
         GOVERNED_ROOM_ROUTE_SCHEMA,
     },
-    decode_acip_envelope, AgentPresence, AgentRoster, AgentRosterEntry, AgentRosterPolicy,
-    AgentRosterQuery, AgentRuntimeEvidence, BootstrapEvent, CanonicalIngress, CheckpointManifest,
-    ComponentId, DomainResult, DomainWork, IngressError, KernelControl, KernelExit, LifecycleState,
-    LiveContinuity, ObservabilityHealth, RunningState, RuntimeRecorder, RuntimeSnapshot,
-    RuntimeTlsInitConfig, WeatherHealthReport, ACIP_WEBSOCKET_SCHEMA, AGENT_ROSTER_PAGE_SCHEMA,
+    decode_acip_envelope, AgentRosterEntry, AgentRosterQuery, CanonicalIngress, CheckpointManifest,
+    DomainResult, DomainWork, IngressError, KernelControl, KernelExit, LiveContinuity,
+    ObservabilityHealth, RuntimeRecorder, RuntimeSnapshot, RuntimeTlsInitConfig,
+    WeatherHealthReport, ACIP_WEBSOCKET_SCHEMA,
 };
 
 pub const CONTROL_COMMAND_SCHEMA: &str = "adl.runtime.control_command.v1";
@@ -79,11 +78,27 @@ pub const RUNTIME_RECIPIENT_ACKNOWLEDGEMENT_REQUEST_SCHEMA: &str =
 pub const RUNTIME_RECIPIENT_ACKNOWLEDGEMENT_RESPONSE_SCHEMA: &str =
     "adl.runtime_v3.layer8.recipient_acknowledgement_response.v1";
 pub const CONTROL_MAX_BODY_BYTES: usize = 64 * 1024;
-const ACIP_MAX_SEQUENCE_ADVANCE: u64 = 1_000_000;
 const OBSERVATORY_CONVERSATION_RESULT_QUEUE_CAPACITY: usize = 32;
 const RUNTIME_OPENAPI_DOCUMENT: &str = include_str!("../../docs/api/runtime-v3/v1/openapi.json");
 const OBSERVATORY_OPENAPI_DOCUMENT: &str =
     include_str!("../../docs/api/runtime-v3/v1/observatory.openapi.json");
+
+#[path = "control/feeds.rs"]
+mod feeds;
+#[path = "control/replay.rs"]
+mod replay;
+use feeds::ObservedWeather;
+pub use feeds::{
+    AgentPopulationFeed, AgentSample, ObservatoryContinuityFeed, ObservatoryControlFeed,
+    ObservatoryFeed, ObservatoryHealthFeed, ObservatoryProofFeed, ObservatoryWeatherFreshness,
+    RuntimeReadinessReport, RUNTIME_READINESS_SCHEMA,
+};
+#[cfg(test)]
+use replay::ACIP_MAX_SEQUENCE_ADVANCE;
+use replay::{
+    commit_replay_sequence, reserve_replay_sequence, rollback_replay_sequence, AcipReplayDomain,
+    AcipReplayState, AcipSequenceReservation,
+};
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct ControlApiPolicy {
@@ -390,90 +405,6 @@ struct IdempotencyState {
     records: LruCache<String, CommandRecord>,
     terminal_action: Option<String>,
     admission_open: bool,
-}
-
-#[derive(Clone, Debug, Eq, Ord, PartialEq, PartialOrd)]
-struct AcipReplayDomain {
-    runtime_id: String,
-    source: String,
-}
-
-#[derive(Default)]
-struct AcipReplayDomainState {
-    committed_sequence: u64,
-    pending_sequences: BTreeSet<u64>,
-}
-
-struct AcipReplayState {
-    sequences_by_principal: BTreeMap<[u8; 32], BTreeMap<AcipReplayDomain, AcipReplayDomainState>>,
-}
-
-struct AcipSequenceReservation {
-    principal: [u8; 32],
-    domain: AcipReplayDomain,
-    sequence: u64,
-}
-
-fn reserve_replay_sequence(
-    state: &mut AcipReplayState,
-    max_records: usize,
-    principal: [u8; 32],
-    domain: AcipReplayDomain,
-    sequence: u64,
-) -> Option<AcipSequenceReservation> {
-    let domains = state.sequences_by_principal.entry(principal).or_default();
-    let high_water = domains
-        .get(&domain)
-        .map(|domain_state| {
-            domain_state
-                .pending_sequences
-                .last()
-                .copied()
-                .unwrap_or(domain_state.committed_sequence)
-                .max(domain_state.committed_sequence)
-        })
-        .unwrap_or(0);
-    if sequence <= high_water || sequence - high_water > ACIP_MAX_SEQUENCE_ADVANCE {
-        return None;
-    }
-    if !domains.contains_key(&domain) && domains.len() >= max_records {
-        return None;
-    }
-    let domain_state = domains.entry(domain.clone()).or_default();
-    domain_state.pending_sequences.insert(sequence);
-    Some(AcipSequenceReservation {
-        principal,
-        domain,
-        sequence,
-    })
-}
-
-fn commit_replay_sequence(state: &mut AcipReplayState, reservation: &AcipSequenceReservation) {
-    if let Some(domain) = state
-        .sequences_by_principal
-        .get_mut(&reservation.principal)
-        .and_then(|domains| domains.get_mut(&reservation.domain))
-    {
-        domain.pending_sequences.remove(&reservation.sequence);
-        domain.committed_sequence = domain.committed_sequence.max(reservation.sequence);
-    }
-}
-
-fn rollback_replay_sequence(state: &mut AcipReplayState, reservation: AcipSequenceReservation) {
-    let mut remove_principal = false;
-    if let Some(domains) = state.sequences_by_principal.get_mut(&reservation.principal) {
-        let remove_domain = domains.get_mut(&reservation.domain).is_some_and(|domain| {
-            domain.pending_sequences.remove(&reservation.sequence);
-            domain.committed_sequence == 0 && domain.pending_sequences.is_empty()
-        });
-        if remove_domain {
-            domains.remove(&reservation.domain);
-        }
-        remove_principal = domains.is_empty();
-    }
-    if remove_principal {
-        state.sequences_by_principal.remove(&reservation.principal);
-    }
 }
 
 #[derive(Default)]
@@ -2097,362 +2028,6 @@ impl<C: LifecycleControl + 'static> ControlService<C> {
     }
 }
 
-#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
-pub struct ObservatoryControlFeed {
-    pub port: u16,
-    pub public_base_url: String,
-    pub read_endpoint: String,
-    pub websocket_endpoint: String,
-    pub websocket_full_duplex: bool,
-    pub websocket_acip_binary_schema: String,
-    pub signed_command_endpoint: String,
-    pub signed_commands_required_for_mutation: bool,
-    pub bearer_token_required_for_read: bool,
-    pub login_required_for_mutation: bool,
-    pub browser_mutation_authority: bool,
-}
-
-#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
-pub struct ObservatoryWeatherFreshness {
-    pub observed_at_unix_millis: u64,
-    pub age_millis: u64,
-    pub stale_after_millis: u64,
-    pub stale: bool,
-}
-
-#[derive(Clone, Debug, Eq, PartialEq)]
-struct ObservedWeather {
-    report: WeatherHealthReport,
-    observed_at_unix_millis: u64,
-}
-
-#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
-pub struct ObservatoryHealthFeed {
-    pub snapshot: RuntimeSnapshot,
-    pub observability_ready: bool,
-}
-
-pub const RUNTIME_READINESS_SCHEMA: &str = "adl.runtime_v3.readiness.v1";
-
-#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
-pub struct RuntimeReadinessReport {
-    pub schema: String,
-    pub ready: bool,
-    pub lifecycle: LifecycleState,
-    pub observability_ready: bool,
-    pub runtime_instance_id: String,
-    pub runtime_incarnation_id: String,
-    pub runtime_process_id: u32,
-    pub weather_freshness: Option<ObservatoryWeatherFreshness>,
-    pub degraded_reasons: Vec<String>,
-}
-
-#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
-pub struct ObservatoryContinuityFeed {
-    pub checkpoint: Option<crate::ContinuityHead>,
-}
-
-#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
-pub struct AgentPopulationFeed {
-    pub schema: String,
-    pub revision: u64,
-    pub scope: String,
-    pub total_count: u64,
-    pub rendered_sample_count: u64,
-    pub has_more: bool,
-    pub next_page_token: Option<String>,
-    pub event_cursor: Option<String>,
-    pub population_complete: bool,
-    pub sample: Vec<AgentSample>,
-    #[serde(skip)]
-    pub public_policy: Option<AgentRosterPolicy>,
-}
-
-impl AgentPopulationFeed {
-    pub fn empty() -> Self {
-        Self {
-            schema: AGENT_ROSTER_PAGE_SCHEMA.to_owned(),
-            revision: 0,
-            scope: "local_runtime".to_owned(),
-            total_count: 0,
-            rendered_sample_count: 0,
-            has_more: false,
-            next_page_token: None,
-            event_cursor: None,
-            population_complete: false,
-            sample: Vec::new(),
-            public_policy: None,
-        }
-    }
-
-    pub fn resident_shepherd() -> Self {
-        Self {
-            sample: vec![AgentSample {
-                id: "shepherd".to_owned(),
-                label: "Shepherd".to_owned(),
-                role: "resident shepherd".to_owned(),
-                state: "unknown".to_owned(),
-                detail: "Awaiting production Runtime admission".to_owned(),
-                health: "unknown".to_owned(),
-                availability: "unknown".to_owned(),
-                activity: None,
-                capabilities: vec!["conversation".to_owned()],
-                location: Some("local_runtime".to_owned()),
-                communication_eligible: false,
-                observed_at_unix_millis: 0,
-                freshness_deadline_unix_millis: 0,
-                source_revision: "unobserved".to_owned(),
-                provenance: "runtime_component_state".to_owned(),
-            }],
-            public_policy: Some(AgentRosterPolicy {
-                policy_subject: "public-observatory".to_owned(),
-                visible_agent_ids: BTreeSet::from(["shepherd".to_owned()]),
-                reveal_capabilities: false,
-                reveal_location: false,
-            }),
-            ..Self::empty()
-        }
-    }
-
-    pub fn with_public_policy(mut self, policy: AgentRosterPolicy) -> Self {
-        self.public_policy = Some(policy);
-        self
-    }
-
-    fn with_runtime_snapshot_query(
-        &self,
-        snapshot: &RuntimeSnapshot,
-        now_unix_millis: u64,
-        token_key: [u8; 32],
-        query: AgentRosterQuery,
-    ) -> Self {
-        self.try_with_runtime_snapshot_query(snapshot, now_unix_millis, token_key, query, None)
-            .unwrap_or_else(|_| Self::empty())
-    }
-
-    fn try_with_runtime_snapshot_query(
-        &self,
-        snapshot: &RuntimeSnapshot,
-        now_unix_millis: u64,
-        token_key: [u8; 32],
-        query: AgentRosterQuery,
-        event_cursor: Option<&str>,
-    ) -> Result<Self, crate::AgentRosterError> {
-        if self.sample.is_empty() {
-            return Ok(Self::empty());
-        }
-        if !self
-            .sample
-            .iter()
-            .any(|agent| agent.provenance == "runtime_component_state")
-        {
-            return Ok(self.clone());
-        }
-        let Some(public_policy) = self.public_policy.as_ref() else {
-            return Ok(Self::empty());
-        };
-        let evidence = self
-            .sample
-            .iter()
-            .filter_map(|agent| project_agent_evidence(agent, snapshot));
-        let page = AgentRoster::projection(
-            snapshot.revision.max(self.revision).max(1),
-            false,
-            token_key,
-        )?
-        .page_evidence(
-            evidence,
-            public_policy,
-            query,
-            now_unix_millis,
-            event_cursor,
-        )?;
-        Ok(Self {
-            schema: page.schema,
-            revision: page.revision,
-            scope: page.scope,
-            total_count: page.visible_count,
-            rendered_sample_count: page.page_count,
-            has_more: page.has_more,
-            next_page_token: page.next_page_token,
-            event_cursor: Some(page.event_cursor),
-            population_complete: page.population_complete,
-            sample: page.agents.into_iter().map(AgentSample::from).collect(),
-            public_policy: None,
-        })
-    }
-
-    fn agent_detail(
-        &self,
-        snapshot: &RuntimeSnapshot,
-        now_unix_millis: u64,
-        token_key: [u8; 32],
-        agent_id: &str,
-    ) -> Result<AgentRosterEntry, crate::AgentRosterError> {
-        let policy = self
-            .public_policy
-            .as_ref()
-            .ok_or(crate::AgentRosterError::NotVisible)?;
-        if !policy.visible_agent_ids.contains(agent_id) {
-            return Err(crate::AgentRosterError::NotVisible);
-        }
-        let sample = self
-            .sample
-            .iter()
-            .find(|agent| agent.id == agent_id)
-            .ok_or(crate::AgentRosterError::NotVisible)?;
-        let evidence =
-            project_agent_evidence(sample, snapshot).ok_or(crate::AgentRosterError::NotVisible)?;
-        AgentRoster::new(snapshot.revision.max(1), false, [evidence], token_key)?.detail(
-            policy,
-            agent_id,
-            now_unix_millis,
-        )
-    }
-}
-
-fn project_agent_evidence(
-    agent: &AgentSample,
-    snapshot: &RuntimeSnapshot,
-) -> Option<AgentRuntimeEvidence> {
-    if agent.provenance != "runtime_component_state" {
-        return Some(AgentRuntimeEvidence::from(agent));
-    }
-    let state = snapshot.components.get(&ComponentId::new(&agent.id))?;
-    let admission = snapshot.agent_admissions.get(&agent.id)?;
-    let (presence, health, availability, eligible) = match state {
-        RunningState::Running => (AgentPresence::Ready, "healthy", "available", true),
-        RunningState::Starting | RunningState::Ready => {
-            (AgentPresence::Unknown, "starting", "unavailable", false)
-        }
-        RunningState::Restarting => (AgentPresence::Migrating, "recovering", "unavailable", false),
-        RunningState::Degraded => (AgentPresence::Degraded, "degraded", "unavailable", false),
-        RunningState::Stopping | RunningState::Stopped | RunningState::Failed => (
-            AgentPresence::Unreachable,
-            "unhealthy",
-            "unavailable",
-            false,
-        ),
-    };
-    Some(AgentRuntimeEvidence {
-        agent_id: agent.id.clone(),
-        display_name: agent.label.clone(),
-        public_role: agent.role.clone(),
-        presence,
-        health: health.to_owned(),
-        availability: availability.to_owned(),
-        activity: agent.activity.clone(),
-        capabilities: agent.capabilities.clone(),
-        location: agent.location.clone(),
-        communication_eligible: eligible,
-        observed_at_unix_millis: admission.observed_at_unix_millis,
-        freshness_deadline_unix_millis: admission.freshness_deadline_unix_millis,
-        source_revision: admission.source_revision.clone(),
-        provenance: agent.provenance.clone(),
-    })
-}
-
-impl From<&AgentSample> for AgentRuntimeEvidence {
-    fn from(agent: &AgentSample) -> Self {
-        Self {
-            agent_id: agent.id.clone(),
-            display_name: agent.label.clone(),
-            public_role: agent.role.clone(),
-            presence: match agent.state.as_str() {
-                "ready" => AgentPresence::Ready,
-                "busy" => AgentPresence::Busy,
-                "sleeping" => AgentPresence::Sleeping,
-                "degraded" => AgentPresence::Degraded,
-                "unreachable" => AgentPresence::Unreachable,
-                "migrating" => AgentPresence::Migrating,
-                _ => AgentPresence::Unknown,
-            },
-            health: agent.health.clone(),
-            availability: agent.availability.clone(),
-            activity: agent.activity.clone(),
-            capabilities: agent.capabilities.clone(),
-            location: agent.location.clone(),
-            communication_eligible: agent.communication_eligible,
-            observed_at_unix_millis: agent.observed_at_unix_millis,
-            freshness_deadline_unix_millis: agent.freshness_deadline_unix_millis,
-            source_revision: agent.source_revision.clone(),
-            provenance: agent.provenance.clone(),
-        }
-    }
-}
-
-impl From<AgentRosterEntry> for AgentSample {
-    fn from(agent: AgentRosterEntry) -> Self {
-        let state = serde_json::to_value(agent.presence)
-            .ok()
-            .and_then(|value| value.as_str().map(str::to_owned))
-            .unwrap_or_else(|| "unknown".to_owned());
-        Self {
-            id: agent.id,
-            label: agent.label,
-            role: agent.role,
-            state,
-            detail: "Runtime-authorized local roster projection".to_owned(),
-            health: agent.health,
-            availability: agent.availability,
-            activity: agent.activity,
-            capabilities: agent.capabilities,
-            location: agent.location,
-            communication_eligible: agent.communication_eligible,
-            observed_at_unix_millis: agent.observed_at_unix_millis,
-            freshness_deadline_unix_millis: agent.freshness_deadline_unix_millis,
-            source_revision: agent.source_revision,
-            provenance: agent.provenance,
-        }
-    }
-}
-
-#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
-pub struct AgentSample {
-    pub id: String,
-    pub label: String,
-    pub role: String,
-    pub state: String,
-    pub detail: String,
-    pub health: String,
-    pub availability: String,
-    pub activity: Option<String>,
-    pub capabilities: Vec<String>,
-    pub location: Option<String>,
-    pub communication_eligible: bool,
-    pub observed_at_unix_millis: u64,
-    pub freshness_deadline_unix_millis: u64,
-    pub source_revision: String,
-    pub provenance: String,
-}
-
-#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
-pub struct ObservatoryProofFeed {
-    pub default_runtime_switch_authorized: bool,
-    pub runtime_v2_decommission_authorized: bool,
-    pub sidecar_required: bool,
-    pub vector_cloudwatch_route: String,
-}
-
-#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
-pub struct ObservatoryFeed {
-    pub schema: String,
-    pub runtime_instance_id: String,
-    pub runtime_incarnation_id: String,
-    pub runtime_process_id: u32,
-    pub default_runtime_changed: bool,
-    pub runtime_selection: String,
-    pub control: ObservatoryControlFeed,
-    pub health: ObservatoryHealthFeed,
-    pub weather: Option<WeatherHealthReport>,
-    pub weather_freshness: Option<ObservatoryWeatherFreshness>,
-    pub continuity: ObservatoryContinuityFeed,
-    pub ingress: crate::IngressSnapshot,
-    pub agents: AgentPopulationFeed,
-    pub proof: ObservatoryProofFeed,
-    pub events: Vec<BootstrapEvent>,
-}
-
 pub async fn load_control_tls(
     config: &RuntimeTlsInitConfig,
 ) -> Result<axum_server::tls_rustls::RustlsConfig, ControlApiError> {
@@ -3655,6 +3230,7 @@ mod layer8_conversation_ingress_tests {
         CommunicationVerifyingDescriptor, ConversationAuthorityProfile, ConversationSigningProfile,
         Layer8AuthorityStore, Layer8Capability, Layer8Policy, RuntimeIdentityEvidence,
     };
+    use crate::{AgentRosterPolicy, ComponentId, RunningState};
 
     struct FakeLifecycle;
 
