@@ -1,0 +1,844 @@
+{
+  "schema": "adl.v0.92.quality_gate_matrix.v2",
+  "milestone": "v0.92",
+  "issue": 467,
+  "supersedes": {
+    "issue": 311,
+    "pull_request": 466,
+    "path": "docs/reviews/v0.92/quality-gate-311"
+  },
+  "evaluation_base_sha": "035b249096c6a27a6e40af9435d6df8e35090000",
+  "denominator": {
+    "feature_rows": 13,
+    "critical_path_rows": 20,
+    "total_rows": 33
+  },
+  "completion_guard": "reject_uninvestigated_all_blocked",
+  "rows": [
+    {
+      "id": "feature:ACP_COGNITIVE_PROFILES_v0.92",
+      "kind": "feature",
+      "source": "docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md",
+      "owner": "WP-13",
+      "source_status": "feature_contract",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "discovery": {
+        "status": "investigated",
+        "profile": "no_accepted_profile"
+      },
+      "blocker_kind": "evidence_mapping_missing",
+      "blockers": [
+        "feature_has_no_current_canonical_accepted_evidence_mapping"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "feature:ADAPTIVE_LEARNING_DAG_v0.92",
+      "kind": "feature",
+      "source": "docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md",
+      "owner": "WP-13A",
+      "source_status": "feature_contract",
+      "disposition": "accepted",
+      "claim_boundary": "Accepted only for the #449 governed Adaptive Learning DAG resident-cycle integration row; it does not grant broader cognitive profile, memory, or runtime release readiness.",
+      "discovery": {
+        "status": "investigated",
+        "profile": "canonical_row_profile"
+      },
+      "blocker_kind": null,
+      "blockers": [
+
+      ],
+      "evidence": {
+        "authority_kind": "canonical_observation",
+        "repository": "agent-logic/agent-design-language",
+        "issue": 449,
+        "implementation_paths": [
+          "adl-runtime-kernel/src/adaptive_learning.rs",
+          "adl-runtime-kernel/src/live_continuity.rs",
+          "adl-runtime-kernel/src/resident_cycle.rs"
+        ],
+        "reviewed_head": "43b9cf33c58c2091223684e32efca9b15db135e6",
+        "pr_head": "5476288e0cc0e66de823df0c080aae4f2f852aa5",
+        "pull_request": 456,
+        "merge_sha": "d834c136a12e66d2334bcea5e36d860b290c7121",
+        "positive": {
+          "path": ".csdlc/evidence/449/adaptive-learning-regression-tests.log",
+          "sha256": "8d94f435d0f518f643c28f2b6526d3146fd43615c52791303909279646a8db80",
+          "validation_index": 2
+        },
+        "negative": {
+          "path": ".csdlc/evidence/449/feature-evidence-truth-check.log",
+          "sha256": "004b2fcc12907137aabd01d1233b1e784eaff71b530a53817737788b48311a5f",
+          "validation_index": 7
+        },
+        "integration": {
+          "path": ".csdlc/evidence/449/runtime-resident-cycle-integration-proof.log",
+          "sha256": "a280d1287ecba347ea817c157fa1c0b3dc94016e783f24296584065a5e13bd87",
+          "validation_index": 1
+        },
+        "platform": {
+          "path": ".csdlc/evidence/449/diff-hygiene.log",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "validation_index": 5
+        },
+        "typed_terminal": {
+          "generation": 28,
+          "digest": "d287d4543bb72ee8472e30f3c7eb2294a888b2a12531b1e5fca50c2fee006682",
+          "cache": {
+            "path": ".csdlc/evidence/467/terminal-449.json",
+            "sha256": "e2839ac43f071be1bd5b7fec0b2cee21ff503644ee729b6f403714438dd8124d"
+          }
+        },
+        "review_artifact": {
+          "path": ".csdlc/issues/449/index.json",
+          "sha256": "05478357b017f2dd9bde545d2d49f875cf22a5081fdb7d87013e3b7599223e3c"
+        },
+        "required_checks": [
+          "adl-ci",
+          "adl-coverage"
+        ],
+        "row_contract": {
+          "schema": "adl.v0.92.quality_gate_row_contract.v2",
+          "row_id": "feature:ADAPTIVE_LEARNING_DAG_v0.92",
+          "owner": "WP-13A",
+          "source_path": "docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md",
+          "source_sha256": "7694f7e1ecce556b731f73510ea464a9d9ee79b128b49a3c7277af5262a40832",
+          "issue": 449,
+          "implementation_paths": [
+            "adl-runtime-kernel/src/adaptive_learning.rs",
+            "adl-runtime-kernel/src/live_continuity.rs",
+            "adl-runtime-kernel/src/resident_cycle.rs"
+          ],
+          "proof_binding_sha256": "88a94f625e2c472e688ff48f5bf882a997db1628bcb9e10d37dfe87efcef0344"
+        }
+      }
+    },
+    {
+      "id": "feature:ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92",
+      "kind": "feature",
+      "source": "docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md",
+      "owner": "WP-14",
+      "source_status": "feature_contract",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "discovery": {
+        "status": "investigated",
+        "profile": "no_accepted_profile"
+      },
+      "blocker_kind": "evidence_mapping_missing",
+      "blockers": [
+        "feature_has_no_current_canonical_accepted_evidence_mapping"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "feature:DISTRIBUTED_GUARDIAN_POLIS_v0.92",
+      "kind": "feature",
+      "source": "docs/milestones/v0.92/features/DISTRIBUTED_GUARDIAN_POLIS_v0.92.md",
+      "owner": "WP-04",
+      "source_status": "feature_contract",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "discovery": {
+        "status": "investigated",
+        "profile": "no_accepted_profile"
+      },
+      "blocker_kind": "evidence_mapping_missing",
+      "blockers": [
+        "feature_has_no_current_canonical_accepted_evidence_mapping"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "feature:CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92",
+      "kind": "feature",
+      "source": "docs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md",
+      "owner": "WP-09, WP-10, WP-17",
+      "source_status": "feature_contract",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "discovery": {
+        "status": "investigated",
+        "profile": "no_accepted_profile"
+      },
+      "blocker_kind": "evidence_mapping_missing",
+      "blockers": [
+        "feature_has_no_current_canonical_accepted_evidence_mapping"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "feature:FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92",
+      "kind": "feature",
+      "source": "docs/milestones/v0.92/features/FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md",
+      "owner": "WP-18, WP-18B, WP-19",
+      "source_status": "feature_contract",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "discovery": {
+        "status": "investigated",
+        "profile": "no_accepted_profile"
+      },
+      "blocker_kind": "evidence_mapping_missing",
+      "blockers": [
+        "feature_has_no_current_canonical_accepted_evidence_mapping"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "feature:IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92",
+      "kind": "feature",
+      "source": "docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md",
+      "owner": "WP-09, WP-10, WP-17",
+      "source_status": "feature_contract",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "discovery": {
+        "status": "investigated",
+        "profile": "no_accepted_profile"
+      },
+      "blocker_kind": "evidence_mapping_missing",
+      "blockers": [
+        "feature_has_no_current_canonical_accepted_evidence_mapping"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "feature:MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92",
+      "kind": "feature",
+      "source": "docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md",
+      "owner": "WP-11, WP-12, WP-15",
+      "source_status": "feature_contract",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "discovery": {
+        "status": "investigated",
+        "profile": "no_accepted_profile"
+      },
+      "blocker_kind": "evidence_mapping_missing",
+      "blockers": [
+        "feature_has_no_current_canonical_accepted_evidence_mapping"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "feature:MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92",
+      "kind": "feature",
+      "source": "docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md",
+      "owner": "WP-11, WP-16",
+      "source_status": "feature_contract",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "discovery": {
+        "status": "investigated",
+        "profile": "no_accepted_profile"
+      },
+      "blocker_kind": "evidence_mapping_missing",
+      "blockers": [
+        "feature_has_no_current_canonical_accepted_evidence_mapping"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "feature:OBSERVATORY_UNITY_CONSUMER_INTEGRATION_v0.92",
+      "kind": "feature",
+      "source": "docs/milestones/v0.92/features/OBSERVATORY_UNITY_CONSUMER_INTEGRATION_v0.92.md",
+      "owner": "WP-18A",
+      "source_status": "feature_contract",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "discovery": {
+        "status": "investigated",
+        "profile": "no_accepted_profile"
+      },
+      "blocker_kind": "evidence_mapping_missing",
+      "blockers": [
+        "feature_has_no_current_canonical_accepted_evidence_mapping"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "feature:PROVIDER_NEUTRAL_MULTI_AGENT_PROOF_v0.92",
+      "kind": "feature",
+      "source": "docs/milestones/v0.92/features/PROVIDER_NEUTRAL_MULTI_AGENT_PROOF_v0.92.md",
+      "owner": "WP-18B",
+      "source_status": "feature_contract",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "discovery": {
+        "status": "investigated",
+        "profile": "no_accepted_profile"
+      },
+      "blocker_kind": "evidence_mapping_missing",
+      "blockers": [
+        "feature_has_no_current_canonical_accepted_evidence_mapping"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "feature:RUNTIME_LAUNCH_AND_RESILIENCE_v0.92",
+      "kind": "feature",
+      "source": "docs/milestones/v0.92/features/RUNTIME_LAUNCH_AND_RESILIENCE_v0.92.md",
+      "owner": "WP-03",
+      "source_status": "feature_contract",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "discovery": {
+        "status": "investigated",
+        "profile": "no_accepted_profile"
+      },
+      "blocker_kind": "evidence_mapping_missing",
+      "blockers": [
+        "feature_has_no_current_canonical_accepted_evidence_mapping"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "feature:FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92",
+      "kind": "feature",
+      "source": "docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md",
+      "owner": "WP-08, WP-09, WP-10",
+      "source_status": "feature_contract",
+      "disposition": "accepted",
+      "claim_boundary": "Accepted only for the exact #451 production birthday composition row; it does not grant broader v0.92 release readiness.",
+      "discovery": {
+        "status": "investigated",
+        "profile": "canonical_row_profile"
+      },
+      "blocker_kind": null,
+      "blockers": [
+
+      ],
+      "evidence": {
+        "authority_kind": "canonical_observation",
+        "repository": "agent-logic/agent-design-language",
+        "issue": 451,
+        "implementation_paths": [
+          "adl/src/production_birthday.rs"
+        ],
+        "reviewed_head": "3c612a0c302d1a34562b9e0c160b12aca91222e3",
+        "pr_head": "414777b543bf5df295a41eacc9c4fd19735c413b",
+        "pull_request": 459,
+        "merge_sha": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6",
+        "positive": {
+          "path": ".csdlc/evidence/451/production_birthday_kernel.log",
+          "sha256": "391e0edff5d2c8331282b5c58077b000c781baaa687ab18ac68d7f785eaab286",
+          "validation_index": 1
+        },
+        "negative": {
+          "path": ".csdlc/evidence/451/retained_evidence_contract.log",
+          "sha256": "b13aeafacbcc69e3ae4455731bb51c5466400b7e83ff95b02f23cba32e549d12",
+          "validation_index": 3
+        },
+        "integration": {
+          "path": ".csdlc/evidence/451/production_birthday_resident_path.log",
+          "sha256": "e6485faa66e11b83089b497c870443c3f190d952ec148e24e8dde3b396b84082",
+          "validation_index": 2
+        },
+        "platform": {
+          "path": ".csdlc/evidence/451/runtime_feature_wiring_audit.log",
+          "sha256": "00ccbb2fe7b53e4f3b4d5e7525837d7b15e9ba8d88db68567b4176bd15bb5ae2",
+          "validation_index": 4
+        },
+        "typed_terminal": {
+          "generation": 22,
+          "digest": "6cf7abf62055ea6a6542fad609e8f3271f18acce2df7facb595557e6f11ddc26",
+          "cache": {
+            "path": ".csdlc/evidence/467/terminal-451.json",
+            "sha256": "86bfcaaf2d7e003174f7b609a2c3b7e65ab8f326e40fc8dbda1a3387d5f735fb"
+          }
+        },
+        "review_artifact": {
+          "path": ".csdlc/issues/451/index.json",
+          "sha256": "6fbd515bafffe3ffd6faf0b5b56a73391aa68bab3c87608ad9210f435286a1dc"
+        },
+        "required_checks": [
+          "adl-ci",
+          "adl-coverage"
+        ],
+        "row_contract": {
+          "schema": "adl.v0.92.quality_gate_row_contract.v2",
+          "row_id": "feature:FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92",
+          "owner": "WP-08, WP-09, WP-10",
+          "source_path": "docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md",
+          "source_sha256": "980c8bbf487e8817201765efccc9e19addc8211962550dd9afb10854fd1d9269",
+          "issue": 451,
+          "implementation_paths": [
+            "adl/src/production_birthday.rs"
+          ],
+          "proof_binding_sha256": "2d5afff43f9de157a25ccc7a6bf40ac933d6b4f81373d86e81368aa5773b1c74"
+        }
+      }
+    },
+    {
+      "id": "critical:AEE-001",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-01, WP-01B",
+      "source_status": "blocked_with_evidence",
+      "outcome": "Canonical milestone and version truth",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "discovery": {
+        "status": "investigated",
+        "profile": "no_accepted_profile"
+      },
+      "blocker_kind": "required_proof_missing",
+      "blockers": [
+        "coverage_status_not_accepted:blocked_with_evidence"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-002",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-02",
+      "source_status": "blocked_with_evidence",
+      "outcome": "Agent Logic repository copies",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "discovery": {
+        "status": "investigated",
+        "profile": "no_accepted_profile"
+      },
+      "blocker_kind": "required_proof_missing",
+      "blockers": [
+        "coverage_status_not_accepted:blocked_with_evidence"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-003",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-02A",
+      "source_status": "blocked_with_evidence",
+      "outcome": "Reliable CI and coverage",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "discovery": {
+        "status": "investigated",
+        "profile": "no_accepted_profile"
+      },
+      "blocker_kind": "required_proof_missing",
+      "blockers": [
+        "coverage_status_not_accepted:blocked_with_evidence"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-004",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-02B",
+      "source_status": "blocked_with_evidence",
+      "outcome": "Evidence-based build acceleration",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "discovery": {
+        "status": "investigated",
+        "profile": "no_accepted_profile"
+      },
+      "blocker_kind": "required_proof_missing",
+      "blockers": [
+        "coverage_status_not_accepted:blocked_with_evidence"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-005",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-03",
+      "source_status": "blocked_with_evidence",
+      "outcome": "Resilient local Runtime",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "discovery": {
+        "status": "investigated",
+        "profile": "no_accepted_profile"
+      },
+      "blocker_kind": "required_proof_missing",
+      "blockers": [
+        "coverage_status_not_accepted:blocked_with_evidence"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-006",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-04",
+      "source_status": "blocked_with_evidence",
+      "outcome": "Distributed Guardian/polis",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "discovery": {
+        "status": "investigated",
+        "profile": "no_accepted_profile"
+      },
+      "blocker_kind": "required_proof_missing",
+      "blockers": [
+        "coverage_status_not_accepted:blocked_with_evidence"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-007",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-05, WP-06, WP-07",
+      "source_status": "blocked_with_evidence",
+      "outcome": "Faster C-SDLC and remote validation",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "discovery": {
+        "status": "investigated",
+        "profile": "no_accepted_profile"
+      },
+      "blocker_kind": "required_proof_missing",
+      "blockers": [
+        "coverage_status_not_accepted:blocked_with_evidence"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-008",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-08, WP-09, WP-10",
+      "source_status": "implemented_with_evidence",
+      "outcome": "Birthday and identity",
+      "disposition": "accepted",
+      "claim_boundary": "Accepted only for the AEE-008 birthday and identity critical path from #451; adjacent identity, witness, and release rows remain independently gated.",
+      "discovery": {
+        "status": "investigated",
+        "profile": "canonical_row_profile"
+      },
+      "blocker_kind": null,
+      "blockers": [
+
+      ],
+      "evidence": {
+        "authority_kind": "canonical_observation",
+        "repository": "agent-logic/agent-design-language",
+        "issue": 451,
+        "implementation_paths": [
+          "adl/src/production_birthday.rs"
+        ],
+        "reviewed_head": "3c612a0c302d1a34562b9e0c160b12aca91222e3",
+        "pr_head": "414777b543bf5df295a41eacc9c4fd19735c413b",
+        "pull_request": 459,
+        "merge_sha": "e926e3bca0ab1981d77b4658d2feb4059bdf33a6",
+        "positive": {
+          "path": ".csdlc/evidence/451/production_birthday_kernel.log",
+          "sha256": "391e0edff5d2c8331282b5c58077b000c781baaa687ab18ac68d7f785eaab286",
+          "validation_index": 1
+        },
+        "negative": {
+          "path": ".csdlc/evidence/451/retained_evidence_contract.log",
+          "sha256": "b13aeafacbcc69e3ae4455731bb51c5466400b7e83ff95b02f23cba32e549d12",
+          "validation_index": 3
+        },
+        "integration": {
+          "path": ".csdlc/evidence/451/production_birthday_resident_path.log",
+          "sha256": "e6485faa66e11b83089b497c870443c3f190d952ec148e24e8dde3b396b84082",
+          "validation_index": 2
+        },
+        "platform": {
+          "path": ".csdlc/evidence/451/runtime_feature_wiring_audit.log",
+          "sha256": "00ccbb2fe7b53e4f3b4d5e7525837d7b15e9ba8d88db68567b4176bd15bb5ae2",
+          "validation_index": 4
+        },
+        "typed_terminal": {
+          "generation": 22,
+          "digest": "6cf7abf62055ea6a6542fad609e8f3271f18acce2df7facb595557e6f11ddc26",
+          "cache": {
+            "path": ".csdlc/evidence/467/terminal-451.json",
+            "sha256": "86bfcaaf2d7e003174f7b609a2c3b7e65ab8f326e40fc8dbda1a3387d5f735fb"
+          }
+        },
+        "review_artifact": {
+          "path": ".csdlc/issues/451/index.json",
+          "sha256": "6fbd515bafffe3ffd6faf0b5b56a73391aa68bab3c87608ad9210f435286a1dc"
+        },
+        "required_checks": [
+          "adl-ci",
+          "adl-coverage"
+        ],
+        "row_contract": {
+          "schema": "adl.v0.92.quality_gate_row_contract.v2",
+          "row_id": "critical:AEE-008",
+          "owner": "WP-08, WP-09, WP-10",
+          "source_path": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+          "source_sha256": "9d29c382118b96642fd99fc654091bd955e29d81e84548f046304e054cc8839d",
+          "issue": 451,
+          "implementation_paths": [
+            "adl/src/production_birthday.rs"
+          ],
+          "proof_binding_sha256": "2d5afff43f9de157a25ccc7a6bf40ac933d6b4f81373d86e81368aa5773b1c74"
+        }
+      }
+    },
+    {
+      "id": "critical:AEE-009",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-11, WP-12",
+      "source_status": "blocked_with_evidence",
+      "outcome": "Memory and capability",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "discovery": {
+        "status": "investigated",
+        "profile": "no_accepted_profile"
+      },
+      "blocker_kind": "normalization_mapping_missing",
+      "blockers": [
+        "duplicate_source_coverage_row_requires_split_before_release_credit"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-010",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-13, WP-13A",
+      "source_status": "blocked_with_evidence",
+      "outcome": "Cognitive profile and adaptation queue",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "discovery": {
+        "status": "investigated",
+        "profile": "no_accepted_profile"
+      },
+      "blocker_kind": "required_proof_missing",
+      "blockers": [
+        "coverage_status_not_accepted:blocked_with_evidence"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-011",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-14",
+      "source_status": "blocked_with_evidence",
+      "outcome": "ACIP/A2A transport",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "discovery": {
+        "status": "investigated",
+        "profile": "no_accepted_profile"
+      },
+      "blocker_kind": "required_proof_missing",
+      "blockers": [
+        "coverage_status_not_accepted:blocked_with_evidence"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-012",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-15, WP-16",
+      "source_status": "blocked_with_evidence",
+      "outcome": "Witness, receipt, and review packet",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "discovery": {
+        "status": "investigated",
+        "profile": "no_accepted_profile"
+      },
+      "blocker_kind": "required_proof_missing",
+      "blockers": [
+        "coverage_status_not_accepted:blocked_with_evidence"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-013",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-17",
+      "source_status": "blocked_with_evidence",
+      "outcome": "Cross-polis continuity",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "discovery": {
+        "status": "investigated",
+        "profile": "no_accepted_profile"
+      },
+      "blocker_kind": "required_proof_missing",
+      "blockers": [
+        "coverage_status_not_accepted:blocked_with_evidence"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-014",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-18",
+      "source_status": "blocked_with_evidence",
+      "outcome": "Demonstrable birthday",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "discovery": {
+        "status": "investigated",
+        "profile": "no_accepted_profile"
+      },
+      "blocker_kind": "required_proof_missing",
+      "blockers": [
+        "coverage_status_not_accepted:blocked_with_evidence"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-015",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-18A",
+      "source_status": "blocked_with_evidence",
+      "outcome": "Observatory and Unity consumers",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "discovery": {
+        "status": "investigated",
+        "profile": "no_accepted_profile"
+      },
+      "blocker_kind": "required_proof_missing",
+      "blockers": [
+        "coverage_status_not_accepted:blocked_with_evidence"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-016",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-18B",
+      "source_status": "blocked_with_evidence",
+      "outcome": "Provider-neutral multi-agent execution",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "discovery": {
+        "status": "investigated",
+        "profile": "no_accepted_profile"
+      },
+      "blocker_kind": "required_proof_missing",
+      "blockers": [
+        "coverage_status_not_accepted:blocked_with_evidence"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-017",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-19",
+      "source_status": "blocked_with_evidence",
+      "outcome": "v0.93 governance handoff",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "discovery": {
+        "status": "investigated",
+        "profile": "no_accepted_profile"
+      },
+      "blocker_kind": "required_proof_missing",
+      "blockers": [
+        "coverage_status_not_accepted:blocked_with_evidence"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-018",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-20",
+      "source_status": "blocked_with_evidence",
+      "outcome": "Demo matrix and proof coverage",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "discovery": {
+        "status": "investigated",
+        "profile": "no_accepted_profile"
+      },
+      "blocker_kind": "required_proof_missing",
+      "blockers": [
+        "coverage_status_not_accepted:blocked_with_evidence"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-019",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-21, WP-21A",
+      "source_status": "planned",
+      "outcome": "Reduction and refactoring",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "discovery": {
+        "status": "investigated",
+        "profile": "no_accepted_profile"
+      },
+      "blocker_kind": "planned_deferred",
+      "blockers": [
+        "planned_or_deferred_by_explicit_milestone_authority"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-020",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-22 through WP-30",
+      "source_status": "planned",
+      "outcome": "Quality, release, and publication",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until a row-specific canonical accepted-evidence packet satisfies every required field.",
+      "discovery": {
+        "status": "investigated",
+        "profile": "no_accepted_profile"
+      },
+      "blocker_kind": "planned_deferred",
+      "blockers": [
+        "planned_or_deferred_by_explicit_milestone_authority"
+      ],
+      "evidence": {
+      }
+    }
+  ]
+}

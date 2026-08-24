@@ -1,0 +1,125 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 467,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "f15f3456fc356862b0980be3c1b79ae6463af4487f90151a68a408df1c7624e7",
+  "phase": "implemented",
+  "generation": 4,
+  "digest": "a417a75e27680370177e5f1508146323e2083b008972d53d5fd39f33c9406293",
+  "branch": "codex/467-v092-quality-gate-evidence-hydration",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-467-v092-quality-gate-evidence-hydration",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/467/design.md",
+  "diagram_path": ".csdlc/prepared/issues/467/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "operator:daniel",
+      "revision": "178fb1416a27c3c9f0f5c0652da9524fa734ef05e754921ee36fb8c64f81bb65"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "3adc88200ddc492f216929397a5d4ce4eb33c59ef3699c7a472488b61779f2b8",
+      "rendered_digest": "f82adf323fdc49324f6193e79ea8ea64248843a7ef5549ce0a666bd7d203f247",
+      "ast_digest": "56aae4c5a31e2db52895b5097f18d9170d324c66289a555df7cfce185616ff3d"
+    },
+    "stp": {
+      "values_digest": "2a3d9f222e83721f3b162086e1070e0b0b505dc4289fd027228d51e0535e0f12",
+      "rendered_digest": "84917f1d1a0aced6a0186015aebf4c0fda994ef8780e5925ffa172ddc3875d0d",
+      "ast_digest": "97bb126724f4cd50a8f46e4fd5ce26a296cae05aa29d337667b6a0afa5aeaf8c"
+    },
+    "spp": {
+      "values_digest": "839978c9134485ee3f317138747e551113d35869280a7e5bde89691a1224c71e",
+      "rendered_digest": "062f7fc280db6019a6f4f4ced3289286169fbcc71ecdb9678960bd818331fe67",
+      "ast_digest": "cde7e55fee49c3523aca146c64efbd6cf94feae65b4e7e38ea30dd8de25ec1b1"
+    },
+    "vpp": {
+      "values_digest": "2c6c57309e480521b3082d4b468c1c8032529948ee5a62307bd3c6146982aceb",
+      "rendered_digest": "8b3a7fe8251d39ea090a7a6ee3b20f01c086349f50346264419d5c64db5b0a2d",
+      "ast_digest": "be84759b2e995e459b02bee5b1b4bf1309cfa589bf0c88c59d2f5bf49fd9a958"
+    },
+    "srp": {
+      "values_digest": "b6b51965747a58975ddc10c9e843f267498af11d48aa970cc5e784d819d5d316",
+      "rendered_digest": "2bb8145757fd457982dbb0b2dcd12f86e43dc0dc12fbaf1ecad0687d4c9f9dcd",
+      "ast_digest": "00e5140b81e0a706f316084c0dfce7583eeb2e31171872bb55e1db9311cbd054"
+    },
+    "sor": {
+      "values_digest": "6490c60b6978959500f763d705a2610f0b4b11b57e1b3ff6e57c2ca468365a65",
+      "rendered_digest": "d3aad38dfeac9fd6963412f5af41871d7f66babd253cf042dd14ad977a36a8c8",
+      "ast_digest": "9b032b0f2f68587d962688b748635e8d7fad90cb7f04e39539d0641256e9e3ea"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root/issue467_quality_gate_fix",
+      "reason": "execution and passing validation finalized atomically"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root/issue467_quality_gate_fix",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root/issue467_quality_gate_fix",
+      "reason": "Add an available #467 preparation validator target so initialized readiness has a real issue-owned denominator before bind while implementation proof lanes remain deferred.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"467-preparation-bundle\",\"proof_role\":\"Validate #467 issue identity, unbound topology, design/diagram presence, and concrete owned validator targets before bind.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/467/validate-preparation.rb\"],\"parallel_group\":\"467-prep\",\"defer_reason\":null},{\"lane\":\"467-quality-gate-matrix\",\"proof_role\":\"Regenerate and validate the exact 33-row corrective v0.92 quality-gate matrix with canonical hydration and concrete blocker taxonomy.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/467/validate-quality-gate.rb\",\"matrix\"],\"parallel_group\":\"467-local\",\"defer_reason\":\"Runs after implementation.\"},{\"lane\":\"467-adversarial-suite\",\"proof_role\":\"Run positive controls and adversarial cases for fabricated accepted rows, suppressed evidence, stale/non-ancestral authority, malformed terminal evidence, substitutions, duplicates, and vacuous publication.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/467/test-validate-quality-gate.rb\"],\"parallel_group\":\"467-local\",\"defer_reason\":\"Runs after implementation.\"},{\"lane\":\"467-diff-hygiene\",\"proof_role\":\"Reject whitespace and conflict artifacts.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"467-local\",\"defer_reason\":\"Runs after implementation.\"},{\"lane\":\"467-exact-head-review\",\"proof_role\":\"Record one fresh exact-head review covering every row disposition and discovery-completeness denominator before publication.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\".adl/bin/csdlc-v2/csdlc-review\",\"--repo\",\".\",\"assign-and-record-exact-head\"],\"parallel_group\":\"467-review\",\"defer_reason\":\"Runs after implementation and local validation.\"}]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root/issue467_quality_gate_fix",
+      "reason": "Declare exact #467 issue-owned validator targets so VPP readiness can select a concrete denominator before bind.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\".csdlc/prepared/issues/467\",\".csdlc/prepared/issues/467/validate-preparation.rb\",\".csdlc/prepared/issues/467/validate-quality-gate.rb\",\".csdlc/prepared/issues/467/test-validate-quality-gate.rb\",\".csdlc/evidence/467\",\"docs/reviews/v0.92/quality-gate-467\",\"docs/reviews/v0.92/quality-gate-311\",\"docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md\",\"docs/milestones/v0.92/QUALITY_GATE_v0.92.md\",\"docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:/root/issue467_quality_gate_fix",
+      "reason": "Repair #467 exact-head review lane to use the supported absolute C-SDLC v2 review guard owner binary instead of a missing worktree-local .adl path.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"467-preparation-bundle\",\"proof_role\":\"Validate #467 issue identity, unbound topology, design/diagram presence, and concrete owned validator targets before bind.\",\"acceptance_ids\":[\"AC-1\",\"AC-4\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/467/validate-preparation.rb\"],\"parallel_group\":\"467-prep\",\"defer_reason\":null},{\"lane\":\"467-quality-gate-matrix\",\"proof_role\":\"Regenerate and validate the exact 33-row corrective v0.92 quality-gate matrix with canonical hydration and concrete blocker taxonomy.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/467/validate-quality-gate.rb\",\"matrix\"],\"parallel_group\":\"467-local\",\"defer_reason\":\"Runs after implementation.\"},{\"lane\":\"467-adversarial-suite\",\"proof_role\":\"Run positive controls and adversarial cases for fabricated accepted rows, suppressed evidence, stale/non-ancestral authority, malformed terminal evidence, substitutions, duplicates, and vacuous publication.\",\"acceptance_ids\":[\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":300,\"budget_tokens\":4000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/467/test-validate-quality-gate.rb\"],\"parallel_group\":\"467-local\",\"defer_reason\":\"Runs after implementation.\"},{\"lane\":\"467-diff-hygiene\",\"proof_role\":\"Reject whitespace and conflict artifacts.\",\"acceptance_ids\":[\"AC-7\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":1000,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"467-local\",\"defer_reason\":\"Runs after implementation.\"},{\"lane\":\"467-exact-head-review\",\"proof_role\":\"Record one fresh exact-head review covering every row disposition and discovery-completeness denominator before publication.\",\"acceptance_ids\":[\"AC-8\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":300,\"budget_tokens\":2000,\"argv\":[\"/Users/daniel/git/agent-design-language/.adl/bin/csdlc-v2/csdlc-review\",\"guard\",\"--request\",\"/Users/daniel/git/agent-design-language/.git/csdlc-v2/requests/467-review-guard.json\"],\"parallel_group\":\"467-review\",\"defer_reason\":\"Runs after implementation and local validation.\"}]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:/root/issue467_quality_gate_fix",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    }
+  ]
+}

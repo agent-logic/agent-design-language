@@ -26,3 +26,7 @@ Before any child implementation starts, its owner must verify live dependencies,
 complete issue-specific design approval, bind a dedicated worktree and claim,
 create the issue-bound goal, and run only the focused proof declared by its VPP.
 WP-01 does not grant product completion or merge authority to child issues.
+
+## WP-22A Corrective Hydration
+
+WP-22A is executing under #467 because #311/PR #466 published a vacuous all-blocked packet. Downstream WP-23 through WP-30 remain blocked until the #467 packet has zero concrete blocker rows; administrative closeout is not a dependency edge.

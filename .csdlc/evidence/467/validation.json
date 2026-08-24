@@ -1,0 +1,23 @@
+{
+  "schema": "adl.v0.92.quality_gate_validation_receipt.v2",
+  "issue": 467,
+  "matrix_sha256": "4e586c4836a0191111da7f2a7bd632c316486097344936284b99327724a43325",
+  "gate_sha256": "45e0fc1d1a1d6a11b0331d6162c34699408ab71de46a0f116619fb3214fc0d6f",
+  "validator_sha256": "5aec5610a18ad9bb3845cff076b76fcde1690f516b6e8248f901295456187b6d",
+  "blocker_report_sha256": "4bc595212aff1c9da5a613f841d6c3c954c6e6a136da6923d1eb22ac7e4f19a9",
+  "quality_gate_result": "blocked",
+  "downstream_unlock": false,
+  "denominator": {
+    "feature_rows": 13,
+    "critical_path_rows": 20,
+    "total_rows": 33,
+    "accepted_rows": 3,
+    "blocked_rows": 30
+  },
+  "accepted_rows": [
+    "feature:ADAPTIVE_LEARNING_DAG_v0.92",
+    "feature:FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92",
+    "critical:AEE-008"
+  ],
+  "completion_guard": "passed"
+}

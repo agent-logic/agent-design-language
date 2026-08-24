@@ -58,3 +58,7 @@ kernel and resident-path tests plus the retained nine-feature wiring audit and
 redaction/schema validator. A library-only, fixture-only, metadata-only,
 documentation-only, or unreachable feature disposition blocks the gate. Paid
 AWS qualification is not part of this local composition gate.
+
+## WP-22A Corrective Hydration
+
+Issue #467 supersedes the #311 structural packet for release-credit semantics. The corrective packet lives at `docs/reviews/v0.92/quality-gate-467/`, accepts feature:ADAPTIVE_LEARNING_DAG_v0.92, feature:FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92, critical:AEE-008, and keeps 30 rows blocked with concrete blocker taxonomy. #311/PR #466 remain historical provenance only.

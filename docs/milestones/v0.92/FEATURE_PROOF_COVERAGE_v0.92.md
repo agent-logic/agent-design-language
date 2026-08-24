@@ -63,3 +63,7 @@ pre-publication working copy remains `blocked_with_evidence` so downstream gates
 cannot consume a local branch as release evidence. WP-20 must not convert WP-18,
 WP-18A, WP-18B, WP-19, WP-21, or release-tail rows to accepted unless their own
 issue evidence is exact, reviewed, and linked.
+
+## WP-22A Corrective Hydration
+
+The #467 corrective quality gate grants accepted release credit only to rows with complete canonical hydration. Current accepted rows are feature:ADAPTIVE_LEARNING_DAG_v0.92, feature:FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92, critical:AEE-008; all other feature and critical-path rows remain non-credit blockers or planned/deferred non-claims as recorded in `docs/reviews/v0.92/quality-gate-467/feature-completion-matrix.json`.

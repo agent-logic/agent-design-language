@@ -1,0 +1,62 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 467,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-22A] Repair quality-gate evidence hydration and release-credit semantics",
+    "slug": "v092-wp22a-quality-gate-evidence-hydration",
+    "version": "v0.92",
+    "generation": 4
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Repair only the v0.92 quality-gate evidence hydration, validator semantics, retained corrective artifacts, and directly supporting docs/tests for #467.",
+      "deliverables": [
+        "deterministic canonical discovery and hydration for 13 feature plus 20 critical-path rows",
+        "blocker taxonomy separating accepted, implementation missing, proof missing, stale or non-ancestral evidence, normalization or mapping missing, and explicit planned/deferred states",
+        "independent denominator and binding validator with substitution, duplicate, extra, ambiguous, stale, and unclassified-row rejection",
+        "completion guard rejecting uninvestigated 100% blocked publication",
+        "positive controls from multiple feature and critical-path families",
+        "adversarial suite for fabricated accepted rows, suppressed discoverable evidence, normalization-only blockers, stale heads, non-ancestral merges, malformed terminal evidence, check/ruleset substitution, duplicate mappings, and vacuous all-blocked publication",
+        "corrected matrix, gate record, blocker report, validation receipt, v0.92 quality/readiness docs, and #311 supersession note",
+        "fresh exact-head review and publishable PR closing #467"
+      ],
+      "acceptance_criteria": [
+        "AC-1: The production generator attempts deterministic canonical hydration for all 13 feature rows and 20 critical-path rows; it does not initialize every row to accepted_evidence_packet_missing.",
+        "AC-2: Every accepted row binds exact repository, owner, implementation paths, reviewed head, PR head, merge, ancestry, required checks, positive/negative/integration/platform evidence, claim boundary, and typed or explicitly approved recordless terminal authority.",
+        "AC-3: Every non-accepted row names the concrete missing implementation, proof, stale authority, explicit planned/deferred state, or unresolved mapping; packet missing alone is not treated as a product failure.",
+        "AC-4: The validator independently recomputes the denominator and evidence bindings, rejects self-attested or cross-row/cross-repository substitutions, and fails on missing, duplicate, extra, ambiguous, or unclassified rows.",
+        "AC-5: A completion/publication guard rejects a 100% blocked matrix when rows have not undergone evidence discovery and classification; an all-blocked outcome is allowed only when each row has independently verified concrete blockers.",
+        "AC-6: Adversarial tests cover fabricated accepted rows, suppressed discoverable evidence, false product blockers caused only by normalization gaps, stale heads, non-ancestral merges, malformed terminal evidence, check/ruleset substitution, duplicate mappings, and vacuous all-blocked publication.",
+        "AC-7: Corrected matrix, gate record, blocker report, validation receipt, v0.92 quality/readiness docs, and a #311 supersession note agree exactly and preserve downstream lock only for remaining concrete blockers.",
+        "AC-8: One fresh exact-head review audits every row disposition and the discovery-completeness denominator before publication."
+      ],
+      "dependencies": [
+        "Current origin/main includes merged #311/PR #466 history as immutable provenance.",
+        "Execution depends on merged predecessor work only, not administrative terminal reconciliation or cleanup."
+      ],
+      "repo_inputs": [
+        "agent-logic/agent-design-language#467",
+        "agent-logic/agent-design-language#311",
+        "agent-logic/agent-design-language/pull/466",
+        "docs/reviews/v0.92/quality-gate-311",
+        "docs/milestones/v0.92/features",
+        "docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md",
+        "docs/milestones/v0.92/review/V092_DEMO_AEE_ARTIFACT_INDEX.md",
+        "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+        "docs/milestones/v0.92/QUALITY_GATE_v0.92.md",
+        "docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md"
+      ],
+      "non_goals": [
+        "No product feature implementation",
+        "No waiver of missing implementation or proof",
+        "No rewrite of #311 or PR #466 history",
+        "No broad release ceremony or WP-23 documentation pass",
+        "No cloud execution, paid runners, or unrelated C-SDLC redesign"
+      ]
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 467,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-22A] Repair quality-gate evidence hydration and release-credit semantics",
+    "slug": "v092-wp22a-quality-gate-evidence-hydration",
+    "version": "v0.92",
+    "generation": 4
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/prepared/issues/467\n.csdlc/evidence/467\ndocs/reviews/v0.92/quality-gate-467\ndocs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md\ndocs/milestones/v0.92/QUALITY_GATE_v0.92.md\ndocs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the generator deterministically discover and hydrate all 33 canonical rows without defaulting to packet-missing blockers?",
+        "Do accepted rows carry exact repository, PR, merge, ancestry, check, proof, claim-boundary, and terminal authority evidence?",
+        "Do non-accepted rows name concrete blockers rather than normalization gaps as product failures?",
+        "Does the validator independently reject substitutions, missing/duplicate/extra/ambiguous/unclassified rows, stale authority, and vacuous all-blocked publication?",
+        "Do corrected docs and evidence agree without rewriting #311 history or unlocking downstream work beyond concrete accepted rows?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
