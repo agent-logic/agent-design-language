@@ -1,0 +1,529 @@
+{
+  "schema": "adl.v0.92.quality_gate_matrix.v1",
+  "milestone": "v0.92",
+  "issue": 311,
+  "evaluation_base_sha": "a06c34774ad88ea8c56a00533f0fcef810fa7441",
+  "denominator": {
+    "feature_rows": 13,
+    "critical_path_rows": 20,
+    "total_rows": 33
+  },
+  "rows": [
+    {
+      "id": "feature:ACP_COGNITIVE_PROFILES_v0.92",
+      "kind": "feature",
+      "source": "docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md",
+      "owner": "WP-13",
+      "source_status": "feature_contract",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until exact canonical evidence satisfies every accepted-row field.",
+      "blockers": [
+        "accepted_evidence_packet_missing",
+        "feature_contract_has_no_accepted_evidence_binding"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "feature:ADAPTIVE_LEARNING_DAG_v0.92",
+      "kind": "feature",
+      "source": "docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md",
+      "owner": "WP-13A",
+      "source_status": "feature_contract",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until exact canonical evidence satisfies every accepted-row field.",
+      "blockers": [
+        "accepted_evidence_packet_missing",
+        "feature_contract_has_no_accepted_evidence_binding"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "feature:ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92",
+      "kind": "feature",
+      "source": "docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md",
+      "owner": "WP-14",
+      "source_status": "feature_contract",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until exact canonical evidence satisfies every accepted-row field.",
+      "blockers": [
+        "accepted_evidence_packet_missing",
+        "feature_contract_has_no_accepted_evidence_binding"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "feature:DISTRIBUTED_GUARDIAN_POLIS_v0.92",
+      "kind": "feature",
+      "source": "docs/milestones/v0.92/features/DISTRIBUTED_GUARDIAN_POLIS_v0.92.md",
+      "owner": "WP-04",
+      "source_status": "feature_contract",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until exact canonical evidence satisfies every accepted-row field.",
+      "blockers": [
+        "accepted_evidence_packet_missing",
+        "feature_contract_has_no_accepted_evidence_binding"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "feature:CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92",
+      "kind": "feature",
+      "source": "docs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md",
+      "owner": "WP-09, WP-10, WP-17",
+      "source_status": "feature_contract",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until exact canonical evidence satisfies every accepted-row field.",
+      "blockers": [
+        "accepted_evidence_packet_missing",
+        "feature_contract_has_no_accepted_evidence_binding"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "feature:FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92",
+      "kind": "feature",
+      "source": "docs/milestones/v0.92/features/FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md",
+      "owner": "WP-18, WP-18B, WP-19",
+      "source_status": "feature_contract",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until exact canonical evidence satisfies every accepted-row field.",
+      "blockers": [
+        "accepted_evidence_packet_missing",
+        "feature_contract_has_no_accepted_evidence_binding"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "feature:IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92",
+      "kind": "feature",
+      "source": "docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md",
+      "owner": "WP-09, WP-10, WP-17",
+      "source_status": "feature_contract",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until exact canonical evidence satisfies every accepted-row field.",
+      "blockers": [
+        "accepted_evidence_packet_missing",
+        "feature_contract_has_no_accepted_evidence_binding"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "feature:MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92",
+      "kind": "feature",
+      "source": "docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md",
+      "owner": "WP-11, WP-12, WP-15",
+      "source_status": "feature_contract",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until exact canonical evidence satisfies every accepted-row field.",
+      "blockers": [
+        "accepted_evidence_packet_missing",
+        "feature_contract_has_no_accepted_evidence_binding"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "feature:MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92",
+      "kind": "feature",
+      "source": "docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md",
+      "owner": "WP-11, WP-16",
+      "source_status": "feature_contract",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until exact canonical evidence satisfies every accepted-row field.",
+      "blockers": [
+        "accepted_evidence_packet_missing",
+        "feature_contract_has_no_accepted_evidence_binding"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "feature:OBSERVATORY_UNITY_CONSUMER_INTEGRATION_v0.92",
+      "kind": "feature",
+      "source": "docs/milestones/v0.92/features/OBSERVATORY_UNITY_CONSUMER_INTEGRATION_v0.92.md",
+      "owner": "WP-18A",
+      "source_status": "feature_contract",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until exact canonical evidence satisfies every accepted-row field.",
+      "blockers": [
+        "accepted_evidence_packet_missing",
+        "feature_contract_has_no_accepted_evidence_binding"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "feature:PROVIDER_NEUTRAL_MULTI_AGENT_PROOF_v0.92",
+      "kind": "feature",
+      "source": "docs/milestones/v0.92/features/PROVIDER_NEUTRAL_MULTI_AGENT_PROOF_v0.92.md",
+      "owner": "WP-18B",
+      "source_status": "feature_contract",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until exact canonical evidence satisfies every accepted-row field.",
+      "blockers": [
+        "accepted_evidence_packet_missing",
+        "feature_contract_has_no_accepted_evidence_binding"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "feature:RUNTIME_LAUNCH_AND_RESILIENCE_v0.92",
+      "kind": "feature",
+      "source": "docs/milestones/v0.92/features/RUNTIME_LAUNCH_AND_RESILIENCE_v0.92.md",
+      "owner": "WP-03",
+      "source_status": "feature_contract",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until exact canonical evidence satisfies every accepted-row field.",
+      "blockers": [
+        "accepted_evidence_packet_missing",
+        "feature_contract_has_no_accepted_evidence_binding"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "feature:FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92",
+      "kind": "feature",
+      "source": "docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md",
+      "owner": "WP-08, WP-09, WP-10",
+      "source_status": "feature_contract",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until exact canonical evidence satisfies every accepted-row field.",
+      "blockers": [
+        "accepted_evidence_packet_missing",
+        "feature_contract_has_no_accepted_evidence_binding"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-001",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-01, WP-01B",
+      "source_status": "blocked_with_evidence",
+      "outcome": "Canonical milestone and version truth",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until exact canonical evidence satisfies every accepted-row field.",
+      "blockers": [
+        "accepted_evidence_packet_missing",
+        "coverage_status_not_accepted:blocked_with_evidence"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-002",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-02",
+      "source_status": "blocked_with_evidence",
+      "outcome": "Agent Logic repository copies",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until exact canonical evidence satisfies every accepted-row field.",
+      "blockers": [
+        "accepted_evidence_packet_missing",
+        "coverage_status_not_accepted:blocked_with_evidence"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-003",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-02A",
+      "source_status": "blocked_with_evidence",
+      "outcome": "Reliable CI and coverage",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until exact canonical evidence satisfies every accepted-row field.",
+      "blockers": [
+        "accepted_evidence_packet_missing",
+        "coverage_status_not_accepted:blocked_with_evidence"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-004",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-02B",
+      "source_status": "blocked_with_evidence",
+      "outcome": "Evidence-based build acceleration",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until exact canonical evidence satisfies every accepted-row field.",
+      "blockers": [
+        "accepted_evidence_packet_missing",
+        "coverage_status_not_accepted:blocked_with_evidence"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-005",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-03",
+      "source_status": "blocked_with_evidence",
+      "outcome": "Resilient local Runtime",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until exact canonical evidence satisfies every accepted-row field.",
+      "blockers": [
+        "accepted_evidence_packet_missing",
+        "coverage_status_not_accepted:blocked_with_evidence"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-006",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-04",
+      "source_status": "blocked_with_evidence",
+      "outcome": "Distributed Guardian/polis",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until exact canonical evidence satisfies every accepted-row field.",
+      "blockers": [
+        "accepted_evidence_packet_missing",
+        "coverage_status_not_accepted:blocked_with_evidence"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-007",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-05, WP-06, WP-07",
+      "source_status": "blocked_with_evidence",
+      "outcome": "Faster C-SDLC and remote validation",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until exact canonical evidence satisfies every accepted-row field.",
+      "blockers": [
+        "accepted_evidence_packet_missing",
+        "coverage_status_not_accepted:blocked_with_evidence"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-008",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-08, WP-09, WP-10",
+      "source_status": "implemented_with_evidence",
+      "outcome": "Birthday and identity",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until exact canonical evidence satisfies every accepted-row field.",
+      "blockers": [
+        "accepted_evidence_packet_missing",
+        "coverage_status_not_accepted:implemented_with_evidence"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-009",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-11, WP-12",
+      "source_status": "blocked_with_evidence",
+      "outcome": "Memory and capability",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until exact canonical evidence satisfies every accepted-row field.",
+      "blockers": [
+        "accepted_evidence_packet_missing",
+        "coverage_status_not_accepted:blocked_with_evidence",
+        "duplicate_source_coverage_row"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-010",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-13, WP-13A",
+      "source_status": "blocked_with_evidence",
+      "outcome": "Cognitive profile and adaptation queue",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until exact canonical evidence satisfies every accepted-row field.",
+      "blockers": [
+        "accepted_evidence_packet_missing",
+        "coverage_status_not_accepted:blocked_with_evidence"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-011",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-14",
+      "source_status": "blocked_with_evidence",
+      "outcome": "ACIP/A2A transport",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until exact canonical evidence satisfies every accepted-row field.",
+      "blockers": [
+        "accepted_evidence_packet_missing",
+        "coverage_status_not_accepted:blocked_with_evidence"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-012",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-15, WP-16",
+      "source_status": "blocked_with_evidence",
+      "outcome": "Witness, receipt, and review packet",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until exact canonical evidence satisfies every accepted-row field.",
+      "blockers": [
+        "accepted_evidence_packet_missing",
+        "coverage_status_not_accepted:blocked_with_evidence"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-013",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-17",
+      "source_status": "blocked_with_evidence",
+      "outcome": "Cross-polis continuity",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until exact canonical evidence satisfies every accepted-row field.",
+      "blockers": [
+        "accepted_evidence_packet_missing",
+        "coverage_status_not_accepted:blocked_with_evidence"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-014",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-18",
+      "source_status": "blocked_with_evidence",
+      "outcome": "Demonstrable birthday",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until exact canonical evidence satisfies every accepted-row field.",
+      "blockers": [
+        "accepted_evidence_packet_missing",
+        "coverage_status_not_accepted:blocked_with_evidence"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-015",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-18A",
+      "source_status": "blocked_with_evidence",
+      "outcome": "Observatory and Unity consumers",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until exact canonical evidence satisfies every accepted-row field.",
+      "blockers": [
+        "accepted_evidence_packet_missing",
+        "coverage_status_not_accepted:blocked_with_evidence"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-016",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-18B",
+      "source_status": "blocked_with_evidence",
+      "outcome": "Provider-neutral multi-agent execution",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until exact canonical evidence satisfies every accepted-row field.",
+      "blockers": [
+        "accepted_evidence_packet_missing",
+        "coverage_status_not_accepted:blocked_with_evidence"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-017",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-19",
+      "source_status": "blocked_with_evidence",
+      "outcome": "v0.93 governance handoff",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until exact canonical evidence satisfies every accepted-row field.",
+      "blockers": [
+        "accepted_evidence_packet_missing",
+        "coverage_status_not_accepted:blocked_with_evidence"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-018",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-20",
+      "source_status": "blocked_with_evidence",
+      "outcome": "Demo matrix and proof coverage",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until exact canonical evidence satisfies every accepted-row field.",
+      "blockers": [
+        "accepted_evidence_packet_missing",
+        "coverage_status_not_accepted:blocked_with_evidence"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-019",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-21, WP-21A",
+      "source_status": "planned",
+      "outcome": "Reduction and refactoring",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until exact canonical evidence satisfies every accepted-row field.",
+      "blockers": [
+        "accepted_evidence_packet_missing",
+        "coverage_status_not_accepted:planned"
+      ],
+      "evidence": {
+      }
+    },
+    {
+      "id": "critical:AEE-020",
+      "kind": "critical_path",
+      "source": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-22 through WP-30",
+      "source_status": "planned",
+      "outcome": "Quality, release, and publication",
+      "disposition": "blocked",
+      "claim_boundary": "No release credit until exact canonical evidence satisfies every accepted-row field.",
+      "blockers": [
+        "accepted_evidence_packet_missing",
+        "coverage_status_not_accepted:planned"
+      ],
+      "evidence": {
+      }
+    }
+  ]
+}

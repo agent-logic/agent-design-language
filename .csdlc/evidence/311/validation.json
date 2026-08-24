@@ -1,0 +1,29 @@
+{
+  "schema": "adl.v0.92.quality_gate_validation_receipt.v1",
+  "issue": 311,
+  "evaluation_base_sha": "a06c34774ad88ea8c56a00533f0fcef810fa7441",
+  "structural_validation": "passed",
+  "quality_gate_result": "blocked",
+  "downstream_unlock": false,
+  "denominator": {"feature_rows": 13, "critical_path_rows": 20, "total_rows": 33, "accepted_rows": 0, "blocked_rows": 33},
+  "lanes": [
+    {"name": "semantic-quality-matrix", "result": "passed", "gate_result": "blocked", "log": ".csdlc/evidence/311/semantic-quality-matrix.log"},
+    {"name": "quality-negative-suite", "result": "passed", "cases": 8, "log": ".csdlc/evidence/311/quality-negative-suite.log"},
+    {"name": "docs-schema-diff", "result": "passed", "log": ".csdlc/evidence/311/docs-schema-diff.log"}
+  ],
+  "artifacts": {
+    "validator_sha256": "de069585d76c2833d40e6746df0203ad8cde7b5fc5476e659a7c7bdcac1e4a3e",
+    "negative_suite_sha256": "fbdcfc19c31194eb2bfdacefbf19633dea2737b470e1c7849ad2e807db813b96",
+    "matrix_sha256": "5c6e7f588fbfead4bc46f4b8f91703da8c0a5898322cb0620afd61b3be9c4728",
+    "gate_record_sha256": "f4ad62f1cb0692567717e99b47c07407964a12424f3cb11e1394d5acbe589094",
+    "blocker_report_sha256": "32c51d7465a455bcae4394472720b25251de3dba0b43075af013f5b0311fa48a"
+  },
+  "dependency_observation": {
+    "issue_310": "closed_by_merged_pr_465",
+    "merge_sha": "a06c34774ad88ea8c56a00533f0fcef810fa7441",
+    "typed_closeout": "asynchronous_not_consumed",
+    "cleanup": "asynchronous_not_consumed",
+    "release_credit": false
+  },
+  "non_claim": "A structurally valid blocked packet is not a passing v0.92 release gate."
+}

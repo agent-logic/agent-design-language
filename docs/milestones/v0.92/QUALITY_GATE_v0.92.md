@@ -3,6 +3,11 @@
 This file defines the evidence required for v0.92 release credit. It is a gate
 plan, not evidence that a gate has passed.
 
+WP-22 execution is retained under `docs/reviews/v0.92/quality-gate-311/`.
+Structural validation of that packet is distinct from its release result: a
+schema-valid findings packet may truthfully report `blocked`, and only an exact
+zero-blocker packet may report `passed` or unlock downstream review.
+
 | Gate | Owning work | Required evidence |
 | --- | --- | --- |
 | Milestone truth and issue graph | WP-01, WP-01B | Live issue-number map, dependency validation, six valid typed cards per issue, current canonical docs and version declarations |
@@ -40,6 +45,10 @@ plan, not evidence that a gate has passed.
   constitutional governance remain non-claims.
 - Any issue that fails these rules blocks WP-22 and cannot enter internal
   review as completed work.
+- A merged dependency whose typed closeout or cleanup is still asynchronous is
+  recorded as incomplete evidence inside the matrix; it does not prevent WP-22
+  from running, and it receives no release credit until the canonical evidence
+  arrives.
 
 # Production birthday composition gate
 

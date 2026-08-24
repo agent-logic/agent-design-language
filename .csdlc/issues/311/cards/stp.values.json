@@ -1,0 +1,60 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 311,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-22] Quality gate",
+    "slug": "311-v092-quality-gate",
+    "version": "v0.92",
+    "generation": 7
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Build and run the evidence gate only; report blockers without absorbing their fixes.",
+      "deliverables": [
+        "docs/milestones/v0.92/QUALITY_GATE_v0.92.md",
+        "docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md",
+        "docs/reviews/v0.92/quality-gate-311/feature-completion-matrix.json",
+        "docs/reviews/v0.92/quality-gate-311/quality-gate-record.json",
+        "docs/reviews/v0.92/quality-gate-311/blocker-report.md",
+        ".csdlc/prepared/issues/311/validate-quality-gate.rb",
+        ".csdlc/prepared/issues/311/test-validate-quality-gate.rb",
+        ".csdlc/evidence/311/validation.json"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Canonical #310 and every declared canonical or legacy predecessor are observed from the correct repository and canonical typed authority; required terminal, review, merge, ancestry, cleanup, and migration identities are exact.",
+        "AC-2: Every indexed v0.92 feature and supporting critical path has exactly one matrix row with stable identity, owner, implementation paths, reviewed head, PR/merge, validation, negative, integration, platform, claim-boundary, and typed-terminal evidence.",
+        "AC-3: Planned, open, unknown, fixture-only, receipt-only, demo-only, synthetic, substituted-provider, stale-review, non-ancestral, malformed-cache, fabricated-check, or platform-unproven rows fail closed.",
+        "AC-4: Documentation/planning rows are source-grounded and executable; tooling/cleanup rows prove measured value and regression safety; runtime/provider/consumer rows prove production-path behavior.",
+        "AC-5: Matrix, gate record, validation receipt, and findings-first blocker report are schema-valid and reproducible; downstream remains blocked unless every required row is accepted.",
+        "AC-6: A fresh exact-head independent review validates the denominator, validator behavior, and all dispositions with no unresolved actionable finding."
+      ],
+      "dependencies": [
+        "Canonical #310 terminal, reconciled, ancestral, and cleaned",
+        "Canonical #309 terminal merge 5b3657582fea2109f000623bb121b7998185ac0a",
+        "Canonical #308 terminal WP-20 evidence",
+        "Legacy WP-04 #5821, WP-05 #5822, WP-06 #5823, WP-07 #5824, and WP-13A #5831 typed/terminal evidence",
+        "Current v0.92 feature index and milestone proof documents"
+      ],
+      "repo_inputs": [
+        "GitHub issue #311 and archived legacy #5842 body",
+        "docs/milestones/v0.92/features/README.md",
+        "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+        "docs/milestones/v0.92/QUALITY_GATE_v0.92.md",
+        "docs/milestones/v0.92/DEMO_MATRIX_v0.92.md",
+        "docs/milestones/v0.92/MILESTONE_CHECKLIST_v0.92.md",
+        "Canonical and legacy C-SDLC terminal caches plus live GitHub and Git evidence"
+      ],
+      "non_goals": [
+        "Repairing incomplete product or documentation work",
+        "Waiving blockers to preserve schedule",
+        "Crediting synthetic, fixture, demo, receipt-only, or provider-substituted proof",
+        "Executing WP-23, WP-25, release approval, or milestone ceremony",
+        "Mutating #310, dependency worktrees, external repositories, or cloud resources"
+      ]
+    }
+  }
+}

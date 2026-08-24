@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 311,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-22] Quality gate",
+    "slug": "311-v092-quality-gate",
+    "version": "v0.92",
+    "generation": 7
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Complete feature and supporting-critical-path denominator; canonical/legacy repository authority separation; semantic positive validation and forged-evidence negatives; all row dispositions and blocker/downstream semantics; exact changed-path and retained-evidence truth.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the matrix enumerate every indexed v0.92 feature and required supporting critical path exactly once?",
+        "Does each accepted row independently prove repository identity, implementation, review, merge, ancestry, validation, negative, integration, platform, and typed-terminal truth?",
+        "Do the validator and negative suite reject every prohibited evidence class without accepting self-attested JSON?",
+        "Does any unresolved blocker incorrectly unlock WP-23, WP-25, or a release claim?",
+        "Are all changed paths within #311 ownership and all dependency work read-only?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}
