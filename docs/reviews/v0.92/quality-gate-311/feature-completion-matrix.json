@@ -3,6 +3,8 @@
   "milestone": "v0.92",
   "issue": 311,
   "evaluation_base_sha": "a06c34774ad88ea8c56a00533f0fcef810fa7441",
+  "candidate_source_sha": "9b43fc535e864155b7c97b0e1b266c0787875bde",
+  "candidate_source_tree": "181093683ad06a62f5b6fc2469791f685cc11ce3",
   "denominator": {
     "feature_rows": 13,
     "critical_path_rows": 20,
