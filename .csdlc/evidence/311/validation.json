@@ -1,0 +1,37 @@
+{
+  "schema": "adl.v0.92.quality_gate_validation_receipt.v1",
+  "issue": 311,
+  "evaluation_base_sha": "a06c34774ad88ea8c56a00533f0fcef810fa7441",
+  "candidate_source_sha": "9b43fc535e864155b7c97b0e1b266c0787875bde",
+  "candidate_source_tree": "181093683ad06a62f5b6fc2469791f685cc11ce3",
+  "structural_validation": "passed",
+  "quality_gate_result": "blocked",
+  "downstream_unlock": false,
+  "denominator": {"feature_rows": 13, "critical_path_rows": 20, "total_rows": 33, "accepted_rows": 0, "blocked_rows": 33},
+  "lanes": [
+    {"name": "semantic-quality-matrix", "result": "passed", "gate_result": "blocked", "log": ".csdlc/evidence/311/semantic-quality-matrix.log", "sha256": "0c8d082136e6aab718c6d2952c745f91432f3fa55ceb865e0709442deb251cb8"},
+    {"name": "quality-negative-suite", "result": "passed", "cases": 76, "log": ".csdlc/evidence/311/quality-negative-suite.log", "sha256": "aa8f3bdbb2ceaa445a276775a0742e1b1a036af628bb9741d24bd23787dda65f"},
+    {"name": "docs-schema-diff", "result": "passed", "log": ".csdlc/evidence/311/docs-schema-diff.log", "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"}
+  ],
+  "artifacts": {
+    "validator_sha256": "56145114c9282901451180d5056120499a257a04a5bfb51afef62f2cb3cf2e25",
+    "negative_suite_sha256": "6739a78b648067c304243dad70bc738ba566371f807df13b1d279f3b5dadfd01",
+    "matrix_sha256": "05fc542d34e2d4019c0a987e0cde101cfafa75570c5131acc5cdf0573c825949",
+    "gate_record_sha256": "92e72d342c5405242a5e3ddb839e238fbf39eba03cabc7dace744cfcc8374cec",
+    "blocker_report_sha256": "32c51d7465a455bcae4394472720b25251de3dba0b43075af013f5b0311fa48a",
+    "semantic_log_sha256": "0c8d082136e6aab718c6d2952c745f91432f3fa55ceb865e0709442deb251cb8",
+    "negative_log_sha256": "aa8f3bdbb2ceaa445a276775a0742e1b1a036af628bb9741d24bd23787dda65f",
+    "diff_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "dependency_observation": {
+    "issue_310": "closed_by_merged_pr_465",
+    "head_sha": "ca78a65a1390f2bc088f8cf20018670d06e87068",
+    "merge_sha": "a06c34774ad88ea8c56a00533f0fcef810fa7441",
+    "terminal_source": "live_github_recordless_closeout",
+    "terminal_digest": "4080b704ac5123e9aaa3d877095603fcf1db48c5d0953d0ab476724ff30d11d2",
+    "receipt_digest": "3db375f9d4e27c0d62f7ed1e7506d2ea816e170b72726ed878084520366a9bde",
+    "cleanup": "complete",
+    "release_credit": false
+  },
+  "non_claim": "A structurally valid blocked packet is not a passing v0.92 release gate."
+}

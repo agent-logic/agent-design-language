@@ -1,0 +1,33 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 311,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-22] Quality gate",
+    "slug": "311-v092-quality-gate",
+    "version": "v0.92",
+    "generation": 23
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/311\n.csdlc/prepared/issues/311\n.csdlc/evidence/311\ndocs/milestones/v0.92/QUALITY_GATE_v0.92.md\ndocs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md\ndocs/reviews/v0.92/quality-gate-311",
+      "review_revision": "git-blake3:b0c9b0f57a06c7c1e0f5ff69ec1be19909ad82ce:d07e9d59929e23ce6956429b8bf9fc91705c324490b47d64ffda5c3182c94a15",
+      "reviewer": "fresh-session:e1788896-09cd-4ec7-be1e-e5e8a39a465a",
+      "review_prompts": [
+        "Does the matrix enumerate every indexed v0.92 feature and required supporting critical path exactly once?",
+        "Does each accepted row independently prove repository identity, implementation, review, merge, ancestry, validation, negative, integration, platform, and typed-terminal truth?",
+        "Do the validator and negative suite reject every prohibited evidence class without accepting self-attested JSON?",
+        "Does any unresolved blocker incorrectly unlock WP-23, WP-25, or a release claim?",
+        "Are all changed paths within #311 ownership and all dependency work read-only?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "The canonical v0.92 feature matrix remains truthfully blocked at 33 of 33 rows; this reviewed structural gate does not grant release credit or downstream unlock."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

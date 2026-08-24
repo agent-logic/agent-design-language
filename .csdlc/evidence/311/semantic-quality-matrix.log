@@ -1,0 +1,1 @@
+{"schema":"adl.v0.92.quality_gate_validation.v1","status":"passed","rows":33,"blocked_rows":33,"gate_result":"blocked","candidate_source_sha":"9b43fc535e864155b7c97b0e1b266c0787875bde","candidate_source_tree":"181093683ad06a62f5b6fc2469791f685cc11ce3"}

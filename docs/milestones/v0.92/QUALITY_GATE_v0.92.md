@@ -3,6 +3,11 @@
 This file defines the evidence required for v0.92 release credit. It is a gate
 plan, not evidence that a gate has passed.
 
+WP-22 execution is retained under `docs/reviews/v0.92/quality-gate-311/`.
+Structural validation of that packet is distinct from its release result: a
+schema-valid findings packet may truthfully report `blocked`, and only an exact
+zero-blocker packet may report `passed` or unlock downstream review.
+
 | Gate | Owning work | Required evidence |
 | --- | --- | --- |
 | Milestone truth and issue graph | WP-01, WP-01B | Live issue-number map, dependency validation, six valid typed cards per issue, current canonical docs and version declarations |
@@ -40,6 +45,11 @@ plan, not evidence that a gate has passed.
   constitutional governance remain non-claims.
 - Any issue that fails these rules blocks WP-22 and cannot enter internal
   review as completed work.
+- WP-21A is a hard execution prerequisite for WP-22. Its canonical terminal
+  authority may be either a normal derived terminal or the governed recordless
+  closeout receipt, but the exact reviewed head/merge tree, live closure,
+  ancestry, retained receipt digests, and registered-worktree cleanup must all
+  validate before the canonical WP-22 packet can pass structural validation.
 
 # Production birthday composition gate
 

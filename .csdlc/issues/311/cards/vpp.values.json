@@ -1,0 +1,87 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 311,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-22] Quality gate",
+    "slug": "311-v092-quality-gate",
+    "version": "v0.92",
+    "generation": 23
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "semantic-quality-matrix",
+          "proof_role": "Regenerate and validate the exact feature/critical-path denominator and independently verify GitHub, Git, review, merge, platform, and typed-terminal evidence for every row.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-4",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 6000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/311/validate-quality-gate.rb",
+            "matrix"
+          ],
+          "parallel_group": "311-gate",
+          "defer_reason": "Created in the bound worktree after #310 reaches terminal authority."
+        },
+        {
+          "lane": "quality-negative-suite",
+          "proof_role": "Pass forged and stale evidence classes through the production validator and require deterministic rejection without weakening positive semantics.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-5"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 900,
+          "budget_tokens": 6000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/311/test-validate-quality-gate.rb"
+          ],
+          "parallel_group": "311-negative",
+          "defer_reason": "Created with the production validator in the bound worktree."
+        },
+        {
+          "lane": "docs-schema-diff",
+          "proof_role": "Validate JSON/YAML/Markdown packet structure, exact changed paths, links, and diff hygiene.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-5",
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 180,
+          "budget_tokens": 1500,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "311-docs",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed on an open or unreconciled predecessor, incomplete denominator, ambiguous repository identity, unverifiable reviewed or merged revision, fabricated or self-attested evidence, failed negative, missing platform proof, unresolved blocker, stale typed state, or changed candidate after review.",
+      "design_ref": ".csdlc/prepared/issues/311/design.md",
+      "design_digest": "bf5ee895310486061704c221aa68d9ed941a84ddcd87edda1a1a9e56cd5c05fd",
+      "diagram_ref": ".csdlc/prepared/issues/311/diagram.mmd",
+      "diagram_digest": "0cf3785e5ec0220748a1e9c8bc1a1598367109a5b4788de44595001cfca4c2ef"
+    }
+  }
+}
