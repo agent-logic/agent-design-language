@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-22] Quality gate",
     "slug": "311-v092-quality-gate",
     "version": "v0.92",
-    "generation": 22
+    "generation": 23
   },
   "status": "pre_phase",
   "content": {
@@ -62,8 +62,8 @@
           "evidence_ref": ".csdlc/evidence/311/docs-schema-diff.log"
         }
       ],
-      "integration_state": "not_started",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []

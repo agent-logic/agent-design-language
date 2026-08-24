@@ -69,11 +69,11 @@ Executed the canonical v0.92 quality gate after #310 recordless terminal reconci
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
