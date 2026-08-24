@@ -5,7 +5,7 @@
 - Milestone: `v0.92`
 - Surface owner: `#4763`
 - Upstream dependency: `#4762` actual retained birth-witness and receipt proof
-- Status: implemented launch-document surface; publication gated
+- Status: completed launch-document surface; publication separately authorized
 - Last dependency check: `2026-07-31`; #4762 merged through PR #5744 at `021be8e33b486d9b66886ff299c20607ed8a071a`
 
 ## Purpose
@@ -48,7 +48,7 @@ Publication is allowed only when all of these are true:
 
 ## Current Launch Status
 
-`#4763` provides a real external-launch documentation surface now: the copy,
+`#4763` delivered the external-launch documentation surface: the copy,
 FAQ, claim boundary, publication gate, and consumption wiring are tracked in
 the repo. #4762 supplied the retained witness/receipt package through PR #5744,
 but that proof input does not establish the birthday event or authorize
