@@ -126,10 +126,11 @@ Current roadmap planning truth, last verified 2026-08-05:
 - `v0.91.7` is retained implementation and proof history, not the active
   closeout tail
 - `v0.91.8` is the retained reviewed platform-acceptance and handoff bridge
-- `v0.92` is the active development milestone and consumes the exact v0.91.8
-  handoff rather than v0.91.7 prose directly
-- `v0.92` remains the first true identity, continuity, and birthday milestone;
-  its planned outcomes are not complete merely because the milestone is active
+- `v0.92` is the completed identity, continuity, and birthday engineering
+  milestone and consumed the exact v0.91.8 handoff rather than v0.91.7 prose
+  directly
+- `v0.92.1` is the next planning and execution band; it must preserve v0.92
+  evidence and non-claims rather than rewriting completed milestone truth
 - `v0.95` remains MVP convergence and packaging, not first implementation of
   major cognitive or product systems
 
@@ -364,7 +365,7 @@ has already landed, is landing now, or has explicitly placed on the path to the
 | `v0.91.6` | First required pre-v0.92 readiness tranche: resilience/citizen persistence, logging/tooling proof-loop fixes, public prompt records, provider/model reliability, first ACIP/A2A/security decisions, and feature-doc issue-wave setup. |
 | `v0.91.7` | Historical implementation and proof tranche: bounded evidence exists for logging/OTel, goals/metrics, lifecycle tooling, validation/build throughput, scheduler/provider/local agents, Soak #2, signal operations, Observatory/Unity, Curiosity, Constructability, reasoning graph/loops/`adl.skill.v1`, security, guild/CodeFriend boundaries, and ACIP/A2A decisions. Its WP-17 closed through #4644 / PR #5539; v0.91.8 owns the current release-truth alignment and handoff. |
 | `v0.91.8` | Required bridge for exact-revision ADL v2, Runtime v3, and C-SDLC v2 platform acceptance, deployment/cutover truth, rollback, and reviewed handoff into v0.92. |
-| `v0.92` | **Active development milestone.** Identity-bearing agent substrate, stable names, cognitive profiles, model/provider capability contracts, continuity across runs, memory grounding, Memory Palace proof slice, witnesses, receipts, and the first true Gödel-agent birthday. Activation identifies the current work band; it does not mark planned outcomes complete. |
+| `v0.92` | **Completed engineering milestone.** Identity-bearing agent substrate, stable names, cognitive profiles, model/provider capability contracts, continuity across runs, memory grounding, Memory Palace proof slice, witnesses, receipts, and the bounded first-birthday proof. External publication and later governance remain separately authorized. |
 | `v0.93` | Constitutional citizenship, rights/duties, social contract, delegation/upstream delegation/IAM, standing/challenge/appeal governance, guilds, relationship model, reputation/trust, shared social memory, ToM/social cognition, security governance, and enterprise security for the ADL polis. |
 | `v0.94` | Secure execution, policy-engine and identity/auth convergence, provider trust and isolation, secrets/data governance, signed/queryable trace and reasoning/provenance closure, bounded mental time travel / temporal self-projection, and cross-band convergence before MVP freeze. |
 | `v0.94.1` | Payments, settlement, accounting/ledger/economic trace, economic agency, and `x402` / Lightning adapter follow-on work. |
@@ -511,20 +512,21 @@ practical long-lived runtime supervision:
 The truthful v0.90 story is implemented baseline, with Runtime v2 consuming
 those surfaces rather than replacing them.
 
-## Current Planning Focus: Execute v0.92 From The Retained v0.91.8 Handoff
+## Current Planning Focus: Preserve v0.92 Truth And Execute The Next Band
 
 `v0.91.4` is no longer the active planning center in this feature list. Its
 role is the completed Cognitive SDLC default-operation hardening band that the
 current workflow now consumes.
 
-The current planning focus is the active v0.92 implementation and proof wave,
-using the reviewed v0.91.8 bridge as retained upstream evidence:
+The current planning focus is the post-v0.92 execution band while preserving
+the reviewed v0.91.8 bridge and completed v0.92 evidence:
 
 - consume the completed `v0.91.6` readiness tranche truthfully
 - retain `v0.91.7` as historical implementation and proof input
 - consume the completed v0.91.8 handoff without rewriting its historical proof
-- execute v0.92 as the first true identity/continuity/birthday milestone while
-  preserving issue-level planned, active, implemented, and reviewed truth
+- retain v0.92 as the completed identity/continuity/birthday engineering
+  milestone while preserving issue-level implemented and reviewed truth
+- route new v0.92.1 work through its own planning and issue authority
 - keep v0.95 as convergence and packaging, not first implementation of major
   cognitive systems
 

@@ -79,11 +79,11 @@ Completed the bounded v0.92 documentation review corpus and prepared its context
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

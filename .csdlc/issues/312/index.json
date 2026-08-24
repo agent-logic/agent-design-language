@@ -3,76 +3,28 @@
   "issue": 312,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "46884bdf9e572fbe3baf39b1d90c72846bae8925cfb257bad84ce19bef406b8b",
-  "phase": "published",
-  "generation": 24,
-  "digest": "963f7710fc7381ccc0f46d897545a4679ca53c2712cadab4736baa4e8b6ae569",
+  "phase": "implemented",
+  "generation": 25,
+  "digest": "a402fd9373a7bac2f50e94e49d87787f35574f6671e0dc6705975eb4973a2f23",
   "branch": "codex/312-v092-doc-review-external-handoff",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-312-v092-doc-review-external-handoff",
   "review_assignment": {
-    "reviewer": "fresh-session:bc3530df-de21-48d0-9cba-2af905fa92f1",
+    "reviewer": "fresh-session:0306FB1D-1586-4F4A-8587-FC22A49C4955",
     "assigned_by": "codex:/root",
-    "revision": "git-blake3:0b30820fd3c84a1a52374a51668506bb553d95e3:cf1bd090f42b99210ea20e39b6f05c90c56de1bc967fba090aaadf99d21a8fdc",
+    "revision": "git-blake3:68954fd8a0d242db3c0917c765b0ff1b81e32765:6109667caa8778dc36fd595d427f4f14ee90557dd2ad1d396c8bd4ffcb30e127",
     "scope": [
-      ".csdlc/issues/312",
-      ".csdlc/prepared/issues/312",
-      ".csdlc/evidence/312",
-      "CHANGELOG.md",
       "README.md",
-      "REVIEW.md",
       "docs/README.md",
-      "docs/milestones/v0.92/CANONICAL_DOC_INVENTORY_v0.92.md",
-      "docs/milestones/v0.92/MILESTONE_CHECKLIST_v0.92.md",
-      "docs/milestones/v0.92/QUALITY_GATE_v0.92.md",
       "docs/milestones/v0.92/README.md",
-      "docs/milestones/v0.92/RELEASE_NOTES_v0.92.md",
-      "docs/milestones/v0.92/SPRINT_v0.92.md",
-      "docs/milestones/v0.92/V092_DOCS_PREP_DOGFOOD_NOTES.md",
-      "docs/milestones/v0.92/WBS_v0.92.md",
-      "docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml",
-      "docs/milestones/v0.92/review",
-      "docs/reviews/v0.92/docs-release-truth-312"
+      "docs/milestones/v0.92/external_launch/README.md",
+      "docs/milestones/v0.92/features/README.md",
+      "docs/milestones/v0.92/publication/articles/README.md",
+      "docs/milestones/v0.92/review/README.md",
+      "docs/reviews/v0.92/docs-release-truth-312/inventory.json"
     ]
   },
-  "review": {
-    "reviewer": "fresh-session:bc3530df-de21-48d0-9cba-2af905fa92f1",
-    "scope": [
-      ".csdlc/issues/312",
-      ".csdlc/prepared/issues/312",
-      ".csdlc/evidence/312",
-      "CHANGELOG.md",
-      "README.md",
-      "REVIEW.md",
-      "docs/README.md",
-      "docs/milestones/v0.92/CANONICAL_DOC_INVENTORY_v0.92.md",
-      "docs/milestones/v0.92/MILESTONE_CHECKLIST_v0.92.md",
-      "docs/milestones/v0.92/QUALITY_GATE_v0.92.md",
-      "docs/milestones/v0.92/README.md",
-      "docs/milestones/v0.92/RELEASE_NOTES_v0.92.md",
-      "docs/milestones/v0.92/SPRINT_v0.92.md",
-      "docs/milestones/v0.92/V092_DOCS_PREP_DOGFOOD_NOTES.md",
-      "docs/milestones/v0.92/WBS_v0.92.md",
-      "docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml",
-      "docs/milestones/v0.92/review",
-      "docs/reviews/v0.92/docs-release-truth-312"
-    ],
-    "reviewed_revision": "git-blake3:0b30820fd3c84a1a52374a51668506bb553d95e3:cf1bd090f42b99210ea20e39b6f05c90c56de1bc967fba090aaadf99d21a8fdc",
-    "findings": [],
-    "residual_risks": [],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 312,
-    "pull_request": 469,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/469",
-    "base": "main",
-    "head": "codex/312-v092-doc-review-external-handoff",
-    "revision": "git-blake3:5ba47301bb2d29ca594e21cce1c56a89114d7a6b:bfeb94039129397a6553a0edba5a6190256dd91396b6ab3403ae9cb336272cc5",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -86,34 +38,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4edb70421472f259031af8ff46248b9584a792fe38ec664cf091473de9b45f31",
+      "values_digest": "f686369cf357c818579b80759949d4f1fa2d96cdafd38ef7fc9d0c008c792d6c",
       "rendered_digest": "44b1ee5dce9397a95bcd16146c6553fea598b25ea0e7ffe5d911a499ff2f3b26",
       "ast_digest": "e4db219fd42ea5082cc3a94b74da8116a3f6b929a4608179972e55d2c1e78032"
     },
     "stp": {
-      "values_digest": "0026520399cf421c27a139f4357fbacc6d52791fb2091157bfea55e53769b991",
+      "values_digest": "e7513d680f86ecbacb4ddcfa3e3d1276f1e25aecd6105d8b71ce419940b5fa8e",
       "rendered_digest": "db7e266a35a81c0d3b3d9881cad8f85bdda43df1a549be6e93d1eef46fbf7572",
       "ast_digest": "e5f8d7540fee5d71ab340455fc130c63fb9dfc6814fc6e8382d5a12b6533ba6b"
     },
     "spp": {
-      "values_digest": "46ef38b74db40381ebf18cdaca23ff9f5f5549872ee5a6e5b21ea09fe3ab4770",
+      "values_digest": "8b76e0bf521c9d18bcda2d51d39faf5dfffc0ee1162f327cb66b0ef2f06f022d",
       "rendered_digest": "a8f29c6ba6c2267880627353aa6cd10e2891270c6a5129277738c62ebcc4f3f5",
       "ast_digest": "a6f094202c64659c2d3a719ed23c02fa7d0e51272e8d31fcd0311855291c77f9"
     },
     "vpp": {
-      "values_digest": "1dfe60ce3015ebb98befc082d8850816680a3f31ecb0aa0973e9e26be07b2bd8",
+      "values_digest": "f87361a358796b88913a1d84d8f6ac2a058a3e1c47c41ff7d2d8e42144bc9939",
       "rendered_digest": "101da4637c35357a44804c7c7a8ece932bfbead0a6669832dfd609dc773661e5",
       "ast_digest": "e68db8cfb20101b3922ac131ec476357509d942734e4f24e1d05f2f0e8482aab"
     },
     "srp": {
-      "values_digest": "cba7cf4de3aaeb2bdaa2ac04325288d41e58c3090454ac6a842636d4a331eec2",
-      "rendered_digest": "b7cb77e51edea50e89d0b53281d2ac081ddcff14d249f7d6c993be2cb0e6e0d7",
-      "ast_digest": "2967210d9d498db6f726b6800762ea3cedd6e3b4530ffcc21a6c6b2bbe0a8b66"
+      "values_digest": "94b6ba288534d9cafc211b0a5e5991f66ea23ef79e7325a2656955f9256e7f6e",
+      "rendered_digest": "a0d7674c9dd2ac7efc9823b929aee150d282bb07e160a4983a0e16d0803f4602",
+      "ast_digest": "f0ab0fde53a2b0b53bc62f0f2db97e89f140963d84030a008544cd3c8d22a4c4"
     },
     "sor": {
-      "values_digest": "076725214f53fc9b0bb55e0b687b25a372e68489229d2dee89b750f95181ec74",
-      "rendered_digest": "ad6d2c43d978e5f4c7880993210808e462014a2244bc0288a5aa907537378255",
-      "ast_digest": "da503394a11ae953175f5ea1e4928d04a433550fe5ac729dbc98e326a011769b"
+      "values_digest": "36c1921a30cd187bb2eb4344936636d774593ff72c81d982a6e1447a655d1b06",
+      "rendered_digest": "4a6e500403a15a87ae9634acee348b798cc51b8df342763bf00bfe3b3dd7b571",
+      "ast_digest": "d32cf0bd4834791528ef0bf08c49729d915aa4ee291206a268316d67a06ee56c"
     }
   },
   "transitions": [
@@ -151,6 +103,13 @@
       "to": "published",
       "actor": "codex:/root",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover published review authority after the operator-requested substantive final v0.92 README rewrite at commit 68954fd8a0d242db3c0917c765b0ff1b81e32765; require fresh exact-head review before republishing PR #469."
     }
   ],
   "audit": [
@@ -349,6 +308,20 @@
       "actor": "codex:/root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 29,
+      "generation": 25,
+      "actor": "codex:/root",
+      "reason": "Recover published review authority after the operator-requested substantive final v0.92 README rewrite at commit 68954fd8a0d242db3c0917c765b0ff1b81e32765; require fresh exact-head review before republishing PR #469.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 25,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
     }
   ]
 }

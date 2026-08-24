@@ -18,6 +18,6 @@ Supporting entrypoints:
 - [Documentation review packet](../../../reviews/v0.92/docs-release-truth-312/review-packet.md)
 - [Release-truth diff](../../../reviews/v0.92/docs-release-truth-312/release-truth-diff.md)
 
-The milestone documentation package is complete. The independent handoff still
+The engineering milestone and documentation package are complete. The independent handoff still
 requests findings and does not manufacture external approval, public-deployment
 authority, legal status, consciousness claims, or later-milestone completion.

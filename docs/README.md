@@ -41,9 +41,9 @@ Use this index to find the right source of truth quickly.
 ## Demo and Tooling Surfaces
 
 - Canonical demo index: `../demos/README.md`
-- Active milestone demo matrix: `milestones/v0.92/DEMO_MATRIX_v0.92.md`
-- Active feature-proof coverage: `milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md`
-- Active quality gate plan: `milestones/v0.92/QUALITY_GATE_v0.92.md`
+- v0.92 demo matrix: `milestones/v0.92/DEMO_MATRIX_v0.92.md`
+- v0.92 feature-proof coverage: `milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md`
+- v0.92 quality record: `milestones/v0.92/QUALITY_GATE_v0.92.md`
 - Retained completed demo matrix: `milestones/v0.91.8/DEMO_MATRIX_v0.91.8.md`
 - Editor/tooling demo surfaces: `tooling/editor/README.md`
 

@@ -15,6 +15,12 @@ Rows marked `accepted` are the only rows that may support downstream quality or
 release gates. Rows marked `blocked_with_evidence`, `deferred_non_claim`, or
 `planned` are explicit non-claims.
 
+The table is the pre-#467 fail-closed index retained for provenance. #467 owns
+its canonical evidence hydration and downstream gate interpretation. The v0.92
+engineering milestone is complete independently of external publication, and
+Unity/broader Observatory work remains later/backlog outside the landed HTML
+consumer slice.
+
 ## Artifact Index
 
 | Row | Owner | Surface | Status | Exact revision | Positive artifact | Negative artifact | Review state | Command | Notes |

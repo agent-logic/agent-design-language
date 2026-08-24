@@ -15,19 +15,30 @@ asynchronous bookkeeping and never gate #312.
 ## Canonical denominator
 
 The standard document set is not maintained by an ad hoc list. It is the exact
-union of:
+case-insensitive, sorted, unique union of:
 
-1. `README.md`, `CHANGELOG.md`, `AGENTS.md`, `REVIEW.md`, `docs/README.md`,
+1. every tracked file whose basename is `README.md`, including root,
+   `docs/README.md`, and `adl/README.md`;
+2. `CHANGELOG.md`, `AGENTS.md`, `REVIEW.md`,
    `docs/planning/ADL_FEATURE_LIST.md`, and `csdlc-v2/AGENTS.md`;
-2. every tracked regular file under `docs/milestones/v0.92/`, including every
+3. every tracked regular file under `docs/milestones/v0.92/`, including every
    feature document, the canonical inventory, review index, and third-party
    review handoff; and
-3. every tracked `SKILL.md` under `csdlc-v2/operator/skills/`.
+4. every tracked `SKILL.md` under `csdlc-v2/operator/skills/`, plus the current
+   ADR navigation indexes at `docs/adr/README.md`,
+   `docs/architecture/adr/README.md`, and
+   `docs/architecture/adr/V092_ADR_INDEX_143.md`.
 
-The issue-owned validator regenerates this set from Git, requires exactly one
-inventory row per path, rejects missing, duplicate, extra, ambiguous, or
-machine-local entries, and validates JSON, YAML, Markdown links, command truth,
-redaction, ownership, and claim evidence.
+The issue-owned validator regenerates this set from Git. The external-review
+inventory has exactly one row for every current release-truth document; the
+independent `.csdlc/evidence/312/readme-paths.txt` manifest covers the complete
+repository-wide README denominator without duplicating historical README rows
+into the review-input inventory. The validator compares both derived sets with
+Git and rejects missing, duplicate,
+extra, stale, ambiguous, or machine-local entries. JSON and YAML syntax plus
+Markdown local links are validated for current v0.92 and current navigation
+surfaces. Historical README files are denominator members but are not all
+content-rewrite targets for #312.
 
 ## Candidate reconciliation
 

@@ -60,7 +60,7 @@ ADL's v0.92 milestone is framed as the planned first true Gödel-agent birthday.
 
 Starting a process is not a birthday. Restoring a snapshot is not a birthday. Assigning a name to a test citizen is not a birthday.
 
-The planned event requires identity architecture, continuity evidence, grounded memory, a capability envelope, inherited governance context, witnesses, and a reviewable receipt. At the time of this draft, v0.92 remains active development, so the birthday is not presented here as accomplished.
+The engineering event requires identity architecture, continuity evidence, grounded memory, a capability envelope, inherited governance context, witnesses, and a reviewable receipt. v0.92 engineering is complete, but this article does not itself authorize or make a public birthday announcement.
 
 Nor would such an event prove consciousness, legal personhood, or unrestricted autonomy. It would prove a more specific engineering claim: that an identity-bearing agent crossed a declared, witnessed, evidence-backed runtime boundary.
 

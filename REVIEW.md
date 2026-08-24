@@ -21,7 +21,7 @@ The reviewer should not audit ADL against a frozen abstract standard alone. The 
 
 ## Current Review Entry Point
 
-For the active v0.92 development review, start with:
+For the completed v0.92 milestone review, start with:
 
 - `docs/milestones/v0.92/CANONICAL_DOC_INVENTORY_v0.92.md`
 - `docs/milestones/v0.92/review/THIRD_PARTY_REVIEW_HANDOFF_v0.92.md`
@@ -91,9 +91,11 @@ minimum, inspect and update every applicable item in this checklist:
 Tail closeout docs review is complete only when this surface has either been
 updated, confirmed current, or explicitly ruled not applicable with evidence.
 
-The current review posture is v0.92 active development. Review each v0.92
-outcome against its owning issue and current exact revision; activation of the
-milestone package is not evidence that planned features are complete.
+The current review posture is the completed v0.92 engineering milestone.
+Review each outcome against its owning issue, exact merged revision, retained
+validation, and claim boundary. Milestone completion does not convert external
+publication, legal status, consciousness, public deployment, or later-version
+work into completed v0.92 claims.
 
 The retained v0.91.8 posture completed its review and handoff bridge. WP-16
 merged at `2e9d2dd7c`; its evidence records 67 audited issue outcomes, 0
@@ -103,7 +105,8 @@ first-pass internal review is closed through PR `#5781`. The final second pass
 closed through PR `#5799`, reviewed head `70f4e765`, and merge commit
 `1b1ba999`. WP-19 `#5357`, WP-20 `#5363`, WP-21 `#5362`, handoff `#5352`,
 WP-21A `#5355`, WP-22 `#5359`, and WP-23 `#5348` are closed. Their retained
-artifacts are upstream evidence for v0.92, not proof that v0.92 work is done.
+artifacts are upstream evidence consumed by v0.92, not substitutes for the
+milestone's own implementation and review evidence.
 
 The canonical packet for WP-19 is
 `docs/milestones/v0.91.8/review/THIRD_PARTY_REVIEW_HANDOFF_v0.91.8.md`.
@@ -121,8 +124,8 @@ Important active non-claims:
   non-claims; it is not a default validation requirement for this docs review.
 - Mocks, seams, docs, and component tests count as prerequisites, not as
   product/runtime feature completion.
-- v0.92 activation consumes the reviewed v0.91.8 bridge, not v0.91.7 handoff
-  prose as direct approval.
+- v0.92 consumed the reviewed v0.91.8 bridge; v0.91.7 handoff prose was not
+  direct approval.
 
 For historical v0.91.5 Sprint 4 release-tail review, start with:
 

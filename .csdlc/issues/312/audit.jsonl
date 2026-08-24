@@ -26,3 +26,5 @@
 {"sequence":26,"generation":22,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":27,"generation":23,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":28,"generation":24,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":29,"generation":25,"actor":"codex:/root","reason":"Recover published review authority after the operator-requested substantive final v0.92 README rewrite at commit 68954fd8a0d242db3c0917c765b0ff1b81e32765; require fresh exact-head review before republishing PR #469.","operation":"recover_review"}
+{"sequence":30,"generation":25,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}

@@ -2,7 +2,7 @@
 
 ## Verdict
 
-**Accept for series review, gated by WP-23.** The article synthesizes the series and roadmap while clearly stating that v0.92 remains active development.
+**Accept for series review, external publication gated.** The article synthesizes the series and roadmap while clearly separating completed v0.92 engineering from operator-authorized external publication and later product work.
 
 ## Editorial Checks
 

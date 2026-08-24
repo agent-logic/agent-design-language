@@ -15,7 +15,7 @@
       "owner": "WP-23/#312",
       "status": "external_review_input",
       "evidence_source": "candidate file SHA-256",
-      "evidence_sha256": "5007415a4220675f27919a7a20b863804f921ff10a8337faba3ef05921e7dc50",
+      "evidence_sha256": "396fe87d5faba9b46c9217ef2881a55daa1c643b2cb4bb25a3d16418463dc93f",
       "required_action": "independent findings-first review"
     },
     {
@@ -31,7 +31,15 @@
       "owner": "WP-23/#312",
       "status": "external_review_input",
       "evidence_source": "candidate file SHA-256",
-      "evidence_sha256": "49ea82051184275d9d010e0d45a19913b3b08d21115c042843da3f16701377ef",
+      "evidence_sha256": "0cbdeb037c8973372d5ce256d7e04e59a7acd1b0e2245499a05652717d7c0a4d",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "adl/README.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "389570f0a0d0c9fd4b38eb20cc120e13452dcc578979507809ab5106270e1d75",
       "required_action": "independent findings-first review"
     },
     {
@@ -135,7 +143,31 @@
       "owner": "WP-23/#312",
       "status": "external_review_input",
       "evidence_source": "candidate file SHA-256",
-      "evidence_sha256": "5ebbe80d2df3f62d538512ba31a0f2701be462541e90e39aeefb5ce8af6d7e57",
+      "evidence_sha256": "a523b50222cd1dfc989203eac618823edf8404256e5b95dba683c2555b514171",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/adr/README.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "8a75f6756ced94877070f34d36ac1f8b8bfc18bbb6aacaa3c70e2f1c33348d44",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/architecture/adr/README.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "a0e0b1632b1a05c47589c73b9a05659505809d3f103ebe6003f0c5cd80140b85",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/architecture/adr/V092_ADR_INDEX_143.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "20de20baa68d5842fac3b04b2f125250aff159dbc922e4c56d1b3034fe627745",
       "required_action": "independent findings-first review"
     },
     {
@@ -167,7 +199,7 @@
       "owner": "WP-23/#312",
       "status": "external_review_input",
       "evidence_source": "candidate file SHA-256",
-      "evidence_sha256": "31eb13ad6d6d89d8f9f92d8116583021ee4cd01acad3396620c5604ae087a044",
+      "evidence_sha256": "da3e8e3605923529675998401ac4dbb773d3000c56eb8e7833dec29ed041065e",
       "required_action": "independent findings-first review"
     },
     {
@@ -207,7 +239,7 @@
       "owner": "WP-23/#312",
       "status": "external_review_input",
       "evidence_source": "candidate file SHA-256",
-      "evidence_sha256": "3bb367aa604e9dab5b1504e1789b015345f7d052d616e6784a395fdaba470a73",
+      "evidence_sha256": "6080351d2851718f49976a0ca68656944feac4b61277fa80afbe382f72bb241c",
       "required_action": "independent findings-first review"
     },
     {
@@ -215,7 +247,7 @@
       "owner": "WP-23/#312",
       "status": "external_review_input",
       "evidence_source": "candidate file SHA-256",
-      "evidence_sha256": "26f10d89434a60a081d2acfd748afc3bb689ec0ddea4cd7a52e52fcccee517fb",
+      "evidence_sha256": "1476cdf8ed14076852630afa82ac87210f7fdeb89adfca2f8b7743e8021741a3",
       "required_action": "independent findings-first review"
     },
     {
@@ -239,7 +271,7 @@
       "owner": "WP-23/#312",
       "status": "external_review_input",
       "evidence_source": "candidate file SHA-256",
-      "evidence_sha256": "c71321ce7d6daec6dc2feb38e97388032bcdae9d1f69969f277fe823f30e5cb4",
+      "evidence_sha256": "f70435df2fc2633e2dc01c987911078c98308dbd42cb310e63d6e85b4a399c8a",
       "required_action": "independent findings-first review"
     },
     {
@@ -247,7 +279,7 @@
       "owner": "WP-23/#312",
       "status": "external_review_input",
       "evidence_source": "candidate file SHA-256",
-      "evidence_sha256": "6a312ab33066724e21e08e3a2660ebd4fc47c0cef0dba23d1ccf8a2c42f7ce83",
+      "evidence_sha256": "ac84533b597b6a2ca7d56c0be33c03f211865d489aefd3afeea914a2155a43f7",
       "required_action": "independent findings-first review"
     },
     {
@@ -255,7 +287,7 @@
       "owner": "WP-23/#312",
       "status": "external_review_input",
       "evidence_source": "candidate file SHA-256",
-      "evidence_sha256": "49213677e96b873fc8a29105989ffa844db884493c1610fc7896e0b0373a265e",
+      "evidence_sha256": "8582b87247abbb11be62cdd20dfd36b8bcd30224e56bdf4fb23ca0bd72d982e4",
       "required_action": "independent findings-first review"
     },
     {
@@ -263,7 +295,7 @@
       "owner": "WP-23/#312",
       "status": "external_review_input",
       "evidence_source": "candidate file SHA-256",
-      "evidence_sha256": "dfc23e4ee3ad9da25ebc5f58bfffedad4772ba1d65a90453434e072aceaee54c",
+      "evidence_sha256": "faf7d0597214653aa6613a2f4c07fe965f509ab52553ad58865c7967c8c70d8d",
       "required_action": "independent findings-first review"
     },
     {
@@ -287,7 +319,7 @@
       "owner": "WP-23/#312",
       "status": "external_review_input",
       "evidence_source": "candidate file SHA-256",
-      "evidence_sha256": "4182fb514287b165a379b5c1f31fd1dc8985dd66bc9f33150d156e0d7628d62d",
+      "evidence_sha256": "7356cdd00d034ae74589846ef3cc74657cf106f520fcafd7f4b5688610e2f87d",
       "required_action": "independent findings-first review"
     },
     {
@@ -303,7 +335,7 @@
       "owner": "WP-23/#312",
       "status": "external_review_input",
       "evidence_source": "candidate file SHA-256",
-      "evidence_sha256": "9fbce00ebc9798870419360ee2125e1a34f11e0faed5aa10d3377cea02910902",
+      "evidence_sha256": "db220a14db6ffd145a39a2f18e53a435b567b7569a1a5a276c40a28c39ac45be",
       "required_action": "independent findings-first review"
     },
     {
@@ -455,7 +487,7 @@
       "owner": "WP-23/#312",
       "status": "external_review_input",
       "evidence_source": "candidate file SHA-256",
-      "evidence_sha256": "68f2bb7092c1d5b1fddefad85955bb50db31dd28368f2de974325bf4c38bbd64",
+      "evidence_sha256": "91876243ff5678d3fd1c147b7c60558bac9c1359c2de8ef646cb6b4b703fbfab",
       "required_action": "independent findings-first review"
     },
     {
@@ -463,7 +495,7 @@
       "owner": "WP-23/#312",
       "status": "external_review_input",
       "evidence_source": "candidate file SHA-256",
-      "evidence_sha256": "d8fa846a243a487d0f51bbcb9d954474e81b6bd6a6b4109ed9ca3e6b1e42699a",
+      "evidence_sha256": "f89d341c7e5974855eb4250b3ed8f9ce1889be2e78c069d22c4e8bb0b17bd5f2",
       "required_action": "independent findings-first review"
     },
     {
@@ -503,7 +535,7 @@
       "owner": "WP-23/#312",
       "status": "external_review_input",
       "evidence_source": "candidate file SHA-256",
-      "evidence_sha256": "5a55b1a9194272e55e184c91419b430b4defc06675c337bb20253170e8552145",
+      "evidence_sha256": "99e904f54abb2da30f84085dfe55fb3bba978ed6f157d171980eae57328045b4",
       "required_action": "independent findings-first review"
     },
     {
@@ -671,7 +703,7 @@
       "owner": "WP-23/#312",
       "status": "external_review_input",
       "evidence_source": "candidate file SHA-256",
-      "evidence_sha256": "9a693546f68bd20d8f6c9686510c5380c7f2a84e250101696bef51f163c7ea1d",
+      "evidence_sha256": "5863c6669cf0636d3e0e1c23e936ef49fa5174e897cb7df7a053b698a370399c",
       "required_action": "independent findings-first review"
     },
     {
@@ -679,7 +711,7 @@
       "owner": "WP-23/#312",
       "status": "external_review_input",
       "evidence_source": "candidate file SHA-256",
-      "evidence_sha256": "d9cf7e8796a3f62b38160f77fb8df19be31b78b8c6b5dca1b7781d9697b84094",
+      "evidence_sha256": "9e243a53ce7f49d15c6dc2b57c3aadca5566a8f32c0a7ffbea85ca7016418075",
       "required_action": "independent findings-first review"
     },
     {
@@ -703,7 +735,7 @@
       "owner": "WP-23/#312",
       "status": "external_review_input",
       "evidence_source": "candidate file SHA-256",
-      "evidence_sha256": "35e670a1058fbba38bd57617ff76a56e0f0c17c4b91ff0b0e7d6a8410122fbbe",
+      "evidence_sha256": "06e216ab872c66bbf6df22f480265273b6ff5254598f55cc56f8e9d9b69fc0fc",
       "required_action": "independent findings-first review"
     },
     {
@@ -719,7 +751,7 @@
       "owner": "WP-23/#312",
       "status": "external_review_input",
       "evidence_source": "candidate file SHA-256",
-      "evidence_sha256": "eaaeb8a76d2268e163ae89843eab36e2b6e95a02c8fa9b2b1e0db3bef0c533c4",
+      "evidence_sha256": "5a831ae3b1c782b860dff4b27f020e24f10d60ecf3f149569b412f11ed436b61",
       "required_action": "independent findings-first review"
     },
     {
@@ -735,7 +767,7 @@
       "owner": "WP-23/#312",
       "status": "external_review_input",
       "evidence_source": "candidate file SHA-256",
-      "evidence_sha256": "0f6f43de720835270528d7b0878287a0f5fb3963eaaec5af217f5e4bad6d430c",
+      "evidence_sha256": "89f739da21a1f04f6ab65f3e25d3655e30dd1e2b95b17373d0caf9e7f77e79df",
       "required_action": "independent findings-first review"
     },
     {
@@ -743,7 +775,7 @@
       "owner": "WP-23/#312",
       "status": "external_review_input",
       "evidence_source": "candidate file SHA-256",
-      "evidence_sha256": "89173f47607d0d81ff8e8d801d6435dcc7e234f15d996cd8203adedc013e6419",
+      "evidence_sha256": "fd39fc3c724b9519e98022dc7e605b4ac691b1ecb49345bc426df5801310dd3d",
       "required_action": "independent findings-first review"
     },
     {
@@ -759,7 +791,7 @@
       "owner": "WP-23/#312",
       "status": "external_review_input",
       "evidence_source": "candidate file SHA-256",
-      "evidence_sha256": "cd38928dfcffc88a523d3fa5c4a21627e825602b42316430f7699b327b006e35",
+      "evidence_sha256": "acde666122e41e9d52a780cb1aa31b48279d78aedb3e8ba57d8d0d9fac4954c7",
       "required_action": "independent findings-first review"
     },
     {
@@ -767,7 +799,7 @@
       "owner": "WP-23/#312",
       "status": "external_review_input",
       "evidence_source": "candidate file SHA-256",
-      "evidence_sha256": "17f071def2b03a8c1b6c31916565e83499bb0d3dc6c9252eef956e6a609b55c9",
+      "evidence_sha256": "1dc15bc7f6a3abadfa9dfc24f7e8a42e1d5cd14cd4c1d711b3b7605d18c0558f",
       "required_action": "independent findings-first review"
     },
     {
@@ -799,7 +831,7 @@
       "owner": "WP-23/#312",
       "status": "external_review_input",
       "evidence_source": "candidate file SHA-256",
-      "evidence_sha256": "d2347038a7bfd27e9eaa9602d6b8d5f9d8368d443abaacbc58df83cb765302bf",
+      "evidence_sha256": "48836716c444dbe47cc2a60ad55a7de892d759863d7a3028d6d2ee1aaf277878",
       "required_action": "independent findings-first review"
     }
   ]

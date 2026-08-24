@@ -52,6 +52,20 @@ cases << rejected?(script, "structure-handoff", "ADL_DOC_HANDOFF" => path)
 
 cases << rejected?(script, "unknown")
 
+readme_manifest = ".csdlc/evidence/312/readme-paths.txt"
+readmes = File.readlines(readme_manifest, chomp: true)
+File.write(readme_manifest, readmes.drop(1).join("\n") + "\n")
+cases << rejected?(script, "packet")
+File.write(readme_manifest, readmes.join("\n") + "\n")
+
+File.write(readme_manifest, (readmes + ["stale/README.md"]).join("\n") + "\n")
+cases << rejected?(script, "packet")
+File.write(readme_manifest, readmes.join("\n") + "\n")
+
+File.write(readme_manifest, (readmes + [readmes.first]).join("\n") + "\n")
+cases << rejected?(script, "packet")
+File.write(readme_manifest, readmes.join("\n") + "\n")
+
 scope_path = "docs/milestones/v0.92/unexpected-scope-file.txt"
 File.write(scope_path, "unexpected\n")
 cases << rejected?(script, "structure-handoff")

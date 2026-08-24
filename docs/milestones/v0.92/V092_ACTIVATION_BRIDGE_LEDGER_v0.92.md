@@ -4,9 +4,9 @@
 
 Tracked activation consumption ledger for issue `#3780`.
 
-This document refreshes the `v0.92` activation and first-birthday planning
-surface after the pre-`v0.92` implementation/proof path was created. It is not activation
-evidence, release evidence, or a claim that `v0.92` is ready to execute.
+This document retains the activation inputs consumed by the completed v0.92
+engineering milestone. It is a provenance and boundary ledger, not standalone
+activation evidence or external-publication authority.
 
 v0.91.8 WP-21 issue `#4759` now supplies the activation bridge consumed by this
 ledger:
@@ -16,10 +16,10 @@ That bridge consumes the WP-14A platform acceptance ledger at
 and routes every activation input to accepted evidence, a named WP-21 owner, an
 explicit blocker, or a non-claim.
 
-Current verdict: `v0.92` activation remains blocked until the `v0.91.6` and
-`v0.91.7` readiness, implementation, and integrated-proof tranches produce
-reviewed evidence, decision records, or explicit evidence-backed blockers for
-every required surface below.
+Current verdict: the engineering milestone consumed or explicitly dispositioned
+the activation inputs below. #467 owns final canonical evidence hydration;
+external publication remains separately authorized. Unity and broader
+Observatory product work remain later/backlog outside the landed HTML slice.
 
 ## Purpose
 
@@ -240,11 +240,10 @@ When this ledger is updated:
 
 ## Current Verdict
 
-Every named activation surface is accounted for, but activation remains blocked
-until each required row is integrated_proven, operator-scoped-out with evidence,
-or blocked_with_evidence and operator approval. `v0.92` can use this ledger as
-a consumption map only after upstream work produces reviewed evidence or
-explicit blockers.
+Every named activation surface is accounted for as a consumed input,
+evidence-backed disposition, or explicit non-claim. This retrospective ledger
+does not replace the #467-owned canonical gate result and does not authorize
+external publication.
 
 ## WP-20 Demo / AEE Proof Coverage Consumption
 

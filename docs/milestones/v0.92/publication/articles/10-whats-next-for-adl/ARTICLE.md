@@ -22,7 +22,7 @@ The word “birthday” is intentionally stronger than “startup.” The planne
 
 Earlier work can create test citizens, snapshots, wake records, and persistent processes. Those are prerequisites, not substitutes for the event.
 
-At the time of this article packet, v0.92 remains active development and release readiness is not claimed. Its work packages are dependency-gated and issue-owned. The birthday belongs in a future evidence record, not in anticipatory copy.
+At the time of this closeout revision, v0.92 engineering is complete. External release readiness and a public birthday announcement are not claimed: those remain evidence- and operator-gated. Unity and broader Observatory product work remain later/backlog rather than shipped v0.92 scope.
 
 ## Learning without hidden mutation
 

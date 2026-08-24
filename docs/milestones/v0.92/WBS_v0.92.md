@@ -6,17 +6,17 @@
 - Version: `v0.92`
 - Date: `2026-08-04`
 - Owner: ADL maintainers
-- Status: active WP sequence opened by `v0.92` WP-01
+- Status: completed engineering allocation; retrospective closeout
 - Related issues: `#3377`, `#3434`, `#5359`, `#5765`
 - Planning template set: `docs/templates/planning/1.0.0`
 
 ## Status
 
-Active allocation. WP-01 reconciled the completed v0.91.8 release package, the
-reviewed TBD input dispositions from `#5359`, the AEE completion tranche, and
-`#3377`, then opened the GitHub issue wave and initialized all six C-SDLC cards
-for every child issue. Closed issue `#3434` is retained only as the historical
-v0.92 planning-document preparation input; it is not active milestone work.
+Retrospective allocation. The table records the engineering work decomposition,
+not current execution state. The v0.92 engineering milestone is complete;
+merged issue/PR evidence and typed terminal records supersede the original
+forward-looking wording. WP-23/#312 reconciles documentation truth, while #467
+owns the final canonical feature-proof, gate, and readiness hydration.
 
 ## How To Use
 
@@ -25,7 +25,7 @@ remain execution authority; this document defines milestone allocation.
 
 ## WBS Summary
 
-v0.92 should harden the execution substrate and develop the identity,
+v0.92 hardened the execution substrate and developed the identity,
 continuity, and first-birthday layer without stealing work from citizen-state,
 moral-trace, or constitutional-governance milestones.
 
@@ -74,7 +74,7 @@ moral-trace, or constitutional-governance milestones.
 | WP-16 | Birthday review packet | Assemble identity, continuity, memory, capability, profile, protocol, witness, and moral context into one review surface. | Reviewer packet and fixture. | WP-08 through WP-15. |
 | WP-17 | Migration and cross-polis continuity planning | Define birthday-identity movement semantics without duplicating WP-04 infrastructure implementation. | Cross-polis continuity feature note, design note, and non-goals. | WP-09, WP-10, WP-16. |
 | WP-18 | First birthday demo | Build a flagship demo showing a real birthday record and negative cases. | Runnable proof demo and artifacts. | WP-08 through WP-16. |
-| WP-18A | Observatory/Unity consumer integration | Integrate the separate Observatory and Unity consumers with the versioned Runtime API and WSS surfaces. | Working consumer integration and compatibility proof without moving UI code into Runtime. | WP-03, WP-14, WP-18. |
+| WP-18A | Observatory/Unity consumer integration | Deliver the bounded HTML Observatory consumer slice that landed; route Unity and broader Observatory product work to backlog or later scheduling. | Landed HTML Runtime restart/consumer integration without claiming Unity delivery. | WP-03, WP-14, WP-18. |
 | WP-18B | Provider-neutral multi-agent proof | Prove the birthday/runtime contract across multiple providers without provider-specific success substitutions. | Provider-neutral multi-agent proof matrix, artifacts, and negative cases. | WP-14, WP-16, WP-18. |
 | WP-19 | Birthday-to-governance handoff | Produce the evidence map v0.93 governance will consume. | Handoff packet mapping identity evidence to governance and ADR-plan updates. | WP-16, WP-17, v0.93 allocation. |
 | WP-20 | Demo matrix, AEE proof, and proof coverage | Align demos and AEE proof expectations with milestone claims. | Demo matrix, AEE proof routing or packet, commands, artifacts, and validation notes. | WP-18, WP-18A, WP-18B, WP-19. |

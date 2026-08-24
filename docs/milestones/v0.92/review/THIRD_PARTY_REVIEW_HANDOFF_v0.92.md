@@ -7,7 +7,7 @@
 - Packet status: ready for exact-revision findings review after the Send Gate
 - Release approval claimed: false
 - External review completed: false
-- Quality-gate result entering review: blocked, 33/33 rows blocked
+- Quality-gate result entering review: use the exact #467-owned canonical result
 - Cloud, AWS, deployment, or paid-runner action required: false
 
 ## Send Gate
@@ -98,10 +98,13 @@ git diff --check origin/main...HEAD
 
 ## Known Blockers and Residual Risk
 
-- WP-22/#311 is structurally validated but blocked: all 33 evidence rows are
-  blockers and downstream unlock is false.
-- #467 is repairing quality-gate evidence hydration in parallel. Only a merged,
-  reviewed exact revision may change this packet's claim state.
+- The v0.92 engineering milestone is complete, but that status does not bypass
+  the canonical evidence gate or authorize external publication.
+- #467 is repairing quality-gate evidence hydration in parallel. Only its
+  merged, reviewed exact revision may update the three canonical proof/gate/
+  readiness surfaces; reviewers must not infer their result from this handoff.
+- Unity and broader Observatory product work are later/backlog non-claims; the
+  landed HTML consumer slice must not be expanded into a Unity delivery claim.
 - Any feature without canonical merged implementation, review, and relevant
   positive/negative/integration/platform proof remains blocked or non-claimed.
 - Concurrent producer merges can stale the corpus; the send gate requires a

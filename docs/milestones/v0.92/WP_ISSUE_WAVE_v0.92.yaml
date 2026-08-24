@@ -1,5 +1,5 @@
 milestone: v0.92
-status: cards_initialized
+status: engineering_complete_documentation_closeout
 owner_issue: 5817
 planning_review_issue: 5359
 first_birthday_readiness_issue: 3377
@@ -7,6 +7,10 @@ planning_source: docs/milestones/v0.92
 tracked_package: docs/milestones/v0.92
 notes:
   - v0.92 is the first true Godel-agent birthday milestone on a hardened execution substrate.
+  - The issue and sprint allocations below are retained as the historical execution map; merged issue/PR evidence and typed terminal records are delivery authority.
+  - The engineering milestone is complete. WP-23 issue 312 reconciles documentation truth, and issue 467 separately owns canonical feature-proof, quality-gate, and execution-readiness hydration.
+  - Unity and broader Observatory product work not covered by the landed HTML consumer slice are backlogged or scheduled later and do not gate engineering completion.
+  - External publication remains separately operator-authorized.
   - This file records the opened GitHub work-package issue wave and its live issue-number mapping.
   - WP-01 updates canonical docs and consumes the final v0.91.8 release package, the activation-test map, AEE completion evidence, issue 3377, and WP-22 planning dispositions before opening the wave.
   - WP-02 creates five verified Agent Logic destination copies while preserving all seven personal-account sources unchanged before substantive milestone work begins.

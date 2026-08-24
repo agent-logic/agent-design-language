@@ -2,18 +2,19 @@
 
 All notable project-level changes are summarized here by milestone/release.
 
-## v0.92 (Active development and review milestone)
+## v0.92 (Completed engineering milestone)
 
-Status: Active and not release-approved. The canonical package lives under
-`docs/milestones/v0.92/`.
+Status: Completed. The canonical package and retained proof live under
+`docs/milestones/v0.92/`. External publication remains a separate operator
+decision.
 
-Current state:
-- The WP-22 quality packet is structurally valid but reports 33 of 33 feature
-  rows blocked and downstream release unlock false.
-- WP-23 is converging the canonical documentation set and preparing a
-  context-free third-party review handoff.
-- Documentation review, handoff preparation, and external review are distinct
-  gates. None substitutes for feature implementation or release approval.
+Delivered state:
+- Runtime, continuity, identity, memory-grounding, capability, witness, and
+  birthday-boundary work landed through the issue-owned v0.92 wave.
+- The milestone retains its canonical quality, review, validation, and
+  third-party handoff surfaces for exact-revision inspection.
+- Documentation completion and engineering completion do not silently grant
+  external publication authority.
 - Legal personhood, production citizenship, consciousness, completed v0.93
   governance, and future-version delivery remain non-claims.
 

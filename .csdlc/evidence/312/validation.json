@@ -1,13 +1,18 @@
 {
   "schema": "adl.v0.92.doc_release_truth_validation.v1",
   "issue": 312,
-  "status": "passed",
+  "status": "blocked",
   "base_commit": "035b249096c6a27a6e40af9435d6df8e35090000",
-  "canonical_paths": 100,
-  "inventory_sha256": "73cca2511acaa26a699d65f27b9efdd8893ce9f3c062e22b14d5defe9d56130c",
+  "canonical_paths": 322,
+  "tracked_readmes": 228,
+  "v092_paths": 82,
+  "skill_manifests": 11,
+  "adr_indexes": 3,
+  "inventory_rows": 104,
+  "inventory_sha256": "d4e07fad679331a761bce200c8181582632302167f952ea67aa1b83f52de1bb0",
   "lanes": {
-    "packet": "passed",
-    "negative_cases": 8,
+    "packet": "blocked_inventory_digest_drift",
+    "negative_cases": 11,
     "structure_handoff": "passed",
     "diff_hygiene": "passed"
   },
