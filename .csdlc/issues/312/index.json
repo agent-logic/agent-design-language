@@ -3,13 +3,64 @@
   "issue": 312,
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "46884bdf9e572fbe3baf39b1d90c72846bae8925cfb257bad84ce19bef406b8b",
-  "phase": "implemented",
-  "generation": 22,
-  "digest": "03e39365f507a5f71291adaefad3195f96ad50bed9d1bcbf3d7ad0f050e4722b",
+  "phase": "reviewed",
+  "generation": 23,
+  "digest": "765e67079bfcded4443d8a6cf469c9d6ef89946f192de7e392c7ab70bb8194c0",
   "branch": "codex/312-v092-doc-review-external-handoff",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-312-v092-doc-review-external-handoff",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:bc3530df-de21-48d0-9cba-2af905fa92f1",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:0b30820fd3c84a1a52374a51668506bb553d95e3:cf1bd090f42b99210ea20e39b6f05c90c56de1bc967fba090aaadf99d21a8fdc",
+    "scope": [
+      ".csdlc/issues/312",
+      ".csdlc/prepared/issues/312",
+      ".csdlc/evidence/312",
+      "CHANGELOG.md",
+      "README.md",
+      "REVIEW.md",
+      "docs/README.md",
+      "docs/milestones/v0.92/CANONICAL_DOC_INVENTORY_v0.92.md",
+      "docs/milestones/v0.92/MILESTONE_CHECKLIST_v0.92.md",
+      "docs/milestones/v0.92/QUALITY_GATE_v0.92.md",
+      "docs/milestones/v0.92/README.md",
+      "docs/milestones/v0.92/RELEASE_NOTES_v0.92.md",
+      "docs/milestones/v0.92/SPRINT_v0.92.md",
+      "docs/milestones/v0.92/V092_DOCS_PREP_DOGFOOD_NOTES.md",
+      "docs/milestones/v0.92/WBS_v0.92.md",
+      "docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml",
+      "docs/milestones/v0.92/review",
+      "docs/reviews/v0.92/docs-release-truth-312"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:bc3530df-de21-48d0-9cba-2af905fa92f1",
+    "scope": [
+      ".csdlc/issues/312",
+      ".csdlc/prepared/issues/312",
+      ".csdlc/evidence/312",
+      "CHANGELOG.md",
+      "README.md",
+      "REVIEW.md",
+      "docs/README.md",
+      "docs/milestones/v0.92/CANONICAL_DOC_INVENTORY_v0.92.md",
+      "docs/milestones/v0.92/MILESTONE_CHECKLIST_v0.92.md",
+      "docs/milestones/v0.92/QUALITY_GATE_v0.92.md",
+      "docs/milestones/v0.92/README.md",
+      "docs/milestones/v0.92/RELEASE_NOTES_v0.92.md",
+      "docs/milestones/v0.92/SPRINT_v0.92.md",
+      "docs/milestones/v0.92/V092_DOCS_PREP_DOGFOOD_NOTES.md",
+      "docs/milestones/v0.92/WBS_v0.92.md",
+      "docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml",
+      "docs/milestones/v0.92/review",
+      "docs/reviews/v0.92/docs-release-truth-312"
+    ],
+    "reviewed_revision": "git-blake3:0b30820fd3c84a1a52374a51668506bb553d95e3:cf1bd090f42b99210ea20e39b6f05c90c56de1bc967fba090aaadf99d21a8fdc",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,32 +75,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "19f44818d2cd68b4dd8bf6a5ba53bf07356b75cb72285a7d596c5e823c341c18",
+      "values_digest": "c065656bfea50d22e8d08a64328e19ec9fb2f39ec43e2be20b3f93976f9fa0b8",
       "rendered_digest": "44b1ee5dce9397a95bcd16146c6553fea598b25ea0e7ffe5d911a499ff2f3b26",
       "ast_digest": "e4db219fd42ea5082cc3a94b74da8116a3f6b929a4608179972e55d2c1e78032"
     },
     "stp": {
-      "values_digest": "0a983ba8548e159be56523b73408e197ed369d86432d533454276a13ec381a6e",
+      "values_digest": "42b122e13349fa6c1c58eac69a55c3ea950c9f03694d1ca7386706d4df3412c5",
       "rendered_digest": "db7e266a35a81c0d3b3d9881cad8f85bdda43df1a549be6e93d1eef46fbf7572",
       "ast_digest": "e5f8d7540fee5d71ab340455fc130c63fb9dfc6814fc6e8382d5a12b6533ba6b"
     },
     "spp": {
-      "values_digest": "eba33e46aacb945c86452b86e20a916066420fbd0abac2d3da27b04c87e83b76",
+      "values_digest": "bfccc5663d5836b9ba4d1d8e75622229184b23abb036fe0579f8e75de2a37f6f",
       "rendered_digest": "a8f29c6ba6c2267880627353aa6cd10e2891270c6a5129277738c62ebcc4f3f5",
       "ast_digest": "a6f094202c64659c2d3a719ed23c02fa7d0e51272e8d31fcd0311855291c77f9"
     },
     "vpp": {
-      "values_digest": "04d1fe83a2a635adcd5133e190bf38a9e237b554ba8d0203e0680c19ba1618cb",
+      "values_digest": "a2bdfcaeb25ddc2e2aed311a0198b95866aef957d025db316d753220d6b4d995",
       "rendered_digest": "101da4637c35357a44804c7c7a8ece932bfbead0a6669832dfd609dc773661e5",
       "ast_digest": "e68db8cfb20101b3922ac131ec476357509d942734e4f24e1d05f2f0e8482aab"
     },
     "srp": {
-      "values_digest": "e8dd35ccd8d1e452327a374c02a634b974f891ca46bfe8c0b8c1634b97622911",
-      "rendered_digest": "4400ac824fef72eaf0b41cd56f3d48883f71de8415b1418c7bb9e55bc4aa1092",
-      "ast_digest": "35e09df16fc17e14451bc13fdb73b2225401359af0f8bf1db88db2d54299d0f3"
+      "values_digest": "e14243a88fa92c3ab61542365e7cf27a65ff89c33aa3d38fd8ae3c78676d1fe7",
+      "rendered_digest": "b7cb77e51edea50e89d0b53281d2ac081ddcff14d249f7d6c993be2cb0e6e0d7",
+      "ast_digest": "2967210d9d498db6f726b6800762ea3cedd6e3b4530ffcc21a6c6b2bbe0a8b66"
     },
     "sor": {
-      "values_digest": "53036f344eba15eb57e2d68fff88a8c7abc98bacf499e8950002a8601cd98ee5",
+      "values_digest": "dc01f912202b5356dbf0617985d2879e190fc71113e525902d71c89894c0fcbd",
       "rendered_digest": "4a6e500403a15a87ae9634acee348b798cc51b8df342763bf00bfe3b3dd7b571",
       "ast_digest": "d32cf0bd4834791528ef0bf08c49729d915aa4ee291206a268316d67a06ee56c"
     }
@@ -75,6 +126,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -252,6 +310,20 @@
       "actor": "fresh-session:47d01a29-ea74-4c23-9401-29dbaabc4f40",
       "reason": "reapprove changed issue design",
       "operation": "{\"design_digest\":\"e7f82383f3defa2ae7831e643653740ba35b59cc4b6047e91c22afe5a3214de2\",\"design_ref\":\".csdlc/prepared/issues/312/design.md\",\"diagram_digest\":\"62c3c437188b9aeaea5cb8ce36bee48c02db214ab7a5da2929cf15e438469ad4\",\"diagram_ref\":\".csdlc/prepared/issues/312/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 26,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
