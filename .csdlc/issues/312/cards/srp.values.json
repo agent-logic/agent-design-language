@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-23] Docs and release-truth pass",
     "slug": "312-v092-docs-release-truth",
     "version": "v0.92",
-    "generation": 12
+    "generation": 22
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Complete #312 preparation architecture: merge-only predecessor dependencies with no closeout serialization, preservation of #311's blocked result, merged producer incorporation, exact documentation denominator, canonical evidence semantics, current-versus-historical truth boundary, release non-claims, production/negative validation, exact scope, and review packet.",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

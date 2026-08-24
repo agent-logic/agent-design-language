@@ -27,7 +27,7 @@ Revision 3
     "acceptance_ids": [
       "AC-1"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S2",
@@ -36,7 +36,7 @@ Revision 3
       "AC-2",
       "AC-3"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S3",
@@ -46,7 +46,7 @@ Revision 3
       "AC-4",
       "AC-5"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S4",
@@ -54,7 +54,7 @@ Revision 3
     "acceptance_ids": [
       "AC-6"
     ],
-    "status": "pending"
+    "status": "completed"
   },
   {
     "id": "S5",
@@ -95,13 +95,13 @@ Revision 3
 
 .csdlc/prepared/issues/312/design.md
 
-Digest: b4b3ab4c5895c1eebdce79ee345e0ad7556a2dc75bef16ed847a46e7e3c66a73
+Digest: e7f82383f3defa2ae7831e643653740ba35b59cc4b6047e91c22afe5a3214de2
 
 ## Diagram
 
 .csdlc/prepared/issues/312/diagram.mmd
 
-Digest: 6da0387d3af2f813ec2c3c1782ad896cf8a392536978ea1328f65e7eaee09563
+Digest: 62c3c437188b9aeaea5cb8ce36bee48c02db214ab7a5da2929cf15e438469ad4
 
 ## Stop Conditions
 

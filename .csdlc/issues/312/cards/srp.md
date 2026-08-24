@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-Complete #312 preparation architecture: merge-only predecessor dependencies with no closeout serialization, preservation of #311's blocked result, merged producer incorporation, exact documentation denominator, canonical evidence semantics, current-versus-historical truth boundary, release non-claims, production/negative validation, exact scope, and review packet.
+
 
 ## Prompts
 

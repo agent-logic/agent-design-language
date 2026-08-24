@@ -29,15 +29,18 @@ inventory row per path, rejects missing, duplicate, extra, ambiguous, or
 machine-local entries, and validates JSON, YAML, Markdown links, command truth,
 redaction, ownership, and claim evidence.
 
-## Producer reconciliation
+## Candidate reconciliation
 
-The inventory records each current document's owner, merged producer PR, exact
-head and merge revision, evidence source, overlap disposition, and claim state.
-The validator derives producer truth from Git and canonical GitHub observations,
-not caller-authored booleans. Before publication it rescans the candidate base
-and every owned path. Any newly merged overlapping producer either appears in
-the candidate and inventory or fails the lane closed. Administrative closeout
-state is ignored.
+The inventory is a bounded documentation-corpus manifest, not a replacement
+for the product quality gate or a per-document GitHub producer ledger. Each row
+records the review owner, review-input status, evidence source, required action,
+and exact file digest. The validator derives the denominator and changed-path
+set from Git and rejects missing, duplicate, extra, stale, or out-of-scope
+content. Before publication, the candidate is rebased or refreshed when a
+merged producer changed an owned document; the inventory is then regenerated
+from the resulting exact candidate. Product completion and release claims stay
+governed by the canonical #311 packet, which remains blocked 33/33. Typed
+administrative closeout state is ignored.
 
 ## External-review packet
 
@@ -76,6 +79,6 @@ to release, or that an external reviewer approved it. It explicitly preserves
 provider, platform, birthday, privacy, governance, legal, personhood,
 consciousness, and future-version non-claims. Missing product evidence remains
 a blocker or non-claim and is routed to its product owner. #312 stops if #311
-is not merged into the base, the denominator is incomplete, producer overlap is
-unresolved, a claim lacks canonical evidence, exact scope or no-`.adl` guards
+is not merged into the base, the denominator is incomplete, candidate overlap
+is unresolved, the blocked #311 result is misstated, exact scope or no-`.adl` guards
 fail, or documentation truth would require product implementation.

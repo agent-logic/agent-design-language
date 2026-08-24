@@ -126,8 +126,8 @@ Reconcile and validate current documentation truth only; do not implement missin
 ## Acceptance
 
 1. AC-1: #311's exact reviewed green PR is observed merged into the #312 base and its blocked gate result is preserved truthfully, without requiring terminal reconciliation, closeout, or cleanup.
-2. AC-2: A deterministic inventory covers every declared root, v0.92 milestone, feature, ADR, release, launch, skill, and guidance surface exactly once with owner, status, evidence source, and required action.
-3. AC-3: Every current behavior or release claim binds landed implementation, exact review and merge authority, passing proof, and the correct claim boundary; missing authority remains blocked or explicitly non-claimed.
+2. AC-2: A deterministic inventory covers every declared root, v0.92 milestone, feature, ADR, release, launch, skill, and guidance surface exactly once with owner, review-input status, evidence source, required action, and exact digest.
+3. AC-3: Canonical current documents preserve #311's blocked 33/33 result and downstream lock without promoting product or release claims; missing product authority remains blocked or explicitly non-claimed.
 4. AC-4: Stale version, WP, issue, command, link, ownership, and status text is corrected while historical evidence and legacy provenance remain immutable.
 5. AC-5: Release notes and external claims preserve provider, platform, birthday, privacy, governance, legal, personhood, consciousness, and future-version non-claims.
 6. AC-6: Markdown, YAML/JSON, relative links, executable commands, version ownership, evidence references, redaction, no-.adl dependency, exact changed paths, and diff hygiene pass through the production validator and adversarial negatives.

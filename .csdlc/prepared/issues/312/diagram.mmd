@@ -1,7 +1,7 @@
 flowchart LR
   M["#311 reviewed PR merged"] --> B["Pin candidate base"]
   B --> C["Regenerate canonical document denominator"]
-  P["Merged producer revisions"] --> R["Publication-time overlap rescan"]
+  P["Current tracked documents"] --> R["Publication-time candidate rescan"]
   C --> R
   R --> T["Reconcile documentation and release truth"]
   T --> H["Build exact external-review corpus and handoff"]

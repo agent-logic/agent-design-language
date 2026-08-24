@@ -12,19 +12,10 @@ Status: pre_phase
 
 ## Summary
 
-Complete the bounded v0.92 documentation review corpus and prepare its context-free third-party review handoff while preserving the blocked quality result.
+Completed the bounded v0.92 documentation review corpus and prepared its context-free third-party review handoff while preserving the blocked quality result.
 
 ## Artifacts
 
-- .csdlc/prepared/issues/312/validate-doc-release-truth.rb
-- .csdlc/prepared/issues/312/test-validate-doc-release-truth.rb
-- .csdlc/evidence/312/validation.json
-- docs/milestones/v0.92/CANONICAL_DOC_INVENTORY_v0.92.md
-- docs/milestones/v0.92/review/README.md
-- docs/milestones/v0.92/review/THIRD_PARTY_REVIEW_HANDOFF_v0.92.md
-- docs/reviews/v0.92/docs-release-truth-312/inventory.json
-- docs/reviews/v0.92/docs-release-truth-312/review-packet.md
-- docs/reviews/v0.92/docs-release-truth-312/release-truth-diff.md
 - .csdlc/prepared/issues/312/validate-doc-release-truth.rb
 - .csdlc/prepared/issues/312/test-validate-doc-release-truth.rb
 - .csdlc/evidence/312/validation.json
@@ -40,11 +31,7 @@ Complete the bounded v0.92 documentation review corpus and prepare its context-f
 - Updated the root and milestone documentation entrypoints, checklist, quality gate, release notes, sprint plan, WBS, issue wave, and dogfood notes to current v0.92 review-tail truth.
 - Removed v0.92 planning dependencies on local-only .adl files and routed sprint authority to tracked plans, canonical issues, and child cards.
 - Added the canonical documentation inventory, third-party review index and handoff, review packet, and release-truth diff.
-- Added a fail-closed packet, structure, link, exact-scope, no-.adl-dependency, and adversarial validator with retained validation truth.
-- Reconcile canonical root and v0.92 review-tail documentation.
-- Remove milestone dependencies on local-only .adl planning files.
-- Generate the exact canonical documentation inventory and third-party handoff.
-- Validate denominator, digests, links, structure, scope, redaction boundaries, and adversarial negatives.
+- Added fail-closed packet, structure, link, exact-scope, no-.adl-dependency, and adversarial validation with retained validation truth.
 
 ## Validation
 
@@ -92,7 +79,7 @@ Complete the bounded v0.92 documentation review corpus and prepare its context-f
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

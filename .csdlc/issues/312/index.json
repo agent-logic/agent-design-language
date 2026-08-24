@@ -4,8 +4,8 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "46884bdf9e572fbe3baf39b1d90c72846bae8925cfb257bad84ce19bef406b8b",
   "phase": "implemented",
-  "generation": 12,
-  "digest": "80161170e8cd69b907fdf11cb0ae995bc70a0f4000dedcfb5837c5bdfafa2811",
+  "generation": 22,
+  "digest": "03e39365f507a5f71291adaefad3195f96ad50bed9d1bcbf3d7ad0f050e4722b",
   "branch": "codex/312-v092-doc-review-external-handoff",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-312-v092-doc-review-external-handoff",
   "review_assignment": null,
@@ -18,40 +18,40 @@
   "diagram_path": ".csdlc/prepared/issues/312/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "fresh-session:d3da9841-b482-40d3-9a67-d36f15a01b8b",
-      "revision": "b4b3ab4c5895c1eebdce79ee345e0ad7556a2dc75bef16ed847a46e7e3c66a73"
+      "reviewer": "fresh-session:47d01a29-ea74-4c23-9401-29dbaabc4f40",
+      "revision": "e7f82383f3defa2ae7831e643653740ba35b59cc4b6047e91c22afe5a3214de2"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "730258521e43e59cd65ef7e49fbc1356e9c476028e18414e8b724578eaf9f603",
+      "values_digest": "19f44818d2cd68b4dd8bf6a5ba53bf07356b75cb72285a7d596c5e823c341c18",
       "rendered_digest": "44b1ee5dce9397a95bcd16146c6553fea598b25ea0e7ffe5d911a499ff2f3b26",
       "ast_digest": "e4db219fd42ea5082cc3a94b74da8116a3f6b929a4608179972e55d2c1e78032"
     },
     "stp": {
-      "values_digest": "4680b1ec5122999d3bd651d3c3ff5ce2c553899967bfe8650a66db0e1853c155",
-      "rendered_digest": "4f9709f4bb8e1a634d3f61c4003a7f29708c267afc05e613628030b2590d55a1",
-      "ast_digest": "ff47c165f41797544e0095384f1e75e894321474a4a7b81327b035f36a99e214"
+      "values_digest": "0a983ba8548e159be56523b73408e197ed369d86432d533454276a13ec381a6e",
+      "rendered_digest": "db7e266a35a81c0d3b3d9881cad8f85bdda43df1a549be6e93d1eef46fbf7572",
+      "ast_digest": "e5f8d7540fee5d71ab340455fc130c63fb9dfc6814fc6e8382d5a12b6533ba6b"
     },
     "spp": {
-      "values_digest": "a01b8c9e7774e1ff4b44dfbdaaf1729ceab4e7ba2af993524a3e204bf0142906",
-      "rendered_digest": "31fef124efe7bc6dd4bb85ed8ae7fe936e298d3117487666fe240895dcd53005",
-      "ast_digest": "00c6b314dd452a445805615f005ee3daedf4a4a508f9684974c1a5c98c6dc6a1"
+      "values_digest": "eba33e46aacb945c86452b86e20a916066420fbd0abac2d3da27b04c87e83b76",
+      "rendered_digest": "a8f29c6ba6c2267880627353aa6cd10e2891270c6a5129277738c62ebcc4f3f5",
+      "ast_digest": "a6f094202c64659c2d3a719ed23c02fa7d0e51272e8d31fcd0311855291c77f9"
     },
     "vpp": {
-      "values_digest": "13b5e8d2dc876998647687608e4fa596516d5a57e74947b662c4e972c13fa74e",
+      "values_digest": "04d1fe83a2a635adcd5133e190bf38a9e237b554ba8d0203e0680c19ba1618cb",
       "rendered_digest": "101da4637c35357a44804c7c7a8ece932bfbead0a6669832dfd609dc773661e5",
       "ast_digest": "e68db8cfb20101b3922ac131ec476357509d942734e4f24e1d05f2f0e8482aab"
     },
     "srp": {
-      "values_digest": "4974f03274b73b81ceb097c400ff577aff99e3e17b52fa71ee995d4cf3e0ea5e",
-      "rendered_digest": "328eb6535a5ba19094cbc8dfbe9d183562097f6f368eed9389d141d4ca60e2f1",
-      "ast_digest": "0f8513b2c92b2d8fc303141fda25f6a01ceaaa91fc54bbe30bad6767765b0c8d"
+      "values_digest": "e8dd35ccd8d1e452327a374c02a634b974f891ca46bfe8c0b8c1634b97622911",
+      "rendered_digest": "4400ac824fef72eaf0b41cd56f3d48883f71de8415b1418c7bb9e55bc4aa1092",
+      "ast_digest": "35e09df16fc17e14451bc13fdb73b2225401359af0f8bf1db88db2d54299d0f3"
     },
     "sor": {
-      "values_digest": "9a945e61e84e8a5460185ce1373472a820a69e433eb6ba12efded21797700fd3",
-      "rendered_digest": "e024d1076b0a8a021b356bd44b1e2c1488a7165125867ef8bc47d69fa3c63319",
-      "ast_digest": "0b882f970a09e7bea268b5006ddcad3c84f80dc1332ae46681ed6463c5521c03"
+      "values_digest": "53036f344eba15eb57e2d68fff88a8c7abc98bacf499e8950002a8601cd98ee5",
+      "rendered_digest": "4a6e500403a15a87ae9634acee348b798cc51b8df342763bf00bfe3b3dd7b571",
+      "ast_digest": "d32cf0bd4834791528ef0bf08c49729d915aa4ee291206a268316d67a06ee56c"
     }
   },
   "transitions": [
@@ -175,6 +175,83 @@
       "actor": "codex:/root",
       "reason": "atomically record execution, validation, and implemented phase",
       "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 15,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "Recover the exact-head R1 findings to narrow producer-authority claims to the bounded documentation corpus and normalize SPP/SOR execution truth.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "Refresh the authored #312 design after narrowing producer authority to the bounded documentation corpus and canonical blocked #311 result.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/312/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/312/diagram.mmd\",\"new_design_digest\":\"e7f82383f3defa2ae7831e643653740ba35b59cc4b6047e91c22afe5a3214de2\",\"new_diagram_digest\":\"62c3c437188b9aeaea5cb8ce36bee48c02db214ab7a5da2929cf15e438469ad4\",\"old_design_digest\":\"b4b3ab4c5895c1eebdce79ee345e0ad7556a2dc75bef16ed847a46e7e3c66a73\",\"old_diagram_digest\":\"6da0387d3af2f813ec2c3c1782ad896cf8a392536978ea1328f65e7eaee09563\",\"prior_design_approval\":{\"approved\":{\"reviewer\":\"fresh-session:d3da9841-b482-40d3-9a67-d36f15a01b8b\",\"revision\":\"b4b3ab4c5895c1eebdce79ee345e0ad7556a2dc75bef16ed847a46e7e3c66a73\"}}},\"operation\":{\"operation\":\"refresh_authored_design_after_recovery\"},\"recovery_generation\":14,\"recovery_sequence\":17}"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "Narrow AC-3 to the implemented documentation corpus and canonical blocked #311 quality result.",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: #311's exact reviewed green PR is observed merged into the #312 base and its blocked gate result is preserved truthfully, without requiring terminal reconciliation, closeout, or cleanup.\",\"AC-2: A deterministic inventory covers every declared root, v0.92 milestone, feature, ADR, release, launch, skill, and guidance surface exactly once with owner, review-input status, evidence source, required action, and exact digest.\",\"AC-3: Canonical current documents preserve #311's blocked 33/33 result and downstream lock without promoting product or release claims; missing product authority remains blocked or explicitly non-claimed.\",\"AC-4: Stale version, WP, issue, command, link, ownership, and status text is corrected while historical evidence and legacy provenance remain immutable.\",\"AC-5: Release notes and external claims preserve provider, platform, birthday, privacy, governance, legal, personhood, consciousness, and future-version non-claims.\",\"AC-6: Markdown, YAML/JSON, relative links, executable commands, version ownership, evidence references, redaction, no-.adl dependency, exact changed paths, and diff hygiene pass through the production validator and adversarial negatives.\",\"AC-7: The docs-review packet, external-review corpus, third-party handoff, and any necessary ADR candidates are self-contained, repo-relative, digest-bound to the exact candidate, explicit about blockers and non-claims, and receive fresh exact-head review with no unresolved actionable finding before publication.\"]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "Record completed merge-only predecessor verification.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 21,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "Record completed canonical documentation inventory.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 22,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "Record completed canonical documentation correction.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 23,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "Record completed documentation validation and adversarial proof.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 24,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "Normalize post-review execution truth by removing duplicate artifacts and planned imperatives.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Completed the bounded v0.92 documentation review corpus and prepared its context-free third-party review handoff while preserving the blocked quality result.\",\"changes\":[\"Updated the root and milestone documentation entrypoints, checklist, quality gate, release notes, sprint plan, WBS, issue wave, and dogfood notes to current v0.92 review-tail truth.\",\"Removed v0.92 planning dependencies on local-only .adl files and routed sprint authority to tracked plans, canonical issues, and child cards.\",\"Added the canonical documentation inventory, third-party review index and handoff, review packet, and release-truth diff.\",\"Added fail-closed packet, structure, link, exact-scope, no-.adl-dependency, and adversarial validation with retained validation truth.\"],\"artifacts\":[\".csdlc/prepared/issues/312/validate-doc-release-truth.rb\",\".csdlc/prepared/issues/312/test-validate-doc-release-truth.rb\",\".csdlc/evidence/312/validation.json\",\"docs/milestones/v0.92/CANONICAL_DOC_INVENTORY_v0.92.md\",\"docs/milestones/v0.92/review/README.md\",\"docs/milestones/v0.92/review/THIRD_PARTY_REVIEW_HANDOFF_v0.92.md\",\"docs/reviews/v0.92/docs-release-truth-312/inventory.json\",\"docs/reviews/v0.92/docs-release-truth-312/review-packet.md\",\"docs/reviews/v0.92/docs-release-truth-312/release-truth-diff.md\"],\"validation\":[{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove exact candidate diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\"diff-hygiene.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/312/test-validate-doc-release-truth.rb\"],\"purpose\":\"Prove fail-closed documentation validation.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs-negative-suite.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/312/validate-doc-release-truth.rb\",\"packet\"],\"purpose\":\"Prove complete digest-bound review input.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs-release-truth.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/312/validate-doc-release-truth.rb\",\"structure-handoff\"],\"purpose\":\"Prove a portable context-free review handoff.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs-structure-links-handoff.log\"}]}"
+    },
+    {
+      "sequence": 25,
+      "generation": 22,
+      "actor": "fresh-session:47d01a29-ea74-4c23-9401-29dbaabc4f40",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"e7f82383f3defa2ae7831e643653740ba35b59cc4b6047e91c22afe5a3214de2\",\"design_ref\":\".csdlc/prepared/issues/312/design.md\",\"diagram_digest\":\"62c3c437188b9aeaea5cb8ce36bee48c02db214ab7a5da2929cf15e438469ad4\",\"diagram_ref\":\".csdlc/prepared/issues/312/diagram.mmd\",\"operation\":\"approve_design\"}"
     }
   ]
 }

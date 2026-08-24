@@ -7,7 +7,7 @@
     "title": "[v0.92][WP-23] Docs and release-truth pass",
     "slug": "312-v092-docs-release-truth",
     "version": "v0.92",
-    "generation": 12
+    "generation": 22
   },
   "status": "ready",
   "content": {
@@ -101,9 +101,9 @@
       "planned_validation_tokens": 50000,
       "failure_policy": "Fail closed when #311 is not merged into the execution base, its blocked gate truth is lost or misstated, merged producer overlap is not incorporated, a documentation surface is missing or duplicate, authority is stale or fabricated, a release claim is unsupported, a command is retired, a link is broken, redaction or .adl dependency fails, scope drifts, review is stale, or the candidate changes. Administrative terminal reconciliation, closeout, and cleanup are explicitly non-blocking.",
       "design_ref": ".csdlc/prepared/issues/312/design.md",
-      "design_digest": "b4b3ab4c5895c1eebdce79ee345e0ad7556a2dc75bef16ed847a46e7e3c66a73",
+      "design_digest": "e7f82383f3defa2ae7831e643653740ba35b59cc4b6047e91c22afe5a3214de2",
       "diagram_ref": ".csdlc/prepared/issues/312/diagram.mmd",
-      "diagram_digest": "6da0387d3af2f813ec2c3c1782ad896cf8a392536978ea1328f65e7eaee09563"
+      "diagram_digest": "62c3c437188b9aeaea5cb8ce36bee48c02db214ab7a5da2929cf15e438469ad4"
     }
   }
 }
