@@ -23,6 +23,8 @@ The reviewer should not audit ADL against a frozen abstract standard alone. The 
 
 For the active v0.92 development review, start with:
 
+- `docs/milestones/v0.92/CANONICAL_DOC_INVENTORY_v0.92.md`
+- `docs/milestones/v0.92/review/THIRD_PARTY_REVIEW_HANDOFF_v0.92.md`
 - `docs/milestones/v0.92/README.md`
 - `docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml`
 - `docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md`

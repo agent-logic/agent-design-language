@@ -1,0 +1,19 @@
+{
+  "schema": "adl.v0.92.doc_release_truth_validation.v1",
+  "issue": 312,
+  "status": "passed",
+  "base_commit": "035b249096c6a27a6e40af9435d6df8e35090000",
+  "canonical_paths": 100,
+  "inventory_sha256": "73cca2511acaa26a699d65f27b9efdd8893ce9f3c062e22b14d5defe9d56130c",
+  "lanes": {
+    "packet": "passed",
+    "negative_cases": 8,
+    "structure_handoff": "passed",
+    "diff_hygiene": "passed"
+  },
+  "quality_gate_result": "blocked",
+  "quality_gate_blocked_rows": 33,
+  "downstream_unlock": false,
+  "release_approval": false,
+  "external_review_completed": false
+}

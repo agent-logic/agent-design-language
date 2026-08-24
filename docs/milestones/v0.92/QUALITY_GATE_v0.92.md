@@ -7,6 +7,8 @@ WP-22 execution is retained under `docs/reviews/v0.92/quality-gate-311/`.
 Structural validation of that packet is distinct from its release result: a
 schema-valid findings packet may truthfully report `blocked`, and only an exact
 zero-blocker packet may report `passed` or unlock downstream review.
+WP-23 documentation review may package this result for external inspection,
+but it must preserve the blocked result and cannot award release credit.
 
 | Gate | Owning work | Required evidence |
 | --- | --- | --- |

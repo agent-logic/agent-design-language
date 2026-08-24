@@ -1,0 +1,81 @@
+# Issue 312 — Documentation review and external-review readiness design
+
+## Outcome boundary
+
+#312 is the v0.92 documentation review pass. It reconciles canonical current
+documentation to merged evidence, produces the exact external-review corpus and
+third-party handoff, and stops before external review, release approval,
+publication, deployment, or product repair.
+
+The only predecessor execution gate is the merge of #311's reviewed PR into the
+candidate base. #311's blocked quality result remains explicit documentation
+truth. Terminal reconciliation, closeout receipts, and worktree cleanup are
+asynchronous bookkeeping and never gate #312.
+
+## Canonical denominator
+
+The standard document set is not maintained by an ad hoc list. It is the exact
+union of:
+
+1. `README.md`, `CHANGELOG.md`, `AGENTS.md`, `REVIEW.md`, `docs/README.md`,
+   `docs/planning/ADL_FEATURE_LIST.md`, and `csdlc-v2/AGENTS.md`;
+2. every tracked regular file under `docs/milestones/v0.92/`, including every
+   feature document, the canonical inventory, review index, and third-party
+   review handoff; and
+3. every tracked `SKILL.md` under `csdlc-v2/operator/skills/`.
+
+The issue-owned validator regenerates this set from Git, requires exactly one
+inventory row per path, rejects missing, duplicate, extra, ambiguous, or
+machine-local entries, and validates JSON, YAML, Markdown links, command truth,
+redaction, ownership, and claim evidence.
+
+## Producer reconciliation
+
+The inventory records each current document's owner, merged producer PR, exact
+head and merge revision, evidence source, overlap disposition, and claim state.
+The validator derives producer truth from Git and canonical GitHub observations,
+not caller-authored booleans. Before publication it rescans the candidate base
+and every owned path. Any newly merged overlapping producer either appears in
+the candidate and inventory or fails the lane closed. Administrative closeout
+state is ignored.
+
+## External-review packet
+
+`docs/milestones/v0.92/review/THIRD_PARTY_REVIEW_HANDOFF_v0.92.md` is the
+reviewer entrypoint. It contains:
+
+- repository, PR, base, exact head, and reproducible corpus digest;
+- send gates and a stale-revision rule;
+- the canonical source/evidence manifest and navigation map;
+- review scope, exclusions, reviewer authority, and findings format;
+- exact read-only validation commands;
+- blocker, residual-risk, and non-claim register;
+- redaction and portable-path requirements; and
+- a feedback route into the later review/remediation issues without granting
+  release authority.
+
+`docs/milestones/v0.92/CANONICAL_DOC_INVENTORY_v0.92.md` and
+`docs/milestones/v0.92/review/README.md` make the handoff reachable from the
+standard milestone entrypoints. The handoff is ready to send only when its
+exact revision and corpus digest are populated and all send gates pass.
+
+## Validation architecture
+
+Four bounded lanes run independently: documentation/release truth, adversarial
+negative cases, structure/link/handoff validation, and `git diff --check`.
+The structure lane parses the full denominator, verifies the external-review
+manifest, rejects every tracked `.adl` path or dependency, and compares the
+candidate diff to the exact declared path set. The diff lane claims only patch
+hygiene. Fixture, stale, synthetic, self-attested, cross-repository,
+machine-local, out-of-scope, or `.adl`-dependent evidence cannot grant a claim.
+
+## Non-claims and stop conditions
+
+The packet does not claim that #311's quality gate passed, that v0.92 is ready
+to release, or that an external reviewer approved it. It explicitly preserves
+provider, platform, birthday, privacy, governance, legal, personhood,
+consciousness, and future-version non-claims. Missing product evidence remains
+a blocker or non-claim and is routed to its product owner. #312 stops if #311
+is not merged into the base, the denominator is incomplete, producer overlap is
+unresolved, a claim lacks canonical evidence, exact scope or no-`.adl` guards
+fail, or documentation truth would require product implementation.

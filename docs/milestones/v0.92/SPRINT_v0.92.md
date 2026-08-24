@@ -111,17 +111,9 @@ execution remains dependency-gated. This keeps review and validation tight
 without forcing one oversized single-threaded queue or allowing parallel
 agents to collide on shared Runtime and Observatory surfaces.
 
-Copy-ready prompts for the six individual sprint sessions are retained in:
-
-- `.adl/docs/TBD/V092_SPRINT_5858_FOUNDATION_SESSION_PROMPT.md`
-- `.adl/docs/TBD/V092_SPRINT_5855_RUNTIME_OBSERVATORY_SESSION_PROMPT.md`
-- `.adl/docs/TBD/V092_SPRINT_5862_DISTRIBUTED_GUARDIAN_SESSION_PROMPT.md`
-- `.adl/docs/TBD/V092_SPRINT_5857_BIRTHDAY_CORE_SESSION_PROMPT.md`
-- `.adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md`
-- `.adl/docs/TBD/V092_SPRINT_5856_QUALITY_RELEASE_SESSION_PROMPT.md`
-
-Each prompt is pinned to its umbrella and child set, preserves child-level
-lifecycle authority, and states the declared serial and parallel boundaries.
+Each sprint session derives authority from its canonical umbrella issue body,
+child cards, and this tracked sprint plan. Local-only prompt files are not
+dependencies and do not grant lifecycle or execution authority.
 
 ## Planned Phases
 

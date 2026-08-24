@@ -15,15 +15,18 @@ Draft placeholder for later release closeout. These notes describe intended
 release themes only and must be rewritten during the v0.92 release tail to
 describe landed behavior.
 
-Release-note ownership should follow the v0.92 WBS:
+WP-22/#311 currently reports a structurally valid but blocked quality packet
+with 33/33 rows blocked and downstream unlock false. These draft notes therefore
+make no release-readiness claim. The external documentation review entrypoint is
+[`review/THIRD_PARTY_REVIEW_HANDOFF_v0.92.md`](review/THIRD_PARTY_REVIEW_HANDOFF_v0.92.md).
 
-- WP-16 prepares the release-note draft for internal review.
-- WP-19 updates release notes only for review-finding remediation.
-- WP-22 performs the final release-note truth check during the release
-  ceremony.
+Release-note ownership follows the current review tail:
 
-WP-20 and WP-21 are next-milestone planning/review gates, not release-note
-rewrite owners.
+- WP-22 supplies the canonical quality-gate result.
+- WP-23 may correct documentation truth and prepare the external-review
+  handoff, but cannot turn a blocked quality result into release credit.
+- Later remediation and ceremony work may update these notes only from landed,
+  reviewed evidence.
 
 ## How To Use
 

@@ -1,0 +1,806 @@
+{
+  "schema": "adl.v0.92.canonical_doc_inventory.v1",
+  "issue": 312,
+  "rows": [
+    {
+      "path": "AGENTS.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "dcbdf4a2290378bd82a15ad78737115d65b2d7b088622cd78abbdc845a1408ea",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "5007415a4220675f27919a7a20b863804f921ff10a8337faba3ef05921e7dc50",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "README.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "bfaceda7c93ef7f281b14df876ca63684620103df2b757a5730a4d556846012e",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "REVIEW.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "49ea82051184275d9d010e0d45a19913b3b08d21115c042843da3f16701377ef",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "csdlc-v2/AGENTS.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "275f40bfbcd7c13638e6d91086aaaba74883a9ddf6409f6ebded6c4139cbc2ce",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "csdlc-v2/operator/skills/csdlc-v2-bind/SKILL.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "a1de1f97ab14200259195cbf3c896af49db468a016a89bafe980ffb8d32543b4",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "csdlc-v2/operator/skills/csdlc-v2-card-editor/SKILL.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "95b450c8b3122b86e88cc2e3a35c9c7f128df010420df032cb8fcac1fd714728",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "csdlc-v2/operator/skills/csdlc-v2-clean/SKILL.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "155661881784619d42a5f4dafe1fd6aaa489d2de95f7399df97d205604c99319",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "csdlc-v2/operator/skills/csdlc-v2-doctor/SKILL.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "fd3349d2a19cae00a5cbb16279f4afb6a46330040fe6c1c6b2b9436bc0da5f60",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "csdlc-v2/operator/skills/csdlc-v2-finish/SKILL.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "86349c43048bccc8d3e1327988dbdca04907e3cfb051df6edb07d5c5b52b7071",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "csdlc-v2/operator/skills/csdlc-v2-github/SKILL.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "7352473daf57effa972fd63a11c9096b367615b53bcf9fa94ee4ec602df3ac61",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "csdlc-v2/operator/skills/csdlc-v2-init/SKILL.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "14383f8c1dea5d59cb8fc69d038194dbfe335c1c8d2cabd4151d019bf2ace918",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "7cf92c451095f2ee886272aaaabd886e23e34c41082aa8759deeae3c69f3c742",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "a21c5ed69463e2e6907c613dadad9b8104a3fd1b54273c12fddc9d5f72d3a2ba",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "csdlc-v2/operator/skills/csdlc-v2-shepherd/SKILL.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "eb465f30df4715e4960df73de5daa7c8bc36cc022669a519fa8dc935ade8f296",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "80381c46dae8beb5dea1a86bd1d93df257b45dbe16d6de4b07d61fb1663c5f51",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/README.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "671068104e208a54c8d6f27da7a1104b300e87ee14657de80fba3622e3fb1bfe",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/ADR_PLAN_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "1b9745db09cb4faa9e0bbea20f2394c4f9df2f2bae15efd2268b7b8c74c1f6b6",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/CANONICAL_DOC_INVENTORY_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "0a5ee5f4f5541dd3eebdf8f2c78a1bddee4a81534bcc23eb8f326082802ac504",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/DECISIONS_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "d24f5c7674f0873f489168443389cb51b951e6b3918e067f45399e87387e0b83",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/DEMO_MATRIX_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "31eb13ad6d6d89d8f9f92d8116583021ee4cd01acad3396620c5604ae087a044",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/DESIGN_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "8856a167924c2fb24e274d8bc24d4d5a223536b9c5d25b36e7393451c559924a",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "9d29c382118b96642fd99fc654091bd955e29d81e84548f046304e054cc8839d",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "8674d09f135fb834fc9f59eead3c1bd1a63c2e1f6477d2ceb1640f20ac57b217",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/IDENTITY_CONTINUITY_AND_BIRTHDAY_PLAN_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "580608b6d47cea2d56e75772b2a9b179078d7cb85511a0162b6c664f26921e61",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/MILESTONE_CHECKLIST_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "3bb367aa604e9dab5b1504e1789b015345f7d052d616e6784a395fdaba470a73",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/NEXT_MILESTONE_HANDOFF_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "26f10d89434a60a081d2acfd748afc3bb689ec0ddea4cd7a52e52fcccee517fb",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/QUALITY_GATE_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "8cc0efa46b3ec6729cc13944c806515310e4e35cf44c313e2c98b53bd5656926",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/README.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "e659a9e42f534fece03d0c247a1a0ae18f30e168593329d9e5feb471c35097f6",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/RELEASE_NOTES_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "c71321ce7d6daec6dc2feb38e97388032bcdae9d1f69969f277fe823f30e5cb4",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/RELEASE_PLAN_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "6a312ab33066724e21e08e3a2660ebd4fc47c0cef0dba23d1ccf8a2c42f7ce83",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/SPRINT_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "49213677e96b873fc8a29105989ffa844db884493c1610fc7896e0b0373a265e",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "dfc23e4ee3ad9da25ebc5f58bfffedad4772ba1d65a90453434e072aceaee54c",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/V092_DOCS_PREP_DOGFOOD_NOTES.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "0405f1b8c29729faa11fe20e7407c4f156307beab638651e24a4f2066e05ff76",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/VISION_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "073987ae5bb26c9a892b5ba3c1be763f45756b6d15f10089263d0e7c231c60fb",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/WBS_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "4182fb514287b165a379b5c1f31fd1dc8985dd66bc9f33150d156e0d7628d62d",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "35151e0d46eee5678aa12b14443e01b66936d230fc807e574c8399a47e2b2123",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "9fbce00ebc9798870419360ee2125e1a34f11e0faed5aa10d3377cea02910902",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/design/CROSS_POLIS_CONTINUITY_TRANSFER_DESIGN_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "03201300badc9ddf176d3202db780af505ef19e2212dc9c6f0b1de40ed4fe5bf",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/external_launch/PUBLIC_LAUNCH_COPY_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "304d2589bcd82aba4993c55dd24c7716f4c8e1c1067321858b98a127687df8e0",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/external_launch/README.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "c1479c113859640d2756a4a1e5f0ba0cc5929ed02a437373926ff701f4b31435",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/external_launch/REVIEWER_FAQ_AND_CLAIM_BOUNDARY_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "4b753535feba78d0aa46537239a68e77fc9589798e9f6737ec37103ce9a6a463",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "04a04b8a88f6ba87aa27b47a1154ca5c82d8c8ca4dcdaf6dd1d401f50ac5b570",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "73ecb4cfa2111a8ebc394e4cab5060252a59175f4a32c7f57cd8d01caa558b83",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "7694f7e1ecce556b731f73510ea464a9d9ee79b128b49a3c7277af5262a40832",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "6731033d7e4ecb47732ba25d8d91cf9eda04ed68b81b6705a90b14344f657fd6",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/features/DISTRIBUTED_GUARDIAN_POLIS_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "eeed78cc0edfc9b33bcaf725505df54e5617ba3c0a97f9b00e086ad885de3b52",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/features/FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "02a410a404a5b490428a35b30e9610c400ca15569cd59d98e44e9d058222c457",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "980c8bbf487e8817201765efccc9e19addc8211962550dd9afb10854fd1d9269",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "1e43aee484987006fa643e3be4c87f3e17fc7ba08d573b82f7efcf4905782641",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "7ced9139f58e4c56043460fe990ee552669390e8edd14b320192e4b4a1fb2ae3",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "3a4ec64842e70dc1845b584ba2652dc3e41c66bc241e2b9998ea948f719e0467",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/features/OBSERVATORY_UNITY_CONSUMER_INTEGRATION_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "e9b49ad8f5df5eefdfacc5d5a0a2caf2b20838e619492f2db02f094406f963c0",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/features/PROVIDER_NEUTRAL_MULTI_AGENT_PROOF_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "edd2d4311907349722367eb9ac32fbe75d6d72d8f078fa6f9df82b250390612b",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/features/README.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "0a05e3bb9a31d2510dd74ceee77234f5e211b34219461e16e88a28a7b34e6c0d",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/features/RUNTIME_LAUNCH_AND_RESILIENCE_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "fd0ac34df92c8dae9bd218b4fde1de5f9612e3d880cee22033ffb718957ff5c4",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/publication/articles/01-what-is-adl/ARTICLE.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "68f2bb7092c1d5b1fddefad85955bb50db31dd28368f2de974325bf4c38bbd64",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/publication/articles/01-what-is-adl/EDITORIAL_REVIEW.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "d8fa846a243a487d0f51bbcb9d954474e81b6bd6a6b4109ed9ca3e6b1e42699a",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/publication/articles/01-what-is-adl/SOURCE_PACKET.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "b47c667f8a3363eecbfdfd19efa3c189a814781914fedeb6c7b19b7870fb3647",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/publication/articles/02-adl-runtime-and-cognitive-spacetime-model/ARTICLE.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "77cd4a778464de3cf709f8d248af0ddfb203c32e1ed5cf54ccb70f07c476b699",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/publication/articles/02-adl-runtime-and-cognitive-spacetime-model/EDITORIAL_REVIEW.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "a93614ea3d52e1d5ff3071ef6e3ab878b4e5b785e6c9feab70067ee6ed506617",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/publication/articles/02-adl-runtime-and-cognitive-spacetime-model/SOURCE_PACKET.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "e19ebf9627ff03def8ecbfdbe9632e041e4882bd7c5a2f13828be64aec75b7f8",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/publication/articles/03-godel-agents-and-godel-hadamard-bayes-algorithm/ARTICLE.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "5a55b1a9194272e55e184c91419b430b4defc06675c337bb20253170e8552145",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/publication/articles/03-godel-agents-and-godel-hadamard-bayes-algorithm/EDITORIAL_REVIEW.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "6000cdacae2caba4003b05b45dd01d7f1e2bbe8888c26dacbae47d1454cb35b4",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/publication/articles/03-godel-agents-and-godel-hadamard-bayes-algorithm/SOURCE_PACKET.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "740474a50b8d30ee86288d0d87618a5ec26433e4f2c0092c665b52383a13ed59",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/publication/articles/04-the-freedom-gate/ARTICLE.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "aae4f70c351af64c27c3cfc7fdd1eb68b05c14985211756a0b7317e699dfc490",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/publication/articles/04-the-freedom-gate/EDITORIAL_REVIEW.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "85823f48baf7f049f0ab9f33c628874f9f146f07de394335a6a5ec96b0fbf11b",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/publication/articles/04-the-freedom-gate/SOURCE_PACKET.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "901cf060dbe1bd0c8f1920445e47be700652bd80ab6128f78706e53f244a85f4",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/publication/articles/05-uts-and-acc-making-agents-with-tools-safe/ARTICLE.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "2edfa80138ca7f78515fc3eeb9674c6981d320ae99cf4344e7a909a63e6e28dd",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/publication/articles/05-uts-and-acc-making-agents-with-tools-safe/EDITORIAL_REVIEW.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "84f4327a4a46ce5fee2e3e456fd373ca8cc9fdb4557d205dbf92328274aaf501",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/publication/articles/05-uts-and-acc-making-agents-with-tools-safe/SOURCE_PACKET.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "c4639b679d7d35a5931ddc86bab075ebe4606fc1d9a0f9a7fec9a16db34ab23c",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/publication/articles/06-codefriend-and-the-cognitive-sdlc/ARTICLE.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "896d92b182d1e4627a768b98e3e804f23fdb742d86dc6b57a2612185ca646b1e",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/publication/articles/06-codefriend-and-the-cognitive-sdlc/EDITORIAL_REVIEW.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "194219e01b39fea819f4c48ad062456854589e7b531b64dd1ca2229359dfda54",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/publication/articles/06-codefriend-and-the-cognitive-sdlc/SOURCE_PACKET.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "e7a951db6f0c125c12ec0c65f47f086bdf0e07a2257b9c88e1c03768aba76404",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/publication/articles/07-continuous-adversarial-verification-for-continuous-security/ARTICLE.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "863c8cff14ecca43fd5235a2994b31ab2b517727610c27fd65a3aa77ce9c2429",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/publication/articles/07-continuous-adversarial-verification-for-continuous-security/EDITORIAL_REVIEW.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "ad4081cdbcbfb78ccb8373f3b34b0390b8aa14a213c0dcedae36fe6d28bdfc2a",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/publication/articles/07-continuous-adversarial-verification-for-continuous-security/SOURCE_PACKET.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "f57ec23c7870f5f23624bb618910dcfea097de0d1b6776d47e9afd76e254b471",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/publication/articles/08-agent-economics/ARTICLE.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "58b89d7152f97af30e8eec3a8b7b1eed63b8550e108ff131e7d1cb359e05c4ca",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/publication/articles/08-agent-economics/EDITORIAL_REVIEW.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "7764df3ed376e459d13eb3cb3f490688c67f4252e7254f9fb8b378bdf0d958f5",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/publication/articles/08-agent-economics/SOURCE_PACKET.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "bdf3a85eb5aee4ff3a3c783549d64b1fb08a6cd68338f9c5085ecc556f8d4ea2",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/publication/articles/09-adl-and-social-intelligence/ARTICLE.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "7cdfbbc2a50a73c3015bfd2a81da0f69efdf5562cdb1e983768723896ac4544f",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/publication/articles/09-adl-and-social-intelligence/EDITORIAL_REVIEW.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "9f38eeb660bfc10fe3f8ef17cdc418350a311a9ffa5d3c84dbbf9763af280df2",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/publication/articles/09-adl-and-social-intelligence/SOURCE_PACKET.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "ec373b898d4131c01c62e5d50a0cdbc911727e3853bcd0f938702bfe2551017d",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/publication/articles/10-whats-next-for-adl/ARTICLE.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "9a693546f68bd20d8f6c9686510c5380c7f2a84e250101696bef51f163c7ea1d",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/publication/articles/10-whats-next-for-adl/EDITORIAL_REVIEW.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "d9cf7e8796a3f62b38160f77fb8df19be31b78b8c6b5dca1b7781d9697b84094",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/publication/articles/10-whats-next-for-adl/SOURCE_PACKET.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "557329d19391f709bcfc42ab198b5d1130e2aabf43894b19fa361be33b557b5c",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/publication/articles/EDITORIAL_PANEL_REVIEW.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "a0de6aa547a6c8a9acd73629076d6c8604769ec857fa973467ffcb4f0bb9b4af",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/publication/articles/PUBLICATION_DISPOSITION.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "35e670a1058fbba38bd57617ff76a56e0f0c17c4b91ff0b0e7d6a8410122fbbe",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/publication/articles/README.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "e3b5d55eae8ae8fb495bae18e03882f46453f898540a394786fd052486c8d2ce",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/publication/articles/SERIES_ARC_AND_CLAIM_MATRIX.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "eaaeb8a76d2268e163ae89843eab36e2b6e95a02c8fa9b2b1e0db3bef0c533c4",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/review/FIRST_BIRTHDAY_REVIEW_PACKET_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "63b39f5a2ddb42aee44cf900f437525ecef211c7aea531c45c3a7b668405f007",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/review/README.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "d3c2730b27ede61820c9d9e12ac183c321bd0186cb21d51a97165b012121032f",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/review/THIRD_PARTY_REVIEW_HANDOFF_v0.92.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "89173f47607d0d81ff8e8d801d6435dcc7e234f15d996cd8203adedc013e6419",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/review/V092_ADR_INTERNAL_REVIEW_HANDOFF.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "bd246915d18093e8e64f64877ecaa62693628e7c470fedc0c961c1f93271437c",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/review/V092_DEMO_AEE_ARTIFACT_INDEX.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "cd38928dfcffc88a523d3fa5c4a21627e825602b42316430f7699b327b006e35",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/review/V092_TO_V093_GOVERNANCE_EVIDENCE_MAP.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "17f071def2b03a8c1b6c31916565e83499bb0d3dc6c9252eef956e6a609b55c9",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "ca1eda4fbb42781489945c5463d707b8686b499afe139b711f3c8e75a608c5e0",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/review/first-birthday-review-packet.schema.json",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "dbf88353b70ed2c9406a538bad8f079891e2df88dff244f6641dc36697ecabc0",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/milestones/v0.92/review/sprint_343/SPRINT_CLOSEOUT_PACKET.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "f15dac766f3aa749d72e964265659ae264ef5c4f8d3ac5ba8eb76b1402af8301",
+      "required_action": "independent findings-first review"
+    },
+    {
+      "path": "docs/planning/ADL_FEATURE_LIST.md",
+      "owner": "WP-23/#312",
+      "status": "external_review_input",
+      "evidence_source": "candidate file SHA-256",
+      "evidence_sha256": "d2347038a7bfd27e9eaa9602d6b8d5f9d8368d443abaacbc58df83cb765302bf",
+      "required_action": "independent findings-first review"
+    }
+  ]
+}

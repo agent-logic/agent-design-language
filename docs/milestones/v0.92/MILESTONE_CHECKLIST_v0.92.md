@@ -11,8 +11,8 @@
 
 ## Status
 
-WP-01 planning activation is active. Checked items are limited to evidence
-completed by WP-01; child implementation and release items remain open.
+The milestone is in its review tail. Checked items remain limited to retained
+evidence; the WP-22 quality result is blocked and release items remain open.
 
 ## Purpose
 
@@ -96,8 +96,9 @@ checks needed for a truthful v0.92 closeout.
 ## Review And Release
 
 - [ ] Internal review completed.
-- [ ] Third-party review handoff prepared if the milestone follows the current
-  review cadence.
+- [ ] Third-party documentation review handoff passes its exact-revision send
+  gate. Preparation is owned by WP-23/#312 and does not itself mean external
+  review or release approval occurred.
 - [ ] Findings resolved or explicitly deferred.
 - [ ] Release notes describe landed work only.
 - [ ] Release ceremony completed.

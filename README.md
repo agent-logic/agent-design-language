@@ -155,11 +155,11 @@ from issue
 
 ### v0.92 - Active Development Milestone
 
-v0.92 is the active development milestone. Its issue wave is prepared, the
-foundation lane is active, and the runtime, observatory, identity, resilience,
-and release-proof lanes remain governed by their declared dependency gates.
-Activation does not claim those planned outcomes are implemented or
-release-approved.
+v0.92 is the active development and review milestone. Its implementation wave
+has reached the documentation-review tail, but the canonical quality packet
+currently reports 33 of 33 feature rows blocked and downstream release unlock
+false. Documentation convergence and third-party handoff preparation do not
+claim those features complete or the milestone release-approved.
 
 Start here:
 
@@ -169,6 +169,8 @@ Start here:
 - [v0.92 execution readiness](docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md)
 - [v0.92 feature-proof coverage](docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md)
 - [v0.92 milestone checklist](docs/milestones/v0.92/MILESTONE_CHECKLIST_v0.92.md)
+- [v0.92 canonical documentation inventory](docs/milestones/v0.92/CANONICAL_DOC_INVENTORY_v0.92.md)
+- [v0.92 third-party review handoff](docs/milestones/v0.92/review/THIRD_PARTY_REVIEW_HANDOFF_v0.92.md)
 
 ### v0.91.8 - Retained Handoff Bridge
 

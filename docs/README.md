@@ -22,6 +22,8 @@ Use this index to find the right source of truth quickly.
 - Active issue wave: `milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml`
 - Current quality plan: `milestones/v0.92/QUALITY_GATE_v0.92.md`
 - Current review entrypoint: `milestones/v0.92/README.md`
+- Canonical v0.92 documentation inventory: `milestones/v0.92/CANONICAL_DOC_INVENTORY_v0.92.md`
+- Third-party review handoff: `milestones/v0.92/review/THIRD_PARTY_REVIEW_HANDOFF_v0.92.md`
 - Most recently published release package: `milestones/v0.91.7/`
 - Recent stable milestones: `milestones/v0.91.8/`, `milestones/v0.91.7/`, `milestones/v0.91.6/`, `milestones/v0.91.5/`, `milestones/v0.91.4/`, `milestones/v0.91.3/`, `milestones/v0.91.2/`, `milestones/v0.91.1/`, `milestones/v0.90.5/`
 - Earlier milestones: `milestones/v0.75/`, `milestones/v0.7/`, `milestones/v0.6/`
@@ -50,7 +52,7 @@ Use this index to find the right source of truth quickly.
 Milestone docs should be read as bounded engineering records. They distinguish
 what has shipped, what is currently being implemented, what is demoable, and
 what is planned for later milestones. `v0.92` is the active development
-milestone. Its planning package and issue wave are active, but planned feature
-rows remain incomplete until their implementation, validation, review, and
-release evidence lands. The retained `v0.91.8` package is upstream handoff
-evidence, not the current execution center.
+milestone. Its quality packet currently reports 33 of 33 feature rows blocked,
+so documentation review and third-party handoff preparation do not establish
+release readiness. The retained `v0.91.8` package is upstream handoff evidence,
+not the current execution center.

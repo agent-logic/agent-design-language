@@ -11,25 +11,22 @@
 
 ## Status
 
-Current status: `v0.92` is the active development milestone. WP-01 planning
-issue `#5817` and execution-readiness issue `#5860` are closed. WP-01B `#5818`
-completed canonical documentation and `0.92.0` package/workspace activation.
-The
-final work-package issue wave is open, with issue numbers recorded in
-`WP_ISSUE_WAVE_v0.92.yaml`; execution remains governed by the dependency graph
-and each issue's own evidence.
+Current status: `v0.92` is the active development and review milestone. The
+canonical issue graph remains recorded in `WP_ISSUE_WAVE_v0.92.yaml`, while
+live issue, pull-request, and retained evidence state governs present truth.
+WP-22/#311 produced a structurally valid quality packet with 33 of 33 feature
+rows blocked and downstream release unlock false. WP-23/#312 owns the bounded
+documentation review and context-free third-party handoff preparation.
 
-- Planning: complete under `#5817`
-- Execution readiness: complete under `#5860`
-- Issue wave: open; 58 execution issues across six coordination-only sprint
-  umbrellas are mapped in the wave file
-- Cards: design-time readiness completed for every mapped child issue under
-  `#5860`; implementation and proof remain issue-owned
-- Execution: WP-01B activation is complete under `#5818`; later work packages
-  remain dependency-gated
+- Planning and issue graph: retained in the canonical milestone package
+- Implementation and proof: issue-owned; no blanket completion claim
+- Quality gate: structurally valid, result `blocked` (33/33 rows)
+- Documentation review: active under WP-23/#312
+- Third-party review: prepared downstream from the exact reviewed WP-23 head;
+  not yet accepted or release-authoritative
 - Release readiness: not claimed
 
-The completed v0.91.8 release package, issue `#3377`, planning review `#5359`,
+The completed v0.91.8 bridge package, issue `#3377`, retained planning review,
 the activation bridge ledger, AEE evidence, and the reviewed repository
 migration plan are prerequisite inputs. They do not substitute for v0.92
 implementation proof.
@@ -209,6 +206,10 @@ The likely `v0.92` tranche is:
 
 ## Document Map
 
+- Canonical document inventory:
+  [CANONICAL_DOC_INVENTORY_v0.92.md](CANONICAL_DOC_INVENTORY_v0.92.md)
+- Third-party documentation review handoff:
+  [review/THIRD_PARTY_REVIEW_HANDOFF_v0.92.md](review/THIRD_PARTY_REVIEW_HANDOFF_v0.92.md)
 - Active issue wave:
   [WP_ISSUE_WAVE_v0.92.yaml](WP_ISSUE_WAVE_v0.92.yaml)
 - Vision: [VISION_v0.92.md](VISION_v0.92.md)

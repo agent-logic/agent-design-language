@@ -1,0 +1,205 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 312,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-23] Docs and release-truth pass",
+    "slug": "312-v092-docs-release-truth",
+    "version": "v0.92",
+    "generation": 12
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 3,
+      "summary": "Prepare in parallel, then bind after #311 merges; pin merged producer revisions without waiting for closeout; regenerate the complete declared inventory; verify every current claim against canonical reviewed evidence; correct stale current docs; run structural, link, command, redaction, no-.adl, and forged-evidence negatives; retain the review packet and release-truth diff; obtain one fresh exact-head review.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Verify #311's exact reviewed PR is merged into the candidate base, pin its blocked gate packet and other merged producer revisions, and ignore asynchronous closeout state.",
+          "acceptance_ids": [
+            "AC-1"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Regenerate the exact documentation inventory and classify every surface by current owner, claim status, evidence source, and required action.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Correct stale current documentation and release claims without rewriting historical evidence or widening into implementation.",
+          "acceptance_ids": [
+            "AC-3",
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Run production validation and adversarial negatives for structure, links, commands, evidence, redaction, no-.adl dependencies, exact scope, and claim boundaries.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S5",
+          "action": "Retain the docs-review packet and release-truth diff, route any ADR candidate explicitly, and obtain fresh exact-head review before publication.",
+          "acceptance_ids": [
+            "AC-7"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        ".csdlc/evidence/312/validation.json",
+        ".csdlc/prepared/issues/312/test-validate-doc-release-truth.rb",
+        ".csdlc/prepared/issues/312/validate-doc-release-truth.rb",
+        "AGENTS.md",
+        "CHANGELOG.md",
+        "README.md",
+        "REVIEW.md",
+        "csdlc-v2/AGENTS.md",
+        "csdlc-v2/operator/skills/csdlc-v2-bind/SKILL.md",
+        "csdlc-v2/operator/skills/csdlc-v2-card-editor/SKILL.md",
+        "csdlc-v2/operator/skills/csdlc-v2-clean/SKILL.md",
+        "csdlc-v2/operator/skills/csdlc-v2-doctor/SKILL.md",
+        "csdlc-v2/operator/skills/csdlc-v2-finish/SKILL.md",
+        "csdlc-v2/operator/skills/csdlc-v2-github/SKILL.md",
+        "csdlc-v2/operator/skills/csdlc-v2-init/SKILL.md",
+        "csdlc-v2/operator/skills/csdlc-v2-publish/SKILL.md",
+        "csdlc-v2/operator/skills/csdlc-v2-review/SKILL.md",
+        "csdlc-v2/operator/skills/csdlc-v2-shepherd/SKILL.md",
+        "csdlc-v2/operator/skills/csdlc-v2-validate/SKILL.md",
+        "docs/README.md",
+        "docs/milestones/v0.92/ADR_PLAN_v0.92.md",
+        "docs/milestones/v0.92/CANONICAL_DOC_INVENTORY_v0.92.md",
+        "docs/milestones/v0.92/DECISIONS_v0.92.md",
+        "docs/milestones/v0.92/DEMO_MATRIX_v0.92.md",
+        "docs/milestones/v0.92/DESIGN_v0.92.md",
+        "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
+        "docs/milestones/v0.92/FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md",
+        "docs/milestones/v0.92/IDENTITY_CONTINUITY_AND_BIRTHDAY_PLAN_v0.92.md",
+        "docs/milestones/v0.92/MILESTONE_CHECKLIST_v0.92.md",
+        "docs/milestones/v0.92/NEXT_MILESTONE_HANDOFF_v0.92.md",
+        "docs/milestones/v0.92/QUALITY_GATE_v0.92.md",
+        "docs/milestones/v0.92/README.md",
+        "docs/milestones/v0.92/RELEASE_NOTES_v0.92.md",
+        "docs/milestones/v0.92/RELEASE_PLAN_v0.92.md",
+        "docs/milestones/v0.92/SPRINT_v0.92.md",
+        "docs/milestones/v0.92/V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md",
+        "docs/milestones/v0.92/V092_DOCS_PREP_DOGFOOD_NOTES.md",
+        "docs/milestones/v0.92/VISION_v0.92.md",
+        "docs/milestones/v0.92/WBS_v0.92.md",
+        "docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md",
+        "docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml",
+        "docs/milestones/v0.92/design/CROSS_POLIS_CONTINUITY_TRANSFER_DESIGN_v0.92.md",
+        "docs/milestones/v0.92/external_launch/PUBLIC_LAUNCH_COPY_v0.92.md",
+        "docs/milestones/v0.92/external_launch/README.md",
+        "docs/milestones/v0.92/external_launch/REVIEWER_FAQ_AND_CLAIM_BOUNDARY_v0.92.md",
+        "docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md",
+        "docs/milestones/v0.92/features/ACP_COGNITIVE_PROFILES_v0.92.md",
+        "docs/milestones/v0.92/features/ADAPTIVE_LEARNING_DAG_v0.92.md",
+        "docs/milestones/v0.92/features/CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92.md",
+        "docs/milestones/v0.92/features/DISTRIBUTED_GUARDIAN_POLIS_v0.92.md",
+        "docs/milestones/v0.92/features/FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92.md",
+        "docs/milestones/v0.92/features/FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92.md",
+        "docs/milestones/v0.92/features/IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92.md",
+        "docs/milestones/v0.92/features/MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92.md",
+        "docs/milestones/v0.92/features/MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92.md",
+        "docs/milestones/v0.92/features/OBSERVATORY_UNITY_CONSUMER_INTEGRATION_v0.92.md",
+        "docs/milestones/v0.92/features/PROVIDER_NEUTRAL_MULTI_AGENT_PROOF_v0.92.md",
+        "docs/milestones/v0.92/features/README.md",
+        "docs/milestones/v0.92/features/RUNTIME_LAUNCH_AND_RESILIENCE_v0.92.md",
+        "docs/milestones/v0.92/publication/articles/01-what-is-adl/ARTICLE.md",
+        "docs/milestones/v0.92/publication/articles/01-what-is-adl/EDITORIAL_REVIEW.md",
+        "docs/milestones/v0.92/publication/articles/01-what-is-adl/SOURCE_PACKET.md",
+        "docs/milestones/v0.92/publication/articles/02-adl-runtime-and-cognitive-spacetime-model/ARTICLE.md",
+        "docs/milestones/v0.92/publication/articles/02-adl-runtime-and-cognitive-spacetime-model/EDITORIAL_REVIEW.md",
+        "docs/milestones/v0.92/publication/articles/02-adl-runtime-and-cognitive-spacetime-model/SOURCE_PACKET.md",
+        "docs/milestones/v0.92/publication/articles/03-godel-agents-and-godel-hadamard-bayes-algorithm/ARTICLE.md",
+        "docs/milestones/v0.92/publication/articles/03-godel-agents-and-godel-hadamard-bayes-algorithm/EDITORIAL_REVIEW.md",
+        "docs/milestones/v0.92/publication/articles/03-godel-agents-and-godel-hadamard-bayes-algorithm/SOURCE_PACKET.md",
+        "docs/milestones/v0.92/publication/articles/04-the-freedom-gate/ARTICLE.md",
+        "docs/milestones/v0.92/publication/articles/04-the-freedom-gate/EDITORIAL_REVIEW.md",
+        "docs/milestones/v0.92/publication/articles/04-the-freedom-gate/SOURCE_PACKET.md",
+        "docs/milestones/v0.92/publication/articles/05-uts-and-acc-making-agents-with-tools-safe/ARTICLE.md",
+        "docs/milestones/v0.92/publication/articles/05-uts-and-acc-making-agents-with-tools-safe/EDITORIAL_REVIEW.md",
+        "docs/milestones/v0.92/publication/articles/05-uts-and-acc-making-agents-with-tools-safe/SOURCE_PACKET.md",
+        "docs/milestones/v0.92/publication/articles/06-codefriend-and-the-cognitive-sdlc/ARTICLE.md",
+        "docs/milestones/v0.92/publication/articles/06-codefriend-and-the-cognitive-sdlc/EDITORIAL_REVIEW.md",
+        "docs/milestones/v0.92/publication/articles/06-codefriend-and-the-cognitive-sdlc/SOURCE_PACKET.md",
+        "docs/milestones/v0.92/publication/articles/07-continuous-adversarial-verification-for-continuous-security/ARTICLE.md",
+        "docs/milestones/v0.92/publication/articles/07-continuous-adversarial-verification-for-continuous-security/EDITORIAL_REVIEW.md",
+        "docs/milestones/v0.92/publication/articles/07-continuous-adversarial-verification-for-continuous-security/SOURCE_PACKET.md",
+        "docs/milestones/v0.92/publication/articles/08-agent-economics/ARTICLE.md",
+        "docs/milestones/v0.92/publication/articles/08-agent-economics/EDITORIAL_REVIEW.md",
+        "docs/milestones/v0.92/publication/articles/08-agent-economics/SOURCE_PACKET.md",
+        "docs/milestones/v0.92/publication/articles/09-adl-and-social-intelligence/ARTICLE.md",
+        "docs/milestones/v0.92/publication/articles/09-adl-and-social-intelligence/EDITORIAL_REVIEW.md",
+        "docs/milestones/v0.92/publication/articles/09-adl-and-social-intelligence/SOURCE_PACKET.md",
+        "docs/milestones/v0.92/publication/articles/10-whats-next-for-adl/ARTICLE.md",
+        "docs/milestones/v0.92/publication/articles/10-whats-next-for-adl/EDITORIAL_REVIEW.md",
+        "docs/milestones/v0.92/publication/articles/10-whats-next-for-adl/SOURCE_PACKET.md",
+        "docs/milestones/v0.92/publication/articles/EDITORIAL_PANEL_REVIEW.md",
+        "docs/milestones/v0.92/publication/articles/PUBLICATION_DISPOSITION.md",
+        "docs/milestones/v0.92/publication/articles/README.md",
+        "docs/milestones/v0.92/publication/articles/SERIES_ARC_AND_CLAIM_MATRIX.md",
+        "docs/milestones/v0.92/review/FIRST_BIRTHDAY_REVIEW_PACKET_v0.92.md",
+        "docs/milestones/v0.92/review/README.md",
+        "docs/milestones/v0.92/review/THIRD_PARTY_REVIEW_HANDOFF_v0.92.md",
+        "docs/milestones/v0.92/review/V092_ADR_INTERNAL_REVIEW_HANDOFF.md",
+        "docs/milestones/v0.92/review/V092_DEMO_AEE_ARTIFACT_INDEX.md",
+        "docs/milestones/v0.92/review/V092_TO_V093_GOVERNANCE_EVIDENCE_MAP.md",
+        "docs/milestones/v0.92/review/first-birthday-review-evidence.v1.json",
+        "docs/milestones/v0.92/review/first-birthday-review-packet.schema.json",
+        "docs/milestones/v0.92/review/sprint_343/SPRINT_CLOSEOUT_PACKET.md",
+        "docs/planning/ADL_FEATURE_LIST.md",
+        "docs/reviews/v0.92/docs-release-truth-312/inventory.json",
+        "docs/reviews/v0.92/docs-release-truth-312/release-truth-diff.md",
+        "docs/reviews/v0.92/docs-release-truth-312/review-packet.md"
+      ],
+      "invariants": [
+        "A blocked #311 quality result is preserved as current documentation truth and does not serialize WP-23 execution",
+        "Every declared documentation surface appears exactly once in the inventory",
+        "Current claims require canonical landed evidence; absence remains an explicit blocker or non-claim",
+        "Historical evidence and legacy provenance are immutable",
+        "No tracked .adl path or dependency is introduced",
+        "WP-23 does not implement missing behavior or grant release authority"
+      ],
+      "risks": [
+        "The large documentation surface may contain internally consistent but stale claims",
+        "Legacy migration identities may be mistaken for current canonical authority",
+        "A link or command can resolve syntactically while naming a retired route",
+        "Release language may overstate blocked or platform-specific behavior",
+        "A producer may merge overlapping document changes after the candidate is pinned and must be incorporated before publication"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 43200,
+        "total_tokens": 140000,
+        "validation_seconds": 7200
+      },
+      "stop_conditions": [
+        "#311 is not merged into the #312 execution base or its blocked gate packet cannot be observed",
+        "An overlapping producer merges changed document bytes that cannot be incorporated before publication",
+        "Any declared documentation surface is missing, duplicate, or ambiguously owned",
+        "A current claim lacks canonical landed evidence",
+        "Fixing a documentation blocker requires product implementation outside #312"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/312/design.md",
+      "design_digest": "b4b3ab4c5895c1eebdce79ee345e0ad7556a2dc75bef16ed847a46e7e3c66a73",
+      "diagram_ref": ".csdlc/prepared/issues/312/diagram.mmd",
+      "diagram_digest": "6da0387d3af2f813ec2c3c1782ad896cf8a392536978ea1328f65e7eaee09563"
+    }
+  }
+}
