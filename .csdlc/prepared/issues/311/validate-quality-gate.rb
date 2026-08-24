@@ -45,6 +45,8 @@ WP21A_HEAD = "ca78a65a1390f2bc088f8cf20018670d06e87068"
 WP21A_MERGE = "a06c34774ad88ea8c56a00533f0fcef810fa7441"
 WP21A_TERMINAL_DIGEST = "4080b704ac5123e9aaa3d877095603fcf1db48c5d0953d0ab476724ff30d11d2"
 WP21A_RECEIPT_DIGEST = "3db375f9d4e27c0d62f7ed1e7506d2ea816e170b72726ed878084520366a9bde"
+CANDIDATE_SOURCE_SHA = "9b43fc535e864155b7c97b0e1b266c0787875bde"
+CANDIDATE_SOURCE_TREE = "181093683ad06a62f5b6fc2469791f685cc11ce3"
 
 def run_git(*argv)
   stdout, stderr, status = Open3.capture3(git_environment, "/usr/bin/git", "-C", ROOT.to_s, *argv)
@@ -193,12 +195,12 @@ def canonical_terminal(issue, errors)
     errors << "typed_terminal_owner_missing"
     return nil
   end
-  resolved, resolved_status = Open3.capture2e(installer.to_s, "resolve", "--repo", ROOT.to_s, "--issue", issue.to_s)
+  resolved, resolved_status = Open3.capture2e(git_environment, installer.to_s, "resolve", "--repo", ROOT.to_s, "--issue", issue.to_s)
   unless resolved_status.success? && resolved.strip == '"v2"'
     errors << "typed_terminal_owner_not_v2"
     return nil
   end
-  stdout, owner_status = Open3.capture2e(owner.to_s, "--root", ROOT.to_s, "--validate-cached-issue", issue.to_s)
+  stdout, owner_status = Open3.capture2e(git_environment, owner.to_s, "--root", ROOT.to_s, "--validate-cached-issue", issue.to_s)
   unless owner_status.success?
     errors << "typed_terminal_validation_failed"
     return nil
@@ -529,7 +531,7 @@ def validate_live_authority(evidence, pull, issue_payload, check_payload, rulese
     authorized.each { |item| errors << "#{row_id}:required_check_timestamp_missing:#{required['context']}" unless item["completed_at"].is_a?(String) }
     latest_time = authorized.map { |item| Time.iso8601(item["completed_at"]) rescue nil }.compact.max
     latest_items = authorized.select { |item| (Time.iso8601(item["completed_at"]) rescue nil) == latest_time }
-    errors << "#{row_id}:required_check_latest_ambiguous:#{required['context']}" if latest_items.map { |item| item["conclusion"] }.uniq.length > 1
+    errors << "#{row_id}:required_check_latest_ambiguous:#{required['context']}" unless latest_items.length == 1
     latest = latest_items.max_by { |item| item["id"].to_i }
     accepted = latest && latest["conclusion"] == "success"
     errors << "#{row_id}:required_check_not_successful:#{required['context']}" unless accepted
@@ -660,12 +662,15 @@ def validate_complete_packet(matrix, errors)
   unlock = result == "passed"
   candidate = matrix["candidate_source_sha"]
   candidate_tree = matrix["candidate_source_tree"]
+  errors << "packet:candidate_source_sha_mismatch" unless candidate == CANDIDATE_SOURCE_SHA
+  errors << "packet:candidate_source_tree_mismatch" unless candidate_tree == CANDIDATE_SOURCE_TREE
   validate_hex(candidate, 40, "packet:candidate_source_sha", errors)
   validate_hex(candidate_tree, 40, "packet:candidate_source_tree", errors)
   begin
     errors << "packet:candidate_source_not_ancestral" unless git_ancestor?(candidate, "HEAD")
     errors << "packet:candidate_source_tree_mismatch" unless run_git("rev-parse", "#{candidate}^{tree}") == candidate_tree
     allowed_after_candidate = [
+      ".csdlc/prepared/issues/311/validate-quality-gate.rb", ".csdlc/prepared/issues/311/test-validate-quality-gate.rb",
       ".csdlc/evidence/311/quality-negative-suite.log", ".csdlc/evidence/311/semantic-quality-matrix.log",
       ".csdlc/evidence/311/validation.json", "docs/reviews/v0.92/quality-gate-311/feature-completion-matrix.json",
       "docs/reviews/v0.92/quality-gate-311/quality-gate-record.json"
@@ -725,12 +730,12 @@ def validate_complete_packet(matrix, errors)
     errors << "packet:lane:#{name}:log_digest_mismatch" unless path && lane["sha256"] == sha256(ROOT / path)
   end
   errors << "packet:lane:semantic:gate_result_mismatch" unless lane_by_name.dig("semantic-quality-matrix", "gate_result") == result
-  errors << "packet:lane:negative:cases_mismatch" unless lane_by_name.dig("quality-negative-suite", "cases") == 58
+  errors << "packet:lane:negative:cases_mismatch" unless lane_by_name.dig("quality-negative-suite", "cases") == 65
 
   semantic_log = JSON.parse((ROOT / lane_by_name.dig("semantic-quality-matrix", "log")).read)
   negative_log = JSON.parse((ROOT / lane_by_name.dig("quality-negative-suite", "log")).read)
   errors << "packet:semantic_log_mismatch" unless semantic_log["status"] == "passed" && semantic_log["rows"] == 33 && semantic_log["blocked_rows"] == blocked_rows.length && semantic_log["gate_result"] == result && semantic_log["candidate_source_sha"] == candidate && semantic_log["candidate_source_tree"] == candidate_tree
-  errors << "packet:negative_log_mismatch" unless negative_log["schema"] == "adl.v0.92.quality_gate_negative_suite.v2" && negative_log["status"] == "passed" && negative_log["cases"] == 58 && negative_log["authority_substitution_ignored"] == true && negative_log["candidate_source_sha"] == candidate && negative_log["candidate_source_tree"] == candidate_tree
+  errors << "packet:negative_log_mismatch" unless negative_log["schema"] == "adl.v0.92.quality_gate_negative_suite.v2" && negative_log["status"] == "passed" && negative_log["cases"] == 65 && negative_log["authority_substitution_ignored"] == true && negative_log["candidate_source_sha"] == candidate && negative_log["candidate_source_tree"] == candidate_tree
   diff_log = ROOT / lane_by_name.dig("docs-schema-diff", "log")
   errors << "packet:diff_log_not_clean" unless diff_log.read.empty?
 
@@ -810,8 +815,8 @@ end
 
 def build_blocked_matrix
   evaluation_base = run_git("merge-base", "origin/main", "HEAD")
-  candidate_source_sha = run_git("rev-parse", "HEAD")
-  candidate_source_tree = run_git("rev-parse", "HEAD^{tree}")
+  candidate_source_sha = CANDIDATE_SOURCE_SHA
+  candidate_source_tree = CANDIDATE_SOURCE_TREE
   rows = denominator.map do |entry|
     blockers = ["accepted_evidence_packet_missing"]
     if entry["kind"] == "feature"

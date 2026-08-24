@@ -50,6 +50,14 @@ def expect_success(name, matrix, env = {})
   raise "#{name} failed: #{stdout} #{stderr}" unless status.success?
 end
 
+def expect_canonical_failure(name, matrix, expected)
+  path = WORK / "canonical-#{name}.json"
+  path.write(JSON.pretty_generate(matrix) + "\n")
+  _validated, errors = validate_matrix(path, canonical: true)
+  raise "canonical #{name} unexpectedly passed" if errors.empty?
+  raise "canonical #{name} did not prove #{expected}: #{errors.inspect}" unless errors.any? { |error| error.include?(expected) }
+end
+
 def clone(value)
   Marshal.load(Marshal.dump(value))
 end
@@ -173,6 +181,20 @@ accepted_path = WORK / "canonical-accepted.json"
 accepted_path.write(JSON.pretty_generate(accepted) + "\n")
 accepted_stdout, accepted_stderr, accepted_status = invoke(accepted_path, { "CSDLC_V2_BIN_DIR" => "/nonexistent", "QUALITY_GATE_GH_BIN" => "/nonexistent" })
 raise "canonical accepted control failed: #{accepted_stdout} #{accepted_stderr}" unless accepted_status.success?
+hostile_git_env = {
+  "GIT_DIR" => "/nonexistent/substitute.git", "GIT_WORK_TREE" => "/nonexistent/substitute",
+  "GIT_OBJECT_DIRECTORY" => "/nonexistent/objects", "GIT_ALTERNATE_OBJECT_DIRECTORIES" => "/nonexistent/alternate",
+  "GIT_CONFIG_COUNT" => "1", "GIT_CONFIG_KEY_0" => "remote.origin.url", "GIT_CONFIG_VALUE_0" => "https://github.com/attacker/substitute",
+  "PATH" => "#{shim_dir}:#{ENV.fetch('PATH')}"
+}
+expect_success("accepted-authority-environment-isolated", accepted, hostile_git_env)
+
+tampered = clone(base); tampered["candidate_source_sha"] = reviewed_head; tampered["candidate_source_tree"] = git("rev-parse", "#{reviewed_head}^{tree}").strip
+expect_canonical_failure("alternate-ancestral-candidate", tampered, "candidate_source_sha_mismatch")
+tampered = clone(base); tampered["candidate_source_sha"] = git("rev-parse", "HEAD").strip; tampered["candidate_source_tree"] = git("rev-parse", "HEAD^{tree}").strip
+expect_canonical_failure("later-nominated-candidate", tampered, "candidate_source_sha_mismatch")
+tampered = clone(base); tampered["candidate_source_tree"] = "0" * 40
+expect_canonical_failure("candidate-tree-mismatch", tampered, "candidate_source_tree_mismatch")
 
 tampered = clone(accepted)
 birthday = tampered["rows"].find { |item| item["id"] == "feature:FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92" }
@@ -276,6 +298,12 @@ tampered = clone(observation); tampered["checks"]["check_runs"].find { |item| it
 expect_live_failure("wrong-check-app", tampered, "required_check_not_successful:adl-ci")
 tampered = clone(observation); tampered["checks"]["check_runs"] << { "id" => 99, "name" => "adl-ci", "conclusion" => "failure", "completed_at" => "2026-08-24T10:01:00Z", "app" => { "id" => 15_368 } }
 expect_live_failure("newer-failed-duplicate", tampered, "required_check_not_successful:adl-ci")
+tampered = clone(observation); tampered["checks"]["check_runs"] << { "id" => 99, "name" => "adl-ci", "conclusion" => "success", "completed_at" => "2026-08-24T10:00:00Z", "app" => { "id" => 15_368 } }
+expect_live_failure("tied-successes", tampered, "required_check_latest_ambiguous:adl-ci")
+tampered = clone(observation); tampered["checks"]["check_runs"].find { |item| item["name"] == "adl-ci" }["conclusion"] = "failure"; tampered["checks"]["check_runs"] << { "id" => 99, "name" => "adl-ci", "conclusion" => "failure", "completed_at" => "2026-08-24T10:00:00Z", "app" => { "id" => 15_368 } }
+expect_live_failure("tied-failures", tampered, "required_check_latest_ambiguous:adl-ci")
+tampered = clone(observation); tampered["checks"]["check_runs"] << { "id" => 99, "name" => "adl-ci", "conclusion" => "failure", "completed_at" => "2026-08-24T10:00:00Z", "app" => { "id" => 15_368 } }
+expect_live_failure("tied-mixed", tampered, "required_check_latest_ambiguous:adl-ci")
 tampered = clone(observation); tampered["rulesets"].first["rules"].first["parameters"]["required_status_checks"].first.delete("integration_id")
 expect_live_failure("missing-check-integration", tampered, "required_check_integration_missing:adl-ci")
 tampered = clone(observation)
@@ -305,7 +333,7 @@ validate_wp21a_observation({ "merge_sha" => "unused" }, merge_sha, merge_sha,
 raise "renamed worktree negative did not fail closed: #{wp21a_errors.inspect}" unless wp21a_errors.include?("wp21a_worktree_not_cleaned")
 
 FileUtils.rm_rf(WORK)
-puts JSON.generate(schema: "adl.v0.92.quality_gate_negative_suite.v2", status: "passed", cases: 58,
+puts JSON.generate(schema: "adl.v0.92.quality_gate_negative_suite.v2", status: "passed", cases: 65,
                    canonical_control: { issue: issue, pull_request: pr, reviewed_head: reviewed_head, pr_head: pr_head, merge_sha: merge_sha },
-                   candidate_source_sha: git("rev-parse", "HEAD").strip, candidate_source_tree: git("rev-parse", "HEAD^{tree}").strip,
+                   candidate_source_sha: CANDIDATE_SOURCE_SHA, candidate_source_tree: CANDIDATE_SOURCE_TREE,
                    authority_substitution_ignored: true)
