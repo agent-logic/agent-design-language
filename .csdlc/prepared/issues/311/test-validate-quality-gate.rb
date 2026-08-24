@@ -42,6 +42,10 @@ def clone(value)
   Marshal.load(Marshal.dump(value))
 end
 
+def accepted_row(matrix)
+  matrix.fetch("rows").find { |row| row["disposition"] == "accepted" }
+end
+
 def retain(name, payload)
   path = WORK / name
   path.write(JSON.pretty_generate(payload) + "\n")
@@ -56,7 +60,9 @@ end
 FileUtils.rm_rf(WORK)
 FileUtils.mkdir_p(WORK)
 base = JSON.parse(MATRIX.read)
-stdout, stderr, status = invoke(MATRIX)
+blocked_control = WORK / "blocked-control.json"
+blocked_control.write(JSON.pretty_generate(base) + "\n")
+stdout, stderr, status = invoke(blocked_control)
 raise "blocked matrix failed: #{stdout} #{stderr}" unless status.success?
 
 tampered = clone(base); tampered["rows"].shift
@@ -103,7 +109,7 @@ proofs = proof_specs.to_h do |klass, (path, index)|
 end
 
 accepted = clone(base)
-row = accepted["rows"].first
+row = accepted["rows"].find { |item| item["id"] == "feature:FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92" }
 row["disposition"] = "accepted"
 row["blockers"] = []
 row["evidence"] = {
@@ -120,31 +126,42 @@ accepted_path.write(JSON.pretty_generate(accepted) + "\n")
 accepted_stdout, accepted_stderr, accepted_status = invoke(accepted_path, { "CSDLC_V2_BIN_DIR" => "/nonexistent", "QUALITY_GATE_GH_BIN" => "/nonexistent" })
 raise "canonical accepted control failed: #{accepted_stdout} #{accepted_stderr}" unless accepted_status.success?
 
+tampered = clone(accepted)
+birthday = tampered["rows"].find { |item| item["id"] == "feature:FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92" }
+unrelated = tampered["rows"].find { |item| item["id"] == "feature:ACP_COGNITIVE_PROFILES_v0.92" }
+unrelated["disposition"] = "accepted"
+unrelated["blockers"] = []
+unrelated["evidence"] = clone(birthday["evidence"])
+birthday["disposition"] = "blocked"
+birthday["blockers"] = ["accepted_evidence_packet_missing"]
+birthday["evidence"] = {}
+expect_failure("unrelated-row-evidence", tampered, "source_outside_review_scope")
+
 cases = {
-  "cross-repository-substitution" => ["repository_mismatch", ->(m) { m["rows"].first["evidence"]["repository"] = "danielbaustin/agent-design-language" }],
-  "stale-reviewed-head" => ["review_revision_invalid", ->(m) { m["rows"].first["evidence"]["reviewed_head"] = git("rev-parse", "#{reviewed_head}^").strip }],
-  "non-ancestral-pr-head" => ["reviewed_head_not_in_pr_head", ->(m) { m["rows"].first["evidence"]["pr_head"] = git("rev-parse", "#{reviewed_head}^").strip }],
-  "wrong-merge" => ["typed_terminal:merge_sha_mismatch", ->(m) { m["rows"].first["evidence"]["merge_sha"] = reviewed_head }],
-  "self-selected-checks" => ["required_checks_not_canonical", ->(m) { m["rows"].first["evidence"]["required_checks"] = ["adl-ci"] }],
-  "terminal-generation" => ["typed_terminal:canonical_generation_mismatch", ->(m) { m["rows"].first["evidence"]["typed_terminal"]["generation"] += 1 }],
-  "terminal-digest" => ["typed_terminal:canonical_digest_mismatch", ->(m) { m["rows"].first["evidence"]["typed_terminal"]["digest"] = "0" * 64 }],
-  "malformed-terminal-cache" => ["typed_terminal:issue_mismatch", ->(m) { m["rows"].first["evidence"]["typed_terminal"]["cache"] = retain("malformed-cache.json", { "canonical_match" => false, "terminal" => {} }) }],
-  "terminal-cache-digest" => ["typed_terminal_cache:digest_mismatch", ->(m) { m["rows"].first["evidence"]["typed_terminal"]["cache"]["sha256"] = "0" * 64 }],
-  "missing-platform-proof" => ["platform_missing", ->(m) { m["rows"].first["evidence"]["platform"] = {} }],
-  "review-digest" => ["review_artifact:candidate_digest_mismatch", ->(m) { m["rows"].first["evidence"]["review_artifact"]["sha256"] = "0" * 64 }],
-  "review-content" => ["review_artifact_path_mismatch", ->(m) { m["rows"].first["evidence"]["review_artifact"] = blob_ref(pr_head, ".csdlc/issues/451/cards/sor.values.json") }],
-  "implementation-path" => ["git_identity_unresolvable", ->(m) { m["rows"].first["evidence"]["implementation_paths"] = ["adl/src/not-real.rs"] }],
-  "closing-link" => ["github_closing_link_missing", ->(m) { m["rows"].first["evidence"]["issue"] = 450 }],
-  "wrong-pr" => ["github_pr_head_mismatch", ->(m) { m["rows"].first["evidence"]["pull_request"] = 458 }],
-  "positive-proof-digest" => ["positive:candidate_digest_mismatch", ->(m) { m["rows"].first["evidence"]["positive"]["sha256"] = "0" * 64 }],
-  "negative-proof-semantic" => ["negative:evidence_ref_mismatch", ->(m) { m["rows"].first["evidence"]["negative"]["validation_index"] = 1 }],
-  "integration-proof-digest" => ["integration:candidate_digest_mismatch", ->(m) { m["rows"].first["evidence"]["integration"]["sha256"] = "0" * 64 }],
-  "platform-proof-semantic" => ["platform:evidence_ref_mismatch", ->(m) { m["rows"].first["evidence"]["platform"]["validation_index"] = 1 }],
-  "fixture-authority" => ["prohibited_authority:fixture", ->(m) { m["rows"].first["evidence"]["authority_kind"] = "fixture" }],
-  "receipt-only-authority" => ["prohibited_authority:receipt_only", ->(m) { m["rows"].first["evidence"]["authority_kind"] = "receipt_only" }],
-  "demo-authority" => ["prohibited_authority:demo", ->(m) { m["rows"].first["evidence"]["authority_kind"] = "demo" }],
-  "synthetic-authority" => ["prohibited_authority:synthetic", ->(m) { m["rows"].first["evidence"]["authority_kind"] = "synthetic" }],
-  "substituted-provider-authority" => ["prohibited_authority:substituted_provider", ->(m) { m["rows"].first["evidence"]["authority_kind"] = "substituted_provider" }]
+  "cross-repository-substitution" => ["repository_mismatch", ->(m) { accepted_row(m)["evidence"]["repository"] = "danielbaustin/agent-design-language" }],
+  "stale-reviewed-head" => ["review_revision_invalid", ->(m) { accepted_row(m)["evidence"]["reviewed_head"] = git("rev-parse", "#{reviewed_head}^").strip }],
+  "non-ancestral-pr-head" => ["reviewed_head_not_in_pr_head", ->(m) { accepted_row(m)["evidence"]["pr_head"] = git("rev-parse", "#{reviewed_head}^").strip }],
+  "wrong-merge" => ["typed_terminal:merge_sha_mismatch", ->(m) { accepted_row(m)["evidence"]["merge_sha"] = reviewed_head }],
+  "self-selected-checks" => ["required_checks_not_canonical", ->(m) { accepted_row(m)["evidence"]["required_checks"] = ["adl-ci"] }],
+  "terminal-generation" => ["typed_terminal:canonical_generation_mismatch", ->(m) { accepted_row(m)["evidence"]["typed_terminal"]["generation"] += 1 }],
+  "terminal-digest" => ["typed_terminal:canonical_digest_mismatch", ->(m) { accepted_row(m)["evidence"]["typed_terminal"]["digest"] = "0" * 64 }],
+  "malformed-terminal-cache" => ["typed_terminal:issue_mismatch", ->(m) { accepted_row(m)["evidence"]["typed_terminal"]["cache"] = retain("malformed-cache.json", { "canonical_match" => false, "terminal" => {} }) }],
+  "terminal-cache-digest" => ["typed_terminal_cache:digest_mismatch", ->(m) { accepted_row(m)["evidence"]["typed_terminal"]["cache"]["sha256"] = "0" * 64 }],
+  "missing-platform-proof" => ["platform_missing", ->(m) { accepted_row(m)["evidence"]["platform"] = {} }],
+  "review-digest" => ["review_artifact:candidate_digest_mismatch", ->(m) { accepted_row(m)["evidence"]["review_artifact"]["sha256"] = "0" * 64 }],
+  "review-content" => ["review_artifact_path_mismatch", ->(m) { accepted_row(m)["evidence"]["review_artifact"] = blob_ref(pr_head, ".csdlc/issues/451/cards/sor.values.json") }],
+  "implementation-path" => ["git_identity_unresolvable", ->(m) { accepted_row(m)["evidence"]["implementation_paths"] = ["adl/src/not-real.rs"] }],
+  "closing-link" => ["github_closing_link_missing", ->(m) { accepted_row(m)["evidence"]["issue"] = 450 }],
+  "wrong-pr" => ["github_pr_head_mismatch", ->(m) { accepted_row(m)["evidence"]["pull_request"] = 458 }],
+  "positive-proof-digest" => ["positive:candidate_digest_mismatch", ->(m) { accepted_row(m)["evidence"]["positive"]["sha256"] = "0" * 64 }],
+  "negative-proof-semantic" => ["negative:evidence_ref_mismatch", ->(m) { accepted_row(m)["evidence"]["negative"]["validation_index"] = 1 }],
+  "integration-proof-digest" => ["integration:candidate_digest_mismatch", ->(m) { accepted_row(m)["evidence"]["integration"]["sha256"] = "0" * 64 }],
+  "platform-proof-semantic" => ["platform:evidence_ref_mismatch", ->(m) { accepted_row(m)["evidence"]["platform"]["validation_index"] = 1 }],
+  "fixture-authority" => ["prohibited_authority:fixture", ->(m) { accepted_row(m)["evidence"]["authority_kind"] = "fixture" }],
+  "receipt-only-authority" => ["prohibited_authority:receipt_only", ->(m) { accepted_row(m)["evidence"]["authority_kind"] = "receipt_only" }],
+  "demo-authority" => ["prohibited_authority:demo", ->(m) { accepted_row(m)["evidence"]["authority_kind"] = "demo" }],
+  "synthetic-authority" => ["prohibited_authority:synthetic", ->(m) { accepted_row(m)["evidence"]["authority_kind"] = "synthetic" }],
+  "substituted-provider-authority" => ["prohibited_authority:substituted_provider", ->(m) { accepted_row(m)["evidence"]["authority_kind"] = "substituted_provider" }]
 }
 cases.each do |name, (expected, mutate)|
   tampered = clone(accepted)
@@ -157,10 +174,11 @@ observation = {
   "pull" => { "state" => "MERGED", "merged" => true, "baseRefName" => "main", "headRefOid" => pr_head,
               "mergeCommit" => { "oid" => merge_sha },
               "closingIssuesReferences" => { "nodes" => [{ "number" => issue, "repository" => { "nameWithOwner" => "agent-logic/agent-design-language" } }] } },
-  "checks" => { "check_runs" => [{ "name" => "adl-ci", "conclusion" => "success" }, { "name" => "adl-coverage", "conclusion" => "success" }] },
+  "issue" => { "number" => issue, "state" => "closed", "state_reason" => "completed" },
+  "checks" => { "check_runs" => [{ "name" => "adl-ci", "conclusion" => "success", "app" => { "id" => 15_368 } }, { "name" => "adl-coverage", "conclusion" => "success", "app" => { "id" => 15_368 } }] },
   "ruleset" => { "name" => "main-protection", "enforcement" => "active", "target" => "branch",
                  "conditions" => { "ref_name" => { "include" => ["~DEFAULT_BRANCH"] } },
-                 "rules" => [{ "type" => "required_status_checks", "parameters" => { "required_status_checks" => [{ "context" => "adl-ci" }, { "context" => "adl-coverage" }] } }] }
+                 "rules" => [{ "type" => "required_status_checks", "parameters" => { "required_status_checks" => [{ "context" => "adl-ci", "integration_id" => 15_368 }, { "context" => "adl-coverage", "integration_id" => 15_368 }] } }] }
 }
 path = WORK / "observation-valid.json"
 path.write(JSON.pretty_generate(observation) + "\n")
@@ -177,8 +195,12 @@ tampered = clone(observation); tampered["ruleset"]["enforcement"] = "disabled"
 expect_observation_failure("inactive-ruleset", tampered, "ruleset_authority_invalid")
 tampered = clone(observation); tampered["ruleset"]["rules"].first["parameters"]["required_status_checks"].pop
 expect_observation_failure("ruleset-check-omission", tampered, "required_checks_not_canonical")
+tampered = clone(observation); tampered["issue"]["state"] = "open"; tampered["issue"]["state_reason"] = "reopened"
+expect_observation_failure("reopened-issue", tampered, "github_issue_not_closed")
+tampered = clone(observation); tampered["checks"]["check_runs"].find { |item| item["name"] == "adl-ci" }["app"]["id"] = 1
+expect_observation_failure("wrong-check-app", tampered, "required_check_not_successful:adl-ci")
 
 FileUtils.rm_rf(WORK)
-puts JSON.generate(schema: "adl.v0.92.quality_gate_negative_suite.v2", status: "passed", cases: 36,
+puts JSON.generate(schema: "adl.v0.92.quality_gate_negative_suite.v2", status: "passed", cases: 39,
                    canonical_control: { issue: issue, pull_request: pr, reviewed_head: reviewed_head, pr_head: pr_head, merge_sha: merge_sha },
                    authority_substitution_ignored: true)

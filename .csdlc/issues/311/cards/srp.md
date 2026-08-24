@@ -31,9 +31,9 @@ docs/reviews/v0.92/quality-gate-311
 
 [
   {
-    "id": "311-R1-P1-ACCEPTED-AUTHORITY",
+    "id": "311-API-R3-P1-ROW-BINDING",
     "severity": "p1",
-    "summary": "Accepted rows did not independently authenticate typed terminal, GitHub, review, check, implementation-path, and proof-artifact authority.",
+    "summary": "Accepted evidence was reusable across unrelated feature and critical-path rows without proving the reviewed contract or owner binding.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -41,9 +41,39 @@ docs/reviews/v0.92/quality-gate-311
     "route": null
   },
   {
-    "id": "311-R1-P1-NEGATIVE-DENOMINATOR",
+    "id": "311-API-R3-P1-TYPED-AUTHORITY",
     "severity": "p1",
-    "summary": "The negative suite did not independently exercise every forged-evidence class promised by the design.",
+    "summary": "The accepted path did not sufficiently bind the canonical typed index, review assignment, reviewer, revision, and SOR authority.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "311-API-R3-P1-GITHUB-AUTHORITY",
+    "severity": "p1",
+    "summary": "Live GitHub validation omitted issue closure and required-check GitHub App identity.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "311-API-R3-P1-PACKET-ATOMICITY",
+    "severity": "p1",
+    "summary": "The complete packet did not fully bind lane uniqueness, log digests, exact denominator identity, blocker reasons, and the WP-21A source revision.",
+    "actionable": true,
+    "in_scope": true,
+    "disposition": "open",
+    "fix_revision": null,
+    "route": null
+  },
+  {
+    "id": "311-API-R3-P2-WP21A-PREREQUISITE",
+    "severity": "p2",
+    "summary": "Execution evidence had not consumed #310 terminal reconciliation and cleanup as the approved hard prerequisite.",
     "actionable": true,
     "in_scope": true,
     "disposition": "open",
@@ -62,8 +92,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: Some("git-blake3:02f86001a1936bf2e333f58e843e49fd9028cdaf:337195baca0d96511375a3b5ff2d54578d48f7a0f50d6df85c16194b20b8f6b5")
+Revision: Some("git-blake3:ce99e1736bb2ccd2979e3ba38a7b4983f1f198e6:2dc74e203ec42fb7c1420d6fbd9d044ce9a28bedfad17394cec6668593c04d98")
 
-Reviewer: Some("fresh-session:3c216425-3a6e-47e4-a2d8-f11d4e0495aa")
+Reviewer: Some("fresh-session:89119b99-dc15-475a-8908-3740b9c649fe")
 
 Result: changes_required

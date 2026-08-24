@@ -45,10 +45,11 @@ zero-blocker packet may report `passed` or unlock downstream review.
   constitutional governance remain non-claims.
 - Any issue that fails these rules blocks WP-22 and cannot enter internal
   review as completed work.
-- A merged dependency whose typed closeout or cleanup is still asynchronous is
-  recorded as incomplete evidence inside the matrix; it does not prevent WP-22
-  from running, and it receives no release credit until the canonical evidence
-  arrives.
+- WP-21A is a hard execution prerequisite for WP-22. Its canonical terminal
+  authority may be either a normal derived terminal or the governed recordless
+  closeout receipt, but the exact reviewed head/merge tree, live closure,
+  ancestry, retained receipt digests, and registered-worktree cleanup must all
+  validate before the canonical WP-22 packet can pass structural validation.
 
 # Production birthday composition gate
 

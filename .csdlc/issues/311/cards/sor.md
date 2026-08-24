@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Executed the canonical v0.92 quality gate over 13 indexed feature contracts and 20 supporting critical paths. Structural and authority validation pass, all 33 rows remain truthful release blockers, downstream unlock is false, and accepted-row validation now consumes stable typed authority, reviewed Git blobs, live GitHub closing/check truth, and the active main-protection ruleset.
+Executed the canonical v0.92 quality gate after #310 recordless terminal reconciliation, merge ancestry verification, and clean-worktree removal. The exact 13-feature plus 20-critical-path denominator validates, all 33 rows remain truthful release blockers, downstream unlock is false, and accepted evidence is contract-bound to canonical typed, Git, GitHub, review, check-app, and retained-proof authority.
 
 ## Artifacts
 
@@ -27,11 +27,11 @@ Executed the canonical v0.92 quality gate over 13 indexed feature contracts and 
 
 ## Execution
 
-- Removed caller-controlled GitHub and C-SDLC executable hooks from the production acceptance path; stable C-SDLC owners derive from the Git common directory and GitHub observations use the authenticated API directly.
-- Derived canonical required checks from the live active main-protection ruleset instead of an implementation-owned or row-selected list.
-- Required review authority from the exact typed issue index and required proof blobs to be committed at the PR head, retained unchanged, included in review scope, and bound to passed typed SOR validation lanes.
-- Added atomic cross-validation of the matrix, gate record, validation receipt, lane logs, artifact digests, blocker report, counts, result, and downstream unlock semantics.
-- Expanded the fail-closed suite to 36 cases around a real canonical #451/PR #459 control, including authority substitution, live closing/check/ruleset failures, typed-terminal mutations, proof/review mutations, and exact Git topology.
+- Consumed #310 recordless closeout receipt, exact PR-head/merge tree equality, main ancestry, and registered clean-worktree removal as hard WP-21A prerequisites.
+- Bound accepted evidence to the exact row source contract, explicit issue reference, reviewed source and implementation paths, canonical typed generation/digest, matching assignment/reviewer/revision/scope, and passed SOR evidence lanes.
+- Required live issue closure plus active ruleset check contexts and matching GitHub App integration IDs, preventing same-name checks from an unauthorized app.
+- Strengthened the complete packet with exact issue/denominator/evaluation-base identity, unique lanes, digest-bound logs, exact artifact sets, and exact blocker-reason lines.
+- Expanded the fail-closed suite to 39 cases around the real #451/PR #459 canonical control, including unrelated-row evidence reuse, reopened issue, and wrong-check-app denial.
 
 ## Validation
 
@@ -42,7 +42,7 @@ Executed the canonical v0.92 quality gate over 13 indexed feature contracts and 
       ".csdlc/prepared/issues/311/validate-quality-gate.rb",
       "matrix"
     ],
-    "purpose": "Validate the exact 33-row denominator plus the complete retained packet atomically.",
+    "purpose": "Validate the exact 33-row denominator, #310 prerequisite, and complete retained packet atomically.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/311/semantic-quality-matrix.log"
   },
@@ -51,7 +51,7 @@ Executed the canonical v0.92 quality gate over 13 indexed feature contracts and 
       "ruby",
       ".csdlc/prepared/issues/311/test-validate-quality-gate.rb"
     ],
-    "purpose": "Run the real canonical accepted control and reject 36 incomplete, stale, forged, or authority-substituted cases.",
+    "purpose": "Run the real canonical accepted control and reject 39 incomplete, stale, cross-row, forged, or authority-substituted cases.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/311/quality-negative-suite.log"
   },

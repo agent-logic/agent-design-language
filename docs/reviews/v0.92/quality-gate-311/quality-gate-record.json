@@ -3,7 +3,7 @@
   "issue": 311,
   "evaluation_base_sha": "a06c34774ad88ea8c56a00533f0fcef810fa7441",
   "matrix_sha256": "5c6e7f588fbfead4bc46f4b8f91703da8c0a5898322cb0620afd61b3be9c4728",
-  "validator_sha256": "7ddcb02c115dac22858d519ad294884a93e668125c946993e10b29309ebd7e45",
+  "validator_sha256": "1784f9c96b545d72568a2dfca69be0f9da2a697a90e575439ebbdccb75864822",
   "feature_rows": 13,
   "critical_path_rows": 20,
   "accepted_rows": 0,

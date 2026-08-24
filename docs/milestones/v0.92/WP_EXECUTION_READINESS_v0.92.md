@@ -17,7 +17,7 @@ owner validation before implementation.
 | WP-07 | WP-01, WP-05 | Dependency-gated; issue #5824 |
 | WP-08 through WP-19 | Dependencies in WBS and issue-wave YAML | Open and card-initialized; not execution-authorized by WP-01 |
 | WP-20, WP-21, WP-21A | Integrated feature/demo proof | Open and card-initialized; release-tail work |
-| WP-22 | Merged implementation inputs available; asynchronous closeout gaps become explicit blocker rows | Executing under canonical issue #311; downstream remains locked unless the exact gate result passes |
+| WP-22 | WP-21A exact head and merge are terminal, ancestral, and cleaned; all implementation inputs are available | Executing under canonical issue #311; #310 recordless terminal authority is retained, its merge is ancestral, its clean worktree is removed, and downstream remains locked unless the exact gate result passes |
 | WP-23 through WP-30 | Passing WP-22 packet plus dependencies in WBS and issue-wave YAML | Blocked until WP-22 reports zero blocker rows |
 
 ## Start Rule

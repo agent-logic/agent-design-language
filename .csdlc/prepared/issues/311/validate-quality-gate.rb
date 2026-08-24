@@ -23,6 +23,10 @@ REQUIRED_ACCEPTED_EVIDENCE = %w[
 ].freeze
 REPOSITORY = "agent-logic/agent-design-language"
 PROOF_CLASSES = %w[positive negative integration platform].freeze
+WP21A_HEAD = "ca78a65a1390f2bc088f8cf20018670d06e87068"
+WP21A_MERGE = "a06c34774ad88ea8c56a00533f0fcef810fa7441"
+WP21A_TERMINAL_DIGEST = "4080b704ac5123e9aaa3d877095603fcf1db48c5d0953d0ab476724ff30d11d2"
+WP21A_RECEIPT_DIGEST = "3db375f9d4e27c0d62f7ed1e7506d2ea816e170b72726ed878084520366a9bde"
 
 def run_git(*argv)
   stdout, stderr, status = Open3.capture3("git", "-C", ROOT.to_s, *argv)
@@ -174,6 +178,58 @@ rescue JSON::ParserError
   nil
 end
 
+def recordless_terminal(issue, errors)
+  path = Pathname.new(run_git("rev-parse", "--git-common-dir")).realpath / "csdlc-v2/closeout/#{issue}.json"
+  unless path.file?
+    errors << "recordless_terminal_missing:#{issue}"
+    return nil
+  end
+  receipt = JSON.parse(path.read)
+  terminal = receipt["terminal"]
+  unless receipt["schema"] == "csdlc.recordless_terminal_receipt.v1" && receipt["issue"] == issue &&
+      receipt["repository"] == REPOSITORY && receipt["source_projection_at_pr_head"] == false &&
+      receipt["local_projection_present"] == false && terminal.is_a?(Hash) &&
+      terminal["source"] == "live_github_recordless_closeout" && terminal["issue"] == issue &&
+      terminal["repository"] == REPOSITORY && terminal["issue_state"] == "closed_by_merged_pr" &&
+      terminal["disposition"] == "merged"
+    errors << "recordless_terminal_invalid:#{issue}"
+    return nil
+  end
+  errors << "recordless_terminal_receipt_digest_mismatch:#{issue}" unless receipt["digest"] == WP21A_RECEIPT_DIGEST
+  %w[head_sha merge_sha].each { |key| validate_hex(terminal[key], 40, "recordless_terminal:#{issue}:#{key}", errors) }
+  validate_hex(terminal["digest"], 64, "recordless_terminal:#{issue}:digest", errors)
+  begin
+    run_git("cat-file", "-e", "#{terminal['head_sha']}^{commit}")
+    run_git("cat-file", "-e", "#{terminal['merge_sha']}^{commit}")
+    head_tree = run_git("rev-parse", "#{terminal['head_sha']}^{tree}")
+    merge_tree = run_git("rev-parse", "#{terminal['merge_sha']}^{tree}")
+    errors << "recordless_terminal:#{issue}:merged_tree_mismatch" unless head_tree == merge_tree
+    _stdout, _stderr, status = Open3.capture3("git", "-C", ROOT.to_s, "merge-base", "--is-ancestor", terminal["merge_sha"], "HEAD")
+    errors << "recordless_terminal:#{issue}:merge_not_ancestral" unless status.success?
+  rescue StandardError
+    errors << "recordless_terminal:#{issue}:git_identity_unresolvable"
+  end
+  terminal
+rescue JSON::ParserError
+  errors << "recordless_terminal_invalid_json:#{issue}"
+  nil
+end
+
+def validate_wp21a_prerequisite(errors)
+  terminal = recordless_terminal(310, errors)
+  return unless terminal
+
+  errors << "wp21a_pull_request_mismatch" unless terminal["pull_request"] == 465
+  errors << "wp21a_head_mismatch" unless terminal["head_sha"] == WP21A_HEAD
+  errors << "wp21a_merge_mismatch" unless terminal["merge_sha"] == WP21A_MERGE
+  errors << "wp21a_terminal_digest_mismatch" unless terminal["digest"] == WP21A_TERMINAL_DIGEST
+  porcelain = run_git("worktree", "list", "--porcelain")
+  registered = porcelain.split("\n\n").any? do |entry|
+    entry.include?("branch refs/heads/codex/310-rust-refactoring") || entry.include?("adl-issue-310-rust-refactoring")
+  end
+  errors << "wp21a_worktree_not_cleaned" if registered
+end
+
 def github_token
   path = Pathname.new(ENV.fetch("ADL_GITHUB_TOKEN_FILE", File.join(Dir.home, "keys/github.token")))
   raise "github_token_path_invalid" unless path.absolute? && path.file? && !path.symlink?
@@ -199,7 +255,7 @@ def github_request(path, method: :get, body: nil)
   JSON.parse(response.body)
 end
 
-def live_github(pr, pr_head, errors)
+def live_github(issue, pr, pr_head, errors)
   query = <<~GRAPHQL
     query($owner:String!, $name:String!, $number:Int!) {
       repository(owner:$owner, name:$name) {
@@ -213,12 +269,13 @@ def live_github(pr, pr_head, errors)
   graph = github_request("/graphql", method: :post, body: { query: query, variables: { owner: "agent-logic", name: "agent-design-language", number: pr } })
   raise "github_graphql_errors" unless Array(graph["errors"]).empty?
   pull = graph.dig("data", "repository", "pullRequest")
+  issue_payload = github_request("/repos/#{REPOSITORY}/issues/#{issue}")
   checks = github_request("/repos/#{REPOSITORY}/commits/#{pr_head}/check-runs?per_page=100")
   rulesets = github_request("/repos/#{REPOSITORY}/rulesets")
   active = rulesets.select { |item| item["name"] == "main-protection" && item["enforcement"] == "active" && item["target"] == "branch" }
   raise "github_main_ruleset_ambiguous" unless active.length == 1
   ruleset = github_request("/repos/#{REPOSITORY}/rulesets/#{active.first.fetch('id')}")
-  [pull, checks, ruleset]
+  [pull, issue_payload, checks, ruleset]
 rescue StandardError => error
   errors << "github_observation_failed:#{error.message}"
   nil
@@ -235,9 +292,29 @@ def required_checks_from_ruleset(ruleset, base_branch, errors)
     return []
   end
   rule = Array(ruleset["rules"]).find { |item| item["type"] == "required_status_checks" }
-  checks = Array(rule&.dig("parameters", "required_status_checks")).map { |item| item["context"] }.compact.sort
+  checks = Array(rule&.dig("parameters", "required_status_checks")).each_with_object([]) do |item, values|
+    next unless item["context"].is_a?(String) && !item["context"].empty?
+    values << { "context" => item["context"], "integration_id" => item["integration_id"] }
+  end.sort_by { |item| item["context"] }
   errors << "canonical_required_checks_empty" if checks.empty?
   checks
+end
+
+def row_contract_text(row)
+  source = ROOT / row.fetch("source")
+  return source.read if row["kind"] == "feature"
+
+  source.readlines.find { |line| line.include?("| #{row.fetch('id').delete_prefix('critical:')} |") }.to_s
+end
+
+def validate_row_binding(row, evidence, review_scope, errors)
+  row_id = row["id"]
+  errors << "#{row_id}:source_outside_review_scope" unless reviewed_scope_includes?(review_scope, row["source"])
+  Array(evidence["implementation_paths"]).each do |path|
+    errors << "#{row_id}:implementation_path_outside_review_scope:#{path}" unless reviewed_scope_includes?(review_scope, path)
+  end
+  contract = row_contract_text(row)
+  errors << "#{row_id}:contract_issue_binding_missing" unless contract.match?(/(?:issue\s+`?#|`#|\s#)#{evidence['issue']}(?!\d)/i)
 end
 
 def reviewed_scope_includes?(scope, path)
@@ -264,7 +341,7 @@ def validate_proof(proof_ref, proof_class, pr_head, review_scope, validations, r
   errors << "#{row_id}:#{proof_class}:evidence_ref_mismatch" unless evidence_name.is_a?(String) && File.basename(proof_ref["path"]) == File.basename(evidence_name)
 end
 
-def validate_live_authority(evidence, pull, check_payload, ruleset, row_id, errors)
+def validate_live_authority(evidence, pull, issue_payload, check_payload, ruleset, row_id, errors)
   errors << "#{row_id}:github_pr_not_merged" unless pull["state"] == "MERGED" && pull["merged"] == true
   errors << "#{row_id}:github_base_branch_mismatch" unless pull["baseRefName"] == "main"
   errors << "#{row_id}:github_pr_head_mismatch" unless pull["headRefOid"] == evidence["pr_head"]
@@ -272,10 +349,19 @@ def validate_live_authority(evidence, pull, check_payload, ruleset, row_id, erro
   closing = Array(pull.dig("closingIssuesReferences", "nodes"))
   linked = closing.any? { |item| item["number"] == evidence["issue"] && item.dig("repository", "nameWithOwner") == REPOSITORY }
   errors << "#{row_id}:github_closing_link_missing" unless linked
+  errors << "#{row_id}:github_issue_not_closed" unless issue_payload["number"] == evidence["issue"] &&
+    issue_payload["state"] == "closed" && issue_payload["state_reason"] == "completed"
   canonical_checks = required_checks_from_ruleset(ruleset, pull["baseRefName"], errors)
-  errors << "#{row_id}:required_checks_not_canonical" unless Array(evidence["required_checks"]).sort == canonical_checks
-  checks = Array(check_payload["check_runs"]).to_h { |item| [item["name"], item["conclusion"]] }
-  canonical_checks.each { |name| errors << "#{row_id}:required_check_not_successful:#{name}" unless checks[name] == "success" }
+  canonical_names = canonical_checks.map { |item| item["context"] }
+  errors << "#{row_id}:required_checks_not_canonical" unless Array(evidence["required_checks"]).sort == canonical_names.sort
+  canonical_checks.each do |required|
+    matching = Array(check_payload["check_runs"]).select { |item| item["name"] == required["context"] }
+    accepted = matching.any? do |item|
+      item["conclusion"] == "success" &&
+        (required["integration_id"].nil? || item.dig("app", "id") == required["integration_id"])
+    end
+    errors << "#{row_id}:required_check_not_successful:#{required['context']}" unless accepted
+  end
 end
 
 def validate_accepted(row, errors)
@@ -345,10 +431,16 @@ def validate_accepted(row, errors)
   expected_review_path = ".csdlc/issues/#{evidence['issue']}/index.json"
   errors << "#{row['id']}:review_artifact_path_mismatch" unless evidence.dig("review_artifact", "path") == expected_review_path
   if review
+    errors << "#{row['id']}:review_index_issue_mismatch" unless review_index["issue"] == evidence["issue"] && review_index["repository"] == REPOSITORY
+    errors << "#{row['id']}:review_index_terminal_digest_mismatch" unless review_index["generation"] == terminal["generation"] && review_index["digest"] == terminal["digest"]
     errors << "#{row['id']}:review_incomplete" unless review["completed"] == true
     errors << "#{row['id']}:review_findings_present" unless Array(review["findings"]).empty?
     revision_match = review["reviewed_revision"].to_s.match(/\Agit-blake3:([0-9a-f]{40}):([0-9a-f]{64})\z/)
     errors << "#{row['id']}:review_revision_invalid" unless revision_match && revision_match[1] == evidence["reviewed_head"]
+    assignment = review_index["review_assignment"]
+    errors << "#{row['id']}:review_assignment_mismatch" unless assignment.is_a?(Hash) &&
+      assignment["reviewer"] == review["reviewer"] && assignment["revision"] == review["reviewed_revision"] &&
+      assignment["scope"] == review["scope"]
     metadata_paths = run_git("diff", "--name-only", evidence["reviewed_head"], evidence["pr_head"]).lines.map(&:strip).reject(&:empty?)
     allowed_prefix = ".csdlc/issues/#{evidence['issue']}/"
     errors << "#{row['id']}:post_review_product_drift" unless metadata_paths.all? { |path| path.start_with?(allowed_prefix) }
@@ -363,14 +455,15 @@ def validate_accepted(row, errors)
   end
   validations = sor_bytes ? Array(JSON.parse(sor_bytes).dig("content", "values", "actual_validation")) : []
   review_scope = review ? review["scope"] : []
+  validate_row_binding(row, evidence, review_scope, errors)
   PROOF_CLASSES.each { |proof_class| validate_proof(evidence[proof_class], proof_class, evidence["pr_head"], review_scope, validations, row["id"], errors) }
   proof_paths = PROOF_CLASSES.map { |proof_class| evidence.dig(proof_class, "path") }
   errors << "#{row['id']}:proof_paths_not_distinct" unless proof_paths.compact.uniq.length == PROOF_CLASSES.length
 
-  live = evidence["pull_request"].is_a?(Integer) ? live_github(evidence["pull_request"], evidence["pr_head"], errors) : nil
+  live = evidence["pull_request"].is_a?(Integer) ? live_github(evidence["issue"], evidence["pull_request"], evidence["pr_head"], errors) : nil
   if live
-    pull, check_payload, ruleset = live
-    validate_live_authority(evidence, pull, check_payload, ruleset, row["id"], errors)
+    pull, issue_payload, check_payload, ruleset = live
+    validate_live_authority(evidence, pull, issue_payload, check_payload, ruleset, row["id"], errors)
   end
 rescue JSON::ParserError
   errors << "#{row['id']}:typed_artifact_json_invalid"
@@ -402,11 +495,20 @@ def validate_complete_packet(matrix, errors)
     "quality_gate_result" => result, "downstream_unlock" => unlock
   }
   receipt_expected.each { |key, value| errors << "packet:receipt:#{key}_mismatch" unless receipt[key] == value }
+  dependency_expected = {
+    "issue_310" => "closed_by_merged_pr_465", "head_sha" => WP21A_HEAD, "merge_sha" => WP21A_MERGE,
+    "terminal_source" => "live_github_recordless_closeout", "terminal_digest" => WP21A_TERMINAL_DIGEST,
+    "receipt_digest" => WP21A_RECEIPT_DIGEST, "cleanup" => "complete", "release_credit" => false
+  }
+  errors << "packet:receipt:dependency_observation_mismatch" unless receipt["dependency_observation"] == dependency_expected
   denominator_expected = { "feature_rows" => 13, "critical_path_rows" => 20, "total_rows" => 33,
                            "accepted_rows" => accepted, "blocked_rows" => blocked_rows.length }
   errors << "packet:receipt:denominator_mismatch" unless receipt["denominator"] == denominator_expected
 
-  lane_by_name = Array(receipt["lanes"]).to_h { |lane| [lane["name"], lane] }
+  lanes = Array(receipt["lanes"])
+  lane_names = lanes.map { |lane| lane["name"] }
+  errors << "packet:receipt:duplicate_lane" unless lane_names.uniq.length == lane_names.length
+  lane_by_name = lanes.to_h { |lane| [lane["name"], lane] }
   expected_lanes = %w[semantic-quality-matrix quality-negative-suite docs-schema-diff]
   errors << "packet:receipt:lane_set_mismatch" unless lane_by_name.keys.sort == expected_lanes.sort
   expected_lanes.each do |name|
@@ -415,14 +517,15 @@ def validate_complete_packet(matrix, errors)
     errors << "packet:lane:#{name}:result_mismatch" unless lane["result"] == "passed"
     path = safe_relative(lane["log"], "packet:lane:#{name}", errors)
     errors << "packet:lane:#{name}:log_missing" unless path && (ROOT / path).file?
+    errors << "packet:lane:#{name}:log_digest_mismatch" unless path && lane["sha256"] == sha256(ROOT / path)
   end
   errors << "packet:lane:semantic:gate_result_mismatch" unless lane_by_name.dig("semantic-quality-matrix", "gate_result") == result
-  errors << "packet:lane:negative:cases_mismatch" unless lane_by_name.dig("quality-negative-suite", "cases") == 36
+  errors << "packet:lane:negative:cases_mismatch" unless lane_by_name.dig("quality-negative-suite", "cases") == 39
 
   semantic_log = JSON.parse((ROOT / lane_by_name.dig("semantic-quality-matrix", "log")).read)
   negative_log = JSON.parse((ROOT / lane_by_name.dig("quality-negative-suite", "log")).read)
   errors << "packet:semantic_log_mismatch" unless semantic_log["status"] == "passed" && semantic_log["rows"] == 33 && semantic_log["blocked_rows"] == blocked_rows.length && semantic_log["gate_result"] == result
-  errors << "packet:negative_log_mismatch" unless negative_log["schema"] == "adl.v0.92.quality_gate_negative_suite.v2" && negative_log["status"] == "passed" && negative_log["cases"] == 36 && negative_log["authority_substitution_ignored"] == true
+  errors << "packet:negative_log_mismatch" unless negative_log["schema"] == "adl.v0.92.quality_gate_negative_suite.v2" && negative_log["status"] == "passed" && negative_log["cases"] == 39 && negative_log["authority_substitution_ignored"] == true
   diff_log = ROOT / lane_by_name.dig("docs-schema-diff", "log")
   errors << "packet:diff_log_not_clean" unless diff_log.read.empty?
 
@@ -431,14 +534,18 @@ def validate_complete_packet(matrix, errors)
     "validator_sha256" => sha256(Pathname.new(__FILE__)),
     "negative_suite_sha256" => sha256(ROOT / ".csdlc/prepared/issues/311/test-validate-quality-gate.rb"),
     "matrix_sha256" => sha256(DEFAULT_MATRIX), "gate_record_sha256" => sha256(DEFAULT_GATE),
-    "blocker_report_sha256" => sha256(DEFAULT_REPORT)
+    "blocker_report_sha256" => sha256(DEFAULT_REPORT),
+    "semantic_log_sha256" => sha256(ROOT / ".csdlc/evidence/311/semantic-quality-matrix.log"),
+    "negative_log_sha256" => sha256(ROOT / ".csdlc/evidence/311/quality-negative-suite.log"),
+    "diff_log_sha256" => sha256(ROOT / ".csdlc/evidence/311/docs-schema-diff.log")
   }
   errors << "packet:receipt:artifact_set_mismatch" unless artifacts.is_a?(Hash) && artifacts.keys.sort == expected_artifacts.keys.sort
   expected_artifacts.each { |key, value| errors << "packet:receipt:#{key}_mismatch" unless artifacts&.[](key) == value }
 
   errors << "packet:report:result_mismatch" unless report.include?("Result: **#{result.upcase}**")
   blocked_rows.each do |row|
-    errors << "packet:report:missing_row:#{row['id']}" unless report.scan("`#{row['id']}`").length == 1
+    expected_line = "- `#{row['id']}` — #{row['blockers'].join(', ')}"
+    errors << "packet:report:row_mismatch:#{row['id']}" unless report.lines.count { |line| line.chomp == expected_line } == 1
   end
 rescue JSON::ParserError, KeyError, Errno::ENOENT => error
   errors << "packet:invalid:#{error.class}"
@@ -449,8 +556,12 @@ def validate_matrix(path)
   errors = []
   errors << "schema_invalid" unless matrix["schema"] == "adl.v0.92.quality_gate_matrix.v1"
   errors << "milestone_invalid" unless matrix["milestone"] == "v0.92"
+  errors << "issue_invalid" unless matrix["issue"] == 311
+  errors << "denominator_object_invalid" unless matrix["denominator"] == { "feature_rows" => 13, "critical_path_rows" => 20, "total_rows" => 33 }
+  validate_wp21a_prerequisite(errors) if path.expand_path == DEFAULT_MATRIX.expand_path
   evaluation_base = matrix["evaluation_base_sha"]
   validate_hex(evaluation_base, 40, "evaluation_base_sha", errors)
+  errors << "evaluation_base_not_wp21a_merge" unless evaluation_base == WP21A_MERGE
   if evaluation_base.to_s.match?(/\A[0-9a-f]{40}\z/)
     _stdout, _stderr, status = Open3.capture3("git", "-C", ROOT.to_s, "merge-base", "--is-ancestor", evaluation_base, "HEAD")
     errors << "evaluation_base_not_ancestral" unless status.success?
@@ -577,7 +688,7 @@ when "matrix"
 when "observation"
   payload = JSON.parse(Pathname.new(input_arg.to_s).read)
   errors = []
-  validate_live_authority(payload.fetch("evidence"), payload.fetch("pull"), payload.fetch("checks"), payload.fetch("ruleset"), "observation", errors)
+  validate_live_authority(payload.fetch("evidence"), payload.fetch("pull"), payload.fetch("issue"), payload.fetch("checks"), payload.fetch("ruleset"), "observation", errors)
   if errors.empty?
     puts JSON.generate(schema: "adl.v0.92.quality_gate_observation_validation.v1", status: "passed")
   else

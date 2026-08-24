@@ -5,14 +5,14 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "b86263883d2f9fb6ce7d5fa5190ca61881a7d49a954bbe46c134b8c3aa9da98c",
   "phase": "implemented",
-  "generation": 10,
-  "digest": "4aa6b5ff941c7868be985006107f8bcdcf7d28ba6e16b2c603874782081ef988",
+  "generation": 12,
+  "digest": "ad5caf46f978bf803388da010cd10117a3a15945cc47f4667a6de5f2a2d2a813",
   "branch": "codex/311-v092-quality-gate",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-311-v092-quality-gate",
   "review_assignment": {
-    "reviewer": "fresh-session:3c216425-3a6e-47e4-a2d8-f11d4e0495aa",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:02f86001a1936bf2e333f58e843e49fd9028cdaf:337195baca0d96511375a3b5ff2d54578d48f7a0f50d6df85c16194b20b8f6b5",
+    "reviewer": "fresh-session:89119b99-dc15-475a-8908-3740b9c649fe",
+    "assigned_by": "codex:/root-api-review",
+    "revision": "git-blake3:ce99e1736bb2ccd2979e3ba38a7b4983f1f198e6:2dc74e203ec42fb7c1420d6fbd9d044ce9a28bedfad17394cec6668593c04d98",
     "scope": [
       ".csdlc/issues/311",
       ".csdlc/prepared/issues/311",
@@ -23,7 +23,7 @@
     ]
   },
   "review": {
-    "reviewer": "fresh-session:3c216425-3a6e-47e4-a2d8-f11d4e0495aa",
+    "reviewer": "fresh-session:89119b99-dc15-475a-8908-3740b9c649fe",
     "scope": [
       ".csdlc/issues/311",
       ".csdlc/prepared/issues/311",
@@ -32,12 +32,12 @@
       "docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md",
       "docs/reviews/v0.92/quality-gate-311"
     ],
-    "reviewed_revision": "git-blake3:02f86001a1936bf2e333f58e843e49fd9028cdaf:337195baca0d96511375a3b5ff2d54578d48f7a0f50d6df85c16194b20b8f6b5",
+    "reviewed_revision": "git-blake3:ce99e1736bb2ccd2979e3ba38a7b4983f1f198e6:2dc74e203ec42fb7c1420d6fbd9d044ce9a28bedfad17394cec6668593c04d98",
     "findings": [
       {
-        "id": "311-R1-P1-ACCEPTED-AUTHORITY",
+        "id": "311-API-R3-P1-ROW-BINDING",
         "severity": "p1",
-        "summary": "Accepted rows did not independently authenticate typed terminal, GitHub, review, check, implementation-path, and proof-artifact authority.",
+        "summary": "Accepted evidence was reusable across unrelated feature and critical-path rows without proving the reviewed contract or owner binding.",
         "actionable": true,
         "in_scope": true,
         "disposition": "open",
@@ -45,9 +45,39 @@
         "route": null
       },
       {
-        "id": "311-R1-P1-NEGATIVE-DENOMINATOR",
+        "id": "311-API-R3-P1-TYPED-AUTHORITY",
         "severity": "p1",
-        "summary": "The negative suite did not independently exercise every forged-evidence class promised by the design.",
+        "summary": "The accepted path did not sufficiently bind the canonical typed index, review assignment, reviewer, revision, and SOR authority.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "311-API-R3-P1-GITHUB-AUTHORITY",
+        "severity": "p1",
+        "summary": "Live GitHub validation omitted issue closure and required-check GitHub App identity.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "311-API-R3-P1-PACKET-ATOMICITY",
+        "severity": "p1",
+        "summary": "The complete packet did not fully bind lane uniqueness, log digests, exact denominator identity, blocker reasons, and the WP-21A source revision.",
+        "actionable": true,
+        "in_scope": true,
+        "disposition": "open",
+        "fix_revision": null,
+        "route": null
+      },
+      {
+        "id": "311-API-R3-P2-WP21A-PREREQUISITE",
+        "severity": "p2",
+        "summary": "Execution evidence had not consumed #310 terminal reconciliation and cleanup as the approved hard prerequisite.",
         "actionable": true,
         "in_scope": true,
         "disposition": "open",
@@ -73,34 +103,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "ec03afdf0d603256adf8e48380257e5bd670bed6470ed4052894c50679d08d57",
+      "values_digest": "cac3d292376a1fc189a65f5719f7f5fa6042b8470caf94a9c0e1716e19fec6e4",
       "rendered_digest": "b1c0911fc6a227d0ba229185e1c36e858733223971a364604a99b92eb0a352d5",
       "ast_digest": "8a2e49295edbd23107ac83440b809a31e649dd5ebb23869f3af17fad3b4518f4"
     },
     "stp": {
-      "values_digest": "4481400a6f41eff6b0871b6366edf5e1922498bb51dbe31f95a3d1d4f465b6a5",
+      "values_digest": "90fef957a2a754c9e8681a77adcad98acc05a729937fb0b9d762ccc36f303f43",
       "rendered_digest": "f793cb9183e8527acec0fd8cf26e1997d079d599d791ddb1f03996e9b92209a2",
       "ast_digest": "50869a8bb645edaa6aa3d4555ec1318a1dc733fd95ae0860a5d245e58e4172eb"
     },
     "spp": {
-      "values_digest": "7f8549a478b022108d045c1aebefe28cfc808af3530811dfbf78ec891b091e64",
+      "values_digest": "e1dcfa83b2f1c57eb8f835053caa3990418fb39851853035a94ac496195c0087",
       "rendered_digest": "5cd73cd5c1f4b04e2840e6685840923c1941d3a0768ac7cf6ddd6928fcac77b0",
       "ast_digest": "7b0e641d0f7253dcddb9228a1b3ceb904085bd7fb60de1cab95bf3121c685a76"
     },
     "vpp": {
-      "values_digest": "74600c7fabc1d8ca9edac4e4449bdfd64fa05f56749dc51ec1f3c1484ce6ff98",
+      "values_digest": "7f788bd00fded87114ce79bf11becaa01e5b5bdfe608a92b4e861a302e299748",
       "rendered_digest": "4d5f3ec18d5fcc530c196e13f96fa69febc401a60d9c82528f820028e7dd7831",
       "ast_digest": "0db9710fa2f00ec2cd4017d2b1ae36ce10af870e419b31a8376556f09b10a411"
     },
     "srp": {
-      "values_digest": "f5bb05db5772224cea3dc174429b5d44e4db3bf1555e5d7e3c2d57319649df00",
-      "rendered_digest": "dac0723fee88b673037b0b7f56ffdcff7905235eb4fbd4784a06b775c0bfe07f",
-      "ast_digest": "84641bec07f1336aacd64d11819ee49dd4ccdce66a7eec42597341d2dfa5d075"
+      "values_digest": "f1998af377a1c8138a615a6ef7cb640269653deca998041bbc1c17faff544074",
+      "rendered_digest": "b3467e35aee093946c6b000ba29cb9800a796dc2cab6bc6e0c017777a04fd7dd",
+      "ast_digest": "796bb351fea21b6cd08560a99caa83bc6ae4f234fbfd2aa3e0c22b676ad20e7c"
     },
     "sor": {
-      "values_digest": "cd111c220160f082a19e2737836b131e71259113da016733945fdb1a0e293ba0",
-      "rendered_digest": "7364ebb4dd2af9a0281d9b96566753a102fd2028de4d26f38500d50f002f5a88",
-      "ast_digest": "110acecec0f874a543f9728055d0b53d381271e1ef230cf1dca719c18fe3f829"
+      "values_digest": "308f159bd15ff4302c2fefbb56d881fc77c5059f953cd6e59066723cdc483f23",
+      "rendered_digest": "87fcb39251402208bb4548c4f197a91342ca8169938908d58a614fed58d482bd",
+      "ast_digest": "968a08ece8ffc3f31cbe5950b28bf59b30516e72a8534d2f99ee4dee5853ba57"
     }
   },
   "transitions": [
@@ -217,6 +247,27 @@
       "actor": "codex:/root",
       "reason": "Record the candidate-blind API review remediation with real canonical typed/Git/GitHub/ruleset authority and atomic packet validation.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Executed the canonical v0.92 quality gate over 13 indexed feature contracts and 20 supporting critical paths. Structural and authority validation pass, all 33 rows remain truthful release blockers, downstream unlock is false, and accepted-row validation now consumes stable typed authority, reviewed Git blobs, live GitHub closing/check truth, and the active main-protection ruleset.\",\"changes\":[\"Removed caller-controlled GitHub and C-SDLC executable hooks from the production acceptance path; stable C-SDLC owners derive from the Git common directory and GitHub observations use the authenticated API directly.\",\"Derived canonical required checks from the live active main-protection ruleset instead of an implementation-owned or row-selected list.\",\"Required review authority from the exact typed issue index and required proof blobs to be committed at the PR head, retained unchanged, included in review scope, and bound to passed typed SOR validation lanes.\",\"Added atomic cross-validation of the matrix, gate record, validation receipt, lane logs, artifact digests, blocker report, counts, result, and downstream unlock semantics.\",\"Expanded the fail-closed suite to 36 cases around a real canonical #451/PR #459 control, including authority substitution, live closing/check/ruleset failures, typed-terminal mutations, proof/review mutations, and exact Git topology.\"],\"artifacts\":[\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\",\".csdlc/evidence/311/validation.json\",\"docs/reviews/v0.92/quality-gate-311/feature-completion-matrix.json\",\"docs/reviews/v0.92/quality-gate-311/quality-gate-record.json\",\"docs/reviews/v0.92/quality-gate-311/blocker-report.md\",\"docs/milestones/v0.92/QUALITY_GATE_v0.92.md\",\"docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\"matrix\"],\"purpose\":\"Validate the exact 33-row denominator plus the complete retained packet atomically.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/semantic-quality-matrix.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\"],\"purpose\":\"Run the real canonical accepted control and reject 36 incomplete, stale, forged, or authority-substituted cases.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/quality-negative-suite.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove exact candidate diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/docs-schema-diff.log\"}]}"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:/root-api-review",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "Record the bounded API R3 remediation, consume #310 recordless terminal and cleanup authority, and bind accepted evidence to the exact reviewed row contract.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Executed the canonical v0.92 quality gate after #310 recordless terminal reconciliation, merge ancestry verification, and clean-worktree removal. The exact 13-feature plus 20-critical-path denominator validates, all 33 rows remain truthful release blockers, downstream unlock is false, and accepted evidence is contract-bound to canonical typed, Git, GitHub, review, check-app, and retained-proof authority.\",\"changes\":[\"Consumed #310 recordless closeout receipt, exact PR-head/merge tree equality, main ancestry, and registered clean-worktree removal as hard WP-21A prerequisites.\",\"Bound accepted evidence to the exact row source contract, explicit issue reference, reviewed source and implementation paths, canonical typed generation/digest, matching assignment/reviewer/revision/scope, and passed SOR evidence lanes.\",\"Required live issue closure plus active ruleset check contexts and matching GitHub App integration IDs, preventing same-name checks from an unauthorized app.\",\"Strengthened the complete packet with exact issue/denominator/evaluation-base identity, unique lanes, digest-bound logs, exact artifact sets, and exact blocker-reason lines.\",\"Expanded the fail-closed suite to 39 cases around the real #451/PR #459 canonical control, including unrelated-row evidence reuse, reopened issue, and wrong-check-app denial.\"],\"artifacts\":[\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\",\".csdlc/evidence/311/validation.json\",\"docs/reviews/v0.92/quality-gate-311/feature-completion-matrix.json\",\"docs/reviews/v0.92/quality-gate-311/quality-gate-record.json\",\"docs/reviews/v0.92/quality-gate-311/blocker-report.md\",\"docs/milestones/v0.92/QUALITY_GATE_v0.92.md\",\"docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/311/validate-quality-gate.rb\",\"matrix\"],\"purpose\":\"Validate the exact 33-row denominator, #310 prerequisite, and complete retained packet atomically.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/semantic-quality-matrix.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/311/test-validate-quality-gate.rb\"],\"purpose\":\"Run the real canonical accepted control and reject 39 incomplete, stale, cross-row, forged, or authority-substituted cases.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/quality-negative-suite.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Prove exact candidate diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/311/docs-schema-diff.log\"}]}"
     }
   ]
 }
