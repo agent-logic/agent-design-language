@@ -10,17 +10,17 @@
   "denominator": {"feature_rows": 13, "critical_path_rows": 20, "total_rows": 33, "accepted_rows": 0, "blocked_rows": 33},
   "lanes": [
     {"name": "semantic-quality-matrix", "result": "passed", "gate_result": "blocked", "log": ".csdlc/evidence/311/semantic-quality-matrix.log", "sha256": "0c8d082136e6aab718c6d2952c745f91432f3fa55ceb865e0709442deb251cb8"},
-    {"name": "quality-negative-suite", "result": "passed", "cases": 65, "log": ".csdlc/evidence/311/quality-negative-suite.log", "sha256": "91c8809758fd298792a18ab8f9bc4afadd4e97ca49b1a2c6e3a5f9cdd3619e82"},
+    {"name": "quality-negative-suite", "result": "passed", "cases": 76, "log": ".csdlc/evidence/311/quality-negative-suite.log", "sha256": "aa8f3bdbb2ceaa445a276775a0742e1b1a036af628bb9741d24bd23787dda65f"},
     {"name": "docs-schema-diff", "result": "passed", "log": ".csdlc/evidence/311/docs-schema-diff.log", "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"}
   ],
   "artifacts": {
-    "validator_sha256": "7f36d7df170701f7b0a85df56b72cca884fe0c8c33ec59204267f2543256a2e6",
-    "negative_suite_sha256": "bcfab7300f1ff66b30f5310ab02bf882d280d4b84380995cab015ac5b915c75a",
+    "validator_sha256": "f9dad3e50464891470225d692dc8214ef3aafb2a3af30b9852f04f04817e831b",
+    "negative_suite_sha256": "6739a78b648067c304243dad70bc738ba566371f807df13b1d279f3b5dadfd01",
     "matrix_sha256": "05fc542d34e2d4019c0a987e0cde101cfafa75570c5131acc5cdf0573c825949",
-    "gate_record_sha256": "a8cf3834c520f8d2e3186395131d3a61b325fab2aae8d32401279b9f53fda368",
+    "gate_record_sha256": "156b1e0d687eb289a2626a31f3c82042df68d881e79e0ff26840fde16e5b0bf4",
     "blocker_report_sha256": "32c51d7465a455bcae4394472720b25251de3dba0b43075af013f5b0311fa48a",
     "semantic_log_sha256": "0c8d082136e6aab718c6d2952c745f91432f3fa55ceb865e0709442deb251cb8",
-    "negative_log_sha256": "91c8809758fd298792a18ab8f9bc4afadd4e97ca49b1a2c6e3a5f9cdd3619e82",
+    "negative_log_sha256": "aa8f3bdbb2ceaa445a276775a0742e1b1a036af628bb9741d24bd23787dda65f",
     "diff_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   },
   "dependency_observation": {
