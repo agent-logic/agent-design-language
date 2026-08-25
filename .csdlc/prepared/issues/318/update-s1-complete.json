@@ -1,0 +1,1 @@
+{"issue":318,"card":"spp","expected_generation":20,"expected_digest":"29650e73813c9016d6ca69d30ea4eb41ab37911ba1abed118c915d276233da4d","actor":"codex:root","reason":"record completed merged-authority reconstruction","operation":{"operation":"update_plan_step","step_id":"S1","status":"completed"},"fail_after_backup":false}

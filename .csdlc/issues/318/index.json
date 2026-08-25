@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "a9da616fc297502515fbf254ee77a18400f007c2b333d09bb5f934640e07ece4",
   "phase": "implemented",
-  "generation": 19,
-  "digest": "cb7ec602fa45934f6f8a3f778f32910c6a75ed2145bd9494e3cdd0ce4380cb3a",
+  "generation": 24,
+  "digest": "a69ff34134418af73774eaaf808eaaa71022bc42f937047a5b7cd097768e1e07",
   "branch": "codex/318-v092-wp29-next-milestone-review",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-318-next-milestone-review",
   "review_assignment": null,
@@ -17,35 +17,40 @@
   "migration": null,
   "design_path": ".csdlc/prepared/issues/318/design.md",
   "diagram_path": ".csdlc/prepared/issues/318/diagram.mmd",
-  "design_review": "pending",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:bc6a47d0-cb3c-4eb2-8024-beee876179c5",
+      "revision": "f7c8014c7450ab0995f9ecceb85141a59a79a182a1a46eb7136ae3f958f78825"
+    }
+  },
   "cards": {
     "sip": {
-      "values_digest": "ae6737d76dca89134b05a8da1ba25f77a37c49f8fa7e200e0b99edd6744e7c5c",
+      "values_digest": "644cd00c00c5c9459ae18a62d5f02fc170b343706d7d5ea944a871e014f003ae",
       "rendered_digest": "4bb47c934ea3fb8a47e2b9bacc2cabe276e09287b78846390f5fb3d102d992ba",
       "ast_digest": "d2f863671b358dd3c6c0418be17f26687cb1667bd8f0d84f71e418be7a4d8f6d"
     },
     "stp": {
-      "values_digest": "5bff505f48da1d80477c5a3d74211a8044eefd77b1072de620753f2703d9e899",
+      "values_digest": "b611e44b514bcf57baf46641c42f2c3f43327cca3f6b400ea45855567da249a1",
       "rendered_digest": "ddbc8f8de7c50f142f35f7f81554973ed94748c080ea0f145f8269ab39fae1f4",
       "ast_digest": "a4c897522de5385bfbefecbcce04d0a38751100bdbf4ff20bfec8d6505c1f97f"
     },
     "spp": {
-      "values_digest": "10e3bc4c2ecd2850dd991cfbafc856365f618bfb7260516256c6490593f704b9",
-      "rendered_digest": "d1f4439d96bc414935f3949a8351ac58033a8fc27216b8519087492dbf89fc64",
-      "ast_digest": "0b5700b533cef338434c583aeec96c82e494cf20b9a8888f982cf69696e216c1"
+      "values_digest": "2d6fd9c2063117b0f5be5bc53dec9450330425e2134c53ad426f74cbae486d8e",
+      "rendered_digest": "892fd92d2c3d1e43212e8eec54bcf0e6bd3073a72aae6923989dabc072a9eb48",
+      "ast_digest": "77969b35301837a6b972a5c76681d878d806ab56c39c10d0ae5872c89fd0bebe"
     },
     "vpp": {
-      "values_digest": "4b93b59fccc3b1827d1f77764ca01e60875cd23abe08b61046f5bd56f6f7b061",
+      "values_digest": "8c3653695e0802a0030ed5875c37dedc2a265c65d568983644c8c388ca9dd108",
       "rendered_digest": "5717d7470f718f6815d57fca6659753fc462169edc25251cc4503666503bd228",
       "ast_digest": "22765a9166a6bd8d9e384de02ec34cdf351793ac33105c53de045ecfa70c059d"
     },
     "srp": {
-      "values_digest": "d0332b74619693df82f734baeb145970786db5003179544f5ecbaedd16449e8d",
+      "values_digest": "38343c1ca0e0e6dbd0af18f681cb203eebcc4e67e8812ab7c9ebc86e2ffeb61e",
       "rendered_digest": "3ca2242899c8e57f5f3609215a818362a80b0dbaa944bf009c6b3677befe815d",
       "ast_digest": "858a5383c0b16e9432f1c27da4d3ab897aca30a659752bd9d114c1ba26c92ee6"
     },
     "sor": {
-      "values_digest": "ca27d70af680f74449a02a304d82379710401e30ae326d1bb514798e8f00674e",
+      "values_digest": "5f62fd07193f150855c25dba694b1279a5afd8b4bf1c19785840bd57da54ff60",
       "rendered_digest": "c4defeb505320c548d0d16f32c79add5787e725c41781f991fc050fbbdb81388",
       "ast_digest": "417c93f6721475283348391827e062795724d0f743c022b96fe9b375245a3507"
     }
@@ -227,6 +232,41 @@
       "actor": "codex:root",
       "reason": "replace stale execution truth with the completed 45-slot readiness package and current focused proof",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Completed the WP-29 next-milestone readiness review, live-checked the canonical #307-#319 issue universe, and reconciled the canonical v0.92.1 planning package so all 45 creation-owned issues are independently finishable single units with exact release-tail identity and merge-only ordering.\",\"changes\":[\"Normalized exact INT-01 and TAIL-01 through TAIL-10 titles and serial dependencies.\",\"Defined structured one-objective, one-primary-deliverable, one-verifiable-result contracts for all 45 creation-owned issues.\",\"Added bounded AWS and GCP move-in units, cross-cloud Terraform conversion, Rust resilience refactoring, and governed Agent Toolkit setup under AWS-B.\",\"Added live GitHub and Git reconciliation, source-provenance guards, ten exact negative cases, and an evidence-backed finding disposition.\"],\"artifacts\":[\"docs/milestones/v0.92/review/V092_NEXT_MILESTONE_REVIEW_318.md\",\"docs/milestones/v0.92.1\",\".csdlc/evidence/318/issue-universe.json\",\".csdlc/evidence/318/findings.json\",\".csdlc/evidence/318/readiness-review.json\",\".csdlc/evidence/318/planning-source-addendum.json\",\".csdlc/prepared/issues/318/validate-readiness-review.rb\",\".csdlc/prepared/issues/318/test-validate-readiness-review.rb\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/316/validate-v0921-plan.rb\"],\"purpose\":\"Validate 55 planned IDs, 45 creation slots, the exact ten-step release tail, source dispositions, and dependency closure.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/milestones/v0.92.1\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/318/validate-readiness-review.rb\",\"all\"],\"purpose\":\"Live-check the 13-row issue/PR universe and validate all 45 structured unit contracts, exact tail order and dependencies, source provenance, and successor non-claims.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/318\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/318/test-validate-readiness-review.rb\"],\"purpose\":\"Prove fail-closed rejection of ten exact planning and unit-contract defects.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/318\"}]}"
+    },
+    {
+      "sequence": 23,
+      "generation": 20,
+      "actor": "fresh-session:bc6a47d0-cb3c-4eb2-8024-beee876179c5",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"f7c8014c7450ab0995f9ecceb85141a59a79a182a1a46eb7136ae3f958f78825\",\"design_ref\":\".csdlc/prepared/issues/318/design.md\",\"diagram_digest\":\"b8fb6ae07f3dac5a1edc55325ce8bbc199b36511fb08c7cb00a48c6f627a8232\",\"diagram_ref\":\".csdlc/prepared/issues/318/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 24,
+      "generation": 21,
+      "actor": "codex:root",
+      "reason": "record completed merged-authority reconstruction",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 25,
+      "generation": 22,
+      "actor": "codex:root",
+      "reason": "record completed successor handoff review",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 26,
+      "generation": 23,
+      "actor": "codex:root",
+      "reason": "record completed canonical 45-slot planning reconciliation",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 27,
+      "generation": 24,
+      "actor": "codex:root",
+      "reason": "record final exact-head review as the remaining plan action",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
     }
   ]
 }
