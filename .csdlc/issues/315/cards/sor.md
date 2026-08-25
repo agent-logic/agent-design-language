@@ -49,7 +49,7 @@ Remediated WP-27 review findings by accounting for all retained internal and ext
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

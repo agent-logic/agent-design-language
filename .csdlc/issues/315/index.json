@@ -4,32 +4,13 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "69a605466990518758a56adab5fead02f83654418b6259dd24bf8dedd0eea706",
-  "phase": "reviewed",
-  "generation": 24,
-  "digest": "ce19629db846f9d7997da7d5ab509ed979f3b72ae05807802d88fe3ae49b8e99",
+  "phase": "implemented",
+  "generation": 25,
+  "digest": "ee05067341897869af1ac07779efa1174c29296b737e8292e13958ea34079f6d",
   "branch": "codex/315-wp27-review-findings-remediation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-315-wp27-review-findings-remediation-execution",
   "review_assignment": null,
-  "review": {
-    "reviewer": "subagent:issue-315-gpt5.5-review",
-    "scope": [
-      ".csdlc/issues/5848",
-      ".csdlc/prepared/issues/5848",
-      ".csdlc/evidence/5848",
-      "docs/reviews/v0.92/external-review-5847",
-      "docs/reviews/v0.92/remediation-5848/disposition-register.json",
-      "docs/reviews/v0.92/remediation-5848/README.md",
-      "adl-runtime-kernel/src/production_birthday.rs",
-      "adl-runtime-kernel/tests/production_birthday.rs"
-    ],
-    "reviewed_revision": "git-blake3:607a6f303e8b78179ffb38bb1c18d9085c85d982:4e2c10798a896206e05c33a727d80b2783f413b869932771484cfcc44cf3f8c0",
-    "findings": [],
-    "residual_risks": [
-      "This review does not approve release, merge, closeout, #316, or #471 completion."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
+  "review": null,
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -44,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "41ce3c5919a7077d5538757f6e85b93749809e96cb708aff18a42a01120546a1",
+      "values_digest": "2cc3bbc8ba445c8cd63c40f93c6ca0855b02b40e63b7708fab8f8ccd37cbc778",
       "rendered_digest": "341c937fdfdc7d28a4e966b62a53bc61394af898f7d104b27cf4e82cb4a3b800",
       "ast_digest": "2ef61ea6b35c490db81836796f74a1247d260661fcdae958af258730150e9659"
     },
     "stp": {
-      "values_digest": "7ef4a944eabee9103b6d5608a5d936230dd3cf63320edeb5e39f3f95e223506f",
+      "values_digest": "1c37d83047ae2e8d4b1f41fcbd87507dbb04690b659568be9bd15fbe229977f4",
       "rendered_digest": "41c5d09e96d48953aae37c390321be4df65dad1a73e471eae95bc941aa0ac704",
       "ast_digest": "d60860595e2c59a73829c43968af0e5682c0867545ad6482d07bedaeb7410de3"
     },
     "spp": {
-      "values_digest": "e0106361364fd6e103b18ae089550d18558485a5f3bfdeb8622aeee16f8c51f2",
+      "values_digest": "3bf77dc54b3e4cf77af065fb93d76d6b90fa22d358ca8c5a25ec0d49b2d808b0",
       "rendered_digest": "0a7550cdbcbcfefd20f6c999684541d9f747e3a3725a0ae61fa6361b4553f3b5",
       "ast_digest": "a15d5833a7430c74c1977782e4a1b741a26407a8fd3d07ae2d7c1bab00fc9f3e"
     },
     "vpp": {
-      "values_digest": "67b5a5af40541751215f1da783196276fd18faef4e6aa770e0ddf8db28e14f93",
+      "values_digest": "ccd6d899d3cbe65f4565a5d4cf5f25a33ea499088b096962562e5a04d8a9a3f4",
       "rendered_digest": "dedc66e1701a21485f9fec599136f350a7a064c31832bd44834100174db40d1b",
       "ast_digest": "f281237f41ade71183b8c19dd27a3dff3774cbc3ac8e4b89aa359cc0dd0f5940"
     },
     "srp": {
-      "values_digest": "d5a2e02beed64db37a4e960c5d0023f7b015fe6abc8efced58f69aa412b27f01",
-      "rendered_digest": "57c507ed08621b85fdbe4b6b3ad99fae7ecc28dd29bd5860eeee4dc2b1c01c40",
-      "ast_digest": "894f4bfc6d53b52046a7ba38d30da9dd93054c15411745e5e046c01577f1587b"
+      "values_digest": "d461ba9f934831667ff95601850c76445252274ef2133858ad963f57bdb2884c",
+      "rendered_digest": "df79bbb82fb7fc4505807ef50b5d2ac1f77670a81d2f2270fac14920c6f1c24a",
+      "ast_digest": "eaa55aab8c4bd0ca3c6c7a81aa56362eb8264c05a4736638c1bd81721b670476"
     },
     "sor": {
-      "values_digest": "6421e026591f6a63a33ceff6c7e74faf30e978e24840a359d432dc9a763a8124",
-      "rendered_digest": "a31a5c2a022f08229afecf60947dedac0db5f71d1fe61b3ca911cf2e6f6169ed",
-      "ast_digest": "e01b261d0e42d0de81c31d8f4c7024f3871d771b0b0e57d496d017eec04462b6"
+      "values_digest": "18441a876388eeab26228c9fb65ec1337d769fda4f539dcb1212fdc0d594ba9d",
+      "rendered_digest": "362b9ba372a92c29977fc6f238192a749764e802c7153b4428a98f39c751176c",
+      "ast_digest": "e46c23a1fdd8930aebff0d127e2326a4b0325eead8628817bec81ca6dacd0ab2"
     }
   },
   "transitions": [
@@ -123,6 +104,13 @@
       "to": "reviewed",
       "actor": "subagent:issue-315-gpt5.5-review",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 8,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:issue-315-review-recovery-after-identity-migration",
+      "reason": "Recover review after the typed legacy-to-canonical issue identity migration changed lifecycle projections after the prior exact-head review."
     }
   ],
   "audit": [
@@ -426,6 +414,13 @@
       "actor": "codex:issue-315-wp27-canonical-migration",
       "reason": "Migrate the reviewed WP-27 remediation record from the legacy issue namespace to the current Agent Logic issue before publication.",
       "operation": "{\"cleared_publication\":false,\"cleared_readiness\":false,\"operation\":\"migrate_bound_issue_identity\",\"source_issue\":5848,\"source_repository\":\"danielbaustin/agent-design-language\",\"target_issue\":315,\"target_issue_evidence\":\".csdlc/evidence/5848/canonical-target-315.json\",\"target_issue_evidence_digest\":\"62c37a97e455f37954375490cdc3da37b6867c4dab1d7c7e53df7a06c584b679\",\"target_repository\":\"agent-logic/agent-design-language\"}"
+    },
+    {
+      "sequence": 44,
+      "generation": 25,
+      "actor": "codex:issue-315-review-recovery-after-identity-migration",
+      "reason": "Recover review after the typed legacy-to-canonical issue identity migration changed lifecycle projections after the prior exact-head review.",
+      "operation": "recover_review"
     }
   ]
 }
