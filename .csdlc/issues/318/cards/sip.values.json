@@ -1,0 +1,38 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 318,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-29] Next milestone review pass",
+    "slug": "v092-wp29-next-milestone-review",
+    "version": "v0.92.0",
+    "generation": 7
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Independently review the complete v0.92 terminal packet and the v0.92.1/v0.92.2 handoff without activating a successor milestone.",
+      "required_outcome": "Produce an evidence-bound exact-head review that independently reconstructs all 13 canonical Sprint 6 rows, resolves every finding, and truthfully assesses v0.92.1 and v0.92.2 readiness.",
+      "declared_scope": [
+        "docs/reviews/v0.92/next-milestone-review-318",
+        "docs/milestones/v0.92/review/V092_NEXT_MILESTONE_REVIEW_318.md",
+        ".csdlc/evidence/318",
+        ".csdlc/prepared/issues/318/validate-readiness-review.rb"
+      ],
+      "authority_boundary": [
+        "Canonical #318 is the sole WP-29 lifecycle and publication authority; legacy #5851 is provenance only.",
+        "Reviewed green merge ancestry gates execution; typed finish, cleanup, and closeout are asynchronous and non-gating.",
+        "The issue reviews v0.92.1 and v0.92.2 planning but creates no issues and activates no successor milestone."
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Never write tracked changes on main.",
+        "Bind only after independent design approval.",
+        "Retain raw observations and independently recompute their digests.",
+        "Do not merge, release, tag, finish, clean, close, or activate v0.93."
+      ]
+    }
+  }
+}

@@ -181,7 +181,7 @@ work_packages:
         depends_on: [OBS-A, issue-84]
   - id: INT-01
     lane: integration
-    title: Release-tail coordination root
+    title: Release-tail admission
     issue: null
     creation_owner: WP-01
     depends_on: [CORP-01, V3-01, DRT-01, DRT-D, POD-01, HOT-01, OBS-01, DEC-01, PROV-01]
@@ -196,7 +196,7 @@ work_packages:
     lane: release_tail
     issue: null
     creation_owner: WP-01
-    title: Docs and release-truth pass
+    title: Documentation review and external-review handoff
     depends_on: [TAIL-01]
   - id: TAIL-03
     lane: release_tail
@@ -208,44 +208,44 @@ work_packages:
     lane: release_tail
     issue: null
     creation_owner: WP-01
-    title: Internal milestone review
+    title: Internal review
     depends_on: [TAIL-03]
   - id: TAIL-05
     lane: release_tail
     issue: null
     creation_owner: WP-01
-    title: External or third-party review
+    title: External / third-party review
     depends_on: [TAIL-04]
   - id: TAIL-06
     lane: release_tail
     issue: null
     creation_owner: WP-01
-    title: Accepted-findings remediation or explicit deferral capture
+    title: Review findings remediation
     predecessor_issues: [188]
     depends_on: [TAIL-05]
   - id: TAIL-07
     lane: release_tail
     issue: null
     creation_owner: WP-01
-    title: Next-milestone planning and CodeFriend Beta 1 handoff
+    title: Next-milestone planning
     predecessor_issues: [190]
     depends_on: [TAIL-06]
   - id: TAIL-08
     lane: release_tail
     issue: null
     creation_owner: WP-01
-    title: Next-milestone closeout planning
+    title: Next-milestone closeout plan
     depends_on: [TAIL-07]
   - id: TAIL-09
     lane: release_tail
     issue: null
     creation_owner: WP-01
-    title: Next-milestone planning review
+    title: Next milestone review pass
     depends_on: [TAIL-08]
   - id: TAIL-10
     lane: release_tail
     issue: null
     creation_owner: WP-01
-    title: Release ceremony, final validation, notes, tag, and cleanup
+    title: Release ceremony
     predecessor_issues: [189]
     depends_on: [TAIL-09]

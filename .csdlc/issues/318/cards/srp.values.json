@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 318,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-29] Next milestone review pass",
+    "slug": "v092-wp29-next-milestone-review",
+    "version": "v0.92.0",
+    "generation": 7
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "The independent 13-row reconstruction, retained raw provenance, v0.92.1/v0.92.2 readiness comparison, exact negative classifier, and no-activation boundary.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Was the denominator independently derived rather than copied from #317?",
+        "Are every raw response and derived claim bound by recomputed digests and exact ancestry?",
+        "Does every finding have evidence, severity, owner, route, disposition, and revision identity?",
+        "Can any closeout state gate execution or any review statement activate v0.93?",
+        "Do all v0.92.1 planning surfaces use the exact ten canonical tail titles in exact serial order?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

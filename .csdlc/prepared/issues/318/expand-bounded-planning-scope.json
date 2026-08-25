@@ -1,0 +1,22 @@
+{
+  "issue": 318,
+  "card": "spp",
+  "expected_generation": 5,
+  "expected_digest": "7da34e8cad056d857f7cf71233e0b177cdf2235a5f50ae41a1fa4d529b667a43",
+  "actor": "codex:/root",
+  "reason": "Record the operator-authorized bounded correction of exact release-tail titles and single-unit result contracts in four canonical v0.92.1 planning surfaces.",
+  "operation": {
+    "operation": "replace_planning_collection",
+    "field": "affected_areas",
+    "values": [
+      "docs/reviews/v0.92/next-milestone-review-318",
+      "docs/milestones/v0.92/review/V092_NEXT_MILESTONE_REVIEW_318.md",
+      ".csdlc/evidence/318",
+      ".csdlc/prepared/issues/318/validate-readiness-review.rb",
+      "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+      "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
+      "docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md",
+      "docs/milestones/v0.92.1/WBS_v0.92.1.md"
+    ]
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 318,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-29] Next milestone review pass",
+    "slug": "v092-wp29-next-milestone-review",
+    "version": "v0.92.0",
+    "generation": 7
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "readiness-review-contract",
+          "proof_role": "Independently validate the exact 13-row universe, raw provenance, handoff dispositions, merge-only DAG, and exact negative replay.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 600,
+          "budget_tokens": 5000,
+          "argv": [
+            "ruby",
+            ".csdlc/prepared/issues/318/validate-readiness-review.rb",
+            "all"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        },
+        {
+          "lane": "diff-hygiene",
+          "proof_role": "Reject malformed or out-of-scope tracked changes before review.",
+          "acceptance_ids": [
+            "AC-6"
+          ],
+          "deterministic": true,
+          "resource_profile": "small",
+          "budget_seconds": 60,
+          "budget_tokens": 500,
+          "argv": [
+            "git",
+            "diff",
+            "--check"
+          ],
+          "parallel_group": "local",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 3600,
+      "planned_validation_tokens": 25000,
+      "failure_policy": "Fail closed on identity, denominator, raw-provenance, digest, ancestry, checks, review, topology, receipt, release, disposition, or successor-authority ambiguity.",
+      "design_ref": ".csdlc/prepared/issues/318/design.md",
+      "design_digest": "60f524b96caadc4964997bfd252d14237b3b2cd1bc342dea1e2ff265e8f98abd",
+      "diagram_ref": ".csdlc/prepared/issues/318/diagram.mmd",
+      "diagram_digest": "68ee8f1c984928c7929613194971bf4209e92993d6c97e40f77356bdd8a87e9c"
+    }
+  }
+}

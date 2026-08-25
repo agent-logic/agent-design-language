@@ -51,17 +51,17 @@ WP-01 is deliberately number-free until milestone opening. It is not #431, and #
 | DEC-01 | Separate Runtime v2/v3 authority and source ownership | WP-01/#432 | New decoupling work; Runtime v4 excluded |
 | PROV-A | Shared provider inference-profile contract and Ollama materialization | WP-01/#432 | #457 historical provenance only |
 | PROV-B | Local-model shadow execution and comparison evidence | PROV-A | New non-authoritative comparison work |
-| INT-01 | Cross-lane convergence and release-tail admission | Every root named in the issue wave | #188 convergence intent |
+| INT-01 | Release-tail admission | Every root named in the issue wave | #188 convergence intent |
 | TAIL-01 | Quality gate | INT-01 | #188 quality-admission intent |
-| TAIL-02 | Docs and release-truth pass | TAIL-01 | Standard release tail |
+| TAIL-02 | Documentation review and external-review handoff | TAIL-01 | Standard release tail |
 | TAIL-03 | Publication finalization | TAIL-02 | Standard release tail |
-| TAIL-04 | Internal milestone review | TAIL-03 | Standard release tail |
-| TAIL-05 | External or third-party review | TAIL-04 | Standard release tail |
-| TAIL-06 | Accepted-findings remediation or explicit deferral | TAIL-05 | Standard release tail |
-| TAIL-07 | v0.92.2 CodeFriend Beta 1 planning handoff | TAIL-06 | #190 successor-planning intent |
-| TAIL-08 | Next-milestone closeout planning | TAIL-07 | Standard release tail |
-| TAIL-09 | Next-milestone planning review | TAIL-08 | Standard release tail |
-| TAIL-10 | Final validation, notes, tag, cleanup, and release ceremony | TAIL-09 | #189 ceremony intent |
+| TAIL-04 | Internal review | TAIL-03 | Standard release tail |
+| TAIL-05 | External / third-party review | TAIL-04 | Standard release tail |
+| TAIL-06 | Review findings remediation | TAIL-05 | Standard release tail |
+| TAIL-07 | Next-milestone planning | TAIL-06 | #190 successor-planning intent |
+| TAIL-08 | Next-milestone closeout plan | TAIL-07 | Standard release tail |
+| TAIL-09 | Next milestone review pass | TAIL-08 | Standard release tail |
+| TAIL-10 | Release ceremony | TAIL-09 | #189 ceremony intent |
 
 ## Retired inputs, not issues to recreate verbatim
 

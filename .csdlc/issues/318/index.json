@@ -1,0 +1,134 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 318,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "a9da616fc297502515fbf254ee77a18400f007c2b333d09bb5f934640e07ece4",
+  "phase": "bound",
+  "generation": 7,
+  "digest": "5a43dcacef6574ca02f305b3b275ce74c33d9df7ee2e104d185be9c96fcbe3a2",
+  "branch": "codex/318-v092-wp29-next-milestone-review",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-318-next-milestone-review",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/318/design.md",
+  "diagram_path": ".csdlc/prepared/issues/318/diagram.mmd",
+  "design_review": "pending",
+  "cards": {
+    "sip": {
+      "values_digest": "dbf4957a234406d20d88056198982582ba22be64a098de31cb4189ed8e6dd3c2",
+      "rendered_digest": "4bb47c934ea3fb8a47e2b9bacc2cabe276e09287b78846390f5fb3d102d992ba",
+      "ast_digest": "d2f863671b358dd3c6c0418be17f26687cb1667bd8f0d84f71e418be7a4d8f6d"
+    },
+    "stp": {
+      "values_digest": "186424d9191860b8c32f3716a88f7dedc2642aca797036db95930c5c70120d89",
+      "rendered_digest": "bc823aa5d2759a7f4840062922a00c0fc2ec821faf480b412b10de2a44831c4e",
+      "ast_digest": "27f7fe2ab6bdc7b4a52f354a94d96a19a649d26646988dc33d1dc16aee72ade7"
+    },
+    "spp": {
+      "values_digest": "084c00cffb3ceb273825053300c9fdc1f5d5d43cccbc15e317d5ab7dc3a669f6",
+      "rendered_digest": "e8f31efd468932471eb4742980e140568727510edb3620e821784deecb10bce2",
+      "ast_digest": "7550094602c902bc5b3fa53c5cf02e9944f827b2f06b7a38459f328d5611ea2d"
+    },
+    "vpp": {
+      "values_digest": "9f5435cf1b698bd66f3c3677bb34d3c5cf74114eb80e8d7675873d6b0bba3ca2",
+      "rendered_digest": "7cab29baf5da37aad3642f4c7c95ab45c1ee7b461882f3790d4ba5b0f5bae0ef",
+      "ast_digest": "132fa369d60bd63d6c30cd49997f3c5739a08071b61518f05cbd79fe4112084c"
+    },
+    "srp": {
+      "values_digest": "53cc091816951c07d57fa1446dfa78ede209347787f55e7018d1388cdc45e058",
+      "rendered_digest": "0bc6e7564334bf9eb845c92cef1576c4bace730d5ed8d92d3a1390a7b4232641",
+      "ast_digest": "1340ec6adde9905a749223d0390e5e163ee614bb86609cecf38d325d94f6d2eb"
+    },
+    "sor": {
+      "values_digest": "acc86f9678f685ca9fea95836b8200ef044962245bcc303f30f60929d8e00da4",
+      "rendered_digest": "a81e76a23fd880c925333174e81dd64b4753aba55415779c2382c54c40052573",
+      "ast_digest": "68b9c582e7a8f1b47c9589970d07b0883fece98f359142064973fa2d203c0487"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root/prepare_318",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "Close design-review findings by making the exact tail-title and single-unit issue contract explicit while preserving WP-29 as review-only.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/318/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/318/diagram.mmd\",\"new_design_digest\":\"60f524b96caadc4964997bfd252d14237b3b2cd1bc342dea1e2ff265e8f98abd\",\"new_diagram_digest\":\"68ee8f1c984928c7929613194971bf4209e92993d6c97e40f77356bdd8a87e9c\",\"old_design_digest\":\"a3e6c0d3460243a9d36b5657a65087d875850bac2061bc886685d51626912f27\",\"old_diagram_digest\":\"39e08b9f0978aba366a3958531b3a2d6078e5d9dd428f6f5e726c546e26866d8\",\"prior_design_approval\":null},\"operation\":{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: #317 PR #474 is independently reviewed, required checks are green, merge 5b035094725d1872b48dda8692ef88f46487f37c is ancestral to main, and its packet inputs and digests are frozen.\",\"AC-2: An independent reconstruction covers exactly canonical issues #307 through #319 inclusive with explicit legacy provenance, retained raw responses, recomputed digests, and no missing, duplicate, stale, sliced, ambiguous, extra, or unowned rows.\",\"AC-3: Every row reconciles issue, PR/base/head/merge, checks/review, typed phase/receipt, branch/worktree topology, release dependency, classification, owner, and exact next action.\",\"AC-4: The v0.92.1 and v0.92.2 handoffs have complete blocker, residual-risk, evidence, owner, acceptance-hook, non-claim, and readiness dispositions without creating issues or activating v0.93.\",\"AC-5: Every canonical v0.92.1 planning surface uses exactly TAIL-01 Quality gate; TAIL-02 Documentation review and external-review handoff; TAIL-03 Publication finalization; TAIL-04 Internal review; TAIL-05 External / third-party review; TAIL-06 Review findings remediation; TAIL-07 Next-milestone planning; TAIL-08 Next-milestone closeout plan; TAIL-09 Next milestone review pass; and TAIL-10 Release ceremony, in that order, with no title variance; every creation-owned issue has exactly one bounded objective, one primary deliverable, and one independently verifiable result that proves that issue alone, with no phase umbrella, unrelated bundled outcome, or execution gate on administrative closeout.\",\"AC-6: Focused one-field negative fixtures run through the real classifier and return the exact expected blocker for identity, digest, ancestry, check, review, topology, receipt, release, retry, cycle, disposition, closeout-gate, title, single-unit, and v0.93-activation defects.\",\"AC-7: Every finding has evidence, severity, route, disposition, and revision identity; no actionable finding remains at exact-head review.\"]}}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Align the operative WP-29 plan with the review-only title and single-unit issue audit contract.",
+      "operation": "{\"design_binding_refresh\":{\"design_ref\":\".csdlc/prepared/issues/318/design.md\",\"diagram_ref\":\".csdlc/prepared/issues/318/diagram.mmd\",\"new_design_digest\":\"60f524b96caadc4964997bfd252d14237b3b2cd1bc342dea1e2ff265e8f98abd\",\"new_diagram_digest\":\"68ee8f1c984928c7929613194971bf4209e92993d6c97e40f77356bdd8a87e9c\",\"old_design_digest\":\"60f524b96caadc4964997bfd252d14237b3b2cd1bc342dea1e2ff265e8f98abd\",\"old_diagram_digest\":\"68ee8f1c984928c7929613194971bf4209e92993d6c97e40f77356bdd8a87e9c\",\"prior_design_approval\":null},\"operation\":{\"operation\":\"replace_plan_steps\",\"steps\":[{\"acceptance_ids\":[\"AC-1\"],\"action\":\"Verify #317 reviewed-green merge ancestry and freeze its exact packet, manifest, universe, DAG, raw envelope, and digests.\",\"id\":\"S1\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-2\",\"AC-3\"],\"action\":\"Independently derive the 13-row denominator and retain fresh raw GitHub, typed lifecycle, and Git-topology provenance with recomputed digests.\",\"id\":\"S2\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-4\",\"AC-5\"],\"action\":\"Compare the v0.92.1/v0.92.2 handoffs, audit the exact ordered ten-title and single-unit issue contract across canonical v0.92.1 planning surfaces, and record evidence-backed findings without mutating those read-only inputs.\",\"id\":\"S3\",\"status\":\"pending\"},{\"acceptance_ids\":[\"AC-6\",\"AC-7\"],\"action\":\"Run exact one-field negative replay, resolve all actionable review-packet findings, and obtain independent exact-head review without merge or ceremony mutation.\",\"id\":\"S4\",\"status\":\"pending\"}]}}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "Correct the review-only WP-29 deliverable after design review; source milestone plans remain read-only inputs.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Independent 13-row canonical denominator and raw-provenance packet.\",\"Evidence-backed v0.92.1 and v0.92.2 readiness findings and dispositions.\",\"Evidence-backed audit of exact v0.92.1 release-tail titles and one-objective/one-primary-deliverable/one-verifiable-result issue boundaries across every canonical planning surface.\",\"Deterministic comparison/handoff validator with exact negative fixtures.\",\"Exact-head independent review result suitable for the #319 merge gate.\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "fresh-session:ff9d9989-d06d-4e39-9dc9-75b4a8ad580d",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"60f524b96caadc4964997bfd252d14237b3b2cd1bc342dea1e2ff265e8f98abd\",\"design_ref\":\".csdlc/prepared/issues/318/design.md\",\"diagram_digest\":\"68ee8f1c984928c7929613194971bf4209e92993d6c97e40f77356bdd8a87e9c\",\"diagram_ref\":\".csdlc/prepared/issues/318/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "{\"disposition\":\"Invalidate the prior approval, refresh exact authored bindings through typed card edit, and obtain a fresh independent design review before implementation continues.\",\"false_reviewer\":\"fresh-session:ff9d9989-d06d-4e39-9dc9-75b4a8ad580d\",\"previous_approval\":{\"reviewer\":\"fresh-session:ff9d9989-d06d-4e39-9dc9-75b4a8ad580d\",\"revision\":\"60f524b96caadc4964997bfd252d14237b3b2cd1bc342dea1e2ff265e8f98abd\"},\"reason\":\"Operator widened WP-29 to apply four bounded release-tail planning corrections after the prior design review.\"}",
+      "operation": "recover_design_review"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "Record the operator-authorized bounded correction of exact release-tail titles and single-unit result contracts in four canonical v0.92.1 planning surfaces.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/reviews/v0.92/next-milestone-review-318\",\"docs/milestones/v0.92/review/V092_NEXT_MILESTONE_REVIEW_318.md\",\".csdlc/evidence/318\",\".csdlc/prepared/issues/318/validate-readiness-review.rb\",\"docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml\",\"docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml\",\"docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md\",\"docs/milestones/v0.92.1/WBS_v0.92.1.md\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Record the bounded operator-authorized correction of release-tail titles and single-unit result contracts.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"Independent 13-row canonical denominator and raw-provenance packet.\",\"Evidence-backed v0.92.1 and v0.92.2 readiness findings and dispositions.\",\"Exact release-tail titles and one-objective/one-primary-deliverable/one-verifiable-result contracts across the four owned v0.92.1 planning surfaces.\",\"Deterministic comparison/handoff validator with exact negative fixtures.\",\"Exact-head independent review result suitable for the #319 merge gate.\"]}"
+    }
+  ]
+}
