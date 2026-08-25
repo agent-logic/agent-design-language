@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "af526631fae8cb2219b4387e3fcd5e9b609041070e7f59156479d7c89d9a7570",
   "phase": "implemented",
-  "generation": 16,
-  "digest": "1c3c025f35c85738fe6021dedb9bf1d19e312a767c131574ca00c9d9417eb8b8",
+  "generation": 19,
+  "digest": "645d5680be713d45bb2226bb8d1096cb1ef4de393b2e389ea8f97c00f2bd4752",
   "branch": "codex/471-runtime-v3-authoritative-kernel-contracts",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-471-runtime-v3-authoritative-kernel-contracts",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "449809cacf884cd7f21c1eb4654cec057cc62bccd72b9e3c2b4dc4ead8a2152c",
+      "values_digest": "ec8072502dd5afe1616215b20cdc1881f7495cb76579f15044afe9262175b9aa",
       "rendered_digest": "3ecb8f39ebc6364315af414a45fb54b2f3d4b1dedaecfdb37c03b66392c63ebb",
       "ast_digest": "9ec02ef188480db02bce3f8dfaf8f3138516823dfb280891552f437b1e7b7cb9"
     },
     "stp": {
-      "values_digest": "cdac1dcae64cc43252a2e690ff8e4542f5229130aafb9cc5454581aefa4f6e89",
+      "values_digest": "3b13acb7273147259924e8c0ea6b876e0f939cdaa2cbc69b76167f84a641bc61",
       "rendered_digest": "63c2e93a5e7425d77e646a64aa0b2ea21845c6e64a279b0ae2fd238975f75351",
       "ast_digest": "26e8b94a8e8ceb5701fc781d4231e885e407a8ab9cf64b1162a941df008ff981"
     },
     "spp": {
-      "values_digest": "854d0c937bf9bc297f69672beb98cd1b064db4e0c9004b0459355e5a2539daab",
+      "values_digest": "7620e1b39b86757fb38a00e58aa679774a1638404514fc3c6faa014ce01c92d5",
       "rendered_digest": "820bb7f77a2320a93b0652576d80d7605e11c68dda6e7d69b2b249b2b7212e53",
       "ast_digest": "6fb01703dc76a53f9b37619cc77c63496427e1d1d2aa1fda0691e21cd4d6a563"
     },
     "vpp": {
-      "values_digest": "c1a3cd5da4f3f7b4cc2d4c107474d947b6a3e5f6e1d7a9688861a5600e881b6e",
+      "values_digest": "e9f9bec874ac4f88c5d784a228d780859b3fa215cb6129a6e945a0cedf68d439",
       "rendered_digest": "32e39b566ff1051175840d4368ca3ff5ebc14915418ea08d6d5ece95c4b7bcb7",
       "ast_digest": "32e2d7fc0a2f8a0d6ffc2e3b047689e6188f850ad69a67f7f11212bfe94b0f25"
     },
     "srp": {
-      "values_digest": "266840adc551f5f8170720837d21779cf7cffb7f8a946f109a88395bd818e71a",
+      "values_digest": "9864b9af05abae3ae81f134b70daf631ecfaad5d70a48269c4d277d96a00c5c9",
       "rendered_digest": "c77c771b02cd4b94c86170929639a17e7d90d5d1c70129f6e8a8d0d00131dc5e",
       "ast_digest": "bbfa10afe2e702cf5bca7c97685c89ef6b33af1ab8dc8810ce8932a5df9880d4"
     },
     "sor": {
-      "values_digest": "909d8b232d9a4c9727cc07449485afc565c9a9c9929dceede29e37efe99d405f",
-      "rendered_digest": "ccf825ceb6703137d4114ff0af2a8132121500c7a29d3f509c1ff1fbc78f17b3",
-      "ast_digest": "6997c3db9e782fb62f5afed45172fe6e7a2c751cbf00866de651def8c6cff186"
+      "values_digest": "4e08e7a2c2f27302a10169b907689967f21f926c64a1b04eaae165cf914482d6",
+      "rendered_digest": "1edd0e8f7318bedb6eeefc62d76e173fe57ab9bbae2559a803cd5d0bbe87df25",
+      "ast_digest": "6963364411af3dac7be4b23f30607c39ec99f3b9abc9c6ea3a57c8d7cb63c414"
     }
   },
   "transitions": [
@@ -211,6 +211,34 @@
       "actor": "codex:/root",
       "reason": "Include the production ACIP/WSS regression test added during review remediation in exact owned scope.",
       "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/channel.rs\",\"adl-runtime-kernel/src/cognition.rs\",\"adl-runtime-kernel/src/component.rs\",\"adl-runtime-kernel/src/contract.rs\",\"adl-runtime-kernel/src/governance.rs\",\"adl-runtime-kernel/src/ingress.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/src/operations.rs\",\"adl-runtime-kernel/src/proof.rs\",\"adl-runtime-kernel/src/reasoning.rs\",\"adl-runtime-kernel/src/supervisor.rs\",\"adl-runtime-kernel/src/telemetry.rs\",\"adl-runtime-kernel/src/time.rs\",\"adl-runtime-kernel/src/topology.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\"adl-runtime-kernel/tests/contracts.rs\",\"adl-runtime-kernel/tests/kernel.rs\",\"adl-runtime-kernel/tests/production_acip_wss.rs\",\"adl-runtime-kernel/tests/reasoning.rs\",\".csdlc/prepared/issues/471/design.md\",\".csdlc/prepared/issues/471/diagram.mmd\",\".csdlc/prepared/issues/471/validate-runtime-kernel.sh\",\".csdlc/evidence/471\"]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "Recover the second failed exact-head review after remediating operational cleanup ownership, queued ingress cancellation, and startup degradation propagation at a new implementation head.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 23,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "record complete validation after second-review remediation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"bash\",\".csdlc/prepared/issues/471/validate-runtime-kernel.sh\"],\"purpose\":\"Full Runtime kernel lane passed at 7f649b249, including operational and ingress incarnation cleanup, initial degradation suppression, strict Clippy, formatting, and diff hygiene.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/prepared/issues/471/validate-runtime-kernel.sh\"}}"
     }
   ]
 }
