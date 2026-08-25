@@ -1,0 +1,1 @@
+{"issue":319,"expected_generation":4,"expected_digest":"cd10b9104e7ed2b2fb64eee20fdb020d71337a3166ae963ca19f6ea86af9c463","actor":"codex:/root","card":"spp","reason":"Advance #319 after bounded implementation and focused ceremony proof.","operation":{"operation":"advance_phase","phase":"implemented"}}
