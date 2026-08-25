@@ -1,0 +1,8 @@
+{
+  "schema": "csdlc.bound_issue_identity_target_evidence.v1",
+  "repository": "agent-logic/agent-design-language",
+  "issue": 315,
+  "state": "open",
+  "title": "[v0.92][WP-27] Review findings remediation",
+  "operation_key": "wp27-remediation-canonical-agent-logic-315"
+}
