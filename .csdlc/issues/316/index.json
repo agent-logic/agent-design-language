@@ -4,50 +4,35 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "0c53b87754c3e14de1e834fcc7eef3b287ebcb2436b52e592b63e506a3bd1754",
-  "phase": "published",
-  "generation": 20,
-  "digest": "2c1d99fd606e5a7b0273a8660e737356803236c5ee9c9b382bb5cb96129618e2",
+  "phase": "reviewed",
+  "generation": 22,
+  "digest": "58f043b30b349137d515d4218b7626a444e83161cb7a8ceadf0ddba20b8361f7",
   "branch": "codex/316-v0921-v0922-planning",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-316-v0921-v0922-planning",
   "review_assignment": {
-    "reviewer": "fresh-session:226da5f4-d322-4ed9-befd-f490172bc3ba",
+    "reviewer": "subagent:/root/review_316_conductor_fix",
     "assigned_by": "codex:/root",
-    "revision": "git-blake3:575a4c3f82725dc3d99d3eccc98032490997de18:efcaa0898cac8996125a8a58ccf8a408e955977d4f1d64460287ea93763e2cf8",
+    "revision": "git-blake3:de8e2fc004145b91d015de5a1dc941656b5fd5ec:4624b9c1f3d41c3a04fb21b462baa943131c614c3ea60da3c209ff621ee9ba2b",
     "scope": [
-      ".csdlc/issues/316",
-      ".csdlc/prepared/issues/316/assign-final-review.json",
-      ".csdlc/prepared/issues/316/record-final-review.json",
-      ".csdlc/prepared/issues/316/publish.json"
+      "docs/milestones/v0.92.1",
+      ".csdlc/prepared/issues/316/validate-v0921-plan.rb"
     ]
   },
   "review": {
-    "reviewer": "fresh-session:226da5f4-d322-4ed9-befd-f490172bc3ba",
+    "reviewer": "subagent:/root/review_316_conductor_fix",
     "scope": [
-      ".csdlc/issues/316",
-      ".csdlc/prepared/issues/316/assign-final-review.json",
-      ".csdlc/prepared/issues/316/record-final-review.json",
-      ".csdlc/prepared/issues/316/publish.json"
+      "docs/milestones/v0.92.1",
+      ".csdlc/prepared/issues/316/validate-v0921-plan.rb"
     ],
-    "reviewed_revision": "git-blake3:575a4c3f82725dc3d99d3eccc98032490997de18:efcaa0898cac8996125a8a58ccf8a408e955977d4f1d64460287ea93763e2cf8",
+    "reviewed_revision": "git-blake3:de8e2fc004145b91d015de5a1dc941656b5fd5ec:4624b9c1f3d41c3a04fb21b462baa943131c614c3ea60da3c209ff621ee9ba2b",
     "findings": [],
     "residual_risks": [
-      "This exact-head review covers lifecycle and publication metadata only; substantive planning authority remains the independently passed e2834a95 candidate."
+      "WP-01 remains number-free until the operator explicitly declares v0.92.1 ready to open; merging this planning package does not create or schedule any issue."
     ],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 316,
-    "pull_request": 472,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/472",
-    "base": "main",
-    "head": "codex/316-v0921-v0922-planning",
-    "revision": "git-blake3:575a4c3f82725dc3d99d3eccc98032490997de18:efcaa0898cac8996125a8a58ccf8a408e955977d4f1d64460287ea93763e2cf8",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -61,34 +46,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "6fc93f4a212955df2f4283c6b691cba3e5049385f904eb8d65657523ccbc088c",
+      "values_digest": "8d6ffbb2cb45a59fdaf1ac5142337985ff01bb10c5493ade6280a852ce516194",
       "rendered_digest": "3ba9701a8b33e22c9b2b306a58a9e5255be94be717cacfdbb9f743bf0a28b76c",
       "ast_digest": "83ebca4d4a34026c1e9fceea9366fc80af6768635ee209e145c09ea0aecc2d6a"
     },
     "stp": {
-      "values_digest": "f7ec60d7cea74122124c75a8f3cef316568ed9b8a96e2495ff925c2c8b517839",
+      "values_digest": "def1a4959a7b97fe2efee440a0dd676541d0be43792d689f1697838be31551fe",
       "rendered_digest": "85149af7244ba934d80c30f36388634f063f7aae7f8407cfce5c60dd971e74a6",
       "ast_digest": "11601d8260c98492fec35b88510108ef8b3d234c0cf046e642b71f81f8c71836"
     },
     "spp": {
-      "values_digest": "13f43f8905e59704f2b24937204e58aab7fa21a84bd67b8b446e473745bdde52",
+      "values_digest": "1be7f7242de80b3aad7cd417817056ef98e80b6d6f8df89346eff6ea520c9ccc",
       "rendered_digest": "5571a5100811173ece9dc9076e04bf00679dae74aeb65260abbb4783a18d7cf5",
       "ast_digest": "f159ff47e11db7136c7245e86407749a6276f41b987bb1f04f4dac6341d49ecc"
     },
     "vpp": {
-      "values_digest": "452c2d23d6ec774becf52e990fc74e1d645bd9e13210f5d7bbc4eb559d6f388a",
+      "values_digest": "595cfc4d9bf70cd179447fa34f201b14c3ac8f3dc102baf7cb277e79ef66aa77",
       "rendered_digest": "2309eec21b98e4f11991a05341360ad8cddf2b7efb5695063fb57166fa8cc9b5",
       "ast_digest": "ab807182fc95e6f4be168f02c70c1bf59f68b456996e3485905af2ddf20587fb"
     },
     "srp": {
-      "values_digest": "983172354a6eb8f9252e5486d943c4b7fb18ef6f7451a25229e4a3dd8ba10d8c",
-      "rendered_digest": "99d5face0e572bb5393788166cb529a3f3eed400d49a1d330c0b2bb0ce44e99d",
-      "ast_digest": "dc2577e7f2adaaa3010bda4186872007f55a15a5bf6081c87612134262285a4c"
+      "values_digest": "3460baa7ad838fa41f0cf7a8c18c3a6a3df21617c16de0e110254dde44514031",
+      "rendered_digest": "8222cdafffe0fd91b3fef8278f0569a2f956bf77f22b33dea2258d980f7dc137",
+      "ast_digest": "ab6de88a54249f807b9eb35b98a86eeb4b08250107893935b4c1ecf845fbdaca"
     },
     "sor": {
-      "values_digest": "4624fcdc934a147cb16702cbf1c14bba8588f1be18373485c22fb131aa7c38af",
-      "rendered_digest": "cd4754a32cf9db14bbea57895ae0222a244832935ed7b1c1635d64ec3b087d66",
-      "ast_digest": "631d4d6f15b977209688a51d1beb7dd0e2fad404e8a3001925ec98007d5c170c"
+      "values_digest": "6cb5d90099ab927f6dfee0831773f2719b83dbf6bd7facdd29e471df3f492817",
+      "rendered_digest": "82b7e0344c8bf08e1d2201b608edbd2429a136a924cf49d146ec6f042bac9b8d",
+      "ast_digest": "2c6b300be4223d6923c2d90c1816fc68e20611a90bfd0d229d3ab26f35782b2b"
     }
   },
   "transitions": [
@@ -140,6 +125,20 @@
       "to": "published",
       "actor": "codex:/root",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "PR #472 review found a closed-conductor dead end; recover review truth for the bounded planning-only repair that makes WP-01 number-free and explicitly operator-triggered."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -338,6 +337,27 @@
       "actor": "codex:/root",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 29,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "PR #472 review found a closed-conductor dead end; recover review truth for the bounded planning-only repair that makes WP-01 number-free and explicitly operator-triggered.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

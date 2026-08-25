@@ -1,0 +1,11 @@
+{
+  "issue": 316,
+  "expected_generation": 21,
+  "expected_digest": "aa1e7e9701bc5beeb489cdc27982ff5e1f8f8c4c9a9de8251cb473a5e5bf6855",
+  "reviewer": "subagent:/root/review_316_conductor_fix",
+  "assigned_by": "codex:/root",
+  "scope": [
+    "docs/milestones/v0.92.1",
+    ".csdlc/prepared/issues/316/validate-v0921-plan.rb"
+  ]
+}

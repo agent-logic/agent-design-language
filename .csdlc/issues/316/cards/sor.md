@@ -67,11 +67,11 @@ Completed canonical v0.92.1 reconciliation and the full v0.92.2 CodeFriend Beta 
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 
