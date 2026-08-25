@@ -29,7 +29,7 @@ Completed the WP-29 next-milestone readiness review and remediated all six PR #4
 
 - Added the executable WP-01 45-child creation contract with duplicate denial, partial-failure recovery, rollback, and exact live readback.
 - Replaced INT-01 aggregate dependencies with exact terminal issue slots and made non-issue dependency targets fail closed.
-- Added truthful OPEN and MERGED closing-PR validation and live-validated open PR #478.
+- Added non-self-referential OPEN PR validation: live head equals local HEAD or the exact last-published ancestral head; MERGED rows retain exact stored head and merge authority.
 - Completed the quality-gate lane denominator, itemized six deferred Rust recommendations, and bound #340/#256 Observatory ancestry.
 
 ## Validation
@@ -59,7 +59,7 @@ Completed the WP-29 next-milestone readiness review and remediated all six PR #4
       "ruby",
       ".csdlc/prepared/issues/318/test-validate-readiness-review.rb"
     ],
-    "purpose": "Prove fail-closed rejection of sixteen exact planning, conductor, dependency, PR-state, source, and prerequisite defects.",
+    "purpose": "Prove seventeen fail-closed planning cases plus post-push equality, pre-push ancestry, and divergent-head rejection for OPEN PR state.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/318"
   }

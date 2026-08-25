@@ -4,8 +4,9 @@
 require "fileutils"
 require "json"
 require "open3"
+require_relative "validate-readiness-review"
 
-ROOT = File.expand_path("../../../..", __dir__)
+ROOT = File.expand_path("../../../..", __dir__) unless defined?(ROOT)
 SOURCE_MILESTONE = File.join(ROOT, "docs/milestones/v0.92.1")
 SOURCE_EVIDENCE = File.join(ROOT, ".csdlc/evidence/318")
 WORK = File.join(__dir__, ".negative-work")
@@ -110,8 +111,20 @@ begin
     path = File.join(milestone, "WP_ISSUE_WAVE_v0.92.1.yaml")
     File.write(path, File.read(path).sub("depends_on: [251, 122, 340, 256]", "depends_on: [251, 122]"))
   end
+  run_case("open-pr-head-policy", "issue 318 invalid open-head policy") do |_milestone, evidence|
+    path = File.join(evidence, "issue-universe.json")
+    json = JSON.parse(File.read(path))
+    json.fetch("issues").find { |row| row["issue"] == 318 }["head_policy"] = "tracked_self_reference"
+    File.write(path, JSON.pretty_generate(json) + "\n")
+  end
 ensure
   FileUtils.rm_rf(WORK)
 end
 
-puts JSON.generate(schema: "adl.v092.wp29.readiness-review-negatives.v1", status: "pass", cases: 16)
+local_head, = Open3.capture2("git", "-C", ROOT, "rev-parse", "HEAD")
+local_head = local_head.strip
+raise "post-push OPEN equality rejected" unless open_pr_head_valid?(ROOT, local_head, local_head, "0" * 40)
+raise "pre-push published ancestry rejected" unless open_pr_head_valid?(ROOT, "769703eb145a6ce63ca4e49c04e393f05f5cc068", local_head, "769703eb145a6ce63ca4e49c04e393f05f5cc068")
+raise "divergent OPEN head accepted" if open_pr_head_valid?(ROOT, "0" * 40, local_head, "1" * 40)
+
+puts JSON.generate(schema: "adl.v092.wp29.readiness-review-negatives.v1", status: "pass", cases: 17, open_pr_head_cases: 3)

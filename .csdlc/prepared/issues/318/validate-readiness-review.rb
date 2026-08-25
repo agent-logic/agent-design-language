@@ -47,6 +47,13 @@ def fail_with(errors)
   exit 1
 end
 
+def open_pr_head_valid?(root, live_head, local_head, last_published_head)
+  return true if live_head == local_head
+  return false unless live_head == last_published_head
+
+  system("git", "-C", root, "merge-base", "--is-ancestor", live_head, local_head, out: File::NULL, err: File::NULL)
+end
+
 def check_planning_contract
   errors = []
   wave_path = File.join(MILESTONE, "WP_ISSUE_WAVE_v0.92.1.yaml")
@@ -214,11 +221,13 @@ def check_review_packet
     errors << "issue #{issue} missing role" if row["role"].to_s.strip.empty?
     next unless row["closing_pr"]
 
-    errors << "issue #{issue} invalid head" unless row["head"].to_s.match?(/\A[0-9a-f]{40}\z/)
     pr_state = row.fetch("pr_state", "MERGED")
     errors << "issue #{issue} invalid PR state" unless %w[OPEN MERGED].include?(pr_state)
     errors << "issue #{issue} open PR missing base" if pr_state == "OPEN" && row["base"].to_s.empty?
+    errors << "issue #{issue} invalid open-head policy" if pr_state == "OPEN" && row["head_policy"] != "live_equals_local_head_or_last_published_ancestor"
+    errors << "issue #{issue} invalid last published head" if pr_state == "OPEN" && !row["last_published_head"].to_s.match?(/\A[0-9a-f]{40}\z/)
     errors << "issue #{issue} open PR unexpectedly has merge" if pr_state == "OPEN" && row["merge"]
+    errors << "issue #{issue} invalid head" if pr_state == "MERGED" && !row["head"].to_s.match?(/\A[0-9a-f]{40}\z/)
     errors << "issue #{issue} invalid merge" if pr_state == "MERGED" && !row["merge"].to_s.match?(/\A[0-9a-f]{40}\z/)
     if row["merge"].to_s.match?(/\A[0-9a-f]{40}\z/)
       system("git", "-C", ROOT, "cat-file", "-e", "#{row['merge']}^{commit}", out: File::NULL, err: File::NULL) || errors << "issue #{issue} merge commit unavailable"
@@ -250,7 +259,13 @@ def check_review_packet
       expected_pr_state = row.fetch("pr_state", "MERGED")
       errors << "issue #{issue} live PR state mismatch" unless pr["state"] == expected_pr_state
       errors << "issue #{issue} live base mismatch" if expected_pr_state == "OPEN" && pr["baseRefName"] != row["base"]
-      errors << "issue #{issue} live head mismatch" unless pr["headRefOid"] == row["head"]
+      if expected_pr_state == "OPEN"
+        local_head, = Open3.capture2("git", "-C", ROOT, "rev-parse", "HEAD")
+        local_head = local_head.strip
+        errors << "issue #{issue} live open head diverges from local candidate" unless open_pr_head_valid?(ROOT, pr["headRefOid"], local_head, row["last_published_head"])
+      else
+        errors << "issue #{issue} live head mismatch" unless pr["headRefOid"] == row["head"]
+      end
       errors << "issue #{issue} live merge mismatch" unless pr.dig("mergeCommit", "oid") == row["merge"]
     end
   end
@@ -282,13 +297,15 @@ def check_review_packet
   errors
 end
 
-mode = ARGV.fetch(0, "all")
-planning_errors, creation_ids = check_planning_contract
-errors = case mode
-         when "planning" then planning_errors
-         when "all" then planning_errors + check_review_packet
-         else ["unknown mode #{mode.inspect}"]
-         end
+if $PROGRAM_NAME == __FILE__
+  mode = ARGV.fetch(0, "all")
+  planning_errors, creation_ids = check_planning_contract
+  errors = case mode
+           when "planning" then planning_errors
+           when "all" then planning_errors + check_review_packet
+           else ["unknown mode #{mode.inspect}"]
+           end
 
-fail_with(errors) unless errors.empty?
-puts JSON.generate(schema: "adl.v092.wp29.readiness-review.v1", status: "pass", creation_owned_issues: creation_ids.length, tail_titles: TAIL_TITLES.length)
+  fail_with(errors) unless errors.empty?
+  puts JSON.generate(schema: "adl.v092.wp29.readiness-review.v1", status: "pass", creation_owned_issues: creation_ids.length, tail_titles: TAIL_TITLES.length)
+end
