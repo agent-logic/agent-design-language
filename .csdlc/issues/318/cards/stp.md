@@ -24,13 +24,12 @@ Perform only the independent WP-29 readiness review and its focused proof surfac
 
 ## Acceptance
 
-1. AC-1: #317 PR #474 is independently reviewed, required checks are green, merge 5b035094725d1872b48dda8692ef88f46487f37c is ancestral to main, and its packet inputs and digests are frozen.
-2. AC-2: An independent reconstruction covers exactly canonical issues #307 through #319 inclusive with explicit legacy provenance, retained raw responses, recomputed digests, and no missing, duplicate, stale, sliced, ambiguous, extra, or unowned rows.
-3. AC-3: Every row reconciles issue, PR/base/head/merge, checks/review, typed phase/receipt, branch/worktree topology, release dependency, classification, owner, and exact next action.
-4. AC-4: The v0.92.1 and v0.92.2 handoffs have complete blocker, residual-risk, evidence, owner, acceptance-hook, non-claim, and readiness dispositions without creating issues or activating v0.93.
-5. AC-5: Every canonical v0.92.1 planning surface uses exactly TAIL-01 Quality gate; TAIL-02 Documentation review and external-review handoff; TAIL-03 Publication finalization; TAIL-04 Internal review; TAIL-05 External / third-party review; TAIL-06 Review findings remediation; TAIL-07 Next-milestone planning; TAIL-08 Next-milestone closeout plan; TAIL-09 Next milestone review pass; and TAIL-10 Release ceremony, in that order, with no title variance; every creation-owned issue has exactly one bounded objective, one primary deliverable, and one independently verifiable result that proves that issue alone, with no phase umbrella, unrelated bundled outcome, or execution gate on administrative closeout.
-6. AC-6: Focused one-field negative fixtures run through the real classifier and return the exact expected blocker for identity, digest, ancestry, check, review, topology, receipt, release, retry, cycle, disposition, closeout-gate, title, single-unit, and v0.93-activation defects.
-7. AC-7: Every finding has evidence, severity, route, disposition, and revision identity; no actionable finding remains at exact-head review.
+1. AC-1: #317 PR #474 reviewed-green merge 5b035094725d1872b48dda8692ef88f46487f37c is independently confirmed ancestral; typed finish and cleanup remain asynchronous and non-gating.
+2. AC-2: The retained normalized review universe contains exactly canonical issues #307 through #319 inclusive, and live GitHub plus Git checks reject missing, duplicate, extra, stale, ambiguous, or unowned authority.
+3. AC-3: The v0.92.1 and v0.92.2 handoffs record readiness, non-claim, owner, and next-action truth; the planning wave proves no future issue has been created and v0.93 remains inactive.
+4. AC-4: The four owned v0.92.1 planning surfaces use the exact ordered and dependency-wired release-tail titles; all 31 creation-owned issues are semantically reviewed as one planning unit and each defines one outcome-shaped objective, one primary deliverable, and one independently verifiable result.
+5. AC-5: Seven focused one-field negative fixtures return the exact expected blocker for title variance, missing primary deliverable, creation-denominator drift, missing canonical issue row, tail reordering, dependency miswiring, and v0.93 activation.
+6. AC-6: Every finding has evidence, severity, owner, route, disposition, and exact-head review binding; no actionable finding remains at publication.
 
 ## Dependencies
 

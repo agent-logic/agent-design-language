@@ -7,7 +7,7 @@
       "evidence": "WP_ISSUE_WAVE_v0.92.1.yaml, PLANNED_ISSUE_CATALOG_v0.92.1.md, WBS_v0.92.1.md, and WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml used variant or bundled release-tail identities; most creation-owned rows lacked an explicit primary deliverable and independently verifiable result; TAIL-06 and TAIL-10 bundled unrelated results and TAIL-10 incorrectly gated on terminal closeout.",
       "owner": "WP-29/#318",
       "route": "bounded planning-contract correction in the four explicitly owned surfaces",
-      "disposition": "resolved: exact titles normalized; all 31 creation-owned issues each have one objective, one primary deliverable, and one independently verifiable result; administrative closeout is non-gating",
+      "disposition": "resolved: exact titles normalized; all 31 creation-owned issues were semantically reviewed as one planning unit and each has one outcome-shaped objective, one primary deliverable, and one independently verifiable result; the validator supplies structural guards while the exact-head review supplies the semantic classification; administrative closeout is non-gating",
       "revision": "bound by the final exact-head SRP review and PR head"
     }
   ]

@@ -1,0 +1,19 @@
+{
+  "issue": 318,
+  "card": "stp",
+  "actor": "codex:root",
+  "reason": "Align operative acceptance truth with the bounded WP-29 documentation review and focused validator before fresh design review.",
+  "expected_generation": 7,
+  "expected_digest": "5a43dcacef6574ca02f305b3b275ce74c33d9df7ee2e104d185be9c96fcbe3a2",
+  "operation": {
+    "operation": "replace_acceptance_criteria",
+    "values": [
+      "AC-1: #317 PR #474 reviewed-green merge 5b035094725d1872b48dda8692ef88f46487f37c is independently confirmed ancestral; typed finish and cleanup remain asynchronous and non-gating.",
+      "AC-2: The retained normalized review universe contains exactly canonical issues #307 through #319 inclusive with no missing, duplicate, extra, ambiguous, or unowned row.",
+      "AC-3: The v0.92.1 and v0.92.2 handoffs record readiness, non-claim, owner, and next-action truth without creating issues or activating v0.93.",
+      "AC-4: The four owned v0.92.1 planning surfaces use the exact ordered release-tail titles and all 31 creation-owned issues each define one bounded objective, one primary deliverable, and one independently verifiable result.",
+      "AC-5: Focused one-field negative fixtures return the exact expected blocker for title variance, missing primary deliverable, creation-denominator drift, and missing canonical issue row.",
+      "AC-6: Every finding has evidence, severity, owner, route, disposition, and exact-head review binding; no actionable finding remains at publication."
+    ]
+  }
+}

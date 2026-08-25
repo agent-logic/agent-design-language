@@ -25,17 +25,15 @@ Diagram: .csdlc/prepared/issues/318/diagram.mmd
 [
   {
     "lane": "readiness-review-contract",
-    "proof_role": "Independently validate the exact 13-row universe, raw provenance, handoff dispositions, merge-only DAG, and exact negative replay.",
+    "proof_role": "Validate live issue and PR identity, Git ancestry, exact planning denominator, tail wiring, handoff non-claims, and finding disposition.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
       "AC-3",
       "AC-4",
-      "AC-5",
-      "AC-6",
-      "AC-7"
+      "AC-6"
     ],
-    "deterministic": true,
+    "deterministic": false,
     "resource_profile": "small",
     "budget_seconds": 600,
     "budget_tokens": 5000,
@@ -48,8 +46,25 @@ Diagram: .csdlc/prepared/issues/318/diagram.mmd
     "defer_reason": null
   },
   {
+    "lane": "readiness-review-negatives",
+    "proof_role": "Prove exact rejection of seven bounded planning-contract, denominator, ordering, dependency, and activation defects.",
+    "acceptance_ids": [
+      "AC-5"
+    ],
+    "deterministic": true,
+    "resource_profile": "small",
+    "budget_seconds": 120,
+    "budget_tokens": 1000,
+    "argv": [
+      "ruby",
+      ".csdlc/prepared/issues/318/test-validate-readiness-review.rb"
+    ],
+    "parallel_group": "local",
+    "defer_reason": null
+  },
+  {
     "lane": "diff-hygiene",
-    "proof_role": "Reject malformed or out-of-scope tracked changes before review.",
+    "proof_role": "Reject malformed tracked changes before review.",
     "acceptance_ids": [
       "AC-6"
     ],
@@ -80,6 +95,7 @@ Tokens: 25000
 ## Commands
 
 - `ruby .csdlc/prepared/issues/318/validate-readiness-review.rb all`
+- `ruby .csdlc/prepared/issues/318/test-validate-readiness-review.rb`
 - `git diff --check`
 
 ## Failure Semantics

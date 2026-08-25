@@ -1,6 +1,6 @@
 # Issue 318 Design: v0.92 Next-Milestone Review Pass
 
-Status: authored for independent design review before execution bind.
+Status: authored for independent design review of the bound WP-29 scope.
 
 ## Authority And Outcome
 
@@ -11,10 +11,13 @@ merged as `5b035094725d1872b48dda8692ef88f46487f37c`, and ancestral to `main`.
 Typed finish, worktree cleanup, and administrative closeout are asynchronous
 and do not gate this review.
 
-This issue produces findings and dispositions. It does not implement a finding,
-create successor issues, activate v0.92.1, v0.92.2, or v0.93, merge, release,
-tag, finish, clean, or close any issue. Legacy issue #5851 is provenance only;
-canonical lifecycle and publication authority remains issue #318.
+This issue produces findings and dispositions and may correct only the four
+canonical v0.92.1 planning-contract surfaces named under Owned Paths when the
+review finds title variance, a bundled issue, or a missing concrete result. It
+does not implement product work, create successor issues, activate v0.92.1,
+v0.92.2, or v0.93, merge, release, tag, finish, clean, or close any issue.
+Legacy issue #5851 is provenance only; canonical lifecycle and publication
+authority remains issue #318.
 
 ## Independent Reconstruction
 
@@ -25,20 +28,18 @@ Sprint 6 universe from tracked wave and sprint authorities:
 `#307`, `#308`, `#309`, `#310`, `#311`, `#312`, `#313`, `#314`, `#315`,
 `#316`, `#317`, `#318`, and `#319`.
 
-For each row it independently resolves the canonical issue, legacy provenance,
-closing PR where applicable, base/head/merge identity, required-check and
-review truth, typed phase/receipt availability, branch/worktree topology,
-release dependency, classification, owner, and next action. It retains the raw
-GitHub response bytes and recomputes their SHA-256 digests. Missing, duplicate,
-extra, ambiguous, stale, unowned, sliced, or self-declared rows fail closed.
+For each row it independently resolves the canonical issue, closing PR where
+applicable, head and merge identity, classification, owner, and next action
+from current GitHub and Git observations. The normalized observation artifact
+is retained with the review result. Missing, duplicate, extra, ambiguous,
+stale, unowned, or sliced rows fail closed.
 
 ## Review Model
 
 1. Freeze #317's merged target, packet manifest, 13-row universe, action graph,
    raw observation envelope, and artifact digests as review inputs.
 2. Independently derive the same 13-row denominator from canonical tracked
-   authority and acquire fresh read-only GitHub, typed lifecycle, and Git
-   topology observations with retained raw provenance.
+   authority and acquire fresh read-only GitHub and Git observations.
 3. Compare the independent reconstruction against #317 and record every
    discrepancy with evidence, severity, owner, route, disposition, and exact
    revision identity. Substantive packet changes require fresh exact-head
@@ -64,7 +65,7 @@ extra, ambiguous, stale, unowned, sliced, or self-declared rows fail closed.
    Bundled phase descriptions, punctuation changes, reordered nodes, aliases,
    or title variance fail validation. Detailed scope belongs in each issue's
    deliverables and acceptance criteria, not in its title.
-   For every creation-owned v0.92.1 issue, require exactly one bounded
+   For all 31 creation-owned v0.92.1 issues, require exactly one bounded
    objective, one primary deliverable, and one independently verifiable result
    that proves that issue alone. Reject phase umbrellas, multiple unrelated
    outcomes, execution gated by administrative closeout, and results that can
@@ -85,41 +86,42 @@ extra, ambiguous, stale, unowned, sliced, or self-declared rows fail closed.
 - `docs/milestones/v0.92/review/V092_NEXT_MILESTONE_REVIEW_318.md`
 - `.csdlc/evidence/318`
 - `.csdlc/prepared/issues/318/validate-readiness-review.rb`
+- `.csdlc/prepared/issues/318/test-validate-readiness-review.rb`
+- `docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml`
+- `docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md`
+- `docs/milestones/v0.92.1/WBS_v0.92.1.md`
+- `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml`
 
 The issue-local design, diagram, cards, and typed state are lifecycle surfaces.
-All #317 evidence, milestone plans, GitHub state, Git topology, sibling issue
-records, and legacy #5851 artifacts are read-only inputs.
+All #317 evidence, other milestone plans, GitHub state, Git topology, sibling
+issue records, and legacy #5851 artifacts are read-only inputs.
 
 ## Validation Contract
 
-The deterministic validator must consume retained raw observations, recompute
-each raw-response digest before parsing, independently derive and compare the
-13-row denominator, validate issue/PR/head/merge/check/review identity and
-ancestry, prove dependency graphs acyclic, and require one evidence-backed
-disposition for every finding. It must reject v0.93 activation, issue creation,
-closeout-as-gate serialization, and author self-attestation.
+The validator must compare the exact 13-row issue denominator to live GitHub,
+validate recorded merge objects and ancestry, and require one evidence-backed
+disposition for every finding. It must reject denominator drift, v0.93
+activation, issue creation, closeout-as-gate serialization, and author
+self-attestation.
 It must also inspect all canonical v0.92.1 planning surfaces that declare or
 render issue identities and enforce exact equality with the ten-title ordered
 contract above plus the one-objective/one-primary-deliverable/one-verifiable-
-result rule. Because milestone planning is read-only here, any variance is an
-actionable review finding routed to its planning owner; #318 does not silently
-normalize the source documents.
+result rule. A variance is an actionable review finding; only the four named
+planning surfaces may be corrected by #318, and every correction remains
+visible in the finding disposition. The script supplies structural guards; the
+independent exact-head review supplies the semantic single-unit classification.
 
 Focused negative fixtures must each mutate exactly one accepted field and run
-through the real comparison or handoff classifier. Required cases include a
-missing or duplicate row, stale or non-ancestral SHA, red or absent checks,
-missing exact-head review, arbitrary/self-bound digest, active or dirty claimed
-clean worktree, absent required receipt, partial release identity, duplicate
-retry/mutation, dependency cycle, missing owner/disposition, premature
-closeout, and v0.93 activation. Every case must return its exact expected
-blocker; a generic failure is insufficient.
+through the real validator. They prove exact rejection of title variance,
+a missing primary deliverable, creation-denominator drift, a missing canonical
+issue row, release-tail reordering, dependency miswiring, and v0.93 activation.
 
 ## Rollback And Stop Conditions
 
 Withdraw the review decision and regenerate its retained observations if any
 identity, digest, ancestry, denominator, or disposition cannot be reproduced.
-Stop before publication for an unresolved actionable finding, incomplete raw
-provenance, denominator disagreement, non-exact negative result, authority
+Stop before publication for an unresolved actionable finding, incomplete
+observation truth, denominator disagreement, non-exact negative result, authority
 ambiguity, or any need to mutate a successor milestone. Rollback requires no
 remote mutation.
 

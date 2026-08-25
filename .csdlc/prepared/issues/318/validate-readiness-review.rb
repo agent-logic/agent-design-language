@@ -4,6 +4,7 @@
 require "json"
 require "yaml"
 require "digest"
+require "open3"
 
 ROOT = File.expand_path("../../../..", __dir__)
 MILESTONE = ENV.fetch("WP29_MILESTONE_ROOT", File.join(ROOT, "docs/milestones/v0.92.1"))
@@ -52,6 +53,12 @@ def check_planning_contract
     errors << "missing #{id} from issue wave" unless row
     errors << "#{id} title variance: #{row && row['title'].inspect}" unless row && row["title"] == title
   end
+  tail_rows = nodes.select { |row| row["lane"] == "release_tail" }
+  errors << "release-tail order mismatch" unless tail_rows.map { |row| row["id"] } == TAIL_TITLES.keys
+  TAIL_TITLES.keys.each_with_index do |id, index|
+    predecessor = index.zero? ? "INT-01" : TAIL_TITLES.keys[index - 1]
+    errors << "#{id} dependency mismatch" unless by_id.fetch(id, {})["depends_on"] == [predecessor]
+  end
 
   %w[PLANNED_ISSUE_CATALOG_v0.92.1.md WBS_v0.92.1.md].each do |name|
     text = File.read(File.join(MILESTONE, name))
@@ -81,15 +88,18 @@ def check_planning_contract
   spec_by_id = spec_rows.to_h { |row| [row.fetch("id"), row] }
   creation_ids = nodes.select { |row| row["creation_owner"] == "WP-01" }.map { |row| row.fetch("id") }
   errors << "creation-owned denominator mismatch" unless creation_ids.length == 31 && creation_ids.uniq.length == 31
+  errors << "future issue creation already recorded" unless nodes.select { |row| row["creation_owner"] == "WP-01" }.all? { |row| row["issue"].nil? }
+  errors << "milestone opening authority is already concrete" unless wave["conductor_issue"].nil? && wave["conductor_id"] == "WP-01"
   creation_ids.each do |id|
     row = spec_by_id[id]
     unless row
       errors << "#{id} missing execution specification"
       next
     end
-    errors << "#{id} must define exactly one nonempty objective" unless row["objective"].is_a?(String) && !row["objective"].strip.empty?
+    objective = row["objective"]
+    errors << "#{id} must define one outcome-shaped objective" unless objective.is_a?(String) && objective.start_with?("Produce one ")
     deliverable = row["primary_deliverable"]
-    errors << "#{id} must define exactly one primary_deliverable" unless deliverable.is_a?(String) && !deliverable.strip.empty?
+    errors << "#{id} must define exactly one primary_deliverable" unless deliverable.is_a?(String) && deliverable.start_with?("One ")
     result = row["verification_result"]
     errors << "#{id} must define exactly one independently verifiable verification_result" unless result.is_a?(String) && !result.strip.empty?
     dependency_text = Array(row["dependencies"]).compact.join(" ").downcase
@@ -109,8 +119,55 @@ def check_review_packet
   return errors unless errors.empty?
 
   universe = JSON.parse(File.read(File.join(EVIDENCE, "issue-universe.json")))
-  issues = Array(universe["issues"]).map { |row| Integer(row.fetch("issue")) }
+  rows = Array(universe["issues"])
+  issues = rows.map { |row| Integer(row.fetch("issue")) }
   errors << "canonical issue denominator mismatch" unless issues == (307..319).to_a
+  rows.each do |row|
+    issue = row.fetch("issue")
+    errors << "issue #{issue} invalid state" unless %w[OPEN CLOSED].include?(row["state"])
+    errors << "issue #{issue} missing role" if row["role"].to_s.strip.empty?
+    next unless row["closing_pr"]
+
+    errors << "issue #{issue} invalid head" unless row["head"].to_s.match?(/\A[0-9a-f]{40}\z/)
+    errors << "issue #{issue} invalid merge" unless row["merge"].to_s.match?(/\A[0-9a-f]{40}\z/)
+    if row["merge"].to_s.match?(/\A[0-9a-f]{40}\z/)
+      system("git", "-C", ROOT, "cat-file", "-e", "#{row['merge']}^{commit}", out: File::NULL, err: File::NULL) || errors << "issue #{issue} merge commit unavailable"
+      system("git", "-C", ROOT, "merge-base", "--is-ancestor", row["merge"], "HEAD", out: File::NULL, err: File::NULL) || errors << "issue #{issue} merge is not ancestral"
+    end
+  end
+
+  unless ENV["WP29_SKIP_LIVE_GITHUB"] == "1"
+    rows.each do |row|
+      issue = row.fetch("issue")
+      out, err, status = Open3.capture3("gh", "issue", "view", issue.to_s, "--repo", universe.fetch("repository"), "--json", "state,closedByPullRequestsReferences")
+      unless status.success?
+        errors << "issue #{issue} live GitHub observation failed: #{err.strip}"
+        next
+      end
+      live = JSON.parse(out)
+      errors << "issue #{issue} live state mismatch" unless live["state"] == row["state"]
+      closing = Array(live["closedByPullRequestsReferences"]).map { |pr| pr["number"] }
+      expected_pr = row["closing_pr"]
+      errors << "issue #{issue} live closing PR mismatch" unless expected_pr ? closing.include?(expected_pr) : closing.empty?
+      next unless expected_pr
+
+      pr_out, pr_err, pr_status = Open3.capture3("gh", "pr", "view", expected_pr.to_s, "--repo", universe.fetch("repository"), "--json", "state,headRefOid,mergeCommit")
+      unless pr_status.success?
+        errors << "issue #{issue} live PR observation failed: #{pr_err.strip}"
+        next
+      end
+      pr = JSON.parse(pr_out)
+      errors << "issue #{issue} closing PR is not merged" unless pr["state"] == "MERGED"
+      errors << "issue #{issue} live head mismatch" unless pr["headRefOid"] == row["head"]
+      errors << "issue #{issue} live merge mismatch" unless pr.dig("mergeCommit", "oid") == row["merge"]
+    end
+  end
+
+  readiness = JSON.parse(File.read(File.join(EVIDENCE, "readiness-review.json")))
+  errors << "v0.92.1 issue creation claim changed" unless readiness.dig("v0_92_1", "issues_created") == false
+  errors << "v0.92.2 issue creation claim changed" unless readiness.dig("v0_92_2", "issues_created") == false
+  errors << "v0.93 activation claim changed" unless readiness.dig("v0_93", "status") == "inactive" && readiness.dig("v0_93", "selected") == false && readiness.dig("v0_93", "activated") == false
+  errors << "single-unit contract denominator changed" unless readiness.dig("v0_92_1", "single_unit_contract") == "explicit_for_all_31_creation_owned_issues"
 
   findings = JSON.parse(File.read(File.join(EVIDENCE, "findings.json")))
   Array(findings["findings"]).each do |finding|

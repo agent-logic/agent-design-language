@@ -19,7 +19,7 @@ def run_case(name, expected)
   FileUtils.cp_r(SOURCE_EVIDENCE, evidence)
   yield milestone, evidence
   _out, err, status = Open3.capture3(
-    {"WP29_MILESTONE_ROOT" => milestone, "WP29_EVIDENCE_ROOT" => evidence},
+    {"WP29_MILESTONE_ROOT" => milestone, "WP29_EVIDENCE_ROOT" => evidence, "WP29_SKIP_LIVE_GITHUB" => "1"},
     "ruby", VALIDATOR, "all"
   )
   raise "#{name}: unexpectedly passed" if status.success?
@@ -46,8 +46,28 @@ begin
     json.fetch("issues").delete_at(1)
     File.write(path, JSON.pretty_generate(json) + "\n")
   end
+  run_case("tail-order", "release-tail order mismatch") do |milestone, _evidence|
+    path = File.join(milestone, "WP_ISSUE_WAVE_v0.92.1.yaml")
+    text = File.read(path)
+    first = text.index("  - id: TAIL-01")
+    second = text.index("  - id: TAIL-02")
+    third = text.index("  - id: TAIL-03")
+    one = text[first...second]
+    two = text[second...third]
+    File.write(path, text[0...first] + two + one + text[third..])
+  end
+  run_case("tail-dependency", "TAIL-10 dependency mismatch") do |milestone, _evidence|
+    path = File.join(milestone, "WP_ISSUE_WAVE_v0.92.1.yaml")
+    File.write(path, File.read(path).sub(/(id: TAIL-10.*?depends_on:) \[TAIL-09\]/m, "\\1 [TAIL-08]"))
+  end
+  run_case("v093-activation", "v0.93 activation claim changed") do |_milestone, evidence|
+    path = File.join(evidence, "readiness-review.json")
+    json = JSON.parse(File.read(path))
+    json.fetch("v0_93")["activated"] = true
+    File.write(path, JSON.pretty_generate(json) + "\n")
+  end
 ensure
   FileUtils.rm_rf(WORK)
 end
 
-puts JSON.generate(schema: "adl.v092.wp29.readiness-review-negatives.v1", status: "pass", cases: 4)
+puts JSON.generate(schema: "adl.v092.wp29.readiness-review-negatives.v1", status: "pass", cases: 7)

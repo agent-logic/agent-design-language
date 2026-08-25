@@ -16,43 +16,42 @@ Freeze the merged #317 packet, independently reconstruct all 13 canonical rows f
 
 ## Plan
 
-Revision 3
+Revision 5
 
 ## Steps
 
 [
   {
     "id": "S1",
-    "action": "Verify #317 reviewed-green merge ancestry and freeze its exact packet, manifest, universe, DAG, raw envelope, and digests.",
+    "action": "Confirm #317 reviewed-green merge ancestry and independently reconstruct the live-checked normalized #307-#319 issue universe.",
     "acceptance_ids": [
-      "AC-1"
+      "AC-1",
+      "AC-2"
     ],
     "status": "pending"
   },
   {
     "id": "S2",
-    "action": "Independently derive the 13-row denominator and retain fresh raw GitHub, typed lifecycle, and Git-topology provenance with recomputed digests.",
+    "action": "Review v0.92.1 and v0.92.2 handoff truth without creating issues or activating a successor milestone.",
     "acceptance_ids": [
-      "AC-2",
       "AC-3"
     ],
     "status": "pending"
   },
   {
     "id": "S3",
-    "action": "Compare the v0.92.1/v0.92.2 handoffs, audit the exact ordered ten-title and single-unit issue contract across canonical v0.92.1 planning surfaces, and record evidence-backed findings without mutating those read-only inputs.",
+    "action": "Audit and correct only the four named planning surfaces so exact tail identity, dependency order, and the reviewed 31-issue single-unit contract hold.",
     "acceptance_ids": [
-      "AC-4",
-      "AC-5"
+      "AC-4"
     ],
     "status": "pending"
   },
   {
     "id": "S4",
-    "action": "Run exact one-field negative replay, resolve all actionable review-packet findings, and obtain independent exact-head review without merge or ceremony mutation.",
+    "action": "Run the focused validator and seven exact negative fixtures, disposition findings, and obtain independent exact-head review.",
     "acceptance_ids": [
-      "AC-6",
-      "AC-7"
+      "AC-5",
+      "AC-6"
     ],
     "status": "pending"
   }
@@ -84,13 +83,13 @@ Revision 3
 
 .csdlc/prepared/issues/318/design.md
 
-Digest: 60f524b96caadc4964997bfd252d14237b3b2cd1bc342dea1e2ff265e8f98abd
+Digest: 5d3f4eb2e7832c220b4bab8bed159d2bffc911149e547f4b1ff0b8888040db8d
 
 ## Diagram
 
 .csdlc/prepared/issues/318/diagram.mmd
 
-Digest: 68ee8f1c984928c7929613194971bf4209e92993d6c97e40f77356bdd8a87e9c
+Digest: 0c51d36a2147179a984ec642d1874eac0473282bc3f93a24e240d993825db613
 
 ## Stop Conditions
 
