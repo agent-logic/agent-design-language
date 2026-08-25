@@ -4,7 +4,7 @@ v0.92.1 converts the remaining v0.92 planning residue into a bounded, parallel e
 
 ## Opening gate
 
-Issue #432 removes tracked dependencies on local untracked paths. It is the repository-authority prerequisite for #431 and every execution lane. Issue #316 reconciles this planning package and the v0.92.2 successor package; it does not create execution issues.
+Issue #432 removes tracked dependencies on local untracked paths. It is the repository-authority prerequisite for every execution lane. Issue #316 reconciles this planning package and the v0.92.2 successor package; it does not create execution issues. After the reviewed planning package merges, the milestone operator creates the number-free WP-01 conductor, which creates the remaining wave. Closed #431 is planning provenance only.
 
 ## Execution lanes
 
@@ -19,9 +19,9 @@ Issue #432 removes tracked dependencies on local untracked paths. It is the repo
 8. **Provider inference profiles** — define one provider-level profile contract, materialize Ollama settings deterministically, then run non-authoritative local-model shadow comparisons.
 9. **GCP qualification sidecar** — repeat the six-resident workload on GCP after DRT-C, with separate identity, billing, cost, and zero-resource cleanup evidence.
 
-All execution roots depend on #431 after #432. They may execute independently where their explicit edges permit; DRT-D follows DRT-C, PROV-B follows PROV-A, and no lane silently absorbs another.
+All execution roots depend on the future WP-01 conductor after #432 and the planning-package merge. They may execute independently where their explicit edges permit; DRT-D follows DRT-C, PROV-B follows PROV-A, and no lane silently absorbs another.
 
-The existing executable graph is #432, #431, podcast #51/#261-#264/#342, Observatory prerequisites #251/#122/#84, and GPU Shepherd #345. Every other execution and release-tail issue in this package is number-free planning truth; WP-01 creates those issues later in the exact catalog and dependency order. Premature placeholders #433-#438 are closed and must not be reused as execution authority. #431 owns the planning-time v0.92.2 handoff.
+The existing executable graph is #432, podcast #51/#261-#264/#342, Observatory prerequisites #251/#122/#84, and GPU Shepherd #345. WP-01 and every other new execution or release-tail issue remain number-free planning truth. After merge, the milestone operator creates WP-01, and WP-01 creates the rest in exact catalog and dependency order. Premature placeholders #433-#438 and closed #431 must not be reused as future execution authority.
 
 Closed issues #149–#190 were prematurely retired planning packets, not delivered execution. Their requirements remain in the routing denominator: corporate #153–#160 is consolidated into CORP-A through CORP-D; C-SDLC v3 #161–#180 into V3-A through V3-F; and Runtime #181–#187 into DRT-A through DRT-C. Integration routing is explicit: #188 informs INT-01 and TAIL-01 quality admission, #190 informs the TAIL-07 successor handoff, and #189 informs only TAIL-10 release ceremony. They are not reopened. The v0.92 tooling defect #387 is not part of the active milestone plan even if legacy labeling includes v0.92.1. #433–#438 were closed as premature placeholders and #439 was closed as redundant with #431. Issue #457 is historical provenance for the provider-profile sidecar only; it is not active execution authority.
 

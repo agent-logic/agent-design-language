@@ -1,6 +1,9 @@
 schema: adl.milestone.issue-wave.v1
 milestone: v0.92.1
-conductor_issue: 431
+conductor_issue: null
+conductor_id: WP-01
+opening_authority: milestone_operator_after_planning_merge
+legacy_planning_issue: 431
 work_packages:
   - id: REP-01
     lane: repository_authority
@@ -9,8 +12,11 @@ work_packages:
     depends_on: []
   - id: WP-01
     lane: milestone_opening
-    title: Publish the v0.92.1 planning package
-    issue: 431
+    title: Open the v0.92.1 milestone and create the execution wave
+    issue: null
+    creation_owner: milestone_operator_after_planning_merge
+    legacy_issue: 431
+    legacy_issue_disposition: closed_planning_provenance_only
     depends_on: [REP-01]
   - id: CORP-01
     lane: corporate

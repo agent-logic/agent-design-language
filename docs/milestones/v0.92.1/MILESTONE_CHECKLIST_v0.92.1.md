@@ -3,7 +3,8 @@
 ## Opening
 
 - [ ] #432 reviewed, merged, and ancestral
-- [ ] #431 planning package reviewed and published
+- [ ] Reviewed planning package merged; closed #431 retained as provenance only
+- [ ] Milestone operator created the number-free WP-01 opening conductor
 - [ ] No tracked milestone dependency on local untracked paths
 - [ ] #316 planning reconciliation creates no execution issues or implementation claims
 

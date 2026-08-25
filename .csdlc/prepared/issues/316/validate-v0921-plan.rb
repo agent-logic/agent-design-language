@@ -67,6 +67,20 @@ rows = flatten.call(wave.fetch("work_packages"))
 ids = rows.map { |row| row.fetch("id") }
 errors << "duplicate planned ids" unless ids.uniq.length == ids.length
 
+wp01 = rows.find { |row| row["id"] == "WP-01" }
+errors << "concrete closed conductor assigned future work" unless wave["conductor_issue"].nil?
+errors << "missing number-free conductor id" unless wave["conductor_id"] == "WP-01"
+errors << "missing milestone-opening authority" unless wave["opening_authority"] == "milestone_operator_after_planning_merge"
+errors << "closed #431 must be provenance only" unless wave["legacy_planning_issue"] == 431
+if wp01
+  errors << "WP-01 must remain number-free before opening" unless wp01["issue"].nil?
+  errors << "WP-01 lacks viable future creation owner" unless wp01["creation_owner"] == "milestone_operator_after_planning_merge"
+  errors << "WP-01 legacy #431 mapping missing" unless wp01["legacy_issue"] == 431
+  errors << "closed #431 assigned future conductor authority" unless wp01["legacy_issue_disposition"] == "closed_planning_provenance_only"
+else
+  errors << "missing WP-01 conductor row"
+end
+
 expected = %w[
   REP-01 WP-01 CORP-01 CORP-A CORP-B CORP-C CORP-D V3-01 V3-A V3-B V3-C
   V3-D V3-E V3-F DRT-01 DRT-A DRT-B DRT-C POD-01 DEC-01 PROV-01 PROV-A
@@ -86,6 +100,8 @@ end
 spec_ids = spec.fetch("issue_specifications").map { |row| row.fetch("id") }
 creation_ids = rows.select { |row| row["creation_owner"] == "WP-01" }.map { |row| row.fetch("id") }
 errors << "execution specification denominator mismatch" unless spec_ids.sort == creation_ids.sort
+errors << "WP-01 must not create itself" if creation_ids.include?("WP-01")
+errors << "future creation wave has no children" if creation_ids.empty?
 
 tail = rows.select { |row| row.fetch("id").start_with?("TAIL-") }
 errors << "release tail order mismatch" unless tail.map { |row| row.fetch("id") } == (1..10).map { |n| "TAIL-%02d" % n }

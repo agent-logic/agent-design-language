@@ -1,13 +1,13 @@
 # Planned Issue Catalog — v0.92.1
 
-This is the complete issue-creation plan. WP-01 creates the unnumbered entries after the planning PR merges. This document does not create issues and must not preallocate GitHub numbers.
+This is the complete issue-creation plan. After the planning PR merges, the milestone operator creates the number-free WP-01 opening conductor. That new conductor creates the remaining unnumbered entries. This document does not create issues and must not preallocate GitHub numbers.
 
 ## Existing issues
 
 | Ref | Purpose | Disposition |
 |---|---|---|
 | #432 | Remove tracked local-path authority | Opening prerequisite |
-| #431 | Publish this planning package and create the later wave | WP-01 conductor |
+| #431 | Historical authoring of this planning package | Closed planning provenance; never future conductor authority |
 | #51 | Podcast coordination | Existing execution root |
 | #261 | Identity, artwork, rights, metadata, mailbox | Existing podcast child |
 | #262 | Hosting, RSS, enclosures, playback | Existing podcast child |
@@ -19,29 +19,37 @@ This is the complete issue-creation plan. WP-01 creates the unnumbered entries a
 | #84 | Unity Observatory readiness | Active lane; preparation may run in parallel, final proof consumes #251 and #122 |
 | #345 | AWS GPU Shepherd hardening | Active distributed Runtime input; may run in parallel with Observatory prerequisites |
 
+## Milestone-opening conductor
+
+| Planned ID | Title | Created by | Depends on |
+|---|---|---|---|
+| WP-01 | Open v0.92.1 and create the execution wave | Milestone operator after the reviewed planning package merges | #432 and the merged planning package |
+
+WP-01 is deliberately number-free until milestone opening. It is not #431, and #431's closed state cannot authorize future issue creation.
+
 ## Issues WP-01 will create
 
 | Planned ID | Title | Depends on | Retained predecessor scope |
 |---|---|---|---|
-| CORP-A | Inventory, provenance, licensing, trademark, assignment, and acceptance | #431/#432 | #153-#155 |
+| CORP-A | Inventory, provenance, licensing, trademark, assignment, and acceptance | WP-01/#432 | #153-#155 |
 | CORP-B | Corporate account custody, billing, recovery, MFA, and vault controls | CORP-A | #156 |
 | CORP-C | Repository, domain, brand, vendor, AWS, Terraform, CI, and runbook transfer | CORP-A, CORP-B | #157-#159 |
 | CORP-D | Chain-of-title, diligence, counsel review, exceptions, and corporate acceptance | CORP-A-C | #160 |
-| V3-A | Product contract, Rust construction slice, and platform decision | #431/#432 | #161-#163 |
+| V3-A | Product contract, Rust construction slice, and platform decision | WP-01/#432 | #161-#163 |
 | V3-B | Binary foundation, services, repository context, state, and projections | V3-A | #164-#167 |
 | V3-C | Lifecycle kernel, transactions, recovery, and typed adapters | V3-B | #168-#170 |
 | V3-D | Local issue/bind/card/doctor commands and PVF planning | V3-C | #171-#173 |
 | V3-E | PVF execution, review, publication, GitHub/PR, finish, and cleanup | V3-D | #174-#178 |
 | V3-F | Parity, canary migration, authority cutover, observation, and retirement decision | V3-E | #179/#180 |
-| DRT-A | Qualification contract, ACIP authority, and replay conformance | #431/#432 | #181/#182 |
+| DRT-A | Qualification contract, ACIP authority, and replay conformance | WP-01/#432 | #181/#182 |
 | DRT-B | Multi-agent UTS work and hybrid Spot continuity | DRT-A | #183/#184 |
 | DRT-C | Identity/provider failure, Observatory evidence, soak, cleanup, and synthesis | DRT-B | #185-#187 |
 | DRT-D | GCP six-resident portability qualification | DRT-C | New sidecar; does not execute #269 |
-| HOT-01 | Validated atomic Axum configuration hot reload | #431/#432 | New v0.92.1 work |
-| OBS-A | Observatory information architecture, interaction, and accessibility redesign | #431/#432 | Existing Observatory evidence |
+| HOT-01 | Validated atomic Axum configuration hot reload | WP-01/#432 | New v0.92.1 work |
+| OBS-A | Observatory information architecture, interaction, and accessibility redesign | WP-01/#432 | Existing Observatory evidence |
 | OBS-B | Authentic Runtime projections, implementation, and state/failure proof | OBS-A and stable Runtime authority | Existing Observatory evidence |
-| DEC-01 | Separate Runtime v2/v3 authority and source ownership | #431/#432 | New decoupling work; Runtime v4 excluded |
-| PROV-A | Shared provider inference-profile contract and Ollama materialization | #431/#432 | #457 historical provenance only |
+| DEC-01 | Separate Runtime v2/v3 authority and source ownership | WP-01/#432 | New decoupling work; Runtime v4 excluded |
+| PROV-A | Shared provider inference-profile contract and Ollama materialization | WP-01/#432 | #457 historical provenance only |
 | PROV-B | Local-model shadow execution and comparison evidence | PROV-A | New non-authoritative comparison work |
 | INT-01 | Cross-lane convergence and release-tail admission | Every root named in the issue wave | #188 convergence intent |
 | TAIL-01 | Quality gate | INT-01 | #188 quality-admission intent |
