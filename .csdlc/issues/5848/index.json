@@ -4,11 +4,11 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "69a605466990518758a56adab5fead02f83654418b6259dd24bf8dedd0eea706",
-  "phase": "initialized",
+  "phase": "bound",
   "generation": 19,
-  "digest": "d6756cccf2d9883611ebb05771523dc8dd970ffab21e54b4b8e6deae97287d9e",
-  "branch": null,
-  "worktree": null,
+  "digest": "c1dd4e8508e79c5f1f891fb4c07844662b133c30e0a5cedf31960039ff77ee71",
+  "branch": "codex/315-wp27-review-findings-remediation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-315-wp27-review-findings-remediation-execution",
   "review_assignment": null,
   "review": null,
   "publication": null,
@@ -76,6 +76,20 @@
       "to": "initialized",
       "actor": "csdlc-topology-migrate",
       "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 5,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
     }
   ],
   "audit": [
@@ -337,6 +351,13 @@
       "actor": "codex:315-wp27-remediation",
       "reason": "Replace non-executable typed-card-doctor lane with the issue-owned remediation validator before execution binding.",
       "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"canonical-remediation-truth\",\"proof_role\":\"Reconstruct the complete internal plus external finding universe, validate every disposition and accepted-risk authority, read live remediation PR head/review/check/merge state and typed terminal truth, then rerun all affected quality and release validators.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":960,\"budget_tokens\":8500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5848/validate-remediation-regressions.rb\"],\"parallel_group\":\"remediation\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 38,
+      "generation": 19,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
     }
   ]
 }
