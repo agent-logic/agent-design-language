@@ -1,0 +1,12 @@
+{
+  "issue": 5848,
+  "card": "sor",
+  "expected_generation": 21,
+  "expected_digest": "53fe7ebea3250d666702c1c72b63bb7b79249b9c1ca2877fa23d2d70062eb796",
+  "actor": "codex:issue-315-wp27-remediation",
+  "reason": "Issue #315 / legacy #5848 remediation implementation and focused validation are complete; exact-head review is next.",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "implemented"
+  }
+}

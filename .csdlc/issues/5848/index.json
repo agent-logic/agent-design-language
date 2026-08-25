@@ -4,9 +4,9 @@
   "repository": "danielbaustin/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "69a605466990518758a56adab5fead02f83654418b6259dd24bf8dedd0eea706",
-  "phase": "bound",
-  "generation": 19,
-  "digest": "c1dd4e8508e79c5f1f891fb4c07844662b133c30e0a5cedf31960039ff77ee71",
+  "phase": "implemented",
+  "generation": 22,
+  "digest": "e6717e3a4ed1a4fdb3bae1b94c2528f8a3f48a492f6aa2c21a5f6b04e2ee1fc9",
   "branch": "codex/315-wp27-review-findings-remediation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-315-wp27-review-findings-remediation-execution",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c4d0dde3be720502279f4c65a7ac0775a6a7fe56f6373174e222c914dbd665c6",
+      "values_digest": "e43760d64e3bffe0a89f8ca447c1f7084739bedc5ec554949d0c16bda88d518a",
       "rendered_digest": "57553018413d1e53730ae046f86e3db6a662e4ca6d427dc6a7d1ad39bc3c4bef",
       "ast_digest": "7716faec8e7b9690b06f9a935565070da003f2dc28b16f2bcd16a6da6a3d5670"
     },
     "stp": {
-      "values_digest": "a5804c146b3805c4a0cbd994c019bdc2c30738b40f389b6cfec3d69b167137fb",
+      "values_digest": "a9ebbd73005689c5f0201c330017de1aeb30e82d749e896a008c36de76e3ebae",
       "rendered_digest": "62692be2f2662069e59d41462ef02224e8b26ef395cfea37847c9667436cd9d2",
       "ast_digest": "1e7ddef8b46642156aa8a1eaa2e5c3b454b2fd785a6e7d8f1bdb5dd9fb6edc9a"
     },
     "spp": {
-      "values_digest": "6d3b305e69a7db28539b68984b79da3ec2d59a8af5b38c4188a0c47a1a42c9f2",
+      "values_digest": "02b5f900b4282bccb5b0b0fa3906ed1de5459f886d0d4a1dafac13d99d7697e7",
       "rendered_digest": "3a84906f0484e462b854917f62e86083d1a35dddb5c9bde2a6eeedead3eb2e4e",
       "ast_digest": "9faa8997170159d51c641ffceacbde635a7225b39cb55be1571fa9e717aeefc0"
     },
     "vpp": {
-      "values_digest": "7e8c9fd442a9aefc3cc2d17b40d1d3193d5619d03b6b9f9b7f4790680f468732",
+      "values_digest": "7c42025312a00568d5bb7250fb245f94bef19b5571de8b4b5eae2b35c1d185bf",
       "rendered_digest": "74bcbad4b9cb3f16514016de056eea88de121f49dcb3635f2ec5c0cdb4018bc5",
       "ast_digest": "16f09ecea8a96266d363e865ad5d87e0a046da8917c0d2b179bb4b181e1c9ec7"
     },
     "srp": {
-      "values_digest": "21f62175c69da7cfa08ba11d71b4cf877595a3f39ec87788143fb7cdf5a03d35",
+      "values_digest": "3bd8654d3aad17029cdf4e65dd2491ccc3fa7c0f16bbb25fa892cfda05a4db0d",
       "rendered_digest": "f7f0ac3dd3482ccdab08d2c40e3a02f052b0221f954239286fffeea33449b185",
       "ast_digest": "645c5acb2dccd328e223318c9039a381a9187d7f74906ab06dc551ec98a402c3"
     },
     "sor": {
-      "values_digest": "f4089e45a692caa343dffe1fa7585a3b3ed7e5f7fab2d907945facd67f61e30c",
-      "rendered_digest": "535b23834e603c108923eedc9139539d3c8b58cfe8c56f7f618e0a0caa0ad499",
-      "ast_digest": "a36cb1ad0b507a85eb65bb837e1210d9448f98d6983ecc611954df1573648130"
+      "values_digest": "9dd01bad94531e55eec0faf237f030addabb2b164eb58ff586aae9fcae7fcfa1",
+      "rendered_digest": "de7e757a542805663cea868b8efb5ab6d581ed6ba3a83262ea10a8aba033315b",
+      "ast_digest": "5c8be571bb48a0b18ebb7d4a14dcd18485c296908adfe429f5adc632079511bb"
     }
   },
   "transitions": [
@@ -90,6 +90,13 @@
       "to": "bound",
       "actor": "csdlc-bind",
       "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 6,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-315-wp27-remediation",
+      "reason": "Issue #315 / legacy #5848 remediation implementation and focused validation are complete; exact-head review is next."
     }
   ],
   "audit": [
@@ -358,6 +365,27 @@
       "actor": "csdlc-bind",
       "reason": "record Git branch/worktree topology",
       "operation": "bind"
+    },
+    {
+      "sequence": 39,
+      "generation": 20,
+      "actor": "codex:issue-315-wp27-remediation",
+      "reason": "Record WP-27 remediation implementation before implemented-phase transition.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Remediated WP-27 review findings by accounting for all retained internal and external review rows, preserving #314/#471/#316 routing boundaries, and fixing the production birthday activation cleanup, digest, and filesystem-assumption findings.\",\"changes\":[\"Added a remediation disposition register and README under docs/reviews/v0.92/remediation-5848.\",\"Retained all 30 source finding rows while grouping duplicate external birthday-code findings by shared fix.\",\"Routed internal review rows to the merged #467 corrective hydration authority rather than reopening settled release-credit semantics.\",\"Changed production birthday post-commit cleanup failures to return CommittedWithCleanupPending with the committed receipt.\",\"Made receipt input digest construction fallible instead of defaulting to an empty string.\",\"Documented same-host local-filesystem and advisory-lock assumptions on ProductionBirthdayStore.\",\"Added focused regression tests for cleanup-pending and partial-cleanup recovery.\"],\"artifacts\":[\"docs/reviews/v0.92/remediation-5848/disposition-register.json\",\"docs/reviews/v0.92/remediation-5848/README.md\",\".csdlc/evidence/5848/production-birthday-focused-test.json\",\".csdlc/prepared/issues/5848/validate-remediation-regressions.rb\",\"adl-runtime-kernel/src/production_birthday.rs\",\"adl-runtime-kernel/tests/production_birthday.rs\"]}"
+    },
+    {
+      "sequence": 40,
+      "generation": 21,
+      "actor": "codex:issue-315-wp27-remediation",
+      "reason": "Record complete remediation-disposition validator proof.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/5848/validate-remediation-regressions.rb\"],\"purpose\":\"Validate complete internal/external finding universe, authoritative dispositions, evidence digests, external-review intake regression, and current-head production birthday focused regression.\",\"outcome\":\"passed\",\"evidence_ref\":\"local:issue-315-remediation-validator:passed\"}}"
+    },
+    {
+      "sequence": 41,
+      "generation": 22,
+      "actor": "codex:issue-315-wp27-remediation",
+      "reason": "Issue #315 / legacy #5848 remediation implementation and focused validation are complete; exact-head review is next.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
     }
   ]
 }
