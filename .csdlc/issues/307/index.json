@@ -1,0 +1,146 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 307,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "06af288e9ffac4482dffe4d18a789ca5657799d27cd0d92bc949ad4e37fc199b",
+  "phase": "implemented",
+  "generation": 7,
+  "digest": "98fd333f52cb25726eaa851f14fc0c2e9efaa4eeee1fecf9967c9908e299c582",
+  "branch": "codex/307-v092-quality-release-tail-closeout",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-307-quality-release-tail-closeout",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/307/design.md",
+  "diagram_path": ".csdlc/prepared/issues/307/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:4deb75de-c03c-4aed-a5d5-bec70cbc1e31",
+      "revision": "ef41596905540fe13c30e98d4616b9870417e22be2c47f4fe2525ee9a9f4baa1"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "ab192cfc3b10e47a6f01935c401e4f6cc6a9ca9ada1917e15bb2fae7e95c282f",
+      "rendered_digest": "03a26c6401460b7b9f932842f737336820e09be3e85bd252cbe6ca43de6fa02b",
+      "ast_digest": "4d3c655395bdaefcf2c4dcaa7d4f46bd6d84e712dbc34080aa5890fb253f9410"
+    },
+    "stp": {
+      "values_digest": "b7ca6fbdb94026e26f1d644b19572d820f62e752bcb48c967ef156aa07dc5879",
+      "rendered_digest": "aad6d161acf2ca1d549d0f684d8a771d16f715aff9b7f3e9265db833d337d501",
+      "ast_digest": "c8734136b640368745abcc09bc44383c7ca7252874c9311ba1d886c704ab5a13"
+    },
+    "spp": {
+      "values_digest": "f87d9ff4258d07bad6963ba5a8bdbfb3c5b1123270feda2536f68bc7abc31e53",
+      "rendered_digest": "b402215b722b02850fff06f6816f4531bac5599e53f39f8ccb4b5dbe984d1d9b",
+      "ast_digest": "b7232ff1044bc1ea83f284c84c108bfc1dc62335115035168cc6d5fb6e9e6262"
+    },
+    "vpp": {
+      "values_digest": "6975a1256b8c5200c67202dd87a9f77cd55709f1fa5cd05f006677337e5ae754",
+      "rendered_digest": "4fd7e1032ded164e815c97bc22322dd80748ec49ec18c5b48cc1523233fe644f",
+      "ast_digest": "6aa3030e0c3637a5ed424bb0a4336221b7d540273a1f3e49ce14b84b500786f1"
+    },
+    "srp": {
+      "values_digest": "117e6293ff23529409f0b0d6dee36a2ef668f5f25322d8cccf49f21c9c2d46d5",
+      "rendered_digest": "d35f2c74801aca74fb163e005ecf6183281a55eeb749db1bcc39785f0a0903e7",
+      "ast_digest": "4761227ae8ccaa3d4105d64163740935c75e3395572da17b5c303d9b33c7d54e"
+    },
+    "sor": {
+      "values_digest": "25a32e11a5c4e5a62d00847fc0f86564854ceaf4178e45b762b33db44aead8a1",
+      "rendered_digest": "7b6eb7d2000d977aaaa4ab0762dd5c61cc3e47dbe8800218d25de3c97cc9cb1b",
+      "ast_digest": "9b977027f914799ee7e04f3c8e045eeb1944399d7f7475f6b7f7ec882b786a10"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:issue-307-closeout",
+      "reason": "Advance the current-main #307 coordination packet after preserving the legacy corrupt projection, retaining the approved design, and verifying typed doctor readiness."
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:issue-307-closeout",
+      "reason": "Advance the bounded precloseout packet to implemented while final #319 ceremony and #314 terminal reconciliation remain explicit review/publication blockers."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:issue-307-preparation",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:4deb75de-c03c-4aed-a5d5-bec70cbc1e31",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"ef41596905540fe13c30e98d4616b9870417e22be2c47f4fe2525ee9a9f4baa1\",\"design_ref\":\".csdlc/prepared/issues/307/design.md\",\"diagram_digest\":\"638a46a7b3c3a4e5593a388cf8a4e23595f7fdda7def2c1ea96d26f87301c78b\",\"diagram_ref\":\".csdlc/prepared/issues/307/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:issue-307-closeout",
+      "reason": "Advance the current-main #307 coordination packet after preserving the legacy corrupt projection, retaining the approved design, and verifying typed doctor readiness.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 4,
+      "generation": 2,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "codex:issue-307-closeout",
+      "reason": "Record completed preparation validation and preservation of the exact release-tail sequence.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:issue-307-closeout",
+      "reason": "Record completed current-main typed bootstrap, retained design approval, readiness, and FastWork execution binding.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:issue-307-closeout",
+      "reason": "Record child reconciliation through closed #318 while separately owned #319 ceremony and #314 no-PR terminal reconciliation remain pending.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:issue-307-closeout",
+      "reason": "Record the bounded #307 closeout packet and truthful remaining gates before final ceremony reconciliation.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Bound the current-main #307 closeout worktree, reconciled the live child graph through closed #318, retained #268 and #471 routing truth, removed three verified terminal worktrees, and preserved #319 plus #314 as explicit unresolved terminal gates.\",\"changes\":[\".csdlc/evidence/307/precloseout-status.json records the live child, terminal, cleanup, carryover, and nested-remediation boundary\",\"docs/milestones/v0.92/review/sprint_307/README.md records final review gates without taking #319 authority\",\".csdlc/prepared/issues/307 validators and typed request artifacts preserve the exact #308-through-#319 denominator\"],\"artifacts\":[\".csdlc/evidence/307/precloseout-status.json\",\"docs/milestones/v0.92/review/sprint_307/README.md\",\"typed recordless terminal receipt for #310\",\"typed cleanup results for #311, #314, #315, #316, and #317\"]}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:issue-307-closeout",
+      "reason": "Advance the bounded precloseout packet to implemented while final #319 ceremony and #314 terminal reconciliation remain explicit review/publication blockers.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    }
+  ]
+}

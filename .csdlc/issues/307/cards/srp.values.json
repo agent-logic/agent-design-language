@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 307,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][sprint] Quality and release tail",
+    "slug": "quality-release-tail",
+    "version": "v0.92",
+    "generation": 7
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "Issue #307 lifecycle, preparation, evidence, and sprint_307 coordination packet only; all child implementation and release surfaces are read-only.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Does the packet retain #309 as active WP-21 work between #308 and #310?",
+        "Is the selected child graph explicit, acyclic, and independently owned while preserving allowed parallel lanes?",
+        "Does successor work depend on reviewed/green/merged predecessor truth rather than async issue closeout?",
+        "Are release ceremony and v0.93 activation boundaries preserved?",
+        "Does closeout preserve #268 successful closure truth and #471 as a WP-27/#315 remediation child?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

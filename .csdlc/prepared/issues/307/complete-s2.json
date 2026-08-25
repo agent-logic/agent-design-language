@@ -1,0 +1,1 @@
+{"issue":307,"card":"spp","expected_generation":3,"expected_digest":"80d0c6268cebfe00f53e42f04df8e03ed39b7afda9e026c4e01c8595cc3794e5","actor":"codex:issue-307-closeout","reason":"Record completed current-main typed bootstrap, retained design approval, readiness, and FastWork execution binding.","operation":{"operation":"update_plan_step","step_id":"S2","status":"completed"}}
