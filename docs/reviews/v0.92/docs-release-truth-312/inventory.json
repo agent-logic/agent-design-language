@@ -327,7 +327,7 @@
       "owner": "WP-23/#312",
       "status": "external_review_input",
       "evidence_source": "candidate file SHA-256",
-      "evidence_sha256": "c57b7edaf4b5ac08537a477f9e050b4d91b9ba4a441e66a8a3a6934b4980e46b",
+      "evidence_sha256": "7cb99461b1e7efd130fd955ddaba0b32d90bf8c4b507e37b3ba249efe4e0629e",
       "required_action": "independent findings-first review"
     },
     {
@@ -335,7 +335,7 @@
       "owner": "WP-23/#312",
       "status": "external_review_input",
       "evidence_source": "candidate file SHA-256",
-      "evidence_sha256": "cc870714ec9408d19789d0516e779c4f9ddea55d91fcfd2ca1f8b8fdddd40c24",
+      "evidence_sha256": "ddc0fec0bc482842b9d9716c1ce1def2e5760062196d5d2a2097abd9a1599138",
       "required_action": "independent findings-first review"
     },
     {

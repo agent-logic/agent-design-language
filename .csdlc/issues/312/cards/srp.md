@@ -12,14 +12,7 @@ Status: draft
 
 ## Scope
 
-README.md
-docs/README.md
-docs/milestones/v0.92/README.md
-docs/milestones/v0.92/external_launch/README.md
-docs/milestones/v0.92/features/README.md
-docs/milestones/v0.92/publication/articles/README.md
-docs/milestones/v0.92/review/README.md
-docs/reviews/v0.92/docs-release-truth-312/inventory.json
+
 
 ## Prompts
 

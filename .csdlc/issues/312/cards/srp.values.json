@@ -7,13 +7,13 @@
     "title": "[v0.92][WP-23] Docs and release-truth pass",
     "slug": "312-v092-docs-release-truth",
     "version": "v0.92",
-    "generation": 25
+    "generation": 28
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "README.md\ndocs/README.md\ndocs/milestones/v0.92/README.md\ndocs/milestones/v0.92/external_launch/README.md\ndocs/milestones/v0.92/features/README.md\ndocs/milestones/v0.92/publication/articles/README.md\ndocs/milestones/v0.92/review/README.md\ndocs/reviews/v0.92/docs-release-truth-312/inventory.json",
+      "review_scope": "",
       "review_revision": null,
       "reviewer": null,
       "review_prompts": [

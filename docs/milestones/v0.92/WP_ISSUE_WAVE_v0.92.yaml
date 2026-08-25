@@ -48,25 +48,28 @@ scheduled_tbd_inputs:
       - docs/adr/0011-long-lived-agent-runtime.md
   - track: agent_logic_account_repo_migration
     wp: WP-02
-    sources: [retained repository migration planning record]
+    sources: ["historical issue reference: danielbaustin/agent-design-language#5765"]
   - track: post_migration_build_acceleration
     wp: WP-02B
-    sources: [canonical post-migration build-acceleration plan]
+    sources: ["historical issue reference: danielbaustin/agent-design-language#5853"]
   - track: distributed_guardian_polis
     wp: WP-04
-    sources: [canonical distributed Runtime design and execution plan]
+    sources:
+      - docs/milestones/v0.92/features/DISTRIBUTED_GUARDIAN_POLIS_v0.92.md
+      - "historical issue reference: danielbaustin/agent-design-language#5821"
     child_issue_count: 16
   - track: csdlc_estimation_cycle_time
     wp: WP-05
-    sources:
-      - canonical issue reference: agent-logic/agent-design-language#311
-      - historical planning provenance: danielbaustin/agent-design-language#5822
+    sources: ["historical issue reference: danielbaustin/agent-design-language#5822"]
+    source_status: historical_input_no_current_agent_logic_issue
   - track: remote_validation_runner
     wp: WP-06
-    sources: [canonical remote build-runner pilot plan]
+    sources: ["historical issue reference: danielbaustin/agent-design-language#5823"]
+    source_status: historical_input_no_current_agent_logic_issue
   - track: prompt_card_enum_typing
     wp: WP-07
-    sources: [canonical prompt-card enum-typing plan]
+    sources: ["historical issue reference: danielbaustin/agent-design-language#5824"]
+    source_status: historical_input_no_current_agent_logic_issue
   - track: acip_a2a_reconciliation
     wp: WP-14
     sources:
@@ -75,30 +78,35 @@ scheduled_tbd_inputs:
       - docs/adr/0017-secure-local-agent-comms-and-a2a-boundary.md
   - track: observatory_unity_consumers
     wp: WP-18A
-    sources: [canonical Observatory and Unity consumer design]
+    sources:
+      - docs/milestones/v0.92/features/OBSERVATORY_UNITY_CONSUMER_INTEGRATION_v0.92.md
+      - "current routing issues: agent-logic/agent-design-language#84, #122, #251"
   - track: provider_neutral_multiagent_proof
     wp: WP-18B
-    sources: [canonical provider-neutral multi-agent proof plan]
+    sources:
+      - docs/milestones/v0.92/features/PROVIDER_NEUTRAL_MULTI_AGENT_PROOF_v0.92.md
+      - docs/architecture/adr/0071-provider-neutral-multi-agent-proof-boundary.md
   - track: repository_code_reduction_cleanup
     wp: WP-21
-    sources: [canonical repository code-reduction plan]
+    sources: ["canonical issue reference: agent-logic/agent-design-language#309"]
   - track: medium_launch_article_series
     wp: WP-24
-    sources: [tracked v0.92 publication article package]
+    sources: [docs/milestones/v0.92/publication/articles/]
     source_status: zero_byte_placeholder_removed_authoring_required
   - track: podcast_studio_first_ten
     wp: WP-24A
-    sources: [canonical podcast production plan]
+    sources: ["historical issue reference: danielbaustin/agent-design-language#5845"]
+    source_status: historical_input_no_current_agent_logic_issue
 
 deferred_planning:
   - track: capability_taxonomy_integration
     target: later_capability_milestone
     priority: noncritical_for_v0.92
-    sources: [capability taxonomy integration concept]
+    sources: ["unavailable historical input: capability taxonomy integration concept"]
   - track: mlx_and_oci_model_distribution
     target: later_provider_model_milestone
     priority: noncritical_for_v0.92
-    sources: [MLX Apple/Metal provider and OCI model-packaging concepts]
+    sources: ["unavailable historical input: MLX Apple/Metal provider and OCI model-packaging concepts"]
 
 later_backlog:
   - track: agent_logic_website_investor_publication

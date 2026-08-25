@@ -1,5 +1,6 @@
 flowchart LR
-  M["#311 reviewed PR merged"] --> B["Pin candidate base"]
+  M["#467 reviewed quality authority merged"] --> B["Pin candidate base"]
+  H311["#311 historical blocked provenance"] -.-> B
   B --> C["Regenerate canonical document denominator"]
   P["Current tracked documents"] --> R["Publication-time candidate rescan"]
   C --> R

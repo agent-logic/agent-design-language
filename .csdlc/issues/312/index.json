@@ -4,25 +4,11 @@
   "repository": "agent-logic/agent-design-language",
   "initialization_digest": "46884bdf9e572fbe3baf39b1d90c72846bae8925cfb257bad84ce19bef406b8b",
   "phase": "implemented",
-  "generation": 25,
-  "digest": "a402fd9373a7bac2f50e94e49d87787f35574f6671e0dc6705975eb4973a2f23",
+  "generation": 28,
+  "digest": "f2f6f4abedc498c4da66afc31ecf97198b65674f93b6173e3a3cf5fa2dd976e5",
   "branch": "codex/312-v092-doc-review-external-handoff",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-312-v092-doc-review-external-handoff",
-  "review_assignment": {
-    "reviewer": "fresh-session:0306FB1D-1586-4F4A-8587-FC22A49C4955",
-    "assigned_by": "codex:/root",
-    "revision": "git-blake3:68954fd8a0d242db3c0917c765b0ff1b81e32765:6109667caa8778dc36fd595d427f4f14ee90557dd2ad1d396c8bd4ffcb30e127",
-    "scope": [
-      "README.md",
-      "docs/README.md",
-      "docs/milestones/v0.92/README.md",
-      "docs/milestones/v0.92/external_launch/README.md",
-      "docs/milestones/v0.92/features/README.md",
-      "docs/milestones/v0.92/publication/articles/README.md",
-      "docs/milestones/v0.92/review/README.md",
-      "docs/reviews/v0.92/docs-release-truth-312/inventory.json"
-    ]
-  },
+  "review_assignment": null,
   "review": null,
   "publication": null,
   "readiness": null,
@@ -32,38 +18,38 @@
   "diagram_path": ".csdlc/prepared/issues/312/diagram.mmd",
   "design_review": {
     "approved": {
-      "reviewer": "fresh-session:47d01a29-ea74-4c23-9401-29dbaabc4f40",
-      "revision": "e7f82383f3defa2ae7831e643653740ba35b59cc4b6047e91c22afe5a3214de2"
+      "reviewer": "fresh-session:0493769f-5e5d-4898-b8a6-b0836b3f54ea",
+      "revision": "38fa518b25be9d70587b17fbb4c0710504ab781a6fd72a0eb0c7fa1b2dc37f95"
     }
   },
   "cards": {
     "sip": {
-      "values_digest": "f686369cf357c818579b80759949d4f1fa2d96cdafd38ef7fc9d0c008c792d6c",
+      "values_digest": "8f95473ba819b19b553e87bc3596d6139a907539b36a18951df6193c8000b3cd",
       "rendered_digest": "44b1ee5dce9397a95bcd16146c6553fea598b25ea0e7ffe5d911a499ff2f3b26",
       "ast_digest": "e4db219fd42ea5082cc3a94b74da8116a3f6b929a4608179972e55d2c1e78032"
     },
     "stp": {
-      "values_digest": "e7513d680f86ecbacb4ddcfa3e3d1276f1e25aecd6105d8b71ce419940b5fa8e",
+      "values_digest": "8b9e83b4fba5c04de379ba313dcc93bddf3bdbec561f59ba0eea932f26f45d53",
       "rendered_digest": "db7e266a35a81c0d3b3d9881cad8f85bdda43df1a549be6e93d1eef46fbf7572",
       "ast_digest": "e5f8d7540fee5d71ab340455fc130c63fb9dfc6814fc6e8382d5a12b6533ba6b"
     },
     "spp": {
-      "values_digest": "8b76e0bf521c9d18bcda2d51d39faf5dfffc0ee1162f327cb66b0ef2f06f022d",
-      "rendered_digest": "a8f29c6ba6c2267880627353aa6cd10e2891270c6a5129277738c62ebcc4f3f5",
-      "ast_digest": "a6f094202c64659c2d3a719ed23c02fa7d0e51272e8d31fcd0311855291c77f9"
+      "values_digest": "c1329102c74797af082c3e5d9023f665716f988ce7e7a91b872460ea2bd39beb",
+      "rendered_digest": "6356e68da2957c263d465752121cf7371abb912e359baa8f4ae6e59e64da84bf",
+      "ast_digest": "40f2841c90ba2ac8e9da86111ca579493c019f6b8ef10a92fc3e31d276c189a5"
     },
     "vpp": {
-      "values_digest": "f87361a358796b88913a1d84d8f6ac2a058a3e1c47c41ff7d2d8e42144bc9939",
+      "values_digest": "d697fdb515ffac87eff6524a3a19f7f2d696c0b5e7678da8f4870eefdcfee39e",
       "rendered_digest": "101da4637c35357a44804c7c7a8ece932bfbead0a6669832dfd609dc773661e5",
       "ast_digest": "e68db8cfb20101b3922ac131ec476357509d942734e4f24e1d05f2f0e8482aab"
     },
     "srp": {
-      "values_digest": "94b6ba288534d9cafc211b0a5e5991f66ea23ef79e7325a2656955f9256e7f6e",
-      "rendered_digest": "a0d7674c9dd2ac7efc9823b929aee150d282bb07e160a4983a0e16d0803f4602",
-      "ast_digest": "f0ab0fde53a2b0b53bc62f0f2db97e89f140963d84030a008544cd3c8d22a4c4"
+      "values_digest": "02aedddf0342dcadf539fe9694ccd4e31d9597267386cb42f525fa9cc1e5b541",
+      "rendered_digest": "4400ac824fef72eaf0b41cd56f3d48883f71de8415b1418c7bb9e55bc4aa1092",
+      "ast_digest": "35e09df16fc17e14451bc13fdb73b2225401359af0f8bf1db88db2d54299d0f3"
     },
     "sor": {
-      "values_digest": "36c1921a30cd187bb2eb4344936636d774593ff72c81d982a6e1447a655d1b06",
+      "values_digest": "519aa66ddbeaf402e0e135d3bdb80089cf84f782cf455eddba6ae6c09bbcea57",
       "rendered_digest": "4a6e500403a15a87ae9634acee348b798cc51b8df342763bf00bfe3b3dd7b571",
       "ast_digest": "d32cf0bd4834791528ef0bf08c49729d915aa4ee291206a268316d67a06ee56c"
     }
@@ -322,6 +308,27 @@
       "actor": "codex:/root",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 26,
+      "actor": "codex:/root",
+      "reason": "Recover stale #312 review assignment after incorporating reviewed #467 authority and resolving the external review findings at the new exact candidate.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 27,
+      "actor": "codex:/root",
+      "reason": "{\"disposition\":\"The prior design approval is stale because the quality authority and routing contract changed from historical blocked #311 to corrective passing #467.\",\"false_reviewer\":\"fresh-session:47d01a29-ea74-4c23-9401-29dbaabc4f40\",\"previous_approval\":{\"reviewer\":\"fresh-session:47d01a29-ea74-4c23-9401-29dbaabc4f40\",\"revision\":\"e7f82383f3defa2ae7831e643653740ba35b59cc4b6047e91c22afe5a3214de2\"},\"reason\":\"Recover #312 after incorporating merged reviewed #467 quality-gate authority and resolving external documentation-review findings.\"}",
+      "operation": "recover_design_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 28,
+      "actor": "fresh-session:0493769f-5e5d-4898-b8a6-b0836b3f54ea",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"38fa518b25be9d70587b17fbb4c0710504ab781a6fd72a0eb0c7fa1b2dc37f95\",\"design_ref\":\".csdlc/prepared/issues/312/design.md\",\"diagram_digest\":\"fe9cb325563d18e0ddbef78a83b0335cc7180474da6520add1cc60f512983c42\",\"diagram_ref\":\".csdlc/prepared/issues/312/diagram.mmd\",\"operation\":\"approve_design\"}"
     }
   ]
 }
