@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-28] Reconcile v0.92.1 next-milestone planning",
     "slug": "316-v0921-next-milestone-planning",
     "version": "v0.92.0",
-    "generation": 17
+    "generation": 20
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "docs/milestones/v0.92.1\ndocs/milestones/v0.92.2\ndocs/planning/ADL_FEATURE_LIST.md\n.csdlc/prepared/issues/316\n.csdlc/evidence/316\n.csdlc/issues/316",
-      "review_revision": "git-blake3:e2834a95b44987b4c3b87fe831625213eebd7d11:9624497ed12a42e491021f775746d9fd8829c1789e3de8a015c45a03e7d823b7",
-      "reviewer": "fresh-session:1980B264-E3FB-4480-8681-D06C9BFE0DE8",
+      "review_scope": ".csdlc/issues/316\n.csdlc/prepared/issues/316/assign-final-review.json\n.csdlc/prepared/issues/316/record-final-review.json\n.csdlc/prepared/issues/316/publish.json",
+      "review_revision": "git-blake3:575a4c3f82725dc3d99d3eccc98032490997de18:efcaa0898cac8996125a8a58ccf8a408e955977d4f1d64460287ea93763e2cf8",
+      "reviewer": "fresh-session:226da5f4-d322-4ed9-befd-f490172bc3ba",
       "review_prompts": [
         "Does the plan preserve the no-issue-creation hold?",
         "Does v0.92.2 contain the complete standard planning set and full Beta 1 technical exit bar?",
@@ -25,7 +25,7 @@
       ],
       "findings": [],
       "residual_risk": [
-        "This issue publishes planning authority only; no v0.92.1 or CodeFriend Beta 1 implementation issue is created or credited here."
+        "This exact-head review covers lifecycle and publication metadata only; substantive planning authority remains the independently passed e2834a95 candidate."
       ],
       "review_result": "pass"
     }

@@ -12,12 +12,10 @@ Status: draft
 
 ## Scope
 
-docs/milestones/v0.92.1
-docs/milestones/v0.92.2
-docs/planning/ADL_FEATURE_LIST.md
-.csdlc/prepared/issues/316
-.csdlc/evidence/316
 .csdlc/issues/316
+.csdlc/prepared/issues/316/assign-final-review.json
+.csdlc/prepared/issues/316/record-final-review.json
+.csdlc/prepared/issues/316/publish.json
 
 ## Prompts
 
@@ -37,12 +35,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- This issue publishes planning authority only; no v0.92.1 or CodeFriend Beta 1 implementation issue is created or credited here.
+- This exact-head review covers lifecycle and publication metadata only; substantive planning authority remains the independently passed e2834a95 candidate.
 
 ## Review Result
 
-Revision: Some("git-blake3:e2834a95b44987b4c3b87fe831625213eebd7d11:9624497ed12a42e491021f775746d9fd8829c1789e3de8a015c45a03e7d823b7")
+Revision: Some("git-blake3:575a4c3f82725dc3d99d3eccc98032490997de18:efcaa0898cac8996125a8a58ccf8a408e955977d4f1d64460287ea93763e2cf8")
 
-Reviewer: Some("fresh-session:1980B264-E3FB-4480-8681-D06C9BFE0DE8")
+Reviewer: Some("fresh-session:226da5f4-d322-4ed9-befd-f490172bc3ba")
 
 Result: pass
