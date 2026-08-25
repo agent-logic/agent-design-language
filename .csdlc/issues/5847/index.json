@@ -2,14 +2,40 @@
   "schema": "csdlc.issue.index.v1",
   "issue": 5847,
   "repository": "danielbaustin/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "44b43a9bfb8b7b4aadd98b70a4d616a78a4e231475951da3c4dc1dfd82897e6d",
-  "phase": "initialized",
-  "generation": 16,
-  "digest": "2d549e0b612b4cafc170f067f257c5d8566a9e351a0e8085a47e3d95c0cb8aec",
-  "branch": null,
-  "worktree": null,
-  "review_assignment": null,
-  "review": null,
+  "phase": "reviewed",
+  "generation": 18,
+  "digest": "5a6cec1d437d073566e618ffdb104e6c0dc410836aa368f11806930ab3577656",
+  "branch": "codex/314-wp26-external-review-intake",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-314-wp26-external-review-intake",
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_314_prepr",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:5d5097fa8fb7d01116853ba9bdd18eaf6078e1ad:9df30ca40fe8f9c37e52c9c84bd39ef56fa9c15ca50b6095431f6687562ab91e",
+    "scope": [
+      "docs/reviews/v0.92/external-review-5847",
+      ".csdlc/evidence/5847",
+      ".csdlc/prepared/issues/5847",
+      ".csdlc/issues/5847"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:/root/review_314_prepr",
+    "scope": [
+      "docs/reviews/v0.92/external-review-5847",
+      ".csdlc/evidence/5847",
+      ".csdlc/prepared/issues/5847",
+      ".csdlc/issues/5847"
+    ],
+    "reviewed_revision": "git-blake3:5d5097fa8fb7d01116853ba9bdd18eaf6078e1ad:9df30ca40fe8f9c37e52c9c84bd39ef56fa9c15ca50b6095431f6687562ab91e",
+    "findings": [],
+    "residual_risks": [
+      "WP-26 proves external-review intake and provenance only; the seven unique findings remain owned by #315/WP-27, with #471 as its child issue."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -24,34 +50,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c029ea8af7f3475f009b0af2dcb0a1f00e11b5d027e75eb1837075b8360c8dab",
+      "values_digest": "c638ce6cd6571f6207e31d32406230bb631679e49502b06aa2c0838532ee65b9",
       "rendered_digest": "6d1d09f50d395e412fd5e717915b101fb2fd3c86c387a2d4d46d1fcd10c05a8d",
       "ast_digest": "d8cf28b8bda4f0474861ec8c677b33657c8a2e0a507a07172803a443c96b62f9"
     },
     "stp": {
-      "values_digest": "084fef586f08219459eef51f00544f7d47c085c67d13361c1581f2ab706153a0",
+      "values_digest": "70635b4afa23f969aa7cbe7c97cb967c613d5c6b8bf217992f24192be5c5cb5a",
       "rendered_digest": "8ef091eeccff77efec425d0024e76a1cbc4719ab7dc8ac87cb3a1320903e7954",
       "ast_digest": "f15f634286a3cb2d7a2e3c175adeeccdf5973fdaf297e594c886184a12dd7a1c"
     },
     "spp": {
-      "values_digest": "a316a3cf9d2b76f6d2b734ace99af2de3115b60aaf0fb1d01b81122b11c482b4",
+      "values_digest": "614ba266c9efe09dad9336c7f16275747de554222006a93c8ff27aa3da8e559d",
       "rendered_digest": "d6165f3a91cbe8a178c26e010b105418b365d26af7240da87c8489d18428dd4f",
       "ast_digest": "90e4f45e9dab83e0536f9bc7cfe960593626292da41cdb6873fe9bdf0b9c0703"
     },
     "vpp": {
-      "values_digest": "47e235b226e3b205da1bcdc8001cb6f27949782e7a3cccf4819bed03c79ba39c",
+      "values_digest": "37d8aacf4de3ec3321deec6c221d8dfe4321d54e8ae984e6d9707af983ad25f3",
       "rendered_digest": "5bdde02da00992850fb267305d3b9e5d3d5c612832b541d00ace2530147800c1",
       "ast_digest": "c72da0bfffd830a3558ec598a59a43ad879c782690001200fec45cf6975bebe5"
     },
     "srp": {
-      "values_digest": "2238d7ba93e68eb4b3e4794309818f838894cf3d7cb6afd233eb338114c37c0e",
-      "rendered_digest": "fb1b0e837047bbc6b56dc927c4b23656ab373857d85ec77355bcc220d3af1564",
-      "ast_digest": "acc927b4cdfdf80879293257a9701af88b6f67094d52403a6f35e59d158b6d84"
+      "values_digest": "34ff0d70f1ae0a0b7ade51d634c6c5d9a28d63297980a9aab0366b815753268f",
+      "rendered_digest": "525631e20f1b33c5a8dfb148c0e9378125ff62c6f31de07cef116b8ca7a99539",
+      "ast_digest": "ed109d85d9092344ebad64e0e662a5d4aee3323c4d1d4f22ec77273656d3bee7"
     },
     "sor": {
-      "values_digest": "176e2a6c346bad2f70df2fe0a080d372de0fc38a9e807707bb4ad6bc5989ff16",
-      "rendered_digest": "51ad34925fbf80f511139dd2d2dd0da2ed773dc65c4d796658781b2de6f40c55",
-      "ast_digest": "3f62823f24e821cf17d3a53b0727e905dc2a033d92337699bfbf089fc9820772"
+      "values_digest": "539956c628f801de3c17c05ec0bf23deca05df8119ac10953ce634152afc3726",
+      "rendered_digest": "2be5ef5fcfe9943436418f2d6c246adf327bec3ede858b8560b2e2e4650f04c2",
+      "ast_digest": "844a1b7fb8fbc63517a49c0b3f55e3d4f1dc321eb1675f51d7acf44b60258f2a"
     }
   },
   "transitions": [
@@ -75,6 +101,34 @@
       "to": "initialized",
       "actor": "csdlc-topology-migrate",
       "reason": "migrate pre-topology bound record"
+    },
+    {
+      "sequence": 4,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 5,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 6,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -301,6 +355,34 @@
       "actor": "codex:5896-bound-topology-migration",
       "reason": "migrate pre-#5886 bound record to Git topology authority",
       "operation": "{\"issue_state_evidence\":\".csdlc/evidence/5896/live-issue-states.json\",\"issue_state_evidence_digest\":\"9b7c6a3f82f50682f2c421731dcc04da13b50a702374d5b150a0a5e0770a8c94\",\"operation\":\"migrate_bound_topology\",\"terminal_evidence_digest\":null}"
+    },
+    {
+      "sequence": 33,
+      "generation": 16,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 34,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 35,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

@@ -1,0 +1,52 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 315,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-27] Review findings remediation",
+    "slug": "v0-92-wp-27-review-findings-remediation",
+    "version": "v0.92",
+    "generation": 30
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "sor",
+    "values": {
+      "summary": "Remediated WP-27 review findings by accounting for all retained internal and external review rows, preserving #314/#471/#316 routing boundaries, and fixing the production birthday activation cleanup, digest, and filesystem-assumption findings.",
+      "actual_changes": [
+        "Added a remediation disposition register and README under docs/reviews/v0.92/remediation-5848.",
+        "Retained all 30 source finding rows while grouping duplicate external birthday-code findings by shared fix.",
+        "Routed internal review rows to the merged #467 corrective hydration authority rather than reopening settled release-credit semantics.",
+        "Changed production birthday post-commit cleanup failures to return CommittedWithCleanupPending with the committed receipt.",
+        "Made receipt input digest construction fallible instead of defaulting to an empty string.",
+        "Documented same-host local-filesystem and advisory-lock assumptions on ProductionBirthdayStore.",
+        "Added focused regression tests for cleanup-pending and partial-cleanup recovery."
+      ],
+      "artifacts": [
+        "docs/reviews/v0.92/remediation-5848/disposition-register.json",
+        "docs/reviews/v0.92/remediation-5848/README.md",
+        ".csdlc/evidence/5848/production-birthday-focused-test.json",
+        ".csdlc/prepared/issues/5848/validate-remediation-regressions.rb",
+        "adl-runtime-kernel/src/production_birthday.rs",
+        "adl-runtime-kernel/tests/production_birthday.rs"
+      ],
+      "actual_validation": [
+        {
+          "command": [
+            "ruby",
+            ".csdlc/prepared/issues/5848/validate-remediation-regressions.rb"
+          ],
+          "purpose": "Validate complete internal/external finding universe, authoritative dispositions, evidence digests, external-review intake regression, and current-head production birthday focused regression.",
+          "outcome": "passed",
+          "evidence_ref": "local:issue-315-remediation-validator:passed"
+        }
+      ],
+      "integration_state": "pr_open",
+      "publication_state": "ready",
+      "merge_state": "not_merged",
+      "closeout_state": "not_started",
+      "follow_ups": []
+    }
+  }
+}

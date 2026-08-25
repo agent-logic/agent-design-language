@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-26] External / third-party review",
     "slug": "v0-92-wp-26-external-third-party-review",
     "version": "v0.92",
-    "generation": 16
+    "generation": 18
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "WP-26 issue 5847, its declared implementation paths, and retained proof",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "docs/reviews/v0.92/external-review-5847\n.csdlc/evidence/5847\n.csdlc/prepared/issues/5847\n.csdlc/issues/5847",
+      "review_revision": "git-blake3:5d5097fa8fb7d01116853ba9bdd18eaf6078e1ad:9df30ca40fe8f9c37e52c9c84bd39ef56fa9c15ca50b6095431f6687562ab91e",
+      "reviewer": "subagent:/root/review_314_prepr",
       "review_prompts": [
         "Is the handoff self-contained, exact-revision bound, digest-reproducible, publication-safe, and explicit about reviewer authority?",
         "Would any source change, missing evidence, unsafe private state, or unsupported approval claim fail closed before dispatch?",
@@ -23,8 +23,10 @@
         "Does the separate findings index preserve every returned item and route it to WP-27?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "WP-26 proves external-review intake and provenance only; the seven unique findings remain owned by #315/WP-27, with #471 as its child issue."
+      ],
+      "review_result": "pass"
     }
   }
 }

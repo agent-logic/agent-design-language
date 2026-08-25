@@ -1,0 +1,7 @@
+{
+  "issue": 5848,
+  "base_branch": "codex/315-wp27-review-findings-remediation-prep",
+  "branch": "codex/315-wp27-review-findings-remediation",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-315-wp27-review-findings-remediation-execution",
+  "code_repository": "agent-logic/agent-design-language"
+}

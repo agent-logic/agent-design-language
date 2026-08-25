@@ -1,0 +1,28 @@
+{
+  "schema": "adl.csdlc.validation_evidence.v1",
+  "issue": 315,
+  "legacy_issue": 5848,
+  "purpose": "Focused regression proof for external review findings V092-CODE-01, V092-CODE-02, and V092-CODE-03.",
+  "command": "cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test production_birthday -- --test-threads=1",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-315-wp27-review-findings-remediation-execution",
+  "result": "pass",
+  "test_binary": "adl-runtime-kernel/tests/production_birthday.rs",
+  "tests_run": 7,
+  "tests_passed": 7,
+  "tests_failed": 0,
+  "new_or_relevant_tests": [
+    "commits_once_and_restores_exact_receipt",
+    "reports_committed_receipt_when_post_commit_cleanup_is_pending",
+    "recovery_removes_witness_residue_after_partial_cleanup",
+    "recovers_each_durable_interruption_boundary"
+  ],
+  "proof_notes": [
+    "The post-commit cleanup-pending path now returns a committed receipt and leaves durable residue recoverable instead of reporting an undifferentiated activation failure.",
+    "The receipt input digest is generated through the fallible canonical digest path rather than an empty-string fallback.",
+    "ProductionBirthdayStore documents the same-host local filesystem and advisory-lock assumption."
+  ],
+  "non_claims": [
+    "No broad Rust suite was run for this focused remediation evidence.",
+    "This evidence does not claim network-filesystem safety; the store remains a same-host local-filesystem primitive."
+  ]
+}

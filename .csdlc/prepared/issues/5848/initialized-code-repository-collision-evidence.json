@@ -1,0 +1,10 @@
+{
+  "schema": "csdlc.initialized_code_repository_collision_evidence.v1",
+  "source_issue_repository": "danielbaustin/agent-design-language",
+  "source_issue": 5848,
+  "target_code_repository": "agent-logic/agent-design-language",
+  "target_same_number_issue": null,
+  "disposition": "same_number_absent",
+  "observed_state": "canonical successor is agent-logic/agent-design-language#315; no same-number issue is authoritative in the code repository",
+  "operation_key": "issue-315-wp27-initialized-code-repository-migration"
+}

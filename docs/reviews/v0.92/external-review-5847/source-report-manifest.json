@@ -1,0 +1,68 @@
+{
+  "schema": "adl.external_review.source_reports.v1",
+  "canonical_issue": 314,
+  "legacy_csdlc_issue": 5847,
+  "repository": "agent-logic/agent-design-language",
+  "intake_branch": "codex/314-wp26-external-review-intake",
+  "intake_head_sha": "c666ff3d411e6062d5cc5750d2f88be9efbcd673",
+  "received_date": "2026-08-24",
+  "reviewer_identity": "Independent technical review",
+  "reviewer_authority": "Read-only reviewer-authored reports received from the operator; reviewer has no repository, GitHub, lifecycle, release, deployment, or remediation authority.",
+  "target_revision_status": "not_established_by_source_reports",
+  "target_revision_note": "The documentation report explicitly states no dispatch, exact head SHA, or corpus digest was provided. The code reports state no build, test, git operation, or runtime assertion was performed.",
+  "source_reports": [
+    {
+      "id": "documentation-review-findings",
+      "kind": "documentation_review",
+      "title": "ADL v0.92 Documentation Review Findings",
+      "author": "Independent technical review",
+      "created": "2026-08-24T19:20:50-07:00",
+      "pages": 4,
+      "source_path": "/Users/daniel/Downloads/ADL_v0.92_Documentation_Review_Findings.pdf",
+      "retained_path": "docs/reviews/v0.92/external-review-5847/adl-v0.92-documentation-review-findings-received-2026-08-24.pdf",
+      "sha256": "70bbb48b271580a4e63eeedae250a8e017fd2cd0549a7ad0ea7117fa758c6f63",
+      "finding_count": 4,
+      "severity_counts": {
+        "P1": 1,
+        "P2": 2,
+        "P3": 1
+      }
+    },
+    {
+      "id": "code-review-birthday-activation",
+      "kind": "code_review",
+      "title": "ADL v0.92 Code Review - Production Birthday Activation Path",
+      "author": "Independent technical review",
+      "created": "2026-08-24T19:29:16-07:00",
+      "pages": 4,
+      "source_path": "/Users/daniel/Downloads/ADL_v0.92_Code_Review_Birthday_Activation.pdf",
+      "retained_path": "docs/reviews/v0.92/external-review-5847/adl-v0.92-code-review-birthday-activation-received-2026-08-24.pdf",
+      "sha256": "abecfd57ad64b838116779daa2da26ba0ce8ec7ebd2d08a3039cdf9a398b105e",
+      "finding_count": 3,
+      "severity_counts": {
+        "P2": 1,
+        "P3": 2
+      }
+    },
+    {
+      "id": "code-review-birthday-activation-copy-1",
+      "kind": "code_review",
+      "title": "ADL v0.92 Code Review - Production Birthday Activation Path",
+      "author": "Independent technical review",
+      "created": "2026-08-24T19:29:16-07:00",
+      "pages": 4,
+      "source_path": "/Users/daniel/Downloads/ADL_v0.92_Code_Review_Birthday_Activation_1.pdf",
+      "retained_path": "docs/reviews/v0.92/external-review-5847/adl-v0.92-code-review-birthday-activation-copy-1-received-2026-08-24.pdf",
+      "sha256": "abecfd57ad64b838116779daa2da26ba0ce8ec7ebd2d08a3039cdf9a398b105e",
+      "finding_count": 3,
+      "severity_counts": {
+        "P2": 1,
+        "P3": 2
+      },
+      "byte_identical_to": "code-review-birthday-activation"
+    }
+  ],
+  "source_report_count": 3,
+  "source_finding_count": 10,
+  "unique_finding_count_after_deduplication": 7
+}

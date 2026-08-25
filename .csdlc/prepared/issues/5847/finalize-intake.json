@@ -1,0 +1,85 @@
+{
+  "schema": "csdlc.finalize_request.v1",
+  "issue": 5847,
+  "expected_generation": 16,
+  "expected_digest": "310856ee51c4830bbe94ea7873f7576686a04c65ed76acefd5fd273e0cc26bb2",
+  "actor": "codex:/root",
+  "summary": "Retained the operator-supplied v0.92 documentation and Birthday Activation code-review reports as an immutable, deduplicated WP-26 intake packet and handed all unique findings to WP-27 without claiming remediation.",
+  "changes": [
+    "Retained the documentation review and both separately supplied code-review PDFs with exact source digests.",
+    "Indexed ten reported occurrences into seven unique findings while preserving source occurrence provenance.",
+    "Recorded #471 as a WP-27 remediation child and produced a context-free handoff to #315.",
+    "Validated packet identity, report authority, deduplication, disposition coverage, and diff hygiene."
+  ],
+  "artifacts": [
+    "docs/reviews/v0.92/external-review-5847",
+    ".csdlc/evidence/5847/intake-validation-2026-08-24.md"
+  ],
+  "execution": {
+    "manifest": {
+      "schema": "csdlc.pvf.manifest.v1",
+      "lanes": [
+        {
+          "id": "external-packet-identity",
+          "proof_role": "Immutable external packet identity and provenance",
+          "purpose": "Validate the retained packet corpus, source digests, target identity, and redaction boundary.",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 1, "memory_mib": 256, "tokens": 1000},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "docs",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 120,
+          "executable": "ruby",
+          "argv": [".csdlc/prepared/issues/5847/validate-external-review.rb", "packet"],
+          "evidence": {"max_log_bytes": 32768, "redact_values": [], "require_relative_paths": true}
+        },
+        {
+          "id": "external-report-authority",
+          "proof_role": "Complete finding and disposition authority",
+          "purpose": "Validate the retained review reports, occurrence-to-finding deduplication, and WP-27 handoff dispositions.",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 1, "memory_mib": 256, "tokens": 1000},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "docs",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 120,
+          "executable": "ruby",
+          "argv": [".csdlc/prepared/issues/5847/validate-external-review.rb", "report"],
+          "evidence": {"max_log_bytes": 32768, "redact_values": [], "require_relative_paths": true}
+        },
+        {
+          "id": "diff-hygiene",
+          "proof_role": "Tracked diff hygiene",
+          "purpose": "Reject whitespace errors in the issue candidate.",
+          "determinism": "deterministic",
+          "resources": {"cpu_units": 1, "memory_mib": 128, "tokens": 250},
+          "credentials": [],
+          "network": "denied",
+          "dependencies": [],
+          "parallel_group": "docs",
+          "release_gate": "required",
+          "execution": "local",
+          "timeout_seconds": 60,
+          "executable": "git",
+          "argv": ["diff", "--check", "origin/main...HEAD"],
+          "evidence": {"max_log_bytes": 16384, "redact_values": [], "require_relative_paths": true}
+        }
+      ]
+    },
+    "selection": {
+      "requested_lanes": ["external-packet-identity", "external-report-authority", "diff-hygiene"],
+      "allow_network": false,
+      "available_credentials": []
+    },
+    "budget": {"max_parallel": 3, "cpu_units": 3, "memory_mib": 768, "tokens": 3000},
+    "root": "/Volumes/FastWork/adl-worktrees/adl-issue-314-wp26-external-review-intake",
+    "evidence_dir": "/Volumes/FastWork/adl-worktrees/adl-issue-314-wp26-external-review-intake/.csdlc/evidence/5847",
+    "cancellation_file": null
+  }
+}

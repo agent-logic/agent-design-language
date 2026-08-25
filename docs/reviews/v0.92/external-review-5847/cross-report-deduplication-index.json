@@ -1,0 +1,95 @@
+{
+  "schema": "adl.external_review.cross_report_deduplication.v1",
+  "canonical_issue": 314,
+  "legacy_csdlc_issue": 5847,
+  "deduplication_scope": "deduplicate only for #315 routing; do not replace source-report provenance",
+  "remediation_authority": {
+    "primary_issue": "#315 / WP-27",
+    "known_child_routes": [
+      {
+        "issue": "#471",
+        "parent": "#315 / WP-27",
+        "routing_basis": "operator routing update received after source-report intake",
+        "scope_note": "Issue-graph routing only; not a source finding rewrite and not a #314 or #316 ownership route."
+      }
+    ],
+    "non_owner_routes": [
+      "#314 retains immutable intake provenance only",
+      "#316 / WP-28 remains independent planning work"
+    ]
+  },
+  "source_finding_count": 10,
+  "unique_finding_count": 7,
+  "unique_severity_counts": {
+    "P1": 1,
+    "P2": 3,
+    "P3": 3
+  },
+  "clusters": [
+    {
+      "dedupe_id": "V092-CHAT-01",
+      "severity": "P1",
+      "source_finding_ids": ["documentation-review-findings:V092-CHAT-01"],
+      "title": "Send Gate unsatisfied: no dispatch, no exact head SHA, no recomputed corpus digest",
+      "route": "#315 / WP-27",
+      "route_note": "Remediation child routing, including #471 where applicable, is controlled by #315; #314 and #316 are not owners."
+    },
+    {
+      "dedupe_id": "V092-CHAT-02",
+      "severity": "P2",
+      "source_finding_ids": ["documentation-review-findings:V092-CHAT-02"],
+      "title": "Code-reduction claim is not supported by measurement at workspace level",
+      "route": "#315 / WP-27",
+      "route_note": "Remediation child routing, including #471 where applicable, is controlled by #315; #314 and #316 are not owners."
+    },
+    {
+      "dedupe_id": "V092-CHAT-03",
+      "severity": "P2",
+      "source_finding_ids": ["documentation-review-findings:V092-CHAT-03"],
+      "title": "Request framing conflicts with the milestone's own documented state",
+      "route": "#315 / WP-27",
+      "route_note": "Remediation child routing, including #471 where applicable, is controlled by #315; #314 and #316 are not owners."
+    },
+    {
+      "dedupe_id": "V092-CHAT-04",
+      "severity": "P3",
+      "source_finding_ids": ["documentation-review-findings:V092-CHAT-04"],
+      "title": "Quality gate carries an unreconciled result-status ambiguity",
+      "route": "#315 / WP-27",
+      "route_note": "Remediation child routing, including #471 where applicable, is controlled by #315; #314 and #316 are not owners."
+    },
+    {
+      "dedupe_id": "V092-CODE-01",
+      "severity": "P2",
+      "source_finding_ids": [
+        "code-review-birthday-activation:V092-CODE-01",
+        "code-review-birthday-activation-copy-1:V092-CODE-01"
+      ],
+      "title": "Post-commit cleanup failure reports an error for a succeeded activation",
+      "route": "#315 / WP-27",
+      "route_note": "Remediation child routing, including #471 where applicable, is controlled by #315; #314 and #316 are not owners."
+    },
+    {
+      "dedupe_id": "V092-CODE-02",
+      "severity": "P3",
+      "source_finding_ids": [
+        "code-review-birthday-activation:V092-CODE-02",
+        "code-review-birthday-activation-copy-1:V092-CODE-02"
+      ],
+      "title": "Integrity field defaults to empty string on serialization failure",
+      "route": "#315 / WP-27",
+      "route_note": "Remediation child routing, including #471 where applicable, is controlled by #315; #314 and #316 are not owners."
+    },
+    {
+      "dedupe_id": "V092-CODE-03",
+      "severity": "P3",
+      "source_finding_ids": [
+        "code-review-birthday-activation:V092-CODE-03",
+        "code-review-birthday-activation-copy-1:V092-CODE-03"
+      ],
+      "title": "Transaction lock is advisory and single-host assumption is undocumented",
+      "route": "#315 / WP-27",
+      "route_note": "Remediation child routing, including #471 where applicable, is controlled by #315; #314 and #316 are not owners."
+    }
+  ]
+}
