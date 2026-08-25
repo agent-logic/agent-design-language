@@ -4,9 +4,9 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "69a605466990518758a56adab5fead02f83654418b6259dd24bf8dedd0eea706",
-  "phase": "implemented",
-  "generation": 28,
-  "digest": "e7686ea159b85bec618c23b86ae872ce9e8b69b4edf156964fe765f3ef38784b",
+  "phase": "reviewed",
+  "generation": 29,
+  "digest": "81ffa4cc6dbd368cd8271465ec051f9934fbf3e686744ae9583bee03f46a6de8",
   "branch": "codex/315-wp27-review-findings-remediation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-315-wp27-review-findings-remediation-execution",
   "review_assignment": {
@@ -19,7 +19,22 @@
       "adl-runtime-kernel/tests/production_birthday.rs"
     ]
   },
-  "review": null,
+  "review": {
+    "reviewer": "subagent:issue-315-runtime-fast-ci-review",
+    "scope": [
+      ".csdlc/issues/315",
+      "adl-runtime-kernel/src/production_birthday.rs",
+      "adl-runtime-kernel/tests/production_birthday.rs"
+    ],
+    "reviewed_revision": "git-blake3:f910198512a706b4d7737c3b1c228068c451d97f:ab22bbecb06900abbc60ca24662ab82feb53822311cda5230d58ca0e527f9f71",
+    "findings": [],
+    "residual_risks": [
+      "The public error payload type changes from a direct receipt to Box<ProductionBirthdayReceipt>, but the variant was introduced within this still-unmerged PR and all repository call sites were updated.",
+      "Focused strict Clippy and all seven production birthday tests passed; broad unrelated Runtime tests were not rerun for this two-file lint repair."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -34,32 +49,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "dfdc98447c1316eee3120682b8e7c20c1ff3f93a98546169fd45de6bb518912c",
+      "values_digest": "4dd916c08044c7de2ddcf4de2f5c00fc584c93e74e6021dc2a0bf0fcb4161d2d",
       "rendered_digest": "341c937fdfdc7d28a4e966b62a53bc61394af898f7d104b27cf4e82cb4a3b800",
       "ast_digest": "2ef61ea6b35c490db81836796f74a1247d260661fcdae958af258730150e9659"
     },
     "stp": {
-      "values_digest": "71e9f05cc860ea9d903fc6868f16f67e1b5c142416587578ca5cd71051609835",
+      "values_digest": "ff097f9ecafb3ae3b20ecf2548d0c01e7a0611156964b3d1bb13f197496573d8",
       "rendered_digest": "41c5d09e96d48953aae37c390321be4df65dad1a73e471eae95bc941aa0ac704",
       "ast_digest": "d60860595e2c59a73829c43968af0e5682c0867545ad6482d07bedaeb7410de3"
     },
     "spp": {
-      "values_digest": "7f93d7db955905a1aa33545e10cf64a9ca3bd9fac374ddfbbe307b1e7eb9f26a",
+      "values_digest": "aedfd4db78e7f6ae0bb82b45a481e4d7e4bb20dbd8c37fc92036928be7e10e83",
       "rendered_digest": "0a7550cdbcbcfefd20f6c999684541d9f747e3a3725a0ae61fa6361b4553f3b5",
       "ast_digest": "a15d5833a7430c74c1977782e4a1b741a26407a8fd3d07ae2d7c1bab00fc9f3e"
     },
     "vpp": {
-      "values_digest": "7304bd64d90ef7f2a376cdc35d3d06c8553ec21458c2f7d4855ef282492785d8",
+      "values_digest": "52da54564ef3ee5ff0a6ecc66c57605caf1495a824cc9e1b796c48c09b0f4cf6",
       "rendered_digest": "dedc66e1701a21485f9fec599136f350a7a064c31832bd44834100174db40d1b",
       "ast_digest": "f281237f41ade71183b8c19dd27a3dff3774cbc3ac8e4b89aa359cc0dd0f5940"
     },
     "srp": {
-      "values_digest": "0266acb784c58c2c09ac226acf2ed89923898a16b346b3a34160ae5a931edc7e",
-      "rendered_digest": "47ca78f454c796d2f18441e6529355cce5600c2697980299ad35ec44553ad314",
-      "ast_digest": "5994926fa844cb0ebd3700ce742d2638e106a712ae993f81468db0615a8e6cfb"
+      "values_digest": "27f28543a9f64fa28cd28b0f9c42b50fc2db6468bc6f7033533191247479af29",
+      "rendered_digest": "91102aa047eb1922c7ebd93fef5cb758ec86d9bd46cd0dd86b32c2f8dbb23096",
+      "ast_digest": "47cdb83b13cce51db5fc79a7016de3edd3cf42b8474096fb4dd7e24c96544e39"
     },
     "sor": {
-      "values_digest": "924dc7844ac2cd6c1942ef9c6ae2f4c93e0f7a03b49274afb7afc558bbbc11f5",
+      "values_digest": "45237e61c5a7af1b71edf7ba8ebddd79f6a168e1fe19ca9a7937f6d428576f7b",
       "rendered_digest": "362b9ba372a92c29977fc6f238192a749764e802c7153b4428a98f39c751176c",
       "ast_digest": "e46c23a1fdd8930aebff0d127e2326a4b0325eead8628817bec81ca6dacd0ab2"
     }
@@ -141,6 +156,13 @@
       "to": "implemented",
       "actor": "codex:issue-315-runtime-fast-ci-repair",
       "reason": "Hosted Runtime v3 fast-lane Clippy exposed a large error variant introduced by the reviewed birthday cleanup remediation; recover published review truth for a bounded behavior-preserving boxing fix, focused validation, exact-head review, and republish."
+    },
+    {
+      "sequence": 12,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "subagent:issue-315-runtime-fast-ci-review",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -479,6 +501,13 @@
       "actor": "codex:issue-315-runtime-fast-ci-repair",
       "reason": "assign bounded exact-revision review",
       "operation": "assign_review"
+    },
+    {
+      "sequence": 49,
+      "generation": 29,
+      "actor": "subagent:issue-315-runtime-fast-ci-review",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }
