@@ -32,3 +32,7 @@
 {"sequence":32,"generation":23,"actor":"codex:/root","reason":"The bounded conductor repair is reviewed; committed review metadata advanced HEAD, so recover once for exact metadata-only publication reconciliation.","operation":"recover_review"}
 {"sequence":33,"generation":23,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":34,"generation":24,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":35,"generation":25,"actor":"codex:/root","reason":"The reviewed conductor repair is unchanged; the committed republish request and typed reconciliation metadata advanced HEAD, requiring one final exact metadata-only readback.","operation":"recover_review"}
+{"sequence":36,"generation":25,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":37,"generation":26,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":38,"generation":27,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

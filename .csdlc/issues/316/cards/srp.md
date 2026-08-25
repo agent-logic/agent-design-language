@@ -13,9 +13,10 @@ Status: draft
 ## Scope
 
 .csdlc/issues/316
-.csdlc/prepared/issues/316/assign-conductor-fix-review.json
-.csdlc/prepared/issues/316/record-conductor-fix-review.json
-.csdlc/prepared/issues/316/recover-conductor-review.json
+.csdlc/prepared/issues/316/republish-conductor-fix.json
+.csdlc/prepared/issues/316/assign-conductor-metadata-review.json
+.csdlc/prepared/issues/316/record-conductor-metadata-review.json
+.csdlc/prepared/issues/316/recover-conductor-metadata-review.json
 
 ## Prompts
 
@@ -35,11 +36,11 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- This metadata-only review preserves the independently passed substantive conductor repair at de8e2fc004145b91d015de5a1dc941656b5fd5ec.
+- This metadata-only review preserves the substantive conductor-repair PASS at de8e2fc004145b91d015de5a1dc941656b5fd5ec and does not authorize merge.
 
 ## Review Result
 
-Revision: Some("git-blake3:9f55c47421b1f58fe349ae16f1364740ad574609:43a9458975aa782a06596a7b43a8f56b4203f429b981b31be0e0c1b9e6eb2981")
+Revision: Some("git-blake3:d9aaaadbf5fc8e425e7099485fc006857feffd1e:3c01e989e7c99620857c6ecde5ba42688e75d8a5ac386d5b99af5901bed4bfd0")
 
 Reviewer: Some("subagent:/root/review_316_conductor_fix")
 

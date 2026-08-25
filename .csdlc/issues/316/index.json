@@ -4,39 +4,52 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "0c53b87754c3e14de1e834fcc7eef3b287ebcb2436b52e592b63e506a3bd1754",
-  "phase": "reviewed",
-  "generation": 24,
-  "digest": "e02c82dc0795c8432a05a29a8c11045074e9001c7bf71e1b25cd4ad8161f1924",
+  "phase": "published",
+  "generation": 27,
+  "digest": "c47876ab00aa1b5958cbc947309074cd0df69739c6a2c7f70deeeb768ca1b7b7",
   "branch": "codex/316-v0921-v0922-planning",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-316-v0921-v0922-planning",
   "review_assignment": {
     "reviewer": "subagent:/root/review_316_conductor_fix",
     "assigned_by": "codex:/root",
-    "revision": "git-blake3:9f55c47421b1f58fe349ae16f1364740ad574609:43a9458975aa782a06596a7b43a8f56b4203f429b981b31be0e0c1b9e6eb2981",
+    "revision": "git-blake3:d9aaaadbf5fc8e425e7099485fc006857feffd1e:3c01e989e7c99620857c6ecde5ba42688e75d8a5ac386d5b99af5901bed4bfd0",
     "scope": [
       ".csdlc/issues/316",
-      ".csdlc/prepared/issues/316/assign-conductor-fix-review.json",
-      ".csdlc/prepared/issues/316/record-conductor-fix-review.json",
-      ".csdlc/prepared/issues/316/recover-conductor-review.json"
+      ".csdlc/prepared/issues/316/republish-conductor-fix.json",
+      ".csdlc/prepared/issues/316/assign-conductor-metadata-review.json",
+      ".csdlc/prepared/issues/316/record-conductor-metadata-review.json",
+      ".csdlc/prepared/issues/316/recover-conductor-metadata-review.json"
     ]
   },
   "review": {
     "reviewer": "subagent:/root/review_316_conductor_fix",
     "scope": [
       ".csdlc/issues/316",
-      ".csdlc/prepared/issues/316/assign-conductor-fix-review.json",
-      ".csdlc/prepared/issues/316/record-conductor-fix-review.json",
-      ".csdlc/prepared/issues/316/recover-conductor-review.json"
+      ".csdlc/prepared/issues/316/republish-conductor-fix.json",
+      ".csdlc/prepared/issues/316/assign-conductor-metadata-review.json",
+      ".csdlc/prepared/issues/316/record-conductor-metadata-review.json",
+      ".csdlc/prepared/issues/316/recover-conductor-metadata-review.json"
     ],
-    "reviewed_revision": "git-blake3:9f55c47421b1f58fe349ae16f1364740ad574609:43a9458975aa782a06596a7b43a8f56b4203f429b981b31be0e0c1b9e6eb2981",
+    "reviewed_revision": "git-blake3:d9aaaadbf5fc8e425e7099485fc006857feffd1e:3c01e989e7c99620857c6ecde5ba42688e75d8a5ac386d5b99af5901bed4bfd0",
     "findings": [],
     "residual_risks": [
-      "This metadata-only review preserves the independently passed substantive conductor repair at de8e2fc004145b91d015de5a1dc941656b5fd5ec."
+      "This metadata-only review preserves the substantive conductor-repair PASS at de8e2fc004145b91d015de5a1dc941656b5fd5ec and does not authorize merge."
     ],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": null,
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 316,
+    "pull_request": 472,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/472",
+    "base": "main",
+    "head": "codex/316-v0921-v0922-planning",
+    "revision": "git-blake3:d9aaaadbf5fc8e425e7099485fc006857feffd1e:3c01e989e7c99620857c6ecde5ba42688e75d8a5ac386d5b99af5901bed4bfd0",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -50,34 +63,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "4b08970d2c255f723a0055b2ddfe8d4e6dfbd136665ca1461d0a3eef0d31815b",
+      "values_digest": "a45d4a36158965d52f57d5731fb0ec15f204e7b1f779942e391547ced7e16081",
       "rendered_digest": "3ba9701a8b33e22c9b2b306a58a9e5255be94be717cacfdbb9f743bf0a28b76c",
       "ast_digest": "83ebca4d4a34026c1e9fceea9366fc80af6768635ee209e145c09ea0aecc2d6a"
     },
     "stp": {
-      "values_digest": "1d29bb0b5bcdd377e640e39949f162fe8a5cd5f049d6a6bd5cd7611b61fe3182",
+      "values_digest": "e7386bba208f6d6f9234609a5027456509cbfbf34971aea0dcc9411b65ddf927",
       "rendered_digest": "85149af7244ba934d80c30f36388634f063f7aae7f8407cfce5c60dd971e74a6",
       "ast_digest": "11601d8260c98492fec35b88510108ef8b3d234c0cf046e642b71f81f8c71836"
     },
     "spp": {
-      "values_digest": "031f25a890f3fa2fcb6a9709aa2e876dc091b86cf48c7c9ad0d5ec01850b4dcf",
+      "values_digest": "d8e76aca2bf56bae5eb7c4141ab05c24915fe3a2d397b9cda8fc1683acedd740",
       "rendered_digest": "5571a5100811173ece9dc9076e04bf00679dae74aeb65260abbb4783a18d7cf5",
       "ast_digest": "f159ff47e11db7136c7245e86407749a6276f41b987bb1f04f4dac6341d49ecc"
     },
     "vpp": {
-      "values_digest": "729074032ff8b988d2c092a8aa2673d79f98fc63a0c3a2e72938509f53ae4040",
+      "values_digest": "730210b10987784f5dc2e35e7e804af3f27713910b69da636503bdb712aa76b8",
       "rendered_digest": "2309eec21b98e4f11991a05341360ad8cddf2b7efb5695063fb57166fa8cc9b5",
       "ast_digest": "ab807182fc95e6f4be168f02c70c1bf59f68b456996e3485905af2ddf20587fb"
     },
     "srp": {
-      "values_digest": "2364521f833f57317e13fb8c1e8b941b340eab839374e6d16235019812f6d2cc",
-      "rendered_digest": "a42c4a2160d5635b4744a4499ff39ea9ed7af542627ff11f8477dbeeafb1ce96",
-      "ast_digest": "850ae589de315cf05f022b546220e62d55e2b105048d41caf05fcb25a8cb4a3d"
+      "values_digest": "76e21209cc0536c51cfbfd5f593ddd60d0f5b2cd38480d9d885ab86aa64551db",
+      "rendered_digest": "68aaf9130daa0ec7c19505dc38efa59e0ba0bb4231d6a3c6a013a6d99f1e9444",
+      "ast_digest": "8c1713a6b372ee058a54d830ab0c1af113d251926c09b47a298c989dd395858f"
     },
     "sor": {
-      "values_digest": "1d000ff45d90548c52b2901f297b2e083cc4822a5d5501c5e243ffe8f79f98f0",
-      "rendered_digest": "82b7e0344c8bf08e1d2201b608edbd2429a136a924cf49d146ec6f042bac9b8d",
-      "ast_digest": "2c6b300be4223d6923c2d90c1816fc68e20611a90bfd0d229d3ab26f35782b2b"
+      "values_digest": "b539d31d3e6259d8e9e67c54398da1285572cffb5d70fec18f05be0fba6d9554",
+      "rendered_digest": "cd4754a32cf9db14bbea57895ae0222a244832935ed7b1c1635d64ec3b087d66",
+      "ast_digest": "631d4d6f15b977209688a51d1beb7dd0e2fad404e8a3001925ec98007d5c170c"
     }
   },
   "transitions": [
@@ -157,6 +170,27 @@
       "to": "reviewed",
       "actor": "codex:/root",
       "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 12,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "The reviewed conductor repair is unchanged; the committed republish request and typed reconciliation metadata advanced HEAD, requiring one final exact metadata-only readback."
+    },
+    {
+      "sequence": 13,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 14,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -397,6 +431,34 @@
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 25,
+      "actor": "codex:/root",
+      "reason": "The reviewed conductor repair is unchanged; the committed republish request and typed reconciliation metadata advanced HEAD, requiring one final exact metadata-only readback.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 25,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 26,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 27,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }
