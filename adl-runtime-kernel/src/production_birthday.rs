@@ -98,7 +98,7 @@ pub enum ProductionBirthdayError {
     PendingRecoveryRequired,
     CorruptState,
     DurableWrite,
-    CommittedWithCleanupPending(ProductionBirthdayReceipt),
+    CommittedWithCleanupPending(Box<ProductionBirthdayReceipt>),
     InjectedInterruption,
 }
 
@@ -275,11 +275,13 @@ impl ProductionBirthdayStore {
         }
         if failpoint == Some(ProductionBirthdayFailpoint::BeforeCleanupRemove) {
             return Err(ProductionBirthdayError::CommittedWithCleanupPending(
-                receipt,
+                Box::new(receipt),
             ));
         }
         self.cleanup_committed_residue(&input.resident_id, failpoint)
-            .map_err(|_| ProductionBirthdayError::CommittedWithCleanupPending(receipt.clone()))?;
+            .map_err(|_| {
+                ProductionBirthdayError::CommittedWithCleanupPending(Box::new(receipt.clone()))
+            })?;
         Ok(receipt)
     }
 

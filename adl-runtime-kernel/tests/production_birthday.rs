@@ -204,12 +204,12 @@ fn reports_committed_receipt_when_post_commit_cleanup_is_pending() {
 
     assert_eq!(
         store.restore("resident-one").unwrap(),
-        Some(receipt.clone())
+        Some((*receipt).clone())
     );
     assert!(temp.path().join("resident-one.pending.json").exists());
     assert!(temp.path().join(".resident-one.witness.stage").exists());
 
-    assert_eq!(store.recover_pending(&value).unwrap(), receipt);
+    assert_eq!(store.recover_pending(&value).unwrap(), *receipt);
     assert!(!temp.path().join("resident-one.pending.json").exists());
     assert!(!temp.path().join(".resident-one.witness.stage").exists());
 }
@@ -232,12 +232,12 @@ fn recovery_removes_witness_residue_after_partial_cleanup() {
 
     assert_eq!(
         store.restore("resident-one").unwrap(),
-        Some(receipt.clone())
+        Some((*receipt).clone())
     );
     assert!(!temp.path().join("resident-one.pending.json").exists());
     assert!(temp.path().join(".resident-one.witness.stage").exists());
 
-    assert_eq!(store.recover_pending(&value).unwrap(), receipt);
+    assert_eq!(store.recover_pending(&value).unwrap(), *receipt);
     assert!(!temp.path().join(".resident-one.witness.stage").exists());
 }
 
