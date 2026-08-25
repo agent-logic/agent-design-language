@@ -4,13 +4,42 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "0c53b87754c3e14de1e834fcc7eef3b287ebcb2436b52e592b63e506a3bd1754",
-  "phase": "implemented",
-  "generation": 16,
-  "digest": "9689e97acc634fb2494dc87cbc758309594f8d9f30dc7571037e7222ee3a9e78",
+  "phase": "reviewed",
+  "generation": 17,
+  "digest": "ae93a848c9f3959158e138a874d469c1889af4a7aca3fe14981add52e93eb532",
   "branch": "codex/316-v0921-v0922-planning",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-316-v0921-v0922-planning",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:1980B264-E3FB-4480-8681-D06C9BFE0DE8",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:e2834a95b44987b4c3b87fe831625213eebd7d11:9624497ed12a42e491021f775746d9fd8829c1789e3de8a015c45a03e7d823b7",
+    "scope": [
+      "docs/milestones/v0.92.1",
+      "docs/milestones/v0.92.2",
+      "docs/planning/ADL_FEATURE_LIST.md",
+      ".csdlc/prepared/issues/316",
+      ".csdlc/evidence/316",
+      ".csdlc/issues/316"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:1980B264-E3FB-4480-8681-D06C9BFE0DE8",
+    "scope": [
+      "docs/milestones/v0.92.1",
+      "docs/milestones/v0.92.2",
+      "docs/planning/ADL_FEATURE_LIST.md",
+      ".csdlc/prepared/issues/316",
+      ".csdlc/evidence/316",
+      ".csdlc/issues/316"
+    ],
+    "reviewed_revision": "git-blake3:e2834a95b44987b4c3b87fe831625213eebd7d11:9624497ed12a42e491021f775746d9fd8829c1789e3de8a015c45a03e7d823b7",
+    "findings": [],
+    "residual_risks": [
+      "This issue publishes planning authority only; no v0.92.1 or CodeFriend Beta 1 implementation issue is created or credited here."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +54,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f7c429601430f54a70e72dc2941e4c4ac3a81122313262a944ff5a75c0ab7422",
+      "values_digest": "518786b318b0b6e0db5c158574aed4190c41b2f745959e4b7e0fbe8b6f8680ff",
       "rendered_digest": "3ba9701a8b33e22c9b2b306a58a9e5255be94be717cacfdbb9f743bf0a28b76c",
       "ast_digest": "83ebca4d4a34026c1e9fceea9366fc80af6768635ee209e145c09ea0aecc2d6a"
     },
     "stp": {
-      "values_digest": "5bb797f76b8f9523f080a43b9a9478d45cd0c5e7b835194c784bdf888f9d6147",
+      "values_digest": "60a683d81af58f35f9502de0d238765a97c874ca4cfc6250b968cac2731e9bd4",
       "rendered_digest": "85149af7244ba934d80c30f36388634f063f7aae7f8407cfce5c60dd971e74a6",
       "ast_digest": "11601d8260c98492fec35b88510108ef8b3d234c0cf046e642b71f81f8c71836"
     },
     "spp": {
-      "values_digest": "6c3e413e722fcbaba0d6d83c06c9cd60dfe3a286025586ec48d88dbc49586e90",
+      "values_digest": "8560ff443403ef96662438e4d83d6e2da460ca57210db712e74dafe24b78c72d",
       "rendered_digest": "5571a5100811173ece9dc9076e04bf00679dae74aeb65260abbb4783a18d7cf5",
       "ast_digest": "f159ff47e11db7136c7245e86407749a6276f41b987bb1f04f4dac6341d49ecc"
     },
     "vpp": {
-      "values_digest": "90d488c5571bc2d83b8943fceaeb1296493a2ce26a4c6af5e16e10e5c79304aa",
+      "values_digest": "ee6721884ae3a3b0831cc4d1f6395c5abae9d0ebf191493672b978b597a909f3",
       "rendered_digest": "2309eec21b98e4f11991a05341360ad8cddf2b7efb5695063fb57166fa8cc9b5",
       "ast_digest": "ab807182fc95e6f4be168f02c70c1bf59f68b456996e3485905af2ddf20587fb"
     },
     "srp": {
-      "values_digest": "1a3609788b6cc0a8a75130b214d83b98952ec8221dbbe79b2901e2e85b70ae45",
-      "rendered_digest": "5602bbdf707d2b3bbf8c44ef297d55205d8170746ffd8dea7cdf8c2351cb4265",
-      "ast_digest": "84e5dcb838955bb8d8024382cce409212e67b0afaabb35eb7a4f32f9d43e6c11"
+      "values_digest": "b0185693f6942cb16fa49078e9dce576fbb433de06f7d9c49c5ac5377cdefdfb",
+      "rendered_digest": "fbb3a72376e3096bfb6f134a8dd7f111df2086eb6026adea1ac1c93666ab87cf",
+      "ast_digest": "90a89154244dd823830053cf068985362950f098c06b6e94a0b15e6845175f69"
     },
     "sor": {
-      "values_digest": "e21ebc8ea80dee01e15365ead1b69a98db492f7cb5433c7abc17bbcf0a5de097",
+      "values_digest": "446b86d08ec9887fbe1261d5346fd90685fcb7694d2ac1b566d95cf80d67100b",
       "rendered_digest": "82b7e0344c8bf08e1d2201b608edbd2429a136a924cf49d146ec6f042bac9b8d",
       "ast_digest": "2c6b300be4223d6923c2d90c1816fc68e20611a90bfd0d229d3ab26f35782b2b"
     }
@@ -76,6 +105,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -232,6 +268,20 @@
       "actor": "codex:/root",
       "reason": "Replace overstated proof wording with the exact planning-package and source-disposition evidence actually produced.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Completed canonical v0.92.1 reconciliation and the full v0.92.2 CodeFriend Beta 1 planning package without creating issues; every selected local TBD, CodeFriend incubation, historical Drive snapshot, supplied ATE Drive design, and Runtime-decoupling source candidate has one explicit non-runtime disposition.\",\"changes\":[\"Reconciled the canonical v0.92.1 package, routing, dependencies, feature index, and release tail.\",\"Authored the complete number-free v0.92.2 CodeFriend Beta 1 package and explicit deferrals.\",\"Added a 40-row source-disposition ledger and fail-closed validation for the exact TBD, CodeFriend, five CodeFriend Drive snapshots, ATE Drive, and Git-input denominator.\"],\"artifacts\":[\".csdlc/prepared/issues/316/design.md\",\".csdlc/prepared/issues/316/diagram.mmd\",\"docs/milestones/v0.92.1\",\"docs/milestones/v0.92.2\",\"docs/planning/ADL_FEATURE_LIST.md\",\".csdlc/prepared/issues/316/validate-v0921-plan.rb\",\".csdlc/prepared/issues/316/validate-v0922-codefriend-plan.rb\",\".csdlc/evidence/316/source-disposition-ledger.json\",\".csdlc/evidence/316/planning-audit.json\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/316/validate-v0921-plan.rb\"],\"purpose\":\"Validate the exact v0.92.1 planning IDs, creation slots, dependency graph, release tail, tracked planning surfaces, and all 40 source-candidate dispositions.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/316/planning-package.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/316/validate-v0922-codefriend-plan.rb\"],\"purpose\":\"Validate the number-free CodeFriend Beta 1 planning package, nine feature documents, canonical release tail, explicit deferrals, links, portability guards, 16 local CodeFriend inputs, and five historical Drive snapshot mappings; this proves planning completeness, not future product implementation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/316/codefriend-beta1-package.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace errors in the bounded candidate.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/316/diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 23,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

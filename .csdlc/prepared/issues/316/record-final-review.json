@@ -1,0 +1,16 @@
+{
+  "schema": "csdlc.review_record_request.v1",
+  "issue": 316,
+  "expected_generation": 16,
+  "expected_digest": "f5a59a79f190f2692d1d3feb4fbfe01fe6e58e9f7a020afcd40033f9af38a815",
+  "actor": "codex:/root",
+  "evidence": {
+    "reviewer": "fresh-session:1980B264-E3FB-4480-8681-D06C9BFE0DE8",
+    "scope": ["docs/milestones/v0.92.1", "docs/milestones/v0.92.2", "docs/planning/ADL_FEATURE_LIST.md", ".csdlc/prepared/issues/316", ".csdlc/evidence/316", ".csdlc/issues/316"],
+    "reviewed_revision": "git-blake3:e2834a95b44987b4c3b87fe831625213eebd7d11:9624497ed12a42e491021f775746d9fd8829c1789e3de8a015c45a03e7d823b7",
+    "findings": [],
+    "residual_risks": ["This issue publishes planning authority only; no v0.92.1 or CodeFriend Beta 1 implementation issue is created or credited here."],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

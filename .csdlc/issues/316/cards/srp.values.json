@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-28] Reconcile v0.92.1 next-milestone planning",
     "slug": "316-v0921-next-milestone-planning",
     "version": "v0.92.0",
-    "generation": 16
+    "generation": 17
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "docs/milestones/v0.92.1\ndocs/milestones/v0.92.2\ndocs/planning/ADL_FEATURE_LIST.md\n.csdlc/prepared/issues/316\n.csdlc/evidence/316\n.csdlc/issues/316",
+      "review_revision": "git-blake3:e2834a95b44987b4c3b87fe831625213eebd7d11:9624497ed12a42e491021f775746d9fd8829c1789e3de8a015c45a03e7d823b7",
+      "reviewer": "fresh-session:1980B264-E3FB-4480-8681-D06C9BFE0DE8",
       "review_prompts": [
         "Does the plan preserve the no-issue-creation hold?",
         "Does v0.92.2 contain the complete standard planning set and full Beta 1 technical exit bar?",
@@ -24,8 +24,10 @@
         "Are execution dependencies merge-based while closeout remains asynchronous?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "This issue publishes planning authority only; no v0.92.1 or CodeFriend Beta 1 implementation issue is created or credited here."
+      ],
+      "review_result": "pass"
     }
   }
 }
