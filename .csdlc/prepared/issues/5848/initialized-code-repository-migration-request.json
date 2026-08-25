@@ -1,0 +1,12 @@
+{
+  "schema": "csdlc.initialized_code_repository_migration_request.v1",
+  "issue": 5848,
+  "source_issue_repository": "danielbaustin/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "expected_generation": 17,
+  "expected_digest": "372ab4623122ce1b077ea1b7b54fd98e59932f0e10a51a4c30bc16827dbbdbd1",
+  "actor": "codex:315-wp27-remediation",
+  "reason": "Record the canonical agent-logic code repository for the migrated WP-27 remediation record before execution binding.",
+  "canonical_issue_collision_evidence_ref": ".csdlc/prepared/issues/5848/initialized-code-repository-collision-evidence.json",
+  "canonical_issue_collision_evidence_digest": "9cf197c10b968a8aab2b4314b414feda4e32365edca268e6e9a62dc975d19ed3"
+}

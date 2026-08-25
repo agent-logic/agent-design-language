@@ -1,0 +1,36 @@
+{
+  "issue": 5848,
+  "card": "vpp",
+  "expected_generation": 18,
+  "expected_digest": "0b9a4bc8b7b39e32879830ca60ec40d094ee8f70c3b27aa0a9b9ea66c437affd",
+  "actor": "codex:315-wp27-remediation",
+  "reason": "Replace non-executable typed-card-doctor lane with the issue-owned remediation validator before execution binding.",
+  "operation": {
+    "operation": "replace_validation_lanes",
+    "lanes": [
+      {
+        "lane": "canonical-remediation-truth",
+        "proof_role": "Reconstruct the complete internal plus external finding universe, validate every disposition and accepted-risk authority, read live remediation PR head/review/check/merge state and typed terminal truth, then rerun all affected quality and release validators.",
+        "acceptance_ids": [
+          "AC-1",
+          "AC-2",
+          "AC-3",
+          "AC-4",
+          "AC-5",
+          "AC-6"
+        ],
+        "deterministic": true,
+        "resource_profile": "medium",
+        "budget_seconds": 960,
+        "budget_tokens": 8500,
+        "argv": [
+          "ruby",
+          ".csdlc/prepared/issues/5848/validate-remediation-regressions.rb"
+        ],
+        "parallel_group": "remediation",
+        "defer_reason": null
+      }
+    ]
+  },
+  "fail_after_backup": false
+}
