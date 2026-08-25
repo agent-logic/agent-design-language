@@ -96,7 +96,7 @@ PROOF_PATHS = {
   wp02a: [".csdlc/evidence/5801/gemini-review-response.json", ".csdlc/evidence/5801/gemini-review-response-initial.json", ".csdlc/evidence/5801/ci-topology.md", ".csdlc/evidence/5801/gemini-3.1-pro-review.json"],
   wp02b: [".csdlc/evidence/5853/final-state.json", ".csdlc/evidence/5853/failed-preflight-31137517647.json", ".csdlc/evidence/5853/analysis-integration.json", ".csdlc/evidence/5853/production-canary.json"],
   wp04: [".csdlc/evidence/5878/execution-proof.json", ".csdlc/evidence/5878/operator-v1/negative-cases.json", ".csdlc/evidence/5878/exact-child-tests.log", ".csdlc/evidence/5878/native/linux/distributed-guardian.stderr.log"],
-  wp05: [".csdlc/evidence/5822/accepted-estimate.json", ".csdlc/evidence/5822/atomic-readiness-repair.json", ".csdlc/evidence/5822/validation-summary.json", ".csdlc/evidence/5822/terminal-baseline-source-5778.json"],
+  wp05: [".csdlc/evidence/5822/validation-summary.json", ".csdlc/evidence/5822/atomic-readiness-repair.json", ".csdlc/evidence/5822/cycle-time-baseline.json", ".csdlc/evidence/5822/terminal-baseline-source-5778.json"],
   wp06: [".csdlc/evidence/5823/deterministic-validation-summary.json", ".csdlc/evidence/5823/final-portable-contract.log", ".csdlc/evidence/5823/aws-portable-adapter.log", ".csdlc/evidence/5823/windows-fixture-result.json"],
   identity: [".csdlc/evidence/5827/native-validation-manifest.json", ".csdlc/evidence/5827/birthday-continuity-tests.log", ".csdlc/evidence/5827/birthday-continuity-clippy.log", ".csdlc/evidence/5827/native-platform/independent-validator.log"],
   adaptive: [".csdlc/evidence/449/adaptive-learning-regression-tests.log", ".csdlc/evidence/449/feature-evidence-truth-check.log", ".csdlc/evidence/449/runtime-resident-cycle-integration-proof.log", "check:adl-coverage"],
@@ -228,8 +228,21 @@ def proof_semantics(file, role)
   if file.extname == ".json"
     value = JSON.parse(content)
     flat = flatten_json(value)
-    statuses = flat.select { |key, _| key.match?(/(?:status|result|outcome|conclusion|recommendation|decision|disposition|complete|passed)\z/i) }.values.map(&:to_s).uniq.sort
+    statuses = flat.select { |key, _| key.match?(/(?:status|result|outcome|conclusion|recommendation|decision|disposition|complete|passed|acceptance|ready|valid|verified|measured|terminal)\z/i) }.values.map(&:to_s).uniq.sort
     denominators = flat.select { |key, child| child.is_a?(Numeric) && child.positive? && key.match?(/(?:passed|tests|runs|cycles|count|total|attempts|seconds|bytes|jobs|artifacts)/i) }
+    value.each do |key, child|
+      denominators["#{key}.length"] = child.length if child.is_a?(Array) && child.any?
+    end if value.is_a?(Hash)
+    denominators["root.length"] = value.length if value.is_a?(Array) && value.any?
+    if denominators.empty? && flat.any? { |key, child| child.is_a?(String) && key.match?(/(?:reviewed_revision|validated_revision|head_sha|base_revision)\z/i) && child.match?(/\A[0-9a-f]{40}\z/) }
+      denominators["exact_revision"] = 1
+    end
+    if statuses.empty? && flat.any? { |key, child| child == true && key.match?(/(?:acceptance|preserved|parity_required|verified|valid|ready|complete|passed)\z/i) }
+      statuses << "explicit_acceptance_true"
+    end
+    if statuses.empty? && value.is_a?(Hash) && value["file_count"].is_a?(Integer) && value["file_count"].positive? && Array(value["files"]).length == value["file_count"]
+      statuses << "manifest_complete"
+    end
     schema = value.is_a?(Hash) ? (value["schema"] || "structured-json-without-schema") : "json-value"
     corpus = ([content] + statuses).join(" ").downcase
     zero_exit = flat.any? { |key, child| key.match?(/(?:exit_code|exit_status)\z/i) && child == 0 }
@@ -239,11 +252,15 @@ def proof_semantics(file, role)
   else
     nonempty = content.lines.map(&:strip).reject(&:empty?)
     integers = content.scan(/\b[1-9][0-9]*\b/).map(&:to_i).uniq.first(16)
+    integers = [content.lines.count { |line| line.match?(/(?:test result:\s*ok|\bPASS\b|\bFinished\b)/i) }].select(&:positive?) if integers.empty?
+    integers = [content.lines.count { |line| line.match?(/\Acommand(?:=|:)/i) }].select(&:positive?) if integers.empty?
     corpus = content.downcase
-    { "format" => "text", "schema" => "nonempty-proof-text", "statuses" => nonempty.grep(/pass|success|complete|clean|reject|fail|blocked/i).first(16),
+    { "format" => "text", "schema" => "nonempty-proof-text", "statuses" => nonempty.grep(/pass|success|complete|clean|reject|fail|blocked|test result|finished/i).first(16),
       "positive_denominators" => integers, "success_semantic" => corpus.match?(/pass|success|complete|clean|test result: ok/),
       "denial_semantic" => corpus.match?(/reject|deny|fail.closed|tamper|blocked|negative|rollback|compile.fail|does not|not full|non.claim|not .*proof/) }
   end.tap do |semantic|
+    raise "#{role} proof lacks parsed status: #{file}" if Array(semantic["statuses"]).empty?
+    raise "#{role} proof lacks nonzero denominator: #{file}" if Array(semantic["positive_denominators"]).empty?
     raise "#{role} proof lacks success semantics: #{file}" if %w[positive integration platform].include?(role) && !semantic["success_semantic"]
     raise "negative proof lacks denial semantics: #{file}" if role == "negative" && !semantic["denial_semantic"]
   end
@@ -496,7 +513,8 @@ def validate_delivery(item, row_id, errors, canonical:)
     when "github_check"
       retained = Array(item.dig("checks", "successful")).find { |check| check["id"] == proof["check_id"] }
       errors << "#{row_id}:proof_check_substitution:#{key}:#{proof['role']}" unless retained && retained["name"] == proof["name"] && retained["head_sha"] == proof["head_sha"] && retained["conclusion"] == proof["conclusion"]
-      errors << "#{row_id}:proof_check_semantic_invalid:#{key}:#{proof['role']}" unless proof.dig("semantic", "schema") == "github.check_run.v1" && proof.dig("semantic", "success_semantic") == true && Array(proof.dig("semantic", "positive_denominators")).all? { |value| value.is_a?(Integer) && value.positive? }
+      check_denominators = Array(proof.dig("semantic", "positive_denominators"))
+      errors << "#{row_id}:proof_check_semantic_invalid:#{key}:#{proof['role']}" unless proof.dig("semantic", "schema") == "github.check_run.v1" && Array(proof.dig("semantic", "statuses")).any? && proof.dig("semantic", "success_semantic") == true && check_denominators.any? && check_denominators.all? { |value| value.is_a?(Integer) && value.positive? }
     when "independent_review_validation"
       path = ROOT / proof.fetch("path", "missing")
       begin
@@ -598,6 +616,22 @@ def validate_matrix(path, canonical: true)
     end
   end
   errors << "vacuous_all_blocked" if rows.none? { |row| %w[accepted scoped_out].include?(row["disposition"]) }
+  if canonical
+    begin
+      gate = JSON.parse(GATE.read)
+      receipt_path = EVIDENCE / "validation.json"
+      receipt = JSON.parse(receipt_path.read)
+      validator_digest = Digest::SHA256.file(__FILE__).hexdigest
+      errors << "gate_validator_provenance_mismatch" unless gate["validator_sha256"] == validator_digest
+      errors << "gate_matrix_provenance_mismatch" unless gate["matrix_sha256"] == Digest::SHA256.file(MATRIX).hexdigest
+      errors << "receipt_validator_provenance_mismatch" unless receipt["validator_sha256"] == validator_digest
+      errors << "receipt_matrix_provenance_mismatch" unless receipt["matrix_sha256"] == Digest::SHA256.file(MATRIX).hexdigest
+      errors << "receipt_gate_provenance_mismatch" unless receipt["gate_sha256"] == Digest::SHA256.file(GATE).hexdigest
+      errors << "receipt_report_provenance_mismatch" unless receipt["blocker_report_sha256"] == Digest::SHA256.file(REPORT).hexdigest
+    rescue StandardError => error
+      errors << "quality_gate_provenance_invalid:#{error.message}"
+    end
+  end
   [matrix, errors]
 end
 

@@ -234,7 +234,8 @@
                   "statuses": [
                     "test rejects_denial_and_cross_binding_drift ... ok",
                     "test rejects_changed_transaction_after_commit ... ok",
-                    "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s"
+                    "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 4.79s"
                   ],
                   "positive_denominators": [
                     5,
@@ -256,7 +257,8 @@
                   "format": "text",
                   "schema": "nonempty-proof-text",
                   "statuses": [
-                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s"
+                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 27.41s"
                   ],
                   "positive_denominators": [
                     2,
@@ -289,7 +291,7 @@
                 }
               }
             ],
-            "binding_sha256": "f9b7098cdcc0abad57553838237d826545d68ae49bd9af9e0a4a268b944ab176"
+            "binding_sha256": "20e5fa4f06b27f2869aaad27435cece3023063dca4e78a72bcb6043bdff4160e"
           }
         ]
       }
@@ -404,6 +406,7 @@
                   "format": "text",
                   "schema": "nonempty-proof-text",
                   "statuses": [
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s",
                     "test resident_cycle_executor_failures_retain_terminal_evidence_without_mutation_or_history ... ok",
                     "test forged_grant_and_authority_fail_before_history_acceptance ... ok",
                     "test policy_digest_mismatch_fails_before_mutation_or_persistence ... ok",
@@ -475,6 +478,7 @@
                   "format": "text",
                   "schema": "nonempty-proof-text",
                   "statuses": [
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 4.72s",
                     "test resident_cycle_executor_failures_retain_terminal_evidence_without_mutation_or_history ... ok",
                     "test resident_cycle_production_path_accepts_and_rejects_without_fixture_entrypoint ... ok",
                     "test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 15 filtered out; finished in 0.27s"
@@ -510,7 +514,7 @@
                 }
               }
             ],
-            "binding_sha256": "2623dac499165299f5ba83c3fc070330e29ca5a1dbbc26a3cea6988acc82a921"
+            "binding_sha256": "29934a40464c3686c77c02756df7411d99a7318959e003f615ebf884e8312e2f"
           }
         ]
       }
@@ -673,6 +677,7 @@
                     "passed"
                   ],
                   "positive_denominators": {
+                    "proof.length": 6
                   },
                   "success_semantic": true,
                   "denial_semantic": false
@@ -714,7 +719,7 @@
                     "result=passed"
                   ],
                   "positive_denominators": [
-
+                    1
                   ],
                   "success_semantic": true,
                   "denial_semantic": false
@@ -743,7 +748,7 @@
                 }
               }
             ],
-            "binding_sha256": "d887d2a0685e7fdc7e304448f6e5877766c2dae979e0c5c5d7024b96cbf7eed9"
+            "binding_sha256": "5bc9b512a56caa7bd208feb33bf22d73f2b7724332bfa0655e1ed061b9e110d0"
           }
         ]
       }
@@ -870,7 +875,13 @@
                     "commands.1.selected_tests": 2,
                     "native_receipts.0.command.selected_tests": 2,
                     "native_receipts.1.command.selected_tests": 2,
-                    "native_receipts.2.command.selected_tests": 2
+                    "native_receipts.2.command.selected_tests": 2,
+                    "protected_paths.length": 6,
+                    "source_artifacts.length": 6,
+                    "commands.length": 3,
+                    "negative_cases.length": 3,
+                    "artifacts.length": 19,
+                    "native_receipts.length": 3
                   },
                   "success_semantic": true,
                   "denial_semantic": true
@@ -889,6 +900,7 @@
                     "rejected"
                   ],
                   "positive_denominators": {
+                    "root.length": 3
                   },
                   "success_semantic": false,
                   "denial_semantic": true
@@ -904,6 +916,7 @@
                   "format": "text",
                   "schema": "nonempty-proof-text",
                   "statuses": [
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 0.15s",
                     "PASS [   0.007s] (1/2) adl-runtime::distributed_guardian all_fifteen_distributed_contracts_are_registered_and_protobuf_is_bounded",
                     "PASS [   0.010s] (2/2) adl-runtime::distributed_guardian signed_quorum_authority_applies_once_and_rejects_replay_and_wrong_domain",
                     "Summary [   0.010s] 2 tests run: 2 passed, 0 skipped"
@@ -926,6 +939,7 @@
                   "format": "text",
                   "schema": "nonempty-proof-text",
                   "statuses": [
+                    "\u001b[1m\u001b[92m    Finished\u001b[0m `test` profile [unoptimized + debuginfo] target(s) in 1m 41s",
                     "\u001b[32;1m        PASS\u001b[0m [   0.004s] (1/2) \u001b[35;1madl-runtime::distributed_guardian\u001b[0m \u001b[34;1mall_fifteen_distributed_contracts_are_registered_and_protobuf_is_bounded\u001b[0m",
                     "\u001b[32;1m       START\u001b[0m [         ] (2/2) \u001b[35;1madl-runtime::distributed_guardian\u001b[0m \u001b[34;1msigned_quorum_authority_applies_once_and_rejects_replay_and_wrong_domain\u001b[0m",
                     "\u001b[32;1m        PASS\u001b[0m [   0.062s] (2/2) \u001b[35;1madl-runtime::distributed_guardian\u001b[0m \u001b[34;1msigned_quorum_authority_applies_once_and_rejects_replay_and_wrong_domain\u001b[0m",
@@ -954,7 +968,7 @@
                 }
               }
             ],
-            "binding_sha256": "5628bac86f391bcbd1f93ff5faac4490535ec1fc03890d3027c43eb0904e61e5"
+            "binding_sha256": "daaf4f411ad9d6b0ca3ffcbb120b73b7c7ae2eb1630482f657176851fd9a3c15"
           }
         ]
       }
@@ -1180,7 +1194,8 @@
                   "statuses": [
                     "test rejects_denial_and_cross_binding_drift ... ok",
                     "test rejects_changed_transaction_after_commit ... ok",
-                    "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s"
+                    "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 4.79s"
                   ],
                   "positive_denominators": [
                     5,
@@ -1202,7 +1217,8 @@
                   "format": "text",
                   "schema": "nonempty-proof-text",
                   "statuses": [
-                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s"
+                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 27.41s"
                   ],
                   "positive_denominators": [
                     2,
@@ -1235,7 +1251,7 @@
                 }
               }
             ],
-            "binding_sha256": "f9b7098cdcc0abad57553838237d826545d68ae49bd9af9e0a4a268b944ab176"
+            "binding_sha256": "20e5fa4f06b27f2869aaad27435cece3023063dca4e78a72bcb6043bdff4160e"
           }
         ]
       }
@@ -1461,7 +1477,8 @@
                   "statuses": [
                     "test rejects_denial_and_cross_binding_drift ... ok",
                     "test rejects_changed_transaction_after_commit ... ok",
-                    "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s"
+                    "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 4.79s"
                   ],
                   "positive_denominators": [
                     5,
@@ -1483,7 +1500,8 @@
                   "format": "text",
                   "schema": "nonempty-proof-text",
                   "statuses": [
-                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s"
+                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 27.41s"
                   ],
                   "positive_denominators": [
                     2,
@@ -1516,7 +1534,7 @@
                 }
               }
             ],
-            "binding_sha256": "f9b7098cdcc0abad57553838237d826545d68ae49bd9af9e0a4a268b944ab176"
+            "binding_sha256": "20e5fa4f06b27f2869aaad27435cece3023063dca4e78a72bcb6043bdff4160e"
           }
         ]
       }
@@ -1698,7 +1716,7 @@
                     "Result: passed with zero warnings."
                   ],
                   "positive_denominators": [
-
+                    1
                   ],
                   "success_semantic": true,
                   "denial_semantic": false
@@ -1724,7 +1742,7 @@
                 }
               }
             ],
-            "binding_sha256": "565dfc22f0d565980b441c9fab86216abeefcc320e1c5cedbac11f399b26033a"
+            "binding_sha256": "402c76efb6a2e201e4e9ed70d53f5e116f74e6089a767d16b1f4916ad09333d2"
           },
           {
             "key": "birthday",
@@ -1929,7 +1947,8 @@
                   "statuses": [
                     "test rejects_denial_and_cross_binding_drift ... ok",
                     "test rejects_changed_transaction_after_commit ... ok",
-                    "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s"
+                    "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 4.79s"
                   ],
                   "positive_denominators": [
                     5,
@@ -1951,7 +1970,8 @@
                   "format": "text",
                   "schema": "nonempty-proof-text",
                   "statuses": [
-                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s"
+                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 27.41s"
                   ],
                   "positive_denominators": [
                     2,
@@ -1984,7 +2004,7 @@
                 }
               }
             ],
-            "binding_sha256": "f9b7098cdcc0abad57553838237d826545d68ae49bd9af9e0a4a268b944ab176"
+            "binding_sha256": "20e5fa4f06b27f2869aaad27435cece3023063dca4e78a72bcb6043bdff4160e"
           }
         ]
       }
@@ -2402,7 +2422,8 @@
                   "statuses": [
                     "test rejects_denial_and_cross_binding_drift ... ok",
                     "test rejects_changed_transaction_after_commit ... ok",
-                    "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s"
+                    "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 4.79s"
                   ],
                   "positive_denominators": [
                     5,
@@ -2424,7 +2445,8 @@
                   "format": "text",
                   "schema": "nonempty-proof-text",
                   "statuses": [
-                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s"
+                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 27.41s"
                   ],
                   "positive_denominators": [
                     2,
@@ -2457,7 +2479,7 @@
                 }
               }
             ],
-            "binding_sha256": "f9b7098cdcc0abad57553838237d826545d68ae49bd9af9e0a4a268b944ab176"
+            "binding_sha256": "20e5fa4f06b27f2869aaad27435cece3023063dca4e78a72bcb6043bdff4160e"
           }
         ]
       }
@@ -2660,7 +2682,8 @@
                     "test packet_validation_rejects_self_rehashed_privacy_and_topology_forgery ... ok",
                     "test reference_identifier_privacy_and_canonical_packet_bounds_fail_closed ... ok",
                     "test identifiers_secrets_and_normalized_room_collisions_fail_closed ... ok",
-                    "test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s"
+                    "test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 4.72s"
                   ],
                   "positive_denominators": [
                     12,
@@ -2688,7 +2711,8 @@
                     "test memory_palace::tests::ahead_or_differently_bound_latest_fails_closed ... ok",
                     "test memory_palace::tests::forged_artifact_digest_fails_restart_validation ... ok",
                     "test memory_palace::tests::successor_binding_rejects_identity_swap_same_generation_fork_and_rollback ... ok",
-                    "test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 325 filtered out; finished in 0.41s"
+                    "test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 325 filtered out; finished in 0.41s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 10.97s"
                   ],
                   "positive_denominators": [
                     6,
@@ -2722,7 +2746,8 @@
                   "format": "text",
                   "schema": "nonempty-proof-text",
                   "statuses": [
-                    "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1941 filtered out; finished in 0.00s"
+                    "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1941 filtered out; finished in 0.00s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 10.47s"
                   ],
                   "positive_denominators": [
                     1,
@@ -2745,7 +2770,8 @@
                   "format": "text",
                   "schema": "nonempty-proof-text",
                   "statuses": [
-                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.36s"
+                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.36s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 1m 40s"
                   ],
                   "positive_denominators": [
                     2,
@@ -2770,7 +2796,7 @@
                 }
               }
             ],
-            "binding_sha256": "4e829899f48dcfcc88af94f779b8efe000c8e5be325bb4f1705e79e713cd695e"
+            "binding_sha256": "e1ca9a9d05ddf802eb288fb33e513a228cc0078b2b2ef6a3df6cd1d678cecce0"
           }
         ]
       }
@@ -3042,7 +3068,8 @@
                   "statuses": [
                     "test rejects_denial_and_cross_binding_drift ... ok",
                     "test rejects_changed_transaction_after_commit ... ok",
-                    "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s"
+                    "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 4.79s"
                   ],
                   "positive_denominators": [
                     5,
@@ -3064,7 +3091,8 @@
                   "format": "text",
                   "schema": "nonempty-proof-text",
                   "statuses": [
-                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s"
+                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 27.41s"
                   ],
                   "positive_denominators": [
                     2,
@@ -3097,7 +3125,7 @@
                 }
               }
             ],
-            "binding_sha256": "f9b7098cdcc0abad57553838237d826545d68ae49bd9af9e0a4a268b944ab176"
+            "binding_sha256": "20e5fa4f06b27f2869aaad27435cece3023063dca4e78a72bcb6043bdff4160e"
           }
         ]
       }
@@ -3298,7 +3326,8 @@
                   "format": "json",
                   "schema": "adl.issue268.runtime_qualification_diagnostic.v1",
                   "statuses": [
-                    "guardian_entry_failure_with_truncated_terminal_diagnostic"
+                    "guardian_entry_failure_with_truncated_terminal_diagnostic",
+                    "true"
                   ],
                   "positive_denominators": {
                     "resident_count": 6
@@ -3327,7 +3356,7 @@
                 }
               }
             ],
-            "binding_sha256": "8d9ad8c8a4d5e81d35c36fbb6004fb47ab1135957293450952a5c9085a45ba79"
+            "binding_sha256": "4535c67aa8764419344f006265ec202107f7971efabb27b246b92bac33c7a9ba"
           }
         ]
       }
@@ -3553,7 +3582,8 @@
                   "statuses": [
                     "test rejects_denial_and_cross_binding_drift ... ok",
                     "test rejects_changed_transaction_after_commit ... ok",
-                    "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s"
+                    "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 4.79s"
                   ],
                   "positive_denominators": [
                     5,
@@ -3575,7 +3605,8 @@
                   "format": "text",
                   "schema": "nonempty-proof-text",
                   "statuses": [
-                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s"
+                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 27.41s"
                   ],
                   "positive_denominators": [
                     2,
@@ -3608,7 +3639,7 @@
                 }
               }
             ],
-            "binding_sha256": "f9b7098cdcc0abad57553838237d826545d68ae49bd9af9e0a4a268b944ab176"
+            "binding_sha256": "20e5fa4f06b27f2869aaad27435cece3023063dca4e78a72bcb6043bdff4160e"
           }
         ]
       }
@@ -3835,7 +3866,8 @@
                   "statuses": [
                     "test rejects_denial_and_cross_binding_drift ... ok",
                     "test rejects_changed_transaction_after_commit ... ok",
-                    "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s"
+                    "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 4.79s"
                   ],
                   "positive_denominators": [
                     5,
@@ -3857,7 +3889,8 @@
                   "format": "text",
                   "schema": "nonempty-proof-text",
                   "statuses": [
-                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s"
+                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 27.41s"
                   ],
                   "positive_denominators": [
                     2,
@@ -3890,7 +3923,7 @@
                 }
               }
             ],
-            "binding_sha256": "f9b7098cdcc0abad57553838237d826545d68ae49bd9af9e0a4a268b944ab176"
+            "binding_sha256": "20e5fa4f06b27f2869aaad27435cece3023063dca4e78a72bcb6043bdff4160e"
           }
         ]
       }
@@ -3984,6 +4017,7 @@
                     "pass"
                   ],
                   "positive_denominators": {
+                    "exact_revision": 1
                   },
                   "success_semantic": true,
                   "denial_semantic": true
@@ -4002,6 +4036,7 @@
                     "changes_required"
                   ],
                   "positive_denominators": {
+                    "findings.length": 2
                   },
                   "success_semantic": true,
                   "denial_semantic": true
@@ -4050,13 +4085,15 @@
                     "fixed"
                   ],
                   "positive_denominators": {
+                    "findings.length": 2,
+                    "dispositions.length": 2
                   },
                   "success_semantic": true,
                   "denial_semantic": true
                 }
               }
             ],
-            "binding_sha256": "da6270302319b796f3d2e423602edaaeae3bb631782771ed76df2a6be9b0f03f"
+            "binding_sha256": "3ef211641661c0967a80bc869605ca1b4af478c6e4742098ab11b5479fbafcb5"
           }
         ]
       }
@@ -4150,6 +4187,7 @@
                     "pass"
                   ],
                   "positive_denominators": {
+                    "exact_revision": 1
                   },
                   "success_semantic": true,
                   "denial_semantic": true
@@ -4168,6 +4206,7 @@
                     "changes_required"
                   ],
                   "positive_denominators": {
+                    "findings.length": 2
                   },
                   "success_semantic": true,
                   "denial_semantic": true
@@ -4216,13 +4255,15 @@
                     "fixed"
                   ],
                   "positive_denominators": {
+                    "findings.length": 2,
+                    "dispositions.length": 2
                   },
                   "success_semantic": true,
                   "denial_semantic": true
                 }
               }
             ],
-            "binding_sha256": "da6270302319b796f3d2e423602edaaeae3bb631782771ed76df2a6be9b0f03f"
+            "binding_sha256": "3ef211641661c0967a80bc869605ca1b4af478c6e4742098ab11b5479fbafcb5"
           }
         ]
       }
@@ -4336,7 +4377,7 @@
                   "format": "json",
                   "schema": "adl.wp02b.final_state.v1",
                   "statuses": [
-
+                    "true"
                   ],
                   "positive_denominators": {
                     "approved_max_total_cost_usd": 10.0,
@@ -4361,6 +4402,7 @@
                     "failure"
                   ],
                   "positive_denominators": {
+                    "focused_proof.length": 6
                   },
                   "success_semantic": true,
                   "denial_semantic": true
@@ -4376,12 +4418,13 @@
                   "format": "json",
                   "schema": "adl.wp02b.analysis_integration.v1",
                   "statuses": [
-
+                    "proof parity, test-only p95 at most 120 seconds, and at least 35 percent median workload reduction"
                   ],
                   "positive_denominators": {
                     "rollout_gates.test_only_p50_seconds_max": 90,
                     "rollout_gates.test_only_p95_seconds_max": 120,
-                    "rollout_gates.cache_restore_seconds_max": 45
+                    "rollout_gates.cache_restore_seconds_max": 45,
+                    "canary_priority.length": 5
                   },
                   "success_semantic": true,
                   "denial_semantic": false
@@ -4398,21 +4441,23 @@
                   "schema": "adl.wp02b.production_canary.v2",
                   "statuses": [
                     "skipped",
-                    "success"
+                    "success",
+                    "true"
                   ],
                   "positive_denominators": {
                     "proof_paths.coverage_replacement.producer_jobs.0.job_id": 93025827910,
                     "proof_paths.coverage_replacement.producer_jobs.1.job_id": 93025828008,
                     "proof_paths.coverage_replacement.producer_jobs.2.job_id": 93025828090,
                     "proof_paths.coverage_replacement.aggregator_jobs.0.job_id": 93031456859,
-                    "proof_paths.coverage_replacement.aggregator_jobs.1.job_id": 93033709431
+                    "proof_paths.coverage_replacement.aggregator_jobs.1.job_id": 93033709431,
+                    "labels.length": 1
                   },
                   "success_semantic": true,
                   "denial_semantic": false
                 }
               }
             ],
-            "binding_sha256": "f064dd0e1fe72fdb6757b79e56937e5d8af6c22c49b4953e07c0f53252a475c3"
+            "binding_sha256": "6c28833f41667fe71da9a0a80c97be929155da69c5ae8fe0efc230057b6463cc"
           }
         ]
       }
@@ -4614,7 +4659,8 @@
                   "format": "json",
                   "schema": "adl.issue268.runtime_qualification_diagnostic.v1",
                   "statuses": [
-                    "guardian_entry_failure_with_truncated_terminal_diagnostic"
+                    "guardian_entry_failure_with_truncated_terminal_diagnostic",
+                    "true"
                   ],
                   "positive_denominators": {
                     "resident_count": 6
@@ -4643,7 +4689,7 @@
                 }
               }
             ],
-            "binding_sha256": "8d9ad8c8a4d5e81d35c36fbb6004fb47ab1135957293450952a5c9085a45ba79"
+            "binding_sha256": "4535c67aa8764419344f006265ec202107f7971efabb27b246b92bac33c7a9ba"
           }
         ]
       }
@@ -4771,7 +4817,13 @@
                     "commands.1.selected_tests": 2,
                     "native_receipts.0.command.selected_tests": 2,
                     "native_receipts.1.command.selected_tests": 2,
-                    "native_receipts.2.command.selected_tests": 2
+                    "native_receipts.2.command.selected_tests": 2,
+                    "protected_paths.length": 6,
+                    "source_artifacts.length": 6,
+                    "commands.length": 3,
+                    "negative_cases.length": 3,
+                    "artifacts.length": 19,
+                    "native_receipts.length": 3
                   },
                   "success_semantic": true,
                   "denial_semantic": true
@@ -4790,6 +4842,7 @@
                     "rejected"
                   ],
                   "positive_denominators": {
+                    "root.length": 3
                   },
                   "success_semantic": false,
                   "denial_semantic": true
@@ -4805,6 +4858,7 @@
                   "format": "text",
                   "schema": "nonempty-proof-text",
                   "statuses": [
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 0.15s",
                     "PASS [   0.007s] (1/2) adl-runtime::distributed_guardian all_fifteen_distributed_contracts_are_registered_and_protobuf_is_bounded",
                     "PASS [   0.010s] (2/2) adl-runtime::distributed_guardian signed_quorum_authority_applies_once_and_rejects_replay_and_wrong_domain",
                     "Summary [   0.010s] 2 tests run: 2 passed, 0 skipped"
@@ -4827,6 +4881,7 @@
                   "format": "text",
                   "schema": "nonempty-proof-text",
                   "statuses": [
+                    "\u001b[1m\u001b[92m    Finished\u001b[0m `test` profile [unoptimized + debuginfo] target(s) in 1m 41s",
                     "\u001b[32;1m        PASS\u001b[0m [   0.004s] (1/2) \u001b[35;1madl-runtime::distributed_guardian\u001b[0m \u001b[34;1mall_fifteen_distributed_contracts_are_registered_and_protobuf_is_bounded\u001b[0m",
                     "\u001b[32;1m       START\u001b[0m [         ] (2/2) \u001b[35;1madl-runtime::distributed_guardian\u001b[0m \u001b[34;1msigned_quorum_authority_applies_once_and_rejects_replay_and_wrong_domain\u001b[0m",
                     "\u001b[32;1m        PASS\u001b[0m [   0.062s] (2/2) \u001b[35;1madl-runtime::distributed_guardian\u001b[0m \u001b[34;1msigned_quorum_authority_applies_once_and_rejects_replay_and_wrong_domain\u001b[0m",
@@ -4855,7 +4910,7 @@
                 }
               }
             ],
-            "binding_sha256": "5628bac86f391bcbd1f93ff5faac4490535ec1fc03890d3027c43eb0904e61e5"
+            "binding_sha256": "daaf4f411ad9d6b0ca3ffcbb120b73b7c7ae2eb1630482f657176851fd9a3c15"
           }
         ]
       }
@@ -4984,19 +5039,24 @@
               {
                 "role": "positive",
                 "kind": "retained_artifact",
-                "path": ".csdlc/evidence/5822/accepted-estimate.json",
-                "sha256": "7f7828abcad3bfbf34f0065a3eac644a4d88eead090744325a5cf43d0053c6f4",
-                "bytes": 446,
+                "path": ".csdlc/evidence/5822/validation-summary.json",
+                "sha256": "f46bb198fc27936dff941f6eced5fa1fc0daf8504c99f32d7ca2120342fda58c",
+                "bytes": 2433,
                 "semantic": {
                   "format": "json",
-                  "schema": "structured-json-without-schema",
+                  "schema": "csdlc.issue_validation_summary.v1",
                   "statuses": [
-                    "deferred"
+                    "11",
+                    "passed"
                   ],
                   "positive_denominators": {
+                    "results.0.tests_run": 11,
+                    "results.0.tests_passed": 11,
+                    "results.length": 5,
+                    "non_claims.length": 3
                   },
                   "success_semantic": true,
-                  "denial_semantic": true
+                  "denial_semantic": false
                 }
               },
               {
@@ -5012,9 +5072,11 @@
                     "block",
                     "invalid_transition",
                     "pass",
-                    "reconciliation_required"
+                    "reconciliation_required",
+                    "true"
                   ],
                   "positive_denominators": {
+                    "failed_typed_attempts.length": 2
                   },
                   "success_semantic": true,
                   "denial_semantic": true
@@ -5023,19 +5085,22 @@
               {
                 "role": "integration",
                 "kind": "retained_artifact",
-                "path": ".csdlc/evidence/5822/validation-summary.json",
-                "sha256": "f46bb198fc27936dff941f6eced5fa1fc0daf8504c99f32d7ca2120342fda58c",
-                "bytes": 2433,
+                "path": ".csdlc/evidence/5822/cycle-time-baseline.json",
+                "sha256": "046e026bdc1d9c088c4223837eb64e6cea58450fe9a5c618980910a59d12d438",
+                "bytes": 875,
                 "semantic": {
                   "format": "json",
-                  "schema": "csdlc.issue_validation_summary.v1",
+                  "schema": "csdlc.cycle_time_baseline.v1",
                   "statuses": [
-                    "11",
-                    "passed"
+                    "true"
                   ],
                   "positive_denominators": {
-                    "results.0.tests_run": 11,
-                    "results.0.tests_passed": 11
+                    "wall_clock_cycle_seconds": 9062,
+                    "session_elapsed_seconds": 9062,
+                    "pr_lifecycle_seconds": 5703,
+                    "ci_wall_seconds": 744,
+                    "total_tokens": 1820491,
+                    "preserved_gates.length": 5
                   },
                   "success_semantic": true,
                   "denial_semantic": false
@@ -5066,7 +5131,7 @@
                 }
               }
             ],
-            "binding_sha256": "befe7c623e9d0a6429a7587c650ca2cd237be441c5442622133449047c98d334"
+            "binding_sha256": "cdf8b5de5147e6e7b121c207bcfce6bb0b35ec89debb0909bda444f25e35a0e6"
           },
           {
             "key": "wp06",
@@ -5199,7 +5264,8 @@
                   "positive_denominators": {
                     "lanes.0.tests_passed": 12,
                     "lanes.1.tests_passed": 26,
-                    "lanes.7.request_timeout_seconds": 900
+                    "lanes.7.request_timeout_seconds": 900,
+                    "lanes.length": 8
                   },
                   "success_semantic": true,
                   "denial_semantic": false
@@ -5215,6 +5281,7 @@
                   "format": "text",
                   "schema": "nonempty-proof-text",
                   "statuses": [
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 0.02s",
                     "test adapter_selection_and_shell_encoding_fail_closed ... ok",
                     "test result_rejects_malformed_provenance_redaction_and_cleanup ... ok",
                     "test request_rejects_stale_digest_absolute_paths_and_secret_environment ... ok",
@@ -5289,14 +5356,15 @@
                   "positive_denominators": {
                     "resource_budget.timeout_seconds": 120,
                     "artifact_policy.max_total_bytes": 65536,
-                    "artifact_digests.0.bytes": 369
+                    "artifact_digests.0.bytes": 369,
+                    "artifact_digests.length": 1
                   },
                   "success_semantic": true,
                   "denial_semantic": false
                 }
               }
             ],
-            "binding_sha256": "10d6deb48b45d050dac710d84133e378b04b85f289542694f0ab1d5f5e24cda1"
+            "binding_sha256": "f238498e9627e2306d7563bda32cae3000bddc970d7b523b491855262476c3aa"
           }
         ]
       }
@@ -5479,7 +5547,7 @@
                     "Result: passed with zero warnings."
                   ],
                   "positive_denominators": [
-
+                    1
                   ],
                   "success_semantic": true,
                   "denial_semantic": false
@@ -5505,7 +5573,7 @@
                 }
               }
             ],
-            "binding_sha256": "565dfc22f0d565980b441c9fab86216abeefcc320e1c5cedbac11f399b26033a"
+            "binding_sha256": "402c76efb6a2e201e4e9ed70d53f5e116f74e6089a767d16b1f4916ad09333d2"
           },
           {
             "key": "birthday",
@@ -5710,7 +5778,8 @@
                   "statuses": [
                     "test rejects_denial_and_cross_binding_drift ... ok",
                     "test rejects_changed_transaction_after_commit ... ok",
-                    "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s"
+                    "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 4.79s"
                   ],
                   "positive_denominators": [
                     5,
@@ -5732,7 +5801,8 @@
                   "format": "text",
                   "schema": "nonempty-proof-text",
                   "statuses": [
-                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s"
+                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 27.41s"
                   ],
                   "positive_denominators": [
                     2,
@@ -5765,7 +5835,7 @@
                 }
               }
             ],
-            "binding_sha256": "f9b7098cdcc0abad57553838237d826545d68ae49bd9af9e0a4a268b944ab176"
+            "binding_sha256": "20e5fa4f06b27f2869aaad27435cece3023063dca4e78a72bcb6043bdff4160e"
           }
         ]
       }
@@ -5969,7 +6039,8 @@
                     "test packet_validation_rejects_self_rehashed_privacy_and_topology_forgery ... ok",
                     "test reference_identifier_privacy_and_canonical_packet_bounds_fail_closed ... ok",
                     "test identifiers_secrets_and_normalized_room_collisions_fail_closed ... ok",
-                    "test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s"
+                    "test result: ok. 12 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 4.72s"
                   ],
                   "positive_denominators": [
                     12,
@@ -5997,7 +6068,8 @@
                     "test memory_palace::tests::ahead_or_differently_bound_latest_fails_closed ... ok",
                     "test memory_palace::tests::forged_artifact_digest_fails_restart_validation ... ok",
                     "test memory_palace::tests::successor_binding_rejects_identity_swap_same_generation_fork_and_rollback ... ok",
-                    "test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 325 filtered out; finished in 0.41s"
+                    "test result: ok. 6 passed; 0 failed; 0 ignored; 0 measured; 325 filtered out; finished in 0.41s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 10.97s"
                   ],
                   "positive_denominators": [
                     6,
@@ -6031,7 +6103,8 @@
                   "format": "text",
                   "schema": "nonempty-proof-text",
                   "statuses": [
-                    "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1941 filtered out; finished in 0.00s"
+                    "test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1941 filtered out; finished in 0.00s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 10.47s"
                   ],
                   "positive_denominators": [
                     1,
@@ -6054,7 +6127,8 @@
                   "format": "text",
                   "schema": "nonempty-proof-text",
                   "statuses": [
-                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.36s"
+                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.36s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 1m 40s"
                   ],
                   "positive_denominators": [
                     2,
@@ -6079,7 +6153,7 @@
                 }
               }
             ],
-            "binding_sha256": "4e829899f48dcfcc88af94f779b8efe000c8e5be325bb4f1705e79e713cd695e"
+            "binding_sha256": "e1ca9a9d05ddf802eb288fb33e513a228cc0078b2b2ef6a3df6cd1d678cecce0"
           },
           {
             "key": "witness",
@@ -6476,7 +6550,8 @@
                   "statuses": [
                     "test rejects_denial_and_cross_binding_drift ... ok",
                     "test rejects_changed_transaction_after_commit ... ok",
-                    "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s"
+                    "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 4.79s"
                   ],
                   "positive_denominators": [
                     5,
@@ -6498,7 +6573,8 @@
                   "format": "text",
                   "schema": "nonempty-proof-text",
                   "statuses": [
-                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s"
+                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 27.41s"
                   ],
                   "positive_denominators": [
                     2,
@@ -6531,7 +6607,7 @@
                 }
               }
             ],
-            "binding_sha256": "f9b7098cdcc0abad57553838237d826545d68ae49bd9af9e0a4a268b944ab176"
+            "binding_sha256": "20e5fa4f06b27f2869aaad27435cece3023063dca4e78a72bcb6043bdff4160e"
           }
         ]
       }
@@ -6647,6 +6723,7 @@
                   "format": "text",
                   "schema": "nonempty-proof-text",
                   "statuses": [
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 0.11s",
                     "test resident_cycle_executor_failures_retain_terminal_evidence_without_mutation_or_history ... ok",
                     "test forged_grant_and_authority_fail_before_history_acceptance ... ok",
                     "test policy_digest_mismatch_fails_before_mutation_or_persistence ... ok",
@@ -6718,6 +6795,7 @@
                   "format": "text",
                   "schema": "nonempty-proof-text",
                   "statuses": [
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 4.72s",
                     "test resident_cycle_executor_failures_retain_terminal_evidence_without_mutation_or_history ... ok",
                     "test resident_cycle_production_path_accepts_and_rejects_without_fixture_entrypoint ... ok",
                     "test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 15 filtered out; finished in 0.27s"
@@ -6753,7 +6831,7 @@
                 }
               }
             ],
-            "binding_sha256": "2623dac499165299f5ba83c3fc070330e29ca5a1dbbc26a3cea6988acc82a921"
+            "binding_sha256": "29934a40464c3686c77c02756df7411d99a7318959e003f615ebf884e8312e2f"
           },
           {
             "key": "birthday",
@@ -6958,7 +7036,8 @@
                   "statuses": [
                     "test rejects_denial_and_cross_binding_drift ... ok",
                     "test rejects_changed_transaction_after_commit ... ok",
-                    "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s"
+                    "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 4.79s"
                   ],
                   "positive_denominators": [
                     5,
@@ -6980,7 +7059,8 @@
                   "format": "text",
                   "schema": "nonempty-proof-text",
                   "statuses": [
-                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s"
+                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 27.41s"
                   ],
                   "positive_denominators": [
                     2,
@@ -7013,7 +7093,7 @@
                 }
               }
             ],
-            "binding_sha256": "f9b7098cdcc0abad57553838237d826545d68ae49bd9af9e0a4a268b944ab176"
+            "binding_sha256": "20e5fa4f06b27f2869aaad27435cece3023063dca4e78a72bcb6043bdff4160e"
           }
         ]
       }
@@ -7177,6 +7257,7 @@
                     "passed"
                   ],
                   "positive_denominators": {
+                    "proof.length": 6
                   },
                   "success_semantic": true,
                   "denial_semantic": false
@@ -7218,7 +7299,7 @@
                     "result=passed"
                   ],
                   "positive_denominators": [
-
+                    1
                   ],
                   "success_semantic": true,
                   "denial_semantic": false
@@ -7247,7 +7328,7 @@
                 }
               }
             ],
-            "binding_sha256": "d887d2a0685e7fdc7e304448f6e5877766c2dae979e0c5c5d7024b96cbf7eed9"
+            "binding_sha256": "5bc9b512a56caa7bd208feb33bf22d73f2b7724332bfa0655e1ed061b9e110d0"
           }
         ]
       }
@@ -7666,7 +7747,8 @@
                   "statuses": [
                     "test rejects_denial_and_cross_binding_drift ... ok",
                     "test rejects_changed_transaction_after_commit ... ok",
-                    "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s"
+                    "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 4.79s"
                   ],
                   "positive_denominators": [
                     5,
@@ -7688,7 +7770,8 @@
                   "format": "text",
                   "schema": "nonempty-proof-text",
                   "statuses": [
-                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s"
+                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 27.41s"
                   ],
                   "positive_denominators": [
                     2,
@@ -7721,7 +7804,7 @@
                 }
               }
             ],
-            "binding_sha256": "f9b7098cdcc0abad57553838237d826545d68ae49bd9af9e0a4a268b944ab176"
+            "binding_sha256": "20e5fa4f06b27f2869aaad27435cece3023063dca4e78a72bcb6043bdff4160e"
           }
         ]
       }
@@ -7948,7 +8031,8 @@
                   "statuses": [
                     "test rejects_denial_and_cross_binding_drift ... ok",
                     "test rejects_changed_transaction_after_commit ... ok",
-                    "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s"
+                    "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 4.79s"
                   ],
                   "positive_denominators": [
                     5,
@@ -7970,7 +8054,8 @@
                   "format": "text",
                   "schema": "nonempty-proof-text",
                   "statuses": [
-                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s"
+                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 27.41s"
                   ],
                   "positive_denominators": [
                     2,
@@ -8003,7 +8088,7 @@
                 }
               }
             ],
-            "binding_sha256": "f9b7098cdcc0abad57553838237d826545d68ae49bd9af9e0a4a268b944ab176"
+            "binding_sha256": "20e5fa4f06b27f2869aaad27435cece3023063dca4e78a72bcb6043bdff4160e"
           }
         ]
       }
@@ -8230,7 +8315,8 @@
                   "statuses": [
                     "test rejects_denial_and_cross_binding_drift ... ok",
                     "test rejects_changed_transaction_after_commit ... ok",
-                    "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s"
+                    "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 4.79s"
                   ],
                   "positive_denominators": [
                     5,
@@ -8252,7 +8338,8 @@
                   "format": "text",
                   "schema": "nonempty-proof-text",
                   "statuses": [
-                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s"
+                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 27.41s"
                   ],
                   "positive_denominators": [
                     2,
@@ -8285,7 +8372,7 @@
                 }
               }
             ],
-            "binding_sha256": "f9b7098cdcc0abad57553838237d826545d68ae49bd9af9e0a4a268b944ab176"
+            "binding_sha256": "20e5fa4f06b27f2869aaad27435cece3023063dca4e78a72bcb6043bdff4160e"
           }
         ]
       }
@@ -8559,7 +8646,8 @@
                   "statuses": [
                     "test rejects_denial_and_cross_binding_drift ... ok",
                     "test rejects_changed_transaction_after_commit ... ok",
-                    "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s"
+                    "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 4.79s"
                   ],
                   "positive_denominators": [
                     5,
@@ -8581,7 +8669,8 @@
                   "format": "text",
                   "schema": "nonempty-proof-text",
                   "statuses": [
-                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s"
+                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 27.41s"
                   ],
                   "positive_denominators": [
                     2,
@@ -8614,7 +8703,7 @@
                 }
               }
             ],
-            "binding_sha256": "f9b7098cdcc0abad57553838237d826545d68ae49bd9af9e0a4a268b944ab176"
+            "binding_sha256": "20e5fa4f06b27f2869aaad27435cece3023063dca4e78a72bcb6043bdff4160e"
           }
         ]
       }
@@ -8841,7 +8930,8 @@
                   "statuses": [
                     "test rejects_denial_and_cross_binding_drift ... ok",
                     "test rejects_changed_transaction_after_commit ... ok",
-                    "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s"
+                    "test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.15s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 4.79s"
                   ],
                   "positive_denominators": [
                     5,
@@ -8863,7 +8953,8 @@
                   "format": "text",
                   "schema": "nonempty-proof-text",
                   "statuses": [
-                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s"
+                    "test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.04s",
+                    "Finished `test` profile [unoptimized + debuginfo] target(s) in 27.41s"
                   ],
                   "positive_denominators": [
                     2,
@@ -8896,7 +8987,7 @@
                 }
               }
             ],
-            "binding_sha256": "f9b7098cdcc0abad57553838237d826545d68ae49bd9af9e0a4a268b944ab176"
+            "binding_sha256": "20e5fa4f06b27f2869aaad27435cece3023063dca4e78a72bcb6043bdff4160e"
           }
         ]
       }
@@ -9213,6 +9304,10 @@
                     "complete_dead_code_reduction"
                   ],
                   "positive_denominators": {
+                    "band_supporting_paths.length": 3,
+                    "bands.length": 2,
+                    "excluded_credit.length": 3,
+                    "modified_files.length": 2
                   },
                   "success_semantic": true,
                   "denial_semantic": true
@@ -9231,6 +9326,7 @@
                     "true"
                   ],
                   "positive_denominators": {
+                    "bands.length": 2
                   },
                   "success_semantic": true,
                   "denial_semantic": true
@@ -9246,10 +9342,11 @@
                   "format": "json",
                   "schema": "adl.issue309.baseline.v1",
                   "statuses": [
-
+                    "manifest_complete"
                   ],
                   "positive_denominators": {
-                    "file_count": 485
+                    "file_count": 485,
+                    "files.length": 485
                   },
                   "success_semantic": true,
                   "denial_semantic": true
@@ -9275,14 +9372,16 @@
                     "jobs.3.job_id": 96946413263,
                     "jobs.3.tests_passed": 2466,
                     "jobs.4.job_id": 96950645798,
-                    "jobs.5.job_id": 96950309792
+                    "jobs.5.job_id": 96950309792,
+                    "required_jobs.length": 6,
+                    "jobs.length": 6
                   },
                   "success_semantic": true,
                   "denial_semantic": false
                 }
               }
             ],
-            "binding_sha256": "129a7d635350a07d8d5917675d1d87d97039d2c4ea11a96ad031da7c134dfce4"
+            "binding_sha256": "3f23065a7b75fb0c60b4d5a988b8abee2b40fb3b528754bd16325dd7dbaa0938"
           },
           {
             "key": "refactor",
