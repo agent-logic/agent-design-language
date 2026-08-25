@@ -9,7 +9,7 @@ packets, demos, and milestone evidence.
 
 [![adl-ci (main)](https://github.com/agent-logic/agent-design-language/actions/workflows/ci.yaml/badge.svg?branch=main&event=push)](https://github.com/agent-logic/agent-design-language/actions/workflows/ci.yaml)
 [![coverage](https://codecov.io/gh/agent-logic/agent-design-language/graph/badge.svg?branch=main)](https://app.codecov.io/gh/agent-logic/agent-design-language/tree/main)
-![Milestone](https://img.shields.io/badge/milestone-v0.92%20active%20development-blue)
+![Milestone](https://img.shields.io/badge/milestone-v0.92%20complete-brightgreen)
 
 Homepage: [agent-logic.ai](https://agent-logic.ai)
 
@@ -153,13 +153,12 @@ from issue
 
 ## Recent Milestones
 
-### v0.92 - Active Development Milestone
+### v0.92 - Completed Milestone
 
-v0.92 is the active development milestone. Its issue wave is prepared, the
-foundation lane is active, and the runtime, observatory, identity, resilience,
-and release-proof lanes remain governed by their declared dependency gates.
-Activation does not claim those planned outcomes are implemented or
-release-approved.
+v0.92 completed ADL's first-birthday and resident-runtime milestone, including
+the associated continuity, memory, capability, learning, governed-tool,
+provider, Observatory, evidence, and review work. The retained milestone
+package records what shipped, what was proved, and what moved forward.
 
 Start here:
 
@@ -169,6 +168,8 @@ Start here:
 - [v0.92 execution readiness](docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md)
 - [v0.92 feature-proof coverage](docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md)
 - [v0.92 milestone checklist](docs/milestones/v0.92/MILESTONE_CHECKLIST_v0.92.md)
+- [v0.92 canonical documentation inventory](docs/milestones/v0.92/CANONICAL_DOC_INVENTORY_v0.92.md)
+- [v0.92 third-party review handoff](docs/milestones/v0.92/review/THIRD_PARTY_REVIEW_HANDOFF_v0.92.md)
 
 ### v0.91.8 - Retained Handoff Bridge
 
@@ -337,21 +338,19 @@ production markets.
 
 ## Project Status
 
-- Active milestone: v0.92 development and execution
+- Completed milestone: v0.92
 - Foundation sprint umbrella: #5858
-- Upstream handoff: v0.92 consumes the retained exact-revision v0.91.8
+- Upstream handoff: v0.92 consumed the retained exact-revision v0.91.8
   acceptance and handoff
 - Current ADL package and workspace version: `0.92.0`
-- Most recently completed implementation/readiness handoff: v0.91.8
+- Most recently completed engineering milestone: v0.92
 - Most recently published public release: v0.91.7
   ([GitHub release](https://github.com/danielbaustin/agent-design-language/releases/tag/v0.91.7))
-- Current milestone state: the v0.92 package and issue wave are active; feature
-  implementation, integration, review, and release gates remain open and must
-  be proved by their owning issues.
+- Current milestone state: the v0.92 package and issue wave are complete and
+  retained; subsequent work is routed through the next-milestone handoff.
 - Primary implementation language: Rust
 
 ADL is under active development. The repository contains implemented runtime
-surfaces, completed milestone evidence, active milestone docs, and forward
+surfaces, completed milestone evidence, retained milestone docs, and forward
 planning. Treat milestone documents as bounded engineering records: they say
-what is implemented, what is demoable, what is under active execution, and what
-remains planned.
+what is implemented, what is demoable, and what remains planned.

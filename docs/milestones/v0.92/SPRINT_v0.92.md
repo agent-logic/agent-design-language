@@ -5,18 +5,25 @@
 - Sprint: `v0.92`
 - Milestone: `v0.92`
 - Start date: `2026-08-04`
-- End date: pending v0.92 closeout
+- End date: `2026-08-24` (engineering milestone closeout)
 - Owner: ADL maintainers
-- Status: active issue wave opened by WP-01 after `#5359` review
+- Status: engineering issue wave completed; documentation closeout in WP-23/#312
 - Related issues: `#3377`, `#3434`, `#5359`, `#5765`
 - Planning template set: `docs/templates/planning/1.0.0`
 
 ## Status
 
-Active sprint outline. WP-01 opened the final sprint and WP sequence from
-[WP_ISSUE_WAVE_v0.92.yaml](WP_ISSUE_WAVE_v0.92.yaml) after consuming the final
-v0.91.8 release package, WP-22 TBD dispositions, the activation-test map, the
-AEE completion tranche, and `#3377`.
+Completed engineering sprint. The issue wave in
+[WP_ISSUE_WAVE_v0.92.yaml](WP_ISSUE_WAVE_v0.92.yaml) records the original
+allocation; merged issue and PR evidence is the delivery authority. WP-23/#312
+is reconciling the retrospective documentation corpus. #467 separately owns
+the final canonical evidence hydration in `FEATURE_PROOF_COVERAGE_v0.92.md`,
+`QUALITY_GATE_v0.92.md`, and `WP_EXECUTION_READINESS_v0.92.md`.
+
+External publication is not part of engineering completion and remains subject
+to its explicit operator authorization gate. Observatory and Unity product
+work that was not included in the landed HTML consumer slice is backlogged or
+scheduled after v0.92; it is not a hidden milestone blocker.
 
 ## How To Use
 
@@ -111,17 +118,9 @@ execution remains dependency-gated. This keeps review and validation tight
 without forcing one oversized single-threaded queue or allowing parallel
 agents to collide on shared Runtime and Observatory surfaces.
 
-Copy-ready prompts for the six individual sprint sessions are retained in:
-
-- `.adl/docs/TBD/V092_SPRINT_5858_FOUNDATION_SESSION_PROMPT.md`
-- `.adl/docs/TBD/V092_SPRINT_5855_RUNTIME_OBSERVATORY_SESSION_PROMPT.md`
-- `.adl/docs/TBD/V092_SPRINT_5862_DISTRIBUTED_GUARDIAN_SESSION_PROMPT.md`
-- `.adl/docs/TBD/V092_SPRINT_5857_BIRTHDAY_CORE_SESSION_PROMPT.md`
-- `.adl/docs/TBD/V092_SPRINT_5854_DEMO_PUBLICATION_SESSION_PROMPT.md`
-- `.adl/docs/TBD/V092_SPRINT_5856_QUALITY_RELEASE_SESSION_PROMPT.md`
-
-Each prompt is pinned to its umbrella and child set, preserves child-level
-lifecycle authority, and states the declared serial and parallel boundaries.
+Each sprint session derives authority from its canonical umbrella issue body,
+child cards, and this tracked sprint plan. Local-only prompt files are not
+dependencies and do not grant lifecycle or execution authority.
 
 ## Planned Phases
 

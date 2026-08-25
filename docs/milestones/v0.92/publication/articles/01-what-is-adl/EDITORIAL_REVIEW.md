@@ -15,7 +15,7 @@
 ## Evidence And Claim Review
 
 - The current implementation statement is bounded to repository surfaces and does not claim complete integration.
-- v0.92 is correctly described as active development.
+- v0.92 is correctly described as engineering-complete while external publication and later product work remain separately gated.
 - No claims of AGI, consciousness, legal personhood, production readiness, adoption, certification, or benchmark superiority appear.
 - All repository links appear in the source packet evidence table.
 

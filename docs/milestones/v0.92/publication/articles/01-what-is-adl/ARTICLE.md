@@ -50,7 +50,7 @@ This matters more as coding agents become faster. When producing code becomes ab
 
 ADL is not only a manifesto. The repository contains implemented Rust surfaces for typed runtime contracts, governed execution, tool schemas, capability contracts, bounded Gödel experiments, social-cognition foundations, and C-SDLC lifecycle operations. It also contains tests, fixtures, architecture decisions, and review evidence for those bounded claims.
 
-But the boundary matters. ADL does not claim a completed autonomous society, legal personhood, consciousness, universal safety, or a production-ready first birthday for an identity-bearing Gödel agent. The v0.92 milestone is active development. Some of the most ambitious parts of the project remain plans whose acceptance criteria are intentionally stronger than starting a process and giving it a name.
+But the boundary matters. ADL does not claim a completed autonomous society, legal personhood, consciousness, universal safety, or an externally launched first birthday for an identity-bearing Gödel agent. The v0.92 engineering milestone is complete; external publication and later product work remain separately gated.
 
 That distinction is part of the design. A project about governed intelligence should not ask readers to confuse aspiration with evidence.
 

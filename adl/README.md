@@ -23,9 +23,9 @@ It provides:
 
 ## Current Status
 
-- Current active milestone in the main repo: **v0.92**
-- Current development state: **the v0.92 issue wave is active; planned runtime
-  outcomes remain subject to issue-owned implementation and proof**
+- Most recently completed milestone in the main repo: **v0.92**
+- Current development state: **the v0.92 issue wave and engineering milestone
+  are complete; external publication remains separately authorized**
 - Retained upstream handoff milestone: **v0.91.8**
 - Current crate version: **0.92.0**
 
@@ -33,11 +33,11 @@ This README describes the runtime as it exists on the current `main` branch and 
 
 ## Recent Runtime Milestones
 
-### v0.92 - Active Development
+### v0.92 - Completed Runtime and Identity Milestone
 
-v0.92 activates the next bounded runtime and identity-bearing-agent work. The
-milestone package is current, while implementation status remains governed by
-its individual issues and evidence. See the
+v0.92 delivered the bounded runtime, continuity, and identity-bearing-agent
+work described by its canonical milestone package. Detailed implementation and
+proof truth remains governed by the merged issues and retained evidence. See the
 [v0.92 milestone README](../docs/milestones/v0.92/README.md) and
 [execution-readiness packet](../docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md).
 

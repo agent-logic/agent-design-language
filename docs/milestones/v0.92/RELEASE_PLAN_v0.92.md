@@ -4,20 +4,22 @@
 
 - Milestone: `v0.92`
 - Version: `v0.92`
-- Release date: pending v0.92 completion
+- Engineering closeout date: `2026-08-24`
 - Release manager: ADL maintainers
 - Related issues: `#3377`, `#3434`
 - Planning template set: `docs/templates/planning/1.0.0`
 
 ## Status
 
-Forward release plan. v0.92 has not started implementation.
+Retrospective release plan. The v0.92 engineering work is complete; the
+remaining release-tail activity is documentation/evidence reconciliation and
+any separately authorized publication. #467 owns the final canonical
+feature-proof, quality-gate, and execution-readiness hydration.
 
 ## How To Use
 
-Use this as a release-tail planning scaffold. It must be updated during the
-actual v0.92 release tail with landed issue, PR, review, demo, and validation
-evidence.
+Use this as the closeout boundary. Landed issue, PR, review, demo, and
+validation evidence remains authoritative over the original forward plan.
 
 ## 0. Release-Tail Convergence
 
@@ -46,14 +48,13 @@ v0.92 should not be released until it has evidence for:
 
 ## 2. Branch And Tag Preparation
 
-Branch and tag preparation is pending actual release execution. Follow the
-current release ceremony process in effect when v0.92 closes.
+No new branch or tag action is authorized by this document. Repository and
+external publication actions remain separately controlled.
 
 ## 3. GitHub Release Steps
 
-GitHub release steps are pending actual release execution. The final release
-manager should publish only after release evidence, review remediation, and
-release notes are consistent.
+This document does not authorize a GitHub release or external publication. A
+release manager may act only after the applicable evidence and operator gates.
 
 ## 4. Verification
 

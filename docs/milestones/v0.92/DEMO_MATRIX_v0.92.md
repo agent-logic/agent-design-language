@@ -15,6 +15,12 @@ This matrix is release-gate truth, not demo execution proof. It records which
 demo claims have accepted exact-revision evidence and which remain blocked,
 planned, or non-claimed. Planned rows must not be read as passed demos.
 
+The engineering milestone is complete. The legacy row values below remain
+fail-closed until #467 updates the canonical evidence/gate/readiness surfaces;
+they must not be used to reverse the engineering-closeout decision or to infer
+external publication authority. Unity and broader Observatory product work are
+later/backlog non-claims; only the landed HTML consumer slice is in v0.92.
+
 ## Scope
 
 The matrix covers birthday proof, negative cases, continuity, memory grounding,

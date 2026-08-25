@@ -2,6 +2,22 @@
 
 All notable project-level changes are summarized here by milestone/release.
 
+## v0.92 (Completed engineering milestone)
+
+Status: Completed. The canonical package and retained proof live under
+`docs/milestones/v0.92/`. External publication remains a separate operator
+decision.
+
+Delivered state:
+- Runtime, continuity, identity, memory-grounding, capability, witness, and
+  birthday-boundary work landed through the issue-owned v0.92 wave.
+- The milestone retains its canonical quality, review, validation, and
+  third-party handoff surfaces for exact-revision inspection.
+- Documentation completion and engineering completion do not silently grant
+  external publication authority.
+- Legal personhood, production citizenship, consciousness, completed v0.93
+  governance, and future-version delivery remain non-claims.
+
 ## v0.91.8 (Active bridge/release-tail milestone)
 
 Status: Active. The `v0.91.8` package lives under
