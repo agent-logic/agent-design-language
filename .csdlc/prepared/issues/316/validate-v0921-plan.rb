@@ -71,6 +71,7 @@ wp01 = rows.find { |row| row["id"] == "WP-01" }
 errors << "concrete closed conductor assigned future work" unless wave["conductor_issue"].nil?
 errors << "missing number-free conductor id" unless wave["conductor_id"] == "WP-01"
 errors << "missing milestone-opening authority" unless wave["opening_authority"] == "milestone_operator_after_planning_merge"
+errors << "missing operator-controlled opening trigger" unless wave["opening_trigger"] == "operator_declares_milestone_ready_after_planning_merge"
 errors << "closed #431 must be provenance only" unless wave["legacy_planning_issue"] == 431
 if wp01
   errors << "WP-01 must remain number-free before opening" unless wp01["issue"].nil?

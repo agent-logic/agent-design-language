@@ -4,13 +4,13 @@
 
 - Close #432 with canonical, ancestral repository-authority proof.
 - Preserve closed #431 as planning provenance without assigning it future work.
-- After this package is merged, the milestone operator creates number-free WP-01; WP-01 creates the remaining planned issues and verifies their exact numbering and dependency links.
+- The merge makes WP-01 eligible but does not create it. When the operator declares v0.92.1 ready, the operator creates number-free WP-01; WP-01 creates the remaining planned issues and verifies their exact numbering and dependency links.
 
 ## Sprint sequence
 
 The original six execution lanes remain, with Runtime v2/v3 decoupling, provider profiles, and GCP portability admitted as explicit parallel tracks.
 
-1. **Sprint 0 — opening and wave creation:** #432 and the reviewed planning-package merge, then operator creation of WP-01, then WP-01 creation of the remaining wave. #431 and #457 are consulted only as planning/provider provenance.
+1. **Sprint 0 — opening and wave creation:** #432 and the reviewed planning-package merge establish eligibility; the operator later declares v0.92.1 ready and creates WP-01; WP-01 then creates the remaining wave. #431 and #457 are consulted only as planning/provider provenance.
 2. **Sprint 1 — independent foundations:** CORP-A through CORP-D serially; HOT-01, DEC-01, and PROV-A may run in parallel after the opening gate.
 3. **Sprint 2 — C-SDLC v3 foundation:** V3-A, V3-B, V3-C.
 4. **Sprint 3 — C-SDLC v3 delivery and cutover:** V3-D, V3-E, V3-F.

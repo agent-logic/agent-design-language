@@ -3,6 +3,7 @@ milestone: v0.92.1
 conductor_issue: null
 conductor_id: WP-01
 opening_authority: milestone_operator_after_planning_merge
+opening_trigger: operator_declares_milestone_ready_after_planning_merge
 legacy_planning_issue: 431
 work_packages:
   - id: REP-01

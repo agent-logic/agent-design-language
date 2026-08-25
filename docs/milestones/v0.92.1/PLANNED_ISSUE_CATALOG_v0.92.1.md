@@ -1,6 +1,6 @@
 # Planned Issue Catalog — v0.92.1
 
-This is the complete issue-creation plan. After the planning PR merges, the milestone operator creates the number-free WP-01 opening conductor. That new conductor creates the remaining unnumbered entries. This document does not create issues and must not preallocate GitHub numbers.
+This is the complete issue-creation plan. The planning merge only makes the package eligible to open. When the operator declares v0.92.1 ready, the operator creates the number-free WP-01 opening conductor; WP-01 then creates the remaining unnumbered entries. This document does not create issues and must not preallocate GitHub numbers.
 
 ## Existing issues
 
@@ -23,7 +23,7 @@ This is the complete issue-creation plan. After the planning PR merges, the mile
 
 | Planned ID | Title | Created by | Depends on |
 |---|---|---|---|
-| WP-01 | Open v0.92.1 and create the execution wave | Milestone operator after the reviewed planning package merges | #432 and the merged planning package |
+| WP-01 | Open v0.92.1 and create the execution wave | Milestone operator, when the milestone is declared ready after the reviewed planning package merges | #432 and the merged planning package |
 
 WP-01 is deliberately number-free until milestone opening. It is not #431, and #431's closed state cannot authorize future issue creation.
 

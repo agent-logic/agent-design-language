@@ -3,7 +3,7 @@
 | ID | Work package | Exit condition |
 |---|---|---|
 | REP-01 | Repository authority / #432 | No tracked dependency on local untracked paths; guardrail proof passes |
-| WP-01 | Number-free milestone-opening conductor | Created by the milestone operator after the planning package merges; create the execution wave from the reviewed catalog |
+| WP-01 | Number-free milestone-opening conductor | Created by the milestone operator only when v0.92.1 is declared ready after the planning package merges; create the execution wave from the reviewed catalog |
 | CORP-01 | Corporate and IP | Four ordered packages (IP/provenance; custody/recovery; operational transfer; diligence close) reviewed without private-data leakage |
 | V3-01 | C-SDLC v3 | All #161-#180 predecessor requirements reconciled into six typed executable packages |
 | DRT-01 | Distributed multi-agent Runtime / #345 | GPU Shepherd hardening followed by governed multi-agent UTS qualification with continuity and truthful receipts |
@@ -25,6 +25,6 @@
 | TAIL-09 | Next-milestone planning review | v0.92.2 planning and closeout readiness receive an independent review |
 | TAIL-10 | Release ceremony | Final validation, notes, tag, cleanup, and milestone closeout are complete |
 
-REP-01 and the reviewed planning-package merge precede creation of WP-01. The milestone operator creates WP-01; WP-01 then creates the remaining execution wave. Execution roots depend on WP-01 and otherwise run independently except that PROV-B follows PROV-A and DRT-D follows DRT-C. INT-01 consumes every root named in the issue wave. The release tail is strictly serial in the preceding-milestone order TAIL-01 through TAIL-10; later tail state never authorizes an earlier missing gate. #431 is closed planning provenance only; TAIL-07 refreshes the v0.92.2 handoff against delivered milestone truth.
+REP-01 and the reviewed planning-package merge make WP-01 eligible for creation; they do not trigger it. When the operator declares v0.92.1 ready, the operator creates WP-01; WP-01 then creates the remaining execution wave. Execution roots depend on WP-01 and otherwise run independently except that PROV-B follows PROV-A and DRT-D follows DRT-C. INT-01 consumes every root named in the issue wave. The release tail is strictly serial in the preceding-milestone order TAIL-01 through TAIL-10; later tail state never authorizes an earlier missing gate. #431 is closed planning provenance only; TAIL-07 refreshes the v0.92.2 handoff against delivered milestone truth.
 
 Closed predecessor issues remain fully represented without being reopened: corporate `#153`-`#160`, C-SDLC v3 `#161`-`#180`, and distributed Runtime `#181`-`#187`. Integration provenance is exact: `#188` informs INT-01/TAIL-01, `#190` informs TAIL-07, and `#189` informs TAIL-10. Existing issues `#251`, `#122`, `#84`, and `#345` are active v0.92.1 execution rather than deferred backlog; `#457` is historical provider-profile provenance only.
