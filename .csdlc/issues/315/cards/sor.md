@@ -49,11 +49,11 @@ Remediated WP-27 review findings by accounting for all retained internal and ext
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
