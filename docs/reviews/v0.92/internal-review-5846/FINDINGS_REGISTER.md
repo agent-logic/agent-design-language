@@ -27,7 +27,7 @@
 | SYN-007 | P2 | open | Dependency scaffold consumes stale lifecycle-lock evidence | dependency | review-packet/dependency tooling owner |
 | SYN-008 | P2 | open | Post-merge diff-hygiene command is non-proving | docs | WP-27 documentation owner |
 | SYN-009 | ambiguous | open | Derived-terminal receipts and typed doctor disagree | lifecycle/evidence | typed C-SDLC lifecycle owner |
-| SYN-010 | P1/P2 | resolved_packet | Initial lane assignments and topology metadata were invalid | code, security, tests | issue-313 packet owner; generic builder residual separate |
+| SYN-010 | P1 | resolved_packet | Initial lane assignments were invalid | code, security, tests | issue-313 packet owner; generic assignment-builder residual separate |
 | SYN-011 | P2 | resolved_packet_partial | Dependency assignment repaired; stale consumer remains | dependency | issue-313 packet owner / tooling owner |
 
 ## Disposition Requirements
@@ -80,7 +80,7 @@
 ### SYN-010
 
 - Packet disposition: closed by repaired deterministic exact-target assignment and passing recheck.
-- Residual: generic repo-packet-builder scoring and path-name worktree detection remain unremediated and must not be reported closed.
+- Residual: generic repo-packet-builder scoring remains unremediated and must not be reported closed. The worktree-label concern is disputed because this packet used the primary checkout as source.
 
 ### SYN-011
 
@@ -100,7 +100,7 @@
   {"id":"SYN-007","severity":"P2","status":"open","roles":["dependency"],"owner":"review_packet_tooling"},
   {"id":"SYN-008","severity":"P2","status":"open","roles":["docs"],"owner":"WP-27"},
   {"id":"SYN-009","severity":"ambiguous","status":"open","roles":["lifecycle_evidence"],"owner":"typed_csdlc"},
-  {"id":"SYN-010","severity":"P1_P2","status":"resolved_packet","roles":["code","security","tests"],"owner":"issue_313_packet"},
+  {"id":"SYN-010","severity":"P1","status":"resolved_packet","roles":["code","security","tests"],"owner":"issue_313_packet"},
   {"id":"SYN-011","severity":"P2","status":"resolved_packet_partial","roles":["dependency"],"owner":"issue_313_packet"}
 ]
 ```

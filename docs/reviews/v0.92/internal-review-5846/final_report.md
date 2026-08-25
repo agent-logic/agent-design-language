@@ -105,7 +105,7 @@ operation was performed.
 - Evidence: exact-target regeneration is byte-identical and all nine lanes are nonempty with material code, security, test, and dependency paths.
 - Impact: the original packet denominator no longer weakens this review; the generic packet-builder defect remains a separate tooling risk.
 - Recommended action: preserve the issue-local repaired assignment and remediate the generic builder under the follow-on owner.
-- Validation gap: generic builder scoring and worktree detection remain uncorrected.
+- Validation gap: generic builder scoring remains uncorrected; the worktree-detection claim was removed from this finding because it was not exercised by this packet.
 
 ### Finding SYN-011: Dependency assignment is repaired but one consumer remains stale
 

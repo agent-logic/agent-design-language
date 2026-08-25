@@ -106,14 +106,14 @@
 - Evidence: Receipts and GitHub agree on merged/closed ancestry; doctor reports `review_publication_dead_end` and, for #10, `issue_specific_denominator_missing`.
 - Required disposition: obtain a typed terminal read that recognizes derived-terminal authority or repair stale typed projections. If doctor is intentionally inapplicable after derived terminalization, encode that rule in packet validation.
 
-### SYN-010 — P1/P2 — Initial specialist assignment denominator was invalid, but this packet has been repaired
+### SYN-010 — P1 — Initial specialist assignment denominator was invalid, but this packet has been repaired
 
 - Status: resolved for this packet; generic builder defect remains open outside the packet
-- Source roles: code (findings 1 and 2), security (finding 2), tests (finding 2)
+- Source roles: code (finding 1), security (finding 2), tests (finding 2)
 - Files: original packet-builder output; repaired `docs/reviews/v0.92/internal-review-5846/specialist_assignments.json`; `docs/reviews/v0.92/internal-review-5846/packet_assignment_recheck.md`
-- Original impact: Code/security assignments contained lifecycle lockfiles, tests was empty, and worktree metadata was false.
+- Original impact: Code/security assignments contained lifecycle lockfiles and tests was empty.
 - Resolution evidence: The replacement assignment is exact-target-derived, byte-reproducible, records portable checkout/output roles, contains all nine nonempty lanes, and assigns 1,442 code, 1,756 security, and 834 test paths. The recheck passed with zero findings.
-- Residual: `adl/tools/skills/repo-packet-builder/scripts/build_repo_packet.py` still globally truncates before per-lane routing and detects worktrees by a literal `.worktrees` path component. Do not treat the generic tool as repaired by this issue-local replacement.
+- Residual: `adl/tools/skills/repo-packet-builder/scripts/build_repo_packet.py` still globally truncates before per-lane routing. Do not treat the generic assignment tool as repaired by this issue-local replacement. The separate worktree-label claim was disputed because the primary checkout, not the issue worktree, was the source.
 
 ### SYN-011 — P2 — Initial dependency lane routing was repaired, but stale evidence-index consumers remain
 
@@ -144,7 +144,7 @@ All required lane assignments are nonempty after the deterministic repair: archi
 - Docs completion finding, security's unchecked ACIP gate, and release `REL-002` share the same completion-versus-checklist risk and are merged into SYN-002. The security-specific positive/denial requirement remains explicit.
 - Demo vocabulary failure and unhydrated register are combined in SYN-003 because both prevent the single register integration contract from running; both causal repairs remain stated.
 - Tests P1 and dependency P2 describe the same missing CI ownership for three Cargo graphs. SYN-006 preserves the higher P1 severity and both behavioral and dependency consequences.
-- Code assignment starvation, security assignment omission, empty tests assignment, and false worktree labeling were all initial packet-generation failures. They are consolidated as SYN-010 and marked resolved only for this packet by the deterministic replacement/recheck.
+- Code assignment starvation, security assignment omission, and the empty tests assignment were initial packet-generation failures. They are consolidated as SYN-010 and marked resolved only for this packet by the deterministic replacement/recheck. CODE-002 is excluded because source/output role reconciliation disproved its packet-specific premise.
 - Dependency assignment repair and the still-broken scaffold consumer are deliberately split into SYN-011 (packet repair) and SYN-007 (open consumer defect).
 
 ## Disagreements And Ambiguities
