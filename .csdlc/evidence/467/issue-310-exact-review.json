@@ -1,0 +1,109 @@
+{
+  "schema": "adl.issue467.independent_exact_review.v1",
+  "issue": 310,
+  "pull_request": 465,
+  "repository": "agent-logic/agent-design-language",
+  "reviewed_revision": "ca78a65a1390f2bc088f8cf20018670d06e87068",
+  "reviewed_revision_parent": "a31ea195ef0de4329b249c5db4ad5e1d936ad3ef",
+  "implementation_range_base": "fb54ee7231ed4a9f01ca5edcdf82c485ddb4bd77",
+  "result": "passed",
+  "reviewer": "codex-gpt5-repo-code-review-skill",
+  "reviewed_at_utc": "2026-08-25T00:01:33Z",
+  "review_mode": "independent_read_only_exact_head",
+  "reviewed_paths": [
+    "adl-runtime-kernel/Cargo.toml",
+    "adl-runtime-kernel/Cargo.lock",
+    "adl-runtime-kernel/src/control.rs",
+    "adl-runtime-kernel/src/control/feeds.rs",
+    "adl-runtime-kernel/src/control/replay.rs",
+    "adl-runtime-kernel/src/observability.rs",
+    "adl-runtime-kernel/src/observability/master_log.rs",
+    "adl-runtime-kernel/src/observability/redaction.rs",
+    "adl-runtime-kernel/src/observability/vector.rs",
+    "docs/tooling/review-surface-format.md"
+  ],
+  "findings": [],
+  "residual_risks": [
+    {
+      "id": "rr-001",
+      "classification": "focused_validation_scope",
+      "severity": "low",
+      "description": "This review reran the changed control and observability integration suites plus focused moved-code filters, but did not rerun the broader all-targets check, fmt, strict clippy, live continuity, or resident-shepherd continuity commands in this subtask.",
+      "evidence": "Local focused validation passed with nonzero denominators: control 25/25, observability 30/30, ACIP replay 4/4, master-log liveness 6/6 across the matched targets, and vector retry/backoff 6/6 across the matched targets. Live PR checkRollup for PR #465 reported success for adl-runtime-v3-fast, adl-ci, adl-coverage, and adl-path-policy at head ca78a65a1390f2bc088f8cf20018670d06e87068, with other lanes skipped by CI routing."
+    },
+    {
+      "id": "rr-002",
+      "classification": "post_review_drift",
+      "severity": "low",
+      "description": "Prior retained context described PR #465 as green, mergeable, and intentionally unmerged; live read-only PR metadata now reports PR #465 merged on 2026-08-24T16:54:37Z. The PR head OID still matches the reviewed revision.",
+      "evidence": "Read-only gh pr view 465 returned state MERGED, mergedAt 2026-08-24T16:54:37Z, headRefOid ca78a65a1390f2bc088f8cf20018670d06e87068, baseRefName main."
+    }
+  ],
+  "validation": [
+    {
+      "command": "git status --short --branch",
+      "result": "passed",
+      "evidence": "Primary checkout reported clean on main: ## main...origin/main."
+    },
+    {
+      "command": "git rev-parse ca78a65a1390f2bc088f8cf20018670d06e87068^ ca78a65a1390f2bc088f8cf20018670d06e87068",
+      "result": "passed",
+      "evidence": "Resolved parent a31ea195ef0de4329b249c5db4ad5e1d936ad3ef and reviewed head ca78a65a1390f2bc088f8cf20018670d06e87068."
+    },
+    {
+      "command": "git diff-tree --no-commit-id --name-status -r -M ca78a65a1390f2bc088f8cf20018670d06e87068",
+      "result": "passed",
+      "evidence": "Exact head-vs-parent changed only adl-runtime-kernel/src/control.rs and adl-runtime-kernel/src/control/replay.rs for the final test visibility repair."
+    },
+    {
+      "command": "git diff --name-status -M fb54ee7231ed4a9f01ca5edcdf82c485ddb4bd77 ca78a65a1390f2bc088f8cf20018670d06e87068",
+      "result": "passed",
+      "evidence": "Full PR implementation range changed seven Rust source files: control.rs, control/feeds.rs, control/replay.rs, observability.rs, observability/master_log.rs, observability/redaction.rs, and observability/vector.rs."
+    },
+    {
+      "command": "git diff --exit-code --color=never fb54ee7231ed4a9f01ca5edcdf82c485ddb4bd77 ca78a65a1390f2bc088f8cf20018670d06e87068 -- adl-runtime-kernel/Cargo.toml adl-runtime-kernel/Cargo.lock",
+      "result": "passed",
+      "evidence": "No manifest or lockfile diff in adl-runtime-kernel for this implementation range."
+    },
+    {
+      "command": "git diff --check fb54ee7231ed4a9f01ca5edcdf82c485ddb4bd77 ca78a65a1390f2bc088f8cf20018670d06e87068",
+      "result": "passed",
+      "evidence": "No whitespace-error output."
+    },
+    {
+      "command": "python3 adl/tools/skills/repo-code-review/scripts/repo_inventory.py /Users/daniel/git/agent-design-language",
+      "result": "passed",
+      "evidence": "Inventory completed; adl-runtime-kernel was identified as a likely code root and src/control.rs remains a largest-code-file review hotspot."
+    },
+    {
+      "command": "gh pr view 465 --repo agent-logic/agent-design-language --json number,state,headRefName,headRefOid,baseRefName,mergeStateStatus,isDraft,mergedAt,closedAt,updatedAt,statusCheckRollup,commits,url",
+      "result": "passed",
+      "evidence": "PR #465 is merged, not draft, base main, headRefName codex/310-rust-refactoring, headRefOid ca78a65a1390f2bc088f8cf20018670d06e87068; successful checks included adl-runtime-v3-fast, adl-ci, adl-coverage, and adl-path-policy."
+    },
+    {
+      "command": "cargo test --manifest-path adl-runtime-kernel/Cargo.toml acip_replay_tests",
+      "result": "passed",
+      "evidence": "Library target ran 4 ACIP replay tests and all passed; additional binary/integration targets were zero-test filter matches and were not counted as proof."
+    },
+    {
+      "command": "cargo test --manifest-path adl-runtime-kernel/Cargo.toml master_log_liveness_tests",
+      "result": "passed",
+      "evidence": "Matched nonzero targets ran 6 total master-log liveness tests, 3 in the adl-runtime-kernel binary target and 3 in the observability integration target; all passed."
+    },
+    {
+      "command": "cargo test --manifest-path adl-runtime-kernel/Cargo.toml vector_retry_backoff_tests",
+      "result": "passed",
+      "evidence": "Matched nonzero targets ran 6 total vector retry/backoff tests, 3 in the adl-runtime-kernel binary target and 3 in the observability integration target; all passed."
+    },
+    {
+      "command": "cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test control",
+      "result": "passed",
+      "evidence": "Control integration suite ran 25 tests; 25 passed, 0 failed, 0 ignored."
+    },
+    {
+      "command": "cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test observability",
+      "result": "passed",
+      "evidence": "Observability integration suite ran 30 tests; 30 passed, 0 failed, 0 ignored."
+    }
+  ]
+}

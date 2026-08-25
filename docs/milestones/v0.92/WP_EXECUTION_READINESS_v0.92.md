@@ -18,7 +18,7 @@ owner validation before implementation.
 | WP-08 through WP-19 | Dependencies in WBS and issue-wave YAML | Open and card-initialized; not execution-authorized by WP-01 |
 | WP-18A | Explicit operator scope disposition | Removed from v0.92 completion; backlog #84 owns Unity work, with #122 in v0.92.1 and #251 in backlog |
 | WP-20, WP-21, WP-21A | Integrated feature/demo proof | Open and card-initialized; release-tail work |
-| WP-22 | WP-21A exact head and merge are terminal, ancestral, and cleaned; all implementation inputs are available | Executing under canonical issue #311; #310 recordless terminal authority is retained, its merge is ancestral, its clean worktree is removed, and downstream remains locked unless the exact gate result passes |
+| WP-22 | WP-21A exact head and merge are terminal, ancestral, and cleaned; all implementation inputs are available | Corrective authority is issue #467, which supersedes #311 release-credit semantics; #310 recordless terminal authority is retained, its merge is ancestral, its clean worktree is removed, and downstream remains locked unless #467's exact gate result passes |
 | WP-23 through WP-30 | Passing WP-22 packet plus dependencies in WBS and issue-wave YAML | Blocked until WP-22 reports zero blocker rows |
 
 ## Start Rule

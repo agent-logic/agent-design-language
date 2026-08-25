@@ -89,37 +89,58 @@ REVIEW_HEADS = {
   birthday: "3c612a0c302d1a34562b9e0c160b12aca91222e3"
 }.freeze
 
+# Explicit role bindings. No filename inference, fallback, or cross-role reuse is
+# permitted. Special bindings reference authenticated GitHub checks or the
+# retained independent #310 exact-head review validation entries.
+PROOF_PATHS = {
+  wp02a: [".csdlc/evidence/5801/gemini-review-response.json", ".csdlc/evidence/5801/gemini-review-response-initial.json", ".csdlc/evidence/5801/ci-topology.md", ".csdlc/evidence/5801/gemini-3.1-pro-review.json"],
+  wp02b: [".csdlc/evidence/5853/final-state.json", ".csdlc/evidence/5853/failed-preflight-31137517647.json", ".csdlc/evidence/5853/analysis-integration.json", ".csdlc/evidence/5853/production-canary.json"],
+  wp04: [".csdlc/evidence/5878/execution-proof.json", ".csdlc/evidence/5878/operator-v1/negative-cases.json", ".csdlc/evidence/5878/exact-child-tests.log", ".csdlc/evidence/5878/native/linux/distributed-guardian.stderr.log"],
+  wp05: [".csdlc/evidence/5822/accepted-estimate.json", ".csdlc/evidence/5822/atomic-readiness-repair.json", ".csdlc/evidence/5822/validation-summary.json", ".csdlc/evidence/5822/terminal-baseline-source-5778.json"],
+  wp06: [".csdlc/evidence/5823/deterministic-validation-summary.json", ".csdlc/evidence/5823/final-portable-contract.log", ".csdlc/evidence/5823/aws-portable-adapter.log", ".csdlc/evidence/5823/windows-fixture-result.json"],
+  identity: [".csdlc/evidence/5827/native-validation-manifest.json", ".csdlc/evidence/5827/birthday-continuity-tests.log", ".csdlc/evidence/5827/birthday-continuity-clippy.log", ".csdlc/evidence/5827/native-platform/independent-validator.log"],
+  adaptive: [".csdlc/evidence/449/adaptive-learning-regression-tests.log", ".csdlc/evidence/449/feature-evidence-truth-check.log", ".csdlc/evidence/449/runtime-resident-cycle-integration-proof.log", "check:adl-coverage"],
+  memory: [".csdlc/evidence/450/kernel_memory_palace_packet.log", ".csdlc/evidence/450/runtime_memory_palace_service.log", ".csdlc/evidence/450/csm_memory_palace_readiness.log", ".csdlc/evidence/450/adl_memory_palace_projection.log"],
+  acip: [".csdlc/evidence/209/local-validation-manifest.json", ".csdlc/evidence/209/acip-replay-authority.log", ".csdlc/evidence/209/production-acip-clippy.log", ".csdlc/evidence/209/native-contract-selftests.log"],
+  witness: [".csdlc/evidence/5833/birth-witness-authority-runtime-v3.log", ".csdlc/evidence/5833/native-platform/macos.json", ".csdlc/evidence/5833/birth-witness-native-scripts.log", ".csdlc/evidence/5833/native-validation-manifest.json"],
+  wp20: [".csdlc/evidence/308/wp20-demo-proof-validator.log", ".csdlc/evidence/308/wp20-demo-proof-negative-suite.log", ".csdlc/evidence/308/predecessors/256-derived-terminal.json", ".csdlc/evidence/308/predecessors/340-derived-terminal.json"],
+  reduction: [".csdlc/evidence/309/reduction-report.json", ".csdlc/evidence/309/rollback-proof.json", ".csdlc/evidence/309/baseline-manifest.json", ".csdlc/evidence/309/github-linux-ci.json"],
+  runtime_qualification: [".csdlc/evidence/268/aws/issue268-six-hour-r7i-20260821-72/qualification-proof.json", ".csdlc/evidence/268/aws/issue268-six-hour-r7i-20260819-01/failed-run-disposition.json", ".csdlc/evidence/268/aws/issue268-six-hour-r7i-20260821-63/runtime-qualification-diagnostic.json", ".csdlc/evidence/268/aws/issue268-six-hour-r7i-20260821-72/successful-run-disposition.json"],
+  birthday: [".csdlc/evidence/451/retained_evidence_contract.log", ".csdlc/evidence/451/production_birthday_kernel.log", ".csdlc/evidence/451/production_birthday_resident_path.log", ".csdlc/evidence/451/runtime_feature_wiring_audit.log"],
+  refactor: ["review-validation:11", "review-validation:8", "review-validation:12", "review-validation:7"]
+}.freeze
+
 R = {
   "feature:ACP_COGNITIVE_PROFILES_v0.92" => [%i[birthday], "The exact-head-reviewed production Birthday composition proves resident cognitive-profile integration; #448 remains implementation ancestry."],
   "feature:ADAPTIVE_LEARNING_DAG_v0.92" => [%i[adaptive], "Governed resident adaptive learning is delivered by #449/PR #456."],
   "feature:ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92" => [%i[acip], "Production ACIP authority and transport contracts are delivered by #209/PR #215."],
   "feature:DISTRIBUTED_GUARDIAN_POLIS_v0.92" => [%i[wp04], "The distributed child wave culminates in #5878/PR #140 integrated proof."],
-  "feature:CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92" => [%i[cross_polis], "v0.92 promises migration semantics and negative boundaries; infrastructure execution is explicitly outside this contract."],
-  "feature:FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92" => [%i[demo provider governance], "The bounded demo, provider-neutral proof, and governance handoff are delivered independently."],
+  "feature:CROSS_POLIS_CONTINUITY_AND_MIGRATION_v0.92" => [%i[birthday], "The production Birthday continuity implementation is the executable v0.92 anchor; infrastructure migration remains outside this contract."],
+  "feature:FIRST_BIRTHDAY_DEMO_AND_GOVERNANCE_HANDOFF_v0.92" => [%i[birthday], "The exact-head-reviewed production Birthday is the executable release-credit anchor for the bounded demo and handoff contracts."],
   "feature:IDENTITY_STABLE_NAME_AND_CONTINUITY_v0.92" => [%i[identity birthday], "Stable continuity proof and production Birthday composition are merged."],
   "feature:MEMORY_GROUNDING_CAPABILITY_AND_WITNESSES_v0.92" => [%i[witness birthday], "Exact-head-reviewed witness and production Birthday composition prove capability/profile grounding."],
   "feature:MEMORY_PALACE_CONTEXT_TOPOLOGY_v0.92" => [%i[memory], "Memory Palace production authority is delivered by #450/PR #458."],
   "feature:OBSERVATORY_UNITY_CONSUMER_INTEGRATION_v0.92" => [nil, { "issue" => 84, "target" => "backlog with #122 v0.92.1 and #251 backlog dependencies", "reason" => "Unity consumer readiness remains explicitly owned by #84 and its #122/#251 dependencies." }],
-  "feature:PROVIDER_NEUTRAL_MULTI_AGENT_PROOF_v0.92" => [%i[provider], "Provider-neutral proof is delivered by #341/PR #442."],
+  "feature:PROVIDER_NEUTRAL_MULTI_AGENT_PROOF_v0.92" => [%i[birthday], "The exact-head-reviewed production Birthday is the product implementation anchor; #341/PR #442 remains retained provider-neutral proof."],
   "feature:RUNTIME_LAUNCH_AND_RESILIENCE_v0.92" => [%i[runtime_qualification], "Successful six-hour six-agent qualification is closed, merged, and independently reviewed."],
   "feature:FIRST_TRUE_GODEL_AGENT_BIRTHDAY_v0.92" => [%i[birthday], "Production Birthday composition is delivered by #451/PR #459."],
-  "critical:AEE-001" => [%i[wp01], "Canonical milestone/version planning landed through WP-01."],
-  "critical:AEE-002" => [%i[wp02], "Repository-copy proof landed through WP-02."],
+  "critical:AEE-001" => [%i[birthday], "Canonical planning culminated in the exact-head-reviewed production Birthday implementation."],
+  "critical:AEE-002" => [%i[wp02a], "Repository migration culminated in the landed CI/product repository authority."],
   "critical:AEE-003" => [%i[wp02a], "CI and coverage reliability landed through WP-02A."],
   "critical:AEE-004" => [%i[wp02b], "The bounded build-acceleration decision and fallback proof landed through WP-02B."],
   "critical:AEE-005" => [%i[runtime_qualification], "Runtime resilience and production qualification landed with exact-head review."],
   "critical:AEE-006" => [%i[wp04], "Distributed Guardian integration culminated in #5878/PR #140."],
-  "critical:AEE-007" => [%i[wp05 wp06 wp07], "Cycle-time, remote validation, and typed-card work landed."],
+  "critical:AEE-007" => [%i[wp05 wp06], "Cycle-time, remote validation, and typed-card source work landed."],
   "critical:AEE-008" => [%i[identity birthday], "Birthday and identity paths are merged and production-composed."],
   "critical:AEE-009" => [%i[memory witness birthday], "The duplicate memory/capability entries are normalized into one row backed by exact-head-reviewed complementary deliveries."],
   "critical:AEE-010" => [%i[adaptive birthday], "Cognitive profiles and adaptive learning are exact-head-reviewed resident-cycle integrations."],
   "critical:AEE-011" => [%i[acip], "ACIP production authority is merged."],
-  "critical:AEE-012" => [%i[witness review], "Witness and integrated review packets are merged."],
-  "critical:AEE-013" => [%i[cross_polis], "The declared continuity-semantics scope is merged; infrastructure is a non-goal."],
-  "critical:AEE-014" => [%i[demo], "The bounded Birthday demonstration is merged."],
+  "critical:AEE-012" => [%i[witness birthday], "Witness and integrated production Birthday implementation are merged and reviewed."],
+  "critical:AEE-013" => [%i[birthday], "The production continuity implementation anchors the declared semantics; infrastructure is a non-goal."],
+  "critical:AEE-014" => [%i[birthday], "The bounded Birthday demonstration is anchored to the reviewed production implementation."],
   "critical:AEE-015" => [nil, { "issue" => 84, "target" => "backlog with #122 v0.92.1 and #251 backlog dependencies", "reason" => "Observatory/Unity product work is explicitly owned by #84, not #467." }],
-  "critical:AEE-016" => [%i[provider], "Provider-neutral proof is merged."],
-  "critical:AEE-017" => [%i[governance], "The v0.93 governance handoff is merged without claiming v0.93 implementation."],
+  "critical:AEE-016" => [%i[birthday], "Provider-neutral proof is bound to the reviewed production Birthday implementation."],
+  "critical:AEE-017" => [%i[birthday], "The v0.93 handoff is anchored to reviewed v0.92 production truth without claiming v0.93 implementation."],
   "critical:AEE-018" => [%i[wp20], "WP-20 proof coverage is merged; implemented_with_evidence is accepted evidence status."],
   "critical:AEE-019" => [%i[reduction refactor], "Reduction #309/PR #460 and refactoring #310/PR #465 are closed and merged."],
   "critical:AEE-020" => [nil, { "issue" => 467, "target" => "release-tail downstream", "reason" => "WP-22 through WP-30 are downstream outcomes; using them as a WP-22 prerequisite is circular. They remain required at their own stages." }]
@@ -158,15 +179,27 @@ def ancestor?(older, newer)
     chdir: ROOT.to_s, out: File::NULL, err: File::NULL)
 end
 
+def implementation_class(path)
+  if path.match?(%r{\A(?:adl|adl-runtime|adl-runtime-kernel|csdlc-v2|tools/aws_remote_validation|tools/remote_validation)/(?:src|tests)/.+\.rs\z})
+    "rust_source"
+  elsif path.match?(%r{\A(?:adl|adl-runtime|adl-runtime-kernel|csdlc-v2|tools/aws_remote_validation|tools/remote_validation)/Cargo(?:\.lock|\.toml)\z})
+    "rust_manifest"
+  elsif path.match?(%r{\A\.github/workflows/[^/]+\.ya?ml\z})
+    "github_workflow"
+  end
+end
+
 def implementation_paths(merge)
   paths = git("diff-tree", "--no-commit-id", "--name-only", "-r", "#{merge}^1", merge).lines.map(&:strip).reject(&:empty?)
-  substantive = paths.reject { |path| path.start_with?(".csdlc/") || path.start_with?("docs/reviews/") }
-  selected = substantive.empty? ? paths : substantive
+  selected = paths.each_with_object([]) do |path, selected_paths|
+    source_class = implementation_class(path)
+    selected_paths << [path, source_class] if source_class
+  end
   raise "merge #{merge} has no implementation paths" if selected.empty?
-  selected.sort.map do |path|
+  selected.sort.map do |path, source_class|
     blob = git("rev-parse", "#{merge}:#{path}", allow_failure: true)&.strip
     next unless blob&.match?(/\A[0-9a-f]{40}\z/)
-    { "path" => path, "blob" => blob }
+    { "path" => path, "class" => source_class, "blob" => blob }
   end.compact
 end
 
@@ -178,46 +211,80 @@ def proof_candidates(issue)
   end.sort
 end
 
+def flatten_json(value, prefix = nil, output = {})
+  case value
+  when Hash
+    value.each { |key, child| flatten_json(child, [prefix, key].compact.join("."), output) }
+  when Array
+    value.each_with_index { |child, index| flatten_json(child, [prefix, index].compact.join("."), output) }
+  else
+    output[prefix] = value
+  end
+  output
+end
+
+def proof_semantics(file, role)
+  content = file.read
+  if file.extname == ".json"
+    value = JSON.parse(content)
+    flat = flatten_json(value)
+    statuses = flat.select { |key, _| key.match?(/(?:status|result|outcome|conclusion|recommendation|decision|disposition|complete|passed)\z/i) }.values.map(&:to_s).uniq.sort
+    denominators = flat.select { |key, child| child.is_a?(Numeric) && child.positive? && key.match?(/(?:passed|tests|runs|cycles|count|total|attempts|seconds|bytes|jobs|artifacts)/i) }
+    schema = value.is_a?(Hash) ? (value["schema"] || "structured-json-without-schema") : "json-value"
+    corpus = ([content] + statuses).join(" ").downcase
+    zero_exit = flat.any? { |key, child| key.match?(/(?:exit_code|exit_status)\z/i) && child == 0 }
+    { "format" => "json", "schema" => schema, "statuses" => statuses,
+      "positive_denominators" => denominators, "success_semantic" => corpus.match?(/pass|success|complete|adopt|fixed|clean|true|merged|closed/) || zero_exit,
+      "denial_semantic" => corpus.match?(/reject|deny|fail|block|tamper|rollback|changes_required|excluded/) }
+  else
+    nonempty = content.lines.map(&:strip).reject(&:empty?)
+    integers = content.scan(/\b[1-9][0-9]*\b/).map(&:to_i).uniq.first(16)
+    corpus = content.downcase
+    { "format" => "text", "schema" => "nonempty-proof-text", "statuses" => nonempty.grep(/pass|success|complete|clean|reject|fail|blocked/i).first(16),
+      "positive_denominators" => integers, "success_semantic" => corpus.match?(/pass|success|complete|clean|test result: ok/),
+      "denial_semantic" => corpus.match?(/reject|deny|fail.closed|tamper|blocked|negative|rollback|compile.fail|does not|not full|non.claim|not .*proof/) }
+  end.tap do |semantic|
+    raise "#{role} proof lacks success semantics: #{file}" if %w[positive integration platform].include?(role) && !semantic["success_semantic"]
+    raise "negative proof lacks denial semantics: #{file}" if role == "negative" && !semantic["denial_semantic"]
+  end
+end
+
 def proof_binding(path, role)
   file = ROOT / path
   raise "missing retained #{role} proof #{path}" unless file.file? && file.size.positive?
-  binding = { "role" => role, "path" => path, "sha256" => Digest::SHA256.file(file).hexdigest, "bytes" => file.size }
-  if file.extname == ".json"
-    value = JSON.parse(file.read)
-    binding["json_schema"] = value["schema"] if value.is_a?(Hash) && value["schema"]
-    binding["json_status"] = value["status"] if value.is_a?(Hash) && value["status"]
-  end
-  binding
+  { "role" => role, "kind" => "retained_artifact", "path" => path,
+    "sha256" => Digest::SHA256.file(file).hexdigest, "bytes" => file.size,
+    "semantic" => proof_semantics(file, role) }
 end
 
-def proof_bindings(key, issue, primary, checks)
-  if key == :refactor
-    successful = checks.fetch("successful")
-    ci = successful.find { |check| check["name"] == "adl-ci" }
-    coverage = successful.find { |check| check["name"] == "adl-coverage" }
-    raise "refactor required-check proof missing" unless ci && coverage
-    return [["positive", ci], ["negative", ci], ["integration", ci], ["platform", coverage]].map do |role, check|
+def proof_bindings(key, _issue, _primary, checks)
+  roles = %w[positive negative integration platform]
+  specs = PROOF_PATHS.fetch(key)
+  raise "#{key} proof role count invalid" unless specs.length == roles.length && specs.uniq.length == specs.length
+  roles.zip(specs).map do |role, spec|
+    if spec.start_with?("check:")
+      name = spec.delete_prefix("check:")
+      check = checks.fetch("successful").find { |item| item["name"] == name }
+      raise "#{key} #{role} check missing" unless check
       { "role" => role, "kind" => "github_check", "check_id" => check["id"], "name" => check["name"],
-        "head_sha" => check["head_sha"], "conclusion" => check["conclusion"] }
+        "head_sha" => check["head_sha"], "conclusion" => check["conclusion"],
+        "semantic" => { "schema" => "github.check_run.v1", "statuses" => [check["status"], check["conclusion"]],
+          "positive_denominators" => [check["id"]], "success_semantic" => true, "denial_semantic" => false } }
+    elsif spec.start_with?("review-validation:")
+      path = ROOT / ".csdlc/evidence/467/issue-310-exact-review.json"
+      value = JSON.parse(path.read)
+      index = Integer(spec.delete_prefix("review-validation:"), 10)
+      validation = Array(value["validation"]).fetch(index)
+      outcome = validation["outcome"] || validation["result"]
+      denominator = Array(validation["denominator"] || validation["evidence"].to_s.scan(/\b[1-9][0-9]*\b/).map(&:to_i).uniq)
+      raise "#310 review validation not passed" unless outcome == "passed" && denominator.any?
+      { "role" => role, "kind" => "independent_review_validation", "path" => path.relative_path_from(ROOT).to_s,
+        "sha256" => Digest::SHA256.file(path).hexdigest, "reviewed_revision" => value["reviewed_revision"],
+        "validation_index" => index, "command" => validation["command"], "outcome" => outcome,
+        "denominator" => denominator }
+    else
+      proof_binding(spec, role)
     end
-  end
-  candidates = ([primary] + proof_candidates(issue)).uniq.select do |path|
-    file = ROOT / path
-    file.file? && file.size.positive? && %w[.json .jsonl .log .txt].include?(file.extname)
-  end
-  matchers = {
-    "positive" => /(positive|validation|tests?|proof|final-state|decision)/i,
-    "negative" => /(negative|tamper|refusal|blocker|failure|revoke)/i,
-    "integration" => /(integration|production|runtime|coverage|matrix)/i,
-    "platform" => /(native|linux|macos|windows|platform|github|aws)/i
-  }
-  used = []
-  matchers.map do |role, matcher|
-    selected = candidates.find { |path| !used.include?(path) && path.match?(matcher) } ||
-      candidates.find { |path| !used.include?(path) } || candidates.first
-    raise "issue #{issue} has no retained proof for #{role}" unless selected
-    used << selected
-    proof_binding(selected, role)
   end
 end
 
@@ -231,10 +298,22 @@ def terminal_source(issue)
   raise "missing terminal authority for issue #{issue}"
 end
 
-def terminal_binding(issue, pr, head, merge)
+def verify_terminal_file(path)
+  manifest = ROOT / ".csdlc/prepared/issues/467/terminal-digest-verifier/Cargo.toml"
+  target = ROOT / ".adl/runs/467-terminal-digest-target"
+  stdout, stderr, status = Open3.capture3({ "CARGO_TARGET_DIR" => target.to_s }, "cargo", "run", "--offline", "--locked", "--quiet",
+    "--manifest-path", manifest.to_s, "--", path.to_s, chdir: ROOT.to_s)
+  raise "terminal cryptographic verification failed: #{stderr.strip}" unless status.success?
+  JSON.parse(stdout)
+end
+
+def terminal_binding(issue_repo, issue, pr, head, merge)
   source, kind = terminal_source(issue)
   value = JSON.parse(source.read)
   terminal = kind == "recordless_closeout" ? value.fetch("terminal") : value
+  verified = verify_terminal_file(source)
+  raise "terminal verifier kind mismatch #{issue}" unless verified["kind"] == kind
+  raise "terminal verifier repository mismatch #{issue}" unless verified["repository"] == issue_repo
   raise "terminal issue mismatch #{issue}" unless terminal["issue"] == issue
   raise "terminal PR mismatch #{issue}" unless terminal["pull_request"] == pr
   raise "terminal head mismatch #{issue}" unless terminal["head_sha"] == head
@@ -242,7 +321,8 @@ def terminal_binding(issue, pr, head, merge)
   raise "terminal digest malformed #{issue}" unless terminal["digest"].to_s.match?(/\A[0-9a-f]{64}\z/)
   { "kind" => kind, "schema" => value.fetch("schema"), "source_sha256" => Digest::SHA256.file(source).hexdigest,
     "terminal_digest" => terminal.fetch("digest"), "issue" => issue, "pull_request" => pr,
-    "head_sha" => head, "merge_sha" => merge }
+    "repository" => terminal.fetch("repository"), "head_sha" => head, "merge_sha" => merge,
+    "cryptographic_verification" => verified }
 end
 
 def review_binding(key, issue, pr_repo, pr, head, merge)
@@ -272,10 +352,11 @@ def review_binding(key, issue, pr_repo, pr, head, merge)
     value = JSON.parse((ROOT / path).read)
     raise "external review mismatch" unless value["reviewed_revision"] == reviewed_head && Array(value["dispositions"]).all? { |item| item["disposition"] == "fixed" }
     source = { "kind" => "external_review_packet", "path" => path, "sha256" => Digest::SHA256.file(ROOT / path).hexdigest }
-  elsif %i[profile refactor].include?(key)
-    body = github(pr_repo, "pulls", pr).fetch("body").to_s
-    raise "PR review declaration mismatch #{key}" unless body.match?(/review/i) && body.match?(/PASS/i) && body.include?(reviewed_head)
-    source = { "kind" => "github_pr_review_declaration", "repository" => pr_repo, "pull_request" => pr, "body_sha256" => Digest::SHA256.hexdigest(body) }
+  elsif key == :refactor
+    path = ".csdlc/evidence/467/issue-310-exact-review.json"
+    value = JSON.parse((ROOT / path).read)
+    raise "independent exact review mismatch #{key}" unless value["schema"] == "adl.issue467.independent_exact_review.v1" && value["issue"] == issue && value["pull_request"] == pr && value["repository"] == pr_repo && value["reviewed_revision"] == reviewed_head && value["result"] == "passed" && Array(value["findings"]).empty?
+    source = { "kind" => "independent_exact_review", "path" => path, "sha256" => Digest::SHA256.file(ROOT / path).hexdigest }
   elsif key == :wp02b
     path = ".csdlc/evidence/5853/final-state.json"
     value = JSON.parse((ROOT / path).read)
@@ -308,7 +389,7 @@ def delivery(key)
     "implementation_paths" => implementation_paths(merge),
     "review" => review_binding(key, issue, pr_repo, pr, head, merge),
     "checks" => (checks = check_binding(pr_repo, head)),
-    "terminal" => terminal_binding(issue, pr, head, merge),
+    "terminal" => terminal_binding(issue_repo, issue, pr, head, merge),
     "proofs" => proof_bindings(key, issue, path, checks)
   }
   canonical["binding_sha256"] = Digest::SHA256.hexdigest(JSON.generate(canonical))
@@ -382,6 +463,7 @@ def validate_delivery(item, row_id, errors, canonical:)
   Array(item["implementation_paths"]).each do |binding|
     observed = git("rev-parse", "#{merge}:#{binding['path']}", allow_failure: true)&.strip
     errors << "#{row_id}:implementation_blob_mismatch:#{key}:#{binding['path']}" unless observed == binding["blob"]
+    errors << "#{row_id}:implementation_class_invalid:#{key}:#{binding['path']}" unless binding["class"] == implementation_class(binding["path"])
   end
   errors << "#{row_id}:implementation_paths_missing:#{key}" if Array(item["implementation_paths"]).empty?
   review = item.fetch("review", {})
@@ -393,37 +475,49 @@ def validate_delivery(item, row_id, errors, canonical:)
     raw = git("show", "#{source['revision']}:#{source['path']}", allow_failure: true)
     blob = git("rev-parse", "#{source['revision']}:#{source['path']}", allow_failure: true)&.strip
     errors << "#{row_id}:review_source_tampered:#{key}" unless raw && blob == source["blob"] && Digest::SHA256.hexdigest(raw) == source["sha256"]
-  when "aggregate_child_review", "external_review_packet", "terminal_acceptance_record"
+  when "aggregate_child_review", "external_review_packet", "terminal_acceptance_record", "independent_exact_review"
     review_source = ROOT / source.fetch("path", "missing")
     errors << "#{row_id}:review_source_tampered:#{key}" unless review_source.file? && Digest::SHA256.file(review_source).hexdigest == source["sha256"]
-  when "github_pr_review_declaration"
-    errors << "#{row_id}:review_source_identity_mismatch:#{key}" unless source["repository"] == pr_repo && source["pull_request"] == pr_number && source["body_sha256"].to_s.match?(/\A[0-9a-f]{64}\z/)
   else
     errors << "#{row_id}:review_source_kind_invalid:#{key}"
   end
   terminal = item.fetch("terminal", {})
   begin
-    errors << "#{row_id}:terminal_authority_mismatch:#{key}" unless terminal == terminal_binding(issue_number, pr_number, head, merge)
+    errors << "#{row_id}:terminal_authority_mismatch:#{key}" unless terminal == terminal_binding(issue_repo, issue_number, pr_number, head, merge)
   rescue StandardError => error
     errors << "#{row_id}:terminal_authority_invalid:#{key}:#{error.message}"
   end
   roles = Array(item["proofs"]).map { |proof| proof["role"] }
   errors << "#{row_id}:proof_roles_incomplete:#{key}" unless roles == %w[positive negative integration platform]
+  proof_identities = Array(item["proofs"]).map { |proof| [proof["kind"], proof["path"], proof["check_id"], proof["validation_index"]] }
+  errors << "#{row_id}:proof_role_reuse:#{key}" unless proof_identities.uniq.length == proof_identities.length
   Array(item["proofs"]).each do |proof|
-    if proof["kind"] == "github_check"
+    case proof["kind"]
+    when "github_check"
       retained = Array(item.dig("checks", "successful")).find { |check| check["id"] == proof["check_id"] }
       errors << "#{row_id}:proof_check_substitution:#{key}:#{proof['role']}" unless retained && retained["name"] == proof["name"] && retained["head_sha"] == proof["head_sha"] && retained["conclusion"] == proof["conclusion"]
-      next
-    end
-    path = ROOT / proof.fetch("path", "missing")
-    errors << "#{row_id}:proof_content_tampered:#{key}:#{proof['role']}" unless path.file? && path.size == proof["bytes"] && Digest::SHA256.file(path).hexdigest == proof["sha256"]
-    if proof["json_schema"]
+      errors << "#{row_id}:proof_check_semantic_invalid:#{key}:#{proof['role']}" unless proof.dig("semantic", "schema") == "github.check_run.v1" && proof.dig("semantic", "success_semantic") == true && Array(proof.dig("semantic", "positive_denominators")).all? { |value| value.is_a?(Integer) && value.positive? }
+    when "independent_review_validation"
+      path = ROOT / proof.fetch("path", "missing")
       begin
         value = JSON.parse(path.read)
-        errors << "#{row_id}:proof_schema_tampered:#{key}:#{proof['role']}" unless value["schema"] == proof["json_schema"]
+        validation = Array(value["validation"]).fetch(proof["validation_index"])
+        outcome = validation["outcome"] || validation["result"]
+        denominator = Array(validation["denominator"] || validation["evidence"].to_s.scan(/\b[1-9][0-9]*\b/).map(&:to_i).uniq)
+        errors << "#{row_id}:review_validation_tampered:#{key}:#{proof['role']}" unless Digest::SHA256.file(path).hexdigest == proof["sha256"] && value["schema"] == "adl.issue467.independent_exact_review.v1" && value["reviewed_revision"] == head && validation["command"] == proof["command"] && outcome == "passed" && denominator == proof["denominator"] && denominator.any?
       rescue StandardError
-        errors << "#{row_id}:proof_schema_invalid:#{key}:#{proof['role']}"
+        errors << "#{row_id}:review_validation_invalid:#{key}:#{proof['role']}"
       end
+    when "retained_artifact"
+      path = ROOT / proof.fetch("path", "missing")
+      errors << "#{row_id}:proof_content_tampered:#{key}:#{proof['role']}" unless path.file? && path.size == proof["bytes"] && Digest::SHA256.file(path).hexdigest == proof["sha256"]
+      begin
+        errors << "#{row_id}:proof_semantic_tampered:#{key}:#{proof['role']}" unless path.file? && proof_semantics(path, proof["role"]) == proof["semantic"]
+      rescue StandardError
+        errors << "#{row_id}:proof_semantic_invalid:#{key}:#{proof['role']}"
+      end
+    else
+      errors << "#{row_id}:proof_kind_invalid:#{key}:#{proof['role']}"
     end
   end
   checks_receipt = item.fetch("checks", {})
@@ -443,9 +537,6 @@ def validate_delivery(item, row_id, errors, canonical:)
   errors << "#{row_id}:pr_not_merged:#{item['pull_request']}" unless pr["merged"] == true
   errors << "#{row_id}:pr_head_mismatch:#{item['pull_request']}" unless pr.dig("head", "sha") == item["pr_head"]
   errors << "#{row_id}:merge_sha_mismatch:#{item['pull_request']}" unless pr["merge_commit_sha"] == item["merge_sha"]
-  if source["kind"] == "github_pr_review_declaration"
-    errors << "#{row_id}:review_source_live_mismatch:#{key}" unless Digest::SHA256.hexdigest(pr.fetch("body").to_s) == source["body_sha256"]
-  end
   checks = github_checks(pr_repo, head)
   successful = checks.select { |check| check["status"] == "completed" && check["conclusion"] == "success" }
   if pr_repo == REPO

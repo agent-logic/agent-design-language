@@ -103,11 +103,11 @@ rebind!(delivery)
 reject!("fabricated-accepted-proof", tampered, "proof_content_tampered")
 
 tampered = copy(base)
-row = tampered["rows"].find { |item| Array(item.dig("evidence", "deliveries")).any? { |delivery| Array(delivery["proofs"]).any? { |proof| proof["json_schema"] } } }
-delivery = row["evidence"]["deliveries"].find { |item| Array(item["proofs"]).any? { |proof| proof["json_schema"] } }
-delivery["proofs"].find { |proof| proof["json_schema"] }["json_schema"] = "forged.schema.v1"
+row = tampered["rows"].find { |item| Array(item.dig("evidence", "deliveries")).any? { |delivery| Array(delivery["proofs"]).any? { |proof| proof.dig("semantic", "schema") } } }
+delivery = row["evidence"]["deliveries"].find { |item| Array(item["proofs"]).any? { |proof| proof.dig("semantic", "schema") } }
+delivery["proofs"].find { |proof| proof.dig("semantic", "schema") }["semantic"]["schema"] = "forged.schema.v1"
 rebind!(delivery)
-reject!("evidence-schema-tamper", tampered, "proof_schema_tampered")
+reject!("evidence-schema-tamper", tampered, "proof_semantic_tampered")
 
 tampered = copy(base)
 row = tampered["rows"].find { |item| item["disposition"] == "scoped_out" }
@@ -133,5 +133,57 @@ tampered = copy(base)
 tampered["rows"].each { |row| row["disposition"] = "blocked" }
 reject!("vacuous-all-blocked", tampered, "vacuous_all_blocked")
 
+tampered = copy(base)
+row = tampered["rows"].find { |item| item["disposition"] == "accepted" }
+delivery = row["evidence"]["deliveries"].first
+delivery["implementation_paths"] = [{ "path" => "docs/milestones/v0.92/WBS_v0.92.md", "class" => "documentation", "blob" => "0" * 40 }]
+rebind!(delivery)
+reject!("documentation-as-implementation", tampered, "implementation_class_invalid")
+
+tampered = copy(base)
+row = tampered["rows"].find { |item| item["disposition"] == "accepted" }
+delivery = row["evidence"]["deliveries"].first
+delivery["proofs"][1] = copy(delivery["proofs"][0]).merge("role" => "negative")
+rebind!(delivery)
+reject!("proof-role-reuse", tampered, "proof_role_reuse")
+
+tampered = copy(base)
+row = tampered["rows"].find { |item| item["disposition"] == "accepted" && item.dig("evidence", "deliveries", 0, "proofs", 0, "kind") == "retained_artifact" }
+delivery = row["evidence"]["deliveries"].first
+delivery["proofs"][0]["semantic"]["success_semantic"] = false
+rebind!(delivery)
+reject!("proof-semantic-substitution", tampered, "proof_semantic_tampered")
+
+tampered = copy(base)
+row = tampered["rows"].find { |item| Array(item.dig("evidence", "deliveries")).any? { |delivery| delivery["key"] == "refactor" } }
+delivery = row["evidence"]["deliveries"].find { |item| item["key"] == "refactor" }
+delivery["review"]["source"] = { "kind" => "github_pr_review_declaration", "repository" => "agent-logic/agent-design-language", "pull_request" => 465, "body_sha256" => "0" * 64 }
+rebind!(delivery)
+reject!("pr-body-review-substitution", tampered, "review_source_kind_invalid")
+
+normal_source, = terminal_source(449)
+normal_fixture = WORK / "tampered-derived-terminal.json"
+normal = JSON.parse(normal_source.read)
+normal["merge_sha"] = "0" * 40
+normal_fixture.write(JSON.pretty_generate(normal) + "\n")
+begin
+  verify_terminal_file(normal_fixture)
+  raise "tampered derived terminal unexpectedly passed"
+rescue RuntimeError => error
+  raise unless error.message.include?("terminal cryptographic verification failed")
+end
+
+recordless_source, = terminal_source(310)
+recordless_fixture = WORK / "tampered-recordless-closeout.json"
+recordless = JSON.parse(recordless_source.read)
+recordless["digest"] = "0" * 64
+recordless_fixture.write(JSON.pretty_generate(recordless) + "\n")
+begin
+  verify_terminal_file(recordless_fixture)
+  raise "tampered recordless closeout unexpectedly passed"
+rescue RuntimeError => error
+  raise unless error.message.include?("terminal cryptographic verification failed")
+end
+
 FileUtils.rm_rf(WORK)
-puts JSON.generate(schema: "adl.v0.92.quality_gate_adversarial_suite.v4", status: "passed", cases: 17, accepted: 30, scoped_out: 3, blocked: 0)
+puts JSON.generate(schema: "adl.v0.92.quality_gate_adversarial_suite.v4", status: "passed", cases: 23, accepted: 30, scoped_out: 3, blocked: 0)
