@@ -1,0 +1,55 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 471,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[Runtime v3] Make kernel wiring, contracts, and supervision authoritative",
+    "slug": "471-runtime-v3-authoritative-kernel-contracts",
+    "version": "v0.92.1",
+    "generation": 32
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "vpp",
+    "values": {
+      "summary": "Execute the smallest proving validation DAG.",
+      "lanes": [
+        {
+          "lane": "runtime-kernel-471",
+          "proof_role": "Prove all authoritative wiring, determinism, lifecycle, supervision, health, metrics, quality, and diff contracts.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2",
+            "AC-3",
+            "AC-4",
+            "AC-5",
+            "AC-6",
+            "AC-7",
+            "AC-8",
+            "AC-9",
+            "AC-10",
+            "AC-11"
+          ],
+          "deterministic": true,
+          "resource_profile": "medium",
+          "budget_seconds": 2520,
+          "budget_tokens": 12500,
+          "argv": [
+            "bash",
+            ".csdlc/prepared/issues/471/validate-runtime-kernel.sh"
+          ],
+          "parallel_group": "471-runtime-kernel",
+          "defer_reason": null
+        }
+      ],
+      "planned_validation_seconds": 7200,
+      "planned_validation_tokens": 50000,
+      "failure_policy": "Fail closed on invalid wiring, undeclared nondeterminism, unbounded queues or waits, restart-policy bypass, silent degradation, stale review, or any failing proof.",
+      "design_ref": ".csdlc/prepared/issues/471/design.md",
+      "design_digest": "e76587e9ef3715f10a06f01864232c1aef20bcdce560de0b43886a5d0963f307",
+      "diagram_ref": ".csdlc/prepared/issues/471/diagram.mmd",
+      "diagram_digest": "89bfa76f743d9eba8f8d1b99f14edbe0b05aa53185427cbe7b4c72a9f890b8aa"
+    }
+  }
+}

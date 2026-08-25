@@ -1,0 +1,73 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 471,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[Runtime v3] Make kernel wiring, contracts, and supervision authoritative",
+    "slug": "471-runtime-v3-authoritative-kernel-contracts",
+    "version": "v0.92.1",
+    "generation": 32
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "stp",
+    "values": {
+      "task_boundary": "Runtime v3 kernel architecture remediation only; no WP-27, cloud, provider, consensus, UI redesign, or Runtime v4 work.",
+      "deliverables": [
+        "adl-runtime-kernel/src/assembly.rs",
+        "adl-runtime-kernel/src/channel.rs",
+        "adl-runtime-kernel/src/cognition.rs",
+        "adl-runtime-kernel/src/component.rs",
+        "adl-runtime-kernel/src/contract.rs",
+        "adl-runtime-kernel/src/governance.rs",
+        "adl-runtime-kernel/src/ingress.rs",
+        "adl-runtime-kernel/src/lib.rs",
+        "adl-runtime-kernel/src/operations.rs",
+        "adl-runtime-kernel/src/proof.rs",
+        "adl-runtime-kernel/src/reasoning.rs",
+        "adl-runtime-kernel/src/supervisor.rs",
+        "adl-runtime-kernel/src/telemetry.rs",
+        "adl-runtime-kernel/src/time.rs",
+        "adl-runtime-kernel/src/topology.rs",
+        "adl-runtime-kernel/tests/assembly.rs",
+        "adl-runtime-kernel/tests/configuration.rs",
+        "adl-runtime-kernel/tests/contracts.rs",
+        "adl-runtime-kernel/tests/kernel.rs",
+        "adl-runtime-kernel/tests/production_acip_wss.rs",
+        "adl-runtime-kernel/tests/reasoning.rs",
+        ".csdlc/prepared/issues/471/design.md",
+        ".csdlc/prepared/issues/471/diagram.mmd",
+        ".csdlc/prepared/issues/471/validate-runtime-kernel.sh"
+      ],
+      "acceptance_criteria": [
+        "AC-1: Kernel-owned typed port registry makes declared wiring authoritative and rejects missing, duplicate, wrong-direction, wrong-protocol, and undeclared ports before spawn.",
+        "AC-2: Protocol identifiers, capacity, and overflow policy are stable versioned contract fields rather than Rust diagnostic names or hidden channel settings.",
+        "AC-3: Determinism declarations are enforced against explicit nondeterministic capabilities and lifecycle evidence.",
+        "AC-4: Independent components start concurrently by topological layer and failure is bounded and deterministic.",
+        "AC-5: Shutdown stops ingress first and drains dependents before dependencies, then flushes checkpoints and telemetry within bounded deadlines.",
+        "AC-6: Restart budgets are time-windowed and readiness failures follow the same declared failure policy as runtime failures.",
+        "AC-7: One-for-one and one-for-all supervision scopes are implemented using topology relationships.",
+        "AC-8: Degradation propagates capability loss to dependents and required-core degradation is terminal.",
+        "AC-9: Runtime health reports component readiness/liveness/restarts/capability/queue/shutdown state.",
+        "AC-10: Channel metrics are poison-free and cannot terminate the data path.",
+        "AC-11: Focused tests, existing kernel suites, strict Clippy, format, diff hygiene, and independent exact-head review pass."
+      ],
+      "dependencies": [],
+      "repo_inputs": [
+        "GitHub issue #471",
+        "operator-provided Runtime architecture review",
+        "adl-runtime-kernel current source and tests",
+        "Runtime v3 public API and operations surfaces"
+      ],
+      "non_goals": [
+        "WP-27 issue #315",
+        "Runtime v4",
+        "distributed consensus",
+        "AWS or GCP",
+        "model/provider changes",
+        "Observatory redesign"
+      ]
+    }
+  }
+}

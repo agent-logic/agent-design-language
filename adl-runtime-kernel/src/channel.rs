@@ -1,4 +1,7 @@
-use std::sync::{Arc, Mutex};
+use std::sync::{
+    atomic::{AtomicU64, Ordering},
+    Arc,
+};
 
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
@@ -22,23 +25,23 @@ pub enum SendError {
 #[derive(Clone, Debug)]
 pub struct ChannelMetrics {
     capacity: usize,
-    state: Arc<Mutex<ChannelMetricState>>,
+    state: Arc<ChannelMetricState>,
 }
 
-#[derive(Clone, Copy, Debug, Default)]
+#[derive(Debug, Default)]
 struct ChannelMetricState {
-    generation: u64,
-    sent: u64,
-    rejected: u64,
-    depth: u64,
-    high_water: u64,
+    generation: AtomicU64,
+    sent: AtomicU64,
+    rejected: AtomicU64,
+    depth: AtomicU64,
+    high_water: AtomicU64,
 }
 
 impl ChannelMetrics {
     fn new(capacity: usize) -> Self {
         Self {
             capacity,
-            state: Arc::new(Mutex::new(ChannelMetricState::default())),
+            state: Arc::new(ChannelMetricState::default()),
         }
     }
 
@@ -47,63 +50,52 @@ impl ChannelMetrics {
     }
 
     pub fn sent(&self) -> u64 {
-        self.state
-            .lock()
-            .expect("channel metrics mutex poisoned")
-            .sent
+        self.state.sent.load(Ordering::Relaxed)
     }
 
     pub fn rejected(&self) -> u64 {
-        self.state
-            .lock()
-            .expect("channel metrics mutex poisoned")
-            .rejected
+        self.state.rejected.load(Ordering::Relaxed)
     }
 
     pub fn depth(&self) -> u64 {
-        self.state
-            .lock()
-            .expect("channel metrics mutex poisoned")
-            .depth
+        self.state.depth.load(Ordering::Relaxed)
     }
 
     pub fn high_water(&self) -> u64 {
-        self.state
-            .lock()
-            .expect("channel metrics mutex poisoned")
-            .high_water
+        self.state.high_water.load(Ordering::Relaxed)
     }
 
     pub fn snapshot(&self) -> (u64, usize, u64, u64, u64, u64) {
-        let state = *self.state.lock().expect("channel metrics mutex poisoned");
         (
-            state.generation,
+            self.state.generation.load(Ordering::Acquire),
             self.capacity,
-            state.depth,
-            state.high_water,
-            state.sent,
-            state.rejected,
+            self.state.depth.load(Ordering::Acquire),
+            self.state.high_water.load(Ordering::Acquire),
+            self.state.sent.load(Ordering::Acquire),
+            self.state.rejected.load(Ordering::Acquire),
         )
     }
 
     fn record_rejected(&self) {
-        let mut state = self.state.lock().expect("channel metrics mutex poisoned");
-        state.generation += 1;
-        state.rejected += 1;
+        self.state.rejected.fetch_add(1, Ordering::Relaxed);
+        self.state.generation.fetch_add(1, Ordering::Release);
     }
 
     fn record_enqueue(&self) {
-        let mut state = self.state.lock().expect("channel metrics mutex poisoned");
-        state.generation += 1;
-        state.sent += 1;
-        state.depth += 1;
-        state.high_water = state.high_water.max(state.depth);
+        self.state.sent.fetch_add(1, Ordering::Relaxed);
+        let depth = self.state.depth.fetch_add(1, Ordering::AcqRel) + 1;
+        self.state.high_water.fetch_max(depth, Ordering::Relaxed);
+        self.state.generation.fetch_add(1, Ordering::Release);
     }
 
     fn record_dequeue(&self) {
-        let mut state = self.state.lock().expect("channel metrics mutex poisoned");
-        state.generation += 1;
-        state.depth = state.depth.saturating_sub(1);
+        let _ = self
+            .state
+            .depth
+            .fetch_update(Ordering::AcqRel, Ordering::Relaxed, |depth| {
+                Some(depth.saturating_sub(1))
+            });
+        self.state.generation.fetch_add(1, Ordering::Release);
     }
 }
 

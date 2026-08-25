@@ -220,6 +220,8 @@ impl QualifiedTimeFactory {
                 bounded_shutdown_millis: 1_000,
                 restart_safe: true,
                 idempotent_start: true,
+                role: crate::LifecycleRole::Workload,
+                required_core: false,
             },
             provides: vec![Capability {
                 name: "runtime.trusted_time".to_owned(),

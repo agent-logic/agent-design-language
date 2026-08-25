@@ -17,6 +17,15 @@ use adl_runtime_kernel::{
 use async_trait::async_trait;
 use semver::{Version, VersionReq};
 
+fn weather_port() -> PortSpec {
+    PortSpec::bounded(
+        "weather",
+        "adl.runtime.weather.sample.v1",
+        64,
+        adl_runtime_kernel::ChannelFullPolicy::Block,
+    )
+}
+
 fn component(id: &str, factory: &str, dependencies: &[&str]) -> ComponentConfig {
     ComponentConfig {
         id: ComponentId::new(id),
@@ -294,7 +303,7 @@ fn registration(config: &ComponentConfig) -> FactoryRegistration {
     let (inputs, outputs, provides, requires) = match config.factory.as_str() {
         "weather" => (
             vec![],
-            vec![PortSpec::typed::<WeatherSample>("weather")],
+            vec![weather_port()],
             vec![Capability {
                 name: "system.weather".to_owned(),
                 version: Version::new(1, 0, 0),
@@ -302,7 +311,7 @@ fn registration(config: &ComponentConfig) -> FactoryRegistration {
             vec![],
         ),
         "consumer" => (
-            vec![PortSpec::typed::<WeatherSample>("weather")],
+            vec![weather_port()],
             vec![],
             vec![],
             vec![CapabilityRequirement {
@@ -328,12 +337,14 @@ fn registration(config: &ComponentConfig) -> FactoryRegistration {
             service: config.id.to_string(),
             version: Version::new(1, 0, 0),
             config_schema: RUNTIME_CONFIG_SCHEMA.to_owned(),
-            determinism: DeterminismClass::GovernedNondeterministicShell,
+            determinism: DeterminismClass::DeterministicCore,
             lifecycle: LifecycleGuarantees {
                 readiness_required: true,
                 bounded_shutdown_millis: 1_000,
                 restart_safe: true,
                 idempotent_start: true,
+                role: adl_runtime_kernel::LifecycleRole::Workload,
+                required_core: false,
             },
             provides,
             requires,
@@ -374,6 +385,35 @@ fn declarative_registry_builds_contract_checked_topology_canonically() {
         .iter()
         .any(|provider| provider.service == "weather"));
     assert_eq!(built.effective_json(), second.canonical_json().unwrap());
+}
+
+#[test]
+fn deterministic_port_route_rejects_a_nondeterministic_provider() {
+    let mut registry = FactoryRegistry::new();
+    registry
+        .register("weather", |config| {
+            let mut registration = registration(config);
+            registration.contract.determinism = DeterminismClass::GovernedNondeterministicShell;
+            Ok(registration)
+        })
+        .register("consumer", |config| {
+            let mut registration = registration(config);
+            registration.contract.requires.clear();
+            Ok(registration)
+        });
+
+    assert!(matches!(
+        registry.construct(&config(vec![
+            component("weather", "weather", &[]),
+            component("sink", "consumer", &["weather"]),
+        ])),
+        Err(TopologyError::Contract(
+            adl_runtime_kernel::ContractError::NondeterministicDependency {
+                ref service,
+                ref capability,
+            }
+        )) if service == "sink" && capability == "port:weather"
+    ));
 }
 
 #[test]
@@ -780,7 +820,7 @@ fn configured_registry_fails_closed_for_factory_and_surface_drift() {
                 id: ComponentId::new("other"),
                 dependencies: vec![],
                 inputs: vec![],
-                outputs: vec![PortSpec::typed::<WeatherSample>("weather")],
+                outputs: vec![weather_port()],
                 failure_policy: FailurePolicy::Fatal,
             },
         });
@@ -789,6 +829,19 @@ fn configured_registry_fails_closed_for_factory_and_surface_drift() {
     assert!(matches!(
         wrong_identity.construct(&config(vec![component("weather", "weather", &[])])),
         Err(TopologyError::FactoryIdentity { .. })
+    ));
+
+    let mut lifecycle_drift = FactoryRegistry::new();
+    lifecycle_drift.register("weather", |config| {
+        let mut registration = registration(config);
+        registration.contract.lifecycle.required_core = true;
+        Ok(registration)
+    });
+    assert!(matches!(
+        lifecycle_drift.construct(&config(vec![component("weather", "weather", &[])])),
+        Err(TopologyError::Contract(
+            adl_runtime_kernel::ContractError::LifecycleAuthorityMismatch(id)
+        )) if id == ComponentId::new("weather")
     ));
 }
 

@@ -1,4 +1,9 @@
-use std::{collections::BTreeMap, panic::AssertUnwindSafe, sync::Arc, time::Duration};
+use std::{
+    collections::{BTreeMap, BTreeSet, VecDeque},
+    panic::AssertUnwindSafe,
+    sync::Arc,
+    time::{Duration, Instant},
+};
 
 use futures::FutureExt;
 use thiserror::Error;
@@ -10,8 +15,10 @@ use tokio::{
 use tokio_util::sync::CancellationToken;
 
 use crate::{
-    ComponentContext, ComponentFactory, ComponentId, FailurePolicy, LifecycleState, RunningState,
-    RuntimeEvent, RuntimeRecorder, ValidatedTopology,
+    component::{ComponentHealthSignal, ComponentLifecycle, RuntimePortRegistry},
+    Component, ComponentContext, ComponentFactory, ComponentId, FailurePolicy, LifecycleRole,
+    LifecycleState, RunningState, RuntimeEvent, RuntimeRecorder, SupervisionScope,
+    ValidatedTopology,
 };
 
 #[derive(Debug, Error)]
@@ -84,36 +91,146 @@ impl Kernel {
         started: oneshot::Sender<Result<(), KernelError>>,
     ) -> Result<KernelExit, KernelError> {
         let mut tasks = JoinSet::<ComponentCompletion>::new();
+        let ports = RuntimePortRegistry::new(
+            self.topology.factories.keys().cloned(),
+            self.topology.port_routes(),
+            self.topology.external_inputs(),
+            &self.recorder,
+        );
         let mut cancellations = BTreeMap::<ComponentId, CancellationToken>::new();
-        let mut restarts = BTreeMap::<ComponentId, u32>::new();
+        let mut incarnations = BTreeMap::<ComponentId, u64>::new();
+        let mut restarts = BTreeMap::<ComponentId, VecDeque<Instant>>::new();
+        let terminal_shutdown = CancellationToken::new();
+        let mut startup_unavailable = BTreeSet::<ComponentId>::new();
         let (restart_tx, mut restart_rx) =
             mpsc::channel::<(ComponentId, Arc<dyn ComponentFactory>)>(16);
-        let (readiness_tx, mut readiness_rx) = mpsc::channel::<(ComponentId, bool)>(16);
+        let (readiness_tx, mut readiness_rx) = mpsc::channel::<(ComponentId, u64, bool)>(16);
+        let (health_tx, mut health_rx) =
+            mpsc::channel::<(ComponentId, u64, ComponentHealthSignal)>(16);
 
-        for id in self.topology.startup_order() {
-            let factory = self.topology.factories[id].clone();
-            let (ready_tx, ready_rx) = oneshot::channel();
-            let cancellation = CancellationToken::new();
-            cancellations.insert(id.clone(), cancellation.clone());
-            self.recorder
-                .set_component_state(id.clone(), RunningState::Starting);
-            spawn_component(
-                &mut tasks,
-                factory,
-                cancellation,
-                self.recorder.clone(),
-                ready_tx,
-            );
-            match timeout(self.readiness_timeout, ready_rx).await {
-                Ok(Ok(())) => self
-                    .recorder
-                    .set_component_state(id.clone(), RunningState::Running),
-                _ => {
-                    self.recorder.set_lifecycle(LifecycleState::Failed);
-                    let error = KernelError::Readiness(id.clone());
-                    let _ = started.send(Err(KernelError::Readiness(id.clone())));
-                    cancel_all(&cancellations, self.topology.shutdown_order());
-                    return Err(error);
+        for layer in self.topology.dependency_layers() {
+            let mut readiness = Vec::with_capacity(layer.len());
+            for id in layer {
+                if startup_unavailable.contains(&id) {
+                    self.recorder.set_capability_unavailable(id.clone());
+                    self.recorder
+                        .set_component_state(id, RunningState::Degraded);
+                    continue;
+                }
+                let factory = self.topology.factories[&id].clone();
+                let component = factory.build();
+                let (ready_tx, ready_rx) = oneshot::channel();
+                let cancellation = CancellationToken::new();
+                cancellations.insert(id.clone(), cancellation.clone());
+                incarnations.insert(id.clone(), 0);
+                self.recorder
+                    .set_component_state(id.clone(), RunningState::Starting);
+                spawn_component(
+                    &mut tasks,
+                    component,
+                    id.clone(),
+                    cancellation,
+                    self.recorder.clone(),
+                    SpawnBindings {
+                        ports: ports.for_component(&id),
+                        ready: ready_tx,
+                        health: health_tx.clone(),
+                        incarnation: 0,
+                        terminal_shutdown: terminal_shutdown.clone(),
+                    },
+                );
+                readiness.push((id.clone(), ready_rx, self.topology.readiness_required(&id)));
+            }
+            for (id, mut ready_rx, readiness_required) in readiness {
+                if !readiness_required {
+                    self.recorder.set_component_state(id, RunningState::Running);
+                    continue;
+                }
+                loop {
+                    if matches!(timeout(self.readiness_timeout, ready_rx).await, Ok(Ok(()))) {
+                        self.recorder
+                            .set_component_state(id.clone(), RunningState::Running);
+                        break;
+                    }
+                    if let Some(cancellation) = cancellations.get(&id) {
+                        cancellation.cancel();
+                    }
+                    ports.close_component(&id).await;
+                    let factory = self.topology.factories[&id].clone();
+                    match failure_action(
+                        &factory.spec().failure_policy,
+                        restarts.entry(id.clone()).or_default(),
+                    ) {
+                        FailureAction::Restart { count, backoff, .. } => {
+                            self.recorder.set_restart_count(id.clone(), count);
+                            tokio::time::sleep(backoff).await;
+                            let incarnation = incarnations
+                                .entry(id.clone())
+                                .and_modify(|value| *value = value.saturating_add(1))
+                                .or_insert(1);
+                            let component = factory.build();
+                            ports.rebind_component(&id).await;
+                            let (next_ready_tx, next_ready_rx) = oneshot::channel();
+                            let cancellation = CancellationToken::new();
+                            cancellations.insert(id.clone(), cancellation.clone());
+                            self.recorder
+                                .set_component_state(id.clone(), RunningState::Restarting);
+                            spawn_component(
+                                &mut tasks,
+                                component,
+                                id.clone(),
+                                cancellation,
+                                self.recorder.clone(),
+                                SpawnBindings {
+                                    ports: ports.for_component(&id),
+                                    ready: next_ready_tx,
+                                    health: health_tx.clone(),
+                                    incarnation: *incarnation,
+                                    terminal_shutdown: terminal_shutdown.clone(),
+                                },
+                            );
+                            ready_rx = next_ready_rx;
+                        }
+                        FailureAction::Degrade => {
+                            startup_unavailable.extend(self.topology.transitive_dependents(&id));
+                            if apply_degradation(
+                                &self.topology,
+                                &cancellations,
+                                &self.recorder,
+                                &id,
+                            ) {
+                                self.recorder.set_lifecycle(LifecycleState::Failed);
+                                let error = KernelError::Readiness(id.clone());
+                                let _ = started.send(Err(KernelError::Readiness(id.clone())));
+                                drain_terminal(
+                                    &mut tasks,
+                                    &cancellations,
+                                    &incarnations,
+                                    &self.topology,
+                                    &self.recorder,
+                                    &terminal_shutdown,
+                                )
+                                .await;
+                                return Err(error);
+                            }
+                            break;
+                        }
+                        FailureAction::Fatal => {
+                            self.recorder.set_lifecycle(LifecycleState::Failed);
+                            let error = KernelError::Readiness(id.clone());
+                            let _ = started.send(Err(KernelError::Readiness(id.clone())));
+                            drain_terminal(
+                                &mut tasks,
+                                &cancellations,
+                                &incarnations,
+                                &self.topology,
+                                &self.recorder,
+                                &terminal_shutdown,
+                            )
+                            .await;
+                            return Err(error);
+                        }
+                    }
                 }
             }
         }
@@ -124,14 +241,24 @@ impl Kernel {
             tokio::select! {
                 command = commands.recv() => {
                     let Some(KernelCommand::Shutdown { grace, response }) = command else {
-                        cancel_all(&cancellations, self.topology.shutdown_order());
-                        return Ok(KernelExit::Clean);
+                        self.recorder.set_lifecycle(LifecycleState::Stopping);
+                        let exit = drain_terminal(
+                            &mut tasks,
+                            &cancellations,
+                            &incarnations,
+                            &self.topology,
+                            &self.recorder,
+                            &terminal_shutdown,
+                        ).await;
+                        return Ok(exit);
                     };
+                    terminal_shutdown.cancel();
                     self.recorder.set_lifecycle(LifecycleState::Stopping);
                     let exit = shutdown(
                         &mut tasks,
                         &cancellations,
-                        self.topology.shutdown_order(),
+                        &incarnations,
+                        shutdown_phases(&self.topology),
                         &self.recorder,
                         grace,
                     ).await;
@@ -143,31 +270,107 @@ impl Kernel {
                     return Ok(exit);
                 }
                 Some((id, factory)) = restart_rx.recv() => {
+                    let incarnation = incarnations
+                        .entry(id.clone())
+                        .and_modify(|value| *value = value.saturating_add(1))
+                        .or_insert(1);
+                    let incarnation = *incarnation;
+                    let component = factory.build();
+                    ports.rebind_component(&id).await;
                     let (ready_tx, ready_rx) = oneshot::channel();
                     let cancellation = CancellationToken::new();
                     cancellations.insert(id.clone(), cancellation.clone());
                     spawn_component(
                         &mut tasks,
-                        factory,
+                        component,
+                        id.clone(),
                         cancellation,
                         self.recorder.clone(),
-                        ready_tx,
+                        SpawnBindings {
+                            ports: ports.for_component(&id),
+                            ready: ready_tx,
+                            health: health_tx.clone(),
+                            incarnation,
+                            terminal_shutdown: terminal_shutdown.clone(),
+                        },
                     );
                     let readiness_tx = readiness_tx.clone();
                     let readiness_timeout = self.readiness_timeout;
+                    let readiness_required = self.topology.readiness_required(&id);
                     tokio::spawn(async move {
-                        let ready = matches!(timeout(readiness_timeout, ready_rx).await, Ok(Ok(())));
-                        let _ = readiness_tx.send((id, ready)).await;
+                        let ready = !readiness_required
+                            || matches!(timeout(readiness_timeout, ready_rx).await, Ok(Ok(())));
+                        let _ = readiness_tx.send((id, incarnation, ready)).await;
                     });
                 }
-                Some((id, ready)) = readiness_rx.recv() => {
+                Some((id, incarnation, ready)) = readiness_rx.recv() => {
+                    if !owns_live_incarnation(&cancellations, &incarnations, &id, incarnation) {
+                        continue;
+                    }
                     if ready {
                         self.recorder.set_component_state(id, RunningState::Running);
                     } else {
-                        self.recorder.set_lifecycle(LifecycleState::Failed);
-                        self.recorder.set_component_state(id.clone(), RunningState::Failed);
-                        cancel_all(&cancellations, self.topology.shutdown_order());
-                        return Ok(KernelExit::Fatal { component: id });
+                        if let Some(cancellation) = cancellations.get(&id) {
+                            cancellation.cancel();
+                        }
+                        ports.close_component(&id).await;
+                        let factory = self.topology.factories[&id].clone();
+                        match failure_action(
+                            &factory.spec().failure_policy,
+                            restarts.entry(id.clone()).or_default(),
+                        ) {
+                            FailureAction::Fatal => {
+                                self.recorder.set_lifecycle(LifecycleState::Failed);
+                                self.recorder.set_component_state(id.clone(), RunningState::Failed);
+                                drain_terminal(&mut tasks, &cancellations, &incarnations, &self.topology, &self.recorder, &terminal_shutdown).await;
+                                return Ok(KernelExit::Fatal { component: id });
+                            }
+                            FailureAction::Degrade => {
+                                if apply_degradation(
+                                    &self.topology,
+                                    &cancellations,
+                                    &self.recorder,
+                                    &id,
+                                ) {
+                                    self.recorder.set_lifecycle(LifecycleState::Failed);
+                                    drain_terminal(&mut tasks, &cancellations, &incarnations, &self.topology, &self.recorder, &terminal_shutdown).await;
+                                    return Ok(KernelExit::Fatal { component: id });
+                                }
+                            }
+                            FailureAction::Restart { count, backoff, scope } => {
+                                self.recorder.set_restart_count(id.clone(), count);
+                                schedule_restart_scope(
+                                    &self.topology,
+                                    &cancellations,
+                                    &self.recorder,
+                                    &restart_tx,
+                                    id,
+                                    factory,
+                                    backoff,
+                                    scope,
+                                );
+                            }
+                        }
+                    }
+                }
+                Some((id, incarnation, health)) = health_rx.recv() => {
+                    if !owns_live_incarnation(&cancellations, &incarnations, &id, incarnation) {
+                        continue;
+                    }
+                    match health {
+                        ComponentHealthSignal::Degraded => {
+                            ports.close_component(&id).await;
+                            if apply_degradation(
+                                &self.topology,
+                                &cancellations,
+                                &self.recorder,
+                                &id,
+                            ) {
+                                self.recorder.set_lifecycle(LifecycleState::Failed);
+                                drain_terminal(&mut tasks, &cancellations, &incarnations, &self.topology, &self.recorder, &terminal_shutdown).await;
+                                return Ok(KernelExit::Fatal { component: id });
+                            }
+                        }
                     }
                 }
                 completion = tasks.join_next(), if !tasks.is_empty() => {
@@ -177,6 +380,11 @@ impl Kernel {
                         message: error.to_string(),
                     })?;
                     let id = completion.id.clone();
+                    if incarnations.get(&id).copied() != Some(completion.incarnation) {
+                        continue;
+                    }
+                    cancellations.remove(&id);
+                    ports.close_component(&id).await;
                     if completion.cancelled {
                         self.recorder.set_component_state(id, RunningState::Stopped);
                         continue;
@@ -187,29 +395,47 @@ impl Kernel {
                             FailurePolicy::Fatal => {
                                 self.recorder.set_lifecycle(LifecycleState::Failed);
                                 self.recorder.set_component_state(id.clone(), RunningState::Failed);
-                                cancel_all(&cancellations, self.topology.shutdown_order());
+                                drain_terminal(&mut tasks, &cancellations, &incarnations, &self.topology, &self.recorder, &terminal_shutdown).await;
                                 return Ok(KernelExit::Fatal { component: id });
                             }
                             FailurePolicy::Degrade => {
-                                self.recorder.emit(Some(id.clone()), RuntimeEvent::ComponentDegraded);
-                                self.recorder.set_component_state(id, RunningState::Degraded);
-                            }
-                            FailurePolicy::Restart { max_restarts, backoff_millis } => {
-                                let count = restarts.entry(id.clone()).or_default();
-                                if *count >= max_restarts {
+                                if apply_degradation(
+                                    &self.topology,
+                                    &cancellations,
+                                    &self.recorder,
+                                    &id,
+                                ) {
                                     self.recorder.set_lifecycle(LifecycleState::Failed);
-                                    self.recorder.set_component_state(id.clone(), RunningState::Failed);
-                                    cancel_all(&cancellations, self.topology.shutdown_order());
+                                    drain_terminal(&mut tasks, &cancellations, &incarnations, &self.topology, &self.recorder, &terminal_shutdown).await;
                                     return Ok(KernelExit::Fatal { component: id });
                                 }
-                                *count += 1;
-                                self.recorder.set_restart_count(id.clone(), *count);
-                                self.recorder.set_component_state(id.clone(), RunningState::Restarting);
-                                let restart_tx = restart_tx.clone();
-                                tokio::spawn(async move {
-                                    tokio::time::sleep(Duration::from_millis(backoff_millis)).await;
-                                    let _ = restart_tx.send((id, factory)).await;
-                                });
+                            }
+                            FailurePolicy::Restart { .. } => {
+                                match failure_action(
+                                    &factory.spec().failure_policy,
+                                    restarts.entry(id.clone()).or_default(),
+                                ) {
+                                    FailureAction::Restart { count, backoff, scope } => {
+                                        self.recorder.set_restart_count(id.clone(), count);
+                                        schedule_restart_scope(
+                                            &self.topology,
+                                            &cancellations,
+                                            &self.recorder,
+                                            &restart_tx,
+                                            id,
+                                            factory,
+                                            backoff,
+                                            scope,
+                                        );
+                                    }
+                                    FailureAction::Fatal => {
+                                        self.recorder.set_lifecycle(LifecycleState::Failed);
+                                        self.recorder.set_component_state(id.clone(), RunningState::Failed);
+                                        drain_terminal(&mut tasks, &cancellations, &incarnations, &self.topology, &self.recorder, &terminal_shutdown).await;
+                                        return Ok(KernelExit::Fatal { component: id });
+                                    }
+                                    FailureAction::Degrade => unreachable!("restart policy cannot degrade"),
+                                }
                             }
                         }
                     } else {
@@ -219,6 +445,18 @@ impl Kernel {
             }
         }
     }
+}
+
+fn owns_live_incarnation(
+    cancellations: &BTreeMap<ComponentId, CancellationToken>,
+    incarnations: &BTreeMap<ComponentId, u64>,
+    id: &ComponentId,
+    incarnation: u64,
+) -> bool {
+    incarnations.get(id).copied() == Some(incarnation)
+        && cancellations
+            .get(id)
+            .is_some_and(|cancellation| !cancellation.is_cancelled())
 }
 
 #[derive(Clone)]
@@ -298,19 +536,134 @@ struct ComponentCompletion {
     id: ComponentId,
     error: Option<String>,
     cancelled: bool,
+    incarnation: u64,
+}
+
+enum FailureAction {
+    Fatal,
+    Degrade,
+    Restart {
+        count: u32,
+        backoff: Duration,
+        scope: SupervisionScope,
+    },
+}
+
+fn failure_action(policy: &FailurePolicy, history: &mut VecDeque<Instant>) -> FailureAction {
+    match *policy {
+        FailurePolicy::Fatal => FailureAction::Fatal,
+        FailurePolicy::Degrade => FailureAction::Degrade,
+        FailurePolicy::Restart {
+            max_restarts,
+            backoff_millis,
+            window_millis,
+            scope,
+        } => {
+            let now = Instant::now();
+            let window = Duration::from_millis(window_millis);
+            while history
+                .front()
+                .is_some_and(|observed| now.duration_since(*observed) >= window)
+            {
+                history.pop_front();
+            }
+            if history.len() >= max_restarts as usize {
+                FailureAction::Fatal
+            } else {
+                history.push_back(now);
+                FailureAction::Restart {
+                    count: history.len().try_into().unwrap_or(u32::MAX),
+                    backoff: Duration::from_millis(backoff_millis),
+                    scope,
+                }
+            }
+        }
+    }
+}
+
+#[allow(clippy::too_many_arguments)]
+fn schedule_restart_scope(
+    topology: &ValidatedTopology,
+    cancellations: &BTreeMap<ComponentId, CancellationToken>,
+    recorder: &RuntimeRecorder,
+    restart_tx: &mpsc::Sender<(ComponentId, Arc<dyn ComponentFactory>)>,
+    id: ComponentId,
+    factory: Arc<dyn ComponentFactory>,
+    backoff: Duration,
+    scope: SupervisionScope,
+) {
+    let mut members = vec![(id.clone(), factory)];
+    if scope == SupervisionScope::OneForAll {
+        members.extend(
+            topology
+                .transitive_dependents(&id)
+                .into_iter()
+                .map(|dependent| {
+                    let factory = topology.factories[&dependent].clone();
+                    (dependent, factory)
+                }),
+        );
+    }
+    for (member, factory) in members {
+        if let Some(cancellation) = cancellations.get(&member) {
+            cancellation.cancel();
+        }
+        recorder.set_component_state(member.clone(), RunningState::Restarting);
+        let restart_tx = restart_tx.clone();
+        tokio::spawn(async move {
+            tokio::time::sleep(backoff).await;
+            let _ = restart_tx.send((member, factory)).await;
+        });
+    }
+}
+
+fn apply_degradation(
+    topology: &ValidatedTopology,
+    cancellations: &BTreeMap<ComponentId, CancellationToken>,
+    recorder: &RuntimeRecorder,
+    id: &ComponentId,
+) -> bool {
+    recorder.emit(Some(id.clone()), RuntimeEvent::ComponentDegraded);
+    recorder.set_component_state(id.clone(), RunningState::Degraded);
+    for dependent in topology.transitive_dependents(id) {
+        recorder.emit(Some(dependent.clone()), RuntimeEvent::CapabilityUnavailable);
+        if let Some(cancellation) = cancellations.get(&dependent) {
+            cancellation.cancel();
+        }
+        recorder.set_capability_unavailable(dependent);
+    }
+    topology.is_required_core(id)
 }
 
 fn spawn_component(
     tasks: &mut JoinSet<ComponentCompletion>,
-    factory: Arc<dyn ComponentFactory>,
+    component: Box<dyn Component>,
+    id: ComponentId,
     cancellation: CancellationToken,
     recorder: RuntimeRecorder,
-    ready: oneshot::Sender<()>,
+    bindings: SpawnBindings,
 ) {
-    let id = factory.spec().id;
+    let SpawnBindings {
+        ports,
+        ready,
+        health,
+        incarnation,
+        terminal_shutdown,
+    } = bindings;
     tasks.spawn(async move {
-        let context = ComponentContext::new(id.clone(), cancellation.clone(), recorder, ready);
-        let outcome = AssertUnwindSafe(factory.build().run(context))
+        let context = ComponentContext::new(
+            id.clone(),
+            ComponentLifecycle {
+                cancellation: cancellation.clone(),
+                terminal_shutdown,
+                incarnation,
+            },
+            recorder,
+            ports,
+            ready,
+            health,
+        );
+        let outcome = AssertUnwindSafe(component.run(context))
             .catch_unwind()
             .await;
         let error = match outcome {
@@ -322,52 +675,117 @@ fn spawn_component(
             id,
             error,
             cancelled: cancellation.is_cancelled(),
+            incarnation,
         }
     });
 }
 
-fn cancel_all(
+struct SpawnBindings {
+    ports: crate::component::ComponentPorts,
+    ready: oneshot::Sender<()>,
+    health: mpsc::Sender<(ComponentId, u64, ComponentHealthSignal)>,
+    incarnation: u64,
+    terminal_shutdown: CancellationToken,
+}
+
+async fn drain_terminal(
+    tasks: &mut JoinSet<ComponentCompletion>,
     cancellations: &BTreeMap<ComponentId, CancellationToken>,
-    shutdown_order: &[ComponentId],
-) {
-    for id in shutdown_order {
-        if let Some(cancellation) = cancellations.get(id) {
-            cancellation.cancel();
-        }
-    }
+    incarnations: &BTreeMap<ComponentId, u64>,
+    topology: &ValidatedTopology,
+    recorder: &RuntimeRecorder,
+    terminal_shutdown: &CancellationToken,
+) -> KernelExit {
+    terminal_shutdown.cancel();
+    shutdown(
+        tasks,
+        cancellations,
+        incarnations,
+        shutdown_phases(topology),
+        recorder,
+        Duration::from_secs(30),
+    )
+    .await
 }
 
 async fn shutdown(
     tasks: &mut JoinSet<ComponentCompletion>,
     cancellations: &BTreeMap<ComponentId, CancellationToken>,
-    shutdown_order: &[ComponentId],
+    incarnations: &BTreeMap<ComponentId, u64>,
+    shutdown_phases: Vec<ShutdownPhase>,
     recorder: &RuntimeRecorder,
     grace: Duration,
 ) -> KernelExit {
-    for id in shutdown_order {
-        recorder.set_component_state(id.clone(), RunningState::Stopping);
-        if let Some(cancellation) = cancellations.get(id) {
-            cancellation.cancel();
-        }
-    }
+    let shutdown_order = shutdown_phases
+        .iter()
+        .map(|phase| phase.component.clone())
+        .collect::<Vec<_>>();
     let drain = async {
         let mut failed = Vec::new();
-        while let Some(completion) = tasks.join_next().await {
-            if let Ok(completion) = completion {
-                if completion.error.is_some() {
-                    recorder.set_component_state(completion.id.clone(), RunningState::Failed);
-                    failed.push(completion.id);
-                } else {
-                    recorder.set_component_state(completion.id, RunningState::Stopped);
+        for phase in shutdown_phases {
+            let id = phase.component;
+            let snapshot = recorder.snapshot();
+            let active = cancellations.contains_key(&id)
+                && matches!(
+                    snapshot.components.get(&id),
+                    Some(
+                        RunningState::Starting
+                            | RunningState::Ready
+                            | RunningState::Running
+                            | RunningState::Degraded
+                            | RunningState::Restarting
+                            | RunningState::Stopping
+                    )
+                );
+            if active {
+                recorder.set_component_state(id.clone(), RunningState::Stopping);
+                if let Some(cancellation) = cancellations.get(&id) {
+                    cancellation.cancel();
                 }
             }
+            let wait = async {
+                if active {
+                    loop {
+                        let Some(completion) = tasks.join_next().await else {
+                            break;
+                        };
+                        if let Ok(completion) = completion {
+                            if incarnations.get(&completion.id).copied()
+                                != Some(completion.incarnation)
+                            {
+                                continue;
+                            }
+                            let target_complete = completion.id == id;
+                            if completion.error.is_some() {
+                                recorder.set_component_state(
+                                    completion.id.clone(),
+                                    RunningState::Failed,
+                                );
+                                failed.push(completion.id);
+                            } else {
+                                recorder.set_component_state(completion.id, RunningState::Stopped);
+                            }
+                            if target_complete {
+                                break;
+                            }
+                        }
+                    }
+                }
+            };
+            if let Some(bound) = phase.bound {
+                if timeout(bound, wait).await.is_err() {
+                    return Err(());
+                }
+            } else {
+                wait.await;
+            }
         }
-        failed
+        Ok(failed)
     };
     match timeout(grace, drain).await {
-        Ok(failed) if failed.is_empty() => KernelExit::Clean,
-        Ok(components) => KernelExit::ShutdownFailed { components },
-        Err(_) => {
+        Ok(Ok(failed)) if failed.is_empty() => KernelExit::Clean,
+        Ok(Ok(components)) => KernelExit::ShutdownFailed { components },
+        Ok(Err(())) | Err(_) => {
             let aborted = shutdown_order
                 .iter()
                 .filter(|id| {
@@ -378,5 +796,70 @@ async fn shutdown(
             tasks.abort_all();
             KernelExit::ShutdownDeadlineExceeded { aborted }
         }
+    }
+}
+
+struct ShutdownPhase {
+    component: ComponentId,
+    bound: Option<Duration>,
+}
+
+fn shutdown_phases(topology: &ValidatedTopology) -> Vec<ShutdownPhase> {
+    let mut layers = topology.dependency_layers();
+    layers.reverse();
+    let ordered = layers.into_iter().flatten().collect::<Vec<_>>();
+    let mut phases = Vec::new();
+    for role in [
+        LifecycleRole::Ingress,
+        LifecycleRole::Workload,
+        LifecycleRole::Checkpoint,
+        LifecycleRole::Telemetry,
+        LifecycleRole::Egress,
+    ] {
+        phases.extend(
+            ordered
+                .iter()
+                .filter(|id| topology.factories[*id].lifecycle_role() == role)
+                .map(|id| ShutdownPhase {
+                    component: id.clone(),
+                    bound: topology.shutdown_bound(id),
+                }),
+        );
+    }
+    phases
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn queued_signal_requires_uncancelled_current_live_ownership() {
+        let id = ComponentId::new("component");
+        let token = CancellationToken::new();
+        let mut cancellations = BTreeMap::from([(id.clone(), token.clone())]);
+        let incarnations = BTreeMap::from([(id.clone(), 7)]);
+
+        assert!(owns_live_incarnation(&cancellations, &incarnations, &id, 7));
+        assert!(!owns_live_incarnation(
+            &cancellations,
+            &incarnations,
+            &id,
+            6
+        ));
+        token.cancel();
+        assert!(!owns_live_incarnation(
+            &cancellations,
+            &incarnations,
+            &id,
+            7
+        ));
+        cancellations.remove(&id);
+        assert!(!owns_live_incarnation(
+            &cancellations,
+            &incarnations,
+            &id,
+            7
+        ));
     }
 }

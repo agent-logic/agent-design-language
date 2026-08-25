@@ -551,25 +551,9 @@ async fn production_binary_acip_wss_produces_observed_receipt() {
 }
 
 #[tokio::test]
-async fn canonical_ingress_applies_bounded_pressure() {
+async fn canonical_ingress_refuses_before_kernel_port_binding() {
     let ingress = CanonicalIngress::new(1, RuntimeRecorder::new(8), BTreeMap::new());
-    let pending_ingress = ingress.clone();
-    let pending = tokio::spawn(async move {
-        pending_ingress
-            .submit(
-                DomainWork {
-                    schema: DOMAIN_WORK_SCHEMA.to_owned(),
-                    work_id: "pressure-pending".to_owned(),
-                    kind: "agent_runtime".to_owned(),
-                    payload: br#"{"schema":"adl.runtime.local_agent_work.v1"}"#.to_vec(),
-                },
-                "pressure-pending".to_owned(),
-            )
-            .await
-    });
-    tokio::task::yield_now().await;
-
-    let saturated = ingress
+    let refused = ingress
         .submit(
             DomainWork {
                 schema: DOMAIN_WORK_SCHEMA.to_owned(),
@@ -580,6 +564,5 @@ async fn canonical_ingress_applies_bounded_pressure() {
             "pressure-rejected".to_owned(),
         )
         .await;
-    assert_eq!(saturated, Err(IngressError::Saturated));
-    pending.abort();
+    assert_eq!(refused, Err(IngressError::Closed));
 }

@@ -14,7 +14,7 @@ use tokio_util::sync::CancellationToken;
 use crate::{
     validate_replay, Capability, CapabilityRequirement, CheckpointParticipant, Component,
     ComponentContext, ComponentError, ComponentFactory, ComponentId, ComponentSpec,
-    DeterminismClass, FailurePolicy, LifecycleGuarantees, PortSpec, ReplayEvent, ServiceContract,
+    DeterminismClass, FailurePolicy, LifecycleGuarantees, ReplayEvent, ServiceContract,
     SERVICE_CONTRACT_SCHEMA,
 };
 
@@ -1096,6 +1096,10 @@ pub struct ReasoningEnvelope {
     pub correlation_id: String,
 }
 
+impl crate::PortProtocol for ReasoningEnvelope {
+    const PROTOCOL: &'static str = "adl.runtime.reasoning.envelope.v1";
+}
+
 #[derive(Clone)]
 pub struct ReasoningComponentFactory {
     spec: ComponentSpec,
@@ -1247,9 +1251,8 @@ pub fn reasoning_component_specs() -> Vec<ComponentSpec> {
         "mutation_gate",
     ];
     ids.into_iter()
-        .map(|id| ComponentSpec {
-            id: ComponentId::new(id),
-            dependencies: match id {
+        .map(|id| {
+            let dependencies = match id {
                 "loop_executor" => vec![ComponentId::new("reasoning_graph")],
                 "evaluation_feedback" => vec![ComponentId::new("loop_executor")],
                 "adaptation_state" => vec![ComponentId::new("evaluation_feedback")],
@@ -1258,14 +1261,14 @@ pub fn reasoning_component_specs() -> Vec<ComponentSpec> {
                     ComponentId::new("reasoning_graph"),
                 ],
                 _ => vec![],
-            },
-            inputs: if id == "reasoning_graph" {
-                vec![]
-            } else {
-                vec![PortSpec::typed::<ReasoningEnvelope>("reasoning")]
-            },
-            outputs: vec![PortSpec::typed::<ReasoningEnvelope>("reasoning")],
-            failure_policy: FailurePolicy::Fatal,
+            };
+            ComponentSpec {
+                id: ComponentId::new(id),
+                dependencies,
+                inputs: Vec::new(),
+                outputs: Vec::new(),
+                failure_policy: FailurePolicy::Fatal,
+            }
         })
         .collect()
 }
@@ -1307,6 +1310,8 @@ pub fn reasoning_service_contracts() -> Vec<ServiceContract> {
                     bounded_shutdown_millis: 1_000,
                     restart_safe: true,
                     idempotent_start: name != "loop_executor",
+                    role: crate::LifecycleRole::Workload,
+                    required_core: false,
                 },
                 provides: vec![Capability {
                     name: format!("reasoning.{name}"),

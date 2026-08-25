@@ -1,7 +1,10 @@
 use std::{
     collections::{BTreeMap, BTreeSet},
     num::NonZeroUsize,
-    sync::{Arc, Mutex as StdMutex},
+    sync::{
+        atomic::{AtomicU64, Ordering},
+        Arc, Mutex as StdMutex,
+    },
     time::Duration,
 };
 
@@ -15,11 +18,11 @@ use tokio::sync::{Mutex, RwLock, Semaphore};
 use tokio_util::sync::CancellationToken;
 
 use crate::{
-    channel, BoundedReceiver, BoundedSender, Capability, CapabilityRequirement, ChannelFullPolicy,
-    Component, ComponentContext, ComponentError, ComponentFactory, ComponentId, ComponentSpec,
-    DeterminismClass, ExecutionPermit, FailurePolicy, LifecycleGuarantees, ParityBExecutor,
-    ParityBRequest, PortSpec, SendError, ServiceContract, PARITY_B_REQUEST_SCHEMA,
-    SERVICE_CONTRACT_SCHEMA,
+    Capability, CapabilityRequirement, ChannelFullPolicy, Component, ComponentContext,
+    ComponentError, ComponentFactory, ComponentId, ComponentSpec, DeterminismClass,
+    ExecutionPermit, ExternalInput, ExternalInputBinding, FailurePolicy, LifecycleGuarantees,
+    ParityBExecutor, ParityBRequest, PortAccessError, PortProtocol, PortSpec, ServiceContract,
+    PARITY_B_REQUEST_SCHEMA, SERVICE_CONTRACT_SCHEMA,
 };
 
 pub const OPERATION_REQUEST_SCHEMA: &str = "adl.runtime.operation_request.v1";
@@ -146,6 +149,10 @@ pub struct OperationResult {
     pub payload: Vec<u8>,
 }
 
+impl crate::PortProtocol for OperationResult {
+    const PROTOCOL: &'static str = "adl.runtime.operation.result.v1";
+}
+
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum FailureClass {
     Retryable,
@@ -265,8 +272,18 @@ impl Drop for InFlightOwnerGuard<'_> {
     }
 }
 
+#[derive(Clone, Debug, Serialize, Deserialize)]
 struct OperationEnvelope {
+    nonce: u64,
     request: OperationRequest,
+}
+
+impl PortProtocol for OperationEnvelope {
+    const PROTOCOL: &'static str = "adl.runtime.operation.external_request.v1";
+}
+
+struct PendingOperation {
+    incarnation: u64,
     cancellation: CancellationToken,
     reply: oneshot::Sender<OperationOutcome>,
 }
@@ -286,15 +303,17 @@ pub struct OperationalFactory {
     adapter: Arc<OperationalAdapter>,
     dependencies: Vec<ComponentId>,
     inputs: Vec<PortSpec>,
-    sender: BoundedSender<OperationEnvelope>,
-    receiver: Arc<Mutex<BoundedReceiver<OperationEnvelope>>>,
+    external_input: ExternalInput<OperationEnvelope>,
+    pending: Arc<Mutex<BTreeMap<u64, PendingOperation>>>,
+    nonce: Arc<AtomicU64>,
+    next_incarnation: Arc<AtomicU64>,
+    active_incarnation: Arc<AtomicU64>,
     accepting: Arc<RwLock<bool>>,
 }
 
 impl OperationalFactory {
     pub fn new(adapter: Arc<OperationalAdapter>, dependencies: Vec<ComponentId>) -> Self {
-        let inputs = adapter.spec(dependencies.clone()).inputs;
-        Self::with_inputs(adapter, dependencies, inputs)
+        Self::with_inputs(adapter, dependencies, Vec::new())
     }
 
     pub fn with_control_dependencies(
@@ -309,13 +328,24 @@ impl OperationalFactory {
         dependencies: Vec<ComponentId>,
         inputs: Vec<PortSpec>,
     ) -> Self {
-        let (sender, receiver) = channel(adapter.policy.capacity, ChannelFullPolicy::Reject);
+        let external_input = ExternalInput::new(
+            "runtime.operation.requests",
+            adapter.policy.capacity,
+            ChannelFullPolicy::Reject,
+        );
         Self {
             adapter,
             dependencies,
-            inputs,
-            sender,
-            receiver: Arc::new(Mutex::new(receiver)),
+            inputs: if inputs.is_empty() {
+                vec![external_input.spec()]
+            } else {
+                inputs
+            },
+            external_input,
+            pending: Arc::new(Mutex::new(BTreeMap::new())),
+            nonce: Arc::new(AtomicU64::new(0)),
+            next_incarnation: Arc::new(AtomicU64::new(0)),
+            active_incarnation: Arc::new(AtomicU64::new(0)),
             accepting: Arc::new(RwLock::new(true)),
         }
     }
@@ -379,17 +409,26 @@ impl OperationalFactory {
             return Err(OperationError::AdmissionClosed);
         }
         let (reply, result) = oneshot::channel();
-        self.sender
-            .send(OperationEnvelope {
-                request,
+        let nonce = self.nonce.fetch_add(1, Ordering::Relaxed);
+        self.pending.lock().await.insert(
+            nonce,
+            PendingOperation {
+                incarnation: self.active_incarnation.load(Ordering::Acquire),
                 cancellation,
                 reply,
-            })
+            },
+        );
+        if let Err(error) = self
+            .external_input
+            .send(&OperationEnvelope { nonce, request })
             .await
-            .map_err(|error| match error {
-                SendError::Full => OperationError::Saturated,
-                SendError::Closed => OperationError::Fatal("component inbox closed".to_owned()),
-            })?;
+        {
+            self.pending.lock().await.remove(&nonce);
+            return Err(match error {
+                PortAccessError::Full(_) => OperationError::Saturated,
+                _ => OperationError::Fatal("component inbox closed".to_owned()),
+            });
+        }
         drop(accepting);
         result
             .await
@@ -419,8 +458,27 @@ async fn set_continuity_admission_open_bounded(
 
 struct OperationalComponent {
     adapter: Arc<OperationalAdapter>,
-    receiver: Arc<Mutex<BoundedReceiver<OperationEnvelope>>>,
+    pending: Arc<Mutex<BTreeMap<u64, PendingOperation>>>,
     accepting: Arc<RwLock<bool>>,
+    active_incarnation: Arc<AtomicU64>,
+    incarnation: u64,
+}
+
+fn take_pending_operations(
+    pending: &mut BTreeMap<u64, PendingOperation>,
+    incarnation: u64,
+) -> Vec<PendingOperation> {
+    let keys = pending
+        .iter()
+        .filter_map(|(nonce, pending)| (pending.incarnation == incarnation).then_some(*nonce))
+        .collect::<Vec<_>>();
+    keys.into_iter()
+        .filter_map(|nonce| pending.remove(&nonce))
+        .collect()
+}
+
+fn owns_terminal_cleanup(terminal: bool, active: u64, incarnation: u64) -> bool {
+    terminal && active == incarnation
 }
 
 #[async_trait]
@@ -432,12 +490,12 @@ impl Component for OperationalComponent {
         loop {
             tokio::select! {
                 _ = context.cancellation.cancelled() => {
-                    *self.accepting.write().await = false;
-                    let mut receiver = self.receiver.lock().await;
-                    while let Ok(envelope) = receiver.try_recv() {
-                        let _ = envelope.reply.send(Err(OperationError::AdmissionClosed));
+                    let mut pending = self.pending.lock().await;
+                    let stale = take_pending_operations(&mut pending, self.incarnation);
+                    drop(pending);
+                    for pending in stale {
+                        let _ = pending.reply.send(Err(OperationError::AdmissionClosed));
                     }
-                    drop(receiver);
                     let shutdown_grace =
                         Duration::from_millis(self.adapter.policy.shutdown_grace_millis);
                     if tokio::time::timeout(shutdown_grace, async {
@@ -449,18 +507,26 @@ impl Component for OperationalComponent {
                         tasks.abort_all();
                         while tasks.join_next().await.is_some() {}
                     }
-                    self.adapter.executor.shutdown().await.map_err(|error| {
-                        ComponentError::new(format!(
-                            "{} adapter shutdown failed: {}",
-                            self.adapter.kind.service_name(),
-                            error.message
-                        ))
-                    })?;
+                    if owns_terminal_cleanup(
+                        context.terminal_shutdown.is_cancelled(),
+                        self.active_incarnation.load(Ordering::Acquire),
+                        self.incarnation,
+                    ) {
+                        *self.accepting.write().await = false;
+                        self.adapter.executor.shutdown().await.map_err(|error| {
+                            ComponentError::new(format!(
+                                "{} adapter shutdown failed: {}",
+                                self.adapter.kind.service_name(),
+                                error.message
+                            ))
+                        })?;
+                    }
                     return Ok(());
                 },
                 Some(_) = tasks.join_next(), if !tasks.is_empty() => {},
-                envelope = async { self.receiver.lock().await.recv().await }, if tasks.len() < max_in_flight => {
-                    let Some(envelope) = envelope else { return Ok(()); };
+                envelope = context.recv::<OperationEnvelope>("runtime.operation.requests"), if tasks.len() < max_in_flight => {
+                    let Some(envelope) = envelope.map_err(|error| ComponentError::new(error.to_string()))? else { return Ok(()); };
+                    let Some(pending) = self.pending.lock().await.remove(&envelope.nonce) else { continue; };
                     let adapter = self.adapter.clone();
                     let lifecycle_cancellation = context.cancellation.child_token();
                     tasks.spawn(async move {
@@ -470,12 +536,12 @@ impl Component for OperationalComponent {
                         tokio::pin!(invocation);
                         let result = tokio::select! {
                             result = &mut invocation => result,
-                            _ = envelope.cancellation.cancelled() => {
+                            _ = pending.cancellation.cancelled() => {
                                 cancellation.cancel();
                                 invocation.await
                             }
                         };
-                        let _ = envelope.reply.send(result);
+                        let _ = pending.reply.send(result);
                     });
                 }
             }
@@ -491,11 +557,20 @@ impl ComponentFactory for OperationalFactory {
     }
 
     fn build(&self) -> Box<dyn Component> {
+        let incarnation = self.next_incarnation.fetch_add(1, Ordering::AcqRel);
+        self.active_incarnation
+            .store(incarnation, Ordering::Release);
         Box::new(OperationalComponent {
             adapter: self.adapter.clone(),
-            receiver: self.receiver.clone(),
+            pending: self.pending.clone(),
             accepting: self.accepting.clone(),
+            active_incarnation: self.active_incarnation.clone(),
+            incarnation,
         })
+    }
+
+    fn external_inputs(&self) -> Vec<ExternalInputBinding> {
+        vec![self.external_input.binding()]
     }
 }
 
@@ -763,13 +838,9 @@ impl OperationalAdapter {
     pub fn spec(&self, dependencies: Vec<ComponentId>) -> ComponentSpec {
         ComponentSpec {
             id: ComponentId::new(self.kind.service_name()),
-            inputs: if dependencies.is_empty() {
-                Vec::new()
-            } else {
-                vec![PortSpec::typed::<OperationResult>("results")]
-            },
+            inputs: Vec::new(),
             dependencies,
-            outputs: vec![PortSpec::typed::<OperationResult>("results")],
+            outputs: Vec::new(),
             failure_policy: FailurePolicy::restart(3, Duration::from_millis(100)),
         }
     }
@@ -800,6 +871,8 @@ impl OperationalAdapter {
                     .saturating_mul(u64::from(self.policy.max_attempts)),
                 restart_safe: true,
                 idempotent_start: true,
+                role: crate::LifecycleRole::Workload,
+                required_core: false,
             },
             provides: vec![Capability {
                 name: self.kind.capability(),
@@ -903,6 +976,43 @@ pub fn validate_operational_dependencies(
 #[cfg(test)]
 mod continuity_resume_tests {
     use super::*;
+
+    #[test]
+    fn delayed_old_incarnation_only_drains_its_requests_and_never_owns_replacement_cleanup() {
+        let (old_reply, old_result) = oneshot::channel();
+        let (new_reply, mut new_result) = oneshot::channel();
+        let mut pending = BTreeMap::from([
+            (
+                1,
+                PendingOperation {
+                    incarnation: 0,
+                    cancellation: CancellationToken::new(),
+                    reply: old_reply,
+                },
+            ),
+            (
+                2,
+                PendingOperation {
+                    incarnation: 1,
+                    cancellation: CancellationToken::new(),
+                    reply: new_reply,
+                },
+            ),
+        ]);
+        for pending in take_pending_operations(&mut pending, 0) {
+            let _ = pending.reply.send(Err(OperationError::AdmissionClosed));
+        }
+        assert_eq!(
+            old_result.blocking_recv().unwrap(),
+            Err(OperationError::AdmissionClosed)
+        );
+        assert!(matches!(
+            new_result.try_recv(),
+            Err(tokio::sync::oneshot::error::TryRecvError::Empty)
+        ));
+        assert!(!owns_terminal_cleanup(true, 1, 0));
+        assert!(owns_terminal_cleanup(true, 1, 1));
+    }
 
     #[tokio::test]
     async fn cancellation_while_waiting_never_reopens_after_release() {
