@@ -1,0 +1,12 @@
+{
+  "issue": 318,
+  "expected_phase": "implemented",
+  "expected_generation": 14,
+  "expected_digest": "1a7bc99a964a262aaba211a2d0fe625076b5ef0923dd7457333a18f2d87b4ba6",
+  "previous_reviewer": "fresh-session:9046f5c7-4375-4ddc-99ea-3a5b24923136",
+  "previous_revision": "5d3f4eb2e7832c220b4bab8bed159d2bffc911149e547f4b1ff0b8888040db8d",
+  "false_reviewer": "fresh-session:9046f5c7-4375-4ddc-99ea-3a5b24923136",
+  "actor": "codex:root",
+  "reason": "authored design and planning denominator expanded after exact-head findings and operator cloud and refactoring inputs",
+  "disposition": "fresh independent design review required before execution review"
+}

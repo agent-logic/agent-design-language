@@ -25,7 +25,7 @@ Diagram: .csdlc/prepared/issues/318/diagram.mmd
 [
   {
     "lane": "readiness-review-contract",
-    "proof_role": "Validate live issue and PR identity, Git ancestry, exact planning denominator, tail wiring, handoff non-claims, and finding disposition.",
+    "proof_role": "Validate live issue and PR identity, Git ancestry, exact planning denominator, structured unit contracts, cloud and refactoring provenance, tail wiring, handoff non-claims, and finding disposition.",
     "acceptance_ids": [
       "AC-1",
       "AC-2",
@@ -47,7 +47,7 @@ Diagram: .csdlc/prepared/issues/318/diagram.mmd
   },
   {
     "lane": "readiness-review-negatives",
-    "proof_role": "Prove exact rejection of seven bounded planning-contract, denominator, ordering, dependency, and activation defects.",
+    "proof_role": "Prove exact rejection of ten bounded planning-contract, denominator, source, ordering, dependency, activation, and unit-boundary defects.",
     "acceptance_ids": [
       "AC-5"
     ],

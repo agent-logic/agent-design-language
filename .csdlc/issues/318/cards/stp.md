@@ -27,8 +27,8 @@ Perform only the independent WP-29 readiness review and its focused proof surfac
 1. AC-1: #317 PR #474 reviewed-green merge 5b035094725d1872b48dda8692ef88f46487f37c is independently confirmed ancestral; typed finish and cleanup remain asynchronous and non-gating.
 2. AC-2: The retained normalized review universe contains exactly canonical issues #307 through #319 inclusive, and live GitHub plus Git checks reject missing, duplicate, extra, stale, ambiguous, or unowned authority.
 3. AC-3: The v0.92.1 and v0.92.2 handoffs record readiness, non-claim, owner, and next-action truth; the planning wave proves no future issue has been created and v0.93 remains inactive.
-4. AC-4: The four owned v0.92.1 planning surfaces use the exact ordered and dependency-wired release-tail titles; all 31 creation-owned issues are semantically reviewed as one planning unit and each defines one outcome-shaped objective, one primary deliverable, and one independently verifiable result.
-5. AC-5: Seven focused one-field negative fixtures return the exact expected blocker for title variance, missing primary deliverable, creation-denominator drift, missing canonical issue row, tail reordering, dependency miswiring, and v0.93 activation.
+4. AC-4: The canonical v0.92.1 planning package uses the exact ordered and dependency-wired release-tail titles; all 45 creation-owned issues have a structured unit contract with one bounded objective, one primary deliverable, one independently verifiable result, and no supporting work that can close independently.
+5. AC-5: Ten focused one-field negative fixtures return the exact expected blocker for title variance, missing primary deliverable, creation-denominator drift, missing canonical issue row, tail reordering, dependency miswiring, v0.93 activation, duplicate unit result, independently closeable supporting work, and missing source provenance.
 6. AC-6: Every finding has evidence, severity, owner, route, disposition, and exact-head review binding; no actionable finding remains at publication.
 
 ## Dependencies

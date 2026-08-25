@@ -12,23 +12,25 @@ Status: pre_phase
 
 ## Summary
 
-Completed the WP-29 next-milestone readiness review, live-checked the canonical #307-#319 issue universe, and corrected exactly four v0.92.1 planning surfaces so all 31 creation-owned issues are outcome-shaped single planning units with exact release-tail identity and merge-only ordering.
+Completed the WP-29 next-milestone readiness review, live-checked the canonical #307-#319 issue universe, and reconciled the canonical v0.92.1 planning package so all 45 creation-owned issues are independently finishable single units with exact release-tail identity and merge-only ordering.
 
 ## Artifacts
 
 - docs/milestones/v0.92/review/V092_NEXT_MILESTONE_REVIEW_318.md
+- docs/milestones/v0.92.1
 - .csdlc/evidence/318/issue-universe.json
 - .csdlc/evidence/318/findings.json
 - .csdlc/evidence/318/readiness-review.json
+- .csdlc/evidence/318/planning-source-addendum.json
 - .csdlc/prepared/issues/318/validate-readiness-review.rb
 - .csdlc/prepared/issues/318/test-validate-readiness-review.rb
 
 ## Execution
 
 - Normalized exact INT-01 and TAIL-01 through TAIL-10 titles and serial dependencies.
-- Gave all 31 creation-owned issues one outcome-shaped objective, one primary deliverable, and one independently verifiable result.
-- Separated TAIL-06 finding remediation from later quality validation and kept TAIL-10 limited to the operator-authorized release ceremony.
-- Added live GitHub and Git reconciliation, planning guards, seven exact negative cases, and an evidence-backed finding disposition.
+- Defined structured one-objective, one-primary-deliverable, one-verifiable-result contracts for all 45 creation-owned issues.
+- Added bounded AWS and GCP move-in units, cross-cloud Terraform conversion, Rust resilience refactoring, and governed Agent Toolkit setup under AWS-B.
+- Added live GitHub and Git reconciliation, source-provenance guards, ten exact negative cases, and an evidence-backed finding disposition.
 
 ## Validation
 
@@ -36,10 +38,28 @@ Completed the WP-29 next-milestone readiness review, live-checked the canonical 
   {
     "command": [
       "ruby",
+      ".csdlc/prepared/issues/316/validate-v0921-plan.rb"
+    ],
+    "purpose": "Validate 55 planned IDs, 45 creation slots, the exact ten-step release tail, source dispositions, and dependency closure.",
+    "outcome": "passed",
+    "evidence_ref": "docs/milestones/v0.92.1"
+  },
+  {
+    "command": [
+      "ruby",
       ".csdlc/prepared/issues/318/validate-readiness-review.rb",
       "all"
     ],
-    "purpose": "Live-check the 13-row issue/PR universe and validate all 31 single-unit planning contracts, exact tail order/dependencies, and successor non-claims.",
+    "purpose": "Live-check the 13-row issue/PR universe and validate all 45 structured unit contracts, exact tail order and dependencies, source provenance, and successor non-claims.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/evidence/318"
+  },
+  {
+    "command": [
+      "ruby",
+      ".csdlc/prepared/issues/318/test-validate-readiness-review.rb"
+    ],
+    "purpose": "Prove fail-closed rejection of ten exact planning and unit-contract defects.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/318"
   }
@@ -47,7 +67,7 @@ Completed the WP-29 next-milestone readiness review, live-checked the canonical 
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 

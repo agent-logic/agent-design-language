@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "a9da616fc297502515fbf254ee77a18400f007c2b333d09bb5f934640e07ece4",
   "phase": "implemented",
-  "generation": 13,
-  "digest": "889b7c8c3887730e0f6e706d8c7c4333033b06fcbd5bfb3c9dd89cda8c492424",
+  "generation": 19,
+  "digest": "cb7ec602fa45934f6f8a3f778f32910c6a75ed2145bd9494e3cdd0ce4380cb3a",
   "branch": "codex/318-v092-wp29-next-milestone-review",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-318-next-milestone-review",
   "review_assignment": null,
@@ -17,42 +17,37 @@
   "migration": null,
   "design_path": ".csdlc/prepared/issues/318/design.md",
   "diagram_path": ".csdlc/prepared/issues/318/diagram.mmd",
-  "design_review": {
-    "approved": {
-      "reviewer": "fresh-session:9046f5c7-4375-4ddc-99ea-3a5b24923136",
-      "revision": "5d3f4eb2e7832c220b4bab8bed159d2bffc911149e547f4b1ff0b8888040db8d"
-    }
-  },
+  "design_review": "pending",
   "cards": {
     "sip": {
-      "values_digest": "692e5b6bd4a5c7fbf3083e991afd54056a87d27d180dddcb9c780b76dcda5dbb",
+      "values_digest": "ae6737d76dca89134b05a8da1ba25f77a37c49f8fa7e200e0b99edd6744e7c5c",
       "rendered_digest": "4bb47c934ea3fb8a47e2b9bacc2cabe276e09287b78846390f5fb3d102d992ba",
       "ast_digest": "d2f863671b358dd3c6c0418be17f26687cb1667bd8f0d84f71e418be7a4d8f6d"
     },
     "stp": {
-      "values_digest": "6ed561f9a3a7b5d098270f9ce6272ff8afe9ad49c4b1c1bc496063a90de6cbcb",
-      "rendered_digest": "d3ab5387b093c212641b50716373994c9d011200ee0cc8f8634d82f7675f4cde",
-      "ast_digest": "2e7f3989fccd1e7144206fc770b49bb1c854d44570263c04abd2e9e98fe02c43"
+      "values_digest": "5bff505f48da1d80477c5a3d74211a8044eefd77b1072de620753f2703d9e899",
+      "rendered_digest": "ddbc8f8de7c50f142f35f7f81554973ed94748c080ea0f145f8269ab39fae1f4",
+      "ast_digest": "a4c897522de5385bfbefecbcce04d0a38751100bdbf4ff20bfec8d6505c1f97f"
     },
     "spp": {
-      "values_digest": "0f08eb17f5e12e45a33bcc3405bd9651c37b8e25adab9ba3a5722938155bf33e",
-      "rendered_digest": "f8935b7ccbfc22f28df24e4dfbcb21d323829e1a2d231ebde607d00cd5bcb794",
-      "ast_digest": "1ecf2cd3fd5a069b4c494a32be5554cade352a658ac531582bb61ce965bcc6d9"
+      "values_digest": "10e3bc4c2ecd2850dd991cfbafc856365f618bfb7260516256c6490593f704b9",
+      "rendered_digest": "d1f4439d96bc414935f3949a8351ac58033a8fc27216b8519087492dbf89fc64",
+      "ast_digest": "0b5700b533cef338434c583aeec96c82e494cf20b9a8888f982cf69696e216c1"
     },
     "vpp": {
-      "values_digest": "58dd8c4d3c9e109b1db5235c07aef03e87165be3946d387101905d72318a03f0",
-      "rendered_digest": "4eba25ab258e3f62fef174327842bf4fbf396aa37e6c05d452a4a6855039ac36",
-      "ast_digest": "ae0f52024eee53d556fe8fbce1dcba1478920d21ebe725124baa5fb1ed44a91e"
+      "values_digest": "4b93b59fccc3b1827d1f77764ca01e60875cd23abe08b61046f5bd56f6f7b061",
+      "rendered_digest": "5717d7470f718f6815d57fca6659753fc462169edc25251cc4503666503bd228",
+      "ast_digest": "22765a9166a6bd8d9e384de02ec34cdf351793ac33105c53de045ecfa70c059d"
     },
     "srp": {
-      "values_digest": "ffdcb163018fde8b1ffa437a2433e1f9393e770a4aabad60f8b30cb4f60e8106",
-      "rendered_digest": "0bc6e7564334bf9eb845c92cef1576c4bace730d5ed8d92d3a1390a7b4232641",
-      "ast_digest": "1340ec6adde9905a749223d0390e5e163ee614bb86609cecf38d325d94f6d2eb"
+      "values_digest": "d0332b74619693df82f734baeb145970786db5003179544f5ecbaedd16449e8d",
+      "rendered_digest": "3ca2242899c8e57f5f3609215a818362a80b0dbaa944bf009c6b3677befe815d",
+      "ast_digest": "858a5383c0b16e9432f1c27da4d3ab897aca30a659752bd9d114c1ba26c92ee6"
     },
     "sor": {
-      "values_digest": "37b95a1e65cd809a3077e2492c3a4e1c4855d43d171ecd484ef28465a62dda67",
-      "rendered_digest": "5d04f6affdc337a611f3b7558806995f3b2946765c88caae8e5b649abc0470e6",
-      "ast_digest": "8c069995a17bbd521b8bc259d0e4e5bac1eb17460ae4fe63138ce8947fb27765"
+      "values_digest": "ca27d70af680f74449a02a304d82379710401e30ae326d1bb514798e8f00674e",
+      "rendered_digest": "c4defeb505320c548d0d16f32c79add5787e725c41781f991fc050fbbdb81388",
+      "ast_digest": "417c93f6721475283348391827e062795724d0f743c022b96fe9b375245a3507"
     }
   },
   "transitions": [
@@ -183,6 +178,55 @@
       "actor": "codex:root",
       "reason": "WP-29 documentation review, bounded planning corrections, live authority validation, and seven focused negative cases are complete.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 16,
+      "generation": 13,
+      "actor": "codex:root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 14,
+      "actor": "codex:root",
+      "reason": "recover failed exact-head assignment before authored design and scope remediation",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 15,
+      "actor": "codex:root",
+      "reason": "{\"disposition\":\"fresh independent design review required before execution review\",\"false_reviewer\":\"fresh-session:9046f5c7-4375-4ddc-99ea-3a5b24923136\",\"previous_approval\":{\"reviewer\":\"fresh-session:9046f5c7-4375-4ddc-99ea-3a5b24923136\",\"revision\":\"5d3f4eb2e7832c220b4bab8bed159d2bffc911149e547f4b1ff0b8888040db8d\"},\"reason\":\"authored design and planning denominator expanded after exact-head findings and operator cloud and refactoring inputs\"}",
+      "operation": "recover_design_review"
+    },
+    {
+      "sequence": 19,
+      "generation": 16,
+      "actor": "codex:root",
+      "reason": "align STP acceptance with the 45-slot single-unit milestone package and ten exact negative cases",
+      "operation": "{\"operation\":\"replace_acceptance_criteria\",\"values\":[\"AC-1: #317 PR #474 reviewed-green merge 5b035094725d1872b48dda8692ef88f46487f37c is independently confirmed ancestral; typed finish and cleanup remain asynchronous and non-gating.\",\"AC-2: The retained normalized review universe contains exactly canonical issues #307 through #319 inclusive, and live GitHub plus Git checks reject missing, duplicate, extra, stale, ambiguous, or unowned authority.\",\"AC-3: The v0.92.1 and v0.92.2 handoffs record readiness, non-claim, owner, and next-action truth; the planning wave proves no future issue has been created and v0.93 remains inactive.\",\"AC-4: The canonical v0.92.1 planning package uses the exact ordered and dependency-wired release-tail titles; all 45 creation-owned issues have a structured unit contract with one bounded objective, one primary deliverable, one independently verifiable result, and no supporting work that can close independently.\",\"AC-5: Ten focused one-field negative fixtures return the exact expected blocker for title variance, missing primary deliverable, creation-denominator drift, missing canonical issue row, tail reordering, dependency miswiring, v0.93 activation, duplicate unit result, independently closeable supporting work, and missing source provenance.\",\"AC-6: Every finding has evidence, severity, owner, route, disposition, and exact-head review binding; no actionable finding remains at publication.\"]}"
+    },
+    {
+      "sequence": 20,
+      "generation": 17,
+      "actor": "codex:root",
+      "reason": "align SPP execution truth with the completed 45-slot single-unit milestone package",
+      "operation": "{\"operation\":\"replace_plan_steps\",\"steps\":[{\"id\":\"S1\",\"action\":\"Confirm #317 reviewed-green merge ancestry and independently reconstruct the live-checked normalized #307-#319 issue universe.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\"],\"status\":\"pending\"},{\"id\":\"S2\",\"action\":\"Review v0.92.1 and v0.92.2 handoff truth without creating issues or activating a successor milestone.\",\"acceptance_ids\":[\"AC-3\"],\"status\":\"pending\"},{\"id\":\"S3\",\"action\":\"Audit and correct the canonical v0.92.1 planning package so exact tail identity, dependency order, source provenance, and all 45 structured single-unit issue contracts hold.\",\"acceptance_ids\":[\"AC-4\"],\"status\":\"pending\"},{\"id\":\"S4\",\"action\":\"Run the focused validator and ten exact negative fixtures, disposition findings, and obtain independent exact-head review.\",\"acceptance_ids\":[\"AC-5\",\"AC-6\"],\"status\":\"pending\"}]}"
+    },
+    {
+      "sequence": 21,
+      "generation": 18,
+      "actor": "codex:root",
+      "reason": "align VPP proof lanes with the 45-slot package and ten exact negative cases",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"readiness-review-contract\",\"proof_role\":\"Validate live issue and PR identity, Git ancestry, exact planning denominator, structured unit contracts, cloud and refactoring provenance, tail wiring, handoff non-claims, and finding disposition.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-6\"],\"deterministic\":false,\"resource_profile\":\"small\",\"budget_seconds\":600,\"budget_tokens\":5000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/318/validate-readiness-review.rb\",\"all\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"readiness-review-negatives\",\"proof_role\":\"Prove exact rejection of ten bounded planning-contract, denominator, source, ordering, dependency, activation, and unit-boundary defects.\",\"acceptance_ids\":[\"AC-5\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":120,\"budget_tokens\":1000,\"argv\":[\"ruby\",\".csdlc/prepared/issues/318/test-validate-readiness-review.rb\"],\"parallel_group\":\"local\",\"defer_reason\":null},{\"lane\":\"diff-hygiene\",\"proof_role\":\"Reject malformed tracked changes before review.\",\"acceptance_ids\":[\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"small\",\"budget_seconds\":60,\"budget_tokens\":500,\"argv\":[\"git\",\"diff\",\"--check\"],\"parallel_group\":\"local\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 22,
+      "generation": 19,
+      "actor": "codex:root",
+      "reason": "replace stale execution truth with the completed 45-slot readiness package and current focused proof",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Completed the WP-29 next-milestone readiness review, live-checked the canonical #307-#319 issue universe, and reconciled the canonical v0.92.1 planning package so all 45 creation-owned issues are independently finishable single units with exact release-tail identity and merge-only ordering.\",\"changes\":[\"Normalized exact INT-01 and TAIL-01 through TAIL-10 titles and serial dependencies.\",\"Defined structured one-objective, one-primary-deliverable, one-verifiable-result contracts for all 45 creation-owned issues.\",\"Added bounded AWS and GCP move-in units, cross-cloud Terraform conversion, Rust resilience refactoring, and governed Agent Toolkit setup under AWS-B.\",\"Added live GitHub and Git reconciliation, source-provenance guards, ten exact negative cases, and an evidence-backed finding disposition.\"],\"artifacts\":[\"docs/milestones/v0.92/review/V092_NEXT_MILESTONE_REVIEW_318.md\",\"docs/milestones/v0.92.1\",\".csdlc/evidence/318/issue-universe.json\",\".csdlc/evidence/318/findings.json\",\".csdlc/evidence/318/readiness-review.json\",\".csdlc/evidence/318/planning-source-addendum.json\",\".csdlc/prepared/issues/318/validate-readiness-review.rb\",\".csdlc/prepared/issues/318/test-validate-readiness-review.rb\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/316/validate-v0921-plan.rb\"],\"purpose\":\"Validate 55 planned IDs, 45 creation slots, the exact ten-step release tail, source dispositions, and dependency closure.\",\"outcome\":\"passed\",\"evidence_ref\":\"docs/milestones/v0.92.1\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/318/validate-readiness-review.rb\",\"all\"],\"purpose\":\"Live-check the 13-row issue/PR universe and validate all 45 structured unit contracts, exact tail order and dependencies, source provenance, and successor non-claims.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/318\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/318/test-validate-readiness-review.rb\"],\"purpose\":\"Prove fail-closed rejection of ten exact planning and unit-contract defects.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/318\"}]}"
     }
   ]
 }

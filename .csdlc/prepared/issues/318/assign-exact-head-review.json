@@ -1,0 +1,19 @@
+{
+  "issue": 318,
+  "expected_generation": 13,
+  "expected_digest": "889b7c8c3887730e0f6e706d8c7c4333033b06fcbd5bfb3c9dd89cda8c492424",
+  "reviewer": "fresh-session:60ccf732-e748-4ab4-8429-ae726343f293",
+  "assigned_by": "codex:root",
+  "scope": [
+    ".csdlc/evidence/318",
+    ".csdlc/prepared/issues/318/design.md",
+    ".csdlc/prepared/issues/318/diagram.mmd",
+    ".csdlc/prepared/issues/318/validate-readiness-review.rb",
+    ".csdlc/prepared/issues/318/test-validate-readiness-review.rb",
+    "docs/milestones/v0.92/review/V092_NEXT_MILESTONE_REVIEW_318.md",
+    "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
+    "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
+    "docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md",
+    "docs/milestones/v0.92.1/WBS_v0.92.1.md"
+  ]
+}

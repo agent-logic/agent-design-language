@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-The independent 13-row reconstruction, retained raw provenance, v0.92.1/v0.92.2 readiness comparison, exact negative classifier, and no-activation boundary.
+
 
 ## Prompts
 

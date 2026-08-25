@@ -16,7 +16,7 @@ Freeze the merged #317 packet, independently reconstruct all 13 canonical rows f
 
 ## Plan
 
-Revision 5
+Revision 6
 
 ## Steps
 
@@ -40,7 +40,7 @@ Revision 5
   },
   {
     "id": "S3",
-    "action": "Audit and correct only the four named planning surfaces so exact tail identity, dependency order, and the reviewed 31-issue single-unit contract hold.",
+    "action": "Audit and correct the canonical v0.92.1 planning package so exact tail identity, dependency order, source provenance, and all 45 structured single-unit issue contracts hold.",
     "acceptance_ids": [
       "AC-4"
     ],
@@ -48,7 +48,7 @@ Revision 5
   },
   {
     "id": "S4",
-    "action": "Run the focused validator and seven exact negative fixtures, disposition findings, and obtain independent exact-head review.",
+    "action": "Run the focused validator and ten exact negative fixtures, disposition findings, and obtain independent exact-head review.",
     "acceptance_ids": [
       "AC-5",
       "AC-6"
