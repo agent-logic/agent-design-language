@@ -1,0 +1,37 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 313,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-25] Internal review",
+    "slug": "v0-92-wp-25-internal-review",
+    "version": "v0.92",
+    "generation": 10
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Prepare and execute a findings-first internal review of the exact terminal v0.92 milestone candidate through nine independent specialist lanes.",
+      "required_outcome": "A digest-bound internal review packet, findings register, synthesis, validation record, and independent meta-review at one exact revision.",
+      "declared_scope": [
+        "Canonical v0.92 code, docs, tests, lifecycle evidence, demos, launch assets, and release surfaces at one exact SHA",
+        "Nine independent specialist lanes and provenance-preserving synthesis",
+        "Packet validation, redaction audit, and independent review-quality meta-review"
+      ],
+      "authority_boundary": [
+        "Canonical issue authority is agent-logic/agent-design-language#313",
+        "Typed C-SDLC v2 records remain lifecycle authority",
+        "WP-25 records findings but does not remediate, approve external review, or authorize release"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Prepare before dependencies close but do not bind or execute early",
+        "Use the new agent-logic repository for issue and PR identity",
+        "Preserve reviewer-authored findings, duplicates, disagreements, and limitations",
+        "Do not expose credentials, raw private state, provider prompts, or host-absolute paths"
+      ]
+    }
+  }
+}

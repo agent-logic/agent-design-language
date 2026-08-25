@@ -1,0 +1,197 @@
+{
+  "blocking_or_partial_evidence": [
+    "Explicit blocker or high-priority finding marker found in evidence."
+  ],
+  "evidence_families": {
+    "demo_proof_evidence": {
+      "paths": [
+        "ADR_PLAN_v0.92.md",
+        "CANONICAL_DOC_INVENTORY_v0.92.md",
+        "DECISIONS_v0.92.md",
+        "DEMO_MATRIX_v0.92.md",
+        "DESIGN_v0.92.md",
+        "FEATURE_PROOF_COVERAGE_v0.92.md",
+        "FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md",
+        "IDENTITY_CONTINUITY_AND_BIRTHDAY_PLAN_v0.92.md",
+        "MILESTONE_CHECKLIST_v0.92.md",
+        "NEXT_MILESTONE_HANDOFF_v0.92.md",
+        "QUALITY_GATE_v0.92.md",
+        "README.md",
+        "RELEASE_NOTES_v0.92.md",
+        "RELEASE_PLAN_v0.92.md",
+        "SPRINT_v0.92.md",
+        "V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md",
+        "V092_DOCS_PREP_DOGFOOD_NOTES.md",
+        "VISION_v0.92.md",
+        "WBS_v0.92.md",
+        "WP_EXECUTION_READINESS_v0.92.md"
+      ],
+      "signals": [
+        "| ADR 0066 | Distributed Guardian Membership, Authority, And Fencing Boundary | Deferred | #284 retains terminal and partial Guardian evidence, but two-voter AWS/model-health proof",
+        "| ADR 0068 | Birthday-To-Governance Handoff Boundary | Deferred | #285 retains terminal WP-19 handoff evidence, but WP-18/#5836 birthday proof is not terminal and no ADR acceptance",
+        "- [Feature/proof coverage](FEATURE_PROOF_COVERAGE_v0.92.md)",
+        "- [Demo matrix](DEMO_MATRIX_v0.92.md)",
+        "| D-09 | v0.92 WP-01 must consume `v0.91.5` release-tail closeout, the `v0.91.6` readiness tranche, the `v0.91.7` implementation/proof tranche, and `#3377` before seeding final iss",
+        "- How many bounded cycles are enough for the first continuity proof?"
+      ],
+      "status": "present"
+    },
+    "issue_pr_evidence": {
+      "paths": [
+        "ADR_PLAN_v0.92.md",
+        "CANONICAL_DOC_INVENTORY_v0.92.md",
+        "DECISIONS_v0.92.md",
+        "DEMO_MATRIX_v0.92.md",
+        "DESIGN_v0.92.md",
+        "FEATURE_PROOF_COVERAGE_v0.92.md",
+        "FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md",
+        "IDENTITY_CONTINUITY_AND_BIRTHDAY_PLAN_v0.92.md",
+        "MILESTONE_CHECKLIST_v0.92.md",
+        "NEXT_MILESTONE_HANDOFF_v0.92.md",
+        "QUALITY_GATE_v0.92.md",
+        "README.md",
+        "RELEASE_NOTES_v0.92.md",
+        "RELEASE_PLAN_v0.92.md",
+        "SPRINT_v0.92.md",
+        "V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md",
+        "V092_DOCS_PREP_DOGFOOD_NOTES.md",
+        "VISION_v0.92.md",
+        "WBS_v0.92.md",
+        "WP_EXECUTION_READINESS_v0.92.md"
+      ],
+      "signals": [
+        "cognitive profiles, binary ACIP communication, and the governance handoff.",
+        "Those boundaries should not live only in feature prose.",
+        "it does not claim release readiness or external-review approval.",
+        "- [WBS](WBS_v0.92.md)",
+        "- Related issues: `#3377`, `#3434`",
+        "actual issue wave."
+      ],
+      "status": "present"
+    },
+    "remediation_evidence": {
+      "paths": [
+        "ADR_PLAN_v0.92.md",
+        "CANONICAL_DOC_INVENTORY_v0.92.md",
+        "DECISIONS_v0.92.md",
+        "DEMO_MATRIX_v0.92.md",
+        "DESIGN_v0.92.md",
+        "FEATURE_PROOF_COVERAGE_v0.92.md",
+        "IDENTITY_CONTINUITY_AND_BIRTHDAY_PLAN_v0.92.md",
+        "MILESTONE_CHECKLIST_v0.92.md",
+        "NEXT_MILESTONE_HANDOFF_v0.92.md",
+        "QUALITY_GATE_v0.92.md",
+        "RELEASE_NOTES_v0.92.md",
+        "RELEASE_PLAN_v0.92.md",
+        "SPRINT_v0.92.md",
+        "V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md",
+        "V092_DOCS_PREP_DOGFOOD_NOTES.md",
+        "VISION_v0.92.md",
+        "WBS_v0.92.md",
+        "WP_EXECUTION_READINESS_v0.92.md",
+        "WP_ISSUE_WAVE_v0.92.yaml",
+        "external_launch/PUBLIC_LAUNCH_COPY_v0.92.md"
+      ],
+      "signals": [
+        "fixtures, demos, review findings, and milestone docs.",
+        "- WP-19 should fix, defer, or route ADR findings.",
+        "closeout gates this documentation pass.",
+        "v0.92 allocation, but they are not implementation closeout decisions.",
+        "| D-09 | v0.92 WP-01 must consume `v0.91.5` release-tail closeout, the `v0.91.6` readiness tranche, the `v0.91.7` implementation/proof tranche, and `#3377` before seeding final iss",
+        "they must not be used to reverse the engineering-closeout decision or to infer"
+      ],
+      "status": "present"
+    },
+    "review_evidence": {
+      "paths": [
+        "ADR_PLAN_v0.92.md",
+        "CANONICAL_DOC_INVENTORY_v0.92.md",
+        "DECISIONS_v0.92.md",
+        "DEMO_MATRIX_v0.92.md",
+        "DESIGN_v0.92.md",
+        "FEATURE_PROOF_COVERAGE_v0.92.md",
+        "FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md",
+        "IDENTITY_CONTINUITY_AND_BIRTHDAY_PLAN_v0.92.md",
+        "MILESTONE_CHECKLIST_v0.92.md",
+        "NEXT_MILESTONE_HANDOFF_v0.92.md",
+        "QUALITY_GATE_v0.92.md",
+        "README.md",
+        "RELEASE_NOTES_v0.92.md",
+        "RELEASE_PLAN_v0.92.md",
+        "SPRINT_v0.92.md",
+        "V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md",
+        "V092_DOCS_PREP_DOGFOOD_NOTES.md",
+        "VISION_v0.92.md",
+        "WBS_v0.92.md",
+        "WP_EXECUTION_READINESS_v0.92.md"
+      ],
+      "signals": [
+        "architecture decisions that WP-01 and the v0.92 review tail should confirm,",
+        "The ADR goal is to make the durable decisions reviewable before the milestone",
+        "Status: external-review input. This inventory defines the documentation corpus;",
+        "it does not claim release readiness or external-review approval.",
+        "| D-10 | v0.92 must carry an ADR plan before implementation starts. | Accepted for planning | Birthday, identity, ACP, ACIP, and governance-handoff boundaries are architecture deci",
+        "- What is the minimum ACP/profile schema that helps birth review without"
+      ],
+      "status": "present"
+    },
+    "validation_evidence": {
+      "paths": [
+        "ADR_PLAN_v0.92.md",
+        "CANONICAL_DOC_INVENTORY_v0.92.md",
+        "DECISIONS_v0.92.md",
+        "DEMO_MATRIX_v0.92.md",
+        "DESIGN_v0.92.md",
+        "FEATURE_PROOF_COVERAGE_v0.92.md",
+        "FIRST_BIRTHDAY_LAUNCH_PACKET_v0.92.md",
+        "IDENTITY_CONTINUITY_AND_BIRTHDAY_PLAN_v0.92.md",
+        "MILESTONE_CHECKLIST_v0.92.md",
+        "NEXT_MILESTONE_HANDOFF_v0.92.md",
+        "QUALITY_GATE_v0.92.md",
+        "README.md",
+        "RELEASE_NOTES_v0.92.md",
+        "RELEASE_PLAN_v0.92.md",
+        "SPRINT_v0.92.md",
+        "V092_ACTIVATION_BRIDGE_LEDGER_v0.92.md",
+        "V092_DOCS_PREP_DOGFOOD_NOTES.md",
+        "VISION_v0.92.md",
+        "WBS_v0.92.md",
+        "WP_EXECUTION_READINESS_v0.92.md"
+      ],
+      "signals": [
+        "architecture decisions that WP-01 and the v0.92 review tail should confirm,",
+        "split, draft, or explicitly defer.",
+        "- [Decisions](DECISIONS_v0.92.md)",
+        "- [Milestone checklist](MILESTONE_CHECKLIST_v0.92.md)",
+        "# v0.92 Decisions",
+        "Forward-planning decisions. These are accepted as planning boundaries for the"
+      ],
+      "status": "present"
+    }
+  },
+  "milestone": "v0.92",
+  "non_claims": [
+    "This report does not approve the release.",
+    "This report does not publish release notes.",
+    "This report does not create tags, merge PRs, or close issues.",
+    "This report does not prove absent evidence is failed implementation."
+  ],
+  "residual_risks": [
+    "Explicit blocker or high-priority finding marker found in evidence."
+  ],
+  "run_id": "issue313-c6792e54",
+  "safety_flags": {
+    "closed_issues": false,
+    "created_tags": false,
+    "merged_prs": false,
+    "mutated_repository": false,
+    "published_release_notes": false,
+    "release_approved": false
+  },
+  "schema": "adl.release_evidence_report.v1",
+  "status": "blocked",
+  "summary": "Release evidence assembled for review.",
+  "validation_commands": [
+    "python3 adl/tools/skills/release-evidence/scripts/assemble_release_evidence.py --milestone <version> --milestone-root docs/milestones/<version> --out <artifact-root> --run-id <run-id>"
+  ]
+}

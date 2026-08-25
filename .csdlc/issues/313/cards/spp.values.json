@@ -1,0 +1,112 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 313,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-25] Internal review",
+    "slug": "v0-92-wp-25-internal-review",
+    "version": "v0.92",
+    "generation": 10
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 1,
+      "summary": "Verify terminal entry gates, freeze one clean exact SHA, build the review packet, run nine independent specialist lanes, synthesize findings without remediation, validate identity/digests/redaction, and obtain independent meta-review before handoff.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Reconcile canonical dependency, issue, PR, lifecycle, ancestry, worktree, and candidate-SHA truth.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Build the exact-SHA packet manifest and explicit included, excluded, unknown, private, generated, and redacted scope inventory.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Run all nine independent specialist lanes against the identical packet and exact SHA.",
+          "acceptance_ids": [
+            "AC-4"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Create the provenance-preserving findings register and findings-first synthesis without remediation.",
+          "acceptance_ids": [
+            "AC-5",
+            "AC-6",
+            "AC-9"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S5",
+          "action": "Run packet schema, identity, digest, link, redaction, path-hygiene, and negative validation.",
+          "acceptance_ids": [
+            "AC-7",
+            "AC-9"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S6",
+          "action": "Obtain independent meta-review, correct actionable packet-quality findings, and retain the bounded WP-26 handoff disposition.",
+          "acceptance_ids": [
+            "AC-8",
+            "AC-9"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "docs/reviews/v0.92/internal-review-5846",
+        "docs/milestones/v0.92/review/V092_INTERNAL_REVIEW_5846.md",
+        ".csdlc/evidence/5846",
+        ".csdlc/prepared/issues/5846/validate-internal-review.rb"
+      ],
+      "invariants": [
+        "Every lane reviews the same repository, manifest, and exact SHA",
+        "A source or manifest change makes all dependent review evidence stale",
+        "Missing evidence, lane identity, or dependency truth blocks review",
+        "Synthesis cannot erase finding provenance, duplicates, or disagreement",
+        "WP-25 never converts review evidence into remediation or release authority"
+      ],
+      "risks": [
+        "Typed initialization could regress the already-correct #313 WP-24A deferral unless live issue truth is preserved",
+        "Large scope can produce superficial lanes unless evidence denominators are explicit",
+        "Self-referential packet commits can stale exact-head claims",
+        "Historical evidence may contain host-local paths or private data requiring careful boundary treatment"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 43200,
+        "total_tokens": 140000,
+        "validation_seconds": 7200
+      },
+      "stop_conditions": [
+        "Any active v0.92 dependency is nonterminal, noncanonical, nonancestral, or has active worktree topology at execution time",
+        "The candidate checkout is dirty or the target SHA changes after packet generation",
+        "Any specialist lane is missing, incomplete, stale, or lacks reviewer identity",
+        "Manifest digest, evidence link, finding schema, redaction, or private-path validation fails",
+        "Independent meta-review reports an unresolved actionable quality gap"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/313/design.md",
+      "design_digest": "02b1d0666e26fc4ab6dc8fe91007659b2acc4a0116dff20ac8c5f78ac3fe845a",
+      "diagram_ref": ".csdlc/prepared/issues/313/diagram.mmd",
+      "diagram_digest": "94c6240fafa592052a8d45e548757a7452fe6b966faea144948828c7134e5b7c"
+    }
+  }
+}
