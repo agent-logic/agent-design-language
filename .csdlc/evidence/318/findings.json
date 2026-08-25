@@ -8,7 +8,7 @@
       "owner": "WP-29/#318",
       "route": "bounded canonical planning correction across the issue wave, execution specifications, catalog, WBS, feature contracts, and review validator",
       "disposition": "pending exact-head confirmation: exact titles are normalized and all 45 creation-owned issues declare an explicit one-result completion boundary; AWS/GCP move-in, cross-cloud Terraform conversion, and one bounded Rust resilience refactor are explicit; publication remains blocked until independent semantic review accepts every boundary; administrative closeout is non-gating",
-      "revision": "pending-current-candidate"
+      "revision": "f7992d4634f9d348de2664c65648f3f7e660e63e"
     }
   ]
 }
