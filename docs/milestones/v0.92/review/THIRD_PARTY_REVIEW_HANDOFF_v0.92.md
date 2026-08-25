@@ -89,6 +89,10 @@ authority.
 
 Run from the exact repository root:
 
+Run the first three commands in the order shown because the negative suite
+temporarily uses shared issue-local fixtures and restores them before the
+structure/handoff check. The diff check is independent.
+
 ```sh
 ruby .csdlc/prepared/issues/312/validate-doc-release-truth.rb packet
 ruby .csdlc/prepared/issues/312/test-validate-doc-release-truth.rb

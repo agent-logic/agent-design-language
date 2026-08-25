@@ -42,8 +42,8 @@ Diagram: .csdlc/prepared/issues/312/diagram.mmd
       ".csdlc/prepared/issues/312/validate-doc-release-truth.rb",
       "packet"
     ],
-    "parallel_group": "312-truth",
-    "defer_reason": "Created in the bound #312 worktree after #311 merges."
+    "parallel_group": "312-doc-shared-state-serial",
+    "defer_reason": "Runs first in the serialized shared-state documentation lane."
   },
   {
     "lane": "docs-negative-suite",
@@ -61,8 +61,8 @@ Diagram: .csdlc/prepared/issues/312/diagram.mmd
       "ruby",
       ".csdlc/prepared/issues/312/test-validate-doc-release-truth.rb"
     ],
-    "parallel_group": "312-negative",
-    "defer_reason": "Created with the production validator in the bound worktree."
+    "parallel_group": "312-doc-shared-state-serial",
+    "defer_reason": "Runs after packet validation because it temporarily mutates issue-local fixtures and the README manifest."
   },
   {
     "lane": "docs-structure-links-handoff",
@@ -82,8 +82,8 @@ Diagram: .csdlc/prepared/issues/312/diagram.mmd
       ".csdlc/prepared/issues/312/validate-doc-release-truth.rb",
       "structure-handoff"
     ],
-    "parallel_group": "312-structure",
-    "defer_reason": "Created in the bound #312 worktree with the canonical corpus manifest."
+    "parallel_group": "312-doc-shared-state-serial",
+    "defer_reason": "Runs after the negative suite has restored shared issue-local state."
   },
   {
     "lane": "diff-hygiene",
