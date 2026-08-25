@@ -68,10 +68,25 @@ def check_planning_contract
     errors << "#{id} dependency mismatch" unless by_id.fetch(id, {})["depends_on"] == [predecessor]
   end
 
+  catalog_text = File.read(File.join(MILESTONE, "PLANNED_ISSUE_CATALOG_v0.92.1.md"))
+  catalog_titles = catalog_text.lines.each_with_object({}) do |line, titles|
+    match = line.match(/^\| ([A-Z0-9-]+) \| ([^|]+?) \|/)
+    titles[match[1]] = match[2].strip if match
+  end
+  CREATION_IDS.each do |id|
+    errors << "catalog title mismatch for #{id}" unless catalog_titles[id] == by_id.fetch(id, {})["title"]
+  end
+
   %w[PLANNED_ISSUE_CATALOG_v0.92.1.md WBS_v0.92.1.md].each do |name|
     text = File.read(File.join(MILESTONE, name))
     RELEASE_TITLES.each do |id, title|
       errors << "#{name} title variance for #{id}" unless text.include?("| #{id} | #{title} |")
+    end
+  end
+  %w[CANONICAL_DOC_INVENTORY_v0.92.1.md README.md RELEASE_PLAN_v0.92.1.md].each do |name|
+    text = File.read(File.join(MILESTONE, name))
+    TAIL_TITLES.each do |id, title|
+      errors << "#{name} title variance for #{id}" unless text.include?("#{id} #{title}")
     end
   end
   forbidden_titles = [

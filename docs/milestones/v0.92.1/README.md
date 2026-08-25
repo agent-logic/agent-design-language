@@ -35,7 +35,7 @@ The existing podcast graph and #432 are likewise retained rather than recreated.
 
 ## Canonical release tail
 
-After every root named by INT-01 has merged reviewed authority, the planned integration conductor starts the same ten-step serial tail used by the preceding milestone standard: quality gate; docs and release-truth pass; publication finalization; internal review; external review; remediation/preflight; next-milestone planning; next-milestone closeout planning; next-milestone planning review; and release ceremony. Individual issue closeout is asynchronous and never a downstream execution dependency.
+After every root named by INT-01 has merged reviewed authority, the planned integration conductor starts the exact ten-step serial tail: TAIL-01 Quality gate; TAIL-02 Documentation review and external-review handoff; TAIL-03 Publication finalization; TAIL-04 Internal review; TAIL-05 External / third-party review; TAIL-06 Review findings remediation; TAIL-07 Next-milestone planning; TAIL-08 Next-milestone closeout plan; TAIL-09 Next milestone review pass; and TAIL-10 Release ceremony. Individual issue closeout is asynchronous and never a downstream execution dependency.
 
 ## Boundaries
 

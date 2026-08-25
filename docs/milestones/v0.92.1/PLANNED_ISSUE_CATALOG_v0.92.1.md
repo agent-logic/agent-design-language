@@ -59,12 +59,12 @@ WP-01 is deliberately number-free until milestone opening. It is not #431, and #
 | DRT-B | Six-resident UTS qualification | DRT-A, #345 | #183/#184 |
 | DRT-C | Final distributed Runtime qualification | DRT-B | #185-#187 |
 | DRT-D | GCP portability qualification | DRT-C, GCP-E, XCL-01 | New sidecar; does not execute #269 |
-| HOT-01 | Validated atomic Axum configuration hot reload | WP-01/#432 | New v0.92.1 work |
-| OBS-A | Observatory information architecture, interaction, and accessibility redesign | WP-01/#432 | Existing Observatory evidence |
-| OBS-B | Authentic Runtime projections, implementation, and state/failure proof | OBS-A and stable Runtime authority | Existing Observatory evidence |
-| DEC-01 | Separate Runtime v2/v3 authority and source ownership | WP-01/#432 | New decoupling work; Runtime v4 excluded |
-| PROV-A | Shared provider inference-profile contract and Ollama materialization | WP-01/#432 | #457 historical provenance only |
-| PROV-B | Local-model shadow execution and comparison evidence | PROV-A | New non-authoritative comparison work |
+| HOT-01 | Axum configuration hot reload | WP-01/#432 | New v0.92.1 work |
+| OBS-A | Observatory experience design | WP-01/#432 | Existing Observatory evidence |
+| OBS-B | Observatory redesign implementation | OBS-A and stable Runtime authority | Existing Observatory evidence |
+| DEC-01 | Runtime v2/v3 authority separation | WP-01/#432 | New decoupling work; Runtime v4 excluded |
+| PROV-A | Shared provider inference profiles | WP-01/#432 | #457 historical provenance only |
+| PROV-B | Local-model shadow execution | PROV-A | New non-authoritative comparison work |
 | INT-01 | Release-tail admission | Every root named in the issue wave | #188 convergence intent |
 | TAIL-01 | Quality gate | INT-01 | #188 quality-admission intent |
 | TAIL-02 | Documentation review and external-review handoff | TAIL-01 | Standard release tail |

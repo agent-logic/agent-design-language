@@ -33,7 +33,7 @@ Existing issue authority in this package is #432, #51, #261, #262, #263, #264, #
 
 ## Canonical Release Tail
 
-The serial denominator matches the preceding milestone standard: TAIL-01 quality gate, TAIL-02 docs/release truth, TAIL-03 publication finalization, TAIL-04 internal review, TAIL-05 external review, TAIL-06 remediation/preflight, TAIL-07 next-milestone planning, TAIL-08 next-milestone closeout planning, TAIL-09 next-milestone planning review, and TAIL-10 release ceremony.
+The serial denominator matches the preceding milestone standard: TAIL-01 Quality gate; TAIL-02 Documentation review and external-review handoff; TAIL-03 Publication finalization; TAIL-04 Internal review; TAIL-05 External / third-party review; TAIL-06 Review findings remediation; TAIL-07 Next-milestone planning; TAIL-08 Next-milestone closeout plan; TAIL-09 Next milestone review pass; and TAIL-10 Release ceremony.
 
 ## Validation Boundary
 
