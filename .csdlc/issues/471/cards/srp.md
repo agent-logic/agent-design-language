@@ -12,7 +12,9 @@ Status: draft
 
 ## Scope
 
-
+.csdlc/issues/471
+.csdlc/prepared/issues/471
+adl-runtime-kernel
 
 ## Prompts
 
@@ -36,8 +38,8 @@ Every actionable finding requires a terminal disposition.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:01e4779f58c2ca3905f274df499e3db9aca8b498:15256f00c2243d20bd26d330b2bbde6e7c2f538bc16181b9e771059311d27d16")
 
-Reviewer: None
+Reviewer: Some("fresh-session:/root/review_471_r6")
 
-Result: pre_review
+Result: pass

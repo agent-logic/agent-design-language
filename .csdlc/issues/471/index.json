@@ -4,13 +4,34 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "af526631fae8cb2219b4387e3fcd5e9b609041070e7f59156479d7c89d9a7570",
-  "phase": "implemented",
-  "generation": 30,
-  "digest": "6b3c059228c91acf34a38a38dc4b5c6ee998ee41bfd61bd607b22c4c42aac99a",
+  "phase": "reviewed",
+  "generation": 31,
+  "digest": "f6db856fe500759aa94160c36d7afdb598a6eea4ea2cbc698574dc0cdfd2cc0a",
   "branch": "codex/471-runtime-v3-authoritative-kernel-contracts",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-471-runtime-v3-authoritative-kernel-contracts",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:/root/review_471_r6",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:01e4779f58c2ca3905f274df499e3db9aca8b498:15256f00c2243d20bd26d330b2bbde6e7c2f538bc16181b9e771059311d27d16",
+    "scope": [
+      ".csdlc/issues/471",
+      ".csdlc/prepared/issues/471",
+      "adl-runtime-kernel"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:/root/review_471_r6",
+    "scope": [
+      ".csdlc/issues/471",
+      ".csdlc/prepared/issues/471",
+      "adl-runtime-kernel"
+    ],
+    "reviewed_revision": "git-blake3:01e4779f58c2ca3905f274df499e3db9aca8b498:15256f00c2243d20bd26d330b2bbde6e7c2f538bc16181b9e771059311d27d16",
+    "findings": [],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +46,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "c97d050d8e5babf55b4e7072769fbe3e3d0b30e8e31488cbf6d8bb3236b0d382",
+      "values_digest": "39d1bf9367559e9d4421d3d3f5206e0476e76bb3021986996fd8f669c59fbcee",
       "rendered_digest": "3ecb8f39ebc6364315af414a45fb54b2f3d4b1dedaecfdb37c03b66392c63ebb",
       "ast_digest": "9ec02ef188480db02bce3f8dfaf8f3138516823dfb280891552f437b1e7b7cb9"
     },
     "stp": {
-      "values_digest": "db26dd2d6855f43698526b9aefca9933fef7f5714976d0f76da0732531fb86fd",
+      "values_digest": "151f8cfae759cdef4b02e7eb8fd37fb59ae541c6282a202ac7959c47942fda3b",
       "rendered_digest": "581ec25e895c952e02595474d8e73e48501c71f62d098d85c16783d6d1e37d27",
       "ast_digest": "8171427b17b9bade334aa1ee0622d54c723fe613dfc5efbbfa3e7d3606c3f302"
     },
     "spp": {
-      "values_digest": "f630d7dfae489025ba9096ba36ff6ee0f629e0faa07804ee3103d319528626ff",
+      "values_digest": "7317518e92c7061f5fddea1898a78ef92fc57142891c496230618d50ac41a2d8",
       "rendered_digest": "93969bf510ae1667ddacd39e6515e09abe15b58f396903a5e85e69510878ce8d",
       "ast_digest": "c9dce11f412576c262517b2fc70ef0b0cdbd5df4153accc1a752bd2ef2fc6e20"
     },
     "vpp": {
-      "values_digest": "42a315cc2b68ee3864fac56a25a0100b665303dfbeab8f2cee7004fb6298ea0e",
+      "values_digest": "d7becf978cbf033affa226ae889c9d77fd3375919bb7173e8df542cac8c6f713",
       "rendered_digest": "32e39b566ff1051175840d4368ca3ff5ebc14915418ea08d6d5ece95c4b7bcb7",
       "ast_digest": "32e2d7fc0a2f8a0d6ffc2e3b047689e6188f850ad69a67f7f11212bfe94b0f25"
     },
     "srp": {
-      "values_digest": "d9fda04bc1c16ddce300d22f534a43d59acb1f7e5cfba4360d9c3206b92b8055",
-      "rendered_digest": "c77c771b02cd4b94c86170929639a17e7d90d5d1c70129f6e8a8d0d00131dc5e",
-      "ast_digest": "bbfa10afe2e702cf5bca7c97685c89ef6b33af1ab8dc8810ce8932a5df9880d4"
+      "values_digest": "56398b6b922ead2e5b82ab6af9f37508979e8160c21235cf9d06e9b348ad0981",
+      "rendered_digest": "53cfd10bbc8d3082761394a96ea85cd2eac487bf0e407b383ae592cc970e2b14",
+      "ast_digest": "16d2e9cdf66c19a42b5e8e5c4f450eaed92c0d60e5950bd7cd73c081790b8f67"
     },
     "sor": {
-      "values_digest": "b1438dcf1c05c9e7a7cb642d8f286996c402a3fb322958f8394692a5560a14d4",
+      "values_digest": "ea0a7bb731d1753e081099d55ba0a0281fcb215ca84cede204d33444f8a8dc57",
       "rendered_digest": "0a64521bab0e039e495cc23e6de2cac7519fb03e42c6482b5d72661f7a73bab1",
       "ast_digest": "93eff900a3d93e4656ca64bd7cf74a140be2a6fb309baa6869a85fe3ca053bc0"
     }
@@ -76,6 +97,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "all ten Runtime kernel findings are implemented and the issue-owned validation lane passed"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -337,6 +365,20 @@
       "actor": "codex:/root",
       "reason": "record complete validation after fifth-review remediation",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"env\",\"RUST_TEST_THREADS=1\",\"bash\",\".csdlc/prepared/issues/471/validate-runtime-kernel.sh\"],\"purpose\":\"Full Runtime kernel lane passed after requiring current uncancelled incarnation ownership for queued readiness and health signals, making degradation one-way, and preserving every prior authoritative wiring, lifecycle, test, Clippy, formatting, and diff guarantee.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/prepared/issues/471/validate-runtime-kernel.sh\"}}"
+    },
+    {
+      "sequence": 38,
+      "generation": 30,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 39,
+      "generation": 31,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

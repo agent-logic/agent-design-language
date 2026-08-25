@@ -7,15 +7,15 @@
     "title": "[Runtime v3] Make kernel wiring, contracts, and supervision authoritative",
     "slug": "471-runtime-v3-authoritative-kernel-contracts",
     "version": "v0.92.1",
-    "generation": 30
+    "generation": 31
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": ".csdlc/issues/471\n.csdlc/prepared/issues/471\nadl-runtime-kernel",
+      "review_revision": "git-blake3:01e4779f58c2ca3905f274df499e3db9aca8b498:15256f00c2243d20bd26d330b2bbde6e7c2f538bc16181b9e771059311d27d16",
+      "reviewer": "fresh-session:/root/review_471_r6",
       "review_prompts": [
         "Can any component access a channel absent from its contract?",
         "Are startup, restart, degradation, and shutdown behaviors bounded and topology-correct?",
@@ -25,7 +25,7 @@
       ],
       "findings": [],
       "residual_risk": [],
-      "review_result": "pre_review"
+      "review_result": "pass"
     }
   }
 }
