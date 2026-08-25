@@ -7,6 +7,13 @@ require "json"
 ROOT = "docs/reviews/v0.92/internal-review-5846"
 TARGET = "c6792e54df1db5969fa28c59b6dfe4c714ed5559"
 ENTRYPOINT = "docs/milestones/v0.92/review/V092_INTERNAL_REVIEW_5846.md"
+SUPPORT_PATHS = %w[
+  .csdlc/prepared/issues/313/build_internal_review_assignments.rb
+  .csdlc/prepared/issues/313/capture_internal_review_live_state.rb
+  .csdlc/prepared/issues/313/finalize_internal_review_packet.rb
+  .csdlc/prepared/issues/313/run_gemini_meta_review.py
+  .csdlc/prepared/issues/5846/validate-internal-review.rb
+].freeze
 
 def write(path, content)
   File.write(path, content.end_with?("\n") ? content : "#{content}\n")
@@ -82,6 +89,8 @@ write(File.join(ROOT, "VALIDATION.md"), <<~MD)
 
   - `ruby .csdlc/prepared/issues/5846/validate-internal-review.rb`
   - `ruby .csdlc/prepared/issues/5846/validate-internal-review.rb --require-meta-review`
+  - `ruby .csdlc/prepared/issues/313/capture_internal_review_live_state.rb`
+  - `python3 .csdlc/prepared/issues/313/run_gemini_meta_review.py --verify-receipt`
   - `python3 <codex-skills>/redaction-and-evidence-auditor/scripts/audit_review_packet.py docs/reviews/v0.92/internal-review-5846 --out docs/reviews/v0.92/internal-review-5846/redaction-audit`
   - `python3 <codex-skills>/review-quality-evaluator/scripts/evaluate_review_quality.py docs/reviews/v0.92/internal-review-5846 --out docs/reviews/v0.92/internal-review-5846/quality-evaluation`
   - `git diff --check`
@@ -105,7 +114,8 @@ write(ENTRYPOINT, <<~MD)
   - Specialist lanes: 9/9 complete
   - Raw findings: 20
   - Deduplicated register entries: 11
-  - Open product/tooling findings: 9, routed to WP-27 / issue `#5848`
+  - Open product/tooling findings: 9, routed to canonical WP-27 / issue `#315`
+  - Legacy WP-27 predecessor: `#5848` (provenance only)
   - Packet quality: deterministic evaluator pass, 100/100
   - Independent API meta-review: Gemini pass with no actionable packet finding
   - Release authority: blocked pending remediation
@@ -122,6 +132,7 @@ paths = Dir.glob(File.join(ROOT, "**", "*"))
   .select { |path| File.file?(path) }
   .reject { |path| excluded.include?(path) }
 paths << ENTRYPOINT
+paths.concat(SUPPORT_PATHS)
 paths.sort!
 normalized = paths.map { |path| "#{path}\0#{Digest::SHA256.file(path).hexdigest}" }.join("\n")
 manifest = {

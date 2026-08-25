@@ -14,7 +14,7 @@
       "lane": "code",
       "reviewer_identity": "Codex code specialist /root/review_313_code",
       "report_path": "docs/reviews/v0.92/internal-review-5846/specialists/code.md",
-      "report_sha256": "977bdd5c0b1dae5416641b440260ca4edb4285e3f81f04bdc2b16b7ca92c5a46",
+      "report_sha256": "68185772a3be6c324f938eb5bc5f6d82d9cfdaa32a2d8344c60df23d6ee2999e",
       "target_sha": "c6792e54df1db5969fa28c59b6dfe4c714ed5559",
       "finding_count": 2
     },

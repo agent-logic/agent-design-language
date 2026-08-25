@@ -2,13 +2,21 @@
   "credential_policy": "operator_env_or_home_keys_no_secret_material_recorded",
   "invocations": [
     {
+      "completed_at_unix_ms": 1787622579608,
       "family": "gemini",
+      "finish_reasons": [
+        "STOP"
+      ],
       "http_status": 200,
-      "latency_ms": 13781,
+      "latency_ms": 119616,
       "model": "gemini-3.1-pro-preview",
-      "output_chars": 2689,
-      "prompt_chars": 95855,
-      "request_id_present": false
+      "model_version": "gemini-3.1-pro-preview",
+      "output_chars": 2796,
+      "prompt_chars": 95848,
+      "prompt_sha256": "0dfcd8d7000bb0718f4f7a06cafb5bb5e423e649d543831a5f963a7100d1a6aa",
+      "provider_response_id_sha256": "f49f2724d9d5ac0ab6cdb8f43b6c67ee10eca4b7712b5ce490f3186b1aaaf2b1",
+      "request_id_present": true,
+      "response_payload_sha256": "c7b1dd206e5300083f7fe8ccc3e888243449fab004acb01d43e2a7b52fe70ba8"
     }
   ],
   "providers": [

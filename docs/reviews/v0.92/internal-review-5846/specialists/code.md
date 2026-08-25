@@ -22,7 +22,7 @@
 - P2: Worktree detection is coupled to an obsolete directory-name convention
   File: `adl/tools/skills/repo-packet-builder/scripts/build_repo_packet.py:260`
   Role: code
-  Scenario: Build a packet from an ADL issue worktree under the repository-mandated `/Volumes/FastWork/adl-worktrees/...` parent.
+  Scenario: Build a packet from an ADL issue worktree under the repository-mandated `<FastWork>/adl-worktrees/...` parent.
   Impact: Both inventory and run-manifest metadata falsely report `is_worktree: false`. Consumers cannot rely on the packet to distinguish a primary checkout from an issue-bound worktree, weakening provenance and collision diagnostics.
   Evidence: The implementation determines worktree state solely with `".worktrees" in repo_root.parts` at lines 260 and 455. The reviewed packet was generated from the registered issue worktree `adl-issue-313-internal-review-preparation`, yet both `docs/reviews/v0.92/internal-review-5846/run_manifest.json` and `repo_inventory.json` record `is_worktree: false`. Determine worktree status from Git (`git rev-parse --git-common-dir` versus `--git-dir`, or equivalent), not a path substring.
 

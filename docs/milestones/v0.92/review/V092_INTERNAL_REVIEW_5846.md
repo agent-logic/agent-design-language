@@ -8,7 +8,8 @@ The canonical issue `#313` review packet is
 - Specialist lanes: 9/9 complete
 - Raw findings: 20
 - Deduplicated register entries: 11
-- Open product/tooling findings: 9, routed to WP-27 / issue `#5848`
+- Open product/tooling findings: 9, routed to canonical WP-27 / issue `#315`
+- Legacy WP-27 predecessor: `#5848` (provenance only)
 - Packet quality: deterministic evaluator pass, 100/100
 - Independent API meta-review: Gemini pass with no actionable packet finding
 - Release authority: blocked pending remediation

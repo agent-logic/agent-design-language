@@ -12,6 +12,8 @@
 
 - `ruby .csdlc/prepared/issues/5846/validate-internal-review.rb`
 - `ruby .csdlc/prepared/issues/5846/validate-internal-review.rb --require-meta-review`
+- `ruby .csdlc/prepared/issues/313/capture_internal_review_live_state.rb`
+- `python3 .csdlc/prepared/issues/313/run_gemini_meta_review.py --verify-receipt`
 - `python3 <codex-skills>/redaction-and-evidence-auditor/scripts/audit_review_packet.py docs/reviews/v0.92/internal-review-5846 --out docs/reviews/v0.92/internal-review-5846/redaction-audit`
 - `python3 <codex-skills>/review-quality-evaluator/scripts/evaluate_review_quality.py docs/reviews/v0.92/internal-review-5846 --out docs/reviews/v0.92/internal-review-5846/quality-evaluation`
 - `git diff --check`
