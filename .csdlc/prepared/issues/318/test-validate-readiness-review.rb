@@ -28,17 +28,18 @@ end
 
 FileUtils.rm_rf(WORK)
 begin
-  run_case("title-variance", "TAIL-10 title variance") do |milestone, _evidence|
-    path = File.join(milestone, "WP_ISSUE_WAVE_v0.92.1.yaml")
-    File.write(path, File.read(path).sub("title: Release ceremony", "title: Release and cleanup ceremony"))
+  run_case("title-variance", "README.md canonical tail summary mismatch") do |milestone, _evidence|
+    path = File.join(milestone, "README.md")
+    File.write(path, File.read(path).sub("TAIL-06 Review findings remediation;", "TAIL-06 Review findings remediation and preflight;"))
   end
   run_case("missing-primary-result", "CORP-A must define exactly one primary_deliverable") do |milestone, _evidence|
     path = File.join(milestone, "WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml")
     File.write(path, File.read(path).sub(/^    primary_deliverable: One accepted critical-asset schedule.*\n/, ""))
   end
-  run_case("creation-denominator", "creation-owned denominator mismatch") do |milestone, _evidence|
-    path = File.join(milestone, "WP_ISSUE_WAVE_v0.92.1.yaml")
-    File.write(path, File.read(path).sub("creation_owner: WP-01", "creation_owner: operator"))
+  run_case("creation-denominator", "catalog creation-title denominator mismatch") do |milestone, _evidence|
+    path = File.join(milestone, "PLANNED_ISSUE_CATALOG_v0.92.1.md")
+    row = File.read(path).lines.find { |line| line.start_with?("| CORP-A |") }
+    File.write(path, File.read(path).sub(row, row + row))
   end
   run_case("unit-contract-denominator", "unit-contract denominator mismatch") do |milestone, _evidence|
     path = File.join(milestone, "WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml")

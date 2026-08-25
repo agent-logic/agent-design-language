@@ -31,6 +31,15 @@ CREATION_IDS = %w[
   DRT-A DRT-B DRT-C DEC-01 PROV-A PROV-B DRT-D HOT-01 OBS-A OBS-B
   INT-01 TAIL-01 TAIL-02 TAIL-03 TAIL-04 TAIL-05 TAIL-06 TAIL-07 TAIL-08 TAIL-09 TAIL-10
 ].freeze
+CATALOG_IDS = %w[
+  CORP-A CORP-B
+  AWS-A AWS-B AWS-C AWS-D AWS-E AWS-F
+  GCP-A GCP-B GCP-C GCP-D GCP-E XCL-01 AWS-G
+  CORP-C CORP-D RUST-01
+  V3-A V3-B V3-C V3-D V3-E V3-F
+  DRT-A DRT-B DRT-C DRT-D HOT-01 OBS-A OBS-B DEC-01 PROV-A PROV-B
+  INT-01 TAIL-01 TAIL-02 TAIL-03 TAIL-04 TAIL-05 TAIL-06 TAIL-07 TAIL-08 TAIL-09 TAIL-10
+].freeze
 
 def fail_with(errors)
   errors.each { |error| warn("BLOCK: #{error}") }
@@ -69,13 +78,12 @@ def check_planning_contract
   end
 
   catalog_text = File.read(File.join(MILESTONE, "PLANNED_ISSUE_CATALOG_v0.92.1.md"))
-  catalog_titles = catalog_text.lines.each_with_object({}) do |line, titles|
+  catalog_rows = catalog_text.lines.each_with_object([]) do |line, rows|
     match = line.match(/^\| ([A-Z0-9-]+) \| ([^|]+?) \|/)
-    titles[match[1]] = match[2].strip if match
+    rows << [match[1], match[2].strip] if match && CREATION_IDS.include?(match[1])
   end
-  CREATION_IDS.each do |id|
-    errors << "catalog title mismatch for #{id}" unless catalog_titles[id] == by_id.fetch(id, {})["title"]
-  end
+  expected_catalog_rows = CATALOG_IDS.map { |id| [id, by_id.fetch(id, {})["title"]] }
+  errors << "catalog creation-title denominator mismatch" unless catalog_rows == expected_catalog_rows
 
   %w[PLANNED_ISSUE_CATALOG_v0.92.1.md WBS_v0.92.1.md].each do |name|
     text = File.read(File.join(MILESTONE, name))
@@ -85,9 +93,15 @@ def check_planning_contract
   end
   %w[CANONICAL_DOC_INVENTORY_v0.92.1.md README.md RELEASE_PLAN_v0.92.1.md].each do |name|
     text = File.read(File.join(MILESTONE, name))
-    TAIL_TITLES.each do |id, title|
-      errors << "#{name} title variance for #{id}" unless text.include?("#{id} #{title}")
+    canonical_lines = text.lines.select { |line| line.include?("TAIL-02") && line.include?("TAIL-09") }
+    errors << "#{name} canonical tail summary denominator mismatch" unless canonical_lines.length == 1
+    next unless canonical_lines.length == 1
+
+    summary = canonical_lines.first
+    pairs = summary.scan(/(TAIL-\d{2}) ([^;.]+?)(?=;|\.|$)/).map do |id, title|
+      [id, title.sub(/\Aand /, "").strip]
     end
+    errors << "#{name} canonical tail summary mismatch" unless pairs == TAIL_TITLES.to_a
   end
   forbidden_titles = [
     "Docs and release-truth pass",
