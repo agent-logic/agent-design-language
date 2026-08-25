@@ -2,9 +2,9 @@
   "schema": "adl.issue-316.source-disposition-ledger.v1",
   "issue": 316,
   "repository": "agent-logic/agent-design-language",
-  "selection_rule": "All root-level local TBD candidates, all CodeFriend incubation candidates, the supplied ATE Drive design, and the supplied Runtime decoupling commit receive exactly one disposition.",
+  "selection_rule": "All root-level local TBD candidates, all CodeFriend incubation candidates, each of the five declared historical CodeFriend Drive snapshots, the supplied ATE Drive design, and the supplied Runtime decoupling commit receive exactly one disposition.",
   "runtime_dependency_policy": "No local TBD or Google Drive source is a runtime or execution dependency; canonical tracked milestone documents are the execution authority.",
-  "candidate_count": 35,
+  "candidate_count": 40,
   "candidates": [
     {
       "candidate_id": "TBD-001",
@@ -337,7 +337,67 @@
       "execution_dependency": false
     },
     {
-      "candidate_id": "DRIVE-001",
+      "candidate_id": "DRIVE-CF-001",
+      "source_class": "google_drive_snapshot",
+      "source_identity": "drive-snapshot:codefriend-product-milestone-plan",
+      "source_sha256": "ebe881f16b75fe5ed696b7fa4d9de827fcf189a34241519c4ee30d39a6246e4a",
+      "mirror_identity": "local-codefriend:CODEFRIEND_PRODUCT_MILESTONE_PLAN_V0912_TO_V095_2026-05-19.md",
+      "drive_document_id_status": "historical_id_unavailable_snapshot_digest_authoritative",
+      "disposition": "included",
+      "target": "v0.92.2 and v0.95 handoff",
+      "reason": "The retained snapshot grounds the Beta 1 milestone and beta-by-v0.95 handoff without creating a Drive runtime dependency.",
+      "execution_dependency": false
+    },
+    {
+      "candidate_id": "DRIVE-CF-002",
+      "source_class": "google_drive_snapshot",
+      "source_identity": "drive-snapshot:codefriend-v1-build-plan",
+      "source_sha256": "67d100180e2b7e5862409261029abe3c84536c992431f990ef6e144d9d52cbdd",
+      "mirror_identity": "local-codefriend:MVP_BUILD_PLAN.md",
+      "drive_document_id_status": "historical_id_unavailable_snapshot_digest_authoritative",
+      "disposition": "included",
+      "target": "v0.92.2 build lane",
+      "reason": "The retained build snapshot grounds the bounded Beta 1 implementation wave.",
+      "execution_dependency": false
+    },
+    {
+      "candidate_id": "DRIVE-CF-003",
+      "source_class": "google_drive_snapshot",
+      "source_identity": "drive-snapshot:codefriend-setup-plan",
+      "source_sha256": "74b92bbe9eaf23fc4eebde3a922f3d25846b48b74c652781716431613fd7a84f",
+      "mirror_identity": "tracked:docs/planning/codefriend/CODEFRIEND_SETUP_PLAN.md",
+      "drive_document_id_status": "historical_id_unavailable_tracked_snapshot_digest_authoritative",
+      "disposition": "included_as_input",
+      "target": "v0.92.2 product shell and delivery",
+      "reason": "The tracked setup snapshot supplies durable context-free setup input.",
+      "execution_dependency": false
+    },
+    {
+      "candidate_id": "DRIVE-CF-004",
+      "source_class": "google_drive_snapshot",
+      "source_identity": "drive-snapshot:portable-adapter-v2-plan",
+      "source_sha256": "3ced9a601d01da34400636f60cec80cf38590463ae0607592246315a066101f4",
+      "mirror_identity": "local-codefriend:PORTABLE_ADL_PROJECT_ADAPTER_V2_PLAN.md",
+      "drive_document_id_status": "historical_id_unavailable_snapshot_digest_authoritative",
+      "disposition": "included",
+      "target": "v0.92.2 portable adapter",
+      "reason": "The retained Adapter v2 snapshot is the current detailed portable-adapter input.",
+      "execution_dependency": false
+    },
+    {
+      "candidate_id": "DRIVE-CF-005",
+      "source_class": "google_drive_snapshot",
+      "source_identity": "drive-snapshot:codefriend-security-plan",
+      "source_sha256": "7800c35a6a3b0a67f7b7163f5b306ab9a0d024932a760f572b077d8e0da99208",
+      "mirror_identity": "local-codefriend:CODEFRIEND_SECURITY_MODEL.md",
+      "drive_document_id_status": "historical_id_unavailable_snapshot_digest_authoritative",
+      "disposition": "included",
+      "target": "v0.92.2 security feature",
+      "reason": "The retained security snapshot grounds the first-class Beta 1 security contract.",
+      "execution_dependency": false
+    },
+    {
+      "candidate_id": "DRIVE-ATE-001",
       "source_class": "google_drive_design",
       "source_identity": "document:1h9-_jPP8rXST91jpw-Q_zwOAx5gbzxxOV1OGcoFx-TE",
       "source_sha256": null,

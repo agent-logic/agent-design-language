@@ -1,1 +1,1 @@
-{"schema":"adl.v0922.codefriend-plan-validation.v1","result":"passed","planned_ids":21,"feature_docs":9,"release_tail":10,"deferred_tracks":12,"source_candidates":16,"source_ledger_sha256":"d10f720c6d840ccdfc758954530bf6421bb6599935692b58bbb74f98e912c141"}
+{"schema":"adl.v0922.codefriend-plan-validation.v1","result":"passed","planned_ids":21,"feature_docs":9,"release_tail":10,"deferred_tracks":12,"source_candidates":21,"source_ledger_sha256":"76a2e0565e3d87e9e6e8b970cf4763092a51847db0d3eab1665f65bfc8fd50b9"}

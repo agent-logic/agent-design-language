@@ -1,0 +1,19 @@
+{
+  "schema": "csdlc.review_record_request.v1",
+  "issue": 316,
+  "expected_generation": 13,
+  "expected_digest": "de4b071a6dc5fa391bb897d5cb59867b000a37a0e6d9553758d6bd3f4f6d0e9f",
+  "actor": "codex:/root",
+  "evidence": {
+    "reviewer": "fresh-session:B432A571-EA1A-41FA-B3C4-58E50D0D92C9",
+    "scope": ["docs/milestones/v0.92.1", "docs/milestones/v0.92.2", "docs/planning/ADL_FEATURE_LIST.md", ".csdlc/prepared/issues/316", ".csdlc/evidence/316", ".csdlc/issues/316"],
+    "reviewed_revision": "git-blake3:61ccb51065e404cd9187306d751f3067da3e4068:90496dbe1dae37898ff2ce4343169e081d0ee548a27a5966f131b5dc42090696",
+    "findings": [
+      {"id":"P1-codefriend-drive-denominator","severity":"p1","summary":"The five declared historical CodeFriend Drive inputs lacked individual snapshot identities, mappings, and dispositions.","actionable":true,"in_scope":true,"disposition":"open","fix_revision":null,"route":"Add five digest-bound Drive snapshot rows mapped to their durable mirrors and validate the exact denominator."},
+      {"id":"P1-stale-ledger-digests","severity":"p1","summary":"Retained audit and validator logs referenced a ledger digest that did not match the committed bytes.","actionable":true,"in_scope":true,"disposition":"open","fix_revision":null,"route":"Regenerate all retained ledger digest references from the exact corrected bytes."}
+    ],
+    "residual_risks": [],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}

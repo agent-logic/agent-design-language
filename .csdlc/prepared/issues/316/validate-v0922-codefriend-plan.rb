@@ -16,11 +16,20 @@ unless ledger_path.file?
 else
   ledger = JSON.parse(ledger_path.read)
   codefriend = ledger.fetch("candidates").select { |row| row.fetch("candidate_id").start_with?("CF-") }
+  drive_codefriend = ledger.fetch("candidates").select { |row| row.fetch("candidate_id").start_with?("DRIVE-CF-") }
   expected_codefriend_ids = (1..16).map { |n| "CF-%03d" % n }
   errors << "CodeFriend source denominator mismatch" unless codefriend.map { |row| row.fetch("candidate_id") }.sort == expected_codefriend_ids.sort
+  expected_drive_ids = (1..5).map { |n| "DRIVE-CF-%03d" % n }
+  errors << "CodeFriend Drive source denominator mismatch" unless drive_codefriend.map { |row| row.fetch("candidate_id") }.sort == expected_drive_ids.sort
   codefriend.each do |row|
     errors << "CodeFriend source became execution dependency:#{row['candidate_id']}" unless row.fetch("execution_dependency") == false
     errors << "missing CodeFriend disposition reason:#{row['candidate_id']}" if row.fetch("reason").strip.empty?
+  end
+  drive_codefriend.each do |row|
+    errors << "CodeFriend Drive source became execution dependency:#{row['candidate_id']}" unless row.fetch("execution_dependency") == false
+    errors << "invalid CodeFriend Drive snapshot digest:#{row['candidate_id']}" unless row.fetch("source_sha256").match?(/\A[0-9a-f]{64}\z/)
+    errors << "missing CodeFriend Drive mirror:#{row['candidate_id']}" if row.fetch("mirror_identity").strip.empty?
+    errors << "missing CodeFriend Drive disposition reason:#{row['candidate_id']}" if row.fetch("reason").strip.empty?
   end
 end
 
@@ -99,7 +108,7 @@ if errors.empty?
   puts JSON.generate(schema: "adl.v0922.codefriend-plan-validation.v1", result: "passed",
                      planned_ids: ids.length, feature_docs: files.count { |path| path.dirname.basename.to_s == "features" && path.basename.to_s != "README.md" },
                      release_tail: tail.length, deferred_tracks: deferred.length,
-                     source_candidates: codefriend.length,
+                     source_candidates: codefriend.length + drive_codefriend.length,
                      source_ledger_sha256: Digest::SHA256.file(ledger_path).hexdigest)
 else
   warn errors.join("\n")

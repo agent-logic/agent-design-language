@@ -1,17 +1,17 @@
 {
   "issue": 316,
   "card": "sor",
-  "expected_generation": 9,
-  "expected_digest": "d52db077525ea8d5416692bd23b5afd4e0dd33c0851bdd9bd22dcef6269b1965",
+  "expected_generation": 15,
+  "expected_digest": "87f63416c43cb0a6d81e53b1521c0da2cb74f65472dcf701abcb8f67cf6ea6e9",
   "actor": "codex:/root",
   "reason": "Replace overstated proof wording with the exact planning-package and source-disposition evidence actually produced.",
   "operation": {
     "operation": "replace_execution",
-    "summary": "Completed canonical v0.92.1 reconciliation and the full v0.92.2 CodeFriend Beta 1 planning package without creating issues; every selected local TBD, CodeFriend incubation, supplied Drive, and Runtime-decoupling source candidate has one explicit non-runtime disposition.",
+    "summary": "Completed canonical v0.92.1 reconciliation and the full v0.92.2 CodeFriend Beta 1 planning package without creating issues; every selected local TBD, CodeFriend incubation, historical Drive snapshot, supplied ATE Drive design, and Runtime-decoupling source candidate has one explicit non-runtime disposition.",
     "changes": [
       "Reconciled the canonical v0.92.1 package, routing, dependencies, feature index, and release tail.",
       "Authored the complete number-free v0.92.2 CodeFriend Beta 1 package and explicit deferrals.",
-      "Added a 35-row source-disposition ledger and fail-closed validation for the exact TBD, CodeFriend, Drive, and Git-input denominator."
+      "Added a 40-row source-disposition ledger and fail-closed validation for the exact TBD, CodeFriend, five CodeFriend Drive snapshots, ATE Drive, and Git-input denominator."
     ],
     "artifacts": [
       ".csdlc/prepared/issues/316/design.md",
@@ -25,8 +25,8 @@
       ".csdlc/evidence/316/planning-audit.json"
     ],
     "validation": [
-      {"command":["ruby",".csdlc/prepared/issues/316/validate-v0921-plan.rb"],"purpose":"Validate the exact v0.92.1 planning IDs, creation slots, dependency graph, release tail, tracked planning surfaces, and all 35 source-candidate dispositions.","outcome":"passed","evidence_ref":".csdlc/evidence/316/planning-package.log"},
-      {"command":["ruby",".csdlc/prepared/issues/316/validate-v0922-codefriend-plan.rb"],"purpose":"Validate the number-free CodeFriend Beta 1 planning package, nine feature documents, canonical release tail, explicit deferrals, links, portability guards, and all 16 CodeFriend source dispositions; this proves planning completeness, not future product implementation.","outcome":"passed","evidence_ref":".csdlc/evidence/316/codefriend-beta1-package.log"},
+      {"command":["ruby",".csdlc/prepared/issues/316/validate-v0921-plan.rb"],"purpose":"Validate the exact v0.92.1 planning IDs, creation slots, dependency graph, release tail, tracked planning surfaces, and all 40 source-candidate dispositions.","outcome":"passed","evidence_ref":".csdlc/evidence/316/planning-package.log"},
+      {"command":["ruby",".csdlc/prepared/issues/316/validate-v0922-codefriend-plan.rb"],"purpose":"Validate the number-free CodeFriend Beta 1 planning package, nine feature documents, canonical release tail, explicit deferrals, links, portability guards, 16 local CodeFriend inputs, and five historical Drive snapshot mappings; this proves planning completeness, not future product implementation.","outcome":"passed","evidence_ref":".csdlc/evidence/316/codefriend-beta1-package.log"},
       {"command":["git","diff","--check"],"purpose":"Reject whitespace errors in the bounded candidate.","outcome":"passed","evidence_ref":".csdlc/evidence/316/diff-hygiene.log"}
     ]
   }

@@ -18,7 +18,7 @@ else
   candidates = ledger.fetch("candidates")
   expected_candidate_ids = (1..17).map { |n| "TBD-%03d" % n } +
                            (1..16).map { |n| "CF-%03d" % n } +
-                           %w[DRIVE-001 GIT-001]
+                           %w[DRIVE-CF-001 DRIVE-CF-002 DRIVE-CF-003 DRIVE-CF-004 DRIVE-CF-005 DRIVE-ATE-001 GIT-001]
   candidate_ids = candidates.map { |row| row.fetch("candidate_id") }
   errors << "source candidate denominator mismatch" unless candidate_ids.sort == expected_candidate_ids.sort
   errors << "duplicate source candidate ids" unless candidate_ids.uniq.length == candidate_ids.length
@@ -32,6 +32,11 @@ else
     digest = row["source_sha256"]
     if row.fetch("source_class").start_with?("local_")
       errors << "invalid local source digest:#{row['candidate_id']}" unless digest&.match?(/\A[0-9a-f]{64}\z/)
+    end
+    if row.fetch("source_class") == "google_drive_snapshot"
+      errors << "invalid Drive snapshot digest:#{row['candidate_id']}" unless digest&.match?(/\A[0-9a-f]{64}\z/)
+      errors << "missing Drive mirror:#{row['candidate_id']}" if row.fetch("mirror_identity").strip.empty?
+      errors << "Drive snapshot identity unavailable without disposition:#{row['candidate_id']}" if row.fetch("drive_document_id_status").strip.empty?
     end
   end
 end
