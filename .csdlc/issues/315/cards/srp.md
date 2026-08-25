@@ -12,9 +12,7 @@ Status: draft
 
 ## Scope
 
-.csdlc/issues/315
-adl-runtime-kernel/src/production_birthday.rs
-adl-runtime-kernel/tests/production_birthday.rs
+.
 
 ## Prompts
 
@@ -33,13 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- The public error payload type changes from a direct receipt to Box<ProductionBirthdayReceipt>, but the variant was introduced within this still-unmerged PR and all repository call sites were updated.
-- Focused strict Clippy and all seven production birthday tests passed; broad unrelated Runtime tests were not rerun for this two-file lint repair.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:f910198512a706b4d7737c3b1c228068c451d97f:ab22bbecb06900abbc60ca24662ab82feb53822311cda5230d58ca0e527f9f71")
+Revision: None
 
-Reviewer: Some("subagent:issue-315-runtime-fast-ci-review")
+Reviewer: None
 
-Result: pass
+Result: pre_review

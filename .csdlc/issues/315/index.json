@@ -4,49 +4,21 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "69a605466990518758a56adab5fead02f83654418b6259dd24bf8dedd0eea706",
-  "phase": "published",
-  "generation": 30,
-  "digest": "54afc76868e9c0250fd7b0cfe45b1c0189010c4c1c96bde9447a3bc52e394856",
+  "phase": "implemented",
+  "generation": 36,
+  "digest": "54272e2cb5e0ad2d108b9d6cf8f20c77ef578cc2d8e4045683c95ced5e17e4b4",
   "branch": "codex/315-wp27-review-findings-remediation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-315-wp27-review-findings-remediation-execution",
   "review_assignment": {
-    "reviewer": "subagent:issue-315-runtime-fast-ci-review",
-    "assigned_by": "codex:issue-315-runtime-fast-ci-repair",
-    "revision": "git-blake3:f910198512a706b4d7737c3b1c228068c451d97f:ab22bbecb06900abbc60ca24662ab82feb53822311cda5230d58ca0e527f9f71",
+    "reviewer": "subagent:issue-315-rebased-exact-head-review",
+    "assigned_by": "codex:issue-315-main-rebase-shepherd",
+    "revision": "git-blake3:d171dbe3fca0d74b6d2efb18fd2edf2d6cd0b107:534b8990ae85e8e6ca2fb7b706f8be65688352e62770ed06edb586039cc9d3b1",
     "scope": [
-      ".csdlc/issues/315",
-      "adl-runtime-kernel/src/production_birthday.rs",
-      "adl-runtime-kernel/tests/production_birthday.rs"
+      "."
     ]
   },
-  "review": {
-    "reviewer": "subagent:issue-315-runtime-fast-ci-review",
-    "scope": [
-      ".csdlc/issues/315",
-      "adl-runtime-kernel/src/production_birthday.rs",
-      "adl-runtime-kernel/tests/production_birthday.rs"
-    ],
-    "reviewed_revision": "git-blake3:f910198512a706b4d7737c3b1c228068c451d97f:ab22bbecb06900abbc60ca24662ab82feb53822311cda5230d58ca0e527f9f71",
-    "findings": [],
-    "residual_risks": [
-      "The public error payload type changes from a direct receipt to Box<ProductionBirthdayReceipt>, but the variant was introduced within this still-unmerged PR and all repository call sites were updated.",
-      "Focused strict Clippy and all seven production birthday tests passed; broad unrelated Runtime tests were not rerun for this two-file lint repair."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 315,
-    "pull_request": 473,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/473",
-    "base": "main",
-    "head": "codex/315-wp27-review-findings-remediation",
-    "revision": "git-blake3:ad757ac8097874c04add89cb7aa9215d25f01d8b:d966a113300f6063f4d2a13389b43635d8031a9aa8b640103aef4ac36c2ff5ed",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -60,34 +32,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "103c04baebd481ff845fc07582cb6ab01c76d2f8395a2337fcbcbaa588f67741",
+      "values_digest": "46b43f71ca14ca15b7dc773c9356a3fe4dc9aacc64cfe53485a3961a194edb9f",
       "rendered_digest": "341c937fdfdc7d28a4e966b62a53bc61394af898f7d104b27cf4e82cb4a3b800",
       "ast_digest": "2ef61ea6b35c490db81836796f74a1247d260661fcdae958af258730150e9659"
     },
     "stp": {
-      "values_digest": "408ee644ef0b54077c2c139b2d622b40c2a1716e5030a9ca557ccd1b5d2c6108",
+      "values_digest": "a1b64262a5331675ee994d90d83dda5af0f2dd8ef7920b74bb938f8421cd25a6",
       "rendered_digest": "41c5d09e96d48953aae37c390321be4df65dad1a73e471eae95bc941aa0ac704",
       "ast_digest": "d60860595e2c59a73829c43968af0e5682c0867545ad6482d07bedaeb7410de3"
     },
     "spp": {
-      "values_digest": "a28a8236309ac3b6b230de917e0589db83e5b2851af7d4c3adb5560248f6faec",
-      "rendered_digest": "0a7550cdbcbcfefd20f6c999684541d9f747e3a3725a0ae61fa6361b4553f3b5",
-      "ast_digest": "a15d5833a7430c74c1977782e4a1b741a26407a8fd3d07ae2d7c1bab00fc9f3e"
+      "values_digest": "dd2bbdbcbe74170ceb84f3c6b4e35bb416b651e25433d263090efb1dcf23e4bf",
+      "rendered_digest": "7d44071f2b2575d1bbc72ef5c363af15693041d8c9e288427b4b586794de3228",
+      "ast_digest": "62fe05bf64aa2e5bffd3770163dc4cc297e7601748ebdf127bde703a464a63a6"
     },
     "vpp": {
-      "values_digest": "b24e044412d59503311c3373634ab129069d4bb40a1c0b49c8e53494084a7dd1",
-      "rendered_digest": "dedc66e1701a21485f9fec599136f350a7a064c31832bd44834100174db40d1b",
-      "ast_digest": "f281237f41ade71183b8c19dd27a3dff3774cbc3ac8e4b89aa359cc0dd0f5940"
+      "values_digest": "6da0f1e153aaba8ce50eb53ad3a0dfb2f5de9f2e38c1566f3fcb67799fdc97e5",
+      "rendered_digest": "692839efbf65774e00435f737056f0c437593f76407d1e0972c03cdce4f9832c",
+      "ast_digest": "101d27a7f23bffe92592b085a113f695514e8369f47580cef9ac915f13b4d8d0"
     },
     "srp": {
-      "values_digest": "d74062d62e36edb919b772f18c7fd4bba61dc897e5a3489b4d3a50e63eab1276",
-      "rendered_digest": "91102aa047eb1922c7ebd93fef5cb758ec86d9bd46cd0dd86b32c2f8dbb23096",
-      "ast_digest": "47cdb83b13cce51db5fc79a7016de3edd3cf42b8474096fb4dd7e24c96544e39"
+      "values_digest": "379c74880eb415257db76a24691b828cce36c84c808a4de09e9ff17f7865c691",
+      "rendered_digest": "4c50023a8a697e8af91dc87d684509fea72c7e6f056fea759cf06ab1841e29f9",
+      "ast_digest": "a60123dc8fcc7285d1d00e8cc46ed514b0a20afd234b76120f89e688a1d93945"
     },
     "sor": {
-      "values_digest": "cad36ce5b934c9a37e20b90f95b516fee98303ffc1e892a6f59ef141c9451008",
-      "rendered_digest": "656bba43c4f73859bf80c598d23dbbc606f960b7b6afb506ef43209a16a35735",
-      "ast_digest": "3a069354eb95cd58bc146f7b6adc511fa259e0147cb9cd1dc1ca83da4257d340"
+      "values_digest": "a5a94b31983578421a1be5c247fe645a52b14ff8820b54a9426107a2d17fa4c5",
+      "rendered_digest": "362b9ba372a92c29977fc6f238192a749764e802c7153b4428a98f39c751176c",
+      "ast_digest": "e46c23a1fdd8930aebff0d127e2326a4b0325eead8628817bec81ca6dacd0ab2"
     }
   },
   "transitions": [
@@ -181,6 +153,13 @@
       "to": "published",
       "actor": "codex:issue-315-runtime-fast-ci-repair",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 14,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-315-main-rebase-review-recovery",
+      "reason": "Recover stale published review and publication truth after rebasing PR #473 onto current main at b1e4ab4777e3e818a3cd2e14524ebe4c519f340e; obtain a fresh assigned exact-head review at d171dbe3fca0d74b6d2efb18fd2edf2d6cd0b107 before typed finish."
     }
   ],
   "audit": [
@@ -533,6 +512,55 @@
       "actor": "codex:issue-315-runtime-fast-ci-repair",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 51,
+      "generation": 31,
+      "actor": "codex:issue-315-main-rebase-review-recovery",
+      "reason": "Recover stale published review and publication truth after rebasing PR #473 onto current main at b1e4ab4777e3e818a3cd2e14524ebe4c519f340e; obtain a fresh assigned exact-head review at d171dbe3fca0d74b6d2efb18fd2edf2d6cd0b107 before typed finish.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 52,
+      "generation": 31,
+      "actor": "codex:issue-315-main-rebase-shepherd",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 53,
+      "generation": 32,
+      "actor": "codex:issue-315-review-truth-repair",
+      "reason": "Mark finding-universe reconciliation complete from retained review packet evidence.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S1\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 54,
+      "generation": 33,
+      "actor": "codex:issue-315-review-truth-repair",
+      "reason": "Mark provenance-preserving deduplication and owner routing complete from the canonical disposition register.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S2\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 55,
+      "generation": 34,
+      "actor": "codex:issue-315-review-truth-repair",
+      "reason": "Mark the bounded birthday remediation and focused validation complete from retained execution evidence.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S3\",\"status\":\"completed\"}"
+    },
+    {
+      "sequence": 56,
+      "generation": 35,
+      "actor": "codex:issue-315-review-truth-repair",
+      "reason": "Keep exact review, PR, merge, and terminal reconciliation in progress until typed finish observes the green exact head.",
+      "operation": "{\"operation\":\"update_plan_step\",\"step_id\":\"S4\",\"status\":\"in_progress\"}"
+    },
+    {
+      "sequence": 57,
+      "generation": 36,
+      "actor": "codex:issue-315-review-truth-repair",
+      "reason": "Narrow the local validator claim to the evidence it actually proves; exact-head review, required checks, merge, and terminal authority remain owned by typed review and finish.",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"canonical-remediation-truth\",\"proof_role\":\"Reconstruct the complete internal plus external finding universe, validate disposition ownership and retained evidence digests, and rerun the affected quality, release, and production-birthday regressions. Exact-head review, required-check, merge, and terminal truth are separate typed review and finish gates.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":960,\"budget_tokens\":8500,\"argv\":[\"ruby\",\".csdlc/prepared/issues/5848/validate-remediation-regressions.rb\"],\"parallel_group\":\"remediation\",\"defer_reason\":null}]}"
     }
   ]
 }
