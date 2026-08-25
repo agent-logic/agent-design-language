@@ -11,6 +11,8 @@ rescue JSON::ParserError => error
   abort "invalid #{label}: #{error.message}"
 end
 
+require_meta_review = ARGV.delete("--require-meta-review")
+abort "unexpected arguments: #{ARGV.join(' ')}" if ARGV.length > 1
 root = ARGV.fetch(0, "docs/reviews/v0.92/internal-review-5846")
 manifest = read_json!(File.join(root, "packet-manifest.json"), "internal review packet manifest")
 findings = read_json!(File.join(root, "findings.json"), "internal review findings")
@@ -65,4 +67,33 @@ findings.fetch("disagreements", []).each do |row|
   abort "disagreement rationale missing" if row["rationale"].to_s.strip.empty?
 end
 
-puts "PASS: explicit specialist roster, report identities, and defensible zero-findings"
+if require_meta_review
+  receipt_path = File.join(root, "independent-api-review", "receipt.json")
+  review_path = File.join(root, "independent-api-review", "gemini-meta-review.md")
+  invocation_path = File.join(root, "independent-api-review", "provider-invocation.json")
+  quality_path = File.join(root, "quality-evaluation", "review_quality_evaluation.json")
+  redaction_path = File.join(root, "redaction-audit", "redaction_report.json")
+  receipt = read_json!(receipt_path, "independent API meta-review receipt")
+  invocation = read_json!(invocation_path, "independent API invocation")
+  quality = read_json!(quality_path, "review quality evaluation")
+  redaction = read_json!(redaction_path, "redaction audit")
+
+  abort "meta-review target mismatch" unless receipt["target_revision"] == manifest["target_sha"]
+  abort "meta-review did not pass" unless receipt["verdict"] == "pass" && receipt["actionable_finding_count"] == 0
+  abort "meta-review retained credential material" unless receipt["credential_material_retained"] == false
+  abort "meta-review response digest mismatch" unless File.file?(review_path) && Digest::SHA256.file(review_path).hexdigest == receipt["response_sha256"]
+  receipt.fetch("source_sha256").each do |relative, digest|
+    source = File.join(root, relative)
+    abort "meta-review source missing: #{relative}" unless File.file?(source)
+    abort "meta-review source digest mismatch: #{relative}" unless Digest::SHA256.file(source).hexdigest == digest
+  end
+  invocations = invocation["invocations"]
+  abort "Gemini invocation missing" unless invocations.is_a?(Array) && invocations.length == 1
+  call = invocations.first
+  abort "Gemini invocation failed" unless call["family"] == "gemini" && call["http_status"] == 200
+  abort "review quality gate did not pass" unless quality["status"] == "pass" && quality["blocking_issues"] == [] && quality["warnings"] == []
+  abort "redaction audit did not pass" unless redaction["status"] == "pass" && redaction.dig("counts", "blocker") == 0 && redaction.dig("counts", "warning") == 0
+end
+
+suffix = require_meta_review ? ", live API meta-review, quality, and redaction gates" : ""
+puts "PASS: explicit specialist roster, report identities, and defensible zero-findings#{suffix}"

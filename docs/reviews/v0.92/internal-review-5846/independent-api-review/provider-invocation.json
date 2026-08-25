@@ -1,0 +1,21 @@
+{
+  "credential_policy": "operator_env_or_home_keys_no_secret_material_recorded",
+  "invocations": [
+    {
+      "family": "gemini",
+      "http_status": 200,
+      "latency_ms": 13781,
+      "model": "gemini-3.1-pro-preview",
+      "output_chars": 2689,
+      "prompt_chars": 95855,
+      "request_id_present": false
+    }
+  ],
+  "providers": [
+    {
+      "family": "gemini",
+      "model": "gemini-3.1-pro-preview"
+    }
+  ],
+  "schema_version": "adl.live_provider_invocations.v1"
+}

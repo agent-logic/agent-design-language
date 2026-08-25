@@ -1,0 +1,78 @@
+{
+  "blocking_issues": [],
+  "created_at": "2026-08-25T01:35:32Z",
+  "publication_boundary": {
+    "approval_claimed": false,
+    "compliance_claimed": false,
+    "privacy_mode": "local_only",
+    "publication_allowed_by_source": false,
+    "publication_intent": "internal_review",
+    "published_by_skill": false,
+    "remediation_complete_claimed": false
+  },
+  "publication_intent": "internal_review",
+  "recommended_handoffs": [
+    "human review"
+  ],
+  "repo_name": "agent-design-language",
+  "repo_ref": "c6792e54d",
+  "residual_risk_clarity": {
+    "non_reviewed_surfaces": [
+      "Runtime behavior was not executed.",
+      "Specialist review lanes were not run by this packet builder.",
+      "Generated/vendor/cache surfaces are excluded by default."
+    ],
+    "status": "pass"
+  },
+  "run_id": "20260825-010619-repo-packet",
+  "schema": "codebuddy.review_quality_evaluation.v1",
+  "score": 100,
+  "scorecard": {
+    "actionability": "pass",
+    "duplication": "pass",
+    "evidence_quality": "pass",
+    "redaction_status": "pass",
+    "residual_risk_clarity": "pass",
+    "severity_accuracy": "pass",
+    "specialist_coverage": "pass",
+    "template_compliance": "pass",
+    "unsupported_claims": "pass"
+  },
+  "specialist_coverage": {
+    "missing_roles": [],
+    "present_roles": [
+      "code",
+      "security",
+      "tests",
+      "docs",
+      "architecture"
+    ],
+    "required_roles": [
+      "code",
+      "security",
+      "tests",
+      "docs",
+      "architecture"
+    ],
+    "source_artifacts": [
+      "final_report.md"
+    ]
+  },
+  "status": "pass",
+  "template_compliance": {
+    "missing_sections": [],
+    "required_sections": [
+      "Executive Summary",
+      "Review Scope",
+      "Top Findings",
+      "Architecture Summary",
+      "Security And Privacy Notes",
+      "Test Recommendations",
+      "Remediation Sequence",
+      "Residual Risks"
+    ],
+    "status": "pass"
+  },
+  "unsupported_claims": [],
+  "warnings": []
+}
