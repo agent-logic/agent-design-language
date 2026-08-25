@@ -1,0 +1,26 @@
+{
+  "issue": 317,
+  "card": "sor",
+  "actor": "codex:01a036fd-7539-76d1-a728-d9d180fc99c3",
+  "reason": "Record bounded WP-28A implementation and focused deterministic validation before independent review.",
+  "expected_generation": 3,
+  "expected_digest": "eac0972dfa4e959fd516be7e7daddf7df5a4db56662f6cb18b3b19377392c8f7",
+  "operation": {
+    "operation": "record_execution",
+    "summary": "Implemented the canonical #317 v0.92 terminal closeout plan, explicit legacy-to-canonical issue universe, retained read-only GitHub observation envelope, acyclic merge-gated/asynchronous-closeout DAG, and executable negative fixtures. No review, publication, merge, finish, cleanup, tag, release, close, or activation mutation occurred.",
+    "changes": [
+      "Added the canonical WP-28A closeout plan with reviewed-green-merge execution gates and asynchronous finish/cleanup semantics.",
+      "Added a six-row one-to-one #5847-#5852 provenance mapping to canonical #314-#319 authority.",
+      "Added nondeterministic read-only observation plus deterministic universe, DAG, and negative validation modes.",
+      "Added twelve executable one-field negative cases covering identity, proof, topology, ownership, cycles, and closeout-as-gate rejection."
+    ],
+    "artifacts": [
+      "docs/milestones/v0.92/V092_TERMINAL_CLOSEOUT_PLAN_317.md",
+      ".csdlc/evidence/317/issue-universe.json",
+      ".csdlc/evidence/317/closeout-dag.json",
+      ".csdlc/evidence/317/negative-cases.json",
+      ".csdlc/evidence/317/github-observation-envelope.json",
+      ".csdlc/prepared/issues/317/validate-closeout-plan.rb"
+    ]
+  }
+}

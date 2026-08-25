@@ -1,0 +1,102 @@
+{
+  "schema": "adl.v092.terminal-issue-universe.v1",
+  "authority": "canonical tracked planning plus retained read-only observation",
+  "repository": "agent-logic/agent-design-language",
+  "observation_envelope": ".csdlc/evidence/317/github-observation-envelope.json",
+  "observation_envelope_sha256": "5a63e345def4745ac0137f39acb3205144df3ca558702dce3d6ab3d87f88b745",
+  "issues": [
+    {
+      "wp": "WP-26",
+      "legacy_issue": 5847,
+      "canonical_issue": 314,
+      "repository": "agent-logic/agent-design-language",
+      "github_state": "CLOSED",
+      "merge": null,
+      "typed_state": "recordless_or_async_reconciliation",
+      "evidence": ["agent-logic/agent-design-language#314"],
+      "release_dependency": "review input to WP-27; not a WP-28A execution gate",
+      "classification": "review_complete",
+      "owner": "WP-26",
+      "next_action": "retain review inputs; reconcile typed finish asynchronously"
+    },
+    {
+      "wp": "WP-27",
+      "legacy_issue": 5848,
+      "canonical_issue": 315,
+      "repository": "agent-logic/agent-design-language",
+      "github_state": "OPEN",
+      "merge": null,
+      "typed_state": "implementation_in_progress",
+      "evidence": ["agent-logic/agent-design-language#315"],
+      "release_dependency": "substantive remediation merge required before WP-30 ceremony",
+      "classification": "remediation_in_progress",
+      "owner": "WP-27",
+      "next_action": "land all actionable findings with focused proof and exact-head review"
+    },
+    {
+      "wp": "WP-28",
+      "legacy_issue": 5849,
+      "canonical_issue": 316,
+      "repository": "agent-logic/agent-design-language",
+      "github_state": "CLOSED",
+      "merge": {
+        "pr": 472,
+        "base": "main",
+        "head": "8478f11e21a34530ba07bf64afc260e7a6eedd33",
+        "merge_commit": "5002b387b79f2d8dbf41a8c1a99e5a03bcb5c5d5",
+        "review_status": "independent_exact_head_pass",
+        "review_evidence": ".csdlc/issues/316/cards/srp.md",
+        "checks_status": "green",
+        "ancestry": "ancestral_to_main"
+      },
+      "typed_state": "merged_finish_async",
+      "evidence": ["docs/milestones/v0.92.1", ".csdlc/issues/316"],
+      "release_dependency": "reviewed green ancestral merge opens WP-28A",
+      "classification": "reviewed_green_merged",
+      "owner": "WP-28",
+      "next_action": "no execution gate remains; reconcile finish and cleanup asynchronously"
+    },
+    {
+      "wp": "WP-28A",
+      "legacy_issue": 5850,
+      "canonical_issue": 317,
+      "repository": "agent-logic/agent-design-language",
+      "github_state": "OPEN",
+      "merge": null,
+      "typed_state": "bound_implementation",
+      "evidence": ["docs/milestones/v0.92/V092_TERMINAL_CLOSEOUT_PLAN_317.md", ".csdlc/evidence/317"],
+      "release_dependency": "reviewed green ancestral merge opens WP-29",
+      "classification": "active_planning",
+      "owner": "WP-28A",
+      "next_action": "validate, independently review, and merge the plan"
+    },
+    {
+      "wp": "WP-29",
+      "legacy_issue": 5851,
+      "canonical_issue": 318,
+      "repository": "agent-logic/agent-design-language",
+      "github_state": "OPEN",
+      "merge": null,
+      "typed_state": "not_bootstrapped",
+      "evidence": ["agent-logic/agent-design-language#318"],
+      "release_dependency": "wait for WP-28A reviewed green ancestral merge only",
+      "classification": "queued",
+      "owner": "WP-29",
+      "next_action": "bootstrap and execute after issue 317 merges"
+    },
+    {
+      "wp": "WP-30",
+      "legacy_issue": 5852,
+      "canonical_issue": 319,
+      "repository": "agent-logic/agent-design-language",
+      "github_state": "OPEN",
+      "merge": null,
+      "typed_state": "not_bootstrapped",
+      "evidence": ["agent-logic/agent-design-language#319"],
+      "release_dependency": "wait for WP-29 and WP-27 reviewed green ancestral merges",
+      "classification": "ceremony_queued",
+      "owner": "WP-30",
+      "next_action": "bootstrap ceremony only after issues 318 and 315 merge"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 317,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-28A] Next-milestone closeout plan",
+    "slug": "v092-wp28a-terminal-closeout-plan",
+    "version": "v0.92.0",
+    "generation": 6
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "docs/milestones/v0.92/V092_TERMINAL_CLOSEOUT_PLAN_317.md\n.csdlc/evidence/317\n.csdlc/prepared/issues/317",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Is the canonical v0.92 issue denominator complete and duplicate-free?",
+        "Does every row bind exact immutable GitHub and typed truth without self-attestation?",
+        "Does the DAG gate only on reviewed green merge ancestry while leaving finish and cleanup asynchronous?",
+        "Do the negative cases fail closed for every declared risk?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

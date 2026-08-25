@@ -1,0 +1,43 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 317,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-28A] Next-milestone closeout plan",
+    "slug": "v092-wp28a-terminal-closeout-plan",
+    "version": "v0.92.0",
+    "generation": 6
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Produce the exact non-mutating v0.92 terminal issue universe and acyclic release-tail action plan that enables #318 after #317's reviewed green merge.",
+      "required_outcome": "A reviewed documentation packet with exact row ownership, merge-based dependency gates, asynchronous finish and cleanup routing, and no release mutation.",
+      "declared_scope": [
+        "canonical v0.92 terminal issue universe",
+        "merge-based release-tail dependency DAG",
+        "typed finish and cleanup asynchronous routing",
+        "focused completeness, ancestry, cycle, and negative validation"
+      ],
+      "authority_boundary": [
+        "#316 PR #472 reviewed green merge and ancestry are the predecessor authority",
+        "typed finish and worktree cleanup are asynchronous and non-gating",
+        "#318 and #319 execution, merge, tag, release, closure, and v0.93 activation are outside scope",
+        "legacy #5850 artifacts are provenance only"
+      ],
+      "initial_assumptions": [
+        "PR #472 merge commit 5002b387b79f2d8dbf41a8c1a99e5a03bcb5c5d5 is ancestral to current main",
+        "canonical v0.92 planning and release-tail documents define the issue denominator"
+      ],
+      "operator_constraints": [
+        "Bind beneath /Volumes/FastWork/adl-worktrees",
+        "Do not write tracked changes on main",
+        "Do not use /private/tmp",
+        "Do not serialize on closeout or cleanup",
+        "Do not merge without explicit operator authority"
+      ]
+    }
+  }
+}

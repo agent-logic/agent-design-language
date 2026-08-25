@@ -1,0 +1,87 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 317,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-28A] Next-milestone closeout plan",
+    "slug": "v092-wp28a-terminal-closeout-plan",
+    "version": "v0.92.0",
+    "generation": 6
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "Derive the exact v0.92 issue universe, reconcile live immutable merge/review/check truth, construct an acyclic merge-gated action graph with asynchronous bookkeeping, exercise focused negatives, obtain exact-head review, and publish without merging.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Verify #316 merge ancestry and derive the canonical v0.92 denominator plus exact legacy-to-canonical provenance mapping.",
+          "acceptance_ids": [
+            "AC-1"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Acquire retained live observations, validate every row deterministically, and construct the merge-gated asynchronous closeout DAG.",
+          "acceptance_ids": [
+            "AC-2",
+            "AC-3"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Run focused negatives, hygiene, exact-head review, and closing-linked publication without merge or closure.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "docs/milestones/v0.92/V092_TERMINAL_CLOSEOUT_PLAN_317.md",
+        ".csdlc/evidence/317/issue-universe.json",
+        ".csdlc/evidence/317/closeout-dag.json",
+        ".csdlc/evidence/317/negative-cases.json",
+        ".csdlc/prepared/issues/317/validate-closeout-plan.rb"
+      ],
+      "invariants": [
+        "Reviewed green merge ancestry gates successor execution; closeout and cleanup do not.",
+        "Every required issue appears exactly once with one owner and next action.",
+        "The action graph remains acyclic.",
+        "#317 performs no remote release or terminal mutation."
+      ],
+      "risks": [
+        "Historical issue mappings can duplicate current canonical issues.",
+        "Stale GitHub or lifecycle observations can misclassify a row.",
+        "Legacy closeout sequencing can accidentally reintroduce serialization."
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 43200,
+        "total_tokens": 140000,
+        "validation_seconds": 7200
+      },
+      "stop_conditions": [
+        "The canonical denominator cannot be derived exactly.",
+        "Any row is duplicate, unknown, unowned, or has contradictory authority.",
+        "The graph contains a cycle or makes closeout a successor gate.",
+        "Exact-head review finds an actionable defect."
+      ],
+      "replan_triggers": [
+        "canonical denominator drift",
+        "live authority contradiction",
+        "dependency cycle",
+        "review finding"
+      ],
+      "design_ref": ".csdlc/prepared/issues/317/design.md",
+      "design_digest": "3425e72e0b9744514acee71c52db381991ccd40ec156a06fa30859753cf43069",
+      "diagram_ref": ".csdlc/prepared/issues/317/diagram.mmd",
+      "diagram_digest": "0607301dc50f658de41f7956070326444c9e76f6cce1e5d7cff98b518d701572"
+    }
+  }
+}

@@ -1,0 +1,139 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 317,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "a0534f72fa9918892f27414f6d760919282edda24fa3797c32f8229d6bc80f8b",
+  "phase": "implemented",
+  "generation": 6,
+  "digest": "e9ab8196cfb5a05e1224c89d101e875a690f84902f42864fef6a6ada0a2d38c2",
+  "branch": "codex/317-v092-wp28a-terminal-closeout-plan",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-317-terminal-closeout-plan",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/317/design.md",
+  "diagram_path": ".csdlc/prepared/issues/317/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:bf4276a7-efc8-433e-8725-476c504406fd",
+      "revision": "3425e72e0b9744514acee71c52db381991ccd40ec156a06fa30859753cf43069"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "2f496656b63fbee30210f2752e6467624d3b915e82b8a0268ad07770a908ad5d",
+      "rendered_digest": "a3b5318f0a6f8433f31dd2e2f1dcd5e9890b51b37100ce102cecb5d0253fad8e",
+      "ast_digest": "ff15c4e1eaf94e64aebde71816954a3ca62bcf0a72115b13f28bee01893d28d2"
+    },
+    "stp": {
+      "values_digest": "dd4b7da21e14cd9f286874f9d4900dfd23b3d959b93b81dc5a8fc5f227d97348",
+      "rendered_digest": "0a26748473618120e8ec5c453ed666dadbb0dff8437cfb517ef284b6e9c76a8d",
+      "ast_digest": "397733adc591124548a54307136ca0cc3792f1513113cb6764c22285faad2086"
+    },
+    "spp": {
+      "values_digest": "e2ff283f3dfc853d855e39324533078939aebd7e555d583a61ee09e2fcc9899c",
+      "rendered_digest": "7c20011c829f2d845f4ae723c424b35574133bd4f3f548ee56be343e2b1a1be3",
+      "ast_digest": "b10c3ff3f425f3780fd2c4ecaf727aa90450b7824f0ee04885fd4dbf5636c4cf"
+    },
+    "vpp": {
+      "values_digest": "b632517fc6d180f5308b0f69d213587830db300151296af3108d2efc352c7f3b",
+      "rendered_digest": "aff622ea8b9e183bafdffe7ceb9def0ffa50057744114c23c83ed9a2b693bc33",
+      "ast_digest": "686c4a1441ba647f3788ac08f141113c09f4615adb4451ae43029016837a3770"
+    },
+    "srp": {
+      "values_digest": "0f3573765131f766800cc2b7bc9d1b47822d1adf30e75173cadf9891482fb88e",
+      "rendered_digest": "91129832a340290e84cb5be2ef253f8f7e40777c6ed5129d6992e4c775db651a",
+      "ast_digest": "b2b5d8a922019632a85699e2c89a119e6e6137f0855555a30c394a9955d2ef62"
+    },
+    "sor": {
+      "values_digest": "6113ab731155404f87674f061331b24580fdf14a1dd90c765053b2b80676f097",
+      "rendered_digest": "ea931315ec2c2c03051ce441a4bf7dbc04af3e907b91bb93a38dd4d77624c54d",
+      "ast_digest": "a9088ea0c207d9a5dd593578de313650f0a7c0d8d5cc8a6510a53d5d8d624699"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:01a036fd-7539-76d1-a728-d9d180fc99c3",
+      "reason": "Bounded WP-28A deliverables and focused proving validation are implemented in the registered worktree."
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:bf4276a7-efc8-433e-8725-476c504406fd",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"3425e72e0b9744514acee71c52db381991ccd40ec156a06fa30859753cf43069\",\"design_ref\":\".csdlc/prepared/issues/317/design.md\",\"diagram_digest\":\"0607301dc50f658de41f7956070326444c9e76f6cce1e5d7cff98b518d701572\",\"diagram_ref\":\".csdlc/prepared/issues/317/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Recover initialized decomposition after review so canonical mapping, publication truth, live-observation provenance, and exact validator ownership are reflected before bind.",
+      "operation": "{\"design_review_recovery\":null,\"graph\":{\"edges\":[{\"from\":\"wp29\",\"relation\":\"depends_on_reviewed_green_merge\",\"to\":\"wp28a\"}],\"forbidden_cross_child_trust_redefinition\":false,\"nodes\":[{\"in_scope\":true,\"issue\":317,\"node_id\":\"wp28a\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"parent\"},{\"in_scope\":true,\"issue\":318,\"node_id\":\"wp29\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"successor\"}],\"parent_integration_owner\":\"wp28a\"},\"operation\":\"recover_initialized_decomposition\",\"preserved_design\":{\"authored_digest\":\"3425e72e0b9744514acee71c52db381991ccd40ec156a06fa30859753cf43069\",\"byte_sha256\":\"18dbf2f5ca65e65d149be78654f19362883369b185be1354ea8c0a567e3d4115\",\"path\":\".csdlc/prepared/issues/317/design.md\"},\"preserved_diagram\":{\"authored_digest\":\"0607301dc50f658de41f7956070326444c9e76f6cce1e5d7cff98b518d701572\",\"byte_sha256\":\"bb8e0e3f81ee57384fa73da0a9b0427c530927edd4399592801357081825b681\",\"path\":\".csdlc/prepared/issues/317/diagram.mmd\"},\"recovery_scope\":[\"acceptance_criteria\",\"affected_areas\",\"plan_steps\",\"validation_lanes\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "fresh-session:bf4276a7-efc8-433e-8725-476c504406fd",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"3425e72e0b9744514acee71c52db381991ccd40ec156a06fa30859753cf43069\",\"design_ref\":\".csdlc/prepared/issues/317/design.md\",\"diagram_digest\":\"0607301dc50f658de41f7956070326444c9e76f6cce1e5d7cff98b518d701572\",\"diagram_ref\":\".csdlc/prepared/issues/317/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 3,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "codex:01a036fd-7539-76d1-a728-d9d180fc99c3",
+      "reason": "Record bounded WP-28A implementation and focused deterministic validation before independent review.",
+      "operation": "{\"operation\":\"record_execution\",\"summary\":\"Implemented the canonical #317 v0.92 terminal closeout plan, explicit legacy-to-canonical issue universe, retained read-only GitHub observation envelope, acyclic merge-gated/asynchronous-closeout DAG, and executable negative fixtures. No review, publication, merge, finish, cleanup, tag, release, close, or activation mutation occurred.\",\"changes\":[\"Added the canonical WP-28A closeout plan with reviewed-green-merge execution gates and asynchronous finish/cleanup semantics.\",\"Added a six-row one-to-one #5847-#5852 provenance mapping to canonical #314-#319 authority.\",\"Added nondeterministic read-only observation plus deterministic universe, DAG, and negative validation modes.\",\"Added twelve executable one-field negative cases covering identity, proof, topology, ownership, cycles, and closeout-as-gate rejection.\"],\"artifacts\":[\"docs/milestones/v0.92/V092_TERMINAL_CLOSEOUT_PLAN_317.md\",\".csdlc/evidence/317/issue-universe.json\",\".csdlc/evidence/317/closeout-dag.json\",\".csdlc/evidence/317/negative-cases.json\",\".csdlc/evidence/317/github-observation-envelope.json\",\".csdlc/prepared/issues/317/validate-closeout-plan.rb\"]}"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:01a036fd-7539-76d1-a728-d9d180fc99c3",
+      "reason": "Record the focused aggregate proof after the read-only observation envelope was retained.",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"ruby\",\".csdlc/prepared/issues/317/validate-closeout-plan.rb\",\"all\"],\"purpose\":\"Validate the observation-bound six-row universe, merge-only acyclic DAG, and twelve executable negative fixtures.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/317\"}}"
+    },
+    {
+      "sequence": 8,
+      "generation": 6,
+      "actor": "codex:01a036fd-7539-76d1-a728-d9d180fc99c3",
+      "reason": "Bounded WP-28A deliverables and focused proving validation are implemented in the registered worktree.",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    }
+  ]
+}
