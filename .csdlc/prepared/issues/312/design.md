@@ -7,9 +7,10 @@ documentation to merged evidence, produces the exact external-review corpus and
 third-party handoff, and stops before external review, release approval,
 publication, deployment, or product repair.
 
-The only predecessor execution gate is the merge of #311's reviewed PR into the
-candidate base. #311's blocked quality result remains explicit documentation
-truth. Terminal reconciliation, closeout receipts, and worktree cleanup are
+The predecessor documentation input is the merged WP-22 authority. #311's
+blocked result remains historical provenance; corrective #467 is the current
+quality-gate authority and its passing result is incorporated into the candidate.
+Terminal reconciliation, closeout receipts, and worktree cleanup are
 asynchronous bookkeeping and never gate #312.
 
 ## Canonical denominator
@@ -50,8 +51,10 @@ set from Git and rejects missing, duplicate, extra, stale, or out-of-scope
 content. Before publication, the candidate is rebased or refreshed when a
 merged producer changed an owned document; the inventory is then regenerated
 from the resulting exact candidate. Product completion and release claims stay
-governed by the canonical #311 packet, which remains blocked 33/33. Typed
-administrative closeout state is ignored.
+governed by the canonical #467 packet: 30 accepted rows, 3 explicitly
+scoped-out rows, 0 blocked, and downstream unlock true. The superseded #311
+packet is retained as historical provenance. Typed administrative closeout
+state is ignored.
 
 ## External-review packet
 
@@ -85,11 +88,11 @@ machine-local, out-of-scope, or `.adl`-dependent evidence cannot grant a claim.
 
 ## Non-claims and stop conditions
 
-The packet does not claim that #311's quality gate passed, that v0.92 is ready
-to release, or that an external reviewer approved it. It explicitly preserves
+The packet does not convert #467's passing evidence gate into release approval
+or claim that an external reviewer approved v0.92. It explicitly preserves
 provider, platform, birthday, privacy, governance, legal, personhood,
 consciousness, and future-version non-claims. Missing product evidence remains
-a blocker or non-claim and is routed to its product owner. #312 stops if #311
-is not merged into the base, the denominator is incomplete, candidate overlap
-is unresolved, the blocked #311 result is misstated, exact scope or no-`.adl` guards
-fail, or documentation truth would require product implementation.
+a blocker or non-claim and is routed to its product owner. #312 stops if the
+merged #467 result is absent or misstated, the denominator is incomplete,
+candidate overlap is unresolved, exact scope or no-`.adl` guards fail, or
+documentation truth would require product implementation.

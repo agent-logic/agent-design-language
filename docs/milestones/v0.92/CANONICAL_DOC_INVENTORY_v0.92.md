@@ -43,8 +43,8 @@ extra, stale-digest, machine-local, unparseable, out-of-scope, or tracked
 
 ## Current truth boundary
 
-WP-22/#311 produced a structurally valid but blocked quality packet: 33 of 33
-rows were blockers and downstream unlock was false. That result is an input to
-review, not a passing release gate. #467 owns evidence-hydration repair in
-parallel; its future merge may be incorporated by the mandatory publication-time
-rescan, but its administrative closeout never gates this documentation pass.
+WP-22/#311 produced the retained historical blocked packet. Corrective authority
+#467 subsequently produced the canonical 33-row result: 30 accepted, 3 explicitly
+scoped out, 0 blocked, with downstream unlock true. WP-23/#312 consumes that
+merged result as documentation input; neither #311 nor #467 administrative
+closeout gates this documentation pass.

@@ -16,15 +16,15 @@ authorize a GitHub release, Medium publication, deployment, or other external
 launch. The external documentation review entrypoint is
 [`review/THIRD_PARTY_REVIEW_HANDOFF_v0.92.md`](review/THIRD_PARTY_REVIEW_HANDOFF_v0.92.md).
 
-#467 owns the final canonical evidence hydration for feature-proof coverage,
-the quality gate, and execution readiness. Until that lands, those three files
-remain the fail-closed authority and these notes do not override them.
+#467 supplied the final canonical evidence hydration for feature-proof coverage,
+the quality gate, and execution readiness. Those three files remain the
+fail-closed authority and these notes do not override them.
 
 Release-note ownership follows the current review tail:
 
 - WP-22 supplies the canonical quality-gate result.
 - WP-23 may correct documentation truth and prepare the external-review
-  handoff, but cannot turn a blocked quality result into release credit.
+  handoff, but cannot turn a passing evidence gate into release approval.
 - Later remediation and ceremony work may update these notes only from landed,
   reviewed evidence.
 

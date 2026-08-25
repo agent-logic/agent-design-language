@@ -100,9 +100,10 @@ git diff --check origin/main...HEAD
 
 - The v0.92 engineering milestone is complete, but that status does not bypass
   the canonical evidence gate or authorize external publication.
-- #467 is repairing quality-gate evidence hydration in parallel. Only its
-  merged, reviewed exact revision may update the three canonical proof/gate/
-  readiness surfaces; reviewers must not infer their result from this handoff.
+- The merged #467 corrective authority records 30 accepted rows, 3 explicitly
+  scoped-out rows, 0 blockers, and downstream unlock true. Reviewers must verify
+  that result against the exact candidate's canonical proof, gate, and readiness
+  surfaces rather than infer it from this summary.
 - Unity and broader Observatory product work are later/backlog non-claims; the
   landed HTML consumer slice must not be expanded into a Unity delivery claim.
 - Any feature without canonical merged implementation, review, and relevant

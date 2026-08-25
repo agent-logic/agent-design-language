@@ -14,8 +14,10 @@ The complete denominator and file digests are in [inventory.json](inventory.json
 
 ## Current decisive fact
 
-The merged WP-22/#311 packet is structurally valid but its quality result is
-blocked: 33 accepted-proof rows are missing and downstream unlock is false.
+The retained WP-22/#311 packet is historical blocked provenance. Merged
+corrective authority #467 records 30 accepted rows, 3 explicitly scoped-out
+rows, 0 blocked, and downstream unlock true. That passing evidence gate does
+not itself authorize release or external publication.
 Documentation must not translate that result into a release pass.
 
 ## Requested output

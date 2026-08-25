@@ -11,7 +11,7 @@ notes:
   - The engineering milestone is complete. WP-23 issue 312 reconciles documentation truth, and issue 467 separately owns canonical feature-proof, quality-gate, and execution-readiness hydration.
   - Unity and broader Observatory product work not covered by the landed HTML consumer slice are backlogged or scheduled later and do not gate engineering completion.
   - External publication remains separately operator-authorized.
-  - This file records the opened GitHub work-package issue wave and its live issue-number mapping.
+  - This file preserves the historical issue wave and records current Agent Logic routing separately from legacy danielbaustin issue provenance.
   - WP-01 updates canonical docs and consumes the final v0.91.8 release package, the activation-test map, AEE completion evidence, issue 3377, and WP-22 planning dispositions before opening the wave.
   - WP-02 creates five verified Agent Logic destination copies while preserving all seven personal-account sources unchanged before substantive milestone work begins.
   - WP-02A repairs CI and coverage before broad milestone proof receives credit.
@@ -43,7 +43,9 @@ scheduled_planning:
 scheduled_tbd_inputs:
   - track: runtime_launch_resilience
     wp: WP-03
-    sources: [canonical Runtime launch, Observatory recovery, and long-lived-agent plans]
+    sources:
+      - docs/milestones/v0.92/features/RUNTIME_LAUNCH_AND_RESILIENCE_v0.92.md
+      - docs/adr/0011-long-lived-agent-runtime.md
   - track: agent_logic_account_repo_migration
     wp: WP-02
     sources: [retained repository migration planning record]
@@ -56,7 +58,9 @@ scheduled_tbd_inputs:
     child_issue_count: 16
   - track: csdlc_estimation_cycle_time
     wp: WP-05
-    sources: [canonical C-SDLC estimation and sprint-cycle-time plans]
+    sources:
+      - canonical issue reference: agent-logic/agent-design-language#311
+      - historical planning provenance: danielbaustin/agent-design-language#5822
   - track: remote_validation_runner
     wp: WP-06
     sources: [canonical remote build-runner pilot plan]
@@ -65,7 +69,10 @@ scheduled_tbd_inputs:
     sources: [canonical prompt-card enum-typing plan]
   - track: acip_a2a_reconciliation
     wp: WP-14
-    sources: [canonical ACIP and A2A reconciliation plans]
+    sources:
+      - docs/milestones/v0.92/features/ACIP_BINARY_SCHEMA_AND_WEBSOCKET_TRANSPORT_v0.92.md
+      - docs/architecture/adr/0065-acip-schema-catalog-and-governed-projection-boundary.md
+      - docs/adr/0017-secure-local-agent-comms-and-a2a-boundary.md
   - track: observatory_unity_consumers
     wp: WP-18A
     sources: [canonical Observatory and Unity consumer design]
@@ -160,19 +167,18 @@ execution_sprints:
     issue: 5855
     session_authority: canonical umbrella issue body and child cards
     execution_mode: hybrid
-    goal: Deliver one resilient Runtime and Observatory path, approve the distributed architecture gate, then complete protocol, provider, and consumer integration.
-    members: [issue-5800, WP-03, issue-5795, WP-04, WP-14, WP-18A]
+    goal: Deliver one resilient Runtime and Observatory path, approve the distributed architecture gate, then complete protocol and provider integration. Consumer integration is later work under #84/#122/#251.
+    members: [issue-5800, WP-03, issue-5795, WP-04, WP-14]
     serial_gates:
       - issue-5800 and WP-03 establish the local launch and browser-trust baseline
       - issue-5795 integrates only after issue-5800 and WP-03 stabilize the Runtime/Observatory path
       - WP-04 publishes the architecture and security gate consumed by separate sprint #5862
       - WP-14 waits for the exact-head terminal #5862 reconciliation before final integration
-      - WP-18A integrates only after WP-03, WP-14, and WP-18 are ready
     parallel_lanes:
       - WP-04 architecture and security preparation after WP-03 contracts stabilize
       - WP-14 protocol reconciliation after Runtime ingress contracts stabilize
       - issue-5795 local-provider preparation before its final integration gate
-    write_surface: Runtime launch, Observatory HTTPS/WSS, local provider, distributed architecture gate, ACIP/A2A, and consumer integration
+    write_surface: Runtime launch, Observatory HTTPS/WSS, local provider, distributed architecture gate, and ACIP/A2A; WP-18A consumer integration is outside v0.92
   - sprint: distributed_guardian_implementation
     issue: 5862
     session_authority: canonical umbrella issue body and child cards
@@ -238,7 +244,7 @@ execution_sprints:
     goal: Reduce and refactor safely, enforce the quality gate, complete reviews, remediate findings, and close the milestone.
     members: [WP-20, WP-21, WP-21A, WP-22, WP-23, WP-25, WP-26, WP-27, WP-28, WP-28A, WP-29, WP-30]
     serial_gates:
-      - WP-20 after WP-18, WP-18A, WP-18B, and WP-19
+      - WP-20 after WP-18, WP-18B, and WP-19; WP-18A is explicitly removed from v0.92 scope
       - WP-20 before WP-21
       - WP-21 before WP-21A
       - WP-21A before WP-22
@@ -561,11 +567,18 @@ work_packages:
     proof_surface: demo feature doc, artifacts, negative-case report, and reviewer packet
   - wp: WP-18A
     issue: 5837
-    title: Observatory/Unity consumer integration
-    queue: consumers
-    depends_on: [WP-03, WP-14, WP-18, issue-5800]
-    primary_deliverable: separate consumers integrated with the versioned Runtime API and WSS
-    proof_surface: real Observatory and Unity interactions, compatibility matrix, and consumer failure cases
+    title: Observatory/Unity consumer integration — superseded for v0.92 scope
+    queue: deferred
+    status: operator_scoped_out
+    successor_issue: 84
+    later_dependencies:
+      - issue: 122
+        routing: v0.92.1
+      - issue: 251
+        routing: backlog
+    depends_on: []
+    primary_deliverable: explicit v0.92 non-claim and later-work routing to #84/#122/#251
+    proof_surface: canonical milestone scope documents; no consumer implementation credit
   - wp: WP-18B
     issue: 5838
     title: Provider-neutral multi-agent proof
@@ -584,7 +597,7 @@ work_packages:
     issue: 5840
     title: Demo matrix, AEE proof, and proof coverage
     queue: demo
-    depends_on: [WP-18, WP-18A, WP-18B, WP-19]
+    depends_on: [WP-18, WP-18B, WP-19]
     primary_deliverable: demo matrix, AEE proof routing or packet, proof coverage, and validation commands
     proof_surface: demo matrix, AEE evidence, proof coverage document, and artifact index
   - wp: WP-21
@@ -602,21 +615,25 @@ work_packages:
     primary_deliverable: behavior-preserving simplification of active Rust ownership boundaries, duplication, and maintainability hotspots before review
     proof_surface: exact refactoring inventory, focused behavior parity, Clippy and test proof, before/after LoC, and bounded review
   - wp: WP-22
-    issue: 5842
+    canonical_issue: 311
+    corrective_issue: 467
+    legacy_issue: 5842
     title: Quality gate
     queue: quality
     depends_on: [WP-04, WP-05, WP-06, WP-07, WP-13A, WP-20, WP-21, WP-21A]
     primary_deliverable: quality gate that blocks internal review until every indexed v0.92 feature is landed with accepted exact-revision proof
     proof_surface: feature-completion matrix, quality-gate record, platform proof, and blocker report
   - wp: WP-23
-    issue: 5843
+    canonical_issue: 312
+    legacy_issue: 5843
     title: Docs and release-truth pass
     queue: docs
     depends_on: [WP-22]
     primary_deliverable: current canonical docs, release notes, feature list, ADR plan, skills, agent guidance, and milestone docs
     proof_surface: docs-review packet, ADR candidate packet if needed, and release-truth diff
   - wp: WP-25
-    issue: 5846
+    canonical_issue: 313
+    legacy_issue: 5846
     title: Internal review
     queue: review
     depends_on: [WP-23, WP-24, WP-24A]
