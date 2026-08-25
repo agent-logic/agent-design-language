@@ -1,14 +1,14 @@
 # WP-25 / #313 Internal Review Preparation Plan
 
-Status: `design_approved_ready_for_binding`
+Status: `bound_ready_for_internal_review`
 
 Canonical issue: `agent-logic/agent-design-language#313`
 
 This plan follows the full internal-review pattern established by the v0.91.2
 corrective review packet and the v0.91.8 WP-18 packets. The typed six-card issue
-record is initialized and its design is approved. Execution still stops before
-specialist review, publication, remediation, or external dispatch until the
-typed worktree binding is recorded.
+record is initialized, its design is approved, and its typed FastWork binding
+is recorded. The internal specialist review may now execute; publication,
+remediation, and external dispatch remain separately governed.
 
 ## Current Gate Truth
 
@@ -103,6 +103,6 @@ summary never substitutes for those reviewer-authored reports.
 
 ## Stop Boundary
 
-This preparation has initialized and design-approved `#313`, but it does not
-run the specialist reviews before typed worktree binding. It does not remediate
-product findings or claim internal-review or release readiness.
+This preparation has initialized, design-approved, and bound `#313`. The review
+execution records findings but does not remediate product findings or claim
+release readiness.
