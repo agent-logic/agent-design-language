@@ -54,6 +54,10 @@ required = %w[
   features/PROVIDER_INFERENCE_PROFILES_v0.92.1.md
   features/GCP_SIX_RESIDENT_QUALIFICATION_v0.92.1.md
   features/CODEFRIEND_BETA1_HANDOFF_v0.92.1.md
+  features/AWS_ACCOUNT_MOVE_IN_v0.92.1.md
+  features/GCP_ACCOUNT_MOVE_IN_v0.92.1.md
+  features/CROSS_CLOUD_TERRAFORM_CONVERSION_v0.92.1.md
+  features/RUST_RESILIENCE_REFACTORING_v0.92.1.md
 ]
 required.each { |path| errors << "missing:#{path}" unless milestone.join(path).file? }
 
@@ -83,7 +87,10 @@ else
 end
 
 expected = %w[
-  REP-01 WP-01 CORP-01 CORP-A CORP-B CORP-C CORP-D V3-01 V3-A V3-B V3-C
+  REP-01 WP-01 CORP-01 CORP-A CORP-B CORP-C CORP-D
+  AWS-01 AWS-A AWS-B AWS-C AWS-D AWS-E AWS-F AWS-G
+  GCP-01 GCP-A GCP-B GCP-C GCP-D GCP-E XCL-01 RUST-01
+  V3-01 V3-A V3-B V3-C
   V3-D V3-E V3-F DRT-01 DRT-A DRT-B DRT-C POD-01 DEC-01 PROV-01 PROV-A
   PROV-B DRT-D HOT-01 OBS-01 OBS-A OBS-B INT-01 TAIL-01 TAIL-02 TAIL-03
   TAIL-04 TAIL-05 TAIL-06 TAIL-07 TAIL-08 TAIL-09 TAIL-10
@@ -91,7 +98,7 @@ expected = %w[
 errors << "planned id denominator mismatch" unless ids.sort == expected.sort
 
 known_refs = ids.to_h { |id| [id, true] }
-known_refs.merge!(%w[issue-84 issue-345].to_h { |id| [id, true] })
+known_refs.merge!(%w[issue-84 issue-122 issue-251 issue-345].to_h { |id| [id, true] })
 rows.each do |row|
   Array(row["depends_on"]).each do |dep|
     errors << "unknown dependency:#{row['id']}:#{dep}" unless known_refs[dep]

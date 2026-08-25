@@ -11,5 +11,9 @@
 | Runtime v2/v3 decoupling | Complete source/reverse-reference census, exclusive ownership, compatibility, migration, and rollback |
 | Provider inference profiles | Profile schema, deterministic Ollama materialization, invalid-profile/last-known-good behavior, redaction, shadow isolation, and comparison fallback |
 | GCP qualification sidecar | Exact six-resident identity/workload replay, continuity, cost, and zero-resource cleanup; no #269 execution |
+| AWS account move-in | Seven exact phase-result receipts: inventory, access/billing with governed Agent Toolkit setup and attributable activity, Terraform bootstrap, audit/security, adoption, Runtime modules, and retirement decision |
+| GCP account move-in | Five exact phase-result receipts: hierarchy/cost, Terraform bootstrap, organization/billing, private platform, and GPU readiness |
+| Cross-cloud Terraform conversion | Exact #194/#268 template census, portable contract, provider-specific plans/deployments, parity, rollback, and cleanup-zero |
+| Rust resilience refactoring | API and behavior parity, fault/trace/retry/timeout/cancellation proof, module ownership, and exact validation-impact comparison; no LoC quota |
 
 Repository authority (#432), exact scope, review identity, and immutable revision binding apply to every row.

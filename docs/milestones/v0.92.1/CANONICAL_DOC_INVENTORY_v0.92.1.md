@@ -29,7 +29,7 @@ Status: planning candidate. This inventory proves package completeness; it does 
 
 ## Issue-Creation Boundary
 
-Existing issue authority in this package is #432, #51, #261, #262, #263, #264, #342, #251, #122, #84, and #345. Closed #431 is planning provenance only. WP-01 remains a number-free milestone-opening ID after this package merges and until the operator separately declares v0.92.1 ready and creates it; every CORP, V3, DRT, HOT, OBS, DEC, PROV, INT, and TAIL entry remains number-free until WP-01 creates the ordered wave. Closed #433-#438 and redundant #439 are not execution authority. #457 is historical provider-profile provenance only. Closed #188, #190, and #189 route respectively to convergence/quality, successor planning, and final ceremony.
+Existing issue authority in this package is #432, #51, #261, #262, #263, #264, #342, #251, #122, #84, and #345. Closed #431 is planning provenance only. WP-01 remains a number-free milestone-opening ID after this package merges and until the operator separately declares v0.92.1 ready and creates it; every CORP, AWS, GCP, XCL, RUST, V3, DRT, HOT, OBS, DEC, PROV, INT, and TAIL entry remains number-free until WP-01 creates the ordered wave. Closed #433-#438 and redundant #439 are not execution authority. #457 is historical provider-profile provenance only. #269 remains excluded/backlogged. Closed #188, #190, and #189 route respectively to convergence/quality, successor planning, and final ceremony.
 
 ## Canonical Release Tail
 
@@ -37,4 +37,4 @@ The serial denominator matches the preceding milestone standard: TAIL-01 quality
 
 ## Validation Boundary
 
-The issue-owned planning validator must require every surface in this inventory, parse both YAML contracts, preserve the full predecessor denominator, reject tracked local-path dependencies, verify the exact number-free issue catalog including DEC-01, PROV-A, PROV-B, and DRT-D, and enforce the ten-step serial release tail. Passing planning validation is not implementation or release proof.
+The issue-owned planning validator must require every surface in this inventory, parse both YAML contracts, preserve the full predecessor and existing-issue denominator, reject tracked local-path dependencies, verify the exact 45-entry number-free creation catalog including AWS-A through AWS-G, GCP-A through GCP-E, XCL-01, RUST-01, DEC-01, PROV-A, PROV-B, and DRT-D, and enforce the ten-step serial release tail. Passing planning validation is not implementation or release proof.

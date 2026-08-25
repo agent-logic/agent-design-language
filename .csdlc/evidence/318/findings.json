@@ -4,11 +4,11 @@
     {
       "id": "WP29-001",
       "severity": "P1",
-      "evidence": "WP_ISSUE_WAVE_v0.92.1.yaml, PLANNED_ISSUE_CATALOG_v0.92.1.md, WBS_v0.92.1.md, and WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml used variant or bundled release-tail identities; most creation-owned rows lacked an explicit primary deliverable and independently verifiable result; TAIL-06 and TAIL-10 bundled unrelated results and TAIL-10 incorrectly gated on terminal closeout.",
+      "evidence": "WP_ISSUE_WAVE_v0.92.1.yaml, PLANNED_ISSUE_CATALOG_v0.92.1.md, WBS_v0.92.1.md, and WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml used variant or bundled identities; the cloud move-in sources were not decomposed into independently finishable results; the cross-cloud Terraform conversion and bounded Rust refactor were absent; TAIL-06 and TAIL-10 bundled unrelated results and TAIL-10 incorrectly gated on terminal closeout.",
       "owner": "WP-29/#318",
-      "route": "bounded planning-contract correction in the four explicitly owned surfaces",
-      "disposition": "resolved: exact titles normalized; all 31 creation-owned issues were semantically reviewed as one planning unit and each has one outcome-shaped objective, one primary deliverable, and one independently verifiable result; the validator supplies structural guards while the exact-head review supplies the semantic classification; administrative closeout is non-gating",
-      "revision": "5194bbf073a89af8258df75081d920c669cf931e"
+      "route": "bounded canonical planning correction across the issue wave, execution specifications, catalog, WBS, feature contracts, and review validator",
+      "disposition": "pending exact-head confirmation: exact titles are normalized and all 45 creation-owned issues declare an explicit one-result completion boundary; AWS/GCP move-in, cross-cloud Terraform conversion, and one bounded Rust resilience refactor are explicit; publication remains blocked until independent semantic review accepts every boundary; administrative closeout is non-gating",
+      "revision": "pending-current-candidate"
     }
   ]
 }

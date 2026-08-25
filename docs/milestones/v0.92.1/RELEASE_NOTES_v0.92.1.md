@@ -13,4 +13,4 @@ Planned outcomes:
 - shared provider inference profiles with deterministic Ollama materialization and isolated local-model shadow comparison
 - optional GCP replay of the six-resident qualification with cost and cleanup evidence
 
-These are planning commitments until their issue and proof chains are terminal. #251, #122, #84, and #345 are active existing issues; #457 is provenance only. Runtime v4 is not included implicitly, and DRT-D does not execute #269. CodeFriend Beta 1 follows in v0.92.2.
+These are planning commitments until their issue and proof chains are reviewed and merged. #251, #122, #84, and #345 are active existing issues; #457 is provenance only. AWS/GCP move-in, cross-cloud Terraform conversion, and the bounded Rust resilience refactor are planned single-result lanes, not completed controls. Runtime v4 is not included implicitly, and DRT-D does not execute #269. CodeFriend Beta 1 follows in v0.92.2.

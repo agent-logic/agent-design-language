@@ -1,6 +1,10 @@
 # v0.92.1 Feature Plans
 
 - [Corporate and IP](CORPORATE_AND_IP_TRANSFER_v0.92.1.md)
+- [AWS account move-in and normalization](AWS_ACCOUNT_MOVE_IN_v0.92.1.md)
+- [GCP account move-in](GCP_ACCOUNT_MOVE_IN_v0.92.1.md)
+- [Cross-cloud Runtime Terraform conversion](CROSS_CLOUD_TERRAFORM_CONVERSION_v0.92.1.md)
+- [Rust resilience owner-boundary refactoring](RUST_RESILIENCE_REFACTORING_v0.92.1.md)
 - [C-SDLC v3](CSDLC_V3_v0.92.1.md)
 - [Distributed multi-agent Runtime](DISTRIBUTED_MULTI_AGENT_RUNTIME_QUALIFICATION_v0.92.1.md)
 - [Podcast publication and Studio](PODCAST_PUBLICATION_AND_STUDIO_v0.92.1.md)

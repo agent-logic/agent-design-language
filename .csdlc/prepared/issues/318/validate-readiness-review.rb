@@ -23,6 +23,14 @@ TAIL_TITLES = {
   "TAIL-10" => "Release ceremony"
 }.freeze
 RELEASE_TITLES = {"INT-01" => "Release-tail admission"}.merge(TAIL_TITLES).freeze
+CREATION_IDS = %w[
+  CORP-A CORP-B CORP-C CORP-D
+  AWS-A AWS-B AWS-C AWS-D AWS-E AWS-F AWS-G
+  GCP-A GCP-B GCP-C GCP-D GCP-E XCL-01 RUST-01
+  V3-A V3-B V3-C V3-D V3-E V3-F
+  DRT-A DRT-B DRT-C DEC-01 PROV-A PROV-B DRT-D HOT-01 OBS-A OBS-B
+  INT-01 TAIL-01 TAIL-02 TAIL-03 TAIL-04 TAIL-05 TAIL-06 TAIL-07 TAIL-08 TAIL-09 TAIL-10
+].freeze
 
 def fail_with(errors)
   errors.each { |error| warn("BLOCK: #{error}") }
@@ -86,8 +94,10 @@ def check_planning_contract
 
   spec_rows = Array(specs.fetch("issue_specifications"))
   spec_by_id = spec_rows.to_h { |row| [row.fetch("id"), row] }
+  unit_contracts = specs.fetch("unit_contracts")
   creation_ids = nodes.select { |row| row["creation_owner"] == "WP-01" }.map { |row| row.fetch("id") }
-  errors << "creation-owned denominator mismatch" unless creation_ids.length == 31 && creation_ids.uniq.length == 31
+  errors << "creation-owned denominator mismatch" unless creation_ids == CREATION_IDS && creation_ids.uniq.length == CREATION_IDS.length
+  errors << "unit-contract denominator mismatch" unless unit_contracts.keys == CREATION_IDS
   errors << "future issue creation already recorded" unless nodes.select { |row| row["creation_owner"] == "WP-01" }.all? { |row| row["issue"].nil? }
   errors << "milestone opening authority is already concrete" unless wave["conductor_issue"].nil? && wave["conductor_id"] == "WP-01"
   creation_ids.each do |id|
@@ -102,16 +112,23 @@ def check_planning_contract
     errors << "#{id} must define exactly one primary_deliverable" unless deliverable.is_a?(String) && deliverable.start_with?("One ")
     result = row["verification_result"]
     errors << "#{id} must define exactly one independently verifiable verification_result" unless result.is_a?(String) && !result.strip.empty?
+    boundary = row["unit_boundary"]
+    errors << "#{id} must define an explicit non-bundled unit_boundary" unless boundary.is_a?(String) && boundary.start_with?("Issue completion is exactly ") && boundary.match?(/evidence input|proof input|inputs to|internal step|implementation part|cannot close|non-closeable|do not close|not separately|separately reviewable|independently closed|external input|follow-up|rows? within|no .* executed/)
+    contract = unit_contracts[id]
+    errors << "#{id} missing unique structural primary result" unless contract.is_a?(Hash) && contract["primary_result"].to_s.match?(/\A[a-z0-9_]+\z/)
+    errors << "#{id} permits supporting work to close independently" unless contract.is_a?(Hash) && contract["supporting_work_closeable"] == false
     dependency_text = Array(row["dependencies"]).compact.join(" ").downcase
     errors << "#{id} incorrectly gates execution on administrative closeout" if dependency_text.match?(/(depend|require|before|gate).*(finish|cleanup|terminal)|(finish|cleanup|terminal).*(depend|require|before|gate)/)
   end
+  primary_results = unit_contracts.values.map { |contract| contract["primary_result"] if contract.is_a?(Hash) }.compact
+  errors << "unit contracts reuse a primary result" unless primary_results.uniq.length == CREATION_IDS.length
 
   [errors, creation_ids]
 end
 
 def check_review_packet
   errors = []
-  required = %w[issue-universe.json findings.json readiness-review.json]
+  required = %w[issue-universe.json findings.json readiness-review.json planning-source-addendum.json]
   required.each do |name|
     path = File.join(EVIDENCE, name)
     errors << "missing retained review artifact #{name}" unless File.file?(path)
@@ -167,7 +184,19 @@ def check_review_packet
   errors << "v0.92.1 issue creation claim changed" unless readiness.dig("v0_92_1", "issues_created") == false
   errors << "v0.92.2 issue creation claim changed" unless readiness.dig("v0_92_2", "issues_created") == false
   errors << "v0.93 activation claim changed" unless readiness.dig("v0_93", "status") == "inactive" && readiness.dig("v0_93", "selected") == false && readiness.dig("v0_93", "activated") == false
-  errors << "single-unit contract denominator changed" unless readiness.dig("v0_92_1", "single_unit_contract") == "explicit_for_all_31_creation_owned_issues"
+  errors << "single-unit contract denominator changed" unless readiness.dig("v0_92_1", "single_unit_contract") == "explicit_for_all_45_creation_owned_issues"
+
+  source_addendum = JSON.parse(File.read(File.join(EVIDENCE, "planning-source-addendum.json")))
+  source_rows = Array(source_addendum["sources"])
+  expected_source_ids = %w[TBD-AWS-MOVE-IN TBD-GCP-MOVE-IN TBD-RUST-SIMPLIFICATION TBD-WP21-REDUCTION]
+  errors << "planning source addendum denominator mismatch" unless source_rows.map { |row| row["source_id"] } == expected_source_ids
+  source_rows.each do |row|
+    errors << "planning source digest invalid: #{row['source_id']}" unless row["source_sha256"].to_s.match?(/\A[0-9a-f]{64}\z/)
+    promoted = row["promoted_contract"].to_s
+    errors << "planning source promoted contract missing: #{row['source_id']}" unless File.file?(File.join(ROOT, promoted))
+    errors << "planning source lacks planned IDs: #{row['source_id']}" if Array(row["planned_ids"]).empty?
+    errors << "planning source lacks disposition: #{row['source_id']}" if row["disposition"].to_s.strip.empty?
+  end
 
   findings = JSON.parse(File.read(File.join(EVIDENCE, "findings.json")))
   Array(findings["findings"]).each do |finding|

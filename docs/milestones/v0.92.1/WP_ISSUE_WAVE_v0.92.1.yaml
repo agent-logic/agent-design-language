@@ -28,27 +28,111 @@ work_packages:
       - id: CORP-A
         issue: null
         creation_owner: WP-01
-        title: Asset inventory, provenance, licensing, trademark, and assignment
+        title: Critical-asset schedule
         predecessor_issues: [153, 154, 155]
         depends_on: []
       - id: CORP-B
         issue: null
         creation_owner: WP-01
-        title: Corporate account custody, billing, recovery, MFA, and vault controls
+        title: Corporate account custody register
         predecessor_issues: [156]
         depends_on: [CORP-A]
       - id: CORP-C
         issue: null
         creation_owner: WP-01
-        title: Repository, domain, brand, vendor, AWS, Terraform, CI, and runbook transfer
+        title: Corporate operational-control transfer
         predecessor_issues: [157, 158, 159]
-        depends_on: [CORP-A, CORP-B]
+        depends_on: [CORP-A, CORP-B, AWS-G, GCP-D]
       - id: CORP-D
         issue: null
         creation_owner: WP-01
-        title: Chain-of-title, diligence index, counsel review, and corporate acceptance
+        title: Corporate diligence acceptance
         predecessor_issues: [160]
         depends_on: [CORP-A, CORP-B, CORP-C]
+  - id: AWS-01
+    lane: aws_move_in
+    title: AWS account move-in and normalization
+    issue_slot: false
+    depends_on: [WP-01, CORP-A, CORP-B]
+    packages:
+      - id: AWS-A
+        issue: null
+        creation_owner: WP-01
+        title: AWS resource ownership inventory
+        depends_on: []
+      - id: AWS-B
+        issue: null
+        creation_owner: WP-01
+        title: AWS access and billing baseline
+        depends_on: [AWS-A]
+      - id: AWS-C
+        issue: null
+        creation_owner: WP-01
+        title: AWS Terraform bootstrap
+        depends_on: [AWS-B]
+      - id: AWS-D
+        issue: null
+        creation_owner: WP-01
+        title: AWS audit and security baseline
+        depends_on: [AWS-C]
+      - id: AWS-E
+        issue: null
+        creation_owner: WP-01
+        title: AWS resource adoption register
+        depends_on: [AWS-D]
+      - id: AWS-F
+        issue: null
+        creation_owner: WP-01
+        title: AWS Runtime platform modules
+        depends_on: [AWS-E, issue-122]
+      - id: AWS-G
+        issue: null
+        creation_owner: WP-01
+        title: AWS CloudFormation retirement decision
+        depends_on: [AWS-F, XCL-01]
+  - id: GCP-01
+    lane: gcp_move_in
+    title: GCP account move-in
+    issue_slot: false
+    depends_on: [WP-01, CORP-A, CORP-B]
+    packages:
+      - id: GCP-A
+        issue: null
+        creation_owner: WP-01
+        title: GCP hierarchy and cost decision
+        depends_on: []
+      - id: GCP-B
+        issue: null
+        creation_owner: WP-01
+        title: GCP Terraform bootstrap
+        depends_on: [GCP-A]
+      - id: GCP-C
+        issue: null
+        creation_owner: WP-01
+        title: GCP organization and billing baseline
+        depends_on: [GCP-B]
+      - id: GCP-D
+        issue: null
+        creation_owner: WP-01
+        title: GCP private platform foundation
+        depends_on: [GCP-C]
+      - id: GCP-E
+        issue: null
+        creation_owner: WP-01
+        title: GCP GPU readiness smoke test
+        depends_on: [GCP-D]
+  - id: XCL-01
+    lane: cross_cloud_terraform
+    title: Cross-cloud Runtime Terraform conversion
+    issue: null
+    creation_owner: WP-01
+    depends_on: [AWS-E, GCP-D]
+  - id: RUST-01
+    lane: rust_refactoring
+    title: Resilience owner-boundary refactoring
+    issue: null
+    creation_owner: WP-01
+    depends_on: [WP-01]
   - id: V3-01
     lane: csdlc_v3
     title: C-SDLC v3 implementation program
@@ -58,37 +142,37 @@ work_packages:
       - id: V3-A
         issue: null
         creation_owner: WP-01
-        title: Product contract, Rust construction slice, and platform decision
+        title: C-SDLC v3 contract and construction decision
         predecessor_issues: [161, 162, 163]
         depends_on: []
       - id: V3-B
         issue: null
         creation_owner: WP-01
-        title: Binary foundation, application services, repository context, state, and projections
+        title: C-SDLC v3 foundation
         predecessor_issues: [164, 165, 166, 167]
         depends_on: [V3-A]
       - id: V3-C
         issue: null
         creation_owner: WP-01
-        title: Lifecycle kernel, transaction storage, recovery, and typed adapters
+        title: C-SDLC v3 lifecycle kernel
         predecessor_issues: [168, 169, 170]
         depends_on: [V3-B]
       - id: V3-D
         issue: null
         creation_owner: WP-01
-        title: Local issue, bind, card, doctor, and PVF planning commands
+        title: C-SDLC v3 local preparation workflow
         predecessor_issues: [171, 172, 173]
         depends_on: [V3-C]
       - id: V3-E
         issue: null
         creation_owner: WP-01
-        title: PVF execution, review, publication, GitHub, PR, finish, and cleanup
+        title: C-SDLC v3 remote delivery workflow
         predecessor_issues: [174, 175, 176, 177, 178]
         depends_on: [V3-D]
       - id: V3-F
         issue: null
         creation_owner: WP-01
-        title: Parity, canary migration, authority cutover, observation, and retirement decision
+        title: C-SDLC v3 authority-transition decision
         predecessor_issues: [179, 180]
         depends_on: [V3-E]
   - id: DRT-01
@@ -101,19 +185,19 @@ work_packages:
       - id: DRT-A
         issue: null
         creation_owner: WP-01
-        title: Qualification contract, deterministic ACIP authority, and replay conformance
+        title: Distributed qualification contract
         predecessor_issues: [181, 182]
         depends_on: []
       - id: DRT-B
         issue: null
         creation_owner: WP-01
-        title: Multi-agent UTS production work and hybrid Spot continuity
+        title: Six-resident UTS qualification
         predecessor_issues: [183, 184]
         depends_on: [DRT-A, issue-345]
       - id: DRT-C
         issue: null
         creation_owner: WP-01
-        title: Identity and provider failure, Observatory evidence, soak, cleanup, and synthesis
+        title: Final distributed Runtime qualification
         predecessor_issues: [185, 186, 187]
         depends_on: [DRT-B]
   - id: POD-01
@@ -123,7 +207,7 @@ work_packages:
     depends_on: [WP-01]
   - id: DEC-01
     lane: runtime_decoupling
-    title: Separate Runtime v2 and Runtime v3 authority and source ownership
+    title: Runtime v2/v3 authority separation
     issue: null
     creation_owner: WP-01
     depends_on: [WP-01]
@@ -136,19 +220,19 @@ work_packages:
       - id: PROV-A
         issue: null
         creation_owner: WP-01
-        title: Shared provider inference-profile contract and Ollama materialization
+        title: Shared provider inference profiles
         depends_on: []
       - id: PROV-B
         issue: null
         creation_owner: WP-01
-        title: Local-model shadow execution and comparison evidence
+        title: Local-model shadow execution
         depends_on: [PROV-A]
   - id: DRT-D
     lane: distributed_runtime_gcp_sidecar
-    title: GCP six-resident portability qualification
+    title: GCP portability qualification
     issue: null
     creation_owner: WP-01
-    depends_on: [DRT-C]
+    depends_on: [DRT-C, GCP-E, XCL-01]
   - id: HOT-01
     lane: runtime_hot_reload
     title: Axum configuration hot reload
@@ -172,19 +256,19 @@ work_packages:
       - id: OBS-A
         issue: null
         creation_owner: WP-01
-        title: Observatory information architecture, interaction, and accessibility redesign
+        title: Observatory experience design
         depends_on: []
       - id: OBS-B
         issue: null
         creation_owner: WP-01
-        title: Authentic Runtime projections, implementation, and state/failure proof
+        title: Observatory redesign implementation
         depends_on: [OBS-A, issue-84]
   - id: INT-01
     lane: integration
     title: Release-tail admission
     issue: null
     creation_owner: WP-01
-    depends_on: [CORP-01, V3-01, DRT-01, DRT-D, POD-01, HOT-01, OBS-01, DEC-01, PROV-01]
+    depends_on: [CORP-01, AWS-01, GCP-01, XCL-01, RUST-01, V3-01, DRT-01, DRT-D, POD-01, HOT-01, OBS-01, DEC-01, PROV-01]
   - id: TAIL-01
     lane: release_tail
     issue: null

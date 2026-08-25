@@ -8,6 +8,10 @@
 - [ ] Milestone operator created the number-free WP-01 opening conductor
 - [ ] No tracked milestone dependency on local untracked paths
 - [ ] #316 planning reconciliation creates no execution issues or implementation claims
+- [ ] AWS-A through AWS-G deliver the seven ordered AWS move-in results; existing #122 remains separately owned
+- [ ] GCP-A through GCP-E deliver the five ordered GCP move-in results before DRT-D
+- [ ] XCL-01 converts the exact #194/#268 CloudFormation behavior into reviewed AWS/GCP Terraform implementations with rollback retained
+- [ ] RUST-01 completes one behavior-preserving resilience owner-boundary refactor without a LoC quota
 
 ## Execution
 

@@ -11,9 +11,10 @@ merged as `5b035094725d1872b48dda8692ef88f46487f37c`, and ancestral to `main`.
 Typed finish, worktree cleanup, and administrative closeout are asynchronous
 and do not gate this review.
 
-This issue produces findings and dispositions and may correct only the four
-canonical v0.92.1 planning-contract surfaces named under Owned Paths when the
-review finds title variance, a bundled issue, or a missing concrete result. It
+This issue produces findings and dispositions and may correct the canonical
+v0.92.1 planning package named under Owned Paths when the review finds title
+variance, a bundled issue, a missing concrete result, or an omitted promoted
+source such as the AWS/GCP move-in or Rust-refactoring plans. It
 does not implement product work, create successor issues, activate v0.92.1,
 v0.92.2, or v0.93, merge, release, tag, finish, clean, or close any issue.
 Legacy issue #5851 is provenance only; canonical lifecycle and publication
@@ -65,7 +66,7 @@ stale, unowned, or sliced rows fail closed.
    Bundled phase descriptions, punctuation changes, reordered nodes, aliases,
    or title variance fail validation. Detailed scope belongs in each issue's
    deliverables and acceptance criteria, not in its title.
-   For all 31 creation-owned v0.92.1 issues, require exactly one bounded
+   For all 45 creation-owned v0.92.1 issues, require exactly one bounded
    objective, one primary deliverable, and one independently verifiable result
    that proves that issue alone. Reject phase umbrellas, multiple unrelated
    outcomes, execution gated by administrative closeout, and results that can
@@ -75,6 +76,11 @@ stale, unowned, or sliced rows fail closed.
    ceremony only; validation, notes, tag, cleanup, and asynchronous terminal
    reconciliation are inputs or separately owned results rather than bundled
    TAIL-10 deliverables.
+   Existing #432, #51, #261-#264, #342, #251, #122, #84, and #345 remain
+   existing issue authority and are not recreated. The exact cloud additions
+   are seven AWS move-in results, five GCP foundation results, one cross-cloud
+   Terraform conversion, and one bounded Rust resilience refactor. #457 is
+   provenance only and #269 remains excluded/backlogged.
 5. Review v0.92.2 readiness and successor handoff without selecting or
    activating v0.93. Candidate successor work remains planning input only.
 6. Hand a clean exact-head result to #319 after #318's reviewed green merge.
@@ -91,6 +97,9 @@ stale, unowned, or sliced rows fail closed.
 - `docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md`
 - `docs/milestones/v0.92.1/WBS_v0.92.1.md`
 - `docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml`
+- `docs/milestones/v0.92.1/*.md`
+- `docs/milestones/v0.92.1/features/*.md`
+- `.csdlc/prepared/issues/316/validate-v0921-plan.rb`
 
 The issue-local design, diagram, cards, and typed state are lifecycle surfaces.
 All #317 evidence, other milestone plans, GitHub state, Git topology, sibling
@@ -106,15 +115,18 @@ self-attestation.
 It must also inspect all canonical v0.92.1 planning surfaces that declare or
 render issue identities and enforce exact equality with the ten-title ordered
 contract above plus the one-objective/one-primary-deliverable/one-verifiable-
-result rule. A variance is an actionable review finding; only the four named
-planning surfaces may be corrected by #318, and every correction remains
+result rule and the exact structured `unit_contracts` denominator. A variance
+is an actionable review finding; only the named canonical planning package may
+be corrected by #318, and every correction remains
 visible in the finding disposition. The script supplies structural guards; the
 independent exact-head review supplies the semantic single-unit classification.
 
 Focused negative fixtures must each mutate exactly one accepted field and run
 through the real validator. They prove exact rejection of title variance,
 a missing primary deliverable, creation-denominator drift, a missing canonical
-issue row, release-tail reordering, dependency miswiring, and v0.93 activation.
+issue row, release-tail reordering, dependency miswiring, v0.93 activation,
+unit-contract drift, independently-closeable supporting work, and planning-
+source addendum drift.
 
 ## Rollback And Stop Conditions
 

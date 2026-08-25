@@ -2,9 +2,9 @@
 
 ## Topology
 
-`#432 + reviewed planning-package merge -> WP-01 eligible -> operator declares v0.92.1 ready -> operator creates number-free WP-01 -> {Corporate and IP, C-SDLC v3, Distributed Runtime, Podcast, hot reload, Observatory, Runtime v2/v3 decoupling, provider profiles}`; `DRT-C -> DRT-D`; `PROV-A -> PROV-B`. Closed #431 is provenance only and cannot open the wave.
+`#432 + reviewed planning-package merge -> WP-01 eligible -> operator declares v0.92.1 ready -> operator creates number-free WP-01 -> {Corporate and IP, AWS move-in, GCP move-in, cross-cloud Terraform, Rust resilience refactor, C-SDLC v3, Distributed Runtime, Podcast, hot reload, Observatory, Runtime v2/v3 decoupling, provider profiles}`. Explicit convergence edges are `AWS-E + GCP-D -> XCL-01 -> AWS-G`, `DRT-C + GCP-E + XCL-01 -> DRT-D`, and `PROV-A -> PROV-B`. Closed #431 is provenance only and cannot open the wave.
 
-The roots are parallel after the shared opening gates except for the explicit DRT-D and PROV-B edges. Cross-lane dependencies must be explicit issue edges, never assumed from document order.
+The roots are parallel after the shared opening gates except for the explicit cloud-conversion, DRT-D, and PROV-B edges. Cross-lane dependencies must be explicit issue edges, never assumed from document order.
 
 Within those lanes, #251 TLS 1.2, #122 public exposure, #345 GPU Shepherd hardening, OBS-A, and #84 preparation may proceed concurrently. #84 final proof joins #251 and #122; OBS-B joins OBS-A and #84; GPU-backed distributed qualification consumes #345.
 
@@ -19,6 +19,9 @@ Within those lanes, #251 TLS 1.2, #122 public exposure, #345 GPU Shepherd harden
 - Runtime decoupling assigns every v2/v3 source, manifest, import, export, test, and compatibility surface to exactly one authority, with executable migration and rollback proof.
 - Provider profiles give all tools one bounded provider contract; Ollama materialization is deterministic and shadow output never acquires mutation authority.
 - GCP qualification replays the six-resident contract as a provider-portability sidecar after DRT-C; it neither replaces AWS qualification nor authorizes issue #269.
+- AWS and GCP move-in are separate ordered foundation lanes. Existing #122/#251/#84/#345 remain existing issues and are never recreated.
+- XCL-01 owns the exact cross-cloud Terraform conversion; AWS-G alone decides later CloudFormation retirement.
+- RUST-01 owns one behavior-preserving resilience boundary refactor with no mandatory LoC target.
 
 INT-01 consumes all named roots. Historical #188 informs convergence and quality admission, #190 informs successor planning, and #189 is reserved for the final ceremony.
 

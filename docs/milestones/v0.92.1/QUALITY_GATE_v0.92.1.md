@@ -19,3 +19,5 @@ All dependency checks are merge-based. Individual typed finish, receipt reconcil
 The active existing-issue denominator includes #251, #122, #84, and #345. The gate rejects missing TLS 1.2, public-exposure, Unity, or GPU Shepherd evidence when the consuming Observatory or distributed Runtime claim requires it.
 
 DEC-01 must prove exclusive v2/v3 ownership and reversible compatibility without claiming Runtime v4. PROV-A/PROV-B must prove shared configuration and shadow isolation; #457 supplies provenance only. DRT-D must prove provider identity, cost, and zero-resource cleanup and must not execute #269. Integration evidence must preserve the exact #188 convergence/quality, #190 successor-planning, and #189 ceremony routing.
+
+AWS-A through AWS-G and GCP-A through GCP-E must each prove their single declared result. XCL-01 must prove the exact CloudFormation-template denominator, provider-neutral contract, explicit provider implementations, parity, rollback, and zero-residue cleanup before AWS-G may accept retirement. RUST-01 must prove behavior/API parity and truthful validation-impact measurement without a LoC quota.

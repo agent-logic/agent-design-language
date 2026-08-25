@@ -40,6 +40,14 @@ begin
     path = File.join(milestone, "WP_ISSUE_WAVE_v0.92.1.yaml")
     File.write(path, File.read(path).sub("creation_owner: WP-01", "creation_owner: operator"))
   end
+  run_case("unit-contract-denominator", "unit-contract denominator mismatch") do |milestone, _evidence|
+    path = File.join(milestone, "WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml")
+    File.write(path, File.read(path).sub(/^  AWS-A: \{primary_result:.*\n/, ""))
+  end
+  run_case("supporting-work-closeable", "AWS-A permits supporting work to close independently") do |milestone, _evidence|
+    path = File.join(milestone, "WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml")
+    File.write(path, File.read(path).sub(/(AWS-A: \{primary_result: [^,]+, supporting_work_closeable:) false/, "\\1 true"))
+  end
   run_case("issue-denominator", "canonical issue denominator mismatch") do |_milestone, evidence|
     path = File.join(evidence, "issue-universe.json")
     json = JSON.parse(File.read(path))
@@ -66,8 +74,14 @@ begin
     json.fetch("v0_93")["activated"] = true
     File.write(path, JSON.pretty_generate(json) + "\n")
   end
+  run_case("planning-source-addendum", "planning source addendum denominator mismatch") do |_milestone, evidence|
+    path = File.join(evidence, "planning-source-addendum.json")
+    json = JSON.parse(File.read(path))
+    json.fetch("sources").delete_at(0)
+    File.write(path, JSON.pretty_generate(json) + "\n")
+  end
 ensure
   FileUtils.rm_rf(WORK)
 end
 
-puts JSON.generate(schema: "adl.v092.wp29.readiness-review-negatives.v1", status: "pass", cases: 7)
+puts JSON.generate(schema: "adl.v092.wp29.readiness-review-negatives.v1", status: "pass", cases: 10)

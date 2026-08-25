@@ -7,12 +7,13 @@ repository_prerequisite:
   required_before_wp01_execution: reviewed_merged_ancestral
   preterminal_planning_is_allowed: true
   guarantee: no_tracked_local_untracked_path_dependencies
-required_spec_fields: [objective, primary_deliverable, verification_result, acceptance_criteria, owned_paths, pvf_lanes, stop_conditions, non_goals]
+required_spec_fields: [objective, primary_deliverable, verification_result, unit_boundary, acceptance_criteria, owned_paths, pvf_lanes, stop_conditions, non_goals]
 issue_specifications:
   - id: CORP-A
     objective: Produce one accepted critical-asset schedule for the complete asset denominator.
     primary_deliverable: One accepted critical-asset schedule with provenance, ownership, licensing, trademark, and assignment dispositions.
     verification_result: The asset validator proves every critical asset appears exactly once with an accepted disposition and redacted receipt.
+    unit_boundary: Issue completion is exactly acceptance of the one critical-asset schedule; source-specific checks are evidence inputs, not separately closeable results.
     acceptance_criteria: [Every critical asset has an owner and disposition, Private instruments remain outside Git, Redacted receipts bind accepted instruments to the asset schedule]
     owned_paths: [docs/operations/corporate/asset-register/**, docs/milestones/v0.92.1/evidence/corporate/corp-a/**]
     pvf_lanes: [asset-denominator, provenance-and-license, redaction-and-custody, diff-hygiene]
@@ -22,6 +23,7 @@ issue_specifications:
     objective: Produce one accepted company-control custody register for the complete critical-service denominator.
     primary_deliverable: One company-control custody register for every critical service.
     verification_result: Readback and recovery exercises prove corporate administration, billing, MFA, vault, and audited break-glass control for every registered service.
+    unit_boundary: Issue completion is exactly acceptance of the one custody register; service readbacks are evidence inputs, not separately closeable results.
     acceptance_criteria: [Every critical service has corporate administration and billing custody, Recovery does not depend on one personal factor, Break-glass use is bounded and audited]
     owned_paths: [docs/operations/corporate/account-custody/**, docs/milestones/v0.92.1/evidence/corporate/corp-b/**]
     pvf_lanes: [service-denominator, custody-readback, recovery-exercise, redaction]
@@ -31,6 +33,7 @@ issue_specifications:
     objective: Produce one accepted corporate operational-control transfer record for the complete control-plane denominator.
     primary_deliverable: One accepted control-plane transfer record covering every named operational authority.
     verification_result: Corporate-owner, business-account, deployment, availability, recovery, and rollback readbacks pass for the complete control-plane denominator.
+    unit_boundary: Issue completion is exactly one corporate control-transfer acceptance decision; individual control-plane transfers and readbacks are denominator rows, not separately closeable results.
     acceptance_criteria: [Each control plane has corporate owner and rollback, AWS uses the approved business account, Terraform and CI authority are company-controlled, Availability and recovery readbacks pass]
     owned_paths: [docs/operations/corporate/control-transfer/**, infra/**, .github/workflows/**, docs/milestones/v0.92.1/evidence/corporate/corp-c/**]
     pvf_lanes: [control-plane-readback, aws-business-account, deployment-rollback, secret-redaction]
@@ -40,15 +43,157 @@ issue_specifications:
     objective: Produce one corporate diligence acceptance record bound to the exact diligence index.
     primary_deliverable: One corporate diligence acceptance record bound to the exact diligence index.
     verification_result: The prerequisite census reports every CORP-A through CORP-C blocker dispositioned and the bounded acceptance readback passes.
+    unit_boundary: Issue completion is exactly one diligence acceptance decision; prerequisite and counsel receipts are inputs to that decision.
     acceptance_criteria: [Every CORP-A-C blocker has disposition, Counsel-controlled judgments are recorded only as bounded receipts, Corporate acceptance binds the exact diligence index]
     owned_paths: [docs/operations/corporate/diligence/**, docs/milestones/v0.92.1/evidence/corporate/corp-d/**]
     pvf_lanes: [diligence-index, prerequisite-census, counsel-boundary, acceptance-readback]
     stop_conditions: [An unresolved blocker lacks disposition, Private advice would be committed]
     non_goals: [Replacing counsel, Inferring legal conclusions]
+  - id: AWS-A
+    objective: Produce one accepted all-region AWS resource ownership inventory.
+    primary_deliverable: One accepted AWS resource inventory with an owner and lifecycle disposition for every discovered resource.
+    verification_result: Read-only account, region, service, state-backend, tag, billing, and retained-evidence censuses reconcile without an unclassified omission.
+    unit_boundary: Issue completion is exactly one accepted ownership inventory; discovery probes are evidence inputs and no resource mutation is performed.
+    acceptance_criteria: [The approved business account and regions are exact, Every discovered resource has an owner or frozen-unknown disposition, Website Terraform and issue evidence remain separately classified, EBS and other retained assets are not inferred disposable]
+    owned_paths: [docs/operations/cloud/aws/inventory/**, docs/milestones/v0.92.1/evidence/cloud/aws-a/**]
+    pvf_lanes: [account-identity, all-region-inventory, ownership-denominator, state-owner-census, redaction]
+    stop_conditions: [Account or region is ambiguous, A resource owner cannot be classified, Discovery would require mutation]
+    non_goals: [Resource import, Cleanup, Terraform apply]
+  - id: AWS-B
+    objective: Produce one accepted AWS access and billing control baseline.
+    primary_deliverable: One accepted AWS access and billing baseline with independently recoverable corporate administration, governed Agent Toolkit access, and visible cost controls.
+    verification_result: Root recovery, human and workload access, Agent Toolkit configuration, agent-specific IAM guardrails, CloudWatch and CloudTrail activity visibility, billing, budget, anomaly, export, and cost-attribution readbacks pass without removing the proven administrator path.
+    unit_boundary: Issue completion is exactly one accepted access-and-billing baseline; individual readbacks are evidence inputs and do not close independently.
+    acceptance_criteria: [Corporate recovery does not depend on one personal factor, Human workload and agent-initiated identities are distinguishable, Agent Toolkit for AWS is configured for the approved Codex path with AWS CLI 2.35 or newer, IAM context policies bind agent actions with read-only default posture, CloudWatch metrics and CloudTrail requests are attributable, Billing and budget ownership is visible, Existing administrator access remains until replacement is proven]
+    owned_paths: [infra/aws/account-foundation/**, docs/operations/cloud/aws/access-billing/**, docs/milestones/v0.92.1/evidence/cloud/aws-b/**]
+    pvf_lanes: [root-recovery, identity-census, agent-toolkit-configuration, agent-iam-guardrails, agent-activity-audit, billing-readback, budget-and-anomaly, credential-redaction]
+    stop_conditions: [Replacement access is unproven, Billing target is ambiguous, Credentials would enter evidence]
+    non_goals: [Organizations rollout, Workload deployment, Unrestricted agent mutation, Removing break-glass access]
+  - id: AWS-C
+    objective: Produce one recoverable AWS Terraform account-foundation bootstrap.
+    primary_deliverable: One recoverable AWS account-foundation backend and deployment-role bootstrap isolated from existing website and workload states.
+    verification_result: Backend identity, locking, versioning, recovery, provider pins, saved-plan review, and rollback checks pass from an independent readback.
+    unit_boundary: Issue completion is exactly one recoverable Terraform bootstrap; backend creation and state migration are internal steps.
+    acceptance_criteria: [Existing website and DDNS states are inventoried first, The new backend is encrypted versioned locked and recoverable, Deployment identity is least privilege, No existing state is copied or dual-owned]
+    owned_paths: [infra/aws/bootstrap/**, docs/operations/cloud/aws/terraform-bootstrap/**, docs/milestones/v0.92.1/evidence/cloud/aws-c/**]
+    pvf_lanes: [backend-identity, lock-and-versioning, recovery-rehearsal, provider-pin, state-isolation]
+    stop_conditions: [An existing backend owner is unknown, State recovery fails, A reviewed plan differs at apply]
+    non_goals: [Website state migration, Runtime deployment, CloudFormation retirement]
+  - id: AWS-D
+    objective: Produce one operational AWS audit and security baseline.
+    primary_deliverable: One operational audit and security baseline with owned retention and findings destinations.
+    verification_result: CloudTrail, configuration, detection, access-analysis, encryption, logging, alert, retention, and redaction readbacks pass for the exact account foundation.
+    unit_boundary: Issue completion is exactly one operational audit-and-security baseline; individual services are implementation parts and cannot close independently.
+    acceptance_criteria: [Account changes are durably observable, Security findings have an owner and destination, Retention and encryption are explicit, Sensitive values are excluded from retained proof]
+    owned_paths: [infra/aws/account-foundation/**, docs/operations/cloud/aws/audit-security/**, docs/milestones/v0.92.1/evidence/cloud/aws-d/**]
+    pvf_lanes: [audit-coverage, detection-readback, retention, alert-routing, redaction]
+    stop_conditions: [Audit gaps remain unexplained, Findings lack ownership, Logging creates uncontrolled cost]
+    non_goals: [Multi-account rollout, Application security redesign]
+  - id: AWS-E
+    objective: Produce one accepted AWS resource adoption register reconciled with live state.
+    primary_deliverable: One accepted adoption register mapping every durable resource to retain, import, replace, retire-later, ephemeral, or frozen-unknown ownership.
+    verification_result: Live inventory, Terraform, CloudFormation, scripts, tags, lifecycle, retention, and deletion-authority checks agree with no dual-managed resource.
+    unit_boundary: Issue completion is exactly one accepted adoption register; imports, tagging changes, and authorized cleanup are internal or follow-up actions and cannot substitute for the register.
+    acceptance_criteria: [Every durable resource has one management authority, Website and historical evidence ownership is preserved, Cleanup requires exact non-use retention recovery and deletion authority, Live and declared state agree]
+    owned_paths: [docs/operations/cloud/aws/adoption/**, infra/aws/**, docs/milestones/v0.92.1/evidence/cloud/aws-e/**]
+    pvf_lanes: [live-state-reconciliation, authority-exclusivity, retention-and-deletion, tag-and-lifecycle, rollback]
+    stop_conditions: [A resource may belong to website or retained evidence, Dual management is possible, Deletion authority is missing]
+    non_goals: [Speculative cleanup, Website rewrite, CloudFormation retirement]
+  - id: AWS-F
+    objective: Produce one reviewed AWS Runtime platform-module set.
+    primary_deliverable: One reviewed Terraform module set for private Runtime network, edge, build, and independently scalable node groups.
+    verification_result: Saved-plan, private-connectivity, exact Runtime artifact, cost, observability, rollback, and zero-residue disposable-deployment checks pass without production traffic.
+    unit_boundary: Issue completion is exactly one reviewed Runtime platform-module set; module components and the disposable proving deployment are implementation parts and evidence inputs.
+    acceptance_criteria: [Runtime hosts have no direct public ingress, Shared edge network build and node states remain separated, Existing issue 122 owns public Route53 and ACM exposure, Disposable deployment and cleanup bind the exact modules]
+    owned_paths: [infra/aws/runtime/**, docs/operations/cloud/aws/runtime-platform/**, docs/milestones/v0.92.1/evidence/cloud/aws-f/**]
+    pvf_lanes: [saved-plan, private-connectivity, runtime-artifact, cost-and-deadline, observability, cleanup-zero]
+    stop_conditions: [Issue 122 authority is contradicted, Public ingress appears unexpectedly, Production traffic would be required]
+    non_goals: [Production cutover, Domain transfer, Runtime behavior fork]
+  - id: AWS-G
+    objective: Produce one accepted AWS CloudFormation retirement decision for the bounded template denominator.
+    primary_deliverable: One accepted retirement ledger for the issue-specific CloudFormation templates and every active or planned consumer.
+    verification_result: Template, consumer, parity, Terraform replacement, rollback, retained-evidence, and live-stack checks produce one disposition per bounded template with no dual ownership.
+    unit_boundary: Issue completion is exactly one accepted retirement decision; template translations and qualification runs are evidence inputs or separately reviewable follow-up work.
+    acceptance_criteria: [Issue 194 and 268 templates are inventoried, Every consumer and retained evidence path has a disposition, Retirement requires proven Terraform parity and rollback, No active stack is silently abandoned]
+    owned_paths: [infra/aws/runtime/**, adl/tools/issue194_private_network.cloudformation.json, adl/tools/issue268_runtime_qualification.cloudformation.yaml, docs/milestones/v0.92.1/evidence/cloud/aws-g/**]
+    pvf_lanes: [template-denominator, consumer-census, parity-and-rollback, live-stack-readback, retirement-decision]
+    stop_conditions: [A consumer is unclassified, A live stack owner is ambiguous, Terraform parity is absent]
+    non_goals: [Deleting historical evidence, Forced retirement, Website Terraform changes]
+  - id: GCP-A
+    objective: Produce one accepted GCP hierarchy and cost-envelope decision.
+    primary_deliverable: One accepted decision register binding organization, folders, projects, billing, region, quota, naming, data residency, and the first workload cost envelope.
+    verification_result: Read-only hierarchy, billing, API, IAM, policy, network, quota, credit-expiry, and current-resource observations reconcile to the decision register.
+    unit_boundary: Issue completion is exactly one accepted hierarchy-and-cost decision; discovery observations are evidence inputs and no cloud mutation is performed.
+    acceptance_criteria: [Organization folder project billing and region are exact, POC and long-term ownership are explicit, The first workload has a hard cost ceiling, Quota is not treated as capacity]
+    owned_paths: [docs/operations/cloud/gcp/decisions/**, docs/milestones/v0.92.1/evidence/cloud/gcp-a/**]
+    pvf_lanes: [hierarchy-readback, billing-and-credit, iam-policy-census, quota-capacity, decision-denominator]
+    stop_conditions: [Identity or billing is ambiguous, Credit expiry is unknown, A decision would require mutation]
+    non_goals: [API enablement, Project creation, Paid launch]
+  - id: GCP-B
+    objective: Produce one recoverable GCP Terraform bootstrap.
+    primary_deliverable: One recoverable GCP state project backend and deployment-identity bootstrap.
+    verification_result: Remote state, locking, recovery, provider pins, impersonation, saved-plan review, break-glass, and local-state removal checks pass.
+    unit_boundary: Issue completion is exactly one recoverable Terraform bootstrap; state creation and migration are internal steps.
+    acceptance_criteria: [State is versioned private recoverable and auditable, Deployment uses short-lived impersonation, Provider and module versions are pinned, Local bootstrap state is removed recoverably]
+    owned_paths: [infra/gcp/bootstrap/**, docs/operations/cloud/gcp/terraform-bootstrap/**, docs/milestones/v0.92.1/evidence/cloud/gcp-b/**]
+    pvf_lanes: [backend-identity, state-recovery, impersonation, provider-pin, local-state-cleanup]
+    stop_conditions: [State recovery fails, Static service-account keys are required, Reviewed plan identity drifts]
+    non_goals: [Runtime deployment, Production hierarchy, AWS changes]
+  - id: GCP-C
+    objective: Produce one operational GCP organization and billing baseline.
+    primary_deliverable: One operational organization and billing baseline for the approved folder and project denominator.
+    verification_result: Folder, project, billing-link, scoped-policy, administrative-group, budget, export, label, and ownership readbacks pass without changing unrelated POC resources.
+    unit_boundary: Issue completion is exactly one operational organization-and-billing baseline; individual folder project and policy changes are implementation parts.
+    acceptance_criteria: [Every new project has corporate group ownership and cost attribution, Policies are scoped and impact-reviewed, Billing export and budgets are observable, Existing POC resources remain unchanged unless explicitly admitted]
+    owned_paths: [infra/gcp/organization/**, docs/operations/cloud/gcp/organization-billing/**, docs/milestones/v0.92.1/evidence/cloud/gcp-c/**]
+    pvf_lanes: [hierarchy-parity, policy-impact, group-ownership, billing-export, budget-and-label]
+    stop_conditions: [A broad policy could affect POC resources, Individual-only ownership remains, Cost attribution is absent]
+    non_goals: [Production activation, GPU launch, AWS organization changes]
+  - id: GCP-D
+    objective: Produce one private GCP platform foundation for disposable workloads.
+    primary_deliverable: One private GCP platform foundation providing approved operator access, storage classes, telemetry, and zero-residue disposal.
+    verification_result: VPC, subnet, IAP and OS Login, egress, firewall, artifact/model/evidence storage, logging, metric, label, watchdog, and disposable non-GPU workload checks pass.
+    unit_boundary: Issue completion is exactly one private platform foundation; network storage observability and disposable-workload components cannot close independently.
+    acceptance_criteria: [No unintended public route address or ingress exists, Human and workload identities are separate, State artifacts models continuity evidence and logs have separate owners, A disposable non-GPU workload is destroyed with zero residue]
+    owned_paths: [infra/gcp/platform/**, docs/operations/cloud/gcp/platform-foundation/**, docs/milestones/v0.92.1/evidence/cloud/gcp-d/**]
+    pvf_lanes: [private-network, operator-access, data-class-boundaries, telemetry-and-watchdog, disposable-workload-cleanup]
+    stop_conditions: [Public exposure appears, Required IAM is broad or key-based, Cleanup selectors are incomplete]
+    non_goals: [GPU qualification, Production traffic, Shared-VPC expansion]
+  - id: GCP-E
+    objective: Produce one bounded GCP GPU readiness decision.
+    primary_deliverable: One bounded On-Demand L4 smoke-test qualification packet with exact inputs, cost, telemetry, and zero-resource cleanup.
+    verification_result: Exact image driver CUDA Ollama model and machine identities, GPU detection, inference, headroom, telemetry, deadline, cost, and independent cleanup checks pass under separate paid-launch authorization.
+    unit_boundary: Issue completion is exactly one GPU readiness decision; launch and cleanup are evidence inputs and do not authorize six-resident qualification.
+    acceptance_criteria: [Paid launch has separate authorization and a USD 20 ceiling, Exact inputs and hardware are retained, GPU inference and headroom are proven, All owned resources are independently absent afterward]
+    owned_paths: [infra/gcp/workloads/gpu-smoke/**, docs/milestones/v0.92.1/evidence/cloud/gcp-e/**]
+    pvf_lanes: [paid-authority, exact-inputs, gpu-inference, telemetry-and-cost, cleanup-zero]
+    stop_conditions: [Paid authorization is absent, Quota or capacity cannot satisfy the exact shape, Cleanup cannot be proven]
+    non_goals: [Six-resident qualification, Spot substitution, Production deployment]
+  - id: XCL-01
+    objective: Produce one portable Runtime Terraform module family replacing the exact existing CloudFormation-template denominator on AWS and GCP.
+    primary_deliverable: One portable workload contract with provider-specific AWS and GCP Terraform implementations for the exact issue 194 and 268 template behaviors.
+    verification_result: Input, topology, IAM, tag, deadline, output, failure, rollback, plan, disposable-deployment, and zero-resource parity pass on both provider implementations.
+    unit_boundary: Issue completion is exactly one accepted cross-cloud Terraform module family; provider modules and parity deployments are implementation parts and evidence inputs.
+    acceptance_criteria: [The portable workload contract is provider-neutral, AWS and GCP modules preserve the exact admitted template behavior, Provider identity and differences remain explicit, Neither provider silently substitutes for the other, Existing CloudFormation remains rollback authority until AWS-G]
+    owned_paths: [infra/runtime-portable/**, infra/aws/runtime/**, infra/gcp/workloads/**, docs/milestones/v0.92.1/evidence/cloud/xcl-01/**]
+    pvf_lanes: [template-denominator, portable-contract, aws-plan-and-deploy, gcp-plan-and-deploy, cross-provider-parity, rollback, cleanup-zero]
+    stop_conditions: [A template behavior is unmapped, Provider-specific security is hidden behind a false abstraction, Either cleanup proof fails, Paid authorization is absent]
+    non_goals: [One Terraform resource graph spanning both providers, CloudFormation deletion, Production cutover]
+  - id: RUST-01
+    objective: Produce one behavior-preserving resilience owner-boundary refactoring slice.
+    primary_deliverable: One refactored resilience module family with explicit owner boundaries and a narrower change-validation surface.
+    verification_result: Baseline API, positive, negative, fault, trace, retry, timeout, cancellation, formatting, Clippy, and exact diff checks pass while the tracked validation-impact denominator is reduced or truthfully unchanged.
+    unit_boundary: Issue completion is exactly one behavior-preserving resilience owner-boundary refactor; module extraction and test relocation are internal steps and line movement is not a separate result.
+    acceptance_criteria: [Supported resilience behavior and public API remain compatible, Each extracted module has one coherent owner, Tests remain behavior-focused and PVF-classified, Validation-impact change is measured exactly, No line-count reduction quota is imposed]
+    owned_paths: [adl/src/resilience.rs, adl/src/resilience/**, adl/tests/**, docs/milestones/v0.92.1/evidence/refactoring/rust-01/**]
+    pvf_lanes: [api-parity, resilience-positive-negative, fault-and-trace, retry-timeout-cancellation, validation-impact, fmt-clippy]
+    stop_conditions: [Behavior changes are required, Ownership becomes more ambiguous, Tests are weakened or merely moved, Refactoring expands into unrelated Rust surfaces]
+    non_goals: [Repository-wide refactoring, Mandatory LoC reduction, Runtime v4, Aesthetic file splitting]
   - id: V3-A
     objective: Produce one reviewed C-SDLC v3 contract and construction-decision packet.
     primary_deliverable: One reviewed C-SDLC v3 contract and construction decision packet.
     verification_result: Contract, predecessor-coverage, architecture-boundary, and rollback checks pass for requirements 161 through 163.
+    unit_boundary: Issue completion is exactly acceptance of one v3 contract and construction decision; its checks are evidence inputs.
     acceptance_criteria: [The v3 authority boundary and compatibility posture are explicit, Requirements 161 through 163 are mapped exactly, Construction and rollback decisions are reviewable]
     owned_paths: [docs/csdlc-v3/**, csdlc-v3/Cargo.toml, csdlc-v3/src/lib.rs]
     pvf_lanes: [contract-schema, predecessor-coverage, architecture-boundary, diff-hygiene]
@@ -58,6 +203,7 @@ issue_specifications:
     objective: Produce one deterministic C-SDLC v3 foundation slice.
     primary_deliverable: One deterministic C-SDLC v3 foundation slice exposing repository context, state, and projections.
     verification_result: Focused foundation tests prove deterministic replay and requirements 164 through 167.
+    unit_boundary: Issue completion is exactly delivery of one deterministic foundation slice; internal components cannot close independently.
     acceptance_criteria: [State and projections are deterministic, Repository context is explicit, Requirements 164 through 167 have focused behavioral proof]
     owned_paths: [csdlc-v3/src/bin/**, csdlc-v3/src/application/**, csdlc-v3/src/repository/**, csdlc-v3/tests/foundation/**]
     pvf_lanes: [foundation-unit, repository-context, state-projection, strict-clippy]
@@ -67,33 +213,37 @@ issue_specifications:
     objective: Produce one transactional C-SDLC v3 lifecycle-kernel slice.
     primary_deliverable: One transactional C-SDLC v3 lifecycle-kernel slice with recovery and typed adapters.
     verification_result: Transition, failure-injection, and recovery-replay tests pass for requirements 168 through 170.
+    unit_boundary: Issue completion is exactly delivery of one transactional lifecycle-kernel slice; storage and adapters are inseparable implementation parts.
     acceptance_criteria: [Transitions are capability-checked and atomic, Recovery preserves audit provenance, Requirements 168 through 170 pass failure-injection tests]
     owned_paths: [csdlc-v3/src/lifecycle/**, csdlc-v3/src/storage/**, csdlc-v3/src/adapters/**, csdlc-v3/tests/transactions/**]
     pvf_lanes: [transition-matrix, transaction-failure, recovery-replay, strict-clippy]
     stop_conditions: [Partial writes can acquire authority, Recovery loses provenance]
     non_goals: [Publication, v2 migration]
   - id: V3-D
-    objective: Produce one typed C-SDLC v3 local-command suite.
-    primary_deliverable: One local-command suite for issue, bind, card, doctor, and PVF planning operations.
-    verification_result: CLI contract, topology, card round-trip, and doctor tests pass for requirements 171 through 173.
+    objective: Produce one end-to-end C-SDLC v3 local preparation workflow.
+    primary_deliverable: One end-to-end local preparation workflow from issue input to a doctor-validated PVF plan.
+    verification_result: One workflow test proves an issue input reaches a doctor-validated PVF plan under typed state for requirements 171 through 173.
+    unit_boundary: Issue completion is exactly one local preparation workflow; individual commands are internal steps and cannot close independently.
     acceptance_criteria: [Commands consume typed contracts, Bind enforces registered topology, Cards render from the active registry, Requirements 171 through 173 have CLI proof]
     owned_paths: [csdlc-v3/src/commands/local/**, csdlc-v3/tests/local_commands/**, docs/templates/prompts/**]
     pvf_lanes: [cli-contract, bind-topology, card-roundtrip, doctor-findings]
     stop_conditions: [A command bypasses typed state, Generated cards require hand edits]
     non_goals: [PVF execution, GitHub writes]
   - id: V3-E
-    objective: Produce one typed C-SDLC v3 remote-lifecycle command suite.
-    primary_deliverable: One remote-lifecycle command suite covering PVF, review, publication, GitHub, PR, finish, and cleanup.
-    verification_result: Positive and refusal tests pass for exact review, publication linkage, terminal finish, cleanup safety, and requirements 174 through 178.
+    objective: Produce one end-to-end C-SDLC v3 remote delivery workflow.
+    primary_deliverable: One end-to-end remote delivery workflow from an accepted PVF result to safe terminal cleanup.
+    verification_result: One workflow proof reaches safe cleanup from an accepted PVF result, while refusal cases prove no intermediate step independently grants authority, for requirements 174 through 178.
+    unit_boundary: Issue completion is exactly one remote delivery workflow; review, publication, PR, finish, and cleanup are non-closeable stages of that workflow.
     acceptance_criteria: [Review binds exact immutable scope, Publication modes are explicit, Finish derives terminal truth, Requirements 174 through 178 have positive and refusal proof]
     owned_paths: [csdlc-v3/src/commands/remote/**, csdlc-v3/src/review/**, csdlc-v3/src/publication/**, csdlc-v3/tests/remote_commands/**]
     pvf_lanes: [pvf-denominator, exact-review, publication-linkage, terminal-finish, cleanup-safety]
     stop_conditions: [Review can be self-authorized, Publication or finish can bypass typed gates]
     non_goals: [Authority cutover, broad repository cleanup]
   - id: V3-F
-    objective: Produce one operator-reviewed v2-to-v3 authority-transition decision packet.
-    primary_deliverable: One operator-reviewed v2-to-v3 parity, canary, cutover, observation, and retirement-decision packet.
-    verification_result: Requirements 179 and 180, parity, canary rollback, observation, and explicit operator decision checks pass.
+    objective: Produce one operator-reviewed C-SDLC v3 authority-transition decision.
+    primary_deliverable: One operator-reviewed C-SDLC v3 authority-transition decision.
+    verification_result: One decision record binds requirements 179 and 180, parity, canary rollback, observation evidence, and the explicit operator disposition.
+    unit_boundary: Issue completion is exactly one authority-transition decision; parity, canary, and observation are evidence inputs and do not close independently.
     acceptance_criteria: [Requirements 179 and 180 are mapped, v2-v3 parity is measured, Canary rollback is exercised, Cutover and retirement require operator approval]
     owned_paths: [csdlc-v3/tests/parity/**, docs/tooling/csdlc-v3/**, docs/milestones/v0.92.1/evidence/csdlc-v3/v3-f/**]
     pvf_lanes: [parity-matrix, migration-canary, rollback, observation-window]
@@ -103,6 +253,7 @@ issue_specifications:
     objective: Produce one deterministic distributed-qualification and ACIP replay contract.
     primary_deliverable: One deterministic distributed-qualification and ACIP replay contract.
     verification_result: Identity, authority, duplicate-denial, and replay-conformance tests pass for requirements 181 and 182.
+    unit_boundary: Issue completion is exactly acceptance of one distributed-qualification contract; conformance checks are evidence inputs.
     acceptance_criteria: [Requirements 181 and 182 are mapped, Identity and authority are deterministic, Duplicate denial and replay receipts are exact]
     owned_paths: [adl-runtime/src/qualification/**, adl-runtime/tests/distributed_contract/**, docs/milestones/v0.92.1/evidence/runtime/drt-a/**]
     pvf_lanes: [qualification-contract, acip-authority, replay-conformance, negative-matrix]
@@ -112,15 +263,17 @@ issue_specifications:
     objective: Produce one six-resident UTS continuity and reclamation qualification packet.
     primary_deliverable: One retained six-resident UTS continuity and reclamation qualification packet.
     verification_result: Six distinct residents complete assigned work and exact dehydrate, restore, cost, and cleanup checks pass for requirements 183 and 184.
+    unit_boundary: Issue completion is exactly one six-resident qualification decision; workload and continuity checks are evidence inputs.
     acceptance_criteria: [Requirements 183 and 184 are mapped, Six distinct residents complete assigned UTS work, Dehydrate and restore preserve exact population, GPU evidence waits for reviewed merged 345 authority]
     owned_paths: [adl-runtime/src/qualification/**, adl-runtime-kernel/src/**, adl/tools/run_issue268_**, docs/milestones/v0.92.1/evidence/runtime/drt-b/**]
     pvf_lanes: [six-resident-uts, continuity-reclamation, spot-cost-and-cleanup, resource-envelope]
     stop_conditions: [Issue 345 is not reviewed and merged when GPU proof is required, Population or lineage drifts, Paid launch lacks authorization]
     non_goals: [Executing issue 269, Inventing a new continuity system]
   - id: DRT-C
-    objective: Produce one final distributed Runtime qualification decision packet.
-    primary_deliverable: One distributed Runtime failure, Observatory, soak, cleanup, and synthesis qualification packet.
-    verification_result: Failure, authentic Observatory, bounded-soak, cleanup-zero, and synthesis checks pass for requirements 185 through 187.
+    objective: Produce one final distributed Runtime qualification decision.
+    primary_deliverable: One final distributed Runtime qualification decision for requirements 185 through 187.
+    verification_result: One qualification decision binds failure, authentic Observatory, bounded-soak, and cleanup-zero evidence for the exact Runtime revision.
+    unit_boundary: Issue completion is exactly one final qualification decision; failure, Observatory, soak, and cleanup are evidence inputs and cannot close independently.
     acceptance_criteria: [Requirements 185 through 187 are mapped, Identity provider and transport failures fail closed, Observatory evidence is authentic, Soak cleanup and synthesis bind exact revisions]
     owned_paths: [adl-runtime/tests/distributed_failure/**, demos/html-observatory/**, docs/milestones/v0.92.1/evidence/runtime/drt-c/**]
     pvf_lanes: [failure-matrix, observatory-evidence, bounded-soak, cleanup-zero, synthesis]
@@ -130,6 +283,7 @@ issue_specifications:
     objective: Produce one production-ready Axum hot-reload implementation.
     primary_deliverable: One production-ready Axum hot-reload implementation with last-known-good retention.
     verification_result: Valid reload, invalid retention, debounce, concurrent-read, and watcher-shutdown tests pass.
+    unit_boundary: Issue completion is exactly one production-ready hot-reload implementation; behavioral cases are proof inputs.
     acceptance_criteria: [Reads use atomically swappable state, Invalid updates preserve the last valid configuration, File events are debounced, Concurrent requests observe complete configurations only]
     owned_paths: [adl-runtime/src/config_reload.rs, adl-runtime/tests/config_reload.rs, docs/runtime/config-hot-reload.md]
     pvf_lanes: [valid-reload, invalid-retention, debounce, concurrent-read, watcher-shutdown]
@@ -139,6 +293,7 @@ issue_specifications:
     objective: Produce one reviewed Observatory experience-design contract.
     primary_deliverable: One reviewed Observatory design contract covering information, interaction, states, hierarchy, and accessibility.
     verification_result: Information-contract, state-matrix, accessibility, and Runtime-field-census checks pass without invented authority.
+    unit_boundary: Issue completion is exactly acceptance of one Observatory experience-design contract; view and accessibility checks are evidence inputs.
     acceptance_criteria: [Every view has a stable information contract, Empty degraded recovery and revoked states are designed, Keyboard and screen-reader flows are specified, No invented Runtime field is introduced]
     owned_paths: [demos/html-observatory/design/**, docs/observatory/**, docs/milestones/v0.92.1/evidence/observatory/obs-a/**]
     pvf_lanes: [information-contract, state-matrix, accessibility-plan, runtime-field-census]
@@ -148,6 +303,7 @@ issue_specifications:
     objective: Produce one implemented Observatory redesign backed by authentic Runtime projections.
     primary_deliverable: One implemented Observatory redesign consuming authentic Runtime projections.
     verification_result: Exact browser, accessibility, redaction, recovery, and authentic Runtime-route checks pass.
+    unit_boundary: Issue completion is exactly one implemented Observatory redesign; browser and authority cases are proof inputs.
     acceptance_criteria: [OBS-A contracts are implemented, Final proof consumes reviewed merged issue 84 authority, Runtime projections are source-grounded, Accessibility and recovery cases pass]
     owned_paths: [demos/html-observatory/app.js, demos/html-observatory/styles.css, adl/tools/validate_layer8_authority_observatory_ui.sh, docs/milestones/v0.92.1/evidence/observatory/obs-b/**]
     pvf_lanes: [authentic-runtime-route, exact-browser-cases, accessibility, redaction, recovery]
@@ -157,6 +313,7 @@ issue_specifications:
     objective: Produce one immutable release-tail admission record for the converged milestone candidate.
     primary_deliverable: One immutable release-tail admission record indexing every reviewed-green ancestral execution root.
     verification_result: The admission validator reports the exact root denominator, revisions, artifacts, ancestry, and zero unresolved collisions.
+    unit_boundary: Issue completion is exactly one admission decision; lane receipts are evidence inputs and lane remediation remains separately owned.
     acceptance_criteria: [Every lane is reviewed merged and ancestral, Exact revisions and artifacts are indexed, Cross-lane collisions are resolved by owners]
     owned_paths: [docs/milestones/v0.92.1/evidence/integration/**, docs/milestones/v0.92.1/DEMO_MATRIX_v0.92.1.md]
     pvf_lanes: [merged-authority-census, ancestry, artifact-index, collision-check]
@@ -166,6 +323,7 @@ issue_specifications:
     objective: Produce one quality-gate decision for the exact converged candidate.
     primary_deliverable: One quality-gate decision record for the exact converged candidate.
     verification_result: Every required proving lane passes and the gate reports zero unowned exceptions.
+    unit_boundary: Issue completion is exactly one quality-gate decision; individual lanes cannot close this issue independently.
     acceptance_criteria: [All required proving lanes pass, Skips and non-proving results fail closed]
     owned_paths: [docs/milestones/v0.92.1/evidence/release/tail-01/**, docs/milestones/v0.92.1/QUALITY_GATE_v0.92.1.md]
     pvf_lanes: [quality-denominator, zero-test-shield, exact-scope]
@@ -175,6 +333,7 @@ issue_specifications:
     objective: Produce one exact-revision documentation review and external-review handoff packet.
     primary_deliverable: One exact-revision documentation review packet with a context-free external-review handoff.
     verification_result: The canonical document denominator, links, claims, and handoff checks pass for the exact candidate.
+    unit_boundary: Issue completion is exactly one documentation-review handoff packet; document checks are evidence inputs.
     acceptance_criteria: [All canonical docs agree, Links and claims are source-grounded, Residual risks are explicit]
     owned_paths: [docs/milestones/v0.92.1/**, docs/planning/ADL_FEATURE_LIST.md]
     pvf_lanes: [canonical-doc-inventory, link-check, claim-audit, diff-hygiene]
@@ -184,6 +343,7 @@ issue_specifications:
     objective: Produce one exact-revision publication-candidate packet.
     primary_deliverable: One publication-candidate packet bound to the exact reviewed revision.
     verification_result: Publication linkage, redaction, and exact-head validation pass without merge or release mutation.
+    unit_boundary: Issue completion is exactly one publication-candidate packet; publication checks are evidence inputs.
     acceptance_criteria: [Exact candidate and linkage are recorded, Publication artifacts contain correct closing relationships]
     owned_paths: [docs/milestones/v0.92.1/evidence/release/tail-03/**]
     pvf_lanes: [publication-linkage, exact-head, artifact-redaction]
@@ -193,6 +353,7 @@ issue_specifications:
     objective: Produce one internal findings register for the exact milestone candidate.
     primary_deliverable: One internal findings register bound to the exact milestone candidate.
     verification_result: The review denominator is complete and every finding has exact evidence, severity, and revision identity.
+    unit_boundary: Issue completion is exactly one internal findings register; individual findings do not close independently.
     acceptance_criteria: [All acceptance surfaces are reviewed, Findings bind exact files revisions and severity]
     owned_paths: [docs/milestones/v0.92.1/evidence/release/tail-04/**]
     pvf_lanes: [review-denominator, finding-schema, exact-revision]
@@ -202,6 +363,7 @@ issue_specifications:
     objective: Produce one retained independent external-review report for the unchanged candidate.
     primary_deliverable: One retained independent external-review report for the unchanged candidate.
     verification_result: Reviewer independence, exact revision, findings, and limitations validate without candidate drift.
+    unit_boundary: Issue completion is exactly one independent external-review report; findings are rows within that report.
     acceptance_criteria: [Reviewer independence is recorded, Findings and limitations bind the exact candidate]
     owned_paths: [docs/milestones/v0.92.1/evidence/release/tail-05/**]
     pvf_lanes: [independence, exact-revision, finding-retention]
@@ -211,6 +373,7 @@ issue_specifications:
     objective: Produce one complete finding-disposition ledger for the accepted-finding denominator.
     primary_deliverable: One finding-disposition ledger binding each accepted finding to a reviewed fix or explicit owned deferral.
     verification_result: The finding census reports every accepted finding exactly once with evidence, owner, disposition, and review identity.
+    unit_boundary: Issue completion is exactly one complete finding-disposition ledger; individual remediations remain separately reviewable evidence.
     acceptance_criteria: [Every finding has exactly one disposition, Every substantive fix has exact-head review, Every deferral names owner rationale and target milestone]
     owned_paths: [docs/milestones/v0.92.1/evidence/release/tail-06/**]
     pvf_lanes: [finding-census, remediation-proof, deferral-truth]
@@ -220,6 +383,7 @@ issue_specifications:
     objective: Produce one complete v0.92.2 CodeFriend Beta 1 planning package.
     primary_deliverable: One complete bounded v0.92.2 CodeFriend Beta 1 planning package.
     verification_result: The successor denominator, deferred routing, Beta 1 exit bar, and v0.95 target checks pass.
+    unit_boundary: Issue completion is exactly one successor planning package; planned work is not executed or independently closed here.
     acceptance_criteria: [The successor scope is bounded, CodeFriend Beta 1 and v0.95 integration target are explicit, Deferred work is routed]
     owned_paths: [docs/milestones/v0.92.2/**, docs/planning/ADL_FEATURE_LIST.md]
     pvf_lanes: [successor-denominator, deferred-routing, beta-target]
@@ -229,6 +393,7 @@ issue_specifications:
     objective: Produce one reviewed v0.92.2 closeout and release-tail plan.
     primary_deliverable: One reviewed v0.92.2 closeout and release-tail plan.
     verification_result: The closeout denominator, exact tail order, operator gates, and asynchronous bookkeeping boundary validate.
+    unit_boundary: Issue completion is exactly one successor closeout plan; no closeout action is executed here.
     acceptance_criteria: [Closeout denominator and operator gates are explicit, Tail order matches standards]
     owned_paths: [docs/milestones/v0.92.2/RELEASE_PLAN_v0.92.2.md, docs/milestones/v0.92.2/MILESTONE_CHECKLIST_v0.92.2.md]
     pvf_lanes: [closeout-denominator, tail-order, operator-gates]
@@ -238,6 +403,7 @@ issue_specifications:
     objective: Produce one independent exact-revision v0.92.2 planning review report.
     primary_deliverable: One independent exact-revision v0.92.2 planning review report.
     verification_result: The complete planning denominator is reviewed and every finding has an evidence-backed disposition.
+    unit_boundary: Issue completion is exactly one independent planning review report; findings are rows within that report.
     acceptance_criteria: [Review binds exact planning revision, All findings have disposition before handoff]
     owned_paths: [docs/milestones/v0.92.1/evidence/release/tail-09/**]
     pvf_lanes: [planning-review-denominator, exact-revision, finding-disposition]
@@ -247,6 +413,7 @@ issue_specifications:
     objective: Produce one release-ceremony receipt for the exact operator-approved milestone candidate.
     primary_deliverable: One release-ceremony receipt binding the approved candidate, notes, tag, and release identity.
     verification_result: Live readback proves the notes, tag, and release resolve to the exact approved candidate and operator authorization.
+    unit_boundary: Issue completion is exactly one release-ceremony receipt; preparation and asynchronous bookkeeping are external inputs or follow-up work.
     acceptance_criteria: [All prior tail issues have reviewed-green ancestral merges, Notes tag and release bind the exact candidate, Operator authorization is retained]
     owned_paths: [docs/milestones/v0.92.1/evidence/release/tail-10/**, docs/milestones/v0.92.1/RELEASE_NOTES_v0.92.1.md]
     pvf_lanes: [tail-merge-census, tag-and-release-readback, notes-parity]
@@ -256,6 +423,7 @@ issue_specifications:
     objective: Produce one independently owned Runtime v2 and Runtime v3 authority topology with executable migration and rollback.
     primary_deliverable: One independently owned Runtime v2 and Runtime v3 source and authority topology with an executable migration and rollback contract.
     verification_result: Source and reverse-reference censuses, compatibility proof, rollback, and migration checks pass with Runtime v4 excluded.
+    unit_boundary: Issue completion is exactly one accepted v2-v3 authority topology; migration and rollback checks are evidence inputs.
     acceptance_criteria: [Every source and reverse reference has one owner and disposition, Supported behavior has compatibility proof, Rollback and migration are executable, Runtime v4 remains excluded]
     owned_paths: [adl/src/runtime_v2/**, adl-runtime/**, adl-runtime-kernel/**, docs/runtime/**, docs/milestones/v0.92.1/evidence/runtime-decoupling/**]
     pvf_lanes: [source-denominator, reverse-reference-census, compatibility, rollback, migration]
@@ -265,6 +433,7 @@ issue_specifications:
     objective: Produce one shared provider inference-profile contract with deterministic Ollama materialization.
     primary_deliverable: One shared provider inference-profile contract with deterministic Ollama materialization.
     verification_result: Schema, materialization, invalid-profile, last-known-good, and redaction checks pass.
+    unit_boundary: Issue completion is exactly one shared provider-profile contract; provider-specific checks are evidence inputs.
     acceptance_criteria: [Profiles bind provider model and bounded parameters, Invalid profiles fail before activation, Last-known-good state is retained, Credentials prompts and private payloads are excluded]
     owned_paths: [adl/src/provider/**, adl-runtime/src/provider/**, docs/provider/**, docs/milestones/v0.92.1/evidence/provider/prov-a/**]
     pvf_lanes: [profile-schema, ollama-materialization, invalid-profile, last-known-good, redaction]
@@ -274,6 +443,7 @@ issue_specifications:
     objective: Produce one bounded local-model shadow-execution path that cannot acquire authority.
     primary_deliverable: One bounded local-model shadow-execution and comparison path that cannot acquire authority.
     verification_result: Isolation, deterministic comparison, fallback, and redaction checks prove authoritative results remain unchanged.
+    unit_boundary: Issue completion is exactly one non-authoritative shadow-execution path; comparison cases are proof inputs.
     acceptance_criteria: [Shadow and authority paths are distinguishable, Inputs and comparison rules are exact, Failures preserve the authoritative result, Evidence is redacted]
     owned_paths: [adl/src/provider/**, docs/milestones/v0.92.1/evidence/provider/prov-b/**]
     pvf_lanes: [shadow-isolation, deterministic-comparison, fallback, redaction]
@@ -283,6 +453,7 @@ issue_specifications:
     objective: Produce one optional GCP six-resident portability qualification packet.
     primary_deliverable: One optional GCP six-resident portability qualification packet.
     verification_result: Identity, workload, continuity, cost, and cleanup-zero checks pass without altering AWS qualification authority.
+    unit_boundary: Issue completion is exactly one optional GCP portability qualification decision; run checks are evidence inputs.
     acceptance_criteria: [Six identities and lineage remain exact, GCP account project billing and credentials are separately governed, Cost and cleanup receipts are retained, No resources remain]
     owned_paths: [adl-runtime/tests/**, docs/milestones/v0.92.1/evidence/runtime/drt-d/**]
     pvf_lanes: [gcp-identity, six-resident-workload, continuity, cost, cleanup-zero]
@@ -295,3 +466,49 @@ successor:
   milestone: v0.92.2
   objective: CodeFriend Beta 1
   deadline: integrated beta available by v0.95
+unit_contracts:
+  CORP-A: {primary_result: accepted_critical_asset_schedule, supporting_work_closeable: false}
+  CORP-B: {primary_result: accepted_corporate_custody_register, supporting_work_closeable: false}
+  CORP-C: {primary_result: accepted_operational_control_transfer, supporting_work_closeable: false}
+  CORP-D: {primary_result: accepted_corporate_diligence_decision, supporting_work_closeable: false}
+  AWS-A: {primary_result: accepted_aws_resource_ownership_inventory, supporting_work_closeable: false}
+  AWS-B: {primary_result: accepted_aws_access_billing_baseline, supporting_work_closeable: false}
+  AWS-C: {primary_result: recoverable_aws_terraform_bootstrap, supporting_work_closeable: false}
+  AWS-D: {primary_result: operational_aws_audit_security_baseline, supporting_work_closeable: false}
+  AWS-E: {primary_result: accepted_aws_resource_adoption_register, supporting_work_closeable: false}
+  AWS-F: {primary_result: reviewed_aws_runtime_platform_module_set, supporting_work_closeable: false}
+  AWS-G: {primary_result: accepted_aws_cloudformation_retirement_decision, supporting_work_closeable: false}
+  GCP-A: {primary_result: accepted_gcp_hierarchy_cost_decision, supporting_work_closeable: false}
+  GCP-B: {primary_result: recoverable_gcp_terraform_bootstrap, supporting_work_closeable: false}
+  GCP-C: {primary_result: operational_gcp_organization_billing_baseline, supporting_work_closeable: false}
+  GCP-D: {primary_result: private_gcp_platform_foundation, supporting_work_closeable: false}
+  GCP-E: {primary_result: bounded_gcp_gpu_readiness_decision, supporting_work_closeable: false}
+  XCL-01: {primary_result: accepted_cross_cloud_runtime_terraform_module_family, supporting_work_closeable: false}
+  RUST-01: {primary_result: behavior_preserving_resilience_owner_boundary_refactor, supporting_work_closeable: false}
+  V3-A: {primary_result: accepted_csdlc_v3_contract_construction_decision, supporting_work_closeable: false}
+  V3-B: {primary_result: deterministic_csdlc_v3_foundation_slice, supporting_work_closeable: false}
+  V3-C: {primary_result: transactional_csdlc_v3_lifecycle_kernel, supporting_work_closeable: false}
+  V3-D: {primary_result: csdlc_v3_local_preparation_workflow, supporting_work_closeable: false}
+  V3-E: {primary_result: csdlc_v3_remote_delivery_workflow, supporting_work_closeable: false}
+  V3-F: {primary_result: csdlc_v3_authority_transition_decision, supporting_work_closeable: false}
+  DRT-A: {primary_result: accepted_distributed_runtime_qualification_contract, supporting_work_closeable: false}
+  DRT-B: {primary_result: six_resident_uts_qualification_decision, supporting_work_closeable: false}
+  DRT-C: {primary_result: final_distributed_runtime_qualification_decision, supporting_work_closeable: false}
+  DEC-01: {primary_result: accepted_runtime_v2_v3_authority_topology, supporting_work_closeable: false}
+  PROV-A: {primary_result: shared_provider_inference_profile_contract, supporting_work_closeable: false}
+  PROV-B: {primary_result: bounded_non_authoritative_shadow_execution_path, supporting_work_closeable: false}
+  DRT-D: {primary_result: gcp_six_resident_portability_qualification_decision, supporting_work_closeable: false}
+  HOT-01: {primary_result: production_ready_axum_hot_reload_implementation, supporting_work_closeable: false}
+  OBS-A: {primary_result: accepted_observatory_experience_design_contract, supporting_work_closeable: false}
+  OBS-B: {primary_result: implemented_authentic_runtime_observatory_redesign, supporting_work_closeable: false}
+  INT-01: {primary_result: immutable_release_tail_admission_decision, supporting_work_closeable: false}
+  TAIL-01: {primary_result: exact_candidate_quality_gate_decision, supporting_work_closeable: false}
+  TAIL-02: {primary_result: exact_revision_documentation_review_handoff_packet, supporting_work_closeable: false}
+  TAIL-03: {primary_result: exact_revision_publication_candidate_packet, supporting_work_closeable: false}
+  TAIL-04: {primary_result: exact_candidate_internal_findings_register, supporting_work_closeable: false}
+  TAIL-05: {primary_result: exact_candidate_independent_external_review_report, supporting_work_closeable: false}
+  TAIL-06: {primary_result: complete_accepted_finding_disposition_ledger, supporting_work_closeable: false}
+  TAIL-07: {primary_result: complete_v0_92_2_codefriend_beta1_planning_package, supporting_work_closeable: false}
+  TAIL-08: {primary_result: reviewed_v0_92_2_closeout_release_tail_plan, supporting_work_closeable: false}
+  TAIL-09: {primary_result: independent_v0_92_2_planning_review_report, supporting_work_closeable: false}
+  TAIL-10: {primary_result: exact_candidate_release_ceremony_receipt, supporting_work_closeable: false}
