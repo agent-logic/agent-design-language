@@ -4,15 +4,15 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "f15f3456fc356862b0980be3c1b79ae6463af4487f90151a68a408df1c7624e7",
-  "phase": "published",
-  "generation": 6,
-  "digest": "79dc1aa9bcb7916a7667d814dcf2e57adaf5a9e1e7ae941fdbb55e6e0cd5432f",
+  "phase": "reviewed",
+  "generation": 10,
+  "digest": "f98c49868ac11f061a2c023a322041dab5968a7c81abd4ea683ad81a9a95c531",
   "branch": "codex/467-v092-quality-gate-evidence-hydration",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-467-v092-quality-gate-evidence-hydration",
   "review_assignment": {
-    "reviewer": "fresh-session:bc87db90-6f30-4e8e-a391-3a353eb9f95e",
-    "assigned_by": "codex:/root/issue467_quality_gate_fix",
-    "revision": "git-blake3:3e03769a1c81539f8952dfa1bc3baab4b93e9964:46277af45d48ff6384e9db354f07118836eb807172da41df1322fd624ed8ac65",
+    "reviewer": "fresh-session:dcaa14a9-7136-4bee-ae5c-ddf9ede35073",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:82e3d155784361593682edddc5382005f9e9c5db:391336b854fa4314ba432b0136c592502585310b225161fbad0e395ca0b96ee6",
     "scope": [
       ".csdlc/issues/467",
       ".csdlc/prepared/issues/467",
@@ -20,11 +20,15 @@
       "docs/reviews/v0.92/quality-gate-467",
       "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
       "docs/milestones/v0.92/QUALITY_GATE_v0.92.md",
-      "docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md"
+      "docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md",
+      "docs/milestones/v0.92/WBS_v0.92.md",
+      "docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml",
+      "docs/milestones/v0.92/features/README.md",
+      "docs/milestones/v0.92/features/OBSERVATORY_UNITY_CONSUMER_INTEGRATION_v0.92.md"
     ]
   },
   "review": {
-    "reviewer": "fresh-session:bc87db90-6f30-4e8e-a391-3a353eb9f95e",
+    "reviewer": "fresh-session:dcaa14a9-7136-4bee-ae5c-ddf9ede35073",
     "scope": [
       ".csdlc/issues/467",
       ".csdlc/prepared/issues/467",
@@ -32,28 +36,22 @@
       "docs/reviews/v0.92/quality-gate-467",
       "docs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md",
       "docs/milestones/v0.92/QUALITY_GATE_v0.92.md",
-      "docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md"
+      "docs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md",
+      "docs/milestones/v0.92/WBS_v0.92.md",
+      "docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml",
+      "docs/milestones/v0.92/features/README.md",
+      "docs/milestones/v0.92/features/OBSERVATORY_UNITY_CONSUMER_INTEGRATION_v0.92.md"
     ],
-    "reviewed_revision": "git-blake3:3e03769a1c81539f8952dfa1bc3baab4b93e9964:46277af45d48ff6384e9db354f07118836eb807172da41df1322fd624ed8ac65",
+    "reviewed_revision": "git-blake3:82e3d155784361593682edddc5382005f9e9c5db:391336b854fa4314ba432b0136c592502585310b225161fbad0e395ca0b96ee6",
     "findings": [],
     "residual_risks": [
-      "The quality gate intentionally remains blocked: 30 rows lack canonical accepted release-credit evidence and downstream work must not treat #467 as a release unlock."
+      "Unity and broader Observatory consumer work remains explicitly backlogged or scheduled later under #84, #122, and #251; #467 does not claim it complete.",
+      "External publication remains separately operator-authorized and is not implied by this passing engineering quality gate."
     ],
     "completed": true,
     "non_substantive_proof": null
   },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 467,
-    "pull_request": 468,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/468",
-    "base": "main",
-    "head": "codex/467-v092-quality-gate-evidence-hydration",
-    "revision": "git-blake3:a26c9abd03790ef6f4d4262ef8fc1e1a515fd8be:54c776e1e80511dddb6420a573de82bf6faf573de2db01138aec0e3966136b1a",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -67,34 +65,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "9fde3b8c8a731b4693c4b820313a4c456aaa0f2bca1dd588f02e5eb6c35e2e30",
+      "values_digest": "dd053c01d28ce91576d4fbb1735b73bb235cf8ac1abfe5174f72037d97276b2a",
       "rendered_digest": "f82adf323fdc49324f6193e79ea8ea64248843a7ef5549ce0a666bd7d203f247",
       "ast_digest": "56aae4c5a31e2db52895b5097f18d9170d324c66289a555df7cfce185616ff3d"
     },
     "stp": {
-      "values_digest": "04354037b69e298a2546dcefe1b2261907aa424856197e99a60684d0e67c13ab",
+      "values_digest": "1becd43fed79018ad61977d57bf98583caf85fdaed08a4e784929e4e38b6ba02",
       "rendered_digest": "84917f1d1a0aced6a0186015aebf4c0fda994ef8780e5925ffa172ddc3875d0d",
       "ast_digest": "97bb126724f4cd50a8f46e4fd5ce26a296cae05aa29d337667b6a0afa5aeaf8c"
     },
     "spp": {
-      "values_digest": "02a73d3f1c771d2bad2340933a6b3fd3678d224f9cd801919dea5a3089edee54",
+      "values_digest": "8d5c0cdef763ec81fba7f02827fb551acec197548ce630f5b7cac236cdf9a379",
       "rendered_digest": "062f7fc280db6019a6f4f4ced3289286169fbcc71ecdb9678960bd818331fe67",
       "ast_digest": "cde7e55fee49c3523aca146c64efbd6cf94feae65b4e7e38ea30dd8de25ec1b1"
     },
     "vpp": {
-      "values_digest": "e8cc6c9eb300bbdc5c982de20ae987e4dc160311c470756bdc3d31d7bddc8e46",
+      "values_digest": "d967d85e8f90449c05a10480b9f4f3ee63c34e89e08b1b0d1883ae3f71ea6eac",
       "rendered_digest": "8b3a7fe8251d39ea090a7a6ee3b20f01c086349f50346264419d5c64db5b0a2d",
       "ast_digest": "be84759b2e995e459b02bee5b1b4bf1309cfa589bf0c88c59d2f5bf49fd9a958"
     },
     "srp": {
-      "values_digest": "4c8aa358b7a6c7279ff0476280dbf750292e755d6bbb6460ec346b5aa39e905e",
-      "rendered_digest": "1d283169ff95e2f38d5a6ceb2e9c17ac12b63e59c3a0df105d0d7034435569ff",
-      "ast_digest": "30b1b706b9e2604e1021f037ad95e70e555e2691a2a49d7dc0c2af7f3db55928"
+      "values_digest": "d001f9b52c91ff441fed2889da1f4e2fb7eb01ab85de0e14af6c87d0d5cbe091",
+      "rendered_digest": "4e8c7feccc111b1560f84c9a02b4cb8785b2228a9885460df160cbf04c9cde05",
+      "ast_digest": "6d9738a442953380beb3a660382d2b8d3f39e1dce949b0d7164effe17e6872af"
     },
     "sor": {
-      "values_digest": "2bd647ac244aa46870c4daefa4c09682ea1ae317a3f4cea80c66be16858361dc",
-      "rendered_digest": "f779e02ffb95fd02ed13cbbb92bb5c5573628683cc9cd0dadec86496422fb854",
-      "ast_digest": "f48248133602c3518651fa4ee2520c73eb6c9cb34c3d5ac8f5d35cf70686656f"
+      "values_digest": "d6e55ff2bd09520abce72e0ac52df96b34b13f539f110fcbb0f2fe487e7afb7f",
+      "rendered_digest": "9c05b2a8ed2ae8e98fd3a55f4e53b4a858fbdfd4bad728b87edd2b8a50d0612d",
+      "ast_digest": "3312e94651c3f0527208efdc6d7edfc3e4c13404a25f4ec11d87845dbc4a5c3f"
     }
   },
   "transitions": [
@@ -132,6 +130,20 @@
       "to": "published",
       "actor": "codex:/root/issue467_quality_gate_fix",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 6,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "Recover stale published review authority after substantive quality-gate evidence authentication, adversarial validation, and canonical Unity scope corrections at exact candidate 10aad84954d794228b04b79b317bea69fc191c78; require fresh exact-head review before republishing PR #468."
+    },
+    {
+      "sequence": 7,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:dcaa14a9-7136-4bee-ae5c-ddf9ede35073",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -197,6 +209,55 @@
       "actor": "codex:/root/issue467_quality_gate_fix",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 10,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "Recover stale published review authority after substantive quality-gate evidence authentication, adversarial validation, and canonical Unity scope corrections at exact candidate 10aad84954d794228b04b79b317bea69fc191c78; require fresh exact-head review before republishing PR #468.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "Recover the stale R2 assignment after bounded remediation of its exact findings at immutable candidate 5d28a63446bf93c2f0acc1bda4a0fdb29b287aa5; require one fresh final exact-head review before republishing PR #468.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 14,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Recover stale R3 assignment after exact validator-provenance and proof-role status/denominator corrections at immutable candidate 82e3d155784361593682edddc5382005f9e9c5db; require one bounded final closure review before republishing PR #468.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 15,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 10,
+      "actor": "fresh-session:dcaa14a9-7136-4bee-ae5c-ddf9ede35073",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

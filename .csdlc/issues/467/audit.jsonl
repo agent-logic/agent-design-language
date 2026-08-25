@@ -7,3 +7,10 @@
 {"sequence":7,"generation":4,"actor":"codex:/root/issue467_quality_gate_fix","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":8,"generation":5,"actor":"fresh-session:bc87db90-6f30-4e8e-a391-3a353eb9f95e","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
 {"sequence":9,"generation":6,"actor":"codex:/root/issue467_quality_gate_fix","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
+{"sequence":10,"generation":7,"actor":"codex:/root","reason":"Recover stale published review authority after substantive quality-gate evidence authentication, adversarial validation, and canonical Unity scope corrections at exact candidate 10aad84954d794228b04b79b317bea69fc191c78; require fresh exact-head review before republishing PR #468.","operation":"recover_review"}
+{"sequence":11,"generation":7,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":12,"generation":8,"actor":"codex:/root","reason":"Recover the stale R2 assignment after bounded remediation of its exact findings at immutable candidate 5d28a63446bf93c2f0acc1bda4a0fdb29b287aa5; require one fresh final exact-head review before republishing PR #468.","operation":"recover_review"}
+{"sequence":13,"generation":8,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":14,"generation":9,"actor":"codex:/root","reason":"Recover stale R3 assignment after exact validator-provenance and proof-role status/denominator corrections at immutable candidate 82e3d155784361593682edddc5382005f9e9c5db; require one bounded final closure review before republishing PR #468.","operation":"recover_review"}
+{"sequence":15,"generation":9,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":16,"generation":10,"actor":"fresh-session:dcaa14a9-7136-4bee-ae5c-ddf9ede35073","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}

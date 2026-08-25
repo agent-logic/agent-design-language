@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-22A] Repair quality-gate evidence hydration and release-credit semantics",
     "slug": "v092-wp22a-quality-gate-evidence-hydration",
     "version": "v0.92",
-    "generation": 6
+    "generation": 10
   },
-  "status": "pre_phase",
+  "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/467\n.csdlc/prepared/issues/467\n.csdlc/evidence/467\ndocs/reviews/v0.92/quality-gate-467\ndocs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md\ndocs/milestones/v0.92/QUALITY_GATE_v0.92.md\ndocs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md",
-      "review_revision": "git-blake3:3e03769a1c81539f8952dfa1bc3baab4b93e9964:46277af45d48ff6384e9db354f07118836eb807172da41df1322fd624ed8ac65",
-      "reviewer": "fresh-session:bc87db90-6f30-4e8e-a391-3a353eb9f95e",
+      "review_scope": ".csdlc/issues/467\n.csdlc/prepared/issues/467\n.csdlc/evidence/467\ndocs/reviews/v0.92/quality-gate-467\ndocs/milestones/v0.92/FEATURE_PROOF_COVERAGE_v0.92.md\ndocs/milestones/v0.92/QUALITY_GATE_v0.92.md\ndocs/milestones/v0.92/WP_EXECUTION_READINESS_v0.92.md\ndocs/milestones/v0.92/WBS_v0.92.md\ndocs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml\ndocs/milestones/v0.92/features/README.md\ndocs/milestones/v0.92/features/OBSERVATORY_UNITY_CONSUMER_INTEGRATION_v0.92.md",
+      "review_revision": "git-blake3:82e3d155784361593682edddc5382005f9e9c5db:391336b854fa4314ba432b0136c592502585310b225161fbad0e395ca0b96ee6",
+      "reviewer": "fresh-session:dcaa14a9-7136-4bee-ae5c-ddf9ede35073",
       "review_prompts": [
         "Does the generator deterministically discover and hydrate all 33 canonical rows without defaulting to packet-missing blockers?",
         "Do accepted rows carry exact repository, PR, merge, ancestry, check, proof, claim-boundary, and terminal authority evidence?",
@@ -25,7 +25,8 @@
       ],
       "findings": [],
       "residual_risk": [
-        "The quality gate intentionally remains blocked: 30 rows lack canonical accepted release-credit evidence and downstream work must not treat #467 as a release unlock."
+        "Unity and broader Observatory consumer work remains explicitly backlogged or scheduled later under #84, #122, and #251; #467 does not claim it complete.",
+        "External publication remains separately operator-authorized and is not implied by this passing engineering quality gate."
       ],
       "review_result": "pass"
     }
