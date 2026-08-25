@@ -7,3 +7,4 @@
 {"sequence":7,"generation":5,"actor":"codex:issue-476-implementation","reason":"Issue #476 implementation and focused validation are complete; exact-head review is next.","operation":"{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"}
 {"sequence":8,"generation":5,"actor":"codex:issue-476-implementation","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":9,"generation":6,"actor":"codex:issue-476-implementation","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":10,"generation":7,"actor":"codex:issue-476-publication","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}

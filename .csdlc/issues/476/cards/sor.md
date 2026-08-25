@@ -43,11 +43,11 @@ Applied only the preserved ed454a246 post-merge WP-27 truth repair onto current 
 
 ## Integration
 
-not_started
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
