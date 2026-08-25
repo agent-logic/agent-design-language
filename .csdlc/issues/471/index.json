@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "af526631fae8cb2219b4387e3fcd5e9b609041070e7f59156479d7c89d9a7570",
   "phase": "implemented",
-  "generation": 27,
-  "digest": "7e0be3e20814fac85d3292f5c067b155d761d76f7fd7b86341b704bdb0f4cd40",
+  "generation": 30,
+  "digest": "6b3c059228c91acf34a38a38dc4b5c6ee998ee41bfd61bd607b22c4c42aac99a",
   "branch": "codex/471-runtime-v3-authoritative-kernel-contracts",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-471-runtime-v3-authoritative-kernel-contracts",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "3f3fdd8c6b99a1268ee827c106bbf6efd73fdc5266c0dc83b521722c0d239bbc",
+      "values_digest": "c97d050d8e5babf55b4e7072769fbe3e3d0b30e8e31488cbf6d8bb3236b0d382",
       "rendered_digest": "3ecb8f39ebc6364315af414a45fb54b2f3d4b1dedaecfdb37c03b66392c63ebb",
       "ast_digest": "9ec02ef188480db02bce3f8dfaf8f3138516823dfb280891552f437b1e7b7cb9"
     },
     "stp": {
-      "values_digest": "61c00d58a52772aa3137a72b148be10a4429ec2afd5bdd42a7f440fa7de5f264",
+      "values_digest": "db26dd2d6855f43698526b9aefca9933fef7f5714976d0f76da0732531fb86fd",
       "rendered_digest": "581ec25e895c952e02595474d8e73e48501c71f62d098d85c16783d6d1e37d27",
       "ast_digest": "8171427b17b9bade334aa1ee0622d54c723fe613dfc5efbbfa3e7d3606c3f302"
     },
     "spp": {
-      "values_digest": "835d84ba193a8e7e9de8b254d91f5eb2de053a8c93e9150da468ee813315f041",
+      "values_digest": "f630d7dfae489025ba9096ba36ff6ee0f629e0faa07804ee3103d319528626ff",
       "rendered_digest": "93969bf510ae1667ddacd39e6515e09abe15b58f396903a5e85e69510878ce8d",
       "ast_digest": "c9dce11f412576c262517b2fc70ef0b0cdbd5df4153accc1a752bd2ef2fc6e20"
     },
     "vpp": {
-      "values_digest": "1c6020b465f5b112f59256b5c23fb634cb3dbb9c1b043a3bb552926948797d53",
+      "values_digest": "42a315cc2b68ee3864fac56a25a0100b665303dfbeab8f2cee7004fb6298ea0e",
       "rendered_digest": "32e39b566ff1051175840d4368ca3ff5ebc14915418ea08d6d5ece95c4b7bcb7",
       "ast_digest": "32e2d7fc0a2f8a0d6ffc2e3b047689e6188f850ad69a67f7f11212bfe94b0f25"
     },
     "srp": {
-      "values_digest": "27cf11d7385849058431f65b91fa097c90622bba42eef13df163617b2981c25f",
+      "values_digest": "d9fda04bc1c16ddce300d22f534a43d59acb1f7e5cfba4360d9c3206b92b8055",
       "rendered_digest": "c77c771b02cd4b94c86170929639a17e7d90d5d1c70129f6e8a8d0d00131dc5e",
       "ast_digest": "bbfa10afe2e702cf5bca7c97685c89ef6b33af1ab8dc8810ce8932a5df9880d4"
     },
     "sor": {
-      "values_digest": "4f25c668046ac24506bc5cff011e4060f1e0fd9312467c65ec221d78a24b1433",
-      "rendered_digest": "5235e7765aab2169750d2c7cca243d8aae18def7b0d823e6e80a47580609026a",
-      "ast_digest": "47f68d9aaef203b286898ee040b1c5365f2285bc7b93b92a326a11b3bec0e754"
+      "values_digest": "b1438dcf1c05c9e7a7cb642d8f286996c402a3fb322958f8394692a5560a14d4",
+      "rendered_digest": "0a64521bab0e039e495cc23e6de2cac7519fb03e42c6482b5d72661f7a73bab1",
+      "ast_digest": "93eff900a3d93e4656ca64bd7cf74a140be2a6fb309baa6869a85fe3ca053bc0"
     }
   },
   "transitions": [
@@ -309,6 +309,34 @@
       "actor": "codex:/root",
       "reason": "record complete validation after fourth-review remediation",
       "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"env\",\"RUST_TEST_THREADS=1\",\"bash\",\".csdlc/prepared/issues/471/validate-runtime-kernel.sh\"],\"purpose\":\"Full Runtime kernel lane passed after including live degraded components in bounded staged drain, enforcing deterministic topology port authority, adding exact regressions, correcting scope, and preserving all prior lifecycle, Clippy, formatting, and diff guarantees.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/prepared/issues/471/validate-runtime-kernel.sh\"}}"
+    },
+    {
+      "sequence": 34,
+      "generation": 27,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 28,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 29,
+      "actor": "codex:/root",
+      "reason": "Recover the fifth failed exact-head review after requiring current uncancelled incarnation ownership for lifecycle signals and making health degradation explicitly one-way.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 30,
+      "actor": "codex:/root",
+      "reason": "record complete validation after fifth-review remediation",
+      "operation": "{\"operation\":\"record_validation\",\"result\":{\"command\":[\"env\",\"RUST_TEST_THREADS=1\",\"bash\",\".csdlc/prepared/issues/471/validate-runtime-kernel.sh\"],\"purpose\":\"Full Runtime kernel lane passed after requiring current uncancelled incarnation ownership for queued readiness and health signals, making degradation one-way, and preserving every prior authoritative wiring, lifecycle, test, Clippy, formatting, and diff guarantee.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/prepared/issues/471/validate-runtime-kernel.sh\"}}"
     }
   ]
 }

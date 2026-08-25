@@ -304,7 +304,7 @@ impl Kernel {
                     });
                 }
                 Some((id, incarnation, ready)) = readiness_rx.recv() => {
-                    if incarnations.get(&id).copied() != Some(incarnation) {
+                    if !owns_live_incarnation(&cancellations, &incarnations, &id, incarnation) {
                         continue;
                     }
                     if ready {
@@ -354,13 +354,10 @@ impl Kernel {
                     }
                 }
                 Some((id, incarnation, health)) = health_rx.recv() => {
-                    if incarnations.get(&id).copied() != Some(incarnation) {
+                    if !owns_live_incarnation(&cancellations, &incarnations, &id, incarnation) {
                         continue;
                     }
                     match health {
-                        ComponentHealthSignal::Running => {
-                            self.recorder.set_component_state(id, RunningState::Running);
-                        }
                         ComponentHealthSignal::Degraded => {
                             ports.close_component(&id).await;
                             if apply_degradation(
@@ -448,6 +445,18 @@ impl Kernel {
             }
         }
     }
+}
+
+fn owns_live_incarnation(
+    cancellations: &BTreeMap<ComponentId, CancellationToken>,
+    incarnations: &BTreeMap<ComponentId, u64>,
+    id: &ComponentId,
+    incarnation: u64,
+) -> bool {
+    incarnations.get(id).copied() == Some(incarnation)
+        && cancellations
+            .get(id)
+            .is_some_and(|cancellation| !cancellation.is_cancelled())
 }
 
 #[derive(Clone)]
@@ -818,4 +827,39 @@ fn shutdown_phases(topology: &ValidatedTopology) -> Vec<ShutdownPhase> {
         );
     }
     phases
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn queued_signal_requires_uncancelled_current_live_ownership() {
+        let id = ComponentId::new("component");
+        let token = CancellationToken::new();
+        let mut cancellations = BTreeMap::from([(id.clone(), token.clone())]);
+        let incarnations = BTreeMap::from([(id.clone(), 7)]);
+
+        assert!(owns_live_incarnation(&cancellations, &incarnations, &id, 7));
+        assert!(!owns_live_incarnation(
+            &cancellations,
+            &incarnations,
+            &id,
+            6
+        ));
+        token.cancel();
+        assert!(!owns_live_incarnation(
+            &cancellations,
+            &incarnations,
+            &id,
+            7
+        ));
+        cancellations.remove(&id);
+        assert!(!owns_live_incarnation(
+            &cancellations,
+            &incarnations,
+            &id,
+            7
+        ));
+    }
 }

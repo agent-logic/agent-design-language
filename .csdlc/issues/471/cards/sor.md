@@ -92,6 +92,17 @@ Implemented all ten authoritative Runtime v3 kernel architecture findings with p
     "purpose": "Full Runtime kernel lane passed after including live degraded components in bounded staged drain, enforcing deterministic topology port authority, adding exact regressions, correcting scope, and preserving all prior lifecycle, Clippy, formatting, and diff guarantees.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/prepared/issues/471/validate-runtime-kernel.sh"
+  },
+  {
+    "command": [
+      "env",
+      "RUST_TEST_THREADS=1",
+      "bash",
+      ".csdlc/prepared/issues/471/validate-runtime-kernel.sh"
+    ],
+    "purpose": "Full Runtime kernel lane passed after requiring current uncancelled incarnation ownership for queued readiness and health signals, making degradation one-way, and preserving every prior authoritative wiring, lifecycle, test, Clippy, formatting, and diff guarantee.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/prepared/issues/471/validate-runtime-kernel.sh"
   }
 ]
 

@@ -218,7 +218,6 @@ pub(crate) struct ComponentLifecycle {
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub(crate) enum ComponentHealthSignal {
     Degraded,
-    Running,
 }
 
 impl ComponentContext {
@@ -259,17 +258,6 @@ impl ComponentContext {
                 self.id.clone(),
                 self.incarnation,
                 ComponentHealthSignal::Degraded,
-            ))
-            .await
-            .map_err(|_| ComponentError::new("supervisor health channel closed"))
-    }
-
-    pub async fn running(&self) -> Result<(), ComponentError> {
-        self.health
-            .send((
-                self.id.clone(),
-                self.incarnation,
-                ComponentHealthSignal::Running,
             ))
             .await
             .map_err(|_| ComponentError::new("supervisor health channel closed"))
