@@ -12,14 +12,7 @@ Status: draft
 
 ## Scope
 
-.csdlc/issues/315
-.csdlc/prepared/issues/5848
-.csdlc/evidence/5848
-docs/reviews/v0.92/external-review-5847
-docs/reviews/v0.92/remediation-5848/disposition-register.json
-docs/reviews/v0.92/remediation-5848/README.md
-adl-runtime-kernel/src/production_birthday.rs
-adl-runtime-kernel/tests/production_birthday.rs
+
 
 ## Prompts
 
@@ -38,12 +31,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- This current-head review covers the canonical issue-identity migration plus the already-reviewed WP-27 remediation scope. It does not approve release, merge, closeout, #316, or #471 completion.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:0b822a744d7b82661611b8199a0bcb8eefea7d0f:fb540bf8aae37e7ce0539f83d24763ecff7f2406f1faf296b56b1821004bdbcb")
+Revision: None
 
-Reviewer: Some("codex:issue-315-current-head-review")
+Reviewer: None
 
-Result: pass
+Result: pre_review

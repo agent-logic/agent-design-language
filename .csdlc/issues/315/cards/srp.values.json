@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-27] Review findings remediation",
     "slug": "v0-92-wp-27-review-findings-remediation",
     "version": "v0.92",
-    "generation": 27
+    "generation": 28
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/issues/315\n.csdlc/prepared/issues/5848\n.csdlc/evidence/5848\ndocs/reviews/v0.92/external-review-5847\ndocs/reviews/v0.92/remediation-5848/disposition-register.json\ndocs/reviews/v0.92/remediation-5848/README.md\nadl-runtime-kernel/src/production_birthday.rs\nadl-runtime-kernel/tests/production_birthday.rs",
-      "review_revision": "git-blake3:0b822a744d7b82661611b8199a0bcb8eefea7d0f:fb540bf8aae37e7ce0539f83d24763ecff7f2406f1faf296b56b1821004bdbcb",
-      "reviewer": "codex:issue-315-current-head-review",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Does every internal and external finding retain provenance, evidence, severity, owner, scope decision, and one truthful disposition?",
         "Are remediation slices narrowly owner-aligned with exact positive, negative, rollback, and platform/security/privacy proof?",
@@ -23,10 +23,8 @@
         "Could any open, stale, unproven, unowned, or unauthorized-risk row incorrectly release WP-28?"
       ],
       "findings": [],
-      "residual_risk": [
-        "This current-head review covers the canonical issue-identity migration plus the already-reviewed WP-27 remediation scope. It does not approve release, merge, closeout, #316, or #471 completion."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

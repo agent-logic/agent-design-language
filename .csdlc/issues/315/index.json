@@ -4,44 +4,14 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "69a605466990518758a56adab5fead02f83654418b6259dd24bf8dedd0eea706",
-  "phase": "published",
-  "generation": 27,
-  "digest": "ed30e959827d6d9930f4f8ea6e9f88d511455de5613c77ad2a194dd634d3a576",
+  "phase": "implemented",
+  "generation": 28,
+  "digest": "000302981d4ced4b1c6eb661a3840581832151ae41c9558041881adec3b5c0e3",
   "branch": "codex/315-wp27-review-findings-remediation",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-315-wp27-review-findings-remediation-execution",
   "review_assignment": null,
-  "review": {
-    "reviewer": "codex:issue-315-current-head-review",
-    "scope": [
-      ".csdlc/issues/315",
-      ".csdlc/prepared/issues/5848",
-      ".csdlc/evidence/5848",
-      "docs/reviews/v0.92/external-review-5847",
-      "docs/reviews/v0.92/remediation-5848/disposition-register.json",
-      "docs/reviews/v0.92/remediation-5848/README.md",
-      "adl-runtime-kernel/src/production_birthday.rs",
-      "adl-runtime-kernel/tests/production_birthday.rs"
-    ],
-    "reviewed_revision": "git-blake3:0b822a744d7b82661611b8199a0bcb8eefea7d0f:fb540bf8aae37e7ce0539f83d24763ecff7f2406f1faf296b56b1821004bdbcb",
-    "findings": [],
-    "residual_risks": [
-      "This current-head review covers the canonical issue-identity migration plus the already-reviewed WP-27 remediation scope. It does not approve release, merge, closeout, #316, or #471 completion."
-    ],
-    "completed": true,
-    "non_substantive_proof": null
-  },
-  "publication": {
-    "repository": "agent-logic/agent-design-language",
-    "issue": 315,
-    "pull_request": 473,
-    "url": "https://github.com/agent-logic/agent-design-language/pull/473",
-    "base": "main",
-    "head": "codex/315-wp27-review-findings-remediation",
-    "revision": "git-blake3:b8d7edbdf1997ede2f4a511cdc13490e2f481b5b:e0fbfcc943cd1c43dfbf70e0a937f2a9b8b5bf6e22e9f3394ec94e563c189f63",
-    "linkage_mode": "closing",
-    "draft": false,
-    "observed_state": "open"
-  },
+  "review": null,
+  "publication": null,
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -55,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "04e9a0b3c85629df9e68adbec4909bc40d54366ca4260fb0a413c6babc9395ab",
+      "values_digest": "dfdc98447c1316eee3120682b8e7c20c1ff3f93a98546169fd45de6bb518912c",
       "rendered_digest": "341c937fdfdc7d28a4e966b62a53bc61394af898f7d104b27cf4e82cb4a3b800",
       "ast_digest": "2ef61ea6b35c490db81836796f74a1247d260661fcdae958af258730150e9659"
     },
     "stp": {
-      "values_digest": "90090f06ba6e031cd08e662ce68858727de6c0d07c2d020a3490a44aac97fa76",
+      "values_digest": "71e9f05cc860ea9d903fc6868f16f67e1b5c142416587578ca5cd71051609835",
       "rendered_digest": "41c5d09e96d48953aae37c390321be4df65dad1a73e471eae95bc941aa0ac704",
       "ast_digest": "d60860595e2c59a73829c43968af0e5682c0867545ad6482d07bedaeb7410de3"
     },
     "spp": {
-      "values_digest": "86d85e1a8f9b744c3657a567a4843f9a0764f13f7e68d50ddda0408aa2a9ced7",
+      "values_digest": "7f93d7db955905a1aa33545e10cf64a9ca3bd9fac374ddfbbe307b1e7eb9f26a",
       "rendered_digest": "0a7550cdbcbcfefd20f6c999684541d9f747e3a3725a0ae61fa6361b4553f3b5",
       "ast_digest": "a15d5833a7430c74c1977782e4a1b741a26407a8fd3d07ae2d7c1bab00fc9f3e"
     },
     "vpp": {
-      "values_digest": "cc4be6274c1b553a20e01063561838e4993ec810c1f33b54142c73a29e9598ae",
+      "values_digest": "7304bd64d90ef7f2a376cdc35d3d06c8553ec21458c2f7d4855ef282492785d8",
       "rendered_digest": "dedc66e1701a21485f9fec599136f350a7a064c31832bd44834100174db40d1b",
       "ast_digest": "f281237f41ade71183b8c19dd27a3dff3774cbc3ac8e4b89aa359cc0dd0f5940"
     },
     "srp": {
-      "values_digest": "810a7aff490bcff6e5ebd576129cf0e56b124d879ebd92a667438cd3a2d1d1b5",
-      "rendered_digest": "37ed8933f68ea9d8c87c062b0d60bde0961f2046d846c0d5b1c61db528709e3c",
-      "ast_digest": "22e748527f20e0b06ed11368bcde7706832ef5c8a12b876db0e1093bad2a2e64"
+      "values_digest": "b678a85414011e2d26ecd4c59f02ef0fd91732e49a3ccf3c004d955e0bb0156b",
+      "rendered_digest": "df79bbb82fb7fc4505807ef50b5d2ac1f77670a81d2f2270fac14920c6f1c24a",
+      "ast_digest": "eaa55aab8c4bd0ca3c6c7a81aa56362eb8264c05a4736638c1bd81721b670476"
     },
     "sor": {
-      "values_digest": "e857ec451c1f68017fc868c3131328785138779a13e6c69ed7116ab47fb2a2fa",
-      "rendered_digest": "656bba43c4f73859bf80c598d23dbbc606f960b7b6afb506ef43209a16a35735",
-      "ast_digest": "3a069354eb95cd58bc146f7b6adc511fa259e0147cb9cd1dc1ca83da4257d340"
+      "values_digest": "924dc7844ac2cd6c1942ef9c6ae2f4c93e0f7a03b49274afb7afc558bbbc11f5",
+      "rendered_digest": "362b9ba372a92c29977fc6f238192a749764e802c7153b4428a98f39c751176c",
+      "ast_digest": "e46c23a1fdd8930aebff0d127e2326a4b0325eead8628817bec81ca6dacd0ab2"
     }
   },
   "transitions": [
@@ -155,6 +125,13 @@
       "to": "published",
       "actor": "codex:issue-315-wp27-publication",
       "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 11,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:issue-315-runtime-fast-ci-repair",
+      "reason": "Hosted Runtime v3 fast-lane Clippy exposed a large error variant introduced by the reviewed birthday cleanup remediation; recover published review truth for a bounded behavior-preserving boxing fix, focused validation, exact-head review, and republish."
     }
   ],
   "audit": [
@@ -479,6 +456,13 @@
       "actor": "codex:issue-315-wp27-publication",
       "reason": "atomically record observed GitHub publication and SOR projection",
       "operation": "record_publication"
+    },
+    {
+      "sequence": 47,
+      "generation": 28,
+      "actor": "codex:issue-315-runtime-fast-ci-repair",
+      "reason": "Hosted Runtime v3 fast-lane Clippy exposed a large error variant introduced by the reviewed birthday cleanup remediation; recover published review truth for a bounded behavior-preserving boxing fix, focused validation, exact-head review, and republish.",
+      "operation": "recover_review"
     }
   ]
 }
