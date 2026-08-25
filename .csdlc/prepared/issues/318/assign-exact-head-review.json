@@ -1,8 +1,8 @@
 {
   "issue": 318,
-  "expected_generation": 13,
-  "expected_digest": "889b7c8c3887730e0f6e706d8c7c4333033b06fcbd5bfb3c9dd89cda8c492424",
-  "reviewer": "fresh-session:60ccf732-e748-4ab4-8429-ae726343f293",
+  "expected_generation": 24,
+  "expected_digest": "a69ff34134418af73774eaaf808eaaa71022bc42f937047a5b7cd097768e1e07",
+  "reviewer": "fresh-session:9ddfc42d-df8c-451f-8d23-50b9f10893ba",
   "assigned_by": "codex:root",
   "scope": [
     ".csdlc/evidence/318",
@@ -10,10 +10,8 @@
     ".csdlc/prepared/issues/318/diagram.mmd",
     ".csdlc/prepared/issues/318/validate-readiness-review.rb",
     ".csdlc/prepared/issues/318/test-validate-readiness-review.rb",
+    ".csdlc/prepared/issues/316/validate-v0921-plan.rb",
     "docs/milestones/v0.92/review/V092_NEXT_MILESTONE_REVIEW_318.md",
-    "docs/milestones/v0.92.1/WP_ISSUE_WAVE_v0.92.1.yaml",
-    "docs/milestones/v0.92.1/WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml",
-    "docs/milestones/v0.92.1/PLANNED_ISSUE_CATALOG_v0.92.1.md",
-    "docs/milestones/v0.92.1/WBS_v0.92.1.md"
+    "docs/milestones/v0.92.1"
   ]
 }
