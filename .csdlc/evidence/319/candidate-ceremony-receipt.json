@@ -1,0 +1,20 @@
+{
+  "schema": "adl.v092.candidate_ceremony_receipt.v1",
+  "issue": 319,
+  "version": "v0.92",
+  "candidate_sha": "7ff7a2e210ad34f52589619d2bdfe253fb2cbdc5",
+  "candidate_branch": "codex/319-v092-wp30-release-ceremony",
+  "predecessor_gate": "passed",
+  "ceremony_tests": "passed",
+  "ceremony_preflight": "passed_check_only",
+  "ceremony_output_sha256": "cc2ea897ba82505371025535aab3b0f8b2804d2f0bb22e4128ba01b0b09187f7",
+  "tag": "v0.92",
+  "tag_created": false,
+  "tag_pushed": false,
+  "release_created": false,
+  "release_published": false,
+  "release_mutation_authorized": false,
+  "qualification_268": "closed_successfully",
+  "v093_activated": false,
+  "next_step": "Independent exact-head review, #319 merge, clean-main final receipt, then separate operator-authorized tag/release mutation."
+}
