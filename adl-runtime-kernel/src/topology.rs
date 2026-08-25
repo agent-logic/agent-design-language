@@ -154,6 +154,28 @@ impl FactoryRegistry {
 
         let contracts = validate_contracts(contracts)?;
         let mut topology = components.validate()?;
+        let contracts_by_component = contracts
+            .contracts()
+            .map(|contract| (contract.component.clone(), contract))
+            .collect::<BTreeMap<_, _>>();
+        for route in topology.port_routes.iter().filter(|route| !route.external) {
+            let provider = contracts_by_component
+                .get(&route.provider)
+                .expect("validated route provider has a service contract");
+            let consumer = contracts_by_component
+                .get(&route.consumer)
+                .expect("validated route consumer has a service contract");
+            if consumer.determinism == crate::DeterminismClass::DeterministicCore
+                && provider.determinism == crate::DeterminismClass::GovernedNondeterministicShell
+            {
+                return Err(TopologyError::Contract(
+                    ContractError::NondeterministicDependency {
+                        service: consumer.service.clone(),
+                        capability: format!("port:{}", route.spec.name),
+                    },
+                ));
+            }
+        }
         topology.lifecycle_guarantees = contracts
             .contracts()
             .map(|contract| (contract.component.clone(), contract.lifecycle.clone()))

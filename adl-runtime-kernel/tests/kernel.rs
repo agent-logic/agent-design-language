@@ -1,7 +1,7 @@
 use std::{
     future::pending,
     sync::{
-        atomic::{AtomicU32, Ordering},
+        atomic::{AtomicBool, AtomicU32, Ordering},
         Arc, Mutex,
     },
     time::Duration,
@@ -1164,7 +1164,9 @@ async fn independent_components_start_concurrently_within_a_topology_layer() {
 }
 
 #[derive(Clone)]
-struct HealthReportingFactory;
+struct HealthReportingFactory {
+    stopped: Arc<AtomicBool>,
+}
 
 impl ComponentFactory for HealthReportingFactory {
     fn spec(&self) -> ComponentSpec {
@@ -1178,11 +1180,15 @@ impl ComponentFactory for HealthReportingFactory {
     }
 
     fn build(&self) -> Box<dyn Component> {
-        Box::new(HealthReportingComponent)
+        Box::new(HealthReportingComponent {
+            stopped: self.stopped.clone(),
+        })
     }
 }
 
-struct HealthReportingComponent;
+struct HealthReportingComponent {
+    stopped: Arc<AtomicBool>,
+}
 
 #[async_trait]
 impl Component for HealthReportingComponent {
@@ -1191,6 +1197,7 @@ impl Component for HealthReportingComponent {
         tokio::task::yield_now().await;
         context.degraded().await?;
         context.cancellation.cancelled().await;
+        self.stopped.store(true, Ordering::SeqCst);
         Ok(())
     }
 }
@@ -1198,7 +1205,10 @@ impl Component for HealthReportingComponent {
 #[tokio::test]
 async fn live_component_can_report_degraded_health_without_terminating() {
     let mut registry = ComponentRegistry::new();
-    registry.register(HealthReportingFactory);
+    let stopped = Arc::new(AtomicBool::new(false));
+    registry.register(HealthReportingFactory {
+        stopped: stopped.clone(),
+    });
     let recorder = RuntimeRecorder::new(16);
     let handle = Kernel::new(registry.validate().unwrap(), recorder.clone())
         .start()
@@ -1218,6 +1228,10 @@ async fn live_component_can_report_degraded_health_without_terminating() {
     assert_eq!(
         handle.shutdown(Duration::from_secs(1)).await.unwrap(),
         KernelExit::Clean
+    );
+    assert!(
+        stopped.load(Ordering::SeqCst),
+        "staged shutdown must cancel and await a live degraded component"
     );
 }
 

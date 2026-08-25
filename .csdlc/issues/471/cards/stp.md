@@ -31,6 +31,7 @@ Runtime v3 kernel architecture remediation only; no WP-27, cloud, provider, cons
 - adl-runtime-kernel/src/telemetry.rs
 - adl-runtime-kernel/src/time.rs
 - adl-runtime-kernel/src/topology.rs
+- adl-runtime-kernel/tests/assembly.rs
 - adl-runtime-kernel/tests/configuration.rs
 - adl-runtime-kernel/tests/contracts.rs
 - adl-runtime-kernel/tests/kernel.rs
@@ -39,7 +40,6 @@ Runtime v3 kernel architecture remediation only; no WP-27, cloud, provider, cons
 - .csdlc/prepared/issues/471/design.md
 - .csdlc/prepared/issues/471/diagram.mmd
 - .csdlc/prepared/issues/471/validate-runtime-kernel.sh
-- .csdlc/evidence/471
 
 ## Acceptance
 

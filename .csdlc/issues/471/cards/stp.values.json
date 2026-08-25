@@ -7,7 +7,7 @@
     "title": "[Runtime v3] Make kernel wiring, contracts, and supervision authoritative",
     "slug": "471-runtime-v3-authoritative-kernel-contracts",
     "version": "v0.92.1",
-    "generation": 22
+    "generation": 27
   },
   "status": "ready",
   "content": {
@@ -30,6 +30,7 @@
         "adl-runtime-kernel/src/telemetry.rs",
         "adl-runtime-kernel/src/time.rs",
         "adl-runtime-kernel/src/topology.rs",
+        "adl-runtime-kernel/tests/assembly.rs",
         "adl-runtime-kernel/tests/configuration.rs",
         "adl-runtime-kernel/tests/contracts.rs",
         "adl-runtime-kernel/tests/kernel.rs",
@@ -37,8 +38,7 @@
         "adl-runtime-kernel/tests/reasoning.rs",
         ".csdlc/prepared/issues/471/design.md",
         ".csdlc/prepared/issues/471/diagram.mmd",
-        ".csdlc/prepared/issues/471/validate-runtime-kernel.sh",
-        ".csdlc/evidence/471"
+        ".csdlc/prepared/issues/471/validate-runtime-kernel.sh"
       ],
       "acceptance_criteria": [
         "AC-1: Kernel-owned typed port registry makes declared wiring authoritative and rejects missing, duplicate, wrong-direction, wrong-protocol, and undeclared ports before spawn.",

@@ -386,6 +386,7 @@ impl Kernel {
                     if incarnations.get(&id).copied() != Some(completion.incarnation) {
                         continue;
                     }
+                    cancellations.remove(&id);
                     ports.close_component(&id).await;
                     if completion.cancelled {
                         self.recorder.set_component_state(id, RunningState::Stopped);
@@ -715,16 +716,18 @@ async fn shutdown(
         for phase in shutdown_phases {
             let id = phase.component;
             let snapshot = recorder.snapshot();
-            let active = matches!(
-                snapshot.components.get(&id),
-                Some(
-                    RunningState::Starting
-                        | RunningState::Ready
-                        | RunningState::Running
-                        | RunningState::Restarting
-                        | RunningState::Stopping
-                )
-            );
+            let active = cancellations.contains_key(&id)
+                && matches!(
+                    snapshot.components.get(&id),
+                    Some(
+                        RunningState::Starting
+                            | RunningState::Ready
+                            | RunningState::Running
+                            | RunningState::Degraded
+                            | RunningState::Restarting
+                            | RunningState::Stopping
+                    )
+                );
             if active {
                 recorder.set_component_state(id.clone(), RunningState::Stopping);
                 if let Some(cancellation) = cancellations.get(&id) {

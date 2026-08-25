@@ -337,7 +337,7 @@ fn registration(config: &ComponentConfig) -> FactoryRegistration {
             service: config.id.to_string(),
             version: Version::new(1, 0, 0),
             config_schema: RUNTIME_CONFIG_SCHEMA.to_owned(),
-            determinism: DeterminismClass::GovernedNondeterministicShell,
+            determinism: DeterminismClass::DeterministicCore,
             lifecycle: LifecycleGuarantees {
                 readiness_required: true,
                 bounded_shutdown_millis: 1_000,
@@ -385,6 +385,35 @@ fn declarative_registry_builds_contract_checked_topology_canonically() {
         .iter()
         .any(|provider| provider.service == "weather"));
     assert_eq!(built.effective_json(), second.canonical_json().unwrap());
+}
+
+#[test]
+fn deterministic_port_route_rejects_a_nondeterministic_provider() {
+    let mut registry = FactoryRegistry::new();
+    registry
+        .register("weather", |config| {
+            let mut registration = registration(config);
+            registration.contract.determinism = DeterminismClass::GovernedNondeterministicShell;
+            Ok(registration)
+        })
+        .register("consumer", |config| {
+            let mut registration = registration(config);
+            registration.contract.requires.clear();
+            Ok(registration)
+        });
+
+    assert!(matches!(
+        registry.construct(&config(vec![
+            component("weather", "weather", &[]),
+            component("sink", "consumer", &["weather"]),
+        ])),
+        Err(TopologyError::Contract(
+            adl_runtime_kernel::ContractError::NondeterministicDependency {
+                ref service,
+                ref capability,
+            }
+        )) if service == "sink" && capability == "port:weather"
+    ));
 }
 
 #[test]
