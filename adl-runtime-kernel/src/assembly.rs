@@ -348,6 +348,7 @@ pub fn build_live_assembly(bindings: LiveBindings) -> Result<LiveAssembly, Assem
         }
         continuity_factories.insert(kind.service_name().to_owned(), factory.clone());
         let mut contract = adapter.contract(kinds);
+        contract.inputs = factory.spec().inputs;
         if kind == AdapterKind::Chronosense {
             contract.requires.push(CapabilityRequirement {
                 name: "runtime.trusted_time".to_owned(),
@@ -385,6 +386,7 @@ pub fn build_live_assembly(bindings: LiveBindings) -> Result<LiveAssembly, Assem
         bindings.recorder.clone(),
         ingress_dispatchers,
     );
+    let canonical_ingress_inputs = canonical_ingress.spec().inputs;
     registrations.push((
         Arc::new(canonical_ingress.clone()),
         ServiceContract {
@@ -407,7 +409,7 @@ pub fn build_live_assembly(bindings: LiveBindings) -> Result<LiveAssembly, Assem
                 version: Version::new(1, 0, 0),
             }],
             requires: vec![],
-            inputs: vec![],
+            inputs: canonical_ingress_inputs,
             outputs: vec![],
             failure_policy: FailurePolicy::Fatal,
         },
@@ -611,6 +613,10 @@ impl ComponentFactory for ControlDependencyFactory {
 
     fn required_core(&self) -> bool {
         self.inner.required_core()
+    }
+
+    fn external_inputs(&self) -> Vec<crate::ExternalInputBinding> {
+        self.inner.external_inputs()
     }
 }
 

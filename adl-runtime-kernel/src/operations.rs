@@ -1,7 +1,10 @@
 use std::{
     collections::{BTreeMap, BTreeSet},
     num::NonZeroUsize,
-    sync::{Arc, Mutex as StdMutex},
+    sync::{
+        atomic::{AtomicU64, Ordering},
+        Arc, Mutex as StdMutex,
+    },
     time::Duration,
 };
 
@@ -15,11 +18,11 @@ use tokio::sync::{Mutex, RwLock, Semaphore};
 use tokio_util::sync::CancellationToken;
 
 use crate::{
-    channel, BoundedReceiver, BoundedSender, Capability, CapabilityRequirement, ChannelFullPolicy,
-    Component, ComponentContext, ComponentError, ComponentFactory, ComponentId, ComponentSpec,
-    DeterminismClass, ExecutionPermit, FailurePolicy, LifecycleGuarantees, ParityBExecutor,
-    ParityBRequest, PortSpec, SendError, ServiceContract, PARITY_B_REQUEST_SCHEMA,
-    SERVICE_CONTRACT_SCHEMA,
+    Capability, CapabilityRequirement, ChannelFullPolicy, Component, ComponentContext,
+    ComponentError, ComponentFactory, ComponentId, ComponentSpec, DeterminismClass,
+    ExecutionPermit, ExternalInput, ExternalInputBinding, FailurePolicy, LifecycleGuarantees,
+    ParityBExecutor, ParityBRequest, PortAccessError, PortProtocol, PortSpec, ServiceContract,
+    PARITY_B_REQUEST_SCHEMA, SERVICE_CONTRACT_SCHEMA,
 };
 
 pub const OPERATION_REQUEST_SCHEMA: &str = "adl.runtime.operation_request.v1";
@@ -269,8 +272,17 @@ impl Drop for InFlightOwnerGuard<'_> {
     }
 }
 
+#[derive(Clone, Debug, Serialize, Deserialize)]
 struct OperationEnvelope {
+    nonce: u64,
     request: OperationRequest,
+}
+
+impl PortProtocol for OperationEnvelope {
+    const PROTOCOL: &'static str = "adl.runtime.operation.external_request.v1";
+}
+
+struct PendingOperation {
     cancellation: CancellationToken,
     reply: oneshot::Sender<OperationOutcome>,
 }
@@ -290,8 +302,9 @@ pub struct OperationalFactory {
     adapter: Arc<OperationalAdapter>,
     dependencies: Vec<ComponentId>,
     inputs: Vec<PortSpec>,
-    sender: BoundedSender<OperationEnvelope>,
-    receiver: Arc<Mutex<BoundedReceiver<OperationEnvelope>>>,
+    external_input: ExternalInput<OperationEnvelope>,
+    pending: Arc<Mutex<BTreeMap<u64, PendingOperation>>>,
+    nonce: Arc<AtomicU64>,
     accepting: Arc<RwLock<bool>>,
 }
 
@@ -312,13 +325,22 @@ impl OperationalFactory {
         dependencies: Vec<ComponentId>,
         inputs: Vec<PortSpec>,
     ) -> Self {
-        let (sender, receiver) = channel(adapter.policy.capacity, ChannelFullPolicy::Reject);
+        let external_input = ExternalInput::new(
+            "runtime.operation.requests",
+            adapter.policy.capacity,
+            ChannelFullPolicy::Reject,
+        );
         Self {
             adapter,
             dependencies,
-            inputs,
-            sender,
-            receiver: Arc::new(Mutex::new(receiver)),
+            inputs: if inputs.is_empty() {
+                vec![external_input.spec()]
+            } else {
+                inputs
+            },
+            external_input,
+            pending: Arc::new(Mutex::new(BTreeMap::new())),
+            nonce: Arc::new(AtomicU64::new(0)),
             accepting: Arc::new(RwLock::new(true)),
         }
     }
@@ -382,17 +404,25 @@ impl OperationalFactory {
             return Err(OperationError::AdmissionClosed);
         }
         let (reply, result) = oneshot::channel();
-        self.sender
-            .send(OperationEnvelope {
-                request,
+        let nonce = self.nonce.fetch_add(1, Ordering::Relaxed);
+        self.pending.lock().await.insert(
+            nonce,
+            PendingOperation {
                 cancellation,
                 reply,
-            })
+            },
+        );
+        if let Err(error) = self
+            .external_input
+            .send(&OperationEnvelope { nonce, request })
             .await
-            .map_err(|error| match error {
-                SendError::Full => OperationError::Saturated,
-                SendError::Closed => OperationError::Fatal("component inbox closed".to_owned()),
-            })?;
+        {
+            self.pending.lock().await.remove(&nonce);
+            return Err(match error {
+                PortAccessError::Full(_) => OperationError::Saturated,
+                _ => OperationError::Fatal("component inbox closed".to_owned()),
+            });
+        }
         drop(accepting);
         result
             .await
@@ -422,7 +452,7 @@ async fn set_continuity_admission_open_bounded(
 
 struct OperationalComponent {
     adapter: Arc<OperationalAdapter>,
-    receiver: Arc<Mutex<BoundedReceiver<OperationEnvelope>>>,
+    pending: Arc<Mutex<BTreeMap<u64, PendingOperation>>>,
     accepting: Arc<RwLock<bool>>,
 }
 
@@ -436,11 +466,11 @@ impl Component for OperationalComponent {
             tokio::select! {
                 _ = context.cancellation.cancelled() => {
                     *self.accepting.write().await = false;
-                    let mut receiver = self.receiver.lock().await;
-                    while let Ok(envelope) = receiver.try_recv() {
-                        let _ = envelope.reply.send(Err(OperationError::AdmissionClosed));
+                    let mut pending = self.pending.lock().await;
+                    for (_, pending) in std::mem::take(&mut *pending) {
+                        let _ = pending.reply.send(Err(OperationError::AdmissionClosed));
                     }
-                    drop(receiver);
+                    drop(pending);
                     let shutdown_grace =
                         Duration::from_millis(self.adapter.policy.shutdown_grace_millis);
                     if tokio::time::timeout(shutdown_grace, async {
@@ -462,8 +492,9 @@ impl Component for OperationalComponent {
                     return Ok(());
                 },
                 Some(_) = tasks.join_next(), if !tasks.is_empty() => {},
-                envelope = async { self.receiver.lock().await.recv().await }, if tasks.len() < max_in_flight => {
-                    let Some(envelope) = envelope else { return Ok(()); };
+                envelope = context.recv::<OperationEnvelope>("runtime.operation.requests"), if tasks.len() < max_in_flight => {
+                    let Some(envelope) = envelope.map_err(|error| ComponentError::new(error.to_string()))? else { return Ok(()); };
+                    let Some(pending) = self.pending.lock().await.remove(&envelope.nonce) else { continue; };
                     let adapter = self.adapter.clone();
                     let lifecycle_cancellation = context.cancellation.child_token();
                     tasks.spawn(async move {
@@ -473,12 +504,12 @@ impl Component for OperationalComponent {
                         tokio::pin!(invocation);
                         let result = tokio::select! {
                             result = &mut invocation => result,
-                            _ = envelope.cancellation.cancelled() => {
+                            _ = pending.cancellation.cancelled() => {
                                 cancellation.cancel();
                                 invocation.await
                             }
                         };
-                        let _ = envelope.reply.send(result);
+                        let _ = pending.reply.send(result);
                     });
                 }
             }
@@ -496,9 +527,13 @@ impl ComponentFactory for OperationalFactory {
     fn build(&self) -> Box<dyn Component> {
         Box::new(OperationalComponent {
             adapter: self.adapter.clone(),
-            receiver: self.receiver.clone(),
+            pending: self.pending.clone(),
             accepting: self.accepting.clone(),
         })
+    }
+
+    fn external_inputs(&self) -> Vec<ExternalInputBinding> {
+        vec![self.external_input.binding()]
     }
 }
 

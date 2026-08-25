@@ -1,4 +1,10 @@
-use std::{collections::BTreeMap, fmt, sync::Arc, time::Duration};
+use std::{
+    collections::BTreeMap,
+    fmt,
+    marker::PhantomData,
+    sync::{Arc, Mutex as StdMutex},
+    time::Duration,
+};
 
 use async_trait::async_trait;
 use serde::{de::DeserializeOwned, Deserialize, Serialize};
@@ -288,6 +294,75 @@ struct WireMessage {
 }
 
 #[derive(Clone)]
+pub struct ExternalInput<T> {
+    spec: PortSpec,
+    sender: Arc<StdMutex<Option<BoundedSender<WireMessage>>>>,
+    marker: PhantomData<T>,
+}
+
+impl<T> ExternalInput<T>
+where
+    T: PortProtocol + Serialize,
+{
+    pub fn new(name: impl Into<String>, capacity: usize, full_policy: ChannelFullPolicy) -> Self {
+        Self {
+            spec: PortSpec::bounded(name, T::PROTOCOL, capacity, full_policy),
+            sender: Arc::new(StdMutex::new(None)),
+            marker: PhantomData,
+        }
+    }
+
+    pub fn spec(&self) -> PortSpec {
+        self.spec.clone()
+    }
+
+    pub async fn send(&self, value: &T) -> Result<(), PortAccessError> {
+        let sender = self
+            .sender
+            .lock()
+            .map_err(|_| PortAccessError::Closed(self.spec.name.clone()))?
+            .clone()
+            .ok_or_else(|| PortAccessError::Closed(self.spec.name.clone()))?;
+        let payload = serde_json::to_vec(value).map_err(|_| PortAccessError::Decode {
+            port: self.spec.name.clone(),
+        })?;
+        sender
+            .send(WireMessage {
+                protocol: T::PROTOCOL.to_owned(),
+                payload,
+            })
+            .await
+            .map_err(|error| match error {
+                SendError::Full => PortAccessError::Full(self.spec.name.clone()),
+                SendError::Closed => PortAccessError::Closed(self.spec.name.clone()),
+            })
+    }
+
+    pub(crate) fn binding(&self) -> ExternalInputBinding {
+        ExternalInputBinding {
+            spec: self.spec.clone(),
+            sender: self.sender.clone(),
+        }
+    }
+}
+
+#[derive(Clone)]
+pub struct ExternalInputBinding {
+    spec: PortSpec,
+    sender: Arc<StdMutex<Option<BoundedSender<WireMessage>>>>,
+}
+
+impl ExternalInputBinding {
+    pub fn spec(&self) -> &PortSpec {
+        &self.spec
+    }
+
+    fn bind(&self, sender: BoundedSender<WireMessage>) {
+        *self.sender.lock().expect("external input binding poisoned") = Some(sender);
+    }
+}
+
+#[derive(Clone)]
 struct OutputPort {
     protocol: String,
     senders: Arc<RwLock<BTreeMap<ComponentId, BoundedSender<WireMessage>>>>,
@@ -380,6 +455,7 @@ impl ComponentPorts {
 pub(crate) struct RuntimePortRegistry {
     components: BTreeMap<ComponentId, ComponentPorts>,
     routes: Vec<ValidatedPortRoute>,
+    external_inputs: BTreeMap<(ComponentId, String), ExternalInputBinding>,
     recorder: RuntimeRecorder,
 }
 
@@ -387,6 +463,7 @@ impl RuntimePortRegistry {
     pub(crate) fn new(
         component_ids: impl IntoIterator<Item = ComponentId>,
         routes: &[ValidatedPortRoute],
+        external_inputs: &BTreeMap<(ComponentId, String), ExternalInputBinding>,
         recorder: &RuntimeRecorder,
     ) -> Self {
         let mut components = component_ids
@@ -399,19 +476,23 @@ impl RuntimePortRegistry {
                 format!("{}:{}->{}", route.provider, route.spec.name, route.consumer),
                 &sender.metrics(),
             );
-            let output = components
-                .get_mut(&route.provider)
-                .expect("validated provider exists")
-                .outputs
-                .entry(route.spec.name.clone())
-                .or_insert_with(|| OutputPort {
-                    protocol: route.spec.protocol.clone(),
-                    senders: Arc::new(RwLock::new(BTreeMap::new())),
-                });
-            Arc::get_mut(&mut output.senders)
-                .expect("registry endpoints are not cloned during construction")
-                .get_mut()
-                .insert(route.consumer.clone(), sender);
+            if route.external {
+                external_inputs[&(route.consumer.clone(), route.spec.name.clone())].bind(sender);
+            } else {
+                let output = components
+                    .get_mut(&route.provider)
+                    .expect("validated provider exists")
+                    .outputs
+                    .entry(route.spec.name.clone())
+                    .or_insert_with(|| OutputPort {
+                        protocol: route.spec.protocol.clone(),
+                        senders: Arc::new(RwLock::new(BTreeMap::new())),
+                    });
+                Arc::get_mut(&mut output.senders)
+                    .expect("registry endpoints are not cloned during construction")
+                    .get_mut()
+                    .insert(route.consumer.clone(), sender);
+            }
             components
                 .get_mut(&route.consumer)
                 .expect("validated consumer exists")
@@ -427,6 +508,7 @@ impl RuntimePortRegistry {
         Self {
             components,
             routes: routes.to_vec(),
+            external_inputs: external_inputs.clone(),
             recorder: recorder.clone(),
         }
     }
@@ -456,7 +538,10 @@ impl RuntimePortRegistry {
                 format!("{}:{}->{}", route.provider, route.spec.name, route.consumer),
                 &sender.metrics(),
             );
-            if let Some(output) = self
+            if route.external {
+                self.external_inputs[&(route.consumer.clone(), route.spec.name.clone())]
+                    .bind(sender);
+            } else if let Some(output) = self
                 .components
                 .get(&route.provider)
                 .and_then(|ports| ports.outputs.get(&route.spec.name))
@@ -504,10 +589,12 @@ mod tests {
                 2,
                 ChannelFullPolicy::Reject,
             ),
+            external: false,
         };
         let registry = RuntimePortRegistry::new(
             [producer.clone(), consumer.clone()],
             &[route],
+            &BTreeMap::new(),
             &RuntimeRecorder::new(8),
         );
         let producer_ports = registry.for_component(&producer);
@@ -556,6 +643,10 @@ pub trait ComponentFactory: Send + Sync + 'static {
     fn required_core(&self) -> bool {
         false
     }
+
+    fn external_inputs(&self) -> Vec<ExternalInputBinding> {
+        Vec::new()
+    }
 }
 
 impl<T> ComponentFactory for Arc<T>
@@ -576,5 +667,9 @@ where
 
     fn required_core(&self) -> bool {
         (**self).required_core()
+    }
+
+    fn external_inputs(&self) -> Vec<ExternalInputBinding> {
+        (**self).external_inputs()
     }
 }

@@ -799,6 +799,7 @@ struct ScopeFactory {
     dependency: Option<&'static str>,
     builds: Arc<AtomicU32>,
     fail_first: bool,
+    slow_cancel_first: bool,
 }
 
 impl ComponentFactory for ScopeFactory {
@@ -825,6 +826,7 @@ impl ComponentFactory for ScopeFactory {
         Box::new(ScopeComponent {
             generation: self.builds.fetch_add(1, Ordering::SeqCst),
             fail_first: self.fail_first,
+            slow_cancel_first: self.slow_cancel_first,
         })
     }
 }
@@ -832,6 +834,7 @@ impl ComponentFactory for ScopeFactory {
 struct ScopeComponent {
     generation: u32,
     fail_first: bool,
+    slow_cancel_first: bool,
 }
 
 #[async_trait]
@@ -843,6 +846,9 @@ impl Component for ScopeComponent {
             return Err(ComponentError::new("one-for-all trigger"));
         }
         context.cancellation.cancelled().await;
+        if self.slow_cancel_first && self.generation == 0 {
+            tokio::time::sleep(Duration::from_millis(50)).await;
+        }
         Ok(())
     }
 }
@@ -858,14 +864,17 @@ async fn one_for_all_restarts_transitive_dependents() {
             dependency: None,
             builds: parent_builds.clone(),
             fail_first: true,
+            slow_cancel_first: false,
         })
         .register(ScopeFactory {
             id: "child",
             dependency: Some("parent"),
             builds: child_builds.clone(),
             fail_first: false,
+            slow_cancel_first: true,
         });
-    let handle = Kernel::new(registry.validate().unwrap(), RuntimeRecorder::new(32))
+    let recorder = RuntimeRecorder::new(32);
+    let handle = Kernel::new(registry.validate().unwrap(), recorder.clone())
         .start()
         .await
         .unwrap();
@@ -876,6 +885,12 @@ async fn one_for_all_restarts_transitive_dependents() {
     })
     .await
     .unwrap();
+    tokio::time::sleep(Duration::from_millis(100)).await;
+    assert_eq!(
+        recorder.snapshot().components[&ComponentId::from("child")],
+        RunningState::Running,
+        "a delayed old incarnation must not close or stop its replacement"
+    );
     assert_eq!(
         handle.shutdown(Duration::from_secs(1)).await.unwrap(),
         KernelExit::Clean

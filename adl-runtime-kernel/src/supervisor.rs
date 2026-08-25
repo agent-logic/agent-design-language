@@ -93,9 +93,11 @@ impl Kernel {
         let ports = RuntimePortRegistry::new(
             self.topology.factories.keys().cloned(),
             self.topology.port_routes(),
+            self.topology.external_inputs(),
             &self.recorder,
         );
         let mut cancellations = BTreeMap::<ComponentId, CancellationToken>::new();
+        let mut incarnations = BTreeMap::<ComponentId, u64>::new();
         let mut restarts = BTreeMap::<ComponentId, VecDeque<Instant>>::new();
         let (restart_tx, mut restart_rx) =
             mpsc::channel::<(ComponentId, Arc<dyn ComponentFactory>)>(16);
@@ -109,6 +111,7 @@ impl Kernel {
                 let (ready_tx, ready_rx) = oneshot::channel();
                 let cancellation = CancellationToken::new();
                 cancellations.insert(id.clone(), cancellation.clone());
+                incarnations.insert(id.clone(), 0);
                 self.recorder
                     .set_component_state(id.clone(), RunningState::Starting);
                 spawn_component(
@@ -119,6 +122,7 @@ impl Kernel {
                     ports.for_component(&id),
                     ready_tx,
                     health_tx.clone(),
+                    0,
                 );
                 readiness.push((id.clone(), ready_rx, self.topology.readiness_required(&id)));
             }
@@ -167,6 +171,10 @@ impl Kernel {
                     return Ok(exit);
                 }
                 Some((id, factory)) = restart_rx.recv() => {
+                    let incarnation = incarnations
+                        .entry(id.clone())
+                        .and_modify(|value| *value = value.saturating_add(1))
+                        .or_insert(1);
                     ports.rebind_component(&id).await;
                     let (ready_tx, ready_rx) = oneshot::channel();
                     let cancellation = CancellationToken::new();
@@ -179,6 +187,7 @@ impl Kernel {
                         ports.for_component(&id),
                         ready_tx,
                         health_tx.clone(),
+                        *incarnation,
                     );
                     let readiness_tx = readiness_tx.clone();
                     let readiness_timeout = self.readiness_timeout;
@@ -263,6 +272,9 @@ impl Kernel {
                         message: error.to_string(),
                     })?;
                     let id = completion.id.clone();
+                    if incarnations.get(&id).copied() != Some(completion.incarnation) {
+                        continue;
+                    }
                     ports.close_component(&id).await;
                     if completion.cancelled {
                         self.recorder.set_component_state(id, RunningState::Stopped);
@@ -403,6 +415,7 @@ struct ComponentCompletion {
     id: ComponentId,
     error: Option<String>,
     cancelled: bool,
+    incarnation: u64,
 }
 
 enum FailureAction {
@@ -509,6 +522,7 @@ fn spawn_component(
     ports: crate::component::ComponentPorts,
     ready: oneshot::Sender<()>,
     health: mpsc::Sender<(ComponentId, ComponentHealthSignal)>,
+    incarnation: u64,
 ) {
     let id = factory.spec().id;
     tasks.spawn(async move {
@@ -532,6 +546,7 @@ fn spawn_component(
             id,
             error,
             cancelled: cancellation.is_cancelled(),
+            incarnation,
         }
     });
 }

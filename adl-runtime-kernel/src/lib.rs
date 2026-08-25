@@ -69,8 +69,8 @@ pub use cognition::*;
 pub use cognitive_profile::*;
 pub use component::{
     Component, ComponentContext, ComponentError, ComponentFactory, ComponentId, ComponentPorts,
-    ComponentSpec, FailurePolicy, LifecycleRole, PortAccessError, PortProtocol, PortSpec,
-    RunningState, SupervisionScope,
+    ComponentSpec, ExternalInput, ExternalInputBinding, FailurePolicy, LifecycleRole,
+    PortAccessError, PortProtocol, PortSpec, RunningState, SupervisionScope,
 };
 pub use config::*;
 pub use continuity::*;

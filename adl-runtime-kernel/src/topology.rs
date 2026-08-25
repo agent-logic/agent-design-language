@@ -12,7 +12,8 @@ use thiserror::Error;
 
 use crate::{
     validate_contracts, ComponentConfig, ComponentFactory, ComponentId, ComponentSpec, ConfigError,
-    ContractError, LifecycleGuarantees, RuntimeConfig, ServiceContract, ValidatedContracts,
+    ContractError, ExternalInputBinding, LifecycleGuarantees, RuntimeConfig, ServiceContract,
+    ValidatedContracts,
 };
 
 #[derive(Debug, Error, Eq, PartialEq)]
@@ -200,8 +201,24 @@ impl ComponentRegistry {
         }
 
         let mut port_routes = Vec::new();
+        let mut external_inputs = BTreeMap::new();
         for factory in self.factories.values() {
             let spec = factory.spec();
+            let declared_external = factory
+                .external_inputs()
+                .into_iter()
+                .map(|binding| (binding.spec().name.clone(), binding))
+                .collect::<BTreeMap<_, _>>();
+            for (name, binding) in &declared_external {
+                if !spec.inputs.iter().any(|input| input == binding.spec()) {
+                    return Err(TopologyError::UnsatisfiedInput {
+                        component: spec.id.clone(),
+                        port: name.clone(),
+                        protocol: binding.spec().protocol.clone(),
+                    });
+                }
+                external_inputs.insert((spec.id.clone(), name.clone()), binding.clone());
+            }
             let mut inputs = BTreeSet::new();
             for input in &spec.inputs {
                 if !inputs.insert(input.name.clone()) {
@@ -232,6 +249,18 @@ impl ComponentRegistry {
                 graph.add_edge(dependency_index, indices[&spec.id], ());
             }
             for input in &spec.inputs {
+                if declared_external
+                    .get(&input.name)
+                    .is_some_and(|binding| binding.spec() == input)
+                {
+                    port_routes.push(ValidatedPortRoute {
+                        provider: ComponentId::new("runtime.external_ingress"),
+                        consumer: spec.id.clone(),
+                        spec: input.clone(),
+                        external: true,
+                    });
+                    continue;
+                }
                 let providers = spec
                     .dependencies
                     .iter()
@@ -261,6 +290,7 @@ impl ComponentRegistry {
                     provider: providers[0].clone(),
                     consumer: spec.id.clone(),
                     spec: input.clone(),
+                    external: false,
                 });
             }
         }
@@ -287,6 +317,7 @@ impl ComponentRegistry {
             port_routes,
             required_core,
             lifecycle_guarantees: BTreeMap::new(),
+            external_inputs,
         })
     }
 }
@@ -298,6 +329,7 @@ pub struct ValidatedTopology {
     port_routes: Vec<ValidatedPortRoute>,
     required_core: BTreeSet<ComponentId>,
     lifecycle_guarantees: BTreeMap<ComponentId, LifecycleGuarantees>,
+    external_inputs: BTreeMap<(ComponentId, String), ExternalInputBinding>,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq)]
@@ -305,6 +337,7 @@ pub struct ValidatedPortRoute {
     pub provider: ComponentId,
     pub consumer: ComponentId,
     pub spec: crate::PortSpec,
+    pub external: bool,
 }
 
 pub struct ConfiguredTopology {
@@ -353,6 +386,10 @@ impl ValidatedTopology {
 
     pub fn port_routes(&self) -> &[ValidatedPortRoute] {
         &self.port_routes
+    }
+
+    pub(crate) fn external_inputs(&self) -> &BTreeMap<(ComponentId, String), ExternalInputBinding> {
+        &self.external_inputs
     }
 
     pub fn is_required_core(&self, id: &ComponentId) -> bool {
