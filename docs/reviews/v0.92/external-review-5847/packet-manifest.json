@@ -1,0 +1,22 @@
+{
+  "schema": "adl.external_review.packet_manifest.v1",
+  "canonical_issue": 314,
+  "legacy_csdlc_issue": 5847,
+  "repository": "agent-logic/agent-design-language",
+  "base": "main",
+  "head": "codex/314-wp26-external-review-intake",
+  "target_sha": "c666ff3d411e6062d5cc5750d2f88be9efbcd673",
+  "target_revision_status": "intake_worktree_head_known_but_reviewer_target_not_established",
+  "packet_sha256": "5c79e2416a0e5f7724a6cb17f1c286f17eafa5d73f5850dd092870a066f58873",
+  "paths": [
+    "docs/reviews/v0.92/external-review-5847/adl-v0.92-code-review-birthday-activation-copy-1-received-2026-08-24.pdf",
+    "docs/reviews/v0.92/external-review-5847/adl-v0.92-code-review-birthday-activation-received-2026-08-24.pdf",
+    "docs/reviews/v0.92/external-review-5847/adl-v0.92-documentation-review-findings-received-2026-08-24.pdf"
+  ],
+  "non_claims": [
+    "The intake worktree HEAD is known, but the source reports do not establish an exact reviewed target revision.",
+    "The documentation report verdict is BLOCKED.",
+    "The code reports state that no build, tests, failpoint injection, cargo audit, git operation, or runtime assertion was performed.",
+    "This packet does not remediate findings, approve release, publish, merge, or close #314."
+  ]
+}
