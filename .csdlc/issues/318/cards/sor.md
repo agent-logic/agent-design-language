@@ -67,11 +67,11 @@ Completed the WP-29 next-milestone readiness review and remediated all six PR #4
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 
