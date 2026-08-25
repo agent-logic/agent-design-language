@@ -16,8 +16,9 @@ use tokio_util::sync::CancellationToken;
 
 use crate::{
     component::{ComponentHealthSignal, ComponentLifecycle, RuntimePortRegistry},
-    ComponentContext, ComponentFactory, ComponentId, FailurePolicy, LifecycleRole, LifecycleState,
-    RunningState, RuntimeEvent, RuntimeRecorder, SupervisionScope, ValidatedTopology,
+    Component, ComponentContext, ComponentFactory, ComponentId, FailurePolicy, LifecycleRole,
+    LifecycleState, RunningState, RuntimeEvent, RuntimeRecorder, SupervisionScope,
+    ValidatedTopology,
 };
 
 #[derive(Debug, Error)]
@@ -117,6 +118,7 @@ impl Kernel {
                     continue;
                 }
                 let factory = self.topology.factories[&id].clone();
+                let component = factory.build();
                 let (ready_tx, ready_rx) = oneshot::channel();
                 let cancellation = CancellationToken::new();
                 cancellations.insert(id.clone(), cancellation.clone());
@@ -125,7 +127,8 @@ impl Kernel {
                     .set_component_state(id.clone(), RunningState::Starting);
                 spawn_component(
                     &mut tasks,
-                    factory,
+                    component,
+                    id.clone(),
                     cancellation,
                     self.recorder.clone(),
                     SpawnBindings {
@@ -165,6 +168,7 @@ impl Kernel {
                                 .entry(id.clone())
                                 .and_modify(|value| *value = value.saturating_add(1))
                                 .or_insert(1);
+                            let component = factory.build();
                             ports.rebind_component(&id).await;
                             let (next_ready_tx, next_ready_rx) = oneshot::channel();
                             let cancellation = CancellationToken::new();
@@ -173,7 +177,8 @@ impl Kernel {
                                 .set_component_state(id.clone(), RunningState::Restarting);
                             spawn_component(
                                 &mut tasks,
-                                factory,
+                                component,
+                                id.clone(),
                                 cancellation,
                                 self.recorder.clone(),
                                 SpawnBindings {
@@ -197,8 +202,15 @@ impl Kernel {
                                 self.recorder.set_lifecycle(LifecycleState::Failed);
                                 let error = KernelError::Readiness(id.clone());
                                 let _ = started.send(Err(KernelError::Readiness(id.clone())));
-                                terminal_shutdown.cancel();
-                                cancel_all(&cancellations, self.topology.shutdown_order());
+                                drain_terminal(
+                                    &mut tasks,
+                                    &cancellations,
+                                    &incarnations,
+                                    &self.topology,
+                                    &self.recorder,
+                                    &terminal_shutdown,
+                                )
+                                .await;
                                 return Err(error);
                             }
                             break;
@@ -207,8 +219,15 @@ impl Kernel {
                             self.recorder.set_lifecycle(LifecycleState::Failed);
                             let error = KernelError::Readiness(id.clone());
                             let _ = started.send(Err(KernelError::Readiness(id.clone())));
-                            terminal_shutdown.cancel();
-                            cancel_all(&cancellations, self.topology.shutdown_order());
+                            drain_terminal(
+                                &mut tasks,
+                                &cancellations,
+                                &incarnations,
+                                &self.topology,
+                                &self.recorder,
+                                &terminal_shutdown,
+                            )
+                            .await;
                             return Err(error);
                         }
                     }
@@ -222,9 +241,16 @@ impl Kernel {
             tokio::select! {
                 command = commands.recv() => {
                     let Some(KernelCommand::Shutdown { grace, response }) = command else {
-                        terminal_shutdown.cancel();
-                        cancel_all(&cancellations, self.topology.shutdown_order());
-                        return Ok(KernelExit::Clean);
+                        self.recorder.set_lifecycle(LifecycleState::Stopping);
+                        let exit = drain_terminal(
+                            &mut tasks,
+                            &cancellations,
+                            &incarnations,
+                            &self.topology,
+                            &self.recorder,
+                            &terminal_shutdown,
+                        ).await;
+                        return Ok(exit);
                     };
                     terminal_shutdown.cancel();
                     self.recorder.set_lifecycle(LifecycleState::Stopping);
@@ -249,13 +275,15 @@ impl Kernel {
                         .and_modify(|value| *value = value.saturating_add(1))
                         .or_insert(1);
                     let incarnation = *incarnation;
+                    let component = factory.build();
                     ports.rebind_component(&id).await;
                     let (ready_tx, ready_rx) = oneshot::channel();
                     let cancellation = CancellationToken::new();
                     cancellations.insert(id.clone(), cancellation.clone());
                     spawn_component(
                         &mut tasks,
-                        factory,
+                        component,
+                        id.clone(),
                         cancellation,
                         self.recorder.clone(),
                         SpawnBindings {
@@ -294,8 +322,7 @@ impl Kernel {
                             FailureAction::Fatal => {
                                 self.recorder.set_lifecycle(LifecycleState::Failed);
                                 self.recorder.set_component_state(id.clone(), RunningState::Failed);
-                                terminal_shutdown.cancel();
-                                cancel_all(&cancellations, self.topology.shutdown_order());
+                                drain_terminal(&mut tasks, &cancellations, &incarnations, &self.topology, &self.recorder, &terminal_shutdown).await;
                                 return Ok(KernelExit::Fatal { component: id });
                             }
                             FailureAction::Degrade => {
@@ -306,8 +333,7 @@ impl Kernel {
                                     &id,
                                 ) {
                                     self.recorder.set_lifecycle(LifecycleState::Failed);
-                                    terminal_shutdown.cancel();
-                                    cancel_all(&cancellations, self.topology.shutdown_order());
+                                    drain_terminal(&mut tasks, &cancellations, &incarnations, &self.topology, &self.recorder, &terminal_shutdown).await;
                                     return Ok(KernelExit::Fatal { component: id });
                                 }
                             }
@@ -344,8 +370,7 @@ impl Kernel {
                                 &id,
                             ) {
                                 self.recorder.set_lifecycle(LifecycleState::Failed);
-                                terminal_shutdown.cancel();
-                                cancel_all(&cancellations, self.topology.shutdown_order());
+                                drain_terminal(&mut tasks, &cancellations, &incarnations, &self.topology, &self.recorder, &terminal_shutdown).await;
                                 return Ok(KernelExit::Fatal { component: id });
                             }
                         }
@@ -372,8 +397,7 @@ impl Kernel {
                             FailurePolicy::Fatal => {
                                 self.recorder.set_lifecycle(LifecycleState::Failed);
                                 self.recorder.set_component_state(id.clone(), RunningState::Failed);
-                                terminal_shutdown.cancel();
-                                cancel_all(&cancellations, self.topology.shutdown_order());
+                                drain_terminal(&mut tasks, &cancellations, &incarnations, &self.topology, &self.recorder, &terminal_shutdown).await;
                                 return Ok(KernelExit::Fatal { component: id });
                             }
                             FailurePolicy::Degrade => {
@@ -384,8 +408,7 @@ impl Kernel {
                                     &id,
                                 ) {
                                     self.recorder.set_lifecycle(LifecycleState::Failed);
-                                    terminal_shutdown.cancel();
-                                    cancel_all(&cancellations, self.topology.shutdown_order());
+                                    drain_terminal(&mut tasks, &cancellations, &incarnations, &self.topology, &self.recorder, &terminal_shutdown).await;
                                     return Ok(KernelExit::Fatal { component: id });
                                 }
                             }
@@ -410,8 +433,7 @@ impl Kernel {
                                     FailureAction::Fatal => {
                                         self.recorder.set_lifecycle(LifecycleState::Failed);
                                         self.recorder.set_component_state(id.clone(), RunningState::Failed);
-                                        terminal_shutdown.cancel();
-                                        cancel_all(&cancellations, self.topology.shutdown_order());
+                                        drain_terminal(&mut tasks, &cancellations, &incarnations, &self.topology, &self.recorder, &terminal_shutdown).await;
                                         return Ok(KernelExit::Fatal { component: id });
                                     }
                                     FailureAction::Degrade => unreachable!("restart policy cannot degrade"),
@@ -605,12 +627,12 @@ fn apply_degradation(
 
 fn spawn_component(
     tasks: &mut JoinSet<ComponentCompletion>,
-    factory: Arc<dyn ComponentFactory>,
+    component: Box<dyn Component>,
+    id: ComponentId,
     cancellation: CancellationToken,
     recorder: RuntimeRecorder,
     bindings: SpawnBindings,
 ) {
-    let id = factory.spec().id;
     let SpawnBindings {
         ports,
         ready,
@@ -631,7 +653,7 @@ fn spawn_component(
             ready,
             health,
         );
-        let outcome = AssertUnwindSafe(factory.build().run(context))
+        let outcome = AssertUnwindSafe(component.run(context))
             .catch_unwind()
             .await;
         let error = match outcome {
@@ -656,15 +678,24 @@ struct SpawnBindings {
     terminal_shutdown: CancellationToken,
 }
 
-fn cancel_all(
+async fn drain_terminal(
+    tasks: &mut JoinSet<ComponentCompletion>,
     cancellations: &BTreeMap<ComponentId, CancellationToken>,
-    shutdown_order: &[ComponentId],
-) {
-    for id in shutdown_order {
-        if let Some(cancellation) = cancellations.get(id) {
-            cancellation.cancel();
-        }
-    }
+    incarnations: &BTreeMap<ComponentId, u64>,
+    topology: &ValidatedTopology,
+    recorder: &RuntimeRecorder,
+    terminal_shutdown: &CancellationToken,
+) -> KernelExit {
+    terminal_shutdown.cancel();
+    shutdown(
+        tasks,
+        cancellations,
+        incarnations,
+        shutdown_phases(topology),
+        recorder,
+        Duration::from_secs(30),
+    )
+    .await
 }
 
 async fn shutdown(

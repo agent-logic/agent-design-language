@@ -12,9 +12,10 @@ use std::{
 use adl_runtime_kernel::{
     birthday_authority_bootstrap_from_runtime_keys, bootstrap_reasoning_services,
     build_live_assembly, build_production_operation_executors_with_recorder, AdapterKind,
-    AdapterPolicy, AuthorityMode, ClockAuthority, ComponentRegistry, DomainWork, ExecutorError,
-    FailureClass, InProcessOperationExecutor, LiveBindings, OperationError, OperationExecutor,
-    OperationRequest, OperationalAdapter, OperationalFactory, RuntimeRecorder,
+    AdapterPolicy, AuthorityMode, ClockAuthority, Component, ComponentContext, ComponentError,
+    ComponentFactory, ComponentId, ComponentRegistry, ComponentSpec, DomainWork, ExecutorError,
+    FailureClass, FailurePolicy, InProcessOperationExecutor, LiveBindings, OperationError,
+    OperationExecutor, OperationRequest, OperationalAdapter, OperationalFactory, RuntimeRecorder,
     TimeQualificationBounds, TimeSample, TimeSampleError, TimeSampleSource, DOMAIN_WORK_SCHEMA,
     KERNEL_DURABLE_STATE_DB_FILE,
 };
@@ -33,6 +34,49 @@ struct RecoveringTime(AtomicUsize);
 struct PendingExecutor;
 
 struct NonCooperativeExecutor;
+
+struct ShutdownCountingExecutor(Arc<AtomicUsize>);
+
+#[async_trait]
+impl OperationExecutor for ShutdownCountingExecutor {
+    async fn execute(&self, _request: &OperationRequest) -> Result<Vec<u8>, ExecutorError> {
+        Ok(Vec::new())
+    }
+
+    async fn shutdown(&self) -> Result<(), ExecutorError> {
+        self.0.fetch_add(1, Ordering::SeqCst);
+        Ok(())
+    }
+}
+
+struct FatalAfterReadyFactory;
+
+impl ComponentFactory for FatalAfterReadyFactory {
+    fn spec(&self) -> ComponentSpec {
+        ComponentSpec {
+            id: ComponentId::new("fatal_after_ready"),
+            dependencies: vec![],
+            inputs: vec![],
+            outputs: vec![],
+            failure_policy: FailurePolicy::Fatal,
+        }
+    }
+
+    fn build(&self) -> Box<dyn Component> {
+        Box::new(FatalAfterReady)
+    }
+}
+
+struct FatalAfterReady;
+
+#[async_trait]
+impl Component for FatalAfterReady {
+    async fn run(self: Box<Self>, mut context: ComponentContext) -> Result<(), ComponentError> {
+        context.ready();
+        tokio::task::yield_now().await;
+        Err(ComponentError::new("fatal termination proof"))
+    }
+}
 
 fn authoritative_recorder() -> RuntimeRecorder {
     let recorder = RuntimeRecorder::new(16);
@@ -788,6 +832,42 @@ async fn shutdown_grace_aborts_non_cooperative_operation_executor() {
     .unwrap();
     assert_eq!(shutdown, adl_runtime_kernel::KernelExit::Clean);
     assert!(submitted.await.unwrap().is_err());
+}
+
+#[tokio::test]
+async fn fatal_kernel_exit_performs_exactly_one_operational_executor_shutdown() {
+    let shutdowns = Arc::new(AtomicUsize::new(0));
+    let adapter = Arc::new(
+        OperationalAdapter::new(
+            AdapterKind::Agent,
+            AdapterPolicy {
+                capacity: 1,
+                max_in_flight: 1,
+                shutdown_grace_millis: 100,
+                max_attempts: 1,
+                idempotency_entries: 1,
+                authority: AuthorityMode::Internal,
+            },
+            Arc::new(ShutdownCountingExecutor(shutdowns.clone())),
+        )
+        .unwrap(),
+    );
+    let mut registry = ComponentRegistry::new();
+    registry
+        .register(OperationalFactory::new(adapter, Vec::new()))
+        .register(FatalAfterReadyFactory);
+    let mut handle =
+        adl_runtime_kernel::Kernel::new(registry.validate().unwrap(), RuntimeRecorder::new(16))
+            .start()
+            .await
+            .unwrap();
+    assert_eq!(
+        handle.wait_for_exit().await.unwrap(),
+        adl_runtime_kernel::KernelExit::Fatal {
+            component: ComponentId::new("fatal_after_ready")
+        }
+    );
+    assert_eq!(shutdowns.load(Ordering::SeqCst), 1);
 }
 
 #[tokio::test]
