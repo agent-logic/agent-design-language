@@ -12,8 +12,10 @@ Status: draft
 
 ## Scope
 
-docs/milestones/v0.92.1
-.csdlc/prepared/issues/316/validate-v0921-plan.rb
+.csdlc/issues/316
+.csdlc/prepared/issues/316/assign-conductor-fix-review.json
+.csdlc/prepared/issues/316/record-conductor-fix-review.json
+.csdlc/prepared/issues/316/recover-conductor-review.json
 
 ## Prompts
 
@@ -33,11 +35,11 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- WP-01 remains number-free until the operator explicitly declares v0.92.1 ready to open; merging this planning package does not create or schedule any issue.
+- This metadata-only review preserves the independently passed substantive conductor repair at de8e2fc004145b91d015de5a1dc941656b5fd5ec.
 
 ## Review Result
 
-Revision: Some("git-blake3:de8e2fc004145b91d015de5a1dc941656b5fd5ec:4624b9c1f3d41c3a04fb21b462baa943131c614c3ea60da3c209ff621ee9ba2b")
+Revision: Some("git-blake3:9f55c47421b1f58fe349ae16f1364740ad574609:43a9458975aa782a06596a7b43a8f56b4203f429b981b31be0e0c1b9e6eb2981")
 
 Reviewer: Some("subagent:/root/review_316_conductor_fix")
 

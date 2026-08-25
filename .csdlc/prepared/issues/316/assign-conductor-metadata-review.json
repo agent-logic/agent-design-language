@@ -1,0 +1,13 @@
+{
+  "issue": 316,
+  "expected_generation": 23,
+  "expected_digest": "03fdfca4b53b4bbe783e983c1eb736afb3219626f0fd22823ba8db1b14bfe90e",
+  "reviewer": "subagent:/root/review_316_conductor_fix",
+  "assigned_by": "codex:/root",
+  "scope": [
+    ".csdlc/issues/316",
+    ".csdlc/prepared/issues/316/assign-conductor-fix-review.json",
+    ".csdlc/prepared/issues/316/record-conductor-fix-review.json",
+    ".csdlc/prepared/issues/316/recover-conductor-review.json"
+  ]
+}

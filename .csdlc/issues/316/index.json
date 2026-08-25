@@ -5,29 +5,33 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "0c53b87754c3e14de1e834fcc7eef3b287ebcb2436b52e592b63e506a3bd1754",
   "phase": "reviewed",
-  "generation": 22,
-  "digest": "58f043b30b349137d515d4218b7626a444e83161cb7a8ceadf0ddba20b8361f7",
+  "generation": 24,
+  "digest": "e02c82dc0795c8432a05a29a8c11045074e9001c7bf71e1b25cd4ad8161f1924",
   "branch": "codex/316-v0921-v0922-planning",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-316-v0921-v0922-planning",
   "review_assignment": {
     "reviewer": "subagent:/root/review_316_conductor_fix",
     "assigned_by": "codex:/root",
-    "revision": "git-blake3:de8e2fc004145b91d015de5a1dc941656b5fd5ec:4624b9c1f3d41c3a04fb21b462baa943131c614c3ea60da3c209ff621ee9ba2b",
+    "revision": "git-blake3:9f55c47421b1f58fe349ae16f1364740ad574609:43a9458975aa782a06596a7b43a8f56b4203f429b981b31be0e0c1b9e6eb2981",
     "scope": [
-      "docs/milestones/v0.92.1",
-      ".csdlc/prepared/issues/316/validate-v0921-plan.rb"
+      ".csdlc/issues/316",
+      ".csdlc/prepared/issues/316/assign-conductor-fix-review.json",
+      ".csdlc/prepared/issues/316/record-conductor-fix-review.json",
+      ".csdlc/prepared/issues/316/recover-conductor-review.json"
     ]
   },
   "review": {
     "reviewer": "subagent:/root/review_316_conductor_fix",
     "scope": [
-      "docs/milestones/v0.92.1",
-      ".csdlc/prepared/issues/316/validate-v0921-plan.rb"
+      ".csdlc/issues/316",
+      ".csdlc/prepared/issues/316/assign-conductor-fix-review.json",
+      ".csdlc/prepared/issues/316/record-conductor-fix-review.json",
+      ".csdlc/prepared/issues/316/recover-conductor-review.json"
     ],
-    "reviewed_revision": "git-blake3:de8e2fc004145b91d015de5a1dc941656b5fd5ec:4624b9c1f3d41c3a04fb21b462baa943131c614c3ea60da3c209ff621ee9ba2b",
+    "reviewed_revision": "git-blake3:9f55c47421b1f58fe349ae16f1364740ad574609:43a9458975aa782a06596a7b43a8f56b4203f429b981b31be0e0c1b9e6eb2981",
     "findings": [],
     "residual_risks": [
-      "WP-01 remains number-free until the operator explicitly declares v0.92.1 ready to open; merging this planning package does not create or schedule any issue."
+      "This metadata-only review preserves the independently passed substantive conductor repair at de8e2fc004145b91d015de5a1dc941656b5fd5ec."
     ],
     "completed": true,
     "non_substantive_proof": null
@@ -46,32 +50,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "8d6ffbb2cb45a59fdaf1ac5142337985ff01bb10c5493ade6280a852ce516194",
+      "values_digest": "4b08970d2c255f723a0055b2ddfe8d4e6dfbd136665ca1461d0a3eef0d31815b",
       "rendered_digest": "3ba9701a8b33e22c9b2b306a58a9e5255be94be717cacfdbb9f743bf0a28b76c",
       "ast_digest": "83ebca4d4a34026c1e9fceea9366fc80af6768635ee209e145c09ea0aecc2d6a"
     },
     "stp": {
-      "values_digest": "def1a4959a7b97fe2efee440a0dd676541d0be43792d689f1697838be31551fe",
+      "values_digest": "1d29bb0b5bcdd377e640e39949f162fe8a5cd5f049d6a6bd5cd7611b61fe3182",
       "rendered_digest": "85149af7244ba934d80c30f36388634f063f7aae7f8407cfce5c60dd971e74a6",
       "ast_digest": "11601d8260c98492fec35b88510108ef8b3d234c0cf046e642b71f81f8c71836"
     },
     "spp": {
-      "values_digest": "1be7f7242de80b3aad7cd417817056ef98e80b6d6f8df89346eff6ea520c9ccc",
+      "values_digest": "031f25a890f3fa2fcb6a9709aa2e876dc091b86cf48c7c9ad0d5ec01850b4dcf",
       "rendered_digest": "5571a5100811173ece9dc9076e04bf00679dae74aeb65260abbb4783a18d7cf5",
       "ast_digest": "f159ff47e11db7136c7245e86407749a6276f41b987bb1f04f4dac6341d49ecc"
     },
     "vpp": {
-      "values_digest": "595cfc4d9bf70cd179447fa34f201b14c3ac8f3dc102baf7cb277e79ef66aa77",
+      "values_digest": "729074032ff8b988d2c092a8aa2673d79f98fc63a0c3a2e72938509f53ae4040",
       "rendered_digest": "2309eec21b98e4f11991a05341360ad8cddf2b7efb5695063fb57166fa8cc9b5",
       "ast_digest": "ab807182fc95e6f4be168f02c70c1bf59f68b456996e3485905af2ddf20587fb"
     },
     "srp": {
-      "values_digest": "3460baa7ad838fa41f0cf7a8c18c3a6a3df21617c16de0e110254dde44514031",
-      "rendered_digest": "8222cdafffe0fd91b3fef8278f0569a2f956bf77f22b33dea2258d980f7dc137",
-      "ast_digest": "ab6de88a54249f807b9eb35b98a86eeb4b08250107893935b4c1ecf845fbdaca"
+      "values_digest": "2364521f833f57317e13fb8c1e8b941b340eab839374e6d16235019812f6d2cc",
+      "rendered_digest": "a42c4a2160d5635b4744a4499ff39ea9ed7af542627ff11f8477dbeeafb1ce96",
+      "ast_digest": "850ae589de315cf05f022b546220e62d55e2b105048d41caf05fcb25a8cb4a3d"
     },
     "sor": {
-      "values_digest": "6cb5d90099ab927f6dfee0831773f2719b83dbf6bd7facdd29e471df3f492817",
+      "values_digest": "1d000ff45d90548c52b2901f297b2e083cc4822a5d5501c5e243ffe8f79f98f0",
       "rendered_digest": "82b7e0344c8bf08e1d2201b608edbd2429a136a924cf49d146ec6f042bac9b8d",
       "ast_digest": "2c6b300be4223d6923c2d90c1816fc68e20611a90bfd0d229d3ab26f35782b2b"
     }
@@ -135,6 +139,20 @@
     },
     {
       "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "The bounded conductor repair is reviewed; committed review metadata advanced HEAD, so recover once for exact metadata-only publication reconciliation."
+    },
+    {
+      "sequence": 11,
       "from": "implemented",
       "to": "reviewed",
       "actor": "codex:/root",
@@ -355,6 +373,27 @@
     {
       "sequence": 31,
       "generation": 22,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "The bounded conductor repair is reviewed; committed review metadata advanced HEAD, so recover once for exact metadata-only publication reconciliation.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 24,
       "actor": "codex:/root",
       "reason": "atomically record exact review evidence and reviewed phase",
       "operation": "record_review"

@@ -29,3 +29,6 @@
 {"sequence":29,"generation":21,"actor":"codex:/root","reason":"PR #472 review found a closed-conductor dead end; recover review truth for the bounded planning-only repair that makes WP-01 number-free and explicitly operator-triggered.","operation":"recover_review"}
 {"sequence":30,"generation":21,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":31,"generation":22,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":32,"generation":23,"actor":"codex:/root","reason":"The bounded conductor repair is reviewed; committed review metadata advanced HEAD, so recover once for exact metadata-only publication reconciliation.","operation":"recover_review"}
+{"sequence":33,"generation":23,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
+{"sequence":34,"generation":24,"actor":"codex:/root","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
