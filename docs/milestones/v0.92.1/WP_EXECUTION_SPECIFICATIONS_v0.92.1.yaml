@@ -4,7 +4,7 @@ status: planning_only
 creation_owner: WP-01
 repository_prerequisite:
   issue: 432
-  required_before_wp01_execution: terminal_canonical_ancestral
+  required_before_wp01_execution: reviewed_merged_ancestral
   preterminal_planning_is_allowed: true
   guarantee: no_tracked_local_untracked_path_dependencies
 required_spec_fields: [objective, acceptance_criteria, owned_paths, pvf_lanes, stop_conditions, non_goals]
@@ -88,10 +88,10 @@ issue_specifications:
     non_goals: [Paid AWS execution, Observatory redesign]
   - id: DRT-B
     objective: Run multi-agent UTS production work with hybrid Spot continuity and exact reclamation recovery.
-    acceptance_criteria: [Requirements 183 and 184 are mapped, Six distinct residents complete assigned UTS work, Dehydrate and restore preserve exact population, GPU evidence waits for terminal 345]
+    acceptance_criteria: [Requirements 183 and 184 are mapped, Six distinct residents complete assigned UTS work, Dehydrate and restore preserve exact population, GPU evidence waits for reviewed merged 345 authority]
     owned_paths: [adl-runtime/src/qualification/**, adl-runtime-kernel/src/**, adl/tools/run_issue268_**, docs/milestones/v0.92.1/evidence/runtime/drt-b/**]
     pvf_lanes: [six-resident-uts, continuity-reclamation, spot-cost-and-cleanup, resource-envelope]
-    stop_conditions: [Issue 345 is nonterminal when GPU proof is required, Population or lineage drifts, Paid launch lacks authorization]
+    stop_conditions: [Issue 345 is not reviewed and merged when GPU proof is required, Population or lineage drifts, Paid launch lacks authorization]
     non_goals: [Executing issue 269, Inventing a new continuity system]
   - id: DRT-C
     objective: Qualify failure handling, Observatory evidence, soak, cleanup, and final distributed Runtime synthesis.
@@ -116,17 +116,17 @@ issue_specifications:
     non_goals: [Production implementation, Unity TLS work]
   - id: OBS-B
     objective: Implement the redesign using authentic Runtime projections and prove all authority and failure states.
-    acceptance_criteria: [OBS-A contracts are implemented, Final proof consumes terminal issue 84, Runtime projections are source-grounded, Accessibility and recovery cases pass]
+    acceptance_criteria: [OBS-A contracts are implemented, Final proof consumes reviewed merged issue 84 authority, Runtime projections are source-grounded, Accessibility and recovery cases pass]
     owned_paths: [demos/html-observatory/app.js, demos/html-observatory/styles.css, adl/tools/validate_layer8_authority_observatory_ui.sh, docs/milestones/v0.92.1/evidence/observatory/obs-b/**]
     pvf_lanes: [authentic-runtime-route, exact-browser-cases, accessibility, redaction, recovery]
-    stop_conditions: [Issue 84 is nonterminal for final proof, A mock substitutes for the required Runtime route]
+    stop_conditions: [Issue 84 is not reviewed and merged for final proof, A mock substitutes for the required Runtime route]
     non_goals: [TLS 1.2 implementation owned by issue 251, Public exposure owned by issue 122]
   - id: INT-01
     objective: Converge the six execution lanes into one immutable milestone candidate without absorbing lane-owned remediation.
-    acceptance_criteria: [Every lane is terminal canonical and ancestral, Exact revisions and artifacts are indexed, Cross-lane collisions are resolved by owners]
+    acceptance_criteria: [Every lane is reviewed merged and ancestral, Exact revisions and artifacts are indexed, Cross-lane collisions are resolved by owners]
     owned_paths: [docs/milestones/v0.92.1/evidence/integration/**, docs/milestones/v0.92.1/DEMO_MATRIX_v0.92.1.md]
-    pvf_lanes: [terminal-census, ancestry, artifact-index, collision-check]
-    stop_conditions: [Any lane is nonterminal, Evidence revisions disagree]
+    pvf_lanes: [merged-authority-census, ancestry, artifact-index, collision-check]
+    stop_conditions: [Any lane lacks reviewed merged authority, Evidence revisions disagree]
     non_goals: [Implementing child fixes, Release approval]
   - id: TAIL-01
     objective: Run the complete milestone quality gate against the converged candidate.
@@ -198,6 +198,34 @@ issue_specifications:
     pvf_lanes: [tail-terminal-census, tag-and-release-readback, notes-parity, cleanup-validation]
     stop_conditions: [Operator authorization is absent, Any prior tail issue is nonterminal]
     non_goals: [Unreviewed merge, Post-release feature work]
+  - id: DEC-01
+    objective: Separate Runtime v2 and Runtime v3 source, manifests, imports, exports, ownership, tests, and compatibility authority without starting Runtime v4.
+    acceptance_criteria: [Every source and reverse reference has one owner and disposition, Supported behavior has compatibility proof, Rollback and migration are executable, Runtime v4 remains excluded]
+    owned_paths: [adl/src/runtime_v2/**, adl-runtime/**, adl-runtime-kernel/**, docs/runtime/**, docs/milestones/v0.92.1/evidence/runtime-decoupling/**]
+    pvf_lanes: [source-denominator, reverse-reference-census, compatibility, rollback, migration]
+    stop_conditions: [A supported consumer is unclassified, Either runtime silently acquires the other runtime's authority, Runtime v4 scope is required]
+    non_goals: [Runtime v4 implementation, Behavior deletion without proof]
+  - id: PROV-A
+    objective: Define one provider inference-profile contract and deterministic Ollama materialization shared by ADL tools.
+    acceptance_criteria: [Profiles bind provider model and bounded parameters, Invalid profiles fail before activation, Last-known-good state is retained, Credentials prompts and private payloads are excluded]
+    owned_paths: [adl/src/provider/**, adl-runtime/src/provider/**, docs/provider/**, docs/milestones/v0.92.1/evidence/provider/prov-a/**]
+    pvf_lanes: [profile-schema, ollama-materialization, invalid-profile, last-known-good, redaction]
+    stop_conditions: [Tools require incompatible provider configuration, Private material would enter a profile]
+    non_goals: [MLX or Metal provider, OCI packaging]
+  - id: PROV-B
+    objective: Run bounded local-model shadow execution and compare outcomes without granting shadow output authority.
+    acceptance_criteria: [Shadow and authority paths are distinguishable, Inputs and comparison rules are exact, Failures preserve the authoritative result, Evidence is redacted]
+    owned_paths: [adl/src/provider/**, docs/milestones/v0.92.1/evidence/provider/prov-b/**]
+    pvf_lanes: [shadow-isolation, deterministic-comparison, fallback, redaction]
+    stop_conditions: [Shadow output can mutate authority, Comparison inputs drift]
+    non_goals: [Provider benchmark marketing claims, Production cutover]
+  - id: DRT-D
+    objective: Repeat the exact six-resident qualification on GCP as an optional provider-portability sidecar.
+    acceptance_criteria: [Six identities and lineage remain exact, GCP account project billing and credentials are separately governed, Cost and cleanup receipts are retained, No resources remain]
+    owned_paths: [adl-runtime/tests/**, docs/milestones/v0.92.1/evidence/runtime/drt-d/**]
+    pvf_lanes: [gcp-identity, six-resident-workload, continuity, cost, cleanup-zero]
+    stop_conditions: [Paid-run authorization is absent, Provider identity is ambiguous, Cleanup cannot be proven]
+    non_goals: [Replacing AWS qualification, Executing issue 269]
 rebaseline:
   runtime_v4: explicit_only
   action: stop_affected_lane_and_replan

@@ -1,0 +1,7 @@
+{
+  "issue": 316,
+  "expected_generation": 22,
+  "expected_digest": "58f043b30b349137d515d4218b7626a444e83161cb7a8ceadf0ddba20b8361f7",
+  "actor": "codex:/root",
+  "reason": "The bounded conductor repair is reviewed; committed review metadata advanced HEAD, so recover once for exact metadata-only publication reconciliation."
+}

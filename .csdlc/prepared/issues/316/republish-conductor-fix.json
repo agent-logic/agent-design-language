@@ -1,0 +1,15 @@
+{
+  "schema": "csdlc.publication_request.v1",
+  "issue": 316,
+  "repository": "agent-logic/agent-design-language",
+  "expected_generation": 24,
+  "expected_digest": "e02c82dc0795c8432a05a29a8c11045074e9001c7bf71e1b25cd4ad8161f1924",
+  "actor": "codex:/root",
+  "remote": "origin",
+  "base": "main",
+  "head": "codex/316-v0921-v0922-planning",
+  "title": "[v0.92][WP-28] Reconcile v0.92.1 and plan CodeFriend Beta 1",
+  "body": "Closes #316\n\nPublishes the complete canonical v0.92.1 planning reconciliation and a number-free v0.92.2 CodeFriend Beta 1 milestone package. The package includes the standard milestone documents, feature and proof surfaces, execution specifications, dependency graph, full canonical release tail, explicit deferrals, and the global feature-list handoff.\n\nThe v0.92.1 opening route is deliberately operator-controlled: merge makes the package eligible, but creates nothing. Only when the operator later declares the milestone ready will the operator create the number-free WP-01 conductor; WP-01 then creates the 31 planned child issues. Closed #431 is provenance only, and the validator rejects any concrete closed conductor, missing future owner, or WP-01 self-creation.\n\nA 40-row source-disposition ledger accounts for every selected planning input. Focused validators prove 39 v0.92.1 planned IDs with 31 creation slots, 21 v0.92.2 planned IDs with nine feature documents, both ten-step release tails, links, portability, and exact source-denominator truth.\n\nNo implementation issues are created by this PR, no future product completion is claimed, and merge is left to the operator. Independent exact-head remediation review passed with no findings.",
+  "draft": false,
+  "token_file": null
+}

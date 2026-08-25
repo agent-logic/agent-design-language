@@ -1,0 +1,106 @@
+# Structured Planning Prompt
+
+Template: 1.0.0
+
+Issue: 316
+
+Repository: agent-logic/agent-design-language
+
+Card: spp
+
+Status: ready
+
+## Summary
+
+Audit canonical, TBD, and Drive candidates; reconcile the complete v0.92.1 package; author the complete v0.92.2 CodeFriend Beta 1 package and number-free issue wave; validate both packages; obtain exact-head review; hold issue creation until operator release.
+
+## Plan
+
+Revision 3
+
+## Steps
+
+[
+  {
+    "id": "S1",
+    "action": "Freeze canonical, TBD, and Drive planning denominators and record explicit dispositions.",
+    "acceptance_ids": [
+      "AC-1",
+      "AC-2"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S2",
+    "action": "Reconcile v0.92.1 additions and routing without remote issue mutation.",
+    "acceptance_ids": [
+      "AC-3",
+      "AC-4",
+      "AC-6"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S3",
+    "action": "Author the complete canonical v0.92.2 CodeFriend Beta 1 package and number-free execution wave.",
+    "acceptance_ids": [
+      "AC-5",
+      "AC-6"
+    ],
+    "status": "pending"
+  },
+  {
+    "id": "S4",
+    "action": "Run focused planning validation and exact-head review, then retain the issue-creation hold.",
+    "acceptance_ids": [
+      "AC-7"
+    ],
+    "status": "pending"
+  }
+]
+
+## Invariants
+
+- No v0.92.1 or v0.92.2 issue is created before operator release
+- No tracked .adl path or Google Drive runtime dependency is introduced
+- Every planned ID is unique and dependency-complete
+- Planning status never implies implementation, approval, activation, or paid-run authority
+- Closeout is asynchronous and never an execution dependency
+
+## Risks
+
+- The current package may omit valid planning candidates
+- Drive plans contain superseded scheduling language
+- Issue-count expansion may create unnecessary coordination overhead
+- A Beta 1 label could overstate product readiness without the full technical exit bar
+
+## Estimates
+
+{
+  "elapsed_seconds": 43200,
+  "total_tokens": 140000,
+  "validation_seconds": 7200
+}
+
+## Design
+
+.csdlc/prepared/issues/316/design.md
+
+Digest: 40b148c3caaf15f3597025bc20f648bf6fc66b1e01064d051f166e7c2ee74418
+
+## Diagram
+
+.csdlc/prepared/issues/316/diagram.mmd
+
+Digest: 2cb2365918f614dde98c9ed2d672808c3afc3974c0acf90b7a75121afb0006eb
+
+## Stop Conditions
+
+- Any operation would create or mutate a v0.92.1 or v0.92.2 execution issue
+- A candidate cannot be grounded in canonical or named read-only evidence
+- Planning would imply Runtime v4, MLX/Metal, paid cloud, ATE implementation, or CodeFriend implementation authority
+- The exact planned issue denominator is ambiguous or duplicate
+
+## Handoff
+
+Proceed only after doctor readiness.

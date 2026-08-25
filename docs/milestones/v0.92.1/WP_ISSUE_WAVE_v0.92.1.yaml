@@ -1,6 +1,10 @@
 schema: adl.milestone.issue-wave.v1
 milestone: v0.92.1
-conductor_issue: 431
+conductor_issue: null
+conductor_id: WP-01
+opening_authority: milestone_operator_after_planning_merge
+opening_trigger: operator_declares_milestone_ready_after_planning_merge
+legacy_planning_issue: 431
 work_packages:
   - id: REP-01
     lane: repository_authority
@@ -9,8 +13,11 @@ work_packages:
     depends_on: []
   - id: WP-01
     lane: milestone_opening
-    title: Publish the v0.92.1 planning package
-    issue: 431
+    title: Open the v0.92.1 milestone and create the execution wave
+    issue: null
+    creation_owner: milestone_operator_after_planning_merge
+    legacy_issue: 431
+    legacy_issue_disposition: closed_planning_provenance_only
     depends_on: [REP-01]
   - id: CORP-01
     lane: corporate
@@ -114,6 +121,34 @@ work_packages:
     title: Podcast publication and Studio
     issues: [51, 261, 262, 263, 264, 342]
     depends_on: [WP-01]
+  - id: DEC-01
+    lane: runtime_decoupling
+    title: Separate Runtime v2 and Runtime v3 authority and source ownership
+    issue: null
+    creation_owner: WP-01
+    depends_on: [WP-01]
+  - id: PROV-01
+    lane: provider_profiles
+    title: Provider profiles and bounded local-model shadow execution
+    issue_slot: false
+    depends_on: [WP-01]
+    packages:
+      - id: PROV-A
+        issue: null
+        creation_owner: WP-01
+        title: Shared provider inference-profile contract and Ollama materialization
+        depends_on: []
+      - id: PROV-B
+        issue: null
+        creation_owner: WP-01
+        title: Local-model shadow execution and comparison evidence
+        depends_on: [PROV-A]
+  - id: DRT-D
+    lane: distributed_runtime_gcp_sidecar
+    title: GCP six-resident portability qualification
+    issue: null
+    creation_owner: WP-01
+    depends_on: [DRT-C]
   - id: HOT-01
     lane: runtime_hot_reload
     title: Axum configuration hot reload
@@ -149,7 +184,7 @@ work_packages:
     title: Release-tail coordination root
     issue: null
     creation_owner: WP-01
-    depends_on: [CORP-01, V3-01, DRT-01, POD-01, HOT-01, OBS-01]
+    depends_on: [CORP-01, V3-01, DRT-01, DRT-D, POD-01, HOT-01, OBS-01, DEC-01, PROV-01]
   - id: TAIL-01
     lane: release_tail
     issue: null

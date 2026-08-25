@@ -1,0 +1,7 @@
+{
+  "issue": 316,
+  "expected_generation": 20,
+  "expected_digest": "2c1d99fd606e5a7b0273a8660e737356803236c5ee9c9b382bb5cb96129618e2",
+  "actor": "codex:/root",
+  "reason": "PR #472 review found a closed-conductor dead end; recover review truth for the bounded planning-only repair that makes WP-01 number-free and explicitly operator-triggered."
+}

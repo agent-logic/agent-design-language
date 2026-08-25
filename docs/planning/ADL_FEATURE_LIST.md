@@ -327,7 +327,7 @@ ADL already provides a serious platform baseline:
 | Payments, settlement, economic agency, and `x402` / Lightning adapters | Planned | `docs/milestones/v0.94.1/features/PAYMENTS_SETTLEMENT_AND_X402_v0.94.1.md` and the tracked `v0.94.1` milestone package | `v0.94.1` |
 | Bounded contract-market and resource-stewardship bridge | Implemented baseline | `docs/milestones/v0.90.4` contract-market docs, proof coverage, and demo matrix | Completed bounded baseline by `v0.90.4` |
 | Distributed execution integration | Partially implemented; AEE/multi-agent boundary subset pulled forward | `docs/milestones/v0.95/features/DISTRIBUTED_EXECUTION_INTEGRATION_v0.95.md`, ADR 0003, cluster-execution groundwork docs, and `docs/milestones/v0.91.5/features/AEE_COMPLETION_TRANCHE_v0.91.5.md` | AEE/multi-agent boundary proof targeted for `v0.91.5`/`v0.92`; broad distributed integration by `v0.95` |
-| CodeFriend v1 and portable adapter v2 | MVP-scoped planned product proof | `docs/milestones/v0.95/features/CODEFRIEND_V1_PORTABLE_ADAPTER_V2_PROOF_v0.95.md` plus tracked CodeFriend planning | CodeFriend v1 plus adapter v2 must land after v0.92 and before v0.95; broad product UX/accounts/billing/report UX remain post-v0.95 |
+| CodeFriend Beta 1 and portable Adapter v2 | Planned complete beta milestone | `docs/milestones/v0.92.2/README.md` and its feature/proof package | v0.92.2 must deliver the usable Beta 1 product, not another prototype; v0.95 consumes and hardens that beta toward MVP convergence |
 | Capability-testing evidence consumption / Aptitude Atlas boundary | MVP-scoped evidence consumption; productization post-v0.95 | capability-testing harness docs, local capability-testing planning, and `LB-046` | v0.95 consumes capability-testing evidence only; Aptitude Atlas product/baseline productization is post-v0.95 |
 | Demo catalog and polished MVP walkthrough | Partially implemented | `docs/milestones/v0.95/features/DEMO_CATALOG_AND_MVP_WALKTHROUGH_v0.95.md` plus milestone demo matrices and reviewer packages | `v0.95` |
 | Control-plane Rust migration / tooling hardening | Partially implemented | `docs/milestones/v0.95/features/CONTROL_PLANE_RUST_MIGRATION_AND_TOOLING_HARDENING_v0.95.md` and Python-elimination/tooling-hardening planning | `v0.95` |
@@ -366,6 +366,8 @@ has already landed, is landing now, or has explicitly placed on the path to the
 | `v0.91.7` | Historical implementation and proof tranche: bounded evidence exists for logging/OTel, goals/metrics, lifecycle tooling, validation/build throughput, scheduler/provider/local agents, Soak #2, signal operations, Observatory/Unity, Curiosity, Constructability, reasoning graph/loops/`adl.skill.v1`, security, guild/CodeFriend boundaries, and ACIP/A2A decisions. Its WP-17 closed through #4644 / PR #5539; v0.91.8 owns the current release-truth alignment and handoff. |
 | `v0.91.8` | Required bridge for exact-revision ADL v2, Runtime v3, and C-SDLC v2 platform acceptance, deployment/cutover truth, rollback, and reviewed handoff into v0.92. |
 | `v0.92` | **Completed engineering milestone.** Identity-bearing agent substrate, stable names, cognitive profiles, model/provider capability contracts, continuity across runs, memory grounding, Memory Palace proof slice, witnesses, receipts, and the bounded first-birthday proof. External publication and later governance remain separately authorized. |
+| `v0.92.1` | Integration and product-readiness work: corporate/IP transfer, C-SDLC v3, distributed Runtime qualification, podcast and Studio, hot reload, Observatory redesign, Runtime v2/v3 decoupling, provider inference profiles, and GCP qualification sidecar. |
+| `v0.92.2` | CodeFriend Beta 1: product shell, Adapter v2, evidence core, architecture cognition, executable governance, specialist review, human publication controls, longitudinal intelligence, exports, documentation, and bounded product proof. |
 | `v0.93` | Constitutional citizenship, rights/duties, social contract, delegation/upstream delegation/IAM, standing/challenge/appeal governance, guilds, relationship model, reputation/trust, shared social memory, ToM/social cognition, security governance, and enterprise security for the ADL polis. |
 | `v0.94` | Secure execution, policy-engine and identity/auth convergence, provider trust and isolation, secrets/data governance, signed/queryable trace and reasoning/provenance closure, bounded mental time travel / temporal self-projection, and cross-band convergence before MVP freeze. |
 | `v0.94.1` | Payments, settlement, accounting/ledger/economic trace, economic agency, and `x402` / Lightning adapter follow-on work. |
@@ -806,17 +808,22 @@ open-ended post-`v0.95` ambiguity in the feature list.
 
 ### `v0.92.1` — Integration and Product Readiness
 
-The v0.92.1 package carries six bounded lanes: Corporate and IP transfer,
-C-SDLC v3, Distributed multi-agent Runtime qualification, Podcast publication
-and Studio, Axum configuration hot reload, and Observatory redesign. Repository
-authority cleanup is the shared prerequisite. Runtime v4 is an explicit
-rebaseline risk rather than implicit scope.
+The v0.92.1 package carries the original six bounded lanes—Corporate and IP
+transfer, C-SDLC v3, distributed multi-agent Runtime qualification, Podcast and
+Studio, Axum configuration hot reload, and Observatory redesign—plus explicit
+Runtime v2/v3 decoupling, provider inference profiles, and a portable GCP
+qualification sidecar. Repository authority cleanup is the shared prerequisite.
+Runtime v4 is a rebaseline risk rather than implicit scope.
 
 ### `v0.92.2` — CodeFriend Beta 1
 
 CodeFriend Beta 1 follows v0.92.1. It turns the existing review, diagram, test,
-remediation, and reporting capabilities into an integrated beta slice. The
-release train must make CodeFriend available as an integrated beta by v0.95.
+remediation, and reporting capabilities into a usable integrated product with a
+shell and onboarding, portable Adapter v2, governed evidence, architecture
+cognition, executable fitness functions, multi-perspective review, human
+publication controls, longitudinal comparison, exports, documentation, and
+bounded proof on ADL plus one external repository. v0.92.2 completes Beta 1;
+v0.95 consumes and hardens it toward MVP convergence.
 
 ADL already has a substantial platform:
 - deterministic execution

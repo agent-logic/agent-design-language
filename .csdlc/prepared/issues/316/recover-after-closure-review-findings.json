@@ -1,0 +1,7 @@
+{
+  "issue": 316,
+  "expected_generation": 14,
+  "expected_digest": "f68ab51fd6a3ad68e0f88f9e66aa0d6676897b88ed056f0306d3dd15da675fa7",
+  "actor": "codex:/root",
+  "reason": "The closure review found missing CodeFriend Drive snapshot rows and stale retained ledger hashes; recover review truth for the exact bounded fixes."
+}

@@ -1,0 +1,33 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 316,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[v0.92][WP-28] Reconcile v0.92.1 next-milestone planning",
+    "slug": "316-v0921-next-milestone-planning",
+    "version": "v0.92.0",
+    "generation": 27
+  },
+  "status": "draft",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": ".csdlc/issues/316\n.csdlc/prepared/issues/316/republish-conductor-fix.json\n.csdlc/prepared/issues/316/assign-conductor-metadata-review.json\n.csdlc/prepared/issues/316/record-conductor-metadata-review.json\n.csdlc/prepared/issues/316/recover-conductor-metadata-review.json",
+      "review_revision": "git-blake3:d9aaaadbf5fc8e425e7099485fc006857feffd1e:3c01e989e7c99620857c6ecde5ba42688e75d8a5ac386d5b99af5901bed4bfd0",
+      "reviewer": "subagent:/root/review_316_conductor_fix",
+      "review_prompts": [
+        "Does the plan preserve the no-issue-creation hold?",
+        "Does v0.92.2 contain the complete standard planning set and full Beta 1 technical exit bar?",
+        "Are architecture cognition, governance, four review perspectives, longitudinal comparison, and two-repository proof explicit?",
+        "Are all relevant TBD and Drive candidates explicitly disposed without runtime dependency?",
+        "Are execution dependencies merge-based while closeout remains asynchronous?"
+      ],
+      "findings": [],
+      "residual_risk": [
+        "This metadata-only review preserves the substantive conductor-repair PASS at de8e2fc004145b91d015de5a1dc941656b5fd5ec and does not authorize merge."
+      ],
+      "review_result": "pass"
+    }
+  }
+}

@@ -1,0 +1,464 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 316,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "0c53b87754c3e14de1e834fcc7eef3b287ebcb2436b52e592b63e506a3bd1754",
+  "phase": "published",
+  "generation": 27,
+  "digest": "c47876ab00aa1b5958cbc947309074cd0df69739c6a2c7f70deeeb768ca1b7b7",
+  "branch": "codex/316-v0921-v0922-planning",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-316-v0921-v0922-planning",
+  "review_assignment": {
+    "reviewer": "subagent:/root/review_316_conductor_fix",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:d9aaaadbf5fc8e425e7099485fc006857feffd1e:3c01e989e7c99620857c6ecde5ba42688e75d8a5ac386d5b99af5901bed4bfd0",
+    "scope": [
+      ".csdlc/issues/316",
+      ".csdlc/prepared/issues/316/republish-conductor-fix.json",
+      ".csdlc/prepared/issues/316/assign-conductor-metadata-review.json",
+      ".csdlc/prepared/issues/316/record-conductor-metadata-review.json",
+      ".csdlc/prepared/issues/316/recover-conductor-metadata-review.json"
+    ]
+  },
+  "review": {
+    "reviewer": "subagent:/root/review_316_conductor_fix",
+    "scope": [
+      ".csdlc/issues/316",
+      ".csdlc/prepared/issues/316/republish-conductor-fix.json",
+      ".csdlc/prepared/issues/316/assign-conductor-metadata-review.json",
+      ".csdlc/prepared/issues/316/record-conductor-metadata-review.json",
+      ".csdlc/prepared/issues/316/recover-conductor-metadata-review.json"
+    ],
+    "reviewed_revision": "git-blake3:d9aaaadbf5fc8e425e7099485fc006857feffd1e:3c01e989e7c99620857c6ecde5ba42688e75d8a5ac386d5b99af5901bed4bfd0",
+    "findings": [],
+    "residual_risks": [
+      "This metadata-only review preserves the substantive conductor-repair PASS at de8e2fc004145b91d015de5a1dc941656b5fd5ec and does not authorize merge."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 316,
+    "pull_request": 472,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/472",
+    "base": "main",
+    "head": "codex/316-v0921-v0922-planning",
+    "revision": "git-blake3:d9aaaadbf5fc8e425e7099485fc006857feffd1e:3c01e989e7c99620857c6ecde5ba42688e75d8a5ac386d5b99af5901bed4bfd0",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/316/design.md",
+  "diagram_path": ".csdlc/prepared/issues/316/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:5697e16a-17a6-4316-82d9-71b992238bc2",
+      "revision": "40b148c3caaf15f3597025bc20f648bf6fc66b1e01064d051f166e7c2ee74418"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "a45d4a36158965d52f57d5731fb0ec15f204e7b1f779942e391547ced7e16081",
+      "rendered_digest": "3ba9701a8b33e22c9b2b306a58a9e5255be94be717cacfdbb9f743bf0a28b76c",
+      "ast_digest": "83ebca4d4a34026c1e9fceea9366fc80af6768635ee209e145c09ea0aecc2d6a"
+    },
+    "stp": {
+      "values_digest": "e7386bba208f6d6f9234609a5027456509cbfbf34971aea0dcc9411b65ddf927",
+      "rendered_digest": "85149af7244ba934d80c30f36388634f063f7aae7f8407cfce5c60dd971e74a6",
+      "ast_digest": "11601d8260c98492fec35b88510108ef8b3d234c0cf046e642b71f81f8c71836"
+    },
+    "spp": {
+      "values_digest": "d8e76aca2bf56bae5eb7c4141ab05c24915fe3a2d397b9cda8fc1683acedd740",
+      "rendered_digest": "5571a5100811173ece9dc9076e04bf00679dae74aeb65260abbb4783a18d7cf5",
+      "ast_digest": "f159ff47e11db7136c7245e86407749a6276f41b987bb1f04f4dac6341d49ecc"
+    },
+    "vpp": {
+      "values_digest": "730210b10987784f5dc2e35e7e804af3f27713910b69da636503bdb712aa76b8",
+      "rendered_digest": "2309eec21b98e4f11991a05341360ad8cddf2b7efb5695063fb57166fa8cc9b5",
+      "ast_digest": "ab807182fc95e6f4be168f02c70c1bf59f68b456996e3485905af2ddf20587fb"
+    },
+    "srp": {
+      "values_digest": "76e21209cc0536c51cfbfd5f593ddd60d0f5b2cd38480d9d885ab86aa64551db",
+      "rendered_digest": "68aaf9130daa0ec7c19505dc38efa59e0ba0bb4231d6a3c6a013a6d99f1e9444",
+      "ast_digest": "8c1713a6b372ee058a54d830ab0c1af113d251926c09b47a298c989dd395858f"
+    },
+    "sor": {
+      "values_digest": "b539d31d3e6259d8e9e67c54398da1285572cffb5d70fec18f05be0fba6d9554",
+      "rendered_digest": "cd4754a32cf9db14bbea57895ae0222a244832935ed7b1c1635d64ec3b087d66",
+      "ast_digest": "631d4d6f15b977209688a51d1beb7dd0e2fad404e8a3001925ec98007d5c170c"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "csdlc-bind",
+      "reason": "validated issue readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    },
+    {
+      "sequence": 3,
+      "from": "bound",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "execution and passing validation finalized atomically"
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "The reviewed source candidate is unchanged; committed typed review and publication-request metadata advanced HEAD, so recover for one exact metadata-only publication review."
+    },
+    {
+      "sequence": 6,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 7,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    },
+    {
+      "sequence": 8,
+      "from": "published",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "PR #472 review found a closed-conductor dead end; recover review truth for the bounded planning-only repair that makes WP-01 number-free and explicitly operator-triggered."
+    },
+    {
+      "sequence": 9,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 10,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "The bounded conductor repair is reviewed; committed review metadata advanced HEAD, so recover once for exact metadata-only publication reconciliation."
+    },
+    {
+      "sequence": 11,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 12,
+      "from": "reviewed",
+      "to": "implemented",
+      "actor": "codex:/root",
+      "reason": "The reviewed conductor repair is unchanged; the committed republish request and typed reconciliation metadata advanced HEAD, requiring one final exact metadata-only readback."
+    },
+    {
+      "sequence": 13,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 14,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "fresh-session:945d4ac1-2c51-4412-a355-7341cdf6a8fa",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"40b148c3caaf15f3597025bc20f648bf6fc66b1e01064d051f166e7c2ee74418\",\"design_ref\":\".csdlc/prepared/issues/316/design.md\",\"diagram_digest\":\"2cb2365918f614dde98c9ed2d672808c3afc3974c0acf90b7a75121afb0006eb\",\"diagram_ref\":\".csdlc/prepared/issues/316/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "Recover initialized #316 decomposition after live scope expanded to complete v0.92.2 CodeFriend Beta 1 planning.",
+      "operation": "{\"design_review_recovery\":{\"disposition\":\"scope expanded to complete v0.92.2 CodeFriend Beta 1 package after initial design review\",\"false_reviewer\":\"fresh-session:945d4ac1-2c51-4412-a355-7341cdf6a8fa\",\"new_review_state\":\"pending\",\"previous_review_state\":{\"approved\":{\"reviewer\":\"fresh-session:945d4ac1-2c51-4412-a355-7341cdf6a8fa\",\"revision\":\"40b148c3caaf15f3597025bc20f648bf6fc66b1e01064d051f166e7c2ee74418\"}}},\"graph\":{\"edges\":[{\"from\":\"v0921-baseline-431\",\"relation\":\"planning_input_of\",\"to\":\"planning-316\"}],\"forbidden_cross_child_trust_redefinition\":false,\"nodes\":[{\"in_scope\":true,\"issue\":316,\"node_id\":\"planning-316\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"planning_parent\"},{\"in_scope\":true,\"issue\":431,\"node_id\":\"v0921-baseline-431\",\"repository\":\"agent-logic/agent-design-language\",\"role\":\"read_only_planning_baseline\"}],\"parent_integration_owner\":\"planning-316\"},\"operation\":\"recover_initialized_decomposition\",\"preserved_design\":{\"authored_digest\":\"40b148c3caaf15f3597025bc20f648bf6fc66b1e01064d051f166e7c2ee74418\",\"byte_sha256\":\"ce17da2a1c6a43b03a1ca245e13b4c75916e29e914ae6761bc21305fe5651ab1\",\"path\":\".csdlc/prepared/issues/316/design.md\"},\"preserved_diagram\":{\"authored_digest\":\"2cb2365918f614dde98c9ed2d672808c3afc3974c0acf90b7a75121afb0006eb\",\"byte_sha256\":\"86d71a13c410f8ae56a263ba7e20a8e0068822ff368895e1a5adc21104b198df\",\"path\":\".csdlc/prepared/issues/316/diagram.mmd\"},\"recovery_scope\":[\"complete v0.92.1 planning reconciliation\",\"complete v0.92.2 CodeFriend Beta 1 canonical planning package\",\"number-free issue waves only; no issue creation\"]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "fresh-session:5697e16a-17a6-4316-82d9-71b992238bc2",
+      "reason": "approve completed issue design",
+      "operation": "{\"design_digest\":\"40b148c3caaf15f3597025bc20f648bf6fc66b1e01064d051f166e7c2ee74418\",\"design_ref\":\".csdlc/prepared/issues/316/design.md\",\"diagram_digest\":\"2cb2365918f614dde98c9ed2d672808c3afc3974c0acf90b7a75121afb0006eb\",\"diagram_ref\":\".csdlc/prepared/issues/316/diagram.mmd\",\"operation\":\"approve_design\"}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "Own the two issue-local planning validators exactly before bind.",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"docs/milestones/v0.92.1\",\"docs/milestones/v0.92.2\",\"docs/planning/ADL_FEATURE_LIST.md\",\".csdlc/prepared/issues/316/design.md\",\".csdlc/prepared/issues/316/diagram.mmd\",\".csdlc/prepared/issues/316/validate-v0921-plan.rb\",\".csdlc/prepared/issues/316/validate-v0922-codefriend-plan.rb\",\".csdlc/evidence/316\",\".csdlc/issues/316\"]}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "atomically record execution, validation, and implemented phase",
+      "operation": "finalize_implementation"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "The first exact-head review identified a missing source-disposition denominator and stale SOR proof/lifecycle truth; recover review state for bounded remediation and one final exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 10,
+      "generation": 6,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 11,
+      "generation": 7,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "The first exact-head review identified a missing source-disposition denominator and stale SOR proof/lifecycle truth; recover review state for bounded remediation and one final exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "Remove the stale pre-bind instruction after implemented-state review recovery.",
+      "operation": "{\"new_values\":[\"Obtain one fresh exact-head review of the bounded review-finding remediation before publication.\"],\"operation\":\"correct_sor_follow_ups_after_recovery\",\"previous_values\":[\"Obtain fresh design review before typed approval and bind.\"],\"recovery_generation\":8,\"recovery_sequence\":12}"
+    },
+    {
+      "sequence": 14,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "Replace overstated proof wording with the exact planning-package and source-disposition evidence actually produced.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Completed canonical v0.92.1 reconciliation and the full v0.92.2 CodeFriend Beta 1 planning package without creating issues; every selected local TBD, CodeFriend incubation, supplied Drive, and Runtime-decoupling source candidate has one explicit non-runtime disposition.\",\"changes\":[\"Reconciled the canonical v0.92.1 package, routing, dependencies, feature index, and release tail.\",\"Authored the complete number-free v0.92.2 CodeFriend Beta 1 package and explicit deferrals.\",\"Added a 35-row source-disposition ledger and fail-closed validation for the exact TBD, CodeFriend, Drive, and Git-input denominator.\"],\"artifacts\":[\".csdlc/prepared/issues/316/design.md\",\".csdlc/prepared/issues/316/diagram.mmd\",\"docs/milestones/v0.92.1\",\"docs/milestones/v0.92.2\",\"docs/planning/ADL_FEATURE_LIST.md\",\".csdlc/prepared/issues/316/validate-v0921-plan.rb\",\".csdlc/prepared/issues/316/validate-v0922-codefriend-plan.rb\",\".csdlc/evidence/316/source-disposition-ledger.json\",\".csdlc/evidence/316/planning-audit.json\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/316/validate-v0921-plan.rb\"],\"purpose\":\"Validate the exact v0.92.1 planning IDs, creation slots, dependency graph, release tail, tracked planning surfaces, and all 35 source-candidate dispositions.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/316/planning-package.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/316/validate-v0922-codefriend-plan.rb\"],\"purpose\":\"Validate the number-free CodeFriend Beta 1 planning package, nine feature documents, canonical release tail, explicit deferrals, links, portability guards, and all 16 CodeFriend source dispositions; this proves planning completeness, not future product implementation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/316/codefriend-beta1-package.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace errors in the bounded candidate.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/316/diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 15,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 16,
+      "generation": 11,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 17,
+      "generation": 12,
+      "actor": "codex:/root",
+      "reason": "The first exact-head review identified a missing source-disposition denominator and stale SOR proof/lifecycle truth; recover review state for bounded remediation and one final exact-head review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 18,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "The implemented planning output is ready for final exact-head review before publication.",
+      "operation": "{\"operation\":\"advance_status\",\"status\":\"ready\"}"
+    },
+    {
+      "sequence": 19,
+      "generation": 13,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 20,
+      "generation": 14,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 21,
+      "generation": 15,
+      "actor": "codex:/root",
+      "reason": "The closure review found missing CodeFriend Drive snapshot rows and stale retained ledger hashes; recover review truth for the exact bounded fixes.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 22,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "Replace overstated proof wording with the exact planning-package and source-disposition evidence actually produced.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Completed canonical v0.92.1 reconciliation and the full v0.92.2 CodeFriend Beta 1 planning package without creating issues; every selected local TBD, CodeFriend incubation, historical Drive snapshot, supplied ATE Drive design, and Runtime-decoupling source candidate has one explicit non-runtime disposition.\",\"changes\":[\"Reconciled the canonical v0.92.1 package, routing, dependencies, feature index, and release tail.\",\"Authored the complete number-free v0.92.2 CodeFriend Beta 1 package and explicit deferrals.\",\"Added a 40-row source-disposition ledger and fail-closed validation for the exact TBD, CodeFriend, five CodeFriend Drive snapshots, ATE Drive, and Git-input denominator.\"],\"artifacts\":[\".csdlc/prepared/issues/316/design.md\",\".csdlc/prepared/issues/316/diagram.mmd\",\"docs/milestones/v0.92.1\",\"docs/milestones/v0.92.2\",\"docs/planning/ADL_FEATURE_LIST.md\",\".csdlc/prepared/issues/316/validate-v0921-plan.rb\",\".csdlc/prepared/issues/316/validate-v0922-codefriend-plan.rb\",\".csdlc/evidence/316/source-disposition-ledger.json\",\".csdlc/evidence/316/planning-audit.json\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/316/validate-v0921-plan.rb\"],\"purpose\":\"Validate the exact v0.92.1 planning IDs, creation slots, dependency graph, release tail, tracked planning surfaces, and all 40 source-candidate dispositions.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/316/planning-package.log\"},{\"command\":[\"ruby\",\".csdlc/prepared/issues/316/validate-v0922-codefriend-plan.rb\"],\"purpose\":\"Validate the number-free CodeFriend Beta 1 planning package, nine feature documents, canonical release tail, explicit deferrals, links, portability guards, 16 local CodeFriend inputs, and five historical Drive snapshot mappings; this proves planning completeness, not future product implementation.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/316/codefriend-beta1-package.log\"},{\"command\":[\"git\",\"diff\",\"--check\"],\"purpose\":\"Reject whitespace errors in the bounded candidate.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/316/diff-hygiene.log\"}]}"
+    },
+    {
+      "sequence": 23,
+      "generation": 16,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 24,
+      "generation": 17,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 25,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "The reviewed source candidate is unchanged; committed typed review and publication-request metadata advanced HEAD, so recover for one exact metadata-only publication review.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 26,
+      "generation": 18,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 27,
+      "generation": 19,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 28,
+      "generation": 20,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    },
+    {
+      "sequence": 29,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "PR #472 review found a closed-conductor dead end; recover review truth for the bounded planning-only repair that makes WP-01 number-free and explicitly operator-triggered.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 30,
+      "generation": 21,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 31,
+      "generation": 22,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 32,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "The bounded conductor repair is reviewed; committed review metadata advanced HEAD, so recover once for exact metadata-only publication reconciliation.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 33,
+      "generation": 23,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 34,
+      "generation": 24,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 35,
+      "generation": 25,
+      "actor": "codex:/root",
+      "reason": "The reviewed conductor repair is unchanged; the committed republish request and typed reconciliation metadata advanced HEAD, requiring one final exact metadata-only readback.",
+      "operation": "recover_review"
+    },
+    {
+      "sequence": 36,
+      "generation": 25,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 37,
+      "generation": 26,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 38,
+      "generation": 27,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
+    }
+  ]
+}
