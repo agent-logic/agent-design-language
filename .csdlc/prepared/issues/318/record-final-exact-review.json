@@ -1,0 +1,28 @@
+{
+  "issue": 318,
+  "expected_generation": 24,
+  "expected_digest": "f162c51c51cedcc18b7524e93c45560f99d32b2e72965cab284a1b67d0ca8a82",
+  "actor": "codex:root",
+  "evidence": {
+    "reviewer": "fresh-session:9ddfc42d-df8c-451f-8d23-50b9f10893ba",
+    "scope": [
+      ".csdlc/evidence/318",
+      ".csdlc/prepared/issues/318/design.md",
+      ".csdlc/prepared/issues/318/diagram.mmd",
+      ".csdlc/prepared/issues/318/validate-readiness-review.rb",
+      ".csdlc/prepared/issues/318/test-validate-readiness-review.rb",
+      ".csdlc/prepared/issues/316/validate-v0921-plan.rb",
+      "docs/milestones/v0.92/review/V092_NEXT_MILESTONE_REVIEW_318.md",
+      "docs/milestones/v0.92.1"
+    ],
+    "reviewed_revision": "git-blake3:e44f3740be28fc728186efa80ff835e7dc7f1083:d894d4f71adc1639a0806b3c14fe982c579e18744bd7c3b41c51ebe4a90ce89f",
+    "findings": [],
+    "residual_risks": [
+      "This is a planning and readiness result; it creates no v0.92.1 issues and proves no future implementation outcome.",
+      "Paid cloud actions, credentials, legal decisions, publication, and milestone activation remain operator-controlled.",
+      "Runtime v4 remains outside v0.92.1 and requires later explicit replanning."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  }
+}
