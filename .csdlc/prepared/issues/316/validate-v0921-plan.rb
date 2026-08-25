@@ -98,7 +98,7 @@ expected = %w[
 errors << "planned id denominator mismatch" unless ids.sort == expected.sort
 
 known_refs = ids.to_h { |id| [id, true] }
-known_refs.merge!(%w[issue-84 issue-122 issue-251 issue-345].to_h { |id| [id, true] })
+known_refs.merge!(%w[issue-51 issue-84 issue-122 issue-251 issue-256 issue-340 issue-345].to_h { |id| [id, true] })
 rows.each do |row|
   Array(row["depends_on"]).each do |dep|
     errors << "unknown dependency:#{row['id']}:#{dep}" unless known_refs[dep]
@@ -107,7 +107,7 @@ end
 
 spec_ids = spec.fetch("issue_specifications").map { |row| row.fetch("id") }
 creation_ids = rows.select { |row| row["creation_owner"] == "WP-01" }.map { |row| row.fetch("id") }
-errors << "execution specification denominator mismatch" unless spec_ids.sort == creation_ids.sort
+errors << "execution specification denominator mismatch" unless spec_ids.sort == (["WP-01"] + creation_ids).sort
 errors << "WP-01 must not create itself" if creation_ids.include?("WP-01")
 errors << "future creation wave has no children" if creation_ids.empty?
 

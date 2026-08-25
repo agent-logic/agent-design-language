@@ -13,7 +13,7 @@
     {"issue":315,"state":"CLOSED","role":"WP-27","closing_pr":473,"head":"d171dbe3fca0d74b6d2efb18fd2edf2d6cd0b107","merge":"e43efbca80cece11b543d931655febd50dfdc755"},
     {"issue":316,"state":"CLOSED","role":"WP-28","closing_pr":472,"head":"8478f11e21a34530ba07bf64afc260e7a6eedd33","merge":"5002b387b79f2d8dbf41a8c1a99e5a03bcb5c5d5"},
     {"issue":317,"state":"CLOSED","role":"WP-28A","closing_pr":474,"head":"b7d12f4cf0b8657c324d0354e8812c7a57c9806f","merge":"5b035094725d1872b48dda8692ef88f46487f37c"},
-    {"issue":318,"state":"OPEN","role":"WP-29","closing_pr":null,"next_action":"complete exact-head review and publish"},
+    {"issue":318,"state":"OPEN","role":"WP-29","closing_pr":478,"pr_state":"OPEN","base":"main","head":"769703eb145a6ce63ca4e49c04e393f05f5cc068","merge":null,"next_action":"resolve review findings and republish exact head"},
     {"issue":319,"state":"OPEN","role":"WP-30","closing_pr":null,"next_action":"wait for reviewed-green #318 merge; administrative closeout remains asynchronous"}
   ]
 }

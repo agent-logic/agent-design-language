@@ -3,6 +3,10 @@
 The milestone gate requires reviewed, merged, ancestral #432 authority and reviewed planning truth for every execution track:
 
 - Corporate and IP
+- AWS account move-in and normalization
+- GCP account move-in
+- Cross-cloud Runtime Terraform conversion
+- Rust resilience owner-boundary refactoring
 - C-SDLC v3
 - Distributed multi-agent Runtime
 - Podcast

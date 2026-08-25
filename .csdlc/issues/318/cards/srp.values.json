@@ -7,15 +7,15 @@
     "title": "[v0.92][WP-29] Next milestone review pass",
     "slug": "v092-wp29-next-milestone-review",
     "version": "v0.92.0",
-    "generation": 28
+    "generation": 30
   },
   "status": "draft",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": ".csdlc/evidence/318\n.csdlc/prepared/issues/318/design.md\n.csdlc/prepared/issues/318/diagram.mmd\n.csdlc/prepared/issues/318/validate-readiness-review.rb\n.csdlc/prepared/issues/318/test-validate-readiness-review.rb\n.csdlc/prepared/issues/316/validate-v0921-plan.rb\ndocs/milestones/v0.92/review/V092_NEXT_MILESTONE_REVIEW_318.md\ndocs/milestones/v0.92.1",
-      "review_revision": "git-blake3:4a64127eeb781620edd1030d157aaafc5ebc7dfc:719da6156ad6e45b0e5d61d94916cd14750bf03c883c43b775b7e20ed6e6b5a4",
-      "reviewer": "fresh-session:f3ecc8b9-df4b-47b3-962f-b6b917e35ba4",
+      "review_scope": "",
+      "review_revision": null,
+      "reviewer": null,
       "review_prompts": [
         "Was the denominator independently derived rather than copied from #317?",
         "Are every raw response and derived claim bound by recomputed digests and exact ancestry?",
@@ -24,12 +24,8 @@
         "Do all v0.92.1 planning surfaces use the exact ten canonical tail titles in exact serial order?"
       ],
       "findings": [],
-      "residual_risk": [
-        "This is a planning and readiness result; it creates no v0.92.1 issues and proves no future implementation outcome.",
-        "Paid cloud actions, credentials, legal decisions, publication, and milestone activation remain operator-controlled.",
-        "Runtime v4 remains outside v0.92.1 and requires later explicit replanning."
-      ],
-      "review_result": "pass"
+      "residual_risk": [],
+      "review_result": "pre_review"
     }
   }
 }

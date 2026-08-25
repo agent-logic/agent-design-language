@@ -12,7 +12,7 @@ Status: pre_phase
 
 ## Summary
 
-Completed the WP-29 next-milestone readiness review, live-checked the canonical #307-#319 issue universe, and reconciled the canonical v0.92.1 planning package so all 45 creation-owned issues are independently finishable single units with exact release-tail identity and merge-only ordering.
+Completed the WP-29 next-milestone readiness review and remediated all six PR #478 review findings without creating milestone issues or merging the PR.
 
 ## Artifacts
 
@@ -27,10 +27,10 @@ Completed the WP-29 next-milestone readiness review, live-checked the canonical 
 
 ## Execution
 
-- Normalized exact INT-01 and TAIL-01 through TAIL-10 titles and serial dependencies.
-- Defined structured one-objective, one-primary-deliverable, one-verifiable-result contracts for all 45 creation-owned issues.
-- Added bounded AWS and GCP move-in units, cross-cloud Terraform conversion, Rust resilience refactoring, and governed Agent Toolkit setup under AWS-B.
-- Added live GitHub and Git reconciliation, source-provenance guards, ten exact negative cases, and an evidence-backed finding disposition.
+- Added the executable WP-01 45-child creation contract with duplicate denial, partial-failure recovery, rollback, and exact live readback.
+- Replaced INT-01 aggregate dependencies with exact terminal issue slots and made non-issue dependency targets fail closed.
+- Added truthful OPEN and MERGED closing-PR validation and live-validated open PR #478.
+- Completed the quality-gate lane denominator, itemized six deferred Rust recommendations, and bound #340/#256 Observatory ancestry.
 
 ## Validation
 
@@ -40,7 +40,7 @@ Completed the WP-29 next-milestone readiness review, live-checked the canonical 
       "ruby",
       ".csdlc/prepared/issues/316/validate-v0921-plan.rb"
     ],
-    "purpose": "Validate 55 planned IDs, 45 creation slots, the exact ten-step release tail, source dispositions, and dependency closure.",
+    "purpose": "Validate 55 planned IDs, 45 child creation slots, WP-01 specification presence, the exact release tail, source dispositions, and dependency closure.",
     "outcome": "passed",
     "evidence_ref": "docs/milestones/v0.92.1"
   },
@@ -50,7 +50,7 @@ Completed the WP-29 next-milestone readiness review, live-checked the canonical 
       ".csdlc/prepared/issues/318/validate-readiness-review.rb",
       "all"
     ],
-    "purpose": "Live-check the 13-row issue/PR universe and validate all 45 structured unit contracts, exact tail order and dependencies, source provenance, and successor non-claims.",
+    "purpose": "Live-check the 13-row issue and PR universe including open PR #478 and validate WP-01 plus all 45 child contracts, terminal dependencies, source dispositions, and Observatory ancestry.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/318"
   },
@@ -59,7 +59,7 @@ Completed the WP-29 next-milestone readiness review, live-checked the canonical 
       "ruby",
       ".csdlc/prepared/issues/318/test-validate-readiness-review.rb"
     ],
-    "purpose": "Prove fail-closed rejection of ten exact planning and unit-contract defects.",
+    "purpose": "Prove fail-closed rejection of sixteen exact planning, conductor, dependency, PR-state, source, and prerequisite defects.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/evidence/318"
   }
@@ -67,11 +67,11 @@ Completed the WP-29 next-milestone readiness review, live-checked the canonical 
 
 ## Integration
 
-pr_open
+worktree_only
 
 ## Publication
 
-Publication: ready
+Publication: not_published
 
 Merge: not_merged
 

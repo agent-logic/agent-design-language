@@ -24,7 +24,15 @@
       "source_sha256": "c74ee23dd06520c8ffc917207ae760245b65ba65daa0223003eabf08e589d0cc",
       "promoted_contract": "docs/milestones/v0.92.1/features/RUST_RESILIENCE_REFACTORING_v0.92.1.md",
       "planned_ids": ["RUST-01"],
-      "disposition": "promoted_as_one_current_behavior_preserving_resilience_slice"
+      "disposition": "promoted_as_one_current_behavior_preserving_resilience_slice",
+      "excluded_recommendations": [
+        {"recommendation":"tracing_consolidation","disposition":"deferred","target":"v0.93_planning_intake","reason":"cross_cutting_observability_requires_independent_denominator"},
+        {"recommendation":"enum_derive_normalization","disposition":"deferred","target":"v0.93_planning_intake","reason":"independent_api_and_serialization_review_required"},
+        {"recommendation":"http_middleware_consolidation","disposition":"deferred","target":"v0.93_planning_intake","reason":"transport_retry_timeout_and_compatibility_are_separate_behavior"},
+        {"recommendation":"secret_hygiene_hardening","disposition":"deferred","target":"v0.93_planning_intake","reason":"security_sensitive_scope_requires_threat_and_redaction_proof"},
+        {"recommendation":"canonical_json_signing","disposition":"deferred","target":"v0.93_planning_intake","reason":"authority_and_compatibility_change_is_outside_resilience_refactor"},
+        {"recommendation":"streaming_substrate_consolidation","disposition":"deferred","target":"v0.93_planning_intake","reason":"runtime_and_transport_migration_requires_independent_contract"}
+      ]
     },
     {
       "source_id": "TBD-WP21-REDUCTION",

@@ -9,6 +9,21 @@ repository_prerequisite:
   guarantee: no_tracked_local_untracked_path_dependencies
 required_spec_fields: [objective, primary_deliverable, verification_result, unit_boundary, acceptance_criteria, owned_paths, pvf_lanes, stop_conditions, non_goals]
 issue_specifications:
+  - id: WP-01
+    objective: Produce one verified v0.92.1 execution-wave creation receipt for the exact 45-child denominator.
+    primary_deliverable: One immutable creation receipt mapping every planned child ID to exactly one canonical GitHub issue and dependency set.
+    verification_result: A live GitHub readback proves exactly 45 unique children, exact titles and dependencies, no duplicate creation, and no missing or extra issue.
+    unit_boundary: Issue completion is exactly acceptance of one execution-wave creation receipt; individual child issues are created outputs and do not close WP-01 independently.
+    creation_denominator: [CORP-A, CORP-B, AWS-A, AWS-B, AWS-C, AWS-D, AWS-E, AWS-F, GCP-A, GCP-B, GCP-C, GCP-D, GCP-E, XCL-01, AWS-G, CORP-C, CORP-D, RUST-01, V3-A, V3-B, V3-C, V3-D, V3-E, V3-F, DRT-A, DRT-B, DRT-C, DRT-D, HOT-01, OBS-A, OBS-B, DEC-01, PROV-A, PROV-B, INT-01, TAIL-01, TAIL-02, TAIL-03, TAIL-04, TAIL-05, TAIL-06, TAIL-07, TAIL-08, TAIL-09, TAIL-10]
+    duplicate_creation_protection: Reject an existing planned ID, operation key, or conflicting title before any create call; resume only from verified live readback.
+    partial_failure_recovery: Reconcile the exact live child map after every create; resume from the first absent child without recreating or renumbering prior children.
+    rollback_behavior: Stop creation on any mismatch; retain the partial receipt and require operator disposition because created GitHub issue numbers are not deleted or reused.
+    validation_plan: Validate the exact ordered denominator, title and dependency parity, milestone and label routing, duplicate denial, partial-failure replay, and final 45-of-45 live readback.
+    acceptance_criteria: [Exactly 45 unique child issues are created from the reviewed package, Every child title and dependency matches canonical planning, Existing or conflicting children fail closed before mutation, Partial failure resumes without duplicate creation or renumbering, Final readback binds every planned ID to one issue number]
+    owned_paths: [docs/milestones/v0.92.1/evidence/wp-01/**]
+    pvf_lanes: [creation-denominator, duplicate-denial, dependency-readback, partial-failure-recovery, final-live-readback]
+    stop_conditions: [The reviewed planning digest changed, A planned ID already maps ambiguously, A create result cannot be read back exactly, Partial creation lacks an operator-reviewed recovery disposition]
+    non_goals: [Implementing child work, Deleting or recycling created issue numbers, Activating v0.93]
   - id: CORP-A
     objective: Produce one accepted critical-asset schedule for the complete asset denominator.
     primary_deliverable: One accepted critical-asset schedule with provenance, ownership, licensing, trademark, and assignment dispositions.
@@ -467,6 +482,7 @@ successor:
   objective: CodeFriend Beta 1
   deadline: integrated beta available by v0.95
 unit_contracts:
+  WP-01: {primary_result: verified_v0_92_1_execution_wave_creation_receipt, supporting_work_closeable: false}
   CORP-A: {primary_result: accepted_critical_asset_schedule, supporting_work_closeable: false}
   CORP-B: {primary_result: accepted_corporate_custody_register, supporting_work_closeable: false}
   CORP-C: {primary_result: accepted_operational_control_transfer, supporting_work_closeable: false}

@@ -12,14 +12,7 @@ Status: draft
 
 ## Scope
 
-.csdlc/evidence/318
-.csdlc/prepared/issues/318/design.md
-.csdlc/prepared/issues/318/diagram.mmd
-.csdlc/prepared/issues/318/validate-readiness-review.rb
-.csdlc/prepared/issues/318/test-validate-readiness-review.rb
-.csdlc/prepared/issues/316/validate-v0921-plan.rb
-docs/milestones/v0.92/review/V092_NEXT_MILESTONE_REVIEW_318.md
-docs/milestones/v0.92.1
+
 
 ## Prompts
 
@@ -39,14 +32,12 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- This is a planning and readiness result; it creates no v0.92.1 issues and proves no future implementation outcome.
-- Paid cloud actions, credentials, legal decisions, publication, and milestone activation remain operator-controlled.
-- Runtime v4 remains outside v0.92.1 and requires later explicit replanning.
+- none
 
 ## Review Result
 
-Revision: Some("git-blake3:4a64127eeb781620edd1030d157aaafc5ebc7dfc:719da6156ad6e45b0e5d61d94916cd14750bf03c883c43b775b7e20ed6e6b5a4")
+Revision: None
 
-Reviewer: Some("fresh-session:f3ecc8b9-df4b-47b3-962f-b6b917e35ba4")
+Reviewer: None
 
-Result: pass
+Result: pre_review

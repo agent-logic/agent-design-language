@@ -19,6 +19,7 @@ work_packages:
     legacy_issue: 431
     legacy_issue_disposition: closed_planning_provenance_only
     depends_on: [REP-01]
+    execution_contract: WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml#WP-01
   - id: CORP-01
     lane: corporate
     title: Corporate and IP transfer program
@@ -251,7 +252,10 @@ work_packages:
       - issue: 122
         depends_on: []
       - issue: 84
-        depends_on: [251, 122]
+        depends_on: [251, 122, 340, 256]
+        evidence_inputs:
+          - {issue: 340, closing_pr: 430, head: c58cf760228911fa35b11b28f47688a98eb76532, merge: aa36a828793366f92d0d9e16247bd3fb1cce7878}
+          - {issue: 256, closing_pr: 427, head: 6791c38c6e2817387629dbb0e899ae6c61f8b887, merge: fb4c853bdb9cb140059d2a28af02d70bd36a27a4}
     packages:
       - id: OBS-A
         issue: null
@@ -263,12 +267,13 @@ work_packages:
         creation_owner: WP-01
         title: Observatory redesign implementation
         depends_on: [OBS-A, issue-84]
+        evidence_inputs: [issue-340, issue-256]
   - id: INT-01
     lane: integration
     title: Release-tail admission
     issue: null
     creation_owner: WP-01
-    depends_on: [CORP-01, AWS-01, GCP-01, XCL-01, RUST-01, V3-01, DRT-01, DRT-D, POD-01, HOT-01, OBS-01, DEC-01, PROV-01]
+    depends_on: [CORP-D, AWS-G, GCP-E, XCL-01, RUST-01, V3-F, DRT-C, DRT-D, issue-51, HOT-01, OBS-B, DEC-01, PROV-B]
   - id: TAIL-01
     lane: release_tail
     issue: null

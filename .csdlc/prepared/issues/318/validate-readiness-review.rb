@@ -31,6 +31,7 @@ CREATION_IDS = %w[
   DRT-A DRT-B DRT-C DEC-01 PROV-A PROV-B DRT-D HOT-01 OBS-A OBS-B
   INT-01 TAIL-01 TAIL-02 TAIL-03 TAIL-04 TAIL-05 TAIL-06 TAIL-07 TAIL-08 TAIL-09 TAIL-10
 ].freeze
+SPEC_IDS = ["WP-01", *CREATION_IDS].freeze
 CATALOG_IDS = %w[
   CORP-A CORP-B
   AWS-A AWS-B AWS-C AWS-D AWS-E AWS-F
@@ -126,10 +127,17 @@ def check_planning_contract
   unit_contracts = specs.fetch("unit_contracts")
   creation_ids = nodes.select { |row| row["creation_owner"] == "WP-01" }.map { |row| row.fetch("id") }
   errors << "creation-owned denominator mismatch" unless creation_ids == CREATION_IDS && creation_ids.uniq.length == CREATION_IDS.length
-  errors << "unit-contract denominator mismatch" unless unit_contracts.keys == CREATION_IDS
+  spec_row_ids = spec_rows.map { |row| row["id"] }
+  errors << "execution-specification denominator mismatch" unless spec_row_ids.sort == SPEC_IDS.sort && spec_row_ids.uniq.length == SPEC_IDS.length
+  errors << "unit-contract denominator mismatch" unless unit_contracts.keys == SPEC_IDS
   errors << "future issue creation already recorded" unless nodes.select { |row| row["creation_owner"] == "WP-01" }.all? { |row| row["issue"].nil? }
   errors << "milestone opening authority is already concrete" unless wave["conductor_issue"].nil? && wave["conductor_id"] == "WP-01"
-  creation_ids.each do |id|
+  conductor = spec_by_id["WP-01"] || {}
+  errors << "WP-01 creation denominator mismatch" unless conductor["creation_denominator"] == CATALOG_IDS
+  %w[duplicate_creation_protection partial_failure_recovery rollback_behavior validation_plan].each do |field|
+    errors << "WP-01 missing #{field}" if conductor[field].to_s.strip.empty?
+  end
+  SPEC_IDS.each do |id|
     row = spec_by_id[id]
     unless row
       errors << "#{id} missing execution specification"
@@ -150,7 +158,39 @@ def check_planning_contract
     errors << "#{id} incorrectly gates execution on administrative closeout" if dependency_text.match?(/(depend|require|before|gate).*(finish|cleanup|terminal)|(finish|cleanup|terminal).*(depend|require|before|gate)/)
   end
   primary_results = unit_contracts.values.map { |contract| contract["primary_result"] if contract.is_a?(Hash) }.compact
-  errors << "unit contracts reuse a primary result" unless primary_results.uniq.length == CREATION_IDS.length
+  errors << "unit contracts reuse a primary result" unless primary_results.uniq.length == SPEC_IDS.length
+
+  nodes.select { |row| row["creation_owner"] == "WP-01" }.each do |row|
+    Array(row["depends_on"]).each do |dependency|
+      next if dependency.to_s.match?(/\Aissue-\d+\z/)
+      target = by_id[dependency]
+      errors << "#{row['id']} dependency target missing: #{dependency}" unless target
+      errors << "#{row['id']} depends on non-issue aggregate #{dependency}" if target && target["issue_slot"] == false
+    end
+  end
+  expected_admission = %w[CORP-D AWS-G GCP-E XCL-01 RUST-01 V3-F DRT-C DRT-D issue-51 HOT-01 OBS-B DEC-01 PROV-B]
+  errors << "INT-01 terminal dependency denominator mismatch" unless by_id.fetch("INT-01", {})["depends_on"] == expected_admission
+
+  quality_text = File.read(File.join(MILESTONE, "QUALITY_GATE_v0.92.1.md"))
+  %w[AWS\ account\ move-in GCP\ account\ move-in Cross-cloud\ Runtime\ Terraform Rust\ resilience\ owner-boundary].each do |lane|
+    errors << "quality gate missing development lane #{lane.tr('\\', '')}" unless quality_text.include?(lane.tr('\\', ''))
+  end
+
+  rust_source = JSON.parse(File.read(File.join(EVIDENCE, "planning-source-addendum.json")))["sources"].find { |row| row["source_id"] == "TBD-RUST-SIMPLIFICATION" }
+  expected_recommendations = %w[tracing_consolidation enum_derive_normalization http_middleware_consolidation secret_hygiene_hardening canonical_json_signing streaming_substrate_consolidation]
+  recommendations = Array(rust_source && rust_source["excluded_recommendations"])
+  errors << "Rust source recommendation denominator mismatch" unless recommendations.map { |row| row["recommendation"] } == expected_recommendations
+  recommendations.each do |row|
+    errors << "Rust recommendation lacks explicit deferral: #{row['recommendation']}" unless row["disposition"] == "deferred" && row["target"] == "v0.93_planning_intake" && !row["reason"].to_s.empty?
+  end
+
+  issue_84 = Array(by_id.dig("OBS-01", "existing_issue_order")).find { |row| row["issue"] == 84 }
+  errors << "#84 prerequisite denominator mismatch" unless issue_84 && issue_84["depends_on"] == [251, 122, 340, 256]
+  expected_observatory_inputs = [
+    {"issue" => 340, "closing_pr" => 430, "head" => "c58cf760228911fa35b11b28f47688a98eb76532", "merge" => "aa36a828793366f92d0d9e16247bd3fb1cce7878"},
+    {"issue" => 256, "closing_pr" => 427, "head" => "6791c38c6e2817387629dbb0e899ae6c61f8b887", "merge" => "fb4c853bdb9cb140059d2a28af02d70bd36a27a4"}
+  ]
+  errors << "#84 exact ancestral evidence mismatch" unless issue_84 && issue_84["evidence_inputs"] == expected_observatory_inputs
 
   [errors, creation_ids]
 end
@@ -175,7 +215,11 @@ def check_review_packet
     next unless row["closing_pr"]
 
     errors << "issue #{issue} invalid head" unless row["head"].to_s.match?(/\A[0-9a-f]{40}\z/)
-    errors << "issue #{issue} invalid merge" unless row["merge"].to_s.match?(/\A[0-9a-f]{40}\z/)
+    pr_state = row.fetch("pr_state", "MERGED")
+    errors << "issue #{issue} invalid PR state" unless %w[OPEN MERGED].include?(pr_state)
+    errors << "issue #{issue} open PR missing base" if pr_state == "OPEN" && row["base"].to_s.empty?
+    errors << "issue #{issue} open PR unexpectedly has merge" if pr_state == "OPEN" && row["merge"]
+    errors << "issue #{issue} invalid merge" if pr_state == "MERGED" && !row["merge"].to_s.match?(/\A[0-9a-f]{40}\z/)
     if row["merge"].to_s.match?(/\A[0-9a-f]{40}\z/)
       system("git", "-C", ROOT, "cat-file", "-e", "#{row['merge']}^{commit}", out: File::NULL, err: File::NULL) || errors << "issue #{issue} merge commit unavailable"
       system("git", "-C", ROOT, "merge-base", "--is-ancestor", row["merge"], "HEAD", out: File::NULL, err: File::NULL) || errors << "issue #{issue} merge is not ancestral"
@@ -197,13 +241,15 @@ def check_review_packet
       errors << "issue #{issue} live closing PR mismatch" unless expected_pr ? closing.include?(expected_pr) : closing.empty?
       next unless expected_pr
 
-      pr_out, pr_err, pr_status = Open3.capture3("gh", "pr", "view", expected_pr.to_s, "--repo", universe.fetch("repository"), "--json", "state,headRefOid,mergeCommit")
+      pr_out, pr_err, pr_status = Open3.capture3("gh", "pr", "view", expected_pr.to_s, "--repo", universe.fetch("repository"), "--json", "state,baseRefName,headRefOid,mergeCommit")
       unless pr_status.success?
         errors << "issue #{issue} live PR observation failed: #{pr_err.strip}"
         next
       end
       pr = JSON.parse(pr_out)
-      errors << "issue #{issue} closing PR is not merged" unless pr["state"] == "MERGED"
+      expected_pr_state = row.fetch("pr_state", "MERGED")
+      errors << "issue #{issue} live PR state mismatch" unless pr["state"] == expected_pr_state
+      errors << "issue #{issue} live base mismatch" if expected_pr_state == "OPEN" && pr["baseRefName"] != row["base"]
       errors << "issue #{issue} live head mismatch" unless pr["headRefOid"] == row["head"]
       errors << "issue #{issue} live merge mismatch" unless pr.dig("mergeCommit", "oid") == row["merge"]
     end

@@ -81,8 +81,37 @@ begin
     json.fetch("sources").delete_at(0)
     File.write(path, JSON.pretty_generate(json) + "\n")
   end
+  run_case("wp01-creation-denominator", "WP-01 creation denominator mismatch") do |milestone, _evidence|
+    path = File.join(milestone, "WP_EXECUTION_SPECIFICATIONS_v0.92.1.yaml")
+    File.write(path, File.read(path).sub("creation_denominator: [CORP-A, CORP-B,", "creation_denominator: [CORP-A,"))
+  end
+  run_case("aggregate-dependency", "INT-01 depends on non-issue aggregate CORP-01") do |milestone, _evidence|
+    path = File.join(milestone, "WP_ISSUE_WAVE_v0.92.1.yaml")
+    File.write(path, File.read(path).sub("depends_on: [CORP-D, AWS-G, GCP-E,", "depends_on: [CORP-01, AWS-G, GCP-E,"))
+  end
+  run_case("open-pr-state", "issue 318 invalid merge") do |_milestone, evidence|
+    path = File.join(evidence, "issue-universe.json")
+    json = JSON.parse(File.read(path))
+    json.fetch("issues").find { |row| row["issue"] == 318 }["pr_state"] = "MERGED"
+    File.write(path, JSON.pretty_generate(json) + "\n")
+  end
+  run_case("quality-lane-denominator", "quality gate missing development lane Cross-cloud Runtime Terraform") do |milestone, _evidence|
+    path = File.join(milestone, "QUALITY_GATE_v0.92.1.md")
+    File.write(path, File.read(path).sub("- Cross-cloud Runtime Terraform conversion\n", ""))
+  end
+  run_case("rust-recommendation-denominator", "Rust source recommendation denominator mismatch") do |_milestone, evidence|
+    path = File.join(evidence, "planning-source-addendum.json")
+    json = JSON.parse(File.read(path))
+    rust = json.fetch("sources").find { |row| row["source_id"] == "TBD-RUST-SIMPLIFICATION" }
+    rust.fetch("excluded_recommendations").pop
+    File.write(path, JSON.pretty_generate(json) + "\n")
+  end
+  run_case("observatory-prerequisite-denominator", "#84 prerequisite denominator mismatch") do |milestone, _evidence|
+    path = File.join(milestone, "WP_ISSUE_WAVE_v0.92.1.yaml")
+    File.write(path, File.read(path).sub("depends_on: [251, 122, 340, 256]", "depends_on: [251, 122]"))
+  end
 ensure
   FileUtils.rm_rf(WORK)
 end
 
-puts JSON.generate(schema: "adl.v092.wp29.readiness-review-negatives.v1", status: "pass", cases: 10)
+puts JSON.generate(schema: "adl.v092.wp29.readiness-review-negatives.v1", status: "pass", cases: 16)
