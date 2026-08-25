@@ -13,11 +13,16 @@ UNIVERSE_PATH = File.join(EVIDENCE, "issue-universe.json")
 DAG_PATH = File.join(EVIDENCE, "closeout-dag.json")
 NEGATIVE_PATH = File.join(EVIDENCE, "negative-cases.json")
 OBSERVATION_PATH = File.join(EVIDENCE, "github-observation-envelope.json")
+RAW_DIR = File.join(EVIDENCE, "github-raw")
 REPOSITORY = "agent-logic/agent-design-language"
 EXPECTED_MAPPING = {
-  5847 => [314, "WP-26"], 5848 => [315, "WP-27"],
-  5849 => [316, "WP-28"], 5850 => [317, "WP-28A"],
-  5851 => [318, "WP-29"], 5852 => [319, "WP-30"]
+  5856 => [307, "SPRINT-6"], 5840 => [308, "WP-20"],
+  5786 => [309, "WP-21"], 5841 => [310, "WP-21A"],
+  5842 => [311, "WP-22"], 5843 => [312, "WP-23"],
+  5846 => [313, "WP-25"], 5847 => [314, "WP-26"],
+  5848 => [315, "WP-27"], 5849 => [316, "WP-28"],
+  5850 => [317, "WP-28A"], 5851 => [318, "WP-29"],
+  5852 => [319, "WP-30"]
 }.freeze
 SUCCESS = %w[SUCCESS NEUTRAL SKIPPED].freeze
 
@@ -50,28 +55,37 @@ def capture_json(*argv)
   stdout, stderr, status = Open3.capture3(*argv, chdir: ROOT)
   raise Invalid.new("observation_failed", "#{argv.join(' ')}:#{stderr.strip}") unless status.success?
 
-  [JSON.parse(stdout), sha(stdout)]
+  [JSON.parse(stdout), stdout]
 end
 
 def observe!
+  Dir.mkdir(RAW_DIR) unless Dir.exist?(RAW_DIR)
   observations = EXPECTED_MAPPING.map do |legacy, (canonical, wp)|
-    issue, issue_digest = capture_json(
+    issue, issue_raw = capture_json(
       "gh", "issue", "view", canonical.to_s, "--repo", REPOSITORY,
-      "--json", "number,state,title,url,closedAt,closedByPullRequestsReferences,labels"
+      "--json", "number,state,title,url,body,closedAt,closedByPullRequestsReferences,labels"
     )
+    issue_path = File.join(RAW_DIR, "issue-#{canonical}.json")
+    File.write(issue_path, issue_raw)
     prs = Array(issue["closedByPullRequestsReferences"]).map do |ref|
-      pr, pr_digest = capture_json(
+      pr, pr_raw = capture_json(
         "gh", "pr", "view", ref.fetch("number").to_s, "--repo", REPOSITORY,
         "--json", "number,state,url,baseRefName,headRefOid,mergeCommit,mergedAt,statusCheckRollup,reviews"
       )
-      { "response_sha256" => pr_digest, "payload" => pr }
+      pr_path = File.join(RAW_DIR, "pr-#{pr.fetch('number')}.json")
+      File.write(pr_path, pr_raw)
+      {
+        "path" => pr_path.delete_prefix("#{ROOT}/"),
+        "response_sha256" => sha(pr_raw),
+        "pr" => pr.fetch("number")
+      }
     end
     {
       "wp" => wp,
       "legacy_issue" => legacy,
       "canonical_issue" => canonical,
-      "issue_response_sha256" => issue_digest,
-      "issue" => issue,
+      "issue_path" => issue_path.delete_prefix("#{ROOT}/"),
+      "issue_response_sha256" => sha(issue_raw),
       "closing_pull_requests" => prs
     }
   end
@@ -103,6 +117,20 @@ def validate_mapping!(rows)
   end
 end
 
+def validate_planning_authority!(rows)
+  wave = File.read(File.join(ROOT, "docs/milestones/v0.92/WP_ISSUE_WAVE_v0.92.yaml"))
+  sprint = File.read(File.join(ROOT, ".csdlc/prepared/issues/5856/sprint-execution-packet.yaml"))
+  rows.each do |row|
+    legacy = row.fetch("legacy_issue")
+    wp = row.fetch("wp")
+    unless wave.match?(/(?:issue|legacy_issue):\s*#{legacy}\b/) &&
+           (wp == "SPRINT-6" || wave.include?("wp: #{wp}"))
+      raise Invalid.new("planning_authority_gap", "#{legacy}:#{wp}")
+    end
+    raise Invalid.new("sprint_authority_gap", legacy) unless sprint.match?(/\b#{legacy}\b/)
+  end
+end
+
 def validate_observation!(universe, envelope)
   raise Invalid.new("self_attested_evidence") unless envelope["schema"] == "adl.v092.github-observation-envelope.v1"
   raise Invalid.new("observation_repository_mismatch") unless envelope["repository"] == REPOSITORY
@@ -114,30 +142,43 @@ def validate_observation!(universe, envelope)
   universe.fetch("issues").each do |row|
     observed = observations.find { |item| item["canonical_issue"] == row["canonical_issue"] }
     raise Invalid.new("observation_mapping_gap", row["canonical_issue"]) unless observed
-    issue = observed.fetch("issue")
+    issue_path = File.join(ROOT, observed.fetch("issue_path"))
+    issue_raw = File.binread(issue_path)
+    raise Invalid.new("source_digest_mismatch", row["canonical_issue"]) unless sha(issue_raw) == observed.fetch("issue_response_sha256")
+    issue = JSON.parse(issue_raw)
     raise Invalid.new("stale_issue_state", row["canonical_issue"]) unless issue["state"] == row["github_state"]
     raise Invalid.new("issue_identity_mismatch", row["canonical_issue"]) unless issue["number"] == row["canonical_issue"]
-    raise Invalid.new("invalid_source_digest") unless observed.fetch("issue_response_sha256").match?(/\A[0-9a-f]{64}\z/)
+    legacy_url = "danielbaustin/agent-design-language/issues/#{row['legacy_issue']}"
+    sprint_identity = row["wp"] == "SPRINT-6" && issue.fetch("title").include?("Quality and release tail")
+    wp_identity = issue.fetch("title").include?("[#{row['wp']}]")
+    unless issue.fetch("body").include?(legacy_url) || sprint_identity || wp_identity
+      raise Invalid.new("canonical_legacy_provenance_gap", row["canonical_issue"])
+    end
     merge = row["merge"]
     next unless merge
 
     observed_pr = observed.fetch("closing_pull_requests").find do |entry|
-      entry.dig("payload", "number") == merge["pr"]
+      entry["pr"] == merge["pr"]
     end
     raise Invalid.new("unbound_merge_identity", row["canonical_issue"]) unless observed_pr
-    pr = observed_pr.fetch("payload")
-    unless pr["baseRefName"] == merge["base"] && pr["headRefOid"] == merge["head"] &&
+    pr_raw = File.binread(File.join(ROOT, observed_pr.fetch("path")))
+    raise Invalid.new("source_digest_mismatch", "pr-#{merge['pr']}") unless sha(pr_raw) == observed_pr.fetch("response_sha256")
+    pr = JSON.parse(pr_raw)
+    unless pr["baseRefName"] == merge["base"] && pr["headRefOid"] == merge["publication_head"] &&
            pr.dig("mergeCommit", "oid") == merge["merge_commit"] && pr["state"] == "MERGED"
       raise Invalid.new("unbound_merge_identity", row["canonical_issue"])
     end
     conclusions = pr.fetch("statusCheckRollup").map { |check| check["conclusion"] }.compact
     raise Invalid.new("red_checks", row["canonical_issue"]) if conclusions.empty? || (conclusions - SUCCESS).any?
-    review_path = File.join(ROOT, merge.fetch("review_evidence"))
-    raise Invalid.new("absent_review", row["canonical_issue"]) unless File.file?(review_path)
-    review_values = read_json(review_path.sub(/\.md\z/, ".values.json"))
-    review = review_values.dig("content", "values") || {}
-    unless review["review_result"] == "pass" && !review["review_revision"].to_s.empty? && !review["reviewer"].to_s.empty?
-      raise Invalid.new("absent_review", row["canonical_issue"])
+    if merge["review_status"] == "independent_reviewed_revision_ancestor"
+      review_path = File.join(ROOT, merge.fetch("review_evidence"))
+      raise Invalid.new("absent_review", row["canonical_issue"]) unless File.file?(review_path)
+      review_values = read_json(review_path.sub(/\.md\z/, ".values.json"))
+      review = review_values.dig("content", "values") || {}
+      reviewed = merge.fetch("reviewed_revision")
+      unless review["review_result"] == "pass" && review["review_revision"].to_s.include?(reviewed) && !review["reviewer"].to_s.empty?
+        raise Invalid.new("absent_review", row["canonical_issue"])
+      end
     end
   end
 rescue KeyError, ArgumentError => e
@@ -154,19 +195,43 @@ def validate_universe!(universe, envelope)
   raise Invalid.new("self_attested_evidence") unless universe["authority"] == "canonical tracked planning plus retained read-only observation"
   rows = universe.fetch("issues")
   validate_mapping!(rows)
+  validate_planning_authority!(rows)
+  ledger = universe.fetch("mutation_ledger")
+  raise Invalid.new("duplicate_mutation") unless ledger.uniq.length == ledger.length
   allowed = %w[review_complete remediation_in_progress reviewed_green_merged active_planning queued ceremony_queued]
   rows.each do |row|
     raise Invalid.new("unknown_classification", row["canonical_issue"]) unless allowed.include?(row["classification"])
     raise Invalid.new("unowned_action", row["canonical_issue"]) if row["owner"].to_s.empty? || row["next_action"].to_s.empty?
+    lifecycle = row.fetch("lifecycle")
+    receipt = lifecycle.fetch("terminal_receipt")
+    topology = lifecycle.fetch("topology")
+    if row["classification"] == "reviewed_green_merged" && receipt["state"] == "missing_async"
+      raise Invalid.new("missing_receipt") unless lifecycle["cleanup"] == "async_pending"
+    end
+    if lifecycle["cleanup"] == "complete"
+      raise Invalid.new("active_worktree", row["canonical_issue"]) unless topology["worktree"] == "cleaned"
+      raise Invalid.new("dirty_worktree", row["canonical_issue"]) unless topology["cleanliness"] == "not_applicable"
+    end
+    if %w[derived_terminal recordless_closeout].include?(receipt["state"])
+      common = File.expand_path(`git rev-parse --git-common-dir`.strip, ROOT)
+      receipt_path = File.join(common, receipt.fetch("path").sub(%r{\A\.git/}, ""))
+      raise Invalid.new("missing_receipt", row["canonical_issue"]) unless File.file?(receipt_path)
+    end
     merge = row["merge"]
     next unless merge
 
-    %w[pr base head merge_commit review_status checks_status ancestry].each do |field|
+    %w[pr base publication_head merge_commit review_status checks_status ancestry].each do |field|
       raise Invalid.new("partial_merge_identity", "#{row['canonical_issue']}:#{field}") if merge[field].nil?
     end
-    raise Invalid.new("stale_head", row["canonical_issue"]) unless merge["head"].match?(/\A[0-9a-f]{40}\z/)
+    raise Invalid.new("stale_head", row["canonical_issue"]) unless merge["publication_head"].match?(/\A[0-9a-f]{40}\z/)
     raise Invalid.new("red_checks", row["canonical_issue"]) unless merge["checks_status"] == "green"
-    raise Invalid.new("absent_review", row["canonical_issue"]) unless merge["review_status"] == "independent_exact_head_pass"
+    if merge["review_status"] == "independent_reviewed_revision_ancestor"
+      reviewed = merge.fetch("reviewed_revision")
+      raise Invalid.new("absent_review", row["canonical_issue"]) unless reviewed.match?(/\A[0-9a-f]{40}\z/)
+      raise Invalid.new("review_not_ancestor", row["canonical_issue"]) unless git_ancestor?(reviewed, merge["publication_head"])
+    elsif merge["review_status"] != "recordless_closeout_no_tracked_review"
+      raise Invalid.new("absent_review", row["canonical_issue"])
+    end
     raise Invalid.new("non_ancestral_merge", row["canonical_issue"]) unless merge["ancestry"] == "ancestral_to_main" && git_ancestor?(merge["merge_commit"], "main")
   end
   validate_observation!(universe, envelope)
@@ -220,10 +285,17 @@ def mutate(universe, dag, mutation)
   when "mapping-gap" then u["issues"].delete_at(0)
   when "ambiguous-mapping" then u["issues"].first["canonical_issue"] = 315
   when "self-attestation" then u["authority"] = "author declaration"
-  when "stale-head" then u["issues"].find { |row| row["merge"] }["merge"]["head"] = "stale"
+  when "stale-head" then u["issues"].find { |row| row["merge"] }["merge"]["publication_head"] = "stale"
   when "red-checks" then u["issues"].find { |row| row["merge"] }["merge"]["checks_status"] = "failure"
   when "absent-review" then u["issues"].find { |row| row["merge"] }["merge"]["review_status"] = "missing"
   when "non-ancestral-merge" then u["issues"].find { |row| row["merge"] }["merge"]["ancestry"] = "not_ancestral"
+  when "review-not-ancestor" then u["issues"].find { |row| row.dig("merge", "reviewed_revision") }["merge"]["reviewed_revision"] = "0000000000000000000000000000000000000000"
+  when "missing-receipt" then u["issues"].find { |row| %w[derived_terminal recordless_closeout].include?(row.dig("lifecycle", "terminal_receipt", "state")) }["lifecycle"]["terminal_receipt"] = { "state" => "missing_async", "path" => nil }
+  when "active-worktree" then u["issues"].find { |row| row.dig("lifecycle", "cleanup") == "complete" }["lifecycle"]["topology"]["worktree"] = "active"
+  when "dirty-worktree" then u["issues"].find { |row| row.dig("lifecycle", "cleanup") == "complete" }["lifecycle"]["topology"]["cleanliness"] = "dirty"
+  when "partial-release-identity" then u["issues"].find { |row| row["merge"] }["merge"]["merge_commit"] = nil
+  when "duplicate-mutation" then u["mutation_ledger"] = %w[retry-1 retry-1]
+  when "arbitrary-envelope-digest" then u["observation_envelope_sha256"] = "0" * 64
   when "unknown-node" then d["edges"].first["to"] = "issue-999999"
   when "cycle" then d["edges"] << { "from" => "issue-319", "to" => "issue-317", "kind" => "reviewed_green_merge_ancestry", "gate" => true }
   when "unowned-action" then d["nodes"].first["owner"] = ""

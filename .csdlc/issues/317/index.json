@@ -5,8 +5,8 @@
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "a0534f72fa9918892f27414f6d760919282edda24fa3797c32f8229d6bc80f8b",
   "phase": "implemented",
-  "generation": 6,
-  "digest": "e9ab8196cfb5a05e1224c89d101e875a690f84902f42864fef6a6ada0a2d38c2",
+  "generation": 8,
+  "digest": "6786e766b00cb0d0a528b48985ad57c9656fcc0e3160296ecb48a3c2855d4b7c",
   "branch": "codex/317-v092-wp28a-terminal-closeout-plan",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-317-terminal-closeout-plan",
   "review_assignment": null,
@@ -25,34 +25,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "2f496656b63fbee30210f2752e6467624d3b915e82b8a0268ad07770a908ad5d",
+      "values_digest": "f8e7fac640cb8074a5b6bab3c642c91d4c01fdd2c978da650c769f2452bdf79d",
       "rendered_digest": "a3b5318f0a6f8433f31dd2e2f1dcd5e9890b51b37100ce102cecb5d0253fad8e",
       "ast_digest": "ff15c4e1eaf94e64aebde71816954a3ca62bcf0a72115b13f28bee01893d28d2"
     },
     "stp": {
-      "values_digest": "dd4b7da21e14cd9f286874f9d4900dfd23b3d959b93b81dc5a8fc5f227d97348",
+      "values_digest": "54b156389bfc808b4ecbe92b0c05df3dea8c293a6cb2aad4c00730dbb0439e3e",
       "rendered_digest": "0a26748473618120e8ec5c453ed666dadbb0dff8437cfb517ef284b6e9c76a8d",
       "ast_digest": "397733adc591124548a54307136ca0cc3792f1513113cb6764c22285faad2086"
     },
     "spp": {
-      "values_digest": "e2ff283f3dfc853d855e39324533078939aebd7e555d583a61ee09e2fcc9899c",
+      "values_digest": "ef370d12a1c473efec750e362b412513cb81b5d60c29e86bf793ba07946496d3",
       "rendered_digest": "7c20011c829f2d845f4ae723c424b35574133bd4f3f548ee56be343e2b1a1be3",
       "ast_digest": "b10c3ff3f425f3780fd2c4ecaf727aa90450b7824f0ee04885fd4dbf5636c4cf"
     },
     "vpp": {
-      "values_digest": "b632517fc6d180f5308b0f69d213587830db300151296af3108d2efc352c7f3b",
+      "values_digest": "27acedcaef4c4b56a2032926c10da6fec8c33b3973fa2471f27256f14cec7151",
       "rendered_digest": "aff622ea8b9e183bafdffe7ceb9def0ffa50057744114c23c83ed9a2b693bc33",
       "ast_digest": "686c4a1441ba647f3788ac08f141113c09f4615adb4451ae43029016837a3770"
     },
     "srp": {
-      "values_digest": "0f3573765131f766800cc2b7bc9d1b47822d1adf30e75173cadf9891482fb88e",
+      "values_digest": "da8b839361709044713e918fc0634911032f7edd82ef6fa0e3e917ee5bd04c82",
       "rendered_digest": "91129832a340290e84cb5be2ef253f8f7e40777c6ed5129d6992e4c775db651a",
       "ast_digest": "b2b5d8a922019632a85699e2c89a119e6e6137f0855555a30c394a9955d2ef62"
     },
     "sor": {
-      "values_digest": "6113ab731155404f87674f061331b24580fdf14a1dd90c765053b2b80676f097",
-      "rendered_digest": "ea931315ec2c2c03051ce441a4bf7dbc04af3e907b91bb93a38dd4d77624c54d",
-      "ast_digest": "a9088ea0c207d9a5dd593578de313650f0a7c0d8d5cc8a6510a53d5d8d624699"
+      "values_digest": "7f3dfc7e95edd97dee4f2d4c8362a887846e7d8d9d76a6db8227b2db5e4052b7",
+      "rendered_digest": "c9cb1378d46a0361782aebcf75fcc95a92b3047aea050304120995fa9ebf6b46",
+      "ast_digest": "42245c79ed483d6902c6aecd988e842de3434e9840f9600b8b0c9c4682ea6915"
     }
   },
   "transitions": [
@@ -134,6 +134,20 @@
       "actor": "codex:01a036fd-7539-76d1-a728-d9d180fc99c3",
       "reason": "Bounded WP-28A deliverables and focused proving validation are implemented in the registered worktree.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 9,
+      "generation": 7,
+      "actor": "codex:01a036fd-7539-76d1-a728-d9d180fc99c3",
+      "reason": "Record complete remediation of the first independent-review findings before a fresh review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Remediated the #317 R1 findings by expanding the denominator to the complete 13-row Sprint 6 canonical universe, retaining and recomputing raw GitHub response digests, separating each reviewed revision from its later publication head, recording lifecycle/receipt/topology/cleanup truth per row, and expanding executable negative proof to 18 cases. No GitHub write, review, publication, merge, finish, cleanup, tag, release, close, or activation mutation occurred.\",\"changes\":[\"Expanded the explicit legacy-to-canonical reconciliation from six tail rows to umbrella #307 plus children #308-#319.\",\"Bound every canonical row to tracked wave and Sprint 6 authority and to retained raw issue/PR response bytes with recomputed SHA-256.\",\"Recorded typed-record, phase, receipt, branch, worktree, cleanliness, cleanup, release-dependency, owner, and next-action truth for every row.\",\"Separated #316 reviewed revision d9aaaadbf5fc8e425e7099485fc006857feffd1e from publication head 8478f11e21a34530ba07bf64afc260e7a6eedd33 and proved review-head and merge ancestry.\",\"Expanded negative replay to missing receipt, active/dirty worktree, partial release identity, duplicate mutation, non-ancestral review, and the original identity/proof/DAG cases.\"],\"artifacts\":[\"docs/milestones/v0.92/V092_TERMINAL_CLOSEOUT_PLAN_317.md\",\".csdlc/evidence/317/issue-universe.json\",\".csdlc/evidence/317/closeout-dag.json\",\".csdlc/evidence/317/negative-cases.json\",\".csdlc/evidence/317/github-observation-envelope.json\",\".csdlc/evidence/317/github-raw\",\".csdlc/prepared/issues/317/validate-closeout-plan.rb\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/317/validate-closeout-plan.rb\",\"all\"],\"purpose\":\"Validate the tracked-authority 13-row universe, recomputed raw provenance, reviewed-revision ancestry, acyclic merge gates, lifecycle truth, and 18 negative mutations.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/317\"}]}"
+    },
+    {
+      "sequence": 10,
+      "generation": 8,
+      "actor": "codex:01a036fd-7539-76d1-a728-d9d180fc99c3",
+      "reason": "Record complete remediation of the first independent-review findings before a fresh review.",
+      "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Remediated the #317 R1 findings by expanding the denominator to the complete 13-row Sprint 6 canonical universe, retaining and recomputing raw GitHub response digests, separating each reviewed revision from its later publication head, recording lifecycle/receipt/topology/cleanup truth per row, and expanding executable negative proof to 19 cases. No GitHub write, review, publication, merge, finish, cleanup, tag, release, close, or activation mutation occurred.\",\"changes\":[\"Expanded the explicit legacy-to-canonical reconciliation from six tail rows to umbrella #307 plus children #308-#319.\",\"Bound every canonical row to tracked wave and Sprint 6 authority and to retained raw issue/PR response bytes with recomputed SHA-256.\",\"Recorded typed-record, phase, receipt, branch, worktree, cleanliness, cleanup, release-dependency, owner, and next-action truth for every row.\",\"Separated #316 reviewed revision d9aaaadbf5fc8e425e7099485fc006857feffd1e from publication head 8478f11e21a34530ba07bf64afc260e7a6eedd33 and proved review-head and merge ancestry.\",\"Expanded negative replay to missing receipt, active/dirty worktree, partial release identity, duplicate mutation, arbitrary envelope digest, non-ancestral review, and the original identity/proof/DAG cases.\"],\"artifacts\":[\"docs/milestones/v0.92/V092_TERMINAL_CLOSEOUT_PLAN_317.md\",\".csdlc/evidence/317/issue-universe.json\",\".csdlc/evidence/317/closeout-dag.json\",\".csdlc/evidence/317/negative-cases.json\",\".csdlc/evidence/317/github-observation-envelope.json\",\".csdlc/evidence/317/github-raw\",\".csdlc/prepared/issues/317/validate-closeout-plan.rb\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/317/validate-closeout-plan.rb\",\"all\"],\"purpose\":\"Validate the tracked-authority 13-row universe, recomputed raw provenance, reviewed-revision ancestry, acyclic merge gates, lifecycle truth, and 19 negative mutations.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/317\"}]}"
     }
   ]
 }

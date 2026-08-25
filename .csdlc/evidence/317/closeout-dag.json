@@ -1,6 +1,13 @@
 {
   "schema": "adl.v092.closeout-dag.v1",
   "nodes": [
+    {"id":"issue-307","owner":"Sprint 6 operator","class":"coordination"},
+    {"id":"issue-308","owner":"WP-20","class":"proof"},
+    {"id":"issue-309","owner":"WP-21","class":"reduction"},
+    {"id":"issue-310","owner":"WP-21A","class":"refactoring"},
+    {"id":"issue-311","owner":"WP-22","class":"quality"},
+    {"id":"issue-312","owner":"WP-23","class":"documentation"},
+    {"id":"issue-313","owner":"WP-25","class":"internal-review"},
     {"id":"issue-314","owner":"WP-26","class":"review"},
     {"id":"issue-315","owner":"WP-27","class":"remediation"},
     {"id":"issue-316","owner":"WP-28","class":"planning"},

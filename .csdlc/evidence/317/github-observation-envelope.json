@@ -1,51 +1,110 @@
 {
   "schema": "adl.v092.github-observation-envelope.v1",
   "repository": "agent-logic/agent-design-language",
-  "observed_at": "2026-08-25T03:39:46Z",
+  "observed_at": "2026-08-25T03:51:10Z",
   "collector": "gh read-only issue/pr views",
   "nondeterministic": true,
   "observations": [
     {
+      "wp": "SPRINT-6",
+      "legacy_issue": 5856,
+      "canonical_issue": 307,
+      "issue_path": ".csdlc/evidence/317/github-raw/issue-307.json",
+      "issue_response_sha256": "c6605aba6ebb42b4796cc36a0ad0292caad6ccbfc80a0481205f6d17b17e8479",
+      "closing_pull_requests": [
+
+      ]
+    },
+    {
+      "wp": "WP-20",
+      "legacy_issue": 5840,
+      "canonical_issue": 308,
+      "issue_path": ".csdlc/evidence/317/github-raw/issue-308.json",
+      "issue_response_sha256": "f8abcc0c344600e5e4421d7944958fa12f3bf2c3ccaaa2ee0b8dffb2dfba0581",
+      "closing_pull_requests": [
+        {
+          "path": ".csdlc/evidence/317/github-raw/pr-447.json",
+          "response_sha256": "b4e55499b1c3507df3aa1ca36ab0fb9233ae64487ba55d9c6371b7e298a24571",
+          "pr": 447
+        }
+      ]
+    },
+    {
+      "wp": "WP-21",
+      "legacy_issue": 5786,
+      "canonical_issue": 309,
+      "issue_path": ".csdlc/evidence/317/github-raw/issue-309.json",
+      "issue_response_sha256": "1b76adaec449970a2b31f63abe980cc449248153fa12c9c12f1604c29efdbb82",
+      "closing_pull_requests": [
+        {
+          "path": ".csdlc/evidence/317/github-raw/pr-460.json",
+          "response_sha256": "990b97faf739236872953b0312a84ea969a9609f23c37cd485da308d974d273e",
+          "pr": 460
+        }
+      ]
+    },
+    {
+      "wp": "WP-21A",
+      "legacy_issue": 5841,
+      "canonical_issue": 310,
+      "issue_path": ".csdlc/evidence/317/github-raw/issue-310.json",
+      "issue_response_sha256": "ba580717b9f12f0acec706a7a94cd0f15d2c2dd2379c50e5179156c45b8ff164",
+      "closing_pull_requests": [
+        {
+          "path": ".csdlc/evidence/317/github-raw/pr-465.json",
+          "response_sha256": "6dfbb9063c9c7e017d090a16fac54c7795ad36465297a5e2ee96bd49718b01e9",
+          "pr": 465
+        }
+      ]
+    },
+    {
+      "wp": "WP-22",
+      "legacy_issue": 5842,
+      "canonical_issue": 311,
+      "issue_path": ".csdlc/evidence/317/github-raw/issue-311.json",
+      "issue_response_sha256": "02849153fdac66fd3d9a09c04da6ae21a0449f04a7ff3b688c75947c6bd6023d",
+      "closing_pull_requests": [
+        {
+          "path": ".csdlc/evidence/317/github-raw/pr-466.json",
+          "response_sha256": "bb6b0b66f369dc4f2f5d629178f58cb88632ff8c4cddab8b923cb9347d2ec74e",
+          "pr": 466
+        }
+      ]
+    },
+    {
+      "wp": "WP-23",
+      "legacy_issue": 5843,
+      "canonical_issue": 312,
+      "issue_path": ".csdlc/evidence/317/github-raw/issue-312.json",
+      "issue_response_sha256": "b05e31a375ed2caf56f7959048ee5575fb8c65b86aa54e9e8a94b24860c008fb",
+      "closing_pull_requests": [
+        {
+          "path": ".csdlc/evidence/317/github-raw/pr-469.json",
+          "response_sha256": "48ada7a170a0e768c4714fcdd8216e016d282098bcf24ba95a34bec42bdbe194",
+          "pr": 469
+        }
+      ]
+    },
+    {
+      "wp": "WP-25",
+      "legacy_issue": 5846,
+      "canonical_issue": 313,
+      "issue_path": ".csdlc/evidence/317/github-raw/issue-313.json",
+      "issue_response_sha256": "6f848f68b6a5ca2ae2df82c328b5694b305af6bccf336f81934c386b99d5ecf2",
+      "closing_pull_requests": [
+        {
+          "path": ".csdlc/evidence/317/github-raw/pr-470.json",
+          "response_sha256": "c1401b5398f1e1aa36e4c5e4f7917d162c92e17b91f6f77ae93911e3093225e3",
+          "pr": 470
+        }
+      ]
+    },
+    {
       "wp": "WP-26",
       "legacy_issue": 5847,
       "canonical_issue": 314,
-      "issue_response_sha256": "7ca42b48d4165341ba5eabf406f1db272a94ffbe4ba96ad8bc93795f12b907d2",
-      "issue": {
-        "closedAt": "2026-08-25T03:00:59Z",
-        "closedByPullRequestsReferences": [
-
-        ],
-        "labels": [
-          {
-            "id": "LA_kwDOTvc2y88AAAACvUlH8g",
-            "name": "track:roadmap",
-            "description": "",
-            "color": "ededed"
-          },
-          {
-            "id": "LA_kwDOTvc2y88AAAACvUlH9Q",
-            "name": "type:task",
-            "description": "",
-            "color": "ededed"
-          },
-          {
-            "id": "LA_kwDOTvc2y88AAAACvUlH-Q",
-            "name": "version:v0.92",
-            "description": "",
-            "color": "ededed"
-          },
-          {
-            "id": "LA_kwDOTvc2y88AAAACvpGnIw",
-            "name": "area:review",
-            "description": "",
-            "color": "ededed"
-          }
-        ],
-        "number": 314,
-        "state": "CLOSED",
-        "title": "[v0.92][WP-26] External / third-party review",
-        "url": "https://github.com/agent-logic/agent-design-language/issues/314"
-      },
+      "issue_path": ".csdlc/evidence/317/github-raw/issue-314.json",
+      "issue_response_sha256": "228be900afd4f01f4029299e5aabfe212be74a2b5615d4a1a9ee1f1737c0f444",
       "closing_pull_requests": [
 
       ]
@@ -54,279 +113,27 @@
       "wp": "WP-27",
       "legacy_issue": 5848,
       "canonical_issue": 315,
-      "issue_response_sha256": "c4b713f37777b1e577a96605fbe6e0fbf627fd56798cfcac42b3b807aed17381",
-      "issue": {
-        "closedAt": null,
-        "closedByPullRequestsReferences": [
-
-        ],
-        "labels": [
-          {
-            "id": "LA_kwDOTvc2y88AAAACvUlH8g",
-            "name": "track:roadmap",
-            "description": "",
-            "color": "ededed"
-          },
-          {
-            "id": "LA_kwDOTvc2y88AAAACvUlH9Q",
-            "name": "type:task",
-            "description": "",
-            "color": "ededed"
-          },
-          {
-            "id": "LA_kwDOTvc2y88AAAACvUlH-Q",
-            "name": "version:v0.92",
-            "description": "",
-            "color": "ededed"
-          },
-          {
-            "id": "LA_kwDOTvc2y88AAAACvpGnIw",
-            "name": "area:review",
-            "description": "",
-            "color": "ededed"
-          }
-        ],
-        "number": 315,
-        "state": "OPEN",
-        "title": "[v0.92][WP-27] Review findings remediation",
-        "url": "https://github.com/agent-logic/agent-design-language/issues/315"
-      },
+      "issue_path": ".csdlc/evidence/317/github-raw/issue-315.json",
+      "issue_response_sha256": "646e72ab266d30077b88a1eb1c996c49d5031c2d4ed3b7681124bbc3a5a7a413",
       "closing_pull_requests": [
-
+        {
+          "path": ".csdlc/evidence/317/github-raw/pr-473.json",
+          "response_sha256": "3846301aa2d7fb99d352e3fb032cbe74779d42ef6bbd965654ed2cb890e805b5",
+          "pr": 473
+        }
       ]
     },
     {
       "wp": "WP-28",
       "legacy_issue": 5849,
       "canonical_issue": 316,
-      "issue_response_sha256": "98d9985d442318b033eb6d39130c49a1bbbbe1cff4c16c5517fb64f56e605629",
-      "issue": {
-        "closedAt": "2026-08-25T03:23:23Z",
-        "closedByPullRequestsReferences": [
-          {
-            "id": "PR_kwDOTvc2y88AAAABA4alJw",
-            "number": 472,
-            "repository": {
-              "id": "R_kgDOTvc2yw",
-              "name": "agent-design-language",
-              "owner": {
-                "id": "O_kgDOD6435A",
-                "login": "agent-logic"
-              }
-            },
-            "url": "https://github.com/agent-logic/agent-design-language/pull/472"
-          }
-        ],
-        "labels": [
-          {
-            "id": "LA_kwDOTvc2y88AAAACvUlH8g",
-            "name": "track:roadmap",
-            "description": "",
-            "color": "ededed"
-          },
-          {
-            "id": "LA_kwDOTvc2y88AAAACvUlH-Q",
-            "name": "version:v0.92",
-            "description": "",
-            "color": "ededed"
-          },
-          {
-            "id": "LA_kwDOTvc2y88AAAACv_YZaQ",
-            "name": "type:docs",
-            "description": "",
-            "color": "ededed"
-          },
-          {
-            "id": "LA_kwDOTvc2y88AAAACwAAMUw",
-            "name": "area:docs",
-            "description": "",
-            "color": "ededed"
-          }
-        ],
-        "number": 316,
-        "state": "CLOSED",
-        "title": "[v0.92][WP-28] Reconcile v0.92.1 next-milestone planning",
-        "url": "https://github.com/agent-logic/agent-design-language/issues/316"
-      },
+      "issue_path": ".csdlc/evidence/317/github-raw/issue-316.json",
+      "issue_response_sha256": "c55ce1e73665c3171d519291de5ec1671dcda0b2a4dac97f07e30e4d242d15f0",
       "closing_pull_requests": [
         {
+          "path": ".csdlc/evidence/317/github-raw/pr-472.json",
           "response_sha256": "32f8277671a852049c40ebe1bfebf1da2075149d1efdc7bbbe46b69fc37d4d43",
-          "payload": {
-            "baseRefName": "main",
-            "headRefOid": "8478f11e21a34530ba07bf64afc260e7a6eedd33",
-            "mergeCommit": {
-              "oid": "5002b387b79f2d8dbf41a8c1a99e5a03bcb5c5d5"
-            },
-            "mergedAt": "2026-08-25T03:23:22Z",
-            "number": 472,
-            "reviews": [
-
-            ],
-            "state": "MERGED",
-            "statusCheckRollup": [
-              {
-                "__typename": "CheckRun",
-                "completedAt": "2026-08-25T03:21:10Z",
-                "conclusion": "SUCCESS",
-                "detailsUrl": "https://github.com/agent-logic/agent-design-language/actions/runs/32804798931/job/97672762562",
-                "name": "adl-path-policy",
-                "startedAt": "2026-08-25T03:20:53Z",
-                "status": "COMPLETED",
-                "workflowName": "ci"
-              },
-              {
-                "__typename": "CheckRun",
-                "completedAt": "2026-08-25T03:21:11Z",
-                "conclusion": "SKIPPED",
-                "detailsUrl": "https://github.com/agent-logic/agent-design-language/actions/runs/32804798931/job/97672825713",
-                "name": "csdlc-v2-standalone",
-                "startedAt": "2026-08-25T03:21:11Z",
-                "status": "COMPLETED",
-                "workflowName": "ci"
-              },
-              {
-                "__typename": "CheckRun",
-                "completedAt": "2026-08-25T03:21:11Z",
-                "conclusion": "SKIPPED",
-                "detailsUrl": "https://github.com/agent-logic/agent-design-language/actions/runs/32804798931/job/97672824846",
-                "name": "adl-v2-standalone",
-                "startedAt": "2026-08-25T03:21:11Z",
-                "status": "COMPLETED",
-                "workflowName": "ci"
-              },
-              {
-                "__typename": "CheckRun",
-                "completedAt": "2026-08-25T03:21:11Z",
-                "conclusion": "SKIPPED",
-                "detailsUrl": "https://github.com/agent-logic/agent-design-language/actions/runs/32804798931/job/97672825308",
-                "name": "adl-tooling-contracts",
-                "startedAt": "2026-08-25T03:21:11Z",
-                "status": "COMPLETED",
-                "workflowName": "ci"
-              },
-              {
-                "__typename": "CheckRun",
-                "completedAt": "2026-08-25T03:21:11Z",
-                "conclusion": "SKIPPED",
-                "detailsUrl": "https://github.com/agent-logic/agent-design-language/actions/runs/32804798931/job/97672825028",
-                "name": "adl-runtime-v3-fast",
-                "startedAt": "2026-08-25T03:21:11Z",
-                "status": "COMPLETED",
-                "workflowName": "ci"
-              },
-              {
-                "__typename": "CheckRun",
-                "completedAt": "2026-08-25T03:21:11Z",
-                "conclusion": "SKIPPED",
-                "detailsUrl": "https://github.com/agent-logic/agent-design-language/actions/runs/32804798931/job/97672825493",
-                "name": "adl-rust-fmt-clippy",
-                "startedAt": "2026-08-25T03:21:11Z",
-                "status": "COMPLETED",
-                "workflowName": "ci"
-              },
-              {
-                "__typename": "CheckRun",
-                "completedAt": "2026-08-25T03:21:11Z",
-                "conclusion": "SKIPPED",
-                "detailsUrl": "https://github.com/agent-logic/agent-design-language/actions/runs/32804798931/job/97672824918",
-                "name": "adl-rust-tests",
-                "startedAt": "2026-08-25T03:21:11Z",
-                "status": "COMPLETED",
-                "workflowName": "ci"
-              },
-              {
-                "__typename": "CheckRun",
-                "completedAt": "2026-08-25T03:21:11Z",
-                "conclusion": "SKIPPED",
-                "detailsUrl": "https://github.com/agent-logic/agent-design-language/actions/runs/32804798931/job/97672824809",
-                "name": "adl-demo-proof",
-                "startedAt": "2026-08-25T03:21:11Z",
-                "status": "COMPLETED",
-                "workflowName": "ci"
-              },
-              {
-                "__typename": "CheckRun",
-                "completedAt": "2026-08-25T03:21:11Z",
-                "conclusion": "SKIPPED",
-                "detailsUrl": "https://github.com/agent-logic/agent-design-language/actions/runs/32804798931/job/97672825572",
-                "name": "adl-spot-ci-and-coverage",
-                "startedAt": "2026-08-25T03:21:11Z",
-                "status": "COMPLETED",
-                "workflowName": "ci"
-              },
-              {
-                "__typename": "CheckRun",
-                "completedAt": "2026-08-25T03:21:11Z",
-                "conclusion": "SKIPPED",
-                "detailsUrl": "https://github.com/agent-logic/agent-design-language/actions/runs/32804798931/job/97672825340",
-                "name": "adl-slow-proof",
-                "startedAt": "2026-08-25T03:21:11Z",
-                "status": "COMPLETED",
-                "workflowName": "ci"
-              },
-              {
-                "__typename": "CheckRun",
-                "completedAt": "2026-08-25T03:21:11Z",
-                "conclusion": "SKIPPED",
-                "detailsUrl": "https://github.com/agent-logic/agent-design-language/actions/runs/32804798931/job/97672824973",
-                "name": "adl-coverage-runtime-hosted",
-                "startedAt": "2026-08-25T03:21:11Z",
-                "status": "COMPLETED",
-                "workflowName": "ci"
-              },
-              {
-                "__typename": "CheckRun",
-                "completedAt": "2026-08-25T03:21:11Z",
-                "conclusion": "SKIPPED",
-                "detailsUrl": "https://github.com/agent-logic/agent-design-language/actions/runs/32804798931/job/97672825541",
-                "name": "adl-coverage-workspace-fast-hosted",
-                "startedAt": "2026-08-25T03:21:11Z",
-                "status": "COMPLETED",
-                "workflowName": "ci"
-              },
-              {
-                "__typename": "CheckRun",
-                "completedAt": "2026-08-25T03:21:11Z",
-                "conclusion": "SKIPPED",
-                "detailsUrl": "https://github.com/agent-logic/agent-design-language/actions/runs/32804798931/job/97672824867",
-                "name": "adl-coverage-workspace-hosted",
-                "startedAt": "2026-08-25T03:21:11Z",
-                "status": "COMPLETED",
-                "workflowName": "ci"
-              },
-              {
-                "__typename": "CheckRun",
-                "completedAt": "2026-08-25T03:21:26Z",
-                "conclusion": "SUCCESS",
-                "detailsUrl": "https://github.com/agent-logic/agent-design-language/actions/runs/32804798931/job/97672824644",
-                "name": "adl-ci",
-                "startedAt": "2026-08-25T03:21:13Z",
-                "status": "COMPLETED",
-                "workflowName": "ci"
-              },
-              {
-                "__typename": "CheckRun",
-                "completedAt": "2026-08-25T03:21:11Z",
-                "conclusion": "SKIPPED",
-                "detailsUrl": "https://github.com/agent-logic/agent-design-language/actions/runs/32804798931/job/97672826073",
-                "name": "adl-coverage-hosted",
-                "startedAt": "2026-08-25T03:21:11Z",
-                "status": "COMPLETED",
-                "workflowName": "ci"
-              },
-              {
-                "__typename": "CheckRun",
-                "completedAt": "2026-08-25T03:21:25Z",
-                "conclusion": "SUCCESS",
-                "detailsUrl": "https://github.com/agent-logic/agent-design-language/actions/runs/32804798931/job/97672825205",
-                "name": "adl-coverage",
-                "startedAt": "2026-08-25T03:21:12Z",
-                "status": "COMPLETED",
-                "workflowName": "ci"
-              }
-            ],
-            "url": "https://github.com/agent-logic/agent-design-language/pull/472"
-          }
+          "pr": 472
         }
       ]
     },
@@ -334,43 +141,8 @@
       "wp": "WP-28A",
       "legacy_issue": 5850,
       "canonical_issue": 317,
-      "issue_response_sha256": "8572931fa0cbae4157c0d75a7f8982cd88e94fa1ab6fafbd60f862a2b93ad271",
-      "issue": {
-        "closedAt": null,
-        "closedByPullRequestsReferences": [
-
-        ],
-        "labels": [
-          {
-            "id": "LA_kwDOTvc2y88AAAACvUlH8g",
-            "name": "track:roadmap",
-            "description": "",
-            "color": "ededed"
-          },
-          {
-            "id": "LA_kwDOTvc2y88AAAACvUlH-Q",
-            "name": "version:v0.92",
-            "description": "",
-            "color": "ededed"
-          },
-          {
-            "id": "LA_kwDOTvc2y88AAAACv_YZaQ",
-            "name": "type:docs",
-            "description": "",
-            "color": "ededed"
-          },
-          {
-            "id": "LA_kwDOTvc2y88AAAACwAAMUw",
-            "name": "area:docs",
-            "description": "",
-            "color": "ededed"
-          }
-        ],
-        "number": 317,
-        "state": "OPEN",
-        "title": "[v0.92][WP-28A] Next-milestone closeout plan",
-        "url": "https://github.com/agent-logic/agent-design-language/issues/317"
-      },
+      "issue_path": ".csdlc/evidence/317/github-raw/issue-317.json",
+      "issue_response_sha256": "796fd32fc1ddeab2e5f2349b93031fbb0f44fca4234f22add0076aa85b6b78f2",
       "closing_pull_requests": [
 
       ]
@@ -379,43 +151,8 @@
       "wp": "WP-29",
       "legacy_issue": 5851,
       "canonical_issue": 318,
-      "issue_response_sha256": "d1c715088434b95c63c714c75dcd18c01efc28b7e59b13db37a3e5baa7204fdf",
-      "issue": {
-        "closedAt": null,
-        "closedByPullRequestsReferences": [
-
-        ],
-        "labels": [
-          {
-            "id": "LA_kwDOTvc2y88AAAACvUlH8g",
-            "name": "track:roadmap",
-            "description": "",
-            "color": "ededed"
-          },
-          {
-            "id": "LA_kwDOTvc2y88AAAACvUlH-Q",
-            "name": "version:v0.92",
-            "description": "",
-            "color": "ededed"
-          },
-          {
-            "id": "LA_kwDOTvc2y88AAAACv_YZaQ",
-            "name": "type:docs",
-            "description": "",
-            "color": "ededed"
-          },
-          {
-            "id": "LA_kwDOTvc2y88AAAACwAAMUw",
-            "name": "area:docs",
-            "description": "",
-            "color": "ededed"
-          }
-        ],
-        "number": 318,
-        "state": "OPEN",
-        "title": "[v0.92][WP-29] Next milestone review pass",
-        "url": "https://github.com/agent-logic/agent-design-language/issues/318"
-      },
+      "issue_path": ".csdlc/evidence/317/github-raw/issue-318.json",
+      "issue_response_sha256": "018883a57022a226a18448fa9218e6d28d502fd2f07136196c349e4039d72870",
       "closing_pull_requests": [
 
       ]
@@ -424,43 +161,8 @@
       "wp": "WP-30",
       "legacy_issue": 5852,
       "canonical_issue": 319,
-      "issue_response_sha256": "a0692778c3da73ef0872822675fe3ec8499929138e98f42c91adfc8d31dd4c03",
-      "issue": {
-        "closedAt": null,
-        "closedByPullRequestsReferences": [
-
-        ],
-        "labels": [
-          {
-            "id": "LA_kwDOTvc2y88AAAACvUlH8g",
-            "name": "track:roadmap",
-            "description": "",
-            "color": "ededed"
-          },
-          {
-            "id": "LA_kwDOTvc2y88AAAACvUlH9Q",
-            "name": "type:task",
-            "description": "",
-            "color": "ededed"
-          },
-          {
-            "id": "LA_kwDOTvc2y88AAAACvUlH-Q",
-            "name": "version:v0.92",
-            "description": "",
-            "color": "ededed"
-          },
-          {
-            "id": "LA_kwDOTvc2y88AAAACwHCIwg",
-            "name": "area:release",
-            "description": "",
-            "color": "ededed"
-          }
-        ],
-        "number": 319,
-        "state": "OPEN",
-        "title": "[v0.92][WP-30] Release ceremony",
-        "url": "https://github.com/agent-logic/agent-design-language/issues/319"
-      },
+      "issue_path": ".csdlc/evidence/317/github-raw/issue-319.json",
+      "issue_response_sha256": "4ca5ca240c3de089737fd4af48e26f1b05050ebd5ce190b31d2b15e8a326a63c",
       "closing_pull_requests": [
 
       ]

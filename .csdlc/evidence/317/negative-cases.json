@@ -12,6 +12,13 @@
     {"id":"N09","mutation":"unknown-node","expected_blocker":"unknown_node"},
     {"id":"N10","mutation":"cycle","expected_blocker":"dependency_cycle"},
     {"id":"N11","mutation":"unowned-action","expected_blocker":"unowned_action"},
-    {"id":"N12","mutation":"closeout-as-gate","expected_blocker":"closeout_as_gate"}
+    {"id":"N12","mutation":"closeout-as-gate","expected_blocker":"closeout_as_gate"},
+    {"id":"N13","mutation":"review-not-ancestor","expected_blocker":"review_not_ancestor"},
+    {"id":"N14","mutation":"missing-receipt","expected_blocker":"missing_receipt"},
+    {"id":"N15","mutation":"active-worktree","expected_blocker":"active_worktree"},
+    {"id":"N16","mutation":"dirty-worktree","expected_blocker":"dirty_worktree"},
+    {"id":"N17","mutation":"partial-release-identity","expected_blocker":"partial_merge_identity"},
+    {"id":"N18","mutation":"duplicate-mutation","expected_blocker":"duplicate_mutation"},
+    {"id":"N19","mutation":"arbitrary-envelope-digest","expected_blocker":"unbound_observation"}
   ]
 }
