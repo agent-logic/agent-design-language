@@ -1,0 +1,42 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 471,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[Runtime v3] Make kernel wiring, contracts, and supervision authoritative",
+    "slug": "471-runtime-v3-authoritative-kernel-contracts",
+    "version": "v0.92.1",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "sip",
+    "values": {
+      "goal": "Resolve all ten confirmed Runtime v3 kernel architecture findings with enforced contracts and executable proof.",
+      "required_outcome": "Runtime v3 rejects invalid wiring before spawn, enforces determinism and backpressure, starts and stops by dependency layer, supervises failures with bounded policy, and exposes truthful aggregate health.",
+      "declared_scope": [
+        "adl-runtime-kernel component contracts and context",
+        "kernel channel construction and metrics",
+        "topology lifecycle and staged shutdown",
+        "supervision policy and capability degradation",
+        "Runtime health projection",
+        "focused kernel tests and bounded architecture documentation"
+      ],
+      "authority_boundary": [
+        "Issue #471 owns only Runtime v3 kernel contract and proof surfaces",
+        "WP-27 issue #315 remains untouched and unmerged",
+        "No cloud, provider, distributed consensus, or Runtime v4 authority",
+        "Existing valid Runtime assemblies remain supported through an explicit contract migration"
+      ],
+      "initial_assumptions": [],
+      "operator_constraints": [
+        "Fix every confirmed finding now",
+        "Prefer the simplest truthful kernel-owned mechanism",
+        "Use typed C-SDLC v2 in a bound FastWork worktree",
+        "No unresolved test failures",
+        "Obtain independent exact-head review before publication"
+      ]
+    }
+  }
+}

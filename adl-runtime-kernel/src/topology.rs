@@ -51,12 +51,23 @@ pub enum TopologyError {
     #[error("component dependency graph contains a cycle involving {0}")]
     Cycle(ComponentId),
     #[error(
-        "component {component} input {port} ({message_type}) has no matching output on a direct dependency"
+        "component {component} input {port} ({protocol}) has no matching output on a direct dependency"
     )]
     UnsatisfiedInput {
         component: ComponentId,
         port: String,
-        message_type: String,
+        protocol: String,
+    },
+    #[error("component {component} input {port} has multiple matching direct providers")]
+    AmbiguousInput {
+        component: ComponentId,
+        port: String,
+    },
+    #[error("component {component} declares duplicate {direction} port: {port}")]
+    DuplicatePort {
+        component: ComponentId,
+        direction: &'static str,
+        port: String,
     },
 }
 
@@ -128,6 +139,14 @@ impl FactoryRegistry {
                 return Err(TopologyError::FactoryDependencies(configured.id.clone()));
             }
             registration.contract.validate_component(&spec)?;
+            if registration.contract.lifecycle.role != registration.factory.lifecycle_role()
+                || registration.contract.lifecycle.required_core
+                    != registration.factory.required_core()
+            {
+                return Err(TopologyError::Contract(
+                    ContractError::LifecycleAuthorityMismatch(spec.id.clone()),
+                ));
+            }
             contracts.push(registration.contract);
             components.register(registration.factory);
         }
@@ -176,8 +195,29 @@ impl ComponentRegistry {
             indices.insert(id.clone(), graph.add_node(id.clone()));
         }
 
+        let mut port_routes = Vec::new();
         for factory in self.factories.values() {
             let spec = factory.spec();
+            let mut inputs = BTreeSet::new();
+            for input in &spec.inputs {
+                if !inputs.insert(input.name.clone()) {
+                    return Err(TopologyError::DuplicatePort {
+                        component: spec.id.clone(),
+                        direction: "input",
+                        port: input.name.clone(),
+                    });
+                }
+            }
+            let mut outputs = BTreeSet::new();
+            for output in &spec.outputs {
+                if !outputs.insert(output.name.clone()) {
+                    return Err(TopologyError::DuplicatePort {
+                        component: spec.id.clone(),
+                        direction: "output",
+                        port: output.name.clone(),
+                    });
+                }
+            }
             for dependency in &spec.dependencies {
                 let Some(&dependency_index) = indices.get(dependency) else {
                     return Err(TopologyError::MissingDependency {
@@ -188,22 +228,36 @@ impl ComponentRegistry {
                 graph.add_edge(dependency_index, indices[&spec.id], ());
             }
             for input in &spec.inputs {
-                let matched = spec.dependencies.iter().any(|dependency| {
-                    self.factories[dependency]
-                        .spec()
-                        .outputs
-                        .iter()
-                        .any(|output| {
-                            output.name == input.name && output.message_type == input.message_type
-                        })
-                });
-                if !matched {
+                let providers = spec
+                    .dependencies
+                    .iter()
+                    .filter(|dependency| {
+                        self.factories[*dependency]
+                            .spec()
+                            .outputs
+                            .iter()
+                            .any(|output| output == input)
+                    })
+                    .cloned()
+                    .collect::<Vec<_>>();
+                if providers.is_empty() {
                     return Err(TopologyError::UnsatisfiedInput {
                         component: spec.id.clone(),
                         port: input.name.clone(),
-                        message_type: input.message_type.clone(),
+                        protocol: input.protocol.clone(),
                     });
                 }
+                if providers.len() != 1 {
+                    return Err(TopologyError::AmbiguousInput {
+                        component: spec.id.clone(),
+                        port: input.name.clone(),
+                    });
+                }
+                port_routes.push(ValidatedPortRoute {
+                    provider: providers[0].clone(),
+                    consumer: spec.id.clone(),
+                    spec: input.clone(),
+                });
             }
         }
 
@@ -215,11 +269,19 @@ impl ComponentRegistry {
             .collect::<Vec<_>>();
         let mut shutdown_order = startup_order.clone();
         shutdown_order.reverse();
+        let required_core = self
+            .factories
+            .iter()
+            .filter(|(_, factory)| factory.required_core())
+            .map(|(id, _)| id.clone())
+            .collect();
 
         Ok(ValidatedTopology {
             factories: self.factories,
             startup_order,
             shutdown_order,
+            port_routes,
+            required_core,
         })
     }
 }
@@ -228,6 +290,15 @@ pub struct ValidatedTopology {
     pub(crate) factories: BTreeMap<ComponentId, Arc<dyn ComponentFactory>>,
     startup_order: Vec<ComponentId>,
     shutdown_order: Vec<ComponentId>,
+    port_routes: Vec<ValidatedPortRoute>,
+    required_core: BTreeSet<ComponentId>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub struct ValidatedPortRoute {
+    pub provider: ComponentId,
+    pub consumer: ComponentId,
+    pub spec: crate::PortSpec,
 }
 
 pub struct ConfiguredTopology {
@@ -274,6 +345,14 @@ impl ValidatedTopology {
             .collect()
     }
 
+    pub fn port_routes(&self) -> &[ValidatedPortRoute] {
+        &self.port_routes
+    }
+
+    pub fn is_required_core(&self, id: &ComponentId) -> bool {
+        self.required_core.contains(id)
+    }
+
     pub fn dependency_layers(&self) -> Vec<Vec<ComponentId>> {
         let mut remaining = self.startup_order.to_vec();
         let mut emitted = Vec::<ComponentId>::new();
@@ -300,6 +379,21 @@ impl ValidatedTopology {
                 let spec = factory.spec();
                 spec.dependencies.contains(id).then_some(spec.id)
             })
+            .collect()
+    }
+
+    pub fn transitive_dependents(&self, id: &ComponentId) -> Vec<ComponentId> {
+        let mut pending = self.direct_dependents(id);
+        let mut found = BTreeSet::new();
+        while let Some(component) = pending.pop() {
+            if found.insert(component.clone()) {
+                pending.extend(self.direct_dependents(&component));
+            }
+        }
+        self.startup_order
+            .iter()
+            .filter(|component| found.contains(*component))
+            .cloned()
             .collect()
     }
 

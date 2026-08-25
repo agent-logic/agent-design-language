@@ -1,0 +1,31 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 471,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[Runtime v3] Make kernel wiring, contracts, and supervision authoritative",
+    "slug": "471-runtime-v3-authoritative-kernel-contracts",
+    "version": "v0.92.1",
+    "generation": 5
+  },
+  "status": "pre_phase",
+  "content": {
+    "card_kind": "srp",
+    "values": {
+      "review_scope": "All #471 contract, wiring, lifecycle, supervision, health, metrics, compatibility, and focused proof changes.",
+      "review_revision": null,
+      "reviewer": null,
+      "review_prompts": [
+        "Can any component access a channel absent from its contract?",
+        "Are startup, restart, degradation, and shutdown behaviors bounded and topology-correct?",
+        "Does health match actual component and capability state?",
+        "Can telemetry or contention poison the data path?",
+        "Did the change stay within Runtime v3 kernel scope?"
+      ],
+      "findings": [],
+      "residual_risk": [],
+      "review_result": "pre_review"
+    }
+  }
+}

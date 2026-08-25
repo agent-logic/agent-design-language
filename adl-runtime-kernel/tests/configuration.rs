@@ -17,6 +17,15 @@ use adl_runtime_kernel::{
 use async_trait::async_trait;
 use semver::{Version, VersionReq};
 
+fn weather_port() -> PortSpec {
+    PortSpec::bounded(
+        "weather",
+        "adl.runtime.weather.sample.v1",
+        64,
+        adl_runtime_kernel::ChannelFullPolicy::Block,
+    )
+}
+
 fn component(id: &str, factory: &str, dependencies: &[&str]) -> ComponentConfig {
     ComponentConfig {
         id: ComponentId::new(id),
@@ -294,7 +303,7 @@ fn registration(config: &ComponentConfig) -> FactoryRegistration {
     let (inputs, outputs, provides, requires) = match config.factory.as_str() {
         "weather" => (
             vec![],
-            vec![PortSpec::typed::<WeatherSample>("weather")],
+            vec![weather_port()],
             vec![Capability {
                 name: "system.weather".to_owned(),
                 version: Version::new(1, 0, 0),
@@ -302,7 +311,7 @@ fn registration(config: &ComponentConfig) -> FactoryRegistration {
             vec![],
         ),
         "consumer" => (
-            vec![PortSpec::typed::<WeatherSample>("weather")],
+            vec![weather_port()],
             vec![],
             vec![],
             vec![CapabilityRequirement {
@@ -334,6 +343,8 @@ fn registration(config: &ComponentConfig) -> FactoryRegistration {
                 bounded_shutdown_millis: 1_000,
                 restart_safe: true,
                 idempotent_start: true,
+                role: adl_runtime_kernel::LifecycleRole::Workload,
+                required_core: false,
             },
             provides,
             requires,
@@ -780,7 +791,7 @@ fn configured_registry_fails_closed_for_factory_and_surface_drift() {
                 id: ComponentId::new("other"),
                 dependencies: vec![],
                 inputs: vec![],
-                outputs: vec![PortSpec::typed::<WeatherSample>("weather")],
+                outputs: vec![weather_port()],
                 failure_policy: FailurePolicy::Fatal,
             },
         });

@@ -1,0 +1,115 @@
+{
+  "identity": {
+    "schema_version": "1.0.0",
+    "template_version": "1.0.0",
+    "issue": 471,
+    "repository": "agent-logic/agent-design-language",
+    "title": "[Runtime v3] Make kernel wiring, contracts, and supervision authoritative",
+    "slug": "471-runtime-v3-authoritative-kernel-contracts",
+    "version": "v0.92.1",
+    "generation": 5
+  },
+  "status": "ready",
+  "content": {
+    "card_kind": "spp",
+    "values": {
+      "plan_revision": 2,
+      "summary": "Implement five coherent kernel slices: authoritative contract wiring, determinism enforcement, layered lifecycle, resilient supervision, and truthful health/metrics; prove each with focused negative and integration tests.",
+      "steps": [
+        {
+          "id": "S1",
+          "action": "Version contracts and add kernel-owned typed port registry with explicit backpressure.",
+          "acceptance_ids": [
+            "AC-1",
+            "AC-2"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S2",
+          "action": "Enforce determinism and lifecycle declarations at component boundaries.",
+          "acceptance_ids": [
+            "AC-3"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S3",
+          "action": "Implement layered startup and staged reverse-dependency shutdown.",
+          "acceptance_ids": [
+            "AC-4",
+            "AC-5"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S4",
+          "action": "Implement restart windows, readiness policy, supervision scopes, and degradation propagation.",
+          "acceptance_ids": [
+            "AC-6",
+            "AC-7",
+            "AC-8"
+          ],
+          "status": "pending"
+        },
+        {
+          "id": "S5",
+          "action": "Add aggregate health and poison-free metrics, then run full proof and review.",
+          "acceptance_ids": [
+            "AC-9",
+            "AC-10",
+            "AC-11"
+          ],
+          "status": "pending"
+        }
+      ],
+      "affected_areas": [
+        "adl-runtime-kernel/src/component.rs",
+        "adl-runtime-kernel/src/channel.rs",
+        "adl-runtime-kernel/src/contract.rs",
+        "adl-runtime-kernel/src/topology.rs",
+        "adl-runtime-kernel/src/supervisor.rs",
+        "adl-runtime-kernel/src/assembly.rs",
+        "adl-runtime-kernel/src/operations.rs",
+        "adl-runtime-kernel/src/lib.rs",
+        "adl-runtime-kernel/tests/kernel.rs",
+        "adl-runtime-kernel/tests/contracts.rs",
+        "adl-runtime-kernel/tests/configuration.rs",
+        ".csdlc/prepared/issues/471/design.md",
+        ".csdlc/prepared/issues/471/diagram.mmd",
+        ".csdlc/prepared/issues/471/validate-runtime-kernel.sh",
+        ".csdlc/evidence/471"
+      ],
+      "invariants": [
+        "Invalid assemblies fail before component spawn",
+        "All lifecycle waits and restart loops are bounded",
+        "Every degraded or terminal component state is observable",
+        "No telemetry failure poisons the data path",
+        "Valid public Runtime behavior remains compatible"
+      ],
+      "risks": [
+        "Contract migration may touch many assembly fixtures",
+        "Concurrent startup may expose hidden ordering dependencies",
+        "Supervision changes may create restart or shutdown races",
+        "Health projection may drift from actual task state"
+      ],
+      "execution_estimates": {
+        "elapsed_seconds": 43200,
+        "total_tokens": 140000,
+        "validation_seconds": 7200
+      },
+      "stop_conditions": [
+        "A change requires WP-27 or cloud scope",
+        "A valid existing assembly cannot be migrated explicitly",
+        "A lifecycle path becomes unbounded",
+        "Any focused or regression test remains failing",
+        "Exact-head review finds an actionable defect"
+      ],
+      "replan_triggers": [],
+      "design_ref": ".csdlc/prepared/issues/471/design.md",
+      "design_digest": "e76587e9ef3715f10a06f01864232c1aef20bcdce560de0b43886a5d0963f307",
+      "diagram_ref": ".csdlc/prepared/issues/471/diagram.mmd",
+      "diagram_digest": "89bfa76f743d9eba8f8d1b99f14edbe0b05aa53185427cbe7b4c72a9f890b8aa"
+    }
+  }
+}

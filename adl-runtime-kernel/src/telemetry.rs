@@ -1,5 +1,5 @@
 use std::{
-    collections::{BTreeMap, VecDeque},
+    collections::{BTreeMap, BTreeSet, VecDeque},
     sync::{Arc, Mutex},
     time::Instant,
 };
@@ -67,6 +67,7 @@ pub enum RuntimeEvent {
     KernelBootstrapStarted,
     StartupEventsFlushed(usize),
     ComponentDegraded,
+    CapabilityUnavailable,
     ComponentState(RunningState),
     ClockAuthorityUpdated,
     ControlCommandCompleted,
@@ -81,6 +82,7 @@ impl RuntimeEvent {
             Self::KernelBootstrapStarted => "kernel_bootstrap_started".to_owned(),
             Self::StartupEventsFlushed(count) => format!("startup_events_flushed:{count}"),
             Self::ComponentDegraded => "component_degraded".to_owned(),
+            Self::CapabilityUnavailable => "capability_unavailable".to_owned(),
             Self::ComponentState(state) => format!("state:{state:?}"),
             Self::ClockAuthorityUpdated => "clock_authority_updated".to_owned(),
             Self::ControlCommandCompleted => "control_command_completed".to_owned(),
@@ -126,6 +128,7 @@ pub struct RuntimeSnapshot {
     pub topology_generation: u64,
     pub components: BTreeMap<ComponentId, RunningState>,
     pub restart_counts: BTreeMap<ComponentId, u32>,
+    pub unavailable_capabilities: BTreeSet<ComponentId>,
     pub queues: BTreeMap<String, QueueHealth>,
     pub clock: ClockAuthority,
     pub continuity_head: Option<ContinuityHead>,
@@ -135,6 +138,17 @@ pub struct RuntimeSnapshot {
     pub observability_ready: bool,
     pub observability_pipeline: Option<ObservabilityPipelineSnapshot>,
     pub agent_admissions: BTreeMap<String, AgentAdmissionEvidence>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct RuntimeHealth {
+    pub lifecycle: LifecycleState,
+    pub ready: bool,
+    pub live: bool,
+    pub degraded_components: Vec<ComponentId>,
+    pub failed_components: Vec<ComponentId>,
+    pub restarting_components: Vec<ComponentId>,
+    pub saturated_queues: Vec<String>,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -153,6 +167,7 @@ struct RecorderState {
     retained: Vec<BootstrapEvent>,
     components: BTreeMap<ComponentId, RunningState>,
     restart_counts: BTreeMap<ComponentId, u32>,
+    unavailable_capabilities: BTreeSet<ComponentId>,
     queues: BTreeMap<String, ChannelMetrics>,
     clock: ClockAuthority,
     continuity_head: Option<ContinuityHead>,
@@ -186,6 +201,7 @@ impl RuntimeRecorder {
                 retained: Vec::new(),
                 components: BTreeMap::new(),
                 restart_counts: BTreeMap::new(),
+                unavailable_capabilities: BTreeSet::new(),
                 queues: BTreeMap::new(),
                 clock: ClockAuthority::Degraded {
                     reason: "wall_clock_unsynchronized".to_owned(),
@@ -301,6 +317,12 @@ impl RuntimeRecorder {
         state.revision += 1;
     }
 
+    pub fn set_capability_unavailable(&self, id: ComponentId) {
+        let mut state = self.state.lock().expect("recorder state mutex poisoned");
+        state.unavailable_capabilities.insert(id);
+        state.revision += 1;
+    }
+
     pub fn set_clock_authority(&self, authority: ClockAuthority) {
         {
             let mut state = self.state.lock().expect("recorder state mutex poisoned");
@@ -412,6 +434,7 @@ impl RuntimeRecorder {
             topology_generation: state.topology_generation,
             components: state.components.clone(),
             restart_counts: state.restart_counts.clone(),
+            unavailable_capabilities: state.unavailable_capabilities.clone(),
             queues: state
                 .queues
                 .iter()
@@ -443,6 +466,49 @@ impl RuntimeRecorder {
             observability: state.observability.clone(),
             observability_pipeline: state.observability_pipeline.clone(),
             agent_admissions: state.agent_admissions.clone(),
+        }
+    }
+
+    pub fn health(&self) -> RuntimeHealth {
+        let snapshot = self.snapshot();
+        let components_in = |state| {
+            snapshot
+                .components
+                .iter()
+                .filter_map(|(id, actual)| (*actual == state).then_some(id.clone()))
+                .collect::<Vec<_>>()
+        };
+        let mut degraded_components = components_in(RunningState::Degraded)
+            .into_iter()
+            .chain(snapshot.unavailable_capabilities.iter().cloned())
+            .collect::<BTreeSet<_>>()
+            .into_iter()
+            .collect::<Vec<_>>();
+        degraded_components.sort();
+        let failed_components = components_in(RunningState::Failed);
+        let restarting_components = components_in(RunningState::Restarting);
+        let saturated_queues = snapshot
+            .queues
+            .iter()
+            .filter_map(|(name, queue)| {
+                (queue.capacity > 0 && queue.depth >= queue.capacity as u64).then_some(name.clone())
+            })
+            .collect::<Vec<_>>();
+        let live = matches!(
+            snapshot.lifecycle,
+            LifecycleState::Starting | LifecycleState::Running | LifecycleState::Stopping
+        );
+        let ready = snapshot.lifecycle == LifecycleState::Running
+            && failed_components.is_empty()
+            && restarting_components.is_empty();
+        RuntimeHealth {
+            lifecycle: snapshot.lifecycle,
+            ready,
+            live,
+            degraded_components,
+            failed_components,
+            restarting_components,
+            saturated_queues,
         }
     }
 }

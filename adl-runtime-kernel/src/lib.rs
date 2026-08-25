@@ -68,8 +68,9 @@ pub use channel::{channel, BoundedReceiver, BoundedSender, ChannelFullPolicy, Se
 pub use cognition::*;
 pub use cognitive_profile::*;
 pub use component::{
-    Component, ComponentContext, ComponentError, ComponentFactory, ComponentId, ComponentSpec,
-    FailurePolicy, PortSpec, RunningState,
+    Component, ComponentContext, ComponentError, ComponentFactory, ComponentId, ComponentPorts,
+    ComponentSpec, FailurePolicy, LifecycleRole, PortAccessError, PortProtocol, PortSpec,
+    RunningState, SupervisionScope,
 };
 pub use config::*;
 pub use continuity::*;
@@ -109,6 +110,6 @@ pub use time::*;
 pub use tls::*;
 pub use topology::{
     ComponentRegistry, ConfiguredTopology, FactoryRegistration, FactoryRegistry, TopologyError,
-    ValidatedTopology,
+    ValidatedPortRoute, ValidatedTopology,
 };
 pub use weather::*;

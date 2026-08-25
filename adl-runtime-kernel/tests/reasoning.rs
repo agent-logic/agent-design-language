@@ -819,6 +819,8 @@ async fn reasoning_services_form_a_runnable_typed_topology() {
             bounded_shutdown_millis: 1_000,
             restart_safe: true,
             idempotent_start: true,
+            role: adl_runtime_kernel::LifecycleRole::Workload,
+            required_core: false,
         },
         provides: vec![Capability {
             name: "runtime.trusted_time".to_owned(),

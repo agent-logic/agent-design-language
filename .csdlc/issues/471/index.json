@@ -1,0 +1,125 @@
+{
+  "schema": "csdlc.issue.index.v1",
+  "issue": 471,
+  "repository": "agent-logic/agent-design-language",
+  "code_repository": "agent-logic/agent-design-language",
+  "initialization_digest": "af526631fae8cb2219b4387e3fcd5e9b609041070e7f59156479d7c89d9a7570",
+  "phase": "bound",
+  "generation": 5,
+  "digest": "82f57f6e0e26ebf1c8eda79cf8cdb3e08062bbc582bb9345c49aada34cd97f7f",
+  "branch": "codex/471-runtime-v3-authoritative-kernel-contracts",
+  "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-471-runtime-v3-authoritative-kernel-contracts",
+  "review_assignment": null,
+  "review": null,
+  "publication": null,
+  "readiness": null,
+  "terminal": null,
+  "migration": null,
+  "design_path": ".csdlc/prepared/issues/471/design.md",
+  "diagram_path": ".csdlc/prepared/issues/471/diagram.mmd",
+  "design_review": {
+    "approved": {
+      "reviewer": "fresh-session:01a01755-c400-7050-a049-b98e947a5684",
+      "revision": "e76587e9ef3715f10a06f01864232c1aef20bcdce560de0b43886a5d0963f307"
+    }
+  },
+  "cards": {
+    "sip": {
+      "values_digest": "c636d06a4d9ab072c687affb777c9d40723beb6c56dcee7ccb920175a932bc03",
+      "rendered_digest": "3ecb8f39ebc6364315af414a45fb54b2f3d4b1dedaecfdb37c03b66392c63ebb",
+      "ast_digest": "9ec02ef188480db02bce3f8dfaf8f3138516823dfb280891552f437b1e7b7cb9"
+    },
+    "stp": {
+      "values_digest": "1112f93da7de35ca9ad2653805cb839e9604b993d730caa92548bb5d0a8b24e1",
+      "rendered_digest": "d0a806358bdab287dfd6f9a17492c9f905e876dbe7129afab5f96d505c9553c4",
+      "ast_digest": "b70ab828cce2c1198ca8d05f23f2ce84081385e1f8f4755b81da429a59baf73d"
+    },
+    "spp": {
+      "values_digest": "7fb6b781147b554210719c81c641631ef8b47b0e931cf9ccaa369392d41987d5",
+      "rendered_digest": "8d45716a23b9eaf0984aa18779ab91c9096cc3f80a0dda755c0d29c6064b3658",
+      "ast_digest": "c9fccb35d55ce51f07c468202b34ca9ae80b2cb06a3fe90c6bfc85c60bb2994a"
+    },
+    "vpp": {
+      "values_digest": "bab1ca72f73fde1f8c3b9782ba2b0731dcd18bcdd23ee77918459dbb35bdb279",
+      "rendered_digest": "32e39b566ff1051175840d4368ca3ff5ebc14915418ea08d6d5ece95c4b7bcb7",
+      "ast_digest": "32e2d7fc0a2f8a0d6ffc2e3b047689e6188f850ad69a67f7f11212bfe94b0f25"
+    },
+    "srp": {
+      "values_digest": "12a8837101a8065f77a30b6c6afa6d322f1c99ef604c440e9c0782adbb695fbd",
+      "rendered_digest": "606573f1f1f0eed8b5063ae83d6aa506007a31f31f4027eee404d9d24ad335b0",
+      "ast_digest": "e0fcd332bca33a72bf1a42085c1af85c5ba1ba72072efe79ba9a670c3912a07d"
+    },
+    "sor": {
+      "values_digest": "7c68affb37c9b97076434fc67c7d034eecc25ba1ea10ddc467fe0ffccaba563e",
+      "rendered_digest": "e016416765b0e02b026dd32f03e2dfb73d2c64c714b100c1f1b9efe8b46a63f3",
+      "ast_digest": "1f9abb6debb0400cbeebd3fea1798b680ee9ca5b0689724adbc43d4370d5ece3"
+    }
+  },
+  "transitions": [
+    {
+      "sequence": 1,
+      "from": "initialized",
+      "to": "ready",
+      "actor": "codex:/root",
+      "reason": "advance #471 after approved design and passing typed readiness"
+    },
+    {
+      "sequence": 2,
+      "from": "ready",
+      "to": "bound",
+      "actor": "csdlc-bind",
+      "reason": "bound issue branch and worktree"
+    }
+  ],
+  "audit": [
+    {
+      "sequence": 1,
+      "generation": 0,
+      "actor": "codex:/root",
+      "reason": "initialize issue record and all six cards",
+      "operation": "bootstrap"
+    },
+    {
+      "sequence": 2,
+      "generation": 1,
+      "actor": "codex:/root",
+      "reason": "replace directory-only deliverables with concrete existing and issue-owned validation targets",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"deliverables\",\"values\":[\"adl-runtime-kernel/src/component.rs\",\"adl-runtime-kernel/src/channel.rs\",\"adl-runtime-kernel/src/contract.rs\",\"adl-runtime-kernel/src/topology.rs\",\"adl-runtime-kernel/src/supervisor.rs\",\"adl-runtime-kernel/tests/kernel.rs\",\"adl-runtime-kernel/tests/contracts.rs\",\".csdlc/prepared/issues/471/design.md\",\".csdlc/prepared/issues/471/diagram.mmd\",\".csdlc/prepared/issues/471/validate-runtime-kernel.sh\"]}"
+    },
+    {
+      "sequence": 3,
+      "generation": 2,
+      "actor": "codex:/root",
+      "reason": "bind validation to an issue-owned executable denominator",
+      "operation": "{\"operation\":\"replace_validation_lanes\",\"lanes\":[{\"lane\":\"runtime-kernel-471\",\"proof_role\":\"Prove all authoritative wiring, determinism, lifecycle, supervision, health, metrics, quality, and diff contracts.\",\"acceptance_ids\":[\"AC-1\",\"AC-2\",\"AC-3\",\"AC-4\",\"AC-5\",\"AC-6\",\"AC-7\",\"AC-8\",\"AC-9\",\"AC-10\",\"AC-11\"],\"deterministic\":true,\"resource_profile\":\"medium\",\"budget_seconds\":2520,\"budget_tokens\":12500,\"argv\":[\"bash\",\".csdlc/prepared/issues/471/validate-runtime-kernel.sh\"],\"parallel_group\":\"471-runtime-kernel\",\"defer_reason\":null}]}"
+    },
+    {
+      "sequence": 4,
+      "generation": 3,
+      "actor": "codex:/root",
+      "reason": "declare exact owned source, test, authored, and validation paths",
+      "operation": "{\"operation\":\"replace_planning_collection\",\"field\":\"affected_areas\",\"values\":[\"adl-runtime-kernel/src/component.rs\",\"adl-runtime-kernel/src/channel.rs\",\"adl-runtime-kernel/src/contract.rs\",\"adl-runtime-kernel/src/topology.rs\",\"adl-runtime-kernel/src/supervisor.rs\",\"adl-runtime-kernel/src/assembly.rs\",\"adl-runtime-kernel/src/operations.rs\",\"adl-runtime-kernel/src/lib.rs\",\"adl-runtime-kernel/tests/kernel.rs\",\"adl-runtime-kernel/tests/contracts.rs\",\"adl-runtime-kernel/tests/configuration.rs\",\".csdlc/prepared/issues/471/design.md\",\".csdlc/prepared/issues/471/diagram.mmd\",\".csdlc/prepared/issues/471/validate-runtime-kernel.sh\",\".csdlc/evidence/471\"]}"
+    },
+    {
+      "sequence": 5,
+      "generation": 4,
+      "actor": "codex:/root",
+      "reason": "advance #471 after approved design and passing typed readiness",
+      "operation": "{\"operation\":\"advance_phase\",\"phase\":\"ready\"}"
+    },
+    {
+      "sequence": 6,
+      "generation": 4,
+      "actor": "csdlc-bind",
+      "reason": "record Git branch/worktree topology",
+      "operation": "bind"
+    },
+    {
+      "sequence": 7,
+      "generation": 5,
+      "actor": "fresh-session:01a01755-c400-7050-a049-b98e947a5684",
+      "reason": "reapprove changed issue design",
+      "operation": "{\"design_digest\":\"e76587e9ef3715f10a06f01864232c1aef20bcdce560de0b43886a5d0963f307\",\"design_ref\":\".csdlc/prepared/issues/471/design.md\",\"diagram_digest\":\"89bfa76f743d9eba8f8d1b99f14edbe0b05aa53185427cbe7b4c72a9f890b8aa\",\"diagram_ref\":\".csdlc/prepared/issues/471/diagram.mmd\",\"operation\":\"approve_design\"}"
+    }
+  ]
+}

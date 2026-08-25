@@ -399,6 +399,8 @@ pub fn build_live_assembly(bindings: LiveBindings) -> Result<LiveAssembly, Assem
                 bounded_shutdown_millis: 1_000,
                 restart_safe: true,
                 idempotent_start: true,
+                role: crate::LifecycleRole::Ingress,
+                required_core: true,
             },
             provides: vec![Capability {
                 name: "runtime.canonical_ingress".to_owned(),
@@ -491,6 +493,10 @@ fn enforce_chronosense_foundation(
                 optional: false,
             });
         }
+        // Every live component is control-bound to qualified Chronosense. That
+        // clock observation is governed nondeterministic input, so retaining a
+        // deterministic-core declaration here would be false authority.
+        contract.determinism = crate::DeterminismClass::GovernedNondeterministicShell;
     }
 }
 
@@ -598,6 +604,14 @@ impl ComponentFactory for ControlDependencyFactory {
     fn build(&self) -> Box<dyn Component> {
         self.inner.build()
     }
+
+    fn lifecycle_role(&self) -> crate::LifecycleRole {
+        self.inner.lifecycle_role()
+    }
+
+    fn required_core(&self) -> bool {
+        self.inner.required_core()
+    }
 }
 
 fn append_factories<F: ComponentFactory>(
@@ -668,6 +682,12 @@ impl InfrastructureRole {
                 bounded_shutdown_millis: 1_000,
                 restart_safe: true,
                 idempotent_start: true,
+                role: match self {
+                    Self::Observability => crate::LifecycleRole::Telemetry,
+                    Self::SignedContinuity => crate::LifecycleRole::Checkpoint,
+                    Self::SystemWeather => crate::LifecycleRole::Workload,
+                },
+                required_core: matches!(self, Self::SignedContinuity),
             },
             provides: vec![Capability {
                 name: format!("runtime.{}", self.name()),
@@ -701,6 +721,18 @@ impl ComponentFactory for InfrastructureFactory {
 
     fn build(&self) -> Box<dyn Component> {
         Box::new(InfrastructureComponent { role: self.role })
+    }
+
+    fn lifecycle_role(&self) -> crate::LifecycleRole {
+        match self.role {
+            InfrastructureRole::Observability => crate::LifecycleRole::Telemetry,
+            InfrastructureRole::SignedContinuity => crate::LifecycleRole::Checkpoint,
+            InfrastructureRole::SystemWeather => crate::LifecycleRole::Workload,
+        }
+    }
+
+    fn required_core(&self) -> bool {
+        matches!(self.role, InfrastructureRole::SignedContinuity)
     }
 }
 

@@ -20,6 +20,8 @@ fn contract(service: &str, capability: &str) -> ServiceContract {
             bounded_shutdown_millis: 1_000,
             restart_safe: true,
             idempotent_start: true,
+            role: adl_runtime_kernel::LifecycleRole::Workload,
+            required_core: false,
         },
         provides: vec![Capability {
             name: capability.to_owned(),
@@ -35,10 +37,10 @@ fn contract(service: &str, capability: &str) -> ServiceContract {
 #[test]
 fn service_contract_shape_rejects_schema_and_empty_identity() {
     let mut unsupported = contract("clock", "clock.authority");
-    unsupported.schema = "adl.runtime.service_contract.v2".to_owned();
+    unsupported.schema = "adl.runtime.service_contract.v3".to_owned();
     assert_eq!(
         validate_contracts([unsupported]).unwrap_err(),
-        ContractError::UnsupportedSchema("adl.runtime.service_contract.v2".to_owned())
+        ContractError::UnsupportedSchema("adl.runtime.service_contract.v3".to_owned())
     );
 
     let mut empty_service = contract("clock", "clock.authority");
@@ -53,6 +55,40 @@ fn service_contract_shape_rejects_schema_and_empty_identity() {
     assert_eq!(
         validate_contracts([empty_config_schema]).unwrap_err(),
         ContractError::EmptyIdentity(ComponentId::new("clock"))
+    );
+}
+
+#[test]
+fn service_contract_rejects_unbounded_ports_and_determinism_escalation() {
+    let mut invalid_port = contract("clock", "clock.authority");
+    invalid_port.outputs = vec![PortSpec::bounded(
+        "ticks",
+        "adl.clock.tick.v1",
+        0,
+        adl_runtime_kernel::ChannelFullPolicy::Block,
+    )];
+    assert!(matches!(
+        validate_contracts([invalid_port]),
+        Err(ContractError::InvalidPort { .. })
+    ));
+
+    struct CompilerLocalType;
+    let mut inferred_protocol = contract("clock", "clock.authority");
+    inferred_protocol.outputs = vec![PortSpec::typed::<CompilerLocalType>("ticks")];
+    assert!(matches!(
+        validate_contracts([inferred_protocol]),
+        Err(ContractError::InferredPortProtocol { .. })
+    ));
+
+    let mut escalated = contract("clock", "clock.authority");
+    escalated.requires.push(CapabilityRequirement {
+        name: adl_runtime_kernel::NONDETERMINISTIC_CAPABILITY.to_owned(),
+        version: VersionReq::parse("^1").unwrap(),
+        optional: false,
+    });
+    assert_eq!(
+        validate_contracts([escalated]).unwrap_err(),
+        ContractError::DeterminismViolation(ComponentId::new("clock"))
     );
 }
 

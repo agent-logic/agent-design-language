@@ -287,6 +287,14 @@ impl ComponentFactory for CanonicalIngress {
     fn build(&self) -> Box<dyn Component> {
         Box::new(self.clone())
     }
+
+    fn lifecycle_role(&self) -> crate::LifecycleRole {
+        crate::LifecycleRole::Ingress
+    }
+
+    fn required_core(&self) -> bool {
+        true
+    }
 }
 
 fn validate(work: &DomainWork) -> Result<(), IngressError> {

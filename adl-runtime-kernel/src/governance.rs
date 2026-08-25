@@ -965,30 +965,30 @@ pub fn governance_component_specs() -> Vec<ComponentSpec> {
             "governance_ingress",
             vec![],
             vec![],
-            vec![PortSpec::typed::<GovernedActionRequest>("request")],
+            vec![PortSpec::protocol::<GovernedActionRequest>("request")],
         ),
         (
             "freedom_gate",
             vec![ComponentId::new("governance_ingress")],
-            vec![PortSpec::typed::<GovernedActionRequest>("request")],
+            vec![PortSpec::protocol::<GovernedActionRequest>("request")],
             vec![
-                PortSpec::typed::<MediationDecision>("decision"),
-                PortSpec::typed::<ExecutionPermit>("permit"),
+                PortSpec::protocol::<MediationDecision>("decision"),
+                PortSpec::protocol::<ExecutionPermit>("permit"),
             ],
         ),
         (
             "aee",
             vec![ComponentId::new("freedom_gate")],
-            vec![PortSpec::typed::<ExecutionPermit>("permit")],
+            vec![PortSpec::protocol::<ExecutionPermit>("permit")],
             vec![
-                PortSpec::typed::<RecordedActuationResult>("result"),
-                PortSpec::typed::<AuditEvent>("audit"),
+                PortSpec::protocol::<RecordedActuationResult>("result"),
+                PortSpec::protocol::<AuditEvent>("audit"),
             ],
         ),
         (
             "governance_audit",
             vec![ComponentId::new("aee")],
-            vec![PortSpec::typed::<AuditEvent>("audit")],
+            vec![PortSpec::protocol::<AuditEvent>("audit")],
             vec![],
         ),
     ]
@@ -1021,7 +1021,7 @@ pub fn governance_service_contracts() -> Vec<ServiceContract> {
                 service: name.clone(),
                 version: Version::new(1, 0, 0),
                 config_schema: format!("adl.runtime.{name}.config.v1"),
-                determinism: if name == "aee" {
+                determinism: if matches!(name.as_str(), "aee" | "governance_audit") {
                     DeterminismClass::GovernedNondeterministicShell
                 } else {
                     DeterminismClass::DeterministicCore
@@ -1031,6 +1031,8 @@ pub fn governance_service_contracts() -> Vec<ServiceContract> {
                     bounded_shutdown_millis: 1_000,
                     restart_safe: true,
                     idempotent_start: true,
+                    role: crate::LifecycleRole::Workload,
+                    required_core: false,
                 },
                 provides: vec![Capability {
                     name: format!("governance.{name}"),
@@ -1048,6 +1050,26 @@ pub fn governance_service_contracts() -> Vec<ServiceContract> {
             }
         })
         .collect()
+}
+
+impl crate::PortProtocol for GovernedActionRequest {
+    const PROTOCOL: &'static str = "adl.runtime.governance.action-request.v1";
+}
+
+impl crate::PortProtocol for MediationDecision {
+    const PROTOCOL: &'static str = "adl.runtime.governance.mediation-decision.v1";
+}
+
+impl crate::PortProtocol for ExecutionPermit {
+    const PROTOCOL: &'static str = "adl.runtime.governance.execution-permit.v1";
+}
+
+impl crate::PortProtocol for AuditEvent {
+    const PROTOCOL: &'static str = "adl.runtime.governance.audit-event.v1";
+}
+
+impl crate::PortProtocol for RecordedActuationResult {
+    const PROTOCOL: &'static str = "adl.runtime.governance.actuation-result.v1";
 }
 
 /// Canonical snapshot of the production governance components actually

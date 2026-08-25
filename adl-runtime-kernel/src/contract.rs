@@ -4,9 +4,10 @@ use semver::{Version, VersionReq};
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 
-use crate::{ComponentId, ComponentSpec, FailurePolicy, PortSpec};
+use crate::{ComponentId, ComponentSpec, FailurePolicy, LifecycleRole, PortSpec};
 
-pub const SERVICE_CONTRACT_SCHEMA: &str = "adl.runtime.service_contract.v1";
+pub const SERVICE_CONTRACT_SCHEMA: &str = "adl.runtime.service_contract.v2";
+pub const NONDETERMINISTIC_CAPABILITY: &str = "runtime.nondeterministic";
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub struct Capability {
@@ -35,6 +36,8 @@ pub struct LifecycleGuarantees {
     pub bounded_shutdown_millis: u64,
     pub restart_safe: bool,
     pub idempotent_start: bool,
+    pub role: LifecycleRole,
+    pub required_core: bool,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -60,6 +63,38 @@ impl ServiceContract {
         }
         if self.service.trim().is_empty() || self.config_schema.trim().is_empty() {
             return Err(ContractError::EmptyIdentity(self.component.clone()));
+        }
+        if self.lifecycle.bounded_shutdown_millis == 0 {
+            return Err(ContractError::UnboundedLifecycle(self.component.clone()));
+        }
+        if matches!(self.failure_policy, FailurePolicy::Restart { .. })
+            && (!self.lifecycle.restart_safe || !self.lifecycle.idempotent_start)
+        {
+            return Err(ContractError::UnsafeRestartLifecycle(
+                self.component.clone(),
+            ));
+        }
+        for port in self.inputs.iter().chain(&self.outputs) {
+            if port.name.trim().is_empty() || port.protocol.trim().is_empty() || port.capacity == 0
+            {
+                return Err(ContractError::InvalidPort {
+                    component: self.component.clone(),
+                    port: port.name.clone(),
+                });
+            }
+            if port.protocol.starts_with("adl.runtime.port.") {
+                return Err(ContractError::InferredPortProtocol {
+                    component: self.component.clone(),
+                    port: port.name.clone(),
+                });
+            }
+        }
+        let declares_nondeterminism = self
+            .requires
+            .iter()
+            .any(|requirement| requirement.name == NONDETERMINISTIC_CAPABILITY);
+        if self.determinism == DeterminismClass::DeterministicCore && declares_nondeterminism {
+            return Err(ContractError::DeterminismViolation(self.component.clone()));
         }
         Ok(())
     }
@@ -95,6 +130,24 @@ pub enum ContractError {
     ComponentSurfaceMismatch(ComponentId),
     #[error("service or configuration identity is empty for component: {0}")]
     EmptyIdentity(ComponentId),
+    #[error("component has no bounded shutdown guarantee: {0}")]
+    UnboundedLifecycle(ComponentId),
+    #[error("restart policy requires restart-safe idempotent lifecycle: {0}")]
+    UnsafeRestartLifecycle(ComponentId),
+    #[error("contract lifecycle role/core authority does not match factory: {0}")]
+    LifecycleAuthorityMismatch(ComponentId),
+    #[error("component {component} has an invalid bounded port contract: {port}")]
+    InvalidPort {
+        component: ComponentId,
+        port: String,
+    },
+    #[error("component {component} port {port} lacks an explicit stable protocol identity")]
+    InferredPortProtocol {
+        component: ComponentId,
+        port: String,
+    },
+    #[error("deterministic component declares nondeterministic authority: {0}")]
+    DeterminismViolation(ComponentId),
     #[error("duplicate service contract: {0}")]
     DuplicateService(String),
     #[error("service {service} declares capability {capability} more than once")]
@@ -108,6 +161,8 @@ pub enum ContractError {
         required: VersionReq,
         actual: Version,
     },
+    #[error("deterministic service {service} depends on nondeterministic capability {capability}")]
+    NondeterministicDependency { service: String, capability: String },
 }
 
 #[derive(Debug)]
@@ -187,6 +242,20 @@ pub fn validate_contracts(
                     capability: requirement.name.clone(),
                     required: requirement.version.clone(),
                     actual: candidates[0].capability.version.clone(),
+                });
+            }
+            if contract.determinism == DeterminismClass::DeterministicCore
+                && candidates
+                    .iter()
+                    .filter(|provider| requirement.version.matches(&provider.capability.version))
+                    .all(|provider| {
+                        by_service[&provider.service].determinism
+                            == DeterminismClass::GovernedNondeterministicShell
+                    })
+            {
+                return Err(ContractError::NondeterministicDependency {
+                    service: contract.service.clone(),
+                    capability: requirement.name.clone(),
                 });
             }
         }

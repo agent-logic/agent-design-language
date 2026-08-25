@@ -6,12 +6,12 @@ use std::{
 
 use async_trait::async_trait;
 use serde::{Deserialize, Serialize};
-use tokio::sync::{watch, Mutex as AsyncMutex};
+use tokio::sync::watch;
 
 use crate::{
-    channel, BoundedReceiver, BoundedSender, ChannelFullPolicy, ClockAuthority, Component,
-    ComponentContext, ComponentError, ComponentFactory, ComponentId, ComponentRegistry,
-    ComponentSpec, FailurePolicy, Kernel, KernelError, KernelExit, PortSpec, RuntimeRecorder,
+    ClockAuthority, Component, ComponentContext, ComponentError, ComponentFactory, ComponentId,
+    ComponentRegistry, ComponentSpec, FailurePolicy, Kernel, KernelError, KernelExit, PortSpec,
+    RuntimeRecorder,
 };
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -20,11 +20,19 @@ pub struct WorkItem {
     pub payload: String,
 }
 
+impl crate::PortProtocol for WorkItem {
+    const PROTOCOL: &'static str = "adl.runtime.proof.work-item.v1";
+}
+
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub struct GovernedItem {
     pub sequence: u64,
     pub payload: String,
     pub decision: String,
+}
+
+impl crate::PortProtocol for GovernedItem {
+    const PROTOCOL: &'static str = "adl.runtime.proof.governed-item.v1";
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -56,8 +64,6 @@ pub fn build_proof_runtime(
     let recorder = RuntimeRecorder::new(128);
     recorder.emit(None, crate::RuntimeEvent::KernelBootstrapStarted);
 
-    let (work_tx, work_rx) = channel(8, ChannelFullPolicy::Block);
-    let (governed_tx, governed_rx) = channel(8, ChannelFullPolicy::Block);
     let evidence = Arc::new(Mutex::new(Vec::new()));
     let (completion_tx, completion_rx) = watch::channel(0_u64);
 
@@ -65,16 +71,9 @@ pub fn build_proof_runtime(
     registry
         .register(ObservabilityFactory)
         .register(ChronosenseFactory)
-        .register(SchedulerFactory {
-            count: item_count,
-            output: work_tx,
-        })
-        .register(GateFactory {
-            input: Arc::new(AsyncMutex::new(work_rx)),
-            output: governed_tx,
-        })
+        .register(SchedulerFactory { count: item_count })
+        .register(GateFactory)
         .register(CheckpointFactory {
-            input: Arc::new(AsyncMutex::new(governed_rx)),
             evidence: evidence.clone(),
             capsule_path: capsule_path.into(),
             completion: completion_tx,
@@ -165,6 +164,10 @@ impl ComponentFactory for ObservabilityFactory {
     fn build(&self) -> Box<dyn Component> {
         Box::new(Observability)
     }
+
+    fn lifecycle_role(&self) -> crate::LifecycleRole {
+        crate::LifecycleRole::Telemetry
+    }
 }
 
 struct Observability;
@@ -231,7 +234,6 @@ impl Component for Chronosense {
 #[derive(Clone)]
 struct SchedulerFactory {
     count: u64,
-    output: BoundedSender<WorkItem>,
 }
 
 impl ComponentFactory for SchedulerFactory {
@@ -241,21 +243,21 @@ impl ComponentFactory for SchedulerFactory {
             &["observability", "chronosense"],
             FailurePolicy::Fatal,
             vec![],
-            vec![PortSpec::typed::<WorkItem>("work")],
+            vec![PortSpec::protocol::<WorkItem>("work")],
         )
     }
 
     fn build(&self) -> Box<dyn Component> {
-        Box::new(Scheduler {
-            count: self.count,
-            output: self.output.clone(),
-        })
+        Box::new(Scheduler { count: self.count })
+    }
+
+    fn lifecycle_role(&self) -> crate::LifecycleRole {
+        crate::LifecycleRole::Ingress
     }
 }
 
 struct Scheduler {
     count: u64,
-    output: BoundedSender<WorkItem>,
 }
 
 #[async_trait]
@@ -263,11 +265,15 @@ impl Component for Scheduler {
     async fn run(self: Box<Self>, mut context: ComponentContext) -> Result<(), ComponentError> {
         context.ready();
         for sequence in 0..self.count {
-            self.output
-                .send(WorkItem {
-                    sequence,
-                    payload: format!("candidate-{sequence}"),
-                })
+            context
+                .send(
+                    "work",
+                    serde_json::to_value(WorkItem {
+                        sequence,
+                        payload: format!("candidate-{sequence}"),
+                    })
+                    .map_err(|error| ComponentError::new(error.to_string()))?,
+                )
                 .await
                 .map_err(|error| ComponentError::new(error.to_string()))?;
         }
@@ -277,10 +283,7 @@ impl Component for Scheduler {
 }
 
 #[derive(Clone)]
-struct GateFactory {
-    input: Arc<AsyncMutex<BoundedReceiver<WorkItem>>>,
-    output: BoundedSender<GovernedItem>,
-}
+struct GateFactory;
 
 impl ComponentFactory for GateFactory {
     fn spec(&self) -> ComponentSpec {
@@ -288,23 +291,17 @@ impl ComponentFactory for GateFactory {
             "freedom_gate",
             &["scheduler"],
             FailurePolicy::Fatal,
-            vec![PortSpec::typed::<WorkItem>("work")],
-            vec![PortSpec::typed::<GovernedItem>("governed")],
+            vec![PortSpec::protocol::<WorkItem>("work")],
+            vec![PortSpec::protocol::<GovernedItem>("governed")],
         )
     }
 
     fn build(&self) -> Box<dyn Component> {
-        Box::new(Gate {
-            input: self.input.clone(),
-            output: self.output.clone(),
-        })
+        Box::new(Gate)
     }
 }
 
-struct Gate {
-    input: Arc<AsyncMutex<BoundedReceiver<WorkItem>>>,
-    output: BoundedSender<GovernedItem>,
-}
+struct Gate;
 
 #[async_trait]
 impl Component for Gate {
@@ -313,13 +310,17 @@ impl Component for Gate {
         loop {
             tokio::select! {
                 _ = context.cancellation.cancelled() => return Ok(()),
-                item = async { self.input.lock().await.recv().await } => {
+                item = context.recv("work") => {
+                    let item = item.map_err(|error| ComponentError::new(error.to_string()))?;
                     let Some(item) = item else { return Ok(()); };
-                    self.output.send(GovernedItem {
+                    let item: WorkItem = serde_json::from_value(item)
+                        .map_err(|error| ComponentError::new(error.to_string()))?;
+                    context.send("governed", serde_json::to_value(GovernedItem {
                         sequence: item.sequence,
                         payload: item.payload,
                         decision: "allowed_by_proof_policy".to_owned(),
-                    }).await.map_err(|error| ComponentError::new(error.to_string()))?;
+                    }).map_err(|error| ComponentError::new(error.to_string()))?).await
+                        .map_err(|error| ComponentError::new(error.to_string()))?;
                 }
             }
         }
@@ -328,7 +329,6 @@ impl Component for Gate {
 
 #[derive(Clone)]
 struct CheckpointFactory {
-    input: Arc<AsyncMutex<BoundedReceiver<GovernedItem>>>,
     evidence: Arc<Mutex<Vec<GovernedItem>>>,
     capsule_path: PathBuf,
     completion: watch::Sender<u64>,
@@ -340,23 +340,25 @@ impl ComponentFactory for CheckpointFactory {
             "checkpoint",
             &["freedom_gate", "chronosense"],
             FailurePolicy::Fatal,
-            vec![PortSpec::typed::<GovernedItem>("governed")],
+            vec![PortSpec::protocol::<GovernedItem>("governed")],
             vec![],
         )
     }
 
     fn build(&self) -> Box<dyn Component> {
         Box::new(Checkpoint {
-            input: self.input.clone(),
             evidence: self.evidence.clone(),
             capsule_path: self.capsule_path.clone(),
             completion: self.completion.clone(),
         })
     }
+
+    fn lifecycle_role(&self) -> crate::LifecycleRole {
+        crate::LifecycleRole::Checkpoint
+    }
 }
 
 struct Checkpoint {
-    input: Arc<AsyncMutex<BoundedReceiver<GovernedItem>>>,
     evidence: Arc<Mutex<Vec<GovernedItem>>>,
     capsule_path: PathBuf,
     completion: watch::Sender<u64>,
@@ -372,11 +374,14 @@ impl Component for Checkpoint {
                     self.persist().await?;
                     return Ok(());
                 }
-                item = async { self.input.lock().await.recv().await } => {
+                item = context.recv("governed") => {
+                    let item = item.map_err(|error| ComponentError::new(error.to_string()))?;
                     let Some(item) = item else {
                         self.persist().await?;
                         return Ok(());
                     };
+                    let item: GovernedItem = serde_json::from_value(item)
+                        .map_err(|error| ComponentError::new(error.to_string()))?;
                     let count = {
                         let mut evidence = self.evidence.lock().expect("evidence mutex poisoned");
                         evidence.push(item);

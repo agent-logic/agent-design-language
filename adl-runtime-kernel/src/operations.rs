@@ -146,6 +146,10 @@ pub struct OperationResult {
     pub payload: Vec<u8>,
 }
 
+impl crate::PortProtocol for OperationResult {
+    const PROTOCOL: &'static str = "adl.runtime.operation.result.v1";
+}
+
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum FailureClass {
     Retryable,
@@ -761,15 +765,20 @@ impl OperationalAdapter {
     }
 
     pub fn spec(&self, dependencies: Vec<ComponentId>) -> ComponentSpec {
+        let inputs = dependencies
+            .iter()
+            .map(|dependency| {
+                PortSpec::protocol::<OperationResult>(format!("{}.results", dependency.as_str()))
+            })
+            .collect();
         ComponentSpec {
             id: ComponentId::new(self.kind.service_name()),
-            inputs: if dependencies.is_empty() {
-                Vec::new()
-            } else {
-                vec![PortSpec::typed::<OperationResult>("results")]
-            },
+            inputs,
             dependencies,
-            outputs: vec![PortSpec::typed::<OperationResult>("results")],
+            outputs: vec![PortSpec::protocol::<OperationResult>(format!(
+                "{}.results",
+                self.kind.service_name()
+            ))],
             failure_policy: FailurePolicy::restart(3, Duration::from_millis(100)),
         }
     }
@@ -800,6 +809,8 @@ impl OperationalAdapter {
                     .saturating_mul(u64::from(self.policy.max_attempts)),
                 restart_safe: true,
                 idempotent_start: true,
+                role: crate::LifecycleRole::Workload,
+                required_core: false,
             },
             provides: vec![Capability {
                 name: self.kind.capability(),

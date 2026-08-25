@@ -1,4 +1,9 @@
-use std::{collections::BTreeMap, panic::AssertUnwindSafe, sync::Arc, time::Duration};
+use std::{
+    collections::{BTreeMap, VecDeque},
+    panic::AssertUnwindSafe,
+    sync::Arc,
+    time::{Duration, Instant},
+};
 
 use futures::FutureExt;
 use thiserror::Error;
@@ -10,8 +15,9 @@ use tokio::{
 use tokio_util::sync::CancellationToken;
 
 use crate::{
-    ComponentContext, ComponentFactory, ComponentId, FailurePolicy, LifecycleState, RunningState,
-    RuntimeEvent, RuntimeRecorder, ValidatedTopology,
+    component::RuntimePortRegistry, ComponentContext, ComponentFactory, ComponentId, FailurePolicy,
+    LifecycleRole, LifecycleState, RunningState, RuntimeEvent, RuntimeRecorder, SupervisionScope,
+    ValidatedTopology,
 };
 
 #[derive(Debug, Error)]
@@ -84,36 +90,48 @@ impl Kernel {
         started: oneshot::Sender<Result<(), KernelError>>,
     ) -> Result<KernelExit, KernelError> {
         let mut tasks = JoinSet::<ComponentCompletion>::new();
+        let ports = RuntimePortRegistry::new(
+            self.topology.factories.keys().cloned(),
+            self.topology.port_routes(),
+            &self.recorder,
+        );
         let mut cancellations = BTreeMap::<ComponentId, CancellationToken>::new();
-        let mut restarts = BTreeMap::<ComponentId, u32>::new();
+        let mut restarts = BTreeMap::<ComponentId, VecDeque<Instant>>::new();
         let (restart_tx, mut restart_rx) =
             mpsc::channel::<(ComponentId, Arc<dyn ComponentFactory>)>(16);
         let (readiness_tx, mut readiness_rx) = mpsc::channel::<(ComponentId, bool)>(16);
 
-        for id in self.topology.startup_order() {
-            let factory = self.topology.factories[id].clone();
-            let (ready_tx, ready_rx) = oneshot::channel();
-            let cancellation = CancellationToken::new();
-            cancellations.insert(id.clone(), cancellation.clone());
-            self.recorder
-                .set_component_state(id.clone(), RunningState::Starting);
-            spawn_component(
-                &mut tasks,
-                factory,
-                cancellation,
-                self.recorder.clone(),
-                ready_tx,
-            );
-            match timeout(self.readiness_timeout, ready_rx).await {
-                Ok(Ok(())) => self
-                    .recorder
-                    .set_component_state(id.clone(), RunningState::Running),
-                _ => {
-                    self.recorder.set_lifecycle(LifecycleState::Failed);
-                    let error = KernelError::Readiness(id.clone());
-                    let _ = started.send(Err(KernelError::Readiness(id.clone())));
-                    cancel_all(&cancellations, self.topology.shutdown_order());
-                    return Err(error);
+        for layer in self.topology.dependency_layers() {
+            let mut readiness = Vec::with_capacity(layer.len());
+            for id in layer {
+                let factory = self.topology.factories[&id].clone();
+                let (ready_tx, ready_rx) = oneshot::channel();
+                let cancellation = CancellationToken::new();
+                cancellations.insert(id.clone(), cancellation.clone());
+                self.recorder
+                    .set_component_state(id.clone(), RunningState::Starting);
+                spawn_component(
+                    &mut tasks,
+                    factory,
+                    cancellation,
+                    self.recorder.clone(),
+                    ports.for_component(&id),
+                    ready_tx,
+                );
+                readiness.push((id, ready_rx));
+            }
+            for (id, ready_rx) in readiness {
+                match timeout(self.readiness_timeout, ready_rx).await {
+                    Ok(Ok(())) => self
+                        .recorder
+                        .set_component_state(id.clone(), RunningState::Running),
+                    _ => {
+                        self.recorder.set_lifecycle(LifecycleState::Failed);
+                        let error = KernelError::Readiness(id.clone());
+                        let _ = started.send(Err(KernelError::Readiness(id.clone())));
+                        cancel_all(&cancellations, self.topology.shutdown_order());
+                        return Err(error);
+                    }
                 }
             }
         }
@@ -131,7 +149,7 @@ impl Kernel {
                     let exit = shutdown(
                         &mut tasks,
                         &cancellations,
-                        self.topology.shutdown_order(),
+                        shutdown_phases(&self.topology),
                         &self.recorder,
                         grace,
                     ).await;
@@ -151,6 +169,7 @@ impl Kernel {
                         factory,
                         cancellation,
                         self.recorder.clone(),
+                        ports.for_component(&id),
                         ready_tx,
                     );
                     let readiness_tx = readiness_tx.clone();
@@ -164,10 +183,43 @@ impl Kernel {
                     if ready {
                         self.recorder.set_component_state(id, RunningState::Running);
                     } else {
-                        self.recorder.set_lifecycle(LifecycleState::Failed);
-                        self.recorder.set_component_state(id.clone(), RunningState::Failed);
-                        cancel_all(&cancellations, self.topology.shutdown_order());
-                        return Ok(KernelExit::Fatal { component: id });
+                        let factory = self.topology.factories[&id].clone();
+                        match failure_action(
+                            &factory.spec().failure_policy,
+                            restarts.entry(id.clone()).or_default(),
+                        ) {
+                            FailureAction::Fatal => {
+                                self.recorder.set_lifecycle(LifecycleState::Failed);
+                                self.recorder.set_component_state(id.clone(), RunningState::Failed);
+                                cancel_all(&cancellations, self.topology.shutdown_order());
+                                return Ok(KernelExit::Fatal { component: id });
+                            }
+                            FailureAction::Degrade => {
+                                if apply_degradation(
+                                    &self.topology,
+                                    &cancellations,
+                                    &self.recorder,
+                                    &id,
+                                ) {
+                                    self.recorder.set_lifecycle(LifecycleState::Failed);
+                                    cancel_all(&cancellations, self.topology.shutdown_order());
+                                    return Ok(KernelExit::Fatal { component: id });
+                                }
+                            }
+                            FailureAction::Restart { count, backoff, scope } => {
+                                self.recorder.set_restart_count(id.clone(), count);
+                                schedule_restart_scope(
+                                    &self.topology,
+                                    &cancellations,
+                                    &self.recorder,
+                                    &restart_tx,
+                                    id,
+                                    factory,
+                                    backoff,
+                                    scope,
+                                );
+                            }
+                        }
                     }
                 }
                 completion = tasks.join_next(), if !tasks.is_empty() => {
@@ -191,25 +243,43 @@ impl Kernel {
                                 return Ok(KernelExit::Fatal { component: id });
                             }
                             FailurePolicy::Degrade => {
-                                self.recorder.emit(Some(id.clone()), RuntimeEvent::ComponentDegraded);
-                                self.recorder.set_component_state(id, RunningState::Degraded);
-                            }
-                            FailurePolicy::Restart { max_restarts, backoff_millis } => {
-                                let count = restarts.entry(id.clone()).or_default();
-                                if *count >= max_restarts {
+                                if apply_degradation(
+                                    &self.topology,
+                                    &cancellations,
+                                    &self.recorder,
+                                    &id,
+                                ) {
                                     self.recorder.set_lifecycle(LifecycleState::Failed);
-                                    self.recorder.set_component_state(id.clone(), RunningState::Failed);
                                     cancel_all(&cancellations, self.topology.shutdown_order());
                                     return Ok(KernelExit::Fatal { component: id });
                                 }
-                                *count += 1;
-                                self.recorder.set_restart_count(id.clone(), *count);
-                                self.recorder.set_component_state(id.clone(), RunningState::Restarting);
-                                let restart_tx = restart_tx.clone();
-                                tokio::spawn(async move {
-                                    tokio::time::sleep(Duration::from_millis(backoff_millis)).await;
-                                    let _ = restart_tx.send((id, factory)).await;
-                                });
+                            }
+                            FailurePolicy::Restart { .. } => {
+                                match failure_action(
+                                    &factory.spec().failure_policy,
+                                    restarts.entry(id.clone()).or_default(),
+                                ) {
+                                    FailureAction::Restart { count, backoff, scope } => {
+                                        self.recorder.set_restart_count(id.clone(), count);
+                                        schedule_restart_scope(
+                                            &self.topology,
+                                            &cancellations,
+                                            &self.recorder,
+                                            &restart_tx,
+                                            id,
+                                            factory,
+                                            backoff,
+                                            scope,
+                                        );
+                                    }
+                                    FailureAction::Fatal => {
+                                        self.recorder.set_lifecycle(LifecycleState::Failed);
+                                        self.recorder.set_component_state(id.clone(), RunningState::Failed);
+                                        cancel_all(&cancellations, self.topology.shutdown_order());
+                                        return Ok(KernelExit::Fatal { component: id });
+                                    }
+                                    FailureAction::Degrade => unreachable!("restart policy cannot degrade"),
+                                }
                             }
                         }
                     } else {
@@ -300,16 +370,114 @@ struct ComponentCompletion {
     cancelled: bool,
 }
 
+enum FailureAction {
+    Fatal,
+    Degrade,
+    Restart {
+        count: u32,
+        backoff: Duration,
+        scope: SupervisionScope,
+    },
+}
+
+fn failure_action(policy: &FailurePolicy, history: &mut VecDeque<Instant>) -> FailureAction {
+    match *policy {
+        FailurePolicy::Fatal => FailureAction::Fatal,
+        FailurePolicy::Degrade => FailureAction::Degrade,
+        FailurePolicy::Restart {
+            max_restarts,
+            backoff_millis,
+            window_millis,
+            scope,
+        } => {
+            let now = Instant::now();
+            let window = Duration::from_millis(window_millis);
+            while history
+                .front()
+                .is_some_and(|observed| now.duration_since(*observed) >= window)
+            {
+                history.pop_front();
+            }
+            if history.len() >= max_restarts as usize {
+                FailureAction::Fatal
+            } else {
+                history.push_back(now);
+                FailureAction::Restart {
+                    count: history.len().try_into().unwrap_or(u32::MAX),
+                    backoff: Duration::from_millis(backoff_millis),
+                    scope,
+                }
+            }
+        }
+    }
+}
+
+#[allow(clippy::too_many_arguments)]
+fn schedule_restart_scope(
+    topology: &ValidatedTopology,
+    cancellations: &BTreeMap<ComponentId, CancellationToken>,
+    recorder: &RuntimeRecorder,
+    restart_tx: &mpsc::Sender<(ComponentId, Arc<dyn ComponentFactory>)>,
+    id: ComponentId,
+    factory: Arc<dyn ComponentFactory>,
+    backoff: Duration,
+    scope: SupervisionScope,
+) {
+    let mut members = vec![(id.clone(), factory)];
+    if scope == SupervisionScope::OneForAll {
+        members.extend(
+            topology
+                .transitive_dependents(&id)
+                .into_iter()
+                .map(|dependent| {
+                    let factory = topology.factories[&dependent].clone();
+                    (dependent, factory)
+                }),
+        );
+    }
+    for (member, factory) in members {
+        if let Some(cancellation) = cancellations.get(&member) {
+            cancellation.cancel();
+        }
+        recorder.set_component_state(member.clone(), RunningState::Restarting);
+        let restart_tx = restart_tx.clone();
+        tokio::spawn(async move {
+            tokio::time::sleep(backoff).await;
+            let _ = restart_tx.send((member, factory)).await;
+        });
+    }
+}
+
+fn apply_degradation(
+    topology: &ValidatedTopology,
+    cancellations: &BTreeMap<ComponentId, CancellationToken>,
+    recorder: &RuntimeRecorder,
+    id: &ComponentId,
+) -> bool {
+    recorder.emit(Some(id.clone()), RuntimeEvent::ComponentDegraded);
+    recorder.set_component_state(id.clone(), RunningState::Degraded);
+    for dependent in topology.transitive_dependents(id) {
+        recorder.emit(Some(dependent.clone()), RuntimeEvent::CapabilityUnavailable);
+        if let Some(cancellation) = cancellations.get(&dependent) {
+            cancellation.cancel();
+        }
+        recorder.set_capability_unavailable(dependent);
+    }
+    topology.is_required_core(id)
+}
+
 fn spawn_component(
     tasks: &mut JoinSet<ComponentCompletion>,
     factory: Arc<dyn ComponentFactory>,
     cancellation: CancellationToken,
     recorder: RuntimeRecorder,
+    ports: crate::component::ComponentPorts,
     ready: oneshot::Sender<()>,
 ) {
     let id = factory.spec().id;
     tasks.spawn(async move {
-        let context = ComponentContext::new(id.clone(), cancellation.clone(), recorder, ready);
+        let context =
+            ComponentContext::new(id.clone(), cancellation.clone(), recorder, ports, ready);
         let outcome = AssertUnwindSafe(factory.build().run(context))
             .catch_unwind()
             .await;
@@ -340,25 +508,53 @@ fn cancel_all(
 async fn shutdown(
     tasks: &mut JoinSet<ComponentCompletion>,
     cancellations: &BTreeMap<ComponentId, CancellationToken>,
-    shutdown_order: &[ComponentId],
+    shutdown_phases: Vec<Vec<ComponentId>>,
     recorder: &RuntimeRecorder,
     grace: Duration,
 ) -> KernelExit {
-    for id in shutdown_order {
-        recorder.set_component_state(id.clone(), RunningState::Stopping);
-        if let Some(cancellation) = cancellations.get(id) {
-            cancellation.cancel();
-        }
-    }
+    let shutdown_order = shutdown_phases
+        .iter()
+        .flatten()
+        .cloned()
+        .collect::<Vec<_>>();
     let drain = async {
         let mut failed = Vec::new();
-        while let Some(completion) = tasks.join_next().await {
-            if let Ok(completion) = completion {
-                if completion.error.is_some() {
-                    recorder.set_component_state(completion.id.clone(), RunningState::Failed);
-                    failed.push(completion.id);
-                } else {
-                    recorder.set_component_state(completion.id, RunningState::Stopped);
+        for layer in shutdown_phases {
+            let snapshot = recorder.snapshot();
+            let mut pending = layer
+                .iter()
+                .filter(|id| {
+                    matches!(
+                        snapshot.components.get(*id),
+                        Some(
+                            RunningState::Starting
+                                | RunningState::Ready
+                                | RunningState::Running
+                                | RunningState::Restarting
+                                | RunningState::Stopping
+                        )
+                    )
+                })
+                .cloned()
+                .collect::<std::collections::BTreeSet<_>>();
+            for id in &layer {
+                recorder.set_component_state(id.clone(), RunningState::Stopping);
+                if let Some(cancellation) = cancellations.get(id) {
+                    cancellation.cancel();
+                }
+            }
+            while !pending.is_empty() {
+                let Some(completion) = tasks.join_next().await else {
+                    break;
+                };
+                if let Ok(completion) = completion {
+                    pending.remove(&completion.id);
+                    if completion.error.is_some() {
+                        recorder.set_component_state(completion.id.clone(), RunningState::Failed);
+                        failed.push(completion.id);
+                    } else {
+                        recorder.set_component_state(completion.id, RunningState::Stopped);
+                    }
                 }
             }
         }
@@ -379,4 +575,28 @@ async fn shutdown(
             KernelExit::ShutdownDeadlineExceeded { aborted }
         }
     }
+}
+
+fn shutdown_phases(topology: &ValidatedTopology) -> Vec<Vec<ComponentId>> {
+    let mut layers = topology.dependency_layers();
+    layers.reverse();
+    let ordered = layers.into_iter().flatten().collect::<Vec<_>>();
+    let mut phases = Vec::new();
+    for role in [
+        LifecycleRole::Ingress,
+        LifecycleRole::Workload,
+        LifecycleRole::Checkpoint,
+        LifecycleRole::Telemetry,
+        LifecycleRole::Egress,
+    ] {
+        let members = ordered
+            .iter()
+            .filter(|id| topology.factories[*id].lifecycle_role() == role)
+            .cloned()
+            .collect::<Vec<_>>();
+        if !members.is_empty() {
+            phases.push(members);
+        }
+    }
+    phases
 }
