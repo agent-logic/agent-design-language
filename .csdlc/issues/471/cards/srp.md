@@ -8,11 +8,11 @@ Repository: agent-logic/agent-design-language
 
 Card: srp
 
-Status: pre_phase
+Status: draft
 
 ## Scope
 
-All #471 contract, wiring, lifecycle, supervision, health, metrics, compatibility, and focused proof changes.
+
 
 ## Prompts
 

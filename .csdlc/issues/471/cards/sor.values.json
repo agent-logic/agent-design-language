@@ -7,7 +7,7 @@
     "title": "[Runtime v3] Make kernel wiring, contracts, and supervision authoritative",
     "slug": "471-runtime-v3-authoritative-kernel-contracts",
     "version": "v0.92.1",
-    "generation": 10
+    "generation": 16
   },
   "status": "pre_phase",
   "content": {
@@ -48,9 +48,18 @@
           "purpose": "Full Runtime kernel tests, typed port lifecycle regression, determinism regressions, strict Clippy, formatting, and diff hygiene passed at 5fff69d05.",
           "outcome": "passed",
           "evidence_ref": ".csdlc/prepared/issues/471/validate-runtime-kernel.sh"
+        },
+        {
+          "command": [
+            "bash",
+            ".csdlc/prepared/issues/471/validate-runtime-kernel.sh"
+          ],
+          "purpose": "Full Runtime kernel tests, incarnation-isolated route and signal regressions, initial readiness policy, production ingress, strict Clippy, formatting, and diff hygiene passed at 26b9e5d7a.",
+          "outcome": "passed",
+          "evidence_ref": ".csdlc/prepared/issues/471/validate-runtime-kernel.sh"
         }
       ],
-      "integration_state": "not_started",
+      "integration_state": "worktree_only",
       "publication_state": "not_published",
       "merge_state": "not_merged",
       "closeout_state": "not_started",

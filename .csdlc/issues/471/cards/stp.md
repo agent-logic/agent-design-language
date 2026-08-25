@@ -16,16 +16,30 @@ Runtime v3 kernel architecture remediation only; no WP-27, cloud, provider, cons
 
 ## Deliverables
 
-- adl-runtime-kernel/src/component.rs
+- adl-runtime-kernel/src/assembly.rs
 - adl-runtime-kernel/src/channel.rs
+- adl-runtime-kernel/src/cognition.rs
+- adl-runtime-kernel/src/component.rs
 - adl-runtime-kernel/src/contract.rs
-- adl-runtime-kernel/src/topology.rs
+- adl-runtime-kernel/src/governance.rs
+- adl-runtime-kernel/src/ingress.rs
+- adl-runtime-kernel/src/lib.rs
+- adl-runtime-kernel/src/operations.rs
+- adl-runtime-kernel/src/proof.rs
+- adl-runtime-kernel/src/reasoning.rs
 - adl-runtime-kernel/src/supervisor.rs
-- adl-runtime-kernel/tests/kernel.rs
+- adl-runtime-kernel/src/telemetry.rs
+- adl-runtime-kernel/src/time.rs
+- adl-runtime-kernel/src/topology.rs
+- adl-runtime-kernel/tests/configuration.rs
 - adl-runtime-kernel/tests/contracts.rs
+- adl-runtime-kernel/tests/kernel.rs
+- adl-runtime-kernel/tests/production_acip_wss.rs
+- adl-runtime-kernel/tests/reasoning.rs
 - .csdlc/prepared/issues/471/design.md
 - .csdlc/prepared/issues/471/diagram.mmd
 - .csdlc/prepared/issues/471/validate-runtime-kernel.sh
+- .csdlc/evidence/471
 
 ## Acceptance
 

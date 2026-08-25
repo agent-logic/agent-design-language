@@ -52,12 +52,21 @@ Implemented all ten authoritative Runtime v3 kernel architecture findings with p
     "purpose": "Full Runtime kernel tests, typed port lifecycle regression, determinism regressions, strict Clippy, formatting, and diff hygiene passed at 5fff69d05.",
     "outcome": "passed",
     "evidence_ref": ".csdlc/prepared/issues/471/validate-runtime-kernel.sh"
+  },
+  {
+    "command": [
+      "bash",
+      ".csdlc/prepared/issues/471/validate-runtime-kernel.sh"
+    ],
+    "purpose": "Full Runtime kernel tests, incarnation-isolated route and signal regressions, initial readiness policy, production ingress, strict Clippy, formatting, and diff hygiene passed at 26b9e5d7a.",
+    "outcome": "passed",
+    "evidence_ref": ".csdlc/prepared/issues/471/validate-runtime-kernel.sh"
   }
 ]
 
 ## Integration
 
-not_started
+worktree_only
 
 ## Publication
 
