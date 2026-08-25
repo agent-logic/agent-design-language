@@ -4,13 +4,45 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "34509f31c80be5cf38a5b8085f6eae0006c612f628dfac516322bc7213517061",
-  "phase": "implemented",
-  "generation": 5,
-  "digest": "b7ef3b9cf5eea9e45eff691331c0527b7a4bf7bc0522fc7579db34f5d6e0af1d",
+  "phase": "reviewed",
+  "generation": 6,
+  "digest": "13dc6f1ce87140bacadb037dd4abcbd02c828a70f60176dd89a5cc4c699e58fe",
   "branch": "codex/319-v092-wp30-release-ceremony",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-319-release-ceremony",
-  "review_assignment": null,
-  "review": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:34f396b8-0bb5-46a8-a8b0-07c23b882d6f",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:ae7bb8164e3a44dd85f495f63feecbfa99cda47a:a1eb6034f9b019b5b606e4882045113e62ae200182388153a94a669987f70f14",
+    "scope": [
+      "adl/tools/release_ceremony.sh",
+      "adl/tools/test_release_ceremony.sh",
+      ".csdlc/prepared/issues/319",
+      ".csdlc/evidence/319",
+      ".csdlc/issues/319",
+      "docs/milestones/v0.92/RELEASE_CEREMONY_GATE_v0.92.json",
+      "docs/milestones/v0.92/V092_RELEASE_CEREMONY_319.md"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:34f396b8-0bb5-46a8-a8b0-07c23b882d6f",
+    "scope": [
+      "adl/tools/release_ceremony.sh",
+      "adl/tools/test_release_ceremony.sh",
+      ".csdlc/prepared/issues/319",
+      ".csdlc/evidence/319",
+      ".csdlc/issues/319",
+      "docs/milestones/v0.92/RELEASE_CEREMONY_GATE_v0.92.json",
+      "docs/milestones/v0.92/V092_RELEASE_CEREMONY_319.md"
+    ],
+    "reviewed_revision": "git-blake3:ae7bb8164e3a44dd85f495f63feecbfa99cda47a:a1eb6034f9b019b5b606e4882045113e62ae200182388153a94a669987f70f14",
+    "findings": [],
+    "residual_risks": [
+      "The post-merge clean-main receipt remains deferred until the reviewed PR merges.",
+      "Tag and GitHub release mutation require separate operator authorization and were not performed."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
   "publication": null,
   "readiness": null,
   "terminal": null,
@@ -25,32 +57,32 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f3b9227929a0c35144ca8cfecbc85ec9275a7bc725b756b50c2711c2b5a5ae73",
+      "values_digest": "96ea40451ed0a7474fa80990742452b7612066afe38f02732500313606b58755",
       "rendered_digest": "f388437ad1bf2c81953f4eefc674999867a8394550150706d870ed5b2341887a",
       "ast_digest": "86bb20778de54dc3d9460bed3b0351d7265f968cffb0387c5ce072bad7b3d1db"
     },
     "stp": {
-      "values_digest": "2a37f031c30c24d23a04068b5d7392983380572f9727b95b94be102da32f2705",
+      "values_digest": "f056b43af21186ed21fb53324693bed4f2370bc3a3b8bd2152a397089a335902",
       "rendered_digest": "2024b1f4df276abf337f890ab4a48d016e9c4977a8c82ce1ec83c1e3355d3983",
       "ast_digest": "16f5a4016c7645cd277fcc1f48b2b2504dc8ba6c24b8f4edfdb71471279c8c63"
     },
     "spp": {
-      "values_digest": "81d4cd50e0dde68a4397ee5099274eb63f31c01b4d12c5aaf28353d67a2cd263",
+      "values_digest": "d4ff21058f3bccdccaaabd8f6c9c4baa6ad68b10eb95c143864b586d3ea74c2c",
       "rendered_digest": "2b78403b4a571c95674a16bd9e9abcfcba054fb67e0dd45acd66bbf7d79c8ee2",
       "ast_digest": "92196c40904e5bab8fa2b6279a744f81bf6587f7e6697210943626f118229868"
     },
     "vpp": {
-      "values_digest": "5fdecfffcd97e92a31e9c6a76cf97892c1c8a1dbdef40d0df1bfeb3a7f2636cb",
+      "values_digest": "c9ccdf6b010f6d5ad5eb5fef413dd592bd401745676bde25040f8950097b6251",
       "rendered_digest": "24e9493e3f74ae3d2d1ef466d1c00ee0ae0ccb87919f1f2172f05d05a8ae2057",
       "ast_digest": "1a12fdffecad014518d9d8e8e33a7746eb370adb1358df747d230d16bafda903"
     },
     "srp": {
-      "values_digest": "284a2cbca973cab6833421b44da186fa46cb1473dd4e8b2bf6507c76632fd477",
-      "rendered_digest": "e3acb8c3ac05cffb9f2227820d6e4c2d7ae0e6f0a3e6746a24289ff9bbf60739",
-      "ast_digest": "212b5af075e37d891b6132336cca210882848ab43e92e4dc85a1e006f91c724b"
+      "values_digest": "24fc8949ee09259fbe85a9790b9a9d4a3fd0f2b7d7821abb7b41db2518e7d57d",
+      "rendered_digest": "941ea7f31dbee29c14743e6f6947a3fb41fc8ec215e421e14845e74868cea51b",
+      "ast_digest": "b22017c6463a08f5949f5925a7eec22f619e419d34eb4ef049033367a628a891"
     },
     "sor": {
-      "values_digest": "0e3b08da35a8f38cd7dad41a9010d85a2fbb210b759bc47303f43f991f0e028c",
+      "values_digest": "b1f02bf641ca932768db535530c4b008ae5fc9cd0a89d8300b9dc0f59ef4270f",
       "rendered_digest": "fc5c8108905ef9ea81d783f166e7934e87872a53a9d8d430d2876c9814ecb257",
       "ast_digest": "a35ce14cd4c5682e9fe397dd2d77ad98f09294eb42fc0a4f6bead7d3852d7ac8"
     }
@@ -76,6 +108,13 @@
       "to": "implemented",
       "actor": "codex:/root",
       "reason": "Advance #319 after bounded implementation and focused ceremony proof."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "fresh-session:34f396b8-0bb5-46a8-a8b0-07c23b882d6f",
+      "reason": "exact scoped review passed"
     }
   ],
   "audit": [
@@ -127,6 +166,20 @@
       "actor": "codex:/root",
       "reason": "Advance #319 after bounded implementation and focused ceremony proof.",
       "operation": "{\"operation\":\"advance_phase\",\"phase\":\"implemented\"}"
+    },
+    {
+      "sequence": 8,
+      "generation": 5,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 9,
+      "generation": 6,
+      "actor": "fresh-session:34f396b8-0bb5-46a8-a8b0-07c23b882d6f",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
     }
   ]
 }

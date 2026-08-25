@@ -7,23 +7,26 @@
     "title": "[v0.92][WP-30] Release ceremony",
     "slug": "v0-92-wp-30-release-ceremony",
     "version": "v0.92",
-    "generation": 5
+    "generation": 6
   },
   "status": "pre_phase",
   "content": {
     "card_kind": "srp",
     "values": {
-      "review_scope": "Issue #319 ceremony gate, exact v0.92 evidence, focused tests, and release-truth documents",
-      "review_revision": null,
-      "reviewer": null,
+      "review_scope": "adl/tools/release_ceremony.sh\nadl/tools/test_release_ceremony.sh\n.csdlc/prepared/issues/319\n.csdlc/evidence/319\n.csdlc/issues/319\ndocs/milestones/v0.92/RELEASE_CEREMONY_GATE_v0.92.json\ndocs/milestones/v0.92/V092_RELEASE_CEREMONY_319.md",
+      "review_revision": "git-blake3:ae7bb8164e3a44dd85f495f63feecbfa99cda47a:a1eb6034f9b019b5b606e4882045113e62ae200182388153a94a669987f70f14",
+      "reviewer": "fresh-session:34f396b8-0bb5-46a8-a8b0-07c23b882d6f",
       "review_prompts": [
         "Does the gate prove reviewed-green merge ancestry without depending on typed finish or cleanup?",
         "Can stale, dirty, duplicate, partial, or conflicting release state pass?",
         "Are release claims and #268/v0.93 non-claims exact and truthful?"
       ],
       "findings": [],
-      "residual_risk": [],
-      "review_result": "pre_review"
+      "residual_risk": [
+        "The post-merge clean-main receipt remains deferred until the reviewed PR merges.",
+        "Tag and GitHub release mutation require separate operator authorization and were not performed."
+      ],
+      "review_result": "pass"
     }
   }
 }
