@@ -108,11 +108,11 @@ Implemented all ten authoritative Runtime v3 kernel architecture findings with p
 
 ## Integration
 
-worktree_only
+pr_open
 
 ## Publication
 
-Publication: not_published
+Publication: ready
 
 Merge: not_merged
 

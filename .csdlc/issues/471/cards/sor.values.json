@@ -7,7 +7,7 @@
     "title": "[Runtime v3] Make kernel wiring, contracts, and supervision authoritative",
     "slug": "471-runtime-v3-authoritative-kernel-contracts",
     "version": "v0.92.1",
-    "generation": 31
+    "generation": 32
   },
   "status": "pre_phase",
   "content": {
@@ -101,8 +101,8 @@
           "evidence_ref": ".csdlc/prepared/issues/471/validate-runtime-kernel.sh"
         }
       ],
-      "integration_state": "worktree_only",
-      "publication_state": "not_published",
+      "integration_state": "pr_open",
+      "publication_state": "ready",
       "merge_state": "not_merged",
       "closeout_state": "not_started",
       "follow_ups": []
