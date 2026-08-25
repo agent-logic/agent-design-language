@@ -4,7 +4,7 @@
 
 1. #432's reviewed implementation is merged and ancestral; its later administrative closeout is non-gating.
 2. The reviewed planning package is merged; closed #431 is provenance only.
-3. The milestone operator creates the number-free WP-01 conductor from the merged package before WP-01 creates any child issue.
+3. The operator separately declares v0.92.1 ready, then creates the number-free WP-01 conductor from the merged package before WP-01 creates any child issue.
 4. Exact issue ownership and worktrees are collision-free.
 5. Each lane has typed cards, proving validation, and bounded budgets.
 6. Operator-controlled external actions remain pending until explicitly authorized.

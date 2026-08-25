@@ -29,7 +29,7 @@ Status: planning candidate. This inventory proves package completeness; it does 
 
 ## Issue-Creation Boundary
 
-Existing issue authority in this package is #432, #51, #261, #262, #263, #264, #342, #251, #122, #84, and #345. Closed #431 is planning provenance only. WP-01 remains a number-free milestone-opening ID until the milestone operator creates it after this planning package merges; every CORP, V3, DRT, HOT, OBS, DEC, PROV, INT, and TAIL entry remains number-free until WP-01 creates the ordered wave. Closed #433-#438 and redundant #439 are not execution authority. #457 is historical provider-profile provenance only. Closed #188, #190, and #189 route respectively to convergence/quality, successor planning, and final ceremony.
+Existing issue authority in this package is #432, #51, #261, #262, #263, #264, #342, #251, #122, #84, and #345. Closed #431 is planning provenance only. WP-01 remains a number-free milestone-opening ID after this package merges and until the operator separately declares v0.92.1 ready and creates it; every CORP, V3, DRT, HOT, OBS, DEC, PROV, INT, and TAIL entry remains number-free until WP-01 creates the ordered wave. Closed #433-#438 and redundant #439 are not execution authority. #457 is historical provider-profile provenance only. Closed #188, #190, and #189 route respectively to convergence/quality, successor planning, and final ceremony.
 
 ## Canonical Release Tail
 

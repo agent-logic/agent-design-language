@@ -2,7 +2,7 @@
 
 ## Topology
 
-`#432 + reviewed planning-package merge -> milestone operator creates number-free WP-01 -> {Corporate and IP, C-SDLC v3, Distributed Runtime, Podcast, hot reload, Observatory, Runtime v2/v3 decoupling, provider profiles}`; `DRT-C -> DRT-D`; `PROV-A -> PROV-B`. Closed #431 is provenance only and cannot open the wave.
+`#432 + reviewed planning-package merge -> WP-01 eligible -> operator declares v0.92.1 ready -> operator creates number-free WP-01 -> {Corporate and IP, C-SDLC v3, Distributed Runtime, Podcast, hot reload, Observatory, Runtime v2/v3 decoupling, provider profiles}`; `DRT-C -> DRT-D`; `PROV-A -> PROV-B`. Closed #431 is provenance only and cannot open the wave.
 
 The roots are parallel after the shared opening gates except for the explicit DRT-D and PROV-B edges. Cross-lane dependencies must be explicit issue edges, never assumed from document order.
 
