@@ -1,0 +1,12 @@
+{
+  "issue": 317,
+  "card": "spp",
+  "actor": "codex:01a036fd-7539-76d1-a728-d9d180fc99c3",
+  "reason": "Bounded WP-28A deliverables and focused proving validation are implemented in the registered worktree.",
+  "expected_generation": 5,
+  "expected_digest": "179166114d4ffe70c68acf71d1a9d638abb8bab7317eaa49816589d36d5d2115",
+  "operation": {
+    "operation": "advance_phase",
+    "phase": "implemented"
+  }
+}

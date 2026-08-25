@@ -1,0 +1,17 @@
+{
+  "issue": 317,
+  "card": "sor",
+  "actor": "codex:01a036fd-7539-76d1-a728-d9d180fc99c3",
+  "reason": "Record the focused aggregate proof after the read-only observation envelope was retained.",
+  "expected_generation": 4,
+  "expected_digest": "f667a950dc76771cdd71fda81730eeb29737353c0232bec4cf7af723614d3777",
+  "operation": {
+    "operation": "record_validation",
+    "result": {
+      "command": ["ruby", ".csdlc/prepared/issues/317/validate-closeout-plan.rb", "all"],
+      "outcome": "passed",
+      "purpose": "Validate the observation-bound six-row universe, merge-only acyclic DAG, and twelve executable negative fixtures.",
+      "evidence_ref": ".csdlc/evidence/317"
+    }
+  }
+}

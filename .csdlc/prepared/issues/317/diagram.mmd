@@ -1,0 +1,11 @@
+flowchart TD
+  A[#316 reviewed green merge ancestral] --> B[Derive canonical v0.92 issue universe]
+  B --> C[Read live issue PR head merge review and checks]
+  C --> D[Classify each exact row and assign next action]
+  D --> E{Complete unique and acyclic?}
+  E -- No --> X[Block plan publication]
+  E -- Yes --> F[Separate merge gates from async finish and cleanup]
+  F --> G[Run negative and hygiene proof]
+  G --> H[Independent exact-head review]
+  H --> I[#317 reviewed green merge enables #318]
+  I -. async .-> J[Typed finish cleanup and umbrella bookkeeping]
