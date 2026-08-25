@@ -20,13 +20,6 @@ VALIDATORS = {
   "production_birthday_focused" => %w[cargo test --manifest-path adl-runtime-kernel/Cargo.toml --test production_birthday -- --test-threads=1]
 }.freeze
 
-def github_pr(number)
-  fields = "number,state,headRefOid,mergeCommit,reviewDecision,statusCheckRollup"
-  out, err, status = Open3.capture3("gh", "pr", "view", number.to_s, "--json", fields)
-  abort "GitHub PR read failed for ##{number}: #{err}" unless status.success?
-  JSON.parse(out)
-end
-
 def read_json!(path, label)
   abort "missing #{label}: #{path}" unless File.file?(path)
   JSON.parse(File.read(path))

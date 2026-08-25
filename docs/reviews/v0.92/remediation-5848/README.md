@@ -33,7 +33,7 @@ The current #315 remediation branch fixes the production birthday activation
 findings in `adl-runtime-kernel/src/production_birthday.rs`:
 
 1. post-commit cleanup failure is now represented as
-   `CommittedWithCleanupPending(ProductionBirthdayReceipt)`, so callers can
+   `CommittedWithCleanupPending(Box<ProductionBirthdayReceipt>)`, so callers can
    distinguish a committed activation with cleanup residue from an uncommitted
    activation failure;
 2. `receipt_from_input` now propagates canonical digest errors instead of
