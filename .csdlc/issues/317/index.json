@@ -4,14 +4,51 @@
   "repository": "agent-logic/agent-design-language",
   "code_repository": "agent-logic/agent-design-language",
   "initialization_digest": "a0534f72fa9918892f27414f6d760919282edda24fa3797c32f8229d6bc80f8b",
-  "phase": "implemented",
-  "generation": 8,
-  "digest": "6786e766b00cb0d0a528b48985ad57c9656fcc0e3160296ecb48a3c2855d4b7c",
+  "phase": "published",
+  "generation": 10,
+  "digest": "e170638f82958971bdae7e30156c4023289a8fa50db8d354bfde9c6b1a9cd13d",
   "branch": "codex/317-v092-wp28a-terminal-closeout-plan",
   "worktree": "/Volumes/FastWork/adl-worktrees/adl-issue-317-terminal-closeout-plan",
-  "review_assignment": null,
-  "review": null,
-  "publication": null,
+  "review_assignment": {
+    "reviewer": "fresh-session:04ea0b23-0b9c-4e54-872c-42f4262bb6f1",
+    "assigned_by": "codex:/root",
+    "revision": "git-blake3:0fae275ca2b7dc82701058ef71da3d09b9cdbb62:ebc42ee5123dbb1fe2b9b3b53d6547f2c9e812d48a78e33eadf77b6107aad5dd",
+    "scope": [
+      "docs/milestones/v0.92/V092_TERMINAL_CLOSEOUT_PLAN_317.md",
+      ".csdlc/evidence/317",
+      ".csdlc/prepared/issues/317/validate-closeout-plan.rb",
+      ".csdlc/issues/317"
+    ]
+  },
+  "review": {
+    "reviewer": "fresh-session:04ea0b23-0b9c-4e54-872c-42f4262bb6f1",
+    "scope": [
+      "docs/milestones/v0.92/V092_TERMINAL_CLOSEOUT_PLAN_317.md",
+      ".csdlc/evidence/317",
+      ".csdlc/prepared/issues/317/validate-closeout-plan.rb",
+      ".csdlc/issues/317"
+    ],
+    "reviewed_revision": "git-blake3:0fae275ca2b7dc82701058ef71da3d09b9cdbb62:ebc42ee5123dbb1fe2b9b3b53d6547f2c9e812d48a78e33eadf77b6107aad5dd",
+    "findings": [],
+    "residual_risks": [
+      "Live GitHub observations can drift after the retained snapshot; publication and later merge checks must re-read exact PR state.",
+      "Typed finish, cleanup, umbrella bookkeeping, and handoff reconciliation remain asynchronous and are not successor gates."
+    ],
+    "completed": true,
+    "non_substantive_proof": null
+  },
+  "publication": {
+    "repository": "agent-logic/agent-design-language",
+    "issue": 317,
+    "pull_request": 474,
+    "url": "https://github.com/agent-logic/agent-design-language/pull/474",
+    "base": "main",
+    "head": "codex/317-v092-wp28a-terminal-closeout-plan",
+    "revision": "git-blake3:0fae275ca2b7dc82701058ef71da3d09b9cdbb62:ebc42ee5123dbb1fe2b9b3b53d6547f2c9e812d48a78e33eadf77b6107aad5dd",
+    "linkage_mode": "closing",
+    "draft": false,
+    "observed_state": "open"
+  },
   "readiness": null,
   "terminal": null,
   "migration": null,
@@ -25,34 +62,34 @@
   },
   "cards": {
     "sip": {
-      "values_digest": "f8e7fac640cb8074a5b6bab3c642c91d4c01fdd2c978da650c769f2452bdf79d",
+      "values_digest": "27c03a8fee58bb9aeec3b226ea9f733061f681c4e715b21429069c3fdfe27565",
       "rendered_digest": "a3b5318f0a6f8433f31dd2e2f1dcd5e9890b51b37100ce102cecb5d0253fad8e",
       "ast_digest": "ff15c4e1eaf94e64aebde71816954a3ca62bcf0a72115b13f28bee01893d28d2"
     },
     "stp": {
-      "values_digest": "54b156389bfc808b4ecbe92b0c05df3dea8c293a6cb2aad4c00730dbb0439e3e",
+      "values_digest": "dc448533ec164d248da312ff59a09396848ed79790555e6562b2c77037e174ab",
       "rendered_digest": "0a26748473618120e8ec5c453ed666dadbb0dff8437cfb517ef284b6e9c76a8d",
       "ast_digest": "397733adc591124548a54307136ca0cc3792f1513113cb6764c22285faad2086"
     },
     "spp": {
-      "values_digest": "ef370d12a1c473efec750e362b412513cb81b5d60c29e86bf793ba07946496d3",
+      "values_digest": "d04cc2784b30c769c41112977970f7492c1a55f33df1d407241192ed917cb2b4",
       "rendered_digest": "7c20011c829f2d845f4ae723c424b35574133bd4f3f548ee56be343e2b1a1be3",
       "ast_digest": "b10c3ff3f425f3780fd2c4ecaf727aa90450b7824f0ee04885fd4dbf5636c4cf"
     },
     "vpp": {
-      "values_digest": "27acedcaef4c4b56a2032926c10da6fec8c33b3973fa2471f27256f14cec7151",
+      "values_digest": "f81989dae730cfd95b149555ea65e14f4e52f83a9e517a8e356fa5b22b037f90",
       "rendered_digest": "aff622ea8b9e183bafdffe7ceb9def0ffa50057744114c23c83ed9a2b693bc33",
       "ast_digest": "686c4a1441ba647f3788ac08f141113c09f4615adb4451ae43029016837a3770"
     },
     "srp": {
-      "values_digest": "da8b839361709044713e918fc0634911032f7edd82ef6fa0e3e917ee5bd04c82",
-      "rendered_digest": "91129832a340290e84cb5be2ef253f8f7e40777c6ed5129d6992e4c775db651a",
-      "ast_digest": "b2b5d8a922019632a85699e2c89a119e6e6137f0855555a30c394a9955d2ef62"
+      "values_digest": "905aa35cfa838bdab2257430c221aab8eaa787f593905326555958ef016ed626",
+      "rendered_digest": "0289d2cf5a90194691149eaa9773a89b5e36dc6a2e646db1b7c6e5e1f08b754e",
+      "ast_digest": "c0778f409c520bc61fc50405046997ee4cc12d216ec831b40d37c5fbc349aed6"
     },
     "sor": {
-      "values_digest": "7f3dfc7e95edd97dee4f2d4c8362a887846e7d8d9d76a6db8227b2db5e4052b7",
-      "rendered_digest": "c9cb1378d46a0361782aebcf75fcc95a92b3047aea050304120995fa9ebf6b46",
-      "ast_digest": "42245c79ed483d6902c6aecd988e842de3434e9840f9600b8b0c9c4682ea6915"
+      "values_digest": "b9608c3bfd65a1829e76aedd026e21cac6ef7a17894bb820770d59d818da663e",
+      "rendered_digest": "23c944e9962f3e3bda7836eb77a471dd2ef84e5243cf499854848b548d92f5d4",
+      "ast_digest": "4b65bb0320a577a5ea20b15593503752310a85df3ce41012be9f29f3a43b3cd5"
     }
   },
   "transitions": [
@@ -76,6 +113,20 @@
       "to": "implemented",
       "actor": "codex:01a036fd-7539-76d1-a728-d9d180fc99c3",
       "reason": "Bounded WP-28A deliverables and focused proving validation are implemented in the registered worktree."
+    },
+    {
+      "sequence": 4,
+      "from": "implemented",
+      "to": "reviewed",
+      "actor": "codex:/root",
+      "reason": "exact scoped review passed"
+    },
+    {
+      "sequence": 5,
+      "from": "reviewed",
+      "to": "published",
+      "actor": "codex:/root",
+      "reason": "observed exact PR after current review"
     }
   ],
   "audit": [
@@ -148,6 +199,27 @@
       "actor": "codex:01a036fd-7539-76d1-a728-d9d180fc99c3",
       "reason": "Record complete remediation of the first independent-review findings before a fresh review.",
       "operation": "{\"operation\":\"replace_execution\",\"summary\":\"Remediated the #317 R1 findings by expanding the denominator to the complete 13-row Sprint 6 canonical universe, retaining and recomputing raw GitHub response digests, separating each reviewed revision from its later publication head, recording lifecycle/receipt/topology/cleanup truth per row, and expanding executable negative proof to 19 cases. No GitHub write, review, publication, merge, finish, cleanup, tag, release, close, or activation mutation occurred.\",\"changes\":[\"Expanded the explicit legacy-to-canonical reconciliation from six tail rows to umbrella #307 plus children #308-#319.\",\"Bound every canonical row to tracked wave and Sprint 6 authority and to retained raw issue/PR response bytes with recomputed SHA-256.\",\"Recorded typed-record, phase, receipt, branch, worktree, cleanliness, cleanup, release-dependency, owner, and next-action truth for every row.\",\"Separated #316 reviewed revision d9aaaadbf5fc8e425e7099485fc006857feffd1e from publication head 8478f11e21a34530ba07bf64afc260e7a6eedd33 and proved review-head and merge ancestry.\",\"Expanded negative replay to missing receipt, active/dirty worktree, partial release identity, duplicate mutation, arbitrary envelope digest, non-ancestral review, and the original identity/proof/DAG cases.\"],\"artifacts\":[\"docs/milestones/v0.92/V092_TERMINAL_CLOSEOUT_PLAN_317.md\",\".csdlc/evidence/317/issue-universe.json\",\".csdlc/evidence/317/closeout-dag.json\",\".csdlc/evidence/317/negative-cases.json\",\".csdlc/evidence/317/github-observation-envelope.json\",\".csdlc/evidence/317/github-raw\",\".csdlc/prepared/issues/317/validate-closeout-plan.rb\"],\"validation\":[{\"command\":[\"ruby\",\".csdlc/prepared/issues/317/validate-closeout-plan.rb\",\"all\"],\"purpose\":\"Validate the tracked-authority 13-row universe, recomputed raw provenance, reviewed-revision ancestry, acyclic merge gates, lifecycle truth, and 19 negative mutations.\",\"outcome\":\"passed\",\"evidence_ref\":\".csdlc/evidence/317\"}]}"
+    },
+    {
+      "sequence": 11,
+      "generation": 8,
+      "actor": "codex:/root",
+      "reason": "assign bounded exact-revision review",
+      "operation": "assign_review"
+    },
+    {
+      "sequence": 12,
+      "generation": 9,
+      "actor": "codex:/root",
+      "reason": "atomically record exact review evidence and reviewed phase",
+      "operation": "record_review"
+    },
+    {
+      "sequence": 13,
+      "generation": 10,
+      "actor": "codex:/root",
+      "reason": "atomically record observed GitHub publication and SOR projection",
+      "operation": "record_publication"
     }
   ]
 }

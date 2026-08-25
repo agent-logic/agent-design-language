@@ -14,7 +14,8 @@ Status: pre_phase
 
 docs/milestones/v0.92/V092_TERMINAL_CLOSEOUT_PLAN_317.md
 .csdlc/evidence/317
-.csdlc/prepared/issues/317
+.csdlc/prepared/issues/317/validate-closeout-plan.rb
+.csdlc/issues/317
 
 ## Prompts
 
@@ -33,12 +34,13 @@ Every actionable finding requires a terminal disposition.
 
 ## Residual Risk
 
-- none
+- Live GitHub observations can drift after the retained snapshot; publication and later merge checks must re-read exact PR state.
+- Typed finish, cleanup, umbrella bookkeeping, and handoff reconciliation remain asynchronous and are not successor gates.
 
 ## Review Result
 
-Revision: None
+Revision: Some("git-blake3:0fae275ca2b7dc82701058ef71da3d09b9cdbb62:ebc42ee5123dbb1fe2b9b3b53d6547f2c9e812d48a78e33eadf77b6107aad5dd")
 
-Reviewer: None
+Reviewer: Some("fresh-session:04ea0b23-0b9c-4e54-872c-42f4262bb6f1")
 
-Result: pre_review
+Result: pass
