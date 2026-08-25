@@ -14,3 +14,4 @@
 {"sequence":14,"generation":9,"actor":"codex:/root","reason":"Recover stale R3 assignment after exact validator-provenance and proof-role status/denominator corrections at immutable candidate 82e3d155784361593682edddc5382005f9e9c5db; require one bounded final closure review before republishing PR #468.","operation":"recover_review"}
 {"sequence":15,"generation":9,"actor":"codex:/root","reason":"assign bounded exact-revision review","operation":"assign_review"}
 {"sequence":16,"generation":10,"actor":"fresh-session:dcaa14a9-7136-4bee-ae5c-ddf9ede35073","reason":"atomically record exact review evidence and reviewed phase","operation":"record_review"}
+{"sequence":17,"generation":11,"actor":"codex:/root","reason":"atomically record observed GitHub publication and SOR projection","operation":"record_publication"}
