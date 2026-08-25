@@ -327,7 +327,7 @@
       "owner": "WP-23/#312",
       "status": "external_review_input",
       "evidence_source": "candidate file SHA-256",
-      "evidence_sha256": "7cb99461b1e7efd130fd955ddaba0b32d90bf8c4b507e37b3ba249efe4e0629e",
+      "evidence_sha256": "ded40ee558923e29e15eee1816470f608f37a54af1a71faf23c0b4c8c60dfed0",
       "required_action": "independent findings-first review"
     },
     {
