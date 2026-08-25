@@ -13,7 +13,13 @@
   "terminal_reconciliation": {
     "canonical_cached": [268, 308, 309, 311, 312, 313, 315, 316, 317, 318, 471],
     "recordless_receipt": [310],
-    "no_pr_closeout_pending": [314],
+    "no_pr_closeout_async": {
+      "issues": [314],
+      "disposition": "async_pending",
+      "terminal_cache_claimed": false,
+      "release_gate": false,
+      "authority": "docs/milestones/v0.92/V092_TERMINAL_CLOSEOUT_PLAN_317.md"
+    },
     "ceremony_pending": [319]
   },
   "cleanup": {
